@@ -1,1483 +1,267 @@
-Return-Path: <linux-media+bounces-21609-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21610-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A862F9D31FA
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 02:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9779D3225
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 03:22:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16354283EEB
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 01:57:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A7942841BD
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 02:22:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27EBE208CA;
-	Wed, 20 Nov 2024 01:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 264B93DBB6;
+	Wed, 20 Nov 2024 02:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOiJRL1g"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="kvOLhuff";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="EHsnA1S/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03655442F
-	for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 01:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732067854; cv=none; b=Ws5Q+BnYUDvb+5TaTwa6DiXhz/gefsRXaV9gH67x7HAwNkpE+yOl0SVdd16y9GPFFPrce1brsH53EAEeCZpIxCCiYfoc0aCMrjLJpQ6NNGGqyGmEVWrIZAQJ5EdPOlUH+IbmPHz06lwIOANPWC+l0a1H1WAFesBq/e+akISDQgg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732067854; c=relaxed/simple;
-	bh=TLN8LhUfyb5QOom09vaPHbOyL9a0Be1i865Ja+PFr04=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RmCU/9FgxJs+hxCwkXTmLOEm6i/Sq+ZdaOGCvwq88nIBxEI37fp+YGf6MYseChzTfYB++8XrnmfHSYcWl87lnXyhmRIpaweGS56VRF+qY3lfjUGmYvpQGLHXyTZNmEJSbbfc0VWWuDwLTMu4A3xWzhGJFpWq3DUgT0dYlRd7R8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QOiJRL1g; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3a6be369d23so19348895ab.2
-        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2024 17:57:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5357C1B95B;
+	Wed, 20 Nov 2024 02:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.61.82.184
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732069319; cv=fail; b=MEXPT60zf0YyEMX7+3Msuw248HtBoCjC8DNkcga5plS2i7p7MboP923AzT9GxNc6SA4WjmKpqgaNh+dxxTTGwGuq+hdNYfDbv/i1/H5Bg7vR/hFhM0yObk+LP1JUIDxxv4uHxIlIylKnOSoI3655zw3d63rqviRd06qOmiEhzA8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732069319; c=relaxed/simple;
+	bh=lLx88LHlbgEaHUn3yx/VJ31TfhvgjwVkHa0uvZIgEBM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mN2l03wGPcPmUwuMph+DE2fG5mGsszHzRYcjnRHBdi5CLE38wMfIhjpUHjWcU0aXng+fxy2RIv7CI/tHWuNdtKKpI4lnrZlL/YFqFrOLbkaL9MCa5wKQ68IiUUh+wuURTBQ8hM9R0NaimC3IkP3SQ+hUnUd7H0sQQNNe33lmd7k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=kvOLhuff; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=EHsnA1S/; arc=fail smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 3268a2b2a6e611efbd192953cf12861f-20241120
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=lLx88LHlbgEaHUn3yx/VJ31TfhvgjwVkHa0uvZIgEBM=;
+	b=kvOLhuffEtwSkCfJM1V4c6fKpGOHLfcrciszvReyJHqn/f37zhg5M9yOpElv+KLWrAKB0CVDR1Iy070Mj/vquZWKGdZdYhIrWaJ0FFSkT/fz1DDhecty/92vKD72qG8g8KtJqwOrfOm5Qs/rE9VfIsHbd4AS4uQ4SW6sBUJf+y0=;
+X-CID-CACHE: Type:Local,Time:202411201021+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.44,REQID:97b95537-44b3-4a81-9764-47796f8de94f,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:464815b,CLOUDID:791d7da0-f395-4dfc-8188-ce2682df7fd8,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0,EDM
+	:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 3268a2b2a6e611efbd192953cf12861f-20241120
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+	(envelope-from <ck.hu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1640547622; Wed, 20 Nov 2024 10:21:49 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 19 Nov 2024 18:21:47 -0800
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 20 Nov 2024 10:21:47 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CHT0scbkzRrYPC0pFxVy4Jxc5coqcQyG7PRk3gFZdvMAva/xPSHPinq6tLwE5e7/kx55UYpBU0V0v7uoplr2Upfe2LUuSXdOeokz/Uj5bHsdZM/fgHKYBXpiniK7UlmDtcFjuex97enfuP4/bQUG203KuXzUjgScbRlfYDpM4GoQNfti2ZcEGSff9+SShVmjsehnaiNPkQBxo/RgankW2v+vhpiH2Sru9ZbYTskSwL+wYcBmQf+oF26vgBNU7a4X2r8VQQzgz1iW1KJGEdGXHrXPMR4eTTCEoqnFpGkgjo0WTdNnMFtULBdbxZfKFBmwHlFLc3E5LEiIOJ1tegSIGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lLx88LHlbgEaHUn3yx/VJ31TfhvgjwVkHa0uvZIgEBM=;
+ b=k0AOVPBxcnXB2hbr/c7PV9U1Xx5povYwTxgDeom/qMVeQTUiBRFhWO8+oUV7ehg14TdWcc0CF7pzt9V91iD1PgS1igUFY282541XEfrHomy1xGh1uBkdud/hPiE3toTLohpTFtwchyMWawQLqbWoUrGsBbKHI1ju5JEdRzY88mJucP791wCcTLqBwA8zjIEZLJAi/8hLK98YRM6jkXcF7dp9wBIVP9+yp3XcBPbtSD7ejYzdBQZllRWujJb/VQng/T8QmsEdJRt7N5s9HLHTLSidpG6polwYxm2Ot96fth1o8Lsz2eK6dgNlKwlUf/fRBHgUxNBJExJ2YTywEGn9qQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732067851; x=1732672651; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GF4f1UBSbtDKoPhO8h456mplaHnj7YdtJVaUN1+RNrA=;
-        b=QOiJRL1gdVmnXLn9xdjHaD2N/UDTVN6SSkSTji5AtdKdK5rsKtThC998DtnZ0blWzJ
-         jtyaF9ngB8qiQxhBbi+17o9WHyqc5WRKSq1TldhEKMNM+w9zLu5VNi36jk+eLgvhAZWt
-         gZP+v157kTJjgF0fYFBdz7sAD3b6WU+A+FkTE7WxGNELiK+u3rIia6hiQR6ejcee0dHV
-         Tn9jlUWnGuO/5n0YDQgu5a0BpHdUcZ/bLSA+bO/dt75bIHUYsOOUd3uHBauxFqy5jFMX
-         QBQsQzL1ghRkOgrQ7HXkbDR/bZiY3Km4rZtV7bX//LN1HVHwgf11IATw7bZMygVV9KGy
-         CqEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732067851; x=1732672651;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GF4f1UBSbtDKoPhO8h456mplaHnj7YdtJVaUN1+RNrA=;
-        b=f7y642fnHliiP8uKoPpU/1yrl3AjGslUTVoFnyRN61JaxjJrZXVN2cq2GXUB12qw4D
-         EjvJC5b5nsfKO/JMzyBLJC7fonExjyn3LDzjIqobtbZ3FKWTH8VFnMNMlDHRf2hz/Jm9
-         37gKtKc/r5OAUmIAXWRzNWGBX5G10GCf1s4au8JlTP3po8JSDquibK1B15xfSOB1Ovrl
-         NMfzPMcSEziiXsi5gum7zewXBNZuc167A+FP99MWyMkFw6MyjozXB/oCxrywwHwSSXlk
-         cbyXIL3qzfmgEP4Wf3qAMIEItO9BG6aQE/t6XslXTT1ws6tbxOjXqqjK6LsKhlP9PsTd
-         YtkA==
-X-Gm-Message-State: AOJu0YzqvBTiP6r/N8W6eQQRUpiy7Js2vPMil3Fs7ppIIGQRgt9TMh26
-	y8qzcd5bbySbX8hUdAFAi6vEkhlk5737mgnQJBd97uYi+SznDqRiZtp270ormso=
-X-Google-Smtp-Source: AGHT+IG3BbeXSH4c4LKTbZoCULWcLYwPbFj2QyvDmHx9J1wAd8uortvozvmTp72JqKr295juKPHSvw==
-X-Received: by 2002:a05:6e02:1c27:b0:3a4:e9b3:22a7 with SMTP id e9e14a558f8ab-3a7862b9d45mr14613645ab.0.1732067850756;
-        Tue, 19 Nov 2024 17:57:30 -0800 (PST)
-Received: from heimir-laptop.lan ([2601:280:5000:4663:1751:f99e:78ef:5704])
-        by smtp.googlemail.com with ESMTPSA id e9e14a558f8ab-3a74c7bcff1sm27011535ab.74.2024.11.19.17.57.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2024 17:57:30 -0800 (PST)
-From: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
-To: sakari.ailus@linux.intel.com,
-	hao.yao@intel.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	hdegoede@redhat.com,
-	joachim.reichel@posteo.de,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
-Subject: [PATCH v5] media: i2c: Add Omnivision OV02C10 sensor driver
-Date: Tue, 19 Nov 2024 18:57:26 -0700
-Message-ID: <20241120015726.778892-1-heimir.sverrisson@gmail.com>
-X-Mailer: git-send-email 2.47.0
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lLx88LHlbgEaHUn3yx/VJ31TfhvgjwVkHa0uvZIgEBM=;
+ b=EHsnA1S/4IHFxnfGzIfDdM1flxOu7iz3w5pLfOB1NzoA+WuvMvWa0F9kZydQnxtxWNY5zOGujdTTgjnu5r/iYq8paWlje7PLS88K1Om2QsQnu5XIZ57zgVBNJlqPG0vEF5c9Z0DIm+nCx1kX/YmyGGAlaqH5fundw0M57TOmtWY=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by OSQPR03MB8673.apcprd03.prod.outlook.com (2603:1096:604:298::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.22; Wed, 20 Nov
+ 2024 02:21:44 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%7]) with mapi id 15.20.8158.017; Wed, 20 Nov 2024
+ 02:21:44 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	=?utf-8?B?U2h1LWhzaWFuZyBZYW5nICjmpYroiJLnv5Qp?=
+	<Shu-hsiang.Yang@mediatek.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"yunkec@chromium.org" <yunkec@chromium.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, =?utf-8?B?WWF5YSBDaGFuZyAo5by16ZuF5riFKQ==?=
+	<Yaya.Chang@mediatek.com>, Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	=?utf-8?B?VGVkZHkgQ2hlbiAo6Zmz5Lm+5YWDKQ==?= <Teddy.Chen@mediatek.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "hidenorik@chromium.org"
+	<hidenorik@chromium.org>, =?utf-8?B?U2h1bi1ZaSBXYW5nICjnjovpoIblhIQp?=
+	<Shun-Yi.Wang@mediatek.com>
+Subject: Re: [PATCH v1 06/10] media: platform: mediatek: add isp_7x utility
+Thread-Topic: [PATCH v1 06/10] media: platform: mediatek: add isp_7x utility
+Thread-Index: AQHbGj2JaAd/ufwz/0W0Edv5eKs5YbK/sWaA
+Date: Wed, 20 Nov 2024 02:21:43 +0000
+Message-ID: <16f46f30852c771ae8f787eb6abaa6c92ea3c5f3.camel@mediatek.com>
+References: <20241009111551.27052-1-Shu-hsiang.Yang@mediatek.com>
+	 <20241009111551.27052-7-Shu-hsiang.Yang@mediatek.com>
+In-Reply-To: <20241009111551.27052-7-Shu-hsiang.Yang@mediatek.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|OSQPR03MB8673:EE_
+x-ms-office365-filtering-correlation-id: 3f743cbc-9ee1-4461-63fd-08dd090a139c
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?aFY3VXJtVHpDalNzVGJPVjh1bzBRRW9UcmtQZE9sQ1dmY2lRaVVFVlB5cTBN?=
+ =?utf-8?B?ODRvUlJVeXlnUzFyY2loeTJDZkxpUU9zYmVlU1psQm1qLzVlbyszRC8yb2Z1?=
+ =?utf-8?B?WlRLbVc0L2MwS2YzWU5Vc25IVml6M3pocFUxaHd2U3RXb3p1ajd1S0NsdlpH?=
+ =?utf-8?B?aUJaQ2YvNFNUejBEYWNtWEdwc3JkNXNEdGcybkVKdWVxdlcrTk5uYXZTN1RP?=
+ =?utf-8?B?VVp2a1BmZFJUcU1pR2l0a2pnOTliQzZCMDIxZ2hDaDFidzlFdFVQaCtTMG5T?=
+ =?utf-8?B?R2FPbmdsSm91a00wdEMrYkhmR21xenhTdXFBUFhkeG9lMTlmeEtZRllURk9z?=
+ =?utf-8?B?S2ljbEcvSk5iZWJZakh3R0pIcUsvSEkzTWFrZC9WRkRzbGFSUVJuTmJKdVQz?=
+ =?utf-8?B?anUwZTNCYjQvamgwYSs0NWp5QjRHYmsyNGVWajdVOVUrbnJRVUdpZlI3VFov?=
+ =?utf-8?B?U1haV2dzN1lGOEN3WC9uUFg0NXpLdXNWNFUwWW5LV0dsY0FIc1l1dko5YUFv?=
+ =?utf-8?B?emtRTjV2QTdUQ3hMemR1TnRUS2FSaTVKYnBSVG1tcFpxMVRIenBwM2hyUjdu?=
+ =?utf-8?B?aFJpZGEweVF3MDRGcDVwTWVlaDZXZ3kvMk4xZWxBZ2VMUi9oRjlpZmtDRjlj?=
+ =?utf-8?B?WXp4MFdXamx3Q1hJMzMvUys3R0orZE9GNXZMN3Z1aFJJZTJpSlhra000V0FO?=
+ =?utf-8?B?TUFJR2ZTRmxGYVo0NXlZL01oVEZDNWdLcTBKdEZVODEzbHZNM202T051VlYx?=
+ =?utf-8?B?VzZITHdiayszVVJwS3Q4QXZ6TVUyNTAvMVJPMkkyV0ZnSjZrZHh1cENyd2RE?=
+ =?utf-8?B?T2ZLd1FKWVE0cUxNVnhmSWZKSWt1TGtIeHRaeTZIUnk5TTBvdTRXaCtDNHNy?=
+ =?utf-8?B?QUpHdDhwY1ZnQloyY25FV0FudXk4eFFWUjVVbDkwVDlzcU8vU1JIVlc2eGt6?=
+ =?utf-8?B?MmdxdHFSSHJPRUdORWRKZU83ekFxWmtkRlVlN2ZuYlRJU3MrS0kvWFFXQ2Uw?=
+ =?utf-8?B?cVMza29wVkl1Z1ZrcVFiRHF5Ynl5cUJ4bGRvQUpxOERMdlZEYzFMVmlZb2Jh?=
+ =?utf-8?B?S3dPdUd1TS9hT0JMUlMvVXBISnA2WklONmVXRXU2aWIvSXZCWnZjdTU5Nld6?=
+ =?utf-8?B?U3NKS2p2ek0raWtwOThqTEpZdGRkYkVQN3hvMzhIaVM1MU94K01ybmh5N2Fj?=
+ =?utf-8?B?bW5VTFgzTkJ0QWs2NGp3VEdabXJTaWNFS2FjRHgydjlYVnJ6ZkVZOU52Wlgr?=
+ =?utf-8?B?bm04dDJMdmNaTjN2a3J1d0M5L0RhOWxJMk1nbVYrc212WEdnSnVBci9FaUli?=
+ =?utf-8?B?VlM1U1FieXQ0cStYTXczYjdzcWxKQjJhSjhOcmFxNlVRRytJOHlVdUJmWnR6?=
+ =?utf-8?B?bGtmZWVleEtneFdEWXlabkZuOGc3R2ZCeDd3ZDV5Q2Y3TG9ZK3dFcCtKT2ZQ?=
+ =?utf-8?B?SFNqKzU5aGJXaXljcFpMZnNjS2Evc0I2eFRtWWVkYmREQStwN2MyUzkxclFy?=
+ =?utf-8?B?cy9uVDFWZjdRSHlrMXB4N3B5MG5lSXRxZ0x3cURGL0owMlpBMnQwNmZ4dDhN?=
+ =?utf-8?B?ckN6YXdja0NtYnpMQlpvUytlSmhYb2FGeE81TzcxWGdhWnk3dUdRb2syMGdK?=
+ =?utf-8?B?ZUYwSFNxc2NUcTRIT2NUY2xselFIL093ODNnVHNETW9JV3AySWtlVDlObHdy?=
+ =?utf-8?B?aVU1UGNmZ2ZuQ3dtcFJ1ZlZrL041ZElOLzRDQ0txUHpkZ2JPRk1YS1dZV0hN?=
+ =?utf-8?B?amRlcHFUdzByUGhPUU0xMjNjMmZWVXlycWVWYVR4eTluaEZ5ZEpzUHBpdGtW?=
+ =?utf-8?Q?fZo7Q5CeWghSOKdjuCDIWrQLGKUB6c9bHg3Wc=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB6624.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UUZ1V2h5SmM4UGNPcll6NGVtQUEvWU12Zm9VNmVvNFF1RE8zWnF1Q1h0OHcv?=
+ =?utf-8?B?eklSSCtHR2tXYW1KaGI3VXk2Q2FUM1VxVDFhdmdLMWdqT3FHRTlSQ1owWFcz?=
+ =?utf-8?B?YU52Qm1MOThLRHNnd2xGVGxUSzNCQlA2NGhDNlpxVXQzbWVTSmZYdXNMNERq?=
+ =?utf-8?B?NThmSkZEazhwREx2TysvSG13THhkMGlybU0vQUwzNnZCRGhPcEZvNHcrLzJP?=
+ =?utf-8?B?SmpoKzBoTHNHeDFtMlNYeDlWTUMvb2I3dk8rZC9CdWRpSFY3S3RVTjUwRExa?=
+ =?utf-8?B?QXlmamF6NlBETmVYd0RGenZaQ3hrYWIvV3I3Q3ZmcFQwa09aeWxpUW5CekFZ?=
+ =?utf-8?B?b1ZZSGZCRzMycVBMRG9qM2o3NHN5eVF0S1Zlb21PZXR6NG5UVk5nbXNvbUtD?=
+ =?utf-8?B?aHIwTGlyZHlQcjJuR1ZjazV0UU5WZWxJKytpNGpYbVIrOTZ3cTF3YzBQRU4x?=
+ =?utf-8?B?cll0Q2trVGFlS3o3alNDbVJ1VlF3Ty9sc2t2OGplck9LbHIrLy8yY0ZZZWhU?=
+ =?utf-8?B?cnJ1QWdlUkFFUnVCWHc2ME5ZQWtESVQ5akJjczdHTEV3RnBndlpxZ0dkd0hN?=
+ =?utf-8?B?WkRFeHFHaHl0R25XMDJHYTF1QVdkUHZERDJkZzk1MjQ4RFJLeDNNVWlFZXBv?=
+ =?utf-8?B?ZTdwRDJ5QlhhMy9MbnJQbTM4cDExQnNwektGQVZaN05Xa2VXcjUyeEpKenVy?=
+ =?utf-8?B?c3c2VDJYc1BGTys1VU5vUVFKNjE5TVhZWlhFZkw2dE5ZaTVMR1g1WkhaS2Ro?=
+ =?utf-8?B?SDMxSlB4VHA3SzJobVZ1TEQwME1RRlI0UUs5M2Z3OTFLMjF4aUIrbHVBdXFQ?=
+ =?utf-8?B?aEd6YTJYWkV6bWZWTmZGdGQzc1dMOEJ4alZxTHFXY0pFRnI4VzNTNjVYemNm?=
+ =?utf-8?B?alBhY1ZUUCtpdmlUSEkxZUNPTWcwMXF4SUw2RUJaSVBxa0k5OHVXRitxWFNB?=
+ =?utf-8?B?bVBDeVgxR1dsKzBTdTE1VUF6UHA1RGViVWR5VTl0bjBqcGIwQ2FYU21mL1FR?=
+ =?utf-8?B?K01ISjdEU0FKZE5FeWhrTDJZQWh6Yjh6SjJqWm5kNWMrNE5Rd04wUnNSRUpa?=
+ =?utf-8?B?c1djZ1FJVDZuZjRHY0JLWFNPSS9qMTFmMnBEYVVUVG1vLzJjditwdXhMcHIz?=
+ =?utf-8?B?REdMZHFGSGxtenFxWVZtU21JNHd3cGhGN2h1WS9VZzR0dE9jb3V1S2MwRU0r?=
+ =?utf-8?B?eXdiVEhScmJCOTg2eXN2b2lVVi8rWW4xSFJZWVdoLzRMWGpDRWxVejRyK1pD?=
+ =?utf-8?B?ck5UM1ZkTW40Z2F0clJtK0J2QUpkblg4VkdnNnFKRnlOTG1ORlh4NE02SEJF?=
+ =?utf-8?B?aTdQV203V3h3U2tJUlRMaTNnc1RXU2I1b3laNzhKK2d1UmdHdGxERWV2dzR2?=
+ =?utf-8?B?Nk9RVDk4WjJXUy9pNnhjclZTdXM2T2NhdWM5WWVwbEFIYklzK3lwVktUVzQx?=
+ =?utf-8?B?MkdhUkFCVVQ1aFg4YitmR2NGVjI4dEVLK3pJUm5zSVA5cUZrVGpZRE1pK3R3?=
+ =?utf-8?B?QVVtSDhndmI3QTFkTHlya0Z1UGtXQmdQOHNSUWhlZjlMTE1BVDFnNGpSTTA0?=
+ =?utf-8?B?WEZiNTN5aU1aKzZBMG5ISHkxS0hYcFhUekI4YmRzT2kzb3BDZDFIY2NMbUVx?=
+ =?utf-8?B?cmRydXB6Vm5VY3VNdDhZOVJZT3ptVE1HbkZOdm1rcnNENTBmQllBZU11Tndv?=
+ =?utf-8?B?ZTNyOGVzRmNMZTF2a09wZ3oxUnB1a1ZmeVF4bFFTUitwQjREUW5FVVUzblNJ?=
+ =?utf-8?B?V295d0VpWjdkcjFxNlJjTlZNYjNCRXNnZm5FWVdULzBlSG5oUk9oZHhDOU5a?=
+ =?utf-8?B?VXRMT1BCdUZ0dDZkaG9ZS3hCc2dOQmQ0N09OOG1wTHVpTkljeWdBVDE3eTJ1?=
+ =?utf-8?B?aHNGYmpTRzFDOHNHQnh4V0sxOGJUdk5pUVNqRFg1Mmoybi9HUXl0V2FuR0pp?=
+ =?utf-8?B?aDlBbDhBQkZxbDBtWVRwZXNGT1BaeXBNTCtoSXdFbFBPUDd2ajNsNXgyVFEw?=
+ =?utf-8?B?VEhDaWVrZUx0aTF5ZWNyYTJEWVlBOWp5aTNmVjJYKzh2a05wZDBaUm5lVWFh?=
+ =?utf-8?B?aU1nU0d0UXpmUk45MXpOb25URFR3c3hKTzJiSnhwb0luWFBkV2FzQ0ZUV3JX?=
+ =?utf-8?Q?LhCNmg0ryb4HVcGEY7nPPhhiZ?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7B29EF5660CD1B42AFBF681CE7693F50@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f743cbc-9ee1-4461-63fd-08dd090a139c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2024 02:21:43.9667
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vLmBKEL1q7JZjhigyS0jVxlA+mMyAjE0W3g8od7ybhIoV5TPyxi4CIG3fRYXCYnXtQoUHjTxP5MYWK0jvq1sYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR03MB8673
 
-Add a new driver for the Omnivision OV02C10 camera sensor. This is based
-on the out of tree driver by Hao Yao <hao.yao@intel.com> from:
-https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/ov02c10.c
-
-This has been tested on a Dell XPS 9440 together with the IPU6 isys CSI
-driver and the libcamera software ISP code.
-
-Tested-by: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
-Signed-off-by: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
----
- drivers/media/i2c/Kconfig   |   10 +
- drivers/media/i2c/Makefile  |    1 +
- drivers/media/i2c/ov02c10.c | 1338 +++++++++++++++++++++++++++++++++++
- 3 files changed, 1349 insertions(+)
- create mode 100644 drivers/media/i2c/ov02c10.c
-
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 8ba096b8ebca..9bca187d89af 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -355,6 +355,16 @@ config VIDEO_OV02A10
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ov02a10.
- 
-+config VIDEO_OV02C10
-+	tristate "OmniVision OV02C10 sensor support"
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a Video4Linux2 sensor driver for the OmniVision
-+	  OV02C10 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called ov02c10.
-+
- config VIDEO_OV08D10
-         tristate "OmniVision OV08D10 sensor support"
-         help
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index fbb988bd067a..5842346c220d 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -82,6 +82,7 @@ obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
- obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
- obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
- obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
-+obj-$(CONFIG_VIDEO_OV02C10) += ov02c10.o
- obj-$(CONFIG_VIDEO_OV08D10) += ov08d10.o
- obj-$(CONFIG_VIDEO_OV08X40) += ov08x40.o
- obj-$(CONFIG_VIDEO_OV13858) += ov13858.o
-diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
-new file mode 100644
-index 000000000000..3c7b085ef81d
---- /dev/null
-+++ b/drivers/media/i2c/ov02c10.c
-@@ -0,0 +1,1338 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2022 Intel Corporation.
-+
-+#include <linux/acpi.h>
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
-+#include <linux/version.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+
-+#define OV02C10_LINK_FREQ_400MHZ	400000000ULL
-+#define OV02C10_SCLK			80000000LL
-+#define OV02C10_MCLK			19200000
-+#define OV02C10_DATA_LANES		1
-+#define OV02C10_RGB_DEPTH		10
-+
-+#define OV02C10_REG_CHIP_ID		CCI_REG16(0x300a)
-+#define OV02C10_CHIP_ID			0x5602
-+
-+#define OV02C10_REG_STREAM_CONTROL	CCI_REG8(0x0100)
-+
-+/* vertical-timings from sensor */
-+#define OV02C10_REG_VTS			CCI_REG16(0x380e)
-+#define OV02C10_VTS_MAX			0xffff
-+
-+/* Exposure controls from sensor */
-+#define OV02C10_REG_EXPOSURE		CCI_REG16(0x3501)
-+#define OV02C10_EXPOSURE_MIN		4
-+#define OV02C10_EXPOSURE_MAX_MARGIN	8
-+#define OV02C10_EXPOSURE_STEP		1
-+
-+/* Analog gain controls from sensor */
-+#define OV02C10_REG_ANALOG_GAIN		CCI_REG16(0x3508)
-+#define OV02C10_ANAL_GAIN_MIN		0x10
-+#define OV02C10_ANAL_GAIN_MAX		0xf8
-+#define OV02C10_ANAL_GAIN_STEP		1
-+#define OV02C10_ANAL_GAIN_DEFAULT	0x10
-+
-+/* Digital gain controls from sensor */
-+#define OV02C10_REG_DIGITAL_GAIN	CCI_REG24(0x350a)
-+#define OV02C10_DGTL_GAIN_MIN		0x0400
-+#define OV02C10_DGTL_GAIN_MAX		0x3fff
-+#define OV02C10_DGTL_GAIN_STEP		1
-+#define OV02C10_DGTL_GAIN_DEFAULT	0x0400
-+
-+/* Rotate */
-+#define OV02C10_ROTATE_CONTROL		CCI_REG8(0x3820)
-+#define OV02C10_ISP_X_WIN_CONTROL	CCI_REG16(0x3810)
-+#define OV02C10_ISP_Y_WIN_CONTROL	CCI_REG16(0x3812)
-+#define OV02C10_CONFIG_ROTATE		0x18
-+
-+/* Test Pattern Control */
-+#define OV02C10_REG_TEST_PATTERN		CCI_REG8(0x4503)
-+#define OV02C10_TEST_PATTERN_ENABLE		BIT(7)
-+
-+enum {
-+	OV02C10_LINK_FREQ_400MHZ_INDEX,
-+};
-+
-+struct ov02c10_link_freq_config {
-+	const struct reg_sequence *reg_sequence;
-+	const int sequence_length;
-+};
-+
-+struct ov02c10_mode {
-+	/* Frame width in pixels */
-+	u32 width;
-+
-+	/* Frame height in pixels */
-+	u32 height;
-+
-+	/* Horizontal timining size */
-+	u32 hts;
-+
-+	/* Default vertical timining size */
-+	u32 vts_def;
-+
-+	/* Min vertical timining size */
-+	u32 vts_min;
-+
-+	/* Link frequency needed for this resolution */
-+	u32 link_freq_index;
-+
-+	/* MIPI lanes used */
-+	u8 mipi_lanes;
-+
-+	/* Sensor register settings for this resolution */
-+	const struct reg_sequence *reg_sequence;
-+	const int sequence_length;
-+};
-+
-+static const struct reg_sequence sensor_1928x1092_1lane_30fps_setting[] = {
-+	{0x0301, 0x08},
-+	{0x0303, 0x06},
-+	{0x0304, 0x01},
-+	{0x0305, 0xe0},
-+	{0x0313, 0x40},
-+	{0x031c, 0x4f},
-+	{0x301b, 0xd2},
-+	{0x3020, 0x97},
-+	{0x3022, 0x01},
-+	{0x3026, 0xb4},
-+	{0x3027, 0xe1},
-+	{0x303b, 0x00},
-+	{0x303c, 0x4f},
-+	{0x303d, 0xe6},
-+	{0x303e, 0x00},
-+	{0x303f, 0x03},
-+	{0x3021, 0x23},
-+	{0x3501, 0x04},
-+	{0x3502, 0x6c},
-+	{0x3504, 0x0c},
-+	{0x3507, 0x00},
-+	{0x3508, 0x08},
-+	{0x3509, 0x00},
-+	{0x350a, 0x01},
-+	{0x350b, 0x00},
-+	{0x350c, 0x41},
-+	{0x3600, 0x84},
-+	{0x3603, 0x08},
-+	{0x3610, 0x57},
-+	{0x3611, 0x1b},
-+	{0x3613, 0x78},
-+	{0x3623, 0x00},
-+	{0x3632, 0xa0},
-+	{0x3642, 0xe8},
-+	{0x364c, 0x70},
-+	{0x365f, 0x0f},
-+	{0x3708, 0x30},
-+	{0x3714, 0x24},
-+	{0x3725, 0x02},
-+	{0x3737, 0x08},
-+	{0x3739, 0x28},
-+	{0x3749, 0x32},
-+	{0x374a, 0x32},
-+	{0x374b, 0x32},
-+	{0x374c, 0x32},
-+	{0x374d, 0x81},
-+	{0x374e, 0x81},
-+	{0x374f, 0x81},
-+	{0x3752, 0x36},
-+	{0x3753, 0x36},
-+	{0x3754, 0x36},
-+	{0x3761, 0x00},
-+	{0x376c, 0x81},
-+	{0x3774, 0x18},
-+	{0x3776, 0x08},
-+	{0x377c, 0x81},
-+	{0x377d, 0x81},
-+	{0x377e, 0x81},
-+	{0x37a0, 0x44},
-+	{0x37a6, 0x44},
-+	{0x37aa, 0x0d},
-+	{0x37ae, 0x00},
-+	{0x37cb, 0x03},
-+	{0x37cc, 0x01},
-+	{0x37d8, 0x02},
-+	{0x37d9, 0x10},
-+	{0x37e1, 0x10},
-+	{0x37e2, 0x18},
-+	{0x37e3, 0x08},
-+	{0x37e4, 0x08},
-+	{0x37e5, 0x02},
-+	{0x37e6, 0x08},
-+
-+	/* 1928x1092 */
-+	{0x3800, 0x00},
-+	{0x3801, 0x00},
-+	{0x3802, 0x00},
-+	{0x3803, 0x00},
-+	{0x3804, 0x07},
-+	{0x3805, 0x8f},
-+	{0x3806, 0x04},
-+	{0x3807, 0x47},
-+	{0x3808, 0x07},
-+	{0x3809, 0x88},
-+	{0x380a, 0x04},
-+	{0x380b, 0x44},
-+	{0x380c, 0x08},
-+	{0x380d, 0xe8},
-+	{0x380e, 0x04},
-+	{0x380f, 0x8c},
-+	{0x3810, 0x00},
-+	{0x3811, 0x02},
-+	{0x3812, 0x00},
-+	{0x3813, 0x02},
-+	{0x3814, 0x01},
-+	{0x3815, 0x01},
-+	{0x3816, 0x01},
-+	{0x3817, 0x01},
-+
-+	{0x3820, 0xb0},
-+	{0x3821, 0x00},
-+	{0x3822, 0x80},
-+	{0x3823, 0x08},
-+	{0x3824, 0x00},
-+	{0x3825, 0x20},
-+	{0x3826, 0x00},
-+	{0x3827, 0x08},
-+	{0x382a, 0x00},
-+	{0x382b, 0x08},
-+	{0x382d, 0x00},
-+	{0x382e, 0x00},
-+	{0x382f, 0x23},
-+	{0x3834, 0x00},
-+	{0x3839, 0x00},
-+	{0x383a, 0xd1},
-+	{0x383e, 0x03},
-+	{0x393d, 0x29},
-+	{0x393f, 0x6e},
-+	{0x394b, 0x06},
-+	{0x394c, 0x06},
-+	{0x394d, 0x08},
-+	{0x394e, 0x0b},
-+	{0x394f, 0x01},
-+	{0x3950, 0x01},
-+	{0x3951, 0x01},
-+	{0x3952, 0x01},
-+	{0x3953, 0x01},
-+	{0x3954, 0x01},
-+	{0x3955, 0x01},
-+	{0x3956, 0x01},
-+	{0x3957, 0x0e},
-+	{0x3958, 0x08},
-+	{0x3959, 0x08},
-+	{0x395a, 0x08},
-+	{0x395b, 0x13},
-+	{0x395c, 0x09},
-+	{0x395d, 0x05},
-+	{0x395e, 0x02},
-+	{0x395f, 0x00},
-+	{0x395f, 0x00},
-+	{0x3960, 0x00},
-+	{0x3961, 0x00},
-+	{0x3962, 0x00},
-+	{0x3963, 0x00},
-+	{0x3964, 0x00},
-+	{0x3965, 0x00},
-+	{0x3966, 0x00},
-+	{0x3967, 0x00},
-+	{0x3968, 0x01},
-+	{0x3969, 0x01},
-+	{0x396a, 0x01},
-+	{0x396b, 0x01},
-+	{0x396c, 0x10},
-+	{0x396d, 0xf0},
-+	{0x396e, 0x11},
-+	{0x396f, 0x00},
-+	{0x3970, 0x37},
-+	{0x3971, 0x37},
-+	{0x3972, 0x37},
-+	{0x3973, 0x37},
-+	{0x3974, 0x00},
-+	{0x3975, 0x3c},
-+	{0x3976, 0x3c},
-+	{0x3977, 0x3c},
-+	{0x3978, 0x3c},
-+	{0x3c00, 0x0f},
-+	{0x3c20, 0x01},
-+	{0x3c21, 0x08},
-+	{0x3f00, 0x8b},
-+	{0x3f02, 0x0f},
-+	{0x4000, 0xc3},
-+	{0x4001, 0xe0},
-+	{0x4002, 0x00},
-+	{0x4003, 0x40},
-+	{0x4008, 0x04},
-+	{0x4009, 0x23},
-+	{0x400a, 0x04},
-+	{0x400b, 0x01},
-+	{0x4077, 0x06},
-+	{0x4078, 0x00},
-+	{0x4079, 0x1a},
-+	{0x407a, 0x7f},
-+	{0x407b, 0x01},
-+	{0x4080, 0x03},
-+	{0x4081, 0x84},
-+	{0x4308, 0x03},
-+	{0x4309, 0xff},
-+	{0x430d, 0x00},
-+	{0x4806, 0x00},
-+	{0x4813, 0x00},
-+	{0x4837, 0x10},
-+	{0x4857, 0x05},
-+	{0x4500, 0x07},
-+	{0x4501, 0x00},
-+	{0x4503, 0x00},
-+	{0x450a, 0x04},
-+	{0x450e, 0x00},
-+	{0x450f, 0x00},
-+	{0x4800, 0x24},
-+	{0x4900, 0x00},
-+	{0x4901, 0x00},
-+	{0x4902, 0x01},
-+	{0x5000, 0xf5},
-+	{0x5001, 0x50},
-+	{0x5006, 0x00},
-+	{0x5080, 0x40},
-+	{0x5181, 0x2b},
-+	{0x5202, 0xa3},
-+	{0x5206, 0x01},
-+	{0x5207, 0x00},
-+	{0x520a, 0x01},
-+	{0x520b, 0x00},
-+	{0x365d, 0x00},
-+	{0x4815, 0x40},
-+	{0x4816, 0x12},
-+	{0x4f00, 0x01},
-+	/* plls */
-+	{0x0303, 0x05},
-+	{0x0305, 0x90},
-+	{0x0316, 0x90},
-+	{0x3016, 0x12},
-+};
-+
-+static const struct reg_sequence sensor_1928x1092_2lane_30fps_setting[] = {
-+	{0x0301, 0x08},
-+	{0x0303, 0x06},
-+	{0x0304, 0x01},
-+	{0x0305, 0xe0},
-+	{0x0313, 0x40},
-+	{0x031c, 0x4f},
-+	{0x301b, 0xf0},
-+	{0x3020, 0x97},
-+	{0x3022, 0x01},
-+	{0x3026, 0xb4},
-+	{0x3027, 0xf1},
-+	{0x303b, 0x00},
-+	{0x303c, 0x4f},
-+	{0x303d, 0xe6},
-+	{0x303e, 0x00},
-+	{0x303f, 0x03},
-+	{0x3021, 0x23},
-+	{0x3501, 0x04},
-+	{0x3502, 0x6c},
-+	{0x3504, 0x0c},
-+	{0x3507, 0x00},
-+	{0x3508, 0x08},
-+	{0x3509, 0x00},
-+	{0x350a, 0x01},
-+	{0x350b, 0x00},
-+	{0x350c, 0x41},
-+	{0x3600, 0x84},
-+	{0x3603, 0x08},
-+	{0x3610, 0x57},
-+	{0x3611, 0x1b},
-+	{0x3613, 0x78},
-+	{0x3623, 0x00},
-+	{0x3632, 0xa0},
-+	{0x3642, 0xe8},
-+	{0x364c, 0x70},
-+	{0x365f, 0x0f},
-+	{0x3708, 0x30},
-+	{0x3714, 0x24},
-+	{0x3725, 0x02},
-+	{0x3737, 0x08},
-+	{0x3739, 0x28},
-+	{0x3749, 0x32},
-+	{0x374a, 0x32},
-+	{0x374b, 0x32},
-+	{0x374c, 0x32},
-+	{0x374d, 0x81},
-+	{0x374e, 0x81},
-+	{0x374f, 0x81},
-+	{0x3752, 0x36},
-+	{0x3753, 0x36},
-+	{0x3754, 0x36},
-+	{0x3761, 0x00},
-+	{0x376c, 0x81},
-+	{0x3774, 0x18},
-+	{0x3776, 0x08},
-+	{0x377c, 0x81},
-+	{0x377d, 0x81},
-+	{0x377e, 0x81},
-+	{0x37a0, 0x44},
-+	{0x37a6, 0x44},
-+	{0x37aa, 0x0d},
-+	{0x37ae, 0x00},
-+	{0x37cb, 0x03},
-+	{0x37cc, 0x01},
-+	{0x37d8, 0x02},
-+	{0x37d9, 0x10},
-+	{0x37e1, 0x10},
-+	{0x37e2, 0x18},
-+	{0x37e3, 0x08},
-+	{0x37e4, 0x08},
-+	{0x37e5, 0x02},
-+	{0x37e6, 0x08},
-+
-+	/* 1928x1092 */
-+	{0x3800, 0x00},
-+	{0x3801, 0x00},
-+	{0x3802, 0x00},
-+	{0x3803, 0x00},
-+	{0x3804, 0x07},
-+	{0x3805, 0x8f},
-+	{0x3806, 0x04},
-+	{0x3807, 0x47},
-+	{0x3808, 0x07},
-+	{0x3809, 0x88},
-+	{0x380a, 0x04},
-+	{0x380b, 0x44},
-+	{0x380c, 0x04},
-+	{0x380d, 0x74},
-+	{0x380e, 0x09},
-+	{0x380f, 0x18},
-+	{0x3810, 0x00},
-+	{0x3811, 0x02},
-+	{0x3812, 0x00},
-+	{0x3813, 0x02},
-+	{0x3814, 0x01},
-+	{0x3815, 0x01},
-+	{0x3816, 0x01},
-+	{0x3817, 0x01},
-+
-+	{0x3820, 0xb0},
-+	{0x3821, 0x00},
-+	{0x3822, 0x80},
-+	{0x3823, 0x08},
-+	{0x3824, 0x00},
-+	{0x3825, 0x20},
-+	{0x3826, 0x00},
-+	{0x3827, 0x08},
-+	{0x382a, 0x00},
-+	{0x382b, 0x08},
-+	{0x382d, 0x00},
-+	{0x382e, 0x00},
-+	{0x382f, 0x23},
-+	{0x3834, 0x00},
-+	{0x3839, 0x00},
-+	{0x383a, 0xd1},
-+	{0x383e, 0x03},
-+	{0x393d, 0x29},
-+	{0x393f, 0x6e},
-+	{0x394b, 0x06},
-+	{0x394c, 0x06},
-+	{0x394d, 0x08},
-+	{0x394e, 0x0a},
-+	{0x394f, 0x01},
-+	{0x3950, 0x01},
-+	{0x3951, 0x01},
-+	{0x3952, 0x01},
-+	{0x3953, 0x01},
-+	{0x3954, 0x01},
-+	{0x3955, 0x01},
-+	{0x3956, 0x01},
-+	{0x3957, 0x0e},
-+	{0x3958, 0x08},
-+	{0x3959, 0x08},
-+	{0x395a, 0x08},
-+	{0x395b, 0x13},
-+	{0x395c, 0x09},
-+	{0x395d, 0x05},
-+	{0x395e, 0x02},
-+	{0x395f, 0x00},
-+	{0x395f, 0x00},
-+	{0x3960, 0x00},
-+	{0x3961, 0x00},
-+	{0x3962, 0x00},
-+	{0x3963, 0x00},
-+	{0x3964, 0x00},
-+	{0x3965, 0x00},
-+	{0x3966, 0x00},
-+	{0x3967, 0x00},
-+	{0x3968, 0x01},
-+	{0x3969, 0x01},
-+	{0x396a, 0x01},
-+	{0x396b, 0x01},
-+	{0x396c, 0x10},
-+	{0x396d, 0xf0},
-+	{0x396e, 0x11},
-+	{0x396f, 0x00},
-+	{0x3970, 0x37},
-+	{0x3971, 0x37},
-+	{0x3972, 0x37},
-+	{0x3973, 0x37},
-+	{0x3974, 0x00},
-+	{0x3975, 0x3c},
-+	{0x3976, 0x3c},
-+	{0x3977, 0x3c},
-+	{0x3978, 0x3c},
-+	{0x3c00, 0x0f},
-+	{0x3c20, 0x01},
-+	{0x3c21, 0x08},
-+	{0x3f00, 0x8b},
-+	{0x3f02, 0x0f},
-+	{0x4000, 0xc3},
-+	{0x4001, 0xe0},
-+	{0x4002, 0x00},
-+	{0x4003, 0x40},
-+	{0x4008, 0x04},
-+	{0x4009, 0x23},
-+	{0x400a, 0x04},
-+	{0x400b, 0x01},
-+	{0x4041, 0x20},
-+	{0x4077, 0x06},
-+	{0x4078, 0x00},
-+	{0x4079, 0x1a},
-+	{0x407a, 0x7f},
-+	{0x407b, 0x01},
-+	{0x4080, 0x03},
-+	{0x4081, 0x84},
-+	{0x4308, 0x03},
-+	{0x4309, 0xff},
-+	{0x430d, 0x00},
-+	{0x4806, 0x00},
-+	{0x4813, 0x00},
-+	{0x4837, 0x10},
-+	{0x4857, 0x05},
-+	{0x4884, 0x04},
-+	{0x4500, 0x07},
-+	{0x4501, 0x00},
-+	{0x4503, 0x00},
-+	{0x450a, 0x04},
-+	{0x450e, 0x00},
-+	{0x450f, 0x00},
-+	{0x4800, 0x64},
-+	{0x4900, 0x00},
-+	{0x4901, 0x00},
-+	{0x4902, 0x01},
-+	{0x4d00, 0x03},
-+	{0x4d01, 0xd8},
-+	{0x4d02, 0xba},
-+	{0x4d03, 0xa0},
-+	{0x4d04, 0xb7},
-+	{0x4d05, 0x34},
-+	{0x4d0d, 0x00},
-+	{0x5000, 0xfd},
-+	{0x5001, 0x50},
-+	{0x5006, 0x00},
-+	{0x5080, 0x40},
-+	{0x5181, 0x2b},
-+	{0x5202, 0xa3},
-+	{0x5206, 0x01},
-+	{0x5207, 0x00},
-+	{0x520a, 0x01},
-+	{0x520b, 0x00},
-+	{0x365d, 0x00},
-+	{0x4815, 0x40},
-+	{0x4816, 0x12},
-+	{0x481f, 0x30},
-+	{0x4f00, 0x01},
-+	/* plls */
-+	{0x0303, 0x05},
-+	{0x0305, 0x90},
-+	{0x0316, 0x90},
-+	{0x3016, 0x32},
-+};
-+
-+static const char * const ov02c10_test_pattern_menu[] = {
-+	"Disabled",
-+	"Color Bar",
-+	"Top-Bottom Darker Color Bar",
-+	"Right-Left Darker Color Bar",
-+	"Color Bar type 4",
-+};
-+
-+static const s64 link_freq_menu_items[] = {
-+	OV02C10_LINK_FREQ_400MHZ,
-+};
-+
-+static const struct ov02c10_mode supported_modes[] = {
-+	{
-+		.width = 1928,
-+		.height = 1092,
-+		.hts = 2280,
-+		.vts_def = 1164,
-+		.vts_min = 1164,
-+		.mipi_lanes = 1,
-+		.reg_sequence = sensor_1928x1092_1lane_30fps_setting,
-+		.sequence_length = ARRAY_SIZE(sensor_1928x1092_1lane_30fps_setting),
-+		.link_freq_index = OV02C10_LINK_FREQ_400MHZ_INDEX,
-+	},
-+	{
-+		.width = 1928,
-+		.height = 1092,
-+		.hts = 1140,
-+		.vts_def = 2328,
-+		.vts_min = 2328,
-+		.mipi_lanes = 2,
-+		.reg_sequence = sensor_1928x1092_2lane_30fps_setting,
-+		.sequence_length = ARRAY_SIZE(sensor_1928x1092_2lane_30fps_setting),
-+		.link_freq_index = OV02C10_LINK_FREQ_400MHZ_INDEX,
-+	},
-+};
-+
-+struct ov02c10 {
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	struct regmap *regmap;
-+
-+	/* V4L2 Controls */
-+	struct v4l2_ctrl *link_freq;
-+	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *exposure;
-+
-+	struct clk *img_clk;
-+	struct regulator *avdd;
-+	struct gpio_desc *reset;
-+	struct gpio_desc *handshake;
-+
-+	/* Current mode */
-+	const struct ov02c10_mode *cur_mode;
-+
-+	/* To serialize asynchronous callbacks */
-+	struct mutex mutex;
-+
-+	/* MIPI lanes used */
-+	u8 mipi_lanes;
-+
-+	/* Streaming on/off */
-+	bool streaming;
-+};
-+
-+static inline struct ov02c10 *to_ov02c10(struct v4l2_subdev *subdev)
-+{
-+	return container_of(subdev, struct ov02c10, sd);
-+}
-+
-+static int ov02c10_test_pattern(struct ov02c10 *ov02c10, int pattern)
-+{
-+	int ret = 0;
-+
-+	if (!pattern)
-+		return cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
-+			BIT(7), 0, NULL);
-+
-+	cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
-+			0x03, pattern - 1, &ret);
-+	if (ret)
-+		return ret;
-+
-+	cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
-+			BIT(7), OV02C10_TEST_PATTERN_ENABLE, &ret);
-+
-+	return ret;
-+}
-+
-+static int ov02c10_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct ov02c10 *ov02c10 = container_of(ctrl->handler,
-+					     struct ov02c10, ctrl_handler);
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
-+	s64 exposure_max;
-+	int ret = 0;
-+
-+	/* Propagate change of current control to all related controls */
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		/* Update max exposure while meeting expected vblanking */
-+		exposure_max = ov02c10->cur_mode->height + ctrl->val -
-+			       OV02C10_EXPOSURE_MAX_MARGIN;
-+		__v4l2_ctrl_modify_range(ov02c10->exposure,
-+					 ov02c10->exposure->minimum,
-+					 exposure_max, ov02c10->exposure->step,
-+					 exposure_max);
-+	}
-+
-+	/* V4L2 controls values will be applied only when power is already up */
-+	if (!pm_runtime_get_if_in_use(&client->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		cci_write(ov02c10->regmap, OV02C10_REG_ANALOG_GAIN,
-+			  ctrl->val << 4, &ret);
-+		break;
-+
-+	case V4L2_CID_DIGITAL_GAIN:
-+		cci_write(ov02c10->regmap, OV02C10_REG_DIGITAL_GAIN,
-+			  ctrl->val << 6, &ret);
-+		break;
-+
-+	case V4L2_CID_EXPOSURE:
-+		cci_write(ov02c10->regmap, OV02C10_REG_EXPOSURE,
-+			  ctrl->val, &ret);
-+		break;
-+
-+	case V4L2_CID_VBLANK:
-+		cci_write(ov02c10->regmap, OV02C10_REG_VTS,
-+			  ov02c10->cur_mode->height + ctrl->val, &ret);
-+		break;
-+
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = ov02c10_test_pattern(ov02c10, ctrl->val);
-+		break;
-+
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put(&client->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops ov02c10_ctrl_ops = {
-+	.s_ctrl = ov02c10_set_ctrl,
-+};
-+
-+static int ov02c10_init_controls(struct ov02c10 *ov02c10)
-+{
-+	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	const struct ov02c10_mode *cur_mode;
-+	s64 exposure_max, h_blank;
-+	u32 vblank_min, vblank_max, vblank_default;
-+	int size;
-+	int ret = 0;
-+
-+	ctrl_hdlr = &ov02c10->ctrl_handler;
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-+	if (ret)
-+		return ret;
-+
-+	ctrl_hdlr->lock = &ov02c10->mutex;
-+	cur_mode = ov02c10->cur_mode;
-+	size = ARRAY_SIZE(link_freq_menu_items);
-+
-+	ov02c10->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-+						    &ov02c10_ctrl_ops,
-+						    V4L2_CID_LINK_FREQ,
-+						    size - 1, 0,
-+						    link_freq_menu_items);
-+	if (ov02c10->link_freq)
-+		ov02c10->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	ov02c10->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
-+						V4L2_CID_PIXEL_RATE, 0,
-+						OV02C10_SCLK, 1, OV02C10_SCLK);
-+
-+	vblank_min = cur_mode->vts_min - cur_mode->height;
-+	vblank_max = OV02C10_VTS_MAX - cur_mode->height;
-+	vblank_default = cur_mode->vts_def - cur_mode->height;
-+	ov02c10->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
-+					    V4L2_CID_VBLANK, vblank_min,
-+					    vblank_max, 1, vblank_default);
-+
-+	h_blank = cur_mode->hts - cur_mode->width;
-+	ov02c10->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
-+					    V4L2_CID_HBLANK, h_blank, h_blank,
-+					    1, h_blank);
-+	if (ov02c10->hblank)
-+		ov02c10->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-+			  OV02C10_ANAL_GAIN_MIN, OV02C10_ANAL_GAIN_MAX,
-+			  OV02C10_ANAL_GAIN_STEP, OV02C10_ANAL_GAIN_DEFAULT);
-+	v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
-+			  OV02C10_DGTL_GAIN_MIN, OV02C10_DGTL_GAIN_MAX,
-+			  OV02C10_DGTL_GAIN_STEP, OV02C10_DGTL_GAIN_DEFAULT);
-+	exposure_max = cur_mode->vts_def - OV02C10_EXPOSURE_MAX_MARGIN;
-+	ov02c10->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
-+					      V4L2_CID_EXPOSURE,
-+					      OV02C10_EXPOSURE_MIN,
-+					      exposure_max,
-+					      OV02C10_EXPOSURE_STEP,
-+					      exposure_max);
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &ov02c10_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(ov02c10_test_pattern_menu) - 1,
-+				     0, 0, ov02c10_test_pattern_menu);
-+	if (ctrl_hdlr->error)
-+		return ctrl_hdlr->error;
-+
-+	ov02c10->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+}
-+
-+static void ov02c10_update_pad_format(const struct ov02c10_mode *mode,
-+				      struct v4l2_mbus_framefmt *fmt)
-+{
-+	fmt->width = mode->width;
-+	fmt->height = mode->height;
-+	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-+	fmt->field = V4L2_FIELD_NONE;
-+}
-+
-+static int ov02c10_start_streaming(struct ov02c10 *ov02c10)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
-+	const struct reg_sequence *reg_sequence;
-+	int sequence_length;
-+	int ret = 0;
-+
-+	reg_sequence = ov02c10->cur_mode->reg_sequence;
-+	sequence_length = ov02c10->cur_mode->sequence_length;
-+	ret = regmap_multi_reg_write(ov02c10->regmap,
-+				     reg_sequence, sequence_length);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to set mode");
-+		return ret;
-+	}
-+
-+	ret = __v4l2_ctrl_handler_setup(ov02c10->sd.ctrl_handler);
-+	if (ret)
-+		return ret;
-+
-+	ret = cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 1, NULL);
-+	if (ret)
-+		dev_err(&client->dev, "failed to start streaming");
-+
-+	return ret;
-+}
-+
-+static void ov02c10_stop_streaming(struct ov02c10 *ov02c10)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
-+	int ret = 0;
-+
-+	ret = cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 0, NULL);
-+	if (ret)
-+		dev_err(&client->dev, "failed to stop streaming");
-+}
-+
-+static int ov02c10_set_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	int ret = 0;
-+
-+	if (ov02c10->streaming == enable)
-+		return 0;
-+
-+	mutex_lock(&ov02c10->mutex);
-+	if (enable) {
-+		ret = pm_runtime_get_sync(&client->dev);
-+		if (ret < 0) {
-+			pm_runtime_put_noidle(&client->dev);
-+			mutex_unlock(&ov02c10->mutex);
-+			return ret;
-+		}
-+
-+		ret = ov02c10_start_streaming(ov02c10);
-+		if (ret) {
-+			enable = 0;
-+			ov02c10_stop_streaming(ov02c10);
-+			pm_runtime_put(&client->dev);
-+		}
-+	} else {
-+		ov02c10_stop_streaming(ov02c10);
-+		pm_runtime_put(&client->dev);
-+	}
-+
-+	ov02c10->streaming = enable;
-+	mutex_unlock(&ov02c10->mutex);
-+
-+	return ret;
-+}
-+
-+/* This function tries to get power control resources */
-+static int ov02c10_get_pm_resources(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+	int ret;
-+
-+	ov02c10->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ov02c10->reset))
-+		return dev_err_probe(dev, PTR_ERR(ov02c10->reset),
-+				     "failed to get reset gpio\n");
-+
-+	ov02c10->handshake = devm_gpiod_get_optional(dev, "handshake",
-+						     GPIOD_OUT_LOW);
-+	if (IS_ERR(ov02c10->handshake))
-+		return dev_err_probe(dev, PTR_ERR(ov02c10->handshake),
-+				     "failed to get handshake gpio\n");
-+
-+	ov02c10->img_clk = devm_clk_get_optional(dev, NULL);
-+	if (IS_ERR(ov02c10->img_clk))
-+		return dev_err_probe(dev, PTR_ERR(ov02c10->img_clk),
-+				     "failed to get imaging clock\n");
-+
-+	ov02c10->avdd = devm_regulator_get_optional(dev, "avdd");
-+	if (IS_ERR(ov02c10->avdd)) {
-+		ret = PTR_ERR(ov02c10->avdd);
-+		ov02c10->avdd = NULL;
-+		if (ret != -ENODEV)
-+			return dev_err_probe(dev, ret,
-+					     "failed to get avdd regulator\n");
-+	}
-+
-+	return 0;
-+}
-+
-+static int ov02c10_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+	int ret = 0;
-+
-+	gpiod_set_value_cansleep(ov02c10->reset, 1);
-+	gpiod_set_value_cansleep(ov02c10->handshake, 0);
-+
-+	if (ov02c10->avdd)
-+		ret = regulator_disable(ov02c10->avdd);
-+
-+	clk_disable_unprepare(ov02c10->img_clk);
-+
-+	return ret;
-+}
-+
-+static int ov02c10_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+	int ret;
-+
-+	ret = clk_prepare_enable(ov02c10->img_clk);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable imaging clock: %d", ret);
-+		return ret;
-+	}
-+
-+	if (ov02c10->avdd) {
-+		ret = regulator_enable(ov02c10->avdd);
-+		if (ret < 0) {
-+			dev_err(dev, "failed to enable avdd: %d", ret);
-+			clk_disable_unprepare(ov02c10->img_clk);
-+			return ret;
-+		}
-+	}
-+	gpiod_set_value_cansleep(ov02c10->handshake, 1);
-+	gpiod_set_value_cansleep(ov02c10->reset, 0);
-+
-+	/* Lattice MIPI aggregator with some version FW needs longer delay
-+	 * after handshake triggered. We set 25ms as a safe value and wait
-+	 * for a stable version FW.
-+	 */
-+	msleep_interruptible(25);
-+
-+	return ret;
-+}
-+
-+static int __maybe_unused ov02c10_suspend(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+
-+	mutex_lock(&ov02c10->mutex);
-+	if (ov02c10->streaming)
-+		ov02c10_stop_streaming(ov02c10);
-+
-+	mutex_unlock(&ov02c10->mutex);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused ov02c10_resume(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+	int ret = 0;
-+
-+	mutex_lock(&ov02c10->mutex);
-+	if (!ov02c10->streaming)
-+		goto exit;
-+
-+	ret = ov02c10_start_streaming(ov02c10);
-+	if (ret) {
-+		ov02c10->streaming = false;
-+		ov02c10_stop_streaming(ov02c10);
-+	}
-+
-+exit:
-+	mutex_unlock(&ov02c10->mutex);
-+	return ret;
-+}
-+
-+static int ov02c10_set_format(struct v4l2_subdev *sd,
-+			      struct v4l2_subdev_state *sd_state,
-+			      struct v4l2_subdev_format *fmt)
-+{
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+	const struct ov02c10_mode *mode;
-+	s32 vblank_def, h_blank;
-+
-+	if (ov02c10->mipi_lanes == 1)
-+		mode = &supported_modes[0];
-+	else if (ov02c10->mipi_lanes == 2)
-+		mode = &supported_modes[1];
-+	else
-+		mode = v4l2_find_nearest_size(supported_modes,
-+					      ARRAY_SIZE(supported_modes),
-+					      width, height, fmt->format.width,
-+					      fmt->format.height);
-+
-+	mutex_lock(&ov02c10->mutex);
-+	ov02c10_update_pad_format(mode, &fmt->format);
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-+		*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-+	} else {
-+		ov02c10->cur_mode = mode;
-+		__v4l2_ctrl_s_ctrl(ov02c10->link_freq, mode->link_freq_index);
-+		__v4l2_ctrl_s_ctrl_int64(ov02c10->pixel_rate, OV02C10_SCLK);
-+
-+		/* Update limits and set FPS to default */
-+		vblank_def = mode->vts_def - mode->height;
-+		__v4l2_ctrl_modify_range(ov02c10->vblank,
-+					 mode->vts_min - mode->height,
-+					 OV02C10_VTS_MAX - mode->height, 1,
-+					 vblank_def);
-+		__v4l2_ctrl_s_ctrl(ov02c10->vblank, vblank_def);
-+		h_blank = mode->hts - mode->width;
-+		__v4l2_ctrl_modify_range(ov02c10->hblank, h_blank, h_blank, 1,
-+					 h_blank);
-+	}
-+	mutex_unlock(&ov02c10->mutex);
-+
-+	return 0;
-+}
-+
-+static int ov02c10_get_format(struct v4l2_subdev *sd,
-+			      struct v4l2_subdev_state *sd_state,
-+			      struct v4l2_subdev_format *fmt)
-+{
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+
-+	mutex_lock(&ov02c10->mutex);
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+		fmt->format = *v4l2_subdev_state_get_format(sd_state, fmt->pad);
-+	else
-+		ov02c10_update_pad_format(ov02c10->cur_mode, &fmt->format);
-+
-+	mutex_unlock(&ov02c10->mutex);
-+
-+	return 0;
-+}
-+
-+static int ov02c10_enum_mbus_code(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	if (code->index > 0)
-+		return -EINVAL;
-+
-+	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-+
-+	return 0;
-+}
-+
-+static int ov02c10_enum_frame_size(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *sd_state,
-+				   struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (fse->index >= ARRAY_SIZE(supported_modes))
-+		return -EINVAL;
-+
-+	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
-+		return -EINVAL;
-+
-+	fse->min_width = supported_modes[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = supported_modes[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static int ov02c10_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+
-+	mutex_lock(&ov02c10->mutex);
-+	ov02c10_update_pad_format(&supported_modes[0],
-+				  v4l2_subdev_state_get_format(fh->state, 0));
-+	mutex_unlock(&ov02c10->mutex);
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops ov02c10_video_ops = {
-+	.s_stream = ov02c10_set_stream,
-+};
-+
-+static const struct v4l2_subdev_pad_ops ov02c10_pad_ops = {
-+	.set_fmt = ov02c10_set_format,
-+	.get_fmt = ov02c10_get_format,
-+	.enum_mbus_code = ov02c10_enum_mbus_code,
-+	.enum_frame_size = ov02c10_enum_frame_size,
-+};
-+
-+static const struct v4l2_subdev_ops ov02c10_subdev_ops = {
-+	.video = &ov02c10_video_ops,
-+	.pad = &ov02c10_pad_ops,
-+};
-+
-+static const struct media_entity_operations ov02c10_subdev_entity_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+};
-+
-+static const struct v4l2_subdev_internal_ops ov02c10_internal_ops = {
-+	.open = ov02c10_open,
-+};
-+
-+static int ov02c10_read_mipi_lanes(struct ov02c10 *ov02c10, struct device *dev)
-+{
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY
-+	};
-+	struct fwnode_handle *ep;
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
-+	int ret = 0;
-+
-+	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-+	if (!ep)
-+		return -ENXIO;
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret)
-+		return ret;
-+
-+	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 2 &&
-+	    bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
-+		dev_err(dev, "number of CSI2 data lanes %d is not supported",
-+			bus_cfg.bus.mipi_csi2.num_data_lanes);
-+		return(-EINVAL);
-+	}
-+	ov02c10->mipi_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
-+	return ret;
-+}
-+
-+static int ov02c10_identify_module(struct ov02c10 *ov02c10)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
-+	u64 chip_id;
-+	u32 ret = 0;
-+
-+	ov02c10->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	cci_read(ov02c10->regmap, OV02C10_REG_CHIP_ID, &chip_id, &ret);
-+	if (ret)
-+		return ret;
-+
-+	if (chip_id != OV02C10_CHIP_ID) {
-+		dev_err(&client->dev, "chip id mismatch: %x!=%llx",
-+			OV02C10_CHIP_ID, chip_id);
-+		return -ENXIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ov02c10_check_hwcfg(struct device *dev)
-+{
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY
-+	};
-+	struct fwnode_handle *ep;
-+	struct fwnode_handle *fwnode = dev_fwnode(dev);
-+	unsigned int i, j;
-+	int ret;
-+	u32 ext_clk;
-+
-+	if (!fwnode)
-+		return -ENXIO;
-+
-+	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-+	if (!ep)
-+		return -EPROBE_DEFER;
-+
-+	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
-+				       &ext_clk);
-+	if (ret) {
-+		dev_err(dev, "can't get clock frequency");
-+		return ret;
-+	}
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret)
-+		return ret;
-+
-+	if (!bus_cfg.nr_of_link_frequencies) {
-+		dev_err(dev, "no link frequencies defined");
-+		ret = -EINVAL;
-+		goto out_err;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
-+		for (j = 0; j < bus_cfg.nr_of_link_frequencies; j++) {
-+			if (link_freq_menu_items[i] ==
-+				bus_cfg.link_frequencies[j])
-+				break;
-+		}
-+
-+		if (j == bus_cfg.nr_of_link_frequencies) {
-+			dev_err(dev, "no link frequency %lld supported",
-+				link_freq_menu_items[i]);
-+			ret = -EINVAL;
-+			goto out_err;
-+		}
-+	}
-+
-+out_err:
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+}
-+
-+static void ov02c10_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(sd->ctrl_handler);
-+	pm_runtime_disable(&client->dev);
-+	mutex_destroy(&ov02c10->mutex);
-+}
-+
-+static int ov02c10_probe(struct i2c_client *client)
-+{
-+	struct ov02c10 *ov02c10;
-+	int ret = 0;
-+
-+	/* Check HW config */
-+	ret = ov02c10_check_hwcfg(&client->dev);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to check hwcfg: %d", ret);
-+		return ret;
-+	}
-+
-+	ov02c10 = devm_kzalloc(&client->dev, sizeof(*ov02c10), GFP_KERNEL);
-+	if (!ov02c10)
-+		return -ENOMEM;
-+
-+	v4l2_i2c_subdev_init(&ov02c10->sd, client, &ov02c10_subdev_ops);
-+	ov02c10_get_pm_resources(&client->dev);
-+
-+	ret = ov02c10_power_on(&client->dev);
-+	if (ret) {
-+		dev_err_probe(&client->dev, ret, "failed to power on\n");
-+		return ret;
-+	}
-+
-+	ret = ov02c10_identify_module(ov02c10);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to find sensor: %d", ret);
-+		goto probe_error_ret;
-+	}
-+
-+	ret = ov02c10_read_mipi_lanes(ov02c10, &client->dev);
-+	if (ret)
-+		goto probe_error_ret;
-+
-+	mutex_init(&ov02c10->mutex);
-+	ov02c10->cur_mode = &supported_modes[0];
-+	if (ov02c10->mipi_lanes == 2)
-+		ov02c10->cur_mode = &supported_modes[1];
-+	ret = ov02c10_init_controls(ov02c10);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to init controls: %d", ret);
-+		goto probe_error_v4l2_ctrl_handler_free;
-+	}
-+
-+	ov02c10->sd.internal_ops = &ov02c10_internal_ops;
-+	ov02c10->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ov02c10->sd.entity.ops = &ov02c10_subdev_entity_ops;
-+	ov02c10->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+	ov02c10->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&ov02c10->sd.entity, 1, &ov02c10->pad);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to init entity pads: %d", ret);
-+		goto probe_error_v4l2_ctrl_handler_free;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor(&ov02c10->sd);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "failed to register V4L2 subdev: %d",
-+			ret);
-+		goto probe_error_media_entity_cleanup;
-+	}
-+
-+	/*
-+	 * Device is already turned on by i2c-core with ACPI domain PM.
-+	 * Enable runtime PM and turn off the device.
-+	 */
-+	pm_runtime_set_active(&client->dev);
-+	pm_runtime_enable(&client->dev);
-+	pm_runtime_idle(&client->dev);
-+
-+	return 0;
-+
-+probe_error_media_entity_cleanup:
-+	media_entity_cleanup(&ov02c10->sd.entity);
-+
-+probe_error_v4l2_ctrl_handler_free:
-+	v4l2_ctrl_handler_free(ov02c10->sd.ctrl_handler);
-+	mutex_destroy(&ov02c10->mutex);
-+
-+probe_error_ret:
-+	ov02c10_power_off(&client->dev);
-+
-+	return ret;
-+}
-+
-+static const struct dev_pm_ops ov02c10_pm_ops = {
-+	SET_SYSTEM_SLEEP_PM_OPS(ov02c10_suspend, ov02c10_resume)
-+	SET_RUNTIME_PM_OPS(ov02c10_power_off, ov02c10_power_on, NULL)
-+};
-+
-+#ifdef CONFIG_ACPI
-+static const struct acpi_device_id ov02c10_acpi_ids[] = {
-+	{"OVTI02C1"},
-+	{}
-+};
-+
-+MODULE_DEVICE_TABLE(acpi, ov02c10_acpi_ids);
-+#endif
-+
-+static struct i2c_driver ov02c10_i2c_driver = {
-+	.driver = {
-+		.name = "ov02c10",
-+		.pm = &ov02c10_pm_ops,
-+		.acpi_match_table = ACPI_PTR(ov02c10_acpi_ids),
-+	},
-+	.probe = ov02c10_probe,
-+	.remove = ov02c10_remove,
-+};
-+
-+module_i2c_driver(ov02c10_i2c_driver);
-+
-+MODULE_AUTHOR("Hao Yao <hao.yao@intel.com>");
-+MODULE_DESCRIPTION("OmniVision OV02C10 sensor driver");
-+MODULE_LICENSE("GPL");
--- 
-2.47.0
-
+SGksIFNodS1oc2lhbmc6DQoNCk9uIFdlZCwgMjAyNC0xMC0wOSBhdCAxOToxNSArMDgwMCwgU2h1
+LWhzaWFuZyBZYW5nIHdyb3RlOg0KPiBJbnRyb2R1Y2VzIHV0aWxpdHkgZmlsZXMgZm9yIHRoZSBN
+ZWRpYVRlayBJU1A3LnggY2Ftc3lzIGRyaXZlci4gVGhlc2UNCj4gdXRpbGl0aWVzIHByb3ZpZGUg
+ZXNzZW50aWFsIHBsYXRmb3JtIGRlZmluaXRpb25zLCBkZWJ1Z2dpbmcgdG9vbHMsIGFuZA0KPiBt
+YW5hZ2VtZW50IGZ1bmN0aW9ucyB0byBzdXBwb3J0IElTUCBvcGVyYXRpb25zIGFuZCBTQ1AgY29t
+bXVuaWNhdGlvbi4NCj4gS2V5IGZ1bmN0aW9uYWxpdGllcyBpbmNsdWRlOg0KPiAxLkhhcmR3YXJl
+IHBpcGVsaW5lIGFuZCByZWdpc3RlciBkZWZpbml0aW9ucyBmb3IgbWFuYWdpbmcgaW1hZ2UNCj4g
+cHJvY2Vzc2luZyBtb2R1bGVzLg0KPiAyLkRNQSBkZWJ1Z2dpbmcgdXRpbGl0aWVzIGFuZCBidWZm
+ZXIgbWFuYWdlbWVudCBmdW5jdGlvbnMuDQo+IDMuRGVmaW5pdGlvbnMgb2Ygc3VwcG9ydGVkIGlt
+YWdlIGZvcm1hdHMgZm9yIHByb3BlciBkYXRhIGhhbmRsaW5nLg0KPiA0LklQSSBhbmQgU0NQIGNv
+bW11bmljYXRpb24gc3RydWN0dXJlcyBmb3IgbW9kdWxlIHN0YXRlIG1hbmFnZW1lbnQgYW5kDQo+
+IGNvbmZpZ3VyaW5nIElTUC4NCj4gNS5NZXRhZGF0YSBwYXJhbWV0ZXJzIGZvciBjb25maWd1cmlu
+ZyBpbWFnZSBwcm9jZXNzaW5nLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2h1LWhzaWFuZyBZYW5n
+IDxTaHUtaHNpYW5nLllhbmdAbWVkaWF0ZWsuY29tPg0KPiAtLS0NCg0KW3NuaXBdDQoNCj4gKw0K
+PiArZW51bSBtdGtjYW1faXBpX3Jhd192aWRlb19pZCB7DQoNCkl0J3MgYmV0dGVyIHRvIHVzZSAn
+c2NwJyBpbnN0ZWFkIG9mICdpcGknLg0KVGhlIGludGVyZmFjZSBpcyBwcm92aWRlZCBieSBzY3Au
+DQppcGkganVzdCB0cmFuc2ZlciBkYXRhIGJldHdlZW4gbXRrY2FtIGFuZCBzY3AgYW5kIGlwaSBk
+b2VzIG5vdCBjYXJlIHRoZSBkYXRhIGNvbnRlbnQuDQoNCj4gKwlNVEtDQU1fSVBJX1JBV19JRF9V
+TktOT1dOCT0gMCwNCg0KRGl0dG8uDQoNCj4gKwlNVEtDQU1fSVBJX1JBV19SQVdJXzIsCQkvKiBS
+QVdJX1IyICovDQoNCkRpdHRvLg0KDQo+ICsJTVRLQ0FNX0lQSV9SQVdfUkFXSV8zLAkJLyogUkFX
+SV9SMyAqLw0KDQpEaXR0by4NCg0KPiArCU1US0NBTV9JUElfUkFXX1JBV0lfNSwJCS8qIFJBV0lf
+UjUgKi8NCg0KRGl0dG8uDQoNCj4gKwlNVEtDQU1fSVBJX1JBV19SQVdJXzYsCQkvKiBSQVdJX1I2
+ICovDQo+ICsJTVRLQ0FNX0lQSV9SQVdfSU1HTywJCS8qIElNR09fUjEgKi8NCj4gKwlNVEtDQU1f
+SVBJX1JBV19VRkVPLAkJLyogVUZFT19SMSAqLw0KPiArCU1US0NBTV9JUElfUkFXX1JSWk8sCQkv
+KiBSUlpPX1IxICovDQo+ICsJTVRLQ0FNX0lQSV9SQVdfVUZHTywJCS8qIFVGR09fUjEgKi8NCj4g
+KwlNVEtDQU1fSVBJX1JBV19ZVVZPXzEsCQkvKiBZVVZPX1IxICovDQo+ICsJTVRLQ0FNX0lQSV9S
+QVdfWVVWT18yLAkJLyogWVVWT19SMiAqLw0KPiArCU1US0NBTV9JUElfUkFXX1lVVk9fMywJCS8q
+IFlVVk9fUjMgKi8NCj4gKwlNVEtDQU1fSVBJX1JBV19ZVVZPXzQsCQkvKiBZVVZPX1I0ICovDQo+
+ICsJTVRLQ0FNX0lQSV9SQVdfWVVWT181LAkJLyogWVVWT19SNSAqLw0KPiArCU1US0NBTV9JUElf
+UkFXX1JaSDFOMlRPXzIsCS8qIFJaSDFOMlRPX1IyICovDQo+ICsJTVRLQ0FNX0lQSV9SQVdfRFJa
+UzROT18xLAkvKiBEUlpTNE5PX1IxICovDQo+ICsJTVRLQ0FNX0lQSV9SQVdfRFJaUzROT18yLAkv
+KiBEUlpTNE5PX1IyICovDQo+ICsJTVRLQ0FNX0lQSV9SQVdfRFJaUzROT18zLAkvKiBEUlpTNE5P
+X1IzICovDQo+ICsJTVRLQ0FNX0lQSV9SQVdfUlpIMU4yVE9fMywJLyogUlpIMU4yVE9fUjMgKi8N
+Cj4gKwlNVEtDQU1fSVBJX1JBV19SWkgxTjJUT18xLAkvKiBSWkgxTjJUT19SMSAqLw0KPiArCU1U
+S0NBTV9JUElfUkFXX01FVEFfU1RBVFNfQ0ZHLAkvKiBBbGwgc2V0dGluZ3MgKi8NCj4gKwlNVEtD
+QU1fSVBJX1JBV19NRVRBX1NUQVRTXzAsCS8qIHN0YXRpc3RpY3MgKi8NCj4gKw0KPiArCS8qDQo+
+ICsJICogTVRLQ0FNX0lQSV9SQVdfTUVUQV9TVEFUU18xIGlzIGZvciBBRk8gb25seSwgdGhlIGJ1
+ZmZlciBjYW4gYmUNCj4gKwkgKiBkZXF1ZXVlZCBvbmNlIHdlIGdvdCB0aGUgIGRtYSBkb25lLg0K
+PiArCSAqLw0KPiArCU1US0NBTV9JUElfUkFXX01FVEFfU1RBVFNfMSwNCj4gKw0KPiArCS8qIHN0
+YXRpc3RpY3MgbWF5IGJlIHBhc3MgdG8gRElQICovDQo+ICsJTVRLQ0FNX0lQSV9SQVdfTUVUQV9T
+VEFUU18yLA0KPiArCU1US0NBTV9JUElfUkFXX0lEX01BWCwNCj4gK307DQo+ICsNCj4gKy8qIFN1
+cHBvcnRlZCBiYXllciBwaXhlbCBvcmRlciAqLw0KPiArZW51bSBtdGtjYW1faXBpX2JheWVyX3B4
+bF9pZCB7DQoNCkRpdHRvLg0KDQpSZWdhcmRzLA0KQ0sNCg0KPiArCU1US0NBTV9JUElfQkFZRVJf
+UFhMX0lEX0IJCT0gMCwNCj4gKwlNVEtDQU1fSVBJX0JBWUVSX1BYTF9JRF9HQgkJPSAxLA0KPiAr
+CU1US0NBTV9JUElfQkFZRVJfUFhMX0lEX0dSCQk9IDIsDQo+ICsJTVRLQ0FNX0lQSV9CQVlFUl9Q
+WExfSURfUgkJPSAzLA0KPiArCU1US0NBTV9JUElfQkFZRVJfUFhMX0lEX1VOS05PV04JCT0gNCwN
+Cj4gK307DQo+ICsNCg0K
 
