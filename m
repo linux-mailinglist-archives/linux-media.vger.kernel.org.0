@@ -1,243 +1,145 @@
-Return-Path: <linux-media+bounces-21618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21619-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A4F9D3513
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 09:11:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 053749D35A7
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 09:40:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8DC02820C4
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 08:11:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA61F283377
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 08:40:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6735170A3D;
-	Wed, 20 Nov 2024 08:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25DD917DFFA;
+	Wed, 20 Nov 2024 08:39:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DnX8Z4jz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Mv7F+UQ4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0FA1586DB;
-	Wed, 20 Nov 2024 08:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CDA1422C7;
+	Wed, 20 Nov 2024 08:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732090267; cv=none; b=s5luPLo53gQcaMlC81yVEKe7+je2Z5ldYaD9JRXE3eXa6kWZynClMu89csdLI2NJV/WBpOckU0fx50OYGaLmdfTtlZqatxyRGhNAElO+Gj5ayMfYQweUq99RwWfE8XAWs+pinsDmEbOQi10BmTaNHaUVlku+vw1r9/rbKcEn45w=
+	t=1732091998; cv=none; b=dmOTUqg7DpLwXOYff10v3B+CssXrKxs/MZxzNyPDAG8rRLVLf5DFcHUI45IuM0+/iw+rJHNQ0jT+P/kK7D55w0rKAKTpooT6VR5wa6z5sLsDMVe8wpW81TiRBjkg362henuviTl3D0ikeSsizwPclzViQbIiYvmt2mXPKW9/FtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732090267; c=relaxed/simple;
-	bh=v1wo4bxWJLud4VLSRj8I8xAVToMBv7f3W9r2hPkVfT8=;
+	s=arc-20240116; t=1732091998; c=relaxed/simple;
+	bh=EMejAXYhL2K3pvo1y4VVTUaMJsPAaX8OevAmjgn7ucs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vn7hVRVOCYscI1JdJP7G2mr+8gaS0xDb5LIAVQPYuYvbb9lehsl9fyN195ljyoigRi7OqblSYKVVHIyGZojvJ0QCiwI5LEOa6yq7sRR9F7XVSk3tUfxMTFqTwej7C6Qm0AOoMDWzYQQzUBkmZQh7185oEUegEpmD08YRtpmTU9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DnX8Z4jz; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732090266; x=1763626266;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=v1wo4bxWJLud4VLSRj8I8xAVToMBv7f3W9r2hPkVfT8=;
-  b=DnX8Z4jzXyb4x2tUZktifpGXdp4wXR3b45Wfynk1osiSsxfAlPTyRKZl
-   s62JuEkrpQ/X11RsM1CMsXHJeEcnAvBkhwr5wF7GjgEwKrpYbDhDVwCjZ
-   M5lHM6ggefthauPVwNvuWjrjPhdoIoRkcqg+plx/nSa6GpNAehtfC6MU4
-   7h+elpfvNGuakCnKccUxHN45mSZaLEGxS3pyG3VkhQj8tN9tG/L5FNhuR
-   Ldq9wwwwWc+bpQ6TSOZYfCKfCkDX3Zwy5LT5JcDXlsCPBydKlXTuN6EAB
-   nC5mDMOUnC4Kg3y4IuGJpq5019oVn+dhYs/nYDrzXSJsELfcSWnrmotxZ
-   w==;
-X-CSE-ConnectionGUID: hvtkSwVOQ+CUpbZXVU34qg==
-X-CSE-MsgGUID: wEm6VjhSRNWxAfFoS9CYzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="49561230"
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
-   d="scan'208";a="49561230"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 00:10:48 -0800
-X-CSE-ConnectionGUID: 5Z+o/VGvQwuNE/Poyedy8Q==
-X-CSE-MsgGUID: N5elFeXnSrqn8Msyfy7bhQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
-   d="scan'208";a="90214947"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 00:10:45 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 4C1D711F89A;
-	Wed, 20 Nov 2024 10:10:42 +0200 (EET)
-Date: Wed, 20 Nov 2024 08:10:42 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY
- line-orders
-Message-ID: <Zz2Zgvjm21iv-qtc@kekkonen.localdomain>
-References: <20241119221249.539610-1-niklas.soderlund+renesas@ragnatech.se>
- <20241119221249.539610-3-niklas.soderlund+renesas@ragnatech.se>
+	 Content-Type:Content-Disposition:In-Reply-To; b=UadU2Ud71tm71H6ToW6aSv4f83uBA7jegEkVLqJLZ+H2IhjmGphn61LcSDjjrYTurWk9ASx7hAjcbg50lSbicv6dZXgjsZmT97WTlTJPJ3OgQS/UXHPTycFWf4+/HgVIukC4bMASrdK8bISoS33t0+GUzAn/Pb7yD2wl5tAEHf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Mv7F+UQ4; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C61155A;
+	Wed, 20 Nov 2024 09:39:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732091970;
+	bh=EMejAXYhL2K3pvo1y4VVTUaMJsPAaX8OevAmjgn7ucs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Mv7F+UQ4moggCGh6ph13lDTvNYD12Pbiu6P48eProqLGvL0GvXEmidz+BE7jvdjNe
+	 oIL7LegVLPTzsp5IIYIIv8iyBOYxkIaRgyzfAYJYyBbUBcB96P4pdtap3FLfWfJq0t
+	 ucu75Sww18mmaigA9UgRJME3yFEMrh9sn1QcpA0g=
+Date: Wed, 20 Nov 2024 10:39:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: linux-omap@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH] media: staging: drop omap4iss
+Message-ID: <20241120083938.GP12409@pendragon.ideasonboard.com>
+References: <815a789d-85a5-44a1-8b9c-429ac0101e3f@xs4all.nl>
+ <20241118200025.3daab676@akair>
+ <20241119070222.GX31681@pendragon.ideasonboard.com>
+ <20241120085406.4d864c6e@akair>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241119221249.539610-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20241120085406.4d864c6e@akair>
 
-Hejssan,
+Hi Andreas,
 
-On Tue, Nov 19, 2024 at 11:12:47PM +0100, Niklas Söderlund wrote:
-> Extend the fwnode parsing to validate and fill in the CSI-2 C-PHY
-> line-orders order properties as defined in MIPI Discovery and
-> Configuration (DisCo) Specification for Imaging.
+On Wed, Nov 20, 2024 at 08:54:06AM +0100, Andreas Kemnade wrote:
+> Am Tue, 19 Nov 2024 09:02:22 +0200 schrieb Laurent Pinchart:
+> > On Mon, Nov 18, 2024 at 08:00:25PM +0100, Andreas Kemnade wrote:
+> > > Am Mon, 2 Sep 2024 10:42:31 +0200 schrieb Hans Verkuil :
+> > >   
+> > > > The omap4 camera driver has seen no progress since forever, and
+> > > > now OMAP4 support has also been dropped from u-boot (1). So it is
+> > > > time to retire this driver.  
+> > > 
+> > > Argumenting with OMAP4 support in U-Boot is silly. That indicates that
+> > > there is no movement in keeping u-boot uptodate. Bootloader
+> > > development/updating is more risky especially if not done by the vendor,
+> > > good chances to brick something. And the bootloader might need
+> > > signing. So that argument is done nothing.
+> > > 
+> > > Better arguments would be to check if someone has something cooking and
+> > > feels not comfortable yet to climb Mount Upstream.
+> > > 
+> > > A good place to ask would be the omap platform
+> > > list: linux-omap@vger.kernel.org
+> > > 
+> > > I get still devicetrees for omap4 devices to review. So there is some
+> > > activity with omap4. If you look at postmarketOS you see also some
+> > > activity.
+> > > 
+> > > And also someone ported the driver to devicetree support:
+> > > https://github.com/iridia-ulb/meta-builderbot/blob/master/recipes-kernel/linux/linux-stable-4.16/0008-omap4iss-Fix-multiple-bugs-and-use-device-tree.patch
+> > > 
+> > > So the situation is not that simple. I am still evaluating it because I
+> > > myself have a device with omap4 and camera.  
+> > 
+> > Have you tested the camera recently ? The omap4iss driver has been
+> > unmaintained in mainline for a very, very long time, and I would be
+> > surprised if it worked.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 56 ++++++++++++++++++++++++++-
->  include/media/v4l2-mediabus.h         | 21 ++++++++++
->  2 files changed, 76 insertions(+), 1 deletion(-)
+> No, I have not tested it. I only have a bitrot out of tree driver for my
+> camera which was probably never used with omap. Vendor system seems to
+> handle camera via the m3 processor in a closed-source firmware blob. So
+> what is the overall picture:
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index f19c8adf2c61..b8b2b7fb685e 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -127,7 +127,7 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  {
->  	struct v4l2_mbus_config_mipi_csi2 *bus = &vep->bus.mipi_csi2;
->  	bool have_clk_lane = false, have_data_lanes = false,
-> -		have_lane_polarities = false;
-> +		have_lane_polarities = false, have_line_orders = false;
->  	unsigned int flags = 0, lanes_used = 0;
->  	u32 array[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
->  	u32 clock_lane = 0;
-> @@ -197,6 +197,17 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  		have_lane_polarities = true;
->  	}
->  
-> +	rval = fwnode_property_count_u32(fwnode, "line-orders");
-> +	if (rval > 0) {
-> +		if (rval != num_data_lanes) {
-> +			pr_warn("invalid number of line-orders entries (need %u, got %u)\n",
-> +				num_data_lanes, rval);
-> +			return -EINVAL;
-> +		}
-> +
-> +		have_line_orders = true;
-> +	}
-> +
->  	if (!fwnode_property_read_u32(fwnode, "clock-lanes", &v)) {
->  		clock_lane = v;
->  		pr_debug("clock lane position %u\n", v);
-> @@ -250,6 +261,49 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  		} else {
->  			pr_debug("no lane polarities defined, assuming not inverted\n");
->  		}
-> +
-> +		if (have_line_orders) {
-> +			fwnode_property_read_u32_array(fwnode,
-> +						       "line-orders", array,
-> +						       num_data_lanes);
-> +
-> +			for (i = 0; i < num_data_lanes; i++) {
-> +				const char *order;
-> +
-> +				switch (array[i]) {
-> +				case 0:
-> +					order = "ABC";
-> +					break;
-> +				case 1:
-> +					order = "ACB";
-> +					break;
-> +				case 2:
-> +					order = "BAC";
-> +					break;
-> +				case 3:
-> +					order = "BCA";
-> +					break;
-> +				case 4:
-> +					order = "CAB";
-> +					break;
-> +				case 5:
-> +					order = "CBA";
-> +					break;
+> Which omap4 devices have cameras? What is the status of the sensor
+> driver? Known working/Mainline/Out-of-tree/none? Datasheet for
+> sensor available?
+> The question is whether omap4iss can be tested together with a
+> known-working camera sensor driver. That would make things a lot easier.
+>
+> BT200 has a camera without mainline sensor driver.
+> Droid4 has also a camera. What is the status of the sensor driver?
+> What about the samsung-espresso tablets? And the xyboards?
+> 
+> Pandaboard camera module? If have a pandaboard I use for reference, but
+> no camera there.
 
-Please use an array instead.
+I used to work on it using a Pandaboard and an MT9P031 camera module,
+from Leopard Imaging if I recall correctly.
 
-> +				default:
-> +					pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
-> +						i, array[i]);
-> +					bus->line_orders[i] = V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> +					continue;
-> +				}
-> +				bus->line_orders[i] = array[i];
-> +				pr_debug("lane %u line order %s", i, order);
-> +			}
-> +		} else {
-> +			for (i = 0; i < num_data_lanes; i++)
-> +				bus->line_orders[i] = V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
+> > If someone is interested in taking over maintainership and improving the
+> > driver to get it out of drivers/staging/ to drivers/media/, the removal
+> > can certainly be reverted. drivers/staging/ is not a place where drivers
+> > are left to bitrot, it's meant for active development of code not fully
+> > ready for mainline yet.
+> 
+> I guess the way to start is to revert the remove and then update the
+> above-mentioned devicetree support patch. I have no feeling how complex
+> that whole task would be.
 
-A few lines could be wrapped above.
+That would be a first step, yes. After that, completing resizer support
+will be a good task candidate, followed by exposing the ISP parameters
+to userspace, and adding support for it to libcamera.
 
-> +
-> +			pr_debug("no line orders defined, assuming ABC\n");
-> +		}
->  	}
->  
->  	return 0;
-> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> index 5bce6e423e94..e7f019f68c8d 100644
-> --- a/include/media/v4l2-mediabus.h
-> +++ b/include/media/v4l2-mediabus.h
-> @@ -73,6 +73,24 @@
->  
->  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
->  
-> +/**
-> + * enum v4l2_mbus_csi2_cphy_line_orders_type - CSI-2 C-PHY line order
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC: C-PHY line order ABC (default)
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB: C-PHY line order ACB
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC: C-PHY line order BAC
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA: C-PHY line order BCA
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB: C-PHY line order CAB
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA: C-PHY line order CBA
-> + */
-> +enum v4l2_mbus_csi2_cphy_line_orders_type {
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA,
-> +};
-> +
->  /**
->   * struct v4l2_mbus_config_mipi_csi2 - MIPI CSI-2 data bus configuration
->   * @flags: media bus (V4L2_MBUS_*) flags
-> @@ -81,6 +99,8 @@
->   * @num_data_lanes: number of data lanes
->   * @lane_polarities: polarity of the lanes. The order is the same of
->   *		   the physical lanes.
-> + * @line_orders: line order of the data lanes. The order is the same of the
-> + *		   physical lanes.
->   */
->  struct v4l2_mbus_config_mipi_csi2 {
->  	unsigned int flags;
-> @@ -88,6 +108,7 @@ struct v4l2_mbus_config_mipi_csi2 {
->  	unsigned char clock_lane;
->  	unsigned char num_data_lanes;
->  	bool lane_polarities[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
-> +	enum v4l2_mbus_csi2_cphy_line_orders_type line_orders[V4L2_MBUS_CSI2_MAX_DATA_LANES];
->  };
->  
->  /**
+All it takes is a volunteer maintainer for the driver, with enough time
+and motivation :-)
 
 -- 
-Med vänliga hälsningar,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
