@@ -1,119 +1,189 @@
-Return-Path: <linux-media+bounces-21644-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21645-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857379D3DAB
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 15:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 767C89D3DD1
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 15:43:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A8ED2846DD
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 14:35:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37F83284B4A
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 14:43:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6ED1ABEAD;
-	Wed, 20 Nov 2024 14:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E6131B5EB0;
+	Wed, 20 Nov 2024 14:43:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HVAmTbSB"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V2eiVaol"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996451AA7BF
-	for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 14:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E0A1AD5DE
+	for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 14:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732113335; cv=none; b=GCK8jca0iGvY7KzRvjR/BvkZr/GrCajW4sS21eXdbrhHJdHbhXw7Tg3Da5EorBqJA27/QR5w1rTiiSZgMuXVagt12ws6uYBRBQV3yuWcvjqJrujbBGLHwnSa6huuEDXeZgLmiULYC71pFZz8+QTG8c0eldiUQH0FiQEz1+L1WHQ=
+	t=1732113819; cv=none; b=beEbqBlhUbpZTKkyTFQi6B95ogz/GzGs9L5KMS1Ki0GCfjzNNDUmixJh1mQMrmohMN+/PfcSWsgE6/RAjrDmUwC3P6hLc3sDTluum31pa4O/66LPA5y0GnjMq64DjrqTRpyc++W9jzjohw9XvOrKSYMBATqYT7rft7gcr1VIKGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732113335; c=relaxed/simple;
-	bh=FmFmA786Xnnh4fyc/uaDqdewoBevznugnbpqVfJZ8F8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ixw4cv9AzMWlmGJl+BwmIGqCKlC6lX2/Ez5OKg8c8S9okeX//lOYj1fRjS7MQbQNJkmcTfuNsrt4JNgCNmviGp1r+Vbrs3xZ0fx8UN/NpwddXBf3UYVd47Ft7fXfs8N+LK7V25IZZYkDgxOuDVDRdpbCt7GT/kXUIZPAoOGH34E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HVAmTbSB; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38248b810ffso1505024f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 06:35:33 -0800 (PST)
+	s=arc-20240116; t=1732113819; c=relaxed/simple;
+	bh=3H0qJXOUKg7BZKQpQxV+nwwmTnCQUnU4BeIQFsGiWSs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PrfCrcgT+UOXraKcKGRylT2emqFDdM3afG5zQrMd3dbfPENVit+kxubtPPYRrWVNdggVB70qyAKlbdhlSXaaXb+1730r+M+fMDjaOtRs4WF4pjUpFnkAtz7PRsWeik54lPB7hdr7KlBFE2zAVrU3tOthD1c/0aSzQl4pMAV4SQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V2eiVaol; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-723db2798caso5513353b3a.0
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 06:43:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732113332; x=1732718132; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=T5q/NrOb0j9a7AJB2JY8f6QBt3D5Yw/OXkV0jHgryNM=;
-        b=HVAmTbSBfAd0c2i8CSGhUGOKnryqellooZ+nXMNItLxrPugaOEFjEG9cBpuDaeGYok
-         zaikWjYFcCWUi+uzlLAy+g0OrXABlJSi3n0tXLumtvSvSqO9NMS69RJT3r6NQJwTEZNW
-         zab6cwwX/ZXsT8e3aHfHBDsuX6fDWe+kBUeYyZ5JhD09HA9wARFbbzFv7kQTRe5V+boX
-         sYlUn8jRAJ7McFWXjwpFxo1VscIk5qJwEYwR4nzZ8M62+2x3IpfVQMdOM7a/TEvyHUpL
-         EgkmUXeKAIXuq4Hvcu25oS1srqOkhNoDeJIJh2Blga2NqoI4bN9kJPRAIkh3OY4BUYne
-         ij4A==
+        d=chromium.org; s=google; t=1732113816; x=1732718616; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=r2sFP2NARD2FOImCkIlq0O7UZoSIEEdwWYR8ebMsnZM=;
+        b=V2eiVaolQu4fccQ3F50ghvTq/VMQjUFyb0Bs+/xs1wgMDepi3QiziyjxEVb9d9QoCe
+         lUWL7BxcYCKdYrfuJ2mNwjhOct80YAjcQ+EAAPzZt6z8Pq7I3gT/ciJPIvrkSzfff7Xx
+         tqtfKBy1IfA6j6aRiN9QyyiR5Xv0MKgYlIpoY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732113332; x=1732718132;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=T5q/NrOb0j9a7AJB2JY8f6QBt3D5Yw/OXkV0jHgryNM=;
-        b=cjGV8wcrOZc6EHecOFdgheJBlDLFJVxqBc2mXcnWvWereym08wyGIOLpuG0cm1zFSA
-         t63tX+FDQ/ee53xb5yu/oovLxjstBh9MEt2NYHv5ljN7/fn6S5m/dgb3DoJMYQ4io++Z
-         /DxEsgDTIwRuCB8AHQdRp6lJlXES68enB30KK8S2n5+8fFB9MLJUoSY7RiHq7veC7yoK
-         79cBNbFSMuEwzjFAwrAQ+qHTZ01W9OpbzYQhgsTrBHExj/Ne9EHA/2sCXVWINKiYBvmV
-         9rFzMb47CeSTiN0AKVTITs7JtF50StL+H63FL1Np0aHyqfY0NNVEMuJ5Z8xRfowI+hgI
-         Pu8w==
-X-Forwarded-Encrypted: i=1; AJvYcCXnoO5/aFv52lQU5SG9uhG5UwcOcdy6mk9c+TfTTe39xlN38+zQ4euDB4G6YfQ8feh7sSWVG8viOE+B7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3lRCfGq1mLjOas+4JacFi7o33s/3Et8ia1BhHCegs0PEF91k4
-	sw5r3ZBtuyoDelAi6kmxYLWJ7K/AqvG/MhkvANN1JjTbe9IjwuGHNivoRwicqbc=
-X-Google-Smtp-Source: AGHT+IFWe/uFMAKibkVW/x9MHd8Z1EECf5mY82HweltfCWS/ylgqPpMPLvVAMlvSP5bESkBAHm7oYA==
-X-Received: by 2002:a5d:5886:0:b0:382:346b:3675 with SMTP id ffacd0b85a97d-38254b1803fmr2152247f8f.46.1732113331881;
-        Wed, 20 Nov 2024 06:35:31 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38254933c85sm2229157f8f.65.2024.11.20.06.35.30
+        d=1e100.net; s=20230601; t=1732113816; x=1732718616;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r2sFP2NARD2FOImCkIlq0O7UZoSIEEdwWYR8ebMsnZM=;
+        b=FjjR8ehxNMQ/7ruP2kOlDvWsmWDOKyhKlXHMRRL7paO0yKysrDqZWSFoFk9ZAaiL9s
+         tMzyBfvs2pTWdgYd+xdWbopN9/sCOVGwEv7I05LAVq8zHRzmiEtZh6qOqLUI5HlnNe2e
+         bPocooyZDsvV8lMdX0HLXhE4G6xn4RlII1QFSHzRoOpx1hJk9UJlKCVWwiP94MoOr4jF
+         u5qLmTNO7qSJmq1nekZplFFxOvJFS3luH50ipvrAOp3oGdVr0PMrwh9U7KeVTXNZY627
+         A1HRezs1IE/wMqwpGu26ZIpT+wEUHg7X+BXNdAFGHBOQsoi1KJXYajF39Mn0hHZfi7AP
+         FPfw==
+X-Forwarded-Encrypted: i=1; AJvYcCUb+XNKeSN5ORP1fKwt+Pm248kqnZvAbMvFaPtdct/vZT1wbHYDhI3PoWCvO/yZaai1P0D3GbrUSdwIfQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpA713gTkVl/QUeIuQZd5BygfznnYyC+NPLQ9HMIQ59z4u34Fz
+	hR7sXTmYiOcgud312qnjhDAOw53s97NWraLoDS8cyEBAEtsLWN/j5sZDsVTeuFnsGHBbnqlnO8E
+	=
+X-Google-Smtp-Source: AGHT+IH/GbKpwJdnN/YzjSNvQDJ4nSOJP7sGZLk8G8YoO4KB0VRGBqSg95knPsC31kVgo3OlXZVaFw==
+X-Received: by 2002:a05:6a00:ac8:b0:71e:587d:f268 with SMTP id d2e1a72fcca58-724bec87c0bmr4237450b3a.4.1732113816008;
+        Wed, 20 Nov 2024 06:43:36 -0800 (PST)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com. [209.85.215.172])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724befe9a91sm1750239b3a.183.2024.11.20.06.43.34
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Nov 2024 06:35:31 -0800 (PST)
-Message-ID: <7ae98d62-9617-41de-ba67-bad2120b33b3@linaro.org>
-Date: Wed, 20 Nov 2024 14:35:30 +0000
+        Wed, 20 Nov 2024 06:43:34 -0800 (PST)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7e6cbf6cd1dso4638490a12.3
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 06:43:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX+AzdnzRtZ/8SZakV84ge43gpM19wwWW3MX/ZoQbxfZhyAXvrzRJrQV4WIqggyCrdNSszgDZ54OR+7CQ==@vger.kernel.org
+X-Received: by 2002:a05:6a20:9f09:b0:1db:d980:440e with SMTP id
+ adf61e73a8af0-1ddae5e0c52mr4938722637.14.1732113813781; Wed, 20 Nov 2024
+ 06:43:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] dt-bindings: i2c: qcom-cci: Document x1e80100
- compatible
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Jagadeesh Kona <quic_jkona@quicinc.com>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-i2c@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-0-54075d75f654@linaro.org>
- <20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-1-54075d75f654@linaro.org>
- <jfhd6fhp55dsahqajx375jitezsvscsbjfrbetpnzplsrq3ciu@5q2up7wbgp4y>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <jfhd6fhp55dsahqajx375jitezsvscsbjfrbetpnzplsrq3ciu@5q2up7wbgp4y>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241118-uvc-readless-v3-0-d97c1a3084d0@chromium.org>
+ <20241118-uvc-readless-v3-1-d97c1a3084d0@chromium.org> <20241120140526.GW12409@pendragon.ideasonboard.com>
+In-Reply-To: <20241120140526.GW12409@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 20 Nov 2024 15:43:22 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvazZ4Y3OZ9X7chU-_N-4HbeQKUh23eOWkmkAxGaks2QA@mail.gmail.com>
+Message-ID: <CANiDSCvazZ4Y3OZ9X7chU-_N-4HbeQKUh23eOWkmkAxGaks2QA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] media: uvcvideo: Support partial control reads
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 20/11/2024 08:49, Krzysztof Kozlowski wrote:
-> On Tue, Nov 19, 2024 at 01:10:30PM +0000, Bryan O'Donoghue wrote:
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
-> 
-> Missing commit msg. Checkpatch :)
-> 
->>   Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 2 ++
->>   1 file changed, 2 insertions(+)
-> 
-> Best regards,
-> Krzysztof
-> 
+Hi Laurent
 
-How did I miss that...
+On Wed, 20 Nov 2024 at 15:05, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Mon, Nov 18, 2024 at 05:16:51PM +0000, Ricardo Ribalda wrote:
+> > Some cameras, like the ELMO MX-P3, do not return all the bytes
+> > requested from a control if it can fit in less bytes.
+> > Eg: Returning 0xab instead of 0x00ab.
+> > usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
+> >
+> > Extend the returned value from the camera and return it.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index cd9c29532fb0..e165850397a0 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -76,8 +76,22 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+> >
+> >       ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
+> >                               UVC_CTRL_CONTROL_TIMEOUT);
+> > -     if (likely(ret == size))
+> > +     if (ret > 0) {
+> > +             if (size == ret)
+> > +                     return 0;
+>
+> Why is this within the ret > 0 block ? I would write
+>
+>         if (likely(ret == size))
+>                 return 0;
+>
+>         if (ret > 0) {
+>
+> > +
+> > +             /*
+> > +              * In UVC the data is represented in little-endian by default.
+>
+> By default, or always ?
+>
+> > +              * Some devices return shorter control packages that expected
+>
+> What's a "control package" ?
+
+usb control transfers.
+>
+> I think you meants "than expected", not "that expected".
+>
+> > +              * if the return value can fit in less bytes.
+> > +              * Zero all the bytes that the device have not written.
+> > +              */
+>
+> Do we want to apply this workaround to GET_INFO and GET_LEN, or can we
+> restrict it to GET_CUR, GET_MIN, GET_MAX and GET_RES ?
+
+I believe that the original behaviour before
+a763b9fb58be ("media: uvcvideo: Do not return positive errors in
+uvc_query_ctrl()")
+was used for all types. I think the safest thing to do is to go back
+to the old behaviour.
+
+Let me know what you prefer.
+
+
+>
+> > +             memset(data + ret, 0, size - ret);
+> > +             dev_warn_once(&dev->udev->dev,
+> > +                           "UVC non compliance: %s control %u on unit %u returned %d bytes when we expected %u.\n",
+> > +                           uvc_query_name(query), cs, unit, ret, size);
+> >               return 0;
+> > +     }
+> >
+> >       if (ret != -EPIPE) {
+> >               dev_err(&dev->udev->dev,
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
 
