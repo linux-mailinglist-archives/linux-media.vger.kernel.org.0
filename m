@@ -1,178 +1,316 @@
-Return-Path: <linux-media+bounces-21636-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21638-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0F99D3CB3
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 14:45:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 866989D3CD9
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 14:56:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B2A64B234CE
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 13:45:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46BAF282A36
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 13:56:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96EF21AB6FC;
-	Wed, 20 Nov 2024 13:45:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A431AAE13;
+	Wed, 20 Nov 2024 13:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="ywgjHL4z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E04F1AB53F
-	for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 13:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D74D1A706F
+	for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 13:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732110332; cv=none; b=fGslthFTFDwvOM+j27JLn/x/Hzm/2ztyDM98CTcw40KyUYIEwmxrsZsEnCEmKm8hUBmpNaeFox49ZkP9KXYDrd9LJpfUtTDHp7uv5nsL+t0JAXoKO0NMxxIdw5jpGSY2Eem/JoUQOnKXZk90+xpoNOirRPAAnEmnQ8Mjl6vUrWE=
+	t=1732110978; cv=none; b=eh8CPKdDZETv1+x2isZ8q3LtyU1IgPXsOKIt4iPeSl23bE22q2MhcAy56rdwnTi+wPfzkfUQgBq2gKCeWrkyNOZVpndb0cdsiCb6swms+GOMgnn6/+fyPqUrcasNMpJ5b5iEb20CEplGLTdP/IZihKuOAfGQfg++DF/5eFiJZOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732110332; c=relaxed/simple;
-	bh=HHaoBCC8MK64RwHit1JQhYwaHeQLH9QM8pOD53gKPRI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=DPBnss8LNOVPyA4SpXCPIYsQAwllwJSSAFGp/8M6cTGPsdq65Dn5ls8PUPsUnVrhSGfSjyNHUdwuxVIrUlbu4KRLGcOxfRS0CN7z+/MkWi7BYfxdxO+Ad4Zcwo1XQTDeLBMImR4YvWa2vTskemjyCN9VS/AMUnlLvKnOdLMB0DM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3a71d04c76dso62598975ab.3
-        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 05:45:30 -0800 (PST)
+	s=arc-20240116; t=1732110978; c=relaxed/simple;
+	bh=dfwcfgfI4H85Ukr3770WXJoLmT/uQHvNcLTWBiKiEZs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=QG41kGyQ/iqkYK5zKxqqJYaHsmmakSVoTCEudgBIkA2k1jYMO/lIJYIYrd9hRxuVUwuQerApFHjP+GYBdaPy9+iYykZ214AivNNzWnC+ev5APzAWYRz+weGbcW+srbZkmKEDKFXXY1PH6oweUo8cn6t5YwG/F05wjNBy6oFCY+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=ywgjHL4z; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-432d866f70fso19342535e9.2
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2024 05:56:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1732110974; x=1732715774; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LtLwiYWJMe5D9pQFX6Ax9Ul9+sGhVnnWmSdEh99pxKM=;
+        b=ywgjHL4z7RnkNdF42dkBlG0P7vBOSh3+VQ/0c16Ht2fL6iu+SlFc81Dwf2DjmnKUK9
+         OLM9VwCjlDkx9vDEvVTh3HZK0U9Gvh0luzxG1cB8WmMt8STz6F25F0AZoB+CvaF3q3NL
+         0VWHk9dl6CuEA4u8lGMEDvoHnyD7jXgPIBjbE+SgFdSyJKXerOelmdAY83zCETogOTjJ
+         5hmMoQuJf2+YjILj6nRyoSUaC/FVq6mCjuR196CD/ThT0/iTjadBU0h7cnfVEPyopYoK
+         /9f8eDN0zkunDFdb0gAUMja0la9sJHSdRQbWt6ORbys87dxKDcZUFVLcodmRkWsNEgqD
+         kvMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732110329; x=1732715129;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ycQjTfS2NOM91awP/bXrJt0XnXXfKhyI2pL/uuArTSY=;
-        b=uJ4viaLKxvyaDZoTUx9A7IYqAGw8YxBTXK5TnU7cBknUcGgomATArGerrZeTQR5fF4
-         8P/S6rUd5GnPglq2/smkGBvXIvtAp3+62NOCoE1AdqO/W9Onb57jI6Qw4Cke1Atidcn5
-         QkRZn3pY9pLXWB+7Eb8bSt6x3znR6AXIl3U6fo54xCndmh4dplWcfUNcUFVaO5QEcBab
-         t5/r3WG/LSEOqt0GTc5fB06MjpXqwzLtV7bg66Rs3TQsdmBssM5cUfLLAT8LGZ7Brvsq
-         iJGpTKcJqtRHOjIbXBFGgw4AzxjOmHgYl34VttpWvKrUHvsxyMFKd/kU+ikxlYUrn4R+
-         umfA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtN8SocD4y4F6b8EcHAZjwPAyU7w9DljRsmA+mz+seRIk6xb4+MTYzoU6JBotuvyIkTfoeQhM7Hzy3yg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZE1ueCMrY9MBer1S/DqXxtmDzLxzY9fNv3VmuCCD4JXmcIIX2
-	kHr5sPvLvEshAS6BUzToHufHUATeQ45luN7xyt1Qn16SUSjhg+xUF4AsLm9i6oCjsp5FyVOv9u/
-	VvvcD8wx4vgwQt+oFRdRTggr/rp0DN0XXRlKg5+e9nltpiKvde5R31YQ=
-X-Google-Smtp-Source: AGHT+IH3ad3T4hqc4asFT+D/H0cLBeVbVwxflb+dKyaNJA3S9UIzmGps4B/nbsOee5ELbKoSC1Rbu6wLAQc02EMCjv44hZeJstqA
+        d=1e100.net; s=20230601; t=1732110974; x=1732715774;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LtLwiYWJMe5D9pQFX6Ax9Ul9+sGhVnnWmSdEh99pxKM=;
+        b=n51PFEq/C8maOk6Pmg/GxVtlW/6ef0LnQhTbf2nXfCikTuOAxG5FMc8x82zFF4WsZb
+         RYacTt7cmCuI3U9FNLnsj6Jo2vd32Ezc/UTbSa0AKaOlDa79eETK8YG69UKwQn/89NiY
+         GJtrgZ0ssGcKhFKlII5mLf3roEmZFJV7eBxgtpgrVIfS/BRk/mbkkHx/N46qdL6YmIhl
+         JHOkmKAoo2WQEO2HIFSkeJ/k7/xX00bz3B6dlJS8/boUf8nGtH/t+lxg2nVfvNbGYyD6
+         AopoA8Yj1wovKTahJkI/bOAX/i2t39sd+nthpV3dn5vfA8U6qjrPEVY8IgDOmnqjk353
+         OUNA==
+X-Forwarded-Encrypted: i=1; AJvYcCV292vbLwtfKyoOG4Jgk9ms4tCwgbfhcr4kBXuc6jdvMLHy43Uc7XlsNaDtXfbBCB4D95HMDSJZyUWK3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRQHKGFuHhlTzD+26LbwWw2dtZ86vMSoYnTrrFofV0P0pnYVPX
+	mlp0pWBU9wibT/E964nPYWiq0FkTSM8VAkX4RB/2saWP70SQ+LZfRxMhSgcsN/xm20TJ8v/sBSx
+	X
+X-Gm-Gg: ASbGncvgvnMWsNeIYXluhZYSUtvF6FobuIEOfxsb1hLT9mIYCwsW959q+qr9j3gzb9S
+	Ji+5rmKGYK+KlwxafNU5Cenjz0LU3sbPB0dPT8gJ1WQl69WUSrqEPk1/HWZ6byv+UBYf8jEerBI
+	EqaSob9B0nIcIRz/KcxCgm+BYO+4hn/3PK14Su6LtPOpJwq5ZCB8BW/gYOz0BIDDD3rKn2QTJHM
+	L39spw68uK4Pxh0cvSU1/e5NAJl/CtbT4tFxTpIOqqrzyeAvP8jweZWpuGwOBOV84zuYUWNoiWq
+	WxQQZvj/mIdmHjTpbGglNvomKJkacfHzpABOxMfuw7YkrkmBkEwed0w43g==
+X-Google-Smtp-Source: AGHT+IFbhr6TKRXwkCurmAT31SRDis1mjzKGAuhFO0ZzdznKHmroXbp056ni2cLo0orO+YGry+0/hQ==
+X-Received: by 2002:a05:600c:511b:b0:42c:b750:1a1e with SMTP id 5b1f17b1804b1-43348906b4bmr27745045e9.0.1732110974377;
+        Wed, 20 Nov 2024 05:56:14 -0800 (PST)
+Received: from localhost (2a02-a210-0a3a-6f80-f04f-3897-bedf-0fb0.cable.dynamic.v6.ziggo.nl. [2a02:a210:a3a:6f80:f04f:3897:bedf:fb0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433b4643194sm19681675e9.40.2024.11.20.05.56.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Nov 2024 05:56:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1b03:b0:3a7:7ee3:108d with SMTP id
- e9e14a558f8ab-3a7865a9107mr32230585ab.23.1732110329481; Wed, 20 Nov 2024
- 05:45:29 -0800 (PST)
-Date: Wed, 20 Nov 2024 05:45:29 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <673de7f9.050a0220.363a1b.0011.GAE@google.com>
-Subject: [syzbot] [media?] [usb?] WARNING in iguanair_get_features/usb_submit_urb
-From: syzbot <syzbot+e3ae1e7f4b88f3e696f5@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, sean@mess.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 20 Nov 2024 14:56:13 +0100
+Message-Id: <D5R23G53SGCV.3Q5FLUKYAA5V8@fairphone.com>
+Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: i2c: imx412: Add missing newline to prints
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Luca Weiss" <luca.weiss@fairphone.com>, "Sakari Ailus"
+ <sakari.ailus@linux.intel.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241118-imx412-newlines-v1-1-152fe6863838@fairphone.com>
+In-Reply-To: <20241118-imx412-newlines-v1-1-152fe6863838@fairphone.com>
 
-Hello,
+On Mon Nov 18, 2024 at 10:45 PM CET, Luca Weiss wrote:
+> Add trailing \n to dev_dbg and dev_err prints where missing.
+>
 
-syzbot found the following issue on:
+Forgot to add:
 
-HEAD commit:    f868cd251776 Merge tag 'drm-fixes-2024-11-16' of https://g..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=175892c0580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d2aeec8c0b2e420c
-dashboard link: https://syzkaller.appspot.com/bug?extid=e3ae1e7f4b88f3e696f5
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10edf1a7980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10d892c0580000
+Fixes: 9214e86c0cc1 ("media: i2c: Add imx412 camera sensor driver")
+Cc: stable@vger.kernel.org
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/50674231b58f/disk-f868cd25.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c6a8d7f6f69f/vmlinux-f868cd25.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5b4f3e883f4a/bzImage-f868cd25.xz
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+>  drivers/media/i2c/imx412.c | 42 +++++++++++++++++++++-------------------=
+--
+>  1 file changed, 21 insertions(+), 21 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
+> index 0bfe3046fcc8726ef4e484d0fbf980422343fccc..c74097a59c42853ff2a1b600f=
+28ff5aacedb1c6b 100644
+> --- a/drivers/media/i2c/imx412.c
+> +++ b/drivers/media/i2c/imx412.c
+> @@ -547,7 +547,7 @@ static int imx412_update_exp_gain(struct imx412 *imx4=
+12, u32 exposure, u32 gain)
+> =20
+>  	lpfr =3D imx412->vblank + imx412->cur_mode->height;
+> =20
+> -	dev_dbg(imx412->dev, "Set exp %u, analog gain %u, lpfr %u",
+> +	dev_dbg(imx412->dev, "Set exp %u, analog gain %u, lpfr %u\n",
+>  		exposure, gain, lpfr);
+> =20
+>  	ret =3D imx412_write_reg(imx412, IMX412_REG_HOLD, 1, 1);
+> @@ -594,7 +594,7 @@ static int imx412_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_VBLANK:
+>  		imx412->vblank =3D imx412->vblank_ctrl->val;
+> =20
+> -		dev_dbg(imx412->dev, "Received vblank %u, new lpfr %u",
+> +		dev_dbg(imx412->dev, "Received vblank %u, new lpfr %u\n",
+>  			imx412->vblank,
+>  			imx412->vblank + imx412->cur_mode->height);
+> =20
+> @@ -613,7 +613,7 @@ static int imx412_set_ctrl(struct v4l2_ctrl *ctrl)
+>  		exposure =3D ctrl->val;
+>  		analog_gain =3D imx412->again_ctrl->val;
+> =20
+> -		dev_dbg(imx412->dev, "Received exp %u, analog gain %u",
+> +		dev_dbg(imx412->dev, "Received exp %u, analog gain %u\n",
+>  			exposure, analog_gain);
+> =20
+>  		ret =3D imx412_update_exp_gain(imx412, exposure, analog_gain);
+> @@ -622,7 +622,7 @@ static int imx412_set_ctrl(struct v4l2_ctrl *ctrl)
+> =20
+>  		break;
+>  	default:
+> -		dev_err(imx412->dev, "Invalid control %d", ctrl->id);
+> +		dev_err(imx412->dev, "Invalid control %d\n", ctrl->id);
+>  		ret =3D -EINVAL;
+>  	}
+> =20
+> @@ -803,14 +803,14 @@ static int imx412_start_streaming(struct imx412 *im=
+x412)
+>  	ret =3D imx412_write_regs(imx412, reg_list->regs,
+>  				reg_list->num_of_regs);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "fail to write initial registers");
+> +		dev_err(imx412->dev, "fail to write initial registers\n");
+>  		return ret;
+>  	}
+> =20
+>  	/* Setup handler will write actual exposure and gain */
+>  	ret =3D  __v4l2_ctrl_handler_setup(imx412->sd.ctrl_handler);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "fail to setup handler");
+> +		dev_err(imx412->dev, "fail to setup handler\n");
+>  		return ret;
+>  	}
+> =20
+> @@ -821,7 +821,7 @@ static int imx412_start_streaming(struct imx412 *imx4=
+12)
+>  	ret =3D imx412_write_reg(imx412, IMX412_REG_MODE_SELECT,
+>  			       1, IMX412_MODE_STREAMING);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "fail to start streaming");
+> +		dev_err(imx412->dev, "fail to start streaming\n");
+>  		return ret;
+>  	}
+> =20
+> @@ -895,7 +895,7 @@ static int imx412_detect(struct imx412 *imx412)
+>  		return ret;
+> =20
+>  	if (val !=3D IMX412_ID) {
+> -		dev_err(imx412->dev, "chip id mismatch: %x!=3D%x",
+> +		dev_err(imx412->dev, "chip id mismatch: %x!=3D%x\n",
+>  			IMX412_ID, val);
+>  		return -ENXIO;
+>  	}
+> @@ -927,7 +927,7 @@ static int imx412_parse_hw_config(struct imx412 *imx4=
+12)
+>  	imx412->reset_gpio =3D devm_gpiod_get_optional(imx412->dev, "reset",
+>  						     GPIOD_OUT_LOW);
+>  	if (IS_ERR(imx412->reset_gpio)) {
+> -		dev_err(imx412->dev, "failed to get reset gpio %ld",
+> +		dev_err(imx412->dev, "failed to get reset gpio %ld\n",
+>  			PTR_ERR(imx412->reset_gpio));
+>  		return PTR_ERR(imx412->reset_gpio);
+>  	}
+> @@ -935,13 +935,13 @@ static int imx412_parse_hw_config(struct imx412 *im=
+x412)
+>  	/* Get sensor input clock */
+>  	imx412->inclk =3D devm_clk_get(imx412->dev, NULL);
+>  	if (IS_ERR(imx412->inclk)) {
+> -		dev_err(imx412->dev, "could not get inclk");
+> +		dev_err(imx412->dev, "could not get inclk\n");
+>  		return PTR_ERR(imx412->inclk);
+>  	}
+> =20
+>  	rate =3D clk_get_rate(imx412->inclk);
+>  	if (rate !=3D IMX412_INCLK_RATE) {
+> -		dev_err(imx412->dev, "inclk frequency mismatch");
+> +		dev_err(imx412->dev, "inclk frequency mismatch\n");
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -966,14 +966,14 @@ static int imx412_parse_hw_config(struct imx412 *im=
+x412)
+> =20
+>  	if (bus_cfg.bus.mipi_csi2.num_data_lanes !=3D IMX412_NUM_DATA_LANES) {
+>  		dev_err(imx412->dev,
+> -			"number of CSI2 data lanes %d is not supported",
+> +			"number of CSI2 data lanes %d is not supported\n",
+>  			bus_cfg.bus.mipi_csi2.num_data_lanes);
+>  		ret =3D -EINVAL;
+>  		goto done_endpoint_free;
+>  	}
+> =20
+>  	if (!bus_cfg.nr_of_link_frequencies) {
+> -		dev_err(imx412->dev, "no link frequencies defined");
+> +		dev_err(imx412->dev, "no link frequencies defined\n");
+>  		ret =3D -EINVAL;
+>  		goto done_endpoint_free;
+>  	}
+> @@ -1034,7 +1034,7 @@ static int imx412_power_on(struct device *dev)
+> =20
+>  	ret =3D clk_prepare_enable(imx412->inclk);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "fail to enable inclk");
+> +		dev_err(imx412->dev, "fail to enable inclk\n");
+>  		goto error_reset;
+>  	}
+> =20
+> @@ -1145,7 +1145,7 @@ static int imx412_init_controls(struct imx412 *imx4=
+12)
+>  		imx412->hblank_ctrl->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+> =20
+>  	if (ctrl_hdlr->error) {
+> -		dev_err(imx412->dev, "control init failed: %d",
+> +		dev_err(imx412->dev, "control init failed: %d\n",
+>  			ctrl_hdlr->error);
+>  		v4l2_ctrl_handler_free(ctrl_hdlr);
+>  		return ctrl_hdlr->error;
+> @@ -1183,7 +1183,7 @@ static int imx412_probe(struct i2c_client *client)
+> =20
+>  	ret =3D imx412_parse_hw_config(imx412);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "HW configuration is not supported");
+> +		dev_err(imx412->dev, "HW configuration is not supported\n");
+>  		return ret;
+>  	}
+> =20
+> @@ -1191,14 +1191,14 @@ static int imx412_probe(struct i2c_client *client=
+)
+> =20
+>  	ret =3D imx412_power_on(imx412->dev);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "failed to power-on the sensor");
+> +		dev_err(imx412->dev, "failed to power-on the sensor\n");
+>  		goto error_mutex_destroy;
+>  	}
+> =20
+>  	/* Check module identity */
+>  	ret =3D imx412_detect(imx412);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "failed to find sensor: %d", ret);
+> +		dev_err(imx412->dev, "failed to find sensor: %d\n", ret);
+>  		goto error_power_off;
+>  	}
+> =20
+> @@ -1208,7 +1208,7 @@ static int imx412_probe(struct i2c_client *client)
+> =20
+>  	ret =3D imx412_init_controls(imx412);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "failed to init controls: %d", ret);
+> +		dev_err(imx412->dev, "failed to init controls: %d\n", ret);
+>  		goto error_power_off;
+>  	}
+> =20
+> @@ -1222,14 +1222,14 @@ static int imx412_probe(struct i2c_client *client=
+)
+>  	imx412->pad.flags =3D MEDIA_PAD_FL_SOURCE;
+>  	ret =3D media_entity_pads_init(&imx412->sd.entity, 1, &imx412->pad);
+>  	if (ret) {
+> -		dev_err(imx412->dev, "failed to init entity pads: %d", ret);
+> +		dev_err(imx412->dev, "failed to init entity pads: %d\n", ret);
+>  		goto error_handler_free;
+>  	}
+> =20
+>  	ret =3D v4l2_async_register_subdev_sensor(&imx412->sd);
+>  	if (ret < 0) {
+>  		dev_err(imx412->dev,
+> -			"failed to register async subdev: %d", ret);
+> +			"failed to register async subdev: %d\n", ret);
+>  		goto error_media_entity;
+>  	}
+> =20
+>
+> ---
+> base-commit: ae58226b89ac0cffa05ba7357733776542e40216
+> change-id: 20241118-imx412-newlines-3b0321da960d
+>
+> Best regards,
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e3ae1e7f4b88f3e696f5@syzkaller.appspotmail.com
-
-usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-usb 1-1: Product: syz
-usb 1-1: Manufacturer: syz
-usb 1-1: SerialNumber: syz
-usb 1-1: config 0 descriptor??
-------------[ cut here ]------------
-URB ffff88802128ea00 submitted while active
-WARNING: CPU: 0 PID: 972 at drivers/usb/core/urb.c:379 usb_submit_urb+0x1039/0x1930 drivers/usb/core/urb.c:379
-Modules linked in:
-CPU: 0 UID: 0 PID: 972 Comm: kworker/0:2 Not tainted 6.12.0-rc7-syzkaller-00187-gf868cd251776 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/30/2024
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:usb_submit_urb+0x1039/0x1930 drivers/usb/core/urb.c:379
-Code: 00 eb 66 e8 f9 b9 5b fa e9 79 f0 ff ff e8 ef b9 5b fa c6 05 4c a6 cd 08 01 90 48 c7 c7 80 21 b1 8c 4c 89 ee e8 48 b0 1c fa 90 <0f> 0b 90 90 e9 40 f0 ff ff e8 c9 b9 5b fa eb 12 e8 c2 b9 5b fa 41
-RSP: 0018:ffffc9000378ec50 EFLAGS: 00010246
-RAX: 60687f36e4038100 RBX: 0000000000000cc0 RCX: ffff88802606bc00
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: ffff88802128ea08 R08: ffffffff8155e312 R09: fffffbfff1cf9fd0
-R10: dffffc0000000000 R11: fffffbfff1cf9fd0 R12: ffff88802fb894a8
-R13: ffff88802128ea00 R14: dffffc0000000000 R15: ffff88802fb89400
-FS:  0000000000000000(0000) GS:ffff8880b8600000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00005653c9143738 CR3: 0000000028d30000 CR4: 00000000003526f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- iguanair_send drivers/media/rc/iguanair.c:193 [inline]
- iguanair_get_features+0x1c8/0x7c0 drivers/media/rc/iguanair.c:218
- iguanair_probe+0xb1c/0x1540 drivers/media/rc/iguanair.c:438
- usb_probe_interface+0x645/0xbb0 drivers/usb/core/driver.c:399
- really_probe+0x2b8/0xad0 drivers/base/dd.c:658
- __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:800
- driver_probe_device+0x50/0x430 drivers/base/dd.c:830
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
- bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:459
- __device_attach+0x333/0x520 drivers/base/dd.c:1030
- bus_probe_device+0x189/0x260 drivers/base/bus.c:534
- device_add+0x856/0xbf0 drivers/base/core.c:3672
- usb_set_configuration+0x1976/0x1fb0 drivers/usb/core/message.c:2210
- usb_generic_driver_probe+0x88/0x140 drivers/usb/core/generic.c:254
- usb_probe_device+0x1b8/0x380 drivers/usb/core/driver.c:294
- really_probe+0x2b8/0xad0 drivers/base/dd.c:658
- __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:800
- driver_probe_device+0x50/0x430 drivers/base/dd.c:830
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
- bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:459
- __device_attach+0x333/0x520 drivers/base/dd.c:1030
- bus_probe_device+0x189/0x260 drivers/base/bus.c:534
- device_add+0x856/0xbf0 drivers/base/core.c:3672
- usb_new_device+0x104a/0x19a0 drivers/usb/core/hub.c:2651
- hub_port_connect drivers/usb/core/hub.c:5521 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
- port_event drivers/usb/core/hub.c:5821 [inline]
- hub_event+0x2d6d/0x5150 drivers/usb/core/hub.c:5903
- process_one_work kernel/workqueue.c:3229 [inline]
- process_scheduled_works+0xa63/0x1850 kernel/workqueue.c:3310
- worker_thread+0x870/0xd30 kernel/workqueue.c:3391
- kthread+0x2f0/0x390 kernel/kthread.c:389
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
