@@ -1,134 +1,179 @@
-Return-Path: <linux-media+bounces-21616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21617-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDE89D34D8
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 08:55:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCD09D3508
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 09:06:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 058552825D3
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 07:55:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA8FB1F2211F
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 08:06:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D008F1684B4;
-	Wed, 20 Nov 2024 07:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E525360DCF;
+	Wed, 20 Nov 2024 08:06:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="7RkRv+5J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpcSQKQD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8F0487A7;
-	Wed, 20 Nov 2024 07:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D1A1F94A;
+	Wed, 20 Nov 2024 08:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732089254; cv=none; b=WFl0+NOU5YmoO7M2ziJ083/Um7Wh82ew9uNx94C2k+YRMUx/twcznnTOUx9XKkW/Yrv/MJ/IJhYHOpBS9t6154g6qmMweFL+LbAkjKZl7KxKIeL0CkrrIwWEScizvud1TZpoolaTvtt4wU9u4tOmgjNXcGUoNe/y4z2ofE9nEi8=
+	t=1732090004; cv=none; b=pK7GSCYzzFTi6hv5cQKOiQ89KMrotZHxTtEDtcmdWDw03/lK+jKnRTEI2lGGtryM0MRSx4eXha0Tp7GU5bYIdIgRNUjHqZUU61pVCcsTgFlmINP6B3F/jsYiTG3oH0ZctLUXz75Yk2CCBowAUeuIzNnyIyKkANGl9ha7PbacmfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732089254; c=relaxed/simple;
-	bh=UGiUqgDPOcvvTbtd9hMZZn2oM2VybJ7NOSs+8C92cko=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JbVMfeBQFsssekbhShgQ1EXZIIORr5yUr7TgMsDsT9aGpm4L4798R7Q+WkxYkLCH0cIGPxYwZHkvHtifob9xJaU56PXs2H5EF0VZY5DqYlo3vR17q2VjoLLxbR/n4CttbVTDhlapdmPQBXnxF3k/rdm9Q5j2hHnyB+sZvHhm+GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=7RkRv+5J; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=2zph7Rj9SRge9mIt+IdQK0HEAiiD0TzeL0g0wgyMkWM=; b=7RkRv+5JWP/DCE/wtXP2HyoMsl
-	O0BEp4Ti5UfwSigLbiBihRf81zuMHTV6ozQ0By8NULKrUoud/P7Up/EpR0ZpgSXBsyqgYMf3DCQKF
-	QfC5gD/bRVzkemC68IRiOQwAVr0g34sLn4me4pz9436NGY8W+QcOwctkeISBE4YLA4F41Dcj32qHr
-	P9waRqZx3sW4FBanauvPKFiGlKUhfFoukB4EWubKeJaZzJ3wJZ803YWDmJE45fHUKA8QAgNS9T0GO
-	XppSJHaoi1gck3pul3T6CeGAyx+x9LFix7LazyIP8r5gAvbAUgeWEh3vPITjGkfjkZobIQHU2cZez
-	GOlW71nA==;
-Date: Wed, 20 Nov 2024 08:54:06 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH] media: staging: drop omap4iss
-Message-ID: <20241120085406.4d864c6e@akair>
-In-Reply-To: <20241119070222.GX31681@pendragon.ideasonboard.com>
-References: <815a789d-85a5-44a1-8b9c-429ac0101e3f@xs4all.nl>
- <20241118200025.3daab676@akair>
- <20241119070222.GX31681@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1732090004; c=relaxed/simple;
+	bh=uAhfSWvZR9Xm6RqA4GyYmx9riTr6JGITFU8rqgdrkzg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qhNxqb0xcyGbV0e/x0f1hOqg8S28OiEZ96jChFG2XUZvjA2VsKKiyrejw9ptTwo5a36aeaKm91Jc6xuSv+JMMVSukKd2CsT7k+atsY4EIHnQtJf54mPw/JhouDsd6lVi5a0Mrokn/sNz51VYeHgju46RjUw3PFMwncoXs4E/giA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cpcSQKQD; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732090003; x=1763626003;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=uAhfSWvZR9Xm6RqA4GyYmx9riTr6JGITFU8rqgdrkzg=;
+  b=cpcSQKQDmFsU1fpPr22TLmC+pbbHndQ8Zzs40C8ZcWRX6BteItHDee9c
+   94fNYbgNI+6Vv7G5TNWwuAFsza+5HnCZcobjugKwQ1nxMjMrrtPbkzbeS
+   dsfU30QSe7o4KjIe7Mvq5ne0kZj+jZAARw52GTPIo1BDsf6vxbY3UzlnW
+   BJNjroo2TlpxnVNIAjmqnaqrr3oehx+iQv+G3EFsxLibgl38WQ29FWrhd
+   RRRX/Qqe1ITjnYf8tdjEiGWqNVhgqmL/adBeTxJuNxcoebP+43BUC+ZSQ
+   L9kVhqVhlylS9ILiwY6sk9bbX+v6gcK9BpDqk/26YRod+e/r+evN47/gN
+   Q==;
+X-CSE-ConnectionGUID: w89hAE5fST+rGrLDrrhoYA==
+X-CSE-MsgGUID: I8pCPnk1RFy2TkiU6TWGAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="32244785"
+X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
+   d="scan'208";a="32244785"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 00:06:42 -0800
+X-CSE-ConnectionGUID: uW301IhrRiiobyxyYRk0SQ==
+X-CSE-MsgGUID: sMSi2WYCSFetSsEcHrfo5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
+   d="scan'208";a="90648439"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 00:06:40 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D1A5E11F89A;
+	Wed, 20 Nov 2024 10:06:36 +0200 (EET)
+Date: Wed, 20 Nov 2024 08:06:36 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: dt-bindings: Add property to describe CSI-2
+ C-PHY line orders
+Message-ID: <Zz2YjNHk-ZTlXztw@kekkonen.localdomain>
+References: <20241119221249.539610-1-niklas.soderlund+renesas@ragnatech.se>
+ <20241119221249.539610-2-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241119221249.539610-2-niklas.soderlund+renesas@ragnatech.se>
 
-Am Tue, 19 Nov 2024 09:02:22 +0200
-schrieb Laurent Pinchart <laurent.pinchart@ideasonboard.com>:
+Hejssan, Niklas!
 
-> Hi Andreas,
+Tack för de här lapparna!
+
+On Tue, Nov 19, 2024 at 11:12:46PM +0100, Niklas Söderlund wrote:
+> Each data lane on a CSI-2 C-PHY bus uses three phase encoding and is
+> constructed from three physical wires. The wires are referred to as A, B
+> and C and their default order is ABC. However to ease hardware design
+> the specification allows for the wires to be switched in any order.
 > 
-> On Mon, Nov 18, 2024 at 08:00:25PM +0100, Andreas Kemnade wrote:
-> > Am Mon, 2 Sep 2024 10:42:31 +0200 schrieb Hans Verkuil :
-> >   
-> > > The omap4 camera driver has seen no progress since forever, and
-> > > now OMAP4 support has also been dropped from u-boot (1). So it is
-> > > time to retire this driver.  
-> > 
-> > Argumenting with OMAP4 support in U-Boot is silly. That indicates that
-> > there is no movement in keeping u-boot uptodate. Bootloader
-> > development/updating is more risky especially if not done by the vendor,
-> > good chances to brick something. And the bootloader might need
-> > signing. So that argument is done nothing.
-> > 
-> > Better arguments would be to check if someone has something cooking and
-> > feels not comfortable yet to climb Mount Upstream.
-> > 
-> > A good place to ask would be the omap platform
-> > list: linux-omap@vger.kernel.org
-> > 
-> > I get still devicetrees for omap4 devices to review. So there is some
-> > activity with omap4. If you look at postmarketOS you see also some
-> > activity.
-> > 
-> > And also someone ported the driver to devicetree support:
-> > https://github.com/iridia-ulb/meta-builderbot/blob/master/recipes-kernel/linux/linux-stable-4.16/0008-omap4iss-Fix-multiple-bugs-and-use-device-tree.patch
-> > 
-> > So the situation is not that simple. I am still evaluating it because I
-> > myself have a device with omap4 and camera.  
+> Add a vendor neutral property to describe the line order used. The
+> property name 'line-orders', the possible values it can be assigned and
+> there names are taken from the MIPI Discovery and Configuration (DisCo)
+> Specification for Imaging.
 > 
-> Have you tested the camera recently ? The omap4iss driver has been
-> unmaintained in mainline for a very, very long time, and I would be
-> surprised if it worked.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../bindings/media/video-interfaces.yaml      | 20 +++++++++++++++++++
+>  include/dt-bindings/media/video-interfaces.h  |  7 +++++++
+>  2 files changed, 27 insertions(+)
 > 
-No, I have not tested it. I only have a bitrot out of tree driver for my
-camera which was probably never used with omap. Vendor system seems to
-handle camera via the m3 processor in a closed-source firmware blob. So
-what is the overall picture:
+> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> index 26e3e7d7c67b..95491e5779ba 100644
+> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> @@ -210,6 +210,26 @@ properties:
+>        lane-polarities property is omitted, the value must be interpreted as 0
+>        (normal). This property is valid for serial busses only.
+>  
+> +  line-orders:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 8
+> +    enum:
+> +      - 0 # ABC
+> +      - 1 # ACB
+> +      - 2 # BAC
+> +      - 3 # BCA
+> +      - 4 # CAB
+> +      - 5 # CBA
 
-Which omap4 devices have cameras? What is the status of the sensor
-driver? Known working/Mainline/Out-of-tree/none? Datasheet for
-sensor available?
-The question is whether omap4iss can be tested together with a
-known-working camera sensor driver. That would make things a lot easier.
+Do you know hardware documentation using lettes for the lines? I do agree
+it seems less confusing but I've seen only numbers being used.
 
-BT200 has a camera without mainline sensor driver.
-Droid4 has also a camera. What is the status of the sensor driver?
-What about the samsung-espresso tablets? And the xyboards?
+> +    description:
+> +      An array of line orders of the CSI-2 C-PHY data lanes. The order of the
+> +      lanes are the same as in data-lanes property. Valid values are 0-5 as
+> +      defined in the MIPI Discovery and Configuration (DisCo) Specification for
+> +      Imaging. The length of the array should be the same length as the
 
-Pandaboard camera module? If have a pandaboard I use for reference, but
-no camera there.
+s/should/must/
 
-> If someone is interested in taking over maintainership and improving the
-> driver to get it out of drivers/staging/ to drivers/media/, the removal
-> can certainly be reverted. drivers/staging/ is not a place where drivers
-> are left to bitrot, it's meant for active development of code not fully
-> ready for mainline yet.
-> 
-I guess the way to start is to revert the remove and then update the
-above-mentioned devicetree support patch. I have no feeling how complex
-that whole task would be.
+As this is a requirement for DTS authors in particular.
 
-Regards,
-Andreas
+> +      data-lanes property. If the line-orders property is omitted, the value
+> +      must be interpreted as 0 (ABC). This property is valid for CSI-2 C-PHY
+
+I would:
+
+s/must/shall/
+
+> +      busses only.
+> +
+>    strobe:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [ 0, 1 ]
+> diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
+> index 68ac4e05e37f..88b9d05d8075 100644
+> --- a/include/dt-bindings/media/video-interfaces.h
+> +++ b/include/dt-bindings/media/video-interfaces.h
+> @@ -13,4 +13,11 @@
+>  #define MEDIA_BUS_TYPE_PARALLEL			5
+>  #define MEDIA_BUS_TYPE_BT656			6
+>  
+> +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ABC	0
+> +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ACB	1
+> +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_BAC	2
+> +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_BCA	3
+> +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_CAB	4
+> +#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_CBA	5
+> +
+>  #endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
+
+-- 
+Med vänliga hälsningar,
+
+Sakari Ailus
 
