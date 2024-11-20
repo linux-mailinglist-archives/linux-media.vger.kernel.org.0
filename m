@@ -1,219 +1,231 @@
-Return-Path: <linux-media+bounces-21639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455049D3CE0
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 14:58:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE8A9D3CF2
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 15:00:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF07EB27659
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 13:58:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C7D028377D
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2024 14:00:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 276A21AAE13;
-	Wed, 20 Nov 2024 13:57:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC7FB1B5ED4;
+	Wed, 20 Nov 2024 13:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="mWzz4+AQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cK7c3Nlj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2227A19CC1C;
-	Wed, 20 Nov 2024 13:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7194D157476;
+	Wed, 20 Nov 2024 13:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732111075; cv=none; b=Y7aDbi5uHUL97Z43H9MSZgpFo7Icg0c5LVhuZi7OtwAcWM3Adf3Hc1hCPU8DsO+3ndpvqcGQY6/L91v7Bq7TOs3hSF82kpV/it1za4vVgKLxYOlQLrTkYE36MUv+XengO3cX44rw1BMIdGWefFNVSFjf0DjQqiSgR12DtF68TUk=
+	t=1732111174; cv=none; b=tGQbizKq/tI52m3xVr4mwd8UI5hBSQeCeaqhtZaVisLd1GBcInFQ5tywmNJcHIR5TqsQxHWe6CKicjSYpVj0yOLqr1fBYcni3k3XroOvVDptatzFgCPvW7iMUQFPwi+w1RZsL2gPfwu/gFRFXKVvZgcSrcrKukp6K58a1WTFps0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732111075; c=relaxed/simple;
-	bh=JioEN8RRj6ihvI/G0TuyhLDjOR5w9SeO0oWhpyVfsN4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iyTocUTt9ssWK8NyQkjFSTAHJK7h1ErIsWjp/6f0v9cJfs9xHDchMmQwtWrCy6hWO4U9IRK3pwYpId8+aQstwVt/axoUbw5H49SNOITtbtO+FI2VH+Um03tSQGTgJOO7/9C/fhdK6UQ61J/R/TXqwyj1IuKz7OjNLBsjuVd5YAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=mWzz4+AQ; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1732111071;
-	bh=JioEN8RRj6ihvI/G0TuyhLDjOR5w9SeO0oWhpyVfsN4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=mWzz4+AQWzYPfWrUc4XobsCU3dmQC+00wxfM4tkh8+/K9sAUiRUkmGu96kE4LmAav
-	 upt9ohgvF3+bcZ/kv5jYivgXO5WaPAKo5RJb9hvtCbsXsTRLKH4ojclmnKWbg309K+
-	 uqV0+TqAYKTtmYP1M3ZEPJdI6X7jrA1pkuA3y+dizUrokpp8CWjpz/R5dcLnErR6t2
-	 ptsD+xcvpkL2WeL5UqWEewXxNA53H+n9Qk//s9l4tnJD5TPsGls0haHJWYuTLpf7BE
-	 tGPiyAAh7nUnfDXfxVu7GQwklJI35iugt6p6NP4pYDSK4RYSY5mSWtMvJ2vwT211jY
-	 QxirMHL5TZLWg==
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::580])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9539917E35E3;
-	Wed, 20 Nov 2024 14:57:49 +0100 (CET)
-Message-ID: <00c0405112b808929f6a7b8e8375b4182c26086e.camel@collabora.com>
-Subject: Re: [PATCH v2 1/3] media: uapi: add WebP uAPI
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Link Mauve <linkmauve@linkmauve.fr>, Hugues Fruchet
-	 <hugues.fruchet@foss.st.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia	
- <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Fritz Koenig
- <frkoenig@chromium.org>, Sebastian Fricke	
- <sebastian.fricke@collabora.com>, Daniel Almeida
- <daniel.almeida@collabora.com>,  Andrzej Pietrasiewicz
- <andrzej.p@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, 	linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-Date: Wed, 20 Nov 2024 08:57:48 -0500
-In-Reply-To: <Zz3nK9FvSpxgVzmo@desktop>
-References: <20241120110105.244413-1-hugues.fruchet@foss.st.com>
-	 <20241120110105.244413-2-hugues.fruchet@foss.st.com>
-	 <Zz3nK9FvSpxgVzmo@desktop>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.54.1 (3.54.1-1.fc41) 
+	s=arc-20240116; t=1732111174; c=relaxed/simple;
+	bh=IkKedPkTMtnh++ircV0h5KPigzahuRt93ypyeH827Tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GXtc6YQwHYxBbdpnbDpLjQYVG2xn9ghd+fK7To6V72xdeZTjZp7l+cNiDeHHnZAPcQCc9c0F0azMKrWb6Ls/B93KWHr79i8b8pDZkfKHKtB7eNE/6weBCrrcHYvuhZDnsLEJV6tTHBov8FrNWntm4ZX5LE1LPFpamat9OtuGuok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cK7c3Nlj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBDF5675;
+	Wed, 20 Nov 2024 14:59:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732111147;
+	bh=IkKedPkTMtnh++ircV0h5KPigzahuRt93ypyeH827Tg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cK7c3Nlj8wSslHcGGf0aLLTjrBZf/Ybb05yeNV3yUtLVYUywh7inYvIZDoOLjLEty
+	 Ca6/Hilh6bug/wtU+hzUYEKuYXJCpPkaywFkBWtQ0E5huJMb3yGu+CDeKlRAnkuPrl
+	 c1Fh6MLVqawFD2YJ/npTKfrSLe8UezWCFKDjs53g=
+Date: Wed, 20 Nov 2024 15:59:15 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: uvcvideo: Support partial control reads
+Message-ID: <20241120135915.GV12409@pendragon.ideasonboard.com>
+References: <20241008-uvc-readless-v2-0-04d9d51aee56@chromium.org>
+ <20241008-uvc-readless-v2-1-04d9d51aee56@chromium.org>
+ <5a5de76c-31a4-47af-bd31-b3a09b411663@redhat.com>
+ <CANiDSCtXfdCT=-56m9crxW6hmVjuqBKvRE3NRQBf7nftW=OpNg@mail.gmail.com>
+ <845fd4ee-dcf7-4657-beb6-6936d5ef04cc@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <845fd4ee-dcf7-4657-beb6-6936d5ef04cc@redhat.com>
 
-Hi,
-
-Le mercredi 20 novembre 2024 à 14:42 +0100, Link Mauve a écrit :
-> Hi,
-> 
-> On Wed, Nov 20, 2024 at 12:01:03PM +0100, Hugues Fruchet wrote:
-> > This patch adds the WebP picture decoding kernel uAPI.
+On Wed, Nov 20, 2024 at 11:50:15AM +0100, Hans de Goede wrote:
+> On 18-Nov-24 5:57 PM, Ricardo Ribalda wrote:
+> > On Mon, 18 Nov 2024 at 17:41, Hans de Goede <hdegoede@redhat.com> wrote:
+> >> On 8-Oct-24 5:00 PM, Ricardo Ribalda wrote:
+> >>> Some cameras, like the ELMO MX-P3, do not return all the bytes
+> >>> requested from a control if it can fit in less bytes.
+> >>> Eg: Returning 0xab instead of 0x00ab.
+> >>> usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
+> >>>
+> >>> Extend the returned value from the camera and return it.
+> >>>
+> >>> Cc: stable@vger.kernel.org
+> >>> Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
+> >>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> >>> ---
+> >>>  drivers/media/usb/uvc/uvc_video.c | 19 +++++++++++++++++--
+> >>>  1 file changed, 17 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> >>> index cd9c29532fb0..f125b3ba50f2 100644
+> >>> --- a/drivers/media/usb/uvc/uvc_video.c
+> >>> +++ b/drivers/media/usb/uvc/uvc_video.c
+> >>> @@ -76,14 +76,29 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+> >>>
+> >>>       ret = __uvc_query_ctrl(dev, query, unit, intfnum, cs, data, size,
+> >>>                               UVC_CTRL_CONTROL_TIMEOUT);
+> >>> -     if (likely(ret == size))
+> >>> +     if (ret > 0) {
+> >>> +             if (size == ret)
+> >>> +                     return 0;
+> >>> +
+> >>> +             /*
+> >>> +              * In UVC the data is represented in little-endian by default.
+> >>> +              * Some devices return shorter control packages that expected
+> >>> +              * for GET_DEF/MAX/MIN if the return value can fit in less
+> >>> +              * bytes.
+> >>
+> >> What about GET_CUR/GET_RES ? are those not affected?
+> >>
+> >> And if it is not affected should we limit this special handling to
+> >> GET_DEF/MAX/MIN ?
 > > 
-> > This design is based on currently available VP8 API implementation and
-> > aims to support the development of WebP stateless video codecs
-> > on Linux.
-> 
-> Why do you need this new uAPI exactly?  The WebP format is more complex
-> than the simple 'VP8 ' format, the 'VP8X' fourcc for instance is an
-> animated format which may contain multiple VP8 keyframes, or an alpha
-> side channel, and just like any other video container we queue each
-> VP8 frame separately in V4L2 for decoding, not the whole file.
-
-This is a v2, you should have read v1 thread before commenting this in my
-opinion. Let me resume it: While a VP8 HW decoder is compatible with WebP (lossy
-only), a WebP (lossy) decoders are not always compatible wit VP8. The reason is
-that some design may sacrifice support for references in order to allow larger
-resolutions.
-
-This is proven by Hantro implementation, which is the main implementation out
-there since back when Google owned it this hardware design was given away for
-free to anyone wanting to support VP8 in HW.
-
-> 
-> In Onix[1] I parse the WebP header and pass the raw VP8 frame to V4L2
-> without the RIFF around it.
-> 
-> So I’d rather NACK this patch, I don’t think it’s a good idea to
-> hardcode the simplest version of the WebP container in the uAPI, to the
-> detriment of all other possible WebP files.
-
-I don't expect the RIFF to be passed to the stateless decoder, this is a
-stateless interface that is proposed here. Though, you need the RIFF to determin
-if the stream is Lossy WebP (keyframe only), so if someone comes up with a
-stateful HW design, it will face the same challenge. As said, what you do in
-Onix is valid, but limiting. 
-
-Let's first have a look at the code before taking out big guns, also make sure
-you have the full context before proposing to nack something.
-
-regards,
-Nicolas
-
-> 
-> [1] git clone https://git.linkmauve.fr/onix.git/
-> 
+> > I have only seen it with GET_DEF, but I would not be surprised if it
+> > happens for all of them.
 > > 
-> > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > ---
-> >  Documentation/userspace-api/media/v4l/biblio.rst  |  9 +++++++++
-> >  .../userspace-api/media/v4l/pixfmt-compressed.rst | 15 +++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ioctl.c              |  1 +
-> >  include/uapi/linux/videodev2.h                    |  1 +
-> >  4 files changed, 26 insertions(+)
+> > before:
+> > a763b9fb58be ("media: uvcvideo: Do not return positive errors in
+> > uvc_query_ctrl()")
+> > We were applying the quirk to all the call types, so I'd rather keep
+> > the old behaviour.
 > > 
-> > diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
-> > index 35674eeae20d..df3e963fc54f 100644
-> > --- a/Documentation/userspace-api/media/v4l/biblio.rst
-> > +++ b/Documentation/userspace-api/media/v4l/biblio.rst
-> > @@ -447,3 +447,12 @@ AV1
-> >  :title:     AV1 Bitstream & Decoding Process Specification
-> >  
-> >  :author:    Peter de Rivaz, Argon Design Ltd, Jack Haughton, Argon Design Ltd
-> > +
-> > +.. _webp:
-> > +
-> > +WEBP
-> > +====
-> > +
-> > +:title:     WEBP picture Bitstream & Decoding Process Specification
-> > +
-> > +:author:    Google (https://developers.google.com/speed/webp)
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > index 806ed73ac474..e664e70b0619 100644
-> > --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > @@ -169,6 +169,21 @@ Compressed Formats
-> >  	this pixel format. The output buffer must contain the appropriate number
-> >  	of macroblocks to decode a full corresponding frame to the matching
-> >  	capture buffer.
-> > +    * .. _V4L2-PIX-FMT-WEBP-FRAME:
-> > +
-> > +      - ``V4L2_PIX_FMT_WEBP_FRAME``
-> > +      - 'WEBP'
-> > +      - WEBP VP8 parsed frame, excluding WEBP RIFF header, keeping only the VP8
-> > +	bistream including the frame header, as extracted from the container.
-> > +	This format is adapted for stateless video decoders that implement a
-> > +	WEBP pipeline with the :ref:`stateless_decoder`.
-> > +	Metadata associated with the frame to decode is required to be passed
-> > +	through the ``V4L2_CID_STATELESS_VP8_FRAME`` control.
-> > +	See the :ref:`associated Codec Control IDs <v4l2-codec-stateless-vp8>`.
-> > +	Exactly one output and one capture buffer must be provided for use with
-> > +	this pixel format. The output buffer must contain the appropriate number
-> > +	of macroblocks to decode a full corresponding frame to the matching
-> > +	capture buffer.
-> >  
-> >      * .. _V4L2-PIX-FMT-VP9:
-> >  
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index 0304daa8471d..e2ff03d0d773 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -1501,6 +1501,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> >  		case V4L2_PIX_FMT_VC1_ANNEX_L:	descr = "VC-1 (SMPTE 412M Annex L)"; break;
-> >  		case V4L2_PIX_FMT_VP8:		descr = "VP8"; break;
-> >  		case V4L2_PIX_FMT_VP8_FRAME:    descr = "VP8 Frame"; break;
-> > +		case V4L2_PIX_FMT_WEBP_FRAME:    descr = "WEBP VP8 Frame"; break;
-> >  		case V4L2_PIX_FMT_VP9:		descr = "VP9"; break;
-> >  		case V4L2_PIX_FMT_VP9_FRAME:    descr = "VP9 Frame"; break;
-> >  		case V4L2_PIX_FMT_HEVC:		descr = "HEVC"; break; /* aka H.265 */
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index e7c4dce39007..09fff269e852 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -757,6 +757,7 @@ struct v4l2_pix_format {
-> >  #define V4L2_PIX_FMT_VC1_ANNEX_L v4l2_fourcc('V', 'C', '1', 'L') /* SMPTE 421M Annex L compliant stream */
-> >  #define V4L2_PIX_FMT_VP8      v4l2_fourcc('V', 'P', '8', '0') /* VP8 */
-> >  #define V4L2_PIX_FMT_VP8_FRAME v4l2_fourcc('V', 'P', '8', 'F') /* VP8 parsed frame */
-> > +#define V4L2_PIX_FMT_WEBP_FRAME v4l2_fourcc('W', 'B', 'P', 'F') /* WEBP VP8 parsed frame */
-> >  #define V4L2_PIX_FMT_VP9      v4l2_fourcc('V', 'P', '9', '0') /* VP9 */
-> >  #define V4L2_PIX_FMT_VP9_FRAME v4l2_fourcc('V', 'P', '9', 'F') /* VP9 parsed frame */
-> >  #define V4L2_PIX_FMT_HEVC     v4l2_fourcc('H', 'E', 'V', 'C') /* HEVC aka H.265 */
-> > -- 
-> > 2.25.1
+> > The extra logging will help us find bugs (if any).
 > > 
+> > Let me fix the doc.
 > > 
-> > _______________________________________________
-> > Linux-rockchip mailing list
-> > Linux-rockchip@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-rockchip
-> 
+> >>> +              * Zero all the bytes that the device have not written.
+> >>> +              */
+> >>> +             memset(data + ret, 0, size - ret);
+> >>
+> >> So your new work around automatically applies to all UVC devices which
+> >> gives us a short return. I think that is both good and bad at the same
+> >> time. Good because it avoids the need to add quirks. Bad because what
+> >> if we get a short return for another reason.
+> >>
+> >> You do warn on the short return. So if we get bugs due to hitting the short
+> >> return for another reason the warning will be i the logs.
+> >>
+> >> So all in all think the good outways the bad.
+> >>
+> >> So yes this seems like a good solution.
+> >>
+> >>> +             dev_warn(&dev->udev->dev,
+> >>> +                      "UVC non compliance: %s control %u on unit %u returned %d bytes when we expected %u.\n",
+> >>> +                      uvc_query_name(query), cs, unit, ret, size);
+> >>
+> >> I do wonder if we need to use dev_warn_ratelimited()
+> >> or dev_warn_once() here though.
+> >>
+> >> If this only impacts GET_DEF/MAX/MIN we will only hit this
+> >> once per ctrl, after which the cache will be populated.
+> >>
+> >> But if GET_CUR is also affected then userspace can trigger
+> >> this warning. So in that case I think we really should use
+> >> dev_warn_once() or have a flag per ctrl to track this
+> >> and only warn once per ctrl if we want to know which
+> >> ctrls exactly are buggy.
 
+Rate-limiting won't help much, as I don't expect userspace to trigger
+this at high frequency. dev_warn_once() is the simplest option. I'm a
+bit concerned that we silently apply the workaround after the first
+occurrence, it may lead to difficult to diagnose issues in bug reports.
+A flag per control would be nice, but it's probably overkill :-/ Or
+maybe it wouldn't be that hard to implement ?
+
+> > Let me use dev_warn_once()
+> 
+> Great, thank you.
+> 
+> Re-reading this I think what would be best here is to combine
+> dev_warn_once() with a dev_dbg logging the same thing.
+
+That could be useful, but I don't expect most users would be able to
+enable dev_dbg(), so it would be of limited value in bug reports.
+
+> This way if we want the more fine grained messages for all
+> controls / all of GET_* and not just the first call we can
+> still get them by enabling the debug messages with dyndbg.
+> 
+> This combination is used for similar reasons in other places
+> of the kernel.
+> 
+> Not sure what Laurent thinks of this though, Laurent ?
+> 
+> I wonder if we need some sort of helper for this:
+> 
+> dev_warn_once_and_debug(...(
+
+That's an interesting concept :-)
+
+> >> What we really do not want is userspace repeatedly calling
+> >> VIDIOC_G_CTRL / VIDIOC_G_EXT_CTRLS resulting in a message
+> >> in dmesg every call.
+> >>
+> >>>               return 0;
+> >>> +     }
+> >>>
+> >>>       if (ret != -EPIPE) {
+> >>>               dev_err(&dev->udev->dev,
+> >>>                       "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> >>>                       uvc_query_name(query), cs, unit, ret, size);
+> >>> -             return ret < 0 ? ret : -EPIPE;
+> >>> +             return ret ? ret : -EPIPE;
+> >>
+> >> It took me a minute to wrap my brain around this and even
+> >> though I now understand this change I do not like it.
+> >>
+> >> There is no need to optimize an error-handling path like this
+> >> and IMHO the original code is much easier to read:
+> >>
+> >>                 return ret < 0 ? ret : -ESOMETHING;
+> >>
+> >> is a well known pattern to check results from functions which
+> >> return a negative errno, or the amount of bytes read, combined
+> >> with an earlier success check for ret == amount-expected .
+> >>
+> >> By changing this to:
+> >>
+> >>                 return ret ? ret : -EPIPE;
+> >>
+> >> You are breaking the pattern recognition people familiar with
+> >> this kinda code have and IMHO this is not necessary.
+> >>
+> >> Also not changing this reduces the patch-size / avoids code-churn
+> >> which also is a good thing.
+> >>
+> >> Please drop this part of the patch.
+> >
+> > ack
+
+-- 
+Regards,
+
+Laurent Pinchart
 
