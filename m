@@ -1,90 +1,214 @@
-Return-Path: <linux-media+bounces-21741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21740-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1F3C9D4C26
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 12:41:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F089C9D4C24
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 12:41:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0EB0CB21FA7
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 11:41:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 858702827E5
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 11:41:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2353C1D0F56;
-	Thu, 21 Nov 2024 11:41:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68BC71D0F4F;
+	Thu, 21 Nov 2024 11:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vdhpO3bx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender-of-o57.zoho.eu (sender-of-o57.zoho.eu [136.143.169.57])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1871C4A0F
-	for <linux-media@vger.kernel.org>; Thu, 21 Nov 2024 11:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732189304; cv=pass; b=oLHjbutljla7Otiv0ATpIpzd9DCvVnG/rANFGhAjJFE+wJonrBcwSV4IHwVnKs2qV83R3sFTcbyoexsqDEwsYjmi6JbFInnZocBgDKJzakano3MDXn6CR8gioBhYJTk7MA7iJIgGuTLGjVnYql2KGhDB4Y47AJjOYUmTbwEuHq8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732189304; c=relaxed/simple;
-	bh=w1+Vj1dIkmLMXOY2n2Lm0v77fGsaIIvIuQPKDdfIDOw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=u+LEW5kQGQzpXz627EcbAhE9Kctayff1DeKHJTb1zj5kpgeHGO84zwmBDetO6N8SbiTZdY5Z0NDtthxNdkOzLIxMQlsTOF4eJvQP7+O4AG77Yp758ffGwO+eNK2SeD2z7mnqXmed3CPKcmYRaXkWISYb3r4i+n43jmqxvRTixH0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=uvos.xyz; spf=pass smtp.mailfrom=uvos.xyz; arc=pass smtp.client-ip=136.143.169.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=uvos.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uvos.xyz
-ARC-Seal: i=1; a=rsa-sha256; t=1732189269; cv=none; 
-	d=zohomail.eu; s=zohoarc; 
-	b=TUKJA0p2dO+QehMG4BdnenUH9iWIaKCyZt56b9+8AQuFZX8YZLKy+cCgx1vcDVXTHNnzp/DI+kL1E7TaBnjQJBuXVa4Qf2hYKcPie1k8N2Vx7pCTBsQi6EoZs2+AT6MZDyiuyieGvl/Qj1jiXVeGPgbaicE9sVgl2XB+yuE5DlM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1732189269; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=w1+Vj1dIkmLMXOY2n2Lm0v77fGsaIIvIuQPKDdfIDOw=; 
-	b=diL/oFnLM/igm3IL9iACVpTm5/7oDo6b2X7k2bolmYR9GY3GJvjULHYdS87arf7zv+ZWB/W5BkU6wx+xzDtgoDCLplxpX4FcpxCH0rU3xxEOQF1UTmXoPsvQ2rxdw24EjIjyIG2/Bk3jXmeopvz8yLVu3qX2NIwVTFTp0Bg58Y0=
-ARC-Authentication-Results: i=1; mx.zohomail.eu;
-	spf=pass  smtp.mailfrom=devnull@uvos.xyz;
-	dmarc=pass header.from=<devnull@uvos.xyz>
-Received: by mx.zoho.eu with SMTPS id 173218923820461.772127192647986;
-	Thu, 21 Nov 2024 12:40:38 +0100 (CET)
-Message-ID: <1aa03cb201857f70bc46143a16465f0a08870401.camel@uvos.xyz>
-Subject: Re: [PATCH] media: staging: drop omap4iss
-From: Unknown <devnull@uvos.xyz>
-To: Andreas Kemnade <andreas@kemnade.info>, Laurent Pinchart
-	 <laurent.pinchart@ideasonboard.com>, linux-omap@vger.kernel.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Linux Media Mailing List
-	 <linux-media@vger.kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Thu, 21 Nov 2024 12:40:37 +0100
-In-Reply-To: <20241120085406.4d864c6e@akair>
-References: <815a789d-85a5-44a1-8b9c-429ac0101e3f@xs4all.nl>
-	 <20241118200025.3daab676@akair>
-	 <20241119070222.GX31681@pendragon.ideasonboard.com>
-	 <20241120085406.4d864c6e@akair>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60C73C47B;
+	Thu, 21 Nov 2024 11:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732189269; cv=none; b=KTrzqu7k7fQVZOHUIvchKso5469RxcAGt9XMFDl7kUorGlZb+YjDDbZvRJCCP0HoyRarY86HCiJ8kIpZavERCZ6x6j7DsqZXkpwZCSjaURwfXVAzgJOpMROUcN5decmDQK+4RrE6zQQaZ1T+hkwj0oqVh8IB07BGGt7q5dGpRSY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732189269; c=relaxed/simple;
+	bh=xi/MggR71byBBhUfd+bbxNTl1YfMsCSmSpm38mZB8jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZUr3f/Kqt2XotYQ7MLM85353cm/9DzFLZqh5My3KaKemKwEcmT7UiGA2QXCd+LT1rTQI+rRRdwiotN54nRo0Zza37Ma3Jh1QyeglqPDOkx4uoQebUOQMMrUVJB14zeMQDl/wuRFRf+f+VkDFg+eScYBh2p83pfL1Lgod8AkZYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vdhpO3bx; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:883a:10f2:5b4b:5292:ac46:e988])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD8C7670;
+	Thu, 21 Nov 2024 12:40:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732189241;
+	bh=xi/MggR71byBBhUfd+bbxNTl1YfMsCSmSpm38mZB8jk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vdhpO3bxhMoJIjI2CB818lo/lIp5vr7bK3M4qixh5Km/wXTVcRq31g0pcXLyflAcx
+	 I6md36cvoxsD+uagFMEDjpdi+EQ/UtT6Y3h/xO2kMeg7TiW76w+v/fXBHdHIq7E/2R
+	 ABlRLpJuVgzxjKdfN0ALEcpkKfjT3XU4nAmVXv6Q=
+Date: Thu, 21 Nov 2024 17:10:54 +0530
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: i2c: imx219: make HBLANK r/w to allow longer
+ exposures
+Message-ID: <5mpch5lokeoxbglc6n3gfugluzluguakv5udt6lflkn5qv23pk@kcllmxh5vqxm>
+References: <20241029-imx219_fixes-v1-0-b45dc3658b4e@ideasonboard.com>
+ <20241029-imx219_fixes-v1-2-b45dc3658b4e@ideasonboard.com>
+ <ZySV3KKXSyIreRI4@kekkonen.localdomain>
+ <CAPY8ntDF8W+xRBXbe=LYpg21LL7-svhCySTSJHRNiDzQs4Xw5Q@mail.gmail.com>
+ <Zy3oKnHBiGOq8Uoj@kekkonen.localdomain>
+ <CAPY8ntD4Q4f5fSC+xW=j-5T38_Zb5x7pGQM4RYVzrz+NJMGtUQ@mail.gmail.com>
+ <ZzMytF509nZ8CYGZ@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="f6h4uy35r7yjlhco"
+Content-Disposition: inline
+In-Reply-To: <ZzMytF509nZ8CYGZ@kekkonen.localdomain>
 
 
-Hi,
+--f6h4uy35r7yjlhco
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/3] media: i2c: imx219: make HBLANK r/w to allow longer
+ exposures
+MIME-Version: 1.0
 
-> BT200 has a camera without mainline sensor driver.
-> Droid4 has also a camera. What is the status of the sensor driver?
-> What about the samsung-espresso tablets? And the xyboards?
+Hi Sakari, Dave,
 
-Same as your device droid4 and xyboard handle the camera via m3
-firmware.
-The droid 4's rear camera is totaly unkown with no datasheed or open
-source driver known to exist.
-The front camera has avaialble datasheed and out of tree driver.
-The xyboards cary the same sensor as the d4's rear module.
+On Nov 12, 2024 at 10:49:24 +0000, Sakari Ailus wrote:
+> Hi Dave,
+>=20
+> On Mon, Nov 11, 2024 at 07:37:56PM +0000, Dave Stevenson wrote:
+> > Hi Sakari
+> >=20
+> > On Fri, 8 Nov 2024 at 10:30, Sakari Ailus <sakari.ailus@linux.intel.com=
+> wrote:
+> > >
+> > > Hi Dave,
+> > >
+> > > On Thu, Nov 07, 2024 at 12:43:52PM +0000, Dave Stevenson wrote:
+> > > > Hi Sakari
+> > > >
+> > > > On Fri, 1 Nov 2024 at 08:48, Sakari Ailus <sakari.ailus@linux.intel=
+=2Ecom> wrote:
+> > > > >
+> > > > > Hi Jai,
+> > > > >
+> > > > > On Tue, Oct 29, 2024 at 02:27:36PM +0530, Jai Luthra wrote:
+> > > > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > > >
+> > > > > > The HBLANK control was read-only, and always configured such
+> > > > > > that the sensor HTS register was 3448. This limited the maximum
+> > > > > > exposure time that could be achieved to around 1.26 secs.
+> > > > > >
+> > > > > > Make HBLANK read/write so that the line time can be extended,
+> > > > > > and thereby allow longer exposures (and slower frame rates).
+> > > > > > Retain the overall HTS setting when changing modes rather than
+> > > > > > resetting it to a default.
+> > > > >
+> > > > > It looks like this changes horizontal blanking at least in some c=
+ases. Does
+> > > > > this also work as expected in binned modes, for instance?
+> > > > >
+> > > > > Many sensors have image quality related issues on untested albeit
+> > > > > functional line length values.
+> > > > >
+> > > > > So my question is: how has this been validated?
+> > > >
+> > > > Validated by Sony, or others?
+> > > > I've tested a range of values in all modes and not observed any ima=
+ge
+> > > > quality issues.
+> > >
+> > > Somehow at least. :-)
+> > >
+> > > >
+> > > > From previous discussions with Sony, they always provide their big
+> > > > spreadsheet of register values for the specific mode and frame rate
+> > > > requested. I don't think they even officially state that changing
+> > > > VTS/FRM_LENGTH_LINES to change the framerate is permitted.
+> > > > There are some Sony datasheets (eg imx258) that state "set to X. Any
+> > > > other value please confirm with Sony", but that isn't the case for =
+the
+> > > > imx219 datasheet. I take that as it is permitted within the defined
+> > > > ranges.
+> > >
+> > > I'm not that much concerned of vertical blanking, changing that withi=
+n the
+> > > valid range has effects on the image itself very seldom. Horizontal
+> > > blanking is different though and this is what the patch makes changea=
+ble,
+> > > including a change in the default value. Of course there are big
+> > > differences between sensors here.
+> >=20
+> > The intention was that the default value shouldn't change, and as the
+> > overall PIXELS_PER_LINE value was meant to be retained on a mode
+> > change the value used should only change if an application changes
+> > V4L2_CID_HBLANK. If I blundered in the implementation of that, then
+> > that should be fixed (I know Jacopo made comments, but I haven't had a
+> > chance to investigate).
+>=20
+> I guess I misread the patch. It indeed should be the same.
+>=20
+> >=20
+> > I doubt we'd get validation from Sony beyond the contents of the
+> > datasheet. Potentially as the sensor is so old they don't have the
+> > information or engineers involved.
+> > I'm happy to set up a test system and capture a set of images with
+> > HBLANK from min to max at some increment. With the same exposure and
+> > gain they should all be identical as long as there isn't any movement
+> > (rolling shutter with longer readout times and all that). Would that
+> > be satisfactory?
+>=20
+> Sounds good to me. I just thought how it actually had been tested. :-)
+>=20
 
-We (maemo leste, a distro that has put considerable effort into
-bringing up the droid 4, droid bionic and xyboard) do hope to
-eventually bring up the front camera on the droid, as all the
-componants for this are floating around, but are currenly not working
-on this issue.
+While not a thorough test, I manually tested with different values for=20
+horizontal_blanking for both binned and non-binned modes, and the image=20
+quality looked okay, with expected behaviour (i.e. increase in exposure=20
+and decrease in frame rate as total pixels per line increase)
 
-regards,
-Carl
+I will send a v2 of this series with all the fixes.
+
+> >=20
+> > For contrast, the IMX290 datasheet states that VMAX shall be fixed at
+> > 0x465 for all-pixel mode / 0x2ee for 720p mode, and HMAX should be
+> > changed for frame rate control. As you say, sensors differ.
+>=20
+> --=20
+> Kind regards,
+>=20
+> Sakari Ailus
+
+--=20
+Thanks,
+Jai
+
+GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
+
+--f6h4uy35r7yjlhco
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmc/HEUACgkQQ96R+SSa
+cUXPLw//fe9WYR5bMfP4AM5Xw6J8HAEV2Q2cRsmDbTa3lpwTrRVFZPX8+gJv7VMA
+EVjTtgSA559f6kgdeRra1/IkTHM1VNtcSQSdM9KnGyj3AvrDZ4yIc5utjrATqgY8
+BDvYy6EcZHvX/gpPvP2QFATlaHQumDLF7eOFGSOVIQB7XDjRx585yVkoTlnzyekl
+/lQEPqhDErO/X7Evm1tdlg4grfHiim81cVrjMfzXC6qSv4Xf7R/DHwHlKK3xVqoR
+7sJdB5mnvqwVuJMDC9unwoB2Xe58FtUMk78n7DRid0D/gS5CPOiDSl5HKgjYqZgE
+wrVSDAMH25eLX/3bgh9g6+xBRiTx58WWQ6Lj3+IRKK7kpp+aBgIMBfNIvxWN6+2z
+ZWXoyOFAD8Uih72szt2VV0FcXY5LNvDyzQR9uot5TVgDA7wwjJRqmlrzcaoByfjt
+5fOJIvx2bFYDiFgGXTIhxGwIs0ud+n/0nbIK7+aaP481/Mz8mC0y7vscaQBrgEtc
+C4kloczFx49zB5nattkCc0NnQgAl6LR+gASd2fN5C31Ul10hCjBsLArBWUoAwYNu
+H3rERJHPUDV+2i/7Js2Yya5jrh5YTiLnT9Sao76NklR9RF1AXMuw6Oc7RT+tWcpQ
+ahC3dS+fxQw4yqKAeuLeVxRM2KWVWJ2JMhgCtVQvrtvyufL84HM=
+=HEEJ
+-----END PGP SIGNATURE-----
+
+--f6h4uy35r7yjlhco--
 
