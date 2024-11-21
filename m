@@ -1,113 +1,199 @@
-Return-Path: <linux-media+bounces-21771-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21772-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659229D509D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 17:21:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 033FD9D50E2
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 17:47:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 122BB1F221E7
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 16:21:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD75A1F22DC2
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 16:47:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAB8117C210;
-	Thu, 21 Nov 2024 16:21:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65F391A3BDE;
+	Thu, 21 Nov 2024 16:46:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="AbtmlJqI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iFh96vCd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B71315887C;
-	Thu, 21 Nov 2024 16:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23223155CBF
+	for <linux-media@vger.kernel.org>; Thu, 21 Nov 2024 16:46:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732206087; cv=none; b=hZKCC01pOdxXzpX7C6IB95Exvokb3vN272c297V/fwXCNL2fG73V7uADxV8M+7qWd4828eCyOWBU8tmtFnU/IEAILXNV84TeRdkYfn55SXFQ6Vu3epV7hxx5XdkfLdL31aT2C/SZupSXD4MjeLPOrC8xSG3T4EUr6+VSMN70nFg=
+	t=1732207617; cv=none; b=RzyRgVRPFWEN1VLK8JnI3MxhzkPhcVkCt2U7lsDYkGMRa+3SPV4dF2AKeMcvbmd2samlV8N9M/LGvI1juE3e6yzMeEWz8F4T5jxQMVEcG5LX4aw+RbyLCAT+vsKfXAsFqh5OLArl3ljfCcaiMuy4Ipgsd1M2QUDoLETDotdTvrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732206087; c=relaxed/simple;
-	bh=dS8zJ7iQ/UYV1gaG03zDF6XXEZ1Xtpdd1Bh+TQ3XWJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GXIDY/IB3PPq1DGB/EAl5TYDslQSl5/2kksMgA0TKjX2kSWqlN5cMH4gBPJmuYo1f8w7YzfA8pTWdZZhKjgy83oZIyhFdF7Hh57tz3k138sxtZ7mqUcRNKMl3haZ4LBJT/x2nVt3da9cdIzswq8e/ujKCG4T/qnGOxQwD88sGVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=AbtmlJqI; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=NvDE7O0jjICDQ9NrhZJeIIgFCkvS28y0b4rNX6BWUCA=; b=AbtmlJqIe7tJsI5mRzO2cAJ6KV
-	vJu4D40Dayz+7BGCvugfo9xRKtq/90f8bl7ws4NTXiPy6sHid8uMcqiYXqZdQqhQ99SW3nu8UiMxq
-	y8MdfkoyWH7gJxLOPLGH86MXRSSlGDABmV/aLv3YLkW+C56LTMqLjEFS6C1j3mRtqDl5gDxreQD/k
-	ddjPCITZynOteD/l+GZq2GJFKAGh7vynA0KwAPu/liXHVMYGnMJqsfe4YP4ytBmsfn0AwgfFiAYPW
-	YbtMhwZvLCievlGjW+xQzUlcNiNP0ycclkL3aMCqsipl6tqwRyVdGFydykulkMgnFjUHcmY3XM1QN
-	4+r8vDOQ==;
-Date: Thu, 21 Nov 2024 17:21:19 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Unknown <devnull@uvos.xyz>
-Cc: Laurent Pinchart  <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, Linux Media
- Mailing List  <linux-media@vger.kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH] media: staging: drop omap4iss
-Message-ID: <20241121172119.4b46727e@akair>
-In-Reply-To: <1aa03cb201857f70bc46143a16465f0a08870401.camel@uvos.xyz>
-References: <815a789d-85a5-44a1-8b9c-429ac0101e3f@xs4all.nl>
-	<20241118200025.3daab676@akair>
-	<20241119070222.GX31681@pendragon.ideasonboard.com>
-	<20241120085406.4d864c6e@akair>
-	<1aa03cb201857f70bc46143a16465f0a08870401.camel@uvos.xyz>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1732207617; c=relaxed/simple;
+	bh=PyjjZI02YzbYjL9W8x7RvzEdUqO6OLfHa53+vMq0460=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QLeNIs8YtCG0eWuulqjT5mM7ME8UPLx6IYBZ4cTJRJT972DlXJpNy/5Y9jnpaHSDvlDzjsb1Zzevo0Gd/UIvAQ7BUv5qXiBgYQtWqKlzsiq1RTfH/+0kDRJcBK4qA/2PBeVaEbb+eQOTuUK2pWop/pKS9fss3/XvOeogaj98Wyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iFh96vCd; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732207616; x=1763743616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PyjjZI02YzbYjL9W8x7RvzEdUqO6OLfHa53+vMq0460=;
+  b=iFh96vCdY+C8mmUxWRbgpprJW2Dwt7gRIgNNNc32f8WU/hxkV0RlyuMO
+   WhcHWTQQR5E8pfwQNX/Pe4HuhYmFIPhJUt9TL0AH+9Oyz+oQSYUQFNOa2
+   zIHIOi06ifUdOboqm62w8il+xw4m9gV1maaxTu8OI5VZtgOqFZ0y90mK+
+   eaNwkzGS56OVOdD+EInrWK6lag+dLybSCDHaRRdEDF+X3s9HohsOdpLV0
+   62xV9WVAifyWms0q9i67JHCPi4NNCxWDuAwe/O2PkujbeRBDW2bAaWaTV
+   t6nhjUryZniV14F4QM+DXNeWNFUwoRVy9K6FIBUift5oI8ndQhRGEn8sv
+   w==;
+X-CSE-ConnectionGUID: ZdEKTRXhQyWIJx4vz9qWow==
+X-CSE-MsgGUID: 7xcFLsAcS9iK8vT1LG+AZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32480861"
+X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
+   d="scan'208";a="32480861"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 08:46:56 -0800
+X-CSE-ConnectionGUID: VLYNKIQ2RomFbwiOeZ/sng==
+X-CSE-MsgGUID: kx46xl1QTMiTYGqSuYJiCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
+   d="scan'208";a="121178687"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 08:46:54 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0AF6911F775;
+	Thu, 21 Nov 2024 18:46:51 +0200 (EET)
+Date: Thu, 21 Nov 2024 16:46:50 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	jacopo.mondi@ideasonboard.com,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 1/4] media: v4l2: Add Renesas Camera Receiver Unit
+ pixel formats
+Message-ID: <Zz9j-u2MDsPqvLyy@kekkonen.localdomain>
+References: <20241112124614.646281-1-dan.scally@ideasonboard.com>
+ <20241112124614.646281-2-dan.scally@ideasonboard.com>
+ <20241112175309.GB24067@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241112175309.GB24067@pendragon.ideasonboard.com>
 
-Am Thu, 21 Nov 2024 12:40:37 +0100
-schrieb Unknown <devnull@uvos.xyz>:
+Hi Laurent, Dan,
 
-> Hi,
+On Tue, Nov 12, 2024 at 07:53:09PM +0200, Laurent Pinchart wrote:
+> Hi Dan,
 > 
-> > BT200 has a camera without mainline sensor driver.
-> > Droid4 has also a camera. What is the status of the sensor driver?
-> > What about the samsung-espresso tablets? And the xyboards?  
+> Thank you for the patch.
 > 
-> Same as your device droid4 and xyboard handle the camera via m3
-> firmware.
-> The droid 4's rear camera is totaly unkown with no datasheed or open
-> source driver known to exist.
-
-that page suggests that there is an open source driver for the
-rear camera:
-
-https://elektranox.org/2018/02/0025-droid-camera/
-
-Quoting:
-https://searchcode.com/file/50297519/drivers/media/video/msm/sensors/ov8820_v4l2.c
-
-BTW:
-Bt200 has OV7692
-
-> The front camera has avaialble datasheed and out of tree driver.
-> The xyboards cary the same sensor as the d4's rear module.
+> On Tue, Nov 12, 2024 at 12:46:11PM +0000, Daniel Scally wrote:
+> > From: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> > 
+> > The Renesas Camera Receiver Unit in the RZ/V2H SoC can output RAW
+> > data captured from an image sensor without conversion to an RGB/YUV
+> > format. In that case the data are packed into 64-bit blocks, with a
+> > variable amount of padding in the most significant bits depending on
+> > the bitdepth of the data. Add new V4L2 pixel format codes for the new
+> > formats, along with documentation to describe them.
+> > 
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > Signed-off-by: Daniel Scally <dan.scally+renesas@ideasonboard.com>
+> > ---
+> > Changes in v2:
+> > 
+> > 	- Added labels to the new formats in the documentation file
+> > 	- Added 20-bit formats
+> > 
+> >  .../userspace-api/media/v4l/pixfmt-bayer.rst  |   1 +
+> >  .../media/v4l/pixfmt-srggbnn-cru.rst          | 168 ++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-common.c         |  16 ++
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |  16 ++
+> >  include/uapi/linux/videodev2.h                |  21 +++
+> >  5 files changed, 222 insertions(+)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-srggbnn-cru.rst
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > index ed3eb432967d..658068364ea1 100644
+> > --- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> > @@ -31,3 +31,4 @@ orders. See also `the Wikipedia article on Bayer filter
+> >      pixfmt-srggb14
+> >      pixfmt-srggb14p
+> >      pixfmt-srggb16
+> > +    pixfmt-srggbnn-cru
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggbnn-cru.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggbnn-cru.rst
+> > new file mode 100644
+> > index 000000000000..ee2a72eb05fb
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-srggbnn-cru.rst
+> > @@ -0,0 +1,168 @@
+> > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> > +
+> > +.. _v4l2-pix-fmt-cru-sbggr10:
+> > +.. _v4l2-pix-fmt-cru-sgbrg10:
+> > +.. _v4l2-pix-fmt-cru-sgrbg10:
+> > +.. _v4l2-pix-fmt-cru-srggb10:
+> > +.. _v4l2-pix-fmt-cru-sbggr12:
+> > +.. _v4l2-pix-fmt-cru-sgbrg12:
+> > +.. _v4l2-pix-fmt-cru-sgrbg12:
+> > +.. _v4l2-pix-fmt-cru-srggb12:
+> > +.. _v4l2-pix-fmt-cru-sbggr14:
+> > +.. _v4l2-pix-fmt-cru-sgbrg14:
+> > +.. _v4l2-pix-fmt-cru-sgrbg14:
+> > +.. _v4l2-pix-fmt-cru-srggb14:
+> > +.. _v4l2-pix-fmt-cru-sbggr20:
+> > +.. _v4l2-pix-fmt-cru-sgbrg20:
+> > +.. _v4l2-pix-fmt-cru-sgrbg20:
+> > +.. _v4l2-pix-fmt-cru-srggb20:
+> > +
+> > +******************************************************************************************************************************************
+> > +V4L2_PIX_FMT_CRU_SBGGRnn ('CnnB'), V4L2_PIX_FMT_CRU_SGBRGnn ('CnnG'), V4L2_PIX_FMT_CRU_SGRBGnn ('Cnng'), V4L2_PIX_FMT_CRU_SRGGBnn ('CnnR')
+> > +******************************************************************************************************************************************
+> > +
+> > +===============================================================
+> > +Renesas RZ/V2H Camera Receiver Unit 64-bit packed pixel formats
+> > +===============================================================
+> > +
+> > +| V4L2_PIX_FMT_CRU_SBGGR10 (C10B)
+> > +| V4L2_PIX_FMT_CRU_SGBRG10 (C10G)
+> > +| V4L2_PIX_FMT_CRU_SGRBG10 (C10g)
+> > +| V4L2_PIX_FMT_CRU_SRGGB10 (C10R)
+> > +| V4L2_PIX_FMT_CRU_SBGGR12 (C12B)
+> > +| V4L2_PIX_FMT_CRU_SGBRG12 (C12G)
+> > +| V4L2_PIX_FMT_CRU_SGRBG12 (C12g)
+> > +| V4L2_PIX_FMT_CRU_SRGGB12 (C12R)
+> > +| V4L2_PIX_FMT_CRU_SBGGR14 (C14B)
+> > +| V4L2_PIX_FMT_CRU_SGBRG14 (C14G)
+> > +| V4L2_PIX_FMT_CRU_SGRBG14 (C14g)
+> > +| V4L2_PIX_FMT_CRU_SRGGB14 (C14R)
+> > +| V4L2_PIX_FMT_CRU_SBGGR20 (C20B)
+> > +| V4L2_PIX_FMT_CRU_SGBRG20 (C20G)
+> > +| V4L2_PIX_FMT_CRU_SGRBG20 (C20g)
+> > +| V4L2_PIX_FMT_CRU_SRGGB20 (C20R)
 > 
-> We (maemo leste, a distro that has put considerable effort into
-> bringing up the droid 4, droid bionic and xyboard) do hope to
-> eventually bring up the front camera on the droid, as all the
-> componants for this are floating around, but are currenly not working
-> on this issue.
+> That's a long list of pixel formats. Is it time to byte the bullet and
+> stop encoding the CFA pattern in the pixel formats ? Userspace can
+> retrieve the information from the media bus code on the source. You can
+> then slash the number of new pixel formats by a factor of 4, defining
+> V4L2_PIX_FMT_CRU_RAW10, V4L2_PIX_FMT_CRU_RAW12, V4L2_PIX_FMT_CRU_RAW14
+> and V4L2_PIX_FMT_CRU_RAW20. Those formats would also be applicable to
+> monochrome raw data.
 > 
-So summary:
-there are potential real users of omap4-iss. Apparently all of them
-require besides a working a omap4-iss to work on some sensor driver to
-have something useful.
+> Sakari, any opinion ?
 
-If omap4-iss would be known-working there are probably better chances
-that more jump in.
+I'd be in favour of that approach, yes. We can introduce the corresponding
+media bus codes later on, that's a separate issue but the same approach
+should be used there, too.
 
-Regards,
-Andreas
+-- 
+Kind regards,
+
+Sakari Ailus
 
