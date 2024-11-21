@@ -1,169 +1,168 @@
-Return-Path: <linux-media+bounces-21759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21760-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8899D4DB2
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 14:23:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 533909D4DCD
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 14:32:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AA2C281A2D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 13:23:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 996C6B21B09
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 13:32:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF89E1DA0EB;
-	Thu, 21 Nov 2024 13:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BBA41D79B7;
+	Thu, 21 Nov 2024 13:32:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Tc1cyOr+"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="q4Anmx+4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2065.outbound.protection.outlook.com [40.107.244.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7484D1369B4;
-	Thu, 21 Nov 2024 13:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732195342; cv=none; b=AigJ/u3jwZXb/zB96fOYyXvgIX+GsDFfGmkJrPTuIMPvHw3G4fKIUESjyRcW0340UUHppkK5HLGqBTvkZkIDjZNDKbpHXwbtO2/SrbUmfO6TQW7rINJkaps9q6hUXvUW6N7GmpxKxRYr57xRzTsALq/DDld3B/6vgSD7hWF8Kr4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732195342; c=relaxed/simple;
-	bh=zbdukW4RpLswW9YTA97O9YCIAl884Cwl+rmhWUanKGQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o9Gn7rxpLw24l/RraggWu5HL2SkJgog+MDrbFBJSZ8kW4/G6bG0LVDTwFw27IkBNRnoJDMbEE/ocdgbrb4TiYzTnAFgyyaTwLryH+PYIJHpK5CX6qgafCsSg6qT8JaEIcrOZo5lZiSVH3Yygc0yLjbCje29E/BGHn4wfe+Lwyfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Tc1cyOr+; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALAlClX018947;
-	Thu, 21 Nov 2024 14:21:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	oT58q45BHt1UL79xkKrgV9Ac9/94VjkagOmgL19rZm4=; b=Tc1cyOr+kEQ8YxTp
-	HvoE/Td6C19fL1PZqQlSY+e71y0kKXOPqibppW2GJHsaSO+ziXj7M0Uc0AvR1rIh
-	ckChbsoEMf11DuIJ7UT52+JQxHiSZubdAJok4pYh3zm9M0N0nUTrquHnuYnSStlg
-	rfPh9ipFADBeGN/Q17/r+KR7F19kM59gUt9W+PBKIOszH11q3wVdO5+VPW7kDi/u
-	vgU6HYVFyCOpl7MR06UEUC/koeIXg/Dd6v+wBovhnpB405TvPSxbjzTeLCwYa6cp
-	Tg8KlbL+JeBcsHZXLmjBxConU+kgwSyX3R/DsKkUILH9RGNzNmvf2LxLXvAWQ+Rf
-	Ob/LYA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42y77nmea9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 14:21:59 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 22AB24004B;
-	Thu, 21 Nov 2024 14:20:19 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5B4972843D6;
-	Thu, 21 Nov 2024 14:19:09 +0100 (CET)
-Received: from localhost (10.48.86.208) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 21 Nov
- 2024 14:19:09 +0100
-From: Hugues Fruchet <hugues.fruchet@foss.st.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia
-	<ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Hugues Fruchet
-	<hugues.fruchet@foss.st.com>,
-        Sebastian Fricke
-	<sebastian.fricke@collabora.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Erling Ljunggren <hljunggr@cisco.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        Benjamin
- Gaignard <benjamin.gaignard@collabora.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v3 3/3] media: verisilicon: postproc: 4K support
-Date: Thu, 21 Nov 2024 14:19:04 +0100
-Message-ID: <20241121131904.261230-4-hugues.fruchet@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
-References: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB691D04A0;
+	Thu, 21 Nov 2024 13:32:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732195953; cv=fail; b=aBg4stjqL1+mnC0id5GfW6HHyNZWJZmTFmgGzgtRogxujXJgMn5IB7iu7Tsv/LJ85tmdUsjCMWj46qSJqpiOZRbjOc7AEjbLoQsowOYqHQUu+f0aPk4B+yqTMPOpeOZB8weSTLwdJV9hCHyzG+F2vtg97xH0TN8/Hy3jc87cGek=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732195953; c=relaxed/simple;
+	bh=qFLmQK7y8E8sYeUmEaYNTyTkDZpwv1WjSNMkXBUWNBA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sQMQZGkjR/cUgSRVPQnjyoOO0lDVyPVZV1+RAE3TBVCqUyGuX4HWcZWoCwV8wfrcRS9MxHcZExzDEL+NJEbP52D63w1+FgvAiqjMiefZg4KmM+KnBNrwlhoI20ihHyGGoXZ8HYkznnCA+kfg5qxcqvQ5ls/h6vCz9JEBKu2gYsw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=q4Anmx+4; arc=fail smtp.client-ip=40.107.244.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K2UF1/WDDQlplCuXefFtdPmUsx1qjJPs3yEPKibu4xjN6l6gZb4fQNVIxS4unn/QSmILfCqklbdQ9Xb95qwLpYd54DNHthfo9cvz1jRbFTbCdLYd1GM/A2bWQJFbPF268R5QtvXAH1jmdB43CDn1AwZNH3iY4oSJ25pEaYk5XWN82Hwj9MAjDO+5hYxMn145qqeEeFe3wLsizs3WNZlQMspV9wDJ/q+zSysfVjrpNNGvbs+XKDuAJ2XTI8PFN/8Sa1ItkdX69voWwTbIjZuvdPtCdngnlr2IkqwpyypVk/wQgbJ3vuEIYSeiZ0uq4IRMFinYvCISdO6co535Xvq2Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X02t/7gsuBe8uNrXE/l18VC/SvTBR+TZG+Ewz5SjFUY=;
+ b=HEEscs9c6NFMfrqKkaUbQ94LNSDPOjEdQ+r7GXSus85mSaL2UpMNQ/uE0npB5Ay2haWkFFab9P1qhF02HOLLfh3cdtSk8ls/+nMiu2Y9VmFeAmCRYZqBS1zr/4DHu4cyD1/nBeke2STAT+Xbe/aJ4tBv3m4GW4M8cDigERZDktJSBFhyJT6wK7aCnCKJkfPw8FnYOrUbhEae5vVQZn+SB0JgwvEWdk7+NjZ6hVqcacBeDoAAuHpWLdUq09yZ5fjeKo+V/xpqBcv4wG31JQZeDRAfu15bUALmHJvzeLePSkKRfkJJVh3WaovFrQAhAFJvCSWdOPkvcM0k80mtRd0Lng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.12) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X02t/7gsuBe8uNrXE/l18VC/SvTBR+TZG+Ewz5SjFUY=;
+ b=q4Anmx+4O0519tVEvdVfoenODntVb3Z3B6Fqu2C2YLxMfuPbBiDrfgjV9TuNvdruyhVJTaTWGeoAjcxOv1XPTATXSBgkhqHWBrvgyWtA5XhqU0T2OBE6SqznkOuTKKuIuEM/IBOhzoPDi2Oip+1hgwqraTgM5GbphOaOKEI6iw8=
+Received: from BL1P223CA0028.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:2c4::33)
+ by DM4PR12MB6661.namprd12.prod.outlook.com (2603:10b6:8:b7::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8182.15; Thu, 21 Nov 2024 13:32:28 +0000
+Received: from BL02EPF0001A100.namprd03.prod.outlook.com
+ (2603:10b6:208:2c4:cafe::16) by BL1P223CA0028.outlook.office365.com
+ (2603:10b6:208:2c4::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.24 via Frontend
+ Transport; Thu, 21 Nov 2024 13:32:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.12)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.12 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.12; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.12) by
+ BL02EPF0001A100.mail.protection.outlook.com (10.167.242.107) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8182.16 via Frontend Transport; Thu, 21 Nov 2024 13:32:28 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Nov
+ 2024 07:32:23 -0600
+From: Michal Simek <michal.simek@amd.com>
+To: <linux-kernel@vger.kernel.org>, <monstr@monstr.eu>,
+	<michal.simek@xilinx.com>, <git@xilinx.com>
+CC: Sam Bobrowicz <sam@elite-embedded.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, "Steve
+ Longerbeam" <slongerbeam@gmail.com>, "open list:V4L2 CAMERA SENSOR DRIVERS"
+	<linux-media@vger.kernel.org>
+Subject: [PATCH] media: ov5640: fix get_light_freq on auto
+Date: Thu, 21 Nov 2024 14:32:16 +0100
+Message-ID: <cb9f8aca1f07472d4c794cc66ebbde1977ee9e95.1732195934.git.michal.simek@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=647; i=michal.simek@amd.com; h=from:subject:message-id; bh=Nc3NuthoJzeCmobD4j0IPQ6JUSuMgH5T2onLJIuUlgQ=; b=owGbwMvMwCR4yjP1tKYXjyLjabUkhnR7s0R+m/eaohG6jMkMC6MNIrZ4MbEoexll+vi7yMjtO D6FWb0jloVBkIlBVkyRRdrmypm9lTOmCF88LAczh5UJZAgDF6cATOT9TYb5jnnuDyUizu/bZ2S9 9pOdsYxU2akNDPMd1ukyd592UHrwI0TpzR/LA2c7zwsCAA==
+X-Developer-Key: i=michal.simek@amd.com; a=openpgp; fpr=67350C9BF5CCEE9B5364356A377C7F21FE3D1F91
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A100:EE_|DM4PR12MB6661:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7269e849-5591-48d8-1269-08dd0a30f19e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?hiNUWXSS9U1/H/4yez98SWoZI2RDZbVTkCOmQPAKCYBgDolicyyLrADjDO9d?=
+ =?us-ascii?Q?IdxjrsMlA7zbbLGFitgO953Cx7z+h7yuNHp8DqDH5CwK+cIY3il1jn5/4cxR?=
+ =?us-ascii?Q?3ScD9mH/+kHG1972Bq13hT4aVcMOXq4EzMcNklEPy3gXV+etRCJiERrGfCZ8?=
+ =?us-ascii?Q?VmxP4bChWnu9bFMRAXP+WbMEXWJMdvOXPpEQBoVvH83zXfdnAMI9VL7xUAkj?=
+ =?us-ascii?Q?8XQBTEyteRFMS/8vOoaxjgp8dYSYuBP0w7emZ1gbRPeEJe5lMBA+AmAPn9um?=
+ =?us-ascii?Q?lA/N0WAu+PJEZyE+vlmRbjqFOUv0erjhZBwTOyUXxnw4NGVeMX6TQ1szs+1E?=
+ =?us-ascii?Q?wujChiFEUTq4/58tzufDlAO6L8sDPTilJ+QNN8fT3IGVSSCWJ2A11mp/S00u?=
+ =?us-ascii?Q?rJ7s6hePgpz96tSsdTfoKCpbmxNyzEb55Fthc336Oro6/WTynLSLbIWDDi5l?=
+ =?us-ascii?Q?j51LTYB+BrNZEruaBGcEso7tsGjqYQ9daUqaRVeh58IpOfUiEn54geOjTxN7?=
+ =?us-ascii?Q?KSDB3pl5NHpoA5Wm0m2ELzSRYB67fxWsWIKO69ag5veFrMh+7aZ8G3/80sbD?=
+ =?us-ascii?Q?PJHEffhHEo8GkpxicwjWFHc/nBPpVHTBFU8D7mUrOQ8xEZHQZW79FWtAXoSt?=
+ =?us-ascii?Q?+XOV1jbax/wP/gbNJfGwlbft//VCBGF/eia84Gw0pn2/wwQEwvU9wNptqqzm?=
+ =?us-ascii?Q?Z4hfFD3NnhBXdlKrblR1S0Q0r4AX0lOV4fN/uk2i/Ia6LgFEMnb8YWAwEHEY?=
+ =?us-ascii?Q?TYQ2JAlgtad7eNXWb55pTEjwL2ih6AmLqZFYA+gA1fzb1uuCgOp/e2Tn4By+?=
+ =?us-ascii?Q?0dXXZMj/3BRjNrgVncJy/xdh/T2WpPVhXjUFB2CgF8bB9zwWdPdhIzkVhRtV?=
+ =?us-ascii?Q?uBF/03U4ToE/GEkVE9beuGqPKt8fNITqF9JPsQBFhNaJEq/eUbg7yXbG3+LB?=
+ =?us-ascii?Q?aVoYE3f8P7QjZp8NyKemZcPpH2ImdExco9S/h5je7BmFUbJtQMm1A1bjn/xN?=
+ =?us-ascii?Q?EctWsM4lDcR8bv3viCp6OjgHmQ8wC6MAYIbHG3CtW71kdSX8FmuJvVp8jDtF?=
+ =?us-ascii?Q?bj04rIiyVfD48Bs3j/cVodelF+AJkLDumjo53Gsv8qcsBYE1GI9AbHfDaSau?=
+ =?us-ascii?Q?WcB+dnWddKq2K7698YYmy+g9S8D6pF+JF7hurBS1tyczLNvAY9NcEPXktMwL?=
+ =?us-ascii?Q?Ue6qW5V7SG1Lf9LkuVRDuLk+DKBfHUCedL2oYkQwUJgXRxPEM7lVl5U0iJ6q?=
+ =?us-ascii?Q?x7z1ynCJpCB0MPzsdvkXrXUGRFdBkDExaPJ37/fomzMbMYkmNDcMq0aYKkkx?=
+ =?us-ascii?Q?94WBSiObwv2J0UvgpzFT4LtkF4+U0B3+STNa0s4VgtWohKt7WtxusEehq972?=
+ =?us-ascii?Q?R6nwOZ1IwLrFttzFyMZ43ZH0EIa//sN2vKYKSUM9P77HLyQtpg=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.12;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:atlvpn-bp.amd.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2024 13:32:28.4229
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7269e849-5591-48d8-1269-08dd0a30f19e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.12];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0001A100.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6661
 
-Support input larger than 4096x2048 using extended input width/height
-fields of swreg92.
-This is needed to decode large WebP or JPEG pictures.
+From: Sam Bobrowicz <sam@elite-embedded.com>
 
-Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+Light frequency was not properly returned when in auto
+mode and the detected frequency was 60Hz.
+
+Signed-off-by: Sam Bobrowicz <sam@elite-embedded.com>
+Signed-off-by: Michal Simek <michal.simek@amd.com>
 ---
- drivers/media/platform/verisilicon/hantro.h          | 2 ++
- drivers/media/platform/verisilicon/hantro_g1_regs.h  | 2 +-
- drivers/media/platform/verisilicon/hantro_postproc.c | 6 +++++-
- 3 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index 811260dc3c77..d1337f7742e4 100644
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -321,6 +321,8 @@ struct hantro_postproc_regs {
- 	struct hantro_reg output_fmt;
- 	struct hantro_reg orig_width;
- 	struct hantro_reg display_width;
-+	struct hantro_reg input_width_ext;
-+	struct hantro_reg input_height_ext;
- };
+ drivers/media/i2c/ov5640.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index c1d3fce4a7d3..8566bc2edde9 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -1982,6 +1982,7 @@ static int ov5640_get_light_freq(struct ov5640_dev *sensor)
+ 			light_freq = 50;
+ 		} else {
+ 			/* 60Hz */
++			light_freq = 60;
+ 		}
+ 	}
  
- struct hantro_vp9_decoded_buffer_info {
-diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h b/drivers/media/platform/verisilicon/hantro_g1_regs.h
-index e7d4db788e57..f6e5bbeb1914 100644
---- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
-+++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
-@@ -351,7 +351,7 @@
- #define     G1_REG_PP_CONTROL_OUT_WIDTH(v) (((v) << 4) & GENMASK(14, 4))
- #define G1_REG_PP_MASK1_ORIG_WIDTH	G1_SWREG(88)
- #define     G1_REG_PP_ORIG_WIDTH(v)	(((v) << 23) & GENMASK(31, 23))
--#define G1_REG_PP_DISPLAY_WIDTH		G1_SWREG(92)
-+#define G1_REG_PP_DISPLAY_WIDTH_IN_EXT	G1_SWREG(92)
- #define G1_REG_PP_FUSE			G1_SWREG(99)
- 
- #endif /* HANTRO_G1_REGS_H_ */
-diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
-index 232c93eea7ee..84c8e287470d 100644
---- a/drivers/media/platform/verisilicon/hantro_postproc.c
-+++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-@@ -49,7 +49,9 @@ static const struct hantro_postproc_regs hantro_g1_postproc_regs = {
- 	.input_fmt = {G1_REG_PP_CONTROL, 29, 0x7},
- 	.output_fmt = {G1_REG_PP_CONTROL, 26, 0x7},
- 	.orig_width = {G1_REG_PP_MASK1_ORIG_WIDTH, 23, 0x1ff},
--	.display_width = {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
-+	.display_width = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 0, 0xfff},
-+	.input_width_ext = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 26, 0x7},
-+	.input_height_ext = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 29, 0x7},
- };
- 
- bool hantro_needs_postproc(const struct hantro_ctx *ctx,
-@@ -103,6 +105,8 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
- 	HANTRO_PP_REG_WRITE(vpu, output_height, ctx->dst_fmt.height);
- 	HANTRO_PP_REG_WRITE(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width));
- 	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
-+	HANTRO_PP_REG_WRITE(vpu, input_width_ext, MB_WIDTH(ctx->dst_fmt.width) >> 9);
-+	HANTRO_PP_REG_WRITE(vpu, input_height_ext, MB_HEIGHT(ctx->dst_fmt.height >> 8));
- }
- 
- static int down_scale_factor(struct hantro_ctx *ctx)
 -- 
-2.25.1
+2.43.0
 
 
