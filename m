@@ -1,159 +1,156 @@
-Return-Path: <linux-media+bounces-21733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA22B9D4A88
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 11:11:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE4F9D4AE3
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 11:28:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41621B217FB
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 10:11:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AEADB1F2183C
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 10:28:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC921CD20B;
-	Thu, 21 Nov 2024 10:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 045451CB9F0;
+	Thu, 21 Nov 2024 10:28:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="6vd8F/En"
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="8tkkC4nj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CED1CCEC3;
-	Thu, 21 Nov 2024 10:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7339823099D;
+	Thu, 21 Nov 2024 10:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732183898; cv=none; b=GRVbZ/lO8D8c2dNStVH+DJkmHUqovYs2Y2dfOqiYPTFoy9HFdjrsWeop5yAklfB3FhwFvJk/FobNM4UzWZWo82D8lNeXpQOMgT9gtcwnj5IbeoBthO+Qo12uUDWtY9T4FEQAUqasYDJznuyzp8/4xXONmQyq+tv3t19BmQ9uL24=
+	t=1732184885; cv=none; b=iK9B2xGOmHJdXdYZ2IYYKGzf6CWP3CUFrl1Jim4hSqtnn9VpFSBMUWvyiE5cPHVytf/+YGVAatRi8C9cVT3fCQaoF2ni2Os/wTbj0S6CyWWmENvagWCz4cIPtym9YG3wJdGkpDf//1EnR0xp4qQTyf0AaAr3gz+WqW+TC1Zlq9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732183898; c=relaxed/simple;
-	bh=iNxDi1bzXgFEOuU2sj8iEmR1QPk/gKgS2MM3WbWY5u0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=f/l5cVR1xjXSW8QEIJwVoHJmH/XJugLLPGjbz8IhSIn8TC9EcGIVqx6IcFu9Fjcjjnoby1V4erL25d0agSX2zBxv/EjjJ2BR0zsloION6yoa0IEtVfKMDK3E38718E4b68Me3EjYYumcpugoaD2SiVEeUIi2lThnKMYMf4SAT60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=6vd8F/En; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AL6ZhtZ001379;
-	Thu, 21 Nov 2024 11:10:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	Pd6rBNZoxGrLvF9FQXRoGek58FWnqhqX5GnjHcs3NLk=; b=6vd8F/EnNyXjiTE4
-	Kt/8PzXjQwodIPp7yu8Qh8X9qbzbGbVheYiTaL+VWQWDDMW63+wz4NVUaf44XZDP
-	0uvVS8pwa7D/ZfB+y4XVmj24XG7YZcVC70AUfEn8sjoUy5TsD5JoiDzThmNP35lT
-	Y5KRrrRQEuII6h+26WNWqcbsphCsY97aMtevxwNTj2N22dgmztMwluhcZGQJrBJv
-	3rUQvHWOUPjQ1fZ07ItAAGC+Wgh542nkBZfS8dH90Jjc/Rxm0+Ntr+K2grWrG0nL
-	DL62qCnU1+gp/wS2SL6ug56aWN/LroXHtsEHYhLqGheyqrIwNl2AhY0KAmcu6J5H
-	b9fn5g==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42xknwegxy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 11:10:56 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 7F86740044;
-	Thu, 21 Nov 2024 11:09:15 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3856B266B17;
-	Thu, 21 Nov 2024 11:08:13 +0100 (CET)
-Received: from [10.48.86.208] (10.48.86.208) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 21 Nov
- 2024 11:08:12 +0100
-Message-ID: <2404c3d0-140c-4481-b45f-f762cce8ecf6@foss.st.com>
-Date: Thu, 21 Nov 2024 11:08:11 +0100
+	s=arc-20240116; t=1732184885; c=relaxed/simple;
+	bh=wtEHQkofAcnh3SC2zH1iKLgWqJq7luVnNBkLBFEBoVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sz7sPrMzgNDExn2jkNmxsdheBB5Zpf3n+MOL7j+aArBgWLst7AB9n5MG8Tl7vDEzdxLftFfqY1Y1jb41Uvws+9ZXwCu7rmiyXku0RPB9wqEu/03ooyLa0JTmSL5gBHeMzNZeEsADghSv1SwIDiSuZzXCqJowe4mtlRjHL4a8JC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=8tkkC4nj; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=iZHmtnZaPupw3FMfsjdu6r2fu38cHITN8Qp3hwNCkjo=; b=8tkkC4njub2Z5KoTXcXrawVgmc
+	ukcXcionHr5Vxx7YETwGQ4TrCDaUBrwGqqYP+dBzxGoTObuwB2ZEFU1upGD2RYM6oBDeN4CIilGlT
+	DpanqbLRVJjKqQx2N8jo6bMhNEQIMJmxYzhL+yctPUHAApT9Hyi27agMlQnlUmhW9NcnfD8vVuAuf
+	3f+wLakC02wLli29reQBt8yjp0RxYZvjzigrtdmXGKZyODrX4Tb5wL6TFmLQ3uTdkIuNMAPTnleqm
+	SoauXWaDy7XqLs8Ebh2Gy7IoyryF6puDb5A1sB5XI/9/mGAMb51BDZysmqc5eN/JJ9k1GIKHmYLTK
+	txM04J1A==;
+Date: Thu, 21 Nov 2024 11:27:50 +0100
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-omap@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, Linux
+ Media Mailing List <linux-media@vger.kernel.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH] media: staging: drop omap4iss
+Message-ID: <20241121112750.3f5d4d2c@akair>
+In-Reply-To: <20241120083938.GP12409@pendragon.ideasonboard.com>
+References: <815a789d-85a5-44a1-8b9c-429ac0101e3f@xs4all.nl>
+	<20241118200025.3daab676@akair>
+	<20241119070222.GX31681@pendragon.ideasonboard.com>
+	<20241120085406.4d864c6e@akair>
+	<20241120083938.GP12409@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] media: uapi: add WebP uAPI
-To: Diederik de Haas <didi.debian@cknow.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Sebastian
- Fricke <sebastian.fricke@collabora.com>,
-        Daniel Almeida
-	<daniel.almeida@collabora.com>,
-        Andrzej Pietrasiewicz
-	<andrzej.p@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-References: <20241120110105.244413-1-hugues.fruchet@foss.st.com>
- <20241120110105.244413-2-hugues.fruchet@foss.st.com>
- <D5R4DD00Z0A4.3BHMO8E5IZ6CH@cknow.org>
-Content-Language: en-US
-From: Hugues FRUCHET <hugues.fruchet@foss.st.com>
-In-Reply-To: <D5R4DD00Z0A4.3BHMO8E5IZ6CH@cknow.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Hi Diederik,
+Am Wed, 20 Nov 2024 10:39:38 +0200
+schrieb Laurent Pinchart <laurent.pinchart@ideasonboard.com>:
 
-On 11/20/24 16:43, Diederik de Haas wrote:
-> On Wed Nov 20, 2024 at 12:01 PM CET, Hugues Fruchet wrote:
->> This patch adds the WebP picture decoding kernel uAPI.
->>
->> This design is based on currently available VP8 API implementation and
->> aims to support the development of WebP stateless video codecs
->> on Linux.
->>
->> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
->> ---
->>   Documentation/userspace-api/media/v4l/biblio.rst  |  9 +++++++++
->>   .../userspace-api/media/v4l/pixfmt-compressed.rst | 15 +++++++++++++++
->>   drivers/media/v4l2-core/v4l2-ioctl.c              |  1 +
->>   include/uapi/linux/videodev2.h                    |  1 +
->>   4 files changed, 26 insertions(+)
->>
->> ...
->>
->> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
->> index 806ed73ac474..e664e70b0619 100644
->> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
->> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
->> @@ -169,6 +169,21 @@ Compressed Formats
->>   	this pixel format. The output buffer must contain the appropriate number
->>   	of macroblocks to decode a full corresponding frame to the matching
->>   	capture buffer.
->> +    * .. _V4L2-PIX-FMT-WEBP-FRAME:
->> +
->> +      - ``V4L2_PIX_FMT_WEBP_FRAME``
->> +      - 'WEBP'
->> +      - WEBP VP8 parsed frame, excluding WEBP RIFF header, keeping only the VP8
->> +	bistream including the frame header, as extracted from the container.
+> Hi Andreas,
 > 
-> s/bistream/bitstream/ ?
-
-Thanks for noticing this typo, will fix in v3...
-
+> On Wed, Nov 20, 2024 at 08:54:06AM +0100, Andreas Kemnade wrote:
+> > Am Tue, 19 Nov 2024 09:02:22 +0200 schrieb Laurent Pinchart:  
+> > > On Mon, Nov 18, 2024 at 08:00:25PM +0100, Andreas Kemnade wrote:  
+> > > > Am Mon, 2 Sep 2024 10:42:31 +0200 schrieb Hans Verkuil :
+> > > >     
+> > > > > The omap4 camera driver has seen no progress since forever, and
+> > > > > now OMAP4 support has also been dropped from u-boot (1). So it is
+> > > > > time to retire this driver.    
+> > > > 
+> > > > Argumenting with OMAP4 support in U-Boot is silly. That indicates that
+> > > > there is no movement in keeping u-boot uptodate. Bootloader
+> > > > development/updating is more risky especially if not done by the vendor,
+> > > > good chances to brick something. And the bootloader might need
+> > > > signing. So that argument is done nothing.
+> > > > 
+> > > > Better arguments would be to check if someone has something cooking and
+> > > > feels not comfortable yet to climb Mount Upstream.
+> > > > 
+> > > > A good place to ask would be the omap platform
+> > > > list: linux-omap@vger.kernel.org
+> > > > 
+> > > > I get still devicetrees for omap4 devices to review. So there is some
+> > > > activity with omap4. If you look at postmarketOS you see also some
+> > > > activity.
+> > > > 
+> > > > And also someone ported the driver to devicetree support:
+> > > > https://github.com/iridia-ulb/meta-builderbot/blob/master/recipes-kernel/linux/linux-stable-4.16/0008-omap4iss-Fix-multiple-bugs-and-use-device-tree.patch
+> > > > 
+> > > > So the situation is not that simple. I am still evaluating it because I
+> > > > myself have a device with omap4 and camera.    
+> > > 
+> > > Have you tested the camera recently ? The omap4iss driver has been
+> > > unmaintained in mainline for a very, very long time, and I would be
+> > > surprised if it worked.  
+> > 
+> > No, I have not tested it. I only have a bitrot out of tree driver for my
+> > camera which was probably never used with omap. Vendor system seems to
+> > handle camera via the m3 processor in a closed-source firmware blob. So
+> > what is the overall picture:
+> > 
+> > Which omap4 devices have cameras? What is the status of the sensor
+> > driver? Known working/Mainline/Out-of-tree/none? Datasheet for
+> > sensor available?
+> > The question is whether omap4iss can be tested together with a
+> > known-working camera sensor driver. That would make things a lot easier.
+> >
+> > BT200 has a camera without mainline sensor driver.
+> > Droid4 has also a camera. What is the status of the sensor driver?
+> > What about the samsung-espresso tablets? And the xyboards?
+> > 
+> > Pandaboard camera module? If have a pandaboard I use for reference, but
+> > no camera there.  
 > 
->> +	This format is adapted for stateless video decoders that implement a
->> +	WEBP pipeline with the :ref:`stateless_decoder`.
->> +	Metadata associated with the frame to decode is required to be passed
->> +	through the ``V4L2_CID_STATELESS_VP8_FRAME`` control.
->> +	See the :ref:`associated Codec Control IDs <v4l2-codec-stateless-vp8>`.
->> +	Exactly one output and one capture buffer must be provided for use with
->> +	this pixel format. The output buffer must contain the appropriate number
->> +	of macroblocks to decode a full corresponding frame to the matching
->> +	capture buffer.
->>   
->>       * .. _V4L2-PIX-FMT-VP9:
->>   
+> I used to work on it using a Pandaboard and an MT9P031 camera module,
+> from Leopard Imaging if I recall correctly.
+>
+Hmm, that would require also soldering the connector and it seems like
+no standard thing, so I would need to create an adaptor. At least I do
+not find anything on ebay which looks like it can be attached to the
+Pandaboard.
 
-BR,
-Hugues.
+> > > If someone is interested in taking over maintainership and improving the
+> > > driver to get it out of drivers/staging/ to drivers/media/, the removal
+> > > can certainly be reverted. drivers/staging/ is not a place where drivers
+> > > are left to bitrot, it's meant for active development of code not fully
+> > > ready for mainline yet.  
+> > 
+> > I guess the way to start is to revert the remove and then update the
+> > above-mentioned devicetree support patch. I have no feeling how complex
+> > that whole task would be.  
+> 
+> That would be a first step, yes. After that, completing resizer support
+> will be a good task candidate, followed by exposing the ISP parameters
+> to userspace, and adding support for it to libcamera.
+> 
+Well, I guess before adding the resizer stuff, I want to see a picture
+influenced by what is in front of the camera of a device I really care
+about (!= pandaboard) and then adjusting things to the point where
+format configurations are solved. At some point more could also jump
+in to screw at sensor chip drivers.
+
+Regards,
+Andreas
 
