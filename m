@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-21763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21764-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268359D4DEC
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 14:41:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A728A9D4DEF
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 14:42:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB40D281B95
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 13:41:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68DCC2819A4
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 13:42:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F7511D90B6;
-	Thu, 21 Nov 2024 13:41:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0247F1D933A;
+	Thu, 21 Nov 2024 13:41:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="O1Yov6nL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="413pBjeA"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="mPa/s/NU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qKccxISV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D60D1CF29D;
-	Thu, 21 Nov 2024 13:41:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459211D90A4;
+	Thu, 21 Nov 2024 13:41:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732196505; cv=none; b=J+t5Mk0BZE4UvsMRWhjmN4DPXqCdZkoAbqOSVhDUwf+NSlYJsevCTNqPQ7u8CpopOW4oQS8jkSAnFd0ANCo7WPSWF/af3xE6RdPJMkWGiSB/oiKqMbZYxXvRAR9flu8G8r0idiMe4cgkMb+1SuWuyI6sa1+M33FcujanWut7Y/4=
+	t=1732196508; cv=none; b=Gum7nqwO0yNglyvk5J0dGbLLameCYMjoaz3P+ERNaY8zwz+8VAvFAYHmLRnzwjF6upI7RRBpEW/GJKw5CSdxwEYgroSCdDoxSp8PgmU3qDk8fe6u0SMjx2+DDCqnbOrsGOZKXE8Rky3Jn0GvsbzInexodLy7t3Em7tJcHgejhhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732196505; c=relaxed/simple;
-	bh=XqJaTBN/X3u/6gPHqDVAFCt1rrsL3b+ZQ9PAufYDBAU=;
+	s=arc-20240116; t=1732196508; c=relaxed/simple;
+	bh=EwVZ5jXqC2Uav7PMaKs+eXJ84v3vhHCSCH8AaUoSf8o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cmBoJivbjMmCAv1H69uFeXsjx8kdXz7LBggFSpVZKm3ozP3bxX/iKL56OHYDpybDN9pSOheFLdWzwufjyWIy3r+sOl9c0tcsAVKKK70wKG1lusrj9hqGNtYHi9e8PEcoHltatMQKpLb2597zpW32QuhbdTjuSjm4xs3u3F64g0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=O1Yov6nL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=413pBjeA; arc=none smtp.client-ip=103.168.172.149
+	 MIME-Version:Content-Type; b=shvI+HEuQ3NeNj3GorPuYs6UNdQN+ODgOFPbacqyj6jugTgV7Huv2QpkSQdsUKKMf42lD/Ung5C2/h7tCSK7d7/94Dnxox2bNxBhKHDtvdAgVc2Cp6p6y8/wcQBoWn07P1N8AGcREiVfYxi0LEzJRRGq5zZHcdY6wkmPERJViF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=mPa/s/NU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qKccxISV; arc=none smtp.client-ip=103.168.172.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3160D13801B5;
-	Thu, 21 Nov 2024 08:41:42 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Thu, 21 Nov 2024 08:41:42 -0500
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 3DEFC1380479;
+	Thu, 21 Nov 2024 08:41:45 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Thu, 21 Nov 2024 08:41:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1732196502;
-	 x=1732282902; bh=H0e6s3PIOoJlzVrOe1t8GJgsKKr1PhiWxTfol8N2kbQ=; b=
-	O1Yov6nL4CxdLmizBGHMdLZQWygzBxXMAA+nSQc05DeRHDu6ANwOMMGU71x0V+9g
-	A1WW3A6tI819Fb1/gvFOX8anR1NR+qRVFGR+s/oLr4SvilpBvvTrCWYVMV5uCWCx
-	whaVtkhOXzslkmMG33qUlajWWwoBSNrl9ts8lK+MX4jHf/CiI0NFpHRRPQ9Pl/6H
-	rk+25cglFXBdUCSKKn91m3Yxy0t8oW3rjnUXQ9p6joDcC/BRRG1ZIkF1ywdQ+my2
-	/CXoXQZIpX1SK9taXooFL4jYFg4vy/pdvo/MsAmKa6lLpqP63Y5P6ifzXGGiNejz
-	kUeUrh2scb4pfoJRLMdVEQ==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1732196505;
+	 x=1732282905; bh=qgfJTYfvGBLzbbhXNUnnhE2CZUTBCUEYuRJg65iHSbs=; b=
+	mPa/s/NUyDYeOwHn5zgZAUaxfJwXuhiVDId7qJVh/mq+jmw9Kw43VKK/BoFBc3ze
+	RO3Xy7lE+fQblix/r6f7543AZwljahaWquIl/NCd0JJ4dfnAozO7z+TneIDUSOvz
+	r4GF6WLB+ydnHieCxrwCewhWdXXBSjLElWw97WkRP1G0IkmfOvSoJWs6896CHV+5
+	u4rULGXC8P8Y/uHaHAelKjRwL9J4skjzCrQM1Bu/t+LVeIiRPaOZUrtXKb4qlPsu
+	CszDci3v+3cu/6ByUjyalV+RfattTorugCtYNK6mCKDF/76BswaKfaP7D10IM7gO
+	SwlaCDAx0gCPeX3jm1Y1mw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1732196502; x=
-	1732282902; bh=H0e6s3PIOoJlzVrOe1t8GJgsKKr1PhiWxTfol8N2kbQ=; b=4
-	13pBjeAOoTVLSiTBFAJHNVA+k97dGOGk+Hp/Ovy+38xfb6rJY5k4ynK9bmFaZrB1
-	jBRfOJudVDxPjBUPsqGU4Kp5HhwSL6poZDuJu7ik57sT5TmIELeE5Ou/5D559rJx
-	lV+e10Yw53sCJYT4XNp4jmuvAeWCSIdPAdPwX3UP6o0HwNmFnivEbEUhKOG2UhFH
-	YE3cmeS6Gw4MkDMjFkjkX7VYH1Zp9Med7jOoaUAWIxd4pgjKQFrSQXzRa4nulPKt
-	ixf2MsF+3P9eGhkNykmffEhmnohB7ywAHWUPoV2mnByLBsj132wbE5e7zpRl0q8u
-	bYOZ5dp3SZkyAEhz6DUlw==
-X-ME-Sender: <xms:lTg_Z6ySDyf4JU53i-VbT3RtoDQP5kmpQ12zbJaa2wOVRFxsgWdOwA>
-    <xme:lTg_Z2QX7kWxbShtJzhnfWSCnXmbI_wH2lFyLOPAQoXBdJeaeYwFXrLf_jkYzIyvI
-    9Ye9w51WgB1Y6a2hJQ>
-X-ME-Received: <xmr:lTg_Z8Ul9O5A4uwgeC-Nqx5ZXsU686LMMN69YVfJ3Ih39gvHGIFwvL5fyGVUvpFkGTp0tm5iGSXlh4SNQRJIlE80TQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrfeeigdehfecutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1732196505; x=
+	1732282905; bh=qgfJTYfvGBLzbbhXNUnnhE2CZUTBCUEYuRJg65iHSbs=; b=q
+	KccxISVyIW57TqZIj/B6yonoUewRJFoggvzRTrXMsRW6e7qV0LPZlOVklMIsm8mB
+	H6hkbNpdSxQHck1navVK61aikkBpZk6aqnf2+sPClF68+3WdUBjqpdiUcVYGLUlO
+	/TqhxoweZA32mdO3Ol6wsXrZyoXbJbercLaDO8eCUQx8qSlFgVbcsX+U+rNR0JAi
+	la6h5vlU9NCbHi42FSMweTXExPv29j3VkXN0yQiuBzzyVUWuSLU4vOIcjCTlSAFo
+	ztjem+OjtoBKvjcJSm4QUwoCkDhq4TVqFaLQvNNe/b9JQKCxS++BDbRCSC8q1DIR
+	ES1FEPPCL+7tJkRBNrGUA==
+X-ME-Sender: <xms:mTg_Z27szyhOq6qZp1eNYVYW9izFWZ8plySixNmkqX9LplLelp9pGw>
+    <xme:mTg_Z_6aUNBOhRzOCQK2fE50QPzaGo42mCxP0iD7daIBREkwPQZOOJvg6NyM78W5W
+    2rZ3_ACRjXitOYxIm8>
+X-ME-Received: <xmr:mTg_Z1eKGjtmFShc1dCKDKh8QS_UjCGSuLD7EPawF9gBn_RFWuWSdcvR94tkJUoC9xxA0PzNCM4S2Y3dVSsAohvGPQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrfeeigdehgecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
     tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
     hsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeen
@@ -83,14 +83,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrfeeigdehfecutefuodetggdote
     htsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvggu
     ihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvg
     gvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:lTg_Zwh_YgR62Tqseip4eeGWx-CKn-bLinrxXLLOFcTKh2YKcvlFDQ>
-    <xmx:lTg_Z8AKtaOiH7gf8jAMMGzAZSCMp3xahCGUUs8ocs6HfrLxHLSxVQ>
-    <xmx:lTg_ZxKwpEXW71u0yDEUbFmAshsw7pmE1_W_kZ9NjCIcBsLWUcLslQ>
-    <xmx:lTg_ZzC1hPxqZYlaO_rxmiTld3dMontK7hHtNuqvCCcBkjQZMKYxCA>
-    <xmx:ljg_Z1Lr7r7Cl3J0PXm3FzREzqQrB0lv2ZPB5UKjQZ4f3G2E3iXqwxdv>
+X-ME-Proxy: <xmx:mTg_ZzJ9rkF4I8PaYfyyHzaU58c8Uk_r7mZRbldz-h1Gm2hTHQrQog>
+    <xmx:mTg_Z6L-Ib43tc7usNtKx0zq9zK1plC_I1kqgGlWoasFsL5S9k7zDQ>
+    <xmx:mTg_Z0yTfTn5PesRzFVjnWWHcktR8y1HOvr8X9vWrHeN-y4RV73AAw>
+    <xmx:mTg_Z-KQe3FBUFSJnWYv4HFnkCNZQAzKLP7uK7tLezfD-BxXmWyd2g>
+    <xmx:mTg_ZwwRDxE8zrYIUCgHmDNyoYrtKfR1rIogScM-6l6NB95V0aB7ugb->
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 Nov 2024 08:41:41 -0500 (EST)
+ 21 Nov 2024 08:41:44 -0500 (EST)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -103,9 +103,9 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 1/4] media: dt-bindings: Add property to describe CSI-2 C-PHY line orders
-Date: Thu, 21 Nov 2024 14:41:05 +0100
-Message-ID: <20241121134108.2029925-2-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY line-orders
+Date: Thu, 21 Nov 2024 14:41:06 +0100
+Message-ID: <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
@@ -118,75 +118,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Each data lane on a CSI-2 C-PHY bus uses three phase encoding and is
-constructed from three physical wires. The wires are referred to as A, B
-and C and their default order is ABC. However to ease hardware design
-the specification allows for the wires to be switched in any order.
-
-Add a vendor neutral property to describe the line order used. The
-property name 'line-orders', the possible values it can be assigned and
-there names are taken from the MIPI Discovery and Configuration (DisCo)
-Specification for Imaging.
+Extend the fwnode parsing to validate and fill in the CSI-2 C-PHY
+line-orders order properties as defined in MIPI Discovery and
+Configuration (DisCo) Specification for Imaging.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
 * Changes since v1
-- Add missing 'items' node.
-- Improve usage of should and must it the property description as
-  suggested by Sakari, thanks!
+- Use array instead of switch to get printable line order string for
+  debug output.
+- Wrap lines harder for 80 chars instead of 100, but keep string formats
+  on same line even if they break the 80 chars.
 ---
- .../bindings/media/video-interfaces.yaml      | 21 +++++++++++++++++++
- include/dt-bindings/media/video-interfaces.h  |  7 +++++++
- 2 files changed, 28 insertions(+)
+ drivers/media/v4l2-core/v4l2-fwnode.c | 43 ++++++++++++++++++++++++++-
+ include/media/v4l2-mediabus.h         | 21 +++++++++++++
+ 2 files changed, 63 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-index 26e3e7d7c67b..038e85b45bef 100644
---- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-+++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-@@ -210,6 +210,27 @@ properties:
-       lane-polarities property is omitted, the value must be interpreted as 0
-       (normal). This property is valid for serial busses only.
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index f19c8adf2c61..bb5ea3e00414 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -127,7 +127,7 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+ {
+ 	struct v4l2_mbus_config_mipi_csi2 *bus = &vep->bus.mipi_csi2;
+ 	bool have_clk_lane = false, have_data_lanes = false,
+-		have_lane_polarities = false;
++		have_lane_polarities = false, have_line_orders = false;
+ 	unsigned int flags = 0, lanes_used = 0;
+ 	u32 array[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
+ 	u32 clock_lane = 0;
+@@ -197,6 +197,17 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+ 		have_lane_polarities = true;
+ 	}
  
-+  line-orders:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 1
-+    maxItems: 8
-+    items:
-+      enum:
-+        - 0 # ABC
-+        - 1 # ACB
-+        - 2 # BAC
-+        - 3 # BCA
-+        - 4 # CAB
-+        - 5 # CBA
-+    description:
-+      An array of line orders of the CSI-2 C-PHY data lanes. The order of the
-+      lanes are the same as in data-lanes property. Valid values are 0-5 as
-+      defined in the MIPI Discovery and Configuration (DisCo) Specification for
-+      Imaging. The length of the array must be the same length as the
-+      data-lanes property. If the line-orders property is omitted, the value
-+      shall be interpreted as 0 (ABC). This property is valid for CSI-2 C-PHY
-+      busses only.
++	rval = fwnode_property_count_u32(fwnode, "line-orders");
++	if (rval > 0) {
++		if (rval != num_data_lanes) {
++			pr_warn("invalid number of line-orders entries (need %u, got %u)\n",
++				num_data_lanes, rval);
++			return -EINVAL;
++		}
 +
-   strobe:
-     $ref: /schemas/types.yaml#/definitions/uint32
-     enum: [ 0, 1 ]
-diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
-index 68ac4e05e37f..88b9d05d8075 100644
---- a/include/dt-bindings/media/video-interfaces.h
-+++ b/include/dt-bindings/media/video-interfaces.h
-@@ -13,4 +13,11 @@
- #define MEDIA_BUS_TYPE_PARALLEL			5
- #define MEDIA_BUS_TYPE_BT656			6
++		have_line_orders = true;
++	}
++
+ 	if (!fwnode_property_read_u32(fwnode, "clock-lanes", &v)) {
+ 		clock_lane = v;
+ 		pr_debug("clock lane position %u\n", v);
+@@ -250,6 +261,36 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+ 		} else {
+ 			pr_debug("no lane polarities defined, assuming not inverted\n");
+ 		}
++
++		if (have_line_orders) {
++			fwnode_property_read_u32_array(fwnode,
++						       "line-orders", array,
++						       num_data_lanes);
++
++			for (i = 0; i < num_data_lanes; i++) {
++				static const char * const orders[] = {
++					"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
++				};
++
++				if (array[i] > 5) {
++					pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
++						i, array[i]);
++					bus->line_orders[i] =
++						V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
++					continue;
++				}
++
++				bus->line_orders[i] = array[i];
++				pr_debug("lane %u line order %s", i,
++					 orders[array[i]]);
++			}
++		} else {
++			for (i = 0; i < num_data_lanes; i++)
++				bus->line_orders[i] =
++					V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
++
++			pr_debug("no line orders defined, assuming ABC\n");
++		}
+ 	}
  
-+#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ABC	0
-+#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_ACB	1
-+#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_BAC	2
-+#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_BCA	3
-+#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_CAB	4
-+#define MEDIA_BUS_CSI2_CPHY_LINE_ORDER_CBA	5
+ 	return 0;
+diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+index 5bce6e423e94..e7f019f68c8d 100644
+--- a/include/media/v4l2-mediabus.h
++++ b/include/media/v4l2-mediabus.h
+@@ -73,6 +73,24 @@
+ 
+ #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
+ 
++/**
++ * enum v4l2_mbus_csi2_cphy_line_orders_type - CSI-2 C-PHY line order
++ * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC: C-PHY line order ABC (default)
++ * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB: C-PHY line order ACB
++ * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC: C-PHY line order BAC
++ * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA: C-PHY line order BCA
++ * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB: C-PHY line order CAB
++ * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA: C-PHY line order CBA
++ */
++enum v4l2_mbus_csi2_cphy_line_orders_type {
++	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC,
++	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB,
++	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC,
++	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA,
++	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB,
++	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA,
++};
 +
- #endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
+ /**
+  * struct v4l2_mbus_config_mipi_csi2 - MIPI CSI-2 data bus configuration
+  * @flags: media bus (V4L2_MBUS_*) flags
+@@ -81,6 +99,8 @@
+  * @num_data_lanes: number of data lanes
+  * @lane_polarities: polarity of the lanes. The order is the same of
+  *		   the physical lanes.
++ * @line_orders: line order of the data lanes. The order is the same of the
++ *		   physical lanes.
+  */
+ struct v4l2_mbus_config_mipi_csi2 {
+ 	unsigned int flags;
+@@ -88,6 +108,7 @@ struct v4l2_mbus_config_mipi_csi2 {
+ 	unsigned char clock_lane;
+ 	unsigned char num_data_lanes;
+ 	bool lane_polarities[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
++	enum v4l2_mbus_csi2_cphy_line_orders_type line_orders[V4L2_MBUS_CSI2_MAX_DATA_LANES];
+ };
+ 
+ /**
 -- 
 2.47.0
 
