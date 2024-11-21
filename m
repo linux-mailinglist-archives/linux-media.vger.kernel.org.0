@@ -1,214 +1,161 @@
-Return-Path: <linux-media+bounces-21740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F089C9D4C24
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 12:41:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F639D4C3A
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 12:49:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 858702827E5
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 11:41:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F5FAB218E7
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 11:49:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68BC71D0F4F;
-	Thu, 21 Nov 2024 11:41:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43B391D2B05;
+	Thu, 21 Nov 2024 11:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vdhpO3bx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CE1CJktb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60C73C47B;
-	Thu, 21 Nov 2024 11:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFA11C728F;
+	Thu, 21 Nov 2024 11:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732189269; cv=none; b=KTrzqu7k7fQVZOHUIvchKso5469RxcAGt9XMFDl7kUorGlZb+YjDDbZvRJCCP0HoyRarY86HCiJ8kIpZavERCZ6x6j7DsqZXkpwZCSjaURwfXVAzgJOpMROUcN5decmDQK+4RrE6zQQaZ1T+hkwj0oqVh8IB07BGGt7q5dGpRSY=
+	t=1732189729; cv=none; b=g/4s0xEKugqGt7EJzn9tYht1z9QxtHDlqbi4tQ1aXLw9GRa2aTuue51aZjkVjPHeKLx3JzC47eg0pxTqi+rpR/SOX0gg22OOCNLmm6jkeBVL/IR5RYVSR9fKdefG4WeEXOb8gt9sVZW3LNsxAul3q5UGE8xjVKoB6ghRgMHG22s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732189269; c=relaxed/simple;
-	bh=xi/MggR71byBBhUfd+bbxNTl1YfMsCSmSpm38mZB8jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VZUr3f/Kqt2XotYQ7MLM85353cm/9DzFLZqh5My3KaKemKwEcmT7UiGA2QXCd+LT1rTQI+rRRdwiotN54nRo0Zza37Ma3Jh1QyeglqPDOkx4uoQebUOQMMrUVJB14zeMQDl/wuRFRf+f+VkDFg+eScYBh2p83pfL1Lgod8AkZYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vdhpO3bx; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:883a:10f2:5b4b:5292:ac46:e988])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DD8C7670;
-	Thu, 21 Nov 2024 12:40:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732189241;
-	bh=xi/MggR71byBBhUfd+bbxNTl1YfMsCSmSpm38mZB8jk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vdhpO3bxhMoJIjI2CB818lo/lIp5vr7bK3M4qixh5Km/wXTVcRq31g0pcXLyflAcx
-	 I6md36cvoxsD+uagFMEDjpdi+EQ/UtT6Y3h/xO2kMeg7TiW76w+v/fXBHdHIq7E/2R
-	 ABlRLpJuVgzxjKdfN0ALEcpkKfjT3XU4nAmVXv6Q=
-Date: Thu, 21 Nov 2024 17:10:54 +0530
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: i2c: imx219: make HBLANK r/w to allow longer
- exposures
-Message-ID: <5mpch5lokeoxbglc6n3gfugluzluguakv5udt6lflkn5qv23pk@kcllmxh5vqxm>
-References: <20241029-imx219_fixes-v1-0-b45dc3658b4e@ideasonboard.com>
- <20241029-imx219_fixes-v1-2-b45dc3658b4e@ideasonboard.com>
- <ZySV3KKXSyIreRI4@kekkonen.localdomain>
- <CAPY8ntDF8W+xRBXbe=LYpg21LL7-svhCySTSJHRNiDzQs4Xw5Q@mail.gmail.com>
- <Zy3oKnHBiGOq8Uoj@kekkonen.localdomain>
- <CAPY8ntD4Q4f5fSC+xW=j-5T38_Zb5x7pGQM4RYVzrz+NJMGtUQ@mail.gmail.com>
- <ZzMytF509nZ8CYGZ@kekkonen.localdomain>
+	s=arc-20240116; t=1732189729; c=relaxed/simple;
+	bh=Lln4VrhN/mq5eaevQiu66Tt1aqYvE3k+h4GNv20DvWQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nTTuvcx0Vv8tnPO5hae0+2szJDYPl6YO40AFJCW18QZqx6eCQagruuNa5MNVEkjwm3rE+JM43yfvlrqO61h3Azzz+mcumsf9HnMVC3+F6zwml/OAUqrLX9iq4KYZXvq6jvqbWQHReId2hxtnu46bN82+5Sv7Nb4vPEn/n0GWuoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CE1CJktb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E00EC4CECC;
+	Thu, 21 Nov 2024 11:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732189729;
+	bh=Lln4VrhN/mq5eaevQiu66Tt1aqYvE3k+h4GNv20DvWQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CE1CJktbM9/NSmnobls83HOvO7BOAjp1cgWnPsBm1epi/qHIQqE9WXDQ+TuDtKs2X
+	 uY/Oi8pqq24VnveLcNXzHKkNR5uF/xoK1ENALcaE8XB+2xq0jTS9cL9ME0z1Ubw3c4
+	 U/mLgDqaZVuftIUammEeg5HUGOixPJon4DxU920PtjptkoGIw11J1Vocm+MV6bPCS0
+	 Ta6vd9b7gWdNJJ5XcQB7Bliln238xuvYZy7x1mJrXzH2IbQw9f3cmNazAzs6116oGl
+	 m4LxqHx3bm7n0G74qlqfgaqQMvwsg5AVzzsYTdpFKOwCiOphfMupOnXAYllEM8ohhP
+	 Orl+MmdHuN3OQ==
+Message-ID: <c3f52576-918d-4e0f-8247-46cb468e5c77@kernel.org>
+Date: Thu, 21 Nov 2024 12:48:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="f6h4uy35r7yjlhco"
-Content-Disposition: inline
-In-Reply-To: <ZzMytF509nZ8CYGZ@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] dt-bindings: mailbox: mediatek: Add GCE header file
+ for MT8196
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mchehab@kernel.org"
+ <mchehab@kernel.org>, =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?=
+ <Moudy.Ho@mediatek.com>, =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
+ <Nancy.Lin@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20241121042602.32730-1-jason-jh.lin@mediatek.com>
+ <20241121042602.32730-2-jason-jh.lin@mediatek.com>
+ <57kqls2wa67nh4a5yyr4amthmro3bjvrhnrdbdolrhr2lnmf6u@2h3cbl4jip4y>
+ <40971559285bb60cbab476135ba81d364505113c.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <40971559285bb60cbab476135ba81d364505113c.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 21/11/2024 11:51, Jason-JH Lin (林睿祥) wrote:
+>>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>>> ---
+>>>  .../dt-bindings/mailbox/mediatek,mt8196-gce.h | 1449
+>>> +++++++++++++++++
+>>>  1 file changed, 1449 insertions(+)
+>>>  create mode 100755 include/dt-bindings/mailbox/mediatek,mt8196-
+>>> gce.h
+>>
+>> Please run scripts/checkpatch.pl and fix reported warnings. Then
+>> please
+>> run 'scripts/checkpatch.pl --strict' and (probably) fix more
+>> warnings.
+>> Some warnings can be ignored, especially from --strict run, but the
+>> code
+>> here looks like it needs a fix. Feel free to get in touch if the
+>> warning
+>> is not clear.
+>>
+>> This goes with the binding.
+>>
+> 
+> I thought I have done that, but I found a whitespace warning at #1328
+> now. I'll fix that at the next version.
+> Thanks for the reminder.
 
---f6h4uy35r7yjlhco
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/3] media: i2c: imx219: make HBLANK r/w to allow longer
- exposures
-MIME-Version: 1.0
+There are multiple errors, including executable permission. I don't
+believe you run checkpatch.
 
-Hi Sakari, Dave,
-
-On Nov 12, 2024 at 10:49:24 +0000, Sakari Ailus wrote:
-> Hi Dave,
->=20
-> On Mon, Nov 11, 2024 at 07:37:56PM +0000, Dave Stevenson wrote:
-> > Hi Sakari
-> >=20
-> > On Fri, 8 Nov 2024 at 10:30, Sakari Ailus <sakari.ailus@linux.intel.com=
-> wrote:
-> > >
-> > > Hi Dave,
-> > >
-> > > On Thu, Nov 07, 2024 at 12:43:52PM +0000, Dave Stevenson wrote:
-> > > > Hi Sakari
-> > > >
-> > > > On Fri, 1 Nov 2024 at 08:48, Sakari Ailus <sakari.ailus@linux.intel=
-=2Ecom> wrote:
-> > > > >
-> > > > > Hi Jai,
-> > > > >
-> > > > > On Tue, Oct 29, 2024 at 02:27:36PM +0530, Jai Luthra wrote:
-> > > > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > > >
-> > > > > > The HBLANK control was read-only, and always configured such
-> > > > > > that the sensor HTS register was 3448. This limited the maximum
-> > > > > > exposure time that could be achieved to around 1.26 secs.
-> > > > > >
-> > > > > > Make HBLANK read/write so that the line time can be extended,
-> > > > > > and thereby allow longer exposures (and slower frame rates).
-> > > > > > Retain the overall HTS setting when changing modes rather than
-> > > > > > resetting it to a default.
-> > > > >
-> > > > > It looks like this changes horizontal blanking at least in some c=
-ases. Does
-> > > > > this also work as expected in binned modes, for instance?
-> > > > >
-> > > > > Many sensors have image quality related issues on untested albeit
-> > > > > functional line length values.
-> > > > >
-> > > > > So my question is: how has this been validated?
-> > > >
-> > > > Validated by Sony, or others?
-> > > > I've tested a range of values in all modes and not observed any ima=
-ge
-> > > > quality issues.
-> > >
-> > > Somehow at least. :-)
-> > >
-> > > >
-> > > > From previous discussions with Sony, they always provide their big
-> > > > spreadsheet of register values for the specific mode and frame rate
-> > > > requested. I don't think they even officially state that changing
-> > > > VTS/FRM_LENGTH_LINES to change the framerate is permitted.
-> > > > There are some Sony datasheets (eg imx258) that state "set to X. Any
-> > > > other value please confirm with Sony", but that isn't the case for =
-the
-> > > > imx219 datasheet. I take that as it is permitted within the defined
-> > > > ranges.
-> > >
-> > > I'm not that much concerned of vertical blanking, changing that withi=
-n the
-> > > valid range has effects on the image itself very seldom. Horizontal
-> > > blanking is different though and this is what the patch makes changea=
-ble,
-> > > including a change in the default value. Of course there are big
-> > > differences between sensors here.
-> >=20
-> > The intention was that the default value shouldn't change, and as the
-> > overall PIXELS_PER_LINE value was meant to be retained on a mode
-> > change the value used should only change if an application changes
-> > V4L2_CID_HBLANK. If I blundered in the implementation of that, then
-> > that should be fixed (I know Jacopo made comments, but I haven't had a
-> > chance to investigate).
->=20
-> I guess I misread the patch. It indeed should be the same.
->=20
-> >=20
-> > I doubt we'd get validation from Sony beyond the contents of the
-> > datasheet. Potentially as the sensor is so old they don't have the
-> > information or engineers involved.
-> > I'm happy to set up a test system and capture a set of images with
-> > HBLANK from min to max at some increment. With the same exposure and
-> > gain they should all be identical as long as there isn't any movement
-> > (rolling shutter with longer readout times and all that). Would that
-> > be satisfactory?
->=20
-> Sounds good to me. I just thought how it actually had been tested. :-)
->=20
-
-While not a thorough test, I manually tested with different values for=20
-horizontal_blanking for both binned and non-binned modes, and the image=20
-quality looked okay, with expected behaviour (i.e. increase in exposure=20
-and decrease in frame rate as total pixels per line increase)
-
-I will send a v2 of this series with all the fixes.
-
-> >=20
-> > For contrast, the IMX290 datasheet states that VMAX shall be fixed at
-> > 0x465 for all-pixel mode / 0x2ee for 720p mode, and HMAX should be
-> > changed for frame rate control. As you say, sensors differ.
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
-
---=20
-Thanks,
-Jai
-
-GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
-
---f6h4uy35r7yjlhco
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmc/HEUACgkQQ96R+SSa
-cUXPLw//fe9WYR5bMfP4AM5Xw6J8HAEV2Q2cRsmDbTa3lpwTrRVFZPX8+gJv7VMA
-EVjTtgSA559f6kgdeRra1/IkTHM1VNtcSQSdM9KnGyj3AvrDZ4yIc5utjrATqgY8
-BDvYy6EcZHvX/gpPvP2QFATlaHQumDLF7eOFGSOVIQB7XDjRx585yVkoTlnzyekl
-/lQEPqhDErO/X7Evm1tdlg4grfHiim81cVrjMfzXC6qSv4Xf7R/DHwHlKK3xVqoR
-7sJdB5mnvqwVuJMDC9unwoB2Xe58FtUMk78n7DRid0D/gS5CPOiDSl5HKgjYqZgE
-wrVSDAMH25eLX/3bgh9g6+xBRiTx58WWQ6Lj3+IRKK7kpp+aBgIMBfNIvxWN6+2z
-ZWXoyOFAD8Uih72szt2VV0FcXY5LNvDyzQR9uot5TVgDA7wwjJRqmlrzcaoByfjt
-5fOJIvx2bFYDiFgGXTIhxGwIs0ud+n/0nbIK7+aaP481/Mz8mC0y7vscaQBrgEtc
-C4kloczFx49zB5nattkCc0NnQgAl6LR+gASd2fN5C31Ul10hCjBsLArBWUoAwYNu
-H3rERJHPUDV+2i/7Js2Yya5jrh5YTiLnT9Sao76NklR9RF1AXMuw6Oc7RT+tWcpQ
-ahC3dS+fxQw4yqKAeuLeVxRM2KWVWJ2JMhgCtVQvrtvyufL84HM=
-=HEEJ
------END PGP SIGNATURE-----
-
---f6h4uy35r7yjlhco--
+Best regards,
+Krzysztof
 
