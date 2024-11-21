@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-21758-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21759-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9019D4DB0
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 14:22:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8899D4DB2
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 14:23:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C4C0281C68
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 13:22:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AA2C281A2D
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 13:23:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F09C1D9A54;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF89E1DA0EB;
 	Thu, 21 Nov 2024 13:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="wGNVmgNe"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Tc1cyOr+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140BE1D90BC;
-	Thu, 21 Nov 2024 13:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7484D1369B4;
+	Thu, 21 Nov 2024 13:22:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732195341; cv=none; b=qSvTFr1BZoJGcXNcUTb26E8ZOcqypqORz5DC06kiJ9ug47AdQFubtmZ5wg9uZCXBbZ2m0vbsFB2WJT9Fd0DMMSegldncq5iJprKUbVEogixdmrNWcNomnFucQIeqgDIrEKii/oy8hG2UGVuSWvxlfAvD5mUJLnIJznfJ74OJ5sk=
+	t=1732195342; cv=none; b=AigJ/u3jwZXb/zB96fOYyXvgIX+GsDFfGmkJrPTuIMPvHw3G4fKIUESjyRcW0340UUHppkK5HLGqBTvkZkIDjZNDKbpHXwbtO2/SrbUmfO6TQW7rINJkaps9q6hUXvUW6N7GmpxKxRYr57xRzTsALq/DDld3B/6vgSD7hWF8Kr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732195341; c=relaxed/simple;
-	bh=CTQetKNlzwCMRDezxXu+21CNWvmxzreYOgRj0hCbpf4=;
+	s=arc-20240116; t=1732195342; c=relaxed/simple;
+	bh=zbdukW4RpLswW9YTA97O9YCIAl884Cwl+rmhWUanKGQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EKlP2BKxEdRVxXSCyOK40xwzXDypoFaEyfY0GdN4gu/RVQKIJJaIOo3xWcMY9VGsdCsz1FxHb0oNsuLxRvT/LselZtb1Lv31SShij/yUc7dUo5yOtnTKe09P3QDhy/jI2mmR/z1KDVYk72+L/BRG6rS2WNe5xcAXXPExhyeW+3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=wGNVmgNe; arc=none smtp.client-ip=91.207.212.93
+	 MIME-Version:Content-Type; b=o9Gn7rxpLw24l/RraggWu5HL2SkJgog+MDrbFBJSZ8kW4/G6bG0LVDTwFw27IkBNRnoJDMbEE/ocdgbrb4TiYzTnAFgyyaTwLryH+PYIJHpK5CX6qgafCsSg6qT8JaEIcrOZo5lZiSVH3Yygc0yLjbCje29E/BGHn4wfe+Lwyfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Tc1cyOr+; arc=none smtp.client-ip=91.207.212.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALAXHH1002018;
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALAlClX018947;
 	Thu, 21 Nov 2024 14:21:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
 	content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	q6VXupjnTEVVWDbEaH7UOHhbUPZqhwx1VwGrB1UH9yU=; b=wGNVmgNeT2/V4w9V
-	my1uP2fOyC4FGUIydvyH99C0JUWz4p8howTZsncn324xTCNAiuzWAsh8dcAlr1aq
-	krW/hVjCnP0wnl/1khp0bYYpOJcqganzOPGc+H9cUKNiAZiDgOejLfQhGOdEePxe
-	LtZgRxy3FVIjRMubb3j9RgHDXlPqhCU928UP/Ol4ZPkqJqWrzK4mswJ62zvKpyOX
-	Yqu6WZSkug3Q1Sq1RbHsXBMm7sOZ+LGcRVLvngbbwSvOkJvclt2Av5YBcyUFegqu
-	lZ4vhp+Cl9bG3lvSxpvTu7Ck+E2hgxTPEVeVHb6pWugFaktS4t+Vv2HuRU2tsfUg
-	Pjq7JA==
+	oT58q45BHt1UL79xkKrgV9Ac9/94VjkagOmgL19rZm4=; b=Tc1cyOr+kEQ8YxTp
+	HvoE/Td6C19fL1PZqQlSY+e71y0kKXOPqibppW2GJHsaSO+ziXj7M0Uc0AvR1rIh
+	ckChbsoEMf11DuIJ7UT52+JQxHiSZubdAJok4pYh3zm9M0N0nUTrquHnuYnSStlg
+	rfPh9ipFADBeGN/Q17/r+KR7F19kM59gUt9W+PBKIOszH11q3wVdO5+VPW7kDi/u
+	vgU6HYVFyCOpl7MR06UEUC/koeIXg/Dd6v+wBovhnpB405TvPSxbjzTeLCwYa6cp
+	Tg8KlbL+JeBcsHZXLmjBxConU+kgwSyX3R/DsKkUILH9RGNzNmvf2LxLXvAWQ+Rf
+	Ob/LYA==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42y77nmea8-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42y77nmea9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Thu, 21 Nov 2024 14:21:59 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id C5D484004A;
-	Thu, 21 Nov 2024 14:20:15 +0100 (CET)
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 22AB24004B;
+	Thu, 21 Nov 2024 14:20:19 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9D9A32843CC;
-	Thu, 21 Nov 2024 14:19:08 +0100 (CET)
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5B4972843D6;
+	Thu, 21 Nov 2024 14:19:09 +0100 (CET)
 Received: from localhost (10.48.86.208) by SHFDAG1NODE1.st.com (10.75.129.69)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 21 Nov
- 2024 14:19:08 +0100
+ 2024 14:19:09 +0100
 From: Hugues Fruchet <hugues.fruchet@foss.st.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
         Ezequiel Garcia
@@ -82,9 +82,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
         <linux-rockchip@lists.infradead.org>,
         <linux-stm32@st-md-mailman.stormreply.com>,
         <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v3 2/3] media: verisilicon: add WebP decoding support
-Date: Thu, 21 Nov 2024 14:19:03 +0100
-Message-ID: <20241121131904.261230-3-hugues.fruchet@foss.st.com>
+Subject: [PATCH v3 3/3] media: verisilicon: postproc: 4K support
+Date: Thu, 21 Nov 2024 14:19:04 +0100
+Message-ID: <20241121131904.261230-4-hugues.fruchet@foss.st.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
 References: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
@@ -102,124 +102,67 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Add WebP picture decoding support to VP8 stateless decoder.
+Support input larger than 4096x2048 using extended input width/height
+fields of swreg92.
+This is needed to decode large WebP or JPEG pictures.
 
 Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
 ---
- .../media/platform/verisilicon/hantro_g1_regs.h |  1 +
- .../platform/verisilicon/hantro_g1_vp8_dec.c    | 14 ++++++++++++++
- .../media/platform/verisilicon/hantro_v4l2.c    |  2 ++
- .../platform/verisilicon/stm32mp25_vpu_hw.c     | 17 +++++++++++++++--
- 4 files changed, 32 insertions(+), 2 deletions(-)
+ drivers/media/platform/verisilicon/hantro.h          | 2 ++
+ drivers/media/platform/verisilicon/hantro_g1_regs.h  | 2 +-
+ drivers/media/platform/verisilicon/hantro_postproc.c | 6 +++++-
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+index 811260dc3c77..d1337f7742e4 100644
+--- a/drivers/media/platform/verisilicon/hantro.h
++++ b/drivers/media/platform/verisilicon/hantro.h
+@@ -321,6 +321,8 @@ struct hantro_postproc_regs {
+ 	struct hantro_reg output_fmt;
+ 	struct hantro_reg orig_width;
+ 	struct hantro_reg display_width;
++	struct hantro_reg input_width_ext;
++	struct hantro_reg input_height_ext;
+ };
+ 
+ struct hantro_vp9_decoded_buffer_info {
 diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h b/drivers/media/platform/verisilicon/hantro_g1_regs.h
-index c623b3b0be18..e7d4db788e57 100644
+index e7d4db788e57..f6e5bbeb1914 100644
 --- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
 +++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
-@@ -232,6 +232,7 @@
- #define     G1_REG_DEC_CTRL7_DCT7_START_BIT(x)		(((x) & 0x3f) << 0)
- #define G1_REG_ADDR_STR					0x030
- #define G1_REG_ADDR_DST					0x034
-+#define G1_REG_ADDR_DST_CHROMA				0x038
- #define G1_REG_ADDR_REF(i)				(0x038 + ((i) * 0x4))
- #define     G1_REG_ADDR_REF_FIELD_E			BIT(1)
- #define     G1_REG_ADDR_REF_TOPC_E			BIT(0)
-diff --git a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
-index 851eb67f19f5..c83ee6f5edc8 100644
---- a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
-+++ b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
-@@ -307,6 +307,12 @@ static void cfg_parts(struct hantro_ctx *ctx,
- 			   G1_REG_DEC_CTRL3_STREAM_LEN(dct_part_total_len),
- 			   G1_REG_DEC_CTRL3);
+@@ -351,7 +351,7 @@
+ #define     G1_REG_PP_CONTROL_OUT_WIDTH(v) (((v) << 4) & GENMASK(14, 4))
+ #define G1_REG_PP_MASK1_ORIG_WIDTH	G1_SWREG(88)
+ #define     G1_REG_PP_ORIG_WIDTH(v)	(((v) << 23) & GENMASK(31, 23))
+-#define G1_REG_PP_DISPLAY_WIDTH		G1_SWREG(92)
++#define G1_REG_PP_DISPLAY_WIDTH_IN_EXT	G1_SWREG(92)
+ #define G1_REG_PP_FUSE			G1_SWREG(99)
  
-+	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_WEBP_FRAME)
-+		vdpu_write_relaxed(vpu,
-+				   G1_REG_DEC_CTRL3_STREAM_LEN_EXT
-+					(dct_part_total_len >> 24),
-+				   G1_REG_DEC_CTRL3);
-+
- 	/* DCT partitions base address */
- 	for (i = 0; i < hdr->num_dct_parts; i++) {
- 		u32 byte_offset = dct_part_offset + dct_size_part_size + count;
-@@ -427,6 +433,12 @@ static void cfg_buffers(struct hantro_ctx *ctx,
+ #endif /* HANTRO_G1_REGS_H_ */
+diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+index 232c93eea7ee..84c8e287470d 100644
+--- a/drivers/media/platform/verisilicon/hantro_postproc.c
++++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+@@ -49,7 +49,9 @@ static const struct hantro_postproc_regs hantro_g1_postproc_regs = {
+ 	.input_fmt = {G1_REG_PP_CONTROL, 29, 0x7},
+ 	.output_fmt = {G1_REG_PP_CONTROL, 26, 0x7},
+ 	.orig_width = {G1_REG_PP_MASK1_ORIG_WIDTH, 23, 0x1ff},
+-	.display_width = {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
++	.display_width = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 0, 0xfff},
++	.input_width_ext = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 26, 0x7},
++	.input_height_ext = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 29, 0x7},
+ };
  
- 	dst_dma = hantro_get_dec_buf_addr(ctx, &vb2_dst->vb2_buf);
- 	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
-+
-+	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_WEBP_FRAME)
-+		vdpu_write_relaxed(vpu, dst_dma +
-+				   ctx->dst_fmt.plane_fmt[0].bytesperline *
-+				   ctx->dst_fmt.height,
-+				   G1_REG_ADDR_DST_CHROMA);
+ bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+@@ -103,6 +105,8 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
+ 	HANTRO_PP_REG_WRITE(vpu, output_height, ctx->dst_fmt.height);
+ 	HANTRO_PP_REG_WRITE(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width));
+ 	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
++	HANTRO_PP_REG_WRITE(vpu, input_width_ext, MB_WIDTH(ctx->dst_fmt.width) >> 9);
++	HANTRO_PP_REG_WRITE(vpu, input_height_ext, MB_HEIGHT(ctx->dst_fmt.height >> 8));
  }
  
- int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
-@@ -471,6 +483,8 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
- 		reg |= G1_REG_DEC_CTRL0_SKIP_MODE;
- 	if (hdr->lf.level == 0)
- 		reg |= G1_REG_DEC_CTRL0_FILTERING_DIS;
-+	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_WEBP_FRAME)
-+		reg |= G1_REG_DEC_CTRL0_WEBP_E;
- 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
- 
- 	/* Frame dimensions */
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 2513adfbd825..7075b2ba1ec2 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -470,6 +470,7 @@ hantro_update_requires_request(struct hantro_ctx *ctx, u32 fourcc)
- 		break;
- 	case V4L2_PIX_FMT_MPEG2_SLICE:
- 	case V4L2_PIX_FMT_VP8_FRAME:
-+	case V4L2_PIX_FMT_WEBP_FRAME:
- 	case V4L2_PIX_FMT_H264_SLICE:
- 	case V4L2_PIX_FMT_HEVC_SLICE:
- 	case V4L2_PIX_FMT_VP9_FRAME:
-@@ -492,6 +493,7 @@ hantro_update_requires_hold_capture_buf(struct hantro_ctx *ctx, u32 fourcc)
- 	case V4L2_PIX_FMT_JPEG:
- 	case V4L2_PIX_FMT_MPEG2_SLICE:
- 	case V4L2_PIX_FMT_VP8_FRAME:
-+	case V4L2_PIX_FMT_WEBP_FRAME:
- 	case V4L2_PIX_FMT_HEVC_SLICE:
- 	case V4L2_PIX_FMT_VP9_FRAME:
- 		vq->subsystem_flags &= ~(VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF);
-diff --git a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-index 833821120b20..c291b1560e20 100644
---- a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-+++ b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-@@ -22,10 +22,10 @@ static const struct hantro_fmt stm32mp25_vdec_fmts[] = {
- 		.codec_mode = HANTRO_MODE_NONE,
- 		.frmsize = {
- 			.min_width = FMT_MIN_WIDTH,
--			.max_width = FMT_FHD_WIDTH,
-+			.max_width = FMT_4K_WIDTH,
- 			.step_width = MB_DIM,
- 			.min_height = FMT_MIN_HEIGHT,
--			.max_height = FMT_FHD_HEIGHT,
-+			.max_height = FMT_4K_HEIGHT,
- 			.step_height = MB_DIM,
- 		},
- 	},
-@@ -42,6 +42,19 @@ static const struct hantro_fmt stm32mp25_vdec_fmts[] = {
- 			.step_height = MB_DIM,
- 		},
- 	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_WEBP_FRAME,
-+		.codec_mode = HANTRO_MODE_VP8_DEC,
-+		.max_depth = 2,
-+		.frmsize = {
-+			.min_width = FMT_MIN_WIDTH,
-+			.max_width = FMT_4K_WIDTH,
-+			.step_width = MB_DIM,
-+			.min_height = FMT_MIN_HEIGHT,
-+			.max_height = FMT_4K_HEIGHT,
-+			.step_height = MB_DIM,
-+		},
-+	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_H264_SLICE,
- 		.codec_mode = HANTRO_MODE_H264_DEC,
+ static int down_scale_factor(struct hantro_ctx *ctx)
 -- 
 2.25.1
 
