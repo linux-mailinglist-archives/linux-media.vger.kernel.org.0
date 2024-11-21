@@ -1,177 +1,238 @@
-Return-Path: <linux-media+bounces-21767-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21768-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A149D4E96
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 15:21:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE149D4E97
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 15:21:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 584E1B2339F
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 14:21:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B1C8AB2620B
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 14:21:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84AE61D88DD;
-	Thu, 21 Nov 2024 14:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5061D8A08;
+	Thu, 21 Nov 2024 14:21:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="sbpl/LPi"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hkCQDWla"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D9D1369B4;
-	Thu, 21 Nov 2024 14:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E427A1D88D1;
+	Thu, 21 Nov 2024 14:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732198851; cv=none; b=fK3wRagZK836HDreDuS4oB7k7Ew+c/X6ggfUlQ/23KStMqV3+CiAkPTBVgk/TTZVBrisZ1JjvOmE0h/wStk2Erx21KnGAzDa069PsdkiAMqTYt1CnhofsbkBqU8o8YNoW/OkyDv0G/OvFs6BRq5cAd9WZUZ5UFQqD+3lQf2/0ns=
+	t=1732198866; cv=none; b=ovGcugNP3Lg9u5Rmp5k20AyVK1SIk1jioYGuoFzOua0PXFWoZN2RWc8w6uLS079+NcmJmWSJZftR61i/0MH5exeUuTdY6vdvUY5mUWe8HcxlZK02BWYFAOIGI6Ic+UzdASyXY79aZ9G6b9yE81u51EuA5x7uk7mCVw58LC5kX7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732198851; c=relaxed/simple;
-	bh=TMcvAxcUInwde+Vl6F4hkgr/2nSkXZTrn99Ur+TK0Uw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=GdPRubK6hrgkmWmjUnkrdayocvzo5ImAlLr7uR2+qffvO9tJDGa1mdi5Encou7VcdKP7DpCfBbjuxKv27lgSfW4H6Oj+4NRpVZk8uBOdkfflWUj2UF0A/Q+L8GaTI/P01qc8tZ/CuRZ9paDpqgRmhUUmts9mTboPfirpR3p7gqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=sbpl/LPi; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALA95BP028349;
-	Thu, 21 Nov 2024 15:20:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	JAlbkjqBlD0R3FSv5bX889vfuMU5j/rR8gfcpzLu/u0=; b=sbpl/LPiBr3D4gPg
-	/K8PcSO2DSu650saG5zzqbJeDCpFlqysf98wDAZP5pxSfKeqK14PEK7ZkP778mtM
-	NWHfndCwMrgNgej4wfQ4OzKyNmITFvbKSu6Fb3bbnexoFvZb1ZXi2uPz4/S7XGrb
-	zZMFOA6Friu12I7rzLjB8rUDO1m9SRGrmJWkaxJm2W1dU5fdpYlITvCEX7id04F4
-	ccW6yQkfDlbYzacvJvVmbiKajZrhaHpKPwrWND5BAyI5CMxsFgz4nyTgFqBlhL/9
-	CJV1BvgvvvPzrlJFqdmN96OxBN4ICUnYFHuslXTafavZiU1h+y6JCgiSmR0dVLP7
-	VsBwxQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42xkqf713x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 15:20:18 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 86B6340046;
-	Thu, 21 Nov 2024 15:18:33 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5C0A828D457;
-	Thu, 21 Nov 2024 15:16:43 +0100 (CET)
-Received: from [10.48.86.208] (10.48.86.208) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 21 Nov
- 2024 15:16:42 +0100
-Message-ID: <86907cc9-5339-435a-a346-08beea21b886@foss.st.com>
-Date: Thu, 21 Nov 2024 15:16:41 +0100
+	s=arc-20240116; t=1732198866; c=relaxed/simple;
+	bh=XrWNbUaQHxdhVGLsaRR8H43ccZOPiVT7ZhEp9+0lG/g=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kjcTc4eO48bpDcZb8up9BO6Sh+uti9jQwG/00hI67hsWxYMXD5lVGzPgZjVbNEM6huPu+BFKMC/XNjh3JpDYL2fHxPNalRPe5HlefsLCJBhK6pvW9lkuvL5slr5tjETmIop4JfT2IFz2jORFn/SQYLKOImggaHjxSFPBcE97GNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hkCQDWla; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1732198855;
+	bh=XrWNbUaQHxdhVGLsaRR8H43ccZOPiVT7ZhEp9+0lG/g=;
+	h=Subject:From:To:Date:In-Reply-To:References:From;
+	b=hkCQDWlaMSNNUraJPT4ZbovKwKwtSdjoGf2KYIXNRxoGTf7nYTXBlfueOPIsi/HAC
+	 sOFYoLwdfFJwNdN1X6mweGfkcwsz8Oiys+2AGowHXgarFYtod23BW1WDm+hTdcY1cg
+	 Drf4G6eL+JuUlQ1aCXb1KAvRei5N6GaWFritjKVy8OsnHQY3QXEJznS+bWLKlO5lb1
+	 XZtWUW0RuUd+PAfTT6CyYQCQjr3HXabYULDOa6R6y0xApX3Bn5kgRXp5S44nFYh1FG
+	 jub+J2k29eLCGBXDC+TsnxyCZ9b4zkDfJCAq6GG0UjbKGbfcafS45wC8jUUAU9AjU5
+	 UoB1otOh5MwPA==
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 145C317E3684;
+	Thu, 21 Nov 2024 15:20:53 +0100 (CET)
+Message-ID: <41310959a7b40f8e28fb324e00c4a51966bec803.camel@collabora.com>
+Subject: Re: [PATCH v2 2/3] media: verisilicon: add WebP decoding support
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hugues FRUCHET <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, Fritz Koenig	 <frkoenig@chromium.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,  Daniel Almeida
+ <daniel.almeida@collabora.com>, Andrzej Pietrasiewicz
+ <andrzej.p@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Date: Thu, 21 Nov 2024 09:20:52 -0500
+In-Reply-To: <cf81e5f2-45a4-4c82-890c-c8a4d17b22df@foss.st.com>
+References: <20241120110105.244413-1-hugues.fruchet@foss.st.com>
+	 <20241120110105.244413-3-hugues.fruchet@foss.st.com>
+	 <c9f19faacccd47b8a72fc4a29a0f75b30bce1aa1.camel@collabora.com>
+	 <cf81e5f2-45a4-4c82-890c-c8a4d17b22df@foss.st.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.1 (3.54.1-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/3] Add WebP support to hantro decoder
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia
-	<ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Sebastian Fricke
-	<sebastian.fricke@collabora.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Erling Ljunggren <hljunggr@cisco.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        Benjamin
- Gaignard <benjamin.gaignard@collabora.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rockchip@lists.infradead.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>
-References: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
-Content-Language: en-US
-From: Hugues FRUCHET <hugues.fruchet@foss.st.com>
-In-Reply-To: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+Hi Hugues,
 
-The corresponding GStreamer code has been pushed here (v4l2slwebpdec):
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7939
+Le jeudi 21 novembre 2024 à 11:07 +0100, Hugues FRUCHET a écrit :
+> Hi Nicolas,
+> 
+> On 11/20/24 15:25, Nicolas Dufresne wrote:
+> > Le mercredi 20 novembre 2024 à 12:01 +0100, Hugues Fruchet a écrit :
+> > > Add WebP picture decoding support to VP8 stateless decoder.
+> > > 
+> > > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+> > > ---
+> > >   .../media/platform/verisilicon/hantro_g1_regs.h |  1 +
+> > >   .../platform/verisilicon/hantro_g1_vp8_dec.c    | 14 ++++++++++++++
+> > >   .../media/platform/verisilicon/hantro_v4l2.c    |  2 ++
+> > >   .../platform/verisilicon/stm32mp25_vpu_hw.c     | 17 +++++++++++++++--
+> > >   4 files changed, 32 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> > > index c623b3b0be18..e7d4db788e57 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> > > +++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> > > @@ -232,6 +232,7 @@
+> > >   #define     G1_REG_DEC_CTRL7_DCT7_START_BIT(x)		(((x) & 0x3f) << 0)
+> > >   #define G1_REG_ADDR_STR					0x030
+> > >   #define G1_REG_ADDR_DST					0x034
+> > > +#define G1_REG_ADDR_DST_CHROMA				0x038
+> > >   #define G1_REG_ADDR_REF(i)				(0x038 + ((i) * 0x4))
+> > >   #define     G1_REG_ADDR_REF_FIELD_E			BIT(1)
+> > >   #define     G1_REG_ADDR_REF_TOPC_E			BIT(0)
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> > > index 851eb67f19f5..c83ee6f5edc8 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> > > +++ b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> > > @@ -307,6 +307,12 @@ static void cfg_parts(struct hantro_ctx *ctx,
+> > >   			   G1_REG_DEC_CTRL3_STREAM_LEN(dct_part_total_len),
+> > >   			   G1_REG_DEC_CTRL3);
+> > >   
+> > > +	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_WEBP_FRAME)
+> > > +		vdpu_write_relaxed(vpu,
+> > > +				   G1_REG_DEC_CTRL3_STREAM_LEN_EXT
+> > > +					(dct_part_total_len >> 24),
+> > > +				   G1_REG_DEC_CTRL3);
+> > > +
+> > >   	/* DCT partitions base address */
+> > >   	for (i = 0; i < hdr->num_dct_parts; i++) {
+> > >   		u32 byte_offset = dct_part_offset + dct_size_part_size + count;
+> > > @@ -427,6 +433,12 @@ static void cfg_buffers(struct hantro_ctx *ctx,
+> > >   
+> > >   	dst_dma = hantro_get_dec_buf_addr(ctx, &vb2_dst->vb2_buf);
+> > >   	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
+> > > +
+> > > +	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_WEBP_FRAME)
+> > > +		vdpu_write_relaxed(vpu, dst_dma +
+> > > +				   ctx->dst_fmt.plane_fmt[0].bytesperline *
+> > > +				   ctx->dst_fmt.height,
+> > > +				   G1_REG_ADDR_DST_CHROMA);
+> > >   }
+> > >   
+> > >   int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+> > > @@ -471,6 +483,8 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+> > >   		reg |= G1_REG_DEC_CTRL0_SKIP_MODE;
+> > >   	if (hdr->lf.level == 0)
+> > >   		reg |= G1_REG_DEC_CTRL0_FILTERING_DIS;
+> > > +	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_WEBP_FRAME)
+> > > +		reg |= G1_REG_DEC_CTRL0_WEBP_E;
+> > >   	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
+> > >   
+> > >   	/* Frame dimensions */
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > index 2513adfbd825..7075b2ba1ec2 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > @@ -470,6 +470,7 @@ hantro_update_requires_request(struct hantro_ctx *ctx, u32 fourcc)
+> > >   		break;
+> > >   	case V4L2_PIX_FMT_MPEG2_SLICE:
+> > >   	case V4L2_PIX_FMT_VP8_FRAME:
+> > > +	case V4L2_PIX_FMT_WEBP_FRAME:
+> > >   	case V4L2_PIX_FMT_H264_SLICE:
+> > >   	case V4L2_PIX_FMT_HEVC_SLICE:
+> > >   	case V4L2_PIX_FMT_VP9_FRAME:
+> > > @@ -492,6 +493,7 @@ hantro_update_requires_hold_capture_buf(struct hantro_ctx *ctx, u32 fourcc)
+> > >   	case V4L2_PIX_FMT_JPEG:
+> > >   	case V4L2_PIX_FMT_MPEG2_SLICE:
+> > >   	case V4L2_PIX_FMT_VP8_FRAME:
+> > > +	case V4L2_PIX_FMT_WEBP_FRAME:
+> > >   	case V4L2_PIX_FMT_HEVC_SLICE:
+> > >   	case V4L2_PIX_FMT_VP9_FRAME:
+> > >   		vq->subsystem_flags &= ~(VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF);
+> > > diff --git a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+> > > index 833821120b20..48d6912c3bab 100644
+> > > --- a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+> > > +++ b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+> > > @@ -22,10 +22,10 @@ static const struct hantro_fmt stm32mp25_vdec_fmts[] = {
+> > >   		.codec_mode = HANTRO_MODE_NONE,
+> > >   		.frmsize = {
+> > >   			.min_width = FMT_MIN_WIDTH,
+> > > -			.max_width = FMT_FHD_WIDTH,
+> > > +			.max_width = FMT_4K_WIDTH,
+> > >   			.step_width = MB_DIM,
+> > >   			.min_height = FMT_MIN_HEIGHT,
+> > > -			.max_height = FMT_FHD_HEIGHT,
+> > > +			.max_height = FMT_4K_HEIGHT,
+> > 
+> > I'm a little surprised of this change, since this is modifying VP8_FRAME, while
+> > we should instead introduce WEBP_FRAME.
+> 
+> This is the resolution of the YUV output of decoder, not the WebP input, 
+> and because of lack of post-processor, the output is not scaled, so can 
+> go up to 4K with WebP.
+> Before WebP introduction, the maximum output resolution was FHD for all 
+> codecs. Now WebP allows up to 4K but FHD constraint remains for 
+> H264/VP8. I don't see real problems because VP8/H264 compressed inputs 
+> are well limited to FHD and only WebP allows 4K...
 
-BR,
-Hugues.
+Good point. Would you mind adding a justification for this change within the
+commit message in v3 ?
 
-On 11/21/24 14:19, Hugues Fruchet wrote:
-> Add WebP image decoding support to stateless V4L2 VP8 decoder.
 > 
-> This have been tested on STM32MP257-EV board using GStreamer.
+> > 
+> > >   			.step_height = MB_DIM,
+> > >   		},
+> > >   	},
+> > > @@ -68,6 +68,19 @@ static const struct hantro_fmt stm32mp25_venc_fmts[] = {
+> > >   		.codec_mode = HANTRO_MODE_NONE,
+> > >   		.enc_fmt = ROCKCHIP_VPU_ENC_FMT_YUV420SP,
+> > >   	},
+> > > +	{
+> > > +		.fourcc = V4L2_PIX_FMT_WEBP_FRAME,
+> > > +		.codec_mode = HANTRO_MODE_VP8_DEC,
+> > > +		.max_depth = 2,
+> > > +		.frmsize = {
+> > > +			.min_width = FMT_MIN_WIDTH,
+> > > +			.max_width = FMT_4K_WIDTH,
+> > > +			.step_width = MB_DIM,
+> > > +			.min_height = FMT_MIN_HEIGHT,
+> > > +			.max_height = FMT_4K_HEIGHT,
+> > > +			.step_height = MB_DIM,
+> > > +		},
+> > > +	},
+> > 
+> > This is venc_fmt (encoder), this shouldn't be there.
 > 
-> Simple basic test:
-> $> wget https://www.gstatic.com/webp/gallery/1.webp
-> $> gst-launch-1.0 filesrc location= 1.webp ! typefind ! v4l2slwebpdec ! imagefreeze num-buffers=20 ! waylandsink fullscreen=true
+> All apologizes for this rebase issue, it is of course part of 
+> stm32mp25_vdec_fmts.
+
+Ack, let's get this right in v3 :-D
+
 > 
-> Slideshow of a set of WebP pictures and WebM video files:
-> $> wget https://www.gstatic.com/webp/gallery/2.webp
-> $> wget https://www.gstatic.com/webp/gallery/3.webp
-> $> wget https://www.gstatic.com/webp/gallery/4.webp
-> $> wget https://www.gstatic.com/webp/gallery/5.webp
-> $> wget https://samplemedia.linaro.org/VP8/big_buck_bunny_480p_VP8_VORBIS_25fps_1900K_short.WebM
-> $> gst-play-1.0 *.webp *.webm *.WebM --wait-on-eos
-> <hit key ">" to display next file >
+> > 
+> > >   	{
+> > >   		.fourcc = V4L2_PIX_FMT_YUYV,
+> > >   		.codec_mode = HANTRO_MODE_NONE,
+> > 
 > 
-> Large WebP image > 16777215 (size > 2^24)
-> $> gst-launch-1.0 fakesrc num-buffers=1 format=4 do-timestamp=true filltype=3 sizetype=2 sizemax=25165824 blocksize=25165824 ! video/x-raw, format=I420, width=4096, height=3072, framerate=1/1 ! webpenc quality=100 ! filesink location=4096x3072_HQ_random.webp
-> $> ls -l 4096x3072_HQ_random.webp
-> [...] 16877404 Nov 20 11:40 4096x3072_HQ_random.webp
-> $> gst-launch-1.0 filesrc location= 4096x3072_HQ_random.webp blocksize=16876610 ! image/webp, width=1, height=1, framerate=0/1 ! v4l2slwebpdec ! imagefreeze num-buffers=20 ! waylandsink fullscreen=true
-> 
-> Large WebP image decoding using post-processor is untested because of lack
-> of hardware support on this platform, nevertheless support is provided in
-> this serie for further testing on another platform having post-processor
-> support.
-> 
-> ===========
-> = history =
-> ===========
-> version 3:
->     - Fix remarks from Nicolas Dufresne:
->      - Document constraint about key frame only for WebP
->      - Fix rebase issue
->     - Fix typo detected by Diederik de Haas
-> 
-> version 2:
->     - Fix remarks from Nicolas Dufresne:
->      - Use bytesperline helper to compute chroma size
->      - Introduce a new explicit WEBP frame compressed format
->        instead of relying on VP8 + WebP flag
->      - 4K support in both decoder and post-proc
-> 
-> version 1:
->    - Initial submission
-> 
-> Hugues Fruchet (3):
->    media: uapi: add WebP uAPI
->    media: verisilicon: add WebP decoding support
->    media: verisilicon: postproc: 4K support
-> 
->   .../userspace-api/media/v4l/biblio.rst          |  9 +++++++++
->   .../media/v4l/pixfmt-compressed.rst             | 17 +++++++++++++++++
->   drivers/media/platform/verisilicon/hantro.h     |  2 ++
->   .../media/platform/verisilicon/hantro_g1_regs.h |  3 ++-
->   .../platform/verisilicon/hantro_g1_vp8_dec.c    | 14 ++++++++++++++
->   .../platform/verisilicon/hantro_postproc.c      |  6 +++++-
->   .../media/platform/verisilicon/hantro_v4l2.c    |  2 ++
->   .../platform/verisilicon/stm32mp25_vpu_hw.c     | 17 +++++++++++++++--
->   drivers/media/v4l2-core/v4l2-ioctl.c            |  1 +
->   include/uapi/linux/videodev2.h                  |  1 +
->   10 files changed, 68 insertions(+), 4 deletions(-)
-> 
+> BR,
+> Hugues.
+
 
