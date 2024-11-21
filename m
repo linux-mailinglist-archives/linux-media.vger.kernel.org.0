@@ -1,55 +1,74 @@
-Return-Path: <linux-media+bounces-21729-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21730-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D996C9D4951
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 09:56:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D50419D4A12
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 10:36:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 200E7B248FF
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 08:56:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C8D41F21D46
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2024 09:36:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D68461CC158;
-	Thu, 21 Nov 2024 08:55:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10AC11CDA18;
+	Thu, 21 Nov 2024 09:36:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MAU3vaTh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QROOU/8w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D3A1CB322;
-	Thu, 21 Nov 2024 08:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC8715C120
+	for <linux-media@vger.kernel.org>; Thu, 21 Nov 2024 09:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732179315; cv=none; b=aaw9JaSLZsBLMKkycpT/XTPP8C/PvU4Ky/Obb9MGKtYNlW/463Fpioph6IdY3iHs4IVNayckkeacq5cJCLMqX7Ijur6UdJuDUV1VmQBIujpFie4z8aYuX2+bvV7v6OcsQexn6B/cN8CQyZSaf5vdQ0GV+uaO+FSH35lBm+Tjhd0=
+	t=1732181767; cv=none; b=J/o1dQtinTo+2mfQu6ueGtF70j34bCzJdDLHVq+Ggj5wslIb4gKSJMkFZAWgsw9Ml/f9Y4TCWIGeeJfTffVGZQwL+yN0ce2ZSYA4HPW2ZkT9uZlUTxWywXw5dexBuH1w9uu7vb9Ib+P3otL8TZgzxnMGUiNBsL27G/V+5EgFOHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732179315; c=relaxed/simple;
-	bh=esX6pNIA4mdgAouLBmxFqcD5UvWUX2OcANV49HJchSs=;
+	s=arc-20240116; t=1732181767; c=relaxed/simple;
+	bh=ZT4w+cU3Dvqf35BjhmM5mFr+e38ZJq2cEAW3TsAU6l8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JlhrUuHic8sToQrkiLfYvBxxHr8s4uXu1Htwfo143CDxxh2ro8gEMIEsaEdXlzr6uzJkk5Zry45yvJlVm9Y8xGkr8BFOf/ktGAkAU/dM15fX3jM4V/dZOLZr+aFndoTdk7asFl3Q19d6aF74bBxIAkux1FLkIZlGSBQD9WLBIMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MAU3vaTh; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1732179311;
-	bh=esX6pNIA4mdgAouLBmxFqcD5UvWUX2OcANV49HJchSs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MAU3vaThPKsD/1L/Zm+bwQdn1YX5Us5vGulfNUH3TnJIcJ8/hqH9BIhEw7XxzfyoU
-	 Q1XUAf78dZwv9qYtCoNjJ7Xe+bgjm4OOcoqXtdgTs8ZlNlHQ/IMtZcfTKptZbt3+V0
-	 r6U7/e0oDlT0Ulim2IXuDb3bxcWCF2iRNfowHVzrTfDjq1TZS8F7myWw3Bajp4DxXZ
-	 5dXKJAf53L+C97Qo3P1MwZbkg+Inw7SQhewVYvMKs6lGtvIFldKjoaqII01ahDIrfM
-	 rWWScEjKE3oG8DzOsLy35mai5+Ac2hmErQ+KcijVRs+HmxAMVPNJ2lRiBCjgjNnTWv
-	 k1QG2KiWg3cag==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6A81F17E132F;
-	Thu, 21 Nov 2024 09:55:10 +0100 (CET)
-Message-ID: <72c1e62b-0bbf-4213-adbb-972caa1ebfee@collabora.com>
-Date: Thu, 21 Nov 2024 09:55:09 +0100
+	 In-Reply-To:Content-Type; b=AdAjY+P/gdt1y/SV192jqsV++3KS3/Ar4qhH7t4EESaYY+D3qb6zf1MyrLLLgRDA6fDksbfaKdqsJLk6BkSTfDfLx3b1Ioq8sC1Jz2Iju83ZSqyBZJ78plOTsqftKnGM6bqIF0M3AuTVxNOubw2uvOLMswWnPjJjA1Dd0a145ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QROOU/8w; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4314f38d274so7836745e9.1
+        for <linux-media@vger.kernel.org>; Thu, 21 Nov 2024 01:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732181764; x=1732786564; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Prq+YhLlX1ECW116mG4I8YcjFkeTG4KJTUWMk26Kduo=;
+        b=QROOU/8wN7SyCgq7Bg8HdQQLx0TzoYRhXYRZE12nXqu26bbWNNpPbhq/ktgXq/L3yw
+         GH8o7K0mZkOvRLXJ/I7z69ttP2JfEEtWKGwg9L0Jymx7TNyVPOFqstduxu+1KocqW67S
+         ouurOcGAtRO87yUNC6NenP+vnDPiYw4MTVgxF1eB8z2PdovtdoKxwGTm2IMpaePAlZHz
+         zsOBIzDrFtHwA2gXtKKTwdUIJKmwz7z3y6exOuUvb6pABj/PlAHAJ/6lMsopUg+cCYk1
+         H8shAZkshw/Dy4sRB/wnQMTLvezTN5fILbBUm0BZAFhKlIJWpsZXSPHoX6JQsPJmatYx
+         Q07A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732181764; x=1732786564;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Prq+YhLlX1ECW116mG4I8YcjFkeTG4KJTUWMk26Kduo=;
+        b=XubYP7Wh+CdmBaynFUM0q+k98GugztzreWC1PXNjh1mNOyBg0u1MN3hvoN3lK/SEJa
+         N1mn4WvxmmJioG9YINbkptrvwviM4zqQ1t6T4ejQbgJSpgAPQS2aPJh/MgC2+RkBaJ5T
+         3c4yDkwLWQW63uENnIXYrmXj1jaIU06JRo0K5l7ncnHHO9YMFfOspONo6yWldiQkxxG1
+         /U1t83aMlEhSAnn7j1EdPjDVxgdZL7o7gQael2yg1ATFy8L11AvaARudIiRxaLKQUUoC
+         +ydGvx9E7UyOEMLKmn77/2cA0NEJD0rI2p/GjcS0fw3F3x0pdO+leNhl/zeKIxYu91Fz
+         eozg==
+X-Forwarded-Encrypted: i=1; AJvYcCUrDo9AhJSb5e3I3XjL1mBO2yQmvuoQp+Uk7tXxVC3dCww9oFXeKYbKR4BHywsn3HuY+lfSyWbL124VGQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIfCelMABu0sszV+Z9K5tNhbkzf7S0CeyPPMIBpzb6jLg/BDpr
+	A0wpOrNoXnjLWQcnW8+4c4yDP7e91NKhYJTwoNCmaJFpzadesZWP3YaCsHJKuiQ=
+X-Google-Smtp-Source: AGHT+IH8By16gKHzbslHUV422fnt6D7QEkphYg4/fq6p6TddFAzWit/hIJ9+bUbGLQja+B7BJ+maEA==
+X-Received: by 2002:a5d:588f:0:b0:382:3d04:9646 with SMTP id ffacd0b85a97d-38254ade367mr6612976f8f.11.1732181764122;
+        Thu, 21 Nov 2024 01:36:04 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825493ea74sm4526510f8f.89.2024.11.21.01.36.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Nov 2024 01:36:03 -0800 (PST)
+Message-ID: <dc76ccab-e1b3-4dc6-8652-3a26146b37ad@linaro.org>
+Date: Thu, 21 Nov 2024 09:36:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,72 +76,51 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] Add GCE support for MT8196
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH 2/6] dt-bindings: media: Add qcom,x1e80100-camss binding
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Moudy Ho <moudy.ho@mediatek.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- Nancy Lin <nancy.lin@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20241121042602.32730-1-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Jagadeesh Kona <quic_jkona@quicinc.com>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-0-54075d75f654@linaro.org>
+ <20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-2-54075d75f654@linaro.org>
+ <92f3f608-1ca6-4c41-9406-28c7ad589872@linaro.org>
+ <66d1c50f-ebfc-41c7-95a4-5d555b336da4@linaro.org>
+ <bb58d02f-9ed6-476f-8bc6-ad56cb35e37f@linaro.org>
+ <91afb347-e8ee-4a97-bd8b-9a1413051cb9@linaro.org>
+ <f903025b-08ff-422c-a93e-fad911a7ee43@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20241121042602.32730-1-jason-jh.lin@mediatek.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <f903025b-08ff-422c-a93e-fad911a7ee43@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Il 21/11/24 05:25, Jason-JH.Lin ha scritto:
-> This patch series adds support for the MediaTek MT8196 SoC in the CMDQ
-> driver and related subsystems. The changes include adding compatible
-> names and properties, updating driver data to accommodate hardware
-> changes, and modifying the CMDQ API to support non-subsys ID hardware.
+On 21/11/2024 00:37, Vladimir Zapolskiy wrote:
+> On 11/21/24 01:27, Bryan O'Donoghue wrote:
+>> On 20/11/2024 23:02, Vladimir Zapolskiy wrote:
+>>> like "vdd-csiphy-0p9-supply" and "vdd-csiphy-1p2-supply"?
+>>
+>> In theory, however I'd like to avoid adding endless strings of new names
+>> into the driver code for each different power input.
 > 
-> Jason-JH.Lin (8):
->    dt-bindings: mailbox: mediatek: Add GCE header file for MT8196
->    dt-bindings: mailbox: mediatek: Add MT8196 support for gce-mailbox
->    mailbox: mtk-cmdq: Add driver data to support for MT8196
->    soc: mediatek: mtk-cmdq: Add unsupported subsys ID programing flow
->    soc: mediatek: mtk-cmdq: Add mminfra_offset compatibility for DRAM
->      address
->    soc: mediatek: Add pa_base due to CMDQ API change
->    drm/mediatek: Add pa_base due to CMDQ API change
->    media: mediatek: mdp3: Add pa_base due to CMDQ API change
-> 
->   .../mailbox/mediatek,gce-mailbox.yaml         |    4 +
->   drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |    6 +-
->   drivers/mailbox/mtk-cmdq-mailbox.c            |  107 +-
->   .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |    4 +-
->   .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |    4 +-
->   drivers/soc/mediatek/mtk-cmdq-helper.c        |  133 +-
->   drivers/soc/mediatek/mtk-mmsys.c              |    1 +
->   drivers/soc/mediatek/mtk-mutex.c              |    2 +-
->   .../dt-bindings/mailbox/mediatek,mt8196-gce.h | 1449 +++++++++++++++++
->   include/linux/mailbox/mtk-cmdq-mailbox.h      |    3 +
->   include/linux/soc/mediatek/mtk-cmdq.h         |   22 +-
->   11 files changed, 1698 insertions(+), 37 deletions(-)
->   create mode 100755 include/dt-bindings/mailbox/mediatek,mt8196-gce.h
-> 
+> I don't understand this argument, it's the same degree of endlessness as
+> the endlessness of new designed SoCs. Should it be stopped now or what's
+> the point here?
 
+I mean to say, I don't want to backdoor a bunch of optional regulators 
+with odd names via this method.
 
-Hello Jason,
-I had a fast look at the changes that you're proposing with this series.
+Per our previous disucssions/agreements we will do this in a real PHY 
+instead of inline in CAMSS.
 
-The reasons behind this are more or less understood on my side, but the
-actual changes look a bit odd in the sense that passing a physical address
-like this, on a first glance, not only looks like it may be dangerous, but
-also looks like there's a lot of room for improvement.
-
-Can you please point me at some driver/code (or a reference downsream kernel
-for this SoC, which would be even better) so that I can take a look at how
-is that being used?
-
-Thanks,
-Angelo
+---
+bod
 
