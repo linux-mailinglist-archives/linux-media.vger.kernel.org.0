@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-21836-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21837-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66A79D5E44
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 12:36:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6849D5E4C
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 12:41:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA614B25732
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 11:36:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EC8228267A
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 11:41:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2545B1DE2D2;
-	Fri, 22 Nov 2024 11:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EFA31DED75;
+	Fri, 22 Nov 2024 11:41:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="H7fNy+cL"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ANjxycDU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4C61DDC2C
-	for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 11:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98CB17E00E
+	for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 11:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732275398; cv=none; b=Estl1TXLzZtW1uWEmIl6lBZNIq9VkwE1BlgEUA7I1IrAqlUkxqulLGm2DnBVaV0UqkKUqKX4VbzxJGDu6Id5fYGy9iOPsr9h3X4kXXDoEy6RQs2+uvx2pv1k3aXdOl3uaATBk/tQ2p3P/1zzUNoSsV+zdZVeQ1CRskqlpwgHQWk=
+	t=1732275664; cv=none; b=QRHg+BI0z9tQsw7Q5l41yIPJNU6ysQEhSQLo7eTbhXZt8OigQgEh6QUhYFA/SW/Zju8b6EjlDci4XWTG7/mBzDl6v+FWn8rSSEBXgdb32RtWQ7YP3sPqQpfK2njlebNFPovZehkNjUIDuVejCKHyNCwqQEi8qW6x9Se5z6DeAoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732275398; c=relaxed/simple;
-	bh=6JXoIT83nSYxTXOWHmaIE/r47HnugT4aXMkQeAn7dl4=;
+	s=arc-20240116; t=1732275664; c=relaxed/simple;
+	bh=lp1vi2Iq7ya/TuTEogBGxYG7jWeLrKl2kVVMsWCIOvE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F46PYtSRKSDS+JrBhkm+Hpt33DDi4xdJpOwJgybqHvvEBU+o68ofpXRDFWBm6vaHpMx9Rt0Tejaz/7nRTWFbBCg90MtCdwnZIRktmlGlInBQ3SfwivpIZea1SmCNV16qRyEvTDJRtNO+mQwKieLtV1UrV9NEaT9qOviz2kZHgKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=H7fNy+cL; arc=none smtp.client-ip=209.85.219.171
+	 To:Cc:Content-Type; b=bjU116wqGbkn2ju6CTTL0VcplUdfqmVLcwCDOqPowBU/zfabiIadzV5bbLMnXtz4dZILthyFQNVocom+KG3oYiRtFzfkzlJqba01y+ZuB13kWt2CdUuprmWIr8KAsiN8K9mFVV+FhycBEygcZRj8HRNcG/I2/5ht5KRAe+Z3j34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ANjxycDU; arc=none smtp.client-ip=209.85.219.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e3890bec8d8so227866276.1
-        for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 03:36:36 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e387ff69175so156377276.2
+        for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 03:41:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1732275395; x=1732880195; darn=vger.kernel.org;
+        d=raspberrypi.com; s=google; t=1732275662; x=1732880462; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0sBqcbK1efD2Qn0RLXgO+HABCeGcow4GsKIzdjiZraQ=;
-        b=H7fNy+cLO31G6MdhvOyI8a9EaoOeIsDYOwvqfkLshuyR5G6qFTXvirIEKD5iZDC4U2
-         oskuDCMXwEHkG5l3U60CR/dELwAtyS9VhPA0QPqosy+hXS7wdeAYZOWIk0O+2XJ3Rkyu
-         zuIevnmvKtzFw1Ac7edLtjeD5EWoGxdaFEBYVeb5cCyA7kKS2oMCZdAsouU7fJYNkqsm
-         u4/AU+l+xvjQ9N1Zls11LQnIRED7olX2GIXTWrnsUPm5Ck74+SaNcwgViBrOwOavW0N2
-         /m517r6gDusxWCHaYKIMJcxH4ytPJHhVAuY8scbK5gWBOzfBIJvFWWCHJs5DGpBNADVV
-         nWyA==
+        bh=jJAb2wfaEGwYjP5tGhyEnaRAxPwQNw0aCt1/mnNWsV8=;
+        b=ANjxycDUzqeTlyEr1M8CfjE0MHVN6/d9+raR+j0db13RmAdBh9cEXYRIujm3Uv2eh3
+         ArC4jqV1FaNo7ygUQkKyW0OAWvbUtRDiKfKcwtLLQvY7yb4hnCYIR6H/VwciH9jo5HKU
+         mvT4AdNdx+imcqF+3juBXphpKjJrYeoUilTMGoOszlO4c7YriAgO25uEmLaHowfvElw/
+         lut4a9bExpDNOuz5CUzj8C9Upqw2eOhNHHqHONfjQ6LVuYH9K1LWPTc2Jz2gqrthM+cR
+         IXXnpjrw6cbaYxfPt/kEsLnqVZPMZTv8lx6963XxlnivO5g0qY82QZZgCxLGZCMN+M0S
+         jvEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732275395; x=1732880195;
+        d=1e100.net; s=20230601; t=1732275662; x=1732880462;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0sBqcbK1efD2Qn0RLXgO+HABCeGcow4GsKIzdjiZraQ=;
-        b=IshC2Pl9mOyLvQEK5K8+Hvi/HqC8zF+HTS0KbOQO88W3lUBmiqGij/0XPN39YZiGhx
-         w2cAUNVKnrGXjqIXBuS7YlgKfLVB4t7rkXEuFtNAFygpVsdppolv6/HJXuq02e1wc+OA
-         /IJtB9Tg++U+Sv/xYzt+Nhb7ys+Ggr/xjjNWzN4bphW9z2FNvjqgMlafqY3VAifIiNQI
-         98PfaHR26Jah//10YnvX70RPTKfGVCWDVbIB2+nBNfRHErHHkq0d7LnstMBUM83dvMi/
-         LSwVzbJbqdEOEN+ZkqtWvPZizJk18O6GTznExkBrHh7jUGy2ZZ2gIJoCcfZv+S3bXYfP
-         klYg==
-X-Forwarded-Encrypted: i=1; AJvYcCVfvIaHpQr1Du8CFqqRAQo/Sq6qv9pDSUVnUcmOsC3nausQ8xymryViXZ92k5Kzt/qJre75sfS7BHXrAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMwwaOUV4sChtS9iAHtklMZN0NBrOla3drhW4oJcxIo1lVvlfT
-	AU/qgUEX/j8KBzO2WvPJOq4FYApxeeoro1dt6zqUqQWBKELQn5sesYrUHD6TO0Wldrg3cKwBKS+
-	4AxwQw+xFYwt4c9bBXYgUUkIDYmRzs/4WshJ+kA==
-X-Gm-Gg: ASbGncuWCZfQEvpPLLMAQC3tTedecAy70xzcg81/HeP+dcn22ed+SWGWu3iMnp4u2br
-	1UPsecTEzvzXvfwrBINviyOkgwcZgrHd+zlNASISsMx6XAifwhedHiw5S3ZBl52c=
-X-Google-Smtp-Source: AGHT+IHsakElmZNZXg6tWaPdffed3q6eehdNBbS91/o+k90QEJ+G92HBPismmAOKH8alO8lyFFv7OZaI5ksBZxAF2lo=
-X-Received: by 2002:a05:690c:284a:b0:6c8:7827:f289 with SMTP id
- 00721157ae682-6eee0a15571mr8183727b3.5.1732275395350; Fri, 22 Nov 2024
- 03:36:35 -0800 (PST)
+        bh=jJAb2wfaEGwYjP5tGhyEnaRAxPwQNw0aCt1/mnNWsV8=;
+        b=dIPKftu0Ze6ppjbOK/KUoJfY6Imb1o7Tgo6JPinAquKTzkOT26rq1NXUuYuRotX5S1
+         x/vbD/5Ji1m04SgfH5l5K7dhOtqv6+XyJYDcte7WImLVcDh81qoF73FgI36rn8KQoaeU
+         r3KJHt47Nw+cdxUwVq23m5o9oPvlFvbSegT6OwJycTNVrF2e2aGyIgaLgnivqipmeNUG
+         yOIrLH7EREuDobiKqxbLzjZpdoJPUqVlMfbpkIf4cTq47PHLvCUlxFAIFnysm//6fuO4
+         RZueKP0CcoQ2+a5GNORk1XvO3gGRsotzYiibIFJ8mKM0BvAYDo9j3vqk9loGFNvT/MxS
+         W/Xg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8ADCCJzsB7gerDeDMFApIjRrB43D1lTEvX40F0vuEZmpQmv/YcLUQTpMWF2WhvyQFmY/n6a39XYVYFQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzWPCoJvZqsLKAk1LHB92WD9pOYOYO+iURZxJhyPCjCxWF7jw5
+	kuurF6uW06MGGAJrnizwqFsOsh5r4x9noPS7MIEATUIyvhbq7t+7crju/5PKrKjnQvTH2SbRAf4
+	sfqLTcm1UMhu62HhmeEqRUiUZ9tY/TAPuASq2Lw==
+X-Gm-Gg: ASbGncvcIEYBDYuEoBS+Hi7UvYHyD2Vv/264t3wZiGxFMm3iE7UyZPE5tDYFEnxJe93
+	zwIO3h9sH5TgMtJNpHM71p16DZqQqM2LQif8wAFf5lY85V6dMHKO1omroDz1jq3g=
+X-Google-Smtp-Source: AGHT+IEi3ScDmwaL6BuNLPC9RVZ0SffHnlV2j182TkFRSvu6Ibvv0coqzDmjB1nUi4Vfhlt3vE6Ek0Qw1Jo4FhfXkvs=
+X-Received: by 2002:a05:690c:680d:b0:6dd:c828:485a with SMTP id
+ 00721157ae682-6eee0b67b47mr11613407b3.8.1732275661801; Fri, 22 Nov 2024
+ 03:41:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,13 +73,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241122084152.1841419-1-naush@raspberrypi.com>
- <20241122084152.1841419-5-naush@raspberrypi.com> <vnl2px6zcb7pchhfp3k3lngicamsjvidu75sixvubrohqaudlr@h6r54mzr3daz>
-In-Reply-To: <vnl2px6zcb7pchhfp3k3lngicamsjvidu75sixvubrohqaudlr@h6r54mzr3daz>
+ <20241122084152.1841419-6-naush@raspberrypi.com> <xy44zndazbw7ehpzbc6hexgptjymevvupjhuy2x6zxp54qtepm@vlbb6js62cq4>
+In-Reply-To: <xy44zndazbw7ehpzbc6hexgptjymevvupjhuy2x6zxp54qtepm@vlbb6js62cq4>
 From: Naushir Patuck <naush@raspberrypi.com>
-Date: Fri, 22 Nov 2024 11:35:59 +0000
-Message-ID: <CAEmqJPrfGCB=hKN-+0cG3xFiZxS4BJ_FT=pXnt5U+48wk+A0sw@mail.gmail.com>
-Subject: Re: [PATCH v1 4/5] drivers: media: bcm2835-unicam: Fix for possible
- dummy buffer overrun
+Date: Fri, 22 Nov 2024 11:40:26 +0000
+Message-ID: <CAEmqJPrrAhhukn2H4nUhe1njVi-dyW9q=u1h8YgafvJGbYRG6Q@mail.gmail.com>
+Subject: Re: [PATCH v1 5/5] drivers: media: bcm2835-unicam: Correctly handle
+ FS + FE ISR condition
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -91,62 +91,104 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi Jacopo,
 
-On Fri, 22 Nov 2024 at 11:20, Jacopo Mondi
+On Fri, 22 Nov 2024 at 11:16, Jacopo Mondi
 <jacopo.mondi@ideasonboard.com> wrote:
 >
 > Hi Naush
 >
-> On Fri, Nov 22, 2024 at 08:41:51AM +0000, Naushir Patuck wrote:
-> > The Unicam hardware has been observed to cause a buffer overrun when
-> > using the dummy buffer as a circular buffer. The conditions that cause
-> > the overrun are not fully known, but it seems to occur when the memory
-> > bus is heavily loaded.
+> On Fri, Nov 22, 2024 at 08:41:52AM +0000, Naushir Patuck wrote:
+> > This change aligns the FS/FE interrupt handling with the Raspberry Pi
+> > kernel downstream Unicam driver.
 > >
-> > To avoid the overrun, program the hardware with a buffer size of 0 when
-> > using the dummy buffer. This will cause overrun into the allocated dummy
-> > buffer, but avoid out of bounds writes.
+> > If we get a simultaneous FS + FE interrupt for the same frame, it cannot
+> > be marked as completed and returned to userland as the framebuffer will
+> > be refilled by Unicam on the next sensor frame. Additionally, the
+> > timestamp will be set to 0 as the FS interrupt handling code will not
+> > have run yet.
+> >
+> > To avoid these problems, the frame is considered dropped in the FE
+> > handler, and will be returned to userland on the subsequent sensor frame.
 > >
 > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
 > > ---
-> >  drivers/media/platform/broadcom/bcm2835-unicam.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >  .../media/platform/broadcom/bcm2835-unicam.c  | 39 +++++++++++++++++--
+> >  1 file changed, 35 insertions(+), 4 deletions(-)
 > >
 > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > index 550eb1b064f1..f10064107d54 100644
+> > index f10064107d54..0d2aa25d483f 100644
 > > --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
 > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > @@ -640,7 +640,14 @@ static inline void unicam_reg_write_field(struct unicam_device *unicam, u32 offs
-> >  static void unicam_wr_dma_addr(struct unicam_node *node,
-> >                              struct unicam_buffer *buf)
-> >  {
-> > -     dma_addr_t endaddr = buf->dma_addr + buf->size;
-> > +     /*
-> > +      * Due to a HW bug causing buffer overruns in circular buffer mode under
-> > +      * certain (not yet fully known) conditions, the dummy buffer allocation
-> > +      * is set to a a single page size, but the hardware gets programmed with
-> > +      * a buffer size of 0.
-> > +      */
-> > +     dma_addr_t endaddr = buf->dma_addr +
-> > +                          (buf != &node->dummy_buf ? buf->size : 0);
+> > @@ -773,10 +773,26 @@ static irqreturn_t unicam_isr(int irq, void *dev)
+> >                        * as complete, as the HW will reuse that buffer.
+> >                        */
+> >                       if (node->cur_frm && node->cur_frm != node->next_frm) {
+> > +                             /*
+> > +                              * This condition checks if FE + FS for the same
+> > +                              * frame has occurred. In such cases, we cannot
+> > +                              * return out the frame, as no buffer handling
+> > +                              * or timestamping has yet been done as part of
+> > +                              * the FS handler.
+> > +                              */
+> > +                             if (!node->cur_frm->vb.vb2_buf.timestamp) {
+> > +                                     dev_dbg(unicam->v4l2_dev.dev,
+> > +                                             "ISR: FE without FS, dropping frame\n");
+> > +                                     continue;
+> > +                             }
+> > +
+> >                               unicam_process_buffer_complete(node, sequence);
+> > +                             node->cur_frm = node->next_frm;
+> > +                             node->next_frm = NULL;
+> >                               inc_seq = true;
+> > +                     } else {
+> > +                             node->cur_frm = node->next_frm;
+> >                       }
+> > -                     node->cur_frm = node->next_frm;
+> >               }
+> >
+> >               /*
+> > @@ -812,10 +828,25 @@ static irqreturn_t unicam_isr(int irq, void *dev)
+> >                                       i);
+> >                       /*
+> >                        * Set the next frame output to go to a dummy frame
+> > -                      * if we have not managed to obtain another frame
+> > -                      * from the queue.
+> > +                      * if no buffer currently queued.
+> >                        */
+> > -                     unicam_schedule_dummy_buffer(node);
+> > +                     if (!node->next_frm ||
+> > +                         node->next_frm == node->cur_frm) {
+> > +                             unicam_schedule_dummy_buffer(node);
+> > +                     } else if (unicam->node[i].cur_frm) {
+> > +                             /*
+> > +                              * Repeated FS without FE. Hardware will have
+> > +                              * swapped buffers, but the cur_frm doesn't
+> > +                              * contain valid data. Return cur_frm to the
+> > +                              * queue.
 >
-> So the DMA engine doesn't actually write any data to dummy_buf
-> anymore ?
->
->
-> Does it still need to be allocated at all ? Or can we simply set the
-> dma transfer size to 0 ?
+> So the buffer gets silently recycled ? Or should it be returned with
+> errors to userspace ?
 
-The DMA engine does still write to the buffer, so the allocation needs
-to occur. The zero size programmed into the register is a quirk of the
-HW itself, and is used to ensure the write wrap correctly in the
-buffer.
+The buffer silently gets recycled and we dequeue when we are sure it
+is valid and will not get overwritten.  If we were to return to
+userspace with an error, there is still a race condition on the name
+frame/buffer which will also have to return as error.
 
+Regards,
 Naush
 
+
 >
+> > +                              */
+> > +                             spin_lock(&node->dma_queue_lock);
+> > +                             list_add_tail(&node->cur_frm->list,
+> > +                                           &node->dma_queue);
+> > +                             spin_unlock(&node->dma_queue_lock);
+> > +                             node->cur_frm = node->next_frm;
+> > +                             node->next_frm = NULL;
+> > +                     }
+> >               }
 > >
-> >       if (node->id == UNICAM_IMAGE_NODE) {
-> >               unicam_reg_write(node->dev, UNICAM_IBSA0, buf->dma_addr);
+> >               unicam_queue_event_sof(unicam);
 > > --
 > > 2.34.1
 > >
