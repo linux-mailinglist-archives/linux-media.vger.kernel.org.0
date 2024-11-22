@@ -1,184 +1,181 @@
-Return-Path: <linux-media+bounces-21795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21796-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7459C9D5B31
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 09:43:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B06C19D5BBB
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 10:19:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED86A1F23041
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 08:43:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 717AD28838F
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 09:19:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77FCF1D414B;
-	Fri, 22 Nov 2024 08:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A9D18BBA0;
+	Fri, 22 Nov 2024 09:16:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="jumFb7s0"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="qFCbMxfi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f225.google.com (mail-lj1-f225.google.com [209.85.208.225])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE4E1C7B8D
-	for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 08:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2155917107F
+	for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 09:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732264931; cv=none; b=FNlooS+Q7MFsl3ux85O7zDjrFtrTEGGeSsp8+v8ISVGV5X1GV/UDl84Z3EBnYlM1SWxRWN1O4CuHzIZ+KBoGVk2BFZKhBnRZ84VfK/syIZnwfvOP8J9wEMzURHEgy7NqPXrIBM7Z6RAIrWFxjbzTVRVq+CqzgANDZUSDtjfL4KM=
+	t=1732266993; cv=none; b=n09zvEpBZF7h3yE7y3OrslIfqxWzG2+rdl12Z3NoRpeDngMdP5jf4ZG3YrSBeVz+NAlwW914RwZJcZTYjK6t/wUK8jm7n2v1VmFGRmyiPlHRGxPuTRbg2bj3KxgE/JhLjFIe5UfLPFGSHJviP8ljpjjcirLgLUKnekADXjm+KvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732264931; c=relaxed/simple;
-	bh=5AKvefdb2FKkKG19uxXZOCMpFrT7SuQ7/tYup9Rr538=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Tgx+IbWkElxWyW8BtPhD1AEqxjCyzXSi/FW35YNmt4hyl4yPUC4uH/dgDz1PR8pvf8biJOO7k79RLWBRI0lQwKH+TPE7QnvHZjgkXzdKhfb+HuVlcDrU+++3fYAKC4SQ2y1xeKEGQo85JD5j7/Hkpgwr8syMfbXb18zWZo9AAx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=jumFb7s0; arc=none smtp.client-ip=209.85.208.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-lj1-f225.google.com with SMTP id 38308e7fff4ca-2ff976ab0edso19522151fa.1
-        for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 00:42:09 -0800 (PST)
+	s=arc-20240116; t=1732266993; c=relaxed/simple;
+	bh=o90CHZRpVvcY6X6OVN0QN/QQm/8RXj3aSZTwO4Uj74k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cyqsoJcchMw6KFJU/XxBfaCr4xVs55T26r3x2DQ3PsoSzZw2gkLugAFAyEP+Wi83V02ACD/MLwNQDbYWMkxg4/UQiGP1lvJH/bDEl7CiwGwXJV0/e12w5fwSW9ceFMfHf84un5XY77aE6bYOyOLdLBCm9HnQ8mbNsL8coXkkOFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=qFCbMxfi; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9e44654ae3so272006466b.1
+        for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 01:16:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1732264928; x=1732869728; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1732266989; x=1732871789; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YEuuR+8psNj062NlDHnckyMnQqgbbgHkJzIBccpjbSA=;
-        b=jumFb7s0/s+0uX619lFsGR6mqHQyn0GZws9ZZ3pRtsTXSwwLcGyJYHaz5gebJBf6g4
-         Vgq5SoX/cf7sCDNSlSbSDQu4zVzUeYP2yfE0r6zqx1huDYta/jVDeIATlSjZbah49n7V
-         fGWGX2MjdPGZN4uqFIzd7r27S5Y4gpemjbQnkxnPehkDgnCY/35LXV3CZC4aomLYGrgb
-         VfrSbXTHXBhkCYUxcbHcp8130VQBzBJUoUnvXrpWjOfr9KQk40hqSmEulBsGs1ughQnv
-         wyT2jpt3FhCCbjdyFvCGsuc2xAquoORCTj6j+ZMZCTydNAExIUUWr13d1rfmuQVoiH4w
-         ZYKw==
+        bh=+cONwVFe9h3jPRUrTJqjZ38mmUsRgHE6KH95XCIxtkE=;
+        b=qFCbMxfipICqZznjHJJTi3JPVwQM1+rUoG1RoLhWVto/t6rg4iPOzxP7L/qE/ow0RG
+         20cknoJWApFdholFhQDMU5W74uQbR8BzA45Ncoz/xBMAZirzt7eNMKC0WgLl5kR6mkkM
+         Tc3gR09pi5IMce91UX3+psDpvWyG3WXBmQvz0kFIGdZm2JaWiR1v4Y1qOMuHuLf2ZX7a
+         FnOTeGUx8r0wvpFZNQit8M/otlCiu+o8TBERIT/n6lqKu5viH2YYs2qgQPl5nMRXxapi
+         kHvy+LGGSxoXFC+1b20VX0MDtXLAwmDIiIGx0CATQ0c2FzZth8xkCQXRRh7Lh00wekuY
+         4pIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732264928; x=1732869728;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1732266989; x=1732871789;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YEuuR+8psNj062NlDHnckyMnQqgbbgHkJzIBccpjbSA=;
-        b=bSQ2I1mKhkXqVFrdMUIw6FtUpcQE8miIUFDF4CZtftEp/mKKaF84YF/yknDOXkfKEl
-         AdN9LkFhcudwkIRvtbslZCVPbDzhH+2gSlQTSqwplkHKj8KNOTs+ScLN+JQXHOUNy626
-         Q/0YNWCpkD2FhbHy47yTn/1aFdTkuf/w+YzB6SLuJPnOu8L/uF3TiulNftJnzbAap83g
-         UkcUd1D824LJcPgZGXcghQS5dJej+TdLqaVp7rdXLZ6rGRYcI2598+53+ylY0l/7h4Sa
-         0ctzw2edH7WjFZjb7Vz6VP/jQ69DYRbSIZd5U5Ltawo4vs3RODn1WRV5QA+4ejQkZF8V
-         FgAg==
-X-Gm-Message-State: AOJu0YwkNPcTyEpkLdGieIKFqnWprjXkoEE2Ar5MlBzRmLuFM2+oUpos
-	EwRNBpnzWYwSZgPg8/INY7KocVmzb8r8QhLd2/27ehRmW+9dpedyNlu/nvIYo/1gAaYzptqWRfW
-	LPqN19rZA0M5J5ePqhZx5lnEP5By7XuxY
-X-Gm-Gg: ASbGncssIZIGTFTNwMFPfxyI8QamRx8P3ejCUooe9dMSogRHx3cpFb64NUKGyw//0q1
-	zjc0w3BCL/BWGN/AA6h0s8/l2f4zhRn19wIsujvYvAjC6zYWlc5ptwoYLOzekYD+Rvt4h1HnOH+
-	jhWoY/qM0ycg37cnr4tmXtXh9t47GB897fbbqkk67Zn2VVkBNC8sCs7iBj7BlWdEFVua8BusV79
-	Lb+Mye037btxfn1vFx1uZ6aAUyj5ToRRAmeZ3JTjq/v9Op3ODEvujoLUTjx8IRs+Q==
-X-Google-Smtp-Source: AGHT+IH59DQEKrXu+FgyMtFbQ1vxHpRwe3lqUuQy9ABiaFsiJEh89r7ztVYjLZAP7d2u3qmvDeDJw57zHVk6
-X-Received: by 2002:a05:6512:10ce:b0:539:ea0f:cc43 with SMTP id 2adb3069b0e04-53dd36a0f38mr982109e87.19.1732264927961;
-        Fri, 22 Nov 2024 00:42:07 -0800 (PST)
-Received: from raspberrypi.com ([93.93.133.154])
-        by smtp-relay.gmail.com with ESMTPS id 2adb3069b0e04-53dd243bb76sm31151e87.11.2024.11.22.00.42.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 00:42:07 -0800 (PST)
-X-Relaying-Domain: raspberrypi.com
-From: Naushir Patuck <naush@raspberrypi.com>
-To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>
-Cc: linux-media@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	jacopo.mondi@ideasonboard.com,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Naushir Patuck <naush@raspberrypi.com>
-Subject: [PATCH v1 5/5] drivers: media: bcm2835-unicam: Correctly handle FS + FE ISR condition
-Date: Fri, 22 Nov 2024 08:41:52 +0000
-Message-Id: <20241122084152.1841419-6-naush@raspberrypi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241122084152.1841419-1-naush@raspberrypi.com>
-References: <20241122084152.1841419-1-naush@raspberrypi.com>
+        bh=+cONwVFe9h3jPRUrTJqjZ38mmUsRgHE6KH95XCIxtkE=;
+        b=vu9JvGkO4kS7YGU/MUMoBG2kh4Ia4PqkYcjVPBFuiE9g1HQdp7UYrl7aZ1CPfIInjY
+         YOAatlwGjhoVVvCLrJ21596ob86bJwSCZQ8WvIM0bnafBQhALyzfGvbNDuILXXLWt3oW
+         YlstA3eeC2C+so1tTloPIhwaFqXkd+mJw9bQLFkPiuIAwCnqgfKQ6Np6fm66lSSW8kEm
+         ObPGHIWwaTnWONE6JxKM+XH/+BvGLFFR6LyAj2/7rl/ucqAYmh6Ew8llbCo8CCWUeqQr
+         AUG+7/f7lIZTjrtDR7TowQFDP3F5aSChL+tt6jg9T6DWbapgZSBo5NvmXfQPan1TeSAC
+         vy/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWC66qc9WwhwKNmJKufxXltNQ/UfYCUrEyC2ZNss9D4uGa0oWi8Rf+/rhDJ22hZcBjZ9BlqNkVkET3/nQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzzk4fZWpj8/SgiRQYXz5KbaJNYoF2Tkg0y7+zAOQDc/XS7gp8H
+	HegMB13ZvQB/qyp3uMvYKPtI7/Rqdq+ZB+FbR1QJR4/qjMko0RHbuP120qkFvLVw6r38EgjqlqZ
+	+UEZ5e7lQM5moVBM89QXfjpLL17s04nSfJtFjJg==
+X-Gm-Gg: ASbGncv2i6cULezYw0GWveTX4jaicuqZ28/0uxNvk9RJkCKlXhIu8RKowYwvGPO8P+N
+	ICGWH8mmov++vTzJvaxTyiEOOMCr8pQ==
+X-Google-Smtp-Source: AGHT+IGBIJn2l6iW1Ximwej5Nomk1X6Bfwt6JsYUR9VUOC3nDn5WmX59qNhA/dgRca4VNr6bv6dLyhB1J1APS3de4mI=
+X-Received: by 2002:a17:906:3101:b0:a9a:dc3:c86e with SMTP id
+ a640c23a62f3a-aa50990b1aamr172667166b.11.1732266989281; Fri, 22 Nov 2024
+ 01:16:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241121-add-mtk-isp-3-0-support-v7-0-b04dc9610619@baylibre.com>
+ <20241121-add-mtk-isp-3-0-support-v7-4-b04dc9610619@baylibre.com> <85ab1984c04b1eddbea71006ab5d95cb4333d838.camel@mediatek.com>
+In-Reply-To: <85ab1984c04b1eddbea71006ab5d95cb4333d838.camel@mediatek.com>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Fri, 22 Nov 2024 10:16:18 +0100
+Message-ID: <CAEHHSvaEzCGZt3GpKBNDGUphetR7JWfJ7SZfvAU=O-3M4WZY7w@mail.gmail.com>
+Subject: Re: [PATCH v7 4/5] media: platform: mediatek: isp: add mediatek
+ ISP3.0 camsv
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+	"robh@kernel.org" <robh@kernel.org>, =?UTF-8?B?QW5keSBIc2llaCAo6Kyd5pm655qTKQ==?= <Andy.Hsieh@mediatek.com>, 
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>, 
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>, "pnguyen@baylibre.com" <pnguyen@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This change aligns the FS/FE interrupt handling with the Raspberry Pi
-kernel downstream Unicam driver.
+Le ven. 22 nov. 2024 =C3=A0 08:54, CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89) <ck.=
+hu@mediatek.com> a =C3=A9crit :
+>
+> Hi, Julien:
+>
+> On Thu, 2024-11-21 at 09:53 +0100, Julien Stephan wrote:
+> > External email : Please do not click links or open attachments until yo=
+u have verified the sender or the content.
+> >
+> >
+> > From: Phi-bang Nguyen <pnguyen@baylibre.com>
+> >
+> > This driver provides a path to bypass the SoC ISP so that image data
+> > coming from the SENINF can go directly into memory without any image
+> > processing. This allows the use of an external ISP.
+> >
+> > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+> > [Paul Elder fix irq locking]
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
+> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+>
+> [snip]
+>
+> > +static void mtk_cam_cmos_vf_enable(struct mtk_cam_dev *cam_dev,
+> > +                                  bool enable, bool pak_en)
+> > +{
+> > +       if (enable)
+> > +               cam_dev->hw_functions->mtk_cam_cmos_vf_hw_enable(cam_de=
+v);
+>
+> Directly call mtk_camsv30_cmos_vf_hw_enable().
+> This has discussed in previous version [1].
+>
+> [1] https://patchwork.kernel.org/project/linux-mediatek/patch/20240729-ad=
+d-mtk-isp-3-0-support-v6-4-c374c9e0c672@baylibre.com/#25966327
+>
 
-If we get a simultaneous FS + FE interrupt for the same frame, it cannot
-be marked as completed and returned to userland as the framebuffer will
-be refilled by Unicam on the next sensor frame. Additionally, the
-timestamp will be set to 0 as the FS interrupt handling code will not
-have run yet.
+Hi CK,
 
-To avoid these problems, the frame is considered dropped in the FE
-handler, and will be returned to userland on the subsequent sensor frame.
+I forgot about that discussion sorry :/
+I guess you want me to completely remove the  mtk_cam_hw_functions struct?
+In that case, what do you prefer:
+- keep mtk_camsv30_hw.c and put signatures in mtkcamsv30_hw.h and
+include mtk_camsv30_hw.h in mtk_camsv_video.c
+- rename mtk_camsv30_hw.c to mtk_camsv_hw.c (and all functions) and
+put signatures in mtk_camsv_hw.h
 
-Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
----
- .../media/platform/broadcom/bcm2835-unicam.c  | 39 +++++++++++++++++--
- 1 file changed, 35 insertions(+), 4 deletions(-)
+Cheers
+Julien
 
-diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-index f10064107d54..0d2aa25d483f 100644
---- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-+++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-@@ -773,10 +773,26 @@ static irqreturn_t unicam_isr(int irq, void *dev)
- 			 * as complete, as the HW will reuse that buffer.
- 			 */
- 			if (node->cur_frm && node->cur_frm != node->next_frm) {
-+				/*
-+				 * This condition checks if FE + FS for the same
-+				 * frame has occurred. In such cases, we cannot
-+				 * return out the frame, as no buffer handling
-+				 * or timestamping has yet been done as part of
-+				 * the FS handler.
-+				 */
-+				if (!node->cur_frm->vb.vb2_buf.timestamp) {
-+					dev_dbg(unicam->v4l2_dev.dev,
-+						"ISR: FE without FS, dropping frame\n");
-+					continue;
-+				}
-+
- 				unicam_process_buffer_complete(node, sequence);
-+				node->cur_frm = node->next_frm;
-+				node->next_frm = NULL;
- 				inc_seq = true;
-+			} else {
-+				node->cur_frm = node->next_frm;
- 			}
--			node->cur_frm = node->next_frm;
- 		}
- 
- 		/*
-@@ -812,10 +828,25 @@ static irqreturn_t unicam_isr(int irq, void *dev)
- 					i);
- 			/*
- 			 * Set the next frame output to go to a dummy frame
--			 * if we have not managed to obtain another frame
--			 * from the queue.
-+			 * if no buffer currently queued.
- 			 */
--			unicam_schedule_dummy_buffer(node);
-+			if (!node->next_frm ||
-+			    node->next_frm == node->cur_frm) {
-+				unicam_schedule_dummy_buffer(node);
-+			} else if (unicam->node[i].cur_frm) {
-+				/*
-+				 * Repeated FS without FE. Hardware will have
-+				 * swapped buffers, but the cur_frm doesn't
-+				 * contain valid data. Return cur_frm to the
-+				 * queue.
-+				 */
-+				spin_lock(&node->dma_queue_lock);
-+				list_add_tail(&node->cur_frm->list,
-+					      &node->dma_queue);
-+				spin_unlock(&node->dma_queue_lock);
-+				node->cur_frm = node->next_frm;
-+				node->next_frm = NULL;
-+			}
- 		}
- 
- 		unicam_queue_event_sof(unicam);
--- 
-2.34.1
-
+> Regards,
+> CK
+>
+> > +       else
+> > +               cam_dev->hw_functions->mtk_cam_cmos_vf_hw_disable(cam_d=
+ev);
+> > +}
+> > +
+>
+> >
+>
+> ************* MEDIATEK Confidentiality Notice ********************
+> The information contained in this e-mail message (including any
+> attachments) may be confidential, proprietary, privileged, or otherwise
+> exempt from disclosure under applicable laws. It is intended to be
+> conveyed only to the designated recipient(s). Any use, dissemination,
+> distribution, printing, retaining or copying of this e-mail (including it=
+s
+> attachments) by unintended recipient(s) is strictly prohibited and may
+> be unlawful. If you are not an intended recipient of this e-mail, or beli=
+eve
+> that you have received this e-mail in error, please notify the sender
+> immediately (by replying to this e-mail), delete any and all copies of
+> this e-mail (including any attachments) from your system, and do not
+> disclose the content of this e-mail to any other person. Thank you!
 
