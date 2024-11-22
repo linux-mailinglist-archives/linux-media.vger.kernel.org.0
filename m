@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-21813-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B229D5CE9
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 11:07:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D009D5CEA
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 11:08:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 217161F22C2F
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 10:07:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A69B4B2324C
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 10:07:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 734A11DED4A;
-	Fri, 22 Nov 2024 10:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89EE91DED58;
+	Fri, 22 Nov 2024 10:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUKCCGvn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jTlHTv4Q"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A31F1CB511
-	for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 10:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDA61DE8AE
+	for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 10:06:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732270013; cv=none; b=Oz1YVLCyzuGGzv7Gn/BuVEM/uyqOY0x5UzUlIQ8rAHNLyZtz0tcoQl6/3ZH6DcsO43w5ReibE7cfdE5fejJDC70OnE5K3RGeVjPlWWMMqaIf3GK0I8bvFbTKCuvv6zj1P5Y6wnOdDdIiJWicqaOFZiWMhsuydUQ2ZrGMIzwj2tI=
+	t=1732270015; cv=none; b=K8851jJOk8ra/v2QImVPr+VUzIprFfNp3Rsw1Vy6WUSVPnNAkQwOSfKGQGBdPDKYmLZQNJPvxavK67VTOUNp/sX/pKtOHw5w9+EWJ06Ivt2x99aZhqbSDPnHD+2cGs59Iv6lMi67eRwUUJxr1rzob3rvnMey2Fz0h9//IYfH2ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732270013; c=relaxed/simple;
-	bh=YHHRXc1Nk7+uk0tqKGKzJ7qLUYSa7KX1dRjkg+mL3Dc=;
+	s=arc-20240116; t=1732270015; c=relaxed/simple;
+	bh=GOUmuNjlGwOIXgFKU8v6cjYwNnkXfejm0Glqg0u2qmw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RyyCFAJ4PD3nJbtBUmu5XtN55ypsotysuRLV5ydsXTOT3ESwievSss33hM4KR4fttL1dHuissHeKRbZax6KQXZ+M/ZGjhBfZ7PK522NwJCw6ZEpa6Qou4OQC9qLuw1y9el76E5bO2Wj2jjPogKzhBsmDDQFCbtuZRgTlAX6At6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UUKCCGvn; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=GOBUsaTM6hocaG8q7mQulZWoMyXzgpx9sl+pLiSVVeT312A5+6Y0OZbd/Mg/VGEcatmBHLMdX1JE5xFpEXQ147Wr+OLKndZhM27GciwAwLMnZqvZQOYUIvCwYX3na9cWtIbMmd+VFtCiA3P9l5jTWhas1yETBoEWPMmXUl5WbGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jTlHTv4Q; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732270013; x=1763806013;
+  t=1732270014; x=1763806014;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=YHHRXc1Nk7+uk0tqKGKzJ7qLUYSa7KX1dRjkg+mL3Dc=;
-  b=UUKCCGvnErThJknRUdYqmt/J2yxiS58NQmbRbAgqaxNgNKfrnkvqUf79
-   F02ojfVlINCeUqvvJU75VEN/pXj2awDNCxX8252vAftg+k5E5so4gZR2b
-   JQN0yGpajKVamVmTWi0Vq4hg4gUzyslc412T6BuoWmKuqYzDxj2DpTqur
-   ovMaj5Oii3dr7hnHA46h2lBcBz3b05zgwK4qP4VNTPRx5489BkfqxVFu3
-   DbIcununzdjoFcD2Idh59l7WfGXutoxbhU/csxLUG/l8TZoEMEKkRWLch
-   MHCHMopp+SYJoa9ThpWeiDn2terJKGr4TBXhpIGsAC2c08u1XeGtUjaDB
-   Q==;
-X-CSE-ConnectionGUID: CJhaJsPIRHq/LUibYjUmbQ==
-X-CSE-MsgGUID: ANBsle+3TNSw+2slLBM/UA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="54927551"
+  bh=GOUmuNjlGwOIXgFKU8v6cjYwNnkXfejm0Glqg0u2qmw=;
+  b=jTlHTv4QfDuiq59MpZDD7DjXvE9HVX2fbutT6gfxNGdqIg2oplEKV5AK
+   L+0m8cGgmrYqsqnG2CrUNVjEhgr+uY3GeeFKclDVlIepz7zYDGahWMRzI
+   IX4zhKvpzpYvX6UohgIHbDDZ5hi3GcnbQQhf8yHuoosA0f70q6pjgpA5w
+   UXZLjfGpSXZyvXHBjR6Ku/eIqLXQ5RHypXlm226uZg4K0l3PqRGaoTnPq
+   kzQc0r1SyHqhlYEA0kNuyrGs6ZKUnTPXgKGjcm0z76fZp7d7/gGnxplJE
+   Sn7we/9jLGHwCz0UGXFwobmQuljeUliEqBWWBTx+RTcxYf2/BUVah/JKm
+   w==;
+X-CSE-ConnectionGUID: JFH5du02QPeHAW/WCvWS4g==
+X-CSE-MsgGUID: yNfqxS3IRlW+7rm+z+15vg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="54927564"
 X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
-   d="scan'208";a="54927551"
+   d="scan'208";a="54927564"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 02:06:52 -0800
-X-CSE-ConnectionGUID: CbbhwVh5SpaIEZuU6JTgAw==
-X-CSE-MsgGUID: 9QR5/WfQTSywBAXqqZTsdA==
+X-CSE-ConnectionGUID: 2E17zx9RQQGDP4682t/jHg==
+X-CSE-MsgGUID: cqjxoUJJQ6C45WuojbYJmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
-   d="scan'208";a="121403056"
+   d="scan'208";a="121403058"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 02:06:47 -0800
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 864AA11F996;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8B66511FBC5;
 	Fri, 22 Nov 2024 12:06:43 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1tEQYl-0002LG-1h;
+	id 1tEQYl-0002LK-1m;
 	Fri, 22 Nov 2024 12:06:43 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -93,9 +93,9 @@ Cc: hverkuil@xs4all.nl,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH 2/8] media: Documentation: Add a hyphen to list-based
-Date: Fri, 22 Nov 2024 12:06:27 +0200
-Message-Id: <20241122100633.8971-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH 3/8] media: Documentation: Reword split of sensor driver to two classes
+Date: Fri, 22 Nov 2024 12:06:28 +0200
+Message-Id: <20241122100633.8971-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241122100633.8971-1-sakari.ailus@linux.intel.com>
 References: <20241122100633.8971-1-sakari.ailus@linux.intel.com>
@@ -107,39 +107,37 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a hyphen to list-based for uniform spelling in camera-sensor.rst.
+The sensor drivers do not configure the output size of the sensors but the
+entire internal pipeline. Reflect this in the documentation.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- Documentation/userspace-api/media/drivers/camera-sensor.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../userspace-api/media/drivers/camera-sensor.rst      | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-index 8e1083417ae1..9a1e8aa9fc77 100644
+index 9a1e8aa9fc77..bc55c861fb69 100644
 --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
 +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-@@ -26,10 +26,10 @@ of cropping and scaling operations from the device's pixel array's size.
+@@ -10,11 +10,13 @@ used to control the camera sensor drivers.
  
- An example of such a driver is the CCS driver.
+ You may also find :ref:`media_writing_camera_sensor_drivers` useful.
  
--Register list based drivers
-+Register list-based drivers
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-Frame size
+-----------
++Sensor internal pipeline configuration
++--------------------------------------
  
--Register list based drivers generally, instead of able to configure the device
-+Register list-based drivers generally, instead of able to configure the device
- they control based on user requests, are limited to a number of preset
- configurations that combine a number of different parameters that on hardware
- level are independent. How a driver picks such configuration is based on the
-@@ -67,7 +67,7 @@ is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
- the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
- sub-device. The unit of that control is pixels per second.
+-There are two distinct ways to configure the frame size produced by camera
+-sensors.
++Camera sensors have an internal processing pipeline including cropping and
++binning functionality. The sensor drivers belong to two distinct classes, freely
++configurable and register list-based drivers, depending on how the driver
++configures this functionality.
  
--Register list based drivers need to implement read-only sub-device nodes for the
-+Register list-based drivers need to implement read-only sub-device nodes for the
- purpose. Devices that are not register list based need these to configure the
- device's internal processing pipeline.
- 
+ Freely configurable camera sensor drivers
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
 2.39.5
 
