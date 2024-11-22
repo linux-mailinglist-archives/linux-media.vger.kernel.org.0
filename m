@@ -1,117 +1,121 @@
-Return-Path: <linux-media+bounces-21834-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21835-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75579D5DF0
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 12:20:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C40F49D5E09
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 12:29:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F8881F21559
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 11:20:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89EC2284C56
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 11:29:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22D031DE4FC;
-	Fri, 22 Nov 2024 11:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80B431DDC2B;
+	Fri, 22 Nov 2024 11:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EL7V0rG5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLbqg8Mg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1089E17E00E;
-	Fri, 22 Nov 2024 11:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E62C158848
+	for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 11:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732274446; cv=none; b=B3og1pqWJcCeC7PVC4cdlKen19A9OD3klYpIYathfRpL4nlDOQkdlBVqWDKHACFEKlzFTKZy2T15s8yWXgEU809X7bhQMyXu9wm7Ut17+4580VUao2DpHVhr1i3ddUjtswq20Py5YOBnjjgluHIaJ+pOLuLjxT7vXVy1gXNTuE0=
+	t=1732274976; cv=none; b=WLoiVnP+SY6d4Nz81jSHt1Geuf3hSbFKF48nEkFrTJJa0Y3yvjPqVVEBA+hX/TienjZJEGl7t8FjVcmSSsE9aOsKgOVq+VrlZPIWoHqTVMubyI1VByBv/uXh8EHFpL6KawsQHiG0lFUknqDvr9Auz5I5HkPkP+lEYcJBoiUfC5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732274446; c=relaxed/simple;
-	bh=IRgrCb6NBNtdhKLpJ2c31xozwLFzsO9letozRyoDWbc=;
+	s=arc-20240116; t=1732274976; c=relaxed/simple;
+	bh=yJbyZeBxT+NNVL+ySJVu0mPpjwhzHor+Y7o+eK81oy8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kU/3h+TEsf43DRG1pkrz6mpG4J8Lxh7t2xlVNQzw1VFZVZR2ah1fgZYDkbMOfBd+VUMyzHG9hl4GatkJqSCZn3lEYBnpfH3oQ3Wy0pdTqDzn1XunfI12P3KXd9dX3+B2bD5Q5zonOw33FQyo90ooenk20Y+XceCvrhpa7ICqtF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EL7V0rG5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 524824C9;
-	Fri, 22 Nov 2024 12:20:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732274424;
-	bh=IRgrCb6NBNtdhKLpJ2c31xozwLFzsO9letozRyoDWbc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EL7V0rG55eLDxd2z3URajDlhIhfEpZiPoixLdd3Vl6MN9vGADzG/3TnbEWtB5XEZr
-	 lLAHX/8oX5/npsIaSdOvJePCe0A/7AFcuwBGJmr9nrGfMslDbA+9ejPAzAsknZA2n8
-	 PJJAQ1TXgxNmc+wHOlYsAVnfldxDPWE49dvjrbfY=
-Date: Fri, 22 Nov 2024 12:20:40 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Naushir Patuck <naush@raspberrypi.com>
-Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, linux-media@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, jacopo.mondi@ideasonboard.com, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v1 4/5] drivers: media: bcm2835-unicam: Fix for possible
- dummy buffer overrun
-Message-ID: <vnl2px6zcb7pchhfp3k3lngicamsjvidu75sixvubrohqaudlr@h6r54mzr3daz>
-References: <20241122084152.1841419-1-naush@raspberrypi.com>
- <20241122084152.1841419-5-naush@raspberrypi.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WSFxyGCUIHEjKXEPvXI8d1LdQ9VJLxbZb/yi9ACAuouxNkytMlYkQmyGh7bybZwDpTWNku3FqnIoIR363luP0X4YzMaezZnGLNPsJI32F3DqbCeeNThzUkfqLzupjWXv1qh4OIZWEObbXxQmmNfSKCcxfhi41IbGyxvo7skiGkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLbqg8Mg; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732274975; x=1763810975;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yJbyZeBxT+NNVL+ySJVu0mPpjwhzHor+Y7o+eK81oy8=;
+  b=eLbqg8MgG5Aq6gBKnHRvwoiOPfa1l+4MF/2nC7OHsUXDmfR+GmQv225x
+   rvRa/0DN3V6dMA2j1lBrtGpYk8vF7/m7ne+3RO+IjKDP8DWZS2e3Zm0du
+   JmU5Q7NB8KOnR7gb+BVNAk/R/Ydb+sT23F7XjelAeEwpCNZUf+m+F6i6o
+   9JCqeJoyp1QFUS2G72Xk3vNVj1M1NbSSSkbsZpBgRNoskhv60/Aljk55S
+   xD91wiHXGcs59cJZUpmbd663U6v0Ip39nvprbywtxPonsgAbbNtHTu2gO
+   XPEJOfJX3+EHIsBldNs+CZ7bCj7OgwZbXm7zUTMY9y8x955sXshUIQgE9
+   g==;
+X-CSE-ConnectionGUID: bF61H/byQ2W1fySA2y+nrw==
+X-CSE-MsgGUID: /lyIRafFSjWZXe1ZHBWw2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="20016600"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="20016600"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 03:29:35 -0800
+X-CSE-ConnectionGUID: M016M+9aTdeHJf+mZJXEOw==
+X-CSE-MsgGUID: pieikteWS0SppBJqvjjaBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="90355251"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 03:29:27 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id DAFB71203D6;
+	Fri, 22 Nov 2024 13:29:24 +0200 (EET)
+Date: Fri, 22 Nov 2024 11:29:24 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: Re: [PATCH 4/8] media: Documentation: Add subdev configuration
+ models, raw sensor model
+Message-ID: <Z0BrFF4bF8GT0x0l@kekkonen.localdomain>
+References: <20241122100633.8971-1-sakari.ailus@linux.intel.com>
+ <20241122100633.8971-5-sakari.ailus@linux.intel.com>
+ <zkutcofvbohwe46ua2jtpawo7avy65ze2n5u7si2lekes553oo@3xq2grunptcy>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241122084152.1841419-5-naush@raspberrypi.com>
+In-Reply-To: <zkutcofvbohwe46ua2jtpawo7avy65ze2n5u7si2lekes553oo@3xq2grunptcy>
 
-Hi Naush
+Hi Mehdi,
 
-On Fri, Nov 22, 2024 at 08:41:51AM +0000, Naushir Patuck wrote:
-> The Unicam hardware has been observed to cause a buffer overrun when
-> using the dummy buffer as a circular buffer. The conditions that cause
-> the overrun are not fully known, but it seems to occur when the memory
-> bus is heavily loaded.
->
-> To avoid the overrun, program the hardware with a buffer size of 0 when
-> using the dummy buffer. This will cause overrun into the allocated dummy
-> buffer, but avoid out of bounds writes.
->
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> ---
->  drivers/media/platform/broadcom/bcm2835-unicam.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> index 550eb1b064f1..f10064107d54 100644
-> --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-> +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> @@ -640,7 +640,14 @@ static inline void unicam_reg_write_field(struct unicam_device *unicam, u32 offs
->  static void unicam_wr_dma_addr(struct unicam_node *node,
->  			       struct unicam_buffer *buf)
->  {
-> -	dma_addr_t endaddr = buf->dma_addr + buf->size;
-> +	/*
-> +	 * Due to a HW bug causing buffer overruns in circular buffer mode under
-> +	 * certain (not yet fully known) conditions, the dummy buffer allocation
-> +	 * is set to a a single page size, but the hardware gets programmed with
-> +	 * a buffer size of 0.
-> +	 */
-> +	dma_addr_t endaddr = buf->dma_addr +
-> +			     (buf != &node->dummy_buf ? buf->size : 0);
+On Fri, Nov 22, 2024 at 12:05:18PM +0100, Mehdi Djait wrote:
+> Hi Sakari,
+> 
+> 3 small details
 
-So the DMA engine doesn't actually write any data to dummy_buf
-anymore ?
+Thanks, I'll address these in the next version.
 
-Does it still need to be allocated at all ? Or can we simply set the
-dma transfer size to 0 ?
+This was meant to be RFC v2 btw., it's still a bit too early for merging I
+think.
 
->
->  	if (node->id == UNICAM_IMAGE_NODE) {
->  		unicam_reg_write(node->dev, UNICAM_IBSA0, buf->dma_addr);
-> --
-> 2.34.1
->
->
+-- 
+Sakari Ailus
 
