@@ -1,186 +1,146 @@
-Return-Path: <linux-media+bounces-21822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21824-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960389D5D39
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 11:23:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8419D5D56
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 11:32:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BFCC283071
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 10:23:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4AFEA1F2325C
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 10:32:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CE1E1DE4C6;
-	Fri, 22 Nov 2024 10:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4871DE89E;
+	Fri, 22 Nov 2024 10:32:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VDjqCOuI"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cXe2MDW/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B901DDC39;
-	Fri, 22 Nov 2024 10:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2A41D90BC;
+	Fri, 22 Nov 2024 10:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732270957; cv=none; b=MpRTB0c5FM4h2w2QxD0/f1/+D+sU0+5Y4bz8lpa6sjacQqIizqzuX/d4hucdnur1bC1Gx9i5IEK4slKToKmMFQXrKfK89lWnLrtBsV9rDtaGMKBEL1YxJc0hL80ppYADwnvOnaJZaSbIMmj53Tlv9vnmeE2o3YNZAD75IN5AYVU=
+	t=1732271530; cv=none; b=Y73Q2F0hUJiB0p/zPub09JdVjvJLlV7wjwAbTWESJ3dVwUpjb2jaRNuGJhxqQyrWZH6ay683vYmL2PMSPHsqEuI/GeHM2UOBCM2BiNxqXpgCHWyTAoMRepd3nNga4c1/2Ck9XZQU5++Mm/B9JCOYacNcb87VOo2tEyh7IHmI5KA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732270957; c=relaxed/simple;
-	bh=cRe94m9FYYjIppWUlSjL4c/l+04MITohxLzc/eurtUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dXo75wyMW3s5JLGRi8gO4fD1rDS9kfbSmdUky6YxYKoP7PpNQ2/Gxvpl8NT17z87A8Ziw6zLwlC/r1znfePRTdbKkFBXDj6+H2D8TmzZbhPdt0z6MoCWLij67QU08njPaInr1lI0aGCsu4+sXJ0+xNO21YbISfBRZFBa72tmv1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VDjqCOuI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51BC38BE;
-	Fri, 22 Nov 2024 11:22:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732270934;
-	bh=cRe94m9FYYjIppWUlSjL4c/l+04MITohxLzc/eurtUk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VDjqCOuIq7jR2DYTa7+I16iCWhf+kUdD/8IyvT66ob4yeJG0rUhC/yyhJOMCQlF9Z
-	 wipevVi3ZLPbJXMma6pXwSk0LbMd0n4RnpkA9LAZWsM+eoHhKwls0W5jfs9b40GnHF
-	 aTL8OHnYGgsIU3DXdH9LNYojDsUHhUGtkESApt7o=
-Date: Fri, 22 Nov 2024 11:22:30 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 2/3] media: i2c: imx219: make HBLANK r/w to allow
- longer exposures
-Message-ID: <emkd4ifsubxe2cmteld2hjkvin7uaspuqvh5ptuzm5o5kgp3py@hujytrhrlc44>
-References: <20241121-imx219_fixes-v2-0-7b068a60ea40@ideasonboard.com>
- <20241121-imx219_fixes-v2-2-7b068a60ea40@ideasonboard.com>
+	s=arc-20240116; t=1732271530; c=relaxed/simple;
+	bh=kpX3NfYPi71EcttP9EU4etHWc+PQ9ltLoBhj6Ac9QsA=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=r45tW3qu7wPckLUDiCVakiQjQN6sk8d3/sihdEcNzIE9M1ixVtrCZB0PB/wMXChNki9NeKx/mi8grF/cAsvCF0hvkg5ZB5XoZoAWCbeBzCM/u212npnUY3l0Y7LsS/xm2WnINm7DmRR5U/x/HrBTZQD2iS6MKABJfqlJTb8blVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cXe2MDW/; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AM4UkxD020262;
+	Fri, 22 Nov 2024 10:32:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=M7U7nnuL8F0cHhtZcGN1dv
+	3Lva34Ify9MuzathaN0qw=; b=cXe2MDW/bQWuKCSYv/x5BSjFpAdwdliLYWLSfg
+	b/piipcF0K5IhVpW5yWj4S3OMMeHCW1JiCHd0KlaAgGMjuRCUN9asm4wmg9yI8E9
+	V2LzUrf2FSUlk9VrXalS25zrBwucMuVc3Fyw4lLi/C+1KyoYUJvkgyeiMhDDcCcA
+	VCOpLfhvv/TgZQjYZd75jSDaE7XGk/3lVLT98PlrSvFVmznahVFicyg8fNe+UL+1
+	x0is6LCILHF5uXO9RmJ29AsK6QaTZbKvjgzUObLhEC3/fDsjIEE1Jpu1kHvupwby
+	PBj5RiGoFyLQFpFA/0zRhag/LLEkw0+7ivhOE3uYYCcfPdUg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4326atasca-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 22 Nov 2024 10:32:04 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AMAW3hd013985
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 22 Nov 2024 10:32:03 GMT
+Received: from hu-renjiang-sha.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 22 Nov 2024 02:31:59 -0800
+From: Renjiang Han <quic_renjiang@quicinc.com>
+Subject: [PATCH 0/2] Use APIs in gdsc genpd to switch gdsc mode for venus
+ v4 core
+Date: Fri, 22 Nov 2024 16:01:44 +0530
+Message-ID: <20241122-switch_gdsc_mode-v1-0-365f097ecbb0@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241121-imx219_fixes-v2-2-7b068a60ea40@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJBdQGcC/yXMyw6DIBCF4Vcxsy6JAyrUV2mMQRh0FmoFe0mM7
+ 15Sl99Jzn9AosiUoC0OiPTmxOuSgbcC3GSXkQT7bJClrBClFOnDu5v60SfXz6snMTS1ISuVctJ
+ Cvj0jBf7+k4/ucqTtlcv7NcJgEwm3zjPvbdGoQYVQKn9HSyYYXQcyutJOG7S1xKCN84QauvP8A
+ cc3IlmuAAAA
+X-Change-ID: 20241122-switch_gdsc_mode-b658ea233c2a
+To: Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette
+	<mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        Renjiang Han
+	<quic_renjiang@quicinc.com>,
+        Taniya Das <quic_tdas@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732271519; l=1429;
+ i=quic_renjiang@quicinc.com; s=20241001; h=from:subject:message-id;
+ bh=kpX3NfYPi71EcttP9EU4etHWc+PQ9ltLoBhj6Ac9QsA=;
+ b=jvNeYurSYQcsIou/CC7cftagtWWQUEeXZ72iLUrJgxB5w4VAG/NaKLjV2SUJvU8C43hm5r2rY
+ b1S3WajdPxHBRkcks+4fdLLT7M/1ysfJGEtvSZB8cf7L8QlScwcqDhC
+X-Developer-Key: i=quic_renjiang@quicinc.com; a=ed25519;
+ pk=8N59kMJUiVH++5QxJzTyHB/wh/kG5LxQ44j9zhUvZmw=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 0NX9JnKRQIqPAvilWA0u1CSg-ai7Kmbo
+X-Proofpoint-GUID: 0NX9JnKRQIqPAvilWA0u1CSg-ai7Kmbo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 clxscore=1011 mlxlogscore=759 lowpriorityscore=0
+ phishscore=0 adultscore=0 priorityscore=1501 bulkscore=0 spamscore=0
+ mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411220089
 
-Hi Jai
+The Venus driver requires vcodec GDSC to be ON in SW mode for clock
+operations and move it back to HW mode to gain power benefits. Earlier,
+as there is no interface to switch the GDSC mode from GenPD framework,
+the GDSC is moved to HW control mode as part of GDSC enable callback and
+venus driver is writing to its POWER_CONTROL register to keep the GDSC ON
+from SW whereever required. But the POWER_CONTROL register addresses are
+not constant and can vary across the variants.
 
-On Thu, Nov 21, 2024 at 05:38:03PM +0530, Jai Luthra wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> The HBLANK control was read-only, and always configured such
-> that the sensor HTS register was 3448. This limited the maximum
-> exposure time that could be achieved to around 1.26 secs.
->
-> Make HBLANK read/write so that the line time can be extended,
-> and thereby allow longer exposures (and slower frame rates).
-> Retain the overall HTS setting when changing modes rather than
-> resetting it to a default.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx219.c | 37 ++++++++++++++++++++++++-------------
->  1 file changed, 24 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index f98aad74fe584a18e2fe7126f92bf294762a54e3..970e6362d0ae3a9078daf337155e83d637bc1ca1 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -76,8 +76,10 @@
->
->  #define IMX219_VBLANK_MIN		32
->
-> -/* HBLANK control - read only */
-> -#define IMX219_PPL_DEFAULT		3448
-> +/* HBLANK control range */
-> +#define IMX219_PPL_MIN			0x0d78
-> +#define IMX219_PPL_MAX			0x7ff0
-> +#define IMX219_REG_HTS			CCI_REG16(0x0162)
->
->  #define IMX219_REG_LINE_LENGTH_A	CCI_REG16(0x0162)
->  #define IMX219_REG_X_ADD_STA_A		CCI_REG16(0x0164)
-> @@ -422,6 +424,10 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->  		cci_write(imx219->regmap, IMX219_REG_VTS,
->  			  format->height + ctrl->val, &ret);
->  		break;
-> +	case V4L2_CID_HBLANK:
-> +		cci_write(imx219->regmap, IMX219_REG_HTS,
-> +			  format->width + ctrl->val, &ret);
-> +		break;
->  	case V4L2_CID_TEST_PATTERN_RED:
->  		cci_write(imx219->regmap, IMX219_REG_TESTP_RED,
->  			  ctrl->val, &ret);
-> @@ -496,12 +502,10 @@ static int imx219_init_controls(struct imx219 *imx219)
->  					   V4L2_CID_VBLANK, IMX219_VBLANK_MIN,
->  					   IMX219_VTS_MAX - mode->height, 1,
->  					   mode->vts_def - mode->height);
-> -	hblank = IMX219_PPL_DEFAULT - mode->width;
-> +	hblank = IMX219_PPL_MIN - mode->width;
->  	imx219->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
->  					   V4L2_CID_HBLANK, hblank, hblank,
->  					   1, hblank);
-> -	if (imx219->hblank)
-> -		imx219->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  	exposure_max = mode->vts_def - 4;
->  	exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
->  		exposure_max : IMX219_EXPOSURE_DEFAULT;
-> @@ -817,6 +821,10 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  	struct v4l2_mbus_framefmt *format;
->  	struct v4l2_rect *crop;
->  	unsigned int bin_h, bin_v;
-> +	u32 prev_hts;
-> +
-> +	format = v4l2_subdev_state_get_format(state, 0);
-> +	prev_hts = format->width + imx219->hblank->val;
->
->  	mode = v4l2_find_nearest_size(supported_modes,
->  				      ARRAY_SIZE(supported_modes),
-> @@ -824,8 +832,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  				      fmt->format.width, fmt->format.height);
->
->  	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
-> -
-> -	format = v4l2_subdev_state_get_format(state, 0);
->  	*format = fmt->format;
->
->  	/*
-> @@ -861,13 +867,18 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->  					 exposure_max, imx219->exposure->step,
->  					 exposure_def);
->  		/*
-> -		 * Currently PPL is fixed to IMX219_PPL_DEFAULT, so hblank
-> -		 * depends on mode->width only, and is not changeble in any
-> -		 * way other than changing the mode.
-> +		 * Retain PPL setting from previous mode so that the
-> +		 * line time does not change on a mode change.
-> +		 * Limits have to be recomputed as the controls define
-> +		 * the blanking only, so PPL values need to have the
-> +		 * mode width subtracted.
->  		 */
-> -		hblank = IMX219_PPL_DEFAULT - mode->width;
-> -		__v4l2_ctrl_modify_range(imx219->hblank, hblank, hblank, 1,
-> -					 hblank);
-> +		hblank = prev_hts - mode->width;
-> +		__v4l2_ctrl_modify_range(imx219->hblank,
-> +					 IMX219_PPL_MIN - mode->width,
-> +					 IMX219_PPL_MAX - mode->width,
-> +					 1, IMX219_PPL_MIN - mode->width);
-> +		__v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
+Also as per the HW recommendation, the GDSC mode switching needs to be
+controlled from respective GDSC register and this is a uniform approach
+across all the targets. Hence use dev_pm_genpd_set_hwmode() API which
+controls GDSC mode switching using its respective GDSC register.
 
-Thanks, this now looks correct to me
+Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+---
+Renjiang Han (1):
+      venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on V4
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Taniya Das (1):
+      clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for video GDSC's
 
-Thanks
-   j
+ drivers/clk/qcom/videocc-sc7180.c              |  2 +-
+ drivers/clk/qcom/videocc-sdm845.c              |  4 ++--
+ drivers/media/platform/qcom/venus/pm_helpers.c | 10 +++++-----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+---
+base-commit: 63b3ff03d91ae8f875fe8747c781a521f78cde17
+change-id: 20241122-switch_gdsc_mode-b658ea233c2a
 
->  	}
->
->  	return 0;
->
-> --
-> 2.47.0
->
->
+Best regards,
+-- 
+Renjiang Han <quic_renjiang@quicinc.com>
+
 
