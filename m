@@ -1,202 +1,214 @@
-Return-Path: <linux-media+bounces-21840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21841-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519F49D5FF8
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 14:51:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D8B9D6095
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 15:41:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC4D51F230C5
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 13:51:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 94AE8B23E54
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 14:40:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1CDF6A009;
-	Fri, 22 Nov 2024 13:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1281F1DE89E;
+	Fri, 22 Nov 2024 14:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XX/f0VQ5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AEF12E7F
-	for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 13:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB45070823;
+	Fri, 22 Nov 2024 14:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732283493; cv=none; b=QRyCW79BnAiUSXEDJKPCB0WDQA+ab9TkJ9JZ2SBag83S38h9J51vHNOw+UEMpfl200/dODUmtYcyZXqvZ1t5E6WWMibEoSh/V96xoYcvlslvWDkwUxie2SGQ5ZYCsEOxVgTHysdyW/zM8YRK1VGiyrrd0+e62vCUejieSx2Farc=
+	t=1732286244; cv=none; b=dtoIYNQ8YCzZCpvVUrz75vKsO2pd1e6I0DYBK20WOwxKj45wO1Xd9Wpw0uf/cckRE8StFsUqASJgM7ODAoFVImiUZr9E7468krTDym8D10JPzQ0/sZsqjGskTZKS2WDs+48c7PgzsLNSUOFVakCDcsrymKi1WRwKTMl5YT3C1lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732283493; c=relaxed/simple;
-	bh=NHM9ctAWwTPLWfSDvzpuT5JMWpyt30/2fO7Wvk7c++4=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=OK39ouCuHDXqqo+IaOSS7QiH9+33jQ6Inyt7/zZkRTvY+B1rpMD5v9eDBWuI1FQZeObW4LRnZyMPBSmQivhQHtL6w+FsUgGONYcYA2nZVGP0W9dd1vnzyry/PwAw/6ppoRQI7on2fPp39iBTH6XUzIaNgcqlco7/bCL+YhYE17o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DD66C4CECE;
-	Fri, 22 Nov 2024 13:51:32 +0000 (UTC)
-Message-ID: <d399804a-3c18-4514-9eec-69b0935fef71@xs4all.nl>
-Date: Fri, 22 Nov 2024 14:51:30 +0100
+	s=arc-20240116; t=1732286244; c=relaxed/simple;
+	bh=Keu5NQHlbLPzIDkrS/72fIWaWqtR0crDA6PH58JVMqo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PRhMikJj7THPwByeU0daO2rlQBpfclRDCqz2OyOGQhGPdEH0+ERC5S0y+ez3Nl+yS1BgbEuhJbyz8U756xY3fA0xzs4Ap4OAe2eiGb21uGeYVBwkTukWnpW0zt+kGGLI8OVGIDH14WqzXKoOXQw81ho6QB5D/guRJN1rRl1suZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XX/f0VQ5; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43167ff0f91so19159655e9.1;
+        Fri, 22 Nov 2024 06:37:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732286241; x=1732891041; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BADAresG1EOtpwbTZcGXUhBjlqOEu21KZNXJtTjJmAw=;
+        b=XX/f0VQ5IgTzpqgLxq8XAQrnlbjbTyXypXPIOu+sqTbzqMhNzEOaO6Wx+QpEEqnwta
+         Rt53kKbB44KxyweerqdlfWG3zhU/0NwhOFLjS9jFu92g+fbrPPZpiqkgXRMLKwXGQgcN
+         MuJA8Z1ILaKRAubqhuAcsUkq6602BexuMpovsPV0wrOQaxCs3DbTSEQDlTmg6vj6BBr3
+         6TtA0n21Jj+OVFoYa8VuKhYZ+RAQRNbMq2wBn5bRr7p4rMin3E6eBXH8FSGqrqmYBCmj
+         mlRZqrxyqqaMU1CtKJyOFXCi8EjKMxXXTCcL+2WNZyhQCPlbzOJ0v+H6FuhF9HKsqw7P
+         9nbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732286241; x=1732891041;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BADAresG1EOtpwbTZcGXUhBjlqOEu21KZNXJtTjJmAw=;
+        b=es7QLoVeohhqJXTWR1Kg/qcNWp2mIEh4iaI0c5uz4e70204psM+r8CTTXOUS1yaXi4
+         +HhqGxWlX3MKYKtzjVk3OsOb3Hyv2E1spydRXH+uWS60xlh7VaSoifCChvU7UFS3ED9u
+         chewjiOiHjgtWQLAjhEZtLNr3eRfNDqQVVTc2a82KYu0Ec1ZwUFz3buybwkqTS8f7yxw
+         WU/hq2Qq5ELTLepDZEjb/dRTkcgBZdjwE2UNuA7wlwAFaajWGoYKzEmxu2Vc3I5LQDP9
+         13WLTyJObYQJpN0Vrbh85uSpzydk75JUKuM7vySTdjtkykXEQpPAvOh/EkGX5S+aqDGo
+         aM8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWEin0qQv9+U+u2IGrWl4+VqjKEoXJvnW3oBOaShYQjB+6CwyEwzrZgXMrIDdReAIFwoEvs7JebQcleHHI=@vger.kernel.org, AJvYcCWPHFlwRtNuseBhvRKVlYDxhBpTJVXWnZnQaRSey9hBUmcjbqtjGW943fpv2Vawv4VSCfDQuK13OBw9KEw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxYDdxXAy5MQfueqN1Hz55j0kUGrQrWwZcsyLYg01VVgoGUjiU
+	fdy5M400Z8EqXXLhV+uvO7PcUvm0HVXYL/l5awR/HwiRAlVSa4NT
+X-Gm-Gg: ASbGnctKt7Nz/TIF5yRy5HFtZrTOzkuIEpk3vACh2ZDyijUBYu8urefL06pKd0lqtSO
+	/bLsDyWmmY5efpmJm+zuTkzKZTleSlxvs0xTv879QiZq9eFa1oqA4cgDSJfs0w0IfOr0xUbMRgj
+	0ozEwquwujA9XpJpB+tCbpuH+YfbMhl5XBiL+jliIZD1RA0qxk/cWp6EJu60C7bZZYOCsRacAoT
+	AzM9E1URp0A1zANinN0rkQkHlk4SMM0SfaXvJmdh4Kh/lzUEc6k7kSJoP2Y9C0g
+X-Google-Smtp-Source: AGHT+IESxIXB3LIDME4haolgtpRkBfVpIxS+jDSOSOJs5KwmgJCEscuIBBgh7ZxSiBwgOvnmi6Kn7w==
+X-Received: by 2002:a5d:59a3:0:b0:37d:354e:946a with SMTP id ffacd0b85a97d-38260bdfa76mr2661343f8f.50.1732286240836;
+        Fri, 22 Nov 2024 06:37:20 -0800 (PST)
+Received: from demon-pc.localdomain ([188.27.131.151])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433b45bdafbsm92219825e9.17.2024.11.22.06.37.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 06:37:19 -0800 (PST)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: 
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	=?UTF-8?q?Pawe=C5=82=20Anikiel?= <panikiel@google.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH] media: v4l: subdev: Prevent NULL routes access
+Date: Fri, 22 Nov 2024 16:37:12 +0200
+Message-ID: <20241122143717.173344-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv2] media: v4l2-ctrls: unlink all subscribed events
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
- Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
- cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
- kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
- H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
- CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
- Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
- kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
- eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
- WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
- xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
- Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
- ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
- aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
- GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
- OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
- SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
- SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
- aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
- e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
- XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
- LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-The v4l2_ctrl_handler_free() function must unlink all subscribed events
-of the control handler that is being freed, but it only did so for the
-controls owned by that control handler and not for the controls referred
-to by that control handler. This leaves stale data in the ev_subs list
-of those controls.
+When using v4l2_subdev_set_routing to set a subdev's routing, and the
+passed routing.num_routes is 0, kmemdup is not called to populate the
+routes of the new routing (which is fine, since we wouldn't want to pass
+a possible NULL value to kmemdup).
 
-The node list header is also properly initialized and list_del_init is
-called instead of list_del to ensure that list_empty() can be used
-to detect whether a v4l2_subscribed_event is part of a list or not.
+This results in subdev's routing.routes to be NULL.
 
-This makes v4l2_ctrl_del_event() more robust since it will not attempt
-to find the control if the v4l2_subscribed_event has already been unlinked
-from the control.
+routing.routes is further used in some places without being guarded by
+the same num_routes non-zero condition.
 
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: stable@vger.kernel.org # 6.7.x
+Fix it.
+
+Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 ---
-This is v2 of a very old patch from 2022:
+ drivers/media/v4l2-core/v4l2-subdev.c | 46 +++++++++++++--------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
-https://patchwork.linuxtv.org/project/linux-media/patch/66246ea5-2bd7-6c9e-56c8-9d683ec58ffc@xs4all.nl/
-
-It looks like I forgot to follow-up on Laurent's comments. Recently
-we had to upgrade to a newer kernel and apply this same patch again
-since it was still failing, at which point I realized that this fix
-wasn't in mainline.
-
-This issue only happens if you have a larger pipeline consisting of
-several subdevs, and one of the subdevs is forcibly unbound.
-
-Changes since v1:
-- fixed Laurent's comments
-- add locking
----
- drivers/media/v4l2-core/v4l2-ctrls-api.c  |  8 ++++++--
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 10 +++++++++-
- drivers/media/v4l2-core/v4l2-event.c      |  1 +
- 3 files changed, 16 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index 95a2202879d8..96c3e40f589f 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -1249,13 +1249,17 @@ static int v4l2_ctrl_add_event(struct v4l2_subscribed_event *sev,
-
- static void v4l2_ctrl_del_event(struct v4l2_subscribed_event *sev)
- {
--	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
-+	struct v4l2_ctrl *ctrl;
-
-+	if (list_empty(&sev->node))
-+		return;
-+
-+	ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
- 	if (!ctrl)
- 		return;
-
- 	v4l2_ctrl_lock(ctrl);
--	list_del(&sev->node);
-+	list_del_init(&sev->node);
- 	v4l2_ctrl_unlock(ctrl);
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index cde1774c9098d..4f0eecd7fd66f 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -605,6 +605,23 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+ 			     v4l2_subdev_get_unlocked_active_state(sd);
  }
-
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index eeab6a5eb7ba..9fb9b81a8a4f 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -10,6 +10,7 @@
- #include <linux/slab.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-event.h>
-+#include <media/v4l2-fh.h>
- #include <media/v4l2-fwnode.h>
-
- #include "v4l2-ctrls-priv.h"
-@@ -1569,13 +1570,20 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
- 		list_del(&ref->node);
- 		if (ref->p_req_array_alloc_elems)
- 			kvfree(ref->p_req.p);
-+		if (ref->ctrl->handler != hdl) {
-+			mutex_lock(ref->ctrl->handler->lock);
-+			list_for_each_entry_safe(sev, next_sev, &ref->ctrl->ev_subs, node)
-+				if (sev->fh->ctrl_handler == hdl)
-+					list_del_init(&sev->node);
-+			mutex_unlock(ref->ctrl->handler->lock);
-+		}
- 		kfree(ref);
+ 
++static void subdev_copy_krouting(struct v4l2_subdev_routing *routing,
++				 struct v4l2_subdev_krouting *krouting)
++{
++	memset(routing->reserved, 0, sizeof(routing->reserved));
++
++	if (!krouting->routes) {
++		routing->num_routes = 0;
++		return;
++	}
++
++	memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
++	       krouting->routes,
++	       min(krouting->num_routes, routing->len_routes) *
++	       sizeof(*krouting->routes));
++	routing->num_routes = krouting->num_routes;
++}
++
+ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 			    struct v4l2_subdev_state *state)
+ {
+@@ -976,7 +993,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 
+ 	case VIDIOC_SUBDEV_G_ROUTING: {
+ 		struct v4l2_subdev_routing *routing = arg;
+-		struct v4l2_subdev_krouting *krouting;
+ 
+ 		if (!v4l2_subdev_enable_streams_api)
+ 			return -ENOIOCTLCMD;
+@@ -984,15 +1000,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+ 			return -ENOIOCTLCMD;
+ 
+-		memset(routing->reserved, 0, sizeof(routing->reserved));
+-
+-		krouting = &state->routing;
+-
+-		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+-		       krouting->routes,
+-		       min(krouting->num_routes, routing->len_routes) *
+-		       sizeof(*krouting->routes));
+-		routing->num_routes = krouting->num_routes;
++		subdev_copy_krouting(routing, &state->routing);
+ 
+ 		return 0;
  	}
- 	/* Free all controls owned by the handler */
- 	list_for_each_entry_safe(ctrl, next_ctrl, &hdl->ctrls, node) {
- 		list_del(&ctrl->node);
- 		list_for_each_entry_safe(sev, next_sev, &ctrl->ev_subs, node)
--			list_del(&sev->node);
-+			list_del_init(&sev->node);
- 		kvfree(ctrl->p_array);
- 		kvfree(ctrl);
+@@ -1016,8 +1024,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (routing->num_routes > routing->len_routes)
+ 			return -EINVAL;
+ 
+-		memset(routing->reserved, 0, sizeof(routing->reserved));
+-
+ 		for (i = 0; i < routing->num_routes; ++i) {
+ 			const struct v4l2_subdev_route *route = &routes[i];
+ 			const struct media_pad *pads = sd->entity.pads;
+@@ -1046,12 +1052,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		 * the routing table.
+ 		 */
+ 		if (!v4l2_subdev_has_op(sd, pad, set_routing)) {
+-			memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+-			       state->routing.routes,
+-			       min(state->routing.num_routes, routing->len_routes) *
+-			       sizeof(*state->routing.routes));
+-			routing->num_routes = state->routing.num_routes;
+-
++			subdev_copy_krouting(routing, &state->routing);
+ 			return 0;
+ 		}
+ 
+@@ -1064,11 +1065,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (rval < 0)
+ 			return rval;
+ 
+-		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+-		       state->routing.routes,
+-		       min(state->routing.num_routes, routing->len_routes) *
+-		       sizeof(*state->routing.routes));
+-		routing->num_routes = state->routing.num_routes;
++		subdev_copy_krouting(routing, &state->routing);
+ 
+ 		return 0;
  	}
-diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
-index 3898ff7edddb..3ad6318c9908 100644
---- a/drivers/media/v4l2-core/v4l2-event.c
-+++ b/drivers/media/v4l2-core/v4l2-event.c
-@@ -246,6 +246,7 @@ int v4l2_event_subscribe(struct v4l2_fh *fh,
- 	sev->flags = sub->flags;
- 	sev->fh = fh;
- 	sev->ops = ops;
-+	INIT_LIST_HEAD(&sev->node);
-
- 	mutex_lock(&fh->subscribe_lock);
-
+@@ -1956,6 +1953,9 @@ struct v4l2_subdev_route *
+ __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
+ 				struct v4l2_subdev_route *route)
+ {
++	if (!routing->routes)
++		return NULL;
++
+ 	if (route)
+ 		++route;
+ 	else
 -- 
-2.45.2
+2.47.0
 
 
