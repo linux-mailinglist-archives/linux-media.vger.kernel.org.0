@@ -1,200 +1,127 @@
-Return-Path: <linux-media+bounces-21845-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21846-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9379D60BE
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 15:48:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B68309D60F0
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 15:57:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B7102817A7
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 14:48:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 803EEB28CF3
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 14:55:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 021FF13632B;
-	Fri, 22 Nov 2024 14:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96C371494DD;
+	Fri, 22 Nov 2024 14:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fE92jn07"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cT1w6Gys"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D451A481C4;
-	Fri, 22 Nov 2024 14:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A518BE7;
+	Fri, 22 Nov 2024 14:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732286897; cv=none; b=dpAa+zr6X7C/wG5QQ9H0Bd0AaD92h8HxhhvraRZpAA5UyIa9/ASb+mFA0DZRzxn2UVo9JCPUeGkb13OnRan78frFdTo0HDu6CmLUvMrjKXhLpWdPFJRP70+qpo8nL0ckUNfbTlk9u71zITeoT6qp6fHqg7TmjlYeOSLpHpY2HzY=
+	t=1732287331; cv=none; b=Z4NMZrJAKjKVW0IasFheX2b9iUJV3R+fiSn0y5WVqtVCbuwfMkmDYBStTfF4rYszcXQzBfF1s2SKjGS9DPD9d3JT1F7Emsk9Y5cOZBLow54oKXL5q4wRkcczr2woSP7kOGLc8v9x2PmYUG2po6tvtPOqY//tFL09YZCPyG47pFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732286897; c=relaxed/simple;
-	bh=TObrhQKNEUiuXryF/VVXCnbuKWGFbmaoIBG5kOJEtIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V6nwhHgR6uoj6YPyZZj0xB+tkVP6tx7IziQ80z0hHt2OrTJ5zoKhK8cxjz58KIcpeBOPMP9lXUFiZ/qZ+LpGcvlCv+3/IJxBlZrujhu0mG1D5t2OWZ4MBMPmUpSJzWYl2tM9ZqbzttrBSxkcdJvtkX0MIalBSybiJRaImb0BiLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fE92jn07; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC4BE514;
-	Fri, 22 Nov 2024 15:47:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732286874;
-	bh=TObrhQKNEUiuXryF/VVXCnbuKWGFbmaoIBG5kOJEtIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fE92jn07FfcHM245KyQkhpg3e94a5DnYsUyqYHEawr0qIotNAkI/RDrm4SjJGXqYq
-	 RDU1RrCp/8hBtu+zFuS+jJSojpBzS7/E6oUiklKr/B833Xcgq8zlQoDzmKR+a2oAk1
-	 cPv40J0/fJ5aZoOZJ/t9MmHmgigd4y4EfBuO3seg=
-Date: Fri, 22 Nov 2024 15:48:11 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Naushir Patuck <naush@raspberrypi.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, linux-media@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v1 5/5] drivers: media: bcm2835-unicam: Correctly handle
- FS + FE ISR condition
-Message-ID: <deremuh7mawzt6ke3c67fvzfyuksmuwon3dhorxbm5mr5rllmf@fbj2f5qvfpjd>
-References: <20241122084152.1841419-1-naush@raspberrypi.com>
- <20241122084152.1841419-6-naush@raspberrypi.com>
- <xy44zndazbw7ehpzbc6hexgptjymevvupjhuy2x6zxp54qtepm@vlbb6js62cq4>
- <CAEmqJPrrAhhukn2H4nUhe1njVi-dyW9q=u1h8YgafvJGbYRG6Q@mail.gmail.com>
- <xadxi6rjcnmgjiqhinqnawj3mgps4b3xp6ftozap4ps6q5xaz7@bsdwrrkyniwt>
+	s=arc-20240116; t=1732287331; c=relaxed/simple;
+	bh=+S44ft8d786SjiySV8bWlVLcl+EEkcxPo3Z0bd1IgU4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GzW94nGp9SCBLPPxD69/2ogo9744JALb13V2eFyExdJ3VluFkgKnD3AxKm6WZ4RQDk2Wbc50ocPs7nNkraVbJhSzDIXm5qLnCKGUEykitCGwV0VYONqo3ZItcexicB53eAEz6rRDUP3kk/JEiY67s8XAWD5gthsKWgBjryNTD58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cT1w6Gys; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43155abaf0bso19687345e9.0;
+        Fri, 22 Nov 2024 06:55:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732287328; x=1732892128; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kcCj1LFENTDkwVOjlHzVjf9FNNGMMUic5s6igZTbt58=;
+        b=cT1w6GysEksxnoDMpmthVCCp+6mT9xSiGBnLKji0dL4Rv6hwOJiRo6a4alnVATUKxS
+         eJYCGodIyNt5QoOa6eLH02DD2+CG4FZT7eG31Kgq6V/V0zmkzmt6CCuyX+ag2xxilI/q
+         7nfUMSuTtBoV89YD5Cbf3rtJtCptxyAMYPjatqqvob7WMWNwOV8oK41iMLpigtFaK8Ur
+         Z+I6lX0xs+sU2Lf0+go2BFOM+SUEhWcePRT4tE3M6QkuwtHbn7I2bX7wFURGlAv//aUI
+         jCDXGXPNW75BrPGo5VrnXy1NcsBIaycWLjkPVWw/PvQM5LtbkcnmSWXoNF6jQjwY2oaS
+         x4kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732287328; x=1732892128;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kcCj1LFENTDkwVOjlHzVjf9FNNGMMUic5s6igZTbt58=;
+        b=PYPmjNSNxHEyJmUXZYHlBsLBYOuz6gnYDekSYMekXdyVZm1Kf1h8XkKmwL0SyE3vrK
+         7XleRbRnGwARAt8tQzBHAwMqhRjUw3W6XYz8KGnL19XLy7vcAUNm7m8roAMuyLl7Ojwk
+         z0vkDlM/1umDU0MS0Y/PkQkii+iJ1dJ7D1y2OttnvDExL2Arzdlo/lNzRmLhTeqw3OYb
+         OSAaCCLd8W2rr2OKDdGfl4wzitm5EYcerycBMH2YV9bgg0JKvftOPOjMhxbppQjtHXW0
+         KFpX3BwSgcRUBdQL9Vx5hSOZnYgF/iXcMRPJiddANGVl1CWRRoY0XdAYpyNc5TgzKNtJ
+         Ud6g==
+X-Forwarded-Encrypted: i=1; AJvYcCU9okIiVy4VOpl65yl3lr0nVr+oQ+omUN64zS4HCx7KSrxXIl5XLYdr55+NpTFKzqqdwvt9HpcdVteomE0=@vger.kernel.org, AJvYcCWpG01clOvoiamI5fwlYfPQq94aeu7SJj3JF/35oDxPVCyP9DbQOGEi55dhhhjrICsgstk3Dp8/yTwwhlI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz93oICkcBQA+GSyZaSzGB0ZYJOBlhDl/0swkG6Oj6VK8P/9aBW
+	rDpGXeyFysrEJxQkMjrYALjl5o9tt8nEj/G9hz4VOcKl7u7EC9TW
+X-Gm-Gg: ASbGncv20bWzWWw7lKsBlRHP2rKNSdPzPIxY5CHjEnh5UPaT6Wid6J7agTGyEFt7buM
+	2rJPe/1D83170jxvPmu3UpJ61a4wmI1mpSejfZ8TpQoNUP+Xxzocg2gp2Jozshcq7DmVGe0l+2F
+	yIADVKmTGUGjw3rLwccSRzf38xAsWCOkULZvg4d15gDkNr251V0KO6NwB4GONwRPwcB/PvzZdSd
+	ls4aMpLGoZme52D8B0/RrY2DjhtG6ZYJInbucedYadmb7kSvjDFEvwysnL2qBaX
+X-Google-Smtp-Source: AGHT+IFBeVUVnOoLJ80v0sm1WHosA0NVoRIjsNDSw2wcgu72rxQPKjOmdWXw46ZVlVUEpQMJg2jBFg==
+X-Received: by 2002:a05:600c:548b:b0:425:80d5:b8b2 with SMTP id 5b1f17b1804b1-433ce428fadmr32855075e9.16.1732287327350;
+        Fri, 22 Nov 2024 06:55:27 -0800 (PST)
+Received: from demon-pc.localdomain ([188.27.131.151])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433cde05949sm29780545e9.8.2024.11.22.06.55.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 06:55:26 -0800 (PST)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: 
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] v4l2: mc: fix endpoint iteration
+Date: Fri, 22 Nov 2024 16:55:24 +0200
+Message-ID: <20241122145525.194253-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <xadxi6rjcnmgjiqhinqnawj3mgps4b3xp6ftozap4ps6q5xaz7@bsdwrrkyniwt>
+Content-Transfer-Encoding: 8bit
 
+When creating links from a subdev to a sink, the current logic tries to
+iterate over the endpoints of dev's fwnode.
 
-With Hans Sakari and Laurent in cc for real now
+This might not be correct when the subdev uses a different fwnode
+compared to the dev's fwnode.
 
-On Fri, Nov 22, 2024 at 03:41:31PM +0100, Jacopo Mondi wrote:
-> Hi Naush
->
-> On Fri, Nov 22, 2024 at 11:40:26AM +0000, Naushir Patuck wrote:
-> > Hi Jacopo,
-> >
-> > On Fri, 22 Nov 2024 at 11:16, Jacopo Mondi
-> > <jacopo.mondi@ideasonboard.com> wrote:
-> > >
-> > > Hi Naush
-> > >
-> > > On Fri, Nov 22, 2024 at 08:41:52AM +0000, Naushir Patuck wrote:
-> > > > This change aligns the FS/FE interrupt handling with the Raspberry Pi
-> > > > kernel downstream Unicam driver.
-> > > >
-> > > > If we get a simultaneous FS + FE interrupt for the same frame, it cannot
-> > > > be marked as completed and returned to userland as the framebuffer will
-> > > > be refilled by Unicam on the next sensor frame. Additionally, the
-> > > > timestamp will be set to 0 as the FS interrupt handling code will not
-> > > > have run yet.
-> > > >
-> > > > To avoid these problems, the frame is considered dropped in the FE
-> > > > handler, and will be returned to userland on the subsequent sensor frame.
-> > > >
-> > > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > > > ---
-> > > >  .../media/platform/broadcom/bcm2835-unicam.c  | 39 +++++++++++++++++--
-> > > >  1 file changed, 35 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > index f10064107d54..0d2aa25d483f 100644
-> > > > --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-> > > > @@ -773,10 +773,26 @@ static irqreturn_t unicam_isr(int irq, void *dev)
-> > > >                        * as complete, as the HW will reuse that buffer.
-> > > >                        */
-> > > >                       if (node->cur_frm && node->cur_frm != node->next_frm) {
-> > > > +                             /*
-> > > > +                              * This condition checks if FE + FS for the same
-> > > > +                              * frame has occurred. In such cases, we cannot
-> > > > +                              * return out the frame, as no buffer handling
-> > > > +                              * or timestamping has yet been done as part of
-> > > > +                              * the FS handler.
-> > > > +                              */
-> > > > +                             if (!node->cur_frm->vb.vb2_buf.timestamp) {
-> > > > +                                     dev_dbg(unicam->v4l2_dev.dev,
-> > > > +                                             "ISR: FE without FS, dropping frame\n");
-> > > > +                                     continue;
-> > > > +                             }
-> > > > +
-> > > >                               unicam_process_buffer_complete(node, sequence);
-> > > > +                             node->cur_frm = node->next_frm;
-> > > > +                             node->next_frm = NULL;
-> > > >                               inc_seq = true;
-> > > > +                     } else {
-> > > > +                             node->cur_frm = node->next_frm;
-> > > >                       }
-> > > > -                     node->cur_frm = node->next_frm;
-> > > >               }
-> > > >
-> > > >               /*
-> > > > @@ -812,10 +828,25 @@ static irqreturn_t unicam_isr(int irq, void *dev)
-> > > >                                       i);
-> > > >                       /*
-> > > >                        * Set the next frame output to go to a dummy frame
-> > > > -                      * if we have not managed to obtain another frame
-> > > > -                      * from the queue.
-> > > > +                      * if no buffer currently queued.
-> > > >                        */
-> > > > -                     unicam_schedule_dummy_buffer(node);
-> > > > +                     if (!node->next_frm ||
-> > > > +                         node->next_frm == node->cur_frm) {
-> > > > +                             unicam_schedule_dummy_buffer(node);
-> > > > +                     } else if (unicam->node[i].cur_frm) {
-> > > > +                             /*
-> > > > +                              * Repeated FS without FE. Hardware will have
-> > > > +                              * swapped buffers, but the cur_frm doesn't
-> > > > +                              * contain valid data. Return cur_frm to the
-> > > > +                              * queue.
-> > >
-> > > So the buffer gets silently recycled ? Or should it be returned with
-> > > errors to userspace ?
-> >
-> > The buffer silently gets recycled and we dequeue when we are sure it
-> > is valid and will not get overwritten.  If we were to return to
->
-> I haven't find in the v4l2 specs any reference to what the behaviour
-> should be.
->
-> If I can summarize it: When a frame capture is aborted after the DMA
-> transfer has already started, should the corresponding capture buffer
-> be returned to the user in error state or the frame drop can go
-> silently ignored ?
->
-> Cc-ing Hans Sakari and Laurent for opinions.
->
-> > userspace with an error, there is still a race condition on the name
-> > frame/buffer which will also have to return as error.
-> >
->
-> I'm sorry I didn't get this part :)
->
-> > Regards,
-> > Naush
-> >
-> >
-> > >
-> > > > +                              */
-> > > > +                             spin_lock(&node->dma_queue_lock);
-> > > > +                             list_add_tail(&node->cur_frm->list,
-> > > > +                                           &node->dma_queue);
-> > > > +                             spin_unlock(&node->dma_queue_lock);
-> > > > +                             node->cur_frm = node->next_frm;
-> > > > +                             node->next_frm = NULL;
-> > > > +                     }
-> > > >               }
-> > > >
-> > > >               unicam_queue_event_sof(unicam);
-> > > > --
-> > > > 2.34.1
-> > > >
-> > > >
-> >
+If, when registering, the subdev's fwnode is not set, the code inside
+v4l2_async_register_subdev will set it to the dev's fwnode.
+
+To fix this, just use the subdev's fwnode.
+
+Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+Fixes: 0d3c81e82da9 ("media: v4l2-mc: add v4l2_create_fwnode_links helpers")
+---
+ drivers/media/v4l2-core/v4l2-mc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
+index 4bb91359e3a9a..937d358697e19 100644
+--- a/drivers/media/v4l2-core/v4l2-mc.c
++++ b/drivers/media/v4l2-core/v4l2-mc.c
+@@ -329,7 +329,7 @@ int v4l2_create_fwnode_links_to_pad(struct v4l2_subdev *src_sd,
+ 	if (!(sink->flags & MEDIA_PAD_FL_SINK))
+ 		return -EINVAL;
+ 
+-	fwnode_graph_for_each_endpoint(dev_fwnode(src_sd->dev), endpoint) {
++	fwnode_graph_for_each_endpoint(src_sd->fwnode, endpoint) {
+ 		struct fwnode_handle *remote_ep;
+ 		int src_idx, sink_idx, ret;
+ 		struct media_pad *src;
+-- 
+2.47.0
+
 
