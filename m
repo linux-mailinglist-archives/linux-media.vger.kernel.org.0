@@ -1,96 +1,92 @@
-Return-Path: <linux-media+bounces-21851-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346609D64B1
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 20:53:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DBB19D650B
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 21:46:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C90FEB23551
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 19:53:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0065B227B7
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2024 20:46:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E8F51DFE24;
-	Fri, 22 Nov 2024 19:53:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7D21DF995;
+	Fri, 22 Nov 2024 20:46:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="erJsjfeW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJOPxT6D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41874175A5;
-	Fri, 22 Nov 2024 19:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B152B189BAE;
+	Fri, 22 Nov 2024 20:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732305209; cv=none; b=srHLpkQDtH2iBPEF7Bq7D6Ouc8JONPyc/q0MDs/835yfpOeWxZVsrL/RK2XmtFQDGflAlrBr6q7dhNAqTBvfwjGCgA5XOsRod5damJUte/f0oryxgAiuCCJuam1k4mAAASXZlVIrCmZureKAkFSnRBCvII/GqAX7u0iHZpEVyYU=
+	t=1732308370; cv=none; b=nLCmPOg7yeJlKh8IOhv9bVZ5KF/oKtkDiJmAUJcME7rWHtrrWfEKVZnMWXU3AwRY0HJ/BjA4Oji7AH4lAsLhjjp99JXP5N+wUaccKP9CkjzFfOwAfX8dH8K/g/YtZJcjIMALWOxDmugFcT3q0FLWvEwHHPtW2a08OjOj2KHj13w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732305209; c=relaxed/simple;
-	bh=ZZtZHYA/IIm7LQvrI19Jp2brzd9znJvddYJCiGGW06I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=J1/8bQsLLdASTFxc+svORW7qCDxp1BW6LBjdBVh7A5ybREa0bUJdAeG44fNK8NECCHSnNY/7GVyzhq26o9pRvf8QdA5uYbtZGIeMoCHXVKiRtWe/TWFkjPl/qSiqiQSJGJA2W7T/Ba/FDjgn05EeuKuva33AAYXrbyQnzq4Okzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=erJsjfeW; arc=none smtp.client-ip=209.85.160.174
+	s=arc-20240116; t=1732308370; c=relaxed/simple;
+	bh=rfLGix8VQmuESlqsseWvC99WsyP4jvOiWI4xbdEeIFg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q1aQYLJQfD0+OxCuM5L+SuohXXBzS+qFI+kGdnDsQ51t4T0mwpE22yI6lb1dvh98x7nwt2IZ7cGxtfg5ayFweTCWM/yfZ1xB/BdzVbiiGOQlaySQ01JsP2vwpxlY93RkHVE9Yxq6epAnCuD/0Yo2ZrXGM1zSDewtQloigx7smA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJOPxT6D; arc=none smtp.client-ip=209.85.160.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-460af1a1154so15160271cf.0;
-        Fri, 22 Nov 2024 11:53:27 -0800 (PST)
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-460c2418e37so16706701cf.0;
+        Fri, 22 Nov 2024 12:46:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732305207; x=1732910007; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CF/HRhep9JBi7dLu2TPvpQtWrqcbCsu76aTE4DvPvS8=;
-        b=erJsjfeWCI3E9eT0RVkPjQigloK8SHDDZXFmo8hY0YdbcWs+pJduuWvXr3MCcy/W2/
-         ehhl1LpJlgLf4+oi+/6xJXNYZRtPVze2fDPNSvU1W8P8rdPCQiHh1i16Goiz8i4+r5Ox
-         gGYFW96dQuHhBSrtVFKGpwj1vyVCcQVTfyTaAZFwrw/nXfoUMezX2z3oriBn4UeuLobF
-         VH58SIkMg2eSrG/F/INn/IjTTToeZhJOozSEjqUgM/q7BRfR3NNNC6OABDoCrTkgVnE3
-         FQMvs6Jbz2shjEgjxIOllWoXnVhc7TKtaYoPsxnl5CN6qHTnKN0iNnmYnshykpxFlFtQ
-         StQQ==
+        d=gmail.com; s=20230601; t=1732308366; x=1732913166; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KdfcoTAixo+mlxOpXRifnZy9GhI+cyrUE3VMtPIwmvg=;
+        b=hJOPxT6D/pvZL0guv9MUb0YNONDWlP694kHaF6eX8Mj8HMVoxgHdzJ/5k7czlZIPHp
+         410dXfiVVSHEf16+0WSHnFykA4+ip/9i0tQP6okPn/Y7rqGfyQiwaDnlym+hXEjvc0M/
+         5nuDDCl/BIy6fA9Rqpd6MNH1s4o7c0SvqVSOIScY+46motmYcTVtipRAymsdtCoA8gZL
+         NR+8ZKSRNCdIQgjJYHyWqlvsPB6IiEpj+wrK58EQVfz7YgQRzRI7yGU7ISXyOtOJMen/
+         WxunGnKYCaKddUGIgjntz6PIPaEc3A2fSohnRzPOO7Bnpb/+UEFo9N2gUon6xrfK3f2w
+         q8aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732305207; x=1732910007;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CF/HRhep9JBi7dLu2TPvpQtWrqcbCsu76aTE4DvPvS8=;
-        b=KKf7PFAVwZCovCiIGEmDOialMN9bK41THXj3omw8a+ecOYGjeY1rVDaolmXKQGcPgQ
-         jg3kKf4p9UDy0w5Xt31FBKX0TCy7pfFEYOQ/PvCnDxIXzXQyorLnOjlPHuTKpj/33wi2
-         pgBXl8eC+fGY+80l9Dyts7qQ7xAH/5BcTURVNdBoOvnCZ13Xb3RVxM3/GQo8TC0RERiP
-         pMtjp1S0fB54wa8s1d8qwtvuxGCd7oBXk9H7fw//EfTLysBE3onVT7GN2n3Me+OfvFz2
-         2b2aoKfg+rQz1ZjS69ep67wL3H+JvCKR+qc/kqjtw7bJlstrIyPp6wji7UpCHv54ICHw
-         9aFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUm1jqM9zYn6kziX7S8Abg/0jqDbngSUM6WjjE8ks5dpeHYW/8jMBiq1eRkdLaPqRj+BzzGyEm7YtFa8v0=@vger.kernel.org, AJvYcCWxamZ8atHkzaGt0e7OR6TGcJXBHoLrSKufdRffNCFzkRtaDsxTt5OrNK52OukNDTh7KfcJWsS5IUS1gA6ZIm1xwfs=@vger.kernel.org, AJvYcCXyzfBjnAAVa+G1gdNpOLu857RzjwuTI0Sl2JmxFdWq6gnsO2m17rrQ2rShVg2vsBU3zr3rx4MMPxw1XpA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwC6OzqGnp7AWVedJws1nLaQ+eXH/ri9rv1C7pnPdDkS0v1RrGj
-	rO0cCL6B0f3LaJ+90tdtPqPV6ruJCoPhALpeBXxAI83XnQ2ZdjXA
-X-Gm-Gg: ASbGncvbnQuRuyTMv1aozwSqQUhHOOP3uryd1VNJv6XGZKMdEKwBhmqqz9XU9h4IJQI
-	1IyoD3UQHY+amPAGQRwCGz6NZ++LaUyuugWIdFVr2o97P3C7AsWAZKPgiUe3WyrTJF4oJjeMGkb
-	FMvfUr556HZLyR1VqSd452WikDBJsopDGafs27O32CqJsbTQWSbFbTLoluZUlQvzw+1ZfUTaQNa
-	TF046sdK1MjuL/RyDpbeuAmuQwWzqbF0wSTlkdLixa/oOmCRb8EJcph+avXA3/T1O+s8hav
-X-Google-Smtp-Source: AGHT+IGWS/TRquPL6ThkLaNpCv/OoH1M5+ix8LlZG/vqWDvFWeRjvAxoJJc+WnPkQLUTQ/pMdaugqA==
-X-Received: by 2002:a05:622a:5c98:b0:462:ac16:e72f with SMTP id d75a77b69052e-4653d5302ecmr60216091cf.8.1732305207048;
-        Fri, 22 Nov 2024 11:53:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732308366; x=1732913166;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KdfcoTAixo+mlxOpXRifnZy9GhI+cyrUE3VMtPIwmvg=;
+        b=qFH+D5RWs9vXWabwrSzM3EaZ+f1Sr+CAnmJA7a7Em4qLC8b0kTnOPGG79eV8XmvgGK
+         aT0M8WgvF5W4puGYXXt4gyLRZTLD1MNE2UbF/Hx3fti9V9E6J8meG16R9Osj42fJyCSA
+         DcRIWcAAptv0WoHOBQW88AR9v8Uoy58OUeYrhDFKY5vkR36wwPHm0teNJpxaeitiY5k/
+         1dF1RLWjTepVpOioOOI4YkliZdaZMyQlHEbMbmXnp6OkXBdHmBxQpdjQufgfYD6NgVAG
+         FrUGkbz9pS84BFIj7mH76TNzIpmb+ynscdJDgqxVkP6W/bQ3LQJH+Ruv5BZsBo/VWJYd
+         2hHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJnnMeimHomPOBuJm8h2y7KzGKwFk9bqfmqUyi7bfAPO+qomYnlzECYC2gxUIpgIRBvD0/kaoAdRaLoVk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyC23T7NwNrVlTrNf66BHB+M2EFj9pahSKYkhJUW/PTSrMv10fE
+	MXVywjxZx6kg5vpgbXdz8DGJqloAq7pa73hT60H/dLY4KqgecAwn
+X-Gm-Gg: ASbGncsJVVFFsI3s4CwKbhN8JmsC9WGoV4iEk32A7G6AnmWJhj8X2G0bwtEvRHZLzud
+	nl20q1VUalO3XYGqIMVtH3AKtAlw9Fg2H/m8Bov2fLkFEePKxr/j0xqSDWW3IZpfMMyaX83Y4ib
+	Rgs1au9QGum23BDbtcRttoRUfZSnQb7fPmSbtH1bHiFNc0ybQ87UrAaoL/MuQLAKb9hVPKQbANU
+	p9wFJKZGWW7bX5/dTwr9b6sMO8xFxP5esnIzyNX3itkQ2qUsNvLHYqynagB1VqWl1LSXys6
+X-Google-Smtp-Source: AGHT+IEDZRkTO5+DQwSrlRCcw21oaJiFGCJZnGNbrmx62J2fNbuC3IdPrM/AFVV8d9sqgagVOv+RJg==
+X-Received: by 2002:ac8:7d92:0:b0:45d:9525:42ff with SMTP id d75a77b69052e-4653d632068mr45585081cf.54.1732308366553;
+        Fri, 22 Nov 2024 12:46:06 -0800 (PST)
 Received: from newman.cs.purdue.edu ([128.10.127.250])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4653c3ee8cesm15535781cf.25.2024.11.22.11.53.26
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4653c3ed111sm16082051cf.20.2024.11.22.12.46.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 11:53:26 -0800 (PST)
+        Fri, 22 Nov 2024 12:46:06 -0800 (PST)
 From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-To: krzk@kernel.org
-Cc: sylvester.nawrocki@gmail.com,
-	mchehab@kernel.org,
-	dron0gus@gmail.com,
-	tomasz.figa@gmail.com,
-	alim.akhtar@samsung.com,
-	kyungmin.park@samsung.com,
-	laurent.pinchart@ideasonboard.com,
-	linux-media@vger.kernel.org,
+To: mchehab@kernel.org,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com,
+	hverkuil@xs4all.nl,
+	u.kleine-koenig@baylibre.com,
+	neil.armstrong@linaro.org,
+	andrzejtp2010@gmail.com,
+	dillon.minfei@gmail.com
+Cc: linux-media@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Jiasheng Jiang <jiashengjiangcool@gmail.com>
-Subject: [PATCH v2 1/2] media: mipi-csis: Add check for clk_enable()
-Date: Fri, 22 Nov 2024 19:53:22 +0000
-Message-Id: <20241122195322.42289-2-jiashengjiangcool@gmail.com>
+Subject: [PATCH] media: platform: stm32: Add check for clk_enable()
+Date: Fri, 22 Nov 2024 20:46:03 +0000
+Message-Id: <20241122204603.44419-1-jiashengjiangcool@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241122195322.42289-1-jiashengjiangcool@gmail.com>
-References: <20241122195322.42289-1-jiashengjiangcool@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,45 +97,26 @@ Content-Transfer-Encoding: 8bit
 
 Add check for the return value of clk_enable() to gurantee the success.
 
-Fixes: b5f1220d587d ("[media] v4l: Add v4l2 subdev driver for S5P/EXYNOS4 MIPI-CSI receivers")
+Fixes: 002e8f0d5927 ("media: stm32-dma2d: STM32 DMA2D driver")
 Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
 ---
-Changelog:
+ drivers/media/platform/st/stm32/dma2d/dma2d.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-v1 -> v2:
-
-1. Power off the phy and disble regulators when clk_enable() fails.
-2. Remove a redundant space before the label "unlock".
----
- drivers/media/platform/samsung/exynos4-is/mipi-csis.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/samsung/exynos4-is/mipi-csis.c b/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
-index 63f3eecdd7e6..47b8e043aae9 100644
---- a/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
-+++ b/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
-@@ -940,13 +940,19 @@ static int s5pcsis_pm_resume(struct device *dev, bool runtime)
- 					       state->supplies);
- 			goto unlock;
- 		}
--		clk_enable(state->clock[CSIS_CLK_GATE]);
-+		ret = clk_enable(state->clock[CSIS_CLK_GATE]);
-+		if (ret) {
-+			phy_power_off(state->phy);
-+			regulator_bulk_disable(CSIS_NUM_SUPPLIES,
-+							state->supplies);
-+			goto unlock;
-+		}
- 	}
- 	if (state->flags & ST_STREAMING)
- 		s5pcsis_start_stream(state);
+diff --git a/drivers/media/platform/st/stm32/dma2d/dma2d.c b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+index b6c8400fb92d..48fa781aab06 100644
+--- a/drivers/media/platform/st/stm32/dma2d/dma2d.c
++++ b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+@@ -490,7 +490,8 @@ static void device_run(void *prv)
+ 	dst->sequence = frm_cap->sequence++;
+ 	v4l2_m2m_buf_copy_metadata(src, dst, true);
  
- 	state->flags &= ~ST_SUSPENDED;
-- unlock:
-+unlock:
- 	mutex_unlock(&state->lock);
- 	return ret ? -EAGAIN : 0;
- }
+-	clk_enable(dev->gate);
++	if (clk_enable(dev->gate))
++		goto end;
+ 
+ 	dma2d_config_fg(dev, frm_out,
+ 			vb2_dma_contig_plane_dma_addr(&src->vb2_buf, 0));
 -- 
 2.25.1
 
