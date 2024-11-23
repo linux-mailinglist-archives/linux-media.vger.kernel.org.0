@@ -1,121 +1,135 @@
-Return-Path: <linux-media+bounces-21859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21860-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E0D9D69D4
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 17:01:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D286A9D6B99
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 22:26:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D8F1281BF1
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 16:01:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F273281A16
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 21:26:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF25C5103F;
-	Sat, 23 Nov 2024 16:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A9B1A3047;
+	Sat, 23 Nov 2024 21:26:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rY/hhEwK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fLqabWus"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2C31C695;
-	Sat, 23 Nov 2024 16:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D68113B288;
+	Sat, 23 Nov 2024 21:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732377656; cv=none; b=efxnng3F636nRrFlfGqgpXPZrj952xMHEes1cMj2Uk8ZLtP0RstLAQsXFc7a44W8FJwvIDhMntOe7kVS1zTVLbGAVyY9f1bMYMR8N2JSmRLyQCKnTtjwdHRKUG9PEs3adNH2Ba2GAiRxvrzL9uNR4lGFG8BxxlPVUPT9hW0Kkes=
+	t=1732397189; cv=none; b=mESxTcVPxtE0KERYiRY3tRxpI7BpA6LJG+zBmGSiXxwYQWBmtdJWG++oGUYcDoq3NtNKpC4ul3f6wdspqvtai79EF5qjaGubvzle4rbig+twoi93xytrvT1Wl8eIr6Z9rPFZUe9JzIijt9SyFlOM8bOa7QkvGwupDj5ct8Wpd8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732377656; c=relaxed/simple;
-	bh=JNyDZtalF54Y5ZrHjZNjBgokrZyQ4W+6HBOQlcOGDlE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OkuZBWMrOC/iv6kxjAxg3cMPna/403S7gexxsY6hHikpwgCfYm7q4R+y464Cba+2nqGzSD90CHnY8pAF7lEPiRmL6dVWAWjN/uMCSn2vQJw1OlCS164QmGfMnR2DF3MPY+9FKf6d+cfqSrngUjxKm0nDGnAjDe0UYv8KDPt3n2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rY/hhEwK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B3F9C4CECD;
-	Sat, 23 Nov 2024 16:00:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732377655;
-	bh=JNyDZtalF54Y5ZrHjZNjBgokrZyQ4W+6HBOQlcOGDlE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rY/hhEwKiX9QS619xQENwikFKLz0Qk02jNdpOOnsvVz0eUtGdM1PmhDH4Soo41xkh
-	 +Z8I9f5kwkQ3+qVQJM0CqCHo3Vdtx96bwz/dwgtxJmvHSS5Zs4fYXuMrEVSTGqNgBO
-	 sdVetEQHEiB34O+iYoVz7cNhBDSOie0lzspiqtE5JuCSOn1/w2MCaHWR/JyxVRcq5V
-	 +kWd7vdZFCy/EsHInQsqZzirrJqSYynUuZy29X+WDLIrHMnV7R7IQcwzNQFtdblpZe
-	 fe72V3ww6mmizN3Ras3PQcAR733ZPry59UIzsDQKz2Tn0UJ+kFUk0hPoTQ4pPvuiep
-	 naRBttdDsIusg==
-Message-ID: <a664ae24-26a7-42bd-98e2-f46d7e475b9a@kernel.org>
-Date: Sat, 23 Nov 2024 17:00:49 +0100
+	s=arc-20240116; t=1732397189; c=relaxed/simple;
+	bh=E/5sdOL/jkUCbV3WEL3b/0KOfVk/fXbHHdo2d90g7Q4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SXP9J3hepgoI4YW9FooOWeHs/0HQm1Ovl5jnet+u7ZFmVWjTWt/Ij2FR30ta313S/Kp/dmaoqRi4vLno4LePbdZukO3PemogEQ1TTewyXUr6Ij3siwQyucdBrXgApfFyHMbw5u92JcWVAMQ7CEMIji+Ix4HoRjw0PkCrozlyMIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fLqabWus; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4613162181dso22370501cf.3;
+        Sat, 23 Nov 2024 13:26:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732397187; x=1733001987; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m8k+BU9sp4jwI3J04BZciS+UktHrfNJa8h5d00+WG0I=;
+        b=fLqabWusBrfsSCfqc3cWPR/k+ENJbPoS80jK49K+Wi7ROJHtg04MXu2OQmOqm0stOL
+         a6k3DDo7qkMZU+YK589mTjpwcnrHAnh7mU1ScVzkbXrP3j+dz1n9R+xmoTDVK4SN631z
+         +UA2JNcRmn5s3twb5gygPEQ3k57c0gjNL67q7tnEYmeAYKMTg0kxrccHXCWc5+sOe1x1
+         fmVWideJcUNdKeRvadhs/JSlU/jR8EpTo5e1QDeStzDS89bVLC+Yo1b5cZ9VHkUi6r9j
+         91jlF5bTRTDf1Jxh6o6dz8SajZyXm3EZtZDXWcY2//h3L/keLGRjY8o2lZWyDxhraXHX
+         OMnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732397187; x=1733001987;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m8k+BU9sp4jwI3J04BZciS+UktHrfNJa8h5d00+WG0I=;
+        b=euV5WzK5sMP9356C/bSoBRUkQRpwVMs5VNpy3+G1MgBypDYphC552uOLjZ7BX7MEUz
+         vk2OZDOzYDCH/9dtaJTMjxBzPjAb7b0z8GW2bYSRaoq6XmXZ7EmsxDu6UVOrzH9VXMr7
+         uFImPXsppCD0llnXhYACe9bo7S/fCJhWjPqMGpg9P+eRiVzETUZZw8oigZqC/9n80gUr
+         6tl8BnPo6ALeVHyYuXfXZobHmCt0u+klIgOae/1sV51Xfl52Qgyuzx491XjJIBRG6maz
+         7hQL3v2jgKtQPi3hB/tZA/tt6+tZ8hNofYU97kfDAkec+JTd8Q7nXFgVeGSdoVaIb9Zk
+         l+hA==
+X-Forwarded-Encrypted: i=1; AJvYcCUA8ixNqBtqbSQ6PbOJbHBN3WATRbMWHPHwkTD79ogU81gqhV1SncIgH4ymaV/lMDkDUVqojhvpyuzGlvILD8pj36k=@vger.kernel.org, AJvYcCWqlPc8FqHTft44qWD1fe7syGLkrjVYQml6zlKNkD6JA160N5eVm7bribT3P/6ZfJ8rE1I+3iyJbX+hooU=@vger.kernel.org, AJvYcCXfiOLOsRVX2TSxqSvWTiudD1zzd6pGBd5TJygIIQq7gWApoaxKObEbyR7ESwH2BwKPYw+AfbanXCLjFIs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxz830nTmZAk6W0ZxlX5/FICEWVenNUoROL9HxIcG4ylcGLqjP9
+	Q1hRj8DFpsvGOBZTnf+0fV9clcAWAjXaIwOkjstolQCisHzkNs2c
+X-Gm-Gg: ASbGnctTG4F+zSUQK+8gTBq9G4uEX100uq7k2UEA3Yx02drwA6vkxDX38K5ssorL0NN
+	WoiiMGzI6G4FF5dEeEP64dV0HUXq7gZE52ytRK2/SkcuBBzTr35v+ehEwuY0xhY2HT29sj6jWYC
+	VS5LltPwSg8ren+U2r2v7+CKcb2pNuX0Yp8BiLyrEegydG3LAQw0KuNoCJZoSJ3vyMQ1J2WI8Zm
+	nfkmayEHHFIVUzr40sKnNVcT+PQxMPvFk4FweMuv65j83KDZv5EMB8g1CmNi3PG70uys/VC
+X-Google-Smtp-Source: AGHT+IG5PKwkaZdfHENRxLK17QUpoYrvU5jJ1tBVCBUSAkJvvZxzWp3amwDBrzNlQ0M668EVPCFsuA==
+X-Received: by 2002:a05:622a:13c8:b0:460:ad75:300a with SMTP id d75a77b69052e-4653d620415mr115969591cf.37.1732397186893;
+        Sat, 23 Nov 2024 13:26:26 -0800 (PST)
+Received: from newman.cs.purdue.edu ([128.10.127.250])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4653c3d9c14sm27763811cf.15.2024.11.23.13.26.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Nov 2024 13:26:26 -0800 (PST)
+From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+To: krzk@kernel.org
+Cc: sylvester.nawrocki@gmail.com,
+	mchehab@kernel.org,
+	dron0gus@gmail.com,
+	tomasz.figa@gmail.com,
+	alim.akhtar@samsung.com,
+	kyungmin.park@samsung.com,
+	laurent.pinchart@ideasonboard.com,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>
+Subject: [PATCH 2/2] media: camif-core: Add check for clk_enable()
+Date: Sat, 23 Nov 2024 21:26:23 +0000
+Message-Id: <20241123212624.6237-1-jiashengjiangcool@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: camif-core: Add check for clk_enable()
-To: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-Cc: sylvester.nawrocki@gmail.com, mchehab@kernel.org, dron0gus@gmail.com,
- tomasz.figa@gmail.com, alim.akhtar@samsung.com, kyungmin.park@samsung.com,
- laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241122221348.3998-1-jiashengjiangcool@gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241122221348.3998-1-jiashengjiangcool@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/11/2024 23:13, Jiasheng Jiang wrote:
-> Add check for the return value of clk_enable() to gurantee the success.
-> 
-> Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC series camera interface")
-> Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-Please version your patches correctly, e.g. use b4 or git format-patch
--vX, and add changelog in cover letter or under '---' of individual
-patches describing changes from previous version.
+Add check for the return value of clk_enable() to gurantee the success.
 
-Best regards,
-Krzysztof
+Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC series camera interface")
+Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+---
+ .../media/platform/samsung/s3c-camif/camif-core.c   | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/samsung/s3c-camif/camif-core.c b/drivers/media/platform/samsung/s3c-camif/camif-core.c
+index de6e8f151849..221e3c447f36 100644
+--- a/drivers/media/platform/samsung/s3c-camif/camif-core.c
++++ b/drivers/media/platform/samsung/s3c-camif/camif-core.c
+@@ -527,10 +527,19 @@ static void s3c_camif_remove(struct platform_device *pdev)
+ static int s3c_camif_runtime_resume(struct device *dev)
+ {
+ 	struct camif_dev *camif = dev_get_drvdata(dev);
++	int ret;
++
++	ret = clk_enable(camif->clock[CLK_GATE]);
++	if (ret)
++		return ret;
+ 
+-	clk_enable(camif->clock[CLK_GATE]);
+ 	/* null op on s3c244x */
+-	clk_enable(camif->clock[CLK_CAM]);
++	ret = clk_enable(camif->clock[CLK_CAM]);
++	if (ret) {
++		clk_disable(camif->clock[CLK_GATE]);
++		return ret;
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.25.1
+
 
