@@ -1,79 +1,48 @@
-Return-Path: <linux-media+bounces-21858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21859-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82DF9D66AD
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 01:19:11 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E0D9D69D4
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 17:01:04 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 659D21612C2
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 00:19:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D8F1281BF1
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 16:01:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FB07AD51;
-	Sat, 23 Nov 2024 00:19:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF25C5103F;
+	Sat, 23 Nov 2024 16:00:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Feo9+J+A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rY/hhEwK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE635566A
-	for <linux-media@vger.kernel.org>; Sat, 23 Nov 2024 00:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2C31C695;
+	Sat, 23 Nov 2024 16:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732321143; cv=none; b=oL9Ls8f6Mz3yAsWx++u/WgctHLik/zAEnGJ0uCGjkErMTUPTuwg3YxtIZZfOpfesg2GFNfkMMDh2LgD507xmx8u7Rflhk0cImXX2zfegJ9ghgNudGiCyZDGIz7q65N9R2fFU6LGX04hzOP41uPxDrUdCt/LclS+H7AaXSAAYnxM=
+	t=1732377656; cv=none; b=efxnng3F636nRrFlfGqgpXPZrj952xMHEes1cMj2Uk8ZLtP0RstLAQsXFc7a44W8FJwvIDhMntOe7kVS1zTVLbGAVyY9f1bMYMR8N2JSmRLyQCKnTtjwdHRKUG9PEs3adNH2Ba2GAiRxvrzL9uNR4lGFG8BxxlPVUPT9hW0Kkes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732321143; c=relaxed/simple;
-	bh=gp6cmepa61xAyiqmA0aFpcdQ8xEtl56sKeMzfRIXE1U=;
+	s=arc-20240116; t=1732377656; c=relaxed/simple;
+	bh=JNyDZtalF54Y5ZrHjZNjBgokrZyQ4W+6HBOQlcOGDlE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oDSs3e6KDMR2d0T0Lpzx/qk7E5646fIyTzzP4XbOwNwg7U+CP89zQSM4aHRgeY3MU99DSG64Tz/K1W9DdQBRpS8MkYc8Y/PxX/xeX3a+VM8aaTKNqGMu4ScA5sR5EybU6MP6/BiNW1zsAyDuH9EaVi3hQn+mTyHgsiBECphvAyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Feo9+J+A; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43161c0068bso23679825e9.1
-        for <linux-media@vger.kernel.org>; Fri, 22 Nov 2024 16:19:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732321140; x=1732925940; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CBar/yUBJZ7evAtJzqvt9icFhcSkyuHEJP8iZfvqHus=;
-        b=Feo9+J+AR+AU+ahicpwF2PWcXN8I0qV2NdFn1o9kB4MN4DsZY1aPTb3TU6hhTJWUBZ
-         tIiioKDGA2up5wrH4dGGfBzaC3Mpi/pwx/OPeZDmfjnOm/Bz+6eIxnbXB4OtOEfpBwGN
-         WKqIejjb8qHFpdGcfO5KGg11Kdwag8d53soZNfbkNbbwHNlcXEKfcNT4E6YUEXz7lXrT
-         RPqrl3kfirqo8OUcIcx9NHXwJjAQ3Oyy/YIa+StCpxvUY+SNRMhhSGJmJamLoupidY0T
-         1RlzrH0Rx4hVoyH8B+lJjf+GP7gycsG4Y2c/zhAhLpWtCcR9MQdJAbyZGjD8vzdcRV2v
-         bK6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732321140; x=1732925940;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CBar/yUBJZ7evAtJzqvt9icFhcSkyuHEJP8iZfvqHus=;
-        b=YXihGRtuIVOA1+9HJerjUbT/zsafX88w7FIrCIZwmqDSq3czxQSpbA3w+xJutcUlU9
-         eURFRAaIc/tgoAHSe0PrLfypmf8EgDVQ2L0jnLYOdKR5/MxgRp3dEq5B4e2GEIK05AJg
-         qJGP75R3MU9YkWuwY8yEDSPAs2sDcIuFvpkMNJNzXI+RJOoTkcHMsVPnVaoLxiPCV0aA
-         X8ZMO2i6RhpJ81FSWWpPftWrTGWZ3PdNO6uM1ii9kP/QoCRnjEVV6xDeU/MDzOK5O/w2
-         ak8OpWYfEg6EKA4dMmWT+U9O5oZcT/xmiwSCWsOo9d7yO6l1cOjYrYlcT1etXNOZfEr0
-         PAoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU/GWpN6TbRrsl5RnQE+JFAQHaeYo0ItxNYKqsaxGoqkPx4jtSYyNad4D9WrDz5l7i6OjwRJ40NTNrSDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyvk5lYgs6EKIk/VXGO75yD7nBQKAzeAdAymd3Vhf2/5VIl448z
-	W3g0ZafvwRyoJ9T9J77fQLKk3U1/gr6PoOh2YnvqGl0VZg9cTgXig7gol63EDw/0Si1KVDkDvh9
-	UZho=
-X-Gm-Gg: ASbGnct/Jb3Rk7v+Df3Rwzx6AeneQE9e56OQHtT/LhWjL68/e27OBXdPLnMVCECZhH3
-	KAvpuMVauMyWdQibibWav5nmUNvnk65YIeX+jond/tX8lqGfC1h+5j/DmHAEg+DKmidZNVWZNdO
-	KcnB2QhwWPipNSd1o92FxbE1+BHnDc72Qt4BguqaZVd9pJwW8m3fQrVE6q1mYWJ+NqotLg3BpPj
-	FOvWfrfge2upZrWVPBtQkQJp3hfnwWD0eYGOqn93F3XfP+jbG36DZttbTfF8PI=
-X-Google-Smtp-Source: AGHT+IHlRoz6uk5MGmn7iew4+RptSPaqyvO51B4OHl+zcs4aSMhp1CyvOMHb1GlQZ23DFr2P1b8X8g==
-X-Received: by 2002:a05:600c:3ac3:b0:431:6083:cd2a with SMTP id 5b1f17b1804b1-433ce42c78bmr45572455e9.15.1732321140029;
-        Fri, 22 Nov 2024 16:19:00 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433cde10eabsm43567815e9.13.2024.11.22.16.18.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Nov 2024 16:18:59 -0800 (PST)
-Message-ID: <f7c31279-8492-484c-94c4-893d98f53afb@linaro.org>
-Date: Sat, 23 Nov 2024 00:18:58 +0000
+	 In-Reply-To:Content-Type; b=OkuZBWMrOC/iv6kxjAxg3cMPna/403S7gexxsY6hHikpwgCfYm7q4R+y464Cba+2nqGzSD90CHnY8pAF7lEPiRmL6dVWAWjN/uMCSn2vQJw1OlCS164QmGfMnR2DF3MPY+9FKf6d+cfqSrngUjxKm0nDGnAjDe0UYv8KDPt3n2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rY/hhEwK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B3F9C4CECD;
+	Sat, 23 Nov 2024 16:00:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732377655;
+	bh=JNyDZtalF54Y5ZrHjZNjBgokrZyQ4W+6HBOQlcOGDlE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rY/hhEwKiX9QS619xQENwikFKLz0Qk02jNdpOOnsvVz0eUtGdM1PmhDH4Soo41xkh
+	 +Z8I9f5kwkQ3+qVQJM0CqCHo3Vdtx96bwz/dwgtxJmvHSS5Zs4fYXuMrEVSTGqNgBO
+	 sdVetEQHEiB34O+iYoVz7cNhBDSOie0lzspiqtE5JuCSOn1/w2MCaHWR/JyxVRcq5V
+	 +kWd7vdZFCy/EsHInQsqZzirrJqSYynUuZy29X+WDLIrHMnV7R7IQcwzNQFtdblpZe
+	 fe72V3ww6mmizN3Ras3PQcAR733ZPry59UIzsDQKz2Tn0UJ+kFUk0hPoTQ4pPvuiep
+	 naRBttdDsIusg==
+Message-ID: <a664ae24-26a7-42bd-98e2-f46d7e475b9a@kernel.org>
+Date: Sat, 23 Nov 2024 17:00:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,61 +50,72 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Use APIs in gdsc genpd to switch gdsc mode for venus
- v4 core
-To: Renjiang Han <quic_renjiang@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- Taniya Das <quic_tdas@quicinc.com>
-References: <20241122-switch_gdsc_mode-v1-0-365f097ecbb0@quicinc.com>
+Subject: Re: [PATCH 2/2] media: camif-core: Add check for clk_enable()
+To: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+Cc: sylvester.nawrocki@gmail.com, mchehab@kernel.org, dron0gus@gmail.com,
+ tomasz.figa@gmail.com, alim.akhtar@samsung.com, kyungmin.park@samsung.com,
+ laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241122221348.3998-1-jiashengjiangcool@gmail.com>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20241122-switch_gdsc_mode-v1-0-365f097ecbb0@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241122221348.3998-1-jiashengjiangcool@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/11/2024 10:31, Renjiang Han wrote:
-> The Venus driver requires vcodec GDSC to be ON in SW mode for clock
-> operations and move it back to HW mode to gain power benefits. Earlier,
-> as there is no interface to switch the GDSC mode from GenPD framework,
-> the GDSC is moved to HW control mode as part of GDSC enable callback and
-> venus driver is writing to its POWER_CONTROL register to keep the GDSC ON
-> from SW whereever required. But the POWER_CONTROL register addresses are
-> not constant and can vary across the variants.
+On 22/11/2024 23:13, Jiasheng Jiang wrote:
+> Add check for the return value of clk_enable() to gurantee the success.
 > 
-> Also as per the HW recommendation, the GDSC mode switching needs to be
-> controlled from respective GDSC register and this is a uniform approach
-> across all the targets. Hence use dev_pm_genpd_set_hwmode() API which
-> controls GDSC mode switching using its respective GDSC register.
-> 
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> ---
-> Renjiang Han (1):
->        venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on V4
-> 
-> Taniya Das (1):
->        clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for video GDSC's
-> 
->   drivers/clk/qcom/videocc-sc7180.c              |  2 +-
->   drivers/clk/qcom/videocc-sdm845.c              |  4 ++--
->   drivers/media/platform/qcom/venus/pm_helpers.c | 10 +++++-----
->   3 files changed, 8 insertions(+), 8 deletions(-)
-> ---
-> base-commit: 63b3ff03d91ae8f875fe8747c781a521f78cde17
-> change-id: 20241122-switch_gdsc_mode-b658ea233c2a
-> 
-> Best regards,
+> Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC series camera interface")
+> Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+Please version your patches correctly, e.g. use b4 or git format-patch
+-vX, and add changelog in cover letter or under '---' of individual
+patches describing changes from previous version.
 
-What's your test strategy here ? What platforms have you tested this on ?
-
-What help do you need ?
-
----
-bod
+Best regards,
+Krzysztof
 
