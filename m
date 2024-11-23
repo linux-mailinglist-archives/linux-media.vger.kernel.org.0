@@ -1,110 +1,185 @@
-Return-Path: <linux-media+bounces-21862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21863-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623CC9D6BA0
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 22:29:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB6F9D6BA7
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 22:32:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 279CB2818D7
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 21:29:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92D44281589
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2024 21:32:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7488C1A724C;
-	Sat, 23 Nov 2024 21:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C03EE1836D9;
+	Sat, 23 Nov 2024 21:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z9Uwijgt"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nCvxc3oA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7912C433AB;
-	Sat, 23 Nov 2024 21:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23E1158DA3;
+	Sat, 23 Nov 2024 21:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732397384; cv=none; b=OFz8cmuEwkJVUfLzHKydKck20uG23PPxqPfS3G5XHpi/6SS6vJFB4/JW6+ge1oLcvlHMqbirVdp+RCSChlMSRHHvjqWhWIupzrDDLmQuVb4MxxukUJcQoJRlh38XSTrv3wn9l0i7YZh8YoavoHrF73i4Jd70vpIBg0LkXILVfy4=
+	t=1732397543; cv=none; b=tcoWjs9ia0OwUjp5FA1cRfx2++DMepQI1deK6Srfdv0ehbSPnKuu59GdWwOsZmmnD2HG1LmMBYDf1+cMTXWiGNKJj/5XIUrzrmBLnFuaMDNW7WxrYvVsVYVywM87prZUMX6s024hkQN5uTrbq8FzLq5L2appTYxw2OW9XLYYdjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732397384; c=relaxed/simple;
-	bh=DB7nnWCKsMFWTerzpr6QJaMOAc7yCGcxm3dV8KoxbKY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J95SLL35lnAZrV1NxyWFrug7ENjibgmm1WCsVK9Wez/zp5ZtGLjcptHRpL9ieAl9ks0bbDQ48b30qFGmkT88wSPYNaAtc7OiNaTYrlLEP+ayBShIQorZBNAeisdy5dwc6uwDxXqw8Wuha+iO/pWngS5/zaky60oWa1cf3sO3q+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z9Uwijgt; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4613162181dso22385691cf.3;
-        Sat, 23 Nov 2024 13:29:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732397382; x=1733002182; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DB7nnWCKsMFWTerzpr6QJaMOAc7yCGcxm3dV8KoxbKY=;
-        b=Z9UwijgtGNMQuctNU9fStULexLGG4miSGbcifNETKzBbxm+jiGIiFFph7TwtrcSaMq
-         CLVrYQCDTrH7WnrxXvvsuIXkPimD2Qx9XXpGohftrsshu/5QFSZzgMoMAnBYP9pMWzXW
-         0w7ZHbnvQzgDiQ6pFdyziaQNCE8dcZHrioMizU7Nv6GPneF7BUVIILwmuRnH822sxZbE
-         VYs0jsvY5l3pdQyMd6JQI4K/mbHNuq00ZrWuTiCJuNRp45g6BhaZ0II0i5zlZ9KBBHMu
-         DAdC40OG7/t6K2QD1oMxLNqnEN38nEvHA+6eeMGJEVvvtTtjtjaBy42kR1Rc3EboeknF
-         nfxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732397382; x=1733002182;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DB7nnWCKsMFWTerzpr6QJaMOAc7yCGcxm3dV8KoxbKY=;
-        b=oVc0s1SA6HXXTBVpXw6pCosOi51haJ1PfgWcyksaheb3tP+KEd8F+QeSY1llpdefTF
-         REaGRo7mXaqJavSkmWRCisoMo0CYXcdhNB4wCYPXf5QX3A4rT28HrkgvCEU/LfqNMckM
-         YaZiOIQrk7j55lCJgiuPmm8nOoHs6nnPJFpMY1n7hA3iqD/3RriIr7pPKeoOZXO2Vtj+
-         4C6zfIw8Ab3PSFVxn++4DcUpYu0HogAS3k6h711SQ8zp62mvdQHNO+JkJsrQ7xYhCcjm
-         Hz8BW/LeMc531SSK5sH6dSu0hGFEg+R1pvdHxvWRMF4sbNmRWRNatYjFiNcs0+EUQJhQ
-         xupA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpbnLR/Ufu4n3Hdc9G7P5iL/RdCnah688URBDoiq5FvodRcIxvHPGjjXkLP8k5E6ZB+bSG5f3dOQ65SLY=@vger.kernel.org, AJvYcCVK83Rq2kXdU84wItcgoXv+yygVk10GAj7SU0tklh32Vlew8b1Gn+6qOEm6Qt3/mNzYDyf60roeJAabef0=@vger.kernel.org, AJvYcCXZVZ0fhClvcTKp3CwW2hITuQp5g94YVyrHjOZrvuP7PyeS0Babss/5vt3CMrZY6+ts8gbREwPMagS2TsVAWkFhkLw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGA7bq7vHaeYLEg2hZoIOnuWuD0NWEWFFfUOzRA7tFmh7aEvwC
-	jfcjp2EpGfa3hrXVPYIebGg4NcrRhwdcqyyQeGYN0wJnCQntHBGDg1RgRHQf+uQyrD0m2OR6iZJ
-	CiFANyvSx/4Qq+G7nnC/Rg8H/iV8=
-X-Gm-Gg: ASbGncsDVL/BKWoKclG9SKUoCFeHaUpLc1EwEEeOg+1rk31+0/pHFRaW4I2mPdgcDcE
-	+Q+IJ/KnJB8Cw89qOEj7TvaayoYNh3Saz
-X-Google-Smtp-Source: AGHT+IEA76ZpKgi2eLgk5L/F49d3SvHcOZynSb8ygkt+A49styussht5Zo10bCs6LSkaAqL9D7Rs3qwYk9xShqT3i/A=
-X-Received: by 2002:a05:622a:1817:b0:460:90aa:ba8e with SMTP id
- d75a77b69052e-4653d63ec53mr115824521cf.52.1732397382353; Sat, 23 Nov 2024
- 13:29:42 -0800 (PST)
+	s=arc-20240116; t=1732397543; c=relaxed/simple;
+	bh=pwLkUZGl5gZHToFhGMEPJsWKLyGGNGJ+ubZ7Yvq9Jps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XkD/artoTOnDs2CEkJpSQlcI9EhRyoqpP2q37be/VbUF0QXpVQxjsnBUrk6lfCovnP4VQvU8+JkkoNj0dd/DrEBElsUyCJ4URkpS1jCqdB2/VKX7V+uwtlc/55gBfl+/M5lU6rwX/W/mIMx0Ke792fbYFSw8DJD6TQ3/JYX0FF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nCvxc3oA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D73AC594;
+	Sat, 23 Nov 2024 22:31:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732397513;
+	bh=pwLkUZGl5gZHToFhGMEPJsWKLyGGNGJ+ubZ7Yvq9Jps=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nCvxc3oAvG+PCL9p1R6Z/KLtnctJ39sVX4BZRxRRFcpCo0JNmBcA9yWmYqTLRRFgM
+	 RvqNJJm3Axw3vn3k94MMy/nXeLO8CVJqNSWnu69P4Hbbcq9SSKCpbQ7nmOnIFmQojv
+	 MGHjLF817l85oYLbYSbcoj6TB7Yy6WPidozcFf7c=
+Date: Sat, 23 Nov 2024 23:32:03 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	=?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: v4l: subdev: Use dev_err() to print errors and
+ clarify
+Message-ID: <20241123213203.GC19573@pendragon.ideasonboard.com>
+References: <20241122153343.237308-1-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241122221348.3998-1-jiashengjiangcool@gmail.com> <a664ae24-26a7-42bd-98e2-f46d7e475b9a@kernel.org>
-In-Reply-To: <a664ae24-26a7-42bd-98e2-f46d7e475b9a@kernel.org>
-From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-Date: Sat, 23 Nov 2024 16:29:31 -0500
-Message-ID: <CANeGvZX0rAv-iMU1fUTzBazXfMLN4AKF+YJTbXTRd6vxsKMnjg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: camif-core: Add check for clk_enable()
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: sylvester.nawrocki@gmail.com, mchehab@kernel.org, dron0gus@gmail.com, 
-	tomasz.figa@gmail.com, alim.akhtar@samsung.com, kyungmin.park@samsung.com, 
-	laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241122153343.237308-1-demonsingur@gmail.com>
 
-Hi Krzysztof,
+Hi Cosmin,
 
-On Sat, Nov 23, 2024 at 11:00=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
->
-> On 22/11/2024 23:13, Jiasheng Jiang wrote:
-> > Add check for the return value of clk_enable() to gurantee the success.
-> >
-> > Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC s=
-eries camera interface")
-> > Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-> Please version your patches correctly, e.g. use b4 or git format-patch
-> -vX, and add changelog in cover letter or under '---' of individual
-> patches describing changes from previous version.
+On Fri, Nov 22, 2024 at 05:33:39PM +0200, Cosmin Tanislav wrote:
+> The error values end up being returned to userspace, it makes sense to
+> have some useful information printed when debugging them, even if the
+> reason for the errors are bad configs or internal driver issues.
+> 
+> Replace dev_dbg() with dev_err() for errors.
 
-Thanks for your correction.
-I have corrected the errors in the Changelog and resent the patch.
+We use dev_dbg() on purpose for all errors that can be triggered
+directly by applications. This includes in particular all pipeline
+validation errors.
 
--Jiasheng
+The error paths in this specific patch shouldn't be in that category, as
+all the validation should have been performed before starting subdevs
+(assuming all drivers are correctly implemented, which is of course not
+a given, but those issues should be fixed). I think we could therefore
+switch to dev_err() here. However, I'm wondering what kind of issues
+triggered this patch. What errors did you run into that would have
+benefited from being reported more loudly, and were they caused by
+driver bugs or userspace misconfiguring the device ?
+
+> Also, when using complex pipelines with multiple bridges between the
+> video device and multiple source sub devices, printing just the video
+> device name for each error does not provide enough context as to which
+> operation failed.
+> 
+> Add sub device entity name to the messages where possible to clarify the
+> source of the errors.
+
+This can be considered as a standalone patch.
+
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 22 ++++++++++++----------
+>  1 file changed, 12 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 4f0eecd7fd66f..d51b4594d11c5 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -2303,20 +2303,21 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+>  				    &found_streams, &enabled_streams);
+>  
+>  	if (found_streams != streams_mask) {
+> -		dev_dbg(dev, "streams 0x%llx not found on %s:%u\n",
+> +		dev_err(dev, "streams 0x%llx not found on %s:%u\n",
+>  			streams_mask & ~found_streams, sd->entity.name, pad);
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>  
+>  	if (enabled_streams) {
+> -		dev_dbg(dev, "streams 0x%llx already enabled on %s:%u\n",
+> +		dev_err(dev, "streams 0x%llx already enabled on %s:%u\n",
+>  			enabled_streams, sd->entity.name, pad);
+>  		ret = -EALREADY;
+>  		goto done;
+>  	}
+>  
+> -	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
+> +	dev_dbg(dev, "enable streams %s:%u:%#llx\n",
+> +		sd->entity.name, pad, streams_mask);
+>  
+>  	already_streaming = v4l2_subdev_is_streaming(sd);
+>  
+> @@ -2333,8 +2334,8 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+>  	}
+>  
+>  	if (ret) {
+> -		dev_dbg(dev, "enable streams %u:%#llx failed: %d\n", pad,
+> -			streams_mask, ret);
+> +		dev_err(dev, "enable streams %s:%u:%#llx failed: %d\n",
+> +			sd->entity.name, pad, streams_mask, ret);
+>  		goto done;
+>  	}
+>  
+> @@ -2403,20 +2404,21 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
+>  				    &found_streams, &enabled_streams);
+>  
+>  	if (found_streams != streams_mask) {
+> -		dev_dbg(dev, "streams 0x%llx not found on %s:%u\n",
+> +		dev_err(dev, "streams 0x%llx not found on %s:%u\n",
+>  			streams_mask & ~found_streams, sd->entity.name, pad);
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>  
+>  	if (enabled_streams != streams_mask) {
+> -		dev_dbg(dev, "streams 0x%llx already disabled on %s:%u\n",
+> +		dev_err(dev, "streams 0x%llx already disabled on %s:%u\n",
+>  			streams_mask & ~enabled_streams, sd->entity.name, pad);
+>  		ret = -EALREADY;
+>  		goto done;
+>  	}
+>  
+> -	dev_dbg(dev, "disable streams %u:%#llx\n", pad, streams_mask);
+> +	dev_dbg(dev, "disable streams %s:%u:%#llx\n",
+> +		sd->entity.name, pad, streams_mask);
+>  
+>  	if (!use_s_stream) {
+>  		/* Call the .disable_streams() operation. */
+> @@ -2432,8 +2434,8 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
+>  	}
+>  
+>  	if (ret) {
+> -		dev_dbg(dev, "disable streams %u:%#llx failed: %d\n", pad,
+> -			streams_mask, ret);
+> +		dev_err(dev, "disable streams %s:%u:%#llx failed: %d\n",
+> +			sd->entity.name, pad, streams_mask, ret);
+>  		goto done;
+>  	}
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
 
