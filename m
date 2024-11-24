@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-21910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21911-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773C09D70E7
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:41:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B40339D75D2
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 17:22:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C538DB3D1CB
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:35:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E302FB64C36
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:03:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB3A419D8B2;
-	Sun, 24 Nov 2024 13:33:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 380181C303E;
+	Sun, 24 Nov 2024 13:41:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsrOZnBe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bL+1RWdN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF32199935;
-	Sun, 24 Nov 2024 13:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC211C07F6;
+	Sun, 24 Nov 2024 13:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732455200; cv=none; b=aJZTLBCr9RA77mpTAH2XzuAXosmENW5f/ERXSuky3KXicPV/ciiyaIg3W4r/8tQgiOnajh2ZmMu0un79xUrgtBm7LTPqzNxLSaFSfnhV4AZANqOVvOFSRIcXw8mHDpUZtX7EkFTDJ5IQKhZVxEFCeXkRI+SOTzh79djynCTqEFc=
+	t=1732455680; cv=none; b=X55HH6aXN9mLVV3Z+UyugMANnu52gAq5lQ6tOmeZB4ddLvsSyPoTa8RCcBqXFi9bTs7pkE6C95osAmD99JvfiZtaBVvGdXfOixJ4qIOdvKmJkcjtZmkZAi9I3cWsT5pvgOyN+O2fMhKbnvNtep3q3PR54OR/vxvz/ylAyWpg2hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732455200; c=relaxed/simple;
+	s=arc-20240116; t=1732455680; c=relaxed/simple;
 	bh=jVug0B5z0yu25jHuiw9klU8LOF+X8Zb4FdA8H54E8Dc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KGAOZeQaydm8hrzAiEgMPxlnCiVWvKYHVcjNc8MJcMZ04uk6FFcGUKg6HgzEdqdmNewfDOfSrm3GK2JonKCubUIyadMfhR6NdeEOduzUfmfFb9wlVtPg5GF5wGwfoQGvbB2TJtUyk4KXgXOC3/vt9xjqIcdbwsHHCP9phuNFRaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsrOZnBe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C0D4C4CECC;
-	Sun, 24 Nov 2024 13:33:18 +0000 (UTC)
+	 MIME-Version:Content-Type; b=ECQqZSzo6v/rYMJ3n/uUiU+qdOQl4h6Zd5yNn2PNCnF7ddrGiU70RaoBRLGC/AH+HPXCMavFtGOY/mlx219f7IScIkeXq7vgPXeyzp9LpSdZhTOxDeIjGM9jwPpKLM+X1dS1hxU6KukedBrsOIhO70xZ3xqCYEydq3+Qke0S7co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bL+1RWdN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93B1CC4CED3;
+	Sun, 24 Nov 2024 13:41:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732455199;
+	s=k20201202; t=1732455680;
 	bh=jVug0B5z0yu25jHuiw9klU8LOF+X8Zb4FdA8H54E8Dc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RsrOZnBeQW5ERhpJCn/6DTSPjiY4ilCYZfTJTzB5OLal/tSzON11x/CyRrOQxfjza
-	 7V7r4fF95KHSTD6Hngaq6s5urabUaBJ05Oq1wirrZNUCmOA0Gxo+ftfl5lLfPTK1hW
-	 Q6fjUweKwuS6trfHRqh4bw7DNZh0MexswIvdc9KFyVq9ufCmZmSZUFYDsytrxhRbOA
-	 URsGpjawer8oMTlTKTMXKibTwFO9Gtltq+IjAaYR0yfygpE0GaUyLJwTS7S850WbXo
-	 WI7lN3/JzmScwSi0XRvmxABihL9HGMStxpH5z1YFHqXLP2epDVILqw653RTYO8pof1
-	 VZqgAUmYGqDKw==
+	b=bL+1RWdN3Y9oXYTlDtUjDEgmYO4eAGq7GBu3qDJRIdTm5z8JqSRl6I/cOqdYYHDOc
+	 zkOfs7p4plmhag+C7lq2TcFUCk9o3/b1st7Gk1gz1ut6JlyLNgLcjS6h5yGX9VcRPv
+	 UaqshYRyOarDZpujr+3Gn7Oo6yqINARSzvcwiiH2PV9TVeTR54B3GToWN/Yaw7OaPK
+	 vvWKwzfS1w4YHszfErygysk3b1LYAPndmM4AeIKsu9L5D58bQEXsO7PwsxQb3b5aJL
+	 U8ljr66JSLLAr5ARerM1w8ObuhyzoyrqI+cOdDlvalBYobN53RNVIV3bTfnMoYyawA
+	 q31Ir1SmSdMJg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -53,12 +53,12 @@ Cc: Huan Yang <link@vivo.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-media@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.12 009/107] udmabuf: change folios array from kmalloc to kvmalloc
-Date: Sun, 24 Nov 2024 08:28:29 -0500
-Message-ID: <20241124133301.3341829-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 08/87] udmabuf: change folios array from kmalloc to kvmalloc
+Date: Sun, 24 Nov 2024 08:37:46 -0500
+Message-ID: <20241124134102.3344326-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
-References: <20241124133301.3341829-1-sashal@kernel.org>
+In-Reply-To: <20241124134102.3344326-1-sashal@kernel.org>
+References: <20241124134102.3344326-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.1
+X-stable-base: Linux 6.11.10
 Content-Transfer-Encoding: 8bit
 
 From: Huan Yang <link@vivo.com>
