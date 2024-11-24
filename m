@@ -1,123 +1,218 @@
-Return-Path: <linux-media+bounces-21871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21872-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DDDC9D6DBE
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 11:50:54 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5719D6F50
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:06:57 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07BCC28120C
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 10:50:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5974216060D
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:06:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9359218873E;
-	Sun, 24 Nov 2024 10:50:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECAE41D5174;
+	Sun, 24 Nov 2024 12:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SPmlUIGn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D49Ab1pp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F9A185B48;
-	Sun, 24 Nov 2024 10:50:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5379018C011;
+	Sun, 24 Nov 2024 12:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732445447; cv=none; b=iYH4Q+pLCOpUPsdyyBD7OAYh40oZ0R2wi7/4MCYUaQe7d7+4+Mxm7sF3pQ10earrKC7fM2CxupMF5kj1za6uUq0HlK+P/L/b5I/1yMEYUn6F5fzmw6k8x8AwrLm9Cw1iWoIANkl49DHLp3iWnvy4yWzfB8tLsdkVENqgUtoy5yE=
+	t=1732452604; cv=none; b=g72GBGheTUdF8xyMxi8/qyTRKIKLbghsbJXzhUwoiLSR4YO8Co1fxjMoTqb4od9aHpxIeIeRcxgNj1cgdDjGxREdrPWG6+gsQP9VGfGY/9mj3BMH511h435ZjJXmZr9Ap1CKDlKglq7npksMtAEUJV52b4XO2/f48UBouxZzotA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732445447; c=relaxed/simple;
-	bh=6M33QFnXiDvcqYWVlL5d5egiOOXz+1qn3LDvb3r95ng=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TjBeN+IE6rn8QRb4RlHSZbZ/RGgp2/nVVkcWQRizhPRbChRGVRCIFXQi04du/GNGR/MR+BFThfI2YbSW29ZlXG6DI4e0Ny1FnRp3U+rEFdIKTuM53nQXUfW6/46ZMlxycykZkOtcXvINAIvsOnUfPCApLokX72w0VPhiUk80p1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SPmlUIGn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746EEC4CECC;
-	Sun, 24 Nov 2024 10:50:42 +0000 (UTC)
+	s=arc-20240116; t=1732452604; c=relaxed/simple;
+	bh=2x43AD8RPpGmd4sXfksiDtlFjbGqEYVXchyBUlPkJek=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PnPYBLObic14/v+VlbnhKwHAu0FXiIRE3Yr2TEZFicITBRsUVUBNYckdbrIVJOq9WUQeuN/VpzaowKkL59E8NhX5zc15GximBUVuuRtalUh34J4pWjIB6W8EwNCXmZhbd3CYt8I3eAnkjnGVdYe/PuiL7kTO7RnwQ8kQOxIFZvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D49Ab1pp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F321C4CECC;
+	Sun, 24 Nov 2024 12:50:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732445446;
-	bh=6M33QFnXiDvcqYWVlL5d5egiOOXz+1qn3LDvb3r95ng=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SPmlUIGnrEjzqZ/gkQ6bFtPKH+VKgmP3fk1QT9+jiwKs65G3FpOIXwnEnHn+LrI1K
-	 2AMmZ4ms4z2cPeT7XjqHhTvqzDsHeQUr/LFI8qqZgQ34o+uGoVcSsDuwp7pshcppiB
-	 ZlFWApb3ZPTgtbEMwNzLkAUYpQL8EXpMeWEHirWcDFG4oCtdbM5GA61ppSXHBxlwXn
-	 1oBepD+l/kQhNDHSgLXiE712jbs/Obk2kP65cd0ojrzv9GTm+D+fSdndrqwizwV9En
-	 7nTDlCsVKk9NVPjBwIDcUMywJ5J0yjgwJQqiz+1ZI6XTgg2BsZBI/sT/qjm7IvMX4c
-	 pJ0JHARAe3k2Q==
-Message-ID: <b3e2ed68-092f-4ccb-a945-19e19d5c8071@kernel.org>
-Date: Sun, 24 Nov 2024 11:50:40 +0100
+	s=k20201202; t=1732452603;
+	bh=2x43AD8RPpGmd4sXfksiDtlFjbGqEYVXchyBUlPkJek=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=D49Ab1pptj3Efvv/BI5Zh8cmYn7CmmgTCCEpHHFgT6EYvS2PH5f3X0epULM0Y619P
+	 HFpOsD8rWgPLq3Ock30M+2IE8BNdkkRzP3VeSVfZJteKtS6MSmt1M7wdcQBLIq/tVX
+	 0gEXSYRf/KmhD/42w7ZBDDQJAtbJyADAV3bO6PTZDz0eu2qU3/6UbEPXjdr51iKFQJ
+	 LOUSKwD8Of3nwczYAre3BnEKMNCgdbrH71cMjrlZBClXZTT1SNqQdwvKktLYjEilHi
+	 UiqwqsLWhfpIob5dZlyjPFHf9ZVmkWNFte7NopH60em8zXAS8nHF7fs4ddxWenBcP8
+	 54loDi7+AxUig==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sasha Levin <sashal@kernel.org>,
+	mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	sakari.ailus@linux.intel.com,
+	jacopo.mondi@ideasonboard.com,
+	naush@raspberrypi.com,
+	jeanmichel.hautbois@ideasonboard.com,
+	benjamin.gaignard@collabora.com,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 07/23] media: v4l: Add luma 16-bit interlaced pixel format
+Date: Sun, 24 Nov 2024 07:48:18 -0500
+Message-ID: <20241124124919.3338752-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241124124919.3338752-1-sashal@kernel.org>
+References: <20241124124919.3338752-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: camif-core: Add check for clk_enable()
-To: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-Cc: sylvester.nawrocki@gmail.com, mchehab@kernel.org, dron0gus@gmail.com,
- tomasz.figa@gmail.com, alim.akhtar@samsung.com, kyungmin.park@samsung.com,
- laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241123212624.6237-1-jiashengjiangcool@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241123212624.6237-1-jiashengjiangcool@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.1
+Content-Transfer-Encoding: 8bit
 
-On 23/11/2024 22:26, Jiasheng Jiang wrote:
-> Add check for the return value of clk_enable() to gurantee the success.
-> 
-> Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC series camera interface")
-> Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-> ---
->  .../media/platform/samsung/s3c-camif/camif-core.c   | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
+From: Dmitry Perchanov <dmitry.perchanov@intel.com>
 
-Nothing improved...
+[ Upstream commit a8f2cdd27d114ed6c3354a0e39502e6d56215804 ]
 
-Best regards,
-Krzysztof
+The formats added by this patch are:
+
+        V4L2_PIX_FMT_Y16I
+
+Interlaced lumina format primary use in RealSense Depth cameras with
+stereo stream for left and right image sensors.
+
+Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Link: https://lore.kernel.org/r/568efbd75290e286b8ad9e7347b5f43745121020.camel@intel.com
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../userspace-api/media/v4l/pixfmt-y16i.rst   | 73 +++++++++++++++++++
+ .../userspace-api/media/v4l/yuv-formats.rst   |  1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+ include/uapi/linux/videodev2.h                |  1 +
+ 4 files changed, 76 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y16i.rst
+
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-y16i.rst b/Documentation/userspace-api/media/v4l/pixfmt-y16i.rst
+new file mode 100644
+index 0000000000000..74ba9e910a38f
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/pixfmt-y16i.rst
+@@ -0,0 +1,73 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++
++.. _V4L2-PIX-FMT-Y16I:
++
++**************************
++V4L2_PIX_FMT_Y16I ('Y16I')
++**************************
++
++Interleaved grey-scale image, e.g. from a stereo-pair
++
++
++Description
++===========
++
++This is a grey-scale image with a depth of 16 bits per pixel, but with pixels
++from 2 sources interleaved and unpacked. Each pixel is stored in a 16-bit word
++in the little-endian order. The first pixel is from the left source.
++
++**Pixel unpacked representation.**
++Left/Right pixels 16-bit unpacked - 16-bit for each interleaved pixel.
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - Y'\ :sub:`0L[7:0]`
++      - Y'\ :sub:`0L[15:8]`
++      - Y'\ :sub:`0R[7:0]`
++      - Y'\ :sub:`0R[15:8]`
++
++**Byte Order.**
++Each cell is one byte.
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start + 0:
++      - Y'\ :sub:`00Llow`
++      - Y'\ :sub:`00Lhigh`
++      - Y'\ :sub:`00Rlow`
++      - Y'\ :sub:`00Rhigh`
++      - Y'\ :sub:`01Llow`
++      - Y'\ :sub:`01Lhigh`
++      - Y'\ :sub:`01Rlow`
++      - Y'\ :sub:`01Rhigh`
++    * - start + 8:
++      - Y'\ :sub:`10Llow`
++      - Y'\ :sub:`10Lhigh`
++      - Y'\ :sub:`10Rlow`
++      - Y'\ :sub:`10Rhigh`
++      - Y'\ :sub:`11Llow`
++      - Y'\ :sub:`11Lhigh`
++      - Y'\ :sub:`11Rlow`
++      - Y'\ :sub:`11Rhigh`
++    * - start + 16:
++      - Y'\ :sub:`20Llow`
++      - Y'\ :sub:`20Lhigh`
++      - Y'\ :sub:`20Rlow`
++      - Y'\ :sub:`20Rhigh`
++      - Y'\ :sub:`21Llow`
++      - Y'\ :sub:`21Lhigh`
++      - Y'\ :sub:`21Rlow`
++      - Y'\ :sub:`21Rhigh`
++    * - start + 24:
++      - Y'\ :sub:`30Llow`
++      - Y'\ :sub:`30Lhigh`
++      - Y'\ :sub:`30Rlow`
++      - Y'\ :sub:`30Rhigh`
++      - Y'\ :sub:`31Llow`
++      - Y'\ :sub:`31Lhigh`
++      - Y'\ :sub:`31Rlow`
++      - Y'\ :sub:`31Rhigh`
+diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst b/Documentation/userspace-api/media/v4l/yuv-formats.rst
+index 24b34cdfa6fea..78ee406d76479 100644
+--- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
++++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
+@@ -269,5 +269,6 @@ image.
+     pixfmt-yuv-luma
+     pixfmt-y8i
+     pixfmt-y12i
++    pixfmt-y16i
+     pixfmt-uv8
+     pixfmt-m420
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index e14db67be97c5..b9a3c6b20282d 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1327,6 +1327,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_Y14P:		descr = "14-bit Greyscale (MIPI Packed)"; break;
+ 	case V4L2_PIX_FMT_Y8I:		descr = "Interleaved 8-bit Greyscale"; break;
+ 	case V4L2_PIX_FMT_Y12I:		descr = "Interleaved 12-bit Greyscale"; break;
++	case V4L2_PIX_FMT_Y16I:		descr = "Interleaved 16-bit Greyscale"; break;
+ 	case V4L2_PIX_FMT_Z16:		descr = "16-bit Depth"; break;
+ 	case V4L2_PIX_FMT_INZI:		descr = "Planar 10:16 Greyscale Depth"; break;
+ 	case V4L2_PIX_FMT_CNF4:		descr = "4-bit Depth Confidence (Packed)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 27239cb64065d..21a8aa575ea31 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -798,6 +798,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_S5C_UYVY_JPG v4l2_fourcc('S', '5', 'C', 'I') /* S5C73M3 interleaved UYVY/JPEG */
+ #define V4L2_PIX_FMT_Y8I      v4l2_fourcc('Y', '8', 'I', ' ') /* Greyscale 8-bit L/R interleaved */
+ #define V4L2_PIX_FMT_Y12I     v4l2_fourcc('Y', '1', '2', 'I') /* Greyscale 12-bit L/R interleaved */
++#define V4L2_PIX_FMT_Y16I     v4l2_fourcc('Y', '1', '6', 'I') /* Greyscale 16-bit L/R interleaved */
+ #define V4L2_PIX_FMT_Z16      v4l2_fourcc('Z', '1', '6', ' ') /* Depth data 16-bit */
+ #define V4L2_PIX_FMT_MT21C    v4l2_fourcc('M', 'T', '2', '1') /* Mediatek compressed block mode  */
+ #define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediatek 8-bit block mode, two non-contiguous planes */
+-- 
+2.43.0
+
 
