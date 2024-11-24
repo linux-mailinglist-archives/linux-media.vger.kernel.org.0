@@ -1,63 +1,60 @@
-Return-Path: <linux-media+bounces-21906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21907-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703A49D71B7
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B109D71F8
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:56:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6FAEB2A10C
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:27:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 093A1B32296
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:28:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C09471FF61E;
-	Sun, 24 Nov 2024 12:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215221E1A36;
+	Sun, 24 Nov 2024 12:59:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bVBvnVsq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OrFTiDrL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D20A1E1A05;
-	Sun, 24 Nov 2024 12:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667411BD9E9;
+	Sun, 24 Nov 2024 12:59:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732453107; cv=none; b=rBgrh38ksh0luoboNkWfx9u8SBoGYqxXqYS82xEyTAsaq1fHClUXYlUdp/m0h3jQ/gCzp2FMirTvIwTl59/LyyRrfdzTSm8b4sfyl+KQEmQktcnRL/ejPsKrHXkYwfO+Rq0AzDNXGMhrafErR5XemNRYFDWoCg4b/9ufEakD1xc=
+	t=1732453140; cv=none; b=QIH8YXfJToBsIGC+HLJsYlGK0OvUDfwrnJlNd53FpKwWI0Gflma5GCzsRP1hF5deMsYpqjKUcJdyX4inQHDNM0nOVtjf3KccSwlhydp6li23fL5sG4fBhIx2qKCaYT9TZO225/lmeuvVP3KTQcORn5+Y7zwg57Y/HP/4SZxFkcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732453107; c=relaxed/simple;
-	bh=Ydjwp7VIi8tTU/k6MwI+K/Tn6bGd9iArTR//eh3PBuY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RV6d1G7znc79wJHcAz3zA13SIq06Cz669nZq239najrIOFrs2nqWAbINli9l/fFmGvieN8gRfCwqq9GARDQG5MiWHabtjCwXHDuZgZNcKkXN2rvrNJ5iX87HBMbZja8NicILiFyRxQS1YlZKo3b4lLlfYitYTNArEAfeirUSiYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bVBvnVsq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06BBC4CED6;
-	Sun, 24 Nov 2024 12:58:25 +0000 (UTC)
+	s=arc-20240116; t=1732453140; c=relaxed/simple;
+	bh=Iq2AUgeSsWrXc/lZo0VpZUa5U4WEut1Uxsid8r3cO/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LftP5hzKvZoBdbmrml89bS6hdsp7bQrTuCW0sp/5wcFZyetewfOABt7WJH727hkkAcQIFuC1uyttNrWdLKwGquvF6LmnZ1mI2zZ6y0ikdU7JYub9zLmOwrTzg8QEtEu1Q31R4JMjDmdM4QqW5KbRvf5AdMyCKU70OwkSvxjpIDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OrFTiDrL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8694C4CECC;
+	Sun, 24 Nov 2024 12:58:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732453107;
-	bh=Ydjwp7VIi8tTU/k6MwI+K/Tn6bGd9iArTR//eh3PBuY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bVBvnVsq9BTZ0tv4hY7XJxRfkOr2wrAQH7212jATbgpltsXWe7ygrlXc9YuSvsPtF
-	 6j8kuoWg6qAPpViq580XUnnoCRpgvLfeJfnSODOOKDOH3wKJ+BDjwCAIngvT4dMks4
-	 xXk4B7Ds7uK10j/x1G2EUXTLmwoA+7gLGFn20jI164FOuVvDX52MwSbW8a1MOMDthm
-	 rrSlxubACk/PTyWNw0rfrMPsF936qN7bzq1JOR6+F8GqIFYrpYZd8OKPYJNPkSkZnc
-	 Hu6JwgverdbGSMTWPOZVmaZIsyaZ37F2/8oZuSyUVmjCk+mu6+BR0P+d1RrEyoprGU
-	 Q++0NyWC2pCRg==
+	s=k20201202; t=1732453140;
+	bh=Iq2AUgeSsWrXc/lZo0VpZUa5U4WEut1Uxsid8r3cO/U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OrFTiDrL6esTL71uOLIX/BZaPNvKczpB/ccrIs39uwc9xs4Lb3y0C5NoKK3vKVriT
+	 TAXBbeyr6EiHgUElrF/rpmJZOJhEW9g1ZaMNsQyFv2pVUX5aCAOmbnq1wSlACBLuTF
+	 bARM+Oi/Al15y2ry1BOVAwzQqfCq3IcLYD/E23EJgzeeADbrm6wYPWagmLIKYKbB31
+	 G+De4hqSBwIwVP9mdakMhzpDoTUAMJvs/akizGOHYtDQehJF8MKsqJt11UEPeOw4E3
+	 5sfzl3tAOKISUM/VLbWuFXESD/2UT5les7Mk72QC6mjYxRW2qS1u+ebZO29FerUAyY
+	 hzitUN5BEOQBg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Rohan Barar <rohan.barar@gmail.com>,
+Cc: David Given <dg@cowlark.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	hdegoede@redhat.com,
 	mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	f.langufo.l@gmail.com,
-	linux@treblig.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 3/5] media: cx231xx: Add support for Dexatek USB Video Grabber 1d19:6108
-Date: Sun, 24 Nov 2024 07:58:03 -0500
-Message-ID: <20241124125817.3341248-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 1/4] media: uvcvideo: Add a quirk for the Kaiweets KTI-W02 infrared camera
+Date: Sun, 24 Nov 2024 07:58:39 -0500
+Message-ID: <20241124125856.3341388-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241124125817.3341248-1-sashal@kernel.org>
-References: <20241124125817.3341248-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,51 +63,246 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.286
+X-stable-base: Linux 4.19.324
 Content-Transfer-Encoding: 8bit
 
-From: Rohan Barar <rohan.barar@gmail.com>
+From: David Given <dg@cowlark.com>
 
-[ Upstream commit 61a830bc0ea69a05d8a4534f825c6aa618263649 ]
+[ Upstream commit b2ec92bb5605452d539a7aa1e42345b95acd8583 ]
 
-Add Dexatek Technology Ltd USB Video Grabber 1d19:6108 to the cx231xx
-driver. This device is sold under the name "BAUHN DVD Maker (DK8723)" by
-ALDI in Australia.
+Adds a quirk to make the NXP Semiconductors 1fc9:009b chipset work.
 
-This device is similar to 1d19:6109, which is already included in cx231xx.
+lsusb for the device reports:
 
-Both video and audio capture function correctly after installing the
-patched cx231xx driver.
+Bus 003 Device 011: ID 1fc9:009b NXP Semiconductors IR VIDEO
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2 [unknown]
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x1fc9 NXP Semiconductors
+  idProduct          0x009b IR VIDEO
+  bcdDevice            1.01
+  iManufacturer           1 Guide sensmart
+  iProduct                2 IR VIDEO
+  iSerial                 0
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x00c2
+    bNumInterfaces          2
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0xc0
+      Self Powered
+    MaxPower              100mA
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         0
+      bInterfaceCount         2
+      bFunctionClass         14 Video
+      bFunctionSubClass       3 Video Interface Collection
+      bFunctionProtocol       0
+      iFunction               3 IR Camera
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      1 Video Control
+      bInterfaceProtocol      0
+      iInterface              0
+      VideoControl Interface Descriptor:
+        bLength                13
+        bDescriptorType        36
+        bDescriptorSubtype      1 (HEADER)
+        bcdUVC               1.00
+        wTotalLength       0x0033
+        dwClockFrequency        6.000000MHz
+        bInCollection           1
+        baInterfaceNr( 0)       1
+      VideoControl Interface Descriptor:
+        bLength                18
+        bDescriptorType        36
+        bDescriptorSubtype      2 (INPUT_TERMINAL)
+        bTerminalID             1
+        wTerminalType      0x0201 Camera Sensor
+        bAssocTerminal          0
+        iTerminal               0
+        wObjectiveFocalLengthMin      0
+        wObjectiveFocalLengthMax      0
+        wOcularFocalLength            0
+        bControlSize                  3
+        bmControls           0x00000000
+      VideoControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             2
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          0
+        bSourceID               1
+        iTerminal               0
+      VideoControl Interface Descriptor:
+        bLength                11
+        bDescriptorType        36
+        bDescriptorSubtype      5 (PROCESSING_UNIT)
+      Warning: Descriptor too short
+        bUnitID                 3
+        bSourceID               1
+        wMaxMultiplier          0
+        bControlSize            2
+        bmControls     0x00000000
+        iProcessing             0
+        bmVideoStandards     0x62
+          NTSC - 525/60
+          PAL - 525/60
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0008  1x 8 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+      VideoStreaming Interface Descriptor:
+        bLength                            14
+        bDescriptorType                    36
+        bDescriptorSubtype                  1 (INPUT_HEADER)
+        bNumFormats                         1
+        wTotalLength                   0x0055
+        bEndpointAddress                 0x82  EP 2 IN
+        bmInfo                              0
+        bTerminalLink                       2
+        bStillCaptureMethod                 2
+        bTriggerSupport                     0
+        bTriggerUsage                       0
+        bControlSize                        1
+        bmaControls( 0)                     0
+      VideoStreaming Interface Descriptor:
+        bLength                            27
+        bDescriptorType                    36
+        bDescriptorSubtype                  4 (FORMAT_UNCOMPRESSED)
+        bFormatIndex                        1
+        bNumFrameDescriptors                1
+        guidFormat                            {e436eb7b-524f-11ce-9f53-0020af0ba770}
+        bBitsPerPixel                      16
+        bDefaultFrameIndex                  1
+        bAspectRatioX                       0
+        bAspectRatioY                       0
+        bmInterlaceFlags                 0x00
+          Interlaced stream or variable: No
+          Fields per frame: 2 fields
+          Field 1 first: No
+          Field pattern: Field 1 only
+        bCopyProtect                        0
+      VideoStreaming Interface Descriptor:
+        bLength                            34
+        bDescriptorType                    36
+        bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+        bFrameIndex                         1
+        bmCapabilities                   0x00
+          Still image unsupported
+        wWidth                            240
+        wHeight                           322
+        dwMinBitRate                 12364800
+        dwMaxBitRate                 30912000
+        dwMaxVideoFrameBufferSize      154560
+        dwDefaultFrameInterval         400000
+        bFrameIntervalType                  2
+        dwFrameInterval( 0)            400000
+        dwFrameInterval( 1)           1000000
+      VideoStreaming Interface Descriptor:
+        bLength                            10
+        bDescriptorType                    36
+        bDescriptorSubtype                  3 (STILL_IMAGE_FRAME)
+        bEndpointAddress                 0x00  EP 0 OUT
+        bNumImageSizePatterns               1
+        wWidth( 0)                        240
+        wHeight( 0)                       322
+        bNumCompressionPatterns             0
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       1
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      0
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0400  1x 1024 bytes
+        bInterval               1
+Device Status:     0x0001
+  Self Powered
 
-Patch Changelog
-v1:
- - Initial submission.
-v2:
- - Fix SoB + Improve subject.
-v3:
- - Rephrase message to not exceed 75 characters per line.
- - Removed reference to external GitHub URL.
-
-Signed-off-by: Rohan Barar <rohan.barar@gmail.com>
+Signed-off-by: David Given <dg@cowlark.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Link: https://lore.kernel.org/r/20240918180540.10830-2-dg@cowlark.com
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/cx231xx/cx231xx-cards.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/usb/uvc/uvc_driver.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
-index e123e74c549ed..49094b6b2a31e 100644
---- a/drivers/media/usb/cx231xx/cx231xx-cards.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
-@@ -994,6 +994,8 @@ const unsigned int cx231xx_bcount = ARRAY_SIZE(cx231xx_boards);
- 
- /* table of devices that work with this driver */
- struct usb_device_id cx231xx_id_table[] = {
-+	{USB_DEVICE(0x1D19, 0x6108),
-+	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
- 	{USB_DEVICE(0x1D19, 0x6109),
- 	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
- 	{USB_DEVICE(0x0572, 0x5A3C),
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index cbad244a307d2..473cc23ef8431 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2402,6 +2402,8 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+  * The Logitech cameras listed below have their interface class set to
+  * VENDOR_SPEC because they don't announce themselves as UVC devices, even
+  * though they are compliant.
++ *
++ * Sort these by vendor/product ID.
+  */
+ static const struct usb_device_id uvc_ids[] = {
+ 	/* LogiLink Wireless Webcam */
+@@ -2852,6 +2854,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_QUIRK_INFO(UVC_QUIRK_PROBE_MINMAX
+ 					| UVC_QUIRK_IGNORE_SELECTOR_UNIT) },
++	/* NXP Semiconductors IR VIDEO */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x1fc9,
++	  .idProduct		= 0x009b,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= (kernel_ulong_t)&uvc_quirk_probe_minmax },
+ 	/* Oculus VR Positional Tracker DK2 */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
 -- 
 2.43.0
 
