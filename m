@@ -1,116 +1,211 @@
-Return-Path: <linux-media+bounces-21909-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21910-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B55D9D7022
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:28:40 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 773C09D70E7
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:41:42 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D2773162F7D
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:28:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C538DB3D1CB
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:35:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE53620012D;
-	Sun, 24 Nov 2024 12:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB3A419D8B2;
+	Sun, 24 Nov 2024 13:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vARjVWR8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsrOZnBe"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE6B1E1C09;
-	Sun, 24 Nov 2024 12:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF32199935;
+	Sun, 24 Nov 2024 13:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732453146; cv=none; b=Scm8T76H6YLLCvIqa+54+3hYwoMJv9S8zbVNAzs3udmTlLb33StjY69tXSCWmhAoCgd9GucgBlZf4O0r+CymK4h2ZGwwrM9XdlCuJFCo1KYJq98Cu+WGCckQR13Y/gnkZ+0TXUw8u8WRhSJB1poGRx8MvhCzj7QT7spksc0SPAk=
+	t=1732455200; cv=none; b=aJZTLBCr9RA77mpTAH2XzuAXosmENW5f/ERXSuky3KXicPV/ciiyaIg3W4r/8tQgiOnajh2ZmMu0un79xUrgtBm7LTPqzNxLSaFSfnhV4AZANqOVvOFSRIcXw8mHDpUZtX7EkFTDJ5IQKhZVxEFCeXkRI+SOTzh79djynCTqEFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732453146; c=relaxed/simple;
-	bh=2EkhjLYctCgkHc274CsIrTKjqjuj8O1oY1geuVLQ3S8=;
+	s=arc-20240116; t=1732455200; c=relaxed/simple;
+	bh=jVug0B5z0yu25jHuiw9klU8LOF+X8Zb4FdA8H54E8Dc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qU4KUvDexXVLMqz6fuInmNox2KImy1tr7y+ANq/mzzbLgXWDp10Q8etrwGH/R9OfVAuhGUz3WgAubZfFNz2Yqjb4Lbh9cLw+P0QYTeXm/P/MGJk5NvvW3zUgP0tF6/dEE0sTQJ1f7g6RJ8WOxQAnXxuED0mlQRRIjED341b5rmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vARjVWR8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB2BC4CED9;
-	Sun, 24 Nov 2024 12:59:04 +0000 (UTC)
+	 MIME-Version:Content-Type; b=KGAOZeQaydm8hrzAiEgMPxlnCiVWvKYHVcjNc8MJcMZ04uk6FFcGUKg6HgzEdqdmNewfDOfSrm3GK2JonKCubUIyadMfhR6NdeEOduzUfmfFb9wlVtPg5GF5wGwfoQGvbB2TJtUyk4KXgXOC3/vt9xjqIcdbwsHHCP9phuNFRaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsrOZnBe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C0D4C4CECC;
+	Sun, 24 Nov 2024 13:33:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732453146;
-	bh=2EkhjLYctCgkHc274CsIrTKjqjuj8O1oY1geuVLQ3S8=;
+	s=k20201202; t=1732455199;
+	bh=jVug0B5z0yu25jHuiw9klU8LOF+X8Zb4FdA8H54E8Dc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vARjVWR85MVBCL9vOInhpy2BtdjqxIRvAtjY16qZ0/ayXE1Opay5y9ulbtGOPlgt3
-	 AUMMFHE1hZZKy+vZcm7xDK3Mwf3RfOwvmHX9mFAd0jgJ1CdIOnhEb4DWP02rA5IyKu
-	 nqkAuMhspUqleikD7gYhK3+L3XqtEsCcIuTtlL4REeJqfg7AoYb3RlBrzBawZm6X+v
-	 ctQitr55RdBjr8RF806h+XerEUYF51q48L2gD0Uk/f56NpN2SO47MWKU7weme64oTr
-	 HxWcEQwrIU5sWRI/BLalNx6CvjJixfvSIf8eWtF5Sqj8G22de4UElsWnxkSZ5rPQpY
-	 SvG/aLZ0Zalmw==
+	b=RsrOZnBeQW5ERhpJCn/6DTSPjiY4ilCYZfTJTzB5OLal/tSzON11x/CyRrOQxfjza
+	 7V7r4fF95KHSTD6Hngaq6s5urabUaBJ05Oq1wirrZNUCmOA0Gxo+ftfl5lLfPTK1hW
+	 Q6fjUweKwuS6trfHRqh4bw7DNZh0MexswIvdc9KFyVq9ufCmZmSZUFYDsytrxhRbOA
+	 URsGpjawer8oMTlTKTMXKibTwFO9Gtltq+IjAaYR0yfygpE0GaUyLJwTS7S850WbXo
+	 WI7lN3/JzmScwSi0XRvmxABihL9HGMStxpH5z1YFHqXLP2epDVILqw653RTYO8pof1
+	 VZqgAUmYGqDKw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Rohan Barar <rohan.barar@gmail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc: Huan Yang <link@vivo.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
 	Sasha Levin <sashal@kernel.org>,
-	mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	f.langufo.l@gmail.com,
-	linux@treblig.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 3/4] media: cx231xx: Add support for Dexatek USB Video Grabber 1d19:6108
-Date: Sun, 24 Nov 2024 07:58:41 -0500
-Message-ID: <20241124125856.3341388-3-sashal@kernel.org>
+	kraxel@redhat.com,
+	sumit.semwal@linaro.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 6.12 009/107] udmabuf: change folios array from kmalloc to kvmalloc
+Date: Sun, 24 Nov 2024 08:28:29 -0500
+Message-ID: <20241124133301.3341829-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241124125856.3341388-1-sashal@kernel.org>
-References: <20241124125856.3341388-1-sashal@kernel.org>
+In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
+References: <20241124133301.3341829-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.324
+X-stable-base: Linux 6.12.1
 Content-Transfer-Encoding: 8bit
 
-From: Rohan Barar <rohan.barar@gmail.com>
+From: Huan Yang <link@vivo.com>
 
-[ Upstream commit 61a830bc0ea69a05d8a4534f825c6aa618263649 ]
+[ Upstream commit 1c0844c6184e658064e14c4335885785ad3bf84b ]
 
-Add Dexatek Technology Ltd USB Video Grabber 1d19:6108 to the cx231xx
-driver. This device is sold under the name "BAUHN DVD Maker (DK8723)" by
-ALDI in Australia.
+When PAGE_SIZE 4096, MAX_PAGE_ORDER 10, 64bit machine,
+page_alloc only support 4MB.
+If above this, trigger this warn and return NULL.
 
-This device is similar to 1d19:6109, which is already included in cx231xx.
+udmabuf can change size limit, if change it to 3072(3GB), and then alloc
+3GB udmabuf, will fail create.
 
-Both video and audio capture function correctly after installing the
-patched cx231xx driver.
+[ 4080.876581] ------------[ cut here ]------------
+[ 4080.876843] WARNING: CPU: 3 PID: 2015 at mm/page_alloc.c:4556 __alloc_pages+0x2c8/0x350
+[ 4080.878839] RIP: 0010:__alloc_pages+0x2c8/0x350
+[ 4080.879470] Call Trace:
+[ 4080.879473]  <TASK>
+[ 4080.879473]  ? __alloc_pages+0x2c8/0x350
+[ 4080.879475]  ? __warn.cold+0x8e/0xe8
+[ 4080.880647]  ? __alloc_pages+0x2c8/0x350
+[ 4080.880909]  ? report_bug+0xff/0x140
+[ 4080.881175]  ? handle_bug+0x3c/0x80
+[ 4080.881556]  ? exc_invalid_op+0x17/0x70
+[ 4080.881559]  ? asm_exc_invalid_op+0x1a/0x20
+[ 4080.882077]  ? udmabuf_create+0x131/0x400
 
-Patch Changelog
-v1:
- - Initial submission.
-v2:
- - Fix SoB + Improve subject.
-v3:
- - Rephrase message to not exceed 75 characters per line.
- - Removed reference to external GitHub URL.
+Because MAX_PAGE_ORDER, kmalloc can max alloc 4096 * (1 << 10), 4MB
+memory, each array entry is pointer(8byte), so can save 524288 pages(2GB).
 
-Signed-off-by: Rohan Barar <rohan.barar@gmail.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Further more, costly order(order 3) may not be guaranteed that it can be
+applied for, due to fragmentation.
+
+This patch change udmabuf array use kvmalloc_array, this can fallback
+alloc into vmalloc, which can guarantee allocation for any size and does
+not affect the performance of kmalloc allocations.
+
+Signed-off-by: Huan Yang <link@vivo.com>
+Acked-by: Christian König <christian.koenig@amd.com>
+Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20240918025238.2957823-3-link@vivo.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/cx231xx/cx231xx-cards.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/dma-buf/udmabuf.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
-index a431a998d58f7..db7d64b5858e7 100644
---- a/drivers/media/usb/cx231xx/cx231xx-cards.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
-@@ -1006,6 +1006,8 @@ const unsigned int cx231xx_bcount = ARRAY_SIZE(cx231xx_boards);
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index 047c3cd2cefff..bc94c194e172d 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -80,7 +80,7 @@ static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
  
- /* table of devices that work with this driver */
- struct usb_device_id cx231xx_id_table[] = {
-+	{USB_DEVICE(0x1D19, 0x6108),
-+	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
- 	{USB_DEVICE(0x1D19, 0x6109),
- 	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
- 	{USB_DEVICE(0x0572, 0x5A3C),
+ 	dma_resv_assert_held(buf->resv);
+ 
+-	pages = kmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
++	pages = kvmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
+ 	if (!pages)
+ 		return -ENOMEM;
+ 
+@@ -88,7 +88,7 @@ static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
+ 		pages[pg] = &ubuf->folios[pg]->page;
+ 
+ 	vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
+-	kfree(pages);
++	kvfree(pages);
+ 	if (!vaddr)
+ 		return -EINVAL;
+ 
+@@ -196,8 +196,8 @@ static void release_udmabuf(struct dma_buf *buf)
+ 		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
+ 
+ 	unpin_all_folios(&ubuf->unpin_list);
+-	kfree(ubuf->offsets);
+-	kfree(ubuf->folios);
++	kvfree(ubuf->offsets);
++	kvfree(ubuf->folios);
+ 	kfree(ubuf);
+ }
+ 
+@@ -322,14 +322,14 @@ static long udmabuf_create(struct miscdevice *device,
+ 	if (!ubuf->pagecount)
+ 		goto err;
+ 
+-	ubuf->folios = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->folios),
+-				    GFP_KERNEL);
++	ubuf->folios = kvmalloc_array(ubuf->pagecount, sizeof(*ubuf->folios),
++				      GFP_KERNEL);
+ 	if (!ubuf->folios) {
+ 		ret = -ENOMEM;
+ 		goto err;
+ 	}
+-	ubuf->offsets = kcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
+-				GFP_KERNEL);
++	ubuf->offsets = kvcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
++				 GFP_KERNEL);
+ 	if (!ubuf->offsets) {
+ 		ret = -ENOMEM;
+ 		goto err;
+@@ -343,7 +343,7 @@ static long udmabuf_create(struct miscdevice *device,
+ 			goto err;
+ 
+ 		pgcnt = list[i].size >> PAGE_SHIFT;
+-		folios = kmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
++		folios = kvmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
+ 		if (!folios) {
+ 			ret = -ENOMEM;
+ 			goto err;
+@@ -353,7 +353,7 @@ static long udmabuf_create(struct miscdevice *device,
+ 		ret = memfd_pin_folios(memfd, list[i].offset, end,
+ 				       folios, pgcnt, &pgoff);
+ 		if (ret <= 0) {
+-			kfree(folios);
++			kvfree(folios);
+ 			if (!ret)
+ 				ret = -EINVAL;
+ 			goto err;
+@@ -382,7 +382,7 @@ static long udmabuf_create(struct miscdevice *device,
+ 			}
+ 		}
+ 
+-		kfree(folios);
++		kvfree(folios);
+ 		fput(memfd);
+ 		memfd = NULL;
+ 	}
+@@ -398,8 +398,8 @@ static long udmabuf_create(struct miscdevice *device,
+ 	if (memfd)
+ 		fput(memfd);
+ 	unpin_all_folios(&ubuf->unpin_list);
+-	kfree(ubuf->offsets);
+-	kfree(ubuf->folios);
++	kvfree(ubuf->offsets);
++	kvfree(ubuf->folios);
+ 	kfree(ubuf);
+ 	return ret;
+ }
 -- 
 2.43.0
 
