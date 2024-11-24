@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-21880-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21881-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFE79D6FBC
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:18:43 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 631F29D6F88
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:12:31 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAB49B30CA5
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:12:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF680160F50
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:12:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B68C51DE2C6;
-	Sun, 24 Nov 2024 12:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F92A1EF0BE;
+	Sun, 24 Nov 2024 12:51:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPKezzJs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mf9PR0o+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170371B21BE;
-	Sun, 24 Nov 2024 12:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FB81DE3C6;
+	Sun, 24 Nov 2024 12:51:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732452713; cv=none; b=XkSHOJvJbjq8qmZFhgB3ZIK+i+T447DE3jWqMJAcg0c0seYlGHjfD8QiIowwCzvyA2JHiiIEPHYBB7OpL1p34h3abkk8kSNlcFuOWoJQAkOTVAZ+yokVp8FRUupsKMKRjHgU8xli4y1RY9tV2Rpw19aGRiV37gIdAgt0Gww3auE=
+	t=1732452714; cv=none; b=iHcm/xpJE6WZGoiPd8Uqwt6AXm3se4v7G2cCqm30LS3ryYahb1F8ZO0AzhsdNjkX9O+z335+dHUDMQA/G8oTQyIr3MR+pZVsxJzOUg04CjaxVqcem0VFWS/owmpdQaJp220bhs1eqWVU5v5/OO/FeuqCPmn2Ppp/ki7yTRZyd6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732452713; c=relaxed/simple;
-	bh=EE9KCf0AlA8/AG8zFLz7NxT1ojAbGrH3rTSXHapOpUA=;
+	s=arc-20240116; t=1732452714; c=relaxed/simple;
+	bh=pnpUbsT2PTSM/xHv2AcLeXqb99P4ofbV8bLVRjaUMIQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kSPfWQNXntxN9P4ZWcOhg5akuGhxstHt0H7npFhv4gL4ttELyHVBtKqyn9YM7az/nf9Dbw3mJDZlf3B+KVfyT0LIJDzSFv3/MaSgR5IQ9wSFnoaXeBQEFpKlSmc0ZK6jNItYPzBb96FqCJC0MuotpaaL1w0V1RMh4+bVy6bI7R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPKezzJs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1654BC4CED1;
-	Sun, 24 Nov 2024 12:51:50 +0000 (UTC)
+	 MIME-Version; b=nSreL2cOSSziwDB5lTf8vfkrgc9apDLkDnE993CSDkvNCCPk0VTQluuXxnbUWqEjA31cDcmYrszUAwLYDbVa4Z4XDDLYI/nRYmQ3CgmiHgYdgLdzbws6wOTaqZcMvi0ociquvE/rxAvj0JnxFg7U5GLP0oqyYGtUavzdwgtH94Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mf9PR0o+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10363C4CECC;
+	Sun, 24 Nov 2024 12:51:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732452712;
-	bh=EE9KCf0AlA8/AG8zFLz7NxT1ojAbGrH3rTSXHapOpUA=;
+	s=k20201202; t=1732452714;
+	bh=pnpUbsT2PTSM/xHv2AcLeXqb99P4ofbV8bLVRjaUMIQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BPKezzJsvyaQjHc++v74hvrXm3Yzr7YO/aMVhNRsp+Hbd4L1TjNtDVMKTcLS85n19
-	 MBr6C1WuvmgG6dhJ/qYt3vsnzkmzP3+7ANctbmBmrNmYDo7bvdzrd7JKsIjz98nJJF
-	 kxHxJKKRFpLuzRPvnISdYd3z0PvS9cQwzmaNQtGgsMqZCIcEe/PEj37wL4U5ZkXXFF
-	 D3oW3zkEPJghKsNJ3zNg2IEEd1G5N+JBHvjt73SmbCpOKMs/21DygleFOpTcdmdLPj
-	 dd95wTZzUQ5+7xXUp6ZjqMrROPrbtLOsrHdQV3+BSGbXqUvVWnDQjVHZivw2vePYiI
-	 77yFVtGYlYXdw==
+	b=mf9PR0o+WAGOCBfKVkX6o2xyQVnIGs7B53XlCKVovEE8J9u4cShCuY0yRKYaHmao7
+	 sg0jm4oW6g8Z1o90RKs4Aa0u67I2nFpVfEOAViR3UIevWv7Wl+SWSr82a+lYKonbZn
+	 tUzbWu6xDuNQ8Oky9EjAbVgm1w7VwewXym+5DlGxy6Tsbpw8MyNFF3dIBgJdSUkokP
+	 D93r9PnDutkxP82LMaTQ5VWHPD/y5dVqGpZ06C3M+KKJsOkscUoYW6Q7YK5OMNZQaO
+	 8oPnVZ3UghHspxfqWmWNjeXqLVzeG9EaxwfuPOEoq8saYFB3ndg6SkIwgJDIg3MF5t
+	 wJPo+rQD6emNg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -48,17 +48,12 @@ Cc: Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
+	hdegoede@redhat.com,
 	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	hverkuil@xs4all.nl,
-	ribalda@chromium.org,
-	quic_jjohnson@quicinc.com,
-	dg@cowlark.com,
-	linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 06/20] media: uvcvideo: Add luma 16-bit interlaced pixel format
-Date: Sun, 24 Nov 2024 07:50:36 -0500
-Message-ID: <20241124125124.3339648-6-sashal@kernel.org>
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.11 07/20] media: uvcvideo: RealSense D421 Depth module metadata
+Date: Sun, 24 Nov 2024 07:50:37 -0500
+Message-ID: <20241124125124.3339648-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124125124.3339648-1-sashal@kernel.org>
 References: <20241124125124.3339648-1-sashal@kernel.org>
@@ -75,55 +70,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Dmitry Perchanov <dmitry.perchanov@intel.com>
 
-[ Upstream commit 55b834873e800a5809787ce6aedcb70ee49a596f ]
+[ Upstream commit c6104297c965a5ee9d4b9d0d5d9cdd224d8fd59e ]
 
-The formats added by this patch are:
-
-        UVC_GUID_FORMAT_Y16I
-
-Interlaced lumina format primary use in RealSense Depth cameras with
-stereo stream for left and right image sensors.
+RealSense(R) D421 Depth module is low cost solution for 3D-stereo
+vision. The module supports extended sensor metadata format D4XX.
 
 Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Link: https://lore.kernel.org/r/a717a912035b0a0f82b2f35719cca0c5269e995f.camel@intel.com
+Link: https://lore.kernel.org/r/d1fbfbbff5c8247a3130499985a53218c5b55c61.camel@intel.com
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/common/uvc.c | 4 ++++
- include/linux/usb/uvc.h    | 3 +++
- 2 files changed, 7 insertions(+)
+ drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
-index c54c2268fee61..027498d374642 100644
---- a/drivers/media/common/uvc.c
-+++ b/drivers/media/common/uvc.c
-@@ -120,6 +120,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
- 		.guid		= UVC_GUID_FORMAT_Y12I,
- 		.fcc		= V4L2_PIX_FMT_Y12I,
- 	},
-+	{
-+		.guid		= UVC_GUID_FORMAT_Y16I,
-+		.fcc		= V4L2_PIX_FMT_Y16I,
-+	},
- 	{
- 		.guid		= UVC_GUID_FORMAT_Z16,
- 		.fcc		= V4L2_PIX_FMT_Z16,
-diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-index 88d96095bcb16..1c16be20c9666 100644
---- a/include/linux/usb/uvc.h
-+++ b/include/linux/usb/uvc.h
-@@ -118,6 +118,9 @@
- #define UVC_GUID_FORMAT_Y12I \
- 	{ 'Y',  '1',  '2',  'I', 0x00, 0x00, 0x10, 0x00, \
- 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y16I \
-+	{ 'Y',  '1',  '6',  'I', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
- #define UVC_GUID_FORMAT_Z16 \
- 	{ 'Z',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
- 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 2bba7123ea5e9..80925d59602ef 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -3072,6 +3072,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* Intel D421 Depth Module */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x8086,
++	  .idProduct		= 0x1155,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
+ 	/* Generic USB Video Class */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
 -- 
 2.43.0
 
