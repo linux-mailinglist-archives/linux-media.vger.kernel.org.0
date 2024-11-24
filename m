@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-21879-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21880-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96DC89D6F83
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:12:01 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAFE79D6FBC
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:18:43 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0E24161557
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:11:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAB49B30CA5
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:12:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BD631B0F23;
-	Sun, 24 Nov 2024 12:51:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B68C51DE2C6;
+	Sun, 24 Nov 2024 12:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rH1C71Xc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPKezzJs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6292118734F;
-	Sun, 24 Nov 2024 12:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170371B21BE;
+	Sun, 24 Nov 2024 12:51:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732452708; cv=none; b=CKUDLgm8R6LBZ0TvZkwtUEfkplh1fIrzwYIxaX/KzFKqpl2oQImLvk/1lawzZQKtMR1gvFfbN7caGL4a3JMoUi6bZLHkQC0zU0bKocaDO6yfIddzeM379FadolJeGBmIMvxp1MPEF/zj7rxGMKGwmN3xqBbuNm/s/jzGetBABCI=
+	t=1732452713; cv=none; b=XkSHOJvJbjq8qmZFhgB3ZIK+i+T447DE3jWqMJAcg0c0seYlGHjfD8QiIowwCzvyA2JHiiIEPHYBB7OpL1p34h3abkk8kSNlcFuOWoJQAkOTVAZ+yokVp8FRUupsKMKRjHgU8xli4y1RY9tV2Rpw19aGRiV37gIdAgt0Gww3auE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732452708; c=relaxed/simple;
-	bh=lQ9MCTQY+nLElk0L2haNKUNNpYeyx4gz+JaRDk3tm58=;
+	s=arc-20240116; t=1732452713; c=relaxed/simple;
+	bh=EE9KCf0AlA8/AG8zFLz7NxT1ojAbGrH3rTSXHapOpUA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hvfGZZMG47bRKoDq7c45N9E1fDVJOq3otpGxVw8YCDp0txBvP6xH+sBMaYMCoDxEm8PJPwkJHX3FPw6pFp4RZL6Ca14zNg8cmVRxhxAeEDwfnXAPJZBKk19K+dztXe600m9jXYR5tuZoiDc5lT6D1YetYtka1WeuybySyKqxzgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rH1C71Xc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4F39C4CECC;
-	Sun, 24 Nov 2024 12:51:46 +0000 (UTC)
+	 MIME-Version; b=kSPfWQNXntxN9P4ZWcOhg5akuGhxstHt0H7npFhv4gL4ttELyHVBtKqyn9YM7az/nf9Dbw3mJDZlf3B+KVfyT0LIJDzSFv3/MaSgR5IQ9wSFnoaXeBQEFpKlSmc0ZK6jNItYPzBb96FqCJC0MuotpaaL1w0V1RMh4+bVy6bI7R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPKezzJs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1654BC4CED1;
+	Sun, 24 Nov 2024 12:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732452708;
-	bh=lQ9MCTQY+nLElk0L2haNKUNNpYeyx4gz+JaRDk3tm58=;
+	s=k20201202; t=1732452712;
+	bh=EE9KCf0AlA8/AG8zFLz7NxT1ojAbGrH3rTSXHapOpUA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rH1C71XcTqdbq9ZsjqwQsIm/iWQf1Md2liA1/dJJ47oNsW67xqQ0Ck3JfcCNHHK1d
-	 JH2It4b1JPlRVpmCs2txvuXypr5dqlldRlhiO2V/ply+5x2FYrF4Z+KbeBISWxEkxi
-	 gZeFsZJgg7OEbEHvjDmZdUqzGccYu6ug2g+OfmqzmyFMYjgu2DoP8nSlSygV+dAQi5
-	 HYfceAdQKIj4ajZ93IhKt4pLjD93oLxwnweD6TEzV06ZLWjCa3lEtkNMJFtRPdyUXl
-	 hO8I/GKB1hG+lZlJeF2SubOU/N+aiNbhyDPMs4weS/p7BvHlG3sp/sVKQAKOyaxun3
-	 3pXjdcpIYM+UQ==
+	b=BPKezzJsvyaQjHc++v74hvrXm3Yzr7YO/aMVhNRsp+Hbd4L1TjNtDVMKTcLS85n19
+	 MBr6C1WuvmgG6dhJ/qYt3vsnzkmzP3+7ANctbmBmrNmYDo7bvdzrd7JKsIjz98nJJF
+	 kxHxJKKRFpLuzRPvnISdYd3z0PvS9cQwzmaNQtGgsMqZCIcEe/PEj37wL4U5ZkXXFF
+	 D3oW3zkEPJghKsNJ3zNg2IEEd1G5N+JBHvjt73SmbCpOKMs/21DygleFOpTcdmdLPj
+	 dd95wTZzUQ5+7xXUp6ZjqMrROPrbtLOsrHdQV3+BSGbXqUvVWnDQjVHZivw2vePYiI
+	 77yFVtGYlYXdw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -49,16 +49,16 @@ Cc: Dmitry Perchanov <dmitry.perchanov@intel.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
 	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
 	hverkuil@xs4all.nl,
-	sakari.ailus@linux.intel.com,
-	jacopo.mondi@ideasonboard.com,
-	naush@raspberrypi.com,
-	jeanmichel.hautbois@ideasonboard.com,
-	benjamin.gaignard@collabora.com,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 05/20] media: v4l: Add luma 16-bit interlaced pixel format
-Date: Sun, 24 Nov 2024 07:50:35 -0500
-Message-ID: <20241124125124.3339648-5-sashal@kernel.org>
+	ribalda@chromium.org,
+	quic_jjohnson@quicinc.com,
+	dg@cowlark.com,
+	linux-media@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.11 06/20] media: uvcvideo: Add luma 16-bit interlaced pixel format
+Date: Sun, 24 Nov 2024 07:50:36 -0500
+Message-ID: <20241124125124.3339648-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124125124.3339648-1-sashal@kernel.org>
 References: <20241124125124.3339648-1-sashal@kernel.org>
@@ -75,143 +75,55 @@ Content-Transfer-Encoding: 8bit
 
 From: Dmitry Perchanov <dmitry.perchanov@intel.com>
 
-[ Upstream commit a8f2cdd27d114ed6c3354a0e39502e6d56215804 ]
+[ Upstream commit 55b834873e800a5809787ce6aedcb70ee49a596f ]
 
 The formats added by this patch are:
 
-        V4L2_PIX_FMT_Y16I
+        UVC_GUID_FORMAT_Y16I
 
 Interlaced lumina format primary use in RealSense Depth cameras with
 stereo stream for left and right image sensors.
 
 Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Link: https://lore.kernel.org/r/568efbd75290e286b8ad9e7347b5f43745121020.camel@intel.com
+Link: https://lore.kernel.org/r/a717a912035b0a0f82b2f35719cca0c5269e995f.camel@intel.com
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../userspace-api/media/v4l/pixfmt-y16i.rst   | 73 +++++++++++++++++++
- .../userspace-api/media/v4l/yuv-formats.rst   |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
- include/uapi/linux/videodev2.h                |  1 +
- 4 files changed, 76 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y16i.rst
+ drivers/media/common/uvc.c | 4 ++++
+ include/linux/usb/uvc.h    | 3 +++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-y16i.rst b/Documentation/userspace-api/media/v4l/pixfmt-y16i.rst
-new file mode 100644
-index 0000000000000..74ba9e910a38f
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-y16i.rst
-@@ -0,0 +1,73 @@
-+.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+
-+.. _V4L2-PIX-FMT-Y16I:
-+
-+**************************
-+V4L2_PIX_FMT_Y16I ('Y16I')
-+**************************
-+
-+Interleaved grey-scale image, e.g. from a stereo-pair
-+
-+
-+Description
-+===========
-+
-+This is a grey-scale image with a depth of 16 bits per pixel, but with pixels
-+from 2 sources interleaved and unpacked. Each pixel is stored in a 16-bit word
-+in the little-endian order. The first pixel is from the left source.
-+
-+**Pixel unpacked representation.**
-+Left/Right pixels 16-bit unpacked - 16-bit for each interleaved pixel.
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - Y'\ :sub:`0L[7:0]`
-+      - Y'\ :sub:`0L[15:8]`
-+      - Y'\ :sub:`0R[7:0]`
-+      - Y'\ :sub:`0R[15:8]`
-+
-+**Byte Order.**
-+Each cell is one byte.
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start + 0:
-+      - Y'\ :sub:`00Llow`
-+      - Y'\ :sub:`00Lhigh`
-+      - Y'\ :sub:`00Rlow`
-+      - Y'\ :sub:`00Rhigh`
-+      - Y'\ :sub:`01Llow`
-+      - Y'\ :sub:`01Lhigh`
-+      - Y'\ :sub:`01Rlow`
-+      - Y'\ :sub:`01Rhigh`
-+    * - start + 8:
-+      - Y'\ :sub:`10Llow`
-+      - Y'\ :sub:`10Lhigh`
-+      - Y'\ :sub:`10Rlow`
-+      - Y'\ :sub:`10Rhigh`
-+      - Y'\ :sub:`11Llow`
-+      - Y'\ :sub:`11Lhigh`
-+      - Y'\ :sub:`11Rlow`
-+      - Y'\ :sub:`11Rhigh`
-+    * - start + 16:
-+      - Y'\ :sub:`20Llow`
-+      - Y'\ :sub:`20Lhigh`
-+      - Y'\ :sub:`20Rlow`
-+      - Y'\ :sub:`20Rhigh`
-+      - Y'\ :sub:`21Llow`
-+      - Y'\ :sub:`21Lhigh`
-+      - Y'\ :sub:`21Rlow`
-+      - Y'\ :sub:`21Rhigh`
-+    * - start + 24:
-+      - Y'\ :sub:`30Llow`
-+      - Y'\ :sub:`30Lhigh`
-+      - Y'\ :sub:`30Rlow`
-+      - Y'\ :sub:`30Rhigh`
-+      - Y'\ :sub:`31Llow`
-+      - Y'\ :sub:`31Lhigh`
-+      - Y'\ :sub:`31Rlow`
-+      - Y'\ :sub:`31Rhigh`
-diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-index 24b34cdfa6fea..78ee406d76479 100644
---- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-@@ -269,5 +269,6 @@ image.
-     pixfmt-yuv-luma
-     pixfmt-y8i
-     pixfmt-y12i
-+    pixfmt-y16i
-     pixfmt-uv8
-     pixfmt-m420
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 5eb4d797d259f..4fffa5739895e 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1327,6 +1327,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_Y14P:		descr = "14-bit Greyscale (MIPI Packed)"; break;
- 	case V4L2_PIX_FMT_Y8I:		descr = "Interleaved 8-bit Greyscale"; break;
- 	case V4L2_PIX_FMT_Y12I:		descr = "Interleaved 12-bit Greyscale"; break;
-+	case V4L2_PIX_FMT_Y16I:		descr = "Interleaved 16-bit Greyscale"; break;
- 	case V4L2_PIX_FMT_Z16:		descr = "16-bit Depth"; break;
- 	case V4L2_PIX_FMT_INZI:		descr = "Planar 10:16 Greyscale Depth"; break;
- 	case V4L2_PIX_FMT_CNF4:		descr = "4-bit Depth Confidence (Packed)"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 4e91362da6da0..46f616e43ad68 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -797,6 +797,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_S5C_UYVY_JPG v4l2_fourcc('S', '5', 'C', 'I') /* S5C73M3 interleaved UYVY/JPEG */
- #define V4L2_PIX_FMT_Y8I      v4l2_fourcc('Y', '8', 'I', ' ') /* Greyscale 8-bit L/R interleaved */
- #define V4L2_PIX_FMT_Y12I     v4l2_fourcc('Y', '1', '2', 'I') /* Greyscale 12-bit L/R interleaved */
-+#define V4L2_PIX_FMT_Y16I     v4l2_fourcc('Y', '1', '6', 'I') /* Greyscale 16-bit L/R interleaved */
- #define V4L2_PIX_FMT_Z16      v4l2_fourcc('Z', '1', '6', ' ') /* Depth data 16-bit */
- #define V4L2_PIX_FMT_MT21C    v4l2_fourcc('M', 'T', '2', '1') /* Mediatek compressed block mode  */
- #define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediatek 8-bit block mode, two non-contiguous planes */
+diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
+index c54c2268fee61..027498d374642 100644
+--- a/drivers/media/common/uvc.c
++++ b/drivers/media/common/uvc.c
+@@ -120,6 +120,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
+ 		.guid		= UVC_GUID_FORMAT_Y12I,
+ 		.fcc		= V4L2_PIX_FMT_Y12I,
+ 	},
++	{
++		.guid		= UVC_GUID_FORMAT_Y16I,
++		.fcc		= V4L2_PIX_FMT_Y16I,
++	},
+ 	{
+ 		.guid		= UVC_GUID_FORMAT_Z16,
+ 		.fcc		= V4L2_PIX_FMT_Z16,
+diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+index 88d96095bcb16..1c16be20c9666 100644
+--- a/include/linux/usb/uvc.h
++++ b/include/linux/usb/uvc.h
+@@ -118,6 +118,9 @@
+ #define UVC_GUID_FORMAT_Y12I \
+ 	{ 'Y',  '1',  '2',  'I', 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
++#define UVC_GUID_FORMAT_Y16I \
++	{ 'Y',  '1',  '6',  'I', 0x00, 0x00, 0x10, 0x00, \
++	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+ #define UVC_GUID_FORMAT_Z16 \
+ 	{ 'Z',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
+ 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
 -- 
 2.43.0
 
