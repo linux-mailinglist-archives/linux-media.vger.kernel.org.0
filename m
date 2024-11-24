@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-21877-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21878-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F351E9D70BB
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:38:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DC179D6F5E
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:08:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CF4AFB2E74D
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:07:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7497281935
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 13:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D5051E9066;
-	Sun, 24 Nov 2024 12:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E89BE1E8849;
+	Sun, 24 Nov 2024 12:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/Szq5YE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cwi14vMD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2BB1E884B;
-	Sun, 24 Nov 2024 12:50:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341C31E907F;
+	Sun, 24 Nov 2024 12:50:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732452614; cv=none; b=f7Kt9a+0wPloCvZkJD052/IemHJ15LXdqywUyyqe0C0AaLCQJfMYiG/+rEg9PUm9O8rqzNZZTJhhlfUCmNZgYgQ1KXkm1lt3HqlU9B8+Gr+uQjrIO5XTjCSqOZmSxn0KBzyToTKW06A8YfnR41flf1qekdW09m4NcMsyP4bECoE=
+	t=1732452617; cv=none; b=HezjxjfiMSpUCEofRt2KfjTiboUYZ3WCRjdWuY8bwRfLA7AbB7xVnF4EzQWELH5tfTd/k8oEYuNqekdTvbQA2XzAOSJ3qmXvpp2l5Y+vNSpAsx7cn0xsmMYM5FmNyEluilZdETstsaqj2BPfk7ATzc3lFcDXtflJsI7J8yMB+4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732452614; c=relaxed/simple;
-	bh=M5WD2k494xyUsiC68zqAVQ/NHf1e98of8/mQZQecSUI=;
+	s=arc-20240116; t=1732452617; c=relaxed/simple;
+	bh=EnkAdan4+3pCTuYiTGcXxGke+TUu8G2a0dJueH2IVYI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G6cjAuSKHgxUq8nGk7fK99077Rs2iw7jFmGuQoQsm01GHj54mLwBypIUXA0eeGU+Hafo/X4GMLZZ0gTDTfQgJkcdL3x/A/Oh/+FTj9gL3Hopjp++2sHOUoQYhQuZ1wqnaUGen47vR8k9g+pcZTW4Pyoyf/3wCzMAK2LsAO+WT1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/Szq5YE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE660C4CED3;
-	Sun, 24 Nov 2024 12:50:12 +0000 (UTC)
+	 MIME-Version; b=BNfamGaWgeaCm54sjuZtczVt/Bbey5R0mhgK6j+L8SA55azZnIJvwJbCBtIxBbo5NlhRmspzbo7xPyo2y/FRYTdukOCV76HmJvT546UFNQwL3lQ5Qt/EljSVZp6Q35xQFyIIid2PV7stB7bwtfI+8ECBkJ+TnG9g11VcRZC78fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cwi14vMD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2A5C4CECC;
+	Sun, 24 Nov 2024 12:50:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732452613;
-	bh=M5WD2k494xyUsiC68zqAVQ/NHf1e98of8/mQZQecSUI=;
+	s=k20201202; t=1732452617;
+	bh=EnkAdan4+3pCTuYiTGcXxGke+TUu8G2a0dJueH2IVYI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y/Szq5YECiTlOXXMY6J5XyWXHzy9iy/c66R1fMWcGr3wIykKbggipZmemLP/3O0Ny
-	 J+IPOP+kxF+zVTz5ri5MpA1pBvkwL24ndJtB64lttr9Sf+Am6lnIIWKIEbwaW/KsL0
-	 ElX0RoIEHMTC9wHQJzbw8seml05a1PcNDYpBAv9dI1a6grou9wn/PkK1BpLXctmfcr
-	 koQXB0uwEenU3og0g/6y6QGz+LmRlbufdmOMwYpR8mxB4xjKof1A4qhMzJ9YLqvnqZ
-	 Zt09MVrcYqdghB+4ZOf31fRNjEfSeO6XXkaNicoRBqqjpXJXV2AmE+z0Flx0pSWFtY
-	 4T0d0pvSSJcaw==
+	b=cwi14vMDrqyhFStmkYnBDhWPC02rsOR0KO7C62REVQT3edt+axORG8SkK4ijeViRe
+	 SU9P0IH3Ov5ZiDKyQhEhgdvTFWZi5zscAfWkmys76ha0K2GLCnh9+f5eDEbaQkMapb
+	 /Maculbps+8v4U6cUGHgYo7G5zb+Ni4I0n1NWYYIaMEuyToYO2BaLWJvC1O5dWfbYD
+	 iv7ib+IFiY08iwM25VShdTmx79a6k03gZE8cLwVh1h4NLmL2a7qQ17o5UVL4u9G33K
+	 87UQN2/FHUlrFvd5Orr0hPIZSta1hdkUHzMfY01527MeH1HZnhzCK6ThLNW9kgfUPM
+	 /4ChYoMWGoJmA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Rohan Barar <rohan.barar@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	tfiga@chromium.org,
-	m.szyprowski@samsung.com,
 	mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	f.langufo.l@gmail.com,
+	linux@treblig.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 12/23] media: vb2: use lock if wait_prepare/finish are NULL
-Date: Sun, 24 Nov 2024 07:48:23 -0500
-Message-ID: <20241124124919.3338752-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 13/23] media: cx231xx: Add support for Dexatek USB Video Grabber 1d19:6108
+Date: Sun, 24 Nov 2024 07:48:24 -0500
+Message-ID: <20241124124919.3338752-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124124919.3338752-1-sashal@kernel.org>
 References: <20241124124919.3338752-1-sashal@kernel.org>
@@ -68,59 +69,48 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.1
 Content-Transfer-Encoding: 8bit
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+From: Rohan Barar <rohan.barar@gmail.com>
 
-[ Upstream commit 88785982a19daa765e30ab3a605680202cfaee4e ]
+[ Upstream commit 61a830bc0ea69a05d8a4534f825c6aa618263649 ]
 
-If the wait_prepare or wait_finish callback is set, then call it.
-If it is NULL and the queue lock pointer is not NULL, then just
-unlock/lock that mutex.
+Add Dexatek Technology Ltd USB Video Grabber 1d19:6108 to the cx231xx
+driver. This device is sold under the name "BAUHN DVD Maker (DK8723)" by
+ALDI in Australia.
 
-This allows simplifying drivers by dropping the wait_prepare and
-wait_finish ops (and eventually the vb2_ops_wait_prepare/finish helpers).
+This device is similar to 1d19:6109, which is already included in cx231xx.
 
+Both video and audio capture function correctly after installing the
+patched cx231xx driver.
+
+Patch Changelog
+v1:
+ - Initial submission.
+v2:
+ - Fix SoB + Improve subject.
+v3:
+ - Rephrase message to not exceed 75 characters per line.
+ - Removed reference to external GitHub URL.
+
+Signed-off-by: Rohan Barar <rohan.barar@gmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/common/videobuf2/videobuf2-core.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/media/usb/cx231xx/cx231xx-cards.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index b0523fc23506a..944be2571229f 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -2037,7 +2037,10 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
- 		 * become ready or for streamoff. Driver's lock is released to
- 		 * allow streamoff or qbuf to be called while waiting.
- 		 */
--		call_void_qop(q, wait_prepare, q);
-+		if (q->ops->wait_prepare)
-+			call_void_qop(q, wait_prepare, q);
-+		else if (q->lock)
-+			mutex_unlock(q->lock);
+diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
+index 92efe6c1f47ba..bda729b42d05f 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-cards.c
++++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+@@ -994,6 +994,8 @@ const unsigned int cx231xx_bcount = ARRAY_SIZE(cx231xx_boards);
  
- 		/*
- 		 * All locks have been released, it is safe to sleep now.
-@@ -2047,12 +2050,16 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
- 				!list_empty(&q->done_list) || !q->streaming ||
- 				q->error);
- 
-+		if (q->ops->wait_finish)
-+			call_void_qop(q, wait_finish, q);
-+		else if (q->lock)
-+			mutex_lock(q->lock);
-+
-+		q->waiting_in_dqbuf = 0;
- 		/*
- 		 * We need to reevaluate both conditions again after reacquiring
- 		 * the locks or return an error if one occurred.
- 		 */
--		call_void_qop(q, wait_finish, q);
--		q->waiting_in_dqbuf = 0;
- 		if (ret) {
- 			dprintk(q, 1, "sleep was interrupted\n");
- 			return ret;
+ /* table of devices that work with this driver */
+ struct usb_device_id cx231xx_id_table[] = {
++	{USB_DEVICE(0x1D19, 0x6108),
++	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
+ 	{USB_DEVICE(0x1D19, 0x6109),
+ 	.driver_info = CX231XX_BOARD_PV_XCAPTURE_USB},
+ 	{USB_DEVICE(0x0572, 0x5A3C),
 -- 
 2.43.0
 
