@@ -1,212 +1,113 @@
-Return-Path: <linux-media+bounces-21911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40339D75D2
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 17:22:51 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF529D7832
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 22:10:43 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E302FB64C36
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 14:03:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26E50162BFA
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2024 21:10:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 380181C303E;
-	Sun, 24 Nov 2024 13:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA0C9166307;
+	Sun, 24 Nov 2024 21:10:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bL+1RWdN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7TliI9Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC211C07F6;
-	Sun, 24 Nov 2024 13:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E5E163;
+	Sun, 24 Nov 2024 21:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732455680; cv=none; b=X55HH6aXN9mLVV3Z+UyugMANnu52gAq5lQ6tOmeZB4ddLvsSyPoTa8RCcBqXFi9bTs7pkE6C95osAmD99JvfiZtaBVvGdXfOixJ4qIOdvKmJkcjtZmkZAi9I3cWsT5pvgOyN+O2fMhKbnvNtep3q3PR54OR/vxvz/ylAyWpg2hg=
+	t=1732482636; cv=none; b=RaxgV0FjOFuxRSGaH/m9W91DELwXtY1ILex7kqwvd5AcB5xqynmwCh+y3izOxp9vM49pNm4tuJc04V/Im/HIjlxoJQiuF4tDCLeypEgR2SXUCFPJtg5HkGuHGlrdMhv4q5Ht3hdfgRfX/fOURhq9mWg1moO27wo/4EhXOWAqBpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732455680; c=relaxed/simple;
-	bh=jVug0B5z0yu25jHuiw9klU8LOF+X8Zb4FdA8H54E8Dc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ECQqZSzo6v/rYMJ3n/uUiU+qdOQl4h6Zd5yNn2PNCnF7ddrGiU70RaoBRLGC/AH+HPXCMavFtGOY/mlx219f7IScIkeXq7vgPXeyzp9LpSdZhTOxDeIjGM9jwPpKLM+X1dS1hxU6KukedBrsOIhO70xZ3xqCYEydq3+Qke0S7co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bL+1RWdN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93B1CC4CED3;
-	Sun, 24 Nov 2024 13:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732455680;
-	bh=jVug0B5z0yu25jHuiw9klU8LOF+X8Zb4FdA8H54E8Dc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bL+1RWdN3Y9oXYTlDtUjDEgmYO4eAGq7GBu3qDJRIdTm5z8JqSRl6I/cOqdYYHDOc
-	 zkOfs7p4plmhag+C7lq2TcFUCk9o3/b1st7Gk1gz1ut6JlyLNgLcjS6h5yGX9VcRPv
-	 UaqshYRyOarDZpujr+3Gn7Oo6yqINARSzvcwiiH2PV9TVeTR54B3GToWN/Yaw7OaPK
-	 vvWKwzfS1w4YHszfErygysk3b1LYAPndmM4AeIKsu9L5D58bQEXsO7PwsxQb3b5aJL
-	 U8ljr66JSLLAr5ARerM1w8ObuhyzoyrqI+cOdDlvalBYobN53RNVIV3bTfnMoYyawA
-	 q31Ir1SmSdMJg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Huan Yang <link@vivo.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Sasha Levin <sashal@kernel.org>,
-	kraxel@redhat.com,
-	sumit.semwal@linaro.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.11 08/87] udmabuf: change folios array from kmalloc to kvmalloc
-Date: Sun, 24 Nov 2024 08:37:46 -0500
-Message-ID: <20241124134102.3344326-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241124134102.3344326-1-sashal@kernel.org>
-References: <20241124134102.3344326-1-sashal@kernel.org>
+	s=arc-20240116; t=1732482636; c=relaxed/simple;
+	bh=mFDf1CSpN7D4WMQlO4FpcyVXIJcDBPie8o23ouZqasw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=omK/cZ84G80VY5kLX1kpQcfulvqZWS+0HVbYS61pyjlVoPFXEuEjCeqosbbd8/PCncZAP3V1+tiGdlkbAa9JrVpmSgXmvVNy2Is01vSOSTE9PKAqcjeCaSYXfM45aZVOMjOQekBqD1zn/nlmOuGwv+kKRsIvhET35Wg0PvJztvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7TliI9Q; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4668f208f10so4735001cf.3;
+        Sun, 24 Nov 2024 13:10:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732482633; x=1733087433; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W07l0zNFrs+EFQwQdJy7SMIOa1ecWzPkN3V9gFJWiHk=;
+        b=E7TliI9QuV5kmi0gh6A2IfRj4cN+lIbYdHcQih/+pKJrAdU1K8rtSHmomK8rRgQlzN
+         qJxzWyGA/AxKQDHtEHyDA85wqXtGbCm0Z2RSMjhwDq4rH995iglOToiCmT9ApkcG1zOh
+         mtW0ZatVtnv32EJYei0F2k9+M5Ywr8HLdN0qEupzbR0gVvDIDsfmreFW1Cmd4ILCvOt+
+         Wc1/4ke7FY92pgE4XIUGmISlmo5W7+Yi83lMfsaBwJHNF2lDMkEC9wMx5IlNP4KioJMC
+         v4yaFwzartj/XDWu2gefzs+63Wlp2PZWWEzSjfwsjntSChZ0XJvwEO1Af5B/+5Cbo7XU
+         kxZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732482633; x=1733087433;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W07l0zNFrs+EFQwQdJy7SMIOa1ecWzPkN3V9gFJWiHk=;
+        b=Tub2DF3zkg23x5DLbTB7QsoNy0fSJ0iXD7+mLnQnrq4O3NA+cJoLcmRl1VK+PdMZ+z
+         z92kvQ3+gXvykzgZIOigOhcEOEXp6zsk6DxTnlfR/Gq5Z/heU5EseV31rgh2n3CCYMMd
+         gLLDuB4bgOkgIpZCeh+N3FXihcpWafBE1jTSRRNszgBz8DTknzp2QyP3VlIpPJHxBh4j
+         3tqwJdfJZnql1lmlN2nlptaGib+PSvP0BK37a4m28rwNCAiHlhX+hqMllYb2ic3ZKJvm
+         RnEI5fOPxd5nL1ioXpMfLtt6xib+o4ebJEjUoWbzsq04fpE36pa0PO1dvicaMc/I5xN8
+         8Yww==
+X-Forwarded-Encrypted: i=1; AJvYcCW2k9yAKsgSAjXShNKWPHjaf2gLrw14MZTvmy0lNc//NIM00Dp+GoaFDBdXrVUZf/nz0bUYFWGN1awA6Z6EBm1xLy8=@vger.kernel.org, AJvYcCW8bAhv/tq7EG/NC9PIePnvhaTL6XL50H6iy8LwlEIZJLOuPLJ/2d7MRXaiV57mztrvFXgldGN20OOvQVY=@vger.kernel.org, AJvYcCX8bsHuzukB0hBQmJYOj5loNhcpLXVbeONAwU4GIga7/pHobd96erMm4/J5KqR4JoCgjRje9bEI9+DvC5s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7qK4B++M5MIM2BDl1aG7o+0BbjCzGUC5ZTqHg7ksSuZZP7Jw5
+	xNwYhfkI5uYxrehJ4ByHporzmnO/+ULP5r8WEIWXCEpmt3vrDo8i81jXHBEW6GGYHsWnVKOlLtL
+	keMgRMKxgwrQ68QhrbKIcvR6idnw=
+X-Gm-Gg: ASbGncto+uOGO2AGzvL0MHYM2pR6QQaziKW4dBW12L+I0FwCNRR9qiDfp8G8zhlAlHZ
+	XVBp9kUQi/yIIog3m2BGVUk7bGXoVmyra
+X-Google-Smtp-Source: AGHT+IFFGfCsnztfsLunwMxUWCnNQbocjlno2uE7RveujuTHAm4e0cTyGoyDHCbxuwKBXRaxOpeKeT6w++DlBbaz2BQ=
+X-Received: by 2002:ac8:7f16:0:b0:466:9003:aaf0 with SMTP id
+ d75a77b69052e-4669003adc7mr41252241cf.37.1732482633443; Sun, 24 Nov 2024
+ 13:10:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.10
-Content-Transfer-Encoding: 8bit
+References: <20241123212624.6237-1-jiashengjiangcool@gmail.com> <b3e2ed68-092f-4ccb-a945-19e19d5c8071@kernel.org>
+In-Reply-To: <b3e2ed68-092f-4ccb-a945-19e19d5c8071@kernel.org>
+From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+Date: Sun, 24 Nov 2024 16:10:22 -0500
+Message-ID: <CANeGvZXjUUOhySGhMCXDp3yfTtuOKdXgMa7DTtZDpq1iXkkfhg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: camif-core: Add check for clk_enable()
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: sylvester.nawrocki@gmail.com, mchehab@kernel.org, dron0gus@gmail.com, 
+	tomasz.figa@gmail.com, alim.akhtar@samsung.com, kyungmin.park@samsung.com, 
+	laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Huan Yang <link@vivo.com>
+Hi Krzysztof,
 
-[ Upstream commit 1c0844c6184e658064e14c4335885785ad3bf84b ]
+On Sun, Nov 24, 2024 at 5:50=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 23/11/2024 22:26, Jiasheng Jiang wrote:
+> > Add check for the return value of clk_enable() to gurantee the success.
+> >
+> > Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC s=
+eries camera interface")
+> > Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+> > ---
+> >  .../media/platform/samsung/s3c-camif/camif-core.c   | 13 +++++++++++--
+> >  1 file changed, 11 insertions(+), 2 deletions(-)
+>
+> Nothing improved...
 
-When PAGE_SIZE 4096, MAX_PAGE_ORDER 10, 64bit machine,
-page_alloc only support 4MB.
-If above this, trigger this warn and return NULL.
+Sorry for the confusion. This series consists of two patches.
+Only "PATCH 1/2" has been modified, while "PATCH 2/2" remains unchanged.
+As a result, there is no changelog for "PATCH 2/2".
 
-udmabuf can change size limit, if change it to 3072(3GB), and then alloc
-3GB udmabuf, will fail create.
-
-[ 4080.876581] ------------[ cut here ]------------
-[ 4080.876843] WARNING: CPU: 3 PID: 2015 at mm/page_alloc.c:4556 __alloc_pages+0x2c8/0x350
-[ 4080.878839] RIP: 0010:__alloc_pages+0x2c8/0x350
-[ 4080.879470] Call Trace:
-[ 4080.879473]  <TASK>
-[ 4080.879473]  ? __alloc_pages+0x2c8/0x350
-[ 4080.879475]  ? __warn.cold+0x8e/0xe8
-[ 4080.880647]  ? __alloc_pages+0x2c8/0x350
-[ 4080.880909]  ? report_bug+0xff/0x140
-[ 4080.881175]  ? handle_bug+0x3c/0x80
-[ 4080.881556]  ? exc_invalid_op+0x17/0x70
-[ 4080.881559]  ? asm_exc_invalid_op+0x1a/0x20
-[ 4080.882077]  ? udmabuf_create+0x131/0x400
-
-Because MAX_PAGE_ORDER, kmalloc can max alloc 4096 * (1 << 10), 4MB
-memory, each array entry is pointer(8byte), so can save 524288 pages(2GB).
-
-Further more, costly order(order 3) may not be guaranteed that it can be
-applied for, due to fragmentation.
-
-This patch change udmabuf array use kvmalloc_array, this can fallback
-alloc into vmalloc, which can guarantee allocation for any size and does
-not affect the performance of kmalloc allocations.
-
-Signed-off-by: Huan Yang <link@vivo.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20240918025238.2957823-3-link@vivo.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma-buf/udmabuf.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 047c3cd2cefff..bc94c194e172d 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -80,7 +80,7 @@ static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
- 
- 	dma_resv_assert_held(buf->resv);
- 
--	pages = kmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
-+	pages = kvmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
- 	if (!pages)
- 		return -ENOMEM;
- 
-@@ -88,7 +88,7 @@ static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
- 		pages[pg] = &ubuf->folios[pg]->page;
- 
- 	vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
--	kfree(pages);
-+	kvfree(pages);
- 	if (!vaddr)
- 		return -EINVAL;
- 
-@@ -196,8 +196,8 @@ static void release_udmabuf(struct dma_buf *buf)
- 		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
- 
- 	unpin_all_folios(&ubuf->unpin_list);
--	kfree(ubuf->offsets);
--	kfree(ubuf->folios);
-+	kvfree(ubuf->offsets);
-+	kvfree(ubuf->folios);
- 	kfree(ubuf);
- }
- 
-@@ -322,14 +322,14 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (!ubuf->pagecount)
- 		goto err;
- 
--	ubuf->folios = kmalloc_array(ubuf->pagecount, sizeof(*ubuf->folios),
--				    GFP_KERNEL);
-+	ubuf->folios = kvmalloc_array(ubuf->pagecount, sizeof(*ubuf->folios),
-+				      GFP_KERNEL);
- 	if (!ubuf->folios) {
- 		ret = -ENOMEM;
- 		goto err;
- 	}
--	ubuf->offsets = kcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
--				GFP_KERNEL);
-+	ubuf->offsets = kvcalloc(ubuf->pagecount, sizeof(*ubuf->offsets),
-+				 GFP_KERNEL);
- 	if (!ubuf->offsets) {
- 		ret = -ENOMEM;
- 		goto err;
-@@ -343,7 +343,7 @@ static long udmabuf_create(struct miscdevice *device,
- 			goto err;
- 
- 		pgcnt = list[i].size >> PAGE_SHIFT;
--		folios = kmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
-+		folios = kvmalloc_array(pgcnt, sizeof(*folios), GFP_KERNEL);
- 		if (!folios) {
- 			ret = -ENOMEM;
- 			goto err;
-@@ -353,7 +353,7 @@ static long udmabuf_create(struct miscdevice *device,
- 		ret = memfd_pin_folios(memfd, list[i].offset, end,
- 				       folios, pgcnt, &pgoff);
- 		if (ret <= 0) {
--			kfree(folios);
-+			kvfree(folios);
- 			if (!ret)
- 				ret = -EINVAL;
- 			goto err;
-@@ -382,7 +382,7 @@ static long udmabuf_create(struct miscdevice *device,
- 			}
- 		}
- 
--		kfree(folios);
-+		kvfree(folios);
- 		fput(memfd);
- 		memfd = NULL;
- 	}
-@@ -398,8 +398,8 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (memfd)
- 		fput(memfd);
- 	unpin_all_folios(&ubuf->unpin_list);
--	kfree(ubuf->offsets);
--	kfree(ubuf->folios);
-+	kvfree(ubuf->offsets);
-+	kvfree(ubuf->folios);
- 	kfree(ubuf);
- 	return ret;
- }
--- 
-2.43.0
-
+-Jiasheng
 
