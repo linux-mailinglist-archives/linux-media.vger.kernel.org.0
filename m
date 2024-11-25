@@ -1,242 +1,132 @@
-Return-Path: <linux-media+bounces-21960-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21962-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC639D832C
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:13:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AA59D8335
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:14:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC9AB28BFD0
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 10:13:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86D1E28CBD2
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 10:14:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6512B197A93;
-	Mon, 25 Nov 2024 10:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 870B8193434;
+	Mon, 25 Nov 2024 10:13:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+m6Qzpn"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jjBST2s5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2C8195B18;
-	Mon, 25 Nov 2024 10:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3A9190692;
+	Mon, 25 Nov 2024 10:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732529483; cv=none; b=VUcn6VXoxwSVhwNzl+BJVxepr1MQN4UoaKt4N9cutjEGTm00IvRYrIuLFFzN/RtBuARgUZqCTeBylXNn+ZbV9Ku+4C5eMusPjgSX8AQgZfQ4Els6YfW8rQIG9SSNBRji+MmZR1VkcJWz8aMzwwTBJq4Ry+f01K7OONt3UGUBfwE=
+	t=1732529630; cv=none; b=D/AnjT/w//+AgUWgvbIeXAWe7pd1ARHnBq3chDPVymZy9PErCEo7gKrHRCbQdQtYHKdJcUJwsWjFpNPEXBV05LSzhQ3OCs4G4THqozeGOUsp662tUU1oUmFmvoObcRJ8RpTb3R9HOVakYWgcbRmNMXi0ds01t8qPHqPdbw5j62o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732529483; c=relaxed/simple;
-	bh=yKnc1Zk+G4ZTxSawddMpZRV12Li+nii66zDSwR57oZg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aFCOgb6KXpTsY0V6EUsxaetJOj0/xqA7RbLJdHXLLYNC7KLfqxaACE9bf+e7+Yc3CNOBaXg+q/BeVkMhcWKefioBh2Z7rHYQgjWnQfq78lAVch30x9eeuDoE5oxYyHxpcV+eD0HqMGKzurX/gS4cqqR4c4dJj5XlgoYre5f86Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+m6Qzpn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72266C4CECE;
-	Mon, 25 Nov 2024 10:11:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732529483;
-	bh=yKnc1Zk+G4ZTxSawddMpZRV12Li+nii66zDSwR57oZg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=p+m6QzpnSI4uWrJe2qIRZmWq2NMvNCGN/8huxR4uHn+K40RJQhxLMt/tFTCUgtB5U
-	 v3O57EgrmVkD4lXHwRe+N8FlcGE4XCklSarWE3vvG/reWtMnRkCTZ9AnTDAcIAWH99
-	 nKBWD+MXLHTpQ6PdX/qeee4AffzyUBaFCkRpJldeZhims8fJ748TTNDTXnDOQ719g1
-	 DGaM/W3pSN4OAgvOH5xS8jLhg89pCVU/fYivNOR6vwQ4IxCtfyrLQnBfXPxhFY4Ytv
-	 7/331x0CmYgltjeDHzVFGN8E2fRkW1j5h/q3vorxAP2xepxk0Bq51PTs5plydln5E5
-	 Wp6Fm/TmbdBiw==
-Message-ID: <07e0cc97-c0c4-42fd-b51d-87b0eaed4e4a@kernel.org>
-Date: Mon, 25 Nov 2024 11:11:17 +0100
+	s=arc-20240116; t=1732529630; c=relaxed/simple;
+	bh=FL1Xtx4bsLEhMt9psLVFQieYZHh55oVV4re7iSg1qTs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=tx3nFMYutmw4Of9x5ZH1oSEvwn2GtEjbYTzjVS8MOcsM47qJUMYEfFORo6auqe3K5pEBQZB+4oA1BgQDLr6e7Y7W0S1QGI0hDF6/P6TAp60u/4ypR5MCYeMXytXTzT94W5zM4T/mfWyemfkWdsff3Lq9739XtRz2s8pQBcoslos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jjBST2s5; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AOKeosm004853;
+	Mon, 25 Nov 2024 10:13:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FL1Xtx4bsLEhMt9psLVFQieYZHh55oVV4re7iSg1qTs=; b=jjBST2s5SrHm6xBl
+	KuStHG4o83IC0jgipN8BbWrSzM+bEsrtaZ+oR0hcnXdBTi8U2aiRtvKpvYa4HlgW
+	AyhDFluubTLEaHt6PFkxUF6pU9LlCG/Pyg9ejSYMMUq5OJgmlauRfQQBx41X0uCg
+	GnqqaIpdpqHGI6RyYKN/Dc4MJNQ+0BVZF7oTUvCN/Jpukv4TgWMWFDwn15Ssh4ML
+	BmsVh0+5KmzU3nDnwQbZ0IqQYZEpUUHBKSHy3u7iudCrPDJp8yLUehoL8DiTQ5Uk
+	a5RkjorBOAK9/9DNBFiM1VvKDgwF6F3oBL3p3DklrKXUign1jirz1qiJ/R/F+zh8
+	Jxxdfw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 433626ca41-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Nov 2024 10:13:44 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4APADhjf028407
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Nov 2024 10:13:43 GMT
+Received: from nalasex01c.na.qualcomm.com (10.47.97.35) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 25 Nov 2024 02:13:42 -0800
+Received: from nalasex01c.na.qualcomm.com ([fe80::5da8:4d0f:c16a:a1d]) by
+ nalasex01c.na.qualcomm.com ([fe80::5da8:4d0f:c16a:a1d%11]) with mapi id
+ 15.02.1544.009; Mon, 25 Nov 2024 02:13:42 -0800
+From: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>
+To: "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        "Stephen
+ Boyd" <sboyd@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Taniya Das
+ (QUIC)" <quic_tdas@quicinc.com>
+Subject: RE: [PATCH 0/2] Use APIs in gdsc genpd to switch gdsc mode for venus
+ v4 core
+Thread-Topic: [PATCH 0/2] Use APIs in gdsc genpd to switch gdsc mode for venus
+ v4 core
+Thread-Index: AQHbPMnFuhcs0/Hoi02bEw0vEs1J7rLEhxwAgALQD9CAAPA8gP//ffFA
+Date: Mon, 25 Nov 2024 10:13:42 +0000
+Message-ID: <c82b5395b35a4d13a05f3826243070e0@quicinc.com>
+References: <20241122-switch_gdsc_mode-v1-0-365f097ecbb0@quicinc.com>
+ <f7c31279-8492-484c-94c4-893d98f53afb@linaro.org>
+ <2212eace0ed44c439da117fb05f2b1db@quicinc.com>
+ <970a37f0-ccb4-4c23-972f-4100cb6c4e81@linaro.org>
+In-Reply-To: <970a37f0-ccb4-4c23-972f-4100cb6c4e81@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 1/8] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti MIPI CSI-2 Receiver
-To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
- <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3UsuNXl0orZiNfae8AET-Enpy3M7XSFF
+X-Proofpoint-ORIG-GUID: 3UsuNXl0orZiNfae8AET-Enpy3M7XSFF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 spamscore=0 adultscore=0
+ impostorscore=0 mlxscore=0 malwarescore=0 suspectscore=0 mlxlogscore=573
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411250087
 
-On 25/11/2024 10:21, Yuji Ishikawa wrote:
-> Adds the Device Tree binding documentation that allows to describe
-> the MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
-> 
-> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-
-
-How newly added patch can have already Rb tag? Was this review really,
-really performed internally or you just satisfy some internal managers
-requirements and fake the stats?
-
-> ---
-> 
-> Changelog v12:
-> - Newly add bindings for CSI2RX driver 
-> 
->  .../media/toshiba,visconti5-csi2rx.yaml       | 104 ++++++++++++++++++
->  1 file changed, 104 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
-> new file mode 100644
-> index 000000000000..5488072bc82a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
-> @@ -0,0 +1,104 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/toshiba,visconti5-csi2rx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Toshiba Visconti5 SoC MIPI CSI-2 receiver
-> +
-> +maintainers:
-> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> +
-> +description: |-
-
-Drop |-
-
-> +  Toshiba Visconti5 SoC MIPI CSI-2 receiver device receives MIPI CSI-2 video
-> +  stream. Use with VIIF device. T.B.D
-> +
-> +properties:
-> +  compatible:
-> +    const: toshiba,visconti5-csi2rx
-
-Why this is called "RX"? Can you have a TX? I had impression that one
-cannot.
-
-> +
-> +  reg:
-> +    items:
-> +      - description: Registers for CSI2 receiver control
-> +
-> +  interrupts:
-> +    items:
-> +      - description: CSI2 Receiver Interrupt
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                description: CSI2 receiver supports 1, 2, 3 or 4 data lanes
-> +                minItems: 1
-> +                items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +            required:
-> +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node, single endpoint describing the Visconti VIIF.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        csi2rx@1c008000 {
-
-
-csi@
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-
-Best regards,
-Krzysztof
+T24gTW9uZGF5LCBOb3ZlbWJlciAyNSwgMjAyNCA1OjM2IFBNLCBCcnlhbiBPJ0Rvbm9naHVlIHdy
+b3RlOg0KPiBPbiAyNS8xMS8yMDI0IDAzOjQ5LCBSZW5qaWFuZyBIYW4gKFFVSUMpIHdyb3RlOg0K
+PiA+ID4gPiBXaGF0IGhlbHAgZG8geW91IG5lZWQgPw0KPiA+IFNpbmNlIHRoZSBHRFNDIGZsYWcg
+aGFzIGJlZW4gY2hhbmdlZCB0byBIV19DVFJMX1RSSUdHRVIsIHRoZSB2NCBjb3JlIA0KPiA+IG5l
+ZWRzIHRvIHVzZSBkZXZfcG1fZ2VucGRfc2V0X2h3bW9kZSB0byBzd2l0Y2ggdGhlIEdEU0MgbW9k
+ZSBsaWtlIHY2LiANCj4gPiBUaGUgdmlkZW8gY29kZWMgaGFzIGJlZW4gdmVyaWZpZWQgb24gU0M3
+MTgwIGFuZCB0aGUgcmVzdWx0IGlzIE9LLiBUaGUgDQo+ID4gc2FtZSB2ZXJpZmljYXRpb24gaGFz
+IGJlZW4gZG9uZSBvbiB0aGUgbGF0ZXN0IFFDUzYxNSBhbmQgdGhlIHJlc3VsdCBpcyBhbHNvIE9L
+Lg0KPiA+IEluIGFkZGl0aW9uLCBzaW5jZSB0aGUgdmlkZW9jYyBvZiBRQ1M2MTUgdXNlcyB0aGUg
+SFdfQ1RSTF9UUklHR0VSIA0KPiA+IGZsYWcsIFFDUzYxNSBhbmQNCj4gPiBTQzcxODAgYm90aCB1
+c2UgdGhlIHY0IGNvcmUgaW4gdmVudXMuIFNvIHRoZSB2NCBjb3JlIG5lZWRzIHRvIHVzZSANCj4g
+PiBkZXZfcG1fZ2VucGRfc2V0X2h3bW9kZSB0byBzd2l0Y2ggdGhlIEdEU0MgbW9kZSBsaWtlIHY2
+Lg0KDQo+IEkgdGhpbmsgeW91IG5lZWQgdGhpcyB0ZXN0ZWQgb24gc2RtODQ1Lg0KDQo+IEkgY2Fu
+IGRvIHRoYXQgZm9yIHlvdS4NClRoYW5rcyBmb3IgeW91ciByZXBseS4gWWVzLCB3ZSBuZWVkIHRv
+IHRlc3Qgb24gc2RtODQ1LiBQbGVhc2UgaGVscCBydW4gdGhlc2UgdHdvIGNoYW5nZXMgb24gc2Rt
+ODQ1LiBUaGFua3MgZm9yIHlvdXIgaGVscCBhZ2Fpbi4NCj4gLS0tDQo+IGJvZA0K
 
