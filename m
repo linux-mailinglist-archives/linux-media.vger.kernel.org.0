@@ -1,150 +1,129 @@
-Return-Path: <linux-media+bounces-22040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22041-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134169D8CC2
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 20:18:50 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE9D9D8CC4
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 20:19:44 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55A42B29F99
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 19:18:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90D03168A52
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 19:19:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D8CF1BD9DC;
-	Mon, 25 Nov 2024 19:18:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A7701BC064;
+	Mon, 25 Nov 2024 19:19:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJ89HJ8E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jeO9povu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B8538DE1;
-	Mon, 25 Nov 2024 19:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F9A2F2D;
+	Mon, 25 Nov 2024 19:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732562305; cv=none; b=AO02QFW2CXoYuJ04Z+b3NJEoO9jHZSDkJKs1bMJcyj00C9rtg3YBy1d3k4rb8z2G5Omxne0n/ZJLsDP72hp9JZ67fVTlTm/RrIIJPChV4+nMHHc2FCz2fHpVC3Y9dWOfBFzCBj0EgoK05vDd6MMz9dGTj5P5fbhDzBtZXsQ6AiA=
+	t=1732562376; cv=none; b=p0jO1sqCM02IuopBIJTkjXKwKusdvlmpO3fVGsB2kSHh09Ykrpek6mc1SUflanxpZAjPNuQGxgn39A+qbMNM3qAOMFErwO9m0ovEbZgO300mFhUiv5Z3rFtp5qcesclkfLb1DCTDNNr9mEJ3QghKzBGHhPkr+PdrngGcOeUn9d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732562305; c=relaxed/simple;
-	bh=S9lNBdOz+fyWtttvxwI71Sb5SqCDucavC8LeLhcrfS0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Tke42WSuE2fgUlUXZH6/HzHdJgL1UNbjAwPc++dMBb6G4Ar7lzhgWcAMrQv7+Y4WIF3z2rXMBupwJMFu+besS7UNd/DhAf/yRFTkN54T7OWGAfaVSi4cXyUPTFPqF4nUS/atOrOIwGTroZHiJoJVbGnqqlu54q+BwQ2nDklWnSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJ89HJ8E; arc=none smtp.client-ip=209.85.160.169
+	s=arc-20240116; t=1732562376; c=relaxed/simple;
+	bh=lU17cppgoinyWopdxSoiQkcAImV6/a7OZ/O0RJH0yYA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mXG3pfRDzKBiejOUEfz8BrfXN+YNQ+OKxGiyKOYfofpCUhfZk/aP/hHkBYqx116HqAlwzYU3UgIs0CNXycr9NjpJuIFTiN2c4BGbWQbhIFafTkyWD/vENFdBK9iCbKDvV7SMucmrl0jgUXYUsHqxN3K30jEyZi1UfyCslP3TxA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jeO9povu; arc=none smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4669eecd88dso5135411cf.0;
-        Mon, 25 Nov 2024 11:18:24 -0800 (PST)
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-466897883dcso14745371cf.2;
+        Mon, 25 Nov 2024 11:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732562303; x=1733167103; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1732562374; x=1733167174; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hqUmrgUyN7wLvObgizlW92PtLkKJTPkx4qrgq2LwcbI=;
-        b=TJ89HJ8EX9B2XOMrmq0Ff8guHbI8M/9LqX4XtBSIvy4SyrbbYCXZXx+jmyBXqbMYMG
-         nqksR2+JrNzqgUfE96q6l3strOkvMd+Wi5uolshQCYXQFGxlj/xyUNOENhjBfnUL9VxO
-         YJRQAkf2HqSTqJ0qWEYD8/U+EuE8m3Vx6ymJkPQAOd9hZV/YGOh50ptFWlBgqTyBiqmw
-         Sgao0+2lgfibdFugH9WAJCt/aAofONwsSTLGzYDb/FzgOVE09DI1k4RHD9OwHg/W7xrC
-         UaqyLJqVCPcWa0IHAdu2ZA33/nnkelTIhp7qQXnLGXGD1necC6YkzH9i3D3vV/IZQBqY
-         D1sw==
+        bh=mFcDtbEmq7ZVjInvpisCNfzHQPlIXkFOIPRXlH+eeHs=;
+        b=jeO9povuyT68q+fQ7TaNsk++rR5MwOE9jzZJViRxekPGw+OFkWNg6aU7OE+Omf+NC5
+         vabGfsaMyPXYE2cbskOeY+64z3Ak6upp0mPE937wJmpdsxEVtA5sp0tSu3epgVUKBhkH
+         f9OG7pVixGWpDTWyBVyb022m98aOLMyrn10yhuYsiYXeWWff0fg9DiBrYtz2iE4M/SK0
+         GAYRHU6ZmUoyFE3jsxVEtEA+WIPhpmhJa+YuX8PyxapGu3AHcoIdqsQjr0ihngQB71HQ
+         DdWsS/4XC05sag1dbyTuBTBIVVOOeazxjm93bWRC3CT+/x76+08z6JgvUffHUYJ12Puu
+         EMmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732562303; x=1733167103;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1732562374; x=1733167174;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hqUmrgUyN7wLvObgizlW92PtLkKJTPkx4qrgq2LwcbI=;
-        b=tLfcD9fuK43PUUOI3p5Zyns6m3rwxrTNiIPVfkFKqXHD8TqbgWGNAy3tdIq7P5GhTX
-         u9uB4mazshwOxNLKhwD7IG8QljRCN3HG6lC5KQABuisvFB2yI67KaaTMgCMx5TL7rxiq
-         +Xqitct1OY1zDBmwt2SfB1q3Dii7ZEiYJ7gnHTxpW1lsQ00UeSk/FgR2XK8hlA/wtQoX
-         pvr/hMCrh/EYhryhJaXbtM5xkYvfpdkqwlPV/PUI0aET/g6EepJg9g+xLH9H22fD7U0u
-         FUQdIYjWSKp/EFAIYcd2lKDHkYA4nD/ktOE83DC4EYqxZX8VX7+YIw+NitlaH8fyGLbB
-         DhMw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYnNeXjlMfn2oKkdT5DjWA48qpY7IgYF8HfFNCLCvHpp7ZmkSkdTeG4rKdVORhVgprrtJott6DcR+/Hg0=@vger.kernel.org, AJvYcCViex+1KR6EilUcvrRV3n/IA4PJDYig0VfsBm7/sxqgyH393suLdfVDTO6hfnS1LAcTK7MWkk6GMhaCo1wg4Js5XYQ=@vger.kernel.org, AJvYcCW6qG2NTpc565+Tau+DGs4ZcDU4xsTfbZGdWDjcVvvcl2HAo8AmGBH4Svki9x1Gr7BW+LCO0AnlPK2IQhI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4O0zTNsBvdXxLTKn3iGj84H0479VusteOe/BJHNLIIQbDxoor
-	BsoMzFcTutU7hYXcSRUvcZWD4tYusUOBpdY97aWIRQXqxbv6qoBx
-X-Gm-Gg: ASbGnctUV228d5IQpE7tDIcVhzELpjgqcmO1+AH3rJ2ow47V70X/pg1WA8PsmKt1U9L
-	tNvDw3GmKDQ9TSv0x7JG1z4JCUpf82+XrACUDq16vedLCH/0TLnB7EVojIY9aiTYC4ZEsaQR37B
-	cYZifG4ZCfjJw+63J+2tw6vEXyeyGJH8jmi54Vh/WRc9tcXz1Bw5Nd7YVENbfJ3ieQBn33RwLqu
-	/ano7YMA66zTwVM2TUe9Qju9mC0NR/8FEDT7qxXs+wHghUW8gxjzVMa5kk7wDR1WkO2V4nN
-X-Google-Smtp-Source: AGHT+IG58OQhLBaPrhh2bJX4k9J0UG4UvxEIeq3Wd/sphHg+BCvjNpTkmqCSn1tq3goDjKzewrs4qw==
-X-Received: by 2002:a05:622a:41:b0:458:2b7b:c45c with SMTP id d75a77b69052e-4653d6280c6mr235109651cf.39.1732562303245;
-        Mon, 25 Nov 2024 11:18:23 -0800 (PST)
-Received: from newman.cs.purdue.edu ([128.10.127.250])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-466a41010dcsm1193741cf.23.2024.11.25.11.18.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 11:18:23 -0800 (PST)
-From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-To: krzk@kernel.org
-Cc: sylvester.nawrocki@gmail.com,
-	mchehab@kernel.org,
-	dron0gus@gmail.com,
-	tomasz.figa@gmail.com,
-	alim.akhtar@samsung.com,
-	kyungmin.park@samsung.com,
-	laurent.pinchart@ideasonboard.com,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiashengjiangcool@gmail.com>
-Subject: [PATCH RESEND v3 1/2] media: mipi-csis: Add check for clk_enable()
-Date: Mon, 25 Nov 2024 19:18:18 +0000
-Message-Id: <20241125191818.30708-2-jiashengjiangcool@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241125191818.30708-1-jiashengjiangcool@gmail.com>
-References: <20241125191818.30708-1-jiashengjiangcool@gmail.com>
+        bh=mFcDtbEmq7ZVjInvpisCNfzHQPlIXkFOIPRXlH+eeHs=;
+        b=s6fa6iy03zz6FpKrFGG8JEwnb++ZOTdySk82UjanR+BfcU3y/xJJK2lrSIuopJ4kp6
+         WXqM5YM4hNYA25HiU4yFJQn0x8JlP0zFMaTJqZzrN4WdWDmAgXjb4HXnZLinDndDf9U/
+         wPxSzQa9U4iSPG/XSsUiW9OTmdS3+gwR21HLAOl0kHj5KR3/OzQIS5LmHejvRyHBbQz8
+         HivxN89P5oaa7PueI8XWs0skeeaXFM37VPGq6enCWnG3fj7OpKdWBp7wU8Z378pph/Au
+         TsVlMypsMP0IU1CAn8LDmZ/SRpU4uf9ZdHPH3uuvlS9RX4LDxD1fstYb36+fNtgf3wPV
+         t8hw==
+X-Forwarded-Encrypted: i=1; AJvYcCW3Io5B4pxHuMFUSPgDstMh6Q3V3HnoyOw9OHFO0sL9x4SubWg4aXU14tLq2gitqmFKs+0/6q4VMZFfvQs=@vger.kernel.org, AJvYcCXVMlQDS1/YvugRym4660LgbwyoXvJkRvcPhrwE2rCbNHDutswf/QvXmjgbWFUICFQiPxseT6JoZPUWnVI=@vger.kernel.org, AJvYcCXozSu8OaUvXaGZ0WYormQf6UFTrgDRo1fflhI0ZWmc41o5JSo3oMETpTRiWDVOzc1mlYBk7vhViXjpSypVLGDyieQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKZZw6a2noI6sca4dNYZozHSOR/fgnndXn0yCL/9YFnU4GnytU
+	n+FUi7kKvKaD+Q6Cw2nRI2QzNJX2v2ioj3QHaJ9IWA27KeT48ZpEwVInX0wLHOF2KP3dTPosfbg
+	7hF8J/xSeTqEodxeusUFYw8c+yrw=
+X-Gm-Gg: ASbGncue8bPEmpyNo4p1A9kWJZFRggHB+PmZeDaDYdm2zLEDwbvgzIF5OBgOofP8Uwv
+	0P9+Ey/fldVsDq/xjtZQyoLBtZ8MzkjJ/
+X-Google-Smtp-Source: AGHT+IG9FRlCMVjbtG4tYT5ULavoFaSRxzvNtQwBm2toqh3xQ8KXyaHmRc8ym5w+bW67nXYMJSqEy467XPS2DlqbNmc=
+X-Received: by 2002:a05:622a:2ca:b0:461:313e:8868 with SMTP id
+ d75a77b69052e-4653d646ebbmr209731321cf.50.1732562374448; Mon, 25 Nov 2024
+ 11:19:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241123212624.6237-1-jiashengjiangcool@gmail.com>
+ <b3e2ed68-092f-4ccb-a945-19e19d5c8071@kernel.org> <CANeGvZXjUUOhySGhMCXDp3yfTtuOKdXgMa7DTtZDpq1iXkkfhg@mail.gmail.com>
+ <aeded772-3471-44f7-bdb8-d820ddcf0c6d@kernel.org>
+In-Reply-To: <aeded772-3471-44f7-bdb8-d820ddcf0c6d@kernel.org>
+From: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+Date: Mon, 25 Nov 2024 14:19:23 -0500
+Message-ID: <CANeGvZUkFqnLJW2aPvxCvSoQZ4EoV-QKc5WeLtimzGspgWpJGA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: camif-core: Add check for clk_enable()
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: sylvester.nawrocki@gmail.com, mchehab@kernel.org, dron0gus@gmail.com, 
+	tomasz.figa@gmail.com, alim.akhtar@samsung.com, kyungmin.park@samsung.com, 
+	laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add check for the return value of clk_enable() to gurantee the success.
+Hi Krzysztof,
 
-Fixes: b5f1220d587d ("[media] v4l: Add v4l2 subdev driver for S5P/EXYNOS4 MIPI-CSI receivers")
-Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
----
-Changelog:
+On Mon, Nov 25, 2024 at 2:27=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 24/11/2024 22:10, Jiasheng Jiang wrote:
+> > Hi Krzysztof,
+> >
+> > On Sun, Nov 24, 2024 at 5:50=E2=80=AFAM Krzysztof Kozlowski <krzk@kerne=
+l.org> wrote:
+> >>
+> >> On 23/11/2024 22:26, Jiasheng Jiang wrote:
+> >>> Add check for the return value of clk_enable() to gurantee the succes=
+s.
+> >>>
+> >>> Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC=
+ series camera interface")
+> >>> Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+> >>> ---
+> >>>  .../media/platform/samsung/s3c-camif/camif-core.c   | 13 +++++++++++=
+--
+> >>>  1 file changed, 11 insertions(+), 2 deletions(-)
+> >>
+> >> Nothing improved...
+> >
+> > Sorry for the confusion. This series consists of two patches.
+> > Only "PATCH 1/2" has been modified, while "PATCH 2/2" remains unchanged=
+.
+> > As a result, there is no changelog for "PATCH 2/2".
+> It is not correctly versioned. Version is per entire patchset, simply
+> use b4 (or look how any other patchset is done via lore.kernel.org).
 
-v2 -> v3:
+Thank you very much.
+I have correctly versioned and resend the v3 patches.
 
-1. Correct alignment to match open parenthesis
-
-v1 -> v2:
-
-1. Power off the phy and disble regulators when clk_enable() fails.
-2. Remove a redundant space before the label "unlock".
----
- drivers/media/platform/samsung/exynos4-is/mipi-csis.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/samsung/exynos4-is/mipi-csis.c b/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
-index 63f3eecdd7e6..452880b5350c 100644
---- a/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
-+++ b/drivers/media/platform/samsung/exynos4-is/mipi-csis.c
-@@ -940,13 +940,19 @@ static int s5pcsis_pm_resume(struct device *dev, bool runtime)
- 					       state->supplies);
- 			goto unlock;
- 		}
--		clk_enable(state->clock[CSIS_CLK_GATE]);
-+		ret = clk_enable(state->clock[CSIS_CLK_GATE]);
-+		if (ret) {
-+			phy_power_off(state->phy);
-+			regulator_bulk_disable(CSIS_NUM_SUPPLIES,
-+					       state->supplies);
-+			goto unlock;
-+		}
- 	}
- 	if (state->flags & ST_STREAMING)
- 		s5pcsis_start_stream(state);
- 
- 	state->flags &= ~ST_SUSPENDED;
-- unlock:
-+unlock:
- 	mutex_unlock(&state->lock);
- 	return ret ? -EAGAIN : 0;
- }
--- 
-2.25.1
-
+-Jiasheng
 
