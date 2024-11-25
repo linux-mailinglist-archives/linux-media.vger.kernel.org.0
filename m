@@ -1,121 +1,122 @@
-Return-Path: <linux-media+bounces-21954-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21955-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B688B9D829D
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 10:39:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EFC9D82FA
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:02:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BC2D2877F8
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 09:39:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BA25B261A7
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 09:41:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33F4C196D8F;
-	Mon, 25 Nov 2024 09:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AA28192B99;
+	Mon, 25 Nov 2024 09:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EfFPD5Oc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ViisyC8Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B691819258E
-	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 09:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5262119258E;
+	Mon, 25 Nov 2024 09:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732527363; cv=none; b=m/MVfKI8kLo4bcI6R5LbOohtAWvNEVcqGg6lA/AzAXvVWKbPgp7DLk2e0kty706D7lxA6o3kk2hs4BcOJXm0DXZN2/87ix0Uq/S0QNC+LBEAceofypCx1VN8aUjH18zHqufqb9QDEqP+kFij/dxayV+lzeTBXZPuuOFG2b8si7A=
+	t=1732527607; cv=none; b=ZGScIc/mvd+o6Ihq2tSczUHO8Kks9JlcKR2nU0jlW3ZOEA+pSWMtOsYYiGBJlJvjZ81ogT48tBPnLD1RdMcPkAeRzdE15b7QsrtjdVu1oJ8vsUAmf1gZZs1QbCAIp4lSp7Pw5Cw8N9ZBn0oGEIXl+fro1M+Q0giuBXJadES+yGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732527363; c=relaxed/simple;
-	bh=SN1ke6h10N1tpIjFi42fcVYTTBA9mbS9XqPXAsZIIgU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=srtBFS4XlpYCkEyhyp5DKbmAQeLqKEZa8RM4mEHZ+rCGKqktvUSHYSF5U2HP0nVW5rHfpbWSrzPDAXnqCySBY2UNtBZYxmzeIuEOsvCqzrqGIibk8zzRbPAik1JmJkFeWsUk3xVzIEb1bKoQWRblhB2Gf1lgDDFGCvbl/2bO0MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EfFPD5Oc; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4349e4e252dso8152895e9.0
-        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 01:36:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732527360; x=1733132160; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SN1ke6h10N1tpIjFi42fcVYTTBA9mbS9XqPXAsZIIgU=;
-        b=EfFPD5OcRby8/avfdKh+W4e1LF5kp1IiC3AVaUpPdRVW0T4K5dcKT+aqcxMo+Jfcip
-         9b2hgOtXTY7D2OX4LNZR9S1KLT9IZGDiKsZlmTloQHt9jOWmsRcvwXwhUn8+r0va1ZjS
-         rJ6D2kIJga+EqekfQkH9W/OrIsWWOrP08zb8uu4b/89uvs7krbfYgpMe6VK4Qg/I1u8j
-         HxUAYlOGv68XJ5jrEYQm9LXROnMuKCpRUXkZoXJLd+loA6JcZ9C2fTGQyMe9FzqFYGc0
-         iD9hYl+dbzuGLQZLUeViMnjepLBglwqla9RxSMsCzNMG+7qLkruQ9J/XaW6BmcC1tMd0
-         U16w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732527360; x=1733132160;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SN1ke6h10N1tpIjFi42fcVYTTBA9mbS9XqPXAsZIIgU=;
-        b=CVn5C4aIbtCVA0eBMpoCDMQRAaTdV8vK0gzUjuTSRfsm4tBcUrdtLGMaGULQVs7Kzj
-         2TsryXDRlXQ30Y0Ooutv99zGhrfiAYmSEF7yI0Ji2Gy/FyulGdJKPdkYt1M+wczIVrOX
-         v7bhYbCmG//MJrQ1hxJGP4IdW9TWnZ86HIN1xix/LSoIQ/ztgp1j67ORv2sShwFAbt7L
-         RcIz+JfD4rgGBMO5AF2pc+vqOY3g+Lfxr2gTO02QqIp3VaO4aCMIr/WUjchvwzqGW3IB
-         T5BJiK3I1cmJN5Iq7jz+VDX1kl64b694xXcj4Qw5oWxkyv83HmpfFaR77Nz7X3rXxTb6
-         d5Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCW9SBLzw5VAOcctRHK/Zoh8UX9DB0uRsgzT5s48OO0AfXIsgQ63z5h9fofH5yb9XpE8/NNa4nFUO7SQaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0S60vqZwJF3Uk7s0Nj0kfVVfjdwVMbvD0hpLt7QY9D6MHCA0p
-	tyqoXgvykdZfPTWkrQicd1VVIHvJ4tQ0eSAnDqlB+d17SPay4c3QtckKjb7Arro=
-X-Gm-Gg: ASbGncsYzzv60tubPSTa1e14NnOsRwOzEDvP1bwoX35H/Kl3QZb4ykcXbKz0cJUA2Ax
-	ZMvkmhg7L1cB6hpC6tc8oIbB+qpCKoW3Vw5kkvC2DTQaRrNlTDOhtJ1SXj5ewUoIqZCh4JwWVIV
-	TztHo/25NBPZvnbwhDMujVGK+pD8cgEYzEaaC+coJJd8mjqehfhSjRL1DNd4zWDkpb5KuQjXqCE
-	+XVIaR3JdenDr2QtyJtS9DUfDJicaAjaFD58UQ5SgMuQHq8PXxAe4eqvctWLlQ=
-X-Google-Smtp-Source: AGHT+IGGanB6M26FvTKDaJXED8zAo9zRUZhfKFIRCk7WD5/Sjbv4DRD3EJV+JM26XNm588PaSZdgMQ==
-X-Received: by 2002:a05:600c:4704:b0:431:5a0e:fa2e with SMTP id 5b1f17b1804b1-433ce49128cmr97088715e9.21.1732527360218;
-        Mon, 25 Nov 2024 01:36:00 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349dd9a597sm45357745e9.5.2024.11.25.01.35.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 01:35:59 -0800 (PST)
-Message-ID: <970a37f0-ccb4-4c23-972f-4100cb6c4e81@linaro.org>
-Date: Mon, 25 Nov 2024 09:35:59 +0000
+	s=arc-20240116; t=1732527607; c=relaxed/simple;
+	bh=fjvHCtsrcUmA++YpYkQVAoscDYRnPiL5YwSB8toYJko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C8sfqdSf9QzWkCZbOxq/MDxzg1QfZ/Xnu54/B47xTaIIaBTZqoCpRoF2YJ7lvTgCWBb6t8/WjYux09dFSqwCcvealxgxMBRJs41xhyR2Z+Fy026SmKCixS6ZWYRIupQ82JLAPgmroznHkGplYel2zaXzgdfYvxR20KXLaPyeQmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ViisyC8Q; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63C924AD;
+	Mon, 25 Nov 2024 10:39:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732527581;
+	bh=fjvHCtsrcUmA++YpYkQVAoscDYRnPiL5YwSB8toYJko=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ViisyC8QDyeKlOdGMoyCDkkUz9lS2mUe7RDbQolPD0vVgAwat79kxKWiZ0y+sV7yY
+	 a8Cxznb39RqLQ7SllZskTPC3A3U3DbaDDeRwJTzfr6t+Vnlh+Oqch9RH39Y+X51wiu
+	 zNFm6iD3tPTyMW8JbNn0OrO5dLB33347M0i0Y1no=
+Date: Mon, 25 Nov 2024 11:39:53 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: CK Hu =?utf-8?B?KOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	Andy Hsieh =?utf-8?B?KOisneaZuueakyk=?= <Andy.Hsieh@mediatek.com>,
+	Julien Stephan <jstephan@baylibre.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>
+Subject: Re: [PATCH v7 4/5] media: platform: mediatek: isp: add mediatek
+ ISP3.0 camsv
+Message-ID: <20241125093953.GM19381@pendragon.ideasonboard.com>
+References: <20241121-add-mtk-isp-3-0-support-v7-0-b04dc9610619@baylibre.com>
+ <20241121-add-mtk-isp-3-0-support-v7-4-b04dc9610619@baylibre.com>
+ <a9aa69dc8d025f0b133f33de6428ffec5a881a2a.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Use APIs in gdsc genpd to switch gdsc mode for venus
- v4 core
-To: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "Taniya Das (QUIC)" <quic_tdas@quicinc.com>
-References: <20241122-switch_gdsc_mode-v1-0-365f097ecbb0@quicinc.com>
- <f7c31279-8492-484c-94c4-893d98f53afb@linaro.org>
- <2212eace0ed44c439da117fb05f2b1db@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <2212eace0ed44c439da117fb05f2b1db@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a9aa69dc8d025f0b133f33de6428ffec5a881a2a.camel@mediatek.com>
 
-On 25/11/2024 03:49, Renjiang Han (QUIC) wrote:
->> What help do you need ?
-> Since the GDSC flag has been changed to HW_CTRL_TRIGGER, the v4 core needs to use
-> dev_pm_genpd_set_hwmode to switch the GDSC mode like v6. The video codec has
-> been verified on SC7180 and the result is OK. The same verification has been done on
-> the latest QCS615 and the result is also OK.
-> In addition, since the videocc of QCS615 uses the HW_CTRL_TRIGGER flag, QCS615 and
-> SC7180 both use the v4 core in venus. So the v4 core needs to use
-> dev_pm_genpd_set_hwmode to switch the GDSC mode like v6.
+On Mon, Nov 25, 2024 at 06:59:59AM +0000, CK Hu (胡俊光) wrote:
+> Hi, Julien:
+> 
+> On Thu, 2024-11-21 at 09:53 +0100, Julien Stephan wrote:
+> >
+> > From: Phi-bang Nguyen <pnguyen@baylibre.com>
+> >
+> > This driver provides a path to bypass the SoC ISP so that image data
+> > coming from the SENINF can go directly into memory without any image
+> > processing. This allows the use of an external ISP.
+> >
+> > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+> > [Paul Elder fix irq locking]
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
+> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+> 
+> [snip]
+> 
+> > +static const struct mtk_cam_conf camsv30_conf = {
+> > +       .tg_sen_mode = 0x00010002U, /* TIME_STP_EN = 1. DBL_DATA_BUS = 1 */
+> > +       .module_en = 0x40000001U, /* enable double buffer and TG */
+> > +       .imgo_con = 0x80000080U, /* DMA FIFO depth and burst */
+> > +       .imgo_con2 = 0x00020002U, /* DMA priority */
+> 
+> Now support only one SoC, so it's not necessary make these SoC variable.
+> They could be constant symbol now.
 
-I think you need this tested on sdm845.
+This I would keep as a mtk_cam_conf structure instance, as I think it
+makes it clear what we consider to be model-specific without hindering
+readability. I don't have a very strong opinion though.
 
-I can do that for you.
+> > +};
+> > +
 
----
-bod
+-- 
+Regards,
+
+Laurent Pinchart
 
