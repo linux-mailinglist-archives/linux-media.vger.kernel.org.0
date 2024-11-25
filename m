@@ -1,237 +1,340 @@
-Return-Path: <linux-media+bounces-22036-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22037-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE78B9D8C35
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 19:29:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D2A9D8C59
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 19:41:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78765B24D89
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 18:28:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BBC5DB265A9
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 18:41:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6AD1B87F4;
-	Mon, 25 Nov 2024 18:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DE2E1B87F9;
+	Mon, 25 Nov 2024 18:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O//fre4U"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="XTDj87Zb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592771B3943;
-	Mon, 25 Nov 2024 18:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805801B652B
+	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 18:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732559333; cv=none; b=B/azp2eDvkwNBap4RaZ7I/t1BfkEfY2cS5Bcm+IfwKH27Ww36KbYt9yo41bPBa3J79nf77BmXwhyoAD8/yLj9yvXG3nMnG7ewWPnqbMUIEYC4LS13HaFc+G8ErNS1rtINsLTd4/5lfDZ1TjCl5Dtgwub+ivDWlYzbtR5WNWHfnI=
+	t=1732560069; cv=none; b=Inr4rrDNkrdc0iusjXDkjazMeFLkGP9WcLDZMGNFSct0mwfPvXpr7hQLW1FLVaIwTO9p2bQqbmgGAUlDWdzUsmtTkwF8TdX3itkYV+Q2x7ApaBW3LEbB4xTmNZJGIHBwuwbiL1WxYjUvxaBra17uT4tWCSe6RhKHl6ZzyK4bW60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732559333; c=relaxed/simple;
-	bh=D8laCktWSzUlXhABkG7jKvUcmD7Be2rQ6+5JNtMNhSc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mxeJAD4ha8pBzPDUhLvc2cRLF1ExIlNakbwL03EqAFJULOEoHP6DijTlGjJuWuXNYCeHlR7+zJUn57C+pOqJR8h7IoLUJBTEt2YWVqfJpGS2h8rbQCqLdVNTJpksmZ1s1IdpiN7kekOGtu5jo9a2kc5vqwem5ZnTaNsDKej4sGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O//fre4U; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43162cf1eaaso60169615e9.0;
-        Mon, 25 Nov 2024 10:28:51 -0800 (PST)
+	s=arc-20240116; t=1732560069; c=relaxed/simple;
+	bh=SUDiQKRFDN1BjNqtEC61fk5Z8/kVvLrWLJg29n0FvZE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bbwh9+R9v5J3qTfLzPQ8lEoLXPhofDZl2+qNlh5MR1MWXS0cDuS0CwjMmHFBQEXnfYceHJ65URAXJPpirleT3pkQ5UC4HzhfGdjy3Qa4c+y0ffHKMYCyNkGaMrb4UHi5Cu0EMkyrnSAdAT4McShLpwft2MfPjtCnbP1LbT6R1WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=XTDj87Zb; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e38939a89bfso4372026276.3
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 10:41:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732559330; x=1733164130; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZyqdLHVZPxJDxwmJq7647HK+yLv6I3aLhcKHensnyPM=;
-        b=O//fre4U5pFG1mER2vI2c+djY1i1zPZ0Hf8IlXXMOY2EDJscGOO2iWNboCO6XxRxLk
-         6tqRcHra2liCOgY0ksCRsOMI5KGHjZ/mYZqJ3/7vMASC/5WJx6Ws8hV8kT04+3+TLrNp
-         4JixD7+5s1s6H07nQGJ/pDGYmLyp9nn4TcJZvwjq7zTeaxTFV5kTrhxXwfeDP/mCTjEq
-         WgAX7B7wKfa2jccAN99ADmvpLuyCcYfZrvI7jGY3kPX4P4fsXRB0lX6E97ZYuW4t3sT3
-         5Nqr/eXmvL86jRdvui7tpxzAEQMw8PxbJN+ElsJ3mPyoEntW5nMGKI+bykz9pODOTo34
-         zLYQ==
+        d=raspberrypi.com; s=google; t=1732560066; x=1733164866; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iRe4VVt+TQ2eWCb5MB66+BQG4dKdvmnnhxZiiVFk5rY=;
+        b=XTDj87ZbbkBKZMF3tcwrtKQFxQEf1XMN/KoocYTqMSkaeklzYG/9wfuKpPctSvPJJF
+         8CjwQ3cz49Y3oFKeiLeBzP6chf3N4VBNjIkuX1ZCKbJSkaYP1h9Og2ZmKbJTk/C2OLpS
+         4esRdRRVlujtjTW8Bz5bQv5S1wbg9en25VRphv8SkK6n0kpRimUAtJDbOcLv4qji+osg
+         bKPL3y13+TnLnNSh5rvunWkIYG6WV/x5qojDyV4rNgQtzGUOhfdYuqg2fL99Ba6Fdq9u
+         i0Jo0ukKbqg9Ya2NU+covZv/0BhILAzZY/nTsqUuMZ6+/ywxTQPhr2rvyl+sc2mGQUEK
+         9tDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732559330; x=1733164130;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZyqdLHVZPxJDxwmJq7647HK+yLv6I3aLhcKHensnyPM=;
-        b=YwLjD30+4lz/HkF1nkZnG/0rpu3HXKfvtjzsKVKGXkuL0uOCqn4zIYBOCT59Z7ObdO
-         FKdTMD/9C05kGDsvJ2mUoP54zYAaResz3ERByL8Xll+6YLAkIXBTvcx25VE6y5aaLBDD
-         asNmygUebrsEZlUjYPSGjtZrFJRyKSPXIwNmAYYTz4jruWvt4Pcf3a5wA5zcPDU0D7nh
-         b1gfe6TpNcbtxCrkZBZaT1Np3GVSm+9CAlJ2xLUENKsXBO3U6ZVKRTmMN54gfOl0/enz
-         nRDOsjZNiboAM+elnCPXzbQxT6hJbnmPDRAsLpyBhonS7QKV6ivLh2v0oKWr49aOkbrE
-         J1Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCUfyaDsLtAiuloSIPMb1x566ZBSYuamxerHnJU7TbbOReRx88K2B9FwwXrwgydxjQGE6biK85XvRSRRaA4=@vger.kernel.org, AJvYcCVVoIhOGsK8uDvrDSa0anPrddamfm0VM5syoVTfw+zuAIU6DRAdbsKN0NasFzUhshRNFgDySLRGCM+dhUc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZdiXdvxomDb+OG+Ci6BY24f5aT4E3ZFnBF/WOyx4WxCj6IJED
-	pryDtLckrKsR1jq9v0zufbOf+RuByN/fhAdLXuq5BuzRK0dFOkrl
-X-Gm-Gg: ASbGncvwjh7v/vLZVYDEGZiXYb5K0Uoyd0QBo9SJiAW8AObw51CitozkjWWbxb8FW+d
-	qSWSKmOCvtFCbvMbwEcswaPPT5dYTN8K4tdBIOkY8jWpgkgZXDAWhnhYL7PLbJAU1bEN1FM1P1h
-	Shh2z51ZiOg3JsXHfeitBn0l8ZMxZQLtSUJ5DHaTZ3uC80L0zr6CalUjp4jdwjfj0i8A+I0QVw+
-	+4Lk/AFysLDxcsmz3W5c5eke3ZVlV5X9lprv4nLjIdrUw/Nu4c91oHW
-X-Google-Smtp-Source: AGHT+IHSYDPM5gQJiCauc766rZd/ZvCZCpFfW6kx0MpEDo8T2UHbJ0ttiRqCdLS2Ut/Ssd1X6dus9g==
-X-Received: by 2002:a05:600c:1909:b0:431:9a26:3cf6 with SMTP id 5b1f17b1804b1-433ce41047fmr150455505e9.4.1732559329502;
-        Mon, 25 Nov 2024 10:28:49 -0800 (PST)
-Received: from [192.168.0.100] ([188.24.69.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349b70aa23sm77962825e9.14.2024.11.25.10.28.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 10:28:49 -0800 (PST)
-Message-ID: <456ed6cb-dbcb-41da-b906-671f4e9255b9@gmail.com>
-Date: Mon, 25 Nov 2024 20:28:49 +0200
+        d=1e100.net; s=20230601; t=1732560066; x=1733164866;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iRe4VVt+TQ2eWCb5MB66+BQG4dKdvmnnhxZiiVFk5rY=;
+        b=R3AvJb7DTtrQsaflLiHzxCiZZiopRN3pYhvSX2yc2ZpCRiaqaa6xok6zjZtm75WgTC
+         nep+jS6vIzk07IYeln27D47Efdc3BObHCCov8TlUrkhX9NnLcFZ3MifCXVG7isaxVNtB
+         J1Oh+xzzJcC6O7d/syXlxj9Z6P9B5812L65PrRosS5i4ahe2obFTWSvrsL+/UKDsjSgx
+         kn8Q+XmoGjTxuQNX3qTB9XqKu0Rg3X4VrCadzJseYB3R2Gj6Hs1iS5JBai6otGRNVDWu
+         GprNaK/cWSW0J87BE+qC4lYywoV0OaZZRrFl4fmqWQaH3N5jPPiOkSaJurHaPf1ILgSn
+         vxbg==
+X-Forwarded-Encrypted: i=1; AJvYcCX71bL66QSLD+tSt5OQmAKJcv8kzftRDMXfqEqaRmda56SYGK2Z7ffHT0Q2j4JnlKM+1vVREEhBwKpt+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzthld41kEUNtnN6FckYHH0YmGqJEizisk5+s6w+MKufYHLSQU3
+	4ei10ucya39IYwbt5YuDAxJPVl3NCIoVTCWl+3ZSWi93TSK6W0DTwL4lZ1ocQsLG5R6NyX5yfwq
+	Cv1xFdqOKdsinPIPRLvjhicYv5G19vrIypN1TgA==
+X-Gm-Gg: ASbGncsABDn2vF4BzMH2ULzY7PHYLoysSOCVrZBOkTeAlcToAhaWydE+CI5usaF/mqs
+	1S8rDtVPKy4yjm0oIxn0wMiz8JeYhd1o=
+X-Google-Smtp-Source: AGHT+IGur/o1/sls3dNR1LW+jxOHQ/ZpbYSnYTUyAAmeqYYLV6d4Z0oQt742IIr+7HG0aXAWncHA7hSimXuTRlXQEXQ=
+X-Received: by 2002:a05:6902:1885:b0:e38:930a:a4af with SMTP id
+ 3f1490d57ef6-e38f8bea594mr12423717276.45.1732560066352; Mon, 25 Nov 2024
+ 10:41:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: v4l: subdev: Prevent NULL routes access
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241122143717.173344-1-demonsingur@gmail.com>
- <20241124064929.GE19381@pendragon.ideasonboard.com>
-From: Cosmin Tanislav <demonsingur@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20241124064929.GE19381@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241125-imx219_fixes-v3-0-434fc0b541c8@ideasonboard.com> <20241125-imx219_fixes-v3-3-434fc0b541c8@ideasonboard.com>
+In-Reply-To: <20241125-imx219_fixes-v3-3-434fc0b541c8@ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 25 Nov 2024 18:40:50 +0000
+Message-ID: <CAPY8ntDeHCHtM6O5iDvnXJSx9AcKw2C8HA6B4Fn2mObaH7URGg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] media: i2c: imx219: Scale the pixel rate for
+ analog binning
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	Vinay Varma <varmavinaym@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Jai
 
+On Mon, 25 Nov 2024 at 15:07, Jai Luthra <jai.luthra@ideasonboard.com> wrote:
+>
+> When the analog binning mode is used for high framerate operation,
+> the pixel rate is effectively doubled. Account for this when setting up
+> the pixel clock rate, and applying the vblank and exposure controls.
+>
+> The previous logic only used analog binning for 8-bit modes, but normal
+> binning limits the framerate on 10-bit 480p [1]. So with this patch we
+> switch to using special binning (with 2x pixel rate) for all formats of
+> 480p mode and 8-bit 1232p.
+>
+> [1]: https://github.com/raspberrypi/linux/issues/5493
+>
+> Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Co-developed-by: Vinay Varma <varmavinaym@gmail.com>
+> Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx219.c | 120 ++++++++++++++++++++++++++++-----------------
+>  1 file changed, 76 insertions(+), 44 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 970e6362d0ae3a9078daf337155e83d637bc1ca1..39b85cdee58318b080c867afd68ca33d14d3eda7 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -149,6 +149,12 @@
+>  #define IMX219_PIXEL_ARRAY_WIDTH       3280U
+>  #define IMX219_PIXEL_ARRAY_HEIGHT      2464U
+>
+> +enum binning_mode {
+> +       BINNING_NONE = IMX219_BINNING_NONE,
+> +       BINNING_X2 = IMX219_BINNING_X2,
+> +       BINNING_ANALOG_X2 = IMX219_BINNING_X2_ANALOG,
+> +};
+> +
+>  /* Mode : resolution and related config&values */
+>  struct imx219_mode {
+>         /* Frame width */
+> @@ -337,6 +343,10 @@ struct imx219 {
+>
+>         /* Two or Four lanes */
+>         u8 lanes;
+> +
+> +       /* Binning mode */
+> +       enum binning_mode bin_h;
+> +       enum binning_mode bin_v;
+>  };
+>
+>  static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
+> @@ -362,6 +372,36 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
+>         return imx219_mbus_formats[i];
+>  }
+>
+> +static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
+> +{
+> +       switch (format->code) {
+> +       case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +       case MEDIA_BUS_FMT_SGRBG8_1X8:
+> +       case MEDIA_BUS_FMT_SGBRG8_1X8:
+> +       case MEDIA_BUS_FMT_SBGGR8_1X8:
+> +               return 8;
+> +
+> +       case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +       case MEDIA_BUS_FMT_SGRBG10_1X10:
+> +       case MEDIA_BUS_FMT_SGBRG10_1X10:
+> +       case MEDIA_BUS_FMT_SBGGR10_1X10:
+> +       default:
+> +               return 10;
+> +       }
+> +}
+> +
+> +static int imx219_get_rate_factor(struct imx219 *imx219)
+> +{
+> +       switch (imx219->bin_v) {
+> +       case BINNING_NONE:
+> +       case BINNING_X2:
+> +               return 1;
+> +       case BINNING_ANALOG_X2:
+> +               return 2;
+> +       }
+> +       return -EINVAL;
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Controls
+>   */
+> @@ -373,10 +413,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>         struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+>         const struct v4l2_mbus_framefmt *format;
+>         struct v4l2_subdev_state *state;
+> +       int rate_factor;
+>         int ret = 0;
+>
+>         state = v4l2_subdev_get_locked_active_state(&imx219->sd);
+>         format = v4l2_subdev_state_get_format(state, 0);
+> +       rate_factor = imx219_get_rate_factor(imx219);
+>
+>         if (ctrl->id == V4L2_CID_VBLANK) {
+>                 int exposure_max, exposure_def;
+> @@ -405,7 +447,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 break;
+>         case V4L2_CID_EXPOSURE:
+>                 cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
+> -                         ctrl->val, &ret);
+> +                         ctrl->val / rate_factor, &ret);
+>                 break;
+>         case V4L2_CID_DIGITAL_GAIN:
+>                 cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
+> @@ -422,7 +464,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 break;
+>         case V4L2_CID_VBLANK:
+>                 cci_write(imx219->regmap, IMX219_REG_VTS,
+> -                         format->height + ctrl->val, &ret);
+> +                         (format->height + ctrl->val) / rate_factor, &ret);
+>                 break;
+>         case V4L2_CID_HBLANK:
+>                 cci_write(imx219->regmap, IMX219_REG_HTS,
+> @@ -463,7 +505,8 @@ static const struct v4l2_ctrl_ops imx219_ctrl_ops = {
+>
+>  static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
+>  {
+> -       return (imx219->lanes == 2) ? IMX219_PIXEL_RATE : IMX219_PIXEL_RATE_4LANE;
+> +       return ((imx219->lanes == 2) ? IMX219_PIXEL_RATE :
+> +               IMX219_PIXEL_RATE_4LANE) * imx219_get_rate_factor(imx219);
 
-On 11/24/24 8:49 AM, Laurent Pinchart wrote:
-> On Fri, Nov 22, 2024 at 04:37:12PM +0200, Cosmin Tanislav wrote:
->> When using v4l2_subdev_set_routing to set a subdev's routing, and the
->> passed routing.num_routes is 0, kmemdup is not called to populate the
->> routes of the new routing (which is fine, since we wouldn't want to pass
->> a possible NULL value to kmemdup).
->>
->> This results in subdev's routing.routes to be NULL.
->>
->> routing.routes is further used in some places without being guarded by
->> the same num_routes non-zero condition.
-> 
-> What other places is that ? Have you experienced a crash anywhere ?
-> 
+This feels wrong.
+imx219_get_rate_factor will return the factor based on vertical
+binning. I would have expected the pixel rate to change based on
+horizontal binning.
+You'd need a mode which uses different binning modes in each direction
+to verify that though.
 
-The other places are exactly the ones being fixed in this patch. I can
-probably reword it if it's unclear.
+(Updating exposure and vblank values based on vertical binning makes
+sense, as they are both in terms of lines).
 
->>
->> Fix it.
->>
-> 
-> A Fixes: tag would be good to help backporting.
-> 
->> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 46 +++++++++++++--------------
->>   1 file changed, 23 insertions(+), 23 deletions(-)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index cde1774c9098d..4f0eecd7fd66f 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -605,6 +605,23 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
->>   			     v4l2_subdev_get_unlocked_active_state(sd);
->>   }
->>   
->> +static void subdev_copy_krouting(struct v4l2_subdev_routing *routing,
->> +				 struct v4l2_subdev_krouting *krouting)
-> 
-> The second argument should be const.
-> 
+  Dave
 
-Will do for V2.
-
->> +{
->> +	memset(routing->reserved, 0, sizeof(routing->reserved));
->> +
->> +	if (!krouting->routes) {
->> +		routing->num_routes = 0;
->> +		return;
->> +	}
->> +
->> +	memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
->> +	       krouting->routes,
->> +	       min(krouting->num_routes, routing->len_routes) *
->> +	       sizeof(*krouting->routes));
->> +	routing->num_routes = krouting->num_routes;
->> +}
->> +
->>   static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   			    struct v4l2_subdev_state *state)
->>   {
->> @@ -976,7 +993,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   
->>   	case VIDIOC_SUBDEV_G_ROUTING: {
->>   		struct v4l2_subdev_routing *routing = arg;
->> -		struct v4l2_subdev_krouting *krouting;
->>   
->>   		if (!v4l2_subdev_enable_streams_api)
->>   			return -ENOIOCTLCMD;
->> @@ -984,15 +1000,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
->>   			return -ENOIOCTLCMD;
->>   
->> -		memset(routing->reserved, 0, sizeof(routing->reserved));
->> -
->> -		krouting = &state->routing;
->> -
->> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
->> -		       krouting->routes,
->> -		       min(krouting->num_routes, routing->len_routes) *
->> -		       sizeof(*krouting->routes));
->> -		routing->num_routes = krouting->num_routes;
->> +		subdev_copy_krouting(routing, &state->routing);
->>   
->>   		return 0;
->>   	}
->> @@ -1016,8 +1024,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		if (routing->num_routes > routing->len_routes)
->>   			return -EINVAL;
->>   
->> -		memset(routing->reserved, 0, sizeof(routing->reserved));
->> -
->>   		for (i = 0; i < routing->num_routes; ++i) {
->>   			const struct v4l2_subdev_route *route = &routes[i];
->>   			const struct media_pad *pads = sd->entity.pads;
->> @@ -1046,12 +1052,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		 * the routing table.
->>   		 */
->>   		if (!v4l2_subdev_has_op(sd, pad, set_routing)) {
->> -			memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
->> -			       state->routing.routes,
->> -			       min(state->routing.num_routes, routing->len_routes) *
->> -			       sizeof(*state->routing.routes));
->> -			routing->num_routes = state->routing.num_routes;
->> -
->> +			subdev_copy_krouting(routing, &state->routing);
->>   			return 0;
->>   		}
->>   
->> @@ -1064,11 +1065,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>   		if (rval < 0)
->>   			return rval;
->>   
->> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
->> -		       state->routing.routes,
->> -		       min(state->routing.num_routes, routing->len_routes) *
->> -		       sizeof(*state->routing.routes));
->> -		routing->num_routes = state->routing.num_routes;
->> +		subdev_copy_krouting(routing, &state->routing);
->>   
->>   		return 0;
->>   	}
->> @@ -1956,6 +1953,9 @@ struct v4l2_subdev_route *
->>   __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
->>   				struct v4l2_subdev_route *route)
->>   {
->> +	if (!routing->routes)
->> +		return NULL;
->> +
->>   	if (route)
->>   		++route;
->>   	else
-> 
-
+>  }
+>
+>  /* Initialize control handlers */
+> @@ -592,29 +635,12 @@ static int imx219_set_framefmt(struct imx219 *imx219,
+>  {
+>         const struct v4l2_mbus_framefmt *format;
+>         const struct v4l2_rect *crop;
+> -       unsigned int bpp;
+> -       u64 bin_h, bin_v;
+> +       u32 bpp;
+>         int ret = 0;
+>
+>         format = v4l2_subdev_state_get_format(state, 0);
+>         crop = v4l2_subdev_state_get_crop(state, 0);
+> -
+> -       switch (format->code) {
+> -       case MEDIA_BUS_FMT_SRGGB8_1X8:
+> -       case MEDIA_BUS_FMT_SGRBG8_1X8:
+> -       case MEDIA_BUS_FMT_SGBRG8_1X8:
+> -       case MEDIA_BUS_FMT_SBGGR8_1X8:
+> -               bpp = 8;
+> -               break;
+> -
+> -       case MEDIA_BUS_FMT_SRGGB10_1X10:
+> -       case MEDIA_BUS_FMT_SGRBG10_1X10:
+> -       case MEDIA_BUS_FMT_SGBRG10_1X10:
+> -       case MEDIA_BUS_FMT_SBGGR10_1X10:
+> -       default:
+> -               bpp = 10;
+> -               break;
+> -       }
+> +       bpp = imx219_get_format_bpp(format);
+>
+>         cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
+>                   crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
+> @@ -625,28 +651,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
+>         cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
+>                   crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
+>
+> -       switch (crop->width / format->width) {
+> -       case 1:
+> -       default:
+> -               bin_h = IMX219_BINNING_NONE;
+> -               break;
+> -       case 2:
+> -               bin_h = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
+> -               break;
+> -       }
+> -
+> -       switch (crop->height / format->height) {
+> -       case 1:
+> -       default:
+> -               bin_v = IMX219_BINNING_NONE;
+> -               break;
+> -       case 2:
+> -               bin_v = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
+> -               break;
+> -       }
+> -
+> -       cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
+> -       cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, bin_v, &ret);
+> +       cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, imx219->bin_h, &ret);
+> +       cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, imx219->bin_v, &ret);
+>
+>         cci_write(imx219->regmap, IMX219_REG_X_OUTPUT_SIZE,
+>                   format->width, &ret);
+> @@ -851,6 +857,27 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                 int exposure_max;
+>                 int exposure_def;
+>                 int hblank;
+> +               int pixel_rate;
+> +               u32 bpp = imx219_get_format_bpp(format);
+> +               enum binning_mode binning = BINNING_NONE;
+> +
+> +               /*
+> +                * For 8-bit formats, analog horizontal binning is required,
+> +                * else the output image is garbage.
+> +                * For 10-bit formats, analog horizontal binning is optional,
+> +                * but still useful as it doubles the effective framerate.
+> +                * We can only use it with width <= 1624, as for higher values
+> +                * there are blocky artefacts.
+> +                *
+> +                * Vertical binning should match the horizontal binning mode.
+> +                */
+> +               if (bin_h == 2 && (format->width <= 1624 || bpp == 8))
+> +                       binning = BINNING_ANALOG_X2;
+> +               else
+> +                       binning = BINNING_X2;
+> +
+> +               imx219->bin_h = (bin_h == 2) ? binning : BINNING_NONE;
+> +               imx219->bin_v = (bin_v == 2) ? binning : BINNING_NONE;
+>
+>                 /* Update limits and set FPS to default */
+>                 __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> @@ -879,6 +906,11 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                                          IMX219_PPL_MAX - mode->width,
+>                                          1, IMX219_PPL_MIN - mode->width);
+>                 __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
+> +
+> +               /* Scale the pixel rate based on the mode specific factor */
+> +               pixel_rate = imx219_get_pixel_rate(imx219);
+> +               __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
+> +                                        pixel_rate, 1, pixel_rate);
+>         }
+>
+>         return 0;
+>
+> --
+> 2.47.0
+>
 
