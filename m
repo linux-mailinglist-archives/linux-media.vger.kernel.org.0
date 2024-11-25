@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-21918-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21919-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D034C9D7B3B
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 06:35:57 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4269D7B3F
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 06:36:13 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91DBB2815BA
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 05:35:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B24C1162F11
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 05:36:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6168158218;
-	Mon, 25 Nov 2024 05:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76586189528;
+	Mon, 25 Nov 2024 05:35:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OJNA84Yi"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="c/tphbKV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C4282866;
-	Mon, 25 Nov 2024 05:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A37188587;
+	Mon, 25 Nov 2024 05:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732512925; cv=none; b=loPp0I6/0vNKN/XanXoEvsb3fubm/vmijy+4OvQ8DS7c1yi3dPTPPay54xF8bU/DirufGtBnc10lDeBB7FrdVJRpnHhUlb6fdf/0jAUoialH74SlWBOXUyix3F6Xd/Rvl5Y548oA+zMJ8JgObsmPtIvfiHBDYPAECzCuehEVG0A=
+	t=1732512928; cv=none; b=bhLWW0XzLictBf/62Af0pl7bQQJK2oELnfBmKLWftqukkj5XVNXdN2FTBQHqfjUP1zDCNCQuRRC5FMhqEPp5kunhWD1xRMtzzHlUy8p/cExhJNUNYsT+S0qzMsRED/e+idsGK4QmcFXmr3chSewEdZOSQze10QVydIxFhJLkrL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732512925; c=relaxed/simple;
-	bh=L5y+6FoBMfwDP8m7K2bNaPdAeIfvuJ65U28IdbYMD0c=;
+	s=arc-20240116; t=1732512928; c=relaxed/simple;
+	bh=2IAN0GkBPGdzI2DVRoi+bNAHMQKiOhqBBfc1P/mSgkI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=LQAeA+I60/EvNJOuYADjubtY9doeJby9VcrWtaSuvGZQLWfwXO5y0yFrWcEoHKAFmIyP9sWQslRYRZLNLFQLXR2w2E4OmNsVt6BtVT0u5oPqRfuFfkKarxOO61FEW8Dq3lpx8HZavpBBsDa4QxmNSsyHqMH612xntHKohs4YCq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OJNA84Yi; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:CC; b=Zgtvnpp9cQqsdQBZsxNj9lUnENTT6pc4Ek/UyPd4LCrlZOBaQ3Ff7X57wYB/0lSSjT64FZ52ycMj/THEakF/NSPZuWyy1Y6qh93hETd38ZRcKF8hHdEJqeBEjRNnvfsbYW1t5fM9ApBsTq5xD+PgiInLqK/AFQan+3OA8GCX5K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=c/tphbKV; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AOMcQW8020148;
-	Mon, 25 Nov 2024 05:35:18 GMT
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AONKBae000388;
+	Mon, 25 Nov 2024 05:35:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	DHhZykte0a7xHBxliiaIP4GsdghcPE/ydPEdQu85y/I=; b=OJNA84YiSYVfoL7q
-	v0ZpugKnGy4TvP1/ARXcYZN+Xl5Kto322vkUH3ul85JY+R6CYlAphP98vhI7NsXn
-	d7152BrvnicGl2BZB/4UGQza7Ly1On5DpHMtZlHA6NFGM9uo5njA6qF5y+vos6oO
-	UhNj8A9WPqLW8qLSne4aEkMiyhAgalofDS3jNBRBdlNFP9M/Sr7cccexBSLPdZ4c
-	jKwaM6HKWnRjtjCm+WtFj9YPA3AjupAxl+QvuZGEMV1Oiocifa6DfoBxe+2VLbZS
-	Un0K3ezgE9Cyl9SIsAVdNGQNtd4yO0ECwUeaEaTORAIzegW8eMq/I0slLy2KK/ao
-	TKqgVA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4334dmuq9t-1
+	hxT1CXGpL+q39AIXGREm3YgkjDQb7tBNeBjYiXUmYpE=; b=c/tphbKVPvGjTGu7
+	InwdOj/dwgMLLJ5pj+2NDmCd1Pka/EQppSFbYKxV7pzwbObMCyulkiECoxjXRGVI
+	taUk5XS8lwOYxwbeZbyC1DtMSQCDb//nIqEP6Fe8fPkKz+GTaXqt/QtvLP+zSQXM
+	89JSYZHiPOvpU+74Y/oh5AllwwPGKLumk4mgkt/XGQpGrSODpiA5lAyIoHwYD1JT
+	rN+CatANt5gjkLWu3Kinq482VHGO/ZMZQbM9kg8/b6pmaQS5MrjbroJB46W35U/j
+	XET0eRFPn9C/xaWz70O5dpmT0yoUuVklcAcHnr2wiipyWT8e9BSeoJI7PBPRO4yF
+	VMGOqw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4336mxbg05-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Nov 2024 05:35:18 +0000 (GMT)
+	Mon, 25 Nov 2024 05:35:22 +0000 (GMT)
 Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AP5ZHUM002405
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AP5ZKGk031802
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Nov 2024 05:35:17 GMT
+	Mon, 25 Nov 2024 05:35:20 GMT
 Received: from hu-renjiang-sha.qualcomm.com (10.80.80.8) by
  nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 24 Nov 2024 21:35:13 -0800
+ 15.2.1544.9; Sun, 24 Nov 2024 21:35:17 -0800
 From: Renjiang Han <quic_renjiang@quicinc.com>
-Date: Mon, 25 Nov 2024 11:04:50 +0530
-Subject: [PATCH v3 2/4] media: venus: core: add qcs615 platform data
+Date: Mon, 25 Nov 2024 11:04:51 +0530
+Subject: [PATCH v3 3/4] arm64: dts: qcom: add venus node for the qcs615
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241125-add-venus-for-qcs615-v3-2-5a376b97a68e@quicinc.com>
+Message-ID: <20241125-add-venus-for-qcs615-v3-3-5a376b97a68e@quicinc.com>
 References: <20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com>
 In-Reply-To: <20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -86,104 +86,139 @@ CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         Renjiang Han
 	<quic_renjiang@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732512906; l=2956;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732512906; l=3011;
  i=quic_renjiang@quicinc.com; s=20241001; h=from:subject:message-id;
- bh=L5y+6FoBMfwDP8m7K2bNaPdAeIfvuJ65U28IdbYMD0c=;
- b=I58/G+aXm4pNxJSBbPkYQuFp/JosXg1FAwMJ7xSUKRgKNo94zllBZGrJ9Km5mSHseKWbueJX/
- I5D3UTdeTUuBMIetmf11bwrSppOY+zgrM/t+02gmvKJA9xSvgUskM2k
+ bh=2IAN0GkBPGdzI2DVRoi+bNAHMQKiOhqBBfc1P/mSgkI=;
+ b=F6jYi9+2P4lqXd6M0shnAuLkLEdJtMdXvDSBh6GcZ2g8/0EsaIffbK+83ucn2HPf9FSaLpYk2
+ V2fZdpvQKO5Ah99JxJjJ1wvpg6LO9lSSMJbkaJqHACZQYvw5K0t4zyK
 X-Developer-Key: i=quic_renjiang@quicinc.com; a=ed25519;
  pk=8N59kMJUiVH++5QxJzTyHB/wh/kG5LxQ44j9zhUvZmw=
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01c.na.qualcomm.com (10.47.97.35)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 9CgGXdD-CDB6mLtu6lR8xRcf--8XOT8q
-X-Proofpoint-ORIG-GUID: 9CgGXdD-CDB6mLtu6lR8xRcf--8XOT8q
+X-Proofpoint-ORIG-GUID: gJFmN9kOExkvRVSKxyYW-YV22HniflF2
+X-Proofpoint-GUID: gJFmN9kOExkvRVSKxyYW-YV22HniflF2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 mlxlogscore=999 phishscore=0 mlxscore=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0 spamscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2411250045
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
+ adultscore=0 impostorscore=0 phishscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=676 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411250045
 
-Initialize the platform data and enable venus driver probe of QCS615
-SoC.
+Add venus node into devicetree for the qcs615 video.
 
 Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
 ---
- drivers/media/platform/qcom/venus/core.c | 50 ++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs615.dtsi | 86 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 423deb5e94dcb193974da23f9bd2d905bfeab2d9..39d8bcf62fe4f72674746b75994cce6cbaee94eb 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -630,6 +630,55 @@ static const struct venus_resources msm8998_res = {
- 	.fwname = "qcom/venus-4.4/venus.mbn",
- };
+diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+index 06deb5c499fe83f0eb20d7957ca14948de7aab34..18ad4da5ed194458aded424560f45a3a9f3163dc 100644
+--- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+@@ -394,6 +394,11 @@ smem_region: smem@86000000 {
+ 			no-map;
+ 			hwlocks = <&tcsr_mutex 3>;
+ 		};
++
++		pil_video_mem: pil-video@93400000 {
++			reg = <0x0 0x93400000 0x0 0x500000>;
++			no-map;
++		};
+ 	};
  
-+static const struct freq_tbl qcs615_freq_table[] = {
-+	{ 0, 460000000 },
-+	{ 0, 410000000 },
-+	{ 0, 380000000 },
-+	{ 0, 300000000 },
-+	{ 0, 240000000 },
-+	{ 0, 133333333 },
-+};
+ 	soc: soc@0 {
+@@ -530,6 +535,87 @@ gem_noc: interconnect@9680000 {
+ 			qcom,bcm-voters = <&apps_bcm_voter>;
+ 		};
+ 
++		venus: video-codec@aa00000 {
++			compatible = "qcom,qcs615-venus";
++			reg = <0x0 0xaa00000 0x0 0x100000>;
++			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
 +
-+static const struct bw_tbl qcs615_bw_table_enc[] = {
-+	{  972000,  951000, 0, 1434000, 0 },	/* 3840x2160@30 */
-+	{  489600,  723000, 0,  973000, 0 },	/* 1920x1080@60 */
-+	{  244800,  370000, 0,	495000, 0 },	/* 1920x1080@30 */
-+};
++			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
++				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
++				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
++				 <&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
++				 <&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
++			clock-names = "core",
++				      "iface",
++				      "bus",
++				      "vcodec0_core",
++				      "vcodec0_bus";
 +
-+static const struct bw_tbl qcs615_bw_table_dec[] = {
-+	{ 1036800, 1987000, 0, 2797000, 0 },	/* 4096x2160@30 */
-+	{  489600, 1040000, 0, 1298000, 0 },	/* 1920x1080@60 */
-+	{  244800,  530000, 0,  659000, 0 },	/* 1920x1080@30 */
-+};
++			power-domains = <&videocc VENUS_GDSC>,
++					<&videocc VCODEC0_GDSC>,
++					<&rpmhpd RPMHPD_CX>;
++			power-domain-names = "venus",
++					     "vcodec0",
++					     "cx";
 +
-+static const struct venus_resources qcs615_res = {
-+	.freq_tbl = qcs615_freq_table,
-+	.freq_tbl_size = ARRAY_SIZE(qcs615_freq_table),
-+	.bw_tbl_enc = qcs615_bw_table_enc,
-+	.bw_tbl_enc_size = ARRAY_SIZE(qcs615_bw_table_enc),
-+	.bw_tbl_dec = qcs615_bw_table_dec,
-+	.bw_tbl_dec_size = ARRAY_SIZE(qcs615_bw_table_dec),
-+	.clks = {"core", "iface", "bus" },
-+	.clks_num = 3,
-+	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
-+	.vcodec_clks_num = 2,
-+	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
-+	.vcodec_pmdomains_num = 2,
-+	.opp_pmdomain = (const char *[]) { "cx" },
-+	.vcodec_num = 1,
-+	.hfi_version = HFI_VERSION_4XX,
-+	.vpu_version = VPU_VERSION_AR50,
-+	.vmem_id = VIDC_RESOURCE_NONE,
-+	.vmem_size = 0,
-+	.vmem_addr = 0,
-+	.dma_mask = 0xe0000000 - 1,
-+	.cp_start = 0,
-+	.cp_size = 0x70800000,
-+	.cp_nonpixel_start = 0x1000000,
-+	.cp_nonpixel_size = 0x24800000,
-+	.fwname = "qcom/venus-5.4/venus_s6.mbn",
-+};
++			operating-points-v2 = <&venus_opp_table>;
 +
- static const struct freq_tbl sdm660_freq_table[] = {
- 	{ 979200, 518400000 },
- 	{ 489600, 441600000 },
-@@ -937,6 +986,7 @@ static const struct of_device_id venus_dt_match[] = {
- 	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
- 	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
- 	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
-+	{ .compatible = "qcom,qcs615-venus", .data = &qcs615_res, },
- 	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
- 	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
- 	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
++			interconnects = <&mmss_noc MASTER_VIDEO_P0 0
++					 &mc_virt SLAVE_EBI1 0>,
++					<&gem_noc MASTER_APPSS_PROC 0
++					 &config_noc SLAVE_VENUS_CFG 0>;
++			interconnect-names = "video-mem",
++					     "cpu-cfg";
++
++			iommus = <&apps_smmu 0xe40 0x20>;
++
++			memory-region = <&pil_video_mem>;
++
++			status = "disabled";
++
++			video-decoder {
++				compatible = "venus-decoder";
++			};
++
++			video-encoder {
++				compatible = "venus-encoder";
++			};
++
++			venus_opp_table: opp-table {
++				compatible = "operating-points-v2";
++
++				opp-133330000 {
++					opp-hz = /bits/ 64 <133330000>;
++					required-opps = <&rpmhpd_opp_low_svs>;
++				};
++
++				opp-240000000 {
++					opp-hz = /bits/ 64 <240000000>;
++					required-opps = <&rpmhpd_opp_svs>;
++				};
++
++				opp-300000000 {
++					opp-hz = /bits/ 64 <300000000>;
++					required-opps = <&rpmhpd_opp_svs_l1>;
++				};
++
++				opp-380000000 {
++					opp-hz = /bits/ 64 <380000000>;
++					required-opps = <&rpmhpd_opp_nom>;
++				};
++
++				opp-410000000 {
++					opp-hz = /bits/ 64 <410000000>;
++					required-opps = <&rpmhpd_opp_turbo>;
++				};
++
++				opp-460000000 {
++					opp-hz = /bits/ 64 <460000000>;
++					required-opps = <&rpmhpd_opp_turbo_l1>;
++				};
++			};
++		};
++
+ 		videocc: clock-controller@ab00000 {
+ 			compatible = "qcom,qcs615-videocc";
+ 			reg = <0 0xab00000 0 0x10000>;
 
 -- 
 2.34.1
