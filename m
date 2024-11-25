@@ -1,163 +1,195 @@
-Return-Path: <linux-media+bounces-22034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22035-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535AF9D8B67
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 18:36:35 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9C0F1669D9
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 17:36:31 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F05B1B85EC;
-	Mon, 25 Nov 2024 17:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lpXsQtce"
-X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CECE89D8C30
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 19:26:51 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A46114D43D;
-	Mon, 25 Nov 2024 17:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D9B928A5DC
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 18:26:50 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5573C1B87FB;
+	Mon, 25 Nov 2024 18:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYJUBNaR"
+X-Original-To: linux-media@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D50F1B3943;
+	Mon, 25 Nov 2024 18:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732556186; cv=none; b=rksB12gOiEeoyjm+pj6xbnvVzKKupzhnOD9EkLK8RyyZ/Q/iBOJqQR1cWA8DwsYpoK+HQ3K6oZ/S8KfJ49s2ra3i2qZRIF3igfr2KyjiuSogbA7Kz8xIvLW+ea3e+9NMQaBmdJX9MDobYuIHjT+bx5HCgeUfLTDqSPmgF3lRxNI=
+	t=1732559202; cv=none; b=Ju6OLHgxz4VuUy8da4i2cG2+Ao7sHidLatyPqwqLAphaAWLtKNVJ6D/2XKJS8gTJ82Y2VvFMAxKwkPdOyhtz6b1NoOotBQQx6FYWCsbF7918/W6+WyJ5Vy31gQ2Lsnuuzk2VcnuJWY+oYZTjuhsSCYgajPXV49ZZiwqA04xKXjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732556186; c=relaxed/simple;
-	bh=AvqfISnEDH0te3fGy14dfdBmQ7eZEZWEwQrKZrCufAc=;
+	s=arc-20240116; t=1732559202; c=relaxed/simple;
+	bh=dIlnLnEZTpntVMOqJzYDY6xXyHJNFe5p+MNhUzw9vOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IvF7VinaBdWiyEfuomWbMXdiVOZlmz/ARqDaPLneTPZqbM4MVrvIJEqtPFTRoiSqB36y+qd6O/fYvjR/SkDXDzijsmvQaTpmsZESTZsQ201W3NlfQmcaFSS/xONjcvEBU83srfrGsVqCXQNEwLwieW8NnICi9XcgTaPrwIGM93M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lpXsQtce; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 361FA229;
-	Mon, 25 Nov 2024 18:35:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732556159;
-	bh=AvqfISnEDH0te3fGy14dfdBmQ7eZEZWEwQrKZrCufAc=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=d0ej39vs/dC9OCMuZc9NV16wyvrfFikZoPTZdcw3NZ/+CW88L+/sqq1+MO4FmewZybM5qyoHrhpGdZDmpqQ2ENOC9uLjoerxYTUwU1EdatsxImnECEbEH8X3v6pd/6RjF8fKpjWCnUPLQ3cAdpWy9TCHAJ1FpXYOYIAmhXgbrnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYJUBNaR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B74AC4CECE;
+	Mon, 25 Nov 2024 18:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732559202;
+	bh=dIlnLnEZTpntVMOqJzYDY6xXyHJNFe5p+MNhUzw9vOY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lpXsQtcehsBKeIPR/t0GFL1Spk29mYTN2DpzDrvfrsaTG0tpx+FkcV46i1pex5m4C
-	 n4vQIzzZo8rm67ISwhxBdD39v6oDN9F7inxwBcKLfS/9X68wZMsgYMdVUDuf2otj6y
-	 h9kYCCM/Y+bznP0f2uQK9DAV0tsUu7c0e0NTNhKo=
-Date: Mon, 25 Nov 2024 19:36:11 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: CK Hu =?utf-8?B?KOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>,
-	Andy Hsieh =?utf-8?B?KOisneaZuueakyk=?= <Andy.Hsieh@mediatek.com>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>
-Subject: Re: [PATCH v7 4/5] media: platform: mediatek: isp: add mediatek
- ISP3.0 camsv
-Message-ID: <20241125173611.GS19381@pendragon.ideasonboard.com>
-References: <20241121-add-mtk-isp-3-0-support-v7-0-b04dc9610619@baylibre.com>
- <20241121-add-mtk-isp-3-0-support-v7-4-b04dc9610619@baylibre.com>
- <d17dfb29f60bfa1889aa554ef16c9ddec272520d.camel@mediatek.com>
- <CAEHHSvbScBhn=6rSOApQ=K9JEpwL6JPpJnJy929mLXHhxQ=3FQ@mail.gmail.com>
+	b=YYJUBNaRnthKhJTlHf87j8mUbYeKWIdzMsRpP+dH+JfyhFGsFKsVyesBziNw30f9v
+	 ABYkNchLr2bOFhUn6PqrEHPu2XxYUE0SoV0SZ0KJPWelBCLCd5PH9ksf8n+3Blvx5q
+	 SkVGberfNkTr433c3vu08fE6rRyvVjrvrGvn3rtpuBrcLR43KKJ7HqfpDHQa67lpJ3
+	 A1kk5FvItMj1zBbQWJccJdKpVg3zsPQIA67io2twy2cd3zsffPXCzQiHd8j4ntdpXt
+	 eCRn2Fgk6r4egMIX5b9f2XyAVAUNOn4MtiPjJI9z67fbEMnPaIi50e0gQaxXTn3B5k
+	 n7VtOa+L7NHaQ==
+Date: Mon, 25 Nov 2024 18:26:35 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 1/9] dt-bindings: misc: Describe TI FPC202 dual port
+ controller
+Message-ID: <20241125-overhand-economist-5a3fc6339265@spud>
+References: <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
+ <20241125-fpc202-v3-1-34e86bcb5b56@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cqws6ipUry0wyICg"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEHHSvbScBhn=6rSOApQ=K9JEpwL6JPpJnJy929mLXHhxQ=3FQ@mail.gmail.com>
+In-Reply-To: <20241125-fpc202-v3-1-34e86bcb5b56@bootlin.com>
 
-On Mon, Nov 25, 2024 at 03:40:18PM +0100, Julien Stephan wrote:
-> Le lun. 25 nov. 2024 à 09:14, CK Hu (胡俊光) <ck.hu@mediatek.com> a écrit :
-> > On Thu, 2024-11-21 at 09:53 +0100, Julien Stephan wrote:
-> > >
-> > > From: Phi-bang Nguyen <pnguyen@baylibre.com>
-> > >
-> > > This driver provides a path to bypass the SoC ISP so that image data
-> > > coming from the SENINF can go directly into memory without any image
-> > > processing. This allows the use of an external ISP.
-> > >
-> > > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
-> > > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
-> > > [Paul Elder fix irq locking]
-> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
-> > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > > ---
-> >
-> > [snip]
-> >
-> > > +static void mtk_camsv30_update_buffers_add(struct mtk_cam_dev *cam_dev,
-> > > +                                          struct mtk_cam_dev_buffer *buf)
-> > > +{
-> > > +       mtk_camsv30_img0_write(cam_dev, CAMSV_IMGO_SV_BASE_ADDR, buf->daddr);
-> > > +}
-> > > +
-> >
-> > [snip]
-> >
-> > > +static void mtk_camsv30_fbc_inc(struct mtk_cam_dev *cam_dev)
-> > > +{
-> > > +       unsigned int fbc_val;
-> > > +
-> > > +       if (pm_runtime_resume_and_get(cam_dev->dev) < 0) {
-> >
-> > I think this pm_runtime_resume_and_get() is not necessary.
-> > mtk_camsv30_fbc_inc() is called only in mtk_cam_vb2_buf_queue().
-> > But when buf_list is empty, mtk_camsv30_update_buffers_add() is called before this function.
-> > But mtk_camsv30_update_buffers_add() does not call pm_runtime_resume_and_get() and it works normally.
-> > So this function is not necessary to call pm_runtime_resume_and_get().
-> 
-> Hi CK,
-> 
-> This one is actually needed because .buf_queue can be called before
-> .start_streaming in case a user requests to prepare buffers before
-> streaming.
-> But you are right, if a user requests to alloc buffer before streaming
-> mtk_camsv_update_buffers_address will be called without pm. Streaming
-> still works because in start streaming we call
-> mtk_camsv_update_buffers_address again.
-> So maybe I should put the pm stuff in mtk_cam_vb2_buf_queue ?
 
-mtk_cam_vb2_buf_queue() should only touch the hardware if streaming has
-been started, otherwise it shhould just put the buffers in a queue and
-return immediately, and the initial hardware setup should be done when
-starting streaming. There should be no need to handle runtime PM in this
-function or in mtk_cam_vb2_buf_queue().
+--cqws6ipUry0wyICg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > In other register setting function, please also check this pm function is necessary or not.
-> >
-> > Regards,
-> > CK
-> >
-> > > +               dev_err(cam_dev->dev, "failed to get pm_runtime\n");
-> > > +               return;
-> > > +       }
-> > > +
-> > > +       fbc_val = mtk_camsv30_read(cam_dev, CAMSV_IMGO_FBC);
-> > > +       fbc_val |= CAMSV_IMGO_FBC_RCNT_INC;
-> > > +       mtk_camsv30_write(cam_dev, CAMSV_IMGO_FBC, fbc_val);
-> > > +       fbc_val &= ~CAMSV_IMGO_FBC_RCNT_INC;
-> > > +       mtk_camsv30_write(cam_dev, CAMSV_IMGO_FBC, fbc_val);
-> > > +
-> > > +       pm_runtime_put_autosuspend(cam_dev->dev);
-> > > +}
-> > > +
+On Mon, Nov 25, 2024 at 09:45:15AM +0100, Romain Gantois wrote:
+> The FPC202 dual port controller serves as a low speed signal aggregator f=
+or
+> common port types, notably SFP. It provides access to I2C and low-speed
+> GPIO signals of a downstream device through a single upstream control
+> interface.
+>=20
+> Up to two logical I2C addresses can be accessed on each of the FPC202's
+> ports. The port controller acts as an I2C translator (ATR). It converts
+> addresses of incoming and outgoing I2C transactions. One use case of this
+> is accessing two SFP modules at logical address 0x50 from the same upstre=
+am
+> I2C controller, using two different client aliases.
+>=20
+> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+> ---
+>  .../devicetree/bindings/misc/ti,fpc202.yaml        | 96 ++++++++++++++++=
+++++++
+>  MAINTAINERS                                        |  6 ++
+>  2 files changed, 102 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/misc/ti,fpc202.yaml b/Docu=
+mentation/devicetree/bindings/misc/ti,fpc202.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..d0464a77cabed81301e27ac2f=
+d4e7f943a027f2a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/misc/ti,fpc202.yaml
+> @@ -0,0 +1,96 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/misc/ti,fpc202.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: TI FPC202 dual port controller with expanded IOs
+> +
+> +maintainers:
+> +  - Romain Gantois <romain.gantois@bootlin.com>
+> +
+> +allOf:
+> +  - $ref: /schemas/i2c/i2c-atr.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,fpc202
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  gpio-controller: true
+> +
+> +  "#gpio-cells":
+> +    const: 2
+> +
+> +  enable-gpios:
+> +    description:
+> +      Specifier for the GPIO connected to the EN pin.
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^i2c@[0-1]$":
+> +    $ref: /schemas/i2c/i2c-controller.yaml
+> +    description: Downstream device ports 0 and 1
+> +
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +        description:
+> +          Downstream port ID
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - reg
+> +
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - gpio-controller
+> +  - "#gpio-cells"
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - i2c@0
+> +  - i2c@1
 
--- 
-Regards,
+btw, why are both downstream ports required?
 
-Laurent Pinchart
+--cqws6ipUry0wyICg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ0TBWwAKCRB4tDGHoIJi
+0oJcAP9PTOaF3V2bg4xd6wRretaCNK05VyVFngG8VUgFNJT+mQEA08X3WhwZ8s3M
+gSIZTYSag/xkOsNsSZao+4JAYnRkIgs=
+=X4LX
+-----END PGP SIGNATURE-----
+
+--cqws6ipUry0wyICg--
 
