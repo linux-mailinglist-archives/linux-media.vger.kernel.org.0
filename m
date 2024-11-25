@@ -1,157 +1,315 @@
-Return-Path: <linux-media+bounces-22028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22029-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437589D8ADC
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 18:00:39 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EADA9D8A04
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 17:12:34 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7AFCBB30E02
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:01:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF4D7165BC0
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:12:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 264011B4F0D;
-	Mon, 25 Nov 2024 16:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1BE31B415A;
+	Mon, 25 Nov 2024 16:12:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WWMC3NBh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mTHwYXF2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA5D1ABED8
-	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 16:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3B81B4130
+	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 16:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732550491; cv=none; b=lN9G7fYsuLW4GK/mKiigfoTfvLJSGVo5B+LbdG8YjPdPDKwXs+nm4UXvLzD/2gkiU0XkN6xIF/KNSb08PQEZk7A6DECRZpVER6HvaH8AORdZcZ//+XM8Zdnf3JgiC1sh/YnMpAUXpCVqHYnUfh48aTo1iNpkyvnYMEHcMo1EhRM=
+	t=1732551143; cv=none; b=SDugmNLRxsSSVidCoGBiwPei/G2g42/wWv2cgKiJYhSq6sVvKIsyKvGbx9ezJJfTBM63rCwQ8tuQrgCTWdxMdAlI1POwzhEY2hCuQlPfcMpLp7U5krgqACpOSRliRTxHHBGoD+d4RGznM63fj1VzCJzhIin4Yqj0CcoGuCCa0Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732550491; c=relaxed/simple;
-	bh=Pluboec6B86D6ws6bYAgKSR1YGIcc9GTafVmWwbJSj0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qcnbf7X0Gi0SRxxVdKeSeHx9WOKtVkYmxBtksjputlsT38WORc0/t2pcIt3DFJOsz0b1W/Q838WINszusDCT+HC7gY7IuW52QGxpi42Ed8ole1uOZWIqCizM9MmPg5b2xL2e5MyrYwWIoQDHHNMz3bWn+0uRzQXLtm/TlzH4fw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WWMC3NBh; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732550489;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MGIGpXHEYfpIIvt0UvOdEb2pgVXsrLcxjgtqNDiti3Q=;
-	b=WWMC3NBh+mZo7vOW9i3Pz9y8DSpDrETR8DK1RIilFDDgeCx6zQdK9ZhM6uL2OlTHSinZfG
-	FTYKCi/fu71PP9uKd8LYt5/xDIglEV24ETqFlp39yqibJSB7mBQtWltuanN15fglPwGKUg
-	+cOwpkRI7CRXzFUXdziCxWgfqLXkyjo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-647-yws_FMddPv2sADBoe5EOxA-1; Mon, 25 Nov 2024 11:01:26 -0500
-X-MC-Unique: yws_FMddPv2sADBoe5EOxA-1
-X-Mimecast-MFC-AGG-ID: yws_FMddPv2sADBoe5EOxA
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5cfba4f3c6dso3116614a12.0
-        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 08:01:24 -0800 (PST)
+	s=arc-20240116; t=1732551143; c=relaxed/simple;
+	bh=vxAP4GFIepgJNHz+fQvS0YIIG2Ymh4S7ejVPX9wigo0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=redd0aoJD+UxRw53rdFUufr3Hl0FMqCqLuxwEZmeBdCn3LlCMoJVfmyExZ3+Zklxteik0dpLOkRkq1yP3mVJykmjuXEb8qJ4YucJh6ZQwm6TMDZnRNO+LHtcgKUXB4D6tfhdaxZDffUWec/Q8RK0V3gww53Vw1tN/ZtQU27BCSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mTHwYXF2; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53dde5262fdso2169962e87.2
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 08:12:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732551139; x=1733155939; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Aw321NaS6TFeLiwFEJugD6+ze9ed51yxaQsv+2sqRFo=;
+        b=mTHwYXF2wP6vssquM7cWNaDGXPqpHY1NcylmdoeOImW3Sf1SlgG803dTRV4molkn6R
+         fhDuTg65CK74lT4/+ZU7i1hzwZDgWrqv3RtbqtXiy1R6NO+T7dc8riT4WICWFK5Ek1oh
+         mRHwoEiw009q9+iebfTQLpbJ7QuPDVKqo7DVVdShZ3EYz8n3Su6b2bLjYb9bp2zLRKGG
+         smX6NwuX3bcsRLm1ZHcDXkmPYPRwSd3gDssr8KFiAc54VbYbbZd/ks0x4pPylB03OIm7
+         8HbTz26YtYMlTefiiopja5BDvr6o1w5LkfFsAihlPeO4gughxGEC41T+z9Nmjm5zH0I/
+         0KPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732550483; x=1733155283;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MGIGpXHEYfpIIvt0UvOdEb2pgVXsrLcxjgtqNDiti3Q=;
-        b=jOkVL/4nE8b5fpAiWGkN1n3HHViaRU5Q7WHovO+zq63nJ7R/XCMTs6H78avSRwVZAg
-         9RW94MdhhRt5Flv/BaJ3DIzALl0LGFv3/7PRfdxJMzhMiv4GZ4dV+VMddfwrj0wolh7A
-         XVdX5fvBsVHQCVbC7dIPnO/5Qf/Qux2TewHBI6uHsHyBrZkjYiCDaZZNon3a7ln+ol7f
-         ywT6u88K3DzdrZ9F6ppXaYGAfl6rQ5FYNfWweHUyjGSQ2VS9mgNlbt6b5B1YIcwlN/UR
-         hoDKSvYLTm3ULMsBgXj5Ed3w/zyer49GWZnA+qVySfkOPUbAEACiTFGxSE9t+Nrtobwd
-         1dig==
-X-Forwarded-Encrypted: i=1; AJvYcCXBZhOTIydTNdH/74FOvbQMzmZ1WNbckaKC67IXUJpMaNZqdDJNaH9yKDWak5Jnuy/M0Z6CbmDW9i/iPQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsIlqm4oDhTro1qcV+5tB0pHM9eun0TVv6rxenZdcK86fC1wLl
-	JgA0a2ArKTgDNjUh5Numgq8gxOlSdjc0z0dTkAfN7kRMQx592kTmEY6skSjjbAMEljy9zEbKxUh
-	y1reahzeNrToqfOG6NkoXPDk94VUs/E9Pbn974tZV3na0X5Dueqw/XJ1K+Lla
-X-Gm-Gg: ASbGncu0Slp4xIGRpKkI0yKiaoHlbqc3ok+arFl31fTKnqhCZJE+QoYwpLEMUJTg4vz
-	BxWbCIFbzO2BiuBDP+bhdIbhBFQsBpA2GqKJHlc370nUDj0oaKHdlME7TwAyKJapXPCQNYOuOMS
-	2mEWYuJLBnQXtCXVa+4TC/pf7YwCZWSjljp8aDiMbAMj+Z79Gsfmtwbpt0oDKSTDE1aTFJCfVV4
-	6TftSL4IflFJ31gEYTvqhmHSDDEENKkhD+CH0hbnsFUcu6mLJWzJbTTNIILHxc4yguf22/g+w74
-	qvF7ZP9x+rtiEzoVhM1kN6xmkO4mHsod26i9AB6qT+euMoPThX2DghridZuu6FmjC2uKpK/xLET
-	8qZVBdgWL+6uZiTZ1pqT1fLRO
-X-Received: by 2002:a05:6402:3896:b0:5cf:e9d6:cc8a with SMTP id 4fb4d7f45d1cf-5d0206257c4mr11826326a12.20.1732550481885;
-        Mon, 25 Nov 2024 08:01:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGQbWf0jO1klkeWEEobeV5FhDZOLY+CFfN2xGEVK/87HU7FApwBNZxs1UJfr7YKCXLn8oTsrw==
-X-Received: by 2002:a05:6402:3896:b0:5cf:e9d6:cc8a with SMTP id 4fb4d7f45d1cf-5d0206257c4mr11825847a12.20.1732550477578;
-        Mon, 25 Nov 2024 08:01:17 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d01d3fc745sm4278689a12.64.2024.11.25.08.01.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 08:01:16 -0800 (PST)
-Message-ID: <f7d29368-c05f-4fbc-ba8d-2bbc95b21c37@redhat.com>
-Date: Mon, 25 Nov 2024 17:01:15 +0100
+        d=1e100.net; s=20230601; t=1732551139; x=1733155939;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Aw321NaS6TFeLiwFEJugD6+ze9ed51yxaQsv+2sqRFo=;
+        b=jgECcbZyBmIS8DHqaGIE4JxP7TppeeVG95q84cgrx3tn/JlagwHR78mGHAcCB81Trn
+         hfbDwhG/o70qzyL8dBOwhJkaHF7yheZ7GsoGUC50nogScbI7LIPy1bzP886uyzsieD1R
+         vh1RctquOulHhc1ZXWBn+BEf2QDCRPrr4CGxzSuFuM1+m2lSaJWX0skRUaF6nvO4m1XI
+         Cna8TrRmPHnPr4ECvsWugaCPMmonkyZ9WTyxEOX/eI0As/fGF6UigweBfzHBKx68TwYG
+         i+sdCXSwLr9E7oZTal0VC9GXKRDaGaACtAF7XQjOeCdp5uS0eTXpDxq5spMvIUUblJVh
+         hJmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUajLIVwUgmmfNcZ3K5IzZzR9gmvK6E1a4pe3S6QTdBKhpH90xxoee4KTkFxr6O8fMsUTu1ntNAKhPkfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5u9NBXpZUmAnrN9z8mqluGsWKHYwTxC0y5FnDt92RbrSsSAww
+	uDkGtfumR8swHXWs7OOxYZ1kw4ZgCdYRWkYJczPkLI+Ned2Ozipn8NtMIrJEYr0=
+X-Gm-Gg: ASbGncskBGGCHbG/DdV8NrYH9gD+JiKf1phL85ar7+hrEdydszfEpexkLNvqUdiOKoP
+	GV6nZ6Zuyvj0PMaCtC/i2g0ZJfvG0LLf4bK6IEckamojoKITsbT/cQhYRSavxdgun6qVpLEKFVe
+	NDCm8i5+I2h4N/8wFci3milSRP8DZJO7Qn1TI3GaWzSACvLvlXNZt/fkGHr1Pbeki2ukPCND2N0
+	E6hjKilRv9m4oUQzJZOvqkzs1Umh5NXgLZDeR+h0u6rF+h26AwxbssKPIS3iRcvONs6/K8jJHbT
+	YFjdsATXUBMyykubFLJ7LihO+Xr43w==
+X-Google-Smtp-Source: AGHT+IFPfB7a5nwGjr6HKgeHJL/mwlPVXqaOjY4l1GKSJmoWf81K1sAoKuhGr5xOMGSjUBo1nMjr3A==
+X-Received: by 2002:a05:6512:33d6:b0:53d:dc3a:ed92 with SMTP id 2adb3069b0e04-53ddc3aeddcmr3261522e87.37.1732551138747;
+        Mon, 25 Nov 2024 08:12:18 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dd24811b0sm1743109e87.162.2024.11.25.08.12.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2024 08:12:17 -0800 (PST)
+Date: Mon, 25 Nov 2024 18:12:15 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Renjiang Han <quic_renjiang@quicinc.com>
+Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] dt-bindings: qcom,qcs615-venus: add support for
+ video hardware
+Message-ID: <kdyhkb3tt2lgfuopz7twxjwpfur6vuezaqlc7s7aozkz6ek2as@m2nvqcb5ww4u>
+References: <20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com>
+ <20241125-add-venus-for-qcs615-v3-1-5a376b97a68e@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 08/19] media: uvcvideo: uvc_ioctl_(g|s)_ext_ctrls:
- handle NoP case
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ricardo Ribalda <ribalda@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org>
- <20241114-uvc-roi-v15-8-64cfeb56b6f8@chromium.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241114-uvc-roi-v15-8-64cfeb56b6f8@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241125-add-venus-for-qcs615-v3-1-5a376b97a68e@quicinc.com>
 
-Hi,
-
-On 14-Nov-24 8:10 PM, Ricardo Ribalda wrote:
-> If nothing needs to be done. Exit early.
+On Mon, Nov 25, 2024 at 11:04:49AM +0530, Renjiang Han wrote:
+> Add support for Qualcomm video acceleration hardware used for video
+> stream decoding and encoding on QCOM QCS615.
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
+> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
 > ---
->  drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  .../bindings/media/qcom,qcs615-venus.yaml          | 182 +++++++++++++++++++++
+>  1 file changed, 182 insertions(+)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 02fd5cbc3474..65dbb53b1e75 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1081,6 +1081,9 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
->  	u32 which;
->  	int ret;
->  
-> +	if (!ctrls->count)
-> +		return 0;
+> diff --git a/Documentation/devicetree/bindings/media/qcom,qcs615-venus.yaml b/Documentation/devicetree/bindings/media/qcom,qcs615-venus.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..7a3a01ff06d8b62bc2424a0a24857c86c6865f89
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,qcs615-venus.yaml
+> @@ -0,0 +1,182 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,qcs615-venus.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  	switch (ctrls->which) {
->  	case V4L2_CTRL_WHICH_DEF_VAL:
->  	case V4L2_CTRL_WHICH_CUR_VAL:
-> @@ -1121,6 +1124,9 @@ static int uvc_ioctl_s_try_ext_ctrls(struct uvc_fh *handle,
->  	unsigned int i;
->  	int ret;
->  
-> +	if (!ctrls->count)
-> +		return 0;
+> +title: Qualcomm QCS615 Venus video encode and decode accelerators
 > +
->  	ret = uvc_ctrl_check_access(chain, ctrls, ioctl);
->  	if (ret < 0)
->  		return ret;
+> +maintainers:
+> +  - Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+> +  - Vikash Garodia <quic_vgarodia@quicinc.com>
+> +
+> +description:
+> +  The Venus IP is a video encode and decode accelerator present
+> +  on Qualcomm platforms
+> +
+> +allOf:
+> +  - $ref: qcom,venus-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,qcs615-venus
+
+Please extend sc7180-venus.yaml instead. No need to duplicate
+unnecessary things.
+
+> +
+> +  power-domains:
+> +    minItems: 2
+> +    maxItems: 3
+
+So, is it 2 or 3? You don't have legacy here, so you should know an
+exact number.
+
+> +
+> +  power-domain-names:
+> +    minItems: 2
+
+And this one also can go away.
+
+> +    items:
+> +      - const: venus
+> +      - const: vcodec0
+> +      - const: cx
+> +
+> +  clocks:
+> +    maxItems: 5
+> +
+> +  clock-names:
+> +    items:
+> +      - const: core
+> +      - const: iface
+> +      - const: bus
+> +      - const: vcodec0_core
+> +      - const: vcodec0_bus
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +
+> +  interconnects:
+> +    maxItems: 2
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: video-mem
+> +      - const: cpu-cfg
+> +
+> +  operating-points-v2: true
+> +
+> +  opp-table:
+> +    type: object
+> +
+> +  video-decoder:
+> +    type: object
+> +
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      compatible:
+> +        const: venus-decoder
+> +
+> +    required:
+> +      - compatible
+> +
+> +  video-encoder:
+> +    type: object
+> +
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      compatible:
+> +        const: venus-encoder
+> +
+> +    required:
+> +      - compatible
+> +
+> +required:
+> +  - compatible
+> +  - power-domain-names
+> +  - iommus
+> +  - video-decoder
+> +  - video-encoder
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,qcs615-videocc.h>
+> +    #include <dt-bindings/interconnect/qcom,qcs615-rpmh.h>
+> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+> +
+> +    venus: video-codec@aa00000 {
+> +        compatible = "qcom,qcs615-venus";
+> +        reg = <0xaa00000 0x100000>;
+> +        interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +        clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
+> +                 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
+> +                 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
+> +                 <&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
+> +                 <&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
+> +        clock-names = "core",
+> +                      "iface",
+> +                      "bus",
+> +                      "vcodec0_core",
+> +                      "vcodec0_bus";
+> +
+> +        power-domains = <&videocc VENUS_GDSC>,
+> +                        <&videocc VCODEC0_GDSC>,
+> +                        <&rpmhpd RPMHPD_CX>;
+> +        power-domain-names = "venus",
+> +                             "vcodec0",
+> +                             "cx";
+> +
+> +        operating-points-v2 = <&venus_opp_table>;
+> +
+> +        interconnects = <&mmss_noc MASTER_VIDEO_P0 0
+> +                         &mc_virt SLAVE_EBI1 0>,
+> +                        <&gem_noc MASTER_APPSS_PROC 0
+> +                         &config_noc SLAVE_VENUS_CFG 0>;
+> +        interconnect-names = "video-mem",
+> +                             "cpu-cfg";
+> +
+> +        iommus = <&apps_smmu 0xe40 0x20>;
+> +
+> +        memory-region = <&pil_video_mem>;
+> +
+> +        video-decoder {
+> +            compatible = "venus-decoder";
+> +        };
+> +
+> +        video-encoder {
+> +            compatible = "venus-encoder";
+> +        };
+> +
+> +        venus_opp_table: opp-table {
+> +            compatible = "operating-points-v2";
+> +
+> +            opp-133330000 {
+> +                opp-hz = /bits/ 64 <133330000>;
+> +                required-opps = <&rpmhpd_opp_low_svs>;
+> +            };
+> +
+> +            opp-240000000 {
+> +                opp-hz = /bits/ 64 <240000000>;
+> +                required-opps = <&rpmhpd_opp_svs>;
+> +            };
+> +
+> +            opp-300000000 {
+> +                opp-hz = /bits/ 64 <300000000>;
+> +                required-opps = <&rpmhpd_opp_svs_l1>;
+> +            };
+> +
+> +            opp-380000000 {
+> +                opp-hz = /bits/ 64 <380000000>;
+> +                required-opps = <&rpmhpd_opp_nom>;
+> +            };
+> +
+> +            opp-410000000 {
+> +                opp-hz = /bits/ 64 <410000000>;
+> +                required-opps = <&rpmhpd_opp_turbo>;
+> +            };
+> +
+> +            opp-460000000 {
+> +                opp-hz = /bits/ 64 <460000000>;
+> +                required-opps = <&rpmhpd_opp_turbo_l1>;
+> +            };
+> +        };
+> +    };
+> 
+> -- 
+> 2.34.1
 > 
 
+-- 
+With best wishes
+Dmitry
 
