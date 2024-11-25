@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-21958-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21960-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEF89D830A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:07:56 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECC639D832C
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:13:54 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C65D71660C7
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 10:07:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC9AB28BFD0
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 10:13:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E031191F92;
-	Mon, 25 Nov 2024 10:07:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6512B197A93;
+	Mon, 25 Nov 2024 10:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOK1wufw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p+m6Qzpn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16AE190661;
-	Mon, 25 Nov 2024 10:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2C8195B18;
+	Mon, 25 Nov 2024 10:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732529267; cv=none; b=mLx6JhhG6xtNXyM0H1IRhIfH2o3xVuTYywIdaIHWLZaQ8LSdvRD8GRYQ11NJvfQodcpyHUryYruOyuEVxt/Vm2RMUD2Xaqseev0aOJY8n3mCsqPLquq11Xthi/3OEUmOB++FCXnUxgJPdtIRIJkz99Pj0kEjGPpVxBP6VYux0fE=
+	t=1732529483; cv=none; b=VUcn6VXoxwSVhwNzl+BJVxepr1MQN4UoaKt4N9cutjEGTm00IvRYrIuLFFzN/RtBuARgUZqCTeBylXNn+ZbV9Ku+4C5eMusPjgSX8AQgZfQ4Els6YfW8rQIG9SSNBRji+MmZR1VkcJWz8aMzwwTBJq4Ry+f01K7OONt3UGUBfwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732529267; c=relaxed/simple;
-	bh=E9ezbafur2nm2cEtQaawacaJc/GnWr2pW/5V8YrWFFM=;
+	s=arc-20240116; t=1732529483; c=relaxed/simple;
+	bh=yKnc1Zk+G4ZTxSawddMpZRV12Li+nii66zDSwR57oZg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pGteUVeBg2i9GEBnSzlItcoyTU5ic3KZBRQ1uId362LX/kMyUUXe1HQIoI2E74y7neh+gjnstcesny1LJWDB5gGMWG+PjIE5BqPNBptHbbz59ynWwi0CQL2KEnzv7EgGk4FlB/0dAtKyRlB2+Ko/GmJTum+uzlFlb358EVjrM8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FOK1wufw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A82FBC4CECE;
-	Mon, 25 Nov 2024 10:07:42 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=aFCOgb6KXpTsY0V6EUsxaetJOj0/xqA7RbLJdHXLLYNC7KLfqxaACE9bf+e7+Yc3CNOBaXg+q/BeVkMhcWKefioBh2Z7rHYQgjWnQfq78lAVch30x9eeuDoE5oxYyHxpcV+eD0HqMGKzurX/gS4cqqR4c4dJj5XlgoYre5f86Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p+m6Qzpn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72266C4CECE;
+	Mon, 25 Nov 2024 10:11:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732529267;
-	bh=E9ezbafur2nm2cEtQaawacaJc/GnWr2pW/5V8YrWFFM=;
+	s=k20201202; t=1732529483;
+	bh=yKnc1Zk+G4ZTxSawddMpZRV12Li+nii66zDSwR57oZg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FOK1wufw0HpRvt9cJZl9sPkoDe2BoIUxI7N2/zm8kB/4YGme1rrINKgNEWS/N6cB7
-	 Xgk4MEMq3VK0ai3nMpXnUEPpDaBXncZnTkztw56LeyqgI28bJiSpyXnfyA8W3xFTka
-	 ZL9Tw/ECworC9At9tXaA1foYVfYLWHDr+tkBMDV+u0RvNXaWvan+bt74NsrYVeVvAl
-	 tOTmrgBinKigtxQyLjJyALoxCgmIMZAGceygMfTMc75fMvXr0zW0adjooqlqGX1wXA
-	 gV4jxa/jvUvXw+5loUcWVvk4KUc4lwTqpsGsLQGzi1xGwHYWUeGaTZrSJ0dvQGPY7y
-	 XS/KTUeVK/WAQ==
-Message-ID: <04a7ebf7-2924-4894-bc53-ba77e2f64fae@kernel.org>
-Date: Mon, 25 Nov 2024 11:07:39 +0100
+	b=p+m6QzpnSI4uWrJe2qIRZmWq2NMvNCGN/8huxR4uHn+K40RJQhxLMt/tFTCUgtB5U
+	 v3O57EgrmVkD4lXHwRe+N8FlcGE4XCklSarWE3vvG/reWtMnRkCTZ9AnTDAcIAWH99
+	 nKBWD+MXLHTpQ6PdX/qeee4AffzyUBaFCkRpJldeZhims8fJ748TTNDTXnDOQ719g1
+	 DGaM/W3pSN4OAgvOH5xS8jLhg89pCVU/fYivNOR6vwQ4IxCtfyrLQnBfXPxhFY4Ytv
+	 7/331x0CmYgltjeDHzVFGN8E2fRkW1j5h/q3vorxAP2xepxk0Bq51PTs5plydln5E5
+	 Wp6Fm/TmbdBiw==
+Message-ID: <07e0cc97-c0c4-42fd-b51d-87b0eaed4e4a@kernel.org>
+Date: Mon, 25 Nov 2024 11:11:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti Video Input Interface
+Subject: Re: [PATCH v12 1/8] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti MIPI CSI-2 Receiver
 To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -62,7 +62,7 @@ To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
 References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
- <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
+ <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,142 +108,134 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
+In-Reply-To: <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 25/11/2024 10:21, Yuji Ishikawa wrote:
 > Adds the Device Tree binding documentation that allows to describe
-> the Video Input Interface found in Toshiba Visconti SoCs.
+> the MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
 > 
 > Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 > Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 
-Why this tag stayed and other was removed? What was the reason of tag
-removal?
 
+How newly added patch can have already Rb tag? Was this review really,
+really performed internally or you just satisfy some internal managers
+requirements and fake the stats?
 
 > ---
-> Changelog v2:
-> - no change
-> 
-> Changelog v3:
-> - no change
-> 
-> Changelog v4:
-> - fix style problems at the v3 patch
-> - remove "index" member
-> - update example
-> 
-> Changelog v5:
-> - no change
-> 
-> Changelog v6:
-> - add register definition of BUS-IF and MPU
-> 
-> Changelog v7:
-> - remove trailing "bindings" from commit header message
-> - remove trailing "Device Tree Bindings" from title
-> - fix text wrapping of description
-> - change compatible to visconti5-viif
-> - explicitly define allowed properties for port::endpoint
-> 
-> Changelog v8:
-> - Suggestion from Krzysztof Kozlowski
->   - rename bindings description file
->   - use block style array instead of inline style
->   - remove clock-lane (as it is fixed at position 0)
->   - update sample node's name
->   - use lowercase hex for literals
-> - Suggestion from Laurent Pinchart
->   - update description message port::description
->   - remove port::endpoint::bus-type as it is fixed to <4>
->   - remove port::endpoint::clock-lanes from example
->   - add port::endpoint::data-lanes to required parameters list
->   - fix sequence of data-lanes: <1 2 3 4> because current driver does not support data reordering
->   - update port::endpoint::data-lanes::description
->   - remove redundant type definition for port::endpoint::data-lanes
-> 
-> Changelog v9:
-> - place "required" after "properties"
-> - dictionary ordering of properties
-> 
-> Changelog v10:
-> - no change
-> 
-> Changelog v11:
-> - no change
 > 
 > Changelog v12:
-> - remove property "clock-noncontinuous" as VIIF switches both modes automatically
-> - remove property "link-frequencies" as VIIF does not use the information
-
-Driver does not use or hardware supports only one frequency?
-
-> - remove reg[2] and interrupts[3] which are used for CSI2RX driver
-> - update example to refer csi2rx for remote-endpoint
-
-Were these the reasons?
-
-I am really surprised that after 11 versions this binding still is being
-totally reshaped and you need us to re-review.
-
-Also, start using b4 tool, so:
-1. your cover letter will have proper links to previous versions
-2. b4 diff would work. Look, try by yourself:
-
-
-
-b4 diff '<20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>'
-Grabbing thread from
-lore.kernel.org/all/20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp/t.mbox.gz
-Checking for older revisions
-Grabbing search results from lore.kernel.org
-  Added from v11: 7 patches
----
-Analyzing 144 messages in the thread
-Looking for additional code-review trailers on lore.kernel.org
-Analyzing 13 code-review messages
-Preparing fake-am for v11: Add Toshiba Visconti Video Input Interface driver
-  range: e16e149ced15..4efb0d6768a6
-Preparing fake-am for v12: dt-bindings: media: platform: visconti: Add
-Toshiba Visconti MIPI CSI-2 Receiver
-ERROR: v12 series incomplete; unable to create a fake-am range
----
-Could not create fake-am range for upper series v12
-
-
-
-How can I verify what happened here without too much effort?
-
-
+> - Newly add bindings for CSI2RX driver 
 > 
->  .../media/toshiba,visconti5-viif.yaml         | 95 +++++++++++++++++++
->  1 file changed, 95 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+>  .../media/toshiba,visconti5-csi2rx.yaml       | 104 ++++++++++++++++++
+>  1 file changed, 104 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
 > new file mode 100644
-> index 000000000000..ef0452a47e98
+> index 000000000000..5488072bc82a
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
-> @@ -0,0 +1,95 @@
+> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
+> @@ -0,0 +1,104 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/media/toshiba,visconti5-viif.yaml#
+> +$id: http://devicetree.org/schemas/media/toshiba,visconti5-csi2rx.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Toshiba Visconti5 SoC Video Input Interface
+> +title: Toshiba Visconti5 SoC MIPI CSI-2 receiver
 > +
 > +maintainers:
 > +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 > +
 > +description: |-
 
-Since you ask for re-review, then:
-
 Drop |-
+
+> +  Toshiba Visconti5 SoC MIPI CSI-2 receiver device receives MIPI CSI-2 video
+> +  stream. Use with VIIF device. T.B.D
+> +
+> +properties:
+> +  compatible:
+> +    const: toshiba,visconti5-csi2rx
+
+Why this is called "RX"? Can you have a TX? I had impression that one
+cannot.
+
+> +
+> +  reg:
+> +    items:
+> +      - description: Registers for CSI2 receiver control
+> +
+> +  interrupts:
+> +    items:
+> +      - description: CSI2 Receiver Interrupt
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                description: CSI2 receiver supports 1, 2, 3 or 4 data lanes
+> +                minItems: 1
+> +                items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +            required:
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node, single endpoint describing the Visconti VIIF.
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        csi2rx@1c008000 {
+
+
+csi@
+
+Node names should be generic. See also an explanation and list of
+examples (not exhaustive) in DT specification:
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+
 
 Best regards,
 Krzysztof
