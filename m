@@ -1,132 +1,174 @@
-Return-Path: <linux-media+bounces-21962-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21963-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AA59D8335
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:14:43 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B639D8345
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:23:12 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86D1E28CBD2
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 10:14:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6ACF1619B5
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 10:23:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 870B8193434;
-	Mon, 25 Nov 2024 10:13:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C928192589;
+	Mon, 25 Nov 2024 10:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jjBST2s5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cC2d+P8e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3A9190692;
-	Mon, 25 Nov 2024 10:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF87418755C;
+	Mon, 25 Nov 2024 10:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732529630; cv=none; b=D/AnjT/w//+AgUWgvbIeXAWe7pd1ARHnBq3chDPVymZy9PErCEo7gKrHRCbQdQtYHKdJcUJwsWjFpNPEXBV05LSzhQ3OCs4G4THqozeGOUsp662tUU1oUmFmvoObcRJ8RpTb3R9HOVakYWgcbRmNMXi0ds01t8qPHqPdbw5j62o=
+	t=1732530184; cv=none; b=agR6UlZoM1a3xnPXU5jBK5MXkHzmctyE5ZnG+V3sgQLuhGDziuyOBl9a24Z9p8eq7FI2IkBzWCYNX28eq1/O7AShUwsE8H1cuz42pDpOhXr40ei7v6sRwzHZT1z79IdB0F09kLjDYirXRU/uFsAinF8FXFtM+H7BckSMnTgZA6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732529630; c=relaxed/simple;
-	bh=FL1Xtx4bsLEhMt9psLVFQieYZHh55oVV4re7iSg1qTs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=tx3nFMYutmw4Of9x5ZH1oSEvwn2GtEjbYTzjVS8MOcsM47qJUMYEfFORo6auqe3K5pEBQZB+4oA1BgQDLr6e7Y7W0S1QGI0hDF6/P6TAp60u/4ypR5MCYeMXytXTzT94W5zM4T/mfWyemfkWdsff3Lq9739XtRz2s8pQBcoslos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jjBST2s5; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AOKeosm004853;
-	Mon, 25 Nov 2024 10:13:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FL1Xtx4bsLEhMt9psLVFQieYZHh55oVV4re7iSg1qTs=; b=jjBST2s5SrHm6xBl
-	KuStHG4o83IC0jgipN8BbWrSzM+bEsrtaZ+oR0hcnXdBTi8U2aiRtvKpvYa4HlgW
-	AyhDFluubTLEaHt6PFkxUF6pU9LlCG/Pyg9ejSYMMUq5OJgmlauRfQQBx41X0uCg
-	GnqqaIpdpqHGI6RyYKN/Dc4MJNQ+0BVZF7oTUvCN/Jpukv4TgWMWFDwn15Ssh4ML
-	BmsVh0+5KmzU3nDnwQbZ0IqQYZEpUUHBKSHy3u7iudCrPDJp8yLUehoL8DiTQ5Uk
-	a5RkjorBOAK9/9DNBFiM1VvKDgwF6F3oBL3p3DklrKXUign1jirz1qiJ/R/F+zh8
-	Jxxdfw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 433626ca41-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Nov 2024 10:13:44 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4APADhjf028407
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Nov 2024 10:13:43 GMT
-Received: from nalasex01c.na.qualcomm.com (10.47.97.35) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 25 Nov 2024 02:13:42 -0800
-Received: from nalasex01c.na.qualcomm.com ([fe80::5da8:4d0f:c16a:a1d]) by
- nalasex01c.na.qualcomm.com ([fe80::5da8:4d0f:c16a:a1d%11]) with mapi id
- 15.02.1544.009; Mon, 25 Nov 2024 02:13:42 -0800
-From: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>
-To: "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "Stephen
- Boyd" <sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Taniya Das
- (QUIC)" <quic_tdas@quicinc.com>
-Subject: RE: [PATCH 0/2] Use APIs in gdsc genpd to switch gdsc mode for venus
- v4 core
-Thread-Topic: [PATCH 0/2] Use APIs in gdsc genpd to switch gdsc mode for venus
- v4 core
-Thread-Index: AQHbPMnFuhcs0/Hoi02bEw0vEs1J7rLEhxwAgALQD9CAAPA8gP//ffFA
-Date: Mon, 25 Nov 2024 10:13:42 +0000
-Message-ID: <c82b5395b35a4d13a05f3826243070e0@quicinc.com>
-References: <20241122-switch_gdsc_mode-v1-0-365f097ecbb0@quicinc.com>
- <f7c31279-8492-484c-94c4-893d98f53afb@linaro.org>
- <2212eace0ed44c439da117fb05f2b1db@quicinc.com>
- <970a37f0-ccb4-4c23-972f-4100cb6c4e81@linaro.org>
-In-Reply-To: <970a37f0-ccb4-4c23-972f-4100cb6c4e81@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1732530184; c=relaxed/simple;
+	bh=vEktPLBDDcD6K+Ywf5tGYAWq1SEiHS7jR7yItctdw1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FbR5qBBWwkrFeEXoOh7AfovYS1p66riDkVCViYUChhuTbmtwpOWGhK/ECP5zlgyd2plBZx82KbxYMekbGoog2eHzSwMs5bCHltXJl3hLv72fMv/WSY8ArjRQrJWxf5iNlYfBwzx1lClxQRgZPLuqAVkPeY1WGk2NVWU1yDb+g3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cC2d+P8e; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F03B86B5;
+	Mon, 25 Nov 2024 11:22:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732530159;
+	bh=vEktPLBDDcD6K+Ywf5tGYAWq1SEiHS7jR7yItctdw1k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cC2d+P8eBtYJZnAFLVQwSXuk8HKXOpxgMwPY3VYIEmgd0pcostPigM1+qqL0vGtSa
+	 KNo4PJzzSIzAaHge+E16wTllKnKDapBMN1EneVGXxdNsoStd9TdJ2eFk+0zoSCFRZr
+	 wFMwWgFkKmZk8BTGHVEbLVgwjsAIIoWnoY+ia/3o=
+Date: Mon, 25 Nov 2024 12:22:50 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: CK Hu =?utf-8?B?KOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	Andy Hsieh =?utf-8?B?KOisneaZuueakyk=?= <Andy.Hsieh@mediatek.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	Julien Stephan <jstephan@baylibre.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v7 4/5] media: platform: mediatek: isp: add mediatek
+ ISP3.0 camsv
+Message-ID: <20241125102250.GO19381@pendragon.ideasonboard.com>
+References: <20241121-add-mtk-isp-3-0-support-v7-0-b04dc9610619@baylibre.com>
+ <20241121-add-mtk-isp-3-0-support-v7-4-b04dc9610619@baylibre.com>
+ <a9aa69dc8d025f0b133f33de6428ffec5a881a2a.camel@mediatek.com>
+ <20241125093953.GM19381@pendragon.ideasonboard.com>
+ <25f70693c81eb86c832378fee89792f6754b7ca0.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 3UsuNXl0orZiNfae8AET-Enpy3M7XSFF
-X-Proofpoint-ORIG-GUID: 3UsuNXl0orZiNfae8AET-Enpy3M7XSFF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- priorityscore=1501 clxscore=1015 phishscore=0 spamscore=0 adultscore=0
- impostorscore=0 mlxscore=0 malwarescore=0 suspectscore=0 mlxlogscore=573
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411250087
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <25f70693c81eb86c832378fee89792f6754b7ca0.camel@mediatek.com>
 
-T24gTW9uZGF5LCBOb3ZlbWJlciAyNSwgMjAyNCA1OjM2IFBNLCBCcnlhbiBPJ0Rvbm9naHVlIHdy
-b3RlOg0KPiBPbiAyNS8xMS8yMDI0IDAzOjQ5LCBSZW5qaWFuZyBIYW4gKFFVSUMpIHdyb3RlOg0K
-PiA+ID4gPiBXaGF0IGhlbHAgZG8geW91IG5lZWQgPw0KPiA+IFNpbmNlIHRoZSBHRFNDIGZsYWcg
-aGFzIGJlZW4gY2hhbmdlZCB0byBIV19DVFJMX1RSSUdHRVIsIHRoZSB2NCBjb3JlIA0KPiA+IG5l
-ZWRzIHRvIHVzZSBkZXZfcG1fZ2VucGRfc2V0X2h3bW9kZSB0byBzd2l0Y2ggdGhlIEdEU0MgbW9k
-ZSBsaWtlIHY2LiANCj4gPiBUaGUgdmlkZW8gY29kZWMgaGFzIGJlZW4gdmVyaWZpZWQgb24gU0M3
-MTgwIGFuZCB0aGUgcmVzdWx0IGlzIE9LLiBUaGUgDQo+ID4gc2FtZSB2ZXJpZmljYXRpb24gaGFz
-IGJlZW4gZG9uZSBvbiB0aGUgbGF0ZXN0IFFDUzYxNSBhbmQgdGhlIHJlc3VsdCBpcyBhbHNvIE9L
-Lg0KPiA+IEluIGFkZGl0aW9uLCBzaW5jZSB0aGUgdmlkZW9jYyBvZiBRQ1M2MTUgdXNlcyB0aGUg
-SFdfQ1RSTF9UUklHR0VSIA0KPiA+IGZsYWcsIFFDUzYxNSBhbmQNCj4gPiBTQzcxODAgYm90aCB1
-c2UgdGhlIHY0IGNvcmUgaW4gdmVudXMuIFNvIHRoZSB2NCBjb3JlIG5lZWRzIHRvIHVzZSANCj4g
-PiBkZXZfcG1fZ2VucGRfc2V0X2h3bW9kZSB0byBzd2l0Y2ggdGhlIEdEU0MgbW9kZSBsaWtlIHY2
-Lg0KDQo+IEkgdGhpbmsgeW91IG5lZWQgdGhpcyB0ZXN0ZWQgb24gc2RtODQ1Lg0KDQo+IEkgY2Fu
-IGRvIHRoYXQgZm9yIHlvdS4NClRoYW5rcyBmb3IgeW91ciByZXBseS4gWWVzLCB3ZSBuZWVkIHRv
-IHRlc3Qgb24gc2RtODQ1LiBQbGVhc2UgaGVscCBydW4gdGhlc2UgdHdvIGNoYW5nZXMgb24gc2Rt
-ODQ1LiBUaGFua3MgZm9yIHlvdXIgaGVscCBhZ2Fpbi4NCj4gLS0tDQo+IGJvZA0K
+On Mon, Nov 25, 2024 at 09:56:54AM +0000, CK Hu (胡俊光) wrote:
+> On Mon, 2024-11-25 at 11:39 +0200, Laurent Pinchart wrote:
+> > On Mon, Nov 25, 2024 at 06:59:59AM +0000, CK Hu (胡俊光) wrote:
+> > > On Thu, 2024-11-21 at 09:53 +0100, Julien Stephan wrote:
+> > > >
+> > > > From: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > > >
+> > > > This driver provides a path to bypass the SoC ISP so that image data
+> > > > coming from the SENINF can go directly into memory without any image
+> > > > processing. This allows the use of an external ISP.
+> > > >
+> > > > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > > > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+> > > > [Paul Elder fix irq locking]
+> > > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
+> > > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > > > ---
+> > >
+> > > [snip]
+> > >
+> > > > +static const struct mtk_cam_conf camsv30_conf = {
+> > > > +       .tg_sen_mode = 0x00010002U, /* TIME_STP_EN = 1. DBL_DATA_BUS = 1 */
+> > > > +       .module_en = 0x40000001U, /* enable double buffer and TG */
+> > > > +       .imgo_con = 0x80000080U, /* DMA FIFO depth and burst */
+> > > > +       .imgo_con2 = 0x00020002U, /* DMA priority */
+> > >
+> > > Now support only one SoC, so it's not necessary make these SoC variable.
+> > > They could be constant symbol now.
+> >
+> > This I would keep as a mtk_cam_conf structure instance, as I think it
+> > makes it clear what we consider to be model-specific without hindering
+> > readability. I don't have a very strong opinion though.
+> 
+> If this is a configuration table, I would like it to be
+> 
+> {
+> .time_stp_en = true;
+> .dbl_data_bus = 1;
+> .double_buffer_en = true;
+> .tg = 0x4;
+> ...
+> }
+
+I like that too, it's more readable than raw register values.
+
+> If next SoC has only one parameter is different, we duplicate all
+> other parameter?
+
+That's what we usually do when the amount of parameters is not too
+large. When it becomes larger, we sometimes split the configuration data
+in multiple chunks. For instance,
+
+static const char * const family_a_clks[] = {
+	"core",
+	"io",
+};
+
+static sont char * const family_b_clks[] = {
+	"main",
+	"ram",
+	"bus",
+};
+
+static const foo_dev_info soc_1_info = {
+	.has_time_machine = false,
+	.clks = family_a_clks,
+	.num_clks = ARRAY_SIZE(family_a_clks),
+};
+
+static const foo_dev_info soc_2_info = {
+	.has_time_machine = false,
+	.clks = family_b_clks,
+	.num_clks = ARRAY_SIZE(family_b_clks),
+};
+
+static const foo_dev_info soc_3_info = {
+	.has_time_machine = true,
+	.clks = family_b_clks,
+	.num_clks = ARRAY_SIZE(family_b_clks),
+};
+
+There's no clear rule, it's on a case-by-case basis.
+
+> > > > +};
+> > > > +
+
+-- 
+Regards,
+
+Laurent Pinchart
 
