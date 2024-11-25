@@ -1,469 +1,220 @@
-Return-Path: <linux-media+bounces-22030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22031-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822939D8A0E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 17:14:52 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5394A9D8A24
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 17:20:45 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16B0D165B8A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:14:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13C0D285A95
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:20:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B681B4155;
-	Mon, 25 Nov 2024 16:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994B41B652C;
+	Mon, 25 Nov 2024 16:20:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Zx0uBIxP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L53j1MSQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97171B3920
-	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 16:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347191B415C
+	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 16:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732551284; cv=none; b=fqqWWmzxRfBPOXW1B0abP/aVKI5C7j1pA8yhJGGmTkJo6QIiqgqUNax1Sb6youbVScQrUz1ESnx8GgK+uc76nwjx38pSPHanGxNbJ5M90pyIbUItQiIqWLw1ymkvnessa81MWMDJOlwhkxG4MqEXtpsIV0mQDmlHlJj28mLmPSg=
+	t=1732551628; cv=none; b=bvVJ/TqJH1+pqS6qDe/wSE+XqwjJkoJbmoJMg0qJ+PnhM8AjvPRoimui1KTi3VHmx5rQ9n6MRD7dW97ONHys+nbrX4IcPrGHsf22vJ6RQZevw5Jpucn/GhPZ0mVXRsoMdqHdiXV6TTkJ53Xw7QGT0NSEOHD9Kn1P3/TZNVD9JHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732551284; c=relaxed/simple;
-	bh=GDPiEs1SKxDW7MioAFczBEroBgiMzrHHlTJ0mpLwsPc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CyxKcCrWsFTP1D/0Rn41KNw/EtAOMTSK4qEQLXG0om0b5XFIUnVAkNjvor+66IBurkaUtY+duisxNzWtMKogGY2TJle4+klk5mcpGb24N4RVBjPolG+XvZ+wU8OBnnhxQl9BGSNBoGwPcDKpYg/RmE63byFUjJ31YxZxhgwfXO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Zx0uBIxP; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-71d40fdde2fso687735a34.3
-        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 08:14:41 -0800 (PST)
+	s=arc-20240116; t=1732551628; c=relaxed/simple;
+	bh=jIz6yqv3rQbq9An1NPSJcpLwnbdowJpW7nXb8kiGPyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ORiL0wopCpJU5EuS4yPMM8F61RrdGICOkppfJZlmylkgrayrBp5/OnmgBUBi43HUvO/MnvV/uBCUTUhUpelYHYc3FqaNMLn1zpbzqvanVadUXwyus6bhNFncvRQJkf5QDpkflzZ2vjmm1aenAHLC0RMvji/sejVvQ/ynJO5RxGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L53j1MSQ; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53de6b7da14so751834e87.0
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 08:20:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1732551281; x=1733156081; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fEo/ZYgZSTzpz+WstLskL67h0HbZb4vX04dadlNkTFk=;
-        b=Zx0uBIxP8nRxWbbWJpJF8dWkefs0AGwjxRmfRjpDKEK1+8xV5qWBOJwnlRwkyty1hS
-         CX5q7MzxbDAS2HSEH183jQ9Q4t2Eey+2XLtTJhpQiX3hOoSoaVIoYalqis/KjX4YWokt
-         s+pT5uMHqsPD9+rzyqa8jR8tW+GTr/pOUysYKd1NI7Lngd+JJojlyDO1rTb6f67+hDL3
-         TCygulGFV0Zid8y3JBX/6WU61in7TYXNJ9g3J1M9zituL8ypJAoObygraRCZnIH8V8a/
-         TRZTFbwf1CG55ps7B81Z6/4/Qi7x0FyxLtgJsCxM4ObGwKfO3Af76vU+Rfm8ZLd6+Ktl
-         3sWA==
+        d=linaro.org; s=google; t=1732551624; x=1733156424; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=osAdnzghfwg0ow+DK7g6ijsqkNJWf2271WtACbHNvN0=;
+        b=L53j1MSQHGgd56joGpTEA7/DJSkBcfWhC989ev8vZYvgbiZ5GBay8eXelRyOnAeGZj
+         AmoWG+SQ77R5Id0p9sLwDCit9kCjfXGpK5EGyYtGunO+PVEod9w8HQYjlJF6k+INTh5+
+         qOeP7Rb5Nac2d88nLgHD85oKPq3MSBUPbyf0pGionmscR+7s6CmowkHurwHQiL2cL1KK
+         Po5kEHnbBEi7r/N6/ddnI7IDxzr9M6l99DpdUDXWcOQK2A/MZX8YyyU+p/drmtuldgGR
+         0YOaARv05tGBK7rRYyVR/CIyw5Lqs/47Mx+n5fDVg/u40W1NSD1T/ccmxtVI4LexlBO8
+         6Xlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732551281; x=1733156081;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fEo/ZYgZSTzpz+WstLskL67h0HbZb4vX04dadlNkTFk=;
-        b=F3LwIZ/YJsSt2FbTfGhXedbLCyokgZdC4ue2K4Un+0AO7euYSd5T0EMfp/R9snIXi8
-         uXvbZLBfYPfRFWD9EuBXw9Hv96ahw/Vs3wjRUwkM1CJPtYozCHroe39etw7QfzC/O3v+
-         VxegP9AyDP1IQ6kDGe1Pn+ag+Rm3JnQ85XcQtKidUyAsCkjytT3MuE6v5Q59JSFyjCd8
-         xq9WtRT9cQgp0flD0hVW0dbtEvyScUYF64XeDDkHvUlROpb1CDcMKcp7wEAj1tK6FmDx
-         eqNaXFoHCeEyXtOfPo4ZBX7GUmpZyFbZwjAmVdocXZxhjwc3pi0L19KpzbXycIYfT4c6
-         mmxA==
-X-Forwarded-Encrypted: i=1; AJvYcCVU0ci66JAq4zNApS9dx7fn8qdve2d9PVYVBisuZSTfQJVj+iZuekGNNUpvmNPKeC0nsGAgymLUsgXoBQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2F+0vYMAOYOJSnfodk43i9dWlaeqtsQR/V3GmydSBnp/gmmcy
-	1tOajUTMV5J64CieOlZhinRD/Mz8ooGr2QnSWCtBAHiNSZ+tBO/Yb+gXYJgyH/ix23gn9mjYzRB
-	UIevy6szytfsbit7NcL2e5eiIfBZ/kIVICjL70w==
-X-Gm-Gg: ASbGncsLtWljVjHSPEWSUvm+glL0FJ8gvqnA2z7Auc2Yowddi8MM5QVjD2ir8REfHr+
-	snn+hXUDo8TMnD847PVQhyXZ+IVex9gs=
-X-Google-Smtp-Source: AGHT+IGT4b9WSGMyN5iCtP56gp4dzXbzI0SOowhrOGFH4LSJMolDfQ7YDq8MT6HtFJzA3tES9i8BHRGo4BMih+dUDfA=
-X-Received: by 2002:a05:6830:6281:b0:718:9d91:6a0f with SMTP id
- 46e09a7af769-71c04b9d626mr11657486a34.15.1732551280703; Mon, 25 Nov 2024
- 08:14:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732551624; x=1733156424;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=osAdnzghfwg0ow+DK7g6ijsqkNJWf2271WtACbHNvN0=;
+        b=fUFpwXklQEcvR9gDSfvRsUn5Tm9YUigSBkaDlJZPPSckoJG2XmM3I0k2ugZxhaD33W
+         QI1+5rmQfNXaCkJhr1CuNSvyg7OMv7OCEXuGU8bpKsTM+VKZI6iV3srMN3uorwz9WS97
+         pCgpP9M5xS3V3I3ye+bXm5u2xIUuDzy/klmxms8atDy03du8jnr5z3/lG9/ST0Q75nxh
+         Uqz7FbsDZTryNkuxyf0a/ZOSEJ1LMovS31IioDyxlq5ulHY83XXTbIE2VshFrWHYuN4Z
+         x6tD6uvi2uA/60T0+UhvGJMDEVfDtmzkMvPGmnLjhPlIoMQe/9/QpraKaqL45OP1+5p1
+         yrbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXcYCVnxiMJ7NwOk0zW3AJka9P42sqSVtroETfsL1p/XNWE3xIU0rAZAvfhBUm2VLUHvwWsbiLgEvwyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmN5Gl4emb91dWijFvYNntHvbuRYLVZiAAIPOcVquVuCRWhOyG
+	gJUNQpib0v2YvXsqnldt7JfX9nxFjkSMMA8hCZ5xkXi/iaR5R2GRpptk9lLU/O0=
+X-Gm-Gg: ASbGncsbTXRLETROBN+PnKgctyQB7O5s1cpcuAlZz7irrz5RoiezY/xXGXaMOI9TbDe
+	0sknYpdRlA5iWGbnYwNzZFsKAbgtO3RqUWV7jQPPVe05mq9kCSV6pjrRQTBrkZbGCR5KC392KXM
+	UTOiOFs0mroh5TQ9ufAs1W7BbrtYyPE4S8Muitj4VsLhJCxV6DTJXRq+yRcQG1JZtxlWBTt1F8Z
+	MiiYcfgYYkIZJK+EQYKX6xmPpLNJrEIVBZ+NGkp1Frs3LaAG9qY5yXTbCZQsBEHuZpTRGqbaJ85
+	w2el/bUXhwjLO4aysgEDLIFF7xnsxQ==
+X-Google-Smtp-Source: AGHT+IGGJmuLAqbWK+ECiMMHIoK9Za26vUdLmxRyMCY0pIIzGmiDusuBm5BdVWv1P0n612BIvLr1ow==
+X-Received: by 2002:a05:6512:224d:b0:53d:a5c8:aaa6 with SMTP id 2adb3069b0e04-53dd36a1186mr5952770e87.13.1732551624397;
+        Mon, 25 Nov 2024 08:20:24 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dd2489ac9sm1704981e87.182.2024.11.25.08.20.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2024 08:20:23 -0800 (PST)
+Date: Mon, 25 Nov 2024 18:20:21 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>
+Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	"Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>, "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/4] media: venus: core: add qcs615 platform data
+Message-ID: <ro5nx6brovd7inyy6tkrs7newszcxrzymfbsftejgpglz3gs6v@pscij26xmmco>
+References: <20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com>
+ <20241125-add-venus-for-qcs615-v3-2-5a376b97a68e@quicinc.com>
+ <j4nnlbstclwgoy2cr4dvoebd62by7exukvo6nfekg4lt6vi3ib@tevifuxaawua>
+ <da432de1369e4ce799c72ce98c9baaf1@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241121-imx219_fixes-v2-0-7b068a60ea40@ideasonboard.com>
- <20241121-imx219_fixes-v2-3-7b068a60ea40@ideasonboard.com>
- <npwwmrap6l3pfs6uuh5jxssrox5dp6h3bcvw4ihqqxrlhcmdks@vbyqxsakhlwg>
- <20241124033432.GF19573@pendragon.ideasonboard.com> <h5hozek5zljqa62nnfqsse232xmdihfyqipsryw3tctu2lu7td@tsnd2s6lsv22>
-In-Reply-To: <h5hozek5zljqa62nnfqsse232xmdihfyqipsryw3tctu2lu7td@tsnd2s6lsv22>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 25 Nov 2024 16:14:26 +0000
-Message-ID: <CAPY8ntBfvjdEZE1EKdQMJ2PuE1ZFOsogtaQ3S5FYO_FFDe6LUA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] media: i2c: imx219: Scale the pixel rate for
- analog binning
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Naushir Patuck <naush@raspberrypi.com>, 
-	Vinay Varma <varmavinaym@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <da432de1369e4ce799c72ce98c9baaf1@quicinc.com>
 
-Hi Jai and Laurent
+On Mon, Nov 25, 2024 at 03:34:19PM +0000, Renjiang Han (QUIC) wrote:
+> On Monday, November 25, 2024 9:36 PM, Dmitry Baryshkov wrote:
+> > On Mon, Nov 25, 2024 at 11:04:50AM +0530, Renjiang Han wrote:
+> > > Initialize the platform data and enable venus driver probe of QCS615 
+> > > SoC.
+> > > 
+> > > Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com> >
+> > > ---
+> > >  drivers/media/platform/qcom/venus/core.c | 50 
+> > > ++++++++++++++++++++++++++++++++
+> > >  1 file changed, 50 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/platform/qcom/venus/core.c 
+> > > b/drivers/media/platform/qcom/venus/core.c
+> > > index 
+> > > 423deb5e94dcb193974da23f9bd2d905bfeab2d9..39d8bcf62fe4f72674746b75994c
+> > > ce6cbaee94eb 100644
+> > > --- a/drivers/media/platform/qcom/venus/core.c
+> > > +++ b/drivers/media/platform/qcom/venus/core.c
+> > > @@ -630,6 +630,55 @@ static const struct venus_resources msm8998_res = {
+> > >  	.fwname = "qcom/venus-4.4/venus.mbn",  };
+> > >  
+> > > +static const struct freq_tbl qcs615_freq_table[] = {
+> > > +	{ 0, 460000000 },
+> > > +	{ 0, 410000000 },
+> > > +	{ 0, 380000000 },
+> > > +	{ 0, 300000000 },
+> > > +	{ 0, 240000000 },
+> > > +	{ 0, 133333333 },
+> > > +};
+> > > +
+> > > +static const struct bw_tbl qcs615_bw_table_enc[] = {
+> > > +	{  972000,  951000, 0, 1434000, 0 },	/* 3840x2160@30 */
+> > > +	{  489600,  723000, 0,  973000, 0 },	/* 1920x1080@60 */
+> > > +	{  244800,  370000, 0,	495000, 0 },	/* 1920x1080@30 */
+> > > +};
+> > > +
+> > > +static const struct bw_tbl qcs615_bw_table_dec[] = {
+> > > +	{ 1036800, 1987000, 0, 2797000, 0 },	/* 4096x2160@30 */
+> > > +	{  489600, 1040000, 0, 1298000, 0 },	/* 1920x1080@60 */
+> > > +	{  244800,  530000, 0,  659000, 0 },	/* 1920x1080@30 */
+> > > +};
+> > > +
+> > > +static const struct venus_resources qcs615_res = {
+> > > +	.freq_tbl = qcs615_freq_table,
+> > > +	.freq_tbl_size = ARRAY_SIZE(qcs615_freq_table),
+> > > +	.bw_tbl_enc = qcs615_bw_table_enc,
+> > > +	.bw_tbl_enc_size = ARRAY_SIZE(qcs615_bw_table_enc),
+> > > +	.bw_tbl_dec = qcs615_bw_table_dec,
+> > > +	.bw_tbl_dec_size = ARRAY_SIZE(qcs615_bw_table_dec),
+> > > +	.clks = {"core", "iface", "bus" },
+> > > +	.clks_num = 3,
+> > > +	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
+> > > +	.vcodec_clks_num = 2,
+> > > +	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
+> > > +	.vcodec_pmdomains_num = 2,
+> > > +	.opp_pmdomain = (const char *[]) { "cx" },
+> > > +	.vcodec_num = 1,
+> > > +	.hfi_version = HFI_VERSION_4XX,
+> > > +	.vpu_version = VPU_VERSION_AR50,
+> > > +	.vmem_id = VIDC_RESOURCE_NONE,
+> > > +	.vmem_size = 0,
+> > > +	.vmem_addr = 0,
+> > > +	.dma_mask = 0xe0000000 - 1,
+> > > +	.cp_start = 0,
+> > > +	.cp_size = 0x70800000,
+> > > +	.cp_nonpixel_start = 0x1000000,
+> > > +	.cp_nonpixel_size = 0x24800000,
+> > > +	.fwname = "qcom/venus-5.4/venus_s6.mbn",
+> 
+> > I really want the firmware discussion of linux-firmware to be solved first,
+> > before we land this patch.
+> 
+> > SHort summary: can we use a single image for all 5.4 platforms (by using
+> > v5 signatures, by using v6 signatures, v3 or any other kind of quirk).
+> Thanks for your comment. We have discussed with the firmware team and
+> other teams if we can use the same firmware binary. The result is we'd better
+> use different firmware files. They should respond in the firmware binary
+> thread. I will push them and hope them respond as quickly as possible and
+> give reasons.
+> > > +};
+> > > +
+> > >  static const struct freq_tbl sdm660_freq_table[] = {
+> > >  	{ 979200, 518400000 },
+> > >  	{ 489600, 441600000 },
+> > > @@ -937,6 +986,7 @@ static const struct of_device_id venus_dt_match[] = {
+> > >  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+> > >  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+> > >  	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+> > > +	{ .compatible = "qcom,qcs615-venus", .data = &qcs615_res, },
+> 
+> > The hardware seems to be the same as sc7180, only the frequencies differ.
+> > Can we change the driver in a way that we don't have to add another
+> > compat entry just for the sake of changing freqs / bandwidths?
+> 
+> Thank you for your comment. I agree with you. But based on the Venus code
+> architecturE ANd the distinction between different platforms, I think the
+> current changes are the simplest.
 
-On Mon, 25 Nov 2024 at 12:34, Jai Luthra <jai.luthra@ideasonboard.com> wrote:
->
-> Hi Dave,
->
-> & Laurent, Jacopo,
->
-> On Nov 24, 2024 at 05:34:32 +0200, Laurent Pinchart wrote:
-> > On Fri, Nov 22, 2024 at 11:31:58AM +0100, Jacopo Mondi wrote:
-> > > On Thu, Nov 21, 2024 at 05:38:04PM +0530, Jai Luthra wrote:
-> > > > When the analog binning mode is used for high framerate operation,
-> > > > the pixel rate is effectively doubled. Account for this when setting up
-> > > > the pixel clock rate, and applying the vblank and exposure controls.
-> > > >
-> > > > The previous logic only used analog binning for 8-bit modes, but normal
-> > > > binning limits the framerate on 10-bit 480p [1]. So with this patch we
-> > > > switch to using special binning (with 2x pixel rate) for all formats of
-> > > > 480p mode and 8-bit 1232p.
-> > > >
-> > > > To do this cleanly, re-introduce the book-keeping for which binning mode
-> > > > is used with which resolution/format.
-> > >
-> > > I think the patch is correct, however this goes a bit in the opposite
-> > > direction of making the driver freely configurable. IOW the more we
-> > > store in modes, the harder it will become to freely configure the
-> > > sensor. I know there are different opinions on how much this is
-> > > actually an issue, with valid arguments on both sides, but as I recall
-> > > freely configurable was a goal of Laurent's series, let me cc him
-> > > explicitly.
-> >
-> > Correct. I would like the binning configuration to be computed by the
-> > driver, not hardcoded. Let's do better than this.
+Well, it is simplest, correct. But not the best one. There is no plan no
+migrate these platforms to the iris driver. So instead, please improve
+the venus driver instead of just pushing the simplest change. I should
+have been more explicit about it earlier.
 
-So the question over storing in modes versus free-form
-cropping/binning was raised at Dublin in 2022, and seems to largely
-have gone nowhere since.
+> 
+> > >  	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+> > >  	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+> > >  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+> > > 
+> > > --
+> > > 2.34.1
+> > > 
+> 
+> > -- 
+> > With best wishes
+> > Dmitry
 
-In this series Sakari queried IQ issues with adjusting HBLANK on this
-sensor. The same query is valid for cropping/binning changes, and
-probably more so.
-
-How can you square the circle of IQ issues due to settings that
-haven't been validated by the sensor manufacturer vs applying
-arbitrary cropping / binning setups?
-
-> From commit ef86447e775fb1f2ced00d4c7fff2c0a1c63f165 we know the special
-> "analog" 2x binning mode causes artefacts for RAW10 1640x1232 capture.
-> But it works (and is preferred due to higher pixelrate) for RAW10
-> 640x480.
->
-> I did some experimentation with different resolutions, keeping format
-> set to RAW10, and analog binning always enabled.
->
-> Any width > 1624 causes same artefacts. And any width <= 1624 gives a
-> normal image. Height doesn't seem to matter.
->
-> Dave do you know somebody in Sony who can clarify why that is the case?
-
-I can ping my contact at Sony.
-Whether they still have the information is a different question.
-Previous times it has seemed they need to find an individual who was
-on the original product team to answer, so seeing as IMX219 came out
-around 2013 that could be tricky.
-
-  Dave
-
-> I am planning to send a v3 for this patch using width <= 1624 to decide
-> which binning mode to pick.
->
-> > > > [1]: https://github.com/raspberrypi/linux/issues/5493
-> > > >
-> > > > Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
-> > > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > > > Co-developed-by: Vinay Varma <varmavinaym@gmail.com>
-> > > > Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
-> > > > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > > > ---
-> > > >  drivers/media/i2c/imx219.c | 138 ++++++++++++++++++++++++++++++---------------
-> > > >  1 file changed, 94 insertions(+), 44 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > > index 970e6362d0ae3a9078daf337155e83d637bc1ca1..ec795569361987ae30bff234e97fa34600bf5975 100644
-> > > > --- a/drivers/media/i2c/imx219.c
-> > > > +++ b/drivers/media/i2c/imx219.c
-> > > > @@ -149,6 +149,18 @@
-> > > >  #define IMX219_PIXEL_ARRAY_WIDTH 3280U
-> > > >  #define IMX219_PIXEL_ARRAY_HEIGHT        2464U
-> > > >
-> > > > +enum binning_mode {
-> > > > + BINNING_NONE = IMX219_BINNING_NONE,
-> > > > + BINNING_X2 = IMX219_BINNING_X2,
-> > > > + BINNING_ANALOG_X2 = IMX219_BINNING_X2_ANALOG,
-> > > > +};
-> > > > +
-> > > > +enum binning_bit_depths {
-> > > > + BINNING_IDX_8_BIT,
-> > > > + BINNING_IDX_10_BIT,
-> > > > + BINNING_IDX_MAX
-> > > > +};
-> > > > +
-> > > >  /* Mode : resolution and related config&values */
-> > > >  struct imx219_mode {
-> > > >   /* Frame width */
-> > > > @@ -158,6 +170,9 @@ struct imx219_mode {
-> > > >
-> > > >   /* V-timing */
-> > > >   unsigned int vts_def;
-> > > > +
-> > > > + /* binning mode based on format code */
-> > > > + enum binning_mode binning[BINNING_IDX_MAX];
-> > > >  };
-> > > >
-> > > >  static const struct cci_reg_sequence imx219_common_regs[] = {
-> > > > @@ -293,24 +308,40 @@ static const struct imx219_mode supported_modes[] = {
-> > > >           .width = 3280,
-> > > >           .height = 2464,
-> > > >           .vts_def = 3526,
-> > > > +         .binning = {
-> > > > +                 [BINNING_IDX_8_BIT] = BINNING_NONE,
-> > > > +                 [BINNING_IDX_10_BIT] = BINNING_NONE,
-> > > > +         },
-> > > >   },
-> > > >   {
-> > > >           /* 1080P 30fps cropped */
-> > > >           .width = 1920,
-> > > >           .height = 1080,
-> > > >           .vts_def = 1763,
-> > > > +         .binning = {
-> > > > +                 [BINNING_IDX_8_BIT] = BINNING_NONE,
-> > > > +                 [BINNING_IDX_10_BIT] = BINNING_NONE,
-> > > > +         },
-> > > >   },
-> > > >   {
-> > > >           /* 2x2 binned 30fps mode */
-> > > >           .width = 1640,
-> > > >           .height = 1232,
-> > > >           .vts_def = 1763,
-> > > > +         .binning = {
-> > > > +                 [BINNING_IDX_8_BIT] = BINNING_ANALOG_X2,
-> > > > +                 [BINNING_IDX_10_BIT] = BINNING_X2,
-> > > > +         },
-> > > >   },
-> > > >   {
-> > > >           /* 640x480 30fps mode */
-> > > >           .width = 640,
-> > > >           .height = 480,
-> > > >           .vts_def = 1763,
-> > > > +         .binning = {
-> > > > +                 [BINNING_IDX_8_BIT] = BINNING_ANALOG_X2,
-> > > > +                 [BINNING_IDX_10_BIT] = BINNING_ANALOG_X2,
-> > > > +         },
-> > > >   },
-> > > >  };
-> > > >
-> > > > @@ -337,6 +368,9 @@ struct imx219 {
-> > > >
-> > > >   /* Two or Four lanes */
-> > > >   u8 lanes;
-> > > > +
-> > > > + /* Binning mode */
-> > > > + enum binning_mode binning;
-> > > >  };
-> > > >
-> > > >  static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
-> > > > @@ -362,6 +396,36 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
-> > > >   return imx219_mbus_formats[i];
-> > > >  }
-> > > >
-> > > > +static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
-> > > > +{
-> > > > + switch (format->code) {
-> > > > + case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > > + case MEDIA_BUS_FMT_SGRBG8_1X8:
-> > > > + case MEDIA_BUS_FMT_SGBRG8_1X8:
-> > > > + case MEDIA_BUS_FMT_SBGGR8_1X8:
-> > > > +         return 8;
-> > > > +
-> > > > + case MEDIA_BUS_FMT_SRGGB10_1X10:
-> > > > + case MEDIA_BUS_FMT_SGRBG10_1X10:
-> > > > + case MEDIA_BUS_FMT_SGBRG10_1X10:
-> > > > + case MEDIA_BUS_FMT_SBGGR10_1X10:
-> > > > + default:
-> > > > +         return 10;
-> > > > + }
-> > > > +}
-> > > > +
-> > > > +static int imx219_get_rate_factor(struct imx219 *imx219)
-> > > > +{
-> > > > + switch (imx219->binning) {
-> > > > + case BINNING_NONE:
-> > > > + case BINNING_X2:
-> > > > +         return 1;
-> > > > + case BINNING_ANALOG_X2:
-> > > > +         return 2;
-> > > > + }
-> > > > + return -EINVAL;
-> > > > +}
-> > > > +
-> > > >  /* -----------------------------------------------------------------------------
-> > > >   * Controls
-> > > >   */
-> > > > @@ -373,10 +437,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > >   struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> > > >   const struct v4l2_mbus_framefmt *format;
-> > > >   struct v4l2_subdev_state *state;
-> > > > + int rate_factor;
-> > > >   int ret = 0;
-> > > >
-> > > >   state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> > > >   format = v4l2_subdev_state_get_format(state, 0);
-> > > > + rate_factor = imx219_get_rate_factor(imx219);
-> > > >
-> > > >   if (ctrl->id == V4L2_CID_VBLANK) {
-> > > >           int exposure_max, exposure_def;
-> > > > @@ -405,7 +471,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > >           break;
-> > > >   case V4L2_CID_EXPOSURE:
-> > > >           cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
-> > > > -                   ctrl->val, &ret);
-> > > > +                   ctrl->val / rate_factor, &ret);
-> > > >           break;
-> > > >   case V4L2_CID_DIGITAL_GAIN:
-> > > >           cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-> > > > @@ -422,7 +488,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > >           break;
-> > > >   case V4L2_CID_VBLANK:
-> > > >           cci_write(imx219->regmap, IMX219_REG_VTS,
-> > > > -                   format->height + ctrl->val, &ret);
-> > > > +                   (format->height + ctrl->val) / rate_factor, &ret);
-> > > >           break;
-> > > >   case V4L2_CID_HBLANK:
-> > > >           cci_write(imx219->regmap, IMX219_REG_HTS,
-> > > > @@ -463,7 +529,8 @@ static const struct v4l2_ctrl_ops imx219_ctrl_ops = {
-> > > >
-> > > >  static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
-> > > >  {
-> > > > - return (imx219->lanes == 2) ? IMX219_PIXEL_RATE : IMX219_PIXEL_RATE_4LANE;
-> > > > + return ((imx219->lanes == 2) ? IMX219_PIXEL_RATE :
-> > > > +         IMX219_PIXEL_RATE_4LANE) * imx219_get_rate_factor(imx219);
-> > > >  }
-> > > >
-> > > >  /* Initialize control handlers */
-> > > > @@ -592,29 +659,12 @@ static int imx219_set_framefmt(struct imx219 *imx219,
-> > > >  {
-> > > >   const struct v4l2_mbus_framefmt *format;
-> > > >   const struct v4l2_rect *crop;
-> > > > - unsigned int bpp;
-> > > > - u64 bin_h, bin_v;
-> > > > + u32 bpp;
-> > > >   int ret = 0;
-> > > >
-> > > >   format = v4l2_subdev_state_get_format(state, 0);
-> > > >   crop = v4l2_subdev_state_get_crop(state, 0);
-> > > > -
-> > > > - switch (format->code) {
-> > > > - case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > > - case MEDIA_BUS_FMT_SGRBG8_1X8:
-> > > > - case MEDIA_BUS_FMT_SGBRG8_1X8:
-> > > > - case MEDIA_BUS_FMT_SBGGR8_1X8:
-> > > > -         bpp = 8;
-> > > > -         break;
-> > > > -
-> > > > - case MEDIA_BUS_FMT_SRGGB10_1X10:
-> > > > - case MEDIA_BUS_FMT_SGRBG10_1X10:
-> > > > - case MEDIA_BUS_FMT_SGBRG10_1X10:
-> > > > - case MEDIA_BUS_FMT_SBGGR10_1X10:
-> > > > - default:
-> > > > -         bpp = 10;
-> > > > -         break;
-> > > > - }
-> > > > + bpp = imx219_get_format_bpp(format);
-> > > >
-> > > >   cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
-> > > >             crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
-> > > > @@ -625,28 +675,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
-> > > >   cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
-> > > >             crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
-> > > >
-> > > > - switch (crop->width / format->width) {
-> > > > - case 1:
-> > > > - default:
-> > > > -         bin_h = IMX219_BINNING_NONE;
-> > > > -         break;
-> > > > - case 2:
-> > > > -         bin_h = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
-> > > > -         break;
-> > > > - }
-> > > > -
-> > > > - switch (crop->height / format->height) {
-> > > > - case 1:
-> > > > - default:
-> > > > -         bin_v = IMX219_BINNING_NONE;
-> > > > -         break;
-> > > > - case 2:
-> > > > -         bin_v = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
-> > >
-> > > So if I got this right, another way of handling this would be to
-> > >
-> > >             bin_v = (bpp == 8 || (format->width == 640 && format->height = 480)
-> > >                       ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
-> > >
-> > >
-> > > I'm not sure how much better this is, as then freely configure the
-> > > sensor at (random numbers) 720x480@10bpp would not use analog binning
-> > > while it might be beneficial. Actually knowing what analog mode is how
-> > > it shuold be used would help, but if I recall correctly it wasn't
-> > > clear from documentation or not fully clarified by Sony ?
-> > >
-> > > When it comes to scaling PIXEL_RATE, the above switch could be moved
-> > > to set_pad_format and store imx219->binning to be
-> > > 1) used here
-> > > 2) used in s_ctrl
->
-> Agreed, will move it to set_pad_format.
->
-> > >
-> > > like this patch does already.
-> > >
-> > > Opinions ?
-> > >
-> > > > -         break;
-> > > > - }
-> > > > -
-> > > > - cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
-> > > > - cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, bin_v, &ret);
-> > > > + cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, imx219->binning, &ret);
-> > > > + cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, imx219->binning, &ret);
-> > > >
-> > > >   cci_write(imx219->regmap, IMX219_REG_X_OUTPUT_SIZE,
-> > > >             format->width, &ret);
-> > > > @@ -851,6 +881,21 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > > >           int exposure_max;
-> > > >           int exposure_def;
-> > > >           int hblank;
-> > > > +         int pixel_rate;
-> > > > +
-> > > > +         /* Update binning mode based on format */
-> > > > +         switch (imx219_get_format_bpp(format)) {
-> > > > +         case 8:
-> > > > +                 imx219->binning = mode->binning[BINNING_IDX_8_BIT];
-> > > > +                 break;
-> > > > +
-> > > > +         case 10:
-> > > > +                 imx219->binning = mode->binning[BINNING_IDX_10_BIT];
-> > > > +                 break;
-> > > > +
-> > > > +         default:
-> > > > +                 imx219->binning = BINNING_NONE;
-> > > > +         }
-> > > >
-> > > >           /* Update limits and set FPS to default */
-> > > >           __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-> > > > @@ -879,6 +924,11 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > > >                                    IMX219_PPL_MAX - mode->width,
-> > > >                                    1, IMX219_PPL_MIN - mode->width);
-> > > >           __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
-> > > > +
-> > > > +         /* Scale the pixel rate based on the mode specific factor */
-> > > > +         pixel_rate = imx219_get_pixel_rate(imx219);
-> > > > +         __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
-> > > > +                                  pixel_rate, 1, pixel_rate);
-> > > >   }
-> > > >
-> > > >   return 0;
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->
-> --
-> Thanks,
-> Jai
->
-> GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
+-- 
+With best wishes
+Dmitry
 
