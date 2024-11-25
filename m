@@ -1,319 +1,468 @@
-Return-Path: <linux-media+bounces-22017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D81A9D88D3
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:09:01 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2415B16BDBD
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 15:08:19 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D8DC1B4124;
-	Mon, 25 Nov 2024 15:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mz3M9hPc"
-X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D109D88DB
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:10:36 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E2A1B395C;
-	Mon, 25 Nov 2024 15:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5116283722
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 15:10:35 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1682F1B3926;
+	Mon, 25 Nov 2024 15:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jS/+LC3t"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79B3157465
+	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 15:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732547248; cv=none; b=Vxuamgz/Wc51VCQgR7LVcrrjr3PLSwX4pjiJnk6SuA7myLSlzvvYpGh/SSkDnAz8dnAuETvh7ixKtKFINFckjuvJUWb74Epz9y1nqvGu34eligp9n3lLDVv/d3JJuh3OyrljG9qs+izm20joqNUCKRl6EzJmaExIq5T7z8yjTdE=
+	t=1732547430; cv=none; b=VlN+2ggwVlSsYhI8Y2Vxm50vzxcXW3hHQMKxNEc7me1VG7ApN7d2IBbNZk43TvRPRee8w9dfS8OxtpOBvXrWpKOeAedLHirRcN4vCnfoJAt4S597PnEjreCPMSrEgERhwSklmA3zTNJCuU20I+lS5cjYDfZaFf0u1mORFW3VVXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732547248; c=relaxed/simple;
-	bh=ObNp099S/7voqB0WAWP8tLNv0cQWGdENu8N3L04Q4LY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BiwCJjIqjCJ/469neD/f2Mr61qsgOoYHiOk6jrZntLf0KgUSZX7Oj+9x0aguG/4G+IWNHUuDLVCy0JNnDWIrPGmVa1EtJ6QBuKKzObAUgB783SgEkV2EniG4+62clTLXb/9zGw+75Y/rEe7Ug6i/R5mDqhySlSaI4agYRTs7kbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mz3M9hPc; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:883a:fbdb:56c3:2e5a:271e:2a92])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAC9912E9;
-	Mon, 25 Nov 2024 16:07:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732547224;
-	bh=ObNp099S/7voqB0WAWP8tLNv0cQWGdENu8N3L04Q4LY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=mz3M9hPczUH5L27gtsS7LL+BmqNUsStt57oGCsAj43PWyiJWXXZuyyCx+FgLDxTev
-	 uskyMGGXR5HhwRZto8tMYbksYTKc3y2MeixCNg1JQkr4xQ/hBlY7Ach+mO6OSeQqwK
-	 D4f1k4jIh2krno45SnQ6n2Gr/eGSX9E9xkj4Uvp4=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 25 Nov 2024 20:36:27 +0530
-Subject: [PATCH v3 3/3] media: i2c: imx219: Scale the pixel rate for analog
- binning
+	s=arc-20240116; t=1732547430; c=relaxed/simple;
+	bh=atf/Nz4TS5oB81I1hwXMwxwhW+NENmbFQY4fTZoqfKs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ss8/qC7npUYEWH+C0okraW9GGVlDOIbKVysQXYlodAGId7Dws3a13uO6w1NEbPCY1h9EwfGJkwVr1P2Q5lXvadRaoAesNCktVZu9rxTqqf46UV6+pM3bGBZ6o9hqDJkCwVPgHb6tQOT1yjLVHAZlRC4UD8NJhTNJOWGFvm46Xgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jS/+LC3t; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7f450f7f11dso3246198a12.2
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 07:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1732547427; x=1733152227; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3msunHjcfAboNwcVyr01gajcurYTlIrGSDpenqCNow4=;
+        b=jS/+LC3tEH55SBpfdLvcPH6W4uMKHyUP5kJcWeDEvZeDQOCovDdnDtZghYecWq0qIX
+         7MNhfgxGfJY18rqX/tzu+ocCC1kU8olkzZIXpoq1Hyd2WPalh9shBzudkc6xUNbEKr96
+         zmJRZnzvPYXr6OnlmBEhgjk4h8gUJiO63trNU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732547427; x=1733152227;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3msunHjcfAboNwcVyr01gajcurYTlIrGSDpenqCNow4=;
+        b=OFG7FG+xpVmrf7ZROGUdJYoS870rpLlKc+6JkdedCqz11Gxikf4XryiGIabqcvHOnK
+         XT5NMVEND8669qQJW8tQhb8aUuDxvMv1IOgEs1zw2Hyq5bFzQaqlSJTfgJLB02GYkz+F
+         aO7mLgOyTZccmM/pTROuLQWRX7tpHY1rhXwC7bDE+Y4Mzm8JLqkRIJXtpWhi6tOQNJAD
+         YCD3M5XPNw9jKHQiTyjhGCfzvW0UWNhB4j39u3DACb1wHzpfp56IWpjQg/l7CEbdr1sv
+         GXRcCBkzAPl9tsgz7QAvSpipfsNtSL7mNPCjG9ODzo5RVSS7xgpmjQ/v4hKWy5lHqO6N
+         pwQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUW2MFSc7PJIuNmkwIdg28ys2YYO8jcI3uyLSOGt/F4Aepnu3e/VhR1rx9qTSsnc1rsbOo6TSX/l55uqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxI1G831k7qNMI1gyq0tIevIejHTrK2jz4fncQcZleQCSdwrtkr
+	joWAFz+UgDFz0jVz377wtzDWVNppAmdGgAI2FSPIG7JBOBWkeH1V/aERMVkTP1EcapTGtvqLah0
+	=
+X-Gm-Gg: ASbGncsZ+dhjkIlAixkrHtSeup5iL3WIr6t4gbSkWrnpqDUrhoz8RsBD9wjFLlKgT5d
+	xC3RzpcJ73K3nxzSu3vVNW1DoI54nU/5Ciwxd+a5hu4RO7qUb4B15Ad8G7JtT8stvEcsw1U+hah
+	oRXKlmT1W0bFyneUqlKRRdajwzeITv3nVeTfDhfflcN5JjPC1JnsZLBn6DZZkzTY2l2YKt+BOk2
+	jB4MWa/Sk2GPqdiYxuBWTodRQMvqXX4VYIrtlLxt7eIlyzu2ykBUuy5LMiMsNPqnCdMPiW7BxrZ
+	i+mCia9IlKECOCuu
+X-Google-Smtp-Source: AGHT+IGfr4mYbs9PdwhvPVsSW0oNmtyH0MLYXK+ZDrqO9TggTTeQMyohIHXyw6+w/yCx8t4hoXfCag==
+X-Received: by 2002:a05:6a20:1582:b0:1d4:fc66:30e8 with SMTP id adf61e73a8af0-1e09e3f0006mr18711218637.10.1732547426615;
+        Mon, 25 Nov 2024 07:10:26 -0800 (PST)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com. [209.85.210.181])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fbcbfbfe5fsm5742143a12.15.2024.11.25.07.10.25
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Nov 2024 07:10:25 -0800 (PST)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-724f42c1c38so1649066b3a.1
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 07:10:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVbhM5YE90LIdt29874gOeRK3QhVPs5gzOgp4Xu1FsD/dRpkxxLdzkUTYbLfu5MBzUMFUtRN+ZAiOZoCw==@vger.kernel.org
+X-Received: by 2002:a05:6a00:17a1:b0:71e:427a:68de with SMTP id
+ d2e1a72fcca58-724df6a9469mr18627612b3a.24.1732547424469; Mon, 25 Nov 2024
+ 07:10:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241125-imx219_fixes-v3-3-434fc0b541c8@ideasonboard.com>
-References: <20241125-imx219_fixes-v3-0-434fc0b541c8@ideasonboard.com>
-In-Reply-To: <20241125-imx219_fixes-v3-0-434fc0b541c8@ideasonboard.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>, 
- Naushir Patuck <naush@raspberrypi.com>, Vinay Varma <varmavinaym@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7554;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=ObNp099S/7voqB0WAWP8tLNv0cQWGdENu8N3L04Q4LY=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBnRJKTFRLBkqeXmq42B+w7zuf2QSR9hVD0w0gFQ
- V40AFMvkLOJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ0SSkwAKCRBD3pH5JJpx
- RWD1D/0RJIXkWNfhsEgzjU20x9uTKsamYNNqypABIFVhsvhSdmfIsemwdIOJ47XqUQnvMabN5xD
- pesFfEdXdsoqasjedJXDdPzf/q/IeGCzQrMXsoxz9vhJwgWtivRAuPnY+kX5ixcgzgKV30A/IjW
- OylrJ6HuEWOppUK8PKSUpS1YGA1SS9dqG3vpecrIAn3aXJiWsAl6b4rqsus7zx5K5hehW/40qhp
- TbyJ8+jmbl3UhKeT6DhyVoCKHDzL7enYzXh4Z/wbeC05uYCP2Hjtrcn0GUvui2GLSa0v9yCVrce
- 0/TVOKIejG4Rvl7QF2mwqP6VGaK7h9uIEPa0sdAWvy/vBQUn9hbXRqf1geDgZgd4qsOjxoQAcXO
- igYclHuc/UL5PaBPy5AYNETi8VQjuWbFR5AjEwOaCGOoobn0jXFuB0ABKoO3LYhCSMAlfvpnXmG
- bATsSf46bjQm4oBDlX9gHF+/BXDwzjZ3lGv4UcROkSzfl1RgOXRxs1njZUZCLnY7kCdRKJbEMX2
- nqSzg5p8F/FwkxIFFPiGL0qDWPIPorjw2xtVU3gYzHLS2qNtVS6tN5oQbfoMHWkiFPjaiu4H/3M
- MdXKpwhxxI9pK2lbcIRsh5LUNWocykrdnw80CJ29XjjDPhhl+2oBjSORvRHOUFETwb5HJEvxHym
- HzAoIeVQMvxcYbw==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+References: <20241112-uvc-subdev-v3-0-0ea573d41a18@chromium.org>
+ <20241112-uvc-subdev-v3-2-0ea573d41a18@chromium.org> <7da09249-f2ff-4a0c-8a06-1594b02ce87a@redhat.com>
+In-Reply-To: <7da09249-f2ff-4a0c-8a06-1594b02ce87a@redhat.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 25 Nov 2024 16:10:12 +0100
+X-Gmail-Original-Message-ID: <CANiDSCsQ3Rp55+9WbporH37W_-XHaXCR0iww6n6kHXngKh67TQ@mail.gmail.com>
+Message-ID: <CANiDSCsQ3Rp55+9WbporH37W_-XHaXCR0iww6n6kHXngKh67TQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/8] media: uvcvideo: Factor out gpio functions to its
+ own file
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	Yunke Cao <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 
-When the analog binning mode is used for high framerate operation,
-the pixel rate is effectively doubled. Account for this when setting up
-the pixel clock rate, and applying the vblank and exposure controls.
+On Mon, 25 Nov 2024 at 15:45, Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi Ricardo,
+>
+> On 12-Nov-24 6:30 PM, Ricardo Ribalda wrote:
+> > This is just a refactor patch, no new functionality is added.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>
+> I guess this patch may need to change depending on if we want
+> to keep the GPIO handling as a UVC entity or not.
 
-The previous logic only used analog binning for 8-bit modes, but normal
-binning limits the framerate on 10-bit 480p [1]. So with this patch we
-switch to using special binning (with 2x pixel rate) for all formats of
-480p mode and 8-bit 1232p.
+I have a v4 that removes the virtual uvc entity. Still with that
+approach IMHO this patch makes sense.
 
-[1]: https://github.com/raspberrypi/linux/issues/5493
+I was planning to send it today, I am testing it right now.
 
-Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
-Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-Co-developed-by: Vinay Varma <varmavinaym@gmail.com>
-Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/media/i2c/imx219.c | 120 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 76 insertions(+), 44 deletions(-)
+>
+> Laurent what is your take on this, should this stay as
+> a struct uvc_entity; or should the gpio_desc and input_device
+> be stored directly inside struct uvc_device as is done for
+> the snapshot-button input_device?
+>
+>
+> Also de we want a separate input_device for this or do
+> we re-use the snapshot button one ?
+>
+> Since my plan is to open-up the permission on the device with
+> the SW_CAMERA_LENS_COVER to be equal to the /dev/video#
+> permissions sharing has the downside of allowing keylogging
+> of the snapshot button.
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 970e6362d0ae3a9078daf337155e83d637bc1ca1..39b85cdee58318b080c867afd68ca33d14d3eda7 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -149,6 +149,12 @@
- #define IMX219_PIXEL_ARRAY_WIDTH	3280U
- #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
- 
-+enum binning_mode {
-+	BINNING_NONE = IMX219_BINNING_NONE,
-+	BINNING_X2 = IMX219_BINNING_X2,
-+	BINNING_ANALOG_X2 = IMX219_BINNING_X2_ANALOG,
-+};
-+
- /* Mode : resolution and related config&values */
- struct imx219_mode {
- 	/* Frame width */
-@@ -337,6 +343,10 @@ struct imx219 {
- 
- 	/* Two or Four lanes */
- 	u8 lanes;
-+
-+	/* Binning mode */
-+	enum binning_mode bin_h;
-+	enum binning_mode bin_v;
- };
- 
- static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
-@@ -362,6 +372,36 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
- 	return imx219_mbus_formats[i];
- }
- 
-+static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
-+{
-+	switch (format->code) {
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+		return 8;
-+
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	default:
-+		return 10;
-+	}
-+}
-+
-+static int imx219_get_rate_factor(struct imx219 *imx219)
-+{
-+	switch (imx219->bin_v) {
-+	case BINNING_NONE:
-+	case BINNING_X2:
-+		return 1;
-+	case BINNING_ANALOG_X2:
-+		return 2;
-+	}
-+	return -EINVAL;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Controls
-  */
-@@ -373,10 +413,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
- 	const struct v4l2_mbus_framefmt *format;
- 	struct v4l2_subdev_state *state;
-+	int rate_factor;
- 	int ret = 0;
- 
- 	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
- 	format = v4l2_subdev_state_get_format(state, 0);
-+	rate_factor = imx219_get_rate_factor(imx219);
- 
- 	if (ctrl->id == V4L2_CID_VBLANK) {
- 		int exposure_max, exposure_def;
-@@ -405,7 +447,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_EXPOSURE:
- 		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
--			  ctrl->val, &ret);
-+			  ctrl->val / rate_factor, &ret);
- 		break;
- 	case V4L2_CID_DIGITAL_GAIN:
- 		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-@@ -422,7 +464,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_VBLANK:
- 		cci_write(imx219->regmap, IMX219_REG_VTS,
--			  format->height + ctrl->val, &ret);
-+			  (format->height + ctrl->val) / rate_factor, &ret);
- 		break;
- 	case V4L2_CID_HBLANK:
- 		cci_write(imx219->regmap, IMX219_REG_HTS,
-@@ -463,7 +505,8 @@ static const struct v4l2_ctrl_ops imx219_ctrl_ops = {
- 
- static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
- {
--	return (imx219->lanes == 2) ? IMX219_PIXEL_RATE : IMX219_PIXEL_RATE_4LANE;
-+	return ((imx219->lanes == 2) ? IMX219_PIXEL_RATE :
-+		IMX219_PIXEL_RATE_4LANE) * imx219_get_rate_factor(imx219);
- }
- 
- /* Initialize control handlers */
-@@ -592,29 +635,12 @@ static int imx219_set_framefmt(struct imx219 *imx219,
- {
- 	const struct v4l2_mbus_framefmt *format;
- 	const struct v4l2_rect *crop;
--	unsigned int bpp;
--	u64 bin_h, bin_v;
-+	u32 bpp;
- 	int ret = 0;
- 
- 	format = v4l2_subdev_state_get_format(state, 0);
- 	crop = v4l2_subdev_state_get_crop(state, 0);
--
--	switch (format->code) {
--	case MEDIA_BUS_FMT_SRGGB8_1X8:
--	case MEDIA_BUS_FMT_SGRBG8_1X8:
--	case MEDIA_BUS_FMT_SGBRG8_1X8:
--	case MEDIA_BUS_FMT_SBGGR8_1X8:
--		bpp = 8;
--		break;
--
--	case MEDIA_BUS_FMT_SRGGB10_1X10:
--	case MEDIA_BUS_FMT_SGRBG10_1X10:
--	case MEDIA_BUS_FMT_SGBRG10_1X10:
--	case MEDIA_BUS_FMT_SBGGR10_1X10:
--	default:
--		bpp = 10;
--		break;
--	}
-+	bpp = imx219_get_format_bpp(format);
- 
- 	cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
- 		  crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
-@@ -625,28 +651,8 @@ static int imx219_set_framefmt(struct imx219 *imx219,
- 	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
- 		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
- 
--	switch (crop->width / format->width) {
--	case 1:
--	default:
--		bin_h = IMX219_BINNING_NONE;
--		break;
--	case 2:
--		bin_h = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
--		break;
--	}
--
--	switch (crop->height / format->height) {
--	case 1:
--	default:
--		bin_v = IMX219_BINNING_NONE;
--		break;
--	case 2:
--		bin_v = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
--		break;
--	}
--
--	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
--	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, bin_v, &ret);
-+	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, imx219->bin_h, &ret);
-+	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, imx219->bin_v, &ret);
- 
- 	cci_write(imx219->regmap, IMX219_REG_X_OUTPUT_SIZE,
- 		  format->width, &ret);
-@@ -851,6 +857,27 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 		int exposure_max;
- 		int exposure_def;
- 		int hblank;
-+		int pixel_rate;
-+		u32 bpp = imx219_get_format_bpp(format);
-+		enum binning_mode binning = BINNING_NONE;
-+
-+		/*
-+		 * For 8-bit formats, analog horizontal binning is required,
-+		 * else the output image is garbage.
-+		 * For 10-bit formats, analog horizontal binning is optional,
-+		 * but still useful as it doubles the effective framerate.
-+		 * We can only use it with width <= 1624, as for higher values
-+		 * there are blocky artefacts.
-+		 *
-+		 * Vertical binning should match the horizontal binning mode.
-+		 */
-+		if (bin_h == 2 && (format->width <= 1624 || bpp == 8))
-+			binning = BINNING_ANALOG_X2;
-+		else
-+			binning = BINNING_X2;
-+
-+		imx219->bin_h = (bin_h == 2) ? binning : BINNING_NONE;
-+		imx219->bin_v = (bin_v == 2) ? binning : BINNING_NONE;
- 
- 		/* Update limits and set FPS to default */
- 		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-@@ -879,6 +906,11 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 					 IMX219_PPL_MAX - mode->width,
- 					 1, IMX219_PPL_MIN - mode->width);
- 		__v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
-+
-+		/* Scale the pixel rate based on the mode specific factor */
-+		pixel_rate = imx219_get_pixel_rate(imx219);
-+		__v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
-+					 pixel_rate, 1, pixel_rate);
- 	}
- 
- 	return 0;
+A downside of having 2 devices is that userspace will have to either
+figure out what evdev they want to use or listen to both....
+
+I do not have a strong preference.
+
+
+>
+> Either way (one or 2 input-devices) I don't have a strong
+> preference.
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+>
+> > ---
+> >  drivers/media/usb/uvc/Makefile     |   3 +-
+> >  drivers/media/usb/uvc/uvc_driver.c | 119 +------------------------------------
+> >  drivers/media/usb/uvc/uvc_gpio.c   | 118 ++++++++++++++++++++++++++++++++++++
+> >  drivers/media/usb/uvc/uvcvideo.h   |   8 +++
+> >  4 files changed, 131 insertions(+), 117 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/Makefile b/drivers/media/usb/uvc/Makefile
+> > index 4f9eee4f81ab..85514b6e538f 100644
+> > --- a/drivers/media/usb/uvc/Makefile
+> > +++ b/drivers/media/usb/uvc/Makefile
+> > @@ -1,6 +1,7 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >  uvcvideo-objs  := uvc_driver.o uvc_queue.o uvc_v4l2.o uvc_video.o uvc_ctrl.o \
+> > -               uvc_status.o uvc_isight.o uvc_debugfs.o uvc_metadata.o
+> > +               uvc_status.o uvc_isight.o uvc_debugfs.o uvc_metadata.o \
+> > +               uvc_gpio.o
+> >  ifeq ($(CONFIG_MEDIA_CONTROLLER),y)
+> >  uvcvideo-objs  += uvc_entity.o
+> >  endif
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index cd13bf01265d..5b48768a4f7f 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -8,7 +8,6 @@
+> >
+> >  #include <linux/atomic.h>
+> >  #include <linux/bits.h>
+> > -#include <linux/gpio/consumer.h>
+> >  #include <linux/kernel.h>
+> >  #include <linux/list.h>
+> >  #include <linux/module.h>
+> > @@ -775,9 +774,9 @@ static const u8 uvc_media_transport_input_guid[16] =
+> >       UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
+> >  static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
+> >
+> > -static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
+> > -                                            u16 id, unsigned int num_pads,
+> > -                                            unsigned int extra_size)
+> > +struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
+> > +                                     u16 id, unsigned int num_pads,
+> > +                                     unsigned int extra_size)
+> >  {
+> >       struct uvc_entity *entity;
+> >       unsigned int num_inputs;
+> > @@ -1240,118 +1239,6 @@ static int uvc_parse_control(struct uvc_device *dev)
+> >       return 0;
+> >  }
+> >
+> > -/* -----------------------------------------------------------------------------
+> > - * Privacy GPIO
+> > - */
+> > -
+> > -static void uvc_gpio_event(struct uvc_device *dev)
+> > -{
+> > -     struct uvc_entity *unit = dev->gpio_unit;
+> > -     struct uvc_video_chain *chain;
+> > -     u8 new_val;
+> > -
+> > -     if (!unit)
+> > -             return;
+> > -
+> > -     new_val = gpiod_get_value_cansleep(unit->gpio.gpio_privacy);
+> > -
+> > -     /* GPIO entities are always on the first chain. */
+> > -     chain = list_first_entry(&dev->chains, struct uvc_video_chain, list);
+> > -     uvc_ctrl_status_event(chain, unit->controls, &new_val);
+> > -}
+> > -
+> > -static int uvc_gpio_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
+> > -                         u8 cs, void *data, u16 size)
+> > -{
+> > -     if (cs != UVC_CT_PRIVACY_CONTROL || size < 1)
+> > -             return -EINVAL;
+> > -
+> > -     *(u8 *)data = gpiod_get_value_cansleep(entity->gpio.gpio_privacy);
+> > -
+> > -     return 0;
+> > -}
+> > -
+> > -static int uvc_gpio_get_info(struct uvc_device *dev, struct uvc_entity *entity,
+> > -                          u8 cs, u8 *caps)
+> > -{
+> > -     if (cs != UVC_CT_PRIVACY_CONTROL)
+> > -             return -EINVAL;
+> > -
+> > -     *caps = UVC_CONTROL_CAP_GET | UVC_CONTROL_CAP_AUTOUPDATE;
+> > -     return 0;
+> > -}
+> > -
+> > -static irqreturn_t uvc_gpio_irq(int irq, void *data)
+> > -{
+> > -     struct uvc_device *dev = data;
+> > -
+> > -     uvc_gpio_event(dev);
+> > -     return IRQ_HANDLED;
+> > -}
+> > -
+> > -static int uvc_gpio_parse(struct uvc_device *dev)
+> > -{
+> > -     struct uvc_entity *unit;
+> > -     struct gpio_desc *gpio_privacy;
+> > -     int irq;
+> > -
+> > -     gpio_privacy = devm_gpiod_get_optional(&dev->intf->dev, "privacy",
+> > -                                            GPIOD_IN);
+> > -     if (IS_ERR_OR_NULL(gpio_privacy))
+> > -             return PTR_ERR_OR_ZERO(gpio_privacy);
+> > -
+> > -     irq = gpiod_to_irq(gpio_privacy);
+> > -     if (irq < 0)
+> > -             return dev_err_probe(&dev->intf->dev, irq,
+> > -                                  "No IRQ for privacy GPIO\n");
+> > -
+> > -     unit = uvc_alloc_new_entity(dev, UVC_EXT_GPIO_UNIT,
+> > -                                 UVC_EXT_GPIO_UNIT_ID, 0, 1);
+> > -     if (IS_ERR(unit))
+> > -             return PTR_ERR(unit);
+> > -
+> > -     unit->gpio.gpio_privacy = gpio_privacy;
+> > -     unit->gpio.irq = irq;
+> > -     unit->gpio.bControlSize = 1;
+> > -     unit->gpio.bmControls = (u8 *)unit + sizeof(*unit);
+> > -     unit->gpio.bmControls[0] = 1;
+> > -     unit->get_cur = uvc_gpio_get_cur;
+> > -     unit->get_info = uvc_gpio_get_info;
+> > -     strscpy(unit->name, "GPIO", sizeof(unit->name));
+> > -
+> > -     list_add_tail(&unit->list, &dev->entities);
+> > -
+> > -     dev->gpio_unit = unit;
+> > -
+> > -     return 0;
+> > -}
+> > -
+> > -static int uvc_gpio_init_irq(struct uvc_device *dev)
+> > -{
+> > -     struct uvc_entity *unit = dev->gpio_unit;
+> > -     int ret;
+> > -
+> > -     if (!unit || unit->gpio.irq < 0)
+> > -             return 0;
+> > -
+> > -     ret = request_threaded_irq(unit->gpio.irq, NULL, uvc_gpio_irq,
+> > -                                IRQF_ONESHOT | IRQF_TRIGGER_FALLING |
+> > -                                IRQF_TRIGGER_RISING,
+> > -                                "uvc_privacy_gpio", dev);
+> > -
+> > -     unit->gpio.initialized = !ret;
+> > -
+> > -     return ret;
+> > -}
+> > -
+> > -static void uvc_gpio_deinit(struct uvc_device *dev)
+> > -{
+> > -     if (!dev->gpio_unit || !dev->gpio_unit->gpio.initialized)
+> > -             return;
+> > -
+> > -     free_irq(dev->gpio_unit->gpio.irq, dev);
+> > -}
+> > -
+> >  /* ------------------------------------------------------------------------
+> >   * UVC device scan
+> >   */
+> > diff --git a/drivers/media/usb/uvc/uvc_gpio.c b/drivers/media/usb/uvc/uvc_gpio.c
+> > new file mode 100644
+> > index 000000000000..453739acbe8f
+> > --- /dev/null
+> > +++ b/drivers/media/usb/uvc/uvc_gpio.c
+> > @@ -0,0 +1,118 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + *      uvc_gpio.c  --  USB Video Class driver
+> > + *
+> > + *      Copyright 2024 Google LLC
+> > + */
+> > +
+> > +#include <linux/kernel.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include "uvcvideo.h"
+> > +
+> > +static void uvc_gpio_event(struct uvc_device *dev)
+> > +{
+> > +     struct uvc_entity *unit = dev->gpio_unit;
+> > +     struct uvc_video_chain *chain;
+> > +     u8 new_val;
+> > +
+> > +     if (!unit)
+> > +             return;
+> > +
+> > +     new_val = gpiod_get_value_cansleep(unit->gpio.gpio_privacy);
+> > +
+> > +     /* GPIO entities are always on the first chain. */
+> > +     chain = list_first_entry(&dev->chains, struct uvc_video_chain, list);
+> > +     uvc_ctrl_status_event(chain, unit->controls, &new_val);
+> > +}
+> > +
+> > +static int uvc_gpio_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
+> > +                         u8 cs, void *data, u16 size)
+> > +{
+> > +     if (cs != UVC_CT_PRIVACY_CONTROL || size < 1)
+> > +             return -EINVAL;
+> > +
+> > +     *(u8 *)data = gpiod_get_value_cansleep(entity->gpio.gpio_privacy);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int uvc_gpio_get_info(struct uvc_device *dev, struct uvc_entity *entity,
+> > +                          u8 cs, u8 *caps)
+> > +{
+> > +     if (cs != UVC_CT_PRIVACY_CONTROL)
+> > +             return -EINVAL;
+> > +
+> > +     *caps = UVC_CONTROL_CAP_GET | UVC_CONTROL_CAP_AUTOUPDATE;
+> > +     return 0;
+> > +}
+> > +
+> > +static irqreturn_t uvc_gpio_irq(int irq, void *data)
+> > +{
+> > +     struct uvc_device *dev = data;
+> > +
+> > +     uvc_gpio_event(dev);
+> > +     return IRQ_HANDLED;
+> > +}
+> > +
+> > +int uvc_gpio_parse(struct uvc_device *dev)
+> > +{
+> > +     struct uvc_entity *unit;
+> > +     struct gpio_desc *gpio_privacy;
+> > +     int irq;
+> > +
+> > +     gpio_privacy = devm_gpiod_get_optional(&dev->intf->dev, "privacy",
+> > +                                            GPIOD_IN);
+> > +     if (IS_ERR_OR_NULL(gpio_privacy))
+> > +             return PTR_ERR_OR_ZERO(gpio_privacy);
+> > +
+> > +     irq = gpiod_to_irq(gpio_privacy);
+> > +     if (irq < 0)
+> > +             return dev_err_probe(&dev->udev->dev, irq,
+> > +                                  "No IRQ for privacy GPIO\n");
+> > +
+> > +     unit = uvc_alloc_new_entity(dev, UVC_EXT_GPIO_UNIT,
+> > +                                 UVC_EXT_GPIO_UNIT_ID, 0, 1);
+> > +     if (IS_ERR(unit))
+> > +             return PTR_ERR(unit);
+> > +
+> > +     unit->gpio.gpio_privacy = gpio_privacy;
+> > +     unit->gpio.irq = irq;
+> > +     unit->gpio.bControlSize = 1;
+> > +     unit->gpio.bmControls = (u8 *)unit + sizeof(*unit);
+> > +     unit->gpio.bmControls[0] = 1;
+> > +     unit->get_cur = uvc_gpio_get_cur;
+> > +     unit->get_info = uvc_gpio_get_info;
+> > +     strscpy(unit->name, "GPIO", sizeof(unit->name));
+> > +
+> > +     list_add_tail(&unit->list, &dev->entities);
+> > +
+> > +     dev->gpio_unit = unit;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +int uvc_gpio_init_irq(struct uvc_device *dev)
+> > +{
+> > +     struct uvc_entity *unit = dev->gpio_unit;
+> > +     int ret;
+> > +
+> > +     if (!unit || unit->gpio.irq < 0)
+> > +             return 0;
+> > +
+> > +     ret = request_threaded_irq(unit->gpio.irq, NULL, uvc_gpio_irq,
+> > +                                IRQF_ONESHOT | IRQF_TRIGGER_FALLING |
+> > +                                IRQF_TRIGGER_RISING,
+> > +                                "uvc_privacy_gpio", dev);
+> > +
+> > +     unit->gpio.initialized = !ret;
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +void uvc_gpio_deinit(struct uvc_device *dev)
+> > +{
+> > +     if (!dev->gpio_unit || !dev->gpio_unit->gpio.initialized)
+> > +             return;
+> > +
+> > +     free_irq(dev->gpio_unit->gpio.irq, dev);
+> > +}
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 965a789ed03e..91ed59b54d9a 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -673,6 +673,9 @@ do {                                                                      \
+> >  extern struct uvc_driver uvc_driver;
+> >
+> >  struct uvc_entity *uvc_entity_by_id(struct uvc_device *dev, int id);
+> > +struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
+> > +                                     u16 id, unsigned int num_pads,
+> > +                                     unsigned int extra_size);
+> >
+> >  /* Video buffers queue management. */
+> >  int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
+> > @@ -817,4 +820,9 @@ void uvc_debugfs_cleanup_stream(struct uvc_streaming *stream);
+> >  size_t uvc_video_stats_dump(struct uvc_streaming *stream, char *buf,
+> >                           size_t size);
+> >
+> > +/* gpio */
+> > +int uvc_gpio_parse(struct uvc_device *dev);
+> > +int uvc_gpio_init_irq(struct uvc_device *dev);
+> > +void uvc_gpio_deinit(struct uvc_device *dev);
+> > +
+> >  #endif
+> >
+>
+
 
 -- 
-2.47.0
-
+Ricardo Ribalda
 
