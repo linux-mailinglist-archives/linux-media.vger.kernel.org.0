@@ -1,92 +1,98 @@
-Return-Path: <linux-media+bounces-22031-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5394A9D8A24
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 17:20:45 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D64749D8A47
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 17:27:48 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13C0D285A95
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:20:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AABB165C87
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994B41B652C;
-	Mon, 25 Nov 2024 16:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1BC31B414F;
+	Mon, 25 Nov 2024 16:27:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L53j1MSQ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VlaKL87e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347191B415C
-	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 16:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837731AAE0B
+	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 16:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732551628; cv=none; b=bvVJ/TqJH1+pqS6qDe/wSE+XqwjJkoJbmoJMg0qJ+PnhM8AjvPRoimui1KTi3VHmx5rQ9n6MRD7dW97ONHys+nbrX4IcPrGHsf22vJ6RQZevw5Jpucn/GhPZ0mVXRsoMdqHdiXV6TTkJ53Xw7QGT0NSEOHD9Kn1P3/TZNVD9JHU=
+	t=1732552061; cv=none; b=ZqTGAUMzA5EWW99IsfmF4lg1mpfclOaX95DC8tTzZY/Lc+Vd6RmhUxkMkpEgCF44yhgqmUrZ8PAtFoMl4XNraC4zCENv7czBUW7xprTApNtdgF8611YWvchqKcwZNhUSZRkGvyh7Lk2kiv0Be3NlLzZZbzw9c731gVoiQN2LOYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732551628; c=relaxed/simple;
-	bh=jIz6yqv3rQbq9An1NPSJcpLwnbdowJpW7nXb8kiGPyk=;
+	s=arc-20240116; t=1732552061; c=relaxed/simple;
+	bh=R0SfJyrw7C0KxLOqn1gC0wVxvdRJvYjZ2Aw3X8fWg2c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ORiL0wopCpJU5EuS4yPMM8F61RrdGICOkppfJZlmylkgrayrBp5/OnmgBUBi43HUvO/MnvV/uBCUTUhUpelYHYc3FqaNMLn1zpbzqvanVadUXwyus6bhNFncvRQJkf5QDpkflzZ2vjmm1aenAHLC0RMvji/sejVvQ/ynJO5RxGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L53j1MSQ; arc=none smtp.client-ip=209.85.167.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=T5aMzO94XliV/Ps2rurW741Z3tRd9RhmbdenKBGzv+zMDxD+0fWCeUNirnDZiv6r0/g2dyZt15xRyraGz27UwXjGknBwD/RWGLG362XGQMHSwMngFU08x08CxsAeD/1QFwpufAFbAN6vtWlj32LMfsY/Lyajmu/QMr3DD5G/amY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VlaKL87e; arc=none smtp.client-ip=209.85.208.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53de6b7da14so751834e87.0
-        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 08:20:26 -0800 (PST)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb3da341c9so46738401fa.2
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 08:27:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732551624; x=1733156424; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1732552058; x=1733156858; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=osAdnzghfwg0ow+DK7g6ijsqkNJWf2271WtACbHNvN0=;
-        b=L53j1MSQHGgd56joGpTEA7/DJSkBcfWhC989ev8vZYvgbiZ5GBay8eXelRyOnAeGZj
-         AmoWG+SQ77R5Id0p9sLwDCit9kCjfXGpK5EGyYtGunO+PVEod9w8HQYjlJF6k+INTh5+
-         qOeP7Rb5Nac2d88nLgHD85oKPq3MSBUPbyf0pGionmscR+7s6CmowkHurwHQiL2cL1KK
-         Po5kEHnbBEi7r/N6/ddnI7IDxzr9M6l99DpdUDXWcOQK2A/MZX8YyyU+p/drmtuldgGR
-         0YOaARv05tGBK7rRYyVR/CIyw5Lqs/47Mx+n5fDVg/u40W1NSD1T/ccmxtVI4LexlBO8
-         6Xlw==
+        bh=yChQ+Bc3/hLFAIXQy5Qdf3pVGzUQXtJDQxX2P5y2ICQ=;
+        b=VlaKL87ehHzpxul34gLSsW5ZTyFzGpS+H8arNwGCbjDtoYI1kd9VRs6G5d5joRZaQX
+         xXB/COd+UFMIf5kSxolGyh7C8bFAuN3Qm62+Tp+kdhG5xaCwct9i9O5kh/XUUKOLXnzj
+         wbrIgWJ27QZfjEAc15eELznwoogf9IxsoiumGvND/rpxB+zrkDdX08fVBHXdZ427JR1L
+         IgSmYwdt491PETFW+jBXej9uEet+8NPfHDh9yK+b3NX8lymymd1By3BO4zAPXX7GdOUi
+         Qgw+XpSqy1o+EyAjFn/jBYMqR3JRZH2POS4zhAXHiP6ZQRS7RTE8OfWx/VjHs/QqIe8w
+         AXsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732551624; x=1733156424;
+        d=1e100.net; s=20230601; t=1732552058; x=1733156858;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=osAdnzghfwg0ow+DK7g6ijsqkNJWf2271WtACbHNvN0=;
-        b=fUFpwXklQEcvR9gDSfvRsUn5Tm9YUigSBkaDlJZPPSckoJG2XmM3I0k2ugZxhaD33W
-         QI1+5rmQfNXaCkJhr1CuNSvyg7OMv7OCEXuGU8bpKsTM+VKZI6iV3srMN3uorwz9WS97
-         pCgpP9M5xS3V3I3ye+bXm5u2xIUuDzy/klmxms8atDy03du8jnr5z3/lG9/ST0Q75nxh
-         Uqz7FbsDZTryNkuxyf0a/ZOSEJ1LMovS31IioDyxlq5ulHY83XXTbIE2VshFrWHYuN4Z
-         x6tD6uvi2uA/60T0+UhvGJMDEVfDtmzkMvPGmnLjhPlIoMQe/9/QpraKaqL45OP1+5p1
-         yrbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXcYCVnxiMJ7NwOk0zW3AJka9P42sqSVtroETfsL1p/XNWE3xIU0rAZAvfhBUm2VLUHvwWsbiLgEvwyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmN5Gl4emb91dWijFvYNntHvbuRYLVZiAAIPOcVquVuCRWhOyG
-	gJUNQpib0v2YvXsqnldt7JfX9nxFjkSMMA8hCZ5xkXi/iaR5R2GRpptk9lLU/O0=
-X-Gm-Gg: ASbGncsbTXRLETROBN+PnKgctyQB7O5s1cpcuAlZz7irrz5RoiezY/xXGXaMOI9TbDe
-	0sknYpdRlA5iWGbnYwNzZFsKAbgtO3RqUWV7jQPPVe05mq9kCSV6pjrRQTBrkZbGCR5KC392KXM
-	UTOiOFs0mroh5TQ9ufAs1W7BbrtYyPE4S8Muitj4VsLhJCxV6DTJXRq+yRcQG1JZtxlWBTt1F8Z
-	MiiYcfgYYkIZJK+EQYKX6xmPpLNJrEIVBZ+NGkp1Frs3LaAG9qY5yXTbCZQsBEHuZpTRGqbaJ85
-	w2el/bUXhwjLO4aysgEDLIFF7xnsxQ==
-X-Google-Smtp-Source: AGHT+IGGJmuLAqbWK+ECiMMHIoK9Za26vUdLmxRyMCY0pIIzGmiDusuBm5BdVWv1P0n612BIvLr1ow==
-X-Received: by 2002:a05:6512:224d:b0:53d:a5c8:aaa6 with SMTP id 2adb3069b0e04-53dd36a1186mr5952770e87.13.1732551624397;
-        Mon, 25 Nov 2024 08:20:24 -0800 (PST)
+        bh=yChQ+Bc3/hLFAIXQy5Qdf3pVGzUQXtJDQxX2P5y2ICQ=;
+        b=L1T/sTBOPk0GqVBUGKSmRx2XJ0TKodm4kZbQGtYc+A+bhfIDmCkLiTsK8V5yu8nnLb
+         S8tlylqJ3XmwW0PI9dW4R90FijxiIj/dCgI+jPhAmBmHQ+Xt+6Frsj3+HVeNOs7g5+em
+         gVthS04jtCBlNrMS3mMjmRLlRqOengBqvL4jc9v6zlYCA/sP3mOmz1giHLqhkQtnkEDL
+         XXXWPKNMUfP9ajhsGcUejFzg0MQII31iPnz3lOVYDntU+XGPJXEnEhbnEXoEgR4twWfz
+         WdLOyFDCVsWybn4NjpAL7smNjyBALIJedG4uhDGeFT6GNxbkeof3ySDluL8gFG7GKJXk
+         cT6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUkAxUykTJthPcdjl5xtk7/di7vPtO+tPluOdDvnjrYQYRed2Vsm03XWOzk8JNZ8oM1L1cZqimUfp2S+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUGJUC5Dh1Gpx28qxDhSQGsi7yKGSEV0QTkFrA/WJXAcOaYTLM
+	ZjCGnA0dJHjyULD00ENRPpRBeCqqZf4UZYv4Nzgo2K7/ocLEPvfocLoNzJLnyZA=
+X-Gm-Gg: ASbGncs0d3XwWvaRMOYPoTgB7gb3b5iuEipBejId9XH/bx889jYmiYPu6wxMIJpWQDr
+	HDDmgwK/h3hhUW5Wlwlrh7mVNN0aFUKLEfvNmM2C21Gp02BpwrIymbnoWZLjsPeuSjbFWlRUr34
+	LrMhYBzTUp1yzAa/TbyPnLIPkDRNVumUlR693bB6UJoONO1rdOx17ZENLm7W+GV9JNHTEOPLfCe
+	EiPVs0hPSKEnjskBdIVojAmbIH6eZ07pSuQflXTxD18TXP9yaH/aDFT6WrushXzEK5q9pB0hbQS
+	Kf54Vlkms1JiVMTi5o6AkPyb5YS4cg==
+X-Google-Smtp-Source: AGHT+IEPzuV6qF3LRJebCgOSfgvwIUrR22q8orC9Jdgp0xsNFNCHkZEIt9rCIrv8k5TvvcNBZU9pkQ==
+X-Received: by 2002:a2e:a9ab:0:b0:2fb:6057:e67e with SMTP id 38308e7fff4ca-2ffa71a7b0amr69362691fa.32.1732552057728;
+        Mon, 25 Nov 2024 08:27:37 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dd2489ac9sm1704981e87.182.2024.11.25.08.20.22
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ffa4d3ee22sm15745961fa.43.2024.11.25.08.27.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 08:20:23 -0800 (PST)
-Date: Mon, 25 Nov 2024 18:20:21 +0200
+        Mon, 25 Nov 2024 08:27:36 -0800 (PST)
+Date: Mon, 25 Nov 2024 18:27:34 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	"Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>, "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/4] media: venus: core: add qcs615 platform data
-Message-ID: <ro5nx6brovd7inyy6tkrs7newszcxrzymfbsftejgpglz3gs6v@pscij26xmmco>
-References: <20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com>
- <20241125-add-venus-for-qcs615-v3-2-5a376b97a68e@quicinc.com>
- <j4nnlbstclwgoy2cr4dvoebd62by7exukvo6nfekg4lt6vi3ib@tevifuxaawua>
- <da432de1369e4ce799c72ce98c9baaf1@quicinc.com>
+Cc: "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>, 
+	"Taniya Das (QUIC)" <quic_tdas@quicinc.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 1/2] clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for
+ video GDSC's
+Message-ID: <rtmrsvtfukekss4cccnuxgzsm53er5mvgsfshx7xvdwn5vsio2@hgiowygrsmgd>
+References: <20241122-switch_gdsc_mode-v1-0-365f097ecbb0@quicinc.com>
+ <20241122-switch_gdsc_mode-v1-1-365f097ecbb0@quicinc.com>
+ <zhco37pigrp4fh5alqx4xfxx3xhjitqlgw552vwiijka22bt4u@sl4ngzypwh4x>
+ <1d9aa2e7-d402-42dc-baa6-155f01b132ca@quicinc.com>
+ <23ho25gl3iwyi2jspb6a2x5bv76fco5pkg2x5ct4gu3c44dbiq@yec6evx5sihm>
+ <eec92088-edfb-4d0c-b81d-9d4f1d968b20@linaro.org>
+ <b411489f9f2441f7a0f936127678e36b@quicinc.com>
+ <CAA8EJpqYSujKXPFkdWcqRpOKZ+dJHQDkYM33Mt5JxuA=Mfs+WQ@mail.gmail.com>
+ <7765000a0f87447e98d827dee5977ca7@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,124 +101,55 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <da432de1369e4ce799c72ce98c9baaf1@quicinc.com>
+In-Reply-To: <7765000a0f87447e98d827dee5977ca7@quicinc.com>
 
-On Mon, Nov 25, 2024 at 03:34:19PM +0000, Renjiang Han (QUIC) wrote:
-> On Monday, November 25, 2024 9:36 PM, Dmitry Baryshkov wrote:
-> > On Mon, Nov 25, 2024 at 11:04:50AM +0530, Renjiang Han wrote:
-> > > Initialize the platform data and enable venus driver probe of QCS615 
-> > > SoC.
-> > > 
-> > > Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com> >
-> > > ---
-> > >  drivers/media/platform/qcom/venus/core.c | 50 
-> > > ++++++++++++++++++++++++++++++++
-> > >  1 file changed, 50 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/platform/qcom/venus/core.c 
-> > > b/drivers/media/platform/qcom/venus/core.c
-> > > index 
-> > > 423deb5e94dcb193974da23f9bd2d905bfeab2d9..39d8bcf62fe4f72674746b75994c
-> > > ce6cbaee94eb 100644
-> > > --- a/drivers/media/platform/qcom/venus/core.c
-> > > +++ b/drivers/media/platform/qcom/venus/core.c
-> > > @@ -630,6 +630,55 @@ static const struct venus_resources msm8998_res = {
-> > >  	.fwname = "qcom/venus-4.4/venus.mbn",  };
-> > >  
-> > > +static const struct freq_tbl qcs615_freq_table[] = {
-> > > +	{ 0, 460000000 },
-> > > +	{ 0, 410000000 },
-> > > +	{ 0, 380000000 },
-> > > +	{ 0, 300000000 },
-> > > +	{ 0, 240000000 },
-> > > +	{ 0, 133333333 },
-> > > +};
-> > > +
-> > > +static const struct bw_tbl qcs615_bw_table_enc[] = {
-> > > +	{  972000,  951000, 0, 1434000, 0 },	/* 3840x2160@30 */
-> > > +	{  489600,  723000, 0,  973000, 0 },	/* 1920x1080@60 */
-> > > +	{  244800,  370000, 0,	495000, 0 },	/* 1920x1080@30 */
-> > > +};
-> > > +
-> > > +static const struct bw_tbl qcs615_bw_table_dec[] = {
-> > > +	{ 1036800, 1987000, 0, 2797000, 0 },	/* 4096x2160@30 */
-> > > +	{  489600, 1040000, 0, 1298000, 0 },	/* 1920x1080@60 */
-> > > +	{  244800,  530000, 0,  659000, 0 },	/* 1920x1080@30 */
-> > > +};
-> > > +
-> > > +static const struct venus_resources qcs615_res = {
-> > > +	.freq_tbl = qcs615_freq_table,
-> > > +	.freq_tbl_size = ARRAY_SIZE(qcs615_freq_table),
-> > > +	.bw_tbl_enc = qcs615_bw_table_enc,
-> > > +	.bw_tbl_enc_size = ARRAY_SIZE(qcs615_bw_table_enc),
-> > > +	.bw_tbl_dec = qcs615_bw_table_dec,
-> > > +	.bw_tbl_dec_size = ARRAY_SIZE(qcs615_bw_table_dec),
-> > > +	.clks = {"core", "iface", "bus" },
-> > > +	.clks_num = 3,
-> > > +	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
-> > > +	.vcodec_clks_num = 2,
-> > > +	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
-> > > +	.vcodec_pmdomains_num = 2,
-> > > +	.opp_pmdomain = (const char *[]) { "cx" },
-> > > +	.vcodec_num = 1,
-> > > +	.hfi_version = HFI_VERSION_4XX,
-> > > +	.vpu_version = VPU_VERSION_AR50,
-> > > +	.vmem_id = VIDC_RESOURCE_NONE,
-> > > +	.vmem_size = 0,
-> > > +	.vmem_addr = 0,
-> > > +	.dma_mask = 0xe0000000 - 1,
-> > > +	.cp_start = 0,
-> > > +	.cp_size = 0x70800000,
-> > > +	.cp_nonpixel_start = 0x1000000,
-> > > +	.cp_nonpixel_size = 0x24800000,
-> > > +	.fwname = "qcom/venus-5.4/venus_s6.mbn",
+On Mon, Nov 25, 2024 at 03:14:27PM +0000, Renjiang Han (QUIC) wrote:
+> On Monday, November 25, 2024 9:55 PM, Dmitry Baryshkov wrote:
+> > On Mon, 25 Nov 2024 at 07:31, Renjiang Han (QUIC) <quic_renjiang@quicinc.com> wrote:
+> > > On Saturday, November 23, 2024 8:17 AM, Bryan O'Donoghue wrote:
+> > > > On 23/11/2024 00:05, Dmitry Baryshkov wrote:
+> > > > > This leaves sm7150, sm8150 and sm8450 untouched. Don't they also 
+> > > > > need to use HW_CTRL_TRIGGER?
+> > >
+> > > > I believe the correct list here is anything that is HFI_VERSION_4XX 
+> > > > in
+> > >
+> > > > You can't apply the second patch in this series without ensuring the 
+> > > > clock controllers for sdm845 and sm7180
+> > >
+> > > > grep HFI_VERSION_4XX drivers/media/platform/qcom/venus/core.c
+> > >
+> > > > drivers/clk/qcom/videocc-sdm845.c
+> > > > drivers/clk/qcom/videocc-sc7180.c
+> > >
+> > > > Hmm.. that's what this patch does, to be fair my other email was flippant.
+> > >
+> > > > This is fine in general, once we can get some Tested-by: for it.
+> > >
+> > > > That's my question - what platforms has this change been tested on ?
+> > >
+> > > > I can do sdm845 but, we'll need to find someone with 7180 to verify IMO.
+> > >
+> > > Thanks for your comment. We have run video case with these two patches on sc7180. The result is fine.
 > 
-> > I really want the firmware discussion of linux-firmware to be solved first,
-> > before we land this patch.
+> > A single case, a thorough tests, a mixture of suspend&resume while playing video cases?
 > 
-> > SHort summary: can we use a single image for all 5.4 platforms (by using
-> > v5 signatures, by using v6 signatures, v3 or any other kind of quirk).
-> Thanks for your comment. We have discussed with the firmware team and
-> other teams if we can use the same firmware binary. The result is we'd better
-> use different firmware files. They should respond in the firmware binary
-> thread. I will push them and hope them respond as quickly as possible and
-> give reasons.
-> > > +};
-> > > +
-> > >  static const struct freq_tbl sdm660_freq_table[] = {
-> > >  	{ 979200, 518400000 },
-> > >  	{ 489600, 441600000 },
-> > > @@ -937,6 +986,7 @@ static const struct of_device_id venus_dt_match[] = {
-> > >  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
-> > >  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
-> > >  	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
-> > > +	{ .compatible = "qcom,qcs615-venus", .data = &qcs615_res, },
+> > Also, can I please reiterate my question: sm7150, sm8150 and sm8450 ?
+> > Should they also be changed to use HW_CTRL_TRIGGER?
+> > Next question, sdm660, msm8996, msm8998: do they support HW_CTRL_TRIGGER?
 > 
-> > The hardware seems to be the same as sc7180, only the frequencies differ.
-> > Can we change the driver in a way that we don't have to add another
-> > compat entry just for the sake of changing freqs / bandwidths?
-> 
-> Thank you for your comment. I agree with you. But based on the Venus code
-> architecturE ANd the distinction between different platforms, I think the
-> current changes are the simplest.
+> Thanks for your review. The video playback and recording cases include video
+> pause and resume, and full video playback. The results are fine.
+> Also, this change is only for v4 core (HFI_VERSION_4XX ). Therefore, we have only tested it
+> on platforms using v4 core. We have not tried other platforms.
+> sm7150, sm8150 and sm8450 should not use venus v4 core. So they needn't to use HW_CTRL_TRIGGER.
 
-Well, it is simplest, correct. But not the best one. There is no plan no
-migrate these platforms to the iris driver. So instead, please improve
-the venus driver instead of just pushing the simplest change. I should
-have been more explicit about it earlier.
-
-> 
-> > >  	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
-> > >  	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
-> > >  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
-> > > 
-> > > --
-> > > 2.34.1
-> > > 
-> 
-> > -- 
-> > With best wishes
-> > Dmitry
+We don't have venus / iris support for those platforms at all.
+This patch is not about venus, it is about the clock drivers. So
+mentioning venus is quite useless here.
+If these platforms will benefit from HW_CTRL_TRIGGER, then we should
+change them at the same time, before somebody even gets venus/iris on
+them.
 
 -- 
 With best wishes
