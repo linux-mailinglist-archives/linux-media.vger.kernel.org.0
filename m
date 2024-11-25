@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-21977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21971-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2969D8492
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 12:35:26 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EBB9D83C4
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:49:21 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2EFC163533
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 11:35:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88EEC286AE0
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 10:49:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20D89199947;
-	Mon, 25 Nov 2024 11:35:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17468193086;
+	Mon, 25 Nov 2024 10:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b="ptyofG6g"
+	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b="lvIL7ATL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mo-csw-fb.securemx.jp (mo-csw-fb1802.securemx.jp [210.130.202.161])
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1801.securemx.jp [210.130.202.160])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3547AA35;
-	Mon, 25 Nov 2024 11:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C48192B90;
+	Mon, 25 Nov 2024 10:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.160
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732534516; cv=none; b=jme9rGNx5Ye6ode0oOhGv58wJf150rb3vq7RBSjnXZb7fENbeJ/z6SeUdFlvaeFLckDrtVLm1mupvnOzsuDrxjsdJdudiURCNexVhR++NgqmIx1Z4gAgBG48wLKx6rXMJyJ2DgN402dwdFvFKQh51S/crT47Ic2x7trIXRn0AsU=
+	t=1732531753; cv=none; b=Y6fqfRnn8ktX30CBamx2Mi8vVWuhXAM8b1xB3Tv5Cf4o5Kz5jDWRle+BcU9BIar+mWWOafQgQmXgpufp4UOF10xzrYUDKO+kVxUto4d2cCRf0DByh9SQXH1RwzRmBM/bjddyCzkrZm74g9AglrkBVjI3ROi34o3iunKWv/NpQk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732534516; c=relaxed/simple;
-	bh=s2QBTYvjALWbK/9t34XSfK/DRgxA5dhcbwCLcFUYzbo=;
+	s=arc-20240116; t=1732531753; c=relaxed/simple;
+	bh=Qr2pR5iOFRSZ7+g1nq5Xf9e/SUtdQos9mUpQSfloGDA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=t1Lg6glUQrQEq5GAIl8I3MeqGr1WePP5lXG9BvG+Z9f/r8hs1Ps9NTkiWAoMEw2ZjxQ7xpRJsGBnu77bIlbXhP7VBzpRbJkhIvwstQUys7ZgUR4eEzxpBomMmvJbQzFpbfI0rt9T7+BnBsTM2a2E4twORXRIyQ7uBjGY/3Yu83A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b=ptyofG6g; arc=none smtp.client-ip=210.130.202.161
+	 MIME-Version; b=FUVjVsCjBxxAgtwf2amQIuZvRyj/dO2IASejRBlUlfJvndQ3rU2370OPZBSWlUWbvv1h6insymmqJikbT+/ad7YXkXV8+QHHRKUTPDLYawuMQ2LjkdWhHotRiSWljRLuqohullCADYcuV/6HgykghMr0GYOXnxIrXxaKzt0AkgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b=lvIL7ATL; arc=none smtp.client-ip=210.130.202.160
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toshiba.co.jp
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1802) id 4AP9RmHF2534971; Mon, 25 Nov 2024 18:27:48 +0900
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1801) id 4AP9RkbI2159794; Mon, 25 Nov 2024 18:27:47 +0900
 DKIM-Signature: v=1;a=rsa-sha256;c=relaxed/simple;d=toshiba.co.jp;h=From:To:Cc
 	:Subject:Date:Message-Id:In-Reply-To:References:MIME-Version:
 	Content-Transfer-Encoding;i=yuji2.ishikawa@toshiba.co.jp;s=key2.smx;t=
-	1732526832;x=1733736432;bh=s2QBTYvjALWbK/9t34XSfK/DRgxA5dhcbwCLcFUYzbo=;b=pty
-	ofG6gvZXuTXmZGloaGRHFDN5vnjmOEroyjENtiofn8xO4VTjp1TLme5RC2i6D8x3XF0t0m8T9w7Ax
-	eObOVKuKAH7pi/SsJ7ANV+MV6BWFBqbouVlZj4HaG8jW+vh1YfDx9t1jImAXui5x6rX/G28eqTtRy
-	5ez1eumDiY5rFvYCj/es1wcgnRSm5/M6LTcL00EIdz1d+wSL2X9qcV4TGJzIAntKwhmHyrsf6Gsx+
-	9v2kYeJIQDRaI4j+xqsjjoWCbhpo3v0VKpvpXsC+SmUdq1Mr/0VCfB2Xd/96ZHRXWL1/6z7D0dLY2
-	gWYDXlRF9EAjG51TwXKBuivXBa19y3A==;
-Received: by mo-csw.securemx.jp (mx-mo-csw1801) id 4AP9RCWA2549162; Mon, 25 Nov 2024 18:27:12 +0900
-X-Iguazu-Qid: 2yAb1JZRvDQIMBFaAK
-X-Iguazu-QSIG: v=2; s=0; t=1732526831; q=2yAb1JZRvDQIMBFaAK; m=N3BxzmwQ7zs0tp7sqbG9wCdMkvuwdICtP93CLzazhJo=
+	1732526832;x=1733736432;bh=Qr2pR5iOFRSZ7+g1nq5Xf9e/SUtdQos9mUpQSfloGDA=;b=lvI
+	L7ATLHp6dSGjnKwSK8Da4e0uIogyTReWWuXo5KI0bM59tSckzXRoE2qzlW1hThceXYDpLFTjsDmqd
+	LtC8ko4GmAltxivM3q3uq9FmXDdd7LWTOXT4gLxpx9GFblKkxyf04tIm38QWEn01CybXqDWBglxJy
+	wfKH2It+dBRWwOwBXQCtrkDIv5+jtHfeDWFCOcOlTizfBXtaKZ4jK9sRMFmlr/Y86Ty2kBH1UFxZy
+	UscyqlwwHknh3T67GJFs2mN7qWSO0z5JTMxQSRCdYtLXxZeDXQvrN9KNlQ8HRgGBAV48mKYyaZBKL
+	EO+mcM50BA3FDWM03YI+cgEbqa92/cg==;
+Received: by mo-csw.securemx.jp (mx-mo-csw1800) id 4AP9RBDL023848; Mon, 25 Nov 2024 18:27:11 +0900
+X-Iguazu-Qid: 2yAb1JZRvDQIMBFaAE
+X-Iguazu-QSIG: v=2; s=0; t=1732526831; q=2yAb1JZRvDQIMBFaAE; m=/swN041lxFAH+9+RIDcVzDvhh2V5tx9Y49KeY+kjvec=
 Received: from imx12-a.toshiba.co.jp ([38.106.60.135])
-	by relay.securemx.jp (mx-mr1802) id 4AP9R9Gm4129038
+	by relay.securemx.jp (mx-mr1801) id 4AP9R9Wd512264
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Mon, 25 Nov 2024 18:27:10 +0900
-X-SA-MID: 32872668
+X-SA-MID: 32872672
 From: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -61,10 +61,10 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: [PATCH v12 1/8] dt-bindings: media: platform: visconti: Add Toshiba Visconti MIPI CSI-2 Receiver
-Date: Mon, 25 Nov 2024 18:21:39 +0900
+Subject: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add Toshiba Visconti Video Input Interface
+Date: Mon, 25 Nov 2024 18:21:40 +0900
 X-TSB-HOP2: ON
-Message-Id: <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
+Message-Id: <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
 References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
@@ -77,93 +77,140 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Adds the Device Tree binding documentation that allows to describe
-the MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
+the Video Input Interface found in Toshiba Visconti SoCs.
 
 Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 ---
+Changelog v2:
+- no change
+
+Changelog v3:
+- no change
+
+Changelog v4:
+- fix style problems at the v3 patch
+- remove "index" member
+- update example
+
+Changelog v5:
+- no change
+
+Changelog v6:
+- add register definition of BUS-IF and MPU
+
+Changelog v7:
+- remove trailing "bindings" from commit header message
+- remove trailing "Device Tree Bindings" from title
+- fix text wrapping of description
+- change compatible to visconti5-viif
+- explicitly define allowed properties for port::endpoint
+
+Changelog v8:
+- Suggestion from Krzysztof Kozlowski
+  - rename bindings description file
+  - use block style array instead of inline style
+  - remove clock-lane (as it is fixed at position 0)
+  - update sample node's name
+  - use lowercase hex for literals
+- Suggestion from Laurent Pinchart
+  - update description message port::description
+  - remove port::endpoint::bus-type as it is fixed to <4>
+  - remove port::endpoint::clock-lanes from example
+  - add port::endpoint::data-lanes to required parameters list
+  - fix sequence of data-lanes: <1 2 3 4> because current driver does not support data reordering
+  - update port::endpoint::data-lanes::description
+  - remove redundant type definition for port::endpoint::data-lanes
+
+Changelog v9:
+- place "required" after "properties"
+- dictionary ordering of properties
+
+Changelog v10:
+- no change
+
+Changelog v11:
+- no change
 
 Changelog v12:
-- Newly add bindings for CSI2RX driver 
+- remove property "clock-noncontinuous" as VIIF switches both modes automatically
+- remove property "link-frequencies" as VIIF does not use the information
+- remove reg[2] and interrupts[3] which are used for CSI2RX driver
+- update example to refer csi2rx for remote-endpoint
 
- .../media/toshiba,visconti5-csi2rx.yaml       | 104 ++++++++++++++++++
- 1 file changed, 104 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
+ .../media/toshiba,visconti5-viif.yaml         | 95 +++++++++++++++++++
+ 1 file changed, 95 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
+diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
 new file mode 100644
-index 000000000000..5488072bc82a
+index 000000000000..ef0452a47e98
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
-@@ -0,0 +1,104 @@
++++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+@@ -0,0 +1,95 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/toshiba,visconti5-csi2rx.yaml#
++$id: http://devicetree.org/schemas/media/toshiba,visconti5-viif.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Toshiba Visconti5 SoC MIPI CSI-2 receiver
++title: Toshiba Visconti5 SoC Video Input Interface
 +
 +maintainers:
 +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 +
 +description: |-
-+  Toshiba Visconti5 SoC MIPI CSI-2 receiver device receives MIPI CSI-2 video
-+  stream. Use with VIIF device. T.B.D
++  Toshiba Visconti5 SoC Video Input Interface (VIIF) receives videostream
++  from MIPI CSI-2 receiver device, processes the stream with image signal
++  processors (L1ISP, L2ISP), then stores pictures to main memory.
 +
 +properties:
 +  compatible:
-+    const: toshiba,visconti5-csi2rx
++    const: toshiba,visconti5-viif
 +
 +  reg:
 +    items:
-+      - description: Registers for CSI2 receiver control
++      - description: Registers for capture control
++      - description: Registers for bus interface unit control
++      - description: Registers for Memory Protection Unit
 +
 +  interrupts:
 +    items:
-+      - description: CSI2 Receiver Interrupt
++      - description: Sync Interrupt
++      - description: Status (Error) Interrupt
++      - description: L1ISP Interrupt
 +
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    unevaluatedProperties: false
++    description: CSI-2 input port, with a single endpoint connected to the CSI-2 transmitter.
 +
 +    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+        description:
-+          Input port node, single endpoint describing the CSI-2 transmitter.
++      endpoint:
++        $ref: video-interfaces.yaml#
++        additionalProperties: false
 +
 +        properties:
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
++          data-lanes:
++            description: VIIF supports 1, 2, 3 or 4 data lanes
++            minItems: 1
++            items:
++              - const: 1
++              - const: 2
++              - const: 3
++              - const: 4
 +
-+            properties:
-+              data-lanes:
-+                description: CSI2 receiver supports 1, 2, 3 or 4 data lanes
-+                minItems: 1
-+                items:
-+                  - const: 1
-+                  - const: 2
-+                  - const: 3
-+                  - const: 4
-+            required:
-+              - data-lanes
++          remote-endpoint: true
 +
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Output port node, single endpoint describing the Visconti VIIF.
-+
-+    required:
-+      - port@0
-+      - port@1
++        required:
++          - data-lanes
++          - remote-endpoint
 +
 +required:
 +  - compatible
 +  - reg
 +  - interrupts
-+  - ports
++  - port
 +
 +additionalProperties: false
 +
@@ -176,26 +223,22 @@ index 000000000000..5488072bc82a
 +        #address-cells = <2>;
 +        #size-cells = <2>;
 +
-+        csi2rx@1c008000 {
-+            compatible = "toshiba,visconti5-csi2rx";
-+            reg = <0 0x1c008000 0 0x400>;
-+            interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
++        video@1c000000 {
++            compatible = "toshiba,visconti5-viif";
++            reg = <0 0x1c000000 0 0x6000>,
++                  <0 0x1c00e000 0 0x1000>,
++                  <0 0x2417a000 0 0x1000>;
++            interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
 +
-+            ports {
++            port {
 +                #address-cells = <1>;
 +                #size-cells = <0>;
-+                port@0 {
-+                    reg = <0>;
-+                    csi2rx_in0: endpoint {
-+                        data-lanes = <1 2>;
-+                        remote-endpoint = <&imx219_out0>;
-+                    };
-+                };
-+                port@1 {
-+                    reg = <1>;
-+                    csi2rx_out0: endpoint {
-+                        remote-endpoint = <&csi_in0>;
-+                    };
++
++                csi_in0: endpoint {
++                    data-lanes = <1 2>;
++                    remote-endpoint = <&csi2rx_out0>;
 +                };
 +            };
 +        };
