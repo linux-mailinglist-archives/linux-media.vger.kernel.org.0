@@ -1,228 +1,178 @@
-Return-Path: <linux-media+bounces-22052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22053-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2265A9D8D74
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 21:34:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6C69D8E1D
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 22:38:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7DC7286F48
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 20:34:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DA2D9B302A0
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 21:35:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DF401C460B;
-	Mon, 25 Nov 2024 20:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A76F1C3F2C;
+	Mon, 25 Nov 2024 21:35:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nerOAqEp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FcnVBJYW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE576F06D;
-	Mon, 25 Nov 2024 20:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D9619066E;
+	Mon, 25 Nov 2024 21:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732566884; cv=none; b=Umgk6zLjYxFajzm5aeP2L/nJ0cYeYvFpLBt4q7VMzHvMCO/uXmfdnc4A3B+5ofEb80lP2qbvCInb9HBl+JPYvPAN9XLhdzzLvVGldtDqHJ4AXeZs8XE2pb6T4PQ7EV8l35uwv28Bn8y/f+sk4c38iUdK/e8jrpRE4ohbkON2hg0=
+	t=1732570535; cv=none; b=L2qs0ehWtOx8Pmi5fZMKN9xbsfgnqSZX+tRvqcW9FnwuY+Jpa5HjUm/nlqvNRoTiBvJWfR3cvwo8suKU8udZUi6HsmIGxlPP6Aeh6S2HviMsQ6b2qE3nZavVd31FXLoWVAOmWpLWCrRHN+R8qRsALOZ9es6Wen9RTF+UyNUK7lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732566884; c=relaxed/simple;
-	bh=qgK+N66L526d/7ueUwt/22n9/iXSOr8rDHzyJtR5PVk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rKJB/VAADqnyu5UFHPz49GwHcaXYLZ8CYOxdZ6pGaQGFobiDB3OCFhfc/OkPXGdxo95J0+f/iKaVxFjELKuuANui8OgWbM425TaeeXsWnPvL52mYM9wrf2afETdQg2uf5bAYUHd6G9GLNmuDUu6zeguePkOMCZR6pJvHUxKTHWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nerOAqEp; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-431695fa98bso41882005e9.3;
-        Mon, 25 Nov 2024 12:34:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732566880; x=1733171680; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=seLzu6YCQkey0VOHenJ3XO5JYU4Jyftw4UtfIwoRvSM=;
-        b=nerOAqEpTkv/TXslqqc/W1WacQ5DzpJNuO6qTmLlgoAh2+ICoDC3c4whTOtOXgScqx
-         aND5U7U/MiyCcIRxVHuUmjfr/BOzMSh0CQVSbxDYYKIU5jH1rSEjZRDDeNSissfB1Tz3
-         jGmWYWUf811ZZ2pUpJbW1ggXxvjs9NVkybSy8Z1pKJxDgN3ZN5Tmv/pu/w+ljgK3Imrb
-         gOUh+UD9iymXjuXk33PxgO0B2o9+FqeKsIiKaR/ojKIPBuqk5Yk5z11wSNoGJ/zug2QP
-         69jyIjSdlmyQGJYwH7wyn17X40fd8X/cUwKkWludhTM6W6ud4TJR9HByYCnwE+NRS1Ki
-         Ahyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732566880; x=1733171680;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=seLzu6YCQkey0VOHenJ3XO5JYU4Jyftw4UtfIwoRvSM=;
-        b=nC97r0jljV4GfiKAOZlPFuUD0iYAb/+wACouqeRPSyRiigYEzAbHEA1QHDo22yeFBC
-         IHm4e0XoDtu/VCeVnl+94nKYCW+MHshU5U+IZW3LqJle4Vsc+7gHHUn/Sqj0bjx2kQtD
-         tgC7xr5MugP8ZDb1CzJbXJ0A9h/Qg9twP+PnWDwYoz17ovoxib9fLeQgLlvsF782WR3F
-         HmHH2thaG3DirWZcjrT/KzhEMxD2sSodmSzqZ6qZAzgjp7a2UYEV/gbE2NlZhjOikNk0
-         q5y9k9C6y30zRQ+kDt2SCxi88oIi4ypK2bfpsl+s6iYTZHeFAEcVzKBSfexlB7yq5Ile
-         X6Vg==
-X-Forwarded-Encrypted: i=1; AJvYcCVD0BBaILtBxKwblfLo2FBA76Rx1NgOYxrHRfDb8JtFnaby+4WAgz1V8ajdZIh7JaD+rNxBh9pf5PRbR+0=@vger.kernel.org, AJvYcCXhaS5dCEJUzCR1VNOVCsaMdR/GsPpWI0f7ehFi2Nf8ayn6uSeLwTmBIbPPVqr5gw3+HHWpMvLV0OAh2fk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSicMihev5nAAjpUVEkvCoWBwarS1p0m8uL16DNduCj7O3R55S
-	1C/QCPpF+ZL4qMkkAcjiD2PHyFOqX6BMDt25WrdFkmn+3Q2ucbBZ
-X-Gm-Gg: ASbGncuxKOWsP5n/XgL3D9k9/+bHtY3+Z7chThIkqvp/5og1wxUDH4+PLvlfQkdl7AU
-	k9oxBK8Z8YJLXNoRP1yXSCh8t5oEXX/xFHLOVIkbUa6YVFAecQsITcJ+Sh7xsxtKuFgqFdtgm+s
-	NeeDCIXMrPDkRAAkxLoTWrQKHOQwmrOVoAkX0jT0+QHzcoXlJMX1H1Nq8AmVNYOUsgtg703DITb
-	tuF8ohIRWn9nK2Ao6mTjUSKk5BBUGOzNRaZDK74BZnfCpLlrvVCYkZT
-X-Google-Smtp-Source: AGHT+IGwy1qt3u9b2h6NurA1wEyaEjZyYiajEr0j07vXmWM81AlA8c2QQnLmoC0rj+boMfc4TQm5DA==
-X-Received: by 2002:adf:e18c:0:b0:382:5aae:87ac with SMTP id ffacd0b85a97d-38260b8966dmr11894105f8f.32.1732566879953;
-        Mon, 25 Nov 2024 12:34:39 -0800 (PST)
-Received: from [192.168.0.100] ([188.24.69.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fbedf40sm11221141f8f.98.2024.11.25.12.34.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 12:34:39 -0800 (PST)
-Message-ID: <09aac96d-554c-400d-9ec1-c87617d9df65@gmail.com>
-Date: Mon, 25 Nov 2024 22:34:40 +0200
+	s=arc-20240116; t=1732570535; c=relaxed/simple;
+	bh=Ttb6jiJ4m0y0Qng3+key+yniH0/CXlXUGi/z9URhlLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUPieF0cixF3TI64/sULA3Xmqgq1aayI3EeQPTP9wTOxjbOsaq8GLrZPocWpRLwuPFJ0nSbbbrdd6AArsZvwORoaxDsmcIZISlWGY4utw3+nd6qpqgPWdrMgqkFiCWj9+K3SsKCbCTZmdi3AiIpfuw78LXaKS7Llgzn/TpyC+so=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FcnVBJYW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC2DE4AD;
+	Mon, 25 Nov 2024 22:35:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732570510;
+	bh=Ttb6jiJ4m0y0Qng3+key+yniH0/CXlXUGi/z9URhlLM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FcnVBJYWKeQEmKqdBZPi8/Z1ivN9c9FEPM3XLp4oGabSe6FYYClJC/mMr8a+psNYN
+	 orSyzYIU45QwIMQyj07dOeg53W5AO5/JHMNUUZhnQkjIMgOF8cZEAo1IdwHbjrMZP1
+	 LVqc7q6swdQNFPbrDJyucvmKBprX8pK8OpDn6pBk=
+Date: Mon, 25 Nov 2024 23:35:21 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Armin Wolf <W_Armin@gmx.de>, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, Yunke Cao <yunkec@chromium.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, stable@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v3 0/8] media: uvcvideo: Implement the Privacy GPIO as a
+ evdev
+Message-ID: <20241125213521.GV19381@pendragon.ideasonboard.com>
+References: <20241112-uvc-subdev-v3-0-0ea573d41a18@chromium.org>
+ <bd68178f-1de9-491f-8209-f67065d29283@redhat.com>
+ <CANiDSCtjpPG3XzaEOEeczZWO5gL-V_sj_Fv5=w82D6zKC9hnpw@mail.gmail.com>
+ <20241114230630.GE31681@pendragon.ideasonboard.com>
+ <CANiDSCt_bQ=E1fkpH1SAft1UXiHc2WYZgKDa8sr5fggrd7aiJg@mail.gmail.com>
+ <d0dd293e-550b-4377-8a73-90bcfe8c2386@redhat.com>
+ <CANiDSCvS1qEfS9oY=R05YhdRQJZmAjDCxVXxfVO4-=v4W1jTDg@mail.gmail.com>
+ <5a199058-edab-4f9d-9e09-52305824f3bf@redhat.com>
+ <20241125131428.GD32280@pendragon.ideasonboard.com>
+ <233eaf78-49f1-43c1-b320-c75cfc04103f@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: v4l: subdev: Use dev_err() to print errors and
- clarify
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241122153343.237308-1-demonsingur@gmail.com>
- <20241123213203.GC19573@pendragon.ideasonboard.com>
-From: Cosmin Tanislav <demonsingur@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20241123213203.GC19573@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <233eaf78-49f1-43c1-b320-c75cfc04103f@redhat.com>
 
+On Mon, Nov 25, 2024 at 03:41:19PM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 25-Nov-24 2:14 PM, Laurent Pinchart wrote:
+> > On Mon, Nov 25, 2024 at 01:01:14PM +0100, Hans de Goede wrote:
+> >> On 18-Nov-24 5:47 PM, Ricardo Ribalda wrote:
+> >>> On Mon, 18 Nov 2024 at 16:43, Hans de Goede wrote:
+> >>>> On 15-Nov-24 9:20 AM, Ricardo Ribalda wrote:
+> >>>>> On Fri, 15 Nov 2024 at 00:06, Laurent Pinchart wrote:
+> 
+> <snip>
+> 
+> >>>>>> Is there any ACPI- or WMI-provided information that could assist with
+> >>>>>> associating a privacy GPIO with a camera ?
+> >>
+> >> I just realized I did not answer this question from Laurent
+> >> in my previous reply.
+> >>
+> >> No unfortunately there is no ACPI- or WMI-provided information that
+> >> could assist with associating ACPI/WMI camera privacy controls with
+> >> a specific camera. Note that these are typically not exposed as a GPIO,
+> >> but rather as some vendor firmware interface.
+> >>
+> >> Thinking more about this I'm starting to believe more and more
+> >> that the privacy-control stuff should be handled by libcamera
+> >> and then specifically by the pipeline-handler, with some helper
+> >> code to share functionality where possible.
+> >>
+> >> E.g. on IPU6 equipped Windows laptops there may be some ACPI/WMI
+> >> driver which provides a /dev/input/event# SW_CAMERA_LENS_COVER node.
+> > 
+> > Using an event device means that the user would need permissions to
+> > access it. Would distributions be able to tell the device apart from
+> > other event devices such as mouse/keyboard, where a logged user may not
+> > have permission to access all event devices in a multi-seat system ?
+> 
+> input events modaliases contain a lot of info, including what sort
+> of events they report, e.g. :
+> 
+> [hans@shalem uvc]$ cat /sys/class/input/input36/modalias 
+> input:b0003v046Dp405Ee0111-e0,1,2,3,4,11,14,k71,72,73,74,75,77,78,79,7A,7B,7C,7D,7E,7F,80,81,82,83,84,85,86,87,88,89,8A,8B,8C,8E,8F,90,96,98,9B,9C,9E,9F,A1,A3,A4,A5,A6,A7,A8,A9,AB,AC,AD,AE,B0,B1,B2,B3,B4,B5,B6,B7,B8,B9,BA,BB,BC,BD,BE,BF,C0,C1,C2,CC,CE,CF,D0,D1,D2,D4,D8,D9,DB,DF,E0,E1,E4,E5,E6,E7,E8,E9,EA,EB,F0,F1,F4,100,110,111,112,113,114,115,116,117,118,119,11A,11B,11C,11D,11E,11F,161,162,166,16A,16E,172,174,176,177,178,179,17A,17B,17C,17D,17F,180,182,183,185,188,189,18C,18D,18E,18F,190,191,192,193,195,197,198,199,19A,19C,1A0,1A1,1A2,1A3,1A4,1A5,1A6,1A7,1A8,1A9,1AA,1AB,1AC,1AD,1AE,1AF,1B0,1B1,1B7,1BA,240,241,242,243,244,245,246,247,248,249,24A,24B,24C,24D,250,251,260,261,262,263,264,265,r0,1,6,8,B,C,a20,m4,l0,1,2,3,4,sfw
+> 
+> So I believe that we can create a udev rule which matches on input
+> devices with SW_CAMERA_LENS_COVER functionality and set a uaccess
+> tag on those just like it is done for /dev/video# nodes.
+> 
+> Or we can just use a specific input-device-name (sub) string
+> and match on that.
+> 
+> This may require using a separate input_device with just
+> the SW_CAMERA_LENS_COVER functionality in some of the laptop
+> ACPI / WMI drivers, but that is an acceptable compromise IMHO.
 
+As long as it's doable I'm OK with it.
 
-On 11/23/24 11:32 PM, Laurent Pinchart wrote:
-> Hi Cosmin,
+> (we don't want to report privacy sensitive input events on
+> these nodes to avoid keylogging).
 > 
-> On Fri, Nov 22, 2024 at 05:33:39PM +0200, Cosmin Tanislav wrote:
->> The error values end up being returned to userspace, it makes sense to
->> have some useful information printed when debugging them, even if the
->> reason for the errors are bad configs or internal driver issues.
->>
->> Replace dev_dbg() with dev_err() for errors.
+> > Would compositors be able to ignore the device to let libcamera handle
+> > it ?
 > 
-> We use dev_dbg() on purpose for all errors that can be triggered
-> directly by applications. This includes in particular all pipeline
-> validation errors.
-> 
-> The error paths in this specific patch shouldn't be in that category, as
-> all the validation should have been performed before starting subdevs
-> (assuming all drivers are correctly implemented, which is of course not
-> a given, but those issues should be fixed). I think we could therefore
-> switch to dev_err() here. However, I'm wondering what kind of issues
-> triggered this patch. What errors did you run into that would have
-> benefited from being reported more loudly, and were they caused by
-> driver bugs or userspace misconfiguring the device ?
-> 
+> input devices can be opened multiple times and we want the compositor
+> to also open it to show camera on/off OSD icons / messages.
 
-I've had this patch in my GMSL2 tree for some time now, I believe indeed
-the reasons why I've hit these error cases were the drivers being
-slightly broken, but I still think it is worthwhile to show an error
-message, to aid with debugging. Adding the entity name to the messages
-makes it even more clear where exactly the code is breaking.
+I'm not sure we want that though, as the event should be associated with
+a particular camera in messages. It would be better if it still went
+through libcamera and pipewire.
 
-I can split it up into separate patches for dev_dbg() -> dev_err() and
-adding the entity name to the print statements for V2.
+> If opened multiple times all listeners will get the events.
+> 
+> >>>>>> We could include the evdev in the MC graph. That will of course only be
+> >>>>>> possible if the kernel knows about that association in the first place.
+> >>>>>> At least the 1st category of devices would benefit from this.
+> >>>>
+> >>>> Yes I was thinking about adding a link to the MC graph for this too.
+> >>>>
+> >>>> Ricardo I notice that in this v3 series you still create a v4l2-subdev
+> >>>> for the GPIO handling and then add an ancillary link for the GPIO subdev
+> >>>> to the mc-graph. But I'm not sure how that is helpful. Userspace would
+> >>>> still need to do parent matching, but then match the evdev parent to
+> >>>> the subdev after getting the subdev from the mc. In that case it might
+> >>>> as well look at the physical (USB-interface) parent of the MC/video
+> >>>> node and do parent matching on that avoiding the need to go through
+> >>>> the MC at all.
+> >>>>
+> >>>> I think using the MC could still be useful by adding a new type of
+> >>>> ancillary link to the MC API which provides a file-path as info to
+> >>>> userspace rather then a mc-link and then just directly provide
+> >>>> the /dev/input/event# path through this new API?
+> > 
+> > I don't think we need that. MC can model any type of entity and report
+> > the device major:minor. That plus ancillary links should give us most of
+> > what we need, the only required addition should be a new MC entity
+> > function.
+> 
+> Ah interesting yes that should work nicely.
 
->> Also, when using complex pipelines with multiple bridges between the
->> video device and multiple source sub devices, printing just the video
->> device name for each error does not provide enough context as to which
->> operation failed.
->>
->> Add sub device entity name to the messages where possible to clarify the
->> source of the errors.
-> 
-> This can be considered as a standalone patch.
-> 
->> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-subdev.c | 22 ++++++++++++----------
->>   1 file changed, 12 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->> index 4f0eecd7fd66f..d51b4594d11c5 100644
->> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->> @@ -2303,20 +2303,21 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->>   				    &found_streams, &enabled_streams);
->>   
->>   	if (found_streams != streams_mask) {
->> -		dev_dbg(dev, "streams 0x%llx not found on %s:%u\n",
->> +		dev_err(dev, "streams 0x%llx not found on %s:%u\n",
->>   			streams_mask & ~found_streams, sd->entity.name, pad);
->>   		ret = -EINVAL;
->>   		goto done;
->>   	}
->>   
->>   	if (enabled_streams) {
->> -		dev_dbg(dev, "streams 0x%llx already enabled on %s:%u\n",
->> +		dev_err(dev, "streams 0x%llx already enabled on %s:%u\n",
->>   			enabled_streams, sd->entity.name, pad);
->>   		ret = -EALREADY;
->>   		goto done;
->>   	}
->>   
->> -	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
->> +	dev_dbg(dev, "enable streams %s:%u:%#llx\n",
->> +		sd->entity.name, pad, streams_mask);
->>   
->>   	already_streaming = v4l2_subdev_is_streaming(sd);
->>   
->> @@ -2333,8 +2334,8 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->>   	}
->>   
->>   	if (ret) {
->> -		dev_dbg(dev, "enable streams %u:%#llx failed: %d\n", pad,
->> -			streams_mask, ret);
->> +		dev_err(dev, "enable streams %s:%u:%#llx failed: %d\n",
->> +			sd->entity.name, pad, streams_mask, ret);
->>   		goto done;
->>   	}
->>   
->> @@ -2403,20 +2404,21 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->>   				    &found_streams, &enabled_streams);
->>   
->>   	if (found_streams != streams_mask) {
->> -		dev_dbg(dev, "streams 0x%llx not found on %s:%u\n",
->> +		dev_err(dev, "streams 0x%llx not found on %s:%u\n",
->>   			streams_mask & ~found_streams, sd->entity.name, pad);
->>   		ret = -EINVAL;
->>   		goto done;
->>   	}
->>   
->>   	if (enabled_streams != streams_mask) {
->> -		dev_dbg(dev, "streams 0x%llx already disabled on %s:%u\n",
->> +		dev_err(dev, "streams 0x%llx already disabled on %s:%u\n",
->>   			streams_mask & ~enabled_streams, sd->entity.name, pad);
->>   		ret = -EALREADY;
->>   		goto done;
->>   	}
->>   
->> -	dev_dbg(dev, "disable streams %u:%#llx\n", pad, streams_mask);
->> +	dev_dbg(dev, "disable streams %s:%u:%#llx\n",
->> +		sd->entity.name, pad, streams_mask);
->>   
->>   	if (!use_s_stream) {
->>   		/* Call the .disable_streams() operation. */
->> @@ -2432,8 +2434,8 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->>   	}
->>   
->>   	if (ret) {
->> -		dev_dbg(dev, "disable streams %u:%#llx failed: %d\n", pad,
->> -			streams_mask, ret);
->> +		dev_err(dev, "disable streams %s:%u:%#llx failed: %d\n",
->> +			sd->entity.name, pad, streams_mask, ret);
->>   		goto done;
->>   	}
->>   
-> 
+-- 
+Regards,
 
+Laurent Pinchart
 
