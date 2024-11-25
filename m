@@ -1,129 +1,207 @@
-Return-Path: <linux-media+bounces-22009-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22010-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D35F9D8819
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 15:33:06 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6A29D884E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 15:45:12 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 767B91660A0
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 14:33:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5E34CB447C4
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 14:40:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AFC01B0F36;
-	Mon, 25 Nov 2024 14:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB9991B218A;
+	Mon, 25 Nov 2024 14:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CR+cQKHE"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WYPZNpiO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E6918F2DB
-	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 14:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1AD1B0F20
+	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 14:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732545177; cv=none; b=mkjYK7IeibHkBGDecU8ULJIQzRXPt4Vo9AwxpvDRsec7KGTEVxB+zqQwqEdZFZtqPr5quvcNW1tzmIUCNqXnDbWlbu3kaO2alSs/hf4qC7O/BVNedO9CmQly9bsG2VaKvqKVhIvswrFg3Om83eWY/6m6NcSZn3JVIwLtMva3qrk=
+	t=1732545634; cv=none; b=KSMmO/uvvIGPfPKCJIGwLRmS1CM9VAXZfZEXdEf6DKusLhYGbfFvLmTxfx8pKkS97xUu0PGrZTbht8bmEpUSFihTMvf6c3ot+MWkpVVDHx4M9jUvuTPmSq4HleFa5svmpk1vuFuXYBN8kxz8YovW8srUTeAYyIdmGUSmFb2UjH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732545177; c=relaxed/simple;
-	bh=HgNXDurU1Y6/iVHhxRcPHbCNyKwUgMFho7p6ih9pzg0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PA9lx6Ovek7eVGY7RDXnaoxBtnCJeoTG/oSQXM0VUXZ6ewlJ1+kh3hgfIBIE6yCd5RGvJ9/s2S2XFEnTgZAIP8TNkukwj8LogK/DhK7UZv4PTr75TQeAf5mIR27K4HypVcTsuckqgGtWWs6D/gbgfTBdwQxYoIPN7mBVPEOufPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CR+cQKHE; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3824aef833bso3285019f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 06:32:56 -0800 (PST)
+	s=arc-20240116; t=1732545634; c=relaxed/simple;
+	bh=QuFr33PxWwiOkN1ep41/1P8oQdyw21yNSIU94tRsxqc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YpTMUOkqrKuMCkyxDS1U296F1bcXWc9RoqF6TEGuYQBhub8mmBLckV+zJgO2lG0Ddx4Mu1m8unjvzWHRlXX8GLA+RF7a0Fp3WsckfwZHA0h42+0rDCeDz7yQotPgPoMj9tH2n/eGZpcvuOj4y/mXBT5Lw6kcj7Jt2ow+hUEAc4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WYPZNpiO; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ffc76368c6so11285041fa.0
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 06:40:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732545175; x=1733149975; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J+Y0HXpyKgeDtrQhAYRPzCv1yrc8XspvZqRwVQTSQoQ=;
-        b=CR+cQKHEDl89HnHZ3BI77rrrIKLQCINdHlBd0ZbnE+T2FD60yysJ6wd558KnT1+4aV
-         qnVrHdvJQWfF3PjyQeb6ePZPy3iZhNIXPtrky4A2neJijJjT8kgz8H8D6ZW5GQsZ2t6a
-         1YMEpA2pyOFzE1N/tb2fXtRSM2VP1gJQFw3xgEglI4vez2OKczj8RqmGtJXXcBbYEHxZ
-         91vkhGCGmLREIa8Lim43LF4pZDCPaPVvPSx0dY8MXJBekG9zlWvsnEnoq6SVONEgZckp
-         Rg3JNWcFQPZCWY2UMLbuIpXTXveinDrDbm6WiDobJKjNLNUd0deAzAa+2zRUPUjRgrHe
-         LNsA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1732545630; x=1733150430; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wkpi3C3Erb5LcuJAqMaLXJb2wxyVOmfXm6CfHhPKV4Y=;
+        b=WYPZNpiOhpKZysKRFs2kaAnvnxiecQhipbKPwliqXu5LnV/UPbeW6V81X4j5xP7BqQ
+         BAjFMO6EVE0JuxkkYdpakLONI+8No4YWGbhl0y9yoeSXqspvO57u+lutwJa0XHxK5wS4
+         a9vCEYUIQFaMwWbOoD0X8fpG1HibedNIYTQImfIOMdiE6btVMzBAYqJ4FmELG11nw734
+         7adxlQu5uLkiotruDX+nAVwmNaNW1spA9LHECceHN7Su4SQrs1FIFdc/ruIH1M8jEvXo
+         iw3DOU/5Os/GUjGXSQX5Uo5nnS2GTqsRQvoxQB/4JYCa35eGwliwfWPnHxvBUuIkS5XO
+         PTlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732545175; x=1733149975;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J+Y0HXpyKgeDtrQhAYRPzCv1yrc8XspvZqRwVQTSQoQ=;
-        b=HUyKgKy09a1BkLRJftG24V+16yKF73i2/MUS2CrvAhVZT/P0tK+dg2fJsLbVyMtT/D
-         KA9fSaSseLpqCfO9FfKH3RrgfaZ49alLqDADQSYKXFvU6k5yxoaRNYLrVgaLkh3UKHDQ
-         Qd21snmdMFYVVM3DX1HZua6rkiSzdCVSsn1ZOkQG4hwqHhBSVmRvwB0OrmGOkC5OJiZj
-         ekDJouOkrNccxu7ySB+OypfPGjMen7iEVPD2qqJE8XrTwoyFIDToP0GeJQcsrkriaxH+
-         ono5ok/DAR0YRmwGGLHrm9Qt/P0x6ZKuzz8Mb+rHG3DwqJ3eWXb/7Vi1QiggS2IywF+n
-         fqGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUnKfx1ueFTnyvr6ppbgbQzvwvafw8VEY9XAn2x1KXH5yyW3ha+1B6V3RpwSQ8U+KWPSFcv02pl1QtMjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrhw2eEI+mWuztwHq1ELz8OGtjcsQnbPMT0NvOhL/tkE9JY12j
-	+nHYqhPveRTjoDP7NBlBv+/2l3EKu543j/fsvB/QUxmlvGRqFQeqT7mYSFqCyK4=
-X-Gm-Gg: ASbGncuUkdwcV8dYCFU6k7+g1mpTm++umOAbJrlZ3s4CjEO9jSdwKWGKRjsvaavXFZW
-	lpitQTLo5LFiNDxTEuT9pRpfjldAoWHis4OTW40dFFRS5YHWvD28u3thseYxcTJeIJAj+88gOGD
-	LeEU1ExmPYdGN/fl2pXgXK73QV0J+p7UY6efWxcZfh52+/ixXX9HtCYQbpfyGIWiBXvJhTeogdP
-	irohM8oiCEUlXFiAVzw2oPY0WYGid3WxSKFNq0+Yw9gA0NchTxIYRwoCoF04aw=
-X-Google-Smtp-Source: AGHT+IHLpdEqvHkFDrmf7iYo+O6NcGKzmFklgROp89/Mv/+qWdOXbu1wuq8DK5pShhF7HXcnisT0Zg==
-X-Received: by 2002:a5d:588f:0:b0:382:4851:46d2 with SMTP id ffacd0b85a97d-38260b45c95mr12173123f8f.1.1732545174756;
-        Mon, 25 Nov 2024 06:32:54 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fb36612sm10492934f8f.59.2024.11.25.06.32.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 06:32:54 -0800 (PST)
-Message-ID: <7876986a-0164-4004-a8c7-43439e30fcbb@linaro.org>
-Date: Mon, 25 Nov 2024 14:32:53 +0000
+        d=1e100.net; s=20230601; t=1732545630; x=1733150430;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Wkpi3C3Erb5LcuJAqMaLXJb2wxyVOmfXm6CfHhPKV4Y=;
+        b=tIBHv8d57bOm1K33IcnFbuZgOHxN5m7nR0FuA5j6HFPbB56VqTSA4YSD94RH8+e60/
+         2aIxmwUkngTlcqFafZz/kIlDu7Fe199NXgucTeyKJw9lqhKMuLyeLLAJeOQpvsSmWZHC
+         h3YDreZuN9ETqqqiVvJIhRpcN2pM098e+WZkdA0b+Uu8rTolWZGbbuIlHg9P+Od9FyMP
+         zm7LHrUipc8nAG6zfFoBuhcjO3M1KVOUJZ/ZujDoIsuQwB3dPQs95edbINdbf10LN8QZ
+         jpZZW2aqliCpN0HVzU8EqrsyMIKSRQ6C5jEru1uAX/5M2EmBJ3jR0nbHJaTfDcH/YCGz
+         8qTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWEeLOcaZB+gisWMlqIwA3vanPoCkGjNc4rjT9HLBuviONlfCz+HOYjE2Ngnr3evVPEZVGNMU2mKZI3Cw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzke+lOy9qympZ+wL5IsqiYF+EXmGY2jO7koX7PHtgD7BFXua5U
+	3vGm4n38uZeYHWOSLUE+L64rF+0X+1TA/PQIvg3TwCtDJjK05ORsugG/ei1Ky66jp1sFTTiXnzd
+	aM2z7MHoghzjiJVNXF0GBk/VfuqlaRERtz07zrQ==
+X-Gm-Gg: ASbGnct2XwNpNZ4wFYgsZMS5pNax2VrauIpj/6N3C0q5sXTwfeb29KjNQY9Hg7cBjbD
+	ie1G0VxufoFNK9lauT7SB0sP2zYHO+Q==
+X-Google-Smtp-Source: AGHT+IGylk1WBc/171m1MnIZm+s014KvRI8FCTVhJrxpcS9ekQI1Zx3waN0H0Og4c/z7YunW3cfM693tp/5+vZLQ61k=
+X-Received: by 2002:a2e:87d0:0:b0:2ff:bc48:a0d0 with SMTP id
+ 38308e7fff4ca-2ffbc48a360mr28445671fa.6.1732545629740; Mon, 25 Nov 2024
+ 06:40:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/5] media: dt-bindings: Add qcom,sc7280-camss
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
- Vikram Sharma <quic_vikramsa@quicinc.com>
-Cc: rfoss@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, akapatra@quicinc.com,
- hariramp@quicinc.com, andersson@kernel.org, konradybcio@kernel.org,
- hverkuil-cisco@xs4all.nl, cros-qcom-dts-watchers@chromium.org,
- catalin.marinas@arm.com, will@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20241112173032.2740119-1-quic_vikramsa@quicinc.com>
- <20241112173032.2740119-2-quic_vikramsa@quicinc.com>
- <20241115165031.GA3344225-robh@kernel.org>
- <0234971e-9029-4371-a0aa-7da835591351@linaro.org>
- <f1ff6df1-89f3-4e63-bea7-2404fefe81f8@kernel.org>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <f1ff6df1-89f3-4e63-bea7-2404fefe81f8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241121-add-mtk-isp-3-0-support-v7-0-b04dc9610619@baylibre.com>
+ <20241121-add-mtk-isp-3-0-support-v7-4-b04dc9610619@baylibre.com> <d17dfb29f60bfa1889aa554ef16c9ddec272520d.camel@mediatek.com>
+In-Reply-To: <d17dfb29f60bfa1889aa554ef16c9ddec272520d.camel@mediatek.com>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Mon, 25 Nov 2024 15:40:18 +0100
+Message-ID: <CAEHHSvbScBhn=6rSOApQ=K9JEpwL6JPpJnJy929mLXHhxQ=3FQ@mail.gmail.com>
+Subject: Re: [PATCH v7 4/5] media: platform: mediatek: isp: add mediatek
+ ISP3.0 camsv
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+	"robh@kernel.org" <robh@kernel.org>, =?UTF-8?B?QW5keSBIc2llaCAo6Kyd5pm655qTKQ==?= <Andy.Hsieh@mediatek.com>, 
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>, 
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>, "pnguyen@baylibre.com" <pnguyen@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 25/11/2024 14:30, Krzysztof Kozlowski wrote:
-> On 25/11/2024 15:18, Bryan O'Donoghue wrote:
->> On 15/11/2024 16:50, Rob Herring wrote:
->>>> +  reg:
->>>> +    maxItems: 15
->>>> +
->>>> +  reg-names:
->>> reg and reg-names go after 'compatible'. See the documented ordering.
->>
->> Rob, the documented ordering pertains to the dtsi and examples not to
->> the yaml right ?
-> 
-> 
-> The coding style indeed is explicit that it applies to DTS, however same
-> rules apply to the bindings as well.  I just did not cover bindings when
-> writing DTS coding style.
-> 
-> Best regards,
-> Krzysztof
+Le lun. 25 nov. 2024 =C3=A0 09:14, CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89) <ck.=
+hu@mediatek.com> a =C3=A9crit :
+>
+> Hi, Julien:
+>
+> On Thu, 2024-11-21 at 09:53 +0100, Julien Stephan wrote:
+> > External email : Please do not click links or open attachments until yo=
+u have verified the sender or the content.
+> >
+> >
+> > From: Phi-bang Nguyen <pnguyen@baylibre.com>
+> >
+> > This driver provides a path to bypass the SoC ISP so that image data
+> > coming from the SENINF can go directly into memory without any image
+> > processing. This allows the use of an external ISP.
+> >
+> > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+> > [Paul Elder fix irq locking]
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
+> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+>
+> [snip]
+>
+> > +static void mtk_camsv30_update_buffers_add(struct mtk_cam_dev *cam_dev=
+,
+> > +                                          struct mtk_cam_dev_buffer *b=
+uf)
+> > +{
+> > +       mtk_camsv30_img0_write(cam_dev, CAMSV_IMGO_SV_BASE_ADDR, buf->d=
+addr);
+> > +}
+> > +
+>
+> [snip]
+>
+> > +static void mtk_camsv30_fbc_inc(struct mtk_cam_dev *cam_dev)
+> > +{
+> > +       unsigned int fbc_val;
+> > +
+> > +       if (pm_runtime_resume_and_get(cam_dev->dev) < 0) {
+>
+> I think this pm_runtime_resume_and_get() is not necessary.
+> mtk_camsv30_fbc_inc() is called only in mtk_cam_vb2_buf_queue().
+> But when buf_list is empty, mtk_camsv30_update_buffers_add() is called be=
+fore this function.
+> But mtk_camsv30_update_buffers_add() does not call pm_runtime_resume_and_=
+get() and it works normally.
+> So this function is not necessary to call pm_runtime_resume_and_get().
 
-ACK, thanks for the clarification.
+Hi CK,
 
----
-bod
+This one is actually needed because .buf_queue can be called before
+.start_streaming in case a user requests to prepare buffers before
+streaming.
+But you are right, if a user requests to alloc buffer before streaming
+mtk_camsv_update_buffers_address will be called without pm. Streaming
+still works because in start streaming we call
+mtk_camsv_update_buffers_address again.
+So maybe I should put the pm stuff in mtk_cam_vb2_buf_queue ?
+
+Cheers
+Julien
+
+
+>
+> In other register setting function, please also check this pm function is=
+ necessary or not.
+>
+> Regards,
+> CK
+>
+> > +               dev_err(cam_dev->dev, "failed to get pm_runtime\n");
+> > +               return;
+> > +       }
+> > +
+> > +       fbc_val =3D mtk_camsv30_read(cam_dev, CAMSV_IMGO_FBC);
+> > +       fbc_val |=3D CAMSV_IMGO_FBC_RCNT_INC;
+> > +       mtk_camsv30_write(cam_dev, CAMSV_IMGO_FBC, fbc_val);
+> > +       fbc_val &=3D ~CAMSV_IMGO_FBC_RCNT_INC;
+> > +       mtk_camsv30_write(cam_dev, CAMSV_IMGO_FBC, fbc_val);
+> > +
+> > +       pm_runtime_put_autosuspend(cam_dev->dev);
+> > +}
+> > +
+>
+> >
+>
+> ************* MEDIATEK Confidentiality Notice ********************
+> The information contained in this e-mail message (including any
+> attachments) may be confidential, proprietary, privileged, or otherwise
+> exempt from disclosure under applicable laws. It is intended to be
+> conveyed only to the designated recipient(s). Any use, dissemination,
+> distribution, printing, retaining or copying of this e-mail (including it=
+s
+> attachments) by unintended recipient(s) is strictly prohibited and may
+> be unlawful. If you are not an intended recipient of this e-mail, or beli=
+eve
+> that you have received this e-mail in error, please notify the sender
+> immediately (by replying to this e-mail), delete any and all copies of
+> this e-mail (including any attachments) from your system, and do not
+> disclose the content of this e-mail to any other person. Thank you!
 
