@@ -1,177 +1,269 @@
-Return-Path: <linux-media+bounces-22022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22023-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1549D89AA
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 16:49:56 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6D9016333E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 15:49:52 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C29061B4149;
-	Mon, 25 Nov 2024 15:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nqeSHWKC"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B7B9D8ABA
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 17:56:37 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BDC44C94;
-	Mon, 25 Nov 2024 15:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8F056B2B24C
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 15:50:40 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE3DD1B4153;
+	Mon, 25 Nov 2024 15:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Kc5SdO4d"
+X-Original-To: linux-media@vger.kernel.org
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC291B3958
+	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 15:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732549781; cv=none; b=oQwWBMD+yOLE+q59x1eIkJyJXq/rZaGHH7m1Cn06sYGuFH7ZdLqB65NAqfkqCFsRKHGcrCA6LUXwLWcNOu5z41a/5ZUj4oNSoR1eL7a1dMg7JgNMdSmxQo5ICcFbgsOgCgUefMB/HTtB5PE+31kjfeE4h2I9P/O9VHzegoGvqEI=
+	t=1732549822; cv=none; b=kvmtt+bP9EouGGTNuJE84icufIIWirP67diPHGZuk0CQIjbjI07hjqw32BcyPg/I7L6Dt28TUy1vrkvgr8u6kmIoIkYlFH3A5KHrPew7XjwzDtRM1VkpeFSM8Dnax++nwuqVsyiGg7vKOhX3Qh0IyjD0zLfGBzLNeVaoOcEbcNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732549781; c=relaxed/simple;
-	bh=BagwbimB9mVeZIN+ux/kKsFB52R0ap/BIYaUJgjIASM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=UP7wuQ7XPfcqtgK7dmO1hg2KZSMMh8sl6JbtBAKdkOMYnFpzt+0A3zLGrKEu8pw6AqUrJ5Qx38JCs13ccZ916jp2JBQXlvp2mQSfNlDqVwQkb2LWskj4aGibTxsNN9OIi+pKFR4ahQClbK2bfk5RigYC5H/yuCQBTfNl3/1mXYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nqeSHWKC; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4APBML6p014123;
-	Mon, 25 Nov 2024 15:49:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BagwbimB9mVeZIN+ux/kKsFB52R0ap/BIYaUJgjIASM=; b=nqeSHWKCRQY/zgP1
-	g3ZjyvDxN0uS2glMM0Aw/mfOUFRINK/5BWY9E5MKwAXg9OxjvkTQXto7ScArCgjz
-	8AMKGO7OLxVLFAVxLxCmp6Rcmc5b2sesLjI9HuGvs+p59rDCd7hOg46W97oQC8sj
-	wcSmgR6PvljHXC63Couiul/svo3vm/FXQMPw4RA1wTz6OeSNXUDfC2rlmBxFTRxo
-	n53imkwtwwfSMHQqJhTATKQADz6EJ+NhLFzvYEOe8UAj2hFYaN09fhRUoCc/7gM4
-	rPtTZaRs2toKxWqk6avy7lDO1Z6MCgqdqT7zR2pcHw62qdsZh3+ZihaCtKNg9/4T
-	V0kz6Q==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4334dmwkau-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Nov 2024 15:49:33 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4APFnWQQ002921
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 25 Nov 2024 15:49:32 GMT
-Received: from nalasex01c.na.qualcomm.com (10.47.97.35) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 25 Nov 2024 07:49:31 -0800
-Received: from nalasex01c.na.qualcomm.com ([fe80::5da8:4d0f:c16a:a1d]) by
- nalasex01c.na.qualcomm.com ([fe80::5da8:4d0f:c16a:a1d%11]) with mapi id
- 15.02.1544.009; Mon, 25 Nov 2024 07:49:31 -0800
-From: "Renjiang Han (QUIC)" <quic_renjiang@quicinc.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia (QUIC)"
-	<quic_vgarodia@quicinc.com>,
-        "bryan.odonoghue@linaro.org"
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Rob Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konradybcio@kernel.org>,
-        "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>,
-        "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 1/4] dt-bindings: qcom,qcs615-venus: add support for
- video hardware
-Thread-Topic: [PATCH v3 1/4] dt-bindings: qcom,qcs615-venus: add support for
- video hardware
-Thread-Index: AQHbPvvNBcmhQ7jCvUeLTdcFK605vrLIJWyA///8ehA=
-Date: Mon, 25 Nov 2024 15:49:31 +0000
-Message-ID: <18cc654b4377463e8783de0b4659a27d@quicinc.com>
-References: <20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com>
- <20241125-add-venus-for-qcs615-v3-1-5a376b97a68e@quicinc.com>
- <jovwobfcbc344eqrcgxeaxlz2mzgolxqaldvxzmvp5p3rxj3se@fudhzbx5hf2e>
-In-Reply-To: <jovwobfcbc344eqrcgxeaxlz2mzgolxqaldvxzmvp5p3rxj3se@fudhzbx5hf2e>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1732549822; c=relaxed/simple;
+	bh=kfMHB3RJjnlbzO1OpVGbhIstSz4cmx2aTUu0FTGJNng=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WjTii6TtrGqvNM9CTuE95kmhifdnuo10ETYV2diMe0r4GNqM+H9TzBQqU5sOLAKpls/BpDACXu6V8Qg5B9C3t5r1UPpFJaZruPntp0kPFMqj0noRnmvMLgGbta/jmoOBh+80F2LllEurix94i0Gk0pMpYSn6+ji4SG5zVDmugiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Kc5SdO4d; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1732549819;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nQnkgAjPT8jFYPzn3mXbirErF6dgXKuZNcTSfMJYSzU=;
+	b=Kc5SdO4dXIQ/K3zDlAsrvOLWmRQDsSlTEwK/60KAVzMD7hHzF2MjNBUPmjEegmzMBiWPoe
+	tZuQ9qFKfwt1NQzTenrw53y8A2lcIJKohvsu7c7QFTdYfJYLneLs+qkHu7IPCro/K32w5k
+	PeUT1ukymsAsD0ItkUZzqjT6a7g9XL0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-270-KIhO58liNhqr8ODFNX5bAA-1; Mon, 25 Nov 2024 10:50:17 -0500
+X-MC-Unique: KIhO58liNhqr8ODFNX5bAA-1
+X-Mimecast-MFC-AGG-ID: KIhO58liNhqr8ODFNX5bAA
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-aa5160f99b6so193884766b.1
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 07:50:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732549816; x=1733154616;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nQnkgAjPT8jFYPzn3mXbirErF6dgXKuZNcTSfMJYSzU=;
+        b=DACahz7GFg+aNKg8MeBd2wi42KdSO2/ivFvBTrb+pWP0CpznidxTuv/UtULoDRXxAL
+         xTPbKF8f4HDqIob8GRjIAagU2JI/MEl9vrZ+waXykPLoTGHi99Fm1gpc1cXKHHJ57J+N
+         DepfZ7L7nc4dosZYwi/ZuzlkADT1UWcVLz26DuSsuro8y9ftHqjXq/To45W1QuPyQI9z
+         oMAp8ERtLKaX2cC+3kMDmA+sqNxKV8aNp6WB0uxzV75ypbMnSjVht2W4gFnX+8H0Au3t
+         u4uY7k+GXifBvpF6bF3w8DlRTARCwCaphy+IQCcwcQhwdIrNSlNhFLvMEK4003Suygph
+         cpqg==
+X-Forwarded-Encrypted: i=1; AJvYcCWZlRpACUiIUqipQBqPd1mJMt5bHsoQ2SFm9zq7QMfttihFiEOE+Kh+7ob4VPNzTUEc33KSCP0u4vPB5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGxpqMzY97JKREWx9j9P0QiW2XmO2f9YgnQotX7OXgpWyuVKT9
+	3SVGykNaxLNKRRNI0vXuFT1nHXTDPGOVfUtB7NWUYpKedIXzOwRoRDr+/MMRTfCIsbRv7Hkd0zs
+	yTYr9utoOxLBrWFJY7G2ZLng/Io3h3CvzJSDjD3W5LuyuK09ReAN+wSulW6e9
+X-Gm-Gg: ASbGncve+O1RIbzmvqcmfh4PGo23kbND/8zyBQqeZLLS8/qKoIBGyExuf4lv/PAm3kA
+	gL2IXjOfi0PDv8UDai+PW9KfBZ35kGRZltSwjnEm3eROF3ValBFdpRSzQH0he4f1NJl9sT4QZpB
+	NNgbDmfLS7LodikY6q+jCOjB6b45yTExlRLVzQIBCvOQiUlsm5gnGYMoC/+iSSjqhfo1YzneauU
+	m79C7ZIJ8zbd2ARiWPk+cNL8nL0nXQEvktdAOvXz8mFiDcdV3lJG9Jf2UPRrEUG6zhrhJMpKinP
+	tQRC3+b+WYPIrpfqTz8QQf5zkC9jtvlRVGw7lfJHoHaeQ6lQGjncp5ieO8ob0Eog1prvQKY0m8n
+	9SYS6Ctjt1v7B80E5Zd6DfRfV
+X-Received: by 2002:a17:906:4c1:b0:aa5:c1b:2203 with SMTP id a640c23a62f3a-aa50c1b22a1mr897054666b.42.1732549815813;
+        Mon, 25 Nov 2024 07:50:15 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHG+xVc+WRWlgy8t3DQvbGAQE/X9x6Ysv9LBZndFPpM5k6tbAVH6eP65j8ocm1tz0b2PWKizg==
+X-Received: by 2002:a17:906:4c1:b0:aa5:c1b:2203 with SMTP id a640c23a62f3a-aa50c1b22a1mr897053066b.42.1732549815427;
+        Mon, 25 Nov 2024 07:50:15 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa516396f6asm449690966b.158.2024.11.25.07.50.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Nov 2024 07:50:14 -0800 (PST)
+Message-ID: <9be8f912-13b3-4b7d-9705-8ffa3a27d205@redhat.com>
+Date: Mon, 25 Nov 2024 16:50:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 1XYZDBYywCo-kjBS4jw64C43yQQiHrpT
-X-Proofpoint-ORIG-GUID: 1XYZDBYywCo-kjBS4jw64C43yQQiHrpT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 mlxlogscore=999 phishscore=0 mlxscore=0
- lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0 spamscore=0
- impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2411250132
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 05/19] media: uvcvideo: Handle uvc menu translation
+ inside uvc_get_le_value
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ricardo Ribalda <ribalda@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org>
+ <20241114-uvc-roi-v15-5-64cfeb56b6f8@chromium.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20241114-uvc-roi-v15-5-64cfeb56b6f8@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-T24gTW9uIDExLzI1LzIwMjQgMzo1MCBQTSwgS3J6eXN6dG9mIEtvemxvd3NraSB3cm90ZToNCj4g
-T24gTW9uLCBOb3YgMjUsIDIwMjQgYXQgMTE6MDQ6NDlBTSArMDUzMCwgUmVuamlhbmcgSGFuIHdy
-b3RlOg0KPiA+IEFkZCBzdXBwb3J0IGZvciBRdWFsY29tbSB2aWRlbyBhY2NlbGVyYXRpb24gaGFy
-ZHdhcmUgdXNlZCBmb3IgdmlkZW8gDQo+ID4gc3RyZWFtIGRlY29kaW5nIGFuZCBlbmNvZGluZyBv
-biBRQ09NIFFDUzYxNS4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBSZW5qaWFuZyBIYW4gPHF1
-aWNfcmVuamlhbmdAcXVpY2luYy5jb20+ID4NCj4gPiAtLS0NCj4gPiAgLi4uL2JpbmRpbmdzL21l
-ZGlhL3Fjb20scWNzNjE1LXZlbnVzLnlhbWwgICAgICAgICAgfCAxODIgKysrKysrKysrKysrKysr
-KysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxODIgaW5zZXJ0aW9ucygrKQ0KPiA+IA0KPiA+
-IGRpZmYgLS1naXQgDQo+ID4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVk
-aWEvcWNvbSxxY3M2MTUtdmVudXMueWFtbCANCj4gPiBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9tZWRpYS9xY29tLHFjczYxNS12ZW51cy55YW1sDQoNCj4gRGVwZW5kZW5jeSBm
-b3IgdGhpcyBwYXRjaCBtdXN0IGJlIG1lbnRpb25lZCBoZXJlLg0KDQo+IEFtb3VudCBvZiBkZXBl
-bmRlbmNpZXMgbWFrZSBpdCB1bm1lcmdlYWJsZSBhbmQgdW50ZXN0ZWFibGUuDQo+IEkgc3VnZ2Vz
-dCBkZWNvdXBsaW5nIGRlcGVuZGVuY2llcyBieSByZW1vdmluZyBjbG9jayBjb25zdGFudHMuDQoN
-ClRoYW5rcyBmb3IgeW91ciBjb21tZW50LCBJIHdpbGwgdHJ5IHRvIHJlbW92ZSB0aGUgY2xvY2sg
-Y29uc3RhbnRzDQphbmQgdXNlIGNsb2NrIGlkIGluc3RlYWQuDQoNCj4gPiBuZXcgZmlsZSBtb2Rl
-IDEwMDY0NA0KPiA+IGluZGV4IA0KPiA+IDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
-MDAwMDAwMDAuLjdhM2EwMWZmMDZkOGI2MmJjMjQyNGEwYTI0ODUNCj4gPiA3Yzg2YzY4NjVmODkN
-Cj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL21lZGlhL3Fjb20scWNzNjE1LXZlbnVzLnlhbWwNCj4gPiBAQCAtMCwwICsxLDE4MiBA
-QA0KPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiAoR1BMLTIuMCBPUiBCU0QtMi1DbGF1
-c2UpICVZQU1MIDEuMg0KPiA+ICstLS0NCj4gPiArJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcv
-c2NoZW1hcy9tZWRpYS9xY29tLHFjczYxNS12ZW51cy55YW1sIw0KPiA+ICskc2NoZW1hOiBodHRw
-Oi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMNCj4gPiArDQo+ID4gK3Rp
-dGxlOiBRdWFsY29tbSBRQ1M2MTUgVmVudXMgdmlkZW8gZW5jb2RlIGFuZCBkZWNvZGUgYWNjZWxl
-cmF0b3JzDQo+ID4gKw0KPiA+ICttYWludGFpbmVyczoNCj4gPiArICAtIFN0YW5pbWlyIFZhcmJh
-bm92IDxzdGFuaW1pci5rLnZhcmJhbm92QGdtYWlsLmNvbT4gPg0KPiA+ICsgIC0gVmlrYXNoIEdh
-cm9kaWEgPHF1aWNfdmdhcm9kaWFAcXVpY2luYy5jb20+ID4NCj4gPiArDQo+ID4gK2Rlc2NyaXB0
-aW9uOg0KPiA+ICsgIFRoZSBWZW51cyBJUCBpcyBhIHZpZGVvIGVuY29kZSBhbmQgZGVjb2RlIGFj
-Y2VsZXJhdG9yIHByZXNlbnQNCj4gPiArICBvbiBRdWFsY29tbSBwbGF0Zm9ybXMNCj4gPiArDQo+
-ID4gK2FsbE9mOg0KPiA+ICsgIC0gJHJlZjogcWNvbSx2ZW51cy1jb21tb24ueWFtbCMNCj4gPiAr
-DQo+ID4gK3Byb3BlcnRpZXM6DQo+ID4gKyAgY29tcGF0aWJsZToNCj4gPiArICAgIGNvbnN0OiBx
-Y29tLHFjczYxNS12ZW51cw0KPiA+ICsNCj4gPiArICBwb3dlci1kb21haW5zOg0KPiA+ICsgICAg
-bWluSXRlbXM6IDINCj4gPiArICAgIG1heEl0ZW1zOiAzDQo+ID4gKw0KPiA+ICsgIHBvd2VyLWRv
-bWFpbi1uYW1lczoNCj4gPiArICAgIG1pbkl0ZW1zOiAyDQo+ID4gKyAgICBpdGVtczoNCj4gPiAr
-ICAgICAgLSBjb25zdDogdmVudXMNCj4gPiArICAgICAgLSBjb25zdDogdmNvZGVjMA0KPiA+ICsg
-ICAgICAtIGNvbnN0OiBjeA0KPiA+ICsNCj4gPiArICBjbG9ja3M6DQo+ID4gKyAgICBtYXhJdGVt
-czogNQ0KPiA+ICsNCj4gPiArICBjbG9jay1uYW1lczoNCj4gPiArICAgIGl0ZW1zOg0KPiA+ICsg
-ICAgICAtIGNvbnN0OiBjb3JlDQo+ID4gKyAgICAgIC0gY29uc3Q6IGlmYWNlDQo+ID4gKyAgICAg
-IC0gY29uc3Q6IGJ1cw0KPiA+ICsgICAgICAtIGNvbnN0OiB2Y29kZWMwX2NvcmUNCj4gPiArICAg
-ICAgLSBjb25zdDogdmNvZGVjMF9idXMNCj4gPiArDQo+ID4gKyAgaW9tbXVzOg0KPiA+ICsgICAg
-bWF4SXRlbXM6IDENCj4gPiArDQo+ID4gKyAgbWVtb3J5LXJlZ2lvbjoNCj4gPiArICAgIG1heEl0
-ZW1zOiAxDQo+ID4gKw0KPiA+ICsgIGludGVyY29ubmVjdHM6DQo+ID4gKyAgICBtYXhJdGVtczog
-Mg0KPiA+ICsNCj4gPiArICBpbnRlcmNvbm5lY3QtbmFtZXM6DQo+ID4gKyAgICBpdGVtczoNCj4g
-PiArICAgICAgLSBjb25zdDogdmlkZW8tbWVtDQo+ID4gKyAgICAgIC0gY29uc3Q6IGNwdS1jZmcN
-Cj4gPiArDQo+ID4gKyAgb3BlcmF0aW5nLXBvaW50cy12MjogdHJ1ZQ0KPiA+ICsNCj4gPiArICBv
-cHAtdGFibGU6DQo+ID4gKyAgICB0eXBlOiBvYmplY3QNCj4gPiArDQo+ID4gKyAgdmlkZW8tZGVj
-b2RlcjoNCj4gPiArICAgIHR5cGU6IG9iamVjdA0KPiA+ICsNCj4gPiArICAgIGFkZGl0aW9uYWxQ
-cm9wZXJ0aWVzOiBmYWxzZQ0KPiA+ICsNCj4gPiArICAgIHByb3BlcnRpZXM6DQo+ID4gKyAgICAg
-IGNvbXBhdGlibGU6DQo+ID4gKyAgICAgICAgY29uc3Q6IHZlbnVzLWRlY29kZXINCj4gPiArDQo+
-ID4gKyAgICByZXF1aXJlZDoNCj4gPiArICAgICAgLSBjb21wYXRpYmxlDQo+ID4gKw0KPiA+ICsg
-IHZpZGVvLWVuY29kZXI6DQo+ID4gKyAgICB0eXBlOiBvYmplY3QNCg0KPiBCb3RoIG5vZGVzIGFy
-ZSB1c2VsZXNzIC0gbm8gcmVzb3VyY2VzIGhlcmUsIG5vdGhpbmcgdG8gY29udHJvbC4NCj4gRG8g
-bm90IGFkZCBub2RlcyBqdXN0IHRvIGluc3RhbnRpYXRlIExpbnV4IGRyaXZlcnMuIERyb3AgdGhl
-bS4NCkRvIHlvdSBtZWFuIEkgc2hvdWxkIHJlbW92ZSB2aWRlby1kZWNvZGVyIGFuZCB2aWRlby1l
-bmNvZGVyIGZyb20gaGVyZT8NCklmIHNvLCBkbyBJIGFsc28gbmVlZCB0byByZW1vdmUgdGhlc2Ug
-dHdvIG5vZGVzIGZyb20gdGhlIGR0c2kgZmlsZSBhbmQgYWRkDQp0aGVtIGluIHRoZSBxY3M2MTUt
-cmlkZS5kdHMgZmlsZT8NCg0KPiBCZXN0IHJlZ2FyZHMsDQo+IEtyenlzenRvZg0K
+Hi,
+
+On 14-Nov-24 8:10 PM, Ricardo Ribalda wrote:
+> map->get() gets a value from an uvc_control in "UVC format" and converts
+> it to a value that can be consumed by v4l2.
+> 
+> Instead of using a special get function for V4L2_CTRL_TYPE_MENU, we
+> were converting from uvc_get_le_value in two different places.
+> 
+> Move the conversion to uvc_get_le_value().
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Thanks, patch looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 77 +++++++++++++++++-----------------------
+>  1 file changed, 32 insertions(+), 45 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index bab9fdac98e6..77f7058ec966 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -862,6 +862,25 @@ static inline void uvc_clear_bit(u8 *data, int bit)
+>  	data[bit >> 3] &= ~(1 << (bit & 7));
+>  }
+>  
+> +static s32 uvc_menu_to_v4l2_menu(struct uvc_control_mapping *mapping, s32 val)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
+> +		u32 menu_value;
+> +
+> +		if (!test_bit(i, &mapping->menu_mask))
+> +			continue;
+> +
+> +		menu_value = uvc_mapping_get_menu_value(mapping, i);
+> +
+> +		if (menu_value == val)
+> +			return i;
+> +	}
+> +
+> +	return val;
+> +}
+> +
+>  /*
+>   * Extract the bit string specified by mapping->offset and mapping->size
+>   * from the little-endian data stored at 'data' and return the result as
+> @@ -896,6 +915,16 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
+>  	if (mapping->data_type == UVC_CTRL_DATA_TYPE_SIGNED)
+>  		value |= -(value & (1 << (mapping->size - 1)));
+>  
+> +	/* If it is a menu, convert from uvc to v4l2. */
+> +	if (mapping->v4l2_type != V4L2_CTRL_TYPE_MENU)
+> +		return value;
+> +
+> +	switch (query) {
+> +	case UVC_GET_CUR:
+> +	case UVC_GET_DEF:
+> +		return uvc_menu_to_v4l2_menu(mapping, value);
+> +	}
+> +
+>  	return value;
+>  }
+>  
+> @@ -1060,32 +1089,6 @@ static int uvc_ctrl_populate_cache(struct uvc_video_chain *chain,
+>  	return 0;
+>  }
+>  
+> -static s32 __uvc_ctrl_get_value(struct uvc_control_mapping *mapping,
+> -				const u8 *data)
+> -{
+> -	s32 value = mapping->get(mapping, UVC_GET_CUR, data);
+> -
+> -	if (mapping->v4l2_type == V4L2_CTRL_TYPE_MENU) {
+> -		unsigned int i;
+> -
+> -		for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
+> -			u32 menu_value;
+> -
+> -			if (!test_bit(i, &mapping->menu_mask))
+> -				continue;
+> -
+> -			menu_value = uvc_mapping_get_menu_value(mapping, i);
+> -
+> -			if (menu_value == value) {
+> -				value = i;
+> -				break;
+> -			}
+> -		}
+> -	}
+> -
+> -	return value;
+> -}
+> -
+>  static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
+>  			       struct uvc_control *ctrl)
+>  {
+> @@ -1136,8 +1139,8 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	*value = __uvc_ctrl_get_value(mapping,
+> -				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+> +	*value = mapping->get(mapping, UVC_GET_CUR,
+> +			      uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+>  
+>  	return 0;
+>  }
+> @@ -1287,7 +1290,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  {
+>  	struct uvc_control_mapping *master_map = NULL;
+>  	struct uvc_control *master_ctrl = NULL;
+> -	unsigned int i;
+>  
+>  	memset(v4l2_ctrl, 0, sizeof(*v4l2_ctrl));
+>  	v4l2_ctrl->id = mapping->id;
+> @@ -1330,21 +1332,6 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  		v4l2_ctrl->minimum = ffs(mapping->menu_mask) - 1;
+>  		v4l2_ctrl->maximum = fls(mapping->menu_mask) - 1;
+>  		v4l2_ctrl->step = 1;
+> -
+> -		for (i = 0; BIT(i) <= mapping->menu_mask; ++i) {
+> -			u32 menu_value;
+> -
+> -			if (!test_bit(i, &mapping->menu_mask))
+> -				continue;
+> -
+> -			menu_value = uvc_mapping_get_menu_value(mapping, i);
+> -
+> -			if (menu_value == v4l2_ctrl->default_value) {
+> -				v4l2_ctrl->default_value = i;
+> -				break;
+> -			}
+> -		}
+> -
+>  		return 0;
+>  
+>  	case V4L2_CTRL_TYPE_BOOLEAN:
+> @@ -1592,7 +1579,7 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
+>  	ctrl->handle = NULL;
+>  
+>  	list_for_each_entry(mapping, &ctrl->info.mappings, list) {
+> -		s32 value = __uvc_ctrl_get_value(mapping, data);
+> +		s32 value = mapping->get(mapping, UVC_GET_CUR, data);
+>  
+>  		/*
+>  		 * handle may be NULL here if the device sends auto-update
+> 
+
 
