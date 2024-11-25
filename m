@@ -1,123 +1,133 @@
-Return-Path: <linux-media+bounces-21980-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-21981-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F269D850E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 13:07:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1AF9D8619
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 14:14:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2AF672881AE
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 12:07:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D081B36A0F
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 12:11:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7150199FBA;
-	Mon, 25 Nov 2024 12:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07FA19CC2D;
+	Mon, 25 Nov 2024 12:11:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QfFYkWXF"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bQCJYBid"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE6419146E;
-	Mon, 25 Nov 2024 12:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E902500BA
+	for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 12:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732536458; cv=none; b=JyPGVzw2HTgw1VwFG3Ky3YCqZ12prLQ6wEqopAC6S4uecQguyotJTwEhC45EvoSjrJ0+7stdHc2oZCVwql3E+fA33J/gbVsNTvsd/qDCg89sF6iFZnZcAPY+h1TPoNSewyCXZqii2q4x3PBk6nNPnFPBbh0toye7u7J4qe5uqNM=
+	t=1732536662; cv=none; b=lTBa0XE5sXQCGM4ToznmvEA2m6k1GKrbDp6SPKU9Aw0CIq+lq+eS/re8bjwSIPqphT7fszk5DeZWtBlU354D7a18PFeMwTrWVGWF+lbIzVRYE7Ti/lG6mdEXm/CAppSfZAHbZyGT3hn52rxGkLhyB3EbBHKaPJCSduqpiwhDABs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732536458; c=relaxed/simple;
-	bh=R01beLZ4YFaqdF6EsHFi8Y1vIcFrETivFyk1AC46si8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FBIYzRhrtSVtLvttYdQaw5CdAle4IibMgzPi+N2bWdnueC/aGD+qiIICYPpNW1GkK9lJDKf0cehMOgLXzGluAqSMXO7ATnmaXlqPwaWWcHJFuFwP4Eo5CvVsOYnCzUs8PGqOg11N0CjXu20DCI+UIeu/0r7nPHT49rnnJvtjlhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QfFYkWXF; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB45BA2F;
-	Mon, 25 Nov 2024 13:07:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732536432;
-	bh=R01beLZ4YFaqdF6EsHFi8Y1vIcFrETivFyk1AC46si8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QfFYkWXFVEBldFAEycAa5OX9yTPNTf1Kp2OfkSS+fsDS+J73rRZiSUHsgqZ3f2wLH
-	 K/XflwA2W4GXJxrpbllVqtxz7YMAi20xz4SFwqtiCjjk8RZ+8gzs2C7CNfKNC4n8Kq
-	 HtA8gQgz8nnTI9mYbeIYsXgxLtaGyYFT8OoLJXt0=
-Date: Mon, 25 Nov 2024 14:07:25 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	=?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: v4l: subdev: Prevent NULL routes access
-Message-ID: <20241125120725.GI19573@pendragon.ideasonboard.com>
-References: <20241122143717.173344-1-demonsingur@gmail.com>
- <Z0Q3ukermwmPax2b@kekkonen.localdomain>
- <0ff25743-30c6-4c26-955f-c4c26578ebb6@ideasonboard.com>
+	s=arc-20240116; t=1732536662; c=relaxed/simple;
+	bh=MD2kXp9zcST7rQN7sT17fiFMKuYALRaid8lTQMGgKnY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YWRH5DSNTlAMJ4FUiVEdiEzHeQ9MFWrv9AqKkMGeRB3RAa+c0wCP02kvrMd7ls9kkje6uNaCFmSpLlJGoVwCm0iwC4sh9SM7GaEh1VGwC46mM99T5bnud19tmVQautwh09tLHAuwsBsQLuoi3/Jwl2NyBsGjwr69aC8ripTtchg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bQCJYBid; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43163667f0eso39094205e9.0
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2024 04:11:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732536659; x=1733141459; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ay9iD2Ui7/MFbStQyK+xjPWNY7pA8bVsVnnpt4EVpMs=;
+        b=bQCJYBidxeWwNh1lwj1KtNpajVBE1s+1G9HkRw0xjegVq5v+LoEEm+4gB2VW4p2TFn
+         Fd1isqV1s3tWu/KGLava+WI6C8J5CzpKnJydfX89m2qTysm3fKdIaWXXcvxCZOyF6Nzb
+         RpzchUH8j9y+KOvjlH8ASNSgCx6NN10crjsUZC+dYkMpaYSD4hBZeM+UAZRYBfFL+2YP
+         wsHKFm4ibV/92tdlZ6lH5N1iK1D205S0P+BEfXBd5Ftr197Py6R7wChxclOBl74X6cVN
+         Ypnrw756xoH05o6k9ONegp5jsCLuk7I+eqylmkv681rck7+uK9IbhNkWVJScWnwpqzH/
+         7qkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732536659; x=1733141459;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ay9iD2Ui7/MFbStQyK+xjPWNY7pA8bVsVnnpt4EVpMs=;
+        b=B541aRq8PF+kYItfcblyKS32wa5R4L9X7LIgBLjXw+EK0oUfjHKgdagfnC6xiSqauT
+         TKZRYyMhn9+IViBQUkKwZZMl2wOys/q561VRF+Bnp+rAdc6y4Xo40JMibFvfZ//BjgdN
+         TTaTqZeKAcNNKulTCISiCJtRN5TOA01L+mHw7nB6t/7/grusJovCQ5L9vnLl3fCneKBi
+         GsDlhXw1xRo0PL4xYLR5FW5jXIBtIxPNhw3zqkInbj+TLy8uCQ4SS83NZxJD80sYEfG4
+         EX3o5ZCmkGdF3NZxthkbyEMEYTlmPKZmpnawcSGaxKiERLjCz/eK6AGVJ1cSE+tCJpJ2
+         yrtw==
+X-Gm-Message-State: AOJu0YwR6jvGf0wdaZNuorr24ExtoM9faWn0Md3VBYMDwM0u2mVaRJ3s
+	k+ZcBHU2Yo9MRClsFK1xrROgEOZpimt113xS1nCN/DEMW+5ZqM79cw6wbjyMASHDs62wKmX8sE+
+	wfFA=
+X-Gm-Gg: ASbGnctUyCzrMgyMtgw/D1no43IvkXXXgc1LOnADm5Zs1W2YIyjxA1Bv999CcQzau2Q
+	kZs7dQkZVdtr6Kk1+MSlWeT1txEReUeynj4DOkQsxLeOuXcKJYfMbwNN8KOFHIL8hWMKrAWpG5q
+	fGO/qqbfBSdiVixNeVvGgUGci6UtBdZShrBbWihUfWgZjZF7zVIFQJ9jiKPflojr3wRXLkKZqJS
+	29OxQVh4483GLrHNhA0Ik8bz1kbEMIekQiKJ3ugphlyBMKImuQjV4HP80pbWxU=
+X-Google-Smtp-Source: AGHT+IHH9UAHPTXjXBibyKyQ4JzxX2GfjasFy+EHmbvGazyodBa+wJi65PPztAT/YiOrgJzhITmkGA==
+X-Received: by 2002:a7b:cbcd:0:b0:434:932b:a469 with SMTP id 5b1f17b1804b1-434932ba853mr49370555e9.28.1732536658895;
+        Mon, 25 Nov 2024 04:10:58 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fd0fbdcsm10168167f8f.109.2024.11.25.04.10.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Nov 2024 04:10:58 -0800 (PST)
+Message-ID: <c464dfb3-8d30-41e4-88ea-c7c21ee9cf92@linaro.org>
+Date: Mon, 25 Nov 2024 12:10:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0ff25743-30c6-4c26-955f-c4c26578ebb6@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] media: qcom: camss: reducing the repitious error
+ message string
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com
+References: <20241125103457.1970608-1-quic_vikramsa@quicinc.com>
+ <20241125103457.1970608-2-quic_vikramsa@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241125103457.1970608-2-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 25, 2024 at 01:33:15PM +0200, Tomi Valkeinen wrote:
-> On 25/11/2024 10:39, Sakari Ailus wrote:
-> > On Fri, Nov 22, 2024 at 04:37:12PM +0200, Cosmin Tanislav wrote:
-> >> When using v4l2_subdev_set_routing to set a subdev's routing, and the
-> >> passed routing.num_routes is 0, kmemdup is not called to populate the
-> >> routes of the new routing (which is fine, since we wouldn't want to pass
-> >> a possible NULL value to kmemdup).
-> >>
-> >> This results in subdev's routing.routes to be NULL.
-> >>
-> >> routing.routes is further used in some places without being guarded by
-> >> the same num_routes non-zero condition.
-> >>
-> >> Fix it.
-> > 
-> > While I think moving the code to copy the routing table seems reasonable,
-> > is there a need to make num_routes == 0 a special case? No memcpy()
-> > implementation should access destination or source if the size is 0.
+On 25/11/2024 10:34, Vikram Sharma wrote:
+> Introducing a new function camss_link_err to avoid repition of
+> same error message, improving code maintainability.
 > 
-> I think so too, but Cosmin convinced me that the spec says otherwise.
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>   drivers/media/platform/qcom/camss/camss.c | 60 ++++++++++++++---------
+>   1 file changed, 37 insertions(+), 23 deletions(-)
 > 
->  From the C spec I have, in "7.21.1 String function conventions":
-> 
-> "
-> Where an argument declared as size_t n specifies the length of the array for a
-> function, n can have the value zero on a call to that function. Unless explicitly stated
-> otherwise in the description of a particular function in this subclause, pointer arguments
-> on such a call shall still have valid values, as described in 7.1.4.
-> "
-> 
-> The memcpy section has no explicit mention that would hint otherwise.
-> 
-> In 7.1.4 Use of library functions it says that unless explicitly stated 
-> otherwise, a null pointer is an invalid value.
-> 
-> That said, I would still consider memcpy() with size 0 always ok, 
-> regardless of the src or dst, as the only memcpy implementation we need 
-> to care about is the kernel's.
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 9fb31f4c18ad..520c5bc7a265 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -1993,6 +1993,26 @@ static int camss_init_subdevices(struct camss *camss)
+>   	return 0;
+>   }
+>   
+> +/*
+> + * camss_link_entities - Register subdev nodes and create links
+> + * camss_link_err - print error in case link creation fails
+> + * @src_name: name for source of the link
+> + * @sink_name: name for sink of the link
+> + */
+> +inline void camss_link_err(struct camss *camss,
+> +			   const char *src_name,
+> +			   const char *sink_name,
+> +			   int ret)
+> +{
+> +	if (!camss || !src_name || !sink_name)
+> +		return;
 
-I was going to mention that too. The kernel C library API is modeled
-on the standard C library API, but it takes quite a few liberties.
+You don't need this defensive coding error check, please drop.
 
-What I think is important in the context of this patch is to ensure
-consistency in how we model our invariants. I'm less concerned about
-relying on memcpy() being a no-op that doesn't dereference pointers when
-the size is 0 (provided the caller doesn't otherwise trigger C undefined
-behaviours) than about the consistency in how we model routing tables
-with no entry. I'd like to make sure that num_routes == 0 always implies
-routes == NULL and vice versa (which may already be the case, I haven't
-checked).
+Once done you can add
 
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
