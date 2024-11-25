@@ -1,195 +1,237 @@
-Return-Path: <linux-media+bounces-22035-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22036-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CECE89D8C30
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 19:26:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE78B9D8C35
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 19:29:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D9B928A5DC
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 18:26:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78765B24D89
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2024 18:28:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5573C1B87FB;
-	Mon, 25 Nov 2024 18:26:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6AD1B87F4;
+	Mon, 25 Nov 2024 18:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYJUBNaR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O//fre4U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D50F1B3943;
-	Mon, 25 Nov 2024 18:26:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592771B3943;
+	Mon, 25 Nov 2024 18:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732559202; cv=none; b=Ju6OLHgxz4VuUy8da4i2cG2+Ao7sHidLatyPqwqLAphaAWLtKNVJ6D/2XKJS8gTJ82Y2VvFMAxKwkPdOyhtz6b1NoOotBQQx6FYWCsbF7918/W6+WyJ5Vy31gQ2Lsnuuzk2VcnuJWY+oYZTjuhsSCYgajPXV49ZZiwqA04xKXjo=
+	t=1732559333; cv=none; b=B/azp2eDvkwNBap4RaZ7I/t1BfkEfY2cS5Bcm+IfwKH27Ww36KbYt9yo41bPBa3J79nf77BmXwhyoAD8/yLj9yvXG3nMnG7ewWPnqbMUIEYC4LS13HaFc+G8ErNS1rtINsLTd4/5lfDZ1TjCl5Dtgwub+ivDWlYzbtR5WNWHfnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732559202; c=relaxed/simple;
-	bh=dIlnLnEZTpntVMOqJzYDY6xXyHJNFe5p+MNhUzw9vOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d0ej39vs/dC9OCMuZc9NV16wyvrfFikZoPTZdcw3NZ/+CW88L+/sqq1+MO4FmewZybM5qyoHrhpGdZDmpqQ2ENOC9uLjoerxYTUwU1EdatsxImnECEbEH8X3v6pd/6RjF8fKpjWCnUPLQ3cAdpWy9TCHAJ1FpXYOYIAmhXgbrnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYJUBNaR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B74AC4CECE;
-	Mon, 25 Nov 2024 18:26:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732559202;
-	bh=dIlnLnEZTpntVMOqJzYDY6xXyHJNFe5p+MNhUzw9vOY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YYJUBNaRnthKhJTlHf87j8mUbYeKWIdzMsRpP+dH+JfyhFGsFKsVyesBziNw30f9v
-	 ABYkNchLr2bOFhUn6PqrEHPu2XxYUE0SoV0SZ0KJPWelBCLCd5PH9ksf8n+3Blvx5q
-	 SkVGberfNkTr433c3vu08fE6rRyvVjrvrGvn3rtpuBrcLR43KKJ7HqfpDHQa67lpJ3
-	 A1kk5FvItMj1zBbQWJccJdKpVg3zsPQIA67io2twy2cd3zsffPXCzQiHd8j4ntdpXt
-	 eCRn2Fgk6r4egMIX5b9f2XyAVAUNOn4MtiPjJI9z67fbEMnPaIi50e0gQaxXTn3B5k
-	 n7VtOa+L7NHaQ==
-Date: Mon, 25 Nov 2024 18:26:35 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 1/9] dt-bindings: misc: Describe TI FPC202 dual port
- controller
-Message-ID: <20241125-overhand-economist-5a3fc6339265@spud>
-References: <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
- <20241125-fpc202-v3-1-34e86bcb5b56@bootlin.com>
+	s=arc-20240116; t=1732559333; c=relaxed/simple;
+	bh=D8laCktWSzUlXhABkG7jKvUcmD7Be2rQ6+5JNtMNhSc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mxeJAD4ha8pBzPDUhLvc2cRLF1ExIlNakbwL03EqAFJULOEoHP6DijTlGjJuWuXNYCeHlR7+zJUn57C+pOqJR8h7IoLUJBTEt2YWVqfJpGS2h8rbQCqLdVNTJpksmZ1s1IdpiN7kekOGtu5jo9a2kc5vqwem5ZnTaNsDKej4sGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O//fre4U; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43162cf1eaaso60169615e9.0;
+        Mon, 25 Nov 2024 10:28:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732559330; x=1733164130; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZyqdLHVZPxJDxwmJq7647HK+yLv6I3aLhcKHensnyPM=;
+        b=O//fre4U5pFG1mER2vI2c+djY1i1zPZ0Hf8IlXXMOY2EDJscGOO2iWNboCO6XxRxLk
+         6tqRcHra2liCOgY0ksCRsOMI5KGHjZ/mYZqJ3/7vMASC/5WJx6Ws8hV8kT04+3+TLrNp
+         4JixD7+5s1s6H07nQGJ/pDGYmLyp9nn4TcJZvwjq7zTeaxTFV5kTrhxXwfeDP/mCTjEq
+         WgAX7B7wKfa2jccAN99ADmvpLuyCcYfZrvI7jGY3kPX4P4fsXRB0lX6E97ZYuW4t3sT3
+         5Nqr/eXmvL86jRdvui7tpxzAEQMw8PxbJN+ElsJ3mPyoEntW5nMGKI+bykz9pODOTo34
+         zLYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732559330; x=1733164130;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZyqdLHVZPxJDxwmJq7647HK+yLv6I3aLhcKHensnyPM=;
+        b=YwLjD30+4lz/HkF1nkZnG/0rpu3HXKfvtjzsKVKGXkuL0uOCqn4zIYBOCT59Z7ObdO
+         FKdTMD/9C05kGDsvJ2mUoP54zYAaResz3ERByL8Xll+6YLAkIXBTvcx25VE6y5aaLBDD
+         asNmygUebrsEZlUjYPSGjtZrFJRyKSPXIwNmAYYTz4jruWvt4Pcf3a5wA5zcPDU0D7nh
+         b1gfe6TpNcbtxCrkZBZaT1Np3GVSm+9CAlJ2xLUENKsXBO3U6ZVKRTmMN54gfOl0/enz
+         nRDOsjZNiboAM+elnCPXzbQxT6hJbnmPDRAsLpyBhonS7QKV6ivLh2v0oKWr49aOkbrE
+         J1Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCUfyaDsLtAiuloSIPMb1x566ZBSYuamxerHnJU7TbbOReRx88K2B9FwwXrwgydxjQGE6biK85XvRSRRaA4=@vger.kernel.org, AJvYcCVVoIhOGsK8uDvrDSa0anPrddamfm0VM5syoVTfw+zuAIU6DRAdbsKN0NasFzUhshRNFgDySLRGCM+dhUc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZdiXdvxomDb+OG+Ci6BY24f5aT4E3ZFnBF/WOyx4WxCj6IJED
+	pryDtLckrKsR1jq9v0zufbOf+RuByN/fhAdLXuq5BuzRK0dFOkrl
+X-Gm-Gg: ASbGncvwjh7v/vLZVYDEGZiXYb5K0Uoyd0QBo9SJiAW8AObw51CitozkjWWbxb8FW+d
+	qSWSKmOCvtFCbvMbwEcswaPPT5dYTN8K4tdBIOkY8jWpgkgZXDAWhnhYL7PLbJAU1bEN1FM1P1h
+	Shh2z51ZiOg3JsXHfeitBn0l8ZMxZQLtSUJ5DHaTZ3uC80L0zr6CalUjp4jdwjfj0i8A+I0QVw+
+	+4Lk/AFysLDxcsmz3W5c5eke3ZVlV5X9lprv4nLjIdrUw/Nu4c91oHW
+X-Google-Smtp-Source: AGHT+IHSYDPM5gQJiCauc766rZd/ZvCZCpFfW6kx0MpEDo8T2UHbJ0ttiRqCdLS2Ut/Ssd1X6dus9g==
+X-Received: by 2002:a05:600c:1909:b0:431:9a26:3cf6 with SMTP id 5b1f17b1804b1-433ce41047fmr150455505e9.4.1732559329502;
+        Mon, 25 Nov 2024 10:28:49 -0800 (PST)
+Received: from [192.168.0.100] ([188.24.69.164])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349b70aa23sm77962825e9.14.2024.11.25.10.28.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Nov 2024 10:28:49 -0800 (PST)
+Message-ID: <456ed6cb-dbcb-41da-b906-671f4e9255b9@gmail.com>
+Date: Mon, 25 Nov 2024 20:28:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cqws6ipUry0wyICg"
-Content-Disposition: inline
-In-Reply-To: <20241125-fpc202-v3-1-34e86bcb5b56@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: v4l: subdev: Prevent NULL routes access
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ =?UTF-8?Q?Pawe=C5=82_Anikiel?= <panikiel@google.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241122143717.173344-1-demonsingur@gmail.com>
+ <20241124064929.GE19381@pendragon.ideasonboard.com>
+From: Cosmin Tanislav <demonsingur@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20241124064929.GE19381@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---cqws6ipUry0wyICg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 25, 2024 at 09:45:15AM +0100, Romain Gantois wrote:
-> The FPC202 dual port controller serves as a low speed signal aggregator f=
-or
-> common port types, notably SFP. It provides access to I2C and low-speed
-> GPIO signals of a downstream device through a single upstream control
-> interface.
->=20
-> Up to two logical I2C addresses can be accessed on each of the FPC202's
-> ports. The port controller acts as an I2C translator (ATR). It converts
-> addresses of incoming and outgoing I2C transactions. One use case of this
-> is accessing two SFP modules at logical address 0x50 from the same upstre=
-am
-> I2C controller, using two different client aliases.
->=20
-> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
-> ---
->  .../devicetree/bindings/misc/ti,fpc202.yaml        | 96 ++++++++++++++++=
-++++++
->  MAINTAINERS                                        |  6 ++
->  2 files changed, 102 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/misc/ti,fpc202.yaml b/Docu=
-mentation/devicetree/bindings/misc/ti,fpc202.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d0464a77cabed81301e27ac2f=
-d4e7f943a027f2a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/misc/ti,fpc202.yaml
-> @@ -0,0 +1,96 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/misc/ti,fpc202.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: TI FPC202 dual port controller with expanded IOs
-> +
-> +maintainers:
-> +  - Romain Gantois <romain.gantois@bootlin.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-atr.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,fpc202
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  gpio-controller: true
-> +
-> +  "#gpio-cells":
-> +    const: 2
-> +
-> +  enable-gpios:
-> +    description:
-> +      Specifier for the GPIO connected to the EN pin.
-> +    maxItems: 1
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^i2c@[0-1]$":
-> +    $ref: /schemas/i2c/i2c-controller.yaml
-> +    description: Downstream device ports 0 and 1
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +        description:
-> +          Downstream port ID
-> +
-> +    required:
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - reg
-> +
-> +    unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - gpio-controller
-> +  - "#gpio-cells"
-> +  - reg
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - i2c@0
-> +  - i2c@1
+On 11/24/24 8:49 AM, Laurent Pinchart wrote:
+> On Fri, Nov 22, 2024 at 04:37:12PM +0200, Cosmin Tanislav wrote:
+>> When using v4l2_subdev_set_routing to set a subdev's routing, and the
+>> passed routing.num_routes is 0, kmemdup is not called to populate the
+>> routes of the new routing (which is fine, since we wouldn't want to pass
+>> a possible NULL value to kmemdup).
+>>
+>> This results in subdev's routing.routes to be NULL.
+>>
+>> routing.routes is further used in some places without being guarded by
+>> the same num_routes non-zero condition.
+> 
+> What other places is that ? Have you experienced a crash anywhere ?
+> 
 
-btw, why are both downstream ports required?
+The other places are exactly the ones being fixed in this patch. I can
+probably reword it if it's unclear.
 
---cqws6ipUry0wyICg
-Content-Type: application/pgp-signature; name="signature.asc"
+>>
+>> Fix it.
+>>
+> 
+> A Fixes: tag would be good to help backporting.
+> 
+>> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 46 +++++++++++++--------------
+>>   1 file changed, 23 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index cde1774c9098d..4f0eecd7fd66f 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -605,6 +605,23 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+>>   			     v4l2_subdev_get_unlocked_active_state(sd);
+>>   }
+>>   
+>> +static void subdev_copy_krouting(struct v4l2_subdev_routing *routing,
+>> +				 struct v4l2_subdev_krouting *krouting)
+> 
+> The second argument should be const.
+> 
 
------BEGIN PGP SIGNATURE-----
+Will do for V2.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ0TBWwAKCRB4tDGHoIJi
-0oJcAP9PTOaF3V2bg4xd6wRretaCNK05VyVFngG8VUgFNJT+mQEA08X3WhwZ8s3M
-gSIZTYSag/xkOsNsSZao+4JAYnRkIgs=
-=X4LX
------END PGP SIGNATURE-----
+>> +{
+>> +	memset(routing->reserved, 0, sizeof(routing->reserved));
+>> +
+>> +	if (!krouting->routes) {
+>> +		routing->num_routes = 0;
+>> +		return;
+>> +	}
+>> +
+>> +	memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+>> +	       krouting->routes,
+>> +	       min(krouting->num_routes, routing->len_routes) *
+>> +	       sizeof(*krouting->routes));
+>> +	routing->num_routes = krouting->num_routes;
+>> +}
+>> +
+>>   static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   			    struct v4l2_subdev_state *state)
+>>   {
+>> @@ -976,7 +993,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   
+>>   	case VIDIOC_SUBDEV_G_ROUTING: {
+>>   		struct v4l2_subdev_routing *routing = arg;
+>> -		struct v4l2_subdev_krouting *krouting;
+>>   
+>>   		if (!v4l2_subdev_enable_streams_api)
+>>   			return -ENOIOCTLCMD;
+>> @@ -984,15 +1000,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>>   			return -ENOIOCTLCMD;
+>>   
+>> -		memset(routing->reserved, 0, sizeof(routing->reserved));
+>> -
+>> -		krouting = &state->routing;
+>> -
+>> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+>> -		       krouting->routes,
+>> -		       min(krouting->num_routes, routing->len_routes) *
+>> -		       sizeof(*krouting->routes));
+>> -		routing->num_routes = krouting->num_routes;
+>> +		subdev_copy_krouting(routing, &state->routing);
+>>   
+>>   		return 0;
+>>   	}
+>> @@ -1016,8 +1024,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		if (routing->num_routes > routing->len_routes)
+>>   			return -EINVAL;
+>>   
+>> -		memset(routing->reserved, 0, sizeof(routing->reserved));
+>> -
+>>   		for (i = 0; i < routing->num_routes; ++i) {
+>>   			const struct v4l2_subdev_route *route = &routes[i];
+>>   			const struct media_pad *pads = sd->entity.pads;
+>> @@ -1046,12 +1052,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		 * the routing table.
+>>   		 */
+>>   		if (!v4l2_subdev_has_op(sd, pad, set_routing)) {
+>> -			memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+>> -			       state->routing.routes,
+>> -			       min(state->routing.num_routes, routing->len_routes) *
+>> -			       sizeof(*state->routing.routes));
+>> -			routing->num_routes = state->routing.num_routes;
+>> -
+>> +			subdev_copy_krouting(routing, &state->routing);
+>>   			return 0;
+>>   		}
+>>   
+>> @@ -1064,11 +1065,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>   		if (rval < 0)
+>>   			return rval;
+>>   
+>> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+>> -		       state->routing.routes,
+>> -		       min(state->routing.num_routes, routing->len_routes) *
+>> -		       sizeof(*state->routing.routes));
+>> -		routing->num_routes = state->routing.num_routes;
+>> +		subdev_copy_krouting(routing, &state->routing);
+>>   
+>>   		return 0;
+>>   	}
+>> @@ -1956,6 +1953,9 @@ struct v4l2_subdev_route *
+>>   __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
+>>   				struct v4l2_subdev_route *route)
+>>   {
+>> +	if (!routing->routes)
+>> +		return NULL;
+>> +
+>>   	if (route)
+>>   		++route;
+>>   	else
+> 
 
---cqws6ipUry0wyICg--
 
