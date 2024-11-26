@@ -1,222 +1,133 @@
-Return-Path: <linux-media+bounces-22064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD229D9306
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 09:05:00 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7C9A163B9C
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 08:04:56 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A59521991A4;
-	Tue, 26 Nov 2024 08:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="WWtHciXm"
-X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 017ED9D930B
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 09:06:04 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2598156F5D;
-	Tue, 26 Nov 2024 08:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732608292; cv=pass; b=uLm7StrYeoX7yn/XwWgWjQmhaWcbe4Un96OBj0OqUwZHnDs2AY+NZbCmLbB/geYOSRbp4g+YGxc+s480+LpV3xAHLuFEaHnMGm93hvg3STfcyAMcPaDWKAXKBbx1aazJhk2kCZRodHV4r1ACbnoagieM7QtXPShlctaW+J8NTCA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732608292; c=relaxed/simple;
-	bh=uPjuZD0WxVaKd84sycXdBP3a/7AXiaWanBS3NX0DSZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d2uRuPauQf9VfKBLvCzGlbfFpIkqnamMV3zCZxiwyfwIuPUYnVRZeN1J+ViCZjv8h4+SZigA0CEP8p63x50xPs3yV2nI8WBBXP8PwaOjhLVcMPQA7uiCA4WNCZIMErvzQpqHb+yctWe/YwZ+yMoxYT0MTdmAgxAn5zOECu80HrI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=WWtHciXm; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1732608265; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UvvLFPJqE1oeeNGaBSnKujv4XjJ/NfXb3AOu0V2VL2pxeg0XRF2kpKyu3L3IF03Z2Vc114osM7k+pfS79zqhZH95p45U0Q1NkCeiO9W1M6LgumK3+r/Zxf6uYb5cc0bmGrj8X+JS+p8RE8FrMzSQ5rYJGABTu5cCRQ9Y+GgACGw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1732608265; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=oyeX0uBYtM9HvUPxJZMO7niMsetQIUIDkY6DvJRVK/c=; 
-	b=oJ5cb4LwlJ8pB+OSP9a1Bd8MWFUH8eqbbszFybu4zo2IQlwGGEA7T9dHzjWUGo2LFHLObzPQ11VLRYbOUSciJxXlZOtKG8YLhfaMkmVkzyCBFkMIBQEkDOni3CIMunkchizdpIsgSj6mLyEf0rK0BF4qU5qeFLvujhH7ea/JR7M=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732608265;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=oyeX0uBYtM9HvUPxJZMO7niMsetQIUIDkY6DvJRVK/c=;
-	b=WWtHciXmaATXFOS5oxEkABTQix2ArX5vRwxb80Ig5p/WqQl8B8lViIt5m/AKq3bp
-	Kjox92J1a3KJ51ZGpX2zIqSVRatA+2E807R4OP007PAmnPn6jzSbbc36gRGtVqKt9v0
-	fzxCJU+NeG8oyI4l9hCHZ5PUk1NAHA4wIUiR+DA8=
-Received: by mx.zohomail.com with SMTPS id 1732608259305773.6767418297189;
-	Tue, 26 Nov 2024 00:04:19 -0800 (PST)
-Date: Tue, 26 Nov 2024 09:04:13 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nathan Hebert <nhebert@chromium.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v7 1/5] media: mediatek: vcodec: support manual request
- completion
-Message-ID: <20241126080413.kr7jty7oz3ylfxsu@basti-XPS-13-9310>
-References: <20241116031724.15694-1-yunfei.dong@mediatek.com>
- <20241116031724.15694-2-yunfei.dong@mediatek.com>
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BAC83283892
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 08:06:02 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 719E419FA7C;
+	Tue, 26 Nov 2024 08:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UV0soPZa"
+X-Original-To: linux-media@vger.kernel.org
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBB8156F5D;
+	Tue, 26 Nov 2024 08:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732608354; cv=none; b=oy9ZbwwcOj9m+zrnQNaHUxizZMNopHULP+c4Vh+hYCuEjs6LCDldfOUFCk1PeB9ykvDv0SXI378gEoOEOwC68u1AK5B3ChwfKl+iZ5QRzyRz8Y4OOKRZbq6ugHW2daEuLAdILxak8z+Y/NfWM2EuoLUFNn+2wT8OcV6rfdgaGEc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732608354; c=relaxed/simple;
+	bh=Y42E/QO3V4YcRW8jtGRayQIynrxPs9EN6UefWWgvGw4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hkvqtx8AsB8YOkqIaSEPrrJipbSwuhfDRYIFh+t2iuxtggrMDa3kKJO1yDF4QxaUBRLragldGJVQ34qJfZpdq+8Sm4HpPAKO+QV2MUwURMo6dtaBWgFv50xFr+9jO7APONAHuoIVHsToLYLwp8+q7mWnQfprudktjXWT832IAc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UV0soPZa; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 21B381BF203;
+	Tue, 26 Nov 2024 08:05:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1732608344;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+0qCH4y8UnX7RVCEVSY+xvJHRehSPxeI6t2xRPVWVbg=;
+	b=UV0soPZa4irSyzwY0MuvDGxpfwt7Vx5HQDxngsHiWF0BcLV2n6PnqYf0Uylo4lnTwo5Kf1
+	8F3WZm2gI89kxV+AX0idfsGM3SN9cgwunF7R6miGuCFnI+T+d5CSFrsHaL4qfv7ltn/ROt
+	x/57ojKCgOB0nDtRzmtC5f/otQeWvCFJbofygBgPlrS30zEMgVLSLGUR3Dn5uNuBqgNaR/
+	iNRa4sywUyaKFgLMXzeDl+z+a74crBtFbSA0b3PUvK0LG9j9zyIR3h6Rv4p8YOt1sMJMvC
+	Pm7mMd3TVVaank70g6Olhj0nIYLDdF/OGEz+8x+A2cZ4G9Vem2KYrl7ikNT2pg==
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic <dragan.cvetic@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject:
+ Re: [PATCH v3 1/9] dt-bindings: misc: Describe TI FPC202 dual port controller
+Date: Tue, 26 Nov 2024 09:05:42 +0100
+Message-ID: <2072150.UuDqf3iUMg@fw-rgant>
+In-Reply-To: <20241125-overhand-economist-5a3fc6339265@spud>
+References:
+ <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
+ <20241125-fpc202-v3-1-34e86bcb5b56@bootlin.com>
+ <20241125-overhand-economist-5a3fc6339265@spud>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20241116031724.15694-2-yunfei.dong@mediatek.com>
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Hey Yunfei,
+Hello Conor,
 
-On 16.11.2024 11:17, Yunfei Dong wrote:
->There is only a buffer object for some codecs, the request is marked
->as completed if the buffer is set to done. Framework will add a new
->control handler object to the request with latest control values, will
->get below warning if the driver calling v4l2_ctrl_request_complete to
->set media request complete again. Using manual request completion to
->fix this issue.
+On lundi 25 novembre 2024 19:26:35 heure normale d=E2=80=99Europe centrale =
+Conor Dooley wrote:
+> On Mon, Nov 25, 2024 at 09:45:15AM +0100, Romain Gantois wrote:
+> > The FPC202 dual port controller serves as a low speed signal aggregator
+> > for
+=2E..
+> > +
+> > +required:
+> > +  - compatible
+> > +  - gpio-controller
+> > +  - "#gpio-cells"
+> > +  - reg
+> > +  - "#address-cells"
+> > +  - "#size-cells"
+> > +  - i2c@0
+> > +  - i2c@1
+>=20
+> btw, why are both downstream ports required?
 
-Thank you for working on this.
-I am currently working on this as well, so I would like to ask you for a
-bit more patience, once I am finished with my testing and have a working
-patch I'll send that patch and then we can discuss on the basis of that.
+It's because both downstream ports are always present in an FPC202 unit
+so in my opinion, it doesn't make sense to describe an FPC202 with only one
+downstream port.
 
-Regards,
-Sebastian
+I suppose you could also consider that ports would only be described in the=
+ DT
+if they were connected to something in the hardware, but I don't think it w=
+ould
+make sense to use an FPC202 in this way. After all, the whole point of this
+component is to act as an I2C ATR and low-speed signal aggregator for
+downstream devices which would have address collisions if you placed them
+on the same I2C bus.
 
->
->Workqueue: core-decoder vdec_msg_queue_core_work [mtk_vcodec_dec]
->pstate: 80c00089 (Nzcv daIf +PAN +UAO -TCO BTYPE=--)
->pc : media_request_object_bind+0xa8/0x124
->lr : media_request_object_bind+0x50/0x124
->sp : ffffffc011393be0
->x29: ffffffc011393be0 x28: 0000000000000000
->x27: ffffff890c280248 x26: ffffffe21a71ab88
->x25: 0000000000000000 x24: ffffff890c280280
->x23: ffffff890c280280 x22: 00000000fffffff0
->x21: 0000000000000000 x20: ffffff890260d280
->x19: ffffff890260d2e8 x18: 0000000000001000
->x17: 0000000000000400 x16: ffffffe21a4584a0
->x15: 000000000053361d x14: 0000000000000018
->x13: 0000000000000004 x12: ffffffa82427d000
->x11: ffffffe21ac3fce0 x10: 0000000000000001
->x9 : 0000000000000000 x8 : 0000000000000003
->x7 : 0000000000000000 x6 : 000000000000003f
->x5 : 0000000000000040 x4 : ffffff89052e7b98
->x3 : 0000000000000000 x2 : 0000000000000001
->x1 : 0000000000000000 x0 : 0000000000000000
->Call trace:
-> media_request_object_bind+0xa8/0x124
-> v4l2_ctrl_request_bind+0xc4/0x168
-> v4l2_ctrl_request_complete+0x198/0x1f4
-> mtk_vdec_stateless_cap_to_disp+0x58/0x8c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
-> vdec_vp9_slice_core_decode+0x1c0/0x268 [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
-> vdec_msg_queue_core_work+0x60/0x11c [mtk_vcodec_dec 245a7c1e48ff1b2451a50e1dfcb174262b6b462c]
-> process_one_work+0x140/0x480
-> worker_thread+0x12c/0x2f8
-> kthread+0x13c/0x1d8
-> ret_from_fork+0x10/0x30
->
->Fixes: 7b182b8d9c852 ("media: mediatek: vcodec: Refactor get and put capture buffer flow")
->Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->---
-> .../mediatek/vcodec/decoder/mtk_vcodec_dec.c    |  8 +++++---
-> .../vcodec/decoder/mtk_vcodec_dec_stateless.c   | 17 ++++++++++++++---
-> 2 files changed, 19 insertions(+), 6 deletions(-)
->
->diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->index 98838217b97d..d2146724f5de 100644
->--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
->@@ -887,10 +887,12 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
-> 			if (src_buf != &ctx->empty_flush_buf.vb) {
-> 				struct media_request *req =
-> 					src_buf->vb2_buf.req_obj.req;
->-				v4l2_m2m_buf_done(src_buf,
->-						VB2_BUF_STATE_ERROR);
->-				if (req)
->+
->+				v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
->+				if (req) {
-> 					v4l2_ctrl_request_complete(req, &ctx->ctrl_hdl);
->+					media_request_manual_complete(req);
->+				}
-> 			}
-> 		}
-> 		return;
->diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->index afa224da0f41..1e11c08d708f 100644
->--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->@@ -264,8 +264,10 @@ static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int e
-> 		mtk_v4l2_vdec_err(ctx, "dst buffer is NULL");
-> 	}
->
->-	if (src_buf_req)
->+	if (src_buf_req) {
-> 		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
->+		media_request_manual_complete(src_buf_req);
->+	}
-> }
->
-> static struct vdec_fb *vdec_get_cap_buffer(struct mtk_vcodec_dec_ctx *ctx)
->@@ -308,6 +310,7 @@ static void vb2ops_vdec_buf_request_complete(struct vb2_buffer *vb)
-> 	struct mtk_vcodec_dec_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->
-> 	v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->ctrl_hdl);
->+	media_request_manual_complete(vb->req_obj.req);
-> }
->
-> static void mtk_vdec_worker(struct work_struct *work)
->@@ -375,8 +378,10 @@ static void mtk_vdec_worker(struct work_struct *work)
-> 	if (!IS_VDEC_LAT_ARCH(dev->vdec_pdata->hw_arch) ||
-> 	    ctx->current_codec == V4L2_PIX_FMT_VP8_FRAME) {
-> 		v4l2_m2m_buf_done_and_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx, state);
->-		if (src_buf_req)
->+		if (src_buf_req) {
-> 			v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
->+			media_request_manual_complete(src_buf_req);
->+		}
-> 	} else {
-> 		if (ret != -EAGAIN) {
-> 			v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
->@@ -731,9 +736,15 @@ static int fops_media_request_validate(struct media_request *mreq)
-> 	return vb2_request_validate(mreq);
-> }
->
->+static void fops_media_request_queue(struct media_request *req)
->+{
->+	media_request_mark_manual_completion(req);
->+	v4l2_m2m_request_queue(req);
->+}
->+
-> const struct media_device_ops mtk_vcodec_media_ops = {
-> 	.req_validate	= fops_media_request_validate,
->-	.req_queue	= v4l2_m2m_request_queue,
->+	.req_queue	= fops_media_request_queue,
-> };
->
-> static void mtk_vcodec_add_formats(unsigned int fourcc,
->-- 
->2.46.0
->
->
+But then again, you could consider that DT bindings should only describe wh=
+at is
+possible, and not only what makes sense as a use case. I don't really know =
+how to
+answer this question myself, so I'll refer to the maintainers' opinions.
+
+Best Regards,
+
+=2D-=20
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
+
 
