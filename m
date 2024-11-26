@@ -1,123 +1,155 @@
-Return-Path: <linux-media+bounces-22113-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22114-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B9F9D9D19
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 19:06:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1119D9D23
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 19:10:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57C76282769
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 18:06:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48427282638
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 18:09:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 363751DC05F;
-	Tue, 26 Nov 2024 18:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C847E1DDA14;
+	Tue, 26 Nov 2024 18:09:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kMaZzu/0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EqFjblAH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CF61DB522;
-	Tue, 26 Nov 2024 18:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AA611187;
+	Tue, 26 Nov 2024 18:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732644390; cv=none; b=qaazW9VB3koJpkDqzkoYik4U+gr8ErLsnMe2fHBTjly+d1kqtyXLPMohMCRId+XAJylV0yNcWUfIq5Uju7XzhAd/aoK6/K3Sbx7p26jcEOKA9oGsU3wvYts+P+qxuKYRUi1X2pOk1TQYIlyRfusyARbror6l2rwXH9uZcDIqKvY=
+	t=1732644590; cv=none; b=nr18EGvAbUFZYtcw/JgbWYQXqtZirtK8OJ3fxUaHLvCyACt4iw/Tau1yhmuK6w6Ss2HFAFrzX/hnGaoJs5u+2ol4pBOYu0GURJbLqQS/LBgv9AS72i8rF8rI8LtG0unGZpN9jPQSrnwBH/WPD4BFhtyANAlECzDlIyeSCoRS2WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732644390; c=relaxed/simple;
-	bh=KxsIqHPypuOykgv7rlUrLVVwdzbC6mnetSa+3Smk8lw=;
+	s=arc-20240116; t=1732644590; c=relaxed/simple;
+	bh=Dn68kwfusM/F6PFzcK9RRMgIKLG8Q2p95XVK2fHrCpI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=THmzwZlit5DtFsx5SY7nyGehuNCRvCk1ZlbWaK75+Ke58Pljecs2YUmYzENLF4ylhz7P+jQ6YRcOfw5Smo4LwvFconVYW3cUlBTaqRDCipOd9Ld1WeyVj6tDwFTjs7o1NVpi6z1B7VyWR7HEHORZhpqkBRGQCiv7bu0/SRkOLTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kMaZzu/0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52FD2B63;
-	Tue, 26 Nov 2024 19:06:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732644363;
-	bh=KxsIqHPypuOykgv7rlUrLVVwdzbC6mnetSa+3Smk8lw=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=HdOb3CRsqfe9fYx8NLvdSWQtqA9LkkEO+B9/qVDmz4PC4Y5th0HlDAIA6e+i1PvExQYncUdHqwQSt14MftlBHKY3W7BCpgBc5dryCfvpWsxGJMbxGWa9vpJ/WcjYVKySLUL34scJqwIZcRtQQrWsWc3lJTdzQcJXAiLfYrbyG1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EqFjblAH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B27BBC4CECF;
+	Tue, 26 Nov 2024 18:09:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732644589;
+	bh=Dn68kwfusM/F6PFzcK9RRMgIKLG8Q2p95XVK2fHrCpI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kMaZzu/0qI06eIdztvRxfkHCEFUDJlub44U5JyPS5SDW2rhULhBYHmoo6l0XR5HZC
-	 E7Qe/PlIR0fdnUTEBlv47d7j4ec0zcPzce0JfE2ViIqCLG71o0BiTRnjwofhPsC/7U
-	 z2QOT4I5QV1RFtHqwlrDwoWSZ1YxWhd33g3vBKEQ=
-Date: Tue, 26 Nov 2024 20:06:16 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
+	b=EqFjblAHK+acST9EGdraw8bb/dxcuETdMlcHHy2i1lRe1YVc5tLv+qNV31V6Ab/fU
+	 IcrBVFs5YMywsHEUWNBWXWYDqHdQLGadZVOxLIoo+npNxHP62hOvbpPxwvC6jr1dDZ
+	 b1gy3AwfIi0HyO7znaTYGuIS92IrJUuIfkAg3fiiPVBlgoOnO8DfZqLoHtqYBXeqTS
+	 W+mUh9K6EAxwZLXGOyDtqxWVScl7Opw9Ms4Seyj8uidgfsZSRQ0HXA9GZNALdX/3EN
+	 PEdlmZsoef3RyvyalQg2Nm6tJfL2C9jEk6dNSRQdz5PidL7KZOgVxjhzxzD9ADbsee
+	 yb2EMIaRpeYog==
+Date: Tue, 26 Nov 2024 18:09:43 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] media: uvcvideo: Support partial control reads
-Message-ID: <20241126180616.GL5461@pendragon.ideasonboard.com>
-References: <20241120-uvc-readless-v4-0-4672dbef3d46@chromium.org>
- <20241120-uvc-readless-v4-1-4672dbef3d46@chromium.org>
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v3 1/9] dt-bindings: misc: Describe TI FPC202 dual port
+ controller
+Message-ID: <20241126-precinct-corrode-516d3a476479@spud>
+References: <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
+ <20241125-fpc202-v3-1-34e86bcb5b56@bootlin.com>
+ <20241125-overhand-economist-5a3fc6339265@spud>
+ <2072150.UuDqf3iUMg@fw-rgant>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="hkZzaXn6Nj+Xev9H"
+Content-Disposition: inline
+In-Reply-To: <2072150.UuDqf3iUMg@fw-rgant>
+
+
+--hkZzaXn6Nj+Xev9H
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241120-uvc-readless-v4-1-4672dbef3d46@chromium.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 20, 2024 at 03:26:19PM +0000, Ricardo Ribalda wrote:
-> Some cameras, like the ELMO MX-P3, do not return all the bytes
-> requested from a control if it can fit in less bytes.
-> Eg: Returning 0xab instead of 0x00ab.
-> usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
-> 
-> Extend the returned value from the camera and return it.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index cd9c29532fb0..482c4ceceaac 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -79,6 +79,22 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
->  	if (likely(ret == size))
->  		return 0;
->  
-> +	/*
-> +	 * In UVC the data is usually represented in little-endian.
+On Tue, Nov 26, 2024 at 09:05:42AM +0100, Romain Gantois wrote:
+> Hello Conor,
+>=20
+> On lundi 25 novembre 2024 19:26:35 heure normale d=E2=80=99Europe central=
+e Conor Dooley wrote:
+> > On Mon, Nov 25, 2024 at 09:45:15AM +0100, Romain Gantois wrote:
+> > > The FPC202 dual port controller serves as a low speed signal aggregat=
+or
+> > > for
+> ...
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - gpio-controller
+> > > +  - "#gpio-cells"
+> > > +  - reg
+> > > +  - "#address-cells"
+> > > +  - "#size-cells"
+> > > +  - i2c@0
+> > > +  - i2c@1
+> >=20
+> > btw, why are both downstream ports required?
+>=20
+> It's because both downstream ports are always present in an FPC202 unit
+> so in my opinion, it doesn't make sense to describe an FPC202 with only o=
+ne
+> downstream port.
+>=20
+> I suppose you could also consider that ports would only be described in t=
+he DT
+> if they were connected to something in the hardware, but I don't think it=
+ would
+> make sense to use an FPC202 in this way. After all, the whole point of th=
+is
+> component is to act as an I2C ATR and low-speed signal aggregator for
+> downstream devices which would have address collisions if you placed them
+> on the same I2C bus.
+>=20
+> But then again, you could consider that DT bindings should only describe =
+what is
+> possible, and not only what makes sense as a use case. I don't really kno=
+w how to
+> answer this question myself, so I'll refer to the maintainers' opinions.
 
-I had a comment about this in the previous version, did you ignore it on
-purpose because you disagreed, or was it an oversight ?
+I don't really know what how this device works, which is why I am asking
+questions. If there is no use case were someone would only wire up one
+of the downstream ports then making both required is fine. I was just
+thinking that someone might only hook devices up to one side of it and
+leave the other unused entirely. Seemed like it could serve its role
+without both sides being used based on the diagram in
+https://docs.kernel.org/i2c/i2c-address-translators.html
+unless it is not possible for the atr to share the "parent" i2c bus with
+other devices?
 
-> +	 * Some devices return shorter USB control packets that expected if the
-> +	 * returned value can fit in less bytes. Zero all the bytes that the
-> +	 * device have not written.
+--hkZzaXn6Nj+Xev9H
+Content-Type: application/pgp-signature; name="signature.asc"
 
-s/have/has/
+-----BEGIN PGP SIGNATURE-----
 
-And if you meant to start a new paragraph here, a blank line is missing.
-Otherwise, no need to break the line before 80 columns.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ0YO5wAKCRB4tDGHoIJi
+0peVAP0Tx4IuAFRG1f+DIwASl/6j0oDlZVMHvalzkyIQp7Ma4QD/WL2qSBDyyW3P
+hTovWdSEjm5sUQSwdUr2MU+1r5AGpgo=
+=Hc1y
+-----END PGP SIGNATURE-----
 
-> +	 * We exclude UVC_GET_INFO from the quirk. UVC_GET_LEN does not need to
-> +	 * be excluded because its size is always 1.
-> +	 */
-> +	if (ret > 0 && query != UVC_GET_INFO) {
-> +		memset(data + ret, 0, size - ret);
-> +		dev_warn_once(&dev->udev->dev,
-> +			      "UVC non compliance: %s control %u on unit %u returned %d bytes when we expected %u.\n",
-> +			      uvc_query_name(query), cs, unit, ret, size);
-> +		return 0;
-> +	}
-> +
->  	if (ret != -EPIPE) {
->  		dev_err(&dev->udev->dev,
->  			"Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
-
--- 
-Regards,
-
-Laurent Pinchart
+--hkZzaXn6Nj+Xev9H--
 
