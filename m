@@ -1,288 +1,249 @@
-Return-Path: <linux-media+bounces-22104-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22105-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F4D9D9B51
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 17:23:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9133D9D9B87
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 17:34:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CEBDD28283D
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 16:23:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 59EE3B24000
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 16:28:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27A181DA2E0;
-	Tue, 26 Nov 2024 16:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6659E1D89ED;
+	Tue, 26 Nov 2024 16:28:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eBTkB7MA"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hNZHBOEP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E170CBE46
-	for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 16:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E2C1D79A5
+	for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 16:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732638156; cv=none; b=hsR4JdCHaj2X4yaFRjo0YfARWYRaTy22WMBUVXBOcY/7rZoHc6d4x3oOfTlsekKMckytyZEAcEsEQRynzxgjyU8VRAFXV1K4ywRHPLXxPBml8j6wqcNOFuDGWtTFl5JozhWVmMnGaBB4Wp2NRQyWU/bbvcmTx3P/bnitxLnUtQs=
+	t=1732638494; cv=none; b=hLOJ27Gck4OXTVWgZ1n66oLMpWp3olOnAOmBxVwLaaOLWP5SjOK0oSa3+hTYsl+U1+vcslX4p8A3P40LMFYkWyp4V4lcUh+8XplBfYlazzHjmYYc4qjJzHpWc1oIp21C+VLKJcta2bZt4R7gGgxvBEFtuBTZ2VdOgS7stOolPSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732638156; c=relaxed/simple;
-	bh=vWFkOWcgwAJv/P2pHxbB9fGdkWgCeOsfCf82LJlSkeU=;
+	s=arc-20240116; t=1732638494; c=relaxed/simple;
+	bh=/VFh394bqpoPVPaVYrZD7casHaZGYWi9G0Bs0UrwOhs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tCgcsDhW2nOFNOk5dw6tuV+Nc0zizqkbbP3GOvOR022qPhLOym5lL2L5gF24F0Y9O9BqT6983fb5x9xtBM/vOgvGHW5ah+e+t/o8tMs1LbtVk9v3ftuXHD+ocDWc6+A0ySNZnyUDAt0eTPPBkCb3Xs+jVfgc/g1WIGaJj5TsiJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eBTkB7MA; arc=none smtp.client-ip=209.85.214.182
+	 To:Cc:Content-Type; b=DiGkCx8q0tcCJnrmAK6AOttJPi4zBqZI9iKvsLUj80FCu8DGhjhJpKEA7wqWogSHwXz1I4/cv1OuWsDovPhZb1QESY/P2YprTJKPl1K2wr5K5VDYxYWFxik5mEpGr0h9BbFc2x68lAJYiFSws28hz9/3o6vSD4enDc1CkMsyVkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hNZHBOEP; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21278f3d547so44658445ad.1
-        for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 08:22:34 -0800 (PST)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7d4fb2cd1ecso161294a12.0
+        for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 08:28:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732638154; x=1733242954; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6RSzfcpNI+kLawT4M59dF46EWCQ5pC9Q0V0jBClbuUc=;
-        b=eBTkB7MAtYbO3KLJ8TOY8v346yjT1d2R9bj+vQoWmlP2rjyq6tpQUSUwS3WexaEPVY
-         DgWtAWYCQcZaLNTjX8sq8PNHplMbxzFaTgNdgOQEy8J7+BDz6VXsQQlSRR4jYxGo7oHh
-         ydjahRJz1UVzlsZlf2+eewrVQxRO/AexeS/bE=
+        d=chromium.org; s=google; t=1732638492; x=1733243292; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/VFh394bqpoPVPaVYrZD7casHaZGYWi9G0Bs0UrwOhs=;
+        b=hNZHBOEP9pOES91PMQz+vaLcGN+STMP3MgflYC0MLr5XxjUy0agk80ApNXka0kXg4x
+         bNx520+tvjiFLMhm7u7WJVKfMYnw2VsXCp3hbVm+sga2r7IKz5clfFNTiLBaEmwwcQR8
+         wGCXj2+i1mRNzC9VzS6kgORCLLXune/sFOnvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732638154; x=1733242954;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6RSzfcpNI+kLawT4M59dF46EWCQ5pC9Q0V0jBClbuUc=;
-        b=oD3o0WxXZFIJzeNyH+riWQiO1EBmopu/d1E3LYFpBtBXBYcsA2SyOTURuskh2Nfi2v
-         Y5YXe5i73I/tzqpskdzvZX7nh6AwBPcdVpe61vk5pZGwvEt2lZ1x7ysSPnDo/RcV5k0N
-         4vMD3Q7u2Tjj1HbNPMk3TEzmX70bplDfzm/MSEWGIM2Db1TEqgIZyhpjZV3OE4BBVz+S
-         OIIV3wS7SWUxvvQ/PI3l5EKAvpki3ZlSH4GZ4B8wd2jNeJRjUkZq5IuGLBLSqgAwuDdQ
-         7naelr54//hYCRWev9XxNUiBS9EO/j4Jas+njDcobqMSZTqZT1gY5corR4e0/7Xzyrup
-         zLMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWVX2nErWNHdgAP3Cz5YN77CkV8um9tCkvisn5NuYb/5lpI7rcxnXviuSWf4vxhmkc6SVTr34yzdqWPHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9WaM6qqU5uEtVH3WJPU72sE5kv1GYkBS24q4VpUhEjfPVaWpc
-	8+JIcqBfbeV3fLBWPJjVc8R97SPg5ADL45u2AfZX7CMcPnpKu/c9YMjWC+GlJyAru110z7c+Lsk
+        d=1e100.net; s=20230601; t=1732638492; x=1733243292;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/VFh394bqpoPVPaVYrZD7casHaZGYWi9G0Bs0UrwOhs=;
+        b=SGF5jed3qfBdlXYj8nTk2AgRHEJbHI3rggMnSCR5MlJP27aIx1zMmR4kva0GH/fYtT
+         M5IWIQd3jbeOVHlzhhfwKB3jBWihQcNKm670BPATZYuEUjnjbA1D0Cfvn7xP0qA55/r1
+         ArlI71p3XUBJ0m+V4GyhDyOv/NGsUesZCiggnZk2Q3ZtxS1ehRXind9SDRD7/whxtzTC
+         UJjxVi2QApE+rjj6tbQdSQr1rcwO1PeKAxlfZo1CRN72l2oydnwS3dcBPo6/UZiaRNVe
+         Mq7RMTAxuH9DA6pWmyR02u38Ir3zEISJlLU5BmA6LN5lquN1NBdayxtB7GDWUtbupyYS
+         fIqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXM3qr2YRg8JEaZSMuhL10pht8QovrpI2agyMNeus+I2X3hSv/Ba05aZ/rRihP38eFs9r/WpM7YiaaImg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YycurOryDwe6Rq6I0+MhR5p1ICaOoymIzuAqNcJIG73lYFs71F/
+	Kunv1G7mbRKFKmYvAwj4wVOHv5b0oFJekm5yS3miRIAdo4sKi8iurCKBmjzgu841jbUgORWebBI
 	=
-X-Gm-Gg: ASbGnctcjy6nT7scDZ8IbIJfB5rSCbMLTJB3ykJp7HHUl44t8ZJUlj559KIjDWYfPlK
-	LiNyHzCGRPBW3WzjgDXV/i6hrCoVmfhPYRWIVz63F4VCFQrzLlvXVo89qieYkyxAkxzb2cQ1yGn
-	XjM1a7/x8NgzBQsf1XCqBjXhEaMYUqSed8dIOZtqaj5n53jpDlX5Gz8NfKJwX5+MDtDkItC9AyW
-	Q5io0E0+e/CubfrLOXiDFxVxBt2+a3p5MYDrVKjBHqN5opXTMZfp8eQDLSK33vfuH4DGUNaZT/U
-	J1/v7nSWaZWW7dJT
-X-Google-Smtp-Source: AGHT+IHPlIjlLZ/BdNNiUrdj17zO3nTr5v/74ZxppHLlsNY5OwPMmbnqiiNnr9f6guWeXRe+GXOY0w==
-X-Received: by 2002:a17:902:ce8a:b0:211:e99c:833b with SMTP id d9443c01a7336-2129f760bd4mr242532915ad.13.1732638153869;
-        Tue, 26 Nov 2024 08:22:33 -0800 (PST)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com. [209.85.210.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129db8f754sm86287595ad.57.2024.11.26.08.22.32
+X-Gm-Gg: ASbGncui2IItb09RoLeB8T2hPejoDzCzzFiwS+R0V3RCauo4B+f2wDxehaa7r4sunxx
+	dvx1PM6Xqfh43e4H0pKbA6dUU+zRJ9/Y20oAM5uzoXf/0/Odmsp5/GKGory831At06k0OcUzOZC
+	8jkgO9tBa4ZXWSxOUXPNEjq+HmlQLunSns0Kxw/0Zx3T1C/0pOEyG9u6csUD8IN08oeJVIJCNwk
+	6mzPRqG/iktA/HiYbXRebEmdGORJfpfBeM45u8IMeYZYjT3B98Fww3Bcjhpq1DIjFCYCnlwyTLv
+	y/qdn8Ps+1Eq
+X-Google-Smtp-Source: AGHT+IHaA2kG7qm3JqLOhy5MAODje1/FhE2eMKG3kF72jRbbcBQ4NjfIKZT6EBB+qZ3GeK7XeZKFng==
+X-Received: by 2002:a17:90b:2ecd:b0:2ea:5823:c150 with SMTP id 98e67ed59e1d1-2eb0e8660b8mr22034749a91.30.1732638492396;
+        Tue, 26 Nov 2024 08:28:12 -0800 (PST)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com. [209.85.216.52])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ead0334b2csm12562383a91.24.2024.11.26.08.28.10
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Nov 2024 08:22:32 -0800 (PST)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-724e1b08fc7so4076596b3a.0
-        for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 08:22:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW7+L2OLdwXSMFEVjQ/fcXgWmvslacX9tDcizFV0w3YvSF2ePMnpSm626VlT6e5EZfXUSBJ6KIXa4QyXA==@vger.kernel.org
-X-Received: by 2002:a05:6a00:10c8:b0:71e:47a2:676 with SMTP id
- d2e1a72fcca58-724df5d58ffmr21457925b3a.6.1732638151671; Tue, 26 Nov 2024
- 08:22:31 -0800 (PST)
+        Tue, 26 Nov 2024 08:28:11 -0800 (PST)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2ea68cd5780so4920497a91.3
+        for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 08:28:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV5FA5yAzCQbgtKYSpfvwcCQbp+uP0r/8bvLSd/F4DlEMvR7wgyvdP8TL1AheBG/s9MGynPk3bTIjVrDg==@vger.kernel.org
+X-Received: by 2002:a17:90b:1a8c:b0:2ea:65a1:9861 with SMTP id
+ 98e67ed59e1d1-2eb0e8856ebmr21070959a91.37.1732638490136; Tue, 26 Nov 2024
+ 08:28:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241108-uvc-subdev-v2-0-85d8a051a3d3@chromium.org>
- <5b5f3bb7-7933-4861-be81-30345e333395@redhat.com> <CANiDSCta62P5+1aR9Ks8c6sd3_grCV3C+Le=UjKGkiohyf0R2g@mail.gmail.com>
- <55c76c99-dc86-41b2-84c6-d2e844530f67@redhat.com> <CANiDSCtvLB=tWb7ZCFCw9gn26R2xHnOf=yTLj+M_4AuQKYvgOQ@mail.gmail.com>
- <9779fcb0-e28d-4651-b04c-ca492e30c452@redhat.com>
-In-Reply-To: <9779fcb0-e28d-4651-b04c-ca492e30c452@redhat.com>
+References: <20241112-uvc-subdev-v3-0-0ea573d41a18@chromium.org>
+ <bd68178f-1de9-491f-8209-f67065d29283@redhat.com> <CANiDSCtjpPG3XzaEOEeczZWO5gL-V_sj_Fv5=w82D6zKC9hnpw@mail.gmail.com>
+ <20241114230630.GE31681@pendragon.ideasonboard.com> <CANiDSCt_bQ=E1fkpH1SAft1UXiHc2WYZgKDa8sr5fggrd7aiJg@mail.gmail.com>
+ <d0dd293e-550b-4377-8a73-90bcfe8c2386@redhat.com> <CANiDSCvS1qEfS9oY=R05YhdRQJZmAjDCxVXxfVO4-=v4W1jTDg@mail.gmail.com>
+ <5a199058-edab-4f9d-9e09-52305824f3bf@redhat.com> <20241125131428.GD32280@pendragon.ideasonboard.com>
+ <233eaf78-49f1-43c1-b320-c75cfc04103f@redhat.com> <20241125213521.GV19381@pendragon.ideasonboard.com>
+In-Reply-To: <20241125213521.GV19381@pendragon.ideasonboard.com>
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 26 Nov 2024 17:22:20 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsY_uCRyO2NAmxob12=DSa3h+CXg_MaMWLrjMFz1_Ru-g@mail.gmail.com>
-Message-ID: <CANiDSCsY_uCRyO2NAmxob12=DSa3h+CXg_MaMWLrjMFz1_Ru-g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] media: uvcvideo: Implement the Privacy GPIO as a subdevice
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+Date: Tue, 26 Nov 2024 17:27:57 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvfnNKG8KUQEeBsr3JhWjUE+nBr4BTaR-sfaQQV9ZqSwQ@mail.gmail.com>
+Message-ID: <CANiDSCvfnNKG8KUQEeBsr3JhWjUE+nBr4BTaR-sfaQQV9ZqSwQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] media: uvcvideo: Implement the Privacy GPIO as a evdev
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Armin Wolf <W_Armin@gmx.de>, 
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	Yunke Cao <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>
+	Yunke Cao <yunkec@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>, stable@vger.kernel.org, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-On Mon, 25 Nov 2024 at 15:02, Hans de Goede <hdegoede@redhat.com> wrote:
+On Mon, 25 Nov 2024 at 22:35, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Ricardo,
->
-> On 25-Nov-24 2:39 PM, Ricardo Ribalda wrote:
-> > On Mon, 25 Nov 2024 at 13:25, Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Hi Ricardo,
-> >>
-> >> On 9-Nov-24 5:29 PM, Ricardo Ribalda wrote:
-> >>
-> >> <snip>
-> >>
-> >>>> I have been discussing UVC power-management with Laurent, also
-> >>>> related to power-consumption issues caused by libcamera's pipeline
-> >>>> handler holding open the /dev/video# node as long as the camera
-> >>>> manager object exists.
-> >>
-> >> <snip>
-> >>
-> >>>> Here is what I have in mind for this:
-> >>>>
-> >>>> 1. Assume that the results of trying a specific fmt do not change over time.
-> >>>>
-> >>>> 2. Only allow userspace to request fmts which match one of the enum-fmts ->
-> >>>>    enum-frame-sizes -> enum-frame-rates tripplet results
-> >>>>    (constrain what userspace requests to these)
-> >>>>
-> >>>> 3. Run the equivalent of tryfmt on all possible combinations (so the usaul
-> >>>>    3 levels nested loop for this) on probe() and cache the results
-> >>>>
-> >>>> 4. Make try_fmt / set_fmt not poweron the device but instead constrain
-> >>>>    the requested fmt to one from our cached fmts
-> >>>>
-> >>>> 5. On stream-on do the actual power-on + set-fmt + verify that we get
-> >>>>    what we expect based on the cache, and otherwise return -EIO.
-> >>>
-> >>> Can we start powering up the device during try/set fmt and then
-> >>> implement the format caching as an improvement?
-> >>
-> >> Yes, actually looking at how complex this is when e.g. also taking
-> >> controls into account I think that taking small steps is a good idea.
-> >>
-> >> I have lately mostly been working on sensor drivers where delaying
-> >> applying format settings + all controls to stream-on is normal.
-> >>
-> >> So that is the mental model I'm applying to uvc here, but that might
-> >> not be entirely applicable.
-> >>
-> >>> Laurent mentioned that some cameras missbehave if a lot of controls
-> >>> are set during probing. I hope that this approach does not trigger
-> >>> those, and if it does it would be easier to revert if we do the work
-> >>> in two steps.
-> >>
-> >> Ack, taking small steps sounds like a good plan.
-> >>
-> >> <snip>
-> >>
-> >>>> This should also make camera enumeration faster for apps, since
-> >>>> most apps / frameworks do the whole 3 levels nested loop for this
-> >>>> on startup, for which atm we go out to the hw, which now instead
-> >>>> will come from the fmts cache and thus will be much much faster,
-> >>>> so this should lead to a noticeable speedup for apps accessing UVC
-> >>>> cameras which would be another nice win.
-> >>>>
-> >>>> Downside is that the initial probe will take longer see we do
-> >>>> all the tryfmt-s there now. But I think that taking a bit longer
-> >>>> to probe while the machine is booting should not be an issue.
-> >>>
-> >>> How do you pretend to handle the controls? Do you plan to power-up the
-> >>> device during s_ctrl() or set them only during streamon()?
-> >>> If we power-up the device during s_ctrl we need to take care of the
-> >>> asynchronous controls (typically pan/tilt/zoom), The device must be
-> >>> powered until the control finishes, and the device might never reply
-> >>> control_done if the firmware is not properly implemented.
-> >>> If we set the controls only during streamon, we will break some
-> >>> usecases. There are some video conferencing equipment that do homing
-> >>> during streamoff. That will be a serious API breakage.
-> >>
-> >> How to handle controls is a good idea.
-> >>
-> >> Based on my sensor experience my initial idea was to just cache them
-> >> all. Basically make set_ctrl succeed but do not actually do anyhing
-> >> when the camera is not already powered on and then on stream-on call
-> >> __v4l2_ctrl_handler_setup() to get all current values applied.
-> >>
-> >> But as you indicate that will likely not work well with async controls,
-> >> although we already have this issue when using v4l2-ctl from the cmdline
-> >> on such a control and that seems to work fine.
+> On Mon, Nov 25, 2024 at 03:41:19PM +0100, Hans de Goede wrote:
+> > Hi,
 > >
-> > -----
-> >> Just because we allow
-> >> the USB connection to sleep, does not mean that the camera cannot finish
-> >> doing applying the async control.
-> >>
-> > Not sure what you mean with this sentence. Could you explain it
-> > differently? Sorry
+> > On 25-Nov-24 2:14 PM, Laurent Pinchart wrote:
+> > > On Mon, Nov 25, 2024 at 01:01:14PM +0100, Hans de Goede wrote:
+> > >> On 18-Nov-24 5:47 PM, Ricardo Ribalda wrote:
+> > >>> On Mon, 18 Nov 2024 at 16:43, Hans de Goede wrote:
+> > >>>> On 15-Nov-24 9:20 AM, Ricardo Ribalda wrote:
+> > >>>>> On Fri, 15 Nov 2024 at 00:06, Laurent Pinchart wrote:
 > >
-> >> But I can see how some cameras might not like this and having 2 different
-> >> paths for different controls also is undesirable.
-> >>
-> >> Combine that with what Laurent said about devices not liking it when
-> >> you set too much controls in a short time and I do think we need to
-> >> immediately apply ctrls.
-> >>
-> >> I see 2 ways of doing that:
-> >>
-> >> 1. Use pm_runtime_set_autosuspend_delay() with a delay of say 1 second
-> >> and then on set_ctrl do a pm_runtime_get_sync() +
-> >> pm_runtime_put_autosuspend() giving the camera 1 second to finish
-> >> applying the async ctrl (which might not be enough for e.g homing) +
-> >> also avoid doing suspend + resume all the time if multiple ctrls are send
+> > <snip>
 > >
-> > What about 1.5:
+> > >>>>>> Is there any ACPI- or WMI-provided information that could assist=
+ with
+> > >>>>>> associating a privacy GPIO with a camera ?
+> > >>
+> > >> I just realized I did not answer this question from Laurent
+> > >> in my previous reply.
+> > >>
+> > >> No unfortunately there is no ACPI- or WMI-provided information that
+> > >> could assist with associating ACPI/WMI camera privacy controls with
+> > >> a specific camera. Note that these are typically not exposed as a GP=
+IO,
+> > >> but rather as some vendor firmware interface.
+> > >>
+> > >> Thinking more about this I'm starting to believe more and more
+> > >> that the privacy-control stuff should be handled by libcamera
+> > >> and then specifically by the pipeline-handler, with some helper
+> > >> code to share functionality where possible.
+> > >>
+> > >> E.g. on IPU6 equipped Windows laptops there may be some ACPI/WMI
+> > >> driver which provides a /dev/input/event# SW_CAMERA_LENS_COVER node.
+> > >
+> > > Using an event device means that the user would need permissions to
+> > > access it. Would distributions be able to tell the device apart from
+> > > other event devices such as mouse/keyboard, where a logged user may n=
+ot
+> > > have permission to access all event devices in a multi-seat system ?
 > >
-> > during s_ctrl():
-> > usb_autopm_get_interface()
-> > if the control is UVC_CTRL_FLAG_ASYNCHRONOUS.
-> >        usb_autopm_get_interface()
-> > set the actual control in the hardware
-> > usb_autopm_put_interface()
+> > input events modaliases contain a lot of info, including what sort
+> > of events they report, e.g. :
 > >
-> > during uvc_ctrl_status_event():
-> >    usb_autopm_put_interface()
+> > [hans@shalem uvc]$ cat /sys/class/input/input36/modalias
+> > input:b0003v046Dp405Ee0111-e0,1,2,3,4,11,14,k71,72,73,74,75,77,78,79,7A=
+,7B,7C,7D,7E,7F,80,81,82,83,84,85,86,87,88,89,8A,8B,8C,8E,8F,90,96,98,9B,9C=
+,9E,9F,A1,A3,A4,A5,A6,A7,A8,A9,AB,AC,AD,AE,B0,B1,B2,B3,B4,B5,B6,B7,B8,B9,BA=
+,BB,BC,BD,BE,BF,C0,C1,C2,CC,CE,CF,D0,D1,D2,D4,D8,D9,DB,DF,E0,E1,E4,E5,E6,E7=
+,E8,E9,EA,EB,F0,F1,F4,100,110,111,112,113,114,115,116,117,118,119,11A,11B,1=
+1C,11D,11E,11F,161,162,166,16A,16E,172,174,176,177,178,179,17A,17B,17C,17D,=
+17F,180,182,183,185,188,189,18C,18D,18E,18F,190,191,192,193,195,197,198,199=
+,19A,19C,1A0,1A1,1A2,1A3,1A4,1A5,1A6,1A7,1A8,1A9,1AA,1AB,1AC,1AD,1AE,1AF,1B=
+0,1B1,1B7,1BA,240,241,242,243,244,245,246,247,248,249,24A,24B,24C,24D,250,2=
+51,260,261,262,263,264,265,r0,1,6,8,B,C,a20,m4,l0,1,2,3,4,sfw
+> >
+> > So I believe that we can create a udev rule which matches on input
+> > devices with SW_CAMERA_LENS_COVER functionality and set a uaccess
+> > tag on those just like it is done for /dev/video# nodes.
+> >
+> > Or we can just use a specific input-device-name (sub) string
+> > and match on that.
+> >
+> > This may require using a separate input_device with just
+> > the SW_CAMERA_LENS_COVER functionality in some of the laptop
+> > ACPI / WMI drivers, but that is an acceptable compromise IMHO.
 >
-> How do we match this to the usb_autopm_get_interface()
-> call ? At a minimum we would need some counter to
-> track pending (not acked through status interrupt urb)
-> async control requests and only do the put() if that
-> counter >= 1 (and then decrease the counter).
+> As long as it's doable I'm OK with it.
 >
-> We don't want to do unbalanced puts here in case of
-> buggy cameras sending unexpected / too many
-> ctrl status events.
+> > (we don't want to report privacy sensitive input events on
+> > these nodes to avoid keylogging).
+> >
+> > > Would compositors be able to ignore the device to let libcamera handl=
+e
+> > > it ?
+> >
+> > input devices can be opened multiple times and we want the compositor
+> > to also open it to show camera on/off OSD icons / messages.
 >
-> > during close():
-> >    send all the missing usb_autopm_put_interface()
->
-> Except for my one remark this is an interesting
-> proposal.
+> I'm not sure we want that though, as the event should be associated with
+> a particular camera in messages. It would be better if it still went
+> through libcamera and pipewire.
 
-I have just upload a patchset implementing this. I tried
-v4l2-compliance and using the camera app.
+For OSD we do not necessarily need to know what camera the GPIO is
+associated with.
 
-I think it looks promissing
-
-Shall we move the discussion there?
-
-https://lore.kernel.org/linux-media/20241126-uvc-granpower-ng-v1-0-6312bf26549c@chromium.org/T/#t
+We just want to give instant feedback about a button on their device.
+Eg in ChromeOS we just say: "camera off" not "user facing camera off"
 
 
 >
-> Maybe also do a dev_warn() if there are missing
-> usb_autopm_put_interface() calls pending on close() ?
->
-> > This way:
-> > - we do not have an artificial delay that might not work for all the use cases
-> > - cameras with noncompliant async controls will have the same PM
-> > behaviour as now  (will be powered on until close() )
+> > If opened multiple times all listeners will get the events.
 > >
-> > We do the same with the rest of the actions that require hardware access, like:
-> > https://lore.kernel.org/linux-media/20220920-resend-powersave-v5-2-692e6df6c1e2@chromium.org/
+> > >>>>>> We could include the evdev in the MC graph. That will of course =
+only be
+> > >>>>>> possible if the kernel knows about that association in the first=
+ place.
+> > >>>>>> At least the 1st category of devices would benefit from this.
+> > >>>>
+> > >>>> Yes I was thinking about adding a link to the MC graph for this to=
+o.
+> > >>>>
+> > >>>> Ricardo I notice that in this v3 series you still create a v4l2-su=
+bdev
+> > >>>> for the GPIO handling and then add an ancillary link for the GPIO =
+subdev
+> > >>>> to the mc-graph. But I'm not sure how that is helpful. Userspace w=
+ould
+> > >>>> still need to do parent matching, but then match the evdev parent =
+to
+> > >>>> the subdev after getting the subdev from the mc. In that case it m=
+ight
+> > >>>> as well look at the physical (USB-interface) parent of the MC/vide=
+o
+> > >>>> node and do parent matching on that avoiding the need to go throug=
+h
+> > >>>> the MC at all.
+> > >>>>
+> > >>>> I think using the MC could still be useful by adding a new type of
+> > >>>> ancillary link to the MC API which provides a file-path as info to
+> > >>>> userspace rather then a mc-link and then just directly provide
+> > >>>> the /dev/input/event# path through this new API?
+> > >
+> > > I don't think we need that. MC can model any type of entity and repor=
+t
+> > > the device major:minor. That plus ancillary links should give us most=
+ of
+> > > what we need, the only required addition should be a new MC entity
+> > > function.
 > >
-> > This way:
-> > - Apps that do not need to access the hardware, do not wake it up, and
-> > we do not break usecases.
-> >
-> > Next steps will be:
-> >  - cache the formats
-> >  - move the actual set_ctrl to streamon... but if we can do that I
-> > would argue than we can move completely to the control framework.
+> > Ah interesting yes that should work nicely.
 >
-> Right I had forgotten that the UVC driver does not use the control
-> framework. I think moving to that would be a prerequisite for moving
-> the set_ctrl to stream_on.
->
+> --
 > Regards,
 >
-> Hans
->
+> Laurent Pinchart
 
 
---
+
+--=20
 Ricardo Ribalda
 
