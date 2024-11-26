@@ -1,174 +1,170 @@
-Return-Path: <linux-media+bounces-22067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22068-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76719D9316
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 09:09:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C72829D9380
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 09:44:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E05B283C01
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 08:09:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53D06B25C7C
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 08:44:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 269CF19995A;
-	Tue, 26 Nov 2024 08:09:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD57D1B4122;
+	Tue, 26 Nov 2024 08:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="FVKh36pG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BCiDhwyd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9E028FF;
-	Tue, 26 Nov 2024 08:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732608584; cv=pass; b=sbUculLRq6Orw+fkDEnPG0bwiLrAG/odrNp04+ZOYYC+0rp6DA4G8I7qEq+sLtKHofuYzNqIsDyiJhcDm5bH3ah1KVqiRgzG2/Zrr2QAlT4B0Jyq2Y2u0pM1IWfWKRk9Uz3jhONkdrqhshWLA69VJuIot0yFyahAaJLScmMB+AU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732608584; c=relaxed/simple;
-	bh=s07l0UWvSUPAcdJPP8adSOK5H+t+E7TxefBo6lU5TYg=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA5619340F;
+	Tue, 26 Nov 2024 08:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732610629; cv=none; b=jm3m56HXH+nLkwSVZusdo8caZokrzY+63zY55FNQS0R2FYjE0oqTc/BSBFg094l/xgjK3ZalSP1dg0iymi3GojRiIHW98R2nnTHANtTcexZEYvl9y/j9SxjdXM0q9qffhopCOlDQOGYO0bezcH8/kfezLNxtFZ/DGl0hGOf4BeA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732610629; c=relaxed/simple;
+	bh=HuVyRClXhaSM8ZVR7Ab7Zv4aE1vJq8Al5X5SpC1lklE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D3VF43Y6sOAKXdr7nVq3/evTo2vDU51AIsCjPC3abInbHzNc2A7FPIvRiXv/sFmWOaCmx1NeRM1SQv6p5yp12BT2WYH9LkoGP0U6uOv77Dbd/Y7BWscq9xueiSdqcwLdWqfe9ifjM6fKDa0zfss9EExreTeqPqB46bBcLSAMMHs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=FVKh36pG; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1732608566; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UUMs9DzPOh92WAVptpc7fklDwSpYO/TrUN/8FAR0Djo2nfcNMPaQRSdoLMJA3XtNNc0lZgZvPkVFFI1jnF98H7X5txsM/buhRDtcANS7f94PKwFYP0cOX3amtEZXQ86P6jW0ldwm1L4mX8EErEMXUdS+GR79rTbbjpt6sVLgZZ4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1732608566; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=5gcpd1uwGRP08Kiq7/gE67RsnGAnScrjwH6l5y2hLSE=; 
-	b=JYARbxfqORjSN8B5C5hdOFJjNNiRNdOFjXsD/CIXIXW9udLZq7Gr8/AdUxU674G+r/ubwEoHvgyVYHhdCf8gJHCCqEiW4AkAJ79LpmWllcrIsoa5NmGTvgNC2CDlaSQONFnfB9GQOb5Uq62sY2Xw2CZ96G1c0h4eTvM3DdZT+EM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732608566;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=5gcpd1uwGRP08Kiq7/gE67RsnGAnScrjwH6l5y2hLSE=;
-	b=FVKh36pG0SqUAC8KywCh/wPuuFyQRpmZyLflaRkOL0n+4GyNGrri9DMDGt4Aq6hC
-	xEQFWXLPl15EV2qhVPE3hnHBX9S2vPlwpkLBi8ZvEX8E3vkohwNsm/6wlxgTaeRyLVW
-	9nv5cu00vWPat4URCmMcwgbbc/Q0gflmKpUQOrN8=
-Received: by mx.zohomail.com with SMTPS id 1732608558575379.05450819026044;
-	Tue, 26 Nov 2024 00:09:18 -0800 (PST)
-Date: Tue, 26 Nov 2024 09:09:14 +0100
-From: "sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gNHE78gQ4Jx0Frfvs4bxCh36IeMEoqLVkkmOZVK1FEem+WW6+VcT9vQ0rJlCSUqxkB1/0QaO2CpNTOXKALFtys6omwxq6YTivzS2gkS5dEtbNRA4MNuzo+Rr8FTd7k1QCzNdObWHviPaKOFBrws3I1IwFODbOd0/WJ3woNRdaYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BCiDhwyd; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D3C46BE;
+	Tue, 26 Nov 2024 09:43:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732610603;
+	bh=HuVyRClXhaSM8ZVR7Ab7Zv4aE1vJq8Al5X5SpC1lklE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BCiDhwyd7bsawseyl+EETONYSAC2fM3pjjuVWJLYNtZCHfXtpItr347dxf5EVG4rE
+	 c0R32mk/65WqbkxhWjivJ9bI4oC1xYIOz4cm2IWlstsn7v+XUtkmqHMEfoKpALBLJU
+	 ub61xODGZOIdPauVVzMqh4mHH458PjpRW/UlBycU=
+Date: Tue, 26 Nov 2024 10:43:36 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: CK Hu =?utf-8?B?KOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
 Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
-	"nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	Andy Hsieh =?utf-8?B?KOisneaZuueakyk=?= <Andy.Hsieh@mediatek.com>,
+	Julien Stephan <jstephan@baylibre.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	"lafley.kim" <lafley.kim@chipsnmedia.com>,
-	"b-brnich@ti.com" <b-brnich@ti.com>
-Subject: Re: [PATCH v0 0/6] Improve decoder performance and fix critical bugs
-Message-ID: <20241126080914.o3oidppg4x7rkmgw@basti-XPS-13-9310>
-References: <20241112021517.121-1-jackson.lee@chipsnmedia.com>
- <SE1P216MB1303E8E288DCBD1DCA6C07A0ED232@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>,
+	"pnguyen@baylibre.com" <pnguyen@baylibre.com>
+Subject: Re: [PATCH v7 4/5] media: platform: mediatek: isp: add mediatek
+ ISP3.0 camsv
+Message-ID: <20241126084336.GC19381@pendragon.ideasonboard.com>
+References: <20241121-add-mtk-isp-3-0-support-v7-0-b04dc9610619@baylibre.com>
+ <20241121-add-mtk-isp-3-0-support-v7-4-b04dc9610619@baylibre.com>
+ <0e14e1d92be90c838ab097268a3674b38d48e51a.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <SE1P216MB1303E8E288DCBD1DCA6C07A0ED232@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0e14e1d92be90c838ab097268a3674b38d48e51a.camel@mediatek.com>
 
-Hey Jackson,
+On Tue, Nov 26, 2024 at 02:07:35AM +0000, CK Hu (胡俊光) wrote:
+> On Thu, 2024-11-21 at 09:53 +0100, Julien Stephan wrote:
+> >
+> > From: Phi-bang Nguyen <pnguyen@baylibre.com>
+> >
+> > This driver provides a path to bypass the SoC ISP so that image data
+> > coming from the SENINF can go directly into memory without any image
+> > processing. This allows the use of an external ISP.
+> >
+> > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+> > [Paul Elder fix irq locking]
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
+> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > ---
+> 
+> [snip]
+> 
+> > +static const u32 mtk_cam_mbus_formats[] = {
+> > +       MEDIA_BUS_FMT_SBGGR8_1X8,
+> > +       MEDIA_BUS_FMT_SGBRG8_1X8,
+> > +       MEDIA_BUS_FMT_SGRBG8_1X8,
+> > +       MEDIA_BUS_FMT_SRGGB8_1X8,
+> > +       MEDIA_BUS_FMT_SBGGR10_1X10,
+> > +       MEDIA_BUS_FMT_SGBRG10_1X10,
+> > +       MEDIA_BUS_FMT_SGRBG10_1X10,
+> > +       MEDIA_BUS_FMT_SRGGB10_1X10,
+> > +       MEDIA_BUS_FMT_SBGGR12_1X12,
+> > +       MEDIA_BUS_FMT_SGBRG12_1X12,
+> > +       MEDIA_BUS_FMT_SGRBG12_1X12,
+> > +       MEDIA_BUS_FMT_SRGGB12_1X12,
+> > +       MEDIA_BUS_FMT_UYVY8_1X16,
+> > +       MEDIA_BUS_FMT_VYUY8_1X16,
+> > +       MEDIA_BUS_FMT_YUYV8_1X16,
+> > +       MEDIA_BUS_FMT_YVYU8_1X16,
+> > +};
+> > +
+> 
+> Format in mtk_cam_mbus_formats[] is more than mtk_cam_format_info[].
+> I would like these two to be consistent.
+> Reduce mtk_cam_mbus_formats[] or enlarge mtk_cam_format_info[].
+> Once these two are consistent, they could be merged into one array.
 
-On 22.11.2024 03:54, jackson.lee wrote:
->Hello Sebastian and Nicolas
->
->Can you review the following patch ?
+And the array could then be extended with fields to replace the
+fmt_to_sparams() function.
 
-Currently on that I'll try to give you another update by the end of the
-week.
+> > +static const struct mtk_cam_format_info mtk_cam_format_info[] = {
+> > +       {
+> > +               .fourcc = V4L2_PIX_FMT_SBGGR8,
+> > +               .code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> > +               .bpp = 8,
+> > +       }, {
+> > +               .fourcc = V4L2_PIX_FMT_SGBRG8,
+> > +               .code = MEDIA_BUS_FMT_SGBRG8_1X8,
+> > +               .bpp = 8,
+> > +       }, {
+> > +               .fourcc = V4L2_PIX_FMT_SGRBG8,
+> > +               .code = MEDIA_BUS_FMT_SGRBG8_1X8,
+> > +               .bpp = 8,
+> > +       }, {
+> > +               .fourcc = V4L2_PIX_FMT_SRGGB8,
+> > +               .code = MEDIA_BUS_FMT_SRGGB8_1X8,
+> > +               .bpp = 8,
+> > +       }, {
+> > +               .fourcc = V4L2_PIX_FMT_YUYV,
+> > +               .code = MEDIA_BUS_FMT_YUYV8_1X16,
+> > +               .bpp = 16,
+> > +       }, {
+> > +               .fourcc = V4L2_PIX_FMT_YVYU,
+> > +               .code = MEDIA_BUS_FMT_YVYU8_1X16,
+> > +               .bpp = 16,
+> > +       }, {
+> > +               .fourcc = V4L2_PIX_FMT_UYVY,
+> > +               .code = MEDIA_BUS_FMT_UYVY8_1X16,
+> > +               .bpp = 16,
+> > +       }, {
+> > +               .fourcc = V4L2_PIX_FMT_VYUY,
+> > +               .code = MEDIA_BUS_FMT_VYUY8_1X16,
+> > +               .bpp = 16,
+> > +       },
+> > +};
+> > +
 
->
->Thanks
->Jackson
-
+-- 
 Regards,
-Sebastian
 
->
->> -----Original Message-----
->> From: jackson.lee
->> Sent: Tuesday, November 12, 2024 11:15 AM
->> To: mchehab@kernel.org; nicolas@ndufresne.ca;
->> sebastian.fricke@collabora.com
->> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
->> hverkuil@xs4all.nl; Nas Chung <nas.chung@chipsnmedia.com>; lafley.kim
->> <lafley.kim@chipsnmedia.com>; b-brnich@ti.com; jackson.lee
->> <jackson.lee@chipsnmedia.com>
->> Subject: [PATCH v0 0/6] Improve decoder performance and fix critical bugs
->>
->> The wave5 codec driver is a stateful encoder/decoder.
->> The following patches is for improving decoder performance and fix
->> critical bugs
->>
->> v4l2-compliance results:
->> ========================
->>
->> v4l2-compliance 1.26.1-5142, 64 bits, 64-bit time_t
->>
->> Buffer ioctls:
->>                 warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not
->> supported
->>                 warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not
->> supported
->>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->>         test CREATE_BUFS maximum buffers: OK
->>         test VIDIOC_EXPBUF: OK
->>         test Requests: OK (Not Supported)
->>
->> Total for wave5-dec device /dev/video0: 46, Succeeded: 46, Failed: 0,
->> Warnings: 2 Total for wave5-enc device /dev/video1: 46, Succeeded: 46,
->> Failed: 0, Warnings: 0
->>
->> Fluster test results:
->> =====================
->>
->> Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0
->> Using 1 parallel job(s)
->> Ran 132/147 tests successfully               in 67.220 secs
->>
->> (1 test fails because of not supporting to parse multi frames, 1 test
->> fails because of a missing frame and slight corruption,
->>  2 tests fail because of sizes which are incompatible with the IP, 11
->> tests fail because of unsupported 10 bit format)
->>
->> Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0
->> Using 1 parallel job(s)
->> Ran 78/135 tests successfully               in 31.808 secs
->>
->> (57 fail because the hardware is unable to decode  MBAFF / FMO / Field /
->> Extended profile streams.)
->>
->>
->> Jackson.lee (6):
->>   media: chips-media: wave5: Fix to display gray color on screen
->>   media: chips-media: wave5: Avoid race condition for interrupt handling
->>   media: chips-media: wave5: Improve performance of decoder
->>   media: chips-media: wave5: Fix Multistream Decode Hang with no IRQ
->>     Present
->>   media: chips-media: wave5: Fix hang after seeking
->>   media: chips-media: wave5: Fix timeout while testing 10bit hevc
->>     fluster
->>
->>  .../platform/chips-media/wave5/wave5-helper.c |   6 +
->>  .../platform/chips-media/wave5/wave5-hw.c     |   2 +-
->>  .../chips-media/wave5/wave5-vpu-dec.c         | 410 +++++++++++-------
->>  .../platform/chips-media/wave5/wave5-vpu.c    |  23 +-
->>  .../platform/chips-media/wave5/wave5-vpuapi.c |  11 +
->>  .../platform/chips-media/wave5/wave5-vpuapi.h |   6 +
->>  6 files changed, 305 insertions(+), 153 deletions(-)
->>
->> --
->> 2.43.0
->
->
+Laurent Pinchart
 
