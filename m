@@ -1,155 +1,175 @@
-Return-Path: <linux-media+bounces-22114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22115-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1119D9D23
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 19:10:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C00F19D9D2F
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 19:13:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 48427282638
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 18:09:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 579C7B23AC4
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2024 18:13:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C847E1DDA14;
-	Tue, 26 Nov 2024 18:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B29A1DDA14;
+	Tue, 26 Nov 2024 18:13:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EqFjblAH"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LZqBIgWX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AA611187;
-	Tue, 26 Nov 2024 18:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095121DC1AB
+	for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 18:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732644590; cv=none; b=nr18EGvAbUFZYtcw/JgbWYQXqtZirtK8OJ3fxUaHLvCyACt4iw/Tau1yhmuK6w6Ss2HFAFrzX/hnGaoJs5u+2ol4pBOYu0GURJbLqQS/LBgv9AS72i8rF8rI8LtG0unGZpN9jPQSrnwBH/WPD4BFhtyANAlECzDlIyeSCoRS2WY=
+	t=1732644789; cv=none; b=LFsUDZXRd0rFvcnd0FGhJvkoIU16WiGaen8EZ58L9LAkL23MlceGozNnBClIv/GIHq3RapI0eGw8oItu1y0csZnMq9aH+zFwuIXEvv9HxxVKYLXcJtKa5Q9vu0ZQ5uvrrjsYlQ/LFJRJ2CtAMsmVw88m2KViIkp+ci7SKDalvcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732644590; c=relaxed/simple;
-	bh=Dn68kwfusM/F6PFzcK9RRMgIKLG8Q2p95XVK2fHrCpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HdOb3CRsqfe9fYx8NLvdSWQtqA9LkkEO+B9/qVDmz4PC4Y5th0HlDAIA6e+i1PvExQYncUdHqwQSt14MftlBHKY3W7BCpgBc5dryCfvpWsxGJMbxGWa9vpJ/WcjYVKySLUL34scJqwIZcRtQQrWsWc3lJTdzQcJXAiLfYrbyG1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EqFjblAH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B27BBC4CECF;
-	Tue, 26 Nov 2024 18:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732644589;
-	bh=Dn68kwfusM/F6PFzcK9RRMgIKLG8Q2p95XVK2fHrCpI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EqFjblAHK+acST9EGdraw8bb/dxcuETdMlcHHy2i1lRe1YVc5tLv+qNV31V6Ab/fU
-	 IcrBVFs5YMywsHEUWNBWXWYDqHdQLGadZVOxLIoo+npNxHP62hOvbpPxwvC6jr1dDZ
-	 b1gy3AwfIi0HyO7znaTYGuIS92IrJUuIfkAg3fiiPVBlgoOnO8DfZqLoHtqYBXeqTS
-	 W+mUh9K6EAxwZLXGOyDtqxWVScl7Opw9Ms4Seyj8uidgfsZSRQ0HXA9GZNALdX/3EN
-	 PEdlmZsoef3RyvyalQg2Nm6tJfL2C9jEk6dNSRQdz5PidL7KZOgVxjhzxzD9ADbsee
-	 yb2EMIaRpeYog==
-Date: Tue, 26 Nov 2024 18:09:43 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 1/9] dt-bindings: misc: Describe TI FPC202 dual port
- controller
-Message-ID: <20241126-precinct-corrode-516d3a476479@spud>
-References: <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
- <20241125-fpc202-v3-1-34e86bcb5b56@bootlin.com>
- <20241125-overhand-economist-5a3fc6339265@spud>
- <2072150.UuDqf3iUMg@fw-rgant>
+	s=arc-20240116; t=1732644789; c=relaxed/simple;
+	bh=N5DXqLLENJurn1n1t0P92WWNwx35eWFGM+6sfF7P2Co=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tHT5Avwp1YsBFBtPeaBRlI9N8fuh0pyyZBfK6WqZ+MlSdMaP3an/V0KGY82ph7k6zN8N1FkOmhPXJ6RtLNHvnxjfxaQ/VXz0IWooJ+VTx4sgOSWtTIKzRU+tPd/Ysb5ISI+TfYEeBOF+qRc85t7HYfDuksd2nL9TX7rZ3++TzBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LZqBIgWX; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21270d64faeso42619945ad.1
+        for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 10:13:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1732644787; x=1733249587; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DRDHH9mII91Onr/ViRKZaUWx6zHyVw0QRYxvAkTS5oQ=;
+        b=LZqBIgWXXELEi5P1qyZGXH8IxW7yB1LRjBbqvguAOnFsjrBRHIxoDyTrQNsKQVcgu8
+         pfB/si+MBFJxOxnVlZmubTR006Pue8ORxqxWVSLTg6ysdr5L2HKndPTjhaFm/7vSsvCj
+         EX8SHUvrFlnMDJK5bKt4dXN9/5hbe0mMI8jfQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732644787; x=1733249587;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DRDHH9mII91Onr/ViRKZaUWx6zHyVw0QRYxvAkTS5oQ=;
+        b=GGqLbkkETT7NO0xUsb5TF4iZSnJMGLZISCl2WaMNw/E3B9H6NCZfa5ZHzBfi+eEgs4
+         J4xginjxb7tmRWDASAPfq0Y2Q2ZwU70XD07k7v3XezN7FAAPZvGzcEeSzJWgj3wxxK80
+         y02qCgeB1buwyUxfjHjTmyvYH28HV0q5hIx8EuLrTjfWEmhHxtjMklJ9JQOlhVtMdwn8
+         xY6JiIsdw/ll63Q6e4HchWT0pOD3sObSeMhCHGfR0WM7H/8QsKamtGZBG+hKBytIfhMM
+         tgy25LQEe4Q9ci2xRggMvEA0ZwUgUNeatfKZWARy/3qHLKnpy5J5X2jrDl3w4rEKvlHV
+         0WnA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWNVmyvo8/wlcoKM3Jny9AW6XM5C/kUrAtX/VSA94b1v6jG0+WGkUL/0doJJjgN/qIjGqJ3u5nvFq9HQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhg7PGPZ3UWyynweCpdk6QUQoKEkAq1s7sv6Ufft2VVqP4Erll
+	A4GiQCAgZYQP8IgwJNBjdQS1EqNFL5dU0WUVxWxEL6HKynSb4rvx3dtXUG5OssJOQ/E5NOEGqno
+	=
+X-Gm-Gg: ASbGncuDD2HG5CTnmpXoqBDC8bXFYXaN8JT+HU0LoNFsrUA3LInxpHCP40ZRmw/5D/J
+	xy4j02tWxX4pyUyWeGOThLCw36/kHKVjq3ipTrnBLkoRnBXHfz9iPie4J277+0qGLkYmrZY/r+Q
+	dfnGTuWfQ8yKtspA0elwkbc2q31YZ9bI67hP4GNYxk/VgOUWQqoyWwRg9A6hSNi4zLjsk9/0a+W
+	F8uVXVzEoQoH2Gbrw9U08l9lLt5/M34w+Z2OFYaEXtNhk6VhUw/Qx6mWFt7Mhv8xUzhnTrwEs6B
+	/KPGcyzVl0EdtfBy
+X-Google-Smtp-Source: AGHT+IEQCxnBlU9El6g03jZ310BFjVBTkshdc+hsciviq2T86TZSjA8g0zyXTy1O1xrqzQMu1GsSJA==
+X-Received: by 2002:a17:902:ccc9:b0:212:5d34:9d with SMTP id d9443c01a7336-21501f62690mr1520885ad.47.1732644786930;
+        Tue, 26 Nov 2024 10:13:06 -0800 (PST)
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com. [209.85.215.180])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dc22a4asm87741195ad.261.2024.11.26.10.13.06
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Nov 2024 10:13:06 -0800 (PST)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7fbd9be84bdso3637627a12.1
+        for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 10:13:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWNeU7tUJHllE2x9HQDJA4B/3EqT0fkvMSRl9bQLI597jqJ1+55ENbvjq0b1RYgDQ21Vgv9qd3qP5xKLQ==@vger.kernel.org
+X-Received: by 2002:a05:6a21:39a:b0:1e0:dbfd:d254 with SMTP id
+ adf61e73a8af0-1e0e0b8cbf0mr485269637.41.1732644785584; Tue, 26 Nov 2024
+ 10:13:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hkZzaXn6Nj+Xev9H"
-Content-Disposition: inline
-In-Reply-To: <2072150.UuDqf3iUMg@fw-rgant>
+References: <20241120-uvc-readless-v4-0-4672dbef3d46@chromium.org>
+ <20241120-uvc-readless-v4-1-4672dbef3d46@chromium.org> <20241126180616.GL5461@pendragon.ideasonboard.com>
+In-Reply-To: <20241126180616.GL5461@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 26 Nov 2024 19:12:53 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuZkeV7jTVbNhnty8bMszUkb6g9czJfwDvRUFMhNdFp2Q@mail.gmail.com>
+Message-ID: <CANiDSCuZkeV7jTVbNhnty8bMszUkb6g9czJfwDvRUFMhNdFp2Q@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] media: uvcvideo: Support partial control reads
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+
+On Tue, 26 Nov 2024 at 19:06, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Wed, Nov 20, 2024 at 03:26:19PM +0000, Ricardo Ribalda wrote:
+> > Some cameras, like the ELMO MX-P3, do not return all the bytes
+> > requested from a control if it can fit in less bytes.
+> > Eg: Returning 0xab instead of 0x00ab.
+> > usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
+> >
+> > Extend the returned value from the camera and return it.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
+> > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index cd9c29532fb0..482c4ceceaac 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -79,6 +79,22 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+> >       if (likely(ret == size))
+> >               return 0;
+> >
+> > +     /*
+> > +      * In UVC the data is usually represented in little-endian.
+>
+> I had a comment about this in the previous version, did you ignore it on
+> purpose because you disagreed, or was it an oversight ?
+
+I rephrased the comment. I added "usually" to make it clear that it
+might not be the case for all the data types. Like composed or xu.
+I also r/package/packet/
+
+Did I miss another comment?
+
+>
+> > +      * Some devices return shorter USB control packets that expected if the
+> > +      * returned value can fit in less bytes. Zero all the bytes that the
+> > +      * device have not written.
+>
+> s/have/has/
+>
+> And if you meant to start a new paragraph here, a blank line is missing.
+> Otherwise, no need to break the line before 80 columns.
+
+The patch is already in the uvc tree. How do you want to handle this?
+
+>
+> > +      * We exclude UVC_GET_INFO from the quirk. UVC_GET_LEN does not need to
+> > +      * be excluded because its size is always 1.
+> > +      */
+> > +     if (ret > 0 && query != UVC_GET_INFO) {
+> > +             memset(data + ret, 0, size - ret);
+> > +             dev_warn_once(&dev->udev->dev,
+> > +                           "UVC non compliance: %s control %u on unit %u returned %d bytes when we expected %u.\n",
+> > +                           uvc_query_name(query), cs, unit, ret, size);
+> > +             return 0;
+> > +     }
+> > +
+> >       if (ret != -EPIPE) {
+> >               dev_err(&dev->udev->dev,
+> >                       "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
 
---hkZzaXn6Nj+Xev9H
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 26, 2024 at 09:05:42AM +0100, Romain Gantois wrote:
-> Hello Conor,
->=20
-> On lundi 25 novembre 2024 19:26:35 heure normale d=E2=80=99Europe central=
-e Conor Dooley wrote:
-> > On Mon, Nov 25, 2024 at 09:45:15AM +0100, Romain Gantois wrote:
-> > > The FPC202 dual port controller serves as a low speed signal aggregat=
-or
-> > > for
-> ...
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - gpio-controller
-> > > +  - "#gpio-cells"
-> > > +  - reg
-> > > +  - "#address-cells"
-> > > +  - "#size-cells"
-> > > +  - i2c@0
-> > > +  - i2c@1
-> >=20
-> > btw, why are both downstream ports required?
->=20
-> It's because both downstream ports are always present in an FPC202 unit
-> so in my opinion, it doesn't make sense to describe an FPC202 with only o=
-ne
-> downstream port.
->=20
-> I suppose you could also consider that ports would only be described in t=
-he DT
-> if they were connected to something in the hardware, but I don't think it=
- would
-> make sense to use an FPC202 in this way. After all, the whole point of th=
-is
-> component is to act as an I2C ATR and low-speed signal aggregator for
-> downstream devices which would have address collisions if you placed them
-> on the same I2C bus.
->=20
-> But then again, you could consider that DT bindings should only describe =
-what is
-> possible, and not only what makes sense as a use case. I don't really kno=
-w how to
-> answer this question myself, so I'll refer to the maintainers' opinions.
-
-I don't really know what how this device works, which is why I am asking
-questions. If there is no use case were someone would only wire up one
-of the downstream ports then making both required is fine. I was just
-thinking that someone might only hook devices up to one side of it and
-leave the other unused entirely. Seemed like it could serve its role
-without both sides being used based on the diagram in
-https://docs.kernel.org/i2c/i2c-address-translators.html
-unless it is not possible for the atr to share the "parent" i2c bus with
-other devices?
-
---hkZzaXn6Nj+Xev9H
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ0YO5wAKCRB4tDGHoIJi
-0peVAP0Tx4IuAFRG1f+DIwASl/6j0oDlZVMHvalzkyIQp7Ma4QD/WL2qSBDyyW3P
-hTovWdSEjm5sUQSwdUr2MU+1r5AGpgo=
-=Hc1y
------END PGP SIGNATURE-----
-
---hkZzaXn6Nj+Xev9H--
+-- 
+Ricardo Ribalda
 
