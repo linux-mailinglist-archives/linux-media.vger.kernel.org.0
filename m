@@ -1,125 +1,151 @@
-Return-Path: <linux-media+bounces-22177-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22178-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B806E9DA78A
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 13:16:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B739DA7F6
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 13:38:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CE862855FB
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 12:16:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BD42DB2337B
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 12:30:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 916E91FBCB2;
-	Wed, 27 Nov 2024 12:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267431FC0EE;
+	Wed, 27 Nov 2024 12:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="U+p2X9wP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GkdoMgmI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7E51FC101
-	for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 12:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF83E1FC0E2
+	for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 12:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732709705; cv=none; b=Z6wOhmXYZy6bXBfVNnPYJP8nfZUhXUVaBL0NcinqpR6lWFfzA81AC08mLfiwD0AiDnPy45QjJCvbO4C1VwyFbcXfqWXdDHoixnqbBp8yAyGXXIUq0fH53Toh0sbs/wwkIQcZoM/CdQPtek8QkWNiaNe1BWxgxxGhtduH+mKbosE=
+	t=1732710598; cv=none; b=omwfxwNlXILqz6pKcHx9MqyZLv1e8cjxeTGiWF0wYqfhHoXNFKLy3UEOVvVcnqJEJ2534oFkrVgkwdTT6KGL1GcFxqueHUiWj3q/QWOZR0aVQgzPp46kWBREFKyhDWR9A5K5YEH+nGqf3NFHF82urhTTDSBZJYCe8JWtbpQr1fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732709705; c=relaxed/simple;
-	bh=yv3h2vzWiCSkYvOmOVZOnLbH4e+vqdmkttphrGsTdA8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=X0cc/34E0yU9E/OiyjAef+epWPuKn+m5UxbmaIRWLLN9XHwCcUpGiEAGn79Vaw/8I+Gsq5DRYdAxYWhZ2Jl0a+4f1Y4Sb1fK2Bd9CInieUIsIspHQQ9c0yCKsAuEWocUytFLG1/0+RXeuvzh0XVpJ/z/NTeDECWK5xZBUMD+JXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=U+p2X9wP; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4668f208f10so27634591cf.3
-        for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 04:15:03 -0800 (PST)
+	s=arc-20240116; t=1732710598; c=relaxed/simple;
+	bh=eO8pZeLmCY07ZvONQ95F7bnDt5LzCJtb1w9NSPUfJh8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R2tW3yk8dE8jugMxvhfH1/8LHjSYvt8yoichpLbSv/bFlEWGDCYk3Nw2G/ukZxjvFAoIrsUbfajzEAOIxNI1bDF4l8XlNaeyhOjQSGRWCCk4r/T2xV3rWpGsTwa/LOZ2v3ZtbgOhP3Xjrxy2PJUnjtJfcSi4nK+Ne5xQBIYVUDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GkdoMgmI; arc=none smtp.client-ip=209.85.167.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f68.google.com with SMTP id 2adb3069b0e04-53dd58ebccdso716403e87.3
+        for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 04:29:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732709702; x=1733314502; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n6PMrA6yfmsQRKTdt+5BI8/0Y5GUPe75YZrlJGsNn64=;
-        b=U+p2X9wPu/UMKCx3VFmxhdXB1oJWwXW2/deneWXnmYZIQkCbLIB31/26g5I7m49Vdd
-         UivIN4yzh6Bak0ZPALYFBocZm8+pWe5XM1wATMbuQQ1I67HCA6eu3CINNvoMD/8o+i8/
-         ZxQOF+qi0w1t1pQMks7vO3NR3xMColOXr3MzM=
+        d=linaro.org; s=google; t=1732710595; x=1733315395; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KRcdSs7XMlGnAilpDhcNiYT3hFI3KAq1n7SCl+kMm14=;
+        b=GkdoMgmIwaaGmz5I/jMOZc2DEuvqJYiAiw6yeY7DixADaY0Y+L7rIka7ebJktp3K2B
+         tISsYEh1ACr+1dbu16T+snXfgu6HtL3qZw2uzql3dIiYwZFKcl6HK+/tam3oDPdByjvt
+         8kaRjngBkX9KEZgWV32oa3NYJrChUulq4hTHx9Gdmkrvy4L5feTi8f1/mn46aubCrPVr
+         JHSm6v6ElKctF+qPY3QMQOUMvTvtGmJ4DlM7AAcVGo2sD7OL9IHMgz2513bOu42IaCa/
+         Otsvp8qxCwi4+nohGF7rjBdyAeHhoyyV6oqwQsgueOcGYMFgOhcrZcttGdKbuD+gLEWb
+         rDOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732709702; x=1733314502;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n6PMrA6yfmsQRKTdt+5BI8/0Y5GUPe75YZrlJGsNn64=;
-        b=jXrxkOPM4ajkb7hSRoP57sL0OCUeb2Log4IYs70zGUVmNiabbSqP0D3CiaDyWJzlaC
-         FwX/GKUZUHaJd7Le0l8noSshuFhfT2seVfJJ5/GfP5vMiM8n88vdSoY57SjgU222EZD6
-         MjLSx3sa5pf2AQhQQCpdJ/StBP98LX+jSN2lxxB8eoofnGVBTrR9MADqksD/IaO75wv5
-         DNU37mMk/88X41QtkgQwEuAdbDx8StgwTigWhTSacCel+EdGKU2ySggW9HfI+cYmd9Mc
-         raQf8wt/qfDY9tR6lbhIG/eR5XEA5rR55N3+cy5w2Alr0rameZnu/e+qSfzTQPovFFxh
-         WU8g==
-X-Forwarded-Encrypted: i=1; AJvYcCV/QY/aFYvLFQYlm//fvifc5QAZHWT/N0H3PwIObMv6zrrrUMvVHbltJYOV401ScHApV1McK9unBTzrNA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzM5eTXdeYnEG5RQyjbDhe2e1AnBG+hWOCra1Zb+FXpVwLvYKyC
-	u9FkN+ploWPsG5ksmdfprVQ+UTzsCOk8a2kX/4l63LplN8ULQCySscS8GVYbOwb+HJtlpQKUxqc
-	=
-X-Gm-Gg: ASbGncspSZm7ZNUbp8XMe+49cCClZkn9hvOFKuL5OWMMhk41ZTQ8qE2CF9QXyoT6zVV
-	/w03ziTiL375qd5krAb/YEdkENlhuL46XFLpspzANJ7/VLqcExCENNf4QxOlyplZbJ1rVi/Fs1F
-	KTbJFReN8muo0BHtqpp9aToJ8SDoQu5ojrwfxKw3Vz4OKDqvOdWZKbY4NRKueIZl69mbvXIixF2
-	B3IAjfesZ+m2Fw49p94i/GJLo+JKiseZbOa6inNVLr60wJcY65Dc+CrrrdHFWMnl2/Isw4ACttA
-	Y55Hsngo2iW2nuAbXAY55OgV
-X-Google-Smtp-Source: AGHT+IHf6ueSfY60U0HfefcCmnZQ367u8xLsUq+kt1ZVbjF6qn5g8wIQB2Z8/Cf0NEGUz/Jw+SbagQ==
-X-Received: by 2002:ac8:594e:0:b0:460:ad52:ab0d with SMTP id d75a77b69052e-466b3516358mr37080091cf.16.1732709702235;
-        Wed, 27 Nov 2024 04:15:02 -0800 (PST)
-Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-466be77cf7bsm371171cf.89.2024.11.27.04.15.00
+        d=1e100.net; s=20230601; t=1732710595; x=1733315395;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KRcdSs7XMlGnAilpDhcNiYT3hFI3KAq1n7SCl+kMm14=;
+        b=sBUVva8+7S2KANGpAtiA4i5hy++kOhikq4A/3HlDL5k1LceXTTDRuLCcJVIbV27zZ7
+         RN98dZRnXF9pUndMM8f2DusUsQOvILfU1sPe23mrVc5WXunIUEnYGxOH9AGyTVlw+ATU
+         aZMEQnx+1QKjjQYLMYoX+ElnQniSOUssJcOTf6GvaYfl80nfdVbndXIpON44r3+7Bjzo
+         gLP7/CZ5jLtnoJ1/tb9ukPkBZoYyQM1RooysMQAazpl7jta7VgXpSVgvc5leTpwPFoUp
+         6F1qbt+tg8ZwPBo8CQsi6H7i/wKwxQ0Jk945KUoAbMfhZMNOaEpWWOUxouCikyMI6EBW
+         rG3w==
+X-Forwarded-Encrypted: i=1; AJvYcCV6IUTgSCSAN5uP9JYPiYTkUo/fvD9ehjmm87OFkFbTB+EdS1i3obGkY7NgG+5OQ7zw9QZDZU4XTXGYzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxo7gX/MtX1SQgLzjYJccFa80UvHXfxWp9VX8MoU49dux0AvOH+
+	ZueKT8axikbKEaEfPc/grdt7FQr0y9q2VarP3zWgtLnpzSWzTY4AqdWe43nEFUM=
+X-Gm-Gg: ASbGncv91udc6ply1uVfz20HXapP285UHaRnQbWK35ifFPztXsOgzu5hdLSw4U9aw6e
+	c8dBTxp04RRZtHCOIh0kBfDxuNFy4nSZG9o2HzOTWKgkESB9SG744mI8vqqvcLVh/J0oXx3rIR2
+	MJuRPUUnbzGgnyYiz1GPTV2NJR2ltzkpCB8bt98wEUWmEIWa4e12pV07fSJl7HvNe1Bit8XB3lp
+	9jp1aqXMi3ox/2LcGzfaBLWegNb312QuGQferwv3EqIr2hOMRdvNUy8aWn540s/hV9WhM6SivKr
+	9KLgtEP7Oj+J0Tu9JNgMGZopW2A7TggWHhBzrUI=
+X-Google-Smtp-Source: AGHT+IEmhY/XevE73lIO5R+T76MBj7DXNOF8lKpN8Jyne4r1vkv6Io8XVDa+jBnr77B+i8BS8pEL7A==
+X-Received: by 2002:a05:6512:3e23:b0:53d:ddc6:259e with SMTP id 2adb3069b0e04-53df0108cbcmr392654e87.11.1732710594838;
+        Wed, 27 Nov 2024 04:29:54 -0800 (PST)
+Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dd24953a1sm2276621e87.228.2024.11.27.04.29.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 04:15:01 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 27 Nov 2024 12:14:52 +0000
-Subject: [PATCH v2 4/4] media: uvcvideo: Remove redundant NULL assignment
+        Wed, 27 Nov 2024 04:29:54 -0800 (PST)
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v3 0/6] dt-bindings: media: camss: Fix interrupt types
+Date: Wed, 27 Nov 2024 14:29:44 +0200
+Message-ID: <20241127122950.885982-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241127-uvc-fix-async-v2-4-510aab9570dd@chromium.org>
-References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
-In-Reply-To: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 
-ctrl->handle will only be different than NULL for controls that have
-mappings. This is because that assignment is only done inside
-uvc_ctrl_set() for mapped controls.
+It was discovered that on a few Qualcomm platforms types of interrupts
+do not match the type given by the Qualcomm IP catalog, the type in
+downstream code and the type requested by the CAMSS driver itself.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+The mismatched interrupt type between firmware and the correspondent CAMSS
+driver leads to known problems, similar to the ones which were discussed
+previously:
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 99ddc5e9dff8..b9c9ff629ab6 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1645,10 +1645,8 @@ bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
- 	struct uvc_device *dev = chain->dev;
- 	struct uvc_ctrl_work *w = &dev->async_ctrl;
- 
--	if (list_empty(&ctrl->info.mappings)) {
--		ctrl->handle = NULL;
-+	if (list_empty(&ctrl->info.mappings))
- 		return false;
--	}
- 
- 	w->data = data;
- 	w->urb = urb;
+  https://lore.kernel.org/lkml/20220530080842.37024-4-manivannan.sadhasivam@linaro.org/
+
+Here the situation is essentially the same, namely a repeated bind of
+the CAMSS device is not possible due to a wrongly specified interrupt type,
+and it may lead to an issue in runtime manifested like this:
+
+  irq: type mismatch, failed to map hwirq-509 for interrupt-controller@17a00000!
+
+Changes from v2 to v3:
+* gave clear commit messages addressing Qualcomm IP, thanks to Depeng Shao,
+* hence keep Krzysztof Acked-by tag, since the only expressed concern was
+  a missing reference to the hardware specs,
+* added Reviewed-by tags from Bryan,
+
+Link to v2 of the changeset:
+
+  https://lore.kernel.org/all/20240923072827.3772504-1-vladimir.zapolskiy@linaro.org/
+
+Changes from v1 to v2:
+* added gained Acked-by, Tested-by and Reviewed-by tags,
+* per patch review requests from Krzysztof deduplicated "media:" from subjects.
+
+Link to v1 of the changeset:
+
+  https://lore.kernel.org/all/20240905164142.3475873-1-vladimir.zapolskiy@linaro.org/
+
+Vladimir Zapolskiy (6):
+  dt-bindings: media: qcom,sc8280xp-camss: Fix interrupt types
+  dt-bindings: media: qcom,sdm845-camss: Fix interrupt types
+  dt-bindings: media: qcom,sm8250-camss: Fix interrupt types
+  arm64: dts: qcom: sc8280xp: Fix interrupt type of camss interrupts
+  arm64: dts: qcom: sdm845: Fix interrupt types of camss interrupts
+  arm64: dts: qcom: sm8250: Fix interrupt types of camss interrupts
+
+ .../bindings/media/qcom,sc8280xp-camss.yaml   | 40 +++++++++----------
+ .../bindings/media/qcom,sdm845-camss.yaml     | 20 +++++-----
+ .../bindings/media/qcom,sm8250-camss.yaml     | 28 ++++++-------
+ arch/arm64/boot/dts/qcom/sc8280xp.dtsi        | 40 +++++++++----------
+ arch/arm64/boot/dts/qcom/sdm845.dtsi          | 20 +++++-----
+ arch/arm64/boot/dts/qcom/sm8250.dtsi          | 28 ++++++-------
+ 6 files changed, 88 insertions(+), 88 deletions(-)
 
 -- 
-2.47.0.338.g60cca15819-goog
+2.45.2
 
 
