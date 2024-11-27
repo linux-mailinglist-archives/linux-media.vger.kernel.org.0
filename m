@@ -1,225 +1,416 @@
-Return-Path: <linux-media+bounces-22145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22146-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50AD9DA4DE
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 10:36:24 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA3E9DA4E5
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 10:37:33 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F04C162E6F
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 09:36:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C11E7B25BC3
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 09:37:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3996B19340D;
-	Wed, 27 Nov 2024 09:36:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91325193417;
+	Wed, 27 Nov 2024 09:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A6cIR1kO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Rna7kMF2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE2018E373
-	for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 09:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47207193060;
+	Wed, 27 Nov 2024 09:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732700171; cv=none; b=COIPtQdTboYhAi21XycW4qntwpK5pRvRgZyF+eGhcMH93gWRFR2vAzhYSa1guc8IBV+/x7WdY8PJYQQUzGIuvvfC5/GynQW7v6reodCnWIchjCaCZKk/308RXKz7RpCtXF7j7daPfBGE3o2IzlcD3CuYgAsACmR+HMsI30LNHZs=
+	t=1732700244; cv=none; b=UaF+JMRjISHUtJSuhvB2j3A7sBrbLE7SbdT9HYJ9stoRACJKfr/q0elu0IKXnrotpST9D0Fx0dBL+gf5d8lRD2bm8c7S3AEtmxoaHk3nw8dSSJsIYvaJPbO+0UG4sjcb27WSPesFpB1tO/rT1LNqBYTu0dtxnB9SsyMYIkbw2/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732700171; c=relaxed/simple;
-	bh=3faT5F9J14w90KJBMsHvfrz0n9EfaIV2bM/RpbX0mzk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jvlf7sWtS7enft6N5S0/v3oZBS2Igs3Y8ojhVi6KIHHhhWCRyvF5++W32i1PB/JzBPxgEAjcJPEgP63+WGOonIoawNFZJYgtLbhzgYM+Ke6GQBwhgGejH4+AvchYhGUtns6CPvSr9oCY1Wlv7ma3YChiRoLInRSfd565PEQvBJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A6cIR1kO; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7251331e756so2668753b3a.3
-        for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 01:36:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732700169; x=1733304969; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EnK2dcdalpmGY5jgzTnos37anlqTQntnz3I6QcXPIDU=;
-        b=A6cIR1kO9WMZSxFXpFmBw0qxVjl31xVQM20UDU8ZfOfWQRaCvGY+ox7NRdYXN59jar
-         Chh1uRoECX5tpdkUCwbg/SgPB7cCWrhA/bNNchuLwkQUULE/RvghtVRqjE7GIrU/tV3Y
-         NVJ64IosAZAEJaixRpZ6HpddpT6UnXMnZ6eLw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732700169; x=1733304969;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EnK2dcdalpmGY5jgzTnos37anlqTQntnz3I6QcXPIDU=;
-        b=dg3S0aLb+k94TUpQQvK6T7EpaSOb+fcSPtxBOL6smcBoUf/bE2W4QoM02wIhx96Xv7
-         lONT1nNO+5pxSc5EMUYSUEngAC2azcVEJeEPhVQ4co+zKamqwhEVSRHVKlubWIuXrUVz
-         DySh6lndw9MfeZEOGz5ltctTXlgpfsxxyZ0bmMeMTpgbvizEzu2FChW8W/uC4lokCOLZ
-         nHugDJ7EAC5hAoS2xx1FURpX7UhYl95t8bvPeA86WKiaCTWK10i84DErUfs22cTd27PA
-         kTcAGJjD9IuoHJkacqTIyP+xVJWvEV6I7NcoWX0sV3FQdYSerKSkLF/5scpOHeTR/dlI
-         HCXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLyMkhdsHbECI+QxDKyVhPAzCk5A60zULMxPSMzIE/n7vplQl8LJl+UOC5VHSxbblAm7gx8sSeibY6ig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznyN6k9kdYvA6H+RG4LkvJgb+Ih9o8NXD4Eai6ayd+tFpp/mOI
-	W+d9a05zIVeQEsHIw/SvJ0rElBaIUAUlhe953T6C/onNs4fUhMTv+cl05DpBAdtwsRrN0RkGQSc
-	=
-X-Gm-Gg: ASbGncvduxpFyZ2cCStZbN7xTEV0z1+Ez/5n7H9kp8pqcXsyjd1bKE/gDRUVR8jjqAe
-	qX/IOY35rGx76ZuJ11GEdIDBtgyCPjgfZoV5PZsWCYwLDms3u0pQCPEnK+0iHw9QpuOOwlwFoX6
-	p9Ft2ZT9+T8WappDVAXHqkMqnmA+9Zbj577Nvgkhpu/pwiqMclERYZ0oPw26vzm5iD3C2ppoX4Q
-	8epZF1dO6vkoh9wKgarxHLxHO/RyN1+MOdosdIoPdLSxoGI2e/8VZ5bQII4ivMmVRi2acHgoM+X
-	gxohkdBbGNzpBy6+
-X-Google-Smtp-Source: AGHT+IEKt0/ZzEGYnMw1G4ytOF5+cpzvKbQsi+4YPyHB3O9nbnZcuJBk/dbYjjB6/ksTTczH1D1+Fw==
-X-Received: by 2002:a05:6a00:4092:b0:725:3152:4505 with SMTP id d2e1a72fcca58-7253152474cmr2426143b3a.4.1732700168884;
-        Wed, 27 Nov 2024 01:36:08 -0800 (PST)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com. [209.85.215.180])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fbcbfc0650sm10177243a12.4.2024.11.27.01.36.07
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2024 01:36:07 -0800 (PST)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7ea8c4ce232so5730533a12.0
-        for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 01:36:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW82RsjC7Wij2jhNOpMAUq9VkqLGRnaR3MNBK9RNGRy6DcEDnusq8HkLjEWNNKlgyGdDfEByc8vebReLg==@vger.kernel.org
-X-Received: by 2002:a05:6a21:3289:b0:1e0:d14b:d54c with SMTP id
- adf61e73a8af0-1e0e0b58d0fmr3827817637.30.1732700166977; Wed, 27 Nov 2024
- 01:36:06 -0800 (PST)
+	s=arc-20240116; t=1732700244; c=relaxed/simple;
+	bh=SQh5A74zeJ4kLZ2smIPegr1uRFLCN+SK/PXk4yOVJ0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TuXGl0tHTuUs6TDjLY09nxKmdcDzUd+9zCRZ0Se/D7n/3UuMLqdgWZosFeVMYbkdpVhSCJ4j1DUy45nhZHfQYWjczp8ClUL7VQMMb+Dnzn1FlOM6ms3E1nr6qSQsIfQGAg/e1vvIS9HttqU34Bz6/MU2PUaqsc6svLG6xb5vNLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Rna7kMF2; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:883a:fbdb:56c3:2e5a:271e:2a92])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 546B0792;
+	Wed, 27 Nov 2024 10:36:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732700217;
+	bh=SQh5A74zeJ4kLZ2smIPegr1uRFLCN+SK/PXk4yOVJ0I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Rna7kMF2Ltekhn/FDz73kqMgCkAl+J/6L1T43/tyZYBrTFkKDTFRcxnsFiX9AG76X
+	 Z99HXOU8HG6fb1UMR8DcO4dVNfwBM5OYk1MYhxkaeWK+hphyLWZ3GWNcKHln4xmlH2
+	 Mc+eeMgRgtj+xBBU+19AykC+8OF1l7J7nl8j4Qgo=
+Date: Wed, 27 Nov 2024 15:07:14 +0530
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, Vinay Varma <varmavinaym@gmail.com>
+Subject: Re: [PATCH v3 3/3] media: i2c: imx219: Scale the pixel rate for
+ analog binning
+Message-ID: <umnnd72lotwgm46bv43bn3vdvcuqxf3idurp63hbilosx3gs4o@gp63z27qtlxp>
+References: <20241125-imx219_fixes-v3-0-434fc0b541c8@ideasonboard.com>
+ <20241125-imx219_fixes-v3-3-434fc0b541c8@ideasonboard.com>
+ <Z0Xc6FYyYdLTUfll@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241120-uvc-readless-v4-0-4672dbef3d46@chromium.org>
- <20241120-uvc-readless-v4-1-4672dbef3d46@chromium.org> <20241126180616.GL5461@pendragon.ideasonboard.com>
- <CANiDSCuZkeV7jTVbNhnty8bMszUkb6g9czJfwDvRUFMhNdFp2Q@mail.gmail.com>
- <20241127083444.GV5461@pendragon.ideasonboard.com> <CANiDSCvvCtkiHHPCj0trox-oeWeh_rks3Cqm+kS9Hvtp9QC6Yg@mail.gmail.com>
- <20241127091400.GB31095@pendragon.ideasonboard.com>
-In-Reply-To: <20241127091400.GB31095@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 27 Nov 2024 10:35:54 +0100
-X-Gmail-Original-Message-ID: <CANiDSCs8o4SFx1TJYXNcWkgrzk6COoTxOKD1a02AuO4CYKxx+g@mail.gmail.com>
-Message-ID: <CANiDSCs8o4SFx1TJYXNcWkgrzk6COoTxOKD1a02AuO4CYKxx+g@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] media: uvcvideo: Support partial control reads
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 27 Nov 2024 at 10:14, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, Nov 27, 2024 at 09:58:21AM +0100, Ricardo Ribalda wrote:
-> > On Wed, 27 Nov 2024 at 09:34, Laurent Pinchart wrote:
-> > > On Tue, Nov 26, 2024 at 07:12:53PM +0100, Ricardo Ribalda wrote:
-> > > > On Tue, 26 Nov 2024 at 19:06, Laurent Pinchart wrote:
-> > > > > On Wed, Nov 20, 2024 at 03:26:19PM +0000, Ricardo Ribalda wrote:
-> > > > > > Some cameras, like the ELMO MX-P3, do not return all the bytes
-> > > > > > requested from a control if it can fit in less bytes.
-> > > > > > Eg: Returning 0xab instead of 0x00ab.
-> > > > > > usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
-> > > > > >
-> > > > > > Extend the returned value from the camera and return it.
-> > > > > >
-> > > > > > Cc: stable@vger.kernel.org
-> > > > > > Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
-> > > > > > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > ---
-> > > > > >  drivers/media/usb/uvc/uvc_video.c | 16 ++++++++++++++++
-> > > > > >  1 file changed, 16 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > > > > index cd9c29532fb0..482c4ceceaac 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > > > > @@ -79,6 +79,22 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
-> > > > > >       if (likely(ret == size))
-> > > > > >               return 0;
-> > > > > >
-> > > > > > +     /*
-> > > > > > +      * In UVC the data is usually represented in little-endian.
-> > > > >
-> > > > > I had a comment about this in the previous version, did you ignore it on
-> > > > > purpose because you disagreed, or was it an oversight ?
-> > > >
-> > > > I rephrased the comment. I added "usually" to make it clear that it
-> > > > might not be the case for all the data types. Like composed or xu.
-> > >
-> > > Ah, that's what you meant by "usually". I read it as "usually in
-> > > little-endian, but could be big-endian too", which confused me.
-> > >
-> > > Data types that are not integers will not work nicely with the
-> > > workaround below. How do you envision that being handled ? Do you
-> > > consider that the device will return too few bytes only for integer data
-> > > types, or that affected devices don't have controls that use compound
-> > > data types ? I don't see what else we could do so I'd be fine with such
-> > > a heuristic for this workaround, but it needs to be clearly explained.
-> >
-> > Non integer datatypes might work if the last part of the data is
-> > expected to be zero.
-> > I do not think that we can find a heuristic that can work for all the cases.
-> >
-> > For years we have ignored partial reads and it has never been an
-> > issue. I vote for not adding any heuristics, the logging should help
-> > identify future issues (if there is any).
->
-> What you're doing below is already a heuristic :-) I don't think the
-> code needs to be changed, but I'd like this comment to explain why we
-> consider that the heuristic in this patch is fine, to help the person
-> (possibly you or me) who will read this code in a year and wonder what's
-> going on.
-
-What about:
-
-* Some devices return shorter USB control packets than expected if the
-* returned value can fit in less bytes. Zero all the bytes that the
-* device has not written.
-*
-* This quirk is applied to all datatypes, even to non little-endian integers
-* or composite values. We exclude UVC_GET_INFO from the quirk.
-* UVC_GET_LEN does not need to be excluded because its size is
-* always 1.
-
->
-> > > > I also r/package/packet/
-> > > >
-> > > > Did I miss another comment?
-> > > >
-> > > > > > +      * Some devices return shorter USB control packets that expected if the
-> > > > > > +      * returned value can fit in less bytes. Zero all the bytes that the
-> > > > > > +      * device have not written.
-> > > > >
-> > > > > s/have/has/
-> > > > >
-> > > > > And if you meant to start a new paragraph here, a blank line is missing.
-> > > > > Otherwise, no need to break the line before 80 columns.
-> > > >
-> > > > The patch is already in the uvc tree. How do you want to handle this?
-> > >
-> > > The branch shared between Hans and me can be rebased, it's a staging
-> > > area.
-> >
-> > I will send a new version, fixing the typo. and the missing new line.
-> > I will also remove the sentence
-> > `* In UVC the data is usually represented in little-endian.`
-> > It is confusing.
-> >
-> > > > > > +      * We exclude UVC_GET_INFO from the quirk. UVC_GET_LEN does not need to
-> > > > > > +      * be excluded because its size is always 1.
-> > > > > > +      */
-> > > > > > +     if (ret > 0 && query != UVC_GET_INFO) {
-> > > > > > +             memset(data + ret, 0, size - ret);
-> > > > > > +             dev_warn_once(&dev->udev->dev,
-> > > > > > +                           "UVC non compliance: %s control %u on unit %u returned %d bytes when we expected %u.\n",
-> > > > > > +                           uvc_query_name(query), cs, unit, ret, size);
-> > > > > > +             return 0;
-> > > > > > +     }
-> > > > > > +
-> > > > > >       if (ret != -EPIPE) {
-> > > > > >               dev_err(&dev->udev->dev,
-> > > > > >                       "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="vaciytpsagh4qsad"
+Content-Disposition: inline
+In-Reply-To: <Z0Xc6FYyYdLTUfll@kekkonen.localdomain>
 
 
+--vaciytpsagh4qsad
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 3/3] media: i2c: imx219: Scale the pixel rate for
+ analog binning
+MIME-Version: 1.0
 
--- 
-Ricardo Ribalda
+Hi Sakari,
+
+On Nov 26, 2024 at 14:36:24 +0000, Sakari Ailus wrote:
+> Hi Jai,
+>=20
+> On Mon, Nov 25, 2024 at 08:36:27PM +0530, Jai Luthra wrote:
+> > When the analog binning mode is used for high framerate operation,
+> > the pixel rate is effectively doubled. Account for this when setting up
+> > the pixel clock rate, and applying the vblank and exposure controls.
+> >=20
+> > The previous logic only used analog binning for 8-bit modes, but normal
+> > binning limits the framerate on 10-bit 480p [1]. So with this patch we
+> > switch to using special binning (with 2x pixel rate) for all formats of
+> > 480p mode and 8-bit 1232p.
+> >=20
+> > [1]: https://github.com/raspberrypi/linux/issues/5493
+> >=20
+> > Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
+> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> > Co-developed-by: Vinay Varma <varmavinaym@gmail.com>
+> > Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
+> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> > ---
+> >  drivers/media/i2c/imx219.c | 120 ++++++++++++++++++++++++++++---------=
+--------
+> >  1 file changed, 76 insertions(+), 44 deletions(-)
+> >=20
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > index 970e6362d0ae3a9078daf337155e83d637bc1ca1..39b85cdee58318b080c867a=
+fd68ca33d14d3eda7 100644
+> > --- a/drivers/media/i2c/imx219.c
+> > +++ b/drivers/media/i2c/imx219.c
+> > @@ -149,6 +149,12 @@
+> >  #define IMX219_PIXEL_ARRAY_WIDTH	3280U
+> >  #define IMX219_PIXEL_ARRAY_HEIGHT	2464U
+> > =20
+> > +enum binning_mode {
+> > +	BINNING_NONE =3D IMX219_BINNING_NONE,
+> > +	BINNING_X2 =3D IMX219_BINNING_X2,
+> > +	BINNING_ANALOG_X2 =3D IMX219_BINNING_X2_ANALOG,
+> > +};
+> > +
+> >  /* Mode : resolution and related config&values */
+> >  struct imx219_mode {
+> >  	/* Frame width */
+> > @@ -337,6 +343,10 @@ struct imx219 {
+> > =20
+> >  	/* Two or Four lanes */
+> >  	u8 lanes;
+> > +
+> > +	/* Binning mode */
+> > +	enum binning_mode bin_h;
+> > +	enum binning_mode bin_v;
+> >  };
+> > =20
+> >  static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
+> > @@ -362,6 +372,36 @@ static u32 imx219_get_format_code(struct imx219 *i=
+mx219, u32 code)
+> >  	return imx219_mbus_formats[i];
+> >  }
+> > =20
+> > +static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *form=
+at)
+> > +{
+> > +	switch (format->code) {
+> > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > +		return 8;
+> > +
+> > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > +	default:
+> > +		return 10;
+> > +	}
+> > +}
+> > +
+> > +static int imx219_get_rate_factor(struct imx219 *imx219)
+> > +{
+> > +	switch (imx219->bin_v) {
+> > +	case BINNING_NONE:
+> > +	case BINNING_X2:
+> > +		return 1;
+> > +	case BINNING_ANALOG_X2:
+> > +		return 2;
+>=20
+> FWIW, what the CCS driver does is that it exposes different horizontal
+> blanking ranges for devices that use analogue binning. The rate is really
+> about reading pixels and with analogue binning the rate is the same, it's
+> just that fewer pixels are being (digitally) read (as they are binned). I
+> wonder if this would be a workable approach for this sensor, too. Of cour=
+se
+> if the LLP behaves differently for this sensor, then we should probably
+> just accept that.
+>=20
+
+IMX219 seems to be odd in this case, as the LLP doesn't change during=20
+analog binning. Shared some more details in this thread:
+
+https://lore.kernel.org/linux-media/20241125-imx219_fixes-v3-0-434fc0b541c8=
+@ideasonboard.com/T/#m1da4206e91db12b8e377dc686935195fc5f4bb68
+
+> > +	}
+> > +	return -EINVAL;
+> > +}
+> > +
+> >  /* -------------------------------------------------------------------=
+----------
+> >   * Controls
+> >   */
+> > @@ -373,10 +413,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  	struct i2c_client *client =3D v4l2_get_subdevdata(&imx219->sd);
+> >  	const struct v4l2_mbus_framefmt *format;
+> >  	struct v4l2_subdev_state *state;
+> > +	int rate_factor;
+>=20
+> u32?
+>=20
+
+Fixed.
+
+> >  	int ret =3D 0;
+> > =20
+> >  	state =3D v4l2_subdev_get_locked_active_state(&imx219->sd);
+> >  	format =3D v4l2_subdev_state_get_format(state, 0);
+> > +	rate_factor =3D imx219_get_rate_factor(imx219);
+> > =20
+> >  	if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+> >  		int exposure_max, exposure_def;
+> > @@ -405,7 +447,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  		break;
+> >  	case V4L2_CID_EXPOSURE:
+> >  		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
+> > -			  ctrl->val, &ret);
+> > +			  ctrl->val / rate_factor, &ret);
+>=20
+> Isn't the exposure in lines? It shouldn't be affected by the rate change,
+> shouldn't it?
+>=20
+
+=46rom the sensor datasheet the unit of FRAME_LENGTH register is updated=20
+to 2xLines when analog binning is used. And exposure and vertical=20
+blanking values are also in units of FRAME_LENGTH. This is also=20
+consistent with the behavior seen while testing.
+
+> >  		break;
+> >  	case V4L2_CID_DIGITAL_GAIN:
+> >  		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
+> > @@ -422,7 +464,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  		break;
+> >  	case V4L2_CID_VBLANK:
+> >  		cci_write(imx219->regmap, IMX219_REG_VTS,
+> > -			  format->height + ctrl->val, &ret);
+> > +			  (format->height + ctrl->val) / rate_factor, &ret);
+>=20
+> The same for vertical blanking.
+>=20
+> >  		break;
+> >  	case V4L2_CID_HBLANK:
+> >  		cci_write(imx219->regmap, IMX219_REG_HTS,
+> > @@ -463,7 +505,8 @@ static const struct v4l2_ctrl_ops imx219_ctrl_ops =
+=3D {
+> > =20
+> >  static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
+> >  {
+> > -	return (imx219->lanes =3D=3D 2) ? IMX219_PIXEL_RATE : IMX219_PIXEL_RA=
+TE_4LANE;
+> > +	return ((imx219->lanes =3D=3D 2) ? IMX219_PIXEL_RATE :
+> > +		IMX219_PIXEL_RATE_4LANE) * imx219_get_rate_factor(imx219);
+> >  }
+> > =20
+> >  /* Initialize control handlers */
+> > @@ -592,29 +635,12 @@ static int imx219_set_framefmt(struct imx219 *imx=
+219,
+> >  {
+> >  	const struct v4l2_mbus_framefmt *format;
+> >  	const struct v4l2_rect *crop;
+> > -	unsigned int bpp;
+> > -	u64 bin_h, bin_v;
+> > +	u32 bpp;
+> >  	int ret =3D 0;
+> > =20
+> >  	format =3D v4l2_subdev_state_get_format(state, 0);
+> >  	crop =3D v4l2_subdev_state_get_crop(state, 0);
+> > -
+> > -	switch (format->code) {
+> > -	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > -	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > -	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > -	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > -		bpp =3D 8;
+> > -		break;
+> > -
+> > -	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > -	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > -	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > -	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > -	default:
+> > -		bpp =3D 10;
+> > -		break;
+> > -	}
+> > +	bpp =3D imx219_get_format_bpp(format);
+> > =20
+> >  	cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
+> >  		  crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
+> > @@ -625,28 +651,8 @@ static int imx219_set_framefmt(struct imx219 *imx2=
+19,
+> >  	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
+> >  		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
+> > =20
+> > -	switch (crop->width / format->width) {
+> > -	case 1:
+> > -	default:
+> > -		bin_h =3D IMX219_BINNING_NONE;
+> > -		break;
+> > -	case 2:
+> > -		bin_h =3D bpp =3D=3D 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X=
+2;
+> > -		break;
+> > -	}
+> > -
+> > -	switch (crop->height / format->height) {
+> > -	case 1:
+> > -	default:
+> > -		bin_v =3D IMX219_BINNING_NONE;
+> > -		break;
+> > -	case 2:
+> > -		bin_v =3D bpp =3D=3D 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X=
+2;
+> > -		break;
+> > -	}
+> > -
+> > -	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
+> > -	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, bin_v, &ret);
+> > +	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, imx219->bin_h, &=
+ret);
+> > +	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, imx219->bin_v, &=
+ret);
+>=20
+> Please run:
+>=20
+> $ ./scripts/checkpatch.pl --strict --max-line-length=3D80
+>=20
+
+Oops, fixed in next revision.
+
+> > =20
+> >  	cci_write(imx219->regmap, IMX219_REG_X_OUTPUT_SIZE,
+> >  		  format->width, &ret);
+> > @@ -851,6 +857,27 @@ static int imx219_set_pad_format(struct v4l2_subde=
+v *sd,
+> >  		int exposure_max;
+> >  		int exposure_def;
+> >  		int hblank;
+> > +		int pixel_rate;
+> > +		u32 bpp =3D imx219_get_format_bpp(format);
+> > +		enum binning_mode binning =3D BINNING_NONE;
+> > +
+> > +		/*
+> > +		 * For 8-bit formats, analog horizontal binning is required,
+> > +		 * else the output image is garbage.
+> > +		 * For 10-bit formats, analog horizontal binning is optional,
+> > +		 * but still useful as it doubles the effective framerate.
+> > +		 * We can only use it with width <=3D 1624, as for higher values
+> > +		 * there are blocky artefacts.
+>=20
+> This comment would benefit from rewrapping.
+>=20
+
+Fixed.
+
+> > +		 *
+> > +		 * Vertical binning should match the horizontal binning mode.
+> > +		 */
+> > +		if (bin_h =3D=3D 2 && (format->width <=3D 1624 || bpp =3D=3D 8))
+> > +			binning =3D BINNING_ANALOG_X2;
+> > +		else
+> > +			binning =3D BINNING_X2;
+> > +
+> > +		imx219->bin_h =3D (bin_h =3D=3D 2) ? binning : BINNING_NONE;
+> > +		imx219->bin_v =3D (bin_v =3D=3D 2) ? binning : BINNING_NONE;
+>=20
+> It'd be also nice to move the state information to sub-device state.
+>=20
+
+I'm not sure I follow, do you mean the framework should store the=20
+binning mode, similar to how crop rectangle and interval are stored in=20
+v4l2_subdev_state?
+
+> > =20
+> >  		/* Update limits and set FPS to default */
+> >  		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> > @@ -879,6 +906,11 @@ static int imx219_set_pad_format(struct v4l2_subde=
+v *sd,
+> >  					 IMX219_PPL_MAX - mode->width,
+> >  					 1, IMX219_PPL_MIN - mode->width);
+> >  		__v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
+> > +
+> > +		/* Scale the pixel rate based on the mode specific factor */
+> > +		pixel_rate =3D imx219_get_pixel_rate(imx219);
+> > +		__v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
+> > +					 pixel_rate, 1, pixel_rate);
+> >  	}
+> > =20
+> >  	return 0;
+> >=20
+>=20
+> --=20
+> Kind regards,
+>=20
+> Sakari Ailus
+
+Thanks,
+Jai
+
+--vaciytpsagh4qsad
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmdG6EoACgkQQ96R+SSa
+cUXAKhAAzNTmYpcYfeU5K+wMywjLP91wbN4f+4vfUmDonuWjpvBOx16NlH8JnapY
+/k2KQ7ZsgQtKbkboH1eQa5wWpBLlvxOGfWUsro/NoacDT+9ASt8JZvyoBzAfTU6U
+TIzDF9cFYxpUG6Dm/KVNDmggtdnx3ShYrsBP+CoOoiPhqhtFMp9j20wFDo3ILvrI
+lwZUlDVikvOYZvjLHOLfqgUECLxgLRCPZoDF6yv7GoxBcxwjhXfwJ+tOd6lLTnwV
+8o8gIW6MXpmHer0gYw3Lk2mrUCAxEjwvui5a+RZybkPAB3uH1cZEuiOAPdQ1ZJO6
+fZbHegx1FEzveOQyYkSyxhtZvJS9fWpN+ufy73o5Lwn8+AabEL4mUOi4/e//EkA1
+/rscX+HeDq7LFOyL1NOwoSsQ8M0yU7mbKfrbbKxdOqWeTXZNZZg7DVKvhKZ8+dJ1
+jLLoac2cUGtqcFmrYQAWpqZnp8ht0MBEaVS4P7+LjbpYPAy904BK6FaUNpAyiAlU
+saGVobn+/7mjA8kBSyQ5gqlENfdyRnnzNc9g9LUw34p1gjyUzFkQ2MfXku6gfiOB
+FacDn5Rh8Soas/VbCJ0pouHVsJnH8FS4DWxQgaCKheGZKIlxZX5ekm1kSF2A0CQG
+1JgNiqfjQSfcudFprLW9c5QzbGb7nicLbam2ZQ2B4j3W09euX8A=
+=sIAJ
+-----END PGP SIGNATURE-----
+
+--vaciytpsagh4qsad--
 
