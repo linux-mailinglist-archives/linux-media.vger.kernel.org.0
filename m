@@ -1,328 +1,116 @@
-Return-Path: <linux-media+bounces-22169-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22170-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854759DA704
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 12:45:43 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 002FF9DA73D
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 12:54:28 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A234E165C9D
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 11:54:25 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A77571F9EB5;
+	Wed, 27 Nov 2024 11:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGCnhKAb"
+X-Original-To: linux-media@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30DAAB23470
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 11:45:12 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 585401F9A97;
-	Wed, 27 Nov 2024 11:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zCLs69t7"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52891F8EFA
-	for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 11:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32D51F9AB9;
+	Wed, 27 Nov 2024 11:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732707870; cv=none; b=jvzR+ydLw/3Y6cKZKEy+z6LOUEhFhnIo4y9pLD5s0Yy1Qq7+oVn09fveSIfNJ7jJAABJhh48R1y6X9utCEmS/JybRM1DPHT4185pzXchLPxIHhP4ZEeMhhkgqNp7rGEgwO58QKWcRNId/2hokPJOwLIcHl/mU+lu4HH4xV1zJwM=
+	t=1732708461; cv=none; b=VASv/rhiXbU92U0XZGRxFO8k8M/0kDp7BvzB465PIcmcJZL+stvazBsteDl2vDb/JjxPIndUGN6rXUMuRvD0bjQs9i6J3VwH50Dp5L7Tl0/n8bjXNr0HTHRACL2e07vCAStp+8Mz/amlY4POuvR+LRpTPcgzgmP/JJDVuJhypDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732707870; c=relaxed/simple;
-	bh=1/9/VRiAd3mFuJE0x6u0oROPGPE9qYr/1F5OkY7DYEU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jx/iX4JVT6hwfFQMAbxjCqfVNLVTQ1Zac4EvP/EVRPS+OQGBb/3UIxH0L0W2VQEcHLCV79jCNxWAeHvukYBsdRU/Vs6TVlINTqrpRBHQU8iyGa0N/7sIpNWPYfyQYSiBSMz3JF/zeaWewrEiBgcyhYxnv772bIXK+YQSyuVPzbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zCLs69t7; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-382456c6597so4655317f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 03:44:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732707866; x=1733312666; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LnTMbYbEVvxii8W+l8ai6UooboM0MmZTrUVAFR7MtHk=;
-        b=zCLs69t79ZWirMPyxEsZXr0KR5JG2QW+AjCd/CzTbwfGLCy/creAlRF1RSkZzR1R68
-         d1fRh8muV3MCkVqX3yRH4P+JJH1fypZwkpegdGW4Bzul4KpYMvLlsjEb6KSk01w2cs1k
-         y8JvmNWJuLj1tWuJwqBpIOdFzDt9xAz+H7xWfcwCYu1evNDyIxY+GFA+s4VEmw2uvLcZ
-         AU1hQmLPKn+U8q1l+2JvnXFshEwP2by/FHYZe7TeRZxFj4xkDCO03joBKTDs94LyJPtO
-         lVNPIru+44Zj0D0EzIZ6ARhtb1Jc/49eWuNapvDN7VDT7i4e28nGQegoJPz9nRLfy/Eu
-         Xvsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732707866; x=1733312666;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LnTMbYbEVvxii8W+l8ai6UooboM0MmZTrUVAFR7MtHk=;
-        b=c6yrayTBWVOFGZATi59rr9imFT6snCdloc/Ve3QACXPCQvt4uwvu04OLLRp8ZlzeKf
-         vjcocYAJEd7U1qRleP2DWeDDOIcnFAwRtkIDEh/LZ9VtGhwacVOUF77UXGnLygvRhiVr
-         ATvzQpCI2oCjf36Xapau1QHGCIdrKOFkIU/57e25x7MMdClAXJm5noVPceT/0G+57LCB
-         iajG425f6Ibapw/Ml7rfJjV8qULoeBHleWVozQuId3C58JYbiis0bbCYqxWmVvDxBH5Z
-         UW49wXvUtg2ERHm8SMa+oc7YmJ7Wwom7Bo/sDAHCEwpMs9Eun5LGrIS+t05zaJlGmVUo
-         oVyg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7kYtjpZSxAYQeEoe6bwhanyeGBGlqsnq0ZX3RkhNko+DfMSzYfMFQ5UbOodcQWlMUHo2Vw1anwcJ7sQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXaJNZvYzLRsV86p4T/vG/MXJEPvaCuSBb9jB0x0MdMTo/cnaE
-	c8hfXd1XqlIjG4MKfCdLytudEOugQJXXI9lcGrfb2UzM+8luDler4GDpLDmPE+E=
-X-Gm-Gg: ASbGncv0ZeHMPbFSCmdLMfGQHoiW9ouHHSxVmzXDDByikWuVHynLEEq+Zk7TndnSM62
-	6+Nhr3U5uautE4lU0OXo1OhND7u1R9u6zKVYGhgrD0M8nk2f31agmX7MKjLVBBFfpy5ndmj8RMr
-	ZE2Z7SzTTqfzK+3BYr9Ak8o85eKBs+O5D98UDow3nCH1PvjuT3wZPHFp4q+ifLpS748NzaJ2Rg3
-	GqWc2kjK/0XdwGZdyme+lPeMNraEhwDVWGBsTMWBxd9tsD1rWuAJzyCazw=
-X-Google-Smtp-Source: AGHT+IF5ZhbCzEdkKznd3LHBZsnasdt6BaSYSH7dOIUFLv/x9YltrVQYTK9B2mfEuyaqXO37/Rv+9g==
-X-Received: by 2002:a5d:5984:0:b0:382:5206:8b7e with SMTP id ffacd0b85a97d-385c6eb92femr1958078f8f.15.1732707865964;
-        Wed, 27 Nov 2024 03:44:25 -0800 (PST)
-Received: from [127.0.0.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fbc3531sm16463586f8f.80.2024.11.27.03.44.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 03:44:25 -0800 (PST)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Wed, 27 Nov 2024 11:44:22 +0000
-Subject: [PATCH v2 3/3] media: dt-bindings: qcom-venus: Deprecate
- video-decoder and video-encoder where applicable
+	s=arc-20240116; t=1732708461; c=relaxed/simple;
+	bh=ingiu8Is0gIqc7ye0l8v05VsgLPVlyvjFoKYuB7VVfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gD6LwS5h6Shn4iEd0uX8R4KsPGJdAH4HGkZPKSgY8eqwEQgD65JRzynLl8r5VfUHRsLPa0SyTXdtI5Od8PNnSoEXuT96uAWQrJJtyDdqn6PPeC1Vmu6EGqi3qN33VzhdgeT8OOWKTvK5Khno3+OUhH/VCk0bZ594O2HMyKTZUbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGCnhKAb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA875C4CECC;
+	Wed, 27 Nov 2024 11:54:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732708460;
+	bh=ingiu8Is0gIqc7ye0l8v05VsgLPVlyvjFoKYuB7VVfo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dGCnhKAbHbqJ7sDumaQsHH6FS0bKbCou1rtVCQPfGoQuJOXWlL9viE1KumuJr0VuF
+	 ZHLVxorsNhisc4O3C83gfvGgJ9IezEP1ZruG0/cG6PignglPSDfczcPURm/5dnTUrz
+	 2TDS0EzyLxVRImdoodhCse3TRoH9KaDeIPVfRtZYqaOVnPnjm1ODIMADZ1Qdq7N2kr
+	 lgutNJq5N5njb0x6DSYj80sGvsn3649atx+RepNAWxzDCNjaDQ8tYUiQAD4X8H7Fer
+	 cJY5MVRhH+/XCzgwZDAqBNwW3D3Qp4badom/TmyoQVTm3vOpHPZoYxr5d0DcWL56PA
+	 8hXj+JejvPbkQ==
+Date: Wed, 27 Nov 2024 12:54:15 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>
+Subject: Re: [PATCH] docs: media: document media multi-committers rules and
+ process
+Message-ID: <20241127124629.704809f1@foz.lan>
+In-Reply-To: <20241127103948.501b5a05@foz.lan>
+References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
+	<20241126151930.GA5493@pendragon.ideasonboard.com>
+	<20241127103948.501b5a05@foz.lan>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241127-media-staging-24-11-25-rb3-hw-compat-string-v2-3-c010fd45f7ff@linaro.org>
-References: <20241127-media-staging-24-11-25-rb3-hw-compat-string-v2-0-c010fd45f7ff@linaro.org>
-In-Reply-To: <20241127-media-staging-24-11-25-rb3-hw-compat-string-v2-0-c010fd45f7ff@linaro.org>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
- Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: quic_renjiang@quicinc.com, quic_vnagar@quicinc.com, 
- quic_dikshita@quicinc.com, konradybcio@kernel.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Stanimir Varbanov <stanimir.varbanov@linaro.org>, 
- devicetree@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.15-dev-dedf8
 
-For the list of yaml files here the video-decoder and video-encoder nodes
-provide nothing more than configuration input for the driver. These entries
-do not in fact impart hardware specific data and should be deprecated.
+Em Wed, 27 Nov 2024 10:39:48 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> > This workflow doesn't apply to patch submitters who are not allowed to
+> > send pull requests and who don't have direct commit access. I thought
+> > these submitters are the main audience of this document. In that case, I
+> > think moving the next section that explains the e-mail workflow before
+> > the "Media development workflow" section (which should likely be renamed
+> > to make it clear that it is about merging patches, not developing them)
+> > would be best. The "Review Cadence" section could also be folded in
+> > there, to give a full view of what a submitter can expect.
+> > 
+> > This would also have the advantage of introducing the linuvtv.org
+> > patchwork instance, which you reference above. Documents are more
+> > readable when they introduce concepts first before using them.  
+> 
+> Will try to do such change at v2.
+
+Actually, both workflows (a) and (b) apply to the ones that can't
+send pull requests or push at media-committers.git:
+
 ---
- .../devicetree/bindings/media/qcom,msm8916-venus.yaml        | 12 ++----------
- .../devicetree/bindings/media/qcom,sc7180-venus.yaml         | 12 ++----------
- .../devicetree/bindings/media/qcom,sc7280-venus.yaml         | 12 ++----------
- .../devicetree/bindings/media/qcom,sdm845-venus-v2.yaml      | 12 ++----------
- .../devicetree/bindings/media/qcom,sm8250-venus.yaml         | 12 ++----------
- 5 files changed, 10 insertions(+), 50 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-index 9410f13ca97c181973c62fe62d0399fc9e82f05d..da140c2e3d3f3c3e886496e3e2303eda1df99bb4 100644
---- a/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,msm8916-venus.yaml
-@@ -45,6 +45,7 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
-   video-encoder:
-@@ -57,13 +58,12 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
- required:
-   - compatible
-   - iommus
--  - video-decoder
--  - video-encoder
- 
- unevaluatedProperties: false
- 
-@@ -83,12 +83,4 @@ examples:
-         power-domains = <&gcc VENUS_GDSC>;
-         iommus = <&apps_iommu 5>;
-         memory-region = <&venus_mem>;
--
--        video-decoder {
--            compatible = "venus-decoder";
--        };
--
--        video-encoder {
--            compatible = "venus-encoder";
--        };
-     };
-diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-index 5cec1d077cda77817f6d876109defcb0abbfeb2c..83c4a5d95f020437bd160d6456850bc84a2cf5ff 100644
---- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-@@ -70,6 +70,7 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
-   video-encoder:
-@@ -82,14 +83,13 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
- required:
-   - compatible
-   - power-domain-names
-   - iommus
--  - video-decoder
--  - video-encoder
- 
- unevaluatedProperties: false
- 
-@@ -114,12 +114,4 @@ examples:
-                       "vcodec0_core", "vcodec0_bus";
-         iommus = <&apps_smmu 0x0c00 0x60>;
-         memory-region = <&venus_mem>;
--
--        video-decoder {
--            compatible = "venus-decoder";
--        };
--
--        video-encoder {
--            compatible = "venus-encoder";
--        };
-     };
-diff --git a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-index 10c334e6b3dcf25967fa438f8e6e5035448af1b9..413c5b4ee6504ba1d5fe9f74d5be04ad8c90c318 100644
---- a/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sc7280-venus.yaml
-@@ -68,6 +68,7 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
-   video-encoder:
-@@ -80,14 +81,13 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
- required:
-   - compatible
-   - power-domain-names
-   - iommus
--  - video-decoder
--  - video-encoder
- 
- unevaluatedProperties: false
- 
-@@ -125,14 +125,6 @@ examples:
- 
-         memory-region = <&video_mem>;
- 
--        video-decoder {
--            compatible = "venus-decoder";
--        };
--
--        video-encoder {
--            compatible = "venus-encoder";
--        };
--
-         video-firmware {
-             iommus = <&apps_smmu 0x21a2 0x0>;
-         };
-diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-index 6228fd2b324631f3138e128c918266da58f6b544..c839cb1ebc0999e10b865f4bb43ea76ffa2bf46d 100644
---- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-@@ -70,6 +70,7 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
-   video-core1:
-@@ -82,14 +83,13 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
- required:
-   - compatible
-   - power-domain-names
-   - iommus
--  - video-core0
--  - video-core1
- 
- unevaluatedProperties: false
- 
-@@ -119,12 +119,4 @@ examples:
-         iommus = <&apps_smmu 0x10a0 0x8>,
-                  <&apps_smmu 0x10b0 0x0>;
-         memory-region = <&venus_mem>;
--
--        video-core0 {
--            compatible = "venus-decoder";
--        };
--
--        video-core1 {
--            compatible = "venus-encoder";
--        };
-     };
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-index f66033ae8b590e7b6f1e344c368994744411aca2..da54493220c9dc90e7d9f5fcfce7590acb241c85 100644
---- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
-@@ -73,6 +73,7 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
-   video-encoder:
-@@ -85,6 +86,7 @@ properties:
-     required:
-       - compatible
- 
-+    deprecated: true
-     additionalProperties: false
- 
- required:
-@@ -95,8 +97,6 @@ required:
-   - iommus
-   - resets
-   - reset-names
--  - video-decoder
--  - video-encoder
- 
- unevaluatedProperties: false
- 
-@@ -132,12 +132,4 @@ examples:
-         resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>,
-                  <&videocc VIDEO_CC_MVS0C_CLK_ARES>;
-         reset-names = "bus", "core";
--
--        video-decoder {
--            compatible = "venus-decoder";
--        };
--
--        video-encoder {
--            compatible = "venus-encoder";
--        };
-     };
+a. Normal workflow: patches are handled by subsystem maintainers::
 
--- 
-2.47.0
+     +------+   +---------+   +-------+   +-----------------------+   +---------+
+     |e-mail|-->|patchwork|-->|pull   |-->|maintainers merge      |-->|media.git|
+     +------+   +---------+   |request|   |in media-committers.git|   +---------+
+                              +-------+   +-----------------------+
 
+   For this workflow, pull requests can be generated by a committer,
+   a previous committer, subsystem maintainers or by a couple of trusted
+   long-time contributors. If you are not in such group, please don't submit
+   pull requests, as they will likely be ignored.
+
+b. Committers' workflow: patches are handled by media committers::
+
+     +------+   +---------+   +--------------------+   +-----------+   +---------+
+     |e-mail|-->|patchwork|-->|committers merge at |-->|maintainers|-->|media.git|
+     +------+   +---------+   |media-committers.git|   |approval   |   +---------+
+                              +--------------------+   +-----------+
+
+---
+
+No matter who sent an e-mail, this will be picked by patchwork and either
+be part of a PR or a MR, depending on who picked it.
+
+Thanks,
+Mauro
 
