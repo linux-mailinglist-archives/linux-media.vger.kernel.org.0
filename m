@@ -1,222 +1,257 @@
-Return-Path: <linux-media+bounces-22129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22130-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55269DA355
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 08:46:58 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA61D9DA38D
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 09:07:42 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97E3C1666C1
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 08:07:39 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7401417BB32;
+	Wed, 27 Nov 2024 08:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Fa8eiGFH"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66C8E282E7F
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 07:46:57 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D643D18C34B;
-	Wed, 27 Nov 2024 07:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FEepfIsQ"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C320B17B418
-	for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 07:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1622AF9DD;
+	Wed, 27 Nov 2024 08:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732693587; cv=none; b=cM3SSqodKd5+nuTUYrjaGa6SSBMvjfP02vz9CwYxfrKJMk4SF109JS+nGICMIH1SG9EuuVCss83sBIuPrSaRwJ541KB4kALdrrZL8W0r3+RVHuG2aNqIL2Du9CPe4LyXhwHKR5TxZUQYQgY25WImdIxyxVRpM1pz10puRATEBUI=
+	t=1732694853; cv=none; b=nl+zw3C5YGSU/BF347zeuJtRbVp2PB1VrrDFuHrpFVXW7+ZhscxFpn/MpXezTq3XUliZiHVBbHru1eqzAbLBUulYLZhayD0ssIRrYjZplUAGREnyH+pDJ0JXXCVRPYvGKGA1HMnWCmYM4bYIX73F5DAu8qmY5L8s6NZ9+5OznR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732693587; c=relaxed/simple;
-	bh=wsupc+qJZWfWzVfaFmE6CWRDyNHqRQr4iSu156pifPM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TsVn3jAXDFK6JaEanJiUcV5YJ8lX15XEdHH+AkBTTY52YQODxqJTT/uYVNwmgtXEF42HCDQlV/tLcPDUz6eeXZqsQ/pfAphuHChFMcvuDTg+sTtV4rzZNGB+wov/MXmm+IMT4+5uMOkMdCU8XdPWDr3nLUIokW6aEtmpz84XmF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FEepfIsQ; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6d41eeca2d6so47048986d6.1
-        for <linux-media@vger.kernel.org>; Tue, 26 Nov 2024 23:46:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732693584; x=1733298384; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S6+TDrLkgXM9/PtCs6e0qWgX2PpjlMIZQ4o/NRcpkPc=;
-        b=FEepfIsQqghG5+AY7JdtOFU2R0W67wOJgJWPVC8LAvHY7YvxqFbtjDKGBlLel6BQtz
-         WiPkoRBZK4IOHPo6MUDMkaFTkLk3QhDTFRYL5PJbKck0Zu8NFesG6rpzz1dvdSwGx5P+
-         QGp6OehKOMZmMngVAiqAxtVQqG+QolX2mpvaQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732693584; x=1733298384;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S6+TDrLkgXM9/PtCs6e0qWgX2PpjlMIZQ4o/NRcpkPc=;
-        b=agFCWjcgdFbcdJs3TA9/6OrFQNfP9l4TzNCbL4pWMqiqQDYlFYfQ1QH2kzzR1JstZ2
-         ZJRc4Vg8aNencOtdMmJyPAFr7JGp0oE/sWndscqAa68LZxKO/1rbf9PU+EXJi23WVO4Q
-         QR9h6b6XVkRZXyt1Fg6IQrySxZpXafS3z+RBWDSsEughcpiyHaVr4CFpYshS/RzvwlqQ
-         jIVqLm58EuwvUFDjqUSftNZ60aGpRufdtPfx2oM9qZL34Xhus/n3ur11oBTpvFBvDtAB
-         9llIxind/DN0bq17PvJOWVFnFPbyRhgIxcGhgtHnKTYdWDg6RlGC/7MNgSXS3xVMB4Il
-         Pbmg==
-X-Forwarded-Encrypted: i=1; AJvYcCXQPNNAmBLmhNA/s58mHHVotUkZ8TJHOHphxzcV/edocHDdrNeZa8UH4amlcXqIyvOW7zJMWs1iDeat5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YywikoEUKUtfBrF4yhD1eEE31gR7SsTVTFED+d/Rltr/q5Yov/K
-	Wa8UXfbQE90TZPueKzVE8EehijlWvgtBYjv34KhAOqXzL3Hy8P5k2VCIIM1iMQ==
-X-Gm-Gg: ASbGnctSkfndfmTp68VjrLQtUc9Ko1fvS5ZbSeq1Vox/AXjWZllDLBfLqlUT8A/X9Qk
-	8MUxtXfCHNJF9yNOuoG67D5CAFO7kIRisYWoa/i75lD4MSrPAa3pzo+uQA9wCxEGZty9ST/THzW
-	w5S4mzV39GeNhKCpjq5pvcj3lwCyQtvACf4DopYJrukwWy/mlNL1duQ5zNw2qlzFyYsd6DUGLpq
-	rHPGEMhGOuexC5IjlQysjSJw0U2ovZjL9MzeuZj12G8+mJtMPHxJD3ysAQTQUsbq3bet2zwfJzy
-	r8ZfcQgs6gR9Ya3xnBLpy8Nx
-X-Google-Smtp-Source: AGHT+IHa7Pn2PDpYTelow+sIFnWl3x1JrObmzUG1+LV1s9m1wO2itR1j+AfGUfW2xoUFqinWiiyXvA==
-X-Received: by 2002:a05:6214:2587:b0:6d4:1425:6d2b with SMTP id 6a1803df08f44-6d864dcb836mr30231026d6.36.1732693583896;
-        Tue, 26 Nov 2024 23:46:23 -0800 (PST)
-Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d451a97b1asm63750386d6.40.2024.11.26.23.46.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 23:46:22 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 27 Nov 2024 07:46:11 +0000
-Subject: [PATCH 2/2] media: uvcvideo: Remove dangling pointers
+	s=arc-20240116; t=1732694853; c=relaxed/simple;
+	bh=d+++Xyqx7hdZ+Uos44z9rtcxTP3mILukeQccLMg/MkI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Lr7w4K7lH0wQH/cyozZVZtDo+IHgnm1AJ27BEA2DkBb5Pb26EetVm0qMQgt5RSvKrRWpHm9XYycdW68HAF0GbXLH1N1UBzf+FOJFKHVuJUVLhjw2GymRkCV52o7ROZQxRDaeVljvsVPfP76zGHBUNwDZtFCNxyxeeltvJOGMOZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Fa8eiGFH; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQKLZJ4007384;
+	Wed, 27 Nov 2024 08:07:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	qOhnpcodZITKmMkpmRrbUNf8xTWmfG5w4jeaq6KpG8w=; b=Fa8eiGFHZ/066f5m
+	KPoEfQaJLgDJJslUUidP5mNqBRLbdIGuW5B4YJ9gRn35NOnuM6XOh8sB93XNdfF3
+	Kv4Nlu3re+J7NWOXo5DEiWfPyBerKcLVD7nsa/dqNBYWYY3Zyci7wtVKiviNbu7D
+	TOL8xo92BOx6MltRbS1LeDOri+GwZbwtl2lDUAH7sQMLbYZK43LMYrftiakejTj4
+	eJq778HK9HD+Zb1MEkI5gDLj6LIBRCd17D6hisM7246Jz7Ujk/P3oUDopL8G5MZ9
+	4znzmHfMeZFAmIzgbZ3wRuzz1B6yjQqOyS4MDA9DrRVdusehPiDoGiAHXt66BXfL
+	ZNOFjQ==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 435cmqu2f4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Nov 2024 08:07:24 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AR87NSR002499
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Nov 2024 08:07:23 GMT
+Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 27 Nov
+ 2024 00:07:18 -0800
+Message-ID: <3de91bd8-ba8f-2779-71e5-81295bd941e4@quicinc.com>
+Date: Wed, 27 Nov 2024 13:37:15 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 2/4] media: venus: core: add qcs615 platform data
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Renjiang Han
+	<quic_renjiang@quicinc.com>
+CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        "bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+        "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Bjorn
+ Andersson" <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        <quic_qiweil@quicinc.com>
+References: <20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com>
+ <20241125-add-venus-for-qcs615-v3-2-5a376b97a68e@quicinc.com>
+ <j4nnlbstclwgoy2cr4dvoebd62by7exukvo6nfekg4lt6vi3ib@tevifuxaawua>
+ <da432de1369e4ce799c72ce98c9baaf1@quicinc.com>
+ <ro5nx6brovd7inyy6tkrs7newszcxrzymfbsftejgpglz3gs6v@pscij26xmmco>
+ <36fdb3d7-fd48-43a9-a392-336038db71a2@quicinc.com>
+ <l4mnw6fu3cdbmqs4bxeykm73p2pb5u7vr5wh6zq5gf5y3fydsw@t3pijaf7qymf>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <l4mnw6fu3cdbmqs4bxeykm73p2pb5u7vr5wh6zq5gf5y3fydsw@t3pijaf7qymf>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241127-uvc-fix-async-v1-2-eb8722531b8c@chromium.org>
-References: <20241127-uvc-fix-async-v1-0-eb8722531b8c@chromium.org>
-In-Reply-To: <20241127-uvc-fix-async-v1-0-eb8722531b8c@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
-X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Cmk-5fSUUW9Ta2gYm_c9FhnmBidm6sdN
+X-Proofpoint-ORIG-GUID: Cmk-5fSUUW9Ta2gYm_c9FhnmBidm6sdN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 spamscore=0
+ lowpriorityscore=0 mlxscore=0 phishscore=0 malwarescore=0 mlxlogscore=999
+ impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
+ definitions=main-2411270066
 
-When an async control is written, we copy a pointer to the file handle
-that started the operation. That pointer will be used when the device is
-done. Which could be anytime in the future.
 
-If the user closes that file descriptor, its structure will be freed,
-and there will be one dangling pointer per pending async control, that
-the driver will try to use.
+On 11/26/2024 5:33 PM, Dmitry Baryshkov wrote:
+> On Tue, Nov 26, 2024 at 03:40:47PM +0800, Renjiang Han wrote:
+>>
+>> On 11/26/2024 12:20 AM, Dmitry Baryshkov wrote:
+>>> On Mon, Nov 25, 2024 at 03:34:19PM +0000, Renjiang Han (QUIC) wrote:
+>>>> On Monday, November 25, 2024 9:36 PM, Dmitry Baryshkov wrote:
+>>>>> On Mon, Nov 25, 2024 at 11:04:50AM +0530, Renjiang Han wrote:
+>>>>>> Initialize the platform data and enable venus driver probe of QCS615
+>>>>>> SoC.
+>>>>>>
+>>>>>> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com> >
+>>>>>> ---
+>>>>>>   drivers/media/platform/qcom/venus/core.c | 50
+>>>>>> ++++++++++++++++++++++++++++++++
+>>>>>>   1 file changed, 50 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/media/platform/qcom/venus/core.c
+>>>>>> b/drivers/media/platform/qcom/venus/core.c
+>>>>>> index
+>>>>>> 423deb5e94dcb193974da23f9bd2d905bfeab2d9..39d8bcf62fe4f72674746b75994c
+>>>>>> ce6cbaee94eb 100644
+>>>>>> --- a/drivers/media/platform/qcom/venus/core.c
+>>>>>> +++ b/drivers/media/platform/qcom/venus/core.c
+>>>>>> @@ -630,6 +630,55 @@ static const struct venus_resources msm8998_res = {
+>>>>>>   	.fwname = "qcom/venus-4.4/venus.mbn",  };
+>>>>>> +static const struct freq_tbl qcs615_freq_table[] = {
+>>>>>> +	{ 0, 460000000 },
+>>>>>> +	{ 0, 410000000 },
+>>>>>> +	{ 0, 380000000 },
+>>>>>> +	{ 0, 300000000 },
+>>>>>> +	{ 0, 240000000 },
+>>>>>> +	{ 0, 133333333 },
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct bw_tbl qcs615_bw_table_enc[] = {
+>>>>>> +	{  972000,  951000, 0, 1434000, 0 },	/* 3840x2160@30 */
+>>>>>> +	{  489600,  723000, 0,  973000, 0 },	/* 1920x1080@60 */
+>>>>>> +	{  244800,  370000, 0,	495000, 0 },	/* 1920x1080@30 */
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct bw_tbl qcs615_bw_table_dec[] = {
+>>>>>> +	{ 1036800, 1987000, 0, 2797000, 0 },	/* 4096x2160@30 */
+>>>>>> +	{  489600, 1040000, 0, 1298000, 0 },	/* 1920x1080@60 */
+>>>>>> +	{  244800,  530000, 0,  659000, 0 },	/* 1920x1080@30 */
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct venus_resources qcs615_res = {
+>>>>>> +	.freq_tbl = qcs615_freq_table,
+>>>>>> +	.freq_tbl_size = ARRAY_SIZE(qcs615_freq_table),
+>>>>>> +	.bw_tbl_enc = qcs615_bw_table_enc,
+>>>>>> +	.bw_tbl_enc_size = ARRAY_SIZE(qcs615_bw_table_enc),
+>>>>>> +	.bw_tbl_dec = qcs615_bw_table_dec,
+>>>>>> +	.bw_tbl_dec_size = ARRAY_SIZE(qcs615_bw_table_dec),
+>>>>>> +	.clks = {"core", "iface", "bus" },
+>>>>>> +	.clks_num = 3,
+>>>>>> +	.vcodec0_clks = { "vcodec0_core", "vcodec0_bus" },
+>>>>>> +	.vcodec_clks_num = 2,
+>>>>>> +	.vcodec_pmdomains = (const char *[]) { "venus", "vcodec0" },
+>>>>>> +	.vcodec_pmdomains_num = 2,
+>>>>>> +	.opp_pmdomain = (const char *[]) { "cx" },
+>>>>>> +	.vcodec_num = 1,
+>>>>>> +	.hfi_version = HFI_VERSION_4XX,
+>>>>>> +	.vpu_version = VPU_VERSION_AR50,
+>>>>>> +	.vmem_id = VIDC_RESOURCE_NONE,
+>>>>>> +	.vmem_size = 0,
+>>>>>> +	.vmem_addr = 0,
+>>>>>> +	.dma_mask = 0xe0000000 - 1,
+>>>>>> +	.cp_start = 0,
+>>>>>> +	.cp_size = 0x70800000,
+>>>>>> +	.cp_nonpixel_start = 0x1000000,
+>>>>>> +	.cp_nonpixel_size = 0x24800000,
+>>>>>> +	.fwname = "qcom/venus-5.4/venus_s6.mbn",
+>>>>> I really want the firmware discussion of linux-firmware to be solved first,
+>>>>> before we land this patch.
+>>>>> SHort summary: can we use a single image for all 5.4 platforms (by using
+>>>>> v5 signatures, by using v6 signatures, v3 or any other kind of quirk).
+>>>> Thanks for your comment. We have discussed with the firmware team and
+>>>> other teams if we can use the same firmware binary. The result is we'd better
+>>>> use different firmware files. They should respond in the firmware binary
+>>>> thread. I will push them and hope them respond as quickly as possible and
+>>>> give reasons.
+>>>>>> +};
+>>>>>> +
+>>>>>>   static const struct freq_tbl sdm660_freq_table[] = {
+>>>>>>   	{ 979200, 518400000 },
+>>>>>>   	{ 489600, 441600000 },
+>>>>>> @@ -937,6 +986,7 @@ static const struct of_device_id venus_dt_match[] = {
+>>>>>>   	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
+>>>>>>   	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
+>>>>>>   	{ .compatible = "qcom,msm8998-venus", .data = &msm8998_res, },
+>>>>>> +	{ .compatible = "qcom,qcs615-venus", .data = &qcs615_res, },
+>>>>> The hardware seems to be the same as sc7180, only the frequencies differ.
+>>>>> Can we change the driver in a way that we don't have to add another
+>>>>> compat entry just for the sake of changing freqs / bandwidths?
+>>>> Thank you for your comment. I agree with you. But based on the Venus code
+>>>> architecturE ANd the distinction between different platforms, I think the
+>>>> current changes are the simplest.
+>>> Well, it is simplest, correct. But not the best one. There is no plan no
+>>> migrate these platforms to the iris driver. So instead, please improve
+>>> the venus driver instead of just pushing the simplest change. I should
+>>> have been more explicit about it earlier.
+>>
+>> Based on the current code architecture, I don't know if there is a better
+>> way. If we
+>>
+>> refactor the code, it will take a lot of effort.
+> 
+> Yes, please. The freq_tbl contents is a duplicate of the OPP table in
+> DT. Drop it from the driver.
+Agree, we should reuse OPP table in this case to set the required rate.
+Renjiang, let us know your findings with using opp table.
 
-Clean all the dangling pointers during release().
-
-To avoid adding a performance penalty in the most common case (no async
-operation). A counter has been introduced with some logic to make sure
-that it is properly handled.
-
-Cc: stable@vger.kernel.org
-Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 40 ++++++++++++++++++++++++++++++++++++++--
- drivers/media/usb/uvc/uvc_v4l2.c |  2 ++
- drivers/media/usb/uvc/uvcvideo.h |  3 +++
- 3 files changed, 43 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 5d3a28edf7f0..51a53ad25e9c 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1589,7 +1589,12 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
- 	mutex_lock(&chain->ctrl_mutex);
- 
- 	handle = ctrl->handle;
--	ctrl->handle = NULL;
-+	if (handle) {
-+		ctrl->handle = NULL;
-+		WARN_ON(!handle->pending_async_ctrls);
-+		if (handle->pending_async_ctrls)
-+			handle->pending_async_ctrls--;
-+	}
- 
- 	list_for_each_entry(mapping, &ctrl->info.mappings, list) {
- 		s32 value = __uvc_ctrl_get_value(mapping, data);
-@@ -2050,8 +2055,11 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 	mapping->set(mapping, value,
- 		uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
- 
--	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
-+	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS) {
-+		if (!ctrl->handle)
-+			handle->pending_async_ctrls++;
- 		ctrl->handle = handle;
-+	}
- 
- 	ctrl->dirty = 1;
- 	ctrl->modified = 1;
-@@ -2774,6 +2782,34 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
- 	return 0;
- }
- 
-+void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-+{
-+	struct uvc_entity *entity;
-+
-+	guard(mutex)(&handle->chain->ctrl_mutex);
-+
-+	if (!handle->pending_async_ctrls)
-+		return;
-+
-+	list_for_each_entry(entity, &handle->chain->dev->entities, list) {
-+		int i;
-+
-+		for (i = 0; i < entity->ncontrols; ++i) {
-+			struct uvc_control *ctrl = &entity->controls[i];
-+
-+			if (!ctrl->handle || ctrl->handle != handle)
-+				continue;
-+
-+			ctrl->handle = NULL;
-+			if (WARN_ON(!handle->pending_async_ctrls))
-+				continue;
-+			handle->pending_async_ctrls--;
-+		}
-+	}
-+
-+	WARN_ON(handle->pending_async_ctrls);
-+}
-+
- /*
-  * Cleanup device controls.
-  */
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 97c5407f6603..b425306a3b8c 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -652,6 +652,8 @@ static int uvc_v4l2_release(struct file *file)
- 
- 	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
- 
-+	uvc_ctrl_cleanup_fh(handle);
-+
- 	/* Only free resources if this is a privileged handle. */
- 	if (uvc_has_privileges(handle))
- 		uvc_queue_release(&stream->queue);
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 07f9921d83f2..2f8a9c48e32a 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -612,6 +612,7 @@ struct uvc_fh {
- 	struct uvc_video_chain *chain;
- 	struct uvc_streaming *stream;
- 	enum uvc_handle_state state;
-+	unsigned int pending_async_ctrls; /* Protected by ctrl_mutex. */
- };
- 
- struct uvc_driver {
-@@ -797,6 +798,8 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
- int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
- 		      struct uvc_xu_control_query *xqry);
- 
-+void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
-+
- /* Utility functions */
- struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
- 					    u8 epaddr);
-
--- 
-2.47.0.338.g60cca15819-goog
-
+Regards,
+Vikash
+>> Therefore, I submit this change. Do you have a better approach?
+> 
+> NAK for this submission. Please spend some time and improve the driver
+> instead.
+> 
+>>
+>> Also, the driver architecture of iris is implemented as you said.
+> 
+> Irrelevant. You are patching venus, not iris.
+> 
+>>>>>>   	{ .compatible = "qcom,sdm660-venus", .data = &sdm660_res, },
+>>>>>>   	{ .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
+>>>>>>   	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
+>>>>>>
+>>>>>> --
+>>>>>> 2.34.1
+>>>>>>
+>>>>> -- 
+>>>>> With best wishes
+>>>>> Dmitry
+>>
+>> -- 
+>> Best Regards,
+>> Renjiang
+>>
+> 
 
