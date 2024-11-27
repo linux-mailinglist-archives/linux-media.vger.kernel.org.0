@@ -1,76 +1,76 @@
-Return-Path: <linux-media+bounces-22161-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22162-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1E69DA6A7
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 12:15:41 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2F69DA6A9
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 12:15:58 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91AD9164267
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 11:15:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70FFA281FF8
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2024 11:15:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55C5E1F12E5;
-	Wed, 27 Nov 2024 11:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E4D61F1317;
+	Wed, 27 Nov 2024 11:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="GvFlc/eV"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Srf1O2gR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f227.google.com (mail-lj1-f227.google.com [209.85.208.227])
+Received: from mail-wr1-f100.google.com (mail-wr1-f100.google.com [209.85.221.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46D91EF099
-	for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 11:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA201EF0A8
+	for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 11:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732706123; cv=none; b=jDRlROsl9Zskgf29cVcEE++m7XhTTYl6O5pVyMTiLFPnXZJK1JRO4DKvEdPzUOFmqtyd90wvw53v2uV4eh2XCorKpgG0iWMmJDzfj+J+u5LeqfhgAYrM3cMdILh0Y2PMcNmzvmfXeErelCJP1+pkuKgXfkB4DnTSB7rDtgm9VdM=
+	t=1732706124; cv=none; b=oi1N/c6hjbSkZoNe+XAmKERESmzoq0+iCVUOHkfc2xincAAeSGNxHcU1O1bWbBJmvMt+obAa+UFW8pWAmNBLyPbDeqgPy+tRKsWkfzFpLB96HAkYKnwlpzVjnpe8Ih1i4azhhui49KNeD8Hs885nCAt4hvwLrB17b74EshAII58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732706123; c=relaxed/simple;
-	bh=wnthNX/wVIc0cJrqj82UcQ/NTxF5OCTEjQVgalgz04g=;
+	s=arc-20240116; t=1732706124; c=relaxed/simple;
+	bh=PK2PHh+2gJf3de2h3H9Noa2ztPJEtrgRbPaRX2eG3SQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=p8PH+OctdP0K4wGU1yrBmtCplSs0D8XE4Lg2Nj9B0W2WcuI8x+8fEYJgdgj3v0wKOhtEwAVOYWvvuorVgb4N3KROB6tYSZvRqsrs1XQOr6uagQW9hgL/+vUJngFeAuLioFOitZ/WXYGGb0FLxqlkDAmc0QzoCmyiQHrFmGf6u+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=GvFlc/eV; arc=none smtp.client-ip=209.85.208.227
+	 MIME-Version; b=HeWzPoOusZ0eRtc4aBdkDVPn3nMPHeWsnE7TxQDWcJWIpKhO3bY9P6Hohcgq5cxZZLYYMmPKI52W/ozk1FMY5yIYAVIlT/PWmnCLnqYJJ5ZqkvBAOZX/5mtFGf/o5jDkml+c0IX/9c7HvivazAaXzIsmTCyXxpJHMdaJtgXFAg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Srf1O2gR; arc=none smtp.client-ip=209.85.221.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-lj1-f227.google.com with SMTP id 38308e7fff4ca-2ffa3e8e917so67315351fa.3
-        for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 03:15:21 -0800 (PST)
+Received: by mail-wr1-f100.google.com with SMTP id ffacd0b85a97d-382442b7d9aso5048582f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 27 Nov 2024 03:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1732706120; x=1733310920; darn=vger.kernel.org;
+        d=raspberrypi.com; s=google; t=1732706121; x=1733310921; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NDLmlhfFf3fKmWcDI3ja5XlaBhDY7yQ7y51lLCUjcJ4=;
-        b=GvFlc/eVExxzD77pgreiWaDXtUAgGU142RVCehNvGc0t4aDDdxIFVb88ix1QtkxYvK
-         696J2bvfQKFeEAcuANqlUOjuXJlRd2Mud49J0n5Scw2U/pfAu/yZggLyZVxGHSrNsoK5
-         pvYA5UAJhGgLlQeWFjt0X2m8MMHaQIIZfHp7GHketMHBUEGgp3bQ9iVhVozj5TvF/tSN
-         hDotuKg0s5R91uS5smnboBCAQRI3UbErGrGQnHen9rylmsFhdZKAGjlorhFVlhltmfDK
-         VCJixSdP0Nq2/MdMnNsBcdrIB5E/viMmY+jKTwLB7rOO61cs+EAj8dS3VrC3hsHaLTry
-         +hbQ==
+        bh=+2z95vIVxpdoEpIHV1Hs2li8opRkM10lvZmaKrYhPuQ=;
+        b=Srf1O2gRn+t2ltotUUHoW7a4uYg4cKjXRFB6ynUWmDdhQW3niqNk4CRiqn90Og8hK7
+         GjAh/x59oPmuPJg0b36cdDyqVh/DyQkfcfrG3qCXd4QJcKMDH1LnD8bH/qtmBvdmbAP/
+         yD5fFybx46GusOUmb5erxw1qvwfJdrJ9M506Sf0K2tLDtXtoaJndYs4wgU/7TJnXzcG9
+         88Ar88GoRZD8NNubQWvazv4wLE+KxAlLja1xMkoqzvy08eyKasbQhGmpHhGiQ+Z/pLlQ
+         76tobu3r0IDKOU6kQ71R+euauxq4g2HuNGDWl2tJgkqnRA8qTaMStDFjtoZVDkHDRf+G
+         /wZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732706120; x=1733310920;
+        d=1e100.net; s=20230601; t=1732706121; x=1733310921;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NDLmlhfFf3fKmWcDI3ja5XlaBhDY7yQ7y51lLCUjcJ4=;
-        b=OE80oMiyYj++YAKS0xZtOB4I53Wb7n/DaRbpQv5OAq6o3ZDiLrd/GkiLlJFVhUYtze
-         0YY4u9hlFtNugoozZLaMzoh6pdck0NqD/5+xNw24IHNC2NPWx8xBYOiePXNzVemBOEmW
-         g8+D+W/VvwsP0mLCXJWzFbm2+h4WhHhcRsPsQxANOIQLSMCF5N6eR8hR6ZaxSlYPAqql
-         4ZOQBmLr0wLaNmoHYOS8zjcn72hNd+bP3iMbCm/HAtyTWbiy5sotmXYxJ0qj+kHmzKgg
-         zdlnVPHCrPv7onngRnalpFlm9XzhmDvh+tJgwx5kmthz9h4H3qnAx60RgTyy53AxjH5b
-         hLTQ==
-X-Gm-Message-State: AOJu0YxXwjGVhssw4iPFfrFWbfvp5oATzNN4TVyyAnk784Coq3vVvV/B
-	oHkUvtNwrKmyjUD17ib0MP+K4atg5K1dbZdA/yPV2Gu5E+BG7X97A6RjOcpHNwj8GIL0Hbb5BKK
-	3NtUnWAnJQDESLq77EPAnVsT/MnG+tOcF
-X-Gm-Gg: ASbGncsux5bl+ZhJMRe2KMx6Iq/RM8WjsstAP4MfFh8sFakmMmIIdscLi8J2BJ5NhAo
-	BSgraGOpitNpPQ0WevZ3HBV8KFTnaR9H5GTRgogehTjNllXpiJ9mqojz2/R0in/fnN/wBGzadzi
-	Bu/cWFdnOYzCcUHKV+mwmSyx4VtL6IPifhHyTTTFaRy3SSinOykm3L6yzzRLmFYZxSnuknaL8gD
-	oDId5F7Dm8Tp90Pc8u8DrgfkhkyAfybMMUfHTfkdELxUY72X1EjpLa5Qzxo0gK9tg==
-X-Google-Smtp-Source: AGHT+IGTwoCSNs5BBDwFG/AtnZDnL6h+6Oxq6PET6Ihsy3bf1ZEmlnpsnNPW65FRF37uJIGFAM/fVa2LEDdW
-X-Received: by 2002:a05:651c:211a:b0:2ff:c67f:5197 with SMTP id 38308e7fff4ca-2ffd605a257mr12586081fa.13.1732706119878;
-        Wed, 27 Nov 2024 03:15:19 -0800 (PST)
+        bh=+2z95vIVxpdoEpIHV1Hs2li8opRkM10lvZmaKrYhPuQ=;
+        b=dISz90JB9Ev8TG9fsNhK0ThWKaEp2JNghO6mdsz7LOxRThE+c6wZl+3Kpt65dqlcqx
+         Hw+YsAg7LdjDk2VzzKgytvfJPZlw+CFijJJXSoGpBxtLdqXF6RsfHoPDWZpPxb2BL4dS
+         1izhdzsSWT0drXyiwiHsg6msM1U92ASHaRO/UDwKKxITkPB9l9R49CeqeR0zh8ORjb3u
+         hxuZfsnYAz7kZclDO40LCxBRaXw0S6v9F/8S5ob4PdiyT9In6BVfK5UGhzrfik6xRk1N
+         U9zeDCXpdpiNj34kVf4lJNoLo++CaTWs/p0DVRdqHLc3nL9uzFhtIOdlOpE/9OTep7pY
+         diig==
+X-Gm-Message-State: AOJu0Yxt39MXLJOwmeqWyA0UGp6t+2GoqbvOJ5/3MT9G1CoG8zaPDUsi
+	crQnjYDCkYypVA4mBwREHU67hTaZeEZegICKd0rBvjITaV3aVX+dsmGtQN0gvPdHYAGepg5e9A4
+	P3yalGCsLc5G1lxt/rUU6zV1ocknlfPWN
+X-Gm-Gg: ASbGncuRJFVho2isqAgn7pX449j01c9Jc5I9a73lFYeuaQcAjAeupL2Y23xTgdW6Hh0
+	wF1ITRy7VIyy3sTfOQkFr998rgbo1NFHdfkMOENXOgRzy8bom4MyT8d1ss/cI8fFeOHZaV7DB7e
+	rFH/xdOLu91wzOzVp3+Ykz25ROCymzO9hbBUSPRaIxCdxSNFGQ4qZnX+jxeWHNasyZbrEVskSxr
+	BRoVCAGHa9zfOpWgMpC0Jv0kEpVRWm3byHnQxMxG8UhgxD2riWB0zy7B67YbZasxA==
+X-Google-Smtp-Source: AGHT+IFqYJhAmhFIs4MrJEK2DwK6ZnHRiHMIjhqtLKd1Q8gK+tAk+5Dr+yVE8hWUGs5AFt4Q0h739aNEfBbT
+X-Received: by 2002:a05:6000:18a5:b0:382:2349:5a7b with SMTP id ffacd0b85a97d-385c6ebba1cmr1732527f8f.16.1732706120527;
+        Wed, 27 Nov 2024 03:15:20 -0800 (PST)
 Received: from raspberrypi.com ([93.93.133.154])
-        by smtp-relay.gmail.com with ESMTPS id 38308e7fff4ca-2ffa5eddedcsm1274321fa.59.2024.11.27.03.15.18
+        by smtp-relay.gmail.com with ESMTPS id ffacd0b85a97d-3825fd0041fsm441847f8f.95.2024.11.27.03.15.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 03:15:19 -0800 (PST)
+        Wed, 27 Nov 2024 03:15:20 -0800 (PST)
 X-Relaying-Domain: raspberrypi.com
 From: Naushir Patuck <naush@raspberrypi.com>
 To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
@@ -86,9 +86,9 @@ Cc: linux-media@vger.kernel.org,
 	jacopo.mondi@ideasonboard.com,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Naushir Patuck <naush@raspberrypi.com>
-Subject: [PATCH v2 1/4] drivers: media: bcm2835-unicam: Improve frame sequence count handling
-Date: Wed, 27 Nov 2024 11:15:12 +0000
-Message-Id: <20241127111515.565992-2-naush@raspberrypi.com>
+Subject: [PATCH v2 2/4] drivers: media: bcm2835-unicam: Allow setting of unpacked formats
+Date: Wed, 27 Nov 2024 11:15:13 +0000
+Message-Id: <20241127111515.565992-3-naush@raspberrypi.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241127111515.565992-1-naush@raspberrypi.com>
 References: <20241127111515.565992-1-naush@raspberrypi.com>
@@ -100,82 +100,28 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Ensure that the frame sequence counter is incremented only if a previous
-frame start interrupt has occurred, or a frame start + frame end has
-occurred simultaneously.
-
-This corresponds the sequence number with the actual number of frames
-produced by the sensor, not the number of frame buffers dequeued back
-to userland.
+When matching formats via try_fmt/set_fmt ioctls, test for the unpacked
+formats as well as packed formats. This allows userland clients setup
+unpacking to 16-bits from the 10/12/14-packed CSI2 formats.
 
 Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../media/platform/broadcom/bcm2835-unicam.c  | 22 +++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ drivers/media/platform/broadcom/bcm2835-unicam.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-index 3aed0e493c81..36fb186a0421 100644
+index 36fb186a0421..d573d4d89881 100644
 --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
 +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-@@ -199,6 +199,7 @@ struct unicam_device {
- 	/* subdevice async notifier */
- 	struct v4l2_async_notifier notifier;
- 	unsigned int sequence;
-+	bool frame_started;
- 
- 	/* Sensor node */
- 	struct {
-@@ -742,6 +743,8 @@ static irqreturn_t unicam_isr(int irq, void *dev)
- 	 * buffer forever.
- 	 */
- 	if (fe) {
-+		bool inc_seq = unicam->frame_started;
-+
- 		/*
- 		 * Ensure we have swapped buffers already as we can't
- 		 * stop the peripheral. If no buffer is available, use a
-@@ -761,11 +764,24 @@ static irqreturn_t unicam_isr(int irq, void *dev)
- 			 * + FS + LS). In this case, we cannot signal the buffer
- 			 * as complete, as the HW will reuse that buffer.
- 			 */
--			if (node->cur_frm && node->cur_frm != node->next_frm)
-+			if (node->cur_frm && node->cur_frm != node->next_frm) {
- 				unicam_process_buffer_complete(node, sequence);
-+				inc_seq = true;
-+			}
- 			node->cur_frm = node->next_frm;
- 		}
--		unicam->sequence++;
-+
-+		/*
-+		 * Increment the sequence number conditionally on either a FS
-+		 * having already occurred, or in the FE + FS condition as
-+		 * caught in the FE handler above. This ensures the sequence
-+		 * number corresponds to the frames generated by the sensor, not
-+		 * the frames dequeued to userland.
-+		 */
-+		if (inc_seq) {
-+			unicam->sequence++;
-+			unicam->frame_started = false;
-+		}
+@@ -547,7 +547,8 @@ unicam_find_format_by_fourcc(u32 fourcc, u32 pad)
  	}
  
- 	if (ista & UNICAM_FSI) {
-@@ -795,6 +811,7 @@ static irqreturn_t unicam_isr(int irq, void *dev)
- 		}
- 
- 		unicam_queue_event_sof(unicam);
-+		unicam->frame_started = true;
- 	}
- 
- 	/*
-@@ -1413,6 +1430,7 @@ static int unicam_sd_enable_streams(struct v4l2_subdev *sd,
- 		if (unicam->pipe.nodes & BIT(UNICAM_METADATA_NODE))
- 			unicam_start_metadata(unicam);
- 
-+		unicam->frame_started = false;
- 		unicam_start_rx(unicam, state);
+ 	for (i = 0; i < num_formats; ++i) {
+-		if (formats[i].fourcc == fourcc)
++		if (formats[i].fourcc == fourcc ||
++		    formats[i].unpacked_fourcc == fourcc)
+ 			return &formats[i];
  	}
  
 -- 
