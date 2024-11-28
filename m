@@ -1,190 +1,226 @@
-Return-Path: <linux-media+bounces-22245-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4349DBC43
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 19:48:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7129DBC60
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 20:07:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A50A4B21B9C
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 18:48:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C649128164B
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 19:07:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0121C1F14;
-	Thu, 28 Nov 2024 18:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC9C51C1F1C;
+	Thu, 28 Nov 2024 19:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BYo/h7jt"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rE2R1gY+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAFE17BA5;
-	Thu, 28 Nov 2024 18:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BFA2CAB;
+	Thu, 28 Nov 2024 19:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732819683; cv=none; b=aobuZTV0A8y2V2VGDQ6i6kUv8wVqXQFVchaTzFrtEb++X6kLtc2aNIeu+2RydGQRe2xKvVslMOLynZgh/VB0RDKai7wbCtFRsQL9M+QxYk8YEqHcxT0blA+xYwqeh8BskTfN+7ACZpmmZSr1c7Gof88aC06uUUw+DEZWbKfCla8=
+	t=1732820843; cv=none; b=gJfP55Gv3Yt5mVGQ0b3Zt8bf0q5skzYftkGVqngQfRfvuY4kKgEXj25VNyQPk0G++F2IkIOsVmmAGWx7jIny+M2hq6D0ZDj7BwbhE13Nc62QiKHLqFzkBNQomtBr8WpoAgaHpE9hc8eqXsSq73xlsaQMo5wEKoijJxSRIZGYn2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732819683; c=relaxed/simple;
-	bh=M60yQ7WFpyB3zuCo3SDMJf3A+WWuW11FSKk7keSRpAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FPGb2Q/6T88lT822VloSlxnHw8TjzJ8lzqtPG9LLwFwVXJ5b7+JvFJo5nGR1nlHguP7tRg7JfEvDAfBtDhqQ9lsZgJKx0zS7+atsLuHlEthbUGL5nWcDS0U/3AULXpmFm1rghkY985t5n5B/B+TR2+QUMlw+O21IvZKlYJsHBoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BYo/h7jt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39280C4CECE;
-	Thu, 28 Nov 2024 18:48:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732819683;
-	bh=M60yQ7WFpyB3zuCo3SDMJf3A+WWuW11FSKk7keSRpAM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BYo/h7jt/jLafjNAiiUvGJTmFZVecd0QWc5j707MgPm/Het2/poFECqTvlB7yaKT/
-	 w4WCQDd0adnJW2zzqmtH9Zvlx4/r3N/BlsHpbHTo/srdrBa44V22irekgiav3YkvKP
-	 qKxcue28MjWmWOC/84DRmFIKBkxDuGneaPZgziUVCgSZAEtRlufmMPXdw7iO4jUoK2
-	 WVq6cMnX7DbFLibwajLs4ilEWDByLBAIUVmk6fWj1bcU+caW7GE/0qt4MKDYJOIipg
-	 +kBbX99LLuaceYP3eqCPNN7xByWasid7Z6SSQVi+GoOtOKtxsrRDcjDLB3sOiKhR3H
-	 CtKGkwg7AJaag==
-Date: Thu, 28 Nov 2024 19:47:58 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Hans Verkuil
- <hverkuil@xs4ll.nl>
+	s=arc-20240116; t=1732820843; c=relaxed/simple;
+	bh=iPWl00cmy65aQXRSlQM/pa3s4vZBSf7ExQQPBg1K17I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t57gevoS9THM22wYTuYSF/+LuCo+6gMqugJ/YF/i1NZDOJ4KXMXkq9qWVbT4FkxIkrZO0PU1qvidzN0TQ7i5Qakw115luRx42JhGw32570o+ZPU1QvF6nshIWgvSzCn4H+jhvCqI3BhNxUT3P3+gePtClhgs8yTyL4WG3sgFyNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rE2R1gY+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ACB6F526;
+	Thu, 28 Nov 2024 20:06:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732820814;
+	bh=iPWl00cmy65aQXRSlQM/pa3s4vZBSf7ExQQPBg1K17I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rE2R1gY+7FRoxlZpC+bhImNCX0tL2fhHgzg0pDVwenEF0/gnjDZ9+RI2J2XXDoLaT
+	 3aDwEN2baKLWvvBPL74ZygAG31MdhfrXTShxM2Y4y6ma+AyqyThRAbgWP1eDCIBqJs
+	 Vy98zMq4TytKVP0sFCZtv17rK8WjP//YGBGot6kg=
+Date: Thu, 28 Nov 2024 21:07:07 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
 Subject: Re: [PATCH] docs: media: document media multi-committers rules and
  process
-Message-ID: <20241128194758.7d2e7656@foz.lan>
-In-Reply-To: <87iks7wqi3.fsf@intel.com>
+Message-ID: <20241128190707.GA13852@pendragon.ideasonboard.com>
 References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
-	<20241126151930.GA5493@pendragon.ideasonboard.com>
-	<20241127103948.501b5a05@foz.lan>
-	<20241127111901.GG31095@pendragon.ideasonboard.com>
-	<CAKMK7uFZsc+-Os+Pb9MHHbdt1K5Pj+D069d-+FvsDeeWgeZASw@mail.gmail.com>
-	<87iks7wqi3.fsf@intel.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ <20241126151930.GA5493@pendragon.ideasonboard.com>
+ <e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
+ <20241127132515.GH31095@pendragon.ideasonboard.com>
+ <20241128191543.289f0d84@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241128191543.289f0d84@foz.lan>
 
-Em Thu, 28 Nov 2024 13:24:04 +0200
-Jani Nikula <jani.nikula@intel.com> escreveu:
-
-> On Wed, 27 Nov 2024, Simona Vetter <simona.vetter@ffwll.ch> wrote:
-> > Jumping in the middle here with some clarifications.
-> >
-> > On Wed, 27 Nov 2024 at 12:19, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:  
-> >> On Wed, Nov 27, 2024 at 10:39:48AM +0100, Mauro Carvalho Chehab wrote:  
-> >> > It is somewhat similar to drm-intel and drm-xe, where reviews are part
-> >> > of the acceptance criteria to become committers.  
-> >>
-> >> Those are corporate trees, so it's easier to set such rules.  
-> >
-> > Imo it's the other way round, because it's corporate you need stricter
-> > rules and spell them all out clearly - managers just love to apply
-> > pressure on their engineers too much otherwise "because it's our own
-> > tree". Totally forgetting that it's still part of the overall upstream,
-> > and that they don't own upstream.  
+On Thu, Nov 28, 2024 at 07:15:43PM +0100, Mauro Carvalho Chehab wrote:
+> Em Wed, 27 Nov 2024 15:25:15 +0200 Laurent Pinchart escreveu:
 > 
-> The required commits and reviews to become a committer may sound
-> somewhat artificial and arbitrary, but it's a sort of compromise. The
-> goal is to have a relatively low bar for entry, while ensuring the
-> committers have just enough experience to judge whether a patch passes
-> merge criteria (more on that below). It's also the same for everyone,
-> and something to strive for.
-
-We used to have a low bar for entry on our past multi-committers
-model (back in 2005-2007). It was a disaster, as one of the
-committer did very evil things. He was blocked, but that didn't
-prevent some of us to be threatened with physical violence - and 
-some people even reported death threats.
-
-So, let's start slow to ensure that things like that won't ever
-happen again.
-
-> Frankly, I'm not fond of the invite-only model. You need to be careful
-> to not lose transparency.
-
-The intent is to be as transparent as possible without violating regulations
-like GPDR.
-
-> It can be scary to have a lot of committers. You put a lot of trust in
-> them. But at the same time, you do monitor what's going on, and can
-> revert commits - and commit rights, if needed.
-
-The scariest part is to receive threats like what happened in the past.
-Some were publicly documented; others happened via private talks and
-e-mails.
-
-> > So that's why the corporate trees are stricter than drm-misc, but the
-> > goals are still exactly the same:
-> >
-> > - peer review is required in a tit-for-tat market, but not more.
-> >
-> > - committers push their own stuff, that's all. Senior committers often
-> >   also push other people's work, like for smaller work they just reviewed
-> >   or of people they mentor, but it's not required at all.  
+> > > > I think this goes a bit backward, and mixes things up a bit. On the
+> > > > mixing side, the expectation of timely reviews comes from maintainer
+> > > > status. Having commit rights is orthogonal to that.
+> > > > 
+> > > > The goal of direct commit access is to speed up maintenance, to get
+> > > > patches reviewed and merged quicker. Are we saying here that if someone
+> > > > has commit rights they will lose them if they take too long to review
+> > > > code ? That would then slow down maintenance even more, which seems
+> > > > counterproductive.  
+> > > 
+> > > Someone with commit rights is also a maintainer, since that's how you
+> > > gain the trust to get those rights. If you do a poor job of reviewing
+> > > patches relevant for you as maintainer, then you loose that trust.  
+> > 
+> > This is I think the point where our expectations are the least aligned.
+> > I'm considering "committer" based on what is done in drm-misc. A
+> > committer is essentially a developer who has demonstrated they can
+> > follow a documented process to push their own patches. They are given
+> > push access as a shortcut, which frees time for the subsystem
+> > maintainers who don't have to pick patches manually from the list (or
+> > handle pull requests). That's the official side of it. The barrier to
+> > entry is intentionally kept very low to ensure that committers won't
+> > decide to use the legacy workflow due to expectations of additional work
+> > load. Committers are not required or even asked to take any extra work.
+> > It's still a win-win situation: subsystem maintainers have less work,
+> > and committers can get their patches upstream more easily.
+> > 
+> > Then there's the other "secret" goal: through handing out committer
+> > rights, the maintainers hoped that a subset of the committers would
+> > become more involved, grow more knowledge about the subsystem, pick up
+> > third party patches, review or cross-review code, ... And that worked,
+> > DRM has grown an active community of developers who go beyond their
+> > personal needs and help with maintenance more broadly. Dave and Sima
+> > deliberately decided to favour the carrot over the stick, and I think
+> > the events that followed proved it was the right decision.
+> > 
+> > This is what I would like to see replicated in the media subsystem. Even
+> > if a committer only handles the single driver they're interested in and
+> > push their own patches, it's still a win for everybody involved. By
+> > making the barrier to entry low, we will make it possible for people who
+> > would have been scared of volunteering to become part of the community,
+> > and over time handle more responsibilities. Setting a higher barrier to
+> > entry will scare those people away. Even myself, if I'm expected to do
+> > more than what I do today to get commit rights, I won't request them.
+> > Everybody will lose, I will have to keep sending pull requests, and you
+> > will have to keep handling them. Both of us will lose time that we could
+> > otherwise use for reviews or other tasks beneficial to the subsystem.
+> > 
+> > More importantly than the exact wording, it's the core principle of the
+> > committers model that we need to agree on. If we don't have the same
+> > expectations it will clearly not work.
 > 
-> I think it's also important to define merge criteria. A set of rules by
-> which a committer can commit. And it's not really about technical
-> checkboxes. For example, in drm it really boils down to two things: at
-> least two people have been involved, and there are no open issues.
+> The reality on media is *very* different from DRM. With DRM, most
 
-That's the same criteria we're aiming for. We'll start without
-two people reviewing, as there won't be enough committers at the
-beginning for that, but maintainers may revert/rebase the tree in
-case they don't agree with changes.
+We're designing a process for the future, it's up to us to design what
+we want to achieve.
 
-> (And have those people recorded in git trailers with Sob/Rb/Ab, with
-> tooling to ensure that's the case. There are very few commis in
-> drm-misc/drm-intel without either 2xSob, Sob+Rb, or Sob+Ab.)
+> drivers have multiple developers working on it, and the more important
+> drivers typically have dozens of committers. The vast majority of such
 
-We added a CI engine to check this and other issues. If CI fails,
-commit will be automatically be blocked.
+There are a few corporate-backed drivers that have bigger teams, but
+apart from that, it's not as well staffed as you seem to imply.
 
-> > - maintainership duties, like sending around pr, making sure patches dont
-> >   get lost and things like that, is separate from commit rights. In my
-> >   opinion, if you tie commit rights to maintainership you're doing
-> >   something else than drm and I'd more call it a group maintainership
-> >   model, not a commit rights model for landing patches.  
+> committers aren't listed at MAINTAINERS file for the drm drivers they
+> commit patches.
 > 
-> Agreed. Personally, I like the committer/maintainer model, because it's
-> a low barrier to entry, with limited responsibilities. Not everyone
-> wants to become even a committer, and the more loaded it becomes, even
-> less so. Yet the committers help maintainers immensely, and you grow a
-> pool of people who can become maintainers.
-
-Currently, for most of the drivers, the number of committers per driver
-is equal to the number of maintainers for the same driver.
-
-So, on this stage, we're aiming on get maintainers commit rights,
-starting with the ones that are long time contributors and regularly
-participate at the media summits.
-
-Once the "slow start" phase finishes, we can review the process and
-start thinking on getting more developers and committers.
-
-> > Anyway just figured I'll clarify what we do over at drm. I haven't looked
-> > at all the details of this proposal here and the already lengthy
-> > discussion, plus it's really not on me to chime in since I'm not involved.  
+> On media, there's usually just one person that maintains the driver
+> who will become a committer if they want.
 > 
-> To be honest, IMO the length is one of the shortcomings of the
-> proposal. Lots of up front process, which will inevitably have to be
-> ironed out as you gain experience. You just won't be able to figure it
-> all out in advance.
+> Right now, my expectation is that *all* committers will also be
+> a maintainer, e. g. they'll all be listed at MAINTAINERS file,
+> being responsible by one or more driver.
+> 
+> Besides that, the multi-committers will replace the current
+> sub-maintainers workflow.
+> 
+> We also need to do a slow start to ensure that media-ci, patchwork,
+> CI integration with patchwork, etc will work properly.
+> 
+> With that in mind, every committer has duties of reviewing other
+> developer's patches submitted for the drivers that they're listed as
+> a maintainer at the MAINTAINERS file entries.
 
-Agreed.
+I'm sorry but that's not a multi-committer model, it's a co-maintenance
+model. If that's what you really want we can reopen the discussion and
+start anew, but I don't think it's a good idea.
 
-> All that said, I commend all efforts to move towards shared
-> maintainership models, whether it's group maintainership or
-> committer/maintainer model or something in between. Just offering my
-> views here, which you're obviously free to completely ignore to your
-> benefit or detriment. ;)
+As I said before, if it increases my work load, I don't want commit
+rights. I'll keep sending pull requests, you'll have to keep processing
+them, and patches will be merged slower. It will be a lose-lose
+situation for everybody, you, me, contributors and users.
 
-Thank you for you valuable feedback!
+Starting with a situation where we are understaffed and trying to solve
+it by putting more work on the few people who currently keep the
+subsystem alive doesn't sound like a winning strategy. 
 
-Best regards,
-Mauro
+> > > >> +If you are doing such tasks and have become a valued developer, an
+> > > >> +existing committer can nominate you to the media subsystem maintainers.  
+> > > > 
+> > > > https://drm.pages.freedesktop.org/maintainer-tools/committer/commit-access.html#access-request:
+> > > > 
+> > > > "Maintainers and committers should encourage contributors to request
+> > > > commit rights, especially junior contributors tend to underestimate
+> > > > their skills."  
+> > > 
+> > > In drm is it the contributors that request commit rights? Or is it those
+> > > who already have commit rights that invite others? Currently the plan for
+> > > the media subsystem is the second method. Although that might change in the
+> > > future, of course.  
+> > 
+> > The process is documented in
+> > https://drm.pages.freedesktop.org/maintainer-tools/committer/commit-access.html#access-request.
+> > It requires explicit action from the candidate, as they have to create a
+> > gitlab.fdo account, and request commit access by fiing an issue in
+> > gitlab. You can see the issue template at
+> > https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/new?issue[title]=Request%20for%20Commit%20Rights&issuable_template=commit_access,
+> > which is roughly speaking the equivalent of the mail template in this
+> > document. In practice, as mentioned in the documentation, people often
+> > underestimate their skills and lack confidence to ask for committer
+> > access. That's why the documentation states that maintainers and
+> > committers should encourage contributors to request access.
+> > 
+> > I like that model because it requires an explicit action from the
+> > contributor to show that they have an interest, and it also makes it
+> > possible for people to request access without having been nominated. It
+> > doesn't mean that access will be automatically granted, there are still
+> > acceptance criteria, and it's a maintainer decision at the end of the
+> > day.
+> > 
+> > Stating as done in this patch that an existing committer can nominate
+> > someone implies that contributors have to wait until they get notified
+> > they can join The Chosen Few. It's not very welcoming, and given how
+> > busy everybody is, valuable contributors may need to wait for longer
+> > than they should before someone thinks about nominating them.
+> > 
+> > I wouldn't expect a change of wording to result in any practical change
+> > in the process, it is only about being more inclusive and welcoming in
+> > the document. If we want to create a vibrant community, people should
+> > feel not just welcome, but also desired and valued.
+> 
+> The model we're implementing is that the action of becoming a
+> committer will also have a step where the contributor will show
+> that they have an interest.
+> 
+> Yet, right now the goal is to implement the model starting with
+> active media maintainers.
+> 
+> Once we get there, and after a couple of kernel releases to test
+> that everything is working as expected, we may aim to carefully
+> expand it.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
