@@ -1,166 +1,160 @@
-Return-Path: <linux-media+bounces-22249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22250-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23D29DBCBC
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 21:02:23 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76E6D163271
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 20:02:20 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CCFD1C3041;
-	Thu, 28 Nov 2024 20:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UvUiWNMK"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A649DBCBD
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 21:04:13 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826EB1C1ACF
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 20:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE0F3B21796
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 20:04:10 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0799B1C2335;
+	Thu, 28 Nov 2024 20:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VudsuYzY"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066CB145323
+	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 20:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732824131; cv=none; b=j+ytQNzFcRCj7rrK6aQrXYV/TkrL8TohVfl0hPCdPQvjtWmtukvg/PePuQmqrvyycJGg1Rs2t6n+Uv9Y4AI41NuwcyHB8KonPoVP2WffO+Ikc4QGOYVaZ0i9JdHN45O+JQYtup/o0Wbgbwc9FJ3KSzdneizFtNHbhGRiS8MwKZE=
+	t=1732824245; cv=none; b=XxZ2/cgFBCNar2oQMGYxrE3b5p/cvyWurMdMu0XqmkiU1uILrQN8nLE/dJ3DiLEvF4gjxo4qEpQV0ZGeL3AfdTnoCmk0TNvI1KZsQN8FlcS7Xv4ytW5NNXByw/MqE3bVqnL0XHX6np4f30/FQ8IapsZ3OY8Usv/vyAgPzLzQyvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732824131; c=relaxed/simple;
-	bh=qTIa5ewcdNKi4ufBLVG/FfPhgpbjosm13dgaf9cJ054=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cLNWmsNgsH5gwi+hlcQlexRUKfmuPaHRXKMfarMFc9ollBhBoyP1KBRJ4A7QLJBt905lFnDKzhMEc5wZ246ecY+pJzaFYmE9Mzz6EbotkBL3tu8Bn6uFGveiDA3Hxni004N12cVkGLUW/jS0nePgktn4XEj6UZ/9iDt1h48tLeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UvUiWNMK; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ASI02lX025832
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 20:02:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4ryxQrLv394JJ73iyw7kDdXCsPIHG185hp0I0Nvmu6c=; b=UvUiWNMKnpTDutQc
-	WV3kG2XZiNzbBtXjAZ829NKkce5K2CLccRZhnSLVk4Cbi2NxLiV5DMW7vhbD1O16
-	tTNRm11Y7hZkbQGPaeLW4kE1sMIzxnSHoMFNW14C55+CzGe59T86T5nZER7Vowma
-	xdloOROkBGn180TCqdQTAB0XK8q4ZOEQeiL3hSORHrsMc7J9Ds+Xai8UHOM0zyxG
-	mr70Tq67GMlXPNk9BUeUmgCqwAVRRZSpTlo6/uAyCCSQYcutwFTfu7SjgBfIyC5q
-	ChJkf2SsZhlWy6FPEKD6ZgEz8GLjAQGwHRGjXPIyZ+JfDNSgCbS+Ia64XYTgIH0m
-	FyLADw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43673jbk4k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 20:02:08 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6d421ff3e39so2936776d6.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 12:02:08 -0800 (PST)
+	s=arc-20240116; t=1732824245; c=relaxed/simple;
+	bh=lXGUKoSnwuq+TC5OqXU0wst5dpnGhxjkEJW9K3Em3TE=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=mnXJ0hB3FJte/zuA+pDoTPf2S4rMp/7hEV6igz8WhRhD+WNj8sx1odaNQrWQTpXYM6FHmKtyims1HVYsIjKyK7pcaDiO4gOu4IL+vikLiSvA6jvJL1OmrmazQajtkxxoDfGJiwiqmpiYBlkbkQ8tOGrBwcpn1FjbQDrWD0o0nFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VudsuYzY; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6ef0c64d75cso13488917b3.2
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 12:04:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732824243; x=1733429043; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lXGUKoSnwuq+TC5OqXU0wst5dpnGhxjkEJW9K3Em3TE=;
+        b=VudsuYzYtpo4beG6YZwZgy+QLvlrGu4yjFlSkSf+1Hk0l/NKDQXKtUcx75+coCk1rO
+         LKva0T2POpTtKJpTxsEOeqvvL4kgrriMV3lJzabmAC53jTPBU8lgj4R8DqjZB3EwJlpo
+         4zVtTi4Wdo0HLkcPin55/lxkPyeV3bFmFXdpDtQShVI3d1cYfKCfqRB+UoyR5fcMhGl5
+         io+U5Uc2ZahvVHjtAzovogzIO+hjiWl6v2UiPf/UIPTW7GOHxnXrSgEsW5fT/GwGyx6i
+         rBqdHwcshX1Gbv9am9y20Z70fbE1QDAasDZvoIqqgcPNabxQVvVgGsHpUSyK+Qg0iGPS
+         W1UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732824127; x=1733428927;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4ryxQrLv394JJ73iyw7kDdXCsPIHG185hp0I0Nvmu6c=;
-        b=fHJ+Zliym2X+C5iG/lODZxa5E7scJd/cC2KkJcGq/UMLUxevApUx83L/Rghbc+4neV
-         PrYqakLiWS9CcttWHcQsseaEZ1NYVFnoXWhnT6q7hYAzbNsFs+2mk5o4PtaefrusJqNg
-         2pv4QYIZg9lqatZN0g5YOIhRJU8ezOYUxHWwP9kM9fTXK9QaNwAocXzSlNoAyGYNmZqZ
-         rbTTM9uOkjIPQWUdcDLlGz/QVQn3xo55rpBs0GwZYtlqLozQybBSwqgtAgiycYRyQwVH
-         L1x3fxF0nP6i9TrVyLJB05oJmQs0ffZ4d364RguvdRM5KJSEifFD+r+OoK2ArCwvRoRb
-         8dBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVevsGBamy3eCRQqnCbWNi6iS7K+i1xiKh9rPfdKiix7FG8QSLfemt5MAkL3i0vEYCr9n0OFmoYuJHKXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYPLqD3FZxIcHRju82tTloRBdclmyY0TDt8uOE4TtivA47iffc
-	69vSRYDxDLPFL5aa957N+f8PggfXrBxCl0xx2ihB0ltbPyDVuDu9CxsDQ6xVlGGDVxsehndP3Xc
-	s6EOQbjtVvcSpl+OYeOeDpV7rHHYi1SeCpuS2yB0P+v5WIlmktQtGDM5Sm8OtCA==
-X-Gm-Gg: ASbGncuZA7TC3DTfJryU9ktGgMNbCmKHqwAqbBmKftA5i/0qWtQisOZTS9LqMY+NF9U
-	67nZt4bhVfRC9qJ+i2FhpxoEF8FRxAJB5F4b+qWfKOOrPSQDr1EtY7DRnsanxpJjLgs/UTe3TYq
-	NqbUgUyxqh2WfS9M4C4BP9u3rjIirTi0y9fcGWQZ7o9F4UwsEC6n23gizG9GIi0KqGfQH3vOQQK
-	+5ok+H/4zJ3TKWmBaMP/Hb1OKWt0wxTA+UsLW+ko3x8U0K0uxkaJy6NWKooXo9t/q8A1v61Abfc
-	r9Y5l7APMtZSB0qfnwHZ6VNowvp7Wt8=
-X-Received: by 2002:a05:622a:cf:b0:466:8033:7dd2 with SMTP id d75a77b69052e-466b365e8d0mr60111061cf.15.1732824127025;
-        Thu, 28 Nov 2024 12:02:07 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEe2yFrYKlH7GKamBIcOIr6tSYjrJg4Yf/IcqIpvGJ2yK7SICcuObbV3wRHzWvvMeRae6au7w==
-X-Received: by 2002:a05:622a:cf:b0:466:8033:7dd2 with SMTP id d75a77b69052e-466b365e8d0mr60110791cf.15.1732824126611;
-        Thu, 28 Nov 2024 12:02:06 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d097e8dce0sm1031189a12.66.2024.11.28.12.02.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2024 12:02:05 -0800 (PST)
-Message-ID: <7d344377-f1cf-400e-a9c4-442123dcf4ab@oss.qualcomm.com>
-Date: Thu, 28 Nov 2024 21:02:01 +0100
+        d=1e100.net; s=20230601; t=1732824243; x=1733429043;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lXGUKoSnwuq+TC5OqXU0wst5dpnGhxjkEJW9K3Em3TE=;
+        b=OGAMXrRVCvgAV50H3J84FeIIhc0n6LO0EKwDiPsV5PbEjYrHzEFRr2IaJ6Yd/p7gIX
+         h/lKOKhRBSLiLAlsASVZ2Kbabc7gvxUVZrB/8A8nlxAKYEcplHu8KTRwjW0OQxOSjX6R
+         nCvsZu/8K/tr5bLrly4/K6k+fBtyySgo68G49+xz2rBuV/Jal1VeGGfHgKb8NUuiws0T
+         G2gupp2ffsbgCIsBejI2VM4n9z03ksxecWykM9nfpAj4mjLuGeNi0yA1S6WygmlRf/6P
+         hGuMZhQ3dWG6lfqPGdTvRdSG5/ey27rRj9bCyVJTkMTCMb57eFja4BPeNDHtO2hgiy1R
+         eB4w==
+X-Gm-Message-State: AOJu0YwfDnnuHjLMO/PLku2r6vsandd2H0AqLvyuQC+DrUw4H2qwXPhU
+	WYtdizIs2JG5ae8NOrmM3pOundYZMGomqMNd3r7wm03hAcvUqgm7Yzcv9rVfo0d+FTHa6FZpOa5
+	53iY2khbSpWCEk0+BLVg13bg4USCeBM/xwlr0ZQ==
+X-Gm-Gg: ASbGncs+mCXbrhH2/0g9DcK8yE8E2/FlaVvvRJZ+PcLpfAA9pQQDpD5546l4vb0R/ZK
+	uPoGcFmTlMJjc+ETDsdsS9XyxQEmxgXSbkA==
+X-Google-Smtp-Source: AGHT+IFmGQSfLPbE6hkQNKfeygzMrf0ufcfWUy+PR1TxV5VS1ve5Z+xGd289XY+q1K6JB4YMNmWnPmhP/GjgA65lNdk=
+X-Received: by 2002:a05:690c:6187:b0:6ee:bc1a:27c3 with SMTP id
+ 00721157ae682-6ef3720d654mr97881057b3.18.1732824242562; Thu, 28 Nov 2024
+ 12:04:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: venus: Add support for static video
- encoder/decoder declarations
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc: quic_renjiang@quicinc.com, quic_vnagar@quicinc.com,
-        quic_dikshita@quicinc.com, konradybcio@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        devicetree@vger.kernel.org
-References: <20241127-media-staging-24-11-25-rb3-hw-compat-string-v1-0-99c16f266b46@linaro.org>
- <20241127-media-staging-24-11-25-rb3-hw-compat-string-v1-1-99c16f266b46@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241127-media-staging-24-11-25-rb3-hw-compat-string-v1-1-99c16f266b46@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: -EwAEMS3BtQMoh673pLn3cUjqlCB8w8D
-X-Proofpoint-ORIG-GUID: -EwAEMS3BtQMoh673pLn3cUjqlCB8w8D
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- malwarescore=0 adultscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
- mlxlogscore=999 priorityscore=1501 clxscore=1015 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2411280159
+From: Orlando Stockli <stock83@gmail.com>
+Date: Thu, 28 Nov 2024 14:03:52 -0600
+Message-ID: <CAJhwDWL-+WivYuvyrZdvtTBqmPhKJ9xDURT0m+fUj-Atkjbd4w@mail.gmail.com>
+Subject: Support Request for an EM28xx Analog Video Capture Device on
+ Raspberry Pi
+To: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27.11.2024 2:34 AM, Bryan O'Donoghue wrote:
-> Add resource structure data and probe() logic to support static
-> declarations of encoder and decoder.
-> 
-> Right now we rely on video encoder/decoder selection happening in the dtb
-> but, this goes against the remit of device tree which is supposed to
-> describe hardware, not select functional logic in Linux drivers.
-> 
-> Provide two strings in the venus resource structure enc_nodename and
-> dec_nodename.
-> 
-> When set the venus driver will create an OF entry in-memory consistent
-> with:
-> 
-> dec_nodename {
->     compat = "video-decoder";
-> };
-> 
-> and/or
-> 
-> enc_nodename {
->     compat = "video-encoder";
-> };
-> 
-> This will allow us to reuse the existing driver scheme of relying on compat
-> names maintaining compatibility with old dtb files.
-> 
-> dec_nodename can be "video-decoder" or "video0"
-> enc_nodename can be "video-encoder" or "video1"
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
+Dear Video4Linux Developers,
 
-Bryan,
+I hope this message finds you well. I am reaching out to request
+assistance with an old analog video capture device that uses the
+EM28xx chipset. I recently found this device and decided to experiment
+with it on my Raspberry Pi running Ubuntu. Unfortunately, I ran into
+some issues during the setup process.
 
-I'm still not sure if keeping the logic behind this makes sense at all.
+The device seems to be partially detected by the kernel but is not
+fully functional. Below are the details of my setup and the relevant
+logs:
 
-Could we not just call platform_device_register_data() with a static
-configuration of 1 core being enc and the other dec?
+Device Details:
 
-Konrad
+Product Name (from lsusb): XTV2.0
+
+USB ID: eb1a:2821
+
+Kernel Version: 6.11.0-1004-raspi
+
+Operating System: Ubuntu on Raspberry Pi
+
+Relevant Logs:
+
+
+em28xx 1-1.1:1.0: Identified as Unknown EM2750/28xx video grabber (card=3D1=
+)
+em28xx 1-1.1:1.0: Your board has no unique USB ID and thus needs a
+hint to be detected.
+em28xx 1-1.1:1.0: Please send an email with this log to:
+em28xx 1-1.1:1.0: V4L Mailing List <linux-media@vger.kernel.org>
+em28xx 1-1.1:1.0: Board EEPROM hash is 0xa5bc808a
+em28xx 1-1.1:1.0: Board i2c devicelist hash is 0x014e00e3
+
+Attempted Steps: I tried loading the em28xx module with various
+card=3D<n> values (e.g., card=3D0, card=3D1, etc.), but none of them seemed
+to work. Additionally, I encountered errors like Decoder not found and
+failed to create media graph, preventing the device from functioning
+properly.
+
+Here are additional commands I=E2=80=99ve run to gather information:
+
+lsusb confirms the USB ID as eb1a:2821.
+
+The kernel log repeatedly suggests the board lacks a unique ID and
+requires manual configuration.
+
+
+Request for Assistance: I kindly ask for guidance on the following:
+
+1. Whether this device is supported by the existing drivers or if it
+requires modifications.
+
+
+2. Any additional steps I could take to make this device work on my
+Raspberry Pi.
+
+
+
+I=E2=80=99m more than willing to provide additional logs, test potential
+fixes, or gather any information that may help improve the support for
+this device. Please don=E2=80=99t hesitate to reach out if there=E2=80=99s =
+anything
+else you need from me.
+
+Thank you for your time and for your continuous efforts in supporting
+the Linux community.
+
+Best regards,
+Orlando
+
+
+
+Orlando Stockli Contreras
+Twitter: @stockli
+Los mejores momentos de la vida vienen por si solos, no tiene sentido
+esperarlos.
+- Thorton Wilder
 
