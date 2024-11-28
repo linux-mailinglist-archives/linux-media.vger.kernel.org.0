@@ -1,160 +1,247 @@
-Return-Path: <linux-media+bounces-22250-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22252-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A649DBCBD
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 21:04:13 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3051E9DBCD9
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 21:25:03 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8AE0164870
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 20:24:59 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF621C2457;
+	Thu, 28 Nov 2024 20:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AtGfwI2j"
+X-Original-To: linux-media@vger.kernel.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE0F3B21796
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 20:04:10 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0799B1C2335;
-	Thu, 28 Nov 2024 20:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VudsuYzY"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066CB145323
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 20:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D64417BA5;
+	Thu, 28 Nov 2024 20:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732824245; cv=none; b=XxZ2/cgFBCNar2oQMGYxrE3b5p/cvyWurMdMu0XqmkiU1uILrQN8nLE/dJ3DiLEvF4gjxo4qEpQV0ZGeL3AfdTnoCmk0TNvI1KZsQN8FlcS7Xv4ytW5NNXByw/MqE3bVqnL0XHX6np4f30/FQ8IapsZ3OY8Usv/vyAgPzLzQyvI=
+	t=1732825496; cv=none; b=MAvzdOljJYGiFXyONOQdqfaGlOJzZqbbs89HAuYF5sr0f/SMfhgvrkeGZRTNtcgnPwrl2cN0+OlmncJgOYWJXcIBgqzrROgzX4P36NH612SheV8/dDFx7sTfrs+wPoNoeL2SY0YXZb9GRJNt3EnaTQ+C75XLBxN+pYorngnbcpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732824245; c=relaxed/simple;
-	bh=lXGUKoSnwuq+TC5OqXU0wst5dpnGhxjkEJW9K3Em3TE=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=mnXJ0hB3FJte/zuA+pDoTPf2S4rMp/7hEV6igz8WhRhD+WNj8sx1odaNQrWQTpXYM6FHmKtyims1HVYsIjKyK7pcaDiO4gOu4IL+vikLiSvA6jvJL1OmrmazQajtkxxoDfGJiwiqmpiYBlkbkQ8tOGrBwcpn1FjbQDrWD0o0nFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VudsuYzY; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6ef0c64d75cso13488917b3.2
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 12:04:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732824243; x=1733429043; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lXGUKoSnwuq+TC5OqXU0wst5dpnGhxjkEJW9K3Em3TE=;
-        b=VudsuYzYtpo4beG6YZwZgy+QLvlrGu4yjFlSkSf+1Hk0l/NKDQXKtUcx75+coCk1rO
-         LKva0T2POpTtKJpTxsEOeqvvL4kgrriMV3lJzabmAC53jTPBU8lgj4R8DqjZB3EwJlpo
-         4zVtTi4Wdo0HLkcPin55/lxkPyeV3bFmFXdpDtQShVI3d1cYfKCfqRB+UoyR5fcMhGl5
-         io+U5Uc2ZahvVHjtAzovogzIO+hjiWl6v2UiPf/UIPTW7GOHxnXrSgEsW5fT/GwGyx6i
-         rBqdHwcshX1Gbv9am9y20Z70fbE1QDAasDZvoIqqgcPNabxQVvVgGsHpUSyK+Qg0iGPS
-         W1UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732824243; x=1733429043;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lXGUKoSnwuq+TC5OqXU0wst5dpnGhxjkEJW9K3Em3TE=;
-        b=OGAMXrRVCvgAV50H3J84FeIIhc0n6LO0EKwDiPsV5PbEjYrHzEFRr2IaJ6Yd/p7gIX
-         h/lKOKhRBSLiLAlsASVZ2Kbabc7gvxUVZrB/8A8nlxAKYEcplHu8KTRwjW0OQxOSjX6R
-         nCvsZu/8K/tr5bLrly4/K6k+fBtyySgo68G49+xz2rBuV/Jal1VeGGfHgKb8NUuiws0T
-         G2gupp2ffsbgCIsBejI2VM4n9z03ksxecWykM9nfpAj4mjLuGeNi0yA1S6WygmlRf/6P
-         hGuMZhQ3dWG6lfqPGdTvRdSG5/ey27rRj9bCyVJTkMTCMb57eFja4BPeNDHtO2hgiy1R
-         eB4w==
-X-Gm-Message-State: AOJu0YwfDnnuHjLMO/PLku2r6vsandd2H0AqLvyuQC+DrUw4H2qwXPhU
-	WYtdizIs2JG5ae8NOrmM3pOundYZMGomqMNd3r7wm03hAcvUqgm7Yzcv9rVfo0d+FTHa6FZpOa5
-	53iY2khbSpWCEk0+BLVg13bg4USCeBM/xwlr0ZQ==
-X-Gm-Gg: ASbGncs+mCXbrhH2/0g9DcK8yE8E2/FlaVvvRJZ+PcLpfAA9pQQDpD5546l4vb0R/ZK
-	uPoGcFmTlMJjc+ETDsdsS9XyxQEmxgXSbkA==
-X-Google-Smtp-Source: AGHT+IFmGQSfLPbE6hkQNKfeygzMrf0ufcfWUy+PR1TxV5VS1ve5Z+xGd289XY+q1K6JB4YMNmWnPmhP/GjgA65lNdk=
-X-Received: by 2002:a05:690c:6187:b0:6ee:bc1a:27c3 with SMTP id
- 00721157ae682-6ef3720d654mr97881057b3.18.1732824242562; Thu, 28 Nov 2024
- 12:04:02 -0800 (PST)
+	s=arc-20240116; t=1732825496; c=relaxed/simple;
+	bh=vIUfzivol3GP1W3IixUeRO8WQkjiWLAExaKWIH0WKrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OgbWy6+5K51ckNDeW5tHekzeXVgsfEjDeX74q3VSdpPzlSMLGdiGJv9OEPlS2HPCiBKzt/LRQb7ATQOiWNIm7Vdw1YS/Wjvm0YPJSukgUUSZRaofRihhW22EedE1aSvDuypjr6P8wvI3yWWsCABwVbEWnZI1Xaz67eZtrIBSClA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AtGfwI2j; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A42559D;
+	Thu, 28 Nov 2024 21:24:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732825468;
+	bh=vIUfzivol3GP1W3IixUeRO8WQkjiWLAExaKWIH0WKrQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AtGfwI2jaxDT9mloHFSaczXY0snozcLTq23zWMBE/cqGLT5n92qELPcaZwJaUWbLh
+	 LmuCyQ45VLtIXH3XEqZcIxOvKXXin/Vdudy4epbdEzg5rRKjqj9uvmDeLRYkpyywv5
+	 hTie0NKA5hVEemniCbYHFUW/aABRMB2wt27pqOT8=
+Date: Thu, 28 Nov 2024 22:24:42 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Remove duplicated cap/out code
+Message-ID: <20241128202442.GC13852@pendragon.ideasonboard.com>
+References: <20241127-uvc-dup-cap-out-v1-1-1bdcad2dabb0@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Orlando Stockli <stock83@gmail.com>
-Date: Thu, 28 Nov 2024 14:03:52 -0600
-Message-ID: <CAJhwDWL-+WivYuvyrZdvtTBqmPhKJ9xDURT0m+fUj-Atkjbd4w@mail.gmail.com>
-Subject: Support Request for an EM28xx Analog Video Capture Device on
- Raspberry Pi
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241127-uvc-dup-cap-out-v1-1-1bdcad2dabb0@chromium.org>
 
-Dear Video4Linux Developers,
+Hi Ricardo,
 
-I hope this message finds you well. I am reaching out to request
-assistance with an old analog video capture device that uses the
-EM28xx chipset. I recently found this device and decided to experiment
-with it on my Raspberry Pi running Ubuntu. Unfortunately, I ran into
-some issues during the setup process.
+Thank you for the patch.
 
-The device seems to be partially detected by the kernel but is not
-fully functional. Below are the details of my setup and the relevant
-logs:
+On Wed, Nov 27, 2024 at 07:31:29AM +0000, Ricardo Ribalda wrote:
+> The *_vid_cap and *_vid_out helpers seem to be identical. Remove all the
+> duplicated code.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Unless I miss something, cap and out helpers are identical. So there is
+> no need to duplicate code
+> ---
+>  drivers/media/usb/uvc/uvc_v4l2.c | 112 ++++++++-------------------------------
+>  1 file changed, 22 insertions(+), 90 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 97c5407f6603..11ccdaf0269f 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -361,9 +361,11 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+>  	return ret;
+>  }
+>  
+> -static int uvc_v4l2_get_format(struct uvc_streaming *stream,
+> -	struct v4l2_format *fmt)
+> +static int uvc_ioctl_g_fmt(struct file *file, void *fh,
+> +			   struct v4l2_format *fmt)
+>  {
+> +	struct uvc_fh *handle = fh;
+> +	struct uvc_streaming *stream = handle->stream;
+>  	const struct uvc_format *format;
+>  	const struct uvc_frame *frame;
+>  	int ret = 0;
+> @@ -395,9 +397,11 @@ static int uvc_v4l2_get_format(struct uvc_streaming *stream,
+>  	return ret;
+>  }
+>  
+> -static int uvc_v4l2_set_format(struct uvc_streaming *stream,
+> -	struct v4l2_format *fmt)
+> +static int uvc_ioctl_s_fmt(struct file *file, void *fh,
+> +			   struct v4l2_format *fmt)
+>  {
+> +	struct uvc_fh *handle = fh;
+> +	struct uvc_streaming *stream = handle->stream;
+>  	struct uvc_streaming_control probe;
+>  	const struct uvc_format *format;
+>  	const struct uvc_frame *frame;
+> @@ -685,11 +689,13 @@ static int uvc_ioctl_querycap(struct file *file, void *fh,
+>  	return 0;
+>  }
+>  
+> -static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+> +static int uvc_ioctl_enum_fmt(struct file *file, void *fh,
+>  			      struct v4l2_fmtdesc *fmt)
+>  {
+> -	const struct uvc_format *format;
+> +	struct uvc_fh *handle = fh;
+> +	struct uvc_streaming *stream = handle->stream;
+>  	enum v4l2_buf_type type = fmt->type;
+> +	const struct uvc_format *format;
+>  	u32 index = fmt->index;
+>  
+>  	if (fmt->type != stream->type || fmt->index >= stream->nformats)
+> @@ -707,82 +713,8 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+>  	return 0;
+>  }
+>  
+> -static int uvc_ioctl_enum_fmt_vid_cap(struct file *file, void *fh,
+> -				      struct v4l2_fmtdesc *fmt)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -
+> -	return uvc_ioctl_enum_fmt(stream, fmt);
+> -}
+> -
+> -static int uvc_ioctl_enum_fmt_vid_out(struct file *file, void *fh,
+> -				      struct v4l2_fmtdesc *fmt)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -
+> -	return uvc_ioctl_enum_fmt(stream, fmt);
+> -}
+> -
+> -static int uvc_ioctl_g_fmt_vid_cap(struct file *file, void *fh,
+> -				   struct v4l2_format *fmt)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -
+> -	return uvc_v4l2_get_format(stream, fmt);
+> -}
+> -
+> -static int uvc_ioctl_g_fmt_vid_out(struct file *file, void *fh,
+> -				   struct v4l2_format *fmt)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -
+> -	return uvc_v4l2_get_format(stream, fmt);
+> -}
+> -
+> -static int uvc_ioctl_s_fmt_vid_cap(struct file *file, void *fh,
+> -				   struct v4l2_format *fmt)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -	int ret;
+> -
+> -	ret = uvc_acquire_privileges(handle);
+> -	if (ret < 0)
+> -		return ret;
 
-Device Details:
+Has this now silently disappeared ?
 
-Product Name (from lsusb): XTV2.0
+> -
+> -	return uvc_v4l2_set_format(stream, fmt);
+> -}
+> -
+> -static int uvc_ioctl_s_fmt_vid_out(struct file *file, void *fh,
+> -				   struct v4l2_format *fmt)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -	int ret;
+> -
+> -	ret = uvc_acquire_privileges(handle);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	return uvc_v4l2_set_format(stream, fmt);
+> -}
+> -
+> -static int uvc_ioctl_try_fmt_vid_cap(struct file *file, void *fh,
+> -				     struct v4l2_format *fmt)
+> -{
+> -	struct uvc_fh *handle = fh;
+> -	struct uvc_streaming *stream = handle->stream;
+> -	struct uvc_streaming_control probe;
+> -
+> -	return uvc_v4l2_try_format(stream, fmt, &probe, NULL, NULL);
+> -}
+> -
+> -static int uvc_ioctl_try_fmt_vid_out(struct file *file, void *fh,
+> -				     struct v4l2_format *fmt)
+> +static int uvc_ioctl_try_fmt(struct file *file, void *fh,
+> +			     struct v4l2_format *fmt)
+>  {
+>  	struct uvc_fh *handle = fh;
+>  	struct uvc_streaming *stream = handle->stream;
+> @@ -1544,14 +1476,14 @@ static unsigned long uvc_v4l2_get_unmapped_area(struct file *file,
+>  
+>  const struct v4l2_ioctl_ops uvc_ioctl_ops = {
+>  	.vidioc_querycap = uvc_ioctl_querycap,
+> -	.vidioc_enum_fmt_vid_cap = uvc_ioctl_enum_fmt_vid_cap,
+> -	.vidioc_enum_fmt_vid_out = uvc_ioctl_enum_fmt_vid_out,
+> -	.vidioc_g_fmt_vid_cap = uvc_ioctl_g_fmt_vid_cap,
+> -	.vidioc_g_fmt_vid_out = uvc_ioctl_g_fmt_vid_out,
+> -	.vidioc_s_fmt_vid_cap = uvc_ioctl_s_fmt_vid_cap,
+> -	.vidioc_s_fmt_vid_out = uvc_ioctl_s_fmt_vid_out,
+> -	.vidioc_try_fmt_vid_cap = uvc_ioctl_try_fmt_vid_cap,
+> -	.vidioc_try_fmt_vid_out = uvc_ioctl_try_fmt_vid_out,
+> +	.vidioc_enum_fmt_vid_cap = uvc_ioctl_enum_fmt,
+> +	.vidioc_enum_fmt_vid_out = uvc_ioctl_enum_fmt,
+> +	.vidioc_g_fmt_vid_cap = uvc_ioctl_g_fmt,
+> +	.vidioc_g_fmt_vid_out = uvc_ioctl_g_fmt,
+> +	.vidioc_s_fmt_vid_cap = uvc_ioctl_s_fmt,
+> +	.vidioc_s_fmt_vid_out = uvc_ioctl_s_fmt,
+> +	.vidioc_try_fmt_vid_cap = uvc_ioctl_try_fmt,
+> +	.vidioc_try_fmt_vid_out = uvc_ioctl_try_fmt,
+>  	.vidioc_reqbufs = uvc_ioctl_reqbufs,
+>  	.vidioc_querybuf = uvc_ioctl_querybuf,
+>  	.vidioc_qbuf = uvc_ioctl_qbuf,
+> 
+> ---
+> base-commit: 72ad4ff638047bbbdf3232178fea4bec1f429319
+> change-id: 20241127-uvc-dup-cap-out-6a03c01e30a3
 
-USB ID: eb1a:2821
+-- 
+Regards,
 
-Kernel Version: 6.11.0-1004-raspi
-
-Operating System: Ubuntu on Raspberry Pi
-
-Relevant Logs:
-
-
-em28xx 1-1.1:1.0: Identified as Unknown EM2750/28xx video grabber (card=3D1=
-)
-em28xx 1-1.1:1.0: Your board has no unique USB ID and thus needs a
-hint to be detected.
-em28xx 1-1.1:1.0: Please send an email with this log to:
-em28xx 1-1.1:1.0: V4L Mailing List <linux-media@vger.kernel.org>
-em28xx 1-1.1:1.0: Board EEPROM hash is 0xa5bc808a
-em28xx 1-1.1:1.0: Board i2c devicelist hash is 0x014e00e3
-
-Attempted Steps: I tried loading the em28xx module with various
-card=3D<n> values (e.g., card=3D0, card=3D1, etc.), but none of them seemed
-to work. Additionally, I encountered errors like Decoder not found and
-failed to create media graph, preventing the device from functioning
-properly.
-
-Here are additional commands I=E2=80=99ve run to gather information:
-
-lsusb confirms the USB ID as eb1a:2821.
-
-The kernel log repeatedly suggests the board lacks a unique ID and
-requires manual configuration.
-
-
-Request for Assistance: I kindly ask for guidance on the following:
-
-1. Whether this device is supported by the existing drivers or if it
-requires modifications.
-
-
-2. Any additional steps I could take to make this device work on my
-Raspberry Pi.
-
-
-
-I=E2=80=99m more than willing to provide additional logs, test potential
-fixes, or gather any information that may help improve the support for
-this device. Please don=E2=80=99t hesitate to reach out if there=E2=80=99s =
-anything
-else you need from me.
-
-Thank you for your time and for your continuous efforts in supporting
-the Linux community.
-
-Best regards,
-Orlando
-
-
-
-Orlando Stockli Contreras
-Twitter: @stockli
-Los mejores momentos de la vida vienen por si solos, no tiene sentido
-esperarlos.
-- Thorton Wilder
+Laurent Pinchart
 
