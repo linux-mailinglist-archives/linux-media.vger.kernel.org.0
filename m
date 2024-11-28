@@ -1,121 +1,149 @@
-Return-Path: <linux-media+bounces-22238-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22239-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A3A9DBB5D
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 17:39:25 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADA59DBB78
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 17:45:19 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CF63B22054
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 16:39:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2201B16416E
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 16:45:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CAB31BD9FB;
-	Thu, 28 Nov 2024 16:39:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F8151B3940;
+	Thu, 28 Nov 2024 16:45:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZFpom9XM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k6iLmHdT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C68C3232
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 16:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5176A17993
+	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 16:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732811957; cv=none; b=ZylJzrc8Bh2p2jvPabmuBomVCialOH4sI1aDVQOy+cYw+vEOUmudnx/u604KZ8TxM55aJQrT8//WDb1PZ439Bl2oZAS1xe1OHNqHN60I+AmgOtXbGiTKmsblmqVbSR8pqeCd0x4VBK4XhevhLjq+giENz6ajZaVUvLeS96VNTaY=
+	t=1732812313; cv=none; b=s0H1E3eSiEmzbBhXYxjsiKT8HkRF3z4pRM/26iKOSfG74dfjJfdgwBEGR1kllQn5DWMGf7vOMwxzqNOXR3zDAmTFZD8nwbyfj9fELonwxbBaTJ3XbS4qSvFZQzSmvAxhKuc9mb3DERnj+8wbi6jeotdVZjTV7bTl+/gKwB+0MJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732811957; c=relaxed/simple;
-	bh=IAv5wrB/jotDQK/b1bDAxb2GnPsufvBPXc7oowgpu3U=;
+	s=arc-20240116; t=1732812313; c=relaxed/simple;
+	bh=1apssLQ+1zUXOBn8FaWJ70vHm6cSbFcA0No3jn4K1OU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uhm9pOTjsBvP1c9+w8B0ErKCOsTtevVZ0ZG1bmP+sqVIbGKqaTP8nL/pUUO41/LJzxMjTeTM5rRwPgcRK78vyoTjt74X5dGW2Nzh8R2EoQvoqFzXkNIMype3/YneJi9spTPJ16Lyq6VAp3H/NbEb5aSZm35oKrM9RjCBY1U/Quw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZFpom9XM; arc=none smtp.client-ip=209.85.217.53
+	 To:Cc:Content-Type; b=fYxdfdiRhXXcdSSER3CRLgUAlOG1DMYRxwNgQ7tRAI/SXGV1csfQIhRF0Q8wTvK2K68D8ICHohRj4z+v/JI0gx8Dr/S2ksIlBK2utfMhjeQgQt0dcHKGKlDSfynOy1aK6cXIE8S/3rEvWf3a+OWYnZz8CREg1jupemCvwWJJjx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k6iLmHdT; arc=none smtp.client-ip=209.85.221.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-4af38d1a28fso215035137.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 08:39:15 -0800 (PST)
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5152685b0d7so298853e0c.1
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 08:45:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732811955; x=1733416755; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1732812311; x=1733417111; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=091Z7pML7EhVg2r3ViZMCCYJpHsP1VDPiQtUCfVKz1U=;
-        b=ZFpom9XMRhKnbnp/o8bbFp+HYWN0iVzWED9b0SUJ/pIwmFSviVfmuH0iE3E9t3tUb8
-         6nuVwZdEyCbMlebdk6wwDMolQ26ONyY4znm1iTjk07TSD6uWxRkmNobRc38O/ZHkUwQX
-         +6MZXpUdi4Br7vgpGt61yMqFMotPJ+Z0JaF6AirWKztWtf7YetDMvftjgRExHTgOgsl9
-         XjJRyGrp8ouo3txHAi2l3IMzrX/SYABzJLAoSj8a0y24HfgqVBNzjOo4QMNvVga6J2Ag
-         qxDW5IAbhTpTN+5Go0P/sVhKkNQjPV8PcrYLC8Kg1ehk9zW+j0MS3YrwZmgWMOcsMcVO
-         AUMw==
+        bh=LoZ8vSYYOArn73E0djYqR09T6DXTTdH5cjYekkZnuEY=;
+        b=k6iLmHdT55DE166cQcLUdhWY6pxVmLjer6fbAbnYM3H2BfjypMm3jy/RFd7qNT64L/
+         LJ5+JWcPSqoB1NBG7o2BzQiHsOZpnxLlRDJZVrEa95vZssoNr/U8mrZl33v2g0Py9SeF
+         OHJSiUllZrMb6yTmsIR9CRKlfrU/wi5A2b6zRfko6MFAOhcVL/VyHdj2oJGY+lhrFLRO
+         0WIENZQ8TxzjKYZ7huZXyGVU8xW0HO1esybxpoFSd+i6MU3wUKSHtKvbddvkOcXD7zNT
+         Jv1AhsGMZrKnYyY1HPRQVm0eHQz/lnu7A+rKmg+kSRkXlX3bvps4mUYygGAspz+Dgz27
+         TRTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732811955; x=1733416755;
+        d=1e100.net; s=20230601; t=1732812311; x=1733417111;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=091Z7pML7EhVg2r3ViZMCCYJpHsP1VDPiQtUCfVKz1U=;
-        b=GlNQB9SaErMY4DgGIdx+c0onEUuVKSCtmum5xD8IhBFpmaykoE4GidDvW/B5I9iaKv
-         1Z5qexQCiWbHv4bghDpNopoP+h0n715114fV72gzFIe/KIq/24t8F6IXQO0A/Dy84dAu
-         sJ+5Vg3FJqfGY8W/EJW0gATEeWD/dxRHTo9Xt2gfq0DTp6ynS8sLc5wKT5z7euiD6KEO
-         q6bjJXpyXFlwwHuQX2bc27kun6HXI3ohbcKk3/laj7qzAPzQSpDHTuEJExsZKyeLoDQk
-         Xdcny6PDMNFFFdRwQro/sTfedfvU5n7MRFsQspfKgN9vUujg8kXzA1A6va1kIdFCK4q/
-         54Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcjOJm5FrrH9ZYviXj+HEueX7ADIBC1keHp/xBlKpiJJjC0z7S5s9nZ6mock7E53YLWR86sEBMvk32YQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw393Eh4ycHv4YXssMQMWc0d8VjJyaT914aCggKhysIomH/E2iu
-	AlEs6PYhfRhpsAVo2CNy2IEiD8Jst/Um2EyAwuKuV7w+HMFf4sRFXssH2RyXiVmjLKQXFIg7Dnk
-	DkWY9JjywFxUL1e6h6N1LRjW6Jwk=
-X-Gm-Gg: ASbGncsGqiCfO+kDfFox0P9avYsRaOl3V1PnTpNkpAQTz8ehnUgr/1OphfBCG+ATRNz
-	6FxBRptoX/YFFkWBCK+DLamB9qt47Xw==
-X-Google-Smtp-Source: AGHT+IG5/SyUUWwN+Z9Ozs5KxLG7zU9CxhWJ250fNp1vx4TCMpRWgiiYVp5FXYBL6ccwL71+f16v05rgIqHyD/pacm8=
-X-Received: by 2002:a05:6122:787:b0:514:f579:3b8b with SMTP id
- 71dfb90a1353d-515569d1e4amr9857522e0c.9.1732811954843; Thu, 28 Nov 2024
- 08:39:14 -0800 (PST)
+        bh=LoZ8vSYYOArn73E0djYqR09T6DXTTdH5cjYekkZnuEY=;
+        b=Gm2l3iHgI//ua5EFwD+c8ZNFn9DzWAc7gHnhKF8/GjpAic8XNVXjMMUZ/dlitco+lB
+         jITMfGe4UHiytpYRbCW3bFVKfQcg5hbHsDDstMQsiqoPvTMQeJmXWoMPi5QE2kfmkYx2
+         CobRIa2Z3ORwwHh20axmVJ3hh7WVpP+G0QSnYjJsszB5bMN7sb0g7eLmWo5wWp2o5ce8
+         A90JAMnLTslxXifxQI8NJ4WTnIBHoWmBL8a8qWJLyfF2a3HwbDF5M8cJJTU7jxfn4plM
+         grdFphTlgu/O7BzmnhX4rkQkQxm3ZnMBVzEGHlnpNJZQ0d/84vjWxeTJVPkvPRFMontv
+         z4og==
+X-Forwarded-Encrypted: i=1; AJvYcCX1Y2idaKWQ90DDhshc9w3UztGFIDd/yCOeNxF9YGb3FsqgYgvNQGse7Crt3BqWRMR7LQhWZ0ZXHh4KHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDl4qPEPyunx6CF2VC3u1FlMzRvLzWUd0nqQ1N++CF+R/aj9SV
+	i84bFofB3T6bAdX7SdDtHVC5Tqko2DkJCQCexEgWUhHZ3+r9H+R1yIuZqMorRv+8WGDkBBN6+W7
+	7eKaJ6yhGtAlfEBnBj0cEFYPLwbM=
+X-Gm-Gg: ASbGncvq4jXO+p7ewDc/D4Xh+4KEzJFP58Kw0d4wfY7D3ITlrkYdf/VxE9kQrhsIjsr
+	Ej2Vt+F45E1Rm8kb6DQMv5O/sl5360g==
+X-Google-Smtp-Source: AGHT+IE5sy0mcL2s5WHpC2ST0OtNEFtelCTHXyVBE2SJudat3ffAPHODlhB6eVW1gmTvA/CHyQy2PGuM4IT2GayobzM=
+X-Received: by 2002:a05:6122:a0d:b0:4f5:199b:2a61 with SMTP id
+ 71dfb90a1353d-51556ad01admr8800672e0c.9.1732812311112; Thu, 28 Nov 2024
+ 08:45:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241128152338.4583-1-hdegoede@redhat.com> <20241128152338.4583-2-hdegoede@redhat.com>
-In-Reply-To: <20241128152338.4583-2-hdegoede@redhat.com>
+References: <20241128152338.4583-1-hdegoede@redhat.com> <20241128152338.4583-3-hdegoede@redhat.com>
+In-Reply-To: <20241128152338.4583-3-hdegoede@redhat.com>
 From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Thu, 28 Nov 2024 17:38:58 +0100
-Message-ID: <CAPybu_254vEO4u-3kxz-hi=mDaMj_WVGRqZJgy9gdHQZT++pxA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: ov2740: Debug log chip ID
+Date: Thu, 28 Nov 2024 17:44:55 +0100
+Message-ID: <CAPybu_3aK3vrEeY+4iwpfmz2OwhZyz4aoo8RKk3HqLAPxO2M5w@mail.gmail.com>
+Subject: Re: [PATCH 2/4] media: ov2740: Add camera orientation and sensor
+ rotation controls
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Tianshu Qiu <tian.shu.qiu@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 28, 2024 at 4:23=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+Hi
+
+On Thu, Nov 28, 2024 at 4:24=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> Calling the identify function may get delayed till the first stream-on,
-> add a dev_dbg() to it so that we know when it has run. This is useful
-> to debug bring-up problems related to regulators / clks / GPIOs.
+> Add camera orientation and sensor rotation controls using
+> the v4l2_fwnode_device_parse() and v4l2_ctrl_new_fwnode_properties()
+> helpers.
 >
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/i2c/ov2740.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/media/i2c/ov2740.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index 387c529d9736..e7a611967b40 100644
+> index e7a611967b40..998e1977978d 100644
 > --- a/drivers/media/i2c/ov2740.c
 > +++ b/drivers/media/i2c/ov2740.c
-> @@ -644,6 +644,8 @@ static int ov2740_identify_module(struct ov2740 *ov27=
-40)
->                 return -ENXIO;
->         }
+> @@ -755,15 +755,17 @@ static const struct v4l2_ctrl_ops ov2740_ctrl_ops =
+=3D {
 >
-> +       dev_dbg(&client->dev, "chip id: %x\n", val);
+>  static int ov2740_init_controls(struct ov2740 *ov2740)
+>  {
+> +       struct i2c_client *client =3D v4l2_get_subdevdata(&ov2740->sd);
+nit: dont you prefer to pass the i2c_client as a parameter?
+>         struct v4l2_ctrl_handler *ctrl_hdlr;
+>         const struct ov2740_mode *cur_mode;
+>         s64 exposure_max, h_blank, pixel_rate;
+>         u32 vblank_min, vblank_max, vblank_default;
+> +       struct v4l2_fwnode_device_properties props;
+>         int size;
+>         int ret;
+>
+>         ctrl_hdlr =3D &ov2740->ctrl_handler;
+> -       ret =3D v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+> +       ret =3D v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+>         if (ret)
+>                 return ret;
+>
+> @@ -813,6 +815,13 @@ static int ov2740_init_controls(struct ov2740 *ov274=
+0)
+>                                      V4L2_CID_TEST_PATTERN,
+>                                      ARRAY_SIZE(ov2740_test_pattern_menu)=
+ - 1,
+>                                      0, 0, ov2740_test_pattern_menu);
 > +
-nit: I would have written 0x%x instead, but the previous lines there
-is %x !=3D %x..
-So up to you :)
+> +       ret =3D v4l2_fwnode_device_parse(&client->dev, &props);
+> +       if (ret)
+There is no need to v4l2_ctrl_handler_free(ctrl_hdlr); here?
 
->         ov2740->identified =3D true;
->
->         return 0;
+> +               return ret;
+> +
+> +       v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov2740_ctrl_ops, &pro=
+ps);
+> +
+>         if (ctrl_hdlr->error) {
+>                 v4l2_ctrl_handler_free(ctrl_hdlr);
+>                 return ctrl_hdlr->error;
 > --
 > 2.47.0
 >
