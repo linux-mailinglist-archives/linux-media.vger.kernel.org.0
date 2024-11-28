@@ -1,144 +1,125 @@
-Return-Path: <linux-media+bounces-22209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B5A9DB495
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 10:10:42 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5969DB4D3
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 10:32:08 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E99691664C0
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 09:10:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3821B28275E
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 09:32:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D6DA6A8D2;
-	Thu, 28 Nov 2024 09:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65A6A15749C;
+	Thu, 28 Nov 2024 09:32:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L/1cCBFR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MbFKEriz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EAB14F9D6
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 09:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160DD61FDF;
+	Thu, 28 Nov 2024 09:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732785033; cv=none; b=bs+l0vnw0bSnIOi7FwfZSAg/+I1w+YkmlyMntNm/3OEqKhJ5td4Ko9xB0iMcbf6Eux97ucGBcGGifDuWwKjfYxyDl4Ocf0orQTWCC8wrZz5znw44mVkPQdTQwDoadlpuN65i8iJg8loqi0er7f2RtmKDx8rsStP2xgvQFrCvAyY=
+	t=1732786319; cv=none; b=fJeLCfEWXugKnXY0QkrOdnq82aVDeDEZjxvzC8Yktff5CMPynROeOQ0sPycGW4dXK7xLX72YjOVKL59twmWKOtOZEiP3v4VRZKsWiCBx5w+yojS5QBXxU6gWzR0TsK137g5wGqL5rzki+uVGuu5Y78XJZkHRoI4UfPtPK5piBUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732785033; c=relaxed/simple;
-	bh=1qvWRKNboNmu51AxojQ5Qj4X9MnAEEhEsvcOe+PFzl8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MgjgrA8LjKap5x58CCx1flpZbp4juxDpjk/C66+FtkmmwjBRubpt4LQnGwu6/fZzNph32bhpwOZdTAAVPiY1dP6gIPPK6iKSy1X+7NDHJdtq3EpPrTqu4EQnQZMI0nTgN1ug1Cuq0Mb3VBnjaz2VM/7lixhC0pbGBI2VKluIzag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L/1cCBFR; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53dd2fba94fso96365e87.3
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 01:10:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732785030; x=1733389830; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mfj/AobFLMhgE1cIWyFSrn5uWbVuXPFzxVqiYuk7vew=;
-        b=L/1cCBFR2FtmHdasWv05bxiEb/BfD8CC+XgFoUJouLppSCuII3770hI/R+mtVVhI/C
-         5dOl+ifdMQs56DlwfnwV6fQxJf+g8JALden//8KV1OMr65yIitBd3lWA7RZZUgKRVak6
-         Wvq2f8fkYL+6E/wxOlcAcZT0xZ8wCQZ1S0JiyU2mWMz6FrsS5I62JyhzJqgDzsPn5awJ
-         FFgZwHaZ3rcPZo7dDW9cpFHat9s5Tog3tX4yTYPpbSu0UCgJvkjqUNFceTVSXgnXaC81
-         hvRLci0aW8Nkr6xtglb5mEtW73AAmY0ps9/mA8TvTK5lb/6NKWmRB1oMqa5te9eRNyCP
-         tljw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732785030; x=1733389830;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mfj/AobFLMhgE1cIWyFSrn5uWbVuXPFzxVqiYuk7vew=;
-        b=nUx3JfRshA1nyULU05Cwt9hVMUSAAdANIb1J7atmaS6fbbEwOMBwYSNHL6skFdjQmC
-         LPj5qV1svXtPPhP7XxQConxrSVzOHIGD4rd4TvBs3gDgoQCaUEpYKVTjDydVgHuAnEQ2
-         NJ+UkRnNXofmuI8iWJ0k8P6fwBo6kgmyHskFb1b1qAPczMkug+VtzyZsHVITWALvrlsO
-         XjJ5fBodFeyy7GpowJurSSsXqduErohSoqJnn0OaQ10B+UGBNcUZT5COdl2Hm2gvk+AO
-         dfKh9c4No2x3PHwJTlYrXZKP6nSnGpjvG4anHD81u/QJ7RRzoHd3jMYGPZkHg5SpUgQb
-         KhUg==
-X-Gm-Message-State: AOJu0YxsrYkvvG3jXvrWJMd9Ky2PCiEmduHUU1FohSzTrrISrTx+SiNr
-	d8bhU7gYklDuvPkrBkslljNZEyhQC/f4ByTS7gdGGa2AWFronizatLhHEy3hHUQ=
-X-Gm-Gg: ASbGncvCpae1q34o0Dl8U5W4U8w9GIkUAjcwO0116sJw6gvwFTe75okwmqcHB7obJPZ
-	VAZ6Hk7e1LW9tWFZ2fjSpgCgJrSy1xwWFEt643Qh+dxdELEZlv1STIY4TKkLvD0nH1Ghozjl1Qs
-	tzJC4Xt8IxMkIsNH5S+x9ikAQRkbYBMptl5znaT3/2pJR6zz83EL5AygnRT52BA1GZ8Z7FcnUXv
-	yCcgF5UVjAanXVR68CLG7AV14QH3b59vKhnD0qCa9bORIXhaWxlkLXp5Tn60dmeqBOwkRKMByCM
-	snZ+p1S96OyuhRjgRpi1TzetB65x
-X-Google-Smtp-Source: AGHT+IH0bl8SdTIeN9JDYq+vH2q816+b4x6RwU31gSdNCIs8qjdn3XBYa1+adMS2nm5uya1S5PmfZA==
-X-Received: by 2002:a05:6512:2212:b0:53d:d049:8743 with SMTP id 2adb3069b0e04-53df00ff9f5mr830506e87.9.1732785029864;
-        Thu, 28 Nov 2024 01:10:29 -0800 (PST)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df6496be6sm117511e87.221.2024.11.28.01.10.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2024 01:10:28 -0800 (PST)
-Message-ID: <acb6366a-aa6b-4c84-a3b2-cad03ae02ee7@linaro.org>
-Date: Thu, 28 Nov 2024 11:10:26 +0200
+	s=arc-20240116; t=1732786319; c=relaxed/simple;
+	bh=m4F+PXpK+WzT9jj1TvEqLh9lHUj4BfRz1YLAFlR68tM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rNP8jaZgYVUr7VUWa2/JcVuGLxL00N6VKB7VY/MH4xTwsHxpcAEmFFV3K2Im+XqgQFFAFhtncGYXC8sZbbVWsTgfC1cHUbbjaYZvBf8+6iLwEuDbKZNy7cTW1HA0WQF99OTvpiBflmBwBnMVKvoD/ARtsrkKNK/qWTBPDsBZbYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MbFKEriz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7043359D;
+	Thu, 28 Nov 2024 10:31:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732786290;
+	bh=m4F+PXpK+WzT9jj1TvEqLh9lHUj4BfRz1YLAFlR68tM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MbFKErizLbIcJxW4ECYlQjf86hwh95M9J33xEcCyQWHCEz4GXEEqMBYmPna/Ckrp7
+	 Ijpw8YgEitjjILTGs7xE4Dl/9y3kME0aL5740PIhbQnOXlz68MdhTZRNcGFjX+csRZ
+	 FSt/pdqxfyCIZNUueC5ekC+qAWbnK6gUnn8Apm0s=
+Date: Thu, 28 Nov 2024 11:31:43 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4ll.nl>
+Subject: Re: [PATCH] docs: media: document media multi-committers rules and
+ process
+Message-ID: <20241128093143.GB13800@pendragon.ideasonboard.com>
+References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
+ <20241126151930.GA5493@pendragon.ideasonboard.com>
+ <e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
+ <20241128091959.7ddeec08@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: fix VFE pm domain off
-Content-Language: en-US
-To: Yassine Oudjana <y.oudjana@protonmail.com>,
- =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <a0a41b77-ee63-4d55-8c91-baf667c25cba@protonmail.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <a0a41b77-ee63-4d55-8c91-baf667c25cba@protonmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241128091959.7ddeec08@foz.lan>
 
-On 11/27/24 12:01, Yassine Oudjana wrote:
-> On 22/11/2024 5:06 am, Barnabás Czémán wrote:
->> Fix NULL pointer check before device_link_del
->> is called.
-
-The intention is clear, but the context of the change is completely lost.
-
->> Fixes: eb73facec2c2 ("media: qcom: camss: Use common VFE pm_domain_on/pm_domain_off where applicable")
-
-It's invalid, the change is not a fix.
-
->> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
->> ---
->>    drivers/media/platform/qcom/camss/camss-vfe.c | 2 +-
->>    1 file changed, 1 insertion(+), 1 deletion(-)
->>
->>
->> ---
->> base-commit: decc701f41d07481893fdea942c0ac6b226e84cd
->> change-id: 20241122-vfe_pm_domain_off-c57008e54167
->>
->> Best regards,
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
->> index 80a62ba11295042802cbaec617fb87c492ea6a55..1bf1473331f63b9ab106d21ea263c84d851c8a31 100644
->> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
->> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
->> @@ -595,7 +595,7 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
->>     */
->>    void vfe_pm_domain_off(struct vfe_device *vfe)
->>    {
->> -	if (!vfe->genpd)
->> +	if (!vfe->genpd_link)
->>    		return;
->>    
->>    	device_link_del(vfe->genpd_link);
+On Thu, Nov 28, 2024 at 09:19:59AM +0100, Mauro Carvalho Chehab wrote:
+> Em Wed, 27 Nov 2024 12:59:58 +0100 Hans Verkuil escreveu:
 > 
-> Tested-by: Yassine Oudjana <y.oudjana@protonmail.com>
+> > > I find the GPG signature requirement to be borderline ridiculous. The
+> > > first message you're giving to committers is that you distrust them so
+> > > much that you want them to sign an agreement with their blood
+> > > (figuratively speaking). I don't think it's a very good approach to
+> > > community building, nor does it bring any advantage to anyone.  
+> > 
+> > I kind of agree with Laurent here. Is the media-committers mailinglist
+> > publicly archived somewhere? I think it is sufficient if this is posted
+> > to a publicly archived mailinglist. That could be linux-media, I would be
+> > fine with that. But media-committers would be more appropriate, but only
+> > if it is archived somewhere.
+> > 
+> > If we want a GPG key, what would we do with it anyway?
 > 
+> Every time I send pull requests upstream, I sign the PR tag with my GPG 
+> key:
+> 
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git/tag/?h=media/v6.13-2
+> 
+> This is a requirement from the top maintainer. Requiring it is pretty much 
+> standard at the Kernel community, and wasn't anything similar "to sign with 
+> my blood" (using your words).
+> 
+> It is not just a random GPG key: it is a trusted key as stated at this patch:
+> 
+> 	"a PGP key cross signed by other Kernel and media developers"
+> 	 ...
+> 	 For more details about PGP sign, please read 
+> 	 Documentation/process/maintainer-pgp-guide.rst and
+> 	 :ref:`kernel_org_trust_repository`."
+> 
+> If you see the last link, we're talking about a GPG signature inside
+> kernel.org web of trust.
+> 
+> Heh, all PRs we receive are signed with GPG keys that we trust, including
+> PRs from you. We need to keep doing it with the new workflow.
+> 
+> That reminds that there are still a gap there: the e-mail from the 
+> newcoming committer shall contain something like:
+> 
+> 	"I'll be using this username to commit patches at media-committers:
+> 	 https://gitlab.freedesktop.org/<username>"
+> 
+> I'll add it to the next version.
 
-The change is useless and it shall be dropped.
+I don't mind much either way, but as we're using gitlab for the shared
+tree, we could also do the same as drm-misc and handle this through a
+gitlab issue instead of an e-mail. That advantage is that we'll ensure
+the person has a gitlab account.
 
---
-Best wishes,
-Vladimir
+-- 
+Regards,
+
+Laurent Pinchart
 
