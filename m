@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-22229-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22231-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F609DBA6F
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 16:24:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0D69DBA71
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 16:24:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C4FC28179B
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 15:24:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F619B22A11
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 15:24:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 370D01B6CE1;
-	Thu, 28 Nov 2024 15:24:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B19081B982E;
+	Thu, 28 Nov 2024 15:24:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PtZQLiOI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BBwlR2c0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B93199253
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 15:23:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A94D1BB6A0
+	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 15:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732807439; cv=none; b=rnaf29+tZ4eJgL2QRQ+Vhv+2RzSQu0ZFibZ4PvwzaEUsWpAUyae5bUlzgnEyPzKSDccLRn7qcUaQgEa8MTC+g9xw3PnS3MDHX7yDhzNd5kJOseASEAACkhf5+bthqfNFW0LFnN3Kh2IN6tegJHR/IZzdy/2izVQmRasQhwXBy8g=
+	t=1732807442; cv=none; b=r53Q3cqtGwuQvZa20Jjj8zO3RpXDaqYLSmnVk5EO0+e1GdoxqwATss5VmYmIO9a8gXfwZeVDbD4h8aHCH8dJ9l8TmlRMBYcvdr+MGWGRMnveLLpAOZM3Eqyk4rGo2cIdENMQaSgWIXrNbdJoiD0fE7zlZD/7YYAhl8b0NwIcWpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732807439; c=relaxed/simple;
-	bh=fsmNA5zn091LnVslxdBPWwKHwDzJf5S4jEX1B1cFVrE=;
+	s=arc-20240116; t=1732807442; c=relaxed/simple;
+	bh=BoO73raussRA7CNeRG2fXLuf5/3JLbH82UaHoSFRqow=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cCwPh3/WywYnVXo1t+Fd44j4MfijvOEN1n0AHuj6hVV2/9b9FW1VXHVbrrCL6TbRB9RcIexKnekXuBUC8m8cDjkXoSZcjYsG/7PlAk0J8ibJneBCt6OTxfb6PxvJiQIb+BQ+TQdr7th0txVKXgVGGFQug3WVZ11yJGYzC9KROGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PtZQLiOI; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=EPFgsjsjYlgtSAERCmvvUENbwgf3PCO22GkCH8YH+OD9GgXcbJRF+TrMjX5pwwemy81vJdSdpF3/vPPb+5r5m88qRiLujZ+FKl9r9YwN94wBHEyaImoUVgBNJJjaxw4ns6rJtMe+aCYvgKlV0lX/tAd3FlEYradwEhh/TTwqJh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BBwlR2c0; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732807435;
+	s=mimecast20190719; t=1732807439;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xNVIZ6mq27cS4rItESewJ3EUgT5RCW9F0JluKeyqQFE=;
-	b=PtZQLiOINJLd9dyZ+sFPYvIqBdrKmBwVZauxUXKA8UqL4CQ/HEG7VM7xRXV+rMWmCLCHXE
-	/05YlMaEHjJMhbfbl7vZ7mUix8xPLSvrDS7/pg3/q7JnC4ddzre50PMIjs2/GfQ1GwlzRU
-	7/W8NLo4qT4ZieK0cbz6PoBv95axrps=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+	bh=xnpBELolWXPjgsDU9LMfupQlXW2NYouC49hueeD7KrQ=;
+	b=BBwlR2c0vllJ4MX0dvfoXi4VU5Zt4RYNkdZsquiRAtT+W0ejcim1gTwKxiHHNHTZueK2Jz
+	crlOxpIdn41ftKTtKmdK1XDzTNWMX4NHwipo9MX/3Zcc2IDhQug0hanh1Rcw+5KmztIp56
+	VSi8W7E3+fOuS4Ai4XcRDJmcZv0LhBU=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-301-wNhiZlpzPtyZAjrJManvqA-1; Thu,
- 28 Nov 2024 10:23:50 -0500
-X-MC-Unique: wNhiZlpzPtyZAjrJManvqA-1
-X-Mimecast-MFC-AGG-ID: wNhiZlpzPtyZAjrJManvqA
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-219-ERAyju75MmCXicA4_GvOzA-1; Thu,
+ 28 Nov 2024 10:23:55 -0500
+X-MC-Unique: ERAyju75MmCXicA4_GvOzA-1
+X-Mimecast-MFC-AGG-ID: ERAyju75MmCXicA4_GvOzA
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 71D951955F33;
-	Thu, 28 Nov 2024 15:23:49 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 205F41956058;
+	Thu, 28 Nov 2024 15:23:52 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.193.119])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 48AA0195608A;
-	Thu, 28 Nov 2024 15:23:46 +0000 (UTC)
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0E69D195608A;
+	Thu, 28 Nov 2024 15:23:49 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Tianshu Qiu <tian.shu.qiu@intel.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Bingbu Cao <bingbu.cao@intel.com>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	linux-media@vger.kernel.org
-Subject: [PATCH 2/4] media: ov2740: Add camera orientation and sensor rotation controls
-Date: Thu, 28 Nov 2024 16:23:36 +0100
-Message-ID: <20241128152338.4583-3-hdegoede@redhat.com>
+Subject: [PATCH 3/4] media: ov2740: Add powerdown GPIO support
+Date: Thu, 28 Nov 2024 16:23:37 +0100
+Message-ID: <20241128152338.4583-4-hdegoede@redhat.com>
 In-Reply-To: <20241128152338.4583-1-hdegoede@redhat.com>
 References: <20241128152338.4583-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -77,52 +77,65 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-Add camera orientation and sensor rotation controls using
-the v4l2_fwnode_device_parse() and v4l2_ctrl_new_fwnode_properties()
-helpers.
+The ov2740 sensor has both reset and power_down inputs according to
+the datasheet one or the other should always be tied to DOVDD but on
+some designs both are attached to GPIOs.
+
+Add support for controlling both a reset and a powerdown GPIO.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2740.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov2740.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index e7a611967b40..998e1977978d 100644
+index 998e1977978d..14d0a0588cc2 100644
 --- a/drivers/media/i2c/ov2740.c
 +++ b/drivers/media/i2c/ov2740.c
-@@ -755,15 +755,17 @@ static const struct v4l2_ctrl_ops ov2740_ctrl_ops = {
+@@ -525,6 +525,7 @@ struct ov2740 {
  
- static int ov2740_init_controls(struct ov2740 *ov2740)
- {
-+	struct i2c_client *client = v4l2_get_subdevdata(&ov2740->sd);
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	const struct ov2740_mode *cur_mode;
- 	s64 exposure_max, h_blank, pixel_rate;
- 	u32 vblank_min, vblank_max, vblank_default;
-+	struct v4l2_fwnode_device_properties props;
- 	int size;
- 	int ret;
+ 	/* GPIOs, clocks */
+ 	struct gpio_desc *reset_gpio;
++	struct gpio_desc *powerdown_gpio;
+ 	struct clk *clk;
  
- 	ctrl_hdlr = &ov2740->ctrl_handler;
--	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+ 	/* Current mode */
+@@ -1306,6 +1307,7 @@ static int ov2740_suspend(struct device *dev)
+ 	struct ov2740 *ov2740 = to_ov2740(sd);
+ 
+ 	gpiod_set_value_cansleep(ov2740->reset_gpio, 1);
++	gpiod_set_value_cansleep(ov2740->powerdown_gpio, 1);
+ 	clk_disable_unprepare(ov2740->clk);
+ 	return 0;
+ }
+@@ -1320,6 +1322,7 @@ static int ov2740_resume(struct device *dev)
  	if (ret)
  		return ret;
  
-@@ -813,6 +815,13 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
- 				     V4L2_CID_TEST_PATTERN,
- 				     ARRAY_SIZE(ov2740_test_pattern_menu) - 1,
- 				     0, 0, ov2740_test_pattern_menu);
++	gpiod_set_value_cansleep(ov2740->powerdown_gpio, 0);
+ 	gpiod_set_value_cansleep(ov2740->reset_gpio, 0);
+ 	msleep(20);
+ 
+@@ -1348,9 +1351,17 @@ static int ov2740_probe(struct i2c_client *client)
+ 	if (IS_ERR(ov2740->reset_gpio)) {
+ 		return dev_err_probe(dev, PTR_ERR(ov2740->reset_gpio),
+ 				     "failed to get reset GPIO\n");
+-	} else if (ov2740->reset_gpio) {
++	}
 +
-+	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-+	if (ret)
-+		return ret;
++	ov2740->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_HIGH);
++	if (IS_ERR(ov2740->powerdown_gpio)) {
++		return dev_err_probe(dev, PTR_ERR(ov2740->powerdown_gpio),
++				     "failed to get powerdown GPIO\n");
++	}
 +
-+	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov2740_ctrl_ops, &props);
-+
- 	if (ctrl_hdlr->error) {
- 		v4l2_ctrl_handler_free(ctrl_hdlr);
- 		return ctrl_hdlr->error;
++	if (ov2740->reset_gpio || ov2740->powerdown_gpio) {
+ 		/*
+-		 * Ensure reset is asserted for at least 20 ms before
++		 * Ensure reset/powerdown is asserted for at least 20 ms before
+ 		 * ov2740_resume() deasserts it.
+ 		 */
+ 		msleep(20);
 -- 
 2.47.0
 
