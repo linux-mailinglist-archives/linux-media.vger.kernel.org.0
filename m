@@ -1,153 +1,161 @@
-Return-Path: <linux-media+bounces-22265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22266-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABC99DBD53
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3561B9DBD59
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:35:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C160164A59
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 21:27:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3877164990
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 21:35:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9E51C5793;
-	Thu, 28 Nov 2024 21:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D43B91C3F3B;
+	Thu, 28 Nov 2024 21:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FB7HtqZ2"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YCwJC1fe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593E01C4A09;
-	Thu, 28 Nov 2024 21:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFC813B2A4
+	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 21:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732829246; cv=none; b=NmhNEMpZIR/gs7RhBMkl2WnZWuEVf9kxX2m5Dobk0HD+NtlICbjDQMKz2qv7pDFVLReyaOyptG34qHENsJem2aSzsH28DrXYEuzopZ3iumDoxWkPUl9/A8JGW7sfWpQFCsVzjMwJqd8op8Xz8g0NSEvVg61wLbp3EmsbJwCOlKs=
+	t=1732829696; cv=none; b=F8Tqzy+Qxrzj7HOXsqH2+tQ+gxvmqEhvH3Q8hRVqEmJFLCRPPjXWjapaNWyVkHbwYe/WU7FLsnnP9HWPMVxgrn82NO7XW2jyZrFGCc3k2RsxTQhSLURz9YyAKqQgpU95jWrEKoNlSO8X/EvNWOG+8VcHVy1fR6oMX4Ps6eXXlIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732829246; c=relaxed/simple;
-	bh=s+VcTU5fuPZKU8olrgmoGGpranj3388WNP5HiwpP3Hk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cf7uAZ2W7lWFlVmK4iLx9WTGDpmYDvbkTL9taGikolVSDHBfRMQUkuyC0wSh71QkeaQMabtCh4X+5rV5ZAFuIsIBXtVZq0nmKkkJhgLVzfkWIFqPtTqaCywqMyWP4NzL2dAZWb1rmY96wRJeyxTtG9rNaT2HN+LP16R8KFZFeKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FB7HtqZ2; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732829244; x=1764365244;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=s+VcTU5fuPZKU8olrgmoGGpranj3388WNP5HiwpP3Hk=;
-  b=FB7HtqZ2xPRdDFCIXrJnFDzRKoB32m44xSt+dPDlVGKMP1/LYYH3NPGK
-   8psaF/irEVrIf9HhzuG9WwXGWOM1jVykqljIHeF9oTsw8M7mrnVGOhWJP
-   zINse0raVR5UKdafxXoYUH99aRRF3RCcxI/or9a9KZr5QA6YhgBH0b3pu
-   WqfFVN8dB5kMJqSQO5Fhf0j1likfBP7vOTcUh2xE/cPyypxiFL31SIdpl
-   fHzWUjxSOGJ+g5p1TXK2WIBI4mSdhaUILSX0711RDxDRJWjmWrFDlIzqN
-   NIzx15HlSIRAItEiwV1DxR1rYFgN3YytBuHZcUaCm0gdeISmvRju3YVmi
-   w==;
-X-CSE-ConnectionGUID: iGZ4Z6PGTseeQgnxnrFuXQ==
-X-CSE-MsgGUID: 9OYGOmyORGm9p7Vhwg3u/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="32929821"
-X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="32929821"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 13:27:15 -0800
-X-CSE-ConnectionGUID: Ao3IuNX5SI+PJIXiwIkb7A==
-X-CSE-MsgGUID: V1Su/k2tRme7ZsCtGIrBig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="97424569"
-Received: from mklonows-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.199])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 13:27:08 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Hans Verkuil
- <hverkuil@xs4ll.nl>
-Subject: Re: [PATCH] docs: media: document media multi-committers rules and
- process
-In-Reply-To: <20241128194758.7d2e7656@foz.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
- <20241126151930.GA5493@pendragon.ideasonboard.com>
- <20241127103948.501b5a05@foz.lan>
- <20241127111901.GG31095@pendragon.ideasonboard.com>
- <CAKMK7uFZsc+-Os+Pb9MHHbdt1K5Pj+D069d-+FvsDeeWgeZASw@mail.gmail.com>
- <87iks7wqi3.fsf@intel.com> <20241128194758.7d2e7656@foz.lan>
-Date: Thu, 28 Nov 2024 23:27:04 +0200
-Message-ID: <87v7w76od3.fsf@intel.com>
+	s=arc-20240116; t=1732829696; c=relaxed/simple;
+	bh=zG32356MJsh3JnWSmMLcSv/tq2Qpt12J6lc5ueIzQ3o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ku/KarDu9g4I80zjlFe3y/vAkHUfo8bwYzbYsDQdNStqWRloa64F61DtQnX5tdMM+3xN3YLI6UQI6T+GdETFJFScBzoNZ5NzPIQqcNFIc6Sw13jiWNM3kIAx32bf4VQxP7atE3ActUQA333w0MRbyK/IQxRuTA0YfitRYMZ8nrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YCwJC1fe; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-212884028a3so7653945ad.0
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 13:34:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1732829694; x=1733434494; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VZ3B52zWQdNOd8F/nW1HrBtSmyEx9e8pcGYpxy7g/fg=;
+        b=YCwJC1feAMjg9SLhLCAB+6thkuYWTFDH1MRivAKOsa+/IuMEhlS+tsh8cbdg/3M/1a
+         OXgrGv+63CbT3JEFiI4j+S06jP2Uh3i/Q68b0iyD7rNQDwv5gEePVAR5hJOjSRchAJYy
+         SN00OXGhWIJOQVx2drWb2uZEZYHxc/wCkQkVc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732829694; x=1733434494;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VZ3B52zWQdNOd8F/nW1HrBtSmyEx9e8pcGYpxy7g/fg=;
+        b=IJ1XPDmfeC7UrfQs2ToBLxiWIr1vuHdVF1U7yPVHKCA3EFW4k8jhcGzkU0CZljMydN
+         H5WVhUJLyqdKVl604vWCnBzVVcMcU7fgMoMIcPt/dh9LEMz0zOIqskb+fxEdGNrxRsrj
+         2hWHOfF4DRKaxOOtTbLAaxi3v9jyS5qxxeqlyE4qx4NNHiOrZi8L9UwmahMHzLnWu4IL
+         qT2PycoJBZjm6rEOLY7NS42mkTrPLlzIskKUJGmVBfOILo0YgZAF9ruVWGohUvVxbBEo
+         u8MAwtE99aaYXcPEGDbqQyyZn2o/QQKo13qoPsLY/n6u9zGvBsPZ97y92X8ae6wQaXMg
+         bQ5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUi6HUwFYz3XhOoDIPueKnGgSNmGqTwqgBFD1wmeGfuF3Y6GkMKONW4bARS5SBHBDnBLF5mezKgICtgcw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoQwtwpajmmOlq02NP1FZLoNg8hnakMuqnIZCVJK6LoO+FHFrA
+	NioLs+3aKXO+0naRfHPmUAaLq4oQCHwc7gjrzTNr7NK/I/Jwm+EzIR9nL5pDADLX/5xuS1aC99Q
+	=
+X-Gm-Gg: ASbGncsnzjAEIblD//gIZ8LCHQdF89dFnRzAZPF7FcV/IuTP7HgZNPaV7KSYgxguL2R
+	KkC007jr8qyt7ldiFvHM0CNMuneed5xBa/eIzFo8d8k/9sU2X5TQmSSsfs26yoZqS1jqZyWe5DG
+	ynLMBG79dPph83nGD/ciI4OpcUyW16Jyc8yt6seZWoBWUQel7+Ot6g05blDGOYqmN/j2CwNbbwF
+	krQTLjHonUejlCvGgWBsGDN8Oy7x1l6bz/P3MzHeLVmUCntdjqcy1etAKamYY+ko7XOUnZ1E4+h
+	ucFPk0mV7b0F
+X-Google-Smtp-Source: AGHT+IGRKjWNq9Qw7VVYsaZu2C78qh4aM9Hsh+38CIC7vtOrN0zN8osvMmXW3P8I+5C0wzvLPrJqtQ==
+X-Received: by 2002:a17:902:f541:b0:215:1c60:77bb with SMTP id d9443c01a7336-2151d318a24mr77478805ad.8.1732829693986;
+        Thu, 28 Nov 2024 13:34:53 -0800 (PST)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com. [209.85.216.53])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215219050b7sm18291165ad.83.2024.11.28.13.34.52
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Nov 2024 13:34:53 -0800 (PST)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e9ff7a778cso1715924a91.1
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 13:34:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXGml0WdnwCQMxSSWlv7Wm0by1HLc3dkW0bMTHwRzoiv4axS4bDhhj/U4dYastbHKV8JH4b4uXv03z3GA==@vger.kernel.org
+X-Received: by 2002:a17:90b:3902:b0:2ea:49a8:9169 with SMTP id
+ 98e67ed59e1d1-2ee25ae1094mr8025818a91.7.1732829691639; Thu, 28 Nov 2024
+ 13:34:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
+ <20241127-uvc-fix-async-v2-4-510aab9570dd@chromium.org> <20241128212628.GD25731@pendragon.ideasonboard.com>
+In-Reply-To: <20241128212628.GD25731@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 28 Nov 2024 22:34:38 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvb8OCGJjggermRPeD6R2Rt79hMuwF6xc6YQvvSqUNObA@mail.gmail.com>
+Message-ID: <CANiDSCvb8OCGJjggermRPeD6R2Rt79hMuwF6xc6YQvvSqUNObA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] media: uvcvideo: Remove redundant NULL assignment
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, 
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 28 Nov 2024, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> We used to have a low bar for entry on our past multi-committers
-> model (back in 2005-2007). It was a disaster, as one of the
-> committer did very evil things. He was blocked, but that didn't
-> prevent some of us to be threatened with physical violence - and 
-> some people even reported death threats.
+Hi
 
-While I understand the hesitation, I don't think it's fair towards
-potential future collaborators to distrust them based on a bad actor
-from nearly 20 years ago.
-
->> Frankly, I'm not fond of the invite-only model. You need to be careful
->> to not lose transparency.
+On Thu, 28 Nov 2024 at 22:26, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> The intent is to be as transparent as possible without violating regulations
-> like GPDR.
-
-I have no idea how GDPR would be relevant here. We don't collect data,
-other than what's in git.
-
->> I think it's also important to define merge criteria. A set of rules by
->> which a committer can commit. And it's not really about technical
->> checkboxes. For example, in drm it really boils down to two things: at
->> least two people have been involved, and there are no open issues.
+> Hi Ricardo,
 >
-> That's the same criteria we're aiming for. We'll start without
-> two people reviewing, as there won't be enough committers at the
-
-It's not two reviewers for us either; it's typically author+reviewer and
-either author or reviewer commits. Two sets of eyeballs in total.
-
-> beginning for that, but maintainers may revert/rebase the tree in
-> case they don't agree with changes.
-
-Not sure if you really mean it, but saying it like that doesn't really
-breed trust, IMO. Sure, there have been patches merged to i915 that I
-didn't "agree" with. But bad enough to warrant a revert? Very few and
-far between, and always for clear and concrete reasons rather than
-anything subjective.
-
-Side note, we don't do rebases in the development branches.
-
-> Currently, for most of the drivers, the number of committers per driver
-> is equal to the number of maintainers for the same driver.
-
-FWIW, I think that pretty much matches how it was for most drivers in
-drm before the committer model.
-
-> So, on this stage, we're aiming on get maintainers commit rights,
-> starting with the ones that are long time contributors and regularly
-> participate at the media summits.
+> Thank you for the patch.
 >
-> Once the "slow start" phase finishes, we can review the process and
-> start thinking on getting more developers and committers.
+> On Wed, Nov 27, 2024 at 12:14:52PM +0000, Ricardo Ribalda wrote:
+> > ctrl->handle will only be different than NULL for controls that have
+> > mappings. This is because that assignment is only done inside
+> > uvc_ctrl_set() for mapped controls.
+>
+> That seems right. I checked the unplug paths, and the mappings are
+> destroyed from uvc_delete(), after all file handles get closed.
+>
+> I think this patch should go first in the series, as otherwise there's a
+> temporary state where you rely on handle never being touched without
+> holding the proper lock, and this code path violates that requirement.
+> Is there anything I may be missing that would cause issues with
+> bisection if I move this patch at the beginning of the series ?
+>
 
-Just saying, it's easier to convince people to become committers with no
-strings attached than (co-)maintainers with a bunch of responsibilities,
-such as review or travel obligations.
+You probably want to add the Cc: stable and Fixes: tags if you make
+this patch the first one.
+
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > ---
+> >  drivers/media/usb/uvc/uvc_ctrl.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > index 99ddc5e9dff8..b9c9ff629ab6 100644
+> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > @@ -1645,10 +1645,8 @@ bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
+> >       struct uvc_device *dev = chain->dev;
+> >       struct uvc_ctrl_work *w = &dev->async_ctrl;
+> >
+> > -     if (list_empty(&ctrl->info.mappings)) {
+> > -             ctrl->handle = NULL;
+> > +     if (list_empty(&ctrl->info.mappings))
+> >               return false;
+> > -     }
+> >
+> >       w->data = data;
+> >       w->urb = urb;
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
 
-BR,
-Jani.
 
 -- 
-Jani Nikula, Intel
+Ricardo Ribalda
 
