@@ -1,164 +1,250 @@
-Return-Path: <linux-media+bounces-22271-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22272-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8879DBD74
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 23:14:36 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C52159DBD78
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 23:17:16 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC4B4164CE6
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:14:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1BB65B21FB0
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 918711C4A1B;
-	Thu, 28 Nov 2024 22:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD3D11C460C;
+	Thu, 28 Nov 2024 22:17:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ko3nAyOX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vbbC/nmJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247692837A
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 22:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AF61509B4;
+	Thu, 28 Nov 2024 22:17:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732832064; cv=none; b=pgqamxeG6NhOOC/WRdWuL2jqDKy+QxCb5fakNSpEE0L6MypdjotuIkJo568SthvnKk/SNTjspllW8GWYablR+ujf8b5m5sdI5oFXoniwWEY8NIfnwGOC9dKzmmqkQCj4xrljC+6KoY2WHA/BZdVfVDFmj3ECzzBLHdDrlo3XLdg=
+	t=1732832225; cv=none; b=aCDxvYeHCPinK+5qT6nqLo3iL3thwh59/+AK9ZtjDHORkm1TSI41AdlH7cXLbSFwhMzF0B64WLjmEJ1WjNe3amcJe9hpK5sWKqveWQ6/DBAy1rFg1ym8A92ICGbMKiTPtGlZk3HKAono4KIUa5nGYzaWD6of3Pjk7zh7vEeKU88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732832064; c=relaxed/simple;
-	bh=T+B6uY2PCmsr5JVdleJdruuzSZy1XAQH0ge6L90EYiA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bijxFiBsta7kcBNF8pSP1TpI+yz78/0s/Ad5M1C35lYvnbH/DywX2OMH7b6fpYHChcnFPTNFMNqXjNsFLG/nHAc2nUCsnvEJd0HRkYqtA6UacfiXsoaMJ98xbUnhnMhsFMd1l0hXhYzLF6ljvM69caUnBekSt/0d7bx2VJqox0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ko3nAyOX; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-434aabd688fso7911085e9.3
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 14:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732832059; x=1733436859; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y0Rj4yaKZcalBf4ESSHlGCvsOhLHa8EIvVLhVHMQcPg=;
-        b=Ko3nAyOXVjVzR7uJsVG0VOeY25P/9yehPV3i+SCO6MO4TOs1jtZG6RNOE3LXoHB1Rb
-         xW9E0RX8JJU/nr8WyrjfaP9kbR27RyBWsYqxcoaNxljCHN2zQJZgsjcafnt1Y+Cj9PfK
-         AUl+D8uOSqFBf2sTej2IWCL3w29q1nqCVSFRUwxF+v3wLBxyLBho1gXVA7zFWtVPRowd
-         owAzqGkyeEe7pRl3W0b6bLcpb9R+FOCH6z5e6bVJ/4aLZ+iRXyEokrqCXHOs4VNCPyEv
-         /xVBowwIVmnWVpDfgTn4o9xhtVBG7Td7+oFfuUu3rDBLrJqSmxH08gffg7qglWLAkWkl
-         g7DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732832059; x=1733436859;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y0Rj4yaKZcalBf4ESSHlGCvsOhLHa8EIvVLhVHMQcPg=;
-        b=ky6if+dHAj0hM4XD9iNwSQr3M2Fgumv1rAbbYf9gQ4WnIhQYYeY8DppQCz6eV+nTUu
-         AXlBegCzEG2ecOh4Of6JyChBaw5TP3UVYscdPKOd1SwLlrJnBoMhmr8HYiRNBkras/UO
-         LJpUXZRDOW9v3Pb19TnTdHqimAJ3WhHQfXzUPLQYqpCHbvmAO4gCH94D3YemhALskyWi
-         97J2gdg6CxRMJk5TSHox/2LJ7luYXVoCFPslVw5A5bJFpMjdOvVCFAnfkYT/ra4ZSjq9
-         c+wtUW+OOhp1+/QmTY8T3wUwuxdtH2wReJv9/cjPKDVn+mZ+yEJa2XNgXJq+EVFeYR5T
-         XJVw==
-X-Forwarded-Encrypted: i=1; AJvYcCWVLwXZTyP4WIWJESH9iqiCLW7mFxD2YAn7i700ypaoLMvRqvmteNTpBuqUXEYJb2iDIDo7LQQ33snTAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnAbDG0bPKvkH3+isvrvbqyVLFuTf18uwhArkEATbajlR2AZOS
-	ULwPzkeBdZq2mq8lx4e2WBlKQDswXQ+mdRNMItaQIIUzpjUvC81Rt5jLeTi7MAFh9WcRanWpAYd
-	uO80=
-X-Gm-Gg: ASbGncvQfTIjo0bVfk8O9f/sPQ3VPGGZs7tkUVd1vPNn9A8JPcW7hQLPJQMNq47I8K7
-	BOWp/90LIPspXmucn/blK7IK6aSdzWIO/JF2J/uPbNZCBqCZd7eSFNdFv2wktr+EIYERmBEtLqW
-	JKCw/lysowvGymZvFdvR2XX2JUl2/+rmDlku4uIBgkcpv8SxaCtTjFZuHCVdOkoK8ifawS3eKyH
-	0zt5zdkIEKCvt9Dn8zIQBzS5ga0liQfjQVGs/qf2VLqC2z1UVaOhZtLe4DVrmo=
-X-Google-Smtp-Source: AGHT+IGnT9xFBXQMj7QQ/kDQaVFpEopOT+eRP/0MhIxrqJS/I60adGLIkx9okGz4Lo8nrGR6ze66lQ==
-X-Received: by 2002:a05:600c:b8b:b0:434:9e17:18e5 with SMTP id 5b1f17b1804b1-434a9d4f7famr92200835e9.0.1732832059495;
-        Thu, 28 Nov 2024 14:14:19 -0800 (PST)
-Received: from [192.168.0.31] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385dc169d79sm762757f8f.92.2024.11.28.14.14.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2024 14:14:19 -0800 (PST)
-Message-ID: <95ec73c9-da38-4888-9e00-4458b5a7661c@linaro.org>
-Date: Thu, 28 Nov 2024 22:14:16 +0000
+	s=arc-20240116; t=1732832225; c=relaxed/simple;
+	bh=FTR/bmK0kwcRvHnwRljj1g9X29iuMKZoHvQiehuyMXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T2Sw6G6Tp+Uyz5A9TJQJNFkYe7XGrKQxDBvoCf5FmDs3uMF23i9lZ5eikjV7RG3gCXWerfvg/OFZk4Amvik1mhLrZh8OUe/beyxblXzeHp+CFVD2uN+M7aqc8qJ7DU4cKg9bcWpC+H4j6nP5uykQEvayqX0hHmj3zsPZpQKyw/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vbbC/nmJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 537CF526;
+	Thu, 28 Nov 2024 23:16:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732832195;
+	bh=FTR/bmK0kwcRvHnwRljj1g9X29iuMKZoHvQiehuyMXU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vbbC/nmJOdLxXwnnhOoFVsQO3LEcuQkmQnZZwXR9O9c2LDZMIzkNYIlXlPVvABqEK
+	 IFYhHCsk5lXpGeJw+uR4yxFIq5HVURLIXXFP/mIb9rHMHpKr0XQXuj83R8cRDWs+nv
+	 X05AYBroUk18/AG6SJYW3KVYJJmYfQgGXAJ1LEsQ=
+Date: Fri, 29 Nov 2024 00:16:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] media: uvcvideo: Remove dangling pointers
+Message-ID: <20241128221649.GE25731@pendragon.ideasonboard.com>
+References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
+ <20241127-uvc-fix-async-v2-1-510aab9570dd@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: venus: Add support for static video
- encoder/decoder declarations
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: quic_renjiang@quicinc.com, quic_vnagar@quicinc.com,
- quic_dikshita@quicinc.com, konradybcio@kernel.org,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>, devicetree@vger.kernel.org
-References: <20241127-media-staging-24-11-25-rb3-hw-compat-string-v1-0-99c16f266b46@linaro.org>
- <20241127-media-staging-24-11-25-rb3-hw-compat-string-v1-1-99c16f266b46@linaro.org>
- <7d344377-f1cf-400e-a9c4-442123dcf4ab@oss.qualcomm.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <7d344377-f1cf-400e-a9c4-442123dcf4ab@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241127-uvc-fix-async-v2-1-510aab9570dd@chromium.org>
 
-On 28/11/2024 20:02, Konrad Dybcio wrote:
-> On 27.11.2024 2:34 AM, Bryan O'Donoghue wrote:
->> Add resource structure data and probe() logic to support static
->> declarations of encoder and decoder.
->>
->> Right now we rely on video encoder/decoder selection happening in the dtb
->> but, this goes against the remit of device tree which is supposed to
->> describe hardware, not select functional logic in Linux drivers.
->>
->> Provide two strings in the venus resource structure enc_nodename and
->> dec_nodename.
->>
->> When set the venus driver will create an OF entry in-memory consistent
->> with:
->>
->> dec_nodename {
->>      compat = "video-decoder";
->> };
->>
->> and/or
->>
->> enc_nodename {
->>      compat = "video-encoder";
->> };
->>
->> This will allow us to reuse the existing driver scheme of relying on compat
->> names maintaining compatibility with old dtb files.
->>
->> dec_nodename can be "video-decoder" or "video0"
->> enc_nodename can be "video-encoder" or "video1"
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
+Hi Ricardo,
+
+Thank you for the patch.
+
+On Wed, Nov 27, 2024 at 12:14:49PM +0000, Ricardo Ribalda wrote:
+> When an async control is written, we copy a pointer to the file handle
+> that started the operation. That pointer will be used when the device is
+> done. Which could be anytime in the future.
 > 
-> Bryan,
+> If the user closes that file descriptor, its structure will be freed,
+> and there will be one dangling pointer per pending async control, that
+> the driver will try to use.
 > 
-> I'm still not sure if keeping the logic behind this makes sense at all.
+> Clean all the dangling pointers during release().
 > 
-> Could we not just call platform_device_register_data() with a static
-> configuration of 1 core being enc and the other dec?
+> To avoid adding a performance penalty in the most common case (no async
+> operation). A counter has been introduced with some logic to make sure
 
-That's another way to do this. One reason I wrote this series to 
-continue to rely on the existing compat= method though is it stuck in my 
-mind that we have some dependency ordering logic in at the moment.
+s/). A/), a/
 
-For example:
+> that it is properly handled.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 38 ++++++++++++++++++++++++++++++++++++--
+>  drivers/media/usb/uvc/uvc_v4l2.c |  2 ++
+>  drivers/media/usb/uvc/uvcvideo.h |  8 +++++++-
+>  3 files changed, 45 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 4fe26e82e3d1..b6af4ff92cbd 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1589,7 +1589,12 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
 
-commit 08b1cf474b7f72750adebe0f0a35f8e9a3eb75f6
-Author: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date:   Fri Feb 5 19:11:49 2021 +0100
+How about adding
 
-And the other reason is the prototype platform_device_register_* looks 
-like more surgery and ultimately more validation / potential for bugs.
+static void uvc_ctrl_set_handle(struct uvc_control *ctrl, uvc_fh *handle)
+{
+	if (handle) {
+		if (!ctrl->handle)
+			handle->pending_async_ctrls++;
+		ctrl->handle = handle;
+	} else if (ctrl->handle) {
+		ctrl->handle = NULL;
+		if (!WARN_ON(!handle->pending_async_ctrls))
+			handle->pending_async_ctrls--;
+	}
+}
 
-Since this driver is supposed to be moving to maintenance mode, I didn't 
-want to do a more major rewrite of the probe() and remove() paths.
+>  	mutex_lock(&chain->ctrl_mutex);
+>  
+>  	handle = ctrl->handle;
+> -	ctrl->handle = NULL;
+> +	if (handle) {
+> +		ctrl->handle = NULL;
+> +		WARN_ON(!handle->pending_async_ctrls);
+> +		if (handle->pending_async_ctrls)
+> +			handle->pending_async_ctrls--;
+> +	}
 
----
-bod
+This would become
+
+	handle = ctrl->handle;
+	uvc_ctrl_set_handle(ctrl, NULL);
+
+>  
+>  	list_for_each_entry(mapping, &ctrl->info.mappings, list) {
+>  		s32 value = __uvc_ctrl_get_value(mapping, data);
+> @@ -2046,8 +2051,11 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+>  	mapping->set(mapping, value,
+>  		uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+>  
+> -	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
+> +	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS) {
+> +		if (!ctrl->handle)
+> +			handle->pending_async_ctrls++;
+>  		ctrl->handle = handle;
+> +	}
+
+Here
+
+	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
+		uvc_ctrl_set_handle(ctrl, handle);
+
+>  
+>  	ctrl->dirty = 1;
+>  	ctrl->modified = 1;
+> @@ -2770,6 +2778,32 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
+>  	return 0;
+>  }
+>  
+> +void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+> +{
+> +	struct uvc_entity *entity;
+> +
+> +	guard(mutex)(&handle->chain->ctrl_mutex);
+> +
+> +	if (!handle->pending_async_ctrls)
+> +		return;
+> +
+> +	list_for_each_entry(entity, &handle->chain->dev->entities, list) {
+> +		for (unsigned int i = 0; i < entity->ncontrols; ++i) {
+> +			struct uvc_control *ctrl = &entity->controls[i];
+> +
+> +			if (ctrl->handle != handle)
+> +				continue;
+> +
+> +			ctrl->handle = NULL;
+> +			if (WARN_ON(!handle->pending_async_ctrls))
+> +				continue;
+> +			handle->pending_async_ctrls--;
+
+And here
+
+			uvc_ctrl_set_handle(ctrl, NULL);
+
+It seems less error-prone to centralize the logic. I'd add a
+lockdep_assert() in uvc_ctrl_set_handle(), but there's no easy access to
+the chain there.
+
+> +		}
+> +	}
+> +
+> +	WARN_ON(handle->pending_async_ctrls);
+> +}
+> +
+>  /*
+>   * Cleanup device controls.
+>   */
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 97c5407f6603..b425306a3b8c 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -652,6 +652,8 @@ static int uvc_v4l2_release(struct file *file)
+>  
+>  	uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
+>  
+> +	uvc_ctrl_cleanup_fh(handle);
+> +
+>  	/* Only free resources if this is a privileged handle. */
+>  	if (uvc_has_privileges(handle))
+>  		uvc_queue_release(&stream->queue);
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 07f9921d83f2..c68659b70221 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -337,7 +337,10 @@ struct uvc_video_chain {
+>  	struct uvc_entity *processing;		/* Processing unit */
+>  	struct uvc_entity *selector;		/* Selector unit */
+>  
+> -	struct mutex ctrl_mutex;		/* Protects ctrl.info */
+> +	struct mutex ctrl_mutex;		/*
+> +						 * Protects ctrl.info and
+> +						 * uvc_fh.pending_async_ctrls
+> +						 */
+>  
+>  	struct v4l2_prio_state prio;		/* V4L2 priority state */
+>  	u32 caps;				/* V4L2 chain-wide caps */
+> @@ -612,6 +615,7 @@ struct uvc_fh {
+>  	struct uvc_video_chain *chain;
+>  	struct uvc_streaming *stream;
+>  	enum uvc_handle_state state;
+> +	unsigned int pending_async_ctrls;
+>  };
+>  
+>  struct uvc_driver {
+> @@ -797,6 +801,8 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+>  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+>  		      struct uvc_xu_control_query *xqry);
+>  
+> +void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
+> +
+>  /* Utility functions */
+>  struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
+>  					    u8 epaddr);
+
+-- 
+Regards,
+
+Laurent Pinchart
 
