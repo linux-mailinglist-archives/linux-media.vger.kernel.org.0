@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-22242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22243-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02D29DBBE9
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 18:45:05 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FA59DBC15
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 19:15:57 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A104B283685
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 17:45:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBA3C163D81
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 18:15:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E2421C1AD0;
-	Thu, 28 Nov 2024 17:44:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48E0D1BD9D2;
+	Thu, 28 Nov 2024 18:15:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dPZZxauy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NuuxC9Bl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE251C173C;
-	Thu, 28 Nov 2024 17:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990C0219FC;
+	Thu, 28 Nov 2024 18:15:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732815898; cv=none; b=cAodllRNHH9TP8a/8O7b+FbUbQNCc+OGxC0LmH/rYiRlIEIr0KLaXroVoymb9tzMK19nr6hn+HBdejnFnKlln3DEOI0xF66xHKbiEttXvtw0KUI1b0bdZUOmKPMKxO6cJAcCdYN4XhlYbeKguUcvn0EOT88drht/VbJIr/tjJi4=
+	t=1732817748; cv=none; b=heQbX4YbxItz8YAfA7kAcawCKolgnip3fzSG7IhTTydO1HRMUpFubwVldSpi/+nrOwasFR9/3+EOgs5tRrN7X4Ktz7jV2Yz1pyNs5a9JZwS8dDwW1ZHLtZ+i4MCKp4P74mD1rG/6tMSYNrUVKn1BHIERdb01a6MA2wkhAlB6V0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732815898; c=relaxed/simple;
-	bh=sztXzGj18yXYQJrKHkGVmls9A3MQNMp3Zn17tr6MkUI=;
+	s=arc-20240116; t=1732817748; c=relaxed/simple;
+	bh=Eu9FwrAWUKsyE6upa7JN4vuD23D3xn+45MhvwxN8S58=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hdUv0e7bSsBFphRpnUGfzyAiuV4cD9o6wiEQ4j2RvKBtwxf1FE/VVDjlY1cyxWNMiOZHBXLMCnF2UxapegXzlmpQCrxwCG0ViI1Nnev5Q9Tm8SeRlVm6y2ik1mh8I8f//feP2YW4P95VWWKKQudiHCbqrh4pxLEstaEdBnghbh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dPZZxauy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016B9C4CECE;
-	Thu, 28 Nov 2024 17:44:55 +0000 (UTC)
+	 MIME-Version:Content-Type; b=iodIyO75z0r7/lEjhb62iIh/fa8utb19108T92zz2uDoo2cH8erQP8CjQnWqKVU6zaEBjPHwsDwV+tPHoQSsN36MF4ggqljRDCl+L+vr5lvVQi6sAVUInnn4tUxG0wLzyzkicz5GbercDa1qMCB4yObUHhFQnpydYwmc96cSuGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NuuxC9Bl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8693FC4CECE;
+	Thu, 28 Nov 2024 18:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732815897;
-	bh=sztXzGj18yXYQJrKHkGVmls9A3MQNMp3Zn17tr6MkUI=;
+	s=k20201202; t=1732817748;
+	bh=Eu9FwrAWUKsyE6upa7JN4vuD23D3xn+45MhvwxN8S58=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dPZZxauya/WDGZshA5B6EqcVoEA31LRfnevmh/VPMPiQxz5oH8XgqOVqsAZy1YwWa
-	 ZsftZdHRSvxSQVhzExGvGG/wvBlFq85xnkgKmce895BgztfS6NX+WdeSijS/qtLja0
-	 kB4cTDKSE7w99hmsk3Tvz7IGVrNcyvrT3GYAgCF+x0uj9TX6FihZXPiKxymca8RNzN
-	 ZMQTtoILzV8yr/U5Eq3EAHr/UkBXLPzBjAw4o6y0SOJvsIfy3j8hA0Fahni9MW9YG+
-	 +70ZuAJCgiii453dKFuGMKQm6fvq+9z7tdPRM+zRIdD59oR662Kos0fP+ecYoxOdto
-	 C2VyTknSOZiWg==
-Date: Thu, 28 Nov 2024 18:44:53 +0100
+	b=NuuxC9Bltht6kUhzKhC3ijBBeXzq66Ovo0eDmoGPz8IOiZ+TtjnkkckVKezh6WcpH
+	 cWgygv9zKYSyaFhk1RMtSTkxqsPHBeVJa0A1HY2kxEV6Z/qypYlGURqzNoWkEekEkF
+	 lewOVTa4+Y/acShBRt9wL0PNhwx3JfYtG2MfyHCpBw9eCrriCC/G5g+7KNy8i0guqT
+	 ePLA13LJWRjcOiBlQqNxn4fkZTSN0o8ZcKyMNMhXLKtfWhwueFPXzRFlO+lMAqUJCh
+	 5/vKjEqOX94UkmFjuY3dMSYdfp3C2YaRWNWQ1NkI4bjwMSgCKVKrkytbGL20i++6Hy
+	 y69oTYue69L9w==
+Date: Thu, 28 Nov 2024 19:15:43 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
 Subject: Re: [PATCH] docs: media: document media multi-committers rules and
  process
-Message-ID: <20241128184453.6cb1590b@foz.lan>
-In-Reply-To: <e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
+Message-ID: <20241128191543.289f0d84@foz.lan>
+In-Reply-To: <20241127132515.GH31095@pendragon.ideasonboard.com>
 References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
 	<20241126151930.GA5493@pendragon.ideasonboard.com>
 	<e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
+	<20241127132515.GH31095@pendragon.ideasonboard.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -65,475 +65,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Wed, 27 Nov 2024 12:59:58 +0100
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+Em Wed, 27 Nov 2024 15:25:15 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-> > If I were a new contributor I think I would have trouble understand this
-> > to be honest. I won't push hard for a rework of this section, as I
-> > expect it will change after the multi-committer tree becomes the main
-> > way to get patches merged. We can then update the documentation.  
-> 
-> I wonder if this shouldn't be rewritten completely, e.g. something like this:
-> 
-> 1) By default patches are against the ``next`` branch of that media.git tree.
-> 
-> 2) Patches that need to fix bugs in the -rcX kernel should preferably be
->    against the latest -rc kernel.
-> 
-> Is there really anything else? These two cases are all I use in practice.
-
-Yes, there are three situations: 
-
-	- patches against released kernels;
-	- patches against next kernel (-rc1 being prefered, IMO, against a random -rc);
-	- new features.
-
-I modified the text following Laurent's suggestion.
-
-> 
-> >   
-> >> +
-> >> +All patches with fixes shall have:
-> >> +   - a ``Fixes:`` tag pointing to the first commit that introduced the bug;
-> >> +   - a ``Cc: stable@vger.kernel.org``
-> >> +
-> >> +Patches that were fixing bugs reported by someone else shall have:
-> >> +  - a ``Reported-by`` tag immediately followed by a ``Closes`` tag.  
+> > > I think this goes a bit backward, and mixes things up a bit. On the
+> > > mixing side, the expectation of timely reviews comes from maintainer
+> > > status. Having commit rights is orthogonal to that.
+> > > 
+> > > The goal of direct commit access is to speed up maintenance, to get
+> > > patches reviewed and merged quicker. Are we saying here that if someone
+> > > has commit rights they will lose them if they take too long to review
+> > > code ? That would then slow down maintenance even more, which seems
+> > > counterproductive.  
 > > 
-> > There's been a recent discussion about not including a Reported-by tag
-> > without asking permission from the reporter, due to privacy reasons (in
-> > particular for bugs reported to https://bugzilla.kernel.org/, as by
-> > default the e-mail address of the reporter is not public). As the
-> > Reported-by and Closes tags are not specific to the media tree, I would
-> > drop this paragraph, otherwise we will have to duplicate a relatively
-> > large amount of information related to privacy. You can link to the
-> > relevant documentation instead, but I wouldn't even do that as it's
-> > really not media-specific.  
+> > Someone with commit rights is also a maintainer, since that's how you
+> > gain the trust to get those rights. If you do a poor job of reviewing
+> > patches relevant for you as maintainer, then you loose that trust.  
 > 
-> I agree. Note that I tend to ask first for permission, unless I know the
-> reporter is a kernel contributor already, or is otherwise active in the open
-> source world and so the email is public already.
+> This is I think the point where our expectations are the least aligned.
+> I'm considering "committer" based on what is done in drm-misc. A
+> committer is essentially a developer who has demonstrated they can
+> follow a documented process to push their own patches. They are given
+> push access as a shortcut, which frees time for the subsystem
+> maintainers who don't have to pick patches manually from the list (or
+> handle pull requests). That's the official side of it. The barrier to
+> entry is intentionally kept very low to ensure that committers won't
+> decide to use the legacy workflow due to expectations of additional work
+> load. Committers are not required or even asked to take any extra work.
+> It's still a win-win situation: subsystem maintainers have less work,
+> and committers can get their patches upstream more easily.
+> 
+> Then there's the other "secret" goal: through handing out committer
+> rights, the maintainers hoped that a subset of the committers would
+> become more involved, grow more knowledge about the subsystem, pick up
+> third party patches, review or cross-review code, ... And that worked,
+> DRM has grown an active community of developers who go beyond their
+> personal needs and help with maintenance more broadly. Dave and Sima
+> deliberately decided to favour the carrot over the stick, and I think
+> the events that followed proved it was the right decision.
+> 
+> This is what I would like to see replicated in the media subsystem. Even
+> if a committer only handles the single driver they're interested in and
+> push their own patches, it's still a win for everybody involved. By
+> making the barrier to entry low, we will make it possible for people who
+> would have been scared of volunteering to become part of the community,
+> and over time handle more responsibilities. Setting a higher barrier to
+> entry will scare those people away. Even myself, if I'm expected to do
+> more than what I do today to get commit rights, I won't request them.
+> Everybody will lose, I will have to keep sending pull requests, and you
+> will have to keep handling them. Both of us will lose time that we could
+> otherwise use for reviews or other tasks beneficial to the subsystem.
+> 
+> More importantly than the exact wording, it's the core principle of the
+> committers model that we need to agree on. If we don't have the same
+> expectations it will clearly not work.
 
-I'm opting to use this word on v2:
+The reality on media is *very* different from DRM. With DRM, most
+drivers have multiple developers working on it, and the more important
+drivers typically have dozens of committers. The vast majority of such
+committers aren't listed at MAINTAINERS file for the drm drivers they
+commit patches.
 
-	Patches that were fixing bugs publicly reported by someone at the
-	linux-media@vger.kernel.org mailing list shall have:
-	  - a ``Reported-by:`` tag immediately followed by a ``Closes:`` tag.
+On media, there's usually just one person that maintains the driver
+who will become a committer if they want.
 
-This makes clear that we expect to have Reported-by/Closes if someone publicly
-reports via e-mail to our development ML. This is a subset of the cases
-where permission is not required, and likely covers 99% of the cases where
-this is needed.
+Right now, my expectation is that *all* committers will also be
+a maintainer, e. g. they'll all be listed at MAINTAINERS file,
+being responsible by one or more driver.
 
-> >> -The media maintainers that work on specific areas of the subsystem are:
-> >> -
-> >> -- Remote Controllers (infrared):
-> >> -    Sean Young <sean@mess.org>
-> >> -
-> >> -- HDMI CEC:
-> >> -    Hans Verkuil <hverkuil@xs4all.nl>
-> >> -
-> >> -- Media controller drivers:
-> >> -    Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> -
-> >> -- ISP, v4l2-async, v4l2-fwnode, v4l2-flash-led-class and Sensor drivers:
-> >> -    Sakari Ailus <sakari.ailus@linux.intel.com>
-> >> -
-> >> -- V4L2 drivers and core V4L2 frameworks:
-> >> -    Hans Verkuil <hverkuil@xs4all.nl>  
+Besides that, the multi-committers will replace the current
+sub-maintainers workflow.
+
+We also need to do a slow start to ensure that media-ci, patchwork,
+CI integration with patchwork, etc will work properly.
+
+With that in mind, every committer has duties of reviewing other
+developer's patches submitted for the drivers that they're listed as
+a maintainer at the MAINTAINERS file entries.
+
+> > >> +If you are doing such tasks and have become a valued developer, an
+> > >> +existing committer can nominate you to the media subsystem maintainers.  
+> > > 
+> > > https://drm.pages.freedesktop.org/maintainer-tools/committer/commit-access.html#access-request:
+> > > 
+> > > "Maintainers and committers should encourage contributors to request
+> > > commit rights, especially junior contributors tend to underestimate
+> > > their skills."  
 > > 
-> > We're losing that information, isn't it valuable ?  
+> > In drm is it the contributors that request commit rights? Or is it those
+> > who already have commit rights that invite others? Currently the plan for
+> > the media subsystem is the second method. Although that might change in the
+> > future, of course.  
 > 
-> That's a good point. I think we still want to keep this information. Although
-> this list should probably be moved to...
-
-As discussed at the other thread, things like that need to be at
-MAINTAINERS, as this will warrant that the right people will be c/c.
-
-While not explicitly stated at the document, when we mention
-MAINTAINERS there, it means that media committer records there
-need to be up-to-dated when changes happen, in special the
-status (S:) and mail fields (M:) need to reflect the committers
-responsibilities.
-
-So, for instance, let's suppose we have an entry like this:
-
-	RADIO GAGA MEDIA DRIVER
-	M:	My User <my@user.domain>
-	L:	linux-media@vger.kernel.org
-	S:	Odd Fixes
-	W:	https://linuxtv.org
-	T:	git git://linuxtv.org/media.git
-	F:	drivers/media/radio/radio-gaga*
-
-if a new committer decides to step up to maintain the driver,
-such entry will be changed to:
-
-	RADIO GAGA MEDIA DRIVER
-	M:	Queen Fanboy <fanboy@queen.fanclub>
-	L:	linux-media@vger.kernel.org
-	S:	Maintained
-	W:	https://linuxtv.org
-	T:	git git://linuxtv.org/media.git
-	F:	drivers/media/radio/radio-gaga*
-
-(either dropping "My User" if he has no time to maintain it anymore
-or adding a second M:)
-
-If, in the future, it decides to not maintain/commit patches for
-it anymore, because he has no time or interest to keep maintaining
-it, the status should be changed to:
-
-	RADIO GAGA MEDIA DRIVER
-	L:	linux-media@vger.kernel.org
-	S:	Orphan
-	W:	https://linuxtv.org
-	T:	git git://linuxtv.org/media.git
-	F:	drivers/media/radio/radio-gaga*
-
-If nobody steps in to keep maintaining it.
-
-That's not different from the current Kernel practices.
-
-> > I think this goes a bit backward, and mixes things up a bit. On the
-> > mixing side, the expectation of timely reviews comes from maintainer
-> > status. Having commit rights is orthogonal to that.
-> > 
-> > The goal of direct commit access is to speed up maintenance, to get
-> > patches reviewed and merged quicker. Are we saying here that if someone
-> > has commit rights they will lose them if they take too long to review
-> > code ? That would then slow down maintenance even more, which seems
-> > counterproductive.  
+> The process is documented in
+> https://drm.pages.freedesktop.org/maintainer-tools/committer/commit-access.html#access-request.
+> It requires explicit action from the candidate, as they have to create a
+> gitlab.fdo account, and request commit access by fiing an issue in
+> gitlab. You can see the issue template at
+> https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/new?issue[title]=Request%20for%20Commit%20Rights&issuable_template=commit_access,
+> which is roughly speaking the equivalent of the mail template in this
+> document. In practice, as mentioned in the documentation, people often
+> underestimate their skills and lack confidence to ask for committer
+> access. That's why the documentation states that maintainers and
+> committers should encourage contributors to request access.
 > 
-> Someone with commit rights is also a maintainer, since that's how you
-> gain the trust to get those rights. If you do a poor job of reviewing
-> patches relevant for you as maintainer, then you loose that trust.
->
-> And if you simply don't have the time anymore for that, then perhaps
-> you need to look for a co-maintainer or just stop being a maintainer for
-> that area. A good example of that is actually the uvc driver. In that case
-> the solution was adding a co-maintainer.
+> I like that model because it requires an explicit action from the
+> contributor to show that they have an interest, and it also makes it
+> possible for people to request access without having been nominated. It
+> doesn't mean that access will be automatically granted, there are still
+> acceptance criteria, and it's a maintainer decision at the end of the
+> day.
 > 
-> > Also, while one can be recognized as a maintainer for multiple drivers
-> > or parts of the kernel, there's a single committer status. You can't
-> > revoke committer status of a particular driver only.  
+> Stating as done in this patch that an existing committer can nominate
+> someone implies that contributors have to wait until they get notified
+> they can join The Chosen Few. It's not very welcoming, and given how
+> busy everybody is, valuable contributors may need to wait for longer
+> than they should before someone thinks about nominating them.
 > 
-> The committer status is a sign that you are trusted. Part of that is timely
-> patch review. Or admit that you won't have the time/resources to do that job
-> and look for a co-maintainer or even give up maintainership of some areas.
+> I wouldn't expect a change of wording to result in any practical change
+> in the process, it is only about being more inclusive and welcoming in
+> the document. If we want to create a vibrant community, people should
+> feel not just welcome, but also desired and valued.
 
-Exactly.
+The model we're implementing is that the action of becoming a
+committer will also have a step where the contributor will show
+that they have an interest.
 
- 
-> That said, perhaps the text should change a bit:
-> 
-> "not waiting in patchwork as ``New`` for more than one Kernel merge cycle" ->
-> "ideally not waiting in patchwork as ``New`` for more than one Kernel merge cycle"
-> 
-> We all have patches in patchwork that are much older than that, for one reason
-> or another, but if this happens all the time, then you have a problem.
+Yet, right now the goal is to implement the model starting with
+active media maintainers.
 
-I'll do the suggested changes.
-
-> >> +This privilege is granted with some expectation of responsibility:  
-> > 
-> > "Privilege" sounds a bit like lord and serf.  
-> 
-> How about 'These commit rights are granted'?
-
-Ok.
-
-> >> +committers are people who care about the Linux Kernel as a whole and
-> >> +about the Linux media subsystem and want to help its development. It
-> >> +is also based on a trust relationship between the rest of the committers,
-> >> +maintainers and the LinuxTV community.  
-> > 
-> > Who is "the LinuxTV community" ?  
-> 
-> "linux kernel media community"?
-
-I opted to add both.
-
-> >> +Becoming a media committer
-> >> +--------------------------
-> >> +
-> >> +The most important aspect of volunteering to be a committer is that you will
-> >> +be able to review and approve other people's changes, so we are looking for  
-> > 
-> > Everybody is able to review patches (rather, everybody is allowed to
-> > review patches, the ability is a different matter).
-> >   
-> >> +whether we think you will be good at doing that.  
-> > 
-> > I've been told that "whether" should also come with a "or" clause. You
-> > can write "whether or not we think ...".  
-> 
-> How about this:
-> 
-> "The most important aspect of volunteering to be a committer is that you have
-> demonstrated the ability to give good code reviews."
-
-Ok.
-
-> >> +It is also desirable that developers that intend to become committers
-> >> +make a best effort to attend the yearly Linux Media Summit, typically
-> >> +co-located with another Linux conference.  
-> > 
-> > I would say that "are encouraged to attend" instead of "make a best
-> > effort to attend". Also, how will this scale when we'll have a few
-> > dozen committers ? Typically the media summit is capped to 20 attendees
-> > or less.  
-> 
-> If we have that many committers, then we can afford a larger room and we
-> probably would have to start charging some contributions as well. But
-> that would be a luxury problem :-) It's a bridge we can cross when we
-> get there.
-
-Agreed.
-
-> Note that I am fine with "are encouraged to attend". I think that's a good
-> phrase.
-
-Ok.
-
-> >> +   I, John Doe, would like to change my status to: Committer
-> >> +
-> >> +   I intend to actively develop the XYZ driver, send fixes to drivers
-> >> +   that I can test, reviewing patches and merging trivial fixes
-> >> +   for the subsystem, ...  
-> > 
-> > "Merging trivial fixes for the subsystem" bothers me. I don't think it
-> > needs to be a requirement for committers. This is a maintainer's
-> > responsibility. If people want to help with that that's great, but
-> > making it a requirement isn't. Or did you mean this as an example ?
-> > 
-> > We shouldn't expect committers to handle a higher workload than what
-> > they do as driver maintainers who submit patches by e-mail or send pull
-> > requests. Giving commit rights will lower the effort to get patches in,
-> > and I think it's fair to ask for keeping patchwork up-to-date in return,
-> > but that's about it.  
-> 
-> The idea was to make it explicit that they can review and merge trivial
-> fixes for the subsystem as a whole (so outside the direct area that they
-> maintain), but that is certainly optional.
-> 
-> How about:
-> 
-> ", and optionally reviewing patches and merging trivial fixes in other
-> areas of the subsystem,"
-
-Sounds OK to me. Will use that.
-
-> > I find the GPG signature requirement to be borderline ridiculous. The
-> > first message you're giving to committers is that you distrust them so
-> > much that you want them to sign an agreement with their blood
-> > (figuratively speaking). I don't think it's a very good approach to
-> > community building, nor does it bring any advantage to anyone.  
-> 
-> I kind of agree with Laurent here. Is the media-committers mailinglist
-> publicly archived somewhere? I think it is sufficient if this is posted
-> to a publicly archived mailinglist. That could be linux-media, I would be
-> fine with that. But media-committers would be more appropriate, but only
-> if it is archived somewhere.
-> 
-> If we want a GPG key, what would we do with it anyway?
-
-With PRs, the authenticity was ensured by signed git tags. With MRs,
-we need to ensure when we're giving grants, which happens after the
-committer sends us an e-mail agreeing to be a committer.
-
-I'm adding to the declaration of intent a text with the username
-that will be used by the new committer:
-
-	   "I, John Doe, would like to change my status to: Committer
-
-	    I intend to actively develop the XYZ driver, send fixes to drivers
-	    that I can test, optionally reviewing patches and merging trivial
-	    fixes in other areas of the subsystem, ...
-
-	    For the purpose of committing patches to the media-committer's tree,
-	    I'll be using my user https://gitlab.freedesktop.org/users/<username>.
-
-I'm also replacing the part that mentions PGP with:
-
-	Such e-mail shall be signed with a PGP key cross signed by other Kernel and
-	media developers. As described at :ref:`media-developers-gpg`_, the PGP
-	signature, together with the gitlab user security are fundamental components
-	that ensure the authentity of the merge requests that will happen at the
-	media-committer.git tree.
-
-Finally, the reference there (media-developers-gpg) will be part of the
-media maintainer profile entry as:
-
-	Authentication for pull and merge requests
-	++++++++++++++++++++++++++++++++++++++++++
-
-	The authenticity of developers submitting pull requests and merge requests
-	shall be validated by using PGP sign, via the
-	:ref:`kernel_org_trust_repository`.
-
-	With the pull request workflow, pull requests shall use a GPG-signed tag.
-
-	With the committers' workflow, this is ensured at the time merge request
-	rights will be granted to the gitlab instance used by media-committers.git
-	tree, after receiving the e-mail documented at
-	:ref:`media-committer-agreement`.
-
-	For more details about PGP sign, please read
-	Documentation/process/maintainer-pgp-guide.rst.
-
-> > 
-> > This is problematic, as we can't expect people to check for changes in
-> > this file every time they push something. Changes to this file should be
-> > announced to all committers, with a reasonable review period.  
-> 
-> "Any changes to the kernel media development process will be announced in
-> the media-committers mailinglist with a reasonable review period. All
-> committers are automatically subscribed to that mailinglist."
-
-I added a variation of that:
-
-	In case the kernel development process changes, by merging new commits
-	in the
-	`media-committer tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
-	the media committer implicitly declares their agreement with the latest
-	version of the documented process including the contents of this file.
-
-	.. note::
-
-	   1. Changes to the kernel media development process should be announced in
-	      the media-committers mailinglist with a reasonable review period. All
-	      committers are automatically subscribed to that mailinglist;
-	   2. Due to the distributed nature of the Kernel development, it is
-	      possible that kernel development process changes may end being
-	      reviewed/merged at the linux-docs mailing list, specially for the
-	      contents under Documentation/process and for trivial typo fixes.
-
-Since we're talking about the kernel development process as a whole,
-I added a notice that other parts of the process may change any time
-(like the recent changes to CoC), and such changes may not be c/c
-to linux-media.
-
-> > There are tools to ease updating the status of a patch, could you
-> > document or at least mention them ?  
-> 
-> I think that is out-of-scope. It certainly could be added as a follow-up
-> patch.
-
-I ended adding a link, as it doesn't hurt to have it there.
-
-
-> >> +In the unhappy event that a media committer continues to disregard good
-> >> +citizenship (or actively disrupts the project), we may need to revoke  
-> > 
-> > That's very, very vague, surprisingly vague even from someone who raised
-> > many concerns about the kernel code of conduct being vague.  
-> 
-> I suspect that this phrasing is copied from another project. Mauro, can you
-> confirm that?
-
-Yes: it came from Chromium.
-
-> I think it is extremely difficult to give explicit guidance here.
-
-Agreed.
-
-> >> +that person's status. In such cases, if someone suggests the revocation with
-> >> +a good reason, other developers may second the motion. The final decision
-> >> +is taken by the subsystem maintainers. As the decision to become a media  
-> > 
-> > What does "seconding the motion" bring, if the decision lies solely in
-> > maintainers ?  
-> 
-> I think the intent here is that, other than in extreme circumstances, it shouldn't
-> be a unilateral decision from the subsystem maintainers. Multiple media committers
-> should agree with it.
-> 
-> But perhaps it would be better to replace this with:
-> 
-> "In such cases, if someone suggests the revocation with a good reason, then after
-> discussing this among the media committers, the final decision is taken by the
-> subsystem maintainers."
-
-Changed.
-
-> I really hope we will never end up in a situation like this, since that's going
-> to be painful regardless of what procedure you choose.
-
-Yes. Things like that are painful and stressful.
-
-> >> +committer comes from a consensus between subsystem maintainers, a single
-> >> +subsystem maintainer not trusting the media committer anymore is enough to
-> >> +revoke committer's privileges.
-> >> +
-> >> +If a committer is inactive for more than a couple of Kernel cycles,
-> >> +maintainers will try to reach you via e-mail. If not possible, they may
-> >> +revoke your committer privileges and update MAINTAINERS file entries
-> >> +accordingly. If you wish to resume contributing later on, then contact
-> >> +the subsystem maintainers to ask if your rights can be restored.  
-> > 
-> > https://drm.pages.freedesktop.org/maintainer-tools/committer/commit-access.html#access-request:
-> > 
-> > "Committers are encouraged to request their commit rights get removed
-> > when they no longer contribute to the project. Commit rights may be
-> > automatically revoked after a year of inactivity (no commits or
-> > reviews). Commit rights will be reinstated when they come back to the
-> > project."  
-> 
-> Yes, that's better. I also realized that the mention of updating the MAINTAINERS
-> makes no sense since that does not contain media committer status.
-
-See my comments above (with regards to MAINTAINERS) and a separate thread.
-
-> >> +
-> >> +A previous committer that had his commit rights revoked can keep contributing  
-> > 
-> > s/his/their/
-> >   
-> >> +to the subsystem via the normal e-mail workflow as documented at the
-> >> +:ref:`Media development workflow`.
-> >> +
-> >> +References
-> >> +----------
-> >> +
-> >> +Much of this was inspired by/copied from the committer policies of:
-> >> +
-> >> +- `Chromium <https://chromium.googlesource.com/chromium/src/+/main/docs/contributing.md>`_;
-> >> +- `WebKit <http://www.google.com/url?q=http%3A%2F%2Fwebkit.org%2Fcoding%2Fcommit-review-policy.html&sa=D&sntz=1&usg=AFrqEze4W4Lvbhue4Bywqgbv-N5J66kQgA>`_;  
-> > 
-> > Google tracks us enough without using google URLs.
-> >   
-> >> +- `Mozilla <http://www.google.com/url?q=http%3A%2F%2Fwww.mozilla.org%2Fhacking%2Fcommitter%2F&sa=D&sntz=1&usg=AFrqEzecK7iiXqV30jKibNmmMtzHwtYRTg>`_.  
-> > 
-> > https://drm.pages.freedesktop.org/maintainer-tools/committer/commit-access.html
-> > would also have been a good source of inspiration. That's the only large
-> > multi-committer workflow today in the kernel, and it has proven its
-> > value. The explicit acceptance criteria in particular are very good.
-> > Quoting the document, it says
-> > 
-> > "Commit rights will be granted to anyone who requests them and fulfills
-> > the below criteria:"
-> > 
-> > That's how we build an inclusive community, it feels way more welcoming
-> > than saying that maintainers will discuss in private and grant
-> > privileges to underlings if it pleases them (even if the effect is the
-> > same in practice, it's still a maintainer decision).  
-> 
-> The main difference here is that in drm developers can ask for commit rights,
-> whereas for the media subsystem they are invited by existing media committers.
-> 
-> The drm model is absolutely more inclusive, and I hope we can end up there
-> eventually. But for now I think we need more work on both the procedures and
-> the media-ci workflow.
->
-> Even with just two sub-maintainers committing patches it took quite a long time
-> to find and fix all the bugs/issues we encountered. At this point we are
-> definitely not ready to implement a drm model.
-> 
-> This document just starts this process, it will change and be improved over time,
-> but we need this in place before we can start adding more committers.
-
-Agreed.
+Once we get there, and after a couple of kernel releases to test
+that everything is working as expected, we may aim to carefully
+expand it.
 
 Thanks,
 Mauro
