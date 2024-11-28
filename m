@@ -1,79 +1,80 @@
-Return-Path: <linux-media+bounces-22234-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22235-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E399DBB2A
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 17:22:10 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D87D39DBB2B
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 17:22:13 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0006E16421D
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 16:22:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 31DA4B22143
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 16:22:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFAA71C07E3;
-	Thu, 28 Nov 2024 16:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D7941C07EA;
+	Thu, 28 Nov 2024 16:21:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xhzRgMOK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cMZ/3rWr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4959D1BD03B
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 16:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C76C1BD9E1
+	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 16:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732810915; cv=none; b=EwULFmxq7rGExwpGDKFTd5yZfieGOY1njAC/FM0+H8azdywQFMPdr8ft6AjTZKMKDbQEEYAW+APQcHeSaICgzvE+5YA0OgOAZ0hDf0JdeNBTlCganeP17Ssbs7ypUaFlK0zUnrBopiXJ7gDpKbcsYHqjWiUfGlV0qT/fMpgvANM=
+	t=1732810915; cv=none; b=NXiJn6183/Rzu02ylM8u7Kq88RAE7UvkoAR+wtNrXlweaFo8DinTmHSJx6MEeiy0xtLX6LQDBroc3E+F/X/jQVmCHvOU+pFKZYhSR7phv0YzeWDyErq+msGMlZA3edmFHG77ikFAf01we90h+fc5pA3EexJ/uOP7+F1Wmo4Hz+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1732810915; c=relaxed/simple;
-	bh=W5d5TUpFqOmdQ0u+dAULQvpGp33jPqoJkFWD+JsjdlA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BEV9DjrNn++pg+FF1YJ7FIP3VM0MLIVVQWmJjL3ZTgDIRNhwJZhE36NCLoSYlNIAEElg+8IJJbAcyp47grmqwq/4Oq/VruZTR3OZdmr8jApq3WJAKhZKoXZAtrflcF6bbFb4DTev7lTqe3RycjfQudB8tLB3TcChiajAx7k4gc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xhzRgMOK; arc=none smtp.client-ip=209.85.128.53
+	bh=QBlvh42wEu8WJ3ZX0DLU3rSfBDhhQkJ+tEIxBMvq6eQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=hn1h2czP6VIxruPyp17nUYCcB95M+Wvtz9URJm1fVia9Ng5dhObz1x6fisYQXrMdTqoutC4/R/V8d0eGdCLy3u0GG4Gtl5VzmV/msVY0thOPFbppeJcxg6Vym8TSX3byGEc2HxHN37QIcSH53QH/X3/hdGgvQq3G7XRbvGoCsEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cMZ/3rWr; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434a2033562so8888685e9.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 08:21:52 -0800 (PST)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4349cc45219so8868805e9.3
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 08:21:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732810911; x=1733415711; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V4JksmRiBHUzeK7eouUGwkYQse3gctmWdRPpveYR3Cg=;
-        b=xhzRgMOKz4Xm/K8+gKmxVyYuLfR1dZYVqpdOKexxOMf1NAI/cFdERooy6D3EZsZMor
-         wh06/zbOlf30lfIf9PHI36LRxopaeXE/Kq4vklTcW6bWWRHzFxbuvRnljdZUBaIfg7yk
-         /ptN5VkpCSPMcsTsgBKdIoKJwbUGKru03Kx8ApeiO6mhfgRI1o5Q0ucwhGu2NHORiO4R
-         1EcEb6l3UVZNAeDNKnuuV5q+B7Ep+9he6o4nFG2QvvoSBNs1t8sfzYIAOcpDGUoN2kap
-         nSxkB8gKnv2cGEZ0WKCsfUDTXGpMM9WjGKYVBi04u2/gZq1zZFyn07dq/dth/NlIF92G
-         DmDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732810911; x=1733415711;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1732810912; x=1733415712; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V4JksmRiBHUzeK7eouUGwkYQse3gctmWdRPpveYR3Cg=;
-        b=jb0BcH+JCtKowgYAFCD50TwjCifAZd7K7TtbAoBbFgHsPHDA22tIgRc2wXrkOA+irm
-         rkXL/wObv/jmGj7nQ2/WPKu+eqkheg9WBAYU3bK+lOdeAUzCrz2B+JVbKMxrhwESee1e
-         uGnFL5ifvFq8hVe5qi23T5m1dx1gNUt5QPLy0PnocV57E8QerNoQT9Pp87/AhpjYkusC
-         KPAbUUfA6ZxAfm3+k80vo9p+yBHG8dMvAtWDg3wgtLbhbWgJ3dRcpm+vxXtYTCNfmIp5
-         qkhjDy9XdvSBWG3wt2JNJ1zjM/fU19rEwId4Et+ISEhiMOawPQz4EZwSohuusYD0oDJj
-         cOLw==
-X-Forwarded-Encrypted: i=1; AJvYcCXEr2NFsT0CJLn7gx4WQW5ZOP9s8jAopgpPwV3dqwj752fR4j4pImWoOkKVSSz7WjMx54s2aI3CLSplKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRJaGDqpEsiFTZ+5Zw35TNOU7TtoLg8FDzTUYGw8mA6/MnhJrd
-	gAww15Fp1hXCeRfZIDf+Hvr7xQ7fB/86jioiafJfNWDNj6iXpRZae5ba2RmHRnU=
-X-Gm-Gg: ASbGncvo2LOGLcjEe0MmF9xGJm4Ir2uvgwUGMkDFTzcFpuBWfiJ8VdeoXxBpiZe5ELI
-	q2TV/Bnwy5nsqpSz2+JlR7ncOCuCzIaZ+yqTNeFDM+ruAhEG59x+f5pVwTJxmRd3Vk/sl9994LZ
-	llZ5gjp4eU8cVnUkIP7uZep8Z+GdIWnSBRalYm0lxmpk31x/ZRfu4TUfOsSCOORGBenl8X2qhBK
-	SXV1HVDESWVMfi7J9PlE5AGwgz2Q1qBJBDqilsEBUBZWjKybDm+/W1qcsc=
-X-Google-Smtp-Source: AGHT+IGQOC9+zFe5o1o38nSa1dxkrznIvZG/sokSsDpDtTF6eLIRINi1P3TnTkxGCRJF0Xa4y6T07Q==
-X-Received: by 2002:a05:600c:458b:b0:434:a924:44e9 with SMTP id 5b1f17b1804b1-434a9dcfedfmr76860895e9.15.1732810910537;
-        Thu, 28 Nov 2024 08:21:50 -0800 (PST)
+        bh=a3cXlSbMt2J53GNfeBwFHks7qn8zy+yq2dkUxzhw6rc=;
+        b=cMZ/3rWrM5hzwXPdRJPk5DvjgPFztXNKX90/Ls51MeZrztLulwgFdWVZGk9DuBv/fo
+         JXlvuoFpb/s/tMa50XRPhviOudUrzutH7LFkuQWc/onYAHklo5AFdnxl6v4m5fmcyLt7
+         QaR7Vq3UU6M106K77PtcR+FhGUmEw/7oRGmjjSrravCGt6yaldkZIrP0GeTbZeFafo/p
+         BqKpGiz8baxnfmGuKJ4PEKZlx/hGjibRkH9La0G9SfOwAEEd45lQAFXiHiT0EBSdVoB8
+         GChnUj7GVu6fZg2241OVD6oVvkWGMn4ojV6CVncwsqWZ8neDowXNOC48VjrWOtMKv8Xh
+         ZW9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732810912; x=1733415712;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a3cXlSbMt2J53GNfeBwFHks7qn8zy+yq2dkUxzhw6rc=;
+        b=pbR21ywIa81hhz34XBAXHwGGHs0JA8VXZnD9qZy2UmggK2odyzIr0ICvCzd341F2aS
+         DV34yqWKE20NsZhEqrR9anVbRBKYLVGu5zgBhgNLH+uC9uaBBungCJMfgTkCnYkZsJfa
+         zJVKA0Z2EsJqLyOnFXgChoDrBTc/fHOjk+TZDOhMRwcGAIXEtKNm8gBbQLdYXnfkgqpR
+         +7hyffAV1QOTHKQXXWTxCkCINL+NF1BDcgTMusWCjtCW7n8UY+c+L8yGfY6Kh5AsFik4
+         b/JJ8rLRxpiPiOBMEv0VybrcDBeZrR3Wx52Fefbgkd7rkQ+nauJp8t8VjD+MPuhdWvY/
+         nU+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWD/xcuAm8SApLgaiKnLaZxzhEt/aWbzaupBMV5uu/yrVSuey4JS1IREQA/gyaTzpMEESAEl7DW9w+V4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsgZIKKij+ATHjfwwBVzHAWcedKpiOM6STASbRiZAsX5Glfb/V
+	JgvAifjEHwDyJWyTb6MVxXRzH7nRNKIK7XbDQjj3NHLgo9RQ2iKOyUntRp0EYWw=
+X-Gm-Gg: ASbGncsscjT10aswfQxoBoY6fbHhL5FQRmWA9EhlFSHenUVPvM25nf6g5/AMtaPaaDz
+	cg8SVy94QmLpSqrABjpEHU0AgmJH5Svk6D0uFXEnEl0JawipoxSALhzW8u7e/iBBmzDEQgxCN/u
+	Wb7ByRFlztBPi5mRxN5dNIwmliQoV1Hvb35mdcCnvVr+IBYJFWvxDczW7jZq484RSJhFMDWgsQo
+	/kQScRFlSsJlqH9RlZnExdIpuX3kYd/Tj9v6p5/7qaQKiucqxVld3H7QS0=
+X-Google-Smtp-Source: AGHT+IH2A1CDE5JVKe2dwzhkvr1V3p3l2bc+Lvq2Hf+xEtxIj89SkyS/KZUYVEcdsfpAcDDhdX6+DQ==
+X-Received: by 2002:a05:600c:4f85:b0:426:647b:1bfc with SMTP id 5b1f17b1804b1-434a9df22c0mr81950115e9.30.1732810911693;
+        Thu, 28 Nov 2024 08:21:51 -0800 (PST)
 Received: from [127.0.0.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0f70d9csm27004545e9.38.2024.11.28.08.21.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0f70d9csm27004545e9.38.2024.11.28.08.21.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Nov 2024 08:21:50 -0800 (PST)
+        Thu, 28 Nov 2024 08:21:51 -0800 (PST)
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v4 0/3] media: venus: Provide support for selecting
- encoder/decoder from in-driver
-Date: Thu, 28 Nov 2024 16:21:48 +0000
-Message-Id: <20241128-media-staging-24-11-25-rb3-hw-compat-string-v4-0-fd062b399374@linaro.org>
+Date: Thu, 28 Nov 2024 16:21:49 +0000
+Subject: [PATCH v4 1/3] media: venus: Add support for static video
+ encoder/decoder declarations
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,11 +83,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJyYSGcC/6XNQW7DIBCF4atErDsRM2ASuuo9qiwwDDZSYyKw3
- FSR716cXZRdsnwz0vffROWSuIrP3U0UXlJNeWpDf+yEH900MKTQtiBJGpEOcOaQHNTZDWkagDQ
- gAnVQegXjL/h8vri5vcv2Zae8tVYdJaFo4qVwTNd77fvU9pjqnMvfPb7gdn2tsyBIsNajiWRMr
- 83XT5pcyftcBrGFFnoDp4Z7iTIG3cVDjE+4egNXDedo+kAd22PoH/B1Xf8B3nAXcKEBAAA=
-X-Change-ID: 20241127-media-staging-24-11-25-rb3-hw-compat-string-ea3c99938021
+Message-Id: <20241128-media-staging-24-11-25-rb3-hw-compat-string-v4-1-fd062b399374@linaro.org>
+References: <20241128-media-staging-24-11-25-rb3-hw-compat-string-v4-0-fd062b399374@linaro.org>
+In-Reply-To: <20241128-media-staging-24-11-25-rb3-hw-compat-string-v4-0-fd062b399374@linaro.org>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
  Vikash Garodia <quic_vgarodia@quicinc.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -96,131 +95,206 @@ Cc: quic_renjiang@quicinc.com, quic_vnagar@quicinc.com,
  quic_dikshita@quicinc.com, konradybcio@kernel.org, 
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 X-Mailer: b4 0.15-dev-dedf8
 
-v4:
+Add resource structure data and probe() logic to support static
+declarations of encoder and decoder.
 
-- Adds some unavoidable conditional CONFIG_OF_DYNAMIC to fix media-ci testcase # Test build:OF x86_64
-- Added logic for of_changeset_revert() and of_changeset_destroy() on
-  error/remove paths - Bryan
-- Link to v3: https://lore.kernel.org/r/20241127-media-staging-24-11-25-rb3-hw-compat-string-v3-0-ef6bd25e98db@linaro.org
+Right now we rely on video encoder/decoder selection happening in the dtb
+but, this goes against the remit of device tree which is supposed to
+describe hardware, not select functional logic in Linux drivers.
 
-v3:
-- Adds select OF_DYNAMIC to venus/Kconfig to ensure of_changeset_*() is
-  available. Instead of ifdefing and have the fix not work without
-  OF_DYNAMIC, select OF_DYANMIC with venus - linux-media-ci
-- Link to v2: https://lore.kernel.org/r/20241127-media-staging-24-11-25-rb3-hw-compat-string-v2-0-c010fd45f7ff@linaro.org
+Provide two strings in the venus resource structure enc_nodename and
+dec_nodename.
 
-v2:
-- Removes useless dev_info() leftover from debugging - Bryan
-  Link: https://lore.kernel.org/r/ce9ac473-2f73-4c7a-97b1-08be39f3adb4@linaro.org
-- Trivial newline change @ np = of_changeset_create_node(ocs, dev->of_node, node_name); - Bryan
-- Fixes a missing goto identified by smatch - Smatch/Bryan
-- Adds Krzysztof's RB to deprecated - Krzysztof
-- Link to v1: https://lore.kernel.org/r/20241127-media-staging-24-11-25-rb3-hw-compat-string-v1-0-99c16f266b46@linaro.org
+When set the venus driver will create an OF entry in-memory consistent
+with:
 
-v1:
-Various venus patches have been held up due to the misuse of DT to provide
-a configuration input to venus as to which mode a given transcoder should
-be in.
-
-Link: https://lore.kernel.org/linux-arm-msm/436145fd-d65f-44ec-b950-c434775187ca@kernel.org
-Link: https://lore.kernel.org/linux-media/ba40de82-b308-67b1-5751-bb2d95f2b8a5@linaro.org/
-
-This series provides support for static configuration of venus from the resource
-structure via:
-
-1. Adding two strings to the resource structure.
-   One string for the decoder one for the encoder.
-2. The string for each SoC has been matched to the existing in the
-   DT which currently specifies the mode as decoder or encoder.
-3. New logic in the driver parses the DTB looking for the node name
-   specified for the decoder and encoder .
-4. If the DTB contains the node name, then no new node is added as
-   we assume to be working with an "old" DTB.
-5. If the DTB does not contain the specified decoder/encoder string
-   then a new in-memory node is added which contains a compat string
-   consistent with upstream compat strings used to currently select
-   between the decoder and encoder respectively.
-6. In this way new venus driver entries may be added which respect
-   the requirement to move mode selection out of DTB and into driver.
-7. Simple instances of decoder/encoder nodes in the yaml schema have been
-   marked as deprecated.
-8. Since the proposed scheme here always defers to what the DTB says that
-   means it would be possible to remove decoder/encoder entries for the
-   deprecated schema should we choose to do so at a later date but,
-   that step is not taken in this series.
-9. Some of the upstream encoder/decoder nodes for example sdm630/sdm660
-   also contain clock and power-domain information and have not been
-   updated with the static configuration data or had the schema amended to
-   deprecate values. Because these nodes impart hardware specific
-   information and are already upstream this series proposes to leave
-   those as-is.
-
-However if this scheme is adopted it should allow for addition of venus for
-both qcs615[1] and sc8280xp[2].
-
-Other SoCs such as sm8550, sm8650 and beyond are expected to be supported
-by Iris.
-
-The sm8350 and sm8280xp in the second series would then be able to excise
-the offending compat = "video-encoder" | "video-decoder" in the schema and
-DT.
-
-I considered making this series an all singing all dancing method to select
-between encoder and decoder for all SoCs but, the objective here is not to
-add functionality but to provide support for configuration in-driver
-consistent with current usage and to do so with a minimal code
-intervention.
-
-So far I've tested on RB3 by removing:
-
-video-core0 {
-	compatible = "venus-decoder";
+dec_nodename {
+    compat = "video-decoder";
 };
 
-video-core1 {
-	compatible = "venus-encoder";
+and/or
+
+enc_nodename {
+    compat = "video-encoder";
 };
 
-This works - the code adds the nodes into memory and the video
-encoder/decoder logic in the plaform code runs.
+This will allow us to reuse the existing driver scheme of relying on compat
+names maintaining compatibility with old dtb files.
 
-Similarly if the nodes are left in-place then no new nodes are added by the
-code in this series and still both encoder and decoder probe.
+dec_nodename can be "video-decoder" or "video0"
+enc_nodename can be "video-encoder" or "video1"
 
-Thus proving the code works and will provide support for new platforms
-while also leaving open the option of dropping nodes from upstream.
-
-I've left the dropping step out for now, it can be implemented later.
-
-[1] https://lore.kernel.org/linux-arm-msm/20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com
-[2] https://lore.kernel.org/linux-media/20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org/
+This change relies on of_changeset() API as a result select OF_DYNAMIC will
+be added to venus/Kconfig
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
-Bryan O'Donoghue (3):
-      media: venus: Add support for static video encoder/decoder declarations
-      media: venus: Populate video encoder/decoder nodename entries
-      media: dt-bindings: qcom-venus: Deprecate video-decoder and video-encoder where applicable
+ drivers/media/platform/qcom/venus/Kconfig |  1 +
+ drivers/media/platform/qcom/venus/core.c  | 90 +++++++++++++++++++++++++++++++
+ drivers/media/platform/qcom/venus/core.h  |  4 ++
+ 3 files changed, 95 insertions(+)
 
- .../bindings/media/qcom,msm8916-venus.yaml         |  12 +--
- .../bindings/media/qcom,sc7180-venus.yaml          |  12 +--
- .../bindings/media/qcom,sc7280-venus.yaml          |  12 +--
- .../bindings/media/qcom,sdm845-venus-v2.yaml       |  12 +--
- .../bindings/media/qcom,sm8250-venus.yaml          |  12 +--
- drivers/media/platform/qcom/venus/Kconfig          |   1 +
- drivers/media/platform/qcom/venus/core.c           | 100 +++++++++++++++++++++
- drivers/media/platform/qcom/venus/core.h           |   4 +
- 8 files changed, 115 insertions(+), 50 deletions(-)
----
-base-commit: 72ad4ff638047bbbdf3232178fea4bec1f429319
-change-id: 20241127-media-staging-24-11-25-rb3-hw-compat-string-ea3c99938021
+diff --git a/drivers/media/platform/qcom/venus/Kconfig b/drivers/media/platform/qcom/venus/Kconfig
+index bfd50e8f34219db8a1de7960d7ea93b20db2982a..bc2e410b29cb415a36540a4f98709eae44f4ec35 100644
+--- a/drivers/media/platform/qcom/venus/Kconfig
++++ b/drivers/media/platform/qcom/venus/Kconfig
+@@ -3,6 +3,7 @@ config VIDEO_QCOM_VENUS
+ 	depends on V4L_MEM2MEM_DRIVERS
+ 	depends on VIDEO_DEV && QCOM_SMEM
+ 	depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
++	select OF_DYNAMIC if ARCH_QCOM
+ 	select QCOM_MDT_LOADER if ARCH_QCOM
+ 	select QCOM_SCM
+ 	select VIDEOBUF2_DMA_CONTIG
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 4e26b18790537885a77d66c1917a4e7a146eaf57..8a085611443cfda89ae71496e320dfc1f02ade88 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -286,6 +286,89 @@ static irqreturn_t venus_isr_thread(int irq, void *dev_id)
+ 	return ret;
+ }
+ 
++#if defined(CONFIG_OF_DYNAMIC)
++static int venus_add_video_core(struct venus_core *core, const char *node_name,
++				const char *compat)
++{
++	struct of_changeset *ocs = core->ocs;
++	struct device *dev = core->dev;
++	struct device_node *np, *enp;
++	int ret;
++
++	if (!node_name)
++		return 0;
++
++	enp = of_find_node_by_name(dev->of_node, node_name);
++	if (enp) {
++		of_node_put(enp);
++		return 0;
++	}
++
++	np = of_changeset_create_node(ocs, dev->of_node, node_name);
++	if (!np) {
++		dev_err(dev, "Unable to create new node\n");
++		return -ENODEV;
++	}
++
++	ret = of_changeset_add_prop_string(ocs, np, "compatible", compat);
++	if (ret)
++		dev_err(dev, "unable to add %s\n", compat);
++
++	of_node_put(np);
++
++	return ret;
++}
++
++static int venus_add_dynamic_nodes(struct venus_core *core)
++{
++	struct device *dev = core->dev;
++	int ret;
++
++	core->ocs = kmalloc(sizeof(*core->ocs), GFP_KERNEL);
++	if (!core->ocs)
++		return -ENOMEM;
++
++	of_changeset_init(core->ocs);
++
++	ret = venus_add_video_core(core, core->res->dec_nodename, "venus-decoder");
++	if (ret)
++		goto err;
++
++	ret = venus_add_video_core(core, core->res->enc_nodename, "venus-encoder");
++	if (ret)
++		goto err;
++
++	ret = of_changeset_apply(core->ocs);
++	if (ret) {
++		dev_err(dev, "applying changeset fail ret %d\n", ret);
++		goto err;
++	}
++
++	return 0;
++err:
++	of_changeset_destroy(core->ocs);
++	kfree(core->ocs);
++	core->ocs = NULL;
++	return ret;
++}
++
++static void venus_remove_dynamic_nodes(struct venus_core *core)
++{
++	if (core->ocs) {
++		of_changeset_revert(core->ocs);
++		of_changeset_destroy(core->ocs);
++		kfree(core->ocs);
++	}
++}
++#else
++static int venus_add_dynamic_nodes(struct venus_core *core)
++{
++	return 0;
++}
++
++static void venus_remove_dynamic_nodes(struct venus_core *core) {}
++#endif
++
+ static int venus_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -365,6 +448,11 @@ static int venus_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto err_runtime_disable;
+ 
++	if (core->res->dec_nodename || core->res->enc_nodename) {
++		if (venus_add_dynamic_nodes(core))
++			goto err_runtime_disable;
++	}
++
+ 	ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
+ 	if (ret)
+ 		goto err_runtime_disable;
+@@ -443,6 +531,8 @@ static void venus_remove(struct platform_device *pdev)
+ 
+ 	venus_firmware_deinit(core);
+ 
++	venus_remove_dynamic_nodes(core);
++
+ 	pm_runtime_put_sync(dev);
+ 	pm_runtime_disable(dev);
+ 
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 27784fd7082c321222b23ca4b2902a04c49e19ca..306231b4f7d0201175974b4a42574f30d23e08f0 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -90,6 +90,8 @@ struct venus_resources {
+ 	u32 cp_nonpixel_start;
+ 	u32 cp_nonpixel_size;
+ 	const char *fwname;
++	const char *enc_nodename;
++	const char *dec_nodename;
+ };
+ 
+ enum venus_fmt {
+@@ -171,6 +173,7 @@ struct venus_format {
+  * @root:	debugfs root directory
+  * @venus_ver:	the venus firmware version
+  * @dump_core:	a flag indicating that a core dump is required
++ * @ocs:	OF changeset pointer
+  */
+ struct venus_core {
+ 	void __iomem *base;
+@@ -235,6 +238,7 @@ struct venus_core {
+ 		u32 rev;
+ 	} venus_ver;
+ 	unsigned long dump_core;
++	struct of_changeset *ocs;
+ };
+ 
+ struct vdec_controls {
 
-Best regards,
 -- 
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+2.47.1
 
 
