@@ -1,137 +1,144 @@
-Return-Path: <linux-media+bounces-22278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22279-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77BE99DBDAE
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 23:36:22 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BB16164ECA
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:34:02 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F721C4A29;
-	Thu, 28 Nov 2024 22:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LSO5VTuj"
-X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4F99DBDA8
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 23:34:57 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39131C243C;
-	Thu, 28 Nov 2024 22:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23D182815B7
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:34:56 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C931C4A2B;
+	Thu, 28 Nov 2024 22:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CJrVLhy5"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66981C243C
+	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 22:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732833237; cv=none; b=GI7FC7b43LjZFBPGAIqhZONOkYZX1xIgSPLNcHFQ4oMFXJvja6veSZfYX1ycQIhoGkQc/KUuxlPuf1y5ha5FluJYr5flIGyVRHzsr0w2Z1qvyI0IswpksyuVMilge3Hox6Mjh9fOZ/Sps5EBBbO2+tDbmjwJ157AN93YzHy+llg=
+	t=1732833288; cv=none; b=oAHc9mka6S5ZiNP/oGxZs95PBQMK0GrP6TpymduoDBcRztK565bMys3rO18TrKDPCYjSS+s6t0myBd2EKninWOxVWA3Xf9l5SA4khE0IwWD4Li2dZeux7Q57llVeBDMaxf9nBtxU36j4mbDhqulZh0/1r3V0p5PjU2xCztVXvhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732833237; c=relaxed/simple;
-	bh=D5c4ddADFEafxBsjATNInFKyQYSZarQn7e/aFo2f/Gc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SRNkX38KE/Uhx2KpZYhXHZvB+spl2afCUG84akU7oAW2ywL288ckD1u1EFx4cma4wyx7PTajSkiWFtt2DnTx53EYL48yMDSfTU3XLzAPs2/2lN3ACre/icu5neFm5o+YYzEcGZ+PZ/AxYVPFay+J0k8+BJ+tux9Gmted7KVVTfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LSO5VTuj; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B577A526;
-	Thu, 28 Nov 2024 23:33:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732833209;
-	bh=D5c4ddADFEafxBsjATNInFKyQYSZarQn7e/aFo2f/Gc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LSO5VTujkVjO5JWprCKP2BwcoGie8kjwHYSSuhzsnU9Pdy3SN/FmfpOKXSqmkddqv
-	 abVAs/gNBt2xzZtUWVQG9HwTJmYkhbfOHR5nEdxslwKSSnR7gWEKUDUnrm4+8+5VyK
-	 cmVTP+B5mzVUidaUCOKXLoahntcKLkzCaco5j2rE=
-Date: Fri, 29 Nov 2024 00:33:43 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control
- owned by other fh
-Message-ID: <20241128223343.GH25731@pendragon.ideasonboard.com>
-References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
- <20241127-uvc-fix-async-v2-2-510aab9570dd@chromium.org>
- <20241128222232.GF25731@pendragon.ideasonboard.com>
- <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
+	s=arc-20240116; t=1732833288; c=relaxed/simple;
+	bh=AUkT88Th6kutpsO9rSnKuodwKE5fXwcpQTd6174vA6k=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=XLylyT7yw4Kd0RYONzYlhylNc9u6VfEdAXVptW/YxQ3KCHctbMwVN67+OCvMCegA5jmZzmRfCoCaDBNFpue678XoxU/2ABkntdOCJG47I9BRAYPjfca+pFAN87UsYBs6tHHh3z2FUYd1F2lWvss9kxr5p7P8717Drlxco3L4ino=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CJrVLhy5; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-434a83c6b01so11263905e9.0
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 14:34:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732833285; x=1733438085; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=mPjrQlS/j4lgnq4nZOck4tCS7rWNRW0RmXaCV/t217s=;
+        b=CJrVLhy5H5xIVbsF/pS1hp7tYgWyva3X+IOClnq/cm6hucVBgxUCUzIPTpjLZ+mHfd
+         sYhl1rcOnW5Fvl9Um9EEW6KHlyf9rPZYiB7on5SIY3KWwEBywkDkskSL6UQoPxFQq9bM
+         /9LIywAKTCXPx9O6G6I/HBNhfQwaV7z232Uo0WVE5jlEB8QyWR6AlMrdv+b5icCkFkj5
+         Y78IHwpq/LrHl+i9yQo0FIe40e7gv0mcUPwRk8q132yEZ1hGUIj/RpRpUdcgPzR0k+b/
+         q7k42VkpVoUqhkXbqDbckxZubwJf3DWDOjnvociWqv55SJIthF5P/sOAWI3kzUznKQjz
+         YZPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732833285; x=1733438085;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mPjrQlS/j4lgnq4nZOck4tCS7rWNRW0RmXaCV/t217s=;
+        b=Wug/iqhMFmJTA+QFWlZsnuk+HIVT9bWqfKzUmtJTdWiqMLm50MPUnjDMteRi4feV73
+         G9NYjg6ilRugwXsu2HnaWssLKUYmI1Qcxg/klR7HW1RiKtD5h5wVCLDrRfbD4X3Uh/8Y
+         szZQe//LctHSl7JnLr00FEhACXXW7VfHrxyKn6bb/M4oHOpI6XmeMieG7jrDG41sT5JX
+         kXHE7t1/fEhtFxJprY+w7fKKFfcjOH65KZ0nQX9y7pEv3yWlkZGvZvFLSiEJIRR6QrRd
+         uCb1FMFfpuk6rBdUzsEuBUs/E1CvsFU2WIQZphz1BYPtLuvTO/AFsqbTO+nuCShhMzg3
+         wytw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpnNpnKDWzPgHbQQj0MkkgjYBJW6HbC87M65PbCMRnp1CRXbZX/EPvdtICxzRdr/UNVEFpdXMh/gqPMQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAzPgyhr6d65xdHygvmVMKyja0APEqiyFsO2+K9Qe4KHu6WmeU
+	jMz3qvR4JqqH1gU8TS5Kfzb+z+oyaffSqHrDeI/FeZs8kSOKQJDjOTZEfEMm1pI=
+X-Gm-Gg: ASbGnctOdAaXMq2q/FBFE/xEzG1W8ayIptN7ZC4FjomigTiiaZVB5NQY6dTaIXQzU2r
+	wzLpKVo2AdGs9qDzM1DfzkxLANCAnPYd5fA7p83UpQAq8RUyQo2VL4j8WgGeh5Axn9iaC34MrtK
+	4KW9Vg0Sxkz4sprqgnjhRdWB7XFvMC/OFbNfE/9pCjND5cYA/+Eoh9FPI4MsQ4U2jVCqtHsf0U7
+	HEkMaQLv0fZ8uXTEemfC7hwnc0wphuIkbm5E0M4CUF7fBOjnNguH13sMkjSLMo=
+X-Google-Smtp-Source: AGHT+IH8HKeLrud/hmB58OwNwUNUc0fecGxOTCsVoS2qCTKMbmueDaSl/mes9YkrPVY95d4pKo7gpg==
+X-Received: by 2002:a05:6000:18ab:b0:382:4978:2ab9 with SMTP id ffacd0b85a97d-385c6cca356mr8106802f8f.5.1732833285140;
+        Thu, 28 Nov 2024 14:34:45 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385d6e60909sm1601043f8f.76.2024.11.28.14.34.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Nov 2024 14:34:44 -0800 (PST)
+Message-ID: <f88dbe6d-ceac-4fb3-83ad-f202a4703003@linaro.org>
+Date: Thu, 28 Nov 2024 22:34:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: venus: Add support for static video
+ encoder/decoder declarations
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: quic_renjiang@quicinc.com, quic_vnagar@quicinc.com,
+ quic_dikshita@quicinc.com, konradybcio@kernel.org,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>, devicetree@vger.kernel.org
+References: <20241127-media-staging-24-11-25-rb3-hw-compat-string-v1-0-99c16f266b46@linaro.org>
+ <20241127-media-staging-24-11-25-rb3-hw-compat-string-v1-1-99c16f266b46@linaro.org>
+ <7d344377-f1cf-400e-a9c4-442123dcf4ab@oss.qualcomm.com>
+ <95ec73c9-da38-4888-9e00-4458b5a7661c@linaro.org>
+Content-Language: en-US
+In-Reply-To: <95ec73c9-da38-4888-9e00-4458b5a7661c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 28, 2024 at 11:28:29PM +0100, Ricardo Ribalda wrote:
-> On Thu, 28 Nov 2024 at 23:22, Laurent Pinchart wrote:
-> >
-> > Hi Ricardo,
-> >
-> > (CC'ing Hans Verkuil)
-> >
-> > Thank you for the patch.
-> >
-> > On Wed, Nov 27, 2024 at 12:14:50PM +0000, Ricardo Ribalda wrote:
-> > > If a file handle is waiting for a response from an async control, avoid
-> > > that other file handle operate with it.
-> > >
-> > > Without this patch, the first file handle will never get the event
-> > > associated with that operation, which can lead to endless loops in
-> > > applications. Eg:
-> > > If an application A wants to change the zoom and to know when the
-> > > operation has completed:
-> > > it will open the video node, subscribe to the zoom event, change the
-> > > control and wait for zoom to finish.
-> > > If before the zoom operation finishes, another application B changes
-> > > the zoom, the first app A will loop forever.
-> >
-> > Hans, the V4L2 specification isn't very clear on this. I see pros and
-> > cons for both behaviours, with a preference for the current behaviour,
-> > as with this patch the control will remain busy until the file handle is
-> > closed if the device doesn't send the control event for any reason. What
-> > do you think ?
+On 28/11/2024 22:14, Bryan O'Donoghue wrote:
+> On 28/11/2024 20:02, Konrad Dybcio wrote:
+>> Bryan,
+>>
+>> I'm still not sure if keeping the logic behind this makes sense at all.
+>>
+>> Could we not just call platform_device_register_data() with a static
+>> configuration of 1 core being enc and the other dec?
 > 
-> Just one small clarification. The same file handler can change the
-> value of the async control as many times as it wants, even if the
-> operation has not finished.
+> That's another way to do this. One reason I wrote this series to 
+> continue to rely on the existing compat= method though is it stuck in my 
+> mind that we have some dependency ordering logic in at the moment.
 > 
-> It will be other file handles that will get -EBUSY if they try to use
-> an async control with an unfinished operation started by another fh.
+> For example:
+> 
+> commit 08b1cf474b7f72750adebe0f0a35f8e9a3eb75f6
+> Author: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Date:   Fri Feb 5 19:11:49 2021 +0100
+> 
+> And the other reason is the prototype platform_device_register_* looks 
+> like more surgery and ultimately more validation / potential for bugs.
+> 
+> Since this driver is supposed to be moving to maintenance mode, I didn't 
+> want to do a more major rewrite of the probe() and remove() paths.
+> 
+> ---
+> bod
+> 
 
-Yes, I should have been more precised. If the device doesn't send the
-control event, then all other file handles will be prevented from
-setting the control until the file handle that set it first gets closed.
+and.. I wanted to continue support sdm630/sdm660/msm8996/msm8998 without 
+any additional effort to go finding power-domains and clocks which in 
+those cases the existing compat= method actually does something useful.
 
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > index b6af4ff92cbd..3f8ae35cb3bc 100644
-> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > @@ -1955,6 +1955,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-> > >       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
-> > >               return -EACCES;
-> > >
-> > > +     /* Other file handle is waiting a response from this async control. */
-> > > +     if (ctrl->handle && ctrl->handle != handle)
-> > > +             return -EBUSY;
-> > > +
-> > >       /* Clamp out of range values. */
-> > >       switch (mapping->v4l2_type) {
-> > >       case V4L2_CTRL_TYPE_INTEGER:
+Also potentially other/new additions to venus which have xcoder specific 
+PDs and clocks would logically want to specify those as we do for the 
+above listed SoCs.
 
--- 
-Regards,
-
-Laurent Pinchart
+---
+bod
 
