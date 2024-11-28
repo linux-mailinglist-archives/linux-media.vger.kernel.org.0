@@ -1,126 +1,137 @@
-Return-Path: <linux-media+bounces-22277-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22278-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B700B9DBDA2
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 23:33:11 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77BE99DBDAE
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 23:36:22 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BB16164ECA
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:34:02 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F721C4A29;
+	Thu, 28 Nov 2024 22:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LSO5VTuj"
+X-Original-To: linux-media@vger.kernel.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11BE3B22396
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:33:09 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417651C9B66;
-	Thu, 28 Nov 2024 22:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="WBw7x/8M"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256F71C57B2
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 22:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39131C243C;
+	Thu, 28 Nov 2024 22:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732833114; cv=none; b=ALQiEauh7nnbGFH9JEEkyaOX7dIvEpTUNUWclJl0qc7c3V7fFDKm9W9pP2r1Mhpuae05eW182EAJy03MG5vP0mvE1l6FF2TBGVSXpmtuL7IbMTsmh0QnOox/CfVjhPhmNl5XU+XPOmEZk0sh/7Jo9wZLWKZbsP9RC/FniXtfqFE=
+	t=1732833237; cv=none; b=GI7FC7b43LjZFBPGAIqhZONOkYZX1xIgSPLNcHFQ4oMFXJvja6veSZfYX1ycQIhoGkQc/KUuxlPuf1y5ha5FluJYr5flIGyVRHzsr0w2Z1qvyI0IswpksyuVMilge3Hox6Mjh9fOZ/Sps5EBBbO2+tDbmjwJ157AN93YzHy+llg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732833114; c=relaxed/simple;
-	bh=vSBgqREdabS/n09oBGSsyVKJgzrWW8gMM+XuvFh8jGw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IqTfqh62x7grmVrLFNEynL026ZDxi68BG4WmHmU1sQkfU2nwn39hPb4mVZafgo5eNAI5zJtEIWBAZzNSi5kxoaku6q7EdDjm4DtZ8hf+y1deg7dcs8mnKsxE2wJuoHGLbfaqBw0vZW9UyOU11MXPYX+D/3psqmAnC04RmfJG3PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=WBw7x/8M; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5cf6f367f97so1349709a12.0
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 14:31:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1732833109; x=1733437909; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PhEu1O8tP+5SOvMxJ5NzUYLjAfFINMkgnefleOw9LAo=;
-        b=WBw7x/8MyxeOYA35C1drkYvwbmGeO4FR5l2nNU6fJHvRM1qoyCHGsAv+XHBcX7CSgS
-         kZzVQ4seYlS/9DDpIZfWfLa1hPRbBWoxFL69gT7gxVvc7OdVA5Nb2/SAVdTYk/+tt1JY
-         fKHnC1WJsTNWaddqounV/z7vb1KtRS94MGLv+CzVZp/9SZzPqfb+k3tZOw56C6jV5lwD
-         p9ZZEy41vl386is+dJELTtcCJTV5jtvrV+0X1be2iJ0HdLMKgnkavT8cQ8wJw70lU4R2
-         ZR0r+wQ0AzQ9HMKOG+3k5KfalhYadA6xN+RMlK6fpiWH54YC40aXrohS6YbbGs3OKEbX
-         7XFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732833109; x=1733437909;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PhEu1O8tP+5SOvMxJ5NzUYLjAfFINMkgnefleOw9LAo=;
-        b=I0BPZKLG3+uOzBE3TmfViymyrtRDm5/drJvnFxEYtuWbqiw80nmiiVUxauht2piqmq
-         v0B9KnsE7TMHe9jT/mCWqLrBOjtexbBb9WenUyiqVLdwkVmL7MZyOceE29VJlQGZM7HQ
-         mRVCDjQsIdNgjUyTW9kU0Ow0ERFDJQDx/0yizV3LZEyB3NWcZgqFkUeNNoMUMTzkJruP
-         wyw7IjS0hgUZth0r2PfdHIy3g5FsUYa8ypG0d19c51/AxH5gZSUK1RCC4YZySShT6Or8
-         KT18yFWR6r/qq3crjZrTLybZuENLJmmSJTtCh1YqiLzNRcviv3zb5Eb4u8KaUdLX0tIh
-         rYDw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+wu/YTHOBCpfeU7rSeH+FpTcOrzP/R8Wqh/j6KThLrWQfvjAyYWV466vUrlkOrCj2Qs9vQukF3zUxWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+QyoVkL7ymMkNaKZZyQ3JAMjCTRSmtwHtRTbIjPFOe8YOiw04
-	3sunx088xJ5p1N/MltTNhGmO3labNBGYoGiQ9/l3Jp/mf5ym4eHQcN/4CGGHqHvfERJ15P+3LRN
-	j
-X-Gm-Gg: ASbGncv+imLGDISGayBavBI9My+8dR3sXZQkF3DR1B+Ve5OrfdUoZ3G51vAVQ7N8MPs
-	YGXtdYLsiqGSkIUqaFW+cj0PsZBHYQA8Rtwg+9Bi7gQOp7psbr557gRPmtbhPv8kUX8/IZIDWO0
-	0tRQyWWIo9tSvViN47i+lJwjiiGLoRhFFvHc3li47QS7/5LhUhpXzC4BOSKz2ts8/OiFoPhzu+q
-	hKTxSYQCkZg6SEqUc4XoutrqncJ1ttUasVFnOc/nEhlvVBG/VA+4v6KZ/9/J13qsg==
-X-Google-Smtp-Source: AGHT+IF9dnpn+7M0c6EI2JeDjVFOmRxhuBpL/4iDLEvFEuP8URE+Rh0/zEacF8TcZBK3JG2szgyFfw==
-X-Received: by 2002:a05:6402:3546:b0:5cf:de89:9364 with SMTP id 4fb4d7f45d1cf-5d080bb2f99mr8554599a12.10.1732833109274;
-        Thu, 28 Nov 2024 14:31:49 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d097e8db19sm1133180a12.61.2024.11.28.14.31.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2024 14:31:48 -0800 (PST)
-Message-ID: <73fffc4f-f8a8-4011-8d69-cab4c29223c3@nexus-software.ie>
-Date: Thu, 28 Nov 2024 22:31:47 +0000
+	s=arc-20240116; t=1732833237; c=relaxed/simple;
+	bh=D5c4ddADFEafxBsjATNInFKyQYSZarQn7e/aFo2f/Gc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SRNkX38KE/Uhx2KpZYhXHZvB+spl2afCUG84akU7oAW2ywL288ckD1u1EFx4cma4wyx7PTajSkiWFtt2DnTx53EYL48yMDSfTU3XLzAPs2/2lN3ACre/icu5neFm5o+YYzEcGZ+PZ/AxYVPFay+J0k8+BJ+tux9Gmted7KVVTfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LSO5VTuj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B577A526;
+	Thu, 28 Nov 2024 23:33:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732833209;
+	bh=D5c4ddADFEafxBsjATNInFKyQYSZarQn7e/aFo2f/Gc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LSO5VTujkVjO5JWprCKP2BwcoGie8kjwHYSSuhzsnU9Pdy3SN/FmfpOKXSqmkddqv
+	 abVAs/gNBt2xzZtUWVQG9HwTJmYkhbfOHR5nEdxslwKSSnR7gWEKUDUnrm4+8+5VyK
+	 cmVTP+B5mzVUidaUCOKXLoahntcKLkzCaco5j2rE=
+Date: Fri, 29 Nov 2024 00:33:43 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control
+ owned by other fh
+Message-ID: <20241128223343.GH25731@pendragon.ideasonboard.com>
+References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
+ <20241127-uvc-fix-async-v2-2-510aab9570dd@chromium.org>
+ <20241128222232.GF25731@pendragon.ideasonboard.com>
+ <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: document csiphy_lanes_cfg structure
-To: David Heidelberg <david@ixit.cz>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Caleb Connolly <caleb.connolly@linaro.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241128200142.602264-1-david@ixit.cz>
-Content-Language: en-US
-From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
-In-Reply-To: <20241128200142.602264-1-david@ixit.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
 
-On 28/11/2024 20:01, David Heidelberg wrote:
-> From: Caleb Connolly <caleb.connolly@linaro.org>
+On Thu, Nov 28, 2024 at 11:28:29PM +0100, Ricardo Ribalda wrote:
+> On Thu, 28 Nov 2024 at 23:22, Laurent Pinchart wrote:
+> >
+> > Hi Ricardo,
+> >
+> > (CC'ing Hans Verkuil)
+> >
+> > Thank you for the patch.
+> >
+> > On Wed, Nov 27, 2024 at 12:14:50PM +0000, Ricardo Ribalda wrote:
+> > > If a file handle is waiting for a response from an async control, avoid
+> > > that other file handle operate with it.
+> > >
+> > > Without this patch, the first file handle will never get the event
+> > > associated with that operation, which can lead to endless loops in
+> > > applications. Eg:
+> > > If an application A wants to change the zoom and to know when the
+> > > operation has completed:
+> > > it will open the video node, subscribe to the zoom event, change the
+> > > control and wait for zoom to finish.
+> > > If before the zoom operation finishes, another application B changes
+> > > the zoom, the first app A will loop forever.
+> >
+> > Hans, the V4L2 specification isn't very clear on this. I see pros and
+> > cons for both behaviours, with a preference for the current behaviour,
+> > as with this patch the control will remain busy until the file handle is
+> > closed if the device doesn't send the control event for any reason. What
+> > do you think ?
 > 
-> Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->   drivers/media/platform/qcom/camss/camss-csiphy.h | 6 ++++++
->   1 file changed, 6 insertions(+)
+> Just one small clarification. The same file handler can change the
+> value of the async control as many times as it wants, even if the
+> operation has not finished.
 > 
-> diff --git ./drivers/media/platform/qcom/camss/camss-csiphy.h ./drivers/media/platform/qcom/camss/camss-csiphy.h
-> index eebc1ff1cfab..e3b9e8f12806 100644
-> --- ./drivers/media/platform/qcom/camss/camss-csiphy.h
-> +++ ./drivers/media/platform/qcom/camss/camss-csiphy.h
-> @@ -26,6 +26,12 @@ struct csiphy_lane {
->   	u8 pol;
->   };
->   
-> +/**
-> + * struct csiphy_lanes_cfg - CSIPHY lanes configuration
-> + * @num_data: number of data lanes
-> + * @data:     data lanes configuration
-> + * @clk:      clock lane configuration (only for D-PHY)
-> + */
->   struct csiphy_lanes_cfg {
->   	int num_data;
->   	struct csiphy_lane *data;
+> It will be other file handles that will get -EBUSY if they try to use
+> an async control with an unfinished operation started by another fh.
 
-Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Yes, I should have been more precised. If the device doesn't send the
+control event, then all other file handles will be prevented from
+setting the control until the file handle that set it first gets closed.
+
+> > > Cc: stable@vger.kernel.org
+> > > Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > index b6af4ff92cbd..3f8ae35cb3bc 100644
+> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > @@ -1955,6 +1955,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+> > >       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+> > >               return -EACCES;
+> > >
+> > > +     /* Other file handle is waiting a response from this async control. */
+> > > +     if (ctrl->handle && ctrl->handle != handle)
+> > > +             return -EBUSY;
+> > > +
+> > >       /* Clamp out of range values. */
+> > >       switch (mapping->v4l2_type) {
+> > >       case V4L2_CTRL_TYPE_INTEGER:
+
+-- 
+Regards,
+
+Laurent Pinchart
 
