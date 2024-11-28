@@ -1,171 +1,126 @@
-Return-Path: <linux-media+bounces-22276-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22277-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D259DBD84
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 23:28:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B700B9DBDA2
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 23:33:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 652892821A3
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:28:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11BE3B22396
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 22:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47DFF1C461F;
-	Thu, 28 Nov 2024 22:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 417651C9B66;
+	Thu, 28 Nov 2024 22:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="k3vVGdNu"
+	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="WBw7x/8M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4753F1C2439
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 22:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256F71C57B2
+	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 22:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732832925; cv=none; b=E1MRPbNIJiu5Amq+X+vZxGAhwF5KDgR0JQ6xDeACaLQniIvxpXWDwbuJFHo+KlZsPpylVjNdiW92JawiotLf8paVKoEfBYfuPsCs0lWyeQ49cXJ8Xa9obns9caCK6QzmXyjkw4hl/tHM3+ub/A6Ki9XoffretKJhn3ytlUXp4Rs=
+	t=1732833114; cv=none; b=ALQiEauh7nnbGFH9JEEkyaOX7dIvEpTUNUWclJl0qc7c3V7fFDKm9W9pP2r1Mhpuae05eW182EAJy03MG5vP0mvE1l6FF2TBGVSXpmtuL7IbMTsmh0QnOox/CfVjhPhmNl5XU+XPOmEZk0sh/7Jo9wZLWKZbsP9RC/FniXtfqFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732832925; c=relaxed/simple;
-	bh=8lq5+GM4KnxEtuVXVOGIdvmiEazYybHaFmVLqIFcr8o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hClm96fHpiwq/htXe3rAHfu2FaV+JjHqqOS4zJuB0Br2SR/D16bTfs1eWD9w9JZ3d4RvwMXYm4UGb8IRw8fc/4jCiJT8k4Xma4GkAiDEf1fUqf3tb6rnqeE30vBYOBkZa9zK/XPwIFhSHooNafQKubVzNxxeHzT2qwfqL62DY+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=k3vVGdNu; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21210fe8775so18809095ad.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 14:28:44 -0800 (PST)
+	s=arc-20240116; t=1732833114; c=relaxed/simple;
+	bh=vSBgqREdabS/n09oBGSsyVKJgzrWW8gMM+XuvFh8jGw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IqTfqh62x7grmVrLFNEynL026ZDxi68BG4WmHmU1sQkfU2nwn39hPb4mVZafgo5eNAI5zJtEIWBAZzNSi5kxoaku6q7EdDjm4DtZ8hf+y1deg7dcs8mnKsxE2wJuoHGLbfaqBw0vZW9UyOU11MXPYX+D/3psqmAnC04RmfJG3PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=WBw7x/8M; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5cf6f367f97so1349709a12.0
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 14:31:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732832923; x=1733437723; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6YHsdk6gFEBYCcBAXe7bD6v4I0e45HlFShaBv7kWeI4=;
-        b=k3vVGdNuoXMEPtGeyDj71+UMpjaMVcaBFA2zOlkBqgK6n3R3QRFFnuZpwq9B9M4F6O
-         ysY7Qa0ziu1mQNR0/jTynGCGy2DpubmtHKHyqK26nXX+bwRn03wvbx3/1Rwld9cAZsCu
-         zQRWNYa8alwUNrYPlpWpUKfGJ6StV+Q50CES8=
+        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1732833109; x=1733437909; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PhEu1O8tP+5SOvMxJ5NzUYLjAfFINMkgnefleOw9LAo=;
+        b=WBw7x/8MyxeOYA35C1drkYvwbmGeO4FR5l2nNU6fJHvRM1qoyCHGsAv+XHBcX7CSgS
+         kZzVQ4seYlS/9DDpIZfWfLa1hPRbBWoxFL69gT7gxVvc7OdVA5Nb2/SAVdTYk/+tt1JY
+         fKHnC1WJsTNWaddqounV/z7vb1KtRS94MGLv+CzVZp/9SZzPqfb+k3tZOw56C6jV5lwD
+         p9ZZEy41vl386is+dJELTtcCJTV5jtvrV+0X1be2iJ0HdLMKgnkavT8cQ8wJw70lU4R2
+         ZR0r+wQ0AzQ9HMKOG+3k5KfalhYadA6xN+RMlK6fpiWH54YC40aXrohS6YbbGs3OKEbX
+         7XFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732832923; x=1733437723;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6YHsdk6gFEBYCcBAXe7bD6v4I0e45HlFShaBv7kWeI4=;
-        b=IeQnR8zHzYU2Uw1gHjUCcoy1N+RfuIwFKVqHmPQV2+FykrIC7Kk1D1P/DQKCdj4Mhh
-         qjPSBDTHTQ5kKRsZ4nhZWVCf4aSkzSjMlftCE2aSYweOVSl4HqbCc8Tby0zxqNNwQVGf
-         SmoIs4LjN8EfIpCV6XcHKEFgfIHpUVe6UDkU6gni4i4J8zzHA+crLMLIqXFcHxQ0jqUf
-         g/PqViKZEbbixj/WlZc9R4gW7e9Dnpsq7C6YbBdoNpXDG2q9HW5djFxHqifX8Jw1VjkF
-         wjyuS4D6Aho/AFLosUsuuvIlHJCiApAje9yyts2pH1mve7W2aD2bjQsyt0gs5fQLak3J
-         L6Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCVa1iYnc9ndFTcyVkxEQ6CjG4kAIumJf7Flz+zthw6YDLlXFPuMdk9+UkqYByAK6/i9vlPWY2cJseZkyw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0t0v3hm7s525acuVxdzXS5wVDkGHJjFFKUf5fgD3K0U9eST7J
-	6wZvgoiUvIB6NIzcgT9rHY2oIFczlEhWueLE9kqVAScLcnC2ye4E8SDWY8QOiKAsIR5xmkuHK84
-	=
-X-Gm-Gg: ASbGncvpkfWyqCJh1WiRfMzSAgRDk3b9rU3dlNYZGBThPj3DOhmbCb2RPDLSDvntmHS
-	ST2o47/ZBAwg4h6hRV1WbAhhjJrkhuSz40BUJya1fhXI6IncVZbBwEJnvQxIxzaDHEUwF9xWDnn
-	Lary4KynvY2UhyEiTbeZWoMqMg228KFChhhnJyB91uZBYzFZ9YGxfkZd3zIzJJ30WsQ62ZIyZA/
-	g539T5/Y8l9rRT4fDh//aZe2/Vq0vfiIBkN8Tj+tEJs6D3urjMMms9XSc28gAHHJs0tVGnVTbLD
-	GkzLtWNT4e5oRKOm
-X-Google-Smtp-Source: AGHT+IHf6hJBxXBt6jU7wzEp0E8//lLI+YwghMPQf257qRHIplXJ6BFjpSWIiaeOp9JYTPADNlGPTw==
-X-Received: by 2002:a17:902:cec1:b0:215:307f:99d6 with SMTP id d9443c01a7336-215307f9be8mr29717895ad.15.1732832923310;
-        Thu, 28 Nov 2024 14:28:43 -0800 (PST)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com. [209.85.210.169])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21521919f53sm18650955ad.104.2024.11.28.14.28.42
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1732833109; x=1733437909;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PhEu1O8tP+5SOvMxJ5NzUYLjAfFINMkgnefleOw9LAo=;
+        b=I0BPZKLG3+uOzBE3TmfViymyrtRDm5/drJvnFxEYtuWbqiw80nmiiVUxauht2piqmq
+         v0B9KnsE7TMHe9jT/mCWqLrBOjtexbBb9WenUyiqVLdwkVmL7MZyOceE29VJlQGZM7HQ
+         mRVCDjQsIdNgjUyTW9kU0Ow0ERFDJQDx/0yizV3LZEyB3NWcZgqFkUeNNoMUMTzkJruP
+         wyw7IjS0hgUZth0r2PfdHIy3g5FsUYa8ypG0d19c51/AxH5gZSUK1RCC4YZySShT6Or8
+         KT18yFWR6r/qq3crjZrTLybZuENLJmmSJTtCh1YqiLzNRcviv3zb5Eb4u8KaUdLX0tIh
+         rYDw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+wu/YTHOBCpfeU7rSeH+FpTcOrzP/R8Wqh/j6KThLrWQfvjAyYWV466vUrlkOrCj2Qs9vQukF3zUxWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+QyoVkL7ymMkNaKZZyQ3JAMjCTRSmtwHtRTbIjPFOe8YOiw04
+	3sunx088xJ5p1N/MltTNhGmO3labNBGYoGiQ9/l3Jp/mf5ym4eHQcN/4CGGHqHvfERJ15P+3LRN
+	j
+X-Gm-Gg: ASbGncv+imLGDISGayBavBI9My+8dR3sXZQkF3DR1B+Ve5OrfdUoZ3G51vAVQ7N8MPs
+	YGXtdYLsiqGSkIUqaFW+cj0PsZBHYQA8Rtwg+9Bi7gQOp7psbr557gRPmtbhPv8kUX8/IZIDWO0
+	0tRQyWWIo9tSvViN47i+lJwjiiGLoRhFFvHc3li47QS7/5LhUhpXzC4BOSKz2ts8/OiFoPhzu+q
+	hKTxSYQCkZg6SEqUc4XoutrqncJ1ttUasVFnOc/nEhlvVBG/VA+4v6KZ/9/J13qsg==
+X-Google-Smtp-Source: AGHT+IF9dnpn+7M0c6EI2JeDjVFOmRxhuBpL/4iDLEvFEuP8URE+Rh0/zEacF8TcZBK3JG2szgyFfw==
+X-Received: by 2002:a05:6402:3546:b0:5cf:de89:9364 with SMTP id 4fb4d7f45d1cf-5d080bb2f99mr8554599a12.10.1732833109274;
+        Thu, 28 Nov 2024 14:31:49 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d097e8db19sm1133180a12.61.2024.11.28.14.31.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2024 14:28:42 -0800 (PST)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7251731d2b9so1643757b3a.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 14:28:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUwAXx1TLGtCUJijFeaIbCjXPr/J2ViiSG7yhVmxvjR9K1xxKYpF5FdbwW+a68WJGeeOX0EJS3omQPqEQ==@vger.kernel.org
-X-Received: by 2002:a17:90a:9f93:b0:2ea:5658:9ed6 with SMTP id
- 98e67ed59e1d1-2ee25b38db4mr7346429a91.12.1732832921898; Thu, 28 Nov 2024
- 14:28:41 -0800 (PST)
+        Thu, 28 Nov 2024 14:31:48 -0800 (PST)
+Message-ID: <73fffc4f-f8a8-4011-8d69-cab4c29223c3@nexus-software.ie>
+Date: Thu, 28 Nov 2024 22:31:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
- <20241127-uvc-fix-async-v2-2-510aab9570dd@chromium.org> <20241128222232.GF25731@pendragon.ideasonboard.com>
-In-Reply-To: <20241128222232.GF25731@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 28 Nov 2024 23:28:29 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
-Message-ID: <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control owned
- by other fh
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, 
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: qcom: camss: document csiphy_lanes_cfg structure
+To: David Heidelberg <david@ixit.cz>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Caleb Connolly <caleb.connolly@linaro.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241128200142.602264-1-david@ixit.cz>
+Content-Language: en-US
+From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <20241128200142.602264-1-david@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 28 Nov 2024 at 23:22, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> (CC'ing Hans Verkuil)
->
-> Thank you for the patch.
->
-> On Wed, Nov 27, 2024 at 12:14:50PM +0000, Ricardo Ribalda wrote:
-> > If a file handle is waiting for a response from an async control, avoid
-> > that other file handle operate with it.
-> >
-> > Without this patch, the first file handle will never get the event
-> > associated with that operation, which can lead to endless loops in
-> > applications. Eg:
-> > If an application A wants to change the zoom and to know when the
-> > operation has completed:
-> > it will open the video node, subscribe to the zoom event, change the
-> > control and wait for zoom to finish.
-> > If before the zoom operation finishes, another application B changes
-> > the zoom, the first app A will loop forever.
->
-> Hans, the V4L2 specification isn't very clear on this. I see pros and
-> cons for both behaviours, with a preference for the current behaviour,
-> as with this patch the control will remain busy until the file handle is
-> closed if the device doesn't send the control event for any reason. What
-> do you think ?
+On 28/11/2024 20:01, David Heidelberg wrote:
+> From: Caleb Connolly <caleb.connolly@linaro.org>
+> 
+> Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>   drivers/media/platform/qcom/camss/camss-csiphy.h | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git ./drivers/media/platform/qcom/camss/camss-csiphy.h ./drivers/media/platform/qcom/camss/camss-csiphy.h
+> index eebc1ff1cfab..e3b9e8f12806 100644
+> --- ./drivers/media/platform/qcom/camss/camss-csiphy.h
+> +++ ./drivers/media/platform/qcom/camss/camss-csiphy.h
+> @@ -26,6 +26,12 @@ struct csiphy_lane {
+>   	u8 pol;
+>   };
+>   
+> +/**
+> + * struct csiphy_lanes_cfg - CSIPHY lanes configuration
+> + * @num_data: number of data lanes
+> + * @data:     data lanes configuration
+> + * @clk:      clock lane configuration (only for D-PHY)
+> + */
+>   struct csiphy_lanes_cfg {
+>   	int num_data;
+>   	struct csiphy_lane *data;
 
-Just one small clarification. The same file handler can change the
-value of the async control as many times as it wants, even if the
-operation has not finished.
-
-It will be other file handles that will get -EBUSY if they try to use
-an async control with an unfinished operation started by another fh.
-
->
-> > Cc: stable@vger.kernel.org
-> > Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index b6af4ff92cbd..3f8ae35cb3bc 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -1955,6 +1955,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-> >       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
-> >               return -EACCES;
-> >
-> > +     /* Other file handle is waiting a response from this async control. */
-> > +     if (ctrl->handle && ctrl->handle != handle)
-> > +             return -EBUSY;
-> > +
-> >       /* Clamp out of range values. */
-> >       switch (mapping->v4l2_type) {
-> >       case V4L2_CTRL_TYPE_INTEGER:
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
+Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
