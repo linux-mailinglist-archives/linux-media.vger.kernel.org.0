@@ -1,302 +1,197 @@
-Return-Path: <linux-media+bounces-22255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C139DBCED
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 21:36:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9C99DBD05
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 21:45:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9AD51B21740
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 20:36:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 47716B217F3
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2024 20:45:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF7281C304A;
-	Thu, 28 Nov 2024 20:36:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9790F1C32E2;
+	Thu, 28 Nov 2024 20:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iZcqSQmI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Lcx4cKOb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FD11C173C
-	for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 20:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B84433B1;
+	Thu, 28 Nov 2024 20:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732826183; cv=none; b=A+XZq4Che71kb6CbAAAUUyuySlH/oLDNJgAreDcYuQDMxN9CI9Bh4W60uA7po/vlHamMqYlirAkHqXJ5f+Ddjk54kBAV0teTlApq4qvLCxSrSuRcBGqJouaJW4kG4mylxqPNlVzppstzKiR/WSG+bxJ6g16zSe1HQAuBi/7g+jg=
+	t=1732826735; cv=none; b=mM239hy9s5fYETBfJaXhNqhHRTv4aViwZEQ8EEzX/QxwyyohNUbueE7S3wexcQfRH7yphcJibmRfM80oJ9fTSXGGtftx6iTJASV4nybw3b50x2pBhw24mwp4JhB/znJywsBeXyT57CPOGoiTkfezxm0UV41bJzp3t7O4agqqQW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732826183; c=relaxed/simple;
-	bh=KnKDkO/LxGWDdjT+o3TpUORCbbUXaeZsLJF5S8hD0i0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jl+2p1xbPicNkU+uIvqiD3aqv1aof8jf0J9uE4L+znbcEK5qXg0qBQB23bj8z0chyH2xgTH5jDrkMl9y5FfS3c2a4IqRk1lnkycAVTWC8fhMuOZ+l1lTeHPpNVxLMgEkPO85WHymHF/RkQ1ev0iS2RlQ53TRPRsfeqbvMUytn4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iZcqSQmI; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-724e14b90cfso1169523b3a.2
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 12:36:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732826181; x=1733430981; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SVBbCgwD2fV6O+Mi5PMdfn6J90+s+eCIZngth27HNHE=;
-        b=iZcqSQmIL92st2uaPeaWwFXQdyuWgIXqeUDzTDPCdAavW3mwvAUW3mn+xuKGUazKA/
-         p6k5VEP7b9IvEdgQS1Z+VG3TjHK3w0e3MejILpnLTVX+KHz11x+bEWYNI6jqrgjApnPo
-         Xo1RiVPGHlywieUyK9EZkWQNY2/OT2NDeUo+8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732826181; x=1733430981;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SVBbCgwD2fV6O+Mi5PMdfn6J90+s+eCIZngth27HNHE=;
-        b=b1IT/cbjsySuPsRN6xsakJbyc2RD4t5qK2TTPbB89YHQqUwvnYCLapCUhqoJkT7Qhk
-         QhfkHrklSKmi7vl2lbmk6gpi45nJ1haMujPR5FPjAgcNNQjcr9Gx6Qi4C9r6LmDxkviN
-         6p5h3WTTzPvYR5wLN1NhR9s+w5aDWOxpBRHckxroPCuyxyl5Pq2NinejRG6y3TUfNgXO
-         ZGS/i++0t2+sXf6cUbuVhdDqJObff1PRX+4G3ZEVBiZP4AfAPurf7jJ0kOIwx0pzJyg6
-         7rFI8TNhHecsyQ8aG0bUscSAwAGXv9mkYthpc0RIh11lokRu6we7Nqz5mkhCyrAy7K4e
-         aMhw==
-X-Forwarded-Encrypted: i=1; AJvYcCV6A+hsWVmeIUTEgipjofq89bM2pKvTIKMCoNDdXQF6jW8qgAGJa0TYZ7e64GPv2Ifc9VnsRthA/C2YAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1aJCyoX0lvix7hOIhfmjs0Nf/wCp0Rx7XS7YlCGPulfhW6NEV
-	oLTUiZVKtOXmYUgpmJyhHbLv9BjAdiz1Kxj422PeJig7uGSdABIHWxWPz/TMrslXrcQTs6cZvuU
-	=
-X-Gm-Gg: ASbGnctwzYbITJkW1u3o9Hw9yawUy3TP6eE/rNoAVpqgu6qSaNIavhf9DROUzjrdhbb
-	qRPOB98GUfRuhVia2kaFXVHppNZ383nDPs7zy7KSz20AnITnPlNyhfs3xIHDqJ6uI2Ns0Zki2Hn
-	j39vyUucLFjHzskZebj76ArTwxcsSfxlcsgPJmzKz98O6UqNZOeOlh8vcRfm9vcDWZqoVeHLBdT
-	qAIdgwJR6mo9cdLFid59nqGo38yV/GnEPpD0HhMfUjnsXpZYHrZ7JoJX7IUaSmWbNQN3jgtJJAN
-	rdqUFYg7runQkqi6
-X-Google-Smtp-Source: AGHT+IFM/9Q/eiwjIxVCbdOjXkrYUetuTs6oF/ChANKgfOMZ6ilFIZMdCDO2Go7CJ2sAvawBeNRwpA==
-X-Received: by 2002:a05:6a00:230b:b0:724:ed8f:4d35 with SMTP id d2e1a72fcca58-725301e3b2amr11102393b3a.26.1732826180784;
-        Thu, 28 Nov 2024 12:36:20 -0800 (PST)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com. [209.85.210.178])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725418149basm1991843b3a.166.2024.11.28.12.36.19
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Nov 2024 12:36:19 -0800 (PST)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-724e14b90cfso1169496b3a.2
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2024 12:36:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWLhfqUELKhKBfxotLmMGx6S3rxNlwieBritomVB6dUzWVucli7rDeEsRbwxLeWj/QpH0hAdmU/UBmBcA==@vger.kernel.org
-X-Received: by 2002:a17:90b:1b47:b0:2ea:9bdc:8f96 with SMTP id
- 98e67ed59e1d1-2ee097bb2aamr11057592a91.30.1732826179018; Thu, 28 Nov 2024
- 12:36:19 -0800 (PST)
+	s=arc-20240116; t=1732826735; c=relaxed/simple;
+	bh=UMYE0eAAYmB/PkcRW6ZCnIx6X+WRhj8jM3geWSVcjZI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k7bmQdr34SpFs7K10k4/N/6NSS9fA3XdGnYBmBbhjjgxbLmqNjwUG5jMhAbLr3VekhiuQu4U3UW3dBLrlw16O8LLP/0gyBHqc3C3dfh1iEJKNCGcVVgPv+WEOruVqKMJnag9kfbNFQEHx/BkkV7z76KEjfONnOuJkh80Ob95UH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Lcx4cKOb; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5320AC21;
+	Thu, 28 Nov 2024 21:45:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732826706;
+	bh=UMYE0eAAYmB/PkcRW6ZCnIx6X+WRhj8jM3geWSVcjZI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Lcx4cKObeZiwGP3FOLTXu/Yte4QaG1tNMlAPAy3OJsu1+qmhPqLaRIEM5x/eEboia
+	 0AhSvccogyMoTvrveonE5ld3ossGD5c1WObhtmrWTJn1+enCjo7EyzlZPYVPOltUcJ
+	 H5ZCVJI8PALVokCWHpIINSRReiIsWiXnMAoWFQLM=
+Date: Thu, 28 Nov 2024 22:45:19 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] media: uvcvideo: Support partial control reads
+Message-ID: <20241128204519.GA25731@pendragon.ideasonboard.com>
+References: <20241120-uvc-readless-v4-0-4672dbef3d46@chromium.org>
+ <20241120-uvc-readless-v4-1-4672dbef3d46@chromium.org>
+ <20241126180616.GL5461@pendragon.ideasonboard.com>
+ <CANiDSCuZkeV7jTVbNhnty8bMszUkb6g9czJfwDvRUFMhNdFp2Q@mail.gmail.com>
+ <20241127083444.GV5461@pendragon.ideasonboard.com>
+ <CANiDSCvvCtkiHHPCj0trox-oeWeh_rks3Cqm+kS9Hvtp9QC6Yg@mail.gmail.com>
+ <20241127091400.GB31095@pendragon.ideasonboard.com>
+ <CANiDSCs8o4SFx1TJYXNcWkgrzk6COoTxOKD1a02AuO4CYKxx+g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241127-uvc-dup-cap-out-v1-1-1bdcad2dabb0@chromium.org>
- <20241128202442.GC13852@pendragon.ideasonboard.com> <20241128203127.GD13852@pendragon.ideasonboard.com>
-In-Reply-To: <20241128203127.GD13852@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 28 Nov 2024 21:36:06 +0100
-X-Gmail-Original-Message-ID: <CANiDSCt69HXfRmWHKGELWoUE45bZeWUgVc3C7=aAvykUYZBUzQ@mail.gmail.com>
-Message-ID: <CANiDSCt69HXfRmWHKGELWoUE45bZeWUgVc3C7=aAvykUYZBUzQ@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Remove duplicated cap/out code
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCs8o4SFx1TJYXNcWkgrzk6COoTxOKD1a02AuO4CYKxx+g@mail.gmail.com>
 
-On Thu, 28 Nov 2024 at 21:31, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Thu, Nov 28, 2024 at 10:24:42PM +0200, Laurent Pinchart wrote:
-> > Hi Ricardo,
+On Wed, Nov 27, 2024 at 10:35:54AM +0100, Ricardo Ribalda wrote:
+> On Wed, 27 Nov 2024 at 10:14, Laurent Pinchart wrote:
+> > On Wed, Nov 27, 2024 at 09:58:21AM +0100, Ricardo Ribalda wrote:
+> > > On Wed, 27 Nov 2024 at 09:34, Laurent Pinchart wrote:
+> > > > On Tue, Nov 26, 2024 at 07:12:53PM +0100, Ricardo Ribalda wrote:
+> > > > > On Tue, 26 Nov 2024 at 19:06, Laurent Pinchart wrote:
+> > > > > > On Wed, Nov 20, 2024 at 03:26:19PM +0000, Ricardo Ribalda wrote:
+> > > > > > > Some cameras, like the ELMO MX-P3, do not return all the bytes
+> > > > > > > requested from a control if it can fit in less bytes.
+> > > > > > > Eg: Returning 0xab instead of 0x00ab.
+> > > > > > > usb 3-9: Failed to query (GET_DEF) UVC control 3 on unit 2: 1 (exp. 2).
+> > > > > > >
+> > > > > > > Extend the returned value from the camera and return it.
+> > > > > > >
+> > > > > > > Cc: stable@vger.kernel.org
+> > > > > > > Fixes: a763b9fb58be ("media: uvcvideo: Do not return positive errors in uvc_query_ctrl()")
+> > > > > > > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > > > ---
+> > > > > > >  drivers/media/usb/uvc/uvc_video.c | 16 ++++++++++++++++
+> > > > > > >  1 file changed, 16 insertions(+)
+> > > > > > >
+> > > > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > index cd9c29532fb0..482c4ceceaac 100644
+> > > > > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > > > > @@ -79,6 +79,22 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+> > > > > > >       if (likely(ret == size))
+> > > > > > >               return 0;
+> > > > > > >
+> > > > > > > +     /*
+> > > > > > > +      * In UVC the data is usually represented in little-endian.
+> > > > > >
+> > > > > > I had a comment about this in the previous version, did you ignore it on
+> > > > > > purpose because you disagreed, or was it an oversight ?
+> > > > >
+> > > > > I rephrased the comment. I added "usually" to make it clear that it
+> > > > > might not be the case for all the data types. Like composed or xu.
+> > > >
+> > > > Ah, that's what you meant by "usually". I read it as "usually in
+> > > > little-endian, but could be big-endian too", which confused me.
+> > > >
+> > > > Data types that are not integers will not work nicely with the
+> > > > workaround below. How do you envision that being handled ? Do you
+> > > > consider that the device will return too few bytes only for integer data
+> > > > types, or that affected devices don't have controls that use compound
+> > > > data types ? I don't see what else we could do so I'd be fine with such
+> > > > a heuristic for this workaround, but it needs to be clearly explained.
+> > >
+> > > Non integer datatypes might work if the last part of the data is
+> > > expected to be zero.
+> > > I do not think that we can find a heuristic that can work for all the cases.
+> > >
+> > > For years we have ignored partial reads and it has never been an
+> > > issue. I vote for not adding any heuristics, the logging should help
+> > > identify future issues (if there is any).
 > >
-> > Thank you for the patch.
-> >
-> > On Wed, Nov 27, 2024 at 07:31:29AM +0000, Ricardo Ribalda wrote:
-> > > The *_vid_cap and *_vid_out helpers seem to be identical. Remove all the
-> > > duplicated code.
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > > Unless I miss something, cap and out helpers are identical. So there is
-> > > no need to duplicate code
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_v4l2.c | 112 ++++++++-------------------------------
-> > >  1 file changed, 22 insertions(+), 90 deletions(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > index 97c5407f6603..11ccdaf0269f 100644
-> > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > @@ -361,9 +361,11 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
-> > >     return ret;
-> > >  }
-> > >
-> > > -static int uvc_v4l2_get_format(struct uvc_streaming *stream,
-> > > -   struct v4l2_format *fmt)
-> > > +static int uvc_ioctl_g_fmt(struct file *file, void *fh,
-> > > +                      struct v4l2_format *fmt)
-> > >  {
-> > > +   struct uvc_fh *handle = fh;
-> > > +   struct uvc_streaming *stream = handle->stream;
-> > >     const struct uvc_format *format;
-> > >     const struct uvc_frame *frame;
-> > >     int ret = 0;
-> > > @@ -395,9 +397,11 @@ static int uvc_v4l2_get_format(struct uvc_streaming *stream,
-> > >     return ret;
-> > >  }
-> > >
-> > > -static int uvc_v4l2_set_format(struct uvc_streaming *stream,
-> > > -   struct v4l2_format *fmt)
-> > > +static int uvc_ioctl_s_fmt(struct file *file, void *fh,
-> > > +                      struct v4l2_format *fmt)
-> > >  {
-> > > +   struct uvc_fh *handle = fh;
-> > > +   struct uvc_streaming *stream = handle->stream;
-> > >     struct uvc_streaming_control probe;
-> > >     const struct uvc_format *format;
-> > >     const struct uvc_frame *frame;
-> > > @@ -685,11 +689,13 @@ static int uvc_ioctl_querycap(struct file *file, void *fh,
-> > >     return 0;
-> > >  }
-> > >
-> > > -static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
-> > > +static int uvc_ioctl_enum_fmt(struct file *file, void *fh,
-> > >                           struct v4l2_fmtdesc *fmt)
-> > >  {
-> > > -   const struct uvc_format *format;
-> > > +   struct uvc_fh *handle = fh;
-> > > +   struct uvc_streaming *stream = handle->stream;
-> > >     enum v4l2_buf_type type = fmt->type;
-> > > +   const struct uvc_format *format;
-> > >     u32 index = fmt->index;
-> > >
-> > >     if (fmt->type != stream->type || fmt->index >= stream->nformats)
-> > > @@ -707,82 +713,8 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
-> > >     return 0;
-> > >  }
-> > >
-> > > -static int uvc_ioctl_enum_fmt_vid_cap(struct file *file, void *fh,
-> > > -                                 struct v4l2_fmtdesc *fmt)
-> > > -{
-> > > -   struct uvc_fh *handle = fh;
-> > > -   struct uvc_streaming *stream = handle->stream;
-> > > -
-> > > -   return uvc_ioctl_enum_fmt(stream, fmt);
-> > > -}
-> > > -
-> > > -static int uvc_ioctl_enum_fmt_vid_out(struct file *file, void *fh,
-> > > -                                 struct v4l2_fmtdesc *fmt)
-> > > -{
-> > > -   struct uvc_fh *handle = fh;
-> > > -   struct uvc_streaming *stream = handle->stream;
-> > > -
-> > > -   return uvc_ioctl_enum_fmt(stream, fmt);
-> > > -}
-> > > -
-> > > -static int uvc_ioctl_g_fmt_vid_cap(struct file *file, void *fh,
-> > > -                              struct v4l2_format *fmt)
-> > > -{
-> > > -   struct uvc_fh *handle = fh;
-> > > -   struct uvc_streaming *stream = handle->stream;
-> > > -
-> > > -   return uvc_v4l2_get_format(stream, fmt);
-> > > -}
-> > > -
-> > > -static int uvc_ioctl_g_fmt_vid_out(struct file *file, void *fh,
-> > > -                              struct v4l2_format *fmt)
-> > > -{
-> > > -   struct uvc_fh *handle = fh;
-> > > -   struct uvc_streaming *stream = handle->stream;
-> > > -
-> > > -   return uvc_v4l2_get_format(stream, fmt);
-> > > -}
-> > > -
-> > > -static int uvc_ioctl_s_fmt_vid_cap(struct file *file, void *fh,
-> > > -                              struct v4l2_format *fmt)
-> > > -{
-> > > -   struct uvc_fh *handle = fh;
-> > > -   struct uvc_streaming *stream = handle->stream;
-> > > -   int ret;
-> > > -
-> > > -   ret = uvc_acquire_privileges(handle);
-> > > -   if (ret < 0)
-> > > -           return ret;
-> >
-> > Has this now silently disappeared ?
-> >
-> > > -
-> > > -   return uvc_v4l2_set_format(stream, fmt);
-> > > -}
-> > > -
-> > > -static int uvc_ioctl_s_fmt_vid_out(struct file *file, void *fh,
-> > > -                              struct v4l2_format *fmt)
-> > > -{
-> > > -   struct uvc_fh *handle = fh;
-> > > -   struct uvc_streaming *stream = handle->stream;
-> > > -   int ret;
-> > > -
-> > > -   ret = uvc_acquire_privileges(handle);
-> > > -   if (ret < 0)
-> > > -           return ret;
-> > > -
-> > > -   return uvc_v4l2_set_format(stream, fmt);
-> > > -}
-> > > -
-> > > -static int uvc_ioctl_try_fmt_vid_cap(struct file *file, void *fh,
-> > > -                                struct v4l2_format *fmt)
-> > > -{
-> > > -   struct uvc_fh *handle = fh;
-> > > -   struct uvc_streaming *stream = handle->stream;
-> > > -   struct uvc_streaming_control probe;
-> > > -
-> > > -   return uvc_v4l2_try_format(stream, fmt, &probe, NULL, NULL);
-> > > -}
-> > > -
-> > > -static int uvc_ioctl_try_fmt_vid_out(struct file *file, void *fh,
-> > > -                                struct v4l2_format *fmt)
-> > > +static int uvc_ioctl_try_fmt(struct file *file, void *fh,
-> > > +                        struct v4l2_format *fmt)
-> > >  {
-> > >     struct uvc_fh *handle = fh;
-> > >     struct uvc_streaming *stream = handle->stream;
-> > > @@ -1544,14 +1476,14 @@ static unsigned long uvc_v4l2_get_unmapped_area(struct file *file,
-> > >
-> > >  const struct v4l2_ioctl_ops uvc_ioctl_ops = {
-> > >     .vidioc_querycap = uvc_ioctl_querycap,
-> > > -   .vidioc_enum_fmt_vid_cap = uvc_ioctl_enum_fmt_vid_cap,
-> > > -   .vidioc_enum_fmt_vid_out = uvc_ioctl_enum_fmt_vid_out,
-> > > -   .vidioc_g_fmt_vid_cap = uvc_ioctl_g_fmt_vid_cap,
-> > > -   .vidioc_g_fmt_vid_out = uvc_ioctl_g_fmt_vid_out,
-> > > -   .vidioc_s_fmt_vid_cap = uvc_ioctl_s_fmt_vid_cap,
-> > > -   .vidioc_s_fmt_vid_out = uvc_ioctl_s_fmt_vid_out,
-> > > -   .vidioc_try_fmt_vid_cap = uvc_ioctl_try_fmt_vid_cap,
-> > > -   .vidioc_try_fmt_vid_out = uvc_ioctl_try_fmt_vid_out,
-> > > +   .vidioc_enum_fmt_vid_cap = uvc_ioctl_enum_fmt,
-> > > +   .vidioc_enum_fmt_vid_out = uvc_ioctl_enum_fmt,
-> > > +   .vidioc_g_fmt_vid_cap = uvc_ioctl_g_fmt,
-> > > +   .vidioc_g_fmt_vid_out = uvc_ioctl_g_fmt,
-> > > +   .vidioc_s_fmt_vid_cap = uvc_ioctl_s_fmt,
-> > > +   .vidioc_s_fmt_vid_out = uvc_ioctl_s_fmt,
-> > > +   .vidioc_try_fmt_vid_cap = uvc_ioctl_try_fmt,
-> > > +   .vidioc_try_fmt_vid_out = uvc_ioctl_try_fmt,
->
-> Also, if you're removing wrapper, let's do the same for
-> uvc_ioctl_g_parm() and uvc_ioctl_s_parm(). Furthermore, please try to
-> preserve the order of the function definitions, sorting them as in the
-> ioctl_ops structure.
+> > What you're doing below is already a heuristic :-) I don't think the
+> > code needs to be changed, but I'd like this comment to explain why we
+> > consider that the heuristic in this patch is fine, to help the person
+> > (possibly you or me) who will read this code in a year and wonder what's
+> > going on.
+> 
+> What about:
+> 
+> * Some devices return shorter USB control packets than expected if the
+> * returned value can fit in less bytes. Zero all the bytes that the
+> * device has not written.
+> *
+> * This quirk is applied to all datatypes, even to non little-endian integers
+> * or composite values. We exclude UVC_GET_INFO from the quirk.
+> * UVC_GET_LEN does not need to be excluded because its size is
+> * always 1.
 
-ack.
+For the second paragraph you could write
 
-Do you want the reorder in a different patch to ease the review or in the same?
+ * This quirk is applied to all controls, regardless of their data type. Most
+ * controls are little-endian integers, in which case the missing bytes become 0
+ * MSBs. For other data types, a different heuristic could be implemented if a
+ * device is found needing it.
+ *
+ * We exclude UVC_GET_INFO from the quirk. UVC_GET_LEN does not need to be
+ * excluded because its size is always 1.
 
->
-> > >     .vidioc_reqbufs = uvc_ioctl_reqbufs,
-> > >     .vidioc_querybuf = uvc_ioctl_querybuf,
-> > >     .vidioc_qbuf = uvc_ioctl_qbuf,
+> > > > > I also r/package/packet/
+> > > > >
+> > > > > Did I miss another comment?
+> > > > >
+> > > > > > > +      * Some devices return shorter USB control packets that expected if the
+> > > > > > > +      * returned value can fit in less bytes. Zero all the bytes that the
+> > > > > > > +      * device have not written.
+> > > > > >
+> > > > > > s/have/has/
+> > > > > >
+> > > > > > And if you meant to start a new paragraph here, a blank line is missing.
+> > > > > > Otherwise, no need to break the line before 80 columns.
+> > > > >
+> > > > > The patch is already in the uvc tree. How do you want to handle this?
+> > > >
+> > > > The branch shared between Hans and me can be rebased, it's a staging
+> > > > area.
 > > >
-> > > ---
-> > > base-commit: 72ad4ff638047bbbdf3232178fea4bec1f429319
-> > > change-id: 20241127-uvc-dup-cap-out-6a03c01e30a3
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
+> > > I will send a new version, fixing the typo. and the missing new line.
+> > > I will also remove the sentence
+> > > `* In UVC the data is usually represented in little-endian.`
+> > > It is confusing.
+> > >
+> > > > > > > +      * We exclude UVC_GET_INFO from the quirk. UVC_GET_LEN does not need to
+> > > > > > > +      * be excluded because its size is always 1.
+> > > > > > > +      */
+> > > > > > > +     if (ret > 0 && query != UVC_GET_INFO) {
+> > > > > > > +             memset(data + ret, 0, size - ret);
+> > > > > > > +             dev_warn_once(&dev->udev->dev,
+> > > > > > > +                           "UVC non compliance: %s control %u on unit %u returned %d bytes when we expected %u.\n",
+> > > > > > > +                           uvc_query_name(query), cs, unit, ret, size);
+> > > > > > > +             return 0;
+> > > > > > > +     }
+> > > > > > > +
+> > > > > > >       if (ret != -EPIPE) {
+> > > > > > >               dev_err(&dev->udev->dev,
+> > > > > > >                       "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
 
 -- 
-Ricardo Ribalda
+Regards,
+
+Laurent Pinchart
 
