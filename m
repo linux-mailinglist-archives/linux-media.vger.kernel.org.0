@@ -1,161 +1,132 @@
-Return-Path: <linux-media+bounces-22283-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22284-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DCC9DBEAC
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 03:22:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B3F9DBF39
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 06:49:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B1F2A282227
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 02:22:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BEDEB213E9
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 05:49:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 812C814F126;
-	Fri, 29 Nov 2024 02:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC1B155C96;
+	Fri, 29 Nov 2024 05:49:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gk7Rj3AO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hmyy7wo4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA5642AA5;
-	Fri, 29 Nov 2024 02:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD5BBA4B
+	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 05:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732846916; cv=none; b=b2coK/YGIArXjgEfkLa9x/91wwwUc5pEtJEC306MM8olzuDYSdNKPvD1emr48qrLNr3O5djvBKLDVQBPrZpi1KAuZKc6T2orm+mDjL9p7pk7R7oWiJIiF9xeIk1REqLgdbHPjRqFGTevVYgrRtTTpCpGjJhSUwQ2zQ45qcEquug=
+	t=1732859377; cv=none; b=BjHjwcytcItqWE100F74NE3anx5uu8hQZCf3GDxcdP6Bso8JL3fCE5YJ5VdH+ggt8FlTWvJ5Xwl33SfgE2LgSXlTNDNlLjgO3oMvOwQI85wYH5Mf5h6pJGypnmDaBYWHeqbufetC2wyRWtIu7HXHxZYJ4a0EBqIIR5trL6aNpT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732846916; c=relaxed/simple;
-	bh=D2eNR7QoPIRfVwbCKv0vY6hJVxA4cBJQNFHhr6OqimA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sw7l7F2CxlpSsNXsa3xnnTIFB/oV6h1GV+ggJSarfMmpiUY2KAZUXd+gN7IjtKMtrKL9TuZNGXzRjTd56yx0mvU1etoSvVAcyTQcWSMTtQKaBgMVgvXq/jtTGJGMXsACv3OVr5JEiI1tcJxn2JZkTcU5pJEXq/6ZH1/8VGNH3+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gk7Rj3AO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66E45C4CECE;
-	Fri, 29 Nov 2024 02:21:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732846915;
-	bh=D2eNR7QoPIRfVwbCKv0vY6hJVxA4cBJQNFHhr6OqimA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gk7Rj3AO0gPgtfeJWQnKvkIpcF+YaumdwyUH73X+JSf1vNvtIU4l0Ito6n68BhX+r
-	 U8KGEJmCzp6f9t7okZyqgEhgYL9UqJMNCHkQKPQl1sm6XiecniQrCxVU248SD+fRjR
-	 2dskdMCKA81ndm7SwcWodtSbGJreUV/t83TnC5SYLV9ETJUxO60ZHW2px26R2OQBrj
-	 b7wN0ngtTaBas6duCzKD2JwkKJaUStR6Mvutqi5pIu9NazkZ7OChjuJtDSpJ4S61nc
-	 He7wir4Yj8Qo4ux5zm3lbs7AYywGCkPma395VFPE7PS/XRYaB94ioGE2Qnwe3pPkXZ
-	 oMOYG7zz1AIeQ==
-Date: Fri, 29 Nov 2024 03:21:50 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Jonathan
- Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org, Hans Verkuil
- <hverkuil@xs4ll.nl>
-Subject: Re: [PATCH] docs: media: document media multi-committers rules and
- process
-Message-ID: <20241129032150.13f8aa35@foz.lan>
-In-Reply-To: <CAKMK7uEJyTwSULjJ4Qv9vDtm5BkHwiFUSY=iihpHQMvE+a=6og@mail.gmail.com>
-References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
-	<20241126151930.GA5493@pendragon.ideasonboard.com>
-	<20241127103948.501b5a05@foz.lan>
-	<20241127111901.GG31095@pendragon.ideasonboard.com>
-	<CAKMK7uFZsc+-Os+Pb9MHHbdt1K5Pj+D069d-+FvsDeeWgeZASw@mail.gmail.com>
-	<87iks7wqi3.fsf@intel.com>
-	<20241128194758.7d2e7656@foz.lan>
-	<87v7w76od3.fsf@intel.com>
-	<CAKMK7uEJyTwSULjJ4Qv9vDtm5BkHwiFUSY=iihpHQMvE+a=6og@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1732859377; c=relaxed/simple;
+	bh=oK4W4tnwJmkrnNVOKI7vms3f4NOFxCkO4eQUmKwMWqw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=abI5o6cKj/onvTTEqB3Su/XqFoSRMrhIFH44D5tAtUInBEPIvOF8sivbUNqQ+ZkuP/ypUjNjL58/UTJqMnMK7bDmm7QKgSgxiNjnxeLksrsNBU5OAqoXVnZBnkg/ciYE0APZu/nBxmXvnrXYgAOUCjX5QNtFKFNuUwCLLCrqhuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hmyy7wo4; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732859375; x=1764395375;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=oK4W4tnwJmkrnNVOKI7vms3f4NOFxCkO4eQUmKwMWqw=;
+  b=hmyy7wo4B+mH1mxoqvQXe0vFMc6MbSU+7mRklmwDW/uKRDEdzNVc09E7
+   pf0BZRi2e3eB0dYI+kH7GFL/aoL/6sx7GXulniNjGFGK5Kcl4qHQ5sksW
+   GaGaf7vXc8eOLPGp+nvYUzIRecfiSG1+ljrcL5soLWgpck0+GrAvCZqEG
+   gkLK0rCUo6MAMOvaFm94AGxj6UMhNIFajM6qCn5S9SfBAQ5DLD8chX+am
+   FAzhG1BUDNrOahOh+Y/1dwIpPcVFQTWO879W3AF/mfjxMGPh90IyYuFHt
+   zyEAdFBZIKKmHu0ITySbCaX9QotKZq7BT+yPrQFSh4NTST5Qf2Xp+qPEe
+   g==;
+X-CSE-ConnectionGUID: 77huU+6vT4iF9YPk4Swc4A==
+X-CSE-MsgGUID: 41jgWObzTHCerMqXHMXtBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="37024103"
+X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
+   d="scan'208";a="37024103"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 21:49:35 -0800
+X-CSE-ConnectionGUID: sdqz94VTTfi7WK3L291O8A==
+X-CSE-MsgGUID: om8mrY6STzOOOBQ0W7PZjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
+   d="scan'208";a="97372224"
+Received: from unknown (HELO [10.238.224.208]) ([10.238.224.208])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 21:49:32 -0800
+Message-ID: <f72dc944-9a91-4691-bf45-4644058f0732@linux.intel.com>
+Date: Fri, 29 Nov 2024 13:49:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: i2c: add lt6911uxe hdmi bridge driver
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dongcheng Yan <dongcheng.yan@intel.com>, linux-media@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+ jacopo.mondi@ideasonboard.com, daxing.li@intel.com, hao.yao@intel.com
+References: <20241017030831.3248879-1-dongcheng.yan@intel.com>
+ <5b42e37a-810d-45e4-8552-c9299837a16a@xs4all.nl>
+ <Zxs_hzuovpuitTYv@kekkonen.localdomain>
+ <07ce5885-04af-4872-81cc-bff3d0dbcb60@xs4all.nl>
+Content-Language: en-US
+From: "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>
+In-Reply-To: <07ce5885-04af-4872-81cc-bff3d0dbcb60@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 28 Nov 2024 22:52:38 +0100
-Simona Vetter <simona.vetter@ffwll.ch> escreveu:
+Hi Hans,
 
-> On Thu, 28 Nov 2024 at 22:27, Jani Nikula <jani.nikula@intel.com> wrote:
-> > On Thu, 28 Nov 2024, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:  
-> > > We used to have a low bar for entry on our past multi-committers
-> > > model (back in 2005-2007). It was a disaster, as one of the
-> > > committer did very evil things. He was blocked, but that didn't
-> > > prevent some of us to be threatened with physical violence - and
-> > > some people even reported death threats.  
-> >
-> > While I understand the hesitation, I don't think it's fair towards
-> > potential future collaborators to distrust them based on a bad actor
-> > from nearly 20 years ago.  
+On 10/25/2024 3:05 PM, Hans Verkuil wrote:
+> On 25/10/2024 08:49, Sakari Ailus wrote:
+>> Hi Hans,
+>>
+>> On Wed, Oct 23, 2024 at 02:28:02PM +0200, Hans Verkuil wrote:
+>>> Hi Dongcheng,
+>>>
+>>> Since this is an HDMI receiver, you need to implement the DV Timings API.
+>>
+>> "Must"? Why?
 > 
-> Yeah this sounds a lot more like a CoC issue (which of course could
-> result in a very swift removal of commit rights and suspend from all
-> access to gitlab and mailing lists). Aside from reference the CoC
-> we've left these things out of scope of the commit rights processes
-> and merge criteria.
->
-> My key takeaway over the last decade more of maintainering is that
-> assuming that people want to do the right thing and building a process
-> optimized for that works really well. And then handle the toxic people
-> entirely separately through solid conduct enforcement.
->
-
-Community has evolved and CoC may help, but it is still it is dozen
-times more painful to remove grants than to not add rights for people
-that aren't ready yet to become committers. 
-
-The migration to the new model is already complex enough with experienced
-people having troubles with the new CI engine and new process.
-With just to people testing the new process, basically every time we 
-committed something, we discovered one or more issues with the CI that 
-would end denying merges and cause frustration and more work to
-maintainers.
-
-> > >> I think it's also important to define merge criteria. A set of rules by
-> > >> which a committer can commit. And it's not really about technical
-> > >> checkboxes. For example, in drm it really boils down to two things: at
-> > >> least two people have been involved, and there are no open issues.  
-> > >
-> > > That's the same criteria we're aiming for. We'll start without
-> > > two people reviewing, as there won't be enough committers at the  
-> >
-> > It's not two reviewers for us either; it's typically author+reviewer and
-> > either author or reviewer commits. Two sets of eyeballs in total.
-> >  
-> > > beginning for that, but maintainers may revert/rebase the tree in
-> > > case they don't agree with changes.  
-> >
-> > Not sure if you really mean it, but saying it like that doesn't really
-> > breed trust, IMO. Sure, there have been patches merged to i915 that I
-> > didn't "agree" with. But bad enough to warrant a revert? Very few and
-> > far between, and always for clear and concrete reasons rather than
-> > anything subjective.
-> >
-> > Side note, we don't do rebases in the development branches.  
+> The DV Timings API is used to deal with the HDMI interface part.
 > 
-> Yeah, if I don't forget anything I remember a grand total of three
-> rebases by maintainers, and this over 8 years or so of doing this:
+>>
+>> I don't know the tc358743 driver but it'd unlikely to work with current
+>> CSI-2 RX drivers. They expect the LINK_FREQ control for instance, not the
+>> DV timing API.
+>> <URL:https://hverkuil.home.xs4all.nl/spec/driver-api/tx-rx.html#transmitter-receiver>
+>>
 > 
-> - Someone pushed their entire development tree by accident. We
-> obviously had to back that out and improved the tooling to catch these
-> better.
-> - Someone who pushed an entire pile of work (I think 30 patches or so)
-> that missed the merge window into -fixes for a late -rc1.
-> - Someone who lost trust with upstream maintainers because they
-> refused to listen for way too long to engineering direction and
-> consensus. The last big push of development work was backed out again.
+> The tc358743 predates these controls. It just uses get_mbus_config. The CSI
+> configuration is defined in the dts:
 > 
-> There might have been some other things, but I think those were more
-> maintainers screwing things up than committers pushing stuff, and on
-> trees that are handled with the more classic group maintainer model.
+> Documentation/devicetree/bindings/media/i2c/tc358743.txt
 > 
-> It's really an extremely rare event that we rebase out patches.
 
-Rebases should be rare, and we do avoid doing that, but it depends
-on what happens and how the merged tree is tested. We hope that
-the workflow we're implementing with CI testing everything will
-prevent them, but we need to run it for a few kernel cycles to
-be sure that what is there is good enough.
+the lt6911uxe driver gets mbus_config in lt6911uxe_fwnode_parse, however 
+we still need to support v4l2_ctl link_freq and pixel_rate for the 
+related sensor users who follow the CSI-2 rules, like Intel IPU.
 
-Regards,
-Mauro
+Thanks,
+Dongcheng
+
+> It is fine to add support for these controls, but the DV Timings API to deal
+> with the HDMI interface is required for HDMI receivers.
+> 
+> The CSI lanes/frequencies are typically fixed for HDMI receivers (i.e. they
+> don't change if the resolution changes).
+> 
+> Regards,
+> 
+> 	Hans
+> 
+
 
