@@ -1,79 +1,36 @@
-Return-Path: <linux-media+bounces-22291-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22292-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA1E9DC0A9
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:44:37 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 160DC9DC0B2
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:46:39 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F7FC16360C
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 08:46:35 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D065C16C69F;
+	Fri, 29 Nov 2024 08:46:29 +0000 (UTC)
+X-Original-To: linux-media@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78178B21539
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 08:44:24 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AC461684A0;
-	Fri, 29 Nov 2024 08:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KEn3Vp5V"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58C8161321
-	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 08:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFC7146A7B;
+	Fri, 29 Nov 2024 08:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732869856; cv=none; b=ef4laKRgqGApKc5rxt7KeoDM/hdbQBGA9Qd+hPbOahPmspNi4HA70H0ML4VZRyZoV/AoV9fAx9J7BMpOM+4+GvHIzWfdMeyIqnwzL8W478lFZrt0efynYjL2pYgyywAHEsqrBozRDY1iGJzlO2SRQx5U3mRfvf1Buyw0FuDPQSU=
+	t=1732869989; cv=none; b=jogwpbIac36Tb5z8BZDgq37oamekLKEierBqu15C7BgwvetNGmZOmeqrmVbLpc4UoGgmoQJPoJ2yFmdR1WCzbFCd8a51IBYQ0aZ+0JWAAoD9oqHaqiWZWqzXprWtDUrWJqUj5KSTWfoYycm9fO1W6zgAl0FEr/17eiMu0tgCayQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732869856; c=relaxed/simple;
-	bh=TT5+RIHx1xuXgfqy9hE/Avt96/GK+N20arFL11M50sU=;
+	s=arc-20240116; t=1732869989; c=relaxed/simple;
+	bh=xsaYMMmqbqT5Zc3kKJCWvJdCVSJDb+qslvrWPNqjdo4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EYBCgaWGzqy2QcfTo43bVMItmTL08yiZvmztEur4eEFRFIoUBUssLMHQOPWpNIsjNCpT+iYMVIamJOODt+cw7lKCfSYib+MRGLwzYAEBTedO9QdemBkaZ1Q1yQ/jlJ3PNCj7U/Qx4PT19f9NtwsmdNmh6r9o+ahgdsTQBjRxGWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KEn3Vp5V; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53dd58ebccdso214682e87.3
-        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 00:44:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732869853; x=1733474653; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bt9DDOfs9JYKOtE18laVJNPP8yvKV7fk7BdMO0QU3tw=;
-        b=KEn3Vp5VT1dUvDxBakJ8e02Em50Os/NcX5/SeLS+laQtbJFf29Ir47vLm0JkyBAVGj
-         83CE2Ey7do6p2Jnxn7uxc9HKz6wgIwlnL+9hw9XRu5YPxs43AtV5jXcyIWiDFNTaD9Bd
-         OBNCNVcKSLst5m3awF9YKHT5X45ljq3zLutfrkHUE25Bi0TaGPWV2vfi/y10c4k/TlZQ
-         nmxOd/kTMtDiJvhx+dJDsb9PS9IxYaFZ2V+So33jz7Fm05h+/7I8nzUHuSMHTSC066G+
-         +Kf/TYWGbqz6V5oZAP1rjeWLmCPJtge+w/vGomKbxmZCgMeG2CZFYDV3Ooo45ZK0aFjK
-         vLOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732869853; x=1733474653;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bt9DDOfs9JYKOtE18laVJNPP8yvKV7fk7BdMO0QU3tw=;
-        b=KMWo7JN8Yx1XQrnKVZgce29PWL+j00quXzA7GMSAiT4g/2PkE73pEEf5zbhp6R21xy
-         LnZi+bckd/C9g5u9q7T9MX8v1ia+w377duL7eTITQmzkbr32zwijmOsVsAhOqmRgCqse
-         h7+yPrYFFM+wTM1/RGwINQacvjBOKby4FNc56mSwZWoJa/O74ZxRduJwAovFQZXkEbqn
-         FU/aWrZQPhsEPlffJ4LFwiAwyhWC9O1yipLX284vkg9yYDnX4lVwWRNH8jpkFF+0frJu
-         Q6TFhHNQ8UJ2bjGjlpo0D4NBQ4YzC/X76y70Rkgflo6KE20/0SxFdjVU90pA5WzbLE1H
-         Ye3A==
-X-Forwarded-Encrypted: i=1; AJvYcCUD0DT/khP7NaV8+3ESfMPb0r0kIOztDUR5YkXOPGrD6GlFKLBGAeDLFLsV+53nU4jem9GQMuRSj5lThg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRDPqxLTWdrvPlfCcm+2VMXuiRixbe83imksH2YDfsYbZqUM04
-	fVipQcsoZBLuNZZ/1bUstcsWpvHVx1kTz3nq0PY7hdqgSvDOf/XE/v8RRjjuvRY=
-X-Gm-Gg: ASbGnct127vhTypTL7iyeJb79IRb2PXHe5i6CrPet2H2IL2k+CWx1fv0xGaQBaFe06p
-	0tJxrHeUcqCmwAbNS1Lh89Ug5XsXyJ4yspw62o5fHiV4bKRFrivW+41XHsILAxes2Xl/cUgtmYJ
-	oMbaOaPXvd3xMPWNq3w7AaDzYLEeMCRJWe+O5YeE0IWI35XrvgPnpyJTSv11ZduHxqTZwiTvps2
-	DgE4O+6AV7lJnGwhjmpb3cuFufSpa7QH3jwJXIqXWw87fUW41NDc+m/fQhd8gARYntoxjVBjoXS
-	vtjUpnDCqywUGiqvLMQ3An0ZS9jg
-X-Google-Smtp-Source: AGHT+IHcURwgNyGfLPh20iVLAIgq5+kcYBHSmn/BfhMfCEJIr6Aoikjy3UF0JK6k0Gg+R+w7Fkq4zw==
-X-Received: by 2002:a05:6512:e90:b0:53d:da85:9df0 with SMTP id 2adb3069b0e04-53df00c74bbmr1249914e87.2.1732869852814;
-        Fri, 29 Nov 2024 00:44:12 -0800 (PST)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df6431007sm425297e87.54.2024.11.29.00.44.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Nov 2024 00:44:11 -0800 (PST)
-Message-ID: <f8b51be2-9121-4313-a575-d7aea330b687@linaro.org>
-Date: Fri, 29 Nov 2024 10:44:09 +0200
+	 In-Reply-To:Content-Type; b=SY4qpx4RxiB7rkPCQU5/gjf+M2h0ffcD6JMUAi8K/So1jCJnYq4PDFPF5UV2s001rV8jRIjZeYf13A+jDHwJm09rCukX91ESv9n044NswVTuPJ+NU6xI+ZOsL1Uffw+V0kKFIcuWLuI8wBSriMEKMC7easpgE9A96C0DRR8iAhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86189C4CECF;
+	Fri, 29 Nov 2024 08:46:25 +0000 (UTC)
+Message-ID: <43f81daa-ce1a-4668-9d6a-8469abc4439e@xs4all.nl>
+Date: Fri, 29 Nov 2024 09:46:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,207 +38,509 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: fix VFE pm domain off
-Content-Language: en-US
-To: barnabas.czeman@mainlining.org
-Cc: Yassine Oudjana <y.oudjana@protonmail.com>, Robert Foss
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+Subject: Re: [PATCH v6 03/28] media: iris: implement iris v4l2 file ops
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <a0a41b77-ee63-4d55-8c91-baf667c25cba@protonmail.com>
- <acb6366a-aa6b-4c84-a3b2-cad03ae02ee7@linaro.org>
- <43be9872149cc60d2c5c21294cd69f07@mainlining.org>
- <38003f90-4b0b-4a7a-86f5-ec75e227777a@linaro.org>
- <9a2b01c9e00fee0b3f359e7289effa29@mainlining.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <9a2b01c9e00fee0b3f359e7289effa29@mainlining.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241120-qcom-video-iris-v6-0-a8cf6704e992@quicinc.com>
+ <20241120-qcom-video-iris-v6-3-a8cf6704e992@quicinc.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241120-qcom-video-iris-v6-3-a8cf6704e992@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 11/28/24 16:24, barnabas.czeman@mainlining.org wrote:
-> On 2024-11-28 14:22, Vladimir Zapolskiy wrote:
->> On 11/28/24 12:27, barnabas.czeman@mainlining.org wrote:
->>> On 2024-11-28 10:10, Vladimir Zapolskiy wrote:
->>>> On 11/27/24 12:01, Yassine Oudjana wrote:
->>>>> On 22/11/2024 5:06 am, Barnabás Czémán wrote:
->>>>>> Fix NULL pointer check before device_link_del
->>>>>> is called.
->>>>
->>>> The intention is clear, but the context of the change is completely
->>>> lost.
->>>>
->>>>>> Fixes: eb73facec2c2 ("media: qcom: camss: Use common VFE
->>>>>> pm_domain_on/pm_domain_off where applicable")
->>>>
->>>> It's invalid, the change is not a fix.
->>> I don't agree this patch is fixing NULL pointer dereference.
->>>
->>> [   92.989120] Unable to handle kernel NULL pointer dereference at
->>> virtual address 000000000000032c
->>> [   92.989170] Mem abort info:
->>> [   92.989186]   ESR = 0x0000000096000004
->>> [   92.989203]   EC = 0x25: DABT (current EL), IL = 32 bits
->>> [   92.989221]   SET = 0, FnV = 0
->>> [   92.989237]   EA = 0, S1PTW = 0
->>> [   92.989253]   FSC = 0x04: level 0 translation fault
->>> [   92.989270] Data abort info:
->>> [   92.989284]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
->>> [   92.989300]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->>> [   92.989317]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->>> [   92.989335] user pgtable: 4k pages, 48-bit VAs,
->>> pgdp=00000001218a8000
->>> [   92.989354] [000000000000032c] pgd=0000000000000000,
->>> p4d=0000000000000000
->>> [   92.989389] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
->>> [   92.989408] Modules linked in: q6afe_dai q6asm_dai q6routing q6adm
->>> q6asm q6afe snd_q6dsp_common panel_lgphilips_sw43101 q6core venus_enc
->>> venus_dec videobuf2_dma_contig imx318 ak7375 snd_soc_wcd9335
->>> regmap_slimbus snd_soc_wcd_classh apr snd_soc_apq8096
->>> snd_soc_qcom_common snd_soc_core qcom_camss msm v4l2_fwnode
->>> snd_compress
->>> ath10k_pci v4l2_async ath10k_core snd_pcm nxp_nci_i2c drm_exec nxp_nci
->>> venus_core videobuf2_dma_sg snd_timer ath v4l2_mem2mem
->>> videobuf2_memops
->>> mac80211 drm_dp_aux_bus snd gpu_sched nci videobuf2_v4l2 libarc4
->>> soundcore videodev nfc slim_qcom_ngd_ctrl drm_display_helper hci_uart
->>> pdr_interface videobuf2_common btqca drm_kms_helper slimbus
->>> i2c_qcom_cci
->>> bluetooth mc qcom_q6v5_pas qcom_q6v5_mss qcom_pil_info qcom_q6v5
->>> qcom_sysmon qcom_common qmi_helpers mdt_loader socinfo rmtfs_mem
->>> pwm_ir_tx cfg80211 rfkill zram zsmalloc atmel_mxt_ts drm
->>> drm_panel_orientation_quirks dm_mod ip_tables
->>> [   92.989981] CPU: 2 PID: 1365 Comm: pool-megapixels Not tainted
->>> 6.9.0-rc3+ #10
->>> [   92.990003] Hardware name: Xiaomi Mi Note 2 (DT)
->>> [   92.990020] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS
->>> BTYPE=--)
->>> [   92.990042] pc : device_link_put_kref+0xc/0xb8
->>> [   92.990071] lr : device_link_del+0x30/0x48
->>> [   92.990089] sp : ffff80008a5db9d0
->>> [   92.990105] x29: ffff80008a5db9d0 x28: 0000000000000001 x27:
->>> 0000000000000000
->>> [   92.990143] x26: 0000000000000000 x25: ffff0000e79d9100 x24:
->>> ffff0000e79d9500
->>> [   92.990180] x23: ffff0000943f8568 x22: 00000000ffffffff x21:
->>> 0000000000000000
->>> [   92.990217] x20: 0000000000000000 x19: ffff800081352498 x18:
->>> 0000000000000000
->>> [   92.990253] x17: 0000000000000000 x16: 0000000000000000 x15:
->>> 0000000000000168
->>> [   92.990288] x14: 0000000000000000 x13: 0000000000000191 x12:
->>> ffff800081259d58
->>> [   92.990324] x11: 0000000000000001 x10: 0000000000000a60 x9 :
->>> ffff80008a5db7e0
->>> [   92.990359] x8 : ffff0000e79d9bc0 x7 : 0000000000000004 x6 :
->>> 0000000000000190
->>> [   92.990396] x5 : 0000000000000057 x4 : 0000000000000000 x3 :
->>> 0000000000000000
->>> [   92.990430] x2 : ffff0000e79d9100 x1 : 0000000000000000 x0 :
->>> 0000000000000000
->>> [   92.990466] Call trace:
->>> [   92.990482]  device_link_put_kref+0xc/0xb8
->>> [   92.990503]  device_link_del+0x30/0x48
->>> [   92.990522]  vfe_pm_domain_off+0x24/0x38 [qcom_camss]
->>
->> vfe_pm_domain_off() shall not be called before vfe_pm_domain_on() call.
->>
->> If vfe_pm_domain_on() is called and returns failure, then a media
->> pipeline
->> shall not be started, and vfe_pm_domain_off() shall not be called.
->>
->> If vfe_pm_domain_on() is called and returns success, then
->> vfe->genpd_link
->> is not NULL.
-> It can be null if the pm_domain_off is called twice somehow or it is
-> called
-> before pm_domain_on.
-
-Then this is the problem and this not yet identified problem shall be fixed.
-
-The currently proposed change does not fix it, but hides more efficiently.
-
-> This is the original function, it sets genpd_link to NULL:
+On 20/11/2024 15:45, Dikshita Agarwal wrote:
+> Implement open, close and poll ops.
 > 
-> void vfe_pm_domain_off(struct vfe_device *vfe)
-> {
->           if (!vfe->genpd)
->                   return;
+> Open:
+> Configure the vb2 queue and v4l2 file handler. Allocate a video instance
+> and add the instance to core instance list.
 > 
->           device_link_del(vfe->genpd_link);
->           vfe->genpd_link = NULL;
-> }
-> Other possible case:
-> genpd_link can be NULL when pm_domain_on is failing or
-> when genpd is NULL
+> Close:
+> Free the instance and remove it from core instance list.
+> 
+> Poll:
+> Wait for an event on vb2 src and vb2 dst queues.
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
 
+Regards,
 
-> By the way pm_domain_on checks if genpd_link is NULL:
->           vfe->genpd_link = device_link_add(camss->dev, vfe->genpd,
->                                             DL_FLAG_STATELESS |
->                                             DL_FLAG_PM_RUNTIME |
->                                             DL_FLAG_RPM_ACTIVE);
->           if (!vfe->genpd_link)
->                   return -EINVAL;
-> It is not calling pm_domain_off on fail:
-> 
-> ret = vfe->res->hw_ops->pm_domain_on(vfe);
->                   if (ret < 0)
->                           goto error_pm_domain;
-> 
-> [...]
-> 
-> error_domain_off:
->           vfe->res->hw_ops->pm_domain_off(vfe);
-> 
-> error_pm_domain:
->           mutex_unlock(&vfe->power_lock);
-> 
-> 
-> camss_pm_domain_off also calls vfe_pm_domain_off what is used in
-> camss-ispif
-> void camss_pm_domain_off(struct camss *camss, int id)
-> {
->           if (id < camss->res->vfe_num) {
->                   struct vfe_device *vfe = &camss->vfe[id];
-> 
->                   vfe->res->hw_ops->pm_domain_off(vfe);
->           }
-> }
->>
->> Are there any perceptable flaws within the given above reasoning?
-> The camss will be broken and system also can recover correctly (only
-> force reboot works.).
+	Hans
 
-Well, my question was about the reasoning, why there is another
-problem.
-
-I'm worried that the real bug will not be fixed by this change, and
-I believe additional analysis is needed here.
-
->>
->> Since you've encountered a bug and taking the reasoning from above as
->> correct, I believe the bug is present somewhere else, and if so, it
->> will
->> remain unfixed by this change.
->>
->>> [   92.990566]  vfe_put+0x9c/0xd0 [qcom_camss]
->>> [   92.990601]  vfe_set_power+0x48/0x58 [qcom_camss]
->>> [   92.990636]  pipeline_pm_power_one+0x154/0x158 [videodev]
->>> [   92.990683]  pipeline_pm_power+0x74/0xfc [videodev]
->>> [   92.990720]  v4l2_pipeline_pm_use+0x54/0x90 [videodev]
->>> [   92.990757]  v4l2_pipeline_pm_put+0x14/0x34 [videodev]
->>> [   92.990793]  video_release+0x2c/0x44 [qcom_camss]
->>> [   92.990828]  v4l2_release+0xe4/0xec [videodev]
->>
->> Please include the backtrace up to this point into the commit message.
->>
-
---
-Best wishes,
-Vladimir
+> ---
+>  drivers/media/platform/qcom/iris/Kconfig           |   1 +
+>  drivers/media/platform/qcom/iris/Makefile          |   5 +-
+>  drivers/media/platform/qcom/iris/iris_core.h       |   2 +
+>  drivers/media/platform/qcom/iris/iris_hfi_gen1.h   |  13 ++
+>  .../platform/qcom/iris/iris_hfi_gen1_command.c     |  12 ++
+>  drivers/media/platform/qcom/iris/iris_hfi_gen2.h   |  22 +++
+>  .../platform/qcom/iris/iris_hfi_gen2_command.c     |  11 ++
+>  drivers/media/platform/qcom/iris/iris_instance.h   |  31 +++++
+>  .../platform/qcom/iris/iris_platform_common.h      |   1 +
+>  .../platform/qcom/iris/iris_platform_sm8550.c      |   2 +
+>  drivers/media/platform/qcom/iris/iris_probe.c      |   3 +
+>  drivers/media/platform/qcom/iris/iris_vidc.c       | 147 +++++++++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_vidc.h       |  15 +++
+>  13 files changed, 264 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
+> index 34a2f81c5db3..8debddec87a5 100644
+> --- a/drivers/media/platform/qcom/iris/Kconfig
+> +++ b/drivers/media/platform/qcom/iris/Kconfig
+> @@ -2,6 +2,7 @@ config VIDEO_QCOM_IRIS
+>          tristate "Qualcomm iris V4L2 decoder driver"
+>          depends on VIDEO_DEV
+>          depends on ARCH_QCOM || COMPILE_TEST
+> +        select V4L2_MEM2MEM_DEV
+>          help
+>            This is a V4L2 driver for Qualcomm iris video accelerator
+>            hardware. It accelerates decoding operations on various
+> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
+> index 7e701361492e..6de584090a3a 100644
+> --- a/drivers/media/platform/qcom/iris/Makefile
+> +++ b/drivers/media/platform/qcom/iris/Makefile
+> @@ -1,4 +1,7 @@
+> -iris-objs += iris_platform_sm8550.o \
+> +iris-objs += iris_hfi_gen1_command.o \
+> +             iris_hfi_gen2_command.o \
+> +             iris_platform_sm8550.o \
+>               iris_probe.o \
+> +             iris_vidc.o \
+>  
+>  obj-$(CONFIG_VIDEO_QCOM_IRIS) += iris.o
+> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+> index 27bc2ca71e1b..aebb4eba7e15 100644
+> --- a/drivers/media/platform/qcom/iris/iris_core.h
+> +++ b/drivers/media/platform/qcom/iris/iris_core.h
+> @@ -25,6 +25,7 @@ struct icc_info {
+>   * @irq: iris irq
+>   * @v4l2_dev: a holder for v4l2 device structure
+>   * @vdev_dec: iris video device structure for decoder
+> + * @iris_v4l2_file_ops: iris v4l2 file ops
+>   * @icc_tbl: table of iris interconnects
+>   * @icc_count: count of iris interconnects
+>   * @pmdomain_tbl: table of iris power domains
+> @@ -41,6 +42,7 @@ struct iris_core {
+>  	int					irq;
+>  	struct v4l2_device			v4l2_dev;
+>  	struct video_device			*vdev_dec;
+> +	const struct v4l2_file_operations	*iris_v4l2_file_ops;
+>  	struct icc_bulk_data			*icc_tbl;
+>  	u32					icc_count;
+>  	struct dev_pm_domain_list		*pmdomain_tbl;
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1.h
+> new file mode 100644
+> index 000000000000..5d05be7470e0
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1.h
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef __IRIS_HFI_GEN1_H__
+> +#define __IRIS_HFI_GEN1_H__
+> +
+> +struct iris_inst;
+> +
+> +struct iris_inst *iris_hfi_gen1_get_instance(void);
+> +
+> +#endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+> new file mode 100644
+> index 000000000000..20c68f4ffb72
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+> @@ -0,0 +1,12 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "iris_hfi_gen1.h"
+> +#include "iris_instance.h"
+> +
+> +struct iris_inst *iris_hfi_gen1_get_instance(void)
+> +{
+> +	return kzalloc(sizeof(struct iris_inst), GFP_KERNEL);
+> +}
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2.h
+> new file mode 100644
+> index 000000000000..c159ed7f64f9
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef __IRIS_HFI_GEN2_H__
+> +#define __IRIS_HFI_GEN2_H__
+> +
+> +#include "iris_instance.h"
+> +
+> +/**
+> + * struct iris_inst_hfi_gen2 - holds per video instance parameters for hfi_gen2
+> + *
+> + * @inst: pointer to iris_instance structure
+> + */
+> +struct iris_inst_hfi_gen2 {
+> +	struct iris_inst		inst;
+> +};
+> +
+> +struct iris_inst *iris_hfi_gen2_get_instance(void);
+> +
+> +#endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> new file mode 100644
+> index 000000000000..3ee33c8befae
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+> @@ -0,0 +1,11 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "iris_hfi_gen2.h"
+> +
+> +struct iris_inst *iris_hfi_gen2_get_instance(void)
+> +{
+> +	return kzalloc(sizeof(struct iris_inst_hfi_gen2), GFP_KERNEL);
+> +}
+> diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
+> new file mode 100644
+> index 000000000000..527a270f12d4
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_instance.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef __IRIS_INSTANCE_H__
+> +#define __IRIS_INSTANCE_H__
+> +
+> +#include "iris_core.h"
+> +
+> +/**
+> + * struct iris_inst - holds per video instance parameters
+> + *
+> + * @core: pointer to core structure
+> + * @ctx_q_lock: lock to serialize queues related ioctls
+> + * @lock: lock to seralise forward and reverse threads
+> + * @fh: reference of v4l2 file handler
+> + * @m2m_dev:	a reference to m2m device structure
+> + * @m2m_ctx:	a reference to m2m context structure
+> + */
+> +
+> +struct iris_inst {
+> +	struct iris_core		*core;
+> +	struct mutex			ctx_q_lock;/* lock to serialize queues related ioctls */
+> +	struct mutex			lock; /* lock to serialize forward and reverse threads */
+> +	struct v4l2_fh			fh;
+> +	struct v4l2_m2m_dev		*m2m_dev;
+> +	struct v4l2_m2m_ctx		*m2m_ctx;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index 31c53dad8136..f82081ea135f 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -20,6 +20,7 @@ struct platform_clk_data {
+>  };
+>  
+>  struct iris_platform_data {
+> +	struct iris_inst *(*get_instance)(void);
+>  	const struct icc_info *icc_tbl;
+>  	unsigned int icc_tbl_size;
+>  	const char * const *pmdomain_tbl;
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+> index 3dd91523d783..dba8d3c22ce5 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+> @@ -4,6 +4,7 @@
+>   */
+>  
+>  #include "iris_core.h"
+> +#include "iris_hfi_gen2.h"
+>  #include "iris_platform_common.h"
+>  
+>  static const struct icc_info sm8550_icc_table[] = {
+> @@ -24,6 +25,7 @@ static const struct platform_clk_data sm8550_clk_table[] = {
+>  };
+>  
+>  struct iris_platform_data sm8550_data = {
+> +	.get_instance = iris_hfi_gen2_get_instance,
+>  	.icc_tbl = sm8550_icc_table,
+>  	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+>  	.clk_rst_tbl = sm8550_clk_reset_table,
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> index 911e3bc1b434..ce16d894c809 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/reset.h>
+>  
+>  #include "iris_core.h"
+> +#include "iris_vidc.h"
+>  
+>  static int iris_init_icc(struct iris_core *core)
+>  {
+> @@ -139,6 +140,7 @@ static int iris_register_video_device(struct iris_core *core)
+>  
+>  	strscpy(vdev->name, "qcom-iris-decoder", sizeof(vdev->name));
+>  	vdev->release = video_device_release;
+> +	vdev->fops = core->iris_v4l2_file_ops;
+>  	vdev->vfl_dir = VFL_DIR_M2M;
+>  	vdev->v4l2_dev = &core->v4l2_dev;
+>  	vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+> @@ -192,6 +194,7 @@ static int iris_probe(struct platform_device *pdev)
+>  
+>  	core->iris_platform_data = of_device_get_match_data(core->dev);
+>  
+> +	iris_init_ops(core);
+>  	ret = iris_init_resources(core);
+>  	if (ret)
+>  		return ret;
+> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+> new file mode 100644
+> index 000000000000..e91d661c6280
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+> @@ -0,0 +1,147 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/v4l2-mem2mem.h>
+> +
+> +#include "iris_vidc.h"
+> +#include "iris_instance.h"
+> +#include "iris_platform_common.h"
+> +
+> +#define IRIS_DRV_NAME "iris_driver"
+> +#define IRIS_BUS_NAME "platform:iris_icc"
+> +#define STEP_WIDTH 1
+> +#define STEP_HEIGHT 1
+> +
+> +static void iris_v4l2_fh_init(struct iris_inst *inst)
+> +{
+> +	v4l2_fh_init(&inst->fh, inst->core->vdev_dec);
+> +	v4l2_fh_add(&inst->fh);
+> +}
+> +
+> +static void iris_v4l2_fh_deinit(struct iris_inst *inst)
+> +{
+> +	v4l2_fh_del(&inst->fh);
+> +	v4l2_fh_exit(&inst->fh);
+> +}
+> +
+> +static inline struct iris_inst *iris_get_inst(struct file *filp, void *fh)
+> +{
+> +	return container_of(filp->private_data, struct iris_inst, fh);
+> +}
+> +
+> +static void iris_m2m_device_run(void *priv)
+> +{
+> +}
+> +
+> +static void iris_m2m_job_abort(void *priv)
+> +{
+> +	struct iris_inst *inst = priv;
+> +	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+> +
+> +	v4l2_m2m_job_finish(inst->m2m_dev, m2m_ctx);
+> +}
+> +
+> +static const struct v4l2_m2m_ops iris_m2m_ops = {
+> +	.device_run = iris_m2m_device_run,
+> +	.job_abort = iris_m2m_job_abort,
+> +};
+> +
+> +static int
+> +iris_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+> +{
+> +	struct iris_inst *inst = priv;
+> +	int ret;
+> +
+> +	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> +	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> +	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> +	src_vq->drv_priv = inst;
+> +	src_vq->dev = inst->core->dev;
+> +	src_vq->lock = &inst->ctx_q_lock;
+> +	ret = vb2_queue_init(src_vq);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> +	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> +	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> +	dst_vq->drv_priv = inst;
+> +	dst_vq->dev = inst->core->dev;
+> +	dst_vq->lock = &inst->ctx_q_lock;
+> +
+> +	return vb2_queue_init(dst_vq);
+> +}
+> +
+> +int iris_open(struct file *filp)
+> +{
+> +	struct iris_core *core = video_drvdata(filp);
+> +	struct iris_inst *inst;
+> +	int ret;
+> +
+> +	inst = core->iris_platform_data->get_instance();
+> +	if (!inst)
+> +		return -ENOMEM;
+> +
+> +	inst->core = core;
+> +
+> +	mutex_init(&inst->ctx_q_lock);
+> +
+> +	iris_v4l2_fh_init(inst);
+> +
+> +	inst->m2m_dev = v4l2_m2m_init(&iris_m2m_ops);
+> +	if (IS_ERR_OR_NULL(inst->m2m_dev)) {
+> +		ret = -EINVAL;
+> +		goto fail_v4l2_fh_deinit;
+> +	}
+> +
+> +	inst->m2m_ctx = v4l2_m2m_ctx_init(inst->m2m_dev, inst, iris_m2m_queue_init);
+> +	if (IS_ERR_OR_NULL(inst->m2m_ctx)) {
+> +		ret = -EINVAL;
+> +		goto fail_m2m_release;
+> +	}
+> +
+> +	inst->fh.m2m_ctx = inst->m2m_ctx;
+> +	filp->private_data = &inst->fh;
+> +
+> +	return 0;
+> +
+> +fail_m2m_release:
+> +	v4l2_m2m_release(inst->m2m_dev);
+> +fail_v4l2_fh_deinit:
+> +	iris_v4l2_fh_deinit(inst);
+> +	mutex_destroy(&inst->ctx_q_lock);
+> +	kfree(inst);
+> +
+> +	return ret;
+> +}
+> +
+> +int iris_close(struct file *filp)
+> +{
+> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
+> +
+> +	v4l2_m2m_ctx_release(inst->m2m_ctx);
+> +	v4l2_m2m_release(inst->m2m_dev);
+> +	iris_v4l2_fh_deinit(inst);
+> +	mutex_destroy(&inst->ctx_q_lock);
+> +	kfree(inst);
+> +	filp->private_data = NULL;
+> +
+> +	return 0;
+> +}
+> +
+> +static struct v4l2_file_operations iris_v4l2_file_ops = {
+> +	.owner                          = THIS_MODULE,
+> +	.open                           = iris_open,
+> +	.release                        = iris_close,
+> +	.unlocked_ioctl                 = video_ioctl2,
+> +	.poll                           = v4l2_m2m_fop_poll,
+> +	.mmap                           = v4l2_m2m_fop_mmap,
+> +};
+> +
+> +void iris_init_ops(struct iris_core *core)
+> +{
+> +	core->iris_v4l2_file_ops = &iris_v4l2_file_ops;
+> +}
+> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.h b/drivers/media/platform/qcom/iris/iris_vidc.h
+> new file mode 100644
+> index 000000000000..a26054ff55b5
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_vidc.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifndef __IRIS_VIDC_H__
+> +#define __IRIS_VIDC_H__
+> +
+> +struct iris_core;
+> +
+> +void iris_init_ops(struct iris_core *core);
+> +int iris_open(struct file *filp);
+> +int iris_close(struct file *filp);
+> +
+> +#endif
+> 
 
 
