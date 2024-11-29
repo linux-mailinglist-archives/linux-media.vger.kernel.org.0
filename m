@@ -1,150 +1,201 @@
-Return-Path: <linux-media+bounces-22303-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22304-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99749DC19C
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:44:10 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3354C9DC1AD
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:52:09 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A6D22825EA
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:44:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7314B163108
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:52:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1F79184524;
-	Fri, 29 Nov 2024 09:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2118D188915;
+	Fri, 29 Nov 2024 09:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bsSSD7Ri"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtNFdWzD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C27E165EED;
-	Fri, 29 Nov 2024 09:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604E4160799
+	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 09:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732873441; cv=none; b=fxGrix/O4ZLun4W1IbqBCnopK75mYDenn/N8h2OXaUalToNZZ7NoNkYDZk7miqEq9ncLXEriPXBOPj5rmg9RfOrlET/MV8gbETTmsp0LQEnz0CsvIEiKfDs7yPMX4sfJhgwpoDjPbrk3s7lLdorBLPtsS+65QgDOBqvsMtd84Hw=
+	t=1732873917; cv=none; b=PFP1cn5hQXPIZxdZjLBa75meueXF698WrqK5k0MFM5qkSYzjejO52rVbQk53npGO2yRW5fG3VnjZXDG5QNSgZtHjTJv+zQvfxnPRoNFouFkVPdCuMv0u8n2VJywPjjDL5OXvd3wAep7vMmgrShfKHKvE/d/w/MPLctOlbPjvlP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732873441; c=relaxed/simple;
-	bh=icqs1w9LL7qajOL+gpc61iCL/Gz9usCSC33by1uMk7g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=RUHKRKfLQ+VRPzmPrMMUB/dkbrzQyN8lzOSUzbksAdG6YC2F4PeBlLRmJ6HaDpJIQR3kcLsVXo8J0lEv/SJ7/B6+GU+jMYbvYFbJLTeSpyS1Lm8D76pRpfvW+hq9YmNN5PhEofw/6u3GI0+6N1d/6VRife/4jlRSkgMaKBpO/zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bsSSD7Ri; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AT83vaN004494;
-	Fri, 29 Nov 2024 09:43:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gtdtYxt7yTx0KLUyvnV//EGcEUs43332Pgjx121kuL0=; b=bsSSD7Ri3plJQvi8
-	zPj4mIWtdu97ZjIE7lhs7J86zAit3tcHWzAD7bb8TSWxWyR3QxfdyXXiK4+tpl/f
-	JS8STX0l4sqKTN6ujsc5mHJ4vFFdr6HFPDlXu+3Yo9qknR2Z5vPHm5J5YWtigDXx
-	FEP4z4slksOb/pzMTWk1emwokXSs8bw5AuX03l04qUzySIc+C0CKXBKYdzX/jMAL
-	NNAmp1CnVi60wRVItvNUg8C09mQo2F9Ararp/FrrpF+APVRrwn3ukYJoEUGGalAC
-	/4Wg9dBkMsYfmRrF78IYAQK+XmwCniUg5dCX5vniYzWulC3wT7epXzgAAW0uwgoE
-	YFS+LQ==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4379s6r8fx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Nov 2024 09:43:51 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AT9hoKR025335
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Nov 2024 09:43:50 GMT
-Received: from [10.216.24.185] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 29 Nov
- 2024 01:43:46 -0800
-Message-ID: <a52483fb-d8ea-4dfd-9d29-5270376de1d9@quicinc.com>
-Date: Fri, 29 Nov 2024 15:13:43 +0530
+	s=arc-20240116; t=1732873917; c=relaxed/simple;
+	bh=oecNkfHwyfv0sRbfhPNfS7Q1w98/iI2AvTLyE05icKM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p6L0M5RzBiG2/IORtrTzQHW2XiufcxtkBI+2UthphFGa1iEsygwjIpiC+1N+nmCCce0UByz1dyW4FYyAfx5EC/6Snh/Jy8+74+aM/o+xfn1Gye3QA+QF3oMzUpluLaJVYsXgO5osJpvR7vtWNLbO6EXmjQBVq6PDwgshM1Hm8No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtNFdWzD; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732873916; x=1764409916;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oecNkfHwyfv0sRbfhPNfS7Q1w98/iI2AvTLyE05icKM=;
+  b=OtNFdWzD+I4Usf2fITaO1WtDnN3uoOe6Awjp/0PL8Zu9UtmJo7z53KNV
+   LsXetuvkUa5+G2KwtZvp5PvFAsNnFy5vMx3KC6hfsNCWwSDnk0/BFbT0Q
+   VqrpZJBenDLGAs6YPH+o3I35IcAbB26oges0y8iTOz8MqHJKNV4Gd8usB
+   wm34U7f8w7RY55gV6noBB1v37r94H/Dng6lh8YJfbcuy9aWjHx1xURuLE
+   nVBIF/s/GGA4jcMKxudItVCba2KleF57AImGUmZdhEOWWbvcJIOmb8gUd
+   JyAKVjalz+dQ8GPSFcXCPi8y5DXCrHtnpeam7ZFDCyac2NaaJOOFWWJlq
+   g==;
+X-CSE-ConnectionGUID: +WxMG8SLSzqhGWtZkkYkUg==
+X-CSE-MsgGUID: Nom692FVR662TF612pBFFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="36775947"
+X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
+   d="scan'208";a="36775947"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 01:51:55 -0800
+X-CSE-ConnectionGUID: zyYFbUmbTNKRcK2KChS2wQ==
+X-CSE-MsgGUID: SABde1muRAuup/kj/NloOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
+   d="scan'208";a="92258504"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 01:51:49 -0800
+Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 64CBF11F775;
+	Fri, 29 Nov 2024 11:51:43 +0200 (EET)
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>
+Subject: [RFC v3 0/9] Sub-device configuration models
+Date: Fri, 29 Nov 2024 11:51:33 +0200
+Message-Id: <20241129095142.87196-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] i2c: i2c-qcom-geni: Update compile dependenices
- for I2C GENI driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        "Sumit
- Semwal" <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>,
-        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
-        <quic_vtanuku@quicinc.com>
-References: <20241121130134.29408-1-quic_jseerapu@quicinc.com>
- <20241121130134.29408-4-quic_jseerapu@quicinc.com>
- <zfkhbjm6wrmcocqcvluov3nbrpb2ozbo52c6nlwxro44gublcw@5645ksz4cfm2>
-Content-Language: en-US
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-In-Reply-To: <zfkhbjm6wrmcocqcvluov3nbrpb2ozbo52c6nlwxro44gublcw@5645ksz4cfm2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 42OQXquwmQrh0AN9gU47rFgN46NHDaud
-X-Proofpoint-GUID: 42OQXquwmQrh0AN9gU47rFgN46NHDaud
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 clxscore=1015
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2411290079
+Content-Transfer-Encoding: 8bit
+
+Hello everyone,
+
+I've been recently working (with others) on sub-device streams support as
+well as on internal pads. The two can be used to make sub-device
+configuration more versatile.
+
+At the same time, the added interfaces are much more useful if we require
+specific semantics of those interfaces, so that the user space knows
+exactly what e.g. a given selection target signifies. However, as the same
+selection rectangle could be used for a different purpose on a non-raw
+sensor device, we need a way to tell how should the user space determine
+how to use a given interface.
+
+I'm proposing to solve this problem by introducing sub-device
+configuration models, and by the common raw sensor model, also present in
+this patchset, in particular.
+
+This has been (and will, for some time, continue to be) the reason why I
+have reviewed few sensor driver related patches lately. As we're
+introducing a new interface, it's beneficial to be able to use that
+interface right from the start, rather than trying to later on offer
+compatibility support, which is almost always a fair amount of work with
+less than desirable results in the driver.
+
+With this solved, I believe we can enable the use of the streams UAPI.
+
+Comments are welcome.
+
+RFC v2 (labelled as PATCH) is
+<20241122100633.8971-1-sakari.ailus@linux.intel.com> on LMML.
+
+RFC v1 is <20241011075535.588140-1-sakari.ailus@linux.intel.com> on LMML.
+
+We may end up postponing merging three last patches (those adding
+controls) until current control values are moved to sub-device (and video
+device) state. Discussion is needed on the topic.
+
+The compiled documentation can be found here
+<URL:https://www.retiisi.eu/~sailus/v4l2/tmp/common-raw/output/userspace-api/media/v4l/dev-subdev.html#media-subdev-config-model-common-raw-sensor>.
+
+since v2:
+
+- Remove the CROP_BOUNDS rectangle on the image data sink pad. It's
+  redundant.
+
+- Remove scaling from the sink compose rectangle, leaving binning and
+  sub-sampling.
+
+- Introduce scaling as well as post-scaler digital crop on source pad
+  (image stream). This is a new patch, preceding control changes.
+
+- Use monospace font for selection targets.
+
+- Improvements in referring to previous configuration steps in text
+  description.
+
+since v1:
+
+- Rework the documentation according to the comments (spelling fixes,
+  alignment mostly).
+  
+- Include separate patches for binning and sub-sampling controls.
+
+- Allow binning, scaling and scaling to be configured using the compose
+  rectangle. This will change to just scaling in the three last patches.
+
+Sakari Ailus (9):
+  media: Documentation: Rework embedded data documentation
+  media: Documentation: Add a hyphen to list-based
+  media: Documentation: Reword split of sensor driver to two classes
+  media: Documentation: Add subdev configuration models, raw sensor
+    model
+  media: Documentation: Add scaling and post-scaler crop for common raw
+  media: uapi: Add V4L2_CID_CONFIG_MODEL control
+  media: uapi: Add V4L2_CID_BINNING control for binning configuration
+  media: uapi: Add controls for sub-sampling configuration
+  media: Documentation: Add binning and sub-sampling controls
+
+ .../media/drivers/camera-sensor.rst           |  53 ++-
+ .../media/v4l/common-raw-sensor.dia           | 441 ++++++++++++++++++
+ .../media/v4l/common-raw-sensor.svg           | 134 ++++++
+ .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
+ .../media/v4l/ext-ctrls-camera.rst            |  40 ++
+ .../media/v4l/ext-ctrls-image-process.rst     |   4 +
+ .../media/v4l/subdev-config-model.rst         | 228 +++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   9 +
+ include/uapi/linux/v4l2-controls.h            |   6 +
+ 9 files changed, 903 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+ create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+ create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
 
 
+base-commit: f188c7293d34f9ac50c1005da2613d519d97db83
+-- 
+2.39.5
 
-On 11/22/2024 3:40 AM, Dmitry Baryshkov wrote:
-> On Thu, Nov 21, 2024 at 06:31:34PM +0530, Jyothi Kumar Seerapu wrote:
->> I2C functionality has dependencies on the GPI driver.
->> Ensure that the GPI driver is enabled when using the I2C
->> driver functionality.
->> Therefore, update the I2C GENI driver to depend on the GPI driver.
->>
->> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
->> ---
->> v2 -> v3:
->>     - Moved this change to patch3.
->>     - Updated commit description.
->>
->> v1 -> v2:
->>     -  This patch is added in v2 to address the kernel test robot
->>        reported compilation error.
->>        ERROR: modpost: "gpi_multi_desc_process" [drivers/i2c/busses/i2c-qcom-geni.ko] undefined!
->>
->>   drivers/i2c/busses/Kconfig | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
->> index 0aa948014008..87634a682855 100644
->> --- a/drivers/i2c/busses/Kconfig
->> +++ b/drivers/i2c/busses/Kconfig
->> @@ -1049,6 +1049,7 @@ config I2C_QCOM_GENI
->>   	tristate "Qualcomm Technologies Inc.'s GENI based I2C controller"
->>   	depends on ARCH_QCOM || COMPILE_TEST
->>   	depends on QCOM_GENI_SE
->> +	depends on QCOM_GPI_DMA
-> 
-> So... without this change the previous patch is broken, which is a
-> no-go. And anyway, adding dependency onto a particular DMA driver is a
-> bad idea. Please make use of the DMA API instead.
-
-Sure, thanks for the details. In V4, will withdraw these changes.
-> 
->>   	help
->>   	  This driver supports GENI serial engine based I2C controller in
->>   	  master mode on the Qualcomm Technologies Inc.'s SoCs. If you say
->> -- 
->> 2.17.1
->>
-> 
 
