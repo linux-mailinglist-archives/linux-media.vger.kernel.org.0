@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-22331-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22332-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8A59DC2D2
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 12:29:36 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4EC9DC2D5
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 12:30:05 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36DA016392A
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:29:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20855281309
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:30:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D1C5199EB0;
-	Fri, 29 Nov 2024 11:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 407B7199EB2;
+	Fri, 29 Nov 2024 11:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AGWqQsK6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N5QnBmmW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08CA132C38;
-	Fri, 29 Nov 2024 11:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979E11993BD;
+	Fri, 29 Nov 2024 11:29:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732879768; cv=none; b=PVbMZlUCxErwKqfPcc1Mmi10yytDLsVtL1ZZ7n5EDn9MP2JUWXci2SVqzAsbztoXslD7y6oEIMVLv/9lhBUyp++YenS7l3yxyVg70tO3jLANmBqS3r/afFsdw2Tq5HB+RFHkVr6qbdwmi/R5rS5tNrilhMbW8nSaWxAbN9TiDLw=
+	t=1732879797; cv=none; b=XCbR0UrFpgqpZKo/shFTnBgJ6XnVC9tIfV13fCPF7ytmFJnNtOR5ACETyD73ZMGrD8h5MojZFuqaLnCdP9IMejZbOL7c+/rxEb/0Vyw2F88snXH/RPEoCOkoVNJQO4IHZpfiDwiRIeS6u3pybsdsNxAoBgMTYWWHJvAxVe9eZMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732879768; c=relaxed/simple;
-	bh=3GLxv5ngJy647qOKtgccsiEsjTwLdv2D7RrTyyqUjGc=;
+	s=arc-20240116; t=1732879797; c=relaxed/simple;
+	bh=bbBcnpXYCF3Hixa8z+EE4c/ECJbZifPvGeBHFXqHlc8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nypMp0ow+RNV21D8OTkQITs1Agzdr8U8acwHgsEkEO6IlUYD/+oxrxQExiykKW0L+2hmjcF742+lluPCXm+79ukdXdylqb3jShRAXYMYQRn+xoWrcTA5qzt1uE8OuvRLo80pQdskTA8Ig5J96mfOQCvUz+UsWCvvumsn84C8IIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AGWqQsK6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CA6DC4CECF;
-	Fri, 29 Nov 2024 11:29:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Za+YFEfJjnUD8KTecgFr3ZCu+6YZ2i1u1FUJKW7fbeV2czs0Hf2mC/FfVdzvzzsuT19SA65CJBGNTnpuxPA2qPBCbjcV3AsVTDjSw7VIj9YjFVgk34Ed2pmrdHfGuiABKYojKt5lRlVI7xI+g20s9wS/4TAVI6jkgHkfDM7d1r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N5QnBmmW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11466C4CECF;
+	Fri, 29 Nov 2024 11:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732879767;
-	bh=3GLxv5ngJy647qOKtgccsiEsjTwLdv2D7RrTyyqUjGc=;
+	s=k20201202; t=1732879797;
+	bh=bbBcnpXYCF3Hixa8z+EE4c/ECJbZifPvGeBHFXqHlc8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AGWqQsK6QmK3/c0fQhrri67bdFLi0IX7MX4X4sa3rrAokovuqeyIkVmImwijiCo7/
-	 xMuSGaD4xdBuEo7DcZ0oVst0T/HRUDDsj/Z6DXZ3tF6ekBLq8ARXVeFj8almyuFpkb
-	 vRiTJAvUD5HXS5vR+RmdF1ZuzPrByJHsgdHA+zvbI4Kvn3HU3jHjqzm/+wMlQonRpo
-	 H190aFqD0wO36MDTTgLqWAMPEdxFpI6tk1E6dzOdA46iUFegwemb33aD7w0DkrMwuW
-	 XrjaP7QHzzw88x3YOgihMGvillBXZkf8FTvzrXJ2kWQ3de4p6vbxaue8xSWwIncj94
-	 YCXPPu6QVi4Ng==
-Message-ID: <f190adad-f161-4f27-bfeb-ae2ab49547a2@kernel.org>
-Date: Fri, 29 Nov 2024 12:29:20 +0100
+	b=N5QnBmmW7M9RzL41orNBZZ5TgjuM8Vkh9OmKi8e3SO+qErAoPmoUGkxiR5XKtMWax
+	 ffbNSIvR/lP4HNN/UHuyeqfEFxW+MdKfUjKxc3WH7uKMZa+mTXD+OSkt5f6Fcy6NAL
+	 wzZCSVDKiGRjn6TUgqCuvVkIJbfGtIVmxZyHcG30BGmUemydQVM4sb2SSZojvy54/F
+	 /4df00Pp6tpXsTdTrfdrbb8qxUuJOZiYwbocD5AcD4C1LggJzma+Y3vF9GNKuiwbUU
+	 h9tvAwyPMQ6hWADzcIM0+HeTQ3stMVBmk9F6lIwbw9kNnS4WwhNYu4igYDtekYmxAH
+	 XPTyQanWLPXtw==
+Message-ID: <1476ef3f-d484-43b6-a297-825429fb5861@kernel.org>
+Date: Fri, 29 Nov 2024 12:29:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3 1/2] media: mipi-csis: Add check for
+Subject: Re: [PATCH RESEND v3 2/2] media: camif-core: Add check for
  clk_enable()
 To: Jiasheng Jiang <jiashengjiangcool@gmail.com>
 Cc: sylvester.nawrocki@gmail.com, mchehab@kernel.org, dron0gus@gmail.com,
@@ -59,9 +59,8 @@ Cc: sylvester.nawrocki@gmail.com, mchehab@kernel.org, dron0gus@gmail.com,
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20241125191818.30708-1-jiashengjiangcool@gmail.com>
- <20241125191818.30708-2-jiashengjiangcool@gmail.com>
-Content-Language: en-US
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -105,18 +104,19 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241125191818.30708-2-jiashengjiangcool@gmail.com>
+In-Reply-To: <20241125191818.30708-1-jiashengjiangcool@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 25/11/2024 20:18, Jiasheng Jiang wrote:
 > Add check for the return value of clk_enable() to gurantee the success.
 > 
-> Fixes: b5f1220d587d ("[media] v4l: Add v4l2 subdev driver for S5P/EXYNOS4 MIPI-CSI receivers")
+> Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC series camera interface")
 > Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
 > ---
 > Changelog:
 > 
+> v2 -> v3:
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
