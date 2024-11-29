@@ -1,460 +1,169 @@
-Return-Path: <linux-media+bounces-22315-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22316-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B559B9DC1C3
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:55:28 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362699DC21D
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:30:06 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 769CC282882
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:55:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA67916461B
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:30:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30BE9188915;
-	Fri, 29 Nov 2024 09:55:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 937E718EFC1;
+	Fri, 29 Nov 2024 10:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="BS8rNup5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juN9ka5C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE491865E0;
-	Fri, 29 Nov 2024 09:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F4D155753;
+	Fri, 29 Nov 2024 10:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732874121; cv=none; b=VNcPffK3Ph829ew2+UA8bVVOVB+CinfwnfoHrtS+0l2nj8gG4PE0+kEfr4JDIVR1kO5gCt0a1ZqIQ2P6tTxB/sTnfP5qVbEU+KeynmC5iIjRcjthW0YYM0Re4LXBlGuHBGMrchVLtfLINgibfXHMNk3TWjjDyo4Ui8ggbPKHGBo=
+	t=1732876198; cv=none; b=aZvwgGLemEcXXF3iISRHi63gG4W5t8rAce1i7sfI4swkEKS8Ti+BPyfcm41JEaiaRIDCkoFUzMuRMU00CqYjBUI6WO6j3hvHAnJsm934PDlmxhIcAMHMe6YE4rTMF5hGub92RfVBHE6FQichpVwx2OHqPy153JS31n5XQkuGIgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732874121; c=relaxed/simple;
-	bh=RCnMvwrhMIpVSFkdD/iGzXqSy4xIqwGA/FHI/NcguDQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=e+N2engLKtSRMARuet69TN0umvR8VCk9QWlLMvunsHALaKFQ2EVqiYnXn+f2hJGUJE9RhfwmNWD2SJrGziIc5VfjoNK2H876DZISJRPvZyGzLl9zi13t9G+08V31UVVfIyvbYwu2S6Tj2uSh3KVCqiMjv9EWrts/8Wk8ODsB7yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=BS8rNup5; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1732874119; x=1764410119;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RCnMvwrhMIpVSFkdD/iGzXqSy4xIqwGA/FHI/NcguDQ=;
-  b=BS8rNup5EYxd7Q4btwCgaAWeAgRUcq7Tdy1fLh/neMEndHctxZteBPOq
-   6fSl1UnWhiZQgbTYwmwows4mTmQA9bWFdE77GUSfkHl4D4jhiuSWFwkU8
-   fV/9iXfdA8LfkgURd7/R3Pw/DZ/8h4OEpqj6t/FMLy/VVbQplsji5jAaz
-   b5Z4Uw8zeuawU63VbYrZ89Qq+eTx0qtVCUm0KNfb6s0ZGIRXzBwBAAWZM
-   kIMw7NdZQwn8khpz9P88zn2kB0BeEPp26Ycg3hUM65E2gmYsn0hMTO/T2
-   ssTFPEJhqkz09zvKw+djXlg1O6+3mPJkMs93Y/5SSzKo2Kmckzu2B6wxN
-   Q==;
-X-CSE-ConnectionGUID: NvtWPetpTg+VOz+eNzWWGg==
-X-CSE-MsgGUID: N3Db8nZfS5epJMCRSj0tow==
-X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="38558641"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Nov 2024 02:55:18 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 29 Nov 2024 02:54:38 -0700
-Received: from microchip1-OptiPlex-9020.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Fri, 29 Nov 2024 02:54:35 -0700
-From: shravan kumar <shravan.chippa@microchip.com>
-To: <sakari.ailus@linux.intel.com>, <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<conor.dooley@microchip.com>, <valentina.fernandezalanis@microchip.com>,
-	<praveen.kumar@microchip.com>, <shravan.chippa@microchip.com>
-Subject: [PATCH] media: i2c: imx334: Add support for 1280x720 & 640x480 resolutions
-Date: Fri, 29 Nov 2024 15:30:36 +0530
-Message-ID: <20241129100036.193456-1-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1732876198; c=relaxed/simple;
+	bh=HV+KcdHMNiDCGNGg2MmmAJ5nak2w5W33ipZ4Sc1GXhw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KTvjNdxcMxiWL9asILWMIrEWr6VDFWZ837YShkE7LiRqO33unIK9zo+UE3iLEduiYkL32bf0UYQMIpytX0K3Q0txQyMOi+k95aYyJbo6ce63KC9vZw7G/aTvGicfCiy2gB+oKnoFtR6pwOt9fNLg6PoyRlv1BBeo8+gRPiVbWv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juN9ka5C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEC5AC4CECF;
+	Fri, 29 Nov 2024 10:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732876196;
+	bh=HV+KcdHMNiDCGNGg2MmmAJ5nak2w5W33ipZ4Sc1GXhw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=juN9ka5CxUFx4jWCoyz+a+vgTGVvpJuN0wzxdCjdGfSsVolHoByTNIfj7EcZZ3N1n
+	 6cr3NOBJrhIKR7LhxSBI/V0Odqm690D9Pf6ZGjvTPqKw2ZMBjz4YvUdsVlUIq7EWTr
+	 ASAkYYw9/iunDsp8g3OOocJv6qgClxtQLj377c89+4fW9shwClGYpYhNq1YXy9Koi2
+	 Ll2qQPCyFFsUHMrApjZ7UMRa5j1su5lCoG9a0TxbkRhcoi+1hRpqr5HV4AzP44i/+9
+	 5srfxsk1HLh0tBqn0enJ8ARB6D63Dr+tcph+l8cmQfYdEeg5SG9l+6sh4klw5gfmrt
+	 lz6+DuGLdBz5g==
+Date: Fri, 29 Nov 2024 11:29:52 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] docs: media: document media multi-committers rules and
+ process
+Message-ID: <20241129112952.1f0c9222@foz.lan>
+In-Reply-To: <20241128190707.GA13852@pendragon.ideasonboard.com>
+References: <6a3e19d75e504ebbf9cd9212faad12c005dfdfb8.1732541337.git.mchehab+huawei@kernel.org>
+	<20241126151930.GA5493@pendragon.ideasonboard.com>
+	<e0535e20-6e97-437f-8565-53fd257c7618@xs4all.nl>
+	<20241127132515.GH31095@pendragon.ideasonboard.com>
+	<20241128191543.289f0d84@foz.lan>
+	<20241128190707.GA13852@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+Em Thu, 28 Nov 2024 21:07:07 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Add support for 1280x720@30 and 640x480@30 resolutions
+> > With that in mind, every committer has duties of reviewing other
+> > developer's patches submitted for the drivers that they're listed as
+> > a maintainer at the MAINTAINERS file entries.  
+> 
+> I'm sorry but that's not a multi-committer model, it's a co-maintenance
+> model. If that's what you really want we can reopen the discussion and
+> start anew, but I don't think it's a good idea.
+> 
+> As I said before, if it increases my work load, I don't want commit
+> rights. I'll keep sending pull requests, you'll have to keep processing
+> them, and patches will be merged slower. It will be a lose-lose
+> situation for everybody, you, me, contributors and users.
+> 
+> Starting with a situation where we are understaffed and trying to solve
+> it by putting more work on the few people who currently keep the
+> subsystem alive doesn't sound like a winning strategy. 
 
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+After sleeping over it, I agree that you're partially right on this.
+
+Doing timely reviews is orthogonal of being a committer. What defines
+if you need to do timely reviews is if you're listed or not at the
+MAINTANERS file as "M:" - e.g. if the developer is a maintainer
+(on its broader sense) or not. This applies for both PR and MR workflows.
+
+Still, if one is not fulfilling its duty as maintainer, he may end
+losing maintainership status and the corresponding committer rights.
+
+I wrote a separate patch to make it clear. See below.
+
+Thanks,
+Mauro
+
 ---
- drivers/media/i2c/imx334.c | 352 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 352 insertions(+)
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index a544fc3df39c..b7cdebc2382e 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -167,6 +167,332 @@ static const s64 link_freq[] = {
- 	IMX334_LINK_FREQ_445M,
- };
+[PATCH] docs: media: profile: make it clearer about maintainership duties
+
+During the review of the media committes profile, it was noticed
+that the responsibility for timely review patches was not clear:
+such review is expected that all developers listed at MAINTAINERS
+with the "M:" tag (e.g. "maintainers" on its broad sense).
+
+This is orthogonal of being a media committer or not. Such duty
+is implied at:
+
+	Documentation/admin-guide/reporting-issues.rst
+
+and at the MAINTAINERS header, when it says that even when the
+status is "odd fixes", the patches will flow in.
+
+So, let make it explicit at the maintainer-entry-profile that
+maintainers need to do timely reviews.
+
+Also, while right now our focus is on granting committer rights to
+maintainers, the media-committer model may evolve in the future to
+accept other committers that don't have such duties.
+
+So, make it clear at the media-committer.rst that the duties
+related to reviewing patches from others are for the drivers
+they are maintainers as well.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+index 650803c30c41..6daf71bc72c1 100644
+--- a/Documentation/driver-api/media/maintainer-entry-profile.rst
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -147,6 +147,11 @@ b. Committers' workflow: patches are handled by media committers::
+ On both workflows, all patches shall be properly reviewed at
+ linux-media@vger.kernel.org before being merged at media-committers.git.
  
-+/* Sensor mode registers for 640x480@30fps */
-+static const struct imx334_reg mode_640x480_regs[] = {
-+	{0x3000, 0x01},
-+	{0x3018, 0x04},
-+	{0x3030, 0xca},
-+	{0x3031, 0x08},
-+	{0x3032, 0x00},
-+	{0x3034, 0x4c},
-+	{0x3035, 0x04},
-+	{0x302c, 0x70},
-+	{0x302d, 0x06},
-+	{0x302e, 0x80},
-+	{0x302f, 0x02},
-+	{0x3074, 0x48},
-+	{0x3075, 0x07},
-+	{0x308e, 0x49},
-+	{0x308f, 0x07},
-+	{0x3076, 0xe0},
-+	{0x3077, 0x01},
-+	{0x3090, 0xe0},
-+	{0x3091, 0x01},
-+	{0x3308, 0xe0},
-+	{0x3309, 0x01},
-+	{0x30d8, 0x30},
-+	{0x30d9, 0x0b},
-+	{0x30C6, 0x00},
-+	{0x30c7, 0x00},
-+	{0x30ce, 0x00},
-+	{0x30cf, 0x00},
-+	{0x304c, 0x00},
-+	{0x304e, 0x00},
-+	{0x304f, 0x00},
-+	{0x3050, 0x00},
-+	{0x30b6, 0x00},
-+	{0x30b7, 0x00},
-+	{0x3116, 0x08},
-+	{0x3117, 0x00},
-+	{0x31a0, 0x20},
-+	{0x31a1, 0x0f},
-+	{0x300c, 0x3b},
-+	{0x300d, 0x29},
-+	{0x314c, 0x29},
-+	{0x314d, 0x01},
-+	{0x315a, 0x0a},
-+	{0x3168, 0xa0},
-+	{0x316a, 0x7e},
-+	{0x319e, 0x02},
-+	{0x3199, 0x00},
-+	{0x319d, 0x00},
-+	{0x31dd, 0x03},
-+	{0x3300, 0x00},
-+	{0x341c, 0xff},
-+	{0x341d, 0x01},
-+	{0x3a01, 0x03},
-+	{0x3a18, 0x7f},
-+	{0x3a19, 0x00},
-+	{0x3a1a, 0x37},
-+	{0x3a1b, 0x00},
-+	{0x3a1c, 0x37},
-+	{0x3a1d, 0x00},
-+	{0x3a1e, 0xf7},
-+	{0x3a1f, 0x00},
-+	{0x3a20, 0x3f},
-+	{0x3a21, 0x00},
-+	{0x3a20, 0x6f},
-+	{0x3a21, 0x00},
-+	{0x3a20, 0x3f},
-+	{0x3a21, 0x00},
-+	{0x3a20, 0x5f},
-+	{0x3a21, 0x00},
-+	{0x3a20, 0x2f},
-+	{0x3a21, 0x00},
-+	{0x3078, 0x02},
-+	{0x3079, 0x00},
-+	{0x307a, 0x00},
-+	{0x307b, 0x00},
-+	{0x3080, 0x02},
-+	{0x3081, 0x00},
-+	{0x3082, 0x00},
-+	{0x3083, 0x00},
-+	{0x3088, 0x02},
-+	{0x3094, 0x00},
-+	{0x3095, 0x00},
-+	{0x3096, 0x00},
-+	{0x309b, 0x02},
-+	{0x309c, 0x00},
-+	{0x309d, 0x00},
-+	{0x309e, 0x00},
-+	{0x30a4, 0x00},
-+	{0x30a5, 0x00},
-+	{0x3288, 0x21},
-+	{0x328a, 0x02},
-+	{0x3414, 0x05},
-+	{0x3416, 0x18},
-+	{0x35Ac, 0x0e},
-+	{0x3648, 0x01},
-+	{0x364a, 0x04},
-+	{0x364c, 0x04},
-+	{0x3678, 0x01},
-+	{0x367c, 0x31},
-+	{0x367e, 0x31},
-+	{0x3708, 0x02},
-+	{0x3714, 0x01},
-+	{0x3715, 0x02},
-+	{0x3716, 0x02},
-+	{0x3717, 0x02},
-+	{0x371c, 0x3d},
-+	{0x371d, 0x3f},
-+	{0x372c, 0x00},
-+	{0x372d, 0x00},
-+	{0x372e, 0x46},
-+	{0x372f, 0x00},
-+	{0x3730, 0x89},
-+	{0x3731, 0x00},
-+	{0x3732, 0x08},
-+	{0x3733, 0x01},
-+	{0x3734, 0xfe},
-+	{0x3735, 0x05},
-+	{0x375d, 0x00},
-+	{0x375e, 0x00},
-+	{0x375f, 0x61},
-+	{0x3760, 0x06},
-+	{0x3768, 0x1b},
-+	{0x3769, 0x1b},
-+	{0x376a, 0x1a},
-+	{0x376b, 0x19},
-+	{0x376c, 0x18},
-+	{0x376d, 0x14},
-+	{0x376e, 0x0f},
-+	{0x3776, 0x00},
-+	{0x3777, 0x00},
-+	{0x3778, 0x46},
-+	{0x3779, 0x00},
-+	{0x377a, 0x08},
-+	{0x377b, 0x01},
-+	{0x377c, 0x45},
-+	{0x377d, 0x01},
-+	{0x377e, 0x23},
-+	{0x377f, 0x02},
-+	{0x3780, 0xd9},
-+	{0x3781, 0x03},
-+	{0x3782, 0xf5},
-+	{0x3783, 0x06},
-+	{0x3784, 0xa5},
-+	{0x3788, 0x0f},
-+	{0x378a, 0xd9},
-+	{0x378b, 0x03},
-+	{0x378c, 0xeb},
-+	{0x378d, 0x05},
-+	{0x378e, 0x87},
-+	{0x378f, 0x06},
-+	{0x3790, 0xf5},
-+	{0x3792, 0x43},
-+	{0x3794, 0x7a},
-+	{0x3796, 0xa1},
-+	{0x37b0, 0x37},
-+	{0x3e04, 0x0e},
-+	{0x30e8, 0x50},
-+	{0x30e9, 0x00},
-+	{0x3e04, 0x0e},
-+	{0x3002, 0x00},
-+};
++Such patches will be timely-reviewed by developers listed as maintainers at
++the MAINTAINERS file. Such maintainers will follow one of the above
++workflows, e. g. they will either send a pull request or merge patches
++directly at the media-committers tree.
 +
-+/* Sensor mode registers for 1280x720@30fps */
-+static const struct imx334_reg mode_1280x720_regs[] = {
-+	{0x3000, 0x01},
-+	{0x3018, 0x04},
-+	{0x3030, 0xca},
-+	{0x3031, 0x08},
-+	{0x3032, 0x00},
-+	{0x3034, 0x4c},
-+	{0x3035, 0x04},
-+	{0x302c, 0x30},
-+	{0x302d, 0x05},
-+	{0x302e, 0x00},
-+	{0x302f, 0x05},
-+	{0x3074, 0x84},
-+	{0x3075, 0x03},
-+	{0x308e, 0x85},
-+	{0x308f, 0x03},
-+	{0x3076, 0xd0},
-+	{0x3077, 0x02},
-+	{0x3090, 0xd0},
-+	{0x3091, 0x02},
-+	{0x3308, 0xd0},
-+	{0x3309, 0x02},
-+	{0x30d8, 0x30},
-+	{0x30d9, 0x0b},
-+	{0x30C6, 0x00},
-+	{0x30c7, 0x00},
-+	{0x30ce, 0x00},
-+	{0x30cf, 0x00},
-+	{0x304c, 0x00},
-+	{0x304e, 0x00},
-+	{0x304f, 0x00},
-+	{0x3050, 0x00},
-+	{0x30b6, 0x00},
-+	{0x30b7, 0x00},
-+	{0x3116, 0x08},
-+	{0x3117, 0x00},
-+	{0x31a0, 0x20},
-+	{0x31a1, 0x0f},
-+	{0x300c, 0x3b},
-+	{0x300d, 0x29},
-+	{0x314c, 0x29},
-+	{0x314d, 0x01},
-+	{0x315a, 0x0a},
-+	{0x3168, 0xa0},
-+	{0x316a, 0x7e},
-+	{0x319e, 0x02},
-+	{0x3199, 0x00},
-+	{0x319d, 0x00},
-+	{0x31dd, 0x03},
-+	{0x3300, 0x00},
-+	{0x341c, 0xff},
-+	{0x341d, 0x01},
-+	{0x3a01, 0x03},
-+	{0x3a18, 0x7f},
-+	{0x3a19, 0x00},
-+	{0x3a1a, 0x37},
-+	{0x3a1b, 0x00},
-+	{0x3a1c, 0x37},
-+	{0x3a1d, 0x00},
-+	{0x3a1e, 0xf7},
-+	{0x3a1f, 0x00},
-+	{0x3a20, 0x3f},
-+	{0x3a21, 0x00},
-+	{0x3a20, 0x6f},
-+	{0x3a21, 0x00},
-+	{0x3a20, 0x3f},
-+	{0x3a21, 0x00},
-+	{0x3a20, 0x5f},
-+	{0x3a21, 0x00},
-+	{0x3a20, 0x2f},
-+	{0x3a21, 0x00},
-+	{0x3078, 0x02},
-+	{0x3079, 0x00},
-+	{0x307a, 0x00},
-+	{0x307b, 0x00},
-+	{0x3080, 0x02},
-+	{0x3081, 0x00},
-+	{0x3082, 0x00},
-+	{0x3083, 0x00},
-+	{0x3088, 0x02},
-+	{0x3094, 0x00},
-+	{0x3095, 0x00},
-+	{0x3096, 0x00},
-+	{0x309b, 0x02},
-+	{0x309c, 0x00},
-+	{0x309d, 0x00},
-+	{0x309e, 0x00},
-+	{0x30a4, 0x00},
-+	{0x30a5, 0x00},
-+	{0x3288, 0x21},
-+	{0x328a, 0x02},
-+	{0x3414, 0x05},
-+	{0x3416, 0x18},
-+	{0x35Ac, 0x0e},
-+	{0x3648, 0x01},
-+	{0x364a, 0x04},
-+	{0x364c, 0x04},
-+	{0x3678, 0x01},
-+	{0x367c, 0x31},
-+	{0x367e, 0x31},
-+	{0x3708, 0x02},
-+	{0x3714, 0x01},
-+	{0x3715, 0x02},
-+	{0x3716, 0x02},
-+	{0x3717, 0x02},
-+	{0x371c, 0x3d},
-+	{0x371d, 0x3f},
-+	{0x372c, 0x00},
-+	{0x372d, 0x00},
-+	{0x372e, 0x46},
-+	{0x372f, 0x00},
-+	{0x3730, 0x89},
-+	{0x3731, 0x00},
-+	{0x3732, 0x08},
-+	{0x3733, 0x01},
-+	{0x3734, 0xfe},
-+	{0x3735, 0x05},
-+	{0x375d, 0x00},
-+	{0x375e, 0x00},
-+	{0x375f, 0x61},
-+	{0x3760, 0x06},
-+	{0x3768, 0x1b},
-+	{0x3769, 0x1b},
-+	{0x376a, 0x1a},
-+	{0x376b, 0x19},
-+	{0x376c, 0x18},
-+	{0x376d, 0x14},
-+	{0x376e, 0x0f},
-+	{0x3776, 0x00},
-+	{0x3777, 0x00},
-+	{0x3778, 0x46},
-+	{0x3779, 0x00},
-+	{0x377a, 0x08},
-+	{0x377b, 0x01},
-+	{0x377c, 0x45},
-+	{0x377d, 0x01},
-+	{0x377e, 0x23},
-+	{0x377f, 0x02},
-+	{0x3780, 0xd9},
-+	{0x3781, 0x03},
-+	{0x3782, 0xf5},
-+	{0x3783, 0x06},
-+	{0x3784, 0xa5},
-+	{0x3788, 0x0f},
-+	{0x378a, 0xd9},
-+	{0x378b, 0x03},
-+	{0x378c, 0xeb},
-+	{0x378d, 0x05},
-+	{0x378e, 0x87},
-+	{0x378f, 0x06},
-+	{0x3790, 0xf5},
-+	{0x3792, 0x43},
-+	{0x3794, 0x7a},
-+	{0x3796, 0xa1},
-+	{0x37b0, 0x37},
-+	{0x3e04, 0x0e},
-+	{0x30e8, 0x50},
-+	{0x30e9, 0x00},
-+	{0x3e04, 0x0e},
-+	{0x3002, 0x00},
-+};
-+
- /* Sensor mode registers for 1920x1080@30fps */
- static const struct imx334_reg mode_1920x1080_regs[] = {
- 	{0x3000, 0x01},
-@@ -505,6 +831,32 @@ static const struct imx334_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
- 			.regs = mode_1920x1080_regs,
- 		},
-+	}, {
-+		.width = 1280,
-+		.height = 720,
-+		.hblank = 2480,
-+		.vblank = 1170,
-+		.vblank_min = 45,
-+		.vblank_max = 132840,
-+		.pclk = 297000000,
-+		.link_freq_idx = 1,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
-+			.regs = mode_1280x720_regs,
-+		},
-+	}, {
-+		.width = 640,
-+		.height = 480,
-+		.hblank = 2480,
-+		.vblank = 1170,
-+		.vblank_min = 45,
-+		.vblank_max = 132840,
-+		.pclk = 297000000,
-+		.link_freq_idx = 1,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_640x480_regs),
-+			.regs = mode_640x480_regs,
-+		},
- 	},
- };
+ When patches are picked by patchwork and when merged at media-committers,
+ CI bots will check for errors and may provide e-mail feedback about
+ patch problems. When this happens, the patch submitter must fix them
+diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
+index 1756a7af6353..a873ef84fbca 100644
+--- a/Documentation/driver-api/media/media-committer.rst
++++ b/Documentation/driver-api/media/media-committer.rst
+@@ -87,9 +87,9 @@ be delegating part of their maintenance tasks.
+ Due to that, to become a committer or a core committer, a consensus between
+ all subsystem maintainers is required, as they all need to trust a developer
+ well enough to be delegated the responsibility to maintain part of the code
+-and to properly review patches from third parties, in a timely manner and
+-keeping the status of the reviewed code at https://patchwork.linuxtv.org
+-updated.
++and to properly review patches from third parties for the drivers they are
++maintainers in a timely manner and keeping the status of the reviewed code
++at https://patchwork.linuxtv.org updated.
  
--- 
-2.34.1
+ .. Note::
+ 
 
 
