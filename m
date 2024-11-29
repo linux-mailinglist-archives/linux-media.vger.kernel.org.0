@@ -1,213 +1,218 @@
-Return-Path: <linux-media+bounces-22320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22321-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA17D9DC26A
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:55:14 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 034D19DC270
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:59:50 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E1002824FE
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:55:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A21E2164B35
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:59:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AAF19884C;
-	Fri, 29 Nov 2024 10:55:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6580C1990C1;
+	Fri, 29 Nov 2024 10:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="doOynHnx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E6D15AD9C
-	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 10:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C1119884C
+	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 10:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732877709; cv=none; b=idJ+jK1VyJUloQVnbOSkPaQHD0wr3Kvuykskr7C67K0fLkHoz9F7H1J254FRHzeU2VTRHlIgTvoMaLYYKxwLHQjPAoOp+q4nzDY5GIhYdOHAtrmw/ZA6nM1N3BzpvhK8Tx+2gW8FH9GoIjkf2dLjGezWq5k6IS1aHN7XbkuLlbc=
+	t=1732877984; cv=none; b=qT6n6kYUWonQ9IdlpWTh3AaqwwahZE/d5VXFyau4KcPUCR0dH6ZqM3KsIA0vdBnEvZnqZypMS8R+rebSaMl9HWyzDSysA1VYJcrzbsPl1JGKiBjkDA2nyf/rMh31ckB0dwau4TIAa5KU2OgXiJim1/7TGyq08xdBShnYnmR4kuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732877709; c=relaxed/simple;
-	bh=5iTMzLDKNyCxuT58QjxBTz3paVg0mgDLrwFoCwwaAfI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=kP4bUJNRgakMY7a65RwAoDid89S/K6ig7EF6zQAeSuagtXvmr5x/BPGNOPD8TV3WnbWzT4AGR/d0HzGjv3JZyrR1frZYvO+4FmBqVMrN4XVEnBAVIyuGxgKOZvjQLlnPVcibJ0i/2sfevzZZH7/PcgNOX2nEJ7C49bxCevVqMYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC6FC4CECF;
-	Fri, 29 Nov 2024 10:55:08 +0000 (UTC)
-Message-ID: <fa7c3255-e9b7-4ea0-ad1e-96d3e0a2f93a@xs4all.nl>
-Date: Fri, 29 Nov 2024 11:55:06 +0100
+	s=arc-20240116; t=1732877984; c=relaxed/simple;
+	bh=LvK9ek1qytL/0nRFg8sPALh26iCrGrpMHaJkB3WI40c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NwQDr0tX3pxjIdKmXbY/j1sikks1nWVH9iwin+25b8yTUvC/FYvHHOhVib3yabEaSpJSg1z21Hnwv6NSYWSMlTl88kWE+6DoQCFRRo/fjIsSNzxyWbXrewr8mF2R4JzmTYDqblT5/9RsyY3f1Q/rwgmzPPdDXQLlhJ83rDto6EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=doOynHnx; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-212776d6449so16281045ad.1
+        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 02:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1732877981; x=1733482781; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=FDjy0MV4148joBtQzxlgNjU2q8U1MtS3upsI0Kv1yqg=;
+        b=doOynHnx/XTR/ellalePOVu9++vbWkm9dkPJOWvhkaykIgcBHG+FvfS2LtfWP0Cown
+         50EI51/FKhId73hd8mm565cyLb/KjeCejAI/kRvyAtgVxs/dPKReaE1l4YRE1KkjbQDE
+         VvQZAj5ih61H26CohodOLgpdMLO6GuRghQabE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732877981; x=1733482781;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FDjy0MV4148joBtQzxlgNjU2q8U1MtS3upsI0Kv1yqg=;
+        b=I3a3ScKjQGcNzQAm3Ya6nvLEHKubz60ed+1A6Unvz5tSvV4IXOTC97rVSgDxkRu8Na
+         DuGZdYXEeIn7wJUMHsziV5oE/TKBzsr+CV9i5EsTsrtbR2Zix/lY6ngdyXd1DWHSABL9
+         IYecC7gINgwWydWjorQ8GlkvAIjd6ayOVLcsoextwNhas3esHhP4fosez9nlnR8rX2VA
+         rFevIHPjMgffP0nU4rsVPKyr+zJLzsoI95B03pzGFemkehjs0KIEXKV9hNCKD6BMQguE
+         WnOytrZBfamO+iAweroZDB0sDea8BPlIOYLsZNLNc6G71HN1Tq1o6CXItDDp2qOoesK+
+         LVVA==
+X-Forwarded-Encrypted: i=1; AJvYcCUqm8fFeDlIiqcySQgOkM8N7wYIm9mWTk0hweY1xl3qKlxRuBgJhJa7riRQ8BEHsOq3eMqk0KSg57C0mw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/K/t/zFtUCq3tPqGYQl65Gkvujk1AUqlXAOdtEIxkIggHj1hi
+	pQl49bdMYt3ko7C2kYQ3G/YlkCwym72xHwxfKuf5Fb0p95Qyc4mF9jZm3KVu5Q4MxXLadibp8aw
+	=
+X-Gm-Gg: ASbGncthmrH60kFeX6Oa+ynpKtb0nYdZULvy11ZIfYNNreq3kFF5aU+ILO+xK0PROvh
+	9OxTozL1ZFTP1BJYEZsS83n9dV/2q6Ky/wkzypSJj8t39YtTYhhJ1QMn0W1FhwYpg4ctYVSZsrm
+	+294rfbG9+LfKgHRLS+79GroCRCfaEDsyrNHwRUAF6G7Cw8u2wZl7SqT3PzhUPBYzbiPpmcZkaT
+	ELMTlCDtE9jIG2DyF0GcXKcRmVmytF51Aw0faADeqK26yUcCgXnr7VGCf5fSUbxsmVBFKgnty79
+	MBzsenoS5KHC95Sp
+X-Google-Smtp-Source: AGHT+IF18dxFWg65uh0TgTtwM5TzcMq91MFiDOt4EUoDquGWD64jjsuCo+81tcspfA0E8/DlRT5l0g==
+X-Received: by 2002:a17:902:db0e:b0:20b:861a:25c7 with SMTP id d9443c01a7336-21501e5afa8mr147582365ad.54.1732877981273;
+        Fri, 29 Nov 2024 02:59:41 -0800 (PST)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com. [209.85.214.169])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21521906561sm28247925ad.61.2024.11.29.02.59.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Nov 2024 02:59:40 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2126408cf31so11062435ad.0
+        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 02:59:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU0ibbaKsTTi8HVJYgkk/HNhpyUTauUSxfsBNdNQE+EEB9tjY60M67MxepeMCUcUoeonn/DO7TB8u26zw==@vger.kernel.org
+X-Received: by 2002:a17:90b:38cd:b0:2ea:addc:9f51 with SMTP id
+ 98e67ed59e1d1-2ee08e5e3e0mr13083763a91.2.1732877979790; Fri, 29 Nov 2024
+ 02:59:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv2] media: v4l2-ctrls: unlink all subscribed events
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <d399804a-3c18-4514-9eec-69b0935fef71@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <d399804a-3c18-4514-9eec-69b0935fef71@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
+ <20241127-uvc-fix-async-v2-2-510aab9570dd@chromium.org> <20241128222232.GF25731@pendragon.ideasonboard.com>
+ <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
+ <20241128223343.GH25731@pendragon.ideasonboard.com> <7eeab6bd-ce02-41a6-bcc1-7c2750ce0359@xs4all.nl>
+In-Reply-To: <7eeab6bd-ce02-41a6-bcc1-7c2750ce0359@xs4all.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 29 Nov 2024 11:59:27 +0100
+X-Gmail-Original-Message-ID: <CANiDSCseF3fsufMc-Ovoy-bQH85PqfKDM+zmfoisLw+Kq1biAw@mail.gmail.com>
+Message-ID: <CANiDSCseF3fsufMc-Ovoy-bQH85PqfKDM+zmfoisLw+Kq1biAw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control owned
+ by other fh
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, 
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 22/11/2024 14:51, Hans Verkuil wrote:
-> The v4l2_ctrl_handler_free() function must unlink all subscribed events
-> of the control handler that is being freed, but it only did so for the
-> controls owned by that control handler and not for the controls referred
-> to by that control handler. This leaves stale data in the ev_subs list
-> of those controls.
-> 
-> The node list header is also properly initialized and list_del_init is
-> called instead of list_del to ensure that list_empty() can be used
-> to detect whether a v4l2_subscribed_event is part of a list or not.
-> 
-> This makes v4l2_ctrl_del_event() more robust since it will not attempt
-> to find the control if the v4l2_subscribed_event has already been unlinked
-> from the control.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Cc: stable@vger.kernel.org # 6.7.x
+On Fri, 29 Nov 2024 at 11:36, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> Hi Laurent, Ricardo,
+>
+> On 28/11/2024 23:33, Laurent Pinchart wrote:
+> > On Thu, Nov 28, 2024 at 11:28:29PM +0100, Ricardo Ribalda wrote:
+> >> On Thu, 28 Nov 2024 at 23:22, Laurent Pinchart wrote:
+> >>>
+> >>> Hi Ricardo,
+> >>>
+> >>> (CC'ing Hans Verkuil)
+> >>>
+> >>> Thank you for the patch.
+> >>>
+> >>> On Wed, Nov 27, 2024 at 12:14:50PM +0000, Ricardo Ribalda wrote:
+> >>>> If a file handle is waiting for a response from an async control, avoid
+> >>>> that other file handle operate with it.
+> >>>>
+> >>>> Without this patch, the first file handle will never get the event
+> >>>> associated with that operation, which can lead to endless loops in
+> >>>> applications. Eg:
+> >>>> If an application A wants to change the zoom and to know when the
+> >>>> operation has completed:
+> >>>> it will open the video node, subscribe to the zoom event, change the
+> >>>> control and wait for zoom to finish.
+> >>>> If before the zoom operation finishes, another application B changes
+> >>>> the zoom, the first app A will loop forever.
+> >>>
+> >>> Hans, the V4L2 specification isn't very clear on this. I see pros and
+> >>> cons for both behaviours, with a preference for the current behaviour,
+> >>> as with this patch the control will remain busy until the file handle is
+> >>> closed if the device doesn't send the control event for any reason. What
+> >>> do you think ?
+> >>
+> >> Just one small clarification. The same file handler can change the
+> >> value of the async control as many times as it wants, even if the
+> >> operation has not finished.
+> >>
+> >> It will be other file handles that will get -EBUSY if they try to use
+> >> an async control with an unfinished operation started by another fh.
+> >
+> > Yes, I should have been more precised. If the device doesn't send the
+> > control event, then all other file handles will be prevented from
+> > setting the control until the file handle that set it first gets closed.
+>
+> I think I need a bit more background here:
+>
+> First of all, what is an asynchronous control in UVC? I think that means
+> you can set it, but it takes time for that operation to finish, so you
+> get an event later when the operation is done. So zoom and similar operations
+> are examples of that.
+>
+> And only when the operation finishes will the control event be sent, correct?
 
-Please note that this caused a kernel oops when testing with virtme.
+You are correct.  This diagrams from the spec is more or less clear:
+https://ibb.co/MDGn7F3
 
-So this needs more work.
+>
+> While the operation is ongoing, if you query the control value, is that reporting
+> the current position or the final position?
 
-Regards,
+I'd expect hardware will return either the current position, the start
+position or the final position. I could not find anything in the spec
+that points in one direction or the others.
 
-	Hans
+And in the driver I believe that we might have a bug handling this
+case (will send a patch if I can confirm it)
+the zoom is at 0 and you set it 10
+if you read the value 2 times before the camera reaches value 10:
+- First value will come from the hardware and the response will be cached
+- Second value will be the cached one
 
-> ---
-> This is v2 of a very old patch from 2022:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/66246ea5-2bd7-6c9e-56c8-9d683ec58ffc@xs4all.nl/
-> 
-> It looks like I forgot to follow-up on Laurent's comments. Recently
-> we had to upgrade to a newer kernel and apply this same patch again
-> since it was still failing, at which point I realized that this fix
-> wasn't in mainline.
-> 
-> This issue only happens if you have a larger pipeline consisting of
-> several subdevs, and one of the subdevs is forcibly unbound.
-> 
-> Changes since v1:
-> - fixed Laurent's comments
-> - add locking
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls-api.c  |  8 ++++++--
->  drivers/media/v4l2-core/v4l2-ctrls-core.c | 10 +++++++++-
->  drivers/media/v4l2-core/v4l2-event.c      |  1 +
->  3 files changed, 16 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> index 95a2202879d8..96c3e40f589f 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> @@ -1249,13 +1249,17 @@ static int v4l2_ctrl_add_event(struct v4l2_subscribed_event *sev,
-> 
->  static void v4l2_ctrl_del_event(struct v4l2_subscribed_event *sev)
->  {
-> -	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
-> +	struct v4l2_ctrl *ctrl;
-> 
-> +	if (list_empty(&sev->node))
-> +		return;
-> +
-> +	ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
->  	if (!ctrl)
->  		return;
-> 
->  	v4l2_ctrl_lock(ctrl);
-> -	list_del(&sev->node);
-> +	list_del_init(&sev->node);
->  	v4l2_ctrl_unlock(ctrl);
->  }
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index eeab6a5eb7ba..9fb9b81a8a4f 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -10,6 +10,7 @@
->  #include <linux/slab.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-event.h>
-> +#include <media/v4l2-fh.h>
->  #include <media/v4l2-fwnode.h>
-> 
->  #include "v4l2-ctrls-priv.h"
-> @@ -1569,13 +1570,20 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
->  		list_del(&ref->node);
->  		if (ref->p_req_array_alloc_elems)
->  			kvfree(ref->p_req.p);
-> +		if (ref->ctrl->handler != hdl) {
-> +			mutex_lock(ref->ctrl->handler->lock);
-> +			list_for_each_entry_safe(sev, next_sev, &ref->ctrl->ev_subs, node)
-> +				if (sev->fh->ctrl_handler == hdl)
-> +					list_del_init(&sev->node);
-> +			mutex_unlock(ref->ctrl->handler->lock);
-> +		}
->  		kfree(ref);
->  	}
->  	/* Free all controls owned by the handler */
->  	list_for_each_entry_safe(ctrl, next_ctrl, &hdl->ctrls, node) {
->  		list_del(&ctrl->node);
->  		list_for_each_entry_safe(sev, next_sev, &ctrl->ev_subs, node)
-> -			list_del(&sev->node);
-> +			list_del_init(&sev->node);
->  		kvfree(ctrl->p_array);
->  		kvfree(ctrl);
->  	}
-> diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
-> index 3898ff7edddb..3ad6318c9908 100644
-> --- a/drivers/media/v4l2-core/v4l2-event.c
-> +++ b/drivers/media/v4l2-core/v4l2-event.c
-> @@ -246,6 +246,7 @@ int v4l2_event_subscribe(struct v4l2_fh *fh,
->  	sev->flags = sub->flags;
->  	sev->fh = fh;
->  	sev->ops = ops;
-> +	INIT_LIST_HEAD(&sev->node);
-> 
->  	mutex_lock(&fh->subscribe_lock);
-> 
+now the camera  is at zoom 10
+If you read the value, you will read the cached value
 
+
+>
+> E.g.: the zoom control is at value 0 and I set it to 10, then I poll the zoom control
+> value: will that report the intermediate values until it reaches 10? And when it is
+> at 10, the control event is sent?
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >>>> Cc: stable@vger.kernel.org
+> >>>> Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+> >>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> >>>> ---
+> >>>>  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
+> >>>>  1 file changed, 4 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> >>>> index b6af4ff92cbd..3f8ae35cb3bc 100644
+> >>>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> >>>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> >>>> @@ -1955,6 +1955,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+> >>>>       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+> >>>>               return -EACCES;
+> >>>>
+> >>>> +     /* Other file handle is waiting a response from this async control. */
+> >>>> +     if (ctrl->handle && ctrl->handle != handle)
+> >>>> +             return -EBUSY;
+> >>>> +
+> >>>>       /* Clamp out of range values. */
+> >>>>       switch (mapping->v4l2_type) {
+> >>>>       case V4L2_CTRL_TYPE_INTEGER:
+> >
+>
+
+
+-- 
+Ricardo Ribalda
 
