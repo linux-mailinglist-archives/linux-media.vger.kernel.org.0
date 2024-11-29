@@ -1,118 +1,213 @@
-Return-Path: <linux-media+bounces-22319-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22320-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6235C9DC262
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:49:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA17D9DC26A
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:55:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2AADB20F6C
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:48:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E1002824FE
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:55:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23DF919884C;
-	Fri, 29 Nov 2024 10:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XW61T5cf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AAF19884C;
+	Fri, 29 Nov 2024 10:55:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0409189BB5
-	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 10:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E6D15AD9C
+	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 10:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732877334; cv=none; b=qJiId3TpMTVHfNCY5mMY2+mHBayyYz/P/8TTIO/B5+5sKA83rtPdnhZjkfipkb7AltxnCLIsMWqY1M1FlPwMXgxhyw9bDp6lln9onW8/IGtNc0mvvctg6sYKJWinvIc2DKUr8ShgRBH3I+WSqjXp9GiljwCvrjPFNvkX+2vmhnk=
+	t=1732877709; cv=none; b=idJ+jK1VyJUloQVnbOSkPaQHD0wr3Kvuykskr7C67K0fLkHoz9F7H1J254FRHzeU2VTRHlIgTvoMaLYYKxwLHQjPAoOp+q4nzDY5GIhYdOHAtrmw/ZA6nM1N3BzpvhK8Tx+2gW8FH9GoIjkf2dLjGezWq5k6IS1aHN7XbkuLlbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732877334; c=relaxed/simple;
-	bh=/GABF2MiOK0kW6LUFjm6Qy2y3lClI0kCBc2Ss9OARLQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rflQmfFuq75E+Wz3qyYPOkdu6E+2RUT2umObodWFbbX2WgTsdZp6F5LcPPH0MgPZ5ZajuYO5gbX3k4YHeft0m8BmEt8coqxWm9gBjWqDDoLxJ/8ZWh5pqwH4U9av0piXE+hYNuPs6i8c/H+c7gUKfX3dFh5HJnozerZ43CAHEVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XW61T5cf; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732877332; x=1764413332;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/GABF2MiOK0kW6LUFjm6Qy2y3lClI0kCBc2Ss9OARLQ=;
-  b=XW61T5cfG8Al1v6bZKyHHiD9TKDq8y++Gz5U6d9+mLHadAHk4uHmarO/
-   48NhCnKXkYcMY0rSDgkfTw4hN2FrlGnFO3NV8f0FqOganaYRo1IwFkiNg
-   pcHFfuEEkxkIS5fROEbx+l54gLQU5+XPyncxMXbS7UEiVyFmDHSmVD8a8
-   vp1IZ7cgtb1gqF/euVuhtJgr/oVj4uDFJkvjwEE7YUK83rlfL/xw8p1Gj
-   AQFBFEtntA6kO17+AqO3SVJpIKu60GdMt3o7Oxn95bd98ZcT+9K0cLeEd
-   /seTAORiZoZq48K48YbgBnlHP4oM1ikgHUCKY+CRKNPWuYH4PW7QSezWU
-   w==;
-X-CSE-ConnectionGUID: kb979L+jTiaOVxB9MPxU4Q==
-X-CSE-MsgGUID: VSd2fIbtRziYqKW+BwBcdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="43728279"
-X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="43728279"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 02:48:51 -0800
-X-CSE-ConnectionGUID: LLfZkoMtQLOu4MnLtz6HOQ==
-X-CSE-MsgGUID: OFWRJCphS1CgghsPtC9AGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="96538299"
-Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Nov 2024 02:48:47 -0800
-Received: from kbuild by 5e2646291792 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tGyYH-0000FD-1p;
-	Fri, 29 Nov 2024 10:48:45 +0000
-Date: Fri, 29 Nov 2024 18:48:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dongcheng Yan <dongcheng.yan@intel.com>, linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
-	bingbu.cao@linux.intel.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
-	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
-	balamurugan.c@intel.com, wei.a.fu@intel.com
-Subject: Re: [PATCH v4] media: i2c: add lt6911uxe hdmi bridge driver
-Message-ID: <202411291849.IwaKiYhE-lkp@intel.com>
-References: <20241129061546.2237511-1-dongcheng.yan@intel.com>
+	s=arc-20240116; t=1732877709; c=relaxed/simple;
+	bh=5iTMzLDKNyCxuT58QjxBTz3paVg0mgDLrwFoCwwaAfI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kP4bUJNRgakMY7a65RwAoDid89S/K6ig7EF6zQAeSuagtXvmr5x/BPGNOPD8TV3WnbWzT4AGR/d0HzGjv3JZyrR1frZYvO+4FmBqVMrN4XVEnBAVIyuGxgKOZvjQLlnPVcibJ0i/2sfevzZZH7/PcgNOX2nEJ7C49bxCevVqMYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC6FC4CECF;
+	Fri, 29 Nov 2024 10:55:08 +0000 (UTC)
+Message-ID: <fa7c3255-e9b7-4ea0-ad1e-96d3e0a2f93a@xs4all.nl>
+Date: Fri, 29 Nov 2024 11:55:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241129061546.2237511-1-dongcheng.yan@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2] media: v4l2-ctrls: unlink all subscribed events
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <d399804a-3c18-4514-9eec-69b0935fef71@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <d399804a-3c18-4514-9eec-69b0935fef71@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Dongcheng,
+On 22/11/2024 14:51, Hans Verkuil wrote:
+> The v4l2_ctrl_handler_free() function must unlink all subscribed events
+> of the control handler that is being freed, but it only did so for the
+> controls owned by that control handler and not for the controls referred
+> to by that control handler. This leaves stale data in the ev_subs list
+> of those controls.
+> 
+> The node list header is also properly initialized and list_del_init is
+> called instead of list_del to ensure that list_empty() can be used
+> to detect whether a v4l2_subscribed_event is part of a list or not.
+> 
+> This makes v4l2_ctrl_del_event() more robust since it will not attempt
+> to find the control if the v4l2_subscribed_event has already been unlinked
+> from the control.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Cc: stable@vger.kernel.org # 6.7.x
 
-kernel test robot noticed the following build warnings:
+Please note that this caused a kernel oops when testing with virtme.
 
-[auto build test WARNING on 2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2]
+So this needs more work.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dongcheng-Yan/media-i2c-add-lt6911uxe-hdmi-bridge-driver/20241129-141630
-base:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
-patch link:    https://lore.kernel.org/r/20241129061546.2237511-1-dongcheng.yan%40intel.com
-patch subject: [PATCH v4] media: i2c: add lt6911uxe hdmi bridge driver
-config: i386-kismet-CONFIG_V4L2_CCI_I2C-CONFIG_VIDEO_LT6911UXE-0-0 (https://download.01.org/0day-ci/archive/20241129/202411291849.IwaKiYhE-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241129/202411291849.IwaKiYhE-lkp@intel.com/reproduce)
+Regards,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411291849.IwaKiYhE-lkp@intel.com/
+	Hans
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for V4L2_CCI_I2C when selected by VIDEO_LT6911UXE
-   WARNING: unmet direct dependencies detected for V4L2_CCI_I2C
-     Depends on [n]: MEDIA_SUPPORT [=y] && I2C [=n]
-     Selected by [y]:
-     - VIDEO_LT6911UXE [=y] && MEDIA_SUPPORT [=y] && ACPI [=y] && VIDEO_DEV [=y]
+> ---
+> This is v2 of a very old patch from 2022:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/patch/66246ea5-2bd7-6c9e-56c8-9d683ec58ffc@xs4all.nl/
+> 
+> It looks like I forgot to follow-up on Laurent's comments. Recently
+> we had to upgrade to a newer kernel and apply this same patch again
+> since it was still failing, at which point I realized that this fix
+> wasn't in mainline.
+> 
+> This issue only happens if you have a larger pipeline consisting of
+> several subdevs, and one of the subdevs is forcibly unbound.
+> 
+> Changes since v1:
+> - fixed Laurent's comments
+> - add locking
+> ---
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c  |  8 ++++++--
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c | 10 +++++++++-
+>  drivers/media/v4l2-core/v4l2-event.c      |  1 +
+>  3 files changed, 16 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> index 95a2202879d8..96c3e40f589f 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> @@ -1249,13 +1249,17 @@ static int v4l2_ctrl_add_event(struct v4l2_subscribed_event *sev,
+> 
+>  static void v4l2_ctrl_del_event(struct v4l2_subscribed_event *sev)
+>  {
+> -	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
+> +	struct v4l2_ctrl *ctrl;
+> 
+> +	if (list_empty(&sev->node))
+> +		return;
+> +
+> +	ctrl = v4l2_ctrl_find(sev->fh->ctrl_handler, sev->id);
+>  	if (!ctrl)
+>  		return;
+> 
+>  	v4l2_ctrl_lock(ctrl);
+> -	list_del(&sev->node);
+> +	list_del_init(&sev->node);
+>  	v4l2_ctrl_unlock(ctrl);
+>  }
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index eeab6a5eb7ba..9fb9b81a8a4f 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/slab.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-event.h>
+> +#include <media/v4l2-fh.h>
+>  #include <media/v4l2-fwnode.h>
+> 
+>  #include "v4l2-ctrls-priv.h"
+> @@ -1569,13 +1570,20 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
+>  		list_del(&ref->node);
+>  		if (ref->p_req_array_alloc_elems)
+>  			kvfree(ref->p_req.p);
+> +		if (ref->ctrl->handler != hdl) {
+> +			mutex_lock(ref->ctrl->handler->lock);
+> +			list_for_each_entry_safe(sev, next_sev, &ref->ctrl->ev_subs, node)
+> +				if (sev->fh->ctrl_handler == hdl)
+> +					list_del_init(&sev->node);
+> +			mutex_unlock(ref->ctrl->handler->lock);
+> +		}
+>  		kfree(ref);
+>  	}
+>  	/* Free all controls owned by the handler */
+>  	list_for_each_entry_safe(ctrl, next_ctrl, &hdl->ctrls, node) {
+>  		list_del(&ctrl->node);
+>  		list_for_each_entry_safe(sev, next_sev, &ctrl->ev_subs, node)
+> -			list_del(&sev->node);
+> +			list_del_init(&sev->node);
+>  		kvfree(ctrl->p_array);
+>  		kvfree(ctrl);
+>  	}
+> diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
+> index 3898ff7edddb..3ad6318c9908 100644
+> --- a/drivers/media/v4l2-core/v4l2-event.c
+> +++ b/drivers/media/v4l2-core/v4l2-event.c
+> @@ -246,6 +246,7 @@ int v4l2_event_subscribe(struct v4l2_fh *fh,
+>  	sev->flags = sub->flags;
+>  	sev->fh = fh;
+>  	sev->ops = ops;
+> +	INIT_LIST_HEAD(&sev->node);
+> 
+>  	mutex_lock(&fh->subscribe_lock);
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
