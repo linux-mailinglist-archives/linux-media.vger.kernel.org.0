@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-22301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22302-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C478F9DC161
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:22:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E9E9DC16B
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:25:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 28C08B21674
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:22:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A47A5B234F6
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 539E3181B8D;
-	Fri, 29 Nov 2024 09:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D32E917799F;
+	Fri, 29 Nov 2024 09:24:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31FB156F28;
-	Fri, 29 Nov 2024 09:22:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D53414F135;
+	Fri, 29 Nov 2024 09:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732872160; cv=none; b=k33oIJ8kFL4BulFHvuXSDknfQKN/euxT7re1rHnrlimP/t7VU0bj7DQk3GdyjS6a9PuSXE9g6PCviZJrUVs24lK2OFVoNgLbx59clBQcMRXcqjmo3HQ41U8WlR4Xk+ZY07nBb2OdQFXQjZqmQwdyhv6VRpdcYQn8NSnhoC2CRUg=
+	t=1732872290; cv=none; b=t5x2EB3w/1i9KWJCZz080KYRbDGxi7xzDmbdXpD3G6DYFd2O1hwT9EHQvtzXZ/Skeq6BtRxeMccozjC5NjsVTOWfOjq+6QA4pTQYjvf6vJf77WzlcO6zTcY+HPw8zQkbqoHCX1OCw+fdmrM0YY/S5PjGHJ4n6w9rLSm0uNRx2SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732872160; c=relaxed/simple;
-	bh=dV0heHIi1TJqOFHeNX2cjJXd9Tv1bHiZy+ddnVvGsEw=;
+	s=arc-20240116; t=1732872290; c=relaxed/simple;
+	bh=rRQ6Dk0hSwPL+pylecYqFU1NBXkId9Qt8T5VDWKr2I8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LBu5yPMfxbDmZGiJqKX+L4e5R/j+8g6gl/bZsD6DX85/Y0FszMi/78FEy27mfShdaSGgnHlWC4i8M+QpMigyMYXvnNPu9KkBN5jEwRcToWRMH44cb9EDWahyZmCCXmmrNbA90xdQWHr2rv697KX3OyVvhQ0gA/hvlCv8K3jyB4c=
+	 In-Reply-To:Content-Type; b=KuYnTOvukAL2CAG1hBeehVFNtyYYkTmZPKIP9CRD+HLkkWo9I0Ju95lmVXOPcywNXrn3Gp3WTdLg7wnutMdqK+6vG1dMp6kQQdd1XXq2dOKFWvqCQf5b96EITZjQNkErU6N0X+jksoZdY85hRMpsmNKSErt9dH2+7GvlWDvEfzo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DFB3C4CECF;
-	Fri, 29 Nov 2024 09:22:37 +0000 (UTC)
-Message-ID: <9f38c3bb-32a2-45ee-845b-fee02f7b79ec@xs4all.nl>
-Date: Fri, 29 Nov 2024 10:22:35 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F8A6C4CECF;
+	Fri, 29 Nov 2024 09:24:46 +0000 (UTC)
+Message-ID: <36ed7d2b-c3c2-41e6-88ef-8a6a69ffc031@xs4all.nl>
+Date: Fri, 29 Nov 2024 10:24:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 23/28] media: iris: add support for drain sequence
+Subject: Re: [PATCH v6 00/28] Qualcomm iris video decoder driver
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Vikash Garodia <quic_vgarodia@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -53,9 +53,10 @@ Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
  =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
  Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Vedang Nagar <quic_vnagar@quicinc.com>
 References: <20241120-qcom-video-iris-v6-0-a8cf6704e992@quicinc.com>
- <20241120-qcom-video-iris-v6-23-a8cf6704e992@quicinc.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -101,664 +102,781 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20241120-qcom-video-iris-v6-23-a8cf6704e992@quicinc.com>
+In-Reply-To: <20241120-qcom-video-iris-v6-0-a8cf6704e992@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 20/11/2024 15:46, Dikshita Agarwal wrote:
-> handle the V4L2_DEC_CMD_STOP by initiating drain sequence to firmware.
-> Process and decode all OUTPUT buffers queued by the client before the
-> VIDIOC_DECODER_CMD() was issued and mark the last buffer with
-> V4L2_BUF_FLAG_LAST flag. Decoder is stopped after processing the last
-> buffer.
-> 
-> Resume the decoder when one of below are issued by client:
-> - V4L2_DEC_CMD_START
-> - pair of VIDIOC_STREAMOFF() and VIDIOC_STREAMON() on the CAPTURE queue
-> - pair of VIDIOC_STREAMOFF() and VIDIOC_STREAMON() on the OUTPUT queue
-> 
-> Add the handling to resume decoding when client issues
-> V4L2_DEC_CMD_START to resume decoding after source change is detected.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->  drivers/media/platform/qcom/iris/iris_hfi_common.h |  2 +
->  .../platform/qcom/iris/iris_hfi_gen1_command.c     | 13 ++++
->  .../platform/qcom/iris/iris_hfi_gen1_defines.h     |  1 +
->  .../platform/qcom/iris/iris_hfi_gen1_response.c    | 15 ++++
->  .../platform/qcom/iris/iris_hfi_gen2_command.c     | 43 ++++++++++
->  .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  2 +
->  .../platform/qcom/iris/iris_hfi_gen2_response.c    | 46 ++++++++++-
->  drivers/media/platform/qcom/iris/iris_state.c      | 68 ++++++++++++++++
->  drivers/media/platform/qcom/iris/iris_state.h      | 13 +++-
->  drivers/media/platform/qcom/iris/iris_vb2.c        |  6 +-
->  drivers/media/platform/qcom/iris/iris_vdec.c       | 91 +++++++++++++++++++++-
->  drivers/media/platform/qcom/iris/iris_vdec.h       |  2 +
->  drivers/media/platform/qcom/iris/iris_vidc.c       | 37 +++++++++
->  13 files changed, 331 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_common.h b/drivers/media/platform/qcom/iris/iris_hfi_common.h
-> index 8e14a61c9be4..b2c541367fc6 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_common.h
-> @@ -121,6 +121,8 @@ struct iris_hfi_command_ops {
->  	int (*session_pause)(struct iris_inst *inst, u32 plane);
->  	int (*session_resume_drc)(struct iris_inst *inst, u32 plane);
->  	int (*session_stop)(struct iris_inst *inst, u32 plane);
-> +	int (*session_drain)(struct iris_inst *inst, u32 plane);
-> +	int (*session_resume_drain)(struct iris_inst *inst, u32 plane);
->  	int (*session_close)(struct iris_inst *inst);
->  };
->  
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> index e0cb75a112e3..e1fbbb3c196d 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> @@ -368,6 +368,18 @@ static int iris_hfi_gen1_session_unset_buffers(struct iris_inst *inst, struct ir
->  	return ret;
->  }
->  
-> +static int iris_hfi_gen1_session_drain(struct iris_inst *inst, u32 plane)
-> +{
-> +	struct hfi_session_empty_buffer_compressed_pkt ip_pkt = {0};
-> +
-> +	ip_pkt.shdr.hdr.size = sizeof(struct hfi_session_empty_buffer_compressed_pkt);
-> +	ip_pkt.shdr.hdr.pkt_type = HFI_CMD_SESSION_EMPTY_BUFFER;
-> +	ip_pkt.shdr.session_id = inst->session_id;
-> +	ip_pkt.flags = HFI_BUFFERFLAG_EOS;
-> +
-> +	return iris_hfi_queue_cmd_write(inst->core, &ip_pkt, ip_pkt.shdr.hdr.size);
-> +}
-> +
->  static int
->  iris_hfi_gen1_packet_session_set_property(struct hfi_session_set_property_pkt *packet,
->  					  struct iris_inst *inst, u32 ptype, void *pdata)
-> @@ -789,6 +801,7 @@ static const struct iris_hfi_command_ops iris_hfi_gen1_command_ops = {
->  	.session_release_buf = iris_hfi_gen1_session_unset_buffers,
->  	.session_resume_drc = iris_hfi_gen1_session_continue,
->  	.session_stop = iris_hfi_gen1_session_stop,
-> +	.session_drain = iris_hfi_gen1_session_drain,
->  	.session_close = iris_hfi_gen1_session_close,
->  };
->  
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-> index c40e0a28b21f..9f246816a286 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-> @@ -49,6 +49,7 @@
->  #define HFI_EVENT_DATA_SEQUENCE_CHANGED_INSUFFICIENT_BUF_RESOURCES 0x1000002
->  #define HFI_EVENT_SESSION_SEQUENCE_CHANGED			   0x1000003
->  
-> +#define HFI_BUFFERFLAG_EOS				0x00000001
->  #define HFI_BUFFERFLAG_TIMESTAMPINVALID			0x00000100
->  
->  #define HFI_FLUSH_OUTPUT				0x1000002
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
-> index 3a47d9f39695..b72d503dd740 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
-> @@ -386,6 +386,7 @@ static void iris_hfi_gen1_session_ftb_done(struct iris_inst *inst, void *packet)
->  	struct hfi_msg_session_fbd_uncompressed_plane0_pkt *pkt = packet;
->  	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
->  	struct v4l2_m2m_buffer *m2m_buffer, *n;
-> +	struct hfi_session_flush_pkt flush_pkt;
->  	u32 timestamp_hi = pkt->time_stamp_hi;
->  	u32 timestamp_lo = pkt->time_stamp_lo;
->  	struct iris_core *core = inst->core;
-> @@ -394,11 +395,25 @@ static void iris_hfi_gen1_session_ftb_done(struct iris_inst *inst, void *packet)
->  	u32 output_tag = pkt->output_tag;
->  	struct iris_buffer *buf, *iter;
->  	struct iris_buffers *buffers;
-> +	u32 hfi_flags = pkt->flags;
->  	u32 offset = pkt->offset;
->  	u64 timestamp_us = 0;
->  	bool found = false;
->  	u32 flags = 0;
->  
-> +	if ((hfi_flags & HFI_BUFFERFLAG_EOS) && !filled_len) {
-> +		reinit_completion(&inst->flush_completion);
-> +
-> +		flush_pkt.shdr.hdr.size = sizeof(struct hfi_session_flush_pkt);
-> +		flush_pkt.shdr.hdr.pkt_type = HFI_CMD_SESSION_FLUSH;
-> +		flush_pkt.shdr.session_id = inst->session_id;
-> +		flush_pkt.flush_type = HFI_FLUSH_OUTPUT;
-> +		iris_hfi_queue_cmd_write(core, &flush_pkt, flush_pkt.shdr.hdr.size);
-> +		iris_inst_sub_state_change_drain_last(inst);
-> +
-> +		return;
-> +	}
-> +
->  	if (iris_split_mode_enabled(inst) && pkt->stream_id == 0) {
->  		buffers = &inst->buffers[BUF_DPB];
->  		if (!buffers)
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> index 8efc6a70a57a..a908b41e2868 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> @@ -774,6 +774,47 @@ static int iris_hfi_gen2_session_resume_drc(struct iris_inst *inst, u32 plane)
->  					inst_hfi_gen2->packet->size);
->  }
->  
-> +static int iris_hfi_gen2_session_resume_drain(struct iris_inst *inst, u32 plane)
-> +{
-> +	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
-> +	u32 payload = HFI_CMD_DRAIN;
-> +
-> +	iris_hfi_gen2_packet_session_command(inst,
-> +					     HFI_CMD_RESUME,
-> +					     (HFI_HOST_FLAGS_RESPONSE_REQUIRED |
-> +					     HFI_HOST_FLAGS_INTR_REQUIRED),
-> +					     iris_hfi_gen2_get_port(plane),
-> +					     inst->session_id,
-> +					     HFI_PAYLOAD_U32,
-> +					     &payload,
-> +					     sizeof(u32));
-> +
-> +	return iris_hfi_queue_cmd_write(inst->core, inst_hfi_gen2->packet,
-> +					inst_hfi_gen2->packet->size);
-> +}
-> +
-> +static int iris_hfi_gen2_session_drain(struct iris_inst *inst, u32 plane)
-> +{
-> +	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
-> +
-> +	if (!V4L2_TYPE_IS_OUTPUT(plane))
-> +		return 0;
-> +
-> +	iris_hfi_gen2_packet_session_command(inst,
-> +					     HFI_CMD_DRAIN,
-> +					     (HFI_HOST_FLAGS_RESPONSE_REQUIRED |
-> +					     HFI_HOST_FLAGS_INTR_REQUIRED |
-> +					     HFI_HOST_FLAGS_NON_DISCARDABLE),
-> +					     iris_hfi_gen2_get_port(plane),
-> +					     inst->session_id,
-> +					     HFI_PAYLOAD_NONE,
-> +					     NULL,
-> +					     0);
-> +
-> +	return iris_hfi_queue_cmd_write(inst->core, inst_hfi_gen2->packet,
-> +					inst_hfi_gen2->packet->size);
-> +}
-> +
->  static u32 iris_hfi_gen2_buf_type_from_driver(enum iris_buffer_type buffer_type)
->  {
->  	switch (buffer_type) {
-> @@ -900,6 +941,8 @@ static const struct iris_hfi_command_ops iris_hfi_gen2_command_ops = {
->  	.session_pause = iris_hfi_gen2_session_pause,
->  	.session_resume_drc = iris_hfi_gen2_session_resume_drc,
->  	.session_stop = iris_hfi_gen2_session_stop,
-> +	.session_drain = iris_hfi_gen2_session_drain,
-> +	.session_resume_drain = iris_hfi_gen2_session_resume_drain,
->  	.session_close = iris_hfi_gen2_session_close,
->  };
->  
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> index d759b7355711..214e2a579b8e 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-> @@ -17,6 +17,7 @@
->  #define HFI_CMD_CLOSE				0x01000004
->  #define HFI_CMD_START				0x01000005
->  #define HFI_CMD_STOP				0x01000006
-> +#define HFI_CMD_DRAIN				0x01000007
->  #define HFI_CMD_RESUME				0x01000008
->  #define HFI_CMD_BUFFER				0x01000009
->  #define HFI_CMD_SUBSCRIBE_MODE			0x0100000B
-> @@ -79,6 +80,7 @@
->  #define HFI_INFO_UNSUPPORTED			0x06000001
->  #define HFI_INFO_DATA_CORRUPT			0x06000002
->  #define HFI_INFO_BUFFER_OVERFLOW		0x06000004
-> +#define HFI_INFO_HFI_FLAG_DRAIN_LAST		0x06000006
->  #define HFI_INFO_HFI_FLAG_PSC_LAST		0x06000007
->  #define HFI_INFORMATION_END			0x06FFFFFF
->  
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> index 28857a7a5112..f043e74866bc 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> @@ -201,6 +201,10 @@ static int iris_hfi_gen2_handle_session_info(struct iris_inst *inst,
->  		info = "buffer overflow";
->  		inst_hfi_gen2->hfi_frame_info.overflow = 1;
->  		break;
-> +	case HFI_INFO_HFI_FLAG_DRAIN_LAST:
-> +		info = "drain last flag";
-> +		ret = iris_inst_sub_state_change_drain_last(inst);
-> +		break;
->  	case HFI_INFO_HFI_FLAG_PSC_LAST:
->  		info = "drc last flag";
->  		ret = iris_inst_sub_state_change_drc_last(inst);
-> @@ -334,6 +338,12 @@ static int iris_hfi_gen2_handle_output_buffer(struct iris_inst *inst,
->  	bool found = false;
->  	int ret;
->  
-> +	if (hfi_buffer->flags & HFI_BUF_FW_FLAG_LAST) {
-> +		ret = iris_inst_sub_state_change_drain_last(inst);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	if (hfi_buffer->flags & HFI_BUF_FW_FLAG_PSC_LAST) {
->  		ret = iris_inst_sub_state_change_drc_last(inst);
->  		if (ret)
-> @@ -422,6 +432,21 @@ static int iris_hfi_gen2_handle_release_internal_buffer(struct iris_inst *inst,
->  	return ret;
->  }
->  
-> +static int iris_hfi_gen2_handle_session_stop(struct iris_inst *inst,
-> +					     struct iris_hfi_packet *pkt)
-> +{
-> +	int ret = 0;
-> +
-> +	if (pkt->port == HFI_PORT_RAW)
-> +		ret = iris_inst_sub_state_change_pause(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> +	else if (pkt->port == HFI_PORT_BITSTREAM)
-> +		ret = iris_inst_sub_state_change_pause(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +
-> +	complete(&inst->completion);
-> +
-> +	return ret;
-> +}
-> +
->  static int iris_hfi_gen2_handle_session_buffer(struct iris_inst *inst,
->  					       struct iris_hfi_packet *pkt)
->  {
-> @@ -450,6 +475,22 @@ static int iris_hfi_gen2_handle_session_buffer(struct iris_inst *inst,
->  		return iris_hfi_gen2_handle_release_internal_buffer(inst, buffer);
->  }
->  
-> +static int iris_hfi_gen2_handle_session_drain(struct iris_inst *inst,
-> +					      struct iris_hfi_packet *pkt)
-> +{
-> +	int ret = 0;
-> +
-> +	if (!(pkt->flags & HFI_FW_FLAGS_SUCCESS)) {
-> +		iris_inst_change_state(inst, IRIS_INST_ERROR);
-> +		return 0;
-> +	}
-> +
-> +	if (inst->sub_state & IRIS_INST_SUB_DRAIN)
-> +		ret = iris_inst_change_sub_state(inst, 0, IRIS_INST_SUB_INPUT_PAUSE);
-> +
-> +	return ret;
-> +}
-> +
->  static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
->  {
->  	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
-> @@ -569,7 +610,7 @@ static int iris_hfi_gen2_handle_session_command(struct iris_inst *inst,
->  		iris_hfi_gen2_handle_session_close(inst, pkt);
->  		break;
->  	case HFI_CMD_STOP:
-> -		complete(&inst->completion);
-> +		iris_hfi_gen2_handle_session_stop(inst, pkt);
->  		break;
->  	case HFI_CMD_BUFFER:
->  		ret = iris_hfi_gen2_handle_session_buffer(inst, pkt);
-> @@ -577,6 +618,9 @@ static int iris_hfi_gen2_handle_session_command(struct iris_inst *inst,
->  	case HFI_CMD_SETTINGS_CHANGE:
->  		ret = iris_hfi_gen2_handle_src_change(inst, pkt);
->  		break;
-> +	case HFI_CMD_DRAIN:
-> +		ret = iris_hfi_gen2_handle_session_drain(inst, pkt);
-> +		break;
->  	default:
->  		break;
->  	}
-> diff --git a/drivers/media/platform/qcom/iris/iris_state.c b/drivers/media/platform/qcom/iris/iris_state.c
-> index aad7e734d5c8..f12306e735ec 100644
-> --- a/drivers/media/platform/qcom/iris/iris_state.c
-> +++ b/drivers/media/platform/qcom/iris/iris_state.c
-> @@ -3,6 +3,8 @@
->   * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->   */
->  
-> +#include <media/v4l2-mem2mem.h>
-> +
->  #include "iris_instance.h"
->  
->  static bool iris_allow_inst_state_change(struct iris_inst *inst,
-> @@ -148,6 +150,21 @@ int iris_inst_sub_state_change_drc(struct iris_inst *inst)
->  	return iris_inst_change_sub_state(inst, 0, set_sub_state);
->  }
->  
-> +int iris_inst_sub_state_change_drain_last(struct iris_inst *inst)
-> +{
-> +	enum iris_inst_sub_state set_sub_state;
-> +
-> +	if (inst->sub_state & IRIS_INST_SUB_DRAIN_LAST)
-> +		return -EINVAL;
-> +
-> +	if (!(inst->sub_state & IRIS_INST_SUB_DRAIN))
-> +		return -EINVAL;
-> +
-> +	set_sub_state = IRIS_INST_SUB_DRAIN_LAST | IRIS_INST_SUB_OUTPUT_PAUSE;
-> +
-> +	return iris_inst_change_sub_state(inst, 0, set_sub_state);
-> +}
-> +
->  int iris_inst_sub_state_change_drc_last(struct iris_inst *inst)
->  {
->  	enum iris_inst_sub_state set_sub_state;
-> @@ -166,3 +183,54 @@ int iris_inst_sub_state_change_drc_last(struct iris_inst *inst)
->  
->  	return iris_inst_change_sub_state(inst, 0, set_sub_state);
->  }
-> +
-> +int iris_inst_sub_state_change_pause(struct iris_inst *inst, u32 plane)
-> +{
-> +	enum iris_inst_sub_state set_sub_state;
-> +
-> +	if (V4L2_TYPE_IS_OUTPUT(plane)) {
-> +		if (inst->sub_state & IRIS_INST_SUB_DRC &&
-> +		    !(inst->sub_state & IRIS_INST_SUB_DRC_LAST))
-> +			return -EINVAL;
-> +
-> +		if (inst->sub_state & IRIS_INST_SUB_DRAIN &&
-> +		    !(inst->sub_state & IRIS_INST_SUB_DRAIN_LAST))
-> +			return -EINVAL;
-> +
-> +		set_sub_state = IRIS_INST_SUB_INPUT_PAUSE;
-> +	} else {
-> +		set_sub_state = IRIS_INST_SUB_OUTPUT_PAUSE;
-> +	}
-> +
-> +	return iris_inst_change_sub_state(inst, 0, set_sub_state);
-> +}
-> +
-> +static inline bool iris_drc_pending(struct iris_inst *inst)
-> +{
-> +	return inst->sub_state & IRIS_INST_SUB_DRC &&
-> +		inst->sub_state & IRIS_INST_SUB_DRC_LAST;
-> +}
-> +
-> +static inline bool iris_drain_pending(struct iris_inst *inst)
-> +{
-> +	return inst->sub_state & IRIS_INST_SUB_DRAIN &&
-> +		inst->sub_state & IRIS_INST_SUB_DRAIN_LAST;
-> +}
-> +
-> +bool iris_allow_cmd(struct iris_inst *inst, u32 cmd)
-> +{
-> +	struct vb2_queue *src_q = v4l2_m2m_get_src_vq(inst->m2m_ctx);
-> +	struct vb2_queue *dst_q = v4l2_m2m_get_dst_vq(inst->m2m_ctx);
-> +
-> +	if (cmd == V4L2_DEC_CMD_START) {
-> +		if (vb2_is_streaming(src_q) || vb2_is_streaming(dst_q))
-> +			if (iris_drc_pending(inst) || iris_drain_pending(inst))
-> +				return true;
-> +	} else if (cmd == V4L2_DEC_CMD_STOP) {
-> +		if (vb2_is_streaming(src_q))
-> +			if (inst->sub_state != IRIS_INST_SUB_DRAIN)
-> +				return true;
-> +	}
-> +
-> +	return false;
-> +}
-> diff --git a/drivers/media/platform/qcom/iris/iris_state.h b/drivers/media/platform/qcom/iris/iris_state.h
-> index 11236001c1cc..bf645f6f879c 100644
-> --- a/drivers/media/platform/qcom/iris/iris_state.h
-> +++ b/drivers/media/platform/qcom/iris/iris_state.h
-> @@ -104,6 +104,9 @@ enum iris_inst_state {
->   *		      sent to client.
->   * IRIS_INST_SUB_DRC_LAST: indicates last buffer is received from firmware
->   *                         as part of source change.
-> + * IRIS_INST_SUB_DRAIN: indicates drain is in progress.
-> + * IRIS_INST_SUB_DRAIN_LAST: indicates last buffer is received from firmware
-> + *                           as part of drain sequence.
->   * IRIS_INST_SUB_INPUT_PAUSE: source change is received form firmware. This
->   *                            indicates that firmware is paused to process
->   *                            any further input frames.
-> @@ -115,8 +118,10 @@ enum iris_inst_sub_state {
->  	IRIS_INST_SUB_FIRST_IPSC	= BIT(0),
->  	IRIS_INST_SUB_DRC		= BIT(1),
->  	IRIS_INST_SUB_DRC_LAST		= BIT(2),
-> -	IRIS_INST_SUB_INPUT_PAUSE	= BIT(3),
-> -	IRIS_INST_SUB_OUTPUT_PAUSE	= BIT(4),
-> +	IRIS_INST_SUB_DRAIN		= BIT(3),
-> +	IRIS_INST_SUB_DRAIN_LAST	= BIT(4),
-> +	IRIS_INST_SUB_INPUT_PAUSE	= BIT(5),
-> +	IRIS_INST_SUB_OUTPUT_PAUSE	= BIT(6),
->  };
->  
->  int iris_inst_change_state(struct iris_inst *inst,
-> @@ -124,9 +129,13 @@ int iris_inst_change_state(struct iris_inst *inst,
->  int iris_inst_change_sub_state(struct iris_inst *inst,
->  			       enum iris_inst_sub_state clear_sub_state,
->  			       enum iris_inst_sub_state set_sub_state);
-> +
->  int iris_inst_state_change_streamon(struct iris_inst *inst, u32 plane);
->  int iris_inst_state_change_streamoff(struct iris_inst *inst, u32 plane);
->  int iris_inst_sub_state_change_drc(struct iris_inst *inst);
-> +int iris_inst_sub_state_change_drain_last(struct iris_inst *inst);
->  int iris_inst_sub_state_change_drc_last(struct iris_inst *inst);
-> +int iris_inst_sub_state_change_pause(struct iris_inst *inst, u32 plane);
-> +bool iris_allow_cmd(struct iris_inst *inst, u32 cmd);
->  
->  #endif
-> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
-> index 1ff2017673ed..f51fd6929f64 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vb2.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
-> @@ -206,8 +206,10 @@ void iris_vb2_buf_queue(struct vb2_buffer *vb2)
->  	}
->  
->  	if (V4L2_TYPE_IS_CAPTURE(vb2->vb2_queue->type)) {
-> -		if (inst->sub_state & IRIS_INST_SUB_DRC &&
-> -		    inst->sub_state & IRIS_INST_SUB_DRC_LAST) {
-> +		if ((inst->sub_state & IRIS_INST_SUB_DRC &&
-> +		     inst->sub_state & IRIS_INST_SUB_DRC_LAST) ||
-> +		    (inst->sub_state & IRIS_INST_SUB_DRAIN &&
-> +		     inst->sub_state & IRIS_INST_SUB_DRAIN_LAST)) {
->  			vbuf->flags |= V4L2_BUF_FLAG_LAST;
->  			vbuf->sequence = inst->sequence_cap++;
->  			vbuf->field = V4L2_FIELD_NONE;
-> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
-> index 012ae9f7f9a8..1ae0bb4830de 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-> @@ -374,6 +374,7 @@ static int iris_vdec_process_streamon_input(struct iris_inst *inst)
->  	}
->  
->  	if (inst->sub_state & IRIS_INST_SUB_DRC ||
-> +	    inst->sub_state & IRIS_INST_SUB_DRAIN ||
->  	    inst->sub_state & IRIS_INST_SUB_FIRST_IPSC) {
->  		if (!(inst->sub_state & IRIS_INST_SUB_INPUT_PAUSE)) {
->  			if (hfi_ops->session_pause) {
-> @@ -425,15 +426,20 @@ int iris_vdec_streamon_input(struct iris_inst *inst)
->  static int iris_vdec_process_streamon_output(struct iris_inst *inst)
->  {
->  	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> +	bool drain_active = false, drc_active = false;
->  	enum iris_inst_sub_state clear_sub_state = 0;
-> -	bool drc_active = false;
->  	int ret = 0;
->  
-> +	drain_active = inst->sub_state & IRIS_INST_SUB_DRAIN &&
-> +		inst->sub_state & IRIS_INST_SUB_DRAIN_LAST;
-> +
->  	drc_active = inst->sub_state & IRIS_INST_SUB_DRC &&
->  		inst->sub_state & IRIS_INST_SUB_DRC_LAST;
->  
->  	if (drc_active)
->  		clear_sub_state = IRIS_INST_SUB_DRC | IRIS_INST_SUB_DRC_LAST;
-> +	else if (drain_active)
-> +		clear_sub_state = IRIS_INST_SUB_DRAIN | IRIS_INST_SUB_DRAIN_LAST;
->  
->  	if (inst->sub_state & IRIS_INST_SUB_INPUT_PAUSE) {
->  		ret = iris_alloc_and_queue_input_int_bufs(inst);
-> @@ -449,8 +455,12 @@ static int iris_vdec_process_streamon_output(struct iris_inst *inst)
->  
->  	if (inst->state == IRIS_INST_INPUT_STREAMING &&
->  	    inst->sub_state & IRIS_INST_SUB_INPUT_PAUSE) {
-> -		ret = hfi_ops->session_resume_drc(inst,
-> -						  V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +		if (!drain_active)
-> +			ret = hfi_ops->session_resume_drc(inst,
-> +							  V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +		else if (hfi_ops->session_resume_drain)
-> +			ret = hfi_ops->session_resume_drain(inst,
-> +							    V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->  		if (ret)
->  			return ret;
->  		clear_sub_state |= IRIS_INST_SUB_INPUT_PAUSE;
-> @@ -568,3 +578,78 @@ int iris_vdec_qbuf(struct iris_inst *inst, struct vb2_v4l2_buffer *vbuf)
->  
->  	return iris_queue_buffer(inst, buf);
->  }
-> +
-> +int iris_vdec_start_cmd(struct iris_inst *inst)
-> +{
-> +	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> +	enum iris_inst_sub_state clear_sub_state = 0;
-> +	struct vb2_queue *dst_vq;
-> +	int ret;
-> +
-> +	dst_vq = v4l2_m2m_get_dst_vq(inst->m2m_ctx);
-> +
-> +	if (inst->sub_state & IRIS_INST_SUB_DRC &&
-> +	    inst->sub_state & IRIS_INST_SUB_DRC_LAST) {
-> +		vb2_clear_last_buffer_dequeued(dst_vq);
-> +		clear_sub_state = IRIS_INST_SUB_DRC | IRIS_INST_SUB_DRC_LAST;
-> +
-> +		if (inst->sub_state & IRIS_INST_SUB_INPUT_PAUSE) {
-> +			ret = hfi_ops->session_resume_drc(inst,
-> +							  V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +			if (ret)
-> +				return ret;
-> +			clear_sub_state |= IRIS_INST_SUB_INPUT_PAUSE;
-> +		}
-> +		if (inst->sub_state & IRIS_INST_SUB_OUTPUT_PAUSE) {
-> +			ret = hfi_ops->session_resume_drc(inst,
-> +							  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> +			if (ret)
-> +				return ret;
-> +			clear_sub_state |= IRIS_INST_SUB_OUTPUT_PAUSE;
-> +		}
-> +	} else if (inst->sub_state & IRIS_INST_SUB_DRAIN &&
-> +		   inst->sub_state & IRIS_INST_SUB_DRAIN_LAST) {
-> +		vb2_clear_last_buffer_dequeued(dst_vq);
-> +		clear_sub_state = IRIS_INST_SUB_DRAIN | IRIS_INST_SUB_DRAIN_LAST;
-> +		if (inst->sub_state & IRIS_INST_SUB_INPUT_PAUSE) {
-> +			if (hfi_ops->session_resume_drain) {
-> +				ret =
-> +				hfi_ops->session_resume_drain(inst,
-> +							      V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +				if (ret)
-> +					return ret;
-> +			}
-> +
-> +			clear_sub_state |= IRIS_INST_SUB_INPUT_PAUSE;
-> +		}
-> +		if (inst->sub_state & IRIS_INST_SUB_OUTPUT_PAUSE) {
-> +			if (hfi_ops->session_resume_drain) {
-> +				ret =
-> +				hfi_ops->session_resume_drain(inst,
-> +							      V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> +				if (ret)
-> +					return ret;
-> +			}
-> +
-> +			clear_sub_state |= IRIS_INST_SUB_OUTPUT_PAUSE;
-> +		}
-> +	} else {
-> +		dev_err(inst->core->dev, "start called before receiving last_flag\n");
-> +		iris_inst_change_state(inst, IRIS_INST_ERROR);
-> +		return -EBUSY;
-> +	}
-> +
-> +	return iris_inst_change_sub_state(inst, clear_sub_state, 0);
-> +}
-> +
-> +int iris_vdec_stop_cmd(struct iris_inst *inst)
-> +{
-> +	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
-> +	int ret;
-> +
-> +	ret = hfi_ops->session_drain(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return iris_inst_change_sub_state(inst, 0, IRIS_INST_SUB_DRAIN);
-> +}
-> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
-> index dfcc2089a1ef..b24932dc511a 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vdec.h
-> +++ b/drivers/media/platform/qcom/iris/iris_vdec.h
-> @@ -18,6 +18,8 @@ void iris_vdec_src_change(struct iris_inst *inst);
->  int iris_vdec_streamon_input(struct iris_inst *inst);
->  int iris_vdec_streamon_output(struct iris_inst *inst);
->  int iris_vdec_qbuf(struct iris_inst *inst, struct vb2_v4l2_buffer *vbuf);
-> +int iris_vdec_start_cmd(struct iris_inst *inst);
-> +int iris_vdec_stop_cmd(struct iris_inst *inst);
->  int iris_vdec_session_streamoff(struct iris_inst *inst, u32 plane);
->  
->  #endif
-> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-> index 8a1c35f99538..2281b291b736 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-> @@ -365,6 +365,41 @@ static int iris_subscribe_event(struct v4l2_fh *fh, const struct v4l2_event_subs
->  	return iris_vdec_subscribe_event(inst, sub);
->  }
->  
-> +static int iris_dec_cmd(struct file *filp, void *fh,
-> +			struct v4l2_decoder_cmd *dec)
-> +{
-> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
-> +	int ret = 0;
-> +
-> +	mutex_lock(&inst->lock);
-> +
+Hi Dikshita,
 
-I would expect to see a call to v4l2_m2m_ioctl_decoder_cmd here since
-that deals with some of the LAST flag handling and internal m2m state.
+On 20/11/2024 15:45, Dikshita Agarwal wrote:
+> Introduce support for Qualcomm new video acceleration hardware i.e. 
+> iris, used for video stream decoding.
+> 
+> Iris is a multi pipe based hardware that offloads video stream decoding 
+> from the application processor (AP). It supports H.264 decoding. The AP 
+> communicates with hardware through a well defined protocol, called as 
+> host firmware interface (HFI), which provides fine-grained and 
+> asynchronous control over individual hardware features.
+> 
+> This driver implements upgraded HFI gen2 to communicate with firmware.
+> It supports SM8550 which is based out of HFI gen 2. It also supports 
+> SM8250 which is based out of HFI gen1.
+> 
+> This driver comes with below capabilities:
+> - V4L2 complaint video driver with M2M and STREAMING capability.
+> - Supports H264 decoder.
+> 
+> This driver comes with below features:
+> - Centralized resource management.
+> - Centralized management of core and instance states.
+> - Defines platform specific capabilities and features. As a results, it 
+>   provides a single point of control to enable/disable a given feature 
+>   depending on specific platform capabilities.
+> - Handles various video recommended sequences, like DRC, Drain, Seek, 
+>   EOS.
+> - Implements asynchronous communication with hardware to achieve better 
+>   experience in low latency usecases.
+> - Output and capture planes are controlled independently. Thereby
+>   providing a way to reconfigure individual plane.
+> - Native hardware support of LAST flag which is mandatory to align with 
+>   port reconfiguration and DRAIN sequence as per V4L guidelines.
 
-It could be that you handle this manually elsewhere, but I am not certain
-about that.
+I finished my review of v6. I didn't review patches that deal with the HW
+internals, I focussed on the use of the vb2 and V4L2 framework APIs.
 
 Regards,
 
 	Hans
 
-> +	if (dec->cmd != V4L2_DEC_CMD_START &&
-> +	    dec->cmd != V4L2_DEC_CMD_STOP) {
-> +		ret = -EINVAL;
-> +		goto unlock;
-> +	}
-> +
-> +	if (inst->state == IRIS_INST_DEINIT)
-> +		goto unlock;
-> +
-> +	if (!iris_allow_cmd(inst, dec->cmd)) {
-> +		ret = -EBUSY;
-> +		goto unlock;
-> +	}
-> +
-> +	if (dec->cmd == V4L2_DEC_CMD_START)
-> +		ret = iris_vdec_start_cmd(inst);
-> +	else if (dec->cmd == V4L2_DEC_CMD_STOP)
-> +		ret = iris_vdec_stop_cmd(inst);
-> +	else
-> +		ret = -EINVAL;
-> +
-> +unlock:
-> +	mutex_unlock(&inst->lock);
-> +
-> +	return ret;
-> +}
-> +
->  static struct v4l2_file_operations iris_v4l2_file_ops = {
->  	.owner                          = THIS_MODULE,
->  	.open                           = iris_open,
-> @@ -408,6 +443,8 @@ static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
->  	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
->  	.vidioc_streamon                = v4l2_m2m_ioctl_streamon,
->  	.vidioc_streamoff               = v4l2_m2m_ioctl_streamoff,
-> +	.vidioc_try_decoder_cmd         = v4l2_m2m_ioctl_try_decoder_cmd,
-> +	.vidioc_decoder_cmd             = iris_dec_cmd,
->  };
->  
->  void iris_init_ops(struct iris_core *core)
 > 
+> Changes since v5:
+> - Fixed the memory leak in firmware load (Bryan)
+> - Updated all headers s/_LIKE_SO_/__LIKE_SO__ (Bryan)
+> - Updated value of IFACEQ_MAX_BUF_COUNT to 64 (Bryan)
+> - Removed actual_count from iris buffer structure and cleaned up 
+>   vb2_queue_setup (Hans)
+> - Used VIDEO_MAX_FRAME to set actual buffer to firmware (Hans)
+> - Fixed the typo in commit log and subject of patch#12 (Hans)
+> - Updated card field to Iris Decoder (Hans)
+> - Removed redundant setting of byteused (Hans)
+> - s/iris_driver/is_iris_driver (Jianhua)
+> - Addressed all other review comments.
+> - Link to v5: https://lore.kernel.org/r/20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com
+> 
+> Changes since v4:
+> - Fixed commit message length for all patches (Krzysztof)
+> - Migrated back to remove from remove_new (Uwe Kleine-König)
+> - Removed support for g_volatle_ctrl (Hans)
+> - Added changes to update minimum buffer count whenever the hardware 
+>   requirement changes (Hans)
+> - Removed state checks from try/g/s_fmt ioctls (Hans)
+> - Removed wait_prepare() and wait_finish callbacks (Hans)
+> - Added support for remove_bufs (Hans)
+> - Added module param based configurability to select between venus and 
+>   iris drivers for platforms supported by both drivers (Jianhua, Dmitry)   
+> - Addressed misc other review comments from Hans.
+> - Fixed issues reported by kernel bot.
+> - Link to v4: https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com
+> 
+> Changes since v3:
+> - Fixed the style issues with dt binding (Krzysztof)
+> - Pushed  the patch to add maintainers to end of the series (Krzysztof, 
+>   Dmitry)
+> - Moved the resource initialization next to probe in iris_probe.c and 
+>   squashed the patch of probe and resource initialization (Krzysztof)
+> - Removed error prints from probe function (Krzysztof)
+> - Defined bit fields used for register read/write with macros for better 
+>   context (Bryan)
+> - Converted if/else to switch/case wherever applicable (Bryan)
+> - Removed defensive NULL checks wherever not required (Bryan, Krzysztof)
+> - Removed core->state checks except for below scenarios (Bryan)
+>   - When reverse thread (firmware) can move the state of the core to 
+>     error state.
+>   - When client can force close the driver and there are still pending 
+>     firmware responses to be read from shared queues (msg and dbg)
+>   - For PM operations, since its a delayed autosuspend work and sys 
+>     error handler from the reverse thread can move the state to core 
+>     deinit state anytime.
+> - Acquiring core->lock only for below scenarios (Bryan)
+>   - Writing to registers.
+> - Reading/Writing from/to shared queues.
+>   - Traversing the instance list of core.
+>   - To protect the core->state when it can changed by reverse thread.
+> - Acquiring inst->lock only for below scenario which is needed (Bryan)
+>   - Serializing the forward and reverse thread
+>   - To protect the inst structure where the values can be modified by
+>     firmware.
+> - Removed usage of core->power_enabled (Krzysztof, Bryan)
+> - Removed usage of mutex_is_locked  (Krzysztof, Bryan)
+> - Use C structure for instance caps (Dmitry)
+> - Split the ctrl ops patch by keeping only the defines, struct and caps 
+>   needed to intialize the ctrl handler and to implement s/g_ctrl
+>   (Dmitry)
+> - Removed the instance state checks to allow v4l2-ctl, relying on
+>   standard vb2 checks instead. (Hans)
+> - Converted APIs to void wherever applicable except for below (Bryan)
+>   - iris_hfi_gen2_handle_session_error and
+>     iris_hfi_gen2_handle_session_property cannot be converted to void
+>     even though they always return 0.
+>     Because these are two of the handlers invoked from
+>     iris_hfi_gen2_handle_session_response and are of
+>     iris_hfi_gen2_inst_hfi_range struct type, where same prototype is
+>     followed for all handlers and return type of all handers should be
+>     'int'.
+>     And we cannot have a switch case/if else to handle these
+>     responses from firmware because we need to parse the responses in a
+>     particular sequence.
+>     That's why we opted for this handler based design instead of
+>     introducing multiple for loop with code duplication.
+> - Fixed issues reported by kernel bot.
+> - Fixed v4l2 compliance issue reported with "-s" options based on the 
+>   inputs from Hans.
+> - Addressed all other review comments and made some code improvements.
+> 
+> Changes since v2:
+> - introduced support for HFI gen1.
+> - deprecated Encoder and HEVC, VP9 codecs.
+> - removed custom vb2 mem ops and used standard framework instead.
+> - added support for mmap streaming mode.
+> - migrated all the buffer APIs to mem2mem helper functions.
+> - registered iris buffer with vb2 framework.
+> - migrated to clk_bulk, reset_bulk and icc_bulk APIs.
+> - used pm_domain_attach/detach_list APIs.
+> - migrated to read/writel and other available helpers for register
+>   access instead of custom wrappers.
+> - added documentation for various structures.
+> - addressed many other review comments from v2.
+> 
+> Note: A harmless onetime error log "Lucid PLL latch failed. Output may
+> be unstable!" is seen during bootup.  It doesn't impact any video 
+> usecase and is currently under discussion.
+> 
+> Static tools like checkpatch, smatch, dt_binding_check, sparse and
+> Coccinelle run successfully with this driver.
+> 
+> This driver is tested with v4l2-ctl[1] and Gstreamer[2].
+> 
+> [1]: v4l2-ctl --verbose --set-fmt-video-out=pixelformat=H264
+> --set-fmt-video=pixelformat=NV12 --stream-mmap --stream-out-mmap
+> --stream-from /media/FVDO_Freeway_720p.264 --stream-to out.NV12
+> 
+> [2]: gst-launch-1.0 filesrc location=/media/media/4k_decode_clip.264 !
+> h264parse ! v4l2h264dec capture-io-mode=dmabuf ! kmssink
+> 
+> The driver is tested with v4l2-compliance.
+> 
+> Result on SM8550:
+> 
+> v4l2-compliance --stream-from /media/FVDO_Freeway_720p.264 -s250
+> 
+> v4l2-compliance 1.29.0-5273, 64 bits, 64-bit time_t
+> v4l2-compliance SHA: 0ed98432fe68 2024-11-13 12:54:45
+> 
+> Compliance test for iris_driver device /dev/video0:
+> 
+> Driver Info:
+>         Driver name      : iris_driver
+>         Card type        : iris_decoder
+>         Bus info         : platform:aa00000.video-codec
+>         Driver version   : 6.12.0
+>         Capabilities     : 0x84204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>         Detected Stateful Decoder
+> 
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+>         test invalid ioctls: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+> 
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 5 Private Controls: 0
+> 
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK
+>         test Composing: OK
+>         test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK
+> 
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test CREATE_BUFS maximum buffers: OK
+>         test VIDIOC_REMOVE_BUFS: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+>         test blocking wait: OK
+> 
+> Test input 0:
+> 
+> Streaming ioctls:
+>         test read/write: OK (Not Supported)
+>         test MMAP (select, REQBUFS): OK
+>         test MMAP (epoll, REQBUFS): OK
+>         test MMAP (select, CREATE_BUFS): OK
+>         test MMAP (epoll, CREATE_BUFS): OK
+>         test USERPTR (select): OK (Not Supported)
+>         test DMABUF: Cannot test, specify --expbuf-device
+> 
+> Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, 
+> Warnings: 0
+> 
+> Result on SM8250:
+> 
+> v4l2-compliance --stream-from /media/FVDO_Freeway_720p.264 -s250
+> 
+> v4l2-compliance 1.29.0-5273, 64 bits, 64-bit time_t
+> v4l2-compliance SHA: 0ed98432fe68 2024-11-13 12:54:45
+> 
+> Compliance test for iris_driver device /dev/video0:
+> 
+> Driver Info:
+>         Driver name      : iris_driver
+>         Card type        : iris_decoder
+>         Bus info         : platform:aa00000.video-codec
+>         Driver version   : 6.12.0
+>         Capabilities     : 0x84204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>         Detected Stateful Decoder
+> 
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+>         test invalid ioctls: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+> 
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 5 Private Controls: 0
+> 
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK
+>         test Composing: OK
+>         test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK
+> 
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test CREATE_BUFS maximum buffers: OK
+>         test VIDIOC_REMOVE_BUFS: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+>         test blocking wait: OK
+> 
+> Test input 0:
+> 
+> Streaming ioctls:
+> 	test read/write: OK (Not Supported)
+>         test MMAP (select, REQBUFS): OK
+>         test MMAP (epoll, REQBUFS): OK
+>         test MMAP (select, CREATE_BUFS): OK
+>         test MMAP (epoll, CREATE_BUFS): OK
+>         test USERPTR (select): OK (Not Supported)
+>         test DMABUF: Cannot test, specify --expbuf-device
+> 
+> Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, 
+> Warnings: 0
+> 
+> The result of fluster test on SM8550:
+> 
+> 77/135 while testing JVT-AVC_V1 with
+> GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+> The failing tests are:
+> - 52 test vectors failed due to interlaced clips: Interlaced decoding is
+>   not supported in iris driver.
+>   Test Vectors:
+>         cabac_mot_fld0_full
+>         cabac_mot_mbaff0_full
+>         cabac_mot_picaff0_full
+>         CABREF3_Sand_D
+>         CAFI1_SVA_C
+>         CAMA1_Sony_C
+>         CAMA1_TOSHIBA_B
+>         cama1_vtc_c
+>         cama2_vtc_b
+>         CAMA3_Sand_E
+>         cama3_vtc_b
+>         CAMACI3_Sony_C
+>         CAMANL1_TOSHIBA_B
+>         CAMANL2_TOSHIBA_B
+>         CAMANL3_Sand_E
+>         CAMASL3_Sony_B
+>         CAMP_MOT_MBAFF_L30
+>         CAMP_MOT_MBAFF_L31
+>         CANLMA2_Sony_C
+>         CANLMA3_Sony_C
+>         CAPA1_TOSHIBA_B
+>         CAPAMA3_Sand_F
+>         cavlc_mot_fld0_full_B
+>         cavlc_mot_mbaff0_full_B
+>         cavlc_mot_picaff0_full_B
+>         CVCANLMA2_Sony_C
+>         CVFI1_Sony_D
+>         CVFI1_SVA_C
+>         CVFI2_Sony_H
+>         CVFI2_SVA_C
+>         CVMA1_Sony_D
+>         CVMA1_TOSHIBA_B
+>         CVMANL1_TOSHIBA_B
+>         CVMANL2_TOSHIBA_B
+>         CVMAPAQP3_Sony_E
+>         CVMAQP2_Sony_G
+>         CVMAQP3_Sony_D
+>         CVMP_MOT_FLD_L30_B
+>         CVNLFI1_Sony_C
+>         CVNLFI2_Sony_H
+>         CVPA1_TOSHIBA_B
+>         FI1_Sony_E
+>         MR6_BT_B
+>         MR7_BT_B
+>         MR8_BT_B
+>         MR9_BT_B
+>         Sharp_MP_Field_1_B
+>         Sharp_MP_Field_2_B
+>         Sharp_MP_Field_3_B
+>         Sharp_MP_PAFF_1r2
+>         Sharp_MP_PAFF_2r
+>         CVMP_MOT_FRM_L31_B
+> - 3 test vectors failed due to unsupported bitstream.
+>   num_slice_group_minus1 greater than zero is not supported by the
+>   hardware.
+>   Test Vectors:
+>         FM1_BT_B
+>         FM1_FT_E
+>         FM2_SVA_C
+> - 2 test vectors failed because SP_SLICE type is not supported by the
+>   hardware.
+>   Test Vectors:
+>         SP1_BT_A
+>         sp2_bt_b
+> - 1 test vector failed due to unsupported profile:
+>   V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED is being deprecated from sm8550
+>   onwards due to hardware issues.
+>   Test Vectors:
+>         BA3_SVA_C
+> 
+> 23/69 while testing JVT-FR-EXT with 
+> GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+> The failing tests are:
+> - 21 test vectors failed due to interlaced clips: Interlaced decoding is
+>   not supported in iris driver.
+>   Test Vectors:
+>         brcm_freh4
+>         brcm_freh5
+>         brcm_freh6
+>         brcm_freh10
+>         brcm_freh11
+>         freh7_b
+>         FREXT01_JVC_D
+>         FREXT02_JVC_C
+>         FRExt2_Panasonic_C
+>         FRExt4_Panasonic_B
+>         HCAFF1_HHI_B
+>         HCAMFF1_HHI_B
+>         HCHP3_HHI_A
+>         HPCAFL_BRCM_C
+>         HPCAFLNL_BRCM_C
+>         HVLCFI0_Sony_B
+>         HVLCMFF0_Sony_B
+>         HVLCPFF0_Sony_B
+>         HPCAMAPALQ_BRCM_B
+>         HPCVFL_BRCM_A
+>         HPCVFLNL_BRCM_A
+> - 2 test vectors failed due to 10bit bitstream: 10bit decoding is not
+>   supported in iris driver
+>   Test Vectors:
+>         FREH10-1
+>         FREH10-2
+> - 21 test vectors failed due to unsupported profile:
+>   V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422 is not supported by the
+>   hardware.
+>   Test Vectors:
+>         FREXT1_TANDBERG_A
+>         FREXT2_TANDBERG_A
+>         FREXT3_TANDBERG_A
+>         Hi422FR1_SONY_A
+>         Hi422FR2_SONY_A
+>         Hi422FR3_SONY_A
+>         Hi422FR4_SONY_A
+>         Hi422FR6_SONY_A
+>         Hi422FR7_SONY_A
+>         Hi422FR8_SONY_A
+>         Hi422FR9_SONY_A
+>         Hi422FR10_SONY_A
+>         Hi422FR11_SONY_A
+>         Hi422FR12_SONY_A
+>         Hi422FR13_SONY_A
+>         Hi422FR14_SONY_A
+>         Hi422FR15_SONY_A
+>         Hi422FREXT16_SONY_A
+>         Hi422FREXT17_SONY_A
+>         Hi422FREXT18_SONY_A
+>         Hi422FREXT19_SONY_A
+> - 2 test vectors failed due to unsupported bitstream.
+>   chroma_fmt_idc is equal to 0(monochrome) in the bitstream which is not
+>   supported by the hardware.
+>   Test Vectors:
+>         HPCAMOLQ_BRCM_B
+>         HPCVMOLQ_BRCM_B
+> 
+> The result of fluster test on SM8250:
+> 
+> 78/135 while testing JVT-AVC_V1 with
+> GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+> The failing tests are:
+> - 52 test vectors failed due to interlaced clips: Interlaced decoding is
+>   not supported in iris driver.
+>   Test Vectors:
+>         cabac_mot_fld0_full
+>         cabac_mot_mbaff0_full
+>         cabac_mot_picaff0_full
+>         CABREF3_Sand_D
+>         CAFI1_SVA_C
+>         CAMA1_Sony_C
+>         CAMA1_TOSHIBA_B
+>         cama1_vtc_c
+>         cama2_vtc_b
+>         CAMA3_Sand_E
+>         cama3_vtc_b
+>         CAMACI3_Sony_C
+>         CAMANL1_TOSHIBA_B
+>         CAMANL2_TOSHIBA_B
+>         CAMANL3_Sand_E
+>         CAMASL3_Sony_B
+>         CAMP_MOT_MBAFF_L30
+>         CAMP_MOT_MBAFF_L31
+>         CANLMA2_Sony_C
+>         CANLMA3_Sony_C
+>         CAPA1_TOSHIBA_B
+>         CAPAMA3_Sand_F
+>         cavlc_mot_fld0_full_B
+>         cavlc_mot_mbaff0_full_B
+>         cavlc_mot_picaff0_full_B
+>         CVCANLMA2_Sony_C
+>         CVFI1_Sony_D
+>         CVFI1_SVA_C
+>         CVFI2_Sony_H
+>         CVFI2_SVA_C
+>         CVMA1_Sony_D
+>         CVMA1_TOSHIBA_B
+>         CVMANL1_TOSHIBA_B
+>         CVMANL2_TOSHIBA_B
+>         CVMAPAQP3_Sony_E
+>         CVMAQP2_Sony_G
+>         CVMAQP3_Sony_D
+>         CVMP_MOT_FLD_L30_B
+>         CVNLFI1_Sony_C
+>         CVNLFI2_Sony_H
+>         CVPA1_TOSHIBA_B
+>         FI1_Sony_E
+>         MR6_BT_B
+>         MR7_BT_B
+>         MR8_BT_B
+>         MR9_BT_B
+>         Sharp_MP_Field_1_B
+>         Sharp_MP_Field_2_B
+>         Sharp_MP_Field_3_B
+>         Sharp_MP_PAFF_1r2
+>         Sharp_MP_PAFF_2r
+>         CVMP_MOT_FRM_L31_B
+> - 3 test vectors failed due to unsupported bitstream.
+>   num_slice_group_minus1 greater than zero is not supported by the
+>   hardware.
+>   Test Vectors:
+>         FM1_BT_B
+>         FM1_FT_E
+>         FM2_SVA_C
+> - 2 test vectors failed because SP_SLICE type is not supported by the
+>   hardware.
+>   Test Vectors:
+>         SP1_BT_A
+>         sp2_bt_b
+> 
+> 23/69 while testing JVT-FR-EXT with
+> GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+> The failing tests are:
+> - 21 test vectors failed due to interlaced clips: Interlaced decoding is
+>   not supported in iris driver.
+>   Test Vectors:
+>         brcm_freh4
+>         brcm_freh5
+>         brcm_freh6
+>         brcm_freh10
+>         brcm_freh11
+>         freh7_b
+>         FREXT01_JVC_D
+>         FREXT02_JVC_C
+>         FRExt2_Panasonic_C
+>         FRExt4_Panasonic_B
+>         HCAFF1_HHI_B
+>         HCAMFF1_HHI_B
+>         HCHP3_HHI_A
+>         HPCAFL_BRCM_C
+>         HPCAFLNL_BRCM_C
+>         HVLCFI0_Sony_B
+>         HVLCMFF0_Sony_B
+>         HVLCPFF0_Sony_B
+>         HPCAMAPALQ_BRCM_B
+>         HPCVFL_BRCM_A
+>         HPCVFLNL_BRCM_A
+> - 2 test vectors failed due to 10bit bitstream: 10bit decoding is not
+>   supported in iris driver
+>   Test Vectors:
+>         FREH10-1
+>         FREH10-2
+> - 21 test vectors failed due to unsupported profile:
+>   V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422 is not supported by the
+>   hardware.
+>   Test Vectors:
+>         FREXT1_TANDBERG_A
+>         FREXT2_TANDBERG_A
+>         FREXT3_TANDBERG_A
+>         Hi422FR1_SONY_A
+>         Hi422FR2_SONY_A
+>         Hi422FR3_SONY_A
+>         Hi422FR4_SONY_A
+>         Hi422FR6_SONY_A
+>         Hi422FR7_SONY_A
+>         Hi422FR8_SONY_A
+>         Hi422FR9_SONY_A
+>         Hi422FR10_SONY_A
+>         Hi422FR11_SONY_A
+>         Hi422FR12_SONY_A
+>         Hi422FR13_SONY_A
+>         Hi422FR14_SONY_A
+>         Hi422FR15_SONY_A
+>         Hi422FREXT16_SONY_A
+>         Hi422FREXT17_SONY_A
+>         Hi422FREXT18_SONY_A
+>         Hi422FREXT19_SONY_A
+> - 2 test vectors failed due to unsupported bitstream.
+>   chroma_fmt_idc is equal to 0(monochrome) in the bitstream which is not
+>   supported by the hardware.
+>   Test Vectors:
+>         HPCAMOLQ_BRCM_B
+>         HPCVMOLQ_BRCM_B
+> 
+> To: Vikash Garodia <quic_vgarodia@quicinc.com>
+> To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> To: Mauro Carvalho Chehab <mchehab@kernel.org>
+> To: Rob Herring <robh@kernel.org>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+> Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+> Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+> Cc: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+> Cc: Jianhua Lu <lujianhua000@gmail.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+> Dikshita Agarwal (18):
+>       dt-bindings: media: Add video support for QCOM SM8550 SoC
+>       media: iris: add platform driver for iris video device
+>       media: iris: implement iris v4l2 file ops
+>       media: iris: introduce iris core state management with shared queues
+>       media: iris: implement video firmware load/unload
+>       media: iris: implement boot sequence of the firmware
+>       media: iris: introduce host firmware interface with necessary hooks
+>       media: iris: implement power management
+>       media: iris: implement reqbuf ioctl with vb2_queue_setup
+>       media: iris: implement iris v4l2_ctrl_ops
+>       media: iris: implement vb2 streaming ops
+>       media: iris: allocate, initialize and queue internal buffers
+>       media: iris: implement vb2 ops for buf_queue and firmware response
+>       media: iris: add support for dynamic resolution change
+>       media: iris: handle streamoff/on from client in dynamic resolution change
+>       media: iris: add support for drain sequence
+>       media: iris: enable video driver probe of SM8250 SoC
+>       media: MAINTAINERS: add Qualcomm iris video accelerator driver
+> 
+> Vedang Nagar (10):
+>       media: iris: implement s_fmt, g_fmt and try_fmt ioctls
+>       media: iris: implement g_selection ioctl
+>       media: iris: implement enum_fmt and enum_framesizes ioctls
+>       media: iris: implement subscribe_event and unsubscribe_event ioctls
+>       media: iris: implement query_cap ioctl
+>       media: iris: implement set properties to firmware during streamon
+>       media: iris: subscribe parameters and properties to firmware for hfi_gen2
+>       media: iris: add check whether the video session is supported or not
+>       media: iris: implement power scaling for vpu2 and vpu3
+>       media: iris: add check to allow sub states transitions
+> 
+>  .../bindings/media/qcom,sm8550-iris.yaml           | 158 ++++
+>  MAINTAINERS                                        |  10 +
+>  drivers/media/platform/qcom/Kconfig                |   1 +
+>  drivers/media/platform/qcom/Makefile               |   1 +
+>  drivers/media/platform/qcom/iris/Kconfig           |  13 +
+>  drivers/media/platform/qcom/iris/Makefile          |  27 +
+>  drivers/media/platform/qcom/iris/iris_buffer.c     | 624 ++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_buffer.h     | 117 +++
+>  drivers/media/platform/qcom/iris/iris_core.c       |  96 +++
+>  drivers/media/platform/qcom/iris/iris_core.h       | 111 +++
+>  drivers/media/platform/qcom/iris/iris_ctrls.c      | 259 ++++++
+>  drivers/media/platform/qcom/iris/iris_ctrls.h      |  22 +
+>  drivers/media/platform/qcom/iris/iris_firmware.c   | 110 +++
+>  drivers/media/platform/qcom/iris/iris_firmware.h   |  15 +
+>  drivers/media/platform/qcom/iris/iris_hfi_common.c | 176 ++++
+>  drivers/media/platform/qcom/iris/iris_hfi_common.h | 155 ++++
+>  drivers/media/platform/qcom/iris/iris_hfi_gen1.h   |  16 +
+>  .../platform/qcom/iris/iris_hfi_gen1_command.c     | 826 ++++++++++++++++++
+>  .../platform/qcom/iris/iris_hfi_gen1_defines.h     | 448 ++++++++++
+>  .../platform/qcom/iris/iris_hfi_gen1_response.c    | 666 ++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_hfi_gen2.h   |  41 +
+>  .../platform/qcom/iris/iris_hfi_gen2_command.c     | 957 +++++++++++++++++++++
+>  .../platform/qcom/iris/iris_hfi_gen2_defines.h     | 160 ++++
+>  .../platform/qcom/iris/iris_hfi_gen2_packet.c      | 292 +++++++
+>  .../platform/qcom/iris/iris_hfi_gen2_packet.h      | 125 +++
+>  .../platform/qcom/iris/iris_hfi_gen2_response.c    | 931 ++++++++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_hfi_queue.c  | 314 +++++++
+>  drivers/media/platform/qcom/iris/iris_hfi_queue.h  | 182 ++++
+>  drivers/media/platform/qcom/iris/iris_instance.h   |  79 ++
+>  .../platform/qcom/iris/iris_platform_common.h      | 186 ++++
+>  .../platform/qcom/iris/iris_platform_sm8250.c      | 148 ++++
+>  .../platform/qcom/iris/iris_platform_sm8550.c      | 265 ++++++
+>  drivers/media/platform/qcom/iris/iris_power.c      | 140 +++
+>  drivers/media/platform/qcom/iris/iris_power.h      |  13 +
+>  drivers/media/platform/qcom/iris/iris_probe.c      | 378 ++++++++
+>  drivers/media/platform/qcom/iris/iris_resources.c  | 131 +++
+>  drivers/media/platform/qcom/iris/iris_resources.h  |  18 +
+>  drivers/media/platform/qcom/iris/iris_state.c      | 276 ++++++
+>  drivers/media/platform/qcom/iris/iris_state.h      | 144 ++++
+>  drivers/media/platform/qcom/iris/iris_utils.c      |  90 ++
+>  drivers/media/platform/qcom/iris/iris_utils.h      |  53 ++
+>  drivers/media/platform/qcom/iris/iris_vb2.c        | 336 ++++++++
+>  drivers/media/platform/qcom/iris/iris_vb2.h        |  19 +
+>  drivers/media/platform/qcom/iris/iris_vdec.c       | 662 ++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_vdec.h       |  25 +
+>  drivers/media/platform/qcom/iris/iris_vidc.c       | 455 ++++++++++
+>  drivers/media/platform/qcom/iris/iris_vidc.h       |  15 +
+>  drivers/media/platform/qcom/iris/iris_vpu2.c       |  38 +
+>  drivers/media/platform/qcom/iris/iris_vpu3.c       | 122 +++
+>  drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 270 ++++++
+>  drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  91 ++
+>  drivers/media/platform/qcom/iris/iris_vpu_common.c | 369 ++++++++
+>  drivers/media/platform/qcom/iris/iris_vpu_common.h |  28 +
+>  .../platform/qcom/iris/iris_vpu_register_defines.h |  17 +
+>  54 files changed, 11221 insertions(+)
+> ---
+> base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
+> change-id: 20241028-qcom-video-iris-94d5a12e6d9e
+> 
+> Best regards,
 
 
