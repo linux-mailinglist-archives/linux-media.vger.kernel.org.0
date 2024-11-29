@@ -1,280 +1,506 @@
-Return-Path: <linux-media+bounces-22335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22336-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7FE9DC323
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 12:55:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D81FE9DC32C
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 12:58:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 96AD8B20E0B
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:55:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89E10280EBF
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:58:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9BD19ABA3;
-	Fri, 29 Nov 2024 11:55:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEED819ABA3;
+	Fri, 29 Nov 2024 11:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bKYz5QjW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="obWGb1ZY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2949917ADF7
-	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 11:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3FE33C5;
+	Fri, 29 Nov 2024 11:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732881312; cv=none; b=ihIVT3MG3qI4rkXz/ITOb75wUzdU1klRKPp76wzI+Ra883zh8FsqXRffL0eyIyrbforwxiavphLVsj1HWOnFctHRSu2jWa5PUznZo0XTtcTgzmoiz+qJfUCxGu59x6cX6UWQLDOxPfgRa+Mw4alVqASIsD3BIKiJ0bflGfjd+7s=
+	t=1732881502; cv=none; b=UIAvwxUwzwd3LUuM9BfJSvWzlOZU16b/hL8tPFrASqDaIeJIYs6jtg8WPyfw420Jv8OX2HIXFkIBGCZ1pM2mpphjJ1LwkS+DSt0k3Wb5N1oBPCvukh7CFDp/WSLGxbkcltnmV0vncCFDv5cZdt6b+m7vDjzNIzuKahx1xWsG7x8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732881312; c=relaxed/simple;
-	bh=H94fonH0/iS0Ya400lkWzBlZTIYjE5AlSJn+rurzY0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b9v7lJMqtVVOSU6Jy2NkFaJZFSOOdWwAw6u+fNpJViH8r6QjXAJhSIesHx5tZ+qws9Tbbiz1TUSne8Or71TekX9b1yjyiYnbcdTmGBj27IGsZ8w4DT9UhuR32lk6QVrnj/t/W5O0VJNT5NYJaTCqofxAiqISqm+0QdpifUGurt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bKYz5QjW; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21290973bcbso16250825ad.3
-        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 03:55:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732881310; x=1733486110; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=49ZRrxTPw/7ckWBIVJ4Tn6I41BTVjNlZXEsLbt2obgk=;
-        b=bKYz5QjWTx3nLi2Ri1XDJH0ElAFmtOxYCl7XMeBnE9bHz6pAuOd/ck3TDGPPsXxWvs
-         LR7JUSYJXnqc2g0xEY3rUXe1u7iAn8qBb7yc0JmunrXsQouJfoAwvbOgg0JBW+O4H1rD
-         yLSa5F+0uNjsa8ORhuR5W7tbtP1Ac7r9Bk5PU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732881310; x=1733486110;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=49ZRrxTPw/7ckWBIVJ4Tn6I41BTVjNlZXEsLbt2obgk=;
-        b=LgpW0wbaX6GVmP2i2P6ao5wb0VRlGtohgqSLAho/KP5NkAgFYoymaf2vWPGXoeUr7x
-         yIpJXmIFRnO1v5n4Z4K4D3woF7EdptrhJ1N/hpnDYrjp06HqCgR/RZQqdy8zh/AA7i03
-         pkaBg1R3JcZ/nlb9CXDc4AQq/RqHtZhWXCLIqyW/ighNwE4CcAQeTRH/pa3791VUObjZ
-         B7eDYtb+7wLE58L77VbtjDP+diKFK8aBcMyxPj7l7dWtLTcIB897ZI1LxvqRavfo57Sz
-         YsSnqY7zRqKm/AisRDJtELbvv+ta0LmAOBd0PDn5rXRmpQTO4MDHMn+tD8B40vAKo0Dw
-         VCMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXdohV67XxcLn6tS+ECe47pGBdQ8gaB1eo0vt/3bHHpgHksH5BnROKTgYsXIpxmz2eoh7cP44c9pwtvRw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzd1LKzg2YgLUCAXZ2QTzL2Qa/UJ7bEgzGCqZZceslF2U5MPOB4
-	aTSrNn2gWgOyH0StvnOMApXH1E2lAUMLVXJ7ZEt3wlwhoiUrvubap3AHSx6pL/JLgdJ0ora7dQ4
-	=
-X-Gm-Gg: ASbGncubxZvbNh8eP2aLd5SlD1i05P/B/eG2nx5XgUW+4VeUzNbqzy/2GPKlyPDfsSP
-	ILAow0QcBqku6borT22VQa7kPhd4bKDBe8q4xs4MIHB6e4hFhyID3aZgoCn5p8KtZ9ll+OOMHHx
-	k6CTyhuT8FbtPCPjgfvoWWpGN2LIiOlR7NEe34LMnbWnhZ17OsiLrAyXfVBjM5O7rl7Wevsda61
-	ZYLaXX/08BXjs8+F2w2b9nvg8YvyeLmzGnRCbz6M38/1IagvgQjGPssuJ6wYN3z+nAaGS+enYqg
-	K+wVXLLl8GJGarbO
-X-Google-Smtp-Source: AGHT+IHAPadk0DX88T597102EsmEW2mx+SpTzIYQAUQTlvawOs2/Qx0STqwJzVMTwPjGFOXGNHZXIA==
-X-Received: by 2002:a17:903:183:b0:20c:a174:f77 with SMTP id d9443c01a7336-2150175e9edmr146891285ad.32.1732881309974;
-        Fri, 29 Nov 2024 03:55:09 -0800 (PST)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com. [209.85.210.182])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2152196726bsm28995245ad.154.2024.11.29.03.55.07
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Nov 2024 03:55:07 -0800 (PST)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7251331e756so1657299b3a.3
-        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 03:55:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVm3Oe6ihAALrYpn0SERTmw25cK/eEEX9YztAyF4EjhYHxpg8fT/G9nDS33Q7mzDlGxNBqn4Y1siuCUHQ==@vger.kernel.org
-X-Received: by 2002:a17:90b:33ce:b0:2ea:6f90:ce09 with SMTP id
- 98e67ed59e1d1-2ee094caf5amr12809220a91.27.1732881306860; Fri, 29 Nov 2024
- 03:55:06 -0800 (PST)
+	s=arc-20240116; t=1732881502; c=relaxed/simple;
+	bh=nZ6buRBqUJVhg1tX9uZaN3XrOfetgf3QDmeQ/Wfd+0g=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=k6iOpa0RHfL9sV/Mm/A70JeYGTyZTbYO/Y7EmbYiixN3NGByMKRNSciyAvufKz8L2Q6s1oFAgORzVsi85dNItKuxcN46J1DTZS0La2ZwyeOvxXM82y0HPvhsSRI1K2gF00gIiRmpJB9Q0Mve4wGvg2UMEObG8zMnsu/qYFeXmbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=obWGb1ZY; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1EDF2A8F;
+	Fri, 29 Nov 2024 12:57:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1732881474;
+	bh=nZ6buRBqUJVhg1tX9uZaN3XrOfetgf3QDmeQ/Wfd+0g=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=obWGb1ZYB+fcP+T6qYfQLePOOVzBOSbnJugVVi384CO08jSQj0jbj+ieIVskLxVZn
+	 jn0T2dOlzY3JhxHMGn08LPHa9EZi4noD0ECIDgi0Sf53xDhGB6cEKziFEYe1lDSzR9
+	 g7ubzIPKCUEd64kMqbLQjYpSraVViF41nC3lA7Ps=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
- <20241127-uvc-fix-async-v2-2-510aab9570dd@chromium.org> <20241128222232.GF25731@pendragon.ideasonboard.com>
- <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
- <20241128223343.GH25731@pendragon.ideasonboard.com> <7eeab6bd-ce02-41a6-bcc1-7c2750ce0359@xs4all.nl>
- <CANiDSCseF3fsufMc-Ovoy-bQH85PqfKDM+zmfoisLw+Kq1biAw@mail.gmail.com> <20241129110640.GB4108@pendragon.ideasonboard.com>
-In-Reply-To: <20241129110640.GB4108@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 29 Nov 2024 12:54:55 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvdjioy-OgC+dHde2zHAAbyfN2+MAY+YsLNdUSawjQFHw@mail.gmail.com>
-Message-ID: <CANiDSCvdjioy-OgC+dHde2zHAAbyfN2+MAY+YsLNdUSawjQFHw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control owned
- by other fh
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, 
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20241129100036.193456-1-shravan.chippa@microchip.com>
+References: <20241129100036.193456-1-shravan.chippa@microchip.com>
+Subject: Re: [PATCH] media: i2c: imx334: Add support for 1280x720 & 640x480 resolutions
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, conor.dooley@microchip.com, valentina.fernandezalanis@microchip.com, praveen.kumar@microchip.com, shravan.chippa@microchip.com
+To: mchehab@kernel.org, sakari.ailus@linux.intel.com, shravan kumar <shravan.chippa@microchip.com>
+Date: Fri, 29 Nov 2024 11:58:15 +0000
+Message-ID: <173288149590.1143262.2853735316281702828@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-On Fri, 29 Nov 2024 at 12:06, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+Hi Shravan,
+
+Quoting shravan kumar (2024-11-29 10:00:36)
+> From: Shravan Chippa <shravan.chippa@microchip.com>
+>=20
+> Add support for 1280x720@30 and 640x480@30 resolutions
+>=20
+
+Thanks for improving the driver, but I am weary there is a lot of work
+required to clean up the imx334 driver.
+
+Do you have the datasheet for this device?
+
+> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+> ---
+>  drivers/media/i2c/imx334.c | 352 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 352 insertions(+)
+>=20
+> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+> index a544fc3df39c..b7cdebc2382e 100644
+> --- a/drivers/media/i2c/imx334.c
+> +++ b/drivers/media/i2c/imx334.c
+> @@ -167,6 +167,332 @@ static const s64 link_freq[] =3D {
+>         IMX334_LINK_FREQ_445M,
+>  };
+> =20
+> +/* Sensor mode registers for 640x480@30fps */
+> +static const struct imx334_reg mode_640x480_regs[] =3D {
+> +       {0x3000, 0x01},
+> +       {0x3018, 0x04},
+> +       {0x3030, 0xca},
+> +       {0x3031, 0x08},
+> +       {0x3032, 0x00},
+> +       {0x3034, 0x4c},
+> +       {0x3035, 0x04},
+> +       {0x302c, 0x70},
+> +       {0x302d, 0x06},
+> +       {0x302e, 0x80},
+> +       {0x302f, 0x02},
+> +       {0x3074, 0x48},
+> +       {0x3075, 0x07},
+> +       {0x308e, 0x49},
+> +       {0x308f, 0x07},
+> +       {0x3076, 0xe0},
+> +       {0x3077, 0x01},
+> +       {0x3090, 0xe0},
+> +       {0x3091, 0x01},
+> +       {0x3308, 0xe0},
+> +       {0x3309, 0x01},
+> +       {0x30d8, 0x30},
+> +       {0x30d9, 0x0b},
+> +       {0x30C6, 0x00},
+> +       {0x30c7, 0x00},
+> +       {0x30ce, 0x00},
+> +       {0x30cf, 0x00},
+> +       {0x304c, 0x00},
+> +       {0x304e, 0x00},
+> +       {0x304f, 0x00},
+> +       {0x3050, 0x00},
+> +       {0x30b6, 0x00},
+> +       {0x30b7, 0x00},
+> +       {0x3116, 0x08},
+> +       {0x3117, 0x00},
+> +       {0x31a0, 0x20},
+> +       {0x31a1, 0x0f},
+> +       {0x300c, 0x3b},
+> +       {0x300d, 0x29},
+> +       {0x314c, 0x29},
+> +       {0x314d, 0x01},
+> +       {0x315a, 0x0a},
+> +       {0x3168, 0xa0},
+> +       {0x316a, 0x7e},
+> +       {0x319e, 0x02},
+> +       {0x3199, 0x00},
+> +       {0x319d, 0x00},
+> +       {0x31dd, 0x03},
+> +       {0x3300, 0x00},
+> +       {0x341c, 0xff},
+> +       {0x341d, 0x01},
+> +       {0x3a01, 0x03},
+> +       {0x3a18, 0x7f},
+> +       {0x3a19, 0x00},
+> +       {0x3a1a, 0x37},
+> +       {0x3a1b, 0x00},
+> +       {0x3a1c, 0x37},
+> +       {0x3a1d, 0x00},
+> +       {0x3a1e, 0xf7},
+> +       {0x3a1f, 0x00},
+> +       {0x3a20, 0x3f},
+> +       {0x3a21, 0x00},
+> +       {0x3a20, 0x6f},
+> +       {0x3a21, 0x00},
+> +       {0x3a20, 0x3f},
+> +       {0x3a21, 0x00},
+> +       {0x3a20, 0x5f},
+> +       {0x3a21, 0x00},
+> +       {0x3a20, 0x2f},
+> +       {0x3a21, 0x00},
+> +       {0x3078, 0x02},
+> +       {0x3079, 0x00},
+> +       {0x307a, 0x00},
+> +       {0x307b, 0x00},
+> +       {0x3080, 0x02},
+> +       {0x3081, 0x00},
+> +       {0x3082, 0x00},
+> +       {0x3083, 0x00},
+> +       {0x3088, 0x02},
+> +       {0x3094, 0x00},
+> +       {0x3095, 0x00},
+> +       {0x3096, 0x00},
+> +       {0x309b, 0x02},
+> +       {0x309c, 0x00},
+> +       {0x309d, 0x00},
+> +       {0x309e, 0x00},
+> +       {0x30a4, 0x00},
+> +       {0x30a5, 0x00},
+> +       {0x3288, 0x21},
+> +       {0x328a, 0x02},
+> +       {0x3414, 0x05},
+> +       {0x3416, 0x18},
+> +       {0x35Ac, 0x0e},
+> +       {0x3648, 0x01},
+> +       {0x364a, 0x04},
+> +       {0x364c, 0x04},
+> +       {0x3678, 0x01},
+> +       {0x367c, 0x31},
+> +       {0x367e, 0x31},
+> +       {0x3708, 0x02},
+> +       {0x3714, 0x01},
+> +       {0x3715, 0x02},
+> +       {0x3716, 0x02},
+> +       {0x3717, 0x02},
+> +       {0x371c, 0x3d},
+> +       {0x371d, 0x3f},
+> +       {0x372c, 0x00},
+> +       {0x372d, 0x00},
+> +       {0x372e, 0x46},
+> +       {0x372f, 0x00},
+> +       {0x3730, 0x89},
+> +       {0x3731, 0x00},
+> +       {0x3732, 0x08},
+> +       {0x3733, 0x01},
+> +       {0x3734, 0xfe},
+> +       {0x3735, 0x05},
+> +       {0x375d, 0x00},
+> +       {0x375e, 0x00},
+> +       {0x375f, 0x61},
+> +       {0x3760, 0x06},
+> +       {0x3768, 0x1b},
+> +       {0x3769, 0x1b},
+> +       {0x376a, 0x1a},
+> +       {0x376b, 0x19},
+> +       {0x376c, 0x18},
+> +       {0x376d, 0x14},
+> +       {0x376e, 0x0f},
+> +       {0x3776, 0x00},
+> +       {0x3777, 0x00},
+> +       {0x3778, 0x46},
+> +       {0x3779, 0x00},
+> +       {0x377a, 0x08},
+> +       {0x377b, 0x01},
+> +       {0x377c, 0x45},
+> +       {0x377d, 0x01},
+> +       {0x377e, 0x23},
+> +       {0x377f, 0x02},
+> +       {0x3780, 0xd9},
+> +       {0x3781, 0x03},
+> +       {0x3782, 0xf5},
+> +       {0x3783, 0x06},
+> +       {0x3784, 0xa5},
+> +       {0x3788, 0x0f},
+> +       {0x378a, 0xd9},
+> +       {0x378b, 0x03},
+> +       {0x378c, 0xeb},
+> +       {0x378d, 0x05},
+> +       {0x378e, 0x87},
+> +       {0x378f, 0x06},
+> +       {0x3790, 0xf5},
+> +       {0x3792, 0x43},
+> +       {0x3794, 0x7a},
+> +       {0x3796, 0xa1},
+> +       {0x37b0, 0x37},
+> +       {0x3e04, 0x0e},
+> +       {0x30e8, 0x50},
+> +       {0x30e9, 0x00},
+> +       {0x3e04, 0x0e},
+> +       {0x3002, 0x00},
+> +};
+> +
+> +/* Sensor mode registers for 1280x720@30fps */
+> +static const struct imx334_reg mode_1280x720_regs[] =3D {
+> +       {0x3000, 0x01},
+> +       {0x3018, 0x04},
+> +       {0x3030, 0xca},
+> +       {0x3031, 0x08},
+> +       {0x3032, 0x00},
+> +       {0x3034, 0x4c},
+> +       {0x3035, 0x04},
+> +       {0x302c, 0x30},
+> +       {0x302d, 0x05},
+> +       {0x302e, 0x00},
+> +       {0x302f, 0x05},
+> +       {0x3074, 0x84},
+> +       {0x3075, 0x03},
+> +       {0x308e, 0x85},
+> +       {0x308f, 0x03},
+> +       {0x3076, 0xd0},
+> +       {0x3077, 0x02},
+> +       {0x3090, 0xd0},
+> +       {0x3091, 0x02},
+> +       {0x3308, 0xd0},
+> +       {0x3309, 0x02},
+> +       {0x30d8, 0x30},
+> +       {0x30d9, 0x0b},
+> +       {0x30C6, 0x00},
+> +       {0x30c7, 0x00},
+> +       {0x30ce, 0x00},
+> +       {0x30cf, 0x00},
+> +       {0x304c, 0x00},
+> +       {0x304e, 0x00},
+> +       {0x304f, 0x00},
+> +       {0x3050, 0x00},
+> +       {0x30b6, 0x00},
+> +       {0x30b7, 0x00},
+> +       {0x3116, 0x08},
+> +       {0x3117, 0x00},
+> +       {0x31a0, 0x20},
+> +       {0x31a1, 0x0f},
+> +       {0x300c, 0x3b},
+> +       {0x300d, 0x29},
+> +       {0x314c, 0x29},
+> +       {0x314d, 0x01},
+> +       {0x315a, 0x0a},
+> +       {0x3168, 0xa0},
+> +       {0x316a, 0x7e},
+> +       {0x319e, 0x02},
+> +       {0x3199, 0x00},
+> +       {0x319d, 0x00},
+> +       {0x31dd, 0x03},
+> +       {0x3300, 0x00},
+> +       {0x341c, 0xff},
+> +       {0x341d, 0x01},
+> +       {0x3a01, 0x03},
+> +       {0x3a18, 0x7f},
+> +       {0x3a19, 0x00},
+> +       {0x3a1a, 0x37},
+> +       {0x3a1b, 0x00},
+> +       {0x3a1c, 0x37},
+> +       {0x3a1d, 0x00},
+> +       {0x3a1e, 0xf7},
+> +       {0x3a1f, 0x00},
+> +       {0x3a20, 0x3f},
+> +       {0x3a21, 0x00},
+> +       {0x3a20, 0x6f},
+> +       {0x3a21, 0x00},
+> +       {0x3a20, 0x3f},
+> +       {0x3a21, 0x00},
+> +       {0x3a20, 0x5f},
+> +       {0x3a21, 0x00},
+> +       {0x3a20, 0x2f},
+> +       {0x3a21, 0x00},
+> +       {0x3078, 0x02},
+> +       {0x3079, 0x00},
+> +       {0x307a, 0x00},
+> +       {0x307b, 0x00},
+> +       {0x3080, 0x02},
+> +       {0x3081, 0x00},
+> +       {0x3082, 0x00},
+> +       {0x3083, 0x00},
+> +       {0x3088, 0x02},
+> +       {0x3094, 0x00},
+> +       {0x3095, 0x00},
+> +       {0x3096, 0x00},
+> +       {0x309b, 0x02},
+> +       {0x309c, 0x00},
+> +       {0x309d, 0x00},
+> +       {0x309e, 0x00},
+> +       {0x30a4, 0x00},
+> +       {0x30a5, 0x00},
+> +       {0x3288, 0x21},
+> +       {0x328a, 0x02},
+> +       {0x3414, 0x05},
+> +       {0x3416, 0x18},
+> +       {0x35Ac, 0x0e},
+> +       {0x3648, 0x01},
+> +       {0x364a, 0x04},
+> +       {0x364c, 0x04},
+> +       {0x3678, 0x01},
+> +       {0x367c, 0x31},
+> +       {0x367e, 0x31},
+> +       {0x3708, 0x02},
+> +       {0x3714, 0x01},
+> +       {0x3715, 0x02},
+> +       {0x3716, 0x02},
+> +       {0x3717, 0x02},
+> +       {0x371c, 0x3d},
+> +       {0x371d, 0x3f},
+> +       {0x372c, 0x00},
+> +       {0x372d, 0x00},
+> +       {0x372e, 0x46},
+> +       {0x372f, 0x00},
+> +       {0x3730, 0x89},
+> +       {0x3731, 0x00},
+> +       {0x3732, 0x08},
+> +       {0x3733, 0x01},
+> +       {0x3734, 0xfe},
+> +       {0x3735, 0x05},
+> +       {0x375d, 0x00},
+> +       {0x375e, 0x00},
+> +       {0x375f, 0x61},
+> +       {0x3760, 0x06},
+> +       {0x3768, 0x1b},
+> +       {0x3769, 0x1b},
+> +       {0x376a, 0x1a},
+> +       {0x376b, 0x19},
+> +       {0x376c, 0x18},
+> +       {0x376d, 0x14},
+> +       {0x376e, 0x0f},
+> +       {0x3776, 0x00},
+> +       {0x3777, 0x00},
+> +       {0x3778, 0x46},
+> +       {0x3779, 0x00},
+> +       {0x377a, 0x08},
+> +       {0x377b, 0x01},
+> +       {0x377c, 0x45},
+> +       {0x377d, 0x01},
+> +       {0x377e, 0x23},
+> +       {0x377f, 0x02},
+> +       {0x3780, 0xd9},
+> +       {0x3781, 0x03},
+> +       {0x3782, 0xf5},
+> +       {0x3783, 0x06},
+> +       {0x3784, 0xa5},
+> +       {0x3788, 0x0f},
+> +       {0x378a, 0xd9},
+> +       {0x378b, 0x03},
+> +       {0x378c, 0xeb},
+> +       {0x378d, 0x05},
+> +       {0x378e, 0x87},
+> +       {0x378f, 0x06},
+> +       {0x3790, 0xf5},
+> +       {0x3792, 0x43},
+> +       {0x3794, 0x7a},
+> +       {0x3796, 0xa1},
+> +       {0x37b0, 0x37},
+> +       {0x3e04, 0x0e},
+> +       {0x30e8, 0x50},
+> +       {0x30e9, 0x00},
+> +       {0x3e04, 0x0e},
+> +       {0x3002, 0x00},
+> +};
+
+This is an enormous amount of duplicated data that could be factored
+out.
+
+These are also /very/ common against the existing mode register tables
+too.
+
+I think several things need to happen in this driver:
+
+ 1. It should be converted to use the CCI helpers.
+ 2. Whereever identifiable, the register names should be used instead of
+    just the addresses.
+ 3. The common factors of these tables should be de-duplicated.
+
+In your additions you only have differences in the following registers
+from those entire tables:
+
++	{0x302c, 0x70},
++	{0x302d, 0x06},
++	{0x302e, 0x80},
++	{0x302f, 0x02},
++	{0x3074, 0x48},
++	{0x3075, 0x07},
++	{0x308e, 0x49},
++	{0x308f, 0x07},
++	{0x3076, 0xe0},
++	{0x3077, 0x01},
++	{0x3090, 0xe0},
++	{0x3091, 0x01},
++	{0x3308, 0xe0},
++	{0x3309, 0x01},
++	{0x30d8, 0x30},
++	{0x30d9, 0x0b},
+
+ 4. And ideally - the differences which determine the modes should be
+    factored out to calculations so that we are not writing out large
+    tables just to write a parameterised frame size.
+
+
+I would beleive that at least steps 1 and 3 would be achievable, 2 and 4
+would depend upon access to the datasheet.
+
+Is that anything you could work on ?
+
+Regards
+--
+Kieran
+
+
+
+
+
+> +
+>  /* Sensor mode registers for 1920x1080@30fps */
+>  static const struct imx334_reg mode_1920x1080_regs[] =3D {
+>         {0x3000, 0x01},
+> @@ -505,6 +831,32 @@ static const struct imx334_mode supported_modes[] =
+=3D {
+>                         .num_of_regs =3D ARRAY_SIZE(mode_1920x1080_regs),
+>                         .regs =3D mode_1920x1080_regs,
+>                 },
+> +       }, {
+> +               .width =3D 1280,
+> +               .height =3D 720,
+> +               .hblank =3D 2480,
+> +               .vblank =3D 1170,
+> +               .vblank_min =3D 45,
+> +               .vblank_max =3D 132840,
+> +               .pclk =3D 297000000,
+> +               .link_freq_idx =3D 1,
+> +               .reg_list =3D {
+> +                       .num_of_regs =3D ARRAY_SIZE(mode_1280x720_regs),
+> +                       .regs =3D mode_1280x720_regs,
+> +               },
+> +       }, {
+> +               .width =3D 640,
+> +               .height =3D 480,
+> +               .hblank =3D 2480,
+> +               .vblank =3D 1170,
+> +               .vblank_min =3D 45,
+> +               .vblank_max =3D 132840,
+> +               .pclk =3D 297000000,
+> +               .link_freq_idx =3D 1,
+> +               .reg_list =3D {
+> +                       .num_of_regs =3D ARRAY_SIZE(mode_640x480_regs),
+> +                       .regs =3D mode_640x480_regs,
+> +               },
+>         },
+>  };
+> =20
+> --=20
+> 2.34.1
 >
-> On Fri, Nov 29, 2024 at 11:59:27AM +0100, Ricardo Ribalda wrote:
-> > On Fri, 29 Nov 2024 at 11:36, Hans Verkuil wrote:
-> > > On 28/11/2024 23:33, Laurent Pinchart wrote:
-> > > > On Thu, Nov 28, 2024 at 11:28:29PM +0100, Ricardo Ribalda wrote:
-> > > >> On Thu, 28 Nov 2024 at 23:22, Laurent Pinchart wrote:
-> > > >>>
-> > > >>> Hi Ricardo,
-> > > >>>
-> > > >>> (CC'ing Hans Verkuil)
-> > > >>>
-> > > >>> Thank you for the patch.
-> > > >>>
-> > > >>> On Wed, Nov 27, 2024 at 12:14:50PM +0000, Ricardo Ribalda wrote:
-> > > >>>> If a file handle is waiting for a response from an async control, avoid
-> > > >>>> that other file handle operate with it.
-> > > >>>>
-> > > >>>> Without this patch, the first file handle will never get the event
-> > > >>>> associated with that operation, which can lead to endless loops in
-> > > >>>> applications. Eg:
-> > > >>>> If an application A wants to change the zoom and to know when the
-> > > >>>> operation has completed:
-> > > >>>> it will open the video node, subscribe to the zoom event, change the
-> > > >>>> control and wait for zoom to finish.
-> > > >>>> If before the zoom operation finishes, another application B changes
-> > > >>>> the zoom, the first app A will loop forever.
-> > > >>>
-> > > >>> Hans, the V4L2 specification isn't very clear on this. I see pros and
-> > > >>> cons for both behaviours, with a preference for the current behaviour,
-> > > >>> as with this patch the control will remain busy until the file handle is
-> > > >>> closed if the device doesn't send the control event for any reason. What
-> > > >>> do you think ?
-> > > >>
-> > > >> Just one small clarification. The same file handler can change the
-> > > >> value of the async control as many times as it wants, even if the
-> > > >> operation has not finished.
-> > > >>
-> > > >> It will be other file handles that will get -EBUSY if they try to use
-> > > >> an async control with an unfinished operation started by another fh.
-> > > >
-> > > > Yes, I should have been more precised. If the device doesn't send the
-> > > > control event, then all other file handles will be prevented from
-> > > > setting the control until the file handle that set it first gets closed.
-> > >
-> > > I think I need a bit more background here:
-> > >
-> > > First of all, what is an asynchronous control in UVC? I think that means
-> > > you can set it, but it takes time for that operation to finish, so you
-> > > get an event later when the operation is done. So zoom and similar operations
-> > > are examples of that.
-> > >
-> > > And only when the operation finishes will the control event be sent, correct?
-> >
-> > You are correct.  This diagrams from the spec is more or less clear:
-> > https://ibb.co/MDGn7F3
-> >
-> > > While the operation is ongoing, if you query the control value, is that reporting
-> > > the current position or the final position?
-> >
-> > I'd expect hardware will return either the current position, the start
-> > position or the final position. I could not find anything in the spec
-> > that points in one direction or the others.
->
-> Figure 2-21 in UVC 1.5 indicates that the device should STALL the
-> GET_CUR and SET_CUR requests if a state change is in progress.
->
-> > And in the driver I believe that we might have a bug handling this
-> > case (will send a patch if I can confirm it)
-> > the zoom is at 0 and you set it 10
-> > if you read the value 2 times before the camera reaches value 10:
-> > - First value will come from the hardware and the response will be cached
->
-> Only if the control doesn't have the auto-update flag set, so it will be
-> device-dependent. As GET_CUR should stall that's not really relevant,
-> except for the fact that devices may not stall the request.
-
-I missed that the device will likely stall during async operations.
-
-What do you think of something like this? I believe it can work with
-compliant and non compliant devices.
-Note that the event will be received by the device that originated the
-operation, not to the second one that might receive an error during
-write/read.
-
-
-
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 4fe26e82e3d1..9a86c912e7a2 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1826,14 +1826,15 @@ static int uvc_ctrl_commit_entity(struct
-uvc_device *dev,
-                        continue;
-
-                /*
--                * Reset the loaded flag for auto-update controls that were
-+                * Reset the loaded flag for auto-update controls and for
-+                * asynchronous controls with pending operations, that were
-                 * marked as loaded in uvc_ctrl_get/uvc_ctrl_set to prevent
-                 * uvc_ctrl_get from using the cached value, and for write-only
-                 * controls to prevent uvc_ctrl_set from setting bits not
-                 * explicitly set by the user.
-                 */
-                if (ctrl->info.flags & UVC_CTRL_FLAG_AUTO_UPDATE ||
--                   !(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-+                   !(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) || ctrl->handle)
-                        ctrl->loaded = 0;
-
-                if (!ctrl->dirty)
-@@ -2046,8 +2047,18 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-        mapping->set(mapping, value,
-                uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-
--       if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
--               ctrl->handle = handle;
-+       if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS) {
-+               /*
-+                * Other file handle is waiting for an operation on
-+                * this asynchronous control. If the device is compliant
-+                * this operation will fail.
-+                *
-+                * Do not replace the handle pointer, so the original file
-+                * descriptor will get the completion event.
-+                */
-+               if (!ctrl->handle)
-+                       ctrl->handle = handle;
-+       }
-
-        ctrl->dirty = 1;
-        ctrl->modified = 1;
-
->
-> > - Second value will be the cached one
-> >
-> > now the camera  is at zoom 10
-> > If you read the value, you will read the cached value
-> >
-> > > E.g.: the zoom control is at value 0 and I set it to 10, then I poll the zoom control
-> > > value: will that report the intermediate values until it reaches 10? And when it is
-> > > at 10, the control event is sent?
-> > >
-> > > >>>> Cc: stable@vger.kernel.org
-> > > >>>> Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-> > > >>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > >>>> ---
-> > > >>>>  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
-> > > >>>>  1 file changed, 4 insertions(+)
-> > > >>>>
-> > > >>>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > >>>> index b6af4ff92cbd..3f8ae35cb3bc 100644
-> > > >>>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > >>>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > >>>> @@ -1955,6 +1955,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-> > > >>>>       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
-> > > >>>>               return -EACCES;
-> > > >>>>
-> > > >>>> +     /* Other file handle is waiting a response from this async control. */
-> > > >>>> +     if (ctrl->handle && ctrl->handle != handle)
-> > > >>>> +             return -EBUSY;
-> > > >>>> +
-> > > >>>>       /* Clamp out of range values. */
-> > > >>>>       switch (mapping->v4l2_type) {
-> > > >>>>       case V4L2_CTRL_TYPE_INTEGER:
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
 
