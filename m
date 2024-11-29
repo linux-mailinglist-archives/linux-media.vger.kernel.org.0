@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-22310-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22311-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F65B9DC1B4
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:52:32 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D23009DC1B5
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 10:52:34 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70DC51630C1
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:52:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 384F2B2169F
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 09:52:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC6561850AF;
-	Fri, 29 Nov 2024 09:52:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436CB1865E1;
+	Fri, 29 Nov 2024 09:52:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ev7r0SMr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtjMXe4T"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43AD18858A
-	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 09:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343DF18871F
+	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 09:52:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732873944; cv=none; b=dw5x3UL2q0EPNW1IVXSWn8IxaMWe8RbuGmlbRjBdexZ8PEqleIwjlzrT0TK/zLPBEsCezCinwsbdfcRmprMlZAYa23nt0aG4ycrFWTpPe8LUbVLwg9ypqrBSi9gJdXmiuQR997TxHlEy0LB7fD3lssLQ9azow0LC96+W/MWF4CA=
+	t=1732873946; cv=none; b=X5hxVg1UttZQBh5IElrsF87DHvEZ4h736rz5F630KW11jqMXGK7VZVjG86tuYlDfzBFZe5ryRHat0ZGzem4WOzbgSGNyi917BKXCQSPc0QVi3/+VOpgk39GXlVNwaaLBm1a8GdpPmYmrte1Au46VsbwpRO2DAN8v/pKWMshu/dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732873944; c=relaxed/simple;
-	bh=XjzA4XGwvHVywRyLTBD+N3yhShUwTqaQr4zXrHO3Xs0=;
+	s=arc-20240116; t=1732873946; c=relaxed/simple;
+	bh=KdOyJnEFP41SwVnq1Bd9ebJvMIo6Ja44dGwb30mHvn0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KGcDzu/UghPgZJruiqkxo88JAaBLf9tFAbTwKiIkxhKFH88TFR/XHAl8y6wPGxStAr/R2OoFeNKHhB8W2HKguyTqpIXBkFNys6WL1MiSY4OVRvav2DRktzurBM8f17bukkmhN4Jo8qBagipVCPW9lwzC1Rl9Nm55a2pA/wCv5mU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ev7r0SMr; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=AwcxcTTT7iVw9eGwtmhxyTNVJXz4DtM/zOHDiuzlnFUzGIfaAAmEY4veglHynKSGU/PUsCsE/q5Sd8X7/FACS8XCwZTVBc9DkNiVQ4hqf4acufXt+s/YshDgZtZaRJ1keEmxxzDXXOVWa0vQIdRa9gnpjWn175kfwtGt2thyxkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtjMXe4T; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732873943; x=1764409943;
+  t=1732873945; x=1764409945;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=XjzA4XGwvHVywRyLTBD+N3yhShUwTqaQr4zXrHO3Xs0=;
-  b=ev7r0SMr2DFFOPNeoCQsfQQBUELKcQVJsb7k1NFGRMFbEviVWvDinAsr
-   DFDgqEH//Eoi235U+YmXmrtIIh+u+6fPW7fMEcg7inNYxrzrAJxWqw6Kc
-   HYZD7I7qQXD2vb3lEd/zDtzjnELaCUcJ6tgkol0XFOEQ/qB8a1d1NoIeK
-   MGET305b+kEfh/jofdxRLahf5JflD3rVjQ14TZz6jFsVWjuVbj5uP+ulS
-   t4Nrj3cRV4wv1X0FbluKO5GYHjsLQMfoEuNA0bE9EXWL3iIrRxPz6cGwZ
-   P4a11XHH6zyCrJa0lTzpSmWYPKy4AUaVfAfj6ZaFnqS32q8H7s2pDzzZm
-   w==;
-X-CSE-ConnectionGUID: NkzHuHRiTAy1fiovamc50A==
-X-CSE-MsgGUID: hTsb28ObRJKcn9qBLh522A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33258244"
+  bh=KdOyJnEFP41SwVnq1Bd9ebJvMIo6Ja44dGwb30mHvn0=;
+  b=JtjMXe4T3aILoEkVAlKm/A1cF0Eyfa6cjiVw1mQfLqD3K40Nb9b0+Dvs
+   znR2izW5TEVdLeOrnGeeigT/0/0zxw078XQn9kH20bqDee7LEbkzWNAH/
+   uxBbcTG/yWs5+Zm8PvTGnxoFQ/JjeUxXHcl5amyaxrjx6WbLczo6FV1WH
+   mqdBp/GjI9w7pMH02t76t2I5OI1bJTi3YQzOXBQsfDNYAM9NEFNYA+fR0
+   S3CnqaDkJAwzLjVwou0z/rVCmv9mRQMENBIgnZBmKPCrg4Afjzc4MyPYJ
+   fil9vZkl9fA+XOd85NSFJntq743Ytc0NssCdzuYczmZqASAglTmgTk12c
+   Q==;
+X-CSE-ConnectionGUID: VIx9GOiWSFyEsngpd/Dh+g==
+X-CSE-MsgGUID: apB6txilQa2CSoGSARPt6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33258261"
 X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="33258244"
+   d="scan'208";a="33258261"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 01:52:22 -0800
-X-CSE-ConnectionGUID: T9mPam5zQOqpoe1a7Vk3Vg==
-X-CSE-MsgGUID: aMk8pSSdQrSXAsfWIJgecw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 01:52:25 -0800
+X-CSE-ConnectionGUID: M1RJh2riT2i17/SeZeHd1A==
+X-CSE-MsgGUID: Poe/iobwRmGaNqIvA7vb8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="97414357"
+   d="scan'208";a="97414377"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 01:52:15 -0800
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 01:52:18 -0800
 Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id A11BB11F775;
-	Fri, 29 Nov 2024 11:52:08 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D32B81203B2;
+	Fri, 29 Nov 2024 11:52:12 +0200 (EET)
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
@@ -90,9 +90,9 @@ Cc: hverkuil@xs4all.nl,
 	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [RFC v3 6/9] media: uapi: Add V4L2_CID_CONFIG_MODEL control
-Date: Fri, 29 Nov 2024 11:51:39 +0200
-Message-Id: <20241129095142.87196-7-sakari.ailus@linux.intel.com>
+Subject: [RFC v3 7/9] media: uapi: Add V4L2_CID_BINNING control for binning configuration
+Date: Fri, 29 Nov 2024 11:51:40 +0200
+Message-Id: <20241129095142.87196-8-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241129095142.87196-1-sakari.ailus@linux.intel.com>
 References: <20241129095142.87196-1-sakari.ailus@linux.intel.com>
@@ -104,65 +104,110 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the V4L2_CID_CONFIG_MODEL control for the configuration model.
+Add V4L2_CID_BINNING control for configuting binning and enumerating a
+camera sensor's binning capabilities. The control combines horizontal and
+vertical binning into a single control as the two are generally related.
+
+New drivers should use this control to configure binning.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
- include/uapi/linux/v4l2-controls.h                           | 3 +++
- 3 files changed, 12 insertions(+)
+ .../media/drivers/camera-sensor.rst           | 10 +++++++
+ .../media/v4l/ext-ctrls-camera.rst            | 29 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 ++
+ include/uapi/linux/v4l2-controls.h            |  1 +
+ 4 files changed, 42 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-index 27803dca8d3e..928e8e3eed7f 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-@@ -55,3 +55,7 @@ Image Process Control IDs
-     control value divided by e.g. 0x100, meaning that to get no
-     digital gain the control value needs to be 0x100. The no-gain
-     configuration is also typically the default.
+diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+index 5bc4c79d230c..c6167c91f46c 100644
+--- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
++++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+@@ -107,6 +107,16 @@ values programmed by the register sequences. The default values of these
+ controls shall be 0 (disabled). Especially these controls shall not be inverted,
+ independently of the sensor's mounting rotation.
+ 
++Binning
++-------
 +
-+``V4L2_CID_CONFIG_MODEL (bitmask)``
-+    Which configuration models the sub-device supports. Please see
-+    :ref:`media_subdev_config_model`.
++Binning has traditionally been configured using :ref:`the compose selection
++rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
++<v4l2-cid-camera-sensor-binning>` is also available for binning configuration and
++users should use it when it's available. Drivers supporting the control shall
++also support the compose rectangle, albeit the rectangle may be read-only when
++the control is present.
++
+ .. _media_using_camera_sensor_drivers_embedded_data:
+ 
+ Embedded data
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+index cdc515c60468..3fbab0e78719 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+@@ -672,3 +672,32 @@ enum v4l2_scene_mode -
+ 
+     As modes differ for each sensor, menu items are not standardized by this
+     control and are left to the programmer.
++
++.. _v4l2-cid-camera-sensor-binning:
++
++``V4L2_CID_BINNING (integer menu)``
++
++    Horizontal and vertical binning factors. Binning combines several
++    horizontal, vertical or both pixel values into a single pixel. It is a way
++    to scale an image. Binning typically produces fairly good quality output.
++
++    Determines both horizontal and vertical binning factors for a camera
++    sensor. The values are encoded in the following way:
++
++.. flat-table::
++    :header-rows:  1
++    :stub-columns: 0
++
++    * - Bits
++      - Synopsis
++    * - 48--63
++      - Horizontal binning numerator.
++    * - 32--47
++      - Horizontal binning denominator.
++    * - 16--31
++      - Vertical binning numerator.
++    * - 0--15
++      - Vertical binning denominator.
++
++For instance, a value of ``0x0001000300020003`` indicates binning by 3
++(horizontally) * 3/2 (vertically).
 diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 1ea52011247a..24c9c25e20d1 100644
+index 24c9c25e20d1..3a84051ec11c 100644
 --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
 +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1164,6 +1164,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_TEST_PATTERN:		return "Test Pattern";
- 	case V4L2_CID_DEINTERLACING_MODE:	return "Deinterlacing Mode";
- 	case V4L2_CID_DIGITAL_GAIN:		return "Digital Gain";
-+	case V4L2_CID_CONFIG_MODEL:		return "Sub-device configuration model";
+@@ -1087,6 +1087,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
+ 	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
+ 	case V4L2_CID_HDR_SENSOR_MODE:		return "HDR Sensor Mode";
++	case V4L2_CID_BINNING:			return "Binning Factors";
  
- 	/* DV controls */
+ 	/* FM Radio Modulator controls */
  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-@@ -1481,6 +1482,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_DV_RX_POWER_PRESENT:
- 		*type = V4L2_CTRL_TYPE_BITMASK;
+@@ -1424,6 +1425,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_HDR_SENSOR_MODE:
+ 		*type = V4L2_CTRL_TYPE_MENU;
  		break;
-+	case V4L2_CID_CONFIG_MODEL:
-+		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+		*type = V4L2_CTRL_TYPE_BITMASK;
-+		break;
- 	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
- 	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
- 		*type = V4L2_CTRL_TYPE_INTEGER;
++	case V4L2_CID_BINNING:
+ 	case V4L2_CID_LINK_FREQ:
+ 		*type = V4L2_CTRL_TYPE_INTEGER_MENU;
+ 		break;
 diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 974fd254e573..0152240229ab 100644
+index 0152240229ab..8d5815a058d7 100644
 --- a/include/uapi/linux/v4l2-controls.h
 +++ b/include/uapi/linux/v4l2-controls.h
-@@ -1225,6 +1225,9 @@ enum v4l2_jpeg_chroma_subsampling {
- #define V4L2_CID_TEST_PATTERN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 3)
- #define V4L2_CID_DEINTERLACING_MODE		(V4L2_CID_IMAGE_PROC_CLASS_BASE + 4)
- #define V4L2_CID_DIGITAL_GAIN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 5)
-+#define V4L2_CID_CONFIG_MODEL			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
-+
-+#define V4L2_CID_CONFIG_MODEL_COMMON_RAW	(1ULL << 0)
+@@ -1088,6 +1088,7 @@ enum v4l2_auto_focus_range {
+ #define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
  
- /*  DV-class control IDs defined by V4L2 */
- #define V4L2_CID_DV_CLASS_BASE			(V4L2_CTRL_CLASS_DV | 0x900)
+ #define V4L2_CID_HDR_SENSOR_MODE		(V4L2_CID_CAMERA_CLASS_BASE+36)
++#define V4L2_CID_BINNING_FACTORS		(V4L2_CID_CAMERA_CLASS_BASE+37)
+ 
+ /* FM Modulator class control IDs */
+ 
 -- 
 2.39.5
 
