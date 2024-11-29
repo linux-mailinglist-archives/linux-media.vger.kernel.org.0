@@ -1,176 +1,177 @@
-Return-Path: <linux-media+bounces-22322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22323-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E919DC276
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 12:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2629DC27D
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 12:06:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6004C2829E3
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:02:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23042283455
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 11:06:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C6AF1990C0;
-	Fri, 29 Nov 2024 11:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 194051990DC;
+	Fri, 29 Nov 2024 11:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fBKXnEy2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xJMUOLM9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3BF5155726;
-	Fri, 29 Nov 2024 11:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B179C184524
+	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 11:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732878123; cv=none; b=LWge2jiIZQkoffosYR9MQaw3oywiE3IpicwEUdu3xj+aSEizCpv+LT1Zjv2Mkb+Fpr1R1iEUecFEzPpScTNYmZuS7hTCTHrdPTTsP7SeMWW9CMQfT/F686RDBtRNB8qYkHt415fjudtMFLh7cSS7k46SUafmVeNe741q4IkvlaM=
+	t=1732878365; cv=none; b=VCBw1YIUGCRogP9eEdlHJRYchcCBMaY/3cyr113jNj3o7lbfEZSDOoreK5bYIly4aYCJG7YuP48qmzv3LjUTZCygyjTx0xJwYB5Gc10Fe/bF3/vzlqoLDNpkW7+j6wjn4GDjoad3FgxUkG6nsTDkdCH7IsRnbhhUQfsuz4pGPGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732878123; c=relaxed/simple;
-	bh=ixtB4ZmYvDoC7rWdLTO0CEmP6GC62rmPzNDUAyMrjuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KtMVou+ioDsXRwFAg2CSu/uEnsA0juv2kyQ5L++0OhG8Zdb7Yf2k5Q6X0ZBabmcubLrLHHnPsePi+tcf2kZJOul9Tr0Xy1x0PS5/2Bq9td5o88PakRtskFVAaQmwMzPQwqGfPBYQ9DtXmFcmB+jxfj18JzMPAefH/4jSA/5JwzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fBKXnEy2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 531A5A8F;
-	Fri, 29 Nov 2024 12:01:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732878094;
-	bh=ixtB4ZmYvDoC7rWdLTO0CEmP6GC62rmPzNDUAyMrjuk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fBKXnEy2dd3D1WLRPIT3l34keV7TMLp9RK9EmHtobEC8BJzHiacruxoepLVFrrYDE
-	 r88nQ1meSr6vO+9KpkqJIx8uyD4KeEHGXWnxybfi25lRsygEN0aD1xszoxoP2Q756C
-	 ILZKXCCSJg/P/91qPJRuAcZo4QFQnIU3tTER3UeM=
-Date: Fri, 29 Nov 2024 13:01:48 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control
- owned by other fh
-Message-ID: <20241129110148.GA4108@pendragon.ideasonboard.com>
-References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
- <20241127-uvc-fix-async-v2-2-510aab9570dd@chromium.org>
- <20241128222232.GF25731@pendragon.ideasonboard.com>
- <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
- <20241128223343.GH25731@pendragon.ideasonboard.com>
- <7eeab6bd-ce02-41a6-bcc1-7c2750ce0359@xs4all.nl>
+	s=arc-20240116; t=1732878365; c=relaxed/simple;
+	bh=glSMSM2xYee+n9jszNd5bA6nKVpvDqA90VqpPm4oGGk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Pfn66gny0RuD20Xzi2GPStoUr64fRPT0CbS0dSbjrQa6u4VFNu1ISidYC3SI8Zu2GN03ndZFzUqgXEeW2SYRozzAEG6Y3c6vE0RZu3iEhpO0jQ76O8txcnk842dfCNZ7nuF76VTXyzLmjPLRRMHe57AhkAQByOKhegY1UEWiPn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xJMUOLM9; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43494a20379so15884915e9.0
+        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 03:06:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732878362; x=1733483162; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0PXwgZUh/eJ1uLgDi0tZo2YOu7czg38JF36KJWk2ihI=;
+        b=xJMUOLM96edtd5IOFDlaqZalf7TnCm1LqSx/i2mmOwty0VC1dloGbdEp7gU5R/zwqD
+         0cH+BCu6FoBuS26bVl0WxrqT/RsawIGs61hWkSFWEo8DvcgXzSNrj4JKgS4nt1E70FNA
+         xTtWYpPF7iD9elNnsfZu+tz7P0k7fmF8mqWQd6qDxBktZijA+4CeW3H0c9pxTkIjVzCP
+         Dhh8gm3a/ONKGQ+Q4BGDurZB/d5mBUWW+0C0WdjevZH6QP3TcNOyVyT8m4cZddK+JqYs
+         hC+pAPNRPNKWH2T6DS/P/V59gf0JTw6uMjUw9q4PaP5c1v2kXSluMQ4/2atea7iQ70YR
+         S+fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732878362; x=1733483162;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0PXwgZUh/eJ1uLgDi0tZo2YOu7czg38JF36KJWk2ihI=;
+        b=P9i9wA65pKQeFpPkaTQsBG5av6K+gCSxMCViFXI9MsK+XUVTuddc1pJvc4B3zVI3FV
+         4AfeEF7jP5RZ+WHmBU7RRn/O1Qo47q6Ah96nthmAFUjvyB8ttB8G//XzCMZVlBNHubXN
+         ODpEQtDvWSX+tDUz401KeYp2M90JY8q6fX3ks3Zqe/nAwjslA6/bX2x5KoGDU/Ca3pvA
+         fqxPyVfTae3gVeoNtdzVR6DYQ3dEr9o/HLmdqoEXRa2cOzcOZcFnmQH6aqj+yGIn0Jyk
+         1d8tzLrw3pB0MmLqzuEiwLGK+RscBDP5yGKnxktusWhYz3rveczmyqmI6nQyEhNClduU
+         PkNQ==
+X-Gm-Message-State: AOJu0YzphwGWv/9J2nePT8IF5al4rOYrA6ky+HijWsD1mcbZqlb2beLj
+	+ZdzE7z76SeGMNDynvuj+G+7YtaTKlVL2Iql3PoaLXfyzKoxISJbo3aknAseSbg=
+X-Gm-Gg: ASbGncsA1aTUJta+sYYNcJGPXRgoOC5XtYiFSknUNdcKZohfNOTJNmT0+qudcUmJfXc
+	yCuTcbVgc3bkFQOKtxN9wH9BQWbunk6q3HN3QEWaaLhc/vNvzf12Y3phNt7ScYJakwShXxHk5Cg
+	OpAHXrWHGNvKNcG4zEY/NEHi38lovW2T4KpZjAJnv/cQTkLXsp9DhvGY1kZjH8/98mN0UhpwTjT
+	fd/lrJwfjp8CoNy3P4kPB0z7WVykMG2oEcRNwAN8Wc1nB59fksOk/Rjtq4+wPw=
+X-Google-Smtp-Source: AGHT+IH2rM8XDzBu9P2eB2Nv+FOlZ4MP17Y6QoZHdCbihA580XT4gslkuMijgMdy3lOM6ASqNrMP/w==
+X-Received: by 2002:a05:600c:458b:b0:434:a924:44e9 with SMTP id 5b1f17b1804b1-434a9dcfedfmr108489465e9.15.1732878362085;
+        Fri, 29 Nov 2024 03:06:02 -0800 (PST)
+Received: from [192.168.0.31] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0dc63f7sm49163485e9.23.2024.11.29.03.06.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Nov 2024 03:06:01 -0800 (PST)
+Message-ID: <5cccec71-0cc7-492a-9fb9-903970da05c5@linaro.org>
+Date: Fri, 29 Nov 2024 11:06:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7eeab6bd-ce02-41a6-bcc1-7c2750ce0359@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: qcom: camss: fix VFE pm domain off
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Yassine Oudjana <y.oudjana@protonmail.com>
+References: <20241128-vfe_pm_domain_off-v2-1-0bcbbe7daaaf@mainlining.org>
+ <3a5fd596-b442-4d3f-aae2-f454d0cd8e5c@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <3a5fd596-b442-4d3f-aae2-f454d0cd8e5c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 29, 2024 at 11:36:36AM +0100, Hans Verkuil wrote:
-> Hi Laurent, Ricardo,
+On 29/11/2024 08:48, Vladimir Zapolskiy wrote:
+> On 11/28/24 21:39, Barnabás Czémán wrote:
+>> Fix NULL pointer check before device_link_del
+>> is called.
+>>
+>> Unable to handle kernel NULL pointer dereference at virtual address 
+>> 000000000000032c
+>> Call trace:
+>>   device_link_put_kref+0xc/0xb8
+>>   device_link_del+0x30/0x48
+>>   vfe_pm_domain_off+0x24/0x38 [qcom_camss]
+>>   vfe_put+0x9c/0xd0 [qcom_camss]
+>>   vfe_set_power+0x48/0x58 [qcom_camss]
+>>   pipeline_pm_power_one+0x154/0x158 [videodev]
+>>   pipeline_pm_power+0x74/0xfc [videodev]
+>>   v4l2_pipeline_pm_use+0x54/0x90 [videodev]
+>>   v4l2_pipeline_pm_put+0x14/0x34 [videodev]
+>>   video_release+0x2c/0x44 [qcom_camss]
+>>   v4l2_release+0xe4/0xec [videodev]
+>>
+>> Fixes: eb73facec2c2 ("media: qcom: camss: Use common VFE pm_domain_on/ 
+>> pm_domain_off where applicable")
+>> Tested-by: Yassine Oudjana <y.oudjana@protonmail.com>
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> Signed-off-by: Barnabás Czémán <barnabas.czeman@mainlining.org>
+>> ---
+>> Changes in v2:
+>> - Add backtrace to the commit message.
+>> - Link to v1: https://lore.kernel.org/r/20241122-vfe_pm_domain_off- 
+>> v1-1-81d18f56563d@mainlining.org
+>> ---
+>>   drivers/media/platform/qcom/camss/camss-vfe.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/ 
+>> media/platform/qcom/camss/camss-vfe.c
+>> index 
+>> 80a62ba11295042802cbaec617fb87c492ea6a55..1bf1473331f63b9ab106d21ea263c84d851c8a31 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+>> @@ -595,7 +595,7 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
+>>    */
+>>   void vfe_pm_domain_off(struct vfe_device *vfe)
+>>   {
+>> -    if (!vfe->genpd)
+>> +    if (!vfe->genpd_link)
+>>           return;
+>>       device_link_del(vfe->genpd_link);
+>>
 > 
-> On 28/11/2024 23:33, Laurent Pinchart wrote:
-> > On Thu, Nov 28, 2024 at 11:28:29PM +0100, Ricardo Ribalda wrote:
-> >> On Thu, 28 Nov 2024 at 23:22, Laurent Pinchart wrote:
-> >>>
-> >>> Hi Ricardo,
-> >>>
-> >>> (CC'ing Hans Verkuil)
-> >>>
-> >>> Thank you for the patch.
-> >>>
-> >>> On Wed, Nov 27, 2024 at 12:14:50PM +0000, Ricardo Ribalda wrote:
-> >>>> If a file handle is waiting for a response from an async control, avoid
-> >>>> that other file handle operate with it.
-> >>>>
-> >>>> Without this patch, the first file handle will never get the event
-> >>>> associated with that operation, which can lead to endless loops in
-> >>>> applications. Eg:
-> >>>> If an application A wants to change the zoom and to know when the
-> >>>> operation has completed:
-> >>>> it will open the video node, subscribe to the zoom event, change the
-> >>>> control and wait for zoom to finish.
-> >>>> If before the zoom operation finishes, another application B changes
-> >>>> the zoom, the first app A will loop forever.
-> >>>
-> >>> Hans, the V4L2 specification isn't very clear on this. I see pros and
-> >>> cons for both behaviours, with a preference for the current behaviour,
-> >>> as with this patch the control will remain busy until the file handle is
-> >>> closed if the device doesn't send the control event for any reason. What
-> >>> do you think ?
-> >>
-> >> Just one small clarification. The same file handler can change the
-> >> value of the async control as many times as it wants, even if the
-> >> operation has not finished.
-> >>
-> >> It will be other file handles that will get -EBUSY if they try to use
-> >> an async control with an unfinished operation started by another fh.
-> > 
-> > Yes, I should have been more precised. If the device doesn't send the
-> > control event, then all other file handles will be prevented from
-> > setting the control until the file handle that set it first gets closed.
+> I object to this change, there might be a problem in the code, however it
+> is not yet identified.
 > 
-> I think I need a bit more background here:
+> vfe->genpd is not NULL, if vfe_pm_domain_on()/vfe_pm_domain_off() are
+> called appropriately, the "fix" does not fix the real problem, it veils it.
 > 
-> First of all, what is an asynchronous control in UVC? I think that means
-> you can set it, but it takes time for that operation to finish, so you
-> get an event later when the operation is done. So zoom and similar operations
-> are examples of that.
+> -- 
+> Best wishes,
+> Vladimir
+> 
+> 
 
-Correct. Physical PTZ (pan/tilt/zoom) is the prime use case. The UVC
-specification states that any control that requires more than 10ms to
-respond to a SET_CUR request must be reported by the device as an
-asynchronous control, but does not tell which control must or must not
-be asynchronous.
+Let's walk through the logic.
 
-> And only when the operation finishes will the control event be sent, correct?
+vfe->genpd =
 
-Correct.
+Can happen in vfe_subdev_init();
 
-> While the operation is ongoing, if you query the control value, is that reporting
-> the current position or the final position?
+vfe_pm_domain_on() can fail @ vfe->genpd_link =
 
-The UVC specification indicates that a GET_CUR or SET_CUR request on an
-asynchronous control will stall until the control value has been
-applied. This means you won't be able to poll the control value.
+If it fails then I _suppose_ we are still calling vfe_pm_domain_off() at 
+least that's the only logically way I see this error can manifest.
 
-In practice, devices often take liberties with the implementation of the
-specification, so some may let you get or set the value of an
-asynchronous control while a SET_CUR request is in progress.
+@Barnabás can you confirm that this is the case ?
 
-> E.g.: the zoom control is at value 0 and I set it to 10, then I poll the zoom control
-> value: will that report the intermediate values until it reaches 10? And when it is
-> at 10, the control event is sent?
->
-> >>>> Cc: stable@vger.kernel.org
-> >>>> Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-> >>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >>>> ---
-> >>>>  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
-> >>>>  1 file changed, 4 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> >>>> index b6af4ff92cbd..3f8ae35cb3bc 100644
-> >>>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> >>>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> >>>> @@ -1955,6 +1955,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-> >>>>       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
-> >>>>               return -EACCES;
-> >>>>
-> >>>> +     /* Other file handle is waiting a response from this async control. */
-> >>>> +     if (ctrl->handle && ctrl->handle != handle)
-> >>>> +             return -EBUSY;
-> >>>> +
-> >>>>       /* Clamp out of range values. */
-> >>>>       switch (mapping->v4l2_type) {
-> >>>>       case V4L2_CTRL_TYPE_INTEGER:
+If not, can you please provide more detail ?
 
--- 
-Regards,
-
-Laurent Pinchart
+---
+bod
 
