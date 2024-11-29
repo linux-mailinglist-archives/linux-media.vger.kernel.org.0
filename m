@@ -1,117 +1,189 @@
-Return-Path: <linux-media+bounces-22340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22341-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9D09DE6AC
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 13:47:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F939DE701
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 14:10:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EFB2281C01
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 12:47:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 45A78B216B6
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 13:10:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79E3619CC22;
-	Fri, 29 Nov 2024 12:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="Ui3Hsroc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD9719DF41;
+	Fri, 29 Nov 2024 13:10:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F62158520
-	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 12:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18787156991;
+	Fri, 29 Nov 2024 13:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732884459; cv=none; b=Y53CgXQ7YYbhh44bXvlc7YywDe+/szYLTCH7HUFSKldsqJQVoe6ye8Sg729WWtS7ZikMty4Kd4evDdZqkB09+dImdYoJapDxt6gJZUn7HYmNB9i5WPlYzxQpUyj0xH3uCoRzfDJyJ7rOtr5StFJMOhKFg6A8aCx0sF9UvLNPTUM=
+	t=1732885845; cv=none; b=T+epqc127suz4z6UB89R0W7roqQ8DSsp0lwmrhUbdPKW1MSts59Js7z0In6xQHwFWl3LPbONys8eAAlJ9BRWJdi9kFHbFNoVf3ImlguFkcBWtoe6jcPTfjSu/u+vVC4GaAbpYI9BRLKo/+eEtTRorCzlKQgi2swzlkbVD07uRTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732884459; c=relaxed/simple;
-	bh=fAZczfwOEx2W5QdqmueEuHLCMnyObyATsBu3ASs0dzA=;
-	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=Zqr+Xm6H0y42f4MP2zwy5Y+hzBUN40q4/ceChQreRgNEfJCjfYnTwds3Ew5j3v/4lF/7e7mE6OfPJjYs/tvxl/PnbFJobLlCBS1rTo43254M1Wl7KF+YYivBTOpLKB03fqLNkRIPqduuAthBtWRuelsydhJZSBcoxia0to3uVOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=Ui3Hsroc; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
-	Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=fAZczfwOEx2W5QdqmueEuHLCMnyObyATsBu3ASs0dzA=; b=Ui3Hsroc9OF1UioTybi8gwsFVo
-	MXYQLGfE2ttSU9aYPdLzYpIpeYdIadssSZEEt0ZZDvJNKC3+f6gKRVvJkELp+AFdlVcAfWolup679
-	t+auz/E+tguSWnRjFc+jtvKJf76W0FDVNdhe9VqfCjxklOWhvuGV5epoIeuebNmU9D6IK2AEA/V6E
-	kUZLtvVUFg8GdMIsbad03JNqo2cwMpfWdUCxYO1UzihA2ZxcERWg6UobT7tkT93LaIEM11CHqNus6
-	q3KqFcR2f3zVKPHlrdeHvSrGxvliqQA6FUOTPtKmVle5/gYr8ZIQOQMJkXWIu57+40mBX7R/EAX4J
-	GdaE+efQ==;
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1tH0PI-0002OB-0P;
-	Fri, 29 Nov 2024 12:47:37 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1tH0PH-00D2sz-2u;
-	Fri, 29 Nov 2024 12:47:35 +0000
-Date: Fri, 29 Nov 2024 12:47:35 +0000 (UTC)
-From: Jenkins Builder Robot  <jenkins@linuxtv.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1665057718.1.1732884455897@builder.linuxtv.org>
-Subject: Build failed in Jenkins: edid-decode #338
+	s=arc-20240116; t=1732885845; c=relaxed/simple;
+	bh=6PKqaLSzy7a+YGasiuHgTCGCEKkl+ttapGfC8mv8FLI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Engs6cG2QzpXppeMZgY/Ts1QuccO3vlnmS3CCe5scGp7Fsxo6Go3/nGJvGdh6oJaMdJxtvapmbgdw9aY7R55sD7gYhPT/30TqSbfsVdX+YdrLmk4oF0bUBD9b7S5o5JxS3v0zhdESlFHZzLrAmjpRmRm8VF6LPXx42RoRu+XzZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358CDC4CECF;
+	Fri, 29 Nov 2024 13:10:43 +0000 (UTC)
+Message-ID: <e6eeb2fc-7951-4ef2-afc5-5147d78ec2e8@xs4all.nl>
+Date: Fri, 29 Nov 2024 14:10:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control owned
+ by other fh
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20241127-uvc-fix-async-v2-0-510aab9570dd@chromium.org>
+ <20241127-uvc-fix-async-v2-2-510aab9570dd@chromium.org>
+ <20241128222232.GF25731@pendragon.ideasonboard.com>
+ <CANiDSCvyMbAffdyi7_TrA0tpjbHe3V_D_VkTKiW-fNDnwQfpGA@mail.gmail.com>
+ <20241128223343.GH25731@pendragon.ideasonboard.com>
+ <7eeab6bd-ce02-41a6-bcc1-7c2750ce0359@xs4all.nl>
+ <CANiDSCseF3fsufMc-Ovoy-bQH85PqfKDM+zmfoisLw+Kq1biAw@mail.gmail.com>
+ <20241129110640.GB4108@pendragon.ideasonboard.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20241129110640.GB4108@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: edid-decode
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
 
-See <https://builder.linuxtv.org/job/edid-decode/338/display/redirect?page=changes>
+On 29/11/2024 12:06, Laurent Pinchart wrote:
+> On Fri, Nov 29, 2024 at 11:59:27AM +0100, Ricardo Ribalda wrote:
+>> On Fri, 29 Nov 2024 at 11:36, Hans Verkuil wrote:
+>>> On 28/11/2024 23:33, Laurent Pinchart wrote:
+>>>> On Thu, Nov 28, 2024 at 11:28:29PM +0100, Ricardo Ribalda wrote:
+>>>>> On Thu, 28 Nov 2024 at 23:22, Laurent Pinchart wrote:
+>>>>>>
+>>>>>> Hi Ricardo,
+>>>>>>
+>>>>>> (CC'ing Hans Verkuil)
+>>>>>>
+>>>>>> Thank you for the patch.
+>>>>>>
+>>>>>> On Wed, Nov 27, 2024 at 12:14:50PM +0000, Ricardo Ribalda wrote:
+>>>>>>> If a file handle is waiting for a response from an async control, avoid
+>>>>>>> that other file handle operate with it.
+>>>>>>>
+>>>>>>> Without this patch, the first file handle will never get the event
+>>>>>>> associated with that operation, which can lead to endless loops in
+>>>>>>> applications. Eg:
+>>>>>>> If an application A wants to change the zoom and to know when the
+>>>>>>> operation has completed:
+>>>>>>> it will open the video node, subscribe to the zoom event, change the
+>>>>>>> control and wait for zoom to finish.
+>>>>>>> If before the zoom operation finishes, another application B changes
+>>>>>>> the zoom, the first app A will loop forever.
+>>>>>>
+>>>>>> Hans, the V4L2 specification isn't very clear on this. I see pros and
+>>>>>> cons for both behaviours, with a preference for the current behaviour,
+>>>>>> as with this patch the control will remain busy until the file handle is
+>>>>>> closed if the device doesn't send the control event for any reason. What
+>>>>>> do you think ?
+>>>>>
+>>>>> Just one small clarification. The same file handler can change the
+>>>>> value of the async control as many times as it wants, even if the
+>>>>> operation has not finished.
+>>>>>
+>>>>> It will be other file handles that will get -EBUSY if they try to use
+>>>>> an async control with an unfinished operation started by another fh.
+>>>>
+>>>> Yes, I should have been more precised. If the device doesn't send the
+>>>> control event, then all other file handles will be prevented from
+>>>> setting the control until the file handle that set it first gets closed.
+>>>
+>>> I think I need a bit more background here:
+>>>
+>>> First of all, what is an asynchronous control in UVC? I think that means
+>>> you can set it, but it takes time for that operation to finish, so you
+>>> get an event later when the operation is done. So zoom and similar operations
+>>> are examples of that.
+>>>
+>>> And only when the operation finishes will the control event be sent, correct?
+>>
+>> You are correct.  This diagrams from the spec is more or less clear:
+>> https://ibb.co/MDGn7F3
+>>
+>>> While the operation is ongoing, if you query the control value, is that reporting
+>>> the current position or the final position?
+>>
+>> I'd expect hardware will return either the current position, the start
+>> position or the final position. I could not find anything in the spec
+>> that points in one direction or the others.
+> 
+> Figure 2-21 in UVC 1.5 indicates that the device should STALL the
+> GET_CUR and SET_CUR requests if a state change is in progress.
+> 
+>> And in the driver I believe that we might have a bug handling this
+>> case (will send a patch if I can confirm it)
+>> the zoom is at 0 and you set it 10
+>> if you read the value 2 times before the camera reaches value 10:
+>> - First value will come from the hardware and the response will be cached
+> 
+> Only if the control doesn't have the auto-update flag set, so it will be
+> device-dependent. As GET_CUR should stall that's not really relevant,
+> except for the fact that devices may not stall the request.
 
-Changes:
+OK, that helps a lot.
 
-[Hans Verkuil] edid-decode: moved to v4l-utils, remove all code and update README
+If an operation is in progress, then setting a new control value should
+result in -EBUSY. Based on the description above, I gather that even the
+same fh that made the request cannot update it while the operation is
+ongoing?
 
+Getting the control should just return the value that was set. I assume
+that is cached in uvc?
 
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/edid-decode/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/edid-decode/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/edid-decode.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/edid-decode.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.5'
- > git fetch --tags --force --progress -- git://linuxtv.org/edid-decode.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision cd4bba870bee3775d2bc811d1089fb3206437176 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f cd4bba870bee3775d2bc811d1089fb3206437176 # timeout=10
-Commit message: "edid-decode: moved to v4l-utils, remove all code and update README"
- > git rev-list --no-walk 5332a3b76080e17137db15fd31e2d3949cef5f84 # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse cd4bba870bee3775d2bc811d1089fb3206437176^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/edid-decode.git'
-[GitCheckoutListener] Found previous build 'edid-decode #337' that contains recorded Git commits
-[GitCheckoutListener] -> Starting recording of new commits since '5332a3b'
-[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
-[GitCheckoutListener] -> Using head commit 'cd4bba8' as starting point
-[GitCheckoutListener] -> Recorded one new commit
-[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@49122f7'
-[edid-decode] $ /bin/sh -xe /tmp/jenkins8008731871802100235.sh
-+ meson setup build
+Regards,
 
-ERROR: Neither directory contains a build file meson.build.
-Build step 'Execute shell' marked build as failure
+	Hans
+
+> 
+>> - Second value will be the cached one
+>>
+>> now the camera  is at zoom 10
+>> If you read the value, you will read the cached value
+>>
+>>> E.g.: the zoom control is at value 0 and I set it to 10, then I poll the zoom control
+>>> value: will that report the intermediate values until it reaches 10? And when it is
+>>> at 10, the control event is sent?
+>>>
+>>>>>>> Cc: stable@vger.kernel.org
+>>>>>>> Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
+>>>>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>>>>>> ---
+>>>>>>>  drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
+>>>>>>>  1 file changed, 4 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+>>>>>>> index b6af4ff92cbd..3f8ae35cb3bc 100644
+>>>>>>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+>>>>>>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+>>>>>>> @@ -1955,6 +1955,10 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+>>>>>>>       if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
+>>>>>>>               return -EACCES;
+>>>>>>>
+>>>>>>> +     /* Other file handle is waiting a response from this async control. */
+>>>>>>> +     if (ctrl->handle && ctrl->handle != handle)
+>>>>>>> +             return -EBUSY;
+>>>>>>> +
+>>>>>>>       /* Clamp out of range values. */
+>>>>>>>       switch (mapping->v4l2_type) {
+>>>>>>>       case V4L2_CTRL_TYPE_INTEGER:
+> 
+
 
