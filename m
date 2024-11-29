@@ -1,194 +1,292 @@
-Return-Path: <linux-media+bounces-22352-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22353-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4906E9DE7FF
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 14:46:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BA39DE8A2
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 15:37:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0911828132D
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 13:46:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BEE2B2239F
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2024 14:37:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8388519F495;
-	Fri, 29 Nov 2024 13:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C78D513A258;
+	Fri, 29 Nov 2024 14:37:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Pgv4Rc4c"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="L0YVDbHo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BB71EA90;
-	Fri, 29 Nov 2024 13:46:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4B342AAB
+	for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 14:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732888005; cv=none; b=dzfzFaE2F7RcBDm+P3i3/iER2PgHZ7X+biNAHndmypy8F9MkcTFOxlInG4qawmqy7LTLZ8EGE82USc5Ef9nWvpcUJJKt/wy/uDH8vZHW3nA3praYom8tQ/G/LQvt4BtvEHFPG9aEV1x51X/J9OwmcWZbvyb+54nGs6oQ43zHza4=
+	t=1732891032; cv=none; b=T5+37c1+X2dqXiR249WGBWc4R7pNioZhslQOY4ZKKlld5YZAuaJ2k3G5WXXzuS6mCrP10S1g+y0BTyARvH64i7P1EM7kNk+8tvoX5zlXJnI1Ii75cuDb0EMKTTRCpZBHRGzismARad8TN4ApCHohlLWifzyr9ap5AEqCfQrWPRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732888005; c=relaxed/simple;
-	bh=bYDtFSV1dmnanE2aW062m9H9QdU1M4oDoem8xHV7m6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U6w6jCVR2OlGspW4+fIO68m87o8pHjGx2SNHDpwfJoHwka11Y3iptUOfcoPnNRPm48qweTLYv36oWGDgMvuP9M8JHLUHA+YTguk9PZ7i/PwWw/WH9BlcqLpuxeUGNErAv2QO23ktT2L3AcdAaCZ9GWbIDm+4GS7OZJ8waY3lizo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Pgv4Rc4c; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C56C0A8F;
-	Fri, 29 Nov 2024 14:46:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1732887977;
-	bh=bYDtFSV1dmnanE2aW062m9H9QdU1M4oDoem8xHV7m6E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Pgv4Rc4cVA1Jyv6K9iz5c1kcxwWKXboCdL6gk2JIr2NJGO7+2S0HrYRZpnf1upqfN
-	 9KO/4RJXhPd31QmE1XFpaN7W56iuAcJOmqBfzSZXpZL3YfTaPg1tJpM0JJcsqjugam
-	 5DSF7mr6DvX5M9s4A+hy6UWK1NuT4UJkcr7jR3nA=
-Message-ID: <92f06c2a-84be-4e89-adf5-9fa58d0806e6@ideasonboard.com>
-Date: Fri, 29 Nov 2024 15:46:38 +0200
+	s=arc-20240116; t=1732891032; c=relaxed/simple;
+	bh=5ZOgJmJjEJiFNUpmp32gvaH73J6nFPWcYoh8rVtkgCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SS2aR8c5HNyRh/XiGgohslxJZOYE8iuVdntH9NSxIvanbRUbVH51V/+2PWw8aNqhrMsrbyeqnBniiHrs50UFtHTFuLKmWkQpFmQxW9RXwLfFehG8MKfI7NNTeMWJGJPEYOVVjETYak7EuZgTYxvE2acoIv3hZj6dIX45s7rI+Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=L0YVDbHo; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7f450f7f11dso1373066a12.2
+        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 06:37:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1732891029; x=1733495829; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GCaydgbEYNCZNA2YMsVwrS/UE0n5hw0VHuQ5q200pTQ=;
+        b=L0YVDbHo5uSVbv837OjdjV7a8fWwrz0sMsr9Zxl90RmPQPBQzmw1VSX27wbOVGuBTy
+         18fuzlAceqN1uEPRrP671EvI3gTUZGPkyP50FC8crtcnwp7wMwraTuLKf/0xOTESXU5n
+         dyo/ZQ2q9tpVz16O61+LU3v4xZ3WMLXhLYOO8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732891029; x=1733495829;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GCaydgbEYNCZNA2YMsVwrS/UE0n5hw0VHuQ5q200pTQ=;
+        b=ToZz5eWo8MvuJ3Y5M/XRdEy02+UXG49gdHdUPuD9Yd3SXZ1q5SrvLL3c9PscjqaQNL
+         Mh2WRnHwR6tyoaZxVFZ399Zq3URqWTMPVkKMfePEu9ty9AQCelQuTpX368/1wuqu80Uy
+         nKN4uLLdUawenTIxvrMlY3do8yAs6fA0gYX1FYCA0Dnk2zjJSouO8PEjw5IvMSGoKfEp
+         K9zswnYW3kLmrGuwgBhpRL/7umtcl9Hpm3zuJm6QY0CE4ETtHqBZPZzn6f0v4R+WfSRh
+         k1uR35KDZXh0KvQZCYqUEQE9iaHfR0WEjWdgSrO1kNXGJhrzWzx560kHeF1wHXkSkIdy
+         vCSg==
+X-Forwarded-Encrypted: i=1; AJvYcCWaH/T7M5li3vN70hQ7aOk3LFodomdPgufgCHbaHB9sQven57H19Eh3lR4cfhJwlpy2xeRPboYFxCR3eA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdnovKIwHLEsG6z+j8JJ7dKQtXpzxvG9C7oZ9D/5Y0iD+7pVcO
+	pRHBKKgUVexwp/TCFd+RyePALXyi9BggJ22kKSaF+wcY2J9R+9B/7FHon9AgU7m9WaQvTxaUM4o
+	=
+X-Gm-Gg: ASbGncvj896q3b3pdlukhu9CY7JrsCXL1zE8T35wIBXr9YKabqKwU7t75j0uAnVylDf
+	HdebM/q64FCrLBjD5+xjEP02xhWfxKrdMHEVtofTUUU8tSKu7dHsJxe3KAiAk3o5ggL/+tq6xWL
+	/YAjDxkLPinFgd83q0rt8wzFEIRspra4KYaINPLQnALFZqSMTZyfaDrggBBNHZ+tnWOsWx3hqHX
+	d6FN4wBokIre7GIITr4su/3FYfH4/hoxUHCCsQSI8MWi1pESliUArBrh/OTi/894CC6VoE100b8
+	OuZpX60g/h5+
+X-Google-Smtp-Source: AGHT+IGv7OO4S+PX1JEzf1FD5TKVniBJ3Qz2rGhVhW1JutG98DBeJCVgPETzAt4sXagkNpFcw0cCpQ==
+X-Received: by 2002:a05:6a20:6a28:b0:1e0:d663:1d12 with SMTP id adf61e73a8af0-1e0e0b52a50mr17753171637.34.1732891029383;
+        Fri, 29 Nov 2024 06:37:09 -0800 (PST)
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com. [209.85.216.43])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72541813c15sm3532125b3a.139.2024.11.29.06.37.08
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Nov 2024 06:37:08 -0800 (PST)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2ea5a22d80cso1408708a91.0
+        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2024 06:37:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXdHEYiZfk2RBDR0EmO1WyKP0Z4X9V8tMe+4JWaolnfjgVLlDSVi9cD9zVrXMM7zCZTDtf6Zp2bF70hBw==@vger.kernel.org
+X-Received: by 2002:a17:90b:2882:b0:2ea:83a0:47a6 with SMTP id
+ 98e67ed59e1d1-2ee097dd78bmr14783645a91.33.1732891027768; Fri, 29 Nov 2024
+ 06:37:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/9] media: i2c: ds90ub960: Replace aliased clients
- list with bitmap
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Andi Shyti
- <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Derek Kiernan <derek.kiernan@amd.com>,
- Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-References: <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
- <20241125-fpc202-v3-2-34e86bcb5b56@bootlin.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20241125-fpc202-v3-2-34e86bcb5b56@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241128145144.61475-1-isaac.scott@ideasonboard.com>
+ <20241128145144.61475-2-isaac.scott@ideasonboard.com> <CANiDSCuQUEhxhqTvrKcKtRx4fbkQPUx5O22xBxuXOpGPzH=jVw@mail.gmail.com>
+ <db474dc5ad8ce5743a2120ae490ff9f6a723b6f3.camel@ideasonboard.com>
+In-Reply-To: <db474dc5ad8ce5743a2120ae490ff9f6a723b6f3.camel@ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 29 Nov 2024 15:36:56 +0100
+X-Gmail-Original-Message-ID: <CANiDSCt3SyYtLpSWRhkDZBR44iLJQMvNUwoikQxH6K4dJq_e8Q@mail.gmail.com>
+Message-ID: <CANiDSCt3SyYtLpSWRhkDZBR44iLJQMvNUwoikQxH6K4dJq_e8Q@mail.gmail.com>
+Subject: Re: [PATCH v8 1/2] media: uvcvideo: Implement dual stream quirk to
+ fix loss of usb packets
+To: Isaac Scott <isaac.scott@ideasonboard.com>
+Cc: laurent.pinchart@ideasonboard.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hi Isaac
 
-On 25/11/2024 10:45, Romain Gantois wrote:
-> The ds90ub960 driver currently uses a list of i2c_client structs to keep
-> track of used I2C address translator (ATR) alias slots for each RX port.
-> 
-> Keeping these i2c_client structs in the alias slot list isn't actually
-> needed, the driver only needs to know if a specific alias slot is already
-> in use or not.
-> 
-> Convert the aliased_clients list to a bitmap named "alias_use_mask". This
-> will allow removing the "client" parameter from the i2c-atr callbacks in a
-> future patch.
-> 
-> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
-> ---
->   drivers/media/i2c/ds90ub960.c | 23 +++++++++--------------
->   1 file changed, 9 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index ffe5f25f8647624be005da33a6412da2493413b4..f86028894c78187257efc8fd70812387000796f7 100644
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -468,7 +468,7 @@ struct ub960_rxport {
->   		};
->   	} eq;
->   
-> -	const struct i2c_client *aliased_clients[UB960_MAX_PORT_ALIASES];
-> +	DECLARE_BITMAP(alias_use_mask, UB960_MAX_PORT_ALIASES);
->   };
->   
->   struct ub960_asd {
-> @@ -1032,17 +1032,13 @@ static int ub960_atr_attach_client(struct i2c_atr *atr, u32 chan_id,
->   	struct device *dev = &priv->client->dev;
->   	unsigned int reg_idx;
->   
-> -	for (reg_idx = 0; reg_idx < ARRAY_SIZE(rxport->aliased_clients); reg_idx++) {
-> -		if (!rxport->aliased_clients[reg_idx])
-> -			break;
-> -	}
-> -
-> -	if (reg_idx == ARRAY_SIZE(rxport->aliased_clients)) {
-> +	reg_idx = find_first_zero_bit(rxport->alias_use_mask, UB960_MAX_PORT_ALIASES);
-> +	if (reg_idx >= UB960_MAX_PORT_ALIASES) {
->   		dev_err(dev, "rx%u: alias pool exhausted\n", rxport->nport);
->   		return -EADDRNOTAVAIL;
->   	}
->   
-> -	rxport->aliased_clients[reg_idx] = client;
-> +	set_bit(reg_idx, rxport->alias_use_mask);
->   
->   	ub960_rxport_write(priv, chan_id, UB960_RR_SLAVE_ID(reg_idx),
->   			   client->addr << 1);
-> @@ -1063,18 +1059,15 @@ static void ub960_atr_detach_client(struct i2c_atr *atr, u32 chan_id,
->   	struct device *dev = &priv->client->dev;
->   	unsigned int reg_idx;
->   
-> -	for (reg_idx = 0; reg_idx < ARRAY_SIZE(rxport->aliased_clients); reg_idx++) {
-> -		if (rxport->aliased_clients[reg_idx] == client)
-> -			break;
-> -	}
-> +	reg_idx = find_first_zero_bit(rxport->alias_use_mask, UB960_MAX_PORT_ALIASES);
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 
-The old code went through the alias table to find the matching client, 
-so that it can be removed. The new code... Tries to find the first 
-unused entry in the mask, to... free it?
+On Fri, 29 Nov 2024 at 11:36, Isaac Scott <isaac.scott@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> I hope you are well!
+>
+> On Thu, 2024-11-28 at 17:16 +0100, Ricardo Ribalda wrote:
+> > On Thu, 28 Nov 2024 at 15:53, Isaac Scott
+> > <isaac.scott@ideasonboard.com> wrote:
+> > >
+> > > Some cameras, such as the Sonix Technology Co. 292A, exhibit issues
+> > > when
+> > > running two parallel streams, causing USB packets to be dropped
+> > > when an
+> > > H.264 stream posts a keyframe while an MJPEG stream is running
+> > > simultaneously. This occasionally causes the driver to erroneously
+> > > output two consecutive JPEG images as a single frame.
+> > >
+> > > To fix this, we inspect the buffer, and trigger a new frame when we
+> > > find an SOI.
+> > >
+> > > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_video.c | 27 ++++++++++++++++++++++++++-
+> > >  drivers/media/usb/uvc/uvcvideo.h  |  1 +
+> > >  2 files changed, 27 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_video.c
+> > > b/drivers/media/usb/uvc/uvc_video.c
+> > > index e00f38dd07d9..6d800a099749 100644
+> > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > @@ -20,6 +20,7 @@
+> > >  #include <linux/atomic.h>
+> > >  #include <linux/unaligned.h>
+> > >
+> > > +#include <media/jpeg.h>
+> > >  #include <media/v4l2-common.h>
+> > >
+> > >  #include "uvcvideo.h"
+> > > @@ -1116,6 +1117,7 @@ static void uvc_video_stats_stop(struct
+> > > uvc_streaming *stream)
+> > >  static int uvc_video_decode_start(struct uvc_streaming *stream,
+> > >                 struct uvc_buffer *buf, const u8 *data, int len)
+> > >  {
+> > > +       u8 header_len;
+> > >         u8 fid;
+> > >
+> > >         /*
+> > > @@ -1129,6 +1131,7 @@ static int uvc_video_decode_start(struct
+> > > uvc_streaming *stream,
+> > >                 return -EINVAL;
+> > >         }
+> > >
+> > > +       header_len = data[0];
+> > >         fid = data[1] & UVC_STREAM_FID;
+> > >
+> > >         /*
+> > > @@ -1210,9 +1213,31 @@ static int uvc_video_decode_start(struct
+> > > uvc_streaming *stream,
+> > >                 return -EAGAIN;
+> > >         }
+> > >
+> > > +       /*
+> > > +        * Some cameras, when running two parallel streams (one
+> > > MJPEG alongside
+> > > +        * another non-MJPEG stream), are known to lose the EOF
+> > > packet for a frame.
+> > > +        * We can detect the end of a frame by checking for a new
+> > > SOI marker, as
+> > > +        * the SOI always lies on the packet boundary between two
+> > > frames for
+> > > +        * these devices.
+> > > +        */
+> > > +       if (stream->dev->quirks & UVC_QUIRK_MJPEG_NO_EOF &&
+> > > +           (stream->cur_format->fcc == V4L2_PIX_FMT_MJPEG ||
+> > > +           stream->cur_format->fcc == V4L2_PIX_FMT_JPEG)) {
+> > > +               const u8 *packet = data + header_len;
+> > > +
+> > > +               if (len >= header_len + 2 &&
+> > > +                   packet[0] == 0xff && packet[1] ==
+> > > JPEG_MARKER_SOI &&
+> > > +                   buf->bytesused != 0) {
+> > nit: !buf->bytesused (please ignore if you prefer your way)
+> > > +                       buf->state = UVC_BUF_STATE_READY;
+> > > +                       buf->error = 1;
+> >
+> > I have a question. Lets say that  you have two frames: A and B, each
+> > one has 4 packets:
+> > A1A2A3A4B1B2B3B4
+> > The last package of A is lost because the device is non-compliant.
+> > A1A2A3B1B2B3B4
+> >
+> > You detect this by inspecting every packet, and checking for the
+> > values 0xff, JPEG_MARKER_SOI at the beggining of the packet.
+> >
+> > Can't that value happen in the middle of the image, let's say in A2,
+> > A3, B2, B3... ? If that happens, won't you be losing frames?
+> >
+>
+> I have found that in MJPEG, it is required to have both an SOI (0xFFD8)
+> and an EOI (0xFFD9) in every payload.
 
-I'm not sure how this is supposed to work, or how the driver even could 
-manage with just a bit mask. The driver needs to remove the one that was 
-assigned in ub960_atr_attach_addr(), so it somehow has to find the same 
-entry using the address or the alias.
+Thanks a lot for checking it out.
 
-  Tomi
+If you happen to make a new version, that would be a very nice info to
+add  to the comment.
 
+>
+> Source: p.16, USB Device Class Definition for Video Devices: MJPEG
+> Payload
+> (https://usb.org/document-library/video-class-v15-document-set))
+>
+> Furthermore, the JPEG standard also explicitly defines 0xFFD8 to be the
+> start of image marker, meaning its usage outside that functionality
+> would not adhere to the standard. If it appears in the middle of a
+> payload, the payload should be marked as invalid.
+>
+> Source: p. 32, Digital Compression and Coding of Continuous-Tone Still
+> Images - Requirements and Guidelines
+> (https://www.w3.org/Graphics/JPEG/itu-t81.pdf)
+>
+> > Also, If I get it right, the device not only loses the packet A4, but
+> > it sends the wrong fid for all the Bx packets?
+>
+> Before the patch, B would be joined into A, and gets delivered to user
+> space as A1, A2, A3, A4, A5, A6, A7, A8, C1, C2, C3...
+>
+So it seems like the fid value does not change during all the A...
+
+Thanks again  and sorry for not raising the questions before.
+
+>
+> > Maybe the device is not losing A4 but sending wrong fids? Have you
+> > tried not setting buf->error=1 and inspecting the "invalid" image?
+> >
+>
+> I saw during the diagnosis of the issue by analysing the USB packets
+> sent by the camera that the packet containing the EOF does not get sent
+> whatsoever when the two streams are running simultaneously.
+>
+> > I am not saying that it is incorrect. I am just trying to understand
+> > the patch better. :)
+> >
+> >
+> > > +                       stream->last_fid ^= UVC_STREAM_FID;
+> > It would be nice to have uvc_dbg() here, in case we want to debug
+> > what
+> > is going on.
+> > > +                       return -EAGAIN;
+> > > +               }
+> > > +       }
+> > > +
+> > >         stream->last_fid = fid;
+> > >
+> > > -       return data[0];
+> > > +       return header_len;
+> > >  }
+> > >
+> > >  static inline enum dma_data_direction uvc_stream_dir(
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h
+> > > b/drivers/media/usb/uvc/uvcvideo.h
+> > > index b7d24a853ce4..040073326a24 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -76,6 +76,7 @@
+> > >  #define UVC_QUIRK_NO_RESET_RESUME      0x00004000
+> > >  #define UVC_QUIRK_DISABLE_AUTOSUSPEND  0x00008000
+> > >  #define UVC_QUIRK_INVALID_DEVICE_SOF   0x00010000
+> > > +#define UVC_QUIRK_MJPEG_NO_EOF         0x00020000
+> > >
+> > >  /* Format flags */
+> > >  #define UVC_FMT_FLAG_COMPRESSED                0x00000001
+> > > --
+> > > 2.43.0
+> > >
+> > >
+> >
+> >
+>
+> Best wishes,
+>
+> Isaac
+
+
+
+-- 
+Ricardo Ribalda
 
