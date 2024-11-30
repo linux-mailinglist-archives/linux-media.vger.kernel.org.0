@@ -1,409 +1,308 @@
-Return-Path: <linux-media+bounces-22388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22389-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADA79DF235
-	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2024 18:15:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5229DF35D
+	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2024 22:48:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C418EB21668
-	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2024 17:15:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A655DB2158F
+	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2024 21:48:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D602C1A38E1;
-	Sat, 30 Nov 2024 17:15:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A541AB6EF;
+	Sat, 30 Nov 2024 21:48:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QqqfJBMA"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A3nF5Gyk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966F561FCE
-	for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 17:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF111A7045
+	for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 21:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732986930; cv=none; b=LH3/YjpU0EhnonEZJv1C+Ii7xuxVCtLR0rL8XzB0GOKnwV1tvbL6879yphfioRZBZVLScSXFWN+osL54caN7B33xfEgH9fbNRCb/qU22mk1GxkLVNVQgIO44Rt02+Xqk1PJLkWTJqSN8l3saf7HTEiTyQCt9shD7MMSw4b4TWhI=
+	t=1733003287; cv=none; b=DGFU36D27wo7XzUsSWnvBBRexaUAYVEC8i8XIp+O8WBWlqY49wpjh4SkTPZz5qpA+KUd3shvdL0DWUD2BH0umQInTzTPjverZdMV8R5nAgGMXDKTSXc32drxPclBqAdgBuEhEgSrQMJcts27AB1Pf87pEu1dm32HhmikWM8YIjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732986930; c=relaxed/simple;
-	bh=j986YlEGWUzjWl5L6NnzIUZjyJzBtCOf2hbzQfSlLg0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gl7Rs7s26/qqm6DrowhOO+rPAzFmryU9w69IJbQ2xBNOExaqqovbHslkXAWj3eAiA0JfylCkQl34tW/4zvTuSXMmXiv5d8u0Za637/4AFnJfEh1W0jNif78hGIjW/pjqfPouiGplRKpWBOdma2v8DTLqq7uAmgn65KmvOczWfrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QqqfJBMA; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-724e113c821so2593457b3a.3
-        for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 09:15:28 -0800 (PST)
+	s=arc-20240116; t=1733003287; c=relaxed/simple;
+	bh=nlchDJTecWL4h04s00z0Wn9m519FoRsOMmkvYV8mAqM=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=TtHz4vJGZKf/7Ice99uh/5eoxhgQX9w/Q+s0tntxZPy89/danjf895a3MDr6brhb3WCfOpFitU9ZY8p6yJt+CI9v6mYEJR3k8Q3hm1G74ZKpYjSallql7QU4Y3xi2DPU+ZSYw9GNOH1uRZQc43gwbTNoxIwjnFZ0zZOUgEhtk+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A3nF5Gyk; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-434a95095efso23374105e9.0
+        for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 13:48:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732986928; x=1733591728; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ns8sXTy5NQlVVpEAKiZMIsA11vqUUUuUQ2j/9bwZtrk=;
-        b=QqqfJBMAoUxY6Jg24kHjU9ownfw0ZoYHzM6aAbGzp2a11S6JFTYQMGZXOCz/t7e+SR
-         iNzsHOc5TRWL72ClBFHL1Ihe/FLQAn9j+tZnkdl9C0PQC1MA6uL7RskIERTGAPxUZria
-         gam0JYulK1sLWgbKQ3kv3S/XSIp1AbgpKDfxw=
+        d=linaro.org; s=google; t=1733003283; x=1733608083; darn=vger.kernel.org;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5kUctKLCXRtwVI3Jfqg7lc71isKX+hW2sSaZDvbuyzo=;
+        b=A3nF5GykyfbYHzfBnzJc9WkeKKRZrmsQh0eG1NhR73Wmp0Tz5u240ZDbFGJb6F723u
+         10RsbN4VPohsNwUoltHtpXzL7XWH7JsW+sECXLclVJpLz0g2bKakF8beEJK9nJwzx5k2
+         Kb9O876sCngXSmZu+5Ve6eD6V3TL3nQJC3h0v69b7oGgpVKj5Lydn5nbRSR0GZY6TkYx
+         Cul99H3x3mDGrpBY2VqpABbd4tVTQ4xSGNOOgvHaN26dvTCv5EcTop9fV803YgXLLSCs
+         fn1XqRXTixofOo7JFZAhncDyFc6iA42UbvnNjGRAtNDcOh94ww3ldu2j+dBOUU/bUrdw
+         fGlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732986928; x=1733591728;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ns8sXTy5NQlVVpEAKiZMIsA11vqUUUuUQ2j/9bwZtrk=;
-        b=Q0WYRJBAiHO3D4r2BFotnmQwT/H/7/YAbYraVdL7Ki1MlTDr0jhi6kuXIkiL8VSeic
-         zaju4oxgYbZsKsXAQtJr2x/COFYaRU3phCaH+eeK/r1sDMKmKbJZwK4zJ1afwQw5HKFw
-         IKFhSwkZlrCIslggOW8IQ8yqhOnPMkZktIVp/Pym5I3BH56l4EAkNQ6c88NFsMIvGlpF
-         oOLEa+qZ5NhwBs+xne5sZyqN2f5ADpa0DiJPl/ymE+H31qBh5lPFbsQiRTejV16apuQz
-         auSBGAjhPsPek/fhooAaMIxhqz075gldO4H9a+lX9NhPA1/yruh5GQSa78f4GTGkYNZJ
-         v8OA==
-X-Forwarded-Encrypted: i=1; AJvYcCWPqPXCGIk+3tgIt+MdIZueJPsmj8jaV4miiBzwM0v7sOd9Lt2QGzd3z05XsRBEht27avolpCtfp0kFaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy/5o9c50HZ8qRIFjunSMt+CEi87HvlT0g4mYzBTPra8GAg8P5
-	89wcGKTZQvEgrn4REAVCPehBgRtFc4pXR6OUhuULBECoS93NdKYVcLj2Y4Gisne0PrWjbkn9Ue8
-	=
-X-Gm-Gg: ASbGncuC44lTP+gEQAo7vy/I8IpPF7he6C1Y4HLwBGEj5uUF9K7tdPAcyWaJaUJRvX7
-	gFprN1nD6+mf/kJPZ4lxpd62jeIHs66wcfET7kxGgd5HfXZ1v15hI3i2rkAqlOseSKLvJXptJ+r
-	32LbfQiHatdE1Jvb0uDsZsNI7bpMOG9QASAh4ckaz64+Clo/N4X1RKMFT7Mvh0ICyw57bqrCfXt
-	bO8mRwCqEpnhfpqQjp/VvFMmQIgWPo0JDENNuG+0TjlFYMg2n6IygHxChqFCQiv4BUIiAKJIYvI
-	Bvl4n5QrKHMy
-X-Google-Smtp-Source: AGHT+IGXgHEbLFx7X0vmig2vLQBi9ecqkPGZMKJTO/8QCmCPOS2I8SS1tmbiK9S1ypTk1R4HCzwlfQ==
-X-Received: by 2002:a05:6a00:1789:b0:725:a65:d194 with SMTP id d2e1a72fcca58-72530077bcamr21196526b3a.14.1732986927321;
-        Sat, 30 Nov 2024 09:15:27 -0800 (PST)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com. [209.85.216.51])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176129fsm5409260b3a.4.2024.11.30.09.15.25
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1733003283; x=1733608083;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5kUctKLCXRtwVI3Jfqg7lc71isKX+hW2sSaZDvbuyzo=;
+        b=lT90zq4veq8hrvzKD0IFYXnWOqSjuDr7/HH+2rjDT0L8aaof4k0f4bR88c27mxCVGR
+         JmJCDx7JN/Ta7uNbf5HYihVnQQz1fMkMKoz1PnSUe+M2ODh1PzOYl91sSezk8dKp+hrE
+         PpVvuqLW5U6l1gVivH4Ekjj5AOtMrUYS+yL/Lvyq1Dvfgcj0Me7JbUCcLeTLcIAlCIOn
+         46bQPKsiHDKLO9i6E7o5fjfN3kviFZvPw0ReqgB/g4VcahojxLGcbFKj+bW3QtUbhxR7
+         2KO0Pl3hNrsZ7mIyWFzZ8XgbzkeEwmMM/SFLVEqBP9Ec5LstaS+cR1bDRfF1yEeUIfMk
+         78ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVj8YNbkfzOvFmlXGOlLzCJEPR/oqADjccSUd0znTq1dIq4Y+VB7OcDPE13cg07XwM3InGCOr/JztYpOQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLcr2/Xs9yhDFyo+e2gl7xUU9u/qcGEJzt2+Txxt8PAYlW4LgT
+	u/YV+BptqXESC+oIKnisv8Ldx2wK0vNUX6xHjtHjZrDomlxKYuJrJ3l7ZMfpIwY=
+X-Gm-Gg: ASbGncuoP9r6SMkZmdME7AN67/bqSF3BJVD+PdCFzabcdF7N9/r42hDE/meLq9Bmkm+
+	YR1Wz2YzRoxVZo/+A+pbP8NLUjb0eqSs8NUGBnxhL+QSop9mtEBupYBa4+Q8Z3bK5PGbtPgjM61
+	nM9+9XID3VhhtsBCr+aRNYFFhG68vEquBmc3ealLbQ8S8MKJSSoP3i4YSdaZ2DMaKmLmrKh9uLs
+	v6qEXbCeEbv+AfpK0lcH12P2BwWm1W80erQVbLQ82IyGhawBZZYYBk0Jgm2AkQ=
+X-Google-Smtp-Source: AGHT+IFsFaPc61BH5IFJr2K4j5U2x210tRSF46eM926+9LrNarcfqAnCiCw04Zin2ZMz0xFRWGPFBQ==
+X-Received: by 2002:a05:600c:1d0f:b0:434:9fc8:63a7 with SMTP id 5b1f17b1804b1-434afb9539dmr112754775e9.1.1733003283455;
+        Sat, 30 Nov 2024 13:48:03 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0f325fdsm98901605e9.30.2024.11.30.13.48.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Nov 2024 09:15:25 -0800 (PST)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2ee4f78493aso1271340a91.3
-        for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 09:15:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWPojJbooQ8pFhKSDj5YyhqTOum0kFi6Kq1VuitvATEmrlhKTj1+jjzeWDGnC2bDosyHyWI+PWMeVpwyg==@vger.kernel.org
-X-Received: by 2002:a17:90b:4b0f:b0:2ea:4150:3f71 with SMTP id
- 98e67ed59e1d1-2ee08ea04cbmr20795902a91.14.1732986924592; Sat, 30 Nov 2024
- 09:15:24 -0800 (PST)
+        Sat, 30 Nov 2024 13:48:02 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------ZCraIeVNJvMB080IqVCK3Ofz"
+Message-ID: <c8020803-ecbd-4496-9361-f19352ddf462@linaro.org>
+Date: Sat, 30 Nov 2024 21:48:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241129-uvc-fix-async-v4-0-f23784dba80f@chromium.org> <20241129-uvc-fix-async-v4-2-f23784dba80f@chromium.org>
-In-Reply-To: <20241129-uvc-fix-async-v4-2-f23784dba80f@chromium.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sat, 30 Nov 2024 18:15:12 +0100
-X-Gmail-Original-Message-ID: <CANiDSCv3986=KjwWOXsKGZ58+YMViHeHvam=ax7iKr=x_h_pRw@mail.gmail.com>
-Message-ID: <CANiDSCv3986=KjwWOXsKGZ58+YMViHeHvam=ax7iKr=x_h_pRw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] media: uvcvideo: Remove dangling pointers
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: qcom: camss: fix VFE pm domain off
+To: barnabas.czeman@mainlining.org
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Yassine Oudjana <y.oudjana@protonmail.com>
+References: <20241128-vfe_pm_domain_off-v2-1-0bcbbe7daaaf@mainlining.org>
+ <3a5fd596-b442-4d3f-aae2-f454d0cd8e5c@linaro.org>
+ <5cccec71-0cc7-492a-9fb9-903970da05c5@linaro.org>
+ <d3a8d38c-9129-4fbd-8bd6-c91131d950ad@linaro.org>
+ <a08e95fc03fce6cb0809a06900982c6c@mainlining.org>
+ <8dfd2ee1-9baf-441f-8eb9-fa11e830334a@linaro.org>
+ <ac765a062e94d549f4c34cf4c8b2c199@mainlining.org>
+ <f4e47953-5a68-4ec5-860b-820b8eff2a2a@linaro.org>
+ <05e91ae70902f0cd9c47bb4197d8fef1@mainlining.org>
+ <93028653-9919-460e-83d3-84bf5ade56d4@linaro.org>
+ <c7a9a43eea8bd1e6302ae4fa2d79dd80@mainlining.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <c7a9a43eea8bd1e6302ae4fa2d79dd80@mainlining.org>
 
-nit:
+This is a multi-part message in MIME format.
+--------------ZCraIeVNJvMB080IqVCK3Ofz
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-After sleeping on it. I think this could be nicer expressed  with:
-uvc_ctrl_get_handle and uvc_ctrl_put_handle
+On 29/11/2024 23:52, barnabas.czeman@mainlining.org wrote:
+> On 2024-11-30 00:07, Bryan O'Donoghue wrote:
+>> On 29/11/2024 22:45, barnabas.czeman@mainlining.org wrote:
+>>> On 2024-11-29 23:08, Bryan O'Donoghue wrote:
+>>>> On 29/11/2024 13:46, barnabas.czeman@mainlining.org wrote:
+>>>>> On 2024-11-29 13:25, Bryan O'Donoghue wrote:
+>>>>>> On 29/11/2024 11:44, barnabas.czeman@mainlining.org wrote:
+>>>>>>>> The change does not describe how to reproduce the problem, which 
+>>>>>>>> commit
+>>>>>>>> base is tested, which platform is testes, there is no enough 
+>>>>>>>> information,
+>>>>>>>> unfortunately.
+>>>>>>> I can reproduce the problem with megapixels-sensorprofile on 
+>>>>>>> msm8953 and
+>>>>>>> it can be reproduced with megapixels on msm8996.
+>>>>>>> The base is the last commit on next.
+>>>>>>
+>>>>>> Can you verify if vfe_domain_on has run and if so whether or not 
+>>>>>> genpd_link is NULL when that function exists.
+>>>>>>
+>>>>> I have added some debug logs it seems pm_domain_on and 
+>>>>> pm_domain_off is called twice on the same object.
+>>>>> [   63.473360] qcom-camss 1b00020.camss: pm_domain_on 19842ce8 link 
+>>>>> 42973800
+>>>>> [   63.481524] qcom-camss 1b00020.camss: pm_domain_on 19840080 link 
+>>>>> 4e413800
+>>>>> [   63.481555] qcom-camss 1b00020.camss: pm_domain_on 19842ce8 link 
+>>>>> 42973800
+>>>>> [   63.481632] qcom-camss 1b00020.camss: pm_domain_off 19840080 
+>>>>> link 4e413800
+>>>>> [   63.481641] qcom-camss 1b00020.camss: pm_domain_off 19842ce8 
+>>>>> link 42973800
+>>>>> [   63.654004] qcom-camss 1b00020.camss: pm_domain_off 19842ce8 link 0
+>>>>>> That's the question.
+>>>>>>
+>>>>>> ---
+>>>>>> bod
+>>>>
+>>>> Could you provide this output ?
+>>>>
+>>>> index 80a62ba112950..b25b8f6b00be1 100644
+>>>> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+>>>> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+>>>> @@ -595,6 +595,9 @@ void vfe_isr_reset_ack(struct vfe_device *vfe)
+>>>>   */
+>>>>  void vfe_pm_domain_off(struct vfe_device *vfe)
+>>>>  {
+>>>> +dev_info(camss->dev, "%s VFE %d genpd %pK genpd_link %pK\n",
+>>>> +        __func__, vfe->id, vfe->genpd, vfe->genpd_link);
+>>>> +
+>>>>         if (!vfe->genpd)
+>>>>                 return;
+>>>>
+>>>> @@ -609,7 +612,8 @@ void vfe_pm_domain_off(struct vfe_device *vfe)
+>>>>  int vfe_pm_domain_on(struct vfe_device *vfe)
+>>>>  {
+>>>>         struct camss *camss = vfe->camss;
+>>>> -
+>>>> +dev_info(camss->dev, "%s VFE %d genpd %pK genpd_link %pK\n",
+>>>> +        __func__, vfe->id, vfe->genpd, vfe->genpd_link);
+>>>>         if (!vfe->genpd)
+>>>>                 return 0;
+>>>>
+>>>> ---
+>>>> bod
+>>> I think logging in pm_domain_on should be placed after 
+>>> device_link_add because only NULL
+>>> will be visible.
+>>> [   83.040694] qcom-camss 1b00020.camss: vfe_pm_domain_on VFE 1 genpd 
+>>> 000000009bd8355f genpd_link 0000000000000000
+>>> [   83.049293] qcom-camss 1b00020.camss: vfe_pm_domain_on VFE 0 genpd 
+>>> 00000000bfb65e7c genpd_link 0000000000000000
+>>> [   83.049353] qcom-camss 1b00020.camss: vfe_pm_domain_on VFE 1 genpd 
+>>> 000000009bd8355f genpd_link 00000000ccb0acd9
+>>> [   83.049641] qcom-camss 1b00020.camss: vfe_pm_domain_off VFE 0 
+>>> genpd 00000000bfb65e7c genpd_link 00000000348ac3c1
+>>> [   83.049654] qcom-camss 1b00020.camss: vfe_pm_domain_off VFE 1 
+>>> genpd 000000009bd8355f genpd_link 00000000ccb0acd9
+>>> [   83.241498] qcom-camss 1b00020.camss: vfe_pm_domain_off VFE 1 
+>>> genpd 000000009bd8355f genpd_link 0000000000000000
+>>
+>> Could you add
+>>
+>> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+>> @@ -786,7 +786,7 @@ int vfe_get(struct vfe_device *vfe)
+>>         int ret;
+>>
+>>         mutex_lock(&vfe->power_lock);
+>> -
+>> +dev_info(vfe->camss->dev, "%s vfe %d power_count %d\n", __func__, 
+>> vfe->id, vfe->power_count);
+>>         if (vfe->power_count == 0) {
+>>                 ret = vfe->res->hw_ops->pm_domain_on(vfe);
+>>                 if (ret < 0)
+>> @@ -823,6 +823,7 @@ int vfe_get(struct vfe_device *vfe)
+>>
+>>         mutex_unlock(&vfe->power_lock);
+>>
+>> +dev_info(camss->vfe->dev, "%s vfe %d err=%d\n", __func__, camss->vfe- 
+>> >id, 0);
+>>         return 0;
+>>
+>>  error_reset:
+>> @@ -835,7 +836,7 @@ int vfe_get(struct vfe_device *vfe)
+>>
+>>  error_pm_domain:
+>>         mutex_unlock(&vfe->power_lock);
+>> -
+>> +dev_info(camss->vfe->dev, "%s vfe %d err=%d\n", __func__, camss->vfe- 
+>> >id, ret);
+>>         return ret;
+>>  }
+>>
+>> ?
+>>
+>> ---
+>> bod
+> I have added little more from the logs because it is only failing in 
+> edge cases megapixels-sensorprofile failing by
+> different reason quickly and trying to release the device.
+> [   54.719030] qcom-camss 1b00020.camss: vfe_get vfe 0 err=0
+> [   54.750124] qcom-camss 1b00020.camss: vfe_get vfe 0 power_count 1
+> [   54.750236] qcom-camss 1b00020.camss: vfe_get vfe 0 err=0
+> [   54.751270] qcom-camss 1b00020.camss: vfe_pm_domain_on VFE 0 genpd 
+> 00000000beaef03c genpd_link 00000000251644d9
 
-Let me know what do you prefer:
+> [   54.751433] qcom-camss 1b00020.camss: vfe_pm_domain_on VFE 1 genpd 
+> 000000007ce2da53 genpd_link 0000000000000000
+> [   54.755531] qcom-camss 1b00020.camss: vfe_pm_domain_off VFE 1 genpd 
+> 000000007ce2da53 genpd_link 0000000058dcd4d6
 
+that's a bug genpd_link should be NULL unless power_count != 0
 
+> [  143.922868] qcom-camss 1b00020.camss: vfe_pm_domain_off VFE 1 genpd 
+> 000000007ce2da53 genpd_link 00000000d1fcd54b
+> [  144.126535] qcom-camss 1b00020.camss: vfe_pm_domain_off VFE 1 genpd 
+> 000000007ce2da53 genpd_link 0000000000000000
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 88ef8fdc2be2..d4a010cdf805 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1579,6 +1579,35 @@ static void uvc_ctrl_send_slave_event(struct
-uvc_video_chain *chain,
-        uvc_ctrl_send_event(chain, handle, ctrl, mapping, val, changes);
- }
+this is the corollary of the bug
 
-+static int uvc_ctrl_get_handle(struct uvc_fh *handle, struct uvc_control *ctrl)
-+{
-+       /* NOTE: We must own the chain->ctrl_mutex to run this function. */
-+
-+       if (handle == ctrl->handle) /* Nothing to do here. */
-+               return 0;
-+
-+       /* We can't change the original handler. */
-+       if (ctrl->handle)
-+               return -EBUSY;
-+
-+       ctrl->handle = handle;
-+       handle->pending_async_ctrls++;
-+       return 0;
-+}
-+
-+static void uvc_ctrl_put_handle(struct uvc_fh *handle, struct
-uvc_control *ctrl)
-+{
-+       /* NOTE: We must own the chain->ctrl_mutex to run this function. */
-+
-+       if (!ctrl->handle) /* Nothing to do here.*/
-+               return;
-+
-+       ctrl->handle = NULL;
-+       if (WARN_ON(!handle->pending_async_ctrls))
-+               return;
-+       handle->pending_async_ctrls--;
-+}
-+
- void uvc_ctrl_status_event(struct uvc_video_chain *chain,
-                           struct uvc_control *ctrl, const u8 *data)
- {
-@@ -1589,7 +1618,7 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
-        mutex_lock(&chain->ctrl_mutex);
+can you provide the output of the attached please ?
+--------------ZCraIeVNJvMB080IqVCK3Ofz
+Content-Type: text/x-patch; charset=UTF-8; name="bug.diff"
+Content-Disposition: attachment; filename="bug.diff"
+Content-Transfer-Encoding: base64
 
-        handle = ctrl->handle;
--       ctrl->handle = NULL;
-+       uvc_ctrl_put_handle(handle, ctrl);
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcWNvbS9jYW1zcy9jYW1zcy12
+ZmUuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcWNvbS9jYW1zcy9jYW1zcy12ZmUuYwpp
+bmRleCA4MGE2MmJhMTEyOTUwLi40MzkwODVkZTFjOWFiIDEwMDY0NAotLS0gYS9kcml2ZXJz
+L21lZGlhL3BsYXRmb3JtL3Fjb20vY2Ftc3MvY2Ftc3MtdmZlLmMKKysrIGIvZHJpdmVycy9t
+ZWRpYS9wbGF0Zm9ybS9xY29tL2NhbXNzL2NhbXNzLXZmZS5jCkBAIC03NzQsNiArNzc0LDcg
+QEAgc3RhdGljIGludCB2ZmVfY2hlY2tfY2xvY2tfcmF0ZXMoc3RydWN0IHZmZV9kZXZpY2Ug
+KnZmZSkKIAogCXJldHVybiAwOwogfQorI2RlZmluZSB2ZmVfYnVnX3RyYWNlKHZmZSkgZGV2
+X2luZm8odmZlLT5jYW1zcy0+ZGV2LCAiJXMvJWQgdmZlICVkIHBvd2VyX2NvdW50ICVkXG4i
+LCBfX2Z1bmNfXywgX19MSU5FX18sIHZmZS0+aWQsIHZmZS0+cG93ZXJfY291bnQpOwogCiAv
+KgogICogdmZlX2dldCAtIFBvd2VyIHVwIGFuZCByZXNldCBWRkUgbW9kdWxlCkBAIC03ODYs
+MzEgKzc4NywzNyBAQCBpbnQgdmZlX2dldChzdHJ1Y3QgdmZlX2RldmljZSAqdmZlKQogCWlu
+dCByZXQ7CiAKIAltdXRleF9sb2NrKCZ2ZmUtPnBvd2VyX2xvY2spOwotCiAJaWYgKHZmZS0+
+cG93ZXJfY291bnQgPT0gMCkgeworCQl2ZmVfYnVnX3RyYWNlKHZmZSk7CiAJCXJldCA9IHZm
+ZS0+cmVzLT5od19vcHMtPnBtX2RvbWFpbl9vbih2ZmUpOwogCQlpZiAocmV0IDwgMCkKIAkJ
+CWdvdG8gZXJyb3JfcG1fZG9tYWluOwogCisJCXZmZV9idWdfdHJhY2UodmZlKTsKIAkJcmV0
+ID0gcG1fcnVudGltZV9yZXN1bWVfYW5kX2dldCh2ZmUtPmNhbXNzLT5kZXYpOwogCQlpZiAo
+cmV0IDwgMCkKIAkJCWdvdG8gZXJyb3JfZG9tYWluX29mZjsKIAorCQl2ZmVfYnVnX3RyYWNl
+KHZmZSk7CiAJCXJldCA9IHZmZV9zZXRfY2xvY2tfcmF0ZXModmZlKTsKIAkJaWYgKHJldCA8
+IDApCiAJCQlnb3RvIGVycm9yX3BtX3J1bnRpbWVfZ2V0OwogCisJCXZmZV9idWdfdHJhY2Uo
+dmZlKTsKIAkJcmV0ID0gY2Ftc3NfZW5hYmxlX2Nsb2Nrcyh2ZmUtPm5jbG9ja3MsIHZmZS0+
+Y2xvY2ssCiAJCQkJCSAgdmZlLT5jYW1zcy0+ZGV2KTsKIAkJaWYgKHJldCA8IDApCiAJCQln
+b3RvIGVycm9yX3BtX3J1bnRpbWVfZ2V0OwogCisJCXZmZV9idWdfdHJhY2UodmZlKTsKIAkJ
+cmV0ID0gdmZlX3Jlc2V0KHZmZSk7CiAJCWlmIChyZXQgPCAwKQogCQkJZ290byBlcnJvcl9y
+ZXNldDsKIAorCQl2ZmVfYnVnX3RyYWNlKHZmZSk7CiAJCXZmZV9yZXNldF9vdXRwdXRfbWFw
+cyh2ZmUpOwogCisJCXZmZV9idWdfdHJhY2UodmZlKTsKIAkJdmZlX2luaXRfb3V0cHV0cyh2
+ZmUpOwogCiAJCXZmZS0+cmVzLT5od19vcHMtPmh3X3ZlcnNpb24odmZlKTsKQEAgLTgyMSw2
+ICs4MjgsNyBAQCBpbnQgdmZlX2dldChzdHJ1Y3QgdmZlX2RldmljZSAqdmZlKQogCX0KIAl2
+ZmUtPnBvd2VyX2NvdW50Kys7CiAKKwl2ZmVfYnVnX3RyYWNlKHZmZSk7CiAJbXV0ZXhfdW5s
+b2NrKCZ2ZmUtPnBvd2VyX2xvY2spOwogCiAJcmV0dXJuIDA7CkBAIC04MzUsNyArODQzLDcg
+QEAgaW50IHZmZV9nZXQoc3RydWN0IHZmZV9kZXZpY2UgKnZmZSkKIAogZXJyb3JfcG1fZG9t
+YWluOgogCW11dGV4X3VubG9jaygmdmZlLT5wb3dlcl9sb2NrKTsKLQorZGV2X2luZm8oY2Ft
+c3MtPnZmZS0+ZGV2LCAiJXMgdmZlICVkIGVycj0lZFxuIiwgX19mdW5jX18sIGNhbXNzLT52
+ZmUtPmlkLCByZXQpOwogCXJldHVybiByZXQ7CiB9CiAKQEAgLTg0NywyMCArODU1LDMyIEBA
+IHZvaWQgdmZlX3B1dChzdHJ1Y3QgdmZlX2RldmljZSAqdmZlKQogewogCW11dGV4X2xvY2so
+JnZmZS0+cG93ZXJfbG9jayk7CiAKKwl2ZmVfYnVnX3RyYWNlKHZmZSk7CiAJaWYgKHZmZS0+
+cG93ZXJfY291bnQgPT0gMCkgeworCQl2ZmVfYnVnX3RyYWNlKHZmZSk7CiAJCWRldl9lcnIo
+dmZlLT5jYW1zcy0+ZGV2LCAidmZlIHBvd2VyIG9mZiBvbiBwb3dlcl9jb3VudCA9PSAwXG4i
+KTsKIAkJZ290byBleGl0OwogCX0gZWxzZSBpZiAodmZlLT5wb3dlcl9jb3VudCA9PSAxKSB7
+CisJCXZmZV9idWdfdHJhY2UodmZlKTsKIAkJaWYgKHZmZS0+d2FzX3N0cmVhbWluZykgewor
+CQkJdmZlX2J1Z190cmFjZSh2ZmUpOwogCQkJdmZlLT53YXNfc3RyZWFtaW5nID0gMDsKKwkJ
+CXZmZV9idWdfdHJhY2UodmZlKTsKIAkJCXZmZS0+cmVzLT5od19vcHMtPnZmZV9oYWx0KHZm
+ZSk7CisJCQl2ZmVfYnVnX3RyYWNlKHZmZSk7CiAJCX0KKwkJdmZlX2J1Z190cmFjZSh2ZmUp
+OwogCQljYW1zc19kaXNhYmxlX2Nsb2Nrcyh2ZmUtPm5jbG9ja3MsIHZmZS0+Y2xvY2spOwor
+CQl2ZmVfYnVnX3RyYWNlKHZmZSk7CiAJCXBtX3J1bnRpbWVfcHV0X3N5bmModmZlLT5jYW1z
+cy0+ZGV2KTsKKwkJdmZlX2J1Z190cmFjZSh2ZmUpOwogCQl2ZmUtPnJlcy0+aHdfb3BzLT5w
+bV9kb21haW5fb2ZmKHZmZSk7CisJCXZmZV9idWdfdHJhY2UodmZlKTsKIAl9CiAKKwl2ZmVf
+YnVnX3RyYWNlKHZmZSk7CiAJdmZlLT5wb3dlcl9jb3VudC0tOworCXZmZV9idWdfdHJhY2Uo
+dmZlKTsKIAogZXhpdDoKIAltdXRleF91bmxvY2soJnZmZS0+cG93ZXJfbG9jayk7Cg==
 
-        list_for_each_entry(mapping, &ctrl->info.mappings, list) {
-                s32 value = __uvc_ctrl_get_value(mapping, data);
-@@ -2046,8 +2075,8 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-        mapping->set(mapping, value,
-                uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-
--       if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS && !ctrl->handle)
--               ctrl->handle = handle;
-+       if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
-+               uvc_ctrl_get_handle(handle, ctrl);
-
-        ctrl->dirty = 1;
-        ctrl->modified = 1;
-@@ -2770,6 +2799,22 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
-        return 0;
- }
-
-+void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-+{
-+       struct uvc_entity *entity;
-+
-+       guard(mutex)(&handle->chain->ctrl_mutex);
-+
-+       if (!handle->pending_async_ctrls)
-+               return;
-+
-+       list_for_each_entry(entity, &handle->chain->dev->entities, list)
-+               for (unsigned int i = 0; i < entity->ncontrols; ++i)
-+                       uvc_ctrl_put_handle(handle, &entity->controls[i]);
-+
-+       WARN_ON(handle->pending_async_ctrls);
-+}
-+
- /*
-  * Cleanup device controls.
-  */
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 97c5407f6603..b425306a3b8c 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -652,6 +652,8 @@ static int uvc_v4l2_release(struct file *file)
-
-        uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
-
-+       uvc_ctrl_cleanup_fh(handle);
-+
-        /* Only free resources if this is a privileged handle. */
-        if (uvc_has_privileges(handle))
-                uvc_queue_release(&stream->queue);
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index ce688b80e986..e0e4f099a210 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -340,7 +340,11 @@ struct uvc_video_chain {
-        struct uvc_entity *processing;          /* Processing unit */
-        struct uvc_entity *selector;            /* Selector unit */
-
--       struct mutex ctrl_mutex;                /* Protects ctrl.info */
-+       struct mutex ctrl_mutex;                /*
-+                                                * Protects ctrl.info,
-+                                                * ctrl.handle and
-+                                                * uvc_fh.pending_async_ctrls
-+                                                */
-
-        struct v4l2_prio_state prio;            /* V4L2 priority state */
-        u32 caps;                               /* V4L2 chain-wide caps */
-@@ -615,6 +619,7 @@ struct uvc_fh {
-        struct uvc_video_chain *chain;
-        struct uvc_streaming *stream;
-        enum uvc_handle_state state;
-+       unsigned int pending_async_ctrls;
- };
-
- struct uvc_driver {
-@@ -800,6 +805,8 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain
-*chain, u32 v4l2_id,
- int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
-                      struct uvc_xu_control_query *xqry);
-
-+void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
-+
- /* Utility functions */
- struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
-                                            u8 epaddr);
-
-On Fri, 29 Nov 2024 at 22:30, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> When an async control is written, we copy a pointer to the file handle
-> that started the operation. That pointer will be used when the device is
-> done. Which could be anytime in the future.
->
-> If the user closes that file descriptor, its structure will be freed,
-> and there will be one dangling pointer per pending async control, that
-> the driver will try to use.
->
-> Clean all the dangling pointers during release().
->
-> To avoid adding a performance penalty in the most common case (no async
-> operation), a counter has been introduced with some logic to make sure
-> that it is properly handled.
->
-> Cc: stable@vger.kernel.org
-> Fixes: e5225c820c05 ("media: uvcvideo: Send a control event when a Control Change interrupt arrives")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 54 ++++++++++++++++++++++++++++++++++++++--
->  drivers/media/usb/uvc/uvc_v4l2.c |  2 ++
->  drivers/media/usb/uvc/uvcvideo.h |  9 ++++++-
->  3 files changed, 62 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 88ef8fdc2be2..bc96fb475b9c 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1579,6 +1579,33 @@ static void uvc_ctrl_send_slave_event(struct uvc_video_chain *chain,
->         uvc_ctrl_send_event(chain, handle, ctrl, mapping, val, changes);
->  }
->
-> +static void uvc_ctrl_set_handle(struct uvc_control *ctrl, struct uvc_fh *handle)
-> +{
-> +       /* NOTE: We must own the chain->ctrl_mutex to run this function. */
-> +
-> +       if (handle) {
-> +               if (handle == ctrl->handle) /* Nothing to do here. */
-> +                       return;
-> +
-> +               /* We can't change the original handler. */
-> +               if (WARN_ON(ctrl->handle))
-> +                       return;
-> +
-> +               ctrl->handle = handle;
-> +               handle->pending_async_ctrls++;
-> +               return;
-> +       }
-> +
-> +       if (!ctrl->handle) /* Nothing to do here.*/
-> +               return;
-> +
-> +       handle = ctrl->handle;
-> +       ctrl->handle = NULL;
-> +       if (WARN_ON(!handle->pending_async_ctrls))
-> +               return;
-> +       handle->pending_async_ctrls--;
-> +}
-> +
->  void uvc_ctrl_status_event(struct uvc_video_chain *chain,
->                            struct uvc_control *ctrl, const u8 *data)
->  {
-> @@ -1589,7 +1616,7 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
->         mutex_lock(&chain->ctrl_mutex);
->
->         handle = ctrl->handle;
-> -       ctrl->handle = NULL;
-> +       uvc_ctrl_set_handle(ctrl, NULL);
->
->         list_for_each_entry(mapping, &ctrl->info.mappings, list) {
->                 s32 value = __uvc_ctrl_get_value(mapping, data);
-> @@ -2047,7 +2074,7 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->                 uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
->
->         if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS && !ctrl->handle)
-> -               ctrl->handle = handle;
-> +               uvc_ctrl_set_handle(ctrl, handle);
->
->         ctrl->dirty = 1;
->         ctrl->modified = 1;
-> @@ -2770,6 +2797,29 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
->         return 0;
->  }
->
-> +void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> +{
-> +       struct uvc_entity *entity;
-> +
-> +       guard(mutex)(&handle->chain->ctrl_mutex);
-> +
-> +       if (!handle->pending_async_ctrls)
-> +               return;
-> +
-> +       list_for_each_entry(entity, &handle->chain->dev->entities, list) {
-> +               for (unsigned int i = 0; i < entity->ncontrols; ++i) {
-> +                       struct uvc_control *ctrl = &entity->controls[i];
-> +
-> +                       if (ctrl->handle != handle)
-> +                               continue;
-> +
-> +                       uvc_ctrl_set_handle(ctrl, NULL);
-> +               }
-> +       }
-> +
-> +       WARN_ON(handle->pending_async_ctrls);
-> +}
-> +
->  /*
->   * Cleanup device controls.
->   */
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 97c5407f6603..b425306a3b8c 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -652,6 +652,8 @@ static int uvc_v4l2_release(struct file *file)
->
->         uvc_dbg(stream->dev, CALLS, "%s\n", __func__);
->
-> +       uvc_ctrl_cleanup_fh(handle);
-> +
->         /* Only free resources if this is a privileged handle. */
->         if (uvc_has_privileges(handle))
->                 uvc_queue_release(&stream->queue);
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index ce688b80e986..e0e4f099a210 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -340,7 +340,11 @@ struct uvc_video_chain {
->         struct uvc_entity *processing;          /* Processing unit */
->         struct uvc_entity *selector;            /* Selector unit */
->
-> -       struct mutex ctrl_mutex;                /* Protects ctrl.info */
-> +       struct mutex ctrl_mutex;                /*
-> +                                                * Protects ctrl.info,
-> +                                                * ctrl.handle and
-> +                                                * uvc_fh.pending_async_ctrls
-> +                                                */
->
->         struct v4l2_prio_state prio;            /* V4L2 priority state */
->         u32 caps;                               /* V4L2 chain-wide caps */
-> @@ -615,6 +619,7 @@ struct uvc_fh {
->         struct uvc_video_chain *chain;
->         struct uvc_streaming *stream;
->         enum uvc_handle_state state;
-> +       unsigned int pending_async_ctrls;
->  };
->
->  struct uvc_driver {
-> @@ -800,6 +805,8 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
->  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
->                       struct uvc_xu_control_query *xqry);
->
-> +void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
-> +
->  /* Utility functions */
->  struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
->                                             u8 epaddr);
->
-> --
-> 2.47.0.338.g60cca15819-goog
->
-
-
--- 
-Ricardo Ribalda
+--------------ZCraIeVNJvMB080IqVCK3Ofz--
 
