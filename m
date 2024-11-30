@@ -1,291 +1,190 @@
-Return-Path: <linux-media+bounces-22383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22384-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1C19DF05E
-	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2024 13:42:33 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095D59DF083
+	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2024 14:35:08 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D2C33282216
-	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2024 12:42:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F840161C61
+	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2024 13:35:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C88D9198E6D;
-	Sat, 30 Nov 2024 12:42:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 967021494B3;
+	Sat, 30 Nov 2024 13:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="knsNiAf8"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JkJXOAUp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3193215D5CE;
-	Sat, 30 Nov 2024 12:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E80149E16
+	for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 13:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732970546; cv=none; b=oMX0VdTt+yGsbVhG/QvXE7oFF6QkWB+52SsoFuJBHLj7wfjJygPowDFCvQiEN050A2dL3tkwczlRiM0jbLVQaJEEzEwqscwciBk5JmDb4mg4GP2ccO+X/HWbgCa+maKIgbBtmKLO3FNWNhSecughNWPiQ8wlJfb5g+j39Vm7hNk=
+	t=1732973698; cv=none; b=Kwinq8Pn/ZAkx2bQcluP0JvjH6+iiqiIC8KnLE+D6K+fDptb4ALlIzh9sFrbJP/wzFF6gIgog7v1RluodLHt8YcxKmV0bTx6TZqJz07OVZ4RGMsjyh2JTa3+sIXUmQN4doGoybvWKlus2MejYou5vodIUYPvh8hEla7cKHT4n2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732970546; c=relaxed/simple;
-	bh=OTFExf+QsXXdlpNsJKQkd59yFLG/lgzzIOiyJ0lxdIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IYMqZDeW0W8Ldm/gg/HdoD8nQf/JMKYrRj+dd3QMEjsg3O2f9sAjOIaxHWq4eyUxggcey27yBfLJBIy4eWN/6f0s2QJ0V4Bz/mmwZDLms5f85+L8IsvCGhtXGQTlrYhAnhlLHq0RMJPKWdU1PiM1r3CaIaTPFudLqzLBwwRKcbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=knsNiAf8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D2CC4CECC;
-	Sat, 30 Nov 2024 12:42:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732970545;
-	bh=OTFExf+QsXXdlpNsJKQkd59yFLG/lgzzIOiyJ0lxdIQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=knsNiAf8nA3Ih9rS8JkTeC8kUvcBs9YNy7qkOXBwofAx1jeVaqLKmkRr1bUvphlt8
-	 dkIRXN/D96k8mqPxyJX+ekgNp5irdidptdIIDH22eukZb/1I1QN9uEumjORARUefgL
-	 QOTj1GM3n0hgI6pzPs92j6E1jeFTPYPCHtTmOwC1idkyjcwCM0ye0ZrFYoQkHJrDus
-	 dhZL59KAFAJITnPSK0XWI+efk7lwZOjH4I/KME0AzNNtjFbhnTY3YF6BQ0VO8Hpj/q
-	 9s760oqnNpRZsGNzJVPERMGvMadNkIL/n+1M+FV5FLawGuWzOjKAcUWzjxIODusJrm
-	 QANmNoMzxp8Gg==
-Date: Sat, 30 Nov 2024 13:42:21 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Hans Verkuil
- <hverkuil@xs4ll.nl>
-Subject: Re: [PATCH v2 1/2] docs: media: update maintainer-entry-profile for
- multi-committers
-Message-ID: <20241130134221.5629bf57@foz.lan>
-In-Reply-To: <CAPybu_2O9GVNCroLoFPGgrhs_UB97p6ng1dHgtVwbGhyr9LruA@mail.gmail.com>
-References: <cover.1732872169.git.mchehab+huawei@kernel.org>
-	<99e1b9df713827ce2e6c21073276c97030071a07.1732872169.git.mchehab+huawei@kernel.org>
-	<CAPybu_2O9GVNCroLoFPGgrhs_UB97p6ng1dHgtVwbGhyr9LruA@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1732973698; c=relaxed/simple;
+	bh=Usr4LZHuY36YIyHUlhmC56voNmbZ83rVw7kX6gPo2gc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a2IxmRp6YgXSfrOjNDKSkyX6OFCISpS2hTIW/BdZ5KjxOgAgDWbZKv7ZhYmNo9kE0cdi0BHU5SnqfZnRFmnmjQElMTPyGneKFSuigeG3xiBGQX/mlH+UrFO8HSLB4laLC5iaTCeO60+6Yg2X2QOumvpAtnQFN9T2T9uOPurTNR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JkJXOAUp; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AU9pMwD001755
+	for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 13:34:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	v2VLO7yzmzpBOk/kD1jBsRCrAVGZQXpmF5LywqF4XOk=; b=JkJXOAUprXDAvALa
+	pcOXfUSsdRAJ5RPVymR/Z7u1xHQWZvJq73naqbEg8NpRg+g/kOl/nHTLArcyxgO+
+	cgke9hQq98WCxRgWiSWww5UCk/J9Cg9agYMyYspHLthIa1NMSRGKozqXCNBg3Xey
+	Ugn6HKUFtTeDrAZIfC+1zNMs/jgWE6wsznQZ7ne/hCQ6LiYjFmhewc5fYk6ca8h+
+	CFaVNgFd1hJg692/X+Vn1+VO14WnD2M1kcXjTNqvWCWuZGaHNYr6hGIVc891kDF9
+	EottyI5sXlTvD298+OQmWpT9r+Q+SysZLbuJObvGb8VxN8Qq3zByhWxC38Ekyn70
+	EYoZaw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437ta2rt7a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 13:34:55 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-46692fb862bso3524301cf.1
+        for <linux-media@vger.kernel.org>; Sat, 30 Nov 2024 05:34:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732973695; x=1733578495;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v2VLO7yzmzpBOk/kD1jBsRCrAVGZQXpmF5LywqF4XOk=;
+        b=OGdSDjQjviDIkjuPCX/Y6NPCL1tqOdBW7cGiKN7K1v5coKEvIkOVRdjcFxJwhI/JkS
+         OCIintiMfbHftPw/q8ggIqD3gUv4djKufwk6yIQ+dQgzvgd5wat2Q6TrzT17DQ+wQCzl
+         ujUc1aJhllb2CsDt32t1/ss9TVosvXS/0Sb8p5yzBdMAN5/oPvhE+PVyEroKYJNjS002
+         xFfcLs2As3YD40FZQe3kB6JLgh/8W1LoEyUu0M9k+8WgXBEsPJG7T1DlnGZAcpQYW2H7
+         rIeUENuXBQg2Y30ihQy13CH2HOY9RIi4viVKI0filfWDMB2soWXgbI2rTJGEwKWFySTg
+         fmIg==
+X-Gm-Message-State: AOJu0YwqhIoVUScJW6dzq2fwYjbxJwzSIq5/kzw1oFIg7AKY5Y9WwXGQ
+	j80qabFM+Z7ZzL6/SvGrzl1SIaMJ0i85M64qvfwQdGMc/rd9g1Gc7h8IUDuqp5Y4J8FFndm3L1G
+	aYtzNtKIgpnDvb8qXPiCIZZaj4xlJW/GHobKsfLVlYILPBDbGNGJXh1mUwaVHHA==
+X-Gm-Gg: ASbGncvuHsh0AG73l6m8vvAvD4MU8kGelk7ItIEiMxWkg4ixt37GEp5MPsBvGEc9vRR
+	T5U+oJEFNY0DbdQhVZlzGJnsGTJjCQsuKv3vqbvA8S0hdny+Ao99ZP62Keg7vqGMFW3lyhyHHBp
+	hV4gnKnUShWtxlJQ872EnJg88qNwBNdupfCcVKiBgb8xwbmxDjzhpSFQ4ABKSUeiFyOeJ23Itb/
+	mI6O+mnULdCBdqGlTRv7mwHpn1ggAJs40yQQaWLuA3b5sp+whTZDab6ORL9/r4J25klzfiw8M52
+	fxEA3IFTJTk8ya06YZVVaPKGYGK6i7c=
+X-Received: by 2002:a05:622a:5cf:b0:463:16ee:bd7 with SMTP id d75a77b69052e-466b357ee1amr92420771cf.9.1732973694660;
+        Sat, 30 Nov 2024 05:34:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFkRA/kQnxX8r0wEF6WBiAAJPb1xtL3Uef0kpFMGTVXF0cYbIVZY1PdQhdGQgKvLe+UgQ4tFg==
+X-Received: by 2002:a05:622a:5cf:b0:463:16ee:bd7 with SMTP id d75a77b69052e-466b357ee1amr92420501cf.9.1732973694301;
+        Sat, 30 Nov 2024 05:34:54 -0800 (PST)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5998e771csm285187766b.127.2024.11.30.05.34.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Nov 2024 05:34:53 -0800 (PST)
+Message-ID: <1f1fa37a-a6b3-45e5-b1cb-66abf0f5430b@oss.qualcomm.com>
+Date: Sat, 30 Nov 2024 14:34:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] arm64: dts: qcom: add venus node for the qcs615
+To: Renjiang Han <quic_renjiang@quicinc.com>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241125-add-venus-for-qcs615-v3-0-5a376b97a68e@quicinc.com>
+ <20241125-add-venus-for-qcs615-v3-3-5a376b97a68e@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241125-add-venus-for-qcs615-v3-3-5a376b97a68e@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: EU4TdWzeL7qzdOfjDr6yuaSnU1vG9tOd
+X-Proofpoint-GUID: EU4TdWzeL7qzdOfjDr6yuaSnU1vG9tOd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 impostorscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
+ phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2411300111
 
-Em Fri, 29 Nov 2024 16:09:41 +0100
-Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com> escreveu:
+On 25.11.2024 6:34 AM, Renjiang Han wrote:
+> Add venus node into devicetree for the qcs615 video.
+> 
+> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/qcs615.dtsi | 86 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 86 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+> index 06deb5c499fe83f0eb20d7957ca14948de7aab34..18ad4da5ed194458aded424560f45a3a9f3163dc 100644
+> --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
+> @@ -394,6 +394,11 @@ smem_region: smem@86000000 {
+>  			no-map;
+>  			hwlocks = <&tcsr_mutex 3>;
+>  		};
+> +
+> +		pil_video_mem: pil-video@93400000 {
+> +			reg = <0x0 0x93400000 0x0 0x500000>;
+> +			no-map;
+> +		};
+>  	};
+>  
+>  	soc: soc@0 {
+> @@ -530,6 +535,87 @@ gem_noc: interconnect@9680000 {
+>  			qcom,bcm-voters = <&apps_bcm_voter>;
+>  		};
+>  
+> +		venus: video-codec@aa00000 {
+> +			compatible = "qcom,qcs615-venus";
+> +			reg = <0x0 0xaa00000 0x0 0x100000>;
 
-> Thanks for putting this together.
->=20
-> I have marked some minor nits here and there. You can put my
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Please pad the address part to 8 hex digits with leading zeroes
 
-Thanks!
+> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
+> +				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
+> +				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
+> +				 <&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
+> +				 <&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
+> +			clock-names = "core",
+> +				      "iface",
+> +				      "bus",
+> +				      "vcodec0_core",
+> +				      "vcodec0_bus";
+> +
+> +			power-domains = <&videocc VENUS_GDSC>,
+> +					<&videocc VCODEC0_GDSC>,
+> +					<&rpmhpd RPMHPD_CX>;
+> +			power-domain-names = "venus",
+> +					     "vcodec0",
+> +					     "cx";
+> +
+> +			operating-points-v2 = <&venus_opp_table>;
+> +
+> +			interconnects = <&mmss_noc MASTER_VIDEO_P0 0
 
-> The only thing that is not a nit: is changing responsible with
-> contributor. But if we agree on the meaning (and I think that we do)
-> we can always improve this doc later.
+QCOM_ICC_TAG_ALWAYS
 
-See the comments below with regards to your nits.
+> +					 &mc_virt SLAVE_EBI1 0>,
+> +					<&gem_noc MASTER_APPSS_PROC 0
+> +					 &config_noc SLAVE_VENUS_CFG 0>;
 
-> On Fri, Nov 29, 2024 at 12:15=E2=80=AFPM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
+QCOM_ICC_TAG_ACTIVE_ONLY
 
-> > +In the media subsystem, there are experienced developers who can push
-> > +patches directly to the development tree. These developers are called
-> > +Media committers and are divided into the following categories:
-> > +
-> > +- Committers: responsible for one or more drivers within the media sub=
-system.
-> > +  They can push changes to the tree that do not affect the core or ABI=
-. =20
->=20
-> Can we say contributor instead of responsible? For me responsible
-> means maintainer.
-
-Works for me.
-
-> I would like to land patches that have been properly reviewed to the
-> committers tree for areas that I do not maintiain:
->=20
-> For example:
-> - Laurent has reviewed a uvc patch that I want to land asap to avoid
-> conflicts with other patchsets that I am working with.
-> - I want to land a patch for a ci breakage that has been reviewed by
-> another person, it is trivial, and none has a bad comment about it.
-> - I want to land a fix for a driver that has been properly reviewed by
-> the maintainer and none has a bad comment about it.
-
-Makes sense. Yet, for the first example you would need to coordinate
-with the uvc maintainers to avoid conflicts at the trees they would
-be using.
-
-> > +Media development workflow
-> > +++++++++++++++++++++++++++
-> > +
-> > +All changes for the media subsystem must be sent first as e-mails to t=
-he
-> > +media mailing list, following the process documented at
-> > +Documentation/process/index.rst.
-> > +
-> > +It means that patches shall be submitted as plain text only via e-mail=
- to:
-> > +
-> > +  `https://subspace.kernel.org/vger.kernel.org.html <linux-media@vger.=
-kernel.org>`_ =20
->=20
-> nit: Maybe this is a better url? https://lore.kernel.org/linux-media/
-
-As this is focused on upcoming contributors, placing the place that contains
-the subscription link sounds better to me. There, it has links for
-subscribe, unsubscribe, post and archive (which already links to lore).
-
-IMO, works better for newbies.
-
-> > +
-> > +Emails with HTML will be automatically rejected by the mail server.
-> > +
-> > +It could be wise to also copy the media committer(s). You should use =
-=20
-> nit: How does someone know who the committers are? I think sending to
-> the ML and to ./get_maintainers.pl is enough
-
-Yes, but that's what it is written...
->=20
->=20
-> > +``scripts/get_maintainers.pl`` to identify whom else needs to be copie=
-d.
-
-here ^
-
-> > +Please always copy driver's authors and maintainers.
-> > +
-> > +Such patches need to be based against a public branch or tag as follow=
-s:
-> > +
-> > +1. Patches for new features need to be based at the ``next`` branch of
-> > +   media.git tree;
-> > +
-> > +2. Fixes against an already released kernel should preferably be again=
-st
-> > +   the latest released Kernel. If they require a previously-applied
-> > +   change at media.git tree, they need to be against its ``fixes`` bra=
-nch. =20
->=20
-> 2. Fixes against an already released kernel should preferably be against
->    the ``fixes`` branch of the media.git tree;
-
-The better is to have such fixes against the latest released one, as
-this would mean that such patch will apply cleanly at least at the
-latest -stable.
-
-Usually, conflicts are unlikely on such cases, but, when they happen,
-committers can easily solve it.
-
-As stable will be copied on both versions, that hopefully make their
-work easier, as they can just use the version without conflicts.
-
-As a notice, usually stable people doesn't solve conflicts, if they
-have a high number of patches: they send-emails requesting us and/or
-the author to do it.
-
-> > +3. Fixes for issues not present at the latest released kernel should
-> > +   preferably be against the latest -rc1 Kernel. If they require a
-> > +   previously-applied change at media.git tree, they need to be against
-> > +   its ``fixes`` branch. =20
->=20
-> Can we get rid of this third type? It is a bit confusing.  My mental mode=
-l is:
-> - Things for the next kernel version: next
-> - Things for this kernel version: fixes
->=20
-> We will make sure to close the next tree when needed, and that fixes
-> and next are upreved accordingly.
-
-Not all people reporting patches to us will be doing against the
-media tree for stuff that are on upstream. That's perfectly fine.
-Also, it is an usual practice to have patches against -rc kernels.
-This is specially true for developers working on distros: they just
-test Linus -rc during their rolling release kernels.
-
-See, for instance:
-	https://bodhi.fedoraproject.org/updates/?packages=3Dkernel
-
-So, we need to be prepared to receive patches aiming an upcoming
-release on the top of a -rc release.
-
-Maybe we can tell, instead:
-
-3. Fixes for issues not present at the latest released kernel shall
-   be either against a -rc kernel for an upcoming release or
-   against the ``fixes`` branch of the media.git tree.
-
-That's said, it is uncommon to have conflicts there, but sometimes
-they happen.
-
-When they happen, they're trivial enough for the committers to
-handle it.
-
-> > +Once a patch is submitted, it may follow either one of the following
-> > +workflows:
-> > +
-> > +a. Pull request workflow: patches are handled by subsystem maintainers=
-::
-> > +
-> > +     +------+   +---------+   +-------+   +-----------------------+   =
-+---------+
-> > +     |e-mail|-->|patchwork|-->|pull   |-->|maintainers merge      |-->=
-|media.git|
-> > +     +------+   |picks it |   |request|   |in media-committers.git|   =
-+---------+
-> > +                +---------+   +-------+   +-----------------------+
-> > +
-> > +   For this workflow, pull requests can be generated by a committer,
-> > +   a previous committer, subsystem maintainers or by a couple of trust=
-ed =20
->=20
-> I guess you mean a trusted long-time contributor, not a couple.=20
-> can you send a PR from two people?
-
-"a couple of" means "a few", not "a couple" ;-)
-
-but yeah, "a trusted long-time contributor" works better.
-
->=20
-> > +   long-time contributors. If you are not in such group, please don't =
-submit
-> > +   pull requests, as they will likely be ignored. =20
-> s/be ignored/not processed/.
->=20
-> Sounds a bit better :).
-
-Agreed.
-
-> Maybe you could even say: not processed, and the author notified.
-
-You meant changing it to:
-
-	please don't submit pull requests, as they will
-	not be processed, and the author notified.
-
-right? What do you mean by "and the author notified"?
-"and the author will not be notified"?
-
-> > +b. Committers' workflow: patches are handled by media committers::
-> > +
-> > +     +------+   +---------+   +--------------------+   +-----------+  =
- +---------+
-> > +     |e-mail|-->|patchwork|-->|committers merge at |-->|maintainers|--=
->|media.git|
-> > +     +------+   |picks it |   |media-committers.git|   |approval   |  =
- +---------+
-> > +                +---------+   +--------------------+   +-----------+
-> > +
-> > +On both workflows, all patches shall be properly reviewed at
-> > +linux-media@vger.kernel.org before being merged at media-committers.gi=
-t.
-> > +
-> > +When patches are picked by patchwork and when merged at media-committe=
-rs,
-> > +CI bots will check for errors and may provide e-mail feedback about
-> > +patch problems. When this happens, the patch submitter must fix them
-> > +and send another version of the patch. =20
->=20
-> must fix them, or explain why the errors are false positives.
-
-Ok.
-
-Thanks,
-Mauro
+Konrad
 
