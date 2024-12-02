@@ -1,148 +1,181 @@
-Return-Path: <linux-media+bounces-22453-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22456-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCB69E0647
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 16:07:00 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0203816AA7E
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 14:52:45 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBCFD20CCDC;
-	Mon,  2 Dec 2024 14:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fIvzC6Zw"
-X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1829E059E
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 15:55:29 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC17208992
-	for <linux-media@vger.kernel.org>; Mon,  2 Dec 2024 14:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733150703; cv=none; b=VrbWNZQgfActx2rTt1cjXLfQE8+MyNZmREqajnzy6gYuQrrhIDEbbn6hZGj3DkGWAWpWMVuigfEv7055xFPO6B9zpKSN9X08DCPjLtrYMGNmjP5hYH+w9CXmu+gF3v0UN63SjcffdJG9JV/E81r0rSc67B9AnYwKnZyT5f20tv8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733150703; c=relaxed/simple;
-	bh=J6NojA2RZH+RoRRnvD/OYyIay8Vieq6tR0DB9lycCcA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rJQmSazpeP1YayBzyQXOqOY5idwXbmT93Cu06E3T9nLpCjgUThMHc6H4G6Sq8vADXl9htrlz5HAIIjmOuxstR1rd1dQldrt5APsG6axgFCJPc/ZkJ9Jz0tcRJ2MooEiVUGXdy4Qjp500uttTo0mqvBVn2PrJoTiM9CFIICGwe3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fIvzC6Zw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733150700;
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F21328C8AC
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 14:55:28 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC483205E21;
+	Mon,  2 Dec 2024 14:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="EjT+TdmT"
+X-Original-To: linux-media@vger.kernel.org
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B88B202F76;
+	Mon,  2 Dec 2024 14:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733150940; cv=pass; b=I5kf/6Eucxjqx+HaQc7N8rdZCnnrs+dBsy09rzzjTR8A3nqgEcSk57oYaoAIFpTPw9XSaQSX0euy1uCCamr1aSNZwmqMHC6SYho4WiEdjGfJffY9Yhwwtz7A29LqDFiZaplkO6KsynTjnQjLtmFYXRVDf7OrPeRalq7Yb0Lw080=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733150940; c=relaxed/simple;
+	bh=H5hPZUx0N71wjzwU9sPZ5euypkFPFfdruoNx7QEtSNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBPAY/vr0pCY281KWBrm5a6D+WDryZ6etbuZJPeKb3SepB7FeWySZFeHkZL2++bvFbM13xr1kvMK+zzxBQD32qJuhOrDxLgUuDKQKV46uXVbUTN0vsM/g3Z4P64i9ExH7sggk/hKNmgRlX/mfZTX02fx1cVFhYmuZkxMwaxhuRg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=EjT+TdmT; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4Y269f5q4yzySM;
+	Mon,  2 Dec 2024 16:48:54 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1733150934;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Qh0LHQ0l/zAThehTKofaSdXJERCbtOgQsR2kqyENj+s=;
-	b=fIvzC6ZwJVaDmO5Mqyc2xn+XEF31RTqNWafnjDV9MolpjMo/ifiNbDsB2s3xl3J1dKZMRx
-	FoGLON5utZm9wKUUMmEyUCaIZSnnXK/EgRVxmCMCXPjJ2YeihEcaBCX7JhVBvyf3xsVmiZ
-	1Dpyt7w5aVgunc2oZmW0mirgBpyLX/o=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-467-JIO8nVgKP8yPWM7GdcIhNQ-1; Mon, 02 Dec 2024 09:44:59 -0500
-X-MC-Unique: JIO8nVgKP8yPWM7GdcIhNQ-1
-X-Mimecast-MFC-AGG-ID: JIO8nVgKP8yPWM7GdcIhNQ
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-aa55354400eso505706866b.1
-        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2024 06:44:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733150698; x=1733755498;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qh0LHQ0l/zAThehTKofaSdXJERCbtOgQsR2kqyENj+s=;
-        b=sQZJ60g1v4W1ysJJnLXZjtZqGGZJBiOHFrc4MX3CiMhRJ8oEW0Mwzs2uNn2xxwVbqj
-         nFnl39eAdsMERs/zoHpEXOc7xT+jS5N/qM3ek9/51zhz/mVTM4kgulIMAoX2xaYqKnSW
-         KUASE+UHSnaDsM0okatZelXd3P/aiBsjCZ63gRvecL9PRU5AOyZEGlcpfold9Sw79HWb
-         F9hNvpp3UX7WTIdg/3TAxAmK6xDPebbYsVhoQKrm+uRvYo0U+bWhP+EshKeLjtyxCRT0
-         3yLPdQIdhNCHfElLCdz6wMYb0P15ivOhJ/vVK3p1IwRqHfGE8dGsN+FBy5fliToUJenX
-         j+FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUhoEkUcYV+3G8TOy+/9QTWbZpEzL518IjOg47oQL+hikODlJKlvlL4Xo2pD8D/FTqnqDXbd662MkucAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBC7wGGLK/wbZ3KiDi16sxNrj7MWdVaStzoNX6Yw30pnqyS9pa
-	fBQzbQReNY+Rv0WJBnElMs3StMTORLj8p8ug6V5A7dHxDD9jWiZa+k4GrPoT9YX2WELkeEsIWHV
-	r9wecsZZDuFZ7lmkLpVJBehaqwogdXxfeXpuWYbj1dnRKP+7uGbLnIo5Jnx/2
-X-Gm-Gg: ASbGncsn/QjcspPWx0MJdor1C3DiMsw43baw4mkmdJlZ7WQUC0XY4KZOHbX6SxVSdC1
-	WJsksaeHa/ttx+HN1EHS4p0oW6Qb2KEYctX89GvzR8nGcqIaHD/cZOkuV4R5PNaQscq8ffI3xOW
-	EgfTJFC+0o6orVbcQPxwGoIA0iE56VpR5Rg9XHI7xnc+TSMofNQAhROFoHelsz5cINGR5nCCX+P
-	tcI3yOS12V/u3C7XsQe88Za72zwt9EGSGpna5aLU739/W3A2qvROQ==
-X-Received: by 2002:a17:907:31c4:b0:aa5:ee58:5b0b with SMTP id a640c23a62f3a-aa5ee585b94mr57507066b.25.1733150698551;
-        Mon, 02 Dec 2024 06:44:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGJ5xsPPDw4cMz2OuXoK45oswDh5+JI1Ux9Dyy0RZYl3J0FpDJcTTmFFvcexFdg7ZUlQCxJ0Q==
-X-Received: by 2002:a17:907:31c4:b0:aa5:ee58:5b0b with SMTP id a640c23a62f3a-aa5ee585b94mr57503366b.25.1733150698102;
-        Mon, 02 Dec 2024 06:44:58 -0800 (PST)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5996c19b5sm514217666b.5.2024.12.02.06.44.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Dec 2024 06:44:57 -0800 (PST)
-Message-ID: <0531da34-d35f-4f46-be14-a9f864f38784@redhat.com>
-Date: Mon, 2 Dec 2024 15:44:57 +0100
+	bh=hk+EnLsdF6+gCNcJg34JWRmKv0bJbT4GQLbay5GUXCM=;
+	b=EjT+TdmTB65VfYr1N8VF21Cuux7iblf+AVKZWC2K/0hLzlV/uwny7krPzHMwjhHqE38DCX
+	UtuXyFqC1krTAmBJwmnR5/wtWIWxkcmWDTbVEeDANIoVZ+WwhDusBwADXqT3QEn7QU98h7
+	irYdWYB5yx3Q9vqmh+H4Nj3THne5P+U=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1733150934; a=rsa-sha256; cv=none;
+	b=RP9fa6Sw2GpoYb65medWDIAWOZ6H5zqtZSqAQIYHUmjuHZNSFIs4iRCGRTjv8zBdIbEFCt
+	sZ7pS1EcoMybq4A90b3UXJu+t4v4vLygD7zwCWKQx1Nkeu73Nqz2fwAGTMaiSxDkkV/7KK
+	Ybbjpk09nZKMpHUnWzxhHvmuled2/IQ=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1733150934;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hk+EnLsdF6+gCNcJg34JWRmKv0bJbT4GQLbay5GUXCM=;
+	b=Bx758vUXToUiTuOXeZKqnPHXTfb3vXOhIQs6BEsIi65iOU4k95oWux/AwOLRclS9LfxziT
+	fJifoLevnMvAwtOsFKCmuLmZj/q0fMiuB+d/gxoM8PNDhNfK11jaAevfPEj9S9H/3bAnzf
+	gAnartX0fmjFJ2iZMSU60DfMPVgqFmo=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6E4B3634C94;
+	Mon,  2 Dec 2024 16:48:53 +0200 (EET)
+Date: Mon, 2 Dec 2024 14:48:53 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] docs: media: profile: make it clearer about
+ maintainership duties
+Message-ID: <Z03I1R0aRylSz742@valkosipuli.retiisi.eu>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+ <f47082a84e0c799dd047525d4bc351eb3a759e83.1733131405.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/5] media: uvcvideo: Remove redundant NULL assignment
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241202-uvc-fix-async-v5-0-6658c1fe312b@chromium.org>
- <20241202-uvc-fix-async-v5-4-6658c1fe312b@chromium.org>
-Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241202-uvc-fix-async-v5-4-6658c1fe312b@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f47082a84e0c799dd047525d4bc351eb3a759e83.1733131405.git.mchehab+huawei@kernel.org>
 
-Hi,
+Hi Mauro,
 
-On 2-Dec-24 3:24 PM, Ricardo Ribalda wrote:
-> ctrl->handle will only be different than NULL for controls that have
-> mappings. This is because that assignment is only done inside
-> uvc_ctrl_set() for mapped controls.
+On Mon, Dec 02, 2024 at 10:26:21AM +0100, Mauro Carvalho Chehab wrote:
+> During the review of the media committes profile, it was noticed
+
+s/committe\K/r/
+
+> that the responsibility for timely review patches was not clear:
+> such review is expected that all developers listed at MAINTAINERS
+> with the "M:" tag (e.g. "maintainers" on its broad sense).
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-
+> This is orthogonal of being a media committer or not. Such duty
+> is implied at:
+> 
+> 	Documentation/admin-guide/reporting-issues.rst
+> 
+> and at the MAINTAINERS header, when it says that even when the
+> status is "odd fixes", the patches will flow in.
+> 
+> So, let make it explicit at the maintainer-entry-profile that
+> maintainers need to do timely reviews.
+> 
+> Also, while right now our focus is on granting committer rights to
+> maintainers, the media-committer model may evolve in the future to
+> accept other committers that don't have such duties.
+> 
+> So, make it clear at the media-committer.rst that the duties
+> related to reviewing patches from others are for the drivers
+> they are maintainers as well.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  Documentation/driver-api/media/maintainer-entry-profile.rst | 5 +++++
+>  Documentation/driver-api/media/media-committer.rst          | 6 +++---
+>  2 files changed, 8 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 576e3854be91..e90bf2aeb5e4 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1672,10 +1672,8 @@ bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
->  	struct uvc_device *dev = chain->dev;
->  	struct uvc_ctrl_work *w = &dev->async_ctrl;
+> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> index 705209eacf58..50568c744129 100644
+> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> @@ -153,6 +153,11 @@ b. Committers' workflow: patches are handled by media committers::
+>  On both workflows, all patches shall be properly reviewed at
+>  linux-media@vger.kernel.org before being merged at media-committers.git.
 >  
-> -	if (list_empty(&ctrl->info.mappings)) {
-> -		ctrl->handle = NULL;
-> +	if (list_empty(&ctrl->info.mappings))
->  		return false;
-> -	}
->  
->  	w->data = data;
->  	w->urb = urb;
-> 
+> +Such patches will be timely-reviewed by developers listed as maintainers at
+> +the MAINTAINERS file. Such maintainers will follow one of the above
 
+I'd put this as:
+
+Such patches will be reviewed timely by the maintainers and reviewers as
+listed in the MAINTAINERS file.
+
+> +workflows, e. g. they will either send a pull request or merge patches
+> +directly at the media-committers tree.
+
+Can we expect people listed as maintainers to either send PRs or be media
+committers? I think this might be eventually the result but I think we're
+quite far from this currently and I expect things to remain that way in the
+near future.
+
+
+> +
+>  When patches are picked by patchwork and when merged at media-committers,
+>  CI bots will check for errors and may provide e-mail feedback about
+>  patch problems. When this happens, the patch submitter must fix them, or
+> diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
+> index 3c2f8f413307..ec81f01db126 100644
+> --- a/Documentation/driver-api/media/media-committer.rst
+> +++ b/Documentation/driver-api/media/media-committer.rst
+> @@ -87,9 +87,9 @@ be delegating part of their maintenance tasks.
+>  Due to that, to become a committer or a core committer, a consensus between
+>  all subsystem maintainers is required, as they all need to trust a developer
+>  well enough to be delegated the responsibility to maintain part of the code
+> -and to properly review patches from third parties, in a timely manner and
+> -keeping the status of the reviewed code at https://patchwork.linuxtv.org
+> -updated.
+> +and to properly review patches from third parties for the drivers they are
+> +maintainers in a timely manner and keeping the status of the reviewed code
+
+s/code/patches/
+
+> +at https://patchwork.linuxtv.org updated.
+>  
+>  .. Note::
+>  
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
