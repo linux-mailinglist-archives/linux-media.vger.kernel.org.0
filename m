@@ -1,178 +1,346 @@
-Return-Path: <linux-media+bounces-22478-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4A79E09D2
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 18:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 476169E0A46
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 18:41:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C19572828DD
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 17:26:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04F0B282BAC
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 17:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84ADF1DC19E;
-	Mon,  2 Dec 2024 17:26:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A63351DB520;
+	Mon,  2 Dec 2024 17:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Q+XXGW9C"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pJDaAg6r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817191DBB21
-	for <linux-media@vger.kernel.org>; Mon,  2 Dec 2024 17:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55ED13E40F
+	for <linux-media@vger.kernel.org>; Mon,  2 Dec 2024 17:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733160386; cv=none; b=jMpkpRqsj85/gcerlwIkebYgHr/07XA2PjoMPzcLYQ4Dhhf9mnTc/bEbP9LrWHrcl/9wr+9rkbPzZAcd/ruQbLe5ssi5dq92z0d/X1khXsNUGjg5ps2zhMUpP2vynmn4WhgUV/WyK9ITnoW6xGdb56asjoi6edc27jbHHSGXWTQ=
+	t=1733161280; cv=none; b=AXotP7a3BuXgQoMmk8jlGh5t0eYHj13yHXkRCLRmtSySdQ/6rxHOl3FYP39oSqMkDS/4yy0BnVKLlANGzPcVH9rIL+UxxE4OsMjkYoTyhHk1ouBCo4JRkn2EyA9r+HMNGq/qfdlNSG5bBki+8pUrIqggqnu8iwz3BB7p8qTQf4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733160386; c=relaxed/simple;
-	bh=ae8KEDqDkL/cV/eSqqI5LQ5Sz4A4iJSDek5yer/4mas=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tXLkMIObulnS1OovNB3IcWYH/FlqCoJoZpBTCjZW/V1bsUQc211/VYYKVfmtAMprgOmBq3ujQW9suztbDRUJwtuwYLb9CEcnZNfr0dh5ElYM4WwLKdGDYPJaLhFS9fVegbQ3Ot7Xev9l408yntIg0lc0y8n4L4bRQ8w6EUwon5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Q+XXGW9C; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21278f3d547so33613515ad.1
-        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2024 09:26:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733160384; x=1733765184; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hQBhvBNYSI1fNvIhGqfRe5QD/yRE1BVFAKx554DMguU=;
-        b=Q+XXGW9C0FWDu4dQ3yJ+/QAXjWFgmNfZuVmxYNASz0Scwt7sILT0XxiwLb8lNqy1Zv
-         4JGcQtspluCwB3HaoEQnWG/yxkLkCIktyE6r/43NjulXEx4pthYkT3TGQCbEtqqOIpp8
-         iU6z2QZ+bfDJyK3Z2EiJfX45rolzNrNiYIp6Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733160384; x=1733765184;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hQBhvBNYSI1fNvIhGqfRe5QD/yRE1BVFAKx554DMguU=;
-        b=osidWBw2LP/E9p1FE4AV43VikSDX8kiI54jxiV3guRdpciygi791oC1l9qCXEHQKvG
-         fF9AFKGzDZUqme6l4EDRbezLntD3QgtlcTvDracawZ5ptVCAVe2QTmMOfNlEi/LcHNJo
-         5vW/xglR1unLuFeQEx2aF3UqWlcoYxD7ruAKS5SHEPMKc+waldPvgU3aiTuWrRKTtVmM
-         PeDDPYml4z13oLoh1nQJO5lTe24uW+LmQEBIlKzaNy2N8mn0O7ntcLA0j09c3DmCQabo
-         st14+945qe4Ks1UOfPK5OylFWAHdaCF1QQLwC4KBaYpNuiEfyN3porcppCcOcOawH1mr
-         fC1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUKhmzngjM5V6TVDNDa/7vi88WVmHtGqidq8xVdy50lhZbTYSl1k5S7a0Xff4H4vY/qsUiMptsBbfWECw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxowfonXSCewok9Vv08nqQ8yddHUFyl1jnNnzwkGJa5/DwXoNGY
-	jWxAc5ZUSdrHos4rLmbvGlmD5/ZW+1sk5t1rT0mysZyEG2flzGNEJZSydcEtwjeBTV9mavxSdhg
-	=
-X-Gm-Gg: ASbGncu6W7+WjwWIT85YP/nn6tujztnPKyearDHbn5jTMILW1GCCg9m9LpDajHldCqy
-	ZT1NwMkAH5Ho4w5ORSBtI0JS+IQDXtrGiX1dJ9e2dcElCEQu6YaS88jGIzT+VUyMXdk9DUPIged
-	kBAikuKE6Qk1yhlicYT0LFmJnBDuZhK1ALEs1hjGJuA7Q1GqmBHH90s0YIJSgAFadYXTfl9dDFr
-	Eta0QppFE1s/W0rTRN17PeCeYgJWOG4kj9C7rVJ5q2Ek4sjvLimt6nX/eBk8lUIOWw0nwBbSTeD
-	p7guBziai1zSH/48
-X-Google-Smtp-Source: AGHT+IG8EyrM1i2VVY9Rrvh05z+1YQTQieo5sQWF1BIaiE+8nVIp9VZIrVQa5mjKyve9x8wSvQMvhQ==
-X-Received: by 2002:a17:902:d502:b0:212:9aca:14b4 with SMTP id d9443c01a7336-21501b63fb2mr354891485ad.35.1733160384606;
-        Mon, 02 Dec 2024 09:26:24 -0800 (PST)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com. [209.85.210.176])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215a57c9450sm13974235ad.143.2024.12.02.09.26.20
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Dec 2024 09:26:22 -0800 (PST)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-724f41d520cso2664597b3a.1
-        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2024 09:26:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXBi51FfVH75UY1kz0eX+AF/TMZa5j8xJRh8qIkeWaA0cID3WLcsspITbpX+Zqq0yvONCfP3b9njOZ8yA==@vger.kernel.org
-X-Received: by 2002:a17:902:e5d0:b0:215:5a53:eded with SMTP id
- d9443c01a7336-2155a53eff1mr163851165ad.39.1733160379613; Mon, 02 Dec 2024
- 09:26:19 -0800 (PST)
+	s=arc-20240116; t=1733161280; c=relaxed/simple;
+	bh=KztWNgHqmpK+K0IfKY2tXCt/W0+JmLJkPmchhkb++OQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kbtD6WqJTEmieWVU6hwK6RXYsBn1W3mkpHNVXQ3QqHGucfuhAyTFhg3q7j/F0w1DWeVm9ECS76eG1w1vgsow5miXJu0koURZ99z4wduhUe1yPHKlLZvWbAFwYD3BNd/KUAJFlOHTVCu2RXl3YqGAr1FuxVnR2U/UqpwsdzuiJ54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pJDaAg6r; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B06F9514;
+	Mon,  2 Dec 2024 18:40:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733161246;
+	bh=KztWNgHqmpK+K0IfKY2tXCt/W0+JmLJkPmchhkb++OQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pJDaAg6rrhxm2mdN+02n3By9EcMgvpp1JIl3QoHQl2Zn8rVQm9inVlw4PMgTWrovE
+	 wfFoQFwygVWgQ0M8Hkqr0O3pub5g7yKx8K2EiEPByTt59dMVl06CEk5NtI/pzhEZgP
+	 ZLkpsy9F6K2bLAChNCmd1vWP9q0tiwOIlnMZHOJI=
+Date: Mon, 2 Dec 2024 19:41:02 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+	sakari.ailus@linux.intel.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	jacopo.mondi@ideasonboard.com, isaac.scott@ideasonboard.com
+Subject: Re: [PATCH v3 1/5] media: v4l2: Add Renesas Camera Receiver Unit
+ pixel formats
+Message-ID: <20241202174102.GC609@pendragon.ideasonboard.com>
+References: <20241202145831.127297-1-dan.scally@ideasonboard.com>
+ <20241202145831.127297-2-dan.scally@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202-fix-llvm9-v1-0-2a50f5acfd0b@chromium.org>
- <20241202-fix-llvm9-v1-3-2a50f5acfd0b@chromium.org> <20241202162454.GA2848026@thelio-3990X>
-In-Reply-To: <20241202162454.GA2848026@thelio-3990X>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 2 Dec 2024 18:26:07 +0100
-X-Gmail-Original-Message-ID: <CANiDSCu+gJb5aTywEnGDQUJYws++9x=be5QLsdSUqS=XjFZGnQ@mail.gmail.com>
-Message-ID: <CANiDSCu+gJb5aTywEnGDQUJYws++9x=be5QLsdSUqS=XjFZGnQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] media: mediatek: vcodec: Workaround a compiler warning
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241202145831.127297-2-dan.scally@ideasonboard.com>
 
-Hi
+Hi Dan,
 
+Thank you for the patch.
 
-On Mon, 2 Dec 2024 at 17:25, Nathan Chancellor <nathan@kernel.org> wrote:
->
->  Mon, Dec 02, 2024 at 03:47:17PM +0000, Ricardo Ribalda wrote:
-> > llvm identifies that the SCP_IPI_VENC_H264 and IPI_VENC_H264 are from
-> > the same enum type, but their are part of the same ternary operator.
-> >
-> > vpu_inst.id is of type int, so we can just rewrite a bit the code and
-> > avoid the following llvm9 warning:
->
-> LLVM 19, not LLVM 9, as the minimum version for building the kernel is
-> LLVM 13.
->
-> > drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c:597:29: warning: conditional expression between different enumeration types ('enum scp_ipi_id' and 'enum ipi_id') [-Wenum-compare-conditional]
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->
-> FYI, Arnd basically sent the same patch October 18 but I guess it has
-> not been picked up?
->
-> https://lore.kernel.org/20241018152127.3958436-1-arnd@kernel.org/
->
-> Hopefully the new media committers model will help patches like that get
-> picked up in a more timely manner.
+On Mon, Dec 02, 2024 at 02:58:27PM +0000, Daniel Scally wrote:
+> The Renesas Camera Receiver Unit in the RZ/V2H SoC can output RAW
+> data captured from an image sensor without conversion to an RGB/YUV
+> format. In that case the data are packed into 64-bit blocks, with a
+> variable amount of padding in the most significant bits depending on
+> the bitdepth of the data. Add new V4L2 pixel format codes for the new
+> formats, along with documentation to describe them.
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+> ---
+> Changes in v3:
+> 
+> 	- Switched from bayer-order specific formats to generic RAWnn
+> 
+> Changes in v2:
+> 
+> 	- Added labels to the new formats in the documentation file
+> 	- Added 20-bit formats
+> 
+>  .../userspace-api/media/v4l/pixfmt-bayer.rst  |   1 +
+>  .../media/v4l/pixfmt-rawnn-cru.rst            | 144 ++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c         |   4 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +
+>  include/uapi/linux/videodev2.h                |   6 +
+>  5 files changed, 159 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> index ed3eb432967d9..20a8aa0433047 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-bayer.rst
+> @@ -31,3 +31,4 @@ orders. See also `the Wikipedia article on Bayer filter
+>      pixfmt-srggb14
+>      pixfmt-srggb14p
+>      pixfmt-srggb16
+> +    pixfmt-rawnn-cru
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> new file mode 100644
+> index 0000000000000..959ecc33654a1
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rawnn-cru.rst
+> @@ -0,0 +1,144 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +
+> +.. _v4l2-pix-fmt-cru-raw10:
+> +.. _v4l2-pix-fmt-cru-raw12:
+> +.. _v4l2-pix-fmt-cru-raw14:
+> +.. _v4l2-pix-fmt-cru-raw20:
+> +
+> +**********************************************************************************************************************************
+> +V4L2_PIX_FMT_CRU_RAW10 ('CR10'), V4L2_PIX_FMT_CRU_RAW12 ('CR12'), V4L2_PIX_FMT_CRU_RAW14 ('CR14'), V4L2_PIX_FMT_CRU_RAW20 ('CR20')
+> +**********************************************************************************************************************************
+> +
+> +===============================================================
+> +Renesas RZ/V2H Camera Receiver Unit 64-bit packed pixel formats
+> +===============================================================
+> +
+> +| V4L2_PIX_FMT_CRU_RAW10 (CR10)
+> +| V4L2_PIX_FMT_CRU_RAW12 (CR12)
+> +| V4L2_PIX_FMT_CRU_RAW14 (CR14)
+> +| V4L2_PIX_FMT_CRU_RAW20 (CR20)
+> +
+> +Description
+> +===========
+> +
+> +These pixel formats are some of the Bayer RAW outputs for the Camera Receiver
 
-We can take Arnd's patch.
+s/Bayer // as they're "just" raw formats, not specific to the Bayer CFA
+pattern.
 
-Yeah, this is the kind of patches that the multi committers can really
-help with :)
+> +Unit in the Renesas RZ/V2H SoC. They are raw sRGB / Bayer formats which pack
 
->
-> > ---
-> >  drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
-> > index f8145998fcaf..4786062e879a 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
-> > +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c
-> > @@ -584,7 +584,6 @@ static void h264_encode_filler(struct venc_h264_inst *inst, void *buf,
-> >
-> >  static int h264_enc_init(struct mtk_vcodec_enc_ctx *ctx)
-> >  {
-> > -     const bool is_ext = MTK_ENC_CTX_IS_EXT(ctx);
-> >       int ret = 0;
-> >       struct venc_h264_inst *inst;
-> >
-> > @@ -594,7 +593,10 @@ static int h264_enc_init(struct mtk_vcodec_enc_ctx *ctx)
-> >
-> >       inst->ctx = ctx;
-> >       inst->vpu_inst.ctx = ctx;
-> > -     inst->vpu_inst.id = is_ext ? SCP_IPI_VENC_H264 : IPI_VENC_H264;
-> > +     if (MTK_ENC_CTX_IS_EXT(ctx))
-> > +             inst->vpu_inst.id = SCP_IPI_VENC_H264;
-> > +     else
-> > +             inst->vpu_inst.id = IPI_VENC_H264;
-> >       inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VENC_SYS);
-> >
-> >       ret = vpu_enc_init(&inst->vpu_inst);
-> >
-> > --
-> > 2.47.0.338.g60cca15819-goog
-> >
+sRGB seems even weirder to mention here.
 
+> +pixels contiguously into 64-bit units, with the 4 or 8 most significant
+> +bits padded.
+> +
+> +**Byte Order**
+> +
+> +.. flat-table:: RGB formats
 
+s/RGB/RAW/
 
---
-Ricardo Ribalda
+> +    :header-rows:  2
+> +    :stub-columns: 0
+> +    :widths: 36 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+> +    :fill-cells:
+> +
+> +    * - :rspan:`1` Pixel Format Code
+> +      - :cspan:`63` Data organization
+> +    * - 63
+> +      - 62
+> +      - 61
+> +      - 60
+> +      - 59
+> +      - 58
+> +      - 57
+> +      - 56
+> +      - 55
+> +      - 54
+> +      - 53
+> +      - 52
+> +      - 51
+> +      - 50
+> +      - 49
+> +      - 48
+> +      - 47
+> +      - 46
+> +      - 45
+> +      - 44
+> +      - 43
+> +      - 42
+> +      - 41
+> +      - 40
+> +      - 39
+> +      - 38
+> +      - 37
+> +      - 36
+> +      - 35
+> +      - 34
+> +      - 33
+> +      - 32
+> +      - 31
+> +      - 30
+> +      - 29
+> +      - 28
+> +      - 27
+> +      - 26
+> +      - 25
+> +      - 24
+> +      - 23
+> +      - 22
+> +      - 21
+> +      - 20
+> +      - 19
+> +      - 18
+> +      - 17
+> +      - 16
+> +      - 15
+> +      - 14
+> +      - 13
+> +      - 12
+> +      - 11
+> +      - 10
+> +      - 9
+> +      - 8
+> +      - 7
+> +      - 6
+> +      - 5
+> +      - 4
+> +      - 3
+> +      - 2
+> +      - 1
+> +      - 0
+> +    * - V4L2_PIX_FMT_CRU_RAW10
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - :cspan:`9` P5
+> +      - :cspan:`9` P4
+> +      - :cspan:`9` P3
+> +      - :cspan:`9` P2
+> +      - :cspan:`9` P1
+> +      - :cspan:`9` P0
+> +    * - V4L2_PIX_FMT_CRU_RAW12
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - :cspan:`11` P4
+> +      - :cspan:`11` P3
+> +      - :cspan:`11` P2
+> +      - :cspan:`11` P1
+> +      - :cspan:`11` P0
+> +    * - V4L2_PIX_FMT_CRU_RAW14
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - :cspan:`13` P3
+> +      - :cspan:`13` P2
+> +      - :cspan:`13` P1
+> +      - :cspan:`13` P0
+> +    * - V4L2_PIX_FMT_CRU_RAW20
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - 0
+> +      - :cspan:`19` P2
+> +      - :cspan:`19` P1
+> +      - :cspan:`19` P0
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 0a2f4f0d0a073..696b33add65b8 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -329,10 +329,14 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>  		{ .format = V4L2_PIX_FMT_SGBRG10DPCM8,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGRBG10DPCM8,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SRGGB10DPCM8,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_CRU_RAW10,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 6, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SBGGR12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGBRG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SGRBG12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_SRGGB12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 2, 0, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_CRU_RAW12,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 5, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_CRU_RAW14,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 4, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+> +		{ .format = V4L2_PIX_FMT_CRU_RAW20,	.pixel_enc = V4L2_PIXEL_ENC_BAYER, .mem_planes = 1, .comp_planes = 1, .bpp = { 8, 0, 0, 0 }, .bpp_div = { 3, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>  	};
+>  	unsigned int i;
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 0304daa8471d1..85bd068b14275 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1409,6 +1409,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_SGBRG10DPCM8:	descr = "8-bit Bayer GBGB/RGRG (DPCM)"; break;
+>  	case V4L2_PIX_FMT_SGRBG10DPCM8:	descr = "8-bit Bayer GRGR/BGBG (DPCM)"; break;
+>  	case V4L2_PIX_FMT_SRGGB10DPCM8:	descr = "8-bit Bayer RGRG/GBGB (DPCM)"; break;
+> +	case V4L2_PIX_FMT_CRU_RAW10:	descr = "10-bit Bayer CRU Packed"; break;
+
+s/Bayer/RAW/ (or Raw)
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  	case V4L2_PIX_FMT_SBGGR12:	descr = "12-bit Bayer BGBG/GRGR"; break;
+>  	case V4L2_PIX_FMT_SGBRG12:	descr = "12-bit Bayer GBGB/RGRG"; break;
+>  	case V4L2_PIX_FMT_SGRBG12:	descr = "12-bit Bayer GRGR/BGBG"; break;
+> @@ -1417,6 +1418,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_SGBRG12P:	descr = "12-bit Bayer GBGB/RGRG Packed"; break;
+>  	case V4L2_PIX_FMT_SGRBG12P:	descr = "12-bit Bayer GRGR/BGBG Packed"; break;
+>  	case V4L2_PIX_FMT_SRGGB12P:	descr = "12-bit Bayer RGRG/GBGB Packed"; break;
+> +	case V4L2_PIX_FMT_CRU_RAW12:	descr = "12-bit Bayer CRU Packed"; break;
+>  	case V4L2_PIX_FMT_SBGGR14:	descr = "14-bit Bayer BGBG/GRGR"; break;
+>  	case V4L2_PIX_FMT_SGBRG14:	descr = "14-bit Bayer GBGB/RGRG"; break;
+>  	case V4L2_PIX_FMT_SGRBG14:	descr = "14-bit Bayer GRGR/BGBG"; break;
+> @@ -1425,10 +1427,12 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_SGBRG14P:	descr = "14-bit Bayer GBGB/RGRG Packed"; break;
+>  	case V4L2_PIX_FMT_SGRBG14P:	descr = "14-bit Bayer GRGR/BGBG Packed"; break;
+>  	case V4L2_PIX_FMT_SRGGB14P:	descr = "14-bit Bayer RGRG/GBGB Packed"; break;
+> +	case V4L2_PIX_FMT_CRU_RAW14:	descr = "14-bit Bayer CRU Packed"; break;
+>  	case V4L2_PIX_FMT_SBGGR16:	descr = "16-bit Bayer BGBG/GRGR"; break;
+>  	case V4L2_PIX_FMT_SGBRG16:	descr = "16-bit Bayer GBGB/RGRG"; break;
+>  	case V4L2_PIX_FMT_SGRBG16:	descr = "16-bit Bayer GRGR/BGBG"; break;
+>  	case V4L2_PIX_FMT_SRGGB16:	descr = "16-bit Bayer RGRG/GBGB"; break;
+> +	case V4L2_PIX_FMT_CRU_RAW20:	descr = "14-bit Bayer CRU Packed"; break;
+>  	case V4L2_PIX_FMT_SN9C20X_I420:	descr = "GSPCA SN9C20X I420"; break;
+>  	case V4L2_PIX_FMT_SPCA501:	descr = "GSPCA SPCA501"; break;
+>  	case V4L2_PIX_FMT_SPCA505:	descr = "GSPCA SPCA505"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index e7c4dce390074..b0482b9af04f5 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -830,6 +830,12 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_PISP_COMP2_BGGR	v4l2_fourcc('P', 'C', '2', 'B') /* PiSP 8-bit mode 2 compressed BGGR bayer */
+>  #define V4L2_PIX_FMT_PISP_COMP2_MONO	v4l2_fourcc('P', 'C', '2', 'M') /* PiSP 8-bit mode 2 compressed monochrome */
+>  
+> +/* Renesas RZ/V2H CRU packed formats. 64-bit units with contiguous pixels */
+> +#define V4L2_PIX_FMT_CRU_RAW10	v4l2_fourcc('C', 'R', '1', '0')
+> +#define V4L2_PIX_FMT_CRU_RAW12	v4l2_fourcc('C', 'R', '1', '2')
+> +#define V4L2_PIX_FMT_CRU_RAW14	v4l2_fourcc('C', 'R', '1', '4')
+> +#define V4L2_PIX_FMT_CRU_RAW20	v4l2_fourcc('C', 'R', '2', '0')
+> +
+>  /* SDR formats - used only for Software Defined Radio devices */
+>  #define V4L2_SDR_FMT_CU8          v4l2_fourcc('C', 'U', '0', '8') /* IQ u8 */
+>  #define V4L2_SDR_FMT_CU16LE       v4l2_fourcc('C', 'U', '1', '6') /* IQ u16le */
+
+-- 
+Regards,
+
+Laurent Pinchart
 
