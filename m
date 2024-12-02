@@ -1,85 +1,78 @@
-Return-Path: <linux-media+bounces-22454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22471-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA31D9E0A9D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 19:05:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 246DD9E09C2
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 18:23:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D05F7B38A9C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 14:53:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1779B29A86
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 15:30:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 035C620DD4C;
-	Mon,  2 Dec 2024 14:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35DB220898B;
+	Mon,  2 Dec 2024 15:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Yw4Ai/Iv"
+	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="QJrAvFU9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19A320899D
-	for <linux-media@vger.kernel.org>; Mon,  2 Dec 2024 14:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3DA207A23
+	for <linux-media@vger.kernel.org>; Mon,  2 Dec 2024 15:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733150764; cv=none; b=Ap/nwrl8trnx1YYGzNWL0PSTNZcuCwyOKNZjvdibhHd1LEcvFE4axcSV3uvmMHwlhLXNrWcwGxk5imf9AgkDI9qlBVoQbJql3tnyrbBfv/1n4oNu3mbhANnEs2emeSOqua1aPS59f5LlFRaXY5Nf7mvOVNGJTbZP+d6CtSkE3MI=
+	t=1733153409; cv=none; b=lFQApGW3rbc4l9ib+3/rCn261YyzUkdok0c0ch48j9MqUC5NubPagxhOxhx7mA4yqKkwT9rDoLC9Hyc6qeFPoau7B6PNF0N0KzWrN2MhvFSjKhU6934gwAZUge76A4c+WX+bwK5BrDsSZrg+eFmF9+L+kRhwK74HpSgTT4FcAQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733150764; c=relaxed/simple;
-	bh=XEG1RcerCs7zfuWQTNGzh5BC5VO3k1qcRF/ckT5aKsE=;
+	s=arc-20240116; t=1733153409; c=relaxed/simple;
+	bh=4xxCGmBo7FQG0p5BmYqe1NOagdrpfXWw9XcSG+Ugioo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nmExi6FmChIhNxSnp7JKQvP8b84QCrR7PmSoIRgzAEic/zlLeakAe46ahUEVJrUbT71h39X5LAwRIEiMfCHnw+HZSvkaHpikY4H//5I78T2MAYY3oHL+6Jjhqiq40cM4Q9/7mRWBuaeYzu09Okl2EcVGN0V9510L3bBO7QiDZO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Yw4Ai/Iv; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733150761;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H/n54QHe1NzMvOrCOYdJyhQRev16QpKhheU+kQiQcBU=;
-	b=Yw4Ai/IvWwVRqRX+NxzENVg1UvEaSTLh+KZoVyL04hpYU/P7En6D4dAAs7fIyHAzhu8yVH
-	mEtdSbtGsRtUHRYoFae7XAg7UhssDq/9JC0y94BGH+p1WtM9Jwm1+J+RgGrgT5slGXVOYH
-	JLnUwc5BidPJRjawgUS2QnCyaNonGdE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-528-yW1683hDNHuEa-Pmen60xw-1; Mon, 02 Dec 2024 09:46:00 -0500
-X-MC-Unique: yW1683hDNHuEa-Pmen60xw-1
-X-Mimecast-MFC-AGG-ID: yW1683hDNHuEa-Pmen60xw
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-aa529e35844so518077766b.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2024 06:46:00 -0800 (PST)
+	 In-Reply-To:Content-Type; b=D38r7MVfHww8Ys4RO+SahUaJklf6Ovps6KFYYhgAdMsp68BC5zHew1QRKt3bxqo3YOMo1Ifpc8vu50+KdGzAV+buwLlclJSksZqHnLH3MDz2ei+A7jFJlMIJYXo5W2kYNRwD9gSEu0SwGhPtZQQLd3MjrJKJBnWM4/l/P7DtM7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=QJrAvFU9; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43494a20379so35879555e9.0
+        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2024 07:30:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1733153406; x=1733758206; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=P8jtIniQHqaGnIfrwCj5iJuQZ/gWHR/Lk4yIJETbzAw=;
+        b=QJrAvFU9PGw4ecwNa9iwbiRcvMsM81tKQr2eYUFLVZkF/qYnhOf9N0FQ58Lnx1mJJH
+         I9lbBL/yQxGzCV1CDfuodaYjDdma6kNDxwlHlnxatZbCKFY07MumOpCV5KAhH5850Ppu
+         grS+FyUAuQTeel53Bn9q1qvvzWyW/d48rXzKaaaBTjCOQ/dukEtLS3VXBC3L/pLelLIm
+         QJmhZ5SCQMp79/q2hgKF0fdvvIZPFEm01BWAQBfwXUz6+rgoOniIXUd/BDdz1s7hW/Vn
+         f5hPDXSFT1XD3rxMAgQwTPkuqfHlOOzCxOXfLgvogec9bUjNWh1tPkzVZQSpnsZSWcCr
+         pE7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733150759; x=1733755559;
+        d=1e100.net; s=20230601; t=1733153406; x=1733758206;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H/n54QHe1NzMvOrCOYdJyhQRev16QpKhheU+kQiQcBU=;
-        b=hD/DiP61vE9sEl6fH/JJ6UjIoUNIbShm0wt2fzd5RLD9bAJ02STggNXEsxn2QD3tsS
-         w7fn5Jgcs7cH0W6gX101OiGcjCII7PbwqDyJBG/aXStBSKvtddCO3TdVhdBFF9d1FQA9
-         uKH3CZ77V9M/duI/RWQ7oquk1RsFQfGq+XRBCq9UTn3h5a+oLOcuDdYDBFV+OSul0+UE
-         Orhz8iMviiblN7j3f4+J839WZF89KZvYBbPcFfBEKsVwzY2bdXsbV1tyu5Xp+5H1jo0s
-         hfVr/cYyQ9uJY70TiITo6yYk/ko9xXTa7Av3wb8OSe8cxmSo2f7vXJtkzJvuXRNdwS4b
-         7NYw==
-X-Forwarded-Encrypted: i=1; AJvYcCUDbRbz8HD/xFAM9aCEBVokn0FOkDQaOeIgZs75yMA6o2B1dWzc5odr5ujVEzYaq1HpyJbRNQTDn9ISdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcTCeouJM287a6tzyJW6ifEFSghfsa0x67JVu5iIN9/CRYQNdg
-	Zg2EjCgA6E8HJ9nIu2abH6e5PO3AR70W0VYA76pSFNgRENdEOHPQj0U1TbPWLQVgGWiM5Y1rhN+
-	6ZAXOLS8f02qkF6vSNLJW/QIIC8DUXXgWGptApsGmUeE0u0B4a+MUGZtf8pwKngKXCvWR
-X-Gm-Gg: ASbGncuvILJgfBEyRSDR/owW1t5VStYL8d8gzlLa2343Tsu85mKIflCDVYkyWMK0NJs
-	0omW3B0ZcLbHUS6IUOPLI7RxrEVciIkWZjlSbyalJwFxku6NvOQfIVBi4BoSihVJ6v83rvxni5X
-	GxfjMvLlHoQkABpsVD9Qv3S9N4JpLeJF6K+ikobPMWaSOpeqehDda0G7MpPbl3qLGwmqkl94czd
-	3xT1mBi/VrjJMEVzCb0gTKdPp6UoE13AKu2sN5PMYdmeTHfZGzNpA==
-X-Received: by 2002:a17:906:3188:b0:aa5:1cdf:7bfd with SMTP id a640c23a62f3a-aa5945058bbmr2041913766b.7.1733150758896;
-        Mon, 02 Dec 2024 06:45:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF8HqwPhXUO9252fmA3AzlzqGEYvuYGwKNOG5zyj1I7gJ6jPWtLqvor8xH6GhcSZADZyL1TlA==
-X-Received: by 2002:a17:906:3188:b0:aa5:1cdf:7bfd with SMTP id a640c23a62f3a-aa5945058bbmr2041908566b.7.1733150758467;
-        Mon, 02 Dec 2024 06:45:58 -0800 (PST)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa59990a777sm515948666b.154.2024.12.02.06.45.57
+        bh=P8jtIniQHqaGnIfrwCj5iJuQZ/gWHR/Lk4yIJETbzAw=;
+        b=heUvuFC6gvIciMd/lzlEa8nEBhqQi6EiCC+xcPZoW6OC8cFJeo/s92U2tg5w2s2zY9
+         colixePQIrA7MXzO2uRubmiRzd8x4Tit3z/vEQBUIUyb7AO+kmjxuz0ELZ47r46ZeDgb
+         F2c9mVnOi1t5Rt4c3trFQL8NvMblLHl3h5Sbbn0BbS/MFQrGYkvPiXg/9PwCIcIH+JyF
+         qcSo+JomfJtaPDC53ReehwJk2bFomONFbfaTcNCgLhVjFy1dXw0B4aEHkWvRQVRwdSub
+         0cL5bFIxR/f2S+iVcR7NjccwKa9ALxVkHUOmRL8y6FmCuT/ktI59qwZnYlEI8eTZU6K4
+         tEbA==
+X-Forwarded-Encrypted: i=1; AJvYcCUwBCG7tyKIBT1l9STFHeSrSuTNMmBL3T1tOlthbKCJg059MW+y8tqhBvzM85Yo4rc7XG9vqELonmdfig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfZ5/lcRSvG4oD99CmpJIbJc07Fhj5KZSb7OFFmfZyI96ULJMI
+	0M85UNRikCBEbFXJX90G4kVhE8bDeetMFh5Od+CxTW0MUL0OOoq32yfHpjs+2KA=
+X-Gm-Gg: ASbGncuWL2ELWiXEG30BaC2wSV9Cw2UiwsTnCsEGFAk9jMhOZnVaWLYLBbRrvQe67mV
+	FRVW8VUP4tXHhA5lfjJ7ODmdUvLUVAjaallpHENfvZmv2KLz8ZqSwfvz1a5od27Xr3JH1tGsZ7e
+	+CEOQCDEUrpG9KQABu7L4xzgw9aXZwxxev2GzK6hHFa2cdAQQ1en4cAazi/+dcgP6/UA1t+n6GU
+	pwTfZ6bdUdXESRiPjveSU3xKjcdCHa2BLXj4bpuI9O/n/lUYfi4/hI1OFOIVedM0w==
+X-Google-Smtp-Source: AGHT+IH1hTljFKEA9DHhDP/Bl2T9X3iPXf4B7h5kmrrQdKTb7FK5jK4sFt7iXegFoa1F8JVAtQP1Kw==
+X-Received: by 2002:a05:600c:4447:b0:434:a5bc:70fc with SMTP id 5b1f17b1804b1-434a9dc3c8emr211879435e9.8.1733153405821;
+        Mon, 02 Dec 2024 07:30:05 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385e230b283sm8019425f8f.106.2024.12.02.07.30.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Dec 2024 06:45:57 -0800 (PST)
-Message-ID: <67f78128-dcc0-4253-a6f7-5905ca375b06@redhat.com>
-Date: Mon, 2 Dec 2024 15:45:57 +0100
+        Mon, 02 Dec 2024 07:30:05 -0800 (PST)
+Message-ID: <90fc1097-d353-4b6a-bcbf-81f8a8e24390@nexus-software.ie>
+Date: Mon, 2 Dec 2024 15:30:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,65 +80,45 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/5] media: uvcvideo: Flush the control cache when we
- get an event
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Subject: Re: [PATCH 4/6] arm64: dts: qcom: x1e80100: Add CAMCC block
+ definition
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241202-uvc-fix-async-v5-0-6658c1fe312b@chromium.org>
- <20241202-uvc-fix-async-v5-5-6658c1fe312b@chromium.org>
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Jagadeesh Kona <quic_jkona@quicinc.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-i2c@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-0-54075d75f654@linaro.org>
+ <20241119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v1-4-54075d75f654@linaro.org>
+ <02dd5593-38ba-4344-aa64-0913eca45808@oss.qualcomm.com>
+ <2chygbm3yjozhkhps64oae5gwirdk5b3orsybss7jgutu5g7ke@4jskpnermxfm>
 Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241202-uvc-fix-async-v5-5-6658c1fe312b@chromium.org>
-Content-Type: text/plain; charset=UTF-8
+From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
+In-Reply-To: <2chygbm3yjozhkhps64oae5gwirdk5b3orsybss7jgutu5g7ke@4jskpnermxfm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On 02/12/2024 15:02, Dmitry Baryshkov wrote:
+>>> +			clocks = <&gcc GCC_CAMERA_AHB_CLK>,
+>> This clock is not registered with the CCF
+> Isn't that be going to be handled by the CCF on its own (like orphans,
+> etc)?
 
-On 2-Dec-24 3:24 PM, Ricardo Ribalda wrote:
-> Asynchronous controls trigger an event when they have completed their
-> operation.
-> 
-> This can make that the control cached value does not match the value in
-> the device.
-> 
-> Let's flush the cache to be on the safe side.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index e90bf2aeb5e4..75d534072f50 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1672,6 +1672,9 @@ bool uvc_ctrl_status_event_async(struct urb *urb, struct uvc_video_chain *chain,
->  	struct uvc_device *dev = chain->dev;
->  	struct uvc_ctrl_work *w = &dev->async_ctrl;
->  
-> +	/* Flush the control cache, the data might have changed. */
-> +	ctrl->loaded = 0;
-> +
->  	if (list_empty(&ctrl->info.mappings))
->  		return false;
->  
->
+For refence this is always-on ATM.
 
+drivers/clk/qcom/gcc-x1e80100.c:	qcom_branch_set_clk_en(regmap, 
+0x26004); /* GCC_CAMERA_AHB_CLK */
 
-Thank you for the patch.
-
-I'm not familiar enough with UVC yet to really have an opinion on this one,
-so I'll defer reviewing this one to Laurent.
-
-Regards,
-
-Hans
-
-
-
+---
+bod
 
