@@ -1,85 +1,36 @@
-Return-Path: <linux-media+bounces-22430-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22433-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0FD9E0455
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 15:05:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C069E03C7
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 14:41:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D9AD1B39DC7
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 12:20:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BFEDDB46397
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 13:18:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6377B1FECAC;
-	Mon,  2 Dec 2024 12:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KHfueHpO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C2B202F86;
+	Mon,  2 Dec 2024 13:17:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7ED91F9EB8
-	for <linux-media@vger.kernel.org>; Mon,  2 Dec 2024 12:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274391FF5E9;
+	Mon,  2 Dec 2024 13:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733141962; cv=none; b=kHlbc70f81PPX7L9D2DKz9JEQ4VX5EEGSLe10irNU6X+DfiVi2ysFv8SDHM8cVqwqCLaRGfEqMADgYJj7ez9wU05nQEVLWyZUO1kHl6OD0omMdiJJVzIZGufqqaeVbVqwnXmtNi2f8t/tz32ogTxrEP8N9QlWWhkmZwXaxAP4Cw=
+	t=1733145472; cv=none; b=ihQlJjtHItX+PBV9PjIgbmhanKuok0uPPfPcYMLDi24cUXyRDyFGjbZ/o3WBXnBnuO+baL+xqkmG+TAGqf7yCPo9sWwiRt3Gksyo1GbFjOPpqMoecN1YWpJziWAF4McuzWA8ZIOyGGBG/2kHbOHLBoszxYLc0a7m9l/3dz4aa1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733141962; c=relaxed/simple;
-	bh=sSiuPaTUCCyAZN1evUN4Y9DqyywDi/o7qDU0v27casw=;
+	s=arc-20240116; t=1733145472; c=relaxed/simple;
+	bh=gdweabM+w7ANnttd/KDCi3KsBPIg+HSsgohy/vbThac=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p3mKE1+y0VYuO5jDHbEhdRY19vU3mKLoz7YQSkAcUHIN71pqnxz1Iy8dHKS1vwU3iTH9f7Rt3dbXFvQxRHigt3uA3azygXIwlWY12101kV9kBAUajVwCuAaf/riby8eJwbSlPBHO3Sqau0oi1SqZGrekNK4MPZxZHMrgqjDQJUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KHfueHpO; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733141959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QQ5mnOT2GiMijbzhlUUlxiYVQNYgpReCXid7KH016QE=;
-	b=KHfueHpOPVvKEJT+LcaMSG+jdLegwrGChWFuUcsCAH57LMk19tu1nZMsmbVbAYIGC6C2/t
-	xBrUCcWDpndsfGe9ZVLWCZLzJ4npEYA+SwgoZX4akbF+VD+N54FzJ1UiLV3knp1nMuo+8q
-	FVkcUjcHQ08PfahS+GmOld8fsmV5iNc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-263-QIrZpaysNpK8MYK6uVajUQ-1; Mon, 02 Dec 2024 07:19:18 -0500
-X-MC-Unique: QIrZpaysNpK8MYK6uVajUQ-1
-X-Mimecast-MFC-AGG-ID: QIrZpaysNpK8MYK6uVajUQ
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-aa5a0a35384so219482066b.2
-        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2024 04:19:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733141956; x=1733746756;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QQ5mnOT2GiMijbzhlUUlxiYVQNYgpReCXid7KH016QE=;
-        b=ts2T36LaCLXp59Hn/IUuTwPw01kkzg8rDUm1dTSnmHdzvnkZ6enL8LzTJZhYwMCapE
-         NZc5FK48d2xzGz1xiffCrgB7Ekvm4dUXqx3oTyQ1MhtEUh4fo+w14nZN+YMQq2S5SnEu
-         p5UPPJfASRxYgKj6LKjDj0XtPjcXXUsDORt/P2B0G6sA+jU1+eQPif0x3Ixk/EsUosmG
-         XgokKZC1FSOkwv79IHqbAiVfCLwGj6aDTddOEVDRoMkSJJqoNH31TrCQhen9H0kVuz8S
-         atpgeLL7mENAnOM6caq42G21v968t6bXkoTK3Dhxg1GjK6E98qNUSRjqPDjuo+ZvPAsG
-         uYUg==
-X-Forwarded-Encrypted: i=1; AJvYcCXqckCiXTpI/mK8Ct0alEhBp360RS6rmNJmDYhuWj3gbFHUAEfBXc+j9TMJ5G5drgRJVc4AQRjMQvjpuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtD8nSyO7Om4hPjdxcnkFOuT4tP6rhAakx6a9JelhHQRNSOhtf
-	QhmzUQ2NJPqftk0hOmJfCL7FuSLALXSKexSeulfbXOzqz/jFH8oeVU2dPfIql47Tbrr3EB5fmZ9
-	31HEggf7pwNcWG3S/4AgJy5qLgaPRzBHrug7OZcnXmoFOwcUemRsiaNx1l4WT
-X-Gm-Gg: ASbGncs9IJfDD/mz0/9c4QPgT0ls9Ty1Wqh0UNZQ1LZfRQ9V2Mdkp+6qD8pKqmFvrAM
-	89cllJqbU7bK5lcZzAJXvAVcqg3bl5UkjLe5S9uNCwkb5gCWGm5VjGZhpO//cknkf1vSouVcJU4
-	Tz0a8CCeAzPO+gkOqBw9+pGO0e1R6Yj2gb7hs+48bvUEOSsilaxxXZQqLlCBQKz8w9/zyqhOC3U
-	U16Ue/ohLnCsNQHJvgnL23kCCQcUcw8Fcpy1iCIDIfSe2lFZ3/qPw==
-X-Received: by 2002:a17:907:7751:b0:a9a:6bc2:c0a3 with SMTP id a640c23a62f3a-aa580edf6demr1860799266b.7.1733141956325;
-        Mon, 02 Dec 2024 04:19:16 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFU4Z1AXXClYhqscv3q7o7JxJFTB6otyACt5NBuflpMhMdUPhZFcucr0pT1mo5iuKQUOvdJxA==
-X-Received: by 2002:a17:907:7751:b0:a9a:6bc2:c0a3 with SMTP id a640c23a62f3a-aa580edf6demr1860795866b.7.1733141955731;
-        Mon, 02 Dec 2024 04:19:15 -0800 (PST)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5998e69dfsm514682266b.122.2024.12.02.04.19.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Dec 2024 04:19:15 -0800 (PST)
-Message-ID: <839446b3-1d16-4af8-997a-f2a37eb4711e@redhat.com>
-Date: Mon, 2 Dec 2024 13:19:13 +0100
+	 In-Reply-To:Content-Type; b=pL9jv9gE9Ki848EbYoV7ZVQ7ItFc6EPxJQXx2tClHKpvJ7tydF7dPmd1RrJFGlxHh1WOUEf7Ti+4HIOejWLThyslJ63J9IUJWuLY7VCOt1tWw9yFKQhGvzVDgBlr+Wvyr5lXWp/gEtOblTGJNJuBN7xGVv1/aptHdzxT2eEEQ1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B0C0C4CED2;
+	Mon,  2 Dec 2024 13:17:50 +0000 (UTC)
+Message-ID: <b3837cf3-8d32-41ad-82f8-855d48256f09@xs4all.nl>
+Date: Mon, 2 Dec 2024 14:17:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,335 +38,394 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control owned
- by other fh
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <CANiDSCseF3fsufMc-Ovoy-bQH85PqfKDM+zmfoisLw+Kq1biAw@mail.gmail.com>
- <20241129110640.GB4108@pendragon.ideasonboard.com>
- <CANiDSCvdjioy-OgC+dHde2zHAAbyfN2+MAY+YsLNdUSawjQFHw@mail.gmail.com>
- <e95b7d74-2c56-4f5a-a2f2-9c460d52fdb4@xs4all.nl>
- <CANiDSCvj4VVAcQOpR-u-BcnKA+2ifcuq_8ZML=BNOHT_55fBog@mail.gmail.com>
- <CANiDSCvwzY3DJ+U3EyzA7TCQu2qMUL6L1eTmZYbM+_Tk6DsPaA@mail.gmail.com>
- <20241129220339.GD2652@pendragon.ideasonboard.com>
- <CANiDSCsXi-WQLpbeXMat5FoM8AnYoJ0nVeCkTDMvEus8pXCC3w@mail.gmail.com>
- <20241202001846.GD6105@pendragon.ideasonboard.com>
- <fb321ade-40e7-4b1e-8fcd-c6475767239d@xs4all.nl>
- <20241202081157.GB16635@pendragon.ideasonboard.com>
- <445e551c-c527-443c-8913-6999455bd366@xs4all.nl>
- <633ca07b-6795-429f-874d-474a68396f45@redhat.com>
- <CANiDSCvmRrf1vT3g9Mzkc790RUo3GuQaFzu5+_G66b3_62RuXw@mail.gmail.com>
-Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CANiDSCvmRrf1vT3g9Mzkc790RUo3GuQaFzu5+_G66b3_62RuXw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] docs: media: update maintainer-entry-profile for
+ multi-committers
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>,
+ Ricardo Ribalda <ribalda@chromium.org>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+ <e9a5f9f49b185c694d38ea620bd68252eb52e9d3.1733131405.git.mchehab+huawei@kernel.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <e9a5f9f49b185c694d38ea620bd68252eb52e9d3.1733131405.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Mauro,
 
-On 2-Dec-24 11:50 AM, Ricardo Ribalda wrote:
-> On Mon, 2 Dec 2024 at 11:27, Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 2-Dec-24 9:44 AM, Hans Verkuil wrote:
->>> On 02/12/2024 09:11, Laurent Pinchart wrote:
->>>> On Mon, Dec 02, 2024 at 09:05:07AM +0100, Hans Verkuil wrote:
->>>>> On 02/12/2024 01:18, Laurent Pinchart wrote:
->>>>>> On Fri, Nov 29, 2024 at 11:18:54PM +0100, Ricardo Ribalda wrote:
->>>>>>> On Fri, 29 Nov 2024 at 23:03, Laurent Pinchart wrote:
->>>>>>>> On Fri, Nov 29, 2024 at 07:47:31PM +0100, Ricardo Ribalda wrote:
->>>>>>>>> Before we all go on a well deserved weekend, let me recap what we
->>>>>>>>> know. If I did not get something correctly, let me know.
->>>>>>>>>
->>>>>>>>> 1) Well behaved devices do not allow to set or get an incomplete async
->>>>>>>>> control. They will stall instead (ref: Figure 2-21 in UVC 1.5 )
->>>>>>>>> 2) Both Laurent and Ricardo consider that there is a big chance that
->>>>>>>>> some camera modules do not implement this properly. (ref: years of
->>>>>>>>> crying over broken module firmware :) )
->>>>>>>>>
->>>>>>>>> 3) ctrl->handle is designed to point to the fh that originated the
->>>>>>>>> control. So the logic can decide if the originator needs to be
->>>>>>>>> notified or not. (ref: uvc_ctrl_send_event() )
->>>>>>>>> 4) Right now we replace the originator in ctrl->handle for unfinished
->>>>>>>>> async controls.  (ref:
->>>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_ctrl.c#n2050)
->>>>>>>>>
->>>>>>>>> My interpretation is that:
->>>>>>>>> A) We need to change 4). We shall not change the originator of
->>>>>>>>> unfinished ctrl->handle.
->>>>>>>>> B) Well behaved cameras do not need the patch "Do not set an async
->>>>>>>>> control owned by another fh"
->>>>>>>>> C) For badly behaved cameras, it is fine if we slightly break the
->>>>>>>>> v4l2-compliance in corner cases, if we do not break any internal data
->>>>>>>>> structure.
->>>>>>>>
->>>>>>>> The fact that some devices may not implement the documented behaviour
->>>>>>>> correctly may not be a problem. Well-behaved devices will stall, which
->>>>>>>> means we shouldn't query the device while as async update is in
->>>>>>>> progress. Badly-behaved devices, whatever they do when queried, should
->>>>>>>> not cause any issue if we don't query them.
->>>>>>>
->>>>>>> I thought we could detect the stall and return safely. Isn't that the case?
->>>>>>
->>>>>> We could, but if we know the device will stall anyway, is there a reason
->>>>>> not to avoid issuing the request in the first place ?
->>>>>>
->>>>>>> Why we have not seen issues with this?
->>>>>>
->>>>>> I haven't tested a PTZ device for a very long time, and you would need
->>>>>> to hit a small time window to see the issue.
->>>>>>
->>>>>>>> We should not send GET_CUR and SET_CUR requests to the device while an
->>>>>>>> async update is in progress, and use cached values instead. When we
->>>>>>>> receive the async update event, we should clear the cache. This will be
->>>>>>>> the same for both well-behaved and badly-behaved devices, so we can
->>>>>>>> expose the same behaviour towards userspace.
->>>>>>>
->>>>>>> seting ctrl->loaded = 0 when we get an event sounds like a good idea
->>>>>>> and something we can implement right away.
->>>>>>> If I have to resend the set I will add it to the end.
->>>>>>>
->>>>>>>> We possibly also need some kind of timeout mechanism to cope with the
->>>>>>>> async update event not being delivered by the device.
->>>>>>>
->>>>>>> This is the part that worries me the most:
->>>>>>> - timeouts make the code fragile
->>>>>>> - What is a good value for timeout? 1 second, 30, 300? I do not think
->>>>>>> that we can find a value.
->>>>>>
->>>>>> I've been thinking about the implementation of uvc_fh cleanup over the
->>>>>> weekend, and having a timeout would have the nice advantage that we
->>>>>> could reference-count uvc_fh instead of implementing a cleanup that
->>>>>> walks over all controls when closing a file handle. I think it would
->>>>>> make the code simpler, and possibly safer too.
->>>>>>
->>>>>>>> Regarding the userspace behaviour during an auto-update, we have
->>>>>>>> multiple options:
->>>>>>>>
->>>>>>>> For control get,
->>>>>>>>
->>>>>>>> - We can return -EBUSY
->>>>>>>> - We can return the old value from the cache
->>>>>
->>>>> This would match the control behavior best. Only when the operation is
->>>>> done is the control updated and the control event sent.
->>>>>
->>>>> Some questions: is any of this documented for UVC? Because this is non-standard
->>>>
->>>> No this isn't documented.
->>>>
->>>>> behavior. Are there applications that rely on this? Should we perhaps add
->>>>
->>>> I don't know.
->>>>
->>>>> proper support for this to the control framework? E.g. add an ASYNC flag and
->>>>> document this?
->>>>
->>>> We could, but this is such a specific use case that I don't think is
->>>> worth adding complexity to the already complex control framework would
->>>> be worth it. What we could do is perhaps adding a flag for the userspace
->>>> API, but even there, I never like modelling an API with a single user.
->>>
->>> Well, it might be a single driver that uses this, but it is also the most
->>> used driver by far. I think the only change is to add a flag for this and
->>> describe how it should behave. And add v4l2-compliance tests for it.
->>>
->>> Otherwise no changes to the control framework are needed, I think.
->>>
->>> Controls with the ASYNC flag set would:
->>>
->>> - return the old value from the cache.
->>> - document that setting a new value while the operation is in progress
->>>   results in EBUSY. Document that if the new value is equal to the old value,
->>>   then return 0 and do nothing (alternative is to just immediately send
->>>   the control changed event, but that might require a control framework change).
->>> - when the operation finishes, update the cache to the new value and
->>>   send the control changed event.
->>> - document that userspace should specify V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK
->>>   when subscribing to the control if you calling fh wants to know when
->>>   the operation finishes.
->>> - document how timeouts should be handled: this is tricky, especially with
->>>   bad hardware. I.e. if the hw doesn't send the event, does that mean that
->>>   you are never able to set the control since it will stall?
->>>   In the end this will just reflect how UVC handles this.
->>
->> I have been catching up on this thread (I have not read the v3 and v4
->> threads yet).
->>
->> This all started with Ricardo noticing that ctrl->handle may get
->> overwritten when another app sets the ctrl, causing the first app
->> to set the ctrl to get a V4L2_EVENT for the ctrl (if subscribed)
->> even though it set the ctrl itself.
->>
->> My observations so far:
->>
->> 1. This is only hit when another app changes the ctrl after the first app,
->> in this case, if there is no stall issued by the hw for the second app's
->> request, arguably the first app getting the event for the ctrl is correct
+On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:
+> As the media subsystem will experiment with a multi-committers model,
+> update the Maintainer's entry profile to the new rules.
 > 
-> In other words, for non compliant cameras the current behaviour is
-> correct. For compliant cameras it is broken.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Hans Verkuil <hverkuil@xs4ll.nl>
+
+xs4ll.nl -> xs4all.nl
+
+(it's probably my typo, but please fix this in the final version)
+
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  .../media/maintainer-entry-profile.rst        | 208 ++++++++++++++----
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 163 insertions(+), 46 deletions(-)
 > 
->> since it was changed by the second app. IOW I think the current behavior
->> is not only fine, but even desirable. Assuming we only override ctrl->handle
->> after successfully sending the set-ctrl request to the hardware.
-> 
-> We are overriding ctrl->handle unconditionally, even if set-ctrl stalls.
-
-Right I was just looking at that. Since we hold chain->ctrl_mutex
-from the start of uvc_ioctl_s_try_ext_ctrls() until we finish
-uvc_ctrl_commit() we can delay setting ctrl->handle until
-a successful commit.
-
-Actually looking at this I think I've found another bug, uvc_ctrl_set()
-always sets ctrl->handle also in the VIDIOC_TRY_EXT_CTRLS case in
-which case we never send the SET_CUR command to the camera.
-
-And the handle is not part of the data backed up / restored by
-a rollback.
-
-Moving the storing of the handle to a successful commit fixes
-both the overriding of the handle in the stall case as well
-as the bogus setting of the handle on VIDIOC_TRY_EXT_CTRLS.
-
-So my suggestion would be not touching ctrl->handle from
-ctrl_set() instead store the handle in a new ctrl->new_handle
-variable there and copy the new_handle values to handle for affected
-controls after a successful commit (before releasing the lock).
-
-This will also successfully replace the handle for buggy
-devices which do not report a stall but instead accept the
-second SET_CUR. This replacement of handle is the correct thing
-todo in this case since after the second SET_CUR is accepted
-there is a change of the ctrl happening from the pov of the
-issuer of the first SET_CUR.
-
->> 2. This adds a lot of complexity for not sending an event to the app
->> which made the change. Hans V. suggested maybe adding some sort of flag
->> for async ctrls to the userspace API. I wonder if we should not just
->> get rid of this complexity and document that these controls will always
->> generate events independent of V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK ?
->> That would certainly simplify things, but it raises the questions if
->> this will cause issues for existing applications.
-> 
-> To be honest, I am more concerned about the dangling pointers than the event.
-
-Ack.
-
-> Updating the doc to say that  ASYC controls always generate events
-> sounds good to me. But until we reach an agreement on the specifics
-> I'd rather land this fix and then we can take time to design an API
-> that works for compliant and non compliant hardware.
-
-I agree that we should focus on fixing the dangling pointer problem
-and your v4 series is heading in the right direction there.
-
-I'm not sure if we should take your v4 series as is though, see above.
-
-At a minimum I think the issue with setting ctrl->handle in
-the VIDIOC_TRY_EXT_CTRLS case needs to be fixed.
-
->> Note that if we simply return -EBUSY on set until acked by a status
->> event we also avoid the issue of ctrl->handle getting overwritten,
->> but that relies on reliable status events; or requires timeout handling.
->>
->> 3. I agree with Ricardo that a timeout based approach for cameras which
->> to not properly send status events for async ctrls is going to be
->> problematic. Things like pan/tilt homing can take multiple seconds which
->> is really long to use as a timeout if we plan to return -EBUSY until
->> the timeout triggers. I think it would be better to just rely on
->> the hardware sending a stall, or it accepting and correctly handling
->> a new CUR_SET command while the previous one is still being processed.
->>
->> I guess we can track if the hw does send status events when async ctrls
->> complete and then do the -EBUSY thing without going out to the hw after
->> the first time an async ctrl has been acked by a status event.
->>
->> And then combine that with the current behavior of overwriting ctrl->handle
->> until the ctrl has been marked as having working status events. So:
->>
->> a) In case we do not know yet if a ctrl gets status-event acks; and
->> on devices without reliable status events keep current behavior.
->>
->> b) As soon as we know a ctrl has reliable status events, switch to
->> returning -EBUSY if a set is pending (as indicated by ctrl->handle
->> being set).
->>
->> I don't like the fact that this changes the behavior after the first
->> status event acking an async ctrl, but I don't really see another way.
-> 
-> If I understood you correctly, you are proposing the following quirk:
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index f0e8a436a306..1a554afeaa2f 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1132,6 +1132,9 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
->         if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
->                 return -EACCES;
-> 
-> +       if (ctrl->handle && ctrl->async_event_works)
-> +               return -EBUSY;
+> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> index ffc712a5f632..dc764163cf1c 100644
+> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> @@ -27,19 +27,139 @@ It covers, mainly, the contents of those directories:
+>  Both media userspace and Kernel APIs are documented and the documentation
+>  must be kept in sync with the API changes. It means that all patches that
+>  add new features to the subsystem must also bring changes to the
+> -corresponding API files.
+> +corresponding API documentation files.
+>  
+> -Due to the size and wide scope of the media subsystem, media's
+> -maintainership model is to have sub-maintainers that have a broad
+> -knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+> -task to review the patches, providing feedback to users if the patches are
+> +Due to the size and wide scope of the media subsystem, the media's
+> +maintainership model is to have committers that have a broad knowledge of
+> +a specific aspect of the subsystem. It is the committers' task to
+> +review the patches, providing feedback to users if the patches are
+>  following the subsystem rules and are properly using the media kernel and
+>  userspace APIs.
+>  
+> -Patches for the media subsystem must be sent to the media mailing list
+> -at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> -HTML will be automatically rejected by the mail server. It could be wise
+> -to also copy the sub-maintainer(s).
+> +Media committers
+> +----------------
 > +
->         ret = __uvc_ctrl_load_cur(chain, ctrl);
->         if (ret < 0)
->                 return ret;
-> @@ -1672,6 +1675,8 @@ bool uvc_ctrl_status_event_async(struct urb> *urb, struct uvc_video_chain *chain,
->         /* Flush the control cache, the data might have changed. */
->         ctrl->loaded = 0;
-> 
-> +       ctrl->async_event_works = true;
+> +In the media subsystem, there are experienced developers who can push
+> +patches directly to the development tree. These developers are called
+> +Media committers and are divided into the following categories:
 > +
->         if (list_empty(&ctrl->info.mappings))
->                 return false;
-> 
-> @@ -1982,6 +1987,9 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->         if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
->                 return -EACCES;
-> 
-> +       if (ctrl->handle && ctrl->async_event_works)
-> +               return -EBUSY;
+> +- Committers:
+> +    contributors for one or more drivers within the media subsystem.
+> +    They can push changes to the tree that do not affect the core or ABI.
 > +
+> +- Core committers:
+> +    responsible for part of the media core. They are typically
+> +    responsible for one or more drivers within the media subsystem, but, besides
+> +    that, they can also merge patches that change the code common to multiple
+> +    drivers, including the kernel internal API.
+> +
+> +- Subsystem maintainers:
+> +    responsible for the subsystem as a whole, with access to the
+> +    entire subsystem.
+> +
+> +    Only subsystem maintainers can push changes that affect the userspace
+> +    API/ABI.
+> +
+> +All media committers shall explicitly agree with the Kernel development process
+> +as described at Documentation/process/index.rst and to the Kernel
+> +development rules inside the Kernel documentation, including its code of
+> +conduct.
+> +
+> +Media development tree
+> +----------------------
+> +
+> +The main development tree used by the media subsystem is hosted at LinuxTV.org,
+> +where we also maintain news about the subsystem, wiki pages and a patchwork
+> +instance where we track patches though their lifetime.
+> +
+> +The main tree used by media developers is at:
+> +
+> +https://git.linuxtv.org/media.git/
+> +
+> +.. _Media development workflow:
+> +
+> +Media development workflow
+> +++++++++++++++++++++++++++
+> +
+> +All changes for the media subsystem must be sent first as e-mails to the
+> +media mailing list, following the process documented at
+> +Documentation/process/index.rst.
+> +
+> +It means that patches shall be submitted as plain text only via e-mail to
+> +linux-media@vger.kernel.org. While subscription is not mandatory, you
+> +can find details about how to subscribe to it and to see its archives at:
+> +
+> +  https://subspace.kernel.org/vger.kernel.org.html
+> +
+> +Emails with HTML will be automatically rejected by the mail server.
+> +
+> +It could be wise to also copy the media committer(s). You should use
+> +``scripts/get_maintainers.pl`` to identify whom else needs to be copied.
+> +Please always copy driver's authors and maintainers.
+> +
+> +Such patches need to be based against a public branch or tag as follows:
+> +
+> +1. Patches for new features need to be based at the ``next`` branch of
+> +   media.git tree;
+> +
+> +2. Fixes against an already released kernel should preferably be against
+> +   the latest released Kernel. If they require a previously-applied
+> +   change at media.git tree, they need to be against its ``fixes`` branch.
 
-Yes this is what I'm proposing, except that this check should be
-skipped in the VIDIOC_TRY_EXT_CTRLS case. I think we need to add
-a "bool try" parameter to uvc_ctrl_set() and not look at / set
-[new_]handle when this is set.
+What is an "released kernel"? Does an -rcX kernel qualify?
 
+> +
+> +3. Fixes for issues not present at the latest released kernel shall
+> +   be either against a -rc kernel for an upcoming release or
+> +   against the ``fixes`` branch of the media.git tree.
 
+2 and 3 remain vague, IMO. Not a blocker, but I think this needs more work
+at some point.
 
->         /* Clamp out of range values. */
->         switch (mapping->v4l2_type) {
->         case V4L2_CTRL_TYPE_INTEGER:
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index e0e4f099a210..0ef7c594eecb 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -154,6 +154,7 @@ struct uvc_control {
->                                  * File handle that initially changed the
->                                  * async control.
->                                  */
-> +       bool async_event_works;
->  };
-> 
-> The benefit is that we can predict a device returning STALL without
-> having to actually do the set/get operation.
-> 
-> We can add it as a follow-up patch.
+> +
+> +Patches with fixes shall have:
+> +
+> +- a ``Fixes:`` tag pointing to the first commit that introduced the bug;
+> +- when applicable, a ``Cc: stable@vger.kernel.org``.
+> +
+> +Patches that were fixing bugs publicly reported by someone at the
+> +linux-media@vger.kernel.org mailing list shall have:
+> +
+> +- a ``Reported-by:`` tag immediately followed by a ``Closes:`` tag.
+> +
+> +Patches that change API shall update documentation accordingly at the
+> +same patch series.
+> +
+> +See Documentation/process/index.rst for more details about e-mail submission.
+> +
+> +Once a patch is submitted, it may follow either one of the following
+> +workflows:
+> +
+> +a. Pull request workflow: patches are handled by subsystem maintainers::
+> +
+> +     +------+   +---------+   +-------+   +-----------------------+   +---------+
+> +     |e-mail|-->|patchwork|-->|pull   |-->|maintainers merge      |-->|media.git|
+> +     +------+   |picks it |   |request|   |in media-committers.git|   +---------+
+> +                +---------+   +-------+   +-----------------------+
+> +
+> +   For this workflow, pull requests can be generated by a committer,
+> +   a previous committer, subsystem maintainers or by a trusted long-time
+> +   contributor. If you are not in such group, please don't submit
+> +   pull requests, as they will not be processed.
+> +
+> +b. Committers' workflow: patches are handled by media committers::
+> +
+> +     +------+   +---------+   +--------------------+   +-----------+   +---------+
+> +     |e-mail|-->|patchwork|-->|committers merge at |-->|maintainers|-->|media.git|
+> +     +------+   |picks it |   |media-committers.git|   |approval   |   +---------+
+> +                +---------+   +--------------------+   +-----------+
+> +
+> +On both workflows, all patches shall be properly reviewed at
+> +linux-media@vger.kernel.org before being merged at media-committers.git.
+> +
+> +When patches are picked by patchwork and when merged at media-committers,
+> +CI bots will check for errors and may provide e-mail feedback about
+> +patch problems. When this happens, the patch submitter must fix them, or
+> +explain why the errors are false positives.
+> +
+> +Patches will only be moved to the next stage in those two workflows if they
+> +don't fail on CI or if there are false-positives in the CI reports.
+> +
+> +Failures during e-mail submission
+> ++++++++++++++++++++++++++++++++++
+>  
+>  Media's workflow is heavily based on Patchwork, meaning that, once a patch
+>  is submitted, the e-mail will first be accepted by the mailing list
+> @@ -47,51 +167,48 @@ server, and, after a while, it should appear at:
+>  
+>     - https://patchwork.linuxtv.org/project/linux-media/list/
+>  
+> -If it doesn't automatically appear there after a few minutes, then
+> +If it doesn't automatically appear there after some time [2]_, then
+>  probably something went wrong on your submission. Please check if the
+> -email is in plain text\ [2]_ only and if your emailer is not mangling
+> +email is in plain text\ [3]_ only and if your emailer is not mangling
+>  whitespaces before complaining or submitting them again.
+>  
+> -You can check if the mailing list server accepted your patch, by looking at:
+> +To troubleshoot problems, you should first check if the mailing list
+> +server has accepted your patch, by looking at:
+>  
+>     - https://lore.kernel.org/linux-media/
+>  
+> -.. [2] If your email contains HTML, the mailing list server will simply
+> +If the patch is there and not at patchwork, it is likely that your e-mailer
+> +mangled the patch. Patchwork internally has a logic that checks if the
 
-Another benefit would be correctly returning -EBUSY when trying to get
-the ctrl. I agree this could be done as a follow-up.
+a logic -> logic
+
+> +received e-mail contain a valid patch. Any whitespace and new line
+
+contain -> contains
+
+> +breakages mangling the patch won't be recognized by patchwork, thus such
+> +patch will be rejected.
+> +
+> +.. [2] It usually takes a few minutes for the patch to arrive, but
+> +       the e-mail server may be busy, so it may take up to a few hours
+> +       for a patch to be picked by patchwork.
+> +
+> +.. [3] If your email contains HTML, the mailing list server will simply
+>         drop it, without any further notice.
+>  
+> +.. _media-developers-gpg:
+>  
+> -Media maintainers
+> -+++++++++++++++++
+> +Authentication for pull and merge requests
+> +++++++++++++++++++++++++++++++++++++++++++
+>  
+> -At the media subsystem, we have a group of senior developers that
+> -are responsible for doing the code reviews at the drivers (also known as
+> -sub-maintainers), and another senior developer responsible for the
+> -subsystem as a whole. For core changes, whenever possible, multiple
+> -media maintainers do the review.
+> +The authenticity of developers submitting pull requests and merge requests
+> +shall be validated by using PGP sign. See: :ref:`kernel_org_trust_repository`.
+
+sign -> signing
+
+Hmm, merge requests through gitlab are not signed. So this isn't correct, I
+think.
+
+>  
+> -The media maintainers that work on specific areas of the subsystem are:
+> +With the pull request workflow, pull requests shall use a PGP-signed tag.
+>  
+> -- Remote Controllers (infrared):
+> -    Sean Young <sean@mess.org>
+> +For more details about PGP sign, please read
+> +Documentation/process/maintainer-pgp-guide.rst.
+>  
+> -- HDMI CEC:
+> -    Hans Verkuil <hverkuil@xs4all.nl>
+> +Subsystem maintainers
+> +---------------------
+>  
+> -- Media controller drivers:
+> -    Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> -
+> -- ISP, v4l2-async, v4l2-fwnode, v4l2-flash-led-class and Sensor drivers:
+> -    Sakari Ailus <sakari.ailus@linux.intel.com>
+> -
+> -- V4L2 drivers and core V4L2 frameworks:
+> -    Hans Verkuil <hverkuil@xs4all.nl>
+> -
+> -The subsystem maintainer is:
+> -  Mauro Carvalho Chehab <mchehab@kernel.org>
+> -
+> -Media maintainers may delegate a patch to other media maintainers as needed.
+> -On such case, checkpatch's ``delegate`` field indicates who's currently
+> -responsible for reviewing a patch.
+> +The subsystem maintainers are:
+> +  - Mauro Carvalho Chehab <mchehab@kernel.org> and
+> +  - Hans Verkuil <hverkuil@xs4all.nl>
+>  
+>  Submit Checklist Addendum
+>  -------------------------
+> @@ -108,17 +225,14 @@ implementing the media APIs:
+>  ====================	=======================================================
+>  Type			Tool
+>  ====================	=======================================================
+> -V4L2 drivers\ [3]_	``v4l2-compliance``
+> +V4L2 drivers\ [4]_	``v4l2-compliance``
+>  V4L2 virtual drivers	``contrib/test/test-media``
+>  CEC drivers		``cec-compliance``
+>  ====================	=======================================================
+>  
+> -.. [3] The ``v4l2-compliance`` also covers the media controller usage inside
+> +.. [4] The ``v4l2-compliance`` also covers the media controller usage inside
+
+The ``v4l2-compliance`` utility
+
+(add 'utility')
+
+>         V4L2 drivers.
+>  
+> -Other compilance tools are under development to check other parts of the
+> -subsystem.
+> -
+>  Those tests need to pass before the patches go upstream.
+>  
+>  Also, please notice that we build the Kernel with::
+> @@ -134,6 +248,8 @@ Where the check script is::
+>  Be sure to not introduce new warnings on your patches without a
+>  very good reason.
+>  
+> +Please see `Media development workflow`_ for e-mail submission rules.
+> +
+>  Style Cleanup Patches
+>  +++++++++++++++++++++
+>  
+> @@ -199,7 +315,7 @@ tree between -rc6 and the next -rc1.
+>  Please notice that the media subsystem is a high traffic one, so it
+>  could take a while for us to be able to review your patches. Feel free
+>  to ping if you don't get a feedback in a couple of weeks or to ask
+> -other developers to publicly add Reviewed-by and, more importantly,
+> +other developers to publicly add ``Reviewed-by:`` and, more importantly,
+>  ``Tested-by:`` tags.
+>  
+>  Please note that we expect a detailed description for ``Tested-by:``,
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1e930c7a58b1..c77f56a2e695 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14510,6 +14510,7 @@ MEDIA INPUT INFRASTRUCTURE (V4L/DVB)
+>  M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> +P:	Documentation/driver-api/media/maintainer-entry-profile.rst
+>  W:	https://linuxtv.org
+>  Q:	http://patchwork.kernel.org/project/linux-media/list/
+
+Shouldn't this point to our patchwork instance instead?
+
+>  T:	git git://linuxtv.org/media.git
 
 Regards,
 
-Hans
-
-
+	Hans
 
