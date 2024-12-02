@@ -1,564 +1,462 @@
-Return-Path: <linux-media+bounces-22438-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22439-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD019E03CB
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 14:41:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5097D9E040C
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 14:54:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 713451675EE
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 13:41:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0AA081674FB
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2024 13:54:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AEEF201039;
-	Mon,  2 Dec 2024 13:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04C7120127C;
+	Mon,  2 Dec 2024 13:54:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Ry4sQfh+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lTRApt6G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8557C200132;
-	Mon,  2 Dec 2024 13:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7A4AD5E;
+	Mon,  2 Dec 2024 13:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733146883; cv=none; b=ShL70v1VVWBByyxvRCQ49/PnVPBMkinrCfPahO5Axi7mX7ktUpIVB03DqAePtbKarJyqtt5ffUlYF6uEsXQemHSxaOoEd97aEj10WaAgFt+FiJimPiPsuolo+ivBkG0yRNfIwi01y7nOg9v9L/6OeCwN6S4GKyhvfGqRMEohk0U=
+	t=1733147649; cv=none; b=KH69X0YGD7RGYAAo0nUnpZE+XKJaTR9sb5WZNpsr5803n2AD/71ABtaZulyBfGWJ1TsF5kVJ1CYQMEmFkTE3I0YcJzyKEIVfycqqbNfDfr3V2ZcHzDCcolZZbyaAhfkj86k+mfxn3ZEV43V0oCkp5Ro5sDaj9U9mJoDulRkBZaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733146883; c=relaxed/simple;
-	bh=f2PNgO11a305yC8gmeVjAJzdmIVS4XrmJhuZKSqX3rk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=DTJz1QgCnYe8SftsIkDhiK6QoM6tfbSd5OI0ZyLmTlYlEL4UCF8651Hik10U21FbSYIiGjJ8FP8guiPVR+nMvkseiUJdgyRyo4kT/oDkRU7MZGYlHfs9SMbEDdt9IWyIjY0XdGdiktbLy2gc09ZwaYb5t1a5iWjLT6qbBWO56TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Ry4sQfh+; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B295HGc029895;
-	Mon, 2 Dec 2024 13:41:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MX5KQLsm/WIAcbTBfRrAshMCcMH8lF5bmCLJNudio6o=; b=Ry4sQfh+76UGt0n7
-	1Nu2Aimz8Obe+8eOUdlLIsvhDpKvCGf1lOq5YiEGj1qE2Am9UFz1OHzhXvHb84Qi
-	xbdGcdIn7z2QzH5Lcp/VP1bPdB55I8uinVyB1IYH+Ad/PdUSufSgwNQEXF43SdRH
-	0pimXDos4jhtl/LlfMGeZzCzDvmcAYrTp3roQENS7hnM+Dfj6ltsCI2luDmaVXDZ
-	v85Qecz+Xd7wDba9jdpyx1dvNavv6qwvCuJWBx1NOI6TBm0Rth7WQQXFsQpxDe6b
-	+6EfLdKOq7cB7XzmaeUWiLJOKRi8S5nTOabyAL0yC+n8PxQIR4N8RKrtPpI3KCKP
-	OczoNA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437v07mumn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 02 Dec 2024 13:41:13 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B2Df9Kt004596
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 2 Dec 2024 13:41:09 GMT
-Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
- 05:41:05 -0800
-Message-ID: <499b32c0-480f-422d-8a2d-3972409a187f@quicinc.com>
-Date: Mon, 2 Dec 2024 19:11:02 +0530
+	s=arc-20240116; t=1733147649; c=relaxed/simple;
+	bh=3LKf7Gfi++dv56nOl1dDNr4m/XQpe+x6YTUwPyPoNM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PtTHyCg0lrE8YMZX7i7RBgucSYKow4yFX1VGWsMmvz2ZD3nJHk3/0MVQ1FDqfPuhVbtJ1Rehk9vu7sGv26rnSNwUchShU5LDVTxFJpy+NSxaoncE0tPTaqeic/rGDCoX5VFTX8p8rBSQtfeHGvEB0UvJeZEoJTgd0inRDuY89yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lTRApt6G; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3107C4CED1;
+	Mon,  2 Dec 2024 13:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733147649;
+	bh=3LKf7Gfi++dv56nOl1dDNr4m/XQpe+x6YTUwPyPoNM8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lTRApt6GS7VtfB1L95gvDyD9BzUrZYWF3Wf5gpCy2TJPttyB02jUy/C5jgfuyfGKj
+	 6ukOICxGnLfEnOkbYfQDGYs2zuyTMMUmVBXFgi1HUBJpSMKjOMpbtXBCUlVnF8mxTI
+	 QZ9F13XM5KonzHNmdKg2tAgZq+vmm38ZEnYo6qdwMbawwk+b/kvCxkVWhf2hqynl9r
+	 yHMUjVVIaWFinUHQwY01Cmod9RdL5PM+MJ1D49X+ophZ2TP7iRQQofhF61MKb+mP0F
+	 RMw54N09aK/dlDYZYqNyfsOhXWY4cuuZV1orWpWeY2WprpNH0hIdqVl2qaU4PA2V4V
+	 iXlUnSycf3UJg==
+Date: Mon, 2 Dec 2024 14:54:05 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Hans Verkuil
+ <hverkuil@xs4ll.nl>, Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v3 1/3] docs: media: update maintainer-entry-profile for
+ multi-committers
+Message-ID: <20241202145405.58499677@foz.lan>
+In-Reply-To: <b3837cf3-8d32-41ad-82f8-855d48256f09@xs4all.nl>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+	<e9a5f9f49b185c694d38ea620bd68252eb52e9d3.1733131405.git.mchehab+huawei@kernel.org>
+	<b3837cf3-8d32-41ad-82f8-855d48256f09@xs4all.nl>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 RESEND 3/3] i2c: i2c-qcom-geni: Add Block event
- interrupt support
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-To: Bjorn Andersson <andersson@kernel.org>
-CC: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        "Sumit
- Semwal" <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>,
-        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
-        <quic_vtanuku@quicinc.com>
-References: <20241111140244.13474-1-quic_jseerapu@quicinc.com>
- <20241111140244.13474-4-quic_jseerapu@quicinc.com>
- <54iirnbdmcvbg2zpkajuwqjdb6mxlehpvtnq2hmxd4beuh4ish@mbuttdzzvebv>
- <661f17df-e376-4d6b-9509-d6771bfcb8ce@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <661f17df-e376-4d6b-9509-d6771bfcb8ce@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: b9djjGKBiXsqk9SaBjpl4e-5qnQbN9ZI
-X-Proofpoint-GUID: b9djjGKBiXsqk9SaBjpl4e-5qnQbN9ZI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- adultscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412020119
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+Em Mon, 2 Dec 2024 14:17:48 +0100
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+
+> Hi Mauro,
+> 
+> On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:
+> > As the media subsystem will experiment with a multi-committers model,
+> > update the Maintainer's entry profile to the new rules.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > Signed-off-by: Hans Verkuil <hverkuil@xs4ll.nl>  
+> 
+> xs4ll.nl -> xs4all.nl
+> 
+> (it's probably my typo, but please fix this in the final version)
+
+Yes, I copied and pasted it. Will fix at the next version.
+
+> 
+> > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  .../media/maintainer-entry-profile.rst        | 208 ++++++++++++++----
+> >  MAINTAINERS                                   |   1 +
+> >  2 files changed, 163 insertions(+), 46 deletions(-)
+> > 
+> > diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > index ffc712a5f632..dc764163cf1c 100644
+> > --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > @@ -27,19 +27,139 @@ It covers, mainly, the contents of those directories:
+> >  Both media userspace and Kernel APIs are documented and the documentation
+> >  must be kept in sync with the API changes. It means that all patches that
+> >  add new features to the subsystem must also bring changes to the
+> > -corresponding API files.
+> > +corresponding API documentation files.
+> >  
+> > -Due to the size and wide scope of the media subsystem, media's
+> > -maintainership model is to have sub-maintainers that have a broad
+> > -knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+> > -task to review the patches, providing feedback to users if the patches are
+> > +Due to the size and wide scope of the media subsystem, the media's
+> > +maintainership model is to have committers that have a broad knowledge of
+> > +a specific aspect of the subsystem. It is the committers' task to
+> > +review the patches, providing feedback to users if the patches are
+> >  following the subsystem rules and are properly using the media kernel and
+> >  userspace APIs.
+> >  
+> > -Patches for the media subsystem must be sent to the media mailing list
+> > -at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> > -HTML will be automatically rejected by the mail server. It could be wise
+> > -to also copy the sub-maintainer(s).
+> > +Media committers
+> > +----------------
+> > +
+> > +In the media subsystem, there are experienced developers who can push
+> > +patches directly to the development tree. These developers are called
+> > +Media committers and are divided into the following categories:
+> > +
+> > +- Committers:
+> > +    contributors for one or more drivers within the media subsystem.
+> > +    They can push changes to the tree that do not affect the core or ABI.
+> > +
+> > +- Core committers:
+> > +    responsible for part of the media core. They are typically
+> > +    responsible for one or more drivers within the media subsystem, but, besides
+> > +    that, they can also merge patches that change the code common to multiple
+> > +    drivers, including the kernel internal API.
+> > +
+> > +- Subsystem maintainers:
+> > +    responsible for the subsystem as a whole, with access to the
+> > +    entire subsystem.
+> > +
+> > +    Only subsystem maintainers can push changes that affect the userspace
+> > +    API/ABI.
+> > +
+> > +All media committers shall explicitly agree with the Kernel development process
+> > +as described at Documentation/process/index.rst and to the Kernel
+> > +development rules inside the Kernel documentation, including its code of
+> > +conduct.
+> > +
+> > +Media development tree
+> > +----------------------
+> > +
+> > +The main development tree used by the media subsystem is hosted at LinuxTV.org,
+> > +where we also maintain news about the subsystem, wiki pages and a patchwork
+> > +instance where we track patches though their lifetime.
+> > +
+> > +The main tree used by media developers is at:
+> > +
+> > +https://git.linuxtv.org/media.git/
+> > +
+> > +.. _Media development workflow:
+> > +
+> > +Media development workflow
+> > +++++++++++++++++++++++++++
+> > +
+> > +All changes for the media subsystem must be sent first as e-mails to the
+> > +media mailing list, following the process documented at
+> > +Documentation/process/index.rst.
+> > +
+> > +It means that patches shall be submitted as plain text only via e-mail to
+> > +linux-media@vger.kernel.org. While subscription is not mandatory, you
+> > +can find details about how to subscribe to it and to see its archives at:
+> > +
+> > +  https://subspace.kernel.org/vger.kernel.org.html
+> > +
+> > +Emails with HTML will be automatically rejected by the mail server.
+> > +
+> > +It could be wise to also copy the media committer(s). You should use
+> > +``scripts/get_maintainers.pl`` to identify whom else needs to be copied.
+> > +Please always copy driver's authors and maintainers.
+> > +
+> > +Such patches need to be based against a public branch or tag as follows:
+> > +
+> > +1. Patches for new features need to be based at the ``next`` branch of
+> > +   media.git tree;
+> > +
+> > +2. Fixes against an already released kernel should preferably be against
+> > +   the latest released Kernel. If they require a previously-applied
+> > +   change at media.git tree, they need to be against its ``fixes`` branch.  
+> 
+> What is an "released kernel"? Does an -rcX kernel qualify?
+> > +
+> > +3. Fixes for issues not present at the latest released kernel shall
+> > +   be either against a -rc kernel for an upcoming release or
+> > +   against the ``fixes`` branch of the media.git tree.  
+> 
+> 2 and 3 remain vague, IMO. Not a blocker, but I think this needs more work
+> at some point.
+
+Some Kernel documents use "mainline release" to refer to Kernel final
+releases.
+
+One option to make it clearer would be to add a link to:
+	https://www.kernel.org/category/releases.html
+
+And then use the terms:
+	- "Mainline release" for v6.10, v6.11, v6.12...
+	- "Prepatch release" for -rc1, -rc2, -rc3...
+
+What 2 and means are:
+
+	1. Features for the next mainline release:
+
+	   - baseline shall be media.git ``next`` branch;
+
+	2. Fixes bugs at mainline releases:
+
+	   - baseline shall be the latest mainline release or media.git ``fixes``  
+	     if changes depend on a fix already merged;
+
+	3. Fixes for the next mainline release:
+
+	   - baseline shall be a prepatch release or media.git ``fixes``  
+	     if changes depend on a fix already merged;
+
+	.. Note:
+
+	   See https://www.kernel.org/category/releases.html for an overview
+	   about Kernel release types.
+  
+Would the above text work best you? If not please propose another
+text.
+
+In practice, we'll likely accept other baselines for fixes as
+well, for practical reasons. From my side, I don't have any issues
+if I need to rebase a tested bugfix patch produced against an
+older Kernel send by an occasional contributor, if it only has 
+trivial merge conflicts.
+
+> > +Patches with fixes shall have:
+> > +
+> > +- a ``Fixes:`` tag pointing to the first commit that introduced the bug;
+> > +- when applicable, a ``Cc: stable@vger.kernel.org``.
+> > +
+> > +Patches that were fixing bugs publicly reported by someone at the
+> > +linux-media@vger.kernel.org mailing list shall have:
+> > +
+> > +- a ``Reported-by:`` tag immediately followed by a ``Closes:`` tag.
+> > +
+> > +Patches that change API shall update documentation accordingly at the
+> > +same patch series.
+> > +
+> > +See Documentation/process/index.rst for more details about e-mail submission.
+> > +
+> > +Once a patch is submitted, it may follow either one of the following
+> > +workflows:
+> > +
+> > +a. Pull request workflow: patches are handled by subsystem maintainers::
+> > +
+> > +     +------+   +---------+   +-------+   +-----------------------+   +---------+
+> > +     |e-mail|-->|patchwork|-->|pull   |-->|maintainers merge      |-->|media.git|
+> > +     +------+   |picks it |   |request|   |in media-committers.git|   +---------+
+> > +                +---------+   +-------+   +-----------------------+
+> > +
+> > +   For this workflow, pull requests can be generated by a committer,
+> > +   a previous committer, subsystem maintainers or by a trusted long-time
+> > +   contributor. If you are not in such group, please don't submit
+> > +   pull requests, as they will not be processed.
+> > +
+> > +b. Committers' workflow: patches are handled by media committers::
+> > +
+> > +     +------+   +---------+   +--------------------+   +-----------+   +---------+
+> > +     |e-mail|-->|patchwork|-->|committers merge at |-->|maintainers|-->|media.git|
+> > +     +------+   |picks it |   |media-committers.git|   |approval   |   +---------+
+> > +                +---------+   +--------------------+   +-----------+
+> > +
+> > +On both workflows, all patches shall be properly reviewed at
+> > +linux-media@vger.kernel.org before being merged at media-committers.git.
+> > +
+> > +When patches are picked by patchwork and when merged at media-committers,
+> > +CI bots will check for errors and may provide e-mail feedback about
+> > +patch problems. When this happens, the patch submitter must fix them, or
+> > +explain why the errors are false positives.
+> > +
+> > +Patches will only be moved to the next stage in those two workflows if they
+> > +don't fail on CI or if there are false-positives in the CI reports.
+> > +
+> > +Failures during e-mail submission
+> > ++++++++++++++++++++++++++++++++++
+> >  
+> >  Media's workflow is heavily based on Patchwork, meaning that, once a patch
+> >  is submitted, the e-mail will first be accepted by the mailing list
+> > @@ -47,51 +167,48 @@ server, and, after a while, it should appear at:
+> >  
+> >     - https://patchwork.linuxtv.org/project/linux-media/list/
+> >  
+> > -If it doesn't automatically appear there after a few minutes, then
+> > +If it doesn't automatically appear there after some time [2]_, then
+> >  probably something went wrong on your submission. Please check if the
+> > -email is in plain text\ [2]_ only and if your emailer is not mangling
+> > +email is in plain text\ [3]_ only and if your emailer is not mangling
+> >  whitespaces before complaining or submitting them again.
+> >  
+> > -You can check if the mailing list server accepted your patch, by looking at:
+> > +To troubleshoot problems, you should first check if the mailing list
+> > +server has accepted your patch, by looking at:
+> >  
+> >     - https://lore.kernel.org/linux-media/
+> >  
+> > -.. [2] If your email contains HTML, the mailing list server will simply
+> > +If the patch is there and not at patchwork, it is likely that your e-mailer
+> > +mangled the patch. Patchwork internally has a logic that checks if the  
+> 
+> a logic -> logic
+> 
+> > +received e-mail contain a valid patch. Any whitespace and new line  
+> 
+> contain -> contains
+> 
+> > +breakages mangling the patch won't be recognized by patchwork, thus such
+> > +patch will be rejected.
+> > +
+> > +.. [2] It usually takes a few minutes for the patch to arrive, but
+> > +       the e-mail server may be busy, so it may take up to a few hours
+> > +       for a patch to be picked by patchwork.
+> > +
+> > +.. [3] If your email contains HTML, the mailing list server will simply
+> >         drop it, without any further notice.
+> >  
+> > +.. _media-developers-gpg:
+> >  
+> > -Media maintainers
+> > -+++++++++++++++++
+> > +Authentication for pull and merge requests
+> > +++++++++++++++++++++++++++++++++++++++++++
+> >  
+> > -At the media subsystem, we have a group of senior developers that
+> > -are responsible for doing the code reviews at the drivers (also known as
+> > -sub-maintainers), and another senior developer responsible for the
+> > -subsystem as a whole. For core changes, whenever possible, multiple
+> > -media maintainers do the review.
+> > +The authenticity of developers submitting pull requests and merge requests
+> > +shall be validated by using PGP sign. See: :ref:`kernel_org_trust_repository`.  
+> 
+> sign -> signing
+> 
+> Hmm, merge requests through gitlab are not signed. So this isn't correct, I
+> think.
+
+No, but they are authenticated based on gitlab's user ID. The authentication
+we'll have is when the new committer sends us an e-mail providing the
+gitlab's user ID.
+
+See patch 3, as it contains some changes aiming to better explain it. Once
+it get the same people reviewing that also reviewed 1 and 2, I'll fold it.
+
+> 
+> >  
+> > -The media maintainers that work on specific areas of the subsystem are:
+> > +With the pull request workflow, pull requests shall use a PGP-signed tag.
+> >  
+> > -- Remote Controllers (infrared):
+> > -    Sean Young <sean@mess.org>
+> > +For more details about PGP sign, please read
+> > +Documentation/process/maintainer-pgp-guide.rst.
+> >  
+> > -- HDMI CEC:
+> > -    Hans Verkuil <hverkuil@xs4all.nl>
+> > +Subsystem maintainers
+> > +---------------------
+> >  
+> > -- Media controller drivers:
+> > -    Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > -
+> > -- ISP, v4l2-async, v4l2-fwnode, v4l2-flash-led-class and Sensor drivers:
+> > -    Sakari Ailus <sakari.ailus@linux.intel.com>
+> > -
+> > -- V4L2 drivers and core V4L2 frameworks:
+> > -    Hans Verkuil <hverkuil@xs4all.nl>
+> > -
+> > -The subsystem maintainer is:
+> > -  Mauro Carvalho Chehab <mchehab@kernel.org>
+> > -
+> > -Media maintainers may delegate a patch to other media maintainers as needed.
+> > -On such case, checkpatch's ``delegate`` field indicates who's currently
+> > -responsible for reviewing a patch.
+> > +The subsystem maintainers are:
+> > +  - Mauro Carvalho Chehab <mchehab@kernel.org> and
+> > +  - Hans Verkuil <hverkuil@xs4all.nl>
+> >  
+> >  Submit Checklist Addendum
+> >  -------------------------
+> > @@ -108,17 +225,14 @@ implementing the media APIs:
+> >  ====================	=======================================================
+> >  Type			Tool
+> >  ====================	=======================================================
+> > -V4L2 drivers\ [3]_	``v4l2-compliance``
+> > +V4L2 drivers\ [4]_	``v4l2-compliance``
+> >  V4L2 virtual drivers	``contrib/test/test-media``
+> >  CEC drivers		``cec-compliance``
+> >  ====================	=======================================================
+> >  
+> > -.. [3] The ``v4l2-compliance`` also covers the media controller usage inside
+> > +.. [4] The ``v4l2-compliance`` also covers the media controller usage inside  
+> 
+> The ``v4l2-compliance`` utility
+> 
+> (add 'utility')
+
+Ok.
+
+> 
+> >         V4L2 drivers.
+> >  
+> > -Other compilance tools are under development to check other parts of the
+> > -subsystem.
+> > -
+> >  Those tests need to pass before the patches go upstream.
+> >  
+> >  Also, please notice that we build the Kernel with::
+> > @@ -134,6 +248,8 @@ Where the check script is::
+> >  Be sure to not introduce new warnings on your patches without a
+> >  very good reason.
+> >  
+> > +Please see `Media development workflow`_ for e-mail submission rules.
+> > +
+> >  Style Cleanup Patches
+> >  +++++++++++++++++++++
+> >  
+> > @@ -199,7 +315,7 @@ tree between -rc6 and the next -rc1.
+> >  Please notice that the media subsystem is a high traffic one, so it
+> >  could take a while for us to be able to review your patches. Feel free
+> >  to ping if you don't get a feedback in a couple of weeks or to ask
+> > -other developers to publicly add Reviewed-by and, more importantly,
+> > +other developers to publicly add ``Reviewed-by:`` and, more importantly,
+> >  ``Tested-by:`` tags.
+> >  
+> >  Please note that we expect a detailed description for ``Tested-by:``,
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 1e930c7a58b1..c77f56a2e695 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -14510,6 +14510,7 @@ MEDIA INPUT INFRASTRUCTURE (V4L/DVB)
+> >  M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+> >  L:	linux-media@vger.kernel.org
+> >  S:	Maintained
+> > +P:	Documentation/driver-api/media/maintainer-entry-profile.rst
+> >  W:	https://linuxtv.org
+> >  Q:	http://patchwork.kernel.org/project/linux-media/list/  
+> 
+> Shouldn't this point to our patchwork instance instead?
+
+Good catch! I'll update it.
+
+> 
+> >  T:	git git://linuxtv.org/media.git  
+> 
+> Regards,
+> 
+> 	Hans
 
 
 
-On 11/21/2024 6:28 PM, Jyothi Kumar Seerapu wrote:
-> 
-> 
-> On 11/12/2024 10:03 AM, Bjorn Andersson wrote:
->> On Mon, Nov 11, 2024 at 07:32:44PM +0530, Jyothi Kumar Seerapu wrote:
->>> The I2C driver gets an interrupt upon transfer completion.
->>> For multiple messages in a single transfer, N interrupts will be
->>> received for N messages, leading to significant software interrupt
->>> latency. To mitigate this latency, utilize Block Event Interrupt (BEI)
->>
->> Please rewrite this to the tone that the reader doesn't know what Block
->> Event Interrupt is, or that it exists.
-> Sure, done.
->>
->>> only when an interrupt is necessary. This means large transfers can be
->>> split into multiple chunks of 8 messages internally, without expecting
->>> interrupts for the first 7 message completions, only the last one will
->>> trigger an interrupt indicating 8 messages completed.
->>>
->>> By implementing BEI, multi-message transfers can be divided into
->>> chunks of 8 messages, improving overall transfer time.
->>
->> You already wrote this in the paragraph above.
-> yeah removed it.
->>
->>
->> Where is this number 8 coming from btw?
-> Its documented in "qcom-gpi-dma.h" file.
-> Trigger an interrupt, after the completion of 8 messages.
->>
->>> This optimization reduces transfer time from 168 ms to 48 ms for a
->>> series of 200 I2C write messages in a single transfer, with a
->>> clock frequency support of 100 kHz.
->>>
->>> BEI optimizations are currently implemented for I2C write transfers 
->>> only,
->>> as there is no use case for multiple I2C read messages in a single 
->>> transfer
->>> at this time.
->>>
->>> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
->>> ---
->>>
->>> v1 -> v2:
->>>     - Moved gi2c_gpi_xfer->msg_idx_cnt to separate local variable.
->>>     - Updated goto labels for error scenarios in geni_i2c_gpi function
->>>     - memset tx_multi_xfer to 0.
->>>     - Removed passing current msg index to geni_i2c_gpi.
->>>     - Fixed kernel test robot reported compilation issues.
->>>
->>>   drivers/i2c/busses/i2c-qcom-geni.c | 203 +++++++++++++++++++++++++----
->>>   1 file changed, 178 insertions(+), 25 deletions(-)
->>>
->>> diff --git a/drivers/i2c/busses/i2c-qcom-geni.c 
->>> b/drivers/i2c/busses/i2c-qcom-geni.c
->>> index 7a22e1f46e60..04a7d926dadc 100644
->>> --- a/drivers/i2c/busses/i2c-qcom-geni.c
->>> +++ b/drivers/i2c/busses/i2c-qcom-geni.c
->>> @@ -100,6 +100,10 @@ struct geni_i2c_dev {
->>>       struct dma_chan *rx_c;
->>>       bool gpi_mode;
->>>       bool abort_done;
->>> +    bool is_tx_multi_xfer;
->>> +    u32 num_msgs;
->>> +    u32 tx_irq_cnt;
->>> +    struct gpi_i2c_config *gpi_config;
->>>   };
->>>   struct geni_i2c_desc {
->>> @@ -500,6 +504,7 @@ static int geni_i2c_tx_one_msg(struct 
->>> geni_i2c_dev *gi2c, struct i2c_msg *msg,
->>>   static void i2c_gpi_cb_result(void *cb, const struct 
->>> dmaengine_result *result)
->>>   {
->>>       struct geni_i2c_dev *gi2c = cb;
->>> +    struct gpi_multi_xfer *tx_multi_xfer;
->>>       if (result->result != DMA_TRANS_NOERROR) {
->>>           dev_err(gi2c->se.dev, "DMA txn failed:%d\n", result->result);
->>> @@ -508,7 +513,21 @@ static void i2c_gpi_cb_result(void *cb, const 
->>> struct dmaengine_result *result)
->>>           dev_dbg(gi2c->se.dev, "DMA xfer has pending: %d\n", 
->>> result->residue);
->>>       }
->>> -    complete(&gi2c->done);
->>> +    if (gi2c->is_tx_multi_xfer) {
->>
->> Wouldn't it be cleaner to treat the !is_tx_multi_xfer case as a
->> multi-xfer of length 1?
-> Sure, addressed the change in V3 patch.
->>
->>> +        tx_multi_xfer = &gi2c->gpi_config->multi_xfer;
->>> +
->>> +        /*
->>> +         * Send Completion for last message or multiple of 
->>> NUM_MSGS_PER_IRQ.
->>> +         */
->>> +        if ((tx_multi_xfer->irq_msg_cnt == gi2c->num_msgs - 1) ||
->>> +            (!((tx_multi_xfer->irq_msg_cnt + 1) % NUM_MSGS_PER_IRQ))) {
->>> +            tx_multi_xfer->irq_cnt++;
->>> +            complete(&gi2c->done);
->>
->> Why? You're removing the wait_for_completion_timeout() from
->> geni_i2c_gpi_xfer() when is_tx_multi_xfer is set.
-> For (!is_tx_multi_xfer) case, need to wait for every message.
-> But whereas for multi-message (when is_tx_multi_xfer is set) cases, 
-> "wait_for_completion_timeout" will trigger after queuing messages till 
-> QCOM_GPI_MAX_NUM_MSGS (32) or total number of i2c msgs and 
-> "wait_for_completion_timeout" for this case is handled in GPI driver.
->>
->>> +        }
->>> +        tx_multi_xfer->irq_msg_cnt++;
->>> +    } else {
->>> +        complete(&gi2c->done);
->>> +    }
->>>   }
->>>   static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct 
->>> i2c_msg *msg,
->>> @@ -526,7 +545,42 @@ static void geni_i2c_gpi_unmap(struct 
->>> geni_i2c_dev *gi2c, struct i2c_msg *msg,
->>>       }
->>>   }
->>> -static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
->>> +/**
->>> + * gpi_i2c_multi_desc_unmap() - unmaps the buffers post multi 
->>> message TX transfers
->>> + * @dev: pointer to the corresponding dev node
->>> + * @gi2c: i2c dev handle
->>> + * @msgs: i2c messages array
->>> + * @peripheral: pointer to the gpi_i2c_config
->>> + */
->>> +static void gpi_i2c_multi_desc_unmap(struct geni_i2c_dev *gi2c, 
->>> struct i2c_msg msgs[],
->>> +                     struct gpi_i2c_config *peripheral)
->>> +{
->>> +    u32 msg_xfer_cnt, wr_idx = 0;
->>> +    struct gpi_multi_xfer *tx_multi_xfer = &peripheral->multi_xfer;
->>> +
->>> +    /*
->>> +     * In error case, need to unmap all messages based on the 
->>> msg_idx_cnt.
->>> +     * Non-error case unmap all the processed messages.
->>
->> What is the benefit of this optimization, compared to keeping things
->> simple and just unmap all buffers at the end of geni_i2c_gpi_xfer()?
-> 
-> The maximum number of messages can allocate and submit to GSI hardware 
-> is 16 (QCOM_GPI_MAX_NUM_MSGS) and to handle more messages beyond this 
-> need to unmap the processed messages.
-> If there is 200 messages or more in a transfer then we need to unmap the 
-> processed messages for handling all messages in a transfer.
-> So, instead of Unmap all messages together, here unmapping the chunk of 
-> messages.
-> 
->>
->>> +     */
->>> +    if (gi2c->err)
->>> +        msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
->>> +    else
->>> +        msg_xfer_cnt = tx_multi_xfer->irq_cnt * NUM_MSGS_PER_IRQ;
->>> +
->>> +    /* Unmap the processed DMA buffers based on the received 
->>> interrupt count */
->>> +    for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; 
->>> tx_multi_xfer->unmap_msg_cnt++) {
->>> +        if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
->>> +            break;
->>> +        wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_GPI_MAX_NUM_MSGS;
->>> +        geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
->>> +                   tx_multi_xfer->dma_buf[wr_idx],
->>> +                   tx_multi_xfer->dma_addr[wr_idx],
->>> +                   NULL, (dma_addr_t)NULL);
->>> +        tx_multi_xfer->freed_msg_cnt++;
->>> +    }
->>> +}
->>> +
->>> +static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg 
->>> msgs[],
->>>               struct dma_slave_config *config, dma_addr_t *dma_addr_p,
->>>               void **buf, unsigned int op, struct dma_chan *dma_chan)
->>>   {
->>> @@ -538,26 +592,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg *msg,
->>>       enum dma_transfer_direction dma_dirn;
->>>       struct dma_async_tx_descriptor *desc;
->>>       int ret;
->>> +    struct gpi_multi_xfer *gi2c_gpi_xfer;
->>> +    dma_cookie_t cookie;
->>> +    u32 msg_idx;
->>>       peripheral = config->peripheral_config;
->>> -
->>> -    dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
->>> -    if (!dma_buf)
->>> -        return -ENOMEM;
->>> +    gi2c_gpi_xfer = &peripheral->multi_xfer;
->>> +    dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
->>> +    addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
->>> +    msg_idx = gi2c_gpi_xfer->msg_idx_cnt;
->>> +
->>> +    dma_buf = i2c_get_dma_safe_msg_buf(&msgs[msg_idx], 1);
->>> +    if (!dma_buf) {
->>> +        ret = -ENOMEM;
->>> +        goto out;
->>> +    }
->>>       if (op == I2C_WRITE)
->>>           map_dirn = DMA_TO_DEVICE;
->>>       else
->>>           map_dirn = DMA_FROM_DEVICE;
->>> -    addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, 
->>> map_dirn);
->>> +    addr = dma_map_single(gi2c->se.dev->parent, dma_buf,
->>> +                  msgs[msg_idx].len, map_dirn);
->>>       if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
->>> -        i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
->>> -        return -ENOMEM;
->>> +        i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
->>> +        ret = -ENOMEM;
->>> +        goto out;
->>> +    }
->>> +
->>> +    if (gi2c->is_tx_multi_xfer) {
->>> +        if (((msg_idx + 1) % NUM_MSGS_PER_IRQ))
->>> +            peripheral->flags |= QCOM_GPI_BLOCK_EVENT_IRQ;
->>> +        else
->>> +            peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
->>> +
->>> +        /* BEI bit to be cleared for last TRE */
->>> +        if (msg_idx == gi2c->num_msgs - 1)
->>> +            peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
->>>       }
->>>       /* set the length as message for rx txn */
->>> -    peripheral->rx_len = msg->len;
->>> +    peripheral->rx_len = msgs[msg_idx].len;
->>>       peripheral->op = op;
->>>       ret = dmaengine_slave_config(dma_chan, config);
->>> @@ -575,7 +651,8 @@ static int geni_i2c_gpi(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg *msg,
->>>       else
->>>           dma_dirn = DMA_DEV_TO_MEM;
->>> -    desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, 
->>> dma_dirn, flags);
->>> +    desc = dmaengine_prep_slave_single(dma_chan, addr, 
->>> msgs[msg_idx].len,
->>> +                       dma_dirn, flags);
->>>       if (!desc) {
->>>           dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
->>>           ret = -EIO;
->>> @@ -585,15 +662,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg *msg,
->>>       desc->callback_result = i2c_gpi_cb_result;
->>>       desc->callback_param = gi2c;
->>> -    dmaengine_submit(desc);
->>> -    *buf = dma_buf;
->>> -    *dma_addr_p = addr;
->>> +    if (!((msgs[msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
->>> +        gi2c_gpi_xfer->msg_idx_cnt++;
->>> +        gi2c_gpi_xfer->buf_idx = (msg_idx + 1) % QCOM_GPI_MAX_NUM_MSGS;
->>> +    }
->>> +    cookie = dmaengine_submit(desc);
->>> +    if (dma_submit_error(cookie)) {
->>> +        dev_err(gi2c->se.dev,
->>> +            "%s: dmaengine_submit failed (%d)\n", __func__, cookie);
->>> +        ret = -EINVAL;
->>> +        goto err_config;
->>> +    }
->>> +    if (gi2c->is_tx_multi_xfer) {
->>> +        dma_async_issue_pending(gi2c->tx_c);
->>> +        if ((msg_idx == (gi2c->num_msgs - 1)) ||
->>> +            (gi2c_gpi_xfer->msg_idx_cnt >=
->>> +             QCOM_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
->>> +            ret = gpi_multi_desc_process(gi2c->se.dev, gi2c_gpi_xfer,
->>
->> A function call straight into the GPI driver? I'm not entirely familiar
->> with the details of the dmaengine API, but this doesn't look correct.
-> 
-> "gpi_multi_desc_process" can be used for the other protocols as well and 
-> so defined here. Please let me know if its not a good idea to make this 
-> as common function for all required protocols and keep in GPI driver.
-> 
-> Also, gpi_multi_desc_process can't be fit into dmaengine API and so 
-> invoked a function call to GPI driver.
-
-Hi Bjorn, this function(gpi_multi_desc_process) does not fit into any 
-DMA engine API.
-So, I am considering moving this function to the I2C driver from GPI. 
-Please let me know if this is acceptable or if you have any suggestions.
->>
->>> +                             gi2c->num_msgs, XFER_TIMEOUT,
->>> +                             &gi2c->done);
->>> +            if (ret) {
->>> +                dev_err(gi2c->se.dev,
->>> +                    "I2C multi write msg transfer timeout: %d\n",
->>> +                    ret);
->>> +                gi2c->err = ret;
->>> +                goto err_config;
->>> +            }
->>> +        }
->>> +    } else {
->>> +        /* Non multi descriptor message transfer */
->>> +        *buf = dma_buf;
->>> +        *dma_addr_p = addr;
->>> +    }
->>>       return 0;
->>>   err_config:
->>> -    dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
->>> -    i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
->>> +    dma_unmap_single(gi2c->se.dev->parent, addr,
->>> +             msgs[msg_idx].len, map_dirn);
->>> +    i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
->>> +
->>> +out:
->>> +    gi2c->err = ret;
->>>       return ret;
->>>   }
->>> @@ -605,6 +715,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg msgs[], i
->>>       unsigned long time_left;
->>>       dma_addr_t tx_addr, rx_addr;
->>>       void *tx_buf = NULL, *rx_buf = NULL;
->>> +    struct gpi_multi_xfer *tx_multi_xfer;
->>>       const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
->>>       config.peripheral_config = &peripheral;
->>> @@ -618,6 +729,34 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg msgs[], i
->>>       peripheral.set_config = 1;
->>>       peripheral.multi_msg = false;
->>> +    gi2c->gpi_config = &peripheral;
->>> +    gi2c->num_msgs = num;
->>> +    gi2c->is_tx_multi_xfer = false;
->>> +    gi2c->tx_irq_cnt = 0;
->>> +
->>> +    tx_multi_xfer = &peripheral.multi_xfer;
->>> +    memset(tx_multi_xfer, 0, sizeof(struct gpi_multi_xfer));
->>> +
->>> +    /*
->>> +     * If number of write messages are four and higher then
->>
->> Why four?
-> It changed to 2 in V3, so that if the number of messages in a transfer 
-> are greter than 1, then "is_tx_multi_xfer" is set.
->>
->>> +     * configure hardware for multi descriptor transfers with BEI.
->>> +     */
->>> +    if (num >= MIN_NUM_OF_MSGS_MULTI_DESC) {
->>> +        gi2c->is_tx_multi_xfer = true;
->>> +        for (i = 0; i < num; i++) {
->>> +            if (msgs[i].flags & I2C_M_RD) {
->>> +                /*
->>> +                 * Multi descriptor transfer with BEI
->>> +                 * support is enabled for write transfers.
->>> +                 * Add BEI optimization support for read
->>> +                 * transfers later.
->>
->> Prefix this comment with "TODO:"
-> Done
->>
->>> +                 */
->>> +                gi2c->is_tx_multi_xfer = false;
->>> +                break;
->>> +            }
->>> +        }
->>> +    }
->>> +
->>>       for (i = 0; i < num; i++) {
->>>           gi2c->cur = &msgs[i];
->>>           gi2c->err = 0;
->>> @@ -628,14 +767,16 @@ static int geni_i2c_gpi_xfer(struct 
->>> geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->>>               peripheral.stretch = 1;
->>>           peripheral.addr = msgs[i].addr;
->>> +        if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
->>> +            peripheral.multi_msg = false;
->>> -        ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
->>> +        ret =  geni_i2c_gpi(gi2c, msgs, &config,
->>>                       &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
->>>           if (ret)
->>>               goto err;
->>>           if (msgs[i].flags & I2C_M_RD) {
->>> -            ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
->>> +            ret =  geni_i2c_gpi(gi2c, msgs, &config,
->>>                           &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
->>>               if (ret)
->>>                   goto err;
->>> @@ -643,18 +784,26 @@ static int geni_i2c_gpi_xfer(struct 
->>> geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
->>>               dma_async_issue_pending(gi2c->rx_c);
->>>           }
->>> -        dma_async_issue_pending(gi2c->tx_c);
->>> -
->>> -        time_left = wait_for_completion_timeout(&gi2c->done, 
->>> XFER_TIMEOUT);
->>> -        if (!time_left)
->>> -            gi2c->err = -ETIMEDOUT;
->>> +        if (!gi2c->is_tx_multi_xfer) {
->>> +            dma_async_issue_pending(gi2c->tx_c);
->>> +            time_left = wait_for_completion_timeout(&gi2c->done, 
->>> XFER_TIMEOUT);
->>
->> By making this conditional on !is_tx_multi_xfer transfers, what makes
->> the loop wait for the transfer to complete before you below unmap the
->> buffers?
-> Yes, for (!is_tx_multi_xfer) case, need to wait for every message and 
-> then unmap it and for is_tx_multi_xfer transfers shouldn't unmap per 
-> message wise instead unmap the chunk of messages together.
-> 
->>
->>> +            if (!time_left) {
->>> +                dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
->>> +                gi2c->err = -ETIMEDOUT;
->>> +            }
->>> +        }
->>>           if (gi2c->err) {
->>>               ret = gi2c->err;
->>>               goto err;
->>>           }
->>> -        geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, 
->>> rx_addr);
->>> +        if (!gi2c->is_tx_multi_xfer) {
->>> +            geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, 
->>> rx_buf, rx_addr);
->>> +        } else if (gi2c->tx_irq_cnt != tx_multi_xfer->irq_cnt) {
->>> +            gi2c->tx_irq_cnt = tx_multi_xfer->irq_cnt;
->>> +            gpi_i2c_multi_desc_unmap(gi2c, msgs, &peripheral);
->>> +        }
->>>       }
->>>       return num;
->>> @@ -663,7 +812,11 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev 
->>> *gi2c, struct i2c_msg msgs[], i
->>>       dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
->>>       dmaengine_terminate_sync(gi2c->rx_c);
->>>       dmaengine_terminate_sync(gi2c->tx_c);
->>> -    geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, 
->>> rx_addr);
->>> +    if (gi2c->is_tx_multi_xfer)
->>> +        gpi_i2c_multi_desc_unmap(gi2c, msgs, &peripheral);
->>> +    else
->>> +        geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, 
->>> rx_addr);
->>> +
->>
->> As above, it would be nice if multi-xfer was just a special case with a
->> single buffer; rather than inflating the cyclomatic complexity.
-> 
-> For a single i2c message, data can be placed at contigious memory 
-> locations, but for multiple i2c messages in a transfer, all the messages 
-> offsets and data may not guarantee to placed at contigious memory 
-> locations.
-> So, looks single large buffer is not helpful here.
-> 
->>
->> Regards,
->> Bjorn
->>
->>>       return ret;
->>>   }
->>> -- 
->>> 2.17.1
->>>
->>>
+Thanks,
+Mauro
 
