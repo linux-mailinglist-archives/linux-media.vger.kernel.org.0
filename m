@@ -1,126 +1,256 @@
-Return-Path: <linux-media+bounces-22501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22502-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC3089E13DC
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:20:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 866089E1448
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:33:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D7F59B228B3
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 07:20:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46438285B77
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 07:33:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8B7318B470;
-	Tue,  3 Dec 2024 07:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7EX1yHN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B49018BC1D;
+	Tue,  3 Dec 2024 07:32:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357F2185B76;
-	Tue,  3 Dec 2024 07:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from 189.cn (ptr.189.cn [183.61.185.104])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 053BD7E591;
+	Tue,  3 Dec 2024 07:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.61.185.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733210403; cv=none; b=R1UNRTXtOI2KARf79ypttDPLQxmgjkICtff2OqzQWHKU3JzBbVSQrtN7mEnsh8/fn5WhMXvAHwwicI2/r1kr5lXy/s8E0NJDacpIMt+AK7HiRg65dVHlLQwLYv+wM30UhH1/Hacpy5uHpWkVpKrk21iTzRF6lRx7FKVGMb7Duw0=
+	t=1733211160; cv=none; b=Vutldxihgg2aYJ4uEnxCtUg0d+TuZDIiSkYQsKM/LoV1KEO46LDhIO+uftz8S03P3z833rjakxuGskMnKXNNBVsqpWO56KjYbOgETghSJZc59jJuEXiEZ6IubpQLW/H+FMUte/ryiyVbekTe4t0Vk65NScX3fH3NRYS5gmyoHfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733210403; c=relaxed/simple;
-	bh=SGjQfe0CrbhQJESfm9Sm65hmpm1uBjisW55UtWhbXTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GkBDUa0OuGl6OC9YAejY6iDA0b0I8/agUBkMt7HrrTAJ+e2YC6+ZcgZ9wjDilfLyzFefbNKHYvdxTibEpu/9YTSbc3Qc214RUUXImW7MDEbvfd4Q4ipsG2a4KklqwCVDq3GHPZDIjw0+eQiFIztUARgPxYpfOBGSq1yuVqJ0FYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7EX1yHN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56EECC4CECF;
-	Tue,  3 Dec 2024 07:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733210402;
-	bh=SGjQfe0CrbhQJESfm9Sm65hmpm1uBjisW55UtWhbXTU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=u7EX1yHNy4bujlkL5XubyzHGK8s2MytdVkTB9ayHiBZCQBHsHz1d6bzAedr6sMceN
-	 TRzJnRqC3pLoXFe84x0zeQQEwzMxx93brqwLtKBP/u7Awqhjlf6KoT2H07J+6NKurF
-	 nszU4643Xjz8MyJ18lETv63Ck6hq3wJHmFhFXwitSRXcbDH2QldMPvldBRj/Weq+Lv
-	 AhLtYRaFqT4YuVoaNiTO+IjW8GA8T6zpHZ7722L7BZoh/HNGTP8IP6vtwYAknHmJ60
-	 sx0iIbK3FY0fSt8vnOJRMpaWnzELOCHu+L1SEuTl9ixv0XAZqEtyNPi46dnZIIIfax
-	 AgonPwfR8+46w==
-Date: Tue, 3 Dec 2024 08:19:58 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Document the new media-committer's model
-Message-ID: <20241203081958.6c186835@foz.lan>
-In-Reply-To: <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
-	<b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1733211160; c=relaxed/simple;
+	bh=+Xl3lu+VXqqmJBdNllhibQiFsvDx9x822+cm3lXnKpA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eSwMnsltnL6zIXNcmWkAy/z9GjWzFuE0kzkwmwKKJaIclBmDIA/LumNhmyIoZnqMCP2Wn1TRygSvbG0c4DP/XMJlqljRGjCZ8H9LUzxRjYNL0Xoc0dYYSN0DpcSrF2glSR0r++vaCRz+aI4ujuN24u8cmCDM1iLpzqXp45dDB2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn; spf=pass smtp.mailfrom=189.cn; arc=none smtp.client-ip=183.61.185.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=189.cn
+HMM_SOURCE_IP:10.158.243.220:9667.1260465660
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-123.150.8.42 (unknown [10.158.243.220])
+	by 189.cn (HERMES) with SMTP id EF84A102915;
+	Tue,  3 Dec 2024 15:27:44 +0800 (CST)
+Received: from  ([123.150.8.42])
+	by gateway-153622-dep-5c5f88b874-f78lq with ESMTP id 4830e516074d44918743ff5d3f586373 for mchehab@kernel.org;
+	Tue, 03 Dec 2024 15:27:44 CST
+X-Transaction-ID: 4830e516074d44918743ff5d3f586373
+X-Real-From: chensong_2000@189.cn
+X-Receive-IP: 123.150.8.42
+X-MEDUSA-Status: 0
+Sender: chensong_2000@189.cn
+From: Song Chen <chensong_2000@189.cn>
+To: mchehab@kernel.org,
+	arnd@arndb.de,
+	hverkuil-cisco@xs4all.nl
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Song Chen <chensong_2000@189.cn>
+Subject: [PATCH] drivers/media/pci/sta2x11: replace legacy GPIO APIs
+Date: Tue,  3 Dec 2024 15:27:42 +0800
+Message-Id: <20241203072742.191787-1-chensong_2000@189.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Mon, 2 Dec 2024 16:03:45 +0100
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+GPIO subsystem is moving toward a descriptor-based approach
+from global GPIO numberspace, but some of legacy GPIO APIs
+callings still remain in sta2x11.
 
-> On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:
-> > The media subsystem used to have a multi-commiter's model in the
-> > past, but things didn't go well on that time, and we had to move to
-> > a centralized model.
-> > 
-> > As the community has evolved, and as there are now new policies in
-> > place like CoC, let's experiment with a multi-committers again.
-> > 
-> > The model we're using was inspired by the DRM multi-committers
-> > model. Yet, media subsystem is different on several aspects, so the
-> > model is not exactly the same.
-> > 
-> > The implementation will be in phases. For this phase, the goal is that 
-> > all committers will be people listed at MAINTAINERS.
-> > 
-> > On this series,:
-> > 
-> > patch 1: updates the  media maintainer's entry profile and adds the
-> > workflow that will be used with the new model. While here, it also
-> > adds a missing "P:" tag at the MAINTAINERS file, pointing to it;
-> > 
-> > patch 2: adds a new document focused at the new maintainers
-> > process. Its target is for developers that will be granted with
-> > commit rights at the new media-maintainers.git tree. It also
-> > contains a reference tag addition to kernel.org PGP chain
-> > at process/maintainer-pgp-guide.rst.
-> > 
-> > patch 3: make documents cleared about maintainership duties.  
-> 
-> At least from my perspective, v3 is close to being ready and I hope
-> that v4 will be good enough to be merged.
-> 
-> That said, what is missing in all this is that there is nothing here
-> that explains why you would want to become a media committer. It is all
-> very dry stuff, lots of 'shall's, and 'rights' and 'trust' and obligations,
-> but nothing about the satisfaction you get when you get the responsibility
-> of a part of the kernel and being able to guide the development of that
-> area.
-> 
-> It's good enough to get the multi-committer process off the ground, but
-> it definitely needs more work to make it more inviting to become a media
-> committer. Because right now it is as dry as dust.
+This patch mainly replaces gpio_request with gpiod_get_index
+and removes including gpio.h.
 
-Agreed. We focused on getting a document describing what it is expected
-by committers, in order to start with the model. My view is that it works
-fine for such purpose. I also feel that we're close to the final document.
+Signed-off-by: Song Chen <chensong_2000@189.cn>
+---
+ drivers/media/pci/sta2x11/sta2x11_vip.c | 84 ++++++++++++-------------
+ 1 file changed, 42 insertions(+), 42 deletions(-)
 
-I'm sending today a v4 addressing the comments since last review.
+diff --git a/drivers/media/pci/sta2x11/sta2x11_vip.c b/drivers/media/pci/sta2x11/sta2x11_vip.c
+index 364ce9e57018..03ad75899e09 100644
+--- a/drivers/media/pci/sta2x11/sta2x11_vip.c
++++ b/drivers/media/pci/sta2x11/sta2x11_vip.c
+@@ -19,7 +19,6 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio.h>
+ #include <linux/i2c.h>
+ #include <linux/delay.h>
+ #include <media/v4l2-common.h>
+@@ -139,6 +138,8 @@ struct sta2x11_vip {
+ 
+ 	void __iomem *iomem;	/* I/O Memory */
+ 	struct vip_config *config;
++	struct gpio_desc  *gpiod_pwr;
++	struct gpio_desc  *gpiod_reset;
+ };
+ 
+ static const unsigned int registers_to_save[AUX_COUNT] = {
+@@ -888,18 +889,16 @@ static int sta2x11_vip_init_controls(struct sta2x11_vip *vip)
+  * @name: GPIO pin name
+  *
+  */
+-static int vip_gpio_reserve(struct device *dev, int pin, int dir,
+-			    const char *name)
++static int vip_gpio_reserve(struct device *dev, struct gpio_desc **pgpiod,
++			int pin, int dir, const char *name)
+ {
+-	struct gpio_desc *desc = gpio_to_desc(pin);
++	struct gpio_desc *desc;
+ 	int ret = -ENODEV;
+ 
+-	if (!gpio_is_valid(pin))
+-		return ret;
+-
+-	ret = gpio_request(pin, name);
+-	if (ret) {
++	desc = gpiod_get_index(dev, name, pin, GPIOD_ASIS);
++	if (IS_ERR(desc)) {
+ 		dev_err(dev, "Failed to allocate pin %d (%s)\n", pin, name);
++		ret = PTR_ERR(desc);
+ 		return ret;
+ 	}
+ 
+@@ -907,18 +906,21 @@ static int vip_gpio_reserve(struct device *dev, int pin, int dir,
+ 	if (ret) {
+ 		dev_err(dev, "Failed to set direction for pin %d (%s)\n",
+ 			pin, name);
+-		gpio_free(pin);
+-		return ret;
++		goto err;
+ 	}
+ 
+ 	ret = gpiod_export(desc, false);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to export pin %d (%s)\n", pin, name);
+-		gpio_free(pin);
+-		return ret;
++		goto err;
+ 	}
+ 
++	*pgpiod = desc;
+ 	return 0;
++
++err:
++	gpiod_put(desc);
++	return ret;
+ }
+ 
+ /**
+@@ -928,15 +930,12 @@ static int vip_gpio_reserve(struct device *dev, int pin, int dir,
+  * @name: GPIO pin name
+  *
+  */
+-static void vip_gpio_release(struct device *dev, int pin, const char *name)
++static void vip_gpio_release(struct device *dev, struct gpio_desc *desc,
++			int pin, const char *name)
+ {
+-	if (gpio_is_valid(pin)) {
+-		struct gpio_desc *desc = gpio_to_desc(pin);
+-
+-		dev_dbg(dev, "releasing pin %d (%s)\n",	pin, name);
+-		gpiod_unexport(desc);
+-		gpio_free(pin);
+-	}
++	dev_dbg(dev, "releasing pin %d (%s)\n",	pin, name);
++	gpiod_unexport(desc);
++	gpiod_put(desc);
+ }
+ 
+ /**
+@@ -964,6 +963,7 @@ static int sta2x11_vip_init_one(struct pci_dev *pdev,
+ 	int ret;
+ 	struct sta2x11_vip *vip;
+ 	struct vip_config *config;
++	struct gpio_desc  *gpiod_pwr, *gpiod_reset;
+ 
+ 	/* Check if hardware support 26-bit DMA */
+ 	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(26))) {
+@@ -984,30 +984,27 @@ static int sta2x11_vip_init_one(struct pci_dev *pdev,
+ 	}
+ 
+ 	/* Power configuration */
+-	ret = vip_gpio_reserve(&pdev->dev, config->pwr_pin, 0,
++	ret = vip_gpio_reserve(&pdev->dev, &gpiod_pwr, config->pwr_pin, 0,
+ 			       config->pwr_name);
+ 	if (ret)
+ 		goto disable;
+ 
+-	ret = vip_gpio_reserve(&pdev->dev, config->reset_pin, 0,
++	ret = vip_gpio_reserve(&pdev->dev, &gpiod_reset, config->reset_pin, 0,
+ 			       config->reset_name);
+-	if (ret) {
+-		vip_gpio_release(&pdev->dev, config->pwr_pin,
+-				 config->pwr_name);
+-		goto disable;
+-	}
++	if (ret)
++		goto release_gpio_pwr;
+ 
+-	if (gpio_is_valid(config->pwr_pin)) {
+-		/* Datasheet says 5ms between PWR and RST */
+-		usleep_range(5000, 25000);
+-		gpio_direction_output(config->pwr_pin, 1);
+-	}
++	/* Datasheet says 5ms between PWR and RST */
++	usleep_range(5000, 25000);
++	ret = gpiod_direction_output(gpiod_pwr, 1);
++	if (ret)
++		goto release_gpios;
++
++	usleep_range(5000, 25000);
++	ret = gpiod_direction_output(gpiod_reset, 1);
++	if (ret)
++		goto release_gpios;
+ 
+-	if (gpio_is_valid(config->reset_pin)) {
+-		/* Datasheet says 5ms between PWR and RST */
+-		usleep_range(5000, 25000);
+-		gpio_direction_output(config->reset_pin, 1);
+-	}
+ 	usleep_range(5000, 25000);
+ 
+ 	/* Allocate a new VIP instance */
+@@ -1020,6 +1017,8 @@ static int sta2x11_vip_init_one(struct pci_dev *pdev,
+ 	vip->std = V4L2_STD_PAL;
+ 	vip->format = formats_50[0];
+ 	vip->config = config;
++	vip->gpiod_reset = gpiod_reset;
++	vip->gpiod_pwr = gpiod_pwr;
+ 	mutex_init(&vip->v4l_lock);
+ 
+ 	ret = sta2x11_vip_init_controls(vip);
+@@ -1113,8 +1112,9 @@ static int sta2x11_vip_init_one(struct pci_dev *pdev,
+ free_mem:
+ 	kfree(vip);
+ release_gpios:
+-	vip_gpio_release(&pdev->dev, config->reset_pin, config->reset_name);
+-	vip_gpio_release(&pdev->dev, config->pwr_pin, config->pwr_name);
++	vip_gpio_release(&pdev->dev, gpiod_reset, config->reset_pin, config->reset_name);
++release_gpio_pwr:
++	vip_gpio_release(&pdev->dev, gpiod_pwr, config->pwr_pin, config->pwr_name);
+ disable:
+ 	/*
+ 	 * do not call pci_disable_device on sta2x11 because it break all
+@@ -1152,9 +1152,9 @@ static void sta2x11_vip_remove_one(struct pci_dev *pdev)
+ 
+ 	v4l2_device_unregister(&vip->v4l2_dev);
+ 
+-	vip_gpio_release(&pdev->dev, vip->config->pwr_pin,
++	vip_gpio_release(&pdev->dev, vip->gpiod_pwr, vip->config->pwr_pin,
+ 			 vip->config->pwr_name);
+-	vip_gpio_release(&pdev->dev, vip->config->reset_pin,
++	vip_gpio_release(&pdev->dev, vip->gpiod_reset, vip->config->reset_pin,
+ 			 vip->config->reset_name);
+ 
+ 	kfree(vip);
+-- 
+2.25.1
 
-Once we get people that are already interested and ready to be on board,
-and we know that the model and infrastructure works properly, we may implement
-a phase 2 focusing on allowing more committers. For such purpose, we need to 
-document the benefits/satisfaction of becoming a new committer. Depending how
-it goes, either on phase 2 or on phase 3, we can change the model from 
-invitation-only to volunteer-requests.
-
-Thanks,
-Mauro
 
