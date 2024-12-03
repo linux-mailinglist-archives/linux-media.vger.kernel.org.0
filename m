@@ -1,246 +1,264 @@
-Return-Path: <linux-media+bounces-22524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22525-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5C59E19FD
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 11:53:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F739E18F4
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 11:13:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD667B3F169
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 10:03:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 057992812F4
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 10:13:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99ED91E0B84;
-	Tue,  3 Dec 2024 10:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ACA41E0E18;
+	Tue,  3 Dec 2024 10:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="n8ffWfRR"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DVziZN7m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F317813D890;
-	Tue,  3 Dec 2024 10:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733220212; cv=pass; b=a3YNnf1B0b7ZaOZNxqn8b0hJZat6UDpnNa0oJoG4uNoHhE267dbdAdvRJjivcxhe3+sdN0n7Q43asL0omF4igzvJ7VfqJ9BUtEkN+T+hi2NUEv4GrKs8IcFjfdmFjG3QGZlYCEC+O/1Iqv/xO+MViAx94796RPTsyXp3ym1UCJI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733220212; c=relaxed/simple;
-	bh=7JpRyPUnNfuTEpfwoJb8MzSzIUfy+wB/PWtcu4sT2Xk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cEiM2xs41l0T0oUTxKgrY3bdRmmqMlewaZcaHXHAc2pCcDVrg6l+jSbrGrKqxcA+YwlJ4dEK1It/ACPbvNrE3+Fgxoe7+TDNxQxrWIAEKNlqdvcMO3nVh8WT9c3ydkTXGRuxQ6ayN7dwZtufoqHbSYFBxH4Ol105x/E9fl9C6A0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=n8ffWfRR; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Y2bnn2bNjz49Q5b;
-	Tue,  3 Dec 2024 12:03:24 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1733220207;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511AF1E0DDC
+	for <linux-media@vger.kernel.org>; Tue,  3 Dec 2024 10:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733220826; cv=none; b=K3Ch3bfzL6UTTCTAm52YNHB2rrPbuYyVXyVc5ETkPy7xZ+Huc0m+dfLTM04AFlIMrrid4EO7KeuXGXXXEshnYzHIiZrT6rXP9hLbbqQ32EEWdMfVeciafYGWVf9QKqSWUDt/dnv+gAc0krIZQWUq4JeyBmkycMMiaF1mRw/0kqQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733220826; c=relaxed/simple;
+	bh=MbiUR/ecPE3TxOcuSPOUivoOgwv1lpxDKtA5OUkYnFc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uDxfNAvXMozh2HJ7P4LwwNDojndSSWs1VjbwQr2RNMotKaqjiqJ62/9WPc9ydQuwIjSiYuzgKPXKbpTwim9dgUtsFkGQLtwW8rvyC0jEXeoTRAK5aFguJ8S7n7AH/txqVtoXDK1NOXgSYdNwvFndJ3le2DF33z8OSfHV06+lqr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DVziZN7m; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1733220823;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8vDu/zLIwB79Ur5c+5zOhVcRD15ca/NXI1us4RVANQM=;
-	b=n8ffWfRRnA9/XL0KQAesGa+LlZ4dyhd6Y6MasEwNMfnk2vMdDroHhyuBlhh6+W39JwIEKH
-	wxFzJw23EJkr7xRJrr7fPW39YK8ecGM4W1aG8l2uVz+u1mj5HSV7zHFcw3PRHg9XFkkmRA
-	n2nFpdgEigKh1UkdI6AtPv7PbZFqubxS0VFUNpSxNjESZiEhljYHqvi16L1xjnx9e3R0IX
-	WsrUcsGfHHe0pFy/9D3yh9qyO4lILNLnwRt6g4g84mowXVnUn5+nvoN23j/l3U/L2tzJEW
-	epfSwdmSVXe5DJFRcabn2xYSjf47Rdo0e1K/Plr9pFseiaoMZ1rz0bPv+u2W/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1733220207;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8vDu/zLIwB79Ur5c+5zOhVcRD15ca/NXI1us4RVANQM=;
-	b=Ml0gbQunrlhrRZ/BGZDY+QR6PTQHirTqGnHoB+aPneXvg4umBVDoNApPDB9K3HN9pvpsOr
-	FYqV4c/d1adXi/sD1NfF0uUE1mC6qFIU4sceVTCfpYGJY22C6ToTjbCENxL8re3dJTmL7B
-	7s++rtzs6T9GiuiSe9g4KJUxsMQ8SuCqivKE8hi2MiEYZhr9FRk9Jn6k5R7k2ditwBBvb9
-	PX3bVqnvUux1Ogr3ty3/88qyFNkROyobbBYqre4smocqCLXgIVpcy8mg+5SDIHHfNMWqJ+
-	F46dafynqCsFtug2PseGy7/Np+4rlcci1GeIvGr1oDPoSjd8Wr84UO6Qld0aKw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1733220207; a=rsa-sha256;
-	cv=none;
-	b=qF8+9tm+8eAiLVSVyJ4cLUiDAmsSrX091OcAdhtPvyxMUWJm0bM4DSoGMs5bBNKmo3+A+2
-	dX2VCiYEqvZFtK1Tb+yjXpXoc5AexLnw9X9RkhuLBjql/GXIOHFnOKCylEOyzL+QvSM/1H
-	mxFTT3wVi6LeD6jjGaVewm1BGa5CCE2bFSGk9xNpJXZtG2FJx9OJTEcgDZ6kK+zMVtCMDb
-	MEL4pLPVpF22WF8Z27njn1RjyEE2ulDdvHF/pjHgjSE6g9TJsYy4rQWZ1ODnnkHbfuRijY
-	V73UJ9bCV8fSujXMPVwf4KLQ8jGJeXcoYgVLPIR94/en1YwQUi8a+1PQ7xW1WQ==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 686F7634C94;
-	Tue,  3 Dec 2024 12:03:23 +0200 (EET)
-Date: Tue, 3 Dec 2024 10:03:23 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v3 2/3] docs: media: document media multi-committers
- rules and process
-Message-ID: <Z07Xawtb_JpH_upp@valkosipuli.retiisi.eu>
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
- <49cdca2d2b3b5422c34506bfe2c91173e847ea1f.1733131405.git.mchehab+huawei@kernel.org>
- <Z03Alg5lNTTDiFcF@valkosipuli.retiisi.eu>
- <20241203092613.4e7b3a21@foz.lan>
+	bh=8gD5FYt1/eddOzn+zXb0esVob8V7beW2eiojXtAtmws=;
+	b=DVziZN7mkT8E4k3qxAowTWH2gpU1OmkUD6H69ppjBV3dIREEeievMu0NU60wTE3dKAE6sU
+	dlNEJZu3LulnnhvExMG1ED4zmOyKmisUvCql/S8oVWsi13v9Su+48qL6tAEUNTLB9a0uEt
+	lJOHNuVjM0s4nT5AlXvhTmVD0INSgZE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-311-SkyrH_AIP7GrmhqAXv0fqw-1; Tue, 03 Dec 2024 05:13:42 -0500
+X-MC-Unique: SkyrH_AIP7GrmhqAXv0fqw-1
+X-Mimecast-MFC-AGG-ID: SkyrH_AIP7GrmhqAXv0fqw
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-aa530a61803so323526866b.1
+        for <linux-media@vger.kernel.org>; Tue, 03 Dec 2024 02:13:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733220821; x=1733825621;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8gD5FYt1/eddOzn+zXb0esVob8V7beW2eiojXtAtmws=;
+        b=upPljSTfLlprMne8OVK41qysup4C3YC/rXS4de+rtMnopiAqgGLl/pHpU0YcgOVZ5t
+         6dWw6KD8Exzo5d42Ll5WEBg7zRL0RhdFocQdSfbYxqtt2CuqrjcJfU9asGtMWGM6J83m
+         eHFU/jLJ9jD7ywBIaWZnuBMBJnxIKvB6wJyKckamr12kTthZk3XVgzYVfdu773kXxxen
+         1e7uvyEDXOoXLrX6kjmIKakP+2qbhB4hekzB1CXmkigEhhKSNcDFbDhfimIcbPcuRCYB
+         mTs7057ueg1Tn4vuPaO9psTqnqDW1L8MiO58svycClaeavOWfEFQWuJYsihQTrcfKRP5
+         QQ6g==
+X-Forwarded-Encrypted: i=1; AJvYcCVrgBWQUQxMHLKu0DvbGP88hqdwn5UcgF3JsSUX6NFl9/DnxMpcSVS68MruzOzh6ftYpRDj/MIEcggCbg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLJxD/9yR+oFK+xLOM75Ib/a3mR9vwVLXLMSuq5QdfsE4wLzX4
+	skv2QeB8IBUcLDaARw2PmPYGH4N+hVMG6CwQsso/t8odYsQaad9mxfU95G2l4dDnoAESYyEzGoS
+	aQfnBIdptlug0U4fMSpG1K/LYK8r4LEa1aZxZV3gUbzCEE9TuOHwRac4CFjZ/
+X-Gm-Gg: ASbGncvuYbQyPlmWrxdPadBtXextMbmZ6g3YANBZDjS5R316nb+St2Zi1oXpYyZKd9f
+	Lb48VZ7yfuURhqzxHiCYqGpkDEFelBDjvAaAkAiVPOjj9q7j9EpX6cCfvfKC1wHqcCR5V3ZcRzg
+	LtBVbOqKkL2/UpfsjON7awgtZdX7wB1mCmF9zXPN0T7Mhq2Ur2Qz/i9Wf35aLehzngVcWL/PoGz
+	Z/GQLTQ3IHZsaw546rOfYfC/ylgWOxjHmm2jUR8XPVH2l4R2p80Moaas+taLg6I0NS375FeOkgO
+	68An0pyjISNTG1PsNMQxFhDE0jhlCQ16OI8/DAbln2zong30pXQQ7rGYgK4lwZUTRTlK8SMLAGk
+	7kM/il/Mq+56EKZ6hBrTuvti6
+X-Received: by 2002:a17:907:7841:b0:a9f:4f7:f064 with SMTP id a640c23a62f3a-aa5f7cc2a04mr137747366b.3.1733220820837;
+        Tue, 03 Dec 2024 02:13:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFJjBemiZA1JA6td7ZtEW4FdLaoA9XqQ/Yo0vCezDXhxc2MCbJKB4nnkSo7NdapACzQPwkwww==
+X-Received: by 2002:a17:907:7841:b0:a9f:4f7:f064 with SMTP id a640c23a62f3a-aa5f7cc2a04mr137745266b.3.1733220820482;
+        Tue, 03 Dec 2024 02:13:40 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5996df78csm602815466b.67.2024.12.03.02.13.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Dec 2024 02:13:40 -0800 (PST)
+Message-ID: <81a63f9d-afe4-4a29-ae98-5c5837bcd7cb@redhat.com>
+Date: Tue, 3 Dec 2024 11:13:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203092613.4e7b3a21@foz.lan>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drivers/staging/media/atomisp: replace legacy GPIO APIs
+ in atomisp_gmin_platform
+To: Song Chen <chensong_2000@189.cn>, andy@kernel.org, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+ bergh.jonathan@gmail.com
+Cc: arnd@arndb.de, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20241203091436.203745-1-chensong_2000@189.cn>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20241203091436.203745-1-chensong_2000@189.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mauro,
+Hi,
 
-On Tue, Dec 03, 2024 at 09:26:13AM +0100, Mauro Carvalho Chehab wrote:
-> > > +is also based on a trust relationship between the rest of the committers,  
-> > 
-> > s/also//
-> > s/between the rest of/among/
-> > 
-> > I wonder if we should add here some expectation on being reachable on
-> > #linux-media.
+On 3-Dec-24 10:14 AM, Song Chen wrote:
+> In atomisp_gmin_platform, gpio0 and gpio1 have moved to descriptor-based
+> GPIO APIs, but v1p8_gpio and v2p8_gpio still remain calling legacy ones,
+> such as gpio_request.
 > 
-> I'll add it at the note about linuxtv.org:
+> This patch replaces old with new, also removes including gpio.h.
 > 
-> 	These commit rights are granted with expectation of responsibility:
-> 	committers are people who care about the Linux Kernel as a whole and
-> 	about the Linux media subsystem and want to advance its development. It
-> 	is also based on a trust relationship among other committers, maintainers
-> 	and the Linux Media community[1].
-> 
-> 	...
-> 
-> 
-> 	[1] The Linux Media Community, also called LinuxTV Community, has its primary
-> 	    site at https://linuxtv.org.
-> 	
-> 	    Media committers and developers are reachable via the #linux-media
-> 	    IRC channel at OFTC.
+> Signed-off-by: Song Chen <chensong_2000@189.cn>
 
-Looks good, thanks!
+Thank you for your patch, this is already addresses by this patch
+which I plan to merge soon:
 
-> 
-> > > +maintainers and the Linux Media community[1].
-> > > +
-> > > +As such, a media committer is not just someone who is capable of creating
-> > > +code, but someone who has demonstrated their ability to collaborate
-> > > +with the team, get the most knowledgeable people to review code,
-> > > +contribute high-quality code, and follow through to fix issues (in code
-> > > +or tests).
-> > > +
-> > > +.. Note::
-> > > +
-> > > +   1. If a patch introduces a regression, then it is the media committer's
-> > > +      responsibility to correct that as soon as possible. Typically the
-> > > +      patch is either reverted, or an additional patch is committed that
-> > > +      fixes the regression;  
-> > 
-> > s/that fixes/to fix/
-> 
-> Ok.
-> 
-> > 
-> > > +   2. if patches are fixing bugs against already released Kernels, including
-> > > +      the reverts above mentioned, the media committer shall add the needed
-> > > +      tags. Please see :ref:`Media development workflow` for more details.  
-> > 
-> > Does this reference work?
-> 
-> Yes. Tested on Sphinx 6.2.0.
-> 
-> > > +[1] The Linux Media community, also called LinuxTV community, has its primary
-> > > +    site at https://linuxtv.org.
-> > > +
-> > > +Becoming a media committer
-> > > +--------------------------
-> > > +
-> > > +The most important aspect of volunteering to be a committer is that you have
-> > > +demonstrated the ability to give good code reviews. So we are looking for  
-> > 
-> > I wonder if we should add some kind of an expectation of demonstrating
-> > common sense? :-)
-> 
-> Could you propose some text for that?
+https://lore.kernel.org/linux-media/20241107221134.596149-1-hdegoede@redhat.com/
 
-How about:
+Regards,
 
-The most important aspects of volunteering to be a committer are that you
-have demonstrated the ability to give good code reviews, interacting with
-others in the community as well as common sense. These are what we're
-looking for when we're judging whether you'd be a good Media committer.
+Hans
 
-> 
-> > > +whether or not we think you will be good at doing that.
-> > > +
-> > > +As such, potential committers must earn enough credibility and trust from the
-> > > +LinuxTV community. To do that, developers shall be familiar with the open
-> > > +source model and have been active in the Linux Kernel community for some time,
-> > > +and, in particular, in the media subsystem.
-> > > +
-> > > +So, in addition to actually making the code changes, you are basically
-> > > +demonstrating your:
-> > > +
-> > > +- commitment to the project;
-> > > +- ability to collaborate with the team and communicate well;
-> > > +- understand of how upstream and the LinuxTV community work
-> > > +  (policies, processes for testing, code review, ...)
-> > > +- reasonable knowledge about:
-> > > +
-> > > +  - the Kernel development process:
-> > > +    Documentation/process/index.rst  
-> > 
-> > :ref:`the Kernel development process <process_index>`
-> 
-> No need. a Sphinx converts all *.rst into references automatically.
-> 
-> Better to use RST files at the text, as makes easier for people
-> reading the text file directly.
 
-Ack.
+> ---
+>  .../media/atomisp/pci/atomisp_gmin_platform.c | 63 ++++++++-----------
+>  1 file changed, 25 insertions(+), 38 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> index e176483df301..7ff548ac3171 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> @@ -11,7 +11,6 @@
+>  #include <linux/mfd/intel_soc_pmic.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/gpio/consumer.h>
+> -#include <linux/gpio.h>
+>  #include <linux/platform_device.h>
+>  #include "../../include/linux/atomisp_platform.h"
+>  #include "../../include/linux/atomisp_gmin_platform.h"
+> @@ -85,8 +84,8 @@ struct gmin_subdev {
+>  	bool v2p8_on;
+>  	bool v1p2_on;
+>  
+> -	int v1p8_gpio;
+> -	int v2p8_gpio;
+> +	struct gpio_desc *v1p8_gpiod;
+> +	struct gpio_desc *v2p8_gpiod;
+>  
+>  	u8 pwm_i2c_addr;
+>  
+> @@ -548,23 +547,6 @@ static int gmin_subdev_add(struct gmin_subdev *gs)
+>  	else
+>  		dev_info(dev, "will handle gpio1 via ACPI\n");
+>  
+> -	/*
+> -	 * Those are used only when there is an external regulator apart
+> -	 * from the PMIC that would be providing power supply, like on the
+> -	 * two cases below:
+> -	 *
+> -	 * The ECS E7 board drives camera 2.8v from an external regulator
+> -	 * instead of the PMIC.  There's a gmin_CamV2P8 config variable
+> -	 * that specifies the GPIO to handle this particular case,
+> -	 * but this needs a broader architecture for handling camera power.
+> -	 *
+> -	 * The CHT RVP board drives camera 1.8v from an* external regulator
+> -	 * instead of the PMIC just like ECS E7 board.
+> -	 */
+> -
+> -	gs->v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
+> -	gs->v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
+> -
+>  	/*
+>  	 * FIXME:
+>  	 *
+> @@ -830,21 +812,23 @@ static int gmin_v1p2_ctrl(struct v4l2_subdev *subdev, int on)
+>  static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+>  {
+>  	struct gmin_subdev *gs = find_gmin_subdev(subdev);
+> +	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
+> +	struct device *dev = &client->dev;
+>  	int ret;
+>  	int value;
+>  	int reg;
+> +	int v1p8_gpio;
+>  
+>  	if (!gs || gs->v1p8_on == on)
+>  		return 0;
+>  
+> -	if (gs->v1p8_gpio >= 0) {
+> -		pr_info("atomisp_gmin_platform: 1.8v power on GPIO %d\n",
+> -			gs->v1p8_gpio);
+> -		ret = gpio_request(gs->v1p8_gpio, "camera_v1p8_en");
+> -		if (!ret)
+> -			ret = gpio_direction_output(gs->v1p8_gpio, 0);
+> -		if (ret)
+> +	v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
+> +	if (v1p8_gpio >= 0) {
+> +		gs->v1p8_gpiod = gpiod_get_index(dev, "camera_v1p8", v1p8_gpio, GPIOD_ASIS);
+> +		if (IS_ERR(gs->v1p8_gpiod))
+>  			pr_err("V1P8 GPIO initialization failed\n");
+> +		else
+> +			gpiod_direction_output(gs->v1p8_gpiod, 0);
+>  	}
+>  
+>  	gs->v1p8_on = on;
+> @@ -861,8 +845,8 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+>  			goto out; /* Still needed */
+>  	}
+>  
+> -	if (gs->v1p8_gpio >= 0)
+> -		gpio_set_value(gs->v1p8_gpio, on);
+> +	if (v1p8_gpio >= 0)
+> +		gpiod_set_value(gs->v1p8_gpiod, on);
+>  
+>  	if (gs->v1p8_reg) {
+>  		regulator_set_voltage(gs->v1p8_reg, 1800000, 1800000);
+> @@ -911,21 +895,24 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+>  static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+>  {
+>  	struct gmin_subdev *gs = find_gmin_subdev(subdev);
+> +	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
+> +	struct device *dev = &client->dev;
+>  	int ret;
+>  	int value;
+>  	int reg;
+> +	int v2p8_gpio;
+>  
+>  	if (WARN_ON(!gs))
+>  		return -ENODEV;
+>  
+> -	if (gs->v2p8_gpio >= 0) {
+> -		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
+> -			gs->v2p8_gpio);
+> -		ret = gpio_request(gs->v2p8_gpio, "camera_v2p8");
+> -		if (!ret)
+> -			ret = gpio_direction_output(gs->v2p8_gpio, 0);
+> -		if (ret)
+> +	v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
+> +	if (v2p8_gpio >= 0) {
+> +		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n", v2p8_gpio);
+> +		gs->v2p8_gpiod = gpiod_get_index(dev, "camera_v2p8", v2p8_gpio, GPIOD_ASIS);
+> +		if (IS_ERR(gs->v2p8_gpiod))
+>  			pr_err("V2P8 GPIO initialization failed\n");
+> +		else
+> +			gpiod_direction_output(gs->v2p8_gpiod, 0);
+>  	}
+>  
+>  	if (gs->v2p8_on == on)
+> @@ -944,8 +931,8 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+>  			goto out; /* Still needed */
+>  	}
+>  
+> -	if (gs->v2p8_gpio >= 0)
+> -		gpio_set_value(gs->v2p8_gpio, on);
+> +	if (v2p8_gpio >= 0)
+> +		gpiod_set_value(gs->v2p8_gpiod, on);
+>  
+>  	if (gs->v2p8_reg) {
+>  		regulator_set_voltage(gs->v2p8_reg, 2900000, 2900000);
 
-> 
-> > > +
-> > > +  - the Media development profile:
-> > > +    Documentation/driver-api/media/maintainer-entry-profile.rst  
-> > 
-> > Could you add a label to the title and refer to it directly?
-> 
-> Same as above.
-> 
-> > > +
-> > > +- understanding of the projects' code base and coding style;
-> > > +- ability to provide feedback to the patch authors;
-> > > +- ability to judge when a patch might be ready for review and to submit;
-> > > +- ability to write good code (last but certainly not least).
-> > > +
-> > > +Developers that intend to become committers are encouraged to participate  
-> > 
-> > s/intend/yearn/
-> 
-> Heh, I had to go to the dictionary to seek for "yearn" meaning ;-)
-> 
-> Let's use a simpler language, as most developers are not native-English
-> speakers. I did:
-> 
-> 	s/intend/desire/
-> 
-> which is a synonym.
-
-Works for me.
-
--- 
-Kind regards,
-
-Sakari Ailus
 
