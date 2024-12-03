@@ -1,531 +1,715 @@
-Return-Path: <linux-media+bounces-22510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22511-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3E69E15A2
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:26:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 208B19E15AC
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:27:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B843628405B
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:26:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5566285AAA
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:27:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E04CC1DDC26;
-	Tue,  3 Dec 2024 08:26:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E19EA1D54FA;
+	Tue,  3 Dec 2024 08:27:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2+KJhXi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ChmqAtfV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361F81CCEE9;
-	Tue,  3 Dec 2024 08:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9C51D90A4
+	for <linux-media@vger.kernel.org>; Tue,  3 Dec 2024 08:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733214379; cv=none; b=eGfA2qv0MEon8CUacYMwJACW0GvQxlClA+OBjMTuLIWWZ4uwkcs0XBL0yuBT9SQCatEgIfl6z3rQbPt1BJxV+XCRWa4ciutAbBAm5oAZoMMaTuytgCdoJENavH6ydOwA7txfE8h4Qinp3nom5SdFOVRGoCwpb0Kk7DL6WyW61rU=
+	t=1733214446; cv=none; b=knEUI/KHtPQmqd6+ff0ZvQrbIM5Kj3n5hO0qslZheos7P+H0ypr4Y2c3ixVSZm/BiI2hahH2NlPvcJ2Kpu+F8ZAEiQ5XgWPZxgAv8LCBQNEQQHBh7WYaJ60Ta9vF5J7KbNvj06NLmz6Fg6crZGtqhabpCt+qIDNtGcnS4IdAx4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733214379; c=relaxed/simple;
-	bh=kdMlClWUfVL+ifeY9WY3hfs4lyZE6derO//RrGkrBOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fasPExrwq2p9EaeutMJvyPAaFnVnS8r3ybdAtWhSAyuvrDVSONsT7iA+8Le6vNhiP3i+LQlYTp/7U3o6r1iPuDXN0VlZM/lKxd/mnBHszPJJGq9tF17OthgNmxOZAxF8H+//hztRqvBuYOeAqfTSbZTxUfyBiXfyC7RZxy3fD9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2+KJhXi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01A6FC4CED6;
-	Tue,  3 Dec 2024 08:26:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733214377;
-	bh=kdMlClWUfVL+ifeY9WY3hfs4lyZE6derO//RrGkrBOs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J2+KJhXiegMcGbwYNaZqAMfQEZReV0veV/zNbNeg6fvLXiAilx9rPDKF/Lkvd3g2u
-	 QRnDIboENuQ2p43XnJussc6m2RWZnxdDVNxXjq2g6fSZw/B0YeF0GLU6NiKmnmZUX+
-	 75Dkb5QvyS4dfv4KUxkoJ/S6kvK5ILwTePmpnsuMYBhun4fELGFtD8RxS3nhB2Fa+G
-	 fGlVwqMttzAFtEYITojwiA+BdNRYXIyrNKTBk04u09q2o4ye9lcK+9ez+H4fMqrFnY
-	 uSUnT0yp5lXvwlN3keCS3HXena98llvF2Z2F2vRqGPWqtqDnGeIJXy4sRyC/RbhKBq
-	 87nHaZpgGOOBg==
-Date: Tue, 3 Dec 2024 09:26:13 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>, Ricardo
- Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v3 2/3] docs: media: document media multi-committers
- rules and process
-Message-ID: <20241203092613.4e7b3a21@foz.lan>
-In-Reply-To: <Z03Alg5lNTTDiFcF@valkosipuli.retiisi.eu>
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
-	<49cdca2d2b3b5422c34506bfe2c91173e847ea1f.1733131405.git.mchehab+huawei@kernel.org>
-	<Z03Alg5lNTTDiFcF@valkosipuli.retiisi.eu>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1733214446; c=relaxed/simple;
+	bh=Kk9pb69r4tY4tn/dxsx6EU+0NfMIBaElIAqVzlShHNQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ovHxHVBoGIgs0mYBQAn0Ovwbg+E12f50lBSDRtK7Vl0od+ec34GuvK+OjcMAnQXbF1+9ArBPHOipHiuAP0lYCgCkgY09hZ6ylB0TK276kAsdtduauh0zpgKgvlreo1YMAAY+FH0kJ6OjvrhTvuz/VLx95pkUsxywi0XCYh2EbFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ChmqAtfV; arc=none smtp.client-ip=209.85.222.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-85b88a685e6so1053874241.2
+        for <linux-media@vger.kernel.org>; Tue, 03 Dec 2024 00:27:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733214442; x=1733819242; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xg+F5KKw2r0vQLOAe4QkycJMBq/a07Abzd6JRFG4e9A=;
+        b=ChmqAtfVQZeM+o82Qg0xloVEiORaQGLmfKUoPTUT85jmBZKdOEmdt54DzJp+M8NDpI
+         lFsGh1WtPR6E+GIXyXI9bwlz1uMwXbAwdhx5740qlytUriTauRet7KYlL0+zHmXsqOGx
+         9z1zv6a1/1dIhlGdjAe7OIbv5ixcctTcVcu573geudkvxXJoCmM/STBXa6Hx1vVgqXMK
+         jVuwY+TStjBlCot1e5ZGIrkiiqaccrPpdDHR0AphJKZf+dJPFQNjzB1fAnhlT4a12zrf
+         ZlJ5FsSLA1WCu8BUvMd+L97AYm36mQGCoxDcBa5z0oufw2dOTks8w9o/jXKE9SqNGepz
+         SGcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733214442; x=1733819242;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Xg+F5KKw2r0vQLOAe4QkycJMBq/a07Abzd6JRFG4e9A=;
+        b=r8Rldv8TvvW3JdxUw9YtckRuM3Pg9O+yFzF+zFr/ngCn0bubWWnfFGeq7CA3Du5jFO
+         BtT5v5OITszDjzmJohH73aO35ef93IyaPBqV02niJm3TX5CcUHsdyJEgR8MwrHtzF+LD
+         jju994P+Mvvt6kU+D/A/+ZOXyui+lPMsUgo9eB4ATW5hIxV2/osYD48X/WGMpK3TKFWX
+         SMv7441crF0EBrkI+l4s6huSD84aFZMLrwQVf2BW2w8hDvj7wZnn1nJCxvzqPtxQAjuf
+         6bTgco36IdVUF2kddS+4TE5+vTVD7bV3k8cztFGqLl0CLN7l2QL85FAEgxaCctLCT8vV
+         bDHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJFdK/PNhHB4nHLumWzyHhE3IoYOIaTrB9OeSNOe1mzZIFUvMibm4es/doVQCBiglUuAnGqwf1q6kD4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz60vOZ0U2AsOkwzuuuJcKWbjzUAlv3NeW46WzeTtdaSjyEtDA
+	1a8ue2j6Wz4LwLTMA6D6xEaVPZVhNteYUriZ5IL3WO8+jEZLDFUuWUfyQ5GOfPRnLQLcRK8r7XC
+	/mlEfb59jJiFsd7eULPrj5TabuA7Sicd2I6TB5g==
+X-Gm-Gg: ASbGncvK6SS5r/SoR3hBZxwJKddf8JdrFMlNIjQN7w6daFa/Fo66aRpwpXc9MmUCFwB
+	IKwtewcBXaJ9xs0idnhTKTM+obYfryYUhzA==
+X-Google-Smtp-Source: AGHT+IGaTN/p8BULgFdyOAJGuWzvkuLZQWmA9o3EM8C85tJ7kIMh9XKXlTdWPk7y0YLXtY2NHUh28nknRnSVJahtofg=
+X-Received: by 2002:a05:6102:d87:b0:4af:58f7:15ed with SMTP id
+ ada2fe7eead31-4af971838d3mr2334917137.1.1733214441776; Tue, 03 Dec 2024
+ 00:27:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241128150927.1377981-1-jens.wiklander@linaro.org> <20241128150927.1377981-3-jens.wiklander@linaro.org>
+In-Reply-To: <20241128150927.1377981-3-jens.wiklander@linaro.org>
+From: Sumit Garg <sumit.garg@linaro.org>
+Date: Tue, 3 Dec 2024 13:57:10 +0530
+Message-ID: <CAFA6WYPEqCWyvD=pCj6DEkZWN9SCfXMnq4tKbSx1-e8UmgXb=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] optee: account for direction while converting parameters
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com
+Content-Type: text/plain; charset="UTF-8"
 
-Em Mon, 2 Dec 2024 14:13:42 +0000
-Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+Hi Jens,
 
-> Hi Mauro,
-> 
-> On Mon, Dec 02, 2024 at 10:26:20AM +0100, Mauro Carvalho Chehab wrote:
-> > As the media subsystem will experiment with a multi-committers model,
-> > update the Maintainer's entry profile to the new rules, and add a file
-> > documenting the process to become a committer and to maintain such
-> > rights.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > Signed-off-by: Hans Verkuil <hverkuil@xs4ll.nl>
-> > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  Documentation/driver-api/media/index.rst      |   1 +
-> >  .../media/maintainer-entry-profile.rst        |   8 +
-> >  .../driver-api/media/media-committer.rst      | 278 ++++++++++++++++++
-> >  .../process/maintainer-pgp-guide.rst          |   2 +
-> >  4 files changed, 289 insertions(+)
-> >  create mode 100644 Documentation/driver-api/media/media-committer.rst
-> > 
-> > diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-> > index d5593182a3f9..d0c725fcbc67 100644
-> > --- a/Documentation/driver-api/media/index.rst
-> > +++ b/Documentation/driver-api/media/index.rst
-> > @@ -26,6 +26,7 @@ Documentation/userspace-api/media/index.rst
-> >      :numbered:
-> >  
-> >      maintainer-entry-profile
-> > +    media-committer
-> >  
-> >      v4l2-core
-> >      dtv-core
-> > diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > index dc764163cf1c..705209eacf58 100644
-> > --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> > @@ -65,6 +65,9 @@ as described at Documentation/process/index.rst and to the Kernel
-> >  development rules inside the Kernel documentation, including its code of
-> >  conduct.
-> >  
-> > +More details about media commiters' roles and responsibilities can be
-> > +found here: Documentation/driver-api/media/media-committer.rst.
-> > +
-> >  Media development tree
-> >  ----------------------
-> >  
-> > @@ -200,6 +203,11 @@ shall be validated by using PGP sign. See: :ref:`kernel_org_trust_repository`.
-> >  
-> >  With the pull request workflow, pull requests shall use a PGP-signed tag.
-> >  
-> > +With the committers' workflow, this is ensured at the time merge request
-> > +rights will be granted to the gitlab instance used by media-committers.git
-> > +tree, after receiving the e-mail documented at
-> > +:ref:`media-committer-agreement`.
-> > +
-> >  For more details about PGP sign, please read
-> >  Documentation/process/maintainer-pgp-guide.rst.
-> >  
-> > diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-> > new file mode 100644
-> > index 000000000000..3c2f8f413307
-> > --- /dev/null
-> > +++ b/Documentation/driver-api/media/media-committer.rst
-> > @@ -0,0 +1,278 @@
-> > +Media committers
-> > +================
-> > +
-> > +What is a media committer?  
-> 
-> "What" refers to a "thing" but developers generally are humans.
-> 
-> > +--------------------------
-> > +
-> > +A media committer is a developer who can push patches from other developers  
-> 
-> s/can/has been granted commit access to/
-> 
-> ?
-> 
-> > +and their own patches to the
-> > +`media-committers <https://gitlab.freedesktop.org/linux-media/media-committers>`_
-> > +tree.
-> > +
-> > +It is a media committer's duty to ensure that their entries in the MAINTAINERS
-> > +file are kept up-to-date, and that submitted patches for files for which
-> > +they are listed as maintainers are timely reviewed on the mailing list,
-> > +ideally not waiting in patchwork as ``New`` for more than one Kernel merge
-> > +cycle, and, if accepted, applying them at the media committer's tree.
-> > +
-> > +These commit rights are granted with some expectation of responsibility:  
-> 
-> s/some //
-> 
-> > +committers are people who care about the Linux Kernel as a whole and
-> > +about the Linux media subsystem and want to help its development. It  
-> 
-> s/help/advance/
-> 
-> ?
+On Thu, 28 Nov 2024 at 20:39, Jens Wiklander <jens.wiklander@linaro.org> wrote:
+>
+> The OP-TEE backend driver has two internal function pointers to convert
+> between the subsystem type struct tee_param and the OP-TEE type struct
+> optee_msg_param.
+>
+> The conversion is done from one of the types to the other, which is then
+> involved in some operation and finally converted back to the original
+> type. When converting to prepare the parameters for the operation, all
+> fields must be taken into account, but then converting back, it's enough
+> to update only out-values and out-sizes. So, an update_out parameter is
+> added to the conversion functions to tell if all or only some fields
+> must be copied.
 
-Ok for all above.
-> 
-> > +is also based on a trust relationship between the rest of the committers,  
-> 
-> s/also//
-> s/between the rest of/among/
-> 
-> I wonder if we should add here some expectation on being reachable on
-> #linux-media.
+Is this patch just a refactoring of TEE params handling? Or are we
+fixing a real ABI issue here? Also, is this required for restricted
+shared memory support to work? Just asking if we want to consider it
+as a fix for backporting or if we can handle this refactoring patch
+independently of this series?
 
-I'll add it at the note about linuxtv.org:
+-Sumit
 
-	These commit rights are granted with expectation of responsibility:
-	committers are people who care about the Linux Kernel as a whole and
-	about the Linux media subsystem and want to advance its development. It
-	is also based on a trust relationship among other committers, maintainers
-	and the Linux Media community[1].
-
-	...
-
-
-	[1] The Linux Media Community, also called LinuxTV Community, has its primary
-	    site at https://linuxtv.org.
-	
-	    Media committers and developers are reachable via the #linux-media
-	    IRC channel at OFTC.
-
-> > +maintainers and the Linux Media community[1].
-> > +
-> > +As such, a media committer is not just someone who is capable of creating
-> > +code, but someone who has demonstrated their ability to collaborate
-> > +with the team, get the most knowledgeable people to review code,
-> > +contribute high-quality code, and follow through to fix issues (in code
-> > +or tests).
-> > +
-> > +.. Note::
-> > +
-> > +   1. If a patch introduces a regression, then it is the media committer's
-> > +      responsibility to correct that as soon as possible. Typically the
-> > +      patch is either reverted, or an additional patch is committed that
-> > +      fixes the regression;  
-> 
-> s/that fixes/to fix/
-
-Ok.
-
-> 
-> > +   2. if patches are fixing bugs against already released Kernels, including
-> > +      the reverts above mentioned, the media committer shall add the needed
-> > +      tags. Please see :ref:`Media development workflow` for more details.  
-> 
-> Does this reference work?
-
-Yes. Tested on Sphinx 6.2.0.
-
-> > +[1] The Linux Media community, also called LinuxTV community, has its primary
-> > +    site at https://linuxtv.org.
-> > +
-> > +Becoming a media committer
-> > +--------------------------
-> > +
-> > +The most important aspect of volunteering to be a committer is that you have
-> > +demonstrated the ability to give good code reviews. So we are looking for  
-> 
-> I wonder if we should add some kind of an expectation of demonstrating
-> common sense? :-)
-
-Could you propose some text for that?
-
-> > +whether or not we think you will be good at doing that.
-> > +
-> > +As such, potential committers must earn enough credibility and trust from the
-> > +LinuxTV community. To do that, developers shall be familiar with the open
-> > +source model and have been active in the Linux Kernel community for some time,
-> > +and, in particular, in the media subsystem.
-> > +
-> > +So, in addition to actually making the code changes, you are basically
-> > +demonstrating your:
-> > +
-> > +- commitment to the project;
-> > +- ability to collaborate with the team and communicate well;
-> > +- understand of how upstream and the LinuxTV community work
-> > +  (policies, processes for testing, code review, ...)
-> > +- reasonable knowledge about:
-> > +
-> > +  - the Kernel development process:
-> > +    Documentation/process/index.rst  
-> 
-> :ref:`the Kernel development process <process_index>`
-
-No need. a Sphinx converts all *.rst into references automatically.
-
-Better to use RST files at the text, as makes easier for people
-reading the text file directly.
-
-> > +
-> > +  - the Media development profile:
-> > +    Documentation/driver-api/media/maintainer-entry-profile.rst  
-> 
-> Could you add a label to the title and refer to it directly?
-
-Same as above.
-
-> > +
-> > +- understanding of the projects' code base and coding style;
-> > +- ability to provide feedback to the patch authors;
-> > +- ability to judge when a patch might be ready for review and to submit;
-> > +- ability to write good code (last but certainly not least).
-> > +
-> > +Developers that intend to become committers are encouraged to participate  
-> 
-> s/intend/yearn/
-
-Heh, I had to go to the dictionary to seek for "yearn" meaning ;-)
-
-Let's use a simpler language, as most developers are not native-English
-speakers. I did:
-
-	s/intend/desire/
-
-which is a synonym.
-
-> 
-> > +at the yearly Linux Media Summit, typically co-located with another Linux
-> > +conference.  
-> 
-> s/another Linux/a Linux related/
-
-Ok.
-
-> > +
-> > +If you are doing such tasks and have become a valued developer, an
-> > +existing committer can nominate you to the media subsystem maintainers.
-> > +
-> > +The ultimate responsibility for accepting a nominated committer is up to
-> > +the subsystem's maintainers. The committers must earn a trust relationship
-> > +with all subsystem maintainers, as, by granting you commit rights, they will
-> > +be delegating part of their maintenance tasks.  
-> 
-> s/delegating\K/ a/
-
-Ok.
-
-> > +
-> > +Due to that, to become a committer or a core committer, a consensus between
-> > +all subsystem maintainers is required, as they all need to trust a developer
-> > +well enough to be delegated the responsibility to maintain part of the code
-> > +and to properly review patches from third parties, in a timely manner and
-> > +keeping the status of the reviewed code at https://patchwork.linuxtv.org
-> > +updated.
-> > +
-> > +.. Note::
-> > +
-> > +   In order to preserve/protect the developers that could have their commit
-> > +   rights granted, denied or removed as well as the subsystem maintainers who
-> > +   have the task to accept or deny commit rights, all communication related to
-> > +   nominating a committer, preserving commit rights or leaving such function
-> > +   should happen in private as much as possible.
-> > +
-> > +.. _media-committer-agreement:
-> > +
-> > +Media committer's agreement
-> > +---------------------------
-> > +
-> > +Once a nominated committer is accepted by all subsystem maintainers,
-> > +they will ask if the developer is interested in the nomination and discuss
-> > +what area(s) of the media subsystem the committer will be responsible for.
-> > +
-> > +Once the developer accepts being a committer, the new committer shall
-> > +explicitly accept the Kernel development policies described under its
-> > +Documentation/, and, in particular to the rules on this document, by writing
-> > +an e-mail to media-committers@linuxtv.org, with a declaration of intent
-> > +following the model below::
-> > +
-> > +   I, John Doe, would like to change my status to: Committer
-> > +
-> > +   I intend to actively develop the XYZ driver, send fixes to drivers
-> > +   that I can test, optionally reviewing patches and merging trivial
-> > +   fixes in other areas of the subsystem, ...
-> > +
-> > +   For the purpose of committing patches to the media-committer's tree,
-> > +   I'll be using my user https://gitlab.freedesktop.org/users/<username>.
-> > +
-> > +Followed by a formal declaration of agreement with the Kernel development
-> > +rules::
-> > +
-> > +   I hereby declare that I agree with the Kernel development rules described at:
-> > +
-> > +   https://www.kernel.org/doc/html/latest/driver-api/media/media-committer.rst
-> > +
-> > +   and to the Linux Kernel development process rules.
-> > +
-> > +   I agree to the Code of Conduct as documented in:
-> > +   https://www.kernel.org/doc/html/latest/process/code-of-conduct.rst
-> > +
-> > +   I am aware that I can, at any point of time, retire. In that case, I will
-> > +   send an e-mail to notify the subsystem maintainers for them to revoke my
-> > +   commit rights.
-> > +
-> > +   I am aware that the Kernel development rules change over time.
-> > +   By doing a new push to media-commiter tree, I understand that I agree
-> > +   with the rules in effect at the time of the commit.
-> > +
-> > +Such e-mail shall be signed with a PGP key cross signed by other Kernel and
-> > +media developers. As described at :ref:`media-developers-gpg`, the PGP
-> > +signature, together with the gitlab user security are fundamental components
-> > +that ensure the authentity of the merge requests that will happen at the
-> > +media-committer.git tree.
-> > +
-> > +In case the kernel development process changes, by merging new commits
-> > +in the
-> > +`media-committer tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
-> > +the media committer implicitly declares their agreement with the latest
-> > +version of the documented process including the contents of this file.
-> > +
-> > +.. note::
-> > +
-> > +   1. Changes to the kernel media development process should be announced in  
-> 
-> s/should/shall/ ?
-
-Ok.
-
-> 
-> > +      the media-committers mailinglist with a reasonable review period. All
-> > +      committers are automatically subscribed to that mailinglist;
-> > +   2. Due to the distributed nature of the Kernel development, it is
-> > +      possible that kernel development process changes may end being
-> > +      reviewed/merged at the linux-docs mailing list, specially for the
-> > +      contents under Documentation/process and for trivial typo fixes.
-> > +
-> > +Core committers
-> > +---------------
-> > +
-> > +As described in Documentation/driver-api/media/maintainer-entry-profile.rst
-> > +a committer may be granted with additional rights to also be able to
-> > +change a core file and/or media subsystem's Kernel API. The extent of
-> > +the core committer's grants will be detailed by the subsystem maintainers
-> > +when they nominate a core committer.
-> > +
-> > +Existing committers may become core committers and vice versa. Such
-> > +decisions will be taken in consensus between the subsystem maintainers.
-> > +
-> > +Media committers rules
-> > +----------------------
-> > +
-> > +Media committers shall do their best efforts to avoid merged patches that
-> > +would break any existing drivers. If it breaks, fixup or revert patches
-> > +shall be merged as soon as possible, aiming to be merged at the same Kernel
-> > +cycle the bug is reported.
-> > +
-> > +Media committers shall behave accordingly to the rights granted by
-> > +the subsystem maintainers, specially with regards of the scope of changes
-> > +they may apply directly at the media-committers tree. Such scope can
-> > +change over time on a mutual agreement between media committers and
-> > +maintainers.
-> > +
-> > +As described at :ref:`Media development workflow`, there are workflows.
-> > +For the committers' workflow, the following rules apply:
-> > +
-> > +- Each merged patch shall pass CI tests;
-> > +
-> > +- Media committers shall request reviews from other committers and
-> > +  developers where applicable, i.e. because those developers have more
-> > +  knowledge about some areas that are changed by a patch;
-> > +
-> > +- There shall be no open issues or unresolved or conflicting feedback
-> > +  from anyone. Clear them up first. Defer to subsystem maintainers as needed.
-> > +
-> > +Patches that do not fall under the committer's workflow criteria will follow
-> > +the pull request workflow as described at :ref:`Media development workflow`.
-> > +
-> > +Only a subsystem maintainer can override such rules.
-> > +
-> > +All media committers shall ensure that patchwork will reflect the current
-> > +status, e.g. patches shall be delegated to the media committer who is
-> > +handling them and the patch status shall be updated according to these rules:
-> > +
-> > +- ``Under review``: Used if the patch requires a second opinion
-> > +  or when it is part of a pull request;
-> > +- ``Accepted``: Once a patch is merged in the multi-committer tree.
-> > +- ``Superseded``: There is a newer version of the patch posted to the
-> > +  mailing list.
-> > +- ``Duplicated``: There was another patch doing the same thing from someone
-> > +  else that was accepted.
-> > +- ``Not Applicable``: Use for patch series that are not merged at media.git
-> > +  tree (e.g. drm, dmabuf, upstream merge, etc.) but were cross-posted to the
-> > +  linux-media mailing list.
-> > +
-> > +If the committer decides not to merge it, then reply by email to patch
-> > +authors, explaining why it is not merged, and patchwork shall be updated
-> > +accordingly with either:
-> > +
-> > +- ``Changes Requested``: if a new revision was requested;
-> > +- ``Rejected``: if the proposed change won't be merged upstream.
-> > +
-> > +If a media committer decides to retire, it is the committer's duty to
-> > +notify the subsystem maintainers about that decision.
-> > +
-> > +.. Note::
-> > +
-> > +   Patchwork supports a couple of clients to help semi-automating
-> > +   status updates via its REST interface:
-> > +
-> > +   https://patchwork.readthedocs.io/en/latest/usage/clients/
-> > +
-> > +Maintaining media committer status
-> > +----------------------------------
-> > +
-> > +A community of committers working together to move the Linux Kernel
-> > +forward is essential to creating successful projects that are rewarding
-> > +to work on. If there are problems or disagreements within the community,
-> > +they can usually be solved through healthy discussion and debate.
-> > +
-> > +In the unhappy event that a media committer continues to disregard good
-> > +citizenship (or actively disrupts the project), we may need to revoke
-> > +that person's status. In such cases, if someone suggests the revocation
-> > +with a good reason, then after discussing this among the media committers,
-> > +the final decision is taken by the subsystem maintainers. As the decision
-> > +to become a media committer comes from a consensus between subsystem
-> > +maintainers, a single subsystem maintainer not trusting the media committer
-> > +anymore is enough to revoke committer's grants.
-> > +
-> > +If a committer is inactive for more than a couple of Kernel cycles,
-> > +maintainers will try to reach you via e-mail. If not possible, they may
-> > +revoke your committer grants and update MAINTAINERS file entries
-> > +accordingly. If you wish to resume contributing later on, then contact
-> > +the subsystem maintainers to ask if your rights can be restored.
-> > +
-> > +A previous committer that had their commit rights revoked can keep
-> > +contributing to the subsystem via the pull request workflow as documented
-> > +at the :ref:`Media development workflow`.
-> > +
-> > +References
-> > +----------
-> > +
-> > +Much of this was inspired by/copied from the committer policies of:
-> > +
-> > +- `Chromium <https://chromium.googlesource.com/chromium/src/+/main/docs/contributing.md>`_;
-> > +- `WebKit <https://webkit.org/commit-and-review-policy/>`_;
-> > +- `Mozilla <https://www.mozilla.org/hacking/committer/>`_.
-> > +
-> > diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
-> > index f5277993b195..795ef8d89271 100644
-> > --- a/Documentation/process/maintainer-pgp-guide.rst
-> > +++ b/Documentation/process/maintainer-pgp-guide.rst
-> > @@ -903,6 +903,8 @@ the new default in GnuPG v2). To set it, add (or modify) the
-> >  
-> >      trust-model tofu+pgp
-> >  
-> > +.. _kernel_org_trust_repository:
-> > +
-> >  Using the kernel.org web of trust repository
-> >  --------------------------------------------
-> >    
-> 
-
-
-
-Thanks,
-Mauro
+>
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/optee/call.c          | 10 ++--
+>  drivers/tee/optee/ffa_abi.c       | 43 +++++++++++++----
+>  drivers/tee/optee/optee_private.h | 42 +++++++++++------
+>  drivers/tee/optee/rpc.c           | 31 +++++++++----
+>  drivers/tee/optee/smc_abi.c       | 76 +++++++++++++++++++++++--------
+>  5 files changed, 144 insertions(+), 58 deletions(-)
+>
+> diff --git a/drivers/tee/optee/call.c b/drivers/tee/optee/call.c
+> index 16eb953e14bb..f1533b894726 100644
+> --- a/drivers/tee/optee/call.c
+> +++ b/drivers/tee/optee/call.c
+> @@ -400,7 +400,8 @@ int optee_open_session(struct tee_context *ctx,
+>         export_uuid(msg_arg->params[1].u.octets, &client_uuid);
+>
+>         rc = optee->ops->to_msg_param(optee, msg_arg->params + 2,
+> -                                     arg->num_params, param);
+> +                                     arg->num_params, param,
+> +                                     false /*!update_out*/);
+>         if (rc)
+>                 goto out;
+>
+> @@ -427,7 +428,8 @@ int optee_open_session(struct tee_context *ctx,
+>         }
+>
+>         if (optee->ops->from_msg_param(optee, param, arg->num_params,
+> -                                      msg_arg->params + 2)) {
+> +                                      msg_arg->params + 2,
+> +                                      true /*update_out*/)) {
+>                 arg->ret = TEEC_ERROR_COMMUNICATION;
+>                 arg->ret_origin = TEEC_ORIGIN_COMMS;
+>                 /* Close session again to avoid leakage */
+> @@ -541,7 +543,7 @@ int optee_invoke_func(struct tee_context *ctx, struct tee_ioctl_invoke_arg *arg,
+>         msg_arg->cancel_id = arg->cancel_id;
+>
+>         rc = optee->ops->to_msg_param(optee, msg_arg->params, arg->num_params,
+> -                                     param);
+> +                                     param, false /*!update_out*/);
+>         if (rc)
+>                 goto out;
+>
+> @@ -551,7 +553,7 @@ int optee_invoke_func(struct tee_context *ctx, struct tee_ioctl_invoke_arg *arg,
+>         }
+>
+>         if (optee->ops->from_msg_param(optee, param, arg->num_params,
+> -                                      msg_arg->params)) {
+> +                                      msg_arg->params, true /*update_out*/)) {
+>                 msg_arg->ret = TEEC_ERROR_COMMUNICATION;
+>                 msg_arg->ret_origin = TEEC_ORIGIN_COMMS;
+>         }
+> diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
+> index f3af5666bb11..02e6175ac5f0 100644
+> --- a/drivers/tee/optee/ffa_abi.c
+> +++ b/drivers/tee/optee/ffa_abi.c
+> @@ -122,15 +122,21 @@ static int optee_shm_rem_ffa_handle(struct optee *optee, u64 global_id)
+>   */
+>
+>  static void from_msg_param_ffa_mem(struct optee *optee, struct tee_param *p,
+> -                                  u32 attr, const struct optee_msg_param *mp)
+> +                                  u32 attr, const struct optee_msg_param *mp,
+> +                                  bool update_out)
+>  {
+>         struct tee_shm *shm = NULL;
+>         u64 offs_high = 0;
+>         u64 offs_low = 0;
+>
+> +       if (update_out) {
+> +               if (attr == OPTEE_MSG_ATTR_TYPE_FMEM_INPUT)
+> +                       return;
+> +               goto out;
+> +       }
+> +
+>         p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT +
+>                   attr - OPTEE_MSG_ATTR_TYPE_FMEM_INPUT;
+> -       p->u.memref.size = mp->u.fmem.size;
+>
+>         if (mp->u.fmem.global_id != OPTEE_MSG_FMEM_INVALID_GLOBAL_ID)
+>                 shm = optee_shm_from_ffa_handle(optee, mp->u.fmem.global_id);
+> @@ -141,6 +147,8 @@ static void from_msg_param_ffa_mem(struct optee *optee, struct tee_param *p,
+>                 offs_high = mp->u.fmem.offs_high;
+>         }
+>         p->u.memref.shm_offs = offs_low | offs_high << 32;
+> +out:
+> +       p->u.memref.size = mp->u.fmem.size;
+>  }
+>
+>  /**
+> @@ -150,12 +158,14 @@ static void from_msg_param_ffa_mem(struct optee *optee, struct tee_param *p,
+>   * @params:    subsystem internal parameter representation
+>   * @num_params:        number of elements in the parameter arrays
+>   * @msg_params:        OPTEE_MSG parameters
+> + * @update_out: update parameter for output only
+>   *
+>   * Returns 0 on success or <0 on failure
+>   */
+>  static int optee_ffa_from_msg_param(struct optee *optee,
+>                                     struct tee_param *params, size_t num_params,
+> -                                   const struct optee_msg_param *msg_params)
+> +                                   const struct optee_msg_param *msg_params,
+> +                                   bool update_out)
+>  {
+>         size_t n;
+>
+> @@ -166,18 +176,20 @@ static int optee_ffa_from_msg_param(struct optee *optee,
+>
+>                 switch (attr) {
+>                 case OPTEE_MSG_ATTR_TYPE_NONE:
+> +                       if (update_out)
+> +                               break;
+>                         p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+>                         memset(&p->u, 0, sizeof(p->u));
+>                         break;
+>                 case OPTEE_MSG_ATTR_TYPE_VALUE_INPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_VALUE_OUTPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_VALUE_INOUT:
+> -                       optee_from_msg_param_value(p, attr, mp);
+> +                       optee_from_msg_param_value(p, attr, mp, update_out);
+>                         break;
+>                 case OPTEE_MSG_ATTR_TYPE_FMEM_INPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_FMEM_OUTPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_FMEM_INOUT:
+> -                       from_msg_param_ffa_mem(optee, p, attr, mp);
+> +                       from_msg_param_ffa_mem(optee, p, attr, mp, update_out);
+>                         break;
+>                 default:
+>                         return -EINVAL;
+> @@ -188,10 +200,16 @@ static int optee_ffa_from_msg_param(struct optee *optee,
+>  }
+>
+>  static int to_msg_param_ffa_mem(struct optee_msg_param *mp,
+> -                               const struct tee_param *p)
+> +                               const struct tee_param *p, bool update_out)
+>  {
+>         struct tee_shm *shm = p->u.memref.shm;
+>
+> +       if (update_out) {
+> +               if (p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT)
+> +                       return 0;
+> +               goto out;
+> +       }
+> +
+>         mp->attr = OPTEE_MSG_ATTR_TYPE_FMEM_INPUT + p->attr -
+>                    TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
+>
+> @@ -211,6 +229,7 @@ static int to_msg_param_ffa_mem(struct optee_msg_param *mp,
+>                 memset(&mp->u, 0, sizeof(mp->u));
+>                 mp->u.fmem.global_id = OPTEE_MSG_FMEM_INVALID_GLOBAL_ID;
+>         }
+> +out:
+>         mp->u.fmem.size = p->u.memref.size;
+>
+>         return 0;
+> @@ -222,13 +241,15 @@ static int to_msg_param_ffa_mem(struct optee_msg_param *mp,
+>   * @optee:     main service struct
+>   * @msg_params:        OPTEE_MSG parameters
+>   * @num_params:        number of elements in the parameter arrays
+> - * @params:    subsystem itnernal parameter representation
+> + * @params:    subsystem internal parameter representation
+> + * @update_out: update parameter for output only
+>   * Returns 0 on success or <0 on failure
+>   */
+>  static int optee_ffa_to_msg_param(struct optee *optee,
+>                                   struct optee_msg_param *msg_params,
+>                                   size_t num_params,
+> -                                 const struct tee_param *params)
+> +                                 const struct tee_param *params,
+> +                                 bool update_out)
+>  {
+>         size_t n;
+>
+> @@ -238,18 +259,20 @@ static int optee_ffa_to_msg_param(struct optee *optee,
+>
+>                 switch (p->attr) {
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+> +                       if (update_out)
+> +                               break;
+>                         mp->attr = TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+>                         memset(&mp->u, 0, sizeof(mp->u));
+>                         break;
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+> -                       optee_to_msg_param_value(mp, p);
+> +                       optee_to_msg_param_value(mp, p, update_out);
+>                         break;
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> -                       if (to_msg_param_ffa_mem(mp, p))
+> +                       if (to_msg_param_ffa_mem(mp, p, update_out))
+>                                 return -EINVAL;
+>                         break;
+>                 default:
+> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
+> index dc0f355ef72a..20eda508dbac 100644
+> --- a/drivers/tee/optee/optee_private.h
+> +++ b/drivers/tee/optee/optee_private.h
+> @@ -185,10 +185,12 @@ struct optee_ops {
+>                                 bool system_thread);
+>         int (*to_msg_param)(struct optee *optee,
+>                             struct optee_msg_param *msg_params,
+> -                           size_t num_params, const struct tee_param *params);
+> +                           size_t num_params, const struct tee_param *params,
+> +                           bool update_out);
+>         int (*from_msg_param)(struct optee *optee, struct tee_param *params,
+>                               size_t num_params,
+> -                             const struct optee_msg_param *msg_params);
+> +                             const struct optee_msg_param *msg_params,
+> +                             bool update_out);
+>  };
+>
+>  /**
+> @@ -316,23 +318,35 @@ void optee_release(struct tee_context *ctx);
+>  void optee_release_supp(struct tee_context *ctx);
+>
+>  static inline void optee_from_msg_param_value(struct tee_param *p, u32 attr,
+> -                                             const struct optee_msg_param *mp)
+> +                                             const struct optee_msg_param *mp,
+> +                                             bool update_out)
+>  {
+> -       p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT +
+> -                 attr - OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
+> -       p->u.value.a = mp->u.value.a;
+> -       p->u.value.b = mp->u.value.b;
+> -       p->u.value.c = mp->u.value.c;
+> +       if (!update_out)
+> +               p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT +
+> +                         attr - OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
+> +
+> +       if (attr == OPTEE_MSG_ATTR_TYPE_VALUE_OUTPUT ||
+> +           attr == OPTEE_MSG_ATTR_TYPE_VALUE_INOUT || !update_out) {
+> +               p->u.value.a = mp->u.value.a;
+> +               p->u.value.b = mp->u.value.b;
+> +               p->u.value.c = mp->u.value.c;
+> +       }
+>  }
+>
+>  static inline void optee_to_msg_param_value(struct optee_msg_param *mp,
+> -                                           const struct tee_param *p)
+> +                                           const struct tee_param *p,
+> +                                           bool update_out)
+>  {
+> -       mp->attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT + p->attr -
+> -                  TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+> -       mp->u.value.a = p->u.value.a;
+> -       mp->u.value.b = p->u.value.b;
+> -       mp->u.value.c = p->u.value.c;
+> +       if (!update_out)
+> +               mp->attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT + p->attr -
+> +                          TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+> +
+> +       if (p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT ||
+> +           p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT || !update_out) {
+> +               mp->u.value.a = p->u.value.a;
+> +               mp->u.value.b = p->u.value.b;
+> +               mp->u.value.c = p->u.value.c;
+> +       }
+>  }
+>
+>  void optee_cq_init(struct optee_call_queue *cq, int thread_count);
+> diff --git a/drivers/tee/optee/rpc.c b/drivers/tee/optee/rpc.c
+> index ebbbd42b0e3e..580e6b9b0606 100644
+> --- a/drivers/tee/optee/rpc.c
+> +++ b/drivers/tee/optee/rpc.c
+> @@ -63,7 +63,7 @@ static void handle_rpc_func_cmd_i2c_transfer(struct tee_context *ctx,
+>         }
+>
+>         if (optee->ops->from_msg_param(optee, params, arg->num_params,
+> -                                      arg->params))
+> +                                      arg->params, false /*!update_out*/))
+>                 goto bad;
+>
+>         for (i = 0; i < arg->num_params; i++) {
+> @@ -107,7 +107,8 @@ static void handle_rpc_func_cmd_i2c_transfer(struct tee_context *ctx,
+>         } else {
+>                 params[3].u.value.a = msg.len;
+>                 if (optee->ops->to_msg_param(optee, arg->params,
+> -                                            arg->num_params, params))
+> +                                            arg->num_params, params,
+> +                                            true /*update_out*/))
+>                         arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+>                 else
+>                         arg->ret = TEEC_SUCCESS;
+> @@ -188,6 +189,7 @@ static void handle_rpc_func_cmd_wait(struct optee_msg_arg *arg)
+>  static void handle_rpc_supp_cmd(struct tee_context *ctx, struct optee *optee,
+>                                 struct optee_msg_arg *arg)
+>  {
+> +       bool update_out = false;
+>         struct tee_param *params;
+>
+>         arg->ret_origin = TEEC_ORIGIN_COMMS;
+> @@ -200,15 +202,21 @@ static void handle_rpc_supp_cmd(struct tee_context *ctx, struct optee *optee,
+>         }
+>
+>         if (optee->ops->from_msg_param(optee, params, arg->num_params,
+> -                                      arg->params)) {
+> +                                      arg->params, update_out)) {
+>                 arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+>                 goto out;
+>         }
+>
+>         arg->ret = optee_supp_thrd_req(ctx, arg->cmd, arg->num_params, params);
+>
+> +       /*
+> +        * Special treatment for OPTEE_RPC_CMD_SHM_ALLOC since input is a
+> +        * value type, but the output is a memref type.
+> +        */
+> +       if (arg->cmd != OPTEE_RPC_CMD_SHM_ALLOC)
+> +               update_out = true;
+>         if (optee->ops->to_msg_param(optee, arg->params, arg->num_params,
+> -                                    params))
+> +                                    params, update_out))
+>                 arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+>  out:
+>         kfree(params);
+> @@ -270,7 +278,7 @@ static void handle_rpc_func_rpmb_probe_reset(struct tee_context *ctx,
+>
+>         if (arg->num_params != ARRAY_SIZE(params) ||
+>             optee->ops->from_msg_param(optee, params, arg->num_params,
+> -                                      arg->params) ||
+> +                                      arg->params, false /*!update_out*/) ||
+>             params[0].attr != TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT) {
+>                 arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+>                 return;
+> @@ -280,7 +288,8 @@ static void handle_rpc_func_rpmb_probe_reset(struct tee_context *ctx,
+>         params[0].u.value.b = 0;
+>         params[0].u.value.c = 0;
+>         if (optee->ops->to_msg_param(optee, arg->params,
+> -                                    arg->num_params, params)) {
+> +                                    arg->num_params, params,
+> +                                    true /*update_out*/)) {
+>                 arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+>                 return;
+>         }
+> @@ -324,7 +333,7 @@ static void handle_rpc_func_rpmb_probe_next(struct tee_context *ctx,
+>
+>         if (arg->num_params != ARRAY_SIZE(params) ||
+>             optee->ops->from_msg_param(optee, params, arg->num_params,
+> -                                      arg->params) ||
+> +                                      arg->params, false /*!update_out*/) ||
+>             params[0].attr != TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT ||
+>             params[1].attr != TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT) {
+>                 arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+> @@ -358,7 +367,8 @@ static void handle_rpc_func_rpmb_probe_next(struct tee_context *ctx,
+>         params[0].u.value.b = rdev->descr.capacity;
+>         params[0].u.value.c = rdev->descr.reliable_wr_count;
+>         if (optee->ops->to_msg_param(optee, arg->params,
+> -                                    arg->num_params, params)) {
+> +                                    arg->num_params, params,
+> +                                    true /*update_out*/)) {
+>                 arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+>                 return;
+>         }
+> @@ -384,7 +394,7 @@ static void handle_rpc_func_rpmb_frames(struct tee_context *ctx,
+>
+>         if (arg->num_params != ARRAY_SIZE(params) ||
+>             optee->ops->from_msg_param(optee, params, arg->num_params,
+> -                                      arg->params) ||
+> +                                      arg->params, false /*!update_out*/) ||
+>             params[0].attr != TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT ||
+>             params[1].attr != TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT) {
+>                 arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+> @@ -401,7 +411,8 @@ static void handle_rpc_func_rpmb_frames(struct tee_context *ctx,
+>                 goto out;
+>         }
+>         if (optee->ops->to_msg_param(optee, arg->params,
+> -                                    arg->num_params, params)) {
+> +                                    arg->num_params, params,
+> +                                    true /*update_out*/)) {
+>                 arg->ret = TEEC_ERROR_BAD_PARAMETERS;
+>                 goto out;
+>         }
+> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> index e9456e3e74cc..d1f79947f58a 100644
+> --- a/drivers/tee/optee/smc_abi.c
+> +++ b/drivers/tee/optee/smc_abi.c
+> @@ -81,20 +81,26 @@ static int optee_cpuhp_disable_pcpu_irq(unsigned int cpu)
+>   */
+>
+>  static int from_msg_param_tmp_mem(struct tee_param *p, u32 attr,
+> -                                 const struct optee_msg_param *mp)
+> +                                 const struct optee_msg_param *mp,
+> +                                 bool update_out)
+>  {
+>         struct tee_shm *shm;
+>         phys_addr_t pa;
+>         int rc;
+>
+> +       if (update_out) {
+> +               if (attr == OPTEE_MSG_ATTR_TYPE_TMEM_INPUT)
+> +                       return 0;
+> +               goto out;
+> +       }
+> +
+>         p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT +
+>                   attr - OPTEE_MSG_ATTR_TYPE_TMEM_INPUT;
+> -       p->u.memref.size = mp->u.tmem.size;
+>         shm = (struct tee_shm *)(unsigned long)mp->u.tmem.shm_ref;
+>         if (!shm) {
+>                 p->u.memref.shm_offs = 0;
+>                 p->u.memref.shm = NULL;
+> -               return 0;
+> +               goto out;
+>         }
+>
+>         rc = tee_shm_get_pa(shm, 0, &pa);
+> @@ -103,18 +109,25 @@ static int from_msg_param_tmp_mem(struct tee_param *p, u32 attr,
+>
+>         p->u.memref.shm_offs = mp->u.tmem.buf_ptr - pa;
+>         p->u.memref.shm = shm;
+> -
+> +out:
+> +       p->u.memref.size = mp->u.tmem.size;
+>         return 0;
+>  }
+>
+>  static void from_msg_param_reg_mem(struct tee_param *p, u32 attr,
+> -                                  const struct optee_msg_param *mp)
+> +                                  const struct optee_msg_param *mp,
+> +                                  bool update_out)
+>  {
+>         struct tee_shm *shm;
+>
+> +       if (update_out) {
+> +               if (attr == OPTEE_MSG_ATTR_TYPE_RMEM_INPUT)
+> +                       return;
+> +               goto out;
+> +       }
+> +
+>         p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT +
+>                   attr - OPTEE_MSG_ATTR_TYPE_RMEM_INPUT;
+> -       p->u.memref.size = mp->u.rmem.size;
+>         shm = (struct tee_shm *)(unsigned long)mp->u.rmem.shm_ref;
+>
+>         if (shm) {
+> @@ -124,6 +137,8 @@ static void from_msg_param_reg_mem(struct tee_param *p, u32 attr,
+>                 p->u.memref.shm_offs = 0;
+>                 p->u.memref.shm = NULL;
+>         }
+> +out:
+> +       p->u.memref.size = mp->u.rmem.size;
+>  }
+>
+>  /**
+> @@ -133,11 +148,13 @@ static void from_msg_param_reg_mem(struct tee_param *p, u32 attr,
+>   * @params:    subsystem internal parameter representation
+>   * @num_params:        number of elements in the parameter arrays
+>   * @msg_params:        OPTEE_MSG parameters
+> + * @update_out:        update parameter for output only
+>   * Returns 0 on success or <0 on failure
+>   */
+>  static int optee_from_msg_param(struct optee *optee, struct tee_param *params,
+>                                 size_t num_params,
+> -                               const struct optee_msg_param *msg_params)
+> +                               const struct optee_msg_param *msg_params,
+> +                               bool update_out)
+>  {
+>         int rc;
+>         size_t n;
+> @@ -149,25 +166,27 @@ static int optee_from_msg_param(struct optee *optee, struct tee_param *params,
+>
+>                 switch (attr) {
+>                 case OPTEE_MSG_ATTR_TYPE_NONE:
+> +                       if (update_out)
+> +                               break;
+>                         p->attr = TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+>                         memset(&p->u, 0, sizeof(p->u));
+>                         break;
+>                 case OPTEE_MSG_ATTR_TYPE_VALUE_INPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_VALUE_OUTPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_VALUE_INOUT:
+> -                       optee_from_msg_param_value(p, attr, mp);
+> +                       optee_from_msg_param_value(p, attr, mp, update_out);
+>                         break;
+>                 case OPTEE_MSG_ATTR_TYPE_TMEM_INPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_TMEM_OUTPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_TMEM_INOUT:
+> -                       rc = from_msg_param_tmp_mem(p, attr, mp);
+> +                       rc = from_msg_param_tmp_mem(p, attr, mp, update_out);
+>                         if (rc)
+>                                 return rc;
+>                         break;
+>                 case OPTEE_MSG_ATTR_TYPE_RMEM_INPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_RMEM_OUTPUT:
+>                 case OPTEE_MSG_ATTR_TYPE_RMEM_INOUT:
+> -                       from_msg_param_reg_mem(p, attr, mp);
+> +                       from_msg_param_reg_mem(p, attr, mp, update_out);
+>                         break;
+>
+>                 default:
+> @@ -178,20 +197,25 @@ static int optee_from_msg_param(struct optee *optee, struct tee_param *params,
+>  }
+>
+>  static int to_msg_param_tmp_mem(struct optee_msg_param *mp,
+> -                               const struct tee_param *p)
+> +                               const struct tee_param *p, bool update_out)
+>  {
+>         int rc;
+>         phys_addr_t pa;
+>
+> +       if (update_out) {
+> +               if (p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT)
+> +                       return 0;
+> +               goto out;
+> +       }
+> +
+>         mp->attr = OPTEE_MSG_ATTR_TYPE_TMEM_INPUT + p->attr -
+>                    TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
+>
+>         mp->u.tmem.shm_ref = (unsigned long)p->u.memref.shm;
+> -       mp->u.tmem.size = p->u.memref.size;
+>
+>         if (!p->u.memref.shm) {
+>                 mp->u.tmem.buf_ptr = 0;
+> -               return 0;
+> +               goto out;
+>         }
+>
+>         rc = tee_shm_get_pa(p->u.memref.shm, p->u.memref.shm_offs, &pa);
+> @@ -201,19 +225,27 @@ static int to_msg_param_tmp_mem(struct optee_msg_param *mp,
+>         mp->u.tmem.buf_ptr = pa;
+>         mp->attr |= OPTEE_MSG_ATTR_CACHE_PREDEFINED <<
+>                     OPTEE_MSG_ATTR_CACHE_SHIFT;
+> -
+> +out:
+> +       mp->u.tmem.size = p->u.memref.size;
+>         return 0;
+>  }
+>
+>  static int to_msg_param_reg_mem(struct optee_msg_param *mp,
+> -                               const struct tee_param *p)
+> +                               const struct tee_param *p, bool update_out)
+>  {
+> +       if (update_out) {
+> +               if (p->attr == TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT)
+> +                       return 0;
+> +               goto out;
+> +       }
+> +
+>         mp->attr = OPTEE_MSG_ATTR_TYPE_RMEM_INPUT + p->attr -
+>                    TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
+>
+>         mp->u.rmem.shm_ref = (unsigned long)p->u.memref.shm;
+> -       mp->u.rmem.size = p->u.memref.size;
+>         mp->u.rmem.offs = p->u.memref.shm_offs;
+> +out:
+> +       mp->u.rmem.size = p->u.memref.size;
+>         return 0;
+>  }
+>
+> @@ -223,11 +255,13 @@ static int to_msg_param_reg_mem(struct optee_msg_param *mp,
+>   * @msg_params:        OPTEE_MSG parameters
+>   * @num_params:        number of elements in the parameter arrays
+>   * @params:    subsystem itnernal parameter representation
+> + * @update_out:        update parameter for output only
+>   * Returns 0 on success or <0 on failure
+>   */
+>  static int optee_to_msg_param(struct optee *optee,
+>                               struct optee_msg_param *msg_params,
+> -                             size_t num_params, const struct tee_param *params)
+> +                             size_t num_params, const struct tee_param *params,
+> +                             bool update_out)
+>  {
+>         int rc;
+>         size_t n;
+> @@ -238,21 +272,23 @@ static int optee_to_msg_param(struct optee *optee,
+>
+>                 switch (p->attr) {
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+> +                       if (update_out)
+> +                               break;
+>                         mp->attr = TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+>                         memset(&mp->u, 0, sizeof(mp->u));
+>                         break;
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+> -                       optee_to_msg_param_value(mp, p);
+> +                       optee_to_msg_param_value(mp, p, update_out);
+>                         break;
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+>                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+>                         if (tee_shm_is_dynamic(p->u.memref.shm))
+> -                               rc = to_msg_param_reg_mem(mp, p);
+> +                               rc = to_msg_param_reg_mem(mp, p, update_out);
+>                         else
+> -                               rc = to_msg_param_tmp_mem(mp, p);
+> +                               rc = to_msg_param_tmp_mem(mp, p, update_out);
+>                         if (rc)
+>                                 return rc;
+>                         break;
+> --
+> 2.43.0
+>
 
