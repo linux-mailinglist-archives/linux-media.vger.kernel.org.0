@@ -1,62 +1,64 @@
-Return-Path: <linux-media+bounces-22519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22521-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E403F9E17C6
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 10:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557079E17CB
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 10:36:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B74DF165C00
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:36:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B2A81666D5
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:36:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D627C1E008C;
-	Tue,  3 Dec 2024 09:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D3281E04BB;
+	Tue,  3 Dec 2024 09:35:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fX4woRI3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frjZwSud"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3E11DFD9E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E0B1E0094;
 	Tue,  3 Dec 2024 09:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733218558; cv=none; b=TFNXovEsmZbmDQfwaNjDa+auBCS7R9VE80CaBBZiidiubTukry4R3gRe80lR8aQeOFnSldNUChJqhcGgejrDEI3+VENPcszM3y/XAigzfEHBhoIhVLx8VuLc9JtEsLZ5P7ksXnSQ4lwCMz2kyYR0q4cH02NTprMnfP6bauvSxmc=
+	t=1733218559; cv=none; b=oRMlwmWbSEdhrMXI80zSzstzJZYb4vLdt0K2JOdqIdXqwWi49rNO9WCtOe37bGwu1EwLWWRzl6YHFeZ3SXj/h9/4lFMIl17a6bNh7+Ayut1bChGKCZJkftu2fkj+nJ95Rsn0eB6uJ0Z20sZ8I3K30sVTynr7I/2/zLxP8S7oFJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733218558; c=relaxed/simple;
-	bh=UlqrgZNX32gBjaTFgYtp4qGVc28pfjxVMRY2vOsdL3k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b+j++AmolsV5D2vz/9Eddn9SgXFP1AQwzDKgcsMWa4qkIS1I087aBA9F5v46gHcHhhqsC9tuxQqwvG0eA/XwkAiDmTOXdPdCdZjwQcZLNJ+zQMOA0nlFOv60Kb8Mb4H3Dh1KS6u6CAJmGdl06gKDqA5b9OYml/xE9q4ReFDDVVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fX4woRI3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7BD8C4CECF;
-	Tue,  3 Dec 2024 09:35:57 +0000 (UTC)
+	s=arc-20240116; t=1733218559; c=relaxed/simple;
+	bh=wXvmqIdeJr1PdTa6o7bwdBZ0Ap/yO2GH03ocAkQ+yHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rw3UEHybJqauUxFEP6jhQ+jSq2HAtRYslHbCyk+7Hk1vLYVXLXRYFG25i9BVHz9Mzg3r66dXY27xuWQYhOJX43NYuOMhV2y0roTq88X12X57J8iuv615a+QWYsY+oZF7oTJHw8ECoog2tXKCofP/azb//wvdiZxA7kME0yTYH/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=frjZwSud; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 573C2C4CED6;
+	Tue,  3 Dec 2024 09:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733218557;
-	bh=UlqrgZNX32gBjaTFgYtp4qGVc28pfjxVMRY2vOsdL3k=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fX4woRI37SkUiB//HD3HvzxP7c46UEffoVuQW1F3MlOxvi/z2zD64YkuFpmUSV807
-	 eSc3BX+bjMqbaf26bUaY/D43qSOUBzNnLn4ot8qxoIEd8HXnh/Ac1NRXX9l1MLWdIx
-	 DO43gkm9e33B1F4stGu+KyueeweVDs/FUTFcA8Zxlbfdh0UwoEZnqwniBQPUm6XpTs
-	 5rnenbyFMfsNRiV7BqP71URDGzWgK8M7E87KqjNFZe8k5a21vj+CK7jSStO3NiegJv
-	 cHkf6GdVa5VtDvNPCA175yQ+oQKTfigLlSU7xIX1zDLiqvafXyi6O6pANxL5dcZMSq
-	 JAnkuLiahJW5A==
+	s=k20201202; t=1733218558;
+	bh=wXvmqIdeJr1PdTa6o7bwdBZ0Ap/yO2GH03ocAkQ+yHU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=frjZwSudFQFlmaSEWvQbMk/6woPPUjYhn1LuIr9o7aC+g99MD0L6SktDknCOIt8Mq
+	 KD9tnHh/QGhJy2WH/PvU30GZkhP4pfGye/w6DJF7fokLwo+wcyCX1rDEkTSeYNPBRk
+	 MgR+ko2iSaPppdwMgqf0jaA7UbzDkV++XeFKai/UNMsrzmydmGq7Xgj0BSVMTEDo3e
+	 7zGEgHFdDCZPtIyg/pRHUs6CuADm3AdDVslqxGpOiqMZ44VA+J4/LCX+cqCm6Zml+d
+	 ujBGCNHzWJvzHNQKGAlUDWwLfoiHzMhaYDenMyuANP17DPFPKjOgqmHGDw4gHdtiix
+	 EAqi+pGmuMoYg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tIPK0-00000002ZIf-0kUw;
+	id 1tIPK0-00000002ZIq-15OM;
 	Tue, 03 Dec 2024 10:35:56 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH v4 0/5]Document the new media-committer's model
-Date: Tue,  3 Dec 2024 10:35:44 +0100
-Message-ID: <cover.1733218348.git.mchehab+huawei@kernel.org>
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v4 3/5] docs: media: update maintainer-entry-profile for multi-committers
+Date: Tue,  3 Dec 2024 10:35:47 +0100
+Message-ID: <5eed1e4a37d087f401b7bd54b793ea301e511d7e.1733218348.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1733218348.git.mchehab+huawei@kernel.org>
+References: <cover.1733218348.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,69 +68,328 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The media subsystem used to have a multi-commiter's model in the
-past, but things didn't go well on that time, and we had to move to
-a centralized model.
+As the media subsystem will experiment with a multi-committers model,
+update the Maintainer's entry profile to the new rules.
 
-As the community has evolved, and as there are now new policies in
-place like CoC, let's experiment with a multi-committers again.
-
-The model we're using was inspired by the DRM multi-committers
-model. Yet, media subsystem is different on several aspects, so the
-model is not exactly the same.
-
-The implementation will be in phases. For this phase, the goal is that 
-all committers will be people listed at MAINTAINERS.
-
-On this series:
-
-patch 1 adds a reference for PGP kernel keychain, in preparation for
-links to it;
-
-patch 2 fix two issues at the media MAINTAINERS file (S: and P:) tags;
-
-patch 3: updates the  media maintainer's entry profile and adds the
-workflow that will be used with the new model;
-
-patch 4: adds a new document focused at the new maintainers
-process. Its target is for developers that will be granted with
-commit rights at the new media-maintainers.git tree. It also
-contains a reference tag addition to kernel.org PGP chain
-at process/maintainer-pgp-guide.rst.
-
-patch 5: make documents cleared about maintainership duties.
-
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
-v4:
-- patches 1 and 2 were split from other patches;
-- minor editorial changes as proposed by Hans, Sakari and Ricardo.
+ .../media/maintainer-entry-profile.rst        | 241 ++++++++++++++----
+ 1 file changed, 189 insertions(+), 52 deletions(-)
 
-v3:
-- added patch 3;
-- addressed nits pointed by Ricardo during his review;
-- did minor editorial changes to improve Sphinx html output.
-
-v2: I tried to address most of the suggestions where there was an agreement
-from Laurent's review and further comments. As there were several changes,
-on separate threads, I could have missed something.
-
-Mauro Carvalho Chehab (5):
-  docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
-  MAINTAINERS: fix a couple issues at media input infrastructure
-  docs: media: update maintainer-entry-profile for multi-committers
-  docs: media: document media multi-committers rules and process
-  docs: media: profile: make it clearer about maintainership duties
-
- Documentation/driver-api/media/index.rst      |   1 +
- .../media/maintainer-entry-profile.rst        | 252 ++++++++++++----
- .../driver-api/media/media-committer.rst      | 280 ++++++++++++++++++
- .../process/maintainer-pgp-guide.rst          |   2 +
- MAINTAINERS                                   |   3 +-
- 5 files changed, 486 insertions(+), 52 deletions(-)
- create mode 100644 Documentation/driver-api/media/media-committer.rst
-
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+index ffc712a5f632..101f6df6374f 100644
+--- a/Documentation/driver-api/media/maintainer-entry-profile.rst
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -4,11 +4,12 @@ Media Subsystem Profile
+ Overview
+ --------
+ 
+-The media subsystem covers support for a variety of devices: stream
+-capture, analog and digital TV streams, cameras, remote controllers, HDMI CEC
+-and media pipeline control.
++The Linux Media Community (aka: the LinuxTV Community) covers support for a
++variety of devices: stream capture, analog and digital TV streams, cameras,
++remote controllers, HDMI CEC and media pipeline control.
+ 
+-It covers, mainly, the contents of those directories:
++They consist of developers who work with the Linux Kernel media subsystem,
++which covers, mainly, the contents of those directories:
+ 
+   - drivers/media
+   - drivers/staging/media
+@@ -27,19 +28,158 @@ It covers, mainly, the contents of those directories:
+ Both media userspace and Kernel APIs are documented and the documentation
+ must be kept in sync with the API changes. It means that all patches that
+ add new features to the subsystem must also bring changes to the
+-corresponding API files.
++corresponding API documentation files.
+ 
+-Due to the size and wide scope of the media subsystem, media's
+-maintainership model is to have sub-maintainers that have a broad
+-knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+-task to review the patches, providing feedback to users if the patches are
++Due to the size and wide scope of the media subsystem, the media's
++maintainership model is to have committers that have a broad knowledge of
++a specific aspect of the subsystem. It is the committers' task to
++review the patches, providing feedback to users if the patches are
+ following the subsystem rules and are properly using the media kernel and
+ userspace APIs.
+ 
+-Patches for the media subsystem must be sent to the media mailing list
+-at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+-HTML will be automatically rejected by the mail server. It could be wise
+-to also copy the sub-maintainer(s).
++Media committers
++----------------
++
++In the media subsystem, there are experienced developers who can push
++patches directly to the development tree. These developers are called
++Media committers and are divided into the following categories:
++
++- Committers:
++    contributors for one or more drivers within the media subsystem.
++    They can push changes to the tree that do not affect the core or ABI.
++
++- Core committers:
++    responsible for part of the media core. They are typically
++    responsible for one or more drivers within the media subsystem, but, besides
++    that, they can also merge patches that change the code common to multiple
++    drivers, including the kernel internal API.
++
++- Subsystem maintainers:
++    responsible for the subsystem as a whole, with access to the
++    entire subsystem.
++
++    API/ABI changes are done via consensus between subsystem maintainers\ [2]_.
++
++    Only subsystem maintainers push changes that affect the userspace
++    API/ABI. Committers may push ABI/API changes on their commits if they
++    have approvals from subsystem maintainers.
++
++All media committers shall explicitly agree with the Kernel development process
++as described at Documentation/process/index.rst and to the Kernel
++development rules inside the Kernel documentation, including its code of
++conduct.
++
++.. [2] Everything that would break backward compatibility with existing
++       non-kernel code are API/ABI changes. This includes ioctl and sysfs
++       interfaces, v4l2 controls, and their behaviors.
++
++Media development tree
++----------------------
++
++The main development tree used by the media subsystem is hosted at LinuxTV.org,
++where we also maintain news about the subsystem, wiki pages and a patchwork
++instance where we track patches though their lifetime.
++
++The main tree used by media developers is at:
++
++https://git.linuxtv.org/media.git/
++
++.. _Media development workflow:
++
++Media development workflow
++++++++++++++++++++++++++++
++
++All changes for the media subsystem must be sent first as e-mails to the
++media mailing list, following the process documented at
++Documentation/process/index.rst.
++
++It means that patches shall be submitted as plain text only via e-mail to
++linux-media@vger.kernel.org (aka: LMML). While subscription is not mandatory,
++you can find details about how to subscribe to it and to see its archives at:
++
++  https://subspace.kernel.org/vger.kernel.org.html
++
++Emails with HTML will be automatically rejected by the mail server.
++
++It could be wise to also copy the media committer(s). You should use
++``scripts/get_maintainers.pl`` to identify whom else needs to be copied.
++Please always copy driver's authors and maintainers.
++
++To minimize the chance of merge conflicts for your patch series, and make
++easier to backport patches to stable Kernels, we recommend that you use the
++following baseline for your patch series:
++
++1. Features for the next mainline release:
++
++   - baseline shall be media.git ``next`` branch;
++
++2. Bug fixes for the current mainline release:
++
++   - baseline shall be the latest mainline release or media.git ``fixes``
++     if changes depend on a fix already merged;
++
++3. Bug fixes for the next mainline release:
++
++   - baseline shall be a prepatch release (-rcX) or media.git ``fixes``
++     if changes depend on a fix already merged. It is also
++     fine to use media.git ``next`` as baseline for such patches if such
++     patches apply cleanly on ``fixes``.
++
++.. Note::
++
++   See https://www.kernel.org/category/releases.html for an overview
++   about Kernel release types.
++
++Patches with fixes shall have:
++
++- a ``Fixes:`` tag pointing to the first commit that introduced the bug;
++- when applicable, a ``Cc: stable@vger.kernel.org``.
++
++Patches that were fixing bugs publicly reported by someone at the
++linux-media@vger.kernel.org mailing list shall have:
++
++- a ``Reported-by:`` tag immediately followed by a ``Closes:`` tag.
++
++Patches that change API shall update documentation accordingly at the
++same patch series.
++
++See Documentation/process/index.rst for more details about e-mail submission.
++
++Once a patch is submitted, it may follow either one of the following
++workflows:
++
++a. Pull request workflow: patches are handled by subsystem maintainers::
++
++     +-------+   +---------+   +-------+   +-----------------------+   +---------+
++     |e-mail |-->|patchwork|-->|pull   |-->|maintainers merge      |-->|media.git|
++     |to LMML|   |picks it |   |request|   |in media-committers.git|   +---------+
++     +-------+   +---------+   +-------+   +-----------------------+
++
++   For this workflow, pull requests can be generated by committers,
++   former committers, subsystem maintainers or by trusted long-time
++   contributors. If you are not in such group, please don't submit
++   pull requests, as they will not be processed.
++
++b. Committers' workflow: patches are handled by media committers::
++
++     +-------+   +---------+   +--------------------+   +-----------+   +---------+
++     |e-mail |-->|patchwork|-->|committers merge at |-->|maintainers|-->|media.git|
++     |to LMML|   |picks it |   |media-committers.git|   |approval   |   +---------+
++     +-------+   +---------+   +--------------------+   +-----------+
++
++On both workflows, all patches shall be properly reviewed at
++linux-media@vger.kernel.org (LMML) before being merged at media-committers.git.
++
++When patches are picked by patchwork and when merged at media-committers,
++CI bots will check for errors and may provide e-mail feedback about
++patch problems. When this happens, the patch submitter must fix them, or
++explain why the errors are false positives.
++
++Patches will only be moved to the next stage in those two workflows if they
++pass on CI or if there are false-positives in the CI reports.
++
++Failures during e-mail submission
+++++++++++++++++++++++++++++++++++
+ 
+ Media's workflow is heavily based on Patchwork, meaning that, once a patch
+ is submitted, the e-mail will first be accepted by the mailing list
+@@ -47,51 +187,49 @@ server, and, after a while, it should appear at:
+ 
+    - https://patchwork.linuxtv.org/project/linux-media/list/
+ 
+-If it doesn't automatically appear there after a few minutes, then
++If it doesn't automatically appear there after some time [3]_, then
+ probably something went wrong on your submission. Please check if the
+-email is in plain text\ [2]_ only and if your emailer is not mangling
++email is in plain text\ [4]_ only and if your emailer is not mangling
+ whitespaces before complaining or submitting them again.
+ 
+-You can check if the mailing list server accepted your patch, by looking at:
++To troubleshoot problems, you should first check if the mailing list
++server has accepted your patch, by looking at:
+ 
+    - https://lore.kernel.org/linux-media/
+ 
+-.. [2] If your email contains HTML, the mailing list server will simply
++If the patch is there and not at patchwork, it is likely that your e-mailer
++mangled the patch. Patchwork internally has logic that checks if the
++received e-mail contains a valid patch. Any whitespace and new line
++breakages mangling the patch won't be recognized by patchwork, thus such
++patch will be rejected.
++
++.. [3] It usually takes a few minutes for the patch to arrive, but
++       the e-mail server may be busy, so it may take up to a few hours
++       for a patch to be picked by patchwork.
++
++.. [4] If your email contains HTML, the mailing list server will simply
+        drop it, without any further notice.
+ 
++.. _media-developers-gpg:
+ 
+-Media maintainers
+-+++++++++++++++++
++Authentication for pull and merge requests
++++++++++++++++++++++++++++++++++++++++++++
+ 
+-At the media subsystem, we have a group of senior developers that
+-are responsible for doing the code reviews at the drivers (also known as
+-sub-maintainers), and another senior developer responsible for the
+-subsystem as a whole. For core changes, whenever possible, multiple
+-media maintainers do the review.
++The authenticity of developers submitting pull requests and merge requests
++shall be validated by using PGP signing at some moment.
++See: :ref:`kernel_org_trust_repository`.
+ 
+-The media maintainers that work on specific areas of the subsystem are:
++With the pull request workflow, pull requests shall use PGP-signed tags.
+ 
+-- Remote Controllers (infrared):
+-    Sean Young <sean@mess.org>
++For more details about PGP sign, please read
++Documentation/process/maintainer-pgp-guide.rst.
+ 
+-- HDMI CEC:
+-    Hans Verkuil <hverkuil@xs4all.nl>
++Subsystem maintainers
++---------------------
+ 
+-- Media controller drivers:
+-    Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+-
+-- ISP, v4l2-async, v4l2-fwnode, v4l2-flash-led-class and Sensor drivers:
+-    Sakari Ailus <sakari.ailus@linux.intel.com>
+-
+-- V4L2 drivers and core V4L2 frameworks:
+-    Hans Verkuil <hverkuil@xs4all.nl>
+-
+-The subsystem maintainer is:
+-  Mauro Carvalho Chehab <mchehab@kernel.org>
+-
+-Media maintainers may delegate a patch to other media maintainers as needed.
+-On such case, checkpatch's ``delegate`` field indicates who's currently
+-responsible for reviewing a patch.
++The subsystem maintainers are:
++  - Mauro Carvalho Chehab <mchehab@kernel.org> and
++  - Hans Verkuil <hverkuil@xs4all.nl>
+ 
+ Submit Checklist Addendum
+ -------------------------
+@@ -106,18 +244,15 @@ that should be used in order to check if the drivers are properly
+ implementing the media APIs:
+ 
+ ====================	=======================================================
+-Type			Tool
++Type			Utility
+ ====================	=======================================================
+-V4L2 drivers\ [3]_	``v4l2-compliance``
++V4L2 drivers\ [5]_	``v4l2-compliance``
+ V4L2 virtual drivers	``contrib/test/test-media``
+ CEC drivers		``cec-compliance``
+ ====================	=======================================================
+ 
+-.. [3] The ``v4l2-compliance`` also covers the media controller usage inside
+-       V4L2 drivers.
+-
+-Other compilance tools are under development to check other parts of the
+-subsystem.
++.. [5] The ``v4l2-compliance`` utility also covers the media controller usage
++       inside V4L2 drivers.
+ 
+ Those tests need to pass before the patches go upstream.
+ 
+@@ -134,6 +269,8 @@ Where the check script is::
+ Be sure to not introduce new warnings on your patches without a
+ very good reason.
+ 
++Please see `Media development workflow`_ for e-mail submission rules.
++
+ Style Cleanup Patches
+ +++++++++++++++++++++
+ 
+@@ -199,7 +336,7 @@ tree between -rc6 and the next -rc1.
+ Please notice that the media subsystem is a high traffic one, so it
+ could take a while for us to be able to review your patches. Feel free
+ to ping if you don't get a feedback in a couple of weeks or to ask
+-other developers to publicly add Reviewed-by and, more importantly,
++other developers to publicly add ``Reviewed-by:`` and, more importantly,
+ ``Tested-by:`` tags.
+ 
+ Please note that we expect a detailed description for ``Tested-by:``,
 -- 
 2.47.1
-
 
 
