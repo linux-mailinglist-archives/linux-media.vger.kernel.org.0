@@ -1,1029 +1,531 @@
-Return-Path: <linux-media+bounces-22509-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22510-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBD8A9E1573
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:20:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3E69E15A2
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:26:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8B66528354E
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:20:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B843628405B
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:26:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 297421D6190;
-	Tue,  3 Dec 2024 08:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E04CC1DDC26;
+	Tue,  3 Dec 2024 08:26:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ouBWHWQp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2+KJhXi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5811B87C5
-	for <linux-media@vger.kernel.org>; Tue,  3 Dec 2024 08:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361F81CCEE9;
+	Tue,  3 Dec 2024 08:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733213993; cv=none; b=ABdduNi3V7TNjT1MdxQuQVck4F13Iqjp5ckPbDTtdphP3Yxh5yTmdWJZFyOp4tyQ/35qr/b4qg2lwqCn6mvnwGCEhHFUhZ3HE/PVPn8ymQNItCZAcawnkGKwFFawVL1pvW26SBjP4dGKaZVBThpYa3/YNdUg3BeX0TxvHa2mx88=
+	t=1733214379; cv=none; b=eGfA2qv0MEon8CUacYMwJACW0GvQxlClA+OBjMTuLIWWZ4uwkcs0XBL0yuBT9SQCatEgIfl6z3rQbPt1BJxV+XCRWa4ciutAbBAm5oAZoMMaTuytgCdoJENavH6ydOwA7txfE8h4Qinp3nom5SdFOVRGoCwpb0Kk7DL6WyW61rU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733213993; c=relaxed/simple;
-	bh=Cd9nnwlcvRsR5uc/U8SOMOCuxLBxpaYCVO1/qdT9HS0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aOvg5wv4WZXXazg9NcmpJjV3gV49ZrrQRrau5GdLLAs9YLoG5Y+bA5J7G01Oi6Glne594rzuL3Si8E0iAd81Z0SPnSbPRZFp+H69pWzTJZ2Gk24GsEFuUjiL2EinMmja1By5XrEt/Lppa9wqM+NmRq+ib0bslLS59O9Vunge+a4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ouBWHWQp; arc=none smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-85b95896cefso682646241.2
-        for <linux-media@vger.kernel.org>; Tue, 03 Dec 2024 00:19:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733213990; x=1733818790; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vsj8i3VF0/AL4g+rLDoTFB1nT9yk0yv1XKITOpKGRhs=;
-        b=ouBWHWQpkMaB4lUexDxxUoA93AkJrQf2r3de7o0MuSvNFbyxMas6CR0P4eQVdAk0LM
-         TUWMRQfrIUS72Wf8dZxN+dYfx2Y/edBvvb/ZVhUVxwNbNg/hvOcuYgzBvyaobSOhgHxy
-         2jEhTKcV0RHAqxZt8F38O8PoC/rcT+nERQuXvnQH2r7vE+MFzy/Y5Uc+Nj9ijm0eMRIP
-         xE8zMH+iuH/i4E4He9co08TLJ1gm1MCLsLLhTpH37N9yv1GdnHI0bvxhli/oPPefdB4y
-         0jXfqtt5f+CpW9LFpEQgkgJa+PXUGM6xspxKD+uN8f+sEMcsgANIth/bwVTLSW2T6g+w
-         /bJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733213990; x=1733818790;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Vsj8i3VF0/AL4g+rLDoTFB1nT9yk0yv1XKITOpKGRhs=;
-        b=oAWJzSHllWmBIMRjo1wqces6ebrloaD8wpchNlhujht8j3T9Vfff+kww0wAcI36vfQ
-         8z4vzl++5To9wRy9EMNtOHOrceKgNDifCF/zcRqXXaeH8S1zSEBLdpkO0MVemERgV9Zj
-         9OBbdi86JcnUaH0f1xHb6n69mVlgGY4T2DVkNaY0m2eavWz6mj0UJtMyMPuS4y59nJut
-         eshPpnjl0WCzeZ3O2f2I8VXlNbvMyege30TKI2G2FXNPQxJoLkSVEkJ5aPymla90K9t1
-         xbDC5Pemrku0Guw1GMLWnAtM8rgTV4QGIyZsrNYF7l/VutPrG0WJVOVC+/eqS9EBigwW
-         x/sA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmbBuB/SDGa4Fhy9DcM3uy5oHfVC3gBOrcU9z52lXIjV1fsJRdnA/B93VezzT+FZIwDCT7cIPv8vFRCw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9pOMiLYA030JLji7a8jA6FOG5foa11SlLK/HHYYCnKFofYYhH
-	y8R4Mf8IkMemhG5c0CFtsf5IIBOF2ZAKXGFSgJ5Osr4lC6vZujM9grM27QUJBSvLq3nJc5HXq4L
-	9k2LX0kI10fyZ6aog5r+dlevvc3ik86o8dx6TaA==
-X-Gm-Gg: ASbGncvBrtPv4jNX9YfOIdjdVK88SbCcfZ1j1abo3OkAycjiH7Xl2t7/rjKStU4D4Si
-	TVaNo8/tui7ZNVarQIIVNKzHNyEGOS6Pe8g==
-X-Google-Smtp-Source: AGHT+IHhgRi6le33djtnnabxus579I8WGDDs7fxmGGJ7In3V8yy+9XEA+ZTYMpYeh6He6To4nl16qk2TElOKF7lE40A=
-X-Received: by 2002:a05:6102:2909:b0:4af:5eb5:843d with SMTP id
- ada2fe7eead31-4af971f93c6mr2422981137.6.1733213989604; Tue, 03 Dec 2024
- 00:19:49 -0800 (PST)
+	s=arc-20240116; t=1733214379; c=relaxed/simple;
+	bh=kdMlClWUfVL+ifeY9WY3hfs4lyZE6derO//RrGkrBOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fasPExrwq2p9EaeutMJvyPAaFnVnS8r3ybdAtWhSAyuvrDVSONsT7iA+8Le6vNhiP3i+LQlYTp/7U3o6r1iPuDXN0VlZM/lKxd/mnBHszPJJGq9tF17OthgNmxOZAxF8H+//hztRqvBuYOeAqfTSbZTxUfyBiXfyC7RZxy3fD9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2+KJhXi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01A6FC4CED6;
+	Tue,  3 Dec 2024 08:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733214377;
+	bh=kdMlClWUfVL+ifeY9WY3hfs4lyZE6derO//RrGkrBOs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=J2+KJhXiegMcGbwYNaZqAMfQEZReV0veV/zNbNeg6fvLXiAilx9rPDKF/Lkvd3g2u
+	 QRnDIboENuQ2p43XnJussc6m2RWZnxdDVNxXjq2g6fSZw/B0YeF0GLU6NiKmnmZUX+
+	 75Dkb5QvyS4dfv4KUxkoJ/S6kvK5ILwTePmpnsuMYBhun4fELGFtD8RxS3nhB2Fa+G
+	 fGlVwqMttzAFtEYITojwiA+BdNRYXIyrNKTBk04u09q2o4ye9lcK+9ez+H4fMqrFnY
+	 uSUnT0yp5lXvwlN3keCS3HXena98llvF2Z2F2vRqGPWqtqDnGeIJXy4sRyC/RbhKBq
+	 87nHaZpgGOOBg==
+Date: Tue, 3 Dec 2024 09:26:13 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org, Hans Verkuil <hverkuil@xs4ll.nl>, Ricardo
+ Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v3 2/3] docs: media: document media multi-committers
+ rules and process
+Message-ID: <20241203092613.4e7b3a21@foz.lan>
+In-Reply-To: <Z03Alg5lNTTDiFcF@valkosipuli.retiisi.eu>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+	<49cdca2d2b3b5422c34506bfe2c91173e847ea1f.1733131405.git.mchehab+huawei@kernel.org>
+	<Z03Alg5lNTTDiFcF@valkosipuli.retiisi.eu>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241128150927.1377981-1-jens.wiklander@linaro.org> <20241128150927.1377981-5-jens.wiklander@linaro.org>
-In-Reply-To: <20241128150927.1377981-5-jens.wiklander@linaro.org>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Tue, 3 Dec 2024 13:49:38 +0530
-Message-ID: <CAFA6WYMi6X37=nKx4v52xYWU2wkW1dmcPMeXn6=6k4nv2igpPA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] optee: support restricted memory allocation
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Jens,
+Em Mon, 2 Dec 2024 14:13:42 +0000
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-On Thu, 28 Nov 2024 at 20:39, Jens Wiklander <jens.wiklander@linaro.org> wrote:
->
-> Add support in the OP-TEE backend driver for restricted memory
-> allocation.
->
-> The restricted memory can be allocated from a static carveout, but also
-> be dynamically allocated from CMA and turned into restricted memory by
-> OP-TEE, inaccessible by the kernel. The restricted memory configuration
-> is depends on the platform and is probed by driver.
->
-> A restricted memory pool is allocated during probe if a static carveout
-> is available. The restricted memory pools for dynamically allocated
-> restrict memory are instantiated when requested by user-space. This
-> instantiation can fail if OP-TEE doesn't support the requested use-case
-> of restricted memory.
+> Hi Mauro,
+> 
+> On Mon, Dec 02, 2024 at 10:26:20AM +0100, Mauro Carvalho Chehab wrote:
+> > As the media subsystem will experiment with a multi-committers model,
+> > update the Maintainer's entry profile to the new rules, and add a file
+> > documenting the process to become a committer and to maintain such
+> > rights.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > Signed-off-by: Hans Verkuil <hverkuil@xs4ll.nl>
+> > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  Documentation/driver-api/media/index.rst      |   1 +
+> >  .../media/maintainer-entry-profile.rst        |   8 +
+> >  .../driver-api/media/media-committer.rst      | 278 ++++++++++++++++++
+> >  .../process/maintainer-pgp-guide.rst          |   2 +
+> >  4 files changed, 289 insertions(+)
+> >  create mode 100644 Documentation/driver-api/media/media-committer.rst
+> > 
+> > diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+> > index d5593182a3f9..d0c725fcbc67 100644
+> > --- a/Documentation/driver-api/media/index.rst
+> > +++ b/Documentation/driver-api/media/index.rst
+> > @@ -26,6 +26,7 @@ Documentation/userspace-api/media/index.rst
+> >      :numbered:
+> >  
+> >      maintainer-entry-profile
+> > +    media-committer
+> >  
+> >      v4l2-core
+> >      dtv-core
+> > diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > index dc764163cf1c..705209eacf58 100644
+> > --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > @@ -65,6 +65,9 @@ as described at Documentation/process/index.rst and to the Kernel
+> >  development rules inside the Kernel documentation, including its code of
+> >  conduct.
+> >  
+> > +More details about media commiters' roles and responsibilities can be
+> > +found here: Documentation/driver-api/media/media-committer.rst.
+> > +
+> >  Media development tree
+> >  ----------------------
+> >  
+> > @@ -200,6 +203,11 @@ shall be validated by using PGP sign. See: :ref:`kernel_org_trust_repository`.
+> >  
+> >  With the pull request workflow, pull requests shall use a PGP-signed tag.
+> >  
+> > +With the committers' workflow, this is ensured at the time merge request
+> > +rights will be granted to the gitlab instance used by media-committers.git
+> > +tree, after receiving the e-mail documented at
+> > +:ref:`media-committer-agreement`.
+> > +
+> >  For more details about PGP sign, please read
+> >  Documentation/process/maintainer-pgp-guide.rst.
+> >  
+> > diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
+> > new file mode 100644
+> > index 000000000000..3c2f8f413307
+> > --- /dev/null
+> > +++ b/Documentation/driver-api/media/media-committer.rst
+> > @@ -0,0 +1,278 @@
+> > +Media committers
+> > +================
+> > +
+> > +What is a media committer?  
+> 
+> "What" refers to a "thing" but developers generally are humans.
+> 
+> > +--------------------------
+> > +
+> > +A media committer is a developer who can push patches from other developers  
+> 
+> s/can/has been granted commit access to/
+> 
+> ?
+> 
+> > +and their own patches to the
+> > +`media-committers <https://gitlab.freedesktop.org/linux-media/media-committers>`_
+> > +tree.
+> > +
+> > +It is a media committer's duty to ensure that their entries in the MAINTAINERS
+> > +file are kept up-to-date, and that submitted patches for files for which
+> > +they are listed as maintainers are timely reviewed on the mailing list,
+> > +ideally not waiting in patchwork as ``New`` for more than one Kernel merge
+> > +cycle, and, if accepted, applying them at the media committer's tree.
+> > +
+> > +These commit rights are granted with some expectation of responsibility:  
+> 
+> s/some //
+> 
+> > +committers are people who care about the Linux Kernel as a whole and
+> > +about the Linux media subsystem and want to help its development. It  
+> 
+> s/help/advance/
+> 
+> ?
 
-Can we split this patch into smaller reviewable pieces as follows?
+Ok for all above.
+> 
+> > +is also based on a trust relationship between the rest of the committers,  
+> 
+> s/also//
+> s/between the rest of/among/
+> 
+> I wonder if we should add here some expectation on being reachable on
+> #linux-media.
 
-- Patch 1: Adds support for static carveout using SMC ABI
-- Patch 2: Adds support for dynamic CMA pool using SMC ABI
-- Patch 3: Adds support for both using FF-A ABI
+I'll add it at the note about linuxtv.org:
 
--Sumit
+	These commit rights are granted with expectation of responsibility:
+	committers are people who care about the Linux Kernel as a whole and
+	about the Linux media subsystem and want to advance its development. It
+	is also based on a trust relationship among other committers, maintainers
+	and the Linux Media community[1].
 
->
-> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> ---
->  drivers/tee/optee/Makefile        |   1 +
->  drivers/tee/optee/core.c          |   1 +
->  drivers/tee/optee/ffa_abi.c       | 135 ++++++++++-
->  drivers/tee/optee/optee_private.h |  33 ++-
->  drivers/tee/optee/rstmem.c        | 380 ++++++++++++++++++++++++++++++
->  drivers/tee/optee/smc_abi.c       | 138 ++++++++++-
->  6 files changed, 683 insertions(+), 5 deletions(-)
->  create mode 100644 drivers/tee/optee/rstmem.c
->
-> diff --git a/drivers/tee/optee/Makefile b/drivers/tee/optee/Makefile
-> index a6eff388d300..498969fb8e40 100644
-> --- a/drivers/tee/optee/Makefile
-> +++ b/drivers/tee/optee/Makefile
-> @@ -4,6 +4,7 @@ optee-objs += core.o
->  optee-objs += call.o
->  optee-objs += notif.o
->  optee-objs += rpc.o
-> +optee-objs += rstmem.o
->  optee-objs += supp.o
->  optee-objs += device.o
->  optee-objs += smc_abi.o
-> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-> index c75fddc83576..f4fa494789a4 100644
-> --- a/drivers/tee/optee/core.c
-> +++ b/drivers/tee/optee/core.c
-> @@ -182,6 +182,7 @@ void optee_remove_common(struct optee *optee)
->         tee_device_unregister(optee->teedev);
->
->         tee_shm_pool_free(optee->pool);
-> +       optee_rstmem_pools_uninit(optee);
->         optee_supp_uninit(&optee->supp);
->         mutex_destroy(&optee->call_queue.mutex);
->         rpmb_dev_put(optee->rpmb_dev);
-> diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
-> index 02e6175ac5f0..f500cf101c8d 100644
-> --- a/drivers/tee/optee/ffa_abi.c
-> +++ b/drivers/tee/optee/ffa_abi.c
-> @@ -672,6 +672,122 @@ static int optee_ffa_do_call_with_arg(struct tee_context *ctx,
->         return optee_ffa_yielding_call(ctx, &data, rpc_arg, system_thread);
->  }
->
-> +static int do_call_lend_rstmem(struct optee *optee, u64 cookie, u32 use_case)
-> +{
-> +       struct optee_shm_arg_entry *entry;
-> +       struct optee_msg_arg *msg_arg;
-> +       struct tee_shm *shm;
-> +       u_int offs;
-> +       int rc;
-> +
-> +       msg_arg = optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs);
-> +       if (IS_ERR(msg_arg))
-> +               return PTR_ERR(msg_arg);
-> +
-> +       msg_arg->cmd = OPTEE_MSG_CMD_ASSIGN_RSTMEM;
-> +       msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
-> +       msg_arg->params[0].u.value.a = cookie;
-> +       msg_arg->params[0].u.value.b = use_case;
-> +
-> +       rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-> +       if (rc)
-> +               goto out;
-> +       if (msg_arg->ret != TEEC_SUCCESS) {
-> +               rc = -EINVAL;
-> +               goto out;
-> +       }
-> +
-> +out:
-> +       optee_free_msg_arg(optee->ctx, entry, offs);
-> +       return rc;
-> +}
-> +
-> +static int optee_ffa_lend_rstmem(struct optee *optee, struct tee_shm *rstmem,
-> +                                u16 *end_points, unsigned int ep_count)
-> +{
-> +       struct ffa_device *ffa_dev = optee->ffa.ffa_dev;
-> +       const struct ffa_mem_ops *mem_ops = ffa_dev->ops->mem_ops;
-> +       const struct ffa_msg_ops *msg_ops = ffa_dev->ops->msg_ops;
-> +       struct ffa_send_direct_data data;
-> +       struct ffa_mem_region_attributes *mem_attr;
-> +       struct ffa_mem_ops_args args = {
-> +               .use_txbuf = true,
-> +               .tag = rstmem->use_case,
-> +       };
-> +       struct page *page;
-> +       struct scatterlist sgl;
-> +       unsigned int n;
-> +       int rc;
-> +
-> +       mem_attr = kcalloc(ep_count, sizeof(*mem_attr), GFP_KERNEL);
-> +       for (n = 0; n < ep_count; n++) {
-> +               mem_attr[n].receiver = end_points[n];
-> +               mem_attr[n].attrs = FFA_MEM_RW;
-> +       }
-> +       args.attrs = mem_attr;
-> +       args.nattrs = ep_count;
-> +
-> +       page = phys_to_page(rstmem->paddr);
-> +       sg_init_table(&sgl, 1);
-> +       sg_set_page(&sgl, page, rstmem->size, 0);
-> +
-> +       args.sg = &sgl;
-> +       rc = mem_ops->memory_lend(&args);
-> +       kfree(mem_attr);
-> +       if (rc)
-> +               return rc;
-> +
-> +       rc = do_call_lend_rstmem(optee, args.g_handle, rstmem->use_case);
-> +       if (rc)
-> +               goto err_reclaim;
-> +
-> +       rc = optee_shm_add_ffa_handle(optee, rstmem, args.g_handle);
-> +       if (rc)
-> +               goto err_unreg;
-> +
-> +       rstmem->sec_world_id = args.g_handle;
-> +
-> +       return 0;
-> +
-> +err_unreg:
-> +       data = (struct ffa_send_direct_data){
-> +               .data0 = OPTEE_FFA_RELEASE_RSTMEM,
-> +               .data1 = (u32)args.g_handle,
-> +               .data2 = (u32)(args.g_handle >> 32),
-> +       };
-> +       msg_ops->sync_send_receive(ffa_dev, &data);
-> +err_reclaim:
-> +       mem_ops->memory_reclaim(args.g_handle, 0);
-> +       return rc;
-> +}
-> +
-> +static int optee_ffa_reclaim_rstmem(struct optee *optee, struct tee_shm *rstmem)
-> +{
-> +       struct ffa_device *ffa_dev = optee->ffa.ffa_dev;
-> +       const struct ffa_msg_ops *msg_ops = ffa_dev->ops->msg_ops;
-> +       const struct ffa_mem_ops *mem_ops = ffa_dev->ops->mem_ops;
-> +       u64 global_handle = rstmem->sec_world_id;
-> +       struct ffa_send_direct_data data = {
-> +               .data0 = OPTEE_FFA_RELEASE_RSTMEM,
-> +               .data1 = (u32)global_handle,
-> +               .data2 = (u32)(global_handle >> 32)
-> +       };
-> +       int rc;
-> +
-> +       optee_shm_rem_ffa_handle(optee, global_handle);
-> +       rstmem->sec_world_id = 0;
-> +
-> +       rc = msg_ops->sync_send_receive(ffa_dev, &data);
-> +       if (rc)
-> +               pr_err("Release SHM id 0x%llx rc %d\n", global_handle, rc);
-> +
-> +       rc = mem_ops->memory_reclaim(global_handle, 0);
-> +       if (rc)
-> +               pr_err("mem_reclaim: 0x%llx %d", global_handle, rc);
-> +
-> +       return rc;
-> +}
-> +
->  /*
->   * 6. Driver initialization
->   *
-> @@ -785,7 +901,10 @@ static void optee_ffa_get_version(struct tee_device *teedev,
->                 .gen_caps = TEE_GEN_CAP_GP | TEE_GEN_CAP_REG_MEM |
->                             TEE_GEN_CAP_MEMREF_NULL,
->         };
-> +       struct optee *optee = tee_get_drvdata(teedev);
->
-> +       if (optee->rstmem_pools)
-> +               v.gen_caps |= TEE_GEN_CAP_RSTMEM;
->         *vers = v;
->  }
->
-> @@ -804,6 +923,8 @@ static const struct tee_driver_ops optee_ffa_clnt_ops = {
->         .cancel_req = optee_cancel_req,
->         .shm_register = optee_ffa_shm_register,
->         .shm_unregister = optee_ffa_shm_unregister,
-> +       .rstmem_alloc = optee_rstmem_alloc,
-> +       .rstmem_free = optee_rstmem_free,
->  };
->
->  static const struct tee_desc optee_ffa_clnt_desc = {
-> @@ -820,6 +941,8 @@ static const struct tee_driver_ops optee_ffa_supp_ops = {
->         .supp_send = optee_supp_send,
->         .shm_register = optee_ffa_shm_register, /* same as for clnt ops */
->         .shm_unregister = optee_ffa_shm_unregister_supp,
-> +       .rstmem_alloc = optee_rstmem_alloc,
-> +       .rstmem_free = optee_rstmem_free,
->  };
->
->  static const struct tee_desc optee_ffa_supp_desc = {
-> @@ -833,6 +956,8 @@ static const struct optee_ops optee_ffa_ops = {
->         .do_call_with_arg = optee_ffa_do_call_with_arg,
->         .to_msg_param = optee_ffa_to_msg_param,
->         .from_msg_param = optee_ffa_from_msg_param,
-> +       .lend_rstmem = optee_ffa_lend_rstmem,
-> +       .reclaim_rstmem = optee_ffa_reclaim_rstmem,
->  };
->
->  static void optee_ffa_remove(struct ffa_device *ffa_dev)
-> @@ -937,11 +1062,17 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
->             (sec_caps & OPTEE_FFA_SEC_CAP_RPMB_PROBE))
->                 optee->in_kernel_rpmb_routing = true;
->
-> +       if (sec_caps & OPTEE_FFA_SEC_CAP_RSTMEM) {
-> +               rc = optee_rstmem_pools_init(optee);
-> +               if (rc)
-> +                       goto err_free_pool;
-> +       }
-> +
->         teedev = tee_device_alloc(&optee_ffa_clnt_desc, NULL, optee->pool,
->                                   optee);
->         if (IS_ERR(teedev)) {
->                 rc = PTR_ERR(teedev);
-> -               goto err_free_pool;
-> +               goto err_free_rstmem_pools;
->         }
->         optee->teedev = teedev;
->
-> @@ -1020,6 +1151,8 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
->         tee_device_unregister(optee->teedev);
->  err_free_pool:
->         tee_shm_pool_free(pool);
-> +err_free_rstmem_pools:
-> +       optee_rstmem_pools_uninit(optee);
->  err_free_optee:
->         kfree(optee);
->         return rc;
-> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
-> index 20eda508dbac..dd2a3a2224bc 100644
-> --- a/drivers/tee/optee/optee_private.h
-> +++ b/drivers/tee/optee/optee_private.h
-> @@ -174,9 +174,14 @@ struct optee;
->   * @do_call_with_arg:  enters OP-TEE in secure world
->   * @to_msg_param:      converts from struct tee_param to OPTEE_MSG parameters
->   * @from_msg_param:    converts from OPTEE_MSG parameters to struct tee_param
-> + * @lend_rstmem:       lends physically contiguous memory as restricted
-> + *                     memory, inaccessible by the kernel
-> + * @reclaim_rstmem:    reclaims restricted memory previously lent with
-> + *                     @lend_rstmem() and makes it accessible by the
-> + *                     kernel again
->   *
->   * These OPs are only supposed to be used internally in the OP-TEE driver
-> - * as a way of abstracting the different methogs of entering OP-TEE in
-> + * as a way of abstracting the different methods of entering OP-TEE in
->   * secure world.
->   */
->  struct optee_ops {
-> @@ -191,6 +196,23 @@ struct optee_ops {
->                               size_t num_params,
->                               const struct optee_msg_param *msg_params,
->                               bool update_out);
-> +       int (*lend_rstmem)(struct optee *optee, struct tee_shm *rstmem,
-> +                          u16 *end_points, unsigned int ep_count);
-> +       int (*reclaim_rstmem)(struct optee *optee, struct tee_shm *rstmem);
-> +};
-> +
-> +/**
-> + * struct optee_rstmem_pools - restricted memory pools
-> + * @mutex:     serializes write access to @xa when adding a new pool.
-> + * @xa:                XArray of struct tee_shm_pool where the index is the
-> + *             use case ID TEE_IOC_UC_* supplied for TEE_IOC_RSTMEM_ALLOC.
-> + */
-> +struct optee_rstmem_pools {
-> +       /*
-> +        * Serializes write access to @xa when adding a new pool.
-> +        */
-> +       struct mutex mutex;
-> +       struct xarray xa;
->  };
->
->  /**
-> @@ -206,6 +228,7 @@ struct optee_ops {
->   * @notif:             notification synchronization struct
->   * @supp:              supplicant synchronization struct for RPC to supplicant
->   * @pool:              shared memory pool
-> + * @rstmem_pool:       restricted memory pool for secure data path
->   * @mutex:             mutex protecting @rpmb_dev
->   * @rpmb_dev:          current RPMB device or NULL
->   * @rpmb_scan_bus_done flag if device registation of RPMB dependent devices
-> @@ -230,6 +253,7 @@ struct optee {
->         struct optee_notif notif;
->         struct optee_supp supp;
->         struct tee_shm_pool *pool;
-> +       struct optee_rstmem_pools *rstmem_pools;
->         /* Protects rpmb_dev pointer */
->         struct mutex rpmb_dev_mutex;
->         struct rpmb_dev *rpmb_dev;
-> @@ -286,6 +310,9 @@ void optee_supp_init(struct optee_supp *supp);
->  void optee_supp_uninit(struct optee_supp *supp);
->  void optee_supp_release(struct optee_supp *supp);
->
-> +int optee_rstmem_pools_init(struct optee *optee);
-> +void optee_rstmem_pools_uninit(struct optee *optee);
-> +
->  int optee_supp_recv(struct tee_context *ctx, u32 *func, u32 *num_params,
->                     struct tee_param *param);
->  int optee_supp_send(struct tee_context *ctx, u32 ret, u32 num_params,
-> @@ -378,6 +405,10 @@ void optee_rpc_cmd(struct tee_context *ctx, struct optee *optee,
->  int optee_do_bottom_half(struct tee_context *ctx);
->  int optee_stop_async_notif(struct tee_context *ctx);
->
-> +int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
-> +                      u32 flags, u32 use_case, size_t size);
-> +void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm);
-> +
->  /*
->   * Small helpers
->   */
-> diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rstmem.c
-> new file mode 100644
-> index 000000000000..cf300929171f
-> --- /dev/null
-> +++ b/drivers/tee/optee/rstmem.c
-> @@ -0,0 +1,380 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2024, Linaro Limited
-> + */
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/cma.h>
-> +#include <linux/dma-map-ops.h>
-> +#include <linux/errno.h>
-> +#include <linux/genalloc.h>
-> +#include <linux/slab.h>
-> +#include <linux/string.h>
-> +#include <linux/tee_core.h>
-> +#include <linux/types.h>
-> +#include "optee_private.h"
-> +
-> +struct optee_rstmem_cma_pool {
-> +       struct tee_shm_pool pool;
-> +       struct page *page;
-> +       struct optee *optee;
-> +       size_t page_count;
-> +       u16 *end_points;
-> +       u_int end_point_count;
-> +       u_int align;
-> +       refcount_t refcount;
-> +       struct tee_shm rstmem;
-> +       /* Protects when initializing and tearing down this struct */
-> +       struct mutex mutex;
-> +};
-> +
-> +static struct optee_rstmem_cma_pool *
-> +to_rstmem_cma_pool(struct tee_shm_pool *pool)
-> +{
-> +       return container_of(pool, struct optee_rstmem_cma_pool, pool);
-> +}
-> +
-> +static int init_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> +{
-> +       struct cma *cma = dev_get_cma_area(&rp->optee->teedev->dev);
-> +       int rc;
-> +
-> +       rp->page = cma_alloc(cma, rp->page_count, rp->align, true/*no_warn*/);
-> +       if (!rp->page)
-> +               return -ENOMEM;
-> +
-> +       /*
-> +        * TODO unmap the memory range since the physical memory will
-> +        * become inaccesible after the lend_rstmem() call.
-> +        */
-> +
-> +       rp->rstmem.paddr = page_to_phys(rp->page);
-> +       rp->rstmem.size = rp->page_count * PAGE_SIZE;
-> +       rc = rp->optee->ops->lend_rstmem(rp->optee, &rp->rstmem,
-> +                                        rp->end_points, rp->end_point_count);
-> +       if (rc)
-> +               goto err_release;
-> +
-> +       rp->pool.private_data = gen_pool_create(PAGE_SHIFT, -1);
-> +       if (!rp->pool.private_data) {
-> +               rc = -ENOMEM;
-> +               goto err_reclaim;
-> +       }
-> +
-> +       rc = gen_pool_add(rp->pool.private_data, rp->rstmem.paddr,
-> +                         rp->rstmem.size, -1);
-> +       if (rc)
-> +               goto err_free_pool;
-> +
-> +       refcount_set(&rp->refcount, 1);
-> +       return 0;
-> +
-> +err_free_pool:
-> +       gen_pool_destroy(rp->pool.private_data);
-> +err_reclaim:
-> +       rp->optee->ops->reclaim_rstmem(rp->optee, &rp->rstmem);
-> +err_release:
-> +       cma_release(cma, rp->page, rp->page_count);
-> +       rp->rstmem.paddr = 0;
-> +       rp->rstmem.size = 0;
-> +       rp->rstmem.sec_world_id = 0;
-> +       return rc;
-> +}
-> +
-> +static int get_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> +{
-> +       int rc = 0;
-> +
-> +       if (!refcount_inc_not_zero(&rp->refcount)) {
-> +               mutex_lock(&rp->mutex);
-> +               if (rp->pool.private_data) {
-> +                       /*
-> +                        * Another thread has already initialized the pool
-> +                        * before us, or the pool was just about to be torn
-> +                        * down. Either way we only need to increase the
-> +                        * refcount and we're done.
-> +                        */
-> +                       refcount_inc(&rp->refcount);
-> +               } else {
-> +                       rc = init_cma_rstmem(rp);
-> +               }
-> +               mutex_unlock(&rp->mutex);
-> +       }
-> +
-> +       return rc;
-> +}
-> +
-> +static void release_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> +{
-> +       gen_pool_destroy(rp->pool.private_data);
-> +       rp->optee->ops->reclaim_rstmem(rp->optee, &rp->rstmem);
-> +       cma_release(dev_get_cma_area(&rp->optee->teedev->dev), rp->page,
-> +                   rp->page_count);
-> +
-> +       rp->pool.private_data = NULL;
-> +       rp->page = NULL;
-> +       rp->rstmem.paddr = 0;
-> +       rp->rstmem.size = 0;
-> +       rp->rstmem.sec_world_id = 0;
-> +}
-> +
-> +static void put_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> +{
-> +       if (refcount_dec_and_test(&rp->refcount)) {
-> +               mutex_lock(&rp->mutex);
-> +               if (rp->pool.private_data)
-> +                       release_cma_rstmem(rp);
-> +               mutex_unlock(&rp->mutex);
-> +       }
-> +}
-> +
-> +static int rstmem_pool_op_cma_alloc(struct tee_shm_pool *pool,
-> +                                   struct tee_shm *shm, size_t size,
-> +                                   size_t align)
-> +{
-> +       struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
-> +       size_t sz = ALIGN(size, PAGE_SIZE);
-> +       phys_addr_t pa;
-> +       int rc;
-> +
-> +       rc = get_cma_rstmem(rp);
-> +       if (rc)
-> +               return rc;
-> +
-> +       pa = gen_pool_alloc(rp->pool.private_data, sz);
-> +       if (!pa) {
-> +               put_cma_rstmem(rp);
-> +               return -ENOMEM;
-> +       }
-> +
-> +       shm->size = sz;
-> +       shm->paddr = pa;
-> +       shm->offset = pa - page_to_phys(rp->page);
-> +       shm->sec_world_id = rp->rstmem.sec_world_id;
-> +
-> +       return 0;
-> +}
-> +
-> +static void rstmem_pool_op_cma_free(struct tee_shm_pool *pool,
-> +                                   struct tee_shm *shm)
-> +{
-> +       struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
-> +
-> +       gen_pool_free(rp->pool.private_data, shm->paddr, shm->size);
-> +       shm->size = 0;
-> +       shm->paddr = 0;
-> +       shm->offset = 0;
-> +       shm->sec_world_id = 0;
-> +       put_cma_rstmem(rp);
-> +}
-> +
-> +static void pool_op_cma_destroy_pool(struct tee_shm_pool *pool)
-> +{
-> +       struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
-> +
-> +       mutex_destroy(&rp->mutex);
-> +       kfree(rp);
-> +}
-> +
-> +static struct tee_shm_pool_ops rstmem_pool_ops_cma = {
-> +       .alloc = rstmem_pool_op_cma_alloc,
-> +       .free = rstmem_pool_op_cma_free,
-> +       .destroy_pool = pool_op_cma_destroy_pool,
-> +};
-> +
-> +static int get_rstmem_config(struct optee *optee, u32 use_case,
-> +                            size_t *min_size, u_int *min_align,
-> +                            u16 *end_points, u_int *ep_count)
-> +{
-> +       struct tee_param params[2] = {
-> +               [0] = {
-> +                       .attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT,
-> +                       .u.value.a = use_case,
-> +               },
-> +               [1] = {
-> +                       .attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT,
-> +               },
-> +       };
-> +       struct optee_shm_arg_entry *entry;
-> +       struct tee_shm *shm_param = NULL;
-> +       struct optee_msg_arg *msg_arg;
-> +       struct tee_shm *shm;
-> +       u_int offs;
-> +       int rc;
-> +
-> +       if (end_points && *ep_count) {
-> +               params[1].u.memref.size = *ep_count * sizeof(*end_points);
-> +               shm_param = tee_shm_alloc_priv_buf(optee->ctx,
-> +                                                  params[1].u.memref.size);
-> +               if (IS_ERR(shm_param))
-> +                       return PTR_ERR(shm_param);
-> +               params[1].u.memref.shm = shm_param;
-> +       }
-> +
-> +       msg_arg = optee_get_msg_arg(optee->ctx, ARRAY_SIZE(params), &entry,
-> +                                   &shm, &offs);
-> +       if (IS_ERR(msg_arg)) {
-> +               rc = PTR_ERR(msg_arg);
-> +               goto out_free_shm;
-> +       }
-> +       msg_arg->cmd = OPTEE_MSG_CMD_GET_RSTMEM_CONFIG;
-> +
-> +       rc = optee->ops->to_msg_param(optee, msg_arg->params,
-> +                                     ARRAY_SIZE(params), params,
-> +                                     false /*!update_out*/);
-> +       if (rc)
-> +               goto out_free_msg;
-> +
-> +       rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-> +       if (rc)
-> +               goto out_free_msg;
-> +       if (msg_arg->ret && msg_arg->ret != TEEC_ERROR_SHORT_BUFFER) {
-> +               rc = -EINVAL;
-> +               goto out_free_msg;
-> +       }
-> +
-> +       rc = optee->ops->from_msg_param(optee, params, ARRAY_SIZE(params),
-> +                                       msg_arg->params, true /*update_out*/);
-> +       if (rc)
-> +               goto out_free_msg;
-> +
-> +       if (!msg_arg->ret && end_points &&
-> +           *ep_count < params[1].u.memref.size / sizeof(u16)) {
-> +               rc = -EINVAL;
-> +               goto out_free_msg;
-> +       }
-> +
-> +       *min_size = params[0].u.value.a;
-> +       *min_align = params[0].u.value.b;
-> +       *ep_count = params[1].u.memref.size / sizeof(u16);
-> +
-> +       if (msg_arg->ret == TEEC_ERROR_SHORT_BUFFER) {
-> +               rc = -ENOSPC;
-> +               goto out_free_msg;
-> +       }
-> +
-> +       if (end_points)
-> +               memcpy(end_points, tee_shm_get_va(shm_param, 0),
-> +                      params[1].u.memref.size);
-> +
-> +out_free_msg:
-> +       optee_free_msg_arg(optee->ctx, entry, offs);
-> +out_free_shm:
-> +       if (shm_param)
-> +               tee_shm_free(shm_param);
-> +       return rc;
-> +}
-> +
-> +static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee, u32 use_case)
-> +{
-> +       struct optee_rstmem_cma_pool *rp;
-> +       size_t min_size;
-> +       int rc;
-> +
-> +       rp = kzalloc(sizeof(*rp), GFP_KERNEL);
-> +       if (!rp)
-> +               return ERR_PTR(-ENOMEM);
-> +       rp->rstmem.use_case = use_case;
-> +
-> +       rc = get_rstmem_config(optee, use_case, &min_size, &rp->align, NULL,
-> +                              &rp->end_point_count);
-> +       if (rc) {
-> +               if (rc != -ENOSPC)
-> +                       goto err;
-> +               rp->end_points = kcalloc(rp->end_point_count,
-> +                                        sizeof(*rp->end_points), GFP_KERNEL);
-> +               if (!rp->end_points) {
-> +                       rc = -ENOMEM;
-> +                       goto err;
-> +               }
-> +               rc = get_rstmem_config(optee, use_case, &min_size, &rp->align,
-> +                                      rp->end_points, &rp->end_point_count);
-> +               if (rc)
-> +                       goto err_kfree_eps;
-> +       }
-> +
-> +       rp->pool.ops = &rstmem_pool_ops_cma;
-> +       rp->optee = optee;
-> +       rp->page_count = min_size / PAGE_SIZE;
-> +       mutex_init(&rp->mutex);
-> +
-> +       return &rp->pool;
-> +
-> +err_kfree_eps:
-> +       kfree(rp->end_points);
-> +err:
-> +       kfree(rp);
-> +       return ERR_PTR(rc);
-> +}
-> +
-> +int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
-> +                      u32 flags, u32 use_case, size_t size)
-> +{
-> +       struct optee *optee = tee_get_drvdata(ctx->teedev);
-> +       struct tee_shm_pool *pool;
-> +       int rc;
-> +
-> +       if (!optee->rstmem_pools)
-> +               return -EINVAL;
-> +       if (flags)
-> +               return -EINVAL;
-> +
-> +       pool = xa_load(&optee->rstmem_pools->xa, use_case);
-> +       if (!pool) {
-> +               pool = alloc_rstmem_pool(optee, use_case);
-> +               if (IS_ERR(pool))
-> +                       return PTR_ERR(pool);
-> +               rc = xa_insert(&optee->rstmem_pools->xa, use_case, pool,
-> +                              GFP_KERNEL);
-> +               if (rc) {
-> +                       pool->ops->destroy_pool(pool);
-> +                       return rc;
-> +               }
-> +       }
-> +
-> +       return pool->ops->alloc(pool, shm, size, 0);
-> +}
-> +
-> +void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm)
-> +{
-> +       struct optee *optee = tee_get_drvdata(ctx->teedev);
-> +       struct tee_shm_pool *pool;
-> +
-> +       pool = xa_load(&optee->rstmem_pools->xa, shm->use_case);
-> +       if (pool)
-> +               pool->ops->free(pool, shm);
-> +       else
-> +               pr_err("Can't find pool for use_case %u\n", shm->use_case);
-> +}
-> +
-> +int optee_rstmem_pools_init(struct optee *optee)
-> +{
-> +       struct optee_rstmem_pools *pools;
-> +
-> +       pools = kmalloc(sizeof(*pools), GFP_KERNEL);
-> +       if (!pools)
-> +               return -ENOMEM;
-> +
-> +       mutex_init(&pools->mutex);
-> +       xa_init(&pools->xa);
-> +       optee->rstmem_pools = pools;
-> +       return 0;
-> +}
-> +
-> +void optee_rstmem_pools_uninit(struct optee *optee)
-> +{
-> +       if (optee->rstmem_pools) {
-> +               struct tee_shm_pool *pool;
-> +               u_long idx;
-> +
-> +               xa_for_each(&optee->rstmem_pools->xa, idx, pool) {
-> +                       xa_erase(&optee->rstmem_pools->xa, idx);
-> +                       pool->ops->destroy_pool(pool);
-> +               }
-> +
-> +               xa_destroy(&optee->rstmem_pools->xa);
-> +               mutex_destroy(&optee->rstmem_pools->mutex);
-> +               kfree(optee->rstmem_pools);
-> +               optee->rstmem_pools = NULL;
-> +       }
-> +}
-> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-> index d1f79947f58a..7fa7d9d14c94 100644
-> --- a/drivers/tee/optee/smc_abi.c
-> +++ b/drivers/tee/optee/smc_abi.c
-> @@ -1001,6 +1001,67 @@ static int optee_smc_do_call_with_arg(struct tee_context *ctx,
->         return rc;
->  }
->
-> +static int optee_smc_lend_rstmem(struct optee *optee, struct tee_shm *rstmem,
-> +                                u16 *end_points, unsigned int ep_count)
-> +{
-> +       struct optee_shm_arg_entry *entry;
-> +       struct optee_msg_arg *msg_arg;
-> +       struct tee_shm *shm;
-> +       u_int offs;
-> +       int rc;
-> +
-> +       msg_arg = optee_get_msg_arg(optee->ctx, 2, &entry, &shm, &offs);
-> +       if (IS_ERR(msg_arg))
-> +               return PTR_ERR(msg_arg);
-> +
-> +       msg_arg->cmd = OPTEE_MSG_CMD_LEND_RSTMEM;
-> +       msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
-> +       msg_arg->params[0].u.value.a = OPTEE_MSG_RSTMEM_SECURE_VIDEO_PLAY;
-> +       msg_arg->params[1].attr = OPTEE_MSG_ATTR_TYPE_TMEM_INPUT;
-> +       msg_arg->params[1].u.tmem.buf_ptr = rstmem->paddr;
-> +       msg_arg->params[1].u.tmem.size = rstmem->size;
-> +       msg_arg->params[1].u.tmem.shm_ref = (u_long)rstmem;
-> +
-> +       rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-> +       if (rc)
-> +               goto out;
-> +       if (msg_arg->ret != TEEC_SUCCESS) {
-> +               rc = -EINVAL;
-> +               goto out;
-> +       }
-> +
-> +out:
-> +       optee_free_msg_arg(optee->ctx, entry, offs);
-> +       return rc;
-> +}
-> +
-> +static int optee_smc_reclaim_rstmem(struct optee *optee, struct tee_shm *rstmem)
-> +{
-> +       struct optee_shm_arg_entry *entry;
-> +       struct optee_msg_arg *msg_arg;
-> +       struct tee_shm *shm;
-> +       u_int offs;
-> +       int rc;
-> +
-> +       msg_arg = optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs);
-> +       if (IS_ERR(msg_arg))
-> +               return PTR_ERR(msg_arg);
-> +
-> +       msg_arg->cmd = OPTEE_MSG_CMD_RECLAIM_RSTMEM;
-> +       msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_RMEM_INPUT;
-> +       msg_arg->params[0].u.rmem.shm_ref = (u_long)rstmem;
-> +
-> +       rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-> +       if (rc)
-> +               goto out;
-> +       if (msg_arg->ret != TEEC_SUCCESS)
-> +               rc = -EINVAL;
-> +
-> +out:
-> +       optee_free_msg_arg(optee->ctx, entry, offs);
-> +       return rc;
-> +}
-> +
->  /*
->   * 5. Asynchronous notification
->   */
-> @@ -1201,6 +1262,8 @@ static void optee_get_version(struct tee_device *teedev,
->                 v.gen_caps |= TEE_GEN_CAP_REG_MEM;
->         if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_MEMREF_NULL)
->                 v.gen_caps |= TEE_GEN_CAP_MEMREF_NULL;
-> +       if (optee->rstmem_pools)
-> +               v.gen_caps |= TEE_GEN_CAP_RSTMEM;
->         *vers = v;
->  }
->
-> @@ -1223,6 +1286,8 @@ static const struct tee_driver_ops optee_clnt_ops = {
->         .cancel_req = optee_cancel_req,
->         .shm_register = optee_shm_register,
->         .shm_unregister = optee_shm_unregister,
-> +       .rstmem_alloc = optee_rstmem_alloc,
-> +       .rstmem_free = optee_rstmem_free,
->  };
->
->  static const struct tee_desc optee_clnt_desc = {
-> @@ -1239,6 +1304,8 @@ static const struct tee_driver_ops optee_supp_ops = {
->         .supp_send = optee_supp_send,
->         .shm_register = optee_shm_register_supp,
->         .shm_unregister = optee_shm_unregister_supp,
-> +       .rstmem_alloc = optee_rstmem_alloc,
-> +       .rstmem_free = optee_rstmem_free,
->  };
->
->  static const struct tee_desc optee_supp_desc = {
-> @@ -1252,6 +1319,9 @@ static const struct optee_ops optee_ops = {
->         .do_call_with_arg = optee_smc_do_call_with_arg,
->         .to_msg_param = optee_to_msg_param,
->         .from_msg_param = optee_from_msg_param,
-> +       .lend_rstmem = optee_smc_lend_rstmem,
-> +       .reclaim_rstmem = optee_smc_reclaim_rstmem,
-> +       //.alloc_rstmem_pool = optee_smc_alloc_rstmem_pool,
->  };
->
->  static int enable_async_notif(optee_invoke_fn *invoke_fn)
-> @@ -1619,6 +1689,62 @@ static inline int optee_load_fw(struct platform_device *pdev,
->  }
->  #endif
->
-> +static int optee_sdp_pool_init(struct optee *optee)
-> +{
-> +       bool dyn_sdp = optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_DYNAMIC_RSTMEM;
-> +       bool sdp = optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP;
-> +       struct tee_shm_pool *pool;
-> +       int rc;
-> +
-> +       /*
-> +        * optee_sdp_pools_init() must be called if secure world has any
-> +        * SDP capability. If the static carvout is available initialize
-> +        * and add a pool for that. If there's an error from secure world
-> +        * we complain but don't call optee_sdp_pools_uninit() unless we
-> +        * know that there is no SDP capability left.
-> +        */
-> +       if (!dyn_sdp && !sdp)
-> +               return 0;
-> +
-> +       rc = optee_rstmem_pools_init(optee);
-> +       if (rc)
-> +               return rc;
-> +
-> +       if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP) {
-> +               union {
-> +                       struct arm_smccc_res smccc;
-> +                       struct optee_smc_get_sdp_config_result result;
-> +               } res;
-> +
-> +               optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0, 0, 0,
-> +                                    0, &res.smccc);
-> +               if (res.result.status != OPTEE_SMC_RETURN_OK) {
-> +                       pr_err("Secure Data Path service not available\n");
-> +                       if (!dyn_sdp)
-> +                               goto err;
-> +                       return 0;
-> +               }
-> +
-> +               pool = tee_rstmem_gen_pool_alloc(res.result.start,
-> +                                                res.result.size);
-> +               if (IS_ERR(pool)) {
-> +                       rc = PTR_ERR(pool);
-> +                       goto err;
-> +               }
-> +               rc = xa_insert(&optee->rstmem_pools->xa,
-> +                              TEE_IOC_UC_SECURE_VIDEO_PLAY, pool, GFP_KERNEL);
-> +               if (rc) {
-> +                       pool->ops->destroy_pool(pool);
-> +                       goto err;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +err:
-> +       optee_rstmem_pools_uninit(optee);
-> +       return rc;
-> +}
-> +
->  static int optee_probe(struct platform_device *pdev)
->  {
->         optee_invoke_fn *invoke_fn;
-> @@ -1714,7 +1840,7 @@ static int optee_probe(struct platform_device *pdev)
->         optee = kzalloc(sizeof(*optee), GFP_KERNEL);
->         if (!optee) {
->                 rc = -ENOMEM;
-> -               goto err_free_pool;
-> +               goto err_free_shm_pool;
->         }
->
->         optee->ops = &optee_ops;
-> @@ -1726,10 +1852,14 @@ static int optee_probe(struct platform_device *pdev)
->             (sec_caps & OPTEE_SMC_SEC_CAP_RPMB_PROBE))
->                 optee->in_kernel_rpmb_routing = true;
->
-> +       rc = optee_sdp_pool_init(optee);
-> +       if (rc)
-> +               goto err_free_optee;
-> +
->         teedev = tee_device_alloc(&optee_clnt_desc, NULL, pool, optee);
->         if (IS_ERR(teedev)) {
->                 rc = PTR_ERR(teedev);
-> -               goto err_free_optee;
-> +               goto err_rstmem_pools_uninit;
->         }
->         optee->teedev = teedev;
->
-> @@ -1836,9 +1966,11 @@ static int optee_probe(struct platform_device *pdev)
->         tee_device_unregister(optee->supp_teedev);
->  err_unreg_teedev:
->         tee_device_unregister(optee->teedev);
-> +err_rstmem_pools_uninit:
-> +       optee_rstmem_pools_uninit(optee);
->  err_free_optee:
->         kfree(optee);
-> -err_free_pool:
-> +err_free_shm_pool:
->         tee_shm_pool_free(pool);
->         if (memremaped_shm)
->                 memunmap(memremaped_shm);
-> --
-> 2.43.0
->
+	...
+
+
+	[1] The Linux Media Community, also called LinuxTV Community, has its primary
+	    site at https://linuxtv.org.
+	
+	    Media committers and developers are reachable via the #linux-media
+	    IRC channel at OFTC.
+
+> > +maintainers and the Linux Media community[1].
+> > +
+> > +As such, a media committer is not just someone who is capable of creating
+> > +code, but someone who has demonstrated their ability to collaborate
+> > +with the team, get the most knowledgeable people to review code,
+> > +contribute high-quality code, and follow through to fix issues (in code
+> > +or tests).
+> > +
+> > +.. Note::
+> > +
+> > +   1. If a patch introduces a regression, then it is the media committer's
+> > +      responsibility to correct that as soon as possible. Typically the
+> > +      patch is either reverted, or an additional patch is committed that
+> > +      fixes the regression;  
+> 
+> s/that fixes/to fix/
+
+Ok.
+
+> 
+> > +   2. if patches are fixing bugs against already released Kernels, including
+> > +      the reverts above mentioned, the media committer shall add the needed
+> > +      tags. Please see :ref:`Media development workflow` for more details.  
+> 
+> Does this reference work?
+
+Yes. Tested on Sphinx 6.2.0.
+
+> > +[1] The Linux Media community, also called LinuxTV community, has its primary
+> > +    site at https://linuxtv.org.
+> > +
+> > +Becoming a media committer
+> > +--------------------------
+> > +
+> > +The most important aspect of volunteering to be a committer is that you have
+> > +demonstrated the ability to give good code reviews. So we are looking for  
+> 
+> I wonder if we should add some kind of an expectation of demonstrating
+> common sense? :-)
+
+Could you propose some text for that?
+
+> > +whether or not we think you will be good at doing that.
+> > +
+> > +As such, potential committers must earn enough credibility and trust from the
+> > +LinuxTV community. To do that, developers shall be familiar with the open
+> > +source model and have been active in the Linux Kernel community for some time,
+> > +and, in particular, in the media subsystem.
+> > +
+> > +So, in addition to actually making the code changes, you are basically
+> > +demonstrating your:
+> > +
+> > +- commitment to the project;
+> > +- ability to collaborate with the team and communicate well;
+> > +- understand of how upstream and the LinuxTV community work
+> > +  (policies, processes for testing, code review, ...)
+> > +- reasonable knowledge about:
+> > +
+> > +  - the Kernel development process:
+> > +    Documentation/process/index.rst  
+> 
+> :ref:`the Kernel development process <process_index>`
+
+No need. a Sphinx converts all *.rst into references automatically.
+
+Better to use RST files at the text, as makes easier for people
+reading the text file directly.
+
+> > +
+> > +  - the Media development profile:
+> > +    Documentation/driver-api/media/maintainer-entry-profile.rst  
+> 
+> Could you add a label to the title and refer to it directly?
+
+Same as above.
+
+> > +
+> > +- understanding of the projects' code base and coding style;
+> > +- ability to provide feedback to the patch authors;
+> > +- ability to judge when a patch might be ready for review and to submit;
+> > +- ability to write good code (last but certainly not least).
+> > +
+> > +Developers that intend to become committers are encouraged to participate  
+> 
+> s/intend/yearn/
+
+Heh, I had to go to the dictionary to seek for "yearn" meaning ;-)
+
+Let's use a simpler language, as most developers are not native-English
+speakers. I did:
+
+	s/intend/desire/
+
+which is a synonym.
+
+> 
+> > +at the yearly Linux Media Summit, typically co-located with another Linux
+> > +conference.  
+> 
+> s/another Linux/a Linux related/
+
+Ok.
+
+> > +
+> > +If you are doing such tasks and have become a valued developer, an
+> > +existing committer can nominate you to the media subsystem maintainers.
+> > +
+> > +The ultimate responsibility for accepting a nominated committer is up to
+> > +the subsystem's maintainers. The committers must earn a trust relationship
+> > +with all subsystem maintainers, as, by granting you commit rights, they will
+> > +be delegating part of their maintenance tasks.  
+> 
+> s/delegating\K/ a/
+
+Ok.
+
+> > +
+> > +Due to that, to become a committer or a core committer, a consensus between
+> > +all subsystem maintainers is required, as they all need to trust a developer
+> > +well enough to be delegated the responsibility to maintain part of the code
+> > +and to properly review patches from third parties, in a timely manner and
+> > +keeping the status of the reviewed code at https://patchwork.linuxtv.org
+> > +updated.
+> > +
+> > +.. Note::
+> > +
+> > +   In order to preserve/protect the developers that could have their commit
+> > +   rights granted, denied or removed as well as the subsystem maintainers who
+> > +   have the task to accept or deny commit rights, all communication related to
+> > +   nominating a committer, preserving commit rights or leaving such function
+> > +   should happen in private as much as possible.
+> > +
+> > +.. _media-committer-agreement:
+> > +
+> > +Media committer's agreement
+> > +---------------------------
+> > +
+> > +Once a nominated committer is accepted by all subsystem maintainers,
+> > +they will ask if the developer is interested in the nomination and discuss
+> > +what area(s) of the media subsystem the committer will be responsible for.
+> > +
+> > +Once the developer accepts being a committer, the new committer shall
+> > +explicitly accept the Kernel development policies described under its
+> > +Documentation/, and, in particular to the rules on this document, by writing
+> > +an e-mail to media-committers@linuxtv.org, with a declaration of intent
+> > +following the model below::
+> > +
+> > +   I, John Doe, would like to change my status to: Committer
+> > +
+> > +   I intend to actively develop the XYZ driver, send fixes to drivers
+> > +   that I can test, optionally reviewing patches and merging trivial
+> > +   fixes in other areas of the subsystem, ...
+> > +
+> > +   For the purpose of committing patches to the media-committer's tree,
+> > +   I'll be using my user https://gitlab.freedesktop.org/users/<username>.
+> > +
+> > +Followed by a formal declaration of agreement with the Kernel development
+> > +rules::
+> > +
+> > +   I hereby declare that I agree with the Kernel development rules described at:
+> > +
+> > +   https://www.kernel.org/doc/html/latest/driver-api/media/media-committer.rst
+> > +
+> > +   and to the Linux Kernel development process rules.
+> > +
+> > +   I agree to the Code of Conduct as documented in:
+> > +   https://www.kernel.org/doc/html/latest/process/code-of-conduct.rst
+> > +
+> > +   I am aware that I can, at any point of time, retire. In that case, I will
+> > +   send an e-mail to notify the subsystem maintainers for them to revoke my
+> > +   commit rights.
+> > +
+> > +   I am aware that the Kernel development rules change over time.
+> > +   By doing a new push to media-commiter tree, I understand that I agree
+> > +   with the rules in effect at the time of the commit.
+> > +
+> > +Such e-mail shall be signed with a PGP key cross signed by other Kernel and
+> > +media developers. As described at :ref:`media-developers-gpg`, the PGP
+> > +signature, together with the gitlab user security are fundamental components
+> > +that ensure the authentity of the merge requests that will happen at the
+> > +media-committer.git tree.
+> > +
+> > +In case the kernel development process changes, by merging new commits
+> > +in the
+> > +`media-committer tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
+> > +the media committer implicitly declares their agreement with the latest
+> > +version of the documented process including the contents of this file.
+> > +
+> > +.. note::
+> > +
+> > +   1. Changes to the kernel media development process should be announced in  
+> 
+> s/should/shall/ ?
+
+Ok.
+
+> 
+> > +      the media-committers mailinglist with a reasonable review period. All
+> > +      committers are automatically subscribed to that mailinglist;
+> > +   2. Due to the distributed nature of the Kernel development, it is
+> > +      possible that kernel development process changes may end being
+> > +      reviewed/merged at the linux-docs mailing list, specially for the
+> > +      contents under Documentation/process and for trivial typo fixes.
+> > +
+> > +Core committers
+> > +---------------
+> > +
+> > +As described in Documentation/driver-api/media/maintainer-entry-profile.rst
+> > +a committer may be granted with additional rights to also be able to
+> > +change a core file and/or media subsystem's Kernel API. The extent of
+> > +the core committer's grants will be detailed by the subsystem maintainers
+> > +when they nominate a core committer.
+> > +
+> > +Existing committers may become core committers and vice versa. Such
+> > +decisions will be taken in consensus between the subsystem maintainers.
+> > +
+> > +Media committers rules
+> > +----------------------
+> > +
+> > +Media committers shall do their best efforts to avoid merged patches that
+> > +would break any existing drivers. If it breaks, fixup or revert patches
+> > +shall be merged as soon as possible, aiming to be merged at the same Kernel
+> > +cycle the bug is reported.
+> > +
+> > +Media committers shall behave accordingly to the rights granted by
+> > +the subsystem maintainers, specially with regards of the scope of changes
+> > +they may apply directly at the media-committers tree. Such scope can
+> > +change over time on a mutual agreement between media committers and
+> > +maintainers.
+> > +
+> > +As described at :ref:`Media development workflow`, there are workflows.
+> > +For the committers' workflow, the following rules apply:
+> > +
+> > +- Each merged patch shall pass CI tests;
+> > +
+> > +- Media committers shall request reviews from other committers and
+> > +  developers where applicable, i.e. because those developers have more
+> > +  knowledge about some areas that are changed by a patch;
+> > +
+> > +- There shall be no open issues or unresolved or conflicting feedback
+> > +  from anyone. Clear them up first. Defer to subsystem maintainers as needed.
+> > +
+> > +Patches that do not fall under the committer's workflow criteria will follow
+> > +the pull request workflow as described at :ref:`Media development workflow`.
+> > +
+> > +Only a subsystem maintainer can override such rules.
+> > +
+> > +All media committers shall ensure that patchwork will reflect the current
+> > +status, e.g. patches shall be delegated to the media committer who is
+> > +handling them and the patch status shall be updated according to these rules:
+> > +
+> > +- ``Under review``: Used if the patch requires a second opinion
+> > +  or when it is part of a pull request;
+> > +- ``Accepted``: Once a patch is merged in the multi-committer tree.
+> > +- ``Superseded``: There is a newer version of the patch posted to the
+> > +  mailing list.
+> > +- ``Duplicated``: There was another patch doing the same thing from someone
+> > +  else that was accepted.
+> > +- ``Not Applicable``: Use for patch series that are not merged at media.git
+> > +  tree (e.g. drm, dmabuf, upstream merge, etc.) but were cross-posted to the
+> > +  linux-media mailing list.
+> > +
+> > +If the committer decides not to merge it, then reply by email to patch
+> > +authors, explaining why it is not merged, and patchwork shall be updated
+> > +accordingly with either:
+> > +
+> > +- ``Changes Requested``: if a new revision was requested;
+> > +- ``Rejected``: if the proposed change won't be merged upstream.
+> > +
+> > +If a media committer decides to retire, it is the committer's duty to
+> > +notify the subsystem maintainers about that decision.
+> > +
+> > +.. Note::
+> > +
+> > +   Patchwork supports a couple of clients to help semi-automating
+> > +   status updates via its REST interface:
+> > +
+> > +   https://patchwork.readthedocs.io/en/latest/usage/clients/
+> > +
+> > +Maintaining media committer status
+> > +----------------------------------
+> > +
+> > +A community of committers working together to move the Linux Kernel
+> > +forward is essential to creating successful projects that are rewarding
+> > +to work on. If there are problems or disagreements within the community,
+> > +they can usually be solved through healthy discussion and debate.
+> > +
+> > +In the unhappy event that a media committer continues to disregard good
+> > +citizenship (or actively disrupts the project), we may need to revoke
+> > +that person's status. In such cases, if someone suggests the revocation
+> > +with a good reason, then after discussing this among the media committers,
+> > +the final decision is taken by the subsystem maintainers. As the decision
+> > +to become a media committer comes from a consensus between subsystem
+> > +maintainers, a single subsystem maintainer not trusting the media committer
+> > +anymore is enough to revoke committer's grants.
+> > +
+> > +If a committer is inactive for more than a couple of Kernel cycles,
+> > +maintainers will try to reach you via e-mail. If not possible, they may
+> > +revoke your committer grants and update MAINTAINERS file entries
+> > +accordingly. If you wish to resume contributing later on, then contact
+> > +the subsystem maintainers to ask if your rights can be restored.
+> > +
+> > +A previous committer that had their commit rights revoked can keep
+> > +contributing to the subsystem via the pull request workflow as documented
+> > +at the :ref:`Media development workflow`.
+> > +
+> > +References
+> > +----------
+> > +
+> > +Much of this was inspired by/copied from the committer policies of:
+> > +
+> > +- `Chromium <https://chromium.googlesource.com/chromium/src/+/main/docs/contributing.md>`_;
+> > +- `WebKit <https://webkit.org/commit-and-review-policy/>`_;
+> > +- `Mozilla <https://www.mozilla.org/hacking/committer/>`_.
+> > +
+> > diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+> > index f5277993b195..795ef8d89271 100644
+> > --- a/Documentation/process/maintainer-pgp-guide.rst
+> > +++ b/Documentation/process/maintainer-pgp-guide.rst
+> > @@ -903,6 +903,8 @@ the new default in GnuPG v2). To set it, add (or modify) the
+> >  
+> >      trust-model tofu+pgp
+> >  
+> > +.. _kernel_org_trust_repository:
+> > +
+> >  Using the kernel.org web of trust repository
+> >  --------------------------------------------
+> >    
+> 
+
+
+
+Thanks,
+Mauro
 
