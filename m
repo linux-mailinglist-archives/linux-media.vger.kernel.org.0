@@ -1,194 +1,267 @@
-Return-Path: <linux-media+bounces-22557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D189E2CAA
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 21:06:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 654999E2C8F
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 21:00:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D66B9B44AA1
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 17:27:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D1D38B307B3
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 19:04:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB8681FDE19;
-	Tue,  3 Dec 2024 17:26:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 705D71FF7C3;
+	Tue,  3 Dec 2024 19:04:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KVIsVwFx"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="HaFwYZFk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8616F1FBCB5
-	for <linux-media@vger.kernel.org>; Tue,  3 Dec 2024 17:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EB21FECCD;
+	Tue,  3 Dec 2024 19:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733246813; cv=none; b=j/OFkePC4iVBe/qxyjXOYyta0BJB3An9n7I6LjF/ADc8U3/NEyQpJ4vWzV1LG2uBZ0k3f+3waxyrmQUwaw2IXyaroCGFd8Q4cpW5C4FymnAvPpvi4w+1Y7yMeVkzH06e8R8WuIfZ/NV4yl+G9gh18Ui1RjJvkCcVdUxcgm6utf4=
+	t=1733252673; cv=none; b=QwZyF5Dz8Htt+ebp5kk3M2qwn+NgRTsLj/ISeZUMOVhAkqS96IzCSdjbCdlSG3wqSRWhv+FLxixVV/psE8X9sFudcwE9T6533sS/Pe6JeNyNCXOcrDPRTq1NW1mNIsl3a7KRBJYHTWbh+oGUrOM9JImhJZQMSZIOPwwFO9EjMs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733246813; c=relaxed/simple;
-	bh=d/SKaEARJ6M0/cu1G8obkYNjM7fgsn+zCy4/XdkuEqM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ahgh3Eb2NyTbRtu1ELwHXIaVMYGVHzRsCt2qyXjBC685x73O5y9FQ42k3JK0/kCVCx35pvFwlV8YuQuWau4i8itxVTefeslebioso0cqSpgDM9TkOJNUfXj02QM4YkapBu34shl45RFofugexjusq0MjOgAn9RJXPAiFRpGUc70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KVIsVwFx; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-434a9f9a225so56105e9.1
-        for <linux-media@vger.kernel.org>; Tue, 03 Dec 2024 09:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733246810; x=1733851610; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/Vb9UXBOYsKi0pZ5x9hV4iMqdA2fMvrJ4pmauvo9ZZ8=;
-        b=KVIsVwFxDhDefX7PSff7Lc1+S7MXB+cnYhP2mbB+dFDWfQhYaLOs6nVM85Zj43S0tM
-         dm/hxnbrojsn4paJs6GxQs3na332MzvVkpAEiWmhXDJD8lRrPt6ueU8XTbYI9P4yHmtw
-         +2RKGw/KrukdrQBXNPdzVKUHbull7Om7uA3OullCdUDmPx/7WEl32DrUFbIUnL9tUU4z
-         A82vA6kAvsCMHadJzxZQte5PR1AOg7c/MUsRs47iBITAgJGpICiO0ZXWzWH7JtrEla76
-         +H8aSgTTveexDPQ4iC18dCAxf4U7QCQ1o71ajaLeeGloM0/jSD5a7vW8Me26HSGey2we
-         pIdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733246810; x=1733851610;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/Vb9UXBOYsKi0pZ5x9hV4iMqdA2fMvrJ4pmauvo9ZZ8=;
-        b=tqBY0M/SxVSvlEn9HjTYxo6yB1smyNRfOMl9lpgvBxK6z8OUu1PGVhSGK0sFGuZf+E
-         kKmot2Sk0Mm8Cy4h6w4VO1E8g+92K6mOLW3DVptwKVyw9O70aXUrXvnY0vngqmt2mXp9
-         1NI+9MebY4x3JZ9ObMgkaSW+APdVcRxFBL/MSBMWG1Rxxye4Armbpr2WeXLQzwOJLk/w
-         IWpfnGZb5dh8NwE8uufBGkTFkyvLVGQl8kqALagGT3kejM0M5uiwhdDZwGUs8se7Dkrh
-         rtUJUmHVZwELkxrJO20gogczuv+LfI6S1hY79NLxcF1eiCfFnosqqZFhUtbhTuWAIdqP
-         yKng==
-X-Forwarded-Encrypted: i=1; AJvYcCVT6VMB1BZ2Sz7IzKrLK72CiuAa1bly1P75D1M0uuI3CVu84gL3iyBMxxrfwC9x6X7uFv/uScukDo4F9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3yLTkZ8jRggFJ8YWkKzkn59/Zt7YXH8oD1ro8zjtsO74igpCA
-	V52D2E2xefv561MkT5bBeQ8K9wM7ZEAynyOAKCfbDUf0vI6+ti+sYGRvJxmtqA==
-X-Gm-Gg: ASbGncvFfaBtvlXiw0+W0XcvMnG04CEOy5AizTIvzgoz0UsjeH+pE7QOsnG3Mjrn01L
-	PrS1u+nS+jfsWt/AgaayGPiozi4dnusFiz9JxqFKcEHQw7X2J97UQPY6XX5p9SoP7MCyYy6TUf+
-	gfYjbE3SLGVmZHdALG9lr8H/ARW8RNNwlsILNtWrxzhmnEmfLSy2RM1IrsApmVzi1bIBehYHkrs
-	bQMAKrGnjeGqgg5YMzzdvzNF3zRsh8XKxPooqs=
-X-Google-Smtp-Source: AGHT+IH0TNX49DlvsUlDmYHqE+X/GJfm7kzNvuJYlH9rEpQHDfxMRPXJgjMqM5godm3e1PRO0SoeKQ==
-X-Received: by 2002:a7b:cc83:0:b0:434:9d76:5031 with SMTP id 5b1f17b1804b1-434d12b8d88mr1204505e9.1.1733246809511;
-        Tue, 03 Dec 2024 09:26:49 -0800 (PST)
-Received: from localhost ([2a00:79e0:9d:4:92ba:3294:39ee:2d61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0dbe4e6sm194671505e9.14.2024.12.03.09.26.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 09:26:49 -0800 (PST)
-From: Jann Horn <jannh@google.com>
-Date: Tue, 03 Dec 2024 18:25:37 +0100
-Subject: [PATCH 3/3] udmabuf: fix memory leak on last export_udmabuf()
- error path
+	s=arc-20240116; t=1733252673; c=relaxed/simple;
+	bh=jBHZwAT33guPcBkvfDsZp2YRSDmpxZOuliK5ZQoCDaI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=uehJTpncYJfLfMH0dxifpbOT47Ur+IiHlbIEGZD7IdRqYkfPJH1CX/wk4N0TZo84e28aRAmSq1CkzqujV7wnUyyFOZPEGKG5dbIP7XubQ9jAm1n0gowRqSPIciGpwgiGed9c9zOuJ9MqfBz6jXze40lRb8+gvs0VIrHi4K2TwvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=HaFwYZFk; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 4B3J4EEf1673603
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 3 Dec 2024 13:04:14 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1733252654;
+	bh=3LaUy8V0v8PCyazstS/09qkq6JqByU8AHLSVY1Du18w=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=HaFwYZFkEL86V4eZTnmdS/YIOUP6ryRtv54q3CGEIaDoPVR3yUO7ge3sJifWSQgOB
+	 qNfaD75G8b/kxnG9M1Fmn135cIxfS01mvI7lDjGdjZ9foP2z81fj7NrwfboLCkUs2i
+	 Kv/AZohU7SFmYnRAjPgkQDWqm8V9Ax2OPRzXUYZg=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4B3J4EUo017593
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 3 Dec 2024 13:04:14 -0600
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 3
+ Dec 2024 13:04:14 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 3 Dec 2024 13:04:14 -0600
+Received: from [10.249.42.149] ([10.249.42.149])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4B3J4De0037012;
+	Tue, 3 Dec 2024 13:04:13 -0600
+Message-ID: <f6412229-4606-41ad-8c05-7bbba2eb6e08@ti.com>
+Date: Tue, 3 Dec 2024 13:04:13 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241203-udmabuf-fixes-v1-3-f99281c345aa@google.com>
-References: <20241203-udmabuf-fixes-v1-0-f99281c345aa@google.com>
-In-Reply-To: <20241203-udmabuf-fixes-v1-0-f99281c345aa@google.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, 
- Vivek Kasireddy <vivek.kasireddy@intel.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, 
- John Stultz <john.stultz@linaro.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- "Joel Fernandes (Google)" <joel@joelfernandes.org>
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- Jann Horn <jannh@google.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733246802; l=2748;
- i=jannh@google.com; s=20240730; h=from:subject:message-id;
- bh=d/SKaEARJ6M0/cu1G8obkYNjM7fgsn+zCy4/XdkuEqM=;
- b=X3evmweW4JuzseSHwdhP7RA4Pf8e6N5ueqNFDbhwq7nktyWWe+H3fxCMDbqjeNobSJ+OFwz4q
- CrhwTQWCO5HCdsMU7uLiRuWbk2eiWJ94PEjMmxwGvVbe3p9pYkPZ/mf
-X-Developer-Key: i=jannh@google.com; a=ed25519;
- pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
+ definitions
+To: Maxime Ripard <mripard@kernel.org>, John Stultz <jstultz@google.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey
+	<Brian.Starkey@arm.com>,
+        "T.J. Mercier" <tjmercier@google.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20241202115827.50388-1-mripard@kernel.org>
+ <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
+ <20241203-cerulean-ringtail-of-speed-920c5f@houat>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20241203-cerulean-ringtail-of-speed-920c5f@houat>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-In export_udmabuf(), if dma_buf_fd() fails because the FD table is full, a
-dma_buf owning the udmabuf has already been created; but the error handling
-in udmabuf_create() will tear down the udmabuf without doing anything about
-the containing dma_buf.
+On 12/3/24 1:44 AM, Maxime Ripard wrote:
+> Hi John,
+> 
+> On Mon, Dec 02, 2024 at 11:12:23AM -0800, John Stultz wrote:
+>> On Mon, Dec 2, 2024 at 3:58 AM Maxime Ripard <mripard@kernel.org> wrote:
+>>>
+>>> Following a recent discussion at last Plumbers, John Stultz, Sumit
+>>> Sewal, TJ Mercier and I came to an agreement that we should document
+>>> what the dma-buf heaps names are expected to be, and what the buffers
+>>> attributes you'll get should be documented.
+>>>
+>>> Let's create that doc to make sure those attributes and names are
+>>> guaranteed going forward.
+>>>
+>>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>>>
+>>> ---
+>>> Changes from v1:
+>>>    - Add the mention that the cma / reserved heap is optional.
+>>>
+>>> To: Jonathan Corbet <corbet@lwn.net>
+>>> To: Sumit Semwal <sumit.semwal@linaro.org>
+>>> Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> Cc: Brian Starkey <Brian.Starkey@arm.com>
+>>> Cc: John Stultz <jstultz@google.com>
+>>> Cc: "T.J. Mercier" <tjmercier@google.com>
+>>> Cc: "Christian König" <christian.koenig@amd.com>
+>>> Cc: dri-devel@lists.freedesktop.org
+>>> Cc: linaro-mm-sig@lists.linaro.org
+>>> Cc: linux-media@vger.kernel.org
+>>> Cc: linux-doc@vger.kernel.org
+>>> ---
+>>>   Documentation/userspace-api/dma-buf-heaps.rst | 76 +++++++++++++++++++
+>>>   Documentation/userspace-api/index.rst         |  1 +
+>>>   2 files changed, 77 insertions(+)
+>>>   create mode 100644 Documentation/userspace-api/dma-buf-heaps.rst
+>>>
+>>> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+>>> new file mode 100644
+>>> index 000000000000..68be7ddea150
+>>> --- /dev/null
+>>> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+>>> @@ -0,0 +1,76 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +==============================
+>>> +Allocating dma-buf using heaps
+>>> +==============================
+>>> +
+>>> +Dma-buf Heaps are a way for userspace to allocate dma-buf objects. They are
+>>> +typically used to allocate buffers from a specific allocation pool, or to share
+>>> +buffers across frameworks.
+>>> +
+>>> +Heaps
+>>> +=====
+>>> +
+>>> +A heap represent a specific allocator. The Linux kernel currently supports the
+>>> +following heaps:
+>>> +
+>>> + - The ``system`` heap allocates virtually contiguous, cacheable, buffers
+>>> +
+>>> + - The ``reserved`` heap allocates physically contiguous, cacheable,
+>>
+>> So, I think calling the heap name the "cma" heap might be clearer here?
+>> On some platforms the chardev is "reserved" because the default cma
+>> region is setup via dma_contiguous_reserve_area() (which calls it
+>> "reserved"), but the dma heap is exporting cma.
+> 
+> Ok, I'll change it
+> 
+>> Additionally, on some downstream devices there can be multiple purpose
+>> separated CMA heaps. This hasn't made it upstream over objections to
+>> how downstream devices were enumerating the separate cma regions in
+>> their devicetrees. It was proposed to export all cma regions as
+>> separate cma heaps, but there was reasonable concern over kernel
+>> drivers not expecting userland to be able to allocate from special
+>> reservations, so that seemed like a bad idea.
+>>
+>> Ideally upstream drivers would want to explicitly export their special
+>> CMA region themselves and we would export something like
+>> add_cma_heap() to do so.
+>>
+>> All to say: this document really only covers the naming of the
+>> "default" CMA region that is exported via the cma heap.  Eventually
+>> there may be other CMA heaps as well upstream.
+> 
+> Sure. My point was to follow-up on the discussion we had at Plumbers
+> that concluded by something along the lines of: heap names provide the
+> semantics and guarantee over how buffers are allocated, and thus we need
+> to document what each name is providing.
+> 
+> If we were to add new ones, we would obviously extend that list to
+> accomodate those changes.
+> 
+>>> +   buffers. Only present if a CMA region is present. Such a region is
+>>> +   usually created either through the kernel commandline through the
+>>> +   `cma` parameter, a memory region Device-Tree node with the
+>>> +   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
+>>> +   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
+>>> +   might be called differently:
+>>> +
+>>> +    - Acer Iconia Tab A500: ``linux,cma``
+>>> +    - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
+>>> +    - Amlogic A1: ``linux,cma``
+>>> +    - Amlogic G12A/G12B/SM1: ``linux,cma``
+>>> +    - Amlogic GXBB/GXL: ``linux,cma``
+>>> +    - ASUS EeePad Transformer TF101: ``linux,cma``
+>>> +    - ASUS Google Nexus 7 (Project Bach / ME370TG) E1565: ``linux,cma``
+>>> +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) E1565: ``linux,cma``
+>>> +    - ASUS Google Nexus 7 (Project Nakasi / ME370T) PM269: ``linux,cma``
+>>> +    - Asus Transformer Infinity TF700T: ``linux,cma``
+>>> +    - Asus Transformer Pad 3G TF300TG: ``linux,cma``
+>>> +    - Asus Transformer Pad TF300T: ``linux,cma``
+>>> +    - Asus Transformer Pad TF701T: ``linux,cma``
+>>> +    - Asus Transformer Prime TF201: ``linux,cma``
+>>> +    - ASUS Vivobook S 15: ``linux,cma``
+>>> +    - Cadence KC705: ``linux,cma``
+>>> +    - Digi International ConnectCore 6UL: ``linux,cma``
+>>> +    - Freescale i.MX8DXL EVK: ``linux,cma``
+>>> +    - Freescale TQMa8Xx: ``linux,cma``
+>>> +    - Hisilicon Hikey: ``linux,cma``
+>>> +    - Lenovo ThinkPad T14s Gen 6: ``linux,cma``
+>>> +    - Lenovo ThinkPad X13s: ``linux,cma``
+>>> +    - Lenovo Yoga Slim 7x: ``linux,cma``
+>>> +    - LG Optimus 4X HD P880: ``linux,cma``
+>>> +    - LG Optimus Vu P895: ``linux,cma``
+>>> +    - Loongson 2k0500, 2k1000 and 2k2000: ``linux,cma``
+>>> +    - Microsoft Romulus: ``linux,cma``
+>>> +    - NXP i.MX8ULP EVK: ``linux,cma``
+>>> +    - NXP i.MX93 9x9 QSB: ``linux,cma``
+>>> +    - NXP i.MX93 11X11 EVK: ``linux,cma``
+>>> +    - NXP i.MX93 14X14 EVK: ``linux,cma``
+>>> +    - NXP i.MX95 19X19 EVK: ``linux,cma``
+>>> +    - Ouya Game Console: ``linux,cma``
+>>> +    - Pegatron Chagall: ``linux,cma``
+>>> +    - PHYTEC phyCORE-AM62A SOM: ``linux,cma``
+>>> +    - PHYTEC phyCORE-i.MX93 SOM: ``linux,cma``
+>>> +    - Qualcomm SC8280XP CRD: ``linux,cma``
+>>> +    - Qualcomm X1E80100 CRD: ``linux,cma``
+>>> +    - Qualcomm X1E80100 QCP: ``linux,cma``
+>>> +    - RaspberryPi: ``linux,cma``
+>>> +    - Texas Instruments AM62x SK board family: ``linux,cma``
+>>> +    - Texas Instruments AM62A7 SK: ``linux,cma``
+>>> +    - Toradex Apalis iMX8: ``linux,cma``
+>>> +    - TQ-Systems i.MX8MM TQMa8MxML: ``linux,cma``
+>>> +    - TQ-Systems i.MX8MN TQMa8MxNL: ``linux,cma``
+>>> +    - TQ-Systems i.MX8MPlus TQMa8MPxL: ``linux,cma``
+>>> +    - TQ-Systems i.MX8MQ TQMa8MQ: ``linux,cma``
+>>> +    - TQ-Systems i.MX93 TQMa93xxLA/TQMa93xxCA SOM: ``linux,cma``
+>>> +    - TQ-Systems MBA6ULx Baseboard: ``linux,cma``
+>>>
+>>
+>> Hrm. I'm not sure I see the value in enumerating things in this way,
+>> it seems like it will be a nuisance to keep current?  Maybe something
+>> like:
+>>
+>> On most systems the default cma region is named "linux, cma" or
+>> "reserved", with a few exceptions:
+>>      - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
+> 
+> I'm a bit worried about doing so. What if, on a "linux,cma" system, we
+> have another "reserved" heap created with different semantics?
+> 
 
-This leaves a dma_buf in memory that contains a dangling pointer; though
-that doesn't seem to lead to anything bad except a memory leak.
+Having the "default CMA" heap get its dev name based on the method that
+created it was arguably a mistake made when first upstreaming this heap.
+We should fix this, then maybe add the old name as a link just for
+backwards compat as needed.
 
-Fix it by moving the dma_buf_fd() call out of export_udmabuf() so that we
-can give it different error handling.
+exp_info.name = "default_cma";
 
-Note that the shape of this code changed a lot in commit 5e72b2b41a21
-("udmabuf: convert udmabuf driver to use folios"); but the memory leak
-seems to have existed since the introduction of udmabuf.
+All other CMA and carveout heaps will have names based on their
+method of creation as there may be multiple of them, but there
+will only every be one "default CMA" area, and its heap should
+be named to match.
 
-Fixes: fbb0de795078 ("Add udmabuf misc device")
-Signed-off-by: Jann Horn <jannh@google.com>
----
- drivers/dma-buf/udmabuf.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 8ce77f5837d71a73be677cad014e05f29706057d..aae0071be14a2c83a428b59ea9e905c7173232be 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -317,12 +317,11 @@ static int check_memfd_seals(struct file *memfd)
- 	return 0;
- }
- 
--static int export_udmabuf(struct udmabuf *ubuf,
--			  struct miscdevice *device,
--			  u32 flags)
-+static struct dma_buf *export_udmabuf(struct udmabuf *ubuf,
-+				      struct miscdevice *device,
-+				      u32 flags)
- {
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
--	struct dma_buf *buf;
- 
- 	ubuf->device = device;
- 	exp_info.ops  = &udmabuf_ops;
-@@ -330,11 +329,7 @@ static int export_udmabuf(struct udmabuf *ubuf,
- 	exp_info.priv = ubuf;
- 	exp_info.flags = O_RDWR;
- 
--	buf = dma_buf_export(&exp_info);
--	if (IS_ERR(buf))
--		return PTR_ERR(buf);
--
--	return dma_buf_fd(buf, flags);
-+	return dma_buf_export(&exp_info);
- }
- 
- static long udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memfd,
-@@ -391,6 +386,7 @@ static long udmabuf_create(struct miscdevice *device,
- 	struct folio **folios = NULL;
- 	pgoff_t pgcnt = 0, pglimit;
- 	struct udmabuf *ubuf;
-+	struct dma_buf *dmabuf;
- 	long ret = -EINVAL;
- 	u32 i, flags;
- 
-@@ -451,9 +447,16 @@ static long udmabuf_create(struct miscdevice *device,
- 	}
- 
- 	flags = head->flags & UDMABUF_FLAGS_CLOEXEC ? O_CLOEXEC : 0;
--	ret = export_udmabuf(ubuf, device, flags);
--	if (ret < 0)
-+	dmabuf = export_udmabuf(ubuf, device, flags);
-+	if (IS_ERR(dmabuf)) {
-+		ret = PTR_ERR(dmabuf);
- 		goto err;
-+	}
-+	/* ownership of ubuf is held by the dmabuf from here */
-+
-+	ret = dma_buf_fd(dmabuf, flags);
-+	if (ret < 0)
-+		dma_buf_put(dmabuf);
- 
- 	kvfree(folios);
- 	return ret;
-
--- 
-2.47.0.338.g60cca15819-goog
-
+Andrew
 
