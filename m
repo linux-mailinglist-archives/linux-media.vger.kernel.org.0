@@ -1,135 +1,183 @@
-Return-Path: <linux-media+bounces-22520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22523-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B179E17C8
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 10:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287F49E17D6
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 10:38:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C1DE284EE5
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:36:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE717281AF9
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:37:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5E81E0488;
-	Tue,  3 Dec 2024 09:35:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3F9B1E00A1;
+	Tue,  3 Dec 2024 09:36:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzByEBuA"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="paEb+1ar"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E4D1DFE07;
-	Tue,  3 Dec 2024 09:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF3E15B12F;
+	Tue,  3 Dec 2024 09:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733218558; cv=none; b=NhfsayW4WzOpIU5rp5hjzA03WdVN9FPk4LvRqAlMMeoxu7SINlvJnAKT6DAQ21pK5xNdSPwEInBlsVvbIuvGPGleCu1CcljEox6Kiq31uPKUWKfj3pHx5I5wC0Mmug+hZexccVonpERRcz1cF5xUxHIqWIl0QkuDDDHXTFU5pMA=
+	t=1733218605; cv=none; b=GdhOiKWcMTiGGbESGe4QcVJ8mlZ9Lzw3hMPHOrJO0y/A+FAAhoZ88Dt2aPTUvp5CSXKzygeRq+oiuHvYvekw7Ae5TZQs6WA7zt7YPIQ8NGarnMcum6RuVS04E+ZaCDx98q+Mkt9Kz0LsM4uI7fJlopN2788ByjY9OLU4ipCOBDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733218558; c=relaxed/simple;
-	bh=a8DOKAbHHk3Uoi98wRsfxUMOehnt2Xr/DWBiY9unq5Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IwY3b8o606m1YZvLD9YyVM0Y+qD4l1llI7syE2dcF1I9fKkpzlPjbgwKHSuHMRs9Mg4CUq6ink4bORtWztRi0e/yDDvj0HXc2nqxhOgUmEqjGkDzc7NG56FSlIlOH+JFWVoA1D98AM1ioGK2NZXHlIwsot1bGnQJNzcVF0mX3rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzByEBuA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57363C4CECF;
-	Tue,  3 Dec 2024 09:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733218558;
-	bh=a8DOKAbHHk3Uoi98wRsfxUMOehnt2Xr/DWBiY9unq5Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OzByEBuA1gRLIgTyuFUtUbv0qEFmB80uw6hlvCRr3MhMD6+ZyG3TgVRh/o6PuzwV6
-	 UWibBdDCqGCdNXAe+hIbRC/cVQ3QBFfeQV/jRoXccKqhPzxR7XbqQhz4RYPRmZDBkX
-	 qjhEFyxw54dL4pJVMPs9jPU0p8SuBBjwOUH75Uy7jrvNGkoaKypIATHY9D1Mt2hLKm
-	 9jjlq8nI4YM0lZPILcJTJOZmF4TDBh33+LG0xVUotEqjXI/RVwE0MD9yrQX6qooDOp
-	 Uqyh43eCQb+ysJnyfyzT2aO20mKLn8lnDyogjjlkdQD01PRtwZ5jR97Fn1cU7sav1W
-	 8Z98W45LVRvVQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tIPK0-00000002ZIy-1Is6;
-	Tue, 03 Dec 2024 10:35:56 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v4 5/5] docs: media: profile: make it clearer about maintainership duties
-Date: Tue,  3 Dec 2024 10:35:49 +0100
-Message-ID: <f74d32eba4c1799fe7fd407a3889a3de91fb09f2.1733218348.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1733218348.git.mchehab+huawei@kernel.org>
-References: <cover.1733218348.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1733218605; c=relaxed/simple;
+	bh=3g/ljEh3uQFMyxIBjzs+bKk0sfi5M7AzABU9s7ppRgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=T+/40b+i240VNi4mZQ/ItE4tU7KbBhDxZOzqZ86XLtTxPqxD0cBfQfFCckzgXUx39txXwT6Jr2zMKniBeEMZhUo5DzNr+pHqDKciHv9WMd68Vj+WpVtEMtPR1Qh9Ht9SoFcee9gGQFBNPZ2rc10tkyroKx6twbIqeTm0A/64le4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=paEb+1ar; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id EDFC520004;
+	Tue,  3 Dec 2024 09:36:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1733218599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=evN0b4VZuIGuuKZVaNXifjQ0jSIg1lbtlgCrPHgk+go=;
+	b=paEb+1arAqWh3ezz5jP6PScUVFdriBZ5JaZ5mgW20tnsGAxJlyMAnAgJ3KJWV00WuhNejH
+	CZIaDsIbzxqOn0+b2FV1GMdN8Iewg4+KePow51A7zZVQOYwcTtQ76NxJ9i5iB6fkzV18MU
+	Il0uWVs2Xve0masd3AnViaEmFORqcWYIjKOkCwJqyxjnaQT6vF6b5AkAi/TkFSlUTQcJw6
+	ToHrVMhV3EAsNbLKtlJhjjjGxiiplOhIpMBXnJfww7/hkk/5Vbvz2kILpsSHqfjWWB39Bm
+	Ad2uXML+Z7ie4uxtJjwcZ4OWZ8zv0HjWB8tbWVZlVT3aStiZi3+RxE3pkjdcwQ==
+Date: Tue, 3 Dec 2024 10:36:36 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Kory Maincent <kory.maincent@bootlin.com>,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Andi Shyti <andi.shyti@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Derek Kiernan <derek.kiernan@amd.com>, Dragan
+ Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Cosmin Tanislav <demonsingur@gmail.com>
+Subject: Re: [PATCH v3 0/9] misc: Support TI FPC202 dual-port controller
+Message-ID: <20241203103636.32c80ce0@booty>
+In-Reply-To: <2843405.KjTqZUKg7o@fw-rgant>
+References: <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
+	<0a125973-fd33-455d-a3ab-fba3357155ee@ideasonboard.com>
+	<2843405.KjTqZUKg7o@fw-rgant>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-During the review of the media committer's profile, it was noticed
-that the responsibility for timely review patches was not clear:
-such review is expected that all developers listed at MAINTAINERS
-with the "M:" tag (e.g. "maintainers" on its broad sense).
+Hello Romain, Tomi,
 
-This is orthogonal of being a media committer or not. Such duty
-is implied at:
+On Tue, 03 Dec 2024 09:42:07 +0100
+Romain Gantois <romain.gantois@bootlin.com> wrote:
 
-	Documentation/admin-guide/reporting-issues.rst
+> Hi Tomi,
+>=20
+> On vendredi 29 novembre 2024 13:01:58 heure normale d=E2=80=99Europe cent=
+rale Tomi Valkeinen wrote:
+> > Hi,
+> >=20
+> > On 25/11/2024 10:45, Romain Gantois wrote: =20
+> > > Hello everyone,
+> > >=20
+> > > This is version three of my series which adds support for the TI FPC2=
+02
+> > > dual-port controller. This is an unusual kind of device which is used=
+ as a
+> > > low-speed signal aggregator for various types of SFP-like hardware po=
+rts.
+> > >=20
+> > > The FPC202 exposes an I2C, or SPI (not supported in this series) cont=
+rol
+> > > interface, which can be used to access two downstream I2C busses, alo=
+ng
+> > > with a set of low-speed GPIO signals for each port. It also has I2C
+> > > address
+> > > translation (ATR) features, which allow multiple I2C devices with the=
+ same
+> > > address (e.g. SFP EEPROMs at address 0x50) to be accessed from the
+> > > upstream
+> > > control interface on different addresses.
+> > >=20
+> > > I've chosen to add this driver to the misc subsystem, as it doesn't
+> > > strictly belong in either the i2c or gpio sybsystem, and as far as I =
+know
+> > > it is the first device of its kind to be added to the kernel.
+> > >=20
+> > > Along with the FPC202 driver itself, this series also adds support for
+> > > dynamic address translation to the i2c-atr module. This allows I2C ad=
+dress
+> > > translators to update their translation table on-the-fly when they re=
+ceive
+> > > transactions to unmapped clients. This feature is needed by the FPC202
+> > > driver to access up to three logical I2C devices per-port, given that=
+ the
+> > > FPC202 address translation table only has two address slots. =20
+> >=20
+> > While the FPD-Link devices are quite different than the TPC202, I wonder
+> > what's the difference wrt. the ATR... Afaics, the difference is that the
+> > FPC202 has 2 slots whereas UB960 has 8. So if you have 3+ remote devices
+> > on FPC202, you get problems, or if you have 9+ devices on UB960, you get
+> > problems.
+> >=20
+> > Yet this series adds a I2C_ATR_FLAG_DYNAMIC_C2A flag which the driver
+> > needs to set, and the i2c-atr has different code paths depending on the
+> > flag. In other words, either the driver author (if it's a hardcoded
+> > flag) or the driver (if it's set dynamically) is assumed to know how
+> > many remote devices there are, and whether that flag is needed.
+> >=20
+> > On the other hand, if I consider I2C_ATR_FLAG_DYNAMIC_C2A meaning that
+> > the device can support dynamically changing the ATR, then it makes more
+> > sense, and also UB960 should set the flag.
+> >  =20
+>=20
+> Indeed, the need for dynamic address translation isn't solely determined =
+by
+> the ATR model. It's also determined by the number of logical I2C devices
+> connected to the downstream ports. In that sense, hardcoding the flag in =
+the
+> ATR driver doesn't seem completely appropriate.
+>=20
+> However, you could reasonably imagine that some future ATR models won't
+> support hot-swapping aliases at runtime. In this case, this flag will be
+> necessary at the very least as a capability flag i.e. "this ATR model can=
+ do
+> dynamic translation but it's not necessarily activated by default".
+>=20
+> > But then I wonder, do we even have cases with ATRs that need to be
+> > programmed once at init time, and cannot be changed afterwards? If not,
+> > then the I2C_ATR_FLAG_DYNAMIC_C2A can be the default, and the
+> > non-I2C_ATR_FLAG_DYNAMIC_C2A code can be dropped. Actually, even the
+> > current upstream i2c-atr is dynamic in a sense: the clients are attached
+> > via the i2c_atr_bus_notifier_call(), one by one.
+> >  =20
+>=20
+> Indeed, if an ATR component doesn't support hot-swapping of aliases, then
+> it will be broken anyway if a device attaches after the ATR's been initia=
+lized.
+> Maybe we should just assume that all supported ATR's should be capable of
+> modifying their translation table after initialization then.
 
-and at the MAINTAINERS header, when it says that even when the
-status is "odd fixes", the patches will flow in.
+I think this is a reasonable assumption, and so we should not implement
+support for "non-dynamic ATRs" unless (until?) there is a valid use
+case.
 
-So, let make it explicit at the maintainer-entry-profile that
-maintainers need to do timely reviews.
+Luca
 
-Also, while right now our focus is on granting committer rights to
-maintainers, the media-committer model may evolve in the future to
-accept other committers that don't have such duties.
-
-So, make it clear at the media-committer.rst that the duties
-related to reviewing patches from others are for the drivers
-they are maintainers as well.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/driver-api/media/maintainer-entry-profile.rst | 5 +++++
- Documentation/driver-api/media/media-committer.rst          | 6 +++---
- 2 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-index fa28059f7b3f..87b71f89b1df 100644
---- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-+++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-@@ -173,6 +173,11 @@ b. Committers' workflow: patches are handled by media committers::
- On both workflows, all patches shall be properly reviewed at
- linux-media@vger.kernel.org (LMML) before being merged at media-committers.git.
- 
-+Such patches will be reviewed timely by the maintainers and reviewers as
-+listed in the MAINTAINERS file. The subsystem maintainers will follow one of
-+the above workflows, e. g. they will either send a pull request or merge
-+patches directly at the media-committers tree.
-+
- When patches are picked by patchwork and when merged at media-committers,
- CI bots will check for errors and may provide e-mail feedback about
- patch problems. When this happens, the patch submitter must fix them, or
-diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-index 3d0987a8a93b..0bc038a0fdcc 100644
---- a/Documentation/driver-api/media/media-committer.rst
-+++ b/Documentation/driver-api/media/media-committer.rst
-@@ -90,9 +90,9 @@ be a part of their maintenance tasks.
- Due to that, to become a committer or a core committer, a consensus between
- all subsystem maintainers is required, as they all need to trust a developer
- well enough to be delegated the responsibility to maintain part of the code
--and to properly review patches from third parties, in a timely manner and
--keeping the status of the reviewed code at https://patchwork.linuxtv.org
--updated.
-+and to properly review patches from third parties for the drivers that they
-+maintain in a timely manner and keeping the status of the patches at
-+https://patchwork.linuxtv.org updated.
- 
- .. Note::
- 
--- 
-2.47.1
-
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
