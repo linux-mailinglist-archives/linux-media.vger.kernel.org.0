@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-22499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22500-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B529E13B7
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:01:39 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB459E13C7
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:14:50 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06050282AEA
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 07:01:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 530691644B3
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 07:14:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A604189F39;
-	Tue,  3 Dec 2024 07:01:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC1F18A6AB;
+	Tue,  3 Dec 2024 07:14:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D792A4A29;
-	Tue,  3 Dec 2024 07:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CF042AA3;
+	Tue,  3 Dec 2024 07:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733209290; cv=none; b=tOdfQ8YcHdSbHW33pfV/Kh0CwBmC3lGPtduftzwi/Jrmzi6ipdUzL9i0U5yaghPnqYyo6Ix4Z6R+jSWhr7IYW+XugaQ+LJrdSumZed4kwjU9yF9f/N/vZEmjI10lBGewiI1UNDgCt0JPZ8hxeEgHbiflXTHBrvSay7K5mN07ILw=
+	t=1733210084; cv=none; b=eGcwMbEiC4iL5YeqBgxRpNgGnys7yb63ptCL4SSds06SPt7dzbb1eolA3vnkeptYgPxYeWYpFKuyyjhz6DhK3IpVN9+FN9j1N6GOpCSS3iBxBgRN5A3jFr2d+bxlfaC8p0W/WXxw4ZyjkHrVxNxxV2BQIO9jexHy5D9x02XPAnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733209290; c=relaxed/simple;
-	bh=a8m0iZZnSkGyezFsgxGEnCsf3O79sGQ+Wzj4Vv87syc=;
+	s=arc-20240116; t=1733210084; c=relaxed/simple;
+	bh=6+182x3YrwMn+PLvOBPtHR0oy7+iWwcZHlXmAAiHdv8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bT+IA3aaQkjDpd79duEZJIQ15qBSHadN/HKIrGkCuoTikJaaP3b5kKGTHZuWNxWqf0i/cXhRfmNDDlW9HmXsokKnDrJjmVmaucoYLEDIc12R93hyDzb6LUjE5TkQ5Bn1Bm0B9uw+XdDvvM68q+2TFMQBWsk8MN2Jj5WRxUXD9AE=
+	 In-Reply-To:Content-Type; b=pYb/CkF7UcZitzSbgGudxRd1mPbBPFqFAHm67GiyWPeg7Ex76D5TG2+f96Ab7DVLuZgxz9ZJhTFMwNYWgYBCBCaD6oYhHgn271OAGnXA3EApbMOBRNd7LO2A1HxNzKrQpHMBRZPANUOQd9Fs4MG6JJ0WteZ0fYHe0OI2gHEnM5I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B213C4CECF;
-	Tue,  3 Dec 2024 07:01:28 +0000 (UTC)
-Message-ID: <e818a5d3-9df8-460e-8cf9-62adc32836e1@xs4all.nl>
-Date: Tue, 3 Dec 2024 08:01:26 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE87DC4CECF;
+	Tue,  3 Dec 2024 07:14:41 +0000 (UTC)
+Message-ID: <a285cdf6-2a58-412f-9751-1b6f9e3edeaf@xs4all.nl>
+Date: Tue, 3 Dec 2024 08:14:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,16 +38,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: remove dead TI wl128x FM radio driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: Lukas Bulwahn <lbulwahn@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- Lukas Bulwahn <lukas.bulwahn@redhat.com>
-References: <20241028083030.26351-1-lukas.bulwahn@redhat.com>
- <CACMJSeu32-cnn01WoLbv4ffbMt3CfF0MTqbkxZHvu+4HQio=Mw@mail.gmail.com>
- <2024102922-faceplate-recycling-b47b@gregkh>
+Subject: Re: [PATCH] media: marvell: Add check for clk_enable()
+To: Jiasheng Jiang <jiashengjiangcool@gmail.com>, mchehab@kernel.org,
+ andrzejtp2010@gmail.com, allen.lkml@gmail.com, neil.armstrong@linaro.org,
+ quic_jjohnson@quicinc.com, lkundrak@v3.sk, sakari.ailus@linux.intel.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241121202506.37602-1-jiashengjiangcool@gmail.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -93,37 +89,43 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <2024102922-faceplate-recycling-b47b@gregkh>
+In-Reply-To: <20241121202506.37602-1-jiashengjiangcool@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Greg,
+Hi Jiasheng,
 
-On 29/10/2024 01:30, Greg Kroah-Hartman wrote:
-> On Mon, Oct 28, 2024 at 08:06:52PM +0100, Bartosz Golaszewski wrote:
->> On Mon, 28 Oct 2024 at 09:30, Lukas Bulwahn <lbulwahn@redhat.com> wrote:
->>>
->>> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
->>>
->>> Commit 78fe66360ed6 ("misc: ti-st: st_kim: remove the driver") deletes the
->>> ti-st driver and its corresponding config option TI_ST.
->>>
->>> With that deletion, the Texas Instruments WL128x FM Radio driver is now
->>> dead as well. Delete this obsolete driver.
->>>
->>> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
->>
->> Amen!
->>
->> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On 21/11/2024 21:25, Jiasheng Jiang wrote:
+> Add check for the return value of clk_enable() to gurantee the success.
 > 
-> Should I take this through the same tree that the misc driver was
-> removed in?  If so, please let me know.
+> Fixes: 81a409bfd551 ("media: marvell-ccic: provide a clock for the sensor")
+> Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
+> ---
+>  drivers/media/platform/marvell/mcam-core.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/marvell/mcam-core.c b/drivers/media/platform/marvell/mcam-core.c
+> index 9ec01228f907..47023e701e12 100644
+> --- a/drivers/media/platform/marvell/mcam-core.c
+> +++ b/drivers/media/platform/marvell/mcam-core.c
+> @@ -935,7 +935,9 @@ static int mclk_enable(struct clk_hw *hw)
+>  	ret = pm_runtime_resume_and_get(cam->dev);
+>  	if (ret < 0)
+>  		return ret;
+> -	clk_enable(cam->clk[0]);
+> +	ret = clk_enable(cam->clk[0]);
+> +	if (ret)
+> +		return ret;
 
-Sorry for the late reply, I missed your email. In any case, I'll take
-this patch.
+If clk_enable returns an error, doesn't this also require a call to pm_runtime_put() to
+balance the pm_runtime_resume_and_get() call?
 
 Regards,
 
 	Hans
+
+>  	mcam_reg_write(cam, REG_CLKCTRL, (mclk_src << 29) | mclk_div);
+>  	mcam_ctlr_power_up(cam);
+>  
+
 
