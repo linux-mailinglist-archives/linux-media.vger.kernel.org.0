@@ -1,232 +1,138 @@
-Return-Path: <linux-media+bounces-22538-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22539-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620219E1CB7
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 13:50:35 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B58279E1CBD
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 13:51:25 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 31B69167DCA
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 12:49:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7ABB42821E9
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 12:51:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6C661EF0B6;
-	Tue,  3 Dec 2024 12:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 962CB1EE007;
+	Tue,  3 Dec 2024 12:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="LvClLpfW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31FFE1EB9F3;
-	Tue,  3 Dec 2024 12:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.61.185.103
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733230016; cv=none; b=m1RjFyOFwqunQdoFxZaVCIFUnlfjBAG0mpt4DGuv7enwPaP7PW/sKxt4XUH8DJUz1N7vJslZ9NeVV6ALRu9eIIzG6ptMM5S1WA0Vf2FDx0r1IRNN+8jQTT+sGqkAwt/HbCnd3HN+UIajYVNq02QZz6QhR5IRlgX/YtXB+n6STPg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733230016; c=relaxed/simple;
-	bh=XUvKG8rmpTeKfs6cJxGKS5fKCHuP/bWdL33sNoy5MUs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s7BB/UER8CVh7cfnPvqtxNmeep6e5x38udOI5izztHKxZoxyNhO0njZXj8By0YJ3qNpA2PoeQw1lgwAi8yWhschFqAqVaXRlCCWJfTOeXNLkvrbfhfOmK97RIRAx+j6OdTLbhLlJrBsxeXdFieGXNL3SGRRa1ozgm4MoK21A7kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn; spf=pass smtp.mailfrom=189.cn; arc=none smtp.client-ip=183.61.185.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=189.cn
-HMM_SOURCE_IP:10.158.243.220:61015.1046576544
-HMM_ATTACHE_NUM:0000
-HMM_SOURCE_TYPE:SMTP
-Received: from clientip-117.15.92.245 (unknown [10.158.243.220])
-	by 189.cn (HERMES) with SMTP id D578F1000E6;
-	Tue,  3 Dec 2024 20:46:49 +0800 (CST)
-Received: from  ([117.15.92.245])
-	by gateway-153622-dep-5c5f88b874-f78lq with ESMTP id f59ace2d81c7420d85fd34d7fce76345 for hdegoede@redhat.com;
-	Tue, 03 Dec 2024 20:46:50 CST
-X-Transaction-ID: f59ace2d81c7420d85fd34d7fce76345
-X-Real-From: chensong_2000@189.cn
-X-Receive-IP: 117.15.92.245
-X-MEDUSA-Status: 0
-Sender: chensong_2000@189.cn
-Message-ID: <98cfdcf2-e823-4773-a396-84148a4d6a5b@189.cn>
-Date: Tue, 3 Dec 2024 20:46:48 +0800
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F101EB9F5;
+	Tue,  3 Dec 2024 12:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733230163; cv=pass; b=nSLoPgPyPCcuLvXY/3v+LtEP3hEuwSiX432xg/hkZ+2Q3g/C8VEnr2y4o19qcEsALpAzmNydRVXOjgb8bjpBqd3jovFCSSMxNEpyS8ADUAKBpwE/TuWXmB8wN0sHxdGOBqVm6Zuop1ybA9VIRBexOqIpX7QSdjYdUVRsdW4Lmf0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733230163; c=relaxed/simple;
+	bh=llCJg+6iwamFsMSC5QoUCtBBqrC/JC/0L2wyOK51458=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t5LKh3kScbvuZSEnH0j2lT3OmokVCR7oBMHRqwMZdH8NK6xNy3Jk52qT7x9scKCn1cUJNMlXK2zj5N22/TiiTzH7WGdevwWCJSAKEbEE7x1VO2i+yf5pZX0SH7KWiDYf5EDKN+yUBFuQjsOlvudjcakvJm7vvFqRJE0Vx9n+MNA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=LvClLpfW; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Y2gT33Rv5z49Q5b;
+	Tue,  3 Dec 2024 14:49:11 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1733230152;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OfMk9vNntr7QdB8/M6TU8TGsJ0uA0HM/++BT/P8ndo8=;
+	b=LvClLpfW7SFqnsChxCuZSCeY9zLrueSxradhai84PJGmxeGz41qfrQI5EZFyD4ETYtY9vu
+	YlNAI53ryBoxQcUx4ZP9fYu2XMWUt+HOFbUcFxCD26LmaOffe6aPmwY79ZUzJXvIJgJ9ti
+	80YN69re+91N3KuEOaqVeVwCgtOORsFtV8k9cf531xM72aBVHgqudqF5i/RQNTLJUZ+MTi
+	4zG8mHSN8Xeey27Usww2HiCCxHkHBZ48CoYsEwgUCRquTDi9n664Du2Yf4VEGlz+P1QB73
+	lWUEl8tKZMGaPUv0UWFYlaGTgomwuq1tk6Dwa+6uEvHmX/kOr8FIgPNlaYrlQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1733230152;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OfMk9vNntr7QdB8/M6TU8TGsJ0uA0HM/++BT/P8ndo8=;
+	b=EXpul9TukK+eBIkriKuKgBUt1ZqXBn9InPjPx3RbsbDZfkZqK7c5zKbCfoQ203if/D4u+e
+	GblwDKPSEMXZfZGkQhKfSuKZOeXY4A3iimVnyGuB1IclFwQQXc8R3wbo10Xxrgg01TNsin
+	iz3TTUcjNeErhzV6oSSlmVOGVrfld5kDZMc7WoPnZ8xmBYDEGAatoFlLzN8nvOuFTwDJfJ
+	UaMsxKWXKFZ1MwtJ26xXcU/j8TKW3ktypb2BmL0V1F6mEFWngMcPKQOdxVN/x6DNAypn3t
+	LZkPrfe04fKsYXiM9VfI3jX9/NjM6KwpRi6bb8DPiCBcPKa1Q9ubNDsgDnLDRA==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1733230152; a=rsa-sha256;
+	cv=none;
+	b=p6Fi5TloU/vLha7BarifTbJ1UTMRMnZhNxAcjrHfZoEatXPt0xw29w+ByXlX3zw4iMvSDw
+	G5hBgfwXFTM85Vtb5TTYNswAf6Qn/Pc5cmHQLb1Hxj6C5n9PiaPavu6Gb0Zw2O/GXq0F0j
+	YT/jqODQCkB4dxey2kv6S6RGqh1Al92s1OzhMPiLEFc70bqZ5Od3YVDDtIen97y7KcRvym
+	yiHPxJYIZQJWWKg7B9NmLgYeuGQKtjfCyG/yxHusFnx7v2GhjJGJ/knlgPcgKdsL78FX5k
+	BPwxDaqvs9WxIzobnKmXcMdxynLkPEkFB3nHoe8CldyEG6MPDmPuGEHaGtiuBQ==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 57C9B634C94;
+	Tue,  3 Dec 2024 14:49:10 +0200 (EET)
+Date: Tue, 3 Dec 2024 12:49:10 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] docs: media: profile: make it clearer about
+ maintainership duties
+Message-ID: <Z07-RklaMXOy3C2g@valkosipuli.retiisi.eu>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+ <f47082a84e0c799dd047525d4bc351eb3a759e83.1733131405.git.mchehab+huawei@kernel.org>
+ <Z03I1R0aRylSz742@valkosipuli.retiisi.eu>
+ <20241203102846.6fb3ab52@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers/staging/media/atomisp: replace legacy GPIO APIs
- in atomisp_gmin_platform
-To: Hans de Goede <hdegoede@redhat.com>, andy@kernel.org, mchehab@kernel.org,
- sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
- bergh.jonathan@gmail.com
-Cc: arnd@arndb.de, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20241203091436.203745-1-chensong_2000@189.cn>
- <81a63f9d-afe4-4a29-ae98-5c5837bcd7cb@redhat.com>
-Content-Language: en-US
-From: Song Chen <chensong_2000@189.cn>
-In-Reply-To: <81a63f9d-afe4-4a29-ae98-5c5837bcd7cb@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241203102846.6fb3ab52@foz.lan>
 
-oh, good to know, many thanks.
+Hi Mauro,
 
-Song
+On Tue, Dec 03, 2024 at 10:28:46AM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 2 Dec 2024 14:48:53 +0000
+> Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+> 
+> > Hi Mauro,
+> > 
+> > On Mon, Dec 02, 2024 at 10:26:21AM +0100, Mauro Carvalho Chehab wrote:
+> > > During the review of the media committes profile, it was noticed  
+> > 
+> > s/committe\K/r/
+> 
+> Addressed this and the other editorial changes.
+> 
+> > Can we expect people listed as maintainers to either send PRs or be media
+> > committers? I think this might be eventually the result but I think we're
+> > quite far from this currently and I expect things to remain that way in the
+> > near future.
+> 
+> Yes, having driver maintainers being committers and sending PRs is what we
+> expect to happen first.
+> 
+> For mid/long-term, once driver maintainers get in board, we may also have
+> other committers for the drivers whose maintainer is also a committer.
+> 
+> Now, having committers for drivers whose maintainer is not a committer
+> doesn't sound a good idea, except if such committer is doing just
+> janitorial work and gets A-B/R-B from the driver maintainer on all
+> patches he merges.
 
-在 2024/12/3 18:13, Hans de Goede 写道:
-> Hi,
-> 
-> On 3-Dec-24 10:14 AM, Song Chen wrote:
->> In atomisp_gmin_platform, gpio0 and gpio1 have moved to descriptor-based
->> GPIO APIs, but v1p8_gpio and v2p8_gpio still remain calling legacy ones,
->> such as gpio_request.
->>
->> This patch replaces old with new, also removes including gpio.h.
->>
->> Signed-off-by: Song Chen <chensong_2000@189.cn>
-> 
-> Thank you for your patch, this is already addresses by this patch
-> which I plan to merge soon:
-> 
-> https://lore.kernel.org/linux-media/20241107221134.596149-1-hdegoede@redhat.com/
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
->> ---
->>   .../media/atomisp/pci/atomisp_gmin_platform.c | 63 ++++++++-----------
->>   1 file changed, 25 insertions(+), 38 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> index e176483df301..7ff548ac3171 100644
->> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->> @@ -11,7 +11,6 @@
->>   #include <linux/mfd/intel_soc_pmic.h>
->>   #include <linux/regulator/consumer.h>
->>   #include <linux/gpio/consumer.h>
->> -#include <linux/gpio.h>
->>   #include <linux/platform_device.h>
->>   #include "../../include/linux/atomisp_platform.h"
->>   #include "../../include/linux/atomisp_gmin_platform.h"
->> @@ -85,8 +84,8 @@ struct gmin_subdev {
->>   	bool v2p8_on;
->>   	bool v1p2_on;
->>   
->> -	int v1p8_gpio;
->> -	int v2p8_gpio;
->> +	struct gpio_desc *v1p8_gpiod;
->> +	struct gpio_desc *v2p8_gpiod;
->>   
->>   	u8 pwm_i2c_addr;
->>   
->> @@ -548,23 +547,6 @@ static int gmin_subdev_add(struct gmin_subdev *gs)
->>   	else
->>   		dev_info(dev, "will handle gpio1 via ACPI\n");
->>   
->> -	/*
->> -	 * Those are used only when there is an external regulator apart
->> -	 * from the PMIC that would be providing power supply, like on the
->> -	 * two cases below:
->> -	 *
->> -	 * The ECS E7 board drives camera 2.8v from an external regulator
->> -	 * instead of the PMIC.  There's a gmin_CamV2P8 config variable
->> -	 * that specifies the GPIO to handle this particular case,
->> -	 * but this needs a broader architecture for handling camera power.
->> -	 *
->> -	 * The CHT RVP board drives camera 1.8v from an* external regulator
->> -	 * instead of the PMIC just like ECS E7 board.
->> -	 */
->> -
->> -	gs->v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
->> -	gs->v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
->> -
->>   	/*
->>   	 * FIXME:
->>   	 *
->> @@ -830,21 +812,23 @@ static int gmin_v1p2_ctrl(struct v4l2_subdev *subdev, int on)
->>   static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   {
->>   	struct gmin_subdev *gs = find_gmin_subdev(subdev);
->> +	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
->> +	struct device *dev = &client->dev;
->>   	int ret;
->>   	int value;
->>   	int reg;
->> +	int v1p8_gpio;
->>   
->>   	if (!gs || gs->v1p8_on == on)
->>   		return 0;
->>   
->> -	if (gs->v1p8_gpio >= 0) {
->> -		pr_info("atomisp_gmin_platform: 1.8v power on GPIO %d\n",
->> -			gs->v1p8_gpio);
->> -		ret = gpio_request(gs->v1p8_gpio, "camera_v1p8_en");
->> -		if (!ret)
->> -			ret = gpio_direction_output(gs->v1p8_gpio, 0);
->> -		if (ret)
->> +	v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
->> +	if (v1p8_gpio >= 0) {
->> +		gs->v1p8_gpiod = gpiod_get_index(dev, "camera_v1p8", v1p8_gpio, GPIOD_ASIS);
->> +		if (IS_ERR(gs->v1p8_gpiod))
->>   			pr_err("V1P8 GPIO initialization failed\n");
->> +		else
->> +			gpiod_direction_output(gs->v1p8_gpiod, 0);
->>   	}
->>   
->>   	gs->v1p8_on = on;
->> @@ -861,8 +845,8 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   			goto out; /* Still needed */
->>   	}
->>   
->> -	if (gs->v1p8_gpio >= 0)
->> -		gpio_set_value(gs->v1p8_gpio, on);
->> +	if (v1p8_gpio >= 0)
->> +		gpiod_set_value(gs->v1p8_gpiod, on);
->>   
->>   	if (gs->v1p8_reg) {
->>   		regulator_set_voltage(gs->v1p8_reg, 1800000, 1800000);
->> @@ -911,21 +895,24 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   {
->>   	struct gmin_subdev *gs = find_gmin_subdev(subdev);
->> +	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
->> +	struct device *dev = &client->dev;
->>   	int ret;
->>   	int value;
->>   	int reg;
->> +	int v2p8_gpio;
->>   
->>   	if (WARN_ON(!gs))
->>   		return -ENODEV;
->>   
->> -	if (gs->v2p8_gpio >= 0) {
->> -		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
->> -			gs->v2p8_gpio);
->> -		ret = gpio_request(gs->v2p8_gpio, "camera_v2p8");
->> -		if (!ret)
->> -			ret = gpio_direction_output(gs->v2p8_gpio, 0);
->> -		if (ret)
->> +	v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
->> +	if (v2p8_gpio >= 0) {
->> +		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n", v2p8_gpio);
->> +		gs->v2p8_gpiod = gpiod_get_index(dev, "camera_v2p8", v2p8_gpio, GPIOD_ASIS);
->> +		if (IS_ERR(gs->v2p8_gpiod))
->>   			pr_err("V2P8 GPIO initialization failed\n");
->> +		else
->> +			gpiod_direction_output(gs->v2p8_gpiod, 0);
->>   	}
->>   
->>   	if (gs->v2p8_on == on)
->> @@ -944,8 +931,8 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
->>   			goto out; /* Still needed */
->>   	}
->>   
->> -	if (gs->v2p8_gpio >= 0)
->> -		gpio_set_value(gs->v2p8_gpio, on);
->> +	if (v2p8_gpio >= 0)
->> +		gpiod_set_value(gs->v2p8_gpiod, on);
->>   
->>   	if (gs->v2p8_reg) {
->>   		regulator_set_voltage(gs->v2p8_reg, 2900000, 2900000);
-> 
-> 
+I meant primarily people listed in MAINTAINERS but who are at least not
+yet Media committers.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
