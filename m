@@ -1,283 +1,213 @@
-Return-Path: <linux-media+bounces-22516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8489E16B6
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 10:07:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A783D9E172D
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 10:21:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BEF86283E7E
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:07:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2F661B3A3E4
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 09:19:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A68D1DED71;
-	Tue,  3 Dec 2024 09:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7281D1DED7F;
+	Tue,  3 Dec 2024 09:18:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035531D79B3;
-	Tue,  3 Dec 2024 09:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 511491DE4CB;
+	Tue,  3 Dec 2024 09:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.61.185.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733216857; cv=none; b=sbL1XIXbsVdGKW/MEWtooY+6lJX84QqeRajXQrfkvTOCily+BsSimagkM0XK1UvMfp1b1wDwqWOReLJpslqtfxccOdggotV1lqQaTymCQeUz+ONE9p2Nk8kTpXtn6Lzq7K97iTAzjpkr8vzOvNW7xZVWYVNyf85YE3V6JBTURKI=
+	t=1733217531; cv=none; b=WzRkqDMtIEHsVoY5fUkAOPl9vMYS1qUnPMKKqksrg8COgjIgNDhLgiCer5W15SIzuVmzlVDdlEKcP5nrzaTsTjdzUQsCrldqFXfEJCXmgPQIaPEF/DOUGWW2qe/PeNdJSFTQhCzVNOreRUDpxn5qe4TQ06kRM5WJuWMOocQKk6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733216857; c=relaxed/simple;
-	bh=FlC5ceALkQRM8ePGitK90A/GLW9WBPK7icrNzlP61Fo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qanB3GHs88kPW7tu8UM20EW5K5CC/kpwTK0s5FaerrKhzA9UCGZyggGjriblrLxR8VJDxINtmSFL0612gT9hCmiCX3kjdKOtHYY4Tcev89b5iZZDH9t2v8T10fdauxCVn2OGgh19Fn5B4Ec2zs8mvxDh84KR7e1EB3gHeZuRwCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D721C4CECF;
-	Tue,  3 Dec 2024 09:07:33 +0000 (UTC)
-Message-ID: <832ee6b4-8238-4ef6-b870-f541b744880b@xs4all.nl>
-Date: Tue, 3 Dec 2024 10:07:31 +0100
+	s=arc-20240116; t=1733217531; c=relaxed/simple;
+	bh=zs1BzBx0FFWchhyw0wpO+X0yZ1KXKXDEChtwQhKQDEM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oDTxnU3AXxFNEUaYHWCfaROTbqJaxta8IX51LF9pZKx9l+guq729msMGLklv1YPPubpnfJ46Wnoch5dMaonXhq0QDXahHOs44Kn3v80jp6NDP44Nbzn85fvx6bkeFg27qiiemMcYN5xB+B2fSLqSyD8Ne+3DzEHngPHXFquuYpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn; spf=pass smtp.mailfrom=189.cn; arc=none smtp.client-ip=183.61.185.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=189.cn
+HMM_SOURCE_IP:10.158.243.18:62357.39060554
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-123.150.8.42 (unknown [10.158.243.18])
+	by 189.cn (HERMES) with SMTP id 6F41C100226;
+	Tue,  3 Dec 2024 17:14:38 +0800 (CST)
+Received: from  ([123.150.8.42])
+	by gateway-153622-dep-5c5f88b874-pd459 with ESMTP id cd71642bd5cb447ab35934049a789864 for andy@kernel.org;
+	Tue, 03 Dec 2024 17:14:39 CST
+X-Transaction-ID: cd71642bd5cb447ab35934049a789864
+X-Real-From: chensong_2000@189.cn
+X-Receive-IP: 123.150.8.42
+X-MEDUSA-Status: 0
+Sender: chensong_2000@189.cn
+From: Song Chen <chensong_2000@189.cn>
+To: andy@kernel.org,
+	hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	bergh.jonathan@gmail.com
+Cc: arnd@arndb.de,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Song Chen <chensong_2000@189.cn>
+Subject: [PATCH] drivers/staging/media/atomisp: replace legacy GPIO APIs in atomisp_gmin_platform
+Date: Tue,  3 Dec 2024 17:14:36 +0800
+Message-Id: <20241203091436.203745-1-chensong_2000@189.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/15] media: stm32: dcmipp: add core support for the
- stm32mp25
-To: Alain Volmat <alain.volmat@foss.st.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-media@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20241118-csi_dcmipp_mp25-v3-0-c1914afb0a0f@foss.st.com>
- <20241118-csi_dcmipp_mp25-v3-13-c1914afb0a0f@foss.st.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20241118-csi_dcmipp_mp25-v3-13-c1914afb0a0f@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Alain,
+In atomisp_gmin_platform, gpio0 and gpio1 have moved to descriptor-based
+GPIO APIs, but v1p8_gpio and v2p8_gpio still remain calling legacy ones,
+such as gpio_request.
 
-On 18/11/2024 14:35, Alain Volmat wrote:
-> The stm32mp25 supports both parallel & csi inputs.
-> An additional clock control is necessary.
-> Skeleton of the subdev structures for the stm32mp25 is added,
-> identical for the time being to the stm32mp13 however more subdeves
-> will be added in further commits.
-> 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
->  .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   | 98 ++++++++++++++++++----
->  1 file changed, 80 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> index d2cc19bb40d77f67a1f5fe565bc62f45eff2d266..0087f9017f024ba6b918b99c1ef39212ad6b881a 100644
-> --- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> @@ -40,6 +40,7 @@ struct dcmipp_device {
->  
->  	/* Hardware resources */
->  	void __iomem			*regs;
-> +	struct clk			*mclk;
->  	struct clk			*kclk;
->  
->  	/* The pipeline configuration */
-> @@ -132,6 +133,40 @@ static const struct dcmipp_pipeline_config stm32mp13_pipe_cfg = {
->  	.hw_revision	= DCMIPP_STM32MP13_VERR
->  };
->  
-> +static const struct dcmipp_ent_config stm32mp25_ent_config[] = {
-> +	{
-> +		.name = "dcmipp_input",
-> +		.init = dcmipp_inp_ent_init,
-> +		.release = dcmipp_inp_ent_release,
-> +	},
-> +	{
-> +		.name = "dcmipp_dump_postproc",
-> +		.init = dcmipp_byteproc_ent_init,
-> +		.release = dcmipp_byteproc_ent_release,
-> +	},
-> +	{
-> +		.name = "dcmipp_dump_capture",
-> +		.init = dcmipp_bytecap_ent_init,
-> +		.release = dcmipp_bytecap_ent_release,
-> +	},
-> +};
-> +
-> +static const struct dcmipp_ent_link stm32mp25_ent_links[] = {
-> +	DCMIPP_ENT_LINK(ID_INPUT, 1, ID_DUMP_BYTEPROC, 0,
-> +			MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-> +	DCMIPP_ENT_LINK(ID_DUMP_BYTEPROC, 1, ID_DUMP_CAPTURE,  0,
-> +			MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-> +};
-> +
-> +#define DCMIPP_STM32MP25_VERR  0x30
-> +static const struct dcmipp_pipeline_config stm32mp25_pipe_cfg = {
-> +	.ents		= stm32mp25_ent_config,
-> +	.num_ents	= ARRAY_SIZE(stm32mp25_ent_config),
-> +	.links		= stm32mp25_ent_links,
-> +	.num_links	= ARRAY_SIZE(stm32mp25_ent_links),
-> +	.hw_revision    = DCMIPP_STM32MP25_VERR
-> +};
-> +
->  #define LINK_FLAG_TO_STR(f) ((f) == 0 ? "" :\
->  			     (f) == MEDIA_LNK_FL_ENABLED ? "ENABLED" :\
->  			     (f) == MEDIA_LNK_FL_IMMUTABLE ? "IMMUTABLE" :\
-> @@ -212,6 +247,7 @@ static int dcmipp_create_subdevs(struct dcmipp_device *dcmipp)
->  
->  static const struct of_device_id dcmipp_of_match[] = {
->  	{ .compatible = "st,stm32mp13-dcmipp", .data = &stm32mp13_pipe_cfg },
-> +	{ .compatible = "st,stm32mp25-dcmipp", .data = &stm32mp25_pipe_cfg },
->  	{ /* end node */ },
->  };
->  MODULE_DEVICE_TABLE(of, dcmipp_of_match);
-> @@ -261,13 +297,22 @@ static int dcmipp_graph_notify_bound(struct v4l2_async_notifier *notifier,
->  {
->  	struct dcmipp_device *dcmipp = notifier_to_dcmipp(notifier);
->  	unsigned int ret;
-> -	int src_pad;
-> +	int src_pad, i;
->  	struct dcmipp_ent_device *sink;
-> -	struct v4l2_fwnode_endpoint vep = { .bus_type = V4L2_MBUS_PARALLEL };
-> +	struct v4l2_fwnode_endpoint vep = { 0 };
->  	struct fwnode_handle *ep;
-> +	enum v4l2_mbus_type supported_types[] = {
-> +		V4L2_MBUS_PARALLEL, V4L2_MBUS_BT656, V4L2_MBUS_CSI2_DPHY
-> +	};
-> +	int supported_types_nb = ARRAY_SIZE(supported_types);
->  
->  	dev_dbg(dcmipp->dev, "Subdev \"%s\" bound\n", subdev->name);
->  
-> +	/* Only MP25 supports CSI input */
-> +	if (!of_device_is_compatible(dcmipp->dev->of_node,
-> +				     "st,stm32mp25-dcmipp"))
-> +		supported_types_nb--;
-> +
->  	/*
->  	 * Link this sub-device to DCMIPP, it could be
->  	 * a parallel camera sensor or a CSI-2 to parallel bridge
-> @@ -284,21 +329,23 @@ static int dcmipp_graph_notify_bound(struct v4l2_async_notifier *notifier,
->  		return -ENODEV;
->  	}
->  
-> -	/* Check for parallel bus-type first, then bt656 */
-> -	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> -	if (ret) {
-> -		vep.bus_type = V4L2_MBUS_BT656;
-> +	/* Check for supported MBUS type */
-> +	for (i = 0; i < supported_types_nb; i++) {
-> +		vep.bus_type = supported_types[i];
->  		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> -		if (ret) {
-> -			dev_err(dcmipp->dev, "Could not parse the endpoint\n");
-> -			fwnode_handle_put(ep);
-> -			return ret;
-> -		}
-> +		if (!ret)
-> +			break;
->  	}
->  
->  	fwnode_handle_put(ep);
->  
-> -	if (vep.bus.parallel.bus_width == 0) {
-> +	if (ret) {
-> +		dev_err(dcmipp->dev, "Could not parse the endpoint\n");
-> +		return ret;
-> +	}
-> +
-> +	if (vep.bus_type != V4L2_MBUS_CSI2_DPHY &&
-> +	    vep.bus.parallel.bus_width == 0) {
->  		dev_err(dcmipp->dev, "Invalid parallel interface bus-width\n");
->  		return -ENODEV;
->  	}
-> @@ -311,11 +358,13 @@ static int dcmipp_graph_notify_bound(struct v4l2_async_notifier *notifier,
->  		return -ENODEV;
->  	}
->  
-> -	/* Parallel input device detected, connect it to parallel subdev */
-> +	/* Connect input device to the dcmipp_input subdev */
->  	sink = dcmipp->entity[ID_INPUT];
-> -	sink->bus.flags = vep.bus.parallel.flags;
-> -	sink->bus.bus_width = vep.bus.parallel.bus_width;
-> -	sink->bus.data_shift = vep.bus.parallel.data_shift;
-> +	if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> +		sink->bus.flags = vep.bus.parallel.flags;
-> +		sink->bus.bus_width = vep.bus.parallel.bus_width;
-> +		sink->bus.data_shift = vep.bus.parallel.data_shift;
-> +	}
->  	sink->bus_type = vep.bus_type;
->  	ret = media_create_pad_link(&subdev->entity, src_pad, sink->ent, 0,
->  				    MEDIA_LNK_FL_IMMUTABLE |
-> @@ -414,7 +463,7 @@ static int dcmipp_graph_init(struct dcmipp_device *dcmipp)
->  static int dcmipp_probe(struct platform_device *pdev)
->  {
->  	struct dcmipp_device *dcmipp;
-> -	struct clk *kclk;
-> +	struct clk *kclk, *mclk;
->  	const struct dcmipp_pipeline_config *pipe_cfg;
->  	struct reset_control *rstc;
->  	int irq;
-> @@ -474,12 +523,20 @@ static int dcmipp_probe(struct platform_device *pdev)
->  		return ret;
->  	}
->  
-> -	kclk = devm_clk_get(&pdev->dev, NULL);
-> +	kclk = devm_clk_get(&pdev->dev, "kclk");
->  	if (IS_ERR(kclk))
->  		return dev_err_probe(&pdev->dev, PTR_ERR(kclk),
->  				     "Unable to get kclk\n");
->  	dcmipp->kclk = kclk;
->  
-> +	if (!of_device_is_compatible(pdev->dev.of_node, "st,stm32mp13-dcmipp")) {
-> +		mclk = devm_clk_get(&pdev->dev, "mclk");
-> +		if (IS_ERR(mclk))
-> +			return dev_err_probe(&pdev->dev, PTR_ERR(mclk),
-> +					     "Unable to get mclk\n");
-> +		dcmipp->mclk = mclk;
-> +	}
-> +
->  	dcmipp->entity = devm_kcalloc(&pdev->dev, dcmipp->pipe_cfg->num_ents,
->  				      sizeof(*dcmipp->entity), GFP_KERNEL);
->  	if (!dcmipp->entity)
-> @@ -542,6 +599,7 @@ static int dcmipp_runtime_suspend(struct device *dev)
->  	struct dcmipp_device *dcmipp = dev_get_drvdata(dev);
->  
->  	clk_disable_unprepare(dcmipp->kclk);
-> +	clk_disable_unprepare(dcmipp->mclk);
->  
->  	return 0;
->  }
-> @@ -551,6 +609,10 @@ static int dcmipp_runtime_resume(struct device *dev)
->  	struct dcmipp_device *dcmipp = dev_get_drvdata(dev);
->  	int ret;
->  
-> +	ret = clk_prepare_enable(dcmipp->mclk);
-> +	if (ret)
-> +		dev_err(dev, "%s: Failed to prepare_enable mclk\n", __func__);
-> +
+This patch replaces old with new, also removes including gpio.h.
 
-Shouldn't this return on error?
+Signed-off-by: Song Chen <chensong_2000@189.cn>
+---
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 63 ++++++++-----------
+ 1 file changed, 25 insertions(+), 38 deletions(-)
 
->  	ret = clk_prepare_enable(dcmipp->kclk);
->  	if (ret)
->  		dev_err(dev, "%s: Failed to prepare_enable kclk\n", __func__);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index e176483df301..7ff548ac3171 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -11,7 +11,6 @@
+ #include <linux/mfd/intel_soc_pmic.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio.h>
+ #include <linux/platform_device.h>
+ #include "../../include/linux/atomisp_platform.h"
+ #include "../../include/linux/atomisp_gmin_platform.h"
+@@ -85,8 +84,8 @@ struct gmin_subdev {
+ 	bool v2p8_on;
+ 	bool v1p2_on;
+ 
+-	int v1p8_gpio;
+-	int v2p8_gpio;
++	struct gpio_desc *v1p8_gpiod;
++	struct gpio_desc *v2p8_gpiod;
+ 
+ 	u8 pwm_i2c_addr;
+ 
+@@ -548,23 +547,6 @@ static int gmin_subdev_add(struct gmin_subdev *gs)
+ 	else
+ 		dev_info(dev, "will handle gpio1 via ACPI\n");
+ 
+-	/*
+-	 * Those are used only when there is an external regulator apart
+-	 * from the PMIC that would be providing power supply, like on the
+-	 * two cases below:
+-	 *
+-	 * The ECS E7 board drives camera 2.8v from an external regulator
+-	 * instead of the PMIC.  There's a gmin_CamV2P8 config variable
+-	 * that specifies the GPIO to handle this particular case,
+-	 * but this needs a broader architecture for handling camera power.
+-	 *
+-	 * The CHT RVP board drives camera 1.8v from an* external regulator
+-	 * instead of the PMIC just like ECS E7 board.
+-	 */
+-
+-	gs->v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
+-	gs->v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
+-
+ 	/*
+ 	 * FIXME:
+ 	 *
+@@ -830,21 +812,23 @@ static int gmin_v1p2_ctrl(struct v4l2_subdev *subdev, int on)
+ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+ {
+ 	struct gmin_subdev *gs = find_gmin_subdev(subdev);
++	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
++	struct device *dev = &client->dev;
+ 	int ret;
+ 	int value;
+ 	int reg;
++	int v1p8_gpio;
+ 
+ 	if (!gs || gs->v1p8_on == on)
+ 		return 0;
+ 
+-	if (gs->v1p8_gpio >= 0) {
+-		pr_info("atomisp_gmin_platform: 1.8v power on GPIO %d\n",
+-			gs->v1p8_gpio);
+-		ret = gpio_request(gs->v1p8_gpio, "camera_v1p8_en");
+-		if (!ret)
+-			ret = gpio_direction_output(gs->v1p8_gpio, 0);
+-		if (ret)
++	v1p8_gpio = gmin_get_var_int(dev, true, "V1P8GPIO", -1);
++	if (v1p8_gpio >= 0) {
++		gs->v1p8_gpiod = gpiod_get_index(dev, "camera_v1p8", v1p8_gpio, GPIOD_ASIS);
++		if (IS_ERR(gs->v1p8_gpiod))
+ 			pr_err("V1P8 GPIO initialization failed\n");
++		else
++			gpiod_direction_output(gs->v1p8_gpiod, 0);
+ 	}
+ 
+ 	gs->v1p8_on = on;
+@@ -861,8 +845,8 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 			goto out; /* Still needed */
+ 	}
+ 
+-	if (gs->v1p8_gpio >= 0)
+-		gpio_set_value(gs->v1p8_gpio, on);
++	if (v1p8_gpio >= 0)
++		gpiod_set_value(gs->v1p8_gpiod, on);
+ 
+ 	if (gs->v1p8_reg) {
+ 		regulator_set_voltage(gs->v1p8_reg, 1800000, 1800000);
+@@ -911,21 +895,24 @@ static int gmin_v1p8_ctrl(struct v4l2_subdev *subdev, int on)
+ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+ {
+ 	struct gmin_subdev *gs = find_gmin_subdev(subdev);
++	struct i2c_client *client = v4l2_get_subdevdata(gs->subdev);
++	struct device *dev = &client->dev;
+ 	int ret;
+ 	int value;
+ 	int reg;
++	int v2p8_gpio;
+ 
+ 	if (WARN_ON(!gs))
+ 		return -ENODEV;
+ 
+-	if (gs->v2p8_gpio >= 0) {
+-		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n",
+-			gs->v2p8_gpio);
+-		ret = gpio_request(gs->v2p8_gpio, "camera_v2p8");
+-		if (!ret)
+-			ret = gpio_direction_output(gs->v2p8_gpio, 0);
+-		if (ret)
++	v2p8_gpio = gmin_get_var_int(dev, true, "V2P8GPIO", -1);
++	if (v2p8_gpio >= 0) {
++		pr_info("atomisp_gmin_platform: 2.8v power on GPIO %d\n", v2p8_gpio);
++		gs->v2p8_gpiod = gpiod_get_index(dev, "camera_v2p8", v2p8_gpio, GPIOD_ASIS);
++		if (IS_ERR(gs->v2p8_gpiod))
+ 			pr_err("V2P8 GPIO initialization failed\n");
++		else
++			gpiod_direction_output(gs->v2p8_gpiod, 0);
+ 	}
+ 
+ 	if (gs->v2p8_on == on)
+@@ -944,8 +931,8 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
+ 			goto out; /* Still needed */
+ 	}
+ 
+-	if (gs->v2p8_gpio >= 0)
+-		gpio_set_value(gs->v2p8_gpio, on);
++	if (v2p8_gpio >= 0)
++		gpiod_set_value(gs->v2p8_gpiod, on);
+ 
+ 	if (gs->v2p8_reg) {
+ 		regulator_set_voltage(gs->v2p8_reg, 2900000, 2900000);
+-- 
+2.25.1
 
-And on error here, it should call clk_disable_unprepare for mclk.
-
-> 
-
-This was reported by smatch:
-
-.../dcmipp-core.c:620 dcmipp_runtime_resume() warn: 'dcmipp->mclk' from clk_prepare_enable() not released on lines: 620.
-
-Everything else in this series looks good to me, so you can either post a fix for this
-and I will fold it into this 13/15 patch, or you post an updated v3.1 13/15 patch.
-Or of course a v4, if you prefer.
-
-Regards,
-
-	Hans
 
