@@ -1,314 +1,211 @@
-Return-Path: <linux-media+bounces-22553-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22554-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B569E2ADF
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 19:30:49 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3608D9E292C
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 18:26:59 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D432B2B0B9
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 17:18:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2CE816978A
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 17:26:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6C981FA252;
-	Tue,  3 Dec 2024 17:18:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D4DC1FBCAD;
+	Tue,  3 Dec 2024 17:26:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pK2BN4o1"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kvuqWreo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5321F8EE3;
-	Tue,  3 Dec 2024 17:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A782D1FA252
+	for <linux-media@vger.kernel.org>; Tue,  3 Dec 2024 17:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733246318; cv=none; b=Tmayv2unx5io+HXPCCOQ00FrgvFZIMgUfndIgNQiar4J+Duaqu1O3eljjfddz2S5lMMTOFQQ5SRiH4sAjnVKjQlLt77MsPtlTEmJbp6VJGvZBpUQ/GaC2tVndztDnE1IwBS0xrjYQLQ283vBSyjYIUAsMpBLfqDm+xLwCMhgh1A=
+	t=1733246810; cv=none; b=fV+TKF4jSZVESYb9ofFIHKLuP+rw+s8JT00dmlnR6yA7He//Iuw+hznLeiGiiypXhF47/92FbYV7UZ5jzTZhggsSFwg3va1uYrousvn0FEYXmniOQvFp08mv2qpQsOXIn5zdrAMa9Q/UGPvm7IHS7nNJ9ZSWTn5Fd08nbRv24IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733246318; c=relaxed/simple;
-	bh=5Q6AaQGV6/82Ja4Mj4gPCbmIzkItBqc1PTM/WJd2W0g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k/ohr5zfpXlMHR6u4TV/jHQATN6xMNlIqTgngmsoDwX871p9QUldQXWbTHyHstpKHtvoPI1SuK7nN/KIQNoxdR83giUkfheN0ud1e+oU2gxEg7YSTnT3fJYpc+XI5Tsup3eEpwIQBdH+XhJU5m4sc31Le3Y/4ojAJ+I5bKwgEvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pK2BN4o1; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44F10670;
-	Tue,  3 Dec 2024 18:18:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733246283;
-	bh=5Q6AaQGV6/82Ja4Mj4gPCbmIzkItBqc1PTM/WJd2W0g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pK2BN4o1Z22tjU8vD79VNwAF4oOHBSs2cIfLE6xpaVTPxzsWQx3d3MvHNbHQC82ed
-	 PtnSgRQPeh2VOdHHiF/AQkdxMDQPpNWHh2b+X+GqJTPRPtlnGXn7moGxEnfNcIgCME
-	 uF6Skz7YcWQsnPVtu5dQ/JxdFnV0ORyFERlWWxn0=
-Date: Tue, 3 Dec 2024 19:18:18 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: uvcvideo: Do not set an async control
- owned by other fh
-Message-ID: <20241203171818.GA30248@pendragon.ideasonboard.com>
-References: <CANiDSCvj4VVAcQOpR-u-BcnKA+2ifcuq_8ZML=BNOHT_55fBog@mail.gmail.com>
- <CANiDSCvwzY3DJ+U3EyzA7TCQu2qMUL6L1eTmZYbM+_Tk6DsPaA@mail.gmail.com>
- <20241129220339.GD2652@pendragon.ideasonboard.com>
- <CANiDSCsXi-WQLpbeXMat5FoM8AnYoJ0nVeCkTDMvEus8pXCC3w@mail.gmail.com>
- <20241202001846.GD6105@pendragon.ideasonboard.com>
- <fb321ade-40e7-4b1e-8fcd-c6475767239d@xs4all.nl>
- <20241202081157.GB16635@pendragon.ideasonboard.com>
- <445e551c-c527-443c-8913-6999455bd366@xs4all.nl>
- <633ca07b-6795-429f-874d-474a68396f45@redhat.com>
- <9b3e21b7-1b15-4c27-9df0-0b9f31858721@xs4all.nl>
+	s=arc-20240116; t=1733246810; c=relaxed/simple;
+	bh=MCDy6HkUfDKHYjRUBvEabLuhWMTUUHI+2O5UXR9PdkA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bOPRnUZ4aKdTcwlcPxF2fO2GmjT7SZ5V0nbnIPwaJRVXiKhtVIZAeXODP86uOawgRDH35f2uG4Fw8qn+lRma9m7R+Wln6khXOwnRTSaGCBCZBNwBsQXSiiZijco3QRbYnI2BAPwUGF4ne2VirIvhSaCzOerGytevbFsesMhuCm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kvuqWreo; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4349ea54db7so56505e9.0
+        for <linux-media@vger.kernel.org>; Tue, 03 Dec 2024 09:26:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733246807; x=1733851607; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=esMBl0uOLbGzsFzbKrL9tw7lBRfURdjOWkpYSobO80c=;
+        b=kvuqWreoEPTh05IQgWB1Xv6RDHveXyeGC6mbLxyug6E3zrExlcgZLcS7CX0oXYQZxa
+         FRMqWUSH79q/5HilViq8aYbF4L7698F8x7oj5QUYyChRYt21NgYNCAaieu/PXhsTE0V2
+         IN8XQd7bCDgCYgp7kQ5Lb4RpH5H+uM2/pH+hy5oHcvjHPVvaxXSRR1ziPJlj6y33Ei+e
+         0V/S/U3+LxnCxmDtw4OVdUaJ6g+g17KsQd5sbGwmVHsdmcrJvKTF5nkRWns5pxo7iG6f
+         +80TuNeq1CeJe1koiliq58tCB7GS7MFoam0U+sqBdfzC9VABIH8o3o+xloP4cJcHruUF
+         SMxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733246807; x=1733851607;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=esMBl0uOLbGzsFzbKrL9tw7lBRfURdjOWkpYSobO80c=;
+        b=i6lBQMAmD79j3JhpQT1zAOGRJdqz2qP+WDuC8fVAXE8aeUoGbaEBPZaJhZ3l7sOOT2
+         BXYNKl4iWqh/z4v6ZbUszosx11a5m317bNLfP1fAd0Q3VqWZvxyi+JYglYvDYnfp0NZG
+         lYymI4mU/KwsXWfvB147cDhhob79ANKFbuVtPNng0CsfaqM94ijYNliQTyRwA7/kr513
+         gNyjJ10HMTe/GKkyealNbie1YQ5w+PtaXTQcMx9Vi8Lng5WU9Vu+wyeLchh+Z6wMUmnL
+         rscV/vubhQj2A0NqQeLvhZ26LbGQKizRlTfhjq1sdbDPpjkYDKs49/R5os7QD7lJJ+Y0
+         kR8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXNb5kCeJG9zA3ohO/JOVGPgAzJearXdhtmTmwpQIBqLUSORp8MpEhUQFZW1NvNluR2z1p/MzRjTJs5mA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfMtHJd/RUaZ91iwlSBioTK9C4/6sauu0oTrhmfEBXMqbLl+vN
+	9Mg2xf6jeaVMjQhm34glZHCItHUJ4nBDt8yzwQK0XIRl96H2T05lTfQY8XkONA==
+X-Gm-Gg: ASbGnctYFnQ8HMBBBBK1xn/6XqDyQ8bC2nb+xHQ65cydsQ8yCTAwaRkJDTflJaBAmLz
+	kFABB5CjJlQHDv/aA7FCbLgAShM3HxxooSQ0dAQfSufXpYECt7edLqt4JUvwDfBHHv0FRQ11D2U
+	pSHr8f0pRXPD30mCVxn1jx6PUbkyx6TY8frNAvSYF9svDWBMSiqDvy1E18BdQ9fCZuZuiuN9kok
+	fXbAN5jIM0YeN4vE3QIyJWg6z+MszZ72dVXwqY=
+X-Google-Smtp-Source: AGHT+IHu3tfTAoXvieXaIRaJiRZryx8cWpn3+5PzdcsLUtGUjPoPKMn6gY/KMYeGtkKYB5HV7URZ6Q==
+X-Received: by 2002:a05:600c:2144:b0:434:9d0b:bd7c with SMTP id 5b1f17b1804b1-434d12b8df7mr1213685e9.3.1733246806576;
+        Tue, 03 Dec 2024 09:26:46 -0800 (PST)
+Received: from localhost ([2a00:79e0:9d:4:92ba:3294:39ee:2d61])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385f8448d32sm4515574f8f.96.2024.12.03.09.26.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2024 09:26:45 -0800 (PST)
+From: Jann Horn <jannh@google.com>
+Subject: [PATCH 0/3] fixes for udmabuf (memfd sealing checks and a leak)
+Date: Tue, 03 Dec 2024 18:25:34 +0100
+Message-Id: <20241203-udmabuf-fixes-v1-0-f99281c345aa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9b3e21b7-1b15-4c27-9df0-0b9f31858721@xs4all.nl>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA4/T2cC/x3LTQqAIBBA4avIrBP8y0VXiRaaY80iC8UIpLsnL
+ T8er0HBTFhgYg0y3lToTB1yYLDuLm3IKXSDEspIJTSv4XC+Rh7pwcKDMHpE77y1GvpzZfxDX+b
+ lfT+rWACQXwAAAA==
+X-Change-ID: 20241203-udmabuf-fixes-d0435ebab663
+To: Gerd Hoffmann <kraxel@redhat.com>, 
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, 
+ John Stultz <john.stultz@linaro.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Jann Horn <jannh@google.com>, Julian Orth <ju.orth@gmail.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733246801; l=2909;
+ i=jannh@google.com; s=20240730; h=from:subject:message-id;
+ bh=MCDy6HkUfDKHYjRUBvEabLuhWMTUUHI+2O5UXR9PdkA=;
+ b=7R1+MVXGDrX8ZjzD+lYpU8vJrqqQZsU/jjVE8x5Xvlp659inhHh4Hs6EU5+zsTLaWSIvHEjrU
+ U58t58Lkh24B4O1A8seSqKkOWQKwCT4vgQTfc8JN9wGpHh4WP31+uUE
+X-Developer-Key: i=jannh@google.com; a=ed25519;
+ pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
 
-On Mon, Dec 02, 2024 at 11:55:20AM +0100, Hans Verkuil wrote:
-> On 02/12/2024 11:26, Hans de Goede wrote:
-> > On 2-Dec-24 9:44 AM, Hans Verkuil wrote:
-> >> On 02/12/2024 09:11, Laurent Pinchart wrote:
-> >>> On Mon, Dec 02, 2024 at 09:05:07AM +0100, Hans Verkuil wrote:
-> >>>> On 02/12/2024 01:18, Laurent Pinchart wrote:
-> >>>>> On Fri, Nov 29, 2024 at 11:18:54PM +0100, Ricardo Ribalda wrote:
-> >>>>>> On Fri, 29 Nov 2024 at 23:03, Laurent Pinchart wrote:
-> >>>>>>> On Fri, Nov 29, 2024 at 07:47:31PM +0100, Ricardo Ribalda wrote:
-> >>>>>>>> Before we all go on a well deserved weekend, let me recap what we
-> >>>>>>>> know. If I did not get something correctly, let me know.
-> >>>>>>>>
-> >>>>>>>> 1) Well behaved devices do not allow to set or get an incomplete async
-> >>>>>>>> control. They will stall instead (ref: Figure 2-21 in UVC 1.5 )
-> >>>>>>>> 2) Both Laurent and Ricardo consider that there is a big chance that
-> >>>>>>>> some camera modules do not implement this properly. (ref: years of
-> >>>>>>>> crying over broken module firmware :) )
-> >>>>>>>>
-> >>>>>>>> 3) ctrl->handle is designed to point to the fh that originated the
-> >>>>>>>> control. So the logic can decide if the originator needs to be
-> >>>>>>>> notified or not. (ref: uvc_ctrl_send_event() )
-> >>>>>>>> 4) Right now we replace the originator in ctrl->handle for unfinished
-> >>>>>>>> async controls.  (ref:
-> >>>>>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_ctrl.c#n2050)
-> >>>>>>>>
-> >>>>>>>> My interpretation is that:
-> >>>>>>>> A) We need to change 4). We shall not change the originator of
-> >>>>>>>> unfinished ctrl->handle.
-> >>>>>>>> B) Well behaved cameras do not need the patch "Do not set an async
-> >>>>>>>> control owned by another fh"
-> >>>>>>>> C) For badly behaved cameras, it is fine if we slightly break the
-> >>>>>>>> v4l2-compliance in corner cases, if we do not break any internal data
-> >>>>>>>> structure.
-> >>>>>>>
-> >>>>>>> The fact that some devices may not implement the documented behaviour
-> >>>>>>> correctly may not be a problem. Well-behaved devices will stall, which
-> >>>>>>> means we shouldn't query the device while as async update is in
-> >>>>>>> progress. Badly-behaved devices, whatever they do when queried, should
-> >>>>>>> not cause any issue if we don't query them.
-> >>>>>>
-> >>>>>> I thought we could detect the stall and return safely. Isn't that the case?
-> >>>>>
-> >>>>> We could, but if we know the device will stall anyway, is there a reason
-> >>>>> not to avoid issuing the request in the first place ?
-> >>>>>
-> >>>>>> Why we have not seen issues with this?
-> >>>>>
-> >>>>> I haven't tested a PTZ device for a very long time, and you would need
-> >>>>> to hit a small time window to see the issue.
-> >>>>>
-> >>>>>>> We should not send GET_CUR and SET_CUR requests to the device while an
-> >>>>>>> async update is in progress, and use cached values instead. When we
-> >>>>>>> receive the async update event, we should clear the cache. This will be
-> >>>>>>> the same for both well-behaved and badly-behaved devices, so we can
-> >>>>>>> expose the same behaviour towards userspace.
-> >>>>>>
-> >>>>>> seting ctrl->loaded = 0 when we get an event sounds like a good idea
-> >>>>>> and something we can implement right away.
-> >>>>>> If I have to resend the set I will add it to the end.
-> >>>>>>
-> >>>>>>> We possibly also need some kind of timeout mechanism to cope with the
-> >>>>>>> async update event not being delivered by the device.
-> >>>>>>
-> >>>>>> This is the part that worries me the most:
-> >>>>>> - timeouts make the code fragile
-> >>>>>> - What is a good value for timeout? 1 second, 30, 300? I do not think
-> >>>>>> that we can find a value.
-> >>>>>
-> >>>>> I've been thinking about the implementation of uvc_fh cleanup over the
-> >>>>> weekend, and having a timeout would have the nice advantage that we
-> >>>>> could reference-count uvc_fh instead of implementing a cleanup that
-> >>>>> walks over all controls when closing a file handle. I think it would
-> >>>>> make the code simpler, and possibly safer too.
-> >>>>>
-> >>>>>>> Regarding the userspace behaviour during an auto-update, we have
-> >>>>>>> multiple options:
-> >>>>>>>
-> >>>>>>> For control get,
-> >>>>>>>
-> >>>>>>> - We can return -EBUSY
-> >>>>>>> - We can return the old value from the cache
-> >>>>
-> >>>> This would match the control behavior best. Only when the operation is
-> >>>> done is the control updated and the control event sent.
-> >>>>
-> >>>> Some questions: is any of this documented for UVC? Because this is non-standard
-> >>>
-> >>> No this isn't documented.
-> >>>
-> >>>> behavior. Are there applications that rely on this? Should we perhaps add
-> >>>
-> >>> I don't know.
-> >>>
-> >>>> proper support for this to the control framework? E.g. add an ASYNC flag and
-> >>>> document this?
-> >>>
-> >>> We could, but this is such a specific use case that I don't think is
-> >>> worth adding complexity to the already complex control framework would
-> >>> be worth it. What we could do is perhaps adding a flag for the userspace
-> >>> API, but even there, I never like modelling an API with a single user.
-> >>
-> >> Well, it might be a single driver that uses this, but it is also the most
-> >> used driver by far. I think the only change is to add a flag for this and
-> >> describe how it should behave. And add v4l2-compliance tests for it.
-> >>
-> >> Otherwise no changes to the control framework are needed, I think.
-> >>
-> >> Controls with the ASYNC flag set would:
-> >>
-> >> - return the old value from the cache.
-> >> - document that setting a new value while the operation is in progress
-> >>   results in EBUSY. Document that if the new value is equal to the old value,
-> >>   then return 0 and do nothing (alternative is to just immediately send
-> >>   the control changed event, but that might require a control framework change).
-> >> - when the operation finishes, update the cache to the new value and
-> >>   send the control changed event.
-> >> - document that userspace should specify V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK
-> >>   when subscribing to the control if you calling fh wants to know when
-> >>   the operation finishes.
-> >> - document how timeouts should be handled: this is tricky, especially with
-> >>   bad hardware. I.e. if the hw doesn't send the event, does that mean that
-> >>   you are never able to set the control since it will stall?
-> >>   In the end this will just reflect how UVC handles this.
-> > 
-> > I have been catching up on this thread (I have not read the v3 and v4
-> > threads yet).
-> > 
-> > This all started with Ricardo noticing that ctrl->handle may get
-> > overwritten when another app sets the ctrl, causing the first app
-> > to set the ctrl to get a V4L2_EVENT for the ctrl (if subscribed)
-> > even though it set the ctrl itself.
-> > 
-> > My observations so far:
-> > 
-> > 1. This is only hit when another app changes the ctrl after the first app,
-> > in this case, if there is no stall issued by the hw for the second app's
-> > request, arguably the first app getting the event for the ctrl is correct
-> > since it was changed by the second app. IOW I think the current behavior
-> > is not only fine, but even desirable. Assuming we only override ctrl->handle
-> > after successfully sending the set-ctrl request to the hardware.
+I have tested that patches 2 and 3 work using the following reproducers.
+I did not write a reproducer for the issue described in patch 1.
 
-I think you're right.
+Reproducer for F_SEAL_FUTURE_WRITE not being respected:
+```
+#define _GNU_SOURCE
+#include <err.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <linux/udmabuf.h>
 
-> > 2. This adds a lot of complexity for not sending an event to the app
-> > which made the change. Hans V. suggested maybe adding some sort of flag
-> > for async ctrls to the userspace API. I wonder if we should not just
-> > get rid of this complexity and document that these controls will always
-> > generate events independent of V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK ?
-> > That would certainly simplify things, but it raises the questions if
-> > this will cause issues for existing applications.
-> 
-> I'm not that keen on this. That's why a new flag can come in handy since
-> if present, then that indicates that it makes sense to specify
-> V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK when subscribing to the control events.
-> 
-> This ensures that uvc follows the current v4l2 spec. It's also why I
-> prefer that g_ctrl will just return the old value until the new value
-> has been reached: that way the control event corresponds with the actual
-> updating of the control value.
-> 
-> That said, it's just my opinion and I am OK with UVC doing things a bit
-> differently. Just be aware that I have no objection to adding an ASYNC flag,
-> given how widely UVC is used.
+#define SYSCHK(x) ({          \
+  typeof(x) __res = (x);      \
+  if (__res == (typeof(x))-1) \
+    err(1, "SYSCHK(" #x ")"); \
+  __res;                      \
+})
 
-My experience with the V4L2 control API is that we've overdesigned quite
-a few things, and in particular control events. The independent
-"capture" and "control panel" application model that V4L2 controls were
-designed for is not really a good fit for the 21st century anymore. The
-V4L2 API isn't rich enough to arbitrate between applications that are
-not designed to collaborate, and way too rich when applications do
-collaborate. The only two real use cases I found for control events are
-async set completion notification, and notification of automatic changes
-to other controls (and in particular changes to control limits) when a
-control is set. The second use case isn't even something that we support
-well today: to make it really usable, the change notification should be
-*synchronous* with the control set ioctl, returning the information from
-the same ioctl, not through asynchronous control events.
+int main(void) {
+  int memfd = SYSCHK(memfd_create("test", MFD_ALLOW_SEALING));
+  SYSCHK(ftruncate(memfd, 0x1000));
+  SYSCHK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK|F_SEAL_FUTURE_WRITE));
+  int udmabuf_fd = SYSCHK(open("/dev/udmabuf", O_RDWR));
+  struct udmabuf_create create_arg = {
+    .memfd = memfd,
+    .flags = 0,
+    .offset = 0,
+    .size = 0x1000
+  };
+  int buf_fd = SYSCHK(ioctl(udmabuf_fd, UDMABUF_CREATE, &create_arg));
+  printf("created udmabuf buffer fd %d\n", buf_fd);
+  char *map = SYSCHK(mmap(NULL, 0x1000, PROT_READ|PROT_WRITE, MAP_SHARED, buf_fd, 0));
+  *map = 'a';
+}
+```
 
-TL;DR: If I can pick an option, let's make things simpler, not more
-complex.
+Reproducer for the memory leak (if you run this for a while, your memory
+usage will steadily go up, and /sys/kernel/debug/dma_buf/bufinfo will
+contain a ton of entries):
+```
+#define _GNU_SOURCE
+#include <err.h>
+#include <errno.h>
+#include <assert.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/resource.h>
+#include <linux/udmabuf.h>
 
-> > Note that if we simply return -EBUSY on set until acked by a status
-> > event we also avoid the issue of ctrl->handle getting overwritten,
-> > but that relies on reliable status events; or requires timeout handling.
-> > 
-> > 3. I agree with Ricardo that a timeout based approach for cameras which
-> > to not properly send status events for async ctrls is going to be
-> > problematic. Things like pan/tilt homing can take multiple seconds which
-> > is really long to use as a timeout if we plan to return -EBUSY until
-> > the timeout triggers. I think it would be better to just rely on
-> > the hardware sending a stall, or it accepting and correctly handling
-> > a new CUR_SET command while the previous one is still being processed.
-> > 
-> > I guess we can track if the hw does send status events when async ctrls
-> > complete and then do the -EBUSY thing without going out to the hw after
-> > the first time an async ctrl has been acked by a status event.
-> > 
-> > And then combine that with the current behavior of overwriting ctrl->handle
-> > until the ctrl has been marked as having working status events. So:
-> > 
-> > a) In case we do not know yet if a ctrl gets status-event acks; and
-> > on devices without reliable status events keep current behavior.
-> > 
-> > b) As soon as we know a ctrl has reliable status events, switch to
-> > returning -EBUSY if a set is pending (as indicated by ctrl->handle
-> > being set).
-> > 
-> > I don't like the fact that this changes the behavior after the first
-> > status event acking an async ctrl, but I don't really see another way.
-> > 
-> >>>>>>> - We can return the new value fromt he cache
-> >>>>>>>
-> >>>>>>> Returning -EBUSY would be simpler to implement.
-> >>>>>>
-> >>>>>> Not only easy, I think it is the most correct,
-> >>>>>>
-> >>>>>>> I don't think the behaviour should depend on whether the control is read
-> >>>>>>> on the file handle that initiated the async operation or on a different
-> >>>>>>> file handle.
-> >>>>>>>
-> >>>>>>> For control set, I don't think we can do much else than returning
-> >>>>>>> -EBUSY, regardless of which file handle the control is set on.
-> >>>>>>
-> >>>>>> ACK.
-> >>>>>>
-> >>>>>>>> I will send a new version with my interpretation.
-> >>>>>>>>
-> >>>>>>>> Thanks for a great discussion
-> >>>>>>
-> >>>>>> Looking with some perspective... I believe that we should look into
-> >>>>>> the "userspace behaviour for auto controls" in a different patchset.
-> >>>>>> It is slightly unrelated to this discussion.
+#define SYSCHK(x) ({          \
+  typeof(x) __res = (x);      \
+  if (__res == (typeof(x))-1) \
+    err(1, "SYSCHK(" #x ")"); \
+  __res;                      \
+})
+
+int main(void) {
+  int memfd = SYSCHK(memfd_create("test", MFD_ALLOW_SEALING));
+  SYSCHK(ftruncate(memfd, 0x1000));
+  SYSCHK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK));
+  int udmabuf_fd = SYSCHK(open("/dev/udmabuf", O_RDWR));
+
+  // prevent creating new FDs
+  struct rlimit rlim = { .rlim_cur = 1, .rlim_max = 1 };
+  SYSCHK(setrlimit(RLIMIT_NOFILE, &rlim));
+
+  while (1) {
+    struct udmabuf_create create_arg = {
+      .memfd = memfd,
+      .flags = 0,
+      .offset = 0,
+      .size = 0x1000
+    };
+    int buf_fd = ioctl(udmabuf_fd, UDMABUF_CREATE, &create_arg);
+    assert(buf_fd == -1);
+    assert(errno == EMFILE);
+  }
+}
+```
+
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+Jann Horn (3):
+      udmabuf: fix racy memfd sealing check
+      udmabuf: also check for F_SEAL_FUTURE_WRITE
+      udmabuf: fix memory leak on last export_udmabuf() error path
+
+ drivers/dma-buf/udmabuf.c | 36 ++++++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
+---
+base-commit: b86545e02e8c22fb89218f29d381fa8e8b91d815
+change-id: 20241203-udmabuf-fixes-d0435ebab663
 
 -- 
-Regards,
+Jann Horn <jannh@google.com>
 
-Laurent Pinchart
 
