@@ -1,131 +1,126 @@
-Return-Path: <linux-media+bounces-22500-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22501-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB459E13C7
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:14:50 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3089E13DC
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 08:20:14 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 530691644B3
-	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 07:14:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D7F59B228B3
+	for <lists+linux-media@lfdr.de>; Tue,  3 Dec 2024 07:20:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC1F18A6AB;
-	Tue,  3 Dec 2024 07:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8B7318B470;
+	Tue,  3 Dec 2024 07:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7EX1yHN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CF042AA3;
-	Tue,  3 Dec 2024 07:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357F2185B76;
+	Tue,  3 Dec 2024 07:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733210084; cv=none; b=eGcwMbEiC4iL5YeqBgxRpNgGnys7yb63ptCL4SSds06SPt7dzbb1eolA3vnkeptYgPxYeWYpFKuyyjhz6DhK3IpVN9+FN9j1N6GOpCSS3iBxBgRN5A3jFr2d+bxlfaC8p0W/WXxw4ZyjkHrVxNxxV2BQIO9jexHy5D9x02XPAnM=
+	t=1733210403; cv=none; b=R1UNRTXtOI2KARf79ypttDPLQxmgjkICtff2OqzQWHKU3JzBbVSQrtN7mEnsh8/fn5WhMXvAHwwicI2/r1kr5lXy/s8E0NJDacpIMt+AK7HiRg65dVHlLQwLYv+wM30UhH1/Hacpy5uHpWkVpKrk21iTzRF6lRx7FKVGMb7Duw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733210084; c=relaxed/simple;
-	bh=6+182x3YrwMn+PLvOBPtHR0oy7+iWwcZHlXmAAiHdv8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pYb/CkF7UcZitzSbgGudxRd1mPbBPFqFAHm67GiyWPeg7Ex76D5TG2+f96Ab7DVLuZgxz9ZJhTFMwNYWgYBCBCaD6oYhHgn271OAGnXA3EApbMOBRNd7LO2A1HxNzKrQpHMBRZPANUOQd9Fs4MG6JJ0WteZ0fYHe0OI2gHEnM5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE87DC4CECF;
-	Tue,  3 Dec 2024 07:14:41 +0000 (UTC)
-Message-ID: <a285cdf6-2a58-412f-9751-1b6f9e3edeaf@xs4all.nl>
-Date: Tue, 3 Dec 2024 08:14:40 +0100
+	s=arc-20240116; t=1733210403; c=relaxed/simple;
+	bh=SGjQfe0CrbhQJESfm9Sm65hmpm1uBjisW55UtWhbXTU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GkBDUa0OuGl6OC9YAejY6iDA0b0I8/agUBkMt7HrrTAJ+e2YC6+ZcgZ9wjDilfLyzFefbNKHYvdxTibEpu/9YTSbc3Qc214RUUXImW7MDEbvfd4Q4ipsG2a4KklqwCVDq3GHPZDIjw0+eQiFIztUARgPxYpfOBGSq1yuVqJ0FYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7EX1yHN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56EECC4CECF;
+	Tue,  3 Dec 2024 07:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733210402;
+	bh=SGjQfe0CrbhQJESfm9Sm65hmpm1uBjisW55UtWhbXTU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=u7EX1yHNy4bujlkL5XubyzHGK8s2MytdVkTB9ayHiBZCQBHsHz1d6bzAedr6sMceN
+	 TRzJnRqC3pLoXFe84x0zeQQEwzMxx93brqwLtKBP/u7Awqhjlf6KoT2H07J+6NKurF
+	 nszU4643Xjz8MyJ18lETv63Ck6hq3wJHmFhFXwitSRXcbDH2QldMPvldBRj/Weq+Lv
+	 AhLtYRaFqT4YuVoaNiTO+IjW8GA8T6zpHZ7722L7BZoh/HNGTP8IP6vtwYAknHmJ60
+	 sx0iIbK3FY0fSt8vnOJRMpaWnzELOCHu+L1SEuTl9ixv0XAZqEtyNPi46dnZIIIfax
+	 AgonPwfR8+46w==
+Date: Tue, 3 Dec 2024 08:19:58 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Document the new media-committer's model
+Message-ID: <20241203081958.6c186835@foz.lan>
+In-Reply-To: <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+	<b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: marvell: Add check for clk_enable()
-To: Jiasheng Jiang <jiashengjiangcool@gmail.com>, mchehab@kernel.org,
- andrzejtp2010@gmail.com, allen.lkml@gmail.com, neil.armstrong@linaro.org,
- quic_jjohnson@quicinc.com, lkundrak@v3.sk, sakari.ailus@linux.intel.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241121202506.37602-1-jiashengjiangcool@gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241121202506.37602-1-jiashengjiangcool@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Jiasheng,
+Em Mon, 2 Dec 2024 16:03:45 +0100
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-On 21/11/2024 21:25, Jiasheng Jiang wrote:
-> Add check for the return value of clk_enable() to gurantee the success.
+> On 02/12/2024 10:26, Mauro Carvalho Chehab wrote:
+> > The media subsystem used to have a multi-commiter's model in the
+> > past, but things didn't go well on that time, and we had to move to
+> > a centralized model.
+> > 
+> > As the community has evolved, and as there are now new policies in
+> > place like CoC, let's experiment with a multi-committers again.
+> > 
+> > The model we're using was inspired by the DRM multi-committers
+> > model. Yet, media subsystem is different on several aspects, so the
+> > model is not exactly the same.
+> > 
+> > The implementation will be in phases. For this phase, the goal is that 
+> > all committers will be people listed at MAINTAINERS.
+> > 
+> > On this series,:
+> > 
+> > patch 1: updates the  media maintainer's entry profile and adds the
+> > workflow that will be used with the new model. While here, it also
+> > adds a missing "P:" tag at the MAINTAINERS file, pointing to it;
+> > 
+> > patch 2: adds a new document focused at the new maintainers
+> > process. Its target is for developers that will be granted with
+> > commit rights at the new media-maintainers.git tree. It also
+> > contains a reference tag addition to kernel.org PGP chain
+> > at process/maintainer-pgp-guide.rst.
+> > 
+> > patch 3: make documents cleared about maintainership duties.  
 > 
-> Fixes: 81a409bfd551 ("media: marvell-ccic: provide a clock for the sensor")
-> Signed-off-by: Jiasheng Jiang <jiashengjiangcool@gmail.com>
-> ---
->  drivers/media/platform/marvell/mcam-core.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> At least from my perspective, v3 is close to being ready and I hope
+> that v4 will be good enough to be merged.
 > 
-> diff --git a/drivers/media/platform/marvell/mcam-core.c b/drivers/media/platform/marvell/mcam-core.c
-> index 9ec01228f907..47023e701e12 100644
-> --- a/drivers/media/platform/marvell/mcam-core.c
-> +++ b/drivers/media/platform/marvell/mcam-core.c
-> @@ -935,7 +935,9 @@ static int mclk_enable(struct clk_hw *hw)
->  	ret = pm_runtime_resume_and_get(cam->dev);
->  	if (ret < 0)
->  		return ret;
-> -	clk_enable(cam->clk[0]);
-> +	ret = clk_enable(cam->clk[0]);
-> +	if (ret)
-> +		return ret;
+> That said, what is missing in all this is that there is nothing here
+> that explains why you would want to become a media committer. It is all
+> very dry stuff, lots of 'shall's, and 'rights' and 'trust' and obligations,
+> but nothing about the satisfaction you get when you get the responsibility
+> of a part of the kernel and being able to guide the development of that
+> area.
+> 
+> It's good enough to get the multi-committer process off the ground, but
+> it definitely needs more work to make it more inviting to become a media
+> committer. Because right now it is as dry as dust.
 
-If clk_enable returns an error, doesn't this also require a call to pm_runtime_put() to
-balance the pm_runtime_resume_and_get() call?
+Agreed. We focused on getting a document describing what it is expected
+by committers, in order to start with the model. My view is that it works
+fine for such purpose. I also feel that we're close to the final document.
 
-Regards,
+I'm sending today a v4 addressing the comments since last review.
 
-	Hans
+Once we get people that are already interested and ready to be on board,
+and we know that the model and infrastructure works properly, we may implement
+a phase 2 focusing on allowing more committers. For such purpose, we need to 
+document the benefits/satisfaction of becoming a new committer. Depending how
+it goes, either on phase 2 or on phase 3, we can change the model from 
+invitation-only to volunteer-requests.
 
->  	mcam_reg_write(cam, REG_CLKCTRL, (mclk_src << 29) | mclk_div);
->  	mcam_ctlr_power_up(cam);
->  
-
+Thanks,
+Mauro
 
