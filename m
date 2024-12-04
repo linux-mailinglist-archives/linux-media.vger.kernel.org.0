@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-22631-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22632-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7473E9E3E03
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 16:17:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DF09E3F1C
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 17:05:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FDD42828D0
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 15:17:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 81A7CB30BE7
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 15:18:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85C0520C02A;
-	Wed,  4 Dec 2024 15:17:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F319A1BC9F0;
+	Wed,  4 Dec 2024 15:17:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b="nkXfbfC1"
+	dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b="GezznGjh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0937020B21C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0931C205E1C;
 	Wed,  4 Dec 2024 15:17:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.211.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733325468; cv=none; b=P8RZxCROYCtUT1pWNbFhTdJ+JnPI34R6N8bcJECFyNvBfABw6EedjJXegQFezyU0HyLjWZxAXoABhXF3IFgF92rLEaMOs8dGNi2XndVRlbhvIzJGTgWDc/Sm4DgIxi792L++iBehx5dwpvYFQk1myzpB2JjY40CK9AV8+Sduw2A=
+	t=1733325470; cv=none; b=JEK2HaXbzWFXWLX9fb3+5vRlIoqdkXygLJjSVs+2XmX088W6D/hcyKtcweP9lMN3ymT41JOevn8FKiteoWUdsOe3CM9pyPKqoSfmEUNQy0voCsyQmCQ+8hWwiZZXWAapboocqafAG3ySL0wHcIp5v1Nz4Imz9FvWOVP1mANjitI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733325468; c=relaxed/simple;
-	bh=g9nG4ajt25QqaZWA/bp5jofh9jiiLq7j598a6/uw8Pk=;
+	s=arc-20240116; t=1733325470; c=relaxed/simple;
+	bh=imTyW5qs4VLxVBzu/Kz01yfJYL47jAGErlyACSyqeFo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=u4wJ0QHPJG289N95v5YhbeTCCtxdFmNtNsUAxtGrf6gg9tU9RDQy1/bqlrFfc9sQ6G/uVYruUzlIGiZt9xkVRqP/mZiWPR4yYuGDFkMFOLcqCJIKophKbh8k09PWf91fRpwcnYYjoAjoRridAdy4zywimNrX1lQY3KeVcErzpAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru; spf=pass smtp.mailfrom=swemel.ru; dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b=nkXfbfC1; arc=none smtp.client-ip=95.143.211.150
+	 MIME-Version; b=MeTsixYBZZW82iAO5kfBfZpYeLa7vsqk4flmyEhtrESg7m4mhitWc6KWG3h4KORqrWaF9KuvSWopmIM9JcAIvjjpyp9X6dyLMBgRifg8r1xf0+NsfUeQYkLCgTsqMbfAdkZ5RC/YMQw2qg5LFAsj4LsOMAFW+Sssdih3jzpzvMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru; spf=pass smtp.mailfrom=swemel.ru; dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b=GezznGjh; arc=none smtp.client-ip=95.143.211.150
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=swemel.ru
 From: Andrey Kalachev <kalachev@swemel.ru>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
-	t=1733325456;
+	t=1733325457;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RW7I/uJFbDNEJwiHI0HVZi9k348c7/tLauDRDVfT0N0=;
-	b=nkXfbfC1pyzDonTsz7n3GIV6VsOmm8bw7rY3dKSSc4MdRF0JC3zq9BQVnypsZ2w1M987bi
-	wqI7hjRRnGswzsjWen7h62cjVELX+nRGXakE16YQgfEVGFBJutAU4csgXvheRCj60OG+6R
-	+ftcj5NI3EqNnkZy9mefv2Hb9IApSbI=
+	bh=stfWGS3BClOC/+OPYKfYd33IKMOm/Qu4X4Okloj0fNw=;
+	b=GezznGjhNo2/JXbSl4qJFmrYCJR3E6vHvG9hTFOll3zaVmZ5aUwJXcvmtO1MwHKxlxlinC
+	N9yi7MYwVfxvfhUjMwTK+upuFQfDpuNtpseSHA6P/Hy5xCoMMSyoKER+RoHCABxqKhPqnr
+	tvxtpYHFsGwuOCrNUkHb3WUOWvlqi1A=
 To: stable@vger.kernel.org
 Cc: vivek.kasireddy@intel.com,
 	kraxel@redhat.com,
@@ -52,9 +52,9 @@ Cc: vivek.kasireddy@intel.com,
 	linaro-mm-sig@lists.linaro.org,
 	kalachev@swemel.ru,
 	lvc-project@linuxtesting.org
-Subject: [PATCH v6.6] udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap
-Date: Wed,  4 Dec 2024 18:17:34 +0300
-Message-Id: <20241204151735.141277-2-kalachev@swemel.ru>
+Subject: [PATCH v5.4-v6.1] udmabuf: use vmf_insert_pfn and VM_PFNMAP for handling mmap
+Date: Wed,  4 Dec 2024 18:17:35 +0300
+Message-Id: <20241204151735.141277-3-kalachev@swemel.ru>
 In-Reply-To: <20241204151735.141277-1-kalachev@swemel.ru>
 References: <20241204151735.141277-1-kalachev@swemel.ru>
 Precedence: bulk
@@ -96,15 +96,20 @@ Cc: Oscar Salvador <osalvador@suse.de>
 Cc: Shuah Khan <shuah@kernel.org>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 Reported-by: syzbot+3d218f7b6c5511a83a79@syzkaller.appspotmail.com
+[ Andrey: Backport required minor change: replace call
+to vm_flags_set() in mmap_udmabuf() by direct
+modification of the vma->vm_flags, because the set
+of vm_flags_*() functions is not in this versions. ]
+Signed-off-by: Andrey Kalachev <kalachev@swemel.ru>
 ---
  drivers/dma-buf/udmabuf.c | 8 +++++---
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index c40645999648..820c993c8659 100644
+index 2bcdb935a3ac..e57d57a10bb0 100644
 --- a/drivers/dma-buf/udmabuf.c
 +++ b/drivers/dma-buf/udmabuf.c
-@@ -35,12 +35,13 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
+@@ -33,12 +33,13 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
  	struct vm_area_struct *vma = vmf->vma;
  	struct udmabuf *ubuf = vma->vm_private_data;
  	pgoff_t pgoff = vmf->pgoff;
@@ -121,11 +126,11 @@ index c40645999648..820c993c8659 100644
  }
  
  static const struct vm_operations_struct udmabuf_vm_ops = {
-@@ -56,6 +57,7 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
+@@ -54,6 +55,7 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
  
  	vma->vm_ops = &udmabuf_vm_ops;
  	vma->vm_private_data = ubuf;
-+	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
++	vma->vm_flags |= VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP;
  	return 0;
  }
  
