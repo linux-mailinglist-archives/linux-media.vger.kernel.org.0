@@ -1,284 +1,189 @@
-Return-Path: <linux-media+bounces-22641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369DA9E3FA4
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 17:28:28 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ECF9E3FF7
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 17:43:31 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E75B12821C9
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 16:28:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D895165C09
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 16:43:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C255720CCEC;
-	Wed,  4 Dec 2024 16:28:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C644820DD5D;
+	Wed,  4 Dec 2024 16:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="u7h8O5xt";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="jwLrm3XJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D1C20CCCE
-	for <linux-media@vger.kernel.org>; Wed,  4 Dec 2024 16:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E3820CCE4;
+	Wed,  4 Dec 2024 16:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733329685; cv=none; b=Ma0Uf6aMk2X9jbenHAox1YyDB92JeWMet78ERCcm/lBsOe8Gmo5PzjeZ/sDNkWn4PU3NGlZGrhYsNeJvuoY2VDj6pfWUPYhivuIT5Jv3hxqPVUQmdtlztUKT3Pak5POCQUgof9VA+U6kWcA26rOrTSpm7YObtW4UvBp4VRowCRU=
+	t=1733330566; cv=none; b=M5r7f52+KjUR+/IMvrT/kERb7/1tzrblJ9QBDgqZlgbufr/38VU95Kf8C1H6QSqEgZA5VzgHSTrhdrWsH9GkRp49Stgs7zz2HCW8q9t6Xz32lp+gjLYoAaVxy+NyMl/2ZpHgVFcCCTTPPlDM/E1J85UjatBkD9qoyGo536C/nNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733329685; c=relaxed/simple;
-	bh=Yt9IaLYz4/bmVWxN7qQE0eyezZ/u8j672XnnMGH+62Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ScPCVbEpUabZOx9RKZ/BtWiq6eX6if/IHWhsrMLXXjSWLFJdjuXlh1FBLYbAnCQ1fp8WsFTbXn/dHFD4ep1qh++dwHFJg27lrVIphThCqKDs9dGGh3xsIhWVuKk8dF28UGs5Om64trH5KZTE1XCKjeP13C7E2Cstn8ZgSUgggfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1tIsE3-0000WH-UI; Wed, 04 Dec 2024 17:27:43 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1tIsDz-001g8w-1j;
-	Wed, 04 Dec 2024 17:27:40 +0100
-Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1tIsE0-00EabL-0d;
-	Wed, 04 Dec 2024 17:27:40 +0100
-Date: Wed, 4 Dec 2024 17:27:40 +0100
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Michal Simek <michal.simek@amd.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Gaosheng Cui <cuigaosheng1@huawei.com>,
-	Uwe Kleine-K??nig <u.kleine-koenig@baylibre.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>,
-	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] media: allegro-dvt: Moving the current driver to
- subdirectory
-Message-ID: <Z1CC_PQF8hCzmPoQ@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Michal Simek <michal.simek@amd.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Gaosheng Cui <cuigaosheng1@huawei.com>,
-	Uwe Kleine-K??nig <u.kleine-koenig@baylibre.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>,
-	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-References: <20241202102654.40472-1-yassine.ouaissa@allegrodvt.com>
- <Z02SLI05JhNDtXFn@pengutronix.de>
- <abshbp4blqxasxvf4ibumtfqcr7hytehmhzs2yag3nfpbcl47x@ndjg7al4iysk>
+	s=arc-20240116; t=1733330566; c=relaxed/simple;
+	bh=/tV2/rqC9g/RzItU4xjpFfq9TJiKncFzSdSN5cVSPCI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SwVBeuyi5v4Lu3+qjVlZ8iH1SiBRWChE28dBLwbwKnQdQjFyYFaUJ3HjQ0Whr0F8P3iZtcbx2PFNWv2XgHcRGqazdjRc+nPb+PqT2WDeYUYqAIGgpTrIbLt1FgzXtOJ9TPs5Yql3fWFXJf/y3h0MDt6urmx/iYF6l1SdgnQnq3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=u7h8O5xt; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=jwLrm3XJ; arc=none smtp.client-ip=96.44.175.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1733330562;
+	bh=/tV2/rqC9g/RzItU4xjpFfq9TJiKncFzSdSN5cVSPCI=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=u7h8O5xtkqg9XTRjnm2AByw4j1oANOrzOdAZMt8HHLl3Yjm3FyhEHxMbav7cjDIHA
+	 rH9JDDrakhhHcgYv4A62tmDfzUMvJQoGwAdV/vD+hl7hO/48F0u9n++jPP9OAsaCaz
+	 8lQA+iSncabPRQrhy+aNTkLi+yhrKeJAE1MSyUWQ=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 0036B12819C7;
+	Wed, 04 Dec 2024 11:42:42 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id UnAtfjdAjrWL; Wed,  4 Dec 2024 11:42:41 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1733330561;
+	bh=/tV2/rqC9g/RzItU4xjpFfq9TJiKncFzSdSN5cVSPCI=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=jwLrm3XJJg0bE+y+jmRYNMFwEElygfQC2HGQiHPd5Xz/u0WtyW7YWY3rX060euBo7
+	 f9S1jUzBwKhA2RFoWPD/ZkuHcVNkBdGsPnMe1XGCn2DaqvTsyQjVXKsqZzFLZSZ0Tt
+	 bvl4/NIRU0Ww5p2EbpvPP+Glg6xJuhny+E4/K7oQ=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 13309128116A;
+	Wed, 04 Dec 2024 11:42:36 -0500 (EST)
+Message-ID: <5c905df49a332b1136787a524955b46b6153c012.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
+ and adapt for various existing usages
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Zijun Hu <zijun_hu@icloud.com>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
+	 <thomas@t-8ch.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean
+ Delvare <jdelvare@suse.com>,  Guenter Roeck <linux@roeck-us.net>, Martin
+ Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
+ Jamet <michael.jamet@intel.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>,  Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean
+ <olteanv@gmail.com>,  "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Dan Williams
+ <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
+ Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Takashi
+ Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Lee Duncan <lduncan@suse.com>, Chris
+ Leech <cleech@redhat.com>, Mike Christie <michael.christie@oracle.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali
+ <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>,
+ GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso
+ <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, Alison
+ Schofield <alison.schofield@intel.com>, Andreas Larsson
+ <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor
+ <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>, Sudeep Holla
+ <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, Ard
+ Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
+ netdev@vger.kernel.org,  linux-pwm@vger.kernel.org, nvdimm@lists.linux.dev,
+  linux1394-devel@lists.sourceforge.net, linux-serial@vger.kernel.org, 
+ linux-sound@vger.kernel.org, open-iscsi@googlegroups.com, 
+ linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-block@vger.kernel.org, 
+ arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Date: Wed, 04 Dec 2024 11:42:34 -0500
+In-Reply-To: <235ce0a9-1db1-4558-817b-6f92f22be5ab@icloud.com>
+References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
+	 <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
+	 <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
+	 <2024120320-manual-jockey-dfd1@gregkh>
+	 <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
+	 <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
+	 <8fb887a0-3634-4e07-9f0d-d8d7c72ca802@t-8ch.de>
+	 <f5ea7e17-5550-4658-8f4c-1c51827c7627@icloud.com>
+	 <108c63c753f2f637a72c2e105ac138f80d4b0859.camel@HansenPartnership.com>
+	 <235ce0a9-1db1-4558-817b-6f92f22be5ab@icloud.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <abshbp4blqxasxvf4ibumtfqcr7hytehmhzs2yag3nfpbcl47x@ndjg7al4iysk>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-Hi Yassine,
-
-On Wed, 04 Dec 2024 14:44:31 +0000, Yassine Ouaissa wrote:
-> On 02.12.2024 11:55, Michael Tretter wrote:
-> > On Mon, 02 Dec 2024 11:26:38 +0100, Yassine Ouaissa wrote:
-> > What kind of conflicts do you encounter or expect? It's kind of
-> > surprising that your driver would conflict with anything in the existing
-> > driver.
+On Wed, 2024-12-04 at 20:26 +0800, Zijun Hu wrote:
+> On 2024/12/3 23:34, James Bottomley wrote:
+> > > > This also enables an incremental migration.
+> > > change the API prototype from:
+> > > device_find_child(..., void *data_0, int (*match)(struct device
+> > > *dev, void *data));
+> > > 
+> > > to:
+> > > device_find_child(..., const void *data_0, int (*match)(struct
+> > > device *dev, const void *data));
+> > > 
+> > > For @data_0,  void * -> const void * is okay.
+> > > but for @match, the problem is function pointer type
+> > > incompatibility.
+> > > 
+> > > there are two solutions base on discussions.
+> > > 
+> > > 1) squashing likewise Greg mentioned.
+> > >    Do all of the "prep work" first, and then
+> > >    do the const change at the very end, all at once.
+> > > 
+> > > 2)  as changing platform_driver's remove() prototype.
+> > > Commit: e70140ba0d2b ("Get rid of 'remove_new' relic from
+> > > platform driver struct")
+> > > 
+> > >  introduce extra device_find_child_new() which is constified  ->
+> > > use *_new() replace ALL device_find_child() instances one by one
+> > > -> remove device_find_child() -> rename *_new() to
+> > > device_find_child() once.
+> > Why bother with the last step, which churns the entire code base
+> > again?
 > 
-> The current "NOT allegro" driver support only the ZynqMP (ex : ZCU106/ZCU104 ).
-> And the upcoming driver, has support for many platforms.
+> keep the good API name device_find_child().
 
-What are the supported platforms of the new driver? Does your driver
-support ZynqMP, too?
+Well, I think it's a good opportunity to rename the API better, but if
+that's the goal, you can still do it with _Generic() without churning
+the code base a second time.  The example is in
+slab.h:kmem_cache_create
 
-If there are enough similarities between the encoders, I'd happily
-replace parts of the current driver with functionality of the upcoming
-driver or reuse the infrastructure of the new driver.
-
+> > Why not call the new function device_find_child_const() and simply
+> > keep it (it's descriptive of its function).  That way you can have
+> > a patch series without merging and at the end simply remove the old
+> > function.
 > 
-> > I'd like to see how you plan to integrate your driver, what it looks
-> > like and what conflicts with the existing driver actually occur. Without
-> > that information I don't see the point in moving the driver to a
-> > sub-directory.
-> 
-> The upcoming driver is not using the parsing, conversion inside of the
-> driver. Actually the new Gen of ALLEGRO IP does that.
+> device_find_child is a good name for the API, 'find' already means
+> const.
 
-Sorry, I don't understand what you mean by parsing and conversion. Do
-you mean the mailbox messages or the NAL units?
+Not to me it doesn't, but that's actually not what I think is wrong
+with the API name: it actually only returns the first match, so I'd
+marginally prefer it to be called device_find_first_child() ... not
+enough to churn the code to change it, but since you're doing that
+anyway it might make sense as an update.
 
-Can you point me to some repository with your upcoming driver? I'd
-really like to know what's coming up to have an informed discussion how
-to structure the directory.
+Regards,
 
-Michael
+James
 
-> > > 
-> > > Signed-off-by: Yassine Ouaissa <yassine.ouaissa@allegrodvt.com>
-> > > ---
-> > >  MAINTAINERS                                               | 2 +-
-> > >  drivers/media/platform/allegro-dvt/Kconfig                | 4 ++--
-> > >  drivers/media/platform/allegro-dvt/Makefile               | 8 ++------
-> > >  drivers/media/platform/allegro-dvt/zynqmp/Makefile        | 6 ++++++
-> > >  .../media/platform/allegro-dvt/{ => zynqmp}/nal-h264.c    | 0
-> > >  .../media/platform/allegro-dvt/{ => zynqmp}/nal-h264.h    | 0
-> > >  .../media/platform/allegro-dvt/{ => zynqmp}/nal-hevc.c    | 0
-> > >  .../media/platform/allegro-dvt/{ => zynqmp}/nal-hevc.h    | 0
-> > >  .../media/platform/allegro-dvt/{ => zynqmp}/nal-rbsp.c    | 0
-> > >  .../media/platform/allegro-dvt/{ => zynqmp}/nal-rbsp.h    | 0
-> > >  .../{allegro-core.c => zynqmp/zynqmp-allegro-core.c}      | 2 +-
-> > >  .../{allegro-mail.c => zynqmp/zynqmp-allegro-mail.c}      | 2 +-
-> > >  .../{allegro-mail.h => zynqmp/zynqmp-allegro-mail.h}      | 0
-> > >  13 files changed, 13 insertions(+), 11 deletions(-)
-> > >  create mode 100644 drivers/media/platform/allegro-dvt/zynqmp/Makefile
-> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-h264.c (100%)
-> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-h264.h (100%)
-> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-hevc.c (100%)
-> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-hevc.h (100%)
-> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-rbsp.c (100%)
-> > >  rename drivers/media/platform/allegro-dvt/{ => zynqmp}/nal-rbsp.h (100%)
-> > >  rename drivers/media/platform/allegro-dvt/{allegro-core.c => zynqmp/zynqmp-allegro-core.c} (99%)
-> > >  rename drivers/media/platform/allegro-dvt/{allegro-mail.c => zynqmp/zynqmp-allegro-mail.c} (99%)
-> > >  rename drivers/media/platform/allegro-dvt/{allegro-mail.h => zynqmp/zynqmp-allegro-mail.h} (100%)
-> > > 
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 7292e4a1ddb8..d79efe6f8992 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -795,7 +795,7 @@ R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-> > >  L:	linux-media@vger.kernel.org
-> > >  S:	Maintained
-> > >  F:	Documentation/devicetree/bindings/media/allegro,al5e.yaml
-> > > -F:	drivers/media/platform/allegro-dvt/
-> > > +F:	drivers/media/platform/allegro-dvt/zynqmp
-> > > 
-> > >  ALLIED VISION ALVIUM CAMERA DRIVER
-> > >  M:	Tommaso Merciai <tomm.merciai@gmail.com>
-> > > diff --git a/drivers/media/platform/allegro-dvt/Kconfig b/drivers/media/platform/allegro-dvt/Kconfig
-> > > index 2182e1277568..9bc7e99788b8 100644
-> > > --- a/drivers/media/platform/allegro-dvt/Kconfig
-> > > +++ b/drivers/media/platform/allegro-dvt/Kconfig
-> > > @@ -2,8 +2,8 @@
-> > > 
-> > >  comment "Allegro DVT media platform drivers"
-> > > 
-> > > -config VIDEO_ALLEGRO_DVT
-> > > -	tristate "Allegro DVT Video IP Core"
-> > > +config VIDEO_ZYNQMP_ALLEGRO_DVT
-> > > +	tristate "Allegro DVT Video IP Core for ZynqMP"
-> > >  	depends on V4L_MEM2MEM_DRIVERS
-> > >  	depends on VIDEO_DEV
-> > >  	depends on ARCH_ZYNQMP || COMPILE_TEST
-> > > diff --git a/drivers/media/platform/allegro-dvt/Makefile b/drivers/media/platform/allegro-dvt/Makefile
-> > > index 66108a303774..04727c5f7ef4 100644
-> > > --- a/drivers/media/platform/allegro-dvt/Makefile
-> > > +++ b/drivers/media/platform/allegro-dvt/Makefile
-> > > @@ -1,6 +1,2 @@
-> > > -# SPDX-License-Identifier: GPL-2.0
-> > > -
-> > > -allegro-objs := allegro-core.o allegro-mail.o
-> > > -allegro-objs += nal-rbsp.o nal-h264.o nal-hevc.o
-> > > -
-> > > -obj-$(CONFIG_VIDEO_ALLEGRO_DVT) += allegro.o
-> > > +# SPDX-License-Identifier: GPL-2.0-only
-> > > +obj-y += zynqmp/
-> > > diff --git a/drivers/media/platform/allegro-dvt/zynqmp/Makefile b/drivers/media/platform/allegro-dvt/zynqmp/Makefile
-> > > new file mode 100644
-> > > index 000000000000..a8ddb9cf93a8
-> > > --- /dev/null
-> > > +++ b/drivers/media/platform/allegro-dvt/zynqmp/Makefile
-> > > @@ -0,0 +1,6 @@
-> > > +# SPDX-License-Identifier: GPL-2.0
-> > > +
-> > > +zynqmp-allegro-objs := zynqmp-allegro-core.o zynqmp-allegro-mail.o
-> > > +zynqmp-allegro-objs += nal-rbsp.o nal-h264.o nal-hevc.o
-> > > +
-> > > +obj-$(CONFIG_VIDEO_ZYNQMP_ALLEGRO_DVT) += zynqmp-allegro.o
-> > > diff --git a/drivers/media/platform/allegro-dvt/nal-h264.c b/drivers/media/platform/allegro-dvt/zynqmp/nal-h264.c
-> > > similarity index 100%
-> > > rename from drivers/media/platform/allegro-dvt/nal-h264.c
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/nal-h264.c
-> > > diff --git a/drivers/media/platform/allegro-dvt/nal-h264.h b/drivers/media/platform/allegro-dvt/zynqmp/nal-h264.h
-> > > similarity index 100%
-> > > rename from drivers/media/platform/allegro-dvt/nal-h264.h
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/nal-h264.h
-> > > diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.c b/drivers/media/platform/allegro-dvt/zynqmp/nal-hevc.c
-> > > similarity index 100%
-> > > rename from drivers/media/platform/allegro-dvt/nal-hevc.c
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/nal-hevc.c
-> > > diff --git a/drivers/media/platform/allegro-dvt/nal-hevc.h b/drivers/media/platform/allegro-dvt/zynqmp/nal-hevc.h
-> > > similarity index 100%
-> > > rename from drivers/media/platform/allegro-dvt/nal-hevc.h
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/nal-hevc.h
-> > > diff --git a/drivers/media/platform/allegro-dvt/nal-rbsp.c b/drivers/media/platform/allegro-dvt/zynqmp/nal-rbsp.c
-> > > similarity index 100%
-> > > rename from drivers/media/platform/allegro-dvt/nal-rbsp.c
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/nal-rbsp.c
-> > > diff --git a/drivers/media/platform/allegro-dvt/nal-rbsp.h b/drivers/media/platform/allegro-dvt/zynqmp/nal-rbsp.h
-> > > similarity index 100%
-> > > rename from drivers/media/platform/allegro-dvt/nal-rbsp.h
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/nal-rbsp.h
-> > > diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/zynqmp/zynqmp-allegro-core.c
-> > > similarity index 99%
-> > > rename from drivers/media/platform/allegro-dvt/allegro-core.c
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/zynqmp-allegro-core.c
-> > > index e491399afcc9..8895d7755987 100644
-> > > --- a/drivers/media/platform/allegro-dvt/allegro-core.c
-> > > +++ b/drivers/media/platform/allegro-dvt/zynqmp/zynqmp-allegro-core.c
-> > > @@ -31,7 +31,7 @@
-> > >  #include <media/videobuf2-dma-contig.h>
-> > >  #include <media/videobuf2-v4l2.h>
-> > > 
-> > > -#include "allegro-mail.h"
-> > > +#include "zynqmp-allegro-mail.h"
-> > >  #include "nal-h264.h"
-> > >  #include "nal-hevc.h"
-> > > 
-> > > diff --git a/drivers/media/platform/allegro-dvt/allegro-mail.c b/drivers/media/platform/allegro-dvt/zynqmp/zynqmp-allegro-mail.c
-> > > similarity index 99%
-> > > rename from drivers/media/platform/allegro-dvt/allegro-mail.c
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/zynqmp-allegro-mail.c
-> > > index aadc947a77ae..88a98f9e5d00 100644
-> > > --- a/drivers/media/platform/allegro-dvt/allegro-mail.c
-> > > +++ b/drivers/media/platform/allegro-dvt/zynqmp/zynqmp-allegro-mail.c
-> > > @@ -12,7 +12,7 @@
-> > >  #include <linux/string.h>
-> > >  #include <linux/videodev2.h>
-> > > 
-> > > -#include "allegro-mail.h"
-> > > +#include "zynqmp-allegro-mail.h"
-> > > 
-> > >  const char *msg_type_name(enum mcu_msg_type type)
-> > >  {
-> > > diff --git a/drivers/media/platform/allegro-dvt/allegro-mail.h b/drivers/media/platform/allegro-dvt/zynqmp/zynqmp-allegro-mail.h
-> > > similarity index 100%
-> > > rename from drivers/media/platform/allegro-dvt/allegro-mail.h
-> > > rename to drivers/media/platform/allegro-dvt/zynqmp/zynqmp-allegro-mail.h
-> > > --
-> > > 2.30.2
-> > > 
-> > > 
 
