@@ -1,50 +1,49 @@
-Return-Path: <linux-media+bounces-22595-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22596-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BBA59E384D
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 12:07:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3AFE9E384F
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 12:07:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75BE0160117
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 11:07:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AADDB16112F
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 11:07:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1D241B87FC;
-	Wed,  4 Dec 2024 11:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D04051BBBF7;
+	Wed,  4 Dec 2024 11:05:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O7Nj/+pj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NePGoTkI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749921B87CE;
-	Wed,  4 Dec 2024 11:05:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7B61B87D5;
+	Wed,  4 Dec 2024 11:05:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733310354; cv=none; b=fXBWqRRpK6j7R5DRP66PGCvKyXfdz12Afg06quQR5aH3pDxDzO/FvAyhRFvnSKoaZK+j27kGsH+1AjUtJmbMfW0MAMWdUh1zJyrG5gVLCdKtmAl81iHRmsa/+UfMV1Nybn32cvI4n2DDAGVy+GCOR+i51kX2CbBtMEEJ00lLbYo=
+	t=1733310355; cv=none; b=GL5UPgM18WeJLKb43kNJ13MAgVuuTmpUlL1kI6pRcQq3JuzyPYabtcgXfP20Rr2uqtfhrx1xspd4PwYFUyganHaJ4Z3mw5M7XId3v/o97v1rh2RI5USvbd1gaZFRAbrFLfOrLfyd5m4tFzNj3JQ+hvDY46egruZJ+8pK0IRYDi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733310354; c=relaxed/simple;
-	bh=cHK+FvowlOFAeLxYTLErV9QO7P1rU8Vzws3yIpYDj/c=;
+	s=arc-20240116; t=1733310355; c=relaxed/simple;
+	bh=9uSVonVe6lZLjDKA/C9zzamzFDTm7nGbHwPAR/udAeA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oXqF0/300TG7Dsn+E4Xs3NNl6rSy0K7Ozz6GOkitpKTyScB10CnIkiMI+J5lM+hJpm1fjkAzzcdnZjDhJJG1CqdrfQYSHeltRKQ1PIMPdxSxvdzVeodOMqt2RgqIni5aUQZRprWiL713STm5wmu4+4I5J0Lwc6JoSPJNv0O1yiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O7Nj/+pj; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=S946lsFNA20TXZJd1+cxCsRIQ7IxoCARqLgd4S5hU2aBUqYP9nb3tfsviYlElvXSOqFR9IGCKi2tKXmZOBOgTXpLdS/uTDLwmS21T7BrPYAF0gZbt7I/jk5XR3rLYu/4WbmQfEUiJ2Oa9Hj7ct96XKtkN2K77DQYnEs1GsPthCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NePGoTkI; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67600DEE;
-	Wed,  4 Dec 2024 12:05:18 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F73F10B6;
+	Wed,  4 Dec 2024 12:05:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733310318;
-	bh=cHK+FvowlOFAeLxYTLErV9QO7P1rU8Vzws3yIpYDj/c=;
+	s=mail; t=1733310319;
+	bh=9uSVonVe6lZLjDKA/C9zzamzFDTm7nGbHwPAR/udAeA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=O7Nj/+pjLh/Me1yxrVmtpcGZySsGAoHMk7GbixfuE4fwWAUnQQOBQ+/M9aRq0l1kb
-	 9YO5cvHmO9+7N0PJ893aXmUV8oQMim6+vmyoz0cjtkRu4XC69d0CCVbms95qCArsWW
-	 7/M6Mav09LUA5poDTKn77WzIPZyrdi1EmxKHp8X0=
+	b=NePGoTkIlWnIGV5/qykt/8mfPwGkSlkDR1VHXr8XEUtyLJHJML120/V7bf6gj3E2A
+	 /idymrPt8lU+dItMCGriMAU8ZDgAlORClptd1WyjavfEj8g5Ub42+PyLiV4a6U5ghv
+	 oAwUub/A3lwAVYg0fPG/cUXLGOHIpMANYq8lHlr8=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 04 Dec 2024 13:05:18 +0200
-Subject: [PATCH v3 04/15] media: i2c: ds90ub960: Fix logging SP & EQ status
- only for UB9702
+Date: Wed, 04 Dec 2024 13:05:19 +0200
+Subject: [PATCH v3 05/15] media: i2c: ds90ub960: Fix UB9702 VC map
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241204-ub9xx-fixes-v3-4-a933c109b323@ideasonboard.com>
+Message-Id: <20241204-ub9xx-fixes-v3-5-a933c109b323@ideasonboard.com>
 References: <20241204-ub9xx-fixes-v3-0-a933c109b323@ideasonboard.com>
 In-Reply-To: <20241204-ub9xx-fixes-v3-0-a933c109b323@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -64,151 +63,56 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, stable@vger.kernel.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4127;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1239;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=cHK+FvowlOFAeLxYTLErV9QO7P1rU8Vzws3yIpYDj/c=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUDeCmff/IdOjYuhPXZI9o/v80viV7pENuYMod
- KUxv110AKyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1A3ggAKCRD6PaqMvJYe
- 9XsQD/4qeQlX04HK6glic51T/8oqthKz+Jf1My+M2LAdnsfGBDRpj1soaDOrmtnrjdx5bYeJ23s
- KqTE9L3VxmKWvIqz7mlTY4unqHfxcg0T63Q6uecbjgt2TIo5mLG1Qhl5HNYPZM4y66Ow4mQ6bPs
- KzaR5LojmgqtsWsBNFrIJXzjluo+Xz06omqEjr7Ol0vOYJx8uzjkTO1Lmwi9pS4YSBovH6WPyqJ
- dOMPST1KAn4BnNFcI2c4d+R/1VAAp8qmtCVwWLJY+5rXDiyeVyPuofNUvkTFxH9sd+tIECUCdDb
- hhTCFD3devq8ioV5VVAqnQ3NVJ1EFBcwDh1qnb8kG2aaJz7nGGPPYrlUaOEMjQ2TG6oxtH28HwH
- 6adB4/3HafLUQ/1NCWEgsQRQdtXRdWvdXfJfHqDpYkwOukPeV7r5r1wludvxWOt4jctRA+S6P0s
- GbEcRXlbXTWWVSkxlJznund/VdxQ+VBjJShNyRWtCixZpL9YW5PnoTMU3GuPvVIrLQd80+fEde+
- lTOA4fu5JlSW0l5PtGIwK4iCV21KDjJYPUr3j+J+G/cuVdL4moxOmY2+rljyHEclcI1jyMO2gxg
- a1xUNfMfNnas1MGQQZlMIZlJ5cC1FIerxpTOVG0j9eCuM9EL0WvsE+MNRpnlq1Hb0tGdLdMMRwh
- eGhpwUu44WUDYDQ==
+ bh=9uSVonVe6lZLjDKA/C9zzamzFDTm7nGbHwPAR/udAeA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUDeDh5EI4nS+x0sy2KhC3GhDuX0OqJz1HwjYs
+ O4z9AFLcauJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1A3gwAKCRD6PaqMvJYe
+ 9WtoEACUBTbwuaEtEIZI7xtSRJmQmRJPNOfO1yf7K2fzyj99t9CUj6/cH/M274hqI/7+CEzrN7q
+ JVAgnz9iEHhTL1U4pkxI07otQxVYd+/Q46f+NdtM1Gzc30XjVcK7qyGktOPJOgD5cb+eNm1js2e
+ XtzUFqOrOfDFQQqpQply64UKqUBLJIP3knT/pOBcZrCaFFZQwKV+OTC+heUwJ0I/BwerRItqhfI
+ AVTns1hDkpvv7sNs2W+tfh8192uR+al144AMZg/jAVdm8mOPQQ4O9BwCk035BRGxoWPZkSJ6A5U
+ xgFweiGLUGwojsa8W+EVve0YzYxUXVj+jRx3MIIBObdhQXQb1Uzwrj8lHyncFJyVkYNh07uzH8C
+ BeXlX0faDDThswWAHIl/LVMBXe2ANXUPNQL+WVW26U0jFxoR/WXyImaOhlDy0x16DVSaqDjmYWX
+ FIAmE2Y1K6fkL0EFoUTE3y7Gz2xHqnFdmdpP9LNlqGpflr+lVO8+4llSI0gcSakZjMiA3yzXSs/
+ cC+X3erfYzHZ8AdEv1Plkc2SHSolGNhSTJJ1zti9Z9vzhUuCsrJIcWH8fKlfx5afv6+K1quT21t
+ MWikN8l9D2fx/meHFN2vMnSbRGMEyx3lDq/MHGm4Mt9h2SR8r/EWD82dEpd7gXmOuVPfPd6b7RJ
+ 6gi4lFQpRcoo8ig==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-UB9702 does not have SP and EQ registers, but the driver uses them in
-log_status(). Fix this by separating the SP and EQ related log_status()
-work into a separate function (for clarity) and calling that function
-only for UB960.
+The driver uses a static CSI-2 virtual channel mapping where all virtual
+channels from an RX port are mapped to a virtual channel number matching
+the RX port number.
+
+The UB960 and UB9702 have different registers for the purpose, and the
+UB9702 version is not correct. Each of the VC_ID_MAP registers do not
+contain a single mapping, as the driver currently thinks, but two.
+
+This can cause received VCs other than 0 to be mapped in a wrong way.
+
+Fix this by writing both mappings to each register.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: stable@vger.kernel.org
 Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
 ---
- drivers/media/i2c/ds90ub960.c | 90 ++++++++++++++++++++++++-------------------
- 1 file changed, 50 insertions(+), 40 deletions(-)
+ drivers/media/i2c/ds90ub960.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index 24198b803eff..94c8acf171b4 100644
+index 94c8acf171b4..bfffa14e2049 100644
 --- a/drivers/media/i2c/ds90ub960.c
 +++ b/drivers/media/i2c/ds90ub960.c
-@@ -2950,6 +2950,54 @@ static const struct v4l2_subdev_pad_ops ub960_pad_ops = {
- 	.set_fmt = ub960_set_fmt,
- };
+@@ -2533,7 +2533,7 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
+ 				for (i = 0; i < 8; i++)
+ 					ub960_rxport_write(priv, nport,
+ 							   UB960_RR_VC_ID_MAP(i),
+-							   nport);
++							   (nport << 4) | nport);
+ 			}
  
-+static void ub960_log_status_ub960_sp_eq(struct ub960_data *priv,
-+					 unsigned int nport)
-+{
-+	struct device *dev = &priv->client->dev;
-+	u8 eq_level;
-+	s8 strobe_pos;
-+	u8 v = 0;
-+
-+	/* Strobe */
-+
-+	ub960_read(priv, UB960_XR_AEQ_CTL1, &v);
-+
-+	dev_info(dev, "\t%s strobe\n",
-+		 (v & UB960_XR_AEQ_CTL1_AEQ_SFILTER_EN) ? "Adaptive" :
-+							  "Manual");
-+
-+	if (v & UB960_XR_AEQ_CTL1_AEQ_SFILTER_EN) {
-+		ub960_read(priv, UB960_XR_SFILTER_CFG, &v);
-+
-+		dev_info(dev, "\tStrobe range [%d, %d]\n",
-+			 ((v >> UB960_XR_SFILTER_CFG_SFILTER_MIN_SHIFT) & 0xf) - 7,
-+			 ((v >> UB960_XR_SFILTER_CFG_SFILTER_MAX_SHIFT) & 0xf) - 7);
-+	}
-+
-+	ub960_rxport_get_strobe_pos(priv, nport, &strobe_pos);
-+
-+	dev_info(dev, "\tStrobe pos %d\n", strobe_pos);
-+
-+	/* EQ */
-+
-+	ub960_rxport_read(priv, nport, UB960_RR_AEQ_BYPASS, &v);
-+
-+	dev_info(dev, "\t%s EQ\n",
-+		 (v & UB960_RR_AEQ_BYPASS_ENABLE) ? "Manual" :
-+						    "Adaptive");
-+
-+	if (!(v & UB960_RR_AEQ_BYPASS_ENABLE)) {
-+		ub960_rxport_read(priv, nport, UB960_RR_AEQ_MIN_MAX, &v);
-+
-+		dev_info(dev, "\tEQ range [%u, %u]\n",
-+			 (v >> UB960_RR_AEQ_MIN_MAX_AEQ_FLOOR_SHIFT) & 0xf,
-+			 (v >> UB960_RR_AEQ_MIN_MAX_AEQ_MAX_SHIFT) & 0xf);
-+	}
-+
-+	if (ub960_rxport_get_eq_level(priv, nport, &eq_level) == 0)
-+		dev_info(dev, "\tEQ level %u\n", eq_level);
-+}
-+
- static int ub960_log_status(struct v4l2_subdev *sd)
- {
- 	struct ub960_data *priv = sd_to_ub960(sd);
-@@ -2997,8 +3045,6 @@ static int ub960_log_status(struct v4l2_subdev *sd)
- 
- 	for (nport = 0; nport < priv->hw_data->num_rxports; nport++) {
- 		struct ub960_rxport *rxport = priv->rxports[nport];
--		u8 eq_level;
--		s8 strobe_pos;
- 		unsigned int i;
- 
- 		dev_info(dev, "RX %u\n", nport);
-@@ -3034,44 +3080,8 @@ static int ub960_log_status(struct v4l2_subdev *sd)
- 		ub960_rxport_read(priv, nport, UB960_RR_CSI_ERR_COUNTER, &v);
- 		dev_info(dev, "\tcsi_err_counter %u\n", v);
- 
--		/* Strobe */
--
--		ub960_read(priv, UB960_XR_AEQ_CTL1, &v);
--
--		dev_info(dev, "\t%s strobe\n",
--			 (v & UB960_XR_AEQ_CTL1_AEQ_SFILTER_EN) ? "Adaptive" :
--								  "Manual");
--
--		if (v & UB960_XR_AEQ_CTL1_AEQ_SFILTER_EN) {
--			ub960_read(priv, UB960_XR_SFILTER_CFG, &v);
--
--			dev_info(dev, "\tStrobe range [%d, %d]\n",
--				 ((v >> UB960_XR_SFILTER_CFG_SFILTER_MIN_SHIFT) & 0xf) - 7,
--				 ((v >> UB960_XR_SFILTER_CFG_SFILTER_MAX_SHIFT) & 0xf) - 7);
--		}
--
--		ub960_rxport_get_strobe_pos(priv, nport, &strobe_pos);
--
--		dev_info(dev, "\tStrobe pos %d\n", strobe_pos);
--
--		/* EQ */
--
--		ub960_rxport_read(priv, nport, UB960_RR_AEQ_BYPASS, &v);
--
--		dev_info(dev, "\t%s EQ\n",
--			 (v & UB960_RR_AEQ_BYPASS_ENABLE) ? "Manual" :
--							    "Adaptive");
--
--		if (!(v & UB960_RR_AEQ_BYPASS_ENABLE)) {
--			ub960_rxport_read(priv, nport, UB960_RR_AEQ_MIN_MAX, &v);
--
--			dev_info(dev, "\tEQ range [%u, %u]\n",
--				 (v >> UB960_RR_AEQ_MIN_MAX_AEQ_FLOOR_SHIFT) & 0xf,
--				 (v >> UB960_RR_AEQ_MIN_MAX_AEQ_MAX_SHIFT) & 0xf);
--		}
--
--		if (ub960_rxport_get_eq_level(priv, nport, &eq_level) == 0)
--			dev_info(dev, "\tEQ level %u\n", eq_level);
-+		if (!priv->hw_data->is_ub9702)
-+			ub960_log_status_ub960_sp_eq(priv, nport);
- 
- 		/* GPIOs */
- 		for (i = 0; i < UB960_NUM_BC_GPIOS; i++) {
+ 			break;
 
 -- 
 2.43.0
