@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-22626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22627-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FD69E3D19
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 15:45:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1A69E3C9A
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 15:21:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5FA7EB3DE4D
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 14:15:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F1742819CE
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 14:21:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5887C1F9AAC;
-	Wed,  4 Dec 2024 14:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5C4F1F758D;
+	Wed,  4 Dec 2024 14:21:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hGg7NKUx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lIEN5Al6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAE91B415A
-	for <linux-media@vger.kernel.org>; Wed,  4 Dec 2024 14:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AE91F759D
+	for <linux-media@vger.kernel.org>; Wed,  4 Dec 2024 14:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733321718; cv=none; b=O6PkcECzZBFdS2BCN1ixtdksVkDYeGt8chT+fgUOJTRg4pPNQ6A6uotb33yolpGDYVu2TdCy9r4p9T/jUEQ6hVP2XKHGaYKop2cmPN8ff69XUtPKQZsYGrf3EbESrjA5DmZfKt6yJMZkGLl/M6gjP1Jx0ZkEm4yZS2J9g3StwI8=
+	t=1733322065; cv=none; b=p8bK6hpB8saY0l7nEIGEZtYZsYurGsupvphWBSCzOG5eJ2M4P0tQ+oWpxZmkH8Y0QLMUZgHr+0R4m/IMrgsWakXkmT9N4ZL0LbCw/YZIgifIguiHlglSHJUgllCSkhEBETtO814nEMcRB1SR72ro0uUUZmDJ85iiL28ZHpwuVTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733321718; c=relaxed/simple;
-	bh=rkrWEdJidOCyfVm9YxYc6wzPsfZgdoXg0xx8RV5/6uE=;
+	s=arc-20240116; t=1733322065; c=relaxed/simple;
+	bh=BUCTVhvMaz6rJCULKhhhHzOX7PEdSf878x5SBwHZu5k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F3Q92PLSU+mYDciEnmt/3+1Xh1iwc8dzcBE1RoIvfTmGTggys8QzdSgfsUOSvGkYJLfiZ7u8cJMNt7UhIQnVxO8UFbzh3gAlp8b6yybSc68ua36h4zuiLIbKseUWwoRdVMzg4SyQC4J9K0kyH/bjE205t8jk5Czti2eavt0cw5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hGg7NKUx; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=kAwTOcfoOyWv5YKr6y4wPhH2kyPRt+LMlF/O+JTW6puMdj/oKxlTFAChBM/obDkfK5lxfNjJFWET4h3bJ+H66fsSyKLcqjEp/LIX0jP3j48RDpW5DMaFf/mbGfBCcf70lNqqLc8ktF8mQYWj/ssNtuvRWgSwVTfp5nOOcqNnXjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lIEN5Al6; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733321717; x=1764857717;
+  t=1733322064; x=1764858064;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rkrWEdJidOCyfVm9YxYc6wzPsfZgdoXg0xx8RV5/6uE=;
-  b=hGg7NKUxv8jlIs9mmGdmHRsskzoetxOJWx080XQ+/OVU5UYkjIFJ6gRG
-   uyt8ab/kHjT7XhLsk/xqVlfMLG6RRtHTt/E2lFT/LDrh4xn7n6Jo1csKo
-   bcdrXZAUJ2XZZ/tVHlXFmFSzykfd56FBvDQXY/gnGVw1vh8zqrPLfnoOM
-   pmgC1ifmnImtKio8vkVlYkiHIRPBm9yljiYZs6UNuO0thFxrynoHqF1p3
-   J4CKQWMVrkzjDzXmbrebYC00h4u8HDwaEmmZQg05y2GwQ6cfFGBmShDW2
-   paYE+7brRrn6L/uLSc+i9O4mgSfBAQ6OVKi9Pak0aBmiOIxBWEncltS5B
+  bh=BUCTVhvMaz6rJCULKhhhHzOX7PEdSf878x5SBwHZu5k=;
+  b=lIEN5Al6GtLqT3TJ52JbAK13ayGSqh83OOXw01IycAXFh5lDzbVBEFhG
+   n5OkUsBLj/r0R1UNvyo6Uey3E6Pj1WhGkEcBJ4G9iQvPQqi/BxidEWzWu
+   ZNgv+czS6/s3ic1iJ+Dg474Kwm+zenxoNbs12/dySzks9qCD84lNSZYGv
+   nezkd00o7Z474vaOtpVrN5r4n9LlSlZW7e+7clV+AaLiRQK/pep0nTYQT
+   /enHCcGqsIEKpC3DiLo8CQXBYHlMZPpTaS2U9roTLIf0JaYVYeP3bBhxc
+   R1S86L8kNb/nN2PEAD9uOWYRC4h3HgEln0NqHTs3fYSOo8IcT9AqsIdob
    g==;
-X-CSE-ConnectionGUID: JS1aHMOXQ26p0OJa9LERVA==
-X-CSE-MsgGUID: C1XAJI7lTuuxZ07IIjQO7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="51119475"
+X-CSE-ConnectionGUID: K1f4o2GEQ+i/E3RvDXn6IQ==
+X-CSE-MsgGUID: w2G7bhugSd2ZQH2enXiw8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44620431"
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="51119475"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:15:16 -0800
-X-CSE-ConnectionGUID: Fmrite7PQmW+x7rkqYSWUQ==
-X-CSE-MsgGUID: LzEL2NX5R+OmmGyWIFZBRw==
+   d="scan'208";a="44620431"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:20:57 -0800
+X-CSE-ConnectionGUID: EkcuKVUnR22bEyzX6NYqyw==
+X-CSE-MsgGUID: oCCbkantTkafDlw5DSPNRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="117027295"
+   d="scan'208";a="93454086"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:15:11 -0800
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 06:20:51 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E8DA011F89A;
-	Wed,  4 Dec 2024 16:15:07 +0200 (EET)
-Date: Wed, 4 Dec 2024 14:15:07 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8743711F89A;
+	Wed,  4 Dec 2024 16:20:48 +0200 (EET)
+Date: Wed, 4 Dec 2024 14:20:48 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
@@ -90,12 +90,14 @@ Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
 	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: Re: [RFC v3 5/9] media: Documentation: Add scaling and post-scaler
- crop for common raw
-Message-ID: <Z1Bj62TU-hK3nJof@kekkonen.localdomain>
+Subject: Re: [RFC v3 4/9] media: Documentation: Add subdev configuration
+ models, raw sensor model
+Message-ID: <Z1BlQMYCIb5Kcipi@kekkonen.localdomain>
 References: <20241129095142.87196-1-sakari.ailus@linux.intel.com>
- <20241129095142.87196-6-sakari.ailus@linux.intel.com>
- <ioomhmdxhr2wmunibh456umrczv5p2grqdvqyvq2gt5gb2wirn@m4nep4s6pbnu>
+ <20241129095142.87196-5-sakari.ailus@linux.intel.com>
+ <5jxcc3ije4vytvponvl3k6weosr445xgy6bgnfn74dcfwf7loo@w26fnwxncbqo>
+ <Z1BXlmDT-1EflH1c@kekkonen.localdomain>
+ <xqpuqi6ct4gin7s7grdawboasnuucpnadcfm67b2ga4l2l4d7f@3amdf2zdh2il>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,126 +106,75 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ioomhmdxhr2wmunibh456umrczv5p2grqdvqyvq2gt5gb2wirn@m4nep4s6pbnu>
+In-Reply-To: <xqpuqi6ct4gin7s7grdawboasnuucpnadcfm67b2ga4l2l4d7f@3amdf2zdh2il>
 
 Hi Jacopo,
 
-Thank you for the review.
-
-On Wed, Dec 04, 2024 at 12:25:11PM +0100, Jacopo Mondi wrote:
-> Hi Sakari
->   thanks for the update
-> 
-> On Fri, Nov 29, 2024 at 11:51:38AM +0200, Sakari Ailus wrote:
-> > Document scaling and post-scaler digital crop operations for the common
-> > raw sensor model.
-> > Signedg-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../media/v4l/subdev-config-model.rst         | 19 +++++++++++++++----
-> >  1 file changed, 15 insertions(+), 4 deletions(-)
+On Wed, Dec 04, 2024 at 02:37:21PM +0100, Jacopo Mondi wrote:
+> > > > +Common raw camera sensor model
+> > > > +------------------------------
+> > > > +
+> > > > +The common raw camera sensor model defines a set of enumeration and
+> > > > +configuration interfaces (formats, selections etc.) that cover the vast majority
+> > > > +of funcitionality of raw camera sensors. Not all of the interfaces are
+> > >
+> > > s/funcitionality/functionalities
 > >
-> > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > index 4ddf98e3143c..1ae20800f34b 100644
-> > --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > @@ -119,9 +119,13 @@ The digital crop operation takes place after binning and sub-sampling. It is
-> >  configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
-> >  0/0. The resulting image size is further output by the sensor.
+> > I'd say singular is right in this case. Maybe Kieran or Dave have an
+> > opinion as well? :-)
 > 
-> I think this last line "The resulting image size is further output by
-> the sensor." doesn't apply anymore now that we have [digital crop +
-> digital scaling + post-scaling crop].
-
-Indeed. I'll address this in v4.
-
 > 
+> Then
+> s/funcitionality/functionality
+> 
+> :)
+
+Ah, indeed. ;-)
+
+...
+
+> > > > +targets are omitted, the further selection rectangle or format is instead
+> > > > +related to the previous implemented selection rectangle. For instance, if the
+> > > > +sensor supports binning but not analogue crop, then the binning configuration
+> > > > +(``V4L2_SEL_TGT_COMPOSE`` selection target) is done in relation to the visible
+> > > > +pixel area (``V4L2_SEL_TGT_CROP_DEFAULT`` selection target).
+> > >
+> > > Let alone the fact I would have used, say, digital crop as an example
+> > > of an optional feature, I think allowing to read all the possible
+> > > targets would save userspace keeping track of what target the
+> > > rectangle they want to configure refers to.
 > >
-> > +The digital scaling operation is performed after the digital crop. It is
-> > +configured by setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on (pad, stream) pair
-> > +0/0, relative to the digital crop.
-> > +
-> 
-> "to the digital crop rectangle." maybe ?
-
-Yes.
-
-> 
-> 
-> >  The sensor's output mbus code is configured by setting the format on the (pad,
-> > -stream) pair 0/0. When setting the format, always use the same width and height
-> > -as for the digital crop setting.
-> > +stream) pair 0/0. The width and height fields are used to configure post-scaler
-> > +digital crop, affecting the right side and the bottom of the frame.
+> > This is how the selection API works. If we want to deviate from that, it's
+> > another thing, but currently if a driver doesn't support configuring
+> > a selection, it won't support that target either.
+> >
+> > If we required all selection rectangles to be supported even if they
+> > wouldn't be configurable, then it'd be up to user to try to change them to
+> > see if they can be modified. I'm not sure if that would be an improvement
+> > as a whole.
 > >
 > 
-> I would introduce the (optional) presence of an additional post-scaler
-> digital crop step explicitly, also I get this is kind of rare feature,
-> isn't it ?
+> Yeah, probably a set-then-verify-if-changed is more cumbersome than
+> detecting an -EINVAL on set_selection.
 > 
-> -------------------------------------------------------------------------------
-> The digital scaling operation is performed after the digital crop. It
-> is configured by setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on
-> (pad, stream) pair 0/0, relative to the digital crop rectangle.
-> 
-> The sensor's output mbus code is configured by setting the format on the (pad,
-> stream) pair 0/0. An optional post-scaler crop step might be performed by
-> specifying a width and height smaller than the digital scaling
-> rectangle. If post-scaler cropping is not supported the format's sizes
-> will always match the compose rectangle sizes applied on the same 0/0
-> (pad, stream) pair.
+> I'm fine with this as long as all the mentioned targets are readable.
 
-Right, even if the post-scaler crop is optional, the format is always
-there but unmodifiable (directly). I'd refer to driver support instead of
-somewhat nebulous "might be performed".
+Currently it's how this is documented in V4L2 sub-device UAPI
+documentation: if you have nothing to configure, then there's no selection
+target either.
 
-How about:
+> > > This makes me think it is intentional not to document digital
+> > > scaling/post-scaler crop in this version ?
+> >
+> > Not in this patch, no. :-)
+> >
+> > I'm fine merging this to the 5th patch if there's an agreement they should
+> > be merged together (probably?).
+> >
+> 
+> I would probably merge the two, yes
 
-The sensor's output mbus code is configured by setting the format on the
-(pad, stream) pair 0/0. The width and height fields are used to configure
-post-scaler digital crop if supported by the driver, affecting the right
-and bottom edges of the frame. If post-scaler digital crop is not
-supported, the width and height fields of the format will match the compose
-rectangle sizes applied on the same 0/0 (pad, stream) pair.
-
-> -------------------------------------------------------------------------------
-> 
-> I didn't get when we spoke about it where the "affecting the right
-> side and bottom of the frame" comes from when talking about
-> post-scaler cropping.
-> 
-> 
-> >  Drivers may only support some of even none of these configurations, in which
-> >  case they do not expose the corresponding selection rectangles. If any selection
-> > @@ -179,12 +183,19 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
-> >        - X
-> >        - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_COMPOSE``
-> >          rectangle on (pad, stream) pair 1/0.
-> > +    * - 0/0
-> > +      - ``V4L2_SEL_TGT_COMPOSE``
-> > +      - \-
-> > +      - X
-> > +      - Scaling. This rectangle is relative to the ``V4L2_SEL_TGT_CROP``
-> 
-> "Digital scaling" ? or is not necessary ?
-
-We don't mention it in the context of sub-sampling either. Digital and
-analogue variants are separately documented where they exist, I think this
-should be fine. What do you think?
-
-> 
-> > +        rectangle on (pad, stream) pair 0/0.
-> >      * - 0/0
-> >        - Format
-> >        - X
-> >        - X
-> > -      - Image data source format. Always assign the width and height fields of
-> > -        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
-> > +      - Image data source format and post-scaler crop. The width and height
-> > +        fields of the format, used to configure post-scaler crop on the right
-> > +        and bottom edges of the image, are related to the ``V4L2_SEL_TGT_COMPOSE``
-> >          rectangle on (pad, stream) pair 0/0. The media bus code reflects the
-> >          pixel data output of the sensor.
-> >      * - 0/1
+Ack. Let's wait for the discussion to conclude.
 
 -- 
 Kind regards,
