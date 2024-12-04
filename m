@@ -1,174 +1,219 @@
-Return-Path: <linux-media+bounces-22636-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22637-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D070C9E3F71
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 17:15:57 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8EB9E3F98
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 17:27:10 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 354492816F7
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 16:15:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD9DB163DEB
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2024 16:27:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B64520C473;
-	Wed,  4 Dec 2024 16:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFFF020CCCC;
+	Wed,  4 Dec 2024 16:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DGcaTZer"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V31ZNHFr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE57188587
-	for <linux-media@vger.kernel.org>; Wed,  4 Dec 2024 16:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F1A20ADCB
+	for <linux-media@vger.kernel.org>; Wed,  4 Dec 2024 16:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733328950; cv=none; b=jLWSTmjXbvLOLHKW5/Lk9oAOmWtNgSCU4RLeFdCTeC56yj3VawFN5Y1ptjp+9pg/8lnystEvBUqWCBYe35u4T/hWh1nOn18J4njJJtCQ+0oB9+58qZcXQ74nhFLoleRFjISfNPzyPp9naAPrkAmU/gizbMNuP6Snz4enm4i0Ea4=
+	t=1733329623; cv=none; b=Ivz3k8OOUWSs0ndgxLxou9QwhZyINzmVwTF77rIPvjds1gSIxdt7Tioi9gz8g0Q1xRbq0W1vxrn8eoBu+9fIov835M42spXmKULDHa+/AV797QgFJbdPRjKiGs2TXVTprBPjQ3rKK0tD+AHPWw9ah+kE3jVNPPwNswHIJvUl8iM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733328950; c=relaxed/simple;
-	bh=joIDpw8E29GRojBpoqkK+X/T8tEr34MBGh7IQ/oluAY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qO31gIgh5aj6q2r8a8uKlV262eYANyLCV02/C2UIn5P4Vn39rWdO4c6ytWRxoeS1UjXzOA26KGOEnGOSRC+u2xjT6N9/ONvDKx0fE77cLyhRvzhRKeQjdw7PYQzC40R8cfjqFGyeiHZz+NhGPcBMpc+JYfSWeTC8qfSbSx69tUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DGcaTZer; arc=none smtp.client-ip=209.85.208.48
+	s=arc-20240116; t=1733329623; c=relaxed/simple;
+	bh=x70cZ6Pnodptk8s8H2UvJEPrrE/aNUkvtZGjOJaEWtk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TP5T1AnSJTumBtNpiTve8TN569eEKp4aPKTwJm/tTW3yFH1rYVeIHRwuj2NlhrrP3+B7BT+ljutYyBg3EkFHq+ZUrNSe65RewnNRs/vhzQ+2QzWYsJ2zqmaD0u9luACcQLEcIZaLwi9oJ2ejPOsAJrEnBY+ejeVAVmHpro0AeeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=V31ZNHFr; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5d0c939ab78so9811a12.0
-        for <linux-media@vger.kernel.org>; Wed, 04 Dec 2024 08:15:48 -0800 (PST)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4349ea54db7so61665e9.0
+        for <linux-media@vger.kernel.org>; Wed, 04 Dec 2024 08:27:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733328947; x=1733933747; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1rHO2R+e0I6TJZIXYLQBQq322w6i2QrZ0HFp2Dkg6e0=;
-        b=DGcaTZeri4Q1gjkb3aPdOaf4UwmJ86+KOJVNXuhE8CQKQLMAllR/AmnoFwsbXFbSiS
-         1R7gWGRS8ma1EcTinhkYqrYGejd0MxNAlu7AEWYVP+NBpLySZAv18QYF08mD1AA37Lo+
-         UVxFDJN9w/tI+EfoB+iZX/8vVzxbAsMBij9GT2Lt5q3rjSHsp1D7aM5cEpzfvlbA6dmz
-         c1hMWgL2njE2cuJo/Pz/iVv2I4/Wu/LvLEUl2hHvur/jEEQgzdVhysBwow3jLtvWWA/Y
-         OvGdYVWOEASWnRm0xuhAku1wODJtKGwxstCon0g5cDt8H00SbK2/AaETFU9SDvyXeBS0
-         AL7g==
+        d=google.com; s=20230601; t=1733329620; x=1733934420; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KyQtsXmeUdkqec1pltW/92iEDMhCyyh/Xugcf79kOqw=;
+        b=V31ZNHFr50T7ICeDRNi9HoJWR8UJd9yFPtaFXfh3HC79SWtGvJJta7PE0hSlmZZL1/
+         8ku4HytApLjsSbL7rymTgPqvTHFsveXMVbVS1c4NZPlx9sBC5PDE/Y2jTSEQiPaw9ARZ
+         Ynf902Ff+xIBb5MEXWgC0hRGy0Vv7o7zuuP9w9y0mahTluJOMUKkEWYnowx+4OaFN4HG
+         lf6+YnakI05ylVVefXhqtrWIlcOB+Ujzi4R1P/PZSaTMRS4IfPCsUvvDVjbW7Y8Ywiyb
+         jD5iGIBMcYMTL60IpKwr9i+PCY766H9yq4BGRMoN8I2YE8I/Czf3WtQqS9UJSPFa/Bn1
+         C9Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733328947; x=1733933747;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1rHO2R+e0I6TJZIXYLQBQq322w6i2QrZ0HFp2Dkg6e0=;
-        b=MFbL2+QvZfT0sg4qbPZf9kf9QXDOYIoZEvQnnhY065I3sK9FczfJgP8btKsECpkkwr
-         3gGOuBFGzyMRyjlqvNQUVJ8Ble8ox6nTuAMZuRvHGuLR+Ib1tOELCkFYF6CbCSJ7rZpS
-         lcHftPQqo89XDMAId5xqqhB4PYjYcHoL6dc8zmemV7dJ6CztwxTaQci7UwtbU1HH9Q0U
-         uvdOZOquKNpK6PPT0QHDoix6K+we1xbt1+ub46HuePeQgDOqNrARA6GQDBy6N3hHVU9j
-         Cl6LFnxM1r4HWM4elsjQ8K9QvDdQd+QS6i8RXgw5CpTy8ZChWgrwxuHptneeO8ZjKgYg
-         qKig==
-X-Forwarded-Encrypted: i=1; AJvYcCUlyCLvn3ZtUo/0I/uzXRz8MAswPho/Xg7K+1t3ZEBtXG8kjUQW6LRrmYCilAi92ZFZUwJp7ePrX1A9lw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/5VBmtuC6gHT1SKz8PAIHniQTFMTidPzdctlR1gjZCSoqyup9
-	4pMqYxgfWZ5xfJ2xhVH0N0AeI4tOtUcLzkM1WX2/Q+zzNQRyX8mVoW8UgDHa3Z9/glK9SsNSE0Z
-	pXxEiaWqJVF62RYoMxZZW70vJ+xjXDj1XpUMa
-X-Gm-Gg: ASbGncvJZdn/SziWKoPV2pN6yPKQznwpd4G5eC4GCiazQ2QMF/ZR1dc7M1QC5LiLGsS
-	Wn8w9bigF6hH2Y5ZVxyCUpk1fPMMTGYHnAM3uqBVjxMR71J/8+CwLEz25AfE=
-X-Google-Smtp-Source: AGHT+IH+tsX9V69opZ/sve8O/AoKYFLP1rqwva7AFm68u1eQU6ovRCfm8nXse/vPk2lxbhPEkYsTf77IKlmuGhob8wk=
-X-Received: by 2002:a05:6402:1bdc:b0:5d0:b501:fc77 with SMTP id
- 4fb4d7f45d1cf-5d118ee38b2mr89054a12.5.1733328946220; Wed, 04 Dec 2024
- 08:15:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733329620; x=1733934420;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KyQtsXmeUdkqec1pltW/92iEDMhCyyh/Xugcf79kOqw=;
+        b=UdchCaVHDm17JKYjAvg+5GoWa2hysI9vPGfey8t1yYWXQvSDf9zVnyov8b3/jlRxQN
+         qyuaby5az1cdfQ3fjtai5R6D2DVNGeLckGoXUcb13E4O3Y5a/MpNTPCZyGeFwgi7nYvL
+         jL6NaXDqrpGB3rPKzwDPIEuaxIu6zj87IG7y99pA6+wKFik4KadumBTAviuWowxf4aNE
+         agsGrTugwgE71X5lqPX0ru+xUEe/UYt7uN8jaIYoO6XMCGUTsfbhzzx+oCGi/0vXRE59
+         bgNB1HfdDcDPY80DbkZYC36xB7d0JD/hJcuJayqdkEusxIRueftrF2JfzQD485cX3NBW
+         KHpA==
+X-Forwarded-Encrypted: i=1; AJvYcCVH8xmo2A8HSkhzdtPhVRqB322IiRtbdPInUoInt9YcxnhTHsN++ZCZN1zmWWkm+VLiM/mtqaA+wJeNwQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAmKTUn9cjQrUu1KJPgLCSfbrSH6ocGEUKrDV4CikJ2PzA9O3C
+	gm/lQHq0Vy7obuBaZfq1odcz1hRiPFR8ok17zt/eUjx+zveOBefyZRB6qMhhhA==
+X-Gm-Gg: ASbGncsXenjFbkLX8TZmsmzLwQKaaGF20l58IF+/pIx2lSH/IsWzsdkct6fI10Tn5KZ
+	E9jcSVXdIrnNFjgf78YDNUNlbP5TQmg15u4gpWTDiMRa4DGWvuAFLKFbiZ9+x3PAzhawKtc7WYe
+	ticjgi8CNiP/VNGY8lBzHCMG9skjlOEuwzURgxXycMNd3oTH8eHc0SJvJJmVfuqPPe590H21tyC
+	jA+tYlO9g7+GSisgziuYaHNRPgbjgnQR7GXRQ==
+X-Google-Smtp-Source: AGHT+IFpzQfGXpeDPtULiRhPLDybLBEA4OSAEcAX75ckbymNW1nJjJIq12WV3lMHghFcvSelG5JPlw==
+X-Received: by 2002:a05:600c:55c5:b0:42b:8ff7:bee2 with SMTP id 5b1f17b1804b1-434d52b563dmr1239595e9.5.1733329619368;
+        Wed, 04 Dec 2024 08:26:59 -0800 (PST)
+Received: from localhost ([2a00:79e0:9d:4:4606:5fa1:8ade:6950])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385e17574ebsm14388276f8f.30.2024.12.04.08.26.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 08:26:58 -0800 (PST)
+From: Jann Horn <jannh@google.com>
+Subject: [PATCH v2 0/3] fixes for udmabuf (memfd sealing checks and a leak)
+Date: Wed, 04 Dec 2024 17:26:18 +0100
+Message-Id: <20241204-udmabuf-fixes-v2-0-23887289de1c@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241203-udmabuf-fixes-v1-0-f99281c345aa@google.com>
- <20241203-udmabuf-fixes-v1-3-f99281c345aa@google.com> <IA0PR11MB7185D54AD6BB8067EAA6AE8EF8372@IA0PR11MB7185.namprd11.prod.outlook.com>
-In-Reply-To: <IA0PR11MB7185D54AD6BB8067EAA6AE8EF8372@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: Jann Horn <jannh@google.com>
-Date: Wed, 4 Dec 2024 17:15:10 +0100
-Message-ID: <CAG48ez3pVzBFTb6uX47fps8mZp3TaRWPcLaKvQwREUKVApd02A@mail.gmail.com>
-Subject: Re: [PATCH 3/3] udmabuf: fix memory leak on last export_udmabuf()
- error path
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Joel Fernandes (Google)" <joel@joelfernandes.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKqCUGcC/3WMyw7CIBQFf6W5azG82lhX/ofpgseFkthiwBJNw
+ 7+L3bucczKzQ8YUMMO12yFhCTnEtQE/dWBmtXokwTYGTrlknAqy2UXpzREX3piJpVL0qJUeBgH
+ NeSY8jqbcp8ZzyK+YPke+sN/6r1QYocSNI78wI2Sv1M3H6B94NnGBqdb6BTX3zp2rAAAA
+X-Change-ID: 20241203-udmabuf-fixes-d0435ebab663
+To: Gerd Hoffmann <kraxel@redhat.com>, 
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, John Stultz <jstultz@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ "Joel Fernandes (Google)" <joel@joelfernandes.org>
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Jann Horn <jannh@google.com>, Julian Orth <ju.orth@gmail.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733329589; l=3258;
+ i=jannh@google.com; s=20240730; h=from:subject:message-id;
+ bh=x70cZ6Pnodptk8s8H2UvJEPrrE/aNUkvtZGjOJaEWtk=;
+ b=wvi+WMu5XyGongyF0xG2h2EfpSwyL8Ch96wwqWKQwp3k2ZEGtB86dYewh42kVY0ZyLnBTMeKu
+ 1GCnV9vQLOPBwlbq+veVUlxDTxbwGjCn5HlM6jDoIcqd5fad7aYhFUZ
+X-Developer-Key: i=jannh@google.com; a=ed25519;
+ pk=AljNtGOzXeF6khBXDJVVvwSEkVDGnnZZYqfWhP1V+C8=
 
-On Wed, Dec 4, 2024 at 10:14=E2=80=AFAM Kasireddy, Vivek
-<vivek.kasireddy@intel.com> wrote:
-> > Subject: [PATCH 3/3] udmabuf: fix memory leak on last export_udmabuf()
-> > error path
-> >
-> > In export_udmabuf(), if dma_buf_fd() fails because the FD table is full=
-, a
-> > dma_buf owning the udmabuf has already been created; but the error
-> > handling
-> > in udmabuf_create() will tear down the udmabuf without doing anything
-> > about
-> > the containing dma_buf.
-> >
-> > This leaves a dma_buf in memory that contains a dangling pointer; thoug=
-h
-> > that doesn't seem to lead to anything bad except a memory leak.
-> >
-> > Fix it by moving the dma_buf_fd() call out of export_udmabuf() so that =
-we
-> > can give it different error handling.
-> >
-> > Note that the shape of this code changed a lot in commit 5e72b2b41a21
-> > ("udmabuf: convert udmabuf driver to use folios"); but the memory leak
-> > seems to have existed since the introduction of udmabuf.
-> >
-> > Fixes: fbb0de795078 ("Add udmabuf misc device")
-> > Signed-off-by: Jann Horn <jannh@google.com>
-[...]
-> > @@ -330,11 +329,7 @@ static int export_udmabuf(struct udmabuf *ubuf,
-> >       exp_info.priv =3D ubuf;
-> >       exp_info.flags =3D O_RDWR;
-> >
-> > -     buf =3D dma_buf_export(&exp_info);
-> > -     if (IS_ERR(buf))
-> > -             return PTR_ERR(buf);
-> > -
-> > -     return dma_buf_fd(buf, flags);
-> flags is now unused in this function.
+I have tested that patches 2 and 3 work using the following reproducers.
+I did not write a reproducer for the issue described in patch 1.
 
-Ack, will remove in v2.
+Reproducer for F_SEAL_FUTURE_WRITE not being respected:
+```
+#define _GNU_SOURCE
+#include <err.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <linux/udmabuf.h>
 
-> > +     return dma_buf_export(&exp_info);
-> >  }
-> >
-> >  static long udmabuf_pin_folios(struct udmabuf *ubuf, struct file *memf=
-d,
-> > @@ -391,6 +386,7 @@ static long udmabuf_create(struct miscdevice
-> > *device,
-> >       struct folio **folios =3D NULL;
-> >       pgoff_t pgcnt =3D 0, pglimit;
-> >       struct udmabuf *ubuf;
-> > +     struct dma_buf *dmabuf;
-> >       long ret =3D -EINVAL;
-> >       u32 i, flags;
-> >
-> > @@ -451,9 +447,16 @@ static long udmabuf_create(struct miscdevice
-> > *device,
-> >       }
-> >
-> >       flags =3D head->flags & UDMABUF_FLAGS_CLOEXEC ? O_CLOEXEC : 0;
-> > -     ret =3D export_udmabuf(ubuf, device, flags);
-> > -     if (ret < 0)
-> > +     dmabuf =3D export_udmabuf(ubuf, device, flags);
-> > +     if (IS_ERR(dmabuf)) {
-> > +             ret =3D PTR_ERR(dmabuf);
-> >               goto err;
-> > +     }
-> > +     /* ownership of ubuf is held by the dmabuf from here */
-> Please also add a comment here that says that if dma_buf_fd() fails,
-> then calling dma_buf_put() will enable cleanup to be done via release().
+#define SYSCHK(x) ({          \
+  typeof(x) __res = (x);      \
+  if (__res == (typeof(x))-1) \
+    err(1, "SYSCHK(" #x ")"); \
+  __res;                      \
+})
 
-Ack, added in v2.
+int main(void) {
+  int memfd = SYSCHK(memfd_create("test", MFD_ALLOW_SEALING));
+  SYSCHK(ftruncate(memfd, 0x1000));
+  SYSCHK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK|F_SEAL_FUTURE_WRITE));
+  int udmabuf_fd = SYSCHK(open("/dev/udmabuf", O_RDWR));
+  struct udmabuf_create create_arg = {
+    .memfd = memfd,
+    .flags = 0,
+    .offset = 0,
+    .size = 0x1000
+  };
+  int buf_fd = SYSCHK(ioctl(udmabuf_fd, UDMABUF_CREATE, &create_arg));
+  printf("created udmabuf buffer fd %d\n", buf_fd);
+  char *map = SYSCHK(mmap(NULL, 0x1000, PROT_READ|PROT_WRITE, MAP_SHARED, buf_fd, 0));
+  *map = 'a';
+}
+```
 
-> With that,
->
-> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Reproducer for the memory leak (if you run this for a while, your memory
+usage will steadily go up, and /sys/kernel/debug/dma_buf/bufinfo will
+contain a ton of entries):
+```
+#define _GNU_SOURCE
+#include <err.h>
+#include <errno.h>
+#include <assert.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/resource.h>
+#include <linux/udmabuf.h>
 
-Thanks!
+#define SYSCHK(x) ({          \
+  typeof(x) __res = (x);      \
+  if (__res == (typeof(x))-1) \
+    err(1, "SYSCHK(" #x ")"); \
+  __res;                      \
+})
+
+int main(void) {
+  int memfd = SYSCHK(memfd_create("test", MFD_ALLOW_SEALING));
+  SYSCHK(ftruncate(memfd, 0x1000));
+  SYSCHK(fcntl(memfd, F_ADD_SEALS, F_SEAL_SHRINK));
+  int udmabuf_fd = SYSCHK(open("/dev/udmabuf", O_RDWR));
+
+  // prevent creating new FDs
+  struct rlimit rlim = { .rlim_cur = 1, .rlim_max = 1 };
+  SYSCHK(setrlimit(RLIMIT_NOFILE, &rlim));
+
+  while (1) {
+    struct udmabuf_create create_arg = {
+      .memfd = memfd,
+      .flags = 0,
+      .offset = 0,
+      .size = 0x1000
+    };
+    int buf_fd = ioctl(udmabuf_fd, UDMABUF_CREATE, &create_arg);
+    assert(buf_fd == -1);
+    assert(errno == EMFILE);
+  }
+}
+```
+
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+Changes in v2:
+- patch 1/3: use file_inode instead of ->f_inode (Vivek)
+- patch 1/3: add comment explaining the inode_lock_shared()
+- patch 3/3: remove unused parameter (Vivek)
+- patch 3/3: add comment on cleanup (Vivek)
+- collect Acks
+- Link to v1: https://lore.kernel.org/r/20241203-udmabuf-fixes-v1-0-f99281c345aa@google.com
+
+---
+Jann Horn (3):
+      udmabuf: fix racy memfd sealing check
+      udmabuf: also check for F_SEAL_FUTURE_WRITE
+      udmabuf: fix memory leak on last export_udmabuf() error path
+
+ drivers/dma-buf/udmabuf.c | 43 +++++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
+---
+base-commit: b86545e02e8c22fb89218f29d381fa8e8b91d815
+change-id: 20241203-udmabuf-fixes-d0435ebab663
+
+-- 
+Jann Horn <jannh@google.com>
+
 
