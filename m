@@ -1,112 +1,126 @@
-Return-Path: <linux-media+bounces-22712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F749E56A0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 14:23:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B419E5718
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 14:31:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6D9C285B27
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 13:23:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B74D0285274
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 13:31:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD5A021C9E2;
-	Thu,  5 Dec 2024 13:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ICrwAPuZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C83218AD3;
+	Thu,  5 Dec 2024 13:24:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A81218ACC
-	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 13:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E860218AB8
+	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 13:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733404905; cv=none; b=U7O0Zo5IS9+JfrRNSZ3LKnvE6QeH63E4sacpxWRXPFrj2ZEt78ulMTT58Kd0hGQ0l9P2YVUyAn/AFddJnOerhW6z04QZ+DG1l1Z8yorL9/n/fpaOV0XxSGIqugeefCSSmm2gKjkr0H8BtcxaNetgsZjP/KW4+rvySEJM1S67xeY=
+	t=1733405094; cv=none; b=WhI+RDNBTLVp1XqB1nVebYQv2dmv0mqdqurpw6aU4+nr0XUSvKiKdOTXQbHzuh8HqVnOVFwAb22Gn5ZnhFlcVMbJUNdH8SPiNGRo6d0Brw+yQM/DPE5INzY9d1RvitDKnyzKru0+/vLlOpdV5yHyK4Clrka4R7Qg9rSn1+/pjBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733404905; c=relaxed/simple;
-	bh=v2mz0y6wBbrJpge0WuxLD/Robz22RfFPETb5zCMYqGA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NQDr6Bs/rvQ/BY9Y1vp8jhqmhiyF53c0x6kc41RQw4RK29tQ82NFhjG90X5K3Rz1SQ+Ge9JdDadvcqm8ZhNy+KolE1bhvn4nHSUGL8zdXNfQVZDZCpxbGuH0T5F5utP06cLki5iKs+xMKF/vkDvojQJvCPEFMobw+Y8BF9+/q54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ICrwAPuZ; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-724fc1aaa91so935044b3a.3
-        for <linux-media@vger.kernel.org>; Thu, 05 Dec 2024 05:21:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733404902; x=1734009702; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v2mz0y6wBbrJpge0WuxLD/Robz22RfFPETb5zCMYqGA=;
-        b=ICrwAPuZqFAIzbG0Da6qTpgYM1TYsPn9YgC7Te8Iaw+b+zFGVyUkUFToCoKRGnytih
-         fiHR6Tt6qlCc+1Ob7y/IPf6ldlXRGQR16IJgi3oEjteEQClONtxpzgVhAKeHMlxNg0e6
-         BtC47iAlLhEjSWnwW6USJckVZ8RpQG7MRP6ZM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733404902; x=1734009702;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v2mz0y6wBbrJpge0WuxLD/Robz22RfFPETb5zCMYqGA=;
-        b=iKxET/2bDMRAnUmnLNR0jJmoWwAfFjN1CDf9HaENDqAZH37mI7gY6Y3BavFMgV0giI
-         CPTrRZgyCPo+T6Xax0f+GpWJ610DB4OP+PYGmgPI5Ay5DEu+qnAAn4BkGT21CgVb59NZ
-         8hT2/4U7SlZ0rbMUXTreIrAHridXGFWFPrazo2OiP9Md7T0o4TiJgt8NsGi/t4HnLWz7
-         NyA/daTq3f43vOlyDbuR/6+ighO8raZ1TXgUN0wpDrHxyR7IOVZyEWhC+KXEkFO1R46P
-         NvOOCRGehOsAnuKoEJMAxfk4gE+RbVysICvKnUDkhrkh5ELjxH5zhf+4MTdK64txMEjZ
-         vuew==
-X-Forwarded-Encrypted: i=1; AJvYcCUi/V5QOP/I33fY7X9sa5hhCRqzxFbp56KuQux9NE0bArUJ1eGfuFairW4+Q0jGPz+BddzZhpgYyBDbug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyO7Psdvf8nOTOFh5BM3y/RYI5mxV9vEgTtxTwqP2WpeZvNqZYm
-	I414k9v8PHu7J8UyPDaXgRXmKjQHSjROM5E3vBmp47QhGMQq8j7VtZi3aqL/BGkE6/wTayKiybo
-	=
-X-Gm-Gg: ASbGncsunXQUXOBnDu3DbghnHmUdT3MCHwjATeK898BaxXci7Uvf68Myf9Y+u5C+Wqb
-	5Ab9URdMETiMeJ2JHy1Qx9r6XvGBs+FNAuNWU+t84DaQJBwQDG7LZOSGf7sB/FOc4BbnvMHCaRy
-	3Vix3HQLx5bsEcqPBswSUbEged/kTrUt2cA8qDwVNmxJjgATAV9SeFz2ak9tq4fxUxYDjdLUyp8
-	UZzBRz4NQYkZedNFKxXOL82mbhGwPHf0zkGaHmgCB8MS0MCVhSpcPMGHRXxVhUAQC2bFKIQWQEU
-	xc+ezdZmUMU0IlEf
-X-Google-Smtp-Source: AGHT+IFSNm3r9jiRFjGO7GpyFgLPHxsIzii8I40jwPzZs0WLNorH8ZeC85Rk/PMXv/FB/XXRAJi7Dg==
-X-Received: by 2002:a05:6a00:2d1c:b0:725:9d1d:3462 with SMTP id d2e1a72fcca58-7259d1d4e90mr5272893b3a.25.1733404902481;
-        Thu, 05 Dec 2024 05:21:42 -0800 (PST)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com. [209.85.210.171])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725a2a90542sm1241289b3a.106.2024.12.05.05.21.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Dec 2024 05:21:41 -0800 (PST)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-724fc1aaa91so934991b3a.3
-        for <linux-media@vger.kernel.org>; Thu, 05 Dec 2024 05:21:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVtpUVJtT0scoCB+19MPVBoNA/yXgvOJ8+D/ny6BI+E4UckBKCAyfSpqClozgFA9o47ldobyrsmvnNKNw==@vger.kernel.org
-X-Received: by 2002:a17:90b:3e82:b0:2ef:31a9:95af with SMTP id
- 98e67ed59e1d1-2ef31a99a8emr7520588a91.27.1733404900918; Thu, 05 Dec 2024
- 05:21:40 -0800 (PST)
+	s=arc-20240116; t=1733405094; c=relaxed/simple;
+	bh=1QuGLgwlk9GZenTLRzrLjimwqQETSJf63F8p7JecOP8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ks7LdwtXbDMcxlvFSMwZHNmCdoE1TOBiVpGTZKJlV22iamBvYZ4zn6rQ6hld3uzhZtWrM0+5PZIaVhaplIKY0+MDMW9uKuwK/NX6bmVVmxOVkI6Yavwxbq4dnJ0cfRIZxmtUh7dl85RwkpxfWaV7bW1RahvYQmY+NtD9/faTN+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FCD7C4CED1;
+	Thu,  5 Dec 2024 13:24:53 +0000 (UTC)
+Message-ID: <da674b74-8c59-4181-95c0-20d1a4a15529@xs4all.nl>
+Date: Thu, 5 Dec 2024 14:24:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241204193935.GE10736@pendragon.ideasonboard.com>
-In-Reply-To: <20241204193935.GE10736@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 5 Dec 2024 14:21:28 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsj7e5G4e4cH=S=yk4kh=SS=Bvojfs76TWtRzkbMDdizw@mail.gmail.com>
-Message-ID: <CANiDSCsj7e5G4e4cH=S=yk4kh=SS=Bvojfs76TWtRzkbMDdizw@mail.gmail.com>
-Subject: Re: [GIT PULL FOR v6.14] rkisp1 miscellaneous changes
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: cec: include linux/debugfs.h and linux/seq_file.h
+ where needed
+To: Jani Nikula <jani.nikula@intel.com>, linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+References: <20241127095308.3149411-1-jani.nikula@intel.com>
+ <87plme78hm.fsf@intel.com> <7d7355f4-ee73-41a6-9d62-f15cb5135e41@xs4all.nl>
+ <87h67i1d26.fsf@intel.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <87h67i1d26.fsf@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 4 Dec 2024 at 20:39, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hans, Mauro,
->
-> Ricardo asked for a pull request that can stay on the list for a week
-> before being processed (I assume for CI testing purpose), so here's one.
-> It's a real pull request, but it doesn't need to be merged urgently (as
-> long as it makes it to v6.14).
+On 05/12/2024 14:20, Jani Nikula wrote:
+> On Fri, 29 Nov 2024, Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>> On 29/11/2024 09:24, Jani Nikula wrote:
+>>> On Wed, 27 Nov 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+>>>> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>
+>> That email no longer exists. Just use hverkuil@xs4all.nl or
+>> hansverk@cisco.com, either works, but I prefer my private email.
+> 
+> Sure. It's just that hverkuil-cisco@xs4all.nl is still all over the
+> place in MAINTAINERS in Linus' master.
 
-Thank you so much Laurent. I am done with the development.
+I'm very sorry, just disregard my email.
 
-Mauro, Hans feel free to apply it when it works for you!
+I got confused with hans.verkuil@cisco.com, that work email no longer exists.
 
-Regards
+A few days before I wrote that reply to you I had posted a patch removing the references
+to that old work email, and so that was still in my head.
+
+Regards,
+
+	Hans
+
+> 
+> BR,
+> Jani.
+> 
+> 
+
 
