@@ -1,149 +1,124 @@
-Return-Path: <linux-media+bounces-22752-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22753-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018B89E615F
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 00:30:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D71349E6179
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 00:41:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB1521885A4F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 23:30:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B193D1659E1
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 23:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5649A1D6DBC;
-	Thu,  5 Dec 2024 23:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FikzC+30"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A4C11CD1FB;
+	Thu,  5 Dec 2024 23:41:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from pilot.trilug.org (unknown [208.79.82.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C46184A22;
-	Thu,  5 Dec 2024 23:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2B71B4136
+	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 23:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=208.79.82.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733441436; cv=none; b=lVMEzHdGXTXL06qGtcbW6aRJUdmjOLzNff8MZ1racwgmdoeEgpQ+/T1IjOdDZbO2RpdAhTkFjh7VxDdO1nKsSpLf8eHaNzYwrVdv4Tb/M1GkYmdiHCbMIK5KPWgswRvm5LwIp6tZGVFORPCdv0xnqKU9tzhU+4wKD/OUBD0rJew=
+	t=1733442087; cv=none; b=APuzA3cnUZYn46J1jyXYE0nU6iswdJE5owyuLqj8ZZceGi3SKoiXpt5CUNI4PHwQU2NkBJxKbHs6waytsyCpmopsOSpKh3+hnv23M5StnY8ChBwE2/FD2sdw+C1byhehiRKNpSRf2wmUP+VdoPZ6wOqY1phswq0XPJrgiBAETOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733441436; c=relaxed/simple;
-	bh=I/Bbmecpn8RogQU7kB8TZf0KJSzLC1/N7kmtot7TRMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HB3tA11pz7riu8Tb1uuAQuBp++WkYM9+IglloJ5HZcVYz06JpoRb1tdKkphj2xFIUcGveJ8Nonlem0Ba0PLSyWFC/etGKrRYbI8H/+9DqZS6eTrMQrzGrJhn0Aioex14RlSBJpJGhbAas8B3IiW5vPguqV/pUQBqw7PrMEMj2iM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FikzC+30; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733441435; x=1764977435;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I/Bbmecpn8RogQU7kB8TZf0KJSzLC1/N7kmtot7TRMo=;
-  b=FikzC+30XI/iOT68dPbfSDHYtDqlGzCwcZQrXiSb3bYr+dxGfq7A6xKX
-   KxaiRp1tf0bwojA7cF+ZMpgDzil6yhfURnBiAOuxmkxNtQMgj4RpupWnf
-   7h2hTotgTGp+TmTuFSqIXbzYULFSf4cLSVPdHec281IBG4FrQYU7U/rmD
-   kCzSnb3V11V6V7QKpJGowrKvP4vjcDL9qdyJFLN8mYUTWdWxDyeJ1zXJh
-   waL6/IjMUXdeCz6Lb4k6FBAQ9uY4+5zmfWqYlQ3/DGbUMCDD2kvOZXmJb
-   OJIMdy0BncCbBUQ3leUyvIfhjH98cAGFito+iy3NMUUCXd8rmOW5rBh+i
-   A==;
-X-CSE-ConnectionGUID: +EcI7RVmT4yfbM0C3nTsmg==
-X-CSE-MsgGUID: jhjbj5ekQpqQd+5KiQf1WQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="37564427"
-X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
-   d="scan'208";a="37564427"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 15:30:34 -0800
-X-CSE-ConnectionGUID: kigTlvqHQOmnUT1IudSx6A==
-X-CSE-MsgGUID: FlGBZXefRl6sPWVdfnP/5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,211,1728975600"; 
-   d="scan'208";a="98312134"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2.lan) ([10.125.108.192])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 15:30:31 -0800
-Date: Thu, 5 Dec 2024 15:30:29 -0800
-From: Alison Schofield <alison.schofield@intel.com>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>,
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-	linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
-	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v3 01/11] libnvdimm: Simplify nd_namespace_store()
- implementation
-Message-ID: <Z1I3lSpcnIIbc7S1@aschofie-mobl2.lan>
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-1-1611f1486b5a@quicinc.com>
+	s=arc-20240116; t=1733442087; c=relaxed/simple;
+	bh=JceMeVhh1XUX5x8fmZwmdEVnIaO+Qipoo8VZ9aZi8Iw=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=PbWeZHWIm6SHjXdxtCL69u7lYhdcItFtXfbRpbLEjyXCgU6bZt9ttIQS3C1dVH7vmbMLdhtEUMS8SUfUXgDMiCvGC3elO5o8JUEhnWkxQCnQgobpMUnE+5Xjn9mVNWe+/k5sLriCASqbgFT2t19O1VRRvSRlr2qZDKBuCXQk/Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=undecidedgames.com; spf=pass smtp.mailfrom=undecidedgames.com; arc=none smtp.client-ip=208.79.82.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=undecidedgames.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=undecidedgames.com
+Received: by pilot.trilug.org (Postfix, from userid 8)
+	id C0EFA58397; Thu,  5 Dec 2024 18:32:17 -0500 (EST)
+X-Spam-Level: 
+Received: from undecidedgames.net (syn-174-109-074-033.res.spectrum.com [174.109.74.33])
+	by pilot.trilug.org (Postfix) with ESMTPA id ACFCA5834F
+	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 18:32:16 -0500 (EST)
+Received: from [10.55.46.125] (unknown [10.55.46.125])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by undecidedgames.net (Postfix) with ESMTPSA id 6FFF168BDA7
+	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 18:32:15 -0500 (EST)
+Message-ID: <4094d6b1-e33c-4d57-9baa-891eca189fb7@undecidedgames.com>
+Date: Thu, 5 Dec 2024 18:32:14 -0500
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241205-const_dfc_done-v3-1-1611f1486b5a@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-media@vger.kernel.org
+From: Brian <bh@undecidedgames.com>
+Subject: v4l2 4.14.98 buffer size disagrees with frame size
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 05, 2024 at 08:10:10AM +0800, Zijun Hu wrote:
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
+Hello,
 
-Hi Zihun,
+Preamble:  Please accept apologies if this isn't an appropriate forum 
+for my topic.  I'm not entirely sure where to ask.
 
-Similar to my comment on Patch 10/11, this commit msg can be
-explicit:
+I've got a program that streams MJPEG video out an HTTP connection from 
+a USB-connected camera.
 
-libnvdimm: Replace namespace_match() w device_find_child_by_name()
+On linux kernel 4.1.15, it works beautifully.  On linux kernel 4.14.98, 
+it does...not.
 
-> 
-> Simplify nd_namespace_store() implementation by  device_find_child_by_name()
-                                                  ^using 
+Side note: Yes, I know these are old kernels.  This is an embedded 
+application and I don't have the freedom of choice in this matter.  
+Moving on..
 
-Otherwise you can add:
-Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+In developing this program, I made some utilities to exercise various 
+v4l2 interfaces; using those utilities, I found the most obvious 
+difference appears to be the info one gets from the VIDIO_QUERYBUF ioctl.
 
-> 
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-> ---
->  drivers/nvdimm/claim.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
-> 
-> diff --git a/drivers/nvdimm/claim.c b/drivers/nvdimm/claim.c
-> index 030dbde6b0882050c90fb8db106ec15b1baef7ca..9e84ab411564f9d5e7ceb687c6491562564552e3 100644
-> --- a/drivers/nvdimm/claim.c
-> +++ b/drivers/nvdimm/claim.c
-> @@ -67,13 +67,6 @@ bool nd_attach_ndns(struct device *dev, struct nd_namespace_common *attach,
->  	return claimed;
->  }
->  
-> -static int namespace_match(struct device *dev, void *data)
-> -{
-> -	char *name = data;
-> -
-> -	return strcmp(name, dev_name(dev)) == 0;
-> -}
-> -
->  static bool is_idle(struct device *dev, struct nd_namespace_common *ndns)
->  {
->  	struct nd_region *nd_region = to_nd_region(dev->parent);
-> @@ -168,7 +161,7 @@ ssize_t nd_namespace_store(struct device *dev,
->  		goto out;
->  	}
->  
-> -	found = device_find_child(dev->parent, name, namespace_match);
-> +	found = device_find_child_by_name(dev->parent, name);
->  	if (!found) {
->  		dev_dbg(dev, "'%s' not found under %s\n", name,
->  				dev_name(dev->parent));
-> 
-> -- 
-> 2.34.1
-> 
-> 
+One of my little utilities spits out lots of data about the camera, then 
+grabs one frame.  Here're the salient bits of that output:
+
+On 4.1.15:
+   Current buffer format:
+   MJPG at 1920x1080 Progressive
+     Bytes per line: 0      Image size: 4147200    Colorspace: SRGB   
+Transfer function: DEFAULT
+     Quantization: DEFAULT   YCbCr Encoding: DEFAULT
+   Notice: Asked for 1 buffers and got 1.
+   Notice: Buffer size 4147200 at offset 0x0
+   Releasing resources...
+   Asked for a frame and got 4151296 bytes (99%)
+
+On 4.14.98:
+   Current buffer format:
+   MJPG at 1920x1080 Progressive
+     Bytes per line: 0      Image size: 4147200    Colorspace: SRGB   
+Transfer function: DEFAULT
+     Quantization: DEFAULT   YCbCr Encoding: DEFAULT
+   Notice: Asked for 1 buffers and got 1.
+   Notice: Buffer size 4149360 not expected size of 4147200 bytes
+   Releasing resources...
+   Asked for a frame and got 4151296 bytes (99%)
+
+The key difference is the size of the buffer size that gets reported on 
+4.14.98 is larger than the frame size.
+
+My streaming code just shoves frame data out the HTTP connection, 
+inserting MJPEG boundaries between frames.  It doesn't seem to matter 
+whether I send out the "bytesused" or "length" number of bytes; the 
+result is a stream that is full of garbage, sticky frames (where old 
+video frame reappear in the stream amidst new frames), and and 
+all-around bad time.  Data gets into the buffer by way of the 
+VIDIOC_STREAMON ioctl.
+
+So I'm inclined to suspect v4l2 in kernel 4.14.98 is doing something 
+that I don't understand (that it isn't doing in 4.1.15) when it streams 
+frames into buffers.
+
+At this point, I'm not even sure what the correct questions are to ask.  
+I'd appreciate any sort of advice on this.
+
+Many thanks,
+-Brian
+
 
