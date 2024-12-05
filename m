@@ -1,178 +1,153 @@
-Return-Path: <linux-media+bounces-22707-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22708-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095959E55A3
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 13:38:50 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB8B61883681
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 12:38:49 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E37C6217F3A;
-	Thu,  5 Dec 2024 12:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9bbDzvF"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0DC9E5609
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 13:59:27 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C98B25765
-	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 12:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38D81286B15
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 12:59:26 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99134218E8F;
+	Thu,  5 Dec 2024 12:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oZMcMhai"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF3D218ACA;
+	Thu,  5 Dec 2024 12:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733402324; cv=none; b=Ddp8peabQfnsXnYIWlWbPAvdk53IqDxeOHh2E3Tr49DAl2Fr0gesm7XyCZ8rHZr9wCrYqDSOx/fs0QwddP77KrBezkABiLmeHDJQt6n7WylsKEVONkXi5YHRAmo0qLkBnElQenhDy2zQAbtIYE+jyzHBum9m/g0kG7ziDgmhr3s=
+	t=1733403532; cv=none; b=gE8YplaciEENrcbEBSNBBx5qFRGbNz31ZWGI9qbW3YaaPLPkJ90YAUfoZXiohbjHEC+Dj681vTOlEL+S+aM5KJT/guVNj+ILn+ENM4WSBtfCMdiPx44+XyoPUL8sM0JEysZtQmZ8Xs/p+MxGPBGl5PwpLF0f7/MkXyH2OmLBVgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733402324; c=relaxed/simple;
-	bh=ZvKmNiyqTGEtlIliZ4bXI7cO1JwnvkfnXF8WFSqYxLg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hKRnv89bTU+eZFFhDNaE4ixYN82z1zmuCOFcV2iQKs4qyM3ME1S1plMosAT2Z+4uS/L03g0L/mpuAM1Hp/rs+QsEzoYn3zmpPy/J8LWDm1Hn3Ir4rqD5sAydaniAktwHK02aZ829F0TKA17i/URpbU+KnxUA8VxGlho3pq2wW5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9bbDzvF; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733402322; x=1764938322;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZvKmNiyqTGEtlIliZ4bXI7cO1JwnvkfnXF8WFSqYxLg=;
-  b=M9bbDzvFquDM8LPBWPa033ut/VAZdPoYJ+lPhkk48MIuhXbwtCc4kglh
-   /nfBEXrVI3K91Uf/9GgYUNx8oFOs+NSXZKpF7KjnG/PBUF5WsBzI8sYuM
-   +eXbSeWkQgDf9yZpk0A/RsArCfOqwiCyTQcraoh1hz3KM/8zxZWIQ+poz
-   52hogCBpUGWdQbOGq4zxL8RC77FB+86eJw6kvxoR2r6mnp+mlmk1I7ym0
-   LtIFPp02Sv2cNf6UXOBMgnQPbrs6qMMLCAZXWJVyovTAfrCw31J3F1s2X
-   JWDNlfCjMWQ2cNnEWyi1zyZqU+bb5NkhKEisMpJuQ19H+74OZXTwQFhOk
-   Q==;
-X-CSE-ConnectionGUID: /AR5DJz6Rx+ef9LsurEl9A==
-X-CSE-MsgGUID: 1Vj7HK4pQsiWJVkdOPOLFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="37646825"
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="37646825"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 04:38:40 -0800
-X-CSE-ConnectionGUID: fperiCDmRry4buE4vOZXFQ==
-X-CSE-MsgGUID: 9aUYFKMFTWqHTVZVxqOcmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="99048999"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.32])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 04:38:39 -0800
-Date: Thu, 5 Dec 2024 13:38:31 +0100
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, david@ixit.cz
-Subject: Re: [PATCH v3 1/1] media: ccs: Clean up parsed CCS static data on
- parse failure
-Message-ID: <bsbdtsmnslcnsl6ptqaeeblgygai6ytpgncfj2ul3smbrdze32@hr2wdrumy7mo>
-References: <20241205094446.1491176-1-sakari.ailus@linux.intel.com>
- <l6jopnrvkmbycikl6pckfjnainwyppeiswhtkz7l2mzx55p2ql@5a656psljr5u>
- <Z1GVDO4Z1njEG8Eu@kekkonen.localdomain>
+	s=arc-20240116; t=1733403532; c=relaxed/simple;
+	bh=kSmpCKQlwXxgLW3Gn7DKNIbnNLX6Wrv+XfsTsQZ+jVw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Q9TlZ7EgbXc6wBwbo4leOp6II9jeWhf2cF2mKa4ZrWLApuUkbVtEGig/p5g3a/5pjVYOgrx8w/KvRyvFUXEpOjZzkNXuaOWv6tP6BEgBUElVFTkBiOkGL7ZSo+VIZYaUaHNbtcqBd8O+4a9ndAK3s1QAScCJ05Obn74xsRrPuFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oZMcMhai; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5BmpwE026044;
+	Thu, 5 Dec 2024 12:58:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Wgtya74jr3fwO8Z5Wb9rXbJo7gjO4bNxMH8VWgYYMQk=; b=oZMcMhaiYn/3eFfi
+	M4VsH1m2vhpcc6sPw1fAr/TB/dnAwns7i9k6+3tpNRJYm62eeyRjrF5yJCkGZ0Sn
+	NQKXQpc7v20UoMAYT7Ng/8O6B6Q5ennkmHB91mg+GfsdxiYWnCgiEmW9RRsJo2y5
+	Pwg7SvgfChEce2bvHB4PnpNjeYwKpp5okrWztQRbEBtKECc6XFrHuqcLXd6BW5rw
+	MjIFyOQBz2zPFy2oSWDAcf+7rx8RQGVPx/Eeygcme6yCfIp9Ki5lHRp8JMFamruD
+	0YfBoSY/vDAVyQOo1LWXpunjLOGeNxPrWfScc0shp299Wrp3fKOnVPTNDtFX6WlH
+	mpVwtg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439yr9q232-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Dec 2024 12:58:38 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B5CwaDi008832
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 5 Dec 2024 12:58:36 GMT
+Received: from [10.204.66.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Dec 2024
+ 04:58:28 -0800
+Message-ID: <dbc5e54e-97ef-4d88-a2bd-a6493527c0dc@quicinc.com>
+Date: Thu, 5 Dec 2024 18:28:25 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z1GVDO4Z1njEG8Eu@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/5] media: dt-bindings: Add qcom,sc7280-camss
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski
+	<krzk@kernel.org>
+CC: <rfoss@kernel.org>, <todor.too@gmail.com>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <akapatra@quicinc.com>, <hariramp@quicinc.com>, <andersson@kernel.org>,
+        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>
+References: <20241204100003.300123-1-quic_vikramsa@quicinc.com>
+ <20241204100003.300123-2-quic_vikramsa@quicinc.com>
+ <oko5qqysmxhicqzkwhkz54wvsmt64ba3cd37zkcy55ee77owbk@5z3zetfr2ejx>
+ <eaffa633-c3a4-4924-8ba7-694b18bf92ee@quicinc.com>
+ <2cb5940b-3779-4450-a213-fa766df7f406@linaro.org>
+Content-Language: en-US
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+In-Reply-To: <2cb5940b-3779-4450-a213-fa766df7f406@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: FrAt9i5wYfoytjkDfEz-v4cDQJXgCMal
+X-Proofpoint-GUID: FrAt9i5wYfoytjkDfEz-v4cDQJXgCMal
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
+ clxscore=1015 priorityscore=1501 mlxlogscore=650 phishscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412050094
 
-Hi Sakari,
 
-On Thu, Dec 05, 2024 at 11:57:00AM +0000, Sakari Ailus wrote:
-> Hi Mehdi,
-> 
-> Thanks for the review.
-> 
-> On Thu, Dec 05, 2024 at 10:54:10AM +0100, Mehdi Djait wrote:
-> > Hi Sakari,
-> > 
-> > On Thu, Dec 05, 2024 at 11:44:46AM +0200, Sakari Ailus wrote:
-> > > ccs_data_parse() releases the allocated in-memory data structure when the
-> > > parser fails, but it does not clean up parsed metadata that is there to
-> > > help access the actual data. Do that, in order to return the data
-> > > structure in a sane state.
-> > > 
-> > > Reported-by: David Heidelberg <david@ixit.cz>
-> > > Fixes: a6b396f410b1 ("media: ccs: Add CCS static data parser library")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > > since v2:
-> > > 
-> > > - Properly clean up after all error cases.
-> > > 
-> > >  drivers/media/i2c/ccs/ccs-data.c | 12 +++++++-----
-> > >  1 file changed, 7 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/ccs/ccs-data.c b/drivers/media/i2c/ccs/ccs-data.c
-> > > index 9d42137f4799..2591dba51e17 100644
-> > > --- a/drivers/media/i2c/ccs/ccs-data.c
-> > > +++ b/drivers/media/i2c/ccs/ccs-data.c
-> > > @@ -10,6 +10,7 @@
-> > >  #include <linux/limits.h>
-> > >  #include <linux/mm.h>
-> > >  #include <linux/slab.h>
-> > > +#include <linux/string.h>
-> > >  
-> > >  #include "ccs-data-defs.h"
-> > >  
-> > > @@ -948,15 +949,15 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
-> > >  
-> > >  	rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, verbose);
-> > >  	if (rval)
-> > > -		return rval;
-> > > +		goto out_cleanup;
-> > >  
-> > >  	rval = bin_backing_alloc(&bin);
-> > >  	if (rval)
-> > > -		return rval;
-> > > +		goto out_cleanup;
-> > >  
-> > >  	rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, false);
-> > >  	if (rval)
-> > > -		goto out_free;
-> > > +		goto out_cleanup;
-> > >  
-> > >  	if (verbose && ccsdata->version)
-> > >  		print_ccs_data_version(dev, ccsdata->version);
-> > > @@ -965,15 +966,16 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
-> > >  		rval = -EPROTO;
-> > >  		dev_dbg(dev, "parsing mismatch; base %p; now %p; end %p\n",
-> > >  			bin.base, bin.now, bin.end);
-> > > -		goto out_free;
-> > > +		goto out_cleanup;
-> > >  	}
-> > >  
-> > >  	ccsdata->backing = bin.base;
-> > >  
-> > >  	return 0;
-> > >  
-> > > -out_free:
-> > > +out_cleanup:
-> > 
-> > Don't you think some kind of logging or at least a dev_dbg() would be
-> > helpful here to let the user know that ccs_data_parse() failed ?
-> 
-> Good question. I think it's a good idea to print a warning, probably on
-> warning level. I alsoI think it should be a separate patch.
-> 
-> Could you write one? :-)
+On 12/5/2024 5:26 PM, Bryan O'Donoghue wrote:
+> On 05/12/2024 10:59, Vikram Sharma wrote:
+>> Hi Krzysztof,
+>>
+>> Thanks for your "Reviewed-by"
+>>
+>> +        camss@acb3000 {
+>>
+>> If there is going to be resend, then node name: isp
+>>
+>> Sure, we will change node-name from camss to isp or camera (As its a 
+>> part of generic names recommendation as per the shared link.)
+>> If there is a resend. or we will address this as a followup.
+>>
+>> So
+>>
+>> - camss@acb3000 {
+>> + camera@acb3000 {
+>>
+>> Best Regards,
+>> Vikram
+>
+> Please no top-posting.
+> https://subspace.kernel.org/etiquette.html
+>
+> Shouldn't that be isp@0xaddress ?
 
-Yes, I will take care of it.
+ACK.
 
-With that
-Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+- camss@acb3000 {
++ isp@acb3000 {
 
-> 
-> > 
-> > >  	kvfree(bin.base);
-> > > +	memset(ccsdata, 0, sizeof(*ccsdata));
-> > >  
-> > >  	return rval;
+In both YAML and DTS. If we post V8.
 
---
-Kind Regards
-Mehdi Djait
+>
+> If you are making this change, please remember to do it in both the 
+> example and the dts.
+Understood. Will avoid this.
+>
+> ---
+> bod
+
+
+Best Regards,
+Vikram
+
 
