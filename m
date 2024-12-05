@@ -1,160 +1,127 @@
-Return-Path: <linux-media+bounces-22696-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22697-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3959E51D8
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 11:14:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9D89E5280
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 11:37:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 238C918825B7
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 10:13:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B850166F4F
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 10:37:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A163E1E282D;
-	Thu,  5 Dec 2024 09:54:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C8AA1DA309;
+	Thu,  5 Dec 2024 10:37:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFHG0eML"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="guWl3kaO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4D21E00BE
-	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 09:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387291D3566;
+	Thu,  5 Dec 2024 10:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733392463; cv=none; b=iEFSptP3I1oC1YJnF9mKF4U5RXWqd/KJ6bQNBBvdE7vp7k4bd4tXckW7lWgv2a1EPPTh1dpaKEkDugZVdhgzegogEgjX27aZkA93eVcTohv3NCjNhvSzcRKnB3jmpHcFSzxdlVrsqoRRODCXU5wJZwt8/uvSFo3mG7SJKQZwq0Q=
+	t=1733395052; cv=none; b=ZUeEyGfyrhBpNHb6vQQyfLdJTIDJRXQUHgU6ZOBFr1vBV67tCnXM3LkPogLxrOCEt7aZ1t6PTfG+bgO3QRblaHi0e3OgW5ttH1J5v3Sfnk4qkFNgS1gRjdDqiwD+OQgWKvE4hJOwhtdT+HCXEaI7A3Saxakp882G0gnV1QbHUKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733392463; c=relaxed/simple;
-	bh=iepEHfrahwrAqNFAEM7quQvBvdx6tA6W3SAQ98e0o/s=;
+	s=arc-20240116; t=1733395052; c=relaxed/simple;
+	bh=k0Ri1gJvfMPkkmwOG5H5IkESAn8lv1SqrkOcLFEGEog=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mGuuikYHNMsg9Mk4Kd247ZvjE3a79E0ehpf8GEL3bE3h99uEeopeoGOokdDohTIXiD6BmBUYMgbsEuhLtWwUXxlQHNLKfR28QR+rhZ33WXeS1NQP9mGYq0Zmuzyv2UB2RqTGiQYOeMCwXf16nzG5gv0gWtbHsThBiL0yHbaqdao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFHG0eML; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733392461; x=1764928461;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iepEHfrahwrAqNFAEM7quQvBvdx6tA6W3SAQ98e0o/s=;
-  b=mFHG0eMLl7zqgOVKk0VGFbDsSkOHStoDxiG2SHzvQ4iK71W9+q9F7fax
-   WIMtI02zSHyttKEVLyk2/LlWGWvJGOV+JNJqNccXWi3mYBInmyZaWOCIh
-   ZOH50vvuK7Y7JX6VMaE5JHgKYTb/XZ8nuvBZFdmR9UZtumPCNkbEkljRT
-   0xDgufAK1IYzJsFramFGTRCEJULc3JjPGnL/J3ymgGumJH3pxOHtZ3YJm
-   pm37TEAOLx0TriWlUunSpVe0YLHdvcD1Sub+PK+A91kNlBERtsJ16/Dr8
-   wtuJeYI4r/edTWXmbQ9DUikRfIae4F2DiIHeMU+rhXKw3cZM7fDyAfH6R
-   Q==;
-X-CSE-ConnectionGUID: 0jHjxJXAQtqMpwxXcs4o6A==
-X-CSE-MsgGUID: xzndSi3uTzCEWhBPAF2QvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33045928"
-X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; 
-   d="scan'208";a="33045928"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 01:54:21 -0800
-X-CSE-ConnectionGUID: nWbFqV0lRBmfhExnv0NtSw==
-X-CSE-MsgGUID: abUv2HQxT/qZ5bs3/pMuFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="99087914"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.32])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 01:54:20 -0800
-Date: Thu, 5 Dec 2024 10:54:10 +0100
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, david@ixit.cz
-Subject: Re: [PATCH v3 1/1] media: ccs: Clean up parsed CCS static data on
- parse failure
-Message-ID: <l6jopnrvkmbycikl6pckfjnainwyppeiswhtkz7l2mzx55p2ql@5a656psljr5u>
-References: <20241205094446.1491176-1-sakari.ailus@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GhAYxoL7+WcdIHF1+5N4BwfzLBUQvE+KMxh8x9XANRk/hHxLWFRVVLZwpiPkVFJM2iPTLiRumMG7lv7zFyflgWx81gI4Se2z17zXBjawaFnHl6wbeV36pLzHYkxiuHBoHp84nP+VElKCuIRlXfgiYwvNHWqKFHID/71xyY+Ec9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=guWl3kaO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 853FDC4CED1;
+	Thu,  5 Dec 2024 10:37:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733395052;
+	bh=k0Ri1gJvfMPkkmwOG5H5IkESAn8lv1SqrkOcLFEGEog=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=guWl3kaOoGEK+6hAPbImxmyWGcZsuvgDfS+SvtpN9yapsfB7pqHGGfp5hVdYv+Q5w
+	 vuRJCFOEzZPcd6Zebd/3fx8AKcwYYRIt2OSrHd1J3yxUb8h1Rom0Xy/H5DqebnGf5X
+	 2dcCaDOq9qqgy/7JnLhrUhhwK5k8bnLOoFX2Tzhd9Y9CvAuLbKVQ0fdaEysiLRWUwk
+	 SYb80dJWMM3YYx1tkOF51oLUhxScy1I23lx2EE8ZPxRTsY8jpWX6xygI0m+rKvAwdl
+	 2OBp+y6LpIANTG9T4G1GK6HuX4jdFpJVpP8FmAHs6E8qRz13DpF2xkEdujO4j3Rh0T
+	 szxkvQEuQm43Q==
+Date: Thu, 5 Dec 2024 11:37:29 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: quic_zijuhu <quic_zijuhu@quicinc.com>
+Cc: Zijun Hu <zijun_hu@icloud.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-sound@vger.kernel.org, sparclinux@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-cxl@vger.kernel.org, linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	open-iscsi@googlegroups.com, linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
+Message-ID: <eyu7nm5hvwfqxgysnrzsvianzf7abvlovpxfo7snsxowmuuhpj@tah3gkqm5ldj>
+References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
+ <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
+ <7ugfaj2h3sy77jpaadco5xtjalnten3gmvozowcle3g7zcdqs4@sqf5l47onbsi>
+ <ac42e652-4128-44ea-976e-5234360d8183@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ak6zeaiacfbfwyki"
 Content-Disposition: inline
-In-Reply-To: <20241205094446.1491176-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <ac42e652-4128-44ea-976e-5234360d8183@quicinc.com>
 
-Hi Sakari,
 
-On Thu, Dec 05, 2024 at 11:44:46AM +0200, Sakari Ailus wrote:
-> ccs_data_parse() releases the allocated in-memory data structure when the
-> parser fails, but it does not clean up parsed metadata that is there to
-> help access the actual data. Do that, in order to return the data
-> structure in a sane state.
-> 
-> Reported-by: David Heidelberg <david@ixit.cz>
-> Fixes: a6b396f410b1 ("media: ccs: Add CCS static data parser library")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> since v2:
-> 
-> - Properly clean up after all error cases.
-> 
->  drivers/media/i2c/ccs/ccs-data.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ccs/ccs-data.c b/drivers/media/i2c/ccs/ccs-data.c
-> index 9d42137f4799..2591dba51e17 100644
-> --- a/drivers/media/i2c/ccs/ccs-data.c
-> +++ b/drivers/media/i2c/ccs/ccs-data.c
-> @@ -10,6 +10,7 @@
->  #include <linux/limits.h>
->  #include <linux/mm.h>
->  #include <linux/slab.h>
-> +#include <linux/string.h>
->  
->  #include "ccs-data-defs.h"
->  
-> @@ -948,15 +949,15 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
->  
->  	rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, verbose);
->  	if (rval)
-> -		return rval;
-> +		goto out_cleanup;
->  
->  	rval = bin_backing_alloc(&bin);
->  	if (rval)
-> -		return rval;
-> +		goto out_cleanup;
->  
->  	rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, false);
->  	if (rval)
-> -		goto out_free;
-> +		goto out_cleanup;
->  
->  	if (verbose && ccsdata->version)
->  		print_ccs_data_version(dev, ccsdata->version);
-> @@ -965,15 +966,16 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
->  		rval = -EPROTO;
->  		dev_dbg(dev, "parsing mismatch; base %p; now %p; end %p\n",
->  			bin.base, bin.now, bin.end);
-> -		goto out_free;
-> +		goto out_cleanup;
->  	}
->  
->  	ccsdata->backing = bin.base;
->  
->  	return 0;
->  
-> -out_free:
-> +out_cleanup:
+--ak6zeaiacfbfwyki
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
+MIME-Version: 1.0
 
-Don't you think some kind of logging or at least a dev_dbg() would be
-helpful here to let the user know that ccs_data_parse() failed ?
+On Thu, Dec 05, 2024 at 04:37:08PM +0800, quic_zijuhu wrote:
+> On 12/5/2024 4:10 PM, Uwe Kleine-K=F6nig wrote:
+> > On Thu, Dec 05, 2024 at 08:10:17AM +0800, Zijun Hu wrote:
+> >> From: Zijun Hu <quic_zijuhu@quicinc.com>
+> >>
+> >> gpio_sim_dev_match_fwnode() is a simple wrapper of device_match_fwnode=
+()
+> >> Remvoe the unnecessary wrapper.
 
->  	kvfree(bin.base);
-> +	memset(ccsdata, 0, sizeof(*ccsdata));
->  
->  	return rval;
->  }
-> -- 
-> 2.39.5
-> 
+Just spotted: s/Remvoe/Remove/
 
---
-Kind Regards
-Mehdi Djait
+> >> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> >> ---
+> >>  drivers/gpio/gpio-sim.c | 7 +------
+> >=20
+> > I think if you move this patch before patch #4 in your series, you only
+> > have to touch this file once.
+>=20
+> the precondition of this change is patch #4, it will have building error
+> if moving it before #4.
+>=20
+> actually, we can only do simplifications with benefits brought by #4.
+
+Ah I see. I thought that device_match_fwnode only got the const for the
+2nd parameter in patch #4.
+
+Best regards
+Uwe
+
+--ak6zeaiacfbfwyki
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdRgmcACgkQj4D7WH0S
+/k6zeggAlBhwMJaGpQIgAi04teyouKX4a/XAJG3tLwpz4YweEcrMm/fv0N42hp/d
+7zUKHjQRRcVM6+TSObZ6uKEFMpac+G1YG1Fze2rNPdlf5IUOCrpKqKUaziMyvEc+
+hhaccpLCXjp9gi7H7tEBDfmrR6/S3i1nnYOeDn6tYmhKVx14uA57l4Isj2h+CIax
+P5d+Gq9NQl5IXDnqiEez80oo8LFhLQQIjIeO1YQM7GrbXaqoD+CfZTGXe4/woRc5
+JjzksiJqSccUbPlwM+90bh5Oj0H2VARUaJTRcHTRANM4ZFTSfWCep0Wkg8DSw343
+fYW4rY4vIXpWKVG9LM4j7NAoluIWvQ==
+=myq/
+-----END PGP SIGNATURE-----
+
+--ak6zeaiacfbfwyki--
 
