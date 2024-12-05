@@ -1,230 +1,220 @@
-Return-Path: <linux-media+bounces-22721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22724-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFE39E59F0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 16:40:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030F79E5A57
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 16:57:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E77916CB2A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 15:39:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B832166914
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 15:56:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 067CE21CA1F;
-	Thu,  5 Dec 2024 15:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D5D0222574;
+	Thu,  5 Dec 2024 15:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="UoqO9PPk";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="jglWqUKt"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mguHypWe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C85D21A425;
-	Thu,  5 Dec 2024 15:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2224F22144F;
+	Thu,  5 Dec 2024 15:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733413184; cv=none; b=tbHjXHOFHXpZSCvGpgtKHqayDVqozlNZBmyCrGfYMS/EC0mmHjEHCxrJa3OWz75abOoJWDdUfRV3g10y/+G/eL8nYGyW9XNllZBX/nHjKPJ7xFpd7hgBho9wk5B0GWid48PzaDGldjRwjMCd5GQBrcc2cQyCLj8qd+3RCgsOKkc=
+	t=1733414184; cv=none; b=JdOdSjeYYL38rgeGS6DeqWw02wYhDu9KIOLQdjMVllkc8ewHx0VqRg+MYczxDHHP9nYxTC0ow4my1B+20ZsQqhYkabkU2ZCVC7zJi1y+rgzvNfyZatnD3bELzxMeItyVUrhusYXNJQFPMLI6i/+Di4PFCOXq2qoYx/QRRIKLlF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733413184; c=relaxed/simple;
-	bh=5+7hECp5xkP8gbtm0wMjU8SewxcsbplPrOFyu+3WZMY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YvJ7oRyi1f0Dusyx7sYGUMLt41AHlBg/6dvKEVr5v6c+qeKmKwj2FYrMfTWfrBpEVEkLkQgE/3vIDcHFLdiNMDWTu5msqI+PUY/jg3PdIp4l5Fv1VldmuHKWSNenfk0uBAQNjcRCt2GE4B49vDuCMFKgzgVdTVdrINSXg6C0Azo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=UoqO9PPk; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=jglWqUKt reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1733413180; x=1764949180;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=bITlpbaxJZ/ELoBexWwZ37dzybUATEmdzTJTeCJOdUs=;
-  b=UoqO9PPklD4wNdll1vza8hu2Cawu/GNqhhOoI2CfB+T4+9ctNbBReK/n
-   hciYpqUa4LsYcB1ArOtFhmNOi78TFLv0LePrGt8IqYRX8/W3Uo2mG6cmh
-   rpmbXQRmWs5IIMC3Pa21OcjkczE8pXX53B0OyLZh1AqfODxLx7k9Pseki
-   yOiIXcVF4B+E3SYT+4xaLPeVwM5ltkjU5pzJi72p83CBteAEGWQPGKZQB
-   7OKMQT+liX2UIFmrzoWhebJgcAujKn6ixk6lGxQeTYzAvE97f8CDUuR4M
-   3dPIsxGzhlrr2emkapTBh9a+1ErWfyP30mZ9wx0YqcdplNOFJn/C4f9tq
-   w==;
-X-CSE-ConnectionGUID: QIQQHHRvSUCxCFxzGq0uLg==
-X-CSE-MsgGUID: lciEpNtRTu+EqC5iYhRfKA==
-X-IronPort-AV: E=Sophos;i="6.12,210,1728943200"; 
-   d="scan'208";a="40435594"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 05 Dec 2024 16:39:37 +0100
-X-CheckPoint: {6751C939-10-F5DC7025-F79421CB}
-X-MAIL-CPID: D7BACB0F9DFF492E6B3DFE2FE5CB2D96_0
-X-Control-Analysis: str=0001.0A682F28.6751C93A.0019,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A1D60160A43;
-	Thu,  5 Dec 2024 16:39:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1733413173;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bITlpbaxJZ/ELoBexWwZ37dzybUATEmdzTJTeCJOdUs=;
-	b=jglWqUKtPxsplmsR67CkjKnm3GPFeNYZ+33ZpbMDegN2VzbsUsSNStUMqWq7f/NAamdhvz
-	ys19VGl9kakyogCFGseboz6ZPnonF1lhFtEVpLxcK1SvVLCbhGgVO0i8igUPUJ+gyn7syu
-	e5NPqbOjafNf9UroaitX+VbIYEQarWaYOAsDWEWpP2HKsrVKVPf4hjbNLmIHfyRJQ3Z4Dh
-	IuVgmLi8a2IN/pI1Us8rRht0xzd+qW4qRKNsslp2X2AVTD/mxk9ADpvGbDpXqGtS7jcfk1
-	kKF2ZX8T/aeyLGjQIiTx06a/tlO0O91Lpr64iyLW4glg8fxPkfTBnENVxwdQTA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/4] media: i2c: imx290: Limit analogue gain according to module
-Date: Thu, 05 Dec 2024 16:39:30 +0100
-Message-ID: <2214258.irdbgypaU6@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CAPY8ntCeYOtBhEKCcygsT-aAHJ8rxo5qP0NdjE9DMJmHCxZzsA@mail.gmail.com>
-References: <20241120-media-imx290-imx462-v2-0-7e562cf191d8@raspberrypi.com> <4950196.GXAFRqVoOG@steina-w> <CAPY8ntCeYOtBhEKCcygsT-aAHJ8rxo5qP0NdjE9DMJmHCxZzsA@mail.gmail.com>
+	s=arc-20240116; t=1733414184; c=relaxed/simple;
+	bh=RLgT4e5wAamC8d84JtqcpmId9+59ELKjt3IwV8D6emk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JjwCeoqQjmAf/OTJnwbHJjuMGxkAG8uUDzMpicQJqTrWl8b7bHblg2hEULQicWKQFeCfFZpUgBWUdkrHUL/incmiUg64JP++bRS0ULGirYHvpapKq4/7i0hKMtvhFIBCesW1u+x2f7cAyTgjQ4g/QJCfMwCWT6LnwLW3wp/Tllc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=mguHypWe; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5Bop1e029401;
+	Thu, 5 Dec 2024 15:56:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=YWd3JpuLdWpTqW+ue1A4Jy
+	sZtn0I6UxI/TBxCC/vvVU=; b=mguHypWeS46290UbM2z5SnIeXWmHNZJl6VTrzo
+	Qp6UVooZGo4PucRfqPvWDseUGurxuq0bWneDJb1hj7QmuBuHDfc78auLjTsvA2L5
+	8A7QEG7rXnCLBdXsLXrrdGMWM9b+viE21wz02JXvVzyXTodADBfendhYDMf+XS0i
+	WkolIx1HjV4p4bPqoVaisAnBXgFfKzi6l/cqvM109SiOuqoUJFlSPbRvu8ZUtLbd
+	3UmZ2KWHhhYO1vNZWMtDoFvPWCmDKk8KhEkeY6kNz/myBlveopiior9r0xoH8wij
+	7kITr9Y/Um16qi0zjFiw8jg0Jkc+xO2l6xc36aKkamTy8qYg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43bbnj0p0a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Dec 2024 15:56:18 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B5Fu3vj011660
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 5 Dec 2024 15:56:03 GMT
+Received: from hu-depengs-sha.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 5 Dec 2024 07:55:56 -0800
+From: Depeng Shao <quic_depengs@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <vladimir.zapolskiy@linaro.org>
+CC: <quic_eberman@quicinc.com>, <quic_depengs@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>
+Subject: [PATCH v5 00/16] media: qcom: camss: Add sm8550 support
+Date: Thu, 5 Dec 2024 21:25:22 +0530
+Message-ID: <20241205155538.250743-1-quic_depengs@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _jvKBXv1SJs1KNBJMJa9BuLd7-dFBf7G
+X-Proofpoint-ORIG-GUID: _jvKBXv1SJs1KNBJMJa9BuLd7-dFBf7G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 mlxscore=0 phishscore=0 impostorscore=0
+ malwarescore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412050116
 
-Hi Dave,
+v5:
+- Update dt-bindings required items order - Krzysztof
+- Sort the reg order based on the comments in sc7280 dt-binding - Vladimir
+- Change the irq type to IRQ_TYPE_EDGE_RISING - Vladimir
+- Remove the Krzysztof's RB tag from dt-binding patch due to above
+  updates in dt-binding patch
+- Move regulator from csid resource to csiphy resource - Bryan, Vladimir
+- Move the change to add default case in vfe_src_pad_code to a
+  standalone patch. - Bryan
+- Rename csid-gen3 as csid-780 - Bryan
+- use macros() to bury bit shifts - Bryan
+- Sort the macros by register offset order  -  Vladimir
+- Redefine a macro for rup_aup in csid driver - Vladimir
+- Remove the unused macros in vfe 780 driver - Vladimir
+- Add dummy function for unsupported hw_ops in vfe 780
+  driver - Vladimir, Bryan
+- Use a standalone patch for the callback API of RUP and buf done update
+- Use a standalone patch to make CSID TPG optional - Vladimir
+- Link to v4: https://lore.kernel.org/all/20240812144131.369378-1-quic_depengs@quicinc.com/
 
-Am Donnerstag, 5. Dezember 2024, 16:37:01 CET schrieb Dave Stevenson:
-> Hi Alexander
->=20
-> On Thu, 5 Dec 2024 at 15:22, Alexander Stein
-> <alexander.stein@ew.tq-group.com> wrote:
-> >
-> > Hi Dave,
-> >
-> > Am Mittwoch, 20. November 2024, 20:17:03 CET schrieb Dave Stevenson:
-> > > The imx327 only supports up to 29.4dB of analogue gain, vs
-> > > the imx290 going up to 30dB. Both are in 0.3dB steps.
-> >
-> > While I agree for 30dB on imx290, my (maybe outdated) Rev0.2 datasheet =
-says
-> > up to 27dB in 0.3dB steps.
->=20
-> For IMX327, I have revision E17Z06B93 2019/03/25.
->=20
-> The revision control section for Rev0.3 lists
-> Page 1: "Correction: Max analog gain 27dB - 29.4dB"
-> Page 74: "Correction: Max Gain 69dB -> 71.4dB"
->=20
-> The graph in "Gain Adjustment Function" (page 74) also shows values
-> above 27dB as being purely analogue gain. Certainly 0x62 is red for
-> analogue, which would be a gain of 29.4dB. The next dot is 0x64 (30dB)
-> and blue, so we have to trust the text for 0x63 being 29.4dB analogue
-> and 0.3dB digital gain.
->=20
-> So I'm happy that the limit is 29.4dB.
+v4:
+- Update dt-bindings based on comments - Krzysztof, bod, Vladimir
+- Move common code into csid core and vfe core driver - bod
+- Remove *_relaxed in the csid and vfe drivers - Krzysztof
+- Reorganize patches in logical junks, make sure that new added
+structures have users in current patch - Krzysztof
+- Remove notify function  and add new functions in camss for buf done
+and reg update - bod
+- Remove custom code to get csid base - bod
+- Remove ISR function in vfe780 driver since it is never fired - bod
+- Move csid_top_base to camss structure since we only have one csid
+top block, and just need to get base once for csid top
+- Add Vladimir's RB
+- Remove prerequisite-patch-id in the cover letter since the changes
+have been merged
+- Add dtsi patch link for reference - Krzysztof
+https://lore.kernel.org/all/20240807123333.2056518-1-quic_depengs@quicinc.com/
+- Link to v3: https://lore.kernel.org/all/20240709160656.31146-1-quic_depengs@quicinc.com/
 
-Okay, this is a newer datasheet. So assume this is correct.
+v3:
+- Rebased the change based on below change which will be merged firstly.
+"Move camss version related defs in to resources"
+Link: https://lore.kernel.org/all/20240522154659.510-1-quic_grosikop@quicinc.com/
+- Rebased the change based on Bryan's csiphy optimization change and add
+these changes into this series, so that the new csiphy-3ph driver don't
+need to add duplicate code. This has got Bryan's permission to add his
+patches into this series.
+- Refactor some changes based on the comments to move the random code to
+patches where they are used.
+- Remove the vfe780 irq function since it isn't doing the actual work.
+- Add dt-binding for sm8550 camss driver.
+Link to V2: https://lore.kernel.org/all/20240320141136.26827-1-quic_depengs@quicinc.com/
 
-Thanks for clarification.
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+v2:
+- Update some commit messages
+Link to V1: https://lore.kernel.org/all/20240320134227.16587-1-quic_depengs@quicinc.com/
 
-Best regards,
-Alexander
+v1:
+SM8550 is a Qualcomm flagship SoC. This series adds support to
+bring up the CSIPHY, CSID, VFE/RDI interfaces in SM8550.
 
+SM8550 provides
 
->   Dave
->=20
-> > Despite that this change looks good.
-> >
-> > Best regards,
-> > Alexander
-> >
-> > > As we now have model specific config, fix this mismatch,
-> > > and delete the comment referencing it.
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/i2c/imx290.c | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > > index ee698c99001d..da654deb444a 100644
-> > > --- a/drivers/media/i2c/imx290.c
-> > > +++ b/drivers/media/i2c/imx290.c
-> > > @@ -176,6 +176,7 @@ struct imx290_model_info {
-> > >       enum imx290_colour_variant colour_variant;
-> > >       const struct cci_reg_sequence *init_regs;
-> > >       size_t init_regs_num;
-> > > +     unsigned int max_analog_gain;
-> > >       const char *name;
-> > >  };
-> > >
-> > > @@ -876,14 +877,10 @@ static int imx290_ctrl_init(struct imx290 *imx2=
-90)
-> > >        * up to 72.0dB (240) add further digital gain. Limit the range=
- to
-> > >        * analog gain only, support for digital gain can be added sepa=
-rately
-> > >        * if needed.
-> > > -      *
-> > > -      * The IMX327 and IMX462 are largely compatible with the IMX290=
-, but
-> > > -      * have an analog gain range of 0.0dB to 29.4dB and 42dB of dig=
-ital
-> > > -      * gain. When support for those sensors gets added to the drive=
-r, the
-> > > -      * gain control should be adjusted accordingly.
-> > >        */
-> > >       v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-> > > -                       V4L2_CID_ANALOGUE_GAIN, 0, 100, 1, 0);
-> > > +                       V4L2_CID_ANALOGUE_GAIN, 0,
-> > > +                       imx290->model->max_analog_gain, 1, 0);
-> > >
-> > >       /*
-> > >        * Correct range will be determined through imx290_ctrl_update =
-setting
-> > > @@ -1441,18 +1438,21 @@ static const struct imx290_model_info imx290_=
-models[] =3D {
-> > >               .colour_variant =3D IMX290_VARIANT_COLOUR,
-> > >               .init_regs =3D imx290_global_init_settings_290,
-> > >               .init_regs_num =3D ARRAY_SIZE(imx290_global_init_settin=
-gs_290),
-> > > +             .max_analog_gain =3D 100,
-> > >               .name =3D "imx290",
-> > >       },
-> > >       [IMX290_MODEL_IMX290LLR] =3D {
-> > >               .colour_variant =3D IMX290_VARIANT_MONO,
-> > >               .init_regs =3D imx290_global_init_settings_290,
-> > >               .init_regs_num =3D ARRAY_SIZE(imx290_global_init_settin=
-gs_290),
-> > > +             .max_analog_gain =3D 100,
-> > >               .name =3D "imx290",
-> > >       },
-> > >       [IMX290_MODEL_IMX327LQR] =3D {
-> > >               .colour_variant =3D IMX290_VARIANT_COLOUR,
-> > >               .init_regs =3D imx290_global_init_settings_327,
-> > >               .init_regs_num =3D ARRAY_SIZE(imx290_global_init_settin=
-gs_327),
-> > > +             .max_analog_gain =3D 98,
-> > >               .name =3D "imx327",
-> > >       },
-> > >  };
-> > >
-> > >
-> >
-> >
-> > --
-> > TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-> > Amtsgericht M=FCnchen, HRB 105018
-> > Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-> > http://www.tq-group.com/
-> >
-> >
->=20
+- 3 x VFE, 3 RDI per VFE
+- 2 x VFE Lite, 4 RDI per VFE
+- 3 x CSID
+- 2 x CSID Lite
+- 8 x CSI PHY
+
+Bryan O'Donoghue (7):
+  media: qcom: camss: csiphy-3ph: Fix trivial indentation fault in
+    defines
+  media: qcom: camss: csiphy-3ph: Remove redundant PHY init sequence
+    control loop
+  media: qcom: camss: csiphy-3ph: Rename struct
+  media: qcom: camss: csiphy: Add an init callback to CSI PHY devices
+  media: qcom: camss: csiphy-3ph: Move CSIPHY variables to data field
+    inside csiphy struct
+  media: qcom: camss: csiphy-3ph: Use an offset variable to find common
+    control regs
+  media: qcom: camss: csid: Make TPG optional
+
+Depeng Shao (9):
+  media: qcom: camss: csid: Move common code into csid core
+  media: qcom: camss: vfe: Move common code into vfe core
+  media: qcom: camss: Add callback API for RUP update and buf done
+  dt-bindings: media: camss: Add qcom,sm8550-camss binding
+  media: qcom: camss: Add default case in vfe_src_pad_code
+  media: qcom: camss: Add sm8550 compatible
+  media: qcom: camss: csiphy-3ph: Add Gen2 v2.1.2 two-phase MIPI CSI-2
+    DPHY support
+  media: qcom: camss: Add CSID 780 support for sm8550
+  media: qcom: camss: Add support for VFE hardware version Titan 780
+
+ .../bindings/media/qcom,sm8550-camss.yaml     | 564 +++++++++++++
+ drivers/media/platform/qcom/camss/Makefile    |   2 +
+ .../platform/qcom/camss/camss-csid-4-1.c      |  19 -
+ .../platform/qcom/camss/camss-csid-4-7.c      |  42 -
+ .../platform/qcom/camss/camss-csid-780.c      | 333 ++++++++
+ .../platform/qcom/camss/camss-csid-780.h      |  25 +
+ .../platform/qcom/camss/camss-csid-gen2.c     |  60 --
+ .../media/platform/qcom/camss/camss-csid.c    | 110 ++-
+ .../media/platform/qcom/camss/camss-csid.h    |  31 +
+ .../qcom/camss/camss-csiphy-2ph-1-0.c         |   6 +
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         | 789 ++++++++++--------
+ .../media/platform/qcom/camss/camss-csiphy.c  |   4 +
+ .../media/platform/qcom/camss/camss-csiphy.h  |   8 +
+ .../media/platform/qcom/camss/camss-vfe-17x.c | 112 +--
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   9 -
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |  11 -
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |  11 -
+ .../media/platform/qcom/camss/camss-vfe-480.c | 301 +------
+ .../media/platform/qcom/camss/camss-vfe-780.c | 159 ++++
+ drivers/media/platform/qcom/camss/camss-vfe.c | 282 ++++++-
+ drivers/media/platform/qcom/camss/camss-vfe.h |  58 +-
+ drivers/media/platform/qcom/camss/camss.c     | 369 ++++++++
+ drivers/media/platform/qcom/camss/camss.h     |   4 +
+ 23 files changed, 2437 insertions(+), 872 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csid-780.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csid-780.h
+ create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-780.c
 
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+base-commit: bcf2acd8f64b0a5783deeeb5fd70c6163ec5acd7
+-- 
+2.34.1
 
 
