@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-22734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85D09E5A7E
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 16:59:32 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAF89E5A85
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 17:00:11 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8B48286BBD
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 15:59:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 872CE16D14B
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 15:59:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39000229B3C;
-	Thu,  5 Dec 2024 15:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ADA922B8CB;
+	Thu,  5 Dec 2024 15:57:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mpmG1Itb"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PHNTH+qE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB1D229B21;
-	Thu,  5 Dec 2024 15:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C93E22B8B4;
+	Thu,  5 Dec 2024 15:56:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733414216; cv=none; b=BwkS196s9gie1xfHsWfy0HBESWToAKa1DXq7llKCCiogxreEnuUG9G80OAu8WfulCHm6x6TtXzSnG5LzwXYTafcP2nTmEc/1dHWOvfWQxXqpmrfM8kjWYdv0dArBuRXECK2DEI2A5Tctxg1DZEOZdjh77f/h9AzKUXpghBSsyvo=
+	t=1733414220; cv=none; b=ZWH3KOo3b0KFDFTV1ZnIh+P/enrFiKy4GPUYaRIml+y7mGX6fafUuhK5EX7zuQHytH4NB5gbLrMag56ooF0QnRDCZZyXBwAPhqN/tJ294X7DQfEIXk1mnkDqfatjexJDKjmpvRdxDtzlQDs/3Svu0OZZZhrdJXFHgV8D3njZxYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733414216; c=relaxed/simple;
-	bh=7JS0NE4wruUntpJKvirWK0pMF40CD8I62RZJecNwjMs=;
+	s=arc-20240116; t=1733414220; c=relaxed/simple;
+	bh=ZsJQHTgDq3EIoxaE6YimjMxVtV7HsM8MA+wd18zJ8bE=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iuBpArRCsl3XjkIrpnLLRwMRqpYUyC5jzCN2g3xrQpqsFrz0bDeAUn0LIQJ3Ls6a+6SeXa99OkxDWO68SsaoDURtdfwQetW3ktMRJMXXkE+LWhOYii3mWcdy9pVlE8WMAwsQluVn+wmJYK8sAVkQCnwGMp7DrrVxKrNXe7TYSfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=mpmG1Itb; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=Yl1tD0qkcVdKXEVRBSqJJ9/yODej6nVaMYBuxfUOEHaGbhR3oq+tH13Q4dApv2csId0pHhZxueiDC3T74UnlvOOn9iMqaRDS9YJn25aEKwC+3BbmyKLi0lK5RDQAAY9Fb/OX7s7gOlr3EbKlYsbqAlyq6BZn/3KBWkc2lzrvFSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PHNTH+qE; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5DFkf9031997;
-	Thu, 5 Dec 2024 15:56:51 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5A9TlB031695;
+	Thu, 5 Dec 2024 15:56:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ui+pO1Undne/m8Q9UXYYYqutc6MTZ6V5oq11Csrb05k=; b=mpmG1ItbgiveWXx+
-	bD/6mt6Q7G3slJd7VO5SSP7ntdew4S57T6hy5ajFmge439w1LACyOAua+WS++HPT
-	CpzpEdwDOfDdTr9PShmd9i4H71axLSz96XbsFEhtdeD4XxOWuuWDeW4uFYvhhKB8
-	nxUsQRyA9r3UoO2XC6MM3aorEcfEBt6FeZdA+UKGIZuc55q3JUiVJB/+IAD4Q+Cq
-	V4vh20YDsONEHlDAYxo8gO6tSapzsXRPHZLcNvYsSaNoubHjPnhF3y5uaui49aZ8
-	dW8sszxtTknG+lAZWNzr0aSkCMcyl+zrByTDdbomWrvXdSQzdcSaSYuQTzglo36M
-	06jTxw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43a3fay10n-1
+	/wMHiw0lXI08pSZQj6A5gt6nfKgo7k2rEKdTQYRnt9A=; b=PHNTH+qEZyJItSzI
+	xFZFj2c8gNRbtpXVSWkuQnTbcSHdlTbLDH1oOs4F/9crqWobvyAYSCe8/10NcM4v
+	l/HoqpeF+JfgoMrlNGTV9eyG4zhRmA6vGhXxVzUENuy5/ODTvqXSsA4gJZ3hq7YQ
+	GyKZMfy83Pv2YyN3cFsb8Aani1guIh8hKfFx0UknBErL5zJtPY64oFPCH+2UPM3I
+	8CWh2D+r1khl2O5JJ0OQ7/1eXW3vVWSeR4e070dIsExLViatpWoaBT5evadTHIDU
+	RLksi9VslKmeqnxX9JZ33NWf6PmWAbM93XZ7VJjJFs4o/pwMASFRfGJqZybpqTK8
+	UKvt9w==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ayemahfe-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 15:56:51 +0000 (GMT)
+	Thu, 05 Dec 2024 15:56:55 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B5FuoFC024261
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B5FusU3017962
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Dec 2024 15:56:50 GMT
+	Thu, 5 Dec 2024 15:56:54 GMT
 Received: from hu-depengs-sha.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 5 Dec 2024 07:56:43 -0800
+ 15.2.1544.9; Thu, 5 Dec 2024 07:56:48 -0800
 From: Depeng Shao <quic_depengs@quicinc.com>
 To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
         <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
@@ -64,9 +64,9 @@ CC: <quic_eberman@quicinc.com>, <quic_depengs@quicinc.com>,
         <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <kernel@quicinc.com>
-Subject: [PATCH 12/16] media: qcom: camss: Add default case in vfe_src_pad_code
-Date: Thu, 5 Dec 2024 21:25:34 +0530
-Message-ID: <20241205155538.250743-13-quic_depengs@quicinc.com>
+Subject: [PATCH 13/16] media: qcom: camss: Add sm8550 compatible
+Date: Thu, 5 Dec 2024 21:25:35 +0530
+Message-ID: <20241205155538.250743-14-quic_depengs@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241205155538.250743-1-quic_depengs@quicinc.com>
 References: <20241205155538.250743-1-quic_depengs@quicinc.com>
@@ -82,41 +82,96 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 3lkDZkBrVFDjz2qWvufyyvVqXqKgDyXX
-X-Proofpoint-GUID: 3lkDZkBrVFDjz2qWvufyyvVqXqKgDyXX
+X-Proofpoint-GUID: KGnvyVp14BbJ02e3xkPFYk0VfYUg56I6
+X-Proofpoint-ORIG-GUID: KGnvyVp14BbJ02e3xkPFYk0VfYUg56I6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
- spamscore=0 mlxscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1011 priorityscore=1501 phishscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 mlxlogscore=999 phishscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 spamscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2412050116
 
-Add a default case in vfe_src_pad_code to get rid of a compile
-warning if a new hw enum is added.
+Add CAMSS_8550 enum, sm8550 compatible and sm8550 camss drvier private
+data, the private data just include some basic information now, later
+changes will enumerate with csiphy, csid and vfe resources.
 
 Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss-vfe.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/platform/qcom/camss/camss.c | 32 +++++++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss.h |  1 +
+ 2 files changed, 33 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index 58e24a043e81..1c9b6569fbe5 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -404,6 +404,10 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 			return sink_code;
- 		}
- 		break;
-+	default:
-+		WARN(1, "Unsupported HW version: %x\n",
-+		     vfe->camss->res->version);
-+		break;
- 	}
- 	return 0;
- }
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index e24084ff88de..2f7697540578 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1634,6 +1634,29 @@ static const struct resources_icc icc_res_sc8280xp[] = {
+ 	},
+ };
+ 
++static const struct resources_icc icc_res_sm8550[] = {
++	{
++		.name = "ahb",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++	{
++		.name = "hf_0_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++	{
++		.name = "icp_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++	{
++		.name = "sf_0_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++};
++
+ /*
+  * camss_add_clock_margin - Add margin to clock frequency rate
+  * @rate: Clock frequency rate
+@@ -2644,6 +2667,14 @@ static const struct camss_resources sc8280xp_resources = {
+ 	.link_entities = camss_link_entities
+ };
+ 
++static const struct camss_resources sm8550_resources = {
++	.version = CAMSS_8550,
++	.pd_name = "top",
++	.icc_res = icc_res_sm8550,
++	.icc_path_num = ARRAY_SIZE(icc_res_sm8550),
++	.link_entities = camss_link_entities
++};
++
+ static const struct of_device_id camss_dt_match[] = {
+ 	{ .compatible = "qcom,msm8916-camss", .data = &msm8916_resources },
+ 	{ .compatible = "qcom,msm8953-camss", .data = &msm8953_resources },
+@@ -2652,6 +2683,7 @@ static const struct of_device_id camss_dt_match[] = {
+ 	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
+ 	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
+ 	{ .compatible = "qcom,sc8280xp-camss", .data = &sc8280xp_resources },
++	{ .compatible = "qcom,sm8550-camss", .data = &sm8550_resources },
+ 	{ }
+ };
+ 
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index 6dceff8ce319..cf6672baea1c 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -84,6 +84,7 @@ enum camss_version {
+ 	CAMSS_845,
+ 	CAMSS_8250,
+ 	CAMSS_8280XP,
++	CAMSS_8550,
+ };
+ 
+ enum icc_count {
 -- 
 2.34.1
 
