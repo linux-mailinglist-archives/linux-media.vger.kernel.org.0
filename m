@@ -1,135 +1,174 @@
-Return-Path: <linux-media+bounces-22702-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22703-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8837D9E54B2
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 12:56:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B809E54B3
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 12:57:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97B801882CDC
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 11:56:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED2B11882B02
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 11:57:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7355C214A76;
-	Thu,  5 Dec 2024 11:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B5E2144DC;
+	Thu,  5 Dec 2024 11:57:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gSaokD6p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxvMoYKJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E042144D4
-	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 11:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED962144DA
+	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 11:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733399799; cv=none; b=gyQaEJCMwYhHDUrDrqD+rfRWHBzCJPQy93UKoaXhyHXFFUcEJaQON2O+hI5ZB+Egzb3lnfrS86RvWcMaypoXRzbfv/CjSr8x9RIK2Cy0+2HYjQqkl9YEMudgUdwI+bB8y74efXtcdCrBqRNqzv/Ap5A5lTcW0zucFHlRFnte63I=
+	t=1733399826; cv=none; b=GT9SwAWWCn4gyQnV4reuT6fSlAmgyIL6VP65kCkY6qErSc1WgmQAtV+ES8X3x1dN09TDfUyv0pHU4jlvws5vr54xojAsL3q1W+p0gFHfsk6LWQVFiFrBPKLczE7L7a6owpbMkcOUHudFIe4UaN0PmbVQNoFqEAACfT79FtytPg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733399799; c=relaxed/simple;
-	bh=jsU/m7SEIIFDJmhyxSYaMTRswrSMMAnmayMJmhdd64M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E0+uUhYQ8xzOWVblxiQjHCGBa1whHP0hSPTtgTlXxfsxpmKo6CJ61oJ1CeGS8GoZvqfqHlJSsM21AHvVZ7jkGAXsWt2/c2W0K+qbxSyK2cUpROHscDHk425hn0EbB1t4oSD4kEUhoQb9LIwU71I+oTwk6slqqYa7gZ+XFR9xg3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gSaokD6p; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aa530a94c0eso162854966b.2
-        for <linux-media@vger.kernel.org>; Thu, 05 Dec 2024 03:56:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733399795; x=1734004595; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Cs9RMDRe4jTFPEvDmtH/eSMnjvvfZudpLPQ72QFuTUQ=;
-        b=gSaokD6plYvYPl0qYwYlXhoCs6MaskOz3po8/8lSMP0x37ixBX8teAApM4ujyuNtLr
-         bmglAfIJ6ScmL03PxbSECkeog94hJKn+1z15y4Ejopom2bSdC+POUBubxF4jCcVVECkk
-         zxD9DroYCHiAonPqmc0xj6AzevTjy6TEoSDtrppBmB7fjpssgiJeBwhqmb5eWPVYeb98
-         V8sq9m72/LWtIIJ6BDnEgqr7fpBipOFxG9inrGdG0Bt5skiTxGkJUtmsUsqZfDjC2A8o
-         VVaQVqVXkMPfM6tHGdEyArKXm4xikoL727azGr7mfe3Ni8Y0Ih2sJpPbDlJnaaDaIjyr
-         2lGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733399795; x=1734004595;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cs9RMDRe4jTFPEvDmtH/eSMnjvvfZudpLPQ72QFuTUQ=;
-        b=T+566JgNkou4qT8poExZ5LC78zQeuHBELwFdwu4cmud+7xzoR2rRXmkDjJO+Kk+082
-         3Rhng4sOgNtAYfo5egP0VzhORtcjbMJDL02NBIm6+RXjA5Wsv6T6s9OVoqN2CzLWzR91
-         IW2Yqd+Xq9WBmXCOyt3myz9R9rvDeU/OBT8R8M8PGg/jOFnx397rbB3Kvgn6Ep8CzPDO
-         nt0MYRahVLriStJsWdx+PAAyG/QlBy5NXB4HtY63H1HAh9t+WTC3KD6y+XAmr+o3hIpk
-         GBAnMYnDQXtEk4y3DtTJzx22ewY9k2bNZImoGsoLHlEzdTmlwwUHqOMjLgLwMHJP5+nt
-         qs5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXirN6vKEJa8xW1wIu30s/dr2V/WVJCVPOJOuC0zUnCqqqsJ4n8Bcw61rKu4CtAcnXx/73ucuQEheGFOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywo48WvhDFd4JA4qUxyVqq3BlEK72cP7dMWi1wAbXhw8dKz+Qat
-	/vgpUrgItXxsiUqwfNJ/Y6Y9I41wyP4ROm7eazGvoT1gD3Tjbxmm425A0TSHCkI=
-X-Gm-Gg: ASbGnctO/tt976ZF2RxMLgnwOF2/00VgOShxP4IVw392ezsbgdvvbYOKrwk1wEGZPOr
-	N0hZZBKWc20WlZBW9AnAI3InQOfs0faWD68qxE2xg3lhjPXvGXZ7eho3HMW+BWHp6FkIo3omUSV
-	x8iAQMNMGkBvfFgJq9dLfD6hq2678gZ5+D09y4lYjQUE+ntbavEpsp5TnxhMHUTI0iTaJKlF5h8
-	hhhZb9DWlFFy7RAVaGzZ+7stef/CCpdaWvMC9GayhrQ+UpDB4PJeZEC8cS19ws=
-X-Google-Smtp-Source: AGHT+IEWGiuqCz5p22sJv4oUuBbuzMg9J4wgAEUTDCD4f1ma8OOcOH3epiuHrkUATGhdMfNL7flyUQ==
-X-Received: by 2002:a17:906:23e1:b0:aa6:312c:5abe with SMTP id a640c23a62f3a-aa6312c5c99mr28100666b.58.1733399795552;
-        Thu, 05 Dec 2024 03:56:35 -0800 (PST)
-Received: from [192.168.0.62] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa626088e8fsm81659766b.139.2024.12.05.03.56.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Dec 2024 03:56:35 -0800 (PST)
-Message-ID: <2cb5940b-3779-4450-a213-fa766df7f406@linaro.org>
-Date: Thu, 5 Dec 2024 11:56:33 +0000
+	s=arc-20240116; t=1733399826; c=relaxed/simple;
+	bh=W+Jdu5nI8amq7tiSPoBNgyTND6K2kxeUx5s7E6yQwCI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZjRws8zmtXUYmlHWXFSknljEauAGIWFPsqE4tpUBjdx5NAxXVgaf1WNcdGQFJodsrfpsua4l3Dr5if9KJXm/2ym54PgqMg7MhpzuAbUocLoXggKP0nwlDMpXzR3e/xq4zeaOd7R4O0CtG6Z1FNMG1xFGbRSq+BWL0bkljblIZZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GxvMoYKJ; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733399825; x=1764935825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W+Jdu5nI8amq7tiSPoBNgyTND6K2kxeUx5s7E6yQwCI=;
+  b=GxvMoYKJcRwtMeLmTKxFnsv9FNGy1xBhCiKdUUyab30QXMDW2DAzqRAR
+   LuWSHs1gpjX3YMe5m8eQfmyB1BQ4ThnwSchhx2+hwehyhZA9mM1rbyuTA
+   TIV8m03UQgsBCv1yesq+cjqrKMB8VhmOXM6FnUll3A6QayU8OC6S0PGUY
+   O1oaGgwE1GVJt62DLjv2mzj5A4MFISPGeP5KfcK+dv0zs9OtqOzklYyiw
+   ubw80I5hpebPkbInkFWzCj80I3pgoxiKOmq0s+HCxBbBAMsLya2q5xFOF
+   JqMSmFqC+tFs2JV7C1lsykhvHNQI5uD1Hxlc0eCFIHb5sNPa+aXTl8yVn
+   A==;
+X-CSE-ConnectionGUID: uOBLbwQZRE29fj572XVxgA==
+X-CSE-MsgGUID: 9wRvdgZjSP2MXxx5/m9iMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33061015"
+X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
+   d="scan'208";a="33061015"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 03:57:04 -0800
+X-CSE-ConnectionGUID: VUzIvEN6QlCtWIopBOTFlg==
+X-CSE-MsgGUID: f7idSHBcTpevhofhBnSaxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
+   d="scan'208";a="94514008"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 03:57:03 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 63C9B11F89A;
+	Thu,  5 Dec 2024 13:57:00 +0200 (EET)
+Date: Thu, 5 Dec 2024 11:57:00 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: linux-media@vger.kernel.org, david@ixit.cz
+Subject: Re: [PATCH v3 1/1] media: ccs: Clean up parsed CCS static data on
+ parse failure
+Message-ID: <Z1GVDO4Z1njEG8Eu@kekkonen.localdomain>
+References: <20241205094446.1491176-1-sakari.ailus@linux.intel.com>
+ <l6jopnrvkmbycikl6pckfjnainwyppeiswhtkz7l2mzx55p2ql@5a656psljr5u>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/5] media: dt-bindings: Add qcom,sc7280-camss
-To: Vikram Sharma <quic_vikramsa@quicinc.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: rfoss@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org,
- konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
- cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com,
- will@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20241204100003.300123-1-quic_vikramsa@quicinc.com>
- <20241204100003.300123-2-quic_vikramsa@quicinc.com>
- <oko5qqysmxhicqzkwhkz54wvsmt64ba3cd37zkcy55ee77owbk@5z3zetfr2ejx>
- <eaffa633-c3a4-4924-8ba7-694b18bf92ee@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <eaffa633-c3a4-4924-8ba7-694b18bf92ee@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <l6jopnrvkmbycikl6pckfjnainwyppeiswhtkz7l2mzx55p2ql@5a656psljr5u>
 
-On 05/12/2024 10:59, Vikram Sharma wrote:
-> Hi Krzysztof,
-> 
-> Thanks for your "Reviewed-by"
-> 
-> +        camss@acb3000 {
-> 
-> If there is going to be resend, then node name: isp
-> 
-> Sure, we will change node-name from camss to isp or camera (As its a 
-> part of generic names recommendation as per the shared link.)
-> If there is a resend. or we will address this as a followup.
-> 
-> So
-> 
-> - camss@acb3000 {
-> + camera@acb3000 {
-> 
-> Best Regards,
-> Vikram
+Hi Mehdi,
 
-Please no top-posting.
-https://subspace.kernel.org/etiquette.html
+Thanks for the review.
 
-Shouldn't that be isp@0xaddress ?
+On Thu, Dec 05, 2024 at 10:54:10AM +0100, Mehdi Djait wrote:
+> Hi Sakari,
+> 
+> On Thu, Dec 05, 2024 at 11:44:46AM +0200, Sakari Ailus wrote:
+> > ccs_data_parse() releases the allocated in-memory data structure when the
+> > parser fails, but it does not clean up parsed metadata that is there to
+> > help access the actual data. Do that, in order to return the data
+> > structure in a sane state.
+> > 
+> > Reported-by: David Heidelberg <david@ixit.cz>
+> > Fixes: a6b396f410b1 ("media: ccs: Add CCS static data parser library")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > since v2:
+> > 
+> > - Properly clean up after all error cases.
+> > 
+> >  drivers/media/i2c/ccs/ccs-data.c | 12 +++++++-----
+> >  1 file changed, 7 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/ccs/ccs-data.c b/drivers/media/i2c/ccs/ccs-data.c
+> > index 9d42137f4799..2591dba51e17 100644
+> > --- a/drivers/media/i2c/ccs/ccs-data.c
+> > +++ b/drivers/media/i2c/ccs/ccs-data.c
+> > @@ -10,6 +10,7 @@
+> >  #include <linux/limits.h>
+> >  #include <linux/mm.h>
+> >  #include <linux/slab.h>
+> > +#include <linux/string.h>
+> >  
+> >  #include "ccs-data-defs.h"
+> >  
+> > @@ -948,15 +949,15 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
+> >  
+> >  	rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, verbose);
+> >  	if (rval)
+> > -		return rval;
+> > +		goto out_cleanup;
+> >  
+> >  	rval = bin_backing_alloc(&bin);
+> >  	if (rval)
+> > -		return rval;
+> > +		goto out_cleanup;
+> >  
+> >  	rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, false);
+> >  	if (rval)
+> > -		goto out_free;
+> > +		goto out_cleanup;
+> >  
+> >  	if (verbose && ccsdata->version)
+> >  		print_ccs_data_version(dev, ccsdata->version);
+> > @@ -965,15 +966,16 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
+> >  		rval = -EPROTO;
+> >  		dev_dbg(dev, "parsing mismatch; base %p; now %p; end %p\n",
+> >  			bin.base, bin.now, bin.end);
+> > -		goto out_free;
+> > +		goto out_cleanup;
+> >  	}
+> >  
+> >  	ccsdata->backing = bin.base;
+> >  
+> >  	return 0;
+> >  
+> > -out_free:
+> > +out_cleanup:
+> 
+> Don't you think some kind of logging or at least a dev_dbg() would be
+> helpful here to let the user know that ccs_data_parse() failed ?
 
-If you are making this change, please remember to do it in both the 
-example and the dts.
+Good question. I think it's a good idea to print a warning, probably on
+warning level. I alsoI think it should be a separate patch.
 
----
-bod
+Could you write one? :-)
+
+> 
+> >  	kvfree(bin.base);
+> > +	memset(ccsdata, 0, sizeof(*ccsdata));
+> >  
+> >  	return rval;
+> >  }
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
