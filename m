@@ -1,174 +1,152 @@
-Return-Path: <linux-media+bounces-22703-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22704-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B809E54B3
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 12:57:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2751A9E54C3
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 13:00:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED2B11882B02
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 11:57:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3610516AC2E
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 12:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B5E2144DC;
-	Thu,  5 Dec 2024 11:57:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FE09214A7E;
+	Thu,  5 Dec 2024 12:00:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GxvMoYKJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ImR+GtGI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED962144DA
-	for <linux-media@vger.kernel.org>; Thu,  5 Dec 2024 11:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE38214A71;
+	Thu,  5 Dec 2024 12:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733399826; cv=none; b=GT9SwAWWCn4gyQnV4reuT6fSlAmgyIL6VP65kCkY6qErSc1WgmQAtV+ES8X3x1dN09TDfUyv0pHU4jlvws5vr54xojAsL3q1W+p0gFHfsk6LWQVFiFrBPKLczE7L7a6owpbMkcOUHudFIe4UaN0PmbVQNoFqEAACfT79FtytPg4=
+	t=1733400022; cv=none; b=eivZmaRaA+2jgImyeJmFA9gp1jLyj48KnPlkVUn58VkD1ss4s9Dpl5ICE8g/npAMKp0lOYy09SIhxWK8TddxUQObAMtjmyrVgK52fFksuEtUBAtrLJcpeRbwhd+Phc6Aa8U7P5WvsGwJW/cEBrjDtNJR117+l4pHzk4TbvndrL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733399826; c=relaxed/simple;
-	bh=W+Jdu5nI8amq7tiSPoBNgyTND6K2kxeUx5s7E6yQwCI=;
+	s=arc-20240116; t=1733400022; c=relaxed/simple;
+	bh=EHWkyipe9roka/o7iKOg8L6iIH2p1aW8Cxu+0EcgdxY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZjRws8zmtXUYmlHWXFSknljEauAGIWFPsqE4tpUBjdx5NAxXVgaf1WNcdGQFJodsrfpsua4l3Dr5if9KJXm/2ym54PgqMg7MhpzuAbUocLoXggKP0nwlDMpXzR3e/xq4zeaOd7R4O0CtG6Z1FNMG1xFGbRSq+BWL0bkljblIZZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GxvMoYKJ; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733399825; x=1764935825;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W+Jdu5nI8amq7tiSPoBNgyTND6K2kxeUx5s7E6yQwCI=;
-  b=GxvMoYKJcRwtMeLmTKxFnsv9FNGy1xBhCiKdUUyab30QXMDW2DAzqRAR
-   LuWSHs1gpjX3YMe5m8eQfmyB1BQ4ThnwSchhx2+hwehyhZA9mM1rbyuTA
-   TIV8m03UQgsBCv1yesq+cjqrKMB8VhmOXM6FnUll3A6QayU8OC6S0PGUY
-   O1oaGgwE1GVJt62DLjv2mzj5A4MFISPGeP5KfcK+dv0zs9OtqOzklYyiw
-   ubw80I5hpebPkbInkFWzCj80I3pgoxiKOmq0s+HCxBbBAMsLya2q5xFOF
-   JqMSmFqC+tFs2JV7C1lsykhvHNQI5uD1Hxlc0eCFIHb5sNPa+aXTl8yVn
-   A==;
-X-CSE-ConnectionGUID: uOBLbwQZRE29fj572XVxgA==
-X-CSE-MsgGUID: 9wRvdgZjSP2MXxx5/m9iMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33061015"
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="33061015"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 03:57:04 -0800
-X-CSE-ConnectionGUID: VUzIvEN6QlCtWIopBOTFlg==
-X-CSE-MsgGUID: f7idSHBcTpevhofhBnSaxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; 
-   d="scan'208";a="94514008"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 03:57:03 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 63C9B11F89A;
-	Thu,  5 Dec 2024 13:57:00 +0200 (EET)
-Date: Thu, 5 Dec 2024 11:57:00 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: linux-media@vger.kernel.org, david@ixit.cz
-Subject: Re: [PATCH v3 1/1] media: ccs: Clean up parsed CCS static data on
- parse failure
-Message-ID: <Z1GVDO4Z1njEG8Eu@kekkonen.localdomain>
-References: <20241205094446.1491176-1-sakari.ailus@linux.intel.com>
- <l6jopnrvkmbycikl6pckfjnainwyppeiswhtkz7l2mzx55p2ql@5a656psljr5u>
+	 Content-Type:Content-Disposition:In-Reply-To; b=KeON8+2FGGXHic1sJl6VkHEPhqag+q5YUFkj7aPgPoZBMq3ScTMlNcI4apfdRSoHNeemw5MHxZGdUAVtOUoYfMKNm2hZv0N/JO8/vjvmHtMrZhduuOGdHBt4lSI/BRRjGVimhEddstCKqQDlUWMgUk7yltWctzG/vDeQQlip8P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ImR+GtGI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:883a:dd5a:60c0:2d2a:9a5a:1723])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD4AD3E;
+	Thu,  5 Dec 2024 12:59:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733399990;
+	bh=EHWkyipe9roka/o7iKOg8L6iIH2p1aW8Cxu+0EcgdxY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ImR+GtGIXN4GeBcppHzvw/Ywp3A6XJYWelmE+/4Q6j4oHfubdg3h2aI/FbHVfxKYf
+	 h4i4ytx5jWw1BxglEt9BuEEnuBCl0Jon2e8aIPsNHULNayijIluHaRfdAt7fAuot32
+	 yXJwgzGqIlgn4XoixT1TQ8c4l8TTCHbjgGgQfMqw=
+Date: Thu, 5 Dec 2024 17:30:13 +0530
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 07/15] media: i2c: ds90ub960: Add support for I2C_RX_ID
+Message-ID: <d72utbt36uhutdlzl5a6vkjl7mxl2cfgfo6ax6fuvkpit2u3i4@eov4fsavtxw4>
+References: <20241204-ub9xx-fixes-v3-0-a933c109b323@ideasonboard.com>
+ <20241204-ub9xx-fixes-v3-7-a933c109b323@ideasonboard.com>
+ <Z1Fk7jRVQJZzsTQp@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="pmmwf2hswfn26wvm"
 Content-Disposition: inline
-In-Reply-To: <l6jopnrvkmbycikl6pckfjnainwyppeiswhtkz7l2mzx55p2ql@5a656psljr5u>
+In-Reply-To: <Z1Fk7jRVQJZzsTQp@smile.fi.intel.com>
 
-Hi Mehdi,
 
-Thanks for the review.
+--pmmwf2hswfn26wvm
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 07/15] media: i2c: ds90ub960: Add support for I2C_RX_ID
+MIME-Version: 1.0
 
-On Thu, Dec 05, 2024 at 10:54:10AM +0100, Mehdi Djait wrote:
-> Hi Sakari,
-> 
-> On Thu, Dec 05, 2024 at 11:44:46AM +0200, Sakari Ailus wrote:
-> > ccs_data_parse() releases the allocated in-memory data structure when the
-> > parser fails, but it does not clean up parsed metadata that is there to
-> > help access the actual data. Do that, in order to return the data
-> > structure in a sane state.
-> > 
-> > Reported-by: David Heidelberg <david@ixit.cz>
-> > Fixes: a6b396f410b1 ("media: ccs: Add CCS static data parser library")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > since v2:
-> > 
-> > - Properly clean up after all error cases.
-> > 
-> >  drivers/media/i2c/ccs/ccs-data.c | 12 +++++++-----
-> >  1 file changed, 7 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/ccs/ccs-data.c b/drivers/media/i2c/ccs/ccs-data.c
-> > index 9d42137f4799..2591dba51e17 100644
-> > --- a/drivers/media/i2c/ccs/ccs-data.c
-> > +++ b/drivers/media/i2c/ccs/ccs-data.c
-> > @@ -10,6 +10,7 @@
-> >  #include <linux/limits.h>
-> >  #include <linux/mm.h>
-> >  #include <linux/slab.h>
-> > +#include <linux/string.h>
-> >  
-> >  #include "ccs-data-defs.h"
-> >  
-> > @@ -948,15 +949,15 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
-> >  
-> >  	rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, verbose);
-> >  	if (rval)
-> > -		return rval;
-> > +		goto out_cleanup;
-> >  
-> >  	rval = bin_backing_alloc(&bin);
-> >  	if (rval)
-> > -		return rval;
-> > +		goto out_cleanup;
-> >  
-> >  	rval = __ccs_data_parse(&bin, ccsdata, data, len, dev, false);
-> >  	if (rval)
-> > -		goto out_free;
-> > +		goto out_cleanup;
-> >  
-> >  	if (verbose && ccsdata->version)
-> >  		print_ccs_data_version(dev, ccsdata->version);
-> > @@ -965,15 +966,16 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
-> >  		rval = -EPROTO;
-> >  		dev_dbg(dev, "parsing mismatch; base %p; now %p; end %p\n",
-> >  			bin.base, bin.now, bin.end);
-> > -		goto out_free;
-> > +		goto out_cleanup;
-> >  	}
-> >  
-> >  	ccsdata->backing = bin.base;
-> >  
-> >  	return 0;
-> >  
-> > -out_free:
-> > +out_cleanup:
-> 
-> Don't you think some kind of logging or at least a dev_dbg() would be
-> helpful here to let the user know that ccs_data_parse() failed ?
+Hi Tomi,
 
-Good question. I think it's a good idea to print a warning, probably on
-warning level. I alsoI think it should be a separate patch.
+On Dec 05, 2024 at 10:31:42 +0200, Andy Shevchenko wrote:
+> On Wed, Dec 04, 2024 at 01:05:21PM +0200, Tomi Valkeinen wrote:
+> > Normally the driver accesses both the RX and the TX port registers via a
+> > paging mechanism: one register is used to select the page (i.e. the
+> > port), which dictates the port used when accessing the port specific
+> > registers.
+> >=20
+> > The downside to this is that while debugging it's almost impossible to
+> > access the port specific registers from the userspace, as the driver can
+> > change the page at any moment.
+> >=20
+> > The hardware supports another access mechanism: using the I2C_RX_ID
+> > registers (one for each RX port), i2c addresses can be chosen which,
+> > when accessed, will always use the specific port's registers, skipping
+> > the paging mechanism.
+> >=20
+> > The support is only for the RX port, but it has proven very handy while
+> > debugging and testing. So let's add the code for this, but hide it
+> > behind a disabled define.
+>=20
+> ...
+>=20
+> >  #define MHZ(v) ((u32)((v) * 1000000U))
+>=20
+> Missed HZ_PER_MHZ from previous patch?
+>=20
+> ...
+>=20
+> > +#ifdef UB960_DEBUG_I2C_RX_ID
+> > +	for (unsigned int i =3D 0; i < 4; i++)
+>=20
+> Should it use _MAX_RX_NPORTS instead of 4?
+>=20
 
-Could you write one? :-)
+Instead of hardcoded value or the macro, it is better to use=20
+priv->hw_data->num_rxports.
 
-> 
-> >  	kvfree(bin.base);
-> > +	memset(ccsdata, 0, sizeof(*ccsdata));
-> >  
-> >  	return rval;
-> >  }
+The cut-down variant of this deser only has 2 ports for example.
+https://www.ti.com/lit/gpn/ds90ub954-q1
 
--- 
-Kind regards,
+> > +		ub960_write(priv, UB960_SR_I2C_RX_ID(i),
+> > +			    (UB960_DEBUG_I2C_RX_ID + i) << 1);
+> > +#endif
+>=20
+> --=20
+> With Best Regards,
+> Andy Shevchenko
+>=20
+>=20
 
-Sakari Ailus
+--=20
+Thanks,
+Jai
+
+--pmmwf2hswfn26wvm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmdRlc0ACgkQQ96R+SSa
+cUW/xw//UN/uh0P5W7eqxSQv1lIjKSeSDPsY8X9gJAiBU+MvT6aBXieOwSFJGhhA
+3lhXe2mYV5tmgwsu2q0ET0acLIQWArjAjZy/MA1MKoHFoSB1lTdpUV/Ae0D+DYKJ
+nEZrbh2gEGwJg61B4lOzVyMTHn1XDBkupnb1oOkpCrbrQBWAYpVbNoa6Z/MOp183
+Pdcd+A9NBQbK5r3u8oJExcx8atJxH8oe5U7nVRT/6JAzb6+usuUdapxZjWlwe25q
+w5zWdfuuC76HNEnIl1FNi3oy7Vx2vYXomhstZ3sDlBI7YFgoKivLhYn46beabBRl
+ZX4TCVNiDCuI/4wCRbmJgqvFHK3SHxrWffKjlKBSgcsVgUApwVrQxjd093KGUgIS
+GZBDbB5Uzt8CM3ftbZSMcAMIqEQ+2lyhXztMsEnLDJkXKeZr7/LedUwnePZ9LAh2
+MxZQFSIKKDXPMCYjllthX8xv+6tseksA/v6/1SdR9rBYSKLBUp8hGDwhYK7xsWL0
+Aeky0LeNVnU52dPUV5v7ysMZ6hUJeyrsCBwwtftAguEIK185EjD+gsnP9eUUqmbc
+6K28qjaoPM0NJjo6LMrHndMNfjmd0mWI1vH7i3hH85aCqQBt4QfEsTKcZgxPXsQd
+baKMreevizCkp7HFlMCLoJxoATys9qU/M+ly1SBudpOF+DzO5nM=
+=FjmX
+-----END PGP SIGNATURE-----
+
+--pmmwf2hswfn26wvm--
 
