@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-22729-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22730-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024009E5A6D
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 16:58:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C63F79E5A70
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 16:58:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 808F816C424
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 15:58:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D23A168ABF
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 15:58:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F7CF21D5BE;
-	Thu,  5 Dec 2024 15:56:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16F84226EFB;
+	Thu,  5 Dec 2024 15:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jmCaItcd"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Ce9+XgTy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10739226EC1;
-	Thu,  5 Dec 2024 15:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE78D226EE3;
+	Thu,  5 Dec 2024 15:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733414198; cv=none; b=uBx2/NQ/s6wcKcH44+r/7yBjhL77zvos8L8HsjLIlKsavhWOvWCz0no9EmYa4XtuzftQ7TWYxjf0x3oN3HxF7YJlirDO3qLWPqYijLeBQm0I968RMjd5gjfchj41cfNfaEI94TjT5ildnK+BzUkYfMvKk9IUHHE6rOvBLrUTibY=
+	t=1733414201; cv=none; b=NICKeSTrg2kJ506Ez9YhVtkVjEFY5wKvK2C/y/5Yz5/7V5c8zEUjuqpMnHtMV5VI3Cx7GRchqAjbHAxy2aP0swzG+nJHa2QE/HM8ssrIeG0Z3MDEYkTne/s2quY9ASmPqq8mOPyvznBKsenZ97cpHjzK1Zl6xsY3Jk4PoEO3x6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733414198; c=relaxed/simple;
-	bh=N2wTfOaqQz09iL4UuHRUTk3YkRyHZFwmbdorpn9vZPI=;
+	s=arc-20240116; t=1733414201; c=relaxed/simple;
+	bh=r3DUKb5gJAexpFVe2TxnIAZv5ha35iq6BgJDCsg3iQA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dKK/94bhREV+4VS+s6WlkLKx99KX3IiRhJ929tkk7fcWzYKWrN+NremoDc7KPDqgPS2vlC/vwalIZYHQ/XNVHs8mBX+N/wn3j6bTP6UY56L9U4ThByzOPBHEQP6B/rs/GkD41iE/2BMC+VO8n8/SlSUckFzaib/8IuPSAKV/hX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jmCaItcd; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=kb4xMCf/4FHNHihV6GQm1e0C/Ol0rj25HSAa1vJgGEw6TRvJ0z/HNZhUdPNE0lbtQer70NfhOBU/a+KJEGgQzKBnEq3Fq4XDjTGDW3to9aGDdE4l8SUCc1QZ7AmeH3r4ekZEV5eqHiZaQc22ULHP0y8Y33MPgbXe5ibVhF/XvI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Ce9+XgTy; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5BolXM027578;
-	Thu, 5 Dec 2024 15:56:32 GMT
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5EW3pH015930;
+	Thu, 5 Dec 2024 15:56:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Ii/olgFbnI0+Kx807JofvHfCeT2JnLbdZwXQ6+waQ9k=; b=jmCaItcdQFm3a4Zr
-	5VKFrEhO3y/N/+/dI9CJtAr5Hfs9nku3v3CUfS8JdVEv7HnesB7iBhS6FrFjnB3Z
-	xGzTjr++0oQ1WsCXmDHAJ6WyCq9OMvmUVTfPe2GSCHoXLE3vu0Vp5dPWQilcjBUX
-	RTVmAAXm3VXS4yYZumjUc3u+sP8HR94AcNF9BmF13euG3m1dRvpieve8QftqbDDE
-	vcMybXtaN7Q9mYVZ7pS+iHZa2GbX2dHZvqTgqyU8fBiR5lGt1ihG5Lk/vd69azk5
-	RXB5kWegCxEaZvDNVeO/dzXCkoDeLiwc+VMz2PzacM4RhPXss87BIw+M2tzeNv01
-	PMOCCA==
+	LcDsVVWubDS5q0raJS0bWF0PIZI0QW1BdKI0cqj9toU=; b=Ce9+XgTyr3xtrZfF
+	9+RASC+sGTKqEeqL3xNY+sSthHze63cG3Uyn3q+TboAUtW4KdudhP8asNB4FKBjb
+	5869HfwXeLwo8rAuQ4Ir8kN2Vrbb+KsFaqwEUPIXIbO+OjwPOwnYoPwqSxOCKgF7
+	1g3A9SnlE0yAyTHxY/Ny5zQCyRqgYqfN10kXDKy7zMMb8vYsj4L0Thl2Y1BTxvte
+	7Lq9mPQWDHBVjQ3oOHhIRtc2QxcEa8DP/5+yy6c5I8ziAOE+Yu2/1sg9Ps8d1eNP
+	+T5ngM2hUzYMY8OILJFHrlaqAHqvQtXM4v++t0VMh1SfYka/7D06KIBjh/GAL2Oo
+	+o668g==
 Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43bbnmgnjf-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43be1707sh-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 15:56:31 +0000 (GMT)
+	Thu, 05 Dec 2024 15:56:35 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B5FuUhM012080
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B5FuYv6012132
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Dec 2024 15:56:30 GMT
+	Thu, 5 Dec 2024 15:56:34 GMT
 Received: from hu-depengs-sha.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 5 Dec 2024 07:56:23 -0800
+ 15.2.1544.9; Thu, 5 Dec 2024 07:56:28 -0800
 From: Depeng Shao <quic_depengs@quicinc.com>
 To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
         <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
@@ -64,9 +64,9 @@ CC: <quic_eberman@quicinc.com>, <quic_depengs@quicinc.com>,
         <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <kernel@quicinc.com>
-Subject: [PATCH 07/16] media: qcom: camss: csid: Move common code into csid core
-Date: Thu, 5 Dec 2024 21:25:29 +0530
-Message-ID: <20241205155538.250743-8-quic_depengs@quicinc.com>
+Subject: [PATCH 08/16] media: qcom: camss: csid: Make TPG optional
+Date: Thu, 5 Dec 2024 21:25:30 +0530
+Message-ID: <20241205155538.250743-9-quic_depengs@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241205155538.250743-1-quic_depengs@quicinc.com>
 References: <20241205155538.250743-1-quic_depengs@quicinc.com>
@@ -82,353 +82,102 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: O7iF7xi4KCEh7WvwzRNg6rUH38srKYEQ
-X-Proofpoint-GUID: O7iF7xi4KCEh7WvwzRNg6rUH38srKYEQ
+X-Proofpoint-GUID: p5LUHL0mqQgD3K0KjZUViCkxTQgtHgK7
+X-Proofpoint-ORIG-GUID: p5LUHL0mqQgD3K0KjZUViCkxTQgtHgK7
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0
- suspectscore=0 adultscore=0 clxscore=1015 phishscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 spamscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 suspectscore=0 adultscore=0 malwarescore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2412050116
 
-The get hw version and src pad code functions can be common code in csid
-core file, then the csid driver of different hw version can reuse them,
-rather than adding duplicate code in csid driver for each version.
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Suggested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+The Test Pattern Generator TPG has been moved out of the CSID and into a
+standalone silicon block at the same level as a regular CSIPHY.
+
+Make the TPG calls optional to reflect the fact some CSID blocks will now
+not implement this feature.
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- .../platform/qcom/camss/camss-csid-4-1.c      | 19 -----
- .../platform/qcom/camss/camss-csid-4-7.c      | 42 ----------
- .../platform/qcom/camss/camss-csid-gen2.c     | 60 ---------------
- .../media/platform/qcom/camss/camss-csid.c    | 77 +++++++++++++++++++
- .../media/platform/qcom/camss/camss-csid.h    | 21 +++++
- 5 files changed, 98 insertions(+), 121 deletions(-)
+ .../media/platform/qcom/camss/camss-csid.c    | 33 ++++++++++++-------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-4-1.c b/drivers/media/platform/qcom/camss/camss-csid-4-1.c
-index c95861420502..6998e1c52895 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-4-1.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-4-1.c
-@@ -17,7 +17,6 @@
- #include "camss-csid-gen1.h"
- #include "camss.h"
- 
--#define CAMSS_CSID_HW_VERSION		0x0
- #define CAMSS_CSID_CORE_CTRL_0		0x004
- #define CAMSS_CSID_CORE_CTRL_1		0x008
- #define CAMSS_CSID_RST_CMD		0x00c
-@@ -139,15 +138,6 @@ static int csid_configure_testgen_pattern(struct csid_device *csid, s32 val)
- 	return 0;
- }
- 
--static u32 csid_hw_version(struct csid_device *csid)
--{
--	u32 hw_version = readl_relaxed(csid->base + CAMSS_CSID_HW_VERSION);
--
--	dev_dbg(csid->camss->dev, "CSID HW Version = 0x%08x\n", hw_version);
--
--	return hw_version;
--}
--
- static irqreturn_t csid_isr(int irq, void *dev)
- {
- 	struct csid_device *csid = dev;
-@@ -180,15 +170,6 @@ static int csid_reset(struct csid_device *csid)
- 	return 0;
- }
- 
--static u32 csid_src_pad_code(struct csid_device *csid, u32 sink_code,
--			     unsigned int match_format_idx, u32 match_code)
--{
--	if (match_format_idx > 0)
--		return 0;
--
--	return sink_code;
--}
--
- static void csid_subdev_init(struct csid_device *csid)
- {
- 	csid->testgen.modes = csid_testgen_modes;
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-4-7.c b/drivers/media/platform/qcom/camss/camss-csid-4-7.c
-index 08578a143688..66054d4872e6 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-4-7.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-4-7.c
-@@ -16,7 +16,6 @@
- #include "camss-csid-gen1.h"
- #include "camss.h"
- 
--#define CAMSS_CSID_HW_VERSION		0x0
- #define CAMSS_CSID_CORE_CTRL_0		0x004
- #define CAMSS_CSID_CORE_CTRL_1		0x008
- #define CAMSS_CSID_RST_CMD		0x010
-@@ -151,15 +150,6 @@ static int csid_configure_testgen_pattern(struct csid_device *csid, s32 val)
- 	return 0;
- }
- 
--static u32 csid_hw_version(struct csid_device *csid)
--{
--	u32 hw_version = readl_relaxed(csid->base + CAMSS_CSID_HW_VERSION);
--
--	dev_dbg(csid->camss->dev, "CSID HW Version = 0x%08x\n", hw_version);
--
--	return hw_version;
--}
--
- /*
-  * isr - CSID module interrupt service routine
-  * @irq: Interrupt line
-@@ -205,38 +195,6 @@ static int csid_reset(struct csid_device *csid)
- 	return 0;
- }
- 
--static u32 csid_src_pad_code(struct csid_device *csid, u32 sink_code,
--			     unsigned int match_format_idx, u32 match_code)
--{
--	switch (sink_code) {
--	case MEDIA_BUS_FMT_SBGGR10_1X10:
--	{
--		u32 src_code[] = {
--			MEDIA_BUS_FMT_SBGGR10_1X10,
--			MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
--		};
--
--		return csid_find_code(src_code, ARRAY_SIZE(src_code),
--				      match_format_idx, match_code);
--	}
--	case MEDIA_BUS_FMT_Y10_1X10:
--	{
--		u32 src_code[] = {
--			MEDIA_BUS_FMT_Y10_1X10,
--			MEDIA_BUS_FMT_Y10_2X8_PADHI_LE,
--		};
--
--		return csid_find_code(src_code, ARRAY_SIZE(src_code),
--				      match_format_idx, match_code);
--	}
--	default:
--		if (match_format_idx > 0)
--			return 0;
--
--		return sink_code;
--	}
--}
--
- static void csid_subdev_init(struct csid_device *csid)
- {
- 	csid->testgen.modes = csid_testgen_modes;
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index e1c757933e27..2a1746dcc1c5 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -22,11 +22,6 @@
-  * alternate register layout.
-  */
- 
--#define CSID_HW_VERSION		0x0
--#define		HW_VERSION_STEPPING	0
--#define		HW_VERSION_REVISION	16
--#define		HW_VERSION_GENERATION	28
--
- #define CSID_RST_STROBES	0x10
- #define		RST_STROBES	0
- 
-@@ -351,29 +346,6 @@ static int csid_configure_testgen_pattern(struct csid_device *csid, s32 val)
- 	return 0;
- }
- 
--/*
-- * csid_hw_version - CSID hardware version query
-- * @csid: CSID device
-- *
-- * Return HW version or error
-- */
--static u32 csid_hw_version(struct csid_device *csid)
--{
--	u32 hw_version;
--	u32 hw_gen;
--	u32 hw_rev;
--	u32 hw_step;
--
--	hw_version = readl_relaxed(csid->base + CSID_HW_VERSION);
--	hw_gen = (hw_version >> HW_VERSION_GENERATION) & 0xF;
--	hw_rev = (hw_version >> HW_VERSION_REVISION) & 0xFFF;
--	hw_step = (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
--	dev_dbg(csid->camss->dev, "CSID HW Version = %u.%u.%u\n",
--		hw_gen, hw_rev, hw_step);
--
--	return hw_version;
--}
--
- /*
-  * csid_isr - CSID module interrupt service routine
-  * @irq: Interrupt line
-@@ -443,38 +415,6 @@ static int csid_reset(struct csid_device *csid)
- 	return 0;
- }
- 
--static u32 csid_src_pad_code(struct csid_device *csid, u32 sink_code,
--			     unsigned int match_format_idx, u32 match_code)
--{
--	switch (sink_code) {
--	case MEDIA_BUS_FMT_SBGGR10_1X10:
--	{
--		u32 src_code[] = {
--			MEDIA_BUS_FMT_SBGGR10_1X10,
--			MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
--		};
--
--		return csid_find_code(src_code, ARRAY_SIZE(src_code),
--				      match_format_idx, match_code);
--	}
--	case MEDIA_BUS_FMT_Y10_1X10:
--	{
--		u32 src_code[] = {
--			MEDIA_BUS_FMT_Y10_1X10,
--			MEDIA_BUS_FMT_Y10_2X8_PADHI_LE,
--		};
--
--		return csid_find_code(src_code, ARRAY_SIZE(src_code),
--				      match_format_idx, match_code);
--	}
--	default:
--		if (match_format_idx > 0)
--			return 0;
--
--		return sink_code;
--	}
--}
--
- static void csid_subdev_init(struct csid_device *csid)
- {
- 	csid->testgen.modes = csid_testgen_modes;
 diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index 858db5d4ca75..6cf8e434dc05 100644
+index 6cf8e434dc05..2cb8c37982f8 100644
 --- a/drivers/media/platform/qcom/camss/camss-csid.c
 +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -29,6 +29,11 @@
- #define VFE_480_CSID_OFFSET 0x1200
- #define VFE_480_LITE_CSID_OFFSET 0x200
+@@ -838,7 +838,7 @@ static void csid_try_format(struct csid_device *csid,
+ 		break;
  
-+#define CSID_HW_VERSION		0x0
-+#define		HW_VERSION_STEPPING	0
-+#define		HW_VERSION_REVISION	16
-+#define		HW_VERSION_GENERATION	28
-+
- #define MSM_CSID_NAME "msm_csid"
+ 	case MSM_CSID_PAD_SRC:
+-		if (csid->testgen_mode->cur.val == 0) {
++		if (!csid->testgen_mode || csid->testgen_mode->cur.val == 0) {
+ 			/* Test generator is disabled, */
+ 			/* keep pad formats in sync */
+ 			u32 code = fmt->code;
+@@ -1042,6 +1042,7 @@ static int csid_init_formats(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ static int csid_set_test_pattern(struct csid_device *csid, s32 value)
+ {
+ 	struct csid_testgen_config *tg = &csid->testgen;
++	const struct csid_hw_ops *hw_ops = csid->res->hw_ops;
  
- const char * const csid_testgen_modes[] = {
-@@ -590,6 +595,78 @@ static int csid_set_clock_rates(struct csid_device *csid)
- 	return 0;
+ 	/* If CSID is linked to CSIPHY, do not allow to enable test generator */
+ 	if (value && media_pad_remote_pad_first(&csid->pads[MSM_CSID_PAD_SINK]))
+@@ -1049,7 +1050,10 @@ static int csid_set_test_pattern(struct csid_device *csid, s32 value)
+ 
+ 	tg->enabled = !!value;
+ 
+-	return csid->res->hw_ops->configure_testgen_pattern(csid, value);
++	if (hw_ops->configure_testgen_pattern)
++		return -EOPNOTSUPP;
++	else
++		return hw_ops->configure_testgen_pattern(csid, value);
  }
  
-+/*
-+ * csid_hw_version - CSID hardware version query
-+ * @csid: CSID device
-+ *
-+ * Return HW version or error
-+ */
-+u32 csid_hw_version(struct csid_device *csid)
-+{
-+	u32 hw_version;
-+	u32 hw_gen;
-+	u32 hw_rev;
-+	u32 hw_step;
-+
-+	hw_version = readl_relaxed(csid->base + CSID_HW_VERSION);
-+	hw_gen = (hw_version >> HW_VERSION_GENERATION) & 0xF;
-+	hw_rev = (hw_version >> HW_VERSION_REVISION) & 0xFFF;
-+	hw_step = (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
-+	dev_info(csid->camss->dev, "CSID:%d HW Version = %u.%u.%u\n",
-+		 csid->id, hw_gen, hw_rev, hw_step);
-+
-+	return hw_version;
-+}
-+
-+/*
-+ * csid_src_pad_code - Pick an output/src format based on the input/sink format
-+ * @csid: CSID device
-+ * @sink_code: The sink format of the input
-+ * @match_format_idx: Request preferred index, as defined by subdevice csid
-+ *                    format. Set @match_code to 0 if used.
-+ * @match_code: Request preferred code, set @match_format_idx to 0 if used
-+ *
-+ * Return 0 on failure or src format code otherwise
-+ */
-+u32 csid_src_pad_code(struct csid_device *csid, u32 sink_code,
-+		      unsigned int match_format_idx, u32 match_code)
-+{
-+	if (csid->camss->res->version == CAMSS_8x16) {
-+		if (match_format_idx > 0)
-+			return 0;
-+
-+		return sink_code;
-+	}
-+
-+	switch (sink_code) {
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	{
-+		u32 src_code[] = {
-+			MEDIA_BUS_FMT_SBGGR10_1X10,
-+			MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
-+		};
-+
-+		return csid_find_code(src_code, ARRAY_SIZE(src_code),
-+				      match_format_idx, match_code);
-+	}
-+	case MEDIA_BUS_FMT_Y10_1X10:
-+	{
-+		u32 src_code[] = {
-+			MEDIA_BUS_FMT_Y10_1X10,
-+			MEDIA_BUS_FMT_Y10_2X8_PADHI_LE,
-+		};
-+
-+		return csid_find_code(src_code, ARRAY_SIZE(src_code),
-+				      match_format_idx, match_code);
-+	}
-+	default:
-+		if (match_format_idx > 0)
-+			return 0;
-+
-+		return sink_code;
-+	}
-+}
-+
  /*
-  * csid_set_power - Power on/off CSID module
-  * @sd: CSID V4L2 subdevice
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index 8cdae98e4dca..f52209b96583 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -237,4 +237,25 @@ extern const struct csid_hw_ops csid_ops_gen2;
-  */
- bool csid_is_lite(struct csid_device *csid);
+@@ -1267,7 +1271,7 @@ static int csid_link_setup(struct media_entity *entity,
  
-+/*
-+ * csid_hw_version - CSID hardware version query
-+ * @csid: CSID device
-+ *
-+ * Return HW version or error
-+ */
-+u32 csid_hw_version(struct csid_device *csid);
+ 		/* If test generator is enabled */
+ 		/* do not allow a link from CSIPHY to CSID */
+-		if (csid->testgen_mode->cur.val != 0)
++		if (csid->testgen_mode && csid->testgen_mode->cur.val != 0)
+ 			return -EBUSY;
+ 
+ 		sd = media_entity_to_v4l2_subdev(remote->entity);
+@@ -1366,15 +1370,20 @@ int msm_csid_register_entity(struct csid_device *csid,
+ 		return ret;
+ 	}
+ 
+-	csid->testgen_mode = v4l2_ctrl_new_std_menu_items(&csid->ctrls,
+-				&csid_ctrl_ops, V4L2_CID_TEST_PATTERN,
+-				csid->testgen.nmodes, 0, 0,
+-				csid->testgen.modes);
+-
+-	if (csid->ctrls.error) {
+-		dev_err(dev, "Failed to init ctrl: %d\n", csid->ctrls.error);
+-		ret = csid->ctrls.error;
+-		goto free_ctrl;
++	if (csid->res->hw_ops->configure_testgen_pattern) {
++		csid->testgen_mode =
++			v4l2_ctrl_new_std_menu_items(&csid->ctrls,
++						     &csid_ctrl_ops,
++						     V4L2_CID_TEST_PATTERN,
++						     csid->testgen.nmodes, 0,
++						     0, csid->testgen.modes);
 +
-+/*
-+ * csid_src_pad_code - Pick an output/src format based on the input/sink format
-+ * @csid: CSID device
-+ * @sink_code: The sink format of the input
-+ * @match_format_idx: Request preferred index, as defined by subdevice csid
-+ *                    format. Set @match_code to 0 if used.
-+ * @match_code: Request preferred code, set @match_format_idx to 0 if used
-+ *
-+ * Return 0 on failure or src format code otherwise
-+ */
-+u32 csid_src_pad_code(struct csid_device *csid, u32 sink_code,
-+		      unsigned int match_format_idx, u32 match_code);
-+
- #endif /* QC_MSM_CAMSS_CSID_H */
++		if (csid->ctrls.error) {
++			dev_err(dev, "Failed to init ctrl: %d\n",
++				csid->ctrls.error);
++			ret = csid->ctrls.error;
++			goto free_ctrl;
++		}
+ 	}
+ 
+ 	csid->subdev.ctrl_handler = &csid->ctrls;
 -- 
 2.34.1
 
