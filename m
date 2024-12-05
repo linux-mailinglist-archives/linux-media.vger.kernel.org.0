@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-22716-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22717-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3379E580F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 15:01:03 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B225E9E5815
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 15:02:40 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C78421884E65
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 14:00:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A9AA28C619
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2024 14:02:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF43D21A442;
-	Thu,  5 Dec 2024 14:00:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13321218E9D;
+	Thu,  5 Dec 2024 14:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kas/gjeJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GoDbfR5j"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0E221A43B;
-	Thu,  5 Dec 2024 14:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC981A28D;
+	Thu,  5 Dec 2024 14:02:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733407205; cv=none; b=jFpq1Q3YioEGSKEiKslxRhJTuV7dZTRBpKei1ITfaVJvzD+f36aVbFiaIOwOq/bYOwouMDe4pFfqzeY7PftGxFKxlfqcOChTV0uHAQ0JKjSI0ZFcckpQJS14bEkT83blNyUp56lbK+bpgiyHCBBFDE0XnG5YDl0VAJWoC0R4HxA=
+	t=1733407353; cv=none; b=cRt/z2JMef+14xKbGtHz+zvzsYs2JcpWvSIPi0H2XDt415XA439QD++/Q/MG/w4dJDm0UVPdT0l1WhNouQVDqZ9yd0xvRycGY10eiPcSh0ogkXEySKDN+RtpvkjgrXq6S1QAvslazd2koWepHSwbnkAThnQ3+e1BeSegf+fw0Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733407205; c=relaxed/simple;
-	bh=IrzqPOX1ePSGN8XAdbk9LryNVvfsLpvQzWxpxNPj9kU=;
+	s=arc-20240116; t=1733407353; c=relaxed/simple;
+	bh=WOIueR5bLviuXIxfHOtqolz9YGjwE6CMlJgJt+7LhsQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gm1HVDEw3EBCvzhIvX55nIaW88tPsd7Y7NAXvyI4MgL17erewrqzfpy/Kgk2k3a+3ZuOkStF+JgMdsjO2Equ1/elg7yIdJvv8hiXbHfLN8WyYAUBSGYq7x9+ECmmFM1JwG+d9Ld4yVUs4nt8iaHf7mkHGL4YTU6BwZoVZwpt+7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kas/gjeJ; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=bxYLBr0CqU6tijG1umsaJygTbyJC72pp9RchjuqsGsCiOYrvkJ0T6kR8i0aDEfR0r4FOFzU2t4TZ3dgrcn3FyP8jMWmm2f9mHCTO8rykIxwMTroKdHudpIXF4gkpus69QWsWMxRw2CHAPwUt+1rRk4upjN9TmYTZkrwXBUzP/08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GoDbfR5j; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E13C63E;
-	Thu,  5 Dec 2024 14:59:32 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33C4A7E9;
+	Thu,  5 Dec 2024 15:02:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733407173;
-	bh=IrzqPOX1ePSGN8XAdbk9LryNVvfsLpvQzWxpxNPj9kU=;
+	s=mail; t=1733407321;
+	bh=WOIueR5bLviuXIxfHOtqolz9YGjwE6CMlJgJt+7LhsQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kas/gjeJ3Efh9Z3WuntfPVuBzeWJ6whxrz5mZgpnz1uzfwQuiGsbYFTnSN2KoZrRW
-	 N/rlwe1+1QYNrUQImZDi+DlltR+ZMf0X16gj0yJcP83/pR2Si+aTKgNWelhjMIpqX/
-	 wPdRWcvktGtHmWB6N0RP8t1yoVv10Az7wscFtsYI=
-Message-ID: <fa3405ce-a9f4-402d-b29c-d900858df974@ideasonboard.com>
-Date: Thu, 5 Dec 2024 15:59:58 +0200
+	b=GoDbfR5jwX15mjUw5iw6BrG02+7chANKveCuWxgpmHHKdd+9NNfVSVIXrMUmB/Jfe
+	 pv70PPyFFxXYepyaKv+UrsSnovv48Ssd/FNh+qu7A27VqWGn8YJwNBsoDEOx8GKYJ2
+	 aJQNFgzA2/4UT8ol2w3zTP4LujuStAb08eIKpbWs=
+Message-ID: <a852a4d2-a367-4900-a6f0-a10f23549d0e@ideasonboard.com>
+Date: Thu, 5 Dec 2024 16:02:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,15 +51,16 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 07/15] media: i2c: ds90ub960: Add support for I2C_RX_ID
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Jai Luthra <jai.luthra@ideasonboard.com>, linux-media@vger.kernel.org,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20241204-ub9xx-fixes-v3-0-a933c109b323@ideasonboard.com>
  <20241204-ub9xx-fixes-v3-7-a933c109b323@ideasonboard.com>
  <Z1Fk7jRVQJZzsTQp@smile.fi.intel.com>
+ <d72utbt36uhutdlzl5a6vkjl7mxl2cfgfo6ax6fuvkpit2u3i4@eov4fsavtxw4>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -105,62 +106,56 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <Z1Fk7jRVQJZzsTQp@smile.fi.intel.com>
+In-Reply-To: <d72utbt36uhutdlzl5a6vkjl7mxl2cfgfo6ax6fuvkpit2u3i4@eov4fsavtxw4>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 05/12/2024 10:31, Andy Shevchenko wrote:
-> On Wed, Dec 04, 2024 at 01:05:21PM +0200, Tomi Valkeinen wrote:
->> Normally the driver accesses both the RX and the TX port registers via a
->> paging mechanism: one register is used to select the page (i.e. the
->> port), which dictates the port used when accessing the port specific
->> registers.
+On 05/12/2024 14:00, Jai Luthra wrote:
+> Hi Tomi,
+> 
+> On Dec 05, 2024 at 10:31:42 +0200, Andy Shevchenko wrote:
+>> On Wed, Dec 04, 2024 at 01:05:21PM +0200, Tomi Valkeinen wrote:
+>>> Normally the driver accesses both the RX and the TX port registers via a
+>>> paging mechanism: one register is used to select the page (i.e. the
+>>> port), which dictates the port used when accessing the port specific
+>>> registers.
+>>>
+>>> The downside to this is that while debugging it's almost impossible to
+>>> access the port specific registers from the userspace, as the driver can
+>>> change the page at any moment.
+>>>
+>>> The hardware supports another access mechanism: using the I2C_RX_ID
+>>> registers (one for each RX port), i2c addresses can be chosen which,
+>>> when accessed, will always use the specific port's registers, skipping
+>>> the paging mechanism.
+>>>
+>>> The support is only for the RX port, but it has proven very handy while
+>>> debugging and testing. So let's add the code for this, but hide it
+>>> behind a disabled define.
 >>
->> The downside to this is that while debugging it's almost impossible to
->> access the port specific registers from the userspace, as the driver can
->> change the page at any moment.
+>> ...
 >>
->> The hardware supports another access mechanism: using the I2C_RX_ID
->> registers (one for each RX port), i2c addresses can be chosen which,
->> when accessed, will always use the specific port's registers, skipping
->> the paging mechanism.
+>>>   #define MHZ(v) ((u32)((v) * 1000000U))
 >>
->> The support is only for the RX port, but it has proven very handy while
->> debugging and testing. So let's add the code for this, but hide it
->> behind a disabled define.
+>> Missed HZ_PER_MHZ from previous patch?
+>>
+>> ...
+>>
+>>> +#ifdef UB960_DEBUG_I2C_RX_ID
+>>> +	for (unsigned int i = 0; i < 4; i++)
+>>
+>> Should it use _MAX_RX_NPORTS instead of 4?
+>>
 > 
-> ...
+> Instead of hardcoded value or the macro, it is better to use
+> priv->hw_data->num_rxports.
 > 
->>   #define MHZ(v) ((u32)((v) * 1000000U))
-> 
-> Missed HZ_PER_MHZ from previous patch?
+> The cut-down variant of this deser only has 2 ports for example.
+> https://www.ti.com/lit/gpn/ds90ub954-q1
 
-Yes, and no. I did leave the MHZ uses on purpose. I think the use of 
-HZ_PER_MHZ was fine in the calculations, but when having table-ish use 
-of MHZ, with hardcoded numbers, I found the MHZ() macro much nicer to read:
-
-	case MHZ(1200):
-
-vs.
-	case 1200 * HZ_PER_MHZ:
-
-> 
-> ...
-> 
->> +#ifdef UB960_DEBUG_I2C_RX_ID
->> +	for (unsigned int i = 0; i < 4; i++)
-> 
-> Should it use _MAX_RX_NPORTS instead of 4?
-
-Indeed, thanks!
-
-> 
->> +		ub960_write(priv, UB960_SR_I2C_RX_ID(i),
->> +			    (UB960_DEBUG_I2C_RX_ID + i) << 1);
->> +#endif
-> 
+Yes, that's true. I'll use the hw_data.
 
   Tomi
 
