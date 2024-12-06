@@ -1,80 +1,87 @@
-Return-Path: <linux-media+bounces-22805-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22806-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783F19E7475
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 16:38:00 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 690DC9E7695
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 18:00:59 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 387AB286487
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 15:37:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4924D166185
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 17:00:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E58B020DD6D;
-	Fri,  6 Dec 2024 15:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4B831487D1;
+	Fri,  6 Dec 2024 17:00:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SH3EJflg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hr28/stZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA00B20DD43;
-	Fri,  6 Dec 2024 15:34:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F4819
+	for <linux-media@vger.kernel.org>; Fri,  6 Dec 2024 17:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733499279; cv=none; b=pLpo6hp5rNF+Ax6eQvF+OLBkwn4ceYaROnyLgjrkCOD97NrPM9QkmtQi3fnv2J8m147qxEEmq7YK3fAgsABZvWG7lrMAyrXlbYk6OaIV8ePRtTxERumzSTGewjzFDxTDGYS+2+sqEL/mcMdt9zGsaI9+HZeD7cjbdkJUg4k0NA0=
+	t=1733504453; cv=none; b=lbpTEFB46xV1fETRq4KpuZO3LKF9V3AXjUBERx4SfePL+dyIHaCcXIF00fdWtMy8wI1secSAoxQ+KdUb6choVE7m9oO3NfQay/h44m+sy6XpG1yplDyyYNYDNtsMh/7xz2f26vMu1CbuRt4YSHGCHYpifeXSbCuF/c/gD0s08Ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733499279; c=relaxed/simple;
-	bh=ob41PRiaHdvAd/92XG25/M3XLgXJ0Gvcu2eu3AUbA10=;
+	s=arc-20240116; t=1733504453; c=relaxed/simple;
+	bh=AlM2HQKnhAqkHaHldpOlnbg/9RAFWWXbJZ22NutgHjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S0hxAd0tQ3YG9435rVBaohl7xoLYPZXoSIZrDxCC8yiwOSrra0UcyMhkSW1jNYltmP5VSbg+n1Y/rgf7FDQH6Xp7X7+AOyt89HwVIVxr4aZ92ZAezFqLOZH2m1Ynm1tTQBDYd8AD4m2O9RZOt37gg33NPtOVh8sVuHck+Q0ory8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SH3EJflg; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733499278; x=1765035278;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ob41PRiaHdvAd/92XG25/M3XLgXJ0Gvcu2eu3AUbA10=;
-  b=SH3EJflgAoiQyKt4SMWi2yuSxn+un+gxIb43xcS7lDTX8pcrVAxTc6g6
-   9M4zGdosZYM+QfvfC4nMCqnt2CDLlTm1+m7uwkrTzZBWG/JOxCqytNlJM
-   A5HAMx4KoUXWs9CwPUyEtlVhXRCkGnPXo+qMauY2jYC/zJdYFClZ22We7
-   HIuoGm+8xPrY1/lpmcqNFTqm2gZyJxJiIxhn35WVhWcAY/QGWi5ag9eTp
-   56hvUv72yS88oFmgm4MEctBddgke6ScM8U0JUBBRwHWaLpWAiUwdtqegf
-   f0bw8Q0+oYy5yRi7PUlPYtQw8pBxyfCbLVvu1s38fcqONyZawAkpD1eW5
-   g==;
-X-CSE-ConnectionGUID: W+2ykv6BTP+gHHm1iuPXZw==
-X-CSE-MsgGUID: 7a1FdrI+QhqximobE5YpRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="37532711"
-X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="37532711"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 07:34:37 -0800
-X-CSE-ConnectionGUID: 0em8r/N5T4K1gQcKO5CJkw==
-X-CSE-MsgGUID: qvYEIrRqRna769XkvZQp/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
-   d="scan'208";a="94634366"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 07:34:35 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tJaLg-00000004YPX-31Jl;
-	Fri, 06 Dec 2024 17:34:32 +0200
-Date: Fri, 6 Dec 2024 17:34:32 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v4 00/15] media: i2c: ds90ub9xx: Misc fixes and
- improvements
-Message-ID: <Z1MZiFg76jlZ4eDE@smile.fi.intel.com>
-References: <20241206-ub9xx-fixes-v4-0-466786eec7cc@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rwj+5j9EXTL7Z7biWwX+dysA6MA+1DansOEXDqMxBhUtbZKK/wcNcYglMnVejynWsA46BiT4RPXscB0ig0ZQQAYYwPSbalegLHjwHJG7KikGK/+o6ZCS8WdxR0UB6Y6DW4xg+chXV+Ss/yrRmVG0xiVyC/Ub2VsPNYtNF7PlYdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hr28/stZ; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-215b13e9ccbso22527925ad.0
+        for <linux-media@vger.kernel.org>; Fri, 06 Dec 2024 09:00:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733504451; x=1734109251; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VxGgnsUUhsUmBPGq3PK5RvOu24w5vOz9HNq8JtdHRk0=;
+        b=hr28/stZGSj8EyyAKfBXiS6CIxiXtOxLxXIay3Bzmf69UJwds0mDLQNSJovbemH1XR
+         q60Zx2jorPxkrChIZj+LFOE/TLhY6HF6d4Bt8AkwfkELfag1TNPnohQWuydWE7rI1bam
+         MeTogAHKYuYfi44Z5BOiVGY35+6KN6CNGnzRFwKjjcQYt+baYFqz9DkfReach/6Uktjb
+         NgvUdyzKjURWw9EEW9gfbQPLYzk3jd+ZqEL2gJn2kRTgm6wknQBSmb90KvLLJS6ru6KX
+         NOhpULTf5pzXdSHP/eoT1BDl+CByrA0bmRLHb0jOkNPn60ksK6m9v0TNk1g7H6oiTm9t
+         v6cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733504451; x=1734109251;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VxGgnsUUhsUmBPGq3PK5RvOu24w5vOz9HNq8JtdHRk0=;
+        b=gfCyMhrRzG0Ky+IR/THyG59tkgwmgmv0TZlOHxKlRdhNzUN8yeu2QKt3JfX2ZNRwGE
+         MZHahVx5O4eMnbieQeSMRH8o/qFK3751HQ63cWJTZ/GPiXSZDKlyUag+5PbFPC3+Il9y
+         ep0urg9J2n6o5bFzu0e77V6SS31QLJaIfhHxSClF5vlRCXkyTInmMqlL48BnuyeopNzy
+         vUSB/RziKFvYshkP3t11Ty90mthSeh+CCyJ6/BhMK9AwyJrbTjTe+woDSvLokxVYJE1Y
+         lpStj2KlGI4H6Iwy385VP95kGvpbT+vtItrLHSKQ6kg6cBIFxptLY0Doia7MfqwRad1T
+         OlaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8s7Q+CPbxqsyjRe4qrWyUBHQDdkIw3AJnbY9xSC0tRPaEh/jeXANUecFEHtJ5ZP4s004BcP5HYmT3cw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh0h10Vj+21zBvip064a1tZ+H8ZPKZ37wE0AfGrJr9A8Ns3/zJ
+	vkoSKpcUJxruy3b82N3NvX3ul4sA2zq9oUlQcIbfy23w/4okgfIyBMOxEEsm4gQ=
+X-Gm-Gg: ASbGncvmRTR71IdtfDAl6KIg7yyRqR2b9ZDFkMWLi/XSvYfMiaumBXveTr5a4UZRShh
+	T+Ozn9l/wGDbW8mvU0GTxLy4X74sAmRnULtf0oONKx3Wwbod0jpG66RoDYmIuG0bZXmsjK6mWkq
+	i1SzIxrjky66qG1ydtgzqtjm5/gJ7hpC/nFhIFAMA1MAfCHPFJhUmPIr7Gy6Jd4cOAOm1uRFau5
+	xcyk6ZE6Xd2km9c8mnvq4LZENYLM2AfEpWPhoPUXdyGaR9+jO5IIA==
+X-Google-Smtp-Source: AGHT+IHio60POCQwXssDzXQZiYwth3e7luERgW9BPvBLeRV3WmOnlH5qo/y/wAO+5VJ4oh5kZtaUUw==
+X-Received: by 2002:a17:902:db04:b0:215:9f5a:a236 with SMTP id d9443c01a7336-21614d1edeamr35753815ad.6.1733504450793;
+        Fri, 06 Dec 2024 09:00:50 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:85b9:bc9c:71ff:f6c3])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21627341853sm1522445ad.240.2024.12.06.09.00.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Dec 2024 09:00:50 -0800 (PST)
+Date: Fri, 6 Dec 2024 10:00:47 -0700
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: joro@8bytes.org, will@kernel.org, laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org, andersson@kernel.org, hns@goldelico.com,
+	b-padhi@ti.com, andreas@kemnade.info, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH 1/4] remoteproc/omap: Handle ARM dma_iommu_mapping
+Message-ID: <Z1Mtv9cEobzvMSsS@p14s>
+References: <cover.1730136799.git.robin.murphy@arm.com>
+ <6186e311cb6f64a787f87fd41e49a73f409b789c.1730136799.git.robin.murphy@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,28 +90,65 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241206-ub9xx-fixes-v4-0-466786eec7cc@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <6186e311cb6f64a787f87fd41e49a73f409b789c.1730136799.git.robin.murphy@arm.com>
 
-On Fri, Dec 06, 2024 at 10:26:36AM +0200, Tomi Valkeinen wrote:
-> This series fixes various small issues in the drivers, and adds a few
-> things (a couple of pixel formats and a debugging feature).
+On Mon, Oct 28, 2024 at 05:58:35PM +0000, Robin Murphy wrote:
+> It's no longer practical for the OMAP IOMMU driver to trick
+> arm_setup_iommu_dma_ops() into ignoring its presence, so let's use the
+> same tactic as other IOMMU API users on 32-bit ARM and explicitly kick
+> the arch code's dma_iommu_mapping out of the way to avoid problems.
 > 
-> It also takes a few steps in adding more i2c read/write error handlings
-> to the drivers, but covers only the easy places.
+> Fixes: 4720287c7bf7 ("iommu: Remove struct iommu_ops *iommu from arch_setup_dma_ops()")
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+>  drivers/remoteproc/omap_remoteproc.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 > 
-> Adding error handling to all reads/writes needs more thinking, perhaps
-> adding a "ret" parameter to the calls, similar to the cci_* functions,
-> or perhaps adding helpers for writing multiple registers from a given
-> table. Also, in some places rolling back from an error will require
-> work.
+> diff --git a/drivers/remoteproc/omap_remoteproc.c b/drivers/remoteproc/omap_remoteproc.c
+> index 9ae2e831456d..3260dd512491 100644
+> --- a/drivers/remoteproc/omap_remoteproc.c
+> +++ b/drivers/remoteproc/omap_remoteproc.c
+> @@ -37,6 +37,10 @@
+>  
+>  #include <linux/platform_data/dmtimer-omap.h>
+>  
+> +#ifdef CONFIG_ARM_DMA_USE_IOMMU
+> +#include <asm/dma-iommu.h>
+> +#endif
+> +
+>  #include "omap_remoteproc.h"
+>  #include "remoteproc_internal.h"
+>  
+> @@ -1323,6 +1327,19 @@ static int omap_rproc_probe(struct platform_device *pdev)
+>  	/* All existing OMAP IPU and DSP processors have an MMU */
+>  	rproc->has_iommu = true;
+>  
+> +#ifdef CONFIG_ARM_DMA_USE_IOMMU
+> +	/*
+> +	 * Throw away the ARM DMA mapping that we'll never use, so it doesn't
+> +	 * interfere with the core rproc->domain and we get the right DMA ops.
+> +	 */
+> +	if (pdev->dev.archdata.mapping) {
+> +		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(&pdev->dev);
+> +
+> +		arm_iommu_detach_device(&pdev->dev);
+> +		arm_iommu_release_mapping(mapping);
+> +	}
+> +#endif
+> +
 
-FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Despite acknowledging this patch I never applied it, something I have corrected
+now.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Thanks for Beleswar for bringing this to my attention.
 
+Regards,
+Mathieu
 
+>  	ret = omap_rproc_of_get_internal_memories(pdev, rproc);
+>  	if (ret)
+>  		return ret;
+> -- 
+> 2.39.2.101.g768bb238c484.dirty
+> 
 
