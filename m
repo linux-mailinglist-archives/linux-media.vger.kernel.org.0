@@ -1,154 +1,222 @@
-Return-Path: <linux-media+bounces-22806-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22807-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690DC9E7695
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 18:00:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 555869E78BE
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 20:19:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4924D166185
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 17:00:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E47DD188640F
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 19:19:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4B831487D1;
-	Fri,  6 Dec 2024 17:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B87D1FFC4F;
+	Fri,  6 Dec 2024 19:19:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hr28/stZ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FagEYa0z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F4819
-	for <linux-media@vger.kernel.org>; Fri,  6 Dec 2024 17:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259272206AC;
+	Fri,  6 Dec 2024 19:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733504453; cv=none; b=lbpTEFB46xV1fETRq4KpuZO3LKF9V3AXjUBERx4SfePL+dyIHaCcXIF00fdWtMy8wI1secSAoxQ+KdUb6choVE7m9oO3NfQay/h44m+sy6XpG1yplDyyYNYDNtsMh/7xz2f26vMu1CbuRt4YSHGCHYpifeXSbCuF/c/gD0s08Ek=
+	t=1733512785; cv=none; b=T0RHTs8F7KHx78mCmYhLklo9atK9CvPFj0+jqHs+anmU+x2gUejdHrYBxBsION5ETbBZK95WYy6wQAXulDpCe7Hl4aMYPl1prXVC5V8UFDT+/mogN/7XG1esQQ00cBrW2kDtH7SKhZ3Jbph0/bxdMij+zDbuW+VM228gRthIfLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733504453; c=relaxed/simple;
-	bh=AlM2HQKnhAqkHaHldpOlnbg/9RAFWWXbJZ22NutgHjg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rwj+5j9EXTL7Z7biWwX+dysA6MA+1DansOEXDqMxBhUtbZKK/wcNcYglMnVejynWsA46BiT4RPXscB0ig0ZQQAYYwPSbalegLHjwHJG7KikGK/+o6ZCS8WdxR0UB6Y6DW4xg+chXV+Ss/yrRmVG0xiVyC/Ub2VsPNYtNF7PlYdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hr28/stZ; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-215b13e9ccbso22527925ad.0
-        for <linux-media@vger.kernel.org>; Fri, 06 Dec 2024 09:00:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733504451; x=1734109251; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VxGgnsUUhsUmBPGq3PK5RvOu24w5vOz9HNq8JtdHRk0=;
-        b=hr28/stZGSj8EyyAKfBXiS6CIxiXtOxLxXIay3Bzmf69UJwds0mDLQNSJovbemH1XR
-         q60Zx2jorPxkrChIZj+LFOE/TLhY6HF6d4Bt8AkwfkELfag1TNPnohQWuydWE7rI1bam
-         MeTogAHKYuYfi44Z5BOiVGY35+6KN6CNGnzRFwKjjcQYt+baYFqz9DkfReach/6Uktjb
-         NgvUdyzKjURWw9EEW9gfbQPLYzk3jd+ZqEL2gJn2kRTgm6wknQBSmb90KvLLJS6ru6KX
-         NOhpULTf5pzXdSHP/eoT1BDl+CByrA0bmRLHb0jOkNPn60ksK6m9v0TNk1g7H6oiTm9t
-         v6cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733504451; x=1734109251;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VxGgnsUUhsUmBPGq3PK5RvOu24w5vOz9HNq8JtdHRk0=;
-        b=gfCyMhrRzG0Ky+IR/THyG59tkgwmgmv0TZlOHxKlRdhNzUN8yeu2QKt3JfX2ZNRwGE
-         MZHahVx5O4eMnbieQeSMRH8o/qFK3751HQ63cWJTZ/GPiXSZDKlyUag+5PbFPC3+Il9y
-         ep0urg9J2n6o5bFzu0e77V6SS31QLJaIfhHxSClF5vlRCXkyTInmMqlL48BnuyeopNzy
-         vUSB/RziKFvYshkP3t11Ty90mthSeh+CCyJ6/BhMK9AwyJrbTjTe+woDSvLokxVYJE1Y
-         lpStj2KlGI4H6Iwy385VP95kGvpbT+vtItrLHSKQ6kg6cBIFxptLY0Doia7MfqwRad1T
-         OlaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW8s7Q+CPbxqsyjRe4qrWyUBHQDdkIw3AJnbY9xSC0tRPaEh/jeXANUecFEHtJ5ZP4s004BcP5HYmT3cw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh0h10Vj+21zBvip064a1tZ+H8ZPKZ37wE0AfGrJr9A8Ns3/zJ
-	vkoSKpcUJxruy3b82N3NvX3ul4sA2zq9oUlQcIbfy23w/4okgfIyBMOxEEsm4gQ=
-X-Gm-Gg: ASbGncvmRTR71IdtfDAl6KIg7yyRqR2b9ZDFkMWLi/XSvYfMiaumBXveTr5a4UZRShh
-	T+Ozn9l/wGDbW8mvU0GTxLy4X74sAmRnULtf0oONKx3Wwbod0jpG66RoDYmIuG0bZXmsjK6mWkq
-	i1SzIxrjky66qG1ydtgzqtjm5/gJ7hpC/nFhIFAMA1MAfCHPFJhUmPIr7Gy6Jd4cOAOm1uRFau5
-	xcyk6ZE6Xd2km9c8mnvq4LZENYLM2AfEpWPhoPUXdyGaR9+jO5IIA==
-X-Google-Smtp-Source: AGHT+IHio60POCQwXssDzXQZiYwth3e7luERgW9BPvBLeRV3WmOnlH5qo/y/wAO+5VJ4oh5kZtaUUw==
-X-Received: by 2002:a17:902:db04:b0:215:9f5a:a236 with SMTP id d9443c01a7336-21614d1edeamr35753815ad.6.1733504450793;
-        Fri, 06 Dec 2024 09:00:50 -0800 (PST)
-Received: from p14s ([2604:3d09:148c:c800:85b9:bc9c:71ff:f6c3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21627341853sm1522445ad.240.2024.12.06.09.00.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2024 09:00:50 -0800 (PST)
-Date: Fri, 6 Dec 2024 10:00:47 -0700
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: joro@8bytes.org, will@kernel.org, laurent.pinchart@ideasonboard.com,
-	mchehab@kernel.org, andersson@kernel.org, hns@goldelico.com,
-	b-padhi@ti.com, andreas@kemnade.info, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH 1/4] remoteproc/omap: Handle ARM dma_iommu_mapping
-Message-ID: <Z1Mtv9cEobzvMSsS@p14s>
-References: <cover.1730136799.git.robin.murphy@arm.com>
- <6186e311cb6f64a787f87fd41e49a73f409b789c.1730136799.git.robin.murphy@arm.com>
+	s=arc-20240116; t=1733512785; c=relaxed/simple;
+	bh=UM1mo0xmpKas2IlYuiSWF4lcDGt1w+qzyGeiIiGvWqU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dw9UGzjqddwaPiowoZPITzIvjrc929vbXRxATbGeMsMA3vMRkNJe2tuC3YjIP3K4vPw7PdeiEberi8Pub6+pKOuO+i8VCQ8Y33EVvI9Za2Av66gXwhxd/PfD7WwiDNPO7PStaN/u6wxhMLGJW2d7XYvZCiGE+2ZMZ8kkC/+8Lwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FagEYa0z; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6I2rtR007466;
+	Fri, 6 Dec 2024 19:19:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=QopC44fOOvrT9hEmNgwSNJ
+	UTEQasnjDGvPOi0wfHG+M=; b=FagEYa0zahZylZXF4RHApoJAf+m3LCYELoB/ut
+	7suomjPvQWuzGWdxxlesl6PUCv5M+nT7+SJeixu/gU96h7wK0QG0Cmsp2xMq3Iit
+	QPWaR/IYp/GMBnt1UYzb9ctbg5Ssv7HIYsjLUq/8WYXj+baIKsJRbylT/lFakbI5
+	HIE+Okch6RdemYB0Ha9laJQSp3wDtuJSGwVX11/22LJ9DDMB08oGb98fNT25L4Pn
+	+UhBtXVGVNbFj36L5BF24pbz2bZMsQF31RGm0MW1g68iONxSgprJ+1KATOjSEulX
+	v9bin3OVJzPPONujmW7cutZ2zz/Dr+MPVui02ozg+Blhpclg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ben8c2dp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Dec 2024 19:19:29 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B6JJSbH022383
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 6 Dec 2024 19:19:28 GMT
+Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 6 Dec 2024 11:19:19 -0800
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <akapatra@quicinc.com>, <hariramp@quicinc.com>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <quic_vikramsa@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>, Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH v8 0/5] media: qcom: camss: Add sc7280 support
+Date: Sat, 7 Dec 2024 00:48:55 +0530
+Message-ID: <20241206191900.2545069-1-quic_vikramsa@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6186e311cb6f64a787f87fd41e49a73f409b789c.1730136799.git.robin.murphy@arm.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: b2Jzb8DQKrcJTvkpNogIQG2ljuwJKHje
+X-Proofpoint-GUID: b2Jzb8DQKrcJTvkpNogIQG2ljuwJKHje
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ priorityscore=1501 impostorscore=0 mlxlogscore=999 clxscore=1015
+ malwarescore=0 suspectscore=0 spamscore=0 mlxscore=0 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412060144
 
-On Mon, Oct 28, 2024 at 05:58:35PM +0000, Robin Murphy wrote:
-> It's no longer practical for the OMAP IOMMU driver to trick
-> arm_setup_iommu_dma_ops() into ignoring its presence, so let's use the
-> same tactic as other IOMMU API users on 32-bit ARM and explicitly kick
-> the arch code's dma_iommu_mapping out of the way to avoid problems.
-> 
-> Fixes: 4720287c7bf7 ("iommu: Remove struct iommu_ops *iommu from arch_setup_dma_ops()")
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
->  drivers/remoteproc/omap_remoteproc.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/drivers/remoteproc/omap_remoteproc.c b/drivers/remoteproc/omap_remoteproc.c
-> index 9ae2e831456d..3260dd512491 100644
-> --- a/drivers/remoteproc/omap_remoteproc.c
-> +++ b/drivers/remoteproc/omap_remoteproc.c
-> @@ -37,6 +37,10 @@
->  
->  #include <linux/platform_data/dmtimer-omap.h>
->  
-> +#ifdef CONFIG_ARM_DMA_USE_IOMMU
-> +#include <asm/dma-iommu.h>
-> +#endif
-> +
->  #include "omap_remoteproc.h"
->  #include "remoteproc_internal.h"
->  
-> @@ -1323,6 +1327,19 @@ static int omap_rproc_probe(struct platform_device *pdev)
->  	/* All existing OMAP IPU and DSP processors have an MMU */
->  	rproc->has_iommu = true;
->  
-> +#ifdef CONFIG_ARM_DMA_USE_IOMMU
-> +	/*
-> +	 * Throw away the ARM DMA mapping that we'll never use, so it doesn't
-> +	 * interfere with the core rproc->domain and we get the right DMA ops.
-> +	 */
-> +	if (pdev->dev.archdata.mapping) {
-> +		struct dma_iommu_mapping *mapping = to_dma_iommu_mapping(&pdev->dev);
-> +
-> +		arm_iommu_detach_device(&pdev->dev);
-> +		arm_iommu_release_mapping(mapping);
-> +	}
-> +#endif
-> +
+SC7280 is a Qualcomm SoC. This series adds support to bring up the CSIPHY,
+CSID, VFE/RDI interfaces in SC7280.
 
-Despite acknowledging this patch I never applied it, something I have corrected
-now.
+SC7280 provides
 
-Thanks for Beleswar for bringing this to my attention.
+- 3 x VFE, 3 RDI per VFE
+- 2 x VFE Lite, 4 RDI per VFE
+- 3 x CSID
+- 2 x CSID Lite
+- 5 x CSI PHY
 
-Regards,
-Mathieu
+We have tested this on qcs6490-rb3gen2-vision-mezzanine board having IMX577
+sensor. Verified both TPG and IMX577 sensor.
 
->  	ret = omap_rproc_of_get_internal_memories(pdev, rproc);
->  	if (ret)
->  		return ret;
-> -- 
-> 2.39.2.101.g768bb238c484.dirty
-> 
+Used following tools for the sanity check of these changes.
+
+- make CHECK_DTBS=y W=1 DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml
+qcom/qcs6490-rb3gen2-vision-mezzanine.dtb
+- make DT_CHECKER_FLAGS=-m W=1
+DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml dt_binding_check
+- Smatch: make CHECK="smatch --full-path"
+M=drivers/media/platform/qcom/camss/
+- Sparse: make C=2 M=drivers/media/platform/qcom/camss/
+- coccicheck : make coccicheck M=drivers/media/platform/qcom/camss/
+- make -j32 W=1
+- ./scripts/checkpatch.pl
+ 
+Changes in V8:
+- Changed node name from camss to isp.
+- Added QCOM_ICC_TAG_ACTIVE_ONLY and QCOM_ICC_TAG_ALWAYS tags for
+  interconnects. 
+- Added blank lines when required.
+- Modified power-domain-names from horizontal to vertical list.
+- Sorted pinctrl nodes based on gpio index.
+- Link to v7: https://lore.kernel.org/linux-arm-msm/20241204100003.300123-1-quic_vikramsa@quicinc.com/
+
+Changes in V7:
+- Changed unit address for camss in documention and dts.
+- Added avdd-supply and dvdd-supply for sensor.
+- Changed reg/clocks/interrupts name for vfe_lite and csid_lite.
+- Link to v6: https://lore.kernel.org/linux-arm-msm/20241127100421.3447601-1-quic_vikramsa@quicinc.com/
+
+Changes in V6:
+- Changed order of properties in Documentation [PATCH 1/5].
+- Updated description for ports in Documentaion [PATCH 1/5].
+- Moved regulators from csid to csiphy [PATCH 3/5].
+- Link to v5: https://lore.kernel.org/linux-arm-msm/20241112173032.2740119-1-quic_vikramsa@quicinc.com/ 
+
+Changes in V5:
+- Updated Commit text for [PATCH v5 1/6].
+- Moved reg after compatible string.
+- Renamed csi'x' clocks to vfe'x'_csid
+- Removed [PATCH v4 4/6] and raised a seprate series for this one.
+- Moved gpio states to mezzanine dtso.
+- Added more clock levels to address TPG related issues.
+- Renamed power-domains-names -> power-domain-names. 
+- Link to v4: https://lore.kernel.org/linux-arm-msm/20241030105347.2117034-1-quic_vikramsa@quicinc.com/ 
+
+Changes in V4:
+- V3 had 8 patches and V4 is reduced to 6.
+- Removed [Patch v3 2/8] as binding change is not required for dtso.
+- Removed [Patch v3 3/8] as the fix is already taken care in latest
+  kernel tip. 
+- Updated alignment for dtsi and dt-bindings.
+- Adding qcs6490-rb3gen2-vision-mezzanine as overlay. 
+- Link to v3: https://lore.kernel.org/linux-arm-msm/20241011140932.1744124-1-quic_vikramsa@quicinc.com/
+
+Changes in V3:
+- Added missed subject line for cover letter of V2.
+- Updated Alignment, indentation and properties order.
+- edit commit text for [PATCH 02/10] and [PATCH 03/10].
+- Refactor camss_link_entities.
+- Removed camcc enablement changes as it already done.
+- Link to v2: https://lore.kernel.org/linux-arm-msm/20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com/
+
+Changes in V2:
+- Improved indentation/formatting.
+- Removed _src clocks and misleading code comments.
+- Added name fields for power domains and csid register offset in DTSI.
+- Dropped minItems field from YAML file.
+- Listed changes in alphabetical order.
+- Updated description and commit text to reflect changes
+- Changed the compatible string from imx412 to imx577.
+- Added board-specific enablement changes in the newly created vision
+  board DTSI file.
+- Fixed bug encountered during testing.
+- Moved logically independent changes to a new/seprate patch.
+- Removed cci0 as no sensor is on this port and MCLK2, which was a
+  copy-paste error from the RB5 board reference.
+- Added power rails, referencing the RB5 board.
+- Discarded Patch 5/6 completely (not required).
+- Removed unused enums.
+- Link to v1: https://lore.kernel.org/linux-arm-msm/20240629-camss_first_post_linux_next-v1-0-bc798edabc3a@quicinc.com/
+
+This is tested on QCM6490 Fairphone 5 smartphone with WIP drivers for
+IMX858 and S5KJN1 by Luca Weiss <luca.weiss@fairphone.com>.
+
+Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+Tested-by: Luca Weiss <luca.weiss@fairphone.com> 
+
+Suresh Vankadara (1):
+  media: qcom: camss: Add support for camss driver on sc7280
+
+Vikram Sharma (4):
+  media: dt-bindings: Add qcom,sc7280-camss
+  media: qcom: camss: Sort camss version enums and compatible strings
+  arm64: dts: qcom: sc7280: Add support for camss
+  arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision
+    mezzanine
+
+ .../bindings/media/qcom,sc7280-camss.yaml     | 425 ++++++++++++++++++
+ arch/arm64/boot/dts/qcom/Makefile             |   4 +
+ .../qcs6490-rb3gen2-vision-mezzanine.dtso     | 110 +++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi          | 178 ++++++++
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |  13 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |   5 +
+ .../media/platform/qcom/camss/camss-csiphy.h  |   1 +
+ drivers/media/platform/qcom/camss/camss-vfe.c |   8 +-
+ drivers/media/platform/qcom/camss/camss.c     | 321 ++++++++++++-
+ drivers/media/platform/qcom/camss/camss.h     |   5 +-
+ 10 files changed, 1060 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sc7280-camss.yaml
+ create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+
+-- 
+2.25.1
+
 
