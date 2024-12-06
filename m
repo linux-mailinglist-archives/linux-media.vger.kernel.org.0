@@ -1,308 +1,152 @@
-Return-Path: <linux-media+bounces-22773-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22774-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB19A9E6842
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 08:51:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8459E68BD
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 09:27:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A735F28288C
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 07:51:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0440A2841C7
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 08:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 718601DE4DC;
-	Fri,  6 Dec 2024 07:51:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CFCD1DF984;
+	Fri,  6 Dec 2024 08:27:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="4JguhqYS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vAuKP8CW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81CE1DB94F
-	for <linux-media@vger.kernel.org>; Fri,  6 Dec 2024 07:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0850E3D6B;
+	Fri,  6 Dec 2024 08:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733471504; cv=none; b=IcmLUGrxSzkdFsjLcM5soOiIYHsAhV1JUF0tH25udS2Ee0RnoOrVMH+3jq+CACfl0fnGq3pSwx9bB2XMBZ/LUW8uIkr9MS4s9O7jR4Ozl5HDimNZh6RBiIPtXWFzu+R/bntTYme3AC+xXZxINsuT3rRU8N1wbWZhKjanfM6RWJQ=
+	t=1733473637; cv=none; b=Nhfrgjw4LLuZBFov6amJAO6SNaoGQY+nFRH45Y17rma9Pcbq0Azk1ozD8W2NpYcPaizeRv5C+gzCBH+0GQaVx/CFSonMs74X1czyxAMzMnX3CsMLKcNmWlKNOY7B4jrdvTPBGKNKuV84n2PQCwUpJRyG1VvwEa9T228rk4WgZLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733471504; c=relaxed/simple;
-	bh=Ty82KE60SAZ3gymaV3JcXb00EkSGfszXGV7H4I9PWOM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=r14bcOcEQpec+BxPT4oiqm9cMrcJ0hofICG4Ae0IvnGYRCOoxFH65qsd+Ti6dWz97S6w6DtmRRbiNR1RGpGDqri/gC4MVMN8rXm9ZJmc9mS1IcvpruS1KY4K3/aTXVH75V2trWk8z/HGMB+cSXmiAts007Jv+gILj8pTDFE/ZAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=4JguhqYS; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aa51b8c5f4dso76895466b.2
-        for <linux-media@vger.kernel.org>; Thu, 05 Dec 2024 23:51:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1733471500; x=1734076300; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UMSODDuTWYMCqnQmcsCAgVDwoQ/gvjhGxVvo+2PJpAU=;
-        b=4JguhqYSbPjiQBW/I7zKSRacz9VrYyJ15SycPzBLBIf1NI1y7wux7o0vwvdf0iKKav
-         g6HjTXG5lTO4RRIjrmeh5AneQT4BlaGGWQfy3lWIuvi5dWWWKCwtW/PJ8SVHWEL+TF/E
-         h5R1J9wpEucva1aaMjU1Hjs4tIgll5bbxcFyIHhHgbyDJsXJr0nmWHhl1qhO8CQ2Sthv
-         zztbtrb6O42n6A/Mifwq6aitGcDtD1JpLpfGc38f1x1C3lQBBCNdpPA704F2Ph35mYXz
-         FwN80E0Gt7Ik/6x5uHnrrpqP3LSYIhftz/MnTZ6jLsp3r9zjn+4YqNbQlLOuJPbjo8Gd
-         Mm0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733471500; x=1734076300;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UMSODDuTWYMCqnQmcsCAgVDwoQ/gvjhGxVvo+2PJpAU=;
-        b=aMoPStRNFrnV2gkLFQcItHMwiZtnHdL39Qu/bsbIUcRLCLN00EFMqYMCjYvsDnwWnq
-         E+xM6jVLwvLLxAUpju65+L/Rs+J2/iMdQsvxESv4E6vGTzNsU6Cnn5nxyYbO0G8bmzA2
-         3dWHJEppWfY5ugdwW+l8MgychVRQyv7W36pMZTRE4USArVVdJEUhZrgTspbxZwgDDaEP
-         /vB8onCc92CCWsQPfWsbOdS1xZhTqSZTz601Tq2RL77TWN65E4a535OjNn5BixjGWvGq
-         IYFYd+2EK70KbG8h5DsnlOLRDlLUsHolWRCckUdw4XVZkZAnkrVFfVG5On0KPu511mbV
-         tvEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXG//7F+lRiAMBGocEiGvqhJX/OytWgBZtyhEoPzz0wgXO4NMfVuNVPxZfWW4p6m/iB/CmRWv8gzcvuyg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxyl/9ZSnvvxBgvC3SmdN725Ma/kaI+g+s+GMZWFXRx2eB+mVbp
-	onP/Rjk+RV0e7ZdAMOo357xWJKKrzTOgOxB8jik1hWiJbpEwjh+opq6Np1PVkcA=
-X-Gm-Gg: ASbGncvksWzjmiYlGtWOEEuaEGI8wIeh9lu4IbO8z03wJCDdOQzBZSr+3M5EkVf2LrU
-	nK+ruMKwd6h+035dDZVRFTeGdgWiTSdtW+4vb7IdWdcGAaGrqHjiFJYGDjLWWx/ebWys6AUvrGe
-	QiZYma/gbPA/GWk1Yom5qGr0npB8JGgWnbGChwN8SlCHFGFPz0SopPP7labhlL6ppC6xtSKeK4q
-	THf3bJ+8lbpIOkPtrHYqJOZjN3OgKLerpQcZRwLMRKdw/i5HQ==
-X-Google-Smtp-Source: AGHT+IEXnhfYAgg+zFyFvcMBx4BeVI9aw8zLvzM3EY4sd3zAvVXVgM9zAr4iiUvpyKcAKsgto/JFfA==
-X-Received: by 2002:a17:906:2929:b0:aa5:1ef5:261e with SMTP id a640c23a62f3a-aa639fec9dfmr145411266b.17.1733471500236;
-        Thu, 05 Dec 2024 23:51:40 -0800 (PST)
-Received: from localhost ([41.66.99.84])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa625e96c3esm203780066b.68.2024.12.05.23.51.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Dec 2024 23:51:39 -0800 (PST)
+	s=arc-20240116; t=1733473637; c=relaxed/simple;
+	bh=TyzpL4ljWdchdMNgwjJAdkLJ2/8dVV+D+7yD7CPQVcY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IoFIizZOIJNHiKHPtzydA11HEffOtVX40AVyAGe4q7emgYyPISg309YDrTABsZE4TihIH7LZW1wjO1gWS3A9cwILaJsYQ4COMWDM2BlrJQO1DtKujypc4U03YKQjOZ4wUceH2Z/wXYoxYZTZ0wk2yXCTj1axcwNJLpYYyjktWPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vAuKP8CW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4980A74C;
+	Fri,  6 Dec 2024 09:26:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733473604;
+	bh=TyzpL4ljWdchdMNgwjJAdkLJ2/8dVV+D+7yD7CPQVcY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=vAuKP8CWX11JxKUyXRCroleP5aDhwMWt7B2CP1rVHdt0JF8O8GqZl3ZU8xX1YBzR2
+	 PIgf/fJIJabSholXwJvHxOOQ/zQgvZSBeUFiYJh3PsfBrZsSsONOq+SWWF123kG2df
+	 aM5BF+bLX1/SC4S9HwfZ51U+c3v4lY0InfzzUtfY=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v4 00/15] media: i2c: ds90ub9xx: Misc fixes and
+ improvements
+Date: Fri, 06 Dec 2024 10:26:36 +0200
+Message-Id: <20241206-ub9xx-fixes-v4-0-466786eec7cc@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Dec 2024 08:51:38 +0100
-Message-Id: <D64GD0NCHTO3.2W6LZKBMNE8UU@fairphone.com>
-Subject: Re: [PATCH v7 4/5] arm64: dts: qcom: sc7280: Add support for camss
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Vikram Sharma" <quic_vikramsa@quicinc.com>, <rfoss@kernel.org>,
- <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>, <mchehab@kernel.org>,
- <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <akapatra@quicinc.com>, <hariramp@quicinc.com>, <andersson@kernel.org>,
- <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
- <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
- <will@kernel.org>
-Cc: <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20241204100003.300123-1-quic_vikramsa@quicinc.com>
- <20241204100003.300123-5-quic_vikramsa@quicinc.com>
-In-Reply-To: <20241204100003.300123-5-quic_vikramsa@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD21UmcC/3XOTQ6CMBAF4KuQrq1ppw0UV97DuOgf0oXUtNpgC
+ Hd3YEM0uHwzeV/eRLJPwWdyqiaSfAk5xAGDPFTE9nq4eRocZgIMJGdM0pdpx5F2YfSZGqMVc1a
+ qGhqCjUfy6wMLlyvmPuRnTO8VL3y57juFU0a9YFrWQthG1efgvM5xMFEnd7TxThauwEZwpr4JQ
+ MI2zggD2qm2+0OIjYDfFQIJ3eICzlojQOwQ8zx/ADWCmE0zAQAA
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, stable@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2971;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=TyzpL4ljWdchdMNgwjJAdkLJ2/8dVV+D+7yD7CPQVcY=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUrVYhU1VhKulDY5mEr+VkehJHcLyojacwTKm/
+ DhBqQCq/6OJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1K1WAAKCRD6PaqMvJYe
+ 9QGuEACqpafdXkgqGoJrltgzZvYe1nfbqRWSYXjb9UBQ/D/KbIfCiFtThgrAsTWNP2gQm0RDn1y
+ W0OMEOhcAfa2MUWE8Daq9LmbgpVHRhfA236EdiT7Q3C++UXLwIYhmu9zeaaTMjINtQFq6QKZyY2
+ 4rqolJdHOlE4fKOTlDTZ4BNBfEz526Dvuh7hzxFxaZPYQ6hDTMilirLSiSVlBQsrS7QWb3b36i0
+ t7lJNn1rd5EdNlvEajxyE6vKFKpeCL1F7XMvydKCDGScmN68WbJgAAZXjlZ6OclgwwDeROXr3wE
+ CnzP6eI2sjso0Xe7+/4LKZ+nwG1fuQ/MqejXKlLBEUhE8gnoo9U85pfVUSXzc1FxzC8/p76INRX
+ 49vdJDq3ZiqzsC8XWQO6yTKuX7x8fy+m1kMyP7e0Qs1UujlnHb+vYffhSe8dYQoFWYH1NjO5Adf
+ lY+KRcXYQuYpKdksv5qKS0K516O8LTzsUZOMnMX20Nns98X/OcBVAKDHIXciaTgMkDvkMUlICr8
+ uthqis/V46nUUnp8jbwy0oOwi+6M0GJh2Z/Kqvq1yZneDdv1KSZvraqKTHnTZZKxB+q4qa4FSRl
+ f2Zex9YPUFQejKOTILwbX4Z2XBb8Vl4XnOHIAiOZS/fkDOkfzykJN2UikPX4LUi/t2x26xOUAop
+ oW4rtNreTu4iVSQ==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On Wed Dec 4, 2024 at 11:00 AM CET, Vikram Sharma wrote:
-> Add changes to support the camera subsystem on the SC7280.
->
-> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
-> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+This series fixes various small issues in the drivers, and adds a few
+things (a couple of pixel formats and a debugging feature).
 
-Hi Vikram,
+It also takes a few steps in adding more i2c read/write error handlings
+to the drivers, but covers only the easy places.
 
-This is working on QCM6490 Fairphone 5 smartphone with WIP drivers for
-IMX858 and S5KJN1, thanks!
+Adding error handling to all reads/writes needs more thinking, perhaps
+adding a "ret" parameter to the calls, similar to the cci_* functions,
+or perhaps adding helpers for writing multiple registers from a given
+table. Also, in some places rolling back from an error will require
+work.
 
-Tested-by: Luca Weiss <luca.weiss@fairphone.com> # qcm6490-fairphone-fp5
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v4:
+- Add Jai's Rb
+- Use HZ_PER_MHZ in MHZ() macro
+- Use num_rxports when setting up the DEBUG_I2C_RX_ID
+- Add Reported-by's to patches that add error handling. Note: The
+  patches don't close the issue, so I use "Link:" instead of "Closes:"
+  as directed in Documentation/process/5.Posting.rst. However, checkpatch
+  seems to want "Closes", so it warns about these.
+- Link to v3: https://lore.kernel.org/r/20241204-ub9xx-fixes-v3-0-a933c109b323@ideasonboard.com
 
-Regards
-Luca
+Changes in v3:
+- Include bitfield.h for FIELD_PREP()
+- Cc stable for relevant fixes
+- Link to v2: https://lore.kernel.org/r/20241108-ub9xx-fixes-v2-0-c7db3b2ad89f@ideasonboard.com
 
-> ---
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 172 +++++++++++++++++++++++++++
->  1 file changed, 172 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/q=
-com/sc7280.dtsi
-> index 55db1c83ef55..e363996602d6 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -4426,6 +4426,178 @@ cci1_i2c1: i2c-bus@1 {
->  			};
->  		};
-> =20
-> +		camss: camss@acb3000 {
-> +			compatible =3D "qcom,sc7280-camss";
-> +
-> +			reg =3D <0x0 0x0acb3000 0x0 0x1000>,
-> +			      <0x0 0x0acba000 0x0 0x1000>,
-> +			      <0x0 0x0acc1000 0x0 0x1000>,
-> +			      <0x0 0x0acc8000 0x0 0x1000>,
-> +			      <0x0 0x0accf000 0x0 0x1000>,
-> +			      <0x0 0x0ace0000 0x0 0x2000>,
-> +			      <0x0 0x0ace2000 0x0 0x2000>,
-> +			      <0x0 0x0ace4000 0x0 0x2000>,
-> +			      <0x0 0x0ace6000 0x0 0x2000>,
-> +			      <0x0 0x0ace8000 0x0 0x2000>,
-> +			      <0x0 0x0acaf000 0x0 0x4000>,
-> +			      <0x0 0x0acb6000 0x0 0x4000>,
-> +			      <0x0 0x0acbd000 0x0 0x4000>,
-> +			      <0x0 0x0acc4000 0x0 0x4000>,
-> +			      <0x0 0x0accb000 0x0 0x4000>;
-> +			reg-names =3D "csid0",
-> +				    "csid1",
-> +				    "csid2",
-> +				    "csid_lite0",
-> +				    "csid_lite1",
-> +				    "csiphy0",
-> +				    "csiphy1",
-> +				    "csiphy2",
-> +				    "csiphy3",
-> +				    "csiphy4",
-> +				    "vfe0",
-> +				    "vfe1",
-> +				    "vfe2",
-> +				    "vfe_lite0",
-> +				    "vfe_lite1";
-> +
-> +			clocks =3D <&camcc CAM_CC_CAMNOC_AXI_CLK>,
-> +				 <&camcc CAM_CC_CPAS_AHB_CLK>,
-> +				 <&camcc CAM_CC_CSIPHY0_CLK>,
-> +				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
-> +				 <&camcc CAM_CC_CSIPHY1_CLK>,
-> +				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
-> +				 <&camcc CAM_CC_CSIPHY2_CLK>,
-> +				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
-> +				 <&camcc CAM_CC_CSIPHY3_CLK>,
-> +				 <&camcc CAM_CC_CSI3PHYTIMER_CLK>,
-> +				 <&camcc CAM_CC_CSIPHY4_CLK>,
-> +				 <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
-> +				 <&gcc GCC_CAMERA_AHB_CLK>,
-> +				 <&gcc GCC_CAMERA_HF_AXI_CLK>,
-> +				 <&camcc CAM_CC_ICP_AHB_CLK>,
-> +				 <&camcc CAM_CC_IFE_0_CLK>,
-> +				 <&camcc CAM_CC_IFE_0_AXI_CLK>,
-> +				 <&camcc CAM_CC_IFE_0_CPHY_RX_CLK>,
-> +				 <&camcc CAM_CC_IFE_0_CSID_CLK>,
-> +				 <&camcc CAM_CC_IFE_1_CLK>,
-> +				 <&camcc CAM_CC_IFE_1_AXI_CLK>,
-> +				 <&camcc CAM_CC_IFE_1_CPHY_RX_CLK>,
-> +				 <&camcc CAM_CC_IFE_1_CSID_CLK>,
-> +				 <&camcc CAM_CC_IFE_2_CLK>,
-> +				 <&camcc CAM_CC_IFE_2_AXI_CLK>,
-> +				 <&camcc CAM_CC_IFE_2_CPHY_RX_CLK>,
-> +				 <&camcc CAM_CC_IFE_2_CSID_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_0_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_0_CPHY_RX_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_0_CSID_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_1_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_1_CPHY_RX_CLK>,
-> +				 <&camcc CAM_CC_IFE_LITE_1_CSID_CLK>;
-> +			clock-names =3D "camnoc_axi",
-> +				      "cpas_ahb",
-> +				      "csiphy0",
-> +				      "csiphy0_timer",
-> +				      "csiphy1",
-> +				      "csiphy1_timer",
-> +				      "csiphy2",
-> +				      "csiphy2_timer",
-> +				      "csiphy3",
-> +				      "csiphy3_timer",
-> +				      "csiphy4",
-> +				      "csiphy4_timer",
-> +				      "gcc_camera_ahb",
-> +				      "gcc_cam_hf_axi",
-> +				      "icp_ahb",
-> +				      "vfe0",
-> +				      "vfe0_axi",
-> +				      "vfe0_cphy_rx",
-> +				      "vfe0_csid",
-> +				      "vfe1",
-> +				      "vfe1_axi",
-> +				      "vfe1_cphy_rx",
-> +				      "vfe1_csid",
-> +				      "vfe2",
-> +				      "vfe2_axi",
-> +				      "vfe2_cphy_rx",
-> +				      "vfe2_csid",
-> +				      "vfe_lite0",
-> +				      "vfe_lite0_cphy_rx",
-> +				      "vfe_lite0_csid",
-> +				      "vfe_lite1",
-> +				      "vfe_lite1_cphy_rx",
-> +				      "vfe_lite1_csid";
-> +
-> +			interrupts =3D <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 640 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 641 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
-> +				     <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>;
-> +			interrupt-names =3D "csid0",
-> +					  "csid1",
-> +					  "csid2",
-> +					  "csid_lite0",
-> +					  "csid_lite1",
-> +					  "csiphy0",
-> +					  "csiphy1",
-> +					  "csiphy2",
-> +					  "csiphy3",
-> +					  "csiphy4",
-> +					  "vfe0",
-> +					  "vfe1",
-> +					  "vfe2",
-> +					  "vfe_lite0",
-> +					  "vfe_lite1";
-> +
-> +			interconnects =3D <&gem_noc  MASTER_APPSS_PROC 0 &cnoc2 SLAVE_CAMERA_=
-CFG 0>,
-> +					<&mmss_noc MASTER_CAMNOC_HF  0 &mc_virt SLAVE_EBI1     0>;
-> +			interconnect-names =3D "ahb", "hf_0";
-> +
-> +			iommus =3D <&apps_smmu 0x800 0x4e0>;
-> +
-> +			power-domains =3D <&camcc CAM_CC_IFE_0_GDSC>,
-> +					<&camcc CAM_CC_IFE_1_GDSC>,
-> +					<&camcc CAM_CC_IFE_2_GDSC>,
-> +					<&camcc CAM_CC_TITAN_TOP_GDSC>;
-> +			power-domain-names =3D "ife0", "ife1", "ife2", "top";
-> +
-> +			status =3D "disabled";
-> +
-> +			ports {
-> +				#address-cells =3D <1>;
-> +				#size-cells =3D <0>;
-> +
-> +				port@0 {
-> +					reg =3D <0>;
-> +				};
-> +
-> +				port@1 {
-> +					reg =3D <1>;
-> +				};
-> +
-> +				port@2 {
-> +					reg =3D <2>;
-> +				};
-> +
-> +				port@3 {
-> +					reg =3D <3>;
-> +				};
-> +
-> +				port@4 {
-> +					reg =3D <4>;
-> +				};
-> +			};
-> +		};
-> +
->  		camcc: clock-controller@ad00000 {
->  			compatible =3D "qcom,sc7280-camcc";
->  			reg =3D <0 0x0ad00000 0 0x10000>;
+Changes in v2:
+- Address comments from Andy
+- Add two new patches:
+	- media: i2c: ds90ub960: Fix shadowing of local variables
+	- media: i2c: ds90ub960: Use HZ_PER_MHZ
+- Link to v1: https://lore.kernel.org/r/20241004-ub9xx-fixes-v1-0-e30a4633c786@ideasonboard.com
+
+---
+Tomi Valkeinen (15):
+      media: i2c: ds90ub9x3: Fix extra fwnode_handle_put()
+      media: i2c: ds90ub960: Fix UB9702 refclk register access
+      media: i2c: ds90ub960: Fix use of non-existing registers on UB9702
+      media: i2c: ds90ub960: Fix logging SP & EQ status only for UB9702
+      media: i2c: ds90ub960: Fix UB9702 VC map
+      media: i2c: ds90ub960: Use HZ_PER_MHZ
+      media: i2c: ds90ub960: Add support for I2C_RX_ID
+      media: i2c: ds90ub960: Add RGB24, RAW8 and RAW10 formats
+      media: i2c: ds90ub953: Clear CRC errors in ub953_log_status()
+      media: i2c: ds90ub960: Drop unused indirect block define
+      media: i2c: ds90ub960: Reduce sleep in ub960_rxport_wait_locks()
+      media: i2c: ds90ub960: Handle errors in ub960_log_status_ub960_sp_eq()
+      media: i2c: ds90ub913: Add error handling to ub913_hw_init()
+      media: i2c: ds90ub953: Add error handling for i2c reads/writes
+      media: i2c: ds90ub960: Fix shadowing of local variables
+
+ drivers/media/i2c/ds90ub913.c |  26 ++++--
+ drivers/media/i2c/ds90ub953.c |  56 +++++++++----
+ drivers/media/i2c/ds90ub960.c | 188 ++++++++++++++++++++++++++++--------------
+ 3 files changed, 188 insertions(+), 82 deletions(-)
+---
+base-commit: adc218676eef25575469234709c2d87185ca223a
+change-id: 20241004-ub9xx-fixes-bba80dc48627
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 
