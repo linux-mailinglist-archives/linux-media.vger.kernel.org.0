@@ -1,52 +1,63 @@
-Return-Path: <linux-media+bounces-22760-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22761-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41AF9E62F7
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 02:04:07 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1718F162018
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 01:04:01 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E36431494D9;
-	Fri,  6 Dec 2024 01:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="O0gm/SRx"
-X-Original-To: linux-media@vger.kernel.org
-Received: from pv50p00im-ztdg10012101.me.com (pv50p00im-ztdg10012101.me.com [17.58.6.49])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 186F49E63FA
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 03:19:34 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3752213957E
-	for <linux-media@vger.kernel.org>; Fri,  6 Dec 2024 01:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.49
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBF06284739
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 02:19:32 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C527616D9AA;
+	Fri,  6 Dec 2024 02:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="b2aY1Q/L"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A861428E3;
+	Fri,  6 Dec 2024 02:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733446994; cv=none; b=LLuNW+sOQs19YzRzyVTfyKSCVp+BwC0LtLMn7vdT/5ChRnGsHrDBsr5XbuP6OZrhtnprxH8LHOTqeKKZC0Kb/Uyd7Bha9Ltf3rfbNUA7cotS0kDXMZAj921BYfyPrVfphw8ZSuR2bq7nE8H7GKEUFJixVof734j610iNob/heUU=
+	t=1733451565; cv=none; b=OnXpOvpXOywBZfTRcdSOI1L+q+T5MyXOZFrBDoyl6hgCMvpB7H4eeFskWiEbq10a4KCqgNV15JTtPnXan1A9YfQlbZYraK+0pkzGQadxaJq0PbW+zjiOq4qO/x8qgLqNLlMDpd+BMMenxZOUg9CBEmm5ZecfyUTy6ilh9VuqAAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733446994; c=relaxed/simple;
-	bh=mXKzMLG9P0/fFy8yPc/3Wnedq5fjCqRwp/fSEiqY4jg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lU42P9jwqpEv2lbcKf691aVHhDSqfCRkvChQ07XxBNvtWcP5ajOxjhB8oz7c2EZrH0oRE6sZ9dbGCkofpnWd3QpYxhLGfNpQalQcXrwlBi+eSpY54pqGAqVt784g3+PeCz9IUutTFTdgqi4S1Z7s26WsE9dIpWQhH2IRhyO4nh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=O0gm/SRx; arc=none smtp.client-ip=17.58.6.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1733446990;
-	bh=MLA/o3eoWdFJOEkeLQDHb3UrBR7EySOllMZRXPDaXaQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
-	 x-icloud-hme;
-	b=O0gm/SRxvbNugGvJblrfWTbeL81Zh+NhIgrv+vxCeahtE+oxwN3nZC3HwwKuihfnx
-	 4cXiY5M5FcD5fV/sMsHvjU5WBmCcNVT7ZwGkknlvZVnSXD+x6XGDkkFFIF/04e6gQZ
-	 Zg2fxY0KWh5ofbG3L8rwEFb9qCszciEJ1vWxrZ9PoginG+0DqELBU5tErjcEkVaLcU
-	 oGYsHPfXPbZWAglOVp26uGDUXsLkxY8ORVxthbd4ILpIbk0Z7w+bUHoMKXTrki4Gnv
-	 JzRHbqv5bfO46l/pgkQl/5OuD1YtgQ+8yIZfoBNlV5SY0vot5qXT1Zg0ppVHga6NSk
-	 Y07hiEdKxi0sw==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-ztdg10012101.me.com (Postfix) with ESMTPSA id DC943740313;
-	Fri,  6 Dec 2024 01:03:01 +0000 (UTC)
-Message-ID: <9d2de147-8fc6-419f-bf3e-03f6b86cbb44@icloud.com>
-Date: Fri, 6 Dec 2024 09:02:58 +0800
+	s=arc-20240116; t=1733451565; c=relaxed/simple;
+	bh=gtEI/vSC3vn1ZJO8coR0WY55fHXA7wZp1KSOEqCOsGg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=uGuNJvofPQxtqX7gzNl0l7m7Nl3Q2ahI0m82hzOfq5pZMkmuaB9DK5Wn0PYX+GV8AMpDncZcPFbVi4AHfqcpNYPF+ML1OY1CdfMMI/7m+OPkcXcKi7CUIIkMJVRCOijY0mSN1LidvezcjKiX0gas7LqzAMnwUWLQWJoe0OMUh+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=b2aY1Q/L; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5HaSc5004131;
+	Fri, 6 Dec 2024 02:19:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	G2D8rAoH16OqsWuf3RVlXZosO01WmKmlS16FYMONfhY=; b=b2aY1Q/LZQJywBvR
+	7sdrlYIzHRE6FJrnMyLlU2iXhMM2Z82btWtpbHfSwAqNoj4UElvWbY6ewXastPHq
+	KpkKHf03R4vp6DFuqzYfuX1Dunw72dABM8grsz+2b+OqH0DcNcnIExKtTksZZHFo
+	Semezw0BrD/zkjNRf+neIyS8bXXizydle7awT6tyvn33nQlt5J9XcDtBe8YkKs0C
+	E77aj/4ZmZMU/IJ293+MqoAYCV8jOVR0mGCRzgavDJn58+2bDhAt3DKgBphNRg4S
+	6jUg+d5GZRaa0YkLfKN0JM2xjwu3mfJhWr7sU/NedZGyOowMcwpA+HDrxlJWKyLC
+	aIQwTg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43bbqm2027-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Dec 2024 02:19:18 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B62JHuV018842
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 6 Dec 2024 02:19:17 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Dec 2024
+ 18:19:11 -0800
+Message-ID: <2515c9d8-0e9d-4e1e-b8ff-764b53ea3edb@quicinc.com>
+Date: Fri, 6 Dec 2024 10:18:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,110 +65,75 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/11] cxl/pmem: Remove match_nvdimm_bridge()
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
- linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
- netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-10-1611f1486b5a@quicinc.com>
- <Z1It83v8xuNuLrOt@aschofie-mobl2.lan>
+Subject: Re: [PATCH 11/16] dt-bindings: media: camss: Add qcom,sm8550-camss
+ binding
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <vladimir.zapolskiy@linaro.org>
+CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>,
+        Yongsheng Li
+	<quic_yon@quicinc.com>
+References: <20241205155538.250743-1-quic_depengs@quicinc.com>
+ <20241205155538.250743-12-quic_depengs@quicinc.com>
+ <0909a2b2-089d-41f3-82e6-f0e05682ce27@linaro.org>
 Content-Language: en-US
-From: Zijun Hu <zijun_hu@icloud.com>
-In-Reply-To: <Z1It83v8xuNuLrOt@aschofie-mobl2.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Mj6KRfIlz3zE_ytOMK9rghPIY_t2GqYx
-X-Proofpoint-ORIG-GUID: Mj6KRfIlz3zE_ytOMK9rghPIY_t2GqYx
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <0909a2b2-089d-41f3-82e6-f0e05682ce27@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: vIaesf_CUR5QiCPf8nZeMxVL4CnhD0Pi
+X-Proofpoint-ORIG-GUID: vIaesf_CUR5QiCPf8nZeMxVL4CnhD0Pi
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-05_16,2024-12-05_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- malwarescore=0 bulkscore=0 phishscore=0 spamscore=0 adultscore=0
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2412060008
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 mlxlogscore=821 spamscore=0 adultscore=0 suspectscore=0
+ malwarescore=0 mlxscore=0 impostorscore=0 bulkscore=0 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412060016
 
-On 2024/12/6 06:49, Alison Schofield wrote:
-> On Thu, Dec 05, 2024 at 08:10:19AM +0800, Zijun Hu wrote:
->> From: Zijun Hu <quic_zijuhu@quicinc.com>
-> 
-> Suggest conveying more detail in the commit msg:
-> 
-> cxl/pmem> Replace match_nvdimm_bridge() w device_match_type()
-> 
+Hi Bryan,
 
-good suggestions
-will take it in v4.
-
->>
->> match_nvdimm_bridge(), as matching function of device_find_child(), is to
->> match a device with device type @cxl_nvdimm_bridge_type, and is unnecessary
+On 12/6/2024 12:11 AM, Bryan O'Donoghue wrote:
+> On 05/12/2024 15:55, Depeng Shao wrote:
+>> +            iommus = <&apps_smmu 0x800 0x20>;
 > 
-> Prefer being clear that this function recently become needless.
-> Something like:
+> This iommu list looks a bit spartan.
 > 
-> match_nvdimm_bridge(), as matching function of device_find_child(),
-> matches a device with device type @cxl_nvdimm_bridge_type. The recently
-> added API, device_match_type, simplifies that task.
->  
-> Replace match_nvdimm_bridge() usage with device_match_type().
+> Here's what I have for X1E:
+> 
+> https://git.codelinaro.org/bryan.odonoghue/kernel/-/ 
+> commit/9686eaf9557c386a2525d6668da6fe24ffd518c4#5b6ff684e5292a4c0b51f6a38631777fafae7561_4749_4874
+> 
+> Could you double check this list ?
 > 
 
-sure. will do it in v4 by following these good comments.
+Since the camss driver just support ife, so I think only ife related 
+iommus are needed, just like we don't add ipe,bps,jpeg related clk and 
+register in the dt-binding.
 
-> With that you can add:
-> 
-> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
-> 
->>
->> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
->> ---
->>  drivers/cxl/core/pmem.c | 9 +++------
->>  1 file changed, 3 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/cxl/core/pmem.c b/drivers/cxl/core/pmem.c
->> index a8473de24ebfd92f12f47e0556e28b81a29cff7c..0f8166e793e14fc0b1c04ffda79e756a743d9e6b 100644
->> --- a/drivers/cxl/core/pmem.c
->> +++ b/drivers/cxl/core/pmem.c
->> @@ -57,11 +57,6 @@ bool is_cxl_nvdimm_bridge(struct device *dev)
->>  }
->>  EXPORT_SYMBOL_NS_GPL(is_cxl_nvdimm_bridge, "CXL");
->>  
->> -static int match_nvdimm_bridge(struct device *dev, const void *data)
->> -{
->> -	return is_cxl_nvdimm_bridge(dev);
->> -}
->> -
->>  /**
->>   * cxl_find_nvdimm_bridge() - find a bridge device relative to a port
->>   * @port: any descendant port of an nvdimm-bridge associated
->> @@ -75,7 +70,9 @@ struct cxl_nvdimm_bridge *cxl_find_nvdimm_bridge(struct cxl_port *port)
->>  	if (!cxl_root)
->>  		return NULL;
->>  
->> -	dev = device_find_child(&cxl_root->port.dev, NULL, match_nvdimm_bridge);
->> +	dev = device_find_child(&cxl_root->port.dev,
->> +				&cxl_nvdimm_bridge_type,
->> +				device_match_type);
->>  
->>  	if (!dev)
->>  		return NULL;
->>
->> -- 
->> 2.34.1
->>
->>
+	msm_cam_smmu_ife { 
+  
+
+		compatible = "qcom,msm-cam-smmu-cb"; 
+  
+
+		iommus = <&apps_smmu 0x800 0x20>;
+		......
+	};
+
+> ---
+> bod
+
+
+Thanks,
+Depeng
 
 
