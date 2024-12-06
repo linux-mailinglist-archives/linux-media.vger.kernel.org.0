@@ -1,164 +1,208 @@
-Return-Path: <linux-media+bounces-22800-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22801-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8819D9E6DE9
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 13:16:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D379E6F9D
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 14:54:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 763C11883559
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 12:16:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0932816B592
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2024 13:52:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9B120102F;
-	Fri,  6 Dec 2024 12:16:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C8E020B807;
+	Fri,  6 Dec 2024 13:52:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UCqcmWzP"
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="MSj7guEp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xDNgtnHy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DDE1D63CB
-	for <linux-media@vger.kernel.org>; Fri,  6 Dec 2024 12:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94A22066DE;
+	Fri,  6 Dec 2024 13:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733487387; cv=none; b=Nbdl+y9HQhcANFipdIR+DrtG4CmH5tg0bMPf6esS32LDqYWOZ+1XG4UweqWBxhB6YHQ1eQH3dWDaTdgGpIB2Uq6THhenFR/AvyJFg4LoVmScejtiHyWXtpne3uDubIaSOfZs9uOXhVf0ZTGTPqJhTr7nmodKMYsrK/sreQuzOoQ=
+	t=1733493144; cv=none; b=kb6VoE3kG/l1xrjhHQtLqz3djb+/svPwYng5Y2OJ4GzYMul0oFBNsv4Jyftq+lymRmMZXbaAygMkkzH43alovKusm/Jdt18WpuRsr3hKbGJjvyja5YJ3NU1lj272Q0OE4ARnI0udsAadi/m48JTkaaAuPEh3CATOnFyaQPWZF8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733487387; c=relaxed/simple;
-	bh=sgr8TfyHIsW2M0ldFdGsnHqIa0HX/kept5tDUtOrpVM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b1r+lQwVvzx5WCOe52ims5Tg+bclOnzK+fnLWnS2vXiw7Mr27MbKUGquXhdUpq5yBmQf1E+ZEKOayKFkY/iouyfF5Vf63bCp7kwFQBsW8ZLDClc2oSS2OlKAnKOP4onkSRLTSAMcNLLNxRgv+1Zf22qfUaIOM0gK7B3eVkqeg3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UCqcmWzP; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B67YSgR016410
-	for <linux-media@vger.kernel.org>; Fri, 6 Dec 2024 12:16:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Wqn/yXsEWgwFk7d3eySSwki1BDLyTCTQlHP/ia3/cxM=; b=UCqcmWzPLUvv0AHA
-	cMNIplYbTUsIo4e4U2Sa3fcfIMBsWElM2xeIx24a1viF757Ja0WkONRXtswdf82m
-	zIiiGQGU7nL7I+hasHzKSZf5FY85UqNj1QarBFI0YahiahE5Tf9wohybia2zJFBk
-	hmqfLRNlXntHECkusRbnDiyixW3MLanOhj5Y4qaJz9Eax73KWKgnhj81MZiQkE8n
-	xdpnnZEkir9fLJRoZpHiyPcBqCpRHWEBMq/9aX2mo6Xmg8tH4dIOAwV2EUNCEeTP
-	Qo7soNWQ1rDEll+pzZDq5ghQffzf9D/62d3IynNVEbLifqZo3FPyazNvoQQD/TLL
-	5ozFNg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43bbnmkhc2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 06 Dec 2024 12:16:24 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6d880eea0a1so4663656d6.3
-        for <linux-media@vger.kernel.org>; Fri, 06 Dec 2024 04:16:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733487377; x=1734092177;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wqn/yXsEWgwFk7d3eySSwki1BDLyTCTQlHP/ia3/cxM=;
-        b=F2CExHCFUEm2ZIOo2oUvU/pBe0gulXsL4jUV3rGhQnQ74H98F/duBfq7YojaqHYE90
-         4tXRg9R+Jn/TaNtZtJ5Pa1vqPeixB0FmOLRO1LKjVf2cn2nC6uBvvEW4TeOLiFucZaPM
-         AvpVbbBJOKDSB7pq305wtDJssuSrMbpEwKwkjybshpfjQyGdxIOiW0HOlnao5MItl6Jr
-         KeIpbIwlDj7USxKBAFYsABQ5iPau2tSPDECrujfeNWvuf7f8ZJptrMibJtRInhXBkPu2
-         bwu476cXZdGteSiRg78iVswGjeGGhkZ+eLnYX0xf/Do6YIYGCtxjTVfnnvZpGef2q59L
-         N+PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWucHoY90bq4BeUYOvn4g4mNhzou8auUuV8NPni4Hay10I3onlPrxbvhhhZefr/ENBrkQYOShSwQ3IOtw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl5cnO9NOruqIdelCZ8V3o2nybjv+N9JAzWMOedgrY/eRM3+UK
-	mq1kS7mF65d7PdhhwzoRYmLY4WAQbc9uU3orbjQ9JuKE1SngVfQm+Li2ZvertoH5VrEbANCsc/A
-	wMxTp4rHp3+BT4yyB+sSjeCN9U0b+7tm+LJr94Fvm/Lt/V/x/c1XCX22u30DqUQ==
-X-Gm-Gg: ASbGnctNYXefKNjg4Aeu6evbjurcy9tvItIgKZjigHUpPJuL58KUyP1gR5XSjxxSA7U
-	W80pzGcZ/EIUzLM1wDZcpITQnNDGwWiciRlgMAGKLGRtlnK9VsYG13KKOa4q5v0EVuJwsToZTMg
-	rzkjHjUshwLCfJR8vbgjP336B8KzJz/5lIrdyBf/pFyafkNznXdOvrqd++4suYRiGsbuiMZC3gj
-	opoV5FYnzRnhYkIzkud5yNzpHCyI+2zgzK16nNtGXWIy/hr9IqTyhXPJVAdxG51ACsBMhB4dMKZ
-	ouSA+gsRasm0U/dky9+jm2bYDTzQios=
-X-Received: by 2002:a05:620a:298c:b0:7b5:1fa4:852f with SMTP id af79cd13be357-7b6bcaf65c4mr155284785a.8.1733487377448;
-        Fri, 06 Dec 2024 04:16:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEETLo4Pi7QkkrYelwKpeurP40wBqMjikrVmWp4FkyL4k13VPynW3pOCmPRkCjhQrr/6mEsvQ==
-X-Received: by 2002:a05:620a:298c:b0:7b5:1fa4:852f with SMTP id af79cd13be357-7b6bcaf65c4mr155282185a.8.1733487377020;
-        Fri, 06 Dec 2024 04:16:17 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa625eedcd0sm231473166b.87.2024.12.06.04.16.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Dec 2024 04:16:15 -0800 (PST)
-Message-ID: <7107275e-1ccf-4f09-ada3-e082833d9364@oss.qualcomm.com>
-Date: Fri, 6 Dec 2024 13:16:13 +0100
+	s=arc-20240116; t=1733493144; c=relaxed/simple;
+	bh=Qg6Ce5uSEcP+55XWYkwP9vkeQ++48Pfctd6qXinl3Gc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IlmuNeRnFgnW5J1zg2XC3ao5yvtDYNznys+fiJ2wPRjdPDLXeGMvPYRpIvHXdUMz71qZWGRlZWQPIigUWD/JgvMp67SBeahMpfMF4f3y/FC/NIRZoCJeDAl0HC6yBDdcNe60/+8ONja747ZJSWVdJA1yJKfpVPd6Stks6tIh1lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=MSj7guEp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xDNgtnHy; arc=none smtp.client-ip=202.12.124.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailflow.stl.internal (Postfix) with ESMTP id 158141D40557;
+	Fri,  6 Dec 2024 08:52:19 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Fri, 06 Dec 2024 08:52:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1733493138; x=
+	1733500338; bh=F/P5NvV/oPgyLOVDdO9jbE313zKQetWBog6B0EvuLEA=; b=M
+	Sj7guEpfYyfJVeSxZkmsMh0zyS2W2XOGFWxV1S085lP0oWUiSQf+HQv4B/im8Smb
+	A/50JTK4DLLh18J9Sjqs2aNhk6S2yarJ+EHcouloSh/oqCB7hArt2q3ZuIFbkj/I
+	fFgU9Qg9R5ZGGvT47CzpDp1KUbo7nK9HO2ae1NPXsXP/wl5BchFWD0yg/JCYjsr9
+	fXIJRALKFsKvFqe71MneVTz8jaGQLkP6wUACGnoi/5zIDs6FZV9i4SCRlzylZIdL
+	JEk2HHQSDWp63JDjM2qb1hil4JrLTf5nQRDL1cyESz6dFceNZAlsmT22L0W8F1gH
+	86D9/srMF3PNNTLIIkUqQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1733493138; x=1733500338; bh=F/P5NvV/oPgyLOVDdO9jbE313zKQetWBog6
+	B0EvuLEA=; b=xDNgtnHy1tK7puhnLX5+esK/IgziPC4HzD0yPzyaPgVs8BauerX
+	5Gh9QHIIwI9c+CUD9aR7FksVyc+wiv9c8kDcmUBxhh3LvOEfxlVik7VuxrqmuwTf
+	XafAHjl0THPYXeq+RMCHSq+xyRbTf81BcpKLtm5vGNbxwyK3XhqSKKD0/eNEBIEs
+	ifGsiqyf80HwoUEiHyMx99sbVBdhIbumQXWTwZBPE4uZQkwcPkqT1sz1khwQ5fKP
+	5LvTH20FG+Z0W6OgHmIRX0xxkcJ4AsJgifC3XCJZIrNaVdO1xmRRG8EZSEdZAiGB
+	55jZB+7jQTMglESe+lwBG7aRRXR4qQbb60A==
+X-ME-Sender: <xms:kgFTZ9eRxZgsQ_HyW0NQeyBhAa8qrP-js82jZsEnrc73rIKbqI5cQg>
+    <xme:kgFTZ7NeULk2V4bgBoKUbD2I9wnDfcKDJoG1qVHeHqzZoP8DCptzP2hkGxpDbhB_u
+    HTxZFgGNz0vK71z6CA>
+X-ME-Received: <xmr:kgFTZ2h8sZq6o250A96V6I672leVJ0PaesW6z8yf8EHC8ehGiJXlNNIQaY-eGODpBFung7qO_vhuMVEX_XB2I8ZKk7sWPvGZxo8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrieelgdehiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecu
+    hfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrg
+    hkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeehhffhteetgfekvdeiueff
+    veevueeftdelhfejieeitedvleeftdfgfeeuudekueenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrghmohgt
+    tghhihdrjhhppdhnsggprhgtphhtthhopedvjedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepiihijhhunhgphhhusehitghlohhuugdrtghomhdprhgtphhtthhopehgrhgv
+    ghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhhlvg
+    hinhgvkheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgrmhgvshdrsghothhtohhm
+    lhgvhieshhgrnhhsvghnphgrrhhtnhgvrhhshhhiphdrtghomhdprhgtphhtthhopehthh
+    homhgrshesthdqkegthhdruggvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhvughimhhmsehlihhsthhsrd
+    hlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehsphgrrhgtlhhinhhugiesvhhgvghrrdhkvg
+    hrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:kgFTZ2_UGngVtygK4_p0LKXvJr2g0v9oePYeEVcrzT0gkzTro-YK0g>
+    <xmx:kgFTZ5vx35KJMQHqHYcHa0QjhtFrNmuU_ZD5-UGD0krqFfoJC4mPyQ>
+    <xmx:kgFTZ1G9NWKiaU4m6BL1Na5OaZRNRdHCaRGEc0E-ttIN_XuEHc32wg>
+    <xmx:kgFTZwPzQVAELvWI33zBnvWj1s6ncPtql6n1UYpP22HdnXi_-3k-FA>
+    <xmx:kgFTZ4-yVlVkD3Q8ajGh0oXdOkDvMdTtHW1-CAta77ld53oKIK-nLbK0>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Dec 2024 08:52:12 -0500 (EST)
+Date: Fri, 6 Dec 2024 22:52:09 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>,
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+Message-ID: <20241206135209.GA133715@workstation.local>
+Mail-Followup-To: Zijun Hu <zijun_hu@icloud.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>,
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
+ <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] arm64: dts: qcom: qcs615: add WiFi/BT nodes
-To: "Yu Zhang (Yuriy)" <quic_yuzha@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, andersson@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc: agross@kernel.org, ath11k@lists.infradead.org, dmitry.baryshkov@linaro.org,
-        konradybcio@kernel.org, kvalo@kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org, quic_jjohnson@quicinc.com,
-        quic_miaoqing@quicinc.com, quic_vgarodia@quicinc.com,
-        stanimir.k.varbanov@gmail.com, quic_jiaymao@quicinc.com
-References: <20241203060318.1750927-1-quic_yuzha@quicinc.com>
- <1ca062dd-8910-4caf-a133-0e5717b43540@oss.qualcomm.com>
- <649dc6c0-f0e1-4dca-8f93-d0f81803cd70@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <649dc6c0-f0e1-4dca-8f93-d0f81803cd70@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: RxgRumbo86oHiuRs7LUUbuH8YQ5FpGLG
-X-Proofpoint-GUID: RxgRumbo86oHiuRs7LUUbuH8YQ5FpGLG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=886 priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0
- suspectscore=0 adultscore=0 clxscore=1015 phishscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412060092
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
 
-On 6.12.2024 4:22 AM, Yu Zhang (Yuriy) wrote:
+Hi,
+
+On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
 > 
+> Constify the following API:
+> struct device *device_find_child(struct device *dev, void *data,
+> 		int (*match)(struct device *dev, void *data));
+> To :
+> struct device *device_find_child(struct device *dev, const void *data,
+>                                  device_match_t match);
+> typedef int (*device_match_t)(struct device *dev, const void *data);
+> with the following reasons:
 > 
-> On 12/6/2024 1:14 AM, Konrad Dybcio wrote:
->> On 3.12.2024 7:03 AM, Yu Zhang(Yuriy) wrote:
->>> Add a node for the PMU module of the WCN6855 present on the qcs615
->>> board. Assign its LDO power outputs to the existing WiFi/BT module.
->>>
->>
->> subject:
->>
->> arm64: dts: qcom: qcs615-ride: ....
->>
->> [...]
->>
->>> +
->>> +    vreg_conn_1p8: vreg_conn_1p8 {
->>> +        compatible = "regulator-fixed";
->>> +        regulator-name = "vreg_conn_1p8";
->>> +        startup-delay-us = <4000>;
->>> +        enable-active-high;
->>> +        gpio = <&pm8150_gpios 1 GPIO_ACTIVE_HIGH>;
->>> +    };
->>> +
->>> +    vreg_conn_pa: vreg_conn_pa {
->>> +        compatible = "regulator-fixed";
->>> +        regulator-name = "vreg_conn_pa";
->>> +        startup-delay-us = <4000>;
->>> +        enable-active-high;
->>> +        gpio = <&pm8150_gpios 6 GPIO_ACTIVE_HIGH>;
->>> +    };
->>
->> Are any of these boot-on?
->>
-> Yes, these are used wcn6855-pmu：
->      vddio-supply = <&vreg_conn_pa>;
->      vddpmu-supply = <&vreg_conn_1p8>;
+> - Protect caller's match data @*data which is for comparison and lookup
+>   and the API does not actually need to modify @*data.
+> 
+> - Make the API's parameters (@match)() and @data have the same type as
+>   all of other device finding APIs (bus|class|driver)_find_device().
+> 
+> - All kinds of existing device match functions can be directly taken
+>   as the API's argument, they were exported by driver core.
+> 
+> Constify the API and adapt for various existing usages by simply making
+> various match functions take 'const void *' as type of match data @data.
+> 
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> ---
+>  arch/sparc/kernel/vio.c                |  6 +++---
+>  drivers/base/core.c                    |  6 +++---
+>  drivers/block/sunvdc.c                 |  6 +++---
+>  drivers/bus/fsl-mc/dprc-driver.c       |  4 ++--
+>  drivers/cxl/core/pci.c                 |  4 ++--
+>  drivers/cxl/core/pmem.c                |  2 +-
+>  drivers/cxl/core/region.c              | 21 ++++++++++++---------
+>  drivers/firewire/core-device.c         |  4 ++--
+>  drivers/firmware/arm_scmi/bus.c        |  4 ++--
+>  drivers/firmware/efi/dev-path-parser.c |  4 ++--
+>  drivers/gpio/gpio-sim.c                |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 +-
+>  drivers/hwmon/hwmon.c                  |  2 +-
+>  drivers/media/pci/mgb4/mgb4_core.c     |  4 ++--
+>  drivers/nvdimm/bus.c                   |  2 +-
+>  drivers/pwm/core.c                     |  2 +-
+>  drivers/rpmsg/rpmsg_core.c             |  4 ++--
+>  drivers/scsi/qla4xxx/ql4_os.c          |  3 ++-
+>  drivers/scsi/scsi_transport_iscsi.c    | 10 +++++-----
+>  drivers/slimbus/core.c                 |  8 ++++----
+>  drivers/thunderbolt/retimer.c          |  2 +-
+>  drivers/thunderbolt/xdomain.c          |  2 +-
+>  drivers/tty/serial/serial_core.c       |  4 ++--
+>  drivers/usb/typec/class.c              |  8 ++++----
+>  include/linux/device.h                 |  4 ++--
+>  include/scsi/scsi_transport_iscsi.h    |  4 ++--
+>  net/dsa/dsa.c                          |  2 +-
+>  tools/testing/cxl/test/cxl.c           |  2 +-
+>  28 files changed, 66 insertions(+), 62 deletions(-)
 
-What i meant is, whether these regulators are enabled at boot
-time (i.e. without software intervention). If that's the case,
-`regulator-boot-on;` should be added
+For the changes in FireWire subsystem:
 
-Konrad
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+
+Thanks
+
+Takashi Sakamoto
 
