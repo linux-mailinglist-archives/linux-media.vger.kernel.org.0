@@ -1,269 +1,157 @@
-Return-Path: <linux-media+bounces-22823-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22824-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464CF9E80ED
-	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2024 17:21:00 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FEDC9E8205
+	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2024 21:48:49 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E33E16622B
+	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2024 20:48:44 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DB56191F79;
+	Sat,  7 Dec 2024 20:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VMKkkuat"
+X-Original-To: linux-media@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82D7E282303
-	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2024 16:20:58 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88550156C63;
-	Sat,  7 Dec 2024 16:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mLst9bBa"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C21156661;
-	Sat,  7 Dec 2024 16:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76D214A0B9;
+	Sat,  7 Dec 2024 20:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733588292; cv=none; b=EulTlZNoAFdNaJVwN6YsDA6QhhOWJ4LwyJ2okcSQoHZEuQkF0v4XbYugW71U1qPuNJSRJpPP8pXEB1LgzhsBp8gNsz0ZNJhG5Jrs4TAO4DUmZwpOwPWuANR7LM7DPYXluzVKfFg5JeFBLhRUBV53061bSA45xn1BdmxXrhMYhNQ=
+	t=1733604506; cv=none; b=oRiKDjiz9tgomkcS2sz0r/zd43TGk6hEARBKGbBvxNyMpA4pOqYCYhNi1aLh9hs5lu7fJNLlrBBzR+/Ml+ktsx0oqzm6wCxqILgzkGSk94c+WbQMFTbJCmxTYcfiSVLNt2e0dJEdv9IVX99INCPBpRILvrieS8yqFfopYurwGck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733588292; c=relaxed/simple;
-	bh=MthxseiiB1qweTv/ZsRRJcdWTkF+jsxsAi3/Ie+L3Kc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X9cdvQ6zs+YB6Oqt1JwKvdte4PCZI4KMgH052WG+Iu2Ekz8Tw/Oa3M1jBVQqRiNRWpWiKtJJJOXtF/e8jga/X5sf0rw+fLWXraGS78EdATGf4EV0jZ96YhKu4kJiYbQvci/b2ExHIPiSu9HwuhS32d/2m1hi/Y5lSa4sRp9IwCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mLst9bBa; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7256dc42176so3399351b3a.3;
-        Sat, 07 Dec 2024 08:18:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733588290; x=1734193090; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IyIQTPEzZRAeS1qQla708q/4zgKpLleeCQ9ko3M4emo=;
-        b=mLst9bBaFEeZC1g1+ZYFj7sVJOWGBazByg55o2rH9v2UDuqI3Bl+LCo7QU3JA/XQRx
-         ie48tUW1KZ9hY81WqzIQvIz3ECh09+fOCTd62oKoiL6nSdwyn+EBt2uY9Zy8naYEPswG
-         K5WasLgIotfbGpDrkDyQFGDtVaeY3h31EVyNJbIPardvIMuTeSeyIj2CHQxHAgwsU15J
-         iYF7kCd6avSrKwyb0Y4mcNVsCCnc1XW3lhKMOerpPyG/R7Yng1WeyjVeiqWMEUsYE7nX
-         Yna4C66TF/jr8Lx8Lr+vHdh0rl42GnSDaacGQSp/a2J7a403KNoW4TF2/Cd/qzKJV0+W
-         /dQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733588290; x=1734193090;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IyIQTPEzZRAeS1qQla708q/4zgKpLleeCQ9ko3M4emo=;
-        b=WRwULVQcIKUMkMIVT4SoZbQvuXe06Iw9iCMjlOYAWkmwBnaqMNJa0i/wEz926AV/E4
-         O5VxnvnG1CFehCApo7dTDSxttO0QhivqozT59zspHVFVvFh9uewC9iV0PrRav4spz/2y
-         97XW5bO0puy0vP5W6yTJu5nej0DGro7BBLqoVuxKhxvA9rK2TgseJ+RL3QH9iSU6Aas3
-         CAYvE9I+sh5rf3MbeYrkye5BNTYG2fr69361an7K5fTqege/lxTYzgeoeO6wqSXakYpA
-         pYunpZCCsMyvyJxJ6ConBQ5+wuF77wjbIqDCLRM2HpGWrB1YsaaTlGnmOhNsFVcLvF2g
-         gTJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUG7DMNshyEJBSr5JlT6hfSkOcNUkP6Hilw5XyAQ4upoR0tFRmNzKIo4CWVkxtMJrca0XDZd4kgWutDN2iA@vger.kernel.org, AJvYcCVOP/hxQerCrd4dyvUx5jnq6sdqnOwj5uNJc/UHnBKZ4mB2LnNKbzSgSNThIezQhxJXMq96w0hTa0RLlYjF@vger.kernel.org, AJvYcCXf9sA8z2M0Gvm9KaRzeVlggeuzKwRWXxEJMx9NVAxh6he2wjtUwKhWvvpDpHHfgW36oMHpaOmA4I2uqYA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTrGZd9+gGmv8aOaxAMj2PKhf3nGltLikYD8O0GYEQILDy/6xh
-	8xXYiB/081Ei02flZgyLvTofYk7kxhemgg4MAk7khKNXBjvzLnwe
-X-Gm-Gg: ASbGncutdaz35lzt6L7ve6MDG8QoXl9jAxRy581J1MfK04lRPMAVWTmL7/sUQFGElFi
-	jbWcnxee7uCCTf+yVL1X7zFVmfKMgBPT1C8LdyOz0BoPHSzOEmkunYkp2Ig3uh8m0O4eq0HI9ed
-	o+Fqye8ztiAFjeWLzv6FNanExDfg2m1y8PuNZ/XcKf/qG+KXPmwmvwE4dOv3XRdg954FEIrdaWX
-	yg/zGxjWD9I8mqkKHEqlP12Ic9MbP1aIZrE/zWILXYZpMdziWQBL1N9g9vFGLADrD2gN249UcT1
-	pjGgxM8i
-X-Google-Smtp-Source: AGHT+IH4HL1U3hdxxpSBUgHr8euIo6pL350TQqGVjNEoKJJrUHlPQJvlC5hz1/gTOJO0CknwxlmDkg==
-X-Received: by 2002:a05:6a20:6a07:b0:1d8:a9c0:8853 with SMTP id adf61e73a8af0-1e1870c78e5mr9414508637.23.1733588290215;
-        Sat, 07 Dec 2024 08:18:10 -0800 (PST)
-Received: from localhost (c-73-37-105-206.hsd1.or.comcast.net. [73.37.105.206])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725a2ca671asm4650775b3a.153.2024.12.07.08.18.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Dec 2024 08:18:09 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	Connor Abbott <cwabbott0@gmail.com>,
-	Akhil P Oommen <quic_akhilpo@quicinc.com>,
-	Rob Clark <robdclark@chromium.org>,
-	Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
-	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [RFC 18/24] drm/msm: Add _NO_SHARE flag
-Date: Sat,  7 Dec 2024 08:15:18 -0800
-Message-ID: <20241207161651.410556-19-robdclark@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241207161651.410556-1-robdclark@gmail.com>
-References: <20241207161651.410556-1-robdclark@gmail.com>
+	s=arc-20240116; t=1733604506; c=relaxed/simple;
+	bh=rWz9GxnchMLN6fSpu6IMZqkDL9a3pSZ+wb6rekAUHzY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=AYmUgKz6dW0yc1+7z4gK4gLfkCB+Na5R78R0n88rYsQGMGkhCpCID5XgLLpjTsZNbwYLt+pHUhMZ0ILV7lXCMmRpqL5NKtQ8LOBjGislNT92OVfurElKVr/MGnb9hTz4Tgd4HZRU64xJ2EwiDbpgE+wTUm3TXZTEP2TMvNRRoLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VMKkkuat; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1EB12C4CECD;
+	Sat,  7 Dec 2024 20:48:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733604506;
+	bh=rWz9GxnchMLN6fSpu6IMZqkDL9a3pSZ+wb6rekAUHzY=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=VMKkkuatp//a6q58hLMpDx9SiOix3UeRZOXDnNJMNH7PebGPlhGbWnNixquF7Zw3B
+	 ESnJnvvoXH4mau2SDzgxlSbh+XEhEWfn2R1skhDEf+vH6MDeBPcFcC9Op9prk+JnKJ
+	 ZHa5uWIgjEesHKpJr2opf7Aw30A05QErekrGdU38ECDn+hwYPph3qq9ghKPxzZBdim
+	 g/MH0wY+hw04BvejNLvb5qUeA5ecTHYamhUyLGiU56S+auhQKNOJxJcd48gjct9VQ0
+	 02W88E5jW7aemKGfCpfh9SK1FALV9LtF+crMqmuvpTj1O3duQ+pL5ANt360P4OY8pE
+	 1RMahSSE+VDkA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03360E7717B;
+	Sat,  7 Dec 2024 20:48:26 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH v3 00/12] media: i2c: imx214: Miscellaneous cleanups and
+ improvements
+Date: Sat, 07 Dec 2024 21:47:49 +0100
+Message-Id: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAHW0VGcC/1WMwQ6CMBAFf4X0bE13W6T15H8YD1AW6UEgLTYo4
+ d8tGEk8zsubmVkg7yiwczYzT9EF13cJ5CFjti27O3FXJ2YoUAkNmrvHhKC4lqgKrWxREbF0Hjw
+ 1btpC11vi1oWx96+tG2Fdvwkj8JeIwAW35mSr0mgjIb+UgxvfwbZHerI1EnEXQSDsIiaxqWqUZ
+ EyugP7FZVk+/2K1HNcAAAA=
+X-Change-ID: 20240818-imx214-8324784c7bee
+To: Ricardo Ribalda <ribalda@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Vincent Knecht <vincent.knecht@mailoo.org>, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733604504; l=2879;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=rWz9GxnchMLN6fSpu6IMZqkDL9a3pSZ+wb6rekAUHzY=;
+ b=bGLVRCS/O8ECvYhfAvnZFfe5jzV8wf+QLCRW2vAi6smx/TEFXdNQOdNs19XxOqCb7zvkXHOTV
+ ie0Obio8ulgCPeubzMnCEaFp9sT4Rd81gzsi7EE6R+5Z7J8PXrVuG1o
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-From: Rob Clark <robdclark@chromium.org>
+This patch series is a collection of miscellaneous cleanups and
+improvements to the imx214 driver.
 
-Buffers that are not shared between contexts can share a single resv
-object.  This way drm_gpuvm will not track them as external objects, and
-submit-time validating overhead will be O(1) for all N non-shared BOs,
-instead of O(n).
+The series converts the driver to the CCI helpers and adds controls
+needed to make the driver work with libcamera.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+The changes are inspired by the imx219 driver.
+
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- drivers/gpu/drm/msm/msm_drv.h       |  1 +
- drivers/gpu/drm/msm/msm_gem.c       | 23 +++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_gem_prime.c | 15 +++++++++++++++
- include/uapi/drm/msm_drm.h          | 14 ++++++++++++++
- 4 files changed, 53 insertions(+)
+Changes in v3:
+- Also keep previous link freq for backward compatibility
+- Move link freq patch to the end of the series
+- Remove return-early check from imx214_set_format()
+- Remove unneeded struct imx214 function parameter
+- Use correct ret value on number of data lanes error
+- Revert changing order (imx214_parse_fwnode, devm_kzalloc)
+- Fix typo
+- Remove unused definition IMX214_EXPOSURE_MAX
+- Don't set FPS to default
+- Simplify exposure_def definition
+- Set state and format only if control id is V4L2_CID_VBLANK
+- Restore Ricardo's message to Sony
+- Drop "media: i2c: imx214: Extract format and crop settings" patch
+- Add A-b tag
+- Link to v2: https://lore.kernel.org/r/20241021-imx214-v2-0-fbd23e99541e@apitzsch.eu
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 80582c0c2bf7..4c7ff83a0a20 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -246,6 +246,7 @@ int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map);
- void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
- struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
- 		struct dma_buf_attachment *attach, struct sg_table *sg);
-+struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags);
- int msm_gem_prime_pin(struct drm_gem_object *obj);
- void msm_gem_prime_unpin(struct drm_gem_object *obj);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 66332481c4c3..c21e1284f289 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -511,6 +511,9 @@ static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
- 
- 	msm_gem_assert_locked(obj);
- 
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return -EINVAL;
-+
- 	vma = get_vma_locked(obj, vm, range_start, range_end);
- 	if (IS_ERR(vma))
- 		return PTR_ERR(vma);
-@@ -1026,6 +1029,16 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
- 		put_iova_vmas(obj);
- 	}
- 
-+	if (msm_obj->flags & MSM_BO_NO_SHARE) {
-+		struct drm_gem_object *r_obj =
-+			container_of(obj->resv, struct drm_gem_object, _resv);
-+
-+		BUG_ON(obj->resv == &obj->_resv);
-+
-+		/* Drop reference we hold to shared resv obj: */
-+		drm_gem_object_put(r_obj);
-+	}
-+
- 	drm_gem_object_release(obj);
- 
- 	kfree(msm_obj->metadata);
-@@ -1058,6 +1071,15 @@ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
- 	if (name)
- 		msm_gem_object_set_name(obj, "%s", name);
- 
-+	if (flags & MSM_BO_NO_SHARE) {
-+		struct msm_context *ctx = file->driver_priv;
-+		struct drm_gem_object *r_obj = drm_gpuvm_resv_obj(ctx->vm);
-+
-+		drm_gem_object_get(r_obj);
-+
-+		obj->resv = r_obj->resv;
-+	}
-+
- 	ret = drm_gem_handle_create(file, obj, handle);
- 
- 	/* drop reference from allocate - handle holds it now */
-@@ -1090,6 +1112,7 @@ static const struct drm_gem_object_funcs msm_gem_object_funcs = {
- 	.free = msm_gem_free_object,
- 	.open = msm_gem_open,
- 	.close = msm_gem_close,
-+	.export = msm_gem_prime_export,
- 	.pin = msm_gem_prime_pin,
- 	.unpin = msm_gem_prime_unpin,
- 	.get_sg_table = msm_gem_prime_get_sg_table,
-diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
-index ee267490c935..1a6d8099196a 100644
---- a/drivers/gpu/drm/msm/msm_gem_prime.c
-+++ b/drivers/gpu/drm/msm/msm_gem_prime.c
-@@ -16,6 +16,9 @@ struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj)
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 	int npages = obj->size >> PAGE_SHIFT;
- 
-+	if (msm_obj->flags & MSM_BO_NO_SHARE)
-+		return ERR_PTR(-EINVAL);
-+
- 	if (WARN_ON(!msm_obj->pages))  /* should have already pinned! */
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -45,6 +48,15 @@ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
- 	return msm_gem_import(dev, attach->dmabuf, sg);
- }
- 
-+
-+struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags)
-+{
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return ERR_PTR(-EPERM);
-+
-+	return drm_gem_prime_export(obj, flags);
-+}
-+
- int msm_gem_prime_pin(struct drm_gem_object *obj)
- {
- 	struct page **pages;
-@@ -53,6 +65,9 @@ int msm_gem_prime_pin(struct drm_gem_object *obj)
- 	if (obj->import_attach)
- 		return 0;
- 
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return -EINVAL;
-+
- 	pages = msm_gem_pin_pages_locked(obj);
- 	if (IS_ERR(pages))
- 		ret = PTR_ERR(pages);
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 39b55c8d7413..a7e48ee1dd95 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -138,6 +138,19 @@ struct drm_msm_param {
- 
- #define MSM_BO_SCANOUT       0x00000001     /* scanout capable */
- #define MSM_BO_GPU_READONLY  0x00000002
-+/* Private buffers do not need to be explicitly listed in the SUBMIT
-+ * ioctl, unless referenced by a drm_msm_gem_submit_cmd.  Private
-+ * buffers may NOT be imported/exported or used for scanout (or any
-+ * other situation where buffers can be indefinitely pinned, but
-+ * cases other than scanout are all kernel owned BOs which are not
-+ * visible to userspace).
-+ *
-+ * In exchange for those constraints, all private BOs associated with
-+ * a single context (drm_file) share a single dma_resv, and if there
-+ * has been no eviction since the last submit, there are no per-BO
-+ * bookeeping to do, significantly cutting the SUBMIT overhead.
-+ */
-+#define MSM_BO_NO_SHARE      0x00000004
- #define MSM_BO_CACHE_MASK    0x000f0000
- /* cache modes */
- #define MSM_BO_CACHED        0x00010000
-@@ -147,6 +160,7 @@ struct drm_msm_param {
- 
- #define MSM_BO_FLAGS         (MSM_BO_SCANOUT | \
-                               MSM_BO_GPU_READONLY | \
-+                              MSM_BO_NO_SHARE | \
-                               MSM_BO_CACHE_MASK)
- 
- struct drm_msm_gem_new {
+Changes in v2:
+- Add patch to fix link frequency
+- Don't use and remove fmt and crop from struct imx214
+- Squash patch 1/13 and 2/13
+- Only check if #lanes == 4
+- Add comment that enum_frame_interval() shouldn't be used by userspace
+- Set V4L2_CID_VBLANK step size to 2 (according to datasheet Table 4-4)
+- Increase IMX214_VBLANK_MIN to limit max frame rate of full resolution
+  to the documented 30 fps
+- As bpp is always 10, simplify setting IMX214_REG_CSI_DATA_FORMAT and
+  IMX214_REG_OPPXCK_DIV
+- Simplify imx214_get_format_code()
+- Cluster hflip and vflip
+- Remove kernel log note from 11/13, issue was fixed by a kernel update
+- Add A-b tags
+- Link to v1: https://lore.kernel.org/r/20240902-imx214-v1-0-c96cba989315@apitzsch.eu
+
+---
+André Apitzsch (12):
+      media: i2c: imx214: Use subdev active state
+      media: i2c: imx214: Simplify with dev_err_probe()
+      media: i2c: imx214: Convert to CCI register access helpers
+      media: i2c: imx214: Replace register addresses with macros
+      media: i2c: imx214: Drop IMX214_REG_EXPOSURE from mode reg arrays
+      media: i2c: imx214: Check number of lanes from device tree
+      media: i2c: imx214: Add vblank and hblank controls
+      media: i2c: imx214: Implement vflip/hflip controls
+      media: i2c: imx214: Add analogue/digital gain control
+      media: i2c: imx214: Verify chip ID
+      media: i2c: imx214: Add test pattern control
+      media: i2c: imx214: Fix link frequency
+
+ drivers/media/i2c/Kconfig  |    1 +
+ drivers/media/i2c/imx214.c | 1253 ++++++++++++++++++++++++++------------------
+ 2 files changed, 739 insertions(+), 515 deletions(-)
+---
+base-commit: 7c537db2474dd5b1acf4ee9bb665113127e2d013
+change-id: 20240818-imx214-8324784c7bee
+
+Best regards,
 -- 
-2.47.1
+André Apitzsch <git@apitzsch.eu>
+
 
 
