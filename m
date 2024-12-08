@@ -1,158 +1,112 @@
-Return-Path: <linux-media+bounces-22831-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22837-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C13D9E8210
-	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2024 21:49:17 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 947A81661DB
-	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2024 20:49:11 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58B4F198A07;
-	Sat,  7 Dec 2024 20:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q/DnGHL5"
-X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E319E8380
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 05:01:28 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB18188014;
-	Sat,  7 Dec 2024 20:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDF952818D7
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 04:01:26 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13BD72AE6A;
+	Sun,  8 Dec 2024 04:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="r2bNnv0L"
+X-Original-To: linux-media@vger.kernel.org
+Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFE64690;
+	Sun,  8 Dec 2024 04:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.177.23.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733604507; cv=none; b=LxUAI+FrNNgi0vQdYW9WtG479b1SwVHhT2qfY0T/qcwK983yS1sEnfsDbORnbblHT8oCjlIA2aiGB9ZbWFxbyOXF4siK6IgtZgql0GiGU76zcNpEFByAmnSC5nfHA1fe0gYp5pVpUyp0Y69q6NDUJ778PxAofYPNdCNKml1HYqk=
+	t=1733630479; cv=none; b=TJZ2PwY4dHGhexuZ04RP3FFWygBt3N3PH0Ps48Q5lxWqxM7GhOLaRakRolrUTTSyI0aI4OZEZc1i9vItBSVYBjv++kTrJjhiWaj5br8UcSvWLhX0gK6I4i+gBPoHDQ5GiqMFYbjFgZVBRdoTdz3a+wES6LjwWhCt81ESsm5JJNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733604507; c=relaxed/simple;
-	bh=qn1YMqA4rbn5glPH63TElIh4bkgri3XjhyBo+7vejTw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ttCZKqvu1eBKI01F2B2Ccd0dpvK0gYrYkHftcamaL64JuRu7ZZMk5/F8Pl79PeOzFHZlL1pu3S8CtRSbzpILumELaundY/cr3/PD7mY0ZPSOaim9Jh6IkxYotzlLbZWgnni1aTA1FZ6wHWeJAjG2bfo3k8HEo/Phy6caFQsf8sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q/DnGHL5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DCC2EC4CEF9;
-	Sat,  7 Dec 2024 20:48:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733604506;
-	bh=qn1YMqA4rbn5glPH63TElIh4bkgri3XjhyBo+7vejTw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=q/DnGHL5/MUvDdnO8kOEKzalM6sa2kblIrUOMj7i8LYRIZteewb5L7nKKtaHJaOkG
-	 xqfC65eqGva6OyfNTK5F/E1WjQYzsa1YMkNaBGxzJoHU7zXiVR7G+MamOFPlwExDGD
-	 /O2zczxRr/kewI9ZJsindr8N94i0FYkczw/RPPHun2KsrOvUjgHqmFGLPh1eLy9hUb
-	 YvT9c12WqjH19GesMBQ0EKaxFBWgB/9Kgjkx21hJbITE/z3+6z+4rCBipZ9cw7/xMP
-	 3hZkA+3YATh6hwHRKxgQOjzkKUI+1anBV2U0hJlE2ZHwb6ixMLx+Ui8lvYxx5iVhuM
-	 JyDbickaVESOg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D41CDE7717D;
-	Sat,  7 Dec 2024 20:48:26 +0000 (UTC)
-From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Sat, 07 Dec 2024 21:48:01 +0100
-Subject: [PATCH v3 12/12] media: i2c: imx214: Fix link frequency
+	s=arc-20240116; t=1733630479; c=relaxed/simple;
+	bh=rywh8j+vsOGen2cnijZ4sX5uDqP9nf0EX8pEGP499QM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VF7GmtHDClNP5FrV0PRIB87+gD2xtCAA+g9HD+XOwmyUc3ZCCFangt7EGCFXOfHip7AVkF0B2Eb5lmzYWKmxKbJzAulohL7DBtEtd95xuvKgCzQtznIChSRJFew+aynUn1H95nzcKQOfT8CTObp4L8MWGWBcQn5zzFQ1AVB8JSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=r2bNnv0L; arc=none smtp.client-ip=89.177.23.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from newone.lan (99-158-29-91.lightspeed.miamfl.sbcglobal.net [99.158.29.91])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id A321E1662D2;
+	Sun,  8 Dec 2024 05:01:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1733630465;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kv9gGodx3BkdkBDxZJOBxwhrGWYOwsmC1Hy2kXTJCJY=;
+	b=r2bNnv0LZj/3CGFgy/YbDmOCOvo82yIZQFgsWpk0j0wB7FMupD/4cYa8UEVtDkIWsG2Pag
+	tt4nf3O5t9/XWK1tGmECng5uhts1qlJCEaTXnC5VBgV3K7eDqGLBqZevyvDyQ9WYzjCVSN
+	P4URMmOzeA8738QYfOPBh6fUkbipP5Q=
+From: David Heidelberg <david@ixit.cz>
+To: Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Caleb Connolly <caleb.connolly@linaro.org>,
+	David Heidelberg <david@ixit.cz>,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: qcom: camss: Add sm845 named power-domain support
+Date: Sat,  7 Dec 2024 23:00:48 -0500
+Message-ID: <20241208040055.30509-1-david@ixit.cz>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241207-imx214-v3-12-ab60af7ee915@apitzsch.eu>
-References: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu>
-In-Reply-To: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu>
-To: Ricardo Ribalda <ribalda@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Vincent Knecht <vincent.knecht@mailoo.org>, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733604504; l=2742;
- i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=1Jjd3sDm2dEMqmAu5K0slF5ScHBtK4byXbl6eSmsS2E=;
- b=riASUiChd4gtqQ9AtvrOzaCBB6oR4wlAPoAKOCW2vub9+Q/0osvibbo/oYUKy1RhyMuE9lAt+
- GkqzdisS0W3AmUz2HAICmdK5ILpLvzRVChKsBn71UNRldDTQx3JOHil
-X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
- pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
-X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
- auth_id=142
-X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Reply-To: git@apitzsch.eu
 
-From: André Apitzsch <git@apitzsch.eu>
+From: Caleb Connolly <caleb.connolly@linaro.org>
 
-The driver defines IMX214_DEFAULT_LINK_FREQ 480000000, and then
-IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10),
-which works out as 384MPix/s. (The 8 is 4 lanes and DDR.)
+Declare power-domain names "top", "ife0" and "ife1" eponymously for the
+power-domains TITAN_TOP_GDSC, IFE_0_GDSC and IFE_1_GDSC respectively.
 
-Parsing the PLL registers with the defined 24MHz input. We're in single
-PLL mode, so MIPI frequency is directly linked to pixel rate.  VTCK ends
-up being 1200MHz, and VTPXCK and OPPXCK both are 120MHz.  Section 5.3
-"Frame rate calculation formula" says "Pixel rate
-[pixels/s] = VTPXCK [MHz] * 4", so 120 * 4 = 480MPix/s, which basically
-agrees with my number above.
-
-3.1.4. MIPI global timing setting says "Output bitrate = OPPXCK * reg
-0x113[7:0]", so 120MHz * 10, or 1200Mbit/s. That would be a link
-frequency of 600MHz due to DDR.
-That also matches to 480MPix/s * 10bpp / 4 lanes / 2 for DDR.
-
-Keep the previous link frequency for backward compatibility.
-
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
+Signed-off-by: Caleb Connolly <caleb.connolly@linaro.org>
+Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/media/i2c/imx214.c | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ drivers/media/platform/qcom/camss/camss.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 1330f13207beec0960c384681bf0b49e99fe860f..910ad03cda23345d3d10d13cd30f007954534e80 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -31,7 +31,9 @@
- #define IMX214_REG_FAST_STANDBY_CTRL	CCI_REG8(0x0106)
+diff --git ./drivers/media/platform/qcom/camss/camss.c ./drivers/media/platform/qcom/camss/camss.c
+index 67fb11cbe865..62c556c4fcf8 100644
+--- ./drivers/media/platform/qcom/camss/camss.c
++++ ./drivers/media/platform/qcom/camss/camss.c
+@@ -927,6 +927,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
+ 		.interrupt = { "vfe0" },
+ 		.vfe = {
+ 			.line_num = 4,
++			.pd_name = "ife0",
+ 			.has_pd = true,
+ 			.hw_ops = &vfe_ops_170,
+ 			.formats_rdi = &vfe_formats_rdi_845,
+@@ -954,6 +955,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
+ 		.interrupt = { "vfe1" },
+ 		.vfe = {
+ 			.line_num = 4,
++			.pd_name = "ife1",
+ 			.has_pd = true,
+ 			.hw_ops = &vfe_ops_170,
+ 			.formats_rdi = &vfe_formats_rdi_845,
+@@ -2647,6 +2649,7 @@ static const struct camss_resources sdm660_resources = {
  
- #define IMX214_DEFAULT_CLK_FREQ	24000000
--#define IMX214_DEFAULT_LINK_FREQ 480000000
-+#define IMX214_DEFAULT_LINK_FREQ	600000000
-+/* Keep wrong link frequency for backward compatibility */
-+#define IMX214_DEFAULT_LINK_FREQ_LEGACY	480000000
- #define IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10)
- #define IMX214_FPS 30
- 
-@@ -1216,18 +1218,22 @@ static int imx214_parse_fwnode(struct device *dev)
- 		goto done;
- 	}
- 
--	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
-+	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
- 		if (bus_cfg.link_frequencies[i] == IMX214_DEFAULT_LINK_FREQ)
- 			break;
--
--	if (i == bus_cfg.nr_of_link_frequencies) {
--		dev_err_probe(dev, -EINVAL,
--			      "link-frequencies %d not supported, Please review your DT\n",
--			      IMX214_DEFAULT_LINK_FREQ);
--		ret = -EINVAL;
--		goto done;
-+		if (bus_cfg.link_frequencies[i] == IMX214_DEFAULT_LINK_FREQ_LEGACY) {
-+			dev_warn(dev,
-+				 "link-frequencies %d not supported, please review your DT. Continuing anyway\n",
-+				 IMX214_DEFAULT_LINK_FREQ);
-+			break;
-+		}
- 	}
- 
-+	if (i == bus_cfg.nr_of_link_frequencies)
-+		ret = dev_err_probe(dev, -EINVAL,
-+				    "link-frequencies %d not supported, please review your DT\n",
-+				    IMX214_DEFAULT_LINK_FREQ);
-+
- done:
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
- 	fwnode_handle_put(endpoint);
-
+ static const struct camss_resources sdm845_resources = {
+ 	.version = CAMSS_845,
++	.pd_name = "top",
+ 	.csiphy_res = csiphy_res_845,
+ 	.csid_res = csid_res_845,
+ 	.vfe_res = vfe_res_845,
 -- 
-2.47.1
-
+2.45.2
 
 
