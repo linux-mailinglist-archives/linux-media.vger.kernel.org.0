@@ -1,347 +1,434 @@
-Return-Path: <linux-media+bounces-22844-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22845-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18639E881B
-	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 22:35:39 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A601A163DD3
-	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 21:35:36 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13E9E191F75;
-	Sun,  8 Dec 2024 21:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="asxS2sW/"
-X-Original-To: linux-media@vger.kernel.org
-Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D319E882C
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 22:47:44 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BC51DA23;
-	Sun,  8 Dec 2024 21:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C175B2811B2
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 21:47:42 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AE517838C;
+	Sun,  8 Dec 2024 21:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SFLZX7ZX"
+X-Original-To: linux-media@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF35E46B8;
+	Sun,  8 Dec 2024 21:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733693730; cv=none; b=X651boIs88nco10YwJMKhw80+thBSfgNo30VKgbBhLB/1QjWTPPwKqnjsYDdXCsCAwCoU2TxuZpPm2yZQjv/77RuX2n6fDcyGT/fGOKCmt86gsPq1GWk/h1fA8QAkdFiovUfiwPn2ep1fjBny+tIrq35mNxcCqqk2mNsAmPi9og=
+	t=1733694456; cv=none; b=WzkSkHiYAQ2LKv7JztTvx88/bwwM0lp5v58TUFWe7ck/rsxucJZbVB9CsWelzSHj4gI+Va9qfGoT+0FhMZQSBenE8X7PzioYNna1mFXGGD/AnfrbJ6r5VxfWeb3BL31jk76X3fNNCmt5aAb7n2Gw8h0Ihv4S7zM3kxX//ZFj4f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733693730; c=relaxed/simple;
-	bh=PzFXJTuKbL5SVtLieHDfTuwheKytTpjJhkFxRccUW8U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BrpZc7RK+dPTzNgG9fGnyAdJgx4MdafanQBiRvEl4XveFeab0rBAae/pO8bIW014aGrQgN/s6f/WGIkNdsL8r5cgAcif1ccx4rC0asGEWtR84Fn4jqzxaUTwljtr1dt52OUyTjlkDtiewwR4n8DI/nLEwChGI+g+WtCsyjdwxN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=asxS2sW/; arc=none smtp.client-ip=168.119.26.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
-	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=PzFXJTuKbL5SVtLieHDfTuwheKytTpjJhkFxRccUW8U=; b=asxS2sW/6vkSP3t3N9FYLe0fa7
-	hpjKyHNrm0cjcL5vAO6i9Phi5fYPczF7k+BwcKcvEDCK6J5w1/qpVDM3MvfZuL8sQcbxbsjqQchKd
-	boXSMp58xKCbjraZ3rvq6w/xkWRQVjfvYnxEuOt26OFTOZp1HVxXWQwGvELoyIgx8oR50kZDvW4hf
-	KwBj4ZNX1jBPFcQbn9ZIy7yy7z8iFNB0MoXEHD7xw4apsiaGK9Euk07Zpr7SPadIVsXGhq4oIKtfP
-	XpGqtC5VjWzORu8WlD1QfFYgKIEFrPrDzdayLrhNMamG0I19qRI3MC/RLC7MAetl6S0djEtmgHvR+
-	WkxnARWg==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <git@apitzsch.eu>)
-	id 1tKOvr-000BPS-0G;
-	Sun, 08 Dec 2024 22:35:15 +0100
-Received: from [77.64.252.106] (helo=framework.lan)
-	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <git@apitzsch.eu>)
-	id 1tKOvr-000KAK-0b;
-	Sun, 08 Dec 2024 22:35:15 +0100
-Message-ID: <8c43e3c15335b650ac7b0ccfd7e1f66e7fd8fdaa.camel@apitzsch.eu>
-Subject: Re: [PATCH v3 07/12] media: i2c: imx214: Add vblank and hblank
- controls
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
-	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dave Stevenson
- <dave.stevenson@raspberrypi.com>,  Vincent Knecht
- <vincent.knecht@mailoo.org>
-Date: Sun, 08 Dec 2024 22:35:13 +0100
-In-Reply-To: <CAPybu_0Bdc03UrJNO42S1fBTvpuHUUExvkR1ont7VKdw2XBuKg@mail.gmail.com>
-References: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu>
-	 <20241207-imx214-v3-7-ab60af7ee915@apitzsch.eu>
-	 <CAPybu_0Bdc03UrJNO42S1fBTvpuHUUExvkR1ont7VKdw2XBuKg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.54.2 
+	s=arc-20240116; t=1733694456; c=relaxed/simple;
+	bh=vas7s9vNu57er7TEfccv5igCkYFNhTYZyH7eo+ELXnY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gJLzOGqry5PMrY2QrOhQEr9Esc0AqRWTdEC9lCF/ZYgZECDN4Ti6n+Loiroel95YD4cY6wVjmywHIxmGmTgYPMdJQbY1nDZGpU7X2gAFeUmUTpRL1U6QyZGLwOLuKNF2XHcIZ87okyBZmiuu7kemfZheYeGK3PiLb8q1IS/dUos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SFLZX7ZX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45636C4AF0C;
+	Sun,  8 Dec 2024 21:47:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733694456;
+	bh=vas7s9vNu57er7TEfccv5igCkYFNhTYZyH7eo+ELXnY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SFLZX7ZXT+sz5o+GHsKxDUjb/iyzDr0HSo8Hf4GJzH1enWtkkM2wE4t1hX1xmx+uw
+	 DxxHkk4Tww25F391sOmUZnLQS1t54JK4WbDkJ44kSv4riCBIlhAEp0QWnscoBCNnXv
+	 Laz2LtyBJyHSDnvC6MoXPXCB2/4UFDqcgRTY4EAPW1TyOKj9YJFcJYQpZMcmxPkf+B
+	 3juHJKtUiOPaVZwfIgS6p+AZv+35AkSTxI8tUbbjeikA+w+WDbRaKEwUNSLwf6c10g
+	 Iv/BqQGoq7NcFBznyGIEUfukw3CNWKx3SgGlFQNMqn7raqV6GGrSeAesXeylWXsXSp
+	 SRHbtHxJC4P4Q==
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-85bc5d0509bso721781241.1;
+        Sun, 08 Dec 2024 13:47:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUsVFzougFxz1weeA/oRu2Ax+kzYenmADSrQOH1AuK5qgkllkpKRdlU18+/JD0w6QGEzOAwBH94Kl6N62w=@vger.kernel.org, AJvYcCXdcYxJDwPYCGAftRS9kHhqn958jcgMDusSnQJjeVE9PfpyRZ8ijS+5pTSadLqXXhtnY4ParXTAzag4TGw=@vger.kernel.org, AJvYcCXuFMU+nj6/FGRUWUl8Z8wTtnGNpeF/nWW26mxsguSHPEPaHqZC/CWPdsklg+Tum7resjT7bDEN/7esmUM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3y3jPlG6o+a6KngiLNmIohrBDxw6eSnaLNI/mDhoKuXRjeNl1
+	RJH+QYMxusYWbkn3GpJyopHdjonQW7NyQXKoV/FZV0V1+sbj41BAQh9q76M61CNc9Pr3U0ZI+RM
+	rUvBIHlWQnqaJAjJ/HIARE31N7ls=
+X-Google-Smtp-Source: AGHT+IHedwXw/7Tyuv1doiWX1sdVC7Rc8G54sbsDSqQgXGbmFmcRBQ4U2GL0zM7Qdhpj2rfeHMjxNuUETMK/pR8uAR4=
+X-Received: by 2002:a05:6122:1c0b:b0:515:c769:9d32 with SMTP id
+ 71dfb90a1353d-515fca18638mr10368983e0c.4.1733694455212; Sun, 08 Dec 2024
+ 13:47:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Authenticated-Sender: andre@apitzsch.eu
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27481/Sun Dec  8 10:36:42 2024)
+References: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu>
+ <20241207-imx214-v3-7-ab60af7ee915@apitzsch.eu> <CAPybu_0Bdc03UrJNO42S1fBTvpuHUUExvkR1ont7VKdw2XBuKg@mail.gmail.com>
+ <8c43e3c15335b650ac7b0ccfd7e1f66e7fd8fdaa.camel@apitzsch.eu>
+In-Reply-To: <8c43e3c15335b650ac7b0ccfd7e1f66e7fd8fdaa.camel@apitzsch.eu>
+From: Ricardo Ribalda Delgado <ribalda@kernel.org>
+Date: Sun, 8 Dec 2024 22:47:19 +0100
+X-Gmail-Original-Message-ID: <CAPybu_1Ao_ExWft1HozsC4dBa9Ujp8tYipjEPU56xwZQP9jdhA@mail.gmail.com>
+Message-ID: <CAPybu_1Ao_ExWft1HozsC4dBa9Ujp8tYipjEPU56xwZQP9jdhA@mail.gmail.com>
+Subject: Re: [PATCH v3 07/12] media: i2c: imx214: Add vblank and hblank controls
+To: =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
+	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Vincent Knecht <vincent.knecht@mailoo.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgUmljYXJkbywKCkFtIFNvbm50YWcsIGRlbSAwOC4xMi4yMDI0IHVtIDIxOjU5ICswMTAwIHNj
-aHJpZWIgUmljYXJkbyBSaWJhbGRhCkRlbGdhZG86Cj4gSW4gZ2VuZXJhbCBpdCBsb29rcyBnb29k
-IHRvIG1lIChiZXNpZGVzIHRoZSBjb21tZW50cywgaWdub3JlIHRoZSBuaXRzCj4gaWYgeW91IHdh
-bnQgdG8pLgo+IAo+IEknZCByZWNvbW1lbmQgdGhhdCB5b3UgdGVzdCB3aXRoIGxvY2tkZXAgdG8g
-bWFrZSBzdXJlIHRoYXQgd2UgYXJlIG5vdAo+IG1pc3NpbmcgYW55dGhpbmcsIGFuZCBJJ2QgbGlr
-ZSB0byBoZWFyIGJhY2sgZnJvbSBTYWthcmkgcmVnYXJkaW5nIHRoZQo+IGdldF9sb2NrZWRfYWN0
-aXZlCj4gCj4gVGhhbmtzIQo+IAo+IE9uIFNhdCwgRGVjIDcsIDIwMjQgYXQgOTo0OOKAr1BNIEFu
-ZHLDqSBBcGl0enNjaCB2aWEgQjQgUmVsYXkKPiA8ZGV2bnVsbCtnaXQuYXBpdHpzY2guZXVAa2Vy
-bmVsLm9yZz4gd3JvdGU6Cj4gPiAKPiA+IEZyb206IEFuZHLDqSBBcGl0enNjaCA8Z2l0QGFwaXR6
-c2NoLmV1Pgo+ID4gCj4gPiBBZGQgdmJsYW5rIGNvbnRyb2wgdG8gYWxsb3cgY2hhbmdpbmcgdGhl
-IGZyYW1lcmF0ZSAvCj4gPiBoaWdoZXIgZXhwb3N1cmUgdmFsdWVzLgo+ID4gCj4gPiBUaGUgdmJs
-YW5rIGFuZCBoYmxhbmsgY29udHJvbHMgYXJlIG5lZWRlZCBmb3IgbGliY2FtZXJhIHN1cHBvcnQu
-Cj4gPiAKPiA+IFdoaWxlIGF0IGl0LCBmaXggdGhlIG1pbmltYWwgZXhwb3N1cmUgdGltZSBhY2Nv
-cmRpbmcgdG8gdGhlCj4gPiBkYXRhc2hlZXQuCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IEFuZHLD
-qSBBcGl0enNjaCA8Z2l0QGFwaXR6c2NoLmV1Pgo+ID4gLS0tCj4gPiDCoGRyaXZlcnMvbWVkaWEv
-aTJjL2lteDIxNC5jIHwgMTA2Cj4gPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrLS0tLS0KPiA+IMKgMSBmaWxlIGNoYW5nZWQsIDk0IGluc2VydGlvbnMoKyksIDEyIGRl
-bGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9pMmMvaW14MjE0
-LmMKPiA+IGIvZHJpdmVycy9tZWRpYS9pMmMvaW14MjE0LmMKPiA+IGluZGV4Cj4gPiBmMWM3MmRi
-MDc3NWVhZjQ4MTBmNzYyZTg3OThkMzAxYzVhZDk5MjNjLi5hN2Y0OWRiYWZlMGY1NGFmM2MwMmY1
-NTM0Cj4gPiA0NjBmZGVlODhhMjJmZTIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL2ky
-Yy9pbXgyMTQuYwo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMvaW14MjE0LmMKPiA+IEBAIC0z
-NCwxMSArMzQsMTcgQEAKPiA+IAo+ID4gwqAvKiBWLVRJTUlORyBpbnRlcm5hbCAqLwo+ID4gwqAj
-ZGVmaW5lIElNWDIxNF9SRUdfRlJNX0xFTkdUSF9MSU5FU8KgwqDCoCBDQ0lfUkVHMTYoMHgwMzQw
-KQo+ID4gKyNkZWZpbmUgSU1YMjE0X1ZUU19NQVjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAweGZmZmYKPiA+ICsKPiA+ICsjZGVmaW5lIElNWDIxNF9WQkxBTktfTUlOwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgODkwCj4gPiArCj4gPiArLyogSEJMQU5LIGNvbnRyb2wgLSByZWFk
-IG9ubHkgKi8KPiA+ICsjZGVmaW5lIElNWDIxNF9QUExfREVGQVVMVMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCA1MDA4Cj4gPiAKPiA+IMKgLyogRXhwb3N1cmUgY29udHJvbCAqLwo+ID4gwqAjZGVm
-aW5lIElNWDIxNF9SRUdfRVhQT1NVUkXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIENDSV9SRUcxNigw
-eDAyMDIpCj4gPiAtI2RlZmluZSBJTVgyMTRfRVhQT1NVUkVfTUlOwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAwCj4gPiAtI2RlZmluZSBJTVgyMTRfRVhQT1NVUkVfTUFYwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAzMTg0Cj4gPiArI2RlZmluZSBJTVgyMTRfRVhQT1NVUkVfT0ZGU0VUwqDCoMKgwqDCoMKg
-wqDCoCAxMAo+ID4gKyNkZWZpbmUgSU1YMjE0X0VYUE9TVVJFX01JTsKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgMQo+ID4gwqAjZGVmaW5lIElNWDIxNF9FWFBPU1VSRV9TVEVQwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgMQo+ID4gwqAjZGVmaW5lIElNWDIxNF9FWFBPU1VSRV9ERUZBVUxUwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIDMxODQKPiA+IMKgI2RlZmluZSBJTVgyMTRfUkVHX0VYUE9TVVJF
-X1JBVElPwqDCoMKgwqDCoCBDQ0lfUkVHOCgweDAyMjIpCj4gPiBAQCAtMTg3LDYgKzE5Myw4IEBA
-IHN0cnVjdCBpbXgyMTQgewo+ID4gwqDCoMKgwqDCoMKgwqAgc3RydWN0IHY0bDJfY3RybF9oYW5k
-bGVyIGN0cmxzOwo+ID4gwqDCoMKgwqDCoMKgwqAgc3RydWN0IHY0bDJfY3RybCAqcGl4ZWxfcmF0
-ZTsKPiA+IMKgwqDCoMKgwqDCoMKgIHN0cnVjdCB2NGwyX2N0cmwgKmxpbmtfZnJlcTsKPiA+ICvC
-oMKgwqDCoMKgwqAgc3RydWN0IHY0bDJfY3RybCAqdmJsYW5rOwo+ID4gK8KgwqDCoMKgwqDCoCBz
-dHJ1Y3QgdjRsMl9jdHJsICpoYmxhbms7Cj4gPiDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgdjRsMl9j
-dHJsICpleHBvc3VyZTsKPiA+IMKgwqDCoMKgwqDCoMKgIHN0cnVjdCB2NGwyX2N0cmwgKnVuaXRf
-c2l6ZTsKPiA+IAo+ID4gQEAgLTIwMiw4ICsyMTAsNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGNj
-aV9yZWdfc2VxdWVuY2UKPiA+IG1vZGVfNDA5NngyMzA0W10gPSB7Cj4gPiDCoMKgwqDCoMKgwqDC
-oCB7IElNWDIxNF9SRUdfSERSX01PREUsIElNWDIxNF9IRFJfTU9ERV9PRkYgfSwKPiA+IMKgwqDC
-oMKgwqDCoMKgIHsgSU1YMjE0X1JFR19IRFJfUkVTX1JFRFVDVElPTiwgSU1YMjE0X0hEUl9SRVNf
-UkVEVV9USFJPVUdICj4gPiB9LAo+ID4gwqDCoMKgwqDCoMKgwqAgeyBJTVgyMTRfUkVHX0VYUE9T
-VVJFX1JBVElPLCAxIH0sCj4gPiAtwqDCoMKgwqDCoMKgIHsgSU1YMjE0X1JFR19GUk1fTEVOR1RI
-X0xJTkVTLCAzMTk0IH0sCj4gPiAtwqDCoMKgwqDCoMKgIHsgSU1YMjE0X1JFR19MSU5FX0xFTkdU
-SF9QQ0ssIDUwMDggfSwKPiA+IMKgwqDCoMKgwqDCoMKgIHsgSU1YMjE0X1JFR19YX0FERF9TVEEs
-IDU2IH0sCj4gPiDCoMKgwqDCoMKgwqDCoCB7IElNWDIxNF9SRUdfWV9BRERfU1RBLCA0MDggfSwK
-PiA+IMKgwqDCoMKgwqDCoMKgIHsgSU1YMjE0X1JFR19YX0FERF9FTkQsIDQxNTEgfSwKPiA+IEBA
-IC0yNzQsOCArMjgwLDYgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBjY2lfcmVnX3NlcXVlbmNlCj4g
-PiBtb2RlXzE5MjB4MTA4MFtdID0gewo+ID4gwqDCoMKgwqDCoMKgwqAgeyBJTVgyMTRfUkVHX0hE
-Ul9NT0RFLCBJTVgyMTRfSERSX01PREVfT0ZGIH0sCj4gPiDCoMKgwqDCoMKgwqDCoCB7IElNWDIx
-NF9SRUdfSERSX1JFU19SRURVQ1RJT04sIElNWDIxNF9IRFJfUkVTX1JFRFVfVEhST1VHSAo+ID4g
-fSwKPiA+IMKgwqDCoMKgwqDCoMKgIHsgSU1YMjE0X1JFR19FWFBPU1VSRV9SQVRJTywgMSB9LAo+
-ID4gLcKgwqDCoMKgwqDCoCB7IElNWDIxNF9SRUdfRlJNX0xFTkdUSF9MSU5FUywgMzE5NCB9LAo+
-ID4gLcKgwqDCoMKgwqDCoCB7IElNWDIxNF9SRUdfTElORV9MRU5HVEhfUENLLCA1MDA4IH0sCj4g
-PiDCoMKgwqDCoMKgwqDCoCB7IElNWDIxNF9SRUdfWF9BRERfU1RBLCAxMTQ0IH0sCj4gPiDCoMKg
-wqDCoMKgwqDCoCB7IElNWDIxNF9SRUdfWV9BRERfU1RBLCAxMDIwIH0sCj4gPiDCoMKgwqDCoMKg
-wqDCoCB7IElNWDIxNF9SRUdfWF9BRERfRU5ELCAzMDYzIH0sCj4gPiBAQCAtMzU5LDYgKzM2Myw3
-IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY2NpX3JlZ19zZXF1ZW5jZQo+ID4gbW9kZV90YWJsZV9j
-b21tb25bXSA9IHsKPiA+IMKgwqDCoMKgwqDCoMKgIHsgSU1YMjE0X1JFR19PUklFTlRBVElPTiwg
-MCB9LAo+ID4gwqDCoMKgwqDCoMKgwqAgeyBJTVgyMTRfUkVHX01BU0tfQ09SUl9GUkFNRVMsIElN
-WDIxNF9DT1JSX0ZSQU1FU19NQVNLIH0sCj4gPiDCoMKgwqDCoMKgwqDCoCB7IElNWDIxNF9SRUdf
-RkFTVF9TVEFOREJZX0NUUkwsIDEgfSwKPiA+ICvCoMKgwqDCoMKgwqAgeyBJTVgyMTRfUkVHX0xJ
-TkVfTEVOR1RIX1BDSywgSU1YMjE0X1BQTF9ERUZBVUxUIH0sCj4gPiDCoMKgwqDCoMKgwqDCoCB7
-IENDSV9SRUc4KDB4NDU1MCksIDB4MDIgfSwKPiA+IMKgwqDCoMKgwqDCoMKgIHsgQ0NJX1JFRzgo
-MHg0NjAxKSwgMHgwMCB9LAo+ID4gwqDCoMKgwqDCoMKgwqAgeyBDQ0lfUkVHOCgweDQ2NDIpLCAw
-eDA1IH0sCj4gPiBAQCAtNDYyLDE4ICs0NjcsMjQgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBjY2lf
-cmVnX3NlcXVlbmNlCj4gPiBtb2RlX3RhYmxlX2NvbW1vbltdID0gewo+ID4gwqBzdGF0aWMgY29u
-c3Qgc3RydWN0IGlteDIxNF9tb2RlIHsKPiA+IMKgwqDCoMKgwqDCoMKgIHUzMiB3aWR0aDsKPiA+
-IMKgwqDCoMKgwqDCoMKgIHUzMiBoZWlnaHQ7Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgIC8qIFYt
-dGltaW5nICovCj4gPiArwqDCoMKgwqDCoMKgIHVuc2lnbmVkIGludCB2dHNfZGVmOwo+ID4gKwo+
-ID4gwqDCoMKgwqDCoMKgwqAgdW5zaWduZWQgaW50IG51bV9vZl9yZWdzOwo+ID4gwqDCoMKgwqDC
-oMKgwqAgY29uc3Qgc3RydWN0IGNjaV9yZWdfc2VxdWVuY2UgKnJlZ190YWJsZTsKPiA+IMKgfSBp
-bXgyMTRfbW9kZXNbXSA9IHsKPiA+IMKgwqDCoMKgwqDCoMKgIHsKPiA+IMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCAud2lkdGggPSA0MDk2LAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIC5oZWlnaHQgPSAyMzA0LAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgLnZ0c19kZWYgPSAzMTk0LAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5u
-dW1fb2ZfcmVncyA9IEFSUkFZX1NJWkUobW9kZV80MDk2eDIzMDQpLAo+ID4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIC5yZWdfdGFibGUgPSBtb2RlXzQwOTZ4MjMwNCwKPiA+IMKgwqDC
-oMKgwqDCoMKgIH0sCj4gPiDCoMKgwqDCoMKgwqDCoCB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgLndpZHRoID0gMTkyMCwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAuaGVpZ2h0ID0gMTA4MCwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC52
-dHNfZGVmID0gMzE5NCwKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAubnVtX29m
-X3JlZ3MgPSBBUlJBWV9TSVpFKG1vZGVfMTkyMHgxMDgwKSwKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAucmVnX3RhYmxlID0gbW9kZV8xOTIweDEwODAsCj4gPiDCoMKgwqDCoMKg
-wqDCoCB9LAo+ID4gQEAgLTYyNiw5ICs2MzcsMzYgQEAgc3RhdGljIGludCBpbXgyMTRfc2V0X2Zv
-cm1hdChzdHJ1Y3QKPiA+IHY0bDJfc3ViZGV2ICpzZCwKPiA+IMKgwqDCoMKgwqDCoMKgIF9fY3Jv
-cC0+d2lkdGggPSBtb2RlLT53aWR0aDsKPiA+IMKgwqDCoMKgwqDCoMKgIF9fY3JvcC0+aGVpZ2h0
-ID0gbW9kZS0+aGVpZ2h0Owo+ID4gCj4gPiAtwqDCoMKgwqDCoMKgIGlmIChmb3JtYXQtPndoaWNo
-ID09IFY0TDJfU1VCREVWX0ZPUk1BVF9BQ1RJVkUpCj4gPiArwqDCoMKgwqDCoMKgIGlmIChmb3Jt
-YXQtPndoaWNoID09IFY0TDJfU1VCREVWX0ZPUk1BVF9BQ1RJVkUpIHsKPiA+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGludCBleHBvc3VyZV9tYXg7Cj4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBpbnQgZXhwb3N1cmVfZGVmOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgaW50IGhibGFuazsKPiA+ICsKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBpbXgyMTQtPmN1cl9tb2RlID0gbW9kZTsKPiA+IAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgLyogVXBkYXRlIEZQUyBsaW1pdHMgKi8KPiBuaXQ6IFVwZGF0ZSBibGFuayBs
-aW1pdHMKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fdjRsMl9jdHJsX21vZGlm
-eV9yYW5nZShpbXgyMTQtPnZibGFuaywKPiA+IElNWDIxNF9WQkxBTktfTUlOLAo+ID4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBJTVgyMTRfVlRTX01BWCAtIG1vZGUtCj4gPiA+aGVpZ2h0LCAyLAo+
-ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBtb2RlLT52dHNfZGVmIC0gbW9kZS0KPiA+ID5oZWln
-aHQpOwo+IAo+IElzIHRoZSBoYW5kbGVyLT5sb2NrIGhlbGQgd2hlbiB3ZSBjYWxsIHRoaXMgZnVu
-Y3Rpb24/IENhbiB5b3UgdHJ5Cj4gcnVubmluZyB0aGUgY29kZSB3aXRoIGxvY2tkZXA/Cj4gPiAr
-Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBVcGRhdGUgbWF4IGV4cG9zdXJl
-IHdoaWxlIG1lZXRpbmcgZXhwZWN0ZWQKPiA+IHZibGFua2luZyAqLwo+ID4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgZXhwb3N1cmVfbWF4ID0gbW9kZS0+dnRzX2RlZiAtCj4gPiBJTVgy
-MTRfRVhQT1NVUkVfT0ZGU0VUOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXhw
-b3N1cmVfZGVmID0gbWluKGV4cG9zdXJlX21heCwKPiA+IElNWDIxNF9FWFBPU1VSRV9ERUZBVUxU
-KTsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fdjRsMl9jdHJsX21vZGlmeV9y
-YW5nZShpbXgyMTQtPmV4cG9zdXJlLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbXgyMTQt
-PmV4cG9zdXJlLT5taW5pbXVtLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBleHBvc3VyZV9t
-YXgsIGlteDIxNC0KPiA+ID5leHBvc3VyZS0+c3RlcCwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgZXhwb3N1cmVfZGVmKTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IC8qCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICogQ3VycmVudGx5IFBQTCBp
-cyBmaXhlZCB0byBJTVgyMTRfUFBMX0RFRkFVTFQsIHNvCj4gPiBoYmxhbmsKPiA+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBkZXBlbmRzIG9uIG1vZGUtPndpZHRoIG9ubHksIGFu
-ZCBpcyBub3QKPiA+IGNoYW5nZWFibGUgaW4gYW55Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgICogd2F5IG90aGVyIHRoYW4gY2hhbmdpbmcgdGhlIG1vZGUuCj4gPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICovCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBoYmxhbmsgPSBJTVgyMTRfUFBMX0RFRkFVTFQgLSBtb2RlLT53aWR0aDsKPiA+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fdjRsMl9jdHJsX21vZGlmeV9yYW5nZShpbXgyMTQt
-PmhibGFuaywgaGJsYW5rLAo+ID4gaGJsYW5rLCAxLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBoYmxhbmspOwo+ID4gK8KgwqDCoMKgwqDCoCB9Cj4gPiArCj4gPiDCoMKgwqDCoMKgwqDCoCBy
-ZXR1cm4gMDsKPiA+IMKgfQo+ID4gCj4gPiBAQCAtNjc4LDggKzcxNiwyNSBAQCBzdGF0aWMgaW50
-IGlteDIxNF9zZXRfY3RybChzdHJ1Y3QgdjRsMl9jdHJsCj4gPiAqY3RybCkKPiA+IMKgewo+ID4g
-wqDCoMKgwqDCoMKgwqAgc3RydWN0IGlteDIxNCAqaW14MjE0ID0gY29udGFpbmVyX29mKGN0cmwt
-PmhhbmRsZXIsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBpbXgy
-MTQsIGN0cmxzKTsKPiA+ICvCoMKgwqDCoMKgwqAgY29uc3Qgc3RydWN0IHY0bDJfbWJ1c19mcmFt
-ZWZtdCAqZm9ybWF0Owo+ID4gK8KgwqDCoMKgwqDCoCBzdHJ1Y3QgdjRsMl9zdWJkZXZfc3RhdGUg
-KnN0YXRlOwo+ID4gwqDCoMKgwqDCoMKgwqAgaW50IHJldDsKPiA+IAo+ID4gK8KgwqDCoMKgwqDC
-oCBpZiAoY3RybC0+aWQgPT0gVjRMMl9DSURfVkJMQU5LKSB7Cj4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBpbnQgZXhwb3N1cmVfbWF4LCBleHBvc3VyZV9kZWY7Cj4gPiArCj4gPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdGF0ZSA9Cj4gPiB2NGwyX3N1YmRldl9nZXRf
-bG9ja2VkX2FjdGl2ZV9zdGF0ZSgmaW14MjE0LT5zZCk7Cj4gCj4gU2FrYXJpLCBJIHNlZSB0aGF0
-IG90aGVyIGRyaXZlcnMgYXNzdW1lIHRoYXQgdGhlIGFjdGl2ZSBpcyBsb2NrZWQgaW4KPiBzZXRf
-Y3RybC4gSXMgdGhpcyBjb3JyZWN0Pwo+IAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgZm9ybWF0ID0gdjRsMl9zdWJkZXZfc3RhdGVfZ2V0X2Zvcm1hdChzdGF0ZSwgMCk7CgooKikg
-VGhlIGZvcm1hdCBpcyByZWFkIGhlcmUuCgo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgLyogVXBkYXRlIG1heCBleHBvc3VyZSB3aGlsZSBtZWV0aW5nIGV4cGVjdGVkCj4g
-PiB2YmxhbmtpbmcgKi8KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGV4cG9zdXJl
-X21heCA9IGZvcm1hdC0+aGVpZ2h0ICsgY3RybC0+dmFsIC0KPiA+IElNWDIxNF9FWFBPU1VSRV9P
-RkZTRVQ7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBleHBvc3VyZV9kZWYgPSBt
-aW4oZXhwb3N1cmVfbWF4LAo+ID4gSU1YMjE0X0VYUE9TVVJFX0RFRkFVTFQpOwo+ID4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX192NGwyX2N0cmxfbW9kaWZ5X3JhbmdlKGlteDIxNC0+
-ZXhwb3N1cmUsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlteDIxNC0+ZXhwb3N1cmUtPm1p
-bmltdW0sCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGV4cG9zdXJlX21heCwgaW14MjE0LQo+
-ID4gPmV4cG9zdXJlLT5zdGVwLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBleHBvc3VyZV9k
-ZWYpOwo+ID4gK8KgwqDCoMKgwqDCoCB9Cj4gPiArCj4gPiDCoMKgwqDCoMKgwqDCoCAvKgo+ID4g
-wqDCoMKgwqDCoMKgwqDCoCAqIEFwcGx5aW5nIFY0TDIgY29udHJvbCB2YWx1ZSBvbmx5IGhhcHBl
-bnMKPiA+IMKgwqDCoMKgwqDCoMKgwqAgKiB3aGVuIHBvd2VyIGlzIHVwIGZvciBzdHJlYW1pbmcK
-PiA+IEBAIC02OTEsNyArNzQ2LDEwIEBAIHN0YXRpYyBpbnQgaW14MjE0X3NldF9jdHJsKHN0cnVj
-dCB2NGwyX2N0cmwKPiA+ICpjdHJsKQo+ID4gwqDCoMKgwqDCoMKgwqAgY2FzZSBWNEwyX0NJRF9F
-WFBPU1VSRToKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjY2lfd3JpdGUoaW14
-MjE0LT5yZWdtYXAsIElNWDIxNF9SRUdfRVhQT1NVUkUsCj4gPiBjdHJsLT52YWwsICZyZXQpOwo+
-ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFrOwo+ID4gLQo+ID4gK8KgwqDC
-oMKgwqDCoCBjYXNlIFY0TDJfQ0lEX1ZCTEFOSzoKPiDCoE5vIG5lZWQgdG8gcmVhZCB0aGUgZm9y
-bWF0IGhlcmU/Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZv
-cm1hdCA9IHY0bDJfc3ViZGV2X3N0YXRlX2dldF9mb3JtYXQoc3RhdGUsCj4gMCk7CgpUaGUgZm9y
-bWF0IGlzIHJlYWQgYWJvdmUgKCopLCBzbyBubyBuZWVkIHRvIGRvIGl0IGhlcmUuIE5vdGUsIGlu
-IGJvdGgKbG9jYXRpb25zIHdlIGhhdmUgY3RybC0+aWQgPT0gVjRMMl9DSURfVkJMQU5LLgoKPiA+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNjaV93cml0ZShpbXgyMTQtPnJlZ21hcCwK
-PiA+IElNWDIxNF9SRUdfRlJNX0xFTkdUSF9MSU5FUywKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9ybWF0LT5oZWlnaHQgKyBjdHJsLT52YWws
-ICZyZXQpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7Cj4gPiDCoMKg
-wqDCoMKgwqDCoCBkZWZhdWx0Ogo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJl
-dCA9IC1FSU5WQUw7Cj4gPiDCoMKgwqDCoMKgwqDCoCB9Cj4gPiBAQCAtNzE0LDggKzc3MiwxMSBA
-QCBzdGF0aWMgaW50IGlteDIxNF9jdHJsc19pbml0KHN0cnVjdCBpbXgyMTQKPiA+ICppbXgyMTQp
-Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLndpZHRoID0gMTEyMCwKPiA+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuaGVpZ2h0ID0gMTEyMCwKPiA+IMKgwqDCoMKg
-wqDCoMKgIH07Cj4gPiArwqDCoMKgwqDCoMKgIGNvbnN0IHN0cnVjdCBpbXgyMTRfbW9kZSAqbW9k
-ZSA9ICZpbXgyMTRfbW9kZXNbMF07Cj4gPiDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgdjRsMl9md25v
-ZGVfZGV2aWNlX3Byb3BlcnRpZXMgcHJvcHM7Cj4gPiDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgdjRs
-Ml9jdHJsX2hhbmRsZXIgKmN0cmxfaGRscjsKPiA+ICvCoMKgwqDCoMKgwqAgaW50IGV4cG9zdXJl
-X21heCwgZXhwb3N1cmVfZGVmOwo+ID4gK8KgwqDCoMKgwqDCoCBpbnQgaGJsYW5rOwo+ID4gwqDC
-oMKgwqDCoMKgwqAgaW50IHJldDsKPiA+IAo+ID4gwqDCoMKgwqDCoMKgwqAgcmV0ID0gdjRsMl9m
-d25vZGVfZGV2aWNlX3BhcnNlKGlteDIxNC0+ZGV2LCAmcHJvcHMpOwo+ID4gQEAgLTcyMyw3ICs3
-ODQsNyBAQCBzdGF0aWMgaW50IGlteDIxNF9jdHJsc19pbml0KHN0cnVjdCBpbXgyMTQKPiA+ICpp
-bXgyMTQpCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPiA+
-IAo+ID4gwqDCoMKgwqDCoMKgwqAgY3RybF9oZGxyID0gJmlteDIxNC0+Y3RybHM7Cj4gPiAtwqDC
-oMKgwqDCoMKgIHJldCA9IHY0bDJfY3RybF9oYW5kbGVyX2luaXQoJmlteDIxNC0+Y3RybHMsIDYp
-Owo+ID4gK8KgwqDCoMKgwqDCoCByZXQgPSB2NGwyX2N0cmxfaGFuZGxlcl9pbml0KCZpbXgyMTQt
-PmN0cmxzLCA4KTsKPiA+IMKgwqDCoMKgwqDCoMKgIGlmIChyZXQpCj4gPiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPiA+IAo+ID4gQEAgLTc0OSwxMiArODEwLDI3
-IEBAIHN0YXRpYyBpbnQgaW14MjE0X2N0cmxzX2luaXQoc3RydWN0IGlteDIxNAo+ID4gKmlteDIx
-NCkKPiA+IMKgwqDCoMKgwqDCoMKgwqAgKgo+ID4gwqDCoMKgwqDCoMKgwqDCoCAqIFlvdXJzIHNp
-bmNlcmVseSwgUmljYXJkby4KPiA+IMKgwqDCoMKgwqDCoMKgwqAgKi8KPiA+ICsKPiA+ICvCoMKg
-wqDCoMKgwqAgLyogSW5pdGlhbCB2YmxhbmsvaGJsYW5rL2V4cG9zdXJlIHBhcmFtZXRlcnMgYmFz
-ZWQgb24KPiA+IGN1cnJlbnQgbW9kZSAqLwo+ID4gK8KgwqDCoMKgwqDCoCBpbXgyMTQtPnZibGFu
-ayA9IHY0bDJfY3RybF9uZXdfc3RkKGN0cmxfaGRsciwKPiA+ICZpbXgyMTRfY3RybF9vcHMsCj4g
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBWNEwyX0NJRF9WQkxBTkssCj4gPiBJTVgyMTRf
-VkJMQU5LX01JTiwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIElNWDIxNF9WVFNfTUFY
-IC0gbW9kZS0KPiA+ID5oZWlnaHQsIDIsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBt
-b2RlLT52dHNfZGVmIC0gbW9kZS0KPiA+ID5oZWlnaHQpOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDC
-oCBoYmxhbmsgPSBJTVgyMTRfUFBMX0RFRkFVTFQgLSBtb2RlLT53aWR0aDsKPiA+ICvCoMKgwqDC
-oMKgwqAgaW14MjE0LT5oYmxhbmsgPSB2NGwyX2N0cmxfbmV3X3N0ZChjdHJsX2hkbHIsCj4gPiAm
-aW14MjE0X2N0cmxfb3BzLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgVjRMMl9DSURf
-SEJMQU5LLCBoYmxhbmssCj4gPiBoYmxhbmssCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAxLCBoYmxhbmspOwo+ID4gK8KgwqDCoMKgwqDCoCBpZiAoaW14MjE0LT5oYmxhbmspCj4gPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbXgyMTQtPmhibGFuay0+ZmxhZ3MgfD0gVjRM
-Ml9DVFJMX0ZMQUdfUkVBRF9PTkxZOwo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoCBleHBvc3VyZV9t
-YXggPSBtb2RlLT52dHNfZGVmIC0gSU1YMjE0X0VYUE9TVVJFX09GRlNFVDsKPiA+ICvCoMKgwqDC
-oMKgwqAgZXhwb3N1cmVfZGVmID0gbWluKGV4cG9zdXJlX21heCwgSU1YMjE0X0VYUE9TVVJFX0RF
-RkFVTFQpOwo+ID4gwqDCoMKgwqDCoMKgwqAgaW14MjE0LT5leHBvc3VyZSA9IHY0bDJfY3RybF9u
-ZXdfc3RkKGN0cmxfaGRsciwKPiA+ICZpbXgyMTRfY3RybF9vcHMsCj4gPiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIFY0TDJfQ0lEX0VYUE9TVVJFLAo+ID4gLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIElNWDIxNF9FWFBPU1VSRV9NSU4sCj4gPiAtwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgSU1YMjE0X0VYUE9TVVJFX01BWCwKPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBJTVgyMTRfRVhQT1NVUkVfTUlOLAo+ID4gZXhwb3N1cmVfbWF4LAo+IG5p
-dDogSSB0aGluayBpdCBsb29rcyBuaWNlciB3aXRoIGV4cG9zdXJlX21heCBpbiB0aGUgbmV4dCBs
-aW5lLCBidXQKPiBpZ25vcmUgaWYgeW91IHByZWZlciB0aGlzIHdheSA6KQo+ID4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBJTVgyMTRfRVhQT1NVUkVfU1RFUCwKPiA+IC3CoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoAo+ID4gSU1YMjE0X0VYUE9TVVJFX0RFRkFVTFQpOwo+ID4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGV4cG9zdXJlX2RlZik7Cj4gPiAKPiA+IMKg
-wqDCoMKgwqDCoMKgIGlteDIxNC0+dW5pdF9zaXplID0gdjRsMl9jdHJsX25ld19zdGRfY29tcG91
-bmQoY3RybF9oZGxyLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgTlVMTCwKPiA+IEBAIC04NzYsNiArOTUyLDEyIEBAIHN0
-YXRpYyBpbnQgaW14MjE0X2dldF9mcmFtZV9pbnRlcnZhbChzdHJ1Y3QKPiA+IHY0bDJfc3ViZGV2
-ICpzdWJkZXYsCj4gPiDCoMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPiA+IMKgfQo+ID4gCj4gPiAr
-LyoKPiA+ICsgKiBSYXcgc2Vuc29ycyBzaG91bGQgYmUgdXNpbmcgdGhlIFZCTEFOSyBhbmQgSEJM
-QU5LIGNvbnRyb2xzIHRvCj4gPiBkZXRlcm1pbmUKPiA+ICsgKiB0aGUgZnJhbWUgcmF0ZS4gSG93
-ZXZlciB0aGlzIGRyaXZlciB3YXMgaW5pdGlhbGx5IGFkZGVkIHVzaW5nCj4gPiB0aGUKPiA+ICsg
-KiBbU3xHfEVOVU1dX0ZSQU1FX0lOVEVSVkFMIGlvY3RscyB3aXRoIGEgZml4ZWQgcmF0ZSBvZiAz
-MGZwcy4KPiA+ICsgKiBSZXRhaW4gdGhlIGZyYW1lX2ludGVydmFsIG9wcyBmb3IgYmFja3dhcmRz
-IGNvbXBhdGliaWxpdHksIGJ1dAo+ID4gdGhleSBkbyBub3RoaW5nLgo+ID4gKyAqLwo+IAo+IE5v
-dyB0aGF0IHRoZXNlIGNvbnRyb2xzIGFyZSB1c2VsZXNzLi4uIG1heWJlIHdlIGNhbiBkbyBhCj4g
-ZGV2X3dhcm5fb25jZQo+IHdoZW4gdGhlIHVzZXIgY2FsbHMgaXQgdG8gbGVhdmUgc29tZSBvdXRw
-dXQgaW4gZG1lc2c/CgpTdXJlLiBXZSB0aGUgZm9sbG93aW5nIGJlIGEgcHJvcGVyIHdhcm5pbmc/
-CgoiVXNlIHRoZSBWQkxBTksgYW5kIEhCTEFOSyBjb250cm9scyB0byBkZXRlcm1pbmUgdGhlIGZy
-YW1lIHJhdGVcbiIKCj4gPiDCoHN0YXRpYyBpbnQgaW14MjE0X2VudW1fZnJhbWVfaW50ZXJ2YWwo
-c3RydWN0IHY0bDJfc3ViZGV2ICpzdWJkZXYsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgdjRsMl9zdWJkZXZf
-c3RhdGUgKnNkX3N0YXRlLAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0Cj4gPiB2NGwyX3N1YmRldl9mcmFtZV9p
-bnRlcnZhbF9lbnVtICpmaWUpCj4gPiAKPiA+IC0tCj4gPiAyLjQ3LjEKPiA+IAo+ID4gCgo=
+On Sun, Dec 8, 2024 at 10:35=E2=80=AFPM Andr=C3=A9 Apitzsch <git@apitzsch.e=
+u> wrote:
+>
+> Hi Ricardo,
+>
+> Am Sonntag, dem 08.12.2024 um 21:59 +0100 schrieb Ricardo Ribalda
+> Delgado:
+> > In general it looks good to me (besides the comments, ignore the nits
+> > if you want to).
+> >
+> > I'd recommend that you test with lockdep to make sure that we are not
+> > missing anything, and I'd like to hear back from Sakari regarding the
+> > get_locked_active
+> >
+> > Thanks!
+> >
+> > On Sat, Dec 7, 2024 at 9:48=E2=80=AFPM Andr=C3=A9 Apitzsch via B4 Relay
+> > <devnull+git.apitzsch.eu@kernel.org> wrote:
+> > >
+> > > From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > >
+> > > Add vblank control to allow changing the framerate /
+> > > higher exposure values.
+> > >
+> > > The vblank and hblank controls are needed for libcamera support.
+> > >
+> > > While at it, fix the minimal exposure time according to the
+> > > datasheet.
+> > >
+> > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > > ---
+> > >  drivers/media/i2c/imx214.c | 106
+> > > ++++++++++++++++++++++++++++++++++++++++-----
+> > >  1 file changed, 94 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/imx214.c
+> > > b/drivers/media/i2c/imx214.c
+> > > index
+> > > f1c72db0775eaf4810f762e8798d301c5ad9923c..a7f49dbafe0f54af3c02f5534
+> > > 460fdee88a22fe2 100644
+> > > --- a/drivers/media/i2c/imx214.c
+> > > +++ b/drivers/media/i2c/imx214.c
+> > > @@ -34,11 +34,17 @@
+> > >
+> > >  /* V-TIMING internal */
+> > >  #define IMX214_REG_FRM_LENGTH_LINES    CCI_REG16(0x0340)
+> > > +#define IMX214_VTS_MAX                 0xffff
+> > > +
+> > > +#define IMX214_VBLANK_MIN              890
+> > > +
+> > > +/* HBLANK control - read only */
+> > > +#define IMX214_PPL_DEFAULT             5008
+> > >
+> > >  /* Exposure control */
+> > >  #define IMX214_REG_EXPOSURE            CCI_REG16(0x0202)
+> > > -#define IMX214_EXPOSURE_MIN            0
+> > > -#define IMX214_EXPOSURE_MAX            3184
+> > > +#define IMX214_EXPOSURE_OFFSET         10
+> > > +#define IMX214_EXPOSURE_MIN            1
+> > >  #define IMX214_EXPOSURE_STEP           1
+> > >  #define IMX214_EXPOSURE_DEFAULT                3184
+> > >  #define IMX214_REG_EXPOSURE_RATIO      CCI_REG8(0x0222)
+> > > @@ -187,6 +193,8 @@ struct imx214 {
+> > >         struct v4l2_ctrl_handler ctrls;
+> > >         struct v4l2_ctrl *pixel_rate;
+> > >         struct v4l2_ctrl *link_freq;
+> > > +       struct v4l2_ctrl *vblank;
+> > > +       struct v4l2_ctrl *hblank;
+> > >         struct v4l2_ctrl *exposure;
+> > >         struct v4l2_ctrl *unit_size;
+> > >
+> > > @@ -202,8 +210,6 @@ static const struct cci_reg_sequence
+> > > mode_4096x2304[] =3D {
+> > >         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
+> > >         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH
+> > > },
+> > >         { IMX214_REG_EXPOSURE_RATIO, 1 },
+> > > -       { IMX214_REG_FRM_LENGTH_LINES, 3194 },
+> > > -       { IMX214_REG_LINE_LENGTH_PCK, 5008 },
+> > >         { IMX214_REG_X_ADD_STA, 56 },
+> > >         { IMX214_REG_Y_ADD_STA, 408 },
+> > >         { IMX214_REG_X_ADD_END, 4151 },
+> > > @@ -274,8 +280,6 @@ static const struct cci_reg_sequence
+> > > mode_1920x1080[] =3D {
+> > >         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
+> > >         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH
+> > > },
+> > >         { IMX214_REG_EXPOSURE_RATIO, 1 },
+> > > -       { IMX214_REG_FRM_LENGTH_LINES, 3194 },
+> > > -       { IMX214_REG_LINE_LENGTH_PCK, 5008 },
+> > >         { IMX214_REG_X_ADD_STA, 1144 },
+> > >         { IMX214_REG_Y_ADD_STA, 1020 },
+> > >         { IMX214_REG_X_ADD_END, 3063 },
+> > > @@ -359,6 +363,7 @@ static const struct cci_reg_sequence
+> > > mode_table_common[] =3D {
+> > >         { IMX214_REG_ORIENTATION, 0 },
+> > >         { IMX214_REG_MASK_CORR_FRAMES, IMX214_CORR_FRAMES_MASK },
+> > >         { IMX214_REG_FAST_STANDBY_CTRL, 1 },
+> > > +       { IMX214_REG_LINE_LENGTH_PCK, IMX214_PPL_DEFAULT },
+> > >         { CCI_REG8(0x4550), 0x02 },
+> > >         { CCI_REG8(0x4601), 0x00 },
+> > >         { CCI_REG8(0x4642), 0x05 },
+> > > @@ -462,18 +467,24 @@ static const struct cci_reg_sequence
+> > > mode_table_common[] =3D {
+> > >  static const struct imx214_mode {
+> > >         u32 width;
+> > >         u32 height;
+> > > +
+> > > +       /* V-timing */
+> > > +       unsigned int vts_def;
+> > > +
+> > >         unsigned int num_of_regs;
+> > >         const struct cci_reg_sequence *reg_table;
+> > >  } imx214_modes[] =3D {
+> > >         {
+> > >                 .width =3D 4096,
+> > >                 .height =3D 2304,
+> > > +               .vts_def =3D 3194,
+> > >                 .num_of_regs =3D ARRAY_SIZE(mode_4096x2304),
+> > >                 .reg_table =3D mode_4096x2304,
+> > >         },
+> > >         {
+> > >                 .width =3D 1920,
+> > >                 .height =3D 1080,
+> > > +               .vts_def =3D 3194,
+> > >                 .num_of_regs =3D ARRAY_SIZE(mode_1920x1080),
+> > >                 .reg_table =3D mode_1920x1080,
+> > >         },
+> > > @@ -626,9 +637,36 @@ static int imx214_set_format(struct
+> > > v4l2_subdev *sd,
+> > >         __crop->width =3D mode->width;
+> > >         __crop->height =3D mode->height;
+> > >
+> > > -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE)
+> > > +       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > +               int exposure_max;
+> > > +               int exposure_def;
+> > > +               int hblank;
+> > > +
+> > >                 imx214->cur_mode =3D mode;
+> > >
+> > > +               /* Update FPS limits */
+> > nit: Update blank limits
+> > > +               __v4l2_ctrl_modify_range(imx214->vblank,
+> > > IMX214_VBLANK_MIN,
+> > > +                                        IMX214_VTS_MAX - mode-
+> > > >height, 2,
+> > > +                                        mode->vts_def - mode-
+> > > >height);
+> >
+> > Is the handler->lock held when we call this function? Can you try
+> > running the code with lockdep?
+> > > +
+> > > +               /* Update max exposure while meeting expected
+> > > vblanking */
+> > > +               exposure_max =3D mode->vts_def -
+> > > IMX214_EXPOSURE_OFFSET;
+> > > +               exposure_def =3D min(exposure_max,
+> > > IMX214_EXPOSURE_DEFAULT);
+> > > +               __v4l2_ctrl_modify_range(imx214->exposure,
+> > > +                                        imx214->exposure->minimum,
+> > > +                                        exposure_max, imx214-
+> > > >exposure->step,
+> > > +                                        exposure_def);
+> > > +
+> > > +               /*
+> > > +                * Currently PPL is fixed to IMX214_PPL_DEFAULT, so
+> > > hblank
+> > > +                * depends on mode->width only, and is not
+> > > changeable in any
+> > > +                * way other than changing the mode.
+> > > +                */
+> > > +               hblank =3D IMX214_PPL_DEFAULT - mode->width;
+> > > +               __v4l2_ctrl_modify_range(imx214->hblank, hblank,
+> > > hblank, 1,
+> > > +                                        hblank);
+> > > +       }
+> > > +
+> > >         return 0;
+> > >  }
+> > >
+> > > @@ -678,8 +716,25 @@ static int imx214_set_ctrl(struct v4l2_ctrl
+> > > *ctrl)
+> > >  {
+> > >         struct imx214 *imx214 =3D container_of(ctrl->handler,
+> > >                                              struct imx214, ctrls);
+> > > +       const struct v4l2_mbus_framefmt *format;
+> > > +       struct v4l2_subdev_state *state;
+> > >         int ret;
+> > >
+> > > +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+> > > +               int exposure_max, exposure_def;
+> > > +
+> > > +               state =3D
+> > > v4l2_subdev_get_locked_active_state(&imx214->sd);
+> >
+> > Sakari, I see that other drivers assume that the active is locked in
+> > set_ctrl. Is this correct?
+> >
+> > > +               format =3D v4l2_subdev_state_get_format(state, 0);
+>
+> (*) The format is read here.
+>
+> > > +
+> > > +               /* Update max exposure while meeting expected
+> > > vblanking */
+> > > +               exposure_max =3D format->height + ctrl->val -
+> > > IMX214_EXPOSURE_OFFSET;
+> > > +               exposure_def =3D min(exposure_max,
+> > > IMX214_EXPOSURE_DEFAULT);
+> > > +               __v4l2_ctrl_modify_range(imx214->exposure,
+> > > +                                        imx214->exposure->minimum,
+> > > +                                        exposure_max, imx214-
+> > > >exposure->step,
+> > > +                                        exposure_def);
+> > > +       }
+> > > +
+> > >         /*
+> > >          * Applying V4L2 control value only happens
+> > >          * when power is up for streaming
+> > > @@ -691,7 +746,10 @@ static int imx214_set_ctrl(struct v4l2_ctrl
+> > > *ctrl)
+> > >         case V4L2_CID_EXPOSURE:
+> > >                 cci_write(imx214->regmap, IMX214_REG_EXPOSURE,
+> > > ctrl->val, &ret);
+> > >                 break;
+> > > -
+> > > +       case V4L2_CID_VBLANK:
+> >  No need to read the format here?
+> >                       format =3D v4l2_subdev_state_get_format(state,
+> > 0);
+>
+> The format is read above (*), so no need to do it here. Note, in both
+> locations we have ctrl->id =3D=3D V4L2_CID_VBLANK.
 
+Can you init format to NULL at the declaration part to make the compiler ha=
+ppy?
+
+https://gitlab.freedesktop.org/linux-media/users/patchwork/-/pipelines/1325=
+516/test_report?job_name=3Dbuild
+
+>
+> > > +               cci_write(imx214->regmap,
+> > > IMX214_REG_FRM_LENGTH_LINES,
+> > > +                         format->height + ctrl->val, &ret);
+> > > +               break;
+> > >         default:
+> > >                 ret =3D -EINVAL;
+> > >         }
+> > > @@ -714,8 +772,11 @@ static int imx214_ctrls_init(struct imx214
+> > > *imx214)
+> > >                 .width =3D 1120,
+> > >                 .height =3D 1120,
+> > >         };
+> > > +       const struct imx214_mode *mode =3D &imx214_modes[0];
+> > >         struct v4l2_fwnode_device_properties props;
+> > >         struct v4l2_ctrl_handler *ctrl_hdlr;
+> > > +       int exposure_max, exposure_def;
+> > > +       int hblank;
+> > >         int ret;
+> > >
+> > >         ret =3D v4l2_fwnode_device_parse(imx214->dev, &props);
+> > > @@ -723,7 +784,7 @@ static int imx214_ctrls_init(struct imx214
+> > > *imx214)
+> > >                 return ret;
+> > >
+> > >         ctrl_hdlr =3D &imx214->ctrls;
+> > > -       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 6);
+> > > +       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 8);
+> > >         if (ret)
+> > >                 return ret;
+> > >
+> > > @@ -749,12 +810,27 @@ static int imx214_ctrls_init(struct imx214
+> > > *imx214)
+> > >          *
+> > >          * Yours sincerely, Ricardo.
+> > >          */
+> > > +
+> > > +       /* Initial vblank/hblank/exposure parameters based on
+> > > current mode */
+> > > +       imx214->vblank =3D v4l2_ctrl_new_std(ctrl_hdlr,
+> > > &imx214_ctrl_ops,
+> > > +                                          V4L2_CID_VBLANK,
+> > > IMX214_VBLANK_MIN,
+> > > +                                          IMX214_VTS_MAX - mode-
+> > > >height, 2,
+> > > +                                          mode->vts_def - mode-
+> > > >height);
+> > > +
+> > > +       hblank =3D IMX214_PPL_DEFAULT - mode->width;
+> > > +       imx214->hblank =3D v4l2_ctrl_new_std(ctrl_hdlr,
+> > > &imx214_ctrl_ops,
+> > > +                                          V4L2_CID_HBLANK, hblank,
+> > > hblank,
+> > > +                                          1, hblank);
+> > > +       if (imx214->hblank)
+> > > +               imx214->hblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
+> > > +
+> > > +       exposure_max =3D mode->vts_def - IMX214_EXPOSURE_OFFSET;
+> > > +       exposure_def =3D min(exposure_max, IMX214_EXPOSURE_DEFAULT);
+> > >         imx214->exposure =3D v4l2_ctrl_new_std(ctrl_hdlr,
+> > > &imx214_ctrl_ops,
+> > >                                              V4L2_CID_EXPOSURE,
+> > > -                                            IMX214_EXPOSURE_MIN,
+> > > -                                            IMX214_EXPOSURE_MAX,
+> > > +                                            IMX214_EXPOSURE_MIN,
+> > > exposure_max,
+> > nit: I think it looks nicer with exposure_max in the next line, but
+> > ignore if you prefer this way :)
+> > >                                              IMX214_EXPOSURE_STEP,
+> > > -
+> > > IMX214_EXPOSURE_DEFAULT);
+> > > +                                            exposure_def);
+> > >
+> > >         imx214->unit_size =3D v4l2_ctrl_new_std_compound(ctrl_hdlr,
+> > >                                 NULL,
+> > > @@ -876,6 +952,12 @@ static int imx214_get_frame_interval(struct
+> > > v4l2_subdev *subdev,
+> > >         return 0;
+> > >  }
+> > >
+> > > +/*
+> > > + * Raw sensors should be using the VBLANK and HBLANK controls to
+> > > determine
+> > > + * the frame rate. However this driver was initially added using
+> > > the
+> > > + * [S|G|ENUM]_FRAME_INTERVAL ioctls with a fixed rate of 30fps.
+> > > + * Retain the frame_interval ops for backwards compatibility, but
+> > > they do nothing.
+> > > + */
+> >
+> > Now that these controls are useless... maybe we can do a
+> > dev_warn_once
+> > when the user calls it to leave some output in dmesg?
+>
+> Sure. We the following be a proper warning?
+>
+
+nit: What about?
+"frame_interval functions returns an unreliable value for
+compatibility reasons. Use the VBLANK and HBLANK controls to determine
+the correct frame rate.\n"
+
+
+
+>
+> > >  static int imx214_enum_frame_interval(struct v4l2_subdev *subdev,
+> > >                                 struct v4l2_subdev_state *sd_state,
+> > >                                 struct
+> > > v4l2_subdev_frame_interval_enum *fie)
+> > >
+> > > --
+> > > 2.47.1
+> > >
+> > >
+>
 
