@@ -1,69 +1,70 @@
-Return-Path: <linux-media+bounces-22841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22842-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09CD9E8801
-	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 22:06:16 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E40769E880A
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 22:07:57 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DC65164330
-	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 21:06:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B144280FCA
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 21:07:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD843192B79;
-	Sun,  8 Dec 2024 21:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D089C19340E;
+	Sun,  8 Dec 2024 21:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WDXfwjrU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pKE79du5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134DF13A865;
-	Sun,  8 Dec 2024 21:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6CD13A865;
+	Sun,  8 Dec 2024 21:07:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733691969; cv=none; b=SAk4HrZ3dTWc43aZtJGv+ssake+jrVnM/HTAzv3S26fb7sa8IQiBV+G9a7CpZsCr1tVrQqWziQ8QtIUEIj/wMOpWmsgwCcat+SfgZYg1SolT1A3k7hkF6VEEknBTLS0lkGA1Ld4M19vg6fd+Oq7c2YE9oflLuVULAxMqg2fQ2YI=
+	t=1733692070; cv=none; b=lOZz3m58A+w5tcyHuRqAd01nBDmS7KwVTMPTP/qN/5dhrPeH2KpIURUOJ1u+a7oJlXDgX4UmDSGzhzzGOSBslIS7H6nqSMfSdmrqS38XPoMqWlfCTH0Ia/HSkQ9tZ5VctiZa0jgES6fTYfKx7NyJZanctUB0hy8asyyYUjn4ZJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733691969; c=relaxed/simple;
-	bh=XWXWbSHyOmnQ3nClYUfXghWqO3MXF4bE2l/sCzWy168=;
+	s=arc-20240116; t=1733692070; c=relaxed/simple;
+	bh=6uDJ68v+I9nU9szfUFsr8gct9WqPvN8xKzLnRS3ySSM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fpg7i4js6qu9H9yKpgtFjUy78En+P2rpBKT5sqvd5urbvdqvBZMBjcOFVY1BZyZObvunh7vmzjhGO9D6zZnAQMLDvjGVzsyWKG34Y/bMTi7ypsLXwibpuGJM6Datj/8fVIRHDjSUSW4/J3F4U8hB3lstkOO47LcSpGumu1PvSDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WDXfwjrU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9018C4CED2;
-	Sun,  8 Dec 2024 21:06:08 +0000 (UTC)
+	 To:Cc:Content-Type; b=UWVlZmb1VROjJPJEP3xoumq/p8ac8PmAbSt/U6QKWzeT3Pc6n7BdQbeeBaniqx1bRfuYvIh7l/0IXX0xsbFE4yKvv18eN9VOWOwU0EQBkQg2vGaUTkbMOD3PczQusN3pI9LiNM60mnlci6eBT3YCMJ8fcgwHb+b8lkhHW2Gx0nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pKE79du5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B63C4CEE2;
+	Sun,  8 Dec 2024 21:07:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733691968;
-	bh=XWXWbSHyOmnQ3nClYUfXghWqO3MXF4bE2l/sCzWy168=;
+	s=k20201202; t=1733692069;
+	bh=6uDJ68v+I9nU9szfUFsr8gct9WqPvN8xKzLnRS3ySSM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WDXfwjrUgjUvznQ302K8Zu/4231Xy1aCkkIrrJEi85P2I/qnqf6pFl/8gPxzMRt9g
-	 mJQ2Y6VxRglGpfWN7PSb5gRqbkbh1NErXelk7CIIHeqqYsPGR45S5jYxEAEWoUDr9x
-	 00x+ZyGFNvgVQbUFpiTcG61u3yEqkLkXYpCm2exY520v5e1VkK5wEGsi+G3HvsgiAO
-	 Zdhg9ZitdxzKj/BpwaCrp2nitgYmjFlJXpI8tUlZ+xPwVgQvIDVhcGTTDUnpI9ZpOO
-	 hCQ9ruy9WmU33wJiFP7v9lg/B1Hj3C5gfQcxvJsh3uLp+S3k1SGRZEqzSibtoLpyGw
-	 zZhX0GgMIvikg==
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4aff5b3845eso115432137.2;
-        Sun, 08 Dec 2024 13:06:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUWx4jvfWDj7vAqj8WrXK0RuG6yCycTadVnrqB82pB/ab3PHh+0Fk83KBs753ZXSsf7ZR5C3yRUzHqGggI=@vger.kernel.org, AJvYcCVTITPujUzR+W8OM/PuER0q+DjY8Tj10av3B5+7vhRhgfv0jcbJPNqHefSqUdolrCIr/KNknUeiD71mVto=@vger.kernel.org, AJvYcCVv5vadnlgeGi3InUQ5JGKLJyuYVJ51GPI7yWVdq4lmA0x7w5RCpQmoqLJFG8e53wn/ZreCNsXrtyLjIR0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRtCclYrEiUPCXLbJHowWzYVgaAZckfDo1pMA8bnr4pJ3/c88A
-	3ehuveWG7kfZiBE0P2FGFWzXju3r0DEiIiWMfkx0SOAbVY7Af/I64o6yOm1I4EQ756gxeYWeOCE
-	wC+p8vO2KMOmrrIJbfvbW1DHplsw=
-X-Google-Smtp-Source: AGHT+IHy+1SnJMbE+C+RfB+8fLLmnxwE2hNerqElAz4I/P8HU58GhAcP04n8fOtc7RUCchehSFcTWsF8n0p6UdhrbP0=
-X-Received: by 2002:a05:6102:b05:b0:4ac:fe47:1bcf with SMTP id
- ada2fe7eead31-4afcab15935mr10028036137.24.1733691967986; Sun, 08 Dec 2024
- 13:06:07 -0800 (PST)
+	b=pKE79du51QRia4t0bg06brxwOstYbkr0CQhfN53+dOMqoE3DZ4r4U3IhIVnKiPPzA
+	 UcHwY0Rr7YLO9/N9upVgIviYp5nnjNroXru3BZNuaJIF1V0iKfr1wsw//+wfoWyhvE
+	 Xaxo/z2Vr4wMDFLQwkY2ZNVub6HhRvf1uDYxEBN5ycIpB3DiGhK+rrtLkm0D/KM7ev
+	 Zss9RFlnJYxspkZwAxTEheDZ3Cwb7ZhMqephdQJTVV4b9Rau8Ax/m/Uw/R37xvL1kF
+	 Az+Wr0UEPf06xun54j/Kym+dV1d7hFtQIzvIPmtHeIMTwXjSaXBfsr6+VfEnVp6H5J
+	 V6ZkK56C6BRGg==
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-51878d9511bso75733e0c.0;
+        Sun, 08 Dec 2024 13:07:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU3i9R+8lhiWFDWPUm9CaPvVOLyrggSPCpBx9A1wG+hf868lo+sKAvVkyG3TUAHBwkZ0GhiJM7cORNentk=@vger.kernel.org, AJvYcCV1xmMVuYB8btBREbFtcJIlJq2/byp0ZorzbiWpb1MDcuU3Vt0W0UUH/4991LRHSreHFcHxVxRbmF1BLH0=@vger.kernel.org, AJvYcCWK6XwXccb0J81ZQivpgsxuo4VbS7+t+11QBDjre1vGP6QeYPNqv+rmEQJEe9oEFbG+sH+Yqoop2vsWdPg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyiv+vGRaYpvJYZFSSQ3Nh+/r/Iid7ekNpIvrrxWK3ku6sQPFVm
+	lsJ0YSV5l9hMFwp1fekLgwCCvogkmhs6xfnZeeKYLAw6uO5evvy7tiGouPY2GUN8HnxQJgR+41m
+	CiNZhfE5jmNQcKDWaMC7vqRNdqaE=
+X-Google-Smtp-Source: AGHT+IEQrAPUcXaZRgGEksuxmppVCyx20vEjcIeP7IKKhtN8+o7RgxpKPzsDIcUHLwklMhrj07F/1UeRUfvUII5xh50=
+X-Received: by 2002:a05:6122:6b05:b0:516:c0b:8bfe with SMTP id
+ 71dfb90a1353d-5160c0b8ec8mr6824643e0c.1.1733692068853; Sun, 08 Dec 2024
+ 13:07:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu> <20241207-imx214-v3-12-ab60af7ee915@apitzsch.eu>
-In-Reply-To: <20241207-imx214-v3-12-ab60af7ee915@apitzsch.eu>
+References: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu> <20241207-imx214-v3-6-ab60af7ee915@apitzsch.eu>
+In-Reply-To: <20241207-imx214-v3-6-ab60af7ee915@apitzsch.eu>
 From: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Date: Sun, 8 Dec 2024 22:05:52 +0100
-X-Gmail-Original-Message-ID: <CAPybu_2hEzpDbQ-RHTOEcEm4BqL7ctZ0EzvnTMW6xbJBjsoTSg@mail.gmail.com>
-Message-ID: <CAPybu_2hEzpDbQ-RHTOEcEm4BqL7ctZ0EzvnTMW6xbJBjsoTSg@mail.gmail.com>
-Subject: Re: [PATCH v3 12/12] media: i2c: imx214: Fix link frequency
+Date: Sun, 8 Dec 2024 22:07:33 +0100
+X-Gmail-Original-Message-ID: <CAPybu_32rn09ba-ouZRVTCzZQ+EQTtmVry_0d8xMTYtc2Y7Bnw@mail.gmail.com>
+Message-ID: <CAPybu_32rn09ba-ouZRVTCzZQ+EQTtmVry_0d8xMTYtc2Y7Bnw@mail.gmail.com>
+Subject: Re: [PATCH v3 06/12] media: i2c: imx214: Check number of lanes from
+ device tree
 To: git@apitzsch.eu
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
@@ -74,107 +75,85 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Acked-by: Ricardo Ribalda <ribalda@chromium.org>
-
-nit:  media: i2c: imx214: Fix link frequency validation
-
-
-
-On Sat, Dec 7, 2024 at 9:49=E2=80=AFPM Andr=C3=A9 Apitzsch via B4 Relay
+On Sat, Dec 7, 2024 at 9:48=E2=80=AFPM Andr=C3=A9 Apitzsch via B4 Relay
 <devnull+git.apitzsch.eu@kernel.org> wrote:
 >
 > From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
 >
-> The driver defines IMX214_DEFAULT_LINK_FREQ 480000000, and then
-> IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10),
-> which works out as 384MPix/s. (The 8 is 4 lanes and DDR.)
+> The imx214 camera is capable of either two-lane or four-lane operation.
 >
-> Parsing the PLL registers with the defined 24MHz input. We're in single
-> PLL mode, so MIPI frequency is directly linked to pixel rate.  VTCK ends
-> up being 1200MHz, and VTPXCK and OPPXCK both are 120MHz.  Section 5.3
-> "Frame rate calculation formula" says "Pixel rate
-> [pixels/s] =3D VTPXCK [MHz] * 4", so 120 * 4 =3D 480MPix/s, which basical=
-ly
-> agrees with my number above.
->
-> 3.1.4. MIPI global timing setting says "Output bitrate =3D OPPXCK * reg
-> 0x113[7:0]", so 120MHz * 10, or 1200Mbit/s. That would be a link
-> frequency of 600MHz due to DDR.
-> That also matches to 480MPix/s * 10bpp / 4 lanes / 2 for DDR.
->
-> Keep the previous link frequency for backward compatibility.
+> Currently only the four-lane mode is supported, as proper pixel rates
+> and link frequences for the two-lane mode are unknown.
 >
 > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
 > ---
->  drivers/media/i2c/imx214.c | 24 +++++++++++++++---------
->  1 file changed, 15 insertions(+), 9 deletions(-)
+>  drivers/media/i2c/imx214.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index 1330f13207beec0960c384681bf0b49e99fe860f..910ad03cda23345d3d10d13cd=
-30f007954534e80 100644
+> index 07926f7257877155548f7bcf0e7ee80037b4ce6c..f1c72db0775eaf4810f762e87=
+98d301c5ad9923c 100644
 > --- a/drivers/media/i2c/imx214.c
 > +++ b/drivers/media/i2c/imx214.c
-> @@ -31,7 +31,9 @@
->  #define IMX214_REG_FAST_STANDBY_CTRL   CCI_REG8(0x0106)
+> @@ -199,7 +199,6 @@ struct imx214 {
 >
->  #define IMX214_DEFAULT_CLK_FREQ        24000000
-> -#define IMX214_DEFAULT_LINK_FREQ 480000000
-> +#define IMX214_DEFAULT_LINK_FREQ       600000000
-> +/* Keep wrong link frequency for backward compatibility */
-> +#define IMX214_DEFAULT_LINK_FREQ_LEGACY        480000000
->  #define IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10=
-)
->  #define IMX214_FPS 30
+>  /*From imx214_mode_tbls.h*/
+>  static const struct cci_reg_sequence mode_4096x2304[] =3D {
+> -       { IMX214_REG_CSI_LANE_MODE, IMX214_CSI_4_LANE_MODE },
+>         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
+>         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH },
+>         { IMX214_REG_EXPOSURE_RATIO, 1 },
+> @@ -272,7 +271,6 @@ static const struct cci_reg_sequence mode_4096x2304[]=
+ =3D {
+>  };
 >
-> @@ -1216,18 +1218,22 @@ static int imx214_parse_fwnode(struct device *dev=
-)
+>  static const struct cci_reg_sequence mode_1920x1080[] =3D {
+> -       { IMX214_REG_CSI_LANE_MODE, IMX214_CSI_4_LANE_MODE },
+>         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
+>         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH },
+>         { IMX214_REG_EXPOSURE_RATIO, 1 },
+> @@ -788,6 +786,13 @@ static int imx214_start_streaming(struct imx214 *imx=
+214)
+>                 return ret;
+>         }
+>
+> +       ret =3D cci_write(imx214->regmap, IMX214_REG_CSI_LANE_MODE,
+> +                       IMX214_CSI_4_LANE_MODE, NULL);
+> +       if (ret) {
+> +               dev_err(imx214->dev, "%s failed to configure lanes\n", __=
+func__);
+> +               return ret;
+> +       }
+> +
+>         ret =3D cci_multi_reg_write(imx214->regmap, imx214->cur_mode->reg=
+_table,
+>                                   imx214->cur_mode->num_of_regs, NULL);
+>         if (ret < 0) {
+> @@ -948,6 +953,13 @@ static int imx214_parse_fwnode(struct device *dev)
 >                 goto done;
 >         }
 >
+nit: I'd have only added this check, and do not introduce any of the
+other changes until we support more lanes
 
-Now that I think about this... We only support
-buf_cfg.no_of_link_frequencies =3D=3D1.
-Maybe you can add a check before the loop
-if (bus_cfg.nr_of_link_frequencies !=3D 1)
-                       dev_warn(dev, "Only one link-frequency
-supported, please review your DT. Continuing anyway\n ")
+But if you prefer this way and works, I have no objection.
 
-
-> -       for (i =3D 0; i < bus_cfg.nr_of_link_frequencies; i++)
-> +       for (i =3D 0; i < bus_cfg.nr_of_link_frequencies; i++) {
+Thanks!
+> +       /* Check the number of MIPI CSI2 data lanes */
+> +       if (bus_cfg.bus.mipi_csi2.num_data_lanes !=3D 4) {
+> +               ret =3D dev_err_probe(dev, -EINVAL,
+> +                                   "only 4 data lanes are currently supp=
+orted\n");
+> +               goto done;
+> +       }
+> +
+>         for (i =3D 0; i < bus_cfg.nr_of_link_frequencies; i++)
 >                 if (bus_cfg.link_frequencies[i] =3D=3D IMX214_DEFAULT_LIN=
 K_FREQ)
 >                         break;
-> -
-> -       if (i =3D=3D bus_cfg.nr_of_link_frequencies) {
-> -               dev_err_probe(dev, -EINVAL,
-> -                             "link-frequencies %d not supported, Please =
-review your DT\n",
-> -                             IMX214_DEFAULT_LINK_FREQ);
-> -               ret =3D -EINVAL;
-> -               goto done;
-> +               if (bus_cfg.link_frequencies[i] =3D=3D IMX214_DEFAULT_LIN=
-K_FREQ_LEGACY) {
-> +                       dev_warn(dev,
-> +                                "link-frequencies %d not supported, plea=
-se review your DT. Continuing anyway\n",
-> +                                IMX214_DEFAULT_LINK_FREQ);
-> +                       break;
-> +               }
->         }
->
-> +       if (i =3D=3D bus_cfg.nr_of_link_frequencies)
-> +               ret =3D dev_err_probe(dev, -EINVAL,
-> +                                   "link-frequencies %d not supported, p=
-lease review your DT\n",
-> +                                   IMX214_DEFAULT_LINK_FREQ);
-> +
->  done:
->         v4l2_fwnode_endpoint_free(&bus_cfg);
->         fwnode_handle_put(endpoint);
 >
 > --
 > 2.47.1
->
 >
 >
 
