@@ -1,140 +1,207 @@
-Return-Path: <linux-media+bounces-22939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22940-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A879E99A5
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 15:58:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4632D9E99DB
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 16:02:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5053418834FE
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 14:58:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 54EAC166831
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 15:01:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF0211F0E26;
-	Mon,  9 Dec 2024 14:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="dwRcVnqK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C1D1E9B01;
+	Mon,  9 Dec 2024 15:00:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCE71E9B2F
-	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 14:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC361798F
+	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 15:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733756177; cv=none; b=Kzr7VFys3Xl7ukpRyjRrLqSA5pWWyNbWedQpN6vL5pm5v5SImnUmp1XAwc9I2vCPxN1DTgd2oYB23cb542EdpMsXfdcZhdlBsKxkfWPKmPOfZcxCsNbWx2y5edSHsOUy9AsHfiCc6caQl80NcMuVBb15PdoAWYdQyIzzJttUGEY=
+	t=1733756419; cv=none; b=PwPHVUVmVgX352FNyDtjuB01NtUt8JjfffHbddbg2Bcd8ngGYPxuJT0ehhdQQ+Oxu44hZfvF7Uz5utbMHxFmdzGad2XI7JT9+olDkIG2dpa5r8K+sDOD9UUFcohCtv9Rb4ec7dsUmesrnB/sjdKkOEO/gSVDFGwIJO5xIgNeZpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733756177; c=relaxed/simple;
-	bh=v7fEv+PQgG49lk4iKaJBPXeCbWAcgmJ4OBYd6cOxNC8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QlG8rE8WyT9lxf87Jzz2snKDS8U7FtginV9PqMl4Bm+YMflqaPuNxlDDbCnq6PJp7ghtT2IiORkl31fuTxs0e8lT3MfGiSr19n6yAZnLCvswbXHE6YBjff98aD2Lb82a//7+rxu4arlMBj8P0BfdKAOFGkssmcsqOc5Qq3n49j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=dwRcVnqK; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385dece873cso2091602f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 06:56:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1733756172; x=1734360972; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h9/sTnTDQc8p68+X06XluYmO4nBose0FpqExl64Pr6M=;
-        b=dwRcVnqKAgq6uHprOsggi0YGVyseb5g60WJYDwQrOFJbpBO5YXMz2XNKGBG0HC4JoI
-         q0vDVDTySShKqrPIlAklSzCw3u30pVb29lKqKUuXHPuLaCxzSsX+Ca8SXMDQaemscAjX
-         vhyUJ1oJvlQgt0jn3oJt2+D3w8BMJGCUMRXvcn1xQ9zMy7ZGOUrczdV9zDWhdEH1aFjb
-         dDCYKXWRW3q2onHFwzYHs+Wytw60wbBLkUMc2YebG1m9zxoConwDnYDckn5hwm+YVI8x
-         0Ps2E/RVETugnb2xJKkv0H58F6fNBcDT1vJooOhaO4r+OYo12byh0RisjnVaVN1c2P5T
-         ITog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733756172; x=1734360972;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h9/sTnTDQc8p68+X06XluYmO4nBose0FpqExl64Pr6M=;
-        b=TKHQ07/hrXxd++JFAx99kwyjihlF+H1l7VQTFMIHxXECkLt/4KeMpuY/6MFHdrNeL2
-         RUcE2CroRrSg9d6LT+diONhOspbyaslrN0sHqth/HEVkx/nEJ9XIaBq9WKWD84qN14hc
-         RArfLom88E5qkf3nH3FGZRh/31/nHt3mzdL1uiSpv0fZFPHdgLfhLWtU6xzj9m3QB8w4
-         5/t7yDHvTCNMRjZ/cAwxstn1f/9xN6ZZuAqzluirVH7G0JdynVBRVNWpS80BKdtKCkHD
-         urum84gnBNCJxTUNF5/ajunyJJuNEfaEUhR6/1mxDFrUl9JsN7wLvKuWbIlordlo17Mj
-         lixQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX63OyyNNC7tig8g1JmaoOM9hYFFhtQpjbkrlOR0juOBDEbog4Kz1/bEpdGVyOOT8PTvltcp32yYyfG1Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyO2WDBuC7NBPGrK8W+9R4EpBWBRScc9P1N8KO4ST5BFrIk+hsK
-	J14TyDIHxx92XpoVGvBVzC8R33cDdElZz6q1jxKKcCoAJhWqnFc/0BB1HSlVjHo=
-X-Gm-Gg: ASbGncujFJX1X/Zchp5CgK5hehsk3qHiTV8ngA/96p4z5OXZXSg7z5V3EWuIRTeByj5
-	qKNGDQ87VUTTeyB0G61KRa05LJQxawerj4gJZZSayxRdLLgAAXu7NPkk4R3ih/WHQEH+26HGTq0
-	r0SCzHiYbaADcBaOkAS8m9ZPUoO5i8qG7lsTJtZ+jwjy9MWzlPymbP2ibwvwhcgzF6OpCDV9XLv
-	5lm1p1D8hBEl0FmKZY9fZQJJ/piHETxUKewJqrw3w==
-X-Google-Smtp-Source: AGHT+IHhHCXqjaznY5Q6KEGwqqpPsaxnnFCKGS+fgXu9MlUG5T4//fuuGvyhnK/fDHt70l+KnjfY4w==
-X-Received: by 2002:a5d:64ef:0:b0:385:fb56:fb73 with SMTP id ffacd0b85a97d-3862b3553cfmr8496529f8f.15.1733756171744;
-        Mon, 09 Dec 2024 06:56:11 -0800 (PST)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3861ecf4119sm13221887f8f.14.2024.12.09.06.56.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 06:56:11 -0800 (PST)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 09 Dec 2024 14:55:45 +0000
-Subject: [PATCH] media: i2c: ov9282: Correct the exposure offset
+	s=arc-20240116; t=1733756419; c=relaxed/simple;
+	bh=N2VrZIgKrmiL+LzUIgGSJZySnlEbKFaMLCUYGllyf1k=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=ev3pmLCyYLfzsAWUsO6uoOM4AIcmDB2t3sTz2LE2iDrF0zLnuYFG63jQKsYyp7Kge3OQFug9R5VlwWBi/8TxAVBxvV5CWA99COrd5VAal0qMCn8+7MomJzNF2Qf40vGpXEsV+QSC9Q/eP4U/XsG+r/EiXV1SHqsz9pviYR5RvYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC54CC4CED1;
+	Mon,  9 Dec 2024 15:00:18 +0000 (UTC)
+Message-ID: <f7bc5105-332f-414b-8160-3c0ff679c608@xs4all.nl>
+Date: Mon, 9 Dec 2024 16:00:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: "Artem S. Tashkinov" <aros@gmx.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media: test-drivers: vivid: don't call schedule in loop
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241209-media-ov9282-fix-v1-1-d06bb7546f18@raspberrypi.com>
-X-B4-Tracking: v=1; b=H4sIAPAEV2cC/x2MywqAIBAAfyX23IIuRdmvRAfRtfbQAwUJxH9PO
- s7ATIHEUTjB0hWInCXJfTXQfQfusNfOKL4xkKJBkzJ4sheLdzY0EwZ50Wp2SlMYaSJo2RO56X+
- 5brV+mx3ztWIAAAA=
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Martina Krasteva <martinax.krasteva@intel.com>, 
- Daniele Alessandrelli <daniele.alessandrelli@intel.com>, 
- "Paul J. Murphy" <paul.j.murphy@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-X-Mailer: b4 0.14.1
 
-The datasheet lists that "Maximum exposure time is frame
-length -25 row periods, where frame length is set by
-registers {0x380E, 0x380F}".
-However this driver had OV9282_EXPOSURE_OFFSET set to 12
-which allowed that restriction to be violated, and would
-result in very under-exposed images.
+Artem reported that the CPU load was 100% when capturing from
+vivid at low resolution with ffmpeg.
 
-Correct the offset.
+This was caused by:
 
-Fixes: 14ea315bbeb7 ("media: i2c: Add ov9282 camera sensor driver")
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+       !kthread_should_stop())
+        schedule();
+
+If there are no other processes running that can be scheduled,
+then this is basically a busy-loop.
+
+Change it to wait_event_interruptible_timeout() which doesn't
+have that problem.
+
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Reported-by: Artem S. Tashkinov <aros@gmx.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219570
 ---
-This was picked up by one of our users noting that images were
-going dark for captures through libcamera. libcamera was resetting
-vblank and hblank to minimums for the capture, and that put us in
-the situation where it broke the datasheet requirement for
-exposure being at least 25 lines shorter than the frame length.
----
- drivers/media/i2c/ov9282.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/test-drivers/vivid/vivid-kthread-cap.c  | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-kthread-out.c  | 11 ++++++++---
+ .../media/test-drivers/vivid/vivid-kthread-touch.c    | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-sdr-cap.c      | 11 ++++++++---
+ 4 files changed, 32 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 9f52af6f047f..87e5d7ce5a47 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -40,7 +40,7 @@
- /* Exposure control */
- #define OV9282_REG_EXPOSURE	0x3500
- #define OV9282_EXPOSURE_MIN	1
--#define OV9282_EXPOSURE_OFFSET	12
-+#define OV9282_EXPOSURE_OFFSET	25
- #define OV9282_EXPOSURE_STEP	1
- #define OV9282_EXPOSURE_DEFAULT	0x0282
- 
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
+index 669bd96da4c7..273e8ed8c2a9 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-cap.c
+@@ -789,9 +789,14 @@ static int vivid_thread_vid_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
 
----
-base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
-change-id: 20241209-media-ov9282-fix-a1ec012f5272
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Video Capture Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-out.c b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
+index fac6208b51da..015a7b166a1e 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-out.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-out.c
+@@ -235,9 +235,14 @@ static int vivid_thread_vid_out(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
 
-Best regards,
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Video Output Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
+index fa711ee36a3f..c862689786b6 100644
+--- a/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
++++ b/drivers/media/test-drivers/vivid/vivid-kthread-touch.c
+@@ -135,9 +135,14 @@ static int vivid_thread_touch_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
+
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "Touch Capture Thread End\n");
+ 	return 0;
+diff --git a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+index 74a91d28c8be..c633fc2ed664 100644
+--- a/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
++++ b/drivers/media/test-drivers/vivid/vivid-sdr-cap.c
+@@ -206,9 +206,14 @@ static int vivid_thread_sdr_cap(void *data)
+ 			next_jiffies_since_start = jiffies_since_start;
+
+ 		wait_jiffies = next_jiffies_since_start - jiffies_since_start;
+-		while (time_is_after_jiffies(cur_jiffies + wait_jiffies) &&
+-		       !kthread_should_stop())
+-			schedule();
++		if (!time_is_after_jiffies(cur_jiffies + wait_jiffies))
++			continue;
++
++		wait_queue_head_t wait;
++
++		init_waitqueue_head(&wait);
++		wait_event_interruptible_timeout(wait, kthread_should_stop(),
++					cur_jiffies + wait_jiffies - jiffies);
+ 	}
+ 	dprintk(dev, 1, "SDR Capture Thread End\n");
+ 	return 0;
 -- 
-Dave Stevenson <dave.stevenson@raspberrypi.com>
+2.45.2
 
 
