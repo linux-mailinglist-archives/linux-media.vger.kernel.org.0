@@ -1,85 +1,36 @@
-Return-Path: <linux-media+bounces-22948-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22949-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D779E9AA2
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 16:32:26 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A7201887AAD
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 15:32:26 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F7B01F0E30;
-	Mon,  9 Dec 2024 15:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fIfHKBYE"
-X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8BB9E9B41
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 17:09:32 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9501C5CAA
-	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 15:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3073D28113F
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 16:09:30 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0836A13AD20;
+	Mon,  9 Dec 2024 16:09:23 +0000 (UTC)
+X-Original-To: linux-media@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903AD233139;
+	Mon,  9 Dec 2024 16:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733758295; cv=none; b=JxloW9Q3/Wv5r1vK76mgXkP6R1kdtWtQrqZWrs+Ic24drobiYkT07F/GUdpFIyM2xgoJbGBCvV9bAcwPwF3N8cGpERaOhe/clWL05c/yPvUYKu3D682D5i/ff/0f85fV++wQtQeh+nttb+0sqC7ylcdtL6MDDW9ulCd+gf0mkyE=
+	t=1733760562; cv=none; b=IQ0ddUf/s0EUHUAuzqW72xm2owOq8YXS2YMqnsKXaK20aahV00J/hr0amHa+u5qtH8df5ppdBNTW6cafwiF1lVpVwpm/RWJTrQVfa94bM6WyzRyH9iVEBJKokuYbJgoL4LwBOdTZRHB/RZpLuw35+VwDG+EZhp0h2464AZELf94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733758295; c=relaxed/simple;
-	bh=rhmAbbFE389OWi7Qqlx7FhnIGzuR/ojMrk9rsBpDcJM=;
+	s=arc-20240116; t=1733760562; c=relaxed/simple;
+	bh=Oa0NcaS5Sj+C0xA+zr2JRtIBbAV81lJVMssIx3qVL0o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QMbw/KiBfSVS5FtqBaU1j0QJmEy+ghts+QrDy/+7HacfAzobpmyd4AdKh2eHAFfuf3jR070WpCWw/J7AswFQGkOGyIutszYnScH3zmBP3tt5NGBwOjUxLDbDS8yw8vpP4kcKfcVSUoEwu2LGNvAm8I4zGoc0WNqXBkOY70j7DT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fIfHKBYE; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733758292;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+pfazl4ro4Z0q3+aAWow2eofy7cY7lz2m7JpJlKTGm8=;
-	b=fIfHKBYENUXjQYvtN4mAlQmaPnuMDAJKXMVfZmI75eyQeNu2oPU3ShCoWJkkwAjZBww14z
-	xK3DzWGBPLrQnhJQVdHMuRjm+KNw5990kQaXsdTJZJWIDzsqVDAa0d6EPA29vH3G/4+UEq
-	LVn5Q9mPd9DVv3dKMX7iW/Fm4mkglMk=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-584-jMWi4p_INlKMxT7FFCnZIA-1; Mon, 09 Dec 2024 10:31:29 -0500
-X-MC-Unique: jMWi4p_INlKMxT7FFCnZIA-1
-X-Mimecast-MFC-AGG-ID: jMWi4p_INlKMxT7FFCnZIA
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-aa66bc3b46dso116877166b.3
-        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 07:31:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733758288; x=1734363088;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+pfazl4ro4Z0q3+aAWow2eofy7cY7lz2m7JpJlKTGm8=;
-        b=ZhXkgbRRB2CgnYvgzc8kDZqlb+QkpvX12BHtpnpgch+fWEVmCIe3vbeXt4dn1e2G+Y
-         uTzFPJUHL3zE25qEwMowAzR2xPdfPUZO/tF7tQqxWQGwdkKQ/0fcy/wBnVLe5IsqhgGM
-         Sx+CUoOwlNmwB9eWwyOex73Fbup122bQpuZBcVocdqZl3d4TdmYS+WkkLRgj5A2I0Kj5
-         p0SCyyzyb2RDfBH7r4OxrOu2dlL2fHqfOkL13/btei+qhtGrZBEUsvuxHxCwIK8enPQ/
-         kt/YCOV9cFO2OcNOJu8opeqh2chcb3di6g1zfP7RerrWk+tyatGqs5oky3uUlnq7dnoW
-         c3fA==
-X-Forwarded-Encrypted: i=1; AJvYcCWjNfddp8/46dD6kIeflYC2hVbMhTaCLugsHS7ExVuaJsvUIpLh++421xvwW6Pp4KOx6SoXN22f8ZURMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6FZ4SzIa8bWYBEExB32objuvTIVLPbOH9EM7e2IhYpTMqcPEO
-	O06lgPlmoapCbxgeZ6zQBsyPsTSul3eY8cYiXnQOD+3dkAZqMNwa9oMu0tRu4+mGLKMQXClEdF3
-	qNWHvGnke60W7OmsWBEbSc3WWkKNF5DgdT187dg9iyGzj+VtAKwGLSlFnhAHt
-X-Gm-Gg: ASbGncv+64+8R8O61NZWM/ACsIltzFtalK1ueTqUQqp+JNSMJQmyaAMowYKcSiSJsAV
-	xMyB4fuVRqLcXt+HWeQiwO7xJyVim7bqydKp/jCIKvZe0MRd+d20QLrJ4dFKq3BLFT6ouMMdWbl
-	m9OYzc/tITB89sYUPHrP78UMtni4/r65liuw9vN8/r1H2IbYaQxtDusFSX6tu/7bD2tSWl5qC8U
-	XY38l0DCOSRZjRECtmFxXPP6MnvUb9EwXOivJToZ5TJ1tWVmMIt5A==
-X-Received: by 2002:a05:6402:1d50:b0:5d0:ced8:d22d with SMTP id 4fb4d7f45d1cf-5d4185d61cbmr2135472a12.22.1733758287708;
-        Mon, 09 Dec 2024 07:31:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEIygLNw4RGjyPR9wVkpz580F7qpOA4x36Zoh10CEUjmfOImUBPgUgpvagmFQjmX9b4EMlGyg==
-X-Received: by 2002:a05:6402:1d50:b0:5d0:ced8:d22d with SMTP id 4fb4d7f45d1cf-5d4185d61cbmr2135404a12.22.1733758287177;
-        Mon, 09 Dec 2024 07:31:27 -0800 (PST)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6770d7698sm274659966b.43.2024.12.09.07.31.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 07:31:26 -0800 (PST)
-Message-ID: <8bb30f4e-1e70-4413-bb50-d5562a7f6a1e@redhat.com>
-Date: Mon, 9 Dec 2024 16:31:26 +0100
+	 In-Reply-To:Content-Type; b=o6O1qPjf8oNTGJOEBEg60keOHea6BT0sWtoYzjnvJS12xtrH3543+uyK/tZThVM9rcTqXgQerRq0pm+2fUFx3XAEvSpJK3xwDIK/oeHPnRi2D6S8e0n9Tl4INS6XfSbbdNhXeNwErgxZ6igvtiYrqlTUY0zp6c1wy0ZzCKsBjDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A49C4CED1;
+	Mon,  9 Dec 2024 16:09:17 +0000 (UTC)
+Message-ID: <8b8cad45-87cd-44bc-a4cb-3b59c559cb7b@xs4all.nl>
+Date: Mon, 9 Dec 2024 17:09:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,187 +38,316 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 19/19] media: uvcvideo: document UVC v1.5 ROI
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ricardo Ribalda <ribalda@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@chromium.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Yunke Cao <yunkec@google.com>, Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org>
- <20241114-uvc-roi-v15-19-64cfeb56b6f8@chromium.org>
- <13a3c23e-7a8a-4957-bdd7-d8de2844b904@redhat.com>
- <CANiDSCsphbdkHePXManvtR_i4iSUmHkFXQLzZGSc7BJ900c1Hw@mail.gmail.com>
-Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CANiDSCsphbdkHePXManvtR_i4iSUmHkFXQLzZGSc7BJ900c1Hw@mail.gmail.com>
+Subject: Re: [PATCH v7 10/28] media: iris: implement s_fmt, g_fmt and try_fmt
+ ioctls
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
+References: <20241209-qcom-video-iris-v7-0-05c6bdead47b@quicinc.com>
+ <20241209-qcom-video-iris-v7-10-05c6bdead47b@quicinc.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241209-qcom-video-iris-v7-10-05c6bdead47b@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 9-Dec-24 4:22 PM, Ricardo Ribalda wrote:
-> Hi Hans
+On 09/12/2024 13:51, Dikshita Agarwal wrote:
+> From: Vedang Nagar <quic_vnagar@quicinc.com>
 > 
-> On Mon, 9 Dec 2024 at 15:36, Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Hi,
->>
->> On 14-Nov-24 8:10 PM, Ricardo Ribalda wrote:
->>> From: Yunke Cao <yunkec@google.com>
->>>
->>> Added documentation of V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
->>> V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
->>>
->>> An example of a userspace implementing this feature can be found at:
->>> https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/release-R121-15699.B/camera/hal/usb/
->>>
->>> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
->>> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
->>> Signed-off-by: Yunke Cao <yunkec@google.com>
->>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>> --->  .../userspace-api/media/drivers/uvcvideo.rst       | 64 ++++++++++++++++++++++
->>>  1 file changed, 64 insertions(+)
->>>
->>> diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
->>> index a290f9fadae9..1cdcd45907a3 100644
->>> --- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
->>> +++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
->>> @@ -181,6 +181,7 @@ Argument: struct uvc_xu_control_mapping
->>>       UVC_CTRL_DATA_TYPE_BOOLEAN      Boolean
->>>       UVC_CTRL_DATA_TYPE_ENUM         Enumeration
->>>       UVC_CTRL_DATA_TYPE_BITMASK      Bitmask
->>> +     UVC_CTRL_DATA_TYPE_RECT         Rectangular area
->>>
->>>
->>>  UVCIOC_CTRL_QUERY - Query a UVC XU control
->>> @@ -255,3 +256,66 @@ Argument: struct uvc_xu_control_query
->>>       __u8    query           Request code to send to the device
->>>       __u16   size            Control data size (in bytes)
->>>       __u8    *data           Control value
->>> +
->>> +
->>> +Driver-specific V4L2 controls
->>> +-----------------------------
->>> +
->>> +The uvcvideo driver implements the following UVC-specific controls:
->>> +
->>> +``V4L2_CID_UVC_REGION_OF_INTEREST_RECT (struct)``
->>> +     This control determines the region of interest (ROI). ROI is a
->>> +     rectangular area represented by a struct :c:type:`v4l2_rect`. The
->>> +     rectangle is in global sensor coordinates and pixel units. It is
->>
->> Maybe: "The rectangle is in global sensor coordinates using pixel units" ?
->>
->> being "in pixel units" sounds a bit weird and had me confused for a moment.
->>
->>> +     independent of the field of view, not impacted by any cropping or
->>> +     scaling.
->>> +
->>> +     Use ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` to query
->>> +     the range of rectangle sizes.
->>> +
->>> +     Setting a ROI allows the camera to optimize the capture for the region.
->>> +     The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control determines
->>> +     the detailed behavior.
->>> +
->>> +     An example of use of this control, can be found in the:
->>> +     `Chrome OS USB camera HAL.
->>> +     <https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/release-R121-15699.B/camera/hal/usb/>`
->>
->> Hmm, not sure we want this in the API documentation. OTOH why not ? Anyone else
->> have an opinion on this ?
+> Implement s_fmt, g_fmt and try_fmt ioctl ops with necessary hooks.
 > 
-> Laurent requested this:
-> https://lore.kernel.org/linux-media/20231218034413.GN5290@pendragon.ideasonboard.com/
+> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-Ok, keeping this as is works for me.
-
->>> +
->>> +
->>> +``V4L2_CID_UVC_REGION_OF_INTEREST_AUTO (bitmask)``
->>> +     This determines which, if any, on-board features should track to the
->>> +     Region of Interest specified by the current value of
->>> +     ``V4L2_CID_UVD__REGION_OF_INTEREST_RECT``.
->>> +
->>> +     Max value is a mask indicating all supported Auto Controls.
->>> +
->>> +.. flat-table::
->>> +    :header-rows:  0
->>> +    :stub-columns: 0
->>> +
->>> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE``
->>> +      - Setting this bit causes automatic exposure to track the region of
->>> +     interest instead of the whole image.
->>> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS``
->>> +      - Setting this bit causes automatic iris to track the region of interest
->>> +        instead of the whole image.
->>> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
->>> +      - Setting this bit causes automatic white balance to track the region
->>> +     of interest instead of the whole image.
->>> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS``
->>> +      - Setting this bit causes automatic focus adjustment to track the region
->>> +        of interest instead of the whole image.
->>> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT``
->>> +      - Setting this bit causes automatic face detection to track the region of
->>> +        interest instead of the whole image.
->>> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
->>> +      - Setting this bit enables automatic face detection and tracking. The
->>> +     current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
->>> +     the driver.
->>> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
->>> +      - Setting this bit enables automatic image stabilization. The
->>> +     current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
->>> +     the driver.
->>
->> This one I do not understand. Since the ROI is not a crop, I don't see how
->> this interacts with image-stabilization. Typically digital image-stabilization
->> uses a moving slightly smaller crop of the full sensor rectangle which it moves
->> around in realtime to compensate for camera movements.
->>
->> So I wonder what this is expected to do. Does this set the ROI to the image
->> stabilization crop ? I guess that combined with reading back the ROI that might be
->> somewhat useful to follow what the image stabilization code is doing.
->>
->> OTOH this does not seem useful for using as region for AEC / AWB ?
-> 
-> Unfortunately, the standard is not very verbose about this:
-> https://ibb.co/VppnQ43
-> 
-> What about:
-> 
-> - ``Image Stabilization`` bit from the UVC's bmAutoControls Region of
-> Interest Control.
-> > ?
-
-I have no strong preference for either the current wording or the new
-wording you just suggested. Either one seems pretty vague / unclear to me,
-but I realize that is just the result of the specification being unclear
-on this point.
-
-So use what you think is best and then we'll just have to live with
-this being a bit vague.
-
->>> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
->>> +      - Setting this bit enables automatically capture the specified region
->>> +        with higher quality if possible.
->>>
->>
->> Otherwise this looks good to me. But I would still like to see
->> a discussion about using UVC custom ctrls instead of something standardized
->> for this. Although I guess maybe that already happened before I got involved ?
-> 
-> Seems like both Hans V and Laurent preferred uvc custom controls:
-> 
-> https://lore.kernel.org/linux-media/a0fe2b49-12b7-8eaf-c3ef-7af1a247e595@xs4all.nl
-
-Ack.
+Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
 
 Regards,
 
-Hans
+	Hans
 
+> ---
+>  drivers/media/platform/qcom/iris/iris_vdec.c | 122 +++++++++++++++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_vdec.h |   2 +
+>  drivers/media/platform/qcom/iris/iris_vidc.c |  48 +++++++++++
+>  3 files changed, 172 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+> index 2ed50ad5d58b..38a5df8191cc 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+> @@ -3,6 +3,8 @@
+>   * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>   */
+>  
+> +#include <media/v4l2-mem2mem.h>
+> +
+>  #include "iris_buffer.h"
+>  #include "iris_instance.h"
+>  #include "iris_vdec.h"
+> @@ -10,6 +12,7 @@
+>  
+>  #define DEFAULT_WIDTH 320
+>  #define DEFAULT_HEIGHT 240
+> +#define DEFAULT_CODEC_ALIGNMENT 16
+>  
+>  void iris_vdec_inst_init(struct iris_inst *inst)
+>  {
+> @@ -54,3 +57,122 @@ void iris_vdec_inst_deinit(struct iris_inst *inst)
+>  	kfree(inst->fmt_dst);
+>  	kfree(inst->fmt_src);
+>  }
+> +
+> +int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+> +{
+> +	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
+> +	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+> +	struct v4l2_format *f_inst;
+> +	struct vb2_queue *src_q;
+> +
+> +	memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
+> +	switch (f->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> +		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264) {
+> +			f_inst = inst->fmt_src;
+> +			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+> +			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+> +			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+> +		}
+> +		break;
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> +		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12) {
+> +			f_inst = inst->fmt_dst;
+> +			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+> +			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+> +			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+> +		}
+> +
+> +		src_q = v4l2_m2m_get_src_vq(m2m_ctx);
+> +		if (vb2_is_streaming(src_q)) {
+> +			f_inst = inst->fmt_src;
+> +			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+> +			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+> +		}
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (pixmp->field == V4L2_FIELD_ANY)
+> +		pixmp->field = V4L2_FIELD_NONE;
+> +
+> +	pixmp->num_planes = 1;
+> +
+> +	return 0;
+> +}
+> +
+> +int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+> +{
+> +	struct v4l2_format *fmt, *output_fmt;
+> +	struct vb2_queue *q;
+> +	u32 codec_align;
+> +
+> +	q = v4l2_m2m_get_vq(inst->m2m_ctx, f->type);
+> +	if (!q)
+> +		return -EINVAL;
+> +
+> +	if (vb2_is_busy(q))
+> +		return -EBUSY;
+> +
+> +	iris_vdec_try_fmt(inst, f);
+> +
+> +	switch (f->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> +		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264)
+> +			return -EINVAL;
+> +
+> +		fmt = inst->fmt_src;
+> +		fmt->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> +
+> +		codec_align = DEFAULT_CODEC_ALIGNMENT;
+> +		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, codec_align);
+> +		fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, codec_align);
+> +		fmt->fmt.pix_mp.num_planes = 1;
+> +		fmt->fmt.pix_mp.plane_fmt[0].bytesperline = 0;
+> +		fmt->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_INPUT);
+> +		inst->buffers[BUF_INPUT].min_count = iris_vpu_buf_count(inst, BUF_INPUT);
+> +		inst->buffers[BUF_INPUT].size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
+> +
+> +		fmt->fmt.pix_mp.colorspace = f->fmt.pix_mp.colorspace;
+> +		fmt->fmt.pix_mp.xfer_func = f->fmt.pix_mp.xfer_func;
+> +		fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
+> +		fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
+> +
+> +		output_fmt = inst->fmt_dst;
+> +		output_fmt->fmt.pix_mp.colorspace = f->fmt.pix_mp.colorspace;
+> +		output_fmt->fmt.pix_mp.xfer_func = f->fmt.pix_mp.xfer_func;
+> +		output_fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
+> +		output_fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
+> +
+> +		inst->crop.left = 0;
+> +		inst->crop.top = 0;
+> +		inst->crop.width = f->fmt.pix_mp.width;
+> +		inst->crop.height = f->fmt.pix_mp.height;
+> +		break;
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> +		fmt = inst->fmt_dst;
+> +		fmt->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> +		if (fmt->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12)
+> +			return -EINVAL;
+> +		fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
+> +		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, 128);
+> +		fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, 32);
+> +		fmt->fmt.pix_mp.num_planes = 1;
+> +		fmt->fmt.pix_mp.plane_fmt[0].bytesperline = ALIGN(f->fmt.pix_mp.width, 128);
+> +		fmt->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_OUTPUT);
+> +		inst->buffers[BUF_OUTPUT].min_count = iris_vpu_buf_count(inst, BUF_OUTPUT);
+> +		inst->buffers[BUF_OUTPUT].size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
+> +
+> +		inst->crop.top = 0;
+> +		inst->crop.left = 0;
+> +		inst->crop.width = f->fmt.pix_mp.width;
+> +		inst->crop.height = f->fmt.pix_mp.height;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +	memcpy(f, fmt, sizeof(*fmt));
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
+> index 353b73b76230..85e93f33e9e7 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vdec.h
+> +++ b/drivers/media/platform/qcom/iris/iris_vdec.h
+> @@ -10,5 +10,7 @@ struct iris_inst;
+>  
+>  void iris_vdec_inst_init(struct iris_inst *inst);
+>  void iris_vdec_inst_deinit(struct iris_inst *inst);
+> +int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f);
+> +int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f);
+>  
+>  #endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+> index ab3b63171c1d..bec965284b6e 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+> @@ -217,6 +217,48 @@ int iris_close(struct file *filp)
+>  	return 0;
+>  }
+>  
+> +static int iris_try_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
+> +{
+> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
+> +	int ret;
+> +
+> +	mutex_lock(&inst->lock);
+> +	ret = iris_vdec_try_fmt(inst, f);
+> +	mutex_unlock(&inst->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int iris_s_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
+> +{
+> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
+> +	int ret;
+> +
+> +	mutex_lock(&inst->lock);
+> +	ret = iris_vdec_s_fmt(inst, f);
+> +	mutex_unlock(&inst->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static int iris_g_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
+> +{
+> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
+> +	int ret = 0;
+> +
+> +	mutex_lock(&inst->lock);
+> +	if (V4L2_TYPE_IS_OUTPUT(f->type))
+> +		*f = *inst->fmt_src;
+> +	else if (V4L2_TYPE_IS_CAPTURE(f->type))
+> +		*f = *inst->fmt_dst;
+> +	else
+> +		ret = -EINVAL;
+> +
+> +	mutex_unlock(&inst->lock);
+> +
+> +	return ret;
+> +}
+> +
+>  static struct v4l2_file_operations iris_v4l2_file_ops = {
+>  	.owner                          = THIS_MODULE,
+>  	.open                           = iris_open,
+> @@ -231,6 +273,12 @@ static const struct vb2_ops iris_vb2_ops = {
+>  };
+>  
+>  static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
+> +	.vidioc_try_fmt_vid_cap_mplane  = iris_try_fmt_vid_mplane,
+> +	.vidioc_try_fmt_vid_out_mplane  = iris_try_fmt_vid_mplane,
+> +	.vidioc_s_fmt_vid_cap_mplane    = iris_s_fmt_vid_mplane,
+> +	.vidioc_s_fmt_vid_out_mplane    = iris_s_fmt_vid_mplane,
+> +	.vidioc_g_fmt_vid_cap_mplane    = iris_g_fmt_vid_mplane,
+> +	.vidioc_g_fmt_vid_out_mplane    = iris_g_fmt_vid_mplane,
+>  	.vidioc_reqbufs                 = v4l2_m2m_ioctl_reqbufs,
+>  };
+>  
+> 
 
 
