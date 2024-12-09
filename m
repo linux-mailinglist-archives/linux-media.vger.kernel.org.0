@@ -1,328 +1,237 @@
-Return-Path: <linux-media+bounces-22973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11AC9EA0F3
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 22:14:55 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD08A166E15
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 21:14:47 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25DEC19DF60;
-	Mon,  9 Dec 2024 21:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="RrJFY9Ws"
-X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E689EA138
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 22:26:30 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD7B19ABD4;
-	Mon,  9 Dec 2024 21:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2E5028114F
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 21:26:28 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD0BF19CD0B;
+	Mon,  9 Dec 2024 21:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="deHdBud3"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBAE199FC1
+	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 21:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733778848; cv=none; b=L/tq06XRLqDFEcoW9mwlVcxkQjRFh5WUTHcG/TBInCIr0refkNEs1PU+u7qfTpKeRj5uNASLYifnikY8QJ7skmUlBSXgTsshqM3iqbQld3P4VTEwH6bo+sFimonlT7MQg9Lt0zoKzV06ha/YXEKfbbvcv7MR0oxfse//jxFpaHo=
+	t=1733779584; cv=none; b=t+KOqErHGy24pRpaCM5MTXRDCZwGST+vmaAmu684Hr59gqwA8ZLolo1eNRWm0IYL+SRQ4C7EfmZm8qjXWhGQVW6n4Rmaw36bRa6YmHJfgpdku7PcWSLYcXh7fK7oqlfWrJ16ShBGUvUvprS/cdMr3AfM7/R0kRm4jgX4KSeFfPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733778848; c=relaxed/simple;
-	bh=v13hWBAeUsXPzbKRzFHG+Ifre80g5GY2bTUyOS7DPwY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UUDOxa7mnr+jfMduDcC8p2uo+Xojspm+yrQn1Wqx4T/AAF8umqjvJpLTjZzPNpDJXWfh7LCkzc8NbO+ktFLcj/Turd7BTWMPKDquAcqQePM2vk0u6bu6Lr537xCDd3DtATDkV88TfoQc/OSTTwHPTZAudXLMpuHm/9NIxCV9y0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=RrJFY9Ws; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=bJkA2uaWzzyuxWHGQTnVHNl3uYv3Xp1PJZHSFVj4EKo=; b=RrJFY9WspjpAYEUrirIseV4RTk
-	qii2UwdUpym3ZQyn1byZda/WFCJ2inhvRt47c2HG92WWtak/rp1hanoOl2zYiRcl1hYwKXMT1rPfA
-	brW+a4eIlACE4dcLAz1weMArn5Thp+qod9kEZeoh6DaXCJfx+6PzWli/I9En2aypk4szywp1l9qqq
-	AWUztfV3kS/Hkx6kMFlUK6qttEcblo2Qcwn9+tw8EHMxsaB9EXkJxLqk42JAfC2Pkvr0OFIIFLeMu
-	AZEdpZoZwnLwurZY6wLYEx6OEea2oDtnbIQgSv/iULilo/3CjjRKEBnk3/Y2sTOaH1UA8Wmvh41Mi
-	SrYukEwQ==;
-Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1tKl4e-0004K8-Ke; Mon, 09 Dec 2024 22:13:48 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com, hverkuil@xs4all.nl,
- hverkuil-cisco@xs4all.nl, Shreeya Patel <shreeya.patel@collabora.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- shreeya.patel@collabora.com, dmitry.osipenko@collabora.com
-Subject: Re: [PATCH v5 0/4] Add Synopsys DesignWare HDMI RX Controller
-Date: Mon, 09 Dec 2024 22:13:47 +0100
-Message-ID: <7197326.aoefvbuG5b@diego>
-In-Reply-To:
- <01020193ad025176-f2e8e4fd-41a6-42ef-b3d0-dfa87a6d0abd-000000@eu-west-1.amazonses.com>
-References:
- <01020193ad025176-f2e8e4fd-41a6-42ef-b3d0-dfa87a6d0abd-000000@eu-west-1.amazonses.com>
+	s=arc-20240116; t=1733779584; c=relaxed/simple;
+	bh=LGMZUnYe8iHvq/5eUJ1IfXuB2btk9eOij72HmxMY7Fg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bXDPl9A7lu0cqycqRmCcJl0eDIjYmA0AQJpsEWWLwN3dQx53jTQE7R+Lq6MvTDR37NNFaWhdCMOAoAsAZo4kASYbtKrjmk7kRrPGxc6fVchtm7Xm3F8qn2JxtnLJNt2LRj10PmIkWmaQxQAsacXtX+Wf89oeR3akLpBfbbCIAyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=deHdBud3; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7fc93152edcso3855567a12.0
+        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 13:26:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733779581; x=1734384381; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z6idwqeXE/MDvDjAbT1MWejPhgLZPC4983El4drMBYE=;
+        b=deHdBud3E29GIFO2qZ1rySknqqliKX7tM5ywLiIUiM5W9qhCNEZX3TtzMYICO9cPPy
+         vKo3oAdD0snKkwGRpQgehdMuICsnJyOe381S9gfJQzf4t9O9NMariZCbfnEEBq+zb6i2
+         pQrVxofuF2cjOzlqLjLZ5F4yqv3Pmnnam5vtY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733779581; x=1734384381;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z6idwqeXE/MDvDjAbT1MWejPhgLZPC4983El4drMBYE=;
+        b=gSp2yYKo+5AFrCb56Hig0Qj5DmlXzHla+Cdy+joUTjcyhbyY95snFQO2IDiHjT33pz
+         tONq9EV4y8m622+Fi+sRjgSLkNMdg/VxLg0NcEo5nRsQ1IPB8YZS6D0PUKPyNqPRzfDF
+         0POkfZ12khZt2kTbs44DSGerGX5Bn5LQTpIYqCUGWWBr3lSi5iSbeBXTBqg2Hg5af0P1
+         BU5xu9DhQmwzDccjYqox/ZeDIyaJVhIANYonuxuIVYQof9eQZjnqUChSU3iNmTyjhq6Q
+         KMNRnqFIvvynWaSVGk7YxbGwoN9jFgPvwEsAJdJBGm3+YJ36RvXW7pJwAGTvRfJMufBm
+         SR+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWhkBXz9es3Q7z7VoZZFIywuGJIXb4AV8ouJJCuwHa4LL33yugHednOxnKO4LnzIzBK3NERsst5w4dcRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw72FuIxKKTOhfdxYrqPLKAHsgTwGW07IYReDiduTDFsfKS+BDp
+	CZpyRe1Q577wKQ8ene9oNfHYodXLY2/s7rWu9HfwR2HptIAkIgjmxc9Ux/L/tYsVz8BfEKpCRF4
+	=
+X-Gm-Gg: ASbGncuLaGy9cNetYdvojM0meUodGk1+tpAxac70c2cDdto//LljX97oRG/ho1di8Y/
+	4RaSO0MVmdxSeOcLUQ409WUL8hlnfmTMTeI7wYgq5Q0nz96qvWSg/4nE4cjEcoky8P1qIGhqofX
+	cT7AfpxmeyXKRPhu+o7JCxVSutEdqJ8GTpx9/e1m2ZpanwSKSaamNsEzbr8Mt/bzf3lh4GJ6r3u
+	E+Q7nujRO6G9Zp0e2j6S8W9bWoMLgMJdF3Tdu8FSsnEb2qtH4L9ELnXVRaZM7qftBTbDPK+TXPa
+	ObMwqdSZL7e6YRzz+VRd
+X-Google-Smtp-Source: AGHT+IGM674lZB2pItfP/LzAqKsFL/VXcEbVR3hqLXMSAu3epSb+AG2yuo2MjHih0NxabMU2mhrxGQ==
+X-Received: by 2002:a05:6a20:918c:b0:1e1:a434:296f with SMTP id adf61e73a8af0-1e1b440292emr1668867637.10.1733779581518;
+        Mon, 09 Dec 2024 13:26:21 -0800 (PST)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com. [209.85.214.175])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fd4be412f1sm2183252a12.38.2024.12.09.13.26.20
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Dec 2024 13:26:21 -0800 (PST)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21631789fcdso13231975ad.1
+        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 13:26:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWfHn7TdkgjHu7pJ+wfoLDm4T9cRqwJYad/fUkmeHyqB5opuEmDpOgKUWzMG/uEDf6ZR5O8JPfWpZTfXg==@vger.kernel.org
+X-Received: by 2002:a17:90b:3805:b0:2ea:61c4:a443 with SMTP id
+ 98e67ed59e1d1-2efd58699b7mr1287425a91.4.1733779580155; Mon, 09 Dec 2024
+ 13:26:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20241209-queryctrl-v1-0-deff7acfcdcb@chromium.org>
+ <20241209-queryctrl-v1-1-deff7acfcdcb@chromium.org> <4bd4796f-858a-48f7-9b32-ef6991ebe194@xs4all.nl>
+ <CANiDSCt_rpf=RjTYR+Fmy4fsWb0z6J5NU7iKrERDmvUrcxZwig@mail.gmail.com>
+In-Reply-To: <CANiDSCt_rpf=RjTYR+Fmy4fsWb0z6J5NU7iKrERDmvUrcxZwig@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 9 Dec 2024 22:26:08 +0100
+X-Gmail-Original-Message-ID: <CANiDSCsmTfyVPN7ExDEGQ54gNcEQb7jC1JJ5zgrwE38tu+uYbw@mail.gmail.com>
+X-Gm-Features: AZHOrDm4lv503GGwvfdGmeP052uXzeNZJu1iaDoQ9PyURITZVBtA271vDk9LqF8
+Message-ID: <CANiDSCsmTfyVPN7ExDEGQ54gNcEQb7jC1JJ5zgrwE38tu+uYbw@mail.gmail.com>
+Subject: Re: [PATCH 01/10] media: ioctl: Simulate v4l2_queryctrl with v4l2_query_ext_ctrl
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Mike Isely <isely@pobox.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Shreeya,
+On Mon, 9 Dec 2024 at 21:02, Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Hi Hans
+>
+> On Mon, 9 Dec 2024 at 20:34, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >
+> > On 09/12/2024 20:25, Ricardo Ribalda wrote:
+> > > v4l2_queryctrl is a subset of v4l2_query_ext_ctrl. If the driver does
+> > > not implement v4l2_queryctrl we can implement it with
+> > > v4l2_query_ext_ctrl.
+> > >
+> > > Suggested-by: Hans de Goede <hdegoede@redhat.com>
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-dev.c   |  3 ++-
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c | 22 +++++++++++++++++++++-
+> > >  2 files changed, 23 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> > > index 5bcaeeba4d09..252308a67fa8 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-dev.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> > > @@ -572,7 +572,8 @@ static void determine_valid_ioctls(struct video_device *vdev)
+> > >          and that can't be tested here. If the bit for these control ioctls
+> > >          is set, then the ioctl is valid. But if it is 0, then it can still
+> > >          be valid if the filehandle passed the control handler. */
+> > > -     if (vdev->ctrl_handler || ops->vidioc_queryctrl)
+> > > +     if (vdev->ctrl_handler || ops->vidioc_queryctrl ||
+> > > +         ops->vidioc_query_ext_ctrl)
+> > >               __set_bit(_IOC_NR(VIDIOC_QUERYCTRL), valid_ioctls);
+> > >       if (vdev->ctrl_handler || ops->vidioc_query_ext_ctrl)
+> > >               __set_bit(_IOC_NR(VIDIOC_QUERY_EXT_CTRL), valid_ioctls);
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > index 0304daa8471d..a5562f2f1fc9 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > > @@ -2284,9 +2284,11 @@ static int v4l_queryctrl(const struct v4l2_ioctl_ops *ops,
+> > >                               struct file *file, void *fh, void *arg)
+> > >  {
+> > >       struct video_device *vfd = video_devdata(file);
+> > > +     struct v4l2_query_ext_ctrl qec;
+> > >       struct v4l2_queryctrl *p = arg;
+> > >       struct v4l2_fh *vfh =
+> > >               test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+> > > +     int ret;
+> > >
+> > >       if (vfh && vfh->ctrl_handler)
+> > >               return v4l2_queryctrl(vfh->ctrl_handler, p);
+> > > @@ -2294,7 +2296,25 @@ static int v4l_queryctrl(const struct v4l2_ioctl_ops *ops,
+> > >               return v4l2_queryctrl(vfd->ctrl_handler, p);
+> > >       if (ops->vidioc_queryctrl)
+> > >               return ops->vidioc_queryctrl(file, fh, p);
+> > > -     return -ENOTTY;
+> > > +     if (!ops->vidioc_query_ext_ctrl)
+> > > +             return -ENOTTY;
+> > > +
+> > > +     /* Simulate query_ext_ctr using query_ctrl. */
+> > > +     qec.id = p->id;
+> > > +     ret = ops->vidioc_query_ext_ctrl(file, fh, &qec);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     p->id = qec.id;
+> > > +     p->type = qec.type;
+> > > +     strscpy(p->name, qec.name, sizeof(p->name));
+> > > +     p->minimum = qec.minimum;
+> > > +     p->maximum = qec.maximum;
+> > > +     p->step = qec.step;
+> > > +     p->default_value = qec.default_value;
+> > > +     p->flags = qec.flags;
+> >
+> > That's not quite correct. See v4l2_queryctrl() in v4l2-ctrls-api.c
+> > on how to do this: for types that VIDIOC_QUERYCTRL doesn't support,
+> > some of these fields must be set to 0.
+> >
+> > In fact, once vidioc_queryctrl has been removed, then you can also
+> > remove v4l2_queryctrl() and just rely on this code. Unless I missed
+> > something.
+>
+> Thanks for the mega-fast review :)
+>
+> I do not think that we can easily remove v4l2_queryctrl(). It is still
+> called by v4l2-subdev.c
+>
+> We could do something to remove the code duplication... but it will
+> probably make the code more difficult to follow.
+>
+> I will send a new version with the fix that you proposed, as well as:
+>
+> -- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -2290,10 +2290,6 @@ static int v4l_queryctrl(const struct
+> v4l2_ioctl_ops *ops,
+>                 test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? fh : NULL;
+>         int ret;
+>
+> -       if (vfh && vfh->ctrl_handler)
+> -               return v4l2_queryctrl(vfh->ctrl_handler, p);
+> -       if (vfd->ctrl_handler)
+> -               return v4l2_queryctrl(vfd->ctrl_handler, p);
+>         if (!ops->vidioc_query_ext_ctrl)
+>                 return -ENOTTY;
 
-Am Montag, 9. Dezember 2024, 21:00:30 CET schrieb Shreeya Patel:
-> This series implements support for the Synopsys DesignWare
-> HDMI RX Controller, being compliant with standard HDMI 1.4b
-> and HDMI 2.0.
+Actually we cannot remove these four lines. I have a set ready with a helper....
+https://gitlab.freedesktop.org/linux-media/users/ribalda/-/commits/queryctrl
+Not sure if it is better with or without the helper.
 
-could you take a look at your mail-setup please?
+Will send it tomorrow if I do not have more feedback.
 
-This cover-letter came with a message-id of 
-01020193ad025176-f2e8e4fd-41a6-42ef-b3d0-dfa87a6d0abd-000000@eu-west-1.amazonses.com
+Best rergards!
 
-same for patch1 that also got an amazon-message-id and lost its
-in-reply-to reference,
 
-while the patches  2-4 have correct message-ids and reference
-20241209200120.3228643-1-shreeya.patel@collabora.com
-
-as their parent. So it looks like some amazon service did some
-rewriting and broke threading :-( .
-
-Thanks a lot
-Heiko
-
-> Features that are currently supported by the HDMI RX driver
-> have been tested on rock5b board using a HDMI to micro-HDMI cable.
-> It is recommended to use a good quality cable as there were
-> multiple issues seen during testing the driver.
-> 
-> Please note the below information :-
-> * HDMIRX driver now only works with the opensource TF-A.
-> * We have tested the working of OBS studio with HDMIRX driver and
-> there were no issues seen.
-> * We also tested and verified the support for interlaced video.
-> 
-> To test the HDMI RX Controller driver, following example commands can be used :-
-> 
-> root@debian-rockchip-rock5b-rk3588:~# v4l2-ctl --verbose -d /dev/video0 \
-> --set-fmt-video=width=1920,height=1080,pixelformat='BGR3' --stream-mmap=4 \
-> --stream-skip=3 --stream-count=100 --stream-to=/home/hdmiin4k.raw --stream-poll
-> 
-> root@debian-rockchip-rock5b-rk3588:~# ffmpeg -f rawvideo -vcodec rawvideo \
-> -s 1920x1080 -r 60 -pix_fmt bgr24 -i /home/hdmiin4k.raw output.mkv
-> 
-> CEC compliance test results :-
-> 
-> * https://gitlab.collabora.com/-/snippets/380
-> * https://gitlab.collabora.com/-/snippets/381
-> 
-> Following is the v4l2-compliance test result :-
-> 
-> root@debian-rockchip-rock5b-rk3588:~# v4l2-compliance -d /dev/video0 
-> v4l2-compliance 1.29.0-5278, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 791da13728d9 2024-11-25 10:01:57
-> 
-> Compliance test for snps_hdmirx device /dev/video0:
-> 
-> Driver Info:
-> 	Driver name      : snps_hdmirx
-> 	Card type        : snps_hdmirx
-> 	Bus info         : platform:fdee0000.hdmi_receiver
-> 	Driver version   : 6.12.0
-> 	Capabilities     : 0x84201000
-> 		Video Capture Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x04201000
-> 		Video Capture Multiplanar
-> 		Streaming
-> 		Extended Pix Format
-> 
-> Required ioctls:
-> 	test VIDIOC_QUERYCAP: OK
-> 	test invalid ioctls: OK
-> 
-> Allow for multiple opens:
-> 	test second /dev/video0 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
-> 
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 1 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
-> 	test VIDIOC_DV_TIMINGS_CAP: OK
-> 	test VIDIOC_G/S_EDID: OK
-> 
-> Control ioctls (Input 0):
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 4 Private Controls: 0
-> 
-> Format ioctls (Input 0):
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK (Not Supported)
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Input 0):
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 0):
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test CREATE_BUFS maximum buffers: OK
-> 	test VIDIOC_REMOVE_BUFS: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
-> 	test blocking wait: OK
-> 
-> Total for snps_hdmirx device /dev/video0: 48, Succeeded: 48, Failed: 0, Warnings: 0
-> 
-> 
-> Changes in v5 :-
-> - Fix the interrupt IRQ number in the dt-bindings and device tree
-> - Add alignment property to ensure hdmi-receiver-cma
->   starts at a 64KB-aligned address
-> - Change the MODULE_DESCRIPTION
-> - Add VIDEO_SYNOPSYS_HDMIRX as prefix to the default edid config
-> - Drop the enabling of default edid in the Kconfig
-> - Replace the default EDID with hdmi-4k-300mhz EDID produced
->   by v4l2-ctl tool for better compatibility with various HDMI
->   cables and adapters
-> - Rework the write_edid and set_edid functions
-> - During format change, retrieve the current pixel format,
->   color depth, and AVI infoframe details instead of only
->   detecting the format
-> - Improve the logging mechanism and delays in the
->   hdmirx_wait_signal_lock function
-> - Fix the 4K@60 capturing for RGB format
-> - Document what hdmirx_check_timing_valid function does
-> - Rework the hdmirx_get_detected_timings function
-> - Fix the NV16/24 size image value
-> - Add the implementation from Benjamin Hoff to expose the
->   ITC type to v4l2
-> - Remove all the firmware related code
-> 
-> Changes in v4 :-
-> - Remove DTS changes included in the device tree patch
-> - Remove the hdmi rx pin info as it's already present
-> in the rk3588-base-pinctrl.dtsi
-> - Create a separate config option for selecting the EDID
-> and enable it by default
-> - Improve the comment related to DV timings and move it
-> to the side of hdmirx_get_detected_timings
-> - Add 100ms delay before pulling the HPD high
-> - Do not return the detected timings from VIDIOC_G_DV_TIMINGS
-> - Drop the bus info from hdmirx_querycap
-> - If *num_planes != 0 then return 0 in hdmirx_queue_setup
-> - Set queue->min_queued_buffers to 1
-> - Drop q->allow_cache_hints = 0; as it's always 0 by default
-> - Add a comment for q->dma_attrs = DMA_ATTR_FORCE_CONTIGUOUS;
-> - Drop .read = vb2_fop_read as it's not supported by driver
-> - Remove redundant edid_init_data_600M
-> - Make HPD low when driver is loaded
-> - Add support for reading AVI Infoframe
-> - Remove msg_len checks from hdmirx_cec_transmit
-> - Add info about the CEC compliance test in the cover letter
-> - Add arbitration lost status
-> - Validate the physical address inside the EDID
-> 
-> Changes in v3 :-
-> - Use v4l2-common helpers in the HDMIRX driver
-> - Rename cma node and phandle names
-> - Elaborate the comment to explain 160MiB calculation
-> - Move &hdmi_receiver_cma to the rock5b dts file
-> - Add information about interlaced video testing in the
-> cover-letter
-> 
-> Changes in v2 :-
-> - Fix checkpatch --strict warnings
-> - Move the dt-binding include file changes in a separate patch
-> - Add a description for the hardware in the dt-bindings file
-> - Rename resets, vo1 grf and HPD properties
-> - Add a proper description for grf and vo1-grf phandles in the
-> bindings
-> - Rename the HDMI RX node name to hdmi-receiver
-> - Include gpio header file in binding example to fix the
-> dt_binding_check failure
-> - Move hdmirx_cma node to the rk3588.dtsi file
-> - Add an entry to MAINTAINERS file for the HDMIRX driver
-> 
-> Shreeya Patel (4):
->   MAINTAINERS: Add entry for Synopsys DesignWare HDMI RX Driver
->   dt-bindings: media: Document bindings for HDMI RX Controller
->   arm64: dts: rockchip: Add device tree support for HDMI RX Controller
->   media: platform: synopsys: Add support for HDMI input driver
-> 
->  .../bindings/media/snps,dw-hdmi-rx.yaml       |  132 +
->  MAINTAINERS                                   |    8 +
->  .../dts/rockchip/rk3588-base-pinctrl.dtsi     |   14 +
->  .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |   57 +
->  drivers/media/platform/Kconfig                |    1 +
->  drivers/media/platform/Makefile               |    1 +
->  drivers/media/platform/synopsys/Kconfig       |    3 +
->  drivers/media/platform/synopsys/Makefile      |    2 +
->  .../media/platform/synopsys/hdmirx/Kconfig    |   27 +
->  .../media/platform/synopsys/hdmirx/Makefile   |    4 +
->  .../platform/synopsys/hdmirx/snps_hdmirx.c    | 2662 +++++++++++++++++
->  .../platform/synopsys/hdmirx/snps_hdmirx.h    |  394 +++
->  .../synopsys/hdmirx/snps_hdmirx_cec.c         |  283 ++
->  .../synopsys/hdmirx/snps_hdmirx_cec.h         |   44 +
->  14 files changed, 3633 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
->  create mode 100644 drivers/media/platform/synopsys/Kconfig
->  create mode 100644 drivers/media/platform/synopsys/Makefile
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_cec.c
->  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_cec.h
-> 
-> 
+>
+> >
+> > Regards,
+> >
+> >         Hans
+> >
+> > > +
+> > > +     return 0;
+> > >  }
+> > >
+> > >  static int v4l_query_ext_ctrl(const struct v4l2_ioctl_ops *ops,
+> > >
+> >
+>
+>
+> --
+> Ricardo Ribalda
 
 
 
-
+-- 
+Ricardo Ribalda
 
