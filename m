@@ -1,434 +1,224 @@
-Return-Path: <linux-media+bounces-22845-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22850-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D319E882C
-	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 22:47:44 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0B99E8B15
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 06:37:56 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C175B2811B2
-	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2024 21:47:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0124E1633FD
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 05:37:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AE517838C;
-	Sun,  8 Dec 2024 21:47:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DBF41C54A7;
+	Mon,  9 Dec 2024 05:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SFLZX7ZX"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="i+wCsJo9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021102.outbound.protection.outlook.com [40.107.42.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF35E46B8;
-	Sun,  8 Dec 2024 21:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733694456; cv=none; b=WzkSkHiYAQ2LKv7JztTvx88/bwwM0lp5v58TUFWe7ck/rsxucJZbVB9CsWelzSHj4gI+Va9qfGoT+0FhMZQSBenE8X7PzioYNna1mFXGGD/AnfrbJ6r5VxfWeb3BL31jk76X3fNNCmt5aAb7n2Gw8h0Ihv4S7zM3kxX//ZFj4f4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733694456; c=relaxed/simple;
-	bh=vas7s9vNu57er7TEfccv5igCkYFNhTYZyH7eo+ELXnY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gJLzOGqry5PMrY2QrOhQEr9Esc0AqRWTdEC9lCF/ZYgZECDN4Ti6n+Loiroel95YD4cY6wVjmywHIxmGmTgYPMdJQbY1nDZGpU7X2gAFeUmUTpRL1U6QyZGLwOLuKNF2XHcIZ87okyBZmiuu7kemfZheYeGK3PiLb8q1IS/dUos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SFLZX7ZX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45636C4AF0C;
-	Sun,  8 Dec 2024 21:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733694456;
-	bh=vas7s9vNu57er7TEfccv5igCkYFNhTYZyH7eo+ELXnY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SFLZX7ZXT+sz5o+GHsKxDUjb/iyzDr0HSo8Hf4GJzH1enWtkkM2wE4t1hX1xmx+uw
-	 DxxHkk4Tww25F391sOmUZnLQS1t54JK4WbDkJ44kSv4riCBIlhAEp0QWnscoBCNnXv
-	 Laz2LtyBJyHSDnvC6MoXPXCB2/4UFDqcgRTY4EAPW1TyOKj9YJFcJYQpZMcmxPkf+B
-	 3juHJKtUiOPaVZwfIgS6p+AZv+35AkSTxI8tUbbjeikA+w+WDbRaKEwUNSLwf6c10g
-	 Iv/BqQGoq7NcFBznyGIEUfukw3CNWKx3SgGlFQNMqn7raqV6GGrSeAesXeylWXsXSp
-	 SRHbtHxJC4P4Q==
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-85bc5d0509bso721781241.1;
-        Sun, 08 Dec 2024 13:47:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUsVFzougFxz1weeA/oRu2Ax+kzYenmADSrQOH1AuK5qgkllkpKRdlU18+/JD0w6QGEzOAwBH94Kl6N62w=@vger.kernel.org, AJvYcCXdcYxJDwPYCGAftRS9kHhqn958jcgMDusSnQJjeVE9PfpyRZ8ijS+5pTSadLqXXhtnY4ParXTAzag4TGw=@vger.kernel.org, AJvYcCXuFMU+nj6/FGRUWUl8Z8wTtnGNpeF/nWW26mxsguSHPEPaHqZC/CWPdsklg+Tum7resjT7bDEN/7esmUM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3y3jPlG6o+a6KngiLNmIohrBDxw6eSnaLNI/mDhoKuXRjeNl1
-	RJH+QYMxusYWbkn3GpJyopHdjonQW7NyQXKoV/FZV0V1+sbj41BAQh9q76M61CNc9Pr3U0ZI+RM
-	rUvBIHlWQnqaJAjJ/HIARE31N7ls=
-X-Google-Smtp-Source: AGHT+IHedwXw/7Tyuv1doiWX1sdVC7Rc8G54sbsDSqQgXGbmFmcRBQ4U2GL0zM7Qdhpj2rfeHMjxNuUETMK/pR8uAR4=
-X-Received: by 2002:a05:6122:1c0b:b0:515:c769:9d32 with SMTP id
- 71dfb90a1353d-515fca18638mr10368983e0c.4.1733694455212; Sun, 08 Dec 2024
- 13:47:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE8C1C3306;
+	Mon,  9 Dec 2024 05:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.102
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733722634; cv=fail; b=LsoDNjFge7u/YVHOLbxe2zyeezhj8aUmOsR/m773xCBa4kE+cAhyEss/Eo6KEJ+RZ2pJfWmZSXSbWeYbvyMjc+PSMmw9dt6hAFiB1OV8BpyxNKdXBM6qQzdBfNZs/t84d2UD7ftZSR/8vU7zMwsZPkePgjxYD8v5PQ5T+f1Gv5I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733722634; c=relaxed/simple;
+	bh=rlqO8RxqKqYhtUmew18O3RxLxfmcqpJCIzEOz5a7p1Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=k/ywpUtqCSQSKNH0SUISObrbLZoxraGmdlE9OybyoCLhSlQxMJh0x1sX5iGGHkEI7zsuhvDdBh1xYCbiXfYB5BiKMAXJlLl/bKBOhh6tKHjajoeP8wfB8TCXqwZY8OkdqMIvS0dH5EfgCUAGoFf/uvy6o92rA9LqcT/y/lBijhA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=i+wCsJo9; arc=fail smtp.client-ip=40.107.42.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MFkkBDibbKG+wK9VlvKtfcNxzCM5YVGNvVziPxtn4KaWUm4o6fxGcbhDpWpmdWrMniXheGsWTpTnqS7QNYEwNJXc6PcP5yHperendI/+/swxlCLSS/miru5kYjJvyn9sQfc4sg4REiWk1cw9dEZ71E8QtD3hHkA0ehW8lUCd5IA8DDNjr7PfuwvcD2Z4onS59yxqY4vuULIQnBVAVBbRGqtDc8qP4FH4tgSOEf8//+81CChNoaawmkv2mXJ5/jhIqaINwKr7QWdW49MhcAXxkeYvzbtkWUj5VKy1l5rYscLnWLOqRsuXkrUAah4hCDY50UMvfsnkNJujOytK//BYJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H/ur16DrCyLnfc+O+UEnH7MV7PV2BICKSYbiljd5Wzo=;
+ b=gEpJx3OM/aawV2nxBxdd2HP2jeoxwSQhPBLkHSUs5wR5dgquUridTDXTRGt8Z+JbcG7eRX82toojW6FKGlwgjtblQRhLARcH8i/I/KOtfzcGPpalT2wsbLFdHtQXnyF9TPBVy2VfJnXVKLZ+ot7Dmx0MK1TEGar/K1RpeOmuWPMOudI7oybDQgeV+zEdYDtZJJd8gjiZQtkZ23iYjgVio1fGMywnCHYPOMP7NVtcgM2nWzm3YwnanNU3GXc0FKJVItIeZWxusTRnE7E9CheDTx/11N1QqSZ0QJnMTeriGSpyCLHDNI1e5J/Tr7upf9SHdUoRqPrCzqNmr+Gre+uTZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H/ur16DrCyLnfc+O+UEnH7MV7PV2BICKSYbiljd5Wzo=;
+ b=i+wCsJo9hki9UKtsSXErwTCabI+nJZ4tWcy6lEzVG6f8Aj//dpEqwXElEsFLk303YPkdBz1Ev0bN3gJMLj1Kote2/5O9uqmYjnD75Y8+gwQF1DQOsAJPplP/FErp5BLnXBvGOdh0z16U2OXYGP9LzuY/q/8TH3lZYWRUp7of/YY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
+ SE2P216MB1966.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f9::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8230.18; Mon, 9 Dec 2024 05:37:04 +0000
+Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ ([fe80::b711:5ab1:b5a4:d01b]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ ([fe80::b711:5ab1:b5a4:d01b%6]) with mapi id 15.20.8230.016; Mon, 9 Dec 2024
+ 05:37:04 +0000
+From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	sebastian.fricke@collabora.com,
+	nicolas.dufresne@collabora.com,
+	bob.beckett@collabora.com,
+	dafna.hirschfeld@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jackson.lee@chipsnmedia.com,
+	lafley.kim@chipsnmedia.com,
+	b-brnich@ti.com,
+	hverkuil@xs4all.nl,
+	nas.chung@chipsnmedia.com
+Subject: [PATCH v1 0/5] Improve decoder performance and fix critical bugs
+Date: Mon,  9 Dec 2024 14:36:49 +0900
+Message-Id: <20241209053654.52-1-jackson.lee@chipsnmedia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SL2P216CA0219.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:18::18) To SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:15::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu>
- <20241207-imx214-v3-7-ab60af7ee915@apitzsch.eu> <CAPybu_0Bdc03UrJNO42S1fBTvpuHUUExvkR1ont7VKdw2XBuKg@mail.gmail.com>
- <8c43e3c15335b650ac7b0ccfd7e1f66e7fd8fdaa.camel@apitzsch.eu>
-In-Reply-To: <8c43e3c15335b650ac7b0ccfd7e1f66e7fd8fdaa.camel@apitzsch.eu>
-From: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Date: Sun, 8 Dec 2024 22:47:19 +0100
-X-Gmail-Original-Message-ID: <CAPybu_1Ao_ExWft1HozsC4dBa9Ujp8tYipjEPU56xwZQP9jdhA@mail.gmail.com>
-Message-ID: <CAPybu_1Ao_ExWft1HozsC4dBa9Ujp8tYipjEPU56xwZQP9jdhA@mail.gmail.com>
-Subject: Re: [PATCH v3 07/12] media: i2c: imx214: Add vblank and hblank controls
-To: =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
-	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Vincent Knecht <vincent.knecht@mailoo.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SE1P216MB1303:EE_|SE2P216MB1966:EE_
+X-MS-Office365-Filtering-Correlation-Id: b0802c12-f6b3-4992-ffac-08dd181382ed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|7416014|1800799024|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?nHbpHyLOafjbtv6FU33KJKP7yOobBrzDiMGhaFuQaLIFsDE/pzJ0pbKr4jip?=
+ =?us-ascii?Q?J8WDpTi54ZRfF2JFKD5ix/h2W/mMqcoQsnc+182AUjOvAyAJIe3KrkyOUZCy?=
+ =?us-ascii?Q?aiiE+epC41FsT+WA4TeULOVSb+S1iUMubxTjIdVHdyWdwr1AZoVhNY+PFXl0?=
+ =?us-ascii?Q?S0c41/DE7odQVd+0pHuJYs/pr4Xg4wmCsdu0LSXp7PkpSqZoANUTg4WWuq/4?=
+ =?us-ascii?Q?obqSPCEGF9yT/IEDZdC2pBMOueTFWzaC+9g4lJwjQsv+1Z6d/ro8SjC3qsGl?=
+ =?us-ascii?Q?VxMjw46NeE+SSVbR15NiLluh7mEP7rAUK91X62XkJrn+CqkapzSYo82PgPil?=
+ =?us-ascii?Q?3ZWaJJXVHJpRHpomrOfc8ULodFsLUmRqtlRqOPbBSwmU32YwA8F2bUju63B8?=
+ =?us-ascii?Q?Ck3wBL3mhI2rbQL3zVXl8FMrA1LrIOdyWwadD9WPCvPXW75FWzlzwAO7TK1o?=
+ =?us-ascii?Q?l+IBNDWV7I+LE/jopQBH1srDO0msqXhQe1oFsOj8pXWu7G4NrVyiTP02yl+T?=
+ =?us-ascii?Q?Dn4i2EYnzrsgc6lHffpm1VL9hpI5+3xcmYaRmtXwZdB/HOM76VM3iukR4VTg?=
+ =?us-ascii?Q?0JcTDe5g09JsOIcm1fN4KH4PQAc5/EImaRVNod0lFyHTy67NZfLo0/3m2P88?=
+ =?us-ascii?Q?kWCej9MX7edDOoYF5X7PbiqnbxfXAI7ErOl66RI4DUnlVTcEE5BD3Lq7ZZnB?=
+ =?us-ascii?Q?b7uh1hDGlYHBqGhffr8sRUvaZ0arR84RItZ4RJkTF23QiTaxz5+r6p8WUHWa?=
+ =?us-ascii?Q?UsVA6q+k5Qfrzx+MvvovXejAxuBrliAXvXNfBKy+tQ2EXME19RbmiMI8HFt6?=
+ =?us-ascii?Q?ooMj2/NAE7dGoeDuezx67rATRM5y9uE/EdWOrwsv9MFu6nyMRF1w8TScEGWc?=
+ =?us-ascii?Q?7En0SE//wABtm+IC9a818nYdgziYAtQNruQbr+tlQlDu8AG5zadFbRnKqCE6?=
+ =?us-ascii?Q?JUv61MqfNqnRu1LmWx+2CuYfSmmEWIY6L2/CkuzFK8yC4TyjA/Afh7lyt38t?=
+ =?us-ascii?Q?Y+JNkJL/L86jhB6RbzSaAyhMZRncVrkF4sk58t8OOy/NTk0h+NC0rhbTu+wo?=
+ =?us-ascii?Q?EsMulmcgThct2NZwTXQloPyudqRexb4SoIIcOJPNbA6lxYDYyTrRwFckMqez?=
+ =?us-ascii?Q?YTFIRg3nPSzWt5D4IAQUC5BtxH91ipSkqSFkgyu0swXccmy1g/kL1uc6vCMd?=
+ =?us-ascii?Q?fFsNY9qnImPxUDdFIbSefWGecB1FeKn8spc3ys/TjcpCRB81iyEokes4j2VK?=
+ =?us-ascii?Q?e06kVl2lJp4JOUT7gEPlLx6Cw/FuHR1K4yZV9hJZETZ6KcEwlhlmFMJJt9j8?=
+ =?us-ascii?Q?0NypvKqCKvqaNIfGEcEc58GVi+eFPaDiUfnK6I8suEVbJWmVo8pRTqzGnedd?=
+ =?us-ascii?Q?3K7gAadje8DhMhx99eDtXw8xMU0c12QQ1aV1VCC0VoQMgirvJA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4bZCOpxKtPqY3Tp2EazJBh0KPCkzxjRO+NSjsr+8WVA+wJnkE+A5XGO7IlFi?=
+ =?us-ascii?Q?4E2/fw6yub83h6+hakQEFEvPmaTn6m8JhSjXhcVX3C4+JAVQWAAk281dVdyG?=
+ =?us-ascii?Q?yEupl0yue6631GGVW6B8Zs3zHR/xz9dxkSlN1TC+3cmMQiylPp+x4nB3nP/U?=
+ =?us-ascii?Q?fkEwocj2FMSbOpQoEPtrKLO4jYAQziQkVtrrcgbA9B2YTzme8X5fehRmKtqr?=
+ =?us-ascii?Q?JnQ6SSzy28p1caINkJC/H4i0jOf2josWa20ysJVhVeTlZB73PJN0FnU0YWLC?=
+ =?us-ascii?Q?/hf6W1nD7Vzl8hG74LQwIpQy6GOV4+qGRVLYqR6oakcYtkfW4Fh/5c8FYNvC?=
+ =?us-ascii?Q?F6rcPdimgI6HrnUcL8tm6GuXpivlP1u7NsaaKxugbGfFawrRgZ4OQsY2P/eG?=
+ =?us-ascii?Q?2wf8yA4kKv9+4j+UNBcpDdTtzivL9dKFXXOyIEDOXfR6W9zwUANOXH/y30gt?=
+ =?us-ascii?Q?oqV/MDG80SOkbETA/A5gJ1YiZqPUDM2Xt7Fv65ZZybFoKeckGK5J3/pRh+pD?=
+ =?us-ascii?Q?1P4lTudsK3GiJanQ3Co/+K7bP3OCQI2HRQ7bvfMZCabtpQrqicpO/B6qTZvF?=
+ =?us-ascii?Q?FL6nccJeaHiuwxo/dQenhbeOynDo50kgTj3+kQCNjfwD6T7S2oeDepMDRyXd?=
+ =?us-ascii?Q?BLmXt3Kxcq90uefPdvz1R7j7ZCi83/MNk2krpaglL+JzR7Zfn75ayFQIi7E9?=
+ =?us-ascii?Q?Mcoz1/ywi9JVbIpFXGbWebK/e9fKQzlCzzbTLz/VFWUdYSZCavBeWQMK4I99?=
+ =?us-ascii?Q?9AN79u8boNTb+6sxR7+3ILnDuOF0ojTW6OQ9GxIuuf4CiAZYW2a30AmH6g2p?=
+ =?us-ascii?Q?V5k/vJDpHGqvJ2pxU2/M+VTfWVUpElh5AFGCHqbyosct5RMKDq8bPcn8zX7+?=
+ =?us-ascii?Q?wGjR8qi+AK2d6a7TlexOHBEQvAN/YWc36lKLu1rpCfR5h1sxaBpFGmXrMFyf?=
+ =?us-ascii?Q?SMh0nTPCC77GBm+JqL0GDPZWKSOG1luKSNxLDpCTLylUNN8D5qZUDpDsrefM?=
+ =?us-ascii?Q?N/S9Ptfwc1GjucPUQgN31BtJ4jjv1OYytm6Ug+6TZ57vYh+4XTE9IAbso6V8?=
+ =?us-ascii?Q?QNm49YiOCJ1Dv03qWfojHQOC1AmGUHllpFkWP87+C+cmwoPYTDrafgpAGhBD?=
+ =?us-ascii?Q?bI+9epXOOT7HxvBdb2bfckkAjwlKI2UXDMkuXP4TPDUWAI9JkoEyE4PXruRY?=
+ =?us-ascii?Q?3xQHd8uP9HZSZ6VggJgV+F9nT4iIuVQY3iYNRO31mH1tMQ6q97IACtBKj4z+?=
+ =?us-ascii?Q?7TIG88RMicQnhCgDRdgreuOj30Z16PJ7UMfpLJ8AbmXtjh1RyZh1IInjtfpY?=
+ =?us-ascii?Q?BOhZ40/HPenI2LimqOMvBhVLwn/3/2+tKQGwjWhuNq0qxcjDTXDVJEuiyvQz?=
+ =?us-ascii?Q?4JKMC7P5sFr/EHjoohWcAsToNfriC5Q2rH4vlzVZw3HlBERDAjCscKZYgySK?=
+ =?us-ascii?Q?tDFxYvBHK2dXHzZShi1Lra4G5leIhLnoryNkCE4W158rQ+OZW5/6PyViaknv?=
+ =?us-ascii?Q?x6Ajs7diwKL5MgT+riAw1LWm97sRqcdHCR7rAh4wGNdm+C6NgExCJ85BNTJc?=
+ =?us-ascii?Q?XlGhNDHvnVHGasvE6RpeMLoMnDuFXtHeDqTvPlwvWeUo6CvVAELokaLbw1+x?=
+ =?us-ascii?Q?Jg=3D=3D?=
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0802c12-f6b3-4992-ffac-08dd181382ed
+X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 05:37:04.1454
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jcsBSlyzNcA+e9Xl1VZZUKrRrKMXsn06K4LfZZ3jNTp54RAGnEY5I5R9ZfIeptSqDI1mabVOgO3YnB2ZbhrDFfsUFHnZMYLskCVN+ht/ol4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2P216MB1966
 
-On Sun, Dec 8, 2024 at 10:35=E2=80=AFPM Andr=C3=A9 Apitzsch <git@apitzsch.e=
-u> wrote:
->
-> Hi Ricardo,
->
-> Am Sonntag, dem 08.12.2024 um 21:59 +0100 schrieb Ricardo Ribalda
-> Delgado:
-> > In general it looks good to me (besides the comments, ignore the nits
-> > if you want to).
-> >
-> > I'd recommend that you test with lockdep to make sure that we are not
-> > missing anything, and I'd like to hear back from Sakari regarding the
-> > get_locked_active
-> >
-> > Thanks!
-> >
-> > On Sat, Dec 7, 2024 at 9:48=E2=80=AFPM Andr=C3=A9 Apitzsch via B4 Relay
-> > <devnull+git.apitzsch.eu@kernel.org> wrote:
-> > >
-> > > From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> > >
-> > > Add vblank control to allow changing the framerate /
-> > > higher exposure values.
-> > >
-> > > The vblank and hblank controls are needed for libcamera support.
-> > >
-> > > While at it, fix the minimal exposure time according to the
-> > > datasheet.
-> > >
-> > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> > > ---
-> > >  drivers/media/i2c/imx214.c | 106
-> > > ++++++++++++++++++++++++++++++++++++++++-----
-> > >  1 file changed, 94 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx214.c
-> > > b/drivers/media/i2c/imx214.c
-> > > index
-> > > f1c72db0775eaf4810f762e8798d301c5ad9923c..a7f49dbafe0f54af3c02f5534
-> > > 460fdee88a22fe2 100644
-> > > --- a/drivers/media/i2c/imx214.c
-> > > +++ b/drivers/media/i2c/imx214.c
-> > > @@ -34,11 +34,17 @@
-> > >
-> > >  /* V-TIMING internal */
-> > >  #define IMX214_REG_FRM_LENGTH_LINES    CCI_REG16(0x0340)
-> > > +#define IMX214_VTS_MAX                 0xffff
-> > > +
-> > > +#define IMX214_VBLANK_MIN              890
-> > > +
-> > > +/* HBLANK control - read only */
-> > > +#define IMX214_PPL_DEFAULT             5008
-> > >
-> > >  /* Exposure control */
-> > >  #define IMX214_REG_EXPOSURE            CCI_REG16(0x0202)
-> > > -#define IMX214_EXPOSURE_MIN            0
-> > > -#define IMX214_EXPOSURE_MAX            3184
-> > > +#define IMX214_EXPOSURE_OFFSET         10
-> > > +#define IMX214_EXPOSURE_MIN            1
-> > >  #define IMX214_EXPOSURE_STEP           1
-> > >  #define IMX214_EXPOSURE_DEFAULT                3184
-> > >  #define IMX214_REG_EXPOSURE_RATIO      CCI_REG8(0x0222)
-> > > @@ -187,6 +193,8 @@ struct imx214 {
-> > >         struct v4l2_ctrl_handler ctrls;
-> > >         struct v4l2_ctrl *pixel_rate;
-> > >         struct v4l2_ctrl *link_freq;
-> > > +       struct v4l2_ctrl *vblank;
-> > > +       struct v4l2_ctrl *hblank;
-> > >         struct v4l2_ctrl *exposure;
-> > >         struct v4l2_ctrl *unit_size;
-> > >
-> > > @@ -202,8 +210,6 @@ static const struct cci_reg_sequence
-> > > mode_4096x2304[] =3D {
-> > >         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
-> > >         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH
-> > > },
-> > >         { IMX214_REG_EXPOSURE_RATIO, 1 },
-> > > -       { IMX214_REG_FRM_LENGTH_LINES, 3194 },
-> > > -       { IMX214_REG_LINE_LENGTH_PCK, 5008 },
-> > >         { IMX214_REG_X_ADD_STA, 56 },
-> > >         { IMX214_REG_Y_ADD_STA, 408 },
-> > >         { IMX214_REG_X_ADD_END, 4151 },
-> > > @@ -274,8 +280,6 @@ static const struct cci_reg_sequence
-> > > mode_1920x1080[] =3D {
-> > >         { IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
-> > >         { IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH
-> > > },
-> > >         { IMX214_REG_EXPOSURE_RATIO, 1 },
-> > > -       { IMX214_REG_FRM_LENGTH_LINES, 3194 },
-> > > -       { IMX214_REG_LINE_LENGTH_PCK, 5008 },
-> > >         { IMX214_REG_X_ADD_STA, 1144 },
-> > >         { IMX214_REG_Y_ADD_STA, 1020 },
-> > >         { IMX214_REG_X_ADD_END, 3063 },
-> > > @@ -359,6 +363,7 @@ static const struct cci_reg_sequence
-> > > mode_table_common[] =3D {
-> > >         { IMX214_REG_ORIENTATION, 0 },
-> > >         { IMX214_REG_MASK_CORR_FRAMES, IMX214_CORR_FRAMES_MASK },
-> > >         { IMX214_REG_FAST_STANDBY_CTRL, 1 },
-> > > +       { IMX214_REG_LINE_LENGTH_PCK, IMX214_PPL_DEFAULT },
-> > >         { CCI_REG8(0x4550), 0x02 },
-> > >         { CCI_REG8(0x4601), 0x00 },
-> > >         { CCI_REG8(0x4642), 0x05 },
-> > > @@ -462,18 +467,24 @@ static const struct cci_reg_sequence
-> > > mode_table_common[] =3D {
-> > >  static const struct imx214_mode {
-> > >         u32 width;
-> > >         u32 height;
-> > > +
-> > > +       /* V-timing */
-> > > +       unsigned int vts_def;
-> > > +
-> > >         unsigned int num_of_regs;
-> > >         const struct cci_reg_sequence *reg_table;
-> > >  } imx214_modes[] =3D {
-> > >         {
-> > >                 .width =3D 4096,
-> > >                 .height =3D 2304,
-> > > +               .vts_def =3D 3194,
-> > >                 .num_of_regs =3D ARRAY_SIZE(mode_4096x2304),
-> > >                 .reg_table =3D mode_4096x2304,
-> > >         },
-> > >         {
-> > >                 .width =3D 1920,
-> > >                 .height =3D 1080,
-> > > +               .vts_def =3D 3194,
-> > >                 .num_of_regs =3D ARRAY_SIZE(mode_1920x1080),
-> > >                 .reg_table =3D mode_1920x1080,
-> > >         },
-> > > @@ -626,9 +637,36 @@ static int imx214_set_format(struct
-> > > v4l2_subdev *sd,
-> > >         __crop->width =3D mode->width;
-> > >         __crop->height =3D mode->height;
-> > >
-> > > -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE)
-> > > +       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > > +               int exposure_max;
-> > > +               int exposure_def;
-> > > +               int hblank;
-> > > +
-> > >                 imx214->cur_mode =3D mode;
-> > >
-> > > +               /* Update FPS limits */
-> > nit: Update blank limits
-> > > +               __v4l2_ctrl_modify_range(imx214->vblank,
-> > > IMX214_VBLANK_MIN,
-> > > +                                        IMX214_VTS_MAX - mode-
-> > > >height, 2,
-> > > +                                        mode->vts_def - mode-
-> > > >height);
-> >
-> > Is the handler->lock held when we call this function? Can you try
-> > running the code with lockdep?
-> > > +
-> > > +               /* Update max exposure while meeting expected
-> > > vblanking */
-> > > +               exposure_max =3D mode->vts_def -
-> > > IMX214_EXPOSURE_OFFSET;
-> > > +               exposure_def =3D min(exposure_max,
-> > > IMX214_EXPOSURE_DEFAULT);
-> > > +               __v4l2_ctrl_modify_range(imx214->exposure,
-> > > +                                        imx214->exposure->minimum,
-> > > +                                        exposure_max, imx214-
-> > > >exposure->step,
-> > > +                                        exposure_def);
-> > > +
-> > > +               /*
-> > > +                * Currently PPL is fixed to IMX214_PPL_DEFAULT, so
-> > > hblank
-> > > +                * depends on mode->width only, and is not
-> > > changeable in any
-> > > +                * way other than changing the mode.
-> > > +                */
-> > > +               hblank =3D IMX214_PPL_DEFAULT - mode->width;
-> > > +               __v4l2_ctrl_modify_range(imx214->hblank, hblank,
-> > > hblank, 1,
-> > > +                                        hblank);
-> > > +       }
-> > > +
-> > >         return 0;
-> > >  }
-> > >
-> > > @@ -678,8 +716,25 @@ static int imx214_set_ctrl(struct v4l2_ctrl
-> > > *ctrl)
-> > >  {
-> > >         struct imx214 *imx214 =3D container_of(ctrl->handler,
-> > >                                              struct imx214, ctrls);
-> > > +       const struct v4l2_mbus_framefmt *format;
-> > > +       struct v4l2_subdev_state *state;
-> > >         int ret;
-> > >
-> > > +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
-> > > +               int exposure_max, exposure_def;
-> > > +
-> > > +               state =3D
-> > > v4l2_subdev_get_locked_active_state(&imx214->sd);
-> >
-> > Sakari, I see that other drivers assume that the active is locked in
-> > set_ctrl. Is this correct?
-> >
-> > > +               format =3D v4l2_subdev_state_get_format(state, 0);
->
-> (*) The format is read here.
->
-> > > +
-> > > +               /* Update max exposure while meeting expected
-> > > vblanking */
-> > > +               exposure_max =3D format->height + ctrl->val -
-> > > IMX214_EXPOSURE_OFFSET;
-> > > +               exposure_def =3D min(exposure_max,
-> > > IMX214_EXPOSURE_DEFAULT);
-> > > +               __v4l2_ctrl_modify_range(imx214->exposure,
-> > > +                                        imx214->exposure->minimum,
-> > > +                                        exposure_max, imx214-
-> > > >exposure->step,
-> > > +                                        exposure_def);
-> > > +       }
-> > > +
-> > >         /*
-> > >          * Applying V4L2 control value only happens
-> > >          * when power is up for streaming
-> > > @@ -691,7 +746,10 @@ static int imx214_set_ctrl(struct v4l2_ctrl
-> > > *ctrl)
-> > >         case V4L2_CID_EXPOSURE:
-> > >                 cci_write(imx214->regmap, IMX214_REG_EXPOSURE,
-> > > ctrl->val, &ret);
-> > >                 break;
-> > > -
-> > > +       case V4L2_CID_VBLANK:
-> >  No need to read the format here?
-> >                       format =3D v4l2_subdev_state_get_format(state,
-> > 0);
->
-> The format is read above (*), so no need to do it here. Note, in both
-> locations we have ctrl->id =3D=3D V4L2_CID_VBLANK.
+The wave5 codec driver is a stateful encoder/decoder.
+The following patches is for improving decoder performance and fix critical bugs
 
-Can you init format to NULL at the declaration part to make the compiler ha=
-ppy?
+v4l2-compliance results:
+========================
 
-https://gitlab.freedesktop.org/linux-media/users/patchwork/-/pipelines/1325=
-516/test_report?job_name=3Dbuild
+v4l2-compliance 1.26.1-5142, 64 bits, 64-bit time_t
 
->
-> > > +               cci_write(imx214->regmap,
-> > > IMX214_REG_FRM_LENGTH_LINES,
-> > > +                         format->height + ctrl->val, &ret);
-> > > +               break;
-> > >         default:
-> > >                 ret =3D -EINVAL;
-> > >         }
-> > > @@ -714,8 +772,11 @@ static int imx214_ctrls_init(struct imx214
-> > > *imx214)
-> > >                 .width =3D 1120,
-> > >                 .height =3D 1120,
-> > >         };
-> > > +       const struct imx214_mode *mode =3D &imx214_modes[0];
-> > >         struct v4l2_fwnode_device_properties props;
-> > >         struct v4l2_ctrl_handler *ctrl_hdlr;
-> > > +       int exposure_max, exposure_def;
-> > > +       int hblank;
-> > >         int ret;
-> > >
-> > >         ret =3D v4l2_fwnode_device_parse(imx214->dev, &props);
-> > > @@ -723,7 +784,7 @@ static int imx214_ctrls_init(struct imx214
-> > > *imx214)
-> > >                 return ret;
-> > >
-> > >         ctrl_hdlr =3D &imx214->ctrls;
-> > > -       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 6);
-> > > +       ret =3D v4l2_ctrl_handler_init(&imx214->ctrls, 8);
-> > >         if (ret)
-> > >                 return ret;
-> > >
-> > > @@ -749,12 +810,27 @@ static int imx214_ctrls_init(struct imx214
-> > > *imx214)
-> > >          *
-> > >          * Yours sincerely, Ricardo.
-> > >          */
-> > > +
-> > > +       /* Initial vblank/hblank/exposure parameters based on
-> > > current mode */
-> > > +       imx214->vblank =3D v4l2_ctrl_new_std(ctrl_hdlr,
-> > > &imx214_ctrl_ops,
-> > > +                                          V4L2_CID_VBLANK,
-> > > IMX214_VBLANK_MIN,
-> > > +                                          IMX214_VTS_MAX - mode-
-> > > >height, 2,
-> > > +                                          mode->vts_def - mode-
-> > > >height);
-> > > +
-> > > +       hblank =3D IMX214_PPL_DEFAULT - mode->width;
-> > > +       imx214->hblank =3D v4l2_ctrl_new_std(ctrl_hdlr,
-> > > &imx214_ctrl_ops,
-> > > +                                          V4L2_CID_HBLANK, hblank,
-> > > hblank,
-> > > +                                          1, hblank);
-> > > +       if (imx214->hblank)
-> > > +               imx214->hblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> > > +
-> > > +       exposure_max =3D mode->vts_def - IMX214_EXPOSURE_OFFSET;
-> > > +       exposure_def =3D min(exposure_max, IMX214_EXPOSURE_DEFAULT);
-> > >         imx214->exposure =3D v4l2_ctrl_new_std(ctrl_hdlr,
-> > > &imx214_ctrl_ops,
-> > >                                              V4L2_CID_EXPOSURE,
-> > > -                                            IMX214_EXPOSURE_MIN,
-> > > -                                            IMX214_EXPOSURE_MAX,
-> > > +                                            IMX214_EXPOSURE_MIN,
-> > > exposure_max,
-> > nit: I think it looks nicer with exposure_max in the next line, but
-> > ignore if you prefer this way :)
-> > >                                              IMX214_EXPOSURE_STEP,
-> > > -
-> > > IMX214_EXPOSURE_DEFAULT);
-> > > +                                            exposure_def);
-> > >
-> > >         imx214->unit_size =3D v4l2_ctrl_new_std_compound(ctrl_hdlr,
-> > >                                 NULL,
-> > > @@ -876,6 +952,12 @@ static int imx214_get_frame_interval(struct
-> > > v4l2_subdev *subdev,
-> > >         return 0;
-> > >  }
-> > >
-> > > +/*
-> > > + * Raw sensors should be using the VBLANK and HBLANK controls to
-> > > determine
-> > > + * the frame rate. However this driver was initially added using
-> > > the
-> > > + * [S|G|ENUM]_FRAME_INTERVAL ioctls with a fixed rate of 30fps.
-> > > + * Retain the frame_interval ops for backwards compatibility, but
-> > > they do nothing.
-> > > + */
-> >
-> > Now that these controls are useless... maybe we can do a
-> > dev_warn_once
-> > when the user calls it to leave some output in dmesg?
->
-> Sure. We the following be a proper warning?
->
+Buffer ioctls:
+                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
 
-nit: What about?
-"frame_interval functions returns an unreliable value for
-compatibility reasons. Use the VBLANK and HBLANK controls to determine
-the correct frame rate.\n"
+Total for wave5-dec device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 2 Total for wave5-enc device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
 
+Fluster test results:
+=====================
 
+Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0 Using 1 parallel job(s)
+Ran 132/147 tests successfully               in 67.220 secs
 
->
-> > >  static int imx214_enum_frame_interval(struct v4l2_subdev *subdev,
-> > >                                 struct v4l2_subdev_state *sd_state,
-> > >                                 struct
-> > > v4l2_subdev_frame_interval_enum *fie)
-> > >
-> > > --
-> > > 2.47.1
-> > >
-> > >
->
+(1 test fails because of not supporting to parse multi frames, 1 test fails because of a missing frame and slight corruption,
+ 2 tests fail because of sizes which are incompatible with the IP, 11 tests fail because of unsupported 10 bit format)
+
+Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0 Using 1 parallel job(s)
+Ran 78/135 tests successfully               in 31.808 secs
+
+(57 fail because the hardware is unable to decode  MBAFF / FMO / Field / Extended profile streams.)
+
+Change since v0:
+=================
+
+* For [PATCH v1 3/5] media: chips-media: wave5: Improve performance of
+  decoder
+  - Fix Null reference while testing fluster for more than 2
+    decoders
+  - Fix timeout while testing fluster for multi instances
+
+Jackson.lee (5):
+  media: chips-media: wave5: Fix to display gray color on screen
+  media: chips-media: wave5: Avoid race condition for interrupt handling
+  media: chips-media: wave5: Improve performance of decoder
+  media: chips-media: wave5: Fix hang after seeking
+  media: chips-media: wave5: Fix timeout while testing 10bit hevc
+    fluster
+
+ .../platform/chips-media/wave5/wave5-helper.c |  20 +-
+ .../platform/chips-media/wave5/wave5-hw.c     |   2 +-
+ .../chips-media/wave5/wave5-vpu-dec.c         | 431 +++++++++++-------
+ .../chips-media/wave5/wave5-vpu-enc.c         |   8 +-
+ .../platform/chips-media/wave5/wave5-vpu.c    |  77 +++-
+ .../platform/chips-media/wave5/wave5-vpuapi.c |  34 +-
+ .../platform/chips-media/wave5/wave5-vpuapi.h |  15 +-
+ 7 files changed, 398 insertions(+), 189 deletions(-)
+
+-- 
+2.43.0
+
 
