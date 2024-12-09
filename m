@@ -1,509 +1,898 @@
-Return-Path: <linux-media+bounces-22892-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22894-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB659E94D0
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 13:50:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF4B9E94EE
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 13:53:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A319B18804D2
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 12:49:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 865671881761
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 12:53:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87A4D227574;
-	Mon,  9 Dec 2024 12:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 540D122A1C9;
+	Mon,  9 Dec 2024 12:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IjUF05FN"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="K69Pqrki"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C942D223703
-	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 12:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46753228CB9;
+	Mon,  9 Dec 2024 12:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733748582; cv=none; b=p2JTg+Z8BL/BhH8GwBnxCKlSRRzjX5RE1LCL8jCxrblIQ9EIjCJuuBkLC86SpctnqDO6QOC3xQAUWpV7OROsi7lid8UtMEgchHvc50rkEvnXGYf+5bA13KDH4enK+ddkU36l8QQewzGOarDoLhG09c2a2lFLSKhbfATjIbJp59I=
+	t=1733748777; cv=none; b=ahBodY4+4TbvS4LPi2TcOxB4xm8cROv2iWL30AmwGMOYJp21G4MWpv6CNFMjbzhuv+N2MLo0P9eWcVLoaoFJIUjcwSHT/9t0kzbGYyBKV1tDMFk1+8fG/WNy57XMr8UATUKniddV8hU0CZMu484XQanA8U3+4eJ9wqiUREIrl5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733748582; c=relaxed/simple;
-	bh=/MxgLdkD0qg3Ljt/CuyTna9gd3FB2VixMTv8EfaNBbc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pv5O14QIRgq4u+roTNCvC4Day1uU+/JVfuTjvuSFOlr9lPKaXWHJeggJZ3/P8DhfySr/f/B7d6Wyou3uVT9KsnotrlVVPvM4SLtfHRuhZi4IZXPs3WvPAg6YsURazXeK94qgiwkJCOPwiug4S4mM28a3hEOSttvhczfQ2y3/7a4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IjUF05FN; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733748578;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TZZGCuMgAMmR3fg219v2vXNHMIdyHit6IOGYXSUhW4A=;
-	b=IjUF05FNt82ncZIi2hJh5kbScUMPVHHotOA/40RTHbhBfRzx29tbcvX6DAok9R+v2wrj10
-	IKSgFuk9Kcx+4BehZEvqxQo+VUDUrRP3lmw1Dzk6ORzk06RxIbxeGjh35FuC1McD6S/Mz8
-	3wMpa5BUfQKBFmDkDog0RGkMrIWCbg4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-290-KD5b-H3hMtW41Eg-oVz68Q-1; Mon, 09 Dec 2024 07:49:35 -0500
-X-MC-Unique: KD5b-H3hMtW41Eg-oVz68Q-1
-X-Mimecast-MFC-AGG-ID: KD5b-H3hMtW41Eg-oVz68Q
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-aa68b4b957fso78377666b.3
-        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 04:49:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733748574; x=1734353374;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TZZGCuMgAMmR3fg219v2vXNHMIdyHit6IOGYXSUhW4A=;
-        b=A6t/Y4HKwMI9cI9NBiARbfyDW/j9+xSWUXf2AM3WZDohb6uHtcmfCsqSsRskEC0jR6
-         /kvzgT8Or2nDZbqW1L4zIAcwdf8pvWVnueRV8KQGRo16rrJc6mJg/PUidbdioi6zXve8
-         Zx0P55Zi1TR1Q2u3mIm4ICDSvnnygfWsjFr5GOUOwlIB1gHK4faM9cNn+Rxi0u7zoDT0
-         ceAByV0z07P+4+NbuKmJFtxTm3hjYbbmuhfuk8qP/MjoVb6pgY9Wsp+P6McAWyKAp/1z
-         v0obSY3hxuNK6sMtXPo08z0lBMtNZZG2l9UJY5+cuYgq8ZnkdZo/y4wpPd5FKSkw2d2P
-         Mjjg==
-X-Forwarded-Encrypted: i=1; AJvYcCXiT3TTegn5l2GZj822+pbshgmuGnynL56xCXbVFjno2mi+NAOWrPq9XfRiLTy4RO/oyMtMMjHTCQxGqA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzjm2dwhxa7C7fOABvzoIxmf+34eaKIlRBdvn4DRKX1jxXoHJI1
-	Nod/ZLZfKhL7DSx6eNGDbM4g4bmKkxNmHE8DhYyhuZzBgTAsLeBrTzxZ8ruuz2lLenPnYluu22d
-	eGDiWL39SfC4MVFbRaOVERkg6NcHKS9u/tUriccesBtmGDS/whtncQ8CNc6Tl
-X-Gm-Gg: ASbGncsFYtKUQxGfEHRgcUvL9AK2daOXvfvO7gutO45SFXi6kQ8YTC6Ymx2x9eWSHen
-	0IxG+sMZsxmqd7S8PtNaTx4tqZXSvFvileDj5CwpTjq099BTFxwW906+hv0rwj78EolADvH/f9m
-	veenQtIRUCd1xRuOZctRuymPOCwfGnrN20mOAwxRwnnLnARkABeqSPTAJO+wD29PeJNAdDMpgfJ
-	GmlphP/zFliunCsG4S3Qm8wM0UaaHncVH7QEMK5rNsJzYR7LV/Duw==
-X-Received: by 2002:a17:906:3d21:b0:aa6:32f9:d1a7 with SMTP id a640c23a62f3a-aa63a20839amr1056555666b.38.1733748574160;
-        Mon, 09 Dec 2024 04:49:34 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGzTOakG66cbeggGu91NN0gFJvxgpqXsiQxcwB5vGxcUhkPxpW6uz4k9HHBj0SG3IVg5HkWNg==
-X-Received: by 2002:a17:906:3d21:b0:aa6:32f9:d1a7 with SMTP id a640c23a62f3a-aa63a20839amr1056552266b.38.1733748573640;
-        Mon, 09 Dec 2024 04:49:33 -0800 (PST)
-Received: from [10.40.98.157] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa677c4970bsm249618366b.112.2024.12.09.04.49.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 04:49:33 -0800 (PST)
-Message-ID: <2c095d07-739f-4e9d-ac71-ba484bfe2a4d@redhat.com>
-Date: Mon, 9 Dec 2024 13:49:32 +0100
+	s=arc-20240116; t=1733748777; c=relaxed/simple;
+	bh=BXMg0jcbaApnZ0BUI91bci+Yaz2WDMXBs3mUQRmIaWk=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=DmHO0izZiNkJ2sUPQLGCd7XQbAKaG6IpHLHBwzYi9wiR6pPoQkb0pPxsmiJKf013L1TxKSSKkPMqU7fB+8m7FW7Bm6IF+dkaUe1IPw+UHNJZ0Nj3iaJ/qpilHjbKKyhUM1jJFi3QXqvKg9Ft+f2/BHEyXDArw0bbcMNEYUCJL6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=K69Pqrki; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B9A0FZI032550;
+	Mon, 9 Dec 2024 12:52:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=+UwqOr8DuRCuq0ofFHeNMO
+	QkXjvB1Tu46rRf+Wo/qwE=; b=K69PqrkiCzuJ73dJjR+1Ko08XMu2YxaM+v1Aw/
+	vFLpnRF72X1A68JuH2DM5AzzUxinfdcVvlXtwOZYba6XkPuYez+B1qPij0eoDFss
+	iWuzP0mu2QeYtBlDi733HblC2x7JXssShs/jy5J66RjCBuXhAdYLZn2otW30eaNV
+	vaIT5Y+zT8ruslKgB4znRsI8HADvSdMWBX9UnyRQvjKGuxzSYWFcyPn/lv7nG9U+
+	kN9iAsX8sCrhkCcLaYTflTI5eblvidtngmlTfAJ++LAdOogz/PMeIAsVutg9OyeM
+	LPxicdxCVeBMehDaf6qRMAYYMsauoAFw2/BUB8aqcc398mBQ==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cdxxctpc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Dec 2024 12:52:36 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B9CqZBu010762
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 9 Dec 2024 12:52:35 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 9 Dec 2024 04:52:28 -0800
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH v7 00/28] Qualcomm iris video decoder driver
+Date: Mon, 9 Dec 2024 18:21:45 +0530
+Message-ID: <20241209-qcom-video-iris-v7-0-05c6bdead47b@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 09/19] media: uvcvideo: Support any size for mapping
- get/set
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ricardo Ribalda <ribalda@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org>
- <20241114-uvc-roi-v15-9-64cfeb56b6f8@chromium.org>
-Content-Language: en-US
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241114-uvc-roi-v15-9-64cfeb56b6f8@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOHnVmcC/2XNzQ6CMAzA8VchOzszGvblifcwHshWpAeZbLpoC
+ O/uwIuG479pf51ZwkiY2KmaWcRMicJYQh8q5oZuvCInX5qBgKYWYPjkwo1n8hg4RUrcNl52NaD
+ yFlm5ukfs6bWJ50vpgdIjxPf2IMt1+rVqIXdWllzwzhjUDkD02rTTkxyN7lgW2apl9SOA2AtqE
+ 1yvtGjQWvgXlmX5ADB6tGjyAAAA
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: Hans Verkuil <hverkuil@xs4all.nl>,
+        Sebastian Fricke
+	<sebastian.fricke@collabora.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Nicolas Dufresne
+	<nicolas@ndufresne.ca>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+	<u.kleine-koenig@baylibre.com>,
+        Jianhua Lu <lujianhua000@gmail.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Dikshita
+ Agarwal" <quic_dikshita@quicinc.com>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>,
+        Vedang Nagar <quic_vnagar@quicinc.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733748748; l=29451;
+ i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
+ bh=BXMg0jcbaApnZ0BUI91bci+Yaz2WDMXBs3mUQRmIaWk=;
+ b=UWkHmCuZZJPuLkITIX+A+KVIrrgC0Dr35yo0RZq0sliDcB5fVD2Z/4ckIF+LE2agcVm2qqDZG
+ GeIjFdNcbBqC5Juk6lJUh4dWd0mFhZ78hbzYR8+dUhbw6dZrTUb1KiC
+X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: crj6l7vnoLwFyPr34an_NByo93Y0Trj2
+X-Proofpoint-GUID: crj6l7vnoLwFyPr34an_NByo93Y0Trj2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ phishscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
+ malwarescore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412090101
 
-Hi,
+Introduce support for Qualcomm new video acceleration hardware i.e. 
+iris, used for video stream decoding.
 
-On 14-Nov-24 8:10 PM, Ricardo Ribalda wrote:
-> Right now, we only support mappings for v4l2 controls with a max size of
-> s32. This patch modifies the prototype of get/set so it can support any
-> size.
-> 
-> This is done to prepare for compound controls.
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 183 +++++++++++++++++++++++++++------------
->  drivers/media/usb/uvc/uvcvideo.h |   8 +-
->  2 files changed, 130 insertions(+), 61 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index d6afa131a5e1..6d5167eb368d 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -367,6 +367,22 @@ static const u32 uvc_control_classes[] = {
->  
->  static const int exposure_auto_mapping[] = { 2, 1, 4, 8 };
->  
-> +static s32 uvc_mapping_get_s32(struct uvc_control_mapping *mapping,
-> +			       u8 query, const void *data_in)
-> +{
-> +	s32 data_out;
-> +
-> +	mapping->get(mapping, query, data_in, sizeof(data_out), &data_out);
+Iris is a multi pipe based hardware that offloads video stream decoding 
+from the application processor (AP). It supports H.264 decoding. The AP 
+communicates with hardware through a well defined protocol, called as 
+host firmware interface (HFI), which provides fine-grained and 
+asynchronous control over individual hardware features.
 
-If mapping->get() fails, e.g. hits the -EINVAL path in uvc_ctrl_get_zoom()
-then this will return the uninitialized data_out.
+This driver implements upgraded HFI gen2 to communicate with firmware.
+It supports SM8550 which is based out of HFI gen 2. It also supports 
+SM8250 which is based out of HFI gen1.
 
-I realize that this is supposed to never happen and adding error-handling
-here would not be helpful since there is no way to return an error-code
-without changing the function prototype.
+This driver comes with below capabilities:
+- V4L2 complaint video driver with M2M and STREAMING capability.
+- Supports H264 decoder.
 
-But I think you should at least initialize data_out to 0 to avoid leaking
-stack-memory contents to userspace if we somehow do manage to hit this.
+This driver comes with below features:
+- Centralized resource management.
+- Centralized management of core and instance states.
+- Defines platform specific capabilities and features. As a results, it 
+  provides a single point of control to enable/disable a given feature 
+  depending on specific platform capabilities.
+- Handles various video recommended sequences, like DRC, Drain, Seek, 
+  EOS.
+- Implements asynchronous communication with hardware to achieve better 
+  experience in low latency usecases.
+- Output and capture planes are controlled independently. Thereby
+  providing a way to reconfigure individual plane.
+- Native hardware support of LAST flag which is mandatory to align with 
+  port reconfiguration and DRAIN sequence as per V4L guidelines.
 
+Changes since v6:
+- Added vb2_is_busy check in s_fmt (Hans)
+- Removed q->streaming checks in s_fmt (Hans)
+- Removed usage of inst->subscriptions (Hans)
+- Added call to v4l2_m2m_ioctl_decoder_cmd() from iris_dec_cmd() API (Hans)
+- Fixed issues related to kernel docs.
+- Addressed all other review comments.
+- Link to v6: https://lore.kernel.org/r/20241120-qcom-video-iris-v6-0-a8cf6704e992@quicinc.com
+ 
+Changes since v5:
+- Fixed the memory leak in firmware load (Bryan)
+- Updated all headers s/_LIKE_SO_/__LIKE_SO__ (Bryan)
+- Updated value of IFACEQ_MAX_BUF_COUNT to 64 (Bryan)
+- Removed actual_count from iris buffer structure and cleaned up 
+  vb2_queue_setup (Hans)
+- Used VIDEO_MAX_FRAME to set actual buffer to firmware (Hans)
+- Fixed the typo in commit log and subject of patch#12 (Hans)
+- Updated card field to Iris Decoder (Hans)
+- Removed redundant setting of byteused (Hans)
+- s/iris_driver/is_iris_driver (Jianhua)
+- Addressed all other review comments.
+- Link to v5: https://lore.kernel.org/r/20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com
 
-> +
-> +	return data_out;
-> +}
-> +
-> +static void uvc_mapping_set_s32(struct uvc_control_mapping *mapping,
-> +				s32 data_in, void *data_out)
-> +{
-> +	mapping->set(mapping, sizeof(data_in), &data_in, data_out);
-> +}
-> +
->  /*
->   * This function translates the V4L2 menu index @idx, as exposed to userspace as
->   * the V4L2 control value, to the corresponding UVC control value used by the
-> @@ -405,58 +421,93 @@ uvc_mapping_get_menu_name(const struct uvc_control_mapping *mapping, u32 idx)
->  	return v4l2_ctrl_get_menu(mapping->id)[idx];
->  }
->  
-> -static s32 uvc_ctrl_get_zoom(struct uvc_control_mapping *mapping,
-> -	u8 query, const u8 *data)
-> +static int uvc_ctrl_get_zoom(struct uvc_control_mapping *mapping, u8 query,
-> +			     const void *uvc_in, size_t v4l2_size,
-> +			     void *v4l2_out)
->  {
-> -	s8 zoom = (s8)data[0];
-> +	u8 value = ((u8 *)uvc_in)[2];
-> +	s8 sign = ((s8 *)uvc_in)[0];
-> +	s32 *out = v4l2_out;
-> +
-> +	if (WARN_ON(v4l2_size != sizeof(s32)))
-> +		return -EINVAL;
->  
->  	switch (query) {
->  	case UVC_GET_CUR:
-> -		return (zoom == 0) ? 0 : (zoom > 0 ? data[2] : -data[2]);
-> +		*out = (sign == 0) ? 0 : (sign > 0 ? value : -value);
-> +		return 0;
->  
->  	case UVC_GET_MIN:
->  	case UVC_GET_MAX:
->  	case UVC_GET_RES:
->  	case UVC_GET_DEF:
->  	default:
-> -		return data[2];
-> +		*out = value;
-> +		return 0;
->  	}
->  }
->  
-> -static void uvc_ctrl_set_zoom(struct uvc_control_mapping *mapping,
-> -	s32 value, u8 *data)
-> +static int uvc_ctrl_set_zoom(struct uvc_control_mapping *mapping,
-> +			     size_t v4l2_size, const void *v4l2_in,
-> +			     void *uvc_out)
->  {
-> -	data[0] = value == 0 ? 0 : (value > 0) ? 1 : 0xff;
-> -	data[2] = min((int)abs(value), 0xff);
-> +	u8 *out = uvc_out;
-> +	s32 value;
-> +
-> +	if (WARN_ON(v4l2_size != sizeof(s32)))
-> +		return -EINVAL;
-> +
-> +	value = *(u32 *)v4l2_in;
-> +	out[0] = value == 0 ? 0 : (value > 0) ? 1 : 0xff;
-> +	out[2] = min_t(int, abs(value), 0xff);
-> +
-> +	return 0;
->  }
->  
-> -static s32 uvc_ctrl_get_rel_speed(struct uvc_control_mapping *mapping,
-> -	u8 query, const u8 *data)
-> +static int uvc_ctrl_get_rel_speed(struct uvc_control_mapping *mapping,
-> +				  u8 query, const void *uvc_in,
-> +				  size_t v4l2_size, void *v4l2_out)
->  {
->  	unsigned int first = mapping->offset / 8;
-> -	s8 rel = (s8)data[first];
-> +	u8 value = ((u8 *)uvc_in)[first + 1];
-> +	s8 sign = ((s8 *)uvc_in)[first];
-> +	s32 *out = v4l2_out;
-> +
-> +	if (WARN_ON(v4l2_size != sizeof(s32)))
-> +		return -EINVAL;
->  
->  	switch (query) {
->  	case UVC_GET_CUR:
-> -		return (rel == 0) ? 0 : (rel > 0 ? data[first+1]
-> -						 : -data[first+1]);
-> +		*out = (sign == 0) ? 0 : (sign > 0 ? value : -value);
-> +		return 0;
->  	case UVC_GET_MIN:
-> -		return -data[first+1];
-> +		*out = -value;
-> +		return 0;
->  	case UVC_GET_MAX:
->  	case UVC_GET_RES:
->  	case UVC_GET_DEF:
->  	default:
-> -		return data[first+1];
-> +		*out = value;
-> +		return 0;
->  	}
->  }
->  
-> -static void uvc_ctrl_set_rel_speed(struct uvc_control_mapping *mapping,
-> -	s32 value, u8 *data)
-> +static int uvc_ctrl_set_rel_speed(struct uvc_control_mapping *mapping,
-> +				  size_t v4l2_size, const void *v4l2_in,
-> +				  void *uvc_out)
->  {
->  	unsigned int first = mapping->offset / 8;
-> +	u8 *out = uvc_out;
-> +	s32 value;
-> +
-> +	if (WARN_ON(v4l2_size != sizeof(s32)))
-> +		return -EINVAL;
->  
-> -	data[first] = value == 0 ? 0 : (value > 0) ? 1 : 0xff;
-> -	data[first+1] = min_t(int, abs(value), 0xff);
-> +	value = *(u32 *)v4l2_in;
-> +	out[first] = value == 0 ? 0 : (value > 0) ? 1 : 0xff;
-> +	out[first + 1] = min_t(int, abs(value), 0xff);
-> +
-> +	return 0;
->  }
->  
->  static const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited = {
-> @@ -887,14 +938,20 @@ static s32 uvc_menu_to_v4l2_menu(struct uvc_control_mapping *mapping, s32 val)
->   * a signed 32bit integer. Sign extension will be performed if the mapping
->   * references a signed data type.
->   */
-> -static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
-> -	u8 query, const u8 *data)
-> +static int uvc_get_le_value(struct uvc_control_mapping *mapping,
-> +			    u8 query, const void *uvc_in, size_t v4l2_size,
-> +			    void *v4l2_out)
->  {
-> -	int bits = mapping->size;
->  	int offset = mapping->offset;
-> +	int bits = mapping->size;
-> +	const u8 *data = uvc_in;
-> +	s32 *out = v4l2_out;
->  	s32 value = 0;
->  	u8 mask;
->  
-> +	if (WARN_ON(v4l2_size != sizeof(s32)))
-> +		return -EINVAL;
-> +
->  	data += offset / 8;
->  	offset &= 7;
->  	mask = ((1LL << bits) - 1) << offset;
-> @@ -916,29 +973,40 @@ static s32 uvc_get_le_value(struct uvc_control_mapping *mapping,
->  		value |= -(value & (1 << (mapping->size - 1)));
->  
->  	/* If it is a menu, convert from uvc to v4l2. */
-> -	if (mapping->v4l2_type != V4L2_CTRL_TYPE_MENU)
-> -		return value;
-> +	if (mapping->v4l2_type != V4L2_CTRL_TYPE_MENU) {
-> +		*out = value;
-> +		return 0;
-> +	}
->  
->  	switch (query) {
->  	case UVC_GET_CUR:
->  	case UVC_GET_DEF:
-> -		return uvc_menu_to_v4l2_menu(mapping, value);
-> +		*out = uvc_menu_to_v4l2_menu(mapping, value);
-> +		return 0;
->  	}
->  
-> -	return value;
-> +	*out = value;
-> +	return 0;
->  }
->  
->  /*
->   * Set the bit string specified by mapping->offset and mapping->size
->   * in the little-endian data stored at 'data' to the value 'value'.
->   */
-> -static void uvc_set_le_value(struct uvc_control_mapping *mapping,
-> -	s32 value, u8 *data)
-> +static int uvc_set_le_value(struct uvc_control_mapping *mapping,
-> +			    size_t v4l2_size, const void *v4l2_in,
-> +			    void *uvc_out)
->  {
-> -	int bits = mapping->size;
->  	int offset = mapping->offset;
-> +	int bits = mapping->size;
-> +	u8 *data = uvc_out;
-> +	s32 value;
->  	u8 mask;
->  
-> +	if (WARN_ON(v4l2_size != sizeof(s32)))
-> +		return -EINVAL;
-> +
-> +	value = *(s32 *)v4l2_in;
->  	if (mapping->v4l2_type == V4L2_CTRL_TYPE_MENU)
->  		value = uvc_mapping_get_menu_value(mapping, value);
->  	/*
-> @@ -960,6 +1028,8 @@ static void uvc_set_le_value(struct uvc_control_mapping *mapping,
->  		bits -= 8 - offset;
->  		offset = 0;
->  	}
-> +
-> +	return 0;
->  }
->  
->  /* ------------------------------------------------------------------------
-> @@ -1141,8 +1211,8 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
->  	if (ret < 0)
->  		return ret;
->  
-> -	*value = mapping->get(mapping, UVC_GET_CUR,
-> -			      uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> +	*value = uvc_mapping_get_s32(mapping, UVC_GET_CUR,
-> +				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
->  
->  	return 0;
->  }
-> @@ -1275,12 +1345,12 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
->  	 * as supported.
->  	 */
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
-> -		return mapping->get(mapping, UVC_GET_RES,
-> -				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> +		return uvc_mapping_get_s32(mapping, UVC_GET_RES,
-> +					   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
->  
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
-> -		return mapping->get(mapping, UVC_GET_MAX,
-> -				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> +		return uvc_mapping_get_s32(mapping, UVC_GET_MAX,
-> +					   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
->  
->  	return ~0;
->  }
-> @@ -1324,10 +1394,9 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  			return ret;
->  	}
->  
-> -	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
-> -		v4l2_ctrl->default_value = mapping->get(mapping, UVC_GET_DEF,
-> -				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
-> -	}
-> +	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF)
-> +		v4l2_ctrl->default_value = uvc_mapping_get_s32(mapping,
-> +				UVC_GET_DEF, uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
->  
->  	switch (mapping->v4l2_type) {
->  	case V4L2_CTRL_TYPE_MENU:
+Changes since v4:
+- Fixed commit message length for all patches (Krzysztof)
+- Migrated back to remove from remove_new (Uwe Kleine-König)
+- Removed support for g_volatle_ctrl (Hans)
+- Added changes to update minimum buffer count whenever the hardware 
+  requirement changes (Hans)
+- Removed state checks from try/g/s_fmt ioctls (Hans)
+- Removed wait_prepare() and wait_finish callbacks (Hans)
+- Added support for remove_bufs (Hans)
+- Added module param based configurability to select between venus and 
+  iris drivers for platforms supported by both drivers (Jianhua, Dmitry)   
+- Addressed misc other review comments from Hans.
+- Fixed issues reported by kernel bot.
+- Link to v4: https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com
 
-The dropping of the { } here seems to be an unrelated code style change, please
-drop this.
+Changes since v3:
+- Fixed the style issues with dt binding (Krzysztof)
+- Pushed  the patch to add maintainers to end of the series (Krzysztof, 
+  Dmitry)
+- Moved the resource initialization next to probe in iris_probe.c and 
+  squashed the patch of probe and resource initialization (Krzysztof)
+- Removed error prints from probe function (Krzysztof)
+- Defined bit fields used for register read/write with macros for better 
+  context (Bryan)
+- Converted if/else to switch/case wherever applicable (Bryan)
+- Removed defensive NULL checks wherever not required (Bryan, Krzysztof)
+- Removed core->state checks except for below scenarios (Bryan)
+  - When reverse thread (firmware) can move the state of the core to 
+    error state.
+  - When client can force close the driver and there are still pending 
+    firmware responses to be read from shared queues (msg and dbg)
+  - For PM operations, since its a delayed autosuspend work and sys 
+    error handler from the reverse thread can move the state to core 
+    deinit state anytime.
+- Acquiring core->lock only for below scenarios (Bryan)
+  - Writing to registers.
+- Reading/Writing from/to shared queues.
+  - Traversing the instance list of core.
+  - To protect the core->state when it can changed by reverse thread.
+- Acquiring inst->lock only for below scenario which is needed (Bryan)
+  - Serializing the forward and reverse thread
+  - To protect the inst structure where the values can be modified by
+    firmware.
+- Removed usage of core->power_enabled (Krzysztof, Bryan)
+- Removed usage of mutex_is_locked  (Krzysztof, Bryan)
+- Use C structure for instance caps (Dmitry)
+- Split the ctrl ops patch by keeping only the defines, struct and caps 
+  needed to intialize the ctrl handler and to implement s/g_ctrl
+  (Dmitry)
+- Removed the instance state checks to allow v4l2-ctl, relying on
+  standard vb2 checks instead. (Hans)
+- Converted APIs to void wherever applicable except for below (Bryan)
+  - iris_hfi_gen2_handle_session_error and
+    iris_hfi_gen2_handle_session_property cannot be converted to void
+    even though they always return 0.
+    Because these are two of the handlers invoked from
+    iris_hfi_gen2_handle_session_response and are of
+    iris_hfi_gen2_inst_hfi_range struct type, where same prototype is
+    followed for all handlers and return type of all handers should be
+    'int'.
+    And we cannot have a switch case/if else to handle these
+    responses from firmware because we need to parse the responses in a
+    particular sequence.
+    That's why we opted for this handler based design instead of
+    introducing multiple for loop with code duplication.
+- Fixed issues reported by kernel bot.
+- Fixed v4l2 compliance issue reported with "-s" options based on the 
+  inputs from Hans.
+- Addressed all other review comments and made some code improvements.
 
+Changes since v2:
+- introduced support for HFI gen1.
+- deprecated Encoder and HEVC, VP9 codecs.
+- removed custom vb2 mem ops and used standard framework instead.
+- added support for mmap streaming mode.
+- migrated all the buffer APIs to mem2mem helper functions.
+- registered iris buffer with vb2 framework.
+- migrated to clk_bulk, reset_bulk and icc_bulk APIs.
+- used pm_domain_attach/detach_list APIs.
+- migrated to read/writel and other available helpers for register
+  access instead of custom wrappers.
+- added documentation for various structures.
+- addressed many other review comments from v2.
 
-> @@ -1359,16 +1428,16 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  	}
->  
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
-> -		v4l2_ctrl->minimum = mapping->get(mapping, UVC_GET_MIN,
-> -				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-> +		v4l2_ctrl->minimum = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
-> +				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
->  
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
-> -		v4l2_ctrl->maximum = mapping->get(mapping, UVC_GET_MAX,
-> -				     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> +		v4l2_ctrl->maximum = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
-> +				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
->  
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
-> -		v4l2_ctrl->step = mapping->get(mapping, UVC_GET_RES,
-> -				  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> +		v4l2_ctrl->step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
-> +				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
->  
->  	return 0;
->  }
-> @@ -1581,7 +1650,7 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
->  	ctrl->handle = NULL;
->  
->  	list_for_each_entry(mapping, &ctrl->info.mappings, list) {
-> -		s32 value = mapping->get(mapping, UVC_GET_CUR, data);
-> +		s32 value = uvc_mapping_get_s32(mapping, UVC_GET_CUR, data);
->  
->  		/*
->  		 * handle may be NULL here if the device sends auto-update
-> @@ -1925,8 +1994,8 @@ int uvc_ctrl_get(struct uvc_video_chain *chain, u32 which,
->  			if (ret < 0)
->  				return ret;
->  		}
-> -		xctrl->value = mapping->get(mapping, UVC_GET_DEF,
-> -					    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
-> +		xctrl->value = uvc_mapping_get_s32(mapping, UVC_GET_DEF,
-> +						   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
->  		return 0;
->  	}
->  
-> @@ -1963,12 +2032,12 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->  				return ret;
->  		}
->  
-> -		min = mapping->get(mapping, UVC_GET_MIN,
-> -				   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-> -		max = mapping->get(mapping, UVC_GET_MAX,
-> -				   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> -		step = mapping->get(mapping, UVC_GET_RES,
-> -				    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> +		min = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
-> +					  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-> +		max = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
-> +					  uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> +		step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
-> +					   uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
->  		if (step == 0)
->  			step = 1;
->  
-> @@ -2047,8 +2116,8 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->  		       ctrl->info.size);
->  	}
->  
-> -	mapping->set(mapping, value,
-> -		uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> +	uvc_mapping_set_s32(mapping, value,
-> +			    uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
->  
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
->  		ctrl->handle = handle;
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 6ebaabd11443..3d32a56c5ff8 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -131,10 +131,10 @@ struct uvc_control_mapping {
->  	const struct uvc_control_mapping *(*filter_mapping)
->  				(struct uvc_video_chain *chain,
->  				struct uvc_control *ctrl);
-> -	s32 (*get)(struct uvc_control_mapping *mapping, u8 query,
-> -		   const u8 *data);
-> -	void (*set)(struct uvc_control_mapping *mapping, s32 value,
-> -		    u8 *data);
-> +	int (*get)(struct uvc_control_mapping *mapping, u8 query,
-> +		   const void *uvc_in, size_t v4l2_size, void *v4l2_out);
-> +	int (*set)(struct uvc_control_mapping *mapping, size_t v4l2_size,
-> +		   const void *v4l2_in, void *uvc_out);
->  };
->  
->  struct uvc_control {
-> 
+Note: A harmless onetime error log "Lucid PLL latch failed. Output may
+be unstable!" is seen during bootup.  It doesn't impact any video 
+usecase and is currently under discussion.
 
-Exceot for my 2 small remarks this patch looks good to me:
+Static tools like checkpatch, smatch, dt_binding_check, sparse and
+Coccinelle run successfully with this driver.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+This driver is tested with v4l2-ctl[1] and Gstreamer[2].
 
-Regards,
+[1]: v4l2-ctl --verbose --set-fmt-video-out=pixelformat=H264
+--set-fmt-video=pixelformat=NV12 --stream-mmap --stream-out-mmap
+--stream-from /media/FVDO_Freeway_720p.264 --stream-to out.NV12
 
-Hans
+[2]: gst-launch-1.0 filesrc location=/media/media/4k_decode_clip.264 !
+h264parse ! v4l2h264dec capture-io-mode=dmabuf ! kmssink
 
+The driver is tested with v4l2-compliance.
 
+Result on SM8550:
+
+v4l2-compliance --stream-from /media/FVDO_Freeway_720p.264 -s250
+
+v4l2-compliance 1.29.0-5273, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 0ed98432fe68 2024-11-13 12:54:45
+
+Compliance test for iris_driver device /dev/video0:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : iris_decoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.12.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Decoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 5 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test MMAP (select, REQBUFS): OK
+        test MMAP (epoll, REQBUFS): OK
+        test MMAP (select, CREATE_BUFS): OK
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, 
+Warnings: 0
+
+Result on SM8250:
+
+v4l2-compliance --stream-from /media/FVDO_Freeway_720p.264 -s250
+
+v4l2-compliance 1.29.0-5273, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 0ed98432fe68 2024-11-13 12:54:45
+
+Compliance test for iris_driver device /dev/video0:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : iris_decoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.12.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Decoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 5 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+        test MMAP (select, REQBUFS): OK
+        test MMAP (epoll, REQBUFS): OK
+        test MMAP (select, CREATE_BUFS): OK
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, 
+Warnings: 0
+
+The result of fluster test on SM8550:
+
+77/135 while testing JVT-AVC_V1 with
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+The failing tests are:
+- 52 test vectors failed due to interlaced clips: Interlaced decoding is
+  not supported in iris driver.
+  Test Vectors:
+        cabac_mot_fld0_full
+        cabac_mot_mbaff0_full
+        cabac_mot_picaff0_full
+        CABREF3_Sand_D
+        CAFI1_SVA_C
+        CAMA1_Sony_C
+        CAMA1_TOSHIBA_B
+        cama1_vtc_c
+        cama2_vtc_b
+        CAMA3_Sand_E
+        cama3_vtc_b
+        CAMACI3_Sony_C
+        CAMANL1_TOSHIBA_B
+        CAMANL2_TOSHIBA_B
+        CAMANL3_Sand_E
+        CAMASL3_Sony_B
+        CAMP_MOT_MBAFF_L30
+        CAMP_MOT_MBAFF_L31
+        CANLMA2_Sony_C
+        CANLMA3_Sony_C
+        CAPA1_TOSHIBA_B
+        CAPAMA3_Sand_F
+        cavlc_mot_fld0_full_B
+        cavlc_mot_mbaff0_full_B
+        cavlc_mot_picaff0_full_B
+        CVCANLMA2_Sony_C
+        CVFI1_Sony_D
+        CVFI1_SVA_C
+        CVFI2_Sony_H
+        CVFI2_SVA_C
+        CVMA1_Sony_D
+        CVMA1_TOSHIBA_B
+        CVMANL1_TOSHIBA_B
+        CVMANL2_TOSHIBA_B
+        CVMAPAQP3_Sony_E
+        CVMAQP2_Sony_G
+        CVMAQP3_Sony_D
+        CVMP_MOT_FLD_L30_B
+        CVNLFI1_Sony_C
+        CVNLFI2_Sony_H
+        CVPA1_TOSHIBA_B
+        FI1_Sony_E
+        MR6_BT_B
+        MR7_BT_B
+        MR8_BT_B
+        MR9_BT_B
+        Sharp_MP_Field_1_B
+        Sharp_MP_Field_2_B
+        Sharp_MP_Field_3_B
+        Sharp_MP_PAFF_1r2
+        Sharp_MP_PAFF_2r
+        CVMP_MOT_FRM_L31_B
+- 3 test vectors failed due to unsupported bitstream.
+  num_slice_group_minus1 greater than zero is not supported by the
+  hardware.
+  Test Vectors:
+        FM1_BT_B
+        FM1_FT_E
+        FM2_SVA_C
+- 2 test vectors failed because SP_SLICE type is not supported by the
+  hardware.
+  Test Vectors:
+        SP1_BT_A
+        sp2_bt_b
+- 1 test vector failed due to unsupported profile:
+  V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED is being deprecated from sm8550
+  onwards due to hardware issues.
+  Test Vectors:
+        BA3_SVA_C
+
+23/69 while testing JVT-FR-EXT with 
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+The failing tests are:
+- 21 test vectors failed due to interlaced clips: Interlaced decoding is
+  not supported in iris driver.
+  Test Vectors:
+        brcm_freh4
+        brcm_freh5
+        brcm_freh6
+        brcm_freh10
+        brcm_freh11
+        freh7_b
+        FREXT01_JVC_D
+        FREXT02_JVC_C
+        FRExt2_Panasonic_C
+        FRExt4_Panasonic_B
+        HCAFF1_HHI_B
+        HCAMFF1_HHI_B
+        HCHP3_HHI_A
+        HPCAFL_BRCM_C
+        HPCAFLNL_BRCM_C
+        HVLCFI0_Sony_B
+        HVLCMFF0_Sony_B
+        HVLCPFF0_Sony_B
+        HPCAMAPALQ_BRCM_B
+        HPCVFL_BRCM_A
+        HPCVFLNL_BRCM_A
+- 2 test vectors failed due to 10bit bitstream: 10bit decoding is not
+  supported in iris driver
+  Test Vectors:
+        FREH10-1
+        FREH10-2
+- 21 test vectors failed due to unsupported profile:
+  V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422 is not supported by the
+  hardware.
+  Test Vectors:
+        FREXT1_TANDBERG_A
+        FREXT2_TANDBERG_A
+        FREXT3_TANDBERG_A
+        Hi422FR1_SONY_A
+        Hi422FR2_SONY_A
+        Hi422FR3_SONY_A
+        Hi422FR4_SONY_A
+        Hi422FR6_SONY_A
+        Hi422FR7_SONY_A
+        Hi422FR8_SONY_A
+        Hi422FR9_SONY_A
+        Hi422FR10_SONY_A
+        Hi422FR11_SONY_A
+        Hi422FR12_SONY_A
+        Hi422FR13_SONY_A
+        Hi422FR14_SONY_A
+        Hi422FR15_SONY_A
+        Hi422FREXT16_SONY_A
+        Hi422FREXT17_SONY_A
+        Hi422FREXT18_SONY_A
+        Hi422FREXT19_SONY_A
+- 2 test vectors failed due to unsupported bitstream.
+  chroma_fmt_idc is equal to 0(monochrome) in the bitstream which is not
+  supported by the hardware.
+  Test Vectors:
+        HPCAMOLQ_BRCM_B
+        HPCVMOLQ_BRCM_B
+
+The result of fluster test on SM8250:
+
+78/135 while testing JVT-AVC_V1 with
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+The failing tests are:
+- 52 test vectors failed due to interlaced clips: Interlaced decoding is
+  not supported in iris driver.
+  Test Vectors:
+        cabac_mot_fld0_full
+        cabac_mot_mbaff0_full
+        cabac_mot_picaff0_full
+        CABREF3_Sand_D
+        CAFI1_SVA_C
+        CAMA1_Sony_C
+        CAMA1_TOSHIBA_B
+        cama1_vtc_c
+        cama2_vtc_b
+        CAMA3_Sand_E
+        cama3_vtc_b
+        CAMACI3_Sony_C
+        CAMANL1_TOSHIBA_B
+        CAMANL2_TOSHIBA_B
+        CAMANL3_Sand_E
+        CAMASL3_Sony_B
+        CAMP_MOT_MBAFF_L30
+        CAMP_MOT_MBAFF_L31
+        CANLMA2_Sony_C
+        CANLMA3_Sony_C
+        CAPA1_TOSHIBA_B
+        CAPAMA3_Sand_F
+        cavlc_mot_fld0_full_B
+        cavlc_mot_mbaff0_full_B
+        cavlc_mot_picaff0_full_B
+        CVCANLMA2_Sony_C
+        CVFI1_Sony_D
+        CVFI1_SVA_C
+        CVFI2_Sony_H
+        CVFI2_SVA_C
+        CVMA1_Sony_D
+        CVMA1_TOSHIBA_B
+        CVMANL1_TOSHIBA_B
+        CVMANL2_TOSHIBA_B
+        CVMAPAQP3_Sony_E
+        CVMAQP2_Sony_G
+        CVMAQP3_Sony_D
+        CVMP_MOT_FLD_L30_B
+        CVNLFI1_Sony_C
+        CVNLFI2_Sony_H
+        CVPA1_TOSHIBA_B
+        FI1_Sony_E
+        MR6_BT_B
+        MR7_BT_B
+        MR8_BT_B
+        MR9_BT_B
+        Sharp_MP_Field_1_B
+        Sharp_MP_Field_2_B
+        Sharp_MP_Field_3_B
+        Sharp_MP_PAFF_1r2
+        Sharp_MP_PAFF_2r
+        CVMP_MOT_FRM_L31_B
+- 3 test vectors failed due to unsupported bitstream.
+  num_slice_group_minus1 greater than zero is not supported by the
+  hardware.
+  Test Vectors:
+        FM1_BT_B
+        FM1_FT_E
+        FM2_SVA_C
+- 2 test vectors failed because SP_SLICE type is not supported by the
+  hardware.
+  Test Vectors:
+        SP1_BT_A
+        sp2_bt_b
+
+23/69 while testing JVT-FR-EXT with
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+The failing tests are:
+- 21 test vectors failed due to interlaced clips: Interlaced decoding is
+  not supported in iris driver.
+  Test Vectors:
+        brcm_freh4
+        brcm_freh5
+        brcm_freh6
+        brcm_freh10
+        brcm_freh11
+        freh7_b
+        FREXT01_JVC_D
+        FREXT02_JVC_C
+        FRExt2_Panasonic_C
+        FRExt4_Panasonic_B
+        HCAFF1_HHI_B
+        HCAMFF1_HHI_B
+        HCHP3_HHI_A
+        HPCAFL_BRCM_C
+        HPCAFLNL_BRCM_C
+        HVLCFI0_Sony_B
+        HVLCMFF0_Sony_B
+        HVLCPFF0_Sony_B
+        HPCAMAPALQ_BRCM_B
+        HPCVFL_BRCM_A
+        HPCVFLNL_BRCM_A
+- 2 test vectors failed due to 10bit bitstream: 10bit decoding is not
+  supported in iris driver
+  Test Vectors:
+        FREH10-1
+        FREH10-2
+- 21 test vectors failed due to unsupported profile:
+  V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422 is not supported by the
+  hardware.
+  Test Vectors:
+        FREXT1_TANDBERG_A
+        FREXT2_TANDBERG_A
+        FREXT3_TANDBERG_A
+        Hi422FR1_SONY_A
+        Hi422FR2_SONY_A
+        Hi422FR3_SONY_A
+        Hi422FR4_SONY_A
+        Hi422FR6_SONY_A
+        Hi422FR7_SONY_A
+        Hi422FR8_SONY_A
+        Hi422FR9_SONY_A
+        Hi422FR10_SONY_A
+        Hi422FR11_SONY_A
+        Hi422FR12_SONY_A
+        Hi422FR13_SONY_A
+        Hi422FR14_SONY_A
+        Hi422FR15_SONY_A
+        Hi422FREXT16_SONY_A
+        Hi422FREXT17_SONY_A
+        Hi422FREXT18_SONY_A
+        Hi422FREXT19_SONY_A
+- 2 test vectors failed due to unsupported bitstream.
+  chroma_fmt_idc is equal to 0(monochrome) in the bitstream which is not
+  supported by the hardware.
+  Test Vectors:
+        HPCAMOLQ_BRCM_B
+        HPCVMOLQ_BRCM_B
+
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+Cc: Jianhua Lu <lujianhua000@gmail.com>
+Cc: linux-media@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+Dikshita Agarwal (18):
+      dt-bindings: media: Add video support for QCOM SM8550 SoC
+      media: iris: add platform driver for iris video device
+      media: iris: implement iris v4l2 file ops
+      media: iris: introduce iris core state management with shared queues
+      media: iris: implement video firmware load/unload
+      media: iris: implement boot sequence of the firmware
+      media: iris: introduce host firmware interface with necessary hooks
+      media: iris: implement power management
+      media: iris: implement reqbuf ioctl with vb2_queue_setup
+      media: iris: implement iris v4l2_ctrl_ops
+      media: iris: implement vb2 streaming ops
+      media: iris: allocate, initialize and queue internal buffers
+      media: iris: implement vb2 ops for buf_queue and firmware response
+      media: iris: add support for dynamic resolution change
+      media: iris: handle streamoff/on from client in dynamic resolution change
+      media: iris: add support for drain sequence
+      media: iris: enable video driver probe of SM8250 SoC
+      media: MAINTAINERS: add Qualcomm iris video accelerator driver
+
+Vedang Nagar (10):
+      media: iris: implement s_fmt, g_fmt and try_fmt ioctls
+      media: iris: implement g_selection ioctl
+      media: iris: implement enum_fmt and enum_framesizes ioctls
+      media: iris: implement subscribe_event and unsubscribe_event ioctls
+      media: iris: implement query_cap ioctl
+      media: iris: implement set properties to firmware during streamon
+      media: iris: subscribe parameters and properties to firmware for hfi_gen2
+      media: iris: add check whether the video session is supported or not
+      media: iris: implement power scaling for vpu2 and vpu3
+      media: iris: add check to allow sub states transitions
+
+ .../bindings/media/qcom,sm8550-iris.yaml           | 158 ++++
+ MAINTAINERS                                        |  10 +
+ drivers/media/platform/qcom/Kconfig                |   1 +
+ drivers/media/platform/qcom/Makefile               |   1 +
+ drivers/media/platform/qcom/iris/Kconfig           |  13 +
+ drivers/media/platform/qcom/iris/Makefile          |  27 +
+ drivers/media/platform/qcom/iris/iris_buffer.c     | 623 ++++++++++++++
+ drivers/media/platform/qcom/iris/iris_buffer.h     | 117 +++
+ drivers/media/platform/qcom/iris/iris_core.c       |  96 +++
+ drivers/media/platform/qcom/iris/iris_core.h       | 111 +++
+ drivers/media/platform/qcom/iris/iris_ctrls.c      | 259 ++++++
+ drivers/media/platform/qcom/iris/iris_ctrls.h      |  22 +
+ drivers/media/platform/qcom/iris/iris_firmware.c   | 110 +++
+ drivers/media/platform/qcom/iris/iris_firmware.h   |  15 +
+ drivers/media/platform/qcom/iris/iris_hfi_common.c | 176 ++++
+ drivers/media/platform/qcom/iris/iris_hfi_common.h | 155 ++++
+ drivers/media/platform/qcom/iris/iris_hfi_gen1.h   |  16 +
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     | 826 ++++++++++++++++++
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     | 448 ++++++++++
+ .../platform/qcom/iris/iris_hfi_gen1_response.c    | 666 ++++++++++++++
+ drivers/media/platform/qcom/iris/iris_hfi_gen2.h   |  41 +
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     | 957 +++++++++++++++++++++
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     | 160 ++++
+ .../platform/qcom/iris/iris_hfi_gen2_packet.c      | 292 +++++++
+ .../platform/qcom/iris/iris_hfi_gen2_packet.h      | 125 +++
+ .../platform/qcom/iris/iris_hfi_gen2_response.c    | 931 ++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_hfi_queue.c  | 314 +++++++
+ drivers/media/platform/qcom/iris/iris_hfi_queue.h  | 182 ++++
+ drivers/media/platform/qcom/iris/iris_instance.h   |  77 ++
+ .../platform/qcom/iris/iris_platform_common.h      | 186 ++++
+ .../platform/qcom/iris/iris_platform_sm8250.c      | 148 ++++
+ .../platform/qcom/iris/iris_platform_sm8550.c      | 265 ++++++
+ drivers/media/platform/qcom/iris/iris_power.c      | 140 +++
+ drivers/media/platform/qcom/iris/iris_power.h      |  13 +
+ drivers/media/platform/qcom/iris/iris_probe.c      | 378 ++++++++
+ drivers/media/platform/qcom/iris/iris_resources.c  | 131 +++
+ drivers/media/platform/qcom/iris/iris_resources.h  |  18 +
+ drivers/media/platform/qcom/iris/iris_state.c      | 276 ++++++
+ drivers/media/platform/qcom/iris/iris_state.h      | 144 ++++
+ drivers/media/platform/qcom/iris/iris_utils.c      |  90 ++
+ drivers/media/platform/qcom/iris/iris_utils.h      |  53 ++
+ drivers/media/platform/qcom/iris/iris_vb2.c        | 335 ++++++++
+ drivers/media/platform/qcom/iris/iris_vb2.h        |  19 +
+ drivers/media/platform/qcom/iris/iris_vdec.c       | 659 ++++++++++++++
+ drivers/media/platform/qcom/iris/iris_vdec.h       |  25 +
+ drivers/media/platform/qcom/iris/iris_vidc.c       | 453 ++++++++++
+ drivers/media/platform/qcom/iris/iris_vidc.h       |  15 +
+ drivers/media/platform/qcom/iris/iris_vpu2.c       |  38 +
+ drivers/media/platform/qcom/iris/iris_vpu3.c       | 122 +++
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 270 ++++++
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  91 ++
+ drivers/media/platform/qcom/iris/iris_vpu_common.c | 369 ++++++++
+ drivers/media/platform/qcom/iris/iris_vpu_common.h |  28 +
+ .../platform/qcom/iris/iris_vpu_register_defines.h |  17 +
+ 54 files changed, 11212 insertions(+)
+---
+base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
+change-id: 20241028-qcom-video-iris-94d5a12e6d9e
+
+Best regards,
+-- 
+Dikshita Agarwal <quic_dikshita@quicinc.com>
 
 
