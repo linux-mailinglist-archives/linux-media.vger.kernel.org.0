@@ -1,164 +1,196 @@
-Return-Path: <linux-media+bounces-22859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22860-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E99A9E8DDC
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 09:51:48 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 765419E8E16
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 09:57:04 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E81DD1885A70
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 08:51:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E411280E1B
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 08:57:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 565FB215F41;
-	Mon,  9 Dec 2024 08:51:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F7CA21A946;
+	Mon,  9 Dec 2024 08:53:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QpAVRAwS"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m1Riq1Ob"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34261215712
-	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 08:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD64218EAA
+	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 08:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733734295; cv=none; b=ekPPSO7pNgvGzmrnskx84UMoZIcYEs4sVI+bMApIhfOQvouCXQg3M+MuAvqs9R7aiWkI2xgtvLpbradWrltGMFA3Hw2fRdSIop51l3CfJfPGHcq+yZ/4t/irhQl4+F+AerrAtK1JwOuTyML/Ss1qLUUJdkauT49Q2zZabGew/AU=
+	t=1733734403; cv=none; b=tmV2MMZjb0BRZ3uB0vhBytfEECEBRR065AoO6ejHbR+PofTtK1yKvokLPrXFb+BaEby11gfhbKDR3lCvMye61qPqtoWLBm2GK1EZXUwGQUc82ctCDyBmyHE5kgmymFYNcVcfGvQpXSbagOCk245WHlTQDDuWElDfJhNbEh5THrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733734295; c=relaxed/simple;
-	bh=Jj73nYyzkbAdYDJh5sbZFwiVxL9xxq3WC9X1epagEeo=;
+	s=arc-20240116; t=1733734403; c=relaxed/simple;
+	bh=XrkuNBaA2KFMauWBm/RYoNs/Hm4MI1nuYtz383nCUnU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=St1WElhhI/CUFtvYZNFa7XUoolxQJxzJqHKS02yvELp/iC3RosE7TiVBDJWWuxFa12Ea+7d7fbNSConj/hiyfaxKakbY52pdCCcjHLprB073Iljo9ZtmulrZXTtwkNa8rtA/qYYUwCBjOU1jtEiIMQFkj4Qk5gw6/tzdF7Hhg8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QpAVRAwS; arc=none smtp.client-ip=209.85.128.173
+	 To:Cc:Content-Type; b=Zw1CpxsLccUJUqzjc+1fVX8kmH3kw934jnGVyXSwZp93JIRxS2ifR0kqf/9Oa5WtlbscC/ZiDIIov+tBkGkMSPKeXpm0dh5HmI0sAEMuKG/lNZxjxZUHGqOy91O1LvPL1HP3owkQIl7PyNN5KqiGmCPcn7j/LMISrj2XCTw4jeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=m1Riq1Ob; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6ef0ef11aafso35058607b3.2
-        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 00:51:33 -0800 (PST)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6ef8028fe9fso33667027b3.2
+        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 00:53:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733734293; x=1734339093; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1733734400; x=1734339200; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0qZ/3IZ2C3DzWrkrLVi+8AtjnaFX1g2jC3ZeApxgqB8=;
-        b=QpAVRAwSDIMzAyjE0JNG3gCKqXYHuxrVHMST+FhMyOO1KmGZWsa8GSSvwPYLWmpWgH
-         oJr/kMoQyxmGUoEy42uYFz6LbJyZTONpj/ynn+on8pd+iMXCJ/GneGF1PsZQO9tm5eZ+
-         zCEOUg+KcbNmPcJmFQon5++47gIgPWg8NeuwI=
+        bh=iPUVctTsNe0r6IsZecNZEOZeVyvwjX2Ivrhtlu3S+Ng=;
+        b=m1Riq1Obkeyq66a0uWBWl87D3iF+0UYJyBeGdcUE4i6L7dc3rueA8h/IRa5tVYuOx0
+         3cWb4ba5zP3y2ohKTQb2MNpSk+b+SFfp+Dyi8B9/rTFwq0cSkbtZKxyj//lsZeMW0w2I
+         SX3DKczqVp/duExuM686q9uXAx4Tfed+JL0Pk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733734293; x=1734339093;
+        d=1e100.net; s=20230601; t=1733734400; x=1734339200;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0qZ/3IZ2C3DzWrkrLVi+8AtjnaFX1g2jC3ZeApxgqB8=;
-        b=uioR3FfSU6O7izS+ATX0auQMLWOqc3FFCWPNhWMtjQNtCpRAycYHwnBIIpQZ/RQBuW
-         CUmAyz0vb+aEhoTzE5UaFIKcFb5KjF6J6uTgulFJOnIQI8/sTat0TgHRw30nKY1dQ9tQ
-         IocFCP9STWBXIe/9GDGxxD2pRBPEWQ3O6I5L2O1ofiFIikidarGss7WARZPNA0TFzh/i
-         dRuwIl1eZ7V9cMn23oL9ZezljLCCzu+M6syrU3vjl7vfsXIK5vjG87Wb/32cfAs05EM1
-         sOH/JAT+KLQ6KmIc5u5/l3ZE7qnb+p9K/ssb8VJZRwbxGp+zCpOqzGxMnRYUUlhLBvJi
-         38fA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfV0xSFyuU2XD/yjsLm8sH+P3UtHR/jxNVcT49yXqMLYFGYXuetzlZM5ag8MqlkWnohOCoK7jYck30Ig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdiQVSocGDEMImqG+fPcmg8Lx1OM71nCI2kEnslM2zgL/+VDmN
-	ph6PlqxwgrnTi7FGG5acV9xnKkaTx67vJccpr0IVMK6DFdURpJ+RrHZn7yDqPCOlmnViTf58aVW
-	MEYKr1Qla32RFSYauklGBXnmmBY/1yitm2QSRRBDsvn3PKx8P1Q==
-X-Gm-Gg: ASbGncsXzemZ0B03Zm2nKSGl2OKoK5ioKzmSsiLShD0Z1BOk8ovBQAfvEOa3dA6IEWS
-	mL5Dfkj4pa75jUTM1FjHReSlVe4K3fOI=
-X-Google-Smtp-Source: AGHT+IHw9vA9SksR0OS9GB3BSgh57DZ0gNDUwZuFwDld7/g9YwNOY4H79XWFOom/ycSlEqa0QjPCnyvW+B9k+1pGqYQ=
-X-Received: by 2002:a05:690c:586:b0:6e5:a431:af41 with SMTP id
- 00721157ae682-6efe3deb3a3mr97548967b3.38.1733734293126; Mon, 09 Dec 2024
- 00:51:33 -0800 (PST)
+        bh=iPUVctTsNe0r6IsZecNZEOZeVyvwjX2Ivrhtlu3S+Ng=;
+        b=nR7pCROzIrUiiZEy+kMt88cbGqciYrpt/7IgTvqvdM7hqG9l7dRk3QmWr+LPbBndlG
+         0ZDErY23R+2J+emGMsPgMIXSq5GUCPyZIM/z+yrC+I3YwaKq6T5cN3dE2s7m7/jjFOCY
+         +QxfGJtOnwQen79GExKQSl7yQsMqhcQ1LNEbiKl16RpTdsrZeAv3v6lJrQhqIXR7NacN
+         KPFCbTXUxoSmI4PlbhXV8bh/t+F7LE8wpi+GV2Q0+exEtrMtpVQ1B0DsS1LVJ6mUIOFQ
+         /QpUOmaw8RQSQ/FHkgpcdH/lu/tGbAiRbECEraMEgbeeIqGMWIMZQLEQ43P07Wn5uujJ
+         HKxg==
+X-Forwarded-Encrypted: i=1; AJvYcCWeR/OjGC1UNUzoOu39VD0MHUviwldk2QylH7GpGlNSVVzVENENEYMmBMqgAYDSIj7FgB+/hlBB0kwjDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3fCvS3xDyG71M3k3/z/f9W6bMf4HdLQBopfyHMAxh4bZLfemA
+	GMJVsKQ1vcJ3YZBygI16vA3dc6L5P9m8ofTl2tr11YCC4mKJYpI5jZmWLvdtBeHobhZH4w0ZlaJ
+	IO+//31JTARzlvJKmJrh4mHrUwHN6BI0BwnpP
+X-Gm-Gg: ASbGncsx+d9HX40yVcMHva9SpMAgnaBgtoK4QAShzkPoMt/EHeAEznV+Pt2sKDMiEBb
+	Svq8hWcqxHofr5L/g1P3TkpxP6x4Bt0s=
+X-Google-Smtp-Source: AGHT+IGwuFimavtR5bh3h9P+zvQY5iOG73cLkemO+XKYDlhb2TDqMuz/IxiB1BILzRlt/SAPe4mvu0sMF8C4J4ccZ9k=
+X-Received: by 2002:a05:690c:7088:b0:6e5:9cb7:853c with SMTP id
+ 00721157ae682-6efe3c836b8mr98477407b3.31.1733734399790; Mon, 09 Dec 2024
+ 00:53:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org> <20241114-uvc-roi-v15-16-64cfeb56b6f8@chromium.org>
-In-Reply-To: <20241114-uvc-roi-v15-16-64cfeb56b6f8@chromium.org>
+References: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org>
+In-Reply-To: <20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org>
 From: Yunke Cao <yunkec@chromium.org>
-Date: Mon, 9 Dec 2024 17:51:22 +0900
-Message-ID: <CAEDqmY6wUV_MmtXReRyrkeE+WamdxchW8ReZ7S+jHgFA29i6mw@mail.gmail.com>
-Subject: Re: [PATCH v15 16/19] media: uvcvideo: Introduce uvc_mapping_v4l2_size
+Date: Mon, 9 Dec 2024 17:53:08 +0900
+Message-ID: <CAEDqmY5nuJQkv-J6WgyqXG7J1GR+8Sa3wzXQ7RpDMUrdDgTOKg@mail.gmail.com>
+Subject: Re: [PATCH v15 00/19] media: uvcvideo: Implement UVC v1.5 ROI
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
 	Ricardo Ribalda <ribalda@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Yunke Cao <yunkec@google.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Daniel Scally <dan.scally@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Ricardo,
 
-This patch looks good to me.
+I've tested the patchset with the fix I commented on in patch 18/19 on
+Chrome OS and verified that the region of interest works as expected.
 
-Reviewed-by: Yunke Cao <yunkec@google.com>
+Tested-by: Yunke Cao <yunkec@google.com>
 
-Thanks,
+Best,
 Yunke
 
-On Fri, Nov 15, 2024 at 4:11=E2=80=AFAM Ricardo Ribalda <ribalda@chromium.o=
+On Fri, Nov 15, 2024 at 4:10=E2=80=AFAM Ricardo Ribalda <ribalda@chromium.o=
 rg> wrote:
 >
-> Centralize the calculation for the v4l2_size of a mapping.
+> This patchset implements UVC v1.5 region of interest using V4L2
+> control API.
+>
+> ROI control is consisted two uvc specific controls.
+> 1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
+> 2. An auto control with type bitmask.
+>
+> V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
+>
+> The corresponding v4l-utils series can be found at
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=3D11069 .
+>
+> Tested with v4l2-compliance, v4l2-ctl, calling ioctls on usb cameras and
+> VIVID with a newly added V4L2_CTRL_TYPE_RECT control.
+>
+> This set includes also the patch:
+> media: uvcvideo: Fix event flags in uvc_ctrl_send_events
+> It is not technically part of this change, but we conflict with it.
+>
+> I am continuing the work that Yunke did.
+>
+> Changes in v15:
+> - Modify mapping set/get to support any size
+> - Remove v4l2_size field. It is not needed, we can use the v4l2_type to
+>   infer it.
+> - Improve documentation.
+> - Lots of refactoring, now adding compound and roi are very small
+>   patches.
+> - Remove rectangle clamping, not supported by some firmware.
+> - Remove init, we can add it later.
+> - Move uvc_cid to USER_BASE
+>
+> - Link to v14: https://lore.kernel.org/linux-media/20231201071907.3080126=
+-1-yunkec@google.com/
 >
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
+> Hans Verkuil (1):
+>       media: v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
 >
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc=
-_ctrl.c
-> index 1bc019138995..f262e05ad3a8 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1463,6 +1463,14 @@ static int __uvc_queryctrl_boundaries(struct uvc_v=
-ideo_chain *chain,
->         return 0;
->  }
+> Ricardo Ribalda (12):
+>       media: uvcvideo: Fix event flags in uvc_ctrl_send_events
+>       media: uvcvideo: Handle uvc menu translation inside uvc_get_le_valu=
+e
+>       media: uvcvideo: Handle uvc menu translation inside uvc_set_le_valu=
+e
+>       media: uvcvideo: refactor uvc_ioctl_g_ext_ctrls
+>       media: uvcvideo: uvc_ioctl_(g|s)_ext_ctrls: handle NoP case
+>       media: uvcvideo: Support any size for mapping get/set
+>       media: uvcvideo: Factor out clamping from uvc_ctrl_set
+>       media: uvcvideo: Factor out query_boundaries from query_ctrl
+>       media: uvcvideo: Use the camera to clamp compound controls
+>       media: uvcvideo: let v4l2_query_v4l2_ctrl() work with v4l2_query_ex=
+t_ctrl
+>       media: uvcvideo: Introduce uvc_mapping_v4l2_size
+>       media: uvcvideo: Add sanity check to uvc_ioctl_xu_ctrl_map
 >
-> +static size_t uvc_mapping_v4l2_size(struct uvc_control_mapping *mapping)
-> +{
-> +       if (uvc_ctrl_mapping_is_compound(mapping))
-> +               return DIV_ROUND_UP(mapping->size, 8);
-> +
-> +       return sizeof(s32);
-> +}
-> +
->  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->                                  struct uvc_control *ctrl,
->                                  struct uvc_control_mapping *mapping,
-> @@ -1504,7 +1512,7 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_c=
-hain *chain,
->                         v4l2_ctrl->flags |=3D V4L2_CTRL_FLAG_INACTIVE;
->         }
+> Yunke Cao (6):
+>       media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+>       media: vivid: Add a rectangle control
+>       media: uvcvideo: add support for compound controls
+>       media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
+>       media: uvcvideo: implement UVC v1.5 ROI
+>       media: uvcvideo: document UVC v1.5 ROI
 >
-> -       v4l2_ctrl->elem_size =3D sizeof(s32);
-> +       v4l2_ctrl->elem_size =3D uvc_mapping_v4l2_size(mapping);
->         v4l2_ctrl->elems =3D 1;
+>  .../userspace-api/media/drivers/uvcvideo.rst       |  64 ++
+>  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst |  26 +-
+>  .../userspace-api/media/v4l/vidioc-queryctrl.rst   |  14 +
+>  .../userspace-api/media/videodev2.h.rst.exceptions |   4 +
+>  drivers/media/i2c/imx214.c                         |   4 +-
+>  drivers/media/platform/qcom/venus/venc_ctrls.c     |   9 +-
+>  drivers/media/test-drivers/vivid/vivid-ctrls.c     |  34 +
+>  drivers/media/usb/uvc/uvc_ctrl.c                   | 805 +++++++++++++++=
++-----
+>  drivers/media/usb/uvc/uvc_v4l2.c                   |  77 +-
+>  drivers/media/usb/uvc/uvcvideo.h                   |  25 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c           |  54 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c          | 167 ++++-
+>  drivers/media/v4l2-core/v4l2-ioctl.c               |   4 +-
+>  include/media/v4l2-ctrls.h                         |  38 +-
+>  include/uapi/linux/usb/video.h                     |   1 +
+>  include/uapi/linux/uvcvideo.h                      |  13 +
+>  include/uapi/linux/v4l2-controls.h                 |   9 +
+>  include/uapi/linux/videodev2.h                     |   5 +
+>  18 files changed, 1062 insertions(+), 291 deletions(-)
+> ---
+> base-commit: 5516200c466f92954551406ea641376963c43a92
+> change-id: 20241113-uvc-roi-66bd6cfa1e64
 >
->         if (v4l2_ctrl->type >=3D V4L2_CTRL_COMPOUND_TYPES) {
-> @@ -2093,7 +2101,7 @@ static int uvc_mapping_get_xctrl_compound(struct uv=
-c_video_chain *chain,
->                 return -EINVAL;
->         }
->
-> -       size =3D DIV_ROUND_UP(mapping->size, 8);
-> +       size =3D uvc_mapping_v4l2_size(mapping);
->         if (xctrl->size < size) {
->                 xctrl->size =3D size;
->                 return -ENOSPC;
-> @@ -2271,9 +2279,8 @@ static int uvc_mapping_set_xctrl_compound(struct uv=
-c_control *ctrl,
->                                           struct v4l2_ext_control *xctrl)
->  {
->         u8 *data __free(kfree) =3D NULL;
-> -       size_t size;
-> +       size_t size =3D uvc_mapping_v4l2_size(mapping);
->
-> -       size =3D DIV_ROUND_UP(mapping->size, 8);
->         if (xctrl->size !=3D size)
->                 return -EINVAL;
->
->
+> Best regards,
 > --
-> 2.47.0.338.g60cca15819-goog
+> Ricardo Ribalda <ribalda@chromium.org>
 >
 
