@@ -1,140 +1,113 @@
-Return-Path: <linux-media+bounces-22890-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22891-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19AC59E9493
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 13:43:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C6A9E94C4
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 13:49:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04BD21881511
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 12:43:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB3531885B52
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 12:48:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D4DC2248AD;
-	Mon,  9 Dec 2024 12:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ED62227568;
+	Mon,  9 Dec 2024 12:48:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lkLPGtuJ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="B2ScI27/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC1F184545;
-	Mon,  9 Dec 2024 12:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B482221D88;
+	Mon,  9 Dec 2024 12:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733748172; cv=none; b=AqeAKvlAb5tFMzJHC8UXKwHI7PwQH5oDWzXtVfouuUe1WqoBtcEj9axZM4xK5aZ5yMgxoQ8oq90hKakGPKGCvOVoQ/cFbJR3I4PknhEqARTLbQOiBmuxozRAm0UoY4KyKA4TYvKPzzzaxT3DFJXWDO+ATEoXtQVBuFj6Xd14rYs=
+	t=1733748512; cv=none; b=ak/wZC8MNkCVyCLLEf4zOdTc+Osm9Vrb0e4tf1pVF9tJxpoeZz1KkzTdHlo5NwoqrdlVUgXwyQw5EHCxuYy1aVcSp1kw53OKIfNONyfjPNhbSu4HMbQTsFqi7wCh4/Yy4ssUT9cAjXmtp8wAz9awdUBsLVoFJO5PHK/sccRb/18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733748172; c=relaxed/simple;
-	bh=RQrfWmo4OTsSJ/kPbJNVpBZAz5FRd3GqPzJiPkdi6cM=;
+	s=arc-20240116; t=1733748512; c=relaxed/simple;
+	bh=doGwGYhbXQvljz7pEyV8cg3NcfTkJse5GZPQ0eBEQ4w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L5pQEBOWNb/gf/WkzE0feSebva3rtQDbrM90+WJit3PnRvMwaFqKueI5KKEeE0BNiG5rIr/UUidZVzg7YdwdwklMgHQTZd5QkQbZmH3tk7ql4vt5KEXkUm4+PJ8bHJqmGoEAujUYcLtz5UKswH5AI1Buk1abxwc8ZfpE79u8osI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lkLPGtuJ; arc=none smtp.client-ip=217.70.178.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 5353FC0F10;
-	Mon,  9 Dec 2024 12:42:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A2011BF203;
-	Mon,  9 Dec 2024 12:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733748152;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zmWNpmDB2L6Ktl0LzB1M24Lop3ag8dWEwbvJgygrndU=;
-	b=lkLPGtuJmohDKLCRhYFzRQNNYRhSi2WALq49ASl+yflenUQahjVdkz9DvEadX3HcT1vMo9
-	rWqSytJYK5p6kGoTKTXWrwiA7PjoKOWVgQxubgMrtPWBTmlB4mhuxU8euFJ1bfVSTiY8DK
-	Eqc6poaKfSGVy/GRIJVy79ZJg3+AJYrk+NUYpQjoxlY8yy4IvhLn2SuXkFfs+gZ65jv+F3
-	H6S8lMWa6b4Gj/2q6FVR/7rnIWaLyThJwXsIX2QkuOVm5hJuNhJRjI9lsBG3idPXXRDTVe
-	5q7GhzXzteeuN10P47mSPd/diAjb0lzixf4x0DXwdAkbXLMladlDtxUMjqjYkA==
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	 MIME-Version:Content-Type; b=coshXOhlHz4uF+/pjJ9ZAzE0uGezVrTFdmmSzhYn7LsOAtMoT72DvRbiSXJcs55QSnxlO6XAoe9wMLCm1wQPaVlAC6p/sQ2utTKs+TmeXmbOa/I4Qdut0how6nyZQnyHNlrjmo0rDojnYZBz2rWC/aGJ405HVCo+bV6/Y6Su5ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=B2ScI27/; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=YALQ/5d5xwJu+LceFpjWJMU1LIe6WE2pCNsHkacRTcI=; b=B2ScI27/o23d0xltBjPie1Ue+t
+	5XtAHemGGtwCU4r6Kw0aUPIQD/3gXCT7f1etTJxip3qhzWcqwfw4JXmXyLata74X+iJwHGqLwKa35
+	Nsd1CRZa4iw5OSl1D/JJ2ykK/4Lhc6MWwuc3LANeJWXxROWIri8EAGM0W5W6wQBQ3EvnsHzYSD1mt
+	0joyVgYhvrm/vdVBRbOVXBRMMOhfFEqjbGpFySbSEGgtfYppDM1xZwd4TSHOu8y61wQNkR15i7U5m
+	H7+bIm3oEyj2kB3K5ikDYec5gCiDvo1hNBIHz4HbHxHJ2D2OX0emZVllTYnSxCB05IAnB9+Rf6M4W
+	k43Bx9+g==;
+Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1tKdBK-00088z-7p; Mon, 09 Dec 2024 13:48:10 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic <dragan.cvetic@amd.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Cosmin Tanislav <demonsingur@gmail.com>
-Subject: Re: [PATCH v3 8/9] i2c: Support dynamic address translation
-Date: Mon, 09 Dec 2024 13:42:29 +0100
-Message-ID: <3255950.5fSG56mABF@fw-rgant>
-In-Reply-To: <141bbac1-5289-4335-a566-387721439bef@ideasonboard.com>
-References:
- <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
- <20241125-fpc202-v3-8-34e86bcb5b56@bootlin.com>
- <141bbac1-5289-4335-a566-387721439bef@ideasonboard.com>
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+ Shijie Qin <shijie.qin@nxp.com>, Michael Tretter <m.tretter@pengutronix.de>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ Del Regno <angelogioacchino.delregno@somainline.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject:
+ Re: [RESEND PATCH] media: dt-bindings: trivial white-space and example
+ cleanup
+Date: Mon, 09 Dec 2024 13:48:08 +0100
+Message-ID: <9635159.2WqB4rESCP@diego>
+In-Reply-To: <20241209113405.74226-1-krzysztof.kozlowski@linaro.org>
+References: <20241209113405.74226-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-GND-Sasl: romain.gantois@bootlin.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Tomi,
+Am Montag, 9. Dezember 2024, 12:34:05 CET schrieb Krzysztof Kozlowski:
+> Minor cleanups without funcitonal impact:
+>  - There should not be an empty blank line after SPDX tag,
+>  - Convention is to indent DTS examples in coding style with 2- or
+>    4-space indentation (4 is preferred),
+>  - Drop unused labels in DTS examples.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-On vendredi 29 novembre 2024 10:54:35 heure normale d=E2=80=99Europe centra=
-le Tomi=20
-Valkeinen wrote:
-> Hi Romain,
->=20
-> On 25/11/2024 10:45, Romain Gantois wrote:
-> > The i2c-atr module keeps a list of associations between I2C client alia=
-ses
-=2E..
-> > i2c_atr_dynamic_attach/detach_addr from racing with the bus notifier
-> > handler to modify alias_list.
-> >=20
-> > Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
-> > ---
-> >=20
-> >   drivers/i2c/i2c-atr.c         | 244
-> >   ++++++++++++++++++++++++++++++++----------
-> >   drivers/media/i2c/ds90ub960.c |   2 +-
-> >   include/linux/i2c-atr.h       |  13 ++-
-> >   3 files changed, 202 insertions(+), 57 deletions(-)
->=20
-> This fails with:
->=20
-> WARNING: CPU: 1 PID: 360 at lib/list_debug.c:35
-> __list_add_valid_or_report+0xe4/0x100
->=20
-> as the i2c_atr_create_c2a() calls list_add(), but i2c_atr_attach_addr(),
-> which is changed to use i2c_atr_create_c2a(), also calls list_add().
->=20
-> Also, if you add i2c_atr_create_c2a() which hides the allocation and
-> list_add, I think it makes sense to add a i2c_atr_destroy_c2a() to
-> revert that.
->=20
-> There's also a memory error "BUG: KASAN: slab-use-after-free in
-> __lock_acquire+0xc4/0x375c" (see below) when unloading the ub960 or
-> ub953 driver. I haven't looked at that yet.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-I think I've found what's causing this KASAN splat.  i2c_atr_del_adapter is
-freeing it's alias pool before setting atr->adapter[chan_id] to NULL. So
-there's a time window during which bus notifications can trigger a call
-to i2c_atr_attach_addr, leading to a UAF on the alias pool struct.
-
-I'll fix this in v4.
-
-Thanks,
-
-=2D-=20
-Romain Gantois, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+(even looked at the whole patch and not only the Rockchip parts :-) )
 
 
 
