@@ -1,229 +1,265 @@
-Return-Path: <linux-media+bounces-22863-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22864-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867789E8E71
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 10:11:40 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BB951885B25
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 09:11:40 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9494C215F48;
-	Mon,  9 Dec 2024 09:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jsufn80h"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5907B9E8E9D
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 10:24:06 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417FA1BC4E;
-	Mon,  9 Dec 2024 09:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E78EB281C99
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 09:24:04 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E431215F65;
+	Mon,  9 Dec 2024 09:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="nD2aFhU+"
+X-Original-To: linux-media@vger.kernel.org
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE8E1EB3D;
+	Mon,  9 Dec 2024 09:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733735491; cv=none; b=Y2UHgc9hUfzpMUYH7frLB5hfwMF0a4kjdYQw2aK7/n3xHINaacLbbg3uGEnKZZgThcaODDaMRSkgMGTwvHMJ1pj6pj4pqZHJBfu1oUZGRdRdfOj5PCnjbzL8yfwITtAbd9TSq+lalUIaKJDPwQ17Nd1NDN9NuPuH9djvqJu8nvk=
+	t=1733736237; cv=none; b=iQcxvS0/PhD/HwsC/1qUepCEenl6kRnMNsh3cfurKX5hpCm1Hni+RxoihDx6SgasuHRJsMde1msTCCMNgMeJSr7zceUiu17wxa/vYEBqGccMxU5a1upkzD8l72PJjUw0+RnRmX1Bq2u8XVFP42piknDRM35ayQXXA1RGJaVrmD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733735491; c=relaxed/simple;
-	bh=H9L0MHhjjhm0zhl+c8rdRcjDV9gB1mSiunea67/jqFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dHnkKAcFevDqVFL8ouef59DaauhV/hnMlyigetR0/rBKDwH8NO2Lg3f4WAXqtF3WmSC3iQDLTGwueoUe8KmMQDNj0aQuUFYOqMUuOIXmsIr2vpVgfyO2BuvYvaMwNqe9o0DUy4oitZlF2EUqHOzwVM5V9An5BEiXPYmbMuCp4f4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jsufn80h; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1733736237; c=relaxed/simple;
+	bh=YZ7y/T0t9DKmMJENGaF77mHqgmBeeyDvVEKNQCKvbW4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dnAyePtBEYyVtXU2HJmOZriG+J1LNRWPWvu6Kp99/RiBhk/Bzy6C+D+901rG1aSY8VGm5MwhaqNOyfyv64KfqXTQo7szHT7c0V0j32s5gKYcubI7fqBOaD3cwiP0cQtarFrGFdlE+jSBnOkYv5yZRVIr2b+htdMokaYERcYA3M0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=nD2aFhU+; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733735489; x=1765271489;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H9L0MHhjjhm0zhl+c8rdRcjDV9gB1mSiunea67/jqFA=;
-  b=Jsufn80hZAcaKckobUhfEoxFoFplD9ZRhd2Zrg3Jf5EW8KFc5+8T4OuC
-   hevBAE+CSVWifV8wLF+C5crAGzelOY/XrhlIKYU/Gx3WQEEkgo8i3ML3p
-   /AYKXQb89i7lTpB7m0fdhk52BuKKPQk1TI4SbtCWK2+WKRINfxPsCYniT
-   vkJ+drhhQAYHjlV0K4gSd6WcIQLXLDdPRYB6Pv3FhdVsAaRzgSgrmaq9d
-   7Td7mwF6Ih7cIZDUqPok7YrePlLMtBNvyxRimJp3VBuoH49GQD5qI1B8K
-   JFY7xSUG5znxBGmQOjNqsOpmyFjPmjmsgMLbRcwg9lsCLRx5tc0h0bGjE
-   Q==;
-X-CSE-ConnectionGUID: xDS5EjrjQoW2AACTUGq0Lw==
-X-CSE-MsgGUID: by6Gva6uSi256nnMETt3ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34081172"
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="34081172"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 01:11:27 -0800
-X-CSE-ConnectionGUID: /zk0q9kDRNm9IvVDN0OIkg==
-X-CSE-MsgGUID: MpLYHR0FSAypxk0ggc25qg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; 
-   d="scan'208";a="95211991"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 01:11:25 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 03E4111F775;
-	Mon,  9 Dec 2024 11:11:23 +0200 (EET)
-Date: Mon, 9 Dec 2024 09:11:22 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v4 04/15] media: i2c: ds90ub960: Fix logging SP & EQ
- status only for UB9702
-Message-ID: <Z1a0OiRDw92o1w6_@kekkonen.localdomain>
-References: <20241206-ub9xx-fixes-v4-0-466786eec7cc@ideasonboard.com>
- <20241206-ub9xx-fixes-v4-4-466786eec7cc@ideasonboard.com>
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1733736235; x=1765272235;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YZ7y/T0t9DKmMJENGaF77mHqgmBeeyDvVEKNQCKvbW4=;
+  b=nD2aFhU+xxJwwBtIera4zUz0vy90aAiVcFnJ3hW6N9wo0hEu9yNoDaHx
+   DinS/19uyycgFXI4QmVY86MN1X0i9+TVvhfifdS4rma2LgfhBvQvbQQhF
+   msBq926121CTQx5fbyCxSe0DjmkQarXvuJTnaVhWYzeVYAJefzwLO3O+w
+   WcW+uDlPznf5M2v3T80f3/yNrqETIZBngn7jhWbLiz3s4l/g3W+UW8GX1
+   26HW7uuJPpOxy1j8rDC/Wsc7bqper6XPjhU9ZdIbJ8jiINEDyNTPs+2Mk
+   t8bso29zZ5VEB1zNbrgCS+/NU4KV9/QSJUPFXl4jiHxZlaI2ptwDvPBb0
+   w==;
+X-CSE-ConnectionGUID: TuCIRiqBRDaUjw+gxWZNtg==
+X-CSE-MsgGUID: cgx42TAzRA+bi0zphClOEw==
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; 
+   d="scan'208";a="202745247"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Dec 2024 02:23:48 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 9 Dec 2024 02:22:58 -0700
+Received: from microchip1-OptiPlex-9020.microchip.com (10.10.85.11) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 9 Dec 2024 02:22:55 -0700
+From: shravan kumar <shravan.chippa@microchip.com>
+To: <sakari.ailus@linux.intel.com>, <mchehab@kernel.org>
+CC: <kieran.bingham@ideasonboard.com>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <conor.dooley@microchip.com>,
+	<valentina.fernandezalanis@microchip.com>, <praveen.kumar@microchip.com>,
+	<shravan.chippa@microchip.com>
+Subject: [PATCH V2] media: i2c: imx334: Add support for 1280x720 & 640x480 resolutions
+Date: Mon, 9 Dec 2024 14:58:58 +0530
+Message-ID: <20241209092858.338596-1-shravan.chippa@microchip.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241206-ub9xx-fixes-v4-4-466786eec7cc@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Huomenta,
+From: Shravan Chippa <shravan.chippa@microchip.com>
 
-On Fri, Dec 06, 2024 at 10:26:40AM +0200, Tomi Valkeinen wrote:
-> UB9702 does not have SP and EQ registers, but the driver uses them in
-> log_status(). Fix this by separating the SP and EQ related log_status()
-> work into a separate function (for clarity) and calling that function
-> only for UB960.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
-> Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/i2c/ds90ub960.c | 90 ++++++++++++++++++++++++-------------------
->  1 file changed, 50 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index 24198b803eff..94c8acf171b4 100644
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -2950,6 +2950,54 @@ static const struct v4l2_subdev_pad_ops ub960_pad_ops = {
->  	.set_fmt = ub960_set_fmt,
->  };
->  
-> +static void ub960_log_status_ub960_sp_eq(struct ub960_data *priv,
-> +					 unsigned int nport)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	u8 eq_level;
-> +	s8 strobe_pos;
-> +	u8 v = 0;
-> +
-> +	/* Strobe */
-> +
-> +	ub960_read(priv, UB960_XR_AEQ_CTL1, &v);
+Add support for 1280x720@30 and 640x480@30 resolutions
+optimized the resolution arrays by added common register
+array
 
-How about adding __must_check to the ub960_read()?
+Updated 1920x1080@30 resolution register array with
+common register array
 
-> +
-> +	dev_info(dev, "\t%s strobe\n",
-> +		 (v & UB960_XR_AEQ_CTL1_AEQ_SFILTER_EN) ? "Adaptive" :
-> +							  "Manual");
-> +
-> +	if (v & UB960_XR_AEQ_CTL1_AEQ_SFILTER_EN) {
-> +		ub960_read(priv, UB960_XR_SFILTER_CFG, &v);
-> +
-> +		dev_info(dev, "\tStrobe range [%d, %d]\n",
-> +			 ((v >> UB960_XR_SFILTER_CFG_SFILTER_MIN_SHIFT) & 0xf) - 7,
-> +			 ((v >> UB960_XR_SFILTER_CFG_SFILTER_MAX_SHIFT) & 0xf) - 7);
-> +	}
-> +
-> +	ub960_rxport_get_strobe_pos(priv, nport, &strobe_pos);
-> +
-> +	dev_info(dev, "\tStrobe pos %d\n", strobe_pos);
-> +
-> +	/* EQ */
-> +
-> +	ub960_rxport_read(priv, nport, UB960_RR_AEQ_BYPASS, &v);
-> +
-> +	dev_info(dev, "\t%s EQ\n",
-> +		 (v & UB960_RR_AEQ_BYPASS_ENABLE) ? "Manual" :
-> +						    "Adaptive");
-> +
-> +	if (!(v & UB960_RR_AEQ_BYPASS_ENABLE)) {
-> +		ub960_rxport_read(priv, nport, UB960_RR_AEQ_MIN_MAX, &v);
-> +
-> +		dev_info(dev, "\tEQ range [%u, %u]\n",
-> +			 (v >> UB960_RR_AEQ_MIN_MAX_AEQ_FLOOR_SHIFT) & 0xf,
-> +			 (v >> UB960_RR_AEQ_MIN_MAX_AEQ_MAX_SHIFT) & 0xf);
-> +	}
-> +
-> +	if (ub960_rxport_get_eq_level(priv, nport, &eq_level) == 0)
-> +		dev_info(dev, "\tEQ level %u\n", eq_level);
-> +}
-> +
->  static int ub960_log_status(struct v4l2_subdev *sd)
->  {
->  	struct ub960_data *priv = sd_to_ub960(sd);
-> @@ -2997,8 +3045,6 @@ static int ub960_log_status(struct v4l2_subdev *sd)
->  
->  	for (nport = 0; nport < priv->hw_data->num_rxports; nport++) {
->  		struct ub960_rxport *rxport = priv->rxports[nport];
-> -		u8 eq_level;
-> -		s8 strobe_pos;
->  		unsigned int i;
->  
->  		dev_info(dev, "RX %u\n", nport);
-> @@ -3034,44 +3080,8 @@ static int ub960_log_status(struct v4l2_subdev *sd)
->  		ub960_rxport_read(priv, nport, UB960_RR_CSI_ERR_COUNTER, &v);
->  		dev_info(dev, "\tcsi_err_counter %u\n", v);
->  
-> -		/* Strobe */
-> -
-> -		ub960_read(priv, UB960_XR_AEQ_CTL1, &v);
-> -
-> -		dev_info(dev, "\t%s strobe\n",
-> -			 (v & UB960_XR_AEQ_CTL1_AEQ_SFILTER_EN) ? "Adaptive" :
-> -								  "Manual");
-> -
-> -		if (v & UB960_XR_AEQ_CTL1_AEQ_SFILTER_EN) {
-> -			ub960_read(priv, UB960_XR_SFILTER_CFG, &v);
-> -
-> -			dev_info(dev, "\tStrobe range [%d, %d]\n",
-> -				 ((v >> UB960_XR_SFILTER_CFG_SFILTER_MIN_SHIFT) & 0xf) - 7,
-> -				 ((v >> UB960_XR_SFILTER_CFG_SFILTER_MAX_SHIFT) & 0xf) - 7);
-> -		}
-> -
-> -		ub960_rxport_get_strobe_pos(priv, nport, &strobe_pos);
-> -
-> -		dev_info(dev, "\tStrobe pos %d\n", strobe_pos);
-> -
-> -		/* EQ */
-> -
-> -		ub960_rxport_read(priv, nport, UB960_RR_AEQ_BYPASS, &v);
-> -
-> -		dev_info(dev, "\t%s EQ\n",
-> -			 (v & UB960_RR_AEQ_BYPASS_ENABLE) ? "Manual" :
-> -							    "Adaptive");
-> -
-> -		if (!(v & UB960_RR_AEQ_BYPASS_ENABLE)) {
-> -			ub960_rxport_read(priv, nport, UB960_RR_AEQ_MIN_MAX, &v);
-> -
-> -			dev_info(dev, "\tEQ range [%u, %u]\n",
-> -				 (v >> UB960_RR_AEQ_MIN_MAX_AEQ_FLOOR_SHIFT) & 0xf,
-> -				 (v >> UB960_RR_AEQ_MIN_MAX_AEQ_MAX_SHIFT) & 0xf);
-> -		}
-> -
-> -		if (ub960_rxport_get_eq_level(priv, nport, &eq_level) == 0)
-> -			dev_info(dev, "\tEQ level %u\n", eq_level);
-> +		if (!priv->hw_data->is_ub9702)
-> +			ub960_log_status_ub960_sp_eq(priv, nport);
->  
->  		/* GPIOs */
->  		for (i = 0; i < UB960_NUM_BC_GPIOS; i++) {
-> 
+Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+---
+ drivers/media/i2c/imx334.c | 120 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 100 insertions(+), 20 deletions(-)
 
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index a544fc3df39c..377a3eb47f36 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -167,8 +167,9 @@ static const s64 link_freq[] = {
+ 	IMX334_LINK_FREQ_445M,
+ };
+ 
+-/* Sensor mode registers for 1920x1080@30fps */
+-static const struct imx334_reg mode_1920x1080_regs[] = {
++
++/* Sensor common mode registers for 445M link frequency */
++static const struct imx334_reg common_mode_regs_445m[] = {
+ 	{0x3000, 0x01},
+ 	{0x3018, 0x04},
+ 	{0x3030, 0xca},
+@@ -176,26 +177,10 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+ 	{0x3032, 0x00},
+ 	{0x3034, 0x4c},
+ 	{0x3035, 0x04},
+-	{0x302c, 0xf0},
+-	{0x302d, 0x03},
+-	{0x302e, 0x80},
+-	{0x302f, 0x07},
+-	{0x3074, 0xcc},
+-	{0x3075, 0x02},
+-	{0x308e, 0xcd},
+-	{0x308f, 0x02},
+-	{0x3076, 0x38},
+-	{0x3077, 0x04},
+-	{0x3090, 0x38},
+-	{0x3091, 0x04},
+-	{0x3308, 0x38},
+-	{0x3309, 0x04},
+-	{0x30C6, 0x00},
++	{0x30c6, 0x00},
+ 	{0x30c7, 0x00},
+ 	{0x30ce, 0x00},
+ 	{0x30cf, 0x00},
+-	{0x30d8, 0x18},
+-	{0x30d9, 0x0a},
+ 	{0x304c, 0x00},
+ 	{0x304e, 0x00},
+ 	{0x304f, 0x00},
+@@ -210,7 +195,7 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+ 	{0x300d, 0x29},
+ 	{0x314c, 0x29},
+ 	{0x314d, 0x01},
+-	{0x315a, 0x06},
++	{0x315a, 0x0a},
+ 	{0x3168, 0xa0},
+ 	{0x316a, 0x7e},
+ 	{0x319e, 0x02},
+@@ -330,6 +315,66 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+ 	{0x3002, 0x00},
+ };
+ 
++/* Sensor mode registers for 640x480@30fps */
++static const struct imx334_reg mode_640x480_regs[] = {
++	{0x302c, 0x70},
++	{0x302d, 0x06},
++	{0x302e, 0x80},
++	{0x302f, 0x02},
++	{0x3074, 0x48},
++	{0x3075, 0x07},
++	{0x308e, 0x49},
++	{0x308f, 0x07},
++	{0x3076, 0xe0},
++	{0x3077, 0x01},
++	{0x3090, 0xe0},
++	{0x3091, 0x01},
++	{0x3308, 0xe0},
++	{0x3309, 0x01},
++	{0x30d8, 0x30},
++	{0x30d9, 0x0b},
++};
++
++/* Sensor mode registers for 1280x720@30fps */
++static const struct imx334_reg mode_1280x720_regs[] = {
++	{0x302c, 0x30},
++	{0x302d, 0x05},
++	{0x302e, 0x00},
++	{0x302f, 0x05},
++	{0x3074, 0x84},
++	{0x3075, 0x03},
++	{0x308e, 0x85},
++	{0x308f, 0x03},
++	{0x3076, 0xd0},
++	{0x3077, 0x02},
++	{0x3090, 0xd0},
++	{0x3091, 0x02},
++	{0x3308, 0xd0},
++	{0x3309, 0x02},
++	{0x30d8, 0x30},
++	{0x30d9, 0x0b},
++};
++
++/* Sensor mode registers for 1920x1080@30fps */
++static const struct imx334_reg mode_1920x1080_regs[] = {
++	{0x302c, 0xf0},
++	{0x302d, 0x03},
++	{0x302e, 0x80},
++	{0x302f, 0x07},
++	{0x3074, 0xcc},
++	{0x3075, 0x02},
++	{0x308e, 0xcd},
++	{0x308f, 0x02},
++	{0x3076, 0x38},
++	{0x3077, 0x04},
++	{0x3090, 0x38},
++	{0x3091, 0x04},
++	{0x3308, 0x38},
++	{0x3309, 0x04},
++	{0x30d8, 0x18},
++	{0x30d9, 0x0a},
++};
++
+ /* Sensor mode registers for 3840x2160@30fps */
+ static const struct imx334_reg mode_3840x2160_regs[] = {
+ 	{0x3000, 0x01},
+@@ -505,6 +550,32 @@ static const struct imx334_mode supported_modes[] = {
+ 			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
+ 			.regs = mode_1920x1080_regs,
+ 		},
++	}, {
++		.width = 1280,
++		.height = 720,
++		.hblank = 2480,
++		.vblank = 1170,
++		.vblank_min = 45,
++		.vblank_max = 132840,
++		.pclk = 297000000,
++		.link_freq_idx = 1,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
++			.regs = mode_1280x720_regs,
++		},
++	}, {
++		.width = 640,
++		.height = 480,
++		.hblank = 2480,
++		.vblank = 1170,
++		.vblank_min = 45,
++		.vblank_max = 132840,
++		.pclk = 297000000,
++		.link_freq_idx = 1,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_640x480_regs),
++			.regs = mode_640x480_regs,
++		},
+ 	},
+ };
+ 
+@@ -989,6 +1060,15 @@ static int imx334_start_streaming(struct imx334 *imx334)
+ 	const struct imx334_reg_list *reg_list;
+ 	int ret;
+ 
++	if (link_freq[imx334->cur_mode->link_freq_idx] == IMX334_LINK_FREQ_445M) {
++		ret = imx334_write_regs(imx334, common_mode_regs_445m,
++					ARRAY_SIZE(common_mode_regs_445m));
++		if (ret) {
++			dev_err(imx334->dev, "fail to write common registers");
++			return ret;
++		}
++	}
++
+ 	/* Write sensor mode registers */
+ 	reg_list = &imx334->cur_mode->reg_list;
+ 	ret = imx334_write_regs(imx334, reg_list->regs,
 -- 
-Terveisin,
+2.34.1
 
-Sakari Ailus
 
