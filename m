@@ -1,108 +1,121 @@
-Return-Path: <linux-media+bounces-22852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22855-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8229F9E8B3D
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 06:56:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D709E8D1A
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 09:16:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80F27164595
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 05:56:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 129291883E90
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 08:16:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56D7D210193;
-	Mon,  9 Dec 2024 05:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C530321518F;
+	Mon,  9 Dec 2024 08:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jjmr385a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB1D207E03;
-	Mon,  9 Dec 2024 05:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1311754918;
+	Mon,  9 Dec 2024 08:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733723802; cv=none; b=TectfmXV1q7+Jv+UnFdzQbH3SAM33fVbr57djJHTSSvCzy//0S9vEYBMHMCV+t9qAYeBICzB0biqjfzZTwpq6KBWgY+mYqryyKjTnrchWh48lP7Zqi9Mzk2AqpsYVC36f6M7S0czzM44qo7AZClgrGOjQ47PZQmfVN9bFhaClWc=
+	t=1733732155; cv=none; b=rpv2VfFzdD5fjKMJdbkmYUf+DomiLhV97DzDl6AKxCOc2ZIf/DudQvto7e+PzlLP4UiWsf342tI2I1/RUA0G3RSevfm/FtNiFG269qLC9RZfg5aT2i+aLSADjVhRvvljRn5BZFWqL+1P8d+ClaW+2kLSjVeSbQS5q2m8IqWJIKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733723802; c=relaxed/simple;
-	bh=S3ynFn5IQhrduAB8uFXzMnIMijqyL8bdZHhsSiOAqM0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=U+4TdTZPtM+I6bp0E/+Oxw3rKb56HD1Nf0sUCBQXl8i5B51uHh+0ZG9oZ5PBiFXJtjyEMEks5NMbcaPErmxOkfd6Mwf9SXIkM8fgDKlIzVNgFlOaaozNQuL5NUKfRV/aFsSRze3F5wPDiaRhGgJrigKQAdZFw8+bC5emiqgQQFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B95pamN011765;
-	Mon, 9 Dec 2024 05:56:25 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43cx4x90tf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 09 Dec 2024 05:56:24 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Sun, 8 Dec 2024 21:56:23 -0800
-Received: from pek-lpg-core1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Sun, 8 Dec 2024 21:56:20 -0800
-From: <jianqi.ren.cn@windriver.com>
-To: <fullwaywang@outlook.com>, <gregkh@linuxfoundation.org>
-CC: <stable@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <tiffany.lin@mediatek.com>, <andrew-ct.chen@mediatek.com>,
-        <yunfei.dong@mediatek.com>, <mchehab@kernel.org>,
-        <matthias.bgg@gmail.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH 6.1.y] media: mtk-vcodec: potential null pointer deference in SCP
-Date: Mon, 9 Dec 2024 14:54:13 +0800
-Message-ID: <20241209065413.3427435-1-jianqi.ren.cn@windriver.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1733732155; c=relaxed/simple;
+	bh=OcV2xYxRXTCXMuX1ekCAw7NyTEEuqu99/Vs5cwe1gBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bIkV0e7LPdqnSyREiy0yR7tDUH4Z9JoxO5VdknOfHbvI/1DadkBMEdCoWNE0uiWsJBy4VAFqqPszv1NzaxsmdWR4FAjnWdk/L4noIHBpv7smMw9Gc4vMPRWwBoWU6pYUmB1Dx9rTBecUbf16ZG+00uov1hY5tUPe7q0ted4FEBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jjmr385a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13641C4CED1;
+	Mon,  9 Dec 2024 08:15:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733732154;
+	bh=OcV2xYxRXTCXMuX1ekCAw7NyTEEuqu99/Vs5cwe1gBs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Jjmr385a0JB0QLKCV/1CcCyNl02f9Avzzglhdh2HISXHY4xizV709sTTiHPmzBjlE
+	 8lKa0lPqozeC8liJOK4qXeE5HDqpENxW0BywmqYb3uVQ9wHtTonD8aIo1y/fj+7elZ
+	 wjFl4XcD97VFB8M4GcoC38L4I+VLPMLYnsB7ikDpVqnMqi4MrvhQbVC0TurwWpG4L0
+	 eSkiC+wg23NIEzgtYC6687X2pb6HWADK7NZcLHHaM7llgO6gkpxDUU9IzIxnhKIPwR
+	 p1oidmBeylmrWGzgN6ibcqc6v4J6nw3o+FsYNdHHAxJtmB1m/rghR9DRFceHSEnraL
+	 6B+BzFaNG3grg==
+Date: Mon, 9 Dec 2024 09:15:48 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Media committers model postponed to 6.14 - Was: Re: [PATCH v3 0/3]
+ Document the new media-committer's model
+Message-ID: <20241209091548.165e5152@foz.lan>
+In-Reply-To: <20241203140712.57daa65f@foz.lan>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+	<b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+	<20241203081958.6c186835@foz.lan>
+	<20241203112209.GR10736@pendragon.ideasonboard.com>
+	<20241203140712.57daa65f@foz.lan>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: S3ZoAS84DtwxGV_JxU010U8Iu170Gkmg
-X-Proofpoint-ORIG-GUID: S3ZoAS84DtwxGV_JxU010U8Iu170Gkmg
-X-Authority-Analysis: v=2.4 cv=Y/UCsgeN c=1 sm=1 tr=0 ts=67568688 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=VwQbUJbxAAAA:8 a=UqCG9HQmAAAA:8 a=t7CeM3EgAAAA:8 a=7f2alXSBUxmpNkzq_swA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-09_02,2024-12-09_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 mlxscore=0 clxscore=1011 malwarescore=0 priorityscore=1501
- phishscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 spamscore=0
- impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2411120000 definitions=main-2412090047
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Fullway Wang <fullwaywang@outlook.com>
+Em Tue, 3 Dec 2024 14:07:12 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-[ Upstream commit 53dbe08504442dc7ba4865c09b3bbf5fe849681b ]
+> 
+> The idea is to gradually open media-committers to more people, as each
+> phase succeeds, addressing infra, procedures, etc.
+> 
+> My rough idea is to do:
+> 
+> - Phase 0.99: beta testers;
+> - Phase 1 is to invite people that regularly submit PRs;
+> - Phase 2 is to invite other active maintainers;
+> - Phase 3 (or 2?, TBD) to open for non-maintainers.
+> 
+> We shouldn't rush it, as there are a lot to be done before opening it
+> broadly. So, I would say that:
+> - phase 0.99 would start in -rc2 (if things go well during this week); 
+> - phase 1 may still happen on this merge window, but as there will be
+>   only a few weeks between -rc2 and -rc6, and people usually get
+>   holidays in Dec/Jan, it is more likely that it will start for
+>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
+> 
+>   We should wait at least for a couple of releases on phase 1,
+>   again to cleanup process and fine-tune infra. If things go well, 
+>   we can move to phase 2.
 
-The return value of devm_kzalloc() needs to be checked to avoid
-NULL pointer deference. This is similar to CVE-2022-3113.
+After some discussions with Hans, we decided to postpone the
+beta testers phase to the next kernel cycle. There are a couple of
+reasons for that:
 
-Link: https://lore.kernel.org/linux-media/PH7PR20MB5925094DAE3FD750C7E39E01BF712@PH7PR20MB5925.namprd20.prod.outlook.com
-Signed-off-by: Fullway Wang <fullwaywang@outlook.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Jianqi Ren <jianqi.ren.cn@windriver.com>
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c | 2 ++
- 1 file changed, 2 insertions(+)
+- This should give us more time to come up with a final version of 
+  the media-committers documentation and agreement;
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
-index d8e66b645bd8..27f08b1d34d1 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
-@@ -65,6 +65,8 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(struct mtk_vcodec_dev *dev)
- 	}
- 
- 	fw = devm_kzalloc(&dev->plat_dev->dev, sizeof(*fw), GFP_KERNEL);
-+	if (!fw)
-+		return ERR_PTR(-ENOMEM);
- 	fw->type = SCP;
- 	fw->ops = &mtk_vcodec_rproc_msg;
- 	fw->scp = scp;
--- 
-2.25.1
+- This would also work better with regards to end of year's vacations,
+  as they'll be affecting at least 2/3 -rc versions. Plus, we all have
+  things to finish before such vacations. So, better to start fresh next
+  year;
 
+- Media CI still had issues with a patch series I submitted, as it picked
+  the wrong baseline, causing CI to not test two patches that were
+  applied on the top of media-committers/next branch. This was fixed
+  by Ricardo, but it means that we may still need to polish CI before
+  granting more people righs there.
+
+With that, if we want to start the media committers for 6.14, we should
+aim to close review this document by -rc6, or, at most, -rc7, getting 
+the patches merged during the next merge window.
+
+Regard
+
+Thanks,
+Mauro
 
