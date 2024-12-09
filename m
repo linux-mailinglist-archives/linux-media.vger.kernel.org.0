@@ -1,215 +1,174 @@
-Return-Path: <linux-media+bounces-22950-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22951-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955F79E9B46
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 17:10:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F69F9E9B4F
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 17:12:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14A51280ECA
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 16:10:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C218E281210
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 16:12:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 365AB13A865;
-	Mon,  9 Dec 2024 16:10:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2794B13B280;
+	Mon,  9 Dec 2024 16:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="PRz/0k1r";
+	dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b="D8qgOeal"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43AE233139;
-	Mon,  9 Dec 2024 16:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733760601; cv=none; b=eJ1DebcP/p3BWDUQKcw5xKjtQ18hYmM3MXzgdcDzmLTnwi3qiy2b4dzPjPP0fgzUe+q/r9dGh68aSef3M4mL+vA8ga6OTgixLc5uweA9Hx96LUId1p5CJKjURJz3r0iDnrO15j+Zf6AmHH5M57BmwD1gsASI3nlTtwxb4SGNuVM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733760601; c=relaxed/simple;
-	bh=M9R4e+RGYmKtL73QCrCmTDz4Sw+OhWOyfWO+xrg36Yc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uNTz3Qrr4oPXKND5PXfTXlu5jc0mI0oaGYV3tjMhJqnqm5oV/KwOnsyxGCG6otXxRXd1d3x8HxB/L7rB1U5+sM4u+iX3IJjBQsHRP6c4ViWKgDUe0eiUouGCTWOYENGj+LOUuFyZ5EwVdexZ+QFCSdtQ4bcw03vsY+rX4kB4wq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF5BC4CED1;
-	Mon,  9 Dec 2024 16:09:57 +0000 (UTC)
-Message-ID: <31b2e7e7-d37e-4adf-bcaf-a5088ddae4e9@xs4all.nl>
-Date: Mon, 9 Dec 2024 17:09:55 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF95A233139;
+	Mon,  9 Dec 2024 16:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=72.84.236.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733760748; cv=fail; b=lYTPp4EriP9pbdRYeDMlNFuPtU5eg0MWLerl1q1ZgmB3ojBwqkgTsNVkKT06kP0SxkwMZwMJR05JwY6WJn30gD/Ipk8PxTz3fr7/gXCd5dJaUY8wNVoE/YXbgSEX4JabErvODET1V+8zTcIIlDm9RCYeBRZB9p9/M7lvSCWw1U8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733760748; c=relaxed/simple;
+	bh=s4KoCz75uO+3e9W7SAZg0svC3ypzFsG03CMxh9+nBI8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YYAkWChWmoJxHpO2m6lIQQOskAgkYw1kGKXXLLnogNQqOptTJpgaJdR/fY+8YFfEUoVJI8u16YHDWdOA3pesreeT7+iVHHS/RJhHXdrRUmcyOH3IpauRNCoLuXl5WmyAcFEr3iuhhlw0c+mLSWcG+TQMpWlTAQKZDhyf3+V9+lE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com; spf=pass smtp.mailfrom=sapience.com; dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b=PRz/0k1r; dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b=D8qgOeal; arc=fail smtp.client-ip=72.84.236.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sapience.com
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+   signature) header.d=sapience.com header.i=@sapience.com 
+   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by s1.sapience.com (Postfix) with ESMTPS id 75FC0480525;
+	Mon, 09 Dec 2024 11:12:25 -0500 (EST)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1733760745;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=yCff0reIMkVdZUNSUwuUxWtpDSfpdPI8D8HTB3BQ67s=;
+ b=PRz/0k1r8Ou4MxCbHn1mpP6NjnScRlfnrZDoHq4qDTnUdJZSXrPCKXx8vNkp5DBblARD1
+ jLvOzLdneWQMdNRDw==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1733760745;
+	cv=none; b=LB+H4gXl2zckP53HBPx2DytCxw0XWF1ox8ZSLgWbWeJfff1eDIIJCWn1h5p9EI/cfn1Vpz8wIXJh0NG6OjaOB8ue1WNwpilALTD0UIlBBO0k2a9oS1SaEiAV4UKSD4+c2mvKKFr4jrnAUxZF38pwCPg0NraQc4U1943NKGYY6rSFymElwn+fcf909Su+aJ57PPneHYlkNyaPsLCQyCsZ/cDc+ldc+jzb+S1SVepEg2HLMRqAwCq32l+mDMr2UyqOa1vqP0BwsLrknJczv9OHhUGlZIeZYZmTyLh2b74Y1Z+oltud+Wjn3V1UCCY36eE9BzIakvYc02H3YpXfK1MV7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+	t=1733760745; c=relaxed/simple;
+	bh=s4KoCz75uO+3e9W7SAZg0svC3ypzFsG03CMxh9+nBI8=;
+	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
+	 MIME-Version; b=nquiQmzc9gPkGJkr2xKxoGF/BsutWBYRsE1C6EIRhjQ/EDB5pz6lr8M/5Xu+ms8Az3v9nr+2icYMSGDuvSu6BgEI/ADirsGPLXya9Hz2eldR5J8Pe2Y1SAdjcOfTdkceuoufSJiEzm9NZxVloF//wIZadFjnj0vbYNjzNmXll3uTc7gwXlrmiYhE66GA3s7rHgsOcE8go2PrlVC1aaqSZWy4FFUd7MWEA2GYy4g0c7bqQ+gw7YesFxHy8tDOkIyZ8D03cWdDI6tfC0EheCA8CkutkERNlh1pMbeWRZ81guAqQRDCvCx0MGzMvM8f3SACyELKBkEu9dLKjeZkdSN5yQ==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1733760745;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=yCff0reIMkVdZUNSUwuUxWtpDSfpdPI8D8HTB3BQ67s=;
+ b=D8qgOealkrIHi51HpuzIqMmYQweAIe2zMIqupR/2dcJeEWCFXYQKrhlUnQyMEc+O80mcV
+ haNEWanUEttPL1af/LMzuTRU2p82jYgJJFkLDHNOL1ISscDNYzsKalWwCfH5mMiyeW/ld5j
+ 3cK1Ff4hUq4b+Fumf9wwXcudU0eqpGz0A3OilgdtfY3hSVfyvUMzHOcNQpdDn45Ywv3hu8F
+ YvKqbxAbwIUbd0YC/MiCjVUZAAIcasqW0PHByZPdbPqpMWBGfly2jCUCcaGN+pZA+bxDXic
+ EFTQfK7Y98Cs4qrArZYhK2oXKVq4Gs1UEbnLdjg9L2xu/kkWjTpHk7HpUSAg==
+Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by srv8.sapience.com (Postfix) with ESMTPS id 3DFB0280081;
+	Mon, 09 Dec 2024 11:12:25 -0500 (EST)
+Message-ID: <d2a5d51bd98f167fac6286607f5a56591432114f.camel@sapience.com>
+Subject: Re: Linux 6.12.4 - crash dma_alloc_attrs+0x12b via ipu6
+From: Genes Lists <lists@sapience.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, akpm@linux-foundation.org, 
+	torvalds@linux-foundation.org, stable@vger.kernel.org, 
+	linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+ bingbu.cao@intel.com
+Date: Mon, 09 Dec 2024 11:12:24 -0500
+In-Reply-To: <2024120934-wreckage-hazily-166f@gregkh>
+References: <2024120917-vision-outcast-85f2@gregkh>
+	 <c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com>
+	 <2024120934-wreckage-hazily-166f@gregkh>
+Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
+ keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
+ 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
+ sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
+ vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
+ BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
+Content-Type: multipart/signed; micalg="pgp-sha384";
+	protocol="application/pgp-signature"; boundary="=-+7eX/8a5SmQeZ2CGtJlV"
+User-Agent: Evolution 3.54.2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 13/28] media: iris: implement subscribe_event and
- unsubscribe_event ioctls
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
-References: <20241209-qcom-video-iris-v7-0-05c6bdead47b@quicinc.com>
- <20241209-qcom-video-iris-v7-13-05c6bdead47b@quicinc.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241209-qcom-video-iris-v7-13-05c6bdead47b@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 09/12/2024 13:51, Dikshita Agarwal wrote:
-> From: Vedang Nagar <quic_vnagar@quicinc.com>
-> 
-> Implement subscribe_event and unsubscribe_event iocts with necessary
-> hooks.
-> 
-> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
+--=-+7eX/8a5SmQeZ2CGtJlV
+Content-Type: multipart/alternative; boundary="=-Hb4Hp5H/VaGi78DROUsH"
 
-Regards,
+--=-Hb4Hp5H/VaGi78DROUsH
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-	Hans
+On Mon, 2024-12-09 at 16:18 +0100, Greg Kroah-Hartman wrote:
+>=20
+> Did older kernels work?=C2=A0 Did 6.12.1?=C2=A0 If so, can you do 'git bi=
+sect'
+> to
+> find the offending change?
+>=20
 
-> ---
->  drivers/media/platform/qcom/iris/iris_vdec.c | 22 ++++++++++++++++++++++
->  drivers/media/platform/qcom/iris/iris_vdec.h |  1 +
->  drivers/media/platform/qcom/iris/iris_vidc.c | 10 ++++++++++
->  3 files changed, 33 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
-> index 081a9eda5c49..0ba60bcb9fa9 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-> @@ -3,6 +3,7 @@
->   * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->   */
->  
-> +#include <media/v4l2-event.h>
->  #include <media/v4l2-mem2mem.h>
->  
->  #include "iris_buffer.h"
-> @@ -193,3 +194,24 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
->  
->  	return 0;
->  }
-> +
-> +int iris_vdec_subscribe_event(struct iris_inst *inst, const struct v4l2_event_subscription *sub)
-> +{
-> +	int ret = 0;
-> +
-> +	switch (sub->type) {
-> +	case V4L2_EVENT_EOS:
-> +		ret = v4l2_event_subscribe(&inst->fh, sub, 0, NULL);
-> +		break;
-> +	case V4L2_EVENT_SOURCE_CHANGE:
-> +		ret = v4l2_src_change_event_subscribe(&inst->fh, sub);
-> +		break;
-> +	case V4L2_EVENT_CTRL:
-> +		ret = v4l2_ctrl_subscribe_event(&inst->fh, sub);
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
-> index ae456676e578..f64ce3234e6a 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vdec.h
-> +++ b/drivers/media/platform/qcom/iris/iris_vdec.h
-> @@ -13,5 +13,6 @@ void iris_vdec_inst_deinit(struct iris_inst *inst);
->  int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
->  int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f);
->  int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f);
-> +int iris_vdec_subscribe_event(struct iris_inst *inst, const struct v4l2_event_subscription *sub);
->  
->  #endif
-> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-> index 82bd0be8e5da..511cd13ac471 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-> @@ -4,6 +4,7 @@
->   */
->  
->  #include <linux/pm_runtime.h>
-> +#include <media/v4l2-event.h>
->  #include <media/v4l2-ioctl.h>
->  #include <media/v4l2-mem2mem.h>
->  
-> @@ -322,6 +323,13 @@ static int iris_g_selection(struct file *filp, void *fh, struct v4l2_selection *
->  	return 0;
->  }
->  
-> +static int iris_subscribe_event(struct v4l2_fh *fh, const struct v4l2_event_subscription *sub)
-> +{
-> +	struct iris_inst *inst = container_of(fh, struct iris_inst, fh);
-> +
-> +	return iris_vdec_subscribe_event(inst, sub);
-> +}
-> +
->  static struct v4l2_file_operations iris_v4l2_file_ops = {
->  	.owner                          = THIS_MODULE,
->  	.open                           = iris_open,
-> @@ -347,6 +355,8 @@ static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
->  	.vidioc_enum_framesizes         = iris_enum_framesizes,
->  	.vidioc_reqbufs                 = v4l2_m2m_ioctl_reqbufs,
->  	.vidioc_g_selection             = iris_g_selection,
-> +	.vidioc_subscribe_event         = iris_subscribe_event,
-> +	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
->  };
->  
->  void iris_init_ops(struct iris_core *core)
-> 
+Yep, I am doing bisect now - will report back when it's completed.
 
+gene
+
+--=20
+Gene
+
+
+--=-Hb4Hp5H/VaGi78DROUsH
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>On Mon, 2024-12-09 at 16:18 +0100, Greg Kroah-Har=
+tman wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; bord=
+er-left:2px #729fcf solid;padding-left:1ex"><div><br></div><div>Did older k=
+ernels work?&nbsp; Did 6.12.1?&nbsp; If so, can you do 'git bisect' to<br><=
+/div><div>find the offending change?<br></div><div><br></div></blockquote><=
+div><br></div><div>Yep, I am doing bisect now - will report back when it's =
+completed.</div><div><br></div><div>gene</div><div><br></div><div><span><pr=
+e>-- <br></pre><div><span style=3D"background-color: inherit;">Gene</span><=
+/div><div><br></div></span></div></body></html>
+
+--=-Hb4Hp5H/VaGi78DROUsH--
+
+--=-+7eX/8a5SmQeZ2CGtJlV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ1cW6AAKCRA5BdB0L6Ze
+21fKAPwPbFQhccaZAU2fEhqcRSYTrRRE9ztmMIt0zskMMcwzuAEA+OtQRO81hVpH
+NsCFWxldlE0G/rwnPCYERVYkceD7fAo=
+=LyRZ
+-----END PGP SIGNATURE-----
+
+--=-+7eX/8a5SmQeZ2CGtJlV--
 
