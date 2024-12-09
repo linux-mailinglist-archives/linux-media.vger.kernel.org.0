@@ -1,105 +1,115 @@
-Return-Path: <linux-media+bounces-22887-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22888-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AF49E93B2
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 13:21:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 143189E9426
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 13:33:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 075FF1655C7
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 12:21:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE5A41887DCF
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 12:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0E1322259F;
-	Mon,  9 Dec 2024 12:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D891227570;
+	Mon,  9 Dec 2024 12:31:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7P2MoDN"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uXneIV2d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADCE22C6F7;
-	Mon,  9 Dec 2024 12:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF8B223717
+	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 12:31:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733746877; cv=none; b=Q7by5trftnBr+dAyezqEiR1PPgmdrCcSxiy+2jsFSrFY7zA6QpQrg/x3tN4RfExkv3JJbJNazcOzGr5KDVuOehxF7qUwO/dR5KBg0EGM0P95rI7mm24cmvI4PBakk9Ny1l8XOd678Ba4bBq+ejq9/W80sJpvndKtmvkbEJ0AHhQ=
+	t=1733747506; cv=none; b=RlMqOVqjI+wsTBfobhbaYrsNdaExDBckgAz+3WklSkoZMefE4ey/ZwLinQyL5EIXquq1SInb9y3fbvNkgaE2X5dev5YQg+7C5PBPjK9rzCZ7liQwBZNa0iydGqmNzprDZ6HGX8dsokE4tUix91FsQx/Ej6y4BZuMHpvgBJ61+mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733746877; c=relaxed/simple;
-	bh=xSyjOeIYqup+s4Crz5OYI9mbgUiFEDUKLQ+6R6idLX0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CniKFY8EpJXRZrm2iiqSszyjllBH7tMudMqIvQx9F9AXOlt1hfScC3XqfOU7hVjU9p3hi+sAHoJr41ZiDhvaExpCjzylXQONsl10Em7Ekjk8H0cLqVFrvHAPc49jvvqWcZW/tQJtAprMDCxpHWkNUm+0W1RcCIoBexk8cjQrHKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7P2MoDN; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a9a0ec0a94fso575125766b.1;
-        Mon, 09 Dec 2024 04:21:15 -0800 (PST)
+	s=arc-20240116; t=1733747506; c=relaxed/simple;
+	bh=V80SjHPuPJO8bSs01xLSVvviPHQRe3xlREYuVNCjDTI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XdP/1NkHyruJ1UyAvfrWpCnOPBECYT0FSz5elOMYa3tO3VjehDCf2qCFhpOvXqwrRIo1pTFIxZUrTumCCYSp9cvo2Yt/5JBVpp125WS4Pjbpc5Ruu+vxFUEWAEqXP5RbZbp2hZXaN1G2p7Cpre0OhiUgFm9I03nXgDOTfhMh56A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uXneIV2d; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-434f0432089so15025995e9.2
+        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 04:31:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733746874; x=1734351674; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xSyjOeIYqup+s4Crz5OYI9mbgUiFEDUKLQ+6R6idLX0=;
-        b=D7P2MoDNIH8a2RWLuW5YzaZUvFv7KW76zJR4Qu1yNjKig+CU/QPQQJZk9P3arq+uAQ
-         4nKGhTTxoi5AQ/YZlpWb8Bb2O7+M/eRB+QkmP5jrSeExc1AvyPEKbyp1d46j/BQbuv0r
-         eNTLaaC5rIRzxsK3RE8aNPRhkenedDgL5yuvlBXztbLeTDPAOqmLTz1M8vQIEEKdS3NL
-         buNjU7hYeKid9I/+QDUnVDRJKqTNsUuBC2lnoRfS+dAsUa+Q8BFPlzxxw8ENI5AWRZkx
-         K0+bxHIJ9OWT0P8D6aJNpODUinK8XQhiWHBfr93WTDIrtmvnEDeQvGEm+smGJolb5baN
-         zHNg==
+        d=linaro.org; s=google; t=1733747503; x=1734352303; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kRm4dCu0E7cXsbtrbvM4hFCJCIS666sOacEIJ9xl6i8=;
+        b=uXneIV2dGRivAp7Kl0evKdeOGsyOXty+IUI68u0/3JBwKiwIhZc0sTPZV3xamCLKw4
+         wv1n98/SBqlekq1aWIiOlJj6czPSToa0c5uQxMna3i1tE28cQo3eaFitvA48x32z/VZh
+         dTDcMllB/P8I6c4qANC8uQe61Mn/TgFf1Oz7VLa/0Fd1tdtggc3LjJaAp/WQcy91RCti
+         /WkQAESb6OVZwYXIB01EOY49o32N3u5L9sv2U+EOVPInxCrLH5sh/5CuKTwoRftzMtiX
+         2dn1gC0lBD+KQ+KU0vq7UK7T+eBcLAcuuT/w1ckqWleIlUter1KVFH5EO9wz/dA6Ij29
+         VGAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733746874; x=1734351674;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xSyjOeIYqup+s4Crz5OYI9mbgUiFEDUKLQ+6R6idLX0=;
-        b=cwELaV17ZDEJHp4o18HAlDfzioDeV8WiMtRUwvm0oRmMMNDEpd6T7X8998ERTYnUFi
-         32mUqearFvc2R8easZHFgC5NRAyE65HVZk7B1HOLu5jvThyYjYRQryO+ieBO6Zkd4ZQr
-         aJxNJYom0+ReLLVgkUryYkZ2P/yVZdjMCzMBKhZTu4+yaXUwUlqvgec8o+WuWxO0trVd
-         ub6aAlXgrMvMhV7Ya+sECHNpEjDOwPmyUqLednMTBrWdNE4IPquwfAWyi2Mp6dOKdEMa
-         lcJbFNqL7buvUlwMkavZ8M6XwnrPOWFZkYj5scMBkD086fIQqO8Z1fEXy56st7asBgPh
-         YONg==
-X-Forwarded-Encrypted: i=1; AJvYcCU1v/dBzwSAlgrPtOYttVgw8bUfpqxshzb2pr3phTkLP9oI1uM4b+8ffycVub2euSapbCUb5T1a5Hn7tx4=@vger.kernel.org, AJvYcCXq58Nea7yrL0n2v4l7Nh9wMVeY9hD9jDmwOCIM7yJvBbv2FqSYtPQCJUPUFvZ0d+YWHOE6ITvtAjYwGFY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwluMZNu9cSo30vuwAxak8hhVVaOriPsPsZL+InO8t7zsnSaMGx
-	Hl8xTEneKbNeCGsFYAtr2pIHoQr7kC0OHtRzbH+A0UQcP+dB56+W40ZfQGrsnJw5cZ9EC2wFpLM
-	lzPzemMMERxYFly8IrgccDJWv/D4=
-X-Gm-Gg: ASbGnctLD32/iH0qPdIro1RR2/a63pJsd7gens8JU3/nx+I/f61lB4uNEHGJ+QDZ4R0
-	b2fKa3U3bi8CbmG95w1vvWFsk/B3qYsk=
-X-Google-Smtp-Source: AGHT+IHYCxEda9+UCxyKQIeT/65hVqrEw9pQ9RSDAaJGDvo3D/cND6EhOVUluL9LungCpiCO9DAJqvKiHFf+9+2Jjd8=
-X-Received: by 2002:a17:907:9554:b0:aa6:7d82:5414 with SMTP id
- a640c23a62f3a-aa67d825937mr417935566b.30.1733746873826; Mon, 09 Dec 2024
- 04:21:13 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733747503; x=1734352303;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kRm4dCu0E7cXsbtrbvM4hFCJCIS666sOacEIJ9xl6i8=;
+        b=ZFf56oLnuogxRu+7mYBAoXAE1xw69VY6rUUb7CmiSLgRP5jZV7EcyszoEY3BNKY/it
+         /rgAiRxpGBcwDya+gyZS17rIC2sx3421uwyYB5XIxQR5ipWUrMu7cGhIZSgCWIkYQeM3
+         dymOkN6sAOyWJ4GtCTUAQ40zyxwQLhMcrp3Gjswy39QCtjhq5UmeFmMwVe4nToV/AQG6
+         SpIsVd+5WRhPpdIWW2cWU2mCFrmTIU50zyMx7t6tltedBeWXHFIya9G1Avph41uDqobO
+         n2SOUHA6JhdpB/8flIQjIIx0SvrYzfCOkpXpNntbE+4MOZnUmRBJKJOUBD/EnKsxXfvm
+         0Pnw==
+X-Forwarded-Encrypted: i=1; AJvYcCXl3lXQolTubHVDyzG08JgBmyeWo1VbzF+a6U2PfJQSR3j/iPZKUMPb2Cvpq3Fjrtos5l0amOYz6MZ3ZQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5w5Nr+MB25drljpDjDosmEkB19c53+BL63So7anxwx+mcouY1
+	X7QYHDelvdupISsquYMCAPQudNAMQRo3C2ul/TOJf9mC01hZtC19PGWAmML3PYQ=
+X-Gm-Gg: ASbGncuF+FfMS1zqf4EpreBQStp5lHHLcTOMQj7qtgGWJhDdb/KpIJjayQMVJv6oURT
+	y0KETGhN29hMCLO2LDO4UaXsvGCF+wv6YTs1BsZtHrGsW8tw6143kXDP47awHs+5wR//HZ+GQa1
+	QlBAq64Hsk8mRLrjQDK8J+o3q+TiSKv54PjG5yar3vqoDu4iaO1s6Qp5Hu7LDUwdds4htks12XE
+	UBuUfLrYcSsKfokFv/PMP7e2qywQJVTEggrgj7plClcqWcEKeoMTkUMk6Lob2Q=
+X-Google-Smtp-Source: AGHT+IFHlcD0QtIEHzo///TA1PUBPADs3i2ARH6b+sxPvGLyLn4BKFeZx45Adz8G8Ryx2Tb0ZV7MMg==
+X-Received: by 2002:a05:600c:198d:b0:434:ffe3:bc7d with SMTP id 5b1f17b1804b1-434ffe3bf49mr3564495e9.16.1733747501338;
+        Mon, 09 Dec 2024 04:31:41 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434f44eaac7sm53453685e9.42.2024.12.09.04.31.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Dec 2024 04:31:40 -0800 (PST)
+Message-ID: <8256c4f4-971d-4228-a660-5daca42281d1@linaro.org>
+Date: Mon, 9 Dec 2024 12:31:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241209064022.4342-1-liujing@cmss.chinamobile.com>
-In-Reply-To: <20241209064022.4342-1-liujing@cmss.chinamobile.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 9 Dec 2024 14:20:37 +0200
-Message-ID: <CAHp75VdP5dJcjFZ5E4o+V8tmRxOh8zPqw73ucr9OhinPLGnGpw@mail.gmail.com>
-Subject: Re: [PATCH] media: atomisp: fix spelling error in ia_css_sdis2_types.h
-To: Liu Jing <liujing@cmss.chinamobile.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: dt-bindings: media: camss: Restrict bus-type
+ property
+To: Luca Weiss <luca.weiss@fairphone.com>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Barnabas Czeman <barnabas.czeman@mainlining.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>, David Heidelberg <david@ixit.cz>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241209-camss-dphy-v1-0-5f1b6f25ed92@fairphone.com>
+ <20241209-camss-dphy-v1-1-5f1b6f25ed92@fairphone.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241209-camss-dphy-v1-1-5f1b6f25ed92@fairphone.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 9, 2024 at 8:40=E2=80=AFAM Liu Jing <liujing@cmss.chinamobile.c=
-om> wrote:
->
-> fix the coefficients spelling error in ia_css_sdis2_types.h
-
-Please, respect English grammar and punctuation (here you missed a
-capital letter at the beginning and period at the end of the
-sentence).
-
-Besides that, can you run the `codespell` tool against the entire
-driver and fix others, if any, typos and mistakes?
-
---=20
-With Best Regards,
-Andy Shevchenko
+On 09/12/2024 12:01, Luca Weiss wrote:
+> The CSIPHY of Qualcomm SoCs support both D-PHY and C-PHY standards for
+> CSI-2, but not any others so restrict the bus-type property describing
+> this to the supported values.
+> 
+> The only exception here is MSM8916 which only supports D-PHY. C-PHY was
+> introduced with newer SoCs.
+> 
+> Do note, that currently the Linux driver only supports D-PHY.
+> 
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
