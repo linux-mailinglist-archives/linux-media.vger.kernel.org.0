@@ -1,172 +1,427 @@
-Return-Path: <linux-media+bounces-22876-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22877-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63C59E9275
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 12:33:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D92F9E9284
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 12:34:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADA3F18860EF
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 11:33:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22AD018865D4
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 11:34:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 390DC225770;
-	Mon,  9 Dec 2024 11:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34939189B85;
+	Mon,  9 Dec 2024 11:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eoXzMUnb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VBoJFHLP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EB7223710
-	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 11:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC2A21D019
+	for <linux-media@vger.kernel.org>; Mon,  9 Dec 2024 11:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733743897; cv=none; b=mEYB5092WWdbmjvqQ7uW0W/sTeoAm2G41Ad5fh7KjPc4C/z2kKW0r6d8OH29a1mLVNcDHooF8dRfGubPz+0OBMg1z7m0xSYTu54/970C8WDBgJpzBhQqZh5ZVVUhJCmGM8UliBzxIRMQQrCaUtE2LxkTnxQEDmJebFjfnoUYuYs=
+	t=1733744054; cv=none; b=ArcJdTxt03pbxWGs1fkDyeVfbslVWwMzDdCvyzGPaJNAtNf7PbBR5YbkmqYqmaZYGpj5H1+QsgRwCub3/0ZYfLDKaYavo5HcgZCSpte9pwEANgVA+MuzZmEl+B5zwjpkHZfnCmKPvyK5sshJ4HI6g3b9dbYRS3ehDxNRxVTvM3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733743897; c=relaxed/simple;
-	bh=hi/gPHGp3GRpPNQ/sIelAR0TJU62VtzESITi0QHtWMA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HRBQ7u0G+rka08RVK3Z3MW7RdbsHAS9venAvu4mCEUCrWKM0b4T+NmDkFZzNKUQ3C/mGXzQQaVmxCmV5YQxI6aocy2T6zklt8AE2Nvze0twVS5CpatsgQBHud6OksgJ7CbbBdAnGMvNRM8ED+prg17t0Gxl/HZqhQNtXTP1yqNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eoXzMUnb; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2164b662090so7179135ad.1
-        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 03:31:34 -0800 (PST)
+	s=arc-20240116; t=1733744054; c=relaxed/simple;
+	bh=LOIAnWwmFuWbefHt/yb5amtmi2kf/iUi+mT7cG4vT6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dYmPfZTsqC1yLqKx8XiK9vYJlGJt7dvnGKddLYS1Zrt2xz48YcX8Kn7VDfp1iaOdtXWU2Z5mnhRGkSK33jzcVUrojJ6Ixepe7AYbfwt/MEZ7FgTWFtM3LwnPgbMnP4GNCK4vRD6gSt/O0QhsUeSQ8Um5y3gwIhCdhpW4fh81cAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VBoJFHLP; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aa67ceb4e31so26364966b.1
+        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 03:34:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733743894; x=1734348694; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ym/ckWiJiSsbCHqxkCn87G8/HMB8USxigf1ElOERRM=;
-        b=eoXzMUnbclIz5qHetlO56DtOaUEV8U8OXV9Roo+wNti0ligoMobwl8rmDKNWW4+10B
-         JsfbdurJHIKn804HhB+NPGSTA46Q9RB5e3pqv8Vu6CKSk6CqyYhNvT2uyhm8+VkHLs10
-         TDZ1s1MRwrPNQZQ4U9wWoqZMRSQITr4HrCFic=
+        d=linaro.org; s=google; t=1733744050; x=1734348850; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RqH0dlrlbRQJY6hV8nIShWo9I2kKBRUgR2UyDp6lXjU=;
+        b=VBoJFHLP+WJiZaThLUhCyXNCkAONN3YbJaf9cW4PojEDIvpOdgZwLHgjQtYZ9l+zpR
+         9EciI6RFOLPX1Ay4B9W641//DdEqGkJUNq19GQmfOD14SAYudAwpFAPSpofas4iGQQnl
+         H6htMYs696YsS+lEU25GwBycgTJecbAidW/MRmky0rnj23wu5OHKrj949ZrfgLqKkyeD
+         EdBCaASB3y0KZhbA7W5un/JEV3GAsC6j2Zt80wCCAb2cJGDYNj9QFIOhojOSgMhio22i
+         S7t60KwWeyJOojdo3OgPh5/vJZq5UukFcUk4470HOtbhhME6dkZTxQSj5/bEsqNlNrHk
+         W3wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733743894; x=1734348694;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1733744050; x=1734348850;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6ym/ckWiJiSsbCHqxkCn87G8/HMB8USxigf1ElOERRM=;
-        b=Lm2U61vyfJDMxO2vWhnO+9NcfSgs+9ZWvVvrN04hyg1HJuoO01Yy/OzpbSguhkyKiT
-         EyaGP8EYpIQ31rasX39yy8J1rJZurgrE4eRDbi6B1TTTBwlWlqfAp2NRVR36pLRwMzJI
-         rrW5bE8J3PrfxeKRKISHjjXhYd45/v1NuCjadAVFHV+D0dSazeefpsz0AQ+m/o+WruuT
-         GXljDmYP6EPFjuimEzk51iudzFvNBCuVK/SupvoTnDLs4BH2QIq8f4JvMplGzuMIE3JN
-         QjJc/GedUFLUAZs4dD64CJNXsS0eDDNe/KV6NvWg2swi+qebgrMxAAmkTs2OvN+ft68V
-         r5Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCXb3YUPLeOVkc81tsBu2TyuDNmug8iBjEXeCkKaF0EtuwROjtSYN8emNTv2f/uSSF01rm/cBIJ590DZ+g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMz9IXd74j4bgDiKJQUau4nwPl/4Y7IlETwH4+abKxn+4U45vI
-	nk+8h/+ykTeg4ZigKbYo6kt8BDTBnL/gt/LGbQAnH8pSapImqx1LjMDoODNlHKdK0I60JSIyfTY
-	=
-X-Gm-Gg: ASbGncs6brqOjRFuhILDNkApHOuj4uvwV7gaMusnWHtL2rwnypwMGZVdqli7821H5GW
-	nEUaug6YlaOs9g+K5SKe1zQXbMznRJhFCErwzTN9GN8XZF2bTW8wMISQztRwL0zPIYQq5yYxhh1
-	vMZs4IGzUK294tthw8aCjhp/qxi3bjxxnyAJSnJHpF6HTjJQXNmKJghcgd5fzPutzKdasRQhtes
-	b61vgWdX0XnxrOb4e+8r+QnTjKMPZQgZlTveCS1ld/u/gTw6Fp56JKJ+H2dwHksExW6hjfQ+8JZ
-	R7jq87VvjB6PC0z4
-X-Google-Smtp-Source: AGHT+IF+GwzI9sYlcpFCRi/kQUOxFswjeIAv2GrO5kZjofNNopXYzwGWLowwhQDWPBi67qcqTQC+FA==
-X-Received: by 2002:a17:902:cf11:b0:216:2a5a:89d3 with SMTP id d9443c01a7336-2162a5a8cedmr103670255ad.25.1733743894107;
-        Mon, 09 Dec 2024 03:31:34 -0800 (PST)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com. [209.85.215.172])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215f8e5f03csm70792405ad.66.2024.12.09.03.31.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 03:31:32 -0800 (PST)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7e6cbf6cd1dso2354932a12.3
-        for <linux-media@vger.kernel.org>; Mon, 09 Dec 2024 03:31:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXlgj+6iwGxamstBiT7bI/MSAdhyhRTXJD9otq6+y1t4/8DDu0k/N7ibP3Nt3fcItxPJwqtcMS8yVwZiQ==@vger.kernel.org
-X-Received: by 2002:a17:90b:3f45:b0:2ee:dd79:e046 with SMTP id
- 98e67ed59e1d1-2ef69f0b093mr18851318a91.13.1733743892060; Mon, 09 Dec 2024
- 03:31:32 -0800 (PST)
+        bh=RqH0dlrlbRQJY6hV8nIShWo9I2kKBRUgR2UyDp6lXjU=;
+        b=Fuk9cqy0yF349cIrpnjY78Ur1A3QFWDavGi8I2V4R1C7bU+VTVzwawkKoJP5u0oyJY
+         bWflrtKPop3WD8SXIgfdeFVsaS9ULFvpQr/PhkhZFf/trxiZ5tfwVD3MZ79vZ911UjEY
+         TG7SHgR0pSiYghEUl0jf6RyPfOhgPTf9pCADk5HD44dyiTNpC7huxlHXkOaMKOzwQglK
+         +NWz8O4KRWLzBv+kBpD3Ua0GM2k4Q1KUIfMUZ3/w8Vvwq33SveJEkbbbikceZfOGV6Ip
+         QJ09PjJnUQV4zFnbfkKscD+zfxzebkQXyjwNfjK2Xxo5w4o8AloFmWWxMOTXo6a/Ox38
+         i+Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNuNJrxhPfo7sbII/zzR96My8fVInzkmqcmZZZ8CleABagB9/fuZ26h5OmaGDT/nop/JyTU9hQwAL4bA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxVcsRWT47rxbvDDn2XRCNcSdzwqJ6LSTmf3oWYdNnoaQROkQU
+	t9heM/N6lCJyZUq5ewS7uKblRXG3L7m9eCHmY0Kn88jcNWmpYWLejEM2YDeS2EE=
+X-Gm-Gg: ASbGnct4QlqTjmHFTVkzV/D55aFFkT7WD4wZRlmZKNVt08LESvxqPaIrGAbVQ5CHYWX
+	a5ty6nlIWH6pVD63zGLBYu9WCe/ituiuVADUpEY7pKq+dET7MqJ61ftxqUTQgpI5aH998BcfEWh
+	/xgHo1TEyv+BEaR4It+fzfARK/cPpF4hvjFL6/zhqQE3O+MLRArAIGO3GDeBwhJiKT2rxaSUZ6W
+	0mIBvvyGUdyhmfFZVwrfcnNIgr2KqH8llzxXHVIkflRB6feGQgpK3/F/DDkk5ls
+X-Google-Smtp-Source: AGHT+IEUwOZ9YFvIosvQUmmKdASOWnMUlhYJRR8cEOp3nz5ctbynKBiSrS7H9SVLSEx6wlTFIk5CRQ==
+X-Received: by 2002:a17:907:3dab:b0:aa6:6e2e:b8b with SMTP id a640c23a62f3a-aa66e2e15a6mr265628966b.1.1733744050339;
+        Mon, 09 Dec 2024 03:34:10 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa695c3ac07sm61789166b.66.2024.12.09.03.34.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2024 03:34:09 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Ming Qian <ming.qian@nxp.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+	Shijie Qin <shijie.qin@nxp.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Emil Velikov <emil.velikov@collabora.com>,
+	Del Regno <angelogioacchino.delregno@somainline.org>,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [RESEND PATCH] media: dt-bindings: trivial white-space and example cleanup
+Date: Mon,  9 Dec 2024 12:34:05 +0100
+Message-ID: <20241209113405.74226-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241203-uvc-fix-async-v6-0-26c867231118@chromium.org>
- <20241203-uvc-fix-async-v6-5-26c867231118@chromium.org> <02a89566-a6f7-4feb-84c3-079795c98a46@redhat.com>
-In-Reply-To: <02a89566-a6f7-4feb-84c3-079795c98a46@redhat.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 9 Dec 2024 12:31:19 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuPM1qeerMUBFx+RfqBD35CcfhQeO5hYVHh-ZeQ-4t9Sw@mail.gmail.com>
-X-Gm-Features: AZHOrDl6MbSwc6Ip8YcLcxTT-qOq-bKVsjHj9biGhFd-T_bgQFW7J-G_3ijpnYY
-Message-ID: <CANiDSCuPM1qeerMUBFx+RfqBD35CcfhQeO5hYVHh-ZeQ-4t9Sw@mail.gmail.com>
-Subject: Re: [PATCH v6 5/5] media: uvcvideo: Flush the control cache when we
- get an event
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Hans
+Minor cleanups without funcitonal impact:
+ - There should not be an empty blank line after SPDX tag,
+ - Convention is to indent DTS examples in coding style with 2- or
+   4-space indentation (4 is preferred),
+ - Drop unused labels in DTS examples.
 
-On Mon, 9 Dec 2024 at 12:03, Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi Ricardo,
->
-> On 3-Dec-24 10:20 PM, Ricardo Ribalda wrote:
-> > Asynchronous controls trigger an event when they have completed their
-> > operation.
-> >
-> > This can make that the control cached value does not match the value in
-> > the device.
-> >
-> > Let's flush the cache to be on the safe side.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> Thank you for your patch.
->
-> It seems that you have missed Laurent's reply asking to improve the commit message:
->
-> "Conceptually this change looks fine, but the commit message needs to
-> explain why this is safe to do without protecting ctrl->loaded with a
-> lock."
->
-> https://lore.kernel.org/linux-media/20241203203748.GD5196@pendragon.ideasonboard.com/
->
-> Or maybe the posting of this v6 and that reply have crossed each other.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-In this v6 I moved loaded=0 from uvc_ctrl_status_event_async() to
-uvc_ctrl_status_event()
+---
 
-Now setting loaded=0 is just after mutex_lock(&chain->ctrl_mutex);
+No comments since August... Can it be applied?
 
-Do we need a new version?
-
->
-> Either way please post a new version addressing this comment.
->
-> Thanks & Regards,
->
-> Hans
->
->
->
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 3dc9b7a49f64..db29e0e8bfd4 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -1622,6 +1622,9 @@ void uvc_ctrl_status_event(struct uvc_video_chain *chain,
-> >
-> >       mutex_lock(&chain->ctrl_mutex);
-> >
-> > +     /* Flush the control cache, the data might have changed. */
-> > +     ctrl->loaded = 0;
-> > +
-> >       handle = ctrl->handle;
-> >       if (handle)
-> >               uvc_ctrl_set_handle(handle, ctrl, NULL);
-> >
->
+---
 
 
+ .../media/allwinner,sun50i-h6-vpu-g2.yaml     |  1 -
+ .../bindings/media/amlogic,meson-ir-tx.yaml   |  1 -
+ .../bindings/media/amphion,vpu.yaml           |  1 -
+ .../bindings/media/fsl,imx6ull-pxp.yaml       |  1 -
+ .../media/mediatek,vcodec-decoder.yaml        |  1 -
+ .../media/mediatek,vcodec-encoder.yaml        |  1 -
+ .../media/mediatek,vcodec-subdev-decoder.yaml |  1 -
+ .../media/microchip,sama5d4-vdec.yaml         | 17 ++++----
+ .../bindings/media/nxp,imx8mq-vpu.yaml        | 41 +++++++++----------
+ .../bindings/media/qcom,msm8916-camss.yaml    |  1 -
+ .../bindings/media/qcom,msm8996-camss.yaml    |  1 -
+ .../bindings/media/qcom,sdm660-camss.yaml     |  1 -
+ .../bindings/media/qcom,sdm845-camss.yaml     |  1 -
+ .../bindings/media/qcom,sm8250-camss.yaml     |  1 -
+ .../bindings/media/rockchip,rk3568-vepu.yaml  |  1 -
+ .../bindings/media/rockchip-vpu.yaml          | 29 +++++++------
+ 16 files changed, 42 insertions(+), 58 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+index a4f06bbdfe49..8ba5177ac631 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/allwinner,sun50i-h6-vpu-g2.yaml#
+diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml b/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
+index 377acce93423..6da8a6aded23 100644
+--- a/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
++++ b/Documentation/devicetree/bindings/media/amlogic,meson-ir-tx.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/amlogic,meson-ir-tx.yaml#
+diff --git a/Documentation/devicetree/bindings/media/amphion,vpu.yaml b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+index 9801de3ed84e..5a920d9e78c7 100644
+--- a/Documentation/devicetree/bindings/media/amphion,vpu.yaml
++++ b/Documentation/devicetree/bindings/media/amphion,vpu.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/amphion,vpu.yaml#
+diff --git a/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml b/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
+index 84a5e894ace4..3f47744459aa 100644
+--- a/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
++++ b/Documentation/devicetree/bindings/media/fsl,imx6ull-pxp.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/fsl,imx6ull-pxp.yaml#
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+index b401c67e3ba0..d726d141a434 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+index b45743d0a9ec..110e8f5f1f9e 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+index a500a585c692..5865e6f0be89 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/mediatek,vcodec-subdev-decoder.yaml#
+diff --git a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+index 59b805ca47c5..ede086d55add 100644
+--- a/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
++++ b/Documentation/devicetree/bindings/media/microchip,sama5d4-vdec.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/microchip,sama5d4-vdec.yaml#
+@@ -36,12 +35,12 @@ additionalProperties: false
+ 
+ examples:
+   - |
+-        #include <dt-bindings/clock/at91.h>
+-        #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/at91.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
+ 
+-        vdec0: vdec@300000 {
+-                compatible = "microchip,sama5d4-vdec";
+-                reg = <0x00300000 0x100000>;
+-                interrupts = <19 IRQ_TYPE_LEVEL_HIGH 4>;
+-                clocks = <&pmc PMC_TYPE_PERIPHERAL 19>;
+-        };
++    vdec@300000 {
++        compatible = "microchip,sama5d4-vdec";
++        reg = <0x00300000 0x100000>;
++        interrupts = <19 IRQ_TYPE_LEVEL_HIGH 4>;
++        clocks = <&pmc PMC_TYPE_PERIPHERAL 19>;
++    };
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+index 3d58f02b0c5d..19528262810a 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/nxp,imx8mq-vpu.yaml#
+@@ -44,26 +43,26 @@ additionalProperties: false
+ 
+ examples:
+   - |
+-        #include <dt-bindings/clock/imx8mq-clock.h>
+-        #include <dt-bindings/power/imx8mq-power.h>
+-        #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/imx8mq-clock.h>
++    #include <dt-bindings/power/imx8mq-power.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
+ 
+-        vpu_g1: video-codec@38300000 {
+-                compatible = "nxp,imx8mq-vpu-g1";
+-                reg = <0x38300000 0x10000>;
+-                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+-                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+-                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
+-        };
++    video-codec@38300000 {
++        compatible = "nxp,imx8mq-vpu-g1";
++        reg = <0x38300000 0x10000>;
++        interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
++        power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
++    };
+   - |
+-        #include <dt-bindings/clock/imx8mq-clock.h>
+-        #include <dt-bindings/power/imx8mq-power.h>
+-        #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/imx8mq-clock.h>
++    #include <dt-bindings/power/imx8mq-power.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
+ 
+-        vpu_g2: video-codec@38300000 {
+-                compatible = "nxp,imx8mq-vpu-g2";
+-                reg = <0x38310000 0x10000>;
+-                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+-                clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+-                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
+-        };
++    video-codec@38300000 {
++        compatible = "nxp,imx8mq-vpu-g2";
++        reg = <0x38310000 0x10000>;
++        interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
++        power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
++    };
+diff --git a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
+index 9cc0a968a401..3469a43f00d4 100644
+--- a/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,msm8916-camss.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/qcom,msm8916-camss.yaml#
+diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+index 5cb0e337ea6e..644646de338a 100644
+--- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/qcom,msm8996-camss.yaml#
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
+index 584106e275f6..68d8670557f5 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm660-camss.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/qcom,sdm660-camss.yaml#
+diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+index d32daaef1b50..289494f561e5 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sdm845-camss.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/qcom,sdm845-camss.yaml#
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+index 06db2c1e6079..a372d991e652 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8250-camss.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/qcom,sm8250-camss.yaml#
+diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+index 947ad699cc5e..d246f5d38427 100644
+--- a/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vepu.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/rockchip,rk3568-vepu.yaml#
+diff --git a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+index 719aeb2dc593..8c2501634080 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+-
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
+@@ -92,18 +91,18 @@ additionalProperties: false
+ 
+ examples:
+   - |
+-        #include <dt-bindings/clock/rk3288-cru.h>
+-        #include <dt-bindings/interrupt-controller/arm-gic.h>
+-        #include <dt-bindings/power/rk3288-power.h>
++    #include <dt-bindings/clock/rk3288-cru.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/rk3288-power.h>
+ 
+-        vpu: video-codec@ff9a0000 {
+-                compatible = "rockchip,rk3288-vpu";
+-                reg = <0xff9a0000 0x800>;
+-                interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
+-                             <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+-                interrupt-names = "vepu", "vdpu";
+-                clocks = <&cru ACLK_VCODEC>, <&cru HCLK_VCODEC>;
+-                clock-names = "aclk", "hclk";
+-                power-domains = <&power RK3288_PD_VIDEO>;
+-                iommus = <&vpu_mmu>;
+-        };
++    video-codec@ff9a0000 {
++        compatible = "rockchip,rk3288-vpu";
++        reg = <0xff9a0000 0x800>;
++        interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "vepu", "vdpu";
++        clocks = <&cru ACLK_VCODEC>, <&cru HCLK_VCODEC>;
++        clock-names = "aclk", "hclk";
++        power-domains = <&power RK3288_PD_VIDEO>;
++        iommus = <&vpu_mmu>;
++    };
 -- 
-Ricardo Ribalda
+2.43.0
+
 
