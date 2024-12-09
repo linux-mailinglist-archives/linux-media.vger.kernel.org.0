@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-22949-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22950-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8BB9E9B41
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 17:09:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 955F79E9B46
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 17:10:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3073D28113F
-	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 16:09:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14A51280ECA
+	for <lists+linux-media@lfdr.de>; Mon,  9 Dec 2024 16:10:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0836A13AD20;
-	Mon,  9 Dec 2024 16:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 365AB13A865;
+	Mon,  9 Dec 2024 16:10:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903AD233139;
-	Mon,  9 Dec 2024 16:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43AE233139;
+	Mon,  9 Dec 2024 16:10:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733760562; cv=none; b=IQ0ddUf/s0EUHUAuzqW72xm2owOq8YXS2YMqnsKXaK20aahV00J/hr0amHa+u5qtH8df5ppdBNTW6cafwiF1lVpVwpm/RWJTrQVfa94bM6WyzRyH9iVEBJKokuYbJgoL4LwBOdTZRHB/RZpLuw35+VwDG+EZhp0h2464AZELf94=
+	t=1733760601; cv=none; b=eJ1DebcP/p3BWDUQKcw5xKjtQ18hYmM3MXzgdcDzmLTnwi3qiy2b4dzPjPP0fgzUe+q/r9dGh68aSef3M4mL+vA8ga6OTgixLc5uweA9Hx96LUId1p5CJKjURJz3r0iDnrO15j+Zf6AmHH5M57BmwD1gsASI3nlTtwxb4SGNuVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733760562; c=relaxed/simple;
-	bh=Oa0NcaS5Sj+C0xA+zr2JRtIBbAV81lJVMssIx3qVL0o=;
+	s=arc-20240116; t=1733760601; c=relaxed/simple;
+	bh=M9R4e+RGYmKtL73QCrCmTDz4Sw+OhWOyfWO+xrg36Yc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o6O1qPjf8oNTGJOEBEg60keOHea6BT0sWtoYzjnvJS12xtrH3543+uyK/tZThVM9rcTqXgQerRq0pm+2fUFx3XAEvSpJK3xwDIK/oeHPnRi2D6S8e0n9Tl4INS6XfSbbdNhXeNwErgxZ6igvtiYrqlTUY0zp6c1wy0ZzCKsBjDE=
+	 In-Reply-To:Content-Type; b=uNTz3Qrr4oPXKND5PXfTXlu5jc0mI0oaGYV3tjMhJqnqm5oV/KwOnsyxGCG6otXxRXd1d3x8HxB/L7rB1U5+sM4u+iX3IJjBQsHRP6c4ViWKgDUe0eiUouGCTWOYENGj+LOUuFyZ5EwVdexZ+QFCSdtQ4bcw03vsY+rX4kB4wq4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A49C4CED1;
-	Mon,  9 Dec 2024 16:09:17 +0000 (UTC)
-Message-ID: <8b8cad45-87cd-44bc-a4cb-3b59c559cb7b@xs4all.nl>
-Date: Mon, 9 Dec 2024 17:09:16 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF5BC4CED1;
+	Mon,  9 Dec 2024 16:09:57 +0000 (UTC)
+Message-ID: <31b2e7e7-d37e-4adf-bcaf-a5088ddae4e9@xs4all.nl>
+Date: Mon, 9 Dec 2024 17:09:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,8 +38,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 10/28] media: iris: implement s_fmt, g_fmt and try_fmt
- ioctls
+Subject: Re: [PATCH v7 13/28] media: iris: implement subscribe_event and
+ unsubscribe_event ioctls
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Vikash Garodia <quic_vgarodia@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -56,7 +56,7 @@ Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Vedang Nagar <quic_vnagar@quicinc.com>
 References: <20241209-qcom-video-iris-v7-0-05c6bdead47b@quicinc.com>
- <20241209-qcom-video-iris-v7-10-05c6bdead47b@quicinc.com>
+ <20241209-qcom-video-iris-v7-13-05c6bdead47b@quicinc.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -102,14 +102,15 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20241209-qcom-video-iris-v7-10-05c6bdead47b@quicinc.com>
+In-Reply-To: <20241209-qcom-video-iris-v7-13-05c6bdead47b@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/12/2024 13:51, Dikshita Agarwal wrote:
 > From: Vedang Nagar <quic_vnagar@quicinc.com>
 > 
-> Implement s_fmt, g_fmt and try_fmt ioctl ops with necessary hooks.
+> Implement subscribe_event and unsubscribe_event iocts with necessary
+> hooks.
 > 
 > Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
@@ -121,233 +122,94 @@ Regards,
 	Hans
 
 > ---
->  drivers/media/platform/qcom/iris/iris_vdec.c | 122 +++++++++++++++++++++++++++
->  drivers/media/platform/qcom/iris/iris_vdec.h |   2 +
->  drivers/media/platform/qcom/iris/iris_vidc.c |  48 +++++++++++
->  3 files changed, 172 insertions(+)
+>  drivers/media/platform/qcom/iris/iris_vdec.c | 22 ++++++++++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_vdec.h |  1 +
+>  drivers/media/platform/qcom/iris/iris_vidc.c | 10 ++++++++++
+>  3 files changed, 33 insertions(+)
 > 
 > diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
-> index 2ed50ad5d58b..38a5df8191cc 100644
+> index 081a9eda5c49..0ba60bcb9fa9 100644
 > --- a/drivers/media/platform/qcom/iris/iris_vdec.c
 > +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-> @@ -3,6 +3,8 @@
+> @@ -3,6 +3,7 @@
 >   * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
 >   */
 >  
-> +#include <media/v4l2-mem2mem.h>
-> +
+> +#include <media/v4l2-event.h>
+>  #include <media/v4l2-mem2mem.h>
+>  
 >  #include "iris_buffer.h"
->  #include "iris_instance.h"
->  #include "iris_vdec.h"
-> @@ -10,6 +12,7 @@
+> @@ -193,3 +194,24 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
 >  
->  #define DEFAULT_WIDTH 320
->  #define DEFAULT_HEIGHT 240
-> +#define DEFAULT_CODEC_ALIGNMENT 16
->  
->  void iris_vdec_inst_init(struct iris_inst *inst)
->  {
-> @@ -54,3 +57,122 @@ void iris_vdec_inst_deinit(struct iris_inst *inst)
->  	kfree(inst->fmt_dst);
->  	kfree(inst->fmt_src);
+>  	return 0;
 >  }
 > +
-> +int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+> +int iris_vdec_subscribe_event(struct iris_inst *inst, const struct v4l2_event_subscription *sub)
 > +{
-> +	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
-> +	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
-> +	struct v4l2_format *f_inst;
-> +	struct vb2_queue *src_q;
+> +	int ret = 0;
 > +
-> +	memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
-> +	switch (f->type) {
-> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> +		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264) {
-> +			f_inst = inst->fmt_src;
-> +			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
-> +			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
-> +			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
-> +		}
+> +	switch (sub->type) {
+> +	case V4L2_EVENT_EOS:
+> +		ret = v4l2_event_subscribe(&inst->fh, sub, 0, NULL);
 > +		break;
-> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> +		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12) {
-> +			f_inst = inst->fmt_dst;
-> +			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
-> +			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
-> +			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
-> +		}
-> +
-> +		src_q = v4l2_m2m_get_src_vq(m2m_ctx);
-> +		if (vb2_is_streaming(src_q)) {
-> +			f_inst = inst->fmt_src;
-> +			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
-> +			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
-> +		}
+> +	case V4L2_EVENT_SOURCE_CHANGE:
+> +		ret = v4l2_src_change_event_subscribe(&inst->fh, sub);
+> +		break;
+> +	case V4L2_EVENT_CTRL:
+> +		ret = v4l2_ctrl_subscribe_event(&inst->fh, sub);
 > +		break;
 > +	default:
 > +		return -EINVAL;
 > +	}
 > +
-> +	if (pixmp->field == V4L2_FIELD_ANY)
-> +		pixmp->field = V4L2_FIELD_NONE;
-> +
-> +	pixmp->num_planes = 1;
-> +
-> +	return 0;
-> +}
-> +
-> +int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
-> +{
-> +	struct v4l2_format *fmt, *output_fmt;
-> +	struct vb2_queue *q;
-> +	u32 codec_align;
-> +
-> +	q = v4l2_m2m_get_vq(inst->m2m_ctx, f->type);
-> +	if (!q)
-> +		return -EINVAL;
-> +
-> +	if (vb2_is_busy(q))
-> +		return -EBUSY;
-> +
-> +	iris_vdec_try_fmt(inst, f);
-> +
-> +	switch (f->type) {
-> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> +		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264)
-> +			return -EINVAL;
-> +
-> +		fmt = inst->fmt_src;
-> +		fmt->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> +
-> +		codec_align = DEFAULT_CODEC_ALIGNMENT;
-> +		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, codec_align);
-> +		fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, codec_align);
-> +		fmt->fmt.pix_mp.num_planes = 1;
-> +		fmt->fmt.pix_mp.plane_fmt[0].bytesperline = 0;
-> +		fmt->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_INPUT);
-> +		inst->buffers[BUF_INPUT].min_count = iris_vpu_buf_count(inst, BUF_INPUT);
-> +		inst->buffers[BUF_INPUT].size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
-> +
-> +		fmt->fmt.pix_mp.colorspace = f->fmt.pix_mp.colorspace;
-> +		fmt->fmt.pix_mp.xfer_func = f->fmt.pix_mp.xfer_func;
-> +		fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
-> +		fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
-> +
-> +		output_fmt = inst->fmt_dst;
-> +		output_fmt->fmt.pix_mp.colorspace = f->fmt.pix_mp.colorspace;
-> +		output_fmt->fmt.pix_mp.xfer_func = f->fmt.pix_mp.xfer_func;
-> +		output_fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
-> +		output_fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
-> +
-> +		inst->crop.left = 0;
-> +		inst->crop.top = 0;
-> +		inst->crop.width = f->fmt.pix_mp.width;
-> +		inst->crop.height = f->fmt.pix_mp.height;
-> +		break;
-> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> +		fmt = inst->fmt_dst;
-> +		fmt->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> +		if (fmt->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12)
-> +			return -EINVAL;
-> +		fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
-> +		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, 128);
-> +		fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, 32);
-> +		fmt->fmt.pix_mp.num_planes = 1;
-> +		fmt->fmt.pix_mp.plane_fmt[0].bytesperline = ALIGN(f->fmt.pix_mp.width, 128);
-> +		fmt->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_OUTPUT);
-> +		inst->buffers[BUF_OUTPUT].min_count = iris_vpu_buf_count(inst, BUF_OUTPUT);
-> +		inst->buffers[BUF_OUTPUT].size = fmt->fmt.pix_mp.plane_fmt[0].sizeimage;
-> +
-> +		inst->crop.top = 0;
-> +		inst->crop.left = 0;
-> +		inst->crop.width = f->fmt.pix_mp.width;
-> +		inst->crop.height = f->fmt.pix_mp.height;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +	memcpy(f, fmt, sizeof(*fmt));
-> +
-> +	return 0;
+> +	return ret;
 > +}
 > diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
-> index 353b73b76230..85e93f33e9e7 100644
+> index ae456676e578..f64ce3234e6a 100644
 > --- a/drivers/media/platform/qcom/iris/iris_vdec.h
 > +++ b/drivers/media/platform/qcom/iris/iris_vdec.h
-> @@ -10,5 +10,7 @@ struct iris_inst;
->  
->  void iris_vdec_inst_init(struct iris_inst *inst);
->  void iris_vdec_inst_deinit(struct iris_inst *inst);
-> +int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f);
-> +int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f);
+> @@ -13,5 +13,6 @@ void iris_vdec_inst_deinit(struct iris_inst *inst);
+>  int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
+>  int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f);
+>  int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f);
+> +int iris_vdec_subscribe_event(struct iris_inst *inst, const struct v4l2_event_subscription *sub);
 >  
 >  #endif
 > diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-> index ab3b63171c1d..bec965284b6e 100644
+> index 82bd0be8e5da..511cd13ac471 100644
 > --- a/drivers/media/platform/qcom/iris/iris_vidc.c
 > +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-> @@ -217,6 +217,48 @@ int iris_close(struct file *filp)
+> @@ -4,6 +4,7 @@
+>   */
+>  
+>  #include <linux/pm_runtime.h>
+> +#include <media/v4l2-event.h>
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-mem2mem.h>
+>  
+> @@ -322,6 +323,13 @@ static int iris_g_selection(struct file *filp, void *fh, struct v4l2_selection *
 >  	return 0;
 >  }
 >  
-> +static int iris_try_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
+> +static int iris_subscribe_event(struct v4l2_fh *fh, const struct v4l2_event_subscription *sub)
 > +{
-> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
-> +	int ret;
+> +	struct iris_inst *inst = container_of(fh, struct iris_inst, fh);
 > +
-> +	mutex_lock(&inst->lock);
-> +	ret = iris_vdec_try_fmt(inst, f);
-> +	mutex_unlock(&inst->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int iris_s_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
-> +{
-> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
-> +	int ret;
-> +
-> +	mutex_lock(&inst->lock);
-> +	ret = iris_vdec_s_fmt(inst, f);
-> +	mutex_unlock(&inst->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int iris_g_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format *f)
-> +{
-> +	struct iris_inst *inst = iris_get_inst(filp, NULL);
-> +	int ret = 0;
-> +
-> +	mutex_lock(&inst->lock);
-> +	if (V4L2_TYPE_IS_OUTPUT(f->type))
-> +		*f = *inst->fmt_src;
-> +	else if (V4L2_TYPE_IS_CAPTURE(f->type))
-> +		*f = *inst->fmt_dst;
-> +	else
-> +		ret = -EINVAL;
-> +
-> +	mutex_unlock(&inst->lock);
-> +
-> +	return ret;
+> +	return iris_vdec_subscribe_event(inst, sub);
 > +}
 > +
 >  static struct v4l2_file_operations iris_v4l2_file_ops = {
 >  	.owner                          = THIS_MODULE,
 >  	.open                           = iris_open,
-> @@ -231,6 +273,12 @@ static const struct vb2_ops iris_vb2_ops = {
->  };
->  
->  static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
-> +	.vidioc_try_fmt_vid_cap_mplane  = iris_try_fmt_vid_mplane,
-> +	.vidioc_try_fmt_vid_out_mplane  = iris_try_fmt_vid_mplane,
-> +	.vidioc_s_fmt_vid_cap_mplane    = iris_s_fmt_vid_mplane,
-> +	.vidioc_s_fmt_vid_out_mplane    = iris_s_fmt_vid_mplane,
-> +	.vidioc_g_fmt_vid_cap_mplane    = iris_g_fmt_vid_mplane,
-> +	.vidioc_g_fmt_vid_out_mplane    = iris_g_fmt_vid_mplane,
+> @@ -347,6 +355,8 @@ static const struct v4l2_ioctl_ops iris_v4l2_ioctl_ops = {
+>  	.vidioc_enum_framesizes         = iris_enum_framesizes,
 >  	.vidioc_reqbufs                 = v4l2_m2m_ioctl_reqbufs,
+>  	.vidioc_g_selection             = iris_g_selection,
+> +	.vidioc_subscribe_event         = iris_subscribe_event,
+> +	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
 >  };
 >  
+>  void iris_init_ops(struct iris_core *core)
 > 
 
 
