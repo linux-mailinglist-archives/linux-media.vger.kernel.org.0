@@ -1,76 +1,76 @@
-Return-Path: <linux-media+bounces-23122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23123-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2609EBF68
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 00:36:17 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6A69EBF6C
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 00:36:20 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8175E167485
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 23:36:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 717EE283EF5
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 23:36:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E700B21129D;
-	Tue, 10 Dec 2024 23:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBC9122689D;
+	Tue, 10 Dec 2024 23:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQvPY8LF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+XxZ3qn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928041F1932;
-	Tue, 10 Dec 2024 23:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96F71F1932;
+	Tue, 10 Dec 2024 23:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733873757; cv=none; b=JpnQePd22O8092BAUb2h6G07lOa7nWuee+rIdE8WxkuQia6Zf2rJZRwqnmS1eSgIV/Ae5rrkNgpUYic72vs8pfJokOULmVZJ5ZfoDbYmsZVfoacRsYEIe6baqD6ezRJnTUL6YbXcrwClgEsFZN0oZjICEgzRPor8Es3OyoZxOvQ=
+	t=1733873760; cv=none; b=Kys1lQrEcwnjFKFqaNmfAHUWs7EM82oYaghALHm98tLy2GeA0Ih3i3uOXBa0uggM4v1MNXktuO+0rbCEjgK3yi5+bPsuEYJzJd+oB2ZNIyfSzmLxjcQhw3q7d9bq9FCfwRQjI77hQzvOoXDPIuGvkUZnwkg0Wf6omee2FWBj0c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733873757; c=relaxed/simple;
-	bh=zpb1PukpUEAT2rRoF32/BvqI9/iIDz2atx+JmRnxKk0=;
+	s=arc-20240116; t=1733873760; c=relaxed/simple;
+	bh=cA8ia9gUiiYNXiF6cnwGU5yb3IDiwQmbEW9UlFxwV/c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U9HVS1gEcpm/0a25dkcbcix0aBKEijQLvgCeRpTs1DbtlixHxtSJm4HUkfBUjtEHEVXvYPjKXEC3ubmX/czzrT0w7b3N3QUf8btKiQO15yIbqVubNAF8U4gacEmqbKlBEIkgTW6GRM7ZEUuxEKV0mUT5bNizr/oaAsYy4yQESFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQvPY8LF; arc=none smtp.client-ip=209.85.160.180
+	 MIME-Version; b=EfgsBXG9Rw8E3oR/Mm3JFl0S/c/HWNldEIG1ZLv3oQVKleuja0f99Qfe99YJoNCL35suR2iQ4blAtcrsBAQc0KXaEtKtJxRXMVN0RIpqC42nXrTURTo0uSvItxAK77ecWYViKdUNwc2pAx9/ocaZriv1SWW8aOLZgXdo9BxM2UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+XxZ3qn; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4678afeb133so329101cf.0;
-        Tue, 10 Dec 2024 15:35:55 -0800 (PST)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-467745731fdso11140121cf.2;
+        Tue, 10 Dec 2024 15:35:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733873754; x=1734478554; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1733873758; x=1734478558; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bBXhqjzZSTDhZeWofLNy730iza/n5rBi0iwRihxEpGg=;
-        b=NQvPY8LFwyDZ6W5iAIx3spcRqrhluG/F2VLoo7wt9DVFp/2OyIhsikCOiX42WneZBY
-         r8qGsfY0IpjACM9XXtGiulKO8DMcdCTCBIa365B/P0vkqg8rUvIPGXTDJgpvo/UPz0BF
-         dWYJFcGGetjMNMBhgGim5hBUT/B1J2mGTnPPnM+eXW7LKU8+ZUPVfevk2Ts2sSXr/UH5
-         W+yirnkmpjUpOjkRX6JdS4ZzQEgmZHHCHTaHDLestAd0ctBJnPsUrEHFIE8eiJAOGEZN
-         71cRzwhQYdIPTwTkrPJH6X5Vw7P1xsBa3QiOSfCG5Gs0L/jpPl9T3DP8M4+WgW1tenNn
-         8QuA==
+        bh=riRl3ZaZxwmWu/pRGOcAcSHXuWSTMJ3QmPDQGJ4LbYU=;
+        b=i+XxZ3qnGq+xHW4LhhxBA26Y0OPp8DNrcH5yNsoee+MqIs1FSZ4V7ydO+irw2go+D2
+         REL6xw1/JuwteYm/oumxRBoAFll3hy3IY2G3jaZqgK9ao8FFjhsOJ03qAftvxguX9zGr
+         Nfi9FAGiEnq0rsAmGCh0PlotQb69Fn47p09IZZaQgEBSFfv1c7ZeLKzBumI++dsPac7+
+         yU6/INn1gQuSrTM3GcK00eK+qpE/mnOe4TxU27v09gSmsu0c3UAwhGRd3b2v57w2ut8q
+         eI/LFWr9IXp4tnQz1n/YEAoeh2+nkqqvLPner6ptf6drUBxOSpzswsTr7B/JeyqLjTJi
+         q2jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733873754; x=1734478554;
+        d=1e100.net; s=20230601; t=1733873758; x=1734478558;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bBXhqjzZSTDhZeWofLNy730iza/n5rBi0iwRihxEpGg=;
-        b=DTPzuFUAAAGauo1vcsjjWkvsjoXpZ5CquzMzN9EUD0iM+ilYFA6yEK7h5p1hVoc4c1
-         5ICVqwpsvT3bJ4kBjwzNhQMRpBrn3vs1fl4MpTiBuqr7/k7j8Xw3XSdtPDWy//B0/aM0
-         /9Ilo/+DBbQa7GwkUpeOqUtuu2ChvACpSWLuLmh6KiAhgrgzy4bK3Oir1uJ5jGzIY2ya
-         tv7bHup8kWu7HCrAN7NttRvfgVfHHjU+uPVGn1rQFwtb1MOpueFaIsQ+E63B2q55aPY4
-         lJj9+sowzaySSCP/tMksaDJ00aElYqgIJlzRwpGtov468UUba8cx8em3KDMXABMRcxXp
-         T6Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCUzMBJblqaZg0f8GvTQqkBtw63eJIT948mtTOUqyx8gcSB4zEuAxpbRYtsTyQmf2V2qF4jmC1FhR7iV@vger.kernel.org, AJvYcCUzYAgj1MGXyskNLAKsC4dEK7Y3uck8HHSQcC18BeWgYN43dcsPDkuk4DPquKNGnq5s7PRD7ZHAyXS1MG0=@vger.kernel.org, AJvYcCXBeXMSytymulAU6F8PsI9YajMLqo0NuDzqK3Gtjd8RGNT4amyyf+jMJFFIjDqnF2DPEuRFFkY1MfRg@vger.kernel.org, AJvYcCXWdaRisFUaeTco0bZ8UPmt6JhmAf44N5Z+yeUiFz9YhNjPITSmPwq2hV5/C6lIPPj5kSDaSRfKri2VkOtMeg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyP3XXgydqWKZSrBCcwed84JaI0005t72/HHjCktGZspZ2IM3Tl
-	TcSKN+XzmIUPsAwQPbV8U1VVKWUXKTwzL+YOMRqp1xx0PPG1sKHM
-X-Gm-Gg: ASbGncvV3h0duM1YEPLYY1H0ud7NOsmXvRRgAP1ttlYflVpqlyVWTxfaQinEjdNIi2i
-	swH/Wa6QiU3wnMPNCb5hxIM4XamoG7LzPLYsFhb+8WDp87TU79/tmri+VfHuD95ydrQNd30AlST
-	0qTH90YfdPQKQVerdVxXoNtPl0fgcHyF7fhcwBbVYUtkAyKb6hEeg+SDm0L0dk6tyRJWRDv/vuo
-	iVYolEvcifotJyMUcTtG0pWComeVdivqC2tc2fvGw==
-X-Google-Smtp-Source: AGHT+IEFZ2nvfhqQGxGE7Tq7fp1+cOhQ836nNcKT+3A0E3FqoIMS2YKWHfeUBaWjUFLwUt0kUAbUiQ==
-X-Received: by 2002:a05:6214:528e:b0:6d8:b733:47c with SMTP id 6a1803df08f44-6d93531a29cmr10433446d6.22.1733873754540;
-        Tue, 10 Dec 2024 15:35:54 -0800 (PST)
+        bh=riRl3ZaZxwmWu/pRGOcAcSHXuWSTMJ3QmPDQGJ4LbYU=;
+        b=tRjq5a9EbZUPFCL7zZleHYp5GTpM2MiN22/s3o9UFndQTv/ceKAxIZe0tI+so6FFGm
+         vgl4fMDhudYJA9rHf19ID880SRt80iVGbEbpU5kUq/UcyhJxqjH3euD25BgV7g3AQ6H4
+         yPTj2tg/jnupF0/fI1gWiX5KmeRub6fSbS3zjA1iNray/CGyukGybkfoayBGrqBAw502
+         G12AMLnh6fKn7MB82/mYVisapSv847eZ1eXaL++cxgyrc+y6y/AXEHLXyKzUJuA5Fqk+
+         ep9dMw1PbijtamP8/qIdnASF/X3uRL4yZiyheWNewLBqlsgmV/58Rv0ioVkqo/54feD3
+         c/Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKoDlJ/s5bzgU/rTQyKfDcVjxTmLdAEUeLkD5a68hMYC2rvMrzBsgz0Cjo+RpOYWMY4/wx2Bg/US/TKqQ=@vger.kernel.org, AJvYcCUMw5Q9PU+VXE/INgioz6MfP5kNw3lq+xbCZ50Ng8haB/Pb/inoBxLAnnCswBwFGiqKhox8XI1qlM8F5GWflA==@vger.kernel.org, AJvYcCVczVL94DO6Z2EcrtlfnsulVJHrkgtwbmZVwBCcLbRSEo+xvKNF/jSVqD0jmtahvYFAMToN1H9WBgUx@vger.kernel.org, AJvYcCWCwuGOZEpHKvFXu38FTC1xxNvNoJU46EwvK7W83tNDRKRKI2ENApw7YIhp/ZQBzZKiAaeh0L+qKkg3@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmGO5KNQY4a2jtIs5z4okcwre/z/ss0vtjMDqMtiJifA7+0Fsx
+	MonJJpsizXIl+od1D/b5iB0BgZ6V2bVEuCyVRVhB8rNpgnYoCj3D
+X-Gm-Gg: ASbGncsg1hq+Dg8ckc0WUw3P7X5cZZwSaBw6C1iA9ZE6fDM3piVpB3oB3fGfPpfBzd8
+	t0Zr0Y/bMV0kCqiKL95U08Dy6WleHuxmfk+8NYtGUsXfHuKDCYxL7gVoTK2ZCTiDWJnSPXuUx2S
+	4P4zHhmYuMrLw7RpirBG0T7jW9RAJt9GRklOaCXrbKYQFqTYYQflveGlNX03l6/mSKtQS3KBxqH
+	g0tmyit3uM08XikLjUPQLeHPECaBWjN1p49HKvEXg==
+X-Google-Smtp-Source: AGHT+IG8bQpXMB4K78RniAOkROkYshe2jwWRSyk3U26ua6C10ZSahucB783jNSOLyRByYNJn/TShcA==
+X-Received: by 2002:a05:622a:164f:b0:467:7725:8b69 with SMTP id d75a77b69052e-4678939d7c9mr14902961cf.40.1733873757716;
+        Tue, 10 Dec 2024 15:35:57 -0800 (PST)
 Received: from localhost ([2607:fea8:52a3:d200::6d3f])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d8edb76ce7sm51717786d6.90.2024.12.10.15.35.53
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46782386ef2sm8631871cf.26.2024.12.10.15.35.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 15:35:54 -0800 (PST)
+        Tue, 10 Dec 2024 15:35:57 -0800 (PST)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Bjorn Andersson <andersson@kernel.org>,
 	Michael Turquette <mturquette@baylibre.com>,
@@ -89,9 +89,9 @@ To: Bjorn Andersson <andersson@kernel.org>,
 	linux-media@vger.kernel.org
 Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v7 3/5] media: qcom: camss: add support for SDM670 camss
-Date: Tue, 10 Dec 2024 18:35:38 -0500
-Message-ID: <20241210233534.614520-10-mailingradian@gmail.com>
+Subject: [PATCH v7 4/5] arm64: dts: qcom: sdm670: add camcc
+Date: Tue, 10 Dec 2024 18:35:39 -0500
+Message-ID: <20241210233534.614520-11-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241210233534.614520-7-mailingradian@gmail.com>
 References: <20241210233534.614520-7-mailingradian@gmail.com>
@@ -103,234 +103,37 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The camera subsystem for the SDM670 the same as on SDM845 except with
-3 CSIPHY ports instead of 4. Add support for the SDM670 camera
-subsystem.
+The camera clock controller on SDM670 controls the clocks that drive the
+camera subsystem. The clocks are the same as on SDM845. Add the camera
+clock controller for SDM670.
 
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- drivers/media/platform/qcom/camss/camss.c | 191 ++++++++++++++++++++++
- 1 file changed, 191 insertions(+)
+ arch/arm64/boot/dts/qcom/sdm670.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 9fb31f4c18ad..389b49606be0 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -738,6 +738,185 @@ static const struct camss_subdev_resources vfe_res_660[] = {
- 	}
- };
+diff --git a/arch/arm64/boot/dts/qcom/sdm670.dtsi b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+index c93dd06c0b7d..328096b91126 100644
+--- a/arch/arm64/boot/dts/qcom/sdm670.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+@@ -1400,6 +1400,16 @@ spmi_bus: spmi@c440000 {
+ 			#interrupt-cells = <4>;
+ 		};
  
-+static const struct camss_subdev_resources csiphy_res_670[] = {
-+	/* CSIPHY0 */
-+	{
-+		.regulators = {},
-+		.clock = { "soc_ahb", "cpas_ahb",
-+				"csiphy0", "csiphy0_timer" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 19200000, 240000000, 269333333 } },
-+		.reg = { "csiphy0" },
-+		.interrupt = { "csiphy0" },
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sdm845
-+		}
-+	},
++		camcc: clock-controller@ad00000 {
++			compatible = "qcom,sdm670-camcc", "qcom,sdm845-camcc";
++			reg = <0 0x0ad00000 0 0x10000>;
++			clocks = <&rpmhcc RPMH_CXO_CLK>;
++			clock-names = "bi_tcxo";
++			#clock-cells = <1>;
++			#reset-cells = <1>;
++			#power-domain-cells = <1>;
++		};
 +
-+	/* CSIPHY1 */
-+	{
-+		.regulators = {},
-+		.clock = { "soc_ahb", "cpas_ahb",
-+				"csiphy1", "csiphy1_timer" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 19200000, 240000000, 269333333 } },
-+		.reg = { "csiphy1" },
-+		.interrupt = { "csiphy1" },
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sdm845
-+		}
-+	},
-+
-+	/* CSIPHY2 */
-+	{
-+		.regulators = {},
-+		.clock = { "soc_ahb", "cpas_ahb",
-+				"csiphy2", "csiphy2_timer" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 19200000, 240000000, 269333333 } },
-+		.reg = { "csiphy2" },
-+		.interrupt = { "csiphy2" },
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sdm845
-+		}
-+	}
-+};
-+
-+static const struct camss_subdev_resources csid_res_670[] = {
-+	/* CSID0 */
-+	{
-+		.regulators = { "vdda-phy", "vdda-pll" },
-+		.clock = { "cpas_ahb", "soc_ahb", "vfe0",
-+				"vfe0_cphy_rx", "csi0" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 100000000, 320000000, 404000000, 480000000, 600000000 },
-+				{ 384000000 },
-+				{ 19200000, 75000000, 384000000, 538666667 } },
-+		.reg = { "csid0" },
-+		.interrupt = { "csid0" },
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
-+			.formats = &csid_formats_gen2
-+		}
-+	},
-+
-+	/* CSID1 */
-+	{
-+		.regulators = { "vdda-phy", "vdda-pll" },
-+		.clock = { "cpas_ahb", "soc_ahb", "vfe1",
-+				"vfe1_cphy_rx", "csi1" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 100000000, 320000000, 404000000, 480000000, 600000000 },
-+				{ 384000000 },
-+				{ 19200000, 75000000, 384000000, 538666667 } },
-+		.reg = { "csid1" },
-+		.interrupt = { "csid1" },
-+		.csid = {
-+			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
-+			.formats = &csid_formats_gen2
-+		}
-+	},
-+
-+	/* CSID2 */
-+	{
-+		.regulators = { "vdda-phy", "vdda-pll" },
-+		.clock = { "cpas_ahb", "soc_ahb", "vfe_lite",
-+				"vfe_lite_cphy_rx", "csi2" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 100000000, 320000000, 404000000, 480000000, 600000000 },
-+				{ 384000000 },
-+				{ 19200000, 75000000, 384000000, 538666667 } },
-+		.reg = { "csid2" },
-+		.interrupt = { "csid2" },
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_gen2,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
-+			.formats = &csid_formats_gen2
-+		}
-+	}
-+};
-+
-+static const struct camss_subdev_resources vfe_res_670[] = {
-+	/* VFE0 */
-+	{
-+		.regulators = {},
-+		.clock = { "camnoc_axi", "cpas_ahb", "soc_ahb",
-+				"vfe0", "vfe0_axi" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 100000000, 320000000, 404000000, 480000000, 600000000 },
-+				{ 0 } },
-+		.reg = { "vfe0" },
-+		.interrupt = { "vfe0" },
-+		.vfe = {
-+			.line_num = 4,
-+			.has_pd = true,
-+			.pd_name = "ife0",
-+			.hw_ops = &vfe_ops_170,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+
-+	/* VFE1 */
-+	{
-+		.regulators = {},
-+		.clock = { "camnoc_axi", "cpas_ahb", "soc_ahb",
-+				"vfe1", "vfe1_axi" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 100000000, 320000000, 404000000, 480000000, 600000000 },
-+				{ 0 } },
-+		.reg = { "vfe1" },
-+		.interrupt = { "vfe1" },
-+		.vfe = {
-+			.line_num = 4,
-+			.has_pd = true,
-+			.pd_name = "ife1",
-+			.hw_ops = &vfe_ops_170,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+
-+	/* VFE-lite */
-+	{
-+		.regulators = {},
-+		.clock = { "camnoc_axi", "cpas_ahb", "soc_ahb",
-+				"vfe_lite" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 100000000, 320000000, 404000000, 480000000, 600000000 } },
-+		.reg = { "vfe_lite" },
-+		.interrupt = { "vfe_lite" },
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_170,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	}
-+};
-+
- static const struct camss_subdev_resources csiphy_res_845[] = {
- 	/* CSIPHY0 */
- 	{
-@@ -2582,6 +2761,17 @@ static const struct camss_resources sdm660_resources = {
- 	.link_entities = camss_link_entities
- };
- 
-+static const struct camss_resources sdm670_resources = {
-+	.version = CAMSS_845,
-+	.csiphy_res = csiphy_res_670,
-+	.csid_res = csid_res_670,
-+	.vfe_res = vfe_res_670,
-+	.csiphy_num = ARRAY_SIZE(csiphy_res_670),
-+	.csid_num = ARRAY_SIZE(csid_res_670),
-+	.vfe_num = ARRAY_SIZE(vfe_res_670),
-+	.link_entities = camss_link_entities
-+};
-+
- static const struct camss_resources sdm845_resources = {
- 	.version = CAMSS_845,
- 	.csiphy_res = csiphy_res_845,
-@@ -2627,6 +2817,7 @@ static const struct of_device_id camss_dt_match[] = {
- 	{ .compatible = "qcom,msm8953-camss", .data = &msm8953_resources },
- 	{ .compatible = "qcom,msm8996-camss", .data = &msm8996_resources },
- 	{ .compatible = "qcom,sdm660-camss", .data = &sdm660_resources },
-+	{ .compatible = "qcom,sdm670-camss", .data = &sdm670_resources },
- 	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
- 	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
- 	{ .compatible = "qcom,sc8280xp-camss", .data = &sc8280xp_resources },
+ 		mdss: display-subsystem@ae00000 {
+ 			compatible = "qcom,sdm670-mdss";
+ 			reg = <0 0x0ae00000 0 0x1000>;
 -- 
 2.47.1
 
