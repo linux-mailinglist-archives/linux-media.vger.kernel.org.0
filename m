@@ -1,189 +1,134 @@
-Return-Path: <linux-media+bounces-23065-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23066-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2950F9EB48F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 16:19:40 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0719EB4A5
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 16:21:46 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A78E2838D6
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 15:19:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A21E116BC32
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 15:21:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 780E11BD9D8;
-	Tue, 10 Dec 2024 15:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F711BBBCF;
+	Tue, 10 Dec 2024 15:21:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P9mx7JUH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LDjxTAfi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ACE1B425E;
-	Tue, 10 Dec 2024 15:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A956F1B425E;
+	Tue, 10 Dec 2024 15:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733843922; cv=none; b=nMzy2rWup13g6TM9/Q/BJh0arVVW1oWSY3r4ZG384oJwtABOGF+JD4JeC+R+Sw7Lv7Qd8/IYFNbguVLqa4gjslIchAuoaEpvx/uspTOUnXalWV/W7ju8zBJPn26OQ3DbVBJ2s2yTh4WUoPknkHmeRXShVHK5bD5TmMocVVwzFAc=
+	t=1733844093; cv=none; b=P4Mgj5pNYL3ciQasgMZzJoo98q0YqfGMtHLOvMcebBpuJoMepWt0puc7mVgQVXZJTNAdQHLkEkXbzTCfcOpfI87xltemzTpFFjIrh7MnB4M2g85leX6oXH+z/rYj8qqMCYA4EMYbrA+zORloeTklnAHOASND+sH87P7p5wbGUD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733843922; c=relaxed/simple;
-	bh=MyYV/Dq/yh2N0al9eocpkchQGpyiruhLqw5oLkHPoWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y5AdunRSANsrU7vGr0/ODehPM2+vIBZwVjRHx7vB2hMnSVOk5vIW+4Hu5hfcs43/WDb4WPI60qR6t75fPDSr/x6GirT9D/Hyn+IeMq6C7SUQfPBoVPNXgn+Y0NDSA+kQKT4nxbGJizIf+m7nF9am7BSzdlaynMYRJNhIS9BBYgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P9mx7JUH; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733843921; x=1765379921;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=MyYV/Dq/yh2N0al9eocpkchQGpyiruhLqw5oLkHPoWs=;
-  b=P9mx7JUH8fYsIyMi8jyiMf48uLPOvnd3+4kJ2LquwhfdvKSzmtoAoHUg
-   lHLd96Xs3NY4Jj9uIuPgHMIh0oITQBIJ47oEHa2F9GQJvvcKQ+2aMbZos
-   T1RdJlFVMu1NmcXtnscXEWBwtqHh8EmlNMiejczGCo/13N+O7NZGBEztd
-   T4Xb7nugBBGzk8mvTreLBcV2n73EB6+gTdh/e/6q7k1WIQ8ecAYAoHaMQ
-   KULxJ3EgNQOyJ04GfuG2LNFdMrpPVKfAwx0FmZCr+spqmUpPs8oUcwVac
-   7O7yItWx81DJNkLiqWrcPQFrml3vmr4cbbWg40Ti5WZEDcizNsxcqP6kS
-   g==;
-X-CSE-ConnectionGUID: agL51K1dQZeHzQYg6EUU6A==
-X-CSE-MsgGUID: XdwoLW6TRvipJmUoarH3/A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45206208"
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="45206208"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 07:18:40 -0800
-X-CSE-ConnectionGUID: A9Ohsn/hQfKsY0TvuxCS3w==
-X-CSE-MsgGUID: WKZB0PDwSvqrhDvuB8FZxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="95255207"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.118.67])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 07:18:35 -0800
-Date: Tue, 10 Dec 2024 16:18:32 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Genes Lists <lists@sapience.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-	torvalds@linux-foundation.org, stable@vger.kernel.org,
-	linux-media@vger.kernel.org, bingbu.cao@intel.com,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: Linux 6.12.4 - crash dma_alloc_attrs+0x12b via ipu6
-Message-ID: <Z1hbyNXUubokloda@linux.intel.com>
-References: <2024120917-vision-outcast-85f2@gregkh>
- <c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com>
- <Z1fqitbWlmELb5pj@kekkonen.localdomain>
- <87seqvzzg6.fsf@intel.com>
- <c1805642a6c5da6fef3927c70358c8cb851d2784.camel@sapience.com>
- <87bjxjzpwn.fsf@intel.com>
- <2024121001-senator-raffle-a371@gregkh>
+	s=arc-20240116; t=1733844093; c=relaxed/simple;
+	bh=3GlGE3KlJLpLrehcIsMPjWrvW8X2DBShR7lNXEMAm0Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r7LVhjBAn8+cFDGMI7cs9a4kml2FrW4raHuBov9+q4cnsZv9lB2+wHixPgl/91ukwl6AfMP4i2Je1u3sfmysr+WtHY78uNbEk6jZjLj4rBr4MVJvyJwMLo1Zb1mmTeR8uZW6R0cZDtQUwBwxacRmRB/y+/RG79rlXQON+j1qHuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LDjxTAfi; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C26571C0008;
+	Tue, 10 Dec 2024 15:21:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1733844081;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Kr3K+pxKkOvGHu/heW337Yn2yGQRwqjuj8j4+9JVtbE=;
+	b=LDjxTAfieZOp7wsnn6XgpYGnEuIkCG0kUWiIOtieTECJVGWvH2/+nlQdaWMGi8YkOfzemE
+	phU2Hn98XIyZ6kQ4fjHG1+Ovx5S70Ce9TJW3RpXo8Iz6bNxDRyqUOF4vx82rgJSNAM6rjA
+	1CzL5Nc5VVSEDjbzcwCz5P4xvadcnIplFi0FEdNNMwHzIBCDZZensz04jrEFPE0l3YVbcK
+	3YKzWcdC1j37yJ4fufVA+41aqPpWCX5mVhUqugj7V+8VCs3Ci2pFC2hZJHm4eGBlKl5EMM
+	4nkiUeML5dbaJaQrHVUsKwsbVO4bQuFwjaAauF4LMPiBYHREHX9xz0x/SaF1ZA==
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic <dragan.cvetic@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Cosmin Tanislav <demonsingur@gmail.com>
+Subject: Re: [PATCH v3 8/9] i2c: Support dynamic address translation
+Date: Tue, 10 Dec 2024 16:21:19 +0100
+Message-ID: <2099546.fqZRxdAdAU@fw-rgant>
+In-Reply-To: <3255950.5fSG56mABF@fw-rgant>
+References:
+ <20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com>
+ <141bbac1-5289-4335-a566-387721439bef@ideasonboard.com>
+ <3255950.5fSG56mABF@fw-rgant>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2024121001-senator-raffle-a371@gregkh>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-GND-Sasl: romain.gantois@bootlin.com
 
-On Tue, Dec 10, 2024 at 01:37:11PM +0100, Greg Kroah-Hartman wrote:
-> On Tue, Dec 10, 2024 at 02:24:56PM +0200, Jani Nikula wrote:
-> > On Tue, 10 Dec 2024, Genes Lists <lists@sapience.com> wrote:
-> > > On Tue, 2024-12-10 at 10:58 +0200, Jani Nikula wrote:
-> > >> On Tue, 10 Dec 2024, Sakari Ailus <sakari.ailus@linux.intel.com>
-> > >> wrote:
-> > >> > Hi,
-> > >> > 
-> > >> > > ...
-> > >> > > FYI 6.12.4 got a crash shortly after booting in dma_alloc_attrs -
-> > >> > > maybe
-> > >> > > triggered in ipu6_probe. Crash only happened on laptop with ipu6.
-> > >> > > All
-> > >> > > other machines are running fine.
-> > >> > 
-> > >> > Have you read the dmesg further than the IPU6 related warning? The
-> > >> > IPU6
-> > >> > driver won't work (maybe not even probe?) but if the system
-> > >> > crashes, it
-> > >> > appears unlikely the IPU6 drivers would have something to do with
-> > >> > that.
-> > >> > Look for warnings on linked list corruption later, they seem to be
-> > >> > coming
-> > >> > from the i915 driver.
-> > >> 
-> > >> And the list corruption is actually happening in
-> > >> cpu_latency_qos_update_request(). I don't see any i915 changes in
-> > >> 6.12.4
-> > >> that could cause it.
-> > >> 
-> > >> I guess the question is, when did it work? Did 6.12.3 work?
-> > >> 
-> > >> 
-> > >> BR,
-> > >> Jani.
-> > >
-> > >
-> > >  - 6.12.1 worked
-> > >
-> > >  - mainline - works (but only with i915 patch set [1] otherwise there
-> > > are no graphics at all)
-> > >
-> > >     [1] https://patchwork.freedesktop.org/series/141911/
-> > >
-> > > - 6.12.3 - crashed (i see i915 not ipu6) and again it has       
-> > >     cpu_latency_qos_update_request+0x61/0xc0
-> > 
-> > Thanks for testing.
-> > 
-> > There are no changes to either i915 or kernel/power between 6.12.1 and
-> > 6.12.4.
-> > 
-> > There are some changes to drm core, but none that could explain this.
-> > 
-> > Maybe try the same kernels a few more times to see if it's really
-> > deterministic? Not that I have obvious ideas where to go from there, but
-> > it's a clue nonetheless.
-> 
-> 'git bisect' would be nice to run if possible...
+Hi Tomi,
 
-I've reproduced the issue. It's caused by 6.12.y commit:
+On lundi 9 d=C3=A9cembre 2024 13:42:29 heure normale d=E2=80=99Europe centr=
+ale Romain=20
+Gantois wrote:
+> Hi Tomi,
+>=20
+=2E..
+> > This fails with:
+> >=20
+> > WARNING: CPU: 1 PID: 360 at lib/list_debug.c:35
+> > __list_add_valid_or_report+0xe4/0x100
+> >=20
+> > as the i2c_atr_create_c2a() calls list_add(), but i2c_atr_attach_addr(),
+> > which is changed to use i2c_atr_create_c2a(), also calls list_add().
+> >=20
+> > Also, if you add i2c_atr_create_c2a() which hides the allocation and
+> > list_add, I think it makes sense to add a i2c_atr_destroy_c2a() to
+> > revert that.
+> >=20
+> > There's also a memory error "BUG: KASAN: slab-use-after-free in
+> > __lock_acquire+0xc4/0x375c" (see below) when unloading the ub960 or
+> > ub953 driver. I haven't looked at that yet.
+>=20
+> I think I've found what's causing this KASAN splat.  i2c_atr_del_adapter =
+is
+> freeing it's alias pool before setting atr->adapter[chan_id] to NULL. So
+> there's a time window during which bus notifications can trigger a call
+> to i2c_atr_attach_addr, leading to a UAF on the alias pool struct.
 
-commit 6ac269abab9ca5ae910deb2d3ca54351c3467e99
-Author: Bingbu Cao <bingbu.cao@intel.com>
-Date:   Wed Oct 16 15:53:01 2024 +0800
+It seems like my initial theory was wrong. The bus notifier wouldn't trigge=
+r=20
+after the adapter has been removed.
 
-    media: ipu6: not override the dma_ops of device in driver
+However, the "alias_pool->shared" flag is not set anywhere in the i2c-atr=20
+module! So a more likely theory is that the common alias pool is being
+freed when the first channel is deleted. Thus, the second channel is
+still referencing a freed alias pool during it's deletion, hence the UAF.
 
-    [ Upstream commit daabc5c64703432c4a8798421a3588c2c142c51b ]
+Properly setting the "shared" flag of alias pools owned by the i2c_atr stru=
+ct
+should fix this.
+
+Thanks,
+
+=2D-=20
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
-It makes alloc_fw_msg_bufs() fail on isys_probe() 
 
-	cpu_latency_qos_add_request(&isys->pm_qos, PM_QOS_DEFAULT_VALUE);
-
-	ret = alloc_fw_msg_bufs(isys, 20);
-	if (ret < 0)
-		goto out_remove_pkg_dir_shared_buffer;
-
-And on error path we do not call cpu_latency_qos_remove_request() 
-what cause pm_qos_request list corruption (it is memory use
-after free bug).
-
-The problem will disappear after applying:
-https://lore.kernel.org/stable/20241209175416.59433-1-stanislaw.gruszka@linux.intel.com/
-since the allocation will not longer fail.
-
-But we also need to handle fail case correctly by adding
-cpu_latency_qos_remove_request() on error path. This requires
-mainline fix, I'll post it. 
-
-Regards
-Stanislaw
 
