@@ -1,155 +1,131 @@
-Return-Path: <linux-media+bounces-23115-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23116-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89309EBDEB
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 23:36:06 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4B69EBE08
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 23:47:46 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62948281A80
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 22:36:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06870167D78
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 22:47:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC0551F193A;
-	Tue, 10 Dec 2024 22:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1851F1911;
+	Tue, 10 Dec 2024 22:47:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BY9tZV7I"
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="jNh7joti"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF6F1F1907
-	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 22:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C53F2451E1
+	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 22:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733870155; cv=none; b=jQTl7VFNwRZfPRv/OQ8gyRuPYaIS3l3avjTvpf1Zcx/swmwGy85PTsJj43UOu+wSgSOV3x7BMuT/dpOeoT9V/a8HnXwhNpN2m49ouq6mz26z9mmbFD7Co7Rjvz8aeb93xJsgtqU71qC2bdMzPEIjuwCFw3uyQ2PwujRi1lgoZF4=
+	t=1733870857; cv=none; b=qt8gS+44h5nTfkb4zHphxpqsgrzRsPRlY9nIPgjcwR8i+CQ6G3grPhnHKqIRAHeMxGz6yswfGHiY/ONsb6eqLIazHrkwe2rMQEnGQDx7qJl8wuKB7ScI6JpRIavmbQuy2D2Z0NrMUtB1VlogpgAxidaczbmoFeoEC+3x86egtyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733870155; c=relaxed/simple;
-	bh=tvt3zv+eF6/MbzKSgaDb44zYstTrL0JwPAz1hDN8QLw=;
+	s=arc-20240116; t=1733870857; c=relaxed/simple;
+	bh=4J09Nw/NprO0mzMLrBQrv1UzfclOZD/Gt04pVU1Y7CI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n2e+o4rtq75POlgkanb+g7nKpTQ6Y1uIaxxreIsUrZ1r8OLJlce7CHgHCKqJ6Uo4hdNMQL4ZyK/AoCvLFYlXk2FP+Ut5ki63D0RNwa9u4Bg9ZXrlDhcmUyRX2WMN3mWEu1IlXQnCXJ7QVSJbAmcdYgeat445G0R8QpXFf1hE6EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BY9tZV7I; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-725d9f57d90so2564962b3a.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 14:35:52 -0800 (PST)
+	 To:Cc:Content-Type; b=XLLUAwAf+S2OJLCGCmhj/2mdWq/t0vbmCEX4F+GhsixTFWdKJORErC2/eEc99vqKoGDspljb0B+Sg+d2UuqJSsH+DxgQiFGvImPmwAbqfCq9Quny7Hk9jfXUWUfjuHUQpNL8yS/lf4NlsBHZWxgsApHP6Yy2+KCUKkn9RE4NqE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org; spf=pass smtp.mailfrom=joelfernandes.org; dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b=jNh7joti; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=joelfernandes.org
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e3990bbe22cso5048113276.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 14:47:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733870152; x=1734474952; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SegVvC3hp1egRino8jTe24lodQ7Lif4l65T8hABKrm0=;
-        b=BY9tZV7IaJ+Wfp1JTHMsdlfY0fd3hhAOM4Q+OG02cfdQQ++3HPKeVmJhdydv97hIbp
-         1684miZdGCsZttf4KteRwKnao3gcNGXHT1sTe2xdCN2qY9GeionC34PfMWCTpen6ABY7
-         /Ee4X2GKGp9JIq19uwc0FySw+METK5AS2bZEI=
+        d=joelfernandes.org; s=google; t=1733870854; x=1734475654; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TWBkyRYQGMDGc5eLQDuZCpsdffQM6naQ0vYyr7n61vs=;
+        b=jNh7joti2mNXbonLdEDqzPGMd7U6/LzNQTPj90bamPyKjfB16hnNax1kMLGyuvmkjy
+         /g8PwnTGt1V3g1vCwSsAfqJJIRGseiE7upazEHZUphde6jBRYJ3wGfEZuYSQNmUQqrUB
+         clsr9xXmy7PVE8mkpRlu3IY8znxDmJNwVSdOw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733870152; x=1734474952;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SegVvC3hp1egRino8jTe24lodQ7Lif4l65T8hABKrm0=;
-        b=Lh3uVQZbpPFtU7Azt90tO03vH5VDVpdMwY+p2mnyyBB0YiFELumtmBsSL3QVONlJXL
-         a3KIsFCHBXPXskDp+AR93Gz3XF4E7LM2ruwq2GF9bpJr/eRbl5uAtNm4/4VlnYTAc6aO
-         fF1yNYuH3As6IXgI18KHRqqlnetFCfmNqDRdfENuZqFGw+8JdrrwQuqIcohJwuxbQbuX
-         WnUlZEaSNbYBF8l2Hx/i8Q9TbzDafubhrQMmJ9Hiytflcr6YiRt18ROlg0A9U4td50D1
-         bloiq40KcIgtyamYjOwQ9yzCy8mACN2OKWbOXHnFacRGq7bl72VWuy2FIZRRKU6TEEoY
-         DXkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvMhLZ65B25w8TblBiseWP5iJNoOC+CWkjqicXIg9K61ZtIPiGIJqz5T4xJEWsx5S4I4A/q46LbOvgMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwG7TjaobLhBw3yCDhDF9OPsT3TEZFE+9rPYOkma3pig2yIG32V
-	2VIFae3PHOR3ezbswWIjvaONhX3BNOgYtn7E0+1+pW7FeeGvaluuiXJDj/2LHq1cAZuoAioRJdk
-	=
-X-Gm-Gg: ASbGnctAKOsYjsAR/bw0RWcHbMP/mISoyaxDoUc4jhdQADW2ZaYp3fd2nWisNIG4dg3
-	c+YqPuoNfvTe0A7GCAEu36UBLO4vdPmV6SAvsaOk1Vzp+mNspVn2n7113ub6VxQY5rKHCPUQYez
-	q3eMjucbuFTb3dmoXxjv/bdV67mM4xLSRxDOKEfQX/JPQwqd6dezHwyNznZiIpxgSKjJLm9pniu
-	5plOviWnUYQYMr2NiT3jdDiLdCJG3XALq8O0UWYcwJlihjWB3tN7Gni8dMJ4/gnrR8Cdn9IugRj
-	ndPWIu/3aXvDf4ta
-X-Google-Smtp-Source: AGHT+IHGe+KRWRK6oMSCFzE0evaSQtgoVYB/1uotlAr+PrJqaqn5E+6DcGN+RjYCUHBf0C+PxAPwCQ==
-X-Received: by 2002:a05:6a20:cf83:b0:1e1:afd3:bbfa with SMTP id adf61e73a8af0-1e1c1246531mr1624655637.7.1733870151841;
-        Tue, 10 Dec 2024 14:35:51 -0800 (PST)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com. [209.85.216.53])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725f3ef962bsm3593469b3a.96.2024.12.10.14.35.48
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2024 14:35:48 -0800 (PST)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ee9a780de4so4573593a91.3
-        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 14:35:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVbHgjWuY/hm98aN1iYKYlk7TZPAsJ4eScb0Yx3cwDCMJCO+fUlP0/X1xun3EdBZHASEgTCwIBwhHJvYw==@vger.kernel.org
-X-Received: by 2002:a17:90b:1c08:b0:2ef:67c2:4030 with SMTP id
- 98e67ed59e1d1-2f128032323mr929730a91.27.1733870147516; Tue, 10 Dec 2024
- 14:35:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733870854; x=1734475654;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TWBkyRYQGMDGc5eLQDuZCpsdffQM6naQ0vYyr7n61vs=;
+        b=Wh1GGJX3lyuxxdpRiI3+JS38WbJ99PTKmqGYw9uXCgopkzwbZunsY05W7ItBmDWJ3m
+         jGPzS4fHTF3UBeVHRdXxidOisJr2UgQGlnWCe6rysA/gDO+UzN1C2IGInZ2R70diHzIl
+         e/PDAndOFfs219XRCYonqoTcS9dbBahgjRRdVYiDa8LWex3uHYxw5WPkdTnZBH3Swj1M
+         ZuYm2As6FXUr4IA1kIrMAj4JXR5fE9fYXh+5R7s/0n0swhUeoIl4SA60ZhZIZ+fn2BkZ
+         iPNu1ceKC2/cKs0RvGLnyiGJfMVT6IPAVYB3rcVSEwKEYN6txyEYk8gJlhN3ZoYvjzcs
+         0Pqg==
+X-Forwarded-Encrypted: i=1; AJvYcCXUL32dASLFjQar333jTIJ0GoQ2EcIA/K3PQpGoD2OL/Xp4M2y9ipcMrmGsswhlT+HQP2H+nBvuoFLzig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQsTrGbJG8ye4pRw8j1j+cwK85yMKTijUZTQ/hunMdQY0hvafi
+	yn79js//qS16uLKqtkQkaGRjPLWw7Lp947KyCEvM2IO5GBZyNSCRhrT2MxsK1qbMQxmR6NYqp4H
+	g9285da1iBNK8fQ1PZh+ezRNKo+Ui39/kC6yDNA==
+X-Gm-Gg: ASbGncvdgD2+ieyYIojsLY2Lb8f8SlMH9/OhMCECidGhHF2LO+5eHRoSiyhEbAn8g1P
+	zmP4fC+3GtMeH460yS1vgR1Sf6yK98w2sLJsU
+X-Google-Smtp-Source: AGHT+IELsZuOhax2WDfAjwRl4rtBxQdB85wP9bCDDJ4eUK3hc/wYzDqJhKW371nUrhtu9bZHAkwmulfL19gZbIScI2s=
+X-Received: by 2002:a05:6902:2b85:b0:e39:83ce:6fb3 with SMTP id
+ 3f1490d57ef6-e3c8e4252ffmr1233132276.9.1733870854603; Tue, 10 Dec 2024
+ 14:47:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241210-fix-ipu-v3-0-00e409c84a6c@chromium.org>
- <20241210-fix-ipu-v3-6-00e409c84a6c@chromium.org> <Z1isHpuHqHSX-jHd@kekkonen.localdomain>
-In-Reply-To: <Z1isHpuHqHSX-jHd@kekkonen.localdomain>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 10 Dec 2024 23:35:35 +0100
-X-Gmail-Original-Message-ID: <CANiDSCt64N5iheWgE0UhmTriLC8duraAaTaiX5fb7+NpXBRiUw@mail.gmail.com>
-X-Gm-Features: AZHOrDk0jwuT4BPdDBgtbco-BoT1AXVUFGOsS3tfXUhEEPMwjjkEUWAtW-dj0G0
-Message-ID: <CANiDSCt64N5iheWgE0UhmTriLC8duraAaTaiX5fb7+NpXBRiUw@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] ACPI: bus: implement acpi_device_hid when !ACPI
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
-	Robert Moore <robert.moore@intel.com>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	acpica-devel@lists.linux.dev
+References: <20241204-udmabuf-fixes-v2-0-23887289de1c@google.com> <20241204-udmabuf-fixes-v2-2-23887289de1c@google.com>
+In-Reply-To: <20241204-udmabuf-fixes-v2-2-23887289de1c@google.com>
+From: Joel Fernandes <joel@joelfernandes.org>
+Date: Tue, 10 Dec 2024 17:47:23 -0500
+Message-ID: <CAEXW_YSd5yv4n4UMDfzKNgVZ_TWikuS_6HHOs0suYwUiVqNnJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] udmabuf: also check for F_SEAL_FUTURE_WRITE
+To: Jann Horn <jannh@google.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Simona Vetter <simona.vetter@ffwll.ch>, John Stultz <jstultz@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Dec 2024 at 22:01, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+On Wed, Dec 4, 2024 at 11:27=E2=80=AFAM Jann Horn <jannh@google.com> wrote:
 >
-> Hi Ricardo,
+> When F_SEAL_FUTURE_WRITE was introduced, it was overlooked that udmabuf
+> must reject memfds with this flag, just like ones with F_SEAL_WRITE.
+> Fix it by adding F_SEAL_FUTURE_WRITE to SEALS_DENIED.
 >
-> On Tue, Dec 10, 2024 at 07:56:03PM +0000, Ricardo Ribalda wrote:
-> > Provide an implementation of acpi_device_hid that can be used when
-> > CONFIG_ACPI is not set.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  include/acpi/acpi_bus.h | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-> > index 4f1b3a6f107b..c25914a152ee 100644
-> > --- a/include/acpi/acpi_bus.h
-> > +++ b/include/acpi/acpi_bus.h
-> > @@ -1003,6 +1003,11 @@ static inline int unregister_acpi_bus_type(void *bus) { return 0; }
-> >
-> >  static inline int acpi_wait_for_acpi_ipmi(void) { return 0; }
-> >
-> > +static inline const char *acpi_device_hid(struct acpi_device *device)
-> > +{
-> > +     return "";
-> > +}
->
-> I wonder if any caller might expect something of a string if provided?
-> Valid _HIDs are either 7 or 8 characters whereas the proper version of the
-> function returns "device" when one cannot be found (dummy_hid in
-> drivers/acpi/scan.c). Unlikely to be a problem perhaps.
-
-Good point. I changed it to return "device"
+> Fixes: ab3948f58ff8 ("mm/memfd: add an F_SEAL_FUTURE_WRITE seal to memfd"=
+)
+> Cc: stable@vger.kernel.org
+> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 
 Thanks!
 
+Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+ - Joel
+
+
+
+> Signed-off-by: Jann Horn <jannh@google.com>
+> ---
+>  drivers/dma-buf/udmabuf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index c1d8c2766d6d36fc5fe1b3d73057f6e01ec6678f..b330b99fcc7619a05bb7dc2ae=
+eb9c82faf9a387b 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -297,7 +297,7 @@ static const struct dma_buf_ops udmabuf_ops =3D {
+>  };
 >
-> > +
-> >  static inline acpi_status
-> >  acpi_get_physical_device_location(acpi_handle handle, struct acpi_pld_info **pld)
-> >  {
-> >
+>  #define SEALS_WANTED (F_SEAL_SHRINK)
+> -#define SEALS_DENIED (F_SEAL_WRITE)
+> +#define SEALS_DENIED (F_SEAL_WRITE|F_SEAL_FUTURE_WRITE)
+>
+>  static int check_memfd_seals(struct file *memfd)
+>  {
 >
 > --
-> Regards,
+> 2.47.0.338.g60cca15819-goog
 >
-> Sakari Ailus
-
-
-
--- 
-Ricardo Ribalda
 
