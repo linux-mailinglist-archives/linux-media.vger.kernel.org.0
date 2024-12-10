@@ -1,163 +1,127 @@
-Return-Path: <linux-media+bounces-23069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E720D9EB58E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 17:00:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 110769EB5AC
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 17:09:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 949BB162EA1
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 16:00:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0528B161F63
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 16:09:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14D5E1BD9F9;
-	Tue, 10 Dec 2024 16:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="Fl0/100+";
-	dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b="lPIecjtT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F3191B86D5;
+	Tue, 10 Dec 2024 16:09:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C2322FE0F;
-	Tue, 10 Dec 2024 16:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=72.84.236.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733846410; cv=fail; b=i0llBM+mm7P0xkofDkDwzrDaGgWPXJ1FoAhPBOhad8knC64O7CBwhwVvzsxjMWoqvzCPRxCaXrpZ3EDAfI0Xj61yBrqEfHHsknP+gia8RhGOYvm7eIf5ENLNIDtJCbOUwbDszekGEGsqa5b5FZcMqHtvSVGYDSaewAkpwSkiuXA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733846410; c=relaxed/simple;
-	bh=VC0zDJV/vYeIP47luRbKu1fuLd+MzJmheU3zkCIZfGE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=beqtYGCptg6Bsy8zln6PgbFqaGnzqOU4yh7lXYujL54pqe7ChWZIvnKfbY/0J39IADWl9Y4tN8z5E6h/i/LJE6moH4KLoMzYsSHhBXnDm5bzAP5eCdWcFmltZAk5FDfkbW9X0gmNS++kJ7RXSszeYXuJrbvF53kK85XbLxHX4DM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com; spf=pass smtp.mailfrom=sapience.com; dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b=Fl0/100+; dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b=lPIecjtT; arc=fail smtp.client-ip=72.84.236.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sapience.com
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
-   signature) header.d=sapience.com header.i=@sapience.com 
-   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
-   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
-	(No client certificate requested)
-	by s1.sapience.com (Postfix) with ESMTPS id DF832480A33;
-	Tue, 10 Dec 2024 11:00:07 -0500 (EST)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1733846407;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=VC0zDJV/vYeIP47luRbKu1fuLd+MzJmheU3zkCIZfGE=;
- b=Fl0/100+kzcM3maJThYfKm+VEP1GkfUatTSTBnOsxIGDLoHvinR5Uys4a0grzPHVj6ySL
- 7pbm1CoNlea5MxzDQ==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1733846407;
-	cv=none; b=upZ4kR+RTnfbkL6ggpnBIDmkepDL0aZbgQ3uWYlF6I1MLwn1gyr0lmHu7xUmRv1k9k25jvROJIgkcivQ1N7cP0KaPZ4pfyYMEgqt4MIXIVVA8s6gtiJtK8d6tD3jNT04jj6CuydBxNIhBFUq3Nw1xAObwUGjth5xRS9KGKzkc9V8gbVZDFDQUGjOuwcxwwuEvGaMPH9NthV3J/TMnjloBno0YI2R9aG/6CR6hBrxgRiiUGShaNJdnsrDtoi64+7hgmQIYAYNvaMUZc/nSdQSFgUej7apulzYrta6oYnySFO9mWlS3iKk6u4fa0SX1XZ2uPuJmQBDaZbh7X1K2HA+WQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
-	t=1733846407; c=relaxed/simple;
-	bh=VC0zDJV/vYeIP47luRbKu1fuLd+MzJmheU3zkCIZfGE=;
-	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
-	 MIME-Version; b=VT0I+SEHbkxirBEBmIlGoyWyP5NpoBiWmr8I1YM1oIONNl9J4h0/N/Z+sUIfHVVpCpbYtlcdz+DHUqQF8qhKfR0wKete2aiebOd7GdNceqVU2ChV033pkMi+yN0t40EYH99sg9V/KmhTckumq/m4qpkHdGUCuaXu0liR1zLgKurVxekgOjd9H/hQxxbvhgkT02Nz6WHDKV1mFNdbzRPNZ/PdgHCenHKp8A/e8DfhAv/EsVU6av/SYTQEQmjilBiA9xMQzVmO1p2liyvk4IxvCl1xmiO/O30Gv76LO0qY5/jSSQnnNTWGi7oZVGPpejOonkc0ngAjNnlNIotBom66nw==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1733846407;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=VC0zDJV/vYeIP47luRbKu1fuLd+MzJmheU3zkCIZfGE=;
- b=lPIecjtTyeiOLl1qc3E8Vz88FpGOYCFlyB98DDNuLzuaRPGIo7fgEE389/mSaEf+0OqkK
- gv/7Dme9sTTkl9APDdnLy7DO/tbHoPEFP8sLxcYbK049eOCe7+4peJ8GShXF3R8i7OOpQkD
- S+v2kfiOndwhD45TDq+nCVgna8Dv7zDxWU8Xoo17BEetU4vJdCPtNC1Bsp45jHgUuBJUFOY
- +s8+Vl7HJLS4BRmMZaQ9UufX1S19emhyiaJzk3CCdzGrW0igkHkSHfvRXo26izQK38100yy
- X/9j89So8bL+quggFXsjJKqF4/dvQRIgV08SWq8sZRECsAmeiJDdcsFuRnAA==
-Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by srv8.sapience.com (Postfix) with ESMTPS id AFF3E280015;
-	Tue, 10 Dec 2024 11:00:07 -0500 (EST)
-Message-ID: <5cf0ddae7351c4e6637ef19c17b98d7505381fd0.camel@sapience.com>
-Subject: Re: Linux 6.12.4 - crash dma_alloc_attrs+0x12b via ipu6
-From: Genes Lists <lists@sapience.com>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Greg
- Kroah-Hartman	 <gregkh@linuxfoundation.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Sakari Ailus	
- <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org, 
-	akpm@linux-foundation.org, torvalds@linux-foundation.org,
- stable@vger.kernel.org, 	linux-media@vger.kernel.org, bingbu.cao@intel.com,
- Rodrigo Vivi	 <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org
-Date: Tue, 10 Dec 2024 11:00:06 -0500
-In-Reply-To: <Z1hbyNXUubokloda@linux.intel.com>
-References: <2024120917-vision-outcast-85f2@gregkh>
-	 <c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com>
-	 <Z1fqitbWlmELb5pj@kekkonen.localdomain> <87seqvzzg6.fsf@intel.com>
-	 <c1805642a6c5da6fef3927c70358c8cb851d2784.camel@sapience.com>
-	 <87bjxjzpwn.fsf@intel.com> <2024121001-senator-raffle-a371@gregkh>
-	 <Z1hbyNXUubokloda@linux.intel.com>
-Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
- keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
- 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
- sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
- vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
- BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
-Content-Type: multipart/signed; micalg="pgp-sha384";
-	protocol="application/pgp-signature"; boundary="=-KexgZLu3kFUuTiVHjkds"
-User-Agent: Evolution 3.54.2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F8623DEA7
+	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 16:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733846973; cv=none; b=biSPMoOnv4/hQa6Xe1vBz7GlwI56Uw5B9Uke2neDJxcLtyvzmCR+GEqLQtrEsuRDClmtDXCrV2Eu4WNv5vnsDNavn2OyV3VQkGYhVdfELkzTDhooWPHPuri6tIyxeM6Samczs/rAj35+fP1ikWoh9rQ1CGNhXkJsfblSA0sYmVg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733846973; c=relaxed/simple;
+	bh=CuQH7jaVHL4FD3REqtMp9p7zlcq7a70MKLFcHKccaX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ItFvTNcuJ2yAEB56A1M8xyYmw+wfgOy6UgXmTLlbQN3U4KRmaW42LbJi6ZQPZSNCoSdAZHighZRZNBSudkgRtGYjEfOPUpyROvEH+YH0pvOqQQ+TR1Z7+Zjvnko5CY5uVDSipenxzE0HbBNx+VFN/QrVyAaikqXsx9TuJxwzgOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1tL2nf-0001Ie-Ib; Tue, 10 Dec 2024 17:09:27 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1tL2ne-002iRi-1U;
+	Tue, 10 Dec 2024 17:09:27 +0100
+Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mtr@pengutronix.de>)
+	id 1tL2nf-008Za7-0S;
+	Tue, 10 Dec 2024 17:09:27 +0100
+Date: Tue, 10 Dec 2024 17:09:27 +0100
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: PN888 <pierluigimichetti1@gmail.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: Allegro Video IP VCU Info
+Message-ID: <Z1hnt1N7EEKf-mh5@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+	PN888 <pierluigimichetti1@gmail.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <CAGmoHRj5gz8Wajsjy73XriLysToBR1sNZX+a+-ygrVEWw9ZgjQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAGmoHRj5gz8Wajsjy73XriLysToBR1sNZX+a+-ygrVEWw9ZgjQ@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
+Hi Pierluigi,
 
---=-KexgZLu3kFUuTiVHjkds
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 10 Dec 2024 12:14:03 +0100, PN888 wrote:
+> it is possible to find also any example of utilization of the the
+> driver and how to initialize hardware and encode something for the
+> hardware in the object?
 
-On Tue, 2024-12-10 at 16:18 +0100, Stanislaw Gruszka wrote:
->=20
-> I've reproduced the issue. It's caused by 6.12.y commit:
->=20
-> commit 6ac269abab9ca5ae910deb2d3ca54351c3467e99
-> Author: Bingbu Cao <bingbu.cao@intel.com>
-> Date:=C2=A0=C2=A0 Wed Oct 16 15:53:01 2024 +0800
->=20
-> =C2=A0=C2=A0=C2=A0 media: ipu6: not override the dma_ops of device in dri=
-ver
+Im not sure what you mean by example how to use the driver.
 
-Terrific - I missed your comment as I was heads down doing git bisect
-which lands on same commit as you - so confirmed.
+The driver is a V4L2 stateful encoder driver that follows the specified
+stateful encoder uAPI [0]. For example, it can be used with the
+v4l2videoenc element (the element will be called v4l2h264enc for the
+h.264 encoder) of the video4linux2 Plugin from gst-plugins-good.
 
-> The problem will disappear after applying:
-> https://lore.kernel.org/stable/20241209175416.59433-1-
-> stanislaw.gruszka@linux.intel.com/
-> since the allocation will not longer fail.
->=20
-> But we also need to handle fail case correctly by adding
-> cpu_latency_qos_remove_request() on error path. This requires
-> mainline fix, I'll post it.=20
->=20
+The other part is the bringup of the driver on your board. For that, you
+need to prepare and load an FPGA bitstream that contains support for the
+video encoder. (Or you may use a demo bitstream that has been published
+with the official releases.) You further have to describe the encoder IP
+core using the device tree binding [1]. This description really depends
+on the configuration of your bitstream. The binding documentation
+contains an example which may work with the demo bitstream. Finally you
+have to put the (proprietary) encoder firmware [2] into the firmware
+directory to allow the driver to find it and load it to the controller
+of the encoder.
 
-Thank you !
+I agree that this is quite a complex setup, but that's caused by the
+dependency on the bitstream and the firmware, which I unfortunately
+cannot provide.
 
+> 
+> It is possible to find documentation or notes where you have
+> documented registers and operation of this hardware? A lot of things
+> are poorly or not at all documented on official documentation.
 
-Gene
+There are the register definitions in the driver [3], which are pretty
+much all registers that I know of.
 
+The more interesting and complex part is the mailbox interface to the
+firmware. The mails for that interface are encoded and decoded by the
+driver [4], but the mail format is not documented and may differ between
+firmware versions.
 
---=-KexgZLu3kFUuTiVHjkds
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Do you have specific questions regarding the operation of the encoder or
+something that is not working for you?
 
------BEGIN PGP SIGNATURE-----
+Michael
 
-iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ1hlhwAKCRA5BdB0L6Ze
-2w+DAQCDWvL9tK4fnEqz7gYCMfTN4ufZvQ3nBA76uJSS1IsMEAEAh3m6kC4o++L9
-46h0GWeorYm2u+oLNYk9f82mxfq7Vg4=
-=i4nK
------END PGP SIGNATURE-----
-
---=-KexgZLu3kFUuTiVHjkds--
+[0] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encoder.html
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/media/allegro,al5e.yaml
+[2] https://github.com/Xilinx/vcu-firmware/tree/master/1.0.0/lib/firmware
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/platform/allegro-dvt/allegro-core.c#n55
+[4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/platform/allegro-dvt/allegro-mail.c
 
