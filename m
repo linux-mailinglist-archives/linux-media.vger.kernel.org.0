@@ -1,74 +1,63 @@
-Return-Path: <linux-media+bounces-23022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23023-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564D29EAEAA
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 11:53:06 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 323A19EAF04
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 12:06:10 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA8F2188B092
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 11:06:07 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 113152080F3;
+	Tue, 10 Dec 2024 11:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GhHy11Q+"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 846BC28A107
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 10:53:03 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73A7522331E;
-	Tue, 10 Dec 2024 10:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lgLH+rwI"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CFC2080E1
-	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 10:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC53197A92;
+	Tue, 10 Dec 2024 11:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733827702; cv=none; b=fzAmp6yzJXuI5LF09KHXQEVSiEskeA1cVIcY4uEAdRNjT8TihhY4lPkC5hsb8hEa2N0BzLGvxcc0g6sRW5Jicb1USylQxGCsK+YzVdbT340uKhiG31/5pqL5ibBoLJO6Vog0naeOQ3IWN/Zt3ewHiRz7w2az0MDXKSpqtD5DrDg=
+	t=1733828756; cv=none; b=HyhJsAnhnO4BRlByHZ8+NYB8/RL0JXjzfuvc3EJK8hmwdMd2sfsuXv9s/Ed/j9rFbNVLnQh9SmlGNqcp0+8GG0BND1TkBza9ogor8iEwCzpw1lMis5ZjEc2MCMRXXaN+1500PAwnPlYGqQlTl7+GWy+kzshD/cDjbU1Ac8CB4po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733827702; c=relaxed/simple;
-	bh=+0ys5UgmQijNoQjl9/lX9fbCGBmLT0hizMSuMKyBuqk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TCwyJlA72nxNR4y0BAx9NUV2UGr3GIXpkQ1ciWXhF2fTYrm/OSvWrgHNDbFrMcnmVJlhPmxaW1UZZYHNXyiP75qcZ4y8yWu08b9ItY64cSGmKNc6sb6792A2qnX7uhQlEWEToZBOXNaIMHQE5nrrSicCpaNAjaeufHJf/LY0Ets=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lgLH+rwI; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6d92e457230so1762656d6.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 02:48:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733827700; x=1734432500; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BWiBzSR7Ex3B8p6+KWz9iImmzK3cw0twXWBORsTvuDo=;
-        b=lgLH+rwI/SVUNIjp8R5r7N6iP0oOkjYakZF7mjvNLSRUIbo8hQXNlFdv2ybFvZfO2B
-         p5LIHmxmDSwT8MHCMO51wf38qNW1jTSaZpJKyHpNMt05OB44ERUGAZyJa5oAC3Jf3/F6
-         9Hyq6lx6PpSQjeWmU0TcfRnsnYJ9huP8Tsiwo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733827700; x=1734432500;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BWiBzSR7Ex3B8p6+KWz9iImmzK3cw0twXWBORsTvuDo=;
-        b=E2MFfTWBRDbE2RsM5MVWuV5rgHSnpNuFJQZ8f5gy8NHF0VgvHBDdjRLIosMRp/616B
-         xfIxtjWyxSP1+aIZhpMuLptxzch/BCe1p50y001hP7P2FL9g0yNnWT4crTKtiGLWjvtZ
-         QbX9qkXEyUapEf+cG6nUJYmQTSUhuwXcw7deW9pYe8tcy2+nAaFOGZjllnFtErEtMElf
-         TLxdqPZfRAt/8SRD1vR+55s1mgeCwV9o93dio9eLAnXQXOnzXj5VcAc/vIV5wj+0ePei
-         +s0RBeDn3DRlf6hNpIGknu/G1voSw6df+1TdVQE75MOmnorgDH1jjycgJpuqT9xOWn1K
-         +Szw==
-X-Gm-Message-State: AOJu0YyTbMsXtzwgf8+J2K28Id3wKRnEyqoEg99FKIr6J71yE/ztEnLp
-	Bw8flcm6r7hnrM81tEhp2SPXpQt8lblbGDjIcKAMsuua1NRsRhifMnJg492giA==
-X-Gm-Gg: ASbGnctU6beH8FVR546sHJOnyH4eGptxqxEmVhWu8An+O4E5KJ9RuIevO3dWtkOQk+b
-	BFNYVmb1/tCk2CK+z75vyV1s5oEKUb5RszVLaWUJ7PhrGjXHjPzvje3/kzx7mzNrktDyJqXxVwq
-	izC3Jb4Q/DZqYGSZIpcou7nYU1us7QJn6Fh0etakUgaK/RV0Mh7MY8rgGnoOoI9y0f+WLNRPQju
-	C2BMIhc8H+fCuAnPP5hW6gfWk77k5Qu5Lx/KcImLK42AutuZzFpoHQf4+oSiiEPzPu6+I0hKMFW
-	pX8dNuCGIDM+W+QrffM0W7BpQTSn
-X-Google-Smtp-Source: AGHT+IESk67BDUndNd+G09mFCmaSmMFk4OCrEAuymf7oV6rqfgOhRr3z3pSuopcNXQ2WJ0/jRhcNJg==
-X-Received: by 2002:ad4:5b88:0:b0:6d8:a1b4:b589 with SMTP id 6a1803df08f44-6d91e4688a0mr58024666d6.49.1733827699767;
-        Tue, 10 Dec 2024 02:48:19 -0800 (PST)
-Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d8da66db7csm58498926d6.23.2024.12.10.02.48.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 02:48:19 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 10 Dec 2024 10:48:14 +0000
-Subject: [PATCH] media: uvcvideo: Add quirk for Actions UVC05
+	s=arc-20240116; t=1733828756; c=relaxed/simple;
+	bh=0gpQp6/yiqnwY+4FfLxKpLGb+XBwQoMTzK1YDqIQogw=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=HIizvEqyL19dkohi8Og/TBX44fih/Y2NcyUoSna1aORSGlONJdZW0r/q49Yj+0TqmhbpZhzodWfI96Ptgrz4x9a+6eisBohN8W+wovcuFF7sZuhSXw5vr5eSrJITDZfmF4msS3JbMv4cSBa211evm4PeyhTmbZmY0NZD+rR6ST0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GhHy11Q+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA8bSc0006423;
+	Tue, 10 Dec 2024 11:05:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=5CgRzMQ9d3/CCcidNgOtcP
+	aYezIpUQNiksqPBajx5No=; b=GhHy11Q+gPO/LTUlaIneSaJXp7sU4XIfkB/JEy
+	ykNPLZO1WPEHc7wWaErYszQwJ7gCALNhWWHARB3NzLYx4RKCKp/nPqOxKieDCm66
+	5niqd0Kq2RYb4J2PDFzTQflkjD+eMN5OT9u3LauEV9WBuKTuP48Vi1F59+/24jyI
+	kVZWcnLbzbayNM5iV7FHObRlwvyIb6t7Ttdtb7pUN6/zgt0/ihayDN3j7d+nqBrz
+	7J4QLBMcS4rHtENaEnx4Oywu0SX6RVXte502f2ZCSAER0pkwMlfqiLhuV2FS5eEb
+	34n3u0YbqEhJjj13JW48m0DeKWBqaihNuJ9lO334ljMXz+AA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cdxxg2ns-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 11:05:40 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BAB5cLJ025676
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 11:05:38 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 10 Dec 2024 03:05:32 -0800
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH v8 00/28] Qualcomm iris video decoder driver
+Date: Tue, 10 Dec 2024 16:35:04 +0530
+Message-ID: <20241210-qcom-video-iris-v8-0-42c5403cb1a3@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,547 +65,842 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-uvc-hdmi-suspend-v1-1-01f5dec023ea@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAG0cWGcC/x3MQQqAIBBA0avErBtQqYiuEi1Sp5xFFg5FIN49a
- fkW/2cQSkwCU5Mh0cPCZ6zQbQMurHEnZF8NRplOG63wfhwGfzDKLRdFj9auWvWjG1S/Qc2uRBu
- //3JeSvkACfam8GIAAAA=
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAGAgWGcC/2XNOw7CMAyA4augzAS5VvNi4h6IoU1c8EALCUQg1
+ LuTlgFQx9+yP79EosiUxHb1EpEyJx76Ena9Ev7U9EeSHEoLBKwrQCuvfjjLzIEGyZGTdHVQTYW
+ kgyNRri6ROn7M4v5Q+sTpNsTn/CCrafqxKlALKysJsrGWjEeEztjd9c6ee78pi2LSsv4REJaCn
+ gXfaQM1OYdLwXwFBLcUTBFAed0GakJt2n9hHMc3TaKqZTQBAAA=
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: Hans Verkuil <hverkuil@xs4all.nl>,
+        Sebastian Fricke
+	<sebastian.fricke@collabora.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Nicolas Dufresne
+	<nicolas@ndufresne.ca>,
+        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+	<u.kleine-koenig@baylibre.com>,
+        Jianhua Lu <lujianhua000@gmail.com>,
+        "Stefan
+ Schmidt" <stefan.schmidt@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Vedang Nagar
+	<quic_vnagar@quicinc.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733828732; l=29731;
+ i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
+ bh=0gpQp6/yiqnwY+4FfLxKpLGb+XBwQoMTzK1YDqIQogw=;
+ b=W5UTyD05kcwrqOZUW5YpvUA+Y+w+FSAlIvvT7fbEQDGaqHQIDdpzsJFxaUzKwh4HLGkBkQZpw
+ /RUMBVqRqoCATRQ/OAJRbgvh2B/DMypPc6ZoPdxdXHO6h28T8Am4uUq
+X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 056sPRTT3_aXkfeILiw5yggqVVMLqi2s
+X-Proofpoint-GUID: 056sPRTT3_aXkfeILiw5yggqVVMLqi2s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ phishscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1011
+ malwarescore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412100082
 
-Actions UVC05 is a HDMI to USB dongle that implements the UVC protocol.
+Introduce support for Qualcomm new video acceleration hardware i.e. 
+iris, used for video stream decoding.
 
-When the device suspends, its firmware seems to enter a weird mode when it
-does not produce more frames.
+Iris is a multi pipe based hardware that offloads video stream decoding 
+from the application processor (AP). It supports H.264 decoding. The AP 
+communicates with hardware through a well defined protocol, called as 
+host firmware interface (HFI), which provides fine-grained and 
+asynchronous control over individual hardware features.
 
-Add the device to the quirk list to disable autosuspend.
+This driver implements upgraded HFI gen2 to communicate with firmware.
+It supports SM8550 which is based out of HFI gen 2. It also supports 
+SM8250 which is based out of HFI gen1.
 
-Bus 001 Device 007: ID 1de1:f105 Actions Microelectronics Co. Display
- capture-UVC05
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2 [unknown]
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  idVendor           0x1de1 Actions Microelectronics Co.
-  idProduct          0xf105 Display capture-UVC05
-  bcdDevice            4.09
-  iManufacturer           1 Actions Micro
-  iProduct                2 Display capture-UVC05
-  iSerial                 3 -1005308387
-  bNumConfigurations      1
+This driver comes with below capabilities:
+- V4L2 complaint video driver with M2M and STREAMING capability.
+- Supports H264 decoder.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+This driver comes with below features:
+- Centralized resource management.
+- Centralized management of core and instance states.
+- Defines platform specific capabilities and features. As a results, it 
+  provides a single point of control to enable/disable a given feature 
+  depending on specific platform capabilities.
+- Handles various video recommended sequences, like DRC, Drain, Seek, 
+  EOS.
+- Implements asynchronous communication with hardware to achieve better 
+  experience in low latency usecases.
+- Output and capture planes are controlled independently. Thereby
+  providing a way to reconfigure individual plane.
+- Native hardware support of LAST flag which is mandatory to align with 
+  port reconfiguration and DRAIN sequence as per V4L guidelines.
+
+Changes since v7:
+- Added HFI_ERROR_STREAM_UNSUPPORTED define to inform about session 
+  error (Stefan)
+- Fixed kernel doc issues
+- Link to v7: https://lore.kernel.org/r/20241209-qcom-video-iris-v7-0-05c6bdead47b@quicinc.com
+
+Changes since v6:
+- Added vb2_is_busy check in s_fmt (Hans)
+- Removed q->streaming checks in s_fmt (Hans)
+- Removed usage of inst->subscriptions (Hans)
+- Added call to v4l2_m2m_ioctl_decoder_cmd() from iris_dec_cmd() API (Hans)
+- Fixed issues related to kernel docs.
+- Addressed all other review comments.
+- Link to v6: https://lore.kernel.org/r/20241120-qcom-video-iris-v6-0-a8cf6704e992@quicinc.com
+ 
+Changes since v5:
+- Fixed the memory leak in firmware load (Bryan)
+- Updated all headers s/_LIKE_SO_/__LIKE_SO__ (Bryan)
+- Updated value of IFACEQ_MAX_BUF_COUNT to 64 (Bryan)
+- Removed actual_count from iris buffer structure and cleaned up 
+  vb2_queue_setup (Hans)
+- Used VIDEO_MAX_FRAME to set actual buffer to firmware (Hans)
+- Fixed the typo in commit log and subject of patch#12 (Hans)
+- Updated card field to Iris Decoder (Hans)
+- Removed redundant setting of byteused (Hans)
+- s/iris_driver/is_iris_driver (Jianhua)
+- Addressed all other review comments.
+- Link to v5: https://lore.kernel.org/r/20241105-qcom-video-iris-v5-0-a88e7c220f78@quicinc.com
+
+Changes since v4:
+- Fixed commit message length for all patches (Krzysztof)
+- Migrated back to remove from remove_new (Uwe Kleine-König)
+- Removed support for g_volatle_ctrl (Hans)
+- Added changes to update minimum buffer count whenever the hardware 
+  requirement changes (Hans)
+- Removed state checks from try/g/s_fmt ioctls (Hans)
+- Removed wait_prepare() and wait_finish callbacks (Hans)
+- Added support for remove_bufs (Hans)
+- Added module param based configurability to select between venus and 
+  iris drivers for platforms supported by both drivers (Jianhua, Dmitry)   
+- Addressed misc other review comments from Hans.
+- Fixed issues reported by kernel bot.
+- Link to v4: https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-0-c5eaa4e9ab9e@quicinc.com
+
+Changes since v3:
+- Fixed the style issues with dt binding (Krzysztof)
+- Pushed  the patch to add maintainers to end of the series (Krzysztof, 
+  Dmitry)
+- Moved the resource initialization next to probe in iris_probe.c and 
+  squashed the patch of probe and resource initialization (Krzysztof)
+- Removed error prints from probe function (Krzysztof)
+- Defined bit fields used for register read/write with macros for better 
+  context (Bryan)
+- Converted if/else to switch/case wherever applicable (Bryan)
+- Removed defensive NULL checks wherever not required (Bryan, Krzysztof)
+- Removed core->state checks except for below scenarios (Bryan)
+  - When reverse thread (firmware) can move the state of the core to 
+    error state.
+  - When client can force close the driver and there are still pending 
+    firmware responses to be read from shared queues (msg and dbg)
+  - For PM operations, since its a delayed autosuspend work and sys 
+    error handler from the reverse thread can move the state to core 
+    deinit state anytime.
+- Acquiring core->lock only for below scenarios (Bryan)
+  - Writing to registers.
+- Reading/Writing from/to shared queues.
+  - Traversing the instance list of core.
+  - To protect the core->state when it can changed by reverse thread.
+- Acquiring inst->lock only for below scenario which is needed (Bryan)
+  - Serializing the forward and reverse thread
+  - To protect the inst structure where the values can be modified by
+    firmware.
+- Removed usage of core->power_enabled (Krzysztof, Bryan)
+- Removed usage of mutex_is_locked  (Krzysztof, Bryan)
+- Use C structure for instance caps (Dmitry)
+- Split the ctrl ops patch by keeping only the defines, struct and caps 
+  needed to intialize the ctrl handler and to implement s/g_ctrl
+  (Dmitry)
+- Removed the instance state checks to allow v4l2-ctl, relying on
+  standard vb2 checks instead. (Hans)
+- Converted APIs to void wherever applicable except for below (Bryan)
+  - iris_hfi_gen2_handle_session_error and
+    iris_hfi_gen2_handle_session_property cannot be converted to void
+    even though they always return 0.
+    Because these are two of the handlers invoked from
+    iris_hfi_gen2_handle_session_response and are of
+    iris_hfi_gen2_inst_hfi_range struct type, where same prototype is
+    followed for all handlers and return type of all handers should be
+    'int'.
+    And we cannot have a switch case/if else to handle these
+    responses from firmware because we need to parse the responses in a
+    particular sequence.
+    That's why we opted for this handler based design instead of
+    introducing multiple for loop with code duplication.
+- Fixed issues reported by kernel bot.
+- Fixed v4l2 compliance issue reported with "-s" options based on the 
+  inputs from Hans.
+- Addressed all other review comments and made some code improvements.
+
+Changes since v2:
+- introduced support for HFI gen1.
+- deprecated Encoder and HEVC, VP9 codecs.
+- removed custom vb2 mem ops and used standard framework instead.
+- added support for mmap streaming mode.
+- migrated all the buffer APIs to mem2mem helper functions.
+- registered iris buffer with vb2 framework.
+- migrated to clk_bulk, reset_bulk and icc_bulk APIs.
+- used pm_domain_attach/detach_list APIs.
+- migrated to read/writel and other available helpers for register
+  access instead of custom wrappers.
+- added documentation for various structures.
+- addressed many other review comments from v2.
+
+Note: A harmless onetime error log "Lucid PLL latch failed. Output may
+be unstable!" is seen during bootup.  It doesn't impact any video 
+usecase and is currently under discussion.
+
+Static tools like checkpatch, smatch, dt_binding_check, sparse and
+Coccinelle run successfully with this driver.
+
+This driver is tested with v4l2-ctl[1] and Gstreamer[2].
+
+[1]: v4l2-ctl --verbose --set-fmt-video-out=pixelformat=H264
+--set-fmt-video=pixelformat=NV12 --stream-mmap --stream-out-mmap
+--stream-from /media/FVDO_Freeway_720p.264 --stream-to out.NV12
+
+[2]: gst-launch-1.0 filesrc location=/media/media/4k_decode_clip.264 !
+h264parse ! v4l2h264dec capture-io-mode=dmabuf ! kmssink
+
+The driver is tested with v4l2-compliance.
+
+Result on SM8550:
+
+v4l2-compliance --stream-from /media/FVDO_Freeway_720p.264 -s250
+
+v4l2-compliance 1.29.0-5273, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 0ed98432fe68 2024-11-13 12:54:45
+
+Compliance test for iris_driver device /dev/video0:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : iris_decoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.12.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Decoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 5 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        test MMAP (select, REQBUFS): OK
+        test MMAP (epoll, REQBUFS): OK
+        test MMAP (select, CREATE_BUFS): OK
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, 
+Warnings: 0
+
+Result on SM8250:
+
+v4l2-compliance --stream-from /media/FVDO_Freeway_720p.264 -s250
+
+v4l2-compliance 1.29.0-5273, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 0ed98432fe68 2024-11-13 12:54:45
+
+Compliance test for iris_driver device /dev/video0:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : iris_decoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 6.12.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Decoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 5 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+        test MMAP (select, REQBUFS): OK
+        test MMAP (epoll, REQBUFS): OK
+        test MMAP (select, CREATE_BUFS): OK
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, 
+Warnings: 0
+
+The result of fluster test on SM8550:
+
+77/135 while testing JVT-AVC_V1 with
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+The failing tests are:
+- 52 test vectors failed due to interlaced clips: Interlaced decoding is
+  not supported in iris driver.
+  Test Vectors:
+        cabac_mot_fld0_full
+        cabac_mot_mbaff0_full
+        cabac_mot_picaff0_full
+        CABREF3_Sand_D
+        CAFI1_SVA_C
+        CAMA1_Sony_C
+        CAMA1_TOSHIBA_B
+        cama1_vtc_c
+        cama2_vtc_b
+        CAMA3_Sand_E
+        cama3_vtc_b
+        CAMACI3_Sony_C
+        CAMANL1_TOSHIBA_B
+        CAMANL2_TOSHIBA_B
+        CAMANL3_Sand_E
+        CAMASL3_Sony_B
+        CAMP_MOT_MBAFF_L30
+        CAMP_MOT_MBAFF_L31
+        CANLMA2_Sony_C
+        CANLMA3_Sony_C
+        CAPA1_TOSHIBA_B
+        CAPAMA3_Sand_F
+        cavlc_mot_fld0_full_B
+        cavlc_mot_mbaff0_full_B
+        cavlc_mot_picaff0_full_B
+        CVCANLMA2_Sony_C
+        CVFI1_Sony_D
+        CVFI1_SVA_C
+        CVFI2_Sony_H
+        CVFI2_SVA_C
+        CVMA1_Sony_D
+        CVMA1_TOSHIBA_B
+        CVMANL1_TOSHIBA_B
+        CVMANL2_TOSHIBA_B
+        CVMAPAQP3_Sony_E
+        CVMAQP2_Sony_G
+        CVMAQP3_Sony_D
+        CVMP_MOT_FLD_L30_B
+        CVNLFI1_Sony_C
+        CVNLFI2_Sony_H
+        CVPA1_TOSHIBA_B
+        FI1_Sony_E
+        MR6_BT_B
+        MR7_BT_B
+        MR8_BT_B
+        MR9_BT_B
+        Sharp_MP_Field_1_B
+        Sharp_MP_Field_2_B
+        Sharp_MP_Field_3_B
+        Sharp_MP_PAFF_1r2
+        Sharp_MP_PAFF_2r
+        CVMP_MOT_FRM_L31_B
+- 3 test vectors failed due to unsupported bitstream.
+  num_slice_group_minus1 greater than zero is not supported by the
+  hardware.
+  Test Vectors:
+        FM1_BT_B
+        FM1_FT_E
+        FM2_SVA_C
+- 2 test vectors failed because SP_SLICE type is not supported by the
+  hardware.
+  Test Vectors:
+        SP1_BT_A
+        sp2_bt_b
+- 1 test vector failed due to unsupported profile:
+  V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED is being deprecated from sm8550
+  onwards due to hardware issues.
+  Test Vectors:
+        BA3_SVA_C
+
+23/69 while testing JVT-FR-EXT with 
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+The failing tests are:
+- 21 test vectors failed due to interlaced clips: Interlaced decoding is
+  not supported in iris driver.
+  Test Vectors:
+        brcm_freh4
+        brcm_freh5
+        brcm_freh6
+        brcm_freh10
+        brcm_freh11
+        freh7_b
+        FREXT01_JVC_D
+        FREXT02_JVC_C
+        FRExt2_Panasonic_C
+        FRExt4_Panasonic_B
+        HCAFF1_HHI_B
+        HCAMFF1_HHI_B
+        HCHP3_HHI_A
+        HPCAFL_BRCM_C
+        HPCAFLNL_BRCM_C
+        HVLCFI0_Sony_B
+        HVLCMFF0_Sony_B
+        HVLCPFF0_Sony_B
+        HPCAMAPALQ_BRCM_B
+        HPCVFL_BRCM_A
+        HPCVFLNL_BRCM_A
+- 2 test vectors failed due to 10bit bitstream: 10bit decoding is not
+  supported in iris driver
+  Test Vectors:
+        FREH10-1
+        FREH10-2
+- 21 test vectors failed due to unsupported profile:
+  V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422 is not supported by the
+  hardware.
+  Test Vectors:
+        FREXT1_TANDBERG_A
+        FREXT2_TANDBERG_A
+        FREXT3_TANDBERG_A
+        Hi422FR1_SONY_A
+        Hi422FR2_SONY_A
+        Hi422FR3_SONY_A
+        Hi422FR4_SONY_A
+        Hi422FR6_SONY_A
+        Hi422FR7_SONY_A
+        Hi422FR8_SONY_A
+        Hi422FR9_SONY_A
+        Hi422FR10_SONY_A
+        Hi422FR11_SONY_A
+        Hi422FR12_SONY_A
+        Hi422FR13_SONY_A
+        Hi422FR14_SONY_A
+        Hi422FR15_SONY_A
+        Hi422FREXT16_SONY_A
+        Hi422FREXT17_SONY_A
+        Hi422FREXT18_SONY_A
+        Hi422FREXT19_SONY_A
+- 2 test vectors failed due to unsupported bitstream.
+  chroma_fmt_idc is equal to 0(monochrome) in the bitstream which is not
+  supported by the hardware.
+  Test Vectors:
+        HPCAMOLQ_BRCM_B
+        HPCVMOLQ_BRCM_B
+
+The result of fluster test on SM8250:
+
+78/135 while testing JVT-AVC_V1 with
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+The failing tests are:
+- 52 test vectors failed due to interlaced clips: Interlaced decoding is
+  not supported in iris driver.
+  Test Vectors:
+        cabac_mot_fld0_full
+        cabac_mot_mbaff0_full
+        cabac_mot_picaff0_full
+        CABREF3_Sand_D
+        CAFI1_SVA_C
+        CAMA1_Sony_C
+        CAMA1_TOSHIBA_B
+        cama1_vtc_c
+        cama2_vtc_b
+        CAMA3_Sand_E
+        cama3_vtc_b
+        CAMACI3_Sony_C
+        CAMANL1_TOSHIBA_B
+        CAMANL2_TOSHIBA_B
+        CAMANL3_Sand_E
+        CAMASL3_Sony_B
+        CAMP_MOT_MBAFF_L30
+        CAMP_MOT_MBAFF_L31
+        CANLMA2_Sony_C
+        CANLMA3_Sony_C
+        CAPA1_TOSHIBA_B
+        CAPAMA3_Sand_F
+        cavlc_mot_fld0_full_B
+        cavlc_mot_mbaff0_full_B
+        cavlc_mot_picaff0_full_B
+        CVCANLMA2_Sony_C
+        CVFI1_Sony_D
+        CVFI1_SVA_C
+        CVFI2_Sony_H
+        CVFI2_SVA_C
+        CVMA1_Sony_D
+        CVMA1_TOSHIBA_B
+        CVMANL1_TOSHIBA_B
+        CVMANL2_TOSHIBA_B
+        CVMAPAQP3_Sony_E
+        CVMAQP2_Sony_G
+        CVMAQP3_Sony_D
+        CVMP_MOT_FLD_L30_B
+        CVNLFI1_Sony_C
+        CVNLFI2_Sony_H
+        CVPA1_TOSHIBA_B
+        FI1_Sony_E
+        MR6_BT_B
+        MR7_BT_B
+        MR8_BT_B
+        MR9_BT_B
+        Sharp_MP_Field_1_B
+        Sharp_MP_Field_2_B
+        Sharp_MP_Field_3_B
+        Sharp_MP_PAFF_1r2
+        Sharp_MP_PAFF_2r
+        CVMP_MOT_FRM_L31_B
+- 3 test vectors failed due to unsupported bitstream.
+  num_slice_group_minus1 greater than zero is not supported by the
+  hardware.
+  Test Vectors:
+        FM1_BT_B
+        FM1_FT_E
+        FM2_SVA_C
+- 2 test vectors failed because SP_SLICE type is not supported by the
+  hardware.
+  Test Vectors:
+        SP1_BT_A
+        sp2_bt_b
+
+23/69 while testing JVT-FR-EXT with
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
+The failing tests are:
+- 21 test vectors failed due to interlaced clips: Interlaced decoding is
+  not supported in iris driver.
+  Test Vectors:
+        brcm_freh4
+        brcm_freh5
+        brcm_freh6
+        brcm_freh10
+        brcm_freh11
+        freh7_b
+        FREXT01_JVC_D
+        FREXT02_JVC_C
+        FRExt2_Panasonic_C
+        FRExt4_Panasonic_B
+        HCAFF1_HHI_B
+        HCAMFF1_HHI_B
+        HCHP3_HHI_A
+        HPCAFL_BRCM_C
+        HPCAFLNL_BRCM_C
+        HVLCFI0_Sony_B
+        HVLCMFF0_Sony_B
+        HVLCPFF0_Sony_B
+        HPCAMAPALQ_BRCM_B
+        HPCVFL_BRCM_A
+        HPCVFLNL_BRCM_A
+- 2 test vectors failed due to 10bit bitstream: 10bit decoding is not
+  supported in iris driver
+  Test Vectors:
+        FREH10-1
+        FREH10-2
+- 21 test vectors failed due to unsupported profile:
+  V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422 is not supported by the
+  hardware.
+  Test Vectors:
+        FREXT1_TANDBERG_A
+        FREXT2_TANDBERG_A
+        FREXT3_TANDBERG_A
+        Hi422FR1_SONY_A
+        Hi422FR2_SONY_A
+        Hi422FR3_SONY_A
+        Hi422FR4_SONY_A
+        Hi422FR6_SONY_A
+        Hi422FR7_SONY_A
+        Hi422FR8_SONY_A
+        Hi422FR9_SONY_A
+        Hi422FR10_SONY_A
+        Hi422FR11_SONY_A
+        Hi422FR12_SONY_A
+        Hi422FR13_SONY_A
+        Hi422FR14_SONY_A
+        Hi422FR15_SONY_A
+        Hi422FREXT16_SONY_A
+        Hi422FREXT17_SONY_A
+        Hi422FREXT18_SONY_A
+        Hi422FREXT19_SONY_A
+- 2 test vectors failed due to unsupported bitstream.
+  chroma_fmt_idc is equal to 0(monochrome) in the bitstream which is not
+  supported by the hardware.
+  Test Vectors:
+        HPCAMOLQ_BRCM_B
+        HPCVMOLQ_BRCM_B
+
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+Cc: Jianhua Lu <lujianhua000@gmail.com>
+Cc: Stefan Schmidt <stefan.schmidt@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
-Bus 001 Device 007: ID 1de1:f105 Actions Microelectronics Co. Display capture-UVC05
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2 [unknown]
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  idVendor           0x1de1 Actions Microelectronics Co.
-  idProduct          0xf105 Display capture-UVC05
-  bcdDevice            4.09
-  iManufacturer           1 Actions Micro
-  iProduct                2 Display capture-UVC05
-  iSerial                 3 -1005308387
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x028a
-    bNumInterfaces          4
-    bConfigurationValue     1
-    iConfiguration          4 Video
-    bmAttributes         0xc0
-      Self Powered
-    MaxPower                2mA
-    Interface Association:
-      bLength                 8
-      bDescriptorType        11
-      bFirstInterface         0
-      bInterfaceCount         2
-      bFunctionClass         14 Video
-      bFunctionSubClass       3 Video Interface Collection
-      bFunctionProtocol       0 
-      iFunction               5 Display capture-UVC05
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           0
-      bInterfaceClass        14 Video
-      bInterfaceSubClass      1 Video Control
-      bInterfaceProtocol      0 
-      iInterface              5 Display capture-UVC05
-      VideoControl Interface Descriptor:
-        bLength                13
-        bDescriptorType        36
-        bDescriptorSubtype      1 (HEADER)
-        bcdUVC               1.00
-        wTotalLength       0x0033
-        dwClockFrequency       48.000000MHz
-        bInCollection           1
-        baInterfaceNr( 0)       1
-      VideoControl Interface Descriptor:
-        bLength                18
-        bDescriptorType        36
-        bDescriptorSubtype      2 (INPUT_TERMINAL)
-        bTerminalID             1
-        wTerminalType      0x0201 Camera Sensor
-        bAssocTerminal          0
-        iTerminal               0 
-        wObjectiveFocalLengthMin      0
-        wObjectiveFocalLengthMax      0
-        wOcularFocalLength            0
-        bControlSize                  3
-        bmControls           0x00000002
-          Auto-Exposure Mode
-      VideoControl Interface Descriptor:
-        bLength                11
-        bDescriptorType        36
-        bDescriptorSubtype      5 (PROCESSING_UNIT)
-      Warning: Descriptor too short
-        bUnitID                 2
-        bSourceID               1
-        wMaxMultiplier      16384
-        bControlSize            2
-        bmControls     0x00000000
-        iProcessing             0 
-        bmVideoStandards     0x09
-          None
-          SECAM - 625/50
-      VideoControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-        bTerminalID             3
-        wTerminalType      0x0101 USB Streaming
-        bAssocTerminal          0
-        bSourceID               2
-        iTerminal               0 
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       0
-      bNumEndpoints           1
-      bInterfaceClass        14 Video
-      bInterfaceSubClass      2 Video Streaming
-      bInterfaceProtocol      0 
-      iInterface              6 Video Streaming
-      VideoStreaming Interface Descriptor:
-        bLength                            14
-        bDescriptorType                    36
-        bDescriptorSubtype                  1 (INPUT_HEADER)
-        bNumFormats                         1
-        wTotalLength                   0x01c1
-        bEndpointAddress                 0x81  EP 1 IN
-        bmInfo                              0
-        bTerminalLink                       3
-        bStillCaptureMethod                 0
-        bTriggerSupport                     0
-        bTriggerUsage                       0
-        bControlSize                        1
-        bmaControls( 0)                     0
-      VideoStreaming Interface Descriptor:
-        bLength                            11
-        bDescriptorType                    36
-        bDescriptorSubtype                  6 (FORMAT_MJPEG)
-        bFormatIndex                        1
-        bNumFrameDescriptors               11
-        bFlags                              0
-          Fixed-size samples: No
-        bDefaultFrameIndex                  2
-        bAspectRatioX                       0
-        bAspectRatioY                       0
-        bmInterlaceFlags                 0x00
-          Interlaced stream or variable: No
-          Fields per frame: 1 fields
-          Field 1 first: No
-          Field pattern: Field 1 only
-        bCopyProtect                        0
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         1
-        bmCapabilities                   0x02
-          Still image unsupported
-          Fixed frame-rate
-        wWidth                           1920
-        wHeight                          1080
-        dwMinBitRate                 31104000
-        dwMaxBitRate                1990656000
-        dwMaxVideoFrameBufferSize     4147200
-        dwDefaultFrameInterval         333333
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         2
-        bmCapabilities                   0x02
-          Still image unsupported
-          Fixed frame-rate
-        wWidth                           1920
-        wHeight                          1080
-        dwMinBitRate                 31104000
-        dwMaxBitRate                1990656000
-        dwMaxVideoFrameBufferSize     4147200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         4
-        bmCapabilities                   0x02
-          Still image unsupported
-          Fixed frame-rate
-        wWidth                           1360
-        wHeight                           768
-        dwMinBitRate                 15667200
-        dwMaxBitRate                 62668800
-        dwMaxVideoFrameBufferSize     4147200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         5
-        bmCapabilities                   0x02
-          Still image unsupported
-          Fixed frame-rate
-        wWidth                           1280
-        wHeight                          1024
-        dwMinBitRate                 19660800
-        dwMaxBitRate                 78643200
-        dwMaxVideoFrameBufferSize     4147200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         6
-        bmCapabilities                   0x02
-          Still image unsupported
-          Fixed frame-rate
-        wWidth                           1280
-        wHeight                           960
-        dwMinBitRate                 18432000
-        dwMaxBitRate                 73728000
-        dwMaxVideoFrameBufferSize     4147200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         7
-        bmCapabilities                   0x00
-          Still image unsupported
-        wWidth                           1280
-        wHeight                           720
-        dwMinBitRate                 13824000
-        dwMaxBitRate                 55296000
-        dwMaxVideoFrameBufferSize     1843200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         8
-        bmCapabilities                   0x02
-          Still image unsupported
-          Fixed frame-rate
-        wWidth                           1024
-        wHeight                           768
-        dwMinBitRate                 11796480
-        dwMaxBitRate                 47185920
-        dwMaxVideoFrameBufferSize     4147200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         9
-        bmCapabilities                   0x02
-          Still image unsupported
-          Fixed frame-rate
-        wWidth                            800
-        wHeight                           600
-        dwMinBitRate                  7200000
-        dwMaxBitRate                 28800000
-        dwMaxVideoFrameBufferSize     4147200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                        10
-        bmCapabilities                   0x02
-          Still image unsupported
-          Fixed frame-rate
-        wWidth                            720
-        wHeight                           576
-        dwMinBitRate                  6220800
-        dwMaxBitRate                 24883200
-        dwMaxVideoFrameBufferSize     4147200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                        11
-        bmCapabilities                   0x00
-          Still image unsupported
-        wWidth                            720
-        wHeight                           480
-        dwMinBitRate                  5184000
-        dwMaxBitRate                 20736000
-        dwMaxVideoFrameBufferSize     1843200
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                            38
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                        12
-        bmCapabilities                   0x00
-          Still image unsupported
-        wWidth                            640
-        wHeight                           480
-        dwMinBitRate                  4608000
-        dwMaxBitRate                 18432000
-        dwMaxVideoFrameBufferSize      614400
-        dwDefaultFrameInterval         166666
-        bFrameIntervalType                  3
-        dwFrameInterval( 0)            166666
-        dwFrameInterval( 1)            333333
-        dwFrameInterval( 2)            666666
-      VideoStreaming Interface Descriptor:
-        bLength                             6
-        bDescriptorType                    36
-        bDescriptorSubtype                 13 (COLORFORMAT)
-        bColorPrimaries                     1 (BT.709,sRGB)
-        bTransferCharacteristics            1 (BT.709)
-        bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-    Interface Association:
-      bLength                 8
-      bDescriptorType        11
-      bFirstInterface         2
-      bInterfaceCount         2
-      bFunctionClass          1 Audio
-      bFunctionSubClass       2 Streaming
-      bFunctionProtocol       0 
-      iFunction               0 
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        2
-      bAlternateSetting       0
-      bNumEndpoints           0
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      1 Control Device
-      bInterfaceProtocol      0 
-      iInterface              0 
-      AudioControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      1 (HEADER)
-        bcdADC               1.00
-        wTotalLength       0x0027
-        bInCollection           1
-        baInterfaceNr(0)        3
-      AudioControl Interface Descriptor:
-        bLength                12
-        bDescriptorType        36
-        bDescriptorSubtype      2 (INPUT_TERMINAL)
-        bTerminalID             1
-        wTerminalType      0x0201 Microphone
-        bAssocTerminal          0
-        bNrChannels             1
-        wChannelConfig     0x0000
-        iChannelNames           0 
-        iTerminal               0 
-      AudioControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-        bTerminalID             2
-        wTerminalType      0x0101 USB Streaming
-        bAssocTerminal          0
-        bSourceID               3
-        iTerminal               0 
-      AudioControl Interface Descriptor:
-        bLength                 9
-        bDescriptorType        36
-        bDescriptorSubtype      6 (FEATURE_UNIT)
-        bUnitID                 3
-        bSourceID               1
-        bControlSize            1
-        bmaControls(0)       0x03
-          Mute Control
-          Volume Control
-        bmaControls(1)       0x00
-        iFeature                0 
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        3
-      bAlternateSetting       0
-      bNumEndpoints           0
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      2 Streaming
-      bInterfaceProtocol      0 
-      iInterface              0 
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        3
-      bAlternateSetting       1
-      bNumEndpoints           1
-      bInterfaceClass         1 Audio
-      bInterfaceSubClass      2 Streaming
-      bInterfaceProtocol      0 
-      iInterface              0 
-      AudioStreaming Interface Descriptor:
-        bLength                 7
-        bDescriptorType        36
-        bDescriptorSubtype      1 (AS_GENERAL)
-        bTerminalLink           2
-        bDelay                  1 frames
-        wFormatTag         0x0001 PCM
-      AudioStreaming Interface Descriptor:
-        bLength                11
-        bDescriptorType        36
-        bDescriptorSubtype      2 (FORMAT_TYPE)
-        bFormatType             1 (FORMAT_TYPE_I)
-        bNrChannels             2
-        bSubframeSize           2
-        bBitResolution         16
-        bSamFreqType            1 Discrete
-        tSamFreq[ 0]        48000
-      Endpoint Descriptor:
-        bLength                 9
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes            9
-          Transfer Type            Isochronous
-          Synch Type               Adaptive
-          Usage Type               Data
-        wMaxPacketSize     0x00c0  1x 192 bytes
-        bInterval               4
-        bRefresh                0
-        bSynchAddress           0
-        AudioStreaming Endpoint Descriptor:
-          bLength                 7
-          bDescriptorType        37
-          bDescriptorSubtype      1 (EP_GENERAL)
-          bmAttributes         0x01
-            Sampling Frequency
-          bLockDelayUnits         0 Undefined
-          wLockDelay         0x0000
-Device Qualifier (for other device speed):
-  bLength                10
-  bDescriptorType         6
-  bcdUSB               2.00
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2 [unknown]
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  bNumConfigurations      1
-Device Status:     0x0001
-  Self Powered
----
- drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Dikshita Agarwal (18):
+      dt-bindings: media: Add video support for QCOM SM8550 SoC
+      media: iris: add platform driver for iris video device
+      media: iris: implement iris v4l2 file ops
+      media: iris: introduce iris core state management with shared queues
+      media: iris: implement video firmware load/unload
+      media: iris: implement boot sequence of the firmware
+      media: iris: introduce host firmware interface with necessary hooks
+      media: iris: implement power management
+      media: iris: implement reqbuf ioctl with vb2_queue_setup
+      media: iris: implement iris v4l2_ctrl_ops
+      media: iris: implement vb2 streaming ops
+      media: iris: allocate, initialize and queue internal buffers
+      media: iris: implement vb2 ops for buf_queue and firmware response
+      media: iris: add support for dynamic resolution change
+      media: iris: handle streamoff/on from client in dynamic resolution change
+      media: iris: add support for drain sequence
+      media: iris: enable video driver probe of SM8250 SoC
+      media: MAINTAINERS: add Qualcomm iris video accelerator driver
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index b3c8411dc05c..3205f53acea2 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3014,6 +3014,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_PROBE_MINMAX
- 					| UVC_QUIRK_IGNORE_SELECTOR_UNIT) },
-+	/* Actions Microelectronics Co. Display capture-UVC05 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x1de1,
-+	  .idProduct		= 0xf105,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_DISABLE_AUTOSUSPEND) },
- 	/* NXP Semiconductors IR VIDEO */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
+Vedang Nagar (10):
+      media: iris: implement s_fmt, g_fmt and try_fmt ioctls
+      media: iris: implement g_selection ioctl
+      media: iris: implement enum_fmt and enum_framesizes ioctls
+      media: iris: implement subscribe_event and unsubscribe_event ioctls
+      media: iris: implement query_cap ioctl
+      media: iris: implement set properties to firmware during streamon
+      media: iris: subscribe parameters and properties to firmware for hfi_gen2
+      media: iris: add check whether the video session is supported or not
+      media: iris: implement power scaling for vpu2 and vpu3
+      media: iris: add check to allow sub states transitions
 
+ .../bindings/media/qcom,sm8550-iris.yaml           | 158 ++++
+ MAINTAINERS                                        |  10 +
+ drivers/media/platform/qcom/Kconfig                |   1 +
+ drivers/media/platform/qcom/Makefile               |   1 +
+ drivers/media/platform/qcom/iris/Kconfig           |  13 +
+ drivers/media/platform/qcom/iris/Makefile          |  27 +
+ drivers/media/platform/qcom/iris/iris_buffer.c     | 623 ++++++++++++++
+ drivers/media/platform/qcom/iris/iris_buffer.h     | 117 +++
+ drivers/media/platform/qcom/iris/iris_core.c       |  96 +++
+ drivers/media/platform/qcom/iris/iris_core.h       | 111 +++
+ drivers/media/platform/qcom/iris/iris_ctrls.c      | 259 ++++++
+ drivers/media/platform/qcom/iris/iris_ctrls.h      |  22 +
+ drivers/media/platform/qcom/iris/iris_firmware.c   | 110 +++
+ drivers/media/platform/qcom/iris/iris_firmware.h   |  15 +
+ drivers/media/platform/qcom/iris/iris_hfi_common.c | 176 ++++
+ drivers/media/platform/qcom/iris/iris_hfi_common.h | 155 ++++
+ drivers/media/platform/qcom/iris/iris_hfi_gen1.h   |  16 +
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     | 826 ++++++++++++++++++
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     | 448 ++++++++++
+ .../platform/qcom/iris/iris_hfi_gen1_response.c    | 666 ++++++++++++++
+ drivers/media/platform/qcom/iris/iris_hfi_gen2.h   |  41 +
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     | 957 +++++++++++++++++++++
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     | 161 ++++
+ .../platform/qcom/iris/iris_hfi_gen2_packet.c      | 292 +++++++
+ .../platform/qcom/iris/iris_hfi_gen2_packet.h      | 125 +++
+ .../platform/qcom/iris/iris_hfi_gen2_response.c    | 934 ++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_hfi_queue.c  | 314 +++++++
+ drivers/media/platform/qcom/iris/iris_hfi_queue.h  | 182 ++++
+ drivers/media/platform/qcom/iris/iris_instance.h   |  77 ++
+ .../platform/qcom/iris/iris_platform_common.h      | 186 ++++
+ .../platform/qcom/iris/iris_platform_sm8250.c      | 148 ++++
+ .../platform/qcom/iris/iris_platform_sm8550.c      | 265 ++++++
+ drivers/media/platform/qcom/iris/iris_power.c      | 140 +++
+ drivers/media/platform/qcom/iris/iris_power.h      |  13 +
+ drivers/media/platform/qcom/iris/iris_probe.c      | 378 ++++++++
+ drivers/media/platform/qcom/iris/iris_resources.c  | 131 +++
+ drivers/media/platform/qcom/iris/iris_resources.h  |  18 +
+ drivers/media/platform/qcom/iris/iris_state.c      | 276 ++++++
+ drivers/media/platform/qcom/iris/iris_state.h      | 144 ++++
+ drivers/media/platform/qcom/iris/iris_utils.c      |  90 ++
+ drivers/media/platform/qcom/iris/iris_utils.h      |  53 ++
+ drivers/media/platform/qcom/iris/iris_vb2.c        | 335 ++++++++
+ drivers/media/platform/qcom/iris/iris_vb2.h        |  19 +
+ drivers/media/platform/qcom/iris/iris_vdec.c       | 659 ++++++++++++++
+ drivers/media/platform/qcom/iris/iris_vdec.h       |  25 +
+ drivers/media/platform/qcom/iris/iris_vidc.c       | 453 ++++++++++
+ drivers/media/platform/qcom/iris/iris_vidc.h       |  15 +
+ drivers/media/platform/qcom/iris/iris_vpu2.c       |  38 +
+ drivers/media/platform/qcom/iris/iris_vpu3.c       | 122 +++
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 270 ++++++
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  91 ++
+ drivers/media/platform/qcom/iris/iris_vpu_common.c | 369 ++++++++
+ drivers/media/platform/qcom/iris/iris_vpu_common.h |  28 +
+ .../platform/qcom/iris/iris_vpu_register_defines.h |  17 +
+ 54 files changed, 11216 insertions(+)
 ---
-base-commit: 6c10d1adae82e1c8da16e7ebd2320e69f20b9d6f
-change-id: 20241210-uvc-hdmi-suspend-bba1058c605f
+base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
+change-id: 20241028-qcom-video-iris-94d5a12e6d9e
 
 Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+Dikshita Agarwal <quic_dikshita@quicinc.com>
 
 
