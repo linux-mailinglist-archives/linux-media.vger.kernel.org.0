@@ -1,79 +1,87 @@
-Return-Path: <linux-media+bounces-23064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6560F9EB2FF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 15:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2950F9EB48F
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 16:19:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36DE72840B2
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 14:20:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A78E2838D6
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 15:19:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 810201AB523;
-	Tue, 10 Dec 2024 14:20:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 780E11BD9D8;
+	Tue, 10 Dec 2024 15:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M/6z/D2I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P9mx7JUH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814DE17580
-	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 14:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ACE1B425E;
+	Tue, 10 Dec 2024 15:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733840399; cv=none; b=ikUAsI9Py+3mYz4CoSTT+nYDlFjaqGW5XgKcrI7YZuWDkQoe/A6HdQ3XXxsLEYMJrN7WMHPyAsjJaowuYEZcDVrwX5RybLjlQHYFCgLzBJRmBeEE5mtzBVGmmVWbUynEqMB/+ffrmDokI3+LiMnir43dkcCPiY8P6P1o2A1O5v0=
+	t=1733843922; cv=none; b=nMzy2rWup13g6TM9/Q/BJh0arVVW1oWSY3r4ZG384oJwtABOGF+JD4JeC+R+Sw7Lv7Qd8/IYFNbguVLqa4gjslIchAuoaEpvx/uspTOUnXalWV/W7ju8zBJPn26OQ3DbVBJ2s2yTh4WUoPknkHmeRXShVHK5bD5TmMocVVwzFAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733840399; c=relaxed/simple;
-	bh=Trcsq6hqQ3ETLUxInr5jt9BXjvEM231k7XioWFGxuf0=;
+	s=arc-20240116; t=1733843922; c=relaxed/simple;
+	bh=MyYV/Dq/yh2N0al9eocpkchQGpyiruhLqw5oLkHPoWs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VJBx8iyRcPplilrqryOGnDpc4s/9Q9zzQKr9KlkywGA1FdDmzqRORSvfqPxx/+O4mmiSF/t4AAfuRGJWF65nSFJ/zueFeUQPeCh0XWhdkxSwBzRLgnrNcuKI99EAPNLfMwj9kwhVAg9IgdR5KKGZmGJqtUYOpBQ6ra7XZl3ncaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M/6z/D2I; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y5AdunRSANsrU7vGr0/ODehPM2+vIBZwVjRHx7vB2hMnSVOk5vIW+4Hu5hfcs43/WDb4WPI60qR6t75fPDSr/x6GirT9D/Hyn+IeMq6C7SUQfPBoVPNXgn+Y0NDSA+kQKT4nxbGJizIf+m7nF9am7BSzdlaynMYRJNhIS9BBYgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P9mx7JUH; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733840397; x=1765376397;
+  t=1733843921; x=1765379921;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=Trcsq6hqQ3ETLUxInr5jt9BXjvEM231k7XioWFGxuf0=;
-  b=M/6z/D2I8rBXc1w3ShSVdOZvwJjCriq96/oPlPRQL4nv6rGB6VXo970U
-   72TBWR2fznUYpd4YlaPWFwSug72XUuA7uPQQW/AE9BEjw/6g0aqQXUcGY
-   A6QCcfdR3dUYvmGZq/d/3/PckUl/q1qB6QuwOFt9xG+dc4yv+iXLrRXFe
-   vooMH5hgavgHQ+osQyt3XpoAlulHIS1VDuPRl/6nmsXi3DsIL4GebExj/
-   8Sxm1TaYoXLv3dGvU80JsZoQoTgfY6LfQbhMPrRfBcTL0rzznXoiSWqmA
-   QbA97d6DsjQBWY+ojuer6YZala+QX7Q+D9Hmca1qbfq04FSIyOI4iajol
-   w==;
-X-CSE-ConnectionGUID: W7uWV3RwRRisvNpCjOVt5Q==
-X-CSE-MsgGUID: MxthlS+7Q5qPqU0NSU0O+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="37017361"
+  bh=MyYV/Dq/yh2N0al9eocpkchQGpyiruhLqw5oLkHPoWs=;
+  b=P9mx7JUH8fYsIyMi8jyiMf48uLPOvnd3+4kJ2LquwhfdvKSzmtoAoHUg
+   lHLd96Xs3NY4Jj9uIuPgHMIh0oITQBIJ47oEHa2F9GQJvvcKQ+2aMbZos
+   T1RdJlFVMu1NmcXtnscXEWBwtqHh8EmlNMiejczGCo/13N+O7NZGBEztd
+   T4Xb7nugBBGzk8mvTreLBcV2n73EB6+gTdh/e/6q7k1WIQ8ecAYAoHaMQ
+   KULxJ3EgNQOyJ04GfuG2LNFdMrpPVKfAwx0FmZCr+spqmUpPs8oUcwVac
+   7O7yItWx81DJNkLiqWrcPQFrml3vmr4cbbWg40Ti5WZEDcizNsxcqP6kS
+   g==;
+X-CSE-ConnectionGUID: agL51K1dQZeHzQYg6EUU6A==
+X-CSE-MsgGUID: XdwoLW6TRvipJmUoarH3/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45206208"
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="37017361"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 06:19:56 -0800
-X-CSE-ConnectionGUID: 6QO65tMpQEG9fHcvKK3Hhw==
-X-CSE-MsgGUID: iCy7MyxuSvKU3HiuyiCbjw==
+   d="scan'208";a="45206208"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 07:18:40 -0800
+X-CSE-ConnectionGUID: A9Ohsn/hQfKsY0TvuxCS3w==
+X-CSE-MsgGUID: WKZB0PDwSvqrhDvuB8FZxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="95876624"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 06:19:53 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8E3BF11F81D;
-	Tue, 10 Dec 2024 16:19:50 +0200 (EET)
-Date: Tue, 10 Dec 2024 14:19:50 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Dongcheng Yan <dongcheng.yan@intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
-	bingbu.cao@linux.intel.com, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
-	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
-	balamurugan.c@intel.com, wei.a.fu@intel.com
-Subject: Re: [PATCH v4] media: i2c: add lt6911uxe hdmi bridge driver
-Message-ID: <Z1hOBpwLfB_wfRwL@kekkonen.localdomain>
-References: <20241129061546.2237511-1-dongcheng.yan@intel.com>
+   d="scan'208";a="95255207"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.118.67])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 07:18:35 -0800
+Date: Tue, 10 Dec 2024 16:18:32 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+	Genes Lists <lists@sapience.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+	torvalds@linux-foundation.org, stable@vger.kernel.org,
+	linux-media@vger.kernel.org, bingbu.cao@intel.com,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: Linux 6.12.4 - crash dma_alloc_attrs+0x12b via ipu6
+Message-ID: <Z1hbyNXUubokloda@linux.intel.com>
+References: <2024120917-vision-outcast-85f2@gregkh>
+ <c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com>
+ <Z1fqitbWlmELb5pj@kekkonen.localdomain>
+ <87seqvzzg6.fsf@intel.com>
+ <c1805642a6c5da6fef3927c70358c8cb851d2784.camel@sapience.com>
+ <87bjxjzpwn.fsf@intel.com>
+ <2024121001-senator-raffle-a371@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,867 +91,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241129061546.2237511-1-dongcheng.yan@intel.com>
+In-Reply-To: <2024121001-senator-raffle-a371@gregkh>
 
-Hi Dongcheng,
-
-Thanks for the update. A few comments below.
-
-On Fri, Nov 29, 2024 at 02:15:46PM +0800, Dongcheng Yan wrote:
-> Lontium LT9611UXE is a HDMI to MIPI CSI-2 bridge,
-> It supports modes up to 4k60fps, switches current mode when
-> plugging HDMI or changing the source active signal mode.
+On Tue, Dec 10, 2024 at 01:37:11PM +0100, Greg Kroah-Hartman wrote:
+> On Tue, Dec 10, 2024 at 02:24:56PM +0200, Jani Nikula wrote:
+> > On Tue, 10 Dec 2024, Genes Lists <lists@sapience.com> wrote:
+> > > On Tue, 2024-12-10 at 10:58 +0200, Jani Nikula wrote:
+> > >> On Tue, 10 Dec 2024, Sakari Ailus <sakari.ailus@linux.intel.com>
+> > >> wrote:
+> > >> > Hi,
+> > >> > 
+> > >> > > ...
+> > >> > > FYI 6.12.4 got a crash shortly after booting in dma_alloc_attrs -
+> > >> > > maybe
+> > >> > > triggered in ipu6_probe. Crash only happened on laptop with ipu6.
+> > >> > > All
+> > >> > > other machines are running fine.
+> > >> > 
+> > >> > Have you read the dmesg further than the IPU6 related warning? The
+> > >> > IPU6
+> > >> > driver won't work (maybe not even probe?) but if the system
+> > >> > crashes, it
+> > >> > appears unlikely the IPU6 drivers would have something to do with
+> > >> > that.
+> > >> > Look for warnings on linked list corruption later, they seem to be
+> > >> > coming
+> > >> > from the i915 driver.
+> > >> 
+> > >> And the list corruption is actually happening in
+> > >> cpu_latency_qos_update_request(). I don't see any i915 changes in
+> > >> 6.12.4
+> > >> that could cause it.
+> > >> 
+> > >> I guess the question is, when did it work? Did 6.12.3 work?
+> > >> 
+> > >> 
+> > >> BR,
+> > >> Jani.
+> > >
+> > >
+> > >  - 6.12.1 worked
+> > >
+> > >  - mainline - works (but only with i915 patch set [1] otherwise there
+> > > are no graphics at all)
+> > >
+> > >     [1] https://patchwork.freedesktop.org/series/141911/
+> > >
+> > > - 6.12.3 - crashed (i see i915 not ipu6) and again it has       
+> > >     cpu_latency_qos_update_request+0x61/0xc0
+> > 
+> > Thanks for testing.
+> > 
+> > There are no changes to either i915 or kernel/power between 6.12.1 and
+> > 6.12.4.
+> > 
+> > There are some changes to drm core, but none that could explain this.
+> > 
+> > Maybe try the same kernels a few more times to see if it's really
+> > deterministic? Not that I have obvious ideas where to go from there, but
+> > it's a clue nonetheless.
 > 
-> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
-> ---
-> v1 -> v2: replaced mutex with state_lock
-> v2 -> v3: fixed some pm_runtime err handlings
-> v3 -> v4: add dv_timings api
-> 
-> patch has been tested with Intel IPU isp.
-> ---
->  drivers/media/i2c/Kconfig     |  12 +
->  drivers/media/i2c/Makefile    |   1 +
->  drivers/media/i2c/lt6911uxe.c | 755 ++++++++++++++++++++++++++++++++++
->  3 files changed, 768 insertions(+)
->  create mode 100644 drivers/media/i2c/lt6911uxe.c
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 8ba096b8ebca..fbe3d0fe4ce6 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1526,6 +1526,18 @@ config VIDEO_I2C
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called video-i2c
->  
-> +config VIDEO_LT6911UXE
-> +        tristate "Lontium LT6911UXE decoder"
-> +        depends on ACPI && VIDEO_DEV
-> +        select V4L2_FWNODE
-> +        select V4L2_CCI_I2C
-> +        help
-> +          This is a Video4Linux2 sensor-level driver for the Lontium
-> +          LT6911UXE HDMI to MIPI CSI-2 bridge.
-> +
-> +          To compile this driver as a module, choose M here: the
-> +          module will be called lt6911uxe.
-> +
->  config VIDEO_M52790
->  	tristate "Mitsubishi M52790 A/V switch"
->  	depends on VIDEO_DEV && I2C
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index fbb988bd067a..6c23a4463527 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -64,6 +64,7 @@ obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
->  obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
->  obj-$(CONFIG_VIDEO_LM3560) += lm3560.o
->  obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
-> +obj-$(CONFIG_VIDEO_LT6911UXE) += lt6911uxe.o
->  obj-$(CONFIG_VIDEO_M52790) += m52790.o
->  obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
->  obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
-> diff --git a/drivers/media/i2c/lt6911uxe.c b/drivers/media/i2c/lt6911uxe.c
-> new file mode 100644
-> index 000000000000..7d093ee6a6cd
-> --- /dev/null
-> +++ b/drivers/media/i2c/lt6911uxe.c
-> @@ -0,0 +1,755 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2023 - 2024 Intel Corporation.
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
-> +#include <linux/v4l2-dv-timings.h>
-> +
-> +#include <media/v4l2-cci.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-dv-timings.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
-> +
-> +#define LT6911UXE_CHIP_ID		0x2102
-> +#define REG_CHIP_ID			CCI_REG16(0xe100)
-> +
-> +#define REG_ENABLE_I2C			CCI_REG8(0xe0ee)
-> +#define REG_HALF_PIX_CLK		CCI_REG24(0xe085)
-> +#define REG_BYTE_CLK			CCI_REG24(0xe092)
-> +#define REG_HALF_H_TOTAL		CCI_REG16(0xe088)
-> +#define REG_V_TOTAL			CCI_REG16(0xe08a)
-> +#define REG_HALF_H_ACTIVE		CCI_REG16(0xe08c)
-> +#define REG_V_ACTIVE			CCI_REG16(0xe08e)
-> +#define REG_MIPI_FORMAT			CCI_REG8(0xe096)
-> +#define REG_MIPI_TX_CTRL		CCI_REG8(0xe0b0)
-> +
-> +/* Interrupts */
-> +#define REG_INT_HDMI			CCI_REG8(0xe084)
-> +#define INT_VIDEO_DISAPPEAR		0x0
-> +#define INT_VIDEO_READY			0x1
-> +
-> +#define LT6911UXE_DEFAULT_WIDTH		3840
-> +#define LT6911UXE_DEFAULT_HEIGHT	2160
-> +#define LT6911UXE_DEFAULT_LANES		4
-> +#define LT6911UXE_DEFAULT_FPS		30
-> +#define LT6911UXE_MAX_LINK_FREQ		297000000
-> +#define LT9611_PAGE_CONTROL		0xff
-> +#define YUV422_8_BIT			0x7
-> +
-> +static const struct v4l2_dv_timings_cap lt6911uxe_timings_cap_4kp30 = {
-> +	.type = V4L2_DV_BT_656_1120,
-> +	/* keep this initialization for compatibility with GCC < 4.4.6 */
+> 'git bisect' would be nice to run if possible...
 
-According to Documentation/process/changes.rst, the minimum GCC version is
-5.1. So you should drop this.
+I've reproduced the issue. It's caused by 6.12.y commit:
 
-> +	.reserved = { 0 },
-> +	/* Pixel clock from REF_01 p. 20. Min/max height/width are unknown */
-> +	V4L2_INIT_BT_TIMINGS(
-> +		160, 3840,				/* min/max width */
-> +		120, 2160,				/* min/max height */
-> +		50000000, 594000000,			/* min/max pixelclock */
-> +		V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-> +		V4L2_DV_BT_STD_CVT,
-> +		V4L2_DV_BT_CAP_PROGRESSIVE | V4L2_DV_BT_CAP_CUSTOM |
-> +		V4L2_DV_BT_CAP_REDUCED_BLANKING)
-> +};
-> +
-> +static const struct regmap_range_cfg lt9611uxe_ranges[] = {
-> +	{
-> +		.name = "register_range",
-> +		.range_min =  0,
-> +		.range_max = 0xffff,
-> +		.selector_reg = LT9611_PAGE_CONTROL,
-> +		.selector_mask = 0xff,
-> +		.selector_shift = 0,
-> +		.window_start = 0,
-> +		.window_len = 0x100,
-> +	},
-> +};
-> +
-> +static const struct regmap_config lt9611uxe_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = 0xffff,
-> +	.ranges = lt9611uxe_ranges,
-> +	.num_ranges = ARRAY_SIZE(lt9611uxe_ranges),
-> +};
-> +
-> +struct lt6911uxe_mode {
-> +	u32 width;
-> +	u32 height;
-> +	u32 htotal;
-> +	u32 vtotal;
-> +	u32 code;
-> +	u32 fps;
-> +	u32 lanes;
-> +	s64 link_freq;
-> +	u64 pixel_clk;
-> +};
-> +
-> +struct lt6911uxe {
-> +	struct v4l2_subdev sd;
-> +	struct media_pad pad;
-> +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct v4l2_ctrl *pixel_rate;
-> +	struct v4l2_ctrl *link_freq;
-> +	struct v4l2_dv_timings timings;
-> +	struct lt6911uxe_mode cur_mode;
-> +	struct regmap *regmap;
-> +	struct gpio_desc *reset_gpio;
-> +	struct gpio_desc *irq_gpio;
-> +};
-> +
-> +static const struct v4l2_event lt6911uxe_ev_source_change = {
-> +	.type = V4L2_EVENT_SOURCE_CHANGE,
-> +	.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
-> +};
-> +
-> +static const struct v4l2_event lt6911uxe_ev_stream_end = {
-> +	.type = V4L2_EVENT_EOS,
-> +};
-> +
-> +static inline struct lt6911uxe *to_lt6911uxe(struct v4l2_subdev *sd)
-> +{
-> +	return container_of(sd, struct lt6911uxe, sd);
-> +}
-> +
-> +static const struct lt6911uxe_mode default_mode = {
-> +	.width = LT6911UXE_DEFAULT_WIDTH,
-> +	.height = LT6911UXE_DEFAULT_HEIGHT,
-> +	.code = MEDIA_BUS_FMT_UYVY8_1X16,
-> +	.fps = LT6911UXE_DEFAULT_FPS,
-> +	.lanes = LT6911UXE_DEFAULT_LANES,
-> +	.link_freq = LT6911UXE_MAX_LINK_FREQ,
-> +};
-> +
-> +static s64 get_pixel_rate(struct lt6911uxe *lt6911uxe)
-> +{
-> +	s64 pixel_rate;
-> +
-> +	pixel_rate = (s64)lt6911uxe->cur_mode.width *
-> +		     lt6911uxe->cur_mode.height *
-> +		     lt6911uxe->cur_mode.fps * 16;
-> +	do_div(pixel_rate, lt6911uxe->cur_mode.lanes);
-> +
-> +	return pixel_rate;
-> +}
-> +
-> +static int lt6911uxe_get_detected_timings(struct v4l2_subdev *sd,
-> +				     struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_bt_timings *bt = &timings->bt;
-> +
-> +	memset(timings, 0, sizeof(struct v4l2_dv_timings));
-> +
-> +	timings->type = V4L2_DV_BT_656_1120;
-> +
-> +	bt->width = lt6911uxe->cur_mode.width;
-> +	bt->height = lt6911uxe->cur_mode.height;
-> +	bt->vsync = lt6911uxe->cur_mode.vtotal - lt6911uxe->cur_mode.height;
-> +	bt->hsync = lt6911uxe->cur_mode.htotal - lt6911uxe->cur_mode.width;
-> +	bt->pixelclock = lt6911uxe->cur_mode.pixel_clk;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_s_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				  struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	if (v4l2_match_dv_timings(&lt6911uxe->timings, timings, 0, false))
-> +		return 0;
-> +
-> +	if (!v4l2_valid_dv_timings(timings, &lt6911uxe_timings_cap_4kp30,
-> +				   NULL, NULL)) {
+commit 6ac269abab9ca5ae910deb2d3ca54351c3467e99
+Author: Bingbu Cao <bingbu.cao@intel.com>
+Date:   Wed Oct 16 15:53:01 2024 +0800
 
-As there is no sub-device state argument to the function, you need to
-manually lock the sub-device state here (to serialise access to the timings
-field). Same for g_dv_timings and query_dv_timings below.
+    media: ipu6: not override the dma_ops of device in driver
 
-> +		v4l2_warn(sd, "timings out of range\n");
-> +		return -ERANGE;
-> +	}
-> +	lt6911uxe->timings = *timings;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_g_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				  struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	*timings = lt6911uxe->timings;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_query_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				      struct v4l2_dv_timings *timings)
-> +{
-> +	int ret;
-> +
-> +	ret = lt6911uxe_get_detected_timings(sd, timings);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!v4l2_valid_dv_timings(timings, &lt6911uxe_timings_cap_4kp30,
-> +				   NULL, NULL)) {
-> +		v4l2_warn(sd, "timings out of range\n");
-> +		return -ERANGE;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_enum_dv_timings(struct v4l2_subdev *sd,
-> +				    struct v4l2_enum_dv_timings *timings)
-> +{
-> +	if (timings->pad != 0)
-> +		return -EINVAL;
+    [ Upstream commit daabc5c64703432c4a8798421a3588c2c142c51b ]
 
-No need to check pad here, the caller will have done that already.
 
-> +
-> +	return v4l2_enum_dv_timings_cap(timings,
-> +			&lt6911uxe_timings_cap_4kp30, NULL, NULL);
-> +}
-> +
-> +static int lt6911uxe_dv_timings_cap(struct v4l2_subdev *sd,
-> +				    struct v4l2_dv_timings_cap *cap)
-> +{
-> +	if (cap->pad != 0)
-> +		return -EINVAL;
+It makes alloc_fw_msg_bufs() fail on isys_probe() 
 
-Ditto.
+	cpu_latency_qos_add_request(&isys->pm_qos, PM_QOS_DEFAULT_VALUE);
 
-> +
-> +	*cap = lt6911uxe_timings_cap_4kp30;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_status_update(struct lt6911uxe *lt6911uxe)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
-> +	u64 int_event;
-> +	u64 byte_clk, half_pix_clk, fps, format;
-> +	u64 half_htotal, vtotal, half_width, height;
-> +	int ret = 0;
-> +
-> +	/* Read interrupt event */
-> +	cci_read(lt6911uxe->regmap, REG_INT_HDMI, &int_event, &ret);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "failed to read interrupt event\n");
+	ret = alloc_fw_msg_bufs(isys, 20);
+	if (ret < 0)
+		goto out_remove_pkg_dir_shared_buffer;
 
-I'd use dev_err() here as we're not in probe().
+And on error path we do not call cpu_latency_qos_remove_request() 
+what cause pm_qos_request list corruption (it is memory use
+after free bug).
 
-> +
-> +	switch (int_event) {
-> +	case INT_VIDEO_READY:
-> +		cci_read(lt6911uxe->regmap, REG_BYTE_CLK, &byte_clk, &ret);
-> +		byte_clk *= 1000;
-> +		cci_read(lt6911uxe->regmap, REG_HALF_PIX_CLK,
-> +			 &half_pix_clk, &ret);
-> +		half_pix_clk *= 1000;
-> +
-> +		if (ret || byte_clk == 0 || half_pix_clk == 0) {
-> +			dev_err(&client->dev,
-> +				"invalid ByteClock or PixelClock\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		cci_read(lt6911uxe->regmap, REG_HALF_H_TOTAL,
-> +			 &half_htotal, &ret);
-> +		cci_read(lt6911uxe->regmap, REG_V_TOTAL, &vtotal, &ret);
-> +		if (ret || half_htotal == 0 || vtotal == 0) {
-> +			dev_err(&client->dev, "invalid htotal or vtotal\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		fps = div_u64(half_pix_clk, half_htotal * vtotal);
-> +		if (fps > 60) {
-> +			dev_err(&client->dev,
-> +				"max fps is 60, current fps: %llu\n", fps);
-> +			return -EINVAL;
-> +		}
-> +
-> +		cci_read(lt6911uxe->regmap, REG_HALF_H_ACTIVE,
-> +			 &half_width, &ret);
-> +		cci_read(lt6911uxe->regmap, REG_V_ACTIVE, &height, &ret);
-> +		if (ret || half_width == 0 || half_width * 2 > 3840 ||
-> +		    height == 0 || height > 2160) {
-> +			dev_err(&client->dev, "invalid width or height\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		/*
-> +		 * Get MIPI format, YUV422_8_BIT is expected in lt6911uxe
-> +		 */
-> +		cci_read(lt6911uxe->regmap, REG_MIPI_FORMAT, &format, &ret);
-> +		if (format != YUV422_8_BIT) {
-> +			dev_err(&client->dev, "invalid MIPI format\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		lt6911uxe->cur_mode.height = height;
-> +		lt6911uxe->cur_mode.width = half_width * 2;
-> +		lt6911uxe->cur_mode.fps = fps;
-> +		/* MIPI Clock Rate = ByteClock × 4, defined in lt6911uxe spec */
-> +		lt6911uxe->cur_mode.link_freq = byte_clk * 4;
-> +		lt6911uxe->cur_mode.pixel_clk = half_pix_clk * 2;
-> +		lt6911uxe->cur_mode.vtotal = vtotal;
-> +		lt6911uxe->cur_mode.htotal = half_htotal * 2;
-> +		v4l2_subdev_notify_event(&lt6911uxe->sd,
-> +					 &lt6911uxe_ev_source_change);
-> +		break;
-> +
-> +	case INT_VIDEO_DISAPPEAR:
-> +		cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x0, NULL);
-> +		lt6911uxe->cur_mode.height = 0;
-> +		lt6911uxe->cur_mode.width = 0;
-> +		lt6911uxe->cur_mode.fps = 0;
-> +		lt6911uxe->cur_mode.link_freq = 0;
-> +		v4l2_subdev_notify_event(&lt6911uxe->sd,
-> +					 &lt6911uxe_ev_stream_end);
-> +		break;
-> +
-> +	default:
-> +		return  -ENOLINK;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_init_controls(struct lt6911uxe *lt6911uxe)
-> +{
-> +	struct v4l2_ctrl_handler *ctrl_hdlr;
-> +	s64 pixel_rate;
-> +	int ret;
-> +
-> +	ctrl_hdlr = &lt6911uxe->ctrl_handler;
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-> +	if (ret)
-> +		return ret;
-> +
-> +	lt6911uxe->link_freq =
-> +		v4l2_ctrl_new_int_menu(ctrl_hdlr, NULL, V4L2_CID_LINK_FREQ,
-> +				       sizeof(lt6911uxe->cur_mode.link_freq),
+The problem will disappear after applying:
+https://lore.kernel.org/stable/20241209175416.59433-1-stanislaw.gruszka@linux.intel.com/
+since the allocation will not longer fail.
 
-There's just a single entry in the array. sizeof() will get the size in
-bytes, which is 8! Use 1 here instead.
+But we also need to handle fail case correctly by adding
+cpu_latency_qos_remove_request() on error path. This requires
+mainline fix, I'll post it. 
 
-> +				       0, &lt6911uxe->cur_mode.link_freq);
-> +
-> +	pixel_rate = get_pixel_rate(lt6911uxe);
-> +	lt6911uxe->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
-> +						  V4L2_CID_PIXEL_RATE,
-> +						  pixel_rate, pixel_rate, 1,
-> +						  pixel_rate);
-> +
-> +	if (ctrl_hdlr->error) {
-> +		ret = ctrl_hdlr->error;
-> +		goto hdlr_free;
-> +	}
-> +	lt6911uxe->sd.ctrl_handler = ctrl_hdlr;
-> +
-> +	return 0;
-> +
-> +hdlr_free:
-> +	v4l2_ctrl_handler_free(ctrl_hdlr);
-> +	return ret;
-> +}
-> +
-> +static void lt6911uxe_update_pad_format(const struct lt6911uxe_mode *mode,
-> +					struct v4l2_mbus_framefmt *fmt)
-> +{
-> +	fmt->width = mode->width;
-> +	fmt->height = mode->height;
-> +	fmt->code = mode->code;
-> +	fmt->field = V4L2_FIELD_NONE;
-> +}
-> +
-> +static int lt6911uxe_enable_streams(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *state,
-> +				    u32 pad, u64 streams_mask)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	int ret;
-> +
-> +	ret = pm_runtime_resume_and_get(&client->dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x1, &ret);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to start stream: %d\n", ret);
-> +		goto err_rpm_put;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_rpm_put:
-> +	pm_runtime_put(&client->dev);
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_disable_streams(struct v4l2_subdev *sd,
-> +				     struct v4l2_subdev_state *state,
-> +				     u32 pad, u64 streams_mask)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
-> +	int ret;
-> +
-> +	ret = cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x0, NULL);
-> +	if (ret)
-> +		dev_err(&client->dev, "failed to stop stream: %d\n", ret);
-> +
-> +	pm_runtime_put(&client->dev);
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_set_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_format *fmt)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	u64 pixel_rate, link_freq;
-> +
-> +	lt6911uxe_update_pad_format(&lt6911uxe->cur_mode, &fmt->format);
-
-Would you be able to store this information to the active state?
-
-Then you can use v4l2_subdev_get_fmt() for get_fmt() callback.
-
-> +	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return 0;
-> +
-> +	pixel_rate = get_pixel_rate(lt6911uxe);
-> +	__v4l2_ctrl_modify_range(lt6911uxe->pixel_rate, pixel_rate,
-> +				 pixel_rate, 1, pixel_rate);
-> +
-> +	link_freq = lt6911uxe->cur_mode.link_freq;
-> +	__v4l2_ctrl_modify_range(lt6911uxe->link_freq, link_freq,
-> +				 link_freq, 1, link_freq);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_get_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_format *fmt)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		fmt->format = *v4l2_subdev_state_get_format(sd_state, fmt->pad);
-> +	else
-> +		lt6911uxe_update_pad_format(&lt6911uxe->cur_mode, &fmt->format);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_enum_mbus_code(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *sd_state,
-> +				    struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	if (code->index)
-> +		return -EINVAL;
-> +
-> +	code->code = lt6911uxe->cur_mode.code;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_enum_frame_size(struct v4l2_subdev *sd,
-> +				     struct v4l2_subdev_state *sd_state,
-> +				     struct v4l2_subdev_frame_size_enum *fse)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	if (fse->index != 0)
-> +		return -EINVAL;
-> +
-> +	if (fse->code != MEDIA_BUS_FMT_UYVY8_1X16)
-> +		return -EINVAL;
-> +
-> +	fse->min_width = lt6911uxe->cur_mode.width;
-> +	fse->max_width = fse->min_width;
-> +	fse->min_height = lt6911uxe->cur_mode.height;
-> +	fse->max_height = fse->min_height;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_enum_frame_interval(struct v4l2_subdev *sd,
-> +		struct v4l2_subdev_state *sd_state,
-> +		struct v4l2_subdev_frame_interval_enum *fie)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	if (fie->index != 0)
-> +		return -EINVAL;
-> +
-> +	fie->interval.numerator = 1;
-> +	fie->interval.denominator = lt6911uxe->cur_mode.fps;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_init_state(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state)
-> +{
-> +	struct v4l2_subdev_format fmt = {
-> +		.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
-> +		: V4L2_SUBDEV_FORMAT_ACTIVE,
-> +	};
-> +
-> +	return lt6911uxe_set_format(sd, sd_state, &fmt);
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops lt6911uxe_video_ops = {
-> +	.s_stream = v4l2_subdev_s_stream_helper,
-> +};
-> +
-> +static const struct v4l2_subdev_pad_ops lt6911uxe_pad_ops = {
-> +	.set_fmt = lt6911uxe_set_format,
-> +	.get_fmt = lt6911uxe_get_format,
-> +	.enable_streams = lt6911uxe_enable_streams,
-> +	.disable_streams = lt6911uxe_disable_streams,
-> +	.enum_mbus_code = lt6911uxe_enum_mbus_code,
-> +	.enum_frame_size = lt6911uxe_enum_frame_size,
-> +	.enum_frame_interval = lt6911uxe_enum_frame_interval,
-> +	.get_frame_interval = v4l2_subdev_get_frame_interval,
-> +	.s_dv_timings = lt6911uxe_s_dv_timings,
-> +	.g_dv_timings = lt6911uxe_g_dv_timings,
-> +	.query_dv_timings = lt6911uxe_query_dv_timings,
-> +	.enum_dv_timings = lt6911uxe_enum_dv_timings,
-> +	.dv_timings_cap = lt6911uxe_dv_timings_cap,
-> +};
-> +
-> +static const struct v4l2_subdev_core_ops lt6911uxe_subdev_core_ops = {
-> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> +};
-> +
-> +static const struct v4l2_subdev_ops lt6911uxe_subdev_ops = {
-> +	.core = &lt6911uxe_subdev_core_ops,
-> +	.video = &lt6911uxe_video_ops,
-> +	.pad = &lt6911uxe_pad_ops,
-> +};
-> +
-> +static const struct media_entity_operations lt6911uxe_subdev_entity_ops = {
-> +	.link_validate = v4l2_subdev_link_validate,
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops lt6911uxe_internal_ops = {
-> +	.init_state = lt6911uxe_init_state,
-> +};
-> +
-> +static int lt6911uxe_fwnode_parse(struct lt6911uxe *lt6911uxe,
-> +				  struct device *dev)
-> +{
-> +	struct fwnode_handle *endpoint;
-> +	struct v4l2_fwnode_endpoint bus_cfg = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> +	};
-> +	int ret;
-> +
-> +	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
-> +						   FWNODE_GRAPH_ENDPOINT_NEXT);
-> +	if (!endpoint)
-> +		return dev_err_probe(dev, -EPROBE_DEFER,
-> +				     "endpoint node not found\n");
-> +
-> +	ret = v4l2_fwnode_endpoint_parse(endpoint, &bus_cfg);
-> +	fwnode_handle_put(endpoint);
-> +	if (ret) {
-> +		dev_err(dev, "failed to parse endpoint node: %d\n", ret);
-> +		goto out_err;
-> +	}
-> +
-> +	/*
-> +	 * Check the number of MIPI CSI2 data lanes,
-> +	 * lt6911uxe only support 4 lanes.
-> +	 */
-> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != LT6911UXE_DEFAULT_LANES) {
-> +		dev_err(dev, "only 4 data lanes are currently supported\n");
-> +		goto out_err;
-> +	}
-> +
-> +	return 0;
-> +
-> +out_err:
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_identify_module(struct lt6911uxe *lt6911uxe,
-> +				     struct device *dev)
-> +{
-> +	u64 val;
-> +	int ret = 0;
-> +
-> +	/* Chip ID should be confirmed when the I2C slave is active */
-> +	cci_write(lt6911uxe->regmap, REG_ENABLE_I2C, 0x1, &ret);
-> +	cci_read(lt6911uxe->regmap, REG_CHIP_ID, &val, &ret);
-> +	cci_write(lt6911uxe->regmap, REG_ENABLE_I2C, 0x0, &ret);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "fail to read chip id\n");
-> +
-> +	if (val != LT6911UXE_CHIP_ID) {
-> +		return dev_err_probe(dev, -ENXIO, "chip id mismatch: %x!=%x\n",
-> +				     LT6911UXE_CHIP_ID, (u16)val);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t lt6911uxe_threaded_irq_fn(int irq, void *dev_id)
-> +{
-> +	struct v4l2_subdev *sd = dev_id;
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	lt6911uxe_status_update(lt6911uxe);
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static void lt6911uxe_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	free_irq(gpiod_to_irq(lt6911uxe->irq_gpio), lt6911uxe);
-> +	v4l2_async_unregister_subdev(sd);
-> +	v4l2_subdev_cleanup(sd);
-> +	media_entity_cleanup(&sd->entity);
-> +	v4l2_ctrl_handler_free(&lt6911uxe->ctrl_handler);
-> +	pm_runtime_disable(&client->dev);
-> +	pm_runtime_set_suspended(&client->dev);
-> +}
-> +
-> +static int lt6911uxe_probe(struct i2c_client *client)
-> +{
-> +	struct lt6911uxe *lt6911uxe;
-> +	struct device *dev = &client->dev;
-> +	u64 irq_pin_flags;
-> +	int ret;
-> +
-> +	lt6911uxe = devm_kzalloc(dev, sizeof(*lt6911uxe), GFP_KERNEL);
-> +	if (!lt6911uxe)
-> +		return -ENOMEM;
-> +
-> +	/* define default mode: 4k@60fps, changed when interrupt occurs. */
-> +	lt6911uxe->cur_mode = default_mode;
-
-It'd be nice to get rid of cur_mode altogether. Is there something that
-would prevent it?
-
-> +
-> +	lt6911uxe->regmap = devm_regmap_init_i2c(client,
-> +						 &lt9611uxe_regmap_config);
-> +	if (IS_ERR(lt6911uxe->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->regmap),
-> +				     "failed to init CCI\n");
-> +
-> +	v4l2_i2c_subdev_init(&lt6911uxe->sd, client, &lt6911uxe_subdev_ops);
-> +
-> +	lt6911uxe->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_IN);
-> +	if (IS_ERR(lt6911uxe->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->reset_gpio),
-> +				     "failed to get reset gpio\n");
-> +
-> +	lt6911uxe->irq_gpio = devm_gpiod_get(dev, "readystat", GPIOD_IN);
-> +	if (IS_ERR(lt6911uxe->irq_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->irq_gpio),
-> +				     "failed to get ready_stat gpio\n");
-> +
-> +	ret = lt6911uxe_fwnode_parse(lt6911uxe, dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	usleep_range(10000, 10500);
-> +
-> +	ret = lt6911uxe_identify_module(lt6911uxe, dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to find chip\n");
-> +
-> +	ret = lt6911uxe_init_controls(lt6911uxe);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to init control\n");
-> +
-> +	lt6911uxe->sd.dev = dev;
-> +	lt6911uxe->sd.internal_ops = &lt6911uxe_internal_ops;
-> +	lt6911uxe->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> +			       V4L2_SUBDEV_FL_HAS_EVENTS;
-
-You can drop the EVENTS flag now: it's enabled for all sub-devices with a
-control handler.
-
-> +	lt6911uxe->sd.entity.ops = &lt6911uxe_subdev_entity_ops;
-> +	lt6911uxe->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +	lt6911uxe->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	ret = media_entity_pads_init(&lt6911uxe->sd.entity, 1, &lt6911uxe->pad);
-> +	if (ret) {
-> +		dev_err(dev, "failed to init entity pads: %d\n", ret);
-> +		goto v4l2_ctrl_handler_free;
-> +	}
-> +
-> +	/*
-> +	 * Device is already turned on by i2c-core with ACPI domain PM.
-> +	 * Enable runtime PM and turn off the device.
-> +	 */
-> +	pm_runtime_set_active(dev);
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_idle(dev);
-> +
-> +	ret = v4l2_subdev_init_finalize(&lt6911uxe->sd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to init v4l2 subdev: %d\n", ret);
-> +		goto media_entity_cleanup;
-> +	}
-> +
-> +	/* Setting irq */
-> +	irq_pin_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
-> +			IRQF_ONESHOT;
-> +
-> +	ret = request_threaded_irq(gpiod_to_irq(lt6911uxe->irq_gpio), NULL,
-> +				   lt6911uxe_threaded_irq_fn,
-> +				   irq_pin_flags, NULL, lt6911uxe);
-> +	if (ret) {
-> +		dev_err(dev, "failed to request IRQ: %d\n", ret);
-> +		goto subdev_cleanup;
-> +	}
-> +
-> +	ret = v4l2_async_register_subdev_sensor(&lt6911uxe->sd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register V4L2 subdev: %d\n", ret);
-> +		goto free_irq;
-> +	}
-> +
-> +	return 0;
-> +
-> +free_irq:
-> +	free_irq(gpiod_to_irq(lt6911uxe->irq_gpio), lt6911uxe);
-> +
-> +subdev_cleanup:
-> +	v4l2_subdev_cleanup(&lt6911uxe->sd);
-> +
-> +media_entity_cleanup:
-> +	pm_runtime_disable(dev);
-> +	pm_runtime_set_suspended(dev);
-> +	media_entity_cleanup(&lt6911uxe->sd.entity);
-> +
-> +v4l2_ctrl_handler_free:
-> +	v4l2_ctrl_handler_free(lt6911uxe->sd.ctrl_handler);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct acpi_device_id lt6911uxe_acpi_ids[] = {
-> +	{ "INTC10C5" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(acpi, lt6911uxe_acpi_ids);
-> +
-> +static struct i2c_driver lt6911uxe_i2c_driver = {
-> +	.driver = {
-> +		.name = "lt6911uxe",
-> +		.acpi_match_table = ACPI_PTR(lt6911uxe_acpi_ids),
-> +	},
-> +	.probe = lt6911uxe_probe,
-> +	.remove = lt6911uxe_remove,
-> +};
-> +
-> +module_i2c_driver(lt6911uxe_i2c_driver);
-> +
-> +MODULE_AUTHOR("Yan Dongcheng <dongcheng.yan@intel.com>");
-> +MODULE_DESCRIPTION("Lontium lt6911uxe HDMI to MIPI Bridge Driver");
-> +MODULE_LICENSE("GPL");
-> 
-> base-commit: 2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
-
--- 
-Kind regards,
-
-Sakari Ailus
+Regards
+Stanislaw
 
