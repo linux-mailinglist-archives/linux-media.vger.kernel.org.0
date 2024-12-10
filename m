@@ -1,113 +1,154 @@
-Return-Path: <linux-media+bounces-23074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005FF9EB708
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 17:50:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0899EB731
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 17:54:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2773C188276F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 16:50:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5BC841884028
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 16:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAA1722FE07;
-	Tue, 10 Dec 2024 16:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CD5B231CB1;
+	Tue, 10 Dec 2024 16:53:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P6SpWtgv"
+	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="wD3UMRxD";
+	dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b="BPkmprzB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77452153DC
-	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 16:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733849427; cv=none; b=Z7aloWNaLQ3XANi9g1qKBv1ZCFEAEHmAaKckeP/88TS4MR4c/3h8Jbci4dkFU2VE2AfhQcXrEICmHG4/QTHpT4dMb1qI6f6X6nWRx9GWMkt29JjUL/ToTLMTsNBEYVnmPeh/oLTJwXRcuTQ/nrp6c7uPRtWFZEfn2irHt36rzQM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733849427; c=relaxed/simple;
-	bh=HsR6u5GkvXD7ULQKj36Umti20DpL+0zqbiGBiz0zkCI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SutZLSPcj6+d8oipw0HC8lSZVSPYd5/gFTxvlNmT1/w3Pl2rPihrw+Y/3Hh2QJFtoczhh3sEqq20uo5YLD/7oeC7KYyttTaWE1b4my47Dj/tZQ6HgWTb8bLA/LHcXGX7PgslL5DrnfiRfMOpRqALAuj79lpANXbzEYR8HUuleTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P6SpWtgv; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aa662795ca3so543054066b.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 08:50:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733849424; x=1734454224; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+DqC+MYPAbbx8P8+tjZh10yMabSG3vK45igpyvKpPMU=;
-        b=P6SpWtgvXhHKgrUpT+/e4fjpT0O/APs5D5bdJWqnVxZJ6MUrQ/8VvBHtvwwR6ds62t
-         JLjImABkpA45cz5Y8mQNsoxanWMXu6xocmp+rX7uYcHi6uryK0tksVWoe5QNBY8lPD2f
-         zWuWirUhqHJPBd3FwdAxgOJeTJmstFS0zhN7pgHIzoeZC/p3lPYMKwW1eXS1sXgO8vm7
-         j6Ho2Yi20dFXzsI0qxRnQZ2OY3A02eAV1sLImgNy6dWFKEgxAfDFAl63s4ixydIBF5Oj
-         cNFkUQK/qTpo6N6FKlMHzmsnXLgefdaS4o+RPQrzAlZ1ChpU9+lI1uFKLEbK/E3z7sEE
-         1gjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733849424; x=1734454224;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+DqC+MYPAbbx8P8+tjZh10yMabSG3vK45igpyvKpPMU=;
-        b=D2GFTjn6qsWH2aLJzww51GoI9rKe+reUnENNov3rAWjbWhWthPidTZsLfpE6c/96vS
-         CT94u3gB+zeVMSez2YyMPdRvNz3bPqEHR6Hh/28YZw0Lz8VYW27gzVERmkRZSmF0Xcq/
-         CD98wggqrtYKTQGJw3L+asBhmR/ohXINg5YnvWEbljcxbaHXvvyl2/aYAKsf9mYp8yOZ
-         liqTQdi1GQgRY7GPOj5RHQ4Zdbc1IyxTlWpVfbNxN7YrG1EsFJcxzyzRNkP1VPArudpv
-         ROh4t7rmtpdRl6cBSlLK4UyrV9Lg9OCwzUXl/J1ESdMkEcSrmkpU9XWQcNklwDzUUcm7
-         FDAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWklVCcahVwbu9O7dt/VtSWzh+mzMy0hICLdp2i+eIQcjbphTNd60QhEWsV9Xvo/Ge8953z/POj5Llu4A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdAFr2+tdlc1umOW+ReSGVvSUD/bFz5fduHY3tVR81Sq+kBBZI
-	Z6Jde9wT3X9ltwROODdC2+GUSFkY6BEks4kmTYGR4xSfQXrQgqQhtfA6okzdVnewDB6tgFSpdEh
-	EmddxFQ9yaIjLTl76rmYRqJrp4pL16eR2Q+iXPg==
-X-Gm-Gg: ASbGncvyejCtVJ6GCJgeEN4iz/ESC8ZJgNtDhpUzhuR1WalSzq44J1FjweBbv1VNqot
-	xNRWZy/KcMbblQx3VOO6HkaLYKWpJ7aokbU8=
-X-Google-Smtp-Source: AGHT+IH1qOThi05+FQaxtQVOf1BOtPYsAHF4Eo2G34Soq2l2ruTqO8or8v0sP6hLQ+NYFOkce6I3HslaJ3ZMDDi5J3A=
-X-Received: by 2002:a17:906:2182:b0:aa6:54df:6abf with SMTP id
- a640c23a62f3a-aa6a01c0fb4mr427827566b.18.1733849424185; Tue, 10 Dec 2024
- 08:50:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706252153DC;
+	Tue, 10 Dec 2024 16:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=72.84.236.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733849631; cv=fail; b=d7NVX1RShL0j+jcJR4+fxQbxvnULAHXQGmgiSQ8qXQ/rQnynU89aaItlFXZruLnf1GxAS5gSB8VvRYsrpuUmaTyFhCabLJkk6Jxac+4HqiJxtomVCeoBWseKKE8LcqQV3YppteyoNYEZpi9a2mEAm1xKYXY4eHPmIs+Kpbh0R1w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733849631; c=relaxed/simple;
+	bh=PPV/GHXwYA75Qk+vBJmS5CKvRytPVt2P7mQWbvhA7KA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WqBFrZyuvVeRyp//MmDS9SHf9cNbYj3Gfm58ipJADIw2eeXyreSX1pcSqz/TgpicXNved+8oZFnmJ5eigRn3+4J87xHcd7VN3IWtIHnfHgbYwZseDfIcQKVJf9uDkDONRbqao7QPmyScxPcOO/CfTd0YuqiWT9omHqAvFh5oR1c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com; spf=pass smtp.mailfrom=sapience.com; dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b=wD3UMRxD; dkim=pass (2048-bit key) header.d=sapience.com header.i=@sapience.com header.b=BPkmprzB; arc=fail smtp.client-ip=72.84.236.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sapience.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sapience.com
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+   signature) header.d=sapience.com header.i=@sapience.com 
+   header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+   header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by s1.sapience.com (Postfix) with ESMTPS id 2D403480525;
+	Tue, 10 Dec 2024 11:53:49 -0500 (EST)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1733849628;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=PPV/GHXwYA75Qk+vBJmS5CKvRytPVt2P7mQWbvhA7KA=;
+ b=wD3UMRxDuXgwaGrlzzvtlsdAYUd6ZthHn7SPY+6HWtZPuNwRQzCh6+vT6KQv4tzwg3GGo
+ uv79hJXIqw7QqvSCQ==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1733849628;
+	cv=none; b=uKYreAe9nlsKlDkyS3y2eEjNHuEKJP2uKchljXhQbQ8PsoDv9xuLCHdyuA9tkQROru8IyBt9xQmrF+B2iadVVjODM8dzIoVymeaDQf9pJkEZjRHer80/NbTPBoYFU9R2pEdMthyKIUnigeeSSFrYRViiVHmzgC/3YKzL5t3jF83vbpdigi6gTOEVWTu5+65xYBs3wLfYompsMR/7bQgYeZdHHVtEdXTiQECRwpwxbFog87a4cNWKt32jLdGCDIuvHqEYoNVdj6RQ6SCDc6Zmer7O92S0EgNN1A9A9XV0hf4jMaTp4BK0lA99FIW8h+v83OgFUHitdWATzqe75yy8Wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+	t=1733849628; c=relaxed/simple;
+	bh=PPV/GHXwYA75Qk+vBJmS5CKvRytPVt2P7mQWbvhA7KA=;
+	h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
+	 MIME-Version; b=ZNDdmjHEFbnQrxn73CA8+FXO1RhRXZ+SVueJS1DfPUqXhVhkWTiMztqTf2w8LyIsCOadkQ9hQ3TSB8GFYA+rwzjSz0qc/ucy02/L7EBI87KdIjDoYXE1b1wMoRTI5SjiI+8xZD79NMXLS4cnws2tQvbfvHVxUGPMYffD/FgwbDYcgEwma0ojy5JuuLaMpOWvmWWCQtvGImPfbJ2GMDVmHu+wGHir1app/knB4Zscnw0Lla3sEkQiS9SGYPB3S7xM1S7iBt+mQIAEEh0nPZ8zPrRxVxRPDf8fI6sUgfG6KIs1QZHsGZcVVRAMQv4K3wGIc8PmKDnqIQ/RZTQs3z4i4A==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1733849628;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=PPV/GHXwYA75Qk+vBJmS5CKvRytPVt2P7mQWbvhA7KA=;
+ b=BPkmprzBZOodw8hR206xK5QG40OfcEf8XX3vi3gw8cmATqc1qUi7rNNtm8f4lgHNVmzsj
+ 2UBEwTAYxiMlt4IUVP81fdZkP4C9N5pEcW6eg0kenh/llFU9IDIGZ6naP3sYwkvWyNptipy
+ 9+fa1dTFi159z2Sv2qPtHdgtZ4avomBPZ30IIBA4xRwX7y8r7APq7JQIoE4hVgkk2O49vIx
+ aJBbHf2JybZpQwmSLYahuoRQXZBSd7sN2seGC4PcheiU/uJT7z8coItuRy3jaE2PQ5hMW5T
+ wbjS188+U2AON0y53pIRuGfam7BvGVFJ2X/1lp8dBNQiHfErCBt4ce85gN1A==
+Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
+	(No client certificate requested)
+	by srv8.sapience.com (Postfix) with ESMTPS id DAD31280015;
+	Tue, 10 Dec 2024 11:53:48 -0500 (EST)
+Message-ID: <d42a3c2b47fbcce8be3c4aa613451ce431c281a8.camel@sapience.com>
+Subject: Re: Linux 6.12.4 - crash dma_alloc_attrs+0x12b via ipu6
+From: Genes Lists <lists@sapience.com>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Greg
+ Kroah-Hartman	 <gregkh@linuxfoundation.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Sakari Ailus	
+ <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, torvalds@linux-foundation.org,
+ stable@vger.kernel.org, 	linux-media@vger.kernel.org, bingbu.cao@intel.com,
+ Rodrigo Vivi	 <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org
+Date: Tue, 10 Dec 2024 11:53:48 -0500
+In-Reply-To: <Z1hbyNXUubokloda@linux.intel.com>
+References: <2024120917-vision-outcast-85f2@gregkh>
+	 <c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com>
+	 <Z1fqitbWlmELb5pj@kekkonen.localdomain> <87seqvzzg6.fsf@intel.com>
+	 <c1805642a6c5da6fef3927c70358c8cb851d2784.camel@sapience.com>
+	 <87bjxjzpwn.fsf@intel.com> <2024121001-senator-raffle-a371@gregkh>
+	 <Z1hbyNXUubokloda@linux.intel.com>
+Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
+ keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
+ 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
+ sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
+ vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
+ BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
+Content-Type: multipart/signed; micalg="pgp-sha384";
+	protocol="application/pgp-signature"; boundary="=-bHGp4P46otAfPh8D5/ik"
+User-Agent: Evolution 3.54.2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241210-qcom-video-iris-v8-0-42c5403cb1a3@quicinc.com>
-In-Reply-To: <20241210-qcom-video-iris-v8-0-42c5403cb1a3@quicinc.com>
-From: Stefan Schmidt <stefan.schmidt@linaro.org>
-Date: Tue, 10 Dec 2024 17:50:13 +0100
-Message-ID: <CAEvtbuviHys9V6Fa7GveUP0mWH4fJf=r_5iLCVh0bbhy8x=H7Q@mail.gmail.com>
-Subject: Re: [PATCH v8 00/28] Qualcomm iris video decoder driver
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Vedang Nagar <quic_vnagar@quicinc.com>
+
+
+--=-bHGp4P46otAfPh8D5/ik
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Dikshita,
+On Tue, 2024-12-10 at 16:18 +0100, Stanislaw Gruszka wrote:
+>=20
+> The problem will disappear after applying:
+> https://lore.kernel.org/stable/20241209175416.59433-1-
+> stanislaw.gruszka@linux.intel.com/
+> since the allocation will not longer fail.
+>=20
+> ...
+> Regards
+> Stanislaw
 
-On Tue, 10 Dec 2024 at 12:05, Dikshita Agarwal
-<quic_dikshita@quicinc.com> wrote:
->
-> Note: A harmless onetime error log "Lucid PLL latch failed. Output may
-> be unstable!" is seen during bootup.  It doesn't impact any video
-> usecase and is currently under discussion.
+I confirm that (6.12.4 + above patch) now boots without problems.
 
-I also see this coming up on x1e (not surprising, given its basically
-SM8550 for this part).
-Any chance we can get this fixed? Merging this series and introducing
-this error is not very reassuring to use the driver. :-)
-Maybe getting the QC clock driver folks involved?
+Thank you for sorting it out.
 
-regards
-Stefan Schmidt
+
+
+--=20
+Gene
+
+
+--=-bHGp4P46otAfPh8D5/ik
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ1hyHAAKCRA5BdB0L6Ze
+22qyAQCiow8EKie6x4WLJm79+9e46CEZ9gd5lJR0bGTh39txpQEAx4xNEdphp9mz
+xnLYva4vWbPImT2BELnv4B97Yw8B6QU=
+=+KY4
+-----END PGP SIGNATURE-----
+
+--=-bHGp4P46otAfPh8D5/ik--
 
