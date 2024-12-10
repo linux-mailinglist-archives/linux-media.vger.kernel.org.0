@@ -1,171 +1,140 @@
-Return-Path: <linux-media+bounces-23059-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23060-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9B49EB107
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 13:40:40 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58411188643D
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 12:40:38 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8284E1A76BB;
-	Tue, 10 Dec 2024 12:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3gg5xVZ"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 192EC9EB13A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 13:51:04 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF761A38F9;
-	Tue, 10 Dec 2024 12:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7C9128297F
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 12:51:01 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B284E1A705C;
+	Tue, 10 Dec 2024 12:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c7gKtQZZ"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475E21A0BF1
+	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 12:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733834428; cv=none; b=iNRQ2zygxNJw3O9Hl+IIAOuLwhk2F5YX761hVDtNHOI5yEXsvOGBTD9ZbCml7Ng1BBjPzEqN2G8Y615zoeBAkqzzChVSMgN3WUoyEyl1zOLuHYLqzmeHSfu9pIjgFoY8eeCTC/JEyo9HiVQk4XiMM5CF9opo6ew3KcOLBTPFEdM=
+	t=1733835051; cv=none; b=pFChLMLXHOeYdHCtyr2VqKx8eooyJjwtEDbsUzr2mHbE0Q52pkjU30sw4tviIjb0tGE1l3RJW6x4fP3LnO3XA/DoBD1m/6xa7Axk28ll/Ksve4JSR4ebs8WpqIP7BP2lwS7dLCMtryAzor/IAQmgGtRw4OCKkPWoJtWr8CyBc/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733834428; c=relaxed/simple;
-	bh=RwPFdHZbfpIwb1UCtTRh2G/DJLDZeth4BXh3a9ShpCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aC+/79GZeEoe/hGiS8ezEYFRheycLyIKHc3lZyZmPQ1XBi0qRvlIG3abJJWq7uXTNlxrFJfSJ/Bv3T8q/yayFgUpDkI165Pb10GoAia3cU7vZeoyfAigyU0C8DNnwGJzi4dbuvVgsyztqySK1MQ5AQhP1y1/6Nrsy40YugXi3Ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n3gg5xVZ; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733834428; x=1765370428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=RwPFdHZbfpIwb1UCtTRh2G/DJLDZeth4BXh3a9ShpCo=;
-  b=n3gg5xVZFKppQsc3reAbhlIo89FmmPj2v5JUTs8AKPDDNpOZEu8xdFiY
-   85EwW0LORh/CtSI4E71ERPV/APPkcjlfHOXzYLUmFwhM/PWd60RA/3L2w
-   H85l476C+3cpoFQ6yp4RkwyvGNfHwJT/X0zpLpc4K9mpv28KZOcEipxuq
-   RUbeG9RqCTcaoiAKObTxJCC0pqBoOX/DBwY0WakPyaZi71hzfxekI88SO
-   k3ctU05zhnXSfqjlMJKAMJMbCF9klnoPL4RDTJK3E6yMp1K7L94ggyHoV
-   cCsQj7s6pPCc2o6NBxbqGnWEsmcIN/0GM2mLbgcoSK2h63Xv38yDsx6g7
-   w==;
-X-CSE-ConnectionGUID: HDo2QoLbRAyMPwxquSnueA==
-X-CSE-MsgGUID: 8VPaUvhzSr+OwNaUEOQlaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="44643887"
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="44643887"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 04:40:26 -0800
-X-CSE-ConnectionGUID: pbQXO7PCQ7ypP3Nt08f/Dw==
-X-CSE-MsgGUID: qts2NLljRr6+uKLXnHQBQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
-   d="scan'208";a="126300478"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 04:40:22 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 12DB611F81D;
-	Tue, 10 Dec 2024 14:40:20 +0200 (EET)
-Date: Tue, 10 Dec 2024 12:40:20 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: git@apitzsch.eu
-Cc: Ricardo Ribalda <ribalda@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Vincent Knecht <vincent.knecht@mailoo.org>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v3 10/12] media: i2c: imx214: Verify chip ID
-Message-ID: <Z1g2tLicdrb6lfoK@kekkonen.localdomain>
-References: <20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu>
- <20241207-imx214-v3-10-ab60af7ee915@apitzsch.eu>
+	s=arc-20240116; t=1733835051; c=relaxed/simple;
+	bh=bY/aA+IWQ3QxQ2sZnjjb5W3DKLhLKSXmN8peYI/pr7s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JMUjk6g4VCsz1yzj4YDDrRKa4dZVOwGB4kThxFMNr+P7rPF1M9YZJLoTjwotTUj9H4iB7ZecrUEW7Cv6PucIMn6n7GasiHMZfO/qR9bHetAUoZ1ed9gpEIaVx4WOHUL5MrLp6sHDYObXv00FHmvJLKkusuC0P9jdEbytNyRrF9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c7gKtQZZ; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aa5f1909d6fso1045191266b.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 04:50:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733835048; x=1734439848; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7qRHcucb3bJvZLwoVQ1HjlEAIx4MF32wL8i5hALjhQ=;
+        b=c7gKtQZZEwP5pZT1e3RFifBctv/PUanT5oTBJpmb0cnAHLazwA0MwVIeG9noVNbp+2
+         zQP29p8WS7rwVhBMsRpb4CVHnKi7chADGfw6Do9GjceB8oW0ErLa/3QT1ulSaKmkviEU
+         WGBxMgyjMgqM0oS476OyqVb4vMyaLyKtsoJQKawKzcUqXAUCZ9CgM1jmAdGskMpc/1jc
+         AzjR9CDxPoEpkv14KHUPcZGuv/ds4+Tm6Hdi1pyJ58UNA5SJjUAEftUvrFOQ2CJj6vBj
+         H96huddPu6PSHN7UIXmHetguWX56iIKNLlo20kKtaS8b7QrHmRtfF6XKmo70TO+oelJ7
+         91vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733835048; x=1734439848;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y7qRHcucb3bJvZLwoVQ1HjlEAIx4MF32wL8i5hALjhQ=;
+        b=BAB7R522YtbrePKoFSBvpnDV1cf9ZsF1c9wIhhTuMxLjKaGeGBZn0CjhiHqBjIYj/I
+         T4aRbK/Elfdm89h0b3knKdooYJt+p4P2/eVIFfo3xGsaWT/eSjzHfb56D2jdbw9zn3sP
+         8x/AmNfCqgX4BRTHpi37yiKGTIg2Lwgo/MDn7YxzUxqtOsja7b/bEe0P90CeRi51oGGw
+         Lf1hw8jAvIWgx1383USAWnlQQHLaY0tgGQxd6Uu3w0WokIIqxmaanyzlBZtak0jEoyXu
+         5e2NPESXGXsz4JpLg0AffO0Z3Ksuayr6mJfygnBaSuq0Q5HJwVnIJkoNemGtZx5WM/lw
+         q5DQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWb8fQW8t2GOsDGdE3sPOQnbi19KlTxylXBhsay/G8CkG44H7f55CcUZbxff9Gj8XYgLtcUyOi57J02sw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCa5FEkBW8i7vDCkP6RfoxxVB5DAecLXtPwNfsuAPHUdq8mVxa
+	oeE1U3TVcIJmSVgt9axQXSMo5ti8mGQvU3WIdvMgAbVedR20WdKGA52xAWqvsV9qXTaPZIP0Wtd
+	/JpVNFlmyk3v/DlBwhsBHatGwtHIWAzLVXz022g==
+X-Gm-Gg: ASbGncuvF6+05y/a2PsXi2PgYrxqI/srzx3KIoMLQg9rRGnRxcifcNx7G4et56/U9xi
+	54OW7e6/YHgA/EwK6SFslYiljFdBSludYr/g=
+X-Google-Smtp-Source: AGHT+IGUyenOeDiJ6ElklP7HzZFpKG0ehemH7byFc2hBRRMkI05xaWuzUu/O9qFlx4Kz7Wofw600OMm2prli/4lUsnk=
+X-Received: by 2002:a17:906:30d5:b0:aa6:abb2:31f4 with SMTP id
+ a640c23a62f3a-aa6abb2322bmr37782966b.25.1733835047677; Tue, 10 Dec 2024
+ 04:50:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241207-imx214-v3-10-ab60af7ee915@apitzsch.eu>
+References: <20241210-qcom-video-iris-v8-0-42c5403cb1a3@quicinc.com> <20241210-qcom-video-iris-v8-16-42c5403cb1a3@quicinc.com>
+In-Reply-To: <20241210-qcom-video-iris-v8-16-42c5403cb1a3@quicinc.com>
+From: Stefan Schmidt <stefan.schmidt@linaro.org>
+Date: Tue, 10 Dec 2024 13:50:36 +0100
+Message-ID: <CAEvtbuus3scTvcjMuxxrfcqnd61+vqM5G=os-aUuM3+SLp2abQ@mail.gmail.com>
+Subject: Re: [PATCH v8 16/28] media: iris: implement vb2 streaming ops
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi André,
+Hello Dikshita,
 
-Thanks for the update.
-
-On Sat, Dec 07, 2024 at 09:47:59PM +0100, André Apitzsch via B4 Relay wrote:
-> From: André Apitzsch <git@apitzsch.eu>
-> 
-> Check the chip ID and stop probing if it is no imx214 sensor.
-> 
-> Acked-by: Ricardo Ribalda <ribalda@chromium.org>
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
-> ---
->  drivers/media/i2c/imx214.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index a35e4e60e55c2b9d9e3090c98e695f78d099cf44..3cd64bb91795d8490acad5926940c111fb95fae5 100644
-> --- a/drivers/media/i2c/imx214.c
-> +++ b/drivers/media/i2c/imx214.c
-> @@ -20,6 +20,10 @@
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-subdev.h>
->  
-> +/* Chip ID */
-> +#define IMX214_REG_CHIP_ID		CCI_REG16(0x0016)
-> +#define IMX214_CHIP_ID			0x0214
-> +
->  #define IMX214_REG_MODE_SELECT		CCI_REG8(0x0100)
->  #define IMX214_MODE_STANDBY		0x00
->  #define IMX214_MODE_STREAMING		0x01
-> @@ -1092,6 +1096,27 @@ static int imx214_get_regulators(struct device *dev, struct imx214 *imx214)
->  				       imx214->supplies);
->  }
->  
-> +/* Verify chip ID */
-> +static int imx214_identify_module(struct imx214 *imx214)
+On Tue, 10 Dec 2024 at 12:07, Dikshita Agarwal
+<quic_dikshita@quicinc.com> wrote:
+>
+> +static int iris_hfi_gen1_session_stop(struct iris_inst *inst, u32 plane)
 > +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&imx214->sd);
-> +	int ret;
-> +	u64 val;
+> +       struct hfi_session_flush_pkt flush_pkt;
+> +       struct iris_core *core = inst->core;
+> +       struct hfi_session_pkt pkt;
+> +       u32 flush_type = 0;
+> +       int ret = 0;
 > +
-> +	ret = cci_read(imx214->regmap, IMX214_REG_CHIP_ID, &val, NULL);
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "failed to read chip id %x\n",
-> +				     IMX214_CHIP_ID);
+> +       if ((V4L2_TYPE_IS_OUTPUT(plane) &&
+> +            inst->state == IRIS_INST_INPUT_STREAMING) ||
+> +           (V4L2_TYPE_IS_CAPTURE(plane) &&
+> +            inst->state == IRIS_INST_OUTPUT_STREAMING) ||
+> +           inst->state == IRIS_INST_ERROR) {
+> +               reinit_completion(&inst->completion);
+> +               iris_hfi_gen1_packet_session_cmd(inst, &pkt, HFI_CMD_SESSION_STOP);
+> +               ret = iris_hfi_queue_cmd_write(core, &pkt, pkt.shdr.hdr.size);
+> +               if (!ret)
+> +                       ret = iris_wait_for_session_response(inst, false);
 > +
-> +	if (val != IMX214_CHIP_ID)
-> +		return dev_err_probe(&client->dev, -EIO,
-> +				     "chip id mismatch: %x!=%llx\n",
-> +				     IMX214_CHIP_ID, val);
-> +
-> +	return 0;
-> +}
-> +
->  static int imx214_parse_fwnode(struct device *dev)
->  {
->  	struct fwnode_handle *endpoint;
-> @@ -1184,6 +1209,10 @@ static int imx214_probe(struct i2c_client *client)
->  	 */
->  	imx214_power_on(imx214->dev);
->  
-> +	ret = imx214_identify_module(imx214);
-> +	if (ret)
-> +		goto error_power_off;
+> +               reinit_completion(&inst->completion);
+> +               iris_hfi_gen1_packet_session_cmd(inst, &pkt, HFI_CMD_SESSION_RELEASE_RESOURCES);
+> +               ret = iris_hfi_queue_cmd_write(core, &pkt, pkt.shdr.hdr.size);
+> +               if (!ret)
+> +                       ret = iris_wait_for_session_response(inst, false);
+> +       } else if (inst->state == IRIS_INST_STREAMING) {
+> +               if (V4L2_TYPE_IS_OUTPUT(plane))
+> +                       flush_type = HFI_FLUSH_ALL;
+> +               else if (V4L2_TYPE_IS_CAPTURE(plane))
+> +                       flush_type = HFI_FLUSH_OUTPUT;
 
-The error handling was wrong in the driver, the code under the
-error_power_off label only disables the regulator (and runtime PM, which
-hasn't been enabled) but it does not disable or unprepare the clock. Could
-you fix these in a new patch, please?
+Below there is also HFI_FLUSH_OUTPUT2 defined. Do we need to handle
+this flush type here as well?
 
-> +
->  	pm_runtime_set_active(imx214->dev);
->  	pm_runtime_enable(imx214->dev);
->  	pm_runtime_idle(imx214->dev);
-> 
+[...]
 
--- 
-Kind regards,
+> +#define HFI_FLUSH_OUTPUT                               0x1000002
+> +#define HFI_FLUSH_OUTPUT2                              0x1000003
 
-Sakari Ailus
+regards
+Stefan Schmidt
 
