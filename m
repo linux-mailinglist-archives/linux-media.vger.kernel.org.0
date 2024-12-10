@@ -1,129 +1,106 @@
-Return-Path: <linux-media+bounces-22984-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-22985-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D819EAA28
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 08:59:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6269B9EAB12
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 09:53:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA9621886E9C
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 07:59:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A52D166C75
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 08:53:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25C4A22CBF3;
-	Tue, 10 Dec 2024 07:59:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0722D230D08;
+	Tue, 10 Dec 2024 08:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHfFAqGd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gsepk7MH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E050B22CBFB
-	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 07:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3482309A7
+	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 08:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733817560; cv=none; b=fukVY4xcPuPe7Hjk98c6GG53QNy1QnZQX3TJouxqsrSiR+euloEzbP96P71mkxn64+Xw9yQynFYUUdORh6JkKwdYKu9o0vgGjs8eWcRHGUozlKRrErQPxYyVMlqW0tX46mBlwKxv9s6pWwnFDTgnFaHpQ42YUlvzBzrnVaOf/IQ=
+	t=1733820806; cv=none; b=Vgj1+l1jjZSAaSTziG20Mwhz3W0KTYQssxRWX6hGr0qfYipw6ypGdHFvBwdei0t/a19TTLsZ+pMPucDj12UQZD2YBJSk6KmsbrmH8FjIEKrE6lcaq/zq+t3lLCAJY5Awm7HtofqZEeP8L9oRO09x+mLWoQ07/NNkoe3GoFJ8gp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733817560; c=relaxed/simple;
-	bh=Uux61wXa6I8IETIjf67iUveQJLxEhK5wNG4h5Cu2w7s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=X/eON6JATjhnlEfOaYuVM8U0jLf/yODe9c1sx5K4bmwMP/9ApiA9kstCgf555HE3G5+/d7XacP/OyEPIcJ8Z80Wrvl28Ly4vEMpBJi796aReDKjWXEaUTrPWyhVjtKQLl81tawn9f+8IDI7b02sDJoiqZ0dY7U56slJZirBcRPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHfFAqGd; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1733820806; c=relaxed/simple;
+	bh=n4CCrobvwaxk1bLxYmx5jgEZEe5haSgmop4usWbwfQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XIRNJXGsDDZGZuFNbfE9+3gtp7UvFZ2hHweA2MyPlENtMyedULRT8NbZdkSeZo01ZRWpf1i8ciMChiulMfqATteGAo5FUnz2kHIJ+YHsw5HT3wWwvRK9dzqDPKaFUCH6V52mZrDBLmEdGtzw6GtoAsRYA1rr9OIpU4g8kcH92+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gsepk7MH; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733817559; x=1765353559;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Uux61wXa6I8IETIjf67iUveQJLxEhK5wNG4h5Cu2w7s=;
-  b=dHfFAqGddkTIeuNvHSMkMWnw7jPQY2nJfp5WrUtETU7HW6VLWMeduskj
-   GFp4TLJB/STVT9uXc0VPqYiQYRUySQPrQpotepdfWQsnlxcgo88McRG/e
-   omWdRzVi08ypL/Kgp9bWAlchHGWVVLUhkw8pahUxEniBhbM76vHc9Re9u
-   hloDgmAvtQ4E0kkh4g3P+GL8l+Ro/qTGzk8WJy/UzREuvQP2oRKjFTnii
-   /sIRIefjRXa+R1Y//ynTdqHf4UVDBWcerg5Du+xxwPG4UrkApIqzKQ/Wo
-   pUH8omVPW6xxt5ys72DLZ0GbXBjbnzpYH9KathBA9aSYs+sd219lpiA83
-   A==;
-X-CSE-ConnectionGUID: e3tgbTaTRF6qeT3rD+6G9w==
-X-CSE-MsgGUID: HbDJ6FdhTcmu2GAi+4kj2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="45544657"
-X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
-   d="scan'208";a="45544657"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 23:59:18 -0800
-X-CSE-ConnectionGUID: DIl/ijMRQk6lmln2kgfVAQ==
-X-CSE-MsgGUID: CaXMxqmxTkOTzRQxgdifZw==
+  t=1733820805; x=1765356805;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n4CCrobvwaxk1bLxYmx5jgEZEe5haSgmop4usWbwfQk=;
+  b=Gsepk7MH1gHpH9N8x9DFTbq6BO/D9xSgespwsp3Dajq5xk2nPwzFLOP2
+   hHMZ5GEZsJO5nm/8Jb6RTpjlKvYpc96AT6bIM4WUjHTn3Q9hsiTbr2iYV
+   A5/fPiJUhJXk8n2hHvR9BHy4LBjXJSP4JpOQq7sh2gUDGTJ60Z7q8gZ14
+   LbBoqCqe468DPbNQ2ZEOYTznk8rDs01QTEzON99nuSJIGzdNHwUS8zTsi
+   gtYb5f2nM0zKxmmA9qpcmGHdA8IY0AEXiC8NL1L00ysBWAl0f2UtsfwMO
+   dPwE0aMlYIuQvmGaf+INNoT4/d7+IfMlDxaib83iiBmJHnoTEa58TjjVx
+   g==;
+X-CSE-ConnectionGUID: GqV2UvL5SHmAcsofeFiS4g==
+X-CSE-MsgGUID: iun9pZqqSACGgVIaSZKlSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34205847"
+X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
+   d="scan'208";a="34205847"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 00:53:25 -0800
+X-CSE-ConnectionGUID: Pog/kPqvQE+nLh90B1ASGg==
+X-CSE-MsgGUID: bmWwgYDgSYmTuqkf0VXYpw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,221,1728975600"; 
-   d="scan'208";a="99808238"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 23:59:15 -0800
-Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 496CD11F71F;
-	Tue, 10 Dec 2024 09:59:12 +0200 (EET)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com
-Subject: [PATCH v7 5/5] media: intel/ipu6: Obtain link frequency from a sub-device
-Date: Tue, 10 Dec 2024 09:59:06 +0200
-Message-Id: <20241210075906.609490-6-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
-References: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; 
+   d="scan'208";a="99402905"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.248])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 00:53:23 -0800
+Date: Tue, 10 Dec 2024 09:53:14 +0100
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, david@ixit.cz
+Subject: Re: [PATCH] media: ccs: Print a warning on CCS static data parse
+ failure
+Message-ID: <nswt4nx4mxffiuztczo5fihkgqzaotjocvqz5pielog4zs4yt3@b2svkrntu66l>
+References: <20241209111738.79679-1-mehdi.djait@linux.intel.com>
+ <Z1bXED_CbIvPUDUG@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z1bXED_CbIvPUDUG@kekkonen.localdomain>
 
-Obtain the link frequency from the sub-device instead of a control
-handler. This allows obtaining it using the get_mbus_config() sub-device
-pad op that which is only supported by the IVSC driver.
+Hi Sakari,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+On Mon, Dec 09, 2024 at 11:40:00AM +0000, Sakari Ailus wrote:
+> Hi Mehdi,
+> 
+> On Mon, Dec 09, 2024 at 12:17:38PM +0100, Mehdi Djait wrote:
+> > ccs_data_parse() return value is not propagated up to the probe
+> > function, making it difficult on static data parse Failure.
+> 
+> Could you reword this by referring to the CCS static data library only?
+> This would fit better for the CCS tools where the patch will also be
+> imported to.
+> 
+> <URL:https://github.com/MIPI-Alliance/ccs-tools>
+> 
+> I also wonder if the CCS driver should actually fail probe if parsing
+> fails: this is a very likely problem and quitting there would be
+> appropriate IMO. Not every device might need one, so it should be just
+> based on parser failure.
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-index 051898ce53f4..da8581a37e22 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-@@ -80,25 +80,19 @@ static const struct ipu6_csi2_error dphy_rx_errors[] = {
- s64 ipu6_isys_csi2_get_link_freq(struct ipu6_isys_csi2 *csi2)
- {
- 	struct media_pad *src_pad;
--	struct v4l2_subdev *ext_sd;
--	struct device *dev;
- 
- 	if (!csi2)
- 		return -EINVAL;
- 
--	dev = &csi2->isys->adev->auxdev.dev;
- 	src_pad = media_entity_remote_source_pad_unique(&csi2->asd.sd.entity);
- 	if (IS_ERR(src_pad)) {
--		dev_err(dev, "can't get source pad of %s (%ld)\n",
-+		dev_err(&csi2->isys->adev->auxdev.dev,
-+			"can't get source pad of %s (%ld)\n",
- 			csi2->asd.sd.name, PTR_ERR(src_pad));
- 		return PTR_ERR(src_pad);
- 	}
- 
--	ext_sd = media_entity_to_v4l2_subdev(src_pad->entity);
--	if (WARN(!ext_sd, "Failed to get subdev for %s\n", csi2->asd.sd.name))
--		return -ENODEV;
--
--	return v4l2_get_link_freq(ext_sd->ctrl_handler, 0, 0);
-+	return v4l2_get_link_freq(src_pad, 0, 0);
- }
- 
- static int csi2_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
--- 
-2.39.5
+I would also think there is no point to continue probing if parsing fails. I
+will send a v2 for this.
 
+--
+Kind Regards
+Mehdi Djait
 
