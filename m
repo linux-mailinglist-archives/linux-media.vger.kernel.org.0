@@ -1,197 +1,117 @@
-Return-Path: <linux-media+bounces-23017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F05B9EACDD
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 10:50:01 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C12669EAD50
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 10:59:37 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BD6116BB7A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 09:49:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4AAA2896B9
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 09:59:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AE2A2397AD;
-	Tue, 10 Dec 2024 09:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03BF423DEA9;
+	Tue, 10 Dec 2024 09:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jEQOMHTH"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="n/E/OdtD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52C9237A35
-	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 09:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA68378F2B
+	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 09:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733823791; cv=none; b=OrjjzEWVOR0WzUrA9nP8RRSpgRgC+THkEWJAIg7Zj7WwBSOdWMLBDJsx3kjb/OA5eF2Q/2uyUPkombKocHWSN7EP/xkNDEaL2gDWn+YR6znacWvDk2OPPB0qf487QViPFIBpWeBpfdJSzDdHkRyqi0b+bwmXIM6maej+LeyE1pc=
+	t=1733824601; cv=none; b=Rw9RTDYOfauliZTx8xEQRouBqCoXbYn3RkHIGH5ILXH3JLjHyG1Y35zSua9OXJi6Nxf9ZbUzysVwcKtzo2rs/gSZ4QZ1eR2Qnr5hmuFouuoJSp8S3/R/dUwKodUv2XF83YSuSL/Ty6c1RlnihWv65Wl6YvvJT7THLJC2ODtvWsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733823791; c=relaxed/simple;
-	bh=fKDUU4+a+tgFts82eq+chwHIWurrBXbxHGkI4O6ed0U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aEEMDpLPrdWfjMf1nGNJArU7b9IiNRQJy1w0m3bT3F77RiOnvw7CHUqOp7hlIICUPyDq1InNU67iQkP9wruC/8rNrehVkp+5mFXJykFcsSdLynVokecBbdyNoZbilas1Q8w+5rLJDsHy8y1klZcI89BJd4B8PZxHjH7k8r7J7A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jEQOMHTH; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6d922db2457so3775536d6.3
-        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 01:43:08 -0800 (PST)
+	s=arc-20240116; t=1733824601; c=relaxed/simple;
+	bh=C6dLWR01cRv8FPjeu3uMmdCJ92SNjbws/Q2KoohADSs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OFCyfGPUSi0FCqhEMMLXHjbNKIeL99ROafABLn+3v5KH1R/Sykhr1F/yyonfI9QNdtBAzAlG6h718RB+iMNLsW5T71Eq9qthWJ2eoIWMbs6KE9rZ8bQu0gWEoAhDTsHK+ijugJVHVX/PYJgNYnz2bI0V7fICbQ/9J3wLL+QZLj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=n/E/OdtD; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aa692211331so291016366b.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 01:56:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733823788; x=1734428588; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LcSM+HEV8BWvpd8XLVPPgYNPK82Sc3PIhfJhk9lYWic=;
-        b=jEQOMHTHW1SSFfR671K5xpr4OpCloXT+RjDqJUcusgkoguVlj8sWmMNeXDbIOJYtnZ
-         ahVbqTSGc2yhv6ZVxR5c5MCLt4RAlai6IiYHko1Fi06muXVGCevHsEWv/Qw9N53V5rUz
-         81TpCVmiBwXwd2e1uujtZvRgJxhXADAx/36Po=
+        d=linaro.org; s=google; t=1733824598; x=1734429398; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eB4R97+dFiQJvfWzO4gzWibCc3j87hwW/JO+idp2Qys=;
+        b=n/E/OdtDLL9hzTqffXDMLovfS8g4iJNRICqaVcxMo/VIFPvbIaC6ADZsKkHIFPFP6d
+         H6mM7Ag+qWPDsro0iJ3XbcmVt3tbxBhLrXwiesncFmdcZMVHsQwRPpDb4ppLAfwGJlYy
+         aO3B0kNRBaUglM/gubvcbNt/mMlOWyXrX79CtTPNcLnZnBHjWbbRTfu9voac5/88SjRo
+         4VmT7dL6NGwMNSBw+VZDg2SqzF7NEzdYjagKqzWta8pHe5TFcsZG19fZoHgQwUrK7QDP
+         tMxcKqMo5haDmth5WgMqs5uqrw3/lQgdbrJzVUtzOdnPyuBaVFGTIjbibVtfxDwZugLy
+         DQbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733823788; x=1734428588;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LcSM+HEV8BWvpd8XLVPPgYNPK82Sc3PIhfJhk9lYWic=;
-        b=ZkZv8QnEL5VrBT81YE82UQdXqPlZ58YeUm8uxoe/X86rnSG2XgdhjyJHrqvI5iZXjJ
-         4RA+GvskCOI4uZkx+lQutH6bwaWe8mE5g3HxlRxIpiTyAGr8bR5EtpTvhcnUDS+rABcM
-         WmL39AWk9rt1BIILcKxlHu8KRJJUZ6ST7php48/qocny4qGUmDUWVT9jvNYVtPgirF+C
-         4rywb73TK2tJrVQUradx62jdUKHjprl+OgeRrgbOyXXCRVV1cRiRFGSPCudIjtfsJRw/
-         APBNr2dpQ+TTKIRKicNQb3QUklP2qtkNqfOpz28Uw7j8+jWqfz97uDlWZB2+1wOe4/0Y
-         vHuw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+XBu9DqmqxVWe1pXA3uW8llodHWclQf4akHpV/0Qe45TnoqLGU5CR6UbyMOoK2RZed4F86l7KX1RdHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlHir1Gsv7d0E8jcmsMCdUraGQrJxEDxGlwjVG+O2NRh9jwV7i
-	h2N3Xu6NMD7SLuh5utNylsDa0j35AMvQWhzI1/1vCjzEpceaF2aUoU282jyfrQ==
-X-Gm-Gg: ASbGncuJ6KsF/y5hwLGtbTTP7yZ5l6/Vz7L2zo71dKYnlVPM5zstx91kHZ/zIerMDxK
-	c2MKEl1AGWySR4RdG36ZFvT2MLeBD6DahKoTrwELoz7nF7Er3wxdX/SF5O+rZMlVNXLm3h8NUYv
-	mcZWpTgxFEv0F+ioyGobj9xlCjOuKSvo/WtY7S7KVdShB9jsMHhcLIH4NOqnCpWhEXeFGLXB5yl
-	6kozEgaz7F0gZHBqDzOaa8olOENbLNr9sLRBK3TUARr/svWxga2VF4hB3+itGdZc4Cy7sF+Ydny
-	JX6v8wQ43Rci86tfUlQIwo2nP7P8
-X-Google-Smtp-Source: AGHT+IFtCAY1FI+TINr0gaxNPy0pUOg439RuOUTCEezTgC51c5iK/b9dchgVcUIE8AI0mMGMWG8sDg==
-X-Received: by 2002:a05:6214:e6b:b0:6d4:1dc0:2620 with SMTP id 6a1803df08f44-6d91e4465a0mr64808496d6.40.1733823787859;
-        Tue, 10 Dec 2024 01:43:07 -0800 (PST)
-Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d92f7c2bc1sm773326d6.83.2024.12.10.01.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 01:43:06 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 10 Dec 2024 09:42:54 +0000
-Subject: [PATCH v16 18/18] media: uvcvideo: document UVC v1.5 ROI
+        d=1e100.net; s=20230601; t=1733824598; x=1734429398;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eB4R97+dFiQJvfWzO4gzWibCc3j87hwW/JO+idp2Qys=;
+        b=rAzUdHE05okikV5ncJR0LFjhuIhTsEd+qXWRudHR/6Lc77p7NZmVy25zDG+mh+0Znv
+         lEcH7zGvlzpmp6ntC38Ci4/YPrc2iwcuhOGLIwUb0QQ70k7+4gtP3ZHFw82WQYXYEDMz
+         D27hRCefgTboj1Za9y7VQ/Qo3n5prdQblOtbQZu9Wb+03XzEmIsu+SB3ldFxIMPE2/+z
+         xGY3pwtdF2Q2i/rM1jclluuQEnMHcf5pxpRCIaIKlHX+nJnQNwTk1i+ulQvl3O7nCKlC
+         9ihqHfTijY6VFiYak3k0yU8HBHDjNl8MJrK7rAps6acobaUSBY4uruRYU1wz6houl9M+
+         ttXg==
+X-Forwarded-Encrypted: i=1; AJvYcCXlCvL/u1P/sKMbMQfxv+dRBPonYKpERbTwAVPDhiDc10IdEa7qBYkNqWp3G7HCAPTxZ945p5sNsMhndA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbSbv5JF2ISTUzc17BPFFS8XL6bU5Fe+zxohEZbbXp4jd9QkEe
+	jH69wijuhYCAxmRH06JhfB/EUWhBzGDz3Y/6mC6UTSvMkFMeGhUtaR+W+1DXf0rWK7xs/5aTtYz
+	DK4OYnbbo5JQApcyU0kYsKXD+JVY0COlcS9NeRA==
+X-Gm-Gg: ASbGnctDlS2YcVMcYIVmiYYAEgSTHGb5Sa0PoGWtbaC3Np0HC1oOAk2cSIHctgRPVk5
+	Y5/8L35qA2phvzsq82hma4rXz8Olwb0o85AU=
+X-Google-Smtp-Source: AGHT+IF2Cs6izMr0EPP8N4VEwRkQaw+ITA2b5QjAYykMlPPNbijyGbmHJi1bx5RG8uxupuDZsjfmD96K8rOQcz6jL7Y=
+X-Received: by 2002:a17:907:3d93:b0:aa6:9dcf:e273 with SMTP id
+ a640c23a62f3a-aa6a00715b0mr264787866b.12.1733824597988; Tue, 10 Dec 2024
+ 01:56:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-uvc-roi-v16-18-e8201f7e8e57@chromium.org>
-References: <20241210-uvc-roi-v16-0-e8201f7e8e57@chromium.org>
-In-Reply-To: <20241210-uvc-roi-v16-0-e8201f7e8e57@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>, 
- Yunke Cao <yunkec@google.com>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>
-X-Mailer: b4 0.13.0
+References: <20241209-qcom-video-iris-v7-0-05c6bdead47b@quicinc.com> <20241209-qcom-video-iris-v7-9-05c6bdead47b@quicinc.com>
+In-Reply-To: <20241209-qcom-video-iris-v7-9-05c6bdead47b@quicinc.com>
+From: Stefan Schmidt <stefan.schmidt@linaro.org>
+Date: Tue, 10 Dec 2024 10:56:27 +0100
+Message-ID: <CAEvtbut6e=08fP68fjUjb29YvV7ieJ7jXdVdCG+XA80fVnAd_Q@mail.gmail.com>
+Subject: Re: [PATCH v7 09/28] media: iris: implement reqbuf ioctl with vb2_queue_setup
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Yunke Cao <yunkec@google.com>
+Hello Dikshita,
 
-Added documentation of V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
-V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
+> +#define HFI_SESSION_ERROR_BEGIN                        0x04000000
+> +#define HFI_ERROR_UNKNOWN_SESSION              0x04000001
+> +#define HFI_ERROR_MAX_SESSIONS                 0x04000002
+> +#define HFI_ERROR_FATAL                                0x04000003
+> +#define HFI_ERROR_INVALID_STATE                        0x04000004
+> +#define HFI_ERROR_INSUFFICIENT_RESOURCES       0x04000005
+> +#define HFI_ERROR_BUFFER_NOT_SET               0x04000006
+> +#define HFI_SESSION_ERROR_END                  0x04FFFFFF
 
-An example of a userspace implementing this feature can be found at:
-https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/release-R121-15699.B/camera/hal/usb/
+I am running this set on x1e. During tests with fluster I often see
+error code 0x04000008
 
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-Signed-off-by: Yunke Cao <yunkec@google.com>
-Tested-by: Yunke Cao <yunkec@google.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- .../userspace-api/media/drivers/uvcvideo.rst       | 64 ++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
+[  103.787979] qcom-iris aa00000.video-codec: session error received
+0x4000008: unknown
 
-diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-index a290f9fadae9..dbb30ad389ae 100644
---- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
-+++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-@@ -181,6 +181,7 @@ Argument: struct uvc_xu_control_mapping
- 	UVC_CTRL_DATA_TYPE_BOOLEAN	Boolean
- 	UVC_CTRL_DATA_TYPE_ENUM		Enumeration
- 	UVC_CTRL_DATA_TYPE_BITMASK	Bitmask
-+	UVC_CTRL_DATA_TYPE_RECT		Rectangular area
- 
- 
- UVCIOC_CTRL_QUERY - Query a UVC XU control
-@@ -255,3 +256,66 @@ Argument: struct uvc_xu_control_query
- 	__u8	query		Request code to send to the device
- 	__u16	size		Control data size (in bytes)
- 	__u8	*data		Control value
-+
-+
-+Driver-specific V4L2 controls
-+-----------------------------
-+
-+The uvcvideo driver implements the following UVC-specific controls:
-+
-+``V4L2_CID_UVC_REGION_OF_INTEREST_RECT (struct)``
-+	This control determines the region of interest (ROI). ROI is a
-+	rectangular area represented by a struct :c:type:`v4l2_rect`. The
-+	rectangle is in global sensor coordinates using pixel units. It is
-+	independent of the field of view, not impacted by any cropping or
-+	scaling.
-+
-+	Use ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` to query
-+	the range of rectangle sizes.
-+
-+	Setting a ROI allows the camera to optimize the capture for the region.
-+	The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control determines
-+	the detailed behavior.
-+
-+	An example of use of this control, can be found in the:
-+	`Chrome OS USB camera HAL.
-+	<https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/release-R121-15699.B/camera/hal/usb/>`
-+
-+
-+``V4L2_CID_UVC_REGION_OF_INTEREST_AUTO (bitmask)``
-+	This determines which, if any, on-board features should track to the
-+	Region of Interest specified by the current value of
-+	``V4L2_CID_UVD__REGION_OF_INTEREST_RECT``.
-+
-+	Max value is a mask indicating all supported Auto Controls.
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE``
-+      - Setting this bit causes automatic exposure to track the region of
-+	interest instead of the whole image.
-+    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS``
-+      - Setting this bit causes automatic iris to track the region of interest
-+        instead of the whole image.
-+    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
-+      - Setting this bit causes automatic white balance to track the region
-+	of interest instead of the whole image.
-+    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS``
-+      - Setting this bit causes automatic focus adjustment to track the region
-+        of interest instead of the whole image.
-+    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT``
-+      - Setting this bit causes automatic face detection to track the region of
-+        interest instead of the whole image.
-+    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
-+      - Setting this bit enables automatic face detection and tracking. The
-+	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
-+	the driver.
-+    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
-+      - Setting this bit enables automatic image stabilization. The
-+	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
-+	the driver.
-+    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
-+      - Setting this bit enables automatically capture the specified region
-+        with higher quality if possible.
+Seems worthwhile to add this one, and maybe other missing error codes
+as well, here and to iris_hfi_gen2_handle_session_error() below.
 
--- 
-2.47.0.338.g60cca15819-goog
-
+regards
+Stefan Schmidt
 
