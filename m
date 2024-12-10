@@ -1,112 +1,101 @@
-Return-Path: <linux-media+bounces-23106-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23107-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31009EBB77
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 22:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEE89EBBC8
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 22:25:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 55463285EA9
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 21:04:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7801F281532
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 21:25:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62666230257;
-	Tue, 10 Dec 2024 21:04:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD6A2230D3A;
+	Tue, 10 Dec 2024 21:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NEl7kcqO"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YXHfBSgV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624F322FAE5;
-	Tue, 10 Dec 2024 21:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CAA23ED4A;
+	Tue, 10 Dec 2024 21:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733864643; cv=none; b=UzRhiw/3GCnqTkQPkP/UiN3TrmRebb//hIQR95KwLi7mTjohaG1c63S9LIJQ7Fj5ucUDChMPF9a7mD1pqC0/v8egBZ4zrcMlYTm15oqVez+P7Z5Y2OiyKUUq72Tv8OWjattWTITN8sPipepRnwQDOTC95m/iCWe+GzEpwHq30no=
+	t=1733865945; cv=none; b=YUuTVsPbLryGEjK9rJTJQ9hS+PghwJ8ztOX+OOxRaM7bI/wVnF3RVeDhCYXO8hev2AsJOIRMKg3NtByXmN0jHIQix08lsmb7P4qmX3O1RKDVnibmG2cCEQL7z00qw1N9fDEKVc89b213tPn7Hj23u9CLjigKB6nWG4LOTdPSOKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733864643; c=relaxed/simple;
-	bh=HW6gUWGZLgC6Eh05ba6OQszfv3GouJ3PbIM+/rVXuQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJ0qFfh5SoBfJPrMhDB/2WZezWzquekTDyCAj9fW2hvzz6Pi5V/LsnElvyFk8m96f0Myf7EUtWAtCkq1/xXQCXj0ZH4mkPWrLZhNzX2OepKgKl9xLDTWgc//Abz2dDLvvKwA/Kp+hQVq08meiMWSapdg2pFK2c74mMjKWpGG78w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NEl7kcqO; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733864643; x=1765400643;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HW6gUWGZLgC6Eh05ba6OQszfv3GouJ3PbIM+/rVXuQ0=;
-  b=NEl7kcqOSCcsd/YrQ/K6D15M0/1Z06LKDbAzK4nIqlIgN0R8NZIUzDKm
-   cVIwx0ACLdeIFPvLAxoJ2lOK7wTUrL7lUaXNjwD8GBkjaJv5gKOxpTNAp
-   eblnVjqHUqMbauLsHlGIhbG3IrMpMr+XyTnVK4vG6MCpDvrfryok1/qk9
-   m/Ksl5P+5rk2Fl7jgr5dGJUnjCBh90I25+5zn9y3VN50VabV5oG3bn2Ht
-   TKtMInWFej+ZCnNaHV2MQSSMkxS+VSmeJPz1LHxq1NZOaGHRZQRJZ5l9c
-   nRiSj1QLa+qm65Qy0fBcNHzIvQ6D0dl2RW6OWPGgkdqyz7fMOsjO8n4sZ
-   A==;
-X-CSE-ConnectionGUID: 7jB/RBHQT1e2N9/EL5imQw==
-X-CSE-MsgGUID: NuU5Mx3pRxyMClA1bcFgWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="33956437"
-X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
-   d="scan'208";a="33956437"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 13:04:02 -0800
-X-CSE-ConnectionGUID: oYeu5EDDSU+CTCSt0fTasw==
-X-CSE-MsgGUID: JD/8Z31pRGaouGOXvTNVjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,223,1728975600"; 
-   d="scan'208";a="126438011"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2024 13:03:59 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id CE59F11F81D;
-	Tue, 10 Dec 2024 23:03:56 +0200 (EET)
-Date: Tue, 10 Dec 2024 21:03:56 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 1/7] media: ipu-bridge: Fix warning when !ACPI
-Message-ID: <Z1isvGLLwr7jmW5k@kekkonen.localdomain>
-References: <20241210-fix-ipu-v3-0-00e409c84a6c@chromium.org>
- <20241210-fix-ipu-v3-1-00e409c84a6c@chromium.org>
+	s=arc-20240116; t=1733865945; c=relaxed/simple;
+	bh=HpklVVKV+tUCokf9h02FJlrQ6G4LkY8oP1AxulOL8V0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F2ezc2njl4sgB8wt6qhYM5Qni+HXeW8kRWyzdDzQ/EAGZKp28DIqr5h6jbIVrIXxowHI9Xluw5geHojrdn1ipTPaw+toBFpLYY9owROxIsWaaUnIjSJ0EadizV5t+n8rkKgU97vh5bTxeXo2trMrBm2+oE9nc5m7Idr21rPmSoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YXHfBSgV; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1733865941;
+	bh=HpklVVKV+tUCokf9h02FJlrQ6G4LkY8oP1AxulOL8V0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YXHfBSgVhJxGEaQIbNC5zwmPk2cnZjMrTKoQ2+SOfWAQ56bHJj3ejSJYiBEtS/Y12
+	 DaXLsJ160BtkrzRUMKBwjgiyRGt+XDWDDDJC/QLSlGEq1wC24/sxQHKMd8H+vY0iBS
+	 zjJZWTytzx7vaP725hPwfEE5b0WjWzhX5AyX3n81LmwPGphcyjWeHjgbJgvbTFwtv6
+	 33tOhyF5w0yoUBfqQXUduflGohjjf37ebHnsLkjYQ9KsvitktitpWbodrwoADsMxpA
+	 Xqyzkm/CctC1hWSnvLmukAJz1HlRpvVBN+4DuZRCQ3XxIMPyvnfIwtqqvgQ5V//P8B
+	 o8VhIPOCJK0Hg==
+Received: from nicolas-tpx395.lan (unknown [IPv6:2606:6d00:15:862e::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0EBDF17E37F9;
+	Tue, 10 Dec 2024 22:25:39 +0100 (CET)
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: 
+Cc: ezequiel@vanguardiasur.com.ar,
+	linux-media@vger.kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	mchehab@kernel.org,
+	p.zabel@pengutronix.de,
+	benjamin.gaignard@collabora.com,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	kernel@collabora.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] media: hantro: Replacement maintainers
+Date: Tue, 10 Dec 2024 16:25:16 -0500
+Message-ID: <20241210212518.1587395-1-nicolas.dufresne@collabora.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241210-fix-ipu-v3-1-00e409c84a6c@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Ricardo,
+As per a long time request from Ezequiel who left the project around
+2020, replace the top maintainers with Benjamin and myself, keeping
+Philipp who is still active in the subsystem.
 
-On Tue, Dec 10, 2024 at 07:55:58PM +0000, Ricardo Ribalda wrote:
-> One of the quirks that we introduced to build with !ACPI && COMPILE_TEST
-> throws the following smatch warning:
-> drivers/media/pci/intel/ipu-bridge.c:752 ipu_bridge_ivsc_is_ready() warn: iterator 'i' not incremented
-> 
-> Fix it by replacing the condition.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/r/202411221147.N6w23gDo-lkp@intel.com/
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/r/202411221147.N6w23gDo-lkp@intel.com/
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ MAINTAINERS | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I've picked this to my tree and I'll take the last one, too, once the rest
-reaches the media tree.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1e930c7a58b1..00e95d6512f7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -10030,7 +10030,8 @@ F:	include/trace/events/handshake.h
+ F:	net/handshake/
+ 
+ HANTRO VPU CODEC DRIVER
+-M:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
++M:	Nicolas Dufresne <nicolas.dufresne@collabora.com>
++M:	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+ M:	Philipp Zabel <p.zabel@pengutronix.de>
+ L:	linux-media@vger.kernel.org
+ L:	linux-rockchip@lists.infradead.org
 
+base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
 -- 
-Regards,
+2.47.1
 
-Sakari Ailus
 
