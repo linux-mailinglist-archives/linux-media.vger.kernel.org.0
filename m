@@ -1,417 +1,197 @@
-Return-Path: <linux-media+bounces-22999-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23000-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E179EAC5F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 10:37:04 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD687188BB52
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 09:36:44 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25E15210F5D;
-	Tue, 10 Dec 2024 09:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="tvIsBlIj"
-X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF119EACB3
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 10:45:15 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DC52080F7;
-	Tue, 10 Dec 2024 09:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733823254; cv=fail; b=HeCDYzfGitj2+PJrzpXD785EmBTzV45R3t8cRbbRTsXuT4XSeKrwFPodasomI9n3dtj13c7O79Fpwea0f6+Q1C+0HjgVi0+gMCHcjf6ucOJ7tm43usrA7phCE/xge4eZHXl/eGCcgbX75ttIzQfCP4P9SC6p0f2K0lC7PcPJxGg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733823254; c=relaxed/simple;
-	bh=fXqNW0mn4JAV/NGGulGUGHg63ZzNDFHs9C1oJ4ohAwg=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Ap0gdSdIv6XlnJUSrAlGg4rVcJdW9kYrEiIUOHzhwh1xwCNq3PWFcUJJNRO3WLl6DYy09rFRLeLlnMM68c+a/EuL52WR6VL/uwR4JGnw8v7UtrsrUk9LI1NBbQyLM3aTaYYXxHhByfGDl5gfVEu/HKhUpbQAOTZYbN4CxFeWvoI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=tvIsBlIj; arc=fail smtp.client-ip=40.107.21.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JUGzfUhSJIFRwa8GYfoi/mgUgv+M1mhvM5ZZ1BbGzvf4fSNINuoYU5fDLYjTKWImUjQBVkXbiOIQMmyx4PF8p9XGQAumSa7Qbbtx8kuR0XJbbt2NCmQTi0H2p/DVJFrDw8mS76muf/cFaWinORqK80tr/EbqW3IB7MsdgkqVTUBFRhpRpjGikqPYgTW6FyBwyFuKVPeTjQboIPOVMqPedp+IwwrICduUdfks3ITKawugsok2qtu5/EVf5CgbArWm7GALkeoKys0djm5g9NSvT6CpmlT7WAN7KXCZtzVLQ4T3iBlzFb8Wrl3JDgJKuNb6uDJKh8cOE3pg40TX/8CUZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M2eesSLVrGqvwAXCsGKjIszKMAd3pbGkwZgkFT5kWY0=;
- b=ML23WQ9/i3FiTEJC0xegNW346LMAopNFzMpvcy746zACASSLH+0hvP12taoG+6NXUP1ZENJSNkNMmrPv3dn5sQXqDZVtaL/GGFB6z29Xg8R2ZaSne19/OckcLx1b64fQUVWn3663WFXpRzb1PeXcHxjTqRuQVijnMm+yO8mQ+1hvk2gO7oAlNndpO7juwBUb5Uxf/UDrREj4GG1pgFLJemCBuhQ8vRQILFTmjDqk8ECx1aD+5GY9Ha8BzPLzlArfAhrewVy5HW6xnPOp2iHdA17ni0mQ5BjFUPpDMfzF3goLpd7gfjls+F21aKTmB0u3HD1v+NXL++Cyhnf7qt9MiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M2eesSLVrGqvwAXCsGKjIszKMAd3pbGkwZgkFT5kWY0=;
- b=tvIsBlIjtWLIrQ8MGOUZDTzUggBa0nXN2KBVb1oukfPY8ntFDXsbUkx4bwcmSatYP642+DKTZ/Lo4bB8tziVlKhJPJKB2Ifm4eN+cmcque/CwblBmnPkpdrKmZvpaFD3RdmB51LQOfgHRDwoP0BXYxsaO7MIV0fLUeYkEk4/lsIkBBCSxeXgbpS2qOqYaLtNMDUSlasHqZKnnKpP68tHLRKumWtNtt1T9KHK2ExYBjckB3/3A6HGbJ3miu+2NqjYxZ5YncKrnP/wEk2uZ+9Tv/nW/mYc8mDxhW1z+NkEHJiBd/RHUC0z6/pAezTJkiTHsvUy4NAGXJOHCIP6AyFbOA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by PA2PR04MB10513.eurprd04.prod.outlook.com (2603:10a6:102:416::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.19; Tue, 10 Dec
- 2024 09:34:07 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%6]) with mapi id 15.20.8230.016; Tue, 10 Dec 2024
- 09:34:07 +0000
-From: Ming Qian <ming.qian@oss.nxp.com>
-To: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl
-Cc: nicolas@ndufresne.ca,
-	shawnguo@kernel.org,
-	robh+dt@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	xiahong.bao@nxp.com,
-	eagle.zhou@nxp.com,
-	tao.jiang_2@nxp.com,
-	ming.qian@oss.nxp.com,
-	imx@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2] media: amphion: Add H264 and HEVC profile and level control
-Date: Tue, 10 Dec 2024 18:33:37 +0900
-Message-ID: <20241210093337.3779686-1-ming.qian@oss.nxp.com>
-X-Mailer: git-send-email 2.43.0-rc1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR03CA0089.apcprd03.prod.outlook.com
- (2603:1096:4:7c::17) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E81A2960DE
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 09:45:13 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BC622343B7;
+	Tue, 10 Dec 2024 09:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e4dh7uS4"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF162343AA
+	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 09:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733823763; cv=none; b=MRpkYoQPLpgRxr1KE34up4HDNu7kYUnBZt0bdb38ZbqfP6df7PJ5R+Zc0D5a4Ydg4V2CuDCbi4n+BbncUgutXtf99tNPKiyZ9D+pBxET94PFo6DxWKYK2LaEI+l4KecDVntkTGRe28uhKPuUGhYGdklPpa+jQVJVUiZnbhj5b7Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733823763; c=relaxed/simple;
+	bh=W4n9/zH+C/vvYGNZa9XYCEv4xPGGQ5hRlN9Wv2h4Srg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jH6/zrE7vtWKw6MEaGDeYJmzWnqIuQWDx6AfUKBHU2pqdIiXaPdLBcf1Qh/GZlXSJocmJM3rsF6FNoUABhLfotLJ7hiDBhfyBa89TSMxPJCPd9tkQFjeQzlxx1oGMw8vJ3GuHOF+FMert+MdAQX9O9BAHE9BLgXVwVY5TCLYb1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=e4dh7uS4; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7b6d6fe8b16so149651785a.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 01:42:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733823761; x=1734428561; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fPMHAf/hxZCUfpZdyOFGEvnrV8VlCcY6UDqHBjaMUmE=;
+        b=e4dh7uS4NWpG2Jt/PABrxPy0qKkGEP58OW/PYAi+wrpQlZ8ifSKI26Yi2UpZxYMbzp
+         j6itFkQ+bCdkRzmL1m6z45IOhx/ZNq7oiERDPY/cjtk+YskaAC+V3J68juu23s3Yt/j5
+         lkGegDbFY7L6MqNDh9jgXCZDcH7HMQ8a3BksM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733823761; x=1734428561;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fPMHAf/hxZCUfpZdyOFGEvnrV8VlCcY6UDqHBjaMUmE=;
+        b=SV3AwvwSqIzQG9dBn/KYGanoqJa1DT/WiEJqZkuPDjDiTTkJklj8B6CtYa9Yu4rE/F
+         k4M2bKDmsuPj199m7LpUfCwh46WE2UtWZmvpww5fsyx2GWODMhWbB1VOz0XRo1M0ZGaL
+         BS8O5RkUSeVPdfToyATFulfZN5ogAVHw76pobOBX+/D5FwGNj+bQbNuaWPJTEzBaJp8J
+         9OtNlVTUqUDGDWN4wl+KYCBfvcuNJ7S1TBg1AfWBb2UrvrwUf+fUpLULdc16iEtZ0Nfz
+         Fd88n0zDzwJlvwRvJXRN1/d9iWCW1/qBAAqDe9OMAFKTIoenvpapsvk7zxWsXTuivpe2
+         K1ew==
+X-Forwarded-Encrypted: i=1; AJvYcCWBjEd34WF7l7wqReqJBpw/KpCFh0l9/aU52CildiCPYu0lwXqXD2u9lnmywH5GSbvVj+ey1Mow4ZVzBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBwFTk6WEiyODJV+DyzMERRCmIVbg5KUgVVXtmdAnf5KsVdBdC
+	UpfFl6I3Bf2bzS6dNgxTPMu6Bl/6hl8YAdET602iYC0IKlqTLyxw+vZ8Vm9QpA==
+X-Gm-Gg: ASbGncv0wvfIQZYiO52V+yPyF0tvfpfRwB0RbfJKD7sLg3iFt/dwoeud/X3hjtf0D/G
+	Nj5x7Dn0NVh2+U0qTwAJxZcHxqIMs6W4+RoscTX0Ct3+zNFOJkrU/K1hUwFxR7G4//34DIIQhQ/
+	FZG+lFkUNBhF2I9KQfp/nGLwojETbHGAJdHWI7nQZaJffkI/bpenTf5Ut1WRPt6wxOWX2n4/vj2
+	Rdcx3KbJt+iq0WBVT9v128iDZWoQirfARLQSCIpTfsYs3akFSU7PydUIdbzWwZp4gFf0UFdjbsU
+	hRFpxdpgeCuIHVTGY5t17BZPvcoh
+X-Google-Smtp-Source: AGHT+IE9ymMf+noLkzf+qA5yR3o7IoBnW5uGgs2prn2pjidiCE98XTIoDpUPwhIWGAOjLqWqLeFVTw==
+X-Received: by 2002:a05:6214:d8d:b0:6cd:ec00:205e with SMTP id 6a1803df08f44-6d91e161552mr70084316d6.0.1733823761093;
+        Tue, 10 Dec 2024 01:42:41 -0800 (PST)
+Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d92f7c2bc1sm773326d6.83.2024.12.10.01.42.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 01:42:39 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v16 00/18] media: uvcvideo: Implement UVC v1.5 ROI
+Date: Tue, 10 Dec 2024 09:42:36 +0000
+Message-Id: <20241210-uvc-roi-v16-0-e8201f7e8e57@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|PA2PR04MB10513:EE_
-X-MS-Office365-Filtering-Correlation-Id: befa00e1-d83f-444c-d9a1-08dd18fdcb0c
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?QiBJTBDuv80Qt5XH1azb1vATTr5KnsD9gmptLN+n2TwWdT7RhacL8nNNspkQ?=
- =?us-ascii?Q?9OXeIcVhivebveFiJ9BD/g2qdF9wsovRVuv34i8rIb55mfqFBD7dwI84oDrn?=
- =?us-ascii?Q?QgOPzkpksaNGTpzHvHATPcxVTzHJ65uujr8qvTwj7GxquKyfFt46gO8n7sGN?=
- =?us-ascii?Q?B34DJxFa/IeBIV9R3BWRnXXvJs3oqnblX6jpCch5AiWQ8WS2svsVnN+zoXqD?=
- =?us-ascii?Q?BdimqvEp1OVtJbIylxmqKgtbFo++FPN6nvMXamwGl9Xu5xgLQtrS8IMgdmA2?=
- =?us-ascii?Q?hJ3dArF5V2q9pCjI/iHHN4+7c1FzlstZ66GTx57JIEWiXzpL3KrBs3vp+scG?=
- =?us-ascii?Q?JZDZhPLI2xdbmVGFHkFkPT41nivC2ebt8EW4baXcA1qA1I1GD4K+oi7MXlge?=
- =?us-ascii?Q?YfDTM3koriEH1OTq+72tnpoEUsLrwvWVcsIRjveqdkI/HKx9llOY8/O0MrP/?=
- =?us-ascii?Q?6DHv2HLPB0CSiMDU4JzjnT1uMc/7Ke2HCEHe9wridkp0jp6MUz5ZI6tK6c9f?=
- =?us-ascii?Q?c4+UgSWBhkD14vmeh4qrMlZ+67iTs/0MFuekLf/BfNqZZoywmIJvitJ9zxd+?=
- =?us-ascii?Q?3WBVZ3f/Nbfv7Y7LQzKYVzaK0Jmk7Nx7DgP3kw6+NTVQPX2xp/aE+/cSQ9S2?=
- =?us-ascii?Q?ABKwF1O0vWPFmSYOegMCDkzUn5Oabe7lKtnElnXofBy4cOxtc7TK3sAlQ9Dw?=
- =?us-ascii?Q?AUneMAacHVkp/hqm4EDmrW31q339efCbwrfU18qa41n1C4XWFH8nzcRANlJ7?=
- =?us-ascii?Q?cT0nJ25kSAgdQhPzjQrXFmQeP923UhDaeI6A/5G3XqXOZaqY/YUeJu9fK1Z9?=
- =?us-ascii?Q?2kgbxC49ndYVUFNU5+fAF+fX+4P4EIqj4B8S7mq95JSddK3cfu2eb9W9TSNG?=
- =?us-ascii?Q?4pAZJ2+7Fe4+jc+arNu8NaX71FMYim0ZToTVf9znGo30tzw3RkYrJTEXBCB2?=
- =?us-ascii?Q?wwUUl1HoM8WvRSOqpDSyfFMwNn+SC5MUtVsHcyrSq4juZPUkIoqbVV8eItNs?=
- =?us-ascii?Q?RMj+Odz9Gvc0QiKqxFcioyPB0bSg/MpXkJ9TqEaSqnOSgd0u6b9AS/zSZRdI?=
- =?us-ascii?Q?M4x8y3VX+X4TRQOqmS38ynRGhrd4wisk+9+TzE6WT1ETyJYV6vGVPM/9D9ZB?=
- =?us-ascii?Q?KD6+RSpkeItrontqOci+oRjzuxi2GZBZML24I0MW23Cj2WYS3QSPFtcfjXBC?=
- =?us-ascii?Q?GyVFyPYU+NB1j/pk1n6XSyYGoepZ1Hy/DyAseA8g1/NCvnFgj7seaTfIH2UK?=
- =?us-ascii?Q?s6xqv5yEWA+nG3y23uSRQT3Hpm6hx2ITUqIyscTU0SOFxid4pOR7TOXi8yqo?=
- =?us-ascii?Q?ephGlui/riMzFV+7cvzKWaj0YasypSNhQyiXOpYksqfo5aa+iZ1f4yw+UN6g?=
- =?us-ascii?Q?lk+byg3qhbj5Tkso+RDztuV+rLyEN8oKxHH1zm1H/XkJ+u6sWw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6CtcJ3+CxGepPPp36j88PGzUWdJCeikYefbEBWb9oag7SekpGYr2UrlOK7zL?=
- =?us-ascii?Q?+6nagNFKoaCSaLdtjHsWPfCxfGgZZo5BZyL1VjmT6/SGxULX+SprqXs8lK6A?=
- =?us-ascii?Q?lljy4QLKnxalr76MZdfIbcSx0o25bJcUxg6vXxcfXSYsY1fXSo9zWda6KkMF?=
- =?us-ascii?Q?K4au0ufaLPUTRQwHIhUbtv3Dz18vOqGgQ0/fazrzfwDY+wJ7V0dBaRFGHJXr?=
- =?us-ascii?Q?e127hKi/4mm0Ubhp8/T57iQyN++wADGzeg2TcUir/O8R6b0qXXMYnggcDyNV?=
- =?us-ascii?Q?zLD1yW2Hvvx8DYb2ivrVUIMgruqI3BV863NlvXaLXV7lIrT4kFMUhdMGEiCg?=
- =?us-ascii?Q?uWGA9m/wI071hPySGZBdtUisJUQG6WjGnDxlUeqHo4lSXq4Ldl+GBanDj+tj?=
- =?us-ascii?Q?GMTamQJvn3erxwbQZCAeELf3QCTuZudCPcA+fa+RRgeonoCPIxWUmtVRskHc?=
- =?us-ascii?Q?deESufV9iRV+1FtgA0JYESo3NeJDkkyGv64TFwjIJ83/HUfrmv0S+xTGldih?=
- =?us-ascii?Q?RjLWfPZ4OVul3gMwpbAKTFqhH/pG/uLpQ335TumAQNkzelLHz1emDSXm2tfA?=
- =?us-ascii?Q?dV5PdJ5jSmqud901icuUtfIvQcE5VQmwqGquXLHY9ctGf4UIa8h3QnZwSV9z?=
- =?us-ascii?Q?zEHQty2LZ9KsZwfkvo5+/LPNOcZ3N5N6axnabVjBCVFkx8qJcBrxZuRoLRGd?=
- =?us-ascii?Q?lvgNyCcVDtlAvpewSatTd3sMzccZ5sjHWqR1FPF3i1pliXx1XVdbePw0Ed+r?=
- =?us-ascii?Q?irPCtL66Pw6ITDPeSR+9xZybUOYa8yh2juH9rDb/1gy/F9x1eLN5Y1txFINI?=
- =?us-ascii?Q?poe/ehN/iecmWtlVJV9zeZOV0IW4Tar0XcudvKdocg7KlmzDMKKXX5i/uAf1?=
- =?us-ascii?Q?q3Fdv0WzaAcqSlXtobk8vY+sNwynPw9QlcX0yxZwTQ0NUK4g4hxPZ+2+WWTj?=
- =?us-ascii?Q?dIRFcmy+LpT67nffuuyL+NurwZFfNCkSWv4Ksox0sUGy0gGtPHPB0vbFDdp2?=
- =?us-ascii?Q?DcYYwp30Mv7gdn+xuDtKVU6rmXYtCoZlSR+1k68HdD7tg2CJaub+gEXxZuee?=
- =?us-ascii?Q?AY8hyhhwzSWtIE8iKT6YnpVmtjNSQGtxKWpO4pFJAGhuXBInmqloUB+2vfgM?=
- =?us-ascii?Q?0NDrNkEWQP7mFjN3d7xg63/hvpEwHRTC9V8cJSaufTdE+S67iLcOhpcLgzxx?=
- =?us-ascii?Q?UPaSaL+TcfvHNbPinCR5mmBaWD6H6x9LPZ8jiaN/jFeQFoqUTod8LO4K3VxJ?=
- =?us-ascii?Q?wR/3pfx4/2tcbgSjVyxS/cDIpkJ7WKqUSQPnkGZXXjWuXfIqltk9ve74tIZU?=
- =?us-ascii?Q?zvVNlotB3Kh+STvCZOa9L0ELTo5Vwv95prOcEmRuS96lPQQfqq7gcBirNBPA?=
- =?us-ascii?Q?VPXGZf/hvKq/++kOT35v5LEnqM9PilES3RjhwEsmetRvs8He7yxPsdZr2k9S?=
- =?us-ascii?Q?pRKrwbSqiqf/fN9NmbX/TOtGR6Ywf2FLuPgjmZRWbgaPnoiqq+W5Z0U/o5ry?=
- =?us-ascii?Q?RBR2Em2wqSfzhHU7T7I95ZL4m0Se1KL2pmmPdMJgGJMUwCyPERJR/gb+o+Aw?=
- =?us-ascii?Q?o9+BOJOb968ZTR/i7Oj/EIoLzxLhJ92kvIxhx0+x?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: befa00e1-d83f-444c-d9a1-08dd18fdcb0c
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2024 09:34:07.1089
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LNW/CpAVbrYIeoyPpFxqnm6wRX6VZiZ+u0dfeN0BCTYpfgoguYmeWvkdRDG25+onHnlZRMLgkUVclub6yyyIJg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10513
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA0NWGcC/z2MQQ6CMBBFr0JmbQ3FMjGuvIdhAWVKZwE1U2g0p
+ He3kujyvf/zdogkTBFu1Q5CiSOHpYDGUwXW98tEiscioKkbo7W+qC1ZJYEV4jCidb0mNFDeTyH
+ HryP16Ap7jmuQ91FOuv3qX8T8I2VQtUJjHQ0tDuiud+slzLzN5yATdDnnDx9v8bKkAAAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>, 
+ stable@vger.kernel.org, Yunke Cao <yunkec@google.com>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Daniel Scally <dan.scally@ideasonboard.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>
+X-Mailer: b4 0.13.0
 
-From: Ming Qian <ming.qian@nxp.com>
+This patchset implements UVC v1.5 region of interest using V4L2
+control API.
 
-For format H264 and HEVC, the firmware can report the parsed profile idc
-and level idc to driver, the information may be useful.
-Implement the H264 and HEVC profile and level control to report them.
+ROI control is consisted two uvc specific controls.
+1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
+2. An auto control with type bitmask.
 
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
+V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
+
+The corresponding v4l-utils series can be found at
+https://patchwork.linuxtv.org/project/linux-media/list/?series=11069 .
+
+Tested with v4l2-compliance, v4l2-ctl, calling ioctls on usb cameras and
+VIVID with a newly added V4L2_CTRL_TYPE_RECT control.
+
+This set includes also the patch:
+media: uvcvideo: Fix event flags in uvc_ctrl_send_events
+It is not technically part of this change, but we conflict with it.
+
+I am continuing the work that Yunke did.
+
+Changes in v16:
+- add documentation
+- discard re-style
+- refactor -ENOMEM
+- remove "Use the camera to clamp compound controls"
+- move uvc_rect
+- data_out = 0
+- s/max/min in uvc_set_rect()
+- Return -EINVAL in uvc_ioctl_xu_ctrl_map instead of -ENOTTY.
+- Use switch inside uvc_set_le_value.
+- Link to v15: https://lore.kernel.org/r/20241114-uvc-roi-v15-0-64cfeb56b6f8@chromium.org
+
+Changes in v15:
+- Modify mapping set/get to support any size
+- Remove v4l2_size field. It is not needed, we can use the v4l2_type to
+  infer it.
+- Improve documentation.
+- Lots of refactoring, now adding compound and roi are very small
+  patches.
+- Remove rectangle clamping, not supported by some firmware.
+- Remove init, we can add it later.
+- Move uvc_cid to USER_BASE
+
+- Link to v14: https://lore.kernel.org/linux-media/20231201071907.3080126-1-yunkec@google.com/
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
-v2
--- add support for V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE
+Hans Verkuil (1):
+      media: v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
 
- drivers/media/platform/amphion/vdec.c        | 61 +++++++++++++
- drivers/media/platform/amphion/vpu_defs.h    |  1 +
- drivers/media/platform/amphion/vpu_helpers.c | 93 ++++++++++++++++++++
- drivers/media/platform/amphion/vpu_helpers.h |  5 ++
- drivers/media/platform/amphion/vpu_malone.c  |  3 +-
- 5 files changed, 162 insertions(+), 1 deletion(-)
+Ricardo Ribalda (11):
+      media: uvcvideo: Fix event flags in uvc_ctrl_send_events
+      media: uvcvideo: Handle uvc menu translation inside uvc_get_le_value
+      media: uvcvideo: Handle uvc menu translation inside uvc_set_le_value
+      media: uvcvideo: refactor uvc_ioctl_g_ext_ctrls
+      media: uvcvideo: uvc_ioctl_(g|s)_ext_ctrls: handle NoP case
+      media: uvcvideo: Support any size for mapping get/set
+      media: uvcvideo: Factor out clamping from uvc_ctrl_set
+      media: uvcvideo: Factor out query_boundaries from query_ctrl
+      media: uvcvideo: let v4l2_query_v4l2_ctrl() work with v4l2_query_ext_ctrl
+      media: uvcvideo: Introduce uvc_mapping_v4l2_size
+      media: uvcvideo: Add sanity check to uvc_ioctl_xu_ctrl_map
 
-diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
-index ca8f7319503a..61d5598ee6a1 100644
---- a/drivers/media/platform/amphion/vdec.c
-+++ b/drivers/media/platform/amphion/vdec.c
-@@ -232,6 +232,37 @@ static int vdec_ctrl_init(struct vpu_inst *inst)
- 			  V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE,
- 			  0, 1, 1, 0);
- 
-+	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
-+			       V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-+			       V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH,
-+			       ~((1 << V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
-+				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
-+				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
-+				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED) |
-+				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH) |
-+				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH) |
-+				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_STEREO_HIGH)),
-+			       V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE);
-+
-+	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
-+			       V4L2_CID_MPEG_VIDEO_H264_LEVEL,
-+			       V4L2_MPEG_VIDEO_H264_LEVEL_6_2,
-+			       0,
-+			       V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
-+
-+	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
-+			       V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
-+			       V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
-+			       ~((1 << V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN) |
-+				 (1 << V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10)),
-+			       V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN);
-+
-+	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
-+			       V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
-+			       V4L2_MPEG_VIDEO_HEVC_LEVEL_6_2,
-+			       0,
-+			       V4L2_MPEG_VIDEO_HEVC_LEVEL_4);
-+
- 	ctrl = v4l2_ctrl_new_std(&inst->ctrl_handler, &vdec_ctrl_ops,
- 				 V4L2_CID_MIN_BUFFERS_FOR_CAPTURE, 1, 32, 1, 2);
- 	if (ctrl)
-@@ -1166,6 +1197,35 @@ static void vdec_clear_slots(struct vpu_inst *inst)
- 	}
- }
- 
-+static void vdec_update_v4l2_ctrl(struct vpu_inst *inst, u32 id, u32 val)
-+{
-+	struct v4l2_ctrl *ctrl = v4l2_ctrl_find(&inst->ctrl_handler, id);
-+
-+	if (ctrl)
-+		v4l2_ctrl_s_ctrl(ctrl, val);
-+}
-+
-+static void vdec_update_v4l2_profile_level(struct vpu_inst *inst, struct vpu_dec_codec_info *hdr)
-+{
-+	switch (inst->out_format.pixfmt) {
-+	case V4L2_PIX_FMT_H264:
-+	case V4L2_PIX_FMT_H264_MVC:
-+		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-+				      vpu_get_h264_v4l2_profile(hdr->profile_idc));
-+		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_H264_LEVEL,
-+				      vpu_get_h264_v4l2_level(hdr->level_idc));
-+		break;
-+	case V4L2_PIX_FMT_HEVC:
-+		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
-+				      vpu_get_hevc_v4l2_profile(hdr->profile_idc));
-+		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
-+				      vpu_get_hevc_v4l2_level(hdr->level_idc));
-+		break;
-+	default:
-+		return;
-+	}
-+}
-+
- static void vdec_event_seq_hdr(struct vpu_inst *inst, struct vpu_dec_codec_info *hdr)
- {
- 	struct vdec_t *vdec = inst->priv;
-@@ -1189,6 +1249,7 @@ static void vdec_event_seq_hdr(struct vpu_inst *inst, struct vpu_dec_codec_info
- 	vdec_init_crop(inst);
- 	vdec_init_mbi(inst);
- 	vdec_init_dcp(inst);
-+	vdec_update_v4l2_profile_level(inst, hdr);
- 	if (!vdec->seq_hdr_found) {
- 		vdec->seq_tag = vdec->codec_info.tag;
- 		if (vdec->is_source_changed) {
-diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/media/platform/amphion/vpu_defs.h
-index 428d988cf2f7..606f9d61a265 100644
---- a/drivers/media/platform/amphion/vpu_defs.h
-+++ b/drivers/media/platform/amphion/vpu_defs.h
-@@ -134,6 +134,7 @@ struct vpu_dec_codec_info {
- 	u32 decoded_height;
- 	struct v4l2_fract frame_rate;
- 	u32 dsp_asp_ratio;
-+	u32 profile_idc;
- 	u32 level_idc;
- 	u32 bit_depth_luma;
- 	u32 bit_depth_chroma;
-diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media/platform/amphion/vpu_helpers.c
-index d12310af9ebc..108b75ceb4ae 100644
---- a/drivers/media/platform/amphion/vpu_helpers.c
-+++ b/drivers/media/platform/amphion/vpu_helpers.c
-@@ -509,3 +509,96 @@ const char *vpu_codec_state_name(enum vpu_codec_state state)
- 	}
- 	return "<unknown>";
- }
-+
-+struct codec_id_mapping {
-+	u32 id;
-+	u32 v4l2_id;
-+};
-+
-+static struct codec_id_mapping h264_profiles[] = {
-+	{66,  V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE},
-+	{77,  V4L2_MPEG_VIDEO_H264_PROFILE_MAIN},
-+	{88,  V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED},
-+	{100, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH},
-+	{118, V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH},
-+	{128, V4L2_MPEG_VIDEO_H264_PROFILE_STEREO_HIGH}
-+};
-+
-+static struct codec_id_mapping h264_levels[] = {
-+	{10,  V4L2_MPEG_VIDEO_H264_LEVEL_1_0},
-+	{9,   V4L2_MPEG_VIDEO_H264_LEVEL_1B},
-+	{11,  V4L2_MPEG_VIDEO_H264_LEVEL_1_1},
-+	{12,  V4L2_MPEG_VIDEO_H264_LEVEL_1_2},
-+	{13,  V4L2_MPEG_VIDEO_H264_LEVEL_1_3},
-+	{20,  V4L2_MPEG_VIDEO_H264_LEVEL_2_0},
-+	{21,  V4L2_MPEG_VIDEO_H264_LEVEL_2_1},
-+	{22,  V4L2_MPEG_VIDEO_H264_LEVEL_2_2},
-+	{30,  V4L2_MPEG_VIDEO_H264_LEVEL_3_0},
-+	{31,  V4L2_MPEG_VIDEO_H264_LEVEL_3_1},
-+	{32,  V4L2_MPEG_VIDEO_H264_LEVEL_3_2},
-+	{40,  V4L2_MPEG_VIDEO_H264_LEVEL_4_0},
-+	{41,  V4L2_MPEG_VIDEO_H264_LEVEL_4_1},
-+	{42,  V4L2_MPEG_VIDEO_H264_LEVEL_4_2},
-+	{50,  V4L2_MPEG_VIDEO_H264_LEVEL_5_0},
-+	{51,  V4L2_MPEG_VIDEO_H264_LEVEL_5_1},
-+	{52,  V4L2_MPEG_VIDEO_H264_LEVEL_5_2},
-+	{60,  V4L2_MPEG_VIDEO_H264_LEVEL_6_0},
-+	{61,  V4L2_MPEG_VIDEO_H264_LEVEL_6_1},
-+	{62,  V4L2_MPEG_VIDEO_H264_LEVEL_6_2}
-+};
-+
-+static struct codec_id_mapping hevc_profiles[] = {
-+	{1,   V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN},
-+	{2,   V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10}
-+};
-+
-+static struct codec_id_mapping hevc_levels[] = {
-+	{30,  V4L2_MPEG_VIDEO_HEVC_LEVEL_1},
-+	{60,  V4L2_MPEG_VIDEO_HEVC_LEVEL_2},
-+	{63,  V4L2_MPEG_VIDEO_HEVC_LEVEL_2_1},
-+	{90,  V4L2_MPEG_VIDEO_HEVC_LEVEL_3},
-+	{93,  V4L2_MPEG_VIDEO_HEVC_LEVEL_3_1},
-+	{120, V4L2_MPEG_VIDEO_HEVC_LEVEL_4},
-+	{123, V4L2_MPEG_VIDEO_HEVC_LEVEL_4_1},
-+	{150, V4L2_MPEG_VIDEO_HEVC_LEVEL_5},
-+	{153, V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1},
-+	{156, V4L2_MPEG_VIDEO_HEVC_LEVEL_5_2},
-+	{180, V4L2_MPEG_VIDEO_HEVC_LEVEL_6},
-+	{183, V4L2_MPEG_VIDEO_HEVC_LEVEL_6_1},
-+	{186, V4L2_MPEG_VIDEO_HEVC_LEVEL_6_2}
-+};
-+
-+static u32 vpu_find_v4l2_id(u32 id, struct codec_id_mapping *array, u32 array_sz)
-+{
-+	u32 i;
-+
-+	if (!array || !array_sz)
-+		return 0;
-+
-+	for (i = 0; i < array_sz; i++) {
-+		if (id == array[i].id)
-+			return array[i].v4l2_id;
-+	}
-+
-+	return 0;
-+}
-+
-+u32 vpu_get_h264_v4l2_profile(u32 idc)
-+{
-+	return vpu_find_v4l2_id(idc, h264_profiles, ARRAY_SIZE(h264_profiles));
-+}
-+
-+u32 vpu_get_h264_v4l2_level(u32 idc)
-+{
-+	return vpu_find_v4l2_id(idc, h264_levels, ARRAY_SIZE(h264_levels));
-+}
-+
-+u32 vpu_get_hevc_v4l2_profile(u32 idc)
-+{
-+	return vpu_find_v4l2_id(idc, hevc_profiles, ARRAY_SIZE(hevc_profiles));
-+}
-+
-+u32 vpu_get_hevc_v4l2_level(u32 idc)
-+{
-+	return vpu_find_v4l2_id(idc, hevc_levels, ARRAY_SIZE(hevc_levels));
-+}
-diff --git a/drivers/media/platform/amphion/vpu_helpers.h b/drivers/media/platform/amphion/vpu_helpers.h
-index 0eaddb07190d..dc5fb1ca2d33 100644
---- a/drivers/media/platform/amphion/vpu_helpers.h
-+++ b/drivers/media/platform/amphion/vpu_helpers.h
-@@ -70,4 +70,9 @@ int vpu_color_get_default(u32 primaries, u32 *ptransfers, u32 *pmatrix, u32 *pfu
- 
- int vpu_find_dst_by_src(struct vpu_pair *pairs, u32 cnt, u32 src);
- int vpu_find_src_by_dst(struct vpu_pair *pairs, u32 cnt, u32 dst);
-+
-+u32 vpu_get_h264_v4l2_profile(u32 idc);
-+u32 vpu_get_h264_v4l2_level(u32 idc);
-+u32 vpu_get_hevc_v4l2_profile(u32 idc);
-+u32 vpu_get_hevc_v4l2_level(u32 idc);
- #endif
-diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
-index 4769c053c6c2..5c6b2a841b6f 100644
---- a/drivers/media/platform/amphion/vpu_malone.c
-+++ b/drivers/media/platform/amphion/vpu_malone.c
-@@ -889,7 +889,8 @@ static void vpu_malone_unpack_seq_hdr(struct vpu_rpc_event *pkt,
- 	info->frame_rate.numerator = 1000;
- 	info->frame_rate.denominator = pkt->data[8];
- 	info->dsp_asp_ratio = pkt->data[9];
--	info->level_idc = pkt->data[10];
-+	info->profile_idc = (pkt->data[10] >> 8) & 0xff;
-+	info->level_idc = pkt->data[10] & 0xff;
- 	info->bit_depth_luma = pkt->data[13];
- 	info->bit_depth_chroma = pkt->data[14];
- 	info->chroma_fmt = pkt->data[15];
+Yunke Cao (6):
+      media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+      media: vivid: Add a rectangle control
+      media: uvcvideo: add support for compound controls
+      media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
+      media: uvcvideo: implement UVC v1.5 ROI
+      media: uvcvideo: document UVC v1.5 ROI
+
+ .../userspace-api/media/drivers/uvcvideo.rst       |  64 ++
+ .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst |  26 +-
+ .../userspace-api/media/v4l/vidioc-queryctrl.rst   |  14 +
+ .../userspace-api/media/videodev2.h.rst.exceptions |   4 +
+ drivers/media/i2c/imx214.c                         |   4 +-
+ drivers/media/platform/qcom/venus/venc_ctrls.c     |   9 +-
+ drivers/media/test-drivers/vivid/vivid-ctrls.c     |  34 +
+ drivers/media/usb/uvc/uvc_ctrl.c                   | 799 ++++++++++++++++-----
+ drivers/media/usb/uvc/uvc_v4l2.c                   |  77 +-
+ drivers/media/usb/uvc/uvcvideo.h                   |  25 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c           |  54 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c          | 167 ++++-
+ drivers/media/v4l2-core/v4l2-ioctl.c               |   4 +-
+ include/media/v4l2-ctrls.h                         |  38 +-
+ include/uapi/linux/usb/video.h                     |   1 +
+ include/uapi/linux/uvcvideo.h                      |  13 +
+ include/uapi/linux/v4l2-controls.h                 |   7 +
+ include/uapi/linux/videodev2.h                     |   5 +
+ 18 files changed, 1058 insertions(+), 287 deletions(-)
+---
+base-commit: 5516200c466f92954551406ea641376963c43a92
+change-id: 20241113-uvc-roi-66bd6cfa1e64
+
+Best regards,
 -- 
-2.43.0-rc1
+Ricardo Ribalda <ribalda@chromium.org>
 
 
