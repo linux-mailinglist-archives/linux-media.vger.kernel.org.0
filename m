@@ -1,76 +1,77 @@
-Return-Path: <linux-media+bounces-23089-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23091-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD4D9EBA5D
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 20:56:15 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BF19EBA64
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 20:56:46 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B048283C19
-	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 19:56:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E9791888EEF
+	for <lists+linux-media@lfdr.de>; Tue, 10 Dec 2024 19:56:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6CCE226870;
-	Tue, 10 Dec 2024 19:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE22D228362;
+	Tue, 10 Dec 2024 19:56:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="M0kdRPgf"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="luzU6aTT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3202046B1
-	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 19:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9822F227588
+	for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 19:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733860570; cv=none; b=tVyPYWc5JdXyvmgOmf84XkRURgcaF5EmPn07id7vBNIGS2bAtOZbLftRYkwQniR8s1E6ubRArsykK+iNhBQ2qaTD85cRIeLcOU1uetLY1LvshydBXoZw1c6D5/3zpFzxWdDG69t1y0XanXJJ0f90I2kZJKIQ3xC0sHYFa3ezK3Y=
+	t=1733860575; cv=none; b=bBPhrbPUGDsV6jPt1DstTOpO2sdSBVOLb1+ucUhqHAUiJ7gzGEdTMO3viOsTWhmjKo60WRkQF/cZCUikDCCIO6F3UM1f7eN+Yiy+TWKH9OapEgpN7TzEE04Oq/PDSXSxVj0pywBQho5rAVqCCRqTYVtiDA/JHcaodLTaKiUJToA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733860570; c=relaxed/simple;
-	bh=dSTADKTNJvbmRBy+1jUqiB+cNshFUI2ErxE8CtN1esU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=b5XGPGu41Mnm29JOsEMEXbr9U5vJe5dBOEQviiGTzwXTHvec1fDYav/awlx6zVlDUW0K3BmeLsKT5+edHZiXNoQthH7/vAKHiEfjfxaCnhb5pg98p1hlPtX53/V2MdcEt9yzY+8paelBgl3gdaDSVvXK1y/2BeYm4m3pA5X6tkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=M0kdRPgf; arc=none smtp.client-ip=209.85.217.52
+	s=arc-20240116; t=1733860575; c=relaxed/simple;
+	bh=sdF7tOeLaLfCdiDlVogKRTgQV5yx9VBAgCr2khnDCdU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=fYGnfzO4pWTc1capiScKhuKCBH+3RHfU1ZHtDgSnppc7NZStji+xPl6B6tJmud57h9TbwCXyTJgSObfLjurxWuajrsJWA8gLv07CCtwM6yhbal+0+NRXmRNq10L5BMmgJjf3dlSpVqz5TOnnV9wQjilLMUPj4ln/xJt6XdVf70w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=luzU6aTT; arc=none smtp.client-ip=209.85.222.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4afefc876c6so853006137.2
-        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 11:56:08 -0800 (PST)
+Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-85ba92b3acfso1429368241.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Dec 2024 11:56:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733860567; x=1734465367; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ENZnTNWODqxq5GjFCzfA3SG8RDnI3+d9xSrfoOvAAA4=;
-        b=M0kdRPgfoTOsR4WkkmfDH3dWadGOprnW6pYIG4n7RCGQ/DA72rSMwpYqOqDh0JN340
-         eor8A6pXAPUKSMDGf+V3m9PVjbPvqjYR668Cz7V+gdZgJONQ38RFWv5kF6GGRxU3w6jn
-         ybWiH0tg+2G1n1JYEX2mXsaH1FxcNAl4ATzSg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733860567; x=1734465367;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=chromium.org; s=google; t=1733860572; x=1734465372; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ENZnTNWODqxq5GjFCzfA3SG8RDnI3+d9xSrfoOvAAA4=;
-        b=bLFWbkz8eloirC+JstJxBZ8GCRWAE9gHpwTOfeHUJ56bbcytgHryWWy9sDE0WPGHXI
-         PgpwO1pVrgTPeCNN3zVyJSgPl+X8RuK/MDfQn2e1/GWLRefrC8lBqEPpfZVbfGI7Qwk2
-         T7FrWg1qWKVe+fkZThwtVbrN+i9tB/TtQoRu9g1gZnNOVpSU3bZULP8c9sMW+721Zqjs
-         m8aM6nlpT7+641W9BRLwlweFDDbBat049sT7UX9G4ImSs00a4DC4m/XK/wwixavuwxBP
-         SHzDg5nKgaGz81Zm3vECGQ6NeBlhWwhMImPofYQTNGoyhnq/dgTrzs+sigUXZAqxJ2g2
-         E+AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXdRuFbl674ixto8x/G5d+xI8sRSPHq/dtsG+XC+Y+9QjxRU3m1Hluh6zL/PQa1ty9uiwe5jCfKBUWITQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/38l71vrLabJ+5do95c4VH+2MiA7kH7HUfXF4GsdgWKDi5JBo
-	YPxplX9SdpceYmOIflHt0suYW9zMsDY7YDsZjsalRVEQqo8onu8LHv3d9BlBpQ==
-X-Gm-Gg: ASbGnctSJ+UUYIAX39nAUR86YcMJ1XOvXgaIdz3DgwtFIjUz0JWSi5rChcw7EYmUBmV
-	KVg2l1uP1nNZOSAmbLslmHhVEeR6M3rpTJfsiEmCxSadRIycDW0LHd/zcGLsYkYVyoA73J9FAyk
-	w9Z12lmWSuAv0jsH9syHZLM2ZOwBhK7KruOsMvIexkOcWMLp3xZsNFcpi6U9d+taO/kFq2/aAzM
-	jbwlnP0rfqTkBtyPAwMf7scwDs694Zy4wQ5h7+TkNN8tHRX2os3F0JNT+VvQ8Fo8dgmkxe+jfBx
-	gblfIVwOuXuS5BSXuep3C4ADvkUF
-X-Google-Smtp-Source: AGHT+IHsmCtT0BD6IrraDycago+v0DRU/6EPtntyLjiexxdvbBR0cbJtcpyVIcAxjR5YjW2IFBWOQw==
-X-Received: by 2002:a05:6102:3747:b0:4af:c31d:b4e9 with SMTP id ada2fe7eead31-4b128fedb4cmr851826137.13.1733860567449;
-        Tue, 10 Dec 2024 11:56:07 -0800 (PST)
+        bh=CTX31YxAcEET+qmrwOGI7rmuqifx9R2Evse3TExOMoA=;
+        b=luzU6aTTSezSex1ALcfr8qm/Cw43J8blTOlKNcRbTvmt2thKSm04esfPknpK/p4PlZ
+         lzXIXwS80VEBJYaklDfFc3P70PWXSZiRXWH/+ATNeATzC93i5+9o11+s04HJoVVxLXct
+         lg+PTzl62ZYA9JYwTeo2CZIxc5S4oZSVr1tGc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733860572; x=1734465372;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CTX31YxAcEET+qmrwOGI7rmuqifx9R2Evse3TExOMoA=;
+        b=nQlMb2k9ivlR0qiyoYlMXrqauXj94rqNEtay8MA0kp5Mj1smQRnWjy7cZT9OH5LjZn
+         YZBHoPbSyCKgyagljdvboYrFR4Y7hxx9uMohUVme7BQFa9jsN514M1hidEiSdwEpKmbv
+         1fVDKrwS+A+1n+U9PGp8vsr8kfFF9dUMeUXqsHHVUm6qc4rlc9iSmLE2egRuFNXdhteA
+         ITDh8LMTF4YgwAItdOiH0Vaf7Al+DnJkuI5lEAhA6HZCa8zxikvpgub/1QONlMFVI1Nb
+         A9eOOOLlXXVxjeX8tqPkvwna3tgWPuPlSzGGkqsh6RJ1lR40bG3dwQNO4zFOBFvExyAe
+         eROQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXiXIuFZeTK+jmmcVif8OFL3U4Q75KyazCAB7HcUMu9lfCwo5SRu8b9LiaQmIVMDHQ2+i9+4fl5ZUlmng==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnBxYOWOPh3Dyg2jzPzfmgKgnD4hQwKCiHuonTut3AZLB47Dz0
+	EoOjPO4eqmhJLRPwFVKTYDEzVel34HNrnlgiRIS6ZM4ZtzTi+YqE14Tsw+Cf2w==
+X-Gm-Gg: ASbGncvOSWqgf/qqad3CQ1ZHX/H4rk7uRJrFnBB7vJWLdqaV+Y7vyuhwIIj/ZaDM+gD
+	gWiyFd5PKbLDAMw8sLTc67kiuDXdOsYCVOH7BqDM6bvUDK/5go4rmPTgA/Wj2HYUn+kPGlIBng2
+	s6uJfQyCTrDwfzb3v7Ud7ZV6MPqCTX0Rea88537I/TAbm1xLsCsI20wZRjYvNGI16PCJK1wqiX4
+	o32T+n4u/kyoM/RzdHKCJ6WHFLlP/yIZmeJ6rAXrQP2QXMsRYBYSBW/1RgZohpAZsubxqKMCxmr
+	QVrN5eQ8RzAyzaYrt468sJJ0GLL/
+X-Google-Smtp-Source: AGHT+IFOlLOc71KptU+gM+mbs7OSqZvI0F+Ca1OaQ7iYQclHhw5OIq3pXc1ymxgCi+mj9I6EK0fVEA==
+X-Received: by 2002:a05:6102:418b:b0:4b1:1971:383f with SMTP id ada2fe7eead31-4b128fee492mr811079137.8.1733860572588;
+        Tue, 10 Dec 2024 11:56:12 -0800 (PST)
 Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c2ba7dc70sm1279522241.15.2024.12.10.11.56.05
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c2ba7dc70sm1279522241.15.2024.12.10.11.56.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 11:56:06 -0800 (PST)
+        Tue, 10 Dec 2024 11:56:11 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH v3 0/7] ipu6: get rid of all the IS_ENABLED(CONFIG_ACPI)
-Date: Tue, 10 Dec 2024 19:55:57 +0000
-Message-Id: <20241210-fix-ipu-v3-0-00e409c84a6c@chromium.org>
+Date: Tue, 10 Dec 2024 19:55:58 +0000
+Subject: [PATCH v3 1/7] media: ipu-bridge: Fix warning when !ACPI
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,10 +80,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAM2cWGcC/3WMyw6CMBBFf4V07Rg6lvJY+R/GBdQpzAJKWmk0h
- H+3sNS4PPdxVhHIMwXRZKvwFDmwmxJcTpkwQzv1BPxILDBHJSUiWH4Bzwu0aAmrOq9qrURaz55
- SdZhu98QDh6fz70Mc5Z7+OqIECag0YaFMV5bmagbvRl7Gs/O92DUR/1wRcui6VhdVoam29uu6b
- dsH7g2kedwAAAA=
+Message-Id: <20241210-fix-ipu-v3-1-00e409c84a6c@chromium.org>
+References: <20241210-fix-ipu-v3-0-00e409c84a6c@chromium.org>
+In-Reply-To: <20241210-fix-ipu-v3-0-00e409c84a6c@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
  Robert Moore <robert.moore@intel.com>, 
@@ -94,59 +94,36 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  kernel test robot <lkp@intel.com>
 X-Mailer: b4 0.13.0
 
-We want to be able to compile_test the ipu6 driver in situations with
-!ACPI.
+One of the quirks that we introduced to build with !ACPI && COMPILE_TEST
+throws the following smatch warning:
+drivers/media/pci/intel/ipu-bridge.c:752 ipu_bridge_ivsc_is_ready() warn: iterator 'i' not incremented
 
-In order to do this we had to add some conditional #ifs, which lead to
-false positives on the static analysers.
+Fix it by replacing the condition.
 
-Let's implement some helpers when !ACPI in the acpi headers to make the
-code more easier to maintain.
-
-We can land the first patch of this series ASAP to fix the current
-smatch warning.
-
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Rafael J. Wysocki <rafael@kernel.org>
-To: Len Brown <lenb@kernel.org>
-To: Robert Moore <robert.moore@intel.com>
-To: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-acpi@vger.kernel.org
-Cc: acpica-devel@lists.linux.dev
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/r/202411221147.N6w23gDo-lkp@intel.com/
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202411221147.N6w23gDo-lkp@intel.com/
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Changes in v3:
-- Prefer static inlines to macros (Thanks Rafael).
-- Link to v2: https://lore.kernel.org/r/20241122-fix-ipu-v2-0-bba65856e9ff@chromium.org
-
-Changes in v2:
-- Add helpers in acpi to avoid conditional compilation
-- Link to v1: https://lore.kernel.org/r/20241122-fix-ipu-v1-1-246e254cb77c@chromium.org
-
 ---
-Ricardo Ribalda (7):
-      media: ipu-bridge: Fix warning when !ACPI
-      ACPI: bus: implement for_each_acpi_dev_match when !ACPI
-      ACPI: bus: implement acpi_get_physical_device_location when !ACPI
-      ACPI: header: implement acpi_device_handle when !ACPI
-      ACPI: bus: implement for_each_acpi_consumer_dev when !ACPI
-      ACPI: bus: implement acpi_device_hid when !ACPI
-      media: ipu-bridge: Remove unneeded conditional compilations
+ drivers/media/pci/intel/ipu-bridge.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/media/pci/intel/ipu-bridge.c | 28 +++++-----------------------
- include/acpi/acpi_bus.h              | 23 ++++++++++++++++++++---
- include/linux/acpi.h                 |  6 ++++++
- 3 files changed, 31 insertions(+), 26 deletions(-)
----
-base-commit: 6c10d1adae82e1c8da16e7ebd2320e69f20b9d6f
-change-id: 20241122-fix-ipu-a2fe28908964
+diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+index a0e9a71580b5..be82bc3e27d0 100644
+--- a/drivers/media/pci/intel/ipu-bridge.c
++++ b/drivers/media/pci/intel/ipu-bridge.c
+@@ -774,7 +774,7 @@ static int ipu_bridge_ivsc_is_ready(void)
+ 
+ 		for_each_acpi_dev_match(sensor_adev, cfg->hid, NULL, -1) {
+ #else
+-		while (true) {
++		while (false) {
+ 			sensor_adev = NULL;
+ #endif
+ 			if (!ACPI_PTR(sensor_adev->status.enabled))
 
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+2.47.0.338.g60cca15819-goog
 
 
