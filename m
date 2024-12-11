@@ -1,167 +1,236 @@
-Return-Path: <linux-media+bounces-23195-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23196-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A7D9ECE06
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 15:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D279ECE0F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 15:09:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48A3316AC82
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 14:07:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D016E1617E6
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 14:08:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D82B2236914;
-	Wed, 11 Dec 2024 14:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1783E23692E;
+	Wed, 11 Dec 2024 14:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KfDsI2IG"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="giOYJBUC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF65233690
-	for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 14:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1BD1EC4ED;
+	Wed, 11 Dec 2024 14:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733926044; cv=none; b=rOVU++p9sj3UKO08gnwjrBTBomKYCvETTBZeUdKAu6HHkJdRUXElGGghFzYgSkoNZhVtgx2OWE2/Y5h1aUqY1NhL/58eUY0q+1h/F2Ia5WF+Kzcty6EvJEmhtUtDenu1m0qboVlgQtSnWgh1V/qYQYx/LSOCHMQKmRp5O89YbYQ=
+	t=1733926130; cv=none; b=ssiH6FQY6DflfjcVXqX0J8PrJiI8bAcgpx24QyDTbC/xUg22t2ZinaU+/uY4VjjL06+TvpTBQv3+ogJXr0R3ddPs8kcfiCPudhz4ptvg5JSfFfLCiygpXxRCKWZJYG5ao1dE3BFd9ejVjn5zz9Bww3o+RGc4JlwjCG2pmcvx4wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733926044; c=relaxed/simple;
-	bh=wQqjAKJQCXhldrFf6U3MKPIRSDIWGrTnr+t7qtM2Qow=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V0UZdjQPi0VUozK5cuhXW8GXQfZtVbrqdoDfE7Vg4C+LVgGqGVE93Q1G80OIpiSfSrY2/u9uevV/dLlU2nVoklsD0RZBkwgP+vbM5evAXbdQs/AUDB2ADNKzqKYdp4xcI+tkh4QK/7cFxKdODOgLmTEezJqV1ZRoc9eKVjdPrSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KfDsI2IG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733926040;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BiYzs1QZGdkxtOEkNa+BNj3RT9r9zcCl2iJzZ/KVCQ4=;
-	b=KfDsI2IGiDuIQd/NPdgXQz6JBFOlCLqanXfmNJgkf/oKgDvKbGst+SDy5cTwlwwLEYK3wP
-	LwCdMd0I4H6qmHyOncrROxy+/RM72v/gmzRCWLG8k3ZgxH8ro9JjWPoqMNNQDYRb/xiGyE
-	O5ec8HEad39jI3YFwYcCdjS5Gcr7iCg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-300-8BtPeRqJNHG_GD15PeyxDQ-1; Wed, 11 Dec 2024 09:07:19 -0500
-X-MC-Unique: 8BtPeRqJNHG_GD15PeyxDQ-1
-X-Mimecast-MFC-AGG-ID: 8BtPeRqJNHG_GD15PeyxDQ
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-aa6b69163caso48498266b.0
-        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 06:07:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733926033; x=1734530833;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BiYzs1QZGdkxtOEkNa+BNj3RT9r9zcCl2iJzZ/KVCQ4=;
-        b=qEzXvuLj2ET0Xm9j03uhMHXMatC9lGoRcEyTb400q5ou/PPEzJ4A5luGvR4Q1KvqA0
-         1BExcV1Z58cOzDnJAyUSgEC1tqFhK9Tws68Fnj+ytI5cvz+jMumWN045IwYHSuwMYkYE
-         li3qVapH/ccQ8VUrj0CSoQVYjkmBa+fQ1aBvSg+aTiSzM3GoNTB2/UGV/GCot3ABXC4/
-         OK5m05syoDc7/TFRLxsVOp2AVQobkxI0R32y43S1upnqztyM7sS+1ZLZDwmBuBx12hsp
-         y4jCXrnPZPOuyTQtZ1BEFwAV1hrouoEDrEq+I7UStrrfIN2U3cepx9rNlFx79pIDdroD
-         iDqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0cxAitbGqjef7lPwTbWPhPNEKR0wazoVI/SvcNIuJ/7DNFI37CsJGRM06shDi/f6ejMjNH6qEmyhw5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYl//Kg1fbO8Zk2f1qyI/2V6k4DRv8rYvRaSDs/6uia/s7ROeY
-	6dfPfrFFzgxYOSEEzP/c+5gFPbNek3kDpr7Txwskgaw1QBgxz/HEK5wlukXyByIaV7SyudYR44s
-	lMkErUmeQb4If9WwPKFkm2UsPRI3mZleJ6BRvKl7SHf0qvKC8Clrc/k34EajR8P+mfSUw
-X-Gm-Gg: ASbGnctPfT14u7yp/EB041QJbRH1F7t53egW4Byr4RniNEQm3pnSExVYGrszzkZ0AUX
-	b4nn7vtMZptuOysKZEM+TxEN4kWk7XoFIjOKdeHKye2EhN29/lFPEGIhY2xjND6khDmTpBOUhDU
-	hTV5Uw4b20uBfyFi+ZonIzK9YH2zytassuzG6MdRouATqt2hE0iShlkmfpupHgWtj65P/qJhmiP
-	jLZHBsIh89WGo/HtiTsZ6aoQdXjUQwMWrC6jURXH171zJGU6TK0isIGkA5XyIsV6jjLsfEqVARP
-	QCEszLZ5s1QR61gYzXsA22ItV8+k+QQvgYpPPCncs1fmbJoNModL7TXgme819oBP5DcwFUjyKtS
-	+Gn17p2aZ3KzPB7ImkO9S8T0JbUNK
-X-Received: by 2002:a17:906:292a:b0:aa6:a33c:70be with SMTP id a640c23a62f3a-aa6b114a41cmr277137866b.1.1733926033542;
-        Wed, 11 Dec 2024 06:07:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFUhpbEiZIf+tWyA8UKcxIFY0EEVk7rz0GPtF+H5dEeiDFrYV788K9sljz7QOr+krvaoG7wRg==
-X-Received: by 2002:a17:906:292a:b0:aa6:a33c:70be with SMTP id a640c23a62f3a-aa6b114a41cmr277132966b.1.1733926033100;
-        Wed, 11 Dec 2024 06:07:13 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa68e9f52b1sm425906966b.82.2024.12.11.06.07.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 06:07:12 -0800 (PST)
-Message-ID: <127a2275-6245-499a-8f84-353db8833989@redhat.com>
-Date: Wed, 11 Dec 2024 15:07:12 +0100
+	s=arc-20240116; t=1733926130; c=relaxed/simple;
+	bh=TyKyQpmrpsgom8zJeIoaD3v8PbnUY4rPiNuAjvk87F8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=F6lj7oJbRJEwOwUpRLVVTKJloQUeFWN3xR88B6yo5117Sn+/npwBzLhF4CbNPe4Aq4dKqFdZiVitIaR9OMlf0t+UFMTVjMJRP4W5BPshWCljng9wEOJ+ZBPTbZmUbYr7uAS2zIL8odyxYfblRT5Jc34kNAT01EQjfVm1EfLH7Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=giOYJBUC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB6Kmlg002777;
+	Wed, 11 Dec 2024 14:08:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=btkaeEES3jGnQ1QH4u5FXT
+	aMuAp3a+249D+o/lV8mXc=; b=giOYJBUCr3CKETKoQVbVAmZiCvvb9GAaGxM0dM
+	Ni7XSwTm6hgixDxmkgKbVOdfo2rEvch3TmhsPVLBVMHlwd9COZ9Na0XbxUYYotim
+	0ZrT9No3cbcAeBXzHxKQ3u0iVja+QRP0+XcKkOpcnM0KUb/iIvVbTtWNODwi9RKG
+	C2C2baHmAuVkQN28A1ERoadEgcB+zQZNwSSHLacXx38YYK9MeZgsV/rBXeWXYGsa
+	A3Hsy+Ydhsf64+h4juodVhQ+jnqpKTkDKtWzK1ZKT9uS+w9mvuUopzFjmYFHQgYZ
+	5AQQQ7UXrkhp/vQEMd6p4ZRJJa4Qc1XbMNjpGBGs5q/PHFlA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43dxw485u6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Dec 2024 14:08:41 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BBE8efS018491
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Dec 2024 14:08:40 GMT
+Received: from hu-depengs-sha.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 11 Dec 2024 06:08:33 -0800
+From: Depeng Shao <quic_depengs@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <vladimir.zapolskiy@linaro.org>
+CC: <quic_eberman@quicinc.com>, <quic_depengs@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>
+Subject: [PATCH v6 00/16] media: qcom: camss: Add sm8550 support
+Date: Wed, 11 Dec 2024 19:37:22 +0530
+Message-ID: <20241211140738.3835588-1-quic_depengs@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: intel/ipu6: remove cpu latency qos request on
- error
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Genes Lists <lists@sapience.com>
-References: <20241211114905.368044-1-stanislaw.gruszka@linux.intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241211114905.368044-1-stanislaw.gruszka@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: av4AUvW9i9-J4U_OxGdhBdlNjN09Kz5E
+X-Proofpoint-GUID: av4AUvW9i9-J4U_OxGdhBdlNjN09Kz5E
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ suspectscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
+ clxscore=1015 spamscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412110102
 
-Hi,
+v6:
+- Add bus type property in dt-binding which will be limited
+  by a latest change 
+  https://lore.kernel.org/all/20241209-camss-dphy-v1-0-5f1b6f25ed92@fairphone.com/
+- Add RB for "media: qcom: camss: Add sm8550 compatible" and
+  "media: qcom: camss: Add support for VFE 780"
+- Uppercase the hex in csiphy register list - Bryan
+- Add empty function for csid tpg - Vladimir
+- Set testgen mode to CSID_PAYLOAD_MODE_DISABLED in subdev init interface
+- encapsulate the guard __thus__ for new header - Bryan
+- Add a standalone patch for the platform which doesn't support CSID TPG
+  to make sure new platform driver can set CSID_PAYLOAD_MODE_DISABLED
+  to disable TPG
+- Update the csid for csid and vfe driver - Bryan
+- Link to v5: https://lore.kernel.org/all/20241205155538.250743-1-quic_depengs@quicinc.com/
 
-On 11-Dec-24 12:49 PM, Stanislaw Gruszka wrote:
-> Fix cpu latency qos list corruption like below. It happens when
-> we do not remove cpu latency request on error path and free
-> corresponding memory.
-> 
-> [   30.634378] l7 kernel: list_add corruption. prev->next should be next (ffffffff9645e960), but was 0000000100100001. (prev=ffff8e9e877e20a8).
-> [   30.634388] l7 kernel: WARNING: CPU: 2 PID: 2008 at lib/list_debug.c:32 __list_add_valid_or_report+0x83/0xa0
-> <snip>
-> [   30.634640] l7 kernel: Call Trace:
-> [   30.634650] l7 kernel:  <TASK>
-> [   30.634659] l7 kernel:  ? __list_add_valid_or_report+0x83/0xa0
-> [   30.634669] l7 kernel:  ? __warn.cold+0x93/0xf6
-> [   30.634678] l7 kernel:  ? __list_add_valid_or_report+0x83/0xa0
-> [   30.634690] l7 kernel:  ? report_bug+0xff/0x140
-> [   30.634702] l7 kernel:  ? handle_bug+0x58/0x90
-> [   30.634712] l7 kernel:  ? exc_invalid_op+0x17/0x70
-> [   30.634723] l7 kernel:  ? asm_exc_invalid_op+0x1a/0x20
-> [   30.634733] l7 kernel:  ? __list_add_valid_or_report+0x83/0xa0
-> [   30.634742] l7 kernel:  plist_add+0xdd/0x140
-> [   30.634754] l7 kernel:  pm_qos_update_target+0xa0/0x1f0
-> [   30.634764] l7 kernel:  cpu_latency_qos_update_request+0x61/0xc0
-> [   30.634773] l7 kernel:  intel_dp_aux_xfer+0x4c7/0x6e0 [i915 1f824655ed04687c2b0d23dbce759fa785f6d033]
-> 
-> Reported-by: Genes Lists <lists@sapience.com>
-> Closes: https://lore.kernel.org/linux-media/c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com/
-> Fixes: f50c4ca0a820 ("media: intel/ipu6: add the main input system driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> ---
-> v2: add Closes tag
+v5:
+- Update dt-bindings required items order - Krzysztof
+- Sort the reg order based on the comments in sc7280 dt-binding - Vladimir
+- Change the irq type to IRQ_TYPE_EDGE_RISING - Vladimir
+- Remove the Krzysztof's RB tag from dt-binding patch due to above
+  updates in dt-binding patch
+- Move regulator from csid resource to csiphy resource - Bryan, Vladimir
+- Move the change to add default case in vfe_src_pad_code to a
+  standalone patch. - Bryan
+- Rename csid-gen3 as csid-780 - Bryan
+- use macros() to bury bit shifts - Bryan
+- Sort the macros by register offset order  -  Vladimir
+- Redefine a macro for rup_aup in csid driver - Vladimir
+- Remove the unused macros in vfe 780 driver - Vladimir
+- Add dummy function for unsupported hw_ops in vfe 780
+  driver - Vladimir, Bryan
+- Use a standalone patch for the callback API of RUP and buf done update
+- Use a standalone patch to make CSID TPG optional - Vladimir
+- Link to v4: https://lore.kernel.org/all/20240812144131.369378-1-quic_depengs@quicinc.com/
 
-Thanks, patch looks good to me:
+v4:
+- Update dt-bindings based on comments - Krzysztof, bod, Vladimir
+- Move common code into csid core and vfe core driver - bod
+- Remove *_relaxed in the csid and vfe drivers - Krzysztof
+- Reorganize patches in logical junks, make sure that new added
+structures have users in current patch - Krzysztof
+- Remove notify function  and add new functions in camss for buf done
+and reg update - bod
+- Remove custom code to get csid base - bod
+- Remove ISR function in vfe780 driver since it is never fired - bod
+- Move csid_top_base to camss structure since we only have one csid
+top block, and just need to get base once for csid top
+- Add Vladimir's RB
+- Remove prerequisite-patch-id in the cover letter since the changes
+have been merged
+- Add dtsi patch link for reference - Krzysztof
+https://lore.kernel.org/all/20240807123333.2056518-1-quic_depengs@quicinc.com/
+- Link to v3: https://lore.kernel.org/all/20240709160656.31146-1-quic_depengs@quicinc.com/
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+v3:
+- Rebased the change based on below change which will be merged firstly.
+"Move camss version related defs in to resources"
+Link: https://lore.kernel.org/all/20240522154659.510-1-quic_grosikop@quicinc.com/
+- Rebased the change based on Bryan's csiphy optimization change and add
+these changes into this series, so that the new csiphy-3ph driver don't
+need to add duplicate code. This has got Bryan's permission to add his
+patches into this series.
+- Refactor some changes based on the comments to move the random code to
+patches where they are used.
+- Remove the vfe780 irq function since it isn't doing the actual work.
+- Add dt-binding for sm8550 camss driver.
+Link to V2: https://lore.kernel.org/all/20240320141136.26827-1-quic_depengs@quicinc.com/
 
-Regards,
+v2:
+- Update some commit messages
+Link to V1: https://lore.kernel.org/all/20240320134227.16587-1-quic_depengs@quicinc.com/
 
-Hans
+v1:
+SM8550 is a Qualcomm flagship SoC. This series adds support to
+bring up the CSIPHY, CSID, VFE/RDI interfaces in SM8550.
+
+SM8550 provides
+
+- 3 x VFE, 3 RDI per VFE
+- 2 x VFE Lite, 4 RDI per VFE
+- 3 x CSID
+- 2 x CSID Lite
+- 8 x CSI PHY
+
+Bryan O'Donoghue (6):
+  media: qcom: camss: csiphy-3ph: Fix trivial indentation fault in
+    defines
+  media: qcom: camss: csiphy-3ph: Remove redundant PHY init sequence
+    control loop
+  media: qcom: camss: csiphy-3ph: Rename struct
+  media: qcom: camss: csiphy: Add an init callback to CSI PHY devices
+  media: qcom: camss: csiphy-3ph: Move CSIPHY variables to data field
+    inside csiphy struct
+  media: qcom: camss: csiphy-3ph: Use an offset variable to find common
+    control regs
+
+Depeng Shao (10):
+  media: qcom: camss: csid: Move common code into csid core
+  media: qcom: camss: vfe: Move common code into vfe core
+  media: qcom: camss: Add callback API for RUP update and buf done
+  media: qcom: camss: Add default case in vfe_src_pad_code
+  media: qcom: camss: csid: Add v4l2 ctrl if TPG mode isn't disabled
+  dt-bindings: media: camss: Add qcom,sm8550-camss binding
+  media: qcom: camss: Add sm8550 compatible
+  media: qcom: camss: csiphy-3ph: Add Gen2 v2.1.2 two-phase MIPI CSI-2
+    DPHY support
+  media: qcom: camss: Add CSID 780 support
+  media: qcom: camss: Add support for VFE 780
+
+ .../bindings/media/qcom,sm8550-camss.yaml     | 604 ++++++++++++++
+ drivers/media/platform/qcom/camss/Makefile    |   2 +
+ .../platform/qcom/camss/camss-csid-4-1.c      |  19 -
+ .../platform/qcom/camss/camss-csid-4-7.c      |  42 -
+ .../platform/qcom/camss/camss-csid-780.c      | 337 ++++++++
+ .../platform/qcom/camss/camss-csid-780.h      |  25 +
+ .../platform/qcom/camss/camss-csid-gen2.c     |  60 --
+ .../media/platform/qcom/camss/camss-csid.c    | 137 ++-
+ .../media/platform/qcom/camss/camss-csid.h    |  31 +
+ .../qcom/camss/camss-csiphy-2ph-1-0.c         |   6 +
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         | 789 ++++++++++--------
+ .../media/platform/qcom/camss/camss-csiphy.c  |   4 +
+ .../media/platform/qcom/camss/camss-csiphy.h  |   8 +
+ .../media/platform/qcom/camss/camss-vfe-17x.c | 112 +--
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |   9 -
+ .../media/platform/qcom/camss/camss-vfe-4-7.c |  11 -
+ .../media/platform/qcom/camss/camss-vfe-4-8.c |  11 -
+ .../media/platform/qcom/camss/camss-vfe-480.c | 301 +------
+ .../media/platform/qcom/camss/camss-vfe-780.c | 159 ++++
+ drivers/media/platform/qcom/camss/camss-vfe.c | 282 ++++++-
+ drivers/media/platform/qcom/camss/camss-vfe.h |  58 +-
+ drivers/media/platform/qcom/camss/camss.c     | 369 ++++++++
+ drivers/media/platform/qcom/camss/camss.h     |   4 +
+ 23 files changed, 2495 insertions(+), 885 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csid-780.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csid-780.h
+ create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-780.c
 
 
-
-
-
-> 
->  drivers/media/pci/intel/ipu6/ipu6-isys.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-> index 77f9c7319868..8df1d83a74b5 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-> @@ -1133,6 +1133,7 @@ static int isys_probe(struct auxiliary_device *auxdev,
->  free_fw_msg_bufs:
->  	free_fw_msg_bufs(isys);
->  out_remove_pkg_dir_shared_buffer:
-> +	cpu_latency_qos_remove_request(&isys->pm_qos);
->  	if (!isp->secure_mode)
->  		ipu6_cpd_free_pkg_dir(adev);
->  remove_shared_buffer:
+base-commit: bcf2acd8f64b0a5783deeeb5fd70c6163ec5acd7
+-- 
+2.34.1
 
 
