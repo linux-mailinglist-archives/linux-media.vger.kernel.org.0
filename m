@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-23209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A324E9ECE4C
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 15:13:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 836789ECE54
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 15:14:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4A7D16AE0E
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 14:12:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 991FA188CAED
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 14:13:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96C24243B91;
-	Wed, 11 Dec 2024 14:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E82AF23A18B;
+	Wed, 11 Dec 2024 14:09:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UW/Y41mN"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cq/a1sJg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EDC243B79;
-	Wed, 11 Dec 2024 14:09:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D41237FD6;
+	Wed, 11 Dec 2024 14:09:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733926177; cv=none; b=AWkWOAE1rVpiLEdMB9z/WKYaD5gwmly0fSRt5sLb46gYS/dU4C8X1xkizSQoqVomqyT74QVcfo4PaRakJcL3exOSOkd15kSw0FoydKYfIg5+fHDgUCAoa/fajJ/lLTOLXdPMepiP3+oM748W/ljX7CUGth/UmLMaWBmxFwYp/wE=
+	t=1733926181; cv=none; b=otdK/7qQVw5MdgUYXKDpUhJMsx04G6Y5VBKmnQ7J8gpaSu4cwykMMqIYhLB5FnxChwznZFyIjQFs5qaH3nBkM0kEg96GB9XCB6d+gM8ww0JjixZPXrYNbRsRZO/ETzCFGXI0lIYC47RM+vf/7Km1L7Y0VKkjUnKktzdSWpVsCqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733926177; c=relaxed/simple;
-	bh=TKCwomGZ0O5N4V4JcXQaViNlK3wqLpm3fun9jCh5wEE=;
+	s=arc-20240116; t=1733926181; c=relaxed/simple;
+	bh=GarcPQb7xf2530FFpgG+4qfdprmbRbSc4RRgXSe5ass=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OnazbwQk9Rf5j2t3IvzSK6iKlilFAZYX9bHJxgO48KpfV8feOIB4R9WMxFAKTpgkj8Y6R3k9UNVGyzgzxq/ubzkzeSne4tO7KmRg444H4YjkVq8ip/auijI5UiMhe/+6OYCF0cXoaJ24XaukIOt0GE9bleH/IgoHIOt5ENQJYP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UW/Y41mN; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=ezxquKm1a5f3BcCIh5FIofiWMO529LPGIz9KeL6Jl3qOXK7tlxZePVddw8+YAkB0eiwcyPL24zazT2PygYBe2Rhbdm4PtDMSb8XiP76JxgFBTMmfgMZZ6xgaCV39IVaCmGyMw/2qeAf4l8BaCIS0KKvFEe5iYYQR9Gt4nKpsZdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cq/a1sJg; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB8Bd9S006092;
-	Wed, 11 Dec 2024 14:09:31 GMT
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBCBSKX016329;
+	Wed, 11 Dec 2024 14:09:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	0HVfkwJTj+j5YgN5klaLUsqKtxQkc/Xw2ygP3i/Mogs=; b=UW/Y41mN9HpmEhaO
-	CUIw60lpbSmKLVenSRX7ccd6V2pLCDPKyvSvSowfGDzsCatKx8VzieDZxUOL+Epx
-	5caEyssH6/K68uuyudLvytszfcQwJx1s/CJtvDC5rvEMtK8YedFK5kLdNvbaNN8c
-	7JStItzf2F1OMj1ZVgrzSZc/qxt2BTt9iIz+OvxgGmkMeb95yP8flp+VULioNmXD
-	CeYshOHEIjhNJWkskhU5mDsZnYk5aLUKP6AZ99GZ6K3M+5y2OgcfK0Taf14VkJyr
-	kJqKrLNRd+GWAEwRiUYqRNN8V9xRI/UAvGBiLyicJjIGn58/Wj0d/lj1UqunKoUf
-	aa6+XA==
+	MxkBFuwQxqi4T6I04cjrb+1AWrqTPSL/J0KNMkZHL9g=; b=cq/a1sJg/Zvj1EHO
+	suvMA2dKuljaXd/BzVFzI2wMc1qfDw13GnsJDmcxSvDUK9qYEQI85oWcONsuq76K
+	pKP7s9QxO7AYfarA+JHeW3OK9o1Q44CHFcv0rZIogxxYMR5qGnqXhmUDjzqO2i87
+	l8IzvT05550jGzm20A5WhOb2s/B43dZstNt2oxCUrjP+Nl3opySe93hKRjEqVvky
+	nXXHC7IXirR4xmkOy+OI+Ru+vV1io7cJTSS1DnMe5IWrAlq58olNdg/V1VsjAT7g
+	pb8o7Dab65VsTfegSVaFNDG6CzkSbFGouFwi+YoIaXnjAkR7Y4xlzdj/AQiAB49a
+	V5tDwg==
 Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43f70w12dx-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ee3ndc2y-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Dec 2024 14:09:31 +0000 (GMT)
+	Wed, 11 Dec 2024 14:09:35 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BBE9VCX020560
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BBE9Yu3020593
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Dec 2024 14:09:31 GMT
+	Wed, 11 Dec 2024 14:09:34 GMT
 Received: from hu-depengs-sha.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 11 Dec 2024 06:09:24 -0800
+ 15.2.1544.9; Wed, 11 Dec 2024 06:09:28 -0800
 From: Depeng Shao <quic_depengs@quicinc.com>
 To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
         <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
@@ -64,9 +64,9 @@ CC: <quic_eberman@quicinc.com>, <quic_depengs@quicinc.com>,
         <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <kernel@quicinc.com>
-Subject: [PATCH 13/16] media: qcom: camss: Add sm8550 compatible
-Date: Wed, 11 Dec 2024 19:37:35 +0530
-Message-ID: <20241211140738.3835588-14-quic_depengs@quicinc.com>
+Subject: [PATCH 14/16] media: qcom: camss: csiphy-3ph: Add Gen2 v2.1.2 two-phase MIPI CSI-2 DPHY support
+Date: Wed, 11 Dec 2024 19:37:36 +0530
+Message-ID: <20241211140738.3835588-15-quic_depengs@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241211140738.3835588-1-quic_depengs@quicinc.com>
 References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
@@ -82,97 +82,294 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: LdO0FsCMs1Ldy053iSgNjshW64cfsLnl
-X-Proofpoint-ORIG-GUID: LdO0FsCMs1Ldy053iSgNjshW64cfsLnl
+X-Proofpoint-GUID: czBt6Z67inp-rfdfwr5HNCowDXLVpA70
+X-Proofpoint-ORIG-GUID: czBt6Z67inp-rfdfwr5HNCowDXLVpA70
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
- clxscore=1015 phishscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412110101
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 priorityscore=1501 mlxscore=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 adultscore=0 clxscore=1015 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412110102
 
-Add CAMSS_8550 enum, sm8550 compatible and sm8550 camss drvier private
-data, the private data just include some basic information now, later
-changes will enumerate with csiphy, csid and vfe resources.
+Add a PHY configuration sequence and PHY resource for the sm8550 which
+uses a Qualcomm Gen 2 version 2.1.2 CSI-2 PHY.
+
+The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+mode. This configuration supports two-phase D-PHY mode.
 
 Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss.c | 32 +++++++++++++++++++++++
- drivers/media/platform/qcom/camss/camss.h |  1 +
- 2 files changed, 33 insertions(+)
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         | 111 ++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss.c     | 109 +++++++++++++++++
+ 2 files changed, 220 insertions(+)
 
+diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+index e44198686b55..18a3cf0d64bb 100644
+--- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
++++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+@@ -318,6 +318,111 @@ csiphy_lane_regs lane_regs_sm8250[] = {
+ 	{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+ };
+ 
++/* GEN2 2.1.2 2PH DPHY mode */
++static const struct
++csiphy_lane_regs lane_regs_sm8550[] = {
++	{0x0E90, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E98, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E94, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
++	{0x00A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0090, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0098, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0094, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
++	{0x0494, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x04A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0490, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0498, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0494, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
++	{0x0894, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x08A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0890, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0898, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0894, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
++	{0x0C94, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0CA0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C90, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C98, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C94, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
++	{0x0E30, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E28, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E00, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E0C, 0xFF, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E38, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E2C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E34, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E1C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E14, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E3C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E04, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E20, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0E08, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0030, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0000, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x001C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0020, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0008, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0010, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0430, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0400, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0434, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x041C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0420, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0408, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0410, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0830, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0800, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0838, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x082C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0834, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x081C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0814, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x083C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0804, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0820, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0808, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0810, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C30, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C00, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C38, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C2C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C34, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C1C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C14, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C3C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C04, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C20, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C08, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0C10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0094, 0xD7, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x005C, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0060, 0xBD, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0064, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0494, 0xD7, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x045C, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0460, 0xBD, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0464, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0894, 0xD7, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x085C, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0860, 0xBD, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0864, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C94, 0xD7, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C5C, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C60, 0xBD, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C64, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++};
++
+ static void csiphy_hw_version_read(struct csiphy_device *csiphy,
+ 				   struct device *dev)
+ {
+@@ -519,6 +624,7 @@ static bool csiphy_is_gen2(u32 version)
+ 	case CAMSS_845:
+ 	case CAMSS_8250:
+ 	case CAMSS_8280XP:
++	case CAMSS_8550:
+ 		ret = true;
+ 		break;
+ 	}
+@@ -606,6 +712,11 @@ static int csiphy_init(struct csiphy_device *csiphy)
+ 		regs->lane_regs = &lane_regs_sc8280xp[0];
+ 		regs->lane_array_size = ARRAY_SIZE(lane_regs_sc8280xp);
+ 		break;
++	case CAMSS_8550:
++		regs->lane_regs = &lane_regs_sm8550[0];
++		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8550);
++		regs->offset = 0x1000;
++		break;
+ 	default:
+ 		WARN(1, "unknown csiphy version\n");
+ 		return -ENODEV;
 diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index e24084ff88de..2f7697540578 100644
+index 2f7697540578..75073841156f 100644
 --- a/drivers/media/platform/qcom/camss/camss.c
 +++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1634,6 +1634,29 @@ static const struct resources_icc icc_res_sc8280xp[] = {
+@@ -1634,6 +1634,113 @@ static const struct resources_icc icc_res_sc8280xp[] = {
  	},
  };
  
-+static const struct resources_icc icc_res_sm8550[] = {
++static const struct camss_subdev_resources csiphy_res_8550[] = {
++	/* CSIPHY0 */
 +	{
-+		.name = "ahb",
-+		.icc_bw_tbl.avg = 2097152,
-+		.icc_bw_tbl.peak = 2097152,
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "csiphy0", "csiphy0_timer" },
++		.clock_rate = { { 400000000, 480000000 },
++				{ 400000000 } },
++		.reg = { "csiphy0" },
++		.interrupt = { "csiphy0" },
++		.csiphy = {
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
 +	},
++	/* CSIPHY1 */
 +	{
-+		.name = "hf_0_mnoc",
-+		.icc_bw_tbl.avg = 2097152,
-+		.icc_bw_tbl.peak = 2097152,
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "csiphy1", "csiphy1_timer" },
++		.clock_rate = { { 400000000, 480000000 },
++				{ 400000000 } },
++		.reg = { "csiphy1" },
++		.interrupt = { "csiphy1" },
++		.csiphy = {
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
 +	},
++	/* CSIPHY2 */
 +	{
-+		.name = "icp_mnoc",
-+		.icc_bw_tbl.avg = 2097152,
-+		.icc_bw_tbl.peak = 2097152,
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "csiphy2", "csiphy2_timer" },
++		.clock_rate = { { 400000000, 480000000 },
++				{ 400000000 } },
++		.reg = { "csiphy2" },
++		.interrupt = { "csiphy2" },
++		.csiphy = {
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
 +	},
++	/* CSIPHY3 */
 +	{
-+		.name = "sf_0_mnoc",
-+		.icc_bw_tbl.avg = 2097152,
-+		.icc_bw_tbl.peak = 2097152,
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "csiphy3", "csiphy3_timer" },
++		.clock_rate = { { 400000000, 480000000 },
++				{ 400000000 } },
++		.reg = { "csiphy3" },
++		.interrupt = { "csiphy3" },
++		.csiphy = {
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
 +	},
++	/* CSIPHY4 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "csiphy4", "csiphy4_timer" },
++		.clock_rate = { { 400000000, 480000000 },
++				{ 400000000 } },
++		.reg = { "csiphy4" },
++		.interrupt = { "csiphy4" },
++		.csiphy = {
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
++	},
++	/* CSIPHY5 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "csiphy5", "csiphy5_timer" },
++		.clock_rate = { { 400000000, 480000000 },
++				{ 400000000 } },
++		.reg = { "csiphy5" },
++		.interrupt = { "csiphy5" },
++		.csiphy = {
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
++	},
++	/* CSIPHY6 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "csiphy6", "csiphy6_timer" },
++		.clock_rate = { { 400000000, 480000000 },
++				{ 400000000 } },
++		.reg = { "csiphy6" },
++		.interrupt = { "csiphy6" },
++		.csiphy = {
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
++	},
++	/* CSIPHY7 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "csiphy7", "csiphy7_timer" },
++		.clock_rate = { { 400000000, 480000000 },
++				{ 400000000 } },
++		.reg = { "csiphy7" },
++		.interrupt = { "csiphy7" },
++		.csiphy = {
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
++	}
 +};
 +
- /*
-  * camss_add_clock_margin - Add margin to clock frequency rate
-  * @rate: Clock frequency rate
-@@ -2644,6 +2667,14 @@ static const struct camss_resources sc8280xp_resources = {
+ static const struct resources_icc icc_res_sm8550[] = {
+ 	{
+ 		.name = "ahb",
+@@ -2670,8 +2777,10 @@ static const struct camss_resources sc8280xp_resources = {
+ static const struct camss_resources sm8550_resources = {
+ 	.version = CAMSS_8550,
+ 	.pd_name = "top",
++	.csiphy_res = csiphy_res_8550,
+ 	.icc_res = icc_res_sm8550,
+ 	.icc_path_num = ARRAY_SIZE(icc_res_sm8550),
++	.csiphy_num = ARRAY_SIZE(csiphy_res_8550),
  	.link_entities = camss_link_entities
  };
  
-+static const struct camss_resources sm8550_resources = {
-+	.version = CAMSS_8550,
-+	.pd_name = "top",
-+	.icc_res = icc_res_sm8550,
-+	.icc_path_num = ARRAY_SIZE(icc_res_sm8550),
-+	.link_entities = camss_link_entities
-+};
-+
- static const struct of_device_id camss_dt_match[] = {
- 	{ .compatible = "qcom,msm8916-camss", .data = &msm8916_resources },
- 	{ .compatible = "qcom,msm8953-camss", .data = &msm8953_resources },
-@@ -2652,6 +2683,7 @@ static const struct of_device_id camss_dt_match[] = {
- 	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
- 	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
- 	{ .compatible = "qcom,sc8280xp-camss", .data = &sc8280xp_resources },
-+	{ .compatible = "qcom,sm8550-camss", .data = &sm8550_resources },
- 	{ }
- };
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 6dceff8ce319..cf6672baea1c 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -84,6 +84,7 @@ enum camss_version {
- 	CAMSS_845,
- 	CAMSS_8250,
- 	CAMSS_8280XP,
-+	CAMSS_8550,
- };
- 
- enum icc_count {
 -- 
 2.34.1
 
