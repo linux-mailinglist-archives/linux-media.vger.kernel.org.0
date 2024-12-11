@@ -1,189 +1,142 @@
-Return-Path: <linux-media+bounces-23141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23142-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3EE9EC08C
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 01:15:44 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EAD40188BBE2
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 00:15:17 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A83521DEFDA;
-	Wed, 11 Dec 2024 00:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="A2G4Fr6G"
-X-Original-To: linux-media@vger.kernel.org
-Received: from pv50p00im-ztdg10011901.me.com (pv50p00im-ztdg10011901.me.com [17.58.6.50])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B799EC0C3
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 01:30:58 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73658EC4
-	for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 00:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.50
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABBE5283330
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 00:30:56 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64C4511CAF;
+	Wed, 11 Dec 2024 00:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jfwugTo1"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657F2AD5E;
+	Wed, 11 Dec 2024 00:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733875878; cv=none; b=qOeLGe2j/Ud6E38FPIJDthT//dbj0ukf/m1nzCnfjFOewLCfjWoec3fmG5t27/DOqWtb0kCg7Ah/Yvvf1TFEHOIgKQGn7t3UkaUTeRKP7emeYP/gIwunVw0Wmxg4GO3pB4Oe4cqaiwyzLQUkMCJoK9jpBffU2IKJmVptoVFTCH0=
+	t=1733877049; cv=none; b=H+oSi6c3+Tro7m5lu08nfP47sqzK90ScY9tuDemkTdVeAgPNEh2xqSv1vxvdEZhBMNhY0b6OeBgbnXHxA1I8lG4UL9+WcxPXXFcvoGjIOcwdlqscxPOYFoO1Q1RGvTJ54f9uBeRcwRksC24icws/lDAhQrlPylNUTt3FNqN3aGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733875878; c=relaxed/simple;
-	bh=d3RWbfmtjm10GAZA1NaOSKX3f3hNp1vr+fuyWoNuJcw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SXQlS6hka0VHv9HoiNRw/aQZ2+kxyDKuogZdeNwD7cfleIvrkBrATIKfQUDGhJ0SfiqLkTggphuVtButsBTohziiaiyayV3S9gut4t1PhPMgb6qnQNsOaqwFcaaNAd+m2IOQ9jmTUaqwP6iyI/OIgxGO88MMAixe88qJ0MVeckY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=A2G4Fr6G; arc=none smtp.client-ip=17.58.6.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1733875874;
-	bh=+P6kTmCwDbC0RwMmjYjZfzPZ5o9SCTkxH8bGJ/DVcdQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:
-	 x-icloud-hme;
-	b=A2G4Fr6Ga6cVgux12r3mj2O9uL5jIcyFXHdjjqLRUtrEdEAwO7iZHiUi5FF6UPVWo
-	 hkulrf+wv/Im1f51OENPnQuBkzjqse1+qZAWDlM/Ma/ogIYBbBc5z987he4q/Jfl/j
-	 jqoFvMwL1Dxn9aXwXtEZHj1xbx0kYWW9yoj14b+sc93PJCVGG73JrsnCffz2e+UQam
-	 moqZ3JxqtqDb6QrUFF3T4ZHUf07FMnmWcCqxambSLziZyyUYRBLY1FDHbpm8nZRlL4
-	 b1ndYET1hWQUqdrGPGb1qMfeSNR//QUsLeZ1GaVoFEHlo6HuTD5NfJJdJ3tCpxtcTt
-	 akO3dQKO/do/A==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-ztdg10011901.me.com (Postfix) with ESMTPSA id E9BCD3A0349;
-	Wed, 11 Dec 2024 00:11:03 +0000 (UTC)
-From: Zijun Hu <zijun_hu@icloud.com>
-Date: Wed, 11 Dec 2024 08:08:13 +0800
-Subject: [PATCH v4 11/11] usb: typec: class: Remove both cable_match() and
- partner_match()
+	s=arc-20240116; t=1733877049; c=relaxed/simple;
+	bh=zfnL3T4fjWRklKZ7QwDKYimyih0yvUm1HdG4fl8TH2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=maYFK7nmop1ZFk2lFnhDDr59qMZ2e+ikd16UYtee47cg3EtLi4+GDoS+N7MWVDntDioGmcabWeBDg7tN7Z20PCcrS8vYmVpIRH0bi+rLvtKZLMHouMoe7qO8Q25Wr7fEl+l7+K50Zpipyq5YsqCDBCO2dKA5zYO1chUJw3uG2co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jfwugTo1; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7b6ed0de64aso2162485a.0;
+        Tue, 10 Dec 2024 16:30:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733877047; x=1734481847; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8G/UOeJH2Z5HF5N1QDZ/736SvvRIiY1q2rQowPJk9I4=;
+        b=jfwugTo1R6G6d6K7WjiRT2Os8C2J0et0NAQxzt5lb+U6CwzNnT8Zmv8y0ikavZqhUI
+         GWEFpxomxr5Y7b1VSpzDg9+3valw51QqQAVnhAua/wUNITh5XDfxv9ApNqokRvgIxMgK
+         k42svmKd8tLXXgGkwaFH+n6v7hy+LXZgK1SRGbhcfTk/1uamn8ioJgLow2t/OjN6IbVo
+         6nsbgXnHve3Spm7fI39oi4QEQ4+DFGhyr41EZom1RYhjrwVwMTVfU2Nid2Wv1fFiZKHg
+         4MG8BhS6TpnXXAXAEEgtLnE8jU36EXZsNlnCnDaJF9//RpWRKj8UACOfirDKobJ7gzt+
+         ztVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733877047; x=1734481847;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8G/UOeJH2Z5HF5N1QDZ/736SvvRIiY1q2rQowPJk9I4=;
+        b=fy/+ljSJTLVV4ss/ordS7pJCXryEqhmHypz3LUBulGk8cNisceWzm2Nj5xmQnfZWE1
+         b2ZK05HNVEVfBRGLbPRtTELoWJFdgbNnEJ929zu0e4in3UXx+gZZv5UydfJEjdSMLmTN
+         PhMC1pMXFb3x9hyk+0R6H60X/9ZLUzT2ps079BBPi+Zx2id0ZuTWFrz9S4MS4NbuBJCG
+         B01pPfAgKcBMJH2cBTcz/aUsSQ1raITrEZjDQd4T8U527OUj8GqQqpjPPRkBh+JJXyh6
+         zDY9iO7nsdmXb3NXedd3bx9UfpGpHWMACQpx0uHNzWTRInUod6JfYu+ElS7zS/2xOGUf
+         17/w==
+X-Forwarded-Encrypted: i=1; AJvYcCViUapANMFhvdBupmr+f1bbu23TwPKJfeXa5Ri7TYjtcoqpxqgTpO5GgmEi1b38dn2prGqiKwGmCoEXv1pOQQ==@vger.kernel.org, AJvYcCW/0DLWOxZUv5JhObPIk/aCeixouaN9mBobKMv/Qt81iIhLHzkRAGSe0ErOEIUAELeizuCoji1gYlmT@vger.kernel.org, AJvYcCXCKtP/eorJixunlg2AsMeDzIiHW231m2MkAgwGoyZc4ptNfN0Z8/o2mv4rtdNCkSMpOpmsVurJSUNHT4w=@vger.kernel.org, AJvYcCXqVNJ07HBeWJEdLfK7L/ROimH73Ke+iw63vVbnIO6VqTgRCSEBwouNFNwQWin8oGLzeCQycr95Yuu0@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKeZd+mZmQZrfHvCySRW9VVlqTFvHSxgQglWAr+IgPBsn/EKSw
+	nLsLgpDiNkOazUlZwGM9OHBh02LVNQZt/CF1CWKGxQCuIp6VKi24
+X-Gm-Gg: ASbGncv5lH6cKKhxKCtIzXjDbDtGRbpURjuFyV+qUqpSLxHKcywwXMDhHBsf4JewNF4
+	yKNxtfcqBq7jfofkF3tEgz50BRnhc0wPCdfn5yxi/BAvOvXXlMBh65eQOd/6TExs7uCOaekqgkP
+	T4TTs/2kS8pV96FzcZ6U2QjgOt86xblasYhJGGeUtJ8+tb+h//gjzJimu52Dlx4F2qWFi0mQKej
+	EpO8xxrab3E6bivmPuVde8VPdFjewByD7ALajV8Yg==
+X-Google-Smtp-Source: AGHT+IGJjTwiDSy9y0Z/4YUAm05vyvap6CL7ctnNDpSLs0/ro7VuqA8lXU6SvI3JB8AkwPkgMsbX7g==
+X-Received: by 2002:a05:620a:4594:b0:7b6:cb3c:cb81 with SMTP id af79cd13be357-7b6ebc6e5a3mr131819485a.18.1733877047280;
+        Tue, 10 Dec 2024 16:30:47 -0800 (PST)
+Received: from localhost ([2607:fea8:52a3:d200::6d3f])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b6dcd91ce6sm154812985a.127.2024.12.10.16.30.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 16:30:46 -0800 (PST)
+Date: Tue, 10 Dec 2024 19:30:45 -0500
+From: Richard Acayan <mailingradian@gmail.com>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Subject: Re: [PATCH v7 5/5] arm64: dts: qcom: sdm670: add camss and cci
+Message-ID: <Z1jdNaeoictuCK7N@radian>
+References: <20241210233534.614520-7-mailingradian@gmail.com>
+ <20241210233534.614520-12-mailingradian@gmail.com>
+ <fe8dbb4e-9d0e-4ecf-874b-be9225ae1487@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241211-const_dfc_done-v4-11-583cc60329df@quicinc.com>
-References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
-In-Reply-To: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- James Bottomley <James.Bottomley@HansenPartnership.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
- Zijun Hu <zijun_hu@icloud.com>, linux-kernel@vger.kernel.org, 
- nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-cxl@vger.kernel.org, linux1394-devel@lists.sourceforge.net, 
- arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
- netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: qwQLilRFtH8fzUdgAlR9P2gaSWkwiO3A
-X-Proofpoint-GUID: qwQLilRFtH8fzUdgAlR9P2gaSWkwiO3A
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-10_13,2024-12-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0 phishscore=0
- suspectscore=0 mlxscore=0 spamscore=0 mlxlogscore=950 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2412100174
-X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fe8dbb4e-9d0e-4ecf-874b-be9225ae1487@linaro.org>
 
-From: Zijun Hu <quic_zijuhu@quicinc.com>
+On Tue, Dec 10, 2024 at 11:49:20PM +0000, Bryan O'Donoghue wrote:
+> On 10/12/2024 23:35, Richard Acayan wrote:
+> > +			clocks = <&gcc GCC_CAMERA_AHB_CLK>,
+> > +				 <&gcc GCC_CAMERA_AXI_CLK>,
+> > +				 <&camcc CAM_CC_SOC_AHB_CLK>,
+> > +				 <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+> > +				 <&camcc CAM_CC_CPAS_AHB_CLK>,
+> > +				 <&camcc CAM_CC_IFE_0_CSID_CLK>,
+> > +				 <&camcc CAM_CC_IFE_1_CSID_CLK>,
+> > +				 <&camcc CAM_CC_IFE_LITE_CSID_CLK>,
+> > +				 <&camcc CAM_CC_CSIPHY0_CLK>,
+> > +				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> > +				 <&camcc CAM_CC_CSIPHY1_CLK>,
+> > +				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
+> > +				 <&camcc CAM_CC_CSIPHY2_CLK>,
+> > +				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
+> > +				 <&camcc CAM_CC_IFE_0_AXI_CLK>,
+> > +				 <&camcc CAM_CC_IFE_0_CLK>,
+> > +				 <&camcc CAM_CC_IFE_0_CPHY_RX_CLK>,
+> > +				 <&camcc CAM_CC_IFE_1_AXI_CLK>,
+> > +				 <&camcc CAM_CC_IFE_1_CLK>,
+> > +				 <&camcc CAM_CC_IFE_1_CPHY_RX_CLK>,
+> > +				 <&camcc CAM_CC_IFE_LITE_CLK>,
+> > +				 <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>;
+> > +			clock-names = "gcc_camera_ahb",
+> > +				      "gcc_camera_axi",
+> > +				      "soc_ahb",
+> > +				      "camnoc_axi",
+> > +				      "cpas_ahb",
+> 
+> I think you sorted the regs, interrupts but forgot the clocks ?
 
-cable_match(), as matching function of device_find_child(), matches
-a device with device type @typec_cable_dev_type, and its task can be
-simplified by the recently introduced API device_match_type().
+Do you mean the first three clocks placed first? The order was suggested
+by Vladimir in [1], but I can undo it.
 
-partner_match() is similar with cable_match() but with a different
-device type @typec_partner_dev_type.
+[1] https://lore.kernel.org/r/40cd7a52-1c60-40dc-aee6-730b5247b216@linaro.org
 
-Remove both functions and use the API plus respective device type instead.
-
-Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
----
- drivers/usb/typec/class.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 601a81aa1e1024265f2359393dee531a7779c6ea..3a4e0bd0131774afd0d746d2f0a306190219feec 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -1282,11 +1282,6 @@ const struct device_type typec_cable_dev_type = {
- 	.release = typec_cable_release,
- };
- 
--static int cable_match(struct device *dev, const void *data)
--{
--	return is_typec_cable(dev);
--}
--
- /**
-  * typec_cable_get - Get a reference to the USB Type-C cable
-  * @port: The USB Type-C Port the cable is connected to
-@@ -1298,7 +1293,8 @@ struct typec_cable *typec_cable_get(struct typec_port *port)
- {
- 	struct device *dev;
- 
--	dev = device_find_child(&port->dev, NULL, cable_match);
-+	dev = device_find_child(&port->dev, &typec_cable_dev_type,
-+				device_match_type);
- 	if (!dev)
- 		return NULL;
- 
-@@ -2028,16 +2024,12 @@ const struct device_type typec_port_dev_type = {
- /* --------------------------------------- */
- /* Driver callbacks to report role updates */
- 
--static int partner_match(struct device *dev, const void *data)
--{
--	return is_typec_partner(dev);
--}
--
- static struct typec_partner *typec_get_partner(struct typec_port *port)
- {
- 	struct device *dev;
- 
--	dev = device_find_child(&port->dev, NULL, partner_match);
-+	dev = device_find_child(&port->dev, &typec_partner_dev_type,
-+				device_match_type);
- 	if (!dev)
- 		return NULL;
- 
-@@ -2170,7 +2162,9 @@ void typec_set_pwr_opmode(struct typec_port *port,
- 	sysfs_notify(&port->dev.kobj, NULL, "power_operation_mode");
- 	kobject_uevent(&port->dev.kobj, KOBJ_CHANGE);
- 
--	partner_dev = device_find_child(&port->dev, NULL, partner_match);
-+	partner_dev = device_find_child(&port->dev,
-+					&typec_partner_dev_type,
-+					device_match_type);
- 	if (partner_dev) {
- 		struct typec_partner *partner = to_typec_partner(partner_dev);
- 
-@@ -2334,7 +2328,9 @@ int typec_get_negotiated_svdm_version(struct typec_port *port)
- 	enum usb_pd_svdm_ver svdm_version;
- 	struct device *partner_dev;
- 
--	partner_dev = device_find_child(&port->dev, NULL, partner_match);
-+	partner_dev = device_find_child(&port->dev,
-+					&typec_partner_dev_type,
-+					device_match_type);
- 	if (!partner_dev)
- 		return -ENODEV;
- 
-@@ -2361,7 +2357,8 @@ int typec_get_cable_svdm_version(struct typec_port *port)
- 	enum usb_pd_svdm_ver svdm_version;
- 	struct device *cable_dev;
- 
--	cable_dev = device_find_child(&port->dev, NULL, cable_match);
-+	cable_dev = device_find_child(&port->dev, &typec_cable_dev_type,
-+				      device_match_type);
- 	if (!cable_dev)
- 		return -ENODEV;
- 
-
--- 
-2.34.1
-
+> 
+> ---
+> bod
 
