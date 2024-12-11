@@ -1,232 +1,128 @@
-Return-Path: <linux-media+bounces-23225-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23226-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911169ED687
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 20:30:38 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB8E9ED837
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 22:12:19 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E255A164227
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 19:30:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 99C4C2827D5
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 21:12:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C39B1C5F0E;
-	Wed, 11 Dec 2024 19:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 415E01DA632;
+	Wed, 11 Dec 2024 21:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="U6FRIaKa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVY1kenb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E13259483
-	for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 19:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF431259498
+	for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 21:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733945430; cv=none; b=tzkT7SgChwvRg4Cy1iUIGc7pLGmZ/Kgq50svmxJwh44lWepsoN+HUwCEFMCrLM6q17MyoyGMdS1FmLaFwnHMWp0dyrVu2ic/9E5MbBOpM4URZBDsOtKOygB/AtaRnru7fY1GSEvFRAXDOvPBOi0dI9qVcQGmzgSw4u3M9k5eepg=
+	t=1733951533; cv=none; b=N4Ww02giCPLVfc8E8fV4lLkN01GUf5Ph+C92a725deaJyNe8Zh68bSnajDuC3Zu2Gqe9xJA9agojBJUVrLOy7rQqkh4znd2KLAUIVQyxv9t2Vhu/dHCpxubkycnbt2/KRj+3SRO9IcqMXxcHw9hkv87n12AeGmQxAzX36u2Xolg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733945430; c=relaxed/simple;
-	bh=NLbkVoBeNPUAkh0w/czo2/ud4fRP+tnndhTlLVDHIww=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=snb/BrvxJZ3/nX7ecWlrIPr2Up7c1QtgmcN65bm4bT1Tcrx9sdA5R6yFMK4Ep4tyXFtXHUfgd6Q2J6RYWaxVzBtI01TTEWuTLBBH8Coqmti5WzfN0EM4BxRH+WJHD/LqmAzp+smsLTWkuXbAnkSp7wFTL/WGromzKrCmMYq3MsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=U6FRIaKa; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7b6f1b54dc3so44904785a.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 11:30:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733945426; x=1734550226; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0k1G/qGBWIaLKoFnL6Ujw4Nm5IPzp6WS2ypI+KzLKqA=;
-        b=U6FRIaKa4FP4a1qYe3dQQSJyLXZ/rmRj9qNHfv/x9OaN6gjMrlqOhZhpNxtrQ4qND3
-         44uqeWDQKL+0aaORNdzlQGxcrKkfUbCu4rhWYld6XdFJYvaKzV6iuS8qn3dHRRNgdAr5
-         UpqGbGVqaPa/VNmVOuMtFs/Jmc7lCLHbdPv7E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733945426; x=1734550226;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0k1G/qGBWIaLKoFnL6Ujw4Nm5IPzp6WS2ypI+KzLKqA=;
-        b=uZQtLO86SVCjIA8WZJNJ6evFe+lZTAF00rL4fs0WlivbaPu8UYOUIRlwvlaYweHTpf
-         LnpHY2lD7qYfyWrA+2XkYYu+YdO/FFJJfZOyI04XgGUMV90IPeNR/rnJqRw6A1QEQaSB
-         LtN9Q5dC/yrE8FV2zi2uAXIGeddVuYQIYbYRDul75Jn0zCRiEVJlgbIgiZ2WTBlEe4vN
-         7p/y38omOxvEYk8kI0c7hDrSJRQCEixl2gWDEJoegUgcylJp9VfrAUwgpAPan0jmHCcd
-         7riQHRAS1zliSM5zcMJ0QMT/6pbVemwNf+B7BjP5ZYHprJdG+0ohFfsQS4pV1eppysLq
-         Jqjw==
-X-Gm-Message-State: AOJu0Yx03ZvnAqhXANKDBpv5CdkiBB3LPjnaOW4OEmE++lDGw3pyM0k3
-	Or7a2aUcjUJ3SZ51vMGNqFLqOexqBAXYcFam8qW/VPSvlE+7v9SJelS4Mv7QqWuhzaSfz6IHuKA
-	=
-X-Gm-Gg: ASbGncu4nhrd9taeRlwtAsJEkUeZsoh0uZ1+Y4jpsZISvtFQK+nFCQ7MNPYEo0obXFa
-	g0rD6oYEVsbz7+bekB8B0CMIE1RJjCCiTcaO/r63E2jQ0mTTxpDkAFvWir3w8gnCxDi24VRAvSR
-	t/F2yotR4BfnZof1rk+PAkwHLCFmAt66cKo7hsy3pSYKbvLDxS+zqaTVjGNvL0mYYLWt9Mvd0Kt
-	T1jGtbtpQR8BSh2JAE4zfO1NBxvPD3GjhioMCcouJwz4U/2YUzDGQEs5kdoL4USvP2B2Kq118mo
-	hEWbwEphEf8oD48RsjucPi6fPZs5
-X-Google-Smtp-Source: AGHT+IGrC3wTbsnuwHCq1B+bgebPx0oPNMVtjafyo/v+gffFSs6JyrJ3+mQYUWITUvdQ4L4bfmmmCw==
-X-Received: by 2002:a05:620a:470b:b0:7b6:d9f6:ec37 with SMTP id af79cd13be357-7b6f25c09eemr91404685a.61.1733945426535;
-        Wed, 11 Dec 2024 11:30:26 -0800 (PST)
-Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b6eb340c61sm106138085a.114.2024.12.11.11.30.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 11:30:26 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 11 Dec 2024 19:30:25 +0000
-Subject: [PATCH] android: Remove unused file
+	s=arc-20240116; t=1733951533; c=relaxed/simple;
+	bh=XVySc6o3E018qaJymQPo9eEIUM3AAP1yrqNUeL6V4Sk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e3qduw4yuFR+CGMKlCMFp0e++/L/J5QV3hrMF4Sw4gSFePraKkOSnfzsmIwq1tz4KL5XIit1+lVnb4Zlmdo41vnGr5PbxC7Qllon8+hH+ro6hNPZGF1w2USLZtYyTQQKHMtIyUcNIEAHOJBHeBScGauhtMarJKJZR1WcaXysZR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVY1kenb; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733951532; x=1765487532;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XVySc6o3E018qaJymQPo9eEIUM3AAP1yrqNUeL6V4Sk=;
+  b=LVY1kenb+5T7qoy4TJdEbcvMknt0XZ5DuXGMeclDaUTJhzNHNn6x6PKM
+   wWYmtMjieF5VwiiQFtqEMfKfIyaejhIWUc/YtqKC98ocqQTS6wCAm4jH2
+   0VHQgNHICRdCo04CU0N0eBJ3pxZGJIdYFlVwGY14es0Bulqd6ehEwq5QE
+   BQpdWi7HlJVQ+ChBUhpAnptb9nKEwgGyq+/DbQNhCQ+rMXDh/KcQyaTeS
+   YjhWNWTSE6dh1V98KGeFY0+wrwcabzEWmYXZ2KaIukjJeMIlKn4+pX8VS
+   lTIgCif6M4otsom3lwzYylOnsfMWQpBNq5/efPTsNt6H6rvZZQB5ETUgU
+   A==;
+X-CSE-ConnectionGUID: lAkXFASgSuSBDdMJPyONqg==
+X-CSE-MsgGUID: tgw5zr6xQJyDPuOS1cgnQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45735431"
+X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
+   d="scan'208";a="45735431"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 13:12:11 -0800
+X-CSE-ConnectionGUID: 8zznr5P3T6SVwac61IDpXg==
+X-CSE-MsgGUID: 8+1BQwmhSKSKCjvcfAyggw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; 
+   d="scan'208";a="95808146"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 13:12:08 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A0A6B11FADC;
+	Wed, 11 Dec 2024 23:12:05 +0200 (EET)
+Date: Wed, 11 Dec 2024 21:12:05 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Yan, Dongcheng" <dongcheng.yan@intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
+	bingbu.cao@linux.intel.com, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
+	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
+	balamurugan.c@intel.com, wei.a.fu@intel.com
+Subject: Re: [PATCH v4] media: i2c: add lt6911uxe hdmi bridge driver
+Message-ID: <Z1oAGfRs28hgo-sc@kekkonen.localdomain>
+References: <20241129061546.2237511-1-dongcheng.yan@intel.com>
+ <Z1hOBpwLfB_wfRwL@kekkonen.localdomain>
+ <66e2d69c-9413-48dc-9dcc-1df7576ddf2d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241211-android2-v1-1-3dc4ac91f6d2@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAFDoWWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDI0ND3cS8lKL8zBQj3dRUY5MUcwMDIDZSAiovKEpNy6wAGxUdW1sLAKh
- 6L+5aAAAA
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <66e2d69c-9413-48dc-9dcc-1df7576ddf2d@intel.com>
 
-This is a leftover from the previous Android build files. Remove it.
+Hi Dongcheng,
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- android-config.h | 120 -------------------------------------------------------
- 1 file changed, 120 deletions(-)
+On Wed, Dec 11, 2024 at 10:39:53PM +0800, Yan, Dongcheng wrote:
+> > > +static int lt6911uxe_init_controls(struct lt6911uxe *lt6911uxe)
+> > > +{
+> > > +	struct v4l2_ctrl_handler *ctrl_hdlr;
+> > > +	s64 pixel_rate;
+> > > +	int ret;
+> > > +
+> > > +	ctrl_hdlr = &lt6911uxe->ctrl_handler;
+> > > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	lt6911uxe->link_freq =
+> > > +		v4l2_ctrl_new_int_menu(ctrl_hdlr, NULL, V4L2_CID_LINK_FREQ,
+> > > +				       sizeof(lt6911uxe->cur_mode.link_freq),
+> > There's just a single entry in the array. sizeof() will get the size in
+> > bytes, which is 8! Use 1 here instead.
+> 
+> Hi Sakari, I used CUR_LINK_FREQ before, which refers to your patch:
+> 
+> <URL:https://lore.kernel.org/linux-media/20240426145538.654212-1-sakari.ailus@linux.intel.com/>.
 
-diff --git a/android-config.h b/android-config.h
-deleted file mode 100644
-index bd4ef2fb..00000000
---- a/android-config.h
-+++ /dev/null
-@@ -1,120 +0,0 @@
--#ifndef __V4L_ANDROID_CONFIG_H__
--#define __V4L_ANDROID_CONFIG_H__
--/* config.h.  Generated from config.h.in by configure.  */
--/* config.h.in.  Generated from configure.ac by autoheader.  */
--
--/* alsa library is present */
--/* #undef HAVE_ALSA */
--
--/* Define to 1 if you have the <dlfcn.h> header file. */
--#define HAVE_DLFCN_H 1
--
--/* Define if you have the iconv() function and it works. */
--/* #undef HAVE_ICONV */
--
--/* Define to 1 if you have the <inttypes.h> header file. */
--#define HAVE_INTTYPES_H 1
--
--/* whether we use libjpeg */
--/* #undef HAVE_JPEG */
--
--/* Define to 1 if you have the `klogctl' function. */
--#define HAVE_KLOGCTL 1
--
--/* Define to 1 if you have the <memory.h> header file. */
--#define HAVE_MEMORY_H 1
--
--/* qt has opengl support */
--/* #undef HAVE_QTGL */
--
--/* Define to 1 if you have the <stdint.h> header file. */
--#define HAVE_STDINT_H 1
--
--/* Define to 1 if you have the <stdlib.h> header file. */
--#define HAVE_STDLIB_H 1
--
--/* Define to 1 if you have the <strings.h> header file. */
--#define HAVE_STRINGS_H 1
--
--/* Define to 1 if you have the <string.h> header file. */
--#define HAVE_STRING_H 1
--
--/* Define to 1 if you have the <sys/klog.h> header file. */
--#define HAVE_SYS_KLOG_H 1
--
--/* Define to 1 if you have the <sys/stat.h> header file. */
--#define HAVE_SYS_STAT_H 1
--
--/* Define to 1 if you have the <sys/types.h> header file. */
--#define HAVE_SYS_TYPES_H 1
--
--/* Define to 1 if you have the <unistd.h> header file. */
--#define HAVE_UNISTD_H 1
--
--/* Define to 1 or 0, depending whether the compiler supports simple visibility
--   declarations. */
--#define HAVE_VISIBILITY 1
--
--/* Define as const if the declaration of iconv() needs const. */
--/* #undef ICONV_CONST */
--
--/* ir-keytable preinstalled tables directory */
--#define IR_KEYTABLE_SYSTEM_DIR "/lib/udev/rc_keymaps"
--
--/* ir-keytable user defined tables directory */
--#define IR_KEYTABLE_USER_DIR "/system/etc/rc_keymaps"
--
--/* libv4l1 private lib directory */
--#define LIBV4L1_PRIV_DIR "/system/lib/libv4l"
--
--/* libv4l2 plugin directory */
--#define LIBV4L2_PLUGIN_DIR "/system/lib/libv4l/plugins"
--
--/* libv4l2 private lib directory */
--#define LIBV4L2_PRIV_DIR "/system/lib/libv4l"
--
--/* libv4lconvert private lib directory */
--#define LIBV4LCONVERT_PRIV_DIR "/system/lib/libv4l"
--
--/* Define to the sub-directory in which libtool stores uninstalled libraries.
--   */
--#define LT_OBJDIR ".libs/"
--
--/* Name of package */
--#define PACKAGE "v4l-utils"
--
--/* Define to the address where bug reports for this package should be sent. */
--#define PACKAGE_BUGREPORT ""
--
--/* Define to the full name of this package. */
--#define PACKAGE_NAME "v4l-utils"
--
--/* Define to the full name and version of this package. */
--#define PACKAGE_STRING "v4l-utils 1.1.0"
--
--/* Define to the one symbol short name of this package. */
--#define PACKAGE_TARNAME "v4l-utils"
--
--/* Define to the home page for this package. */
--#define PACKAGE_URL ""
--
--/* Define to the version of this package. */
--#define PACKAGE_VERSION "1.1.0"
--
--/* Define to the type that is the result of default argument promotions of
--   type mode_t. */
--#define PROMOTED_MODE_T int
--
--/* Define to 1 if you have the ANSI C header files. */
--#define STDC_HEADERS 1
--
--/* v4l-utils version string */
--#define V4L_UTILS_VERSION "1.1.0"
--
--/* Version number of package */
--#define VERSION "1.1.0"
--
--/* Define to `int' if <sys/types.h> does not define. */
--/* #undef mode_t */
--
--#endif
+There were a few iterations of the set and this is
+where it eventually ended:
 
----
-base-commit: c81300e18609d94fbbcf53a60aa639b4b983fe2e
-change-id: 20241211-android2-ee34d700d702
+<URL:https://lore.kernel.org/linux-media/20241210075906.609490-1-sakari.ailus@linux.intel.com/T/#t>
 
-Best regards,
+I intend to include that in a PR soonish.
+
+> But I am worried about the progress of this patch.
+> 
+> If you have expectations for it, I can modify it to CUR_LINK_FREQ.
+
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+Kind regards,
 
+Sakari Ailus
 
