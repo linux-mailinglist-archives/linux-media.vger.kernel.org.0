@@ -1,127 +1,167 @@
-Return-Path: <linux-media+bounces-23220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23221-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCBD9ED0BF
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 17:05:35 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 505DC16B1D1
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 16:04:58 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D6301DAC8D;
-	Wed, 11 Dec 2024 16:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jq4owwYm"
-X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 593009ED31A
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 18:11:35 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3A015CD74;
-	Wed, 11 Dec 2024 16:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733933091; cv=none; b=pJKpLL8z/u2UBltW2bY2MvkRM9RHpwnY2QZRu+D5PSW25p8jumPv7kNqcfFzaOkJo1C4enDqwEdcKpZM8d/9zr3FMzGNmSxrfiY1Hjl8gtkLhgL6A/T6RChVM1Kxp1AcW7db9ITRvMVvR9K8pHzUm72IlJm+deNFgKuPnY/3i9Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733933091; c=relaxed/simple;
-	bh=iyyii2WdrTSdhD9GW0lqQShar6Q26yCBEEXXmmtlegc=;
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C05E62844F9
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 17:11:28 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BFE91DE4D4;
+	Wed, 11 Dec 2024 17:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="fzK6gjUj"
+X-Original-To: linux-media@vger.kernel.org
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3367824634B;
+	Wed, 11 Dec 2024 17:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733937081; cv=pass; b=dnVOxjdC/kDnE3WKbKOf/VwdkkTCJa9aiXHArKtsDDD92SeuElBrTa+kRzMXnqwZWMeejqYSwzF6POSogWqD1t/8N51nMr9JidfMhTkGJt3ak+MgHkYSMIWAI+llkOXG5huiDthXbw67+1uPHGWWrmngQM6jVe/nE7FewG6iHzc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733937081; c=relaxed/simple;
+	bh=uvPixkTNJKh52GHWvhtoPvfZNxhexWKWuiNbWKgY31I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=meMhTFRnRl6EPW6nt921HAhxHW/7QF1M9yRBhuaJGiU9WbRiyBX6VvyY+XI7Ivv4cuSnMZriXD6L62jh+xh1EhKmMS6ZPNOoCM5BxJ8HrUQXoS0He5EizawoLEo4BnzZDEaz1adQ6KLthxQUF7k43dXLMH+2Maf7MFu3p6s8FOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jq4owwYm; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C821E13C;
-	Wed, 11 Dec 2024 17:04:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1733933053;
-	bh=iyyii2WdrTSdhD9GW0lqQShar6Q26yCBEEXXmmtlegc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jq4owwYmIXPgO9G4CUxnM+C/3UV7w4RDbJKsn7m0dSLCRaCqjxWvW5KLSVtKfnAje
-	 UEKZ7g5kl8O9IuVNMb0ebncg49W36qFjkKR9Ds7bfCCSyWjIPAYVIxmMu3rz+NpIFQ
-	 dK8RA8ebBNysVYuP6FNHRjpdel8W9GVl0uA+b1W4=
-Date: Wed, 11 Dec 2024 17:04:44 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: keke.li@amlogic.com
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com, 
-	laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com
-Subject: Re: [PATCH v4 06/10] media: Add C3ISP_PARAMS and C3ISP_STATS meta
- formats
-Message-ID: <6h2epavsgxonytbar2wv7qv6ojuzryst6gqjcceuccoxubwh64@5wqchwktrivu>
-References: <20241205-c3isp-v4-0-cb1868be0105@amlogic.com>
- <20241205-c3isp-v4-6-cb1868be0105@amlogic.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hJZ4fX+TCJwCRrHwL1eKAQZlPy+5pzzIb0dUK9Ha/C+JqR91S8c774g6z2a+QscIywu8BEGqjddN+FntIEN1pMOMcvVFOQK50OX7MQMvQR+Iv9ReMh5qfZE2ZMeWUveBbgrknqPyBFjVnL4MIoy4rAS9GIXwBvlKEtF+kB3ebUI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=fzK6gjUj; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1733937061; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MqDxC5RCWqj6frARveTY+iBLr/DNp2amjN9WKm9gl1GerCyqulp+ounDB/0XEDlcIEfGyZU3VJ38VzK8JIvfbXW9FVAqoWaUFULxbsmsiTa2aEGHoWnKXo9DFn7g3/XGpp8pa2XwrFz9OTs40mluKyN2j+F+GbzUn+VRDaQNNH0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1733937061; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=o6mgR9JSMbzuDpvHOfYMWLmhuCb2AgVcK+vn11JpoMQ=; 
+	b=MXJme1FJztZTmm3P1gKLG7Nu5KV+p40obUz5OdwQdPKtWdDUiRoM6i+Ye4NLVHWGO8AGcXm4vLr7BA4xXHI+VnI4hpCJFbMgsKCduKgjvJ5xjwWe1bk2XTJD+FYIIYKGNkVVV4Qnnxelmy5KvQb/CPY+uqjPi6U85hMgPwTJJMI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733937061;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=o6mgR9JSMbzuDpvHOfYMWLmhuCb2AgVcK+vn11JpoMQ=;
+	b=fzK6gjUjXS3j31LavblxZCCPDzUAOWyEA8fJnHdsskJL+zIaeEX31O6u2GL5K7t6
+	8l0WPBUG7YhDqqt6M1UZiPeFWzbFnQWbqgaSGPzzs4UwacadgN5ff7xHrDLmXZ3nFrx
+	nYTMC8ZZgWRsMpNoiQNkcZ6MlJ6J9lE5POxTSLVI=
+Received: by mx.zohomail.com with SMTPS id 1733937059334981.4575681462861;
+	Wed, 11 Dec 2024 09:10:59 -0800 (PST)
+Date: Wed, 11 Dec 2024 18:10:52 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado <nfraprado@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Fritz Koenig <frkoenig@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v6 3/3] media: mediatek: vcodec: add description for vsi
+ struct
+Message-ID: <20241211171052.wl4wqoka7yyeso2l@basti-XPS-13-9310>
+References: <20241116031616.15656-1-yunfei.dong@mediatek.com>
+ <20241116031616.15656-4-yunfei.dong@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20241205-c3isp-v4-6-cb1868be0105@amlogic.com>
+In-Reply-To: <20241116031616.15656-4-yunfei.dong@mediatek.com>
+X-ZohoMailClient: External
 
-Hi Keke
+Hey Yunfei,
 
-On Thu, Dec 05, 2024 at 05:04:32PM +0800, Keke Li via B4 Relay wrote:
-> From: Keke Li <keke.li@amlogic.com>
->
-> C3ISP_PARAMS is the C3 ISP Parameters format.
-> C3ISP_STATS is the C3 ISP Statistics format.
->
-> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> Signed-off-by: Keke Li <keke.li@amlogic.com>
-> ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
->  include/uapi/linux/videodev2.h       | 4 ++++
->  2 files changed, 6 insertions(+)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 0304daa8471d..dae34b1170d7 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1460,6 +1460,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
->  	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A Statistics"; break;
->  	case V4L2_META_FMT_RK_ISP1_EXT_PARAMS:	descr = "Rockchip ISP1 Ext 3A Params"; break;
-> +	case V4L2_META_FMT_C3ISP_PARAMS:	descr = "Amlogic C3 ISP Parameters"; break;
-> +	case V4L2_META_FMT_C3ISP_STATS:		descr = "Amlogic C3 ISP Statistics"; break;
->  	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
->  	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index e7c4dce39007..eda30640a7a3 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -858,6 +858,10 @@ struct v4l2_pix_format {
->  #define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A Statistics */
->  #define V4L2_META_FMT_RK_ISP1_EXT_PARAMS	v4l2_fourcc('R', 'K', '1', 'E') /* Rockchip ISP1 3a Extensible Parameters */
->
-> +/* Vendor specific - used for C3_ISP */
-> +#define V4L2_META_FMT_C3ISP_PARAMS	v4l2_fourcc('C', 'P', 'R', 'M') /* Amlogic C3 ISP Parameters */
-> +#define V4L2_META_FMT_C3ISP_STATS	v4l2_fourcc('C', 'S', 'T', 'S') /* Amlogic C3 ISP Statistics */
+On 16.11.2024 11:16, Yunfei Dong wrote:
+>If the video shared information (vsi) is changed accidentally,
 
-I would have used ('C', '3', 'P', 'M') and ('C', '3', 'S', 'T').
-Matter of tastes I guess, but if you will happen to have a different
-format for, say, C7, this would help keeping them separate.
+How can that struct be changed accidentally?
 
-Up to you
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>will leading to play h264 bitstream fail if the firmware won't
+>be changed at the same time.
 
-Thanks
-  j
+Okay I guess you mean that the struct has to be memcpy'd to the firmware
+to synchronize it right?
+Also is this really just a H264 thing? I would imagine that incorrect
+data in the firmware will cause issues no matter which codec.
 
-> +
->  /* Vendor specific - used for RaspberryPi PiSP */
->  #define V4L2_META_FMT_RPI_BE_CFG	v4l2_fourcc('R', 'P', 'B', 'C') /* PiSP BE configuration */
->  #define V4L2_META_FMT_RPI_FE_CFG	v4l2_fourcc('R', 'P', 'F', 'C') /* PiSP FE configuration */
+>Marking the shared struct with "shared interface with firmware".
+
+Can we do anything more to ensure that the firmware doesn't fall out of
+sync besides adding a comment to the description?
+
+To fix grammatical issues the description above should be changed to:
+
+The vsi (video shared information) struct needs to be synchronized
+between the firmware and the host, as a change that is only done in the
+host version of the struct but isn't synchronized to the firmware can
+lead to decoding issues with H264 bitstreams. Highlight this requirement
+within the struct descriptions.
+
+But as highlighted above it is not clear to me whether the content of
+this message is right yet.
+
 >
-> --
-> 2.47.0
+>Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+>Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>---
+> .../mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c    | 5 +++--
+> 1 file changed, 3 insertions(+), 2 deletions(-)
+>
+>diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+>index a7de95b9a7c0..5a202691e209 100644
+>--- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+>+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+>@@ -30,6 +30,7 @@ enum vdec_h264_core_dec_err_type {
+>
+> /**
+>  * struct vdec_h264_slice_lat_dec_param  - parameters for decode current frame
+>+ *        (shared interface with firmware)
+>  *
+>  * @sps:		h264 sps syntax parameters
+>  * @pps:		h264 pps syntax parameters
+>@@ -48,7 +49,7 @@ struct vdec_h264_slice_lat_dec_param {
+> };
+>
+> /**
+>- * struct vdec_h264_slice_info - decode information
+>+ * struct vdec_h264_slice_info - decode information (shared interface with firmware)
+>  *
+>  * @nal_info:		nal info of current picture
+>  * @timeout:		Decode timeout: 1 timeout, 0 no timeout
+>@@ -72,7 +73,7 @@ struct vdec_h264_slice_info {
+>
+> /**
+>  * struct vdec_h264_slice_vsi - shared memory for decode information exchange
+>- *        between SCP and Host.
+>+ *        between SCP and Host (shared interface with firmware).
+
+In this case, I feel like the previous description made the fact, that
+this is shared data between the host and the firmware, rather clear
+already.
+
+>  *
+>  * @wdma_err_addr:		wdma error dma address
+>  * @wdma_start_addr:		wdma start dma address
+>-- 
+>2.46.0
 >
 >
->
+Regards,
+Sebastian Fricke
 
