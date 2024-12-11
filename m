@@ -1,128 +1,138 @@
-Return-Path: <linux-media+bounces-23223-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23224-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FB789ED3BD
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 18:35:49 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F4B31605C5
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 17:35:43 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39BE71FF1AC;
-	Wed, 11 Dec 2024 17:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ETw7WKYo"
-X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DE99ED67C
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 20:28:17 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0392D1DE2A0
-	for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 17:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733938540; cv=none; b=u7FQ5Z59QDkNPegaMT/oNCLNPPQI5M/gCPIgfNClPlLLrwyZxRXRK3Z+TSBGFnizl/9D2nTAr1KZZ939tI22EVW1jXy1E/dg9jNt5T5BFCjZwFVRy3oKuvWftivhm3CRlLyXR+sy/bcGX4Ik4Lqbrkb3nW2He1lA1nkhQP8DuEk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733938540; c=relaxed/simple;
-	bh=rgoOLp9R3iTyNCAk2OsGG+3qmwhQcZujQNprSi0noi0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c+TVplhan561qi5i0am51VfExop3SHPCuG702oKEqIaFmrg0T+XFdqsYS7SHRII+nI7eUjLAYY2wYxzFtOXtJakG6ySbBmb3JC8zoN6R6FRVJI+0uY2q7d+B9ptz+AjLMzRqIZYt2p0j4I3IMus/G/sjB9oQAYgL8qU7gi53Oxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ETw7WKYo; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733938538;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=zIZ4g0Xd4iqRq87UWw6BCvGirg0eO455cfJpn+W54+Q=;
-	b=ETw7WKYoyE4Psv8TFcEoF7svrf8fRzcjYbzkhOf5jZQsJ7wELHSZR7+ljVgyZ9/3V99eu1
-	QeLf4HLOh9RvrBKqH7aon9PwVbeDf/zguPvsKY9rdAqLl2MlqhV8Sv1KkzFhKDkxqNsdgl
-	Z8i6dquIFHIJK2xtItnsdlLXmppKMSw=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-626-Du3edwArOEuQwo8pD3hjwQ-1; Wed,
- 11 Dec 2024 12:35:33 -0500
-X-MC-Unique: Du3edwArOEuQwo8pD3hjwQ-1
-X-Mimecast-MFC-AGG-ID: Du3edwArOEuQwo8pD3hjwQ
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8CBBB282548
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 19:28:14 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3487E2594B8;
+	Wed, 11 Dec 2024 19:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m/dxx1lM"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2DFF31955F3B;
-	Wed, 11 Dec 2024 17:35:32 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.61])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1B8541956089;
-	Wed, 11 Dec 2024 17:35:29 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2] media: atomisp: Avoid picking too big sensor resolution
-Date: Wed, 11 Dec 2024 18:35:16 +0100
-Message-ID: <20241211173516.350779-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 143C617736
+	for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 19:28:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733945290; cv=none; b=gIum/lLcebz+Rn7wTIzG9kupRfYR8RGgDi+vq7n+W/V8YUb3b2M8fBveMOHjb7N/U+yUjtwHLRteARgqrTopeJNM4l/9/pkBBm6EEO+vxQ/TmNUu89XtKmOuLXaQcttRsOUc/REVPVUCrFykQftGx3z2fcCNFlx4la3MjWJjuMY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733945290; c=relaxed/simple;
+	bh=c4rUUO9W/z0Roi3Xk7gZM2ymh5j/W9eoNvewP1R/+pE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HNR05S0LXb8bOR0VLEuUFXVYldUuiQuyBktVPmEL4tHsTYdmNUlvf/fhRVBxU+r7AsEpO0wR6kNg0PyXvmB9wVIna31Xkcn4W8WPvUf4IUirPxPn1bBONbFag4YASulws45OKIHGtayuEMqPnM6Vo2WRNjEiIOFtJdhgiFyr6+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=m/dxx1lM; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6d91653e9d7so28083936d6.1
+        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 11:28:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1733945288; x=1734550088; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lwz1GH20YZcAfR4wOD0+ts6AyJGblz9iSW/fLDIqe6s=;
+        b=m/dxx1lMs6nr3Q2ZZ0UtowpZ1LzEirYdk1tHQEAhg31Fv4oID0ZZhd2LhZ/0hlW8vC
+         r5O//A5CsMBAT0V215+MaUaz6D6dlQuJjvwId+cEq7Nigu6F8jywJ9THE9KKd5b/cKn3
+         MAODd6QfkCEUVCOS0LM2hHP+94NqZNtAvHfnE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733945288; x=1734550088;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lwz1GH20YZcAfR4wOD0+ts6AyJGblz9iSW/fLDIqe6s=;
+        b=RBvG2EChU87KVdBsTS4Iv27Ofz6mElc/KJrN9mnMeFmfy92AGuxyl3T57nIdRFjbHQ
+         1k8Dy+TAFzoM2kJ+gN8VrU0ZWCqd8ubD3EyBFtOJj2a2sU8DES/si3tFh3vSdx1T1Gf2
+         4PgDnYNR3LUFaz3+zWfTkx5BiTfzBJRb7J8Rha9HUD9myGCZLj9GHNcWrZk2T+G+7pNR
+         eCR7XS8W+yU5IwgXzowvvgy5EAlXUscJH1+vjQDdjRWYviXn8LlXSOsndYvHGx94zqoQ
+         GoSB9xeam1if5KXY3nAWgjVjAaQKMMG92QsH/QvojeMRR95BIdYmg/YCxsxjOrzR46J/
+         iI5Q==
+X-Gm-Message-State: AOJu0YwFLCrLf2wYtWwgzupk/Tmne5Nz7xC6y5k7qn/FUmV8WTZdEC7m
+	dr/2uU1vfP/ZJdztru/46zcvRk0vwbAootXe01ZX0ZmzRXYBpggQW/d8ZG9MPqwSfifbnQRc/Ws
+	=
+X-Gm-Gg: ASbGncuqdCVcZb/ZE2rQvf9mGLHzDoU4lpln1qBuiplzIYBvqox1xf4EpfXoMqILGBa
+	qcmpZ6HPGWxvj1m4+Z/L2bJZBPByAkO64Yy1XEVGlw83R5BAxnrMk+uldHllnTFMvhs4E6f03MI
+	/MFxtwNK8ocWiMyeOMOybcDnNfm8B2ZeGCRCzLIcTf3ygPm8cWnZ4c/RSLaxmCiN+76tWSw8PxY
+	rGZ9Th4j1j1rOBBPY4Dkm7w6nssbyC/AeG4J1lZX7KCQpy58AXcyj3oqntQ2WPnNwmWbyaqOMyF
+	W+/oAzxe/N0CRavI50q2z6QFm4Np
+X-Google-Smtp-Source: AGHT+IF85TpZZDz5UAzO1lr9gGXfenvzCXpA0EtrQPjOMN7BgtskI/YOorD6MBoLmyJWS0Ws6BB2qQ==
+X-Received: by 2002:a05:6214:2a4c:b0:6d8:a84b:b50d with SMTP id 6a1803df08f44-6dae395d9bamr7580716d6.33.1733945287877;
+        Wed, 11 Dec 2024 11:28:07 -0800 (PST)
+Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d8da9fdf24sm73354866d6.75.2024.12.11.11.28.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 11:28:07 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 11 Dec 2024 19:28:06 +0000
+Subject: [PATCH] v4l2-compliance: Fix build error clang TOT
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241211-android-v1-1-2416cdefb98e@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAMXnWWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDI0ND3cS8lKL8zBRdMwsD47RUi2QzA5NUJaDqgqLUtMwKsEnRsbW1AAp
+ p83lZAAAA
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-atomisp_try_fmt() is limiting the width of the requested resolution to 1920
-before calling the sensor's try_fmt() method. But it is not limiting
-the height. In case of the old mode-list based t4ka3 driver which has
-a mode list of:
+We define the fallthrough keyword in compiler.h. but he c++ header files
+uses as well that keyword and it get confused.
 
-736x496
-896x736
-1936x1096
-3280x2464
+We could swap the order of the defines (like the other files in this
+directory do). But this file does not use fallthrough, so we can remove
+this define completely.
 
-This results in 3280x2464 being selected when try_fmt is called
-with a requested resolution of 3280x2464, which is not supported because
-its width > 1920 .
+In file included from utils/v4l2-compliance/v4l2-test-time32-64.cpp:20:
+In file included from v4l-utils/utils/v4l2-compliance/v4l2-compliance.h:24:
+In file included from prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/map:2193:
+In file included from prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/functional:540:
+In file included from prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/__functional/boyer_moore_searcher.h:27:
+In file included from prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/vector:326:
+In file included from prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/__format/formatter_bool.h:19:
+In file included from prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/__format/formatter_integral.h:21:
+In file included from prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/__format/formatter_output.h:22:
+In file included from prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/__format/parser_std_format_spec.h:29:
+prebuilts/clang/host/linux-x86/clang-r536225/include/c++/v1/__format/unicode.h:465:9: error: expected ']'
+  465 |       [[fallthrough]];
+      |         ^
+https://github.com/llvm/llvm-project/blob/ccfcc9117b70828390019979219fa26ce77c3900/libcxx/include/__format/unicode.h#L465
 
-Fix this by also limiting the height when in preview mode.
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
-Changes in v2:
-- Add "U" prefix to max values and use min(...) instead of min_t(u32, ...)
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ utils/v4l2-compliance/v4l2-test-time32-64.cpp | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 02ccf80e6559..52e71a7f69ca 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3784,9 +3784,14 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
- 			return -EINVAL;
- 	}
+diff --git a/utils/v4l2-compliance/v4l2-test-time32-64.cpp b/utils/v4l2-compliance/v4l2-test-time32-64.cpp
+index 752045df..ade76843 100644
+--- a/utils/v4l2-compliance/v4l2-test-time32-64.cpp
++++ b/utils/v4l2-compliance/v4l2-test-time32-64.cpp
+@@ -16,7 +16,6 @@
  
--	/* The preview pipeline does not support width > 1920 */
--	if (asd->run_mode->val == ATOMISP_RUN_MODE_PREVIEW)
--		f->width = min_t(u32, f->width, 1920);
-+	/*
-+	 * The preview pipeline does not support width > 1920. Also limit height
-+	 * to avoid sensor drivers still picking a too wide resolution.
-+	 */
-+	if (asd->run_mode->val == ATOMISP_RUN_MODE_PREVIEW) {
-+		f->width = min(f->width, 1920U);
-+		f->height = min(f->height, 1440U);
-+	}
+ #include <sys/types.h>
  
- 	/*
- 	 * atomisp_set_fmt() will set the sensor resolution to the requested
+-#include "compiler.h"
+ #include "v4l2-compliance.h"
+ 
+ typedef __s32		old_time32_t;
+
+---
+base-commit: c81300e18609d94fbbcf53a60aa639b4b983fe2e
+change-id: 20241211-android-6803fe8c604e
+
+Best regards,
 -- 
-2.47.1
+Ricardo Ribalda <ribalda@chromium.org>
 
 
