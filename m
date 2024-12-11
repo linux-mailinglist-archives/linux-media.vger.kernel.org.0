@@ -1,117 +1,131 @@
-Return-Path: <linux-media+bounces-23186-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23187-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8CF9ECB1F
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 12:25:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF709ECB4A
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 12:33:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 01B29188226A
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 11:25:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C82031885CC5
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 11:33:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1D45238E2C;
-	Wed, 11 Dec 2024 11:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F883211A04;
+	Wed, 11 Dec 2024 11:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tlanoJJH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jTG3CUBL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729EC238E23
-	for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 11:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96140238E27;
+	Wed, 11 Dec 2024 11:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733916275; cv=none; b=YswzPZqzh/QuMjOP0M0eb97U5bIdLal+xKdXoFUnujM8HPVPt6l6xQCwoohJ78twCmVHRvGwDTB2EIN8SQVjhTGVMK1iihBCzKvYMbobmGxUz2NW7J5q+3RlAXPO3201VJzuE78SxCM5qKfu4l+MteOASkCUPbkjleryLkySeQw=
+	t=1733916800; cv=none; b=MFVuWhsdV+euuhSkpuOFkhSMq9mSVXkf/L6W5UJoa6W5xDQ/INlWiv/GEW+OJbEC8i8XhCdk0hi5qkovq6SKiOoRTkqmscL1CzhTkTrDaJ4l+3RTa5wlYZPvHqByFpWwXZTttslGMaCHtNEqhFHb0gGbh0PMhLFYchhZ+N1K1hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733916275; c=relaxed/simple;
-	bh=doQ+jxVCijrIMLh7OMLzT8/sHqoOku3Qjpw3S+/LdG8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ONH9LTqZH8GJcRJ5PnuBPDaoFf7V4ls3rFoehFRNLNYb/RBtowma3WCt9c04V6oU2+imYmjLnZv22IyJBUHMsN8N+Bmt1L2MKGGuUpG7tCPszwzrxTA/p8DLrzlvo+PBU5N62zbBUsFQe29hSsfqRh5rD0hojGYdC7AijUoXN98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tlanoJJH; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-432d86a3085so43767895e9.2
-        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 03:24:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733916272; x=1734521072; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TdVOYxjqZw+NY/Spw9lnEumCFUaVRFED0TdxGULYnmY=;
-        b=tlanoJJHrC9aBRFgGGz3kJ5Ht/QNihOU4/AUfoGmb13I6KLYlvl9jjX0eBShlVOX5s
-         RH+7tXrrmq99n4kBVzJGjBdW6w95l3u8IvzWDhM55boPsOiB9GUoSboyF5SnGdVQbLqQ
-         3F9x/VBiuSCnipGhP0uknYWWhBvSTrIN52Pgvi7ZwyiCqwVtIkytO3IShTRQfBp+LHZC
-         gDUvs775OIej8PLMXEnGnYbYnLzJDdujPahpsHt4IUf15V8QwdZ4bNrhVBoss19GBiBz
-         77fGDEAwK/m4VRDotTt4idrquDyd1i3op7s4SO3KW3t8df3LtnFxPudvXf18IHGEMB4q
-         deHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733916272; x=1734521072;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TdVOYxjqZw+NY/Spw9lnEumCFUaVRFED0TdxGULYnmY=;
-        b=J3L/e6hvEa9dzMyd8QEMS2LrWu1n0KzEytO9ZsU+s/3uRMwZyED4EiQEZ9MKSm7Ipw
-         jS+96ck+eu5VVznL3EsaJ6ok1EIxhNkS1CZoMHPGtgvUDTVJsCCukmUPb9AdvrZejyuj
-         LRHJURPpmMAuvr4t7QZrJGmAiQ9vRw0Rk88Gmmd3tdi1DzVq8GKGqdY8qwwg2IQapaOC
-         ehKmlXREa3TapVXCou2D6m+ziuut0hcychx080Tpmgd0NvbI+PO/CAlA8q0UZcLDGr9V
-         KA/rbGHr1YEOtnkI3zvJEGwiX2lMurkOKb+gLbCkcHlJwpy/zJ25VuF/3TMgvq4AyZkZ
-         iuqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVgxl94iXhO6Ay1fBG7qDUrYcTjPHWDSeM2bWJH0tcVLvqCBIW+/95wO3y6va/867+LuVARf7l1PplQHg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyfp2UvTAdFtOErnclx9W1ODAZYFu1aL3ezcO7OxJwrdiyJdAPj
-	2CBVyGUSM3hza1AmkIfUIy9XacZFYiSO36oNBVF2Eq7Oz34sdyKFfdv8/XPJX4I=
-X-Gm-Gg: ASbGncuH3cw/vTZ1EpT/vgpX8GTiXcGHen4AqZfdOzjWwMYK1R8xNo51681b8Emmu63
-	umxSwAvwIxfd8INqcXkSciyIg16NF/zWMJYW3h8LR/K+ImxvQxb3r5ZFWkc77vVKE3SOi2sLrk9
-	zDPhQB8pDQ2T4kYc4hFCr1OoyCrpIqjm3hPdZ9sGmxO3VqDea0RkL+Q6hogUeEET/7+k3kbS70Z
-	m+51RvLUNNL56TH4KN0WfR/QjGr5wgE7/P7poEA1Opk+jGGFEyi5oXBu1RxJL99Uu4=
-X-Google-Smtp-Source: AGHT+IHfpFkIaDWgwQjHg8s+n3l3A0yqYbHH2mwIG4royHXDzI/IOfZn/Y6bGxTfFIWmUzLK2LmN0Q==
-X-Received: by 2002:a05:600c:1d1d:b0:434:e9ee:c1e with SMTP id 5b1f17b1804b1-4361c419464mr21115285e9.31.1733916271781;
-        Wed, 11 Dec 2024 03:24:31 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434f981880csm102337305e9.44.2024.12.11.03.24.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 03:24:31 -0800 (PST)
-Message-ID: <a499bc08-1505-4f7c-833c-68240fdec275@linaro.org>
-Date: Wed, 11 Dec 2024 11:24:30 +0000
+	s=arc-20240116; t=1733916800; c=relaxed/simple;
+	bh=+VM/hzp5wXMCauHL67cEqJBthSxft/0uu55Nkx/Kt28=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U9zaxIn7z81eFoIYthOwZRDcfv7vnM8VWsGLos5+J5+g5rGZ9kYVKRnwniQ1i/0G1j7nFtDqfZRfLlWmdJL+EP9HxWovnbojfFUac4W4sQm0mi2hm5/VI/V1b+NDY8dYIQtJMGQhN12/b1i2OPiSyLRWK8J434u3cyYRJ+QB3k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jTG3CUBL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 352EFC4CEDE;
+	Wed, 11 Dec 2024 11:33:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733916800;
+	bh=+VM/hzp5wXMCauHL67cEqJBthSxft/0uu55Nkx/Kt28=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jTG3CUBLBIF6ciX5X1bClXkR6kkwgk77lVDsE8iv4oev2ldWepUcNlyLuEm1bKB9o
+	 X0Nyg1foxuBU4Dzvf9SpCC4KuC/gOMETimXzfa18Z8ITBmwTjXRovsn+64ysx1ZJxE
+	 sUus0INmX5lxEE8POr9gvv9hebgEK/2iSNO0IME3PcMhSsI6VO5fJzoLra4v+5IPrm
+	 HmltwLoD6HP+RjcfRho0LLQU/7lmju/5/nF4Q+ioUy0ZxwFtCv4McfpFMNEz6qVDqF
+	 Da64RYE2UlcbUE+hs1SV7YA1SIksPxJOzxBmASa9C48m/suGI7fpHKP1KURCBEu7/s
+	 kr/tp7oC5HPUw==
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5f2bdbca73cso795336eaf.2;
+        Wed, 11 Dec 2024 03:33:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUgnpgYC6WVlcRQnDYbnDprThkfznSyOylsAaBowLDa4fpEdpBePmZasN6JjwmcwMkAO8e5rtHyYUsqVcY=@vger.kernel.org, AJvYcCUkpBbKKAWNICsNC30HnjA5DXqf7tTbhTQLcCPCtNATUgMd6L0jiSwmBpIELHikaIPTwQyoYIxssE8jk4be@vger.kernel.org, AJvYcCXECvrgMT4Jqgq8PsNogwPX1oRPWp/ZC8blZmjx25X/ElQMJWniy9+BhjzVL6+zSLz3kpTv4HUqHylW@vger.kernel.org
+X-Gm-Message-State: AOJu0YztyTSjL3l1tmBf8/0zFA5UDfTLoLaDm+Hgd6lz7Gt79/UGFfk1
+	ygowkwwf/NwmUpwqoYzGfBEoTUT+ZuzAw/ALif8rcYMMI5LRz54Gpw4Issl0JD0ZCye/64X44MF
+	t7nCfpUH/HVjwgD+Q2uCeSlPI61s=
+X-Google-Smtp-Source: AGHT+IE2JX9wLDw7XGZFWMFEl/QZANF0fFOFWPSJjHSw+Ny8mSpK6DqmcMPXInglCCsZP3zGngbPGlDk8Cq5dyK7cl8=
+X-Received: by 2002:a4a:e70b:0:b0:5f2:df9a:83d4 with SMTP id
+ 006d021491bc7-5f2df9a8a96mr398155eaf.1.1733916799520; Wed, 11 Dec 2024
+ 03:33:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/5] arm64: dts: qcom: sdm670: add camss and cci
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-References: <20241210233534.614520-7-mailingradian@gmail.com>
- <20241210233534.614520-12-mailingradian@gmail.com>
- <fe8dbb4e-9d0e-4ecf-874b-be9225ae1487@linaro.org> <Z1jdNaeoictuCK7N@radian>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <Z1jdNaeoictuCK7N@radian>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241210-fix-ipu-v3-0-00e409c84a6c@chromium.org>
+ <20241210-fix-ipu-v3-4-00e409c84a6c@chromium.org> <Z1irAT0KVwqhBSSZ@kekkonen.localdomain>
+ <CANiDSCsLOODLhGrpPwOQ1j+coSb9yHYi=wjGpZ+F7VbA7AM0og@mail.gmail.com> <Z1lGPWHYTdfcxFPL@kekkonen.localdomain>
+In-Reply-To: <Z1lGPWHYTdfcxFPL@kekkonen.localdomain>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 11 Dec 2024 12:33:08 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0gjwmd81zKYYcsyMmRWpK_R9UsV_H6HfQU+xP7MpWRD5g@mail.gmail.com>
+Message-ID: <CAJZ5v0gjwmd81zKYYcsyMmRWpK_R9UsV_H6HfQU+xP7MpWRD5g@mail.gmail.com>
+Subject: Re: [PATCH v3 4/7] ACPI: header: implement acpi_device_handle when !ACPI
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Robert Moore <robert.moore@intel.com>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
+	Dan Carpenter <dan.carpenter@linaro.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	acpica-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/12/2024 00:30, Richard Acayan wrote:
->> I think you sorted the regs, interrupts but forgot the clocks ?
-> Do you mean the first three clocks placed first? The order was suggested
-> by Vladimir in [1], but I can undo it.
-> 
-> [1]https://lore.kernel.org/r/40cd7a52-1c60-40dc-aee6-730b5247b216@linaro.org
+On Wed, Dec 11, 2024 at 8:59=E2=80=AFAM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> On Tue, Dec 10, 2024 at 11:31:57PM +0100, Ricardo Ribalda wrote:
+> > On Tue, 10 Dec 2024 at 21:56, Sakari Ailus <sakari.ailus@linux.intel.co=
+m> wrote:
+> > >
+> > > Hi Ricardo,
+> > >
+> > > On Tue, Dec 10, 2024 at 07:56:01PM +0000, Ricardo Ribalda wrote:
+> > > > Provide an implementation of acpi_device_handle that can be used wh=
+en
+> > > > CONFIG_ACPI is not set.
+> > > >
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > ---
+> > > >  include/linux/acpi.h | 6 ++++++
+> > > >  1 file changed, 6 insertions(+)
+> > > >
+> > > > diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+> > > > index 05f39fbfa485..59a5d110ff54 100644
+> > > > --- a/include/linux/acpi.h
+> > > > +++ b/include/linux/acpi.h
+> > > > @@ -787,6 +787,12 @@ const char *acpi_get_subsystem_id(acpi_handle =
+handle);
+> > > >  #define acpi_dev_hid_uid_match(adev, hid2, uid2)     (adev && fals=
+e)
+> > > >
+> > > >  struct fwnode_handle;
+> > > > +struct acpi_device;
+> > > > +
+> > > > +static inline acpi_handle acpi_device_handle(struct acpi_device *a=
+dev)
+> > > > +{
+> > > > +     return NULL;
+> > > > +}
+> > > >
+> > > >  static inline bool acpi_dev_found(const char *hid)
+> > > >  {
+> > > >
+> > >
+> > > Please remove the extra forward declaration of struct acpi_device a f=
+ew
+> > > lines below this.
+> >
+> > Instead I have moved the function under the forward declaration. Let
+> > me know if you disagree.
+>
+> The same order in which the functions are found in the actual
+> implementation would be my suggestion. Rafael could also have an opinion.
 
-We've had a long, long discussion on ordering subsequent.
-
-Have a look at the sc7280 and align your ordering with that.
-
----
-bod
+It is nice, but it is not a requirement.
 
