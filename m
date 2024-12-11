@@ -1,95 +1,86 @@
-Return-Path: <linux-media+bounces-23170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549609EC79F
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 09:47:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF25B9EC7AB
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 09:49:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0885188C71B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 08:47:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA9551888ACB
+	for <lists+linux-media@lfdr.de>; Wed, 11 Dec 2024 08:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 203641E9B32;
-	Wed, 11 Dec 2024 08:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E8761E9B22;
+	Wed, 11 Dec 2024 08:49:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Od9pYJ27"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J1CXcQDj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30691E9B16
-	for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 08:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FA01C5F12;
+	Wed, 11 Dec 2024 08:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733906841; cv=none; b=MhsaNS2F7o3nTdxPq/CN9Gqw28ctRCfc3869brKrgqt2eYzDvWh0uykbj4eNMYk6wceN8KP3toax/3CfO+Nag6nH6RQ43LFpLxyQ8hI4vd6yN6O8KegQjib+ma4Clp6XAK7ho5PhhNRx7PvQPi+pyl+w4kj4loTnB/L99znCfZY=
+	t=1733906939; cv=none; b=GKFNdRf89nA2W9zWtMCEzWaxdQP7fq6RBfSXsHGuvu5Zbhh7vrf9qme8MrXDw/R0qOw2zs7IU5uAJTl3ELbBoxbvW067bwR+ql4r796l0Xu0RxITALs0vtlMkjqmEJUfOkzFyrD1x8l3L/dXSR3ZBBpZx4qc3ZbFasI/RBzd+Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733906841; c=relaxed/simple;
-	bh=VCdtky//FuKQ1O98k1ZwZq74x732mntDSu0a0sp4nnI=;
+	s=arc-20240116; t=1733906939; c=relaxed/simple;
+	bh=j+vqd/a5a5hgbl3tcDMK9EMkSQgtkl+vvBnHssubgDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cdzczy7pwdf3doW/0PfC+r7vUw482bUs3A3LmCxlSiX7lDNm902kv7ZrVHoqLBMbpndApuq3tDkMQHu+NbGEANWPcYaruK94nGPM8XWXCNeWJkbE2hrGPJFclHHIvfQDH0RSke1uVrQ5FGeS/8kwj4gam25IiJ3W1Y8ftSNe9J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Od9pYJ27; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53e384e3481so3987855e87.2
-        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 00:47:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733906838; x=1734511638; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WZ9yw5+eiQnubxYw3ZTt7r7hhaE0oRY7onPmgVMFj5s=;
-        b=Od9pYJ27MmeUIMvCcBya10un1oCujI97lTizjsJg/4JUKva00FaOwTMnp0h1qhGOj0
-         KgKgA5tqPFKv9NdDHHMqS/z1fkyNtPq43yYIRrB0mSvYay/9Is3tJJlOTTD/ztcpe4Oz
-         28ksnIu5jUzLAivNW1AMmu0hSa9hK0pXoo12lDloeM6F0TRBtERFjaNu6I9eX+KoKGZv
-         zl2+hOoFNeNts/AfGhf3jA9O/FlF+yUlwa3VZRiHGUQ+lVaXNXOlWrkUIKHiKTALHwGz
-         ClrzT0BudeUIDra1fa+8AZtWx8OPLYl7BG9n3mnnv0Mfm8NssqeetyDRD2muu7ts2EXa
-         qPjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733906838; x=1734511638;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WZ9yw5+eiQnubxYw3ZTt7r7hhaE0oRY7onPmgVMFj5s=;
-        b=IzWwmbHR33t3GiwphnECJMg+B2tDlYnVzvXgcR9huWY4alufj8jYjT6thf/mHMF8YO
-         aYc/C7/kXrkQ8hU757ijGA7lYAZjiKMeKd1s6H03lhtnlZ1rd5Qg3qLRE/SHTIK9/5+o
-         pxCwk9+GVuDdvfapBoTL6nkZYwDj9NX9YH/+X2fr41f/+WP5kPBnPrhYLD1MmC7EC9bo
-         T3iOScQBS7cntaOhgn3n4rr5O8BD8M+fneT0IDnuykNdHTGawQiKkB4bClFWAF3k2Fd8
-         gcNY2d28yJabKen2X9UFi79wwipfml0/hjeMrFxwLlksDmNzBMpbMCQHX90odWu17Efs
-         riaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWk5vI+deEpRokFjL6QNi2oEiFkGzVJSaEQU6VKIYxvSchpc7KwLn8n9rNL3SLPFkox9RaHFHZjLvUfaw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRpF+eFnRLiicmrhyfzBxGRmReOTn0bp3O1LH3NPDmDk3p7YS3
-	2F0p76XkOoGvsLNgEF37sOoMP7YGSNT13zO1c9JuHEHQeYH6ewpT/+11dgn828o=
-X-Gm-Gg: ASbGncuTXKR2rxo9/fdvOvol96ZpcLbbLqiWncexNjJnFHjy+I/LHVOkQg6oVD1jts2
-	rD/WN/64y00XPCZU9QBeful1r3y5QtQMLtwSUgogTGgnvj9za8bgqPMLjsd4LFyi9IFS2+fgujJ
-	Cj1E+xfs/OGgxjPOx2YOXHnffGJvVbpCxB+9wIcQAuKB4uLAuX19goYOVfMBVQkMfVkijGoCxse
-	u45OKxvqUexojWv6jzpwA/tF6q3BTm12ZtrZJ3ZNIFuNi8yKEzAu8ftGj1BwZqiTWypzdtEGQQZ
-	o1z6ZROdoCvi6XJJSlkVBQpExNLR3vh6xw==
-X-Google-Smtp-Source: AGHT+IEzbCuaw2gb4SoiLfoCGhV4qUqReRteL4cHA8BdEPX67hviGCcUhbWK23EzV3nUwwQBFx6QyA==
-X-Received: by 2002:a05:6512:3d18:b0:540:2339:3761 with SMTP id 2adb3069b0e04-5402a5ea3c0mr647882e87.31.1733906837971;
-        Wed, 11 Dec 2024 00:47:17 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54020b50393sm796000e87.20.2024.12.11.00.47.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 00:47:16 -0800 (PST)
-Date: Wed, 11 Dec 2024 10:47:14 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Stefan Schmidt <stefan.schmidt@linaro.org>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, Jianhua Lu <lujianhua000@gmail.com>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 27/28] media: iris: enable video driver probe of
- SM8250 SoC
-Message-ID: <35tpvx2uok22tmq76fe6mluiqnkymm2es6iu5jjj2zapeio6me@l4obuknsn3gz>
-References: <20241210-qcom-video-iris-v8-0-42c5403cb1a3@quicinc.com>
- <20241210-qcom-video-iris-v8-27-42c5403cb1a3@quicinc.com>
- <CAEvtbuuO5Ga+wW9rstX_e_RGnm5jSNSHmyy3w3M9FTopNhKttQ@mail.gmail.com>
- <b4f35301-6361-9e07-73dc-023e87c80857@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=T/xcznoVyYAaLXpgHb73TtHeAdxAeQgkYU5XzoZwJ2q2A8cG3r/MbpbgBbhy6ycxNy1qQDjrbN+/A/BGEhOeiIX26oFFU7CaR4cG55tbASJlBxyKToOghe9HPqagTWdgSoFfSVY7o5yBHvCUHGJQQ5Uu2HNdg1woYhE8mFuU/s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J1CXcQDj; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733906937; x=1765442937;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j+vqd/a5a5hgbl3tcDMK9EMkSQgtkl+vvBnHssubgDs=;
+  b=J1CXcQDjqM9YLnjrdYaSJevDGPA2JJQO6WIxsfmIvbdvUjJ97FxjB6a4
+   DdoE8Aiw2An4ICk6nJgSUVNAlWcqZHc3ImeFqOGnC94yl09Jirt7Y2twS
+   26adQC2GYKEr6z+126z9UccjXrfwTp/KwGD8wCdd+5s6zcJD/71OSA3Al
+   aY6kSJuljXyFv7ejDRrLzrWuQi5IxbpCqwtgnG7dWxd4V9XhmvswTDh8w
+   iVy1wKTHJ6I/vI3GY8g0C4eSvdcUTp3bdG+9y/TzcW7dqHERLDq5+9zxr
+   i7cBL/cvSJwd4TZYkm2LuvwFNZjcRhjjhRlsFJquNBVoj0xd4A7CoGDQT
+   g==;
+X-CSE-ConnectionGUID: pqNUoLOORAOmpzseWZADPw==
+X-CSE-MsgGUID: pWqr35LNSjGhEzubVYzFqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="44946662"
+X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
+   d="scan'208";a="44946662"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 00:48:56 -0800
+X-CSE-ConnectionGUID: Q1ogiordSHGSAV9fQnvLlA==
+X-CSE-MsgGUID: EGEskwiASuGo+htXH3OG7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="99809895"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 00:48:54 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 67CF011F99E;
+	Wed, 11 Dec 2024 10:48:51 +0200 (EET)
+Date: Wed, 11 Dec 2024 08:48:51 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev
+Subject: Re: [PATCH v3 6/7] ACPI: bus: implement acpi_device_hid when !ACPI
+Message-ID: <Z1lR869cuIw_p2-l@kekkonen.localdomain>
+References: <20241210-fix-ipu-v3-0-00e409c84a6c@chromium.org>
+ <20241210-fix-ipu-v3-6-00e409c84a6c@chromium.org>
+ <Z1isHpuHqHSX-jHd@kekkonen.localdomain>
+ <CANiDSCt64N5iheWgE0UhmTriLC8duraAaTaiX5fb7+NpXBRiUw@mail.gmail.com>
+ <Z1lF0ij99KpbVKQs@kekkonen.localdomain>
+ <20241211094037.26aa369a@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -98,73 +89,67 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b4f35301-6361-9e07-73dc-023e87c80857@quicinc.com>
+In-Reply-To: <20241211094037.26aa369a@foz.lan>
 
-On Wed, Dec 11, 2024 at 11:54:09AM +0530, Dikshita Agarwal wrote:
-> 
-> 
-> On 12/10/2024 9:53 PM, Stefan Schmidt wrote:
-> > hello Dikshita,
-> > 
-> > On Tue, 10 Dec 2024 at 12:08, Dikshita Agarwal
-> > <quic_dikshita@quicinc.com> wrote:
-> >>
-> >> Initialize the platform data and enable video driver probe of SM8250
-> >> SoC. Add a kernel param to select between venus and iris drivers for
-> >> platforms supported by both drivers, for ex: SM8250.
-> >>
-> >> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> > 
-> > [...]
-> > 
-> >> --- a/drivers/media/platform/qcom/iris/iris_ctrls.c
-> >> +++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
-> >> @@ -17,6 +17,8 @@ static inline bool iris_valid_cap_id(enum platform_inst_fw_cap_type cap_id)
-> >>  static enum platform_inst_fw_cap_type iris_get_cap_id(u32 id)
-> >>  {
-> >>         switch (id) {
-> >> +       case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:
-> >> +               return DEBLOCK;
-> >>         case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
-> >>                 return PROFILE;
-> >>         case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
-> >> @@ -32,6 +34,8 @@ static u32 iris_get_v4l2_id(enum platform_inst_fw_cap_type cap_id)
-> >>                 return 0;
-> >>
-> >>         switch (cap_id) {
-> >> +       case DEBLOCK:
-> >> +               return V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER;
-> >>         case PROFILE:
-> > 
-> > The handling for DEBLOCK does not seem to be part of the SM8250
-> > enablement. Or did I miss something?
-> > It seems they should be part of a different patch that makes use of
-> > the DEBLOCK cap.
-> > 
-> this cap is part of platform caps of SM8250 and the value(set by
-> client/default) of this will set to firmware as part of start streaming
-> through set APIs.
+Hi Mauro,
 
-Then it still makes sense to split into two parts: one for DEBLOCK
-handling, one for the platform data only. Or you can safely merge
-DEBLOCK into the main caps commit.
-
-> {
-> +		.cap_id = DEBLOCK,
-> +		.min = 0,
-> +		.max = 1,
-> +		.step_or_mask = 1,
-> +		.value = 0,
-> +		.hfi_id = HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER,
-> +		.set = iris_set_u32,
-> +	},
+On Wed, Dec 11, 2024 at 09:40:37AM +0100, Mauro Carvalho Chehab wrote:
+> Em Wed, 11 Dec 2024 07:57:06 +0000
+> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 > 
-> Thanks,
-> Dikshita
-> > regards
-> > Stefan Schmidt
+> > Hi Ricardo,
+> > 
+> > On Tue, Dec 10, 2024 at 11:35:35PM +0100, Ricardo Ribalda wrote:
+> > > On Tue, 10 Dec 2024 at 22:01, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:  
+> > > >
+> > > > Hi Ricardo,
+> > > >
+> > > > On Tue, Dec 10, 2024 at 07:56:03PM +0000, Ricardo Ribalda wrote:  
+> > > > > Provide an implementation of acpi_device_hid that can be used when
+> > > > > CONFIG_ACPI is not set.
+> > > > >
+> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > ---
+> > > > >  include/acpi/acpi_bus.h | 5 +++++
+> > > > >  1 file changed, 5 insertions(+)
+> > > > >
+> > > > > diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
+> > > > > index 4f1b3a6f107b..c25914a152ee 100644
+> > > > > --- a/include/acpi/acpi_bus.h
+> > > > > +++ b/include/acpi/acpi_bus.h
+> > > > > @@ -1003,6 +1003,11 @@ static inline int unregister_acpi_bus_type(void *bus) { return 0; }
+> > > > >
+> > > > >  static inline int acpi_wait_for_acpi_ipmi(void) { return 0; }
+> > > > >
+> > > > > +static inline const char *acpi_device_hid(struct acpi_device *device)
+> > > > > +{
+> > > > > +     return "";
+> > > > > +}  
+> > > >
+> > > > I wonder if any caller might expect something of a string if provided?
+> > > > Valid _HIDs are either 7 or 8 characters whereas the proper version of the
+> > > > function returns "device" when one cannot be found (dummy_hid in
+> > > > drivers/acpi/scan.c). Unlikely to be a problem perhaps.  
+> > > 
+> > > Good point. I changed it to return "device"  
+> > 
+> > When ACPI is disabled, it's unlikely that string would be used anyway, vs.
+> > the case when ACPI is enabled but there's no _HID. So I think an empty
+> > string should be fine. I wonder what others think.
+> > 
+> Returning "" also caused me some attention at the original patch. IMO,
+> placing a pseudo-valid HID would be better, but I guess "device" is also
+> invalid, as, at least I always saw HIDs in uppercase. Also, I guess it
+> is always a vendor ID + a 4 digit number.
+> 
+> so, IMHO, something like "DEVC9999" would be a better name if we fill it.
+
+How about post a patch changing "device" in drivers/acpi/scan.c? :-) But I
+think the string also needs to be an invalid as a _HID object so it's not
+masking an actual hardware ID used by a real device.
 
 -- 
-With best wishes
-Dmitry
+Kind regards,
+
+Sakari Ailus
 
