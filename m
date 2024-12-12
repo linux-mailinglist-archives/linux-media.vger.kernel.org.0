@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-23265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23273-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD5F9EE2A3
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 10:21:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E739EE2BB
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 10:23:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6FDD168FB1
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 09:21:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7264188B4AD
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 09:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D9C5211472;
-	Thu, 12 Dec 2024 09:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFB1B21325C;
+	Thu, 12 Dec 2024 09:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="rACcgzmy"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="15l/gyKS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04776204C36;
-	Thu, 12 Dec 2024 09:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540622116F8;
+	Thu, 12 Dec 2024 09:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733995233; cv=none; b=gFB7rtjRUW5lmc0zG9BGyCZM2enJqUmLmCmYraOXQVtvRA+50Oj5GB4h9qlg3Z8QnflZuqwpinwCJxUbHpTds2SaJvH+qBuB/i7eF8pmum6Q9gtiYtHE4jUgrtsyGeAg/uIpaheVejPKeRCV7DTHi0/N2blhRsOOS4jEe9YJI68=
+	t=1733995239; cv=none; b=dIxDWP9f4WsYcqaCzwNqr4i84n68rcRXmycM7BnM6ugggxgINkLOARbviNV21Olo/CpJ4SqQ818NTOLUgr+/5uN9Y6FCpj2ASUn9H/I3MUOV18kvMKGrB+0ac/1P+LBmX0o5IyPtm7RyvebULKa/SGDriU6ZtUN9kkakzomrhUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733995233; c=relaxed/simple;
-	bh=Jw+7mNQiZ6YCU9/Tphml63L7VcWDZfzFpKH2k3jLPIo=;
+	s=arc-20240116; t=1733995239; c=relaxed/simple;
+	bh=Sm73YnAQcEQ/0DmoV74zONz5SxJXZw3R8ON0xjmh7V4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=cdLoZhVYl75TFap52JxnhswKUZquYWVfc+VKOYi1Whhms/v5+8rnkTndrFAO7giF6eTL3wUG23lOLr+3priyykd55v4/ZQ3D2Xn4f0D19v+Ql8Z6paERmrwxoBDqMDuKtLaDquv7FI4HaoF/m9tg4rzRd1Xjmbaad4qcA0h9deM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=rACcgzmy; arc=none smtp.client-ip=185.132.182.106
+	 In-Reply-To:To:CC; b=HuAYGxn6hgxfsnSsv4BD3zLPLk+jgh1SqvH6vBtMN50nb8xgwaD3YmAm8X2YDR5YRXxq72E4wLuuREoNR2eYkmYLRC26h368fy1QVIzDLhxFIOdaslSK6BNx5NCYNfJBojkHvr4plg+JZA/0QAKMWyd1ngiDScn3EAtGJWLuxfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=15l/gyKS; arc=none smtp.client-ip=91.207.212.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC6nprT020794;
-	Thu, 12 Dec 2024 10:20:15 +0100
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC5Vf6b011897;
+	Thu, 12 Dec 2024 10:20:09 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	pKHWtr7CObu7BlBwgtuANHPjX1WTy8471GU17YfD5dk=; b=rACcgzmyWHpsfa0b
-	wlNxREBv+bF6wAHmmjiTU0MNWzSrPuYhyOJ6Ui37SGIXYCM7+FaPt9WrY7qVRqxo
-	kdqbgwKWY58ciWBmzYLMu8xvgm90lr00h6UImsj2PyRKKD6ewqgEBBpGZASNT8f6
-	J2hV681NUUosrEo8YEkDJJwGyKa1fslDpQVp/wTm6fF9trmheCaWLrfI55C6wwLB
-	S3qR28gWqhjTPDfJsNEkMQpHOx3e0rsOaeO+AT5CKpp697tuSS7OBh6kXfK2OK8e
-	1poX8V1BfgfXOyUVl0i5rlMOSryKMYwyQpmguZw8S955ttiNQX+XCe3wg2ikEyuB
-	osVsNA==
+	7+wWOoqw+gOX7y7oNU5VEfZSmfXoO7EaxBJi4Xrq3TI=; b=15l/gyKS9vmQQuwX
+	ItKFYJdhuA/FFvgePLQHTNpa0QX7ixCMgIgLe6XsY/REaHWSzzW4QIbnLJzHx2mn
+	2RZ/sIxy33GThoZl7guHFYnSFmdf+8Huom+NRF54fhagR0ytlD0/1CeLHAsXNTGY
+	YVO9CaQFq06o/AFvnYpgHPwGF6EJ40SuRYxyNeM/7WJOF0EqnM+UXZrVIPHQ4F3v
+	pjh57oyT/KWJvQnkc/0IbapivlAMKjmaunQwJ8DNfZrjBIWDwVHK63Ju3YMvJkdv
+	fCAqokK/Ag5BFTL1aq07YnMUHBty0ePL0LeNfp53Vkll0pr4Rx7mSDi5+/LlVucl
+	RaffTw==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43ccnmf789-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43e2w9x8v5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 10:20:15 +0100 (CET)
+	Thu, 12 Dec 2024 10:20:09 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A3A7240049;
-	Thu, 12 Dec 2024 10:18:58 +0100 (CET)
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 94A0740054;
+	Thu, 12 Dec 2024 10:19:02 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E951F2576EE;
-	Thu, 12 Dec 2024 10:18:07 +0100 (CET)
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8EC752576FA;
+	Thu, 12 Dec 2024 10:18:08 +0100 (CET)
 Received: from localhost (10.129.178.65) by SHFDAG1NODE1.st.com (10.75.129.69)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 12 Dec
- 2024 10:18:07 +0100
+ 2024 10:18:08 +0100
 From: Alain Volmat <alain.volmat@foss.st.com>
-Date: Thu, 12 Dec 2024 10:17:32 +0100
-Subject: [PATCH v4 08/15] media: stm32: dcmipp: add bayer 10~14 bits
- formats
+Date: Thu, 12 Dec 2024 10:17:33 +0100
+Subject: [PATCH v4 09/15] media: stm32: dcmipp: add 1X16 RGB / YUV formats
+ support
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241212-csi_dcmipp_mp25-v4-8-fbeb55a05ed7@foss.st.com>
+Message-ID: <20241212-csi_dcmipp_mp25-v4-9-fbeb55a05ed7@foss.st.com>
 References: <20241212-csi_dcmipp_mp25-v4-0-fbeb55a05ed7@foss.st.com>
 In-Reply-To: <20241212-csi_dcmipp_mp25-v4-0-fbeb55a05ed7@foss.st.com>
 To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
@@ -99,60 +99,88 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Add support for bayer formats from 10 to 14 bits.
+Add 1X16 RGB & YUV formats support within bytecap & byteproc.
+Slightly change the link_validate function to be able to validate
+against either 1X16 or 2X8 variant of a format.
 
 Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
 ---
- .../media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c    | 12 ++++++++++++
- .../media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c   | 12 ++++++++++++
- 2 files changed, 24 insertions(+)
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c         | 23 ++++++++++++++++------
+ .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c        |  5 +++++
+ 2 files changed, 22 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-index 209693e8296e..6596902a1760 100644
+index 6596902a1760..da80e1aa37ca 100644
 --- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
 +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-@@ -65,6 +65,18 @@ static const struct dcmipp_bytecap_pix_map dcmipp_bytecap_pix_map_list[] = {
+@@ -56,10 +56,15 @@ struct dcmipp_bytecap_pix_map {
+ 
+ static const struct dcmipp_bytecap_pix_map dcmipp_bytecap_pix_map_list[] = {
+ 	PIXMAP_MBUS_PFMT(RGB565_2X8_LE, RGB565),
++	PIXMAP_MBUS_PFMT(RGB565_1X16, RGB565),
+ 	PIXMAP_MBUS_PFMT(YUYV8_2X8, YUYV),
++	PIXMAP_MBUS_PFMT(YUYV8_1X16, YUYV),
+ 	PIXMAP_MBUS_PFMT(YVYU8_2X8, YVYU),
++	PIXMAP_MBUS_PFMT(YVYU8_1X16, YVYU),
+ 	PIXMAP_MBUS_PFMT(UYVY8_2X8, UYVY),
++	PIXMAP_MBUS_PFMT(UYVY8_1X16, UYVY),
+ 	PIXMAP_MBUS_PFMT(VYUY8_2X8, VYUY),
++	PIXMAP_MBUS_PFMT(VYUY8_1X16, VYUY),
+ 	PIXMAP_MBUS_PFMT(Y8_1X8, GREY),
+ 	PIXMAP_MBUS_PFMT(SBGGR8_1X8, SBGGR8),
  	PIXMAP_MBUS_PFMT(SGBRG8_1X8, SGBRG8),
- 	PIXMAP_MBUS_PFMT(SGRBG8_1X8, SGRBG8),
- 	PIXMAP_MBUS_PFMT(SRGGB8_1X8, SRGGB8),
-+	PIXMAP_MBUS_PFMT(SBGGR10_1X10, SBGGR10),
-+	PIXMAP_MBUS_PFMT(SGBRG10_1X10, SGBRG10),
-+	PIXMAP_MBUS_PFMT(SGRBG10_1X10, SGRBG10),
-+	PIXMAP_MBUS_PFMT(SRGGB10_1X10, SRGGB10),
-+	PIXMAP_MBUS_PFMT(SBGGR12_1X12, SBGGR12),
-+	PIXMAP_MBUS_PFMT(SGBRG12_1X12, SGBRG12),
-+	PIXMAP_MBUS_PFMT(SGRBG12_1X12, SGRBG12),
-+	PIXMAP_MBUS_PFMT(SRGGB12_1X12, SRGGB12),
-+	PIXMAP_MBUS_PFMT(SBGGR14_1X14, SBGGR14),
-+	PIXMAP_MBUS_PFMT(SGBRG14_1X14, SGBRG14),
-+	PIXMAP_MBUS_PFMT(SGRBG14_1X14, SGRBG14),
-+	PIXMAP_MBUS_PFMT(SRGGB14_1X14, SRGGB14),
- 	PIXMAP_MBUS_PFMT(JPEG_1X8, JPEG),
- };
+@@ -813,8 +818,7 @@ static int dcmipp_bytecap_link_validate(struct media_link *link)
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 		.pad = link->source->index,
+ 	};
+-	const struct dcmipp_bytecap_pix_map *vpix;
+-	int ret;
++	int ret, i;
+ 
+ 	ret = v4l2_subdev_call(source_sd, pad, get_fmt, NULL, &source_fmt);
+ 	if (ret < 0)
+@@ -828,10 +832,17 @@ static int dcmipp_bytecap_link_validate(struct media_link *link)
+ 		return -EINVAL;
+ 	}
+ 
+-	vpix = dcmipp_bytecap_pix_map_by_pixelformat(vcap->format.pixelformat);
+-	if (source_fmt.format.code != vpix->code) {
+-		dev_err(vcap->dev, "Wrong mbus_code 0x%x, (0x%x expected)\n",
+-			vpix->code, source_fmt.format.code);
++	for (i = 0; i < ARRAY_SIZE(dcmipp_bytecap_pix_map_list); i++) {
++		if (dcmipp_bytecap_pix_map_list[i].pixelformat ==
++			vcap->format.pixelformat &&
++		    dcmipp_bytecap_pix_map_list[i].code ==
++			source_fmt.format.code)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(dcmipp_bytecap_pix_map_list)) {
++		dev_err(vcap->dev, "mbus code 0x%x do not match capture device format (0x%x)\n",
++			vcap->format.pixelformat, source_fmt.format.code);
+ 		return -EINVAL;
+ 	}
  
 diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
-index a19c8235af56..72f1bb4c64ad 100644
+index 72f1bb4c64ad..3c742a546441 100644
 --- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
 +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
-@@ -57,6 +57,18 @@ static const struct dcmipp_byteproc_pix_map dcmipp_byteproc_pix_map_list[] = {
+@@ -48,10 +48,15 @@ struct dcmipp_byteproc_pix_map {
+ 	}
+ static const struct dcmipp_byteproc_pix_map dcmipp_byteproc_pix_map_list[] = {
+ 	PIXMAP_MBUS_BPP(RGB565_2X8_LE, 2),
++	PIXMAP_MBUS_BPP(RGB565_1X16, 2),
+ 	PIXMAP_MBUS_BPP(YUYV8_2X8, 2),
++	PIXMAP_MBUS_BPP(YUYV8_1X16, 2),
+ 	PIXMAP_MBUS_BPP(YVYU8_2X8, 2),
++	PIXMAP_MBUS_BPP(YVYU8_1X16, 2),
+ 	PIXMAP_MBUS_BPP(UYVY8_2X8, 2),
++	PIXMAP_MBUS_BPP(UYVY8_1X16, 2),
+ 	PIXMAP_MBUS_BPP(VYUY8_2X8, 2),
++	PIXMAP_MBUS_BPP(VYUY8_1X16, 2),
+ 	PIXMAP_MBUS_BPP(Y8_1X8, 1),
+ 	PIXMAP_MBUS_BPP(SBGGR8_1X8, 1),
  	PIXMAP_MBUS_BPP(SGBRG8_1X8, 1),
- 	PIXMAP_MBUS_BPP(SGRBG8_1X8, 1),
- 	PIXMAP_MBUS_BPP(SRGGB8_1X8, 1),
-+	PIXMAP_MBUS_BPP(SBGGR10_1X10, 2),
-+	PIXMAP_MBUS_BPP(SGBRG10_1X10, 2),
-+	PIXMAP_MBUS_BPP(SGRBG10_1X10, 2),
-+	PIXMAP_MBUS_BPP(SRGGB10_1X10, 2),
-+	PIXMAP_MBUS_BPP(SBGGR12_1X12, 2),
-+	PIXMAP_MBUS_BPP(SGBRG12_1X12, 2),
-+	PIXMAP_MBUS_BPP(SGRBG12_1X12, 2),
-+	PIXMAP_MBUS_BPP(SRGGB12_1X12, 2),
-+	PIXMAP_MBUS_BPP(SBGGR14_1X14, 2),
-+	PIXMAP_MBUS_BPP(SGBRG14_1X14, 2),
-+	PIXMAP_MBUS_BPP(SGRBG14_1X14, 2),
-+	PIXMAP_MBUS_BPP(SRGGB14_1X14, 2),
- 	PIXMAP_MBUS_BPP(JPEG_1X8, 1),
- };
- 
 
 -- 
 2.34.1
