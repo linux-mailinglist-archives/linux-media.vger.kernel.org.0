@@ -1,123 +1,176 @@
-Return-Path: <linux-media+bounces-23278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23277-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359A39EE34D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 10:42:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 260309EE349
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 10:41:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEF4828266E
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 09:42:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B554B282964
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 09:41:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 351A4210F56;
-	Thu, 12 Dec 2024 09:41:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFD3520FAB1;
+	Thu, 12 Dec 2024 09:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ImlmS5sT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PLclz1s0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C30E2101A2;
-	Thu, 12 Dec 2024 09:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED7A20E011;
+	Thu, 12 Dec 2024 09:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733996514; cv=none; b=NGsP5zU9ldBJzkES6ikxygvR7giAGyf0I/G3bUrjYgPNsw0z+THs17bTDsse9THHmH6TZqNHPd2E76BqIvX3DWi5UJStaaZAvseXAdFO9xFQScTNtflyaV7KkQdassc9e9LUVbuCSS12dbJmprSzSHUwU23g2CxZ2Wr9Nduhcsg=
+	t=1733996510; cv=none; b=GEAPRAeU3PNelflrAi+iruc6o3jhIxmbYa0I+7uUQoyoQFFWqUimknbc1MKitwf9MC7fcoJV2w1YYATS9S6lAxo+MEahfto3MZOIS48iuc5g7Jnq9GJjjhttAkVpkqaivLGxVlOUz41MpriW9wZAyrZRNu3lm5Ek6P5mqF+kj+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733996514; c=relaxed/simple;
-	bh=P4x70ZGm++1hRMsj6Htrcow4CvLTL9GRHvSCtADYFY8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rr7ROCz7fev9MmszAkfvffV+OxfBzg2XxLnZ5DcLfAVZHbcLEKPwlelEQ0FvHZNO9iMghIAC/0eXjoc/J78Tw23dh+9zUxZZ41Buputjlaym7S4wOqrTfCEMlxVQ6UgLw66GpRcOBd38Air0buI7NCB59U8KRB6FNVSwnx/ohd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ImlmS5sT; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC81FsI003601;
-	Thu, 12 Dec 2024 09:41:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IAJYMGceS7Gj1MhSVuVPvmJIGMepzo4iLHRILK3EzNk=; b=ImlmS5sT66eRLmgF
-	+4TiAl3ceZLX45j3wsPSbc40Iy8aDL5BlIbFmz9G+OiBeQpsTZFi+hQIUZBm9aeP
-	v+bE0/9NWfNTeIJh5DHUJLGxy6/xGMmMbEaNWwdYN1T2ytMVGBBEjXohA0pOCWev
-	SLZQqZaF1Mks6FbjO5MauFc/X1ofdyDgErHo9lGgSngVLBkGI+PXwMiwq4cN7o1A
-	M8aW243qM3zIY+fXe/YegdNWI5uDXQHwbgTGcHvu9Rzy1Ut457/9PpREhNqSvHf+
-	lE7vBTShsVdhLh0OF23Ei/M+93FAZoebCGHyb6zNApkhy/yqdDQA37Vnbd7EzInz
-	L1owMg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ee3nfyta-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 09:41:47 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BC9flIC006313
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 09:41:47 GMT
-Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 12 Dec
- 2024 01:41:41 -0800
-Message-ID: <8f2aa73c-f9d3-4523-8595-c35d5ca6f4f7@quicinc.com>
-Date: Thu, 12 Dec 2024 17:41:38 +0800
+	s=arc-20240116; t=1733996510; c=relaxed/simple;
+	bh=obaLmOxLmJXlb/CDjZv7Zm7XxIZBGmVcCgDa31nx99o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CHppzX0ZLn71cdu9NVgGGF/ZyW+yOV1J2mgQRmi0md7vnhhGMYl2hyqhMXygzTbhuh8UH6qZxcMazxNxB9o8poBVMdxVHtU1zDV5b5b8sbjpt8aa8y56Rwk6hVADBnl7DIr4Ul96Eh9OxpWhEUiQP3dE892YbCB3WyXbBSpHV2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PLclz1s0; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:6462:5de2:459e:1ee6:26ea:2d31])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 704D0229;
+	Thu, 12 Dec 2024 10:41:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1733996471;
+	bh=obaLmOxLmJXlb/CDjZv7Zm7XxIZBGmVcCgDa31nx99o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PLclz1s0qjNNBqIxl/K970Ib6OkbcTqMouuTpqmv/mxbDaPDWEtV7+UKlSW9Sqlcn
+	 8mzpmc+lMnONoa8Tq2Y2V9H2mNN3qKQBGWXHqex6yplhm1KGY7W2GPcVjOeVMrvIMr
+	 ONmGF/fEodK8ZPUjeBvXGi9DBj0XzGPD0LNIwbtw=
+Date: Thu, 12 Dec 2024 10:41:42 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Keke Li <keke.li@amlogic.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com, 
+	dan.scally@ideasonboard.com
+Subject: Re: [PATCH v4 02/10] media: platform: Add c3 mipi csi2 driver
+Message-ID: <2jc3sqihnj7sd7vjj7542nntc45eratyxi7diuaewlbqqbixbp@vlgkpv6vm6wr>
+References: <20241205-c3isp-v4-0-cb1868be0105@amlogic.com>
+ <20241205-c3isp-v4-2-cb1868be0105@amlogic.com>
+ <5sen6lv5xg4hjdc4j2l6k5iywqpllbutoaebyln74aeuplawtu@nmpmzgwkkgih>
+ <0fc7f15c-66be-4ba0-9549-51ba87f48690@amlogic.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/16] media: qcom: camss: Add callback API for RUP update
- and buf done
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>
-CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
-References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
- <20241211140738.3835588-10-quic_depengs@quicinc.com>
- <1ac23fa1-fc35-45fb-9338-d5f304c869ba@linaro.org>
-Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <1ac23fa1-fc35-45fb-9338-d5f304c869ba@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: v6MpkaUc7-_dadEUCvG1mu0SIyanfY62
-X-Proofpoint-ORIG-GUID: v6MpkaUc7-_dadEUCvG1mu0SIyanfY62
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- malwarescore=0 spamscore=0 priorityscore=1501 mlxscore=0 impostorscore=0
- mlxlogscore=939 lowpriorityscore=0 adultscore=0 clxscore=1015 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412120068
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0fc7f15c-66be-4ba0-9549-51ba87f48690@amlogic.com>
 
-Hi Vladimir,
+Hi Keke
 
-On 12/12/2024 9:09 AM, Vladimir Zapolskiy wrote:
-> Hi Depeng and Bryan.
-> 
-> On 12/11/24 16:07, Depeng Shao wrote:
->> The RUP registers and buf done irq are moved from the IFE to CSID 
->> register
->> block on recent CAMSS implementations. Add callbacks structure to wrapper
->> the location change with minimum logic disruption.
->>
->> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> 
-> It's unexpected to see two your Signed-off-by: tags, either one is invalid
-> or the authorship of the change shall be changed appropriately.
-> 
+On Thu, Dec 12, 2024 at 05:08:27PM +0800, Keke Li wrote:
+>
+> On 2024/12/12 16:41, Jacopo Mondi wrote:
+> > [ EXTERNAL EMAIL ]
+> >
+> > Hi Keke,
+> >    a question for Laurent and Sakari
+> >
+> > On Thu, Dec 05, 2024 at 05:04:28PM +0800, Keke Li via B4 Relay wrote:
+> > > From: Keke Li <keke.li@amlogic.com>
+> > >
+> > > This driver is used to receive mipi data from image sensor.
+> > >
+> > > Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> > > Signed-off-by: Keke Li <keke.li@amlogic.com>
+> > [snip]
+> >
+> > > +
+> > > +static int c3_mipi_csi_configure_clocks(struct csi_device *csi)
+> > > +{
+> > > +     const struct csi_info *info = csi->info;
+> > > +     int ret;
+> > > +     u32 i;
+> > > +
+> > > +     for (i = 0; i < info->clock_num; i++)
+> > > +             csi->clks[i].id = info->clocks[i];
+> > > +
+> > > +     ret = devm_clk_bulk_get(csi->dev, info->clock_num, csi->clks);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     for (i = 0; i < info->clock_num; i++) {
+> > > +             if (!info->clock_rates[i])
+> > > +                     continue;
+> > > +             ret = clk_set_rate(csi->clks[i].clk, info->clock_rates[i]);
+> > > +             if (ret) {
+> > > +                     dev_err(csi->dev, "Failed to set %s rate %u\n", info->clocks[i],
+> > > +                             info->clock_rates[i]);
+> > > +                     return ret;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > [snip]
+> >
+> > > +
+> > > +static const struct csi_info c3_mipi_csi_info = {
+> > > +     .clocks = {"vapb", "phy0"},
+> > > +     .clock_rates = {0, 200000000},
+> > > +     .clock_num = 2
+> > > +};
+> > > +
+> > > +static const struct of_device_id c3_mipi_csi_of_match[] = {
+> > > +     { .compatible = "amlogic,c3-mipi-csi2",
+> > > +       .data = &c3_mipi_csi_info,
+> > > +     },
+> > > +     { },
+> > > +};
+> > All the drivers in this patch series implement the same pattern when
+> > it comes to handling clock. There's a list of clock providers in the
+> > driver associated with a clock frequency. The driver bulk_get the
+> > clocks and set_rate() using the per-compatible info table.
+> >
+> > Do you think this should rather come from dts using the
+> > assigned-clocks and assigned-clock-rates properties ?
+>
+> Yes,  I think your suggestion is OK.
+>
+> Will test it.
+>
+> If apply your suggestion, do I need to modify the relevant yaml file?
+>
 
-Thanks for pointing out this, I will update it based on Bryan's suggestion.
+Do you mean the binding files ?
 
-Thanks,
-Depeng
+You could add to the example
 
+--- a/Documentation/devicetree/bindings/media/amlogic,c3-isp.yaml
++++ b/Documentation/devicetree/bindings/media/amlogic,c3-isp.yaml
+@@ -73,6 +73,8 @@ examples:
+             clocks = <&clkc_periphs CLKID_VAPB>,
+                      <&clkc_periphs CLKID_ISP0>;
+             clock-names = "vapb", "isp0";
++            assigned-clocks = <&clkc_periphs CLKID_ISP0>;
++            assigned-clock-rates = <400000000>;
+             interrupts = <GIC_SPI 145 IRQ_TYPE_EDGE_RISING>;
+
+             port {
+
+
+As your binding document has "additionalProperties: false" I thought
+you had to add:
+
+  assigned-clocks: true
+  assigned-clock-rates: true
+
+As in my understanding "additionalProperties: false" means "whatever
+is not explicitly allowed is forbidden". However I might be wrong as
+validating the binding even without the two above entries work well
+(and I see other bindings doing the same)
+
+DT maintainers are in cc
 
