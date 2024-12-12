@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-23279-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23280-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F439EE394
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 11:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4159EE3A5
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 11:04:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A68E286D1E
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 10:00:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FC73287266
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 10:04:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D52620FAA7;
-	Thu, 12 Dec 2024 10:00:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7FE21018D;
+	Thu, 12 Dec 2024 10:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="CPX/mSah";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="1esnBfxa"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="F75htJ2n";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="s32tCYMc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8585B20ADFF;
-	Thu, 12 Dec 2024 10:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7343320ADFF;
+	Thu, 12 Dec 2024 10:04:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733997636; cv=none; b=RAu+KYLOs3wZ9Su2HXL0mAnunCZ8Z3yfnZaCmx8EZhkd9ClLI8HcqZpOowVJt8pV4yb5tMZL+DYJ7LFLGSWEcKdDV1Lhep0ZnHwOa/mLMKJxPBw6ai6nvnXMVhzvuTaRGGT8UfkqrkB83wBZXW+wCPwgQX3lB2/QfC8pJFwnNLM=
+	t=1733997891; cv=none; b=pwQ9O9U+L2xlWx8/KFVfPd9Vsq+PPvMP9Sk5NCINXt/82lAJNN7ORuJS66gUfeQSta+NBBj1XUCE9B8o5UkNT9qTpOjbfGc5ipOWC/BeLdVm67zoFByzQUnQKY7cpuMAvJ5BcqE0HwUuB+LLVBgzC5eIZJppD/CB5O32q0X3gZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733997636; c=relaxed/simple;
-	bh=M9VrbnKEvDAIV9al6fI2QXKaUO6atGmp2JYF9fK7oLU=;
+	s=arc-20240116; t=1733997891; c=relaxed/simple;
+	bh=MvjvJedxVi39cmufsneQCxttLPU6XQDFHmRLwf97mIk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JyuO5p7TufVGXTkCq4zTx5qW9FAHJNXaW2Av41J9kdBqxLuf0ebEU/2LSgRVN91Gq4bpPO9oE8fFeSCuaWakrCCI5f35dUGs+ksxkshpxozHdhFsdnC36QybWvGg/LccJOGn+hUnp+4AIdHCqpImaL+KBKIl/o4udBf6/XiuXwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=CPX/mSah; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=1esnBfxa; arc=none smtp.client-ip=202.12.124.159
+	 Content-Type:Content-Disposition:In-Reply-To; b=EfWf8+Vtr8ZSgDwzqPxV0GHsyIcFK7z2+4cebq/p5qV53TJL56hxnoJtNXUnrycNLS+AewBWI14q08V95kNrUsFFa0o/nAZZfw3wbzbWt25+CBYe46OH0ADUglbKxAb1qpXQJUdZA7iZBvxue4xPn23gc6sbB6aUCj8bBYGlfrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=F75htJ2n; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=s32tCYMc; arc=none smtp.client-ip=202.12.124.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DD7DC2540233;
-	Thu, 12 Dec 2024 05:00:31 -0500 (EST)
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 126CC25401FD;
+	Thu, 12 Dec 2024 05:04:48 -0500 (EST)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Thu, 12 Dec 2024 05:00:32 -0500
+  by phl-compute-10.internal (MEProxy); Thu, 12 Dec 2024 05:04:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1733997631;
-	 x=1734084031; bh=82ny8HWGyeETqWuhdlFyRrim1Mu/kr+WNMTnCtjuXRs=; b=
-	CPX/mSahpgCcOfKBoux0CaLhEds97KXWXAs0MLiRcLSQ+xCMxgz841EAkZQnCpai
-	O3y7mvSjDk3zKfRDsQmeYnNEw56fxrdr1ZnV1iTX6keastZ/BFe1e0kTwMLM/1yV
-	Pw22VYMubHI1Crh7Tfoyrh3Ej8c4oUnFI1cVrW9xSQ05e4N5Go7zaGQevDZoTTbn
-	KTcPB3VAw59/tAZgYMCLYST/n3QBYqxACg+/77Ny3O5XOr1yj/gnt/B8TzKCgnyN
-	QpUttPs02KdfopNA58PZTLdoLP4R6cy8mqWFU8m1HfxQW2nbvO/1XRXnzgPqdwvj
-	xQcA6rkOtTZsWDXv2AuKxw==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1733997887;
+	 x=1734084287; bh=d2j3q46wcAVx6x8kQZsDiqm5aMDx7oaUziemzmxHC4c=; b=
+	F75htJ2nW9h/jSaUD4iDqqRMAPYHWqMfd2XhSDJKY0jWWCYVwi/3eMXCW0QxqwGu
+	H4jeAXwLnlwgGkovQTOHHZFD9jb6tc4Wa4LDxW/lR38IvN07QTLrJq1K6jbuf1LC
+	UtA6bwIDqbePfEh8rWSzadz5tVA8tKGxcb7NvrYVynuWAUJ9mGQkX5D7gfxLTzyy
+	gLDa6i6Z6J84JBpnanZ/QX+eIEDft87/fceFFXKTRjscIcfP96L2sN4w4GOpeboJ
+	m/JHHKLRY51hy2PNZIJ/l69//6gdJKX2aOIfgaB/eYASyPYnlq2339WIg2kDQ+fL
+	/Wmuiv3lnt4fQgTuUafEVg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1733997631; x=
-	1734084031; bh=82ny8HWGyeETqWuhdlFyRrim1Mu/kr+WNMTnCtjuXRs=; b=1
-	esnBfxaXBQ5TySt6ZXoa/PCTBDy8HiIK4MHnhz6tzBamSWu41HUnJdHMcxd+XHJa
-	qNvDLK7OXra4668y9veItZaje+GS73G2o4xWTe11bJs+uKW7fejqnhVjzKD/VbCX
-	fp+g1d76q0nZXwU6IH8pT2SVjDUpmg33nDoWkYzyvd8U7NFa5/dRThBRbW8OSHFq
-	w+fmKG/HNkJ6bjxX6CJfwbt8Iy9T8/YEh7+UvTZGXj6Pcm0+zoQGhF2cZXKQUTEp
-	lEfLtwgm6xwlDtqvmW+UiYgZyfejt5c4r8sh1ItaC8XRlF+7fDfWbyffYn8OCXue
-	NXfOCx0575hIgjgkTMqkQ==
-X-ME-Sender: <xms:P7RaZ6rRwfDKTmEMuD1Gj4I3hRJUeKn09lRWeEr_Lla3Kw4KFgUTnw>
-    <xme:P7RaZ4odk6FMp5tTbMZsUld6nZD4BkmUyOl1emV4I6JaZs08PbCpM0xyNst6-gVHR
-    hp7kSTf1-2N9DNY9ps>
-X-ME-Received: <xmr:P7RaZ_PnxdYmRRoPefim8oOhdGe3P8lgsz6m-y9FOprDpAIK0ffY1Nj0xcPYSN9u_okrVaddEkFV2a8zGlhSU6jbZ7jJML7Wqw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrkeehgddtkecutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1733997887; x=
+	1734084287; bh=d2j3q46wcAVx6x8kQZsDiqm5aMDx7oaUziemzmxHC4c=; b=s
+	32tCYMclrhlHZQ3EHYcy60yu6/QitGebGnrbbHhM7rZD383wWWO2VhbCYE8cRr2f
+	bwPyijFZM+lFOL1BCVl44ieHGsVJfjWW71R244of5fzFmKjiFVSRfK/s3+7M0io8
+	LEMnXwlZf7iQOpeqIgcK5fPBzIG5us5bHLupfpYBIAAK6h6RDUyFU3W1s8MRCE5X
+	BwRN2wbXhaZhzQbUmv7kU3TaOIgdbAzNWnTbYFJKl1RpAGEL/kmkqccN9ZkIrbdN
+	PsshSTu3YVE2kokD7kZTK3XSqM9LoCkmkwcl9Vf2qHIEmHvm6ECISjaW0sscjqSg
+	ETxubaWxP8E09RTGpmvTA==
+X-ME-Sender: <xms:P7VaZ6ady-sJJGAKmS3mEerMYhd0wuDYm2WZ7WsGwB3flj9_Coz7NA>
+    <xme:P7VaZ9ZfU-Z7CGYIey6n2LlEEFHULY23Wc639uQh8WubN7yBWx1lOoTyhU97CqmZ_
+    xFxrF5d6az59XkQAoM>
+X-ME-Received: <xmr:P7VaZ09qQt41rm1z_HQHox4VrAhY71CcdP0UMPXzKZJhZUoJ-fJMCuj32AXU2frb6fMGBPcqNf8QHuMPRwknUArZRZL5BRRBmA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrkeehgddtlecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
     tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
     hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
@@ -74,40 +74,28 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrkeehgddtkecutefuodetggdote
     vghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftddvle
     einecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
     khhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-    dpnhgspghrtghpthhtohepuddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehs
-    rghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhope
-    hmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggv
-    rhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtoheplhgruhhrvghnth
-    drphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehl
-    ihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepug
-    gvvhhitggvthhrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:P7RaZ56AjxPOa8DKjMoIx6Hr6WGgiynOjgipJ8agdoK-4TWoV843Tw>
-    <xmx:P7RaZ557kxNMOBomRHVpkzBG7TD0USn5wDkfwwt6yhBlViMVBjMgbg>
-    <xmx:P7RaZ5gyalFAFXfV6Mdz146QT782-Tr9Hqlz3UPJx-014v8faURUAg>
-    <xmx:P7RaZz6safopNW7O32xVIPO2CtzCpzUTrD9fePfJqZRA8c3mFc2rbQ>
-    <xmx:P7RaZ2wxaPMni-HEnjdq2hUWuDjmO-h1SoICfDtZO3SoWn688Zaqp4qL>
+    dpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgr
+    khgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmh
+    gthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughi
+    rgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvg
+    hsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:P7VaZ8qpgRUuFj9fes9-opqCf_Pnk9EDtUEur7OMeqTxO-gYIf53uw>
+    <xmx:P7VaZ1qLPJXoBDlIHomG2v92MVQmg_ek_COrboakwLQTx7q-NDHKNQ>
+    <xmx:P7VaZ6TN2POousjS4MZN2yLJETmwQY0tABhyoaO48VpM3Z0FqyQXAw>
+    <xmx:P7VaZ1p43tnhuNiqlTqPKwOdlxVWuNsECBrxnY9ikCLvqO3uleCJkQ>
+    <xmx:P7VaZ2n4YOJ9jra2U4Q-YT3e0_VKrwVbwo0ip4PJhG4p9hGF8Rn3V5zl>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 12 Dec 2024 05:00:30 -0500 (EST)
-Date: Thu, 12 Dec 2024 11:00:28 +0100
+ 12 Dec 2024 05:04:47 -0500 (EST)
+Date: Thu, 12 Dec 2024 11:04:45 +0100
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY
- line-orders
-Message-ID: <20241212100028.GA878403@ragnatech.se>
-References: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
- <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
- <Z1qP8uY72kw9uX2E@kekkonen.localdomain>
+Subject: Re: [PATCH] media: rcar-csi2: Update D-PHY startup on V4M
+Message-ID: <20241212100445.GB878403@ragnatech.se>
+References: <20241210155400.3137792-1-niklas.soderlund+renesas@ragnatech.se>
+ <Z1qOr7oSdIr3R3ee@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -117,39 +105,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z1qP8uY72kw9uX2E@kekkonen.localdomain>
+In-Reply-To: <Z1qOr7oSdIr3R3ee@kekkonen.localdomain>
 
 Hej Sakari,
 
-Tack för att du tog dig tid och tittade på detta.
+On 2024-12-12 07:20:15 +0000, Sakari Ailus wrote:
+> Hej Niklas,
+> 
+> On Tue, Dec 10, 2024 at 04:54:00PM +0100, Niklas Söderlund wrote:
+> > The latest datasheet (Rev.0.70) updates the D-PHY start-up sequence for
+> > D-PHY operation. Unfortunately the datasheet do not add any additional
+> > documentation on the magic values.
+> > 
+> > This have been tested together with the MAX96724 available on the single
+> > board test platform and it works as expected.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> This looks like a fix. Is there a need to backport it?
 
-On 2024-12-12 07:25:38 +0000, Sakari Ailus wrote:
-> > @@ -250,6 +261,36 @@ static int 
-> > v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
-> >  		} else {
-> >  			pr_debug("no lane polarities defined, assuming not inverted\n");
-> >  		}
-> > +
-> > +		if (have_line_orders) {
-> > +			fwnode_property_read_u32_array(fwnode,
-> > +						       "line-orders", array,
-> > +						       num_data_lanes);
-> > +
-> > +			for (i = 0; i < num_data_lanes; i++) {
-> > +				static const char * const orders[] = {
-> > +					"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
-> > +				};
-> > +
-> > +				if (array[i] > 5) {
-> 
-> 
-> I'd use:
-> 
-> 				if (... >= ARRAY_SIZE(order)) {
-> 
-> I can do the change while applying...
+It's an update to the start-up sequence. Both the old and new sequence 
+works in testing. As the datasheet don't document the magic values it's 
+hard to tell if this is a real fix or not.
 
-Thanks and pleas do.
+On the other hand, the DTS changes needed to use this device on R-Car 
+V4M are still pending upstream merge so we have no in-tree users of this 
+device. I don't think we need to backport this change.
 
 -- 
 Kind Regards,
