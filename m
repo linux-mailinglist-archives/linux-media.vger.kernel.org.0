@@ -1,122 +1,149 @@
-Return-Path: <linux-media+bounces-23325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23326-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5659EE83A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 15:04:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4EAF9EE8B5
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 15:27:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 753AE167836
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 14:04:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D11E165DDE
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 14:26:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6302135BA;
-	Thu, 12 Dec 2024 14:04:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18286214A7D;
+	Thu, 12 Dec 2024 14:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lbuylqTb"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ki6Yq+XB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F248213E9F
-	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 14:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639348837;
+	Thu, 12 Dec 2024 14:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734012246; cv=none; b=t3jvKs9wULGSOHAkKloAHhuf16W6Gq2L6HX4RxtHkqEtjaRUk67PTCvxO7xVNrlhcICvp5dsknJ9Jb4VWsjsmDq8fiPFqr1j1QVh4puZJhKZsaDrGyPYUOmjKIxZRURU3Ff/KRg0h+ba8ZhwGNp3lLIi/DavB+BHsnbC8JjPolg=
+	t=1734013613; cv=none; b=rvFFDBHYimlXpqN7twLTkcX4uYBmLT/JsAdIAqn+l8pJ3YV5fCQhCyXOZcn8qVbci9erzVS7TFlIIm7FCMkCPpyqsonZviUaiG0ZMhLLKEdtSFOMt2kIr0fxyqjvA8TKrlC/AjNFaKlQaJ+AZ/bQhXVjoFCxOj/Zoh6BW06uIqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734012246; c=relaxed/simple;
-	bh=0clCWrGBpSkpZ9aHSFW/0CsAHfJ3VaJRG8xLf2OnhZY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=H24H5daoQOjucK5NdwpXliey0uELyHwjTc8m7APuE4wFjXNhadoL4/LTUZmow1gYr38HRDBdvOyN2Utqfa0YH/6jMKC41oxnbZpqulSg3I6x2mWIo/KIU3630l1PTx2A97g8pUSajwDSf0pNXVmD7M4/IU4/O308x8PIZSHz01w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lbuylqTb; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-385eed29d17so362467f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 06:04:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734012243; x=1734617043; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4NTvOnHE1hh8uNaAY0Ob6P0uimOUvscrCyQDIQ9oqKM=;
-        b=lbuylqTbIrc+jiCBds4t+bAk7nxwZKtX+e3480v3laYAuNWuCNTA29tVmy/RDL78Xa
-         fKOd/AP6BY+ah79MP9ayxQuLAlWj4J64KJy3BadRYAER5wx2kJxRdxxJc4b+haiuK7Dy
-         MLQLGJR+mdeNr488/yt4KaYzhGk+AP379RiVjE8KchIzeGv+geLyxcZlVfR+194pOHNE
-         JBx3zWwQj5IwMajK2mMz2hAN6LSNf12PWJQl5b6zn1Yha3D26aRVtOOVGpaWkRXcvQha
-         pggI1y22LS8ggmrGe5eAWbQ5H6VIqzeULflfArOVc6ULjU8HmUmiJ2rHEvkCf948gMqP
-         60KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734012243; x=1734617043;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4NTvOnHE1hh8uNaAY0Ob6P0uimOUvscrCyQDIQ9oqKM=;
-        b=BEu03ZPOpmDGTarM1KiPGCc3hs6qHRJPdlVEiBiTKV6kh7pu42ti0lQPJOvsveJkQN
-         yrrdMiSSXKz2Uvb7BLdslw8B1eO49PC0yeTZEq3eeq8lCz6LDi0WDnjnbToMfObybtje
-         jqZH2+zozQl4iukRL0pqOgBloqzq/b3Ks6RV4dFv6rF35uoW9p5bvTAdpAYgPzoL6ZPC
-         OVaIVtUwHOoVq87FS/j0n82cjjgsb6/mJKumMq3pp93c5FTIhvhkhlrj8Nn2cvyyPnTg
-         qFmP3FlJRcha8g8H2S0+E4s6oD/t2FFH21nGQP0MRfNFM+B/Y0aUIhsTgTMgiKFEMcQu
-         kDQw==
-X-Forwarded-Encrypted: i=1; AJvYcCUzZNudFQAWU9Sgvd1bvXdhXq0KFTtBnf4jp718cjGL6lm2cKXukqBNmaDTixpuW1Vt14QXkcGaZeH3eA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYgD0TT3iMAIFPVNJgjkw0o1F+noqIbpJOsrZUt/3lZfGU968u
-	FMtzlcyDL2pLcf2gdfSingXFbFh3lvgxCrY/+hpEhVEqyzgC1pxDg7H0Ya8o51Q=
-X-Gm-Gg: ASbGncvbX7xkxNCwglpzxc9ePmc+v7Ty8NX7vnN2cJJDk62MCT3Rg4tEym6pabdKU7v
-	9sK/nS2rl4ld9CKbnNNZ+IzzCCAe2koLeMs373DpYkAkjKKhem8XUfjs9ihtaW9PgRbNlIl3YxA
-	plCx156sjqgzQ7adrefeK48adj+fQem8357nf2GLLE33TsPZQAn/Zk9Rl3sKb0nWAP1jO22zBiw
-	hs8ldIaQBPh3xST3P8UWW4UkV1zgdqyptPecaQACMZr1rmdUWDxcb2ifEWXFT/I6o8/UQ==
-X-Google-Smtp-Source: AGHT+IHQhg1N3HLj54dub1op17V66eyUvO6n2hZgAgXvqBl/jqbmIbfHC/VhKCoRMTmzyfBX6zBl/Q==
-X-Received: by 2002:adf:e18a:0:b0:385:e8dd:b143 with SMTP id ffacd0b85a97d-3878768e78dmr3259121f8f.19.1734012242852;
-        Thu, 12 Dec 2024 06:04:02 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3878251c1ccsm4191693f8f.88.2024.12.12.06.04.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Dec 2024 06:04:01 -0800 (PST)
-Message-ID: <dc7b546d-6746-4559-b1fb-0e6d768c3399@linaro.org>
-Date: Thu, 12 Dec 2024 14:04:00 +0000
+	s=arc-20240116; t=1734013613; c=relaxed/simple;
+	bh=WY0yDhTwQaObU/ZfX3CIya5sYXTBGAfaLA5EU3pTQ/g=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ttiq9l90WdTqCOPkzzwNv45KDZ3LqcS4ZiCbllLFEcYZOnp6Tv2mL+OCy/FpEnhwf8COx4I4X2AEwBqKrvPA/H+E53peP777EQlR5ZpnMURaQrgsIbNIxEZap8pBUg7Y8vqIwuijwZ2wsOvfRU13UMqf+PKCWf+viP0nczmzdm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Ki6Yq+XB; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1734013609;
+	bh=WY0yDhTwQaObU/ZfX3CIya5sYXTBGAfaLA5EU3pTQ/g=;
+	h=Subject:From:To:Date:In-Reply-To:References:From;
+	b=Ki6Yq+XBhKrYI1rehEH6ytA9Zy5LsJve0243a/H1kgdh5r9VQxQ5sjhbywMqqTeP1
+	 rPwi8Slb9DH+S6KoCiN/I+u+E5C5drtfFpxl4iyX12dj2+8Hxx0fkVGVlg+hqgqhmI
+	 y4BhvNawe5Wkjzqt3bhUVU3un0N8mU2d68pDWp/gi0fLQIWWL52wqkLSeXw2NvhVcA
+	 7jZhVdElyEg9xGU2wVzsTW2lxLczo3ImvfS/Bq8qd9t6HHCfnNQFkCGCiEsFd5M9ng
+	 HqxkpOnjpvO5lHijAHxNQfSjk69JGcW3DyixIDfkCFzyrYk2bxzgWsZA6d/4y1LH/i
+	 VppIFbE0CthQg==
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id ACFA617E3767;
+	Thu, 12 Dec 2024 15:26:47 +0100 (CET)
+Message-ID: <2b5a496fc2c114ae40b4d623ac8ad0884d334b60.camel@collabora.com>
+Subject: Re: [PATCH v2 3/3] media: verisilicon: postproc: 4K support
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, Fritz Koenig	 <frkoenig@chromium.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,  Daniel Almeida
+ <daniel.almeida@collabora.com>, Andrzej Pietrasiewicz
+ <andrzej.p@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Date: Thu, 12 Dec 2024 09:26:46 -0500
+In-Reply-To: <20241120110105.244413-4-hugues.fruchet@foss.st.com>
+References: <20241120110105.244413-1-hugues.fruchet@foss.st.com>
+	 <20241120110105.244413-4-hugues.fruchet@foss.st.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/16] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.zapolskiy@linaro.org
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com,
- Yongsheng Li <quic_yon@quicinc.com>
-References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
- <20241211140738.3835588-13-quic_depengs@quicinc.com>
- <d8b73275-a52a-4cfb-91d7-948686d3a5f1@linaro.org>
- <82f61951-89c3-4793-82c9-581f737b5303@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <82f61951-89c3-4793-82c9-581f737b5303@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/12/2024 13:39, Depeng Shao wrote:
->> Have a look at 7280.
->>
->> The parameters to the NOC should be named.
->>
->> https://lore.kernel.org/all/20241206191900.2545069-2- 
->> quic_vikramsa@quicinc.com
->>
+Le mercredi 20 novembre 2024 à 12:01 +0100, Hugues Fruchet a écrit :
+> Support input larger than 4096x2048 using extended input width/height
+> fields of swreg92.
+> This is needed to decode large WebP or JPEG pictures.
 > 
-> Do you mean use QCOM_ICC_TAG_ACTIVE_ONLY and QCOM_ICC_TAG_ALWAYS?
-> And, I will also remove the ICP and SF interconnects which are used by 
-> offline HW, rather than real time VFE.
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
 
-I was asking about the TAG names.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Re: removing interconnects that's up to you, provided the removal is 
-tested on real hardware.
+This can likely be picked independently as it already improve JPEG support.
 
----
-bod
+Nicolas
+
+> ---
+>  drivers/media/platform/verisilicon/hantro.h          | 2 ++
+>  drivers/media/platform/verisilicon/hantro_g1_regs.h  | 2 +-
+>  drivers/media/platform/verisilicon/hantro_postproc.c | 6 +++++-
+>  3 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+> index 811260dc3c77..d1337f7742e4 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -321,6 +321,8 @@ struct hantro_postproc_regs {
+>  	struct hantro_reg output_fmt;
+>  	struct hantro_reg orig_width;
+>  	struct hantro_reg display_width;
+> +	struct hantro_reg input_width_ext;
+> +	struct hantro_reg input_height_ext;
+>  };
+>  
+>  struct hantro_vp9_decoded_buffer_info {
+> diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> index e7d4db788e57..f6e5bbeb1914 100644
+> --- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> +++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> @@ -351,7 +351,7 @@
+>  #define     G1_REG_PP_CONTROL_OUT_WIDTH(v) (((v) << 4) & GENMASK(14, 4))
+>  #define G1_REG_PP_MASK1_ORIG_WIDTH	G1_SWREG(88)
+>  #define     G1_REG_PP_ORIG_WIDTH(v)	(((v) << 23) & GENMASK(31, 23))
+> -#define G1_REG_PP_DISPLAY_WIDTH		G1_SWREG(92)
+> +#define G1_REG_PP_DISPLAY_WIDTH_IN_EXT	G1_SWREG(92)
+>  #define G1_REG_PP_FUSE			G1_SWREG(99)
+>  
+>  #endif /* HANTRO_G1_REGS_H_ */
+> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drivers/media/platform/verisilicon/hantro_postproc.c
+> index 232c93eea7ee..84c8e287470d 100644
+> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+> @@ -49,7 +49,9 @@ static const struct hantro_postproc_regs hantro_g1_postproc_regs = {
+>  	.input_fmt = {G1_REG_PP_CONTROL, 29, 0x7},
+>  	.output_fmt = {G1_REG_PP_CONTROL, 26, 0x7},
+>  	.orig_width = {G1_REG_PP_MASK1_ORIG_WIDTH, 23, 0x1ff},
+> -	.display_width = {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
+> +	.display_width = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 0, 0xfff},
+> +	.input_width_ext = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 26, 0x7},
+> +	.input_height_ext = {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 29, 0x7},
+>  };
+>  
+>  bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+> @@ -103,6 +105,8 @@ static void hantro_postproc_g1_enable(struct hantro_ctx *ctx)
+>  	HANTRO_PP_REG_WRITE(vpu, output_height, ctx->dst_fmt.height);
+>  	HANTRO_PP_REG_WRITE(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width));
+>  	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
+> +	HANTRO_PP_REG_WRITE(vpu, input_width_ext, MB_WIDTH(ctx->dst_fmt.width) >> 9);
+> +	HANTRO_PP_REG_WRITE(vpu, input_height_ext, MB_HEIGHT(ctx->dst_fmt.height >> 8));
+>  }
+>  
+>  static int down_scale_factor(struct hantro_ctx *ctx)
+
 
