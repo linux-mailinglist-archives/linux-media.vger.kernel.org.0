@@ -1,98 +1,115 @@
-Return-Path: <linux-media+bounces-23340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23341-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4747F9EF05F
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 17:27:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9779EF0E4
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 17:33:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1688B16BF04
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 16:19:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E78F1897A9E
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 16:20:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32BB3236917;
-	Thu, 12 Dec 2024 16:09:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3F95237FCC;
+	Thu, 12 Dec 2024 16:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="sUaLnpAK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UaBslxOg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5FE222D66
-	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 16:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82191217F40;
+	Thu, 12 Dec 2024 16:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734019770; cv=none; b=agWZOzhr4YgQYXQVGkJuDBXdcS+AWDVqqG3xau8yKsupctqh94xWXZMRGP02DGnUnhWIT6g8F/T5mPtq58vEAYihuWPP8RUp5kyx1hNhKsgkcpn+wsqQ2x9BRfooFc9M1mz6VBeyJnvNklQFPzly/Y0WpcPfaZMlXlWwmCBYADM=
+	t=1734019853; cv=none; b=YLSwv7T1DCWXhou138dvrdOMu8njJO1KUqb5Au2TJyoWsn587v0sLH7cXE67WQoFFuD4Girdcqks6/qmCHqsQGe+9lDeIlKzheN8jhR7cfW8A+7A6glWNWh2Rm+6ruQvW/GgabF3/RChKRpLrHSgH7lxW/3KkeX82vHlKFIjyOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734019770; c=relaxed/simple;
-	bh=apCFxvirC+P5W1oE8i4Rjpd2/J6XLJh1AZEgwkPzTX0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VlaiiYawmrFe5rSCSNo7m/pUQ43x4MXHTD59MzEpX6mKmxSz3RZuILDkaITH2rD1MWFNOFevW1XE6B9pisP6mDif+PtVZ3JU9EQ4st1fg71xVolyEAZ44P4zpZjNMuTuQaQxJTNgX/moikBocRhXLah+GQbluUSGEWgsdSBe6Zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=sUaLnpAK; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=MZNtcRtgrejz9oNq+sLP4zF5iArJRWmKLjs1Y9Jb1vo=; b=sUaLnpAKrlsOVkXrFZcTIcXVlH
-	gWQA+ihy62+ibHyWiRu0qHVBjJ/ABQXQWNRMppvE1rmTqNi9mZe+jGuOCv3FBbK0uSfgZgirukB4L
-	CMR/4q+9daXutvX+LL7NSesAcgjhxYb1rnuaEjdQKy7biNOixxVMlRDYS+JoGMIJrnzhWHdXgYJQ6
-	a/A/JDA435k1PTu15gnH44NeBCUrTTT8UgpVezVnr//HngrH+IVFpORA+GNJOLE/8lfy8eRnLzWKu
-	8BEz1NUeMgy/LdF/E+c+Qk/GoZb7vWSKlV5q3kenn+6YJxoYDj1Z/yCOvtB4darlShrXD0wHarciY
-	ZhGqc4aQ==;
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1tLlkf-0002R5-1A;
-	Thu, 12 Dec 2024 16:09:21 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-	by slave0 with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1tLlkd-0075AW-2I;
-	Thu, 12 Dec 2024 16:09:20 +0000
-From: Jenkins <jenkins@linuxtv.org>
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: builder@linuxtv.org
-Subject: Re: [GIT PULL FOR 6.14] Various MDP3 changes (#106060)
-Date: Thu, 12 Dec 2024 16:09:19 +0000
-Message-Id: <20241212160919.1688155-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241212155251.gbzb73ibvlzpfxsv@basti-XPS-13-9310>
-References: 
+	s=arc-20240116; t=1734019853; c=relaxed/simple;
+	bh=E8TTZbAWIR0jzsOWYV1xtJIvxfZDCTwBmvcEuKREfKQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IevxCDKHBrDOToyek4tzfamk1sSSyaEj7lfohP2x5Sa9AujSJykS9xHLbdjehVaHFSV7fUZ1CznJOEeC8ajCKY5Cwq5HtnMhvq6htzYWQGDSnhEu/XiaTLiaQ845AKMLW4DCyFJUgYnz4lmnMNCmPsE5cmcHPeDOPWzReOqN9tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UaBslxOg; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ffa49f623cso7970841fa.1;
+        Thu, 12 Dec 2024 08:10:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734019849; x=1734624649; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cYUSJr9oHr+FftcJrfxtweePljXVaDj/rdTt+vSgojY=;
+        b=UaBslxOgUbr1jKNerH201d3BZKEk2thJH4o6uyTqp2zi1K9InGOdq0P6F/SuvCoWgO
+         Hs6afVMmtWbzE17q/8esEt5iRLd/e+923Cb0dvOj9H5G00ohVjI4ojKHFp+a8omaLm74
+         10cLiXJ4CfXEGE2pJ6XKpVcoNkEc10kP+Rd+FEut/8pF0jvXBvfVBKQuyiJ0Dp4ZH4/c
+         CPHdPyXyqW58HgThXpyYeSUR3C0fphmnRHVxSPEjVKF0Pzf7Qk+nxYxvj67XARo2A6Vn
+         SOVe81b9ZWeAmNE4aeVE/llLZ9C/mzIti0Vd0grAsKqC/pWF2Iy+X19Ee33Y9tPmP/7g
+         hSCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734019849; x=1734624649;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cYUSJr9oHr+FftcJrfxtweePljXVaDj/rdTt+vSgojY=;
+        b=dUiWL1ScpnJ76j53A27sKOPsZurUvpoybCdpb6Ti+IaoTjUaZRG34s4pcxotlSbeZp
+         jVVy5/xBzaAt5dfNXUfUFzyGx0tlPZz5J8zaxClS/hoYKDAGoX5LbThGhJz7nsQH6MVO
+         +XI/65KnW6fZC/Tj2xfWOaE1ryIgSa4Di13ei4Am7SAJmeX1GenYMqQmWybigOm0MwLG
+         wo6l+DDQqMwFo3u7vSk83LgvIOzs9mxSJ/BDA7dMUgCOgUm7gS7QEP/O5hL79GrLKwb7
+         q6qRhFeekXc4puzP+ZZYyqM0QPRlqAao68i0gDpvkg5vay1eWrTx6RnSgoDKIrXT2TlN
+         nhtA==
+X-Forwarded-Encrypted: i=1; AJvYcCWBEb/OnHu1yRKdUYuxMOUFRPk9jLprUHAzXnT/SmtMdfrvSCdwrHOqK/DRUD+nKJss5q2EmqgI1mBbrRc=@vger.kernel.org, AJvYcCX1nelNfkWFTrekimUO8f0NQL+RE07prbDI3SPxb+LLZ4ifXN1XRIF9P4TKh2CsABA4ldAEoFyBOb3N/qk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQzCT6rg34yQ/fwRu+sgGDIHsaXT29vOg/6d2sVwka8IX90QzN
+	fDrir7Gk7D3dlsgUoCsjFe0rRE1W6H4CVFkpvAhEZu0N2qCbDtwoVeIRrst1cuSUSuKZyGhDV7m
+	Ngjq6Z1bl521VbwvupNqMhLEXzTk=
+X-Gm-Gg: ASbGncs7HN+Q29L6vDWifUI/v03W9BwqozpISbukhAqwNYWrfXcVE8jYEJe6Uh79+Lh
+	FFzY8jzo65G9B8AmUf0VCmsx8eQxl3tcVWqX1Er7lUcyO79xb9Lb7tnCvtw6Nzso8xyr2EQ==
+X-Google-Smtp-Source: AGHT+IEfxOaxJF02cqCb3o+35QthKCmm4+8U0/gTtwd0T+FvVSHeVgyOje6efKWJI1tAN9KX489WrZ5iZFjUW8eIxGo=
+X-Received: by 2002:a05:651c:2226:b0:300:39eb:1aae with SMTP id
+ 38308e7fff4ca-30251e30b03mr3100551fa.24.1734019849270; Thu, 12 Dec 2024
+ 08:10:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <01020193bb8a24ad-99eafebb-3b0b-40c0-9b28-3a0dbc84327a-000000@eu-west-1.amazonses.com>
+In-Reply-To: <01020193bb8a24ad-99eafebb-3b0b-40c0-9b28-3a0dbc84327a-000000@eu-west-1.amazonses.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 12 Dec 2024 13:10:38 -0300
+Message-ID: <CAOMZO5DgW3YrpMJPCTzQ-LZCopB4tNPoJhyFQrr6RBvbnBu4VA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] media: verisilicon: fix reference padding issue
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: builder@linuxtv.org
+On Thu, Dec 12, 2024 at 12:43=E2=80=AFPM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+> Hantro hardware is splited into two parts: the decoder which produce
+> tiled pixels formats and the post-processor which produce raster pixels
+> formats.
+> When post-processor is used the selected pixels format may not have the
+> some padding/stride than the decoder output pixels format. This led to
+> miscomputing chroma and motion vectors offsets so data are overlapping.
+> This series introduce a reference pixels format that decoder use to
+> compute the various needed offsets and size.
+>
+> With this series Fluster for VP9 tests is now 207/305 vs 145/305.
+> HEVC test score isn't impacted by these patches (still 141/147).
+>
+> Version 2:
+> - rebased on top of media-commiter/next
+> - Add reviewed-by tags
+>
+> Benjamin Gaignard (2):
+>   media: verisilicon: Store reference frames pixels format
+>   media: verisilicon: Fix IMX8 native pixels format steps values
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20241212155251.gbzb73ibvlzpfxsv@basti-XPS-13-9310/
-Build log: https://builder.linuxtv.org/job/patchwork/407264/
-Build time: 00:00:00
-Link: https://lore.kernel.org/linux-media/20241212155251.gbzb73ibvlzpfxsv@basti-XPS-13-9310
-
-gpg: Signature made Thu 12 Dec 2024 03:34:52 PM UTC
-gpg:                using RSA key B71AEACB392868D77606602EC26580EBB1C88525
-gpg: requesting key C26580EBB1C88525 from hkps://keyserver.ubuntu.com
-gpg: Can't check signature: No public key
-
-
-Build aborted due to a fatal error:
-FAILED: patch patch patches/0007-soc-mediatek-cmdq-Remove-cmdq_pkt_finalize-helper-fu.patch doesn't apply:
-Applying patch patches/0007-soc-mediatek-cmdq-Remove-cmdq_pkt_finalize-helper-fu.patch
-patching file drivers/soc/mediatek/mtk-cmdq-helper.c
-Hunk #1 FAILED at 524.
-1 out of 1 hunk FAILED -- rejects in file drivers/soc/mediatek/mtk-cmdq-helper.c
-patching file include/linux/soc/mediatek/mtk-cmdq.h
-Patch patches/0007-soc-mediatek-cmdq-Remove-cmdq_pkt_finalize-helper-fu.patch can be reverse-applied
-
+Do both patches deserve a Fixes tag?
 
