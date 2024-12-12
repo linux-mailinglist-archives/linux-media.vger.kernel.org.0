@@ -1,130 +1,104 @@
-Return-Path: <linux-media+bounces-23323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23322-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A5D9EE7E2
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 14:41:09 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD689EE7E5
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 14:41:16 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20CDF282D49
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 13:41:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08F48188936E
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 13:41:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 242332147E6;
-	Thu, 12 Dec 2024 13:40:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70EE2153F1;
+	Thu, 12 Dec 2024 13:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NtFPOP6i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZUN/NU0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B688A2153EC;
-	Thu, 12 Dec 2024 13:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FED2153E8
+	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 13:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734010817; cv=none; b=EPKUgBItwXmjsr9DdfgbOBRs56c5qHz1ZcdthtWsrpknBxZHMQ69lsG6Vbkwn6aPNCbnd/vTD8Pvvydy/ljBFTHmCWW5TwKnUoAuOAigGl6BWCocPP8umSDwYfboj7HbpumCvv+YKY1ep7K8d2wk3U6OgE3mKSyIflMLOKCCTYM=
+	t=1734010816; cv=none; b=L+GO30IxJJhyNRHDQm3e4rrhdC90bZqU0mairL7r1PQ1ibsbWuuEU9TEGJyaUdRSTFkVXAZ9PWOcA6A7Aw57syoZJWfJVWa6eBVJS/Jw1fGwi8UzCxOpenq9GrULt1mi3uVdQ+PT6SyLGuISPzMP++9V/IYNxp8eDQhDjJb9QyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734010817; c=relaxed/simple;
-	bh=jVvhvxo08oMfxjmztohSudN71ehY7yU6sVeC/s1ugTY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YFsjwDSLG3ipuW8gsQ6KlHWvUGnXT/p0Crab7q2Qa60dBRb6t+mC4GFUNLvAnMGWhM9KYHBl1i0DYdYuOJWEqH1LAXwZ26Bmw3pAfoVMa/JyRgGRppID/VgH6PAu0ngGLYGAvkpJZV/4xmpwMpfiU7LLKeNeKMbgbKUfSt0SFn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NtFPOP6i; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC8K3CT028100;
-	Thu, 12 Dec 2024 13:40:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	no2kTIvkCui7mJdpXu4zGYtIWboKW1PAu+eHBL3uA5g=; b=NtFPOP6ivp7Eg4Dh
-	YfxESKt8qfcH87xk8CS1bNbAVD7TcfLWWri2zttIw2S29DQuaC9n3woZYQXnoJXR
-	2W3hXqM9CH+SKR91PZC4hR4bfCsNruSzsbJHtLpMFAl/agwLmbn3xPfvoxbYeLjL
-	RZJwjACx65YBCHL8UV52IlYg7WMFXmjB2zVREJ1600s6kEOyKbXbijFru9O9R3JE
-	d/VAwna9JnG2SrjVWzEr1i40/9iTKzGaQjTccW+EvovnE0K5qOCeNg+czKGOXOVD
-	yR2QoHp84vMDAuCCnY4t3gaP850riStRK9aCbQSy9LtoLxkpiSprS9OjwpG/Qvbh
-	TLzfPw==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43fd4xu3rx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 13:40:10 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BCDe9sK023928
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 13:40:09 GMT
-Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 12 Dec
- 2024 05:40:02 -0800
-Message-ID: <82f61951-89c3-4793-82c9-581f737b5303@quicinc.com>
-Date: Thu, 12 Dec 2024 21:39:59 +0800
+	s=arc-20240116; t=1734010816; c=relaxed/simple;
+	bh=b9T64XMF15KAMz31uXe/FWdqex3dJqSis0O15g1AUdY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nHR1qQDwMLnRmR9nfLElWZr6rq3kTTQugL2GznIWzEUIuqG0+8gWYGkq8HrtLlxP75wHHd+vhbEN66g1+EM3vVhQVbWV8qFvOgzWVvGezt9BwLxArS2bHAEN9JjFg9Yr9xL/2B55DoShgpFptclTlJqux13BeYqAyGLQQKNh9UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZUN/NU0; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734010815; x=1765546815;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=b9T64XMF15KAMz31uXe/FWdqex3dJqSis0O15g1AUdY=;
+  b=IZUN/NU00dbvVHPXxVIsf5rqT7cXiLdZHNR4eDobiRtjdDCyCW+cqm/X
+   ctuRLmno8qYDblxGE5iPlM1Kc1+KK544Hx2fLlpQw6/66+MwPWlElN93X
+   XF2abxTcre8tg3USR2wHs56QBbSbTBUnvQ7v+02RwrO1XEhLw8VDnOzPg
+   TxEezu/C4ITkMQ0EnBdz2l4PHy8T2ROKLNfRNenCRwLd1pFWg03m/vFWY
+   qg2uru0QylQEqrRtx/5pJ5nyQ4ymlnUiRFNDtK/FwOUh4LPEAqQx58Cx5
+   OgYLwz9BughrWlaANkeTmE4hEi7dL1a6sX0rv6Q1S+PwTJzda5UAiWNtJ
+   g==;
+X-CSE-ConnectionGUID: 7NQO7kIpSweNw0+Sqmw40Q==
+X-CSE-MsgGUID: 90VYUoUwTmay0cubprRWtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="38210280"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="38210280"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 05:40:15 -0800
+X-CSE-ConnectionGUID: 98tihH3rTDaXy5bwn6dvwQ==
+X-CSE-MsgGUID: AKwnGOfmStKBFjiMMnEzcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="101250105"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.245.124])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 05:40:13 -0800
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: sakari.ailus@linux.intel.com
+Cc: linux-media@vger.kernel.org,
+	Mehdi Djait <mehdi.djait@linux.intel.com>
+Subject: [PATCH v2 1/2] media: ccs: Print a warning on CCS static data parser failure
+Date: Thu, 12 Dec 2024 14:40:03 +0100
+Message-ID: <dbbf14a0003016c7fd4529918d0e9e8f0c828a7e.1734010609.git.mehdi.djait@linux.intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/16] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
-        <todor.too@gmail.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <vladimir.zapolskiy@linaro.org>
-CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>,
-        Yongsheng Li
-	<quic_yon@quicinc.com>
-References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
- <20241211140738.3835588-13-quic_depengs@quicinc.com>
- <d8b73275-a52a-4cfb-91d7-948686d3a5f1@linaro.org>
-Content-Language: en-US
-From: Depeng Shao <quic_depengs@quicinc.com>
-In-Reply-To: <d8b73275-a52a-4cfb-91d7-948686d3a5f1@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: jt-p3Edx7fpvv5crQjGHWS-CWpgPa3Pv
-X-Proofpoint-GUID: jt-p3Edx7fpvv5crQjGHWS-CWpgPa3Pv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 bulkscore=0 mlxlogscore=843 phishscore=0 adultscore=0
- suspectscore=0 spamscore=0 mlxscore=0 impostorscore=0 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412120098
 
-Hi Bryan,
+Besides returning an error, also print a warning when
+ccs_data_parse() fails.
 
-On 12/11/2024 11:17 PM, Bryan O'Donoghue wrote:
-> On 11/12/2024 14:07, Depeng Shao wrote:
->> +            interconnects = <&gem_noc MASTER_APPSS_PROC 0 &config_noc 
->> SLAVE_CAMERA_CFG 0>,
->> +                            <&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt 
->> SLAVE_EBI1 0>,
->> +                            <&mmss_noc MASTER_CAMNOC_ICP 0 &mc_virt 
->> SLAVE_EBI1 0>,
->> +                            <&mmss_noc MASTER_CAMNOC_SF 0 &mc_virt 
->> SLAVE_EBI1 0>;
-> 
-> Have a look at 7280.
-> 
-> The parameters to the NOC should be named.
-> 
-> https://lore.kernel.org/all/20241206191900.2545069-2- 
-> quic_vikramsa@quicinc.com
-> 
+Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+---
 
-Do you mean use QCOM_ICC_TAG_ACTIVE_ONLY and QCOM_ICC_TAG_ALWAYS?
-And, I will also remove the ICP and SF interconnects which are used by 
-offline HW, rather than real time VFE.
+v1 -> v2:
+- changed commit msg
+- removed "file" from the warning
 
-Thanks,
-Depeng
+ drivers/media/i2c/ccs/ccs-data.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/i2c/ccs/ccs-data.c b/drivers/media/i2c/ccs/ccs-data.c
+index c40d859166dd..0c1ac406aa17 100644
+--- a/drivers/media/i2c/ccs/ccs-data.c
++++ b/drivers/media/i2c/ccs/ccs-data.c
+@@ -976,6 +976,7 @@ int ccs_data_parse(struct ccs_data_container *ccsdata, const void *data,
+ out_cleanup:
+ 	kvfree(bin.base);
+ 	memset(ccsdata, 0, sizeof(*ccsdata));
++	dev_warn(dev, "failed to parse CCS static data: %d\n", rval);
+ 
+ 	return rval;
+ }
+-- 
+2.47.1
 
 
