@@ -1,106 +1,163 @@
-Return-Path: <linux-media+bounces-23342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23346-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229EE9EF199
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 17:39:41 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C5D51896CFA
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 16:26:36 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3FE922A7FA;
-	Thu, 12 Dec 2024 16:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="R3TgZfLu"
-X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC30B9EF426
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 18:06:10 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A361F222D4B;
-	Thu, 12 Dec 2024 16:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734020142; cv=pass; b=jaZhsdDhrAi5doxLGHdY8aqQsJVzuML1AlRDgME68Rds8DFY1V9typHXw9RU2ZcA0VMGRxfWPOnQVsBVHnZt+5kczdmOsT5Alybqn7SsXAl2NT87t63X4Pqj77JdmnQOoGS2h73vnK6tOiKnWmIN1lGGLd23CDKtk0n7pzwVRys=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734020142; c=relaxed/simple;
-	bh=lGuYiFBYJFiWdZHwOkETmoz+tsse0jRwHByzVD05hFg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XJeo3Ke+FWPej0SFG72oS3qfjsXIAYsExUv+laMMPpIaz32BNZG2wbOu3ddZs9VF8dO2w2Aq02cDYNCMfzPZwEOlLUj0e6YimveuL+dVEuGZcWvdXzDQ8Kp43DI9o1lHiGnA9xtkWld4C53QgaTNsgA/r9iRzVVqhWcGVRACLes=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=R3TgZfLu; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1734020117; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=nFIkIZJ1xuLhG7CnV7y/LlyF7GMO4DNKYynUuDDfONJ9IJ/6c+vLKjieOSVWF2MEyhdi36wNFpuHUWzE6/Jd5Ow1DDEUVhLGM+EIG4tYMSpLYAgekkJy91EIknKTvNPIqJhzxWqmjKO6Ns6rqBLgg/xTG/qCWUXUYKKK0w1vJqI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1734020117; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PBCtB4P7LoVsX+UGrbBFWgz4hUvi2N2icOGRXyods1c=; 
-	b=D3EwNniM2uODf0UlYsxmeJoz5wZstD1V5P9/VWDm8fwnImRVr9FbdlONAO7bSWeOlw2KNZNIg7A9GhmecqhryYamQTVgVmJk46j51nI0+gr5GBhawmwwYa5yOxOOfl0Y+DHGitxF9MqpYS6Vg50X6k+nf89CZS1x3z5IC72Pb+Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734020117;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=PBCtB4P7LoVsX+UGrbBFWgz4hUvi2N2icOGRXyods1c=;
-	b=R3TgZfLusnXNGOwnGXLv3tZEKdrfCkswpUKAUHr2kRAxHcU6ZcG0YTqR1hkLY9Vl
-	UDFK3dWbQZZy+kUHhKocKBZcAnpDtMkNc0C7jRavwZp8UCv6sXHqrTwgc87sUGaqj9e
-	P65sFgEsSoMlRX7NYmIBLHqUlOGQjxdXmsFAaIzo=
-Received: by mx.zohomail.com with SMTPS id 17340201149634.725551844082247;
-	Thu, 12 Dec 2024 08:15:14 -0800 (PST)
-Message-ID: <21db56f1-ee5d-4309-8fa6-5aaf92782885@collabora.com>
-Date: Thu, 12 Dec 2024 17:15:11 +0100
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57684291282
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 17:06:09 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E54D6225413;
+	Thu, 12 Dec 2024 17:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="riy6pBmM"
+X-Original-To: linux-media@vger.kernel.org
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23A1223E80
+	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 17:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734023053; cv=none; b=EoUtHTz1KEY5GTiqACjB9E0NrE3DagYr2JdHsdKIL5ILX/K3njEZSL1luNs4shAeMi9K0788ZyTJwXXHhWRGYvsWxakAWYs7n6F3ujnqJRJiytcNvJSyYKJHUs6x5yTIXoJpXb9eyYNbLrOdcP+0LxSVdzLLZE8fAY6I3CtghAk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734023053; c=relaxed/simple;
+	bh=XWnfwZaD582dMtjRX928MDupFdZti6gNK0QnpF3tpB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bjdWf7jxXch4qnYKEetoHx2v6Jou2CCX451vY5pTe9afxIAvkZ0cFXcZkO+oDV2kX7jFpIXFjq7aa3Pj+TRWLK+7TG80091yqMZCCrcSmC2cuCI3MysymfXXgYKMAr3zTFoOyrOs59XJ/SxP9s/1halswsYM0JUrVckjdQXUTcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=riy6pBmM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF18418D;
+	Thu, 12 Dec 2024 18:03:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1734023016;
+	bh=XWnfwZaD582dMtjRX928MDupFdZti6gNK0QnpF3tpB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=riy6pBmMMnZ6++TGbSzbqriienfwlO0cj+WiXMOBhNvsFbfim/jFSz1cWCL37RZbW
+	 qpEHlez7GNu+L9hbFN9NQqSYCzAETG/YNvauA1fI4PUamWbi07roEk1lHdYb0mmumg
+	 ACkzVJAy4wEOpsAOjpp76/3SPDWypnOjy852OSLM=
+Date: Thu, 12 Dec 2024 18:04:06 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v7 1/5] media: v4l: Support passing media pad argument to
+ v4l2_get_link_freq()
+Message-ID: <jd7hn4rpb5yjz2ew4w7hqhaazjr5vnypxwkkgl6oqi6bk4k7nu@oxfgtjgvu5m2>
+References: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
+ <20241210075906.609490-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] media: verisilicon: fix reference padding issue
-To: Fabio Estevam <festevam@gmail.com>
-Cc: p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com
-References: <01020193bb8a24ad-99eafebb-3b0b-40c0-9b28-3a0dbc84327a-000000@eu-west-1.amazonses.com>
- <CAOMZO5DgW3YrpMJPCTzQ-LZCopB4tNPoJhyFQrr6RBvbnBu4VA@mail.gmail.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <CAOMZO5DgW3YrpMJPCTzQ-LZCopB4tNPoJhyFQrr6RBvbnBu4VA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241210075906.609490-2-sakari.ailus@linux.intel.com>
 
+Hi Sakari
 
-Le 12/12/2024 à 17:10, Fabio Estevam a écrit :
-> On Thu, Dec 12, 2024 at 12:43 PM Benjamin Gaignard
-> <benjamin.gaignard@collabora.com> wrote:
->> Hantro hardware is splited into two parts: the decoder which produce
->> tiled pixels formats and the post-processor which produce raster pixels
->> formats.
->> When post-processor is used the selected pixels format may not have the
->> some padding/stride than the decoder output pixels format. This led to
->> miscomputing chroma and motion vectors offsets so data are overlapping.
->> This series introduce a reference pixels format that decoder use to
->> compute the various needed offsets and size.
->>
->> With this series Fluster for VP9 tests is now 207/305 vs 145/305.
->> HEVC test score isn't impacted by these patches (still 141/147).
->>
->> Version 2:
->> - rebased on top of media-commiter/next
->> - Add reviewed-by tags
->>
->> Benjamin Gaignard (2):
->>    media: verisilicon: Store reference frames pixels format
->>    media: verisilicon: Fix IMX8 native pixels format steps values
-> Do both patches deserve a Fixes tag?
+On Tue, Dec 10, 2024 at 09:59:02AM +0200, Sakari Ailus wrote:
+> v4l2_get_link_freq() accepts a V4L2 control handler for now, but it needs
+> to take struct media_pad argument in order to obtain the link frequency
+> using get_mbus_config() pad op. Prepare for this by allowing struct
+> media_pad as well.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-There is dependency in around hevc compress feature in post-proc code.
-I don't think it could be applied on stable kernel
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
+Thanks
+   j
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 21 ++++++++++++++++++---
+>  include/media/v4l2-common.h           | 19 ++++++++++++++++---
+>  2 files changed, 34 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 0a2f4f0d0a07..9fe74c7e064f 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -466,8 +466,8 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+>
+> -s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+> -		       unsigned int div)
+> +s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
+> +			      unsigned int mul, unsigned int div)
+>  {
+>  	struct v4l2_ctrl *ctrl;
+>  	s64 freq;
+> @@ -502,7 +502,22 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+>
+>  	return freq > 0 ? freq : -EINVAL;
+>  }
+> -EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
+> +EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
+> +
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> +			     unsigned int div)
+> +{
+> +	struct v4l2_subdev *sd;
+> +
+> +	sd = media_entity_to_v4l2_subdev(pad->entity);
+> +	if (!sd)
+> +		return -ENODEV;
+> +
+> +	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> +}
+> +EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+> +#endif /* CONFIG_MEDIA_CONTROLLER */
+>
+>  /*
+>   * Simplify a fraction using a simple continued fraction decomposition. The
+> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> index 63ad36f04f72..fda903bb3674 100644
+> --- a/include/media/v4l2-common.h
+> +++ b/include/media/v4l2-common.h
+> @@ -525,7 +525,8 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+>  /**
+>   * v4l2_get_link_freq - Get link rate from transmitter
+>   *
+> - * @handler: The transmitter's control handler
+> + * @pad: The transmitter's media pad (or control handler for non-MC users or
+> + *	 compatibility reasons, don't use in new code)
+>   * @mul: The multiplier between pixel rate and link frequency. Bits per pixel on
+>   *	 D-PHY, samples per clock on parallel. 0 otherwise.
+>   * @div: The divisor between pixel rate and link frequency. Number of data lanes
+> @@ -541,8 +542,20 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+>   * * %-ENOENT: Link frequency or pixel rate control not found
+>   * * %-EINVAL: Invalid link frequency value
+>   */
+> -s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+> -		       unsigned int div);
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +#define v4l2_get_link_freq(pad, mul, div)				\
+> +	_Generic(pad,							\
+> +		 struct media_pad *: __v4l2_get_link_freq_pad,		\
+> +		 struct v4l2_ctrl_handler *: __v4l2_get_link_freq_ctrl)	\
+> +	(pad, mul, div)
+> +s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> +			     unsigned int div);
+> +#else
+> +#define v4l2_get_link_freq(handler, mul, div)		\
+> +	__v4l2_get_link_freq_ctrl(handler, mul, div)
+> +#endif
+> +s64 __v4l2_get_link_freq_ctrl(struct v4l2_ctrl_handler *handler,
+> +			      unsigned int mul, unsigned int div);
+>
+>  void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
+>  		unsigned int n_terms, unsigned int threshold);
+> --
+> 2.39.5
+>
+>
 
