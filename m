@@ -1,120 +1,322 @@
-Return-Path: <linux-media+bounces-23318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23319-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5399EE691
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 13:23:31 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1162E9EE694
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 13:23:36 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DA54164FDB
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 12:23:29 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B6F212FA1;
+	Thu, 12 Dec 2024 12:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j8ctZ0tW"
+X-Original-To: linux-media@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3697C28347A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 12:23:26 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E815212D9A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA726212D89;
 	Thu, 12 Dec 2024 12:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Q2VU5gqM"
-X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88064212D89
-	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 12:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734006202; cv=none; b=DEg78VyQ5nwV5IYpm7tooIVd9STh4+0gL3I6ro5Ci+t6sANSBuZftew0zPF0dQd7onMoJ4ZUF/l+b0TG15I529GFuv9mPQPkUJsbDaPzUFeUUihxr+iCFD69Q/mgd8TdW8CiOU8/RJGD45KxVfLDZ8uIcnWGLCjDseI4xEn+q3s=
+	t=1734006203; cv=none; b=fs2UAQDSABaFGqMMXGfYrEhNHzQyr1bCfIAt7KHNdI+9Swh1fAwVu2YoDx+k20zhirygH1IVJP2fbVhtBZSQ/n0fIGyZzvE2e5Zg0L41Z6uwexEoQPLHxw1dvbGJEpOIKsr4rwfWo1B2PyYu0C3r0Dp6vkoXAD09FIoH5EufkBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734006202; c=relaxed/simple;
-	bh=Ep1rDPRoWEPCqVDeFsvK620/n0dOwm7iNmDbyig0qjM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S67B0ZcGkEXSFlqzW/2T4gtKIvFL12mVfIjggR9ZSrcEb/J7XXs4k5uV172mdvHGcSW/jf6YU4pD0zrZY78yNk5zkKz0TmciatuhAH0ZsAJ0YtfZstFhIFR/KqibTU/oLgm/ksA1VK9WLqgWKywzLSrzl8FPax8r/mjh3KINU5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Q2VU5gqM; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6f150ddc86dso4317617b3.1
-        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 04:23:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1734006197; x=1734610997; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BEcrt8r2ozQghVF7pJOmomLYDr4SVoGvXHeY6G1CGuE=;
-        b=Q2VU5gqMngBRBtOsAQ07ijEWOJqNrtnyzpwpPDr06sO1qIKiLl5wLXYUdkwWJhUUrO
-         P+I6ah8e5GV5beT5w0On54T0a0UReE/SUjIgRqxlviBPpK8416TdUca4d5FaLodVvKfS
-         l+v+g5y6AWpoZY3vshBE4brIRkmO7X1+XrPkzrCHUTRD1kJjIMRQ9RfA+cHDMh1Za5t4
-         SV3gFvS800vkXZP0IHZrJFXDyRMRtUY4fXriXxM/cGqOaxUMZCkSfUpytocoPQrZukpQ
-         XMSDr4xjAtxwm0WCs9VWoMaqq36FUaLc8OFuWLDHbbaiCI6lJeuWDFCdh/zS3ozI+/yp
-         Ao6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734006197; x=1734610997;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BEcrt8r2ozQghVF7pJOmomLYDr4SVoGvXHeY6G1CGuE=;
-        b=Wze8sgOdJcYGQTC/m/FKsRABOu1y+ZWRvEe+ubeJbUaV4ry7iIAamI06iHx5yWezI9
-         YSibK+XCuxMmGg3tFQU6i3oB8GBqsTXikeC+6SqNMZGiVM7lStSz4P4QWC/rj+kH+1oD
-         aLXifuR2kTw6oy1IiTGp/fSdCRDtYHstBqmFuYngAhcBUqGWw68WeAwoLlW+myC8si2S
-         nLEkg5euQjFEEOnLmJH2QQNMkW+1IJZc9TBadgkWBZB2fGeuZ5YlO9PkHG+3sEpuzc1T
-         6oFuDhonSw7PgyWtcor461Q1qq4kLKUZuLvJD8IYyb74pmEiO6ctSauSCJrUeGyV+Ryo
-         QpVQ==
-X-Gm-Message-State: AOJu0YzjYS/kCDIVPcuu4MRF7lfkrW83gT3sLN8L3KD0LyficMDAzpCY
-	kt9xPvzXYKTSceMC0vnDChLS+TLkzSWsoHsok69l0VtT6MxIsEZiRklyd/uU3fHntNWS7YZZhui
-	EH3zyeJTapXcmCly1JvIOEhrXrcLoX2nJ5ZtblQ==
-X-Gm-Gg: ASbGncuSKiwIYxhex+1D/IOP4gujsQFRgTgOKmAIi0W7aZlICQkoO2Y52JfxQ85FEaZ
-	BC3ZQWUMIzliaudHYrO3vNq5L3sCa1UCNZJjs0w==
-X-Google-Smtp-Source: AGHT+IE5M2JKYs/9dQSaL2DYEpxXMhbqw9m/wucqSmySwr2cmEVLEauSeeYHHAehQUgeoym3BkyI97zdQnzpxcdJwlU=
-X-Received: by 2002:a05:690c:60ca:b0:6ef:57f9:ec4 with SMTP id
- 00721157ae682-6f275268e73mr1441317b3.5.1734006197572; Thu, 12 Dec 2024
- 04:23:17 -0800 (PST)
+	s=arc-20240116; t=1734006203; c=relaxed/simple;
+	bh=/ls9pYCxlVKyApv0ZjmCWkI7T6wumvfIJXXnkpGns3g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T9Bpx3tMmeKyvD+q5Y4bBBOmYiyglZhOko5BwvZHqB6MtEQFXfInxl/1UYnRIPekgQB/wVAIZFlM8qflndi0umwP7VRWGZhE263zhFf1dUp1TLdKxmhDQ2rT4p+bflNWm6S45sWtCEQxHecjG911y3vPOpqbON/lIZFTNlLNeug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j8ctZ0tW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481F9C4CECE;
+	Thu, 12 Dec 2024 12:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734006203;
+	bh=/ls9pYCxlVKyApv0ZjmCWkI7T6wumvfIJXXnkpGns3g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=j8ctZ0tW7sx5h5ct6OyXImRl0zgNHL78YFdwFz0eRV/eo0aWnIUc4JuckgxQlduts
+	 K4OgiDOhy/0u8UBck8j/7xDe/bw45AJpDE05w9DjD7zcH6cR4Nnw/NwIQYnfkZzQ8v
+	 pe3v8R6cNhbI9+S7vtJ5jrTkwIEKoLmqN+7zRSWM2Q6tTVGExfXtOP+zUorF5Pw4cT
+	 MyMKa5jIJ4QQVZMUE6hVhk19NDFYVPPF16wpWZk2tbJZw4aF0OdXA2AwpuRr2JsZGU
+	 4n8UAduprWL0P2oMI06v15kV12GOSVGyORHE49RLeyv02fDCBm7p4ERwBhltPreYO0
+	 uRB6ZNL3s1PQg==
+Message-ID: <5d48f335-7b14-487b-ba08-6354d21d8993@kernel.org>
+Date: Thu, 12 Dec 2024 13:23:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANiDSCuYj_xV_b1VEVfS5ZgsXKnUSXc0W-4Rd+gip+9zkCzTXA@mail.gmail.com>
-In-Reply-To: <CANiDSCuYj_xV_b1VEVfS5ZgsXKnUSXc0W-4Rd+gip+9zkCzTXA@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 12 Dec 2024 12:22:59 +0000
-Message-ID: <CAPY8ntAZTfwf7md+5eevAortfSKw+6DvJipC_UpuYgwm9AnVjg@mail.gmail.com>
-Subject: Re: RFC: User/World Facing camera control
-To: Ricardo Ribalda <ribalda@google.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/8] dt-bindings: mailbox: mediatek: Add GCE header
+ file for MT8196
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mchehab@kernel.org"
+ <mchehab@kernel.org>, =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
+ <Nancy.Lin@mediatek.com>, =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?=
+ <Moudy.Ho@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20241211032256.28494-1-jason-jh.lin@mediatek.com>
+ <20241211032256.28494-2-jason-jh.lin@mediatek.com>
+ <ozifi65uycmxc5hqeu4onbths5u7dg532iufjxplsjw4jjmhf6@6bdsaabd7hl7>
+ <04f7bd2a7d69ab7d02c88cf05bda5ae0c4cb6573.camel@mediatek.com>
+ <e9caf0fe-a77f-40cb-9fc3-9da3d95f27ca@kernel.org>
+ <ce68d58f78d12317cab689e0ee1c02dc373d50dc.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <ce68d58f78d12317cab689e0ee1c02dc373d50dc.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Ricardo
+On 12/12/2024 12:24, Jason-JH Lin (林睿祥) wrote:
+>>>>
+>>>> On Wed, Dec 11, 2024 at 11:22:49AM +0800, Jason-JH.Lin wrote:
+>>>>> Add the Global Command Engine (GCE) header file to define the
+>>>>> GCE
+>>>>> thread priority, GCE subsys ID and GCE events for MT8196.
+>>>>
+>>>> This we see from the diff. What we do not see is why priority is
+>>>> a
+>>>> binding. Looking briefly at existing code: it is not a binding,
+>>>> there
+>>>> is
+>>>> no driver user.
+>>>>
+>>>
+>>> This priority value is used to configure the priority level for
+>>> each
+>>> GCE hardware thread, so it is a necessary hardware attribute.
+>>
+>> I did not say these are not "hardware". I said these are not
+>> bindings.
+>> Bring arguments why these are bindings.
+>>
+> 
+> Not only bringing arguments, we use it to configure each GCE thread's
+> priority.
+> 
+> Please forgive me to ask a trivial question.
+> Do you mean if there is no driver using it directly, then it can not be
+> a binding?
 
-On Thu, 12 Dec 2024 at 12:14, Ricardo Ribalda <ribalda@google.com> wrote:
->
-> Hi
->
-> For a system with multiple cameras (think of a phone or a tablet),
-> userspace needs to know if the camera is facing the user or the world.
->
-> AFAIK, we have no way to tell userspace about this it has to rely to
-> tricks/hardcoding. Eg for UVC cameras they match the vid/pid or the
-> camera name.
->
-> Assuming we define a new field in the acpi table/device tree to
-> describe this.... Would it be an option to add a new V4L2 standard
-> control for this?
+Here:
+<qqqwdzmcnkuga6qvvszgg7o2myb26sld5i37e4konhln2n4cgc@mwtropwj3ywv>
 
-Doesn't V4L2_CID_CAMERA_ORIENTATION already meet the control requirement?
-"This read-only control describes the camera orientation by reporting
-its mounting position on the device where the camera is installed."
-[1]
+> Or could you give me an example for what should be binding and what
+> should not be binding?
 
-  Dave
+Look at all clock IDs of recent arm64 SoC clock controllers.
 
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-camera.html
+> 
+> 
+> Considering to these 3 points, I think GCE thread priority is suitable
+> to be part of the Device Tree Binding:
+> 
+> 1. Describing Hardware Properties
+> - The Device Tree is a data structure for describing hardware, and GCE
+> thread priority, as part of the hardware, should be described in the
+> Device Tree.
 
-> Any thoughts?
->
-> Thanks!
->
-> --
-> Ricardo Ribalda
-> Software Engineer
-> ribalda@google.com
->
+I thought we talk about bindings, not DeviceTree. Where is any
+Devicetree here? Please point me to the code which is Devicetree in this
+patch.
+
+
+> 
+> 2. Driver Usage
+> - Device Tree data is used by drivers to initialize and configure
+> hardware, and GCE thread priority is necessary configuration data for
+> the driver. After parsing the mboxes args from DTS, CMDQ driver use it
+> to configure GCE thread.
+
+We talk about bindings, so why are you describing something else?
+
+> 
+> 3. Standardization
+> - Device Tree bindings should be standardized, and GCE thread priority
+> should have consistent meaning and usage across different hardware
+> platforms. Looking into the latest header: mediatek,mt8188-gce.h,
+> mediatek,mt6795-gce.h and mt8195-gce.h, they all have defined GCE
+> thread priority.
+
+None of above arguments have anything related to the talk here. You
+invent some stuff like "standardization" or "driver usage".
+
+
+
+> 
+>>>
+>>> It's hard to find where the priority is used in existing driver
+>>> code
+>>> because we parsed it from DTS.
+>>
+>> So not a binding.
+>>
+>>>
+>>> It is used in all mediaTeks' DTS using the GCE.
+>>> For example, in mt8195.dts:
+>>>
+>>> vdosys0: syscon@1c01a000 {
+>>>     compatible = "mediatek,mt8195-vdosys0", "mediatek,mt8195-
+>>> mmsys",
+>>> "syscon";
+>>>     reg = <0 0x1c01a000 0 0x1000>;
+>>>     mboxes = <&gce0 0 CMDQ_THR_PRIO_4>;
+>>>     #clock-cells = <1>;
+>>>     mediatek,gce-client-reg = <&gce0 SUBSYS_1c01XXXX 0xa000
+>>> 0x1000>;
+>>> }
+>>>
+>>> CMDQ driver(mtk-cmdq-mailbox.c) will get the args parsed from
+>>> mboxes
+>>> property in cmdq_xlate() and then it will store CMDQ_THR_PRIO_4 to
+>>> the
+>>> specific thread structure.
+>>
+>> So not a binding.
+>>
+>>> The user of CMDQ driver will send command to CMDQ driver by
+>>> cmdq_mbox_send_data(), and this priority setting will be configured
+>>> to
+>>> GCE hardware thread.
+>>
+>> And other things there are the same, we do not talk only about this
+>> one
+>> thing. I asked last time to drop which is not a binding.
+>>
+>>
+> 
+> I just reference all the previous mediatek,mtXXXX-gce.h to add the same
+> binding. Except for the GPR part I added this time, I don't know what
+> else should be dropped.
+
+Your commit msg does not help me, either. Why this is supposed to be a
+binding? Basically your rationale is: someone added headers, so I call
+it binding.
+
+This is invalid argument.
+
+Someone added junk, incorrect style or bugs, so you do the same?
+
+
+> 
+>> ...
+>>
+>>>>> +
+>>>>> +/*
+>>>>> + * GCE General Purpose Register (GPR) support
+>>>>> + * Leave note for scenario usage here
+>>>>> + */
+>>>>> +/* GCE: write mask */
+>>>>
+>>>> That's a definite no-go. Register masks are not bindings.
+>>>>
+>>>
+>>> I'm sorry to the confusion.
+>>>
+>>> These defines are the index of GCE General Purpose Register for
+>>> generating instructions, they are not register masks.
+>>
+>> Index of register is also sounding like register.
+>>
+>>>
+>>> The comment "/* GCE: write mask */" is briefly describe that the
+>>> usage
+>>> of GCE_GPR_R0 and GCE_GPR_R01 is used to store the register mask
+>>> when
+>>> GCE executing the WRITE instruction. And it can also store the
+>>> register
+>>> mask of POLL and READ instruction.
+>>>
+>>> I will add more words to make this comment clearer, like this:
+>>> /*GCE: store the mask of instruction */
+>>
+>> Not sure, because I feel you just avoid doing what is right and keep
+>> pushing your own narrative. Where is it used in the driver?
+>>
+>> I just looked for "GCE_GPR_R00" - no usage at all. So not a binding.
+>>
+> 
+> Currently, GCE_GPR_R15 is used for generating POLL instruction and it
+> has been defined as a MACRO `#define CMDQ_POLL_ADDR_GPR (15)`
+> in mtk-cmdq-helper.c.
+
+I search for GCE_GPR_R15. No usage at all.
+
+Point me to specific line in your code. Paste it here.
+
+Above #define does not use.
+
+I am finishing replying, because you keep avoiding actual answers and
+bring some false proves forcing me to re-iterate the same over and over.
+
+Point to specific line of code and you point to something else and then
+claim this is argument in discussion.
+
+
+
+Best regards,
+Krzysztof
 
