@@ -1,125 +1,122 @@
-Return-Path: <linux-media+bounces-23324-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23325-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C14C9EE7EA
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 14:41:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5659EE83A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 15:04:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1962C18892F0
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 13:41:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 753AE167836
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 14:04:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2AC5213E9C;
-	Thu, 12 Dec 2024 13:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F6302135BA;
+	Thu, 12 Dec 2024 14:04:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BkA8s3NT"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lbuylqTb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9C6215783
-	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 13:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F248213E9F
+	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 14:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734010819; cv=none; b=GZaQ6zkN7jBuUPhrT7oloIL3QFUxoRN7b4AaDZYCCq7ltAhbtDM3bgZ8cn5By0/hDyxr7sW9BegvyORqvSR2bnMuL9c3LK9iI5jfYjz2xIQUeUtR82xl0rU/tc0bgj4avJ6CVkj4gEta0Tg+cod+2b2+JhCSvyrLa02JSegiCCo=
+	t=1734012246; cv=none; b=t3jvKs9wULGSOHAkKloAHhuf16W6Gq2L6HX4RxtHkqEtjaRUk67PTCvxO7xVNrlhcICvp5dsknJ9Jb4VWsjsmDq8fiPFqr1j1QVh4puZJhKZsaDrGyPYUOmjKIxZRURU3Ff/KRg0h+ba8ZhwGNp3lLIi/DavB+BHsnbC8JjPolg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734010819; c=relaxed/simple;
-	bh=sSxAAUBdMDTPYDbxrQbFDlNR6FhW8ed0WM9guv9gkbE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jcPm1z5GrhnC36G5iRMw4VhrGHtCDCdlmuIafX3ZO8hkGGxNCwnwclHwXmseuGPHV3u1AiVrwUt65R1NmpKJHIhLVG4aoP3AyXORYxFS4C6T+XtN03aZwDAQxc6Wsfyw5MDt52qHmj2BXzS8b/vBEYBcKCLZPJR2L29sBgDUXKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BkA8s3NT; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734010818; x=1765546818;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=sSxAAUBdMDTPYDbxrQbFDlNR6FhW8ed0WM9guv9gkbE=;
-  b=BkA8s3NTHXMB/JejTdFnuRIrWDDl3paSF9pPPDQw38LCveiJdr70z3N4
-   6Q6C/Kwc78Tnm2lfIaqUOCjy3+5jfmjD0Sg6K1HYEJwiuDl8af7gmWCcW
-   avnseSEb1QSftX9P9IVxw/aUmzDIF8AqO/h5ltjzU4t5hQ7REr0nozCtR
-   XaG05qhqx6QNlvz3rzhTbKvVpDxE+jfnUEEmtmqrjLsSIpS35uQHkF2WP
-   F8QduKXFDXxlfAmJxFhsuMk+9hrtnw9sFhzKDUoLeYjj5dxu2M01gyDmi
-   UlZ5xlNpUe8boKbHk5n45CjD0VzsdAxXTzq0YbkLEEvIGbjcVt7kODW/l
-   A==;
-X-CSE-ConnectionGUID: YPKW9gWlQHiWOVqKgPSjiA==
-X-CSE-MsgGUID: PrczxbCoQWSbrV5vLjVeTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="38210287"
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="38210287"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 05:40:18 -0800
-X-CSE-ConnectionGUID: ofOteAnSRfSU2DA6x3ozYw==
-X-CSE-MsgGUID: fs38XaZ5S9uRZgxzGMliQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
-   d="scan'208";a="101250113"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.245.124])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 05:40:16 -0800
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: sakari.ailus@linux.intel.com
-Cc: linux-media@vger.kernel.org,
-	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH v2 2/2] media: ccs: Fail the probe on CCS static data parser failure
-Date: Thu, 12 Dec 2024 14:40:04 +0100
-Message-ID: <453d8e099752c5216c465dfd71429e9e0e53d1fd.1734010609.git.mehdi.djait@linux.intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <dbbf14a0003016c7fd4529918d0e9e8f0c828a7e.1734010609.git.mehdi.djait@linux.intel.com>
-References: <dbbf14a0003016c7fd4529918d0e9e8f0c828a7e.1734010609.git.mehdi.djait@linux.intel.com>
+	s=arc-20240116; t=1734012246; c=relaxed/simple;
+	bh=0clCWrGBpSkpZ9aHSFW/0CsAHfJ3VaJRG8xLf2OnhZY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H24H5daoQOjucK5NdwpXliey0uELyHwjTc8m7APuE4wFjXNhadoL4/LTUZmow1gYr38HRDBdvOyN2Utqfa0YH/6jMKC41oxnbZpqulSg3I6x2mWIo/KIU3630l1PTx2A97g8pUSajwDSf0pNXVmD7M4/IU4/O308x8PIZSHz01w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lbuylqTb; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-385eed29d17so362467f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 06:04:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734012243; x=1734617043; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4NTvOnHE1hh8uNaAY0Ob6P0uimOUvscrCyQDIQ9oqKM=;
+        b=lbuylqTbIrc+jiCBds4t+bAk7nxwZKtX+e3480v3laYAuNWuCNTA29tVmy/RDL78Xa
+         fKOd/AP6BY+ah79MP9ayxQuLAlWj4J64KJy3BadRYAER5wx2kJxRdxxJc4b+haiuK7Dy
+         MLQLGJR+mdeNr488/yt4KaYzhGk+AP379RiVjE8KchIzeGv+geLyxcZlVfR+194pOHNE
+         JBx3zWwQj5IwMajK2mMz2hAN6LSNf12PWJQl5b6zn1Yha3D26aRVtOOVGpaWkRXcvQha
+         pggI1y22LS8ggmrGe5eAWbQ5H6VIqzeULflfArOVc6ULjU8HmUmiJ2rHEvkCf948gMqP
+         60KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734012243; x=1734617043;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4NTvOnHE1hh8uNaAY0Ob6P0uimOUvscrCyQDIQ9oqKM=;
+        b=BEu03ZPOpmDGTarM1KiPGCc3hs6qHRJPdlVEiBiTKV6kh7pu42ti0lQPJOvsveJkQN
+         yrrdMiSSXKz2Uvb7BLdslw8B1eO49PC0yeTZEq3eeq8lCz6LDi0WDnjnbToMfObybtje
+         jqZH2+zozQl4iukRL0pqOgBloqzq/b3Ks6RV4dFv6rF35uoW9p5bvTAdpAYgPzoL6ZPC
+         OVaIVtUwHOoVq87FS/j0n82cjjgsb6/mJKumMq3pp93c5FTIhvhkhlrj8Nn2cvyyPnTg
+         qFmP3FlJRcha8g8H2S0+E4s6oD/t2FFH21nGQP0MRfNFM+B/Y0aUIhsTgTMgiKFEMcQu
+         kDQw==
+X-Forwarded-Encrypted: i=1; AJvYcCUzZNudFQAWU9Sgvd1bvXdhXq0KFTtBnf4jp718cjGL6lm2cKXukqBNmaDTixpuW1Vt14QXkcGaZeH3eA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYgD0TT3iMAIFPVNJgjkw0o1F+noqIbpJOsrZUt/3lZfGU968u
+	FMtzlcyDL2pLcf2gdfSingXFbFh3lvgxCrY/+hpEhVEqyzgC1pxDg7H0Ya8o51Q=
+X-Gm-Gg: ASbGncvbX7xkxNCwglpzxc9ePmc+v7Ty8NX7vnN2cJJDk62MCT3Rg4tEym6pabdKU7v
+	9sK/nS2rl4ld9CKbnNNZ+IzzCCAe2koLeMs373DpYkAkjKKhem8XUfjs9ihtaW9PgRbNlIl3YxA
+	plCx156sjqgzQ7adrefeK48adj+fQem8357nf2GLLE33TsPZQAn/Zk9Rl3sKb0nWAP1jO22zBiw
+	hs8ldIaQBPh3xST3P8UWW4UkV1zgdqyptPecaQACMZr1rmdUWDxcb2ifEWXFT/I6o8/UQ==
+X-Google-Smtp-Source: AGHT+IHQhg1N3HLj54dub1op17V66eyUvO6n2hZgAgXvqBl/jqbmIbfHC/VhKCoRMTmzyfBX6zBl/Q==
+X-Received: by 2002:adf:e18a:0:b0:385:e8dd:b143 with SMTP id ffacd0b85a97d-3878768e78dmr3259121f8f.19.1734012242852;
+        Thu, 12 Dec 2024 06:04:02 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3878251c1ccsm4191693f8f.88.2024.12.12.06.04.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Dec 2024 06:04:01 -0800 (PST)
+Message-ID: <dc7b546d-6746-4559-b1fb-0e6d768c3399@linaro.org>
+Date: Thu, 12 Dec 2024 14:04:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 12/16] dt-bindings: media: camss: Add qcom,sm8550-camss
+ binding
+To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.zapolskiy@linaro.org
+Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com,
+ Yongsheng Li <quic_yon@quicinc.com>
+References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
+ <20241211140738.3835588-13-quic_depengs@quicinc.com>
+ <d8b73275-a52a-4cfb-91d7-948686d3a5f1@linaro.org>
+ <82f61951-89c3-4793-82c9-581f737b5303@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <82f61951-89c3-4793-82c9-581f737b5303@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-No need to continue probing when the CCS static data parser fails. Improve this
-by checking the return value and correctly exiting on failure.
+On 12/12/2024 13:39, Depeng Shao wrote:
+>> Have a look at 7280.
+>>
+>> The parameters to the NOC should be named.
+>>
+>> https://lore.kernel.org/all/20241206191900.2545069-2- 
+>> quic_vikramsa@quicinc.com
+>>
+> 
+> Do you mean use QCOM_ICC_TAG_ACTIVE_ONLY and QCOM_ICC_TAG_ALWAYS?
+> And, I will also remove the ICP and SF interconnects which are used by 
+> offline HW, rather than real time VFE.
 
-Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+I was asking about the TAG names.
+
+Re: removing interconnects that's up to you, provided the removal is 
+tested on real hardware.
+
 ---
-v1 -> v2:
-- no changes: this patch is introduced in the v2
-
- drivers/media/i2c/ccs/ccs-core.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index f3af8aed1485..b3fd7f75bf62 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -3756,9 +3756,11 @@ static int ccs_probe(struct i2c_client *client)
- 
- 	rval = request_firmware(&fw, filename, &client->dev);
- 	if (!rval) {
--		ccs_data_parse(&sensor->sdata, fw->data, fw->size, &client->dev,
--			       true);
-+		rval = ccs_data_parse(&sensor->sdata, fw->data, fw->size,
-+				      &client->dev, true);
- 		release_firmware(fw);
-+		if (rval)
-+			goto out_power_off;
- 	}
- 
- 	if (!(ccsdev->flags & CCS_DEVICE_FLAG_IS_SMIA) ||
-@@ -3772,9 +3774,11 @@ static int ccs_probe(struct i2c_client *client)
- 
- 		rval = request_firmware(&fw, filename, &client->dev);
- 		if (!rval) {
--			ccs_data_parse(&sensor->mdata, fw->data, fw->size,
--				       &client->dev, true);
-+			rval = ccs_data_parse(&sensor->mdata, fw->data,
-+					      fw->size, &client->dev, true);
- 			release_firmware(fw);
-+			if (rval)
-+				goto out_release_sdata;
- 		}
- 	}
- 
--- 
-2.47.1
-
+bod
 
