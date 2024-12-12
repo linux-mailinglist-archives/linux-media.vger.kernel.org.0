@@ -1,136 +1,115 @@
-Return-Path: <linux-media+bounces-23320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23321-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58919EE6A5
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 13:26:33 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4179EE6E7
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 13:41:21 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 400D428420B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 12:26:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9D18165945
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 12:41:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AABF12135BB;
-	Thu, 12 Dec 2024 12:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C7802135B4;
+	Thu, 12 Dec 2024 12:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0Jm6z+ix"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KwHOg104"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9BB213245
-	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 12:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64162213237
+	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 12:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734006361; cv=none; b=V/+NCRcFmj2Xw20uc/Rmh8bRVVHRqXSv+GhbuhkHe43aE79MUpszX2NKEzE2LTpA2OroNx0jE1K5LQv92nBrw5PCx9HSdh1E9FPuKIMnplEOYinBESQlDqtatMoWj3t735vETglupzIvk7KpUTO9jsehVqCLiYJZFmSXwafk8GQ=
+	t=1734007273; cv=none; b=DUsXGRT5OJC1kY6OVOnji+cZ3nQ/4lgzL6v4n7LCr7gyExjvCGVAD5QaOcSE5OPMAS/xfCY3qKPzZfrv+s1dzPG0LXKVNAMNOpMNHpAATHG8gnRVKqbDlu1as8fkgFO7OqilGxldlCtQLBj+8fDoaeFUDlrKikibLx0U23aMlXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734006361; c=relaxed/simple;
-	bh=fBaun++Lli1tdhYkoL9iAAF0iy57QmpVUN/vI1Lak7g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uLlXPza1/LFzLzoAv41HSrmuLa21fMwK+SErJcjzCaURzAdBJQIrRcOsytyaGXh2Hh1214C/cIeU+5JdWcG3a2iIe5MYUwhde2kIH1Qkrh0FlXnvqgJfwtMB+a5pb6Rk+mW9tHELxfPPfZNsS3Uc4q6V5NPKhlXPyyyWUow0imo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0Jm6z+ix; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7fd5248d663so470950a12.0
-        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 04:26:00 -0800 (PST)
+	s=arc-20240116; t=1734007273; c=relaxed/simple;
+	bh=Tu/dFKzeet27GmDqbtWEt4iGTBlq3wEZqSveNunZQyY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pCMULXyeEMLa80+gH7UiiM0nnAUnmXs53fRdPSMTaPjvr+q6jJsahFIZmcrqio3J5ZqW7Qm8SIRZr44+YQsATgyn7NbtoKOEjodTnRhBtx6IOvZNIcq1mP1hEHOF9d0lac0OYGF6qfiVIigBo6qOReM4tgX0/r7fMZOtrXDcZXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KwHOg104; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5d3f65844deso876211a12.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 04:41:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734006359; x=1734611159; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JcXRJ7nJRwGF7UgU3RGG/FU0UMiV0ZEJ6H8qX/8/UWg=;
-        b=0Jm6z+ixicXmb+WwvycP8NnGmLD+ssEyTzWBho5iWyo2CTWLs3mf39ULLuagdln5se
-         RlIaG7Ma5sSP1tyL4TdVV9WcWVKTJbiCFFPhuwle3nVIcmQBbV2QEsabalgVXxDjY9c+
-         Hiwo/EgihvBbYDIVgshubY4rfs1D0h+zXqWrzKRkbxbqAE7ysqkHu7jj5aBPCOKpJj6Y
-         SdocV7spyXFmRGucI7IWXK4VT0Ekf6ARz4Mmh6rOK++ChEPkajAt2C87KixFRYANGw2y
-         4EANhAcIVJLsC++XeyupbfjaFWK9ud19tLgGCwhNKS/iyDa6QnyRbp5fuhKuTyad0YwF
-         mz6g==
+        d=linaro.org; s=google; t=1734007270; x=1734612070; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8bkw8aLWhg4IdC3Iyd2UGPgLYgTX4eLLSzr6WZhm6c4=;
+        b=KwHOg104tECUeLCic1AROAit2IBxU/WGSotQgXtsXdvytz1q/epPlaZQVKNnQCIheK
+         FsfkCXS6s6trGXfAChurRlz7DDJcbKH6yemZgn8f8kIFq9+DvnsAHNT4ZuZhlTFy+GG/
+         jJcxoIXrphCH1gr+fiUDjbT9aQaVHqdw3Ldf97Am+c99blwgiZCJjT5aDkuJ6tXY6XUe
+         ChMMrimbnQcMTBxkOazSjqS3dvkS/fpLFzlPbloC7LdnutPsmP033JNyqtoKUj//UZLs
+         2MGqAdkEMMoAx6txP4aon8iGMdpbv+THKqc6Al9RJcEzZNXN1R4427ZNXoTPJxieFEjj
+         mMbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734006359; x=1734611159;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JcXRJ7nJRwGF7UgU3RGG/FU0UMiV0ZEJ6H8qX/8/UWg=;
-        b=VK3CxSvQB4WWI+0XeM7BXdpKVnfkeMa2jUys9QNOR2/6v2KPMH/UAOV3cY1QCk5t6e
-         NmktcIrylSqLbhIBsSKiH/hsPg42ypRtZRiFoIxX+joJ5PI/xGTcxI0qT751jZXBVFCA
-         SWUsE5RM86so7Y6OItIW7++H0qysb3UOfbLAlJC6BzRAQZRjV7NhAXNvqr5Nv2GlE4qW
-         wnbd/6UMjLF+oD5Yf1ZlhWFeLtEN2RANoPHpCi8AYMFurnVXlxZJyBY8Tl2w90MouZfS
-         VVgGyMGhY3p2v0hGBZkBgbMeBsGfTHoHDLrrrP0IKN1b9fpiC3c29hKKNzHArgo5bS4A
-         EO1Q==
-X-Gm-Message-State: AOJu0YxYIlKfdQCf4bDnnEvYC6iUTlMBovzqlOEfksiSA0axmC4VOhov
-	qsH1wsEMLucewh0kQDDQ43srGauwpom45XTtcuMcZRvey3C4Pe2lL0JmjjjPULPToL54TLU5RHT
-	YW2k4QwiLLTHoTTlRUnXnclpQH5TI+tae9NYnhYxADjYUpRGg9Da5GYE=
-X-Gm-Gg: ASbGnctZ+MwND2+Y2cz4WSZU4v9yqXL59yu53mMWMp7xm5DxHubRw9one0pdJ1H4Fo6
-	YRQuBlF1Merr5bP+6kJY/HsCp/KsX8E6fu+cuavvdfdrJ+QgeQmtN2/W9CTgW45lqZwYO
-X-Google-Smtp-Source: AGHT+IEi+raXhApqoug7B1QAHIchpDRG8DvxlrQi7z9b1wxR7wr5XGfxoP7hAzg9mYVpJVxGYyQhym89gLp5hlzjEMc=
-X-Received: by 2002:a17:90b:1a8b:b0:2ee:dcf6:1c77 with SMTP id
- 98e67ed59e1d1-2f1392950dbmr6005480a91.16.1734006359474; Thu, 12 Dec 2024
- 04:25:59 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734007270; x=1734612070;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8bkw8aLWhg4IdC3Iyd2UGPgLYgTX4eLLSzr6WZhm6c4=;
+        b=csuk0c69E3EkuwYe153xw6PColamTQNvDEXssbWuLW9FqkotcHYBXVB4bMpSNxfiW7
+         hB/yeTuEUxrGu2r1d3Cbe9XKe9mf6jyDRV/iivZfu74sRBVwLAbpF19cGRm7o7J/r0a9
+         ihsLM8Dbvtvpkms+NGhqrbbQbyGE0n0dGsUTyqk8AzU2R830k70ut/PdJ5Wt4YAGDwb8
+         dWTRQW5h3oG8h+CE7oSMHPVb4flnhC/9NkfT08qWHeTP7Oa+SsHGaL8aZUPhwTFXm7h4
+         3nl799+OF1fSDjsHuWlAFt+ow8k+7UUC+byahUE12qp9wfRjU/LVJ05nr1LBLmhSbEhc
+         8+Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEkgax1dnsUlYm+yqYWyJXEzZvammCQxsGuJR/zd6HfmP+jnGBOI+ub/0POkcYHpbhii+w+zh2X4PUVw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2nXEEP8KtludHgxp1PipfDVPnwyHhfg6GxAi0wX5yWufWVDwt
+	5dBY/EOjTyNk5EubUbWn28+HiXQFdIynO2waQQb6IyyNPNvmxxJPYY0OykWSoQk=
+X-Gm-Gg: ASbGnct1DpnTc2ynFo95p14DE4U3ITjrffgR6HYkI4QznSBPeHUnK3bXRmCUoUbk8BE
+	bdNE6xcHIuxFkNJ9Sha7i4q0EhZas+uromBnZ3K9hSH30d75TcpxFMc3dw2tcrnI06gxpoOddfs
+	+cY5AcrYomjJ1mqcWqzfCb+kiNQ/JiOQmkzF6eWc23EXyb0zSvscNa6Yb9ZTZ6liHMALfelR7cC
+	iHUoQtQyIB8ddcT0htrY72qBWe7Y+17g/jov4Vz/pa9C/wOJgUnJK8ZpyrTvqa8BOy/Zg==
+X-Google-Smtp-Source: AGHT+IFur+anvIPrRfunzJYLh6wEtqp7DK5VjkUBpxyuQDBjTbkTiH5jVNJtu8OGD0/LBKO7AI5Oow==
+X-Received: by 2002:a05:6402:2396:b0:5d3:e766:6140 with SMTP id 4fb4d7f45d1cf-5d6337e00a8mr76871a12.24.1734007269761;
+        Thu, 12 Dec 2024 04:41:09 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d42a754cb0sm3172232a12.88.2024.12.12.04.41.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Dec 2024 04:41:09 -0800 (PST)
+Message-ID: <b4afb2ea-eb5e-404b-9df8-3e11d08a6bff@linaro.org>
+Date: Thu, 12 Dec 2024 12:41:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANiDSCuYj_xV_b1VEVfS5ZgsXKnUSXc0W-4Rd+gip+9zkCzTXA@mail.gmail.com>
- <CAPY8ntAZTfwf7md+5eevAortfSKw+6DvJipC_UpuYgwm9AnVjg@mail.gmail.com>
-In-Reply-To: <CAPY8ntAZTfwf7md+5eevAortfSKw+6DvJipC_UpuYgwm9AnVjg@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@google.com>
-Date: Thu, 12 Dec 2024 13:25:47 +0100
-X-Gm-Features: AZHOrDnWO0NtKL-uS1oE3bHTnXWSHka3Ka18WsWuj4YlciiTYmYS23orawYTLNo
-Message-ID: <CANiDSCsrnV5O40jZf=dhCgM-O1F6RrvLozxQd34h7phNECKf7Q@mail.gmail.com>
-Subject: Re: RFC: User/World Facing camera control
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 15/16] media: qcom: camss: Add CSID 780 support
+To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.zapolskiy@linaro.org
+Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com,
+ Yongsheng Li <quic_yon@quicinc.com>
+References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
+ <20241211140738.3835588-16-quic_depengs@quicinc.com>
+ <138cc2e5-6b31-49d9-b70e-400a3f3c3bfa@linaro.org>
+ <28b1c828-f338-4d57-bcb7-b0a8652c82fb@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <28b1c828-f338-4d57-bcb7-b0a8652c82fb@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 12 Dec 2024 at 13:23, Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi Ricardo
->
-> On Thu, 12 Dec 2024 at 12:14, Ricardo Ribalda <ribalda@google.com> wrote:
-> >
-> > Hi
-> >
-> > For a system with multiple cameras (think of a phone or a tablet),
-> > userspace needs to know if the camera is facing the user or the world.
-> >
-> > AFAIK, we have no way to tell userspace about this it has to rely to
-> > tricks/hardcoding. Eg for UVC cameras they match the vid/pid or the
-> > camera name.
-> >
-> > Assuming we define a new field in the acpi table/device tree to
-> > describe this.... Would it be an option to add a new V4L2 standard
-> > control for this?
->
-> Doesn't V4L2_CID_CAMERA_ORIENTATION already meet the control requirement?
-> "This read-only control describes the camera orientation by reporting
-> its mounting position on the device where the camera is installed."
-> [1]
+On 12/12/2024 11:28, Depeng Shao wrote:
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> 
+> Vladimir suggested to add a dummy "return 0" function [1] for the 
+> unsupported interface. So, I added this empty callback, will keep the 
+> empty callback if no other concern. Thanks.
+> 
+> [1] https://lore.kernel.org/all/b1e1ff88-5bba-4424- 
+> bc85-38caa85b831f@linaro.org/
 
-So it wasn't a bad idea after all :)
+Go ahead.
 
-Sorry for the noise, that is exactly what I need.
-
-
->
->   Dave
->
-> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-camera.html
->
-> > Any thoughts?
-> >
-> > Thanks!
-> >
-> > --
-> > Ricardo Ribalda
-> > Software Engineer
-> > ribalda@google.com
-> >
-
-
-
--- 
-Ricardo Ribalda
+---
+bod
 
