@@ -1,105 +1,116 @@
-Return-Path: <linux-media+bounces-23338-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23339-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0109EEDC0
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 16:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C50489EEE9A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 16:59:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89BBB164AD8
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 15:46:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9814216D30C
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 15:53:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3108121E0AE;
-	Thu, 12 Dec 2024 15:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E86F9222D7E;
+	Thu, 12 Dec 2024 15:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="jFwYQYLI"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="dAeDmfji"
 X-Original-To: linux-media@vger.kernel.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA870222D59;
-	Thu, 12 Dec 2024 15:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FF521C166
+	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 15:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734018304; cv=pass; b=JwJvcjOWEvbdIiHNXEAEypEy/zSBvL2q2vd6g2pd+aSvqrMZnC2D+SdDBXZuWOz14YQ+jouexaCHI06qj0I3LdLRulop4INIIXw79i3KKTSFN9nvewMtWMBA8OU7vpAjhk2hsn2nHuC4nw5sjorVeEgrLQOquick+EM1P7Y6u0c=
+	t=1734018780; cv=pass; b=oFkztyyZcA8FKfTGjg91n7F9kiiaJaDT/1ZTsh0lY8/KqxIJjHy5k8nV3wXOiiLp0mOptxRudw5mWAbcVVPdJ/qzJ7wEenQyMcrhUWQ6FPXUnqhFYrW0QVlDL01ij6CRl5vrHoZs4KP7UNiJFKHBhSnW0h8nviX72jrB8vIRWvk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734018304; c=relaxed/simple;
-	bh=PVvOYhteQt/W34vlzLIOZu/OrN2/wktZb+MQBqw5I0c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gjYqIiDfeckCsV+O6/P/Hm4svs4kTM/dfgla3DJrxyqf7JKNn2t6AwVO93PqVsyvNDgynV32xpTkQLPyIrWpcyIDOtli6VN3zauIMMOUk0jYmP9GrEfnalx4BaH83UV83FKKIVqmHhlh/hslEncTBhjJHsy21dMKiscIj21cvHk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=jFwYQYLI; arc=pass smtp.client-ip=136.143.188.12
+	s=arc-20240116; t=1734018780; c=relaxed/simple;
+	bh=cmwjENE2n3o4hGZwV3im8A8dYom39pNkcicADhjRKqw=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ILBO6Hi+FNGE8vxPGLI0msw4MObLXKcaTXFNG5Eq9g8Nlu+Vt5SZFT45Zwm0F3u6hqWGDmy6mlQTJ8r3tw2fJoxpGf1CS22mdnzaQPQN2sdxKxE5MQA4th2svwlRWUu89c79Wy11q54cn4X+d69BQh6UIOt7iliIReIb2778AyM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=dAeDmfji; arc=pass smtp.client-ip=136.143.188.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1734018279; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1734018776; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=bEzMQTO495WOxsE00l2/3H9gHcbvt1ILP7zAa3dkOhO40kA9C4/7fXmaQfDUNe0VEmJYYGjsyyHOcH8TfFV2R4Jo/Lzi62aVsslpOY+hb9lMpKqHp1v2MfgyyebfKMoI5Yk7BnseczjJfXAjbeF3zzrF/UdC576fKRN/b+n8VWo=
+	b=i3CZJg+XDKAod4cKtPOtNr/iR+7BbF3xwFs/c9yHQsjS1f5gDJCBz1VbEomwNRSN+kry9ba4fdboqdgUI7oGHhi398KrlVOrJQBM8jHCGz5EuKJy/kIx1sXpRiU1B0DIPyh5WX7H2JamVRuaccajQ1WBRLWKEIvvQatadaEZgwE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1734018279; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=QRMCv1tG0lvAEJlwsZhhip2MIboiG2RgXcTqJTaG+EA=; 
-	b=b4R4Sqi+R04TU0FF8Ff4fWQALubLC+MIPdm/3yw8xhsbdilKLboyk2Sq6CrmZSLgN1zJexg2+SMyY5wIk4tFVygzku9kQ5Zgl87aeyI2DznbLSlrW5CF+df6UCO8AkQZMc+eGuNgrgSyneBt4nV8M+nnAUqZaItOyPwzRZc2e6Q=
+	t=1734018776; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=GPuwbqAGqH+0E1vCqq5Bu7jd99UU41mnikhbQRLNwwc=; 
+	b=W/pqH4KZsA7H7C7ipCHJCqoPbryt/xhuup0pm+OYyRM7+VGsIXivMcUBwCvRgjAK14HDrode4qWNrwZISa9tx3dthc6dCemAj1Df04Dvd60ykbArCZk0KH/oicZB4//uHac89JqzjIFQzenH3UiRdLFb5i8k8sHAwkaA8uwIZR0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734018279;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=QRMCv1tG0lvAEJlwsZhhip2MIboiG2RgXcTqJTaG+EA=;
-	b=jFwYQYLI4atho5DbRERvwwWjwPHr9Qxwt1qhTSwFwaRDCrzk7rFTAmHOhIQqrz9l
-	P338+J/5FMdANB9/jj4tdSarxGbJoyBUQrojVNTSf+lqLH8x0PQuOfk82p3MsIWu0dG
-	W5sp/7P3zoi8UlYCZAkVrQpAsg3r/2imvtGplJ2c=
-Received: by mx.zohomail.com with SMTPS id 1734018277894547.7282054868983;
-	Thu, 12 Dec 2024 07:44:37 -0800 (PST)
-Message-ID: <c7af1854-cb98-41d5-946c-00fe4f4584bd@collabora.com>
-Date: Thu, 12 Dec 2024 16:44:34 +0100
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734018776;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Subject:Subject:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=GPuwbqAGqH+0E1vCqq5Bu7jd99UU41mnikhbQRLNwwc=;
+	b=dAeDmfji1w6g0fHdl5gX2o1TXtfW/e4c6W4BiXXr0wI6X1pUAXsSWdLf24fKd9Tk
+	umBup0x+AXqx8m5r3ERnTS+gUHai9NvYf3aZNHSV/7xDWsImBBzQCxFzuw5jeEogph2
+	2JsyuYDi56uYuocBqXf5E0ccQRWifsaBmQ2nJJDg=
+Received: by mx.zohomail.com with SMTPS id 1734018775378289.77146583157287;
+	Thu, 12 Dec 2024 07:52:55 -0800 (PST)
+Date: Thu, 12 Dec 2024 16:52:51 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.14] Various MDP3 changes
+Message-ID: <20241212155251.gbzb73ibvlzpfxsv@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] media: hantro: Replacement maintainers
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org,
- hverkuil-cisco@xs4all.nl, mchehab@kernel.org, p.zabel@pengutronix.de,
- kernel@collabora.com, linux-kernel@vger.kernel.org
-References: <20241210212518.1587395-1-nicolas.dufresne@collabora.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20241210212518.1587395-1-nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
+Hey Mauro & Hans,
 
-Le 10/12/2024 à 22:25, Nicolas Dufresne a écrit :
-> As per a long time request from Ezequiel who left the project around
-> 2020, replace the top maintainers with Benjamin and myself, keeping
-> Philipp who is still active in the subsystem.
->
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+can you pull the following please? I got an okay from Angelo to take the
+SOC change as well.
 
-Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
 
-> ---
->   MAINTAINERS | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1e930c7a58b1..00e95d6512f7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10030,7 +10030,8 @@ F:	include/trace/events/handshake.h
->   F:	net/handshake/
->   
->   HANTRO VPU CODEC DRIVER
-> -M:	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> +M:	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> +M:	Benjamin Gaignard <benjamin.gaignard@collabora.com>
->   M:	Philipp Zabel <p.zabel@pengutronix.de>
->   L:	linux-media@vger.kernel.org
->   L:	linux-rockchip@lists.infradead.org
->
-> base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+The following changes since commit a7f5b36b34824415c28875d615c49a3cf5070615:
+
+   media: qcom: camss: Add support for camss driver on sc7280 (2024-12-12 09:41:09 +0100)
+
+are available in the Git repository at:
+
+   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.14-various-mdp3-changes
+
+for you to fetch changes up to 38ce05cead695b4034300719c453e51ffeea6bc1:
+
+   soc: mediatek: cmdq: Remove cmdq_pkt_finalize() helper function (2024-12-12 11:52:46 +0100)
+
+----------------------------------------------------------------
+Various small changes for MTK MDP3
+
+----------------------------------------------------------------
+Chun-Kuang Hu (3):
+       media: platform: mtk-mdp3: Get fine-grain control of cmdq_pkt_finalize()
+       media: platform: mtk-mdp3: Use cmdq_pkt_create() and cmdq_pkt_destroy()
+       soc: mediatek: cmdq: Remove cmdq_pkt_finalize() helper function
+
+Nícolas F. R. A. Prado (4):
+       media: platform: mtk-mdp3: Use cmdq_pkt_write when no mask is needed
+       media: platform: mtk-mdp3: Remove useless variadic arguments from macros
+       media: platform: mtk-mdp3: Remove mask parameter from MM_REG_WRITE macro
+       media: platform: mtk-mdp3: Remove mask parameter from MM_REG_POLL macro
+
+  .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c   |  55 +--
+  .../media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h   |   1 +
+  .../media/platform/mediatek/mdp3/mtk-mdp3-comp.c   | 537 +++++++++------------
+  .../media/platform/mediatek/mdp3/mtk-mdp3-comp.h   |  29 +-
+  .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |   2 +
+  .../media/platform/mediatek/mdp3/mtk-mdp3-core.h   |   1 +
+  drivers/soc/mediatek/mtk-cmdq-helper.c             |  18 -
+  include/linux/soc/mediatek/mtk-cmdq.h              |  13 -
+  8 files changed, 264 insertions(+), 392 deletions(-)
+
+Regards,
+Sebastian Fricke
 
