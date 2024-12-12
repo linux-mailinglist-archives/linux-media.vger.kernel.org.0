@@ -1,238 +1,122 @@
-Return-Path: <linux-media+bounces-23250-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23251-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0372A9EE037
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 08:26:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B638B9EE06A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 08:42:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39E0B1885379
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 07:26:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B964518868C7
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 07:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A285620B1E8;
-	Thu, 12 Dec 2024 07:25:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8721B20B805;
+	Thu, 12 Dec 2024 07:42:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR0unn6B"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yf51mtGd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5684945027;
-	Thu, 12 Dec 2024 07:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6F020B1E3
+	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 07:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733988357; cv=none; b=q1gqh2povUrxy8qIUuv8r+BRNTzlLy4tYAQ1gA8HnFcgHzWPORT4uruzHTUL4ucCcdDv2GogZ8zaCMUAu8P6WkmJznabPtgFIs8TTViyZax6wXd2ki6F+mtocxMJLEiJnt2+tnzeC3syYxLiEIkycrGyVvS6+ENHp66WN7HRKT0=
+	t=1733989353; cv=none; b=ex7oCN22VuEGsq++5Ds/phzaVmv1wJqLVYghfVJ/IFyNTYpDXiu/Vg/pS7Qk/k49fOBwo4HYJtedJBiEog25A3Q1/MLao3K8n5Yl7NxMx9jGwd0Qhp5wP3gSzPDhZuHjryxo/MuBdipdXPxoaYrXsUzgPJy+uAa1FBe9NWhSA4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733988357; c=relaxed/simple;
-	bh=WQgesphKPZtQtDkSSaKmZdO5cVGMF3Bi1WZp8uEHTrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U5dz/j8Mpwcaprj6l3dFdK7WhMrgHiLYHv+k7QEmC6HckwFxns/knSX554Pp0ll+nQoJkajWsidYg6yyWvX6al/Cs4DlclvWKlnbZ4jp9QKExL5HoS3HoGdSn+BCbUnB3j4ZIDbgOQCEqBUD+lI6+uuStc7N7u77Eo5v3fNTbkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR0unn6B; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733988355; x=1765524355;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=WQgesphKPZtQtDkSSaKmZdO5cVGMF3Bi1WZp8uEHTrA=;
-  b=lR0unn6Byw3WyKTjob4qgFQipqm0cE3C6YdpY1rO8CykV9gvgwRfJGAo
-   TuiQ5mQTV1pXvMRjoIWMAiOsqTl2qRHDkDzCkJqSjpFsHQE7+Tvowqaz/
-   6dH0yuPXRFsP0k4vxlmgQREZPIvBf6x0pKejZcnufa+t80hr3v42cUBD4
-   OOkp4Xd3ov5iB4NLwVgVlHM9y5R4EqeppkIzgwXzArduCXT8BoJjXH0Wc
-   mq7/hqVxP1LEPyJ72Y/RdiV12GmAIkboomzxslHQRGpJS5HuopeablgY6
-   Zhcpj9n64nnnnKJJpgaGWhHdUCKMGQ9csYqbN9wK0R+lNrUxpWYXsM1GF
-   A==;
-X-CSE-ConnectionGUID: 77A/qfrDRLmMyXtZnPxQ0w==
-X-CSE-MsgGUID: WMeSDTAUSuKI/NvzPU913g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34313112"
-X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="34313112"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:25:49 -0800
-X-CSE-ConnectionGUID: O5T98L/HQj+9++OChIET0w==
-X-CSE-MsgGUID: pKrY4UCpSwyigNxg5j2Edw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="119391224"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:25:43 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3E24011F81D;
-	Thu, 12 Dec 2024 09:25:38 +0200 (EET)
-Date: Thu, 12 Dec 2024 07:25:38 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY
- line-orders
-Message-ID: <Z1qP8uY72kw9uX2E@kekkonen.localdomain>
-References: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
- <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1733989353; c=relaxed/simple;
+	bh=lCCQie4pQ1F9vSOZNO0l3UQB38u97D8jap8/KM8tuB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NCXG/WE5gdguo2RLvGA0+JdMBXr1FWMxz7DRvMRNccTRHJyu9IU9m5rL6dfpBXo5UltUnths+71hZPAgpZyuT8b7TIcIANtdny+HxOuItVS7XGvZs1SyCu4cJzNlwTyDDaj/CUTMR/N130L4JX13R+LM5SfIVjzTdHRZIvcii0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yf51mtGd; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5401f859ad8so51536e87.1
+        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 23:42:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733989350; x=1734594150; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fb6HVbCShRnjLJanLtEWXGGQsHuXVT1l5Vx7FnmvFko=;
+        b=yf51mtGdpgJqIoW1gLN0gt15FPracGC9CQ/kvx8r46KGzLBvfFtAOmaVNhiru1CGO9
+         XrsAC3WNQ5Ze7Z2VXfCCn7rA+lyytucPpFgXf0L6yMFCX5pu9gN62EKKiO+AcE5xI5Qc
+         iwCOqXUYKLH5MHraP3nLVZCNW+1Ln2UvlU4GPHtw8eUts8kLjI2jL8T3HXMwYzlMjfkd
+         WfnHRWVCvBPlA1r6Hepe8dcYMlcuEzSKf7/HJBUt9uftXjp9RMNy9jQx038Hdz8qXqup
+         IWTP0AdfP3GHiQsc1x0DJMefZDqXq518QGZyyUEnfLTPEZKFnohGWuM90O1VSRFIN5f7
+         fYLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733989350; x=1734594150;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fb6HVbCShRnjLJanLtEWXGGQsHuXVT1l5Vx7FnmvFko=;
+        b=wE7+3Ks0yXMBNJoQxs2f1nfsIh/AWlyDiwePWaSuYzk3l2z1IGtD5k8Fxiw2omJ0Wr
+         R7o1ymjeIqRBAjExXtyj3cnpUUs1tgP0ad+1DtTo0TW4HERZmY94QksCGc59XO1h+d++
+         s1CyFfVb3TucUBIpr86tVd1FgxRZZJPLn97vrdvsr6SalyJo8YOpW9BLE+DgsvlSeorK
+         DnVDDvrxdA7bsKyF94XOytPdPlzfE/Cc0zbeOEchTmhD3j8nhGPc3myylmSawpOiSV2p
+         BvN7SjMMDoUmqx0Rf9ZeKP3aZRwBf/7msHljoAVXpob3NU7yE4g7a+PWRMODNZNzG6W+
+         eFRg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7/sva2591L6KsOUrDnuCKStFZ9PxTLsXDZZrY0/xRgBY5WZcXYCuWPqiujNab113Gd0JKZY3E/FU57Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJ93NDzif7o6tpfiAGZjAHWbxwY2P+hCKjZO/e0A7NEYBaxn5K
+	7yFVSfPtS+ZkHkEy8+9EHn24q7V1sdKQxQyPPebqM9yVx0u1MRxWE4ZnE03wH3c=
+X-Gm-Gg: ASbGncvgqDCN6DPVBvUQjTLFz5rLsYadt/COrbvYqplpeditDJWY50sA23KxNt4XjDT
+	bjZvDjFEWlEQJsEAW9S5PaMO3Yw5ETqPjGdGDst8Ao3w2KJmTFlC2OFb1X3Pep58+tyNhRwptwZ
+	Q4rG16eNa5lpx5vPAYJ+lOlo4aMYaV+mB03VGfWybgdhtV33TNHCuNUNhC3h5QpLxySjshUs5hL
+	lLrFMHVE9JTt3I/z3wOgzRsmMcIie7df+GNgw6XDqtfkjMUJeDEj3IZqq4alejFjT1hIdyW94D7
+	eJBymptpyMJZDj4u3Y1QYYSAxvbA0ay8D88=
+X-Google-Smtp-Source: AGHT+IHHF3eBrkcbLgZjV07jB++O6f1X9HXUZITRIyKBGz5tBzelSPFXBegqOWH9Yj6quetQS7N+aA==
+X-Received: by 2002:a05:6512:b01:b0:540:1b2d:8edf with SMTP id 2adb3069b0e04-54032c30272mr48070e87.1.1733989350220;
+        Wed, 11 Dec 2024 23:42:30 -0800 (PST)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5402042ad64sm1142957e87.178.2024.12.11.23.42.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Dec 2024 23:42:28 -0800 (PST)
+Message-ID: <f5e2c304-c2b2-409b-9300-9b236c2e3354@linaro.org>
+Date: Thu, 12 Dec 2024 09:42:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/16] media: qcom: camss: Add callback API for RUP update
+ and buf done
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com
+References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
+ <20241211140738.3835588-10-quic_depengs@quicinc.com>
+ <1ac23fa1-fc35-45fb-9338-d5f304c869ba@linaro.org>
+ <dcfaf9ef-87bf-4ec5-bf86-5c432380ae9a@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <dcfaf9ef-87bf-4ec5-bf86-5c432380ae9a@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hej Niklas,
-
-On Thu, Nov 21, 2024 at 02:41:06PM +0100, Niklas Söderlund wrote:
-> Extend the fwnode parsing to validate and fill in the CSI-2 C-PHY
-> line-orders order properties as defined in MIPI Discovery and
-> Configuration (DisCo) Specification for Imaging.
+On 12/12/24 03:32, Bryan O'Donoghue wrote:
+> On 12/12/2024 01:09, Vladimir Zapolskiy wrote:
+>>>
+>>> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>
+>> It's unexpected to see two your Signed-off-by: tags, either one is invalid
+>> or the authorship of the change shall be changed appropriately.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> * Changes since v1
-> - Use array instead of switch to get printable line order string for
->   debug output.
-> - Wrap lines harder for 80 chars instead of 100, but keep string formats
->   on same line even if they break the 80 chars.
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 43 ++++++++++++++++++++++++++-
->  include/media/v4l2-mediabus.h         | 21 +++++++++++++
->  2 files changed, 63 insertions(+), 1 deletion(-)
+> TBH I thought nothing of this at all.
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index f19c8adf2c61..bb5ea3e00414 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -127,7 +127,7 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  {
->  	struct v4l2_mbus_config_mipi_csi2 *bus = &vep->bus.mipi_csi2;
->  	bool have_clk_lane = false, have_data_lanes = false,
-> -		have_lane_polarities = false;
-> +		have_lane_polarities = false, have_line_orders = false;
->  	unsigned int flags = 0, lanes_used = 0;
->  	u32 array[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
->  	u32 clock_lane = 0;
-> @@ -197,6 +197,17 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  		have_lane_polarities = true;
->  	}
->  
-> +	rval = fwnode_property_count_u32(fwnode, "line-orders");
-> +	if (rval > 0) {
-> +		if (rval != num_data_lanes) {
-> +			pr_warn("invalid number of line-orders entries (need %u, got %u)\n",
-> +				num_data_lanes, rval);
-> +			return -EINVAL;
-> +		}
-> +
-> +		have_line_orders = true;
-> +	}
-> +
->  	if (!fwnode_property_read_u32(fwnode, "clock-lanes", &v)) {
->  		clock_lane = v;
->  		pr_debug("clock lane position %u\n", v);
-> @@ -250,6 +261,36 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  		} else {
->  			pr_debug("no lane polarities defined, assuming not inverted\n");
->  		}
-> +
-> +		if (have_line_orders) {
-> +			fwnode_property_read_u32_array(fwnode,
-> +						       "line-orders", array,
-> +						       num_data_lanes);
-> +
-> +			for (i = 0; i < num_data_lanes; i++) {
-> +				static const char * const orders[] = {
-> +					"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
-> +				};
-> +
-> +				if (array[i] > 5) {
+> @Depeng for the record you can add Co-developed-by with my SOB.
+> 
 
+Thank you, then this will become aligned with Documentation/process/5.Posting.rst
 
-I'd use:
-
-				if (... >= ARRAY_SIZE(order)) {
-
-I can do the change while applying...
-
-> +					pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
-> +						i, array[i]);
-> +					bus->line_orders[i] =
-> +						V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> +					continue;
-> +				}
-> +
-> +				bus->line_orders[i] = array[i];
-> +				pr_debug("lane %u line order %s", i,
-> +					 orders[array[i]]);
-> +			}
-> +		} else {
-> +			for (i = 0; i < num_data_lanes; i++)
-> +				bus->line_orders[i] =
-> +					V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> +
-> +			pr_debug("no line orders defined, assuming ABC\n");
-> +		}
->  	}
->  
->  	return 0;
-> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> index 5bce6e423e94..e7f019f68c8d 100644
-> --- a/include/media/v4l2-mediabus.h
-> +++ b/include/media/v4l2-mediabus.h
-> @@ -73,6 +73,24 @@
->  
->  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
->  
-> +/**
-> + * enum v4l2_mbus_csi2_cphy_line_orders_type - CSI-2 C-PHY line order
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC: C-PHY line order ABC (default)
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB: C-PHY line order ACB
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC: C-PHY line order BAC
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA: C-PHY line order BCA
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB: C-PHY line order CAB
-> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA: C-PHY line order CBA
-> + */
-> +enum v4l2_mbus_csi2_cphy_line_orders_type {
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB,
-> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA,
-> +};
-> +
->  /**
->   * struct v4l2_mbus_config_mipi_csi2 - MIPI CSI-2 data bus configuration
->   * @flags: media bus (V4L2_MBUS_*) flags
-> @@ -81,6 +99,8 @@
->   * @num_data_lanes: number of data lanes
->   * @lane_polarities: polarity of the lanes. The order is the same of
->   *		   the physical lanes.
-> + * @line_orders: line order of the data lanes. The order is the same of the
-> + *		   physical lanes.
->   */
->  struct v4l2_mbus_config_mipi_csi2 {
->  	unsigned int flags;
-> @@ -88,6 +108,7 @@ struct v4l2_mbus_config_mipi_csi2 {
->  	unsigned char clock_lane;
->  	unsigned char num_data_lanes;
->  	bool lane_polarities[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
-> +	enum v4l2_mbus_csi2_cphy_line_orders_type line_orders[V4L2_MBUS_CSI2_MAX_DATA_LANES];
->  };
->  
->  /**
-
--- 
-Med vänliga hälsingar,
-
-Sakari Ailus
+--
+Best wishes,
+Vladimir
 
