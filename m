@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-23235-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23236-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D829EDCE9
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 02:07:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F819EDCF2
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 02:09:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23E33188A10D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 01:07:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 712F6188A100
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 01:09:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE2152745A;
-	Thu, 12 Dec 2024 01:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBA5AFC02;
+	Thu, 12 Dec 2024 01:09:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Uc9uDMOI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OXXgCV+X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B387318028
-	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 01:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B831CAB8
+	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 01:09:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733965622; cv=none; b=spk1nUsNjs067sALmBNU7UeO3yZUnH3BGupOC5b1oLSjcvY2h4oele0Q7gvaj+hTKhuDSZAXMq2CjuifgDiKX16Z9Z7XUYMdyFadqJCgzA2QzTyuEX4Q1e8AkX6j2BBP2lIQkZ73hGVxa4uvg8ic32+YfI5VrpFF0q/ESCo0CH8=
+	t=1733965776; cv=none; b=u0GHPIoOXgbH7ofMtqN8Py1acUAWGkbX3WIKx4NippZC08PpYoHlZFUEwZAt/gDY/r/CXzjxweZcGZAiz/GzPx6QU+He6SvC6DiLXpzkESu0cVHYeNVWD/pJo1AGBUpeKdFw9oePAGHPYMSh2RvEf0+fdLr6lOgAhTH1XiXKgGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733965622; c=relaxed/simple;
-	bh=gJ1t7jFV9t3JAZ44S7dAGAuFRDkQYiEA9nywpShlryo=;
+	s=arc-20240116; t=1733965776; c=relaxed/simple;
+	bh=qv6OvIXWsYjVmNDnmi27QYO7K3Ldrx/3qmudjTkRhOA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lIMjs1+Yq6TSIbVnYDADMjJU/KpFc5r4+a+FgCDp8F9ih/XZM/RmNI/KolrvZgViRqmCR9tDHMC/jXSnBitkVosV8mBqNIbPOHHEe21OfJ3HNe9XiazKxsY6djhgA1hK5y8OBXgHzOCwaq0GDevemml/iBrNhfKfjVjRSeFQJwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Uc9uDMOI; arc=none smtp.client-ip=209.85.167.51
+	 In-Reply-To:Content-Type; b=qQ3Jo2FY6lPmoSmJb/wUOSImtaPG5/gvDYDgGyrLhIe7DpHx+kpz8EJvlIZSt5hqa79K4+mUAKzocsCnsaMf+c03Dam07zgcBc/JpSNjFGDACbUhP5wqp01HhMU/2kGAP1w+L51XFMsUysxjBYo9+3mRU4e40RLjjEe2yM0opa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OXXgCV+X; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53de3ba3d39so13982e87.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 17:07:00 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53e395932c6so12050e87.2
+        for <linux-media@vger.kernel.org>; Wed, 11 Dec 2024 17:09:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733965619; x=1734570419; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i+woOY8TwWcN5XSeyhfjDCS7hZ8p+Y2VZWaYuLrMvp8=;
-        b=Uc9uDMOIf0vUP6Sc85rbtXLFe7SF4L8WzXyRw/Iu6d+pXwtE53Rz0U0wT/JnlWupVe
-         Klrz7h16ibZsLx3E2u8wEMAszOfBiT96jWzU/Jfsi4rS37SsG12qh+ghFsiLCTXqLlx6
-         83hzhGzBGvtAe9M9+BOGjg8peGvedyd+7GpRWo00GIf86WvV78M29Z2DLGaY6nD7zLFQ
-         V+ehlEHRVOBTZ8ZpxmqWpsVpmmUSmbnpzgVG6PYSQGp2Y39ac30xPFpJgxF9RZf8CQX5
-         JYVsr9ssh46tlYnXZi/NwaedwE3zQ7KzqpQbbAR1U79kUYARG4CrbOU5vwORbtTcnsbG
-         41Ew==
+        d=linaro.org; s=google; t=1733965772; x=1734570572; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gn9/HJ6VMzSGcGaxW/y8OLh9unHBkAJxM422iTplG24=;
+        b=OXXgCV+XyDKtnMBAUy67lAsg+jul86ow4DOlxcLS/FMXKnZ7i+I/HwGf20cNrf39FV
+         v4DJDy5CYG181Z/J1sAN9MsbyebJPfsorHlpsGWLyZ+Sp7NSXaaesQ3comF2vj84MWz0
+         JchqiFBkRp1v3tKi0Hg6sDkaxGxRMNN8N7JrhV1qNNe4Hqs2nJ4LM1uUzjFKfm14JJir
+         qc8uQGvPYsgVwp0yrUTIZaESYjruWk7eB4VnecGkMTQJ1GP/eA+uzWQ3/jC/j1/H/kE9
+         vmaoe1EDNy/b+X7nPJOHCK9AEOIuPbmw+MnU2bDzVanFt3s/omSfFfyHX8F0o19BUvUi
+         +jsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733965619; x=1734570419;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=i+woOY8TwWcN5XSeyhfjDCS7hZ8p+Y2VZWaYuLrMvp8=;
-        b=wDmFGyZzDavINI5mVknKSfmcF3zqMYB986KFJ7YIV/m3jSol9kebZJroDI9Ux6ia+F
-         PMvfIkrkPoGDzsdHXK7G201UY1NaRwKk5nNM+cw6XmwVIS8eUq4UkBf7nXrgBs2qIDCO
-         Vi+8P+wcMVES74BtP187xhAchh9rXvBaXbZBvFRTBDKf16zUe2Xwbk4qJ8GBaUEMTH+3
-         pX9murPIJK4//ERFYMBQc4BT42PvIzVogkAmbXWLuyo/Y47gv+zDIw8eknQpKkjbUjYe
-         FgqA7xdj8inLwZuDC6XhU4TX1DpfVEgyhWwkBA2wAWVrXJne8eJVFbsuzTAKKrNVyFAS
-         HzfA==
-X-Forwarded-Encrypted: i=1; AJvYcCXW1gxQgWsZJEpyHOuYAuApFVOJKi0QCnroK9O3CPX4AcdjL2ThoHHfVXTaSpN/+Kn395Nz/G3XcLXAag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdW7fVPd2Zcpbn3Q7tQ3rFW8P+IILuxf/cf9yWbqLLNEYG+aZf
-	geogNBnT/yesrjL1Q98wfOI72WprBYfUQ/XTaPIg1i1vGXFS/EEBRjI9Ih9k3Wk=
-X-Gm-Gg: ASbGnctiQHeawBfZQauSz8uH1BJtx899l6KH+tYoH5KWo+FphEAZNip+xFBZJu4EUJd
-	br0yTt+pzFZ+HLYR4d8MqjBdfkzZH79RfWGlM9yUqmBgPUQVTxWmsk6oORP08uSakOI6ScRbtFA
-	8pC8qmd0nBgA3Tt6PIGXSqmL9oLF14LGv1M8WQp0VInembwecJPOMDWqEOR5vq820OHdt9UfyCC
-	WfIO9KBDzzugknGy398koeLRsSxgMibrR7G0K4/Vzr1jdNeUMYf0Az3uuHP+l8KAvCgSAdFAG98
-	8w4jTIEPxTKMBbT5kt/VJ12iXELECGKS
-X-Google-Smtp-Source: AGHT+IGYDFFDuvEn3S5kjDIQpMD7AfzDjFeKfQ1ro/dx9kV4l9MhXuvGNQD+2H1a8bnVqwoSvbDeaw==
-X-Received: by 2002:a05:6512:2207:b0:540:2f74:e826 with SMTP id 2adb3069b0e04-5402f74eb92mr149898e87.5.1733965618907;
-        Wed, 11 Dec 2024 17:06:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733965772; x=1734570572;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gn9/HJ6VMzSGcGaxW/y8OLh9unHBkAJxM422iTplG24=;
+        b=m2x3IO1zVtUXM5tRcpwiYozb+fvpemLIK0xX5VvJICjPtJ38mkNA/ykzA94BMRJCtR
+         /Z+8327xDd5X1E4zgWR/Z2WhPa/oN4k98R3/nJPQsS0DvXDyuNQUBvv5Cq7ZrLo6V2Jp
+         LUpuztcxhB4W3pRRtw2NaPFsj9CCcvuloW3iEHNsxHXCiZYJtM4hiyDKcVZbIaNJfm/0
+         JerLdpJsxa4P0JsKybDUlg/is7XPz23/cvrCBSq91MOQQ6r+hgXY6AZvnw1f48Y+nr5J
+         /fzfdBVfDaEjJ95RzSi5+VlD6qAmc3iVkDeZeSyGZ76kDOeGrLGPcZmiP03W/iIpxAF7
+         32kg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOP51CSMjqQu+Ysfok3k7edluE5N+edJ80Vgk1g61bZ6eLcXIVh9yan1BxZgtBjE+lcMUneI5YKJhtVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy66N2FC4t4fWOdSlPRo7Cn2bBtyEQl+0og2qFP9C92ElEq83m8
+	06FlfQTcfFJURVKAg8hS7olEtk6uXqxzIl+MyBLxw50QzI/HusX9Bl/A0EY4hcw=
+X-Gm-Gg: ASbGncsNNyzYpiUKWi92cGX6UK5eZDbh1WIeGGFlun3cHijHHK/xwlT9Ai9LgvyiLMk
+	uk5AkEI8RW1v69uIPKFmBvrN8GzGYgLBUSWT5t9KtrSEU6Nenxtb+c95KUL4ySbFTKK+1gVmukf
+	nzqovkqmPNmfeZplB67JGtXFu5wKzrjWIqBCbwvxPE1cgBbNJxQjd3EpN8neyt7CHlhGY0blCHf
+	T7mmJlzF+NLddu+01OILBAHTjJuNDo4APgF9thBpznqRE60F2JP7v1txjCs/Dx3docnqI25CIRM
+	rLVMhD2DLltl70VL6j8Y2q9xPSeVkHxCaWM=
+X-Google-Smtp-Source: AGHT+IHRJbCRF9Jm0y8nQsEY/6+MzdeRL4pBScxOAhsjaPVS6Xq51uBxkCQytZMf4/xdGli7wFb9qQ==
+X-Received: by 2002:a05:651c:b28:b0:302:27c6:fc7b with SMTP id 38308e7fff4ca-30249e053bcmr1830891fa.6.1733965772467;
+        Wed, 11 Dec 2024 17:09:32 -0800 (PST)
 Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e2297441esm2191877e87.61.2024.12.11.17.06.55
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30231594b18sm7330921fa.16.2024.12.11.17.09.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 17:06:57 -0800 (PST)
-Message-ID: <79fc669d-999f-42f3-948a-ee5f3a91ddfe@linaro.org>
-Date: Thu, 12 Dec 2024 03:06:55 +0200
+        Wed, 11 Dec 2024 17:09:31 -0800 (PST)
+Message-ID: <1ac23fa1-fc35-45fb-9338-d5f304c869ba@linaro.org>
+Date: Thu, 12 Dec 2024 03:09:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,8 +81,9 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/16] media: qcom: camss: vfe: Move common code into vfe
- core
+Subject: Re: [PATCH 09/16] media: qcom: camss: Add callback API for RUP update
+ and buf done
+Content-Language: ru-RU
 To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
@@ -90,40 +91,104 @@ Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, kernel@quicinc.com
 References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
- <20241211140738.3835588-9-quic_depengs@quicinc.com>
+ <20241211140738.3835588-10-quic_depengs@quicinc.com>
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20241211140738.3835588-9-quic_depengs@quicinc.com>
+In-Reply-To: <20241211140738.3835588-10-quic_depengs@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Depeng.
+Hi Depeng and Bryan.
 
 On 12/11/24 16:07, Depeng Shao wrote:
-> Some v4l2 buffer related logic functions can be moved to vfe core as
-> common code, then the vfe driver of different hw version can reuse them,
-> this also can avoid adding duplicate code for new version supporting.
+> The RUP registers and buf done irq are moved from the IFE to CSID register
+> block on recent CAMSS implementations. Add callbacks structure to wrapper
+> the location change with minimum logic disruption.
 > 
-> Suggested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+It's unexpected to see two your Signed-off-by: tags, either one is invalid
+or the authorship of the change shall be changed appropriately.
+
 > ---
->   .../media/platform/qcom/camss/camss-vfe-17x.c | 112 +------
->   .../media/platform/qcom/camss/camss-vfe-4-1.c |   9 -
->   .../media/platform/qcom/camss/camss-vfe-4-7.c |  11 -
->   .../media/platform/qcom/camss/camss-vfe-4-8.c |  11 -
->   .../media/platform/qcom/camss/camss-vfe-480.c | 301 +++---------------
->   drivers/media/platform/qcom/camss/camss-vfe.c | 276 +++++++++++++++-
->   drivers/media/platform/qcom/camss/camss-vfe.h |  57 +++-
->   7 files changed, 376 insertions(+), 401 deletions(-)
-
-I've spent some time on regression testing, and bisected that this particular
-change breaks TPG on SM8250 (RB5 board and navigation mezzanine), but in
-a different way than in v4 or v5, namely frames are not captured at all.
-
-This change consists of multiple logically independent parts, it would be
-good to see them split into separate changes and get the regression fixed.
-
-This is a massive and a functional change, since it causes a regression,
-it might be better to make the change non-functional.
+>   .../media/platform/qcom/camss/camss-csid.h    |  9 ++++++++
+>   drivers/media/platform/qcom/camss/camss.c     | 22 +++++++++++++++++++
+>   drivers/media/platform/qcom/camss/camss.h     |  3 +++
+>   3 files changed, 34 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
+> index f52209b96583..1369e7ea7219 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.h
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
+> @@ -152,6 +152,14 @@ struct csid_hw_ops {
+>   	 * @csid: CSID device
+>   	 */
+>   	void (*subdev_init)(struct csid_device *csid);
+> +
+> +	/*
+> +	 * reg_update - receive message from other sub device
+> +	 * @csid: CSID device
+> +	 * @port_id: Port id
+> +	 * @is_clear: Indicate if it is clearing reg update or setting reg update
+> +	 */
+> +	void (*reg_update)(struct csid_device *csid, int port_id, bool is_clear);
+>   };
+>   
+>   struct csid_subdev_resources {
+> @@ -168,6 +176,7 @@ struct csid_device {
+>   	struct media_pad pads[MSM_CSID_PADS_NUM];
+>   	void __iomem *base;
+>   	u32 irq;
+> +	u32 reg_update;
+>   	char irq_name[30];
+>   	struct camss_clock *clock;
+>   	int nclocks;
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 9fb31f4c18ad..e24084ff88de 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -2087,6 +2087,28 @@ static int camss_link_entities(struct camss *camss)
+>   	return 0;
+>   }
+>   
+> +void camss_reg_update(struct camss *camss, int hw_id, int port_id, bool is_clear)
+> +{
+> +	struct csid_device *csid;
+> +
+> +	if (hw_id < camss->res->csid_num) {
+> +		csid = &camss->csid[hw_id];
+> +
+> +		csid->res->hw_ops->reg_update(csid, port_id, is_clear);
+> +	}
+> +}
+> +
+> +void camss_buf_done(struct camss *camss, int hw_id, int port_id)
+> +{
+> +	struct vfe_device *vfe;
+> +
+> +	if (hw_id < camss->res->vfe_num) {
+> +		vfe = &camss->vfe[hw_id];
+> +
+> +		vfe->res->hw_ops->vfe_buf_done(vfe, port_id);
+> +	}
+> +}
+> +
+>   /*
+>    * camss_register_entities - Register subdev nodes and create links
+>    * @camss: CAMSS device
+> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+> index 9da7f48f5dd7..6dceff8ce319 100644
+> --- a/drivers/media/platform/qcom/camss/camss.h
+> +++ b/drivers/media/platform/qcom/camss/camss.h
+> @@ -161,5 +161,8 @@ void camss_pm_domain_off(struct camss *camss, int id);
+>   int camss_vfe_get(struct camss *camss, int id);
+>   void camss_vfe_put(struct camss *camss, int id);
+>   void camss_delete(struct camss *camss);
+> +void camss_buf_done(struct camss *camss, int hw_id, int port_id);
+> +void camss_reg_update(struct camss *camss, int hw_id,
+> +		      int port_id, bool is_clear);
+>   
+>   #endif /* QC_MSM_CAMSS_H */
 
 --
 Best wishes,
