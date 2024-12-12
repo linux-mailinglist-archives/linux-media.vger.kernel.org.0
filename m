@@ -1,87 +1,87 @@
-Return-Path: <linux-media+bounces-23328-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23329-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CD99EE922
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 15:42:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38519EE929
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 15:42:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB63F163502
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 14:41:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17F9E168744
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 14:42:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 796BA221DAB;
-	Thu, 12 Dec 2024 14:39:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB43215F48;
+	Thu, 12 Dec 2024 14:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="uv+YETuj"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="nE3YEqk1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5176722069F
-	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 14:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DB621571D
+	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 14:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734014344; cv=none; b=HbRcMewu7xTrn6xc30IIDTKjY4+JiyeQdMXydvwYaUHwUxU1bIly+ElnYWLA8QSHRY8VuIhCqB/X4CN7Pqs9bXch14ajaWc7yllGZGUcQMGp1lecQ8uvtuSPyJPG8HXnKkEw7MTPyTBC1OPfgC+R06S159UewpUcjndGH+d0oDE=
+	t=1734014383; cv=none; b=mUuoJrm4EWHRAF89RWfHAWPokv5TIFiDmZMgsjRaT4y51dXCLhQPByjxB9mmxoi5heoNqhEdRnBTijjyo9YJfw0IaMo+dKxWldaIxbkd62lCzbg4a1lpT4bESScI2mJ1O6eGbucrD5ReJ9sfMOUYPXeNU9O1gepJZxcDV5B+ak8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734014344; c=relaxed/simple;
-	bh=599jzleU/Vks0Hc//LOaqBWitYZZWwnXhT6+DW7rGko=;
+	s=arc-20240116; t=1734014383; c=relaxed/simple;
+	bh=V4H+RkOOPoNNuIkUPtageq9keE9J9/rHZNDzDW/fPS0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DafCtvgSZxyyvSBe5PvjQKtuBHwJjhBYHjZVT1vcwgeo/Xw/8NdPbbVYaqPpZJQlMAdVaxjtDy96cIxHqPD3hHSTaljQ/p7zjIWzGe8RqxGuRMrM0I4Tc+FMN+xstQmjelw+Y9ZdunhVFU6Vbgbz1AJ42et7wXeUH7hDh1ayQwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=uv+YETuj; arc=none smtp.client-ip=209.85.219.48
+	 Content-Type:MIME-Version; b=XX/hfv1hootBT8XTr+Xe6sjABOAPV2l6LdzIm2dqQ/OXLvh2L29YISii6BFOeeRS5rBUFqAMwxyBvDO8A6szJ+SZVeNRInDF6CSLqA5vsCxmKlR2rpNeuP+c9ok7dpBcWmRPgPugf3vOIZEGSaosaIR1VSHp4EIT0c9DvGMF3kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=nE3YEqk1; arc=none smtp.client-ip=209.85.160.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6d8e8445219so5523526d6.0
-        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 06:39:00 -0800 (PST)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4679fc9b5f1so2595921cf.1
+        for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 06:39:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1734014340; x=1734619140; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1734014381; x=1734619181; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=gnNW27xV9OdBmnsbxp5/+ionKj2v7VRdl1Rz7Jx7aEU=;
-        b=uv+YETujZFGhhkikaqWmpiVUrqeZF2KPsrsKoK4pSM6OFqVGAYm6P0U0I3SyD+vbB8
-         OjpdZntBbVy6s6TFQdrMD5P0bX8b0AHV8onU4gW7QqwA5jjv6DgZUFHaUdaIPxZGq8TA
-         Oc8gJsvFXT4OOdbr+0/t8AEK/uHcHR3POUB8QWS3a1b7myIYQLenaP/pROTy+6t5s+WF
-         qPsYC8gYx7phndJRMyuFTzk+DWuJVIaqD+3PdUWYINe9UDWvOyg+iE7VIq/5bM3V+5Wt
-         s92+tD9W4ZhMuaFbl9KPa95P5LYSLqyxoDKBn5xOezUVR3djE9YEYG/GrS1zcEaUrdPE
-         ibGQ==
+        bh=LIeJWDB2e3v6s0K160v2H6XjXslzfSsSGvjLFvy0AhQ=;
+        b=nE3YEqk1jr3ss4rvOKYWLjGLxUP3Qtq/0CdNa4KdKDw6relbTszWSKvoFr8ZJmFmxz
+         D7izbJyodun90Y0Z4OyRt0fqq8SCJR9PkByENqwfrN7/fdYS/c12WAoI+cFeqElHNJnn
+         G7CRxUUip9g7JwyWnkVholLGZ9mjxbNGgt1zpFoboMNnikmndVjJEiv/+5/UXkRSV6LG
+         CAfTUCaspl1yxbfoZLxHxkoEZpDVMC2SY/7wcVdC/zIv7zT0vg9p10fDaK1OpIg51AI1
+         rGon+EyCeTkTMsGq23f8OyN2Z4Jtis05nS+w2/ixy8bRWdNaXCcM0gV+pdpO9GcxgTsf
+         vKUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734014340; x=1734619140;
+        d=1e100.net; s=20230601; t=1734014381; x=1734619181;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gnNW27xV9OdBmnsbxp5/+ionKj2v7VRdl1Rz7Jx7aEU=;
-        b=am/XDX35yho0ixIX4OAgTmGH2Ik+mPFZIK8Yt+xeM/Nys0b3H7ChMipnte/OpCl1ot
-         jN4rGSJhy71yJCNZET0+sj83FyvYWIGhhEyL2AyIHxuc6PctTW7O+uk2Wn1xSFVmfs1Q
-         WZyI5fXbf0It/M1hAIKrdL3291cLRHaxMdkK+QETdCDlV6ORvTnF2XR6nNlg6HQRnfS5
-         0et/CsP344Sw7OE7W77t7oA8pcdpWPMMC3xenbMj8LBcKOjNcZWkHQ6uIj9W/7Ws4MdN
-         fEpNnjJrviIMe4KlxP0iwxP6t3FmyxwOg0qIQr+vTKJu14pZafFfEjfUV61vVjEMIDNr
-         rNcA==
-X-Gm-Message-State: AOJu0YxGX3qlIm0uaUD4TNtfy4CQIX1SI+30hzro0jCTB6PImzzc6xlf
-	eZqbE04AiVdA1ffw4d0EFOPKem7xUnqZJEG7q5IMmXCN9kkpf5qxBSW9lnKzYDo=
-X-Gm-Gg: ASbGnctg8nbZ7/4CmeVcccmVfRxx/9W7fb/E0dh8JQOQbaqORU5glaf8UQJvkLZAPSP
-	flEIUFQM97Pz1d00exhPXJci1d2lRuibxTCfFBHKbD42Fhv63QOK/1+0/FTFj7FJ/UFV+A8Enny
-	VUf3Bui6WyXQKnBO4Lmq6dz1tmJDKP0IypjpsZF1hFSfYT/n1aSLej+WVFuxj+XKvoYE2aTLgMa
-	4ILs9uwSB60F7rOvcgw+BiH9cxtOgH1hi3raexTV4R7SvcVWNV1y750/A==
-X-Google-Smtp-Source: AGHT+IGmO7vrV4lBSu51A4Jo3F1+xpPX/fE/NF4f3ogB/sqBTaZfQW/1UmMn9l0bRhcm39SXwiw4VA==
-X-Received: by 2002:a05:6214:5086:b0:6d8:9610:a9ff with SMTP id 6a1803df08f44-6db0f709a84mr6522866d6.1.1734014340001;
-        Thu, 12 Dec 2024 06:39:00 -0800 (PST)
+        bh=LIeJWDB2e3v6s0K160v2H6XjXslzfSsSGvjLFvy0AhQ=;
+        b=QVvAZjJEPbaPA3t/YYNgfanI//PF/me5dUlzfDK9v3JbbVbhpEKyJIiJQfEwqN5CVD
+         9xisCKZulVA9yOSl77mQYev8MMNZgfq97rcyPGSGcd6trFODX0P0W5YzOiSSVGZi8/Lt
+         7hIwP2iIz6ud2YdvUnjGYe5kBEgT2yrDVZfMN4A/7WO9g5XeUdbeuB+9JOZ+H3tHgpZA
+         MjSSmlIB7IX4rYezxLh93YrOz0V7I6AplkgQnH0CvjKxsOhbHFfL82gy5+yM4zX9H/Vk
+         uBa05iVk1H1hiQIgx1BTOUbGp8UzYIp9OTbHdaM7Mbw6zTGfk6j1i0rxB9Xz4SDBFk9L
+         uClg==
+X-Gm-Message-State: AOJu0YzF9QAu88Ly53YoACIjBTzoCHkE4xv/ODoYFbSzYwn2HQMC3nBA
+	RshtAZLH1RSzW5ZeScCJbWTRrtKMOW1uGCr1L4G3l60Fj08sK6/PjRuHOqJOwoc=
+X-Gm-Gg: ASbGncuv+kYQN8wldAKXQYcAy49FTBIt63CtnMM4e+LMrLfeD1DuorhoLlDE4pSkCzW
+	S7VQ8xvKZGD7D+VIm8KuIk0HCmWhClxlUE5ANjrXDpAZ1HthwuSTeqqW92dUpp89BIXLZbWwvhR
+	gGU3qqHiGu5Hbstd4tttLHbxl6cRvKTRH2J8sH1vwaaINi+g77j5m9pb78rwKuucqT9LwPDNJHZ
+	ByfitABeumozlYW/upfY3tCvqK7WnS8+zCinE0fz2ZeOnt5du0AEOikWg==
+X-Google-Smtp-Source: AGHT+IGe6BR/nJYecL4uvVJeolPMjPs95fnRbDMbA7nYERaQwE6R6C8dpsFTy9fb3t3Pc0QRB2bHtA==
+X-Received: by 2002:ac8:5f83:0:b0:467:59a3:b44a with SMTP id d75a77b69052e-467a170e8a3mr8393441cf.56.1734014380603;
+        Thu, 12 Dec 2024 06:39:40 -0800 (PST)
 Received: from nicolas-tpx395.localdomain ([2606:6d00:15:862e::7a9])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d8da9fdecesm81997096d6.77.2024.12.12.06.38.59
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-467a115b939sm1298231cf.44.2024.12.12.06.39.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 06:38:59 -0800 (PST)
-Message-ID: <03c38f0076a018672c303e159f65742550b6c4b1.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/2] media: verisilicon: Store reference frames pixels
- format
+        Thu, 12 Dec 2024 06:39:40 -0800 (PST)
+Message-ID: <6d322d25bef972851b323e795ef35bb8a8ef556d.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/2] media: verisilicon: Fix IMX8 native pixels format
+ steps values
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
 	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, mchehab@kernel.org
 Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
 	linux-kernel@vger.kernel.org, kernel@collabora.com
-Date: Thu, 12 Dec 2024 09:38:58 -0500
-In-Reply-To: <01020192f83fdd04-16f415e6-64f6-44f2-8f79-7676d301d4ab-000000@eu-west-1.amazonses.com>
+Date: Thu, 12 Dec 2024 09:39:39 -0500
+In-Reply-To: <01020192f83fdef5-358ea072-9630-473f-9407-53be13d85864-000000@eu-west-1.amazonses.com>
 References: <20241104173623.1058335-1-benjamin.gaignard@collabora.com>
-	 <01020192f83fdd04-16f415e6-64f6-44f2-8f79-7676d301d4ab-000000@eu-west-1.amazonses.com>
+	 <01020192f83fdef5-358ea072-9630-473f-9407-53be13d85864-000000@eu-west-1.amazonses.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
@@ -94,153 +94,58 @@ MIME-Version: 1.0
 
 Le lundi 04 novembre 2024 =C3=A0 17:36 +0000, Benjamin Gaignard a =C3=A9cri=
 t=C2=A0:
-> Hantro decoder always produce tiled pixels formats but
-> when the post-processor is used the destination pixels
-> format is a non tiled pixels format. This led to compute
-> wrong reference frame size and offsets.
-> Getting and saving the correct tiled pixels format for 8
-> and 10 bit stream solve the computation issues.
+> Hantro decoder non post-processed pixels formats steps are different
+> from post-processed ones.
+> Fix the steps according to hardware limitation.
+> Since reference frame pixels format issue has been fix, it is possible
+> to use V4L2_PIX_FMT_NV15_4L4 rather V4L2_PIX_FMT_P010_4L4 for 10bits
+> streams.
 >=20
-> Fluster VP9 score increase to 166/305 (vs 145/305).
+> Fluster VP9 score goes up to 207/305.
 > HEVC score is still 141/147.
->=20
 >=20
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
->  drivers/media/platform/verisilicon/hantro.h   |  2 ++
->  .../media/platform/verisilicon/hantro_g2.c    |  2 +-
->  .../platform/verisilicon/hantro_postproc.c    | 28 ++++++-------------
->  .../media/platform/verisilicon/hantro_v4l2.c  | 21 ++++++++++++++
->  4 files changed, 33 insertions(+), 20 deletions(-)
+>  drivers/media/platform/verisilicon/imx8m_vpu_hw.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
-platform/verisilicon/hantro.h
-> index 811260dc3c77..14fc6a3e2878 100644
-> --- a/drivers/media/platform/verisilicon/hantro.h
-> +++ b/drivers/media/platform/verisilicon/hantro.h
-> @@ -227,6 +227,7 @@ struct hantro_dev {
->   * @src_fmt:		V4L2 pixel format of active source format.
->   * @vpu_dst_fmt:	Descriptor of active destination format.
->   * @dst_fmt:		V4L2 pixel format of active destination format.
-> + * @ref_fmt:		V4L2 pixel format of the reference frames format.
->   *
->   * @ctrl_handler:	Control handler used to register controls.
->   * @jpeg_quality:	User-specified JPEG compression quality.
-> @@ -255,6 +256,7 @@ struct hantro_ctx {
->  	struct v4l2_pix_format_mplane src_fmt;
->  	const struct hantro_fmt *vpu_dst_fmt;
->  	struct v4l2_pix_format_mplane dst_fmt;
-> +	struct v4l2_pix_format_mplane ref_fmt;
-> =20
->  	struct v4l2_ctrl_handler ctrl_handler;
->  	int jpeg_quality;
-> diff --git a/drivers/media/platform/verisilicon/hantro_g2.c b/drivers/med=
-ia/platform/verisilicon/hantro_g2.c
-> index b880a6849d58..5d33d745d346 100644
-> --- a/drivers/media/platform/verisilicon/hantro_g2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_g2.c
-> @@ -47,7 +47,7 @@ irqreturn_t hantro_g2_irq(int irq, void *dev_id)
-> =20
->  size_t hantro_g2_chroma_offset(struct hantro_ctx *ctx)
->  {
-> -	return ctx->dst_fmt.width * ctx->dst_fmt.height * ctx->bit_depth / 8;
-> +	return ctx->ref_fmt.plane_fmt[0].bytesperline *	ctx->ref_fmt.height;
->  }
-> =20
->  size_t hantro_g2_motion_vectors_offset(struct hantro_ctx *ctx)
-> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drive=
-rs/media/platform/verisilicon/hantro_postproc.c
-> index 41e93176300b..4ba29682dbd6 100644
-> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
-> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-> @@ -194,31 +194,21 @@ void hantro_postproc_free(struct hantro_ctx *ctx)
-> =20
->  static unsigned int hantro_postproc_buffer_size(struct hantro_ctx *ctx)
->  {
-> -	struct v4l2_pix_format_mplane pix_mp;
-> -	const struct hantro_fmt *fmt;
->  	unsigned int buf_size;
-> =20
-> -	/* this should always pick native format */
-> -	fmt =3D hantro_get_default_fmt(ctx, false, ctx->bit_depth, HANTRO_AUTO_=
-POSTPROC);
-> -	if (!fmt)
-> -		return 0;
-> -
-> -	v4l2_fill_pixfmt_mp(&pix_mp, fmt->fourcc, ctx->src_fmt.width,
-> -			    ctx->src_fmt.height);
-> -
-> -	buf_size =3D pix_mp.plane_fmt[0].sizeimage;
-> +	buf_size =3D ctx->ref_fmt.plane_fmt[0].sizeimage;
->  	if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_H264_SLICE)
-> -		buf_size +=3D hantro_h264_mv_size(pix_mp.width,
-> -						pix_mp.height);
-> +		buf_size +=3D hantro_h264_mv_size(ctx->ref_fmt.width,
-> +						ctx->ref_fmt.height);
->  	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_VP9_FRAME)
-> -		buf_size +=3D hantro_vp9_mv_size(pix_mp.width,
-> -					       pix_mp.height);
-> +		buf_size +=3D hantro_vp9_mv_size(ctx->ref_fmt.width,
-> +					       ctx->ref_fmt.height);
->  	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_HEVC_SLICE)
-> -		buf_size +=3D hantro_hevc_mv_size(pix_mp.width,
-> -						pix_mp.height);
-> +		buf_size +=3D hantro_hevc_mv_size(ctx->ref_fmt.width,
-> +						ctx->ref_fmt.height);
->  	else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_AV1_FRAME)
-> -		buf_size +=3D hantro_av1_mv_size(pix_mp.width,
-> -					       pix_mp.height);
-> +		buf_size +=3D hantro_av1_mv_size(ctx->ref_fmt.width,
-> +					       ctx->ref_fmt.height);
-> =20
->  	return buf_size;
->  }
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index df6f2536263b..a9a54f177405 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -126,6 +126,24 @@ hantro_find_format(const struct hantro_ctx *ctx, u32=
- fourcc)
->  	return NULL;
->  }
-> =20
-> +static int
-> +hantro_set_reference_frames_format(struct hantro_ctx *ctx)
-> +{
-> +	const struct hantro_fmt *fmt;
-> +	int dst_bit_depth =3D hantro_get_format_depth(ctx->vpu_dst_fmt->fourcc)=
-;
-> +
-> +	fmt =3D hantro_get_default_fmt(ctx, false, dst_bit_depth, HANTRO_AUTO_P=
-OSTPROC);
-> +	if (!fmt)
-> +		return -EINVAL;
-> +
-> +	ctx->ref_fmt.width =3D ctx->src_fmt.width;
-> +	ctx->ref_fmt.height =3D ctx->src_fmt.height;
-> +
-> +	v4l2_apply_frmsize_constraints(&ctx->ref_fmt.width, &ctx->ref_fmt.heigh=
-t, &fmt->frmsize);
-> +	return v4l2_fill_pixfmt_mp(&ctx->ref_fmt, fmt->fourcc,
-> +				   ctx->ref_fmt.width, ctx->ref_fmt.height);
-> +}
-> +
->  const struct hantro_fmt *
->  hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream,
->  		       int bit_depth, bool need_postproc)
-> @@ -591,6 +609,9 @@ static int hantro_set_fmt_cap(struct hantro_ctx *ctx,
-> =20
->  	ctx->vpu_dst_fmt =3D hantro_find_format(ctx, pix_mp->pixelformat);
->  	ctx->dst_fmt =3D *pix_mp;
-> +	ret =3D hantro_set_reference_frames_format(ctx);
-> +	if (ret)
-> +		return ret;
-> =20
->  	/*
->  	 * Current raw format might have become invalid with newly
+> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/=
+media/platform/verisilicon/imx8m_vpu_hw.c
+> index f850d8bddef6..35799da534ed 100644
+> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> @@ -187,23 +187,23 @@ static const struct hantro_fmt imx8m_vpu_g2_dec_fmt=
+s[] =3D {
+>  		.frmsize =3D {
+>  			.min_width =3D FMT_MIN_WIDTH,
+>  			.max_width =3D FMT_UHD_WIDTH,
+> -			.step_width =3D TILE_MB_DIM,
+> +			.step_width =3D 8,
+>  			.min_height =3D FMT_MIN_HEIGHT,
+>  			.max_height =3D FMT_UHD_HEIGHT,
+> -			.step_height =3D TILE_MB_DIM,
+> +			.step_height =3D 32,
+>  		},
+>  	},
+>  	{
+> -		.fourcc =3D V4L2_PIX_FMT_P010_4L4,
+> +		.fourcc =3D V4L2_PIX_FMT_NV15_4L4,
+>  		.codec_mode =3D HANTRO_MODE_NONE,
+>  		.match_depth =3D true,
+>  		.frmsize =3D {
+>  			.min_width =3D FMT_MIN_WIDTH,
+>  			.max_width =3D FMT_UHD_WIDTH,
+> -			.step_width =3D TILE_MB_DIM,
+> +			.step_width =3D 8,
+>  			.min_height =3D FMT_MIN_HEIGHT,
+>  			.max_height =3D FMT_UHD_HEIGHT,
+> -			.step_height =3D TILE_MB_DIM,
+> +			.step_height =3D 32,
+>  		},
+>  	},
+>  	{
 
 
