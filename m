@@ -1,133 +1,238 @@
-Return-Path: <linux-media+bounces-23249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23250-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C329EE033
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 08:24:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0372A9EE037
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 08:26:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4909C16633F
-	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 07:24:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39E0B1885379
+	for <lists+linux-media@lfdr.de>; Thu, 12 Dec 2024 07:26:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 618DF20ADF7;
-	Thu, 12 Dec 2024 07:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A285620B1E8;
+	Thu, 12 Dec 2024 07:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fjr44KBh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR0unn6B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2416345027
-	for <linux-media@vger.kernel.org>; Thu, 12 Dec 2024 07:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5684945027;
+	Thu, 12 Dec 2024 07:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733988266; cv=none; b=mKdchDc0j3DZuG2+owl6Gh8h0jZnNSWV5T9QQnlahF1Vl1WXx7Eet7q52KXye392KyG1HIyB85jpNJHPePOsCTp9M1qNJ+IT9s1Y3TIoY0OlhgCNzObQFdkMyqPDAKwjlaCbOPBFv/Naa5eAgVvh9+ikyd68qC2+cnXlKwTsLzc=
+	t=1733988357; cv=none; b=q1gqh2povUrxy8qIUuv8r+BRNTzlLy4tYAQ1gA8HnFcgHzWPORT4uruzHTUL4ucCcdDv2GogZ8zaCMUAu8P6WkmJznabPtgFIs8TTViyZax6wXd2ki6F+mtocxMJLEiJnt2+tnzeC3syYxLiEIkycrGyVvS6+ENHp66WN7HRKT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733988266; c=relaxed/simple;
-	bh=OZ+MwECLNiOy76P0togNllWUpKxw1/IP/KWizlW3xg0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n7R7qxRfA1z5HmTDan6GCmyZ+wWr/cwwmkGQKAR9O+RtfGqm0H2Ela2IX5x1Pqj4sbt/qBO11ztREso9aV6O6rq8Fw9VaX+UsIKS9ixZaMaq6fa2J88SoI+vEiFZlfyosnG2vCtb4npXzajupM2pbP9RicswNeZvT7IuTH0+YhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fjr44KBh; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733988357; c=relaxed/simple;
+	bh=WQgesphKPZtQtDkSSaKmZdO5cVGMF3Bi1WZp8uEHTrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5dz/j8Mpwcaprj6l3dFdK7WhMrgHiLYHv+k7QEmC6HckwFxns/knSX554Pp0ll+nQoJkajWsidYg6yyWvX6al/Cs4DlclvWKlnbZ4jp9QKExL5HoS3HoGdSn+BCbUnB3j4ZIDbgOQCEqBUD+lI6+uuStc7N7u77Eo5v3fNTbkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR0unn6B; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733988265; x=1765524265;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=OZ+MwECLNiOy76P0togNllWUpKxw1/IP/KWizlW3xg0=;
-  b=fjr44KBhUDNsPOeX6cNMQaHiaO/cjbE6RBr9OeqXV9txhMDeun21wiHf
-   AQ6CqdnGNtkyr0O3DzPLDiuT/VIhyBU1KJ2YFOFSwwhzKMozYuj2P9SCi
-   RSCd2CfWt/xX8drY8N4R7sO81CT4U0rSJ/mUluNrnwMXMonRRwy9ubROH
-   Djid0QoeMOZIT7FkeRYXAtisRA7KLrOe4tTnpVYtVixjoSGDRV59MVPMq
-   6sHDAWnIX8HvfYdTnVZvwJ5rV2dsIMSk83N9XwW/epipXrkJOwLXofeXq
-   QBP1Qlckeamu0lGEtYSiTrbkZlX0ZYpoylSuciXF9A7ryJ3VLLb9m6BLO
+  t=1733988355; x=1765524355;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=WQgesphKPZtQtDkSSaKmZdO5cVGMF3Bi1WZp8uEHTrA=;
+  b=lR0unn6Byw3WyKTjob4qgFQipqm0cE3C6YdpY1rO8CykV9gvgwRfJGAo
+   TuiQ5mQTV1pXvMRjoIWMAiOsqTl2qRHDkDzCkJqSjpFsHQE7+Tvowqaz/
+   6dH0yuPXRFsP0k4vxlmgQREZPIvBf6x0pKejZcnufa+t80hr3v42cUBD4
+   OOkp4Xd3ov5iB4NLwVgVlHM9y5R4EqeppkIzgwXzArduCXT8BoJjXH0Wc
+   mq7/hqVxP1LEPyJ72Y/RdiV12GmAIkboomzxslHQRGpJS5HuopeablgY6
+   Zhcpj9n64nnnnKJJpgaGWhHdUCKMGQ9csYqbN9wK0R+lNrUxpWYXsM1GF
    A==;
-X-CSE-ConnectionGUID: ZNHym9YBTfC4uW9p3Tv7/g==
-X-CSE-MsgGUID: 0tuuyrj3SRKSS/MhHP5tRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34299797"
+X-CSE-ConnectionGUID: 77A/qfrDRLmMyXtZnPxQ0w==
+X-CSE-MsgGUID: WMeSDTAUSuKI/NvzPU913g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34313112"
 X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="34299797"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:24:25 -0800
-X-CSE-ConnectionGUID: 96o5N9hoT1+Yl4zEeTh9bA==
-X-CSE-MsgGUID: VgmWIXxARhyQ80ODrY2TSA==
+   d="scan'208";a="34313112"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:25:49 -0800
+X-CSE-ConnectionGUID: O5T98L/HQj+9++OChIET0w==
+X-CSE-MsgGUID: pKrY4UCpSwyigNxg5j2Edw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="96383384"
-Received: from unknown (HELO [10.238.225.22]) ([10.238.225.22])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:24:21 -0800
-Message-ID: <e48e0778-7911-47ec-b8f2-d4b6e95484c1@intel.com>
-Date: Thu, 12 Dec 2024 15:24:16 +0800
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119391224"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 23:25:43 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3E24011F81D;
+	Thu, 12 Dec 2024 09:25:38 +0200 (EET)
+Date: Thu, 12 Dec 2024 07:25:38 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] media: v4l: fwnode: Parse MiPI DisCo for C-PHY
+ line-orders
+Message-ID: <Z1qP8uY72kw9uX2E@kekkonen.localdomain>
+References: <20241121134108.2029925-1-niklas.soderlund+renesas@ragnatech.se>
+ <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: i2c: add lt6911uxe hdmi bridge driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- hverkuil@xs4all.nl, ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com,
- tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
- daxing.li@intel.com, dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
- balamurugan.c@intel.com, wei.a.fu@intel.com
-References: <20241129061546.2237511-1-dongcheng.yan@intel.com>
- <Z1hOBpwLfB_wfRwL@kekkonen.localdomain>
- <66e2d69c-9413-48dc-9dcc-1df7576ddf2d@intel.com>
- <Z1oAGfRs28hgo-sc@kekkonen.localdomain>
-Content-Language: en-US
-From: "Yan, Dongcheng" <dongcheng.yan@intel.com>
-In-Reply-To: <Z1oAGfRs28hgo-sc@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241121134108.2029925-3-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Sakari,
+Hej Niklas,
 
-Since you are planning to PR this patch, I will continue to use 
-CUR_LINK_FREQ to initialize the link_freq v4l2_ctl.
+On Thu, Nov 21, 2024 at 02:41:06PM +0100, Niklas Söderlund wrote:
+> Extend the fwnode parsing to validate and fill in the CSI-2 C-PHY
+> line-orders order properties as defined in MIPI Discovery and
+> Configuration (DisCo) Specification for Imaging.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v1
+> - Use array instead of switch to get printable line order string for
+>   debug output.
+> - Wrap lines harder for 80 chars instead of 100, but keep string formats
+>   on same line even if they break the 80 chars.
+> ---
+>  drivers/media/v4l2-core/v4l2-fwnode.c | 43 ++++++++++++++++++++++++++-
+>  include/media/v4l2-mediabus.h         | 21 +++++++++++++
+>  2 files changed, 63 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index f19c8adf2c61..bb5ea3e00414 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -127,7 +127,7 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+>  {
+>  	struct v4l2_mbus_config_mipi_csi2 *bus = &vep->bus.mipi_csi2;
+>  	bool have_clk_lane = false, have_data_lanes = false,
+> -		have_lane_polarities = false;
+> +		have_lane_polarities = false, have_line_orders = false;
+>  	unsigned int flags = 0, lanes_used = 0;
+>  	u32 array[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
+>  	u32 clock_lane = 0;
+> @@ -197,6 +197,17 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+>  		have_lane_polarities = true;
+>  	}
+>  
+> +	rval = fwnode_property_count_u32(fwnode, "line-orders");
+> +	if (rval > 0) {
+> +		if (rval != num_data_lanes) {
+> +			pr_warn("invalid number of line-orders entries (need %u, got %u)\n",
+> +				num_data_lanes, rval);
+> +			return -EINVAL;
+> +		}
+> +
+> +		have_line_orders = true;
+> +	}
+> +
+>  	if (!fwnode_property_read_u32(fwnode, "clock-lanes", &v)) {
+>  		clock_lane = v;
+>  		pr_debug("clock lane position %u\n", v);
+> @@ -250,6 +261,36 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
+>  		} else {
+>  			pr_debug("no lane polarities defined, assuming not inverted\n");
+>  		}
+> +
+> +		if (have_line_orders) {
+> +			fwnode_property_read_u32_array(fwnode,
+> +						       "line-orders", array,
+> +						       num_data_lanes);
+> +
+> +			for (i = 0; i < num_data_lanes; i++) {
+> +				static const char * const orders[] = {
+> +					"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
+> +				};
+> +
+> +				if (array[i] > 5) {
 
-Besides, I see your patch in intel/ipu6 that obtains the link frequency 
-from the sub-device instead of a control handler.
 
-Maybe I don't need init link_freq v4l2_ctl anymore?
+I'd use:
 
-Thanks,
-Dongcheng
+				if (... >= ARRAY_SIZE(order)) {
 
-On 12/12/2024 5:12 AM, Sakari Ailus wrote:
-> Hi Dongcheng,
->
-> On Wed, Dec 11, 2024 at 10:39:53PM +0800, Yan, Dongcheng wrote:
->>>> +static int lt6911uxe_init_controls(struct lt6911uxe *lt6911uxe)
->>>> +{
->>>> +	struct v4l2_ctrl_handler *ctrl_hdlr;
->>>> +	s64 pixel_rate;
->>>> +	int ret;
->>>> +
->>>> +	ctrl_hdlr = &lt6911uxe->ctrl_handler;
->>>> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	lt6911uxe->link_freq =
->>>> +		v4l2_ctrl_new_int_menu(ctrl_hdlr, NULL, V4L2_CID_LINK_FREQ,
->>>> +				       sizeof(lt6911uxe->cur_mode.link_freq),
->>> There's just a single entry in the array. sizeof() will get the size in
->>> bytes, which is 8! Use 1 here instead.
->> Hi Sakari, I used CUR_LINK_FREQ before, which refers to your patch:
->>
->> <URL:https://lore.kernel.org/linux-media/20240426145538.654212-1-sakari.ailus@linux.intel.com/>.
-> There were a few iterations of the set and this is
-> where it eventually ended:
->
-> <URL:https://lore.kernel.org/linux-media/20241210075906.609490-1-sakari.ailus@linux.intel.com/T/#t>
->
-> I intend to include that in a PR soonish.
->
->> But I am worried about the progress of this patch.
->>
->> If you have expectations for it, I can modify it to CUR_LINK_FREQ.
+I can do the change while applying...
+
+> +					pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
+> +						i, array[i]);
+> +					bus->line_orders[i] =
+> +						V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
+> +					continue;
+> +				}
+> +
+> +				bus->line_orders[i] = array[i];
+> +				pr_debug("lane %u line order %s", i,
+> +					 orders[array[i]]);
+> +			}
+> +		} else {
+> +			for (i = 0; i < num_data_lanes; i++)
+> +				bus->line_orders[i] =
+> +					V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
+> +
+> +			pr_debug("no line orders defined, assuming ABC\n");
+> +		}
+>  	}
+>  
+>  	return 0;
+> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+> index 5bce6e423e94..e7f019f68c8d 100644
+> --- a/include/media/v4l2-mediabus.h
+> +++ b/include/media/v4l2-mediabus.h
+> @@ -73,6 +73,24 @@
+>  
+>  #define V4L2_MBUS_CSI2_MAX_DATA_LANES		8
+>  
+> +/**
+> + * enum v4l2_mbus_csi2_cphy_line_orders_type - CSI-2 C-PHY line order
+> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC: C-PHY line order ABC (default)
+> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB: C-PHY line order ACB
+> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC: C-PHY line order BAC
+> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA: C-PHY line order BCA
+> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB: C-PHY line order CAB
+> + * @V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA: C-PHY line order CBA
+> + */
+> +enum v4l2_mbus_csi2_cphy_line_orders_type {
+> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC,
+> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB,
+> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC,
+> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA,
+> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB,
+> +	V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA,
+> +};
+> +
+>  /**
+>   * struct v4l2_mbus_config_mipi_csi2 - MIPI CSI-2 data bus configuration
+>   * @flags: media bus (V4L2_MBUS_*) flags
+> @@ -81,6 +99,8 @@
+>   * @num_data_lanes: number of data lanes
+>   * @lane_polarities: polarity of the lanes. The order is the same of
+>   *		   the physical lanes.
+> + * @line_orders: line order of the data lanes. The order is the same of the
+> + *		   physical lanes.
+>   */
+>  struct v4l2_mbus_config_mipi_csi2 {
+>  	unsigned int flags;
+> @@ -88,6 +108,7 @@ struct v4l2_mbus_config_mipi_csi2 {
+>  	unsigned char clock_lane;
+>  	unsigned char num_data_lanes;
+>  	bool lane_polarities[1 + V4L2_MBUS_CSI2_MAX_DATA_LANES];
+> +	enum v4l2_mbus_csi2_cphy_line_orders_type line_orders[V4L2_MBUS_CSI2_MAX_DATA_LANES];
+>  };
+>  
+>  /**
+
+-- 
+Med vänliga hälsingar,
+
+Sakari Ailus
 
