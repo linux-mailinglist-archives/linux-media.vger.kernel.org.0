@@ -1,69 +1,97 @@
-Return-Path: <linux-media+bounces-23402-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23403-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857159F16E6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 20:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05E19F1718
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 21:07:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0694B1889803
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 19:58:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E22D5188C4FA
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 20:07:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83FA0195381;
-	Fri, 13 Dec 2024 19:55:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C74718C907;
+	Fri, 13 Dec 2024 20:00:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DN1ghPuZ"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="uwXO1U5j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188C219343E;
-	Fri, 13 Dec 2024 19:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258D518A924
+	for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 20:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734119751; cv=none; b=EQAWGpiJsPfqbFr8gMVmhL/irWT0RwjgMjwAbUosUGKss35VPT0AbqvI8bDOVpGo95RffNYXanqmE9z2VEvLiH5cpJzig0qzC89gbwpg5fpe0exf5ecdu7o4oD2bpLnpXgxEtkPYwDwHt4vzsfeHBzOhriLg5cszAjA4kySqJ1A=
+	t=1734120035; cv=none; b=icX3G/eldQpoSIqkagQe3PvtcUYzlvdClkXR9mqjnmOhv3rklvteWsZ+AXMPlPuR3xyl4uTPqbzbtL8lrxogD5o4DqHDQCFnUj8QFiZHQuh8X25pzwsWYB79ndOxFa1jCupVd51Qd45RFZ6skIEJcbz9qD6NqSXtFdwnl+9DQX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734119751; c=relaxed/simple;
-	bh=+KRdWhBI/XFCe/JTS96b+IvaX1dOBdGzJmDIw06LNtA=;
+	s=arc-20240116; t=1734120035; c=relaxed/simple;
+	bh=x7L1gh88EutVaL8gMqGVvcTa671h3hZqDFZ59Eo9Gi0=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=C4ZFu6MmSkLPdN/d1y3P52TKGw0yynROY6ml/uiG8UIlegqejq43Ws61AZs5s6fT0nFN4wviap7cl9zCZT1ZVXf+XeV0UwDrALkc/8adq7TcPd9gE57EeLK5kjnRg/FrkK9ZZ83buoBCixjQrQfMeCtFvCEHGXETJ3U7LFh9/Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DN1ghPuZ; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1734119748;
-	bh=+KRdWhBI/XFCe/JTS96b+IvaX1dOBdGzJmDIw06LNtA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=DN1ghPuZK4AcoV3ThZi9i7ek07FwipuSR9QNBXGCzem37BYSh/Xp6RYnKQd/BTRlg
-	 FQV1sxoJ5bO9cgE+tugtjc4FT1+pR4iMvVbkCQFCXL3AQG8tdZ58rJ9c5aCywmHqkN
-	 TrpdRrpcIS+Xz8FCnkh9ve6QBcS0mMdjv4m+oya0l/0lFxuHu+09HIYIixQuZ17+VT
-	 +s2TPOAHavNTCNjE0VDVqqk+Sss/RvhbfpmUL0bv44koA9VTDY3BVxNNgzKeOeGfyH
-	 QLni82PoV/1cOTFxm47GB+kDbTJoEVTHZcxHj6/XbuJT4hphkzLcwl6Evou++zo7IB
-	 aspVGp8tB0MJQ==
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E093117E37F5;
-	Fri, 13 Dec 2024 20:55:45 +0100 (CET)
-Message-ID: <c7630341600fa157265459f5fac49ec74c013ca7.camel@collabora.com>
-Subject: Re: [PATCH v1 5/5] media: chips-media: wave5: Fix timeout while
- testing 10bit hevc fluster
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
-	hverkuil-cisco@xs4all.nl, sebastian.fricke@collabora.com, 
-	bob.beckett@collabora.com, dafna.hirschfeld@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	lafley.kim@chipsnmedia.com, b-brnich@ti.com, hverkuil@xs4all.nl, 
-	nas.chung@chipsnmedia.com
-Date: Fri, 13 Dec 2024 14:55:44 -0500
-In-Reply-To: <20241209053654.52-6-jackson.lee@chipsnmedia.com>
-References: <20241209053654.52-1-jackson.lee@chipsnmedia.com>
-	 <20241209053654.52-6-jackson.lee@chipsnmedia.com>
-Organization: Collabora
+	 Content-Type:MIME-Version; b=pT44vMFbJCt7uWmsSwK4SIZ8SdzPXePe0g5h9urznAfDLSJRslxj/Cqr3BWEtqL4lrBYUz6IbuxMM9GfyshoNTz2hDUWuRqv1Fk+Nc6j6OulBSWOx2a3q1JM8x80HauPCq28VsTSc06NSQC1rve7ablBmZIHmp1T0xWZgA8cu1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=uwXO1U5j; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7b6e5c74cb7so180437185a.2
+        for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 12:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1734120032; x=1734724832; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=74NlfA8P9+tD9kRaiQet/Cxkg9YE/hgCZpYkhiWFU3U=;
+        b=uwXO1U5jthsoOGbzRU+qfhSP2KePKpuE+e9fFFvnSCmBHxefZM+hsMH25o7GSiWkpM
+         tD9fbRK6SSiIvNZQCvQiqmirZaUU7upfcXDMsRx+J5GvJIPJjqPU2DrwHuB/AHXUC5au
+         Gfdncs0Zo7bt+ML+/qvLacqYWfNb8uN7YjLG38YlLoygEPfklCdX4B8uw2CDEImbhFPi
+         yuansqVCSPay9eoORtfDEO3eZUZUaHfOEIRYLX8yoNDS3M/UzbSmZx2dfQDlWs4vWNLg
+         sGlm9Ymh/2InDk9Wli+W4QpjEKa8Kkk5Bpi7pLiTXdfMY+0Do5OUcSnPKWMHNu2fuI74
+         VucA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734120032; x=1734724832;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=74NlfA8P9+tD9kRaiQet/Cxkg9YE/hgCZpYkhiWFU3U=;
+        b=UsUaHnWsaRsYZfsEhPTzfAH2GF+uUnLPtJ7HmGEHRwjgvaY0WbwysQAHY9cAMtPzQ6
+         MPYpGYm2t3tj4FEJi1yzy+g8IiQ3jp2bnEnBnhfQ16P3WvkKoCVUrCBT7EFeDEBE4NJg
+         IncDZlyWEZ8eRYDli1fEA9VbNbzaf1t1BpxHoMLj/54N+yAPLl2+QwZHW5PSINRSTH1T
+         1RUodDPOxQV6iEef6bdCEE59gPJe+Mhm5T62gvtGGkOOZzPQ977a7WTXkT/PJBt3TSao
+         250xi2CH/uch2NU7wpgufAsBWZXUvO0pBiPuSBhsti3wlyUwDMcU7gPDXmEB3iiTmdho
+         9nWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8V1hiVlR6oCxC+O96DuhQBnoC/DZ5i44fFGj2j4swOh09V8Oh3UDDGWdfkiIyGlUA7z8W67BEDdMSLg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwP3xv7g3JMZi1U0Gwhe/ehQ2/oEmMzYUz2lPaLc70TcN3O1iz
+	ExfwBUlmMOOiWv6wdmET3TrhQrZY0ozkkrCjsJX3PVD7l1B9lGDxWc1tghoMFKg=
+X-Gm-Gg: ASbGncvED3INmtYPt8cFQyN2C+I+6WoMRbQlN9EECDY4UtD1pxuWM1Hd0rPzT8TKdjL
+	/Qv5Kr9BAqraWHFXOdWNOntV2bIiogJTQAmhWcObru9ivrMNaSso9Pw4e8xsEdKw1OaQ/NMKRlb
+	63JiJ2Uyrfo3Ue11Bw7VHai4Jj7J1GVX3HLDvRlKiPEFYN5Bkncwzr0bOtvtZyLCvCa4lghOzdc
+	YLvP+JL1qJ5cAVXKgNCgikXmoYiihUYmPVR+8SE0y7HHYzitucm1CQS3g==
+X-Google-Smtp-Source: AGHT+IEgBOo9qrsoTJgwjsvTiFMjg9zNW9UJGmlOnPGOfek3hkRrxuu31Sg9ut+DFizInI+chF7DcA==
+X-Received: by 2002:a05:620a:24c8:b0:7b6:91a4:845b with SMTP id af79cd13be357-7b6fbee6902mr750465585a.15.1734120031719;
+        Fri, 13 Dec 2024 12:00:31 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:862e::7a9])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b7047aa677sm9924785a.20.2024.12.13.12.00.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2024 12:00:31 -0800 (PST)
+Message-ID: <e159b61f620eea520b06e20a294bf84be781fe19.camel@ndufresne.ca>
+Subject: Re: [PATCH v5 2/3] media: venus: Populate video encoder/decoder
+ nodename entries
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Stanimir Varbanov	
+ <stanimir.k.varbanov@gmail.com>, Vikash Garodia
+ <quic_vgarodia@quicinc.com>,  Mauro Carvalho Chehab	 <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: quic_renjiang@quicinc.com, quic_vnagar@quicinc.com, 
+	quic_dikshita@quicinc.com, konradybcio@kernel.org,
+ linux-media@vger.kernel.org, 	linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	devicetree@vger.kernel.org, Stanimir
+ Varbanov <stanimir.varbanov@linaro.org>
+Date: Fri, 13 Dec 2024 15:00:30 -0500
+In-Reply-To: <20241209-media-staging-24-11-25-rb3-hw-compat-string-v5-2-ef7e5f85f302@linaro.org>
+References: 
+	<20241209-media-staging-24-11-25-rb3-hw-compat-string-v5-0-ef7e5f85f302@linaro.org>
+	 <20241209-media-staging-24-11-25-rb3-hw-compat-string-v5-2-ef7e5f85f302@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -71,62 +99,85 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Le lundi 09 décembre 2024 à 14:36 +0900, Jackson.lee a écrit :
-> 521C Wave5 variant does not support 10 bit. When 10 bit support for 515
-> variant was added, the code which returns an error was removed. While
-> testing 10bit hevc fluster on the 521C hw, timeout happened.
-> 
-> Fixes: 143e7ab4d9a0 ("media: chips-media: wave5: support decoding HEVC Main10 profile")
-> 
-> Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
-> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+Hi Bryan,
+
+Le lundi 09 d=C3=A9cembre 2024 =C3=A0 11:52 +0000, Bryan O'Donoghue a =C3=
+=A9crit=C2=A0:
+> Populate encoder and decoder node-name entries for the upstream parts. On=
+ce
+> done the compat=3D"video-encoder" and compat=3D"video-decoder" in the dts=
+i can
+> be dropped though the venus driver will continue to favour DT declared
+> video-encoder/video-decoder declarations over static declarations for
+> compatibility.
+
+Hope this hardcoding of node name is historical ? And not done for newer ch=
+ips ?
+We discourage userspace on relying on node names cause it always leads to
+complication and non-portable code.
+
+Nicolas
+
+>=20
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  .../platform/chips-media/wave5/wave5-vpu-dec.c     | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> index ce3fc47dc9d8..28462e01ca27 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> @@ -1406,10 +1406,24 @@ static int wave5_vpu_dec_start_streaming(struct vb2_queue *q, unsigned int count
->  		if (ret)
->  			goto free_bitstream_vbuf;
->  	} else if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-> +		struct dec_initial_info *initial_info =
-> +			&inst->codec_info->dec_info.initial_info;
-> +
->  		if (inst->state == VPU_INST_STATE_STOP)
->  			ret = switch_state(inst, VPU_INST_STATE_INIT_SEQ);
->  		if (ret)
->  			goto return_buffers;
-> +
-> +		if (inst->state == VPU_INST_STATE_INIT_SEQ &&
-> +		    inst->dev->product_code == WAVE521C_CODE) {
-> +			if (initial_info->luma_bitdepth != 8) {
-> +				dev_info(inst->dev->dev, "%s: no support for %d bit depth",
-> +					 __func__, initial_info->luma_bitdepth);
-> +				ret = -EINVAL;
-> +				goto return_buffers;
-> +			}
-> +		}
-
-Let's take that fix for now, but consider filling some capabilities flag in the
-long term so as more variant get enable we don't endup with tones of
-produce_code == branch all over the place. Also, please send that one with 1/5
-and 2/5 seperatly (perhaps 4/5 too if applicable).
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-p.s. its better to split the obvious fixes that are guarantied to go quickly
-from very complex changes. Specially that these are important bug fix, where the
-other change is for performance improvement. This makes the maintenance of your
-driver a lot more responsive to major issues.
-
-> +
->  	}
->  	pm_runtime_mark_last_busy(inst->dev->dev);
->  	pm_runtime_put_autosuspend(inst->dev->dev);
+>  drivers/media/platform/qcom/venus/core.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/pla=
+tform/qcom/venus/core.c
+> index 88dfa9f240dc6d18a7f58dc06b1bf10274b7121e..deef391d78770b8ae0f486dd3=
+a3ab44c4ea6a581 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -674,6 +674,8 @@ static const struct venus_resources msm8916_res =3D {
+>  	.vmem_addr =3D 0,
+>  	.dma_mask =3D 0xddc00000 - 1,
+>  	.fwname =3D "qcom/venus-1.8/venus.mbn",
+> +	.dec_nodename =3D "video-decoder",
+> +	.enc_nodename =3D "video-encoder",
+>  };
+> =20
+>  static const struct freq_tbl msm8996_freq_table[] =3D {
+> @@ -883,6 +885,8 @@ static const struct venus_resources sdm845_res_v2 =3D=
+ {
+>  	.cp_nonpixel_start =3D 0x1000000,
+>  	.cp_nonpixel_size =3D 0x24800000,
+>  	.fwname =3D "qcom/venus-5.2/venus.mbn",
+> +	.dec_nodename =3D "video-core0",
+> +	.enc_nodename =3D "video-core1",
+>  };
+> =20
+>  static const struct freq_tbl sc7180_freq_table[] =3D {
+> @@ -931,6 +935,8 @@ static const struct venus_resources sc7180_res =3D {
+>  	.cp_nonpixel_start =3D 0x1000000,
+>  	.cp_nonpixel_size =3D 0x24800000,
+>  	.fwname =3D "qcom/venus-5.4/venus.mbn",
+> +	.dec_nodename =3D "video-decoder",
+> +	.enc_nodename =3D "video-encoder",
+>  };
+> =20
+>  static const struct freq_tbl sm8250_freq_table[] =3D {
+> @@ -986,6 +992,8 @@ static const struct venus_resources sm8250_res =3D {
+>  	.vmem_addr =3D 0,
+>  	.dma_mask =3D 0xe0000000 - 1,
+>  	.fwname =3D "qcom/vpu-1.0/venus.mbn",
+> +	.dec_nodename =3D "video-decoder",
+> +	.enc_nodename =3D "video-encoder",
+>  };
+> =20
+>  static const struct freq_tbl sc7280_freq_table[] =3D {
+> @@ -1048,6 +1056,8 @@ static const struct venus_resources sc7280_res =3D =
+{
+>  	.cp_nonpixel_start =3D 0x1000000,
+>  	.cp_nonpixel_size =3D 0x24800000,
+>  	.fwname =3D "qcom/vpu-2.0/venus.mbn",
+> +	.dec_nodename =3D "video-decoder",
+> +	.enc_nodename =3D "video-encoder",
+>  };
+> =20
+>  static const struct of_device_id venus_dt_match[] =3D {
+>=20
 
 
