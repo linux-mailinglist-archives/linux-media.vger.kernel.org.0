@@ -1,158 +1,104 @@
-Return-Path: <linux-media+bounces-23397-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23398-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADAA29F1479
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 18:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492C89F15E9
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 20:34:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B580F16A7B4
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 17:58:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 693F716A9E7
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 19:34:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3ACB1E3775;
-	Fri, 13 Dec 2024 17:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C11771EBA02;
+	Fri, 13 Dec 2024 19:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hDO3EZ1i"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SiXy2iQh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3181E25F8
-	for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 17:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357571E0B75;
+	Fri, 13 Dec 2024 19:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734112707; cv=none; b=kkYQfn1ZdK4PYE6v9zBvdQASuRBhHv4Hm/ZSRV+tJLpOdSNJ/jhALmE6xAvUbUutCw0Ic77mmAQA6R+I9YraiYwGt8ac52UenmZsukU6uG8bPNHU0qPyTzYh72CCyM2FOSZTcMTYfJElSDbB7QXZ1XumuT6TPxjvTlnWHANNkag=
+	t=1734118465; cv=none; b=dATa1cGHOUGqrHm30Exu8aENybseMISRDY2+GMWJnC2wLGrP3U4Blrvbt6o/126l9+hvgZ5wR/iBnnyucUfJ6nSbolPBemdIs9W3z+40D2hnslucRYHaiu+asKlSdDMiXs+0Cvm6ANjggeuoY7sJZkdDE/AsCXelIKefGXiTil8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734112707; c=relaxed/simple;
-	bh=fJMJGGIs8XwoUh5eaP+N5nnUuULzD6iUDWJ2PhMddOE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hzGS1lbbCDSG+7DIWPRLoDea0oVsqNSWKCxCgHFs1/xAY7X7oIOFXkVU1oJ43hF8DhlsyC28CX2WxyJJ0eHEw/jPb8gqzjomz0gZ/nCX+F1Pg43xilD8C8t4cbEA88dcP54mwyNbNiWk2V9EehSLqb5cyuZEA49DAcTG2Tfg/ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hDO3EZ1i; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3003a95a173so1311321fa.1
-        for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 09:58:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734112703; x=1734717503; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JP0v5TL7oePTh21UGaiJDFEPSqS7AXPH+Qkz4Rr1cGc=;
-        b=hDO3EZ1itKK9oaB3oPBrr9zLVwgndKkZM0/2bJ88i4MrEF7X7resYq/hcL7BmZgNR6
-         6I69X6Jbz9qS4q02+/Lg6cvwDQ3YjNxF0/7/lvRFOluYZGdDk2gztKLLV6BKsb9C9nV3
-         ZQ1arKYQb59uTdSsvKuKHbbTvYnzjqSgQsmPLj4qwaHx/czcgXT83C0VM2aAfph/agvi
-         oLIeP3YsscSWTv+5R/kO8GxM3bvXoXCMeC2FVQukHlUUk5F58J6E6z31rSmLpz0AiCBh
-         jC6LgSon7AbuiooBkK2rgWocIdTe/s6V+d8OuY7DUn8jBJqbS8EmGBapcQs22/vMjWvm
-         9xiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734112703; x=1734717503;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JP0v5TL7oePTh21UGaiJDFEPSqS7AXPH+Qkz4Rr1cGc=;
-        b=au0YtuwzGvFk4R/thBH8d9nMgSBUHTW0FW5B9Le0P/jhUJ2GqBgDt1DUcpywn4EhlE
-         GtFuPpadZQJ3C8aRMhiHCf9CLPkLys6dtNR+EUKxXONYrIIp7Pf0ULnziOrCI1WSGsRk
-         8jSOQsxsSJu3r2RdW/KM7VR2z7nHQayLVG8lUO/fTHHK0I0Vq1HvFu4kXAirZlqxmh1N
-         VAt1h22OYDjeEnP1Qs/uAU8HOj8s4PmJYSpiMhf/4oacZGX2DOiLOJfrtcYsj6UgM+Bt
-         RpxL3U3bVVOoUTnzLKEYUIPy1Qw486kHhV6pXDDlyo1yx9HmU1hErBgHnxfGgQLig5eV
-         iAuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWnnXy+c3QRGjIiSasjetfX+FA9sxA9Aj58Pe2jXdUkjVc1IFQFx8IY1IkPdcHytUZHUM5J9UWEF5KEw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcQuDEJHnll5b4J5GlXTwjF+lx5ARCQBlbFaplsYEhHFK7TB/b
-	qyQe10tw7APDwrBKGM7Fno+ph7toPdomswqTFZh74gQ+P2mpcwncq4Wf3XddZGs=
-X-Gm-Gg: ASbGncvSPeUeEHA2TADq4Emo4iLBz+Yqiy1skDA4qLTwzAwpa+3xWBW/DQkHpYKGbov
-	R9g+9VZG1s96AV7AE3yuCdvJgMRPcbTkKEBI8I7EHdItW8snHzaYs9YUGJhW5WZGlvQtVzczJiD
-	/bgomJSwRNOhR+QkyAgPZiO2fNMFEtSVP0dJClC+umx5nFc5SiMJum3E5aRYwJO4xMaSeuBvrsc
-	P03/RWWJgr+RMyRRVs6t5FxSFMsMbMd66mWNKvlQisiQ6Lqfv5vlHNMVbpTA1EzKGnOR2aMz4FI
-	bxG7IlSxAbmSqXXflvXt8Q5M283SOf3Kg30=
-X-Google-Smtp-Source: AGHT+IHrAfr6s54EMZzdZibt61xiXAEyvwCU0wxpSg2sJKxDaCspoqErH2abtAvmUlYyFr7yIzet5w==
-X-Received: by 2002:a05:651c:b20:b0:302:4113:2023 with SMTP id 38308e7fff4ca-3025451db77mr4619631fa.3.1734112703518;
-        Fri, 13 Dec 2024 09:58:23 -0800 (PST)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-302245cf66csm15409481fa.25.2024.12.13.09.58.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2024 09:58:22 -0800 (PST)
-Message-ID: <8308a825-2f33-4ec6-bfd2-9d3ed31c4a56@linaro.org>
-Date: Fri, 13 Dec 2024 19:58:20 +0200
+	s=arc-20240116; t=1734118465; c=relaxed/simple;
+	bh=WiLw78Fu2MfdYXFWvpfnuLS6ygLLJwiG366txN7q1GI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UAvNcKNYyseIx5DnFt7xmUgBqSAooPFoOCOPEETX5t0H6FIOLUAgwe8EnILLX+3t4B5aHp1j+eZbV+AQQ+iOa8wy3XfaB6hmgifJxH2xYMUdkHBtzEEZVhGXAyMIKawHajsaavL3zNNvqVJsAc/YYoe99BpbHQQNgKeE7W089/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SiXy2iQh; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1734118461;
+	bh=WiLw78Fu2MfdYXFWvpfnuLS6ygLLJwiG366txN7q1GI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=SiXy2iQh7fbVutVuDZxfiiyvsEjTDHyiZSY7kzwGfSs4bNLVgoZU2DyJxMXQOFcmG
+	 pYiZHhSDqN3e1unCuWSiR7SNzj8AWthH8EeYskZX05kOxosn5bxBTVugh5qDHpI7aq
+	 VPUUUzkxs3IEA3vmhi6UlaX31LgqOaCmNP0+fDOfN+lSN64L6NVu6nJD/faU1hXC1v
+	 sd05tmf/o1WfGkx9UQAgj1iWiPttMbpW7hZ2J9mTKbdB98tSM4PEf6D4Id0tyJRtXt
+	 bm2hCW53mkvbzZ8W1+awsxvcuuO/DFdnFRerVjN62EPzO+6g7pMUi55AT2iZj9+czT
+	 A4f0U2NUSSrWQ==
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7250317E37EB;
+	Fri, 13 Dec 2024 20:34:19 +0100 (CET)
+Message-ID: <e8f00be35f9859b5112793a42fe13191eef050cd.camel@collabora.com>
+Subject: Re: [PATCH v1 1/5] media: chips-media: wave5: Fix to display gray
+ color on screen
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
+	hverkuil-cisco@xs4all.nl, sebastian.fricke@collabora.com, 
+	bob.beckett@collabora.com, dafna.hirschfeld@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	lafley.kim@chipsnmedia.com, b-brnich@ti.com, hverkuil@xs4all.nl, 
+	nas.chung@chipsnmedia.com
+Date: Fri, 13 Dec 2024 14:34:17 -0500
+In-Reply-To: <20241209053654.52-2-jackson.lee@chipsnmedia.com>
+References: <20241209053654.52-1-jackson.lee@chipsnmedia.com>
+	 <20241209053654.52-2-jackson.lee@chipsnmedia.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: qcom: camss: Restrict endpoint bus-type to
- D-PHY
-Content-Language: ru-RU
-To: Luca Weiss <luca.weiss@fairphone.com>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Barnabas Czeman <barnabas.czeman@mainlining.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Caleb Connolly <caleb.connolly@linaro.org>, David Heidelberg <david@ixit.cz>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241209-camss-dphy-v1-0-5f1b6f25ed92@fairphone.com>
- <20241209-camss-dphy-v1-2-5f1b6f25ed92@fairphone.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20241209-camss-dphy-v1-2-5f1b6f25ed92@fairphone.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Luca.
-
-On 12/9/24 14:01, Luca Weiss wrote:
-> Currently the Qualcomm CAMSS driver only supports D-PHY while the
-> hardware on most SoCs also supports C-PHY. Until this support is added,
-> check for D-PHY to make it somewhat explicit that C-PHY won't work.
+Le lundi 09 décembre 2024 à 14:36 +0900, Jackson.lee a écrit :
+> When a decoder instance is created, W5_CMD_ERR_CONCEAL register should be
+> initialized to 0. If not set to 0, gray color can occasionally be displayed
+> on screen while decoding.
 > 
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
+> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
->   drivers/media/platform/qcom/camss/camss.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
+>  drivers/media/platform/chips-media/wave5/wave5-hw.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 9fb31f4c18adee886cd0bcf84438a8f27635e07f..b99af35074cdf6fa794a0d2f0d54ecf12ac354d9 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -1855,6 +1855,15 @@ static int camss_of_parse_endpoint_node(struct device *dev,
->   	if (ret)
->   		return ret;
->   
-> +	/*
-> +	 * Most SoCs support both D-PHY and C-PHY standards, but currently only
-> +	 * D-PHY is supported in the driver.
-> +	 */
-> +	if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> +		dev_err(dev, "Unsupported bus type %d\n", vep.bus_type);
-> +		return -EINVAL;
-> +	}
-> +
->   	csd->interface.csiphy_id = vep.base.port;
->   
->   	mipi_csi2 = &vep.bus.mipi_csi2;
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> index c8a905994109..d94cf84c3ee5 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> @@ -585,7 +585,7 @@ int wave5_vpu_build_up_dec_param(struct vpu_instance *inst,
+>  		vpu_write_reg(inst->dev, W5_CMD_NUM_CQ_DEPTH_M1,
+>  			      WAVE521_COMMAND_QUEUE_DEPTH - 1);
+>  	}
+> -
+> +	vpu_write_reg(inst->dev, W5_CMD_ERR_CONCEAL, 0);
+>  	ret = send_firmware_command(inst, W5_CREATE_INSTANCE, true, NULL, NULL);
+>  	if (ret) {
+>  		wave5_vdi_free_dma_memory(vpu_dev, &p_dec_info->vb_work);
 
-My cautious worries were futile, the change works as expected and
-the regression testing on RB5 is passed:
-
-===== begin parsing endpoint /soc@0/camss@ac6a000/ports/port@2/endpoint
-fwnode video bus type not specified (0), mbus type not specified (0)
-lane 0 position 0
-lane 1 position 1
-lane 2 position 2
-lane 3 position 3
-clock lane position 7
-no lane polarities defined, assuming not inverted
-assuming media bus type MIPI CSI-2 D-PHY (5)
-===== end parsing endpoint /soc@0/camss@ac6a000/ports/port@2/endpoint
-
-Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-
---
-Best wishes,
-Vladimir
 
