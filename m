@@ -1,89 +1,150 @@
-Return-Path: <linux-media+bounces-23393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23394-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8AA69F0D26
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 14:17:09 +0100 (CET)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83067168D0A
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 13:17:00 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90A361E048D;
-	Fri, 13 Dec 2024 13:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="FIvXSswD"
-X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D01C9F0FA4
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 15:53:01 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503801E04BA
-	for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 13:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E5932836BF
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 14:53:00 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313721E231C;
+	Fri, 13 Dec 2024 14:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NCJ7DY/D"
+X-Original-To: linux-media@vger.kernel.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8941E2307
+	for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 14:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734095806; cv=none; b=AKI6PgB3t5YPKeoFyY3EIaAhyVtVY3avNtMSz005mQgAADfVlrc+WZE2zgmITwjmgiY1UU6GEb7a/OT6OXE6yMO8EzWMET2pOtfhm5+mMN1YQsJNJjerEWG3115632Ls0kpcoz36M+/QQaz2hXXKxM/Q54MWDvBfXPMvbPEjYOk=
+	t=1734101480; cv=none; b=HhDK4mbUX/5/M7pJZMSDnTGXIFKGBS7GKvFOSR8jjTYnQHIDSQhbrYGwUSYC3az4vX/eTO2fqCim0VA8B/0Rqv+PAwlJ8GMUU0lhCpQEz2FUuGrrRCfllPfFACe9arK9NG+/FfuQrjfzvPD/qLLgA87U1xXJ0+J16PB5Hlbv0/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734095806; c=relaxed/simple;
-	bh=fqMXtZFTJ5yfaA98zLUtbOkCk8pf17Unml0ehfUInRQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gne2po7MleTfzwZOSg7myzQQ3czSs/6VCdrsl6IGLO99uWzaS/UL7DcPPbV7pFSagoY5l4dcUP+1ox26SN1VFiMc23dzmKIv6fcfveZbJ1EwPzKgS+pdkcD1VccQSYsx/SfIhaIw+fVT246LkCgFbelOphuUOfU9t906NHK5cKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=FIvXSswD; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=DHeWm/40OdxIiWFGAW+gp6smy0EiD1ry5wX5+E15cag=; b=FIvXSswDvVEbJJ6+1Hoh4dtexN
-	LeJKbsbzLCINuWzAhr2D/y4QHxy1WKqlqzqD0bRoEcUihGLjN6QdMj3xXeHqcAZdDKdqOKrKdN6Ws
-	0IJI/yhmMt5iL1ED1Fnwst0ZEL3CIUQ3tVcB33Tp2EPOcK6PIwIbBGvbanVxFcOF7rq9TCaK6gCPV
-	WB6ta0BA0Pko52GT5FhNhVxU3getJWVuo9FSNlHjCaKkbWi6lpoeKwp/pe6djhv+N4fbnuu6kaDjl
-	AatAeDbQKa45iYtm5jW/FSbFmqNxJPZKLrPXk+nVYCFiJW5DstjCjPsDsDgdkeKFxT66o31wG/bzx
-	+CIS/WTQ==;
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1tM5XA-0000CC-1n;
-	Fri, 13 Dec 2024 13:16:44 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-	by slave0 with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1tM5X9-009m9u-0f;
-	Fri, 13 Dec 2024 13:16:43 +0000
-From: Jenkins <jenkins@linuxtv.org>
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: builder@linuxtv.org
-Subject: Re: [GIT PULL FOR 6.14] Various Hantro changes (#106070)
-Date: Fri, 13 Dec 2024 13:16:40 +0000
-Message-Id: <20241213131640.2330065-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241213130024.wacav6zbxg74ist4@basti-XPS-13-9310>
-References: 
+	s=arc-20240116; t=1734101480; c=relaxed/simple;
+	bh=JRKXz+x1ipybq/qKRd9kzPv0pvPRblUOiJpN/6y6Ki8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=O2zAbxtG5K/Fxq0BHQtZ86ihLC0NihIuqbFBkMXyfZQJBbxN/qV04nxFqp/vREn76rdMqWHxEMHJTCOHCmRMygu+goyljMgQMMCPPF5QSd68dgRLGkb7uvYhnz3wyWWWq15VVUpWXPBQoGmtQU+Br0RfdCTypnYJCcj3Y4YUm2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NCJ7DY/D; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734101479; x=1765637479;
+  h=date:from:to:cc:subject:message-id;
+  bh=JRKXz+x1ipybq/qKRd9kzPv0pvPRblUOiJpN/6y6Ki8=;
+  b=NCJ7DY/DX7nX8NfsomQZ2AjNjj26LtS7NPURhPXFhLUXcW8kA5yhSVtR
+   GGtEyeUB4ZBHmD5mB8qvtk2KQO0vqIkgLVmsEZUd00hfLzfzdmR1FYcRi
+   t4iYh9tlCyu/xDq6qzhVMlqGrgKueDtXqPiFWkvEXWPdwY4+zGGUAzFRA
+   TiE5QMdTbIJ9K8UT7hnW2nTfXzDnZo9wdc2E3lg73dGf1dlxCmB3kQoxA
+   wd90NRDsLZE0d/69pRPXfi5azc8j0GUVYlvUmUeTifBXBmqrNmosYlCQc
+   iZMtdeF/e/IwozYl8r1SckvhTU9767sZesKNwafjy6X2QNy3lTO/7l1CE
+   g==;
+X-CSE-ConnectionGUID: 9TldhFDxQ7SL1NAs0zTH9g==
+X-CSE-MsgGUID: wJL6+DdKQwCGGNt2VLohjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="22142456"
+X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
+   d="scan'208";a="22142456"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 06:51:17 -0800
+X-CSE-ConnectionGUID: pFLvamEeQZOFrUw+N4vJjg==
+X-CSE-MsgGUID: nk7u9NqvQlisNPOL4IC/Aw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
+   d="scan'208";a="96616834"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 13 Dec 2024 06:51:16 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tM70c-000C7l-0F;
+	Fri, 13 Dec 2024 14:51:14 +0000
+Date: Fri, 13 Dec 2024 22:50:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ 686f27f7ea376ee5001783489c70a6c2e0bfcd6d
+Message-ID: <202412132251.hD5fhdt0-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: builder@linuxtv.org
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: 686f27f7ea376ee5001783489c70a6c2e0bfcd6d  media: stm32: dcmipp: add core support for the stm32mp25
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20241213130024.wacav6zbxg74ist4@basti-XPS-13-9310/
-Build log: https://builder.linuxtv.org/job/patchwork/407517/
-Build time: 00:08:34
-Link: https://lore.kernel.org/linux-media/20241213130024.wacav6zbxg74ist4@basti-XPS-13-9310
+elapsed time: 1457m
 
-gpg: Signature made Fri 13 Dec 2024 10:54:47 AM UTC
-gpg:                using RSA key B71AEACB392868D77606602EC26580EBB1C88525
-gpg: requesting key C26580EBB1C88525 from hkps://keyserver.ubuntu.com
-gpg: Can't check signature: No public key
+configs tested: 57
+configs skipped: 0
 
-Summary: no issues. All 4 looked fine.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+arc                  randconfig-001-20241213    gcc-13.2.0
+arc                  randconfig-002-20241213    gcc-13.2.0
+arm                  randconfig-001-20241213    clang-16
+arm                  randconfig-002-20241213    clang-18
+arm                  randconfig-003-20241213    gcc-14.2.0
+arm                  randconfig-004-20241213    clang-18
+arm64                randconfig-001-20241213    gcc-14.2.0
+arm64                randconfig-002-20241213    gcc-14.2.0
+arm64                randconfig-003-20241213    clang-18
+arm64                randconfig-004-20241213    gcc-14.2.0
+csky                 randconfig-001-20241213    gcc-14.2.0
+csky                 randconfig-002-20241213    gcc-14.2.0
+hexagon              randconfig-001-20241213    clang-20
+hexagon              randconfig-002-20241213    clang-20
+i386       buildonly-randconfig-001-20241213    clang-19
+i386       buildonly-randconfig-002-20241213    gcc-12
+i386       buildonly-randconfig-003-20241213    gcc-12
+i386       buildonly-randconfig-004-20241213    clang-19
+i386       buildonly-randconfig-005-20241213    gcc-12
+i386       buildonly-randconfig-006-20241213    gcc-12
+loongarch            randconfig-001-20241213    gcc-14.2.0
+loongarch            randconfig-002-20241213    gcc-14.2.0
+nios2                randconfig-001-20241213    gcc-14.2.0
+nios2                randconfig-002-20241213    gcc-14.2.0
+parisc               randconfig-001-20241213    gcc-14.2.0
+parisc               randconfig-002-20241213    gcc-14.2.0
+powerpc              randconfig-001-20241213    gcc-14.2.0
+powerpc              randconfig-002-20241213    clang-20
+powerpc              randconfig-003-20241213    gcc-14.2.0
+powerpc64            randconfig-001-20241213    gcc-14.2.0
+powerpc64            randconfig-002-20241213    gcc-14.2.0
+powerpc64            randconfig-003-20241213    gcc-14.2.0
+riscv                randconfig-001-20241213    gcc-14.2.0
+riscv                randconfig-002-20241213    gcc-14.2.0
+s390                            allmodconfig    clang-19
+s390                            allyesconfig    gcc-14.2.0
+s390                 randconfig-001-20241213    gcc-14.2.0
+s390                 randconfig-002-20241213    clang-19
+sh                              allmodconfig    gcc-14.2.0
+sh                              allyesconfig    gcc-14.2.0
+sh                   randconfig-001-20241213    gcc-14.2.0
+sh                   randconfig-002-20241213    gcc-14.2.0
+sparc                           allmodconfig    gcc-14.2.0
+sparc                randconfig-001-20241213    gcc-14.2.0
+sparc                randconfig-002-20241213    gcc-14.2.0
+sparc64              randconfig-001-20241213    gcc-14.2.0
+sparc64              randconfig-002-20241213    gcc-14.2.0
+um                   randconfig-001-20241213    gcc-12
+um                   randconfig-002-20241213    clang-16
+x86_64     buildonly-randconfig-001-20241213    gcc-12
+x86_64     buildonly-randconfig-002-20241213    gcc-12
+x86_64     buildonly-randconfig-003-20241213    gcc-12
+x86_64     buildonly-randconfig-004-20241213    gcc-12
+x86_64     buildonly-randconfig-005-20241213    gcc-12
+x86_64     buildonly-randconfig-006-20241213    clang-19
+xtensa               randconfig-001-20241213    gcc-14.2.0
+xtensa               randconfig-002-20241213    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
