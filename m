@@ -1,150 +1,104 @@
-Return-Path: <linux-media+bounces-23394-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D01C9F0FA4
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 15:53:01 +0100 (CET)
-Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA77C9F109E
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 16:15:37 +0100 (CET)
+Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E5932836BF
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 14:53:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D489E1883C70
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 15:14:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313721E231C;
-	Fri, 13 Dec 2024 14:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E1661E2009;
+	Fri, 13 Dec 2024 15:14:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NCJ7DY/D"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="Y1UgMspa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8941E2307
-	for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 14:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734101480; cv=none; b=HhDK4mbUX/5/M7pJZMSDnTGXIFKGBS7GKvFOSR8jjTYnQHIDSQhbrYGwUSYC3az4vX/eTO2fqCim0VA8B/0Rqv+PAwlJ8GMUU0lhCpQEz2FUuGrrRCfllPfFACe9arK9NG+/FfuQrjfzvPD/qLLgA87U1xXJ0+J16PB5Hlbv0/0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734101480; c=relaxed/simple;
-	bh=JRKXz+x1ipybq/qKRd9kzPv0pvPRblUOiJpN/6y6Ki8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=O2zAbxtG5K/Fxq0BHQtZ86ihLC0NihIuqbFBkMXyfZQJBbxN/qV04nxFqp/vREn76rdMqWHxEMHJTCOHCmRMygu+goyljMgQMMCPPF5QSd68dgRLGkb7uvYhnz3wyWWWq15VVUpWXPBQoGmtQU+Br0RfdCTypnYJCcj3Y4YUm2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NCJ7DY/D; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734101479; x=1765637479;
-  h=date:from:to:cc:subject:message-id;
-  bh=JRKXz+x1ipybq/qKRd9kzPv0pvPRblUOiJpN/6y6Ki8=;
-  b=NCJ7DY/DX7nX8NfsomQZ2AjNjj26LtS7NPURhPXFhLUXcW8kA5yhSVtR
-   GGtEyeUB4ZBHmD5mB8qvtk2KQO0vqIkgLVmsEZUd00hfLzfzdmR1FYcRi
-   t4iYh9tlCyu/xDq6qzhVMlqGrgKueDtXqPiFWkvEXWPdwY4+zGGUAzFRA
-   TiE5QMdTbIJ9K8UT7hnW2nTfXzDnZo9wdc2E3lg73dGf1dlxCmB3kQoxA
-   wd90NRDsLZE0d/69pRPXfi5azc8j0GUVYlvUmUeTifBXBmqrNmosYlCQc
-   iZMtdeF/e/IwozYl8r1SckvhTU9767sZesKNwafjy6X2QNy3lTO/7l1CE
-   g==;
-X-CSE-ConnectionGUID: 9TldhFDxQ7SL1NAs0zTH9g==
-X-CSE-MsgGUID: wJL6+DdKQwCGGNt2VLohjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="22142456"
-X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="22142456"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 06:51:17 -0800
-X-CSE-ConnectionGUID: pFLvamEeQZOFrUw+N4vJjg==
-X-CSE-MsgGUID: nk7u9NqvQlisNPOL4IC/Aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="96616834"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Dec 2024 06:51:16 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tM70c-000C7l-0F;
-	Fri, 13 Dec 2024 14:51:14 +0000
-Date: Fri, 13 Dec 2024 22:50:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- 686f27f7ea376ee5001783489c70a6c2e0bfcd6d
-Message-ID: <202412132251.hD5fhdt0-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AA51E102E
+	for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 15:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734102863; cv=pass; b=EIGd1YbExxJyiQA6d0P4tbB9x5QCs9JTPu7uRCS2zX7/AZqL7ZQkyA3xlww32CHLq8WMiWqvyg5azDJeSowcWK3NLtJWq//2BX6qy+CJ+qR1Z1bk+0qW6EDQ2cIPDz0s1nUfLdKER0W54ZmXaF4rBxihPkSn84MTSKx74Qc1I0s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734102863; c=relaxed/simple;
+	bh=VU3ecQ2d/AAPT+41mtd+nL9tDIY9BWAktVTbFz+h1KU=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ouC3T0d3wGX8zc4DR8824dNljfziOTdhyQY9wvRh0NiXWpNq+1yDU00Flb0kMX7U58i17hAKRrxN5PMnWThS6E0XlhtGGp1+qe2cMsllgeopkrYxF9xhaUGh26gSgWuVQC/gcEwIOgnVPN4YHhRkSExANSeNLCcCU88VCt1sFdA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=Y1UgMspa; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1734102860; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=TA3wD4sOKsDle57uTuzr4Ej3Xc3fq/P6Kqc9wmbHyuIfCrxdrocozN1PHbs4l3ZewGdFzVUwAqJTLKiiTSHqA0M0ASW34kMh3JHyFACB6dVqnKJISWeRaFj1NUjr+fK45uxauDQzMM72hnQYg9irDFvgpxz7OyuwqQ4HHBqYMLM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1734102860; h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=KoQUBJAQPtiSw8SVhSQBVYRgnqAFyl5lPGskZ9U+XwE=; 
+	b=kat7STf3IOPbMkuzb4OcHIK8PDo8rDrfmUQ1/DmNp5vqoUGJ+PwsPehHM/X8SA5dTgXEfT2v8bO6ewNgWWvQf7eQGYCyZRUn7wkyVaZJ0LWjepZ7kQKvBDXbP7TfNoB1N7pGIvAjQ7PF50qDghFkA7G3m5mIrBavDWWylrPlV80=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734102860;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Subject:Subject:Message-ID:MIME-Version:Content-Type:Message-Id:Reply-To:Cc;
+	bh=KoQUBJAQPtiSw8SVhSQBVYRgnqAFyl5lPGskZ9U+XwE=;
+	b=Y1UgMspaEZwAzEAbYd0HL6hcP+7V00Pbq0mu0/GjSmpt8Cm7yhz7kVFR5Tkyc99S
+	YlWvEB/riXmkaSfG5oKTb6w8/Es7bdTdDiNoH79oaQNtN3g4wPjtEZlInt6xn/XhLvw
+	RKe/wn0OAblXpsfiFjOB1DCiVMR90TgJzsirvLGQ=
+Received: by mx.zohomail.com with SMTPS id 1734102859192655.3860008038012;
+	Fri, 13 Dec 2024 07:14:19 -0800 (PST)
+Date: Fri, 13 Dec 2024 16:14:15 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.13] FIXES: Vcodec fixes
+Message-ID: <20241213151415.7opofgiz25lpmn5m@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+X-ZohoMailClient: External
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: 686f27f7ea376ee5001783489c70a6c2e0bfcd6d  media: stm32: dcmipp: add core support for the stm32mp25
+Hey Mauro & Hans,
 
-elapsed time: 1457m
+this is my first time doing a pull request for the fixes branch, so
+sorry in advance if I did something incorrectly. These are two small
+fixes, which I would like to see landing in 6.13 if that is still
+possible.
 
-configs tested: 57
-configs skipped: 0
+---
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The following changes since commit 2dd59fe0e19e1ab955259978082b62e5751924c7:
 
-tested configs:
-arc                  randconfig-001-20241213    gcc-13.2.0
-arc                  randconfig-002-20241213    gcc-13.2.0
-arm                  randconfig-001-20241213    clang-16
-arm                  randconfig-002-20241213    clang-18
-arm                  randconfig-003-20241213    gcc-14.2.0
-arm                  randconfig-004-20241213    clang-18
-arm64                randconfig-001-20241213    gcc-14.2.0
-arm64                randconfig-002-20241213    gcc-14.2.0
-arm64                randconfig-003-20241213    clang-18
-arm64                randconfig-004-20241213    gcc-14.2.0
-csky                 randconfig-001-20241213    gcc-14.2.0
-csky                 randconfig-002-20241213    gcc-14.2.0
-hexagon              randconfig-001-20241213    clang-20
-hexagon              randconfig-002-20241213    clang-20
-i386       buildonly-randconfig-001-20241213    clang-19
-i386       buildonly-randconfig-002-20241213    gcc-12
-i386       buildonly-randconfig-003-20241213    gcc-12
-i386       buildonly-randconfig-004-20241213    clang-19
-i386       buildonly-randconfig-005-20241213    gcc-12
-i386       buildonly-randconfig-006-20241213    gcc-12
-loongarch            randconfig-001-20241213    gcc-14.2.0
-loongarch            randconfig-002-20241213    gcc-14.2.0
-nios2                randconfig-001-20241213    gcc-14.2.0
-nios2                randconfig-002-20241213    gcc-14.2.0
-parisc               randconfig-001-20241213    gcc-14.2.0
-parisc               randconfig-002-20241213    gcc-14.2.0
-powerpc              randconfig-001-20241213    gcc-14.2.0
-powerpc              randconfig-002-20241213    clang-20
-powerpc              randconfig-003-20241213    gcc-14.2.0
-powerpc64            randconfig-001-20241213    gcc-14.2.0
-powerpc64            randconfig-002-20241213    gcc-14.2.0
-powerpc64            randconfig-003-20241213    gcc-14.2.0
-riscv                randconfig-001-20241213    gcc-14.2.0
-riscv                randconfig-002-20241213    gcc-14.2.0
-s390                            allmodconfig    clang-19
-s390                            allyesconfig    gcc-14.2.0
-s390                 randconfig-001-20241213    gcc-14.2.0
-s390                 randconfig-002-20241213    clang-19
-sh                              allmodconfig    gcc-14.2.0
-sh                              allyesconfig    gcc-14.2.0
-sh                   randconfig-001-20241213    gcc-14.2.0
-sh                   randconfig-002-20241213    gcc-14.2.0
-sparc                           allmodconfig    gcc-14.2.0
-sparc                randconfig-001-20241213    gcc-14.2.0
-sparc                randconfig-002-20241213    gcc-14.2.0
-sparc64              randconfig-001-20241213    gcc-14.2.0
-sparc64              randconfig-002-20241213    gcc-14.2.0
-um                   randconfig-001-20241213    gcc-12
-um                   randconfig-002-20241213    clang-16
-x86_64     buildonly-randconfig-001-20241213    gcc-12
-x86_64     buildonly-randconfig-002-20241213    gcc-12
-x86_64     buildonly-randconfig-003-20241213    gcc-12
-x86_64     buildonly-randconfig-004-20241213    gcc-12
-x86_64     buildonly-randconfig-005-20241213    gcc-12
-x86_64     buildonly-randconfig-006-20241213    clang-19
-xtensa               randconfig-001-20241213    gcc-14.2.0
-xtensa               randconfig-002-20241213    gcc-14.2.0
+   media: dvb-frontends: dib3000mb: fix uninit-value in dib3000_write_reg (2024-12-11 17:54:19 +0100)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+are available in the Git repository at:
+
+   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.13-vcodec-fixes
+
+for you to fetch changes up to 531a8089b1f45cccd6e9a959bfbd20ecccdb56d4:
+
+   media: mediatek: vcodec: mark vdec_vp9_slice_map_counts_eob_coef noinline (2024-12-13 16:10:18 +0100)
+
+----------------------------------------------------------------
+Two small fixes for VCodec
+
+----------------------------------------------------------------
+Arnd Bergmann (2):
+       media: mtk-vcodec: venc: avoid -Wenum-compare-conditional warning
+       media: mediatek: vcodec: mark vdec_vp9_slice_map_counts_eob_coef noinline
+
+  .../platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c     | 3 ++-
+  drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c  | 6 +++++-
+  2 files changed, 7 insertions(+), 2 deletions(-)
+
+Regards,
+Sebastian
 
