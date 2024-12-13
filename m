@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-23371-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23372-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652609F09DE
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 11:42:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F1B9F09E7
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 11:44:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BC70282803
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 10:42:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1C9328101A
+	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 10:44:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FDF61C3BE5;
-	Fri, 13 Dec 2024 10:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8793F1C1AB6;
+	Fri, 13 Dec 2024 10:44:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XIpPOtYl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKq2nN//"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDBB1BB6B8;
-	Fri, 13 Dec 2024 10:42:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B051B392A;
+	Fri, 13 Dec 2024 10:44:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734086538; cv=none; b=AYfGEtyGVmAsK+4hwfkvkMeffC+Mm12y4045B3XQuWLa7V3OABDOesHJtGwGOweEHO1/JlUi7i3QJ9gzauypNl2V485zSWYKbSqHazYHJr7htLzKEPTgXkNdt+wqg7zqWDr80b35KdhfgGhAY39CdE7l1U/dTn75gv9ZTZO/cbA=
+	t=1734086650; cv=none; b=btBLOilhF6PUORT8dD4X19FDY+1xLdLkW/zyP5rMzYkBkDZpW1gsIEKBlf9+PJNe8S/meWtmGf5K54VxremG4lZPTsBBPQL07hOwYt4iN/2S8UrfDOHSV9xbHMHktc3n0ZzMMhASt3Dh9U3HUHr0L3ZaGV0Fp/ESJIBX4WSf5Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734086538; c=relaxed/simple;
-	bh=YCRSfsCR0H7j5DT02vvh1WjN/AA7pKlT4vzd9klUb9c=;
+	s=arc-20240116; t=1734086650; c=relaxed/simple;
+	bh=CziF+LswqMPGIPOPc6TJWRs75mYixmRsJvDU27/90rw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzqTyq5OooVToEvH4zyndRsP7okbwg67uoV1v/VCBVRUvFNMZpHQH8C3j7KvstBqsoxGqMoygod1A/wRXiCfJCDzRvE6k4SufVXaKeAVYB0+1yVeu7pvhwS7KZSi8vggkGw3GRBXsfaXz3uGgiM1OfB19ibW8SZMielruss8Z3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XIpPOtYl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 114EEC4CED0;
-	Fri, 13 Dec 2024 10:42:16 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=goTH4I3dZbNHtk3oq7AIvuvUlL/mRjygjUsr6E/i1BCmGMSDg4S/m4fT9mwOvj9AHsOC8X1PMhuAUMjxts5XmKtdddmyWGjFl5SJcnI+08gRgpOrccV2QDqlqwHmUn5RcYkvlTDeMx+lNyg8qk8iBwB/wcKHrhffk0QL+kw2gSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKq2nN//; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C659C4CED0;
+	Fri, 13 Dec 2024 10:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734086537;
-	bh=YCRSfsCR0H7j5DT02vvh1WjN/AA7pKlT4vzd9klUb9c=;
+	s=k20201202; t=1734086649;
+	bh=CziF+LswqMPGIPOPc6TJWRs75mYixmRsJvDU27/90rw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XIpPOtYl+1Ss8ywsdiPsmsy9xA4GgA4kMKsRS9gp3SYldVavtdGgsKqf4EdP+5L/g
-	 56VMcEbMgL1Xr2mi5EZG5aThoMb3tdcEurNcY/HbNOFo4kwoBGwCn5mp5zkmU9299u
-	 3YdIMZ4CAEY1GBxn79TMcb7xIeuWBbHTx1nX2dafz0jmUt4g8kTuuzPS0NWcZ/cQrD
-	 /EJIJnyuSzQVH/Jej3EiqBejmnBSuO5Y+vMb2kgEXfvbqptJnf2Kvhg2zXQ/Ht5Tq5
-	 jwGJG3VgtNp6l4bSCBvvhtZFwJtnTo9yLhXeMxrDqp3Ia9gRRz9nme3zjzu9jQ5W0P
-	 qYp8yeERHNPtg==
-Date: Fri, 13 Dec 2024 11:42:14 +0100
+	b=dKq2nN//uul4VV3ZE8XRwfemG7sz28GiW2aVoHH5nv2gUfSP6E1mmywqMETewzV8/
+	 0lAxgajCRBOuY/dj3UUbplY7Hmj9V1yt3cHTKPSjeo2dfIZrCtqB8KRPdEjOpgCw/G
+	 dap4h9gXuvh3N2FNNOz7iD5v0X0kwUIzJ5/+2DfauiooFO3bcawNlX0X9aZQOJPQYo
+	 TlBIvrMVDF1X2UzfImeMHGCq1gIRIEISnwVMhlAOFXTMTYdufneyjyybzIDNE3pclt
+	 D02XBoAblNaqnOoCU4onMls+wIfqus4iSY17ota2W+TdGLc7J1Fs9QWglxQ8ILx/h2
+	 ibAi+C/1FcKRQ==
+Date: Fri, 13 Dec 2024 11:44:05 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Johnny Liu <johnliu@nvidia.com>
 Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com, 
@@ -50,9 +50,11 @@ Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com,
 	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
 	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 0/5] Support host1x actmon
-Message-ID: <jgqdgq6mifzex3tonl4sxbehwmcjo4jksfqmh7l4z5e2v4dqsj@uouomf3gyj7v>
+Subject: Re: [PATCH v1 1/5] dt-bindings: display: tegra: Add actmon
+ information
+Message-ID: <34kg2aoaeem3bjqh6vli43hc63tvfx7uumkmkre3wkvek2neyu@jhj5n3om7vzd>
 References: <20241210174554.18869-1-johnliu@nvidia.com>
+ <20241210174554.18869-2-johnliu@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,26 +63,17 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241210174554.18869-1-johnliu@nvidia.com>
+In-Reply-To: <20241210174554.18869-2-johnliu@nvidia.com>
 
-On Tue, Dec 10, 2024 at 09:45:49AM -0800, Johnny Liu wrote:
-> Activity monitoring (actmon for short) is a means to dynamically
-> measure the utilization of units in the system to help drive software
-> power management policies.
+On Tue, Dec 10, 2024 at 09:45:50AM -0800, Johnny Liu wrote:
+> An activity monitor (actmon) is used to measure the device runtime
+> utilization to help drive software power management policies.
 > 
+> Extend the reg space to include actmon aperture for actmon configuration
+> through host1x.
 
-Is this a resend or v2? Please always mark your patches appropriately -
-see submitting patches document.
-
-b4 diff '20241210174554.18869-1-johnliu@nvidia.com'
-Grabbing thread from lore.kernel.org/all/20241210174554.18869-1-johnliu@nvidia.com/t.mbox.gz
----
-Analyzing 6 messages in the thread
-Could not find lower series to compare against.
-
-But I am sure I saw it somewhere...
-
-Or just use b4, so all this problems disappear.
+We kind of see that from the diff. Say what we do not see, e.g. ABI
+impact or why this is flexible/optional for existing devices.
 
 Best regards,
 Krzysztof
