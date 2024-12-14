@@ -1,60 +1,80 @@
-Return-Path: <linux-media+bounces-23419-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23420-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861B99F2058
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 19:41:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324549F2079
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 19:50:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDE5816088C
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 18:41:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2CC3167785
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 18:49:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F94F1ABEB0;
-	Sat, 14 Dec 2024 18:41:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB71B1AB531;
+	Sat, 14 Dec 2024 18:49:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0XHQ6cIM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y59S4kWR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489AB1A8F6B;
-	Sat, 14 Dec 2024 18:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A794B1A8F79;
+	Sat, 14 Dec 2024 18:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734201674; cv=none; b=oATuKlt+pvKRK/hILyIbHFxHOQZmG4HlBOPykutu/0ESWKbQKQW17rakmI5nbMbEoBYU+TLnDoNIwnqcHd/l4dzD9nxRCq/kBRYbbu3lLHppkqjkijgkOpsOI5YMHgqXSnmCAupgIGl0CqYXn24/IVqKhBjCmW1kvygpVQN+Fz4=
+	t=1734202153; cv=none; b=NqY6CUqoqlJ1zMC789JzNQ2RP7JJB8uAoZaI2IeiidTPhe8kQ02fc13KiEhF9qc84ipmbRdN10dd7mX/59dRjdZ26jjXnpZOaKh+YKGdFBrSrCp372c0VjWYLI03chw9bREo1/tOI+MOECxn7ugz6BU5jPgLB86pdXmoYLlR/qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734201674; c=relaxed/simple;
-	bh=qP01awV62yJKZkQCb4OBPUOVVOHgBTtxBBqfvvfobeQ=;
+	s=arc-20240116; t=1734202153; c=relaxed/simple;
+	bh=XrdtM6njkrXNWozn3mpzxyYmI3G3n7Yz2dgowLZPE4A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rL+uAui+YegFiwBSYoBzTPaWDsyYaaBke6LO8jo4Nh5tiM6p8B9JvHkwlLVxEJh3/szBpyaoiamaTY0EzaiukKoSOJJGobfvjLW2wl5GQZwkc8uFFc1O73SdxecXrsKskqH4zF6BIYUZi4va8ZzZOoHTO0jNZN0f/QhecRIDx4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0XHQ6cIM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C96FC4CED1;
-	Sat, 14 Dec 2024 18:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1734201673;
-	bh=qP01awV62yJKZkQCb4OBPUOVVOHgBTtxBBqfvvfobeQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0XHQ6cIMxKGMSutwtAtSPHjhyFH0Pl7KbeDI8W559wjGW+JnwnFgUSUEXbOggTorh
-	 YvzhD47IwgbZjBsmrhYmNZ7KKDIk7bEYf4F02t8FA/R2aX8xBVQogB1SDNUmTJLUCv
-	 aRBKEL2fg0isiDMMTq3R0wsSXV3O+luKYl+d0ilM=
-Date: Sat, 14 Dec 2024 19:41:10 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
-	monstr@monstr.eu, michal.simek@xilinx.com, git@xilinx.com,
-	stable@kernel.org, Sam Bobrowicz <sam@elite-embedded.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	"open list:V4L2 CAMERA SENSOR DRIVERS" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2] media: ov5640: fix get_light_freq on auto
-Message-ID: <2024121425-ended-coastal-0c46@gregkh>
-References: <2e79be9185cbb0dbe40e670eee996cf290bab0a6.1732264079.git.michal.simek@amd.com>
- <Z1v2VRzgUVpHZvXR@kekkonen.localdomain>
- <05ce02de-6eed-4f28-8052-56ca9cac4b64@amd.com>
- <2024121303-arrange-hydration-7cf4@gregkh>
- <Z13NZ0lTeTecuC57@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=u/7mYr9CMw7/0dDguu4SuFeGJ/3N8yG1FUPT5HTmL/rnsRnKyecEpxKYq8XyhtaEDaK5XXNutWVokFWzkzA+HfAo2MH98vjYehNVAN0Cekv2sPMA0RYVSehnOmf+G/F3QI7NtZpkORCYIzE9L5KClaVsnC9KfwMBbS4DAAe7wpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y59S4kWR; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734202152; x=1765738152;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XrdtM6njkrXNWozn3mpzxyYmI3G3n7Yz2dgowLZPE4A=;
+  b=Y59S4kWRH2wyGEQ33QnXWbe1YJqUbUQti9knIv9gN1wptm7gnh+IwaOW
+   r2FyAgWQVYCeS0suVvIAXovSsGUn4lbN/KQxhgwcw0NALR3wVMLk8kXyc
+   tYWVLYNZzVGyRn8JYTv81TJhP/uenxzPLf312WwbOdh75bW/UywFD4b9/
+   zsHI9y2p6MCO5cd6fyOAfAuyksTeQ63qgsEOqYVvY3BmKRM9wm2CEYNGq
+   L5W0pbyCRPBH6IOuB5riC7cz1uKevK3ICKZZdle+S2tXk0elOuvfHleD2
+   LVjD1seHlx8WannDkOooNqRtyUQVz4tfLlS6hbaYNCXoWXZMJERcZiIHC
+   g==;
+X-CSE-ConnectionGUID: iBp44EnLRs6dHJt5dzxXpA==
+X-CSE-MsgGUID: lUclV/auS6q6ZgI3Q26uJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="34681197"
+X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
+   d="scan'208";a="34681197"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 10:49:11 -0800
+X-CSE-ConnectionGUID: xiaTl1xxTTe9oBEclDhZ6A==
+X-CSE-MsgGUID: UBrifzzRTBid6SSMnNv7EA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="96681526"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 10:49:10 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4E42E11FA2A;
+	Sat, 14 Dec 2024 20:49:06 +0200 (EET)
+Date: Sat, 14 Dec 2024 18:49:06 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 12/15] media: i2c: ds90ub960: Handle errors in
+ ub960_log_status_ub960_sp_eq()
+Message-ID: <Z13TIvIt7Eh_ehHA@kekkonen.localdomain>
+References: <20241206-ub9xx-fixes-v4-0-466786eec7cc@ideasonboard.com>
+ <20241206-ub9xx-fixes-v4-12-466786eec7cc@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,51 +83,18 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z13NZ0lTeTecuC57@kekkonen.localdomain>
+In-Reply-To: <20241206-ub9xx-fixes-v4-12-466786eec7cc@ideasonboard.com>
 
-On Sat, Dec 14, 2024 at 06:24:39PM +0000, Sakari Ailus wrote:
-> Hi Greg,
+On Fri, Dec 06, 2024 at 10:26:48AM +0200, Tomi Valkeinen wrote:
+> Add error handling for i2c read/write calls to
+> ub960_log_status_ub960_sp_eq().
 > 
-> On Fri, Dec 13, 2024 at 12:12:18PM +0100, Greg Kroah-Hartman wrote:
-> > On Fri, Dec 13, 2024 at 11:30:38AM +0100, Michal Simek wrote:
-> > > Hi Ailus, +Greg
-> > > 
-> > > On 12/13/24 09:54, Sakari Ailus wrote:
-> > > > Hi Michal,
-> > > > 
-> > > > Thanks for the patch.
-> > > > 
-> > > > On Fri, Nov 22, 2024 at 09:28:01AM +0100, Michal Simek wrote:
-> > > > > From: Sam Bobrowicz <sam@elite-embedded.com>
-> > > > > 
-> > > > > Light frequency was not properly returned when in auto
-> > > > > mode and the detected frequency was 60Hz.
-> > > > > 
-> > > > > Fixes: 19a81c1426c1 ("[media] add Omnivision OV5640 sensor driver")
-> > > > > Signed-off-by: Sam Bobrowicz <sam@elite-embedded.com>
-> > > > > Signed-off-by: Michal Simek <michal.simek@amd.com>
-> > > > > Cc: <stable@kernel.org>
-> > 
-> > That address is totally acceptable.
-> 
-> The documentation (Documentation/process/stable-kernel-rules.rst) tells to
-> use stable@vger.kernel.org nevertheless (we're not discussing the latter
-> option here):
-> 
-> To have a patch you submit for mainline inclusion later automatically picked up
-> for stable trees, add this tag in the sign-off area::
-> 
->   Cc: stable@vger.kernel.org
-> 
-> Use ``Cc: stable@kernel.org`` instead when fixing unpublished vulnerabilities:
-> it reduces the chance of accidentally exposing the fix to the public by way of
-> 'git send-email', as mails sent to that address are not delivered anywhere.
+> Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Link: https://lore.kernel.org/all/Zv40EQSR__JDN_0M@kekkonen.localdomain/
 
-Yes, either works.  But to keep the "signal" of "hey, look, a security
-bug!" down, feel free to use stable@kernel.oorg also everywhere just to
-make the bad guys have to do more work :)
+I've replaced these with Closes: to make checkpatch.pl happy. The CI should
+be able to tell this nowadays. Same for a few others in the set.
 
-thanks,
-
-greg k-h
+-- 
+Sakari Ailus
 
