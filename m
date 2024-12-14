@@ -1,127 +1,122 @@
-Return-Path: <linux-media+bounces-23409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23410-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4ABA9F1B7C
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 01:50:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E3509F1C85
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 05:12:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03FB416B1D9
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 00:50:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA6C2188D82F
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 04:12:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E98110A1E;
-	Sat, 14 Dec 2024 00:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF23038DE1;
+	Sat, 14 Dec 2024 04:12:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LRnV8jwO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuE14pFy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF98C2C6
-	for <linux-media@vger.kernel.org>; Sat, 14 Dec 2024 00:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD41168B1;
+	Sat, 14 Dec 2024 04:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734137398; cv=none; b=LijpUbnFC9DfaOZIYK8VT+rlpqxYwUkxuNdjqZn3GjCI7zi4Xod305Qm0Kj8m9ffYjh+ibdcrqJxEvQIyGtbE2O+CHx4Gh7+MpkZn5ejnnyaw9sP8Sfredqtw2qK8S1P9r/OdgrIQgygCOU+WZs3cgm9qAdFJGEnuX+F3PhuNrw=
+	t=1734149529; cv=none; b=blOmUfsqwwtIXGvmHOiu5HpZHkytj7TFBvD71NKXtOLedhFe7PUx7EnD/W+/oKQrTh8pnF/ZQTCL0KYU6QCCxbfkcZq0WBZc134qlfFS5Q6bhsbjsKrgz1/+L/lb6aWRt3nWBK1TrSEShWUHTDFTdHZlVsD4EzEjWMno3SU2jdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734137398; c=relaxed/simple;
-	bh=LF9f2q7wQ5vyQD4uKD7ZO6qHf8a3O2obFR51imVhytg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K9G8JKi03C97o9DhuID1+Un8MgCFo+X35YSF1Mgx1Fyg0FKJz4fKn5fZyRECA9oz8BvfzKZRfbFZrl+lZHEoweQ23Z+8ik/n8K9Epclr5QgLQZuYioUyskx6/l6/nkAXpDs8KPSkK96oxv6NSwMVznGvxeVjbMpIREVkrUrS7yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LRnV8jwO; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38633b5dbcfso2520879f8f.2
-        for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 16:49:56 -0800 (PST)
+	s=arc-20240116; t=1734149529; c=relaxed/simple;
+	bh=Aujp23MA7YyHDLJ2MbjCd8wyARqmkubYdfpJ0Ej5CDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jyc3XM/fbvrqG5Nhu2oHm3NXEGBlv2fXRZFvfXSNqQOKoRRIEqrg5aJlaGcIILXr8vhd6039v/tukaOXSwKWzTwVsQYZYQdcXZolPcBz28lH7n3l7zA1TyIWqgNqYCTg9CntsPFLKjnxUBre/2Aj5BBwoSEROuPiJIkdJPlxW9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuE14pFy; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-46788c32a69so29503451cf.2;
+        Fri, 13 Dec 2024 20:12:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734137395; x=1734742195; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zZHQT3+1AXOHwySh7rmIQ56owPwbOS+jVtet/I/oewQ=;
-        b=LRnV8jwOV0SG5IWaihuzl1//P4nNulgNrK6O9E3pUa6+cJN/VVgaE2c9QgnFMe4+mC
-         /Fhk1SKuSyOX28ryvEPjT+bq1zM9YOWYznKUlObqG/fa9HC02KW/rnD49jQ7XR4rTPEI
-         o2TljLwj7MGTe5fCz4EgFG7PVU2OjNVqLfJJEZ8HaReM0dHFlUehhvdLtxl8CzW/qBdS
-         x4ANxNQZ6ipRfet0D8fGjMDsQ1jBabuaCbAj5rGjq6w3IzO7RoDfRrAiazHbKWq4KV2N
-         jnIpkkM+dwJz3GSB1KOhZ19RBk+OjprgptwoWngOBb3CbRJJKyzdiY6LH3X0MsEt0/7T
-         necg==
+        d=gmail.com; s=20230601; t=1734149527; x=1734754327; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=A2ZXUNJUzsIZYyQ65j5HvtYHB4v0YyeGbQjnsrF79CI=;
+        b=FuE14pFyFwmN9nWXztl/E8CpM/P8B3Zen+4ZY2KWX/9wgPzztnXfFZoDI+ZlgyTEHR
+         WcTwFwpatmzv6G8gcry/8DHMXCvGqYiFyv8fR6GIkMFE4zCPc51MViLAPs12rnvvAbiz
+         W6QEdUh4R8hm7GDUM7s54bKMHRwJ5by/B1p9SZXI0nqUgTxDLZ/54L1Nm9n0FF9y5Yu/
+         YpEiS/oRpZBxEbLIztv6oD2aJKOj0ok1bPZFa/kbricIPMCJUTOE1ViujHUVpA1nq2s8
+         3tMOrvScV5mlyWt+C0/EQDSAJ/FHcqSBJe4pIXpDHOaV39lkPbvqdExVli4s2lyeDq6D
+         nAfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734137395; x=1734742195;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zZHQT3+1AXOHwySh7rmIQ56owPwbOS+jVtet/I/oewQ=;
-        b=ZkvY6MQvU7vvDX/fGwwYxgvnfIyOWu2ZcL6kWf+6GyVW1DBL4qcw37As4T5DINRETO
-         YsBecrmwg/dRN8pg5QnZNoqWbhQnI9H9ahmGTtQorS1vsimfH9Hbqzcy+q5XwLORlWLn
-         uVY/gGSC2uonzlhwGMh/8gI7PLHiybfRn62nwX5mtkC8UHUEivFzWfk13qXcPQdyNYMk
-         oQfoSITyZK7jvQebKr/nYdgZsHus+OhBLkLBO0UPh/CvOE+9PU4BwQt8Vpy+HvptWHrf
-         cuC24Ti78lYGJlMqTG4T+GuKnxHeN4k6ISdY+2fe5Zb/e/BMCDTsqFyH0Z6DiHjNxKr8
-         rD6w==
-X-Forwarded-Encrypted: i=1; AJvYcCU3XZqxIdNrwLBlU+DgG5Pe4LBBZF+2A78L7Hj6BIEKoCxBIVTMMN91i7UWFSziuyAEQf0VLXCDRyOsdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0hJSCI5iaQM75e5eg+ZF3rRQMzqENoRmVT2cu42aqq9ZU3FAp
-	4+wqB2e3mTDX3JuEMndMLa6725I5TROhuvG/czsWrvHmjGpX30bdyE6RJOrNtKw=
-X-Gm-Gg: ASbGncsG20FdCzowzGgExwOR6zjLUELWrWa1Y2fTILGwB58Bb3klwU+JHDGl0/kaMSD
-	nf+ox8+zHIjvuVO7Ju5DITRmeWpBTPP4C85YQBk6OCVavmqpjbEs157lx3Q8oz3rdHIzfAF5K6j
-	NnoBdXLBrixPCkszJMnvFRGUa8a4V+vtV6uPGYWmtkhmktU+BKtWgmZWMnrOa9SCfA/WnsBZeq9
-	YluXmJhnRhNrYPCfdd9/bNwU1XuRSM0GSMkdT7Gqxf5PQDyvxBcMcEoUV9R/tS+iheVvA==
-X-Google-Smtp-Source: AGHT+IHGByL+SnFZLh6TJ7bPmNjCMhZaO4qaTKsbRPxcaxQjrB96T87kcly1ELijtAI4mJfcF9Gh8g==
-X-Received: by 2002:a5d:5985:0:b0:385:df73:2f42 with SMTP id ffacd0b85a97d-38880ae14c3mr3370858f8f.32.1734137395326;
-        Fri, 13 Dec 2024 16:49:55 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c80165c5sm995925f8f.25.2024.12.13.16.49.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2024 16:49:54 -0800 (PST)
-Message-ID: <08241f60-a6a1-4b69-bdb9-c9b83ec504f3@linaro.org>
-Date: Sat, 14 Dec 2024 00:49:52 +0000
+        d=1e100.net; s=20230601; t=1734149527; x=1734754327;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A2ZXUNJUzsIZYyQ65j5HvtYHB4v0YyeGbQjnsrF79CI=;
+        b=gc87lBrlNtAe0qDzgICPT8Dn7HiPutZjUaM92JiYAf+gCJUSNwJUpPFfe3Zq/gD/gT
+         NdwkpzCJSoa1f6/nrSdcIp31w7lc7WiKQwg+hVk1YSBd7Qdf+Nqu617KiZEZ06VJ1ZrM
+         kiD2g8V/h0x4fVKsaWUpto4mSW96MEpjv2Ior1vARbFP5qw6QBkN4cLedSbQ5YwKG7s3
+         OexdCdSamChJv3BcWirQM25b1G9z6EvTPcXkD6efEYiOoLL+LHFdF+roRTKYNa2Aqkgj
+         KKDh19ytDauq1t9fMiiIVqwrK0zlkZ8a33wJm2SBuwUzHD2RNNJPAkaNyqUvUamRSp0+
+         +6jg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUBt54bWUpUxobvPZSI3T4+gZ0bUKC9oZ7wcZs9pSy7MVfqFekkXbpUOLjSCbCP5cTcMWPwzipaJWyeoVveg==@vger.kernel.org, AJvYcCUtCOrgX9hAPHHBmQ5Z+Cer9Lw/O2DUaXe937zYoEzXD1Wb/X/RTvymXbiQe64LVRIsex2NEjdtrb1N@vger.kernel.org, AJvYcCVbtgjdoUWrT8NnbTgmyZo8seKxxc31oFm7nBGWKZythiqYKOLlqGU0peonYm3Wyu8LbkNNu9nOuAMIcUk=@vger.kernel.org, AJvYcCVmHZoEheEgNY1yjDRukBfF1EXq/KAriXPJ9bnUvl8pHlXEki2/rvJrm1aQ+YceekOs7r8kmLU+5mHA@vger.kernel.org
+X-Gm-Message-State: AOJu0Yye2R1k2K6pUikV+MFpH53Vr7A+tVy7VMkOjDqK61jYI6OUufvw
+	I3Uw56HR5r51h0R7+4kzlT88W5+r5kHsB1QlCgdUuq/h7zYDP0lc
+X-Gm-Gg: ASbGncuDgMyNYuJ5F4yo6CAzr8Ex1EFopAkDM87ZZBNNf5Mk4TvT0Xpp2ck+7H2QKRu
+	VIIkMTkMj7mKCcfQ2ULgtGjHLs9j84qUPdIskS03ZRsr0dXfyJ8nAzpI11iTWT5LTCDi0XT2MgU
+	KEYm4KXxHXii87mNWqoMHi/yNwwagVrtZLopgROqdKcp9BKKnfjI1ZbvogurbF/LqtUb9VKbid7
+	OvBnAQk0uEL3u6uexAVXMdiZCNr9ZrsagIne1YMasYV
+X-Google-Smtp-Source: AGHT+IEkT7SA9qD4VQI+Pz7RyOblo7eaTFuND1N51KdlZ8Ie+jaFeyWJHFDM6Wgq/1onp6R5EF6s3Q==
+X-Received: by 2002:a05:622a:1dcb:b0:466:8cc1:6221 with SMTP id d75a77b69052e-467a58380eemr112002381cf.50.1734149526794;
+        Fri, 13 Dec 2024 20:12:06 -0800 (PST)
+Received: from localhost ([2607:fea8:52a3:d200::8f60])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-467b2ed1a0asm4417401cf.87.2024.12.13.20.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2024 20:12:05 -0800 (PST)
+Date: Fri, 13 Dec 2024 23:12:02 -0500
+From: Richard Acayan <mailingradian@gmail.com>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Subject: Re: [PATCH v7 5/5] arm64: dts: qcom: sdm670: add camss and cci
+Message-ID: <Z10FkmBq95HQkOgv@radian>
+References: <20241210233534.614520-7-mailingradian@gmail.com>
+ <20241210233534.614520-12-mailingradian@gmail.com>
+ <fe8dbb4e-9d0e-4ecf-874b-be9225ae1487@linaro.org>
+ <Z1jdNaeoictuCK7N@radian>
+ <a499bc08-1505-4f7c-833c-68240fdec275@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 0/5] media: qcom: camss: Add sc7280 support
-To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, akapatra@quicinc.com,
- hariramp@quicinc.com, andersson@kernel.org, konradybcio@kernel.org,
- hverkuil-cisco@xs4all.nl, cros-qcom-dts-watchers@chromium.org,
- catalin.marinas@arm.com, will@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com,
- Luca Weiss <luca.weiss@fairphone.com>
-References: <20241206191900.2545069-1-quic_vikramsa@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20241206191900.2545069-1-quic_vikramsa@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a499bc08-1505-4f7c-833c-68240fdec275@linaro.org>
 
-On 06/12/2024 19:18, Vikram Sharma wrote:
-> SC7280 is a Qualcomm SoC. This series adds support to bring up the CSIPHY,
-> CSID, VFE/RDI interfaces in SC7280.
+On Wed, Dec 11, 2024 at 11:24:30AM +0000, Bryan O'Donoghue wrote:
+> On 11/12/2024 00:30, Richard Acayan wrote:
+> > > I think you sorted the regs, interrupts but forgot the clocks ?
+> > Do you mean the first three clocks placed first? The order was suggested
+> > by Vladimir in [1], but I can undo it.
+> > 
+> > [1]https://lore.kernel.org/r/40cd7a52-1c60-40dc-aee6-730b5247b216@linaro.org
 > 
-> SC7280 provides
+> We've had a long, long discussion on ordering subsequent.
 > 
-> - 3 x VFE, 3 RDI per VFE
-> - 2 x VFE Lite, 4 RDI per VFE
-> - 3 x CSID
-> - 2 x CSID Lite
-> - 5 x CSI PHY
-> 
-> We have tested this on qcs6490-rb3gen2-vision-mezzanine board having IMX577
-> sensor. Verified both TPG and IMX577 sensor.
-> 
-> Used following tools for the sanity check of these changes.
-You should state in your cover-letter that you depend on a prior series.
+> Have a look at the sc7280 and align your ordering with that.
 
-Unfortunately I found a bug in your depends series:
+Ok, it seems SC7280 renames the CSID clocks to change their alphabetical
+sorting so I'll rename them as well.
 
-https://lore.kernel.org/linux-arm-msm/1a570c17-c501-4a29-a4f7-020f41563f3d@linaro.org
-
-v9 will have to be gated on that series being fixed.
-
----
-bod
+	csi0 -> vfe0_csid
+	csi1 -> vfe1_csid
+	csi2 -> vfe_lite_csid
 
