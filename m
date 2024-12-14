@@ -1,127 +1,117 @@
-Return-Path: <linux-media+bounces-23411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61509F1CAB
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 06:25:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA519F1D2A
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 08:36:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBE68169907
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 05:25:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8EB0188C53B
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 07:36:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9BEE85270;
-	Sat, 14 Dec 2024 05:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F9331547C3;
+	Sat, 14 Dec 2024 07:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YBKrHcB1"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="QpuiJHrb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr [80.12.242.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD56926ACB;
-	Sat, 14 Dec 2024 05:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EF25C96;
+	Sat, 14 Dec 2024 07:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734153902; cv=none; b=KLV/Wt711spDWY0kR1BwyITEpQtz/Xw8Yj+X5mPYS6jZI7jGmSBxbfY17cQE7QzCjqLUEHPMrMg1lkyet5pOaw/ro/WLw9QjFdoJYmH1+cGmnbHIzLtQngo0efHhJU/5Bfu5UI3z561cJy6+KW3+ROw3GCkWZpcawUigfKWvDPE=
+	t=1734161772; cv=none; b=SZETfEF1CguVw8T6d8kdkSALmKGkXykoE4LoHyTo+fTtALFbMUm6fb8pcPL+ykzK1MpmRSdAPWmGtF7HcAa2yfhGOj0Q4c7RNCoVmRg2+Wn1mxbcbVQMA6/3LBDE7Jc7wH3mVrg4CRqycv/XZwJ3t1b6VJys0khQb2bhKsy9iGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734153902; c=relaxed/simple;
-	bh=yCKPaSDPWu9ijkR8dRggFdS14+bDnHiwg7cvZnBFGZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F+pzpfWuMjPtTum1jNzNVUeRSiqrb9QZL+zk98PO+kAQ9gWOrbhgnW7ZLWXrtNDEtWpJex9aH4sdwt5yHtq+cPwvbiOVvUhq9tm4/4oODIN4ZPpg4+f33IBh1GFovggWI6QLdXPsrqU4ThV6TzBcd7ZRS1KFU0lIk+5CdVamtho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YBKrHcB1; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3a7d690479eso19730345ab.0;
-        Fri, 13 Dec 2024 21:25:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734153900; x=1734758700; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F5/REfcjottcanoq26NG1WWEVdjXVYlFfnaZxlVc7DI=;
-        b=YBKrHcB1D/DTKsQaTLYMBk9ucmICZGTI3fnKdSwh2vKmQGAFYjVRSkno9MAzkF6lj6
-         mBJM+5w8il+sShSSpXoXnEZzGQG545zaB2N95QypkbxWQ0Kvquv3XOSgzZrBiSNxmoH3
-         BNoijJBxhBjMFRTXBDqwUHLH+SLFqOaBCTvnje1KUDzc05He+6mcB7o/5cMxZAMvPMEo
-         f5lGqUQgcEhqegJvw+1jgyC2uSKI1XneczOW0IPiLrB43aZ5oDjKADvKBsmpjPh5VP4/
-         5kBNm/BVvhMh7CN04cK7s319syy5hAuYxuTpF6IstPbDbAUsMqNJSXSRnjSP5Jqqhgcm
-         T7aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734153900; x=1734758700;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F5/REfcjottcanoq26NG1WWEVdjXVYlFfnaZxlVc7DI=;
-        b=UpHqV7j7gU7aMdTVkNYQfOxS5Fr3kwMFomiTZelUm9YaITtdVDbyQshLhXFO7tkVIt
-         ZkSMgbMd8QtnO1IOqSZ5vqz0QeoDIbhpAkWbTLQOmvpE+zUF069qCRqLYCxcpXEjOFAQ
-         Bpa/Jli8dsgrNu7dNTF429RpZool/rKF8iPLh1W2TlPXpjxxQAKPrGUrUG87kRye8zNM
-         8xVlTmWwT3hCQTO1k7EoUZtxXHyjXSi42gy4CSB/V/pVKq8xm7DY/qyLbXdrLkCrmDyu
-         akP0kzgPTeVfEwb8rjXsUtmMuc2TT7YEx12lijYnSr/g81Gpo7g0DDj/D2SeABpus/5f
-         glIg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhoGyZqC8bA7wjjxdcpBOIIy7J1p9MvCcbqB0jaAIDduD68xudsrWcf0ky8p4mIdCYgemZUIxvRjXP@vger.kernel.org, AJvYcCVe/vY9Qxv/ZyOAMmUhG/hBlV6y1+HlxsgZs7sb5Ql2NrDIW0CEjEeOkhm+2gBQ0iFUR17NS8UXKZG9@vger.kernel.org, AJvYcCWl45tt5BCV3kmUp5ByELE3gHQTS+OXHpwHkPpNulbcuezQyxyGybwdAZv1X4nV9LD2PNBR58oYEfEtbqthwQ==@vger.kernel.org, AJvYcCXw1LMkHmgS0gX2yUcwX7XDoFaYq9I4wGvie5XnkSW++efKL1KqfS2JLzCV6dqJthMBX7FtYTv7iFDiAGM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuLjpALjWLkZp5NsTa49w8OtASn/qgF5TPzCiqLuaVCf5fujka
-	BzFakvdluornsWu4TLaBb+JnLYaNC1TS4n3eS0pwvzs6/PP0A/fUONnmDwDP
-X-Gm-Gg: ASbGnctpacXgDzVN+2FzVHzdXitNbNPdWLbbpcLV1U24T1C/9KT+mWPl/Wy5bs+3XTm
-	Cy9kU9CVWyc1iJ06jQUZNPJtMzGRqkJxiyMcSHMPodE1gmbGXciah0JdsAr1e83xorQtPp9t5BO
-	j7Unrm8Lh6tKPcPzCSL+7Vn8L+WSKJJuRsLpTMaHFfrCqOkfoGyNsD0q70fErfuHAyS9OjzD0zI
-	ttIPKZWyUO6Az0O6nJl3H79TSZLY4QUvEHAsyNVdUY/
-X-Google-Smtp-Source: AGHT+IHx+9/iV9cCnXHcndeIm4J/8/nCLAuzVn3WqCo+4I1hlhQji8gB3twwfLcGd8mH4Ly/1nWb9A==
-X-Received: by 2002:a05:6e02:741:b0:3a7:e3e3:bd57 with SMTP id e9e14a558f8ab-3aff7f1646emr62964095ab.15.1734153899702;
-        Fri, 13 Dec 2024 21:24:59 -0800 (PST)
-Received: from localhost ([2607:fea8:52a3:d200::8f60])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3b248228c81sm3080105ab.23.2024.12.13.21.24.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Dec 2024 21:24:58 -0800 (PST)
-Date: Sat, 14 Dec 2024 00:24:55 -0500
-From: Richard Acayan <mailingradian@gmail.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Subject: Re: [PATCH v7 5/5] arm64: dts: qcom: sdm670: add camss and cci
-Message-ID: <Z10Wpwhp_ulC2KhF@radian>
-References: <20241210233534.614520-7-mailingradian@gmail.com>
- <20241210233534.614520-12-mailingradian@gmail.com>
- <fe8dbb4e-9d0e-4ecf-874b-be9225ae1487@linaro.org>
- <Z1jdNaeoictuCK7N@radian>
- <a499bc08-1505-4f7c-833c-68240fdec275@linaro.org>
- <Z10FkmBq95HQkOgv@radian>
+	s=arc-20240116; t=1734161772; c=relaxed/simple;
+	bh=s4AaOkNf+azlZfY20gPtbTuxvigBYFvV3nZ0qN+A1Fg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iDqZWfhgDruDsZTUhcnzM/wRUuwOPpCc+f57kLXf10DIIIYtdJti3f0xKhjjQbwX0GU6Xr9ORGK/poPSiS0YXl07gghaEnNtEzo4Sz4lBrrOJqngDFzpjV2smqQf1xIbIXyIVFZL5bCBh6ayCk5psyg0oeWjZS4c02WnPzw80GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=QpuiJHrb; arc=none smtp.client-ip=80.12.242.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id MMgutgiMRSfR7MMgutfZSo; Sat, 14 Dec 2024 08:36:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1734161760;
+	bh=b8MTIP4Nj/h0lmCHczqgV9eXb5rzDar0tQOnnZLEPD0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=QpuiJHrbm4cQcNg5DuB5EK27j9FMr/gU33YVbR413JEXUPpigGrZUw1MTyxFMk3Oy
+	 Wyzwa8uU5c6tw0e3NCNIEnUUUJWWPXTIVYKNABfMeDSSMBJc1F04BM8daVd5QlIxwq
+	 izW49Q93zCIeGgaCv1DAFqE/Om1G4XV6Nq22uCIh1K7J95rPMfyKti4UjBAcy5hOwk
+	 08u0xuvenPHwQ7gniCpSAajh1rFXzWK4b6vYJ8jrvr172VZujPIhhUAW3g6RQd1vvq
+	 zA4o8AGtFYLsBEdvo2+h3O9LF4jdcWMleyTkC7TtL0aSZfIdUoDftJSjhRMKmDpBFQ
+	 pptvVbCDy3Ngw==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Sat, 14 Dec 2024 08:36:00 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <95f87650-ac38-4477-9bad-1b4f098c4072@wanadoo.fr>
+Date: Sat, 14 Dec 2024 08:35:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z10FkmBq95HQkOgv@radian>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/5] media: chips-media: wave5: Avoid race condition
+ for interrupt handling
+To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, sebastian.fricke@collabora.com,
+ nicolas.dufresne@collabora.com, bob.beckett@collabora.com,
+ dafna.hirschfeld@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ lafley.kim@chipsnmedia.com, b-brnich@ti.com, hverkuil@xs4all.nl,
+ nas.chung@chipsnmedia.com
+References: <20241209053654.52-1-jackson.lee@chipsnmedia.com>
+ <20241209053654.52-3-jackson.lee@chipsnmedia.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20241209053654.52-3-jackson.lee@chipsnmedia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 13, 2024 at 11:12:02PM -0500, Richard Acayan wrote:
-> On Wed, Dec 11, 2024 at 11:24:30AM +0000, Bryan O'Donoghue wrote:
-> > On 11/12/2024 00:30, Richard Acayan wrote:
-> > > > I think you sorted the regs, interrupts but forgot the clocks ?
-> > > Do you mean the first three clocks placed first? The order was suggested
-> > > by Vladimir in [1], but I can undo it.
-> > > 
-> > > [1]https://lore.kernel.org/r/40cd7a52-1c60-40dc-aee6-730b5247b216@linaro.org
-> > 
-> > We've had a long, long discussion on ordering subsequent.
-> > 
-> > Have a look at the sc7280 and align your ordering with that.
-> 
-> Ok, it seems SC7280 renames the CSID clocks to change their alphabetical
-> sorting so I'll rename them as well.
-> 
-> 	csi0 -> vfe0_csid
-> 	csi1 -> vfe1_csid
-> 	csi2 -> vfe_lite_csid
+Le 09/12/2024 à 06:36, Jackson.lee a écrit :
+> In case of multi instance, interrupts can occurr for other instances as
 
-Let's not do this, the "csiX" clock names are also used in camss-csid.c
-and would need deeper driver changes.
+If the serie is resent:
+
+s/occurr/occur/
+
+> soon as interrupt is cleared. If driver reads the instance_info after
+> clearing the interrupt, it is not guaranteed that the instance_info is
+> valid for the current interrupt.
+> 
+> Read the instance_info register for each interrupt before clearing the
+> interrupt.
+> 
+> Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
+> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+> ---
+>   drivers/media/platform/chips-media/wave5/wave5-vpu.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> index 6b294a2d6717..63a607d10433 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> @@ -55,12 +55,12 @@ static void wave5_vpu_handle_irq(void *dev_id)
+>   	struct vpu_device *dev = dev_id;
+>   
+>   	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
+> +	seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
+> +	cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
+>   	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
+>   	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
+>   
+>   	list_for_each_entry(inst, &dev->instances, list) {
+> -		seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
+> -		cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
+>   
+>   		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
+>   		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
+
 
