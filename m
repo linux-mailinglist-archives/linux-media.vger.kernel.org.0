@@ -1,178 +1,169 @@
-Return-Path: <linux-media+bounces-23407-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23408-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E338C9F19E2
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 00:29:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7689F1B6B
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 01:44:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 28F737A0458
-	for <lists+linux-media@lfdr.de>; Fri, 13 Dec 2024 23:29:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 84752188EB49
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 00:44:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ADE21C07C3;
-	Fri, 13 Dec 2024 23:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83431D26D;
+	Sat, 14 Dec 2024 00:44:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="iTa87csb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c8KAYX/U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2087.outbound.protection.outlook.com [40.107.237.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084401B4F1A;
-	Fri, 13 Dec 2024 23:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.87
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734132584; cv=fail; b=N7QxbfHWpRENz3kA1OdGlidVQ86lL1ks0cZd2IYpZAmcnsj3HcesJiJbBqO/z+g1CQ+mx8zlK9M8PYmcxqaZ6IHWULEfyAZp9F4d31AdcCxu/ag+RATofjreYfkxNyugG0XVjFJIlR5W2RK25aOucU/x6Ou/ISoXqVXQm78tm2Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734132584; c=relaxed/simple;
-	bh=qncUh3m1cfeS0NybWQ2PaJ6Qs/6fTjwdWmA9+qNZVxA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VL7mEwIdcjV8VvgRqQYehGXPx2V8sutljKXYK0O8++gyfJmFgS0x0YxEz9dJDIyJS9GyFtVukmo1CIuVTOik3rK1TTi/P9rDzQerd2EU/e1u7/D6b6Y92Rq1iyAMOTdWtp3ct/gWC6bXaMhLu/JS5TJqpVk1O5AbnpaZ3zCBFao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=iTa87csb; arc=fail smtp.client-ip=40.107.237.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CVwlBqZxVkGF/kapyVPcR97FkT7O+4Ln5xZOd28+mvvspQcdYdDe91rnc3J/Hr/g6lL34qcbHMWoEe484ZuZl/48XQ3Y49ECNo5cv6cyjwAxg/1LaRoj8mZFkXxobZVJjynP8CS+dZsSOXcQVTZB+g+fFatylnqD+0JbdsZxxe33ptc+GrvlcKH3J96H//gQznSDrqSyvzomJKu1do5tuGks9RYBBOm7xtsP7hI4x7NoGz/4Y1WEQcIGrSq+yjRmbPO21F6CFJ+iHgCzQH0hrlXYC69hoPmAD5HKSGTj410998Gwp1TKTwFkP2nI35O/2XGAsO7ay8qG+e0/W9QSDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qncUh3m1cfeS0NybWQ2PaJ6Qs/6fTjwdWmA9+qNZVxA=;
- b=BOoo8JCUsRw7xFvSgY1xRycn/YLBGwZDxDt8a74gUTxIWxnkZTWlrzoIfzC094RWnHorChofYZP3ULaWYFL1lVg9gpdwOpl2JHEXz4dPhN7J7o301arob28/9ZPbaelYYl1Y2UAAEi894A9dNCGJoqzIHGyKOV/szjtlRfa7AMUfHY2ijwqPAbnVqJBNtRSWF1j9aLCdkVrvRDV1wXUSueuoiYEW5gmHHbfPcvVeg0OOh3R1g1CpQx7TMoOlITxPJf8xU7QQN93/Mtx7Mp5WvS+SC6AFxX8hVJZgEapVq/+44Ik8n1knGoO3nhMLfUovpNgH/nMwe9OzYNTV+NI03g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qncUh3m1cfeS0NybWQ2PaJ6Qs/6fTjwdWmA9+qNZVxA=;
- b=iTa87csbvlQdBS5mzNF5I1lifx/jvSd00YuRS7dcxOsKT+LdwaRMwJ+OlCHqGA/PdI33eIYC8NEuFRl3mAEx0hPfi8dhOthQqkDWdjT0KDjYeY6V7CkSL7eloJNrXFE+B80c60rKnz9Ic3BQjO5CxmL2I20AjmSa9yijl/4By9Che/0QpscfJn1ZbYCI6gUWLfnTSuZbZG0ySofr0BZLCqNOjyomwuVe2Y6wESu308PMJKE9QGh16eDtxqH+uHR3dyRdsd2JyhFFOpC8H1Y5rvDb8nomljKQK5n9oF9JRH8WBS9dQlXWzyei/BRlaAIvBqqRD5d2yXWydNZfIwAikA==
-Received: from SA0PR11CA0007.namprd11.prod.outlook.com (2603:10b6:806:d3::12)
- by CY5PR12MB6297.namprd12.prod.outlook.com (2603:10b6:930:22::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.16; Fri, 13 Dec
- 2024 23:29:38 +0000
-Received: from SA2PEPF00001506.namprd04.prod.outlook.com
- (2603:10b6:806:d3:cafe::39) by SA0PR11CA0007.outlook.office365.com
- (2603:10b6:806:d3::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.16 via Frontend Transport; Fri,
- 13 Dec 2024 23:29:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- SA2PEPF00001506.mail.protection.outlook.com (10.167.242.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8251.15 via Frontend Transport; Fri, 13 Dec 2024 23:29:37 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 13 Dec
- 2024 15:29:34 -0800
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Fri, 13 Dec 2024 15:29:34 -0800
-Received: from thinkpad-t480.nvidia.com (10.127.8.12) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Fri, 13 Dec 2024 15:29:33 -0800
-From: Johnny Liu <johnliu@nvidia.com>
-To: <krzk@kernel.org>
-CC: <airlied@gmail.com>, <conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <johnliu@nvidia.com>,
-	<jonathanh@nvidia.com>, <krzk+dt@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<luca.ceresoli@bootlin.com>, <maarten.lankhorst@linux.intel.com>,
-	<mperttunen@nvidia.com>, <mripard@kernel.org>, <robh@kernel.org>,
-	<simona@ffwll.ch>, <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-	<tzimmermann@suse.de>
-Subject: Re: [PATCH v1 1/5] dt-bindings: display: tegra: Add actmon information
-Date: Fri, 13 Dec 2024 15:29:33 -0800
-Message-ID: <20241213232933.4661-1-johnliu@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <34kg2aoaeem3bjqh6vli43hc63tvfx7uumkmkre3wkvek2neyu@jhj5n3om7vzd>
-References: <34kg2aoaeem3bjqh6vli43hc63tvfx7uumkmkre3wkvek2neyu@jhj5n3om7vzd>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A6A7489
+	for <linux-media@vger.kernel.org>; Sat, 14 Dec 2024 00:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734137083; cv=none; b=PMxcDbkLiYs8Nbrb/G4FptyHYmkIH4udyw3n0BKOimkxY2vVJNY6rEMj+0D0e69UmBsTRDWdKhto3MnAzR8LwnipqOZodQ+IVLZir/8rc9xzv4+0jRjjSj3BZK9FOv625B6BWk4G/IVte08llDyDEryxbaiSSImhZQhgfNtZfzA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734137083; c=relaxed/simple;
+	bh=aFbdLbRlaVcy+PhAJ++OAS1Q15RgBSAPtcCTnN3A5x4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AIwtIB/y1S6k2pfUNXJ8ysg78qDu2BH6WwOTe9haXCOx7PTNSd9u6dnxGqVL5NmCXp1I8H3SlHqxZXO8sRWYnd9F3gzKV5Y1nfb0JmI2JC6LQwOAmqSbMwBEA4nEKzv8VPJDVhJOP3x7b3kIP7DHCWtmkHiQo9PrAsNIEFOLKW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c8KAYX/U; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43618283d48so16755295e9.1
+        for <linux-media@vger.kernel.org>; Fri, 13 Dec 2024 16:44:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734137080; x=1734741880; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SeDrMymOkQm4q0L/Z4XKBmKDN4NxNTLNurLDHBywolY=;
+        b=c8KAYX/UP3qNr29rQR6KfNIOUtJQ2qU7uKHfoPBD2CZm7ey9oWw7Psb0zr7OPSF0h8
+         mL9kOOcP52WVFiBh5Mndxr8nEGeVzT2eZAgRyJ4t8r/zFYyaRrakW1sJx3GjSXaQdl1p
+         qQWEqDg6LG19Wn3crY1FP5+dcqd/Fn/Y58gltDkMIaFwSM4gl7ba0jaouGjAT2CERowB
+         lB34jpOuxlz+G6pPr/2UIlB4v4cIGIV0V2Vxu/wFan99+FkmP64Jq95ScPU6wE9/SFcm
+         F6VCdBhGSXcTIXEb1cqPjF6iOnmdpdAuCcH8vlB0XPUUwOOrq5wjlPp7cRNEUOzQwaCD
+         n4Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734137080; x=1734741880;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SeDrMymOkQm4q0L/Z4XKBmKDN4NxNTLNurLDHBywolY=;
+        b=eZ8/plPZVijW2lJYXMrj6nvxOyfJCmb3rd2xifIUq2Ntcz8LSYlom2WGkBGFWvBSsF
+         zCkqZvCFogm1Fck1SQaGf6U29GKwO4BoSoGv9YZwypryyLmTVIGRZen0/eBTZvZZ40Hs
+         r9quC3ALqfJ/hw03FxoKfV23UqjBRh7txxkl6+RsTjXIcW9RxEYTTtOUSuXuYBxqFqSE
+         CT3PlmIZSRiyIxAyXWC7ROISb60P0wuSFBms9QfFRPvUh3Y5l9v7/FmRpbYbPWpaFUxh
+         C2Dz1Y6e+UMkJw1JcnpqMKZloRJLPtuZobtmCZY/g0pb9jjkMPgRuIqPfGgVio3M5dEj
+         aASA==
+X-Gm-Message-State: AOJu0YzIuu3JCOlXnDshqCvylmSMABgb/cEpvl26tiHw8+hmkYARzslT
+	C4vIDyY/7o0MSjEniwHzG9yuj4UFKzPd6r6486xsrP2Xr0twUbv41803bHIBSm+Y5YsYHdFbGsk
+	k
+X-Gm-Gg: ASbGncu2WYBz/yDFWyX1n4yA8iLRC6pz5iheQ/YIEE/oVlsekWXu0I4MVqWR7/tK01K
+	PTHgYkpLHr5RDYZLdTEYwtwjk4u9cUcrWnOkJPX6Kd3C6aRRtRIq36GMp5mXIhz77P78USVSNAG
+	BC7cKOShBBkvmjV7QMcK+pw/WY3lMiy2rETqJdSlgZMf8q9FY05VhUBVNINoJxpp3+nxM7PWTyN
+	GtWrF7NY94UFTqwS9XyNf7LM4Clzv2dN7ALPwPYhjZrlbhaIaSvxGkCcjtU+eKJDDuxNg==
+X-Google-Smtp-Source: AGHT+IE0KYR/8jsLefDmzAbaJ5qV8oYgeFZCRtcVw4sbIXG9a+jTQI69goTr98uf2yrQPqe8MTbCUA==
+X-Received: by 2002:a05:600c:511c:b0:434:fbda:1f36 with SMTP id 5b1f17b1804b1-4362aaa9cb5mr33801055e9.20.1734137080297;
+        Fri, 13 Dec 2024 16:44:40 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43636066f51sm8558775e9.22.2024.12.13.16.44.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Dec 2024 16:44:39 -0800 (PST)
+Message-ID: <1a570c17-c501-4a29-a4f7-020f41563f3d@linaro.org>
+Date: Sat, 14 Dec 2024 00:44:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001506:EE_|CY5PR12MB6297:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0fdd84b9-1777-4423-b1e3-08dd1bce02bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?u7mMKDnBvEpOQkMmmf905xEFgmJtG3w87yiEJFbAvvN+ICjxG4AW7vMpnHL7?=
- =?us-ascii?Q?AUpobxsKLgXgv09qGsnFMfEx+eOa0hXCXRclaCX379fwzQi0tvDFwQNye4hH?=
- =?us-ascii?Q?4BNmJz+aGUd9CbBlM/GOY6fbdk9GzqhY7Uq40ioPdefi+jt6r5hLpEFclw4B?=
- =?us-ascii?Q?iVQhJZbs/JoitWwb+/vSquyGlQ20AuNXKzvp5rXhay9zh+xS+Zmf5KPvuON/?=
- =?us-ascii?Q?K1N2RuTIJ/PK4ZPUq2e2+CwsI8snTIMoywBTZTxCiBqHBZiIDKseZ4dDLKZd?=
- =?us-ascii?Q?pZ/pOon8i3UEVrCNw59mNln/l9yVeKdtSAtLRTZcIAfJ+76g9JaPvYMBlLaJ?=
- =?us-ascii?Q?TAt8DXgErUSmN1eYG1wfNfIFhiK3ZGLYomh+IKkcVRNiJvfG0I2GxEr/GuAe?=
- =?us-ascii?Q?0zg8visSiwKeYAvSxgCX81vsYdFWejxTJAX88XMTSe2EVMCVtxferPJxwZJN?=
- =?us-ascii?Q?cdhTrgUe0l4xK4DpukKfSuQiARfTum9lcA0uU6Sd+xel6iv5G2vDLbZi4CSG?=
- =?us-ascii?Q?A/NnTRJDQz/ete7c4/Uywsho4RJ5DuSKbMHgmOTsU64zhs8Micyo+SR37JQ1?=
- =?us-ascii?Q?/e0p/O26ClMWv7srL+x0hZPImJi2Lh4Qqgsxw6KEAqTyHhyLSZnYkDYKLax6?=
- =?us-ascii?Q?RXuEK3FZ2B0yVmAN93kkIY7t3TymolnrMe7BKEUYezP9NZk9QiTF7vEPy8bL?=
- =?us-ascii?Q?rtVFuxPRPS41Ih74GeQrpSGT55w3I8yXJ+ySdBuQ1B5eAaTzEvXvII9gqdGn?=
- =?us-ascii?Q?egEt2jMO8yex1LX8rHQ7rSd9R1CIs/WQsYRIWrjPwytBIlE9onGHY+lwmAWA?=
- =?us-ascii?Q?DZHe5f17ELeDh9BFTH4yhz4W+71I3aFO6DPoP3AEPxSPDUSOjsFRZQicS0bb?=
- =?us-ascii?Q?PhXJur2su8dsCFUi2ewYVgIiF3XYS1l6XCZPltwUlyeLrgXi0Z0ZE6VHBHJ2?=
- =?us-ascii?Q?fdVXIvpx6JqYwRvQEZZtUMX1VaE1Rv+85cPNBVapzP3bWKzZB8j+XBoGU02U?=
- =?us-ascii?Q?vZElQV/zi7IfDLpta+wzZ1QyhdTyE6mDaDxo0E15GgrCC2KjRf6vVNurZgga?=
- =?us-ascii?Q?VHffVpphPUi/gJe385q7Mw5/kZtxaqbandP8mS04b5p1R3boIPuQNXSU9C4M?=
- =?us-ascii?Q?vUGMAgEa1bPZxuaQq88Tk8DKdypFepNfb3MG8H+6byA8F2oMC+uHNxsuLGJS?=
- =?us-ascii?Q?6ccrQDqi0jcBlTWLpa1kQdu6F9n9AVX9AhQhrDX1tJ3wVI7iXAW4ZgC1DA36?=
- =?us-ascii?Q?0nAPqHAodpV1/YDWqRcQ9bXH3CjO3Wsum9t4QPjhu/MxrzorSS61T6v1Tdny?=
- =?us-ascii?Q?pLxWorsW4VWTzCIqgeE3GB3HqoirfyJIH5HQ5xQ0NjNc+702NAYDIRqn85lH?=
- =?us-ascii?Q?ZfD4c1bwIVpv0INW6HmSZQCjRHezIuj6an9nyiJqtJ1h+0+Fle+yJ2ID29C+?=
- =?us-ascii?Q?9gZceC3ehGax9YUaWyb4ZmZcURzvovJpxVR5xoYgt1dY3/+wlNT+AfrJBSnF?=
- =?us-ascii?Q?1hW3BdY4ooCqwNc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2024 23:29:37.8271
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fdd84b9-1777-4423-b1e3-08dd1bce02bd
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00001506.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6297
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] media: qcom: camss: Restructure
+ camss_link_entities
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@quicinc.com
+References: <20241126100126.2743795-1-quic_vikramsa@quicinc.com>
+ <20241126100126.2743795-3-quic_vikramsa@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241126100126.2743795-3-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> On Tue, Dec 10, 2024 at 09:45:50AM -0800, Johnny Liu wrote:
-> > An activity monitor (actmon) is used to measure the device runtime
-> > utilization to help drive software power management policies.
-> >
-> > Extend the reg space to include actmon aperture for actmon configuration
-> > through host1x.
->
-> We kind of see that from the diff. Say what we do not see, e.g. ABI
-> impact or why this is flexible/optional for existing devices.
+On 26/11/2024 10:01, Vikram Sharma wrote:
+> Refactor the camss_link_entities function by breaking it down into
+> three distinct functions. Each function will handle the linking of
+> a specific entity separately.
+> SC7280 and later targets mandates for 1:1 linking for csid -> vfe.
+> i.e. csid0 can be mapped to vfe0 only.
+> 
+> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   drivers/media/platform/qcom/camss/camss.c | 155 ++++++++++++++--------
+>   1 file changed, 103 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 6824ffbdf4a8..67fb11cbe865 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -1994,7 +1994,6 @@ static int camss_init_subdevices(struct camss *camss)
+>   }
+>   
+>   /*
+> - * camss_link_entities - Register subdev nodes and create links
+>    * camss_link_err - print error in case link creation fails
+>    * @src_name: name for source of the link
+>    * @sink_name: name for sink of the link
+> @@ -2012,14 +2011,64 @@ inline void camss_link_err(struct camss *camss,
+>   }
+>   
+>   /*
+> - * camss_link_entities - Register subdev nodes and create links
+> + * camss_link_entities_csid - Register subdev nodes and create links
+>    * @camss: CAMSS device
+>    *
+>    * Return 0 on success or a negative error code on failure
+>    */
+> -static int camss_link_entities(struct camss *camss)
+> +static int camss_link_entities_csid(struct camss *camss)
+>   {
+> -	int i, j, k;
+> +	struct media_entity *src_entity;
+> +	struct media_entity *sink_entity;
+> +	int ret, line_num;
+> +	u16 sink_pad;
+> +	u16 src_pad;
+> +	int i, j;
+> +
+> +	for (i = 0; i < camss->res->csid_num; i++) {
+> +		if (camss->ispif)
+> +			line_num = camss->ispif->line_num;
+> +		else
+> +			line_num = camss->vfe[i].res->line_num;
 
-Since actmon is not well-supported for the previous chips (e.g. T210,
-T186, T194, and etc) in this patch series, it's essential to make the
-specification of regs property optional for the previous chips.
+This statement is incorrect, you are indexing vfe[] with a control 
+derived from csid_num.
 
-Enablement/Disablement of actmon won't affect the host1x main functionality.
-Its main job is to monitor the engines behind the host1x and serve for
-telemetry purpose.
+Below is the statement you are removing.
 
-I could update the commit message to include the above reason. Please
-let me know if more information is required.
+> -		for (i = 0; i < camss->res->csid_num; i++)
+> -			for (k = 0; k < camss->res->vfe_num; k++)
+> -				for (j = 0; j < camss->vfe[k].res->line_num; j++) {
 
+As soon as csid_num > ARRAY_SIZE(vfe) your code breaks.
 
-Thanks,
-Johnny
+I noticed this as I added csid_lite to the x1e series where the 
+aggregate count of CSID is grater than the aggregate count of VFE.
+
+Please fix.
+
+---
+bod
 
