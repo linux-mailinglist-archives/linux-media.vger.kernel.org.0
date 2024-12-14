@@ -1,76 +1,76 @@
-Return-Path: <linux-media+bounces-23410-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23411-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3509F1C85
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 05:12:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C61509F1CAB
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 06:25:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA6C2188D82F
-	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 04:12:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBE68169907
+	for <lists+linux-media@lfdr.de>; Sat, 14 Dec 2024 05:25:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF23038DE1;
-	Sat, 14 Dec 2024 04:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9BEE85270;
+	Sat, 14 Dec 2024 05:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuE14pFy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YBKrHcB1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD41168B1;
-	Sat, 14 Dec 2024 04:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD56926ACB;
+	Sat, 14 Dec 2024 05:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734149529; cv=none; b=blOmUfsqwwtIXGvmHOiu5HpZHkytj7TFBvD71NKXtOLedhFe7PUx7EnD/W+/oKQrTh8pnF/ZQTCL0KYU6QCCxbfkcZq0WBZc134qlfFS5Q6bhsbjsKrgz1/+L/lb6aWRt3nWBK1TrSEShWUHTDFTdHZlVsD4EzEjWMno3SU2jdY=
+	t=1734153902; cv=none; b=KLV/Wt711spDWY0kR1BwyITEpQtz/Xw8Yj+X5mPYS6jZI7jGmSBxbfY17cQE7QzCjqLUEHPMrMg1lkyet5pOaw/ro/WLw9QjFdoJYmH1+cGmnbHIzLtQngo0efHhJU/5Bfu5UI3z561cJy6+KW3+ROw3GCkWZpcawUigfKWvDPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734149529; c=relaxed/simple;
-	bh=Aujp23MA7YyHDLJ2MbjCd8wyARqmkubYdfpJ0Ej5CDI=;
+	s=arc-20240116; t=1734153902; c=relaxed/simple;
+	bh=yCKPaSDPWu9ijkR8dRggFdS14+bDnHiwg7cvZnBFGZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jyc3XM/fbvrqG5Nhu2oHm3NXEGBlv2fXRZFvfXSNqQOKoRRIEqrg5aJlaGcIILXr8vhd6039v/tukaOXSwKWzTwVsQYZYQdcXZolPcBz28lH7n3l7zA1TyIWqgNqYCTg9CntsPFLKjnxUBre/2Aj5BBwoSEROuPiJIkdJPlxW9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuE14pFy; arc=none smtp.client-ip=209.85.160.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=F+pzpfWuMjPtTum1jNzNVUeRSiqrb9QZL+zk98PO+kAQ9gWOrbhgnW7ZLWXrtNDEtWpJex9aH4sdwt5yHtq+cPwvbiOVvUhq9tm4/4oODIN4ZPpg4+f33IBh1GFovggWI6QLdXPsrqU4ThV6TzBcd7ZRS1KFU0lIk+5CdVamtho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YBKrHcB1; arc=none smtp.client-ip=209.85.166.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-46788c32a69so29503451cf.2;
-        Fri, 13 Dec 2024 20:12:07 -0800 (PST)
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3a7d690479eso19730345ab.0;
+        Fri, 13 Dec 2024 21:25:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734149527; x=1734754327; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734153900; x=1734758700; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A2ZXUNJUzsIZYyQ65j5HvtYHB4v0YyeGbQjnsrF79CI=;
-        b=FuE14pFyFwmN9nWXztl/E8CpM/P8B3Zen+4ZY2KWX/9wgPzztnXfFZoDI+ZlgyTEHR
-         WcTwFwpatmzv6G8gcry/8DHMXCvGqYiFyv8fR6GIkMFE4zCPc51MViLAPs12rnvvAbiz
-         W6QEdUh4R8hm7GDUM7s54bKMHRwJ5by/B1p9SZXI0nqUgTxDLZ/54L1Nm9n0FF9y5Yu/
-         YpEiS/oRpZBxEbLIztv6oD2aJKOj0ok1bPZFa/kbricIPMCJUTOE1ViujHUVpA1nq2s8
-         3tMOrvScV5mlyWt+C0/EQDSAJ/FHcqSBJe4pIXpDHOaV39lkPbvqdExVli4s2lyeDq6D
-         nAfw==
+        bh=F5/REfcjottcanoq26NG1WWEVdjXVYlFfnaZxlVc7DI=;
+        b=YBKrHcB1D/DTKsQaTLYMBk9ucmICZGTI3fnKdSwh2vKmQGAFYjVRSkno9MAzkF6lj6
+         mBJM+5w8il+sShSSpXoXnEZzGQG545zaB2N95QypkbxWQ0Kvquv3XOSgzZrBiSNxmoH3
+         BNoijJBxhBjMFRTXBDqwUHLH+SLFqOaBCTvnje1KUDzc05He+6mcB7o/5cMxZAMvPMEo
+         f5lGqUQgcEhqegJvw+1jgyC2uSKI1XneczOW0IPiLrB43aZ5oDjKADvKBsmpjPh5VP4/
+         5kBNm/BVvhMh7CN04cK7s319syy5hAuYxuTpF6IstPbDbAUsMqNJSXSRnjSP5Jqqhgcm
+         T7aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734149527; x=1734754327;
+        d=1e100.net; s=20230601; t=1734153900; x=1734758700;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A2ZXUNJUzsIZYyQ65j5HvtYHB4v0YyeGbQjnsrF79CI=;
-        b=gc87lBrlNtAe0qDzgICPT8Dn7HiPutZjUaM92JiYAf+gCJUSNwJUpPFfe3Zq/gD/gT
-         NdwkpzCJSoa1f6/nrSdcIp31w7lc7WiKQwg+hVk1YSBd7Qdf+Nqu617KiZEZ06VJ1ZrM
-         kiD2g8V/h0x4fVKsaWUpto4mSW96MEpjv2Ior1vARbFP5qw6QBkN4cLedSbQ5YwKG7s3
-         OexdCdSamChJv3BcWirQM25b1G9z6EvTPcXkD6efEYiOoLL+LHFdF+roRTKYNa2Aqkgj
-         KKDh19ytDauq1t9fMiiIVqwrK0zlkZ8a33wJm2SBuwUzHD2RNNJPAkaNyqUvUamRSp0+
-         +6jg==
-X-Forwarded-Encrypted: i=1; AJvYcCUUBt54bWUpUxobvPZSI3T4+gZ0bUKC9oZ7wcZs9pSy7MVfqFekkXbpUOLjSCbCP5cTcMWPwzipaJWyeoVveg==@vger.kernel.org, AJvYcCUtCOrgX9hAPHHBmQ5Z+Cer9Lw/O2DUaXe937zYoEzXD1Wb/X/RTvymXbiQe64LVRIsex2NEjdtrb1N@vger.kernel.org, AJvYcCVbtgjdoUWrT8NnbTgmyZo8seKxxc31oFm7nBGWKZythiqYKOLlqGU0peonYm3Wyu8LbkNNu9nOuAMIcUk=@vger.kernel.org, AJvYcCVmHZoEheEgNY1yjDRukBfF1EXq/KAriXPJ9bnUvl8pHlXEki2/rvJrm1aQ+YceekOs7r8kmLU+5mHA@vger.kernel.org
-X-Gm-Message-State: AOJu0Yye2R1k2K6pUikV+MFpH53Vr7A+tVy7VMkOjDqK61jYI6OUufvw
-	I3Uw56HR5r51h0R7+4kzlT88W5+r5kHsB1QlCgdUuq/h7zYDP0lc
-X-Gm-Gg: ASbGncuDgMyNYuJ5F4yo6CAzr8Ex1EFopAkDM87ZZBNNf5Mk4TvT0Xpp2ck+7H2QKRu
-	VIIkMTkMj7mKCcfQ2ULgtGjHLs9j84qUPdIskS03ZRsr0dXfyJ8nAzpI11iTWT5LTCDi0XT2MgU
-	KEYm4KXxHXii87mNWqoMHi/yNwwagVrtZLopgROqdKcp9BKKnfjI1ZbvogurbF/LqtUb9VKbid7
-	OvBnAQk0uEL3u6uexAVXMdiZCNr9ZrsagIne1YMasYV
-X-Google-Smtp-Source: AGHT+IEkT7SA9qD4VQI+Pz7RyOblo7eaTFuND1N51KdlZ8Ie+jaFeyWJHFDM6Wgq/1onp6R5EF6s3Q==
-X-Received: by 2002:a05:622a:1dcb:b0:466:8cc1:6221 with SMTP id d75a77b69052e-467a58380eemr112002381cf.50.1734149526794;
-        Fri, 13 Dec 2024 20:12:06 -0800 (PST)
+        bh=F5/REfcjottcanoq26NG1WWEVdjXVYlFfnaZxlVc7DI=;
+        b=UpHqV7j7gU7aMdTVkNYQfOxS5Fr3kwMFomiTZelUm9YaITtdVDbyQshLhXFO7tkVIt
+         ZkSMgbMd8QtnO1IOqSZ5vqz0QeoDIbhpAkWbTLQOmvpE+zUF069qCRqLYCxcpXEjOFAQ
+         Bpa/Jli8dsgrNu7dNTF429RpZool/rKF8iPLh1W2TlPXpjxxQAKPrGUrUG87kRye8zNM
+         8xVlTmWwT3hCQTO1k7EoUZtxXHyjXSi42gy4CSB/V/pVKq8xm7DY/qyLbXdrLkCrmDyu
+         akP0kzgPTeVfEwb8rjXsUtmMuc2TT7YEx12lijYnSr/g81Gpo7g0DDj/D2SeABpus/5f
+         glIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhoGyZqC8bA7wjjxdcpBOIIy7J1p9MvCcbqB0jaAIDduD68xudsrWcf0ky8p4mIdCYgemZUIxvRjXP@vger.kernel.org, AJvYcCVe/vY9Qxv/ZyOAMmUhG/hBlV6y1+HlxsgZs7sb5Ql2NrDIW0CEjEeOkhm+2gBQ0iFUR17NS8UXKZG9@vger.kernel.org, AJvYcCWl45tt5BCV3kmUp5ByELE3gHQTS+OXHpwHkPpNulbcuezQyxyGybwdAZv1X4nV9LD2PNBR58oYEfEtbqthwQ==@vger.kernel.org, AJvYcCXw1LMkHmgS0gX2yUcwX7XDoFaYq9I4wGvie5XnkSW++efKL1KqfS2JLzCV6dqJthMBX7FtYTv7iFDiAGM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuLjpALjWLkZp5NsTa49w8OtASn/qgF5TPzCiqLuaVCf5fujka
+	BzFakvdluornsWu4TLaBb+JnLYaNC1TS4n3eS0pwvzs6/PP0A/fUONnmDwDP
+X-Gm-Gg: ASbGnctpacXgDzVN+2FzVHzdXitNbNPdWLbbpcLV1U24T1C/9KT+mWPl/Wy5bs+3XTm
+	Cy9kU9CVWyc1iJ06jQUZNPJtMzGRqkJxiyMcSHMPodE1gmbGXciah0JdsAr1e83xorQtPp9t5BO
+	j7Unrm8Lh6tKPcPzCSL+7Vn8L+WSKJJuRsLpTMaHFfrCqOkfoGyNsD0q70fErfuHAyS9OjzD0zI
+	ttIPKZWyUO6Az0O6nJl3H79TSZLY4QUvEHAsyNVdUY/
+X-Google-Smtp-Source: AGHT+IHx+9/iV9cCnXHcndeIm4J/8/nCLAuzVn3WqCo+4I1hlhQji8gB3twwfLcGd8mH4Ly/1nWb9A==
+X-Received: by 2002:a05:6e02:741:b0:3a7:e3e3:bd57 with SMTP id e9e14a558f8ab-3aff7f1646emr62964095ab.15.1734153899702;
+        Fri, 13 Dec 2024 21:24:59 -0800 (PST)
 Received: from localhost ([2607:fea8:52a3:d200::8f60])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-467b2ed1a0asm4417401cf.87.2024.12.13.20.12.04
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3b248228c81sm3080105ab.23.2024.12.13.21.24.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Dec 2024 20:12:05 -0800 (PST)
-Date: Fri, 13 Dec 2024 23:12:02 -0500
+        Fri, 13 Dec 2024 21:24:58 -0800 (PST)
+Date: Sat, 14 Dec 2024 00:24:55 -0500
 From: Richard Acayan <mailingradian@gmail.com>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: Bjorn Andersson <andersson@kernel.org>,
@@ -85,12 +85,13 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
 	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 Subject: Re: [PATCH v7 5/5] arm64: dts: qcom: sdm670: add camss and cci
-Message-ID: <Z10FkmBq95HQkOgv@radian>
+Message-ID: <Z10Wpwhp_ulC2KhF@radian>
 References: <20241210233534.614520-7-mailingradian@gmail.com>
  <20241210233534.614520-12-mailingradian@gmail.com>
  <fe8dbb4e-9d0e-4ecf-874b-be9225ae1487@linaro.org>
  <Z1jdNaeoictuCK7N@radian>
  <a499bc08-1505-4f7c-833c-68240fdec275@linaro.org>
+ <Z10FkmBq95HQkOgv@radian>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,24 +100,28 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a499bc08-1505-4f7c-833c-68240fdec275@linaro.org>
+In-Reply-To: <Z10FkmBq95HQkOgv@radian>
 
-On Wed, Dec 11, 2024 at 11:24:30AM +0000, Bryan O'Donoghue wrote:
-> On 11/12/2024 00:30, Richard Acayan wrote:
-> > > I think you sorted the regs, interrupts but forgot the clocks ?
-> > Do you mean the first three clocks placed first? The order was suggested
-> > by Vladimir in [1], but I can undo it.
+On Fri, Dec 13, 2024 at 11:12:02PM -0500, Richard Acayan wrote:
+> On Wed, Dec 11, 2024 at 11:24:30AM +0000, Bryan O'Donoghue wrote:
+> > On 11/12/2024 00:30, Richard Acayan wrote:
+> > > > I think you sorted the regs, interrupts but forgot the clocks ?
+> > > Do you mean the first three clocks placed first? The order was suggested
+> > > by Vladimir in [1], but I can undo it.
+> > > 
+> > > [1]https://lore.kernel.org/r/40cd7a52-1c60-40dc-aee6-730b5247b216@linaro.org
 > > 
-> > [1]https://lore.kernel.org/r/40cd7a52-1c60-40dc-aee6-730b5247b216@linaro.org
+> > We've had a long, long discussion on ordering subsequent.
+> > 
+> > Have a look at the sc7280 and align your ordering with that.
 > 
-> We've had a long, long discussion on ordering subsequent.
+> Ok, it seems SC7280 renames the CSID clocks to change their alphabetical
+> sorting so I'll rename them as well.
 > 
-> Have a look at the sc7280 and align your ordering with that.
+> 	csi0 -> vfe0_csid
+> 	csi1 -> vfe1_csid
+> 	csi2 -> vfe_lite_csid
 
-Ok, it seems SC7280 renames the CSID clocks to change their alphabetical
-sorting so I'll rename them as well.
-
-	csi0 -> vfe0_csid
-	csi1 -> vfe1_csid
-	csi2 -> vfe_lite_csid
+Let's not do this, the "csiX" clock names are also used in camss-csid.c
+and would need deeper driver changes.
 
