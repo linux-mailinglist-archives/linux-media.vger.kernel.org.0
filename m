@@ -1,56 +1,58 @@
-Return-Path: <linux-media+bounces-23441-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23442-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2FC9F24DB
-	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2024 18:00:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A28A9F24DD
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2024 18:03:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C62D51885FDD
-	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2024 17:00:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11B451885FBD
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2024 17:03:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 979FC198E86;
-	Sun, 15 Dec 2024 16:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F318F1ACDE8;
+	Sun, 15 Dec 2024 17:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e3TYh2Fb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O+lM0Auo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A67C196DB1
-	for <linux-media@vger.kernel.org>; Sun, 15 Dec 2024 16:59:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FB71AAA24
+	for <linux-media@vger.kernel.org>; Sun, 15 Dec 2024 17:02:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734281996; cv=none; b=KuU7kcQuFi/blqo51Cng/E9MuToGnhQ7f4KlWE1g+2ALlZBZp6SyEvfqqkAkv278cIi0CqxS2uJN2aepcQGTJ745UUqrzJalrxasfVSs8RR8Ztakc23BULkBIZaKOwz5v1YAxNLty4HyUA13Ek0PM1mJjJeYbg/xTZFc5odh0Is=
+	t=1734282180; cv=none; b=T0E+HxLKr28WzR8iMq81/nlLXWBqpbOIxp3Mah4aq0k8V9Fu9Le6L9qNVy+OmV8IVQKVRv0rzEI6vyQ+WQRBPG1JFCMmrRfXke8c7CDLjA0fqvuyhbxdjzfUH0B2VvOoZHE0u5iA9PepP7YIWID94en+yJai3Bshmys8iT4Mevc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734281996; c=relaxed/simple;
-	bh=10oFs0/LCuH0RzkqRInrw8f4uGoHDTv8Sr00+GmPDSw=;
+	s=arc-20240116; t=1734282180; c=relaxed/simple;
+	bh=1hSNCw4ldIrWj/f+0J4gDrZMvdGFfgyzloKyglEkduk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hv5LK2BJlqegFWwv/sLhv9ZJICNURYSXcD/BIoCexduPCizuy4BJRvuRV69W6GUg2XSbsab7IHNtn3Eac83YGPidM/tx7TjMBoOrmoZ+XFy3chJuzO+5PMak9wmGBZDWip/ZLaCsy4GqeGNRQgr1ciFNtRqRhsGOazK+9nyviZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=e3TYh2Fb; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=hSOsJOD1VQrwZcvyk/h8pHHhUk8Vb/yWbjxFvI7YZJXId/DsM3wtEC/+iul4gTSF1icFB/JqhVCsbI5uqZazt+oiVFxsisc1xl0yKGyl3nZfxQhJf+1RIKhq2nA4+sfFfK+tQs08RB5nIrxQyfLcb6RryX5t5IrMnJU2qDT3510=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O+lM0Auo; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 707A77E9;
-	Sun, 15 Dec 2024 17:59:16 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08C6799F;
+	Sun, 15 Dec 2024 18:02:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734281956;
-	bh=10oFs0/LCuH0RzkqRInrw8f4uGoHDTv8Sr00+GmPDSw=;
+	s=mail; t=1734282141;
+	bh=1hSNCw4ldIrWj/f+0J4gDrZMvdGFfgyzloKyglEkduk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e3TYh2Fbg0D0wTIuD18mvdpWjzmAFOOl6Whf9DlhYXT3XIeUZzkCUSm02k7aSGruY
-	 HJPwPXw3plpxndA4J3buLLWVofJ9JpOEZP/oU3pBlbG3GQaKIhPofru7NoxYnnaWcp
-	 2aNarYt6gp77WOCwJCVFLZao5r1k5fec+5NBWSAY=
-Date: Sun, 15 Dec 2024 18:59:35 +0200
+	b=O+lM0Auoz2joIiDo7SqrtxaYuJL2k8Q6fp/IiMLhh/qzF7N89g18uhiR8CDxiG0y/
+	 EPRIuIyuLMzGegg8wMhvN1sYYVitxICy/daxaLlcZ1fk+5XEash9vKcg8BWqHJ0tv6
+	 bAYjE7sIMVEJgiqI3TgDk62JYN42ZLbotJEQyP5s=
+Date: Sun, 15 Dec 2024 19:02:40 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl
-Subject: Re: [PATCH v7 2/5] media: v4l: Support obtaining link frequency via
- get_mbus_config
-Message-ID: <20241215165935.GG9975@pendragon.ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Subject: Re: [PATCH v7 3/5] media: Documentation: Update link frequency
+ driver documentation
+Message-ID: <20241215170240.GH9975@pendragon.ideasonboard.com>
 References: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
- <20241210075906.609490-3-sakari.ailus@linux.intel.com>
+ <20241210075906.609490-4-sakari.ailus@linux.intel.com>
+ <uk6uc7i3v6bpuphqvrhbkqisammkimgbgoas5g4tsakkcbj2jh@d4rss77am2c2>
+ <Z1vfK0cUW9sgBPLt@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,92 +61,64 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241210075906.609490-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <Z1vfK0cUW9sgBPLt@kekkonen.localdomain>
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Tue, Dec 10, 2024 at 09:59:03AM +0200, Sakari Ailus wrote:
-> Add link_freq field to struct v4l2_mbus_config in order to pass the link
-> frequency to the receiving sub-device.
-
-The documentation of v4l2_get_link_freq() should be expanded to explain
-the new mode of operation. It should document which of the supported
-methods are recommended for new drivers.
-
+On Fri, Dec 13, 2024 at 07:15:55AM +0000, Sakari Ailus wrote:
+> On Thu, Dec 12, 2024 at 05:53:53PM +0100, Jacopo Mondi wrote:
+> > On Tue, Dec 10, 2024 at 09:59:04AM +0200, Sakari Ailus wrote:
+> > > Add the get_mbus_config() as the means for conveying the link frequency
+> > > towards the receiver drivers.
+> > >
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  Documentation/driver-api/media/tx-rx.rst | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+> > > index dd09484df1d3..1430c330fd52 100644
+> > > --- a/Documentation/driver-api/media/tx-rx.rst
+> > > +++ b/Documentation/driver-api/media/tx-rx.rst
+> > > @@ -49,6 +49,10 @@ Link frequency
+> > >  The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
+> > >  receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
+> > >
+> > > +On devices where the link frequency isn't configurable, the link_freq field of
+> > > +struct v4l2_mbus_config is recommended over controls for conveying the link
+> > > +frequency to the downstream driver in the pipeline.
+> > 
+> > When read in its entirety, the paragraphs
+> > 
+> >  Link frequency
+> >  ^^^^^^^^^^^^^^
+> > 
+> >  The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
+> >  receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
+> > 
+> >  On devices where the link frequency isn't configurable, the link_freq field of
+> >  struct v4l2_mbus_config is recommended over controls for conveying the link
+> >  frequency.
+> > 
+> > Sounds simpler without the last 7 words.
+> > 
+> > A nit and just tastes maybe
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-common.c | 11 ++++++++---
->  include/media/v4l2-mediabus.h         |  2 ++
->  2 files changed, 10 insertions(+), 3 deletions(-)
+> I used:
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 9fe74c7e064f..88fbd5608f00 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -508,13 +508,18 @@ EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
->  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
->  			     unsigned int div)
->  {
-> +	struct v4l2_mbus_config mbus_config = {};
+> On devices where the link frequency isn't configurable, using the ``link_freq``
+> field of struct v4l2_mbus_config is recommended over controls.
 
-Isn't mbus_config fully populated by the .get_mbus_config() operation ?
-That should be documented in the .get_mbus_config() operation
-documentation.
+Is it a recommendation for the transmitter driver or the receiver driver
+? If it's a recommendation for the transmitter driver, does that mean it
+should not implement V4L2_CID_LINK_FREQ in that case ? How about the
+need to expose the link frequency to userspace when it's fixed ?
 
->  	struct v4l2_subdev *sd;
-> +	int ret;
->  
->  	sd = media_entity_to_v4l2_subdev(pad->entity);
-> -	if (!sd)
-> -		return -ENODEV;
-> +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
-> +			       &mbus_config);
-> +	if (ret < 0 && ret != -ENOIOCTLCMD)
-> +		return ret;
->  
-> -	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> +	return mbus_config.link_freq ?:
-> +		__v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+I think the documentation needs further clarification to clearly explain
+what transmitters should do and what receivers should do.
 
-	if (mbus_config.link_freq)
-		return mbus_config.link_freq;
-
-	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-
-I wonder if we should also add a message in case link_freq is 0, to get
-drivers to convert to reporting the link frequency through
-.get_mbus_config() if they already implement the operation.
-
->  }
->  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
->  #endif /* CONFIG_MEDIA_CONTROLLER */
-> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> index 5bce6e423e94..cc5f776dc662 100644
-> --- a/include/media/v4l2-mediabus.h
-> +++ b/include/media/v4l2-mediabus.h
-> @@ -148,6 +148,7 @@ enum v4l2_mbus_type {
->  /**
->   * struct v4l2_mbus_config - media bus configuration
->   * @type: interface type
-> + * @link_freq: The link frequency. See also V4L2_CID_LINK_FREQ control.
-
-Not a candidate for this series, but I'd like to simplify drivers by
-implementing the LINK_FREQ control automatically.
-
->   * @bus: bus configuration data structure
->   * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
->   *		  Used if the bus is parallel or BT.656.
-> @@ -162,6 +163,7 @@ enum v4l2_mbus_type {
->   */
->  struct v4l2_mbus_config {
->  	enum v4l2_mbus_type type;
-> +	u64 link_freq;
->  	union {
->  		struct v4l2_mbus_config_parallel parallel;
->  		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+> > 
+> > I like where this is going!
+> > 
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 -- 
 Regards,
