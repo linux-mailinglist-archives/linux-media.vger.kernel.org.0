@@ -1,149 +1,265 @@
-Return-Path: <linux-media+bounces-23432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23433-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB559F239D
-	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2024 13:12:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B9E9F23A9
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2024 13:19:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C9A6165AC2
-	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2024 12:12:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8599218863DA
+	for <lists+linux-media@lfdr.de>; Sun, 15 Dec 2024 12:19:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A153717B50F;
-	Sun, 15 Dec 2024 12:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D780180A80;
+	Sun, 15 Dec 2024 12:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="q2uUHQiA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB57148FF6
-	for <linux-media@vger.kernel.org>; Sun, 15 Dec 2024 12:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.80
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734264751; cv=none; b=lVEysLaRtR7EEoPd72gu7dZlQDUs3DDq/BgCUbr4baF3cAQCgNzX/Vh5aLSYmPrRA2UG63At4ZAzJK0nlDmFUkJvPqPfAFCBsjPI5M4iOTEZ48E9TQOpGhcwvBAmzjnPLB6NkP+LLApnLM78R+GyapN6PTe/4vbQvfn8JhD8Rbk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734264751; c=relaxed/simple;
-	bh=AYlTEFpWIncjRpZQPffyZDlLYSxAWaU1Ave5Ue9IMSQ=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=TP+PLEr6dVEDcXbFFCwmnkh+WvOyEp/A3BRmnHkLYXKxc7hLtDMO0LDXvcah7PWBOSnyLsKjlopJlzB9U4eT6WMwMXIRkP3WkQKV6dKR6uDV90q0A/WgM5c9vAQKNqbVMrXqD1pUHw7lNdLaOUQ1c3qdP9fIVnXTqpxfrYKQZRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-844db0decffso289725939f.0
-        for <linux-media@vger.kernel.org>; Sun, 15 Dec 2024 04:12:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734264749; x=1734869549;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FOL9s/OQ6MNT6UGsGpZsjo3MmE6YYjvHLOxHAwyHjm0=;
-        b=vRA8EcvZY7GGDioSZoDAbUajqsSb8Z+zYAu/NjTd73Ehe+CG9Y4S23pTrmaW+f1PuJ
-         LFKCxQ9b8iwk/e7NnIM/wXKYx0UfzSTQWRGij/fVvxs3B3qgyHTnqc4CDHwUng9ennh4
-         LSqFE760f8hVT04lawRqYqsOHEgfqjdqh9HrfQ8g8oyP9StHnpg/UulksURAgekEGo0M
-         1jokXu5YMs8D0Pypi7MOp4EeGpEwbU5RTddkRpNvudgg4CbaoOZLEEvdZZMYtw+Q9rgT
-         E7mL0vvh05eZtBVXaqieLnGDFWk9pVyF8TXN6tyzeo6sBVhfo/66rGCISjd+0Yy0B3q+
-         sBxA==
-X-Forwarded-Encrypted: i=1; AJvYcCVHy3VXeC0fCgT8TQ1tKAt/z6P8VlxuMUMDF7IHZiee5DHAJYasefmZLdXE4Tx0GcNCyTVew03SK+yhGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzt8fUu1SGeHO9TAXFlS+FYQGilIodi2rhs1j+vgrq9MCJJqAK4
-	NFnbMJ9uzpVAZsgQlqp4hPggB8ukfb0bt05G7IcZX59b+BuCk+kpQ3+mFF3ID7Li2XKzID8JLX4
-	rHcG5SUQKSsgrW558wU6CgsfKsAnSH01QEwLh/Isfy8Wv3hlC87LkAZ4=
-X-Google-Smtp-Source: AGHT+IFUeBrcc2QCuF0+CuTx0GFY7B+Ia2Os/4nKWE/1sZmNSz+EU/eK1rK7hjjPuG8VagdLXkezG47kYg+UyuQ0jmGBDkQTz926
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF59145A18;
+	Sun, 15 Dec 2024 12:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734265138; cv=pass; b=E30jxptl5jqxNLmPXlf+D6jqqYHAKUVaCJ+BNJA3nmsuun7Lr5Aeeb8goOzqDJZ6szoTKW88mBB69lm83uWJDY9CJY8SN+5r4ZRmCesZokJ9ii9vAbGaAtYg5py9ZTkJ5cqoiD3JUUT7HjbCPnT22Mq7Wtaq6Gmxg+Io1YuyPz8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734265138; c=relaxed/simple;
+	bh=/L0OJLp/mBN6viX5c/npVe2gaNYnTN/UU/pILXkCo2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ggLzVTnDvOZrNvX1D1Fk7GpoiZBZ9MrGwpUw7qjCTzb0Uv9quBDlzK1Pmualiz68ACLer6mYrh6bqo54XD4Jgy3GheDGjQOgiQxQ650Up729L89QCdY6jJiRhpItzmyzfkKrhkZH265kXirNYvMM+/4q5+3ZblwTK/sjCiYIPfk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=q2uUHQiA; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4YB2DN11ZnzybN;
+	Sun, 15 Dec 2024 14:18:43 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1734265126;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QNkUVDCZhDaEmA6yIBIe4bMQKnUcOVR08f2igvbWkbk=;
+	b=q2uUHQiAoXW3hESINEMrWO1ktTOA1ljeykfiuIWAB6uaLVSHv9NWk6jkgFkJiL+vgpjAva
+	hecH1U2LgHA5duHJ/Vl/S3WdJzggwitK62FkR4HAzobWyxoaivq17OLhMzHYhltlpljmVZ
+	WZSlMLiLPOetPgEch88+myjDv6l/uBI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1734265126;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QNkUVDCZhDaEmA6yIBIe4bMQKnUcOVR08f2igvbWkbk=;
+	b=sVtVx9r8BjV7s7SelVuMQyX0JbRI8W0We5vuO8mghd5K4m+Sok2OvIg5hLVfKvEFTyY8Y6
+	hiPHLNCOtBPYtbWSKkXBihWDatrs20pz9iuGEg8a/hayNnRgoFEssyg5xkvMSkKzX3yHf8
+	UQhKQat+qWAclCLg4dyi8mrUqT+gBRg=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1734265126; a=rsa-sha256; cv=none;
+	b=MfJKE/lQoqP6UcKfO1WDXMpt4oQU3e4iaIa91DSFZoLmR45/AdCS+hgBuOidI+MStglFM6
+	jZ7mr/Mz3rsU2cu4O4vrnKnKWEkqAuQEQbb4z8LKToWFNQhQhwJUMMV76fEoOvvd5PqmVt
+	2B+UHHpKSmO4vUrEv0R8D3Y6AgUkdAg=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B67FC634C94;
+	Sun, 15 Dec 2024 14:18:42 +0200 (EET)
+Date: Sun, 15 Dec 2024 12:18:42 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Alain Volmat <alain.volmat@foss.st.com>
+Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v4 02/15] dt-bindings: media: add description of stm32 csi
+Message-ID: <Z17JItE-98IIrnMv@valkosipuli.retiisi.eu>
+References: <20241212-csi_dcmipp_mp25-v4-0-fbeb55a05ed7@foss.st.com>
+ <20241212-csi_dcmipp_mp25-v4-2-fbeb55a05ed7@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:238a:b0:3a7:e1c3:11f5 with SMTP id
- e9e14a558f8ab-3b02adcc3acmr79077925ab.6.1734264748854; Sun, 15 Dec 2024
- 04:12:28 -0800 (PST)
-Date: Sun, 15 Dec 2024 04:12:28 -0800
-In-Reply-To: <0000000000008cabee0614a97e81@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <675ec7ac.050a0220.37aaf.00f9.GAE@google.com>
-Subject: Re: [syzbot] [media?] WARNING in call_s_stream
-From: syzbot <syzbot+5bcd7c809d365e14c4df@syzkaller.appspotmail.com>
-To: hverkuil-cisco@xs4all.nl, kieran.bingham@ideasonboard.com, 
-	laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
-	skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com, 
-	tfiga@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241212-csi_dcmipp_mp25-v4-2-fbeb55a05ed7@foss.st.com>
 
-syzbot has found a reproducer for the following issue on:
+Hi Alain,
 
-HEAD commit:    2d8308bf5b67 Merge tag 'scsi-fixes' of git://git.kernel.or..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=149594f8580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b874549ac3d0b012
-dashboard link: https://syzkaller.appspot.com/bug?extid=5bcd7c809d365e14c4df
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13ba07e8580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10bac344580000
+On Thu, Dec 12, 2024 at 10:17:26AM +0100, Alain Volmat wrote:
+> Add the stm32 csi controller description.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> ---
+> v2:
+>   - rename into st,stm32mp25-csi.yaml to match compatible
+>   - correct port / data-lanes (remove useless lines &
+>     use data-lanes 1 and 2 instead of 0 and 1)
+>   - correct commit log
+> ---
+>  .../bindings/media/st,stm32mp25-csi.yaml           | 125 +++++++++++++++++++++
+>  1 file changed, 125 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/st,stm32mp25-csi.yaml b/Documentation/devicetree/bindings/media/st,stm32mp25-csi.yaml
+> new file mode 100644
+> index 000000000000..33bedfe41924
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/st,stm32mp25-csi.yaml
+> @@ -0,0 +1,125 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/st,stm32mp25-csi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: STMicroelectronics STM32 CSI controller
+> +
+> +description:
+> +  The STM32 CSI controller allows connecting a CSI based
+> +  camera to the DCMIPP camera pipeline.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-2d8308bf.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/f42110acb18e/vmlinux-2d8308bf.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d819752d1b01/bzImage-2d8308bf.xz
+CSI-2 I presume?
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+5bcd7c809d365e14c4df@syzkaller.appspotmail.com
+You should also document it here it has D-PHY...
 
-0 pages HighMem/MovableOnly
-281646 pages reserved
-0 pages cma reserved
-vimc vimc.0: subdev_call error Scaler
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5933 at drivers/media/v4l2-core/v4l2-subdev.c:460 call_s_stream+0x2df/0x350 drivers/media/v4l2-core/v4l2-subdev.c:460
-Modules linked in:
-CPU: 0 UID: 0 PID: 5933 Comm: syz-executor330 Not tainted 6.13.0-rc2-syzkaller-00362-g2d8308bf5b67 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:call_s_stream+0x2df/0x350 drivers/media/v4l2-core/v4l2-subdev.c:460
-Code: c1 ea 03 80 3c 02 00 75 75 48 8b bb 08 01 00 00 44 89 e2 48 c7 c6 00 17 4f 8c e8 bc 43 39 fe e9 54 fe ff ff e8 62 79 0e fa 90 <0f> 0b 90 e9 cb fe ff ff 4c 89 f7 e8 11 27 71 fa e9 48 fd ff ff e8
-RSP: 0018:ffffc900035cfa60 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff8880275bf020 RCX: ffffffff878b879e
-RDX: ffff8880216e0000 RSI: ffffffff878b8a1e RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000001 R12: dffffc0000000000
-R13: 0000000000000000 R14: ffff8880275bf198 R15: ffffffff87de3560
-FS:  0000555584c4b380(0000) GS:ffff88806a600000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffee98411d8 CR3: 0000000034912000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- vimc_streamer_pipeline_terminate+0x218/0x320 drivers/media/test-drivers/vimc/vimc-streamer.c:62
- vimc_streamer_pipeline_init drivers/media/test-drivers/vimc/vimc-streamer.c:101 [inline]
- vimc_streamer_s_stream+0x650/0x9a0 drivers/media/test-drivers/vimc/vimc-streamer.c:203
- vimc_capture_start_streaming+0xa1/0x130 drivers/media/test-drivers/vimc/vimc-capture.c:256
- vb2_start_streaming+0x15f/0x5a0 drivers/media/common/videobuf2/videobuf2-core.c:1789
- vb2_core_streamon+0x2a7/0x450 drivers/media/common/videobuf2/videobuf2-core.c:2348
- vb2_streamon drivers/media/common/videobuf2/videobuf2-v4l2.c:875 [inline]
- vb2_ioctl_streamon+0xf4/0x170 drivers/media/common/videobuf2/videobuf2-v4l2.c:1118
- __video_do_ioctl+0xaf0/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3122
- video_usercopy+0x4d2/0x1620 drivers/media/v4l2-core/v4l2-ioctl.c:3463
- v4l2_ioctl+0x1ba/0x250 drivers/media/v4l2-core/v4l2-dev.c:366
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl fs/ioctl.c:892 [inline]
- __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2b85c01b19
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffee98412d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007f2b85c01b19
-RDX: 0000000020000000 RSI: 0000000040045612 RDI: 0000000000000005
-RBP: 00007f2b85c430f3 R08: 00007ffee9841077 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000246 R12: 00007f2b85c431c6
-R13: 00007ffee98412f0 R14: 00007f2b85c43014 R15: 00007f2b85c4314b
- </TASK>
+> +
+> +maintainers:
+> +  - Alain Volmat <alain.volmat@foss.st.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - st,stm32mp25-csi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pclk
+> +      - const: txesc
+> +      - const: csi2phy
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  vdd-supply:
+> +    description: Digital core power supply (0.91V)
+> +
+> +  vdda18-supply:
+> +    description: System analog power supply (1.8V)
+> +
+> +  access-controllers:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                items:
+> +                  - const: 1
+> +                  - const: 2
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/st,stm32mp25-rcc.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/media/video-interfaces.h>
+> +    #include <dt-bindings/reset/st,stm32mp25-rcc.h>
+> +    csi@48020000 {
+> +        compatible = "st,stm32mp25-csi";
+> +        reg = <0x48020000 0x2000>;
+> +        interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>;
+> +        resets = <&rcc CSI_R>;
+> +        clocks = <&rcc CK_KER_CSI>, <&rcc CK_KER_CSITXESC>, <&rcc CK_KER_CSIPHY>;
+> +        clock-names = "pclk", "txesc", "csi2phy";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            port@0 {
+> +                reg = <0>;
+> +                endpoint {
+> +                    remote-endpoint = <&imx335_ep>;
+> +                    data-lanes = <1 2>;
+> +                    bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
 
+...and drop bus-type property.
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +                endpoint {
+> +                    remote-endpoint = <&dcmipp_0>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
