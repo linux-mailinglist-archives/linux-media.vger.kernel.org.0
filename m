@@ -1,307 +1,184 @@
-Return-Path: <linux-media+bounces-23475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23476-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8921A9F315F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 14:19:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E47419F31FA
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 14:52:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 407A21884A77
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 13:19:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 176D2166ADE
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 13:52:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15707204684;
-	Mon, 16 Dec 2024 13:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 508B9205AA1;
+	Mon, 16 Dec 2024 13:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dvI4SQfx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rDMGQpVk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87E229CA
-	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 13:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C0129CA
+	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 13:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734355142; cv=none; b=LIsuzUGd5+udP0JbmTS6W6hQQ/+h9JJMtEDboICu9RzuxLKtcd4gi6LOWfimz88jYu/giVWsjKpk6PVDMklZ9IHRD2dr//JBNzSOmO/mcenaWsNmm2uS1UtDF5g3hEEcmB+Tt+LwVR4UJVCcS5se86RtmbT+PbXRd0rSVVQNFi8=
+	t=1734357120; cv=none; b=NPmuHwXVK34QGxt5D9K+lTlhGZoP5arB/0DTgrWbxIK1RmC29B6iOVmYRRvKJxm33AH9DfghvkjjqIVmDkxzlIPEtFaE1WgRACuZim8m4QNM9QxR7oZ/mzQgDnbrPH2HNX9fQLZ7bk2uayC92KCVhiuszccp/eMS4pw01BXlWpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734355142; c=relaxed/simple;
-	bh=Naa1r21cfTLvjx79DlwjxB9uDSfm8RzcWV4LpDoOI5M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=snX0cnJvXjjRbnXWbwOT1BQfQHhlFavJgTNMZsRLhwt9BBnXb6HhYDojSqlv5pP2RgrPAKrWpY9K43g8HMQfhz+cYY/sS6T7+wyqwiTomKTKySQJ0x9/GM9sKb8S1/GpjtTCfbYxoE2LJntjqR+DKoMqN0FK/AY8fC+uO8CcM+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dvI4SQfx; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5160f80e652so1010595e0c.2
-        for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 05:19:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734355140; x=1734959940; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cylkGV/s33oM5Bw9YjhiSXcno3L8oN+1RPe1Nh/jKAE=;
-        b=dvI4SQfxyNlzQF+VAQwfmU5xYHURPUrxHgGMj9ltccHbcnTqxkFDr2meoF4s8xNt3p
-         NgCdUoGuK4+dikx8okBDpttCPB65rdE/jlhDFRJ8IPge9EMKbk77qUFGvbtjsJ5NCqAr
-         KqjgewPIE4XDCFoNVG1rGcLDGVWFKy+yDUakz4E2Etc0cxNDyOKoiQGMQ0iNd7KWjW7H
-         Rktm6IeipHuKQH30RpwGAkXJdYwsh0B+g758N31CMnSOyBgI30jC59nEPuh3MHf58wNA
-         R/QpQGjbrJot+gdzsJoheVn2mAKz4GHqm/cHEnK5At7TosTKxpiStEkLtdUMQNZBcWa9
-         6iSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734355140; x=1734959940;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cylkGV/s33oM5Bw9YjhiSXcno3L8oN+1RPe1Nh/jKAE=;
-        b=OJAUN4YE0JeGFpCNvWLfu291MIxdK+DaFjV+JL0S+GxpJpSyRbdXbiGgFyzupt8qX2
-         CFUUuJXgb9RDSM81nxVXmPYBdH0t2/VzvGGqlxcGrSPQC6CQVE1DRyLCkrm8JkhXqwbJ
-         CzELt6rp7HicGzMkfi9jPBvVMW49XROpZxPRYfE6d9oO5UJW0www83ZXF5LNKOSckYfE
-         JFVUJ0O3dIopl/TC+xpXcFBeApNUVcQ3Un2Rykzouh2zstVvM+yG5zDGzxYR8S/H9k+1
-         yZcQIpzuJhLaKUUAJs8acMStM6IBEJ9Kr6/HF7Y973rrweZQ7hPRb8nZcWV4ELximBmN
-         HWMw==
-X-Gm-Message-State: AOJu0YzkKvjcsnhX/XG1g0l8UAizAFHyo4XvLNMRl99PkOBjrvNjHvoD
-	0Ovd2q4WG20iVEyXZcFsUiWcgh/MquPUFDyw1t2RV9TJolejFMNyB2D0pByULtZEJjtUO+JJ9MI
-	bjLvBy6c8dx7uc7AikK/vZ8ScHDM=
-X-Gm-Gg: ASbGncuVsj+ntYggjk1rw0GLz8RhfDT4CPrwJowzQEh+xWobfDzEEnv7KURviqSkP0I
-	C+MxiZ0QwF7SR6etzdp+tbhjlktXb2odzbjVP4A==
-X-Google-Smtp-Source: AGHT+IGZmVJZwMHF2m/AKdIV9Vw0tEYdHD7rcO+YS+03hAkL72ia5nZGrVk9mgYqIj2U/eYH1SV3M668/jSoAPonGYQ=
-X-Received: by 2002:a05:6122:1d4a:b0:518:92c8:9426 with SMTP id
- 71dfb90a1353d-518ca30a6f8mr9458317e0c.9.1734355139580; Mon, 16 Dec 2024
- 05:18:59 -0800 (PST)
+	s=arc-20240116; t=1734357120; c=relaxed/simple;
+	bh=eRk++64wIVp1j6QIVw3GPlcsFSHnW/6LsSn0cHj4/pM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dnVgqPfmyqfz7E09XLMFpNttKeVW6+TVPXadEVADEX3PMEQBVDDktiFXRPwRGi+rsJe5MvC6pr13JZM/SSTiSucR2Axv/Rifqzbh+aoYB4WlbDosRvk8/TQCjdi4x6bQWnwd262YisrZExLGePdsV1q/pFSbx21FVgN5SC+vtes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rDMGQpVk; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77C8082A;
+	Mon, 16 Dec 2024 14:51:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1734357080;
+	bh=eRk++64wIVp1j6QIVw3GPlcsFSHnW/6LsSn0cHj4/pM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rDMGQpVkV7lptmlfKRMpKdih+cW465uw2I+j/hydFvfbJOTeXW9ugWTaG3ZSciOaa
+	 87bSZZHKw3z+zidbZ8ht3yuOAQnMI6GaSO8c9kCeh0eV5S8eWPBPRuvKDOUlbLF9q/
+	 f0sN/YuTGUdQ+B7nj20rMTPIhnWWI+RgEzP2b8/k=
+Date: Mon, 16 Dec 2024 15:51:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl
+Subject: Re: [PATCH v7 2/5] media: v4l: Support obtaining link frequency via
+ get_mbus_config
+Message-ID: <20241216135140.GA29336@pendragon.ideasonboard.com>
+References: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
+ <20241210075906.609490-3-sakari.ailus@linux.intel.com>
+ <20241215165935.GG9975@pendragon.ideasonboard.com>
+ <Z1_o8yHTYygdZtex@kekkonen.localdomain>
+ <20241216111645.GL32204@pendragon.ideasonboard.com>
+ <Z2AZ4xD_HTxDD8wH@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202145831.127297-1-dan.scally@ideasonboard.com> <20241202145831.127297-5-dan.scally@ideasonboard.com>
-In-Reply-To: <20241202145831.127297-5-dan.scally@ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 16 Dec 2024 13:18:33 +0000
-Message-ID: <CA+V-a8sVVes+6gf-iEA=hpdqVsmORCDkR9UHBwiA-OW45h=JOg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] media: rzg2l-cru: Support multiple mbus codes per
- pixel format
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl, 
-	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, jacopo.mondi@ideasonboard.com, 
-	isaac.scott@ideasonboard.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z2AZ4xD_HTxDD8wH@kekkonen.localdomain>
 
-On Mon, Dec 2, 2024 at 3:51=E2=80=AFPM Daniel Scally
-<dan.scally@ideasonboard.com> wrote:
->
-> As a preliminary step for supporting the CRU pixel formats, extend
-> the driver such that multiple media bus codes can support each of
-> the output pixel formats.
->
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
-> ---
-> Changes in v3:
->
->         - New patch due to changes to patch 1
->
->  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  8 ++-
->  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 67 +++++++++++++++----
->  .../platform/renesas/rzg2l-cru/rzg2l-video.c  |  2 +-
->  3 files changed, 61 insertions(+), 16 deletions(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Mon, Dec 16, 2024 at 12:15:31PM +0000, Sakari Ailus wrote:
+> On Mon, Dec 16, 2024 at 01:16:45PM +0200, Laurent Pinchart wrote:
+> > On Mon, Dec 16, 2024 at 08:46:43AM +0000, Sakari Ailus wrote:
+> > > On Sun, Dec 15, 2024 at 06:59:35PM +0200, Laurent Pinchart wrote:
+> > > > On Tue, Dec 10, 2024 at 09:59:03AM +0200, Sakari Ailus wrote:
+> > > > > Add link_freq field to struct v4l2_mbus_config in order to pass the link
+> > > > > frequency to the receiving sub-device.
+> > > > 
+> > > > The documentation of v4l2_get_link_freq() should be expanded to explain
+> > > > the new mode of operation. It should document which of the supported
+> > > > methods are recommended for new drivers.
+> > > > 
+> > > > > 
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > ---
+> > > > >  drivers/media/v4l2-core/v4l2-common.c | 11 ++++++++---
+> > > > >  include/media/v4l2-mediabus.h         |  2 ++
+> > > > >  2 files changed, 10 insertions(+), 3 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > > > > index 9fe74c7e064f..88fbd5608f00 100644
+> > > > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > > > @@ -508,13 +508,18 @@ EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
+> > > > >  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> > > > >  			     unsigned int div)
+> > > > >  {
+> > > > > +	struct v4l2_mbus_config mbus_config = {};
+> > > > 
+> > > > Isn't mbus_config fully populated by the .get_mbus_config() operation ?
+> > > > That should be documented in the .get_mbus_config() operation
+> > > > documentation.
+> > > 
+> > > It's a good practice to zero the memory before drivers get to work on it. I
+> > > presume drivers will set the fields that are relevant for them and ignore
+> > > the rest.
+> > > 
+> > > I can add a note on get_mbus_config() the drivers should set all struct
+> > > fields to known values.
+> > 
+> > Thanks.
+> > 
+> > > > >  	struct v4l2_subdev *sd;
+> > > > > +	int ret;
+> > > > >  
+> > > > >  	sd = media_entity_to_v4l2_subdev(pad->entity);
+> > > > > -	if (!sd)
+> > > > > -		return -ENODEV;
+> > > > > +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
+> > > > > +			       &mbus_config);
+> > > > > +	if (ret < 0 && ret != -ENOIOCTLCMD)
+> > > > > +		return ret;
+> > > > >  
+> > > > > -	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> > > > > +	return mbus_config.link_freq ?:
+> > > > > +		__v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> > > > 
+> > > > 	if (mbus_config.link_freq)
+> > > > 		return mbus_config.link_freq;
+> > > > 
+> > > > 	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> > > 
+> > > Whether this would be cleaner is debatable at least. I can switch if you
+> > > insist though.
+> > 
+> > I think it's nicer. You could even write
+> > 
+> >  	if (mbus_config.link_freq)
+> >  		return mbus_config.link_freq;
+> > 
+> > 	/*
+> > 	 * Fall back to using the link frequency control if the media bus config
+> > 	 * doesn't provide a link frequency.
+> > 	 */
+> >  	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> 
+> I can use this.
+> 
+> > 
+> > > > I wonder if we should also add a message in case link_freq is 0, to get
+> > > > drivers to convert to reporting the link frequency through
+> > > > .get_mbus_config() if they already implement the operation.
+> > > 
+> > > I'm not sure this will be useful: in most cases the LINK_FREQ control is
+> > > used and for a reason: it's user-configurable. Drivers should only populate
+> > > the field if the link frequency is determined by the driver. For the
+> > > receiver drivers it does not matter: they use v4l2_get_link_freq().
+> > 
+> > I think this depends on whether or not driver that have a configurable
+> > link frequency should report the current value through
+> > .get_mbus_config(). I think that drivers that implement
+> > .get_mbus_config() should, for consistency.
+> 
+> We should have a helper that obtains information using get_mbus_config() as
+> well as the fwnode endpoint. I've proposed that a few times over the years.
+> I'm hoping for someone who needs dynamic configuration e.g. for lane
+> numbers to implement it. :-)
 
-Cheers,
-Prabhakar
+I'm not sure to follow you here, I don't really see how it's related, or
+exactly what that helper would do.
 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drive=
-rs/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> index aaf85054f8842..ab923bfa3becf 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> @@ -71,7 +71,11 @@ struct rzg2l_cru_ip {
->   * @yuv: Flag to indicate whether the format is YUV-based.
->   */
->  struct rzg2l_cru_ip_format {
-> -       u32 code;
-> +       /*
-> +        * RAW output formats might be produced by RAW media codes with a=
-ny one
-> +        * of the 4 common bayer patterns.
-> +        */
-> +       u32 codes[4];
->         u32 datatype;
->         u32 format;
->         u32 icndmr;
-> @@ -169,5 +173,7 @@ struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(s=
-truct rzg2l_cru_dev *cru);
->  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int =
-code);
->  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_format_to_fmt(u32 format)=
-;
->  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index);
-> +bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_forma=
-t *fmt,
-> +                                        unsigned int code);
->
->  #endif
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/driver=
-s/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> index 399a337dbafbf..54a79d5c13e10 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-> @@ -13,35 +13,45 @@
->
->  static const struct rzg2l_cru_ip_format rzg2l_cru_ip_formats[] =3D {
->         {
-> -               .code =3D MEDIA_BUS_FMT_UYVY8_1X16,
-> +               .codes =3D {
-> +                       MEDIA_BUS_FMT_UYVY8_1X16,
-> +               },
->                 .datatype =3D MIPI_CSI2_DT_YUV422_8B,
->                 .format =3D V4L2_PIX_FMT_UYVY,
->                 .icndmr =3D ICnDMR_YCMODE_UYVY,
->                 .yuv =3D true,
->         },
->         {
-> -               .code =3D MEDIA_BUS_FMT_SBGGR8_1X8,
-> +               .codes =3D {
-> +                       MEDIA_BUS_FMT_SBGGR8_1X8,
-> +               },
->                 .format =3D V4L2_PIX_FMT_SBGGR8,
->                 .datatype =3D MIPI_CSI2_DT_RAW8,
->                 .icndmr =3D 0,
->                 .yuv =3D false,
->         },
->         {
-> -               .code =3D MEDIA_BUS_FMT_SGBRG8_1X8,
-> +               .codes =3D {
-> +                       MEDIA_BUS_FMT_SGBRG8_1X8,
-> +               },
->                 .format =3D V4L2_PIX_FMT_SGBRG8,
->                 .datatype =3D MIPI_CSI2_DT_RAW8,
->                 .icndmr =3D 0,
->                 .yuv =3D false,
->         },
->         {
-> -               .code =3D MEDIA_BUS_FMT_SGRBG8_1X8,
-> +               .codes =3D {
-> +                       MEDIA_BUS_FMT_SGRBG8_1X8,
-> +               },
->                 .format =3D V4L2_PIX_FMT_SGRBG8,
->                 .datatype =3D MIPI_CSI2_DT_RAW8,
->                 .icndmr =3D 0,
->                 .yuv =3D false,
->         },
->         {
-> -               .code =3D MEDIA_BUS_FMT_SRGGB8_1X8,
-> +               .codes =3D {
-> +                       MEDIA_BUS_FMT_SRGGB8_1X8,
-> +               },
->                 .format =3D V4L2_PIX_FMT_SRGGB8,
->                 .datatype =3D MIPI_CSI2_DT_RAW8,
->                 .icndmr =3D 0,
-> @@ -51,11 +61,14 @@ static const struct rzg2l_cru_ip_format rzg2l_cru_ip_=
-formats[] =3D {
->
->  const struct rzg2l_cru_ip_format *rzg2l_cru_ip_code_to_fmt(unsigned int =
-code)
->  {
-> -       unsigned int i;
-> +       unsigned int i, j;
->
-> -       for (i =3D 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++)
-> -               if (rzg2l_cru_ip_formats[i].code =3D=3D code)
-> -                       return &rzg2l_cru_ip_formats[i];
-> +       for (i =3D 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
-> +               for (j =3D 0; j < ARRAY_SIZE(rzg2l_cru_ip_formats[i].code=
-s); j++) {
-> +                       if (rzg2l_cru_ip_formats[i].codes[j] =3D=3D code)
-> +                               return &rzg2l_cru_ip_formats[i];
-> +               }
-> +       }
->
->         return NULL;
->  }
-> @@ -80,6 +93,17 @@ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_t=
-o_fmt(u32 index)
->         return &rzg2l_cru_ip_formats[index];
->  }
->
-> +bool rzg2l_cru_ip_fmt_supports_mbus_code(const struct rzg2l_cru_ip_forma=
-t *fmt,
-> +                                        unsigned int code)
-> +{
-> +       unsigned int i;
-> +
-> +       for (i =3D 0; i < ARRAY_SIZE(fmt->codes); i++)
-> +               if (fmt->codes[i] =3D=3D code)
-> +                       return true;
-> +
-> +       return false;
-> +}
->  struct v4l2_mbus_framefmt *rzg2l_cru_ip_get_src_fmt(struct rzg2l_cru_dev=
- *cru)
->  {
->         struct v4l2_subdev_state *state;
-> @@ -155,7 +179,7 @@ static int rzg2l_cru_ip_set_format(struct v4l2_subdev=
- *sd,
->         sink_format =3D v4l2_subdev_state_get_format(state, fmt->pad);
->
->         if (!rzg2l_cru_ip_code_to_fmt(fmt->format.code))
-> -               sink_format->code =3D rzg2l_cru_ip_formats[0].code;
-> +               sink_format->code =3D rzg2l_cru_ip_formats[0].codes[0];
->         else
->                 sink_format->code =3D fmt->format.code;
->
-> @@ -181,11 +205,26 @@ static int rzg2l_cru_ip_enum_mbus_code(struct v4l2_=
-subdev *sd,
->                                        struct v4l2_subdev_state *state,
->                                        struct v4l2_subdev_mbus_code_enum =
-*code)
->  {
-> -       if (code->index >=3D ARRAY_SIZE(rzg2l_cru_ip_formats))
-> -               return -EINVAL;
-> +       unsigned int index =3D code->index;
-> +       unsigned int i, j;
->
-> -       code->code =3D rzg2l_cru_ip_formats[code->index].code;
-> -       return 0;
-> +       for (i =3D 0; i < ARRAY_SIZE(rzg2l_cru_ip_formats); i++) {
-> +               const struct rzg2l_cru_ip_format *fmt =3D &rzg2l_cru_ip_f=
-ormats[i];
-> +
-> +               for (j =3D 0; j < ARRAY_SIZE(fmt->codes); j++) {
-> +                       if (!fmt->codes[j])
-> +                               continue;
-> +
-> +                       if (!index) {
-> +                               code->code =3D fmt->codes[j];
-> +                               return 0;
-> +                       }
-> +
-> +                       index--;
-> +               }
-> +       }
-> +
-> +       return -EINVAL;
->  }
->
->  static int rzg2l_cru_ip_enum_frame_size(struct v4l2_subdev *sd,
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/dri=
-vers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 028b390488c84..57d1ff45ce1e9 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -891,7 +891,7 @@ static int rzg2l_cru_video_link_validate(struct media=
-_link *link)
->         if (fmt.format.width !=3D cru->format.width ||
->             fmt.format.height !=3D cru->format.height ||
->             fmt.format.field !=3D cru->format.field ||
-> -           video_fmt->code !=3D fmt.format.code)
-> +           !rzg2l_cru_ip_fmt_supports_mbus_code(video_fmt, fmt.format.co=
-de))
->                 return -EPIPE;
->
->         return 0;
-> --
-> 2.34.1
->
->
+> I wouldn't try to add more burden for drivers on this. Beyond that, it's
+> common that if you have multiple implementations of something, one of them
+> (the unused one) eventually breaks. What we really need is to obtain the
+> information from the sub-device API, using the method the driver uses to
+> report it.
+
+We should have a single way to report a given piece of information, that
+would be the simplest for drivers and the least error prone. I think
+drivers should implement the LINK_FREQ control for userspace, and the
+.get_mbus_config() operation for kernel space.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
