@@ -1,101 +1,107 @@
-Return-Path: <linux-media+bounces-23452-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23453-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5839F2B2C
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 08:52:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB459F2B7A
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 09:07:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0083C16611A
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 07:52:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A625188BEBE
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 08:05:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 742A51FF7AE;
-	Mon, 16 Dec 2024 07:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99663201262;
+	Mon, 16 Dec 2024 08:03:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p2kIXF88"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3pBLJpr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C661AAA24;
-	Mon, 16 Dec 2024 07:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF391FF7DC
+	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 08:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734335524; cv=none; b=rZ7fl8r090YcYjvoQ5iVjOgSjt6SVLTZInQs/QaePG0xQS/U0AqpGnhhj7f9dGpDTvAklq0ofPamfqNR9/y9/K2S5w7EHzel176MKBy+zKBhv76be1rJYZ2vZZsIevjSPeyCs2xNA+qSHikZxvC+Ln33T9hf/y/z4pODY1PrmrI=
+	t=1734336197; cv=none; b=qSxkMJgjBKmBAqze4PfoDiyW8NSMX8Jk55qtKjIdr9/tn/+pXErJ69WSyF1gcym2pxKQfq2s7I6vND/3pTBZ9t4gj2Q7fFCHJXWHp38+mSnWFIFCWbgLVhUypy9jqkRPQ677UIFsKN8AydMvP6mEisXUOWTlPnRd0dJQIfkyXi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734335524; c=relaxed/simple;
-	bh=EomTQ1B519UFMgo6M3dwDNyIr7vgD2r6fL9iIIRzp7Y=;
+	s=arc-20240116; t=1734336197; c=relaxed/simple;
+	bh=g/7FpQqVu9NQ49Rjd5uyFFWdwSdGNIyIwvRhD/iPe98=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kojRLqarmVpnBJV2hlcakqEme8btdMtF1AxqOeRTrEqn4c06ak3G0OJQR43kORVjkXlXOlWK0CUyXWN8VxX2BZmQr0K+HuQahm8kv51GY6u1+I2WAGpk6gcrbdjPBITDYU7R3TBp1DyqLo0az/vZYwwPmucYXtkPnEY7nuRCYgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p2kIXF88; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69AACC4CED0;
-	Mon, 16 Dec 2024 07:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734335524;
-	bh=EomTQ1B519UFMgo6M3dwDNyIr7vgD2r6fL9iIIRzp7Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p2kIXF88XrDXLH8pk/aSpIm9BKfuQ36KSdBTDEgHHs7uj395RxLEV0CRoVPp0nSta
-	 /bgRi7xdxfxrfOQfdgG51E3wq8ikYS76N4Lbv+PqqxwLSPpicpJcTTK/uK74eJm34w
-	 xfU2i5mnd4xQyih55JAWzcTuT/P2C8K8lfx/pkZBfRqrmco2oPvWDuQQToouvsPR1v
-	 dOEUEgvLR1s4e1TaM726K+G8Xh7Sk+7g//gknWjif9vdvETC45XnAV30MHmhu+UgnQ
-	 PGsyAp6GziauQppMLVI/HAnng42wHQW8Xmjv29tVIv5lx+zRvlmuvfDvV7voFX9VS1
-	 doHRymDnK+cxA==
-Date: Mon, 16 Dec 2024 08:52:00 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Renjiang Han <quic_renjiang@quicinc.com>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Stanimir Varbanov <stanimir.varbanov@linaro.org>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] dt-bindings: media: add support for video hardware
-Message-ID: <avsiopdobpukz4ngqfakvghvswwrwopr4cn764mnuc76q4m3wh@axpup5fypxsu>
-References: <20241213-add-venus-for-qcs615-v4-0-7e2c9a72d309@quicinc.com>
- <20241213-add-venus-for-qcs615-v4-1-7e2c9a72d309@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=A+tq17mK8nyyJ4cc6YzNn8uSpsGavLfkhrAAYT57e7zbKOZzpEUpMl2iXllwFPfQJdaRXZDRzx+e5BoHYDEUpGFeajJYvnWJjX3Pxm9BVViP5KSFfMjsC1aU9aICfZUvNuKN+7WvQ34w3aqOqHe1f2bxxFGWZ+PQghL9jM/3Q9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3pBLJpr; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734336195; x=1765872195;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g/7FpQqVu9NQ49Rjd5uyFFWdwSdGNIyIwvRhD/iPe98=;
+  b=E3pBLJpr+8Sy/1kfVLcN8oC5IzDoPO1slloHyGc9iveMnYrJvH4XL8nQ
+   sx9yFGFPWZsowiGuGVNDI2Pyw/jbCsqh0uDEpm9tRnu5c6H9Cf4FsRyM5
+   qTeSCXh6S7MkBbtlqrIROOiLXO+bgm/tVYZiBZSnW2CwRImCFRIysotKu
+   c0dDdEVbfuukObTH8dZFz18UrAAMBmSq7V7IULF3GFFn+y5+lxqRGsAq4
+   xPRO8QWCB37A9dtXAqUKvCF/SfUaWKlRJxwfvJ1SyWc9Lp6/Wec0Zy3XB
+   vM8zoTb47HvbxSegtBKWTgfkFwGpvU3ewYgDhV6gBEE5TADJmfYaacP5L
+   Q==;
+X-CSE-ConnectionGUID: HtZeO34WSC2HhnbpHkBPDg==
+X-CSE-MsgGUID: y1UPGig0Tk6DqdoF5+VDsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="22293726"
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
+   d="scan'208";a="22293726"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 00:03:13 -0800
+X-CSE-ConnectionGUID: Jepbq/vBSnae1dgjX5K39w==
+X-CSE-MsgGUID: olT2vUftR0a83iEGL3StBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="97920747"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 00:03:11 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 6F0F411F9F7;
+	Mon, 16 Dec 2024 10:03:08 +0200 (EET)
+Date: Mon, 16 Dec 2024 08:03:08 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl
+Subject: Re: [PATCH v7 5/5] media: intel/ipu6: Obtain link frequency from a
+ sub-device
+Message-ID: <Z1_evC9EsHnXuj_r@kekkonen.localdomain>
+References: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
+ <20241210075906.609490-6-sakari.ailus@linux.intel.com>
+ <20241215170832.GI9975@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241213-add-venus-for-qcs615-v4-1-7e2c9a72d309@quicinc.com>
+In-Reply-To: <20241215170832.GI9975@pendragon.ideasonboard.com>
 
-On Fri, Dec 13, 2024 at 03:26:46PM +0530, Renjiang Han wrote:
-> Add qcom,qcs615-venus compatible into qcom,sc7180-venus.yaml for the
-> video, and let qcom,qcs615-venus fallback to qcom,sc7180-venus on
-> QCS615 platform.
+On Sun, Dec 15, 2024 at 07:08:32PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+> Thank you for the patch.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> index 5cec1d077cda77817f6d876109defcb0abbfeb2c..6dee45b7366578e51319b575e5dd2587dc84baeb 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-> @@ -18,7 +18,13 @@ allOf:
->  
->  properties:
->    compatible:
-> -    const: qcom,sc7180-venus
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - qcom,qcs615-venus
-> +          - const: qcom,sc7180-venus
-> +
+> I think this should come before 4/5.
 
-Drop blank line.
+Because of...? Both are needed for this to work.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> On Tue, Dec 10, 2024 at 09:59:06AM +0200, Sakari Ailus wrote:
+> > Obtain the link frequency from the sub-device instead of a control
+> > handler. This allows obtaining it using the get_mbus_config() sub-device
+> > pad op that which is only supported by the IVSC driver.
+> 
+> "which is the only method supported by the IVSC driver"
 
-Best regards,
-Krzysztof
+Yes.
 
+-- 
+Sakari Ailus
 
