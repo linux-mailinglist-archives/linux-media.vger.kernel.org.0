@@ -1,84 +1,168 @@
-Return-Path: <linux-media+bounces-23454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23455-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9B99F2B7B
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 09:07:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1C09F2B7D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 09:07:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A864918877F8
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 08:07:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BCE0A7A1731
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 08:07:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B3291FF7AC;
-	Mon, 16 Dec 2024 08:06:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5605A1FF7B4;
+	Mon, 16 Dec 2024 08:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="ECH6F9SK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fzDZ+d/U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C9B171BB;
-	Mon, 16 Dec 2024 08:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241FC1FF61B
+	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 08:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734336410; cv=none; b=jldKw+uQ2HjC57RshRLBhomQKmTOAjfFkkDPq/Agu76xk5B1CuVh6fDLjn7VSakIC6l4t2jKAQUsoM/6uyGpu21LSTSVBAdg77D9UvI3gVncztjA4sFgmjJypA5keM3VHIuPb1DCd50L7FnqjupYHKi9Oji85noOQYZl0jqp6Qs=
+	t=1734336452; cv=none; b=Zq3rbm7GHKE+p8LffBy9+5wLQIScrjzTLLB1JXBJW3qzeBYuPI7Pp1oamw8rMRfGbYTbW2Z9HvSPcbRtTbnPJgpjnQzH5AHcRszIlUdW1faH700cHCNm+3IzNL1R5rKPTtWIRWkOHxl9gltSw+eHvPMBLYYvMO2DXCI/IWOaEcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734336410; c=relaxed/simple;
-	bh=HaHnIGeijd6tTpglwZ7rtRjeB8ky6wwz4btYeFZoS7k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XTo/zCSrw3adgT0Dp436o53vQV7JtzoGKAvxt4903dGtWl0fKiTOM/kNlgzMeIaj5dnCwmBsjCDdqpUjmNAMIOtor/h0r83wdmyRdOxVKTWnhflndrEHB7l8vT700IBrUKUlMitfQ2kjYBmUe7kE6PrGKELda1Vxha5VU9LZifk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=ECH6F9SK; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=A5bn6knJzryQkL3CzFo6N9Sn/p2Hmwhbnzw0riz5FFg=; b=ECH6F9SKAjLOnyVZlDYnaROKFR
-	dvcSxcJHpddOUv1Ru5GftxVGDdyAm9823UZ66e611HdEez9PdFLdwjmefqym0lIgvzvIhuEde5PBf
-	uDKGEapBIqJJ6cPAuhdE7W5ICZQzj03g/A2Z1nHfncmBGZibEvdG91sI+4+qhlqAoJhg0BoKWsEqo
-	QRHAdUn9FFzsjlXCDHuTOrK5ogk9ImFuTq6jY6ANDD13hBoahgEhsbjcV3E6f+rKXtjHhuNSQCeLB
-	lFOR2a1TNlQbRx/+HB2T1GZMIXbnDNaHEI2FUk6aB76RMYaSzvt6CB7iXAyhJ16GYQ96liAgkV1F1
-	73qcVMQA==;
-Received: from i5e86190a.versanet.de ([94.134.25.10] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1tN67b-0002tK-W4; Mon, 16 Dec 2024 09:06:32 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: mchehab@kernel.org, linux-media@vger.kernel.org,
- ezequiel@vanguardiasur.com.ar, Andy Yan <andyshrk@163.com>
-Cc: linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kever.yang@rock-chips.com, sebastian.reichel@collabora.com,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH] media: rockchip: rga: Fix Copyright description
-Date: Mon, 16 Dec 2024 09:06:30 +0100
-Message-ID: <3258928.5fSG56mABF@diego>
-In-Reply-To: <20241215093051.3447711-1-andyshrk@163.com>
-References: <20241215093051.3447711-1-andyshrk@163.com>
+	s=arc-20240116; t=1734336452; c=relaxed/simple;
+	bh=QFoYG7zBMz8cW4jrxPFTKjd9uAXn7eGRLfIgSAh3PKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ndQQkGkojZ9nag5BLONvtxJBQY2SpznXQthlaa0xsUBCS63IsmKi8ExqyMjfMg8ZvthEhpWr6InBTJ+DCOg7b2mdmVgxNLXUxIbQoACKHn7dKAPiiT/EXh6Zdb/hgQnNYb9NOoSZhZF1o9YnMBq8CbxYgoAZzKWgWvwcLiwixi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fzDZ+d/U; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734336451; x=1765872451;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QFoYG7zBMz8cW4jrxPFTKjd9uAXn7eGRLfIgSAh3PKY=;
+  b=fzDZ+d/UV/GqrZ//6U7xPJ8nYCnGRUTC8WATvyPejkOeNoQzZ6PzGxyN
+   dR0p+bt5SrRUOnNJKkbZgTR6iWMupA31POhMomkqnzYFP1mYjMe0Zcaus
+   M75pI92G47xgH8lLbUyHYqsyUaN9jiHPM9RxUP6/kz240h8DCGiDw+8ni
+   YZwNf8M4Rj2VZtlq+e5AVN4QKRUThnDDXAw+jRaDRVh8DlUvJON0WHeEB
+   IaEJyGu1bUoez66I7iIy9lcGANI3+Mns3NtFFKiV8dqEpo/ULF0InSMxL
+   eHqG1LCU6VTOQSxGsbG6WscSqkpbZTdrB0oWNQ3p7IpyAt4Rs55Nao/jI
+   Q==;
+X-CSE-ConnectionGUID: ox7a688fT46uDfrzH0LaYg==
+X-CSE-MsgGUID: aysYl5vPTjeWf7lvVJab4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="57194562"
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
+   d="scan'208";a="57194562"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 00:07:31 -0800
+X-CSE-ConnectionGUID: K/60UvT0RviI6hfvdz1Qrg==
+X-CSE-MsgGUID: Y2sSe9pKQ0CxMG03fTp4Lg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
+   d="scan'208";a="97032752"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 00:07:29 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 81C3B11F9F7;
+	Mon, 16 Dec 2024 10:07:26 +0200 (EET)
+Date: Mon, 16 Dec 2024 08:07:26 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Subject: Re: [PATCH v7 3/5] media: Documentation: Update link frequency
+ driver documentation
+Message-ID: <Z1_fvqg5uuRLDt_A@kekkonen.localdomain>
+References: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
+ <20241210075906.609490-4-sakari.ailus@linux.intel.com>
+ <uk6uc7i3v6bpuphqvrhbkqisammkimgbgoas5g4tsakkcbj2jh@d4rss77am2c2>
+ <Z1vfK0cUW9sgBPLt@kekkonen.localdomain>
+ <20241215170240.GH9975@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241215170240.GH9975@pendragon.ideasonboard.com>
 
-Am Sonntag, 15. Dezember 2024, 10:30:50 CET schrieb Andy Yan:
-> From: Andy Yan <andy.yan@rock-chips.com>
+Hi Laurent,
+
+On Sun, Dec 15, 2024 at 07:02:40PM +0200, Laurent Pinchart wrote:
+> On Fri, Dec 13, 2024 at 07:15:55AM +0000, Sakari Ailus wrote:
+> > On Thu, Dec 12, 2024 at 05:53:53PM +0100, Jacopo Mondi wrote:
+> > > On Tue, Dec 10, 2024 at 09:59:04AM +0200, Sakari Ailus wrote:
+> > > > Add the get_mbus_config() as the means for conveying the link frequency
+> > > > towards the receiver drivers.
+> > > >
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  Documentation/driver-api/media/tx-rx.rst | 4 ++++
+> > > >  1 file changed, 4 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+> > > > index dd09484df1d3..1430c330fd52 100644
+> > > > --- a/Documentation/driver-api/media/tx-rx.rst
+> > > > +++ b/Documentation/driver-api/media/tx-rx.rst
+> > > > @@ -49,6 +49,10 @@ Link frequency
+> > > >  The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
+> > > >  receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
+> > > >
+> > > > +On devices where the link frequency isn't configurable, the link_freq field of
+> > > > +struct v4l2_mbus_config is recommended over controls for conveying the link
+> > > > +frequency to the downstream driver in the pipeline.
+> > > 
+> > > When read in its entirety, the paragraphs
+> > > 
+> > >  Link frequency
+> > >  ^^^^^^^^^^^^^^
+> > > 
+> > >  The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
+> > >  receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
+> > > 
+> > >  On devices where the link frequency isn't configurable, the link_freq field of
+> > >  struct v4l2_mbus_config is recommended over controls for conveying the link
+> > >  frequency.
+> > > 
+> > > Sounds simpler without the last 7 words.
+> > > 
+> > > A nit and just tastes maybe
+> > 
+> > I used:
+> > 
+> > On devices where the link frequency isn't configurable, using the ``link_freq``
+> > field of struct v4l2_mbus_config is recommended over controls.
 > 
-> The company name has update to Rockchip Electronics Co., Ltd.
-> since 2021.
-> And change Co.Ltd to Co., Ltd. to fix mail server warning:
-> DBL_SPAM(6.50)[co.ltd:url];
+> Is it a recommendation for the transmitter driver or the receiver driver
+> ? If it's a recommendation for the transmitter driver, does that mean it
+> should not implement V4L2_CID_LINK_FREQ in that case ? How about the
+> need to expose the link frequency to userspace when it's fixed ?
+
+For the transmitter. Receivers do not implement get_mbus_config op. I can
+add a note on this.
+
+The only reason this has been exposed to the user space is because it's
+been a control that has been modifiable. Also HDMI to CSI-2 bridges work
+this way.
+
+The LINK_FREQ control is also an integer menu so the same control couldn't
+be used as-is. These were the reasons why the earlier review concluded with
+impelmenting this via get_mbus_config().
+
 > 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> I think the documentation needs further clarification to clearly explain
+> what transmitters should do and what receivers should do.
 
-Acked-by: Heiko Stuebner <heiko@sntech.de>
+I can add this.
 
+> 
+> > > 
+> > > I like where this is going!
+> > > 
+> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
 
+-- 
+Regards,
+
+Sakari Ailus
 
