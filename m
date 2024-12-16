@@ -1,154 +1,95 @@
-Return-Path: <linux-media+bounces-23462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D449F2DC5
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 11:06:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 621FE9F2EEC
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 12:13:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 14E6C7A0299
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 10:06:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C6691648E7
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 11:13:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5164A2036F3;
-	Mon, 16 Dec 2024 10:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D978204578;
+	Mon, 16 Dec 2024 11:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="U8C2QkU6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JYmCrVfa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77BBD202C43;
-	Mon, 16 Dec 2024 10:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6440A2040A7
+	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 11:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734343556; cv=none; b=LLhWiXpeBkYmTFa2jAgG0OfHK2z5LToP/c2FnbDsaXLF00qoMFGP0FuHuL1CBfe1Kse43QmYUXJfjt9dYj2X7a8dlehWIPcaulkhli4aOvkmw/68pDunDCpIvwFuXsKzR4n5UrCSrAt8LWO8/xMp11VSjO9WYt/9Hg5I8r+vfd0=
+	t=1734347626; cv=none; b=E6rpSAYnHWtaDVl0H4AITIOJyVMQo6vYfHvZBuWyzPoL7KEn+csbX8fDIDrMELx0zZJ+Xx6NFfG4s8gRkQTLachVWt9ofbeExkM15KbucZ57R7xod0FfOfAvuqZ2FqKx+haog9yu7nbuSdEw5ZEmQ/E5hkkM2DOsnSTIY6On1js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734343556; c=relaxed/simple;
-	bh=tcvcrEXa4z8aAmbxJaCBSKqscDZgaCP4yn9hBrRWWvY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SdYxZUWt/iMfij1S53Pr7IhxT+kd5gL8fSQjoxzMZTG+lI1HRlWaRHThldHmSknyiXJgzUOp4zKO0SNyxQ9mVC2XM/jMwHAQOtdcCin0qCS2YbNgcfP8TJNn71Hq0Sh3f1cIbj420g6uHWclrWcXO1OH6shYoB+/TyTx+XSbb+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=U8C2QkU6; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=aJZhM
-	nQQFM1POYULiipN3Rj2mbeFt5B/wTFTnYMR9LI=; b=U8C2QkU6EpnR9A+MCs2LL
-	U8BtscA1UMCT26xi1nRWUB++fvf7wnGg2x8tL2D/S+WRgb4RdGogaPadTC2FKarm
-	oWkJXaP3gGxC6qIQiZ6xvjKpTdSJqKotIcND17C0dxNb80hSpR526FPtPoN89+Xe
-	yOFM7c53V/xwCZt5iRcihI=
-Received: from ProDesk.. (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wD3T3c9+19n8_S6Aw--.40279S2;
-	Mon, 16 Dec 2024 18:04:49 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	ezequiel@vanguardiasur.com.ar
-Cc: heiko@sntech.de,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	kever.yang@rock-chips.com,
-	sebastian.reichel@collabora.com,
-	Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v2] media: rockchip: rga: Fix Copyright description
-Date: Mon, 16 Dec 2024 18:04:43 +0800
-Message-ID: <20241216100444.3726048-1-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1734347626; c=relaxed/simple;
+	bh=kiOJYC6uMEAWKTFFdc5EWUiz6hVrNJQJovFkQZs5RxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lppate/kgl/LZ8SVWrmlsqUANNa1aC4R6gMmeAfWGEwc6iqxOwfqpkFtGb/Urbrh9QP0bbKY+7m0YAS36JwCujtodq0Yn/sMgkyMerNjmHOb3ewHwDMcZ2AdFEdI0jyuE6pZ6XrG/Yp9uFBcTAN/zmm5BmO7g8O/f2uQs3ZK8yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JYmCrVfa; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBD3E13C;
+	Mon, 16 Dec 2024 12:13:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1734347586;
+	bh=kiOJYC6uMEAWKTFFdc5EWUiz6hVrNJQJovFkQZs5RxA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JYmCrVfakma2oJVkCVjA1/aRXxh18qi5HNvHRdQOg2Xbz8rY16YmMKkKVEv3qoSRv
+	 FDoz8DNG8zzM1rDtwfXX0HIPCAyXvxU5DktlhM5Tq0+rD6JrVn/v+ukyQZqxtuXAcn
+	 tFoySzbaGBjClFzf4bkuibAQEo5/+OxZWTH0BRtk=
+Date: Mon, 16 Dec 2024 13:13:26 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl
+Subject: Re: [PATCH v7 5/5] media: intel/ipu6: Obtain link frequency from a
+ sub-device
+Message-ID: <20241216111326.GK32204@pendragon.ideasonboard.com>
+References: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
+ <20241210075906.609490-6-sakari.ailus@linux.intel.com>
+ <20241215170832.GI9975@pendragon.ideasonboard.com>
+ <Z1_evC9EsHnXuj_r@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3T3c9+19n8_S6Aw--.40279S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxArWkAry5uF43AFWxXr1UJrb_yoW5uF1kpa
-	1Du3s7ArW7GrWjgw1kJ3ZxCFZ8t3ZavayUGFWS9ws3ZFn29rWUK34DXas5Ar9rXr17Cay3
-	tw4Yq347JF4avr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UMBTOUUUUU=
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqQW3Xmdf+hMiTgAAs4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z1_evC9EsHnXuj_r@kekkonen.localdomain>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+On Mon, Dec 16, 2024 at 08:03:08AM +0000, Sakari Ailus wrote:
+> On Sun, Dec 15, 2024 at 07:08:32PM +0200, Laurent Pinchart wrote:
+> > Hi Sakari,
+> > 
+> > Thank you for the patch.
+> > 
+> > I think this should come before 4/5.
+> 
+> Because of...? Both are needed for this to work.
 
-The company name has update to Rockchip Electronics Co., Ltd.
-since 2021.
-And change Co.Ltd to Co., Ltd. to fix mail server warning:
-DBL_SPAM(6.50)[co.ltd:url];
+Because, unless I'm mistaken, it would otherwise introduce a bisection
+breakage. 4/5 drops the LINK_FREQ control from the IVSC driver, and
+obtaining the link frequency through .get_mbus_config() is only
+supported when using the v4l2_get_link_freq() variant that takes a pad
+argument.
 
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Reviewed-by: Kever Yang <kever.yang@rock-chips.com>
-Acked-by: Heiko Stuebner <heiko@sntech.de>
+> > On Tue, Dec 10, 2024 at 09:59:06AM +0200, Sakari Ailus wrote:
+> > > Obtain the link frequency from the sub-device instead of a control
+> > > handler. This allows obtaining it using the get_mbus_config() sub-device
+> > > pad op that which is only supported by the IVSC driver.
+> > 
+> > "which is the only method supported by the IVSC driver"
+> 
+> Yes.
 
----
-
-Changes in v2:
--  Use uppercase (c) part for consistency.
-
- drivers/media/platform/rockchip/rga/rga-buf.c | 2 +-
- drivers/media/platform/rockchip/rga/rga-hw.c  | 2 +-
- drivers/media/platform/rockchip/rga/rga-hw.h  | 2 +-
- drivers/media/platform/rockchip/rga/rga.c     | 2 +-
- drivers/media/platform/rockchip/rga/rga.h     | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
-index 8a48e9d91f96..4396348811c8 100644
---- a/drivers/media/platform/rockchip/rga/rga-buf.c
-+++ b/drivers/media/platform/rockchip/rga/rga-buf.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (C) 2017 Fuzhou Rockchip Electronics Co.Ltd
-+ * Copyright (C) 2017 Rockchip Electronics Co., Ltd.
-  * Author: Jacob Chen <jacob-chen@iotwrt.com>
-  */
- 
-diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media/platform/rockchip/rga/rga-hw.c
-index 11c3d7234757..bf55beec0fac 100644
---- a/drivers/media/platform/rockchip/rga/rga-hw.c
-+++ b/drivers/media/platform/rockchip/rga/rga-hw.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-+ * Copyright (C) Rockchip Electronics Co., Ltd.
-  * Author: Jacob Chen <jacob-chen@iotwrt.com>
-  */
- 
-diff --git a/drivers/media/platform/rockchip/rga/rga-hw.h b/drivers/media/platform/rockchip/rga/rga-hw.h
-index e8917e5630a4..cc6bd7f5b030 100644
---- a/drivers/media/platform/rockchip/rga/rga-hw.h
-+++ b/drivers/media/platform/rockchip/rga/rga-hw.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-+ * Copyright (C) Rockchip Electronics Co., Ltd.
-  * Author: Jacob Chen <jacob-chen@iotwrt.com>
-  */
- #ifndef __RGA_HW_H__
-diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index 1739ac0c8e92..3dccab5fa4a1 100644
---- a/drivers/media/platform/rockchip/rga/rga.c
-+++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-+ * Copyright (C) Rockchip Electronics Co., Ltd.
-  * Author: Jacob Chen <jacob-chen@iotwrt.com>
-  */
- 
-diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
-index 8105bb2efe57..530e12de73c4 100644
---- a/drivers/media/platform/rockchip/rga/rga.h
-+++ b/drivers/media/platform/rockchip/rga/rga.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-+ * Copyright (C) Rockchip Electronics Co., Ltd.
-  * Author: Jacob Chen <jacob-chen@iotwrt.com>
-  */
- #ifndef __RGA_H__
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
