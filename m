@@ -1,85 +1,85 @@
-Return-Path: <linux-media+bounces-23486-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23487-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23169F38A9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 19:17:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 549CD9F38DB
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 19:25:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 977AC16C753
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 18:15:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FC6B18926A8
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 18:22:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9639B207E0E;
-	Mon, 16 Dec 2024 18:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14136207A25;
+	Mon, 16 Dec 2024 18:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iML+H+43"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="c+Jv/IvU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A91206F0B
-	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 18:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C0920766A
+	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 18:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734372874; cv=none; b=hDlHXU6fM37C+luJVNbqJDHRTAjBMYRXSw+9jMRZyTxM2HSvd6xSqt8TzJQzEqpjuz7h8lehoGfNrcyML6TBRI4qum9eoJPwUOBQK03yrZIGGOGWsc0PHj2dycmcfdoEQv/y4ek9UjkNhsPhi8noodYuFryIhcDjISIbIqOtmhs=
+	t=1734373302; cv=none; b=QF/Wo2TwB3LT/o18lqEvqGhsOIVwJNzLKYgIjGk5SSLvOe9n/rDQy+z/WFqeMYgDl+AG2ITt8GYWVW83WRQUUmf1qjnv/aZNTS89KW4Qf3OHQhpG2Uo6ia/vEPOSuxRl8rfH7k6J5bBFEK4fsS0QFQkhqu0SSUulWDHxtICvb3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734372874; c=relaxed/simple;
-	bh=qQp1mMuebuWcgpzeQ8MZfSm5Kjn+6fFQ1qoHMEwlUF0=;
+	s=arc-20240116; t=1734373302; c=relaxed/simple;
+	bh=7T1EKvuCUGRJ3imkGbz1wsMSf965yxalHyEp9/eORr0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i8BVR/YpVhZtn4FmbKgc5P6jXfQb0nx9ZVHBOwBJ5+7WaPGyAuD0+KKEtvgAzyN2Z1U/WWLT4eVW5x26v3swvh8SEJZB5YKQW+9nEcwZmKrjpx6+JAYIXNDzLu5WZ30rGl88B1fdqok+sd86ED9ioTvJ2KDQk/VGBq0tCZ+9pbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iML+H+43; arc=none smtp.client-ip=205.220.180.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=iMvdBCZRrk5HpGmNGqq6C3FE8i6bPM65l5D5G4Yqqze9+HYnxsOqFxE77LW6IkPiiDd03Vpp+GaUEDa+kmffoUtY/RbUnCg2cRyA3zXB//LEFTs678UpYv2+DYSLLIVnsTTFfPRYLWmg6F/OGmBkbUylokHo3J+sHIXVW5Ps0n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=c+Jv/IvU; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGH9YKL016975
-	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 18:14:31 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGBCOTd007225
+	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 18:21:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=F7QFYnjZdrevf6fYXiZFNc8L
-	fJX9KsBVad/8dWQ9YrM=; b=iML+H+43b0iNSNoM2qeJtb8CjU4OtRR5fwXnDKbH
-	SDXEu7CH5bqY6zz4CfMYKvoIRnKInLjcYN0Z5EKyM0xr4S+r0EQFe97i4uzAcPsP
-	k8ykCSTRd7fbKiT0fFidJ8gHAeEpv4GzdMf1YHB645EcthDwnGiWWDwu7nSSZEPe
-	/pZsWUiqm7ev/HXC17JtyHpbeJ74+akXPHKZHQH+hOstq7I0p5s12jnWM+pFthFt
-	g9/ZE9z+K0NNHpzP+1AJaozMX+/jTDN9FyDISFMgn8yfQc+s08C77rsc/lXl7jB5
-	A5xE76kMSR/NT14/MSwQNWim5mQf7CSaISPifD5J0xGAxA==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jrc1r5ef-1
+	:references:subject:to; s=qcppdkim1; bh=2zAVQpUe77f3p8FH/Gp/4YPV
+	QcATbXm3KqaR4kfxxAU=; b=c+Jv/IvUPJQ1x2O6s6AX96AARv0tmgMRItD2Cze/
+	+mYPc+FklKXniZZQ7z/+EmeZWMIRzd+fRXnQCGLYzp5tYwvnrCBr9QWWS3+RI+nj
+	y0oxebLr85UjOcRmw9eaZC+A0kijLZeHo5dSsQsexx2sIQChQ6QdUd1+MaXVGXcS
+	r71Jsi0erWkKn+aL2isFH/BWdTEoHrp+sOITSwQnKIdJTAu03NeGbocaqbjQCaOJ
+	Wzl6Zb6Thk7JgqVJYjwMWSMmxn1NB70xHrJDXqbVdi+EIOhmFfmAOwvkikrn4HEB
+	3UfT/07EOS+OUCNOgBE+3GhMjbThnfff6RfA4StTjdpZeA==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jk4nh6v0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 18:14:31 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-216728b170cso40236555ad.2
-        for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 10:14:31 -0800 (PST)
+	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 18:21:37 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2164fad3792so37571315ad.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 10:21:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734372870; x=1734977670;
+        d=1e100.net; s=20230601; t=1734373297; x=1734978097;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F7QFYnjZdrevf6fYXiZFNc8LfJX9KsBVad/8dWQ9YrM=;
-        b=rBj878RN2jjRlpD0un+9x1k02E2blmgxdAjajdZ/M4+Jv0Pa3WMvKbOL7Hmm/Fm4xH
-         3zwFhVLE7RhOW65Joabyi2R9KSGUEvh3HQAfUfeSCbqaofOhNgG2EPzgFj4Y1++9kxN7
-         3yhIkBw0VHceERZt1H+gmfyM+zgkgls1Y2X7FZDlYRrnqxX/0Dqz6iQUE/bl4Uca07Fm
-         mzKp7oCu9XQbazAHlYRSEQIImswGFAM1SRW4XimM2tJhuU6PXoejBaeHCrbO+XXzEuKo
-         ShtFm/4Hlp7vc/laJ0uoidyLfOIBowcGUjTuOy6GLj/Al+sFIO7YHWlnqix4ARfi7Bw/
-         PIzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzdfl6zpHpG5JVMptgeW33xFKDtlz8XY0YQcx3EnZw1WbbU0T7l1CAwmnmrACdh8rnT8d52RmTvEeDNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7lR0yMnkgOwAS42PsJEytuU5AroVwC8+40EjARKdvuxaj+hPV
-	FrfFuVha+aKjHbPW/BBuKcuQAVtMSFIOi659Vcq6FKSwtmwDDDsw5T4SxZ1gfkZp8+rbzPH0AiT
-	xW/4vqVW7zTPfJAbUTqA/kJAec5XrEPkDJeKi/nxQz+OrbZ5tkivil6SSw5JdGg==
-X-Gm-Gg: ASbGncvO1w+MCY1UjIft/QC7ytpcPzlaSA/k5lLIZJrsrLzcHe7d/iRpC19cHzhVn9U
-	aSPQBN2JSdszoLLgCkOFORh/0SzygmUnh/a/HhVq3SzRp+BTHtq6+Rc78Y4w1BINnNxYhGfrWx8
-	z5lETVkYKCGU5hErgIzV1DE3nxGnb9vthfmNEIrzD+TVzp1SQj3MzRSZxu5xhy8hj/Ymk/kFwai
-	D/tetbSYHsA+7Bb0iyaFN6sUJ64JF9i+smGWIBAPc9IPwMTB4paWUUy/AKDcWcvMyv2/okNMDRs
-	RTkNR5ihkRm0oSgRv5TU/m/LdbhR/PlxLkYaEYHz
-X-Received: by 2002:a17:902:d50c:b0:20c:9821:6998 with SMTP id d9443c01a7336-21892980dc6mr211008275ad.10.1734372868341;
-        Mon, 16 Dec 2024 10:14:28 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHzAs2ikuRORFUIWHU85mcPsoI6mCLnHMxnIg87pLHeW7l6HW03YGJUZmaZ+3zYaGC5dlmm/w==
-X-Received: by 2002:a17:902:d50c:b0:20c:9821:6998 with SMTP id d9443c01a7336-21892980dc6mr211007785ad.10.1734372867817;
-        Mon, 16 Dec 2024 10:14:27 -0800 (PST)
+        bh=2zAVQpUe77f3p8FH/Gp/4YPVQcATbXm3KqaR4kfxxAU=;
+        b=gZ7Pwoq1UXTyKHDKgZeblvkx4CeYziRXjTqxpZ4aGwwT14cPBQaSXXLBwxzdajZWXE
+         NSmtf0TIWOdq7bSG9kz969YeoLEoH7QFrY5akcwViyCCFQ6mdzBlAKzRDl4myTW8kYz3
+         cYqjg75bjwRKeP4e+Ddw4HzSV1gkvKfIJm37porin1xJ/7xj1PX+r0QYkLBFwktpNAcX
+         n7wXFHdYdxuh5lKBl9GDarZWBRWrImoY0Pe0jW9qfJrtBYKgwfjs1bggRhpUxOr0t4oH
+         Q0TL/wUIivtYT34ZofcE9WzJ9OFssRJ/3hCiuS9r0NoopoFuYFyzlJcgVtrCyssVrw6b
+         q7BA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmdgkPpzgP9jjcaH0P/eJGiil/ghJTCa8NGXFL/aM0z2d6oq2Hn44r8O4WsL2W5KmBx7wIkfNAUS9iIg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YytKHgwtigFkPC1VdH3oPtFJWo8F8xzJzK7lmBKHMgwE8JTwiEP
+	8TGMXcXC/IayWbQi48EP4hlm7M76LX6bxGUCg0KdNNqYd8q2ggOBn3mOdlBEA2p7G22qDzFVt8V
+	dre0AkN/XUB0nYLWFOa8TQPyGmzenQrQ/xckUvghpxn2YREuvwHOvIL8L1FShlQ==
+X-Gm-Gg: ASbGncshTdkP1QxHWiqRIEQaM7lHyDEoTbJxt9lt6WhjBEVc3YShs8I9i4tunT4UegM
+	y4Mv7Q546idHJ7mLihT+wRCsb8RxEtgxfYMzg8I4eFdOINeOVdUzcqvTbTxcvcyKOqk/eSdGY80
+	VCCWmfIaM7Ej9wyiGUHf0a6eG8HnrNUsIqw4kvNzBaO6mSOcGpV3NRqqFrRXhH7O8Dyp4dDtKz8
+	EVJB9iM0J1PlouNPXk/F/+KmbKiVhIQlqVgarWJg4utCsg3Ggdao4veHSi4Zgm7vBs+xBbz77Qz
+	SbRWQ6Kw4R17UrcZ3U0NR+OHGtvC0bv1mLCTV67P
+X-Received: by 2002:a17:902:ef49:b0:20c:9821:69af with SMTP id d9443c01a7336-21892a40599mr189000545ad.45.1734373296895;
+        Mon, 16 Dec 2024 10:21:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEK3n/qfuVZMWrwi2xip0f+pklE9I3FXny2TZ9ZG/on/4pahTLK9utkwVgntMiTD/QPnKJe6w==
+X-Received: by 2002:a17:902:ef49:b0:20c:9821:69af with SMTP id d9443c01a7336-21892a40599mr188999935ad.45.1734373296469;
+        Mon, 16 Dec 2024 10:21:36 -0800 (PST)
 Received: from hu-bjorande-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-801d5a90d1fsm3622789a12.3.2024.12.16.10.14.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1db7976sm45851355ad.53.2024.12.16.10.21.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 10:14:27 -0800 (PST)
-Date: Mon, 16 Dec 2024 10:14:25 -0800
+        Mon, 16 Dec 2024 10:21:36 -0800 (PST)
+Date: Mon, 16 Dec 2024 10:21:33 -0800
 From: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
 To: Renjiang Han <quic_renjiang@quicinc.com>
 Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -94,10 +94,11 @@ Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] arm64: dts: qcom: add venus node for the qcs615
-Message-ID: <Z2BuAX+idQFlJt1F@hu-bjorande-lv.qualcomm.com>
+Subject: Re: [PATCH v4 2/4] media: venus: core: use opp-table for the
+ frequency
+Message-ID: <Z2BvrfYEaIqFcjwg@hu-bjorande-lv.qualcomm.com>
 References: <20241213-add-venus-for-qcs615-v4-0-7e2c9a72d309@quicinc.com>
- <20241213-add-venus-for-qcs615-v4-3-7e2c9a72d309@quicinc.com>
+ <20241213-add-venus-for-qcs615-v4-2-7e2c9a72d309@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -106,141 +107,175 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241213-add-venus-for-qcs615-v4-3-7e2c9a72d309@quicinc.com>
-X-Proofpoint-GUID: k_V7wfu14DT6BFG9tCaw0BXWB4G-M6td
-X-Proofpoint-ORIG-GUID: k_V7wfu14DT6BFG9tCaw0BXWB4G-M6td
+In-Reply-To: <20241213-add-venus-for-qcs615-v4-2-7e2c9a72d309@quicinc.com>
+X-Proofpoint-GUID: aeHJo8QS_UchSH-B2Qpcj9-wr-Sw4Wse
+X-Proofpoint-ORIG-GUID: aeHJo8QS_UchSH-B2Qpcj9-wr-Sw4Wse
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- spamscore=0 clxscore=1011 lowpriorityscore=0 phishscore=0 bulkscore=0
- mlxlogscore=928 mlxscore=0 adultscore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412160151
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 suspectscore=0
+ spamscore=0 clxscore=1015 adultscore=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412160153
 
-On Fri, Dec 13, 2024 at 03:26:48PM +0530, Renjiang Han wrote:
-
-Subject should be prefixed per the file being changed, i.e:
-"arm64: dts: qcom: qcs615: Add Venus"
-
-> Add venus node into devicetree for the qcs615 video and fallback
-> qcs615 to sc7180 due to the same video core.
+On Fri, Dec 13, 2024 at 03:26:47PM +0530, Renjiang Han wrote:
+> Get frequency value from the opp-table of devicetree for the v4 core.
+> For compatibility, if getting data from the opp table fails, the data
+> in the frequency table will be used.
 > 
+> The order of variable definitions is adjusted only to keep the reverse
+> Christmas tree order coding style.
+> 
+
+1) Do the best you can to add your variables while trying to maintain
+the order, but if it's not possible better leave it than making it hard
+to parse logical change from shuffling of code.
+
+2) This comment is useful during review, but not necessarily so in the
+git history, so I'd suggest to keep it below the '---' line.
+
 > Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
 > ---
->  arch/arm64/boot/dts/qcom/qcs615.dtsi | 86 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 86 insertions(+)
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 67 ++++++++++++++++++--------
+>  1 file changed, 46 insertions(+), 21 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-> index 37a189e0834d2f4b75ed9deb6fff73da163cb3a3..c08da80c7fd8fa8c69aff04b14784b821ce3ea13 100644
-> --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-> @@ -427,6 +427,11 @@ smem_region: smem@86000000 {
->  			no-map;
->  			hwlocks = <&tcsr_mutex 3>;
->  		};
-> +
-> +		pil_video_mem: pil-video@93400000 {
-> +			reg = <0x0 0x93400000 0x0 0x500000>;
-> +			no-map;
-> +		};
->  	};
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index 33a5a659c0ada0ca97eebb5522c5f349f95c49c7..a5c3f9ad2088d8c80247b52d5c1b8e053f499bfe 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -40,17 +40,23 @@ static int core_clks_get(struct venus_core *core)
 >  
->  	soc: soc@0 {
-> @@ -2806,6 +2811,87 @@ gem_noc: interconnect@9680000 {
->  			qcom,bcm-voters = <&apps_bcm_voter>;
->  		};
->  
-> +		venus: video-codec@aa00000 {
-> +			compatible = "qcom,qcs615-venus", "qcom,sc7180-venus";
-> +			reg = <0x0 0x0aa00000 0x0 0x100000>;
-> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +			clocks = <&videocc VIDEO_CC_VENUS_CTL_CORE_CLK>,
-> +				 <&videocc VIDEO_CC_VENUS_AHB_CLK>,
-> +				 <&videocc VIDEO_CC_VENUS_CTL_AXI_CLK>,
-> +				 <&videocc VIDEO_CC_VCODEC0_CORE_CLK>,
-> +				 <&videocc VIDEO_CC_VCODEC0_AXI_CLK>;
-> +			clock-names = "core",
-> +				      "iface",
-> +				      "bus",
-> +				      "vcodec0_core",
-> +				      "vcodec0_bus";
-> +
-> +			power-domains = <&videocc VENUS_GDSC>,
-> +					<&videocc VCODEC0_GDSC>,
-> +					<&rpmhpd RPMHPD_CX>;
-> +			power-domain-names = "venus",
-> +					     "vcodec0",
-> +					     "cx";
-> +
-> +			operating-points-v2 = <&venus_opp_table>;
-> +
-> +			interconnects = <&mmss_noc MASTER_VIDEO_P0 QCOM_ICC_TAG_ALWAYS
-> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-> +					<&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
-> +					 &config_noc SLAVE_VENUS_CFG QCOM_ICC_TAG_ALWAYS>;
-> +			interconnect-names = "video-mem",
-> +					     "cpu-cfg";
-> +
-> +			iommus = <&apps_smmu 0xe40 0x20>;
-> +
-> +			memory-region = <&pil_video_mem>;
-> +
-> +			status = "disabled";
-> +
-> +			video-decoder {
-> +				compatible = "venus-decoder";
-> +			};
-> +
-> +			video-encoder {
-> +				compatible = "venus-encoder";
-> +			};
-> +
-> +			venus_opp_table: opp-table {
+>  static int core_clks_enable(struct venus_core *core)
+>  {
+> -	const struct venus_resources *res = core->res;
+>  	const struct freq_tbl *freq_tbl = core->res->freq_tbl;
+>  	unsigned int freq_tbl_size = core->res->freq_tbl_size;
+> -	unsigned long freq;
+> +	const struct venus_resources *res = core->res;
+> +	struct device *dev = core->dev;
+> +	unsigned long freq = 0;
 
-'o' < 'v', so this should come above video-decoder.
+Is it really necessary to initialize this? I'd expect that
+dev_pm_opp_find_freq_ceil() would either initialize freq or return a
+failure, in which case you assign freq.
+
+Perhaps the compiler isn't clever enough to see this?
+
+> +	struct dev_pm_opp *opp;
+>  	unsigned int i;
+>  	int ret;
+>  
+> -	if (!freq_tbl)
+> -		return -EINVAL;
+> -
+> -	freq = freq_tbl[freq_tbl_size - 1].freq;
+> +	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
+> +	if (IS_ERR(opp)) {
+> +		if (!freq_tbl)
+> +			return -EINVAL;
+> +		freq = freq_tbl[freq_tbl_size - 1].freq;
+> +	} else {
+> +		dev_pm_opp_put(opp);
+> +	}
+>  
+>  	for (i = 0; i < res->clks_num; i++) {
+>  		if (IS_V6(core)) {
+> @@ -627,12 +633,15 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load, bool lo
+>  
+>  static int decide_core(struct venus_inst *inst)
+>  {
+> +	const struct freq_tbl *freq_tbl = inst->core->res->freq_tbl;
+>  	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+> -	struct venus_core *core = inst->core;
+> -	u32 min_coreid, min_load, cur_inst_load;
+>  	u32 min_lp_coreid, min_lp_load, cur_inst_lp_load;
+> +	u32 min_coreid, min_load, cur_inst_load;
+> +	struct venus_core *core = inst->core;
+>  	struct hfi_videocores_usage_type cu;
+> -	unsigned long max_freq;
+> +	unsigned long max_freq = ULONG_MAX;
+> +	struct device *dev = core->dev;
+> +	struct dev_pm_opp *opp;
+
+Here the line shuffling makes it hard to determine what is part of the
+logical change and what is just style changes...
 
 Regards,
 Bjorn
 
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-133330000 {
-> +					opp-hz = /bits/ 64 <133330000>;
-> +					required-opps = <&rpmhpd_opp_low_svs>;
-> +				};
-> +
-> +				opp-240000000 {
-> +					opp-hz = /bits/ 64 <240000000>;
-> +					required-opps = <&rpmhpd_opp_svs>;
-> +				};
-> +
-> +				opp-300000000 {
-> +					opp-hz = /bits/ 64 <300000000>;
-> +					required-opps = <&rpmhpd_opp_svs_l1>;
-> +				};
-> +
-> +				opp-380000000 {
-> +					opp-hz = /bits/ 64 <380000000>;
-> +					required-opps = <&rpmhpd_opp_nom>;
-> +				};
-> +
-> +				opp-410000000 {
-> +					opp-hz = /bits/ 64 <410000000>;
-> +					required-opps = <&rpmhpd_opp_turbo>;
-> +				};
-> +
-> +				opp-460000000 {
-> +					opp-hz = /bits/ 64 <460000000>;
-> +					required-opps = <&rpmhpd_opp_turbo_l1>;
-> +				};
-> +			};
-> +		};
-> +
->  		videocc: clock-controller@ab00000 {
->  			compatible = "qcom,qcs615-videocc";
->  			reg = <0 0xab00000 0 0x10000>;
+>  	int ret = 0;
+>  
+>  	if (legacy_binding) {
+> @@ -655,7 +664,11 @@ static int decide_core(struct venus_inst *inst)
+>  	cur_inst_lp_load *= inst->clk_data.low_power_freq;
+>  	/*TODO : divide this inst->load by work_route */
+>  
+> -	max_freq = core->res->freq_tbl[0].freq;
+> +	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
+> +	if (IS_ERR(opp))
+> +		max_freq = freq_tbl[0].freq;
+> +	else
+> +		dev_pm_opp_put(opp);
+>  
+>  	min_loaded_core(inst, &min_coreid, &min_load, false);
+>  	min_loaded_core(inst, &min_lp_coreid, &min_lp_load, true);
+> @@ -1073,12 +1086,14 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
+>  
+>  static int load_scale_v4(struct venus_inst *inst)
+>  {
+> +	const struct freq_tbl *table = inst->core->res->freq_tbl;
+> +	unsigned int num_rows = inst->core->res->freq_tbl_size;
+> +	unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
+>  	struct venus_core *core = inst->core;
+> -	const struct freq_tbl *table = core->res->freq_tbl;
+> -	unsigned int num_rows = core->res->freq_tbl_size;
+> +	unsigned long max_freq = ULONG_MAX;
+>  	struct device *dev = core->dev;
+> -	unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
+>  	unsigned long filled_len = 0;
+> +	struct dev_pm_opp *opp;
+>  	int i, ret = 0;
+>  
+>  	for (i = 0; i < inst->num_input_bufs; i++)
+> @@ -1104,19 +1119,29 @@ static int load_scale_v4(struct venus_inst *inst)
+>  
+>  	freq = max(freq_core1, freq_core2);
+>  
+> -	if (freq > table[0].freq) {
+> -		dev_dbg(dev, VDBGL "requested clock rate: %lu scaling clock rate : %lu\n",
+> -			freq, table[0].freq);
+> +	opp = dev_pm_opp_find_freq_floor(dev, &max_freq);
+> +	if (IS_ERR(opp))
+> +		max_freq = table[0].freq;
+> +	else
+> +		dev_pm_opp_put(opp);
+>  
+> -		freq = table[0].freq;
+> +	if (freq > max_freq) {
+> +		dev_dbg(dev, VDBGL "requested clock rate: %lu scaling clock rate : %lu\n",
+> +			freq, max_freq);
+> +		freq = max_freq;
+>  		goto set_freq;
+>  	}
+>  
+> -	for (i = num_rows - 1 ; i >= 0; i--) {
+> -		if (freq <= table[i].freq) {
+> -			freq = table[i].freq;
+> -			break;
+> +	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
+> +	if (IS_ERR(opp)) {
+> +		for (i = num_rows - 1 ; i >= 0; i--) {
+> +			if (freq <= table[i].freq) {
+> +				freq = table[i].freq;
+> +				break;
+> +			}
+>  		}
+> +	} else {
+> +		dev_pm_opp_put(opp);
+>  	}
+>  
+>  set_freq:
 > 
 > -- 
 > 2.34.1
