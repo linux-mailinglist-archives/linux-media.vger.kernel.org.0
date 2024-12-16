@@ -1,107 +1,84 @@
-Return-Path: <linux-media+bounces-23453-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23454-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB459F2B7A
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 09:07:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9B99F2B7B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 09:07:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A625188BEBE
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 08:05:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A864918877F8
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 08:07:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99663201262;
-	Mon, 16 Dec 2024 08:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B3291FF7AC;
+	Mon, 16 Dec 2024 08:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3pBLJpr"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="ECH6F9SK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF391FF7DC
-	for <linux-media@vger.kernel.org>; Mon, 16 Dec 2024 08:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C9B171BB;
+	Mon, 16 Dec 2024 08:06:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734336197; cv=none; b=qSxkMJgjBKmBAqze4PfoDiyW8NSMX8Jk55qtKjIdr9/tn/+pXErJ69WSyF1gcym2pxKQfq2s7I6vND/3pTBZ9t4gj2Q7fFCHJXWHp38+mSnWFIFCWbgLVhUypy9jqkRPQ677UIFsKN8AydMvP6mEisXUOWTlPnRd0dJQIfkyXi0=
+	t=1734336410; cv=none; b=jldKw+uQ2HjC57RshRLBhomQKmTOAjfFkkDPq/Agu76xk5B1CuVh6fDLjn7VSakIC6l4t2jKAQUsoM/6uyGpu21LSTSVBAdg77D9UvI3gVncztjA4sFgmjJypA5keM3VHIuPb1DCd50L7FnqjupYHKi9Oji85noOQYZl0jqp6Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734336197; c=relaxed/simple;
-	bh=g/7FpQqVu9NQ49Rjd5uyFFWdwSdGNIyIwvRhD/iPe98=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A+tq17mK8nyyJ4cc6YzNn8uSpsGavLfkhrAAYT57e7zbKOZzpEUpMl2iXllwFPfQJdaRXZDRzx+e5BoHYDEUpGFeajJYvnWJjX3Pxm9BVViP5KSFfMjsC1aU9aICfZUvNuKN+7WvQ34w3aqOqHe1f2bxxFGWZ+PQghL9jM/3Q9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3pBLJpr; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734336195; x=1765872195;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g/7FpQqVu9NQ49Rjd5uyFFWdwSdGNIyIwvRhD/iPe98=;
-  b=E3pBLJpr+8Sy/1kfVLcN8oC5IzDoPO1slloHyGc9iveMnYrJvH4XL8nQ
-   sx9yFGFPWZsowiGuGVNDI2Pyw/jbCsqh0uDEpm9tRnu5c6H9Cf4FsRyM5
-   qTeSCXh6S7MkBbtlqrIROOiLXO+bgm/tVYZiBZSnW2CwRImCFRIysotKu
-   c0dDdEVbfuukObTH8dZFz18UrAAMBmSq7V7IULF3GFFn+y5+lxqRGsAq4
-   xPRO8QWCB37A9dtXAqUKvCF/SfUaWKlRJxwfvJ1SyWc9Lp6/Wec0Zy3XB
-   vM8zoTb47HvbxSegtBKWTgfkFwGpvU3ewYgDhV6gBEE5TADJmfYaacP5L
-   Q==;
-X-CSE-ConnectionGUID: HtZeO34WSC2HhnbpHkBPDg==
-X-CSE-MsgGUID: y1UPGig0Tk6DqdoF5+VDsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="22293726"
-X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
-   d="scan'208";a="22293726"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 00:03:13 -0800
-X-CSE-ConnectionGUID: Jepbq/vBSnae1dgjX5K39w==
-X-CSE-MsgGUID: olT2vUftR0a83iEGL3StBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97920747"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 00:03:11 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6F0F411F9F7;
-	Mon, 16 Dec 2024 10:03:08 +0200 (EET)
-Date: Mon, 16 Dec 2024 08:03:08 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl
-Subject: Re: [PATCH v7 5/5] media: intel/ipu6: Obtain link frequency from a
- sub-device
-Message-ID: <Z1_evC9EsHnXuj_r@kekkonen.localdomain>
-References: <20241210075906.609490-1-sakari.ailus@linux.intel.com>
- <20241210075906.609490-6-sakari.ailus@linux.intel.com>
- <20241215170832.GI9975@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1734336410; c=relaxed/simple;
+	bh=HaHnIGeijd6tTpglwZ7rtRjeB8ky6wwz4btYeFZoS7k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XTo/zCSrw3adgT0Dp436o53vQV7JtzoGKAvxt4903dGtWl0fKiTOM/kNlgzMeIaj5dnCwmBsjCDdqpUjmNAMIOtor/h0r83wdmyRdOxVKTWnhflndrEHB7l8vT700IBrUKUlMitfQ2kjYBmUe7kE6PrGKELda1Vxha5VU9LZifk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=ECH6F9SK; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=A5bn6knJzryQkL3CzFo6N9Sn/p2Hmwhbnzw0riz5FFg=; b=ECH6F9SKAjLOnyVZlDYnaROKFR
+	dvcSxcJHpddOUv1Ru5GftxVGDdyAm9823UZ66e611HdEez9PdFLdwjmefqym0lIgvzvIhuEde5PBf
+	uDKGEapBIqJJ6cPAuhdE7W5ICZQzj03g/A2Z1nHfncmBGZibEvdG91sI+4+qhlqAoJhg0BoKWsEqo
+	QRHAdUn9FFzsjlXCDHuTOrK5ogk9ImFuTq6jY6ANDD13hBoahgEhsbjcV3E6f+rKXtjHhuNSQCeLB
+	lFOR2a1TNlQbRx/+HB2T1GZMIXbnDNaHEI2FUk6aB76RMYaSzvt6CB7iXAyhJ16GYQ96liAgkV1F1
+	73qcVMQA==;
+Received: from i5e86190a.versanet.de ([94.134.25.10] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1tN67b-0002tK-W4; Mon, 16 Dec 2024 09:06:32 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: mchehab@kernel.org, linux-media@vger.kernel.org,
+ ezequiel@vanguardiasur.com.ar, Andy Yan <andyshrk@163.com>
+Cc: linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ kever.yang@rock-chips.com, sebastian.reichel@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH] media: rockchip: rga: Fix Copyright description
+Date: Mon, 16 Dec 2024 09:06:30 +0100
+Message-ID: <3258928.5fSG56mABF@diego>
+In-Reply-To: <20241215093051.3447711-1-andyshrk@163.com>
+References: <20241215093051.3447711-1-andyshrk@163.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241215170832.GI9975@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, Dec 15, 2024 at 07:08:32PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
+Am Sonntag, 15. Dezember 2024, 10:30:50 CET schrieb Andy Yan:
+> From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> Thank you for the patch.
+> The company name has update to Rockchip Electronics Co., Ltd.
+> since 2021.
+> And change Co.Ltd to Co., Ltd. to fix mail server warning:
+> DBL_SPAM(6.50)[co.ltd:url];
 > 
-> I think this should come before 4/5.
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 
-Because of...? Both are needed for this to work.
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 
-> 
-> On Tue, Dec 10, 2024 at 09:59:06AM +0200, Sakari Ailus wrote:
-> > Obtain the link frequency from the sub-device instead of a control
-> > handler. This allows obtaining it using the get_mbus_config() sub-device
-> > pad op that which is only supported by the IVSC driver.
-> 
-> "which is the only method supported by the IVSC driver"
 
-Yes.
-
--- 
-Sakari Ailus
 
