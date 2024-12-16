@@ -1,60 +1,95 @@
-Return-Path: <linux-media+bounces-23511-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23512-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6D19F3D37
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 23:06:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07BBF9F3D83
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 23:30:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3740816C8EC
-	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 22:06:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CCFE169285
+	for <lists+linux-media@lfdr.de>; Mon, 16 Dec 2024 22:30:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6446C1D618E;
-	Mon, 16 Dec 2024 22:06:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D4D51D6DA8;
+	Mon, 16 Dec 2024 22:30:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="fN6jiyDz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RpOTDJ+D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1A9BA49;
-	Mon, 16 Dec 2024 22:06:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FB15D8F0;
+	Mon, 16 Dec 2024 22:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734386795; cv=none; b=g8TyK6Z68KKo1f6cUmocdr6oxy8baslfWa3fFm5YWXqCFgHMJiHjAp21/K0/uL8VNtUjNTiLQogC6BhEaftpKtSLifVbTAjLQ2LvpX9TjKP0ekk+vCd0oCCwsw/vKHNBju8qK1JHwI6/dz84/QVHnzsQDvzKVH5GjZIje0aleDo=
+	t=1734388236; cv=none; b=ln6sGlp5JJDURhkuLj3jSZmwKFg9qATyIsMNJMsLTU7vKzVp0nPn/CLXZY+sWkh/z1AYThetyCnMvf9ioflTeJqle/aPiL0BxcgsWjoE02vWvDEwPclbtM5YHb0Tx4TlsJLvbelHT+Ggb2m3SRyYDW4tiDYlfAkC+rgx26XqL+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734386795; c=relaxed/simple;
-	bh=icMx43hRgyr1P9e7gUKFaT43mFWrxQOOojFprXBGmNk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g3/7FMJ7O8TKM049ob3rCmGHDoq8AVXBBF9hX0O8Nnd1wv3/gOwE/UzF+9HUS6B9yPdQ5o31b5r1vX/78v6F8NYAs695/iOGDjcty5d+bCzBEDnCTxbCoWX8TM3ebsT1EM+9mOJkzQorJKu8Dxg/Y9N/13H1WNmEy8J+3NjH4b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=fN6jiyDz; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=OhYB5xvUHbZKoooV6q/5gst0XnhfPdQEMwD+Tskq1s8=; b=fN6jiyDzcAhxiDEB
-	MW8IcNSWcO5BCynIAyiG1bnDrAE/TwiKr36rWJMRNf18F+9LPWr4On9Kpp1w+OsvgGPxQSN1rGEJq
-	zE83LVoc6rMbL6P1lRcor6JxIaK2nf6kEQ1avdbEV1m2oydnIWZz9mJGxhVDuC8Doqrsj8Eb3m72B
-	H0k/HNj28TYqsWif/LUqethGPDmVZmVq5U0G5KX7KxvgaUu7GYuzN+67OSHEF6/xh3UdPF0urNaHZ
-	ygv8hCR+WPZs16qOOpXXfait2vV55LmVLvR0AI+Hx6G9h0wUa2G9a/pDGrOkOv3+AZXI0njSDUKQN
-	4DcfL3ADNtXY9mTybA==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1tNJES-005jOo-2g;
-	Mon, 16 Dec 2024 22:06:28 +0000
-From: linux@treblig.org
-To: stanimir.k.varbanov@gmail.com,
-	quic_vgarodia@quicinc.com,
-	bryan.odonoghue@linaro.org,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
+	s=arc-20240116; t=1734388236; c=relaxed/simple;
+	bh=4bO1EjdSvXJ62M8ayQUFJJHF+pCdEsE6nbS2VHUOgYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NhNBMix5HuPQT244pDrMke6DWI6FvTjENJtCxwk2YJ2qh20CiMQh6LSFiL+HyfMBOmTAmOlDawflEHHemb9jggZedSW69EXvZg7wuGkx9g6W+QLgFiUp8QaDdO2247wfEStju8vVX4Dt+encon3Bx1OC9deXg8JOKa2I7H8A7l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RpOTDJ+D; arc=none smtp.client-ip=209.85.166.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-844cd85f5ebso386748739f.3;
+        Mon, 16 Dec 2024 14:30:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734388234; x=1734993034; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vu/gd+Psmkd9LrXVKDf+sMo8Wju/Lil3/T06jKFEacA=;
+        b=RpOTDJ+D/WRPJu7ijO42fb02uNlTKiOKdfJtYOd18KjymYg4k7zCB/aQ5rCESzq/Up
+         4wUuXj65HSQNdu6ImVXI4J/xLd2yvUqtZ/JDaRuMnNxoaS04UTaXZZSDaI7BIt/3ywWS
+         1XCn63ZpbXr1bydgWZLO6a3RG4wXhhAVsN0RFRx2+AlqjOsleRIi6JuFtuwXbEfPDeBr
+         o7GIsRxGrCxCLqwdNQnepcSYxhtpPntq0urAh/lt2s0TN32YC2PrbtsEbYJDMZd5fSkB
+         9e4d2jJtGmk7JfdnELtX7pDcol1UIf6QLc03CPiUvKs+Q6fIXDceMBybLsxdEqUkFWMO
+         ocRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734388234; x=1734993034;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Vu/gd+Psmkd9LrXVKDf+sMo8Wju/Lil3/T06jKFEacA=;
+        b=FcdQ0n6/5BZnYDX8MgIGS5T70RhsKhbUR1oeJBLg5tgHJ+dElNDJ9k+GEMfC31fZNR
+         y66HPKsUYA9jkYUbzK14IigepKzmd60IlCpJeW4pkFmEsyx9t1tdk3mmT7NCupHQsbP2
+         Ofs3CPxM2SO4QwjDT1Jol4PVl+UHIdECPaSI7LKjKPwt28bx1pU0GegUuDxGBBGpyOiN
+         VX88Avx7lQWltqzRbqqRV+WWimzQ7JX8bPwSEdUUmjYm700fSYCqW6yTyWXGxN0y/BRS
+         wPdpqPBWx8M1IHAzW6mS9vIoc2CQiF+ucfkib83cHTKpNnKHghS7qD8o6uLpvKHCbH5i
+         d5Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCUAcGPEKCFMfG6LV+oOF73w3LZ+3AIGKiZf3E5Qzo4WAP3WTeyo++LCaRI2vhRLhoBVoFEbp84pkM9L0Ss89g==@vger.kernel.org, AJvYcCVmTsn4cbrkreIzGJjNHGuTQ1qytPbfTp8UVnQ+w3l58Hgyp/RQ7o+MJCzUmw5Ox5d0YHbuNyJDq7r4@vger.kernel.org, AJvYcCWFBVx/KdNh3JyAZM+hnyqR8Gf2C0G4RmG8M85qZjMdxgSO9PwUrMnNmuqWyDE5W3aFXnQLm+buDaWpmvo=@vger.kernel.org, AJvYcCXK1mQIthkT3xD+eAh6nNT1HF/WcIpMaAjR9ZVEGeyYUgbey97m8iaA4hfqIHaBb9DQMmBVZN4S9nSJ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyfx8REioceALkqWvvA2XbRWwe3cB4MjSFGJGFPqx1JdV5cYqVz
+	zS/JHNBehokDX3Mj9FOECSp7vEvZ5/oKRH3BDAlLXP4iFPA3XNk4
+X-Gm-Gg: ASbGncsnC3x34aghyxcV8usYR+79rG7zFSDqyp1pC72WkfJiiCe7DqSM/FQHVSMsXt4
+	OZWeOjmcO8LmDc4s0B7x7tcObxwAtKfl74pPFIGVB8whiadNb6US+BM2KVeTQliiwCw0PEBa+lm
+	1AjDr62icvOsN3imSrBQscaFEKdOHDnM37R9lti5JnEWKRcSmebDbwqq5Fxc+1oIswi22CHgjTc
+	cOZ9x6OvZQKrk/WYE8b0d3yKoV1I04SG1vFeSRjZGda
+X-Google-Smtp-Source: AGHT+IGnLLpyZCuEg0pqJ311+yDQplg1f+LNm4Cj153Us2EyDvB5emkRG3xn/iF0kl9t7QhMyMUsSg==
+X-Received: by 2002:a05:6e02:1a83:b0:3a7:7ec0:a3dc with SMTP id e9e14a558f8ab-3bad384bea9mr14518105ab.14.1734388234328;
+        Mon, 16 Dec 2024 14:30:34 -0800 (PST)
+Received: from localhost ([2607:fea8:52a3:d200::d916])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3b248228cb3sm17990695ab.22.2024.12.16.14.30.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 14:30:32 -0800 (PST)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] media: venus: Remove unused hfi_core_ping()
-Date: Mon, 16 Dec 2024 22:06:28 +0000
-Message-ID: <20241216220628.1018633-1-linux@treblig.org>
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH v8 0/5] Add SDM670 camera subsystem
+Date: Mon, 16 Dec 2024 17:30:21 -0500
+Message-ID: <20241216223019.70155-8-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -64,112 +99,78 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+This adds support for the camera subsystem on the Snapdragon 670.
 
-hfi_core_ping() was added by 2017's
-commit 09c2845e8fe4 ("[media] media: venus: hfi: add Host Firmware
-Interface (HFI)")
+Changes since v7 (20241210233534.614520-7-mailingradian@gmail.com):
+- move regulators to CSIPHY blocks (3/5)
+- move clocks before interrupts (2/5, 5/5)
+- sort clocks alphanumerically (2/5, 5/5)
+- rename example node to generic node name (2/5)
 
-but has remained unused.
+Changes since v6 (20241011023724.614584-7-mailingradian@gmail.com):
+- set unit address in node name to first address in regs (2/5, 5/5)
 
-Remove it.
+Changes since v5 (20241001023520.547271-9-mailingradian@gmail.com):
+- sort reg and reg-names alphabetically (2/5, 5/5)
+- drop CCI I2C patches since they are applied (formerly 2/7, 3/7)
 
-It was the only caller of the ->core_ping member of hfi_ops,
-so remove it, and the venus_core_ping that it pointed to.
+Changes since v4 (20240904020448.52035-9-mailingradian@gmail.com):
+- change camss interrupts to rising edge in dts (7/7)
+- change IRQs to rising edge in camss dt-bindings example (4/7)
+- move gcc and ahb clocks in camss dt-bindings example (4/7)
+- add reviewed-by for camcc dt-bindings patch (1/7)
 
-Note I've left pky_sys_ping which seems to be the lowest level
-definition of the command.
+Changes since v3 (20240819221051.31489-7-mailingradian@gmail.com):
+- add specific sdm670 compatible for camcc to dt schema and dts (1/7, 6/7)
+- pick up patch from Bryan for CCI driver (3/7)
+- stop assigning CCI frequency in dts (7/7)
+- add maxItems for sdm670 cci clocks (2/7)
+- remove empty line at top of camss dt schema (4/7)
+- move regs and reg-names up in camss dt schema (4/7)
+- move gcc and ahb clocks up in dts and dt schema (4/7, 7/7)
+- add reviewed-by from Vladimir for CCI dt-bindings patch (2/7)
+- add reviewed-by from Bryan for dts patch (7/7)
+- add reviewed-by from Krzysztof for camss dt-bindings patch (4/7)
+- add rewiew tags for camss driver patch (5/7)
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- drivers/media/platform/qcom/venus/hfi.c       | 23 -------------------
- drivers/media/platform/qcom/venus/hfi.h       |  2 --
- drivers/media/platform/qcom/venus/hfi_venus.c | 11 ---------
- 3 files changed, 36 deletions(-)
+Changes since v2 (20240813230037.84004-8-mailingradian@gmail.com):
+- drop unnecessary assigned AXI clock frequency (5/5)
+- drop src clocks from cci (5/5)
+- add unit name, remove mmio properties from port in example dts (2/5)
+- correct the reg-names order (2/5)
+- add parent_dev_ops to csid (3/5)
+- remove CSID clocks from VFE (3/5)
+- remove AXI clock from CSIPHY (3/5)
+- change subsystem part of the commit message summary (3/5)
+- add reviewed-by (4/5)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
-index e00aedb41d16..675e6fd1e9fa 100644
---- a/drivers/media/platform/qcom/venus/hfi.c
-+++ b/drivers/media/platform/qcom/venus/hfi.c
-@@ -138,29 +138,6 @@ int hfi_core_trigger_ssr(struct venus_core *core, u32 type)
- 	return core->ops->core_trigger_ssr(core, type);
- }
- 
--int hfi_core_ping(struct venus_core *core)
--{
--	int ret;
--
--	mutex_lock(&core->lock);
--
--	ret = core->ops->core_ping(core, 0xbeef);
--	if (ret)
--		goto unlock;
--
--	ret = wait_for_completion_timeout(&core->done, TIMEOUT);
--	if (!ret) {
--		ret = -ETIMEDOUT;
--		goto unlock;
--	}
--	ret = 0;
--	if (core->error != HFI_ERR_NONE)
--		ret = -ENODEV;
--unlock:
--	mutex_unlock(&core->lock);
--	return ret;
--}
--
- static int wait_session_msg(struct venus_inst *inst)
- {
- 	int ret;
-diff --git a/drivers/media/platform/qcom/venus/hfi.h b/drivers/media/platform/qcom/venus/hfi.h
-index f25d412d6553..0338841d5992 100644
---- a/drivers/media/platform/qcom/venus/hfi.h
-+++ b/drivers/media/platform/qcom/venus/hfi.h
-@@ -108,7 +108,6 @@ struct hfi_inst_ops {
- struct hfi_ops {
- 	int (*core_init)(struct venus_core *core);
- 	int (*core_deinit)(struct venus_core *core);
--	int (*core_ping)(struct venus_core *core, u32 cookie);
- 	int (*core_trigger_ssr)(struct venus_core *core, u32 trigger_type);
- 
- 	int (*session_init)(struct venus_inst *inst, u32 session_type,
-@@ -152,7 +151,6 @@ int hfi_core_deinit(struct venus_core *core, bool blocking);
- int hfi_core_suspend(struct venus_core *core);
- int hfi_core_resume(struct venus_core *core, bool force);
- int hfi_core_trigger_ssr(struct venus_core *core, u32 type);
--int hfi_core_ping(struct venus_core *core);
- int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops);
- void hfi_session_destroy(struct venus_inst *inst);
- int hfi_session_init(struct venus_inst *inst, u32 pixfmt);
-diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-index f9437b6412b9..a9167867063c 100644
---- a/drivers/media/platform/qcom/venus/hfi_venus.c
-+++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-@@ -1178,16 +1178,6 @@ static int venus_core_deinit(struct venus_core *core)
- 	return 0;
- }
- 
--static int venus_core_ping(struct venus_core *core, u32 cookie)
--{
--	struct venus_hfi_device *hdev = to_hfi_priv(core);
--	struct hfi_sys_ping_pkt pkt;
--
--	pkt_sys_ping(&pkt, cookie);
--
--	return venus_iface_cmdq_write(hdev, &pkt, false);
--}
--
- static int venus_core_trigger_ssr(struct venus_core *core, u32 trigger_type)
- {
- 	struct venus_hfi_device *hdev = to_hfi_priv(core);
-@@ -1639,7 +1629,6 @@ static int venus_suspend(struct venus_core *core)
- static const struct hfi_ops venus_hfi_ops = {
- 	.core_init			= venus_core_init,
- 	.core_deinit			= venus_core_deinit,
--	.core_ping			= venus_core_ping,
- 	.core_trigger_ssr		= venus_core_trigger_ssr,
- 
- 	.session_init			= venus_session_init,
+Changes since v1 (20240806224219.71623-7-mailingradian@gmail.com):
+- define dedicated resource structs/arrays for sdm670 (3/5)
+- separate camcc device tree node into its own patch (4/5)
+- specify correct dual license (2/5)
+- add include directives in dt-bindings camss example (2/5)
+- remove src clocks from dt-bindings (2/5)
+- remove src clocks from dtsi (5/5)
+- add power-domain-names to camss (5/5)
+- specify power domain names (3/5)
+- restrict cci-i2c clocks (1/5)
+- populate a commit message with hw info (2/5)
+- reword commit message (3/5)
+
+Richard Acayan (5):
+  dt-bindings: clock: qcom,sdm845-camcc: add sdm670 compatible
+  dt-bindings: media: camss: Add qcom,sdm670-camss
+  media: qcom: camss: add support for SDM670 camss
+  arm64: dts: qcom: sdm670: add camcc
+  arm64: dts: qcom: sdm670: add camss and cci
+
+ .../bindings/clock/qcom,sdm845-camcc.yaml     |   6 +-
+ .../bindings/media/qcom,sdm670-camss.yaml     | 318 ++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sdm670.dtsi          | 195 +++++++++++
+ drivers/media/platform/qcom/camss/camss.c     | 191 +++++++++++
+ 4 files changed, 709 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sdm670-camss.yaml
+
 -- 
 2.47.1
 
