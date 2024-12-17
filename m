@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-23598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885559F4D48
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 15:12:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E784D9F4D4E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 15:13:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F8B27A865F
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:12:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C59716565E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:13:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B9891F7578;
-	Tue, 17 Dec 2024 14:10:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D2351F6679;
+	Tue, 17 Dec 2024 14:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nj2/aarl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoRPkl5t"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836741F7542;
-	Tue, 17 Dec 2024 14:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA5D1F63DE;
+	Tue, 17 Dec 2024 14:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734444625; cv=none; b=jSYQAHGrDSNYzxBsBYu0w9DGNweIttr3j/rIv9GD/T5rJZvl0GwZwPxZ6wycHQ3FwlJoZ6Xu/ATKbaaDRlw2JFRim/GlBQhTGLNLxLDfKYUuVnfY6yd0DrVy1CrEhWrFQh+K2MiN3NamONGfWl8kC4OyDTvUOXPE3G8yQd45mfA=
+	t=1734444705; cv=none; b=Twi9ARIXL9IsoBUORQg+CdWwPuuTFpaDFTRZrXczGpVYgDxGALbafDkcoHtkgo5J7lZwxQU60OmHtEwAROO19+rqUpmBZ9IZJcoQB8INpRxl599CyLKzGHE0dkUMWoB8We667S68OB6m8QspgfZy3k8OeqwFXH7TIois2YIUano=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734444625; c=relaxed/simple;
-	bh=C9fsxrj/yC/xYCX1w1nLRgWlDRF3wQiSpEE3jrArh6E=;
+	s=arc-20240116; t=1734444705; c=relaxed/simple;
+	bh=+dprW4zFTCcIz53pVj73e4JZAt3bSbTy3ZmUnv6jlxI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gQsWauXCgUHyN5fMu8F+ME9nm9N66tQssaQYTM8sTB1cuZB3EHXboByRJC/K+nPV4IxrJN394O5REzy5z6D3GhL5LWsnxtfxDZD7tDHg3h89eD7AoHvz71pBkmj3YCSGORkK/ShC37yJErgRXpRYs2z4gExsjO3Sg3ssKECeSmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nj2/aarl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 434D7C4CED3;
-	Tue, 17 Dec 2024 14:10:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=O/P0v7SCjdc6ZCWNbNgUggOLwNeTTGAx2mAeo//2/VPM1ZOgMflG2ZS/sy5bypEioAp/8UVljFTBBrITqIf64uFFGx+hreoyS3Q42akHDhrdoOUNBIGpUuNTLy9QYZdpg7VrG5DN9oPnGurRGiPbMsJo2xX5SPxmLgCk4vC6YC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eoRPkl5t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D05C4CED3;
+	Tue, 17 Dec 2024 14:11:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734444625;
-	bh=C9fsxrj/yC/xYCX1w1nLRgWlDRF3wQiSpEE3jrArh6E=;
+	s=k20201202; t=1734444705;
+	bh=+dprW4zFTCcIz53pVj73e4JZAt3bSbTy3ZmUnv6jlxI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nj2/aarlfPOP+kjdNOj8fJzNkkyFeOT/0YkMU1vj80j8miA5cNUdoO9tnMc6OFBTO
-	 ws5+5771ZZoWQIEh6CokqccgWtgH/lRivSmbLBinT2ZQMyCpsWY04CKfuLXgxn0XZX
-	 FN+whl1hmXfcuLpGh5XIWDLrVwzWcdSUtWuqzSBMx9v/TxRBhsopt7bA6wnMnPF72/
-	 xHgfwzY7p7O4NJ9bgnELYtfyeTZ3WnaZb3wifWpcTRMuKeUgGsj1jBL9a56uB/WRAl
-	 ZpUNiIz7le2yV4+V19/KOIfm3LzqkSLJQVDBIsr0lW6jafX0vljfN0/FoCPWPsFlxN
-	 YurHVDxaYXWGg==
-Message-ID: <02da691b-1f5d-41a6-847c-c7e9b8239919@kernel.org>
-Date: Tue, 17 Dec 2024 15:10:17 +0100
+	b=eoRPkl5txePVLj9wR8JHQhrGKskOVm7bD1x1yLB2NqSNushBlTRAt5Zs/mrYuMMuB
+	 8FyjuxxDN1DOmI8qAy/h+L061c3kmg9S8EttyVs5+rYY4mmnKFXULsZyMZXulI7ECi
+	 Y8nc+B8AgjAbBH3w/HoAeg7kzWSRt3g34aVt+WN29a+rCyyyJapquNXoGGb0hVR6Qy
+	 +m8PlJ0AqKbocd3ItZOhTXH5yuLmORf76X/d3R9AKddS7lminn93bMSuvmQMEAqOFD
+	 GyXPcjVC0/8jalNnYtOGAtI4og6J1IoL36GB+DQbQO03VESzvLIjFgXkMtpQ34jfiL
+	 /qBihfOOObeHA==
+Message-ID: <ae6db654-c19a-4fde-a649-48c63f4e6394@kernel.org>
+Date: Tue, 17 Dec 2024 15:11:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 1/4] media: dt-bindings: update clocks for
- sc7280-camss
+Subject: Re: [PATCH v10 2/4] media: qcom: camss: update clock names for sc7280
 To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
  todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
@@ -62,7 +61,7 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, kernel@quicinc.com
 References: <20241217140656.965235-1-quic_vikramsa@quicinc.com>
- <20241217140656.965235-2-quic_vikramsa@quicinc.com>
+ <20241217140656.965235-3-quic_vikramsa@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,24 +107,44 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241217140656.965235-2-quic_vikramsa@quicinc.com>
+In-Reply-To: <20241217140656.965235-3-quic_vikramsa@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 17/12/2024 15:06, Vikram Sharma wrote:
-> This patch change clock names to make it consistent with
-> existing platforms as gcc_cam_hf_axi -> gcc_axi_hf.
-> This also adds gcc_axi_sf and remove gcc_camera_ahb.
+> This patch changes gcc_cam_hf_axi clock name to make consistent
 
-Don't combine ABI changes with some less important things.
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
 
-You miss here explanation why doing the ABI change in the first place.
-Without that explanation I find it rather churn. But anyway, reason for
-ABI break and impact should be documented in commit msg.
+> with existing platforms and add gcc_axi_sf clock too.
+> gcc_cam_hf_axi changed to gcc_axi_hf.
+> added gcc_axi_sf.
+
+Explain ABI impact and don't mix new features with some sort of refactoring.
 
 > 
 > Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 > ---
+>  drivers/media/platform/qcom/camss/camss.c | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 004a74f6b2f6..1d992dc74877 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -1443,12 +1443,13 @@ static const struct camss_subdev_resources vfe_res_7280[] = {
+>  		.regulators = {},
+>  
+>  		.clock = { "camnoc_axi", "cpas_ahb", "icp_ahb", "vfe0",
+> -			   "vfe0_axi", "gcc_cam_hf_axi" },
+> +			   "vfe0_axi", "gcc_axi_hf", "gcc_axi_sf" },
+
+
+I don't get how this works with old DTS.
+
+This looks like pure ABI break without any explanation.
 
 Best regards,
 Krzysztof
