@@ -1,481 +1,440 @@
-Return-Path: <linux-media+bounces-23674-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23675-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF679F5931
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 23:01:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E69E69F5A16
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 00:06:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9C80165961
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 21:55:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88FE97A33E1
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 23:06:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD2C1FA8DD;
-	Tue, 17 Dec 2024 21:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CBEB1F9F5E;
+	Tue, 17 Dec 2024 23:06:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/SKHxQo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mna7PDae"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B422E1FA828
-	for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 21:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB49813B792;
+	Tue, 17 Dec 2024 23:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734472505; cv=none; b=O3Ac+pFXxZyDfaDTh0csK+VRZYIHKhhbT7SYsvN7mhfbu21mDJdoTuidKk11LH1rAz0WFDE5QT+/jSzJuUUsls8XsHUnWH6CZ34kMjFFa5CFp//QcgSd+5/lsv7VUrnMJJIa4VhVIkVlXXfn4BhxTEvtbYvYuYbIzLAl3vLLe7Y=
+	t=1734476791; cv=none; b=DNy3XbKgUb9y9pYMMOR5oTFHEiT1ogzgbcXIX1ltQ9jwry9yQ62RY/oBvghwI589A4fdLy3VFj+SUL0qcqWrSg+JEVqtbdLA614W9NYKKMXd/xA7niFJOSitZZCgRVisJe9tTU5oiWT3hWJYGq4Qe1MZwUXeqNBNyhdT9SWQvA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734472505; c=relaxed/simple;
-	bh=Vtzp+Mlv35HLUUkt/0b7a9qXGBrLGOEDQ7iEwVRecTA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=B4TJwECHBDHvMp5f3hhjKp7+FJCJV4LZth/HN1bFrJVcXMVo+m2xlqyhnObH20WOxXwNdoAnpMgzORhN9SCZcQTQ7gQgC0ULxcn/WGDsG42JZ0Z7/JRrRQbo0vCVNjLqRsoAfCKrv7muqZl3SVD/SLfis+V4gfrRDEmWHClJULI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/SKHxQo; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734472503; x=1766008503;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Vtzp+Mlv35HLUUkt/0b7a9qXGBrLGOEDQ7iEwVRecTA=;
-  b=E/SKHxQoarB1cVVA5rlTTfOp3WCKmAmL132WrxHex4q/2kAGBf5srKGU
-   4wMtJMtRK4In3FLHcorKuXRU8qMWOWw9K0TiUebEO/HxLQRA3V2qqy/P/
-   WhU3OJGKML7pHbzxJNLUOyHWTxmTfFuf9oklUzQVqG5lZEa4n/YXB68/D
-   luf7t/6jd37GGgVGpEcyDmGtFxvYykDyQhGtr4Zc6deWJln6CiyoupqX2
-   6ob2i6eL3HJanCCu0hFYacgvuT836PYb4Ph6nSXg1GujIgRGcnG9Ltfvp
-   Si7BFhzGNh/QLT/+9Ar0GQDA2jlS16xXzUWlQluJSdBIUablEzVJNDrpU
-   g==;
-X-CSE-ConnectionGUID: MDjplP/CRS+AYSW839kkyQ==
-X-CSE-MsgGUID: 0lqQnKfdTimRmP/51OVV1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="38861612"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="38861612"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 13:55:03 -0800
-X-CSE-ConnectionGUID: VGr98h0lRBWV1K6UuWZ+mg==
-X-CSE-MsgGUID: pTy6JFMITnaca+1hCNufmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="97511295"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 13:55:02 -0800
-Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 372F411F89A;
-	Tue, 17 Dec 2024 23:54:58 +0200 (EET)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	bingbu.cao@intel.com
-Subject: [PATCH v8 9/9] media: v4l: Convert the users of v4l2_get_link_freq to call it on a pad
-Date: Tue, 17 Dec 2024 23:54:45 +0200
-Message-Id: <20241217215445.901459-10-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241217215445.901459-1-sakari.ailus@linux.intel.com>
-References: <20241217215445.901459-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1734476791; c=relaxed/simple;
+	bh=0SR1eMuWszQEl/NyWvu2rOOq2VFDutiwKJXP8t+stqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f2BPzO2pGV+LC6fc70HVg5EAuOHceLKSYftsivM1S8wnZQNN8L/7q4ZOLPPF2PP9W1c50SGKPa7KklNx9n6DMfJyyj2llOFy1Noy+AMyFPOyeo5Hr1dFOolTqn1wXJyV7mtzomYDdWvgcB1FmG9svuo5wcdGXNO9iVCuSPjz8kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mna7PDae; arc=none smtp.client-ip=209.85.166.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-844e161a8b4so181523839f.0;
+        Tue, 17 Dec 2024 15:06:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734476789; x=1735081589; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Acq93aifQWo1Pdc34YKlwCnrsHa49zJ1ORbrZ18IDTc=;
+        b=Mna7PDae2MW0N1KnMjvXmA+e+q00lA11Ju6q9lHGlEt89UpAEGG/y+zu2SxCOzAGXU
+         fGbraMmPs0tMVQbFbxyIXqiHv3lsJIycNZq7xPnyo9eGvhit7lfN6U0pKLHNIa08UAkU
+         hSOd7Q2ftyqcqb3NZPqRcECaYzd9GgbT8+mBWN02bZYpW9Hb5tYs+0WC+OxMX3UsfFGd
+         qV8o4zGIQ6zl9zqHFQZxFc3j4Xhnv5Q3Z447fYZkcs4vPvAYov8RI6HG0mSP7i8SGYpg
+         7lk20yJIntthF6D4NfU5CYkLzl7RO/1Y0pVNXJfJ9lfSa8v0NuWjU2KCkTgPrwYF8hnq
+         Z6xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734476789; x=1735081589;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Acq93aifQWo1Pdc34YKlwCnrsHa49zJ1ORbrZ18IDTc=;
+        b=Aljo/5TUvFsBu1IKUz13YSxgcvxZuRCzxeWEOgS72TCqz4C8Wu9moMa/JAlU6zbDNy
+         g/MrHXRaLVyhcc5CcBqiYhbDvjiJ519pietTs/TGQRI/x0OBcvrDfRy/A8XMtl3xjp2j
+         K8zyU9fi9BLR6a4ia79+dhHAPQBHMZK3NrFscu20D7nsAsACBabFgPM5MgrWLiXu1Few
+         wdIP2cM+p9WyMgNhuFM9ZMz+qfEb4z6xVHRvqU1F8tLz8V5H8H+mO7q5wm5CDnuCuSuk
+         XqU8fdn6gOsGJfWLXiWE/bKCRD7ClKqsKIK0EK5vsb1UUv2pOUdVo2wxppalBU/ijNAl
+         uHuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWRSE/85acW6o4UAudFUqpXy+0RYi9gkizO36wtAWVcxlaN03O5XnPLlBiiBokNLR07XlQOTsED3ppMJo=@vger.kernel.org, AJvYcCVAgYBhK1+CPZazqHU99ptSmPjMDPttSu6pegIDaIzZzBSPwUnGQ/RLmPFkvHfz3/HOUCJRXN2MxNwBz9NdNw==@vger.kernel.org, AJvYcCWMmfVpCygFpquVBTh5J2E+m92jlrbf35waJsfVhmK8CclgU1W1/QNBo4H/KCnRU/AzpAs5aVio6ST1@vger.kernel.org, AJvYcCXvhabatZriY5cU5gVmzpBhwYKm22GH38/fyCwxI4h1+yBwUtVKlymfEhxIvIDO7uLmONhZe60KtK9Z@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6Qub5DCSzEbHfLY4fgGCDOixVM1ZO1ldBjXLBAYkFlOzjZcmg
+	gALBAvpq3q0AsZcNowHHgmlhaL1aN8+cO+drMdTIcDzSW0gaIxau/L96p1j1
+X-Gm-Gg: ASbGncsm3MVvnTeSpe81WDWGNFLfM21BX9y9CSetE8EnzMbQhLoVNWQdKnOieOEdr5Z
+	oKUJaq05o2EArzQ1YOLzTo4PWbqRAV+GR4jOJaPpLDj/mBUjfhEj7kWGILrgN+7ldvuJcsH9od7
+	VIkG+sa+rbIyY6i1f3ZqULsSJ38USFY+zMhayMRuRKK+luZ7IRi046Nt9AuoPZ4e8GtYUXCp23U
+	CAKH0EIrHSco8cU9WjsXJdaQEZqOsWADL+rAv8azyqy
+X-Google-Smtp-Source: AGHT+IG8aF+vlYBwPDvLYSan3pGN/J1r/uqKSbLcpnikuVHYCGV66vb7DlPCjIf/uUAi8OGL7F/Mag==
+X-Received: by 2002:a05:6602:1645:b0:83a:a305:d9ee with SMTP id ca18e2360f4ac-847585d78abmr86754639f.12.1734476788829;
+        Tue, 17 Dec 2024 15:06:28 -0800 (PST)
+Received: from localhost ([2607:fea8:52a3:d200::b824])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-844f6257e41sm200273339f.13.2024.12.17.15.06.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 15:06:27 -0800 (PST)
+Date: Tue, 17 Dec 2024 18:06:24 -0500
+From: Richard Acayan <mailingradian@gmail.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v8 5/5] arm64: dts: qcom: sdm670: add camss and cci
+Message-ID: <Z2ID8BrR9f38iy3s@radian>
+References: <20241216223019.70155-8-mailingradian@gmail.com>
+ <20241216223019.70155-13-mailingradian@gmail.com>
+ <565d14e1-1478-4a60-8f70-a76a732cde97@linaro.org>
+ <Z2HeS7mZ976l_Mrw@radian>
+ <e9dc1a6f-156b-40aa-9209-2010464d54ed@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e9dc1a6f-156b-40aa-9209-2010464d54ed@linaro.org>
 
-Call v4l2_get_link_freq() on a pad, instead of a control handler. This way
-we can soon convert v4l2_get_link_freq() to be callable only on a pad and
-remove the compatibility code.
+On Tue, Dec 17, 2024 at 11:34:20PM +0200, Vladimir Zapolskiy wrote:
+> On 12/17/24 22:25, Richard Acayan wrote:
+> > On Tue, Dec 17, 2024 at 09:31:50AM +0200, Vladimir Zapolskiy wrote:
+> > > Hi Richard.
+> > > 
+> > > On 12/17/24 00:30, Richard Acayan wrote:
+> > > > Add the camera subsystem and CCI used to interface with cameras on the
+> > > > Snapdragon 670.
+> > > > 
+> > > > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> > > > Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> > > > ---
+> > > >    arch/arm64/boot/dts/qcom/sdm670.dtsi | 185 +++++++++++++++++++++++++++
+> > > >    1 file changed, 185 insertions(+)
+> > > > 
+> > > > diff --git a/arch/arm64/boot/dts/qcom/sdm670.dtsi b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+> > > > index 328096b91126..d4e1251ada04 100644
+> > > > --- a/arch/arm64/boot/dts/qcom/sdm670.dtsi
+> > > > +++ b/arch/arm64/boot/dts/qcom/sdm670.dtsi
+> > > > @@ -6,6 +6,7 @@
+> > > >     * Copyright (c) 2022, Richard Acayan. All rights reserved.
+> > > >     */
+> > > > +#include <dt-bindings/clock/qcom,camcc-sdm845.h>
+> > > >    #include <dt-bindings/clock/qcom,dispcc-sdm845.h>
+> > > >    #include <dt-bindings/clock/qcom,gcc-sdm845.h>
+> > > >    #include <dt-bindings/clock/qcom,rpmh.h>
+> > > > @@ -1168,6 +1169,34 @@ tlmm: pinctrl@3400000 {
+> > > >    			gpio-ranges = <&tlmm 0 0 151>;
+> > > >    			wakeup-parent = <&pdc>;
+> > > > +			cci0_default: cci0-default-state {
+> > > > +				pins = "gpio17", "gpio18";
+> > > > +				function = "cci_i2c";
+> > > > +				drive-strength = <2>;
+> > > > +				bias-pull-up;
+> > > > +			};
+> > > > +
+> > > > +			cci0_sleep: cci0-sleep-state {
+> > > > +				pins = "gpio17", "gpio18";
+> > > > +				function = "cci_i2c";
+> > > > +				drive-strength = <2>;
+> > > > +				bias-pull-down;
+> > > > +			};
+> > > > +
+> > > > +			cci1_default: cci1-default-state {
+> > > > +				pins = "gpio19", "gpio20";
+> > > > +				function = "cci_i2c";
+> > > > +				drive-strength = <2>;
+> > > > +				bias-pull-up;
+> > > > +			};
+> > > > +
+> > > > +			cci1_sleep: cci1-sleep-state {
+> > > > +				pins = "gpio19", "gpio20";
+> > > > +				function = "cci_i2c";
+> > > > +				drive-strength = <2>;
+> > > > +				bias-pull-down;
+> > > > +			};
+> > > > +
+> > > >    			qup_i2c0_default: qup-i2c0-default-state {
+> > > >    				pins = "gpio0", "gpio1";
+> > > >    				function = "qup0";
+> > > > @@ -1400,6 +1429,162 @@ spmi_bus: spmi@c440000 {
+> > > >    			#interrupt-cells = <4>;
+> > > >    		};
+> > > > +		cci: cci@ac4a000 {
+> > > > +			compatible = "qcom,sdm670-cci", "qcom,msm8996-cci";
+> > > > +			#address-cells = <1>;
+> > > > +			#size-cells = <0>;
+> > > > +
+> > > > +			reg = <0 0x0ac4a000 0 0x4000>;
+> > > > +			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
+> > > > +			power-domains = <&camcc TITAN_TOP_GDSC>;
+> > > > +
+> > > > +			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+> > > > +				 <&camcc CAM_CC_SOC_AHB_CLK>,
+> > > > +				 <&camcc CAM_CC_CPAS_AHB_CLK>,
+> > > > +				 <&camcc CAM_CC_CCI_CLK>;
+> > > > +			clock-names = "camnoc_axi",
+> > > > +				      "soc_ahb",
+> > > > +				      "cpas_ahb",
+> > > > +				      "cci";
+> > > > +
+> > > > +			pinctrl-names = "default", "sleep";
+> > > > +			pinctrl-0 = <&cci0_default &cci1_default>;
+> > > > +			pinctrl-1 = <&cci0_sleep &cci1_sleep>;
+> > > > +
+> > > > +			status = "disabled";
+> > > > +
+> > > > +			cci_i2c0: i2c-bus@0 {
+> > > > +				reg = <0>;
+> > > > +				clock-frequency = <1000000>;
+> > > > +				#address-cells = <1>;
+> > > > +				#size-cells = <0>;
+> > > > +			};
+> > > > +
+> > > > +			cci_i2c1: i2c-bus@1 {
+> > > > +				reg = <1>;
+> > > > +				clock-frequency = <1000000>;
+> > > > +				#address-cells = <1>;
+> > > > +				#size-cells = <0>;
+> > > > +			};
+> > > > +		};
+> > > > +
+> > > > +		camss: camera-controller@acb3000 {
+> > > 
+> > > Wasn't it agreed recently to have 'isp' as a generic device name for CAMSS IP?
+> > 
+> > Yeah, will change.
+> > 
+> > > 
+> > > > +			compatible = "qcom,sdm670-camss";
+> > > > +			reg = <0 0x0acb3000 0 0x1000>,
+> > > > +			      <0 0x0acba000 0 0x1000>,
+> > > > +			      <0 0x0acc8000 0 0x1000>,
+> > > > +			      <0 0x0ac65000 0 0x1000>,
+> > > > +			      <0 0x0ac66000 0 0x1000>,
+> > > > +			      <0 0x0ac67000 0 0x1000>,
+> > > > +			      <0 0x0acaf000 0 0x4000>,
+> > > > +			      <0 0x0acb6000 0 0x4000>,
+> > > > +			      <0 0x0acc4000 0 0x4000>;
+> > > > +			reg-names = "csid0",
+> > > > +				    "csid1",
+> > > > +				    "csid2",
+> > > > +				    "csiphy0",
+> > > > +				    "csiphy1",
+> > > > +				    "csiphy2",
+> > > > +				    "vfe0",
+> > > > +				    "vfe1",
+> > > > +				    "vfe_lite";
+> > > > +
+> > > > +			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+> > > > +				 <&camcc CAM_CC_CPAS_AHB_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_0_CSID_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_1_CSID_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_LITE_CSID_CLK>,
+> > > > +				 <&camcc CAM_CC_CSIPHY0_CLK>,
+> > > > +				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> > > > +				 <&camcc CAM_CC_CSIPHY1_CLK>,
+> > > > +				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
+> > > > +				 <&camcc CAM_CC_CSIPHY2_CLK>,
+> > > > +				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
+> > > > +				 <&gcc GCC_CAMERA_AHB_CLK>,
+> > > > +				 <&gcc GCC_CAMERA_AXI_CLK>,
+> > > > +				 <&camcc CAM_CC_SOC_AHB_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_0_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_0_AXI_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_0_CPHY_RX_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_1_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_1_AXI_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_1_CPHY_RX_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_LITE_CLK>,
+> > > > +				 <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>;
+> > > > +			clock-names = "camnoc_axi",
+> > > > +				      "cpas_ahb",
+> > > > +				      "csi0",
+> > > > +				      "csi1",
+> > > > +				      "csi2",
+> > > > +				      "csiphy0",
+> > > > +				      "csiphy0_timer",
+> > > > +				      "csiphy1",
+> > > > +				      "csiphy1_timer",
+> > > > +				      "csiphy2",
+> > > > +				      "csiphy2_timer",
+> > > > +				      "gcc_camera_ahb",
+> > > > +				      "gcc_camera_axi",
+> > > > +				      "soc_ahb",
+> > > > +				      "vfe0",
+> > > > +				      "vfe0_axi",
+> > > > +				      "vfe0_cphy_rx",
+> > > > +				      "vfe1",
+> > > > +				      "vfe1_axi",
+> > > > +				      "vfe1_cphy_rx",
+> > > > +				      "vfe_lite",
+> > > > +				      "vfe_lite_cphy_rx";
+> > > > +
+> > > > +			interrupts = <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
+> > > > +				     <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
+> > > > +				     <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+> > > > +				     <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+> > > > +				     <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+> > > > +				     <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+> > > > +				     <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+> > > > +				     <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
+> > > > +				     <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>;
+> > > > +			interrupt-names = "csid0",
+> > > > +					  "csid1",
+> > > > +					  "csid2",
+> > > > +					  "csiphy0",
+> > > > +					  "csiphy1",
+> > > > +					  "csiphy2",
+> > > > +					  "vfe0",
+> > > > +					  "vfe1",
+> > > > +					  "vfe_lite";
+> > > > +
+> > > > +			iommus = <&apps_smmu 0x808 0x0>,
+> > > > +				 <&apps_smmu 0x810 0x8>,
+> > > > +				 <&apps_smmu 0xc08 0x0>,
+> > > > +				 <&apps_smmu 0xc10 0x8>;
+> > > > +
+> > > > +			power-domains = <&camcc IFE_0_GDSC>,
+> > > > +					<&camcc IFE_1_GDSC>,
+> > > > +					<&camcc TITAN_TOP_GDSC>;
+> > > > +			power-domain-names = "ife0",
+> > > > +					     "ife1",
+> > > > +					     "top";
+> > > > +
+> > > > +			status = "disabled";
+> > > > +
+> > > > +			ports {
+> > > > +				#address-cells = <1>;
+> > > > +				#size-cells = <0>;
+> > > > +
+> > > > +				camss_port0: port@0 {
+> > > > +					reg = <0>;
+> > > > +				};
+> > > > +
+> > > > +				camss_port1: port@1 {
+> > > > +					reg = <1>;
+> > > > +				};
+> > > > +
+> > > > +				camss_port2: port@2 {
+> > > 
+> > > Likely labels to ports are excessive here, please remove them.
+> > 
+> > How would you imagine connecting a camera to the ports, then? For MDSS,
+> > there's a label for the endpoint (mdss_dsi0_out) which the device DTS
+> > can then reference:
+> > 
+> > 	&mdss_dsi0_out {
+> > 		remote-endpoint = <&panel_in>;
+> > 		data-lanes = <0 1 2 3>;
+> > 	};
+> > 
+> > For CAMSS, the port labels would be used like so:
+> > 
+> > 	&camss_port1 {
+> > 		camss_endpoint1: endpoint {
+> > 			clock-lanes = <7>;
+> > 			data-lanes = <0 1 2 3>;
+> > 			remote-endpoint = <&cam_front_endpoint>;
+> > 		};
+> > 	};
+> > 
+> > Without the labels, the connection might look something like:
+> > 
+> 
+> Even if you insist on moving endpoints out of &camss, then why do
+> you add port labels? Unavoidably you do have endpoint labels, so
+> it's non-obvious why the version above is better than the next one:
+> 
+> 	&camss_endpoint1 {
+> 		clock-lanes = <7>;
+> 		data-lanes = <0 1 2 3>;
+> 		remote-endpoint = <&cam_front_endpoint>;
+> 	};
+> 
+> Minus two lines of code, minus one label. Port labels are not needed.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/st-mipid02.c                  |  5 +++--
- drivers/media/i2c/tc358746.c                    |  4 +++-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c        | 11 ++++++++---
- drivers/media/platform/cadence/cdns-csi2rx.c    |  4 +++-
- drivers/media/platform/nxp/imx-mipi-csis.c      |  5 +++--
- drivers/media/platform/nxp/imx8mq-mipi-csi2.c   | 11 +++++++++--
- .../media/platform/qcom/camss/camss-vfe-17x.c   |  8 +++++---
- .../media/platform/qcom/camss/camss-vfe-gen1.c  |  8 +++++---
- drivers/media/platform/qcom/camss/camss.c       | 17 +++++++----------
- drivers/media/platform/qcom/camss/camss.h       |  2 +-
- .../media/platform/raspberrypi/rp1-cfe/cfe.c    |  4 +++-
- drivers/media/platform/st/stm32/stm32-csi.c     |  4 +++-
- drivers/media/platform/ti/cal/cal-camerarx.c    |  3 ++-
- drivers/media/platform/ti/cal/cal.c             |  4 +++-
- drivers/media/platform/ti/cal/cal.h             |  1 +
- 15 files changed, 59 insertions(+), 32 deletions(-)
+Thanks for having me look into this.
 
-diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-index f08db3cfe076..f4568e87f018 100644
---- a/drivers/media/i2c/st-mipid02.c
-+++ b/drivers/media/i2c/st-mipid02.c
-@@ -301,8 +301,9 @@ static int mipid02_detect(struct mipid02_dev *bridge)
- static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
- 					   struct v4l2_mbus_framefmt *fmt)
- {
-+	struct media_pad *remote =
-+		&bridge->s_subdev->entity.pads[bridge->s_subdev_pad_id];
- 	struct i2c_client *client = bridge->i2c_client;
--	struct v4l2_subdev *subdev = bridge->s_subdev;
- 	struct v4l2_fwnode_endpoint *ep = &bridge->rx;
- 	u32 bpp = bpp_from_code(fmt->code);
- 	/*
-@@ -312,7 +313,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
- 	u64 ui_4 = 2000000000;
- 	s64 link_freq;
- 
--	link_freq = v4l2_get_link_freq(subdev->ctrl_handler, bpp,
-+	link_freq = v4l2_get_link_freq(remote, bpp,
- 				       2 * ep->bus.mipi_csi2.num_data_lanes);
- 	if (link_freq < 0) {
- 		dev_err(&client->dev, "Failed to get link frequency");
-diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
-index 389582420ba7..31586f8e4be4 100644
---- a/drivers/media/i2c/tc358746.c
-+++ b/drivers/media/i2c/tc358746.c
-@@ -896,6 +896,7 @@ tc358746_link_validate(struct v4l2_subdev *sd, struct media_link *link,
- 	const struct tc358746_format *fmt;
- 	unsigned int fifo_sz, tmp, n;
- 	struct v4l2_subdev *source;
-+	struct media_pad *src_pad;
- 	s64 source_link_freq;
- 	int err;
- 
-@@ -910,7 +911,8 @@ tc358746_link_validate(struct v4l2_subdev *sd, struct media_link *link,
- 	fmt = tc358746_get_format_by_code(TC358746_SINK, mbusfmt->code);
- 
- 	source = media_entity_to_v4l2_subdev(link->source->entity);
--	source_link_freq = v4l2_get_link_freq(source->ctrl_handler, 0, 0);
-+	src_pad = &source->entity.pads[source_fmt->pad];
-+	source_link_freq = v4l2_get_link_freq(src_pad, 0, 0);
- 	if (source_link_freq <= 0) {
- 		dev_err(tc358746->sd.dev,
- 			"Failed to query or invalid source link frequency\n");
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index 4e98f432ed55..7731eb70fc8e 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -309,12 +309,17 @@ static int cio2_csi2_calc_timing(struct cio2_device *cio2, struct cio2_queue *q,
- 				 unsigned int bpp, unsigned int lanes)
- {
- 	struct device *dev = &cio2->pci_dev->dev;
-+	struct media_pad *src_pad;
- 	s64 freq;
- 
--	if (!q->sensor)
--		return -ENODEV;
-+	src_pad = media_entity_remote_source_pad_unique(&q->subdev.entity);
-+	if (IS_ERR(src_pad)) {
-+		dev_err(dev, "can't get source pad of %s (%ld)\n",
-+			q->subdev.name, PTR_ERR(src_pad));
-+		return PTR_ERR(src_pad);
-+	}
- 
--	freq = v4l2_get_link_freq(q->sensor->ctrl_handler, bpp, lanes * 2);
-+	freq = v4l2_get_link_freq(src_pad, bpp, lanes * 2);
- 	if (freq < 0) {
- 		dev_err(dev, "error %lld, invalid link_freq\n", freq);
- 		return freq;
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index 4d64df829e75..cebcae196eec 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -164,6 +164,8 @@ static void csi2rx_reset(struct csi2rx_priv *csi2rx)
- 
- static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
- {
-+	struct media_pad *src_pad =
-+		&csi2rx->source_subdev->entity.pads[csi2rx->source_pad];
- 	union phy_configure_opts opts = { };
- 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
- 	struct v4l2_subdev_format sd_fmt = {
-@@ -181,7 +183,7 @@ static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
- 
- 	fmt = csi2rx_get_fmt_by_code(sd_fmt.format.code);
- 
--	link_freq = v4l2_get_link_freq(csi2rx->source_subdev->ctrl_handler,
-+	link_freq = v4l2_get_link_freq(src_pad,
- 				       fmt->bpp, 2 * csi2rx->num_lanes);
- 	if (link_freq < 0)
- 		return link_freq;
-diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-index 29523bb84d95..d060eadebc7a 100644
---- a/drivers/media/platform/nxp/imx-mipi-csis.c
-+++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-@@ -597,12 +597,13 @@ static void __mipi_csis_set_format(struct mipi_csis_device *csis,
- static int mipi_csis_calculate_params(struct mipi_csis_device *csis,
- 				      const struct csis_pix_format *csis_fmt)
- {
-+	struct media_pad *src_pad =
-+		&csis->source.sd->entity.pads[csis->source.pad->index];
- 	s64 link_freq;
- 	u32 lane_rate;
- 
- 	/* Calculate the line rate from the pixel rate. */
--	link_freq = v4l2_get_link_freq(csis->source.sd->ctrl_handler,
--				       csis_fmt->width,
-+	link_freq = v4l2_get_link_freq(src_pad, csis_fmt->width,
- 				       csis->bus.num_data_lanes * 2);
- 	if (link_freq < 0) {
- 		dev_err(csis->dev, "Unable to obtain link frequency: %d\n",
-diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-index 1f2657cf6e82..a8bcf60e2f37 100644
---- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-+++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-@@ -287,6 +287,7 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
- 					  struct v4l2_subdev_state *sd_state,
- 					  u32 *hs_settle)
- {
-+	struct media_pad *src_pad;
- 	s64 link_freq;
- 	u32 lane_rate;
- 	unsigned long esc_clk_rate;
-@@ -294,13 +295,19 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
- 	const struct v4l2_mbus_framefmt *fmt;
- 	const struct csi2_pix_format *csi2_fmt;
- 
-+	src_pad = media_entity_remote_source_pad_unique(&sd_state->sd->entity);
-+	if (IS_ERR(src_pad)) {
-+		dev_err(state->dev, "can't get source pad of %s (%ld)\n",
-+			sd_state->sd->name, PTR_ERR(src_pad));
-+		return PTR_ERR(src_pad);
-+	}
-+
- 	/* Calculate the line rate from the pixel rate. */
- 
- 	fmt = v4l2_subdev_state_get_format(sd_state, MIPI_CSI2_PAD_SINK);
- 	csi2_fmt = find_csi2_format(fmt->code);
- 
--	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
--				       csi2_fmt->width,
-+	link_freq = v4l2_get_link_freq(src_pad, csi2_fmt->width,
- 				       state->bus.num_data_lanes * 2);
- 	if (link_freq < 0) {
- 		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-17x.c b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-index 380c99321030..cc93f79179dd 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-@@ -443,16 +443,18 @@ static int vfe_enable_output(struct vfe_line *line)
- 	struct vfe_device *vfe = to_vfe(line);
- 	struct vfe_output *output = &line->output;
- 	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
--	struct media_entity *sensor;
-+	struct media_pad *sensor;
- 	unsigned long flags;
- 	unsigned int frame_skip = 0;
- 	unsigned int i;
- 
- 	sensor = camss_find_sensor(&line->subdev.entity);
- 	if (sensor) {
--		struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(sensor);
-+		struct v4l2_subdev *subdev =
-+			media_entity_to_v4l2_subdev(sensor->entity);
- 
--		v4l2_subdev_call(subdev, sensor, g_skip_frames, &frame_skip);
-+		v4l2_subdev_call(subdev, sensor, g_skip_frames,
-+				 &frame_skip);
- 		/* Max frame skip is 29 frames */
- 		if (frame_skip > VFE_FRAME_DROP_VAL - 1)
- 			frame_skip = VFE_FRAME_DROP_VAL - 1;
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-index eb33c03df27e..1970f7aa6d4d 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
-@@ -170,7 +170,7 @@ static int vfe_enable_output(struct vfe_line *line)
- 	struct vfe_device *vfe = to_vfe(line);
- 	struct vfe_output *output = &line->output;
- 	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
--	struct media_entity *sensor;
-+	struct media_pad *sensor;
- 	unsigned long flags;
- 	unsigned int frame_skip = 0;
- 	unsigned int i;
-@@ -182,9 +182,11 @@ static int vfe_enable_output(struct vfe_line *line)
- 
- 	sensor = camss_find_sensor(&line->subdev.entity);
- 	if (sensor) {
--		struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(sensor);
-+		struct v4l2_subdev *subdev =
-+			media_entity_to_v4l2_subdev(sensor->entity);
- 
--		v4l2_subdev_call(subdev, sensor, g_skip_frames, &frame_skip);
-+		v4l2_subdev_call(subdev, sensor, g_skip_frames,
-+				 &frame_skip);
- 		/* Max frame skip is 29 frames */
- 		if (frame_skip > VFE_FRAME_DROP_VAL - 1)
- 			frame_skip = VFE_FRAME_DROP_VAL - 1;
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 004a74f6b2f6..e86de4b59723 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1996,12 +1996,12 @@ void camss_disable_clocks(int nclocks, struct camss_clock *clock)
- }
- 
- /*
-- * camss_find_sensor - Find a linked media entity which represents a sensor
-+ * camss_find_sensor - Find the media pad via which the sensor is linked
-  * @entity: Media entity to start searching from
-  *
-  * Return a pointer to sensor media entity or NULL if not found
-  */
--struct media_entity *camss_find_sensor(struct media_entity *entity)
-+struct media_pad *camss_find_sensor(struct media_entity *entity)
- {
- 	struct media_pad *pad;
- 
-@@ -2017,7 +2017,7 @@ struct media_entity *camss_find_sensor(struct media_entity *entity)
- 		entity = pad->entity;
- 
- 		if (entity->function == MEDIA_ENT_F_CAM_SENSOR)
--			return entity;
-+			return pad;
- 	}
- }
- 
-@@ -2032,16 +2032,13 @@ struct media_entity *camss_find_sensor(struct media_entity *entity)
- s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
- 			unsigned int lanes)
- {
--	struct media_entity *sensor;
--	struct v4l2_subdev *subdev;
-+	struct media_pad *sensor;
- 
- 	sensor = camss_find_sensor(entity);
- 	if (!sensor)
- 		return -ENODEV;
- 
--	subdev = media_entity_to_v4l2_subdev(sensor);
--
--	return v4l2_get_link_freq(subdev->ctrl_handler, bpp, 2 * lanes);
-+	return v4l2_get_link_freq(sensor, bpp, 2 * lanes);
- }
- 
- /*
-@@ -2053,7 +2050,7 @@ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
-  */
- int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock)
- {
--	struct media_entity *sensor;
-+	struct media_pad *sensor;
- 	struct v4l2_subdev *subdev;
- 	struct v4l2_ctrl *ctrl;
- 
-@@ -2061,7 +2058,7 @@ int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock)
- 	if (!sensor)
- 		return -ENODEV;
- 
--	subdev = media_entity_to_v4l2_subdev(sensor);
-+	subdev = media_entity_to_v4l2_subdev(sensor->entity);
- 
- 	ctrl = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 9a046eea334f..6da7131c0aaa 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -153,7 +153,7 @@ void camss_add_clock_margin(u64 *rate);
- int camss_enable_clocks(int nclocks, struct camss_clock *clock,
- 			struct device *dev);
- void camss_disable_clocks(int nclocks, struct camss_clock *clock);
--struct media_entity *camss_find_sensor(struct media_entity *entity);
-+struct media_pad *camss_find_sensor(struct media_entity *entity);
- s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
- 			unsigned int lanes);
- int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
-diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-index 12660087b12f..ed3d18917f2d 100644
---- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-+++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-@@ -1102,6 +1102,8 @@ static void cfe_buffer_queue(struct vb2_buffer *vb)
- 
- static s64 cfe_get_source_link_freq(struct cfe_device *cfe)
- {
-+	struct media_pad *src_pad =
-+		&cfe->source_sd->entity.pads[cfe->source_pad];
- 	struct v4l2_subdev_state *state;
- 	s64 link_freq;
- 	u32 bpp;
-@@ -1136,7 +1138,7 @@ static s64 cfe_get_source_link_freq(struct cfe_device *cfe)
- 		bpp = 0;
- 	}
- 
--	link_freq = v4l2_get_link_freq(cfe->source_sd->ctrl_handler, bpp,
-+	link_freq = v4l2_get_link_freq(src_pad, bpp,
- 				       2 * cfe->csi2.dphy.active_lanes);
- 	if (link_freq < 0)
- 		cfe_err(cfe, "failed to get link freq for subdev '%s'\n",
-diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/media/platform/st/stm32/stm32-csi.c
-index 48941aae8c9b..b25afeee4f24 100644
---- a/drivers/media/platform/st/stm32/stm32-csi.c
-+++ b/drivers/media/platform/st/stm32/stm32-csi.c
-@@ -444,6 +444,8 @@ static void stm32_csi_phy_reg_write(struct stm32_csi_dev *csidev,
- static int stm32_csi_start(struct stm32_csi_dev *csidev,
- 			   struct v4l2_subdev_state *state)
- {
-+	struct media_pad *src_pad =
-+		&csidev->s_subdev->entity.pads[csidev->s_subdev_pad_nb];
- 	const struct stm32_csi_mbps_phy_reg *phy_regs;
- 	struct v4l2_mbus_framefmt *sink_fmt;
- 	const struct stm32_csi_fmts *fmt;
-@@ -465,7 +467,7 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
- 	if (!csidev->s_subdev)
- 		return -EIO;
- 
--	link_freq = v4l2_get_link_freq(csidev->s_subdev->ctrl_handler,
-+	link_freq = v4l2_get_link_freq(src_pad,
- 				       fmt->bpp, 2 * csidev->num_lanes);
- 	if (link_freq < 0)
- 		return link_freq;
-diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-index 42dfe08b765f..9cc875665695 100644
---- a/drivers/media/platform/ti/cal/cal-camerarx.c
-+++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-@@ -65,7 +65,8 @@ static s64 cal_camerarx_get_ext_link_freq(struct cal_camerarx *phy)
- 
- 	bpp = fmtinfo->bpp;
- 
--	freq = v4l2_get_link_freq(phy->source->ctrl_handler, bpp, 2 * num_lanes);
-+	freq = v4l2_get_link_freq(&phy->source->entity.pads[phy->source_pad],
-+				  bpp, 2 * num_lanes);
- 	if (freq < 0) {
- 		phy_err(phy, "failed to get link freq for subdev '%s'\n",
- 			phy->source->name);
-diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
-index 4bd2092e0255..6cb3e5f49686 100644
---- a/drivers/media/platform/ti/cal/cal.c
-+++ b/drivers/media/platform/ti/cal/cal.c
-@@ -798,7 +798,6 @@ static int cal_async_notifier_bound(struct v4l2_async_notifier *notifier,
- 		return 0;
- 	}
- 
--	phy->source = subdev;
- 	phy_dbg(1, phy, "Using source %s for capture\n", subdev->name);
- 
- 	pad = media_entity_get_fwnode_pad(&subdev->entity,
-@@ -820,6 +819,9 @@ static int cal_async_notifier_bound(struct v4l2_async_notifier *notifier,
- 		return ret;
- 	}
- 
-+	phy->source = subdev;
-+	phy->source_pad = pad;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
-index 0856297adc0b..72a246a64d9e 100644
---- a/drivers/media/platform/ti/cal/cal.h
-+++ b/drivers/media/platform/ti/cal/cal.h
-@@ -174,6 +174,7 @@ struct cal_camerarx {
- 	struct device_node	*source_ep_node;
- 	struct device_node	*source_node;
- 	struct v4l2_subdev	*source;
-+	unsigned int		source_pad;
- 
- 	struct v4l2_subdev	subdev;
- 	struct media_pad	pads[CAL_CAMERARX_NUM_PADS];
--- 
-2.39.5
+In DTSI:
 
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		camss_port0: port@0 {
+			reg = <0>;
+
+			camss_endpoint0: endpoint {
+			};
+		};
+
+		camss_port1: port@1 {
+			reg = <1>;
+
+			camss_endpoint1: endpoint {
+			};
+		};
+
+		camss_port2: port@2 {
+			reg = <2>;
+
+			camss_endpoint2: endpoint {
+			};
+		};
+	};
+
+The example above doesn't work as-is.
+
+	[   15.387215] qcom-camss acb3000.camera-controller: Cannot get remote parent
+	[   15.387604] qcom-camss acb3000.camera-controller: probe with driver qcom-camss failed with error -22
+
+However, the camss_of_parse_ports function has a way to make it work,
+even if all endpoint nodes are present.
+
+In DTSI:
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		camss_port0: port@0 {
+			reg = <0>;
+
+			camss_endpoint0: endpoint {
+				status = "disabled";
+			};
+		};
+
+		camss_port1: port@1 {
+			reg = <1>;
+
+			camss_endpoint1: endpoint {
+				status = "disabled";
+			};
+		};
+
+		camss_port2: port@2 {
+			reg = <2>;
+
+			camss_endpoint2: endpoint {
+				status = "disabled";
+			};
+		};
+	};
+
+In DTS:
+
+ 	&camss_endpoint1 {
+ 		clock-lanes = <7>;
+ 		data-lanes = <0 1 2 3>;
+ 		remote-endpoint = <&cam_front_endpoint>;
+		status = "okay";
+ 	};
+
+I didn't know how to make the working example.
 
