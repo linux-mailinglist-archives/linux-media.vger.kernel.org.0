@@ -1,111 +1,146 @@
-Return-Path: <linux-media+bounces-23525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287D99F4138
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 04:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A679F4167
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 04:58:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A499188354A
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 03:28:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CA9B188A078
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 03:58:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A4F1146A79;
-	Tue, 17 Dec 2024 03:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40A67145B2E;
+	Tue, 17 Dec 2024 03:57:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="Goh5CCtD"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Cjxth1a8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17161B960;
-	Tue, 17 Dec 2024 03:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.177.23.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50861459FD;
+	Tue, 17 Dec 2024 03:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734406119; cv=none; b=dhH+9l0Ya83NDXbfQ4/qAs6OFpYHx5vJWTl3MAt+YhS0rvlfp5vzoXEKIMwTnK5ByWPm+2lWWAOzutJKI/Kj1lMYeAS9O3rT4M7AgCuJ/lTc3bnwzw2L+yDRpVuMIXwNhinl4rSFqwg0ULpTEajE/L5lnUuyY+nPiMEjr83T6ho=
+	t=1734407871; cv=none; b=icWMK0RXKiPHwD/SSEepPUBhILIbKb/dcLfuKE9G28oOTBmdyVKaiwpn/YqtgiRWZYndIYqqhr4VrV668YIzOm9r4+7SWf15UCPCAGDTEnrSLdqu9uGnAGA/g+OKHs1VYEvy/zPu/KHPkGHpOX6cbiIhQUgKDIERXT2ND+5I8YQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734406119; c=relaxed/simple;
-	bh=yBrDAAXumKw6y2JtZX/K7A8At2LpR6oDAyXEsca0iag=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C56uENeXFKEvwcqihOi1FUU0lR2xwvJz9VyiuYmVg06NnTFayKxVeWLLqBNsZUiX/rBQsjDbz4DWNbM+9V6WKqmwcq9s3hUIMUcUklS5ddaK32aOve+pPG2I0WPal4LIqlsl+1qo+GfEW7GPPoN6Y8qHDcY/Tm57sfzmhh6paMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=Goh5CCtD; arc=none smtp.client-ip=89.177.23.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from newone.lan (99-158-29-91.lightspeed.miamfl.sbcglobal.net [99.158.29.91])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 65AC5165D79;
-	Tue, 17 Dec 2024 04:28:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1734406113;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=89/Ied276i9FOsoHd8vBC5qsTunh5CJ0SvVAdLuPAlg=;
-	b=Goh5CCtDS0tPNf+WJafGDsjV46WvVKe3mlRhlW6LAED2fz52JcKVwm0FYXThOcm/Tn/aED
-	SLg6MGyhHs+ldP9qcn3PRVdJDDUvcdQPprh/FBA5qy8sJe6mbuDkoQiMQAiyxSACOJM1pv
-	+sJk2QVvBaFGOZo6RfgKXP6SGRUmjkE=
-From: David Heidelberg <david@ixit.cz>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: David Heidelberg <david@ixit.cz>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: media: imx283: Describe sensor address using the reg property
-Date: Mon, 16 Dec 2024 22:28:17 -0500
-Message-ID: <20241217032821.1712916-1-david@ixit.cz>
-X-Mailer: git-send-email 2.45.2
+	s=arc-20240116; t=1734407871; c=relaxed/simple;
+	bh=kfS5d+YjRa+GpXwxvHuyz5VdYtDL6nCSWTPY+ZsU1Ak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DxvjuGKTeej05VLZXcEXisWK4xcKwdiQ7M/QXhzOJnv54a4w9Irck/vHNev5eE2SBdCUJZ+H9xTqbpF0YDv3X16RjSLVOE3TXacMUhjj0eS5h1z00umxNYNkgvdj/nKkrTTFRNuF4NXV6V4pcEZAB0SIxPOd7XK9O5TFGr0MZzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Cjxth1a8; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGIx7kd010841;
+	Tue, 17 Dec 2024 03:57:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	23N5wbmg89kmLl5F+mm3ElpkBd5Fu2Q4ftAfKKMgiNs=; b=Cjxth1a8ByIp7DGL
+	0UmMlBVBU5XKSkzFErstphwcmoHcpRYNGGx5Ro9sJX5aFgnGsOefnFWMpm1tIX95
+	pdomW3iqm4zluQXOgeK8rSOP64oIi+MpRa3mWg0pyyo33lbC6mNgCLFX6X+zlv+s
+	Iplzw90x2i7BYCoDeCvKjf3qN5wU504wfFO+LqDZ5aIIANwQMfs1stRm9B27vSTT
+	Un/1AH0dDiETe2h7tYQA4xAQ/zEb1LUJ58Qvc9hQklIm6KpJW39zLnvmd29Jdben
+	dgG9s5NMxdDyYFFMGzjmqZghd0OZ8KDwXeNW4vNj+3cDYGusFRQnh4zymdgkAva2
+	/5oRWw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jsy71196-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 03:57:33 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BH3vXLh007858
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 03:57:33 GMT
+Received: from [10.231.216.103] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 16 Dec
+ 2024 19:57:29 -0800
+Message-ID: <488e3bfa-c66f-4523-a74f-e39ad67f5145@quicinc.com>
+Date: Tue, 17 Dec 2024 11:57:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] dt-bindings: media: add support for video hardware
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20241213-add-venus-for-qcs615-v4-0-7e2c9a72d309@quicinc.com>
+ <20241213-add-venus-for-qcs615-v4-1-7e2c9a72d309@quicinc.com>
+ <avsiopdobpukz4ngqfakvghvswwrwopr4cn764mnuc76q4m3wh@axpup5fypxsu>
+Content-Language: en-US
+From: Renjiang Han <quic_renjiang@quicinc.com>
+In-Reply-To: <avsiopdobpukz4ngqfakvghvswwrwopr4cn764mnuc76q4m3wh@axpup5fypxsu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: E6OSO1LYFE-_bbczgUMlsqubMCkW8sa3
+X-Proofpoint-GUID: E6OSO1LYFE-_bbczgUMlsqubMCkW8sa3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
+ phishscore=0 spamscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015
+ impostorscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412170030
 
-Use the reg property instead of text in the description.
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- .../devicetree/bindings/media/i2c/sony,imx283.yaml         | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git ./Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml ./Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-index e4f49f1435a5..f4ee991c89a3 100644
---- ./Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-+++ ./Documentation/devicetree/bindings/media/i2c/sony,imx283.yaml
-@@ -13,16 +13,15 @@ maintainers:
- 
- description:
-   IMX283 sensor is a Sony CMOS active pixel digital image sensor with an active
--  array size of 5472H x 3648V. It is programmable through I2C interface. The
--  I2C client address is fixed to 0x1a as per sensor data sheet. Image data is
--  sent through MIPI CSI-2.
-+  array size of 5472H x 3648V. It is programmable through I2C interface.
-+  Image data is sent through MIPI CSI-2.
- 
- properties:
-   compatible:
-     const: sony,imx283
- 
-   reg:
--    maxItems: 1
-+    const: 0x1a
- 
-   clocks:
-     description: Clock frequency from 6 to 24 MHz.
+On 12/16/2024 3:52 PM, Krzysztof Kozlowski wrote:
+> On Fri, Dec 13, 2024 at 03:26:46PM +0530, Renjiang Han wrote:
+>> Add qcom,qcs615-venus compatible into qcom,sc7180-venus.yaml for the
+>> video, and let qcom,qcs615-venus fallback to qcom,sc7180-venus on
+>> QCS615 platform.
+>>
+>> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+>> ---
+>>   Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+>> index 5cec1d077cda77817f6d876109defcb0abbfeb2c..6dee45b7366578e51319b575e5dd2587dc84baeb 100644
+>> --- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+>> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+>> @@ -18,7 +18,13 @@ allOf:
+>>   
+>>   properties:
+>>     compatible:
+>> -    const: qcom,sc7180-venus
+>> +    oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - qcom,qcs615-venus
+>> +          - const: qcom,sc7180-venus
+>> +
+> Drop blank line.
+OK, thanks for pointing it out.
+>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> Best regards,
+> Krzysztof
+>
 -- 
-2.45.2
+Best Regards,
+Renjiang
 
 
