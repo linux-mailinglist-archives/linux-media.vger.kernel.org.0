@@ -1,137 +1,147 @@
-Return-Path: <linux-media+bounces-23579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76149F4AA2
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 13:08:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6279F4AA6
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 13:09:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC36A165109
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 12:08:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D213C165A5B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 12:09:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 379431F0E58;
-	Tue, 17 Dec 2024 12:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65DBE1F131A;
+	Tue, 17 Dec 2024 12:09:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SMJ/UlBd"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AZ/ACVu5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3993B1D47A2
-	for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 12:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB881F03F4
+	for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 12:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734437328; cv=none; b=hFVwNYj2BfLs6ZYni/SjRHgotfVnqLnc/csO4Zv1sgchDiZQjBIO2Lr57K4ZSl64J4jwZnyKF0v0LHaIEiFjspSYnZlckva+y7N1SmN8vnc0Tc4duViBCFd527oQBhFifgvlzQF3/F3mDfwhdjt+mww7WqzGuAh+h1Ei0BL0Sfw=
+	t=1734437369; cv=none; b=nGr29m4MTKM9aAOVSOgZ8wNgewla6FYqxC4HyTNDv/MRSEMVghcfeU2QI/izpKkHib8TlZhPdG3xdPQVy9+4og9SdRZVP4YXGgemIHR6tvHviyfcDNS6gdej7psHB4PX/dbb6rC9GbicCEbN//rFD7GI2WTlqZtw1oSnXwlF19k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734437328; c=relaxed/simple;
-	bh=NrCOX2iRRUu9lZorNB4pJ9aJWJF5+AA2KWuMz3MnXRg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GZj9El3bSfQEoJu2P1Fqq6EBhKPNH7XHgCFh1fUqqZ9C60Jq6ztNrkTigk0mrZGXBP9Eb2GPqBnn4PakxZSDwmYDe/MgDQexlpcM7kwhbQD8gwaAQ/k7NR48X6P6vfw7h1RMADeotgWkdrzNf96IypkNFs4FSFvYYPTOQnJJgTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SMJ/UlBd; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-728e78c4d7bso3771846b3a.0
-        for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 04:08:46 -0800 (PST)
+	s=arc-20240116; t=1734437369; c=relaxed/simple;
+	bh=16XPmy2jH/zD27A72OtSAQ/rMDX0OJmNbRLWaTM298k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SKLioWhzIMfAEHplYg89JxuqPQNX9qWL8giwn3UB33DkwHvd7+IXPEru+01wPZwyZYlU2dNV2CRoqmbed2dw+5K1IXBP4+u7jreC4cJtRkxw6vHUOLcxHgW0XKG3saDIDjnuKeAJITH9QS5N9TTHtsW0Gh7WYISNDu37aGNQS7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AZ/ACVu5; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5401be44b58so5247391e87.0
+        for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 04:09:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1734437326; x=1735042126; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NrCOX2iRRUu9lZorNB4pJ9aJWJF5+AA2KWuMz3MnXRg=;
-        b=SMJ/UlBdo6eGS/uIDur2TxE1Pyyr5wAUZ3aYJhZLAPtdSLFsqZzJBZOdGGxen3I86T
-         Vh7DSg0oYftD/CEvPQwIPc5n7Kp0eowishpW0/q/CaFJUvA3q5rTdB9zpshghbtfoK4I
-         oxyoJBFePsFuXy/iTehJ4z3KvT6fdiQhA77J0=
+        d=linaro.org; s=google; t=1734437364; x=1735042164; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=v2zlUatx24q8uGjuBR7tMIQ8jxT+mtpak1Ok6qCQguw=;
+        b=AZ/ACVu5PIcKCEJuyLrxVKh99Uzm4W0y/ASGt7tFbau/Ph2Bhdd4Ric3mCzeviMIrD
+         SGailBdErUEih2AuvFQgjAdlu/TB3yWnrtFH0e9y+sg2EJhCJ1a9XXZ4aWYxUYCBoQ9J
+         yn+u6soIQ5MLvQHZkPYmRCEH92kQpzEpVJ2PSqj+r1vLUy+LktqEgvgQ4oj+CuIMeQSd
+         HZxVg1EC2tDdERs9FMq1+qOCyR16gL+GRYsh6L2nFVomXL5DbtUqXaQiZcPWhhrPF5FX
+         evzkNV/WL3E0VZi0yaGsva1sD7V8y4RNnSrWG3FueKCjwTlbrxzBeztRx84QWStI6GIQ
+         bfHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734437326; x=1735042126;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NrCOX2iRRUu9lZorNB4pJ9aJWJF5+AA2KWuMz3MnXRg=;
-        b=xQcc7Kt0kufPwVdlBiXSUVBq44dPi5iyK71mdRzpLT0lQByzfOPZU32/FsDq0lk3er
-         KJx2MXAqJt7JOopezkFwNtVERxdKF60hp+uD3YAOFkR9J5zSw/pLtMCicjKj7In7bBat
-         DmIjECEJCTyZaUhAnrdrjHjNvm8iOP1B6FYyQcGSUh52cf7WcJYnYjSW8eiJB/zkQcqD
-         VzjDsyE6RcZ+0YDRDxpoXGHVl4TpTkb+1k+yfMftVCXX3i4fBBNCGGNT21Ysi7JqjwT3
-         JZa/qbWqs1Va11FrgtsAtqptkjhmoOY1bcnNUQ1T61W5xojkijKkFpiwERkIX8XB20+U
-         VcAg==
-X-Forwarded-Encrypted: i=1; AJvYcCWlxh5qQOfDT7YMPkued9qGIb7eU/P+ZoKuu2xUFBB4BPpSyII0CDqPFwSP91UDWtegWVDjgeojb2oXUw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRRYwWcbHEk5q9vqTbyYvYywRTE2jmerKidDx7NajdvDuv1d37
-	F+zS981ICsypmhNDyycC06E3Dt7LMArpQCFvBMPjWoaqsIwW983vYxNmfoPQ/Ng8GnOqZiN8ofE
-	=
-X-Gm-Gg: ASbGncvoQuVT04d3KjJBDzlBv2yReP0vXPH/j5IZeCHVbd9MTnN3MNdgZZbhwfORKVV
-	PhcJ2HV2fv3TKmKwBqXoDlhfQ4MkjArz+QXcZMJrCgE3WCIPwDAgnx4RsSTyd2md0a57/340oKF
-	NTqdo1q6DpF3HpYGsonbRXHC0WhOAS+Pesc3vKy2bg3xc1c96UcfBfs0HRffLjBDtDFDs9U3L1P
-	pb2A8ag0O5bI1dMwd1b2p4pZ7wcAafrbydu3k7ZIfS809MsJZH7XrMq2tjDj3zACUX2URY9GAxX
-	Bklehkke3pcames7r+c=
-X-Google-Smtp-Source: AGHT+IFg8latVIC4ETzrVFwI6bRNfuqnTr696EuFRZXKW5juXYBeC51uHAuIYH410/t/mWMXVde96w==
-X-Received: by 2002:a05:6a20:ce4f:b0:1d9:a94:feec with SMTP id adf61e73a8af0-1e4da523518mr4750604637.2.1734437326272;
-        Tue, 17 Dec 2024 04:08:46 -0800 (PST)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com. [209.85.216.45])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918ac5396sm6511886b3a.17.2024.12.17.04.08.45
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 04:08:45 -0800 (PST)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ee76929a98so3806228a91.1
-        for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 04:08:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU6O135G++8emWOpWsbQHKV6P8YMrNMQnJBphula9qtWcVtp0AH36wJ0f5nG8P81/rJdMvM7tjK/rbwYg==@vger.kernel.org
-X-Received: by 2002:a17:90a:c105:b0:2ee:5c9b:35c0 with SMTP id
- 98e67ed59e1d1-2f2d880e0bemr4532233a91.9.1734437324829; Tue, 17 Dec 2024
- 04:08:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734437364; x=1735042164;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v2zlUatx24q8uGjuBR7tMIQ8jxT+mtpak1Ok6qCQguw=;
+        b=YVOuFfX6Clu80H9JSda44hr/Zmp7B8pYjKDFh/jYIJoDPmLhsuDRmPTRPdxns7TeQn
+         QrupDjKaxcGBTUDS/8zOMlfPbcU+t+rsvtE/UoIvlwfPKWHuwQs+zgZWNJQLxarUp6JW
+         mh3/AgzS/67CqrAq66Nbp27WpdTU3cYI+pYiNcbSMPlOawVIFXYk7C50VlFr96wuQInw
+         lm+TSJEmuCnVlgCnyXx2o91Vgq6vA8TF9l/EBJdgd/qMDZ6R7+dnWLI9uwBXjzxmRh2o
+         ufNnZpTzpjiXVPVXlJwaIUy9nfAlPWheMzuysQ6PnLZDiW7kh4S7BMVkn7kdJ1ZbMJbu
+         SYKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQAoMMAxp2UfodaViK9ptMSKZVl0HAgI7Qh6J/PqD9tX19z/1Co930tPHjJ7OByd691SdP6bFbOt6thQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+d4r0vpztD9Q1RjuLD3uzu5rU0zVW9BnhQfZyNbz6qi4rKcLa
+	BICRa0yWt8mId39fIK3/NrNVTBqblG2TmSyeMeOoIhl0NtoYzOAuhNTNOFMFqGU=
+X-Gm-Gg: ASbGnct9C8uzYMDGG8cs8OwZAQ4Npsc7YQSQ676yHt84t/27wN5fyETscRg4abJXFqk
+	TMpksb4I4RV2Ek94vgAchPJzcNf0Nb0AkRye3m+qWHf0LQA0OMN5NfHUtneJy8EmQ+XX9EPucfY
+	a3qyvz85AIyortrPzhLbunY29rk9Womnc9q+iEmlK/aKSX/FvlMNPacGGHR12kjomDxsq0KTgU3
+	PpmgZcSZIDJ8YFptuUX8rf8RuEFbiEQMUXjCW5Y1ljdlkII/rlIMy5sxTVfzfL7QOx0dGHWaWyG
+	7CPxbSpxk3NGP9FxjS3gAsmj2ralfrRsvcG7
+X-Google-Smtp-Source: AGHT+IH3yIaXKqPUlVfDov4PSCpBT+vDZFRyKj3waNb6em6MSG5hbhb05XacOHw8jeYisHOZJ9kJTg==
+X-Received: by 2002:a05:6512:6cf:b0:540:1f67:689f with SMTP id 2adb3069b0e04-54099b72cb6mr5558607e87.56.1734437363989;
+        Tue, 17 Dec 2024 04:09:23 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30344045d28sm12351511fa.49.2024.12.17.04.09.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 04:09:23 -0800 (PST)
+Date: Tue, 17 Dec 2024 14:09:22 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Renjiang Han <quic_renjiang@quicinc.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: Re: [PATCH v5 3/4] arm64: dts: qcom: qcs615: add venus node
+Message-ID: <hu5nkn34gkx5x4wdtpvstf5atrgl533vynlgvjec4z3jdo4rac@yt6t5mmfcwtm>
+References: <20241217-add-venus-for-qcs615-v5-0-747395d9e630@quicinc.com>
+ <20241217-add-venus-for-qcs615-v5-3-747395d9e630@quicinc.com>
+ <83fcb683-d610-4e47-bcce-128453a0afef@linaro.org>
+ <3cb0d715-3756-4cef-bcc0-3bb550811c73@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217112138.1891708-1-isaac.scott@ideasonboard.com>
- <20241217112138.1891708-2-isaac.scott@ideasonboard.com> <CANiDSCtkgRJdPQmwPV6GStLMv_xEYC51LDED1St6i9bnmNEPfg@mail.gmail.com>
-In-Reply-To: <CANiDSCtkgRJdPQmwPV6GStLMv_xEYC51LDED1St6i9bnmNEPfg@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 17 Dec 2024 13:08:33 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuJVn9sSP+OWNp+AVM9NCsYaLC_x2AdtPhwwGsVMVK3Lg@mail.gmail.com>
-X-Gm-Features: AbW1kvbvF9FBCq_llytKNKbKHb1oH8AwMJk8Sg7UsazrIPdnGyA9WcNliMKH5hc
-Message-ID: <CANiDSCuJVn9sSP+OWNp+AVM9NCsYaLC_x2AdtPhwwGsVMVK3Lg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/1] media: uvcvideo: Add no drop parameter for
- MJPEG_NO_EOF quirk
-To: Isaac Scott <isaac.scott@ideasonboard.com>
-Cc: laurent.pinchart@ideasonboard.com, mchehab@kernel.org, 
-	linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3cb0d715-3756-4cef-bcc0-3bb550811c73@quicinc.com>
 
-On Tue, 17 Dec 2024 at 12:58, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Hi Issac
->
->
-> On Tue, 17 Dec 2024 at 12:22, Isaac Scott <isaac.scott@ideasonboard.com> wrote:
-> >
-> > In use cases where a camera needs to use the UVC_QUIRK_MJPEG_NO_EOF,
-> > erroneous frames that do not conform to MJPEG standards are correctly
-> > being marked as erroneous. However, when using the camera in a product,
-> > manufacturers usually want to enable the quirk in order to pass the
-> > buffers into user space. To do this, they have to enable the uvc_no_drop
-> > parameter. To avoid the extra steps to configure the kernel in such a
-> > way, enable the no_drop parameter by default to comply with this use
-> > case.
->
-> I am not sure what you want to do with this patch.
->
-> Why can't people simply set the quirk with
->
-> modprobe uvcvideo quirks=0x20000
+On Tue, Dec 17, 2024 at 05:54:57PM +0800, Renjiang Han wrote:
+> 
+> On 12/17/2024 5:38 PM, Bryan O'Donoghue wrote:
+> > On 17/12/2024 09:17, Renjiang Han wrote:
+> > > +
+> > > +            video-decoder {
+> > > +                compatible = "venus-decoder";
+> > > +            };
+> > > +
+> > > +            video-encoder {
+> > > +                compatible = "venus-encoder";
+> > > +            };
+> > 
+> > I gave you feedback on this in v4.
+> > 
+> > Could you please provide some commentary on why you're persisting with
+> > this ?
+> > 
+> > - Driver configuration should not live in dts
+> > - A patchset exists to mitigate this
+> > - If you don't want to use that series, what do you propose
+> >   to resolve this ?
+> > 
+> > Please don't just ignore feedback, either act on it or add to your
+> > commit log _why_ you didn't act on it.
+> > 
+> > ---
+> > bod
+> 
+>  Thanks for your review. You pointed it out correctly. As replied in v4,
+> 
+>  I also think your change is a good change, but your change involves many
+> 
+>  platforms.
 
-Sorry, I meant
+You can help it by reviewing it and then providing a Tested-by tag for
+it.
 
-modprobe uvcvideo nodrop=1
-
-or
-
-echo 1 > /sys/module/uvcvideo/parameters/nodrop
-
-Regards!
-
+P.S. Something is wrong with your emails, I see a lot of lines separated
+by empty lines. It makes it harder to read.
 
 
-
---
-Ricardo Ribalda
+-- 
+With best wishes
+Dmitry
 
