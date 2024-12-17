@@ -1,180 +1,229 @@
-Return-Path: <linux-media+bounces-23584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23585-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54C89F4B43
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 13:52:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F439F4C9A
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:43:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BDE4F16F4C8
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 12:52:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09348167970
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 13:40:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 842A71F3D39;
-	Tue, 17 Dec 2024 12:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D04591F4276;
+	Tue, 17 Dec 2024 13:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQRHhQWM"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="f3Eq9CMp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99F61F03DE;
-	Tue, 17 Dec 2024 12:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562F41D54E3;
+	Tue, 17 Dec 2024 13:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734439922; cv=none; b=aU8ceZ8rLr6graYVA/mCPGUTjrkZL6qVuvDUQJkZt5eW8Rc1DE0/a5AA+OpFSzppNEtFIBDpg3TosG4jYqEqB8XyNJYHmihofbXkeEgdtSHhOQDz+a2/4NLRLBLwQnrcjRj6IyHnFJqCSTsp5onF7OdWdaLbOq4pOL2m0P3o7hQ=
+	t=1734442836; cv=none; b=f4yDvXLugNVwoZrZb84rh+8ciD0575CYXgo/xO10IDHgm9ixK1TC0J5Wj7EBdwZC0Sykiq0Wj3ZvSMPvo/Gpz1DUEpj6L5hrA7ovszXvwVPEWMSSbTozP1ZlgWUXmE+AO0PSF0KWsi35AaZQO4b41kF7CL48NRUqwuDZpO0p6uY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734439922; c=relaxed/simple;
-	bh=I4FYDTyNIY5gLD94sPXnPj1vxlnXjSPz9Qn4hsE2jSQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P4TW/To3trLlA/Tf7qjeHp0ey3egM45VYMARzfHDj7l6x8pmd1qjnvHUBgnHE/V1ZQMzX1x0EekQmsUXTljinRqTtesDZ1a1Kjg2p/EOQQ5chOghpUZbKckxCfw+gA3aFYNzvefFvrZbqnkLp9SQQ5gc7ACg1wmxSIH99Tfzg3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQRHhQWM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23DBC4CED3;
-	Tue, 17 Dec 2024 12:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734439921;
-	bh=I4FYDTyNIY5gLD94sPXnPj1vxlnXjSPz9Qn4hsE2jSQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GQRHhQWMW2uHtCkjGCYFzAeppw/VMonWtunESwK28Ev+9IAgvTlxZbA8x1JTruyF9
-	 /wZtTBRZOaphsEBHjBwmefuLtcPn/Um4lLU1XB51YIvMkO2nt/GevXrDaaQunCJhuV
-	 9V9h5x5AtmoLiC96KRCny20dl2oaflP/vwyyXE47Ptm8Gdh7PxQWuob0RVYYsDsei2
-	 yQuUL0gz39n6sWdLFBP9GIETXPrwAuqNU+OjHw3PMU9RZWoi2xD5gYBosz70ZRXd7j
-	 HrBAiECpCOQFFG/9BO2+alHGWBi4tOCtP1iJSOooTfHGIOqHnQNX78WvPvWtfXx9UY
-	 DlKEEnwLlZzJQ==
-Message-ID: <7e50e257-9e13-4d32-8de9-8deb53fd30e4@kernel.org>
-Date: Tue, 17 Dec 2024 13:51:54 +0100
+	s=arc-20240116; t=1734442836; c=relaxed/simple;
+	bh=s5rE6fzKCTXSQusPzvLdio8PkGODcsm657UINEwOjyM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=teZ39brizWyfyWLvQKO3eLThC2v0TUC5aPMZDPYwg4+UVWQ5FSCgNuZxweFvTUyBtLb4SVAfiACmwLAR0TxR6+vnacD4e746NUOTUWsAAOYfAcZ2VruQiiiKP3slfiLJ59EwRFlyGnaOhlFM+JOhtTRmu5IHAOUPGxmZX8yh2pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=f3Eq9CMp; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH95fUc023906;
+	Tue, 17 Dec 2024 13:40:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=pQaa+/WHvveYlcBAw46Lz2
+	iDSBiFAMNuKbuPYmosSWU=; b=f3Eq9CMphI7UBEXBafAZC6X/pB9kTac6g4fdhh
+	OoBGq+CPtAdo2qdsEOdJbzN6ImNhTHqfNNP2pee/x4sUB+fxHuP2sw08T0aXDi0x
+	G2UyKi45D5SGBl5VxOarHouAv2lmj+qMajs3Q9HLIuYzBzcumX7esTX8FrYU3J0n
+	lfdB+Beemy9H55dQ0t2lvcvDsX1WzkNms10+HQ1Vw9CDIKwTdKaZFtsYRc/0XeiV
+	ejpnsX3V9YZt/DH4OYOw91vKEfzYRLYSOwFWNM1vfWzt98xmkiZy6H3X62ZZ9Ow3
+	OKGahrkWOIxmpVosh4kH/yTcZHFwFqbO7WAbzXFHhYiYM3QA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43k6c8gr4e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 13:40:20 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BHDeJgN026169
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 13:40:19 GMT
+Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 17 Dec 2024 05:40:10 -0800
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <akapatra@quicinc.com>, <hariramp@quicinc.com>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <quic_vikramsa@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@quicinc.com>
+Subject: [PATCH v9 0/4] media: qcom: camss: Add sc7280 support
+Date: Tue, 17 Dec 2024 19:09:51 +0530
+Message-ID: <20241217133955.946426-1-quic_vikramsa@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti Video Input Interface
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: yuji2.ishikawa@toshiba.co.jp, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil-cisco@xs4all.nl, nobuhiro1.iwamatsu@toshiba.co.jp,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
- <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
- <04a7ebf7-2924-4894-bc53-ba77e2f64fae@kernel.org>
- <TY3PR01MB99822E6161ED319B4DE855B492042@TY3PR01MB9982.jpnprd01.prod.outlook.com>
- <d5294015-4790-490e-8136-615039a5c733@kernel.org>
- <20241217094508.GD11445@pendragon.ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241217094508.GD11445@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: VuH2k1nUOvi_-J2jEX9QkdXaxqgGdrOg
+X-Proofpoint-ORIG-GUID: VuH2k1nUOvi_-J2jEX9QkdXaxqgGdrOg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ suspectscore=0 mlxlogscore=999 malwarescore=0 clxscore=1015
+ impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2412170109
 
-On 17/12/2024 10:45, Laurent Pinchart wrote:
-> On Tue, Dec 17, 2024 at 06:43:22AM +0100, Krzysztof Kozlowski wrote:
->> On 17/12/2024 01:00, yuji2.ishikawa@toshiba.co.jp wrote:
->>> Hello Krzysztof
->>>
->>> Thank you for your review
->>>
->>>> -----Original Message-----
->>>> From: Krzysztof Kozlowski <krzk@kernel.org>
->>>> Sent: Monday, November 25, 2024 7:08 PM
->>>> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
->>>> <yuji2.ishikawa@toshiba.co.jp>; Laurent Pinchart
->>>> <laurent.pinchart@ideasonboard.com>; Mauro Carvalho Chehab
->>>> <mchehab@kernel.org>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
->>>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Sakari Ailus
->>>> <sakari.ailus@linux.intel.com>; Hans Verkuil <hverkuil-cisco@xs4all.nl>;
->>>> iwamatsu nobuhiro(岩松 信洋 ○ＤＩＴＣ□ＤＩＴ○ＯＳＴ)
->>>> <nobuhiro1.iwamatsu@toshiba.co.jp>
->>>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
->>>> linux-arm-kernel@lists.infradead.org; devicetree@vger.kernel.org
->>>> Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
->>>> Toshiba Visconti Video Input Interface
->>>>
->>>> On 25/11/2024 10:21, Yuji Ishikawa wrote:
->>>>> Adds the Device Tree binding documentation that allows to describe the
->>>>> Video Input Interface found in Toshiba Visconti SoCs.
->>>>>
->>>>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
->>>>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
->>>>
->>>> Why this tag stayed and other was removed? What was the reason of tag
->>>> removal?
->>>>
->>>
->>> The stayed tag is due to internal review.
->>
->> Did the internal review really happened? How is it that immediately new
->> version has internal review without any traces?
->>
->> I have doubts this review happened in the context of reviewer's
->> statement of oversight.
->>
->>> The removed tag is due to code's change (split of csi2rx part) after the last review.
->>> If the code is largely changed following the instruction of another reviewer
->>> after obtaining the tags, how should the tags be handled?
->>
->> Drop all reviews and perform reviews on the list.
->>
->> Such internal review appearing afterwards is rather a proof it you are
->> adding just the tags to satisfy your process. I have no way to even
->> verify whether that person performed any reasonable review or maybe just
->> acked your patch.
-> 
-> How do you verify that for public reviews ?
+SC7280 is a Qualcomm SoC. This series adds support to bring up the CSIPHY,
+CSID, VFE/RDI interfaces in SC7280.
 
-By quality or amount of comments. Or timing. Or reviewing cover letter
-without any feedback on individual patches.
+SC7280 provides
 
-There are many, many ways. Considering how many companies were adding
-fake manager-review-tags in the past (or fake SoBs), I am pretty picky
-on that.
+- 3 x VFE, 3 RDI per VFE
+- 2 x VFE Lite, 4 RDI per VFE
+- 3 x CSID
+- 2 x CSID Lite
+- 5 x CSI PHY
 
-Best regards,
-Krzysztof
+We have tested this on qcs6490-rb3gen2-vision-mezzanine board having IMX577
+sensor. Verified both TPG and IMX577 sensor.
+
+Used following tools for the sanity check of these changes.
+
+- make CHECK_DTBS=y W=1 DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml
+qcom/qcs6490-rb3gen2-vision-mezzanine.dtb
+- make DT_CHECKER_FLAGS=-m W=1
+DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml dt_binding_check
+- Smatch: make CHECK="smatch --full-path"
+M=drivers/media/platform/qcom/camss/
+- Sparse: make C=2 M=drivers/media/platform/qcom/camss/
+- coccicheck : make coccicheck M=drivers/media/platform/qcom/camss/
+- make -j32 W=1
+- ./scripts/checkpatch.pl
+ 
+Changes in V9:
+- Removed GCC_CAMERA_AHB_CLK as its always enabled.
+- Added GCC_CAMERA_SF_AXI_CLK.
+- Renamed gcc_cam_hf_axi to gcc_axi_hf.
+- V8 had 5 patches and V9 have 4 patches.
+- First 3 patches of V8 are already promoted to linux-next
+i.e  
+  media: dt-bindings: Add qcom,sc7280-camss
+  media: qcom: camss: Sort camss version enums and compatible strings
+  media: qcom: camss: Add support for camss driver on sc7280
+- 2 new patches are added to handle new comments from Konrad on
+  "Patch v8 4/5 arm64: dts: qcom: sc7280: Add support for camss" 
+  1 of the 2 new patches make changes in yaml and other one is making
+  change in camss driver to handle new comments in dtsi.
+- for "Patch v8 4/5 arm64: dts: qcom: sc7280: Add support for camss" I got
+  comments from Konrad to make changes for clock names so I had to make
+  respective changes in "bindings/media/qcom,sc7280-camss.yaml". As dtsi
+  changes are not merged yet, so there is no issues with backward
+  compatibility and I am assuming this should be acceptable.
+  
+Changes in V8:
+- Changed node name from camss to isp.
+- Added QCOM_ICC_TAG_ACTIVE_ONLY and QCOM_ICC_TAG_ALWAYS tags for
+  interconnects. 
+- Added blank lines when required.
+- Modified power-domain-names from horizontal to vertical list.
+- Sorted pinctrl nodes based on gpio index.
+- Link to v7: https://lore.kernel.org/linux-arm-msm/20241204100003.300123-1-quic_vikramsa@quicinc.com/
+
+Changes in V7:
+- Changed unit address for camss in documention and dts.
+- Added avdd-supply and dvdd-supply for sensor.
+- Changed reg/clocks/interrupts name for vfe_lite and csid_lite.
+- Link to v6: https://lore.kernel.org/linux-arm-msm/20241127100421.3447601-1-quic_vikramsa@quicinc.com/
+
+Changes in V6:
+- Changed order of properties in Documentation [PATCH 1/5].
+- Updated description for ports in Documentaion [PATCH 1/5].
+- Moved regulators from csid to csiphy [PATCH 3/5].
+- Link to v5: https://lore.kernel.org/linux-arm-msm/20241112173032.2740119-1-quic_vikramsa@quicinc.com/ 
+
+Changes in V5:
+- Updated Commit text for [PATCH v5 1/6].
+- Moved reg after compatible string.
+- Renamed csi'x' clocks to vfe'x'_csid
+- Removed [PATCH v4 4/6] and raised a seprate series for this one.
+- Moved gpio states to mezzanine dtso.
+- Added more clock levels to address TPG related issues.
+- Renamed power-domains-names -> power-domain-names. 
+- Link to v4: https://lore.kernel.org/linux-arm-msm/20241030105347.2117034-1-quic_vikramsa@quicinc.com/ 
+
+Changes in V4:
+- V3 had 8 patches and V4 is reduced to 6.
+- Removed [Patch v3 2/8] as binding change is not required for dtso.
+- Removed [Patch v3 3/8] as the fix is already taken care in latest
+  kernel tip. 
+- Updated alignment for dtsi and dt-bindings.
+- Adding qcs6490-rb3gen2-vision-mezzanine as overlay. 
+- Link to v3: https://lore.kernel.org/linux-arm-msm/20241011140932.1744124-1-quic_vikramsa@quicinc.com/
+
+Changes in V3:
+- Added missed subject line for cover letter of V2.
+- Updated Alignment, indentation and properties order.
+- edit commit text for [PATCH 02/10] and [PATCH 03/10].
+- Refactor camss_link_entities.
+- Removed camcc enablement changes as it already done.
+- Link to v2: https://lore.kernel.org/linux-arm-msm/20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com/
+
+Changes in V2:
+- Improved indentation/formatting.
+- Removed _src clocks and misleading code comments.
+- Added name fields for power domains and csid register offset in DTSI.
+- Dropped minItems field from YAML file.
+- Listed changes in alphabetical order.
+- Updated description and commit text to reflect changes
+- Changed the compatible string from imx412 to imx577.
+- Added board-specific enablement changes in the newly created vision
+  board DTSI file.
+- Fixed bug encountered during testing.
+- Moved logically independent changes to a new/seprate patch.
+- Removed cci0 as no sensor is on this port and MCLK2, which was a
+  copy-paste error from the RB5 board reference.
+- Added power rails, referencing the RB5 board.
+- Discarded Patch 5/6 completely (not required).
+- Removed unused enums.
+- Link to v1: https://lore.kernel.org/linux-arm-msm/20240629-camss_first_post_linux_next-v1-0-bc798edabc3a@quicinc.com/
+
+Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+
+Vikram Sharma (4):
+  media: dt-bindings: update clocks for sc7280-camss
+  media: qcom: camss: update clock names for sc7280
+  arm64: dts: qcom: sc7280: Add support for camss
+  arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision
+    mezzanine
+
+ .../bindings/media/qcom,sc7280-camss.yaml     |  10 +-
+ arch/arm64/boot/dts/qcom/Makefile             |   4 +
+ .../qcs6490-rb3gen2-vision-mezzanine.dtso     | 109 +++++++++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi          | 178 ++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss.c     |  15 +-
+ 5 files changed, 306 insertions(+), 10 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+
+-- 
+2.25.1
+
 
