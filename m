@@ -1,56 +1,55 @@
-Return-Path: <linux-media+bounces-23591-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23592-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2FF9F4D0F
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 15:05:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B139F4D15
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 15:06:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B5BA1674EE
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:04:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1B3E188CD24
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:05:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 730C51F4733;
-	Tue, 17 Dec 2024 14:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30651F4E26;
+	Tue, 17 Dec 2024 14:05:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="j62NSpcx"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="isrVkE50"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D716A1E485;
-	Tue, 17 Dec 2024 14:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCBE1F4709;
+	Tue, 17 Dec 2024 14:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734444272; cv=none; b=dJ/523rK9sVnjxSnrhuIyAhL3L5PwqTODXJ/og4eexEn6fzAXTqMNMVTwcltahFHob8HglY25AMe7QkI5vMkBYFGRTcdgxHur9aPRTg+ecEzLZvdNppV1xhBf0smHG9r4Gns8GwPoCbimyz8elCdAqoZzOcbSATH1KALs6S3oRQ=
+	t=1734444307; cv=none; b=gis6qUC16u2wH3/rdItSuoNFCXC4xmX6gvRV9n2GZL+0H44+Y+9Afq5AacgY3eYa+GTnoZtAEhhKPomBDzdYJCNoXAuR9dPyRFsf7j+S+nuLObEl2uROehoh6LFfWl5ZHllE9Nxmmj9lPVauhJrMoCB1oJjsLPXVa5EY+C3z9iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734444272; c=relaxed/simple;
-	bh=XgMH8OitkFMJ0x07j4kDr/A7+LLK+Tj8hjkTRcg6a40=;
+	s=arc-20240116; t=1734444307; c=relaxed/simple;
+	bh=0IQtuLtlqtIgOJFLrSRa3D7bWW297TOeEPKWROJG688=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LZ2iMhzaT9N0Mpa5J2m5eZjtnVdPe3brCEWa+TuMtDHvpBhZWdc4AnOVCmbjQsXLwocnqj6cx/Mt8/snte4QYjnvWDJWyGdlB2KyDIUSzmQDv6U/fasHtyJg0RdB3p5Rlj7fFon1OcQv8AST8acjzDl3Ot76BaVzxRtof1nYFVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=j62NSpcx; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=nxcTaLgBjt2G8FQ5ZK+NnTU2twdteqUpulz+Nq7e0ceGv4T3nhca+/wxnFnidJim+n/cbU+irLyElOwDYfrD8CMJDt0CLmHsLSeZ60mw4d8+6zkvUT27ovEtGa4u4CFKs5KN4UsJts2I3vWSCx0iqk8jV2366UA+Vt2PtJenF08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=isrVkE50; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1734444269;
-	bh=XgMH8OitkFMJ0x07j4kDr/A7+LLK+Tj8hjkTRcg6a40=;
+	s=mail; t=1734444303;
+	bh=0IQtuLtlqtIgOJFLrSRa3D7bWW297TOeEPKWROJG688=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=j62NSpcxjeB0WLipOhihPibb2PIAzbGqtLU5K0EFHSg64nAtRtdmnADzjFk/KwDQg
-	 U0wi3CeANQR+H31gkotqnlELXbHPfq5rnXofJxpaHRnxDzZ2ssIaAqH2wrHt8rJHdZ
-	 U8cwxEqSF+WIDzabGxH7abPWa/l1uy330QtwTmOWtWTNTj8sQbjzyxn+ESxHqPinvt
-	 7BZCzUDE4Dzp8Ug6vi68B+kqhT2HLHAFsR4NRjfZbAa1oV+eLy8fdvcc5b3CtguIzs
-	 tX5fhHEApX6tuG9+48Nj5/uTkeSJ0EJeapxINk+etry+P1GXkp7Bmxl/dxXLTH3GS0
-	 ntIrcpD5gjZWA==
+	b=isrVkE504BS7T5T9Otgu56L4GWJY0t836YOJ6J9tr4ewwbnmN663FVEH8occ66Ia6
+	 qyo1x+bfsqQYKwJVqN3KbeYL8qsXQYGpxaQ0JpDaE3rQ0++gKP5lT0UgDVLaiTjHwD
+	 Yv+0S9bM6GV0FtfW0UJbgy2H7B4QdkIn1JoEM0n7CaguZAUSk+EJj8M4nQW4rIiZsV
+	 bO8GpuXlM5s+WdpfL+7/0MqNYAf597pWqow3CU1Ti2c/qsmzPNgN/4mD8CblVX3lOu
+	 mT+mkx/lkzMsSfUfAxTnPTVFAM3Ljv+1KRG/g5qX5X7c3aLUeQhdCgwLqdveI2mnmV
+	 hi5/GD/6CJVZw==
 Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 82E1017E376F;
-	Tue, 17 Dec 2024 15:04:27 +0100 (CET)
-Message-ID: <a50b3e0f6e1ce7cad421039abeb5574cf74410fe.camel@collabora.com>
-Subject: Re: [PATCH v2 2/4] media: chips-media: wave5: Avoid race condition
- for interrupt handling
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5EF9717E376F;
+	Tue, 17 Dec 2024 15:05:02 +0100 (CET)
+Message-ID: <8d39ca4fd9dee36bd5ee1b8184018e8867195bd8.camel@collabora.com>
+Subject: Re: [PATCH v2 3/4] media: chips-media: wave5: Fix hang after seeking
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
 	hverkuil-cisco@xs4all.nl, sebastian.fricke@collabora.com, 
@@ -58,10 +57,10 @@ To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	lafley.kim@chipsnmedia.com, b-brnich@ti.com, hverkuil@xs4all.nl, 
 	nas.chung@chipsnmedia.com
-Date: Tue, 17 Dec 2024 09:04:25 -0500
-In-Reply-To: <20241217045125.58-3-jackson.lee@chipsnmedia.com>
+Date: Tue, 17 Dec 2024 09:05:00 -0500
+In-Reply-To: <20241217045125.58-4-jackson.lee@chipsnmedia.com>
 References: <20241217045125.58-1-jackson.lee@chipsnmedia.com>
-	 <20241217045125.58-3-jackson.lee@chipsnmedia.com>
+	 <20241217045125.58-4-jackson.lee@chipsnmedia.com>
 Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
@@ -74,42 +73,83 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Le mardi 17 décembre 2024 à 13:51 +0900, Jackson.lee a écrit :
-> In case of multi instance, interrupts can occur for other instances as
-> soon as interrupt is cleared. If driver reads the instance_info after
-> clearing the interrupt, it is not guaranteed that the instance_info is
-> valid for the current interrupt.
-> 
-> Read the instance_info register for each interrupt before clearing the
-> interrupt.
+> While seeking, driver calls flush command. Before flush command is sent to
+> VPU, driver should handle display buffer flags and should get all decoded
+> information from VPU if VCORE is running.
 > 
 > Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
 > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 > Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Same, what is the Fixes tag ?
+This one too please.
 
 > ---
->  drivers/media/platform/chips-media/wave5/wave5-vpu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  .../platform/chips-media/wave5/wave5-vpu-dec.c  | 17 ++++++++++++++++-
+>  .../platform/chips-media/wave5/wave5-vpuapi.c   | 10 ++++++++++
+>  2 files changed, 26 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> index 6b294a2d6717..63a607d10433 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> @@ -55,12 +55,12 @@ static void wave5_vpu_handle_irq(void *dev_id)
->  	struct vpu_device *dev = dev_id;
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> index d3ff420c52ce..882d5539630f 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> @@ -1369,6 +1369,16 @@ static int streamoff_output(struct vb2_queue *q)
+>  	struct vb2_v4l2_buffer *buf;
+>  	int ret;
+>  	dma_addr_t new_rd_ptr;
+> +	struct dec_output_info dec_info;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < v4l2_m2m_num_dst_bufs_ready(m2m_ctx); i++) {
+> +		ret = wave5_vpu_dec_set_disp_flag(inst, i);
+> +		if (ret)
+> +			dev_dbg(inst->dev->dev,
+> +				"%s: Setting display flag of buf index: %u, fail: %d\n",
+> +				__func__, i, ret);
+> +	}
 >  
->  	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
-> +	seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
-> +	cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
->  	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
->  	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
+>  	while ((buf = v4l2_m2m_src_buf_remove(m2m_ctx))) {
+>  		dev_dbg(inst->dev->dev, "%s: (Multiplanar) buf type %4u | index %4u\n",
+> @@ -1376,6 +1386,11 @@ static int streamoff_output(struct vb2_queue *q)
+>  		v4l2_m2m_buf_done(buf, VB2_BUF_STATE_ERROR);
+>  	}
 >  
->  	list_for_each_entry(inst, &dev->instances, list) {
-> -		seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
-> -		cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
+> +	while (wave5_vpu_dec_get_output_info(inst, &dec_info) == 0) {
+> +		if (dec_info.index_frame_display >= 0)
+> +			wave5_vpu_dec_set_disp_flag(inst, dec_info.index_frame_display);
+> +	}
+> +
+>  	ret = wave5_vpu_flush_instance(inst);
+>  	if (ret)
+>  		return ret;
+> @@ -1459,7 +1474,7 @@ static void wave5_vpu_dec_stop_streaming(struct vb2_queue *q)
+>  			break;
 >  
->  		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
->  		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
+>  		if (wave5_vpu_dec_get_output_info(inst, &dec_output_info))
+> -			dev_dbg(inst->dev->dev, "Getting decoding results from fw, fail\n");
+> +			dev_dbg(inst->dev->dev, "there is no output info\n");
+>  	}
+>  
+>  	v4l2_m2m_update_stop_streaming_state(m2m_ctx, q);
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> index e16b990041c2..e5e879a13e8b 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> @@ -75,6 +75,16 @@ int wave5_vpu_flush_instance(struct vpu_instance *inst)
+>  				 inst->type == VPU_INST_TYPE_DEC ? "DECODER" : "ENCODER", inst->id);
+>  			mutex_unlock(&inst->dev->hw_lock);
+>  			return -ETIMEDOUT;
+> +		} else if (ret == -EBUSY) {
+> +			struct dec_output_info dec_info;
+> +
+> +			mutex_unlock(&inst->dev->hw_lock);
+> +			wave5_vpu_dec_get_output_info(inst, &dec_info);
+> +			ret = mutex_lock_interruptible(&inst->dev->hw_lock);
+> +			if (ret)
+> +				return ret;
+> +			if (dec_info.index_frame_display > 0)
+> +				wave5_vpu_dec_set_disp_flag(inst, dec_info.index_frame_display);
+>  		}
+>  	} while (ret != 0);
+>  	mutex_unlock(&inst->dev->hw_lock);
 
 
