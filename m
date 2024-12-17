@@ -1,346 +1,307 @@
-Return-Path: <linux-media+bounces-23638-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23637-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 063059F5562
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 19:03:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BF89F5559
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 19:02:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30E3218813B0
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 17:58:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 796E816349B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 17:56:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 247341F8AD3;
-	Tue, 17 Dec 2024 17:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C87B1FA260;
+	Tue, 17 Dec 2024 17:49:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="2r7r1D6A"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nHI5CiiR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC751F7577;
-	Tue, 17 Dec 2024 17:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9CD1F7563;
+	Tue, 17 Dec 2024 17:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734457878; cv=none; b=NuhynYuIfFSatXtLGgikZzyn3ZwI//mp+v6x+qz0dYZNxVE9H4VoRfR+edFGaxeSj0UfMBeCXuSzQslT5Cs7Ex68Nuy2S80RSJWYb7g0PSUsH6kG+Bpbs4hst2B+R4fPZBvme2MbT4JT8/+RNvh4+5mjXUQue536OoZsjp1rkH4=
+	t=1734457777; cv=none; b=sjOSSL/pGUf6rhF8DD+wDMogDCOQoFsfYn/Y89PJVzFDTgr1EDt89LSWzrQt8U0q179k9c5Ht1WMkWIRPjcCHqkP6UZTPxrSuxRe1gj0Y8x7sFNaVeXkSsIr3erSrJtQ4ltx6yLCWOZ+RppfW+kzJcWKklMCUP96GYUHUOlLgys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734457878; c=relaxed/simple;
-	bh=soshHaEpeS7haC7Ge/4PEVDALN4fJMlO+znsswoUX9c=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCueqHrVGEIsyB6u2GrO74Wrf3XDL5N/LZbQgCarkFPxPfluWXVfIacOk8HVkjbHc2yxADNEOtPLQscy0+HewtygnKsqot3IgG/efmWZV8LAvU6jkODj6+pGUCOLmzWljKrrYdAcJqqGzsWDeYo/bj9CU2rXpLJ2K6ux8yJxN7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=2r7r1D6A; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHDBdTH020718;
-	Tue, 17 Dec 2024 18:50:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=selector1; bh=3oP6+2VfItySxxZd4IKwb6Ta
-	Bv9qEDS8nvQbQadTer4=; b=2r7r1D6AP+fumgUQkT1l+AbeZhXaNhZ6eJQ3daX3
-	Pf8TCj3FmP1gW/DEzkOBJnRZt9ewzd5R1sQhfCUVMVeV9NctC32nyY7sa7dNtYP/
-	7/qXdKcjRe6GMs+7RCIwXLGJR2Do7rtiQ8PK4uoLvvzgalMxnH9LQngT/7sJ6yma
-	SAVd89+W7gjuw08ibK0kKGwJUOcnvN5Ek8eWbo0EW/arpXVdeMAMtEh7wngAVGqT
-	slzPG+LwOsLFwJFTtSFJ88pY7SAMbascpUG+30Wsa75H/xPTv48xBij+fbVLNV6h
-	pa5OpUr+51J1BNxtVkoOPVPx7GpFT6If/ZKyR7ZC3LB7QA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43k5dgtyp4-1
+	s=arc-20240116; t=1734457777; c=relaxed/simple;
+	bh=zUY66eqgOltY8wKdpZHvKq/45XjgqeVNpER/TcFe6KM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DibWXB0XGfWLYgQQA5C6K2l69lkSafSPT/P1zixR4h41IbJhiNtNz1TAm2YjAn5dKZGM6tA7cgDrTS0cNi5w3KSDSuuExFTO3NRe8UU23ZGs4n4MVwv1J9l1YyMd4coh3a73OsIWOSg5dLs1wGq+VyC5w+eynSDV9AFEYNXLZWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nHI5CiiR; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHEpfEQ003754;
+	Tue, 17 Dec 2024 17:49:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	O9Plx0bNtmhuCufstSEhSAO/gEk2mv9F+4PnW9ec0Z0=; b=nHI5CiiRmzFe/BbZ
+	qb9ufp4rpgFDeuvZsDsnPrPAB2BXqneScgQKxYEwvwEb6lEh+pd9mjWB8pSAx+vb
+	bmeZ4b4AJ8zF1gJfhQQDPMCuwZMsJuzHdnl2GuBnreryycnwZVYAFs8Q4H+Uhp3f
+	Q9eltaMyaKCt2NlHG81ol8AbYC5V7Kgbfl09rmTZlY7gtrVieMInNGtWV3OArJYR
+	zBgnBrYvyaKDwMyQfEowEpk0I9pYtzHLnuUIcuAedCSpHGZ026CwIALFhf+V+ljU
+	95jENX7qERLKVfc3aERFvznl5w3E9H2cAfO7h34roUV+NuliW5gGyzfOw26FzUw0
+	ed78LA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43kbedrgsv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 18:50:54 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 6D4F340044;
-	Tue, 17 Dec 2024 18:49:40 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C3E5B28FD92;
-	Tue, 17 Dec 2024 18:47:24 +0100 (CET)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 17 Dec
- 2024 18:47:24 +0100
-Date: Tue, 17 Dec 2024 18:47:22 +0100
-From: Alain Volmat <alain.volmat@foss.st.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-CC: Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre
- Torgue <alexandre.torgue@foss.st.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp
- Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v4 13/15] media: stm32: dcmipp: add core support for the
- stm32mp25
-Message-ID: <20241217174722.GC3784949@gnbcxd0016.gnb.st.com>
-References: <20241212-csi_dcmipp_mp25-v4-0-fbeb55a05ed7@foss.st.com>
- <20241212-csi_dcmipp_mp25-v4-13-fbeb55a05ed7@foss.st.com>
- <Z17Ry6Z9OMqP1MV-@valkosipuli.retiisi.eu>
+	Tue, 17 Dec 2024 17:49:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BHHnNU6014832
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:49:23 GMT
+Received: from [10.50.34.207] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Dec
+ 2024 09:49:13 -0800
+Message-ID: <3e6ab7aa-c606-49bc-8cc5-24c8a1edc081@quicinc.com>
+Date: Tue, 17 Dec 2024 23:19:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Z17Ry6Z9OMqP1MV-@valkosipuli.retiisi.eu>
-X-Disclaimer: ce message est personnel / this message is private
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 4/4] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <akapatra@quicinc.com>, <hariramp@quicinc.com>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>,
+        Konrad Dybcio
+	<konrad.dybcio@oss.qualcomm.com>
+References: <20241217140656.965235-1-quic_vikramsa@quicinc.com>
+ <20241217140656.965235-5-quic_vikramsa@quicinc.com>
+ <22479c27-9265-4994-8974-9739ecbae5ee@linaro.org>
+Content-Language: en-US
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+In-Reply-To: <22479c27-9265-4994-8974-9739ecbae5ee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: LIEX0_8K3eKu5wFpoMUkSDZCo6_8Oee2
+X-Proofpoint-ORIG-GUID: LIEX0_8K3eKu5wFpoMUkSDZCo6_8Oee2
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
+ clxscore=1015 bulkscore=0 adultscore=0 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=999 impostorscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412170137
 
-Hi Sakari,
-
-On Sun, Dec 15, 2024 at 12:55:39PM +0000, Sakari Ailus wrote:
-> Hi Alain,
-> 
-> On Thu, Dec 12, 2024 at 10:17:37AM +0100, Alain Volmat wrote:
-> > The stm32mp25 supports both parallel & csi inputs.
-> > An additional clock control is necessary.
-> > Skeleton of the subdev structures for the stm32mp25 is added,
-> > identical for the time being to the stm32mp13 however more subdeves
-> > will be added in further commits.
-> > 
-> > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> > ---
-> > v4:
-> >   - correct clock handling within dcmipp_runtime_resume
-> > ---
-> >  .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   | 104 +++++++++++++++++----
-> >  1 file changed, 85 insertions(+), 19 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> > index 62dd17e0488d..71acf539e1f3 100644
-> > --- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> > +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> > @@ -40,6 +40,7 @@ struct dcmipp_device {
-> >  
-> >  	/* Hardware resources */
-> >  	void __iomem			*regs;
-> > +	struct clk			*mclk;
-> >  	struct clk			*kclk;
-> >  
-> >  	/* The pipeline configuration */
-> > @@ -132,6 +133,40 @@ static const struct dcmipp_pipeline_config stm32mp13_pipe_cfg = {
-> >  	.hw_revision	= DCMIPP_STM32MP13_VERR
-> >  };
-> >  
-> > +static const struct dcmipp_ent_config stm32mp25_ent_config[] = {
-> > +	{
-> > +		.name = "dcmipp_input",
-> > +		.init = dcmipp_inp_ent_init,
-> > +		.release = dcmipp_inp_ent_release,
-> > +	},
-> > +	{
-> > +		.name = "dcmipp_dump_postproc",
-> > +		.init = dcmipp_byteproc_ent_init,
-> > +		.release = dcmipp_byteproc_ent_release,
-> > +	},
-> > +	{
-> > +		.name = "dcmipp_dump_capture",
-> > +		.init = dcmipp_bytecap_ent_init,
-> > +		.release = dcmipp_bytecap_ent_release,
-> > +	},
-> > +};
-> > +
-> > +static const struct dcmipp_ent_link stm32mp25_ent_links[] = {
-> > +	DCMIPP_ENT_LINK(ID_INPUT, 1, ID_DUMP_BYTEPROC, 0,
-> > +			MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-> > +	DCMIPP_ENT_LINK(ID_DUMP_BYTEPROC, 1, ID_DUMP_CAPTURE,  0,
-> > +			MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
-> > +};
-> > +
-> > +#define DCMIPP_STM32MP25_VERR  0x30
-> > +static const struct dcmipp_pipeline_config stm32mp25_pipe_cfg = {
-> > +	.ents		= stm32mp25_ent_config,
-> > +	.num_ents	= ARRAY_SIZE(stm32mp25_ent_config),
-> > +	.links		= stm32mp25_ent_links,
-> > +	.num_links	= ARRAY_SIZE(stm32mp25_ent_links),
-> > +	.hw_revision    = DCMIPP_STM32MP25_VERR
-> > +};
-> > +
-> >  #define LINK_FLAG_TO_STR(f) ((f) == 0 ? "" :\
-> >  			     (f) == MEDIA_LNK_FL_ENABLED ? "ENABLED" :\
-> >  			     (f) == MEDIA_LNK_FL_IMMUTABLE ? "IMMUTABLE" :\
-> > @@ -212,6 +247,7 @@ static int dcmipp_create_subdevs(struct dcmipp_device *dcmipp)
-> >  
-> >  static const struct of_device_id dcmipp_of_match[] = {
-> >  	{ .compatible = "st,stm32mp13-dcmipp", .data = &stm32mp13_pipe_cfg },
-> > +	{ .compatible = "st,stm32mp25-dcmipp", .data = &stm32mp25_pipe_cfg },
-> >  	{ /* end node */ },
-> >  };
-> >  MODULE_DEVICE_TABLE(of, dcmipp_of_match);
-> > @@ -261,13 +297,22 @@ static int dcmipp_graph_notify_bound(struct v4l2_async_notifier *notifier,
-> >  {
-> >  	struct dcmipp_device *dcmipp = notifier_to_dcmipp(notifier);
-> >  	unsigned int ret;
-> > -	int src_pad;
-> > +	int src_pad, i;
-> 
-> unsigned int?
-
-Done
-
-> 
-> >  	struct dcmipp_ent_device *sink;
-> > -	struct v4l2_fwnode_endpoint vep = { .bus_type = V4L2_MBUS_PARALLEL };
-> > +	struct v4l2_fwnode_endpoint vep = { 0 };
-> >  	struct fwnode_handle *ep;
-> > +	enum v4l2_mbus_type supported_types[] = {
-> > +		V4L2_MBUS_PARALLEL, V4L2_MBUS_BT656, V4L2_MBUS_CSI2_DPHY
-> > +	};
-> > +	int supported_types_nb = ARRAY_SIZE(supported_types);
-> >  
-> >  	dev_dbg(dcmipp->dev, "Subdev \"%s\" bound\n", subdev->name);
-> >  
-> > +	/* Only MP25 supports CSI input */
-> > +	if (!of_device_is_compatible(dcmipp->dev->of_node,
-> > +				     "st,stm32mp25-dcmipp"))
-> 
-> This would be much cleaner with match data. You seem to already be using it
-> for other purposes. 
-
-Added a new boolean within the match structure to indicate if csi is
-supported or not.
-
-> 
-> > +		supported_types_nb--;
-> > +
-> >  	/*
-> >  	 * Link this sub-device to DCMIPP, it could be
-> >  	 * a parallel camera sensor or a CSI-2 to parallel bridge
-> > @@ -284,21 +329,23 @@ static int dcmipp_graph_notify_bound(struct v4l2_async_notifier *notifier,
-> >  		return -ENODEV;
-> >  	}
-> >  
-> > -	/* Check for parallel bus-type first, then bt656 */
-> > -	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> > -	if (ret) {
-> > -		vep.bus_type = V4L2_MBUS_BT656;
-> > +	/* Check for supported MBUS type */
-> > +	for (i = 0; i < supported_types_nb; i++) {
-> > +		vep.bus_type = supported_types[i];
-> >  		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-> > -		if (ret) {
-> > -			dev_err(dcmipp->dev, "Could not parse the endpoint\n");
-> > -			fwnode_handle_put(ep);
-> > -			return ret;
-> > -		}
-> > +		if (!ret)
-> > +			break;
-> >  	}
-> >  
-> >  	fwnode_handle_put(ep);
-> >  
-> > -	if (vep.bus.parallel.bus_width == 0) {
-> > +	if (ret) {
-> > +		dev_err(dcmipp->dev, "Could not parse the endpoint\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	if (vep.bus_type != V4L2_MBUS_CSI2_DPHY &&
-> > +	    vep.bus.parallel.bus_width == 0) {
-> >  		dev_err(dcmipp->dev, "Invalid parallel interface bus-width\n");
-> >  		return -ENODEV;
-> >  	}
-> > @@ -311,11 +358,13 @@ static int dcmipp_graph_notify_bound(struct v4l2_async_notifier *notifier,
-> >  		return -ENODEV;
-> >  	}
-> >  
-> > -	/* Parallel input device detected, connect it to parallel subdev */
-> > +	/* Connect input device to the dcmipp_input subdev */
-> >  	sink = dcmipp->entity[ID_INPUT];
-> > -	sink->bus.flags = vep.bus.parallel.flags;
-> > -	sink->bus.bus_width = vep.bus.parallel.bus_width;
-> > -	sink->bus.data_shift = vep.bus.parallel.data_shift;
-> > +	if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> > +		sink->bus.flags = vep.bus.parallel.flags;
-> > +		sink->bus.bus_width = vep.bus.parallel.bus_width;
-> > +		sink->bus.data_shift = vep.bus.parallel.data_shift;
-> > +	}
-> >  	sink->bus_type = vep.bus_type;
-> >  	ret = media_create_pad_link(&subdev->entity, src_pad, sink->ent, 0,
-> >  				    MEDIA_LNK_FL_IMMUTABLE |
-> > @@ -414,7 +463,7 @@ static int dcmipp_graph_init(struct dcmipp_device *dcmipp)
-> >  static int dcmipp_probe(struct platform_device *pdev)
-> >  {
-> >  	struct dcmipp_device *dcmipp;
-> > -	struct clk *kclk;
-> > +	struct clk *kclk, *mclk;
-> >  	const struct dcmipp_pipeline_config *pipe_cfg;
-> >  	struct reset_control *rstc;
-> >  	int irq;
-> > @@ -474,12 +523,20 @@ static int dcmipp_probe(struct platform_device *pdev)
-> >  		return ret;
-> >  	}
-> >  
-> > -	kclk = devm_clk_get(&pdev->dev, NULL);
-> > +	kclk = devm_clk_get(&pdev->dev, "kclk");
-> >  	if (IS_ERR(kclk))
-> >  		return dev_err_probe(&pdev->dev, PTR_ERR(kclk),
-> >  				     "Unable to get kclk\n");
-> >  	dcmipp->kclk = kclk;
-> >  
-> > +	if (!of_device_is_compatible(pdev->dev.of_node, "st,stm32mp13-dcmipp")) {
-> 
-> Same here.
-
-Done as well via match structure.
-
-> 
-> > +		mclk = devm_clk_get(&pdev->dev, "mclk");
-> > +		if (IS_ERR(mclk))
-> > +			return dev_err_probe(&pdev->dev, PTR_ERR(mclk),
-> > +					     "Unable to get mclk\n");
-> > +		dcmipp->mclk = mclk;
-> > +	}
-> > +
-> >  	dcmipp->entity = devm_kcalloc(&pdev->dev, dcmipp->pipe_cfg->num_ents,
-> >  				      sizeof(*dcmipp->entity), GFP_KERNEL);
-> >  	if (!dcmipp->entity)
-> > @@ -542,6 +599,7 @@ static int dcmipp_runtime_suspend(struct device *dev)
-> >  	struct dcmipp_device *dcmipp = dev_get_drvdata(dev);
-> >  
-> >  	clk_disable_unprepare(dcmipp->kclk);
-> > +	clk_disable_unprepare(dcmipp->mclk);
-> >  
-> >  	return 0;
-> >  }
-> > @@ -551,9 +609,17 @@ static int dcmipp_runtime_resume(struct device *dev)
-> >  	struct dcmipp_device *dcmipp = dev_get_drvdata(dev);
-> >  	int ret;
-> >  
-> > +	ret = clk_prepare_enable(dcmipp->mclk);
-> > +	if (ret) {
-> > +		dev_err(dev, "%s: Failed to prepare_enable mclk\n", __func__);
-> > +		return ret;
-> > +	}
-> > +
-> >  	ret = clk_prepare_enable(dcmipp->kclk);
-> > -	if (ret)
-> > +	if (ret) {
-> > +		clk_disable_unprepare(dcmipp->mclk);
-> >  		dev_err(dev, "%s: Failed to prepare_enable kclk\n", __func__);
-> > +	}
-> >  
-> >  	return ret;
-> >  }
-> > 
-> > 
-> 
+On 12/17/2024 8:10 PM, Vladimir Zapolskiy wrote:
+> On 12/17/24 16:06, Vikram Sharma wrote:
+>> The Vision Mezzanine for the RB3 ships with an imx577 camera sensor.
+>> Enable the IMX577 on the vision mezzanine.
+>>
+>> An example media-ctl pipeline for the imx577 is:
+>>
+>> media-ctl --reset
+>> media-ctl -v -V '"imx577 '19-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+>> media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+>> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+>> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+>> media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+>>
+>> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F 
+>> /dev/video0
+>>
+>> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
+>> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+>> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>> ---
+>>   arch/arm64/boot/dts/qcom/Makefile             |   4 +
+>>   .../qcs6490-rb3gen2-vision-mezzanine.dtso     | 109 ++++++++++++++++++
+>>   2 files changed, 113 insertions(+)
+>>   create mode 100644 
+>> arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/Makefile 
+>> b/arch/arm64/boot/dts/qcom/Makefile
+>> index 4686f2a8ddd8..a7e88fcabded 100644
+>> --- a/arch/arm64/boot/dts/qcom/Makefile
+>> +++ b/arch/arm64/boot/dts/qcom/Makefile
+>> @@ -115,6 +115,10 @@ dtb-$(CONFIG_ARCH_QCOM)    += qcs404-evb-1000.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)    += qcs404-evb-4000.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)    += qcs615-ride.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)    += qcs6490-rb3gen2.dtb
+>> +
+>> +qcs6490-rb3gen2-vision-mezzanine-dtbs := qcs6490-rb3gen2.dtb 
+>> qcs6490-rb3gen2-vision-mezzanine.dtbo
+>> +
+>> +dtb-$(CONFIG_ARCH_QCOM)    += qcs6490-rb3gen2-vision-mezzanine.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)    += qcs8300-ride.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)    += qcs8550-aim300-aiot.dtb
+>>   dtb-$(CONFIG_ARCH_QCOM)    += qcs9100-ride.dtb
+>> diff --git 
+>> a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso 
+>> b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+>> new file mode 100644
+>> index 000000000000..7782c4aee576
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+>> @@ -0,0 +1,109 @@
+>> +// SPDX-License-Identifier: BSD-3-Clause
+>> +/*
+>> + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights 
+>> reserved.
+>> + */
+>> +
+>> +/*
+>> + * Camera Sensor overlay on top of rb3gen2 core kit.
+>> + */
+>> +
+>> +#include <dt-bindings/gpio/gpio.h>
+>> +#include <dt-bindings/clock/qcom,camcc-sc7280.h>
+>
+> Please sort the header files alphabetically.
+Thanks for your comments Vladimir.
+Will take care in next version.
+>
+>> +
+>> +/dts-v1/;
+>> +/plugin/;
+>> +
+>
+> Please put these two lines right after the comments header.
+ACK.
+>
+>> +&camss {
+>> +    vdda-phy-supply = <&vreg_l10c_0p88>;
+>> +    vdda-pll-supply = <&vreg_l6b_1p2>;
+>> +
+>> +    status = "okay";
+>> +
+>> +    ports {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        /* The port index denotes CSIPHY id i.e. csiphy3 */
+>> +        port@3 {
+>> +            reg = <3>;
+>> +
+>> +            csiphy3_ep: endpoint {
+>> +                clock-lanes = <7>;
+>> +                data-lanes = <0 1 2 3>;
+>> +                remote-endpoint = <&imx577_ep>;
+>> +            };
+>> +        };
+>> +    };
+>> +};
+>> +
+>> +&cci1 {
+>> +    status = "okay";
+>> +};
+>> +
+>> +&cci1_i2c1 {
+>> +    #address-cells = <1>;
+>> +    #size-cells = <0>;
+>> +
+>> +    camera@1a {
+>> +        compatible = "sony,imx577";
+>> +
+>> +        reg = <0x1a>;
+>> +
+>> +        reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
+>> +        pinctrl-names = "default", "suspend";
+>> +        pinctrl-0 = <&cam2_default>;
+>> +        pinctrl-1 = <&cam2_suspend>;
+>> +
+>> +        clocks = <&camcc CAM_CC_MCLK3_CLK>;
+>> +        assigned-clocks = <&camcc CAM_CC_MCLK3_CLK>;
+>> +        assigned-clock-rates = <24000000>;
+>> +
+>> +        dovdd-supply  = <&vreg_l18b_1p8>;
+>
+> Please remove double space before '='.
+Sure.
+>
+>> +        avdd-supply = <&vph_pwr>;
+>> +        dvdd-supply = <&vph_pwr>;
+>> +
+>> +        port {
+>> +            imx577_ep: endpoint {
+>> +                clock-lanes = <7>;
+>
+> It is an invalid property/value of the sensor, please remove it.
+Will check more on this internally and respond back.
+>
+>> +                link-frequencies = /bits/ 64 <600000000>;
+>> +                data-lanes = <0 1 2 3>;
+>
+> data-lanes = <1 2 3 4>;
+Will check more on this internally and respond back
+>
+>> +                remote-endpoint = <&csiphy3_ep>;
+>> +            };
+>> +        };
+>> +    };
+>> +};
+>> +
+>> +&tlmm {
+>> +    cam2_default: cam2-default-state {
+>> +        mclk-pins {
+>> +            pins = "gpio67";
+>> +            function = "cam_mclk";
+>> +            drive-strength = <2>;
+>> +            bias-disable;
+>> +        };
+>> +
+>> +        rst-pins {
+>> +            pins = "gpio78";
+>> +            function = "gpio";
+>> +            drive-strength = <2>;
+>> +            bias-disable;
+>> +        };
+>> +    };
+>> +
+>> +    cam2_suspend: cam2-suspend-state {
+>> +        mclk-pins {
+>> +            pins = "gpio67";
+>> +            function = "cam_mclk";
+>> +            drive-strength = <2>;
+>> +            bias-pull-down;
+>> +        };
+>> +
+>> +        rst-pins {
+>> +            pins = "gpio78";
+>> +            function = "gpio";
+>> +            drive-strength = <2>;
+>> +            bias-pull-down;
+>> +            output-low;
+>> +        };
+>
+> I have doubts that it's proper to embed a reset gpio into driver's
+> pinctrl suspend/resume power management.
+>
+> Konrad, can you please confirm that it's really accepted?
+>
+> I'd rather ask to remove this reset pin control.
+Will discuss this with Konrad and respond.
+>> +    };
+>> +};
+>
 > -- 
-> Kind regards,
-> 
-> Sakari Ailus
+> Best wishes,
+> Vladimir
+
+Best Regards,
+Vikram
+
 
