@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-23654-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23655-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 241399F58D6
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 22:40:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B549F58D8
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 22:40:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD4851677E0
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 21:40:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5427E7A3BCE
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 21:39:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69D9E1FA8C0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 697981FA859;
 	Tue, 17 Dec 2024 21:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0ZRMF+P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEZmdMzy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B160D1F9F5F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B165F1F9F60;
 	Tue, 17 Dec 2024 21:39:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734471563; cv=none; b=ESpGuYa2ef2IILT+LqzZmWRf0/W7DpCtHQ+3Gzq+oRMZcKYj8hbxIIL+wsJ15R/7dOw6omhKPHroEgqXPkRH4tclUPbbWHT9Tpg8v7srK8c4EfNErXAzP/aJKC88jnP/Ji78S2FanvdosQpYBNt/KFV4xJ+1+3JIiboS3ou1rIg=
+	t=1734471563; cv=none; b=feu6K/70jKwvjiHSpdts58ljSujnb1ZaX6I8A8rljcloaBgZLmZ245lBksIW+VxsbSzjziLuG+9F3m673NFAMDKWWueJl/QYmhhacwpX6eLDG5Ns2kzI6PQx7dd7O7oxf9usLOckVzqt17qwIg0SGFf10J6sYncZWqT36P3NfGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734471563; c=relaxed/simple;
-	bh=3sjJQ8JLVutd9SjLE9Evq101JVnTAKRkjXOavnkAgpU=;
+	bh=6IQNRW4yC/GBM8rdSHv073p3zH0AZUnWs0/Biv04cao=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Whli4W2pb9Keju1hH/+1qfiJoTpGqbIshG6i/ZrzjwENEDDRZh/ZyFsNAVw6X4VCrWDWxAY/1Tzb4e6oNEagwSFxj0S6XU+XsO5qDsLHdTN1l3Dgvf16TVFr5GYq079GFnSSY3Dmt0w80d4LiKeC6CC00VgQCzPppPbM7ztbXP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0ZRMF+P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4932AC4AF0B;
+	 In-Reply-To:To:Cc; b=GHzZ93Her+lGoVs0o6meKm/X2tVPK0tT9hDziKUNyNk9eAJT7wzaLkI7whKng31lp7qFJNXreVsx5LroIyw5ft0ePh2McCCA4kfmRR9gbBh5b7s6Kf8FlsOrBTSuQbiU9tjm+oija5tSlFyyB9HBa4H0Y4nM8PdNcKjNWFtAlDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEZmdMzy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5030BC4CEE4;
 	Tue, 17 Dec 2024 21:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1734471563;
-	bh=3sjJQ8JLVutd9SjLE9Evq101JVnTAKRkjXOavnkAgpU=;
+	bh=6IQNRW4yC/GBM8rdSHv073p3zH0AZUnWs0/Biv04cao=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=G0ZRMF+PQGT/sGGYBXbrSnTrCqNeXfVEtvZoUi2nyi6mVJ/eKEpujoq4OsEp1vv7z
-	 kcnYeT7htenzyqQLpNixT2EnRmsFeJVSpM+wtkm21tjfT65O24rUzVPRkqQf6nXdBh
-	 OLxpx0FnT7W0RRJYiQ6d0pVPLI8nnozqo58Vpuw/ldG/INZexfhzK5F6imtdON0eTy
-	 qyluV1ApnJgN2GWg+TtZ7zfRsFCRgDjDp5P6Y6w4poYZvTuecSo3cl0vQC0L8T0IR+
-	 h7U3by2MtksdtDpEdb9Oh7jE/ncWXPxxbMZoy/wZah9UwWPIzor4Kb3R0KyoWM58aH
-	 SGlOxVXagdJyg==
+	b=oEZmdMzyy5GCeJeSSE3ebqExeRiowXTFfz3bg9CwoZOEY2NiCgd04hrT2OzFnMtyL
+	 hJJs0sQ3bXsUD20dhhz/WkNMgDO5ntXuDeJceQPPIy+0oRk0PRHwYJEPfU9uxQwQWQ
+	 w8sWvVCUb3XwZPuTg87DO3AXvz+DNVaZSCYiB7kX8gQ5J6lLtB3eOynYrpLSCVddBF
+	 96JMO6brcKlg6Pr/BF4mppKohJd8FgB4X+RM1YqcSAS1vC7WqL6vuX5XWW/If72sBY
+	 Q5xT9eP/ZJ/jt4ORo8fiDvYESQ75mnAyxfvSVnUy4KU2Xtuc3hRKWtfaX1jv79hR5m
+	 IUz+qlW1d5AZQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 354E6E77187;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4510AE7718A;
 	Tue, 17 Dec 2024 21:39:23 +0000 (UTC)
 From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Tue, 17 Dec 2024 22:39:15 +0100
-Subject: [PATCH v5 03/13] media: i2c: imx214: Convert to CCI register
- access helpers
+Date: Tue, 17 Dec 2024 22:39:16 +0100
+Subject: [PATCH v5 04/13] media: i2c: imx214: Replace register addresses
+ with macros
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241217-imx214-v5-3-387f52adef4d@apitzsch.eu>
+Message-Id: <20241217-imx214-v5-4-387f52adef4d@apitzsch.eu>
 References: <20241217-imx214-v5-0-387f52adef4d@apitzsch.eu>
 In-Reply-To: <20241217-imx214-v5-0-387f52adef4d@apitzsch.eu>
 To: Ricardo Ribalda <ribalda@kernel.org>, 
@@ -69,11 +69,11 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1734471561; l=21131;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734471561; l=17649;
  i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=FrzZK9+2xT35ZenPqhKCQuzWii0Jnj+MBN+Q99VIFNM=;
- b=t9+/bYa3RkFlhTGram1ERGQbPDKALSpiHgl3lNjacVSTqOqXpj45ayvsX7W0+D/TbOoZTGtJJ
- GjlWHb3lhNxA49KHXHL5nwL/5THcqTaFmMEwdKS29pI8fv56UyUEBwh
+ bh=X2/3XC4aOa7H+IGHt5vYG3AI/24DR7tF+6btrZTX3U0=;
+ b=fGFXdFWoGjJ+XNEyINf4n4OYFxtQhcY2nGy+7LvO0F623A04jqbJc/Ge0BXB0XQ+FP1Q5qFtN
+ kScqQXllmXcBAcPe/J3TjGm4SwTkark88sj+eNHyOBwW5lHPekJgdY0
 X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
  pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
 X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
@@ -83,845 +83,532 @@ Reply-To: git@apitzsch.eu
 
 From: André Apitzsch <git@apitzsch.eu>
 
-Use the new common CCI register access helpers to replace the private
-register access helpers in the imx214 driver. This simplifies the driver
-by reducing the amount of code.
+Define macros for all the known registers used in the register arrays,
+and use them to replace the numerical addresses. This improves
+readability.
 
 Acked-by: Ricardo Ribalda <ribalda@chromium.org>
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- drivers/media/i2c/Kconfig  |   1 +
- drivers/media/i2c/imx214.c | 672 +++++++++++++++++++++------------------------
- 2 files changed, 310 insertions(+), 363 deletions(-)
+ drivers/media/i2c/imx214.c | 407 ++++++++++++++++++++++++++-------------------
+ 1 file changed, 236 insertions(+), 171 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 8ba096b8ebca241239a327ab3af0d9bce3ee9962..85ecb2aeefdbfff744c8de86866560518abeace1 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -140,6 +140,7 @@ config VIDEO_IMX214
- 	tristate "Sony IMX214 sensor support"
- 	depends on GPIOLIB
- 	select REGMAP_I2C
-+	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the Sony
- 	  IMX214 camera.
 diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 13a442865a17b4148aaaeea0a06e38aaae8bb29a..49d221269aa744b3f2200b490f68dcd4d8cf2593 100644
+index 49d221269aa744b3f2200b490f68dcd4d8cf2593..d40373aa7ac496b78bfdb90f1cc6e68b0e21faaa 100644
 --- a/drivers/media/i2c/imx214.c
 +++ b/drivers/media/i2c/imx214.c
-@@ -15,11 +15,12 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- #include <media/media-entity.h>
-+#include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
--#define IMX214_REG_MODE_SELECT		0x0100
-+#define IMX214_REG_MODE_SELECT		CCI_REG8(0x0100)
+@@ -24,18 +24,141 @@
  #define IMX214_MODE_STANDBY		0x00
  #define IMX214_MODE_STREAMING		0x01
  
-@@ -30,7 +31,7 @@
++#define IMX214_REG_FAST_STANDBY_CTRL	CCI_REG8(0x0106)
++
+ #define IMX214_DEFAULT_CLK_FREQ	24000000
+ #define IMX214_DEFAULT_LINK_FREQ 480000000
+ #define IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ * 8LL) / 10)
+ #define IMX214_FPS 30
  #define IMX214_MBUS_CODE MEDIA_BUS_FMT_SRGGB10_1X10
  
++/* V-TIMING internal */
++#define IMX214_REG_FRM_LENGTH_LINES	CCI_REG16(0x0340)
++
  /* Exposure control */
--#define IMX214_REG_EXPOSURE		0x0202
-+#define IMX214_REG_EXPOSURE		CCI_REG16(0x0202)
+ #define IMX214_REG_EXPOSURE		CCI_REG16(0x0202)
  #define IMX214_EXPOSURE_MIN		0
  #define IMX214_EXPOSURE_MAX		3184
  #define IMX214_EXPOSURE_STEP		1
-@@ -71,345 +72,324 @@ struct imx214 {
- 	struct gpio_desc *enable_gpio;
- };
+ #define IMX214_EXPOSURE_DEFAULT		3184
++#define IMX214_REG_EXPOSURE_RATIO	CCI_REG8(0x0222)
++#define IMX214_REG_SHORT_EXPOSURE	CCI_REG16(0x0224)
++
++/* Analog gain control */
++#define IMX214_REG_ANALOG_GAIN		CCI_REG16(0x0204)
++#define IMX214_REG_SHORT_ANALOG_GAIN	CCI_REG16(0x0216)
++
++/* Digital gain control */
++#define IMX214_REG_DIG_GAIN_GREENR	CCI_REG16(0x020e)
++#define IMX214_REG_DIG_GAIN_RED		CCI_REG16(0x0210)
++#define IMX214_REG_DIG_GAIN_BLUE	CCI_REG16(0x0212)
++#define IMX214_REG_DIG_GAIN_GREENB	CCI_REG16(0x0214)
++
++#define IMX214_REG_ORIENTATION		CCI_REG8(0x0101)
++
++#define IMX214_REG_MASK_CORR_FRAMES	CCI_REG8(0x0105)
++#define IMX214_CORR_FRAMES_TRANSMIT	0
++#define IMX214_CORR_FRAMES_MASK		1
++
++#define IMX214_REG_CSI_DATA_FORMAT	CCI_REG16(0x0112)
++#define IMX214_CSI_DATA_FORMAT_RAW8	0x0808
++#define IMX214_CSI_DATA_FORMAT_RAW10	0x0A0A
++#define IMX214_CSI_DATA_FORMAT_COMP6	0x0A06
++#define IMX214_CSI_DATA_FORMAT_COMP8	0x0A08
++
++#define IMX214_REG_CSI_LANE_MODE	CCI_REG8(0x0114)
++#define IMX214_CSI_2_LANE_MODE		1
++#define IMX214_CSI_4_LANE_MODE		3
++
++#define IMX214_REG_EXCK_FREQ		CCI_REG16(0x0136)
++#define IMX214_EXCK_FREQ(n)		((n) * 256)	/* n expressed in MHz */
++
++#define IMX214_REG_TEMP_SENSOR_CONTROL	CCI_REG8(0x0138)
++
++#define IMX214_REG_HDR_MODE		CCI_REG8(0x0220)
++#define IMX214_HDR_MODE_OFF		0
++#define IMX214_HDR_MODE_ON		1
++
++#define IMX214_REG_HDR_RES_REDUCTION	CCI_REG8(0x0221)
++#define IMX214_HDR_RES_REDU_THROUGH	0x11
++#define IMX214_HDR_RES_REDU_2_BINNING	0x22
++
++/* PLL settings */
++#define IMX214_REG_VTPXCK_DIV		CCI_REG8(0x0301)
++#define IMX214_REG_VTSYCK_DIV		CCI_REG8(0x0303)
++#define IMX214_REG_PREPLLCK_VT_DIV	CCI_REG8(0x0305)
++#define IMX214_REG_PLL_VT_MPY		CCI_REG16(0x0306)
++#define IMX214_REG_OPPXCK_DIV		CCI_REG8(0x0309)
++#define IMX214_REG_OPSYCK_DIV		CCI_REG8(0x030b)
++#define IMX214_REG_PLL_MULT_DRIV	CCI_REG8(0x0310)
++#define IMX214_PLL_SINGLE		0
++#define IMX214_PLL_DUAL			1
++
++#define IMX214_REG_LINE_LENGTH_PCK	CCI_REG16(0x0342)
++#define IMX214_REG_X_ADD_STA		CCI_REG16(0x0344)
++#define IMX214_REG_Y_ADD_STA		CCI_REG16(0x0346)
++#define IMX214_REG_X_ADD_END		CCI_REG16(0x0348)
++#define IMX214_REG_Y_ADD_END		CCI_REG16(0x034a)
++#define IMX214_REG_X_OUTPUT_SIZE	CCI_REG16(0x034c)
++#define IMX214_REG_Y_OUTPUT_SIZE	CCI_REG16(0x034e)
++#define IMX214_REG_X_EVEN_INC		CCI_REG8(0x0381)
++#define IMX214_REG_X_ODD_INC		CCI_REG8(0x0383)
++#define IMX214_REG_Y_EVEN_INC		CCI_REG8(0x0385)
++#define IMX214_REG_Y_ODD_INC		CCI_REG8(0x0387)
++
++#define IMX214_REG_SCALE_MODE		CCI_REG8(0x0401)
++#define IMX214_SCALE_NONE		0
++#define IMX214_SCALE_HORIZONTAL		1
++#define IMX214_SCALE_FULL		2
++#define IMX214_REG_SCALE_M		CCI_REG16(0x0404)
++
++#define IMX214_REG_DIG_CROP_X_OFFSET	CCI_REG16(0x0408)
++#define IMX214_REG_DIG_CROP_Y_OFFSET	CCI_REG16(0x040a)
++#define IMX214_REG_DIG_CROP_WIDTH	CCI_REG16(0x040c)
++#define IMX214_REG_DIG_CROP_HEIGHT	CCI_REG16(0x040e)
++
++#define IMX214_REG_REQ_LINK_BIT_RATE	CCI_REG32(0x0820)
++#define IMX214_LINK_BIT_RATE_MBPS(n)	((n) << 16)
++
++/* Binning mode */
++#define IMX214_REG_BINNING_MODE		CCI_REG8(0x0900)
++#define IMX214_BINNING_NONE		0
++#define IMX214_BINNING_ENABLE		1
++#define IMX214_REG_BINNING_TYPE		CCI_REG8(0x0901)
++#define IMX214_REG_BINNING_WEIGHTING	CCI_REG8(0x0902)
++#define IMX214_BINNING_AVERAGE		0x00
++#define IMX214_BINNING_SUMMED		0x01
++#define IMX214_BINNING_BAYER		0x02
++
++#define IMX214_REG_SING_DEF_CORR_EN	CCI_REG8(0x0b06)
++#define IMX214_SING_DEF_CORR_OFF	0
++#define IMX214_SING_DEF_CORR_ON		1
++
++/* AWB control */
++#define IMX214_REG_ABS_GAIN_GREENR	CCI_REG16(0x0b8e)
++#define IMX214_REG_ABS_GAIN_RED		CCI_REG16(0x0b90)
++#define IMX214_REG_ABS_GAIN_BLUE	CCI_REG16(0x0b92)
++#define IMX214_REG_ABS_GAIN_GREENB	CCI_REG16(0x0b94)
++
++#define IMX214_REG_RMSC_NR_MODE		CCI_REG8(0x3001)
++#define IMX214_REG_STATS_OUT_EN		CCI_REG8(0x3013)
++#define IMX214_STATS_OUT_OFF		0
++#define IMX214_STATS_OUT_ON		1
++
++/* Chroma noise reduction */
++#define IMX214_REG_NML_NR_EN		CCI_REG8(0x30a2)
++#define IMX214_NML_NR_OFF		0
++#define IMX214_NML_NR_ON		1
++
++#define IMX214_REG_EBD_SIZE_V		CCI_REG8(0x5041)
++#define IMX214_EBD_NO			0
++#define IMX214_EBD_4_LINE		4
++
++#define IMX214_REG_RG_STATS_LMT		CCI_REG16(0x6d12)
++#define IMX214_RG_STATS_LMT_10_BIT	0x03FF
++#define IMX214_RG_STATS_LMT_14_BIT	0x3FFF
++
++#define IMX214_REG_ATR_FAST_MOVE	CCI_REG8(0x9300)
  
--struct reg_8 {
--	u16 addr;
--	u8 val;
--};
--
--enum {
--	IMX214_TABLE_WAIT_MS = 0,
--	IMX214_TABLE_END,
--	IMX214_MAX_RETRIES,
--	IMX214_WAIT_MS
--};
--
+ /* IMX214 native and active pixel array size */
+ #define IMX214_NATIVE_WIDTH		4224U
+@@ -74,96 +197,70 @@ struct imx214 {
+ 
  /*From imx214_mode_tbls.h*/
--static const struct reg_8 mode_4096x2304[] = {
--	{0x0114, 0x03},
--	{0x0220, 0x00},
--	{0x0221, 0x11},
--	{0x0222, 0x01},
--	{0x0340, 0x0C},
--	{0x0341, 0x7A},
--	{0x0342, 0x13},
--	{0x0343, 0x90},
--	{0x0344, 0x00},
--	{0x0345, 0x38},
--	{0x0346, 0x01},
--	{0x0347, 0x98},
--	{0x0348, 0x10},
--	{0x0349, 0x37},
--	{0x034A, 0x0A},
--	{0x034B, 0x97},
--	{0x0381, 0x01},
--	{0x0383, 0x01},
--	{0x0385, 0x01},
--	{0x0387, 0x01},
--	{0x0900, 0x00},
--	{0x0901, 0x00},
--	{0x0902, 0x00},
--	{0x3000, 0x35},
--	{0x3054, 0x01},
--	{0x305C, 0x11},
+ static const struct cci_reg_sequence mode_4096x2304[] = {
+-	{ CCI_REG8(0x0114), 0x03 },
+-	{ CCI_REG8(0x0220), 0x00 },
+-	{ CCI_REG8(0x0221), 0x11 },
+-	{ CCI_REG8(0x0222), 0x01 },
+-	{ CCI_REG8(0x0340), 0x0C },
+-	{ CCI_REG8(0x0341), 0x7A },
+-	{ CCI_REG8(0x0342), 0x13 },
+-	{ CCI_REG8(0x0343), 0x90 },
+-	{ CCI_REG8(0x0344), 0x00 },
+-	{ CCI_REG8(0x0345), 0x38 },
+-	{ CCI_REG8(0x0346), 0x01 },
+-	{ CCI_REG8(0x0347), 0x98 },
+-	{ CCI_REG8(0x0348), 0x10 },
+-	{ CCI_REG8(0x0349), 0x37 },
+-	{ CCI_REG8(0x034A), 0x0A },
+-	{ CCI_REG8(0x034B), 0x97 },
+-	{ CCI_REG8(0x0381), 0x01 },
+-	{ CCI_REG8(0x0383), 0x01 },
+-	{ CCI_REG8(0x0385), 0x01 },
+-	{ CCI_REG8(0x0387), 0x01 },
+-	{ CCI_REG8(0x0900), 0x00 },
+-	{ CCI_REG8(0x0901), 0x00 },
+-	{ CCI_REG8(0x0902), 0x00 },
++	{ IMX214_REG_CSI_LANE_MODE, IMX214_CSI_4_LANE_MODE },
++	{ IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
++	{ IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH },
++	{ IMX214_REG_EXPOSURE_RATIO, 1 },
++	{ IMX214_REG_FRM_LENGTH_LINES, 3194 },
++	{ IMX214_REG_LINE_LENGTH_PCK, 5008 },
++	{ IMX214_REG_X_ADD_STA, 56 },
++	{ IMX214_REG_Y_ADD_STA, 408 },
++	{ IMX214_REG_X_ADD_END, 4151 },
++	{ IMX214_REG_Y_ADD_END, 2711 },
++	{ IMX214_REG_X_EVEN_INC, 1 },
++	{ IMX214_REG_X_ODD_INC, 1 },
++	{ IMX214_REG_Y_EVEN_INC, 1 },
++	{ IMX214_REG_Y_ODD_INC, 1 },
++	{ IMX214_REG_BINNING_MODE, IMX214_BINNING_NONE },
++	{ IMX214_REG_BINNING_TYPE, 0 },
++	{ IMX214_REG_BINNING_WEIGHTING, IMX214_BINNING_AVERAGE },
+ 	{ CCI_REG8(0x3000), 0x35 },
+ 	{ CCI_REG8(0x3054), 0x01 },
+ 	{ CCI_REG8(0x305C), 0x11 },
+ 
+-	{ CCI_REG8(0x0112), 0x0A },
+-	{ CCI_REG8(0x0113), 0x0A },
+-	{ CCI_REG8(0x034C), 0x10 },
+-	{ CCI_REG8(0x034D), 0x00 },
+-	{ CCI_REG8(0x034E), 0x09 },
+-	{ CCI_REG8(0x034F), 0x00 },
+-	{ CCI_REG8(0x0401), 0x00 },
+-	{ CCI_REG8(0x0404), 0x00 },
+-	{ CCI_REG8(0x0405), 0x10 },
+-	{ CCI_REG8(0x0408), 0x00 },
+-	{ CCI_REG8(0x0409), 0x00 },
+-	{ CCI_REG8(0x040A), 0x00 },
+-	{ CCI_REG8(0x040B), 0x00 },
+-	{ CCI_REG8(0x040C), 0x10 },
+-	{ CCI_REG8(0x040D), 0x00 },
+-	{ CCI_REG8(0x040E), 0x09 },
+-	{ CCI_REG8(0x040F), 0x00 },
 -
--	{0x0112, 0x0A},
--	{0x0113, 0x0A},
--	{0x034C, 0x10},
--	{0x034D, 0x00},
--	{0x034E, 0x09},
--	{0x034F, 0x00},
--	{0x0401, 0x00},
--	{0x0404, 0x00},
--	{0x0405, 0x10},
--	{0x0408, 0x00},
--	{0x0409, 0x00},
--	{0x040A, 0x00},
--	{0x040B, 0x00},
--	{0x040C, 0x10},
--	{0x040D, 0x00},
--	{0x040E, 0x09},
--	{0x040F, 0x00},
+-	{ CCI_REG8(0x0301), 0x05 },
+-	{ CCI_REG8(0x0303), 0x02 },
+-	{ CCI_REG8(0x0305), 0x03 },
+-	{ CCI_REG8(0x0306), 0x00 },
+-	{ CCI_REG8(0x0307), 0x96 },
+-	{ CCI_REG8(0x0309), 0x0A },
+-	{ CCI_REG8(0x030B), 0x01 },
+-	{ CCI_REG8(0x0310), 0x00 },
 -
--	{0x0301, 0x05},
--	{0x0303, 0x02},
--	{0x0305, 0x03},
--	{0x0306, 0x00},
--	{0x0307, 0x96},
--	{0x0309, 0x0A},
--	{0x030B, 0x01},
--	{0x0310, 0x00},
--
--	{0x0820, 0x12},
--	{0x0821, 0xC0},
--	{0x0822, 0x00},
--	{0x0823, 0x00},
--
--	{0x3A03, 0x09},
--	{0x3A04, 0x50},
--	{0x3A05, 0x01},
--
--	{0x0B06, 0x01},
--	{0x30A2, 0x00},
--
--	{0x30B4, 0x00},
--
--	{0x3A02, 0xFF},
--
--	{0x3011, 0x00},
--	{0x3013, 0x01},
--
--	{0x0202, 0x0C},
--	{0x0203, 0x70},
--	{0x0224, 0x01},
--	{0x0225, 0xF4},
--
--	{0x0204, 0x00},
--	{0x0205, 0x00},
--	{0x020E, 0x01},
--	{0x020F, 0x00},
--	{0x0210, 0x01},
--	{0x0211, 0x00},
--	{0x0212, 0x01},
--	{0x0213, 0x00},
--	{0x0214, 0x01},
--	{0x0215, 0x00},
--	{0x0216, 0x00},
--	{0x0217, 0x00},
--
--	{0x4170, 0x00},
--	{0x4171, 0x10},
--	{0x4176, 0x00},
--	{0x4177, 0x3C},
--	{0xAE20, 0x04},
--	{0xAE21, 0x5C},
--
--	{IMX214_TABLE_WAIT_MS, 10},
--	{0x0138, 0x01},
--	{IMX214_TABLE_END, 0x00}
-+static const struct cci_reg_sequence mode_4096x2304[] = {
-+	{ CCI_REG8(0x0114), 0x03 },
-+	{ CCI_REG8(0x0220), 0x00 },
-+	{ CCI_REG8(0x0221), 0x11 },
-+	{ CCI_REG8(0x0222), 0x01 },
-+	{ CCI_REG8(0x0340), 0x0C },
-+	{ CCI_REG8(0x0341), 0x7A },
-+	{ CCI_REG8(0x0342), 0x13 },
-+	{ CCI_REG8(0x0343), 0x90 },
-+	{ CCI_REG8(0x0344), 0x00 },
-+	{ CCI_REG8(0x0345), 0x38 },
-+	{ CCI_REG8(0x0346), 0x01 },
-+	{ CCI_REG8(0x0347), 0x98 },
-+	{ CCI_REG8(0x0348), 0x10 },
-+	{ CCI_REG8(0x0349), 0x37 },
-+	{ CCI_REG8(0x034A), 0x0A },
-+	{ CCI_REG8(0x034B), 0x97 },
-+	{ CCI_REG8(0x0381), 0x01 },
-+	{ CCI_REG8(0x0383), 0x01 },
-+	{ CCI_REG8(0x0385), 0x01 },
-+	{ CCI_REG8(0x0387), 0x01 },
-+	{ CCI_REG8(0x0900), 0x00 },
-+	{ CCI_REG8(0x0901), 0x00 },
-+	{ CCI_REG8(0x0902), 0x00 },
-+	{ CCI_REG8(0x3000), 0x35 },
-+	{ CCI_REG8(0x3054), 0x01 },
-+	{ CCI_REG8(0x305C), 0x11 },
+-	{ CCI_REG8(0x0820), 0x12 },
+-	{ CCI_REG8(0x0821), 0xC0 },
+-	{ CCI_REG8(0x0822), 0x00 },
+-	{ CCI_REG8(0x0823), 0x00 },
++	{ IMX214_REG_CSI_DATA_FORMAT, IMX214_CSI_DATA_FORMAT_RAW10 },
++	{ IMX214_REG_X_OUTPUT_SIZE, 4096 },
++	{ IMX214_REG_Y_OUTPUT_SIZE, 2304 },
++	{ IMX214_REG_SCALE_MODE, IMX214_SCALE_NONE },
++	{ IMX214_REG_SCALE_M, 2 },
++	{ IMX214_REG_DIG_CROP_X_OFFSET, 0 },
++	{ IMX214_REG_DIG_CROP_Y_OFFSET, 0 },
++	{ IMX214_REG_DIG_CROP_WIDTH, 4096 },
++	{ IMX214_REG_DIG_CROP_HEIGHT, 2304 },
 +
-+	{ CCI_REG8(0x0112), 0x0A },
-+	{ CCI_REG8(0x0113), 0x0A },
-+	{ CCI_REG8(0x034C), 0x10 },
-+	{ CCI_REG8(0x034D), 0x00 },
-+	{ CCI_REG8(0x034E), 0x09 },
-+	{ CCI_REG8(0x034F), 0x00 },
-+	{ CCI_REG8(0x0401), 0x00 },
-+	{ CCI_REG8(0x0404), 0x00 },
-+	{ CCI_REG8(0x0405), 0x10 },
-+	{ CCI_REG8(0x0408), 0x00 },
-+	{ CCI_REG8(0x0409), 0x00 },
-+	{ CCI_REG8(0x040A), 0x00 },
-+	{ CCI_REG8(0x040B), 0x00 },
-+	{ CCI_REG8(0x040C), 0x10 },
-+	{ CCI_REG8(0x040D), 0x00 },
-+	{ CCI_REG8(0x040E), 0x09 },
-+	{ CCI_REG8(0x040F), 0x00 },
++	{ IMX214_REG_VTPXCK_DIV, 5 },
++	{ IMX214_REG_VTSYCK_DIV, 2 },
++	{ IMX214_REG_PREPLLCK_VT_DIV, 3 },
++	{ IMX214_REG_PLL_VT_MPY, 150 },
++	{ IMX214_REG_OPPXCK_DIV, 10 },
++	{ IMX214_REG_OPSYCK_DIV, 1 },
++	{ IMX214_REG_PLL_MULT_DRIV, IMX214_PLL_SINGLE },
 +
-+	{ CCI_REG8(0x0301), 0x05 },
-+	{ CCI_REG8(0x0303), 0x02 },
-+	{ CCI_REG8(0x0305), 0x03 },
-+	{ CCI_REG8(0x0306), 0x00 },
-+	{ CCI_REG8(0x0307), 0x96 },
-+	{ CCI_REG8(0x0309), 0x0A },
-+	{ CCI_REG8(0x030B), 0x01 },
-+	{ CCI_REG8(0x0310), 0x00 },
++	{ IMX214_REG_REQ_LINK_BIT_RATE, IMX214_LINK_BIT_RATE_MBPS(4800) },
+ 
+ 	{ CCI_REG8(0x3A03), 0x09 },
+ 	{ CCI_REG8(0x3A04), 0x50 },
+ 	{ CCI_REG8(0x3A05), 0x01 },
+ 
+-	{ CCI_REG8(0x0B06), 0x01 },
+-	{ CCI_REG8(0x30A2), 0x00 },
++	{ IMX214_REG_SING_DEF_CORR_EN, IMX214_SING_DEF_CORR_ON },
++	{ IMX214_REG_NML_NR_EN, IMX214_NML_NR_OFF },
+ 
+ 	{ CCI_REG8(0x30B4), 0x00 },
+ 
+ 	{ CCI_REG8(0x3A02), 0xFF },
+ 
+ 	{ CCI_REG8(0x3011), 0x00 },
+-	{ CCI_REG8(0x3013), 0x01 },
+-
+-	{ CCI_REG8(0x0202), 0x0C },
+-	{ CCI_REG8(0x0203), 0x70 },
+-	{ CCI_REG8(0x0224), 0x01 },
+-	{ CCI_REG8(0x0225), 0xF4 },
+-
+-	{ CCI_REG8(0x0204), 0x00 },
+-	{ CCI_REG8(0x0205), 0x00 },
+-	{ CCI_REG8(0x020E), 0x01 },
+-	{ CCI_REG8(0x020F), 0x00 },
+-	{ CCI_REG8(0x0210), 0x01 },
+-	{ CCI_REG8(0x0211), 0x00 },
+-	{ CCI_REG8(0x0212), 0x01 },
+-	{ CCI_REG8(0x0213), 0x00 },
+-	{ CCI_REG8(0x0214), 0x01 },
+-	{ CCI_REG8(0x0215), 0x00 },
+-	{ CCI_REG8(0x0216), 0x00 },
+-	{ CCI_REG8(0x0217), 0x00 },
++	{ IMX214_REG_STATS_OUT_EN, IMX214_STATS_OUT_ON },
 +
-+	{ CCI_REG8(0x0820), 0x12 },
-+	{ CCI_REG8(0x0821), 0xC0 },
-+	{ CCI_REG8(0x0822), 0x00 },
-+	{ CCI_REG8(0x0823), 0x00 },
++	{ IMX214_REG_EXPOSURE, IMX214_EXPOSURE_DEFAULT },
++	{ IMX214_REG_SHORT_EXPOSURE, 500 },
 +
-+	{ CCI_REG8(0x3A03), 0x09 },
-+	{ CCI_REG8(0x3A04), 0x50 },
-+	{ CCI_REG8(0x3A05), 0x01 },
-+
-+	{ CCI_REG8(0x0B06), 0x01 },
-+	{ CCI_REG8(0x30A2), 0x00 },
-+
-+	{ CCI_REG8(0x30B4), 0x00 },
-+
-+	{ CCI_REG8(0x3A02), 0xFF },
-+
-+	{ CCI_REG8(0x3011), 0x00 },
-+	{ CCI_REG8(0x3013), 0x01 },
-+
-+	{ CCI_REG8(0x0202), 0x0C },
-+	{ CCI_REG8(0x0203), 0x70 },
-+	{ CCI_REG8(0x0224), 0x01 },
-+	{ CCI_REG8(0x0225), 0xF4 },
-+
-+	{ CCI_REG8(0x0204), 0x00 },
-+	{ CCI_REG8(0x0205), 0x00 },
-+	{ CCI_REG8(0x020E), 0x01 },
-+	{ CCI_REG8(0x020F), 0x00 },
-+	{ CCI_REG8(0x0210), 0x01 },
-+	{ CCI_REG8(0x0211), 0x00 },
-+	{ CCI_REG8(0x0212), 0x01 },
-+	{ CCI_REG8(0x0213), 0x00 },
-+	{ CCI_REG8(0x0214), 0x01 },
-+	{ CCI_REG8(0x0215), 0x00 },
-+	{ CCI_REG8(0x0216), 0x00 },
-+	{ CCI_REG8(0x0217), 0x00 },
-+
-+	{ CCI_REG8(0x4170), 0x00 },
-+	{ CCI_REG8(0x4171), 0x10 },
-+	{ CCI_REG8(0x4176), 0x00 },
-+	{ CCI_REG8(0x4177), 0x3C },
-+	{ CCI_REG8(0xAE20), 0x04 },
-+	{ CCI_REG8(0xAE21), 0x5C },
++	{ IMX214_REG_ANALOG_GAIN, 0 },
++	{ IMX214_REG_DIG_GAIN_GREENR, 256 },
++	{ IMX214_REG_DIG_GAIN_RED, 256 },
++	{ IMX214_REG_DIG_GAIN_BLUE, 256 },
++	{ IMX214_REG_DIG_GAIN_GREENB, 256 },
++	{ IMX214_REG_SHORT_ANALOG_GAIN, 0 },
+ 
+ 	{ CCI_REG8(0x4170), 0x00 },
+ 	{ CCI_REG8(0x4171), 0x10 },
+@@ -174,96 +271,70 @@ static const struct cci_reg_sequence mode_4096x2304[] = {
  };
  
--static const struct reg_8 mode_1920x1080[] = {
--	{0x0114, 0x03},
--	{0x0220, 0x00},
--	{0x0221, 0x11},
--	{0x0222, 0x01},
--	{0x0340, 0x0C},
--	{0x0341, 0x7A},
--	{0x0342, 0x13},
--	{0x0343, 0x90},
--	{0x0344, 0x04},
--	{0x0345, 0x78},
--	{0x0346, 0x03},
--	{0x0347, 0xFC},
--	{0x0348, 0x0B},
--	{0x0349, 0xF7},
--	{0x034A, 0x08},
--	{0x034B, 0x33},
--	{0x0381, 0x01},
--	{0x0383, 0x01},
--	{0x0385, 0x01},
--	{0x0387, 0x01},
--	{0x0900, 0x00},
--	{0x0901, 0x00},
--	{0x0902, 0x00},
--	{0x3000, 0x35},
--	{0x3054, 0x01},
--	{0x305C, 0x11},
--
--	{0x0112, 0x0A},
--	{0x0113, 0x0A},
--	{0x034C, 0x07},
--	{0x034D, 0x80},
--	{0x034E, 0x04},
--	{0x034F, 0x38},
--	{0x0401, 0x00},
--	{0x0404, 0x00},
--	{0x0405, 0x10},
--	{0x0408, 0x00},
--	{0x0409, 0x00},
--	{0x040A, 0x00},
--	{0x040B, 0x00},
--	{0x040C, 0x07},
--	{0x040D, 0x80},
--	{0x040E, 0x04},
--	{0x040F, 0x38},
--
--	{0x0301, 0x05},
--	{0x0303, 0x02},
--	{0x0305, 0x03},
--	{0x0306, 0x00},
--	{0x0307, 0x96},
--	{0x0309, 0x0A},
--	{0x030B, 0x01},
--	{0x0310, 0x00},
--
--	{0x0820, 0x12},
--	{0x0821, 0xC0},
--	{0x0822, 0x00},
--	{0x0823, 0x00},
--
--	{0x3A03, 0x04},
--	{0x3A04, 0xF8},
--	{0x3A05, 0x02},
--
--	{0x0B06, 0x01},
--	{0x30A2, 0x00},
--
--	{0x30B4, 0x00},
--
--	{0x3A02, 0xFF},
--
--	{0x3011, 0x00},
--	{0x3013, 0x01},
--
--	{0x0202, 0x0C},
--	{0x0203, 0x70},
--	{0x0224, 0x01},
--	{0x0225, 0xF4},
--
--	{0x0204, 0x00},
--	{0x0205, 0x00},
--	{0x020E, 0x01},
--	{0x020F, 0x00},
--	{0x0210, 0x01},
--	{0x0211, 0x00},
--	{0x0212, 0x01},
--	{0x0213, 0x00},
--	{0x0214, 0x01},
--	{0x0215, 0x00},
--	{0x0216, 0x00},
--	{0x0217, 0x00},
--
--	{0x4170, 0x00},
--	{0x4171, 0x10},
--	{0x4176, 0x00},
--	{0x4177, 0x3C},
--	{0xAE20, 0x04},
--	{0xAE21, 0x5C},
--
--	{IMX214_TABLE_WAIT_MS, 10},
--	{0x0138, 0x01},
--	{IMX214_TABLE_END, 0x00}
-+static const struct cci_reg_sequence mode_1920x1080[] = {
-+	{ CCI_REG8(0x0114), 0x03 },
-+	{ CCI_REG8(0x0220), 0x00 },
-+	{ CCI_REG8(0x0221), 0x11 },
-+	{ CCI_REG8(0x0222), 0x01 },
-+	{ CCI_REG8(0x0340), 0x0C },
-+	{ CCI_REG8(0x0341), 0x7A },
-+	{ CCI_REG8(0x0342), 0x13 },
-+	{ CCI_REG8(0x0343), 0x90 },
-+	{ CCI_REG8(0x0344), 0x04 },
-+	{ CCI_REG8(0x0345), 0x78 },
-+	{ CCI_REG8(0x0346), 0x03 },
-+	{ CCI_REG8(0x0347), 0xFC },
-+	{ CCI_REG8(0x0348), 0x0B },
-+	{ CCI_REG8(0x0349), 0xF7 },
-+	{ CCI_REG8(0x034A), 0x08 },
-+	{ CCI_REG8(0x034B), 0x33 },
-+	{ CCI_REG8(0x0381), 0x01 },
-+	{ CCI_REG8(0x0383), 0x01 },
-+	{ CCI_REG8(0x0385), 0x01 },
-+	{ CCI_REG8(0x0387), 0x01 },
-+	{ CCI_REG8(0x0900), 0x00 },
-+	{ CCI_REG8(0x0901), 0x00 },
-+	{ CCI_REG8(0x0902), 0x00 },
-+	{ CCI_REG8(0x3000), 0x35 },
-+	{ CCI_REG8(0x3054), 0x01 },
-+	{ CCI_REG8(0x305C), 0x11 },
-+
-+	{ CCI_REG8(0x0112), 0x0A },
-+	{ CCI_REG8(0x0113), 0x0A },
-+	{ CCI_REG8(0x034C), 0x07 },
-+	{ CCI_REG8(0x034D), 0x80 },
-+	{ CCI_REG8(0x034E), 0x04 },
-+	{ CCI_REG8(0x034F), 0x38 },
-+	{ CCI_REG8(0x0401), 0x00 },
-+	{ CCI_REG8(0x0404), 0x00 },
-+	{ CCI_REG8(0x0405), 0x10 },
-+	{ CCI_REG8(0x0408), 0x00 },
-+	{ CCI_REG8(0x0409), 0x00 },
-+	{ CCI_REG8(0x040A), 0x00 },
-+	{ CCI_REG8(0x040B), 0x00 },
-+	{ CCI_REG8(0x040C), 0x07 },
-+	{ CCI_REG8(0x040D), 0x80 },
-+	{ CCI_REG8(0x040E), 0x04 },
-+	{ CCI_REG8(0x040F), 0x38 },
-+
-+	{ CCI_REG8(0x0301), 0x05 },
-+	{ CCI_REG8(0x0303), 0x02 },
-+	{ CCI_REG8(0x0305), 0x03 },
-+	{ CCI_REG8(0x0306), 0x00 },
-+	{ CCI_REG8(0x0307), 0x96 },
-+	{ CCI_REG8(0x0309), 0x0A },
-+	{ CCI_REG8(0x030B), 0x01 },
-+	{ CCI_REG8(0x0310), 0x00 },
-+
-+	{ CCI_REG8(0x0820), 0x12 },
-+	{ CCI_REG8(0x0821), 0xC0 },
-+	{ CCI_REG8(0x0822), 0x00 },
-+	{ CCI_REG8(0x0823), 0x00 },
-+
-+	{ CCI_REG8(0x3A03), 0x04 },
-+	{ CCI_REG8(0x3A04), 0xF8 },
-+	{ CCI_REG8(0x3A05), 0x02 },
-+
-+	{ CCI_REG8(0x0B06), 0x01 },
-+	{ CCI_REG8(0x30A2), 0x00 },
-+
-+	{ CCI_REG8(0x30B4), 0x00 },
-+
-+	{ CCI_REG8(0x3A02), 0xFF },
-+
-+	{ CCI_REG8(0x3011), 0x00 },
-+	{ CCI_REG8(0x3013), 0x01 },
-+
-+	{ CCI_REG8(0x0202), 0x0C },
-+	{ CCI_REG8(0x0203), 0x70 },
-+	{ CCI_REG8(0x0224), 0x01 },
-+	{ CCI_REG8(0x0225), 0xF4 },
-+
-+	{ CCI_REG8(0x0204), 0x00 },
-+	{ CCI_REG8(0x0205), 0x00 },
-+	{ CCI_REG8(0x020E), 0x01 },
-+	{ CCI_REG8(0x020F), 0x00 },
-+	{ CCI_REG8(0x0210), 0x01 },
-+	{ CCI_REG8(0x0211), 0x00 },
-+	{ CCI_REG8(0x0212), 0x01 },
-+	{ CCI_REG8(0x0213), 0x00 },
-+	{ CCI_REG8(0x0214), 0x01 },
-+	{ CCI_REG8(0x0215), 0x00 },
-+	{ CCI_REG8(0x0216), 0x00 },
-+	{ CCI_REG8(0x0217), 0x00 },
-+
-+	{ CCI_REG8(0x4170), 0x00 },
-+	{ CCI_REG8(0x4171), 0x10 },
-+	{ CCI_REG8(0x4176), 0x00 },
-+	{ CCI_REG8(0x4177), 0x3C },
-+	{ CCI_REG8(0xAE20), 0x04 },
-+	{ CCI_REG8(0xAE21), 0x5C },
- };
+ static const struct cci_reg_sequence mode_1920x1080[] = {
+-	{ CCI_REG8(0x0114), 0x03 },
+-	{ CCI_REG8(0x0220), 0x00 },
+-	{ CCI_REG8(0x0221), 0x11 },
+-	{ CCI_REG8(0x0222), 0x01 },
+-	{ CCI_REG8(0x0340), 0x0C },
+-	{ CCI_REG8(0x0341), 0x7A },
+-	{ CCI_REG8(0x0342), 0x13 },
+-	{ CCI_REG8(0x0343), 0x90 },
+-	{ CCI_REG8(0x0344), 0x04 },
+-	{ CCI_REG8(0x0345), 0x78 },
+-	{ CCI_REG8(0x0346), 0x03 },
+-	{ CCI_REG8(0x0347), 0xFC },
+-	{ CCI_REG8(0x0348), 0x0B },
+-	{ CCI_REG8(0x0349), 0xF7 },
+-	{ CCI_REG8(0x034A), 0x08 },
+-	{ CCI_REG8(0x034B), 0x33 },
+-	{ CCI_REG8(0x0381), 0x01 },
+-	{ CCI_REG8(0x0383), 0x01 },
+-	{ CCI_REG8(0x0385), 0x01 },
+-	{ CCI_REG8(0x0387), 0x01 },
+-	{ CCI_REG8(0x0900), 0x00 },
+-	{ CCI_REG8(0x0901), 0x00 },
+-	{ CCI_REG8(0x0902), 0x00 },
++	{ IMX214_REG_CSI_LANE_MODE, IMX214_CSI_4_LANE_MODE },
++	{ IMX214_REG_HDR_MODE, IMX214_HDR_MODE_OFF },
++	{ IMX214_REG_HDR_RES_REDUCTION, IMX214_HDR_RES_REDU_THROUGH },
++	{ IMX214_REG_EXPOSURE_RATIO, 1 },
++	{ IMX214_REG_FRM_LENGTH_LINES, 3194 },
++	{ IMX214_REG_LINE_LENGTH_PCK, 5008 },
++	{ IMX214_REG_X_ADD_STA, 1144 },
++	{ IMX214_REG_Y_ADD_STA, 1020 },
++	{ IMX214_REG_X_ADD_END, 3063 },
++	{ IMX214_REG_Y_ADD_END, 2099 },
++	{ IMX214_REG_X_EVEN_INC, 1 },
++	{ IMX214_REG_X_ODD_INC, 1 },
++	{ IMX214_REG_Y_EVEN_INC, 1 },
++	{ IMX214_REG_Y_ODD_INC, 1 },
++	{ IMX214_REG_BINNING_MODE, IMX214_BINNING_NONE },
++	{ IMX214_REG_BINNING_TYPE, 0 },
++	{ IMX214_REG_BINNING_WEIGHTING, IMX214_BINNING_AVERAGE },
+ 	{ CCI_REG8(0x3000), 0x35 },
+ 	{ CCI_REG8(0x3054), 0x01 },
+ 	{ CCI_REG8(0x305C), 0x11 },
  
--static const struct reg_8 mode_table_common[] = {
-+static const struct cci_reg_sequence mode_table_common[] = {
+-	{ CCI_REG8(0x0112), 0x0A },
+-	{ CCI_REG8(0x0113), 0x0A },
+-	{ CCI_REG8(0x034C), 0x07 },
+-	{ CCI_REG8(0x034D), 0x80 },
+-	{ CCI_REG8(0x034E), 0x04 },
+-	{ CCI_REG8(0x034F), 0x38 },
+-	{ CCI_REG8(0x0401), 0x00 },
+-	{ CCI_REG8(0x0404), 0x00 },
+-	{ CCI_REG8(0x0405), 0x10 },
+-	{ CCI_REG8(0x0408), 0x00 },
+-	{ CCI_REG8(0x0409), 0x00 },
+-	{ CCI_REG8(0x040A), 0x00 },
+-	{ CCI_REG8(0x040B), 0x00 },
+-	{ CCI_REG8(0x040C), 0x07 },
+-	{ CCI_REG8(0x040D), 0x80 },
+-	{ CCI_REG8(0x040E), 0x04 },
+-	{ CCI_REG8(0x040F), 0x38 },
+-
+-	{ CCI_REG8(0x0301), 0x05 },
+-	{ CCI_REG8(0x0303), 0x02 },
+-	{ CCI_REG8(0x0305), 0x03 },
+-	{ CCI_REG8(0x0306), 0x00 },
+-	{ CCI_REG8(0x0307), 0x96 },
+-	{ CCI_REG8(0x0309), 0x0A },
+-	{ CCI_REG8(0x030B), 0x01 },
+-	{ CCI_REG8(0x0310), 0x00 },
+-
+-	{ CCI_REG8(0x0820), 0x12 },
+-	{ CCI_REG8(0x0821), 0xC0 },
+-	{ CCI_REG8(0x0822), 0x00 },
+-	{ CCI_REG8(0x0823), 0x00 },
++	{ IMX214_REG_CSI_DATA_FORMAT, IMX214_CSI_DATA_FORMAT_RAW10 },
++	{ IMX214_REG_X_OUTPUT_SIZE, 1920 },
++	{ IMX214_REG_Y_OUTPUT_SIZE, 1080 },
++	{ IMX214_REG_SCALE_MODE, IMX214_SCALE_NONE },
++	{ IMX214_REG_SCALE_M, 2 },
++	{ IMX214_REG_DIG_CROP_X_OFFSET, 0 },
++	{ IMX214_REG_DIG_CROP_Y_OFFSET, 0 },
++	{ IMX214_REG_DIG_CROP_WIDTH, 1920 },
++	{ IMX214_REG_DIG_CROP_HEIGHT, 1080 },
++
++	{ IMX214_REG_VTPXCK_DIV, 5 },
++	{ IMX214_REG_VTSYCK_DIV, 2 },
++	{ IMX214_REG_PREPLLCK_VT_DIV, 3 },
++	{ IMX214_REG_PLL_VT_MPY, 150 },
++	{ IMX214_REG_OPPXCK_DIV, 10 },
++	{ IMX214_REG_OPSYCK_DIV, 1 },
++	{ IMX214_REG_PLL_MULT_DRIV, IMX214_PLL_SINGLE },
++
++	{ IMX214_REG_REQ_LINK_BIT_RATE, IMX214_LINK_BIT_RATE_MBPS(4800) },
+ 
+ 	{ CCI_REG8(0x3A03), 0x04 },
+ 	{ CCI_REG8(0x3A04), 0xF8 },
+ 	{ CCI_REG8(0x3A05), 0x02 },
+ 
+-	{ CCI_REG8(0x0B06), 0x01 },
+-	{ CCI_REG8(0x30A2), 0x00 },
++	{ IMX214_REG_SING_DEF_CORR_EN, IMX214_SING_DEF_CORR_ON },
++	{ IMX214_REG_NML_NR_EN, IMX214_NML_NR_OFF },
+ 
+ 	{ CCI_REG8(0x30B4), 0x00 },
+ 
+ 	{ CCI_REG8(0x3A02), 0xFF },
+ 
+ 	{ CCI_REG8(0x3011), 0x00 },
+-	{ CCI_REG8(0x3013), 0x01 },
+-
+-	{ CCI_REG8(0x0202), 0x0C },
+-	{ CCI_REG8(0x0203), 0x70 },
+-	{ CCI_REG8(0x0224), 0x01 },
+-	{ CCI_REG8(0x0225), 0xF4 },
+-
+-	{ CCI_REG8(0x0204), 0x00 },
+-	{ CCI_REG8(0x0205), 0x00 },
+-	{ CCI_REG8(0x020E), 0x01 },
+-	{ CCI_REG8(0x020F), 0x00 },
+-	{ CCI_REG8(0x0210), 0x01 },
+-	{ CCI_REG8(0x0211), 0x00 },
+-	{ CCI_REG8(0x0212), 0x01 },
+-	{ CCI_REG8(0x0213), 0x00 },
+-	{ CCI_REG8(0x0214), 0x01 },
+-	{ CCI_REG8(0x0215), 0x00 },
+-	{ CCI_REG8(0x0216), 0x00 },
+-	{ CCI_REG8(0x0217), 0x00 },
++	{ IMX214_REG_STATS_OUT_EN, IMX214_STATS_OUT_ON },
++
++	{ IMX214_REG_EXPOSURE, IMX214_EXPOSURE_DEFAULT },
++	{ IMX214_REG_SHORT_EXPOSURE, 500 },
++
++	{ IMX214_REG_ANALOG_GAIN, 0 },
++	{ IMX214_REG_DIG_GAIN_GREENR, 256 },
++	{ IMX214_REG_DIG_GAIN_RED, 256 },
++	{ IMX214_REG_DIG_GAIN_BLUE, 256 },
++	{ IMX214_REG_DIG_GAIN_GREENB, 256 },
++	{ IMX214_REG_SHORT_ANALOG_GAIN, 0 },
+ 
+ 	{ CCI_REG8(0x4170), 0x00 },
+ 	{ CCI_REG8(0x4171), 0x10 },
+@@ -277,20 +348,19 @@ static const struct cci_reg_sequence mode_table_common[] = {
  	/* software reset */
  
  	/* software standby settings */
--	{0x0100, 0x00},
-+	{ CCI_REG8(0x0100), 0x00 },
+-	{ CCI_REG8(0x0100), 0x00 },
++	{ IMX214_REG_MODE_SELECT, IMX214_MODE_STANDBY },
  
  	/* ATR setting */
--	{0x9300, 0x02},
-+	{ CCI_REG8(0x9300), 0x02 },
+-	{ CCI_REG8(0x9300), 0x02 },
++	{ IMX214_REG_ATR_FAST_MOVE, 2 },
  
  	/* external clock setting */
--	{0x0136, 0x18},
--	{0x0137, 0x00},
-+	{ CCI_REG8(0x0136), 0x18 },
-+	{ CCI_REG8(0x0137), 0x00 },
+-	{ CCI_REG8(0x0136), 0x18 },
+-	{ CCI_REG8(0x0137), 0x00 },
++	{ IMX214_REG_EXCK_FREQ, IMX214_EXCK_FREQ(IMX214_DEFAULT_CLK_FREQ / 1000000) },
  
  	/* global setting */
  	/* basic config */
--	{0x0101, 0x00},
--	{0x0105, 0x01},
--	{0x0106, 0x01},
--	{0x4550, 0x02},
--	{0x4601, 0x00},
--	{0x4642, 0x05},
--	{0x6227, 0x11},
--	{0x6276, 0x00},
--	{0x900E, 0x06},
--	{0xA802, 0x90},
--	{0xA803, 0x11},
--	{0xA804, 0x62},
--	{0xA805, 0x77},
--	{0xA806, 0xAE},
--	{0xA807, 0x34},
--	{0xA808, 0xAE},
--	{0xA809, 0x35},
--	{0xA80A, 0x62},
--	{0xA80B, 0x83},
--	{0xAE33, 0x00},
-+	{ CCI_REG8(0x0101), 0x00 },
-+	{ CCI_REG8(0x0105), 0x01 },
-+	{ CCI_REG8(0x0106), 0x01 },
-+	{ CCI_REG8(0x4550), 0x02 },
-+	{ CCI_REG8(0x4601), 0x00 },
-+	{ CCI_REG8(0x4642), 0x05 },
-+	{ CCI_REG8(0x6227), 0x11 },
-+	{ CCI_REG8(0x6276), 0x00 },
-+	{ CCI_REG8(0x900E), 0x06 },
-+	{ CCI_REG8(0xA802), 0x90 },
-+	{ CCI_REG8(0xA803), 0x11 },
-+	{ CCI_REG8(0xA804), 0x62 },
-+	{ CCI_REG8(0xA805), 0x77 },
-+	{ CCI_REG8(0xA806), 0xAE },
-+	{ CCI_REG8(0xA807), 0x34 },
-+	{ CCI_REG8(0xA808), 0xAE },
-+	{ CCI_REG8(0xA809), 0x35 },
-+	{ CCI_REG8(0xA80A), 0x62 },
-+	{ CCI_REG8(0xA80B), 0x83 },
-+	{ CCI_REG8(0xAE33), 0x00 },
- 
- 	/* analog setting */
--	{0x4174, 0x00},
--	{0x4175, 0x11},
--	{0x4612, 0x29},
--	{0x461B, 0x12},
--	{0x461F, 0x06},
--	{0x4635, 0x07},
--	{0x4637, 0x30},
--	{0x463F, 0x18},
--	{0x4641, 0x0D},
--	{0x465B, 0x12},
--	{0x465F, 0x11},
--	{0x4663, 0x11},
--	{0x4667, 0x0F},
--	{0x466F, 0x0F},
--	{0x470E, 0x09},
--	{0x4909, 0xAB},
--	{0x490B, 0x95},
--	{0x4915, 0x5D},
--	{0x4A5F, 0xFF},
--	{0x4A61, 0xFF},
--	{0x4A73, 0x62},
--	{0x4A85, 0x00},
--	{0x4A87, 0xFF},
-+	{ CCI_REG8(0x4174), 0x00 },
-+	{ CCI_REG8(0x4175), 0x11 },
-+	{ CCI_REG8(0x4612), 0x29 },
-+	{ CCI_REG8(0x461B), 0x12 },
-+	{ CCI_REG8(0x461F), 0x06 },
-+	{ CCI_REG8(0x4635), 0x07 },
-+	{ CCI_REG8(0x4637), 0x30 },
-+	{ CCI_REG8(0x463F), 0x18 },
-+	{ CCI_REG8(0x4641), 0x0D },
-+	{ CCI_REG8(0x465B), 0x12 },
-+	{ CCI_REG8(0x465F), 0x11 },
-+	{ CCI_REG8(0x4663), 0x11 },
-+	{ CCI_REG8(0x4667), 0x0F },
-+	{ CCI_REG8(0x466F), 0x0F },
-+	{ CCI_REG8(0x470E), 0x09 },
-+	{ CCI_REG8(0x4909), 0xAB },
-+	{ CCI_REG8(0x490B), 0x95 },
-+	{ CCI_REG8(0x4915), 0x5D },
-+	{ CCI_REG8(0x4A5F), 0xFF },
-+	{ CCI_REG8(0x4A61), 0xFF },
-+	{ CCI_REG8(0x4A73), 0x62 },
-+	{ CCI_REG8(0x4A85), 0x00 },
-+	{ CCI_REG8(0x4A87), 0xFF },
+-	{ CCI_REG8(0x0101), 0x00 },
+-	{ CCI_REG8(0x0105), 0x01 },
+-	{ CCI_REG8(0x0106), 0x01 },
++	{ IMX214_REG_ORIENTATION, 0 },
++	{ IMX214_REG_MASK_CORR_FRAMES, IMX214_CORR_FRAMES_MASK },
++	{ IMX214_REG_FAST_STANDBY_CTRL, 1 },
+ 	{ CCI_REG8(0x4550), 0x02 },
+ 	{ CCI_REG8(0x4601), 0x00 },
+ 	{ CCI_REG8(0x4642), 0x05 },
+@@ -335,18 +405,17 @@ static const struct cci_reg_sequence mode_table_common[] = {
+ 	{ CCI_REG8(0x4A87), 0xFF },
  
  	/* embedded data */
--	{0x5041, 0x04},
--	{0x583C, 0x04},
--	{0x620E, 0x04},
--	{0x6EB2, 0x01},
--	{0x6EB3, 0x00},
--	{0x9300, 0x02},
-+	{ CCI_REG8(0x5041), 0x04 },
-+	{ CCI_REG8(0x583C), 0x04 },
-+	{ CCI_REG8(0x620E), 0x04 },
-+	{ CCI_REG8(0x6EB2), 0x01 },
-+	{ CCI_REG8(0x6EB3), 0x00 },
-+	{ CCI_REG8(0x9300), 0x02 },
+-	{ CCI_REG8(0x5041), 0x04 },
++	{ IMX214_REG_EBD_SIZE_V, IMX214_EBD_4_LINE },
+ 	{ CCI_REG8(0x583C), 0x04 },
+ 	{ CCI_REG8(0x620E), 0x04 },
+ 	{ CCI_REG8(0x6EB2), 0x01 },
+ 	{ CCI_REG8(0x6EB3), 0x00 },
+-	{ CCI_REG8(0x9300), 0x02 },
++	{ IMX214_REG_ATR_FAST_MOVE, 2 },
  
  	/* imagequality */
  	/* HDR setting */
--	{0x3001, 0x07},
--	{0x6D12, 0x3F},
--	{0x6D13, 0xFF},
--	{0x9344, 0x03},
--	{0x9706, 0x10},
--	{0x9707, 0x03},
--	{0x9708, 0x03},
--	{0x9E04, 0x01},
--	{0x9E05, 0x00},
--	{0x9E0C, 0x01},
--	{0x9E0D, 0x02},
--	{0x9E24, 0x00},
--	{0x9E25, 0x8C},
--	{0x9E26, 0x00},
--	{0x9E27, 0x94},
--	{0x9E28, 0x00},
--	{0x9E29, 0x96},
-+	{ CCI_REG8(0x3001), 0x07 },
-+	{ CCI_REG8(0x6D12), 0x3F },
-+	{ CCI_REG8(0x6D13), 0xFF },
-+	{ CCI_REG8(0x9344), 0x03 },
-+	{ CCI_REG8(0x9706), 0x10 },
-+	{ CCI_REG8(0x9707), 0x03 },
-+	{ CCI_REG8(0x9708), 0x03 },
-+	{ CCI_REG8(0x9E04), 0x01 },
-+	{ CCI_REG8(0x9E05), 0x00 },
-+	{ CCI_REG8(0x9E0C), 0x01 },
-+	{ CCI_REG8(0x9E0D), 0x02 },
-+	{ CCI_REG8(0x9E24), 0x00 },
-+	{ CCI_REG8(0x9E25), 0x8C },
-+	{ CCI_REG8(0x9E26), 0x00 },
-+	{ CCI_REG8(0x9E27), 0x94 },
-+	{ CCI_REG8(0x9E28), 0x00 },
-+	{ CCI_REG8(0x9E29), 0x96 },
- 
- 	/* CNR parameter setting */
--	{0x69DB, 0x01},
-+	{ CCI_REG8(0x69DB), 0x01 },
- 
- 	/* Moire reduction */
--	{0x6957, 0x01},
-+	{ CCI_REG8(0x6957), 0x01 },
- 
- 	/* image enhancement */
--	{0x6987, 0x17},
--	{0x698A, 0x03},
--	{0x698B, 0x03},
-+	{ CCI_REG8(0x6987), 0x17 },
-+	{ CCI_REG8(0x698A), 0x03 },
-+	{ CCI_REG8(0x698B), 0x03 },
+-	{ CCI_REG8(0x3001), 0x07 },
+-	{ CCI_REG8(0x6D12), 0x3F },
+-	{ CCI_REG8(0x6D13), 0xFF },
++	{ IMX214_REG_RMSC_NR_MODE, 0x07 },
++	{ IMX214_REG_RG_STATS_LMT, IMX214_RG_STATS_LMT_14_BIT },
+ 	{ CCI_REG8(0x9344), 0x03 },
+ 	{ CCI_REG8(0x9706), 0x10 },
+ 	{ CCI_REG8(0x9707), 0x03 },
+@@ -374,14 +443,10 @@ static const struct cci_reg_sequence mode_table_common[] = {
+ 	{ CCI_REG8(0x698B), 0x03 },
  
  	/* white balanace */
--	{0x0B8E, 0x01},
--	{0x0B8F, 0x00},
--	{0x0B90, 0x01},
--	{0x0B91, 0x00},
--	{0x0B92, 0x01},
--	{0x0B93, 0x00},
--	{0x0B94, 0x01},
--	{0x0B95, 0x00},
-+	{ CCI_REG8(0x0B8E), 0x01 },
-+	{ CCI_REG8(0x0B8F), 0x00 },
-+	{ CCI_REG8(0x0B90), 0x01 },
-+	{ CCI_REG8(0x0B91), 0x00 },
-+	{ CCI_REG8(0x0B92), 0x01 },
-+	{ CCI_REG8(0x0B93), 0x00 },
-+	{ CCI_REG8(0x0B94), 0x01 },
-+	{ CCI_REG8(0x0B95), 0x00 },
+-	{ CCI_REG8(0x0B8E), 0x01 },
+-	{ CCI_REG8(0x0B8F), 0x00 },
+-	{ CCI_REG8(0x0B90), 0x01 },
+-	{ CCI_REG8(0x0B91), 0x00 },
+-	{ CCI_REG8(0x0B92), 0x01 },
+-	{ CCI_REG8(0x0B93), 0x00 },
+-	{ CCI_REG8(0x0B94), 0x01 },
+-	{ CCI_REG8(0x0B95), 0x00 },
++	{ IMX214_REG_ABS_GAIN_GREENR, 0x0100 },
++	{ IMX214_REG_ABS_GAIN_RED, 0x0100 },
++	{ IMX214_REG_ABS_GAIN_BLUE, 0x0100 },
++	{ IMX214_REG_ABS_GAIN_GREENB, 0x0100 },
  
  	/* ATR setting */
--	{0x6E50, 0x00},
--	{0x6E51, 0x32},
--	{0x9340, 0x00},
--	{0x9341, 0x3C},
--	{0x9342, 0x03},
--	{0x9343, 0xFF},
--	{IMX214_TABLE_END, 0x00}
-+	{ CCI_REG8(0x6E50), 0x00 },
-+	{ CCI_REG8(0x6E51), 0x32 },
-+	{ CCI_REG8(0x9340), 0x00 },
-+	{ CCI_REG8(0x9341), 0x3C },
-+	{ CCI_REG8(0x9342), 0x03 },
-+	{ CCI_REG8(0x9343), 0xFF },
- };
+ 	{ CCI_REG8(0x6E50), 0x00 },
+@@ -737,7 +802,7 @@ static int imx214_start_streaming(struct imx214 *imx214)
  
- /*
-@@ -419,16 +399,19 @@ static const struct reg_8 mode_table_common[] = {
- static const struct imx214_mode {
- 	u32 width;
- 	u32 height;
--	const struct reg_8 *reg_table;
-+	unsigned int num_of_regs;
-+	const struct cci_reg_sequence *reg_table;
- } imx214_modes[] = {
- 	{
- 		.width = 4096,
- 		.height = 2304,
-+		.num_of_regs = ARRAY_SIZE(mode_4096x2304),
- 		.reg_table = mode_4096x2304,
- 	},
- 	{
- 		.width = 1920,
- 		.height = 1080,
-+		.num_of_regs = ARRAY_SIZE(mode_1920x1080),
- 		.reg_table = mode_1920x1080,
- 	},
- };
-@@ -630,7 +613,6 @@ static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct imx214 *imx214 = container_of(ctrl->handler,
- 					     struct imx214, ctrls);
--	u8 vals[2];
- 	int ret;
+ 	usleep_range(10000, 10500);
  
- 	/*
-@@ -642,12 +624,7 @@ static int imx214_set_ctrl(struct v4l2_ctrl *ctrl)
+-	cci_write(imx214->regmap, CCI_REG8(0x0138), 0x01, NULL);
++	cci_write(imx214->regmap, IMX214_REG_TEMP_SENSOR_CONTROL, 0x01, NULL);
  
- 	switch (ctrl->id) {
- 	case V4L2_CID_EXPOSURE:
--		vals[1] = ctrl->val;
--		vals[0] = ctrl->val >> 8;
--		ret = regmap_bulk_write(imx214->regmap, IMX214_REG_EXPOSURE, vals, 2);
--		if (ret < 0)
--			dev_err(imx214->dev, "Error %d\n", ret);
--		ret = 0;
-+		cci_write(imx214->regmap, IMX214_REG_EXPOSURE, ctrl->val, &ret);
- 		break;
- 
- 	default:
-@@ -733,40 +710,6 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 	return 0;
- };
- 
--#define MAX_CMD 4
--static int imx214_write_table(struct imx214 *imx214,
--			      const struct reg_8 table[])
--{
--	u8 vals[MAX_CMD];
--	int i;
--	int ret;
--
--	for (; table->addr != IMX214_TABLE_END ; table++) {
--		if (table->addr == IMX214_TABLE_WAIT_MS) {
--			usleep_range(table->val * 1000,
--				     table->val * 1000 + 500);
--			continue;
--		}
--
--		for (i = 0; i < MAX_CMD; i++) {
--			if (table[i].addr != (table[0].addr + i))
--				break;
--			vals[i] = table[i].val;
--		}
--
--		ret = regmap_bulk_write(imx214->regmap, table->addr, vals, i);
--
--		if (ret) {
--			dev_err(imx214->dev, "write_table error: %d\n", ret);
--			return ret;
--		}
--
--		table += i - 1;
--	}
--
--	return 0;
--}
--
- static int imx214_start_streaming(struct imx214 *imx214)
- {
- 	const struct v4l2_mbus_framefmt *fmt;
-@@ -774,7 +717,8 @@ static int imx214_start_streaming(struct imx214 *imx214)
- 	const struct imx214_mode *mode;
- 	int ret;
- 
--	ret = imx214_write_table(imx214, mode_table_common);
-+	ret = cci_multi_reg_write(imx214->regmap, mode_table_common,
-+				  ARRAY_SIZE(mode_table_common), NULL);
- 	if (ret < 0) {
- 		dev_err(imx214->dev, "could not sent common table %d\n", ret);
- 		return ret;
-@@ -784,17 +728,24 @@ static int imx214_start_streaming(struct imx214 *imx214)
- 	fmt = v4l2_subdev_state_get_format(state, 0);
- 	mode = v4l2_find_nearest_size(imx214_modes, ARRAY_SIZE(imx214_modes),
- 				      width, height, fmt->width, fmt->height);
--	ret = imx214_write_table(imx214, mode->reg_table);
-+	ret = cci_multi_reg_write(imx214->regmap, mode->reg_table,
-+				  mode->num_of_regs, NULL);
- 	if (ret < 0) {
- 		dev_err(imx214->dev, "could not sent mode table %d\n", ret);
- 		return ret;
- 	}
-+
-+	usleep_range(10000, 10500);
-+
-+	cci_write(imx214->regmap, CCI_REG8(0x0138), 0x01, NULL);
-+
  	ret = __v4l2_ctrl_handler_setup(&imx214->ctrls);
  	if (ret < 0) {
- 		dev_err(imx214->dev, "could not sync v4l2 controls\n");
- 		return ret;
- 	}
--	ret = regmap_write(imx214->regmap, IMX214_REG_MODE_SELECT, IMX214_MODE_STREAMING);
-+	ret = cci_write(imx214->regmap, IMX214_REG_MODE_SELECT,
-+			IMX214_MODE_STREAMING, NULL);
- 	if (ret < 0)
- 		dev_err(imx214->dev, "could not sent start table %d\n", ret);
- 
-@@ -805,7 +756,8 @@ static int imx214_stop_streaming(struct imx214 *imx214)
- {
- 	int ret;
- 
--	ret = regmap_write(imx214->regmap, IMX214_REG_MODE_SELECT, IMX214_MODE_STANDBY);
-+	ret = cci_write(imx214->regmap, IMX214_REG_MODE_SELECT,
-+			IMX214_MODE_STANDBY, NULL);
- 	if (ret < 0)
- 		dev_err(imx214->dev, "could not sent stop table %d\n",	ret);
- 
-@@ -906,12 +858,6 @@ static const struct v4l2_subdev_internal_ops imx214_internal_ops = {
- 	.init_state = imx214_entity_init_state,
- };
- 
--static const struct regmap_config sensor_regmap_config = {
--	.reg_bits = 16,
--	.val_bits = 8,
--	.cache_type = REGCACHE_MAPLE,
--};
--
- static int imx214_get_regulators(struct device *dev, struct imx214 *imx214)
- {
- 	unsigned int i;
-@@ -995,10 +941,10 @@ static int imx214_probe(struct i2c_client *client)
- 		return dev_err_probe(dev, PTR_ERR(imx214->enable_gpio),
- 				     "failed to get enable gpio\n");
- 
--	imx214->regmap = devm_regmap_init_i2c(client, &sensor_regmap_config);
-+	imx214->regmap = devm_cci_regmap_init_i2c(client, 16);
- 	if (IS_ERR(imx214->regmap))
- 		return dev_err_probe(dev, PTR_ERR(imx214->regmap),
--				     "regmap init failed\n");
-+				     "failed to initialize CCI\n");
- 
- 	v4l2_i2c_subdev_init(&imx214->sd, client, &imx214_subdev_ops);
- 	imx214->sd.internal_ops = &imx214_internal_ops;
 
 -- 
 2.47.1
