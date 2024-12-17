@@ -1,128 +1,153 @@
-Return-Path: <linux-media+bounces-23555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4117F9F47B5
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 10:38:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71B619F47DD
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 10:45:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CFE01883494
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 09:38:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 818307A3655
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 09:45:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 679C61DED77;
-	Tue, 17 Dec 2024 09:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AFC51DED74;
+	Tue, 17 Dec 2024 09:45:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JRpd96Xp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rY8dfRyy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116861D5CCC
-	for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 09:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4301DE4FF;
+	Tue, 17 Dec 2024 09:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734428297; cv=none; b=Hq8mfk+pRqLsaDfvgT5bwTa70OfBTdHb+Y+UGu+qUan3istvT5Jvv6SRoHdmdm5nX3cBCOEvtMn3+sspzdus58JPbXm12z0iN+6Zaz6hrMVFzVvLvVfszNTTM9QOsouggiHojrsHMjWitQUxiEVF1daEkSNVBeeSFBUgp4xHEzY=
+	t=1734428719; cv=none; b=s3ImZHCS3kwdte+/i9qWCztUujRw7/Vr9dwQ90l9g0hHb3xLmBhwYZEC/hmzkYxU8QnYVTujVi1yjNbZJfUrSuYSTEt17eIsXOU5EYGYu3VBkL4JhnrKm5D2t/OjNAez33+ysj0mLYY5GZdCSlLsYg/Wod4N2BRqzC36CHLIPok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734428297; c=relaxed/simple;
-	bh=kb3kP9tneB+GVEHe2feWWDmh0vqws9+suKVVH1/v88Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I98QaoFo7uC3GBQKMLqC4WNsokLKAPHiud921bse851+xdNa4ulunajeFHaqlOt+134HqSGCE/Bd2SyelZ+pbAR0yfmNQn5tRmuywoNPAoBEXwk0pgz7oqrpDJLgdYVniTVH4CFYvmJY0WD9MNJylcZvOqgzK1V01t0xXCy9uEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JRpd96Xp; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43625c4a50dso34906485e9.0
-        for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 01:38:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734428294; x=1735033094; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tq5sZ+Fiv/wP7Onp2aVQfa+BtrbtLGAGU7hb6Q0naGI=;
-        b=JRpd96XpZnF7KpYTnIWvBqeJK7CX8ZAvpdzi4dhvtffl8WsAcKYtKBsxn0RCPz5L8F
-         UmIbquasaXa/5RM4t4rDU1rft2PKLl6t1Uiks4P+Xs5Kth8AxuqJzgxTkDqNzAesCcZw
-         gh6fnXDyKA9APPiEEsTrJJpN6ZZUXG4TpP93P+h2e+JDHo70RRqZBoSI3kQlda2X8xk0
-         akPYh4Bc3O9fh93gbIJ3Ki3YaOV34cZe38F6NDEKK6GvjJl1NNPJJIJwLfEBxoUp2UTe
-         QnghlFKF9uMhj28fg76ijjWEn2zpie6uEByIKXnOVZfktla8GlchsgSzArCjBHzh1L9h
-         /eyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734428294; x=1735033094;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tq5sZ+Fiv/wP7Onp2aVQfa+BtrbtLGAGU7hb6Q0naGI=;
-        b=YeJ/UTIgbBgysLud7vXb+VztHQ3GlsJ5n0i8qXKbjYnjL88pIull7u0M4OoOBsKwML
-         RUgj05DE7k9d/Wb4Qjrty1yMhRybH1QgNMJ1bGbzw5I95DjjR7+Yu+XtSLXleEGQoan5
-         MkY6wH2ct0zIgv2h4K/1QnyOIB3XJVX6MoL0Fdv91f6H6p4G55OOPjELTF/VDbdpldg4
-         9XrDgP/5SIsFGwnL6cMD/hr9+4UMuspqY6b6S82nO/EFoqv4KhSHEi9hE27kSbDBqkFv
-         EvQDT178ul1X+plCZvEdFMyD67NWUiJRZQR9htSsHLGH2Nm0r5OBYrzPuLX24INokvbo
-         bQQg==
-X-Gm-Message-State: AOJu0YzPFmyzuJkWbCf0U7sMEzv1dUw8fyjFz9rYl3cdprbCOaRR7gmt
-	RIIk2pS75M8yno8a6S148r8HyyQPLTulgySzudc1c5bRiHciIIVOr/O0fg82kWGfQK75BUeVgNt
-	3
-X-Gm-Gg: ASbGncswTuVCG/tTgVDFSFDhCD6CDiNoVF2CIBOVc4+V5lP9ZzDFXLaSVscd3Q4yon8
-	bUPKJN4fl+xxWR9ERlus0KBFtS8w+GZZwMLPPpuJrPAC8leA9Ie3KeNOBBwKDbrcUcTkYar1OHp
-	Nwb33a5vTTrU7AvBmhLrK1on467g7rBQoM4JG7DSn42YrTzxfkxmg1oD4YiDWBEXJlKevy3D3In
-	jfUCly0gThLDk1YWFtlQbVZYv3NV/aCTPyMOoK+1pn2UjqUqaYdXlLmA2QAj5uKKvq9fQ==
-X-Google-Smtp-Source: AGHT+IGf3odSobzW67Hr2M4E4Qy568hruQO6sy10F4fQguns3CYgMLLwqVah+AMfzIWxgAU66q+a0Q==
-X-Received: by 2002:a05:600c:214a:b0:434:f7e3:bfbd with SMTP id 5b1f17b1804b1-4362aa947admr142363025e9.23.1734428294427;
-        Tue, 17 Dec 2024 01:38:14 -0800 (PST)
-Received: from [192.168.0.40] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436362b656fsm112454035e9.34.2024.12.17.01.38.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 01:38:14 -0800 (PST)
-Message-ID: <83fcb683-d610-4e47-bcce-128453a0afef@linaro.org>
-Date: Tue, 17 Dec 2024 09:38:12 +0000
+	s=arc-20240116; t=1734428719; c=relaxed/simple;
+	bh=2eGNr4it5La5zFwKqlI0alnEBzdjh2a45amMsSoLjTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TtXCGOkeg/SEyTcxGQUKATf4XbeKFX+o1O+jAden06kjw9sg5k/pAOwHDirbNfTUFbBZ16NIrbtDClMBvu7DFxKH009SPbt9XCYoMsocr3JUGgd0nRycW+OtsL6lqdHE3xTM+fO/0EN/haW3aSRZgEt72R4gkEPksYyYQK9988Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rY8dfRyy; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04FE73E;
+	Tue, 17 Dec 2024 10:44:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1734428673;
+	bh=2eGNr4it5La5zFwKqlI0alnEBzdjh2a45amMsSoLjTA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rY8dfRyyCgdvx1c8RZkwkEeBnkbD2AdLaXHCCD/fdzKpnISry8Pg/KVfPCXlKlzj6
+	 7yCQzh7V5u9oivMMud8WJMJ11Ho49fMscu9aRKqscpryAFbyVQdcQiwHpzRIyAt1co
+	 hVBzlL6c3CxZJdlylFC4n/EXCZ7YjWkQZpXlvHPY=
+Date: Tue, 17 Dec 2024 11:45:08 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: yuji2.ishikawa@toshiba.co.jp, mchehab@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+	nobuhiro1.iwamatsu@toshiba.co.jp, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface
+Message-ID: <20241217094508.GD11445@pendragon.ideasonboard.com>
+References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
+ <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
+ <04a7ebf7-2924-4894-bc53-ba77e2f64fae@kernel.org>
+ <TY3PR01MB99822E6161ED319B4DE855B492042@TY3PR01MB9982.jpnprd01.prod.outlook.com>
+ <d5294015-4790-490e-8136-615039a5c733@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] arm64: dts: qcom: qcs615: add venus node
-To: Renjiang Han <quic_renjiang@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>
-References: <20241217-add-venus-for-qcs615-v5-0-747395d9e630@quicinc.com>
- <20241217-add-venus-for-qcs615-v5-3-747395d9e630@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20241217-add-venus-for-qcs615-v5-3-747395d9e630@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d5294015-4790-490e-8136-615039a5c733@kernel.org>
 
-On 17/12/2024 09:17, Renjiang Han wrote:
-> +
-> +			video-decoder {
-> +				compatible = "venus-decoder";
-> +			};
-> +
-> +			video-encoder {
-> +				compatible = "venus-encoder";
-> +			};
+On Tue, Dec 17, 2024 at 06:43:22AM +0100, Krzysztof Kozlowski wrote:
+> On 17/12/2024 01:00, yuji2.ishikawa@toshiba.co.jp wrote:
+> > Hello Krzysztof
+> > 
+> > Thank you for your review
+> > 
+> >> -----Original Message-----
+> >> From: Krzysztof Kozlowski <krzk@kernel.org>
+> >> Sent: Monday, November 25, 2024 7:08 PM
+> >> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
+> >> <yuji2.ishikawa@toshiba.co.jp>; Laurent Pinchart
+> >> <laurent.pinchart@ideasonboard.com>; Mauro Carvalho Chehab
+> >> <mchehab@kernel.org>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> >> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Sakari Ailus
+> >> <sakari.ailus@linux.intel.com>; Hans Verkuil <hverkuil-cisco@xs4all.nl>;
+> >> iwamatsu nobuhiro(岩松 信洋 ○ＤＩＴＣ□ＤＩＴ○ＯＳＴ)
+> >> <nobuhiro1.iwamatsu@toshiba.co.jp>
+> >> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+> >> linux-arm-kernel@lists.infradead.org; devicetree@vger.kernel.org
+> >> Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
+> >> Toshiba Visconti Video Input Interface
+> >>
+> >> On 25/11/2024 10:21, Yuji Ishikawa wrote:
+> >>> Adds the Device Tree binding documentation that allows to describe the
+> >>> Video Input Interface found in Toshiba Visconti SoCs.
+> >>>
+> >>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> >>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> >>
+> >> Why this tag stayed and other was removed? What was the reason of tag
+> >> removal?
+> >>
+> > 
+> > The stayed tag is due to internal review.
+> 
+> Did the internal review really happened? How is it that immediately new
+> version has internal review without any traces?
+> 
+> I have doubts this review happened in the context of reviewer's
+> statement of oversight.
+> 
+> > The removed tag is due to code's change (split of csi2rx part) after the last review.
+> > If the code is largely changed following the instruction of another reviewer
+> > after obtaining the tags, how should the tags be handled?
+> 
+> Drop all reviews and perform reviews on the list.
+> 
+> Such internal review appearing afterwards is rather a proof it you are
+> adding just the tags to satisfy your process. I have no way to even
+> verify whether that person performed any reasonable review or maybe just
+> acked your patch.
 
-I gave you feedback on this in v4.
+How do you verify that for public reviews ?
 
-Could you please provide some commentary on why you're persisting with 
-this ?
+> I cannot even verify that that person understands the
+> reviewer's statement of oversight.
+> 
+> 
+> ...
+> 
+> >>>
+> >>> Changelog v11:
+> >>> - no change
+> >>>
+> >>> Changelog v12:
+> >>> - remove property "clock-noncontinuous" as VIIF switches both modes
+> >>> automatically
+> >>> - remove property "link-frequencies" as VIIF does not use the
+> >>> information
+> >>
+> >> Driver does not use or hardware supports only one frequency?
+> > 
+> > My comment was incorrect.
+> > It should be "Driver does not use the information"
+> 
+> Then this is not that helping. Maybe hardware supports only one frequency?
 
-- Driver configuration should not live in dts
-- A patchset exists to mitigate this
-- If you don't want to use that series, what do you propose
-   to resolve this ?
+-- 
+Regards,
 
-Please don't just ignore feedback, either act on it or add to your 
-commit log _why_ you didn't act on it.
-
----
-bod
+Laurent Pinchart
 
