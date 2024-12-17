@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-23537-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23538-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101F59F4320
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 06:45:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B82C9F435E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 07:14:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A68C3188C59E
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 05:45:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF28F7A1BDD
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 06:14:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8A23158A13;
-	Tue, 17 Dec 2024 05:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7A0015B546;
+	Tue, 17 Dec 2024 06:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ol/E2pG4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rzQ973Ez"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1A6155CBA;
-	Tue, 17 Dec 2024 05:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32952136347;
+	Tue, 17 Dec 2024 06:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734414306; cv=none; b=Jnbd0N0CES5niGxgJ8kyWWhb1Urp23mDPGWiQs3Rt/qvk2sSKGm5EgyXeKUUDBggf5qhX0elszzIB3aUC3XDwwb2exrCoWgtpufO5Xu5UBX1yiWsEvopp9cbVbK83zjCrupyrnWlDWOV8xjQ06feBjLPRGOUyzxc9Lz+tfcflGg=
+	t=1734416045; cv=none; b=hUsz5btB77w5nzuG7+XRDegkbub7DRiC7wZQHMmhTP/hSYRFsVLQxoG9eefG5qb73e1LIOBFFJDd+PaFw5Jmox0PHOG5ignOevUu/yfYAc2Vx7ZhJsC+CgSWFhScuUFktju+qxdLv8Z7LFlm3vfrzmwxDZiYDcd5JuSDCf4ZToM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734414306; c=relaxed/simple;
-	bh=MWgm0EeRQAos7JU2TgGxbz8jam6Pi3oYixsMVuEC75o=;
+	s=arc-20240116; t=1734416045; c=relaxed/simple;
+	bh=ecn4cVP/HVxlytKknmHrPKraZ3LM0f8wRwebQY8JxiY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ghxQnet938Mp6zOpnF2AGBL9UU3UHVnbvEtMRfvVVZTkol6LcMGAWRKRDPTTw6B5elLBi3saABWubeOjD5S5OxsGkz6v+BSL2UnX5catqxuY+O9qxOnmMC3kYL3peLqUojjn4kNG9xX/9LweAbiAiLC7H0Woe+DReLgL+zUTIs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ol/E2pG4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 175A3C4CED3;
-	Tue, 17 Dec 2024 05:45:00 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=nbJNkpKIMUwCHnC4WqUVdarhydI8uBgbVpfm9mB0JXtGOA6mUlHJanpZ5Sj4/pX8g3o7YJzpFM/lqN2jNkyjqMXhOrERWqhLiSU2yTdqckxE5+4Mjfpo+ql4aMN5xbMgDclDhVg0oZMCXMF5yMHAlRgoO3S3RmX7FKhzQOtEHPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rzQ973Ez; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3B92C4CED7;
+	Tue, 17 Dec 2024 06:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734414305;
-	bh=MWgm0EeRQAos7JU2TgGxbz8jam6Pi3oYixsMVuEC75o=;
+	s=k20201202; t=1734416044;
+	bh=ecn4cVP/HVxlytKknmHrPKraZ3LM0f8wRwebQY8JxiY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ol/E2pG4cjvTjNc7GRmqThIz38eNwlF7Knrm2OLb6rVTiDYZxdQTk6yVVGsRnCYbF
-	 3/dZQ2sih6n4Bwz7aN7EV6c6BanPrIKxFUGPFr9C3YtefzsNsDcy5UberetYQqDFEs
-	 NrXkmm6/cJZ0uqetT7WwiHux0zaB8r2LA6Af5/Js8K/n/xZDJ9kNLPPtsKBgtvIFth
-	 a90T6wbDpM24fKnzidZtTKKyA1B2v1J/jSj3JOzXD6ZhiD7aiLhDVVzCkSjEv06qM0
-	 vEUrBjC9W0aR39t3wbfgovHMLhV/Ty+IFuuh8M/KMKr5J5UE1eUosBThLpSjIW1vwF
-	 pcq8JD3XPacuA==
-Message-ID: <cb6be804-1649-4d17-839c-fe58a39baa1d@kernel.org>
-Date: Tue, 17 Dec 2024 06:44:58 +0100
+	b=rzQ973EzL+aRNaq9VfSCXN3XAJi8TfmbMbSgWEEQFVPVTPUzQ6v9rMBkzXB4HIMNg
+	 vB4+bDSlzr7JPXFDSsIR98HIZ2f86L3dunJLmzkuXbNxcMXsa/MEZNG4NuGrnCUFS+
+	 wl7MjU6X4zfz+94zARluVdPOK4FJVttbfB694sXwoTKUaHbXN5/odTaPVJwF8rx9Av
+	 4dGeGpivJf9um/sxjh2XrFBsw+jpvOqQ6f5XfnQoNzx+eCOCYIi3q+3DGyuwzxUkTV
+	 Yck3Vfpbt2tk+24fjbpgVKQJMPd15hfytcAMMKNoPKywC5sn73jBqb2/RWtPtsWjvB
+	 Q14fOl9a4GvHg==
+Message-ID: <0216b38b-70f7-4832-bda4-ed268b767b80@kernel.org>
+Date: Tue, 17 Dec 2024 07:13:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,18 +50,20 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 1/8] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti MIPI CSI-2 Receiver
-To: yuji2.ishikawa@toshiba.co.jp, laurent.pinchart@ideasonboard.com,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
- nobuhiro1.iwamatsu@toshiba.co.jp
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
- <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
- <07e0cc97-c0c4-42fd-b51d-87b0eaed4e4a@kernel.org>
- <TY3PR01MB9982FE7739FABB2275C79C0B923B2@TY3PR01MB9982.jpnprd01.prod.outlook.com>
+Subject: Re: [PATCH 1/2] dt-bindings: media: imx219: Rename to include vendor
+ prefix
+To: David Heidelberg <david@ixit.cz>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20241217024206.1700170-1-david@ixit.cz>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,90 +109,25 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <TY3PR01MB9982FE7739FABB2275C79C0B923B2@TY3PR01MB9982.jpnprd01.prod.outlook.com>
+In-Reply-To: <20241217024206.1700170-1-david@ixit.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/12/2024 00:57, yuji2.ishikawa@toshiba.co.jp wrote:
->> On 25/11/2024 10:21, Yuji Ishikawa wrote:
->>> Adds the Device Tree binding documentation that allows to describe the
->>> MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
->>>
->>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
->>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
->>
->>
->> How newly added patch can have already Rb tag? Was this review really, really
->> performed internally or you just satisfy some internal managers requirements
->> and fake the stats?
->>
+On 17/12/2024 03:41, David Heidelberg wrote:
+> imx219.yaml doesn't include the vendor prefix of sony,
+> so rename to add it.
 > 
-> I added this Reviewed-by tag because the patch was reviewed internally.
-
-
-What issues were identified by internal review, especially in the
-context of bindings?
-
+> Update the id entry and MAINTAINERS to match.
 > 
->>> ---
->>>
->>> Changelog v12:
->>> - Newly add bindings for CSI2RX driver
->>>
->>>  .../media/toshiba,visconti5-csi2rx.yaml       | 104
->> ++++++++++++++++++
->>>  1 file changed, 104 insertions(+)
->>>  create mode 100644
->>> Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
->>>
->>> diff --git
->>> a/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yam
->>> l
->>> b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yam
->>> l
->>> new file mode 100644
->>> index 000000000000..5488072bc82a
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx
->>> +++ .yaml
->>> @@ -0,0 +1,104 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
->>> +---
->>> +$id:
->>> +http://devicetree.org/schemas/media/toshiba,visconti5-csi2rx.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Toshiba Visconti5 SoC MIPI CSI-2 receiver
->>> +
->>> +maintainers:
->>> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
->>> +
->>> +description: |-
->>
->> Drop |-
->>
-> 
-> I'll drop "|-"
-> 
->>> +  Toshiba Visconti5 SoC MIPI CSI-2 receiver device receives MIPI
->>> + CSI-2 video  stream. Use with VIIF device. T.B.D
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: toshiba,visconti5-csi2rx
->>
->> Why this is called "RX"? Can you have a TX? I had impression that one cannot.
->>
-> 
-> VIIF has only MIPI CSI2 receiver (CSI2RX). There's no TX for it.
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+>  .../bindings/media/i2c/{imx219.yaml => sony,imx219.yaml}        | 2 +-
+>  MAINTAINERS                                                     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename Documentation/devicetree/bindings/media/i2c/{imx219.yaml => sony,imx219.yaml} (97%)
 
-So this device cannot be anything else? Then drop rx.
-
-> Visconti also has VOIF (Video Output Interface) hardware which has MIPI CSI2 (not DSI) transmitter (CSI2TX).
-
-Or this can be something else? Confusing.
-
-
+If you are doing changes like this, fix entire subsystem so all bindings
+there. Not one file.
 
 Best regards,
 Krzysztof
