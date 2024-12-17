@@ -1,151 +1,238 @@
-Return-Path: <linux-media+bounces-23599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E784D9F4D4E
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 15:13:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D7F9F4DC4
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 15:31:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C59716565E
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:13:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A9B441892EC5
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:31:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D2351F6679;
-	Tue, 17 Dec 2024 14:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 966A81F4E3E;
+	Tue, 17 Dec 2024 14:31:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoRPkl5t"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="FbluKOuK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uANGbWrz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA5D1F63DE;
-	Tue, 17 Dec 2024 14:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1322AEE0;
+	Tue, 17 Dec 2024 14:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734444705; cv=none; b=Twi9ARIXL9IsoBUORQg+CdWwPuuTFpaDFTRZrXczGpVYgDxGALbafDkcoHtkgo5J7lZwxQU60OmHtEwAROO19+rqUpmBZ9IZJcoQB8INpRxl599CyLKzGHE0dkUMWoB8We667S68OB6m8QspgfZy3k8OeqwFXH7TIois2YIUano=
+	t=1734445880; cv=none; b=bT4eMOJoerYDocfK6yvqp9YdeKIol4u4LLDn3gaBl57BIYm5pXwYUIfDXKa/OyiARHOU/P7lVDqwUI7odrqfodt1U+1+OnbJgfAuXjleq34WeaGi8ggmpBc1gCChLWpUuS+JkWJUvy8S8cyso7CLNYy6TQjVA3CYW/cOpfFP/vU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734444705; c=relaxed/simple;
-	bh=+dprW4zFTCcIz53pVj73e4JZAt3bSbTy3ZmUnv6jlxI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O/P0v7SCjdc6ZCWNbNgUggOLwNeTTGAx2mAeo//2/VPM1ZOgMflG2ZS/sy5bypEioAp/8UVljFTBBrITqIf64uFFGx+hreoyS3Q42akHDhrdoOUNBIGpUuNTLy9QYZdpg7VrG5DN9oPnGurRGiPbMsJo2xX5SPxmLgCk4vC6YC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eoRPkl5t; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D05C4CED3;
-	Tue, 17 Dec 2024 14:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734444705;
-	bh=+dprW4zFTCcIz53pVj73e4JZAt3bSbTy3ZmUnv6jlxI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eoRPkl5txePVLj9wR8JHQhrGKskOVm7bD1x1yLB2NqSNushBlTRAt5Zs/mrYuMMuB
-	 8FyjuxxDN1DOmI8qAy/h+L061c3kmg9S8EttyVs5+rYY4mmnKFXULsZyMZXulI7ECi
-	 Y8nc+B8AgjAbBH3w/HoAeg7kzWSRt3g34aVt+WN29a+rCyyyJapquNXoGGb0hVR6Qy
-	 +m8PlJ0AqKbocd3ItZOhTXH5yuLmORf76X/d3R9AKddS7lminn93bMSuvmQMEAqOFD
-	 GyXPcjVC0/8jalNnYtOGAtI4og6J1IoL36GB+DQbQO03VESzvLIjFgXkMtpQ34jfiL
-	 /qBihfOOObeHA==
-Message-ID: <ae6db654-c19a-4fde-a649-48c63f4e6394@kernel.org>
-Date: Tue, 17 Dec 2024 15:11:37 +0100
+	s=arc-20240116; t=1734445880; c=relaxed/simple;
+	bh=R5AEPOhE5zimeSFXlqP2ApxVlRFcLe3DttjDO3/lbmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XGhTlej9ZTJ8skFhd2PTXJN+lyEgN60zG3nIRqDBSm7elp0RKEX9F2UgIUF7Jpe9+7JCLL1wkROUvadJlRILXhywpwmccZyWXrAJ4NFidW0oMjCgiM1viDflT37nl/8VYopWRBjHUGuQHRbQ4M9mHz9AhnRaVJkwyna9cDfdhvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=FbluKOuK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uANGbWrz; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 207751140099;
+	Tue, 17 Dec 2024 09:31:16 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Tue, 17 Dec 2024 09:31:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1734445875;
+	 x=1734532275; bh=T2z4S2KdGYMfZ5CZdK1KVnHbTmI/csXLkb+hBPu559g=; b=
+	FbluKOuKFoFROqVNIowWnfHBIBYNueAei5d3Wo7aUbzKPb+ceZR1yGJjTgZviBnO
+	TGeuuzJolBzIuoncn1MP5v2BTJ6U9YGnK07qJa4LbfFLIRwWo5NnYYbsH6mA+pfK
+	Z7YdDkkYQBftKu9cCz5fh8UyJnli0y47Ppqq+cJiJ4x3q2X2mZTpIX7ZGlp49+TI
+	Jj3uwpCxaEkHU1ZfBfgPxuVdhNL4jMd0BOiOetBJzFBbq+7DhwST0sidUrVElMvV
+	H5xMg7cHZTPwhGmVi3spk6vh/GVbwlLlY1XN52jYqE7bnFzRtQN/1LWlPKTiokmD
+	VPpTEz46ieDRHAAzfnpDpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734445875; x=
+	1734532275; bh=T2z4S2KdGYMfZ5CZdK1KVnHbTmI/csXLkb+hBPu559g=; b=u
+	ANGbWrzcLIrsmFkRwsoFzliT4xWjzv0XtPnzbAPeAr6r0Q1byFK++lsdcUsoAJbZ
+	6jCPaCp7V9hZJFP0Wnc6CVklvDc0e+Xzkpq6K8cVFokMDfV7RwfFn91iUha1mz/w
+	A2WlPQP124IuixqDfUoUilZGGAlK68V1bWYdwnXdmbT8RP5iDK/jUoCtQCyY98RH
+	anteWK803a0p/l2Li6GMigvUCpZEraiTFtIYCk3x7aCNYBiyVGhFFlxRLFS7Ugeq
+	bqB96Po2OhV1pEWggjYkqW4353wvxxBpWZbP4T4PbUkEP3jEX6w9K6lCiBSAUM8B
+	F7fqFV+4AYQRowAv9hnxQ==
+X-ME-Sender: <xms:M4thZ54NMKQljdzx_XpTMq8E46_OKgEJROKqYkfezNNtjFxEC2bBdw>
+    <xme:M4thZ27cT-6TtqlfAPNht4RkLSnC5_RhlgQklveAk0q6_9Tsp9tS8KB2LDUDcoaYc
+    92RoE3z-NabSAe6bNI>
+X-ME-Received: <xmr:M4thZwcH1Mgdmij4EDBmnITiGYeqQ9d2GGlb9OE-D8VUJr6Pecig9aSK-SaINiRQ15JBJ0ea8xzfRykEK4WE6S0n5fExadHtSA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleehgdeiiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedt
+    vddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
+    vghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepkedpmhhoug
+    gvpehsmhhtphhouhhtpdhrtghpthhtoheplhgruhhrvghnthhiuhdrphgrlhgtuhesohhs
+    shdrnhigphdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdp
+    rhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomh
+    dprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidr
+    uggvvhdprhgtphhtthhopehmtghhvghhrggsodhhuhgrfigviheskhgvrhhnvghlrdhorh
+    hg
+X-ME-Proxy: <xmx:M4thZyK07tF8R5Vy4bNCzkbsfDJHrbBAkDbWT0cQo8E2RtPjzkWtCg>
+    <xmx:M4thZ9ICFaA2-DmtvM3MF8UlzIjOxvPO_CFoukHSZXRnwjjHzBHSeQ>
+    <xmx:M4thZ7x7-T9u_u2kIg3eCwKfJ-Dhn-x7U200xl4sO1GWyJyHqa2V5w>
+    <xmx:M4thZ5IoUu4hZEt3lDpXNtEuyg9DIZCYDI2XhNKZhlIC11QZF8h1Gg>
+    <xmx:M4thZ0-_vqxqw9whJDPIs3-d3P3YS8yE2YsNBK_sxmnIR63gzxEPQOtT>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Dec 2024 09:31:14 -0500 (EST)
+Date: Tue, 17 Dec 2024 15:31:12 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2] staging: media: max96712: fix kernel oops when
+ removing module
+Message-ID: <20241217143112.GL878403@ragnatech.se>
+References: <20241217065151.1281037-1-laurentiu.palcu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/4] media: qcom: camss: update clock names for sc7280
-To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org,
- konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
- cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20241217140656.965235-1-quic_vikramsa@quicinc.com>
- <20241217140656.965235-3-quic_vikramsa@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241217140656.965235-3-quic_vikramsa@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241217065151.1281037-1-laurentiu.palcu@oss.nxp.com>
 
-On 17/12/2024 15:06, Vikram Sharma wrote:
-> This patch changes gcc_cam_hf_axi clock name to make consistent
+Hello Laurentiu,
 
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-
-> with existing platforms and add gcc_axi_sf clock too.
-> gcc_cam_hf_axi changed to gcc_axi_hf.
-> added gcc_axi_sf.
-
-Explain ABI impact and don't mix new features with some sort of refactoring.
-
+On 2024-12-17 08:51:50 +0200, Laurentiu Palcu wrote:
+> The following kernel oops is thrown when trying to remove the max96712
+> module:
 > 
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> Unable to handle kernel paging request at virtual address 00007375746174db
+> Mem abort info:
+>   ESR = 0x0000000096000004
+>   EC = 0x25: DABT (current EL), IL = 32 bits
+>   SET = 0, FnV = 0
+>   EA = 0, S1PTW = 0
+>   FSC = 0x04: level 0 translation fault
+> Data abort info:
+>   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+>   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+>   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> user pgtable: 4k pages, 48-bit VAs, pgdp=000000010af89000
+> [00007375746174db] pgd=0000000000000000, p4d=0000000000000000
+> Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+> Modules linked in: crct10dif_ce polyval_ce mxc_jpeg_encdec flexcan
+>     snd_soc_fsl_sai snd_soc_fsl_asoc_card snd_soc_fsl_micfil dwc_mipi_csi2
+>     imx_csi_formatter polyval_generic v4l2_jpeg imx_pcm_dma can_dev
+>     snd_soc_imx_audmux snd_soc_wm8962 snd_soc_imx_card snd_soc_fsl_utils
+>     max96712(C-) rpmsg_ctrl rpmsg_char pwm_fan fuse
+>     [last unloaded: imx8_isi]
+> CPU: 0 UID: 0 PID: 754 Comm: rmmod
+> 	    Tainted: G         C    6.12.0-rc6-06364-g327fec852c31 #17
+> Tainted: [C]=CRAP
+> Hardware name: NXP i.MX95 19X19 board (DT)
+> pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> pc : led_put+0x1c/0x40
+> lr : v4l2_subdev_put_privacy_led+0x48/0x58
+> sp : ffff80008699bbb0
+> x29: ffff80008699bbb0 x28: ffff00008ac233c0 x27: 0000000000000000
+> x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+> x23: ffff000080cf1170 x22: ffff00008b53bd00 x21: ffff8000822ad1c8
+> x20: ffff000080ff5c00 x19: ffff00008b53be40 x18: 0000000000000000
+> x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
+> x14: 0000000000000004 x13: ffff0000800f8010 x12: 0000000000000000
+> x11: ffff000082acf5c0 x10: ffff000082acf478 x9 : ffff0000800f8010
+> x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : fefefeff6364626d
+> x5 : 8080808000000000 x4 : 0000000000000020 x3 : 00000000553a3dc1
+> x2 : ffff00008ac233c0 x1 : ffff00008ac233c0 x0 : ff00737574617473
+> Call trace:
+>  led_put+0x1c/0x40
+>  v4l2_subdev_put_privacy_led+0x48/0x58
+>  v4l2_async_unregister_subdev+0x2c/0x1a4
+>  max96712_remove+0x1c/0x38 [max96712]
+>  i2c_device_remove+0x2c/0x9c
+>  device_remove+0x4c/0x80
+>  device_release_driver_internal+0x1cc/0x228
+>  driver_detach+0x4c/0x98
+>  bus_remove_driver+0x6c/0xbc
+>  driver_unregister+0x30/0x60
+>  i2c_del_driver+0x54/0x64
+>  max96712_i2c_driver_exit+0x18/0x1d0 [max96712]
+>  __arm64_sys_delete_module+0x1a4/0x290
+>  invoke_syscall+0x48/0x10c
+>  el0_svc_common.constprop.0+0xc0/0xe0
+>  do_el0_svc+0x1c/0x28
+>  el0_svc+0x34/0xd8
+>  el0t_64_sync_handler+0x120/0x12c
+>  el0t_64_sync+0x190/0x194
+> Code: f9000bf3 aa0003f3 f9402800 f9402000 (f9403400)
+> ---[ end trace 0000000000000000 ]---
+> 
+> This happens because in v4l2_i2c_subdev_init(), the i2c_set_cliendata()
+> is called again and the data is overwritten to point to sd, instead of
+> priv. So, in remove(), the wrong pointer is passed to
+> v4l2_async_unregister_subdev(), leading to a crash.
+> 
+> Fixes: 5814f32fef13 ("media: staging: max96712: Add basic support for MAX96712 GMSL2 deserializer")
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+
+Thanks for catching this.
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
->  drivers/media/platform/qcom/camss/camss.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
+> Changes in v2:
+>  * removed call to i2c_set_clientdata() in probe;
+>  * cleaned up the trace in commit message as the tmux status line string
+>    sneaked into it;
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 004a74f6b2f6..1d992dc74877 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -1443,12 +1443,13 @@ static const struct camss_subdev_resources vfe_res_7280[] = {
->  		.regulators = {},
+> Thanks,
+> Laurentiu
+> 
+>  drivers/staging/media/max96712/max96712.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+> index ede02e8c891cb..0751b2e048958 100644
+> --- a/drivers/staging/media/max96712/max96712.c
+> +++ b/drivers/staging/media/max96712/max96712.c
+> @@ -418,7 +418,6 @@ static int max96712_probe(struct i2c_client *client)
+>  	priv->info = of_device_get_match_data(&client->dev);
 >  
->  		.clock = { "camnoc_axi", "cpas_ahb", "icp_ahb", "vfe0",
-> -			   "vfe0_axi", "gcc_cam_hf_axi" },
-> +			   "vfe0_axi", "gcc_axi_hf", "gcc_axi_sf" },
+>  	priv->client = client;
+> -	i2c_set_clientdata(client, priv);
+>  
+>  	priv->regmap = devm_regmap_init_i2c(client, &max96712_i2c_regmap);
+>  	if (IS_ERR(priv->regmap))
+> @@ -448,7 +447,8 @@ static int max96712_probe(struct i2c_client *client)
+>  
+>  static void max96712_remove(struct i2c_client *client)
+>  {
+> -	struct max96712_priv *priv = i2c_get_clientdata(client);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct max96712_priv *priv = container_of(sd, struct max96712_priv, sd);
+>  
+>  	v4l2_async_unregister_subdev(&priv->sd);
+>  
+> -- 
+> 2.44.1
+> 
 
-
-I don't get how this works with old DTS.
-
-This looks like pure ABI break without any explanation.
-
-Best regards,
-Krzysztof
+-- 
+Kind Regards,
+Niklas Söderlund
 
