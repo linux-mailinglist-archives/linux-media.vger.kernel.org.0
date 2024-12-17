@@ -1,153 +1,144 @@
-Return-Path: <linux-media+bounces-23557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B188B9F481D
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 10:55:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45B89F4821
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 10:56:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE885168739
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 09:55:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3BBD11698F8
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 09:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F0091DF260;
-	Tue, 17 Dec 2024 09:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CA0C1DF254;
+	Tue, 17 Dec 2024 09:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IWxqgwI/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QLQE7Wtm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1A98493;
-	Tue, 17 Dec 2024 09:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6E11DB52D;
+	Tue, 17 Dec 2024 09:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734429311; cv=none; b=YC5/J2qVuiaYmxvR5K2UbKmMJoABLslpSeTpqxvWrm9UugrBaX8UL8ZyfkqVoyL/ol1uUTQsKAAXZfTzRjqtLeFQL54qz+TXm14fEtZiYSqjVTGtbeyWbvBH7+rqcsiL1NXXznK9rLpp2YfQm4p2sMjl0l0mDZ8bo1sgzkqw1qk=
+	t=1734429345; cv=none; b=ceRJazC1kaubpk5UXcXw4Mr/6DpZEpOnqjfJAWffVX02mesuOgwJQphSGAPvVRbB+jnaV/4VCsZV2dBRiwT78m06gjl7NZiHrhyNYgzoEX1I64TNUoMYSL6HGhcKbtuqzjaTvhstPhjME2nHhTn0j4frJ0TUnVoZFZ/56PG7Wh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734429311; c=relaxed/simple;
-	bh=ASwT3dBIE+Xe434ZYqsgySLJsNTsAAHaS+TMDqk7T7k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lseITdiyZO3xwOvIfHCY9yvL5ptXUxAda9BEJeHT3EObhuQuhJ5Lqg/GW66r8RmmxPI7L4nqun73beX8is6VO3TWa6KWiAvAgLf8kNOg5ZDszfh98pJXLc8kq0hb1+bnLPEGqvRZP6O4TbIBaARJJT1s7sSa7XpKpfBsZGLnx7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IWxqgwI/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH6mlVA012414;
-	Tue, 17 Dec 2024 09:55:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nJF+dftQDbg32x5CFuyMgScGHiLqd4PnLoUlD3aMEbg=; b=IWxqgwI/KB6xpbf3
-	G+vH3O0513T88tpZ2OIFY/wLOcSesoRzRW2m94eCx5W1eGYVV+4WntQkj/q+im8m
-	sPuUvcRa5uslSObDEU48wYHn204Kt8WzTj/UZBd4+fOyKq52O7jj7+SUIVfiOmpf
-	+3EwMJuZfj+y0iL4wAO+8BN1NHkmYSeI/UdpvOq82dJU4NIyPdm+wmcSRFihKO3v
-	BLwPrfe2AVOWjAq9QRO2P/4ncPN4+XGeRNA4a2x16Yyhurz55FsW7LTtZkmA8Qb1
-	qwNz5YlbCmUOApC7+of1WyPB3/mRrgoWGcLtmu0zEpEgv//iI08F1EpmbNKBD6hE
-	oUzGNw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43k4bx0ft7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 09:55:04 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BH9t3I9027034
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 09:55:03 GMT
-Received: from [10.231.216.103] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Dec
- 2024 01:54:59 -0800
-Message-ID: <3cb0d715-3756-4cef-bcc0-3bb550811c73@quicinc.com>
-Date: Tue, 17 Dec 2024 17:54:57 +0800
+	s=arc-20240116; t=1734429345; c=relaxed/simple;
+	bh=KHM7y70HQaog3e7Ndr6DxqdWD3flbUhpk65yvqTiil4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBeWAZtM3Ix36CVjkrf/fxssTgtDJdRT9j8Hx4pOoqpskk3bMsS+rqTdxkEVxY+4lTrR3ngd4ECkLEJlt23yODDMP3mZ91rKdpnDif9EPf5Qcx6qjgMGurS9X6kVjJQFb1OYukdAhamwYiyjWgXBjL6nJ9zFjXZxt2RwaGrAOPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QLQE7Wtm; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734429344; x=1765965344;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=KHM7y70HQaog3e7Ndr6DxqdWD3flbUhpk65yvqTiil4=;
+  b=QLQE7WtmZB6kFzos4XfLPH1/8MP5G2JiHJJAzoWF5BggJwovNFmVH/Lw
+   u9oMTG0Cb3smWNGnHCJZ13uoisbeVLlwd+6/GnWC7zcvaax4JCtclYNL9
+   cHrKHZ6PkbmQG529cbCZo7w4OuKBDxQc0hCTrYNvCWPQKIrUfRWfnhPz4
+   b24hyBF+fdcdCAMElDqY0CnT6yuGeqK+fiAjLYzHTPS/PUgwQMEYlbNyS
+   okyLulB+Mdw/F/su8n7mnLDl2M2iIaW/kY24mRhJawE1Hh8qV89RjWz/Q
+   rUCtTZtpaJmNIEHpuI5iHqd91xb53YAidYLFqA1xPqyfSKo6UVhA4AkbM
+   w==;
+X-CSE-ConnectionGUID: RrJa+dohRaOh3oKMmDoh6w==
+X-CSE-MsgGUID: 8htIaf06RZ6A15NTtzwkWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34997310"
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
+   d="scan'208";a="34997310"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 01:55:43 -0800
+X-CSE-ConnectionGUID: 50/I6861QIqE5bS122JuSA==
+X-CSE-MsgGUID: yp1YD35OR3G1r15f2Q6hJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
+   d="scan'208";a="128297765"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 01:55:41 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id B986011F775;
+	Tue, 17 Dec 2024 11:55:37 +0200 (EET)
+Date: Tue, 17 Dec 2024 09:55:37 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: git@apitzsch.eu
+Cc: Ricardo Ribalda <ribalda@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Vincent Knecht <vincent.knecht@mailoo.org>
+Subject: Re: [PATCH v4 01/13] media: i2c: imx214: Use subdev active state
+Message-ID: <Z2FKmSszfaj86WBV@kekkonen.localdomain>
+References: <20241216-imx214-v4-0-8cbda160fbce@apitzsch.eu>
+ <20241216-imx214-v4-1-8cbda160fbce@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] arm64: dts: qcom: qcs615: add venus node
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konradybcio@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Stanimir
- Varbanov" <stanimir.varbanov@linaro.org>
-References: <20241217-add-venus-for-qcs615-v5-0-747395d9e630@quicinc.com>
- <20241217-add-venus-for-qcs615-v5-3-747395d9e630@quicinc.com>
- <83fcb683-d610-4e47-bcce-128453a0afef@linaro.org>
-Content-Language: en-US
-From: Renjiang Han <quic_renjiang@quicinc.com>
-In-Reply-To: <83fcb683-d610-4e47-bcce-128453a0afef@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: AWIHRqAkPd4xZTxuhKud3K32m77Cn_Ny
-X-Proofpoint-ORIG-GUID: AWIHRqAkPd4xZTxuhKud3K32m77Cn_Ny
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 suspectscore=0
- spamscore=0 mlxscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412170081
+In-Reply-To: <20241216-imx214-v4-1-8cbda160fbce@apitzsch.eu>
 
+Hi Andr�,
 
-On 12/17/2024 5:38 PM, Bryan O'Donoghue wrote:
-> On 17/12/2024 09:17, Renjiang Han wrote:
->> +
->> +            video-decoder {
->> +                compatible = "venus-decoder";
->> +            };
->> +
->> +            video-encoder {
->> +                compatible = "venus-encoder";
->> +            };
->
-> I gave you feedback on this in v4.
->
-> Could you please provide some commentary on why you're persisting with 
-> this ?
->
-> - Driver configuration should not live in dts
-> - A patchset exists to mitigate this
-> - If you don't want to use that series, what do you propose
->   to resolve this ?
->
-> Please don't just ignore feedback, either act on it or add to your 
-> commit log _why_ you didn't act on it.
->
-> ---
-> bod
+On Mon, Dec 16, 2024 at 10:00:47PM +0100, Andr� Apitzsch via B4 Relay wrote:
+> @@ -604,34 +568,23 @@ static int imx214_set_format(struct v4l2_subdev *sd,
+>  	struct v4l2_rect *__crop;
+>  	const struct imx214_mode *mode;
+>  
+> -	mutex_lock(&imx214->mutex);
+> -
+> -	__crop = __imx214_get_pad_crop(imx214, sd_state, format->pad,
+> -				       format->which);
+> -
+>  	mode = v4l2_find_nearest_size(imx214_modes,
+>  				      ARRAY_SIZE(imx214_modes), width, height,
+>  				      format->format.width,
+>  				      format->format.height);
+>  
+> -	__crop->width = mode->width;
+> -	__crop->height = mode->height;
+> +	imx214_update_pad_format(imx214, mode, &format->format,
+> +				 format->format.code);
+> +	__format = v4l2_subdev_state_get_format(sd_state, 0);
+>  
+> -	__format = __imx214_get_pad_format(imx214, sd_state, format->pad,
+> -					   format->which);
+> -	__format->width = __crop->width;
+> -	__format->height = __crop->height;
+> -	__format->code = IMX214_MBUS_CODE;
+> -	__format->field = V4L2_FIELD_NONE;
+> -	__format->colorspace = V4L2_COLORSPACE_SRGB;
+> -	__format->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(__format->colorspace);
+> -	__format->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
+> -				__format->colorspace, __format->ycbcr_enc);
+> -	__format->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(__format->colorspace);
+> +	*__format = format->format;
+>  
+> -	format->format = *__format;
+> +	__crop = v4l2_subdev_state_get_crop(sd_state, 0);
+> +	__crop->width = mode->width;
+> +	__crop->height = mode->height;
+>  
+> -	mutex_unlock(&imx214->mutex);
+> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> +		imx214->cur_mode = mode;
 
-  Thanks for your review. You pointed it out correctly. As replied in v4,
+While the patch is a major improvement as of now, it'd be nice to get rid
+of the cur_mode field. Could you instead obtai nthe mode using
+v4l2_find_nearest_size()?
 
-  I also think your change is a good change, but your change involves many
-
-  platforms. I am not sure if other guys have comments and when it will
-
-  pass the review. Currently, it only refers to SC7180 and falls back
-
-  QCS615 to SC7180. I have verified it on both SC7180 and QCS615 platforms.
-
-  I think when your change review passes, we only need to remove the
-
-  video-decoder and video-encoder nodes in the device tree.
+I'm fine with changing this in a new patch on top of the set.
 
 -- 
-Best Regards,
-Renjiang
+Regards,
 
+Sakari Ailus
 
