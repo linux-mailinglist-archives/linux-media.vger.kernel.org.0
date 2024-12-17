@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-23583-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23584-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001E39F4B23
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 13:41:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D54C89F4B43
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 13:52:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8EC77A2C72
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 12:41:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BDE4F16F4C8
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 12:52:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5002D1F3D25;
-	Tue, 17 Dec 2024 12:40:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 842A71F3D39;
+	Tue, 17 Dec 2024 12:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E8cuT/F6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GQRHhQWM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BBD1D47D9;
-	Tue, 17 Dec 2024 12:40:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99F61F03DE;
+	Tue, 17 Dec 2024 12:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734439254; cv=none; b=ukeuEYtRrPwBVeRAUEmiuUQJPMl3n9bExQvbA1YaMvLS+DNjMcKG/LnZQvMOwlRH3EeRRj4XNq68Fr6QTCZY85JXDMe1MybykO2WhfD3694hz8WCR7OwKSOAarm0BUiOhrzqhCV0SwSPhEQMgH4IvUZwbpU8sz7NLtBdNPD8v8Q=
+	t=1734439922; cv=none; b=aU8ceZ8rLr6graYVA/mCPGUTjrkZL6qVuvDUQJkZt5eW8Rc1DE0/a5AA+OpFSzppNEtFIBDpg3TosG4jYqEqB8XyNJYHmihofbXkeEgdtSHhOQDz+a2/4NLRLBLwQnrcjRj6IyHnFJqCSTsp5onF7OdWdaLbOq4pOL2m0P3o7hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734439254; c=relaxed/simple;
-	bh=C6DBk8Bx1ZkvBkjdBwFOR8MukUMLI9VfaOAdqdxA9VM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bRfMc4ULgH4frQY03+5uQcggea2tprKc/imlURaS/BHJzag2inMtk6e0/YPJ1A7TDfRMh/6cJYpZgdjLPNqxHE0pJNsVDlBbBpPQi0KfWWRP+b4cvZcdRYUclMn+d0Otmic66Cx6lgTHYyz/znVtOtmARGX+t97JbpPwcwqJfqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E8cuT/F6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19C09C4CED3;
-	Tue, 17 Dec 2024 12:40:49 +0000 (UTC)
+	s=arc-20240116; t=1734439922; c=relaxed/simple;
+	bh=I4FYDTyNIY5gLD94sPXnPj1vxlnXjSPz9Qn4hsE2jSQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P4TW/To3trLlA/Tf7qjeHp0ey3egM45VYMARzfHDj7l6x8pmd1qjnvHUBgnHE/V1ZQMzX1x0EekQmsUXTljinRqTtesDZ1a1Kjg2p/EOQQ5chOghpUZbKckxCfw+gA3aFYNzvefFvrZbqnkLp9SQQ5gc7ACg1wmxSIH99Tfzg3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GQRHhQWM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23DBC4CED3;
+	Tue, 17 Dec 2024 12:51:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734439254;
-	bh=C6DBk8Bx1ZkvBkjdBwFOR8MukUMLI9VfaOAdqdxA9VM=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=E8cuT/F6046bLgDwqS8JKRpdJBeLzPHrVzWk/rfp3VvB216v9TaWTCIIVCfX+Xrhd
-	 nWHJFaudkm84uFa+eNkEJaIaaFqpfLmhcmH9GwX04hllv9yRFVJfIzJv145gHmLPmb
-	 qrwtUcgPCuDBEO57h2UAuJF6BdP9OQvlQhJbkdx2VppuXnqT1P2+9y0xz/5dlO2k8q
-	 oKwrf7kBVuT3t7iixeOnEyV8vY5fPC6UjZbEq4LPOXUQRHifnYwfpG6HItlaswWmhy
-	 MTmnkPDSC4PPHT3H9z1O2GRXDDYF4LgsblhqBJfyL9XiNbeR216+NlsbydtsY5u2mi
-	 5KnyFzLGrnNAw==
-Message-ID: <f263bf9b-3227-46ef-b94b-25a7ddec68ca@kernel.org>
-Date: Tue, 17 Dec 2024 13:40:47 +0100
+	s=k20201202; t=1734439921;
+	bh=I4FYDTyNIY5gLD94sPXnPj1vxlnXjSPz9Qn4hsE2jSQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GQRHhQWMW2uHtCkjGCYFzAeppw/VMonWtunESwK28Ev+9IAgvTlxZbA8x1JTruyF9
+	 /wZtTBRZOaphsEBHjBwmefuLtcPn/Um4lLU1XB51YIvMkO2nt/GevXrDaaQunCJhuV
+	 9V9h5x5AtmoLiC96KRCny20dl2oaflP/vwyyXE47Ptm8Gdh7PxQWuob0RVYYsDsei2
+	 yQuUL0gz39n6sWdLFBP9GIETXPrwAuqNU+OjHw3PMU9RZWoi2xD5gYBosz70ZRXd7j
+	 HrBAiECpCOQFFG/9BO2+alHGWBi4tOCtP1iJSOooTfHGIOqHnQNX78WvPvWtfXx9UY
+	 DlKEEnwLlZzJQ==
+Message-ID: <7e50e257-9e13-4d32-8de9-8deb53fd30e4@kernel.org>
+Date: Tue, 17 Dec 2024 13:51:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,22 +50,21 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/4] dt-bindings: media: add support for video hardware
+Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: yuji2.ishikawa@toshiba.co.jp, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil-cisco@xs4all.nl, nobuhiro1.iwamatsu@toshiba.co.jp,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
+ <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
+ <04a7ebf7-2924-4894-bc53-ba77e2f64fae@kernel.org>
+ <TY3PR01MB99822E6161ED319B4DE855B492042@TY3PR01MB9982.jpnprd01.prod.outlook.com>
+ <d5294015-4790-490e-8136-615039a5c733@kernel.org>
+ <20241217094508.GD11445@pendragon.ideasonboard.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Renjiang Han <quic_renjiang@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>
-References: <20241217-add-venus-for-qcs615-v5-0-747395d9e630@quicinc.com>
- <20241217-add-venus-for-qcs615-v5-1-747395d9e630@quicinc.com>
- <aa4400bd-b838-42d6-a58e-1eb1c99af218@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -110,40 +109,71 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <aa4400bd-b838-42d6-a58e-1eb1c99af218@kernel.org>
+In-Reply-To: <20241217094508.GD11445@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17/12/2024 13:40, Krzysztof Kozlowski wrote:
-> On 17/12/2024 10:17, Renjiang Han wrote:
->> Add qcom,qcs615-venus compatible into qcom,sc7180-venus.yaml for the
->> video, and let qcom,qcs615-venus fallback to qcom,sc7180-venus on
->> QCS615 platform.
+On 17/12/2024 10:45, Laurent Pinchart wrote:
+> On Tue, Dec 17, 2024 at 06:43:22AM +0100, Krzysztof Kozlowski wrote:
+>> On 17/12/2024 01:00, yuji2.ishikawa@toshiba.co.jp wrote:
+>>> Hello Krzysztof
+>>>
+>>> Thank you for your review
+>>>
+>>>> -----Original Message-----
+>>>> From: Krzysztof Kozlowski <krzk@kernel.org>
+>>>> Sent: Monday, November 25, 2024 7:08 PM
+>>>> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
+>>>> <yuji2.ishikawa@toshiba.co.jp>; Laurent Pinchart
+>>>> <laurent.pinchart@ideasonboard.com>; Mauro Carvalho Chehab
+>>>> <mchehab@kernel.org>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+>>>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Sakari Ailus
+>>>> <sakari.ailus@linux.intel.com>; Hans Verkuil <hverkuil-cisco@xs4all.nl>;
+>>>> iwamatsu nobuhiro(岩松 信洋 ○ＤＩＴＣ□ＤＩＴ○ＯＳＴ)
+>>>> <nobuhiro1.iwamatsu@toshiba.co.jp>
+>>>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+>>>> linux-arm-kernel@lists.infradead.org; devicetree@vger.kernel.org
+>>>> Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
+>>>> Toshiba Visconti Video Input Interface
+>>>>
+>>>> On 25/11/2024 10:21, Yuji Ishikawa wrote:
+>>>>> Adds the Device Tree binding documentation that allows to describe the
+>>>>> Video Input Interface found in Toshiba Visconti SoCs.
+>>>>>
+>>>>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+>>>>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+>>>>
+>>>> Why this tag stayed and other was removed? What was the reason of tag
+>>>> removal?
+>>>>
+>>>
+>>> The stayed tag is due to internal review.
 >>
->> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
->> ---
-> Read that message fully.
+>> Did the internal review really happened? How is it that immediately new
+>> version has internal review without any traces?
+>>
+>> I have doubts this review happened in the context of reviewer's
+>> statement of oversight.
+>>
+>>> The removed tag is due to code's change (split of csi2rx part) after the last review.
+>>> If the code is largely changed following the instruction of another reviewer
+>>> after obtaining the tags, how should the tags be handled?
+>>
+>> Drop all reviews and perform reviews on the list.
+>>
+>> Such internal review appearing afterwards is rather a proof it you are
+>> adding just the tags to satisfy your process. I have no way to even
+>> verify whether that person performed any reasonable review or maybe just
+>> acked your patch.
+> 
+> How do you verify that for public reviews ?
 
-I meant, message in our previous discussion.
+By quality or amount of comments. Or timing. Or reviewing cover letter
+without any feedback on individual patches.
 
-> 
-> <form letter>
-> This is a friendly reminder during the review process.
-> 
-> It looks like you received a tag and forgot to add it.
-> 
-> If you do not know the process, here is a short explanation:
-> Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-> versions, under or above your Signed-off-by tag. Tag is "received", when
-> provided in a message replied to you on the mailing list. Tools like b4
-> can help here. However, there's no need to repost patches *only* to add
-> the tags. The upstream maintainer will do that for tags received on the
-> version they apply.
-> 
-> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-> 
-> If a tag was not added on purpose, please state why and what changed.
-> </form letter>
+There are many, many ways. Considering how many companies were adding
+fake manager-review-tags in the past (or fake SoBs), I am pretty picky
+on that.
 
 Best regards,
 Krzysztof
