@@ -1,134 +1,288 @@
-Return-Path: <linux-media+bounces-23601-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23602-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FE69F4DD4
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 15:34:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3669F4E04
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 15:40:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07316167515
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:33:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B1DA1885909
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 14:40:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A73F31F755B;
-	Tue, 17 Dec 2024 14:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AF421F63C8;
+	Tue, 17 Dec 2024 14:40:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y47Z/DhJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JK1BeZq3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2845A1F5435
-	for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 14:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74781F5402
+	for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 14:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734445948; cv=none; b=pOf02naSZIcf4BgrF0kDr99/ajEm0DLVDP5l3Cugl22pHB8mebqgN+oIWEw8/nZtWrpDpCZRIrBvDARAUd5CRZFRgZwYAX2wtT1L1LipM8xC8qKCizByAFcX7qZ3rPs5R/ShYIbJHZGOH+LjWHG2I4PkjbIlfY0YUCMdgAgU0Ns=
+	t=1734446417; cv=none; b=RttQ/RHJYSCe9mu9MIMW5zGnPpnZx62J+CjH/GU76HiIRPPHRQ9FzxzfYmW7OBBFjRGcdi5fOY63DQviUIDQgIu921lSyUoAOj27e0//HMslYZv9myzs23U+WNqQJEka8rFpGSDaEJib9wEGanphdEfEevTaUg+xdTsaftIZP/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734445948; c=relaxed/simple;
-	bh=3Ubj9tLOLeQOXJAw73fEpEnCWr2ogxKaByH+MeSQr5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l2SilaSyX0rlh4QUWmriQJ5/ImCDB+Wp37bwpOwgbF7r27NxP5nVg1YXsFc1eOi4S6PDFBawS5cNKiSbNERe8MmRzyWb97oFAlssObmgNRfAyMo4uAv94DFkzjPtj6p4IbeB7lsjZwCDYo1fhphCz3M1MXN0rRYiclVFV0oDCOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y47Z/DhJ; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1734446417; c=relaxed/simple;
+	bh=A1XIGvxeV2VFnVHx/hseqMs44z6j0pkz+jZmIS1lBRI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kzxPHYycCYtUjA6xPxnXESnuzk+tRCgC+GsP7tdg3l7ntIjRaofF9vV0kvlm4aNW0ePrKhMkFwg8DkHhMpmwym88l5zMmBssy9V2xUqbvWEuld/OoX1di3SPftPgUy7U5yovliUb94c6dO+z0DPKmOXCaF73kaSrd2ExG1RGNbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JK1BeZq3; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aa67f31a858so991077266b.2
-        for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 06:32:25 -0800 (PST)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53e384d00f4so898844e87.1
+        for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 06:40:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734445944; x=1735050744; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FJrjAGN0HBxyVLdP1Wdj0w8f0w665FhGinI5szPtW3o=;
-        b=Y47Z/DhJ/ZawksS9aw/4puqjA6jV6KY+B5PZZKOF0HQpngRyZWPPeDEpuu00QRuALf
-         fJ+bmbOterDM0fcPwYV7ttPq0bK3aw6oPlNDCEXJZc8jJFPGVhxobM5B0tPpbTT/5844
-         5OvntECEY9os94CkPk6Mbvze0BpcpTQAylHA3Lhp2eMg/oDqR2gCkK/SpC9uRVDU6hPX
-         8GkQ2wdLKGvcfeAGVfvKepWgFMzDy+deODm6IfKuCvlcTjegJecmjNW1Cu/K/lY1o4k2
-         2hjtwN5+0ynzEwLai6tutwo07Y0VvHE8s3SB7qno3EWk7g6sU3rb5IE2CzrIYNhUkwQ6
-         lfEQ==
+        d=linaro.org; s=google; t=1734446414; x=1735051214; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9YMcdH8avPXNZfQXLzQwJPKuLvhjYfkBvWblo32XnJE=;
+        b=JK1BeZq38goqQ2ScIjraNlI3hNTCaATKIyCplz7emQJ3p8YJaYfhCZMGEr0AHlYKKe
+         9UP3CSGccZSVJXhEphPIWxV+xYzVqZnYAyNjlr+AsC18h0AoTvZBspzhTVoTNFqSABA0
+         rag/TYLvsubt79BMkzg3WsNp6n2r7D/BNSTISVuFzk0V+jB4vpx6/OMY/AbJCeqFPlhy
+         pSHfFkaXCojy7JGcfeXY/eNnq3ttUTIQDM13vw/NdLeIJg98jjzdMq0ExHNxh/PZ0YCi
+         6BNpsykFYrYXZp+u4dvDNT+On9H1tX+nMiv6fM8KtSz0wLOFX8X7+bQatnkH2ophjjIc
+         MnnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734445944; x=1735050744;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FJrjAGN0HBxyVLdP1Wdj0w8f0w665FhGinI5szPtW3o=;
-        b=LtSF6Ll0EKNkiaWcmzT4mX1exeMZbdVsHQNBeR4/Ob4006ZKnh4okikFzLfrZfZGmw
-         UKew08Gwicgju2SXhdkK6smnAnmUCFne8K+x3z7yOBcAhwH4wiX9IFG3HkAoBZQFXgFg
-         QTwgIxTy9CwIHf4ok5aPA3+ChnlZHrtjWOnmPcVIQeKSoeMckC0ZhsLt27NrN6NVeIDh
-         Z+PhXskxvVoeG8QVBwQF+EJN0tFOZISDFDO9HMNqvM7WB4y2YM/Xh3HC7rEdWd2QtWh7
-         bZHBQpjTT81j9TcflczEH79zZWGW4BikpjuMEctle/mwx2vd0JJo7AG1hGgsLZQlUB3a
-         4+SQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXmypLFuyV3ro/i5GBLDaV1Ict52pH1UDyhK2UUoQ6h8cD8TKaYEssJcHb1pdIHTt8WIuh3ffH518vfig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQJqB4xswRU0AeTSu7WUdRuSan99qZkFTJUY1nsP5EySDNlLB/
-	8UQOWD2GZPgLSddGrrITVzYWBRsFGlshCEaVz3djZa+ROQrT7SCWNl6BR93dqno=
-X-Gm-Gg: ASbGncual772ISfHjZ+yZlrXNSN8TyWtu4XynG5r5mMRlnr6LP+CG4FYpBOcv232o8L
-	a5jERF5M62Xr6ZhDYAaqhMIJAbMj6f5qtvmupB+ckqai5XXY+Et6CnvcE/+MUYVuDjzUNJjy4Cv
-	2HyHzK7GbqJ7mKB5vcJXG3d0W3iTJG68RiDu9YXXldpetUf7PgBLlGwdEJniIKf6rxsLLQVYyvv
-	i61ekQDl6QzW+sScZPttOl7/EKQWdOPMb/a4xoZkgFFzeb18ykpVsArix2qlw==
-X-Google-Smtp-Source: AGHT+IH9x0pYrHktYnakoA5SgdP2YJuanKQlm2iIM2vaxC+YI5jUFTED5F+X3kttC5lV/fK+9yL3gA==
-X-Received: by 2002:a17:907:96a5:b0:aa6:9c08:cd3 with SMTP id a640c23a62f3a-aab77ec88d2mr1766174566b.48.1734445944410;
-        Tue, 17 Dec 2024 06:32:24 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab9600628asm455640466b.20.2024.12.17.06.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 06:32:24 -0800 (PST)
-Date: Tue, 17 Dec 2024 17:32:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-core: balance the refcount in the error path
- of __video_register_device()
-Message-ID: <7acd1758-1a3b-465a-b8eb-875a2f1cc18f@stanley.mountain>
-References: <20241214084853.1781426-1-joe@pf.is.s.u-tokyo.ac.jp>
+        d=1e100.net; s=20230601; t=1734446414; x=1735051214;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9YMcdH8avPXNZfQXLzQwJPKuLvhjYfkBvWblo32XnJE=;
+        b=eYEJfEP3jwRP1lzuqDFUGftuefKHdv+pBqsX4/wTjFP8WiyKkRPWunBf2h0OEIw2T4
+         0aF2HG01rS8ITGe820uCL3+zU8f8d/b3NZwo/BZ16TjfEIFuzpYWZvBih+qVFmXVzx0t
+         d46AzKH+x4ZjgUbfM29N9Pjon4IGNJurJE3aEvKhw1IrYjugyofpGBwPDNGdVCS0WZYT
+         XIiswTVw89MLdY96aTdTzeVRDIClKh/MUnvE2w5Es+Om+6bk/5lGFXRcms/wLtQgg9PM
+         vbGT/DqUoFpsm6W/tIfbtV2EQ/fGPGilWLfuUa9XHov9dL1kPsSl1ns4Ubbx6PoekOez
+         aTZw==
+X-Forwarded-Encrypted: i=1; AJvYcCWNyliclUN/r6DQfIWOdw3azFYDyo2qxyA5Xzc7dLG/lNao6M7sm0GT5LSUKIQreGifjdGzOY0Gacl9Rg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaEBXb8ZF4p4mGubwG+XdszhK5KNPu8GagL1ka3Lc++pBx0QLC
+	EqmfIMsaSwvAGY74YqNRcf7yfmIg5LxwpOEkbHs9nZcvKR4OCH0xU8DGdiDc7Ds=
+X-Gm-Gg: ASbGncv3aIuBAHj+OgOxfjdc/3ns2nZc8apm15k6SEzUTsb8USC9q7ZS7PkA34OLF5F
+	DNYvq9CTKmE5p/MU9PQnRJTpsjGr5KVBPVdD34lBs/VGVqIHKVhFXRdZZzws5BcOuS8XPNWjDBg
+	8UDkkAARTniaKlTjMNvhrZma4+k7Y6EYXdfi0f+gRq37XEek893j/JLYYFsm5oiLn5gQlfB/hrg
+	sBHIZTTdUXlXWeFN+QSHW0PtBYv4PSUpbX28JOIQpk+DgGjgsXj26r9qTduVBiTN0K8ct2ChloY
+	jES+NqWtrR5C1iNrV0Wzp7AyUQdzVz3MRYo=
+X-Google-Smtp-Source: AGHT+IHOWR0Y5fR+2uxPBxCjytt0LUgJIVwtzY4VhNEtFXNjP9j8AdE4VL7hkzuX+HhMism2gVrkcA==
+X-Received: by 2002:a05:6512:68c:b0:53e:3756:80b4 with SMTP id 2adb3069b0e04-54099b6d711mr1779475e87.12.1734446413951;
+        Tue, 17 Dec 2024 06:40:13 -0800 (PST)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120baa73csm1180366e87.101.2024.12.17.06.40.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Dec 2024 06:40:13 -0800 (PST)
+Message-ID: <22479c27-9265-4994-8974-9739ecbae5ee@linaro.org>
+Date: Tue, 17 Dec 2024 16:40:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241214084853.1781426-1-joe@pf.is.s.u-tokyo.ac.jp>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 4/4] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+Content-Language: ru-RU
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org,
+ konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20241217140656.965235-1-quic_vikramsa@quicinc.com>
+ <20241217140656.965235-5-quic_vikramsa@quicinc.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20241217140656.965235-5-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Dec 14, 2024 at 05:48:53PM +0900, Joe Hattori wrote:
-> When the device_register() in __video_register_device() fails, current
-> implementation does not decrement the refcount of the device which was
-> obtained in device_initialize(). Balance the refcount by calling
-> put_device() before jumping to the cleanup label.
+On 12/17/24 16:06, Vikram Sharma wrote:
+> The Vision Mezzanine for the RB3 ships with an imx577 camera sensor.
+> Enable the IMX577 on the vision mezzanine.
 > 
-> This bug was found by an experimental static analysis tool that I am
-> developing.
+> An example media-ctl pipeline for the imx577 is:
 > 
-> Fixes: 5bc3cb743bba ("[media] v4l: move v4l2 core into a separate directory")
-> Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+> media-ctl --reset
+> media-ctl -v -V '"imx577 '19-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+> media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> 
+> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+> 
+> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > ---
->  drivers/media/v4l2-core/v4l2-dev.c | 1 +
->  1 file changed, 1 insertion(+)
+>   arch/arm64/boot/dts/qcom/Makefile             |   4 +
+>   .../qcs6490-rb3gen2-vision-mezzanine.dtso     | 109 ++++++++++++++++++
+>   2 files changed, 113 insertions(+)
+>   create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index 5bcaeeba4d09..1e48778cd7de 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -1058,6 +1058,7 @@ int __video_register_device(struct video_device *vdev,
->  	mutex_lock(&videodev_lock);
->  	ret = device_register(&vdev->dev);
->  	if (ret < 0) {
-> +		put_device(&vdev->dev);
+> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+> index 4686f2a8ddd8..a7e88fcabded 100644
+> --- a/arch/arm64/boot/dts/qcom/Makefile
+> +++ b/arch/arm64/boot/dts/qcom/Makefile
+> @@ -115,6 +115,10 @@ dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-1000.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-4000.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs615-ride.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2.dtb
+> +
+> +qcs6490-rb3gen2-vision-mezzanine-dtbs := qcs6490-rb3gen2.dtb qcs6490-rb3gen2-vision-mezzanine.dtbo
+> +
+> +dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2-vision-mezzanine.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs8300-ride.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs8550-aim300-aiot.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs9100-ride.dtb
+> diff --git a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+> new file mode 100644
+> index 000000000000..7782c4aee576
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+> @@ -0,0 +1,109 @@
+> +// SPDX-License-Identifier: BSD-3-Clause
+> +/*
+> + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +/*
+> + * Camera Sensor overlay on top of rb3gen2 core kit.
+> + */
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/clock/qcom,camcc-sc7280.h>
 
-You're very brave.  ;)  I've looked at this before and concluded that it
-was better to leak.
+Please sort the header files alphabetically.
 
-For example, when this is called from zoran_init_video_device() via
-video_register_device() then the release function is zoran_vdev_release()
-which will free vdev.  So the goto cleanup will have use after frees.
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
 
-I don't think there is a way to fix some of this.
+Please put these two lines right after the comments header.
 
-regards,
-dan carpenter
+> +&camss {
+> +	vdda-phy-supply = <&vreg_l10c_0p88>;
+> +	vdda-pll-supply = <&vreg_l6b_1p2>;
+> +
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		/* The port index denotes CSIPHY id i.e. csiphy3 */
+> +		port@3 {
+> +			reg = <3>;
+> +
+> +			csiphy3_ep: endpoint {
+> +				clock-lanes = <7>;
+> +				data-lanes = <0 1 2 3>;
+> +				remote-endpoint = <&imx577_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&cci1 {
+> +	status = "okay";
+> +};
+> +
+> +&cci1_i2c1 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	camera@1a {
+> +		compatible = "sony,imx577";
+> +
+> +		reg = <0x1a>;
+> +
+> +		reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
+> +		pinctrl-names = "default", "suspend";
+> +		pinctrl-0 = <&cam2_default>;
+> +		pinctrl-1 = <&cam2_suspend>;
+> +
+> +		clocks = <&camcc CAM_CC_MCLK3_CLK>;
+> +		assigned-clocks = <&camcc CAM_CC_MCLK3_CLK>;
+> +		assigned-clock-rates = <24000000>;
+> +
+> +		dovdd-supply  = <&vreg_l18b_1p8>;
 
->  		mutex_unlock(&videodev_lock);
->  		pr_err("%s: device_register failed\n", __func__);
->  		goto cleanup;
-> -- 
-> 2.34.1
-> 
+Please remove double space before '='.
+
+> +		avdd-supply = <&vph_pwr>;
+> +		dvdd-supply = <&vph_pwr>;
+> +
+> +		port {
+> +			imx577_ep: endpoint {
+> +				clock-lanes = <7>;
+
+It is an invalid property/value of the sensor, please remove it.
+
+> +				link-frequencies = /bits/ 64 <600000000>;
+> +				data-lanes = <0 1 2 3>;
+
+data-lanes = <1 2 3 4>;
+
+> +				remote-endpoint = <&csiphy3_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&tlmm {
+> +	cam2_default: cam2-default-state {
+> +		mclk-pins {
+> +			pins = "gpio67";
+> +			function = "cam_mclk";
+> +			drive-strength = <2>;
+> +			bias-disable;
+> +		};
+> +
+> +		rst-pins {
+> +			pins = "gpio78";
+> +			function = "gpio";
+> +			drive-strength = <2>;
+> +			bias-disable;
+> +		};
+> +	};
+> +
+> +	cam2_suspend: cam2-suspend-state {
+> +		mclk-pins {
+> +			pins = "gpio67";
+> +			function = "cam_mclk";
+> +			drive-strength = <2>;
+> +			bias-pull-down;
+> +		};
+> +
+> +		rst-pins {
+> +			pins = "gpio78";
+> +			function = "gpio";
+> +			drive-strength = <2>;
+> +			bias-pull-down;
+> +			output-low;
+> +		};
+
+I have doubts that it's proper to embed a reset gpio into driver's
+pinctrl suspend/resume power management.
+
+Konrad, can you please confirm that it's really accepted?
+
+I'd rather ask to remove this reset pin control.
+
+> +	};
+> +};
+
+--
+Best wishes,
+Vladimir
 
