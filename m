@@ -1,124 +1,145 @@
-Return-Path: <linux-media+bounces-23581-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23582-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EF79F4ADA
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 13:20:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5319F4B1F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 13:40:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1CD56168404
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 12:20:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7A441891315
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 12:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B99B61F03F4;
-	Tue, 17 Dec 2024 12:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B4EA1F3D3F;
+	Tue, 17 Dec 2024 12:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3qL/SJJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7v/dRQU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5EF1D5CCC
-	for <linux-media@vger.kernel.org>; Tue, 17 Dec 2024 12:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697CA1D47D9;
+	Tue, 17 Dec 2024 12:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734438028; cv=none; b=GH9fX47CXuK9D2r/sArXsSxv3/7sDI5O9ZlR5awQS2GGqnqWP7IldiLzqYIxY/Dr2KlFlCQYt16RpmeQ/HONZC27OT/1S6SHKZlw7Vtmn9eo2osReaZq6ob4Br5vLoRBDSOZ1FhNDL/gow5eLmIMwZj/A5wGoLGhLSqBCUWmz+I=
+	t=1734439219; cv=none; b=gTS6Tq73RwbeFIgxsez96sJwVzr6LcMY/3UUr3iCRLwpgWekOeZTZphW2RLuyaM964jb+Szv6Zk98wd4iImRHtVfpxwWUJJsHl72GpIsFzFtbSAQ5zdVDZWKkD1y+NZXrzzoOCrAJ/xpEClrISlaneJWNpSfyt28REKuDCtFlMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734438028; c=relaxed/simple;
-	bh=pgrvOm70yaP5MhZqypdfS4TRo3mwCyEwVSURTICSpJI=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MIpHWD5J2aBrFYazIWYwyA3a9G1LHetrPkqMeGPpJMA5A7nskvosb2Ra8Sl38dJnySQGw06bdjDceUrkSfDLnHrqqLVLudfxXI926iK306AkTNdULN9yz3RRgio982VOSp0ukP2q+WqcrrrxOj0/1WnlneJ8Pl9RFyu1dMu44pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3qL/SJJ; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734438026; x=1765974026;
-  h=from:to:subject:in-reply-to:references:date:message-id:
-   mime-version;
-  bh=pgrvOm70yaP5MhZqypdfS4TRo3mwCyEwVSURTICSpJI=;
-  b=l3qL/SJJX3b8X68HhEnZqlAzC4P7t2b7DQdIcZwYHt1Y0Q3tHV0yl+Hk
-   mIXZkAiOY4grbpMMaJbUr5c8/Nn0vNuuZmyDxQ333FZh1nuNYDbFYw8c4
-   ANFMWBkieB8PDKinhfxhcMnoNkbd7w6V1u4wyQTat9tf4xZAoh/tx7y1e
-   aDJtAL5Bg3TQ/H41ys9iDUh1lcNqI/u6AV6eiqs0LVg3JC4x/+RpdQ2V+
-   cJfFGXLVZoYA22fMHb5H2eJCn7ojWQ5UZ+MALeY/472+yUfMnF/gpU0TW
-   ZOI8df3nTPBBEX2p2Q/fJGKgPeeHH8J1M6vZW1HZgkOTKYQc9dGyaDCbS
-   A==;
-X-CSE-ConnectionGUID: 7k3sZG19TJq9NOtB5zmpwg==
-X-CSE-MsgGUID: /rmptl4QRq+qc6/nl0DMwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="35008952"
-X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="35008952"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 04:20:25 -0800
-X-CSE-ConnectionGUID: O6imI1tqQnauxIX0fJkmJQ==
-X-CSE-MsgGUID: krQjFYYNQP66jHn+Q2upKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101660289"
-Received: from carterle-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.55])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 04:20:25 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: linux-media@vger.kernel.org
-Subject: Re: [v2] media: cec: include linux/debugfs.h and linux/seq_file.h
- where needed
-In-Reply-To: <676167d0.050a0220.cae6c.5009@mx.google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241217100024.1858704-1-jani.nikula@intel.com>
- <676167d0.050a0220.cae6c.5009@mx.google.com>
-Date: Tue, 17 Dec 2024 14:20:21 +0200
-Message-ID: <87o71aqz5m.fsf@intel.com>
+	s=arc-20240116; t=1734439219; c=relaxed/simple;
+	bh=c+2nN11SpmwykfvNiTZxUP+tdaucBAgLnhj7stWOeYE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u867xxEN4B/wBFMqZSdHAdoPh4/c2gD9LoaFJ8SMlBN8T4hykYtTH5NkSu6SlkpWgzqrjdz2WcqVdVyPmi+Dc2cFU9k2jEyl+ZQqqAJbZeECyLlELwfJl1XNehcCiE7bRiCb04cxyxlX09kEyZctYzbKhK6YOm3OMhH6n/elWn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7v/dRQU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E930DC4CED3;
+	Tue, 17 Dec 2024 12:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734439219;
+	bh=c+2nN11SpmwykfvNiTZxUP+tdaucBAgLnhj7stWOeYE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=u7v/dRQUutWCPYwwMw0y475GC80aZsD9ByturV+TE4FIIR+vl6uJYkrbmctSSYPK3
+	 pKC1hQnxmJrucXGVV0ZCRQv3eJXEJOqgfAKUeCrmcYHBeomPL7jRNXJIDWb6AmKTVL
+	 5oPBAle1eTelk7cg/PJRDfKkCM4wwAXH+4D0KPRts5c0qIluutpnJLDoYYOI6zw/wc
+	 tU5P1QfDNGWkZmzy1PUTNMHea6rNykM/Crj+g7JfEhyoby0pO3EohWzRV7GTkrmEaW
+	 5QPuo1p/BB5aMkNpEZvExRNrdGvePZt0LYwlJRWa0xzkhaOM5NoLNU6Uim6zVpjlr8
+	 H5rtxRAsvCJIA==
+Message-ID: <aa4400bd-b838-42d6-a58e-1eb1c99af218@kernel.org>
+Date: Tue, 17 Dec 2024 13:40:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/4] dt-bindings: media: add support for video hardware
+To: Renjiang Han <quic_renjiang@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>
+References: <20241217-add-venus-for-qcs615-v5-0-747395d9e630@quicinc.com>
+ <20241217-add-venus-for-qcs615-v5-1-747395d9e630@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241217-add-venus-for-qcs615-v5-1-747395d9e630@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 17 Dec 2024, Patchwork Integration <patchwork@media-ci.org> wrote:
-> Dear Jani Nikula:
->
-> Thanks for your patches! Unfortunately media-ci detected some issues:
->
-> # Test virtme64:test-virtme
-> Final Summary: 3607, Succeeded: 3607, Failed: 0, Warnings: 2
-> Warnings Found!
->
-> # Test media-patchstyle:./0001-media-cec-include-linux-debugfs.h-and-linux-seq_file.patch media style
-> WARNING: ./0001-media-cec-include-linux-debugfs.h-and-linux-seq_file.patch: Don't Cc hverkuil (Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>)
-> WARNING: ./0001-media-cec-include-linux-debugfs.h-and-linux-seq_file.patch: Don't Cc linux-media (Cc: linux-media@vger.kernel.org)
->
->
->
-> Please fix your series, and upload a new version. If you have a patchwork
-> account, do not forget to mark the current series as Superseded.
-
-Really? Just to drop Cc's?
-
-> For more details, check the full report at:
-> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/68302192/artifacts/report.htm .
->
->
->
-> Best regards, and Happy Hacking!
-> Media CI robot on behalf of the linux-media community.
->
+On 17/12/2024 10:17, Renjiang Han wrote:
+> Add qcom,qcs615-venus compatible into qcom,sc7180-venus.yaml for the
+> video, and let qcom,qcs615-venus fallback to qcom,sc7180-venus on
+> QCS615 platform.
+> 
+> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
 > ---
-> Check the latest rules for contributing your patches at:
-> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
+Read that message fully.
 
-Doesn't say anything about Cc's.
+<form letter>
+This is a friendly reminder during the review process.
 
-BR,
-Jani.
+It looks like you received a tag and forgot to add it.
 
->
-> If you believe that the CI is wrong, kindly open an issue at
-> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-> to this message.
->
+If you do not know the process, here is a short explanation:
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
 
--- 
-Jani Nikula, Intel
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
+
+Best regards,
+Krzysztof
 
