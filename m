@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-23533-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23534-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8711F9F4305
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 06:37:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D22009F4309
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 06:39:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 72F647A228C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 05:37:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3ABB1698CB
+	for <lists+linux-media@lfdr.de>; Tue, 17 Dec 2024 05:39:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8F09155393;
-	Tue, 17 Dec 2024 05:37:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72C75155CB3;
+	Tue, 17 Dec 2024 05:39:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3P9zts9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ILe50VH0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4161320B22;
-	Tue, 17 Dec 2024 05:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1C51361;
+	Tue, 17 Dec 2024 05:39:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734413826; cv=none; b=JMnZl66BGGg3axLUDy0toAmiLpsK25pQ9cE0JMCOHr0Nc3VLvSzI+qViWoIn48CiWg7np1mxpOHfXg/jLgx1szxi+XXIhkDGTmTGACEJzWxwwHC4fTs3V44c3H942SAy7ETq+6HWxyuhitFvQ2y9LqjficPlfxriPiOn0Ez5Aa0=
+	t=1734413955; cv=none; b=t1ktDfAJg8+1gIEEe6JtuuCtNMADXVOV9DblVD8wu6bbym4erYTd/ELVDgcx9DImrQBZwXTBbAs9p1qXjgJdruM9+XuC4H3CeyChQ571Lo/+AYwBaB5VkLsdH01vaxqeurq+boxhnzJIxOLWGCMmlnUVqM5RWXW3hsJVqhIxQGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734413826; c=relaxed/simple;
-	bh=543aNxMOvEVhXnG+s33Aztp+CppKhoHGZquTsZDNNK0=;
+	s=arc-20240116; t=1734413955; c=relaxed/simple;
+	bh=tqu7Z0ImV0mICFkBydV+d50QKxdqZ/2PTdCswVNZgNM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f6ET7F/PdlO1J+7TKTa64Yut9gzGb3MCuEDDlDinwJ32z+lQ1vtS61DfHoDrrbRpk/iEX9jw4CWEwt9m3BU74uiWp5ENjxlYO9Lr9V6D0lNk4kBAiJKJgbGwrJzzoo6Y1zhoCcDLAxvPDItDx0WnTk6bg2BJuAYUy5Vx0p3V+W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3P9zts9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9046AC4CED3;
-	Tue, 17 Dec 2024 05:36:59 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=K82aaTrV5dF2MRSEsOdisFamqjDAfuZSTlmi4i5q5VWdv7c1pBdukQLhE7s4a/kgUWdiCGxiG6dSNHwLDk7bR6aaILa/g+NBg3LG7bnQSVsiVx3NXdizmebnAhaHY/37hysl5NXszfoQUttzb363xparjExv8fBWCD7RICEQBPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ILe50VH0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AF8CC4CED3;
+	Tue, 17 Dec 2024 05:39:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734413825;
-	bh=543aNxMOvEVhXnG+s33Aztp+CppKhoHGZquTsZDNNK0=;
+	s=k20201202; t=1734413955;
+	bh=tqu7Z0ImV0mICFkBydV+d50QKxdqZ/2PTdCswVNZgNM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b3P9zts9U9/LTFCmpcXeEIAtntOebfr4+7PsWErlvBQyua2y8ttol7uKmf/CPuJiv
-	 kEqAOuP72aXHpGGvH2h+5pzcpLxGmD2JrPCNB2d0i5yk58bqbQCECDUGBjh8ZZ7wBC
-	 XXdTxAShkIA4gUeB0p/N0lFku+wBHYtyqmChmkBxHbHKNQ2Uf0VWxJLC4d7h+kQuxo
-	 TqeSz6k9Py3bzOgXHkf2NwZq11v5oGCJgmiI2DqwIrT5Joxw5meBoCxH+MiyuVTciq
-	 iqTtrTgkebzafUhXlw+AQmQ8OFSu9WdN0ZkDYYcVh5PFquHO+46SzNwv+Yhlfw86vi
-	 Clebg+QhhUVUw==
-Message-ID: <989ea1b0-fd15-4279-bf6d-36cc78831015@kernel.org>
-Date: Tue, 17 Dec 2024 06:36:57 +0100
+	b=ILe50VH0mKOFqAYZQP08uohC6xn+KEQNLmmdWe/VVRfBJnoZnQV9TUsXtzVccPm/i
+	 na0EmxFBKcUX4w23PawQLcijhr/WHXhYsMgAZL2pA2XPsbmnZr6VCypZ39BDoBiGFr
+	 fFn+/C29gk+RpmLzhEuekGApHA8jkgShHAETTJgmmWVJF8GthXn6P477IrvG37u1vX
+	 ZrdWkItP5pe9J73oWSpAGoeziR8EzsMc8tLvjNDH9CaW/oN34RFt7bWWwSBXKcXX9g
+	 G56sBSaG8f3sRWvCxvda0QU0Pc455lWT90wjwbpltbp8Ddw8U56cEQIEuzl4W7iBxX
+	 peq8bCVTJLvXQ==
+Message-ID: <b7bd87f8-d651-4d27-bfc7-040a5192f285@kernel.org>
+Date: Tue, 17 Dec 2024 06:39:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,20 +50,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/5] dt-bindings: display: tegra: Add actmon
- information
-To: Johnny Liu <johnliu@nvidia.com>
-Cc: airlied@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, krzk+dt@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-tegra@vger.kernel.org, luca.ceresoli@bootlin.com,
- maarten.lankhorst@linux.intel.com, mperttunen@nvidia.com,
- mripard@kernel.org, robh@kernel.org, simona@ffwll.ch,
- skomatineni@nvidia.com, thierry.reding@gmail.com, tzimmermann@suse.de
-References: <262c8d8f-f53c-455b-9bca-3440afb7bcd6@kernel.org>
- <20241217010806.15703-1-johnliu@nvidia.com>
-Content-Language: en-US
+Subject: Re: [PATCH v1 3/5] gpu: host1x: Support device monitoring with actmon
+To: Johnny Liu <johnliu@nvidia.com>, thierry.reding@gmail.com,
+ jonathanh@nvidia.com, skomatineni@nvidia.com, luca.ceresoli@bootlin.com,
+ mperttunen@nvidia.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241210174554.18869-1-johnliu@nvidia.com>
+ <20241210174554.18869-4-johnliu@nvidia.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -107,81 +106,64 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241217010806.15703-1-johnliu@nvidia.com>
+In-Reply-To: <20241210174554.18869-4-johnliu@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/12/2024 02:08, Johnny Liu wrote:
->> On 14/12/2024 00:29, Johnny Liu wrote:
->>>> On Tue, Dec 10, 2024 at 09:45:50AM -0800, Johnny Liu wrote:
->>>>> An activity monitor (actmon) is used to measure the device runtime
->>>>> utilization to help drive software power management policies.
->>>>>
->>>>> Extend the reg space to include actmon aperture for actmon configuration
->>>>> through host1x.
->>>>
->>>> We kind of see that from the diff. Say what we do not see, e.g. ABI
->>>> impact or why this is flexible/optional for existing devices.
->>>
->>> Since actmon is not well-supported for the previous chips (e.g. T210,
->>> T186, T194, and etc) in this patch series, it's essential to make the
->>> specification of regs property optional for the previous chips.
->>
->> Then your schema should express it.
-> 
-> Could you explicitly point out which part doesn't express it well?
-> 
+On 10/12/2024 18:45, Johnny Liu wrote:
 
-You said it should be optional for previous chip, while this is not made
-optional for previous chips. You made it optional for newest chips.
+> +
+> +static int host1x_actmon_sample_period_set(void *data, u64 val)
+> +{
+> +	struct host1x_actmon *actmon = (struct host1x_actmon *)data;
+> +
+> +	actmon->usecs_per_sample = (u32)val;
+> +	host1x_actmon_update_sample_period(actmon);
+> +
+> +	return 0;
+> +}
+> +
+> +DEFINE_SIMPLE_ATTRIBUTE(host1x_actmon_sample_period_fops,
+> +			host1x_actmon_sample_period_get,
+> +		host1x_actmon_sample_period_set,
+> +		"%lld\n");
+> +
+> +/**
+> + * host1x_actmon_debug_init - Initialize actmon debugfs
 
 
-> Considering old variant T194, the schema in this patch already made the
-> specification of actmon related properties optional.
-> 
-> If users specify actmon clock handle in clocks/clock-names properties:
-> 
->  host1x@13e00000 {
-> 	 compatible = "nvidia,tegra194-host1x";
-> 	 // ...
-> 	 clocks = <&bpmp TEGRA194_CLK_HOST1X>,
-> 		  <&bpmp TEGRA194_CLK_ACTMON>;
-> 	 clock-names = "host1x", "actmon";
-> 	 // ...
->  }
-> 
-> Running the dtbs_check will report error WITHOUT this patch will have
-> the following error:
-> 
-> $ make O=out ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.yaml
-> 
-> /out/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: host1x@13e00000: clocks: [[5, 46], [5, 1]] is too long
-> /out/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dtb: host1x@13e00000: clock-names: ['host1x', 'actmon'] is too long
-
-This is not the meaning of word "optional".
-
-> 
-> 
->>>
->>> Enablement/Disablement of actmon won't affect the host1x main functionality.
->>> Its main job is to monitor the engines behind the host1x and serve for
->>> telemetry purpose.
->>>
->>> I could update the commit message to include the above reason. Please
->>> let me know if more information is required.
->>
->> And fix the schema to make it optional only for older variants.
-> 
-> To maintain backward compatibility, shouldn't we keep the newly added
-> feature optional for all the variants?
-
-Yes, but it is about driver. Is it optional in the driver?
-
-Your binding says optional but driver says required and will fail. This
-does not make any sense in the context of this patch and even less in
-the context of your explanation.
+No, debugfs is only for debugging, not for usual interfaces. You now
+added several driver knobs bypassing any ABI documentation.
 
 
+> + * @actmon: the actmon instance being configured
+> + * @name: an unique name of the actmon
+> + *
+> + * There are multiple modules available inside the actmon, and they perform the
+> + * signal sampling at the same rate. The debugfs of an actmon will expose this
+> + * shared configuration, sample_period, via a debugfs node:
+> + * - sample_period:
+> + *   Sampling period in micro-second of modules inside the actmon
+> + */
+> +static void host1x_actmon_debug_init(struct host1x_actmon *actmon, const char *name)
+> +{
+> +	struct host1x *host = dev_get_drvdata(actmon->client->host->parent);
+> +
+> +	if (!host->debugfs) {
+> +		dev_warn(host->dev, "debugfs is unavailable\n");
+> +		return;
+> +	}
+> +
+> +	if (!host->actmon_debugfs)
+> +		host->actmon_debugfs = debugfs_create_dir("actmon", host->debugfs);
+> +
+> +	actmon->debugfs = debugfs_create_dir(name, host->actmon_debugfs);
+> +
+> +	/* R/W files */
+> +	debugfs_create_file("sample_period", 0644, actmon->debugfs, actmon,
+> +			    &host1x_actmon_sample_period_fops);
+> +}
+> +
 Best regards,
 Krzysztof
 
