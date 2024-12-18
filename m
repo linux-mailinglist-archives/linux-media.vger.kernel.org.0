@@ -1,86 +1,87 @@
-Return-Path: <linux-media+bounces-23724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7CC9F6EFD
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 21:39:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1989F6F18
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 22:00:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB52F16CAFF
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 20:39:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C939A7A063B
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 21:00:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 341A81FD7B3;
-	Wed, 18 Dec 2024 20:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14E7F1FCD1F;
+	Wed, 18 Dec 2024 21:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NscpxeZg"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xv0qTvrP"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C7B1FD780
-	for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 20:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CACB15697B
+	for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 21:00:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734554276; cv=none; b=Z6NoK82dqh7wBREui5CNykwbhcb0e+Fjg6NiFeCK98K0l5xTbLsfow1mwwTq7+CuWcpNJircqEXP120h3V9Lgu7ctBgItgKwEnqdAOtAkGjgU8GdB4Nnt+i3jQtYP8Rn1iUaHZnaI5g7zsV5Y17NQHjmQkbGJIjDkF49jSjYHJM=
+	t=1734555612; cv=none; b=FsPTLXrwJlapaHowbaarB0dDDkWmEGLI+9dn9eiH1i4yTSpUmdAo4XpPpKLu3xPqjuHlC+rzBR+Zf71WWsU3bCDSCpBYfaR7lwAFZE1CHEhZNq3qWR57ze+1pdJLNf609UTjf23ld/vPQF7vXxZxgqWHCXjY5BArKFXboXKy3HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734554276; c=relaxed/simple;
-	bh=ZUEOriu6wyrRJD3NC0C3Y6OHiftoxt+H/VeInbode/Y=;
+	s=arc-20240116; t=1734555612; c=relaxed/simple;
+	bh=xm+N4399mFYIHzw9eedogF9hojnXYDmuBZGGitRHAaY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hTSo/cw/Dw++rQjrde2M7248Vjbur+7jtjBkqP2TtOoiY3P85ALuzFqOTKRPzkEZZNuuM0Jp5v9nRguitJ7Zn2XZLVCnn085iCY4taFBOquxVZ6xUYzrvc4STHpw5ncO9+rpq5TZYadHLCCSBcu7KbAGv3e92m9EzYDoK6mHKHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NscpxeZg; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=JNR3qJMTWYeucimJekA+QjCqerP/cCv4K09gS5gTt4MY6eahh1F6KmDaYFczdglt++U7z6DYRRaArS2X04rR563Hokmj8K3abqyrucS6SgSYv4VGvXGYk2EZi7RaOGIXS9G85SKpd76Dw3SmmOl4NzfqJ/ksb5OTpggWeo7orY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xv0qTvrP; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734554273;
+	s=mimecast20190719; t=1734555609;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rmr7kmkRtT46M2vbpdR7BQazv7cPXz83H0MdF+TGqeY=;
-	b=NscpxeZgJmS4X1H+5msHIn/BWaW7lX6fkIze4h9rZqhue/NWTP3R8v5yifgWGgF2Dhu0sE
-	+40/4mKQy+wrWF7qDIv9gHOtFRFAILPXOcIUBjfLS2wTNQyZfYkKGtZI8Xf7ZD5r91Deow
-	Fj+2OY54Cgqs/mWq2Ram6tAbUrfdjnQ=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=sTczfp9I0Zdyk0QzGImg2ocdimCrqSL7GD6QoAN/Hjc=;
+	b=Xv0qTvrPa+5orubOHesg0bsjQ2QZGSmV0BLVwLJsvKKUlW3t7kVJm7XOVSvfZVl0/rxGJt
+	3Oklvza/a0m73LTuhW2zQVdasYGFuTxTiU2HYPNzQYJcprQgOfCuEvUMrfGoh55gryGgWj
+	53SGqv5u2oBthpQI7qalCwKnmGINKVs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-dGLtvaY7M9utLN_2CjXN3Q-1; Wed, 18 Dec 2024 15:37:49 -0500
-X-MC-Unique: dGLtvaY7M9utLN_2CjXN3Q-1
-X-Mimecast-MFC-AGG-ID: dGLtvaY7M9utLN_2CjXN3Q
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-aa683e90dd3so3355766b.3
-        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 12:37:49 -0800 (PST)
+ us-mta-90-ZRosIBrRNtSFPhhkQ5Gylw-1; Wed, 18 Dec 2024 16:00:07 -0500
+X-MC-Unique: ZRosIBrRNtSFPhhkQ5Gylw-1
+X-Mimecast-MFC-AGG-ID: ZRosIBrRNtSFPhhkQ5Gylw
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5d40db3d084so30155a12.3
+        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 13:00:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734554268; x=1735159068;
+        d=1e100.net; s=20230601; t=1734555607; x=1735160407;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rmr7kmkRtT46M2vbpdR7BQazv7cPXz83H0MdF+TGqeY=;
-        b=Z4oa9pWoGGCy5gRQyi3+n43vp0+pO3F1/PefEAlIlQ3kxF5J+sbKhvgofulxLbDUqF
-         yIYvCcr9ZXAs9CS5u3fGOrgd+HwSuteeQw+ZiNrkiL7hT7L5mdB9TKxzD/4pkh+QFKPX
-         BLH+AlK7JNSjygD28KF02yFFsugQJZC99jklL+wOWt3yJ1H4OIHAAV+Y1xqMOMffno1B
-         duc2bapTBcYsMjEmdsAwrZfFxFjFislttldZR1q7S2Z+06SzoZc97smTCH7lBjtfeEVk
-         Fq12cnZ8dwB0SJfmF1rf0BjIkvRpZUU+12dV/hOs9kclH9ZQepEphkKM/QyG/ixD3aUG
-         5/tQ==
-X-Gm-Message-State: AOJu0YySXDKkw5Gsj8zM72q19k/AjGm6bzhCMsnDv0cGzYPti8KSZKjf
-	EG5lqvxp0ijP59Vq/q57Zs8vjhdsN7SiGWdfDsktsdQlQbjq3qikOhrOIVIsxwPHTQIAcyg97S7
-	11q5ZyKzL8UNIQw/bE9gju/6ZPiHq/zQGdSdBInqUvQT7lp5C09Y74ztkWHzD
-X-Gm-Gg: ASbGncvGjer/mJPWl+R0uZzo0iPHakftNZcY95kCOCU52F91PMDUFFXdohWbyPhk7aP
-	avtbTkxsfMn2JNC+K5RcJ+B5hzhkhoOQpQLAm8mNuINvvnJAtXI/N3d5ugpaulhtcTXD8MhLywZ
-	UH1aHEBTxctWvcjl2mC/juP9Uq5nfr4FE2Q4QgMqt1ZiFLVIX/GYpVxolaVyE1nEkagE6qrw2xo
-	NvGfgYNZjF9bFai+u88heqQzjVWsQlwBsbc5SDPuCw/lPuUtNXg8H4yD0LFhLFEctP38y4n0zlp
-	+m/RZ/AYEgNAuVPG7CiIYdP9PUZZHqIGczELZjvCwqXm4wTimQGuz0rPjvko1uyHXEDo7r+Ixvh
-	nOplcB/Ht+LPGlvpqyv0aatTDSIQISB0=
-X-Received: by 2002:a17:906:318d:b0:aab:c6d6:62ac with SMTP id a640c23a62f3a-aabf44db48fmr352682666b.0.1734554268014;
-        Wed, 18 Dec 2024 12:37:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEKYwjZpsjF9GDtU7u3P+KkVfy+fiFcPTh9BGVYJtyNQW0cJ5S0lHHmnLlP1fk2ARqc3AndjQ==
-X-Received: by 2002:a17:906:318d:b0:aab:c6d6:62ac with SMTP id a640c23a62f3a-aabf44db48fmr352681466b.0.1734554267643;
-        Wed, 18 Dec 2024 12:37:47 -0800 (PST)
+        bh=sTczfp9I0Zdyk0QzGImg2ocdimCrqSL7GD6QoAN/Hjc=;
+        b=WNsiNwj+WLI8WBuCG9F3CEILsysIOZj+4kLRkFpRG1d4DVIT5OSN339e8LvBfUj2En
+         uuP2hoScBLAUsXQim0gUXuY1CJZ98y+qmNDo6+Z9+5LEPBcqr2yfmqgTBtBln22U2BLE
+         ca+895PSuEbIxicZHK9GbJnd119xSwigG+fdMuiEZeetLZSxO7//Z/0F83dh13D1YNZD
+         Fm6UcOBPvwOfpteiaBCDIcOV24wXjQCDmrDMJEHRWT/TMGoJiDYRCv6KH+EWUd3rdGJn
+         PWcpzOdBsbpeRxnP/zEUuQiY7QyW8ja7uFGv77bqeDBvVs+w0av5T8JWwy4c+ZXfHOUI
+         BQ/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWR5TZZLU5lKbLopXzfZ1daaFTSmnTpMqS7LgYoWEY3ac+gtaxGZS0maQmR/asmSUSMRVrZioG2xRjVxg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRneov0X59y3JoTXwquoPbvSdjy7DFm7HyWlql4JmV503QJ1vB
+	fh23qdcpY3g0UdVjxT59r4qdc+tXn012aYeNrnPPRZSrVE27s3l0rtgDKZ3clDQf0ROueQQoTJj
+	cJSMzHg8ovzkJohOjWo8OkyBN4mx96MCXY434EA186nRZfsocelHsp5Y2TAO0
+X-Gm-Gg: ASbGncubq2c53cy1KdUXUXpuFaFOUPfK13lfd4OICFeMg3ObX6QyjkiozlfHI3XRMIS
+	GfZarq6cmqPnqEiImxUTVhJg9nIdVkRNZDQ7p9omz0ugYyr+99uMu+MfkfX4UsRSj2zI5WNcUFa
+	u001sxDuyqQVIoC8b1s7lCjcuxPyW77Lt71H1c7n6BwIWg5IpYrajEg6H0OjlBjJGcPPO98HR3I
+	EBD6Reey3fOHHFaDVE+IZ6v2sY7ikaJQ52yeyLF4pXt5QXmxAPmHVpF6OcOrOSrcxTboHidDW1P
+	NkpjiFGxKsYkDY8qvS2h6O4S9FdtTwVx7BYbNPdDGr1hGFxeHyVQdwAkm6devnKSiYbJ7QKEy2h
+	kcbolmcBCyCKGXcgP4Ydc2qv5UrwQ+9E=
+X-Received: by 2002:a05:6402:5247:b0:5d0:ed92:cdf6 with SMTP id 4fb4d7f45d1cf-5d8025cad6cmr1446042a12.19.1734555606565;
+        Wed, 18 Dec 2024 13:00:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH3vyM92ln2EQgU2UGGD2yJivUXgy0iY/7TliRulvplcfSy714C5xevwPc1mof+HwCGSA+bRw==
+X-Received: by 2002:a05:6402:5247:b0:5d0:ed92:cdf6 with SMTP id 4fb4d7f45d1cf-5d8025cad6cmr1445979a12.19.1734555606123;
+        Wed, 18 Dec 2024 13:00:06 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab963c5489sm602543066b.186.2024.12.18.12.37.46
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d652f35365sm5953561a12.80.2024.12.18.13.00.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Dec 2024 12:37:47 -0800 (PST)
-Message-ID: <84b0f212-cd88-46bb-8e6f-b94ec3eccba6@redhat.com>
-Date: Wed, 18 Dec 2024 21:37:46 +0100
+        Wed, 18 Dec 2024 13:00:04 -0800 (PST)
+Message-ID: <2d45e2b3-5aad-4eb3-86b7-2f36a0824009@redhat.com>
+Date: Wed, 18 Dec 2024 22:00:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,67 +89,43 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] media: uvcvideo: Prepare deprecation of nodrop
+Subject: Re: [PATCH v16 17/18] media: uvcvideo: implement UVC v1.5 ROI
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241217-uvc-deprecate-v1-0-57d353f68f8f@chromium.org>
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Yunke Cao <yunkec@google.com>
+References: <20241210-uvc-roi-v16-0-e8201f7e8e57@chromium.org>
+ <20241210-uvc-roi-v16-17-e8201f7e8e57@chromium.org>
 Content-Language: en-US, nl
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241217-uvc-deprecate-v1-0-57d353f68f8f@chromium.org>
+In-Reply-To: <20241210-uvc-roi-v16-17-e8201f7e8e57@chromium.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Ricardo,
+Hi,
 
-Thank you for working on this.
+On 10-Dec-24 10:42 AM, Ricardo Ribalda wrote:
+> From: Yunke Cao <yunkec@google.com>
+> 
+> Implement support for ROI as described in UVC 1.5:
+> 4.2.2.1.20 Digital Region of Interest (ROI) Control
+> 
+> ROI control is implemented using V4L2 control API as
+> two UVC-specific controls:
+> V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
+> V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
+> 
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Yunke Cao <yunkec@google.com>
+> Reviewed-by: Yunke Cao <yunkec@google.com>
+> Tested-by: Yunke Cao <yunkec@google.com>
 
-On 17-Dec-24 10:06 PM, Ricardo Ribalda wrote:
-> We intend to deprecate the nodrop parameter in the future and adopt the
-> default behaviour of the other media drivers: drop invalid packages.
+Thank you for the new version, this looks good to me now:
 
-Actually the default behaviour of other media drivers is:
-
-"return buffers with an error to userspace with V4L2_BUF_FLAG_ERROR set
-in v4l2_buffer.flags".
-
-It is not "drop invalid packages". The commit messages of patch 1/3
-has some related unclear wording, please fix this.
-
-Looking at this I actually have found what arguably is a bug in
-the UVC driver when nodrop is set, or at least something which
-we must change before making nodrop=1 the default.
-
-Currently uvc_queue_buffer_complete() looks like this:
-
-static void uvc_queue_buffer_complete(struct kref *ref)
-{
-        struct uvc_buffer *buf = container_of(ref, struct uvc_buffer, ref);
-        struct vb2_buffer *vb = &buf->buf.vb2_buf;
-        struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
-
-        if ((queue->flags & UVC_QUEUE_DROP_CORRUPTED) && buf->error) {
-                uvc_queue_buffer_requeue(queue, buf);
-                return;
-        }
-
-        buf->state = buf->error ? UVC_BUF_STATE_ERROR : UVC_BUF_STATE_DONE;
-        vb2_set_plane_payload(&buf->buf.vb2_buf, 0, buf->bytesused);
-        vb2_buffer_done(&buf->buf.vb2_buf, VB2_BUF_STATE_DONE);
-}
-
-Notice how the last line does not propagate buf->error to the
-videobuf2 code, so when nodrop=1 is set then buffers with errors
-are not only returned to userspace, they are returned to userspace
-without V4L2_BUF_FLAG_ERROR getting set in v4l2_buffer.flags .
-
-The right thing to do in this case is to set V4L2_BUF_FLAG_ERROR
-IOW the last line of uvc_queue_buffer_complete() should be changed to:
-
-        vb2_buffer_done(&buf->buf.vb2_buf, buf->error ? VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
-
-And this should probably be the first patch in a v2 series for this.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
 
@@ -157,7 +134,206 @@ Hans
 
 
 
-
-
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 81 ++++++++++++++++++++++++++++++++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   |  7 ++++
+>  include/uapi/linux/usb/video.h     |  1 +
+>  include/uapi/linux/uvcvideo.h      | 13 ++++++
+>  include/uapi/linux/v4l2-controls.h |  7 ++++
+>  5 files changed, 109 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index dd6129becf58..86ea24b10b54 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -358,6 +358,24 @@ static const struct uvc_control_info uvc_ctrls[] = {
+>  		.flags		= UVC_CTRL_FLAG_GET_CUR
+>  				| UVC_CTRL_FLAG_AUTO_UPDATE,
+>  	},
+> +	/*
+> +	 * UVC_CTRL_FLAG_AUTO_UPDATE is needed because the RoI may get updated
+> +	 * by sensors.
+> +	 * "This RoI should be the same as specified in most recent SET_CUR
+> +	 * except in the case where the ‘Auto Detect and Track’ and/or
+> +	 * ‘Image Stabilization’ bit have been set."
+> +	 * 4.2.2.1.20 Digital Region of Interest (ROI) Control
+> +	 */
+> +	{
+> +		.entity		= UVC_GUID_UVC_CAMERA,
+> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
+> +		.index		= 21,
+> +		.size		= 10,
+> +		.flags		= UVC_CTRL_FLAG_SET_CUR | UVC_CTRL_FLAG_GET_CUR
+> +				| UVC_CTRL_FLAG_GET_MIN | UVC_CTRL_FLAG_GET_MAX
+> +				| UVC_CTRL_FLAG_GET_DEF
+> +				| UVC_CTRL_FLAG_AUTO_UPDATE,
+> +	},
+>  };
+>  
+>  static const u32 uvc_control_classes[] = {
+> @@ -603,6 +621,44 @@ static const struct uvc_control_mapping *uvc_ctrl_filter_plf_mapping(
+>  	return out_mapping;
+>  }
+>  
+> +static int uvc_get_rect(struct uvc_control_mapping *mapping, u8 query,
+> +			const void *uvc_in, size_t v4l2_size, void *v4l2_out)
+> +{
+> +	const struct uvc_rect *uvc_rect = uvc_in;
+> +	struct v4l2_rect *v4l2_rect = v4l2_out;
+> +
+> +	if (WARN_ON(v4l2_size != sizeof(struct v4l2_rect)))
+> +		return -EINVAL;
+> +
+> +	if (uvc_rect->left > uvc_rect->right ||
+> +	    uvc_rect->top > uvc_rect->bottom)
+> +		return -EIO;
+> +
+> +	v4l2_rect->top = uvc_rect->top;
+> +	v4l2_rect->left = uvc_rect->left;
+> +	v4l2_rect->height = uvc_rect->bottom - uvc_rect->top + 1;
+> +	v4l2_rect->width = uvc_rect->right - uvc_rect->left + 1;
+> +
+> +	return 0;
+> +}
+> +
+> +static int uvc_set_rect(struct uvc_control_mapping *mapping, size_t v4l2_size,
+> +			const void *v4l2_in, void *uvc_out)
+> +{
+> +	struct uvc_rect *uvc_rect = uvc_out;
+> +	const struct v4l2_rect *v4l2_rect = v4l2_in;
+> +
+> +	if (WARN_ON(v4l2_size != sizeof(struct v4l2_rect)))
+> +		return -EINVAL;
+> +
+> +	uvc_rect->top = min(0xffff, v4l2_rect->top);
+> +	uvc_rect->left = min(0xffff, v4l2_rect->left);
+> +	uvc_rect->bottom = min(0xffff, v4l2_rect->top + v4l2_rect->height - 1);
+> +	uvc_rect->right = min(0xffff, v4l2_rect->left + v4l2_rect->width - 1);
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>  	{
+>  		.id		= V4L2_CID_BRIGHTNESS,
+> @@ -897,6 +953,28 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>  		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+>  		.filter_mapping	= uvc_ctrl_filter_plf_mapping,
+>  	},
+> +	{
+> +		.id		= V4L2_CID_UVC_REGION_OF_INTEREST_RECT,
+> +		.entity		= UVC_GUID_UVC_CAMERA,
+> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
+> +		.size		= sizeof(struct uvc_rect) * 8,
+> +		.offset		= 0,
+> +		.v4l2_type	= V4L2_CTRL_TYPE_RECT,
+> +		.data_type	= UVC_CTRL_DATA_TYPE_RECT,
+> +		.get		= uvc_get_rect,
+> +		.set		= uvc_set_rect,
+> +		.name		= "Region Of Interest Rectangle",
+> +	},
+> +	{
+> +		.id		= V4L2_CID_UVC_REGION_OF_INTEREST_AUTO,
+> +		.entity		= UVC_GUID_UVC_CAMERA,
+> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
+> +		.size		= 16,
+> +		.offset		= 64,
+> +		.v4l2_type	= V4L2_CTRL_TYPE_BITMASK,
+> +		.data_type	= UVC_CTRL_DATA_TYPE_BITMASK,
+> +		.name		= "Region Of Interest Auto Controls",
+> +	},
+>  };
+>  
+>  /* ------------------------------------------------------------------------
+> @@ -1473,6 +1551,9 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
+>  
+>  static size_t uvc_mapping_v4l2_size(struct uvc_control_mapping *mapping)
+>  {
+> +	if (mapping->v4l2_type == V4L2_CTRL_TYPE_RECT)
+> +		return sizeof(struct v4l2_rect);
+> +
+>  	if (uvc_ctrl_mapping_is_compound(mapping))
+>  		return DIV_ROUND_UP(mapping->size, 8);
+>  
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 8aca1a2fe587..17b79108599f 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -538,6 +538,13 @@ struct uvc_device_info {
+>  	u16	uvc_version;
+>  };
+>  
+> +struct uvc_rect {
+> +	u16 top;
+> +	u16 left;
+> +	u16 bottom;
+> +	u16 right;
+> +} __packed;
+> +
+>  struct uvc_status_streaming {
+>  	u8	button;
+>  } __packed;
+> diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
+> index 2ff0e8a3a683..2afb4420e6c4 100644
+> --- a/include/uapi/linux/usb/video.h
+> +++ b/include/uapi/linux/usb/video.h
+> @@ -104,6 +104,7 @@
+>  #define UVC_CT_ROLL_ABSOLUTE_CONTROL			0x0f
+>  #define UVC_CT_ROLL_RELATIVE_CONTROL			0x10
+>  #define UVC_CT_PRIVACY_CONTROL				0x11
+> +#define UVC_CT_REGION_OF_INTEREST_CONTROL		0x14
+>  
+>  /* A.9.5. Processing Unit Control Selectors */
+>  #define UVC_PU_CONTROL_UNDEFINED			0x00
+> diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
+> index f86185456dc5..cbe15bca9569 100644
+> --- a/include/uapi/linux/uvcvideo.h
+> +++ b/include/uapi/linux/uvcvideo.h
+> @@ -16,6 +16,7 @@
+>  #define UVC_CTRL_DATA_TYPE_BOOLEAN	3
+>  #define UVC_CTRL_DATA_TYPE_ENUM		4
+>  #define UVC_CTRL_DATA_TYPE_BITMASK	5
+> +#define UVC_CTRL_DATA_TYPE_RECT		6
+>  
+>  /* Control flags */
+>  #define UVC_CTRL_FLAG_SET_CUR		(1 << 0)
+> @@ -38,6 +39,18 @@
+>  
+>  #define UVC_MENU_NAME_LEN 32
+>  
+> +/* V4L2 driver-specific controls */
+> +#define V4L2_CID_UVC_REGION_OF_INTEREST_RECT	(V4L2_CID_USER_UVC_BASE + 1)
+> +#define V4L2_CID_UVC_REGION_OF_INTEREST_AUTO	(V4L2_CID_USER_UVC_BASE + 2)
+> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE		(1 << 0)
+> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS			(1 << 1)
+> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE		(1 << 2)
+> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS			(1 << 3)
+> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT		(1 << 4)
+> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK	(1 << 5)
+> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION	(1 << 6)
+> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY		(1 << 7)
+> +
+>  struct uvc_menu_info {
+>  	__u32 value;
+>  	__u8 name[UVC_MENU_NAME_LEN];
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 974fd254e573..72e32814ea83 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -215,6 +215,13 @@ enum v4l2_colorfx {
+>   */
+>  #define V4L2_CID_USER_THP7312_BASE		(V4L2_CID_USER_BASE + 0x11c0)
+>  
+> +/*
+> + * The base for the uvc driver controls.
+> + * See linux/uvcvideo.h for the list of controls.
+> + * We reserve 64 controls for this driver.
+> + */
+> +#define V4L2_CID_USER_UVC_BASE			(V4L2_CID_USER_BASE + 0x11e0)
+> +
+>  /* MPEG-class control IDs */
+>  /* The MPEG controls are applicable to all codec controls
+>   * and the 'MPEG' part of the define is historical */
+> 
 
 
