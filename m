@@ -1,56 +1,57 @@
-Return-Path: <linux-media+bounces-23745-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23746-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CB79F70C6
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 00:27:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B00B9F70C8
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 00:27:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B509B188DD70
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 23:27:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 699307A177E
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 23:27:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90B7E1FDE11;
-	Wed, 18 Dec 2024 23:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEAE51FDE2E;
+	Wed, 18 Dec 2024 23:27:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WvpGykAy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MBbs+NGJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D171FD782;
-	Wed, 18 Dec 2024 23:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E9B1FD782;
+	Wed, 18 Dec 2024 23:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734564428; cv=none; b=PKqb0XxpdoX8i4cAFB59n4u7K91SCKfdqrRtAG0ju7Xmi23lRjwVcul+yneU6l+PtcHyt4K1GR9zsZSrKnXtNhBaeX/ssMINjumkialL3Gkt8Wlx+HOLoklli1C9ex6nGi8MJ2JsU6jVrHOSNS/pqSM4+GdUkKCnAbLYjl6ubSk=
+	t=1734564437; cv=none; b=lv0Qvgto6ci/CnhDyqqIJjvRopCbV1W3SXxWpL6Kwk9iTK+vDKVKEHY178bY+ZXxxWP4GpI/pOK979ZjhaHP09HV9CnBHCcd9Z/XNCIkONm9eWscMs1S7rGOko+7DQu/KkJq9p9CF7DAFOAjg+TpQYHKcA+ZnxDRkWucKWZXlWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734564428; c=relaxed/simple;
-	bh=AtsspskQvufY0O2Q03UtWbHp+z/wmxDgSGs8gaZKEvw=;
+	s=arc-20240116; t=1734564437; c=relaxed/simple;
+	bh=Ln8Ipf/RLxvZkZxye0avu9JQ9CrALysB6jfN8SgOExo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hShX9wtgT1jMy4tjeMh++C+FT2uW3+lRNgNqJfEIQ5J0bFwWo8d6sRUZPjSyCfJdyOoHjwsdIk1rncycQAXhnxQeCGyKvMNw9gWGZ0BPoxU2UZ8HEHnfWMGRlUHGDsvMU1SYXeUOMtoMioesFIbBAHCJd+38ebAYbE87Vu872w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WvpGykAy; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=XuEYyH+VShHo4ycT5XfKMoFPei/q6k4DhxTABI2n7vBAuoDbXpyQtzvIkiLBFsOCyzQT31hdxIFDpZGF7ZYlEHnzLYFS3qnF9JLKVtaSTcXEXSeubeQg5TbFawpCsIgNtZRGZq0cFWLT1YbFv5N3VYJmzUGmE3CMRmvjZa9hPUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MBbs+NGJ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A37C4163;
-	Thu, 19 Dec 2024 00:26:26 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 315A7163;
+	Thu, 19 Dec 2024 00:26:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734564386;
-	bh=AtsspskQvufY0O2Q03UtWbHp+z/wmxDgSGs8gaZKEvw=;
+	s=mail; t=1734564396;
+	bh=Ln8Ipf/RLxvZkZxye0avu9JQ9CrALysB6jfN8SgOExo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WvpGykAy8IyNfEEJchFnlliZKAGuKWumaOYHdt9b4HGExv7MYMJowVUhr8tO3JcPo
-	 CERqhocTMi6VZ94M+yZsAksKF2EqyDyx1TFAnTShRUkp82iqOIKDPNRiDykWRLcfZY
-	 8a5sF3/0dm+9iy4JtA+P5et4TL3iLiPnNU4jxd/4=
-Date: Thu, 19 Dec 2024 01:27:01 +0200
+	b=MBbs+NGJtC8LcYlxU8t3Qcm5+2SrzRZtaEZP7uD6Cpzk8pBVJew1rTFNHjXJeBXL5
+	 bKN1A93/e/Wt570R9gaATDg3LAO8pCKbcNCyQ4cDScsPWulbTN98cmtYL/NGAP+Nrj
+	 6NZHYxMNUxkSRNgxkDOwYGa9N3d2ebrEsCEQsUIU=
+Date: Thu, 19 Dec 2024 01:27:11 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] media: uvcvideo: Allow changing noparam on the fly
-Message-ID: <20241218232701.GC5518@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 4/4] media: uvcvideo: Announce the user our
+ deprecation intentions
+Message-ID: <20241218232711.GD5518@pendragon.ideasonboard.com>
 References: <20241218-uvc-deprecate-v2-0-ab814139e983@chromium.org>
- <20241218-uvc-deprecate-v2-3-ab814139e983@chromium.org>
+ <20241218-uvc-deprecate-v2-4-ab814139e983@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,105 +60,59 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241218-uvc-deprecate-v2-3-ab814139e983@chromium.org>
+In-Reply-To: <20241218-uvc-deprecate-v2-4-ab814139e983@chromium.org>
 
-On Wed, Dec 18, 2024 at 09:39:10PM +0000, Ricardo Ribalda wrote:
-> Right now the parameter value is read during video_registration and
-> cannot be changed afterwards, despite its permissions 0644, that makes
-> the user believe that the value can be written.
+Hi Ricardo,
 
-Well, it can still be written, and will apply to new devices. There's
-value in making it fully dynamic though.
+Thank you for the patch.
 
+On Wed, Dec 18, 2024 at 09:39:11PM +0000, Ricardo Ribalda wrote:
+> If the user sets the nodrop parameter, print a deprecation warning once.
+> Hopefully they will come to the mailing list if it is an ABI change.
 > 
-> The parameter only affects the beviour of uvc_queue_buffer_complete(),
-
-s/beviour/behaviour/
-
-> with only one check per buffer.
-> 
-> We can read the value directly from uvc_queue_buffer_complete() and
-> therefore allowing changing it with sysfs on the fly.
+> Now that we have a callback, take this chance to parse the parameter as
+> a boolean. We still say to userspace that it is a uint to avoid ABI
+> changes.
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 2 +-
->  drivers/media/usb/uvc/uvc_queue.c  | 6 ++----
->  drivers/media/usb/uvc/uvcvideo.h   | 4 +---
->  3 files changed, 4 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 091145743872..10812a841587 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -1995,7 +1995,7 @@ int uvc_register_video_device(struct uvc_device *dev,
->  	int ret;
->  
->  	/* Initialize the video buffers queue. */
-> -	ret = uvc_queue_init(queue, type, !uvc_no_drop_param);
-> +	ret = uvc_queue_init(queue, type);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index f8464f0aae1b..2ee142621042 100644
-> --- a/drivers/media/usb/uvc/uvc_queue.c
-> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -208,8 +208,7 @@ static const struct vb2_ops uvc_meta_queue_qops = {
->  	.stop_streaming = uvc_stop_streaming,
->  };
->  
-> -int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
-> -		    int drop_corrupted)
-> +int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type)
->  {
->  	int ret;
->  
-> @@ -239,7 +238,6 @@ int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
->  	mutex_init(&queue->mutex);
->  	spin_lock_init(&queue->irqlock);
->  	INIT_LIST_HEAD(&queue->irqqueue);
-> -	queue->flags = drop_corrupted ? UVC_QUEUE_DROP_CORRUPTED : 0;
->  
->  	return 0;
->  }
-> @@ -472,7 +470,7 @@ static void uvc_queue_buffer_complete(struct kref *ref)
->  	struct vb2_buffer *vb = &buf->buf.vb2_buf;
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
->  
-> -	if ((queue->flags & UVC_QUEUE_DROP_CORRUPTED) && buf->error) {
-> +	if (buf->error && !uvc_no_drop_param) {
-
-As this is the only location where the uvc_no_drop_param variable is
-read, I don't expect any race condition.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  		uvc_queue_buffer_requeue(queue, buf);
->  		return;
->  	}
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 07f9921d83f2..ebbd8afcf136 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -316,7 +316,6 @@ struct uvc_buffer {
->  };
->  
->  #define UVC_QUEUE_DISCONNECTED		(1 << 0)
-> -#define UVC_QUEUE_DROP_CORRUPTED	(1 << 1)
->  
->  struct uvc_video_queue {
->  	struct vb2_queue queue;
-> @@ -674,8 +673,7 @@ extern struct uvc_driver uvc_driver;
->  struct uvc_entity *uvc_entity_by_id(struct uvc_device *dev, int id);
->  
->  /* Video buffers queue management. */
-> -int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
-> -		   int drop_corrupted);
-> +int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type);
->  void uvc_queue_release(struct uvc_video_queue *queue);
->  int uvc_request_buffers(struct uvc_video_queue *queue,
->  			struct v4l2_requestbuffers *rb);
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 10812a841587..d8e8675dd2cd 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2424,8 +2424,25 @@ module_param_call(clock, uvc_clock_param_set, uvc_clock_param_get,
+>  MODULE_PARM_DESC(clock, "Video buffers timestamp clock");
+>  module_param_named(hwtimestamps, uvc_hw_timestamps_param, uint, 0644);
+>  MODULE_PARM_DESC(hwtimestamps, "Use hardware timestamps");
+> -module_param_named(nodrop, uvc_no_drop_param, uint, 0644);
+> +
+> +static int param_set_nodrop(const char *val, const struct kernel_param *kp)
+> +{
+> +	pr_warn_once("uvcvideo: "
+> +		     DEPRECATED
+> +		     "nodrop parameter will be eventually removed.\n");
+> +	return param_set_bool(val, kp);
+> +}
+> +
+> +static const struct kernel_param_ops param_ops_nodrop = {
+> +	.set = param_set_nodrop,
+> +	.get = param_get_uint,
+> +};
+> +
+> +param_check_uint(nodrop, &uvc_no_drop_param);
+> +module_param_cb(nodrop, &param_ops_nodrop, &uvc_no_drop_param, 0644);
+> +__MODULE_PARM_TYPE(nodrop, "uint");
+>  MODULE_PARM_DESC(nodrop, "Don't drop incomplete frames");
+> +
+>  module_param_named(quirks, uvc_quirks_param, uint, 0644);
+>  MODULE_PARM_DESC(quirks, "Forced device quirks");
+>  module_param_named(trace, uvc_dbg_param, uint, 0644);
 
 -- 
 Regards,
