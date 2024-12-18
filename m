@@ -1,77 +1,78 @@
-Return-Path: <linux-media+bounces-23730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23731-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC9F9F6FA0
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 22:41:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB3C9F6FA1
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 22:41:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 750521881D29
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 21:40:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3972B1890B83
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 21:41:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEFC71FE462;
-	Wed, 18 Dec 2024 21:39:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71B891FECA2;
+	Wed, 18 Dec 2024 21:39:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="oS/MOZa5"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZSnYYNwd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE2C1FDE2C
-	for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 21:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339501FE44D
+	for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 21:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734557970; cv=none; b=WzmGaqS69QT0nWWSBK2XUIJM8Ujit7+b9XE+G/vhKZu88PDuoc18gzgDBS5sSSWoeCe2AZQbkVPEEzqVd/ss3guWw+Am1MdnGNagsxX1b8G6dnAjSfAbT7Pju4CMfCn+ANc9Vo1P7Sb7/IglhwLpeyurO25+5t7z07gppAKcZrQ=
+	t=1734557971; cv=none; b=MRpjGMVkCIehuewuxRc2sDq6edlsqlSmO/MZZhb4RB9mXoGW7gxrNuS+XTYolp/nsxrMS39j7IvyXV9GVxeVB2jOYwHJBJg+npgO9PDY5SHurd3wDc1AHQhkGUIaSlYWrGgnwU3fRiVNc/UUdNuqe5l2T/JWbMDui6LX5jXN2rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734557970; c=relaxed/simple;
-	bh=qyRuVIeUYyOK0Q3PlRcwjQXuqSyYOCeaRPkUH3obUhU=;
+	s=arc-20240116; t=1734557971; c=relaxed/simple;
+	bh=DhBuuSW9MUIQpcqfUsKuLLo1g4KmmcRnk8ucnEiFIdI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pGIiMgER+tUVT9fUQDE+OWZ3lEG5e7nG6BOVK7MbjkGW5u4xBb3XgSgtszCDfWjWPPDdF7bOui1XaoFEsKlgxOpZUMGACUIXp4I16NPh8jZWuSSefKSe2djc9uQeezkCHWNarvIoF9sWeDzXCKcGc1ySMH9nMnMnxn4vopp1GHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=oS/MOZa5; arc=none smtp.client-ip=209.85.160.178
+	 In-Reply-To:To:Cc; b=S5SIbJN5Qaw0f6HpBSwga2XCxvg9mxSfKp16cCo6YblfKkfvwlnpW+11dA7WMGIXp8M9IUplnSZ4NPF2xIykyxCZoHUYRoWT4V2FayzRcdbiPxu5cXclUuieY8jJ2bZq7kx9L49yp1MMvEXwyNbG5/T28i3odTAKKI4Zq8s2cxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZSnYYNwd; arc=none smtp.client-ip=209.85.160.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-46772a0f85bso395371cf.3
-        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 13:39:28 -0800 (PST)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-467918c360aso704551cf.0
+        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 13:39:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1734557967; x=1735162767; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1734557969; x=1735162769; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Xf/EiHgc9x+QegkQdQE1ivkIRei7ICvkT+RDLhyzgnI=;
-        b=oS/MOZa5afkdSu7++ElAHkZX5yAWwbJnFC7zQPogl97LjcmlMYLcdHsRR5Y39oJ3rr
-         zzgRoFjaAYSlxEFx3zoYpe6AyCksEIC3pqtXqffoC943/cZGukA9K/3ifcQQyAgt09IV
-         XLE5Ki+TF16YFp/YNXnC4sKTPCRdTfhnxzY4s=
+        bh=vcx11cNcczSAZshcCeyKTXI0xmNNHV+eiS3phSI5Ghw=;
+        b=ZSnYYNwdPIr4Wmj3UL1BsGELGijOmIV5DfmbfAL2LpOdRlpVDw/f73fVXd5YzJzC6x
+         kIBNzFdmLgMgzO0rVEho+O0vHrLbebcNiFlLl+gS/wLoBD1psCPZ8Ob26ZDxqn7BEvAu
+         EGgNfp6hLWBUYm+PjU/bpSwSi8UQF6Pn6L5hw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734557967; x=1735162767;
+        d=1e100.net; s=20230601; t=1734557969; x=1735162769;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Xf/EiHgc9x+QegkQdQE1ivkIRei7ICvkT+RDLhyzgnI=;
-        b=FXwJBn4TsaYmKf1PBLM7UkDjiAC8h+594L+8QdWqa0vvy6bBr+m1hI2X0qPf7iYKdo
-         qymBDyBpjCQkPYonKziNZbBUxv5ft+U8DeIKN+D11Z9oPsZ1RN2HlUYkVWIpgf4Ja1Vr
-         hhHG1lc547AkjY21MW/YTDHxDUZQ4RmsRaqmuc06xq7Hl8QAl/c+S+5xEp+OnmpcqF/d
-         597ETZ+q1KNjfSnKrZezWl8RrWyhfsTwTmLD47wGt+nFRhT0PG2Ch4mMmmOHaedB4lgC
-         kU1es9VBJv7e+Ua/Qs7y9aRqm93iasEOP+0JDpL7ZubCwH2RH+18CMOKNDay0C/dAtUY
-         BZFA==
-X-Gm-Message-State: AOJu0YwgXvXdh6De44tjCVxjWFk/WbnhjzONw+P+ZTJ5QZObLmC23zJ7
-	JYbqmKp0wXQCPLbQyeV9D/TDfdY7gyGih9TgHbnoR6LXlWLipRRJCGQ96wCJJjXRXMwx/wO6h3I
+        bh=vcx11cNcczSAZshcCeyKTXI0xmNNHV+eiS3phSI5Ghw=;
+        b=dlK5Ggbj9MLRiBjmqXp3oIR33EGe/DNVLfzxJE8FVBEnoXqiMQuipDqAMJB9nIKRoH
+         SaUgBYQpIAZJmIs5csLUKBkMRaUBEtVC8aeO18kzCYrzkyxHTnXZKti13uhRIzJyn9ca
+         n4leNX86R8ptVcXOKdxhVnwa+WDKQXZb1NH8VMXoD7qzaI9f6AOozxLqJM3J2DPApIo7
+         /Zmztp9KKfj0BgsrCyTHcyr4YG2bzprsbmYLQrVEBpYgFizN9//KkSpAsKnrvJW62eQ7
+         /P5slsdJly3sRmJkZrcbiBIL4CwDLF5PZFivtbCT020nTbAOt1NSF38lyGrkNVh7zakV
+         mN3w==
+X-Gm-Message-State: AOJu0YyL9vGJbFi2DS2/wpxnMWsPjiMgmmPfM2/vExa867fLJVu9hj3P
+	U/U8Eq5m/uziEwyqX/JjCW9HneFdN+N7i/0bPq6e3BeX9YLUzFMF3KmC+tUnEAgp4wUU26V329E
 	=
-X-Gm-Gg: ASbGncsnc34Oh//TUaoDA6EAgupz8YTcPmWe6jDT/cn2FWTxYqt4uKeTzOEt7A1Kwws
-	Mg0s0T9nbiv7bY47udUflbHEKyz8qI90ibbY+PT44dMnsqiUJMzihbnPJtaspKGORPgBcxwhiI7
-	aj1WJKbYKY0oYZb5/QQ2xr6hdv+A5ovDSOhp5pEmlJGvSKfR/7/KI6gmbYMVrMSuEkhjXS77AnQ
-	6ZzRPxM5djGDdeDEo35MB/PysWrJauE+g5+dmivxHxUjFfAyhVZruD17rbJEb7ZdJ2iXU4sDY/a
-	tz8LUiOxCroRVRNWJ0xbSpDVVlWv5xo=
-X-Google-Smtp-Source: AGHT+IGkLS9CMqZYLYYP5mdA8pjf23N/QyaWNYPecd0D7EIeWJo2+DJRQufGdZrMAa+2pzD2K1+kHg==
-X-Received: by 2002:ac8:5782:0:b0:467:5ea8:83df with SMTP id d75a77b69052e-46908e03aeamr61025111cf.30.1734557967098;
-        Wed, 18 Dec 2024 13:39:27 -0800 (PST)
+X-Gm-Gg: ASbGncuhtGJIq0xTA4pWWlTWdEeim5pdDYELjeU9V6/MRz8oOow/s+yl/rZr60l5RE2
+	atTre5kIs0zAuMbFXroIdh0yOX9simpe3aCerVaAj/3VXJaueez04rncm0ufTfNTWRMbJoR8eYl
+	KXAFrRUgC6xQtXqi3eOdsAgVH/u3kHKSimwe0x5fdIJ8VfJct0K5Y0DCLQoN49TjNbORlsTCmrQ
+	OL8Geu7XoJSXGCV7tFp9D7lWhkRnLDxecwDvHGmMEii1yTohksl6hIIiuG/TDMxxz6yNGi1TSIN
+	UW34ffBtwTXS0e1CDcTL9XqhF7OWDMw=
+X-Google-Smtp-Source: AGHT+IHAFG2tbIFDyqlrvTJzXNQ7OmWJs8w6/+hb962JqnaH0dxvvp85RBnT6p4L5Azr1IBWby2OuQ==
+X-Received: by 2002:a05:622a:309:b0:467:54f4:737b with SMTP id d75a77b69052e-46908e1ed90mr61838381cf.25.1734557968851;
+        Wed, 18 Dec 2024 13:39:28 -0800 (PST)
 Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-467b2c6e312sm55176651cf.8.2024.12.18.13.39.24
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-467b2c6e312sm55176651cf.8.2024.12.18.13.39.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 13:39:25 -0800 (PST)
+        Wed, 18 Dec 2024 13:39:27 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 18 Dec 2024 21:39:08 +0000
-Subject: [PATCH v2 1/4] media: uvcvideo: Propagate buf->error to userspace
+Date: Wed, 18 Dec 2024 21:39:09 +0000
+Subject: [PATCH v2 2/4] media: uvcvideo: Invert default value for nodrop
+ module param
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,7 +81,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241218-uvc-deprecate-v2-1-ab814139e983@chromium.org>
+Message-Id: <20241218-uvc-deprecate-v2-2-ab814139e983@chromium.org>
 References: <20241218-uvc-deprecate-v2-0-ab814139e983@chromium.org>
 In-Reply-To: <20241218-uvc-deprecate-v2-0-ab814139e983@chromium.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -90,32 +91,35 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.13.0
 
-Now we return VB2_BUF_STATE_DONE for valid and invalid frames. Propagate
-the correct value, so the user can know if the frame is valid or not via
-struct v4l2_buffer->flags.
+The module param `nodrop` defines what to do with frames that contain an
+error: drop them or sending them to userspace.
 
-Reported-by: Hans de Goede <hdegoede@redhat.com>
-Closes: https://lore.kernel.org/linux-media/84b0f212-cd88-46bb-8e6f-b94ec3eccba6@redhat.com
-Fixes: 6998b6fb4b1c ("[media] uvcvideo: Use videobuf2-vmalloc")
+The default in the rest of the media subsystem is to return buffers with
+an error to userspace with V4L2_BUF_FLAG_ERROR set in v4l2_buffer.flags.
+In UVC we drop buffers with errors by default.
+
+Change the default behaviour of uvcvideo to match the rest of the
+drivers and maybe get rid of the module parameter in the future.
+
+Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_queue.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/usb/uvc/uvc_driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-index 26ee85657fc8..f8464f0aae1b 100644
---- a/drivers/media/usb/uvc/uvc_queue.c
-+++ b/drivers/media/usb/uvc/uvc_queue.c
-@@ -479,7 +479,8 @@ static void uvc_queue_buffer_complete(struct kref *ref)
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index b3c8411dc05c..091145743872 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -32,7 +32,7 @@
  
- 	buf->state = buf->error ? UVC_BUF_STATE_ERROR : UVC_BUF_STATE_DONE;
- 	vb2_set_plane_payload(&buf->buf.vb2_buf, 0, buf->bytesused);
--	vb2_buffer_done(&buf->buf.vb2_buf, VB2_BUF_STATE_DONE);
-+	vb2_buffer_done(&buf->buf.vb2_buf, buf->error ? VB2_BUF_STATE_ERROR :
-+							VB2_BUF_STATE_DONE);
- }
- 
- /*
+ unsigned int uvc_clock_param = CLOCK_MONOTONIC;
+ unsigned int uvc_hw_timestamps_param;
+-unsigned int uvc_no_drop_param;
++unsigned int uvc_no_drop_param = 1;
+ static unsigned int uvc_quirks_param = -1;
+ unsigned int uvc_dbg_param;
+ unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
 
 -- 
 2.47.1.613.gc27f4b7a9f-goog
