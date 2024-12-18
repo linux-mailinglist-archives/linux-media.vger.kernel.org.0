@@ -1,1096 +1,1254 @@
-Return-Path: <linux-media+bounces-23715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083589F6B51
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 17:37:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7CD9F6B62
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 17:42:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDB56189874B
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 16:37:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7276188C584
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 16:42:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 992AB1F6683;
-	Wed, 18 Dec 2024 16:36:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F0481F7096;
+	Wed, 18 Dec 2024 16:41:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Epc3gYgt"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qrDoHchI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668051F543B
-	for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 16:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FBF14AD0E;
+	Wed, 18 Dec 2024 16:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734539803; cv=none; b=bF1JUBWJZWCDdmpRYDb/r57HmO1noujyQL2xBx6pLyEsioZa/olhRN6IFXcbOW56L+Uh2tSX9m/W+A474w4ui+WZGQqVWigOwr6tOJSkzl9orGeWJFdYEITsyjbu57LEm2CxPohBFmBHsBN+t3d373QS1BtHxPs7b9ysyi7d4Go=
+	t=1734540117; cv=none; b=kIDSRib/TBEag5OOJFx/dr99SH+dTYVYnkTl84rSRRiwCvuSuRaCrw8MhRLCTAclyCOw1eOxuNVAkhNwVKOaCcaLDoesM3ZISNmF40yoDuUuKdq9ToraLpf1Z3SQeVNY/YRhxqN5Wr53AY+5KNqRWhcO2xCtmJ2u1WnfRtjTfwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734539803; c=relaxed/simple;
-	bh=Lkmm3Q7UWRbpjY3WOvcOtA+TyaBXzfzGsQ3d5NO7BII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n6aEPxANEnBWSR3atsxZ/uC+Bv63dNP+3oucQazKJKp8NmldQivP9HX1bjEKrYST2+oq9oHfZHGQE6kzEjEfoetTMs50cb7To/jAm5GAD18I9j6i7ZpibJaAD9QtaYYqHqmp9/Vrrld2662r3uPa9yrlGq4D/cIDYWsEi5hBggY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Epc3gYgt; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6905E59D;
-	Wed, 18 Dec 2024 17:35:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734539758;
-	bh=Lkmm3Q7UWRbpjY3WOvcOtA+TyaBXzfzGsQ3d5NO7BII=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Epc3gYgt6ZPbwptK0Yq3os5YzTZjTeYpiWvLX+f2imNolD4Us7+jx70K3NbmhlRYP
-	 vpfG42wKLhc7vtx+uTaLNTAj0ZAlOnhvGvg2R+tTGjsIGQ5ty4w3cbu8VLPrH4kEKV
-	 meK0rUBjKxUNnl8UMCrKVrq4L86i4V/Y5Zp4vtCc=
-Date: Wed, 18 Dec 2024 17:36:33 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: "duanek@chorus.net" <duanek@chorus.net>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org
-Subject: Re: IPU6 Camera with ov08x40 (OVTI08F4 sensor) HP Spectre 16" Meteor
- Lake doesn't work
-Message-ID: <3csrwld4fbhg7fg7v4dm4fccvxkracxuwj6y7k5z7k7t5zpeha@qfgr6pmzyg6f>
-References: <1594170563.10937137.1728935697496.JavaMail.zimbra@chorus.net>
- <361614030.100297606.1734530611240.JavaMail.zimbra@chorus.net>
- <vb66ls2rs5fnr2yj2b5wktccevmrcwq4gztlh4vtezc6hej4vm@dtduyfphcezx>
- <1385342589.100511352.1734536762106.JavaMail.zimbra@chorus.net>
- <45xboahdow6gy7uanhrdsiln3zxcu4xdy7hew3usqtgurf7byj@wl7gvzgtzg5s>
- <1626527939.100593578.1734539132976.JavaMail.zimbra@chorus.net>
+	s=arc-20240116; t=1734540117; c=relaxed/simple;
+	bh=O/oZ8ebNq4J1cBxay8QRPM5JvnEQFn3jyYFj9eGwUMY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=L72HfOsZAGLExId1oKK8TMs3xVkqIU2XlpWg0Bvfga1g4U9MX7QgpINz2nHrQ3RP94wCTWfT/DqVlyHdegwZYyXftRh6kpPps3JZubGpNJkte2vsLpsGOYlNopbRbTG50lHINhB7vJsevYK+M4hXNCZWQFYvbC+ZJR/q/09LRi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qrDoHchI; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1734540112;
+	bh=O/oZ8ebNq4J1cBxay8QRPM5JvnEQFn3jyYFj9eGwUMY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=qrDoHchIViQNxhDOfJ0GaNUncaFS0Jg9+eOrqR2T8W7eZZNuQjajpZiyorrebToXW
+	 mO74czx+51YXkhq5XHzDHejkQiQAnYb3O85csmlFLpQEOLHhrCIsUqItR7VsOtCc9c
+	 T+Cdn58VE2RVyq8INadAv2CtNnXJ34WKUZCX411JwJOz9v6gABVSUjCfN0RrR21LdU
+	 a9n1K/A7qDoRv9AZ82ek73sSZFA1O6N7yrCNOWioXMtI2QdZSeR3CRyPY7db4fL/vM
+	 AbxEk2okDEex7JCoHkkMoXsbde4bl8jP/iKJuBlg5FQbHxfQlNDfKVeX7fh4SQcPWP
+	 ZR2RqUrfV4gNg==
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DD7C117E37BB;
+	Wed, 18 Dec 2024 17:41:50 +0100 (CET)
+Message-ID: <c142d04b3d5d46a147785f7d669b688f119bcd14.camel@collabora.com>
+Subject: Re: [PATCH v1 3/5] media: chips-media: wave5: Improve performance
+ of decoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"	
+ <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
+ <hverkuil-cisco@xs4all.nl>,  "sebastian.fricke@collabora.com"	
+ <sebastian.fricke@collabora.com>, "bob.beckett@collabora.com"	
+ <bob.beckett@collabora.com>, "dafna.hirschfeld@collabora.com"	
+ <dafna.hirschfeld@collabora.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "lafley.kim" <lafley.kim@chipsnmedia.com>,  "b-brnich@ti.com"	
+ <b-brnich@ti.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung	
+ <nas.chung@chipsnmedia.com>
+Date: Wed, 18 Dec 2024 11:41:49 -0500
+In-Reply-To: <SE1P216MB13032410EC44F7487315E83DED052@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+References: <20241209053654.52-1-jackson.lee@chipsnmedia.com>
+		 <20241209053654.52-4-jackson.lee@chipsnmedia.com>
+	 <408e6fb2460a75a8fc9eca6bb753dfb21def1ac3.camel@collabora.com>
+	 <SE1P216MB13032410EC44F7487315E83DED052@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1626527939.100593578.1734539132976.JavaMail.zimbra@chorus.net>
+Content-Transfer-Encoding: 8bit
 
-Hi Duane
+Hi Jackson,
 
-On Wed, Dec 18, 2024 at 11:25:32AM -0500, duanek@chorus.net wrote:
-> Dear Jacopo,
->
-> Thanks for forwarding to libcamera - I'm a newbie and am not sure who all should be involved.
->
-> When I specify the camera, I get:
-> duane@DuanesSpectre16:~/cameratest$ LIBCAMERA_LOG_LEVELS=0 qcam -c"\_SB_.PC00.LNK0"
+Le mercredi 18 décembre 2024 à 05:05 +0000, jackson.lee a écrit :
+> Hi Nicolas
+> 
+> Yes, this patch is very complex in order to review.
+> So I will split this patch to three patch sets.
+> 
+> 1. Main patch to improve performance of decoder.
+>     As you know, the previous code's flow was driver has to wait until getting a decoded frame after feeding a bitstream, then next bitstream was fed into a firmware.
+>     To archive goal, we needed to work asynchronously between output and capture queue.
+>     So we had to remove the v4l2_m2m_job_finish from wave5_vpu_dec_finish_decode and had to put it into the device_run to handle decoding. 
+> 
+> 2. Since applying changes for performance improvement of decoder, we had a problem related to high CPU load,
+>     CPU load was more than 4 times when comparing CPU load between the previous and current code.
+>     The root cause was the device_run was called many times even if there was no bitstream which should be queued.
 
-You need '-C' to tell qcam you want to capture and how many frames
+This needs changes in job_ready() ops, which is what decide if the device must
+run or not. It seems difficult to do 2. separately from 1. though, but perhaps
+you can do that before 1.
 
-qcam --help might help
+> 
+> 3. Fix Null reference while testing fluster with more than 2 decoders.
+>     When multi instances are created/destroyed, many interrupts happens or structures for decoder are removed.
+>     "struct vpu_instance" this structure is shared for all flow in decoder, so if the structure is not protected by lock, Null reference exception could happens sometimes.
+>     IRQ Handler was spilt to two phases and Lock was added as well.
 
-> [2:42:26.057450553] [29471] DEBUG IPAModule ipa_module.cpp:333 ipa_ipu3.so: IPA module /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so is signed
-> [2:42:26.057555621] [29471] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA module '/usr/local/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so'
-> [2:42:26.057657128] [29471] DEBUG IPAModule ipa_module.cpp:333 ipa_soft_simple.so: IPA module /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so is signed
-> [2:42:26.057679142] [29471] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA module '/usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so'
-> [2:42:26.057753046] [29471]  INFO Camera camera_manager.cpp:327 libcamera v0.3.2+240-936a099e
-> [2:42:26.057820003] [29488] DEBUG Camera camera_manager.cpp:73 Starting camera manager
-> [2:42:26.064137023] [29488] DEBUG DeviceEnumerator device_enumerator.cpp:230 New media device "intel-ipu6" created from /dev/media0
-> [2:42:26.065419467] [29488] DEBUG DeviceEnumerator device_enumerator_udev.cpp:96 Defer media device /dev/media0 due to 1 missing dependencies
-> [2:42:26.065544818] [29488] DEBUG DeviceEnumerator device_enumerator_udev.cpp:322 All dependencies for media device /dev/media0 found
-> [2:42:26.065552508] [29488] DEBUG DeviceEnumerator device_enumerator.cpp:258 Added device /dev/media0: intel-ipu6
-> [2:42:26.065764796] [29488] DEBUG Camera camera_manager.cpp:140 Found registered pipeline handler 'ipu3'
-> [2:42:26.065932776] [29488] DEBUG Camera camera_manager.cpp:140 Found registered pipeline handler 'simple'
-> [2:42:26.065961800] [29488] DEBUG DeviceEnumerator device_enumerator.cpp:318 Successful match for media device "intel-ipu6"
-> [2:42:26.066013314] [29488] DEBUG SimplePipeline simple.cpp:1585 Sensor found for /dev/media0
-> [2:42:26.066363804] [29488] DEBUG SimplePipeline simple.cpp:424 Found capture device Intel IPU6 ISYS Capture 0
-> [2:42:26.066432874] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Exposure (0x00980911)
-> [2:42:26.066533156] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Horizontal Flip (0x00980914)
-> [2:42:26.066552146] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Vertical Flip (0x00980915)
-> [2:42:26.066564186] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Camera Orientation (0x009a0922)
-> [2:42:26.066598398] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Camera Sensor Rotation (0x009a0923)
-> [2:42:26.066607749] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Vertical Blanking (0x009e0901)
-> [2:42:26.066615496] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Horizontal Blanking (0x009e0902)
-> [2:42:26.066624456] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Analogue Gain (0x009e0903)
-> [2:42:26.066632496] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Link Frequency (0x009f0901)
-> [2:42:26.066642252] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Pixel Rate (0x009f0902)
-> [2:42:26.066650208] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Test Pattern (0x009f0903)
-> [2:42:26.066661024] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Digital Gain (0x009f0905)
-> [2:42:26.066898310] [29488] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036': Unable to get rectangle 2 on pad 0/0: Inappropriate ioctl for device
-> [2:42:26.066913149] [29488]  WARN CameraSensor camera_sensor_legacy.cpp:401 'ov08x40 4-0036': The PixelArraySize property has been defaulted to 3856x2416
-> [2:42:26.066919954] [29488] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036': Unable to get rectangle 1 on pad 0/0: Inappropriate ioctl for device
-> [2:42:26.066925838] [29488]  WARN CameraSensor camera_sensor_legacy.cpp:412 'ov08x40 4-0036': The PixelArrayActiveAreas property has been defaulted to (0, 0)/3856x2416
-> [2:42:26.066933317] [29488] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036': Unable to get rectangle 0 on pad 0/0: Inappropriate ioctl for device
-> [2:42:26.066938196] [29488]  WARN CameraSensor camera_sensor_legacy.cpp:420 'ov08x40 4-0036': Failed to retrieve the sensor crop rectangle
-> [2:42:26.066942687] [29488]  WARN CameraSensor camera_sensor_legacy.cpp:426 'ov08x40 4-0036': The sensor kernel driver needs to be fixed
-> [2:42:26.066947226] [29488]  WARN CameraSensor camera_sensor_legacy.cpp:428 'ov08x40 4-0036': See Documentation/sensor_driver_requirements.rst in the libcamera sources for more information
-> [2:42:26.067684243] [29488]  WARN CameraSensorProperties camera_sensor_properties.cpp:458 No static properties available for 'ov08x40'
-> [2:42:26.067693564] [29488]  WARN CameraSensorProperties camera_sensor_properties.cpp:460 Please consider updating the camera sensor properties database
-> [2:42:26.067741878] [29488] DEBUG CameraSensor camera_sensor.cpp:401 Entity 'ov08x40 4-0036' matched by CameraSensorLegacy
-> [2:42:26.067778580] [29488] DEBUG SimplePipeline simple.cpp:491 Found pipeline: [ov08x40 4-0036|0] -> [0|Intel IPU6 CSI2 0|1] -> [0|Intel IPU6 ISYS Capture 0]
-> [2:42:26.067916324] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Exposure (0x00980911)
-> [2:42:26.067935252] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Horizontal Flip (0x00980914)
-> [2:42:26.067945617] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Vertical Flip (0x00980915)
-> [2:42:26.067954256] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Camera Orientation (0x009a0922)
-> [2:42:26.067966526] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Camera Sensor Rotation (0x009a0923)
-> [2:42:26.067975684] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Vertical Blanking (0x009e0901)
-> [2:42:26.067985047] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Horizontal Blanking (0x009e0902)
-> [2:42:26.067993028] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Analogue Gain (0x009e0903)
-> [2:42:26.068007396] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Link Frequency (0x009f0901)
-> [2:42:26.068017686] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Pixel Rate (0x009f0902)
-> [2:42:26.068027135] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Test Pattern (0x009f0903)
-> [2:42:26.068038204] [29488] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036': Control: Digital Gain (0x009f0905)
-> [2:42:26.068090416] [29488] DEBUG V4L2 v4l2_videodevice.cpp:631 /dev/video0[28:cap]: Opened device : isys: ipu6
-> [2:42:26.068226108] [29488] DEBUG DmaBufAllocator dma_buf_allocator.cpp:106 Failed to open /dev/dma_heap/linux,cma: No such file or directory
-> [2:42:26.068234837] [29488] DEBUG DmaBufAllocator dma_buf_allocator.cpp:106 Failed to open /dev/dma_heap/reserved: No such file or directory
-> [2:42:26.068241699] [29488] DEBUG DmaBufAllocator dma_buf_allocator.cpp:112 Using /dev/dma_heap/system
-> [2:42:26.070251295] [29488] DEBUG IPAManager ipa_manager.cpp:306 IPA module /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so signature is valid
-> [2:42:26.070330771] [29488] DEBUG IPAProxy soft_ipa_proxy.cpp:45 initializing soft proxy: loading IPA from /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so
-> [2:42:26.070835928] [29488]  WARN IPAProxy ipa_proxy.cpp:160 Configuration file 'ov08x40.yaml' not found for IPA module 'simple', falling back to 'uncalibrated.yaml'
-> [2:42:26.070880076] [29488]  WARN IPASoft soft_simple.cpp:96 IPASoft: Failed to create camera sensor helper for ov08x40
-> [2:42:26.071040106] [29488] DEBUG IPASoft soft_simple.cpp:117 IPASoft: Tuning file version 1
-> [2:42:26.071109941] [29488] DEBUG IPAModuleAlgo module.h:91 IPASoft: Instantiated algorithm 'BlackLevel'
-> [2:42:26.071158211] [29488] DEBUG IPAModuleAlgo module.h:91 IPASoft: Instantiated algorithm 'Awb'
-> [2:42:26.071203227] [29488] DEBUG IPAModuleAlgo module.h:91 IPASoft: Instantiated algorithm 'Lut'
-> [2:42:26.071229619] [29488] DEBUG IPAModuleAlgo module.h:91 IPASoft: Instantiated algorithm 'Agc'
-> [2:42:26.071324318] [29488] DEBUG MediaDevice media_device.cpp:826 /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: 0
-> [2:42:26.071333254] [29488] DEBUG MediaDevice media_device.cpp:826 /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: 1
-> [2:42:26.071401066] [29488] DEBUG SimplePipeline simple.cpp:780 Link 'ov08x40 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format 1928x1208-SGRBG10_1X10
-> [2:42:26.071416834] [29488] DEBUG SimplePipeline simple.cpp:780 Link 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format 1928x1208-SGRBG10_1X10
-> [2:42:26.071466886] [29488] DEBUG SimplePipeline simple.cpp:631 Adding configuration for 1928x1208 in pixel formats [ BA10, pgAA ]
-> [2:42:26.071554427] [29488] DEBUG SimplePipeline simple.cpp:780 Link 'ov08x40 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format 3856x2416-SGRBG10_1X10
-> [2:42:26.071561826] [29488] DEBUG SimplePipeline simple.cpp:780 Link 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format 3856x2416-SGRBG10_1X10
-> [2:42:26.071572163] [29488] DEBUG SimplePipeline simple.cpp:631 Adding configuration for 3856x2416 in pixel formats [ BA10, pgAA ]
-> [2:42:26.071786561] [29488] DEBUG Camera camera_manager.cpp:161 Pipeline handler "simple" matched
-> [2:42:26.071805509] [29488] DEBUG Camera camera_manager.cpp:140 Found registered pipeline handler 'uvcvideo'
-> [2:42:26.106083711] [29471] DEBUG SimplePipeline simple.cpp:1017 Largest stream size is 3848x2416
-> [2:42:26.106124827] [29471] DEBUG SimplePipeline simple.cpp:1069 Picked 3856x2416-SGRBG10_1X10 -> 3856x2416-SGRBG10 for max stream size 3848x2416
-> [2:42:26.106193385] [29471] DEBUG Camera camera.cpp:1137 streams configuration: (0) 3848x2416-ABGR8888
-> [2:42:26.106237153] [29471] DEBUG SimplePipeline simple.cpp:1017 Largest stream size is 3848x2416
-> [2:42:26.106243935] [29471] DEBUG SimplePipeline simple.cpp:1069 Picked 3856x2416-SGRBG10_1X10 -> 3856x2416-SGRBG10 for max stream size 3848x2416
-> [2:42:26.106257446] [29471] DEBUG SimplePipeline simple.cpp:1017 Largest stream size is 3848x2416
-> [2:42:26.106264326] [29471] DEBUG SimplePipeline simple.cpp:1069 Picked 3856x2416-SGRBG10_1X10 -> 3856x2416-SGRBG10 for max stream size 3848x2416
-> [2:42:26.106275551] [29471]  INFO Camera camera.cpp:1202 configuring streams: (0) 3848x2416-ABGR8888
-> [2:42:26.106354216] [29488] DEBUG MediaDevice media_device.cpp:826 /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: 0
-> [2:42:26.106386640] [29488] DEBUG MediaDevice media_device.cpp:826 /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: 1
-> [2:42:26.106484769] [29488] DEBUG SimplePipeline simple.cpp:780 Link 'ov08x40 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format 3856x2416-SGRBG10_1X10
-> [2:42:26.106494021] [29488] DEBUG SimplePipeline simple.cpp:780 Link 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format 3856x2416-SGRBG10_1X10
-> [2:42:26.106551423] [29488]  WARN CameraSensor camera_sensor_legacy.cpp:501 'ov08x40 4-0036': No sensor delays found in static properties. Assuming unverified defaults.
-> [2:42:26.106642460] [29488] DEBUG DelayedControls delayed_controls.cpp:99 Set a delay of 2 and priority write flag 0 for Exposure
-> [2:42:26.106658556] [29488] DEBUG DelayedControls delayed_controls.cpp:99 Set a delay of 1 and priority write flag 0 for Analogue Gain
-> [2:42:26.106822531] [29488]  INFO IPASoft soft_simple.cpp:251 IPASoft: Exposure 4-4992, gain 0-1984 (1)
-> Zero-copy enabled
-> [2:42:26.110235367] [29488] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> [2:42:26.113343648] [29488] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> [2:42:26.116390199] [29488] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> [2:42:26.119374839] [29488] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> [2:42:26.125329380] [29471] DEBUG Request request.cpp:369 Created request - cookie: 0
-> [2:42:26.125505377] [29471] DEBUG Request request.cpp:369 Created request - cookie: 0
-> [2:42:26.125523467] [29471] DEBUG Request request.cpp:369 Created request - cookie: 0
-> [2:42:26.125531018] [29471] DEBUG Request request.cpp:369 Created request - cookie: 0
-> [2:42:26.125546767] [29471] DEBUG Camera camera.cpp:1360 Starting capture
-> [2:42:26.135295574] [29488] DEBUG V4L2 v4l2_videodevice.cpp:1311 /dev/video0[28:cap]: 3 buffers requested.
-> [2:42:26.135380273] [29488] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> [2:42:26.135397476] [29488] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> [2:42:26.135407136] [29488] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> [2:42:26.135749405] [29488] DEBUG V4L2 v4l2_videodevice.cpp:1750 /dev/video0[28:cap]: Queueing buffer 0
-> [2:42:26.294678108] [29488] DEBUG V4L2 v4l2_videodevice.cpp:1750 /dev/video0[28:cap]: Queueing buffer 1
-> [2:42:26.294710299] [29488] DEBUG V4L2 v4l2_videodevice.cpp:1750 /dev/video0[28:cap]: Queueing buffer 2
-> [2:42:46.501427517] [29471] DEBUG Camera camera.cpp:1404 Stopping capture
-> [2:42:50.541207894] [29488] DEBUG Request request.cpp:129 Request(0:C:0/1:0)
-> [2:42:50.541314260] [29488] DEBUG Request request.cpp:129 Request(1:C:0/1:0)
-> [2:42:50.541329943] [29488] DEBUG Request request.cpp:129 Request(2:C:0/1:0)
-> [2:42:50.541365704] [29488] DEBUG V4L2 v4l2_videodevice.cpp:1596 /dev/video0[28:cap]: Releasing buffers
-> [2:42:50.545182849] [29488] DEBUG V4L2 v4l2_videodevice.cpp:1311 /dev/video0[28:cap]: 0 buffers requested.
-> [2:42:50.545229101] [29488] DEBUG Request request.cpp:129 Request(3:X:0/1:0)
->
->
-> ----- On Dec 18, 2024, at 10:09 AM, Jacopo Mondi jacopo.mondi@ideasonboard.com wrote:
->
-> > Forwarded to the libcamera mailing list where experts on the
-> > SimplePipeline and SoftwareISP can read (the ones that do not read
-> > here)
-> >
-> > On Wed, Dec 18, 2024 at 10:46:02AM -0500, duanek@chorus.net wrote:
-> >> Dear Jacopo,
-> >>
-> >> Thanks for your feedback.
-> >>
-> >> > However, as said, you should be able to get frames out
-> >>
-> >> Nope, I do not get any frames, just an offset image of a camera with a slash
-> >> through it.
-> >
-> > That's the default qcam symbol for "camera not found" ?
-> > Could you try with 'cam' saving frames to disk ?
-> >
-> >> qcam output:
-> >>
-> >> duane@DuanesSpectre16:~/cameratest$ LIBCAMERA_LOG_LEVELS=0 qcam -s
-> >> "width=1928,height=1208"
-> >
-> > Or pass the camera number to qcam maybe ?
-> >
-> > qcam -c1 -C
-> >
-> >> [2:08:48.367287574] [26884] DEBUG IPAModule ipa_module.cpp:333 ipa_ipu3.so: IPA
-> >> module /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so is signed
-> >> [2:08:48.367391256] [26884] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> module '/usr/local/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so'
-> >> [2:08:48.367477441] [26884] DEBUG IPAModule ipa_module.cpp:333
-> >> ipa_soft_simple.so: IPA module
-> >> /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so is signed
-> >> [2:08:48.367493138] [26884] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> module '/usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so'
-> >> [2:08:48.367559794] [26884]  INFO Camera camera_manager.cpp:327 libcamera
-> >> v0.3.2+240-936a099e
-> >> [2:08:48.367620533] [26896] DEBUG Camera camera_manager.cpp:73 Starting camera
-> >> manager
-> >> [2:08:48.376420422] [26896] DEBUG DeviceEnumerator device_enumerator.cpp:230 New
-> >> media device "intel-ipu6" created from /dev/media0
-> >> [2:08:48.377733959] [26896] DEBUG DeviceEnumerator device_enumerator_udev.cpp:96
-> >> Defer media device /dev/media0 due to 1 missing dependencies
-> >> [2:08:48.377858051] [26896] DEBUG DeviceEnumerator
-> >> device_enumerator_udev.cpp:322 All dependencies for media device /dev/media0
-> >> found
-> >> [2:08:48.377865948] [26896] DEBUG DeviceEnumerator device_enumerator.cpp:258
-> >> Added device /dev/media0: intel-ipu6
-> >> [2:08:48.378074893] [26896] DEBUG Camera camera_manager.cpp:140 Found registered
-> >> pipeline handler 'ipu3'
-> >> [2:08:48.378233208] [26896] DEBUG Camera camera_manager.cpp:140 Found registered
-> >> pipeline handler 'simple'
-> >> [2:08:48.378263573] [26896] DEBUG DeviceEnumerator device_enumerator.cpp:318
-> >> Successful match for media device "intel-ipu6"
-> >> [2:08:48.378311479] [26896] DEBUG SimplePipeline simple.cpp:1585 Sensor found
-> >> for /dev/media0
-> >> [2:08:48.378648447] [26896] DEBUG SimplePipeline simple.cpp:424 Found capture
-> >> device Intel IPU6 ISYS Capture 0
-> >> [2:08:48.378714621] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Exposure (0x00980911)
-> >> [2:08:48.378808007] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Horizontal Flip (0x00980914)
-> >> [2:08:48.378826380] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Vertical Flip (0x00980915)
-> >> [2:08:48.378838332] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Camera Orientation (0x009a0922)
-> >> [2:08:48.378871227] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Camera Sensor Rotation (0x009a0923)
-> >> [2:08:48.378881213] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Vertical Blanking (0x009e0901)
-> >> [2:08:48.378889198] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Horizontal Blanking (0x009e0902)
-> >> [2:08:48.378898404] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Analogue Gain (0x009e0903)
-> >> [2:08:48.378906624] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Link Frequency (0x009f0901)
-> >> [2:08:48.378916258] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Pixel Rate (0x009f0902)
-> >> [2:08:48.378924779] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Test Pattern (0x009f0903)
-> >> [2:08:48.378936396] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Digital Gain (0x009f0905)
-> >> [2:08:48.379155405] [26896] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036':
-> >> Unable to get rectangle 2 on pad 0/0: Inappropriate ioctl for device
-> >> [2:08:48.379170976] [26896]  WARN CameraSensor camera_sensor_legacy.cpp:401
-> >> 'ov08x40 4-0036': The PixelArraySize property has been defaulted to 3856x2416
-> >> [2:08:48.379177570] [26896] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036':
-> >> Unable to get rectangle 1 on pad 0/0: Inappropriate ioctl for device
-> >> [2:08:48.379183658] [26896]  WARN CameraSensor camera_sensor_legacy.cpp:412
-> >> 'ov08x40 4-0036': The PixelArrayActiveAreas property has been defaulted to (0,
-> >> 0)/3856x2416
-> >> [2:08:48.379191552] [26896] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036':
-> >> Unable to get rectangle 0 on pad 0/0: Inappropriate ioctl for device
-> >> [2:08:48.379196709] [26896]  WARN CameraSensor camera_sensor_legacy.cpp:420
-> >> 'ov08x40 4-0036': Failed to retrieve the sensor crop rectangle
-> >> [2:08:48.379201526] [26896]  WARN CameraSensor camera_sensor_legacy.cpp:426
-> >> 'ov08x40 4-0036': The sensor kernel driver needs to be fixed
-> >> [2:08:48.379206284] [26896]  WARN CameraSensor camera_sensor_legacy.cpp:428
-> >> 'ov08x40 4-0036': See Documentation/sensor_driver_requirements.rst in the
-> >> libcamera sources for more information
-> >> [2:08:48.379910066] [26896]  WARN CameraSensorProperties
-> >> camera_sensor_properties.cpp:458 No static properties available for 'ov08x40'
-> >> [2:08:48.379920385] [26896]  WARN CameraSensorProperties
-> >> camera_sensor_properties.cpp:460 Please consider updating the camera sensor
-> >> properties database
-> >> [2:08:48.379968649] [26896] DEBUG CameraSensor camera_sensor.cpp:401 Entity
-> >> 'ov08x40 4-0036' matched by CameraSensorLegacy
-> >> [2:08:48.380012101] [26896] DEBUG SimplePipeline simple.cpp:491 Found pipeline:
-> >> [ov08x40 4-0036|0] -> [0|Intel IPU6 CSI2 0|1] -> [0|Intel IPU6 ISYS Capture 0]
-> >> [2:08:48.380147601] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Exposure (0x00980911)
-> >> [2:08:48.380167842] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Horizontal Flip (0x00980914)
-> >> [2:08:48.380178186] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Vertical Flip (0x00980915)
-> >> [2:08:48.380187557] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Camera Orientation (0x009a0922)
-> >> [2:08:48.380203877] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Camera Sensor Rotation (0x009a0923)
-> >> [2:08:48.380216208] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Vertical Blanking (0x009e0901)
-> >> [2:08:48.380226671] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Horizontal Blanking (0x009e0902)
-> >> [2:08:48.380237572] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Analogue Gain (0x009e0903)
-> >> [2:08:48.380248729] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Link Frequency (0x009f0901)
-> >> [2:08:48.380261582] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Pixel Rate (0x009f0902)
-> >> [2:08:48.380272330] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Test Pattern (0x009f0903)
-> >> [2:08:48.380287929] [26896] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> Control: Digital Gain (0x009f0905)
-> >> [2:08:48.380350326] [26896] DEBUG V4L2 v4l2_videodevice.cpp:631
-> >> /dev/video0[28:cap]: Opened device : isys: ipu6
-> >> [2:08:48.380489828] [26896] DEBUG DmaBufAllocator dma_buf_allocator.cpp:106
-> >> Failed to open /dev/dma_heap/linux,cma: No such file or directory
-> >> [2:08:48.380499245] [26896] DEBUG DmaBufAllocator dma_buf_allocator.cpp:106
-> >> Failed to open /dev/dma_heap/reserved: No such file or directory
-> >> [2:08:48.380506362] [26896] DEBUG DmaBufAllocator dma_buf_allocator.cpp:112
-> >> Using /dev/dma_heap/system
-> >> [2:08:48.382623926] [26896] DEBUG IPAManager ipa_manager.cpp:306 IPA module
-> >> /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so signature is valid
-> >> [2:08:48.382698965] [26896] DEBUG IPAProxy soft_ipa_proxy.cpp:45 initializing
-> >> soft proxy: loading IPA from
-> >> /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so
-> >> [2:08:48.383200984] [26896]  WARN IPAProxy ipa_proxy.cpp:160 Configuration file
-> >> 'ov08x40.yaml' not found for IPA module 'simple', falling back to
-> >> 'uncalibrated.yaml'
-> >> [2:08:48.383245998] [26896]  WARN IPASoft soft_simple.cpp:96 IPASoft: Failed to
-> >> create camera sensor helper for ov08x40
-> >> [2:08:48.383400849] [26896] DEBUG IPASoft soft_simple.cpp:117 IPASoft: Tuning
-> >> file version 1
-> >> [2:08:48.383470999] [26896] DEBUG IPAModuleAlgo module.h:91 IPASoft:
-> >> Instantiated algorithm 'BlackLevel'
-> >> [2:08:48.383519951] [26896] DEBUG IPAModuleAlgo module.h:91 IPASoft:
-> >> Instantiated algorithm 'Awb'
-> >> [2:08:48.383566360] [26896] DEBUG IPAModuleAlgo module.h:91 IPASoft:
-> >> Instantiated algorithm 'Lut'
-> >> [2:08:48.383593617] [26896] DEBUG IPAModuleAlgo module.h:91 IPASoft:
-> >> Instantiated algorithm 'Agc'
-> >> [2:08:48.383675638] [26896] DEBUG MediaDevice media_device.cpp:826
-> >> /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> 0'[0]: 0
-> >> [2:08:48.383684688] [26896] DEBUG MediaDevice media_device.cpp:826
-> >> /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> 0'[0]: 1
-> >> [2:08:48.383751789] [26896] DEBUG SimplePipeline simple.cpp:780 Link 'ov08x40
-> >> 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> 1928x1208-SGRBG10_1X10
-> >> [2:08:48.383767562] [26896] DEBUG SimplePipeline simple.cpp:780 Link 'Intel IPU6
-> >> CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> 1928x1208-SGRBG10_1X10
-> >> [2:08:48.383814165] [26896] DEBUG SimplePipeline simple.cpp:631 Adding
-> >> configuration for 1928x1208 in pixel formats [ BA10, pgAA ]
-> >> [2:08:48.383903884] [26896] DEBUG SimplePipeline simple.cpp:780 Link 'ov08x40
-> >> 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> 3856x2416-SGRBG10_1X10
-> >> [2:08:48.383911671] [26896] DEBUG SimplePipeline simple.cpp:780 Link 'Intel IPU6
-> >> CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> 3856x2416-SGRBG10_1X10
-> >> [2:08:48.383922495] [26896] DEBUG SimplePipeline simple.cpp:631 Adding
-> >> configuration for 3856x2416 in pixel formats [ BA10, pgAA ]
-> >> [2:08:48.384191137] [26896] DEBUG Camera camera_manager.cpp:161 Pipeline handler
-> >> "simple" matched
-> >> [2:08:48.384220609] [26896] DEBUG Camera camera_manager.cpp:140 Found registered
-> >> pipeline handler 'uvcvideo'
-> >> [2:08:48.416374408] [26884] DEBUG SimplePipeline simple.cpp:1017 Largest stream
-> >> size is 3848x2416
-> >> [2:08:48.416415430] [26884] DEBUG SimplePipeline simple.cpp:1069 Picked
-> >> 3856x2416-SGRBG10_1X10 -> 3856x2416-SGRBG10 for max stream size 3848x2416
-> >> [2:08:48.416475078] [26884] DEBUG Camera camera.cpp:1137 streams configuration:
-> >> (0) 3848x2416-ABGR8888
-> >> [2:08:48.416517469] [26884] DEBUG SimplePipeline simple.cpp:1017 Largest stream
-> >> size is 1928x1208
-> >> [2:08:48.416523658] [26884] DEBUG SimplePipeline simple.cpp:1069 Picked
-> >> 1928x1208-SGRBG10_1X10 -> 1928x1208-SGRBG10 for max stream size 1928x1208
-> >> [2:08:48.416534256] [26884] DEBUG SimplePipeline simple.cpp:1118 Adjusting size
-> >> from 1928x1208 to 1924x1208
-> >> Stream configuration adjusted to  1924x1208-ABGR8888
-> >> [2:08:48.416569398] [26884] DEBUG SimplePipeline simple.cpp:1017 Largest stream
-> >> size is 1924x1208
-> >> [2:08:48.416574746] [26884] DEBUG SimplePipeline simple.cpp:1069 Picked
-> >> 1928x1208-SGRBG10_1X10 -> 1928x1208-SGRBG10 for max stream size 1924x1208
-> >> [2:08:48.416582058] [26884]  INFO Camera camera.cpp:1202 configuring streams:
-> >> (0) 1924x1208-ABGR8888
-> >> [2:08:48.416663364] [26896] DEBUG MediaDevice media_device.cpp:826
-> >> /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> 0'[0]: 0
-> >> [2:08:48.416700163] [26896] DEBUG MediaDevice media_device.cpp:826
-> >> /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> 0'[0]: 1
-> >> [2:08:48.416821955] [26896] DEBUG SimplePipeline simple.cpp:780 Link 'ov08x40
-> >> 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> 1928x1208-SGRBG10_1X10
-> >> [2:08:48.416832271] [26896] DEBUG SimplePipeline simple.cpp:780 Link 'Intel IPU6
-> >> CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> 1928x1208-SGRBG10_1X10
-> >> [2:08:48.416891523] [26896]  WARN CameraSensor camera_sensor_legacy.cpp:501
-> >> 'ov08x40 4-0036': No sensor delays found in static properties. Assuming
-> >> unverified defaults.
-> >> [2:08:48.416984811] [26896] DEBUG DelayedControls delayed_controls.cpp:99 Set a
-> >> delay of 2 and priority write flag 0 for Exposure
-> >> [2:08:48.417002236] [26896] DEBUG DelayedControls delayed_controls.cpp:99 Set a
-> >> delay of 1 and priority write flag 0 for Analogue Gain
-> >> [2:08:48.417169477] [26896]  INFO IPASoft soft_simple.cpp:251 IPASoft: Exposure
-> >> 4-4442, gain 0-1984 (1)
-> >> Zero-copy enabled
-> >> [2:08:48.418429333] [26896] DEBUG Buffer framebuffer.cpp:351 Buffer is
-> >> contiguous
-> >> [2:08:48.419291593] [26896] DEBUG Buffer framebuffer.cpp:351 Buffer is
-> >> contiguous
-> >> [2:08:48.420117071] [26896] DEBUG Buffer framebuffer.cpp:351 Buffer is
-> >> contiguous
-> >> [2:08:48.420926235] [26896] DEBUG Buffer framebuffer.cpp:351 Buffer is
-> >> contiguous
-> >> [2:08:48.422633774] [26884] DEBUG Request request.cpp:369 Created request -
-> >> cookie: 0
-> >> [2:08:48.422717126] [26884] DEBUG Request request.cpp:369 Created request -
-> >> cookie: 0
-> >> [2:08:48.422726468] [26884] DEBUG Request request.cpp:369 Created request -
-> >> cookie: 0
-> >> [2:08:48.422733979] [26884] DEBUG Request request.cpp:369 Created request -
-> >> cookie: 0
-> >> [2:08:48.422746484] [26884] DEBUG Camera camera.cpp:1360 Starting capture
-> >> [2:08:48.425078945] [26896] DEBUG V4L2 v4l2_videodevice.cpp:1311
-> >> /dev/video0[28:cap]: 3 buffers requested.
-> >> [2:08:48.425113504] [26896] DEBUG Buffer framebuffer.cpp:351 Buffer is
-> >> contiguous
-> >> [2:08:48.425127393] [26896] DEBUG Buffer framebuffer.cpp:351 Buffer is
-> >> contiguous
-> >> [2:08:48.425135907] [26896] DEBUG Buffer framebuffer.cpp:351 Buffer is
-> >> contiguous
-> >> [2:08:48.425417390] [26896] DEBUG V4L2 v4l2_videodevice.cpp:1750
-> >> /dev/video0[28:cap]: Queueing buffer 0
-> >> [2:08:48.550791060] [26896] DEBUG V4L2 v4l2_videodevice.cpp:1750
-> >> /dev/video0[28:cap]: Queueing buffer 1
-> >> [2:08:48.551301528] [26896] DEBUG V4L2 v4l2_videodevice.cpp:1750
-> >> /dev/video0[28:cap]: Queueing buffer 2
-> >> [2:09:34.537747960] [26884] DEBUG Camera camera.cpp:1404 Stopping capture
-> >> [2:09:38.601196687] [26896] DEBUG Request request.cpp:129 Request(0:C:0/1:0)
-> >> [2:09:38.601418601] [26896] DEBUG Request request.cpp:129 Request(1:C:0/1:0)
-> >> [2:09:38.601442872] [26896] DEBUG Request request.cpp:129 Request(2:C:0/1:0)
-> >> [2:09:38.601507834] [26896] DEBUG V4L2 v4l2_videodevice.cpp:1596
-> >> /dev/video0[28:cap]: Releasing buffers
-> >> [2:09:38.603272250] [26896] DEBUG V4L2 v4l2_videodevice.cpp:1311
-> >> /dev/video0[28:cap]: 0 buffers requested.
-> >> [2:09:38.603346754] [26896] DEBUG Request request.cpp:129 Request(3:X:0/1:0)
-> >>
-> >>
-> >> Sincerely,
-> >> Duane
-> >>
-> >> ----- On Dec 18, 2024, at 9:37 AM, Jacopo Mondi jacopo.mondi@ideasonboard.com
-> >> wrote:
-> >>
-> >> > Hi Duane
-> >> >  if you refer to...
-> >> >
-> >> > On Wed, Dec 18, 2024 at 09:03:31AM -0500, duanek@chorus.net wrote:
-> >> >> Dear All,
-> >> >>
-> >> >> I thought I would update the situation as it stands with kernel 6.12.5, and
-> >> >> latest version of libcamera, I am still failing to retrieve the sensor crop
-> >> >> rectangle:
-> >> >>
-> >> >> duane@DuanesSpectre16:~/cameratest$ LIBCAMERA_LOG_LEVELS=0 cam --list
-> >> >> [1:39:08.877408033] [24095] DEBUG IPAModule ipa_module.cpp:333 ipa_ipu3.so: IPA
-> >> >> module /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so is signed
-> >> >> [1:39:08.877493605] [24095] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> >> module '/usr/local/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so'
-> >> >> [1:39:08.877574277] [24095] DEBUG IPAModule ipa_module.cpp:333
-> >> >> ipa_soft_simple.so: IPA module
-> >> >> /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so is signed
-> >> >> [1:39:08.877590565] [24095] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> >> module '/usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so'
-> >> >> [1:39:08.877634522] [24095]  INFO Camera camera_manager.cpp:327 libcamera
-> >> >> v0.3.2+240-936a099e
-> >> >> [1:39:08.877842699] [24098] DEBUG Camera camera_manager.cpp:73 Starting camera
-> >> >> manager
-> >> >> [1:39:08.884214258] [24098] DEBUG DeviceEnumerator device_enumerator.cpp:230 New
-> >> >> media device "intel-ipu6" created from /dev/media0
-> >> >> [1:39:08.885400683] [24098] DEBUG DeviceEnumerator device_enumerator_udev.cpp:96
-> >> >> Defer media device /dev/media0 due to 1 missing dependencies
-> >> >> [1:39:08.885500639] [24098] DEBUG DeviceEnumerator
-> >> >> device_enumerator_udev.cpp:322 All dependencies for media device /dev/media0
-> >> >> found
-> >> >> [1:39:08.885507438] [24098] DEBUG DeviceEnumerator device_enumerator.cpp:258
-> >> >> Added device /dev/media0: intel-ipu6
-> >> >> [1:39:08.885678288] [24098] DEBUG Camera camera_manager.cpp:140 Found registered
-> >> >> pipeline handler 'ipu3'
-> >> >> [1:39:08.885794024] [24098] DEBUG Camera camera_manager.cpp:140 Found registered
-> >> >> pipeline handler 'simple'
-> >> >> [1:39:08.885815555] [24098] DEBUG DeviceEnumerator device_enumerator.cpp:318
-> >> >> Successful match for media device "intel-ipu6"
-> >> >> [1:39:08.885851217] [24098] DEBUG SimplePipeline simple.cpp:1585 Sensor found
-> >> >> for /dev/media0
-> >> >> [1:39:08.886089353] [24098] DEBUG SimplePipeline simple.cpp:424 Found capture
-> >> >> device Intel IPU6 ISYS Capture 0
-> >> >> [1:39:08.886141057] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Exposure (0x00980911)
-> >> >> [1:39:08.886206532] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Horizontal Flip (0x00980914)
-> >> >> [1:39:08.886223871] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Vertical Flip (0x00980915)
-> >> >> [1:39:08.886234673] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Camera Orientation (0x009a0922)
-> >> >> [1:39:08.886260625] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Camera Sensor Rotation (0x009a0923)
-> >> >> [1:39:08.886270047] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Vertical Blanking (0x009e0901)
-> >> >> [1:39:08.886277150] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Horizontal Blanking (0x009e0902)
-> >> >> [1:39:08.886284629] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Analogue Gain (0x009e0903)
-> >> >> [1:39:08.886292042] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Link Frequency (0x009f0901)
-> >> >> [1:39:08.886300670] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Pixel Rate (0x009f0902)
-> >> >> [1:39:08.886309739] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Test Pattern (0x009f0903)
-> >> >> [1:39:08.886320963] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Digital Gain (0x009f0905)
-> >> >> [1:39:08.886490155] [24098] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036':
-> >> >> Unable to get rectangle 2 on pad 0/0: Inappropriate ioctl for device
-> >> >> [1:39:08.886503025] [24098]  WARN CameraSensor camera_sensor_legacy.cpp:401
-> >> >> 'ov08x40 4-0036': The PixelArraySize property has been defaulted to 3856x2416
-> >> >> [1:39:08.886508510] [24098] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036':
-> >> >> Unable to get rectangle 1 on pad 0/0: Inappropriate ioctl for device
-> >> >> [1:39:08.886517928] [24098]  WARN CameraSensor camera_sensor_legacy.cpp:412
-> >> >> 'ov08x40 4-0036': The PixelArrayActiveAreas property has been defaulted to (0,
-> >> >> 0)/3856x2416
-> >> >> [1:39:08.886524514] [24098] ERROR V4L2 v4l2_subdevice.cpp:1127 'ov08x40 4-0036':
-> >> >> Unable to get rectangle 0 on pad 0/0: Inappropriate ioctl for device
-> >> >
-> >> > ... this error
-> >> >
-> >> > it shouldn't be fatal and you should be able to get frames anyhow
-> >> >
-> >> >> [1:39:08.886528470] [24098]  WARN CameraSensor camera_sensor_legacy.cpp:420
-> >> >> 'ov08x40 4-0036': Failed to retrieve the sensor crop rectangle
-> >> >> [1:39:08.886532315] [24098]  WARN CameraSensor camera_sensor_legacy.cpp:426
-> >> >> 'ov08x40 4-0036': The sensor kernel driver needs to be fixed
-> >> >
-> >> > However, as the error message reports "The sensor kernel driver needs
-> >> > to be fixed" as it doesn't support the minium required feature set to
-> >> > be fully compliant with libcamera.
-> >> >
-> >> > However, as said, you should be able to get frames out
-> >> >
-> >> >
-> >> >> [1:39:08.886536250] [24098]  WARN CameraSensor camera_sensor_legacy.cpp:428
-> >> >> 'ov08x40 4-0036': See Documentation/sensor_driver_requirements.rst in the
-> >> >> libcamera sources for more information
-> >> >> [1:39:08.887129354] [24098]  WARN CameraSensorProperties
-> >> >> camera_sensor_properties.cpp:458 No static properties available for 'ov08x40'
-> >> >> [1:39:08.887138313] [24098]  WARN CameraSensorProperties
-> >> >> camera_sensor_properties.cpp:460 Please consider updating the camera sensor
-> >> >> properties database
-> >> >> [1:39:08.887172183] [24098] DEBUG CameraSensor camera_sensor.cpp:401 Entity
-> >> >> 'ov08x40 4-0036' matched by CameraSensorLegacy
-> >> >> [1:39:08.887197696] [24098] DEBUG SimplePipeline simple.cpp:491 Found pipeline:
-> >> >> [ov08x40 4-0036|0] -> [0|Intel IPU6 CSI2 0|1] -> [0|Intel IPU6 ISYS Capture 0]
-> >> >> [1:39:08.887296099] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Exposure (0x00980911)
-> >> >> [1:39:08.887314603] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Horizontal Flip (0x00980914)
-> >> >> [1:39:08.887324889] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Vertical Flip (0x00980915)
-> >> >> [1:39:08.887334206] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Camera Orientation (0x009a0922)
-> >> >> [1:39:08.887347541] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Camera Sensor Rotation (0x009a0923)
-> >> >> [1:39:08.887355861] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Vertical Blanking (0x009e0901)
-> >> >> [1:39:08.887362771] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Horizontal Blanking (0x009e0902)
-> >> >> [1:39:08.887369888] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Analogue Gain (0x009e0903)
-> >> >> [1:39:08.887377420] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Link Frequency (0x009f0901)
-> >> >> [1:39:08.887386386] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Pixel Rate (0x009f0902)
-> >> >> [1:39:08.887394363] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Test Pattern (0x009f0903)
-> >> >> [1:39:08.887405686] [24098] DEBUG V4L2 v4l2_device.cpp:699 'ov08x40 4-0036':
-> >> >> Control: Digital Gain (0x009f0905)
-> >> >> [1:39:08.887447262] [24098] DEBUG V4L2 v4l2_videodevice.cpp:631
-> >> >> /dev/video0[16:cap]: Opened device : isys: ipu6
-> >> >> [1:39:08.887546046] [24098] DEBUG DmaBufAllocator dma_buf_allocator.cpp:106
-> >> >> Failed to open /dev/dma_heap/linux,cma: No such file or directory
-> >> >> [1:39:08.887554189] [24098] DEBUG DmaBufAllocator dma_buf_allocator.cpp:106
-> >> >> Failed to open /dev/dma_heap/reserved: No such file or directory
-> >> >> [1:39:08.887560100] [24098] DEBUG DmaBufAllocator dma_buf_allocator.cpp:112
-> >> >> Using /dev/dma_heap/system
-> >> >> [1:39:08.889570199] [24098] DEBUG IPAManager ipa_manager.cpp:306 IPA module
-> >> >> /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so signature is valid
-> >> >> [1:39:08.889667041] [24098] DEBUG IPAProxy soft_ipa_proxy.cpp:45 initializing
-> >> >> soft proxy: loading IPA from
-> >> >> /usr/local/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so
-> >> >> [1:39:08.890244616] [24098]  WARN IPAProxy ipa_proxy.cpp:160 Configuration file
-> >> >> 'ov08x40.yaml' not found for IPA module 'simple', falling back to
-> >> >> 'uncalibrated.yaml'
-> >> >> [1:39:08.890291460] [24098]  WARN IPASoft soft_simple.cpp:96 IPASoft: Failed to
-> >> >> create camera sensor helper for ov08x40
-> >> >> [1:39:08.890420321] [24098] DEBUG IPASoft soft_simple.cpp:117 IPASoft: Tuning
-> >> >> file version 1
-> >> >> [1:39:08.890493102] [24098] DEBUG IPAModuleAlgo module.h:91 IPASoft:
-> >> >> Instantiated algorithm 'BlackLevel'
-> >> >> [1:39:08.890548389] [24098] DEBUG IPAModuleAlgo module.h:91 IPASoft:
-> >> >> Instantiated algorithm 'Awb'
-> >> >> [1:39:08.890592459] [24098] DEBUG IPAModuleAlgo module.h:91 IPASoft:
-> >> >> Instantiated algorithm 'Lut'
-> >> >> [1:39:08.890619578] [24098] DEBUG IPAModuleAlgo module.h:91 IPASoft:
-> >> >> Instantiated algorithm 'Agc'
-> >> >> [1:39:08.890700245] [24098] DEBUG MediaDevice media_device.cpp:826
-> >> >> /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> >> 0'[0]: 0
-> >> >> [1:39:08.890708008] [24098] DEBUG MediaDevice media_device.cpp:826
-> >> >> /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> >> 0'[0]: 1
-> >> >> [1:39:08.890768179] [24098] DEBUG SimplePipeline simple.cpp:780 Link 'ov08x40
-> >> >> 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> >> 1928x1208-SGRBG10_1X10
-> >> >> [1:39:08.890781364] [24098] DEBUG SimplePipeline simple.cpp:780 Link 'Intel IPU6
-> >> >> CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> >> 1928x1208-SGRBG10_1X10
-> >> >> [1:39:08.890818896] [24098] DEBUG SimplePipeline simple.cpp:631 Adding
-> >> >> configuration for 1928x1208 in pixel formats [ BA10, pgAA ]
-> >> >> [1:39:08.890890653] [24098] DEBUG SimplePipeline simple.cpp:780 Link 'ov08x40
-> >> >> 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> >> 3856x2416-SGRBG10_1X10
-> >> >> [1:39:08.890897783] [24098] DEBUG SimplePipeline simple.cpp:780 Link 'Intel IPU6
-> >> >> CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> >> 3856x2416-SGRBG10_1X10
-> >> >> [1:39:08.890908208] [24098] DEBUG SimplePipeline simple.cpp:631 Adding
-> >> >> configuration for 3856x2416 in pixel formats [ BA10, pgAA ]
-> >> >> [1:39:08.891057954] [24098] DEBUG Camera camera_manager.cpp:161 Pipeline handler
-> >> >> "simple" matched
-> >> >> [1:39:08.891076593] [24098] DEBUG Camera camera_manager.cpp:140 Found registered
-> >> >> pipeline handler 'uvcvideo'
-> >> >> Available cameras:
-> >> >> 1: Internal front camera (\_SB_.PC00.LNK0)
-> >> >>
-> >> >> Please let me know of any other testing I can do!
-> >> >>
-> >> >> Sincerely,
-> >> >> Duane
-> >> >>
-> >> >>
-> >> >> ----- On Oct 14, 2024, at 2:54 PM, duanek duanek@chorus.net wrote:
-> >> >>
-> >> >> > Dear All,
-> >> >> > I would like to get the camera in my HP Spectre 16" laptop working under linux.
-> >> >> > I have reported this to the libcamera group, and they suggested posting here:
-> >> >> > https://bugs.libcamera.org/show_bug.cgi?id=237
-> >> >> >
-> >> >> > I have compiled a custom kernel with the kernel module for what I _think_ is my
-> >> >> > camera, and it is detected on boot:
-> >> >> >
-> >> >> > sudo dmesg |grep intel-ipu6
-> >> >> > [   10.453585] intel-ipu6 0000:00:05.0: enabling device (0000 -> 0002)
-> >> >> > [   10.453786] intel-ipu6 0000:00:05.0: IPU6 in secure mode touch 0x80000000
-> >> >> > mask 0x0
-> >> >> > [   10.468306] intel-ipu6 0000:00:05.0: FW version: 20230925
-> >> >> > [   10.471209] intel-ipu6 0000:00:05.0: Found supported sensor OVTI08F4:00
-> >> >> > [   10.471268] intel-ipu6 0000:00:05.0: Connected 1 cameras
-> >> >> > [   10.475739] intel-ipu6 0000:00:05.0: Sending BOOT_LOAD to CSE
-> >> >> > [   10.515753] intel-ipu6 0000:00:05.0: Sending AUTHENTICATE_RUN to CSE
-> >> >> > [   10.563160] intel-ipu6 0000:00:05.0: CSE authenticate_run done
-> >> >> > [   10.563175] intel-ipu6 0000:00:05.0: IPU6-v4[7d19] hardware version 6
-> >> >> >
-> >> >> > I have also configured dmabuf for permissions.
-> >> >> > I have downloaded libcamera, configured and built.
-> >> >> >
-> >> >> > When I run: LIBCAMERA_LOG_LEVELS=0 cam --list
-> >> >> > [0:09:56.854835470] [6213] DEBUG IPAModule ipa_module.cpp:333 ipa_ipu3.so: IPA
-> >> >> > module /usr/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so is signed
-> >> >> > [0:09:56.854875988] [6213] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> >> > module '/usr/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so'
-> >> >> > [0:09:56.854894355] [6213] DEBUG IPAModule ipa_module.cpp:333
-> >> >> > ipa_soft_simple.so: IPA module
-> >> >> > /usr/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so is signed
-> >> >> > [0:09:56.854901746] [6213] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> >> > module '/usr/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so'
-> >> >> > [0:09:56.854913026] [6213] DEBUG IPAModule ipa_module.cpp:333 ipa_vimc.so: IPA
-> >> >> > module /usr/lib/x86_64-linux-gnu/libcamera/ipa_vimc.so is signed
-> >> >> > [0:09:56.854917620] [6213] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> >> > module '/usr/lib/x86_64-linux-gnu/libcamera/ipa_vimc.so'
-> >> >> > [0:09:56.854926011] [6213] ERROR IPAModule ipa_module.cpp:171 Symbol
-> >> >> > ipaModuleInfo not found
-> >> >> > [0:09:56.854929187] [6213] ERROR IPAModule ipa_module.cpp:291 v4l2-compat.so:
-> >> >> > IPA module has no valid info
-> >> >> > [0:09:56.854935275] [6213]  INFO Camera camera_manager.cpp:325 libcamera v0.3.2
-> >> >> > [0:09:56.855123127] [6216] DEBUG Camera camera_manager.cpp:73 Starting camera
-> >> >> > manager
-> >> >> > [0:09:56.861202179] [6216] DEBUG DeviceEnumerator device_enumerator.cpp:230 New
-> >> >> > media device "intel-ipu6" created from /dev/media0
-> >> >> > [0:09:56.862429442] [6216] DEBUG DeviceEnumerator device_enumerator_udev.cpp:96
-> >> >> > Defer media device /dev/media0 due to 1 missing dependencies
-> >> >> > [0:09:56.862492043] [6216] DEBUG DeviceEnumerator device_enumerator_udev.cpp:322
-> >> >> > All dependencies for media device /dev/media0 found
-> >> >> > [0:09:56.862494433] [6216] DEBUG DeviceEnumerator device_enumerator.cpp:258
-> >> >> > Added device /dev/media0: intel-ipu6
-> >> >> > [0:09:56.862629885] [6216] DEBUG Camera camera_manager.cpp:138 Found registered
-> >> >> > pipeline handler 'ipu3'
-> >> >> > [0:09:56.862637387] [6216] DEBUG Camera camera_manager.cpp:138 Found registered
-> >> >> > pipeline handler 'simple'
-> >> >> > [0:09:56.862640029] [6216] DEBUG DeviceEnumerator device_enumerator.cpp:318
-> >> >> > Successful match for media device "intel-ipu6"
-> >> >> > [0:09:56.862645091] [6216] DEBUG SimplePipeline simple.cpp:1552 Sensor found for
-> >> >> > /dev/media0
-> >> >> > [0:09:56.862665124] [6216] DEBUG SimplePipeline simple.cpp:416 Found capture
-> >> >> > device Intel IPU6 ISYS Capture 0
-> >> >> > [0:09:56.862673488] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Exposure (0x00980911)
-> >> >> > [0:09:56.862681127] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Horizontal Flip (0x00980914)
-> >> >> > [0:09:56.862683897] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Vertical Flip (0x00980915)
-> >> >> > [0:09:56.862686983] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Camera Orientation (0x009a0922)
-> >> >> > [0:09:56.862692069] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Camera Sensor Rotation (0x009a0923)
-> >> >> > [0:09:56.862695160] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Vertical Blanking (0x009e0901)
-> >> >> > [0:09:56.862697275] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Horizontal Blanking (0x009e0902)
-> >> >> > [0:09:56.862699995] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Analogue Gain (0x009e0903)
-> >> >> > [0:09:56.862702951] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Link Frequency (0x009f0901)
-> >> >> > [0:09:56.862705721] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Pixel Rate (0x009f0902)
-> >> >> > [0:09:56.862708614] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Test Pattern (0x009f0903)
-> >> >> > [0:09:56.862712618] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Digital Gain (0x009f0905)
-> >> >> > [0:09:56.862725913] [6216] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov08x40 4-0036':
-> >> >> > Unable to get rectangle 2 on pad 0/0: Inappropriate ioctl for device
-> >> >> > [0:09:56.862731090] [6216]  WARN CameraSensor camera_sensor.cpp:304 'ov08x40
-> >> >> > 4-0036': The PixelArraySize property has been defaulted to 3856x2416
-> >> >> > [0:09:56.862734575] [6216] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov08x40 4-0036':
-> >> >> > Unable to get rectangle 1 on pad 0/0: Inappropriate ioctl for device
-> >> >> > [0:09:56.862737003] [6216]  WARN CameraSensor camera_sensor.cpp:315 'ov08x40
-> >> >> > 4-0036': The PixelArrayActiveAreas property has been defaulted to (0,
-> >> >> > 0)/3856x2416
-> >> >> > [0:09:56.862741568] [6216] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov08x40 4-0036':
-> >> >> > Unable to get rectangle 0 on pad 0/0: Inappropriate ioctl for device
-> >> >> > [0:09:56.862743916] [6216]  WARN CameraSensor camera_sensor.cpp:323 'ov08x40
-> >> >> > 4-0036': Failed to retrieve the sensor crop rectangle
-> >> >> > [0:09:56.862746073] [6216]  WARN CameraSensor camera_sensor.cpp:329 'ov08x40
-> >> >> > 4-0036': The sensor kernel driver needs to be fixed
-> >> >> > [0:09:56.862748203] [6216]  WARN CameraSensor camera_sensor.cpp:331 'ov08x40
-> >> >> > 4-0036': See Documentation/sensor_driver_requirements.rst in the libcamera
-> >> >> > sources for more information
-> >> >> > [0:09:56.862886481] [6216]  WARN CameraSensorProperties
-> >> >> > camera_sensor_properties.cpp:293 No static properties available for 'ov08x40'
-> >> >> > [0:09:56.862891448] [6216]  WARN CameraSensorProperties
-> >> >> > camera_sensor_properties.cpp:295 Please consider updating the camera sensor
-> >> >> > properties database
-> >> >> > [0:09:56.862894364] [6216] DEBUG SimplePipeline simple.cpp:486 Found pipeline:
-> >> >> > [ov08x40 4-0036|0] -> [0|Intel IPU6 CSI2 0|1] -> [0|Intel IPU6 ISYS Capture 0]
-> >> >> > [0:09:56.862903916] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Exposure (0x00980911)
-> >> >> > [0:09:56.862906875] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Horizontal Flip (0x00980914)
-> >> >> > [0:09:56.862909364] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Vertical Flip (0x00980915)
-> >> >> > [0:09:56.862911941] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Camera Orientation (0x009a0922)
-> >> >> > [0:09:56.862915743] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Camera Sensor Rotation (0x009a0923)
-> >> >> > [0:09:56.862918412] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Vertical Blanking (0x009e0901)
-> >> >> > [0:09:56.862920592] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Horizontal Blanking (0x009e0902)
-> >> >> > [0:09:56.862922756] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Analogue Gain (0x009e0903)
-> >> >> > [0:09:56.862925354] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Link Frequency (0x009f0901)
-> >> >> > [0:09:56.862928023] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Pixel Rate (0x009f0902)
-> >> >> > [0:09:56.862930347] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Test Pattern (0x009f0903)
-> >> >> > [0:09:56.862934434] [6216] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Digital Gain (0x009f0905)
-> >> >> > [0:09:56.862943516] [6216] DEBUG V4L2 v4l2_videodevice.cpp:631
-> >> >> > /dev/video0[16:cap]: Opened device : isys: ipu6
-> >> >> > [0:09:56.862961969] [6216] DEBUG DmaBufAllocator dma_buf_allocator.cpp:103
-> >> >> > Failed to open /dev/dma_heap/linux,cma: No such file or directory
-> >> >> > [0:09:56.862966349] [6216] DEBUG DmaBufAllocator dma_buf_allocator.cpp:103
-> >> >> > Failed to open /dev/dma_heap/reserved: No such file or directory
-> >> >> > [0:09:56.862971624] [6216] DEBUG DmaBufAllocator dma_buf_allocator.cpp:109 Using
-> >> >> > /dev/dma_heap/system
-> >> >> > [0:09:56.863135787] [6216] DEBUG IPAManager ipa_manager.cpp:306 IPA module
-> >> >> > /usr/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so signature is valid
-> >> >> > [0:09:56.863149345] [6216] DEBUG IPAProxy soft_ipa_proxy.cpp:45 initializing
-> >> >> > soft proxy: loading IPA from
-> >> >> > /usr/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so
-> >> >> > [0:09:56.873712857] [6216]  WARN IPAProxy ipa_proxy.cpp:160 Configuration file
-> >> >> > 'ov08x40.yaml' not found for IPA module 'simple', falling back to
-> >> >> > 'uncalibrated.yaml'
-> >> >> > [0:09:56.873732979] [6216]  WARN IPASoft soft_simple.cpp:114 Failed to create
-> >> >> > camera sensor helper for ov08x40
-> >> >> > [0:09:56.873831783] [6216] DEBUG IPASoft soft_simple.cpp:135 Tuning file version
-> >> >> > 1
-> >> >> > [0:09:56.873849138] [6216] DEBUG MediaDevice media_device.cpp:826
-> >> >> > /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> >> > 0'[0]: 1
-> >> >> > [0:09:56.873874763] [6216] DEBUG SimplePipeline simple.cpp:775 Link 'ov08x40
-> >> >> > 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> >> > 1928x1208-SGRBG10_1X10
-> >> >> > [0:09:56.873878920] [6216] DEBUG SimplePipeline simple.cpp:775 Link 'Intel IPU6
-> >> >> > CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> >> > 1928x1208-SGRBG10_1X10
-> >> >> > [0:09:56.873885965] [6216] DEBUG SimplePipeline simple.cpp:626 Adding
-> >> >> > configuration for 1928x1208 in pixel formats [ BA10, pgAA ]
-> >> >> > [0:09:56.873901964] [6216] DEBUG SimplePipeline simple.cpp:775 Link 'ov08x40
-> >> >> > 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> >> > 3856x2416-SGRBG10_1X10
-> >> >> > [0:09:56.873904715] [6216] DEBUG SimplePipeline simple.cpp:775 Link 'Intel IPU6
-> >> >> > CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> >> > 3856x2416-SGRBG10_1X10
-> >> >> > [0:09:56.873908986] [6216] DEBUG SimplePipeline simple.cpp:626 Adding
-> >> >> > configuration for 3856x2416 in pixel formats [ BA10, pgAA ]
-> >> >> > [0:09:56.873918943] [6216] DEBUG Camera camera_manager.cpp:159 Pipeline handler
-> >> >> > "simple" matched
-> >> >> > [0:09:56.873923366] [6216] DEBUG Camera camera_manager.cpp:138 Found registered
-> >> >> > pipeline handler 'uvcvideo'
-> >> >> > [0:09:56.873926699] [6216] DEBUG Camera camera_manager.cpp:138 Found registered
-> >> >> > pipeline handler 'vimc'
-> >> >> > Available cameras:
-> >> >> > 1: Internal front camera (\_SB_.PC00.LNK0)
-> >> >> >
-> >> >> > which seems to indicate a camera found.
-> >> >> >
-> >> >> > This laptop has an electronic shutter, activated by a Function key, and under
-> >> >> > linux (Debian Sid/Trixie), I can toggle the shutter.
-> >> >> >
-> >> >> > If I try: LIBCAMERA_LOG_LEVELS=0 qcam -s "width=1928,height=1208"  I get:
-> >> >> >
-> >> >> > [0:31:56.248638615] [8105] DEBUG IPAModule ipa_module.cpp:333 ipa_ipu3.so: IPA
-> >> >> > module /usr/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so is signed
-> >> >> > [0:31:56.248713977] [8105] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> >> > module '/usr/lib/x86_64-linux-gnu/libcamera/ipa_ipu3.so'
-> >> >> > [0:31:56.248745147] [8105] DEBUG IPAModule ipa_module.cpp:333
-> >> >> > ipa_soft_simple.so: IPA module
-> >> >> > /usr/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so is signed
-> >> >> > [0:31:56.248762096] [8105] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> >> > module '/usr/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so'
-> >> >> > [0:31:56.248783890] [8105] DEBUG IPAModule ipa_module.cpp:333 ipa_vimc.so: IPA
-> >> >> > module /usr/lib/x86_64-linux-gnu/libcamera/ipa_vimc.so is signed
-> >> >> > [0:31:56.248797242] [8105] DEBUG IPAManager ipa_manager.cpp:235 Loaded IPA
-> >> >> > module '/usr/lib/x86_64-linux-gnu/libcamera/ipa_vimc.so'
-> >> >> > [0:31:56.248815534] [8105] ERROR IPAModule ipa_module.cpp:171 Symbol
-> >> >> > ipaModuleInfo not found
-> >> >> > [0:31:56.248823967] [8105] ERROR IPAModule ipa_module.cpp:291 v4l2-compat.so:
-> >> >> > IPA module has no valid info
-> >> >> > [0:31:56.248839450] [8105]  INFO Camera camera_manager.cpp:325 libcamera v0.3.2
-> >> >> > [0:31:56.249067816] [8111] DEBUG Camera camera_manager.cpp:73 Starting camera
-> >> >> > manager
-> >> >> > [0:31:56.257921853] [8111] DEBUG DeviceEnumerator device_enumerator.cpp:230 New
-> >> >> > media device "intel-ipu6" created from /dev/media0
-> >> >> > [0:31:56.259095802] [8111] DEBUG DeviceEnumerator device_enumerator_udev.cpp:96
-> >> >> > Defer media device /dev/media0 due to 1 missing dependencies
-> >> >> > [0:31:56.259146226] [8111] DEBUG DeviceEnumerator device_enumerator_udev.cpp:322
-> >> >> > All dependencies for media device /dev/media0 found
-> >> >> > [0:31:56.259148998] [8111] DEBUG DeviceEnumerator device_enumerator.cpp:258
-> >> >> > Added device /dev/media0: intel-ipu6
-> >> >> > [0:31:56.259365000] [8111] DEBUG Camera camera_manager.cpp:138 Found registered
-> >> >> > pipeline handler 'ipu3'
-> >> >> > [0:31:56.259376054] [8111] DEBUG Camera camera_manager.cpp:138 Found registered
-> >> >> > pipeline handler 'simple'
-> >> >> > [0:31:56.259379285] [8111] DEBUG DeviceEnumerator device_enumerator.cpp:318
-> >> >> > Successful match for media device "intel-ipu6"
-> >> >> > [0:31:56.259384622] [8111] DEBUG SimplePipeline simple.cpp:1552 Sensor found for
-> >> >> > /dev/media0
-> >> >> > [0:31:56.259405468] [8111] DEBUG SimplePipeline simple.cpp:416 Found capture
-> >> >> > device Intel IPU6 ISYS Capture 0
-> >> >> > [0:31:56.259417404] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Exposure (0x00980911)
-> >> >> > [0:31:56.259427279] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Horizontal Flip (0x00980914)
-> >> >> > [0:31:56.259430625] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Vertical Flip (0x00980915)
-> >> >> > [0:31:56.259434102] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Camera Orientation (0x009a0922)
-> >> >> > [0:31:56.259439748] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Camera Sensor Rotation (0x009a0923)
-> >> >> > [0:31:56.259444731] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Vertical Blanking (0x009e0901)
-> >> >> > [0:31:56.259448236] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Horizontal Blanking (0x009e0902)
-> >> >> > [0:31:56.259451979] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Analogue Gain (0x009e0903)
-> >> >> > [0:31:56.259455940] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Link Frequency (0x009f0901)
-> >> >> > [0:31:56.259459811] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Pixel Rate (0x009f0902)
-> >> >> > [0:31:56.259463116] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Test Pattern (0x009f0903)
-> >> >> > [0:31:56.259468191] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Digital Gain (0x009f0905)
-> >> >> > [0:31:56.259482422] [8111] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov08x40 4-0036':
-> >> >> > Unable to get rectangle 2 on pad 0/0: Inappropriate ioctl for device
-> >> >> > [0:31:56.259488780] [8111]  WARN CameraSensor camera_sensor.cpp:304 'ov08x40
-> >> >> > 4-0036': The PixelArraySize property has been defaulted to 3856x2416
-> >> >> > [0:31:56.259492249] [8111] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov08x40 4-0036':
-> >> >> > Unable to get rectangle 1 on pad 0/0: Inappropriate ioctl for device
-> >> >> > [0:31:56.259495284] [8111]  WARN CameraSensor camera_sensor.cpp:315 'ov08x40
-> >> >> > 4-0036': The PixelArrayActiveAreas property has been defaulted to (0,
-> >> >> > 0)/3856x2416
-> >> >> > [0:31:56.259499843] [8111] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov08x40 4-0036':
-> >> >> > Unable to get rectangle 0 on pad 0/0: Inappropriate ioctl for device
-> >> >> > [0:31:56.259502689] [8111]  WARN CameraSensor camera_sensor.cpp:323 'ov08x40
-> >> >> > 4-0036': Failed to retrieve the sensor crop rectangle
-> >> >> > [0:31:56.259505241] [8111]  WARN CameraSensor camera_sensor.cpp:329 'ov08x40
-> >> >> > 4-0036': The sensor kernel driver needs to be fixed
-> >> >> > [0:31:56.259507759] [8111]  WARN CameraSensor camera_sensor.cpp:331 'ov08x40
-> >> >> > 4-0036': See Documentation/sensor_driver_requirements.rst in the libcamera
-> >> >> > sources for more information
-> >> >> > [0:31:56.259634530] [8111]  WARN CameraSensorProperties
-> >> >> > camera_sensor_properties.cpp:293 No static properties available for 'ov08x40'
-> >> >> > [0:31:56.259638620] [8111]  WARN CameraSensorProperties
-> >> >> > camera_sensor_properties.cpp:295 Please consider updating the camera sensor
-> >> >> > properties database
-> >> >> > [0:31:56.259642356] [8111] DEBUG SimplePipeline simple.cpp:486 Found pipeline:
-> >> >> > [ov08x40 4-0036|0] -> [0|Intel IPU6 CSI2 0|1] -> [0|Intel IPU6 ISYS Capture 0]
-> >> >> > [0:31:56.259653932] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Exposure (0x00980911)
-> >> >> > [0:31:56.259658031] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Horizontal Flip (0x00980914)
-> >> >> > [0:31:56.259661609] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Vertical Flip (0x00980915)
-> >> >> > [0:31:56.259665266] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Camera Orientation (0x009a0922)
-> >> >> > [0:31:56.259669824] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Camera Sensor Rotation (0x009a0923)
-> >> >> > [0:31:56.259673455] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Vertical Blanking (0x009e0901)
-> >> >> > [0:31:56.259676909] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Horizontal Blanking (0x009e0902)
-> >> >> > [0:31:56.259680356] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Analogue Gain (0x009e0903)
-> >> >> > [0:31:56.259684182] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Link Frequency (0x009f0901)
-> >> >> > [0:31:56.259687910] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Pixel Rate (0x009f0902)
-> >> >> > [0:31:56.259691225] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Test Pattern (0x009f0903)
-> >> >> > [0:31:56.259696017] [8111] DEBUG V4L2 v4l2_device.cpp:634 'ov08x40 4-0036':
-> >> >> > Control: Digital Gain (0x009f0905)
-> >> >> > [0:31:56.259706326] [8111] DEBUG V4L2 v4l2_videodevice.cpp:631
-> >> >> > /dev/video0[224:cap]: Opened device : isys: ipu6
-> >> >> > [0:31:56.259727296] [8111] DEBUG DmaBufAllocator dma_buf_allocator.cpp:103
-> >> >> > Failed to open /dev/dma_heap/linux,cma: No such file or directory
-> >> >> > [0:31:56.259731671] [8111] DEBUG DmaBufAllocator dma_buf_allocator.cpp:103
-> >> >> > Failed to open /dev/dma_heap/reserved: No such file or directory
-> >> >> > [0:31:56.259736325] [8111] DEBUG DmaBufAllocator dma_buf_allocator.cpp:109 Using
-> >> >> > /dev/dma_heap/system
-> >> >> > [0:31:56.259902167] [8111] DEBUG IPAManager ipa_manager.cpp:306 IPA module
-> >> >> > /usr/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so signature is valid
-> >> >> > [0:31:56.259915328] [8111] DEBUG IPAProxy soft_ipa_proxy.cpp:45 initializing
-> >> >> > soft proxy: loading IPA from
-> >> >> > /usr/lib/x86_64-linux-gnu/libcamera/ipa_soft_simple.so
-> >> >> > [0:31:56.260253048] [8111]  WARN IPAProxy ipa_proxy.cpp:160 Configuration file
-> >> >> > 'ov08x40.yaml' not found for IPA module 'simple', falling back to
-> >> >> > 'uncalibrated.yaml'
-> >> >> > [0:31:56.260261868] [8111]  WARN IPASoft soft_simple.cpp:114 Failed to create
-> >> >> > camera sensor helper for ov08x40
-> >> >> > [0:31:56.260285368] [8111] DEBUG IPASoft soft_simple.cpp:135 Tuning file version
-> >> >> > 1
-> >> >> > [0:31:56.260299829] [8111] DEBUG MediaDevice media_device.cpp:826
-> >> >> > /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> >> > 0'[0]: 0
-> >> >> > [0:31:56.260304036] [8111] DEBUG MediaDevice media_device.cpp:826
-> >> >> > /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> >> > 0'[0]: 1
-> >> >> > [0:31:56.260323122] [8111] DEBUG SimplePipeline simple.cpp:775 Link 'ov08x40
-> >> >> > 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> >> > 1928x1208-SGRBG10_1X10
-> >> >> > [0:31:56.260327682] [8111] DEBUG SimplePipeline simple.cpp:775 Link 'Intel IPU6
-> >> >> > CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> >> > 1928x1208-SGRBG10_1X10
-> >> >> > [0:31:56.260334385] [8111] DEBUG SimplePipeline simple.cpp:626 Adding
-> >> >> > configuration for 1928x1208 in pixel formats [ BA10, pgAA ]
-> >> >> > [0:31:56.260351261] [8111] DEBUG SimplePipeline simple.cpp:775 Link 'ov08x40
-> >> >> > 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> >> > 3856x2416-SGRBG10_1X10
-> >> >> > [0:31:56.260354556] [8111] DEBUG SimplePipeline simple.cpp:775 Link 'Intel IPU6
-> >> >> > CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> >> > 3856x2416-SGRBG10_1X10
-> >> >> > [0:31:56.260358905] [8111] DEBUG SimplePipeline simple.cpp:626 Adding
-> >> >> > configuration for 3856x2416 in pixel formats [ BA10, pgAA ]
-> >> >> > [0:31:56.260368742] [8111] DEBUG Camera camera_manager.cpp:159 Pipeline handler
-> >> >> > "simple" matched
-> >> >> > [0:31:56.260372782] [8111] DEBUG Camera camera_manager.cpp:138 Found registered
-> >> >> > pipeline handler 'uvcvideo'
-> >> >> > [0:31:56.260376628] [8111] DEBUG Camera camera_manager.cpp:138 Found registered
-> >> >> > pipeline handler 'vimc'
-> >> >> > [0:32:00.473170819] [8105] DEBUG SimplePipeline simple.cpp:1002 Largest stream
-> >> >> > size is 3848x2416
-> >> >> > [0:32:00.473202717] [8105] DEBUG SimplePipeline simple.cpp:1054 Picked
-> >> >> > 3856x2416-SGRBG10_1X10 -> 3856x2416-SGRBG10 for max stream size 3848x2416
-> >> >> > [0:32:00.473218465] [8105] DEBUG Camera camera.cpp:1132 streams configuration:
-> >> >> > (0) 3848x2416-ABGR8888
-> >> >> > [0:32:00.473245535] [8105] DEBUG SimplePipeline simple.cpp:1002 Largest stream
-> >> >> > size is 1928x1208
-> >> >> > [0:32:00.473250290] [8105] DEBUG SimplePipeline simple.cpp:1054 Picked
-> >> >> > 1928x1208-SGRBG10_1X10 -> 1928x1208-SGRBG10 for max stream size 1928x1208
-> >> >> > [0:32:00.473255197] [8105] DEBUG SimplePipeline simple.cpp:1103 Adjusting size
-> >> >> > from 1928x1208 to 1924x1208
-> >> >> > Stream configuration adjusted to  1924x1208-ABGR8888
-> >> >> > [0:32:00.473293271] [8105] DEBUG SimplePipeline simple.cpp:1002 Largest stream
-> >> >> > size is 1924x1208
-> >> >> > [0:32:00.473297929] [8105] DEBUG SimplePipeline simple.cpp:1054 Picked
-> >> >> > 1928x1208-SGRBG10_1X10 -> 1928x1208-SGRBG10 for max stream size 1924x1208
-> >> >> > [0:32:00.473303721] [8105]  INFO Camera camera.cpp:1197 configuring streams: (0)
-> >> >> > 1924x1208-ABGR8888
-> >> >> > [0:32:00.473326447] [8111] DEBUG MediaDevice media_device.cpp:826
-> >> >> > /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> >> > 0'[0]: 0
-> >> >> > [0:32:00.473341438] [8111] DEBUG MediaDevice media_device.cpp:826
-> >> >> > /dev/media0[intel-ipu6]: 'Intel IPU6 CSI2 0'[1] -> 'Intel IPU6 ISYS Capture
-> >> >> > 0'[0]: 1
-> >> >> > [0:32:00.473382767] [8111] DEBUG SimplePipeline simple.cpp:775 Link 'ov08x40
-> >> >> > 4-0036'[0] -> 'Intel IPU6 CSI2 0'[0]: configured with format
-> >> >> > 1928x1208-SGRBG10_1X10
-> >> >> > [0:32:00.473387953] [8111] DEBUG SimplePipeline simple.cpp:775 Link 'Intel IPU6
-> >> >> > CSI2 0'[1] -> 'Intel IPU6 ISYS Capture 0'[0]: configured with format
-> >> >> > 1928x1208-SGRBG10_1X10
-> >> >> > [0:32:00.473403604] [8111]  INFO IPASoft soft_simple.cpp:232 Exposure 4-4442,
-> >> >> > gain 6.94777e-310-1984 (1)
-> >> >> > Zero-copy enabled
-> >> >> > [0:32:00.474651600] [8111] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> >> >> > [0:32:00.475671913] [8111] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> >> >> > [0:32:00.476681479] [8111] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> >> >> > [0:32:00.478147695] [8105] DEBUG Request request.cpp:369 Created request -
-> >> >> > cookie: 0
-> >> >> > [0:32:00.478162670] [8105] DEBUG Request request.cpp:369 Created request -
-> >> >> > cookie: 0
-> >> >> > [0:32:00.478166787] [8105] DEBUG Request request.cpp:369 Created request -
-> >> >> > cookie: 0
-> >> >> > [0:32:00.478180310] [8105] DEBUG Camera camera.cpp:1355 Starting capture
-> >> >> > [0:32:00.484289849] [8111] DEBUG V4L2 v4l2_videodevice.cpp:1279
-> >> >> > /dev/video0[224:cap]: 3 buffers requested.
-> >> >> > [0:32:00.484377532] [8111] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> >> >> > [0:32:00.484408807] [8111] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> >> >> > [0:32:00.484433473] [8111] DEBUG Buffer framebuffer.cpp:351 Buffer is contiguous
-> >> >> > [0:32:00.485163250] [8111] DEBUG V4L2 v4l2_videodevice.cpp:1718
-> >> >> > /dev/video0[224:cap]: Queueing buffer 0
-> >> >> > [0:32:00.610747330] [8111] DEBUG V4L2 v4l2_videodevice.cpp:1718
-> >> >> > /dev/video0[224:cap]: Queueing buffer 1
-> >> >> > [0:32:00.610795989] [8111] DEBUG V4L2 v4l2_videodevice.cpp:1718
-> >> >> > /dev/video0[224:cap]: Queueing buffer 2
-> >> >> > [0:32:04.580974685] [8105] DEBUG Camera camera.cpp:1399 Stopping capture
-> >> >> > [0:32:08.617087710] [8111] DEBUG Request request.cpp:129 Request(0:C:0/1:0)
-> >> >> > [0:32:08.617207866] [8111] DEBUG Request request.cpp:129 Request(1:C:0/1:0)
-> >> >> > [0:32:08.617222231] [8111] DEBUG Request request.cpp:129 Request(2:C:0/1:0)
-> >> >> > [0:32:08.617240304] [8111] DEBUG V4L2 v4l2_videodevice.cpp:1564
-> >> >> > /dev/video0[224:cap]: Releasing buffers
-> >> >> > [0:32:08.617274179] [8111] DEBUG V4L2 v4l2_videodevice.cpp:1279
-> >> >> > /dev/video0[224:cap]: 0 buffers requested.
-> >> >> >
-> >> >> > The image that qcam shows is attached. It _looks_ like the same symbol Windows
-> >> >> > shows when the shutter is closed - just maybe reversed.
-> >> >> >
-> >> >> > If I try the same with the shutter open, my laptop freezes, and I have to do a
-> >> >> > power-down reset.
-> >> >> >
-> >> >> > I am fairly handy and am willing to help, I just need some guidance into what I
-> >> >> > need to do next
-> >> >> >
-> >> >> > Sincerely,
-> >> >> > Duane
+This #3 is what introduced most of the refactoring, perhaps you want this to
+come first. In short, if you move code around, do that separately, then add the
+locking in preparation for the newly introduce concurrency from 1.
+
+Thanks for this information, it will certainly help in the next review.
+
+regards,
+Nicolas
+
+>    
+> 
+> > -----Original Message-----
+> > From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Sent: Saturday, December 14, 2024 4:48 AM
+> > To: jackson.lee <jackson.lee@chipsnmedia.com>; mchehab@kernel.org;
+> > hverkuil-cisco@xs4all.nl; sebastian.fricke@collabora.com;
+> > bob.beckett@collabora.com; dafna.hirschfeld@collabora.com
+> > Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org; lafley.kim
+> > <lafley.kim@chipsnmedia.com>; b-brnich@ti.com; hverkuil@xs4all.nl; Nas
+> > Chung <nas.chung@chipsnmedia.com>
+> > Subject: Re: [PATCH v1 3/5] media: chips-media: wave5: Improve performance
+> > of decoder
+> > 
+> > Le lundi 09 décembre 2024 à 14:36 +0900, Jackson.lee a écrit :
+> > > The existing way for decoding frames was to wait until each frame was
+> > > decoded after feeding a bitstream. As a result, performance was low
+> > > and Wave5 could not achieve max pixel processing rate.
+> > > 
+> > > Update driver to use an asynchronous approach for decoding and feeding
+> > > a bitstream in order to achieve full capabilities of the device.
+> > 
+> > That patch is just massive and difficult to review. It does important
+> > change to the driver design, which require important threading review. I'm
+> > not sure I can provide a good review without this change being better
+> > introduced and broken down. Few things:
+> > 
+> > - Try and explain the threading changes in the commits, and perhaps
+> >   introduce the change in the cover letter
+> 
+> 
+> > - Split the refactoring of the ring buffer handling in separate non-
+> >   functional change patches
+> 
+> I didn't modify code to handle the ring buffer, its line was just moved to prevent compiling error.
+> 
+> 
+> > - Change the job_ready() logic and use the m2m thread instead of creating
+> >   another one and wasting context switches
+> 
+> 
+> I will do that.
+> 
+> 
+> Thanks
+> Jackson
+> 
+> 
+> > 
+> > What needs a good theoretical review, is the handling of "abort()" flow.
+> > We had a big struggle with that while helping with the up-streaming. That
+> > is more or less why for time constraints reason we went for this sub-
+> > optimal method of idling the HW between jobs. Don't read me wrong, I'm
+> > very happy so see work being done on that.
+> > 
+> > In parallel, do you agree that 1/5 and 2/5 could be applied already ? If
+> > so, can you send these two in their own serie, and please, add the missing
+> > Fixes: tag, which are needed for backport purpose.
+> > 
+> > regards,
+> > Nicolas
+> > 
+> > > 
+> > > Signed-off-by: Jackson.lee <jackson.lee@chipsnmedia.com>
+> > > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+> > > ---
+> > >  .../platform/chips-media/wave5/wave5-helper.c |  20 +-
+> > >  .../chips-media/wave5/wave5-vpu-dec.c         | 400 +++++++++++-------
+> > >  .../chips-media/wave5/wave5-vpu-enc.c         |   8 +-
+> > >  .../platform/chips-media/wave5/wave5-vpu.c    |  73 +++-
+> > >  .../platform/chips-media/wave5/wave5-vpuapi.c |  24 +-
+> > > .../platform/chips-media/wave5/wave5-vpuapi.h |  15 +-
+> > >  6 files changed, 355 insertions(+), 185 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c
+> > > b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+> > > index 2c9d8cbca6e4..83f30ad36e4f 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+> > > @@ -30,7 +30,6 @@ const char *state_to_str(enum vpu_instance_state
+> > > state)  void wave5_cleanup_instance(struct vpu_instance *inst)  {
+> > >  	int i;
+> > > -
+> > 
+> > nit: I kind of liked that blank line, but its yours to decide what you
+> > like the best.
+> > 
+> > >  	/*
+> > >  	 * For Wave515 SRAM memory is allocated at
+> > >  	 * wave5_vpu_dec_register_device() and freed at @@ -49,7 +48,9 @@
+> > > void wave5_cleanup_instance(struct vpu_instance *inst)
+> > >  		v4l2_fh_del(&inst->v4l2_fh);
+> > >  		v4l2_fh_exit(&inst->v4l2_fh);
+> > >  	}
+> > > -	list_del_init(&inst->list);
+> > > +
+> > > +	kfifo_free(&inst->irq_status);
+> > > +	mutex_destroy(&inst->feed_lock);
+> > >  	ida_free(&inst->dev->inst_ida, inst->id);
+> > >  	kfree(inst->codec_info);
+> > >  	kfree(inst);
+> > > @@ -61,8 +62,22 @@ int wave5_vpu_release_device(struct file *filp,  {
+> > >  	struct vpu_instance *inst = wave5_to_vpu_inst(filp->private_data);
+> > >  	int ret = 0;
+> > > +	unsigned long flags;
+> > > +
+> > > +	if (inst->run_thread) {
+> > > +		kthread_stop(inst->run_thread);
+> > > +		up(&inst->run_sem);
+> > > +		inst->run_thread = NULL;
+> > > +	}
+> > > 
+> > >  	v4l2_m2m_ctx_release(inst->v4l2_fh.m2m_ctx);
+> > > +	ret = mutex_lock_interruptible(&inst->dev->irq_lock);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +	spin_lock_irqsave(&inst->dev->irq_spinlock, flags);
+> > > +	list_del_init(&inst->list);
+> > > +	spin_unlock_irqrestore(&inst->dev->irq_spinlock, flags);
+> > > +	mutex_unlock(&inst->dev->irq_lock);
+> > >  	if (inst->state != VPU_INST_STATE_NONE) {
+> > >  		u32 fail_res;
+> > > 
+> > > @@ -79,7 +94,6 @@ int wave5_vpu_release_device(struct file *filp,
+> > >  	}
+> > > 
+> > >  	wave5_cleanup_instance(inst);
+> > > -
+> > >  	return ret;
+> > >  }
+> > > 
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > index d3ff420c52ce..b0e1f94bdb30 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > @@ -6,6 +6,9 @@
+> > >   */
+> > > 
+> > >  #include <linux/pm_runtime.h>
+> > > +#include <linux/delay.h>
+> > > +#include <linux/timer.h>
+> > > +#include <linux/atomic.h>
+> > >  #include "wave5-helper.h"
+> > > 
+> > >  #define VPU_DEC_DEV_NAME "C&M Wave5 VPU decoder"
+> > > @@ -101,6 +104,24 @@ static const struct vpu_format
+> > dec_fmt_list[FMT_TYPES][MAX_FMTS] = {
+> > >  	}
+> > >  };
+> > > 
+> > > +static int run_thread(void *data)
+> > > +{
+> > > +	struct vpu_instance *inst = (struct vpu_instance *)data;
+> > > +	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+> > > +
+> > > +	while (!kthread_should_stop()) {
+> > > +		if (down_interruptible(&inst->run_sem))
+> > > +			continue;
+> > > +
+> > > +		if (kthread_should_stop())
+> > > +			break;
+> > > +
+> > > +		v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  /*
+> > >   * Make sure that the state switch is allowed and add logging for
+> > debugging
+> > >   * purposes
+> > > @@ -230,7 +251,6 @@ static int start_decode(struct vpu_instance *inst,
+> > u32 *fail_res)
+> > >  		switch_state(inst, VPU_INST_STATE_STOP);
+> > > 
+> > >  		dev_dbg(inst->dev->dev, "%s: pic run failed / finish job",
+> > __func__);
+> > > -		v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+> > >  	}
+> > > 
+> > >  	return ret;
+> > > @@ -347,7 +367,6 @@ static void wave5_vpu_dec_finish_decode(struct
+> > vpu_instance *inst)
+> > >  	struct vb2_v4l2_buffer *dec_buf = NULL;
+> > >  	struct vb2_v4l2_buffer *disp_buf = NULL;
+> > >  	struct vb2_queue *dst_vq = v4l2_m2m_get_dst_vq(m2m_ctx);
+> > > -	struct queue_status_info q_status;
+> > > 
+> > >  	dev_dbg(inst->dev->dev, "%s: Fetch output info from firmware.",
+> > > __func__);
+> > > 
+> > > @@ -360,11 +379,22 @@ static void wave5_vpu_dec_finish_decode(struct
+> > > vpu_instance *inst)
+> > > 
+> > >  	dev_dbg(inst->dev->dev, "%s: rd_ptr %pad wr_ptr %pad", __func__,
+> > &dec_info.rd_ptr,
+> > >  		&dec_info.wr_ptr);
+> > > -	wave5_handle_src_buffer(inst, dec_info.rd_ptr);
+> > > 
+> > >  	dev_dbg(inst->dev->dev, "%s: dec_info dec_idx %i disp_idx %i",
+> > __func__,
+> > >  		dec_info.index_frame_decoded, dec_info.index_frame_display);
+> > > 
+> > > +	if (inst->std == W_AVC_DEC &&
+> > > +	    dec_info.index_frame_decoded == DECODED_IDX_FLAG_SKIP &&
+> > > +	    dec_info.index_frame_display == DISPLAY_IDX_FLAG_NO_FB) {
+> > > +		struct vb2_v4l2_buffer *src_buf =
+> > v4l2_m2m_src_buf_remove(m2m_ctx);
+> > > +
+> > > +		if (src_buf)
+> > > +			v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	wave5_handle_src_buffer(inst, dec_info.rd_ptr);
+> > > +
+> > >  	if (!vb2_is_streaming(dst_vq)) {
+> > >  		dev_dbg(inst->dev->dev, "%s: capture is not streaming..",
+> > __func__);
+> > >  		v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx); @@ -441,20
+> > +471,6
+> > > @@ static void wave5_vpu_dec_finish_decode(struct vpu_instance *inst)
+> > >  		}
+> > >  		spin_unlock_irqrestore(&inst->state_spinlock, flags);
+> > >  	}
+> > > -
+> > > -	/*
+> > > -	 * During a resolution change and while draining, the firmware may
+> > flush
+> > > -	 * the reorder queue regardless of having a matching decoding
+> > operation
+> > > -	 * pending. Only terminate the job if there are no more IRQ coming.
+> > > -	 */
+> > > -	wave5_vpu_dec_give_command(inst, DEC_GET_QUEUE_STATUS, &q_status);
+> > > -	if (q_status.report_queue_count == 0 &&
+> > > -	    (q_status.instance_queue_count == 0 ||
+> > dec_info.sequence_changed)) {
+> > > -		dev_dbg(inst->dev->dev, "%s: finishing job.\n", __func__);
+> > > -		pm_runtime_mark_last_busy(inst->dev->dev);
+> > > -		pm_runtime_put_autosuspend(inst->dev->dev);
+> > > -		v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+> > > -	}
+> > >  }
+> > > 
+> > >  static int wave5_vpu_dec_querycap(struct file *file, void *fh, struct
+> > > v4l2_capability *cap) @@ -465,6 +481,142 @@ static int
+> > wave5_vpu_dec_querycap(struct file *file, void *fh, struct v4l2_capab
+> > >  	return 0;
+> > >  }
+> > > 
+> > > +static int write_to_ringbuffer(struct vpu_instance *inst, void *buffer,
+> > size_t buffer_size,
+> > > +			       struct vpu_buf *ring_buffer, dma_addr_t wr_ptr)
+> > {
+> > > +	size_t size;
+> > > +	size_t offset = wr_ptr - ring_buffer->daddr;
+> > > +	int ret;
+> > > +
+> > > +	if (wr_ptr + buffer_size > ring_buffer->daddr + ring_buffer->size)
+> > {
+> > > +		size = ring_buffer->daddr + ring_buffer->size - wr_ptr;
+> > > +		ret = wave5_vdi_write_memory(inst->dev, ring_buffer, offset,
+> > (u8 *)buffer, size);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +
+> > > +		ret = wave5_vdi_write_memory(inst->dev, ring_buffer, 0, (u8
+> > *)buffer + size,
+> > > +					     buffer_size - size);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +	} else {
+> > > +		ret = wave5_vdi_write_memory(inst->dev, ring_buffer, offset,
+> > (u8 *)buffer,
+> > > +					     buffer_size);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int fill_ringbuffer(struct vpu_instance *inst) {
+> > > +	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+> > > +	struct vpu_src_buffer *vpu_buf;
+> > > +	int ret = 0;
+> > > +
+> > > +	if (m2m_ctx->last_src_buf)  {
+> > > +		struct vpu_src_buffer *vpu_buf =
+> > > +wave5_to_vpu_src_buf(m2m_ctx->last_src_buf);
+> > > +
+> > > +		if (vpu_buf->consumed) {
+> > > +			dev_dbg(inst->dev->dev, "last src buffer already
+> > written\n");
+> > > +			return 0;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	list_for_each_entry(vpu_buf, &inst->avail_src_bufs, list) {
+> > > +		struct vb2_v4l2_buffer *vbuf = &vpu_buf->v4l2_m2m_buf.vb;
+> > > +		struct vpu_buf *ring_buffer = &inst->bitstream_vbuf;
+> > > +		size_t src_size = vb2_get_plane_payload(&vbuf->vb2_buf, 0);
+> > > +		void *src_buf = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
+> > > +		dma_addr_t rd_ptr = 0;
+> > > +		dma_addr_t wr_ptr = 0;
+> > > +		size_t remain_size = 0;
+> > > +
+> > > +		if (vpu_buf->consumed) {
+> > > +			dev_dbg(inst->dev->dev, "already copied src buf (%u)
+> > to the ring buffer\n",
+> > > +				vbuf->vb2_buf.index);
+> > > +			continue;
+> > > +		}
+> > > +
+> > > +		if (!src_buf) {
+> > > +			dev_dbg(inst->dev->dev,
+> > > +				"%s: Acquiring kernel pointer to src buf (%u),
+> > fail\n",
+> > > +				__func__, vbuf->vb2_buf.index);
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		ret = wave5_vpu_dec_get_bitstream_buffer(inst, &rd_ptr,
+> > &wr_ptr, &remain_size);
+> > > +		if (ret) {
+> > > +			/* Unable to acquire the mutex */
+> > > +			dev_err(inst->dev->dev, "Getting the bitstream buffer,
+> > fail: %d\n",
+> > > +				ret);
+> > > +			return ret;
+> > > +		}
+> > > +
+> > > +		dev_dbg(inst->dev->dev, "%s: rd_ptr %pad wr_ptr %pad",
+> > __func__,
+> > > +&rd_ptr, &wr_ptr);
+> > > +
+> > > +		if (remain_size < src_size) {
+> > > +			dev_dbg(inst->dev->dev,
+> > > +				"%s: remaining size: %zu < source size: %zu for
+> > src buf (%u)\n",
+> > > +				__func__, remain_size, src_size, vbuf-
+> > > vb2_buf.index);
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		ret = write_to_ringbuffer(inst, src_buf, src_size,
+> > ring_buffer, wr_ptr);
+> > > +		if (ret) {
+> > > +			dev_err(inst->dev->dev, "Write src buf (%u) to ring
+> > buffer, fail: %d\n",
+> > > +				vbuf->vb2_buf.index, ret);
+> > > +			return ret;
+> > > +		}
+> > > +
+> > > +		ret = wave5_vpu_dec_update_bitstream_buffer(inst, src_size);
+> > > +		if (ret) {
+> > > +			dev_dbg(inst->dev->dev,
+> > > +				"update_bitstream_buffer fail: %d for src buf
+> > (%u)\n",
+> > > +				ret, vbuf->vb2_buf.index);
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		vpu_buf->consumed = true;
+> > > +
+> > > +		/* Don't write buffers passed the last one while draining.
+> > */
+> > > +		if (v4l2_m2m_is_last_draining_src_buf(m2m_ctx, vbuf)) {
+> > > +			dev_dbg(inst->dev->dev, "last src buffer written to
+> > the ring buffer\n");
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		inst->queuing_num++;
+> > > +		list_del_init(&vpu_buf->list);
+> > > +		break;
+> > > +	}
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static void wave5_vpu_dec_feed_remaining(struct vpu_instance *inst) {
+> > > +	int ret = 0;
+> > > +	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+> > > +	u32 fail_res = 0;
+> > > +
+> > > +	mutex_lock(&inst->feed_lock);
+> > > +	ret = fill_ringbuffer(inst);
+> > > +	mutex_unlock(&inst->feed_lock);
+> > > +	if (ret) {
+> > > +		dev_warn(inst->dev->dev, "Filling ring buffer failed\n");
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	ret = start_decode(inst, &fail_res);
+> > > +	if (ret) {
+> > > +		dev_err(inst->dev->dev,
+> > > +			"Frame decoding on m2m context (%p), fail: %d
+> > (result: %d)\n",
+> > > +			m2m_ctx, ret, fail_res);
+> > > +	}
+> > > +
+> > > +	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx); }
+> > > +
+> > >  static int wave5_vpu_dec_enum_framesizes(struct file *f, void *fh,
+> > > struct v4l2_frmsizeenum *fsize)  {
+> > >  	const struct vpu_format *vpu_fmt;
+> > > @@ -794,11 +946,21 @@ static int wave5_vpu_dec_stop(struct vpu_instance
+> > *inst)
+> > >  	}
+> > > 
+> > >  	if (inst->state != VPU_INST_STATE_NONE) {
+> > > +		struct vb2_v4l2_buffer *vbuf;
+> > > +		struct vpu_src_buffer *vpu_buf;
+> > > +
+> > >  		/*
+> > >  		 * Temporarily release the state_spinlock so that subsequent
+> > >  		 * calls do not block on a mutex while inside this spinlock.
+> > >  		 */
+> > >  		spin_unlock_irqrestore(&inst->state_spinlock, flags);
+> > > +		vbuf = v4l2_m2m_last_src_buf(m2m_ctx);
+> > > +		if (vbuf) {
+> > > +			vpu_buf = wave5_to_vpu_src_buf(vbuf);
+> > > +			if (!vpu_buf->consumed)
+> > > +				wave5_vpu_dec_feed_remaining(inst);
+> > > +		}
+> > > +
+> > >  		ret = wave5_vpu_dec_set_eos_on_firmware(inst);
+> > >  		if (ret)
+> > >  			return ret;
+> > > @@ -1116,115 +1278,6 @@ static int wave5_prepare_fb(struct vpu_instance
+> > *inst)
+> > >  	return 0;
+> > >  }
+> > > 
+> > > -static int write_to_ringbuffer(struct vpu_instance *inst, void *buffer,
+> > size_t buffer_size,
+> > > -			       struct vpu_buf *ring_buffer, dma_addr_t wr_ptr)
+> > > -{
+> > > -	size_t size;
+> > > -	size_t offset = wr_ptr - ring_buffer->daddr;
+> > > -	int ret;
+> > > -
+> > > -	if (wr_ptr + buffer_size > ring_buffer->daddr + ring_buffer->size)
+> > {
+> > > -		size = ring_buffer->daddr + ring_buffer->size - wr_ptr;
+> > > -		ret = wave5_vdi_write_memory(inst->dev, ring_buffer, offset,
+> > (u8 *)buffer, size);
+> > > -		if (ret < 0)
+> > > -			return ret;
+> > > -
+> > > -		ret = wave5_vdi_write_memory(inst->dev, ring_buffer, 0, (u8
+> > *)buffer + size,
+> > > -					     buffer_size - size);
+> > > -		if (ret < 0)
+> > > -			return ret;
+> > > -	} else {
+> > > -		ret = wave5_vdi_write_memory(inst->dev, ring_buffer, offset,
+> > (u8 *)buffer,
+> > > -					     buffer_size);
+> > > -		if (ret < 0)
+> > > -			return ret;
+> > > -	}
+> > > -
+> > > -	return 0;
+> > > -}
+> > > -
+> > > -static int fill_ringbuffer(struct vpu_instance *inst) -{
+> > > -	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+> > > -	struct v4l2_m2m_buffer *buf, *n;
+> > > -	int ret;
+> > > -
+> > > -	if (m2m_ctx->last_src_buf)  {
+> > > -		struct vpu_src_buffer *vpu_buf =
+> > wave5_to_vpu_src_buf(m2m_ctx->last_src_buf);
+> > > -
+> > > -		if (vpu_buf->consumed) {
+> > > -			dev_dbg(inst->dev->dev, "last src buffer already
+> > written\n");
+> > > -			return 0;
+> > > -		}
+> > > -	}
+> > > -
+> > > -	v4l2_m2m_for_each_src_buf_safe(m2m_ctx, buf, n) {
+> > > -		struct vb2_v4l2_buffer *vbuf = &buf->vb;
+> > > -		struct vpu_src_buffer *vpu_buf = wave5_to_vpu_src_buf(vbuf);
+> > > -		struct vpu_buf *ring_buffer = &inst->bitstream_vbuf;
+> > > -		size_t src_size = vb2_get_plane_payload(&vbuf->vb2_buf, 0);
+> > > -		void *src_buf = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
+> > > -		dma_addr_t rd_ptr = 0;
+> > > -		dma_addr_t wr_ptr = 0;
+> > > -		size_t remain_size = 0;
+> > > -
+> > > -		if (vpu_buf->consumed) {
+> > > -			dev_dbg(inst->dev->dev, "already copied src buf (%u)
+> > to the ring buffer\n",
+> > > -				vbuf->vb2_buf.index);
+> > > -			continue;
+> > > -		}
+> > > -
+> > > -		if (!src_buf) {
+> > > -			dev_dbg(inst->dev->dev,
+> > > -				"%s: Acquiring kernel pointer to src buf (%u),
+> > fail\n",
+> > > -				__func__, vbuf->vb2_buf.index);
+> > > -			break;
+> > > -		}
+> > > -
+> > > -		ret = wave5_vpu_dec_get_bitstream_buffer(inst, &rd_ptr,
+> > &wr_ptr, &remain_size);
+> > > -		if (ret) {
+> > > -			/* Unable to acquire the mutex */
+> > > -			dev_err(inst->dev->dev, "Getting the bitstream buffer,
+> > fail: %d\n",
+> > > -				ret);
+> > > -			return ret;
+> > > -		}
+> > > -
+> > > -		dev_dbg(inst->dev->dev, "%s: rd_ptr %pad wr_ptr %pad",
+> > __func__, &rd_ptr, &wr_ptr);
+> > > -
+> > > -		if (remain_size < src_size) {
+> > > -			dev_dbg(inst->dev->dev,
+> > > -				"%s: remaining size: %zu < source size: %zu for
+> > src buf (%u)\n",
+> > > -				__func__, remain_size, src_size, vbuf-
+> > > vb2_buf.index);
+> > > -			break;
+> > > -		}
+> > > -
+> > > -		ret = write_to_ringbuffer(inst, src_buf, src_size,
+> > ring_buffer, wr_ptr);
+> > > -		if (ret) {
+> > > -			dev_err(inst->dev->dev, "Write src buf (%u) to ring
+> > buffer, fail: %d\n",
+> > > -				vbuf->vb2_buf.index, ret);
+> > > -			return ret;
+> > > -		}
+> > > -
+> > > -		ret = wave5_vpu_dec_update_bitstream_buffer(inst, src_size);
+> > > -		if (ret) {
+> > > -			dev_dbg(inst->dev->dev,
+> > > -				"update_bitstream_buffer fail: %d for src buf
+> > (%u)\n",
+> > > -				ret, vbuf->vb2_buf.index);
+> > > -			break;
+> > > -		}
+> > > -
+> > > -		vpu_buf->consumed = true;
+> > > -
+> > > -		/* Don't write buffers passed the last one while draining.
+> > */
+> > > -		if (v4l2_m2m_is_last_draining_src_buf(m2m_ctx, vbuf)) {
+> > > -			dev_dbg(inst->dev->dev, "last src buffer written to
+> > the ring buffer\n");
+> > > -			break;
+> > > -		}
+> > > -	}
+> > > -
+> > > -	return 0;
+> > > -}
+> > > -
+> > >  static void wave5_vpu_dec_buf_queue_src(struct vb2_buffer *vb)  {
+> > >  	struct vpu_instance *inst = vb2_get_drv_priv(vb->vb2_queue); @@
+> > > -1236,6 +1289,11 @@ static void wave5_vpu_dec_buf_queue_src(struct
+> > vb2_buffer *vb)
+> > >  	vbuf->sequence = inst->queued_src_buf_num++;
+> > > 
+> > >  	v4l2_m2m_buf_queue(m2m_ctx, vbuf);
+> > > +
+> > > +	INIT_LIST_HEAD(&vpu_buf->list);
+> > > +	mutex_lock(&inst->feed_lock);
+> > > +	list_add_tail(&vpu_buf->list, &inst->avail_src_bufs);
+> > > +	mutex_unlock(&inst->feed_lock);
+> > >  }
+> > > 
+> > >  static void wave5_vpu_dec_buf_queue_dst(struct vb2_buffer *vb) @@
+> > > -1287,10 +1345,13 @@ static void wave5_vpu_dec_buf_queue(struct
+> > vb2_buffer *vb)
+> > >  		__func__, vb->type, vb->index, vb2_plane_size(&vbuf->vb2_buf,
+> > 0),
+> > >  		vb2_plane_size(&vbuf->vb2_buf, 1), vb2_plane_size(&vbuf-
+> > > vb2_buf,
+> > > 2));
+> > > 
+> > > -	if (vb->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> > > +	if (vb->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+> > > +		if (inst->empty_queue)
+> > > +			inst->empty_queue = false;
+> > >  		wave5_vpu_dec_buf_queue_src(vb);
+> > > -	else if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+> > > +	} else if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+> > >  		wave5_vpu_dec_buf_queue_dst(vb);
+> > > +	}
+> > >  }
+> > > 
+> > >  static int wave5_vpu_dec_allocate_ring_buffer(struct vpu_instance
+> > > *inst) @@ -1369,6 +1430,13 @@ static int streamoff_output(struct
+> > vb2_queue *q)
+> > >  	struct vb2_v4l2_buffer *buf;
+> > >  	int ret;
+> > >  	dma_addr_t new_rd_ptr;
+> > > +	struct vpu_src_buffer *vpu_buf, *tmp;
+> > > +
+> > > +	inst->retry = false;
+> > > +	inst->queuing_num = 0;
+> > > +
+> > > +	list_for_each_entry_safe(vpu_buf, tmp, &inst->avail_src_bufs, list)
+> > > +		list_del_init(&vpu_buf->list);
+> > > 
+> > >  	while ((buf = v4l2_m2m_src_buf_remove(m2m_ctx))) {
+> > >  		dev_dbg(inst->dev->dev, "%s: (Multiplanar) buf type %4u |
+> > index
+> > > %4u\n", @@ -1445,6 +1513,7 @@ static void
+> > > wave5_vpu_dec_stop_streaming(struct vb2_queue *q)
+> > > 
+> > >  	dev_dbg(inst->dev->dev, "%s: type: %u\n", __func__, q->type);
+> > >  	pm_runtime_resume_and_get(inst->dev->dev);
+> > > +	inst->empty_queue = false;
+> > > 
+> > >  	while (check_cmd) {
+> > >  		struct queue_status_info q_status;
+> > > @@ -1452,16 +1521,13 @@ static void
+> > > wave5_vpu_dec_stop_streaming(struct vb2_queue *q)
+> > > 
+> > >  		wave5_vpu_dec_give_command(inst, DEC_GET_QUEUE_STATUS,
+> > &q_status);
+> > > 
+> > > -		if (q_status.report_queue_count == 0)
+> > > -			break;
+> > > -
+> > > -		if (wave5_vpu_wait_interrupt(inst, VPU_DEC_TIMEOUT) < 0)
+> > > +		if ((inst->state == VPU_INST_STATE_STOP ||
+> > q_status.instance_queue_count == 0) &&
+> > > +		    q_status.report_queue_count == 0)
+> > >  			break;
+> > > 
+> > >  		if (wave5_vpu_dec_get_output_info(inst, &dec_output_info))
+> > >  			dev_dbg(inst->dev->dev, "Getting decoding results from
+> > fw, fail\n");
+> > >  	}
+> > > -
+> > >  	v4l2_m2m_update_stop_streaming_state(m2m_ctx, q);
+> > > 
+> > >  	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> > > @@ -1548,13 +1614,24 @@ static void wave5_vpu_dec_device_run(void *priv)
+> > >  	struct queue_status_info q_status;
+> > >  	u32 fail_res = 0;
+> > >  	int ret = 0;
+> > > +	unsigned long flags;
+> > > 
+> > >  	dev_dbg(inst->dev->dev, "%s: Fill the ring buffer with new
+> > bitstream data", __func__);
+> > >  	pm_runtime_resume_and_get(inst->dev->dev);
+> > > -	ret = fill_ringbuffer(inst);
+> > > -	if (ret) {
+> > > -		dev_warn(inst->dev->dev, "Filling ring buffer failed\n");
+> > > -		goto finish_job_and_return;
+> > > +	if (!inst->retry) {
+> > > +		mutex_lock(&inst->feed_lock);
+> > > +		ret = fill_ringbuffer(inst);
+> > > +		mutex_unlock(&inst->feed_lock);
+> > > +		if (ret < 0) {
+> > > +			dev_warn(inst->dev->dev, "Filling ring buffer
+> > failed\n");
+> > > +			goto finish_job_and_return;
+> > > +		} else if (!inst->eos &&
+> > > +			   inst->queuing_num == 0 &&
+> > > +			   inst->state == VPU_INST_STATE_PIC_RUN) {
+> > > +			dev_dbg(inst->dev->dev, "%s: no bitstream for feeding,
+> > so skip ", __func__);
+> > > +			inst->empty_queue = true;
+> > > +			goto finish_job_and_return;
+> > > +		}
+> > >  	}
+> > > 
+> > >  	switch (inst->state) {
+> > > @@ -1590,7 +1667,9 @@ static void wave5_vpu_dec_device_run(void *priv)
+> > >  		 * we had a chance to switch, which leads to an invalid state
+> > >  		 * change.
+> > >  		 */
+> > > +		spin_lock_irqsave(&inst->state_spinlock, flags);
+> > >  		switch_state(inst, VPU_INST_STATE_PIC_RUN);
+> > > +		spin_unlock_irqrestore(&inst->state_spinlock, flags);
+> > > 
+> > >  		/*
+> > >  		 * During DRC, the picture decoding remains pending, so just
+> > leave
+> > > the job @@ -1605,12 +1684,14 @@ static void
+> > wave5_vpu_dec_device_run(void *priv)
+> > >  		ret = wave5_prepare_fb(inst);
+> > >  		if (ret) {
+> > >  			dev_warn(inst->dev->dev, "Framebuffer preparation,
+> > fail: %d\n",
+> > > ret);
+> > > +			spin_lock_irqsave(&inst->state_spinlock, flags);
+> > >  			switch_state(inst, VPU_INST_STATE_STOP);
+> > > +			spin_unlock_irqrestore(&inst->state_spinlock, flags);
+> > >  			break;
+> > >  		}
+> > > 
+> > >  		if (q_status.instance_queue_count) {
+> > > -			dev_dbg(inst->dev->dev, "%s: leave with active job",
+> > __func__);
+> > > +			v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+> > >  			return;
+> > >  		}
+> > > 
+> > > @@ -1621,21 +1702,27 @@ static void wave5_vpu_dec_device_run(void *priv)
+> > >  			dev_err(inst->dev->dev,
+> > >  				"Frame decoding on m2m context (%p), fail: %d
+> > (result: %d)\n",
+> > >  				m2m_ctx, ret, fail_res);
+> > > -			break;
+> > > +			goto finish_job_and_return;
+> > >  		}
+> > >  		/* Return so that we leave this job active */
+> > > -		dev_dbg(inst->dev->dev, "%s: leave with active job",
+> > __func__);
+> > > -		return;
+> > > -	default:
+> > > -		WARN(1, "Execution of a job in state %s illegal.\n",
+> > state_to_str(inst->state));
+> > > +		if (fail_res == WAVE5_SYSERR_QUEUEING_FAIL) {
+> > > +			inst->retry = true;
+> > > +		} else {
+> > > +			inst->retry = false;
+> > > +			if (!inst->eos)
+> > > +				inst->queuing_num--;
+> > > +		}
+> > >  		break;
+> > > +	default:
+> > > +		if (!v4l2_m2m_has_stopped(m2m_ctx))
+> > > +			WARN(1, "Execution of a job in state %s illegal.\n",
+> > > +			     state_to_str(inst->state));
+> > > +		return;
+> > >  	}
+> > > 
+> > >  finish_job_and_return:
+> > > +	up(&inst->run_sem);
+> > >  	dev_dbg(inst->dev->dev, "%s: leave and finish job", __func__);
+> > > -	pm_runtime_mark_last_busy(inst->dev->dev);
+> > > -	pm_runtime_put_autosuspend(inst->dev->dev);
+> > > -	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+> > >  }
+> > > 
+> > >  static void wave5_vpu_dec_job_abort(void *priv) @@ -1647,10 +1734,7
+> > > @@ static void wave5_vpu_dec_job_abort(void *priv)
+> > >  	if (ret)
+> > >  		return;
+> > > 
+> > > -	ret = wave5_vpu_dec_set_eos_on_firmware(inst);
+> > > -	if (ret)
+> > > -		dev_warn(inst->dev->dev,
+> > > -			 "Setting EOS for the bitstream, fail: %d\n", ret);
+> > > +	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, inst->v4l2_fh.m2m_ctx);
+> > >  }
+> > > 
+> > >  static int wave5_vpu_dec_job_ready(void *priv) @@ -1686,7 +1770,8 @@
+> > > static int wave5_vpu_dec_job_ready(void *priv)
+> > >  				"No capture buffer ready to decode!\n");
+> > >  			break;
+> > >  		} else if (!wave5_is_draining_or_eos(inst) &&
+> > > -			   !v4l2_m2m_num_src_bufs_ready(m2m_ctx)) {
+> > > +			   (!v4l2_m2m_num_src_bufs_ready(m2m_ctx) ||
+> > > +			    inst->empty_queue)) {
+> > >  			dev_dbg(inst->dev->dev,
+> > >  				"No bitstream data to decode!\n");
+> > >  			break;
+> > > @@ -1726,6 +1811,8 @@ static int wave5_vpu_open_dec(struct file *filp)
+> > >  	inst->ops = &wave5_vpu_dec_inst_ops;
+> > > 
+> > >  	spin_lock_init(&inst->state_spinlock);
+> > > +	mutex_init(&inst->feed_lock);
+> > > +	INIT_LIST_HEAD(&inst->avail_src_bufs);
+> > > 
+> > >  	inst->codec_info = kzalloc(sizeof(*inst->codec_info), GFP_KERNEL);
+> > >  	if (!inst->codec_info)
+> > > @@ -1782,6 +1869,11 @@ static int wave5_vpu_open_dec(struct file *filp)
+> > >  	inst->xfer_func = V4L2_XFER_FUNC_DEFAULT;
+> > > 
+> > >  	init_completion(&inst->irq_done);
+> > > +	ret = kfifo_alloc(&inst->irq_status, 16 * sizeof(int), GFP_KERNEL);
+> > > +	if (ret) {
+> > > +		dev_err(inst->dev->dev, "failed to allocate fifo\n");
+> > > +		goto cleanup_inst;
+> > > +	}
+> > > 
+> > >  	inst->id = ida_alloc(&inst->dev->inst_ida, GFP_KERNEL);
+> > >  	if (inst->id < 0) {
+> > > @@ -1797,13 +1889,13 @@ static int wave5_vpu_open_dec(struct file *filp)
+> > >  	if (inst->dev->product_code != WAVE515_CODE)
+> > >  		wave5_vdi_allocate_sram(inst->dev);
+> > > 
+> > > +	sema_init(&inst->run_sem, 1);
+> > > +	inst->run_thread = kthread_run(run_thread, inst, "run thread");
+> > > +
+> > >  	ret = mutex_lock_interruptible(&dev->dev_lock);
+> > >  	if (ret)
+> > >  		goto cleanup_inst;
+> > > 
+> > > -	if (list_empty(&dev->instances))
+> > > -		pm_runtime_use_autosuspend(inst->dev->dev);
+> > > -
+> > >  	list_add_tail(&inst->list, &dev->instances);
+> > > 
+> > >  	mutex_unlock(&dev->dev_lock);
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > index 1e5fc5f8b856..7f1aa392805f 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > @@ -1760,6 +1760,11 @@ static int wave5_vpu_open_enc(struct file *filp)
+> > >  	inst->frame_rate = 30;
+> > > 
+> > >  	init_completion(&inst->irq_done);
+> > > +	ret = kfifo_alloc(&inst->irq_status, 16 * sizeof(int), GFP_KERNEL);
+> > > +	if (ret) {
+> > > +		dev_err(inst->dev->dev, "failed to allocate fifo\n");
+> > > +		goto cleanup_inst;
+> > > +	}
+> > > 
+> > >  	inst->id = ida_alloc(&inst->dev->inst_ida, GFP_KERNEL);
+> > >  	if (inst->id < 0) {
+> > > @@ -1774,9 +1779,6 @@ static int wave5_vpu_open_enc(struct file *filp)
+> > >  	if (ret)
+> > >  		goto cleanup_inst;
+> > > 
+> > > -	if (list_empty(&dev->instances))
+> > > -		pm_runtime_use_autosuspend(inst->dev->dev);
+> > > -
+> > >  	list_add_tail(&inst->list, &dev->instances);
+> > > 
+> > >  	mutex_unlock(&dev->dev_lock);
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > > index 63a607d10433..e1e4be482d36 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> > > @@ -51,17 +51,24 @@ static void wave5_vpu_handle_irq(void *dev_id)
+> > >  	u32 seq_done;
+> > >  	u32 cmd_done;
+> > >  	u32 irq_reason;
+> > > -	struct vpu_instance *inst;
+> > > +	u32 irq_subreason;
+> > > +	struct vpu_instance *inst, *tmp;
+> > >  	struct vpu_device *dev = dev_id;
+> > > +	int val;
+> > > +	unsigned long flags;
+> > > 
+> > >  	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
+> > >  	seq_done = wave5_vdi_read_register(dev,
+> > W5_RET_SEQ_DONE_INSTANCE_INFO);
+> > >  	cmd_done = wave5_vdi_read_register(dev, W5_RET_QUEUE_CMD_DONE_INST);
+> > > +
+> > > +	if (dev->irq < 0 && cmd_done > 0)
+> > > +		wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST, 0);
+> > > +
+> > >  	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
+> > >  	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
+> > > 
+> > > -	list_for_each_entry(inst, &dev->instances, list) {
+> > > -
+> > > +	spin_lock_irqsave(&dev->irq_spinlock, flags);
+> > > +	list_for_each_entry_safe(inst, tmp, &dev->instances, list) {
+> > >  		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
+> > >  		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
+> > >  			if (dev->product_code == WAVE515_CODE && @@ -82,14
+> > +89,22 @@
+> > > static void wave5_vpu_handle_irq(void *dev_id)
+> > >  		    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
+> > >  			if (cmd_done & BIT(inst->id)) {
+> > >  				cmd_done &= ~BIT(inst->id);
+> > > -				wave5_vdi_write_register(dev,
+> > W5_RET_QUEUE_CMD_DONE_INST,
+> > > -							 cmd_done);
+> > > -				inst->ops->finish_process(inst);
+> > > +				if (dev->irq >= 0) {
+> > > +					irq_subreason =
+> > > +						wave5_vdi_read_register(dev,
+> > W5_VPU_VINT_REASON);
+> > > +					if (!(irq_subreason &
+> > BIT(INT_WAVE5_DEC_PIC)))
+> > > +						wave5_vdi_write_register(dev,
+> > > +
+> > W5_RET_QUEUE_CMD_DONE_INST,
+> > > +									 cmd_done);
+> > > +				}
+> > > +				val = BIT(INT_WAVE5_DEC_PIC);
+> > > +				kfifo_in(&inst->irq_status, &val, sizeof(int));
+> > >  			}
+> > >  		}
+> > > -
+> > > -		wave5_vpu_clear_interrupt(inst, irq_reason);
+> > >  	}
+> > > +	spin_unlock_irqrestore(&dev->irq_spinlock, flags);
+> > > +
+> > > +	up(&dev->irq_sem);
+> > >  }
+> > > 
+> > >  static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id) @@
+> > > -121,6 +136,35 @@ static enum hrtimer_restart
+> > wave5_vpu_timer_callback(struct hrtimer *timer)
+> > >  	return HRTIMER_RESTART;
+> > >  }
+> > > 
+> > > +static int irq_thread(void *data)
+> > > +{
+> > > +	struct vpu_device *dev = (struct vpu_device *)data;
+> > > +	struct vpu_instance *inst, *tmp;
+> > > +	int irq_status, ret;
+> > > +
+> > > +	while (!kthread_should_stop()) {
+> > > +		if (down_interruptible(&dev->irq_sem))
+> > > +			continue;
+> > > +
+> > > +		if (kthread_should_stop())
+> > > +			break;
+> > > +
+> > > +		mutex_lock(&dev->irq_lock);
+> > > +		list_for_each_entry_safe(inst, tmp, &dev->instances, list) {
+> > > +			while (kfifo_len(&inst->irq_status)) {
+> > > +				ret = kfifo_out(&inst->irq_status, &irq_status,
+> > sizeof(int));
+> > > +				if (!ret)
+> > > +					break;
+> > > +
+> > > +				inst->ops->finish_process(inst);
+> > > +			}
+> > > +		}
+> > > +		mutex_unlock(&dev->irq_lock);
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static int wave5_vpu_load_firmware(struct device *dev, const char
+> > *fw_name,
+> > >  				   u32 *revision)
+> > >  {
+> > > @@ -224,6 +268,8 @@ static int wave5_vpu_probe(struct platform_device
+> > > *pdev)
+> > > 
+> > >  	mutex_init(&dev->dev_lock);
+> > >  	mutex_init(&dev->hw_lock);
+> > > +	mutex_init(&dev->irq_lock);
+> > > +	spin_lock_init(&dev->irq_spinlock);
+> > >  	dev_set_drvdata(&pdev->dev, dev);
+> > >  	dev->dev = &pdev->dev;
+> > > 
+> > > @@ -266,6 +312,9 @@ static int wave5_vpu_probe(struct platform_device
+> > *pdev)
+> > >  	}
+> > >  	dev->product = wave5_vpu_get_product_id(dev);
+> > > 
+> > > +	sema_init(&dev->irq_sem, 1);
+> > > +	INIT_LIST_HEAD(&dev->instances);
+> > > +	dev->irq_thread = kthread_run(irq_thread, dev, "irq thread");
+> > >  	dev->irq = platform_get_irq(pdev, 0);
+> > >  	if (dev->irq < 0) {
+> > >  		dev_err(&pdev->dev, "failed to get irq resource, falling
+> > back to
+> > > polling\n"); @@ -288,7 +337,6 @@ static int wave5_vpu_probe(struct
+> > platform_device *pdev)
+> > >  		}
+> > >  	}
+> > > 
+> > > -	INIT_LIST_HEAD(&dev->instances);
+> > >  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+> > >  	if (ret) {
+> > >  		dev_err(&pdev->dev, "v4l2_device_register, fail: %d\n", ret);
+> > @@
+> > > -351,6 +399,12 @@ static void wave5_vpu_remove(struct platform_device
+> > > *pdev)  {
+> > >  	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
+> > > 
+> > > +	if (dev->irq_thread) {
+> > > +		kthread_stop(dev->irq_thread);
+> > > +		up(&dev->irq_sem);
+> > > +		dev->irq_thread = NULL;
+> > > +	}
+> > > +
+> > >  	if (dev->irq < 0) {
+> > >  		kthread_destroy_worker(dev->worker);
+> > >  		hrtimer_cancel(&dev->hrtimer);
+> > > @@ -361,6 +415,7 @@ static void wave5_vpu_remove(struct
+> > > platform_device *pdev)
+> > > 
+> > >  	mutex_destroy(&dev->dev_lock);
+> > >  	mutex_destroy(&dev->hw_lock);
+> > > +	mutex_destroy(&dev->irq_lock);
+> > >  	reset_control_assert(dev->resets);
+> > >  	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
+> > >  	wave5_vpu_enc_unregister_device(dev);
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> > > index e16b990041c2..9a28d0f770bc 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> > > @@ -197,8 +197,6 @@ int wave5_vpu_dec_close(struct vpu_instance *inst,
+> > u32 *fail_res)
+> > >  	int retry = 0;
+> > >  	struct vpu_device *vpu_dev = inst->dev;
+> > >  	int i;
+> > > -	int inst_count = 0;
+> > > -	struct vpu_instance *inst_elm;
+> > > 
+> > >  	*fail_res = 0;
+> > >  	if (!inst->codec_info)
+> > > @@ -223,6 +221,16 @@ int wave5_vpu_dec_close(struct vpu_instance *inst,
+> > u32 *fail_res)
+> > >  		    retry++ >= MAX_FIRMWARE_CALL_RETRY) {
+> > >  			ret = -ETIMEDOUT;
+> > >  			goto unlock_and_return;
+> > > +		} else if (*fail_res == WAVE5_SYSERR_VPU_STILL_RUNNING) {
+> > > +			struct dec_output_info dec_info;
+> > > +
+> > > +			mutex_unlock(&vpu_dev->hw_lock);
+> > > +			wave5_vpu_dec_get_output_info(inst, &dec_info);
+> > > +			ret = mutex_lock_interruptible(&vpu_dev->hw_lock);
+> > > +			if (ret) {
+> > > +				pm_runtime_put_sync(inst->dev->dev);
+> > > +				return ret;
+> > > +			}
+> > >  		}
+> > >  	} while (ret != 0);
+> > > 
+> > > @@ -240,11 +248,6 @@ int wave5_vpu_dec_close(struct vpu_instance
+> > > *inst, u32 *fail_res)
+> > > 
+> > >  	wave5_vdi_free_dma_memory(vpu_dev, &p_dec_info->vb_task);
+> > > 
+> > > -	list_for_each_entry(inst_elm, &vpu_dev->instances, list)
+> > > -		inst_count++;
+> > > -	if (inst_count == 1)
+> > > -		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
+> > > -
+> > >  unlock_and_return:
+> > >  	mutex_unlock(&vpu_dev->hw_lock);
+> > >  	pm_runtime_put_sync(inst->dev->dev);
+> > > @@ -710,8 +713,6 @@ int wave5_vpu_enc_close(struct vpu_instance *inst,
+> > u32 *fail_res)
+> > >  	int ret;
+> > >  	int retry = 0;
+> > >  	struct vpu_device *vpu_dev = inst->dev;
+> > > -	int inst_count = 0;
+> > > -	struct vpu_instance *inst_elm;
+> > > 
+> > >  	*fail_res = 0;
+> > >  	if (!inst->codec_info)
+> > > @@ -755,11 +756,6 @@ int wave5_vpu_enc_close(struct vpu_instance
+> > > *inst, u32 *fail_res)
+> > > 
+> > >  	wave5_vdi_free_dma_memory(vpu_dev, &p_enc_info->vb_task);
+> > > 
+> > > -	list_for_each_entry(inst_elm, &vpu_dev->instances, list)
+> > > -		inst_count++;
+> > > -	if (inst_count == 1)
+> > > -		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
+> > > -
+> > >  	mutex_unlock(&vpu_dev->hw_lock);
+> > >  	pm_runtime_put_sync(inst->dev->dev);
+> > > 
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> > > index 45615c15beca..d26590141562 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> > > @@ -8,6 +8,7 @@
+> > >  #ifndef VPUAPI_H_INCLUDED
+> > >  #define VPUAPI_H_INCLUDED
+> > > 
+> > > +#include <linux/kfifo.h>
+> > >  #include <linux/idr.h>
+> > >  #include <linux/genalloc.h>
+> > >  #include <media/v4l2-device.h>
+> > > @@ -163,7 +164,7 @@ enum set_param_option {
+> > > 
+> > >  #define BUFFER_MARGIN				4096
+> > > 
+> > > -#define MAX_FIRMWARE_CALL_RETRY			10
+> > > +#define MAX_FIRMWARE_CALL_RETRY			30
+> > > 
+> > >  #define VDI_LITTLE_ENDIAN	0x0
+> > > 
+> > > @@ -747,6 +748,7 @@ struct vpu_device {
+> > >  	struct video_device *video_dev_enc;
+> > >  	struct mutex dev_lock; /* lock for the src, dst v4l2 queues */
+> > >  	struct mutex hw_lock; /* lock hw configurations */
+> > > +	struct mutex irq_lock;
+> > >  	int irq;
+> > >  	enum product_id product;
+> > >  	struct vpu_attr attr;
+> > > @@ -764,7 +766,10 @@ struct vpu_device {
+> > >  	struct kthread_worker *worker;
+> > >  	int vpu_poll_interval;
+> > >  	int num_clks;
+> > > +	struct task_struct *irq_thread;
+> > > +	struct semaphore irq_sem;
+> > >  	struct reset_control *resets;
+> > > +	spinlock_t irq_spinlock; /* protect instances list */
+> > >  };
+> > > 
+> > >  struct vpu_instance;
+> > > @@ -787,7 +792,7 @@ struct vpu_instance {
+> > >  	enum v4l2_xfer_func xfer_func;
+> > >  	enum v4l2_ycbcr_encoding ycbcr_enc;
+> > >  	enum v4l2_quantization quantization;
+> > > -
+> > > +	struct kfifo irq_status;
+> > >  	enum vpu_instance_state state;
+> > >  	enum vpu_instance_type type;
+> > >  	const struct vpu_instance_ops *ops;
+> > > @@ -812,11 +817,17 @@ struct vpu_instance {
+> > >  	bool cbcr_interleave;
+> > >  	bool nv21;
+> > >  	bool eos;
+> > > +	bool retry;
+> > > +	bool empty_queue;
+> > > +	int queuing_num;
+> > > +	struct mutex feed_lock; /* lock for feeding bitstream buffers */
+> > >  	struct vpu_buf bitstream_vbuf;
+> > >  	dma_addr_t last_rd_ptr;
+> > >  	size_t remaining_consumed_bytes;
+> > >  	bool needs_reallocation;
+> > > 
+> > > +	struct semaphore run_sem;
+> > > +	struct task_struct *run_thread;
+> > >  	unsigned int min_src_buf_count;
+> > >  	unsigned int rot_angle;
+> > >  	unsigned int mirror_direction;
+> 
+
 
