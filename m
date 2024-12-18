@@ -1,118 +1,114 @@
-Return-Path: <linux-media+bounces-23708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23709-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102CC9F68CE
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 15:43:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F33219F69EF
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 16:24:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B57C1898E04
-	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 14:41:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E48E167120
+	for <lists+linux-media@lfdr.de>; Wed, 18 Dec 2024 15:24:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B4941F8906;
-	Wed, 18 Dec 2024 14:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 462191DE3DE;
+	Wed, 18 Dec 2024 15:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nC2LltGM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TskqVGxa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6696C1E008E
-	for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 14:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993961C5CC2
+	for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 15:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734532729; cv=none; b=Vngq7vc4xg2sE5OyaNbixO5F2ITOOqYhS8Ip5fFKd7hcl72lzCzD5eEYd/AQ6Km3YOt+SGpkykAryVC/vhgf5HIUqEvjs1b3OHVlGrLAH1Jr2Ygnv16hRgQ0Pa24hVlkWNDMJYZsqA1+f4UKNT4GN/QMisYk+Sa4Shrsk+1lBuQ=
+	t=1734535426; cv=none; b=JnBVwZvax+IUK5c8yf6Qk8WTUSEo7wM1NIf7blJDzrhUFYSTv/obNrnOMTL/ZiLUE/BlOIcqBhWOAPoIVsQQ/P+2ojvXxtp5VKIQ5za8mj74ds+noAIoZyRFWeXBXPRnn+Zs+Ibp+Vds9QnI4XdBFfomCSku0R4hY9B65jDi4Pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734532729; c=relaxed/simple;
-	bh=sEhBhw8wRBkd06+vC3YRcJbPoivML6QU2MjSbRUk1JE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MnR+sH/tFZavVSwn/dugXJE/MqX5oKQKH6/jJwE2Y80RsqRCqW/LJQgsJCYjfaZUWCN++EQgZsWC6D7WH6C9Rc97Zhdl6FIk8h4Ng2gAWCguAth4nP/IB0qcolEAmm59QYPrrxjfClRO96qHsbOrhvEav0Nrplz2yA7t0HJ1P6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nC2LltGM; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2166f1e589cso68261325ad.3
-        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 06:38:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1734532727; x=1735137527; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sEhBhw8wRBkd06+vC3YRcJbPoivML6QU2MjSbRUk1JE=;
-        b=nC2LltGMkBWAeWcYsqoKDMgE9wit28OlA3VWXYIjY2jj5dPemgW/sZeHL63s37Tk9V
-         MaLdhS88r7gs5r6Y4b5pJMmkwU/1ipk5LcuxSPY7RBwDzppXHQi2C1iyyHSFZVN3MZiV
-         nOgWOrV+Ttt9WuQYWJ+do/HG29jSOgvYfwvPU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734532727; x=1735137527;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sEhBhw8wRBkd06+vC3YRcJbPoivML6QU2MjSbRUk1JE=;
-        b=RKpb/PIFUmRThZRqGeay4EC4LW5zA+72zwxf3mTScB6sA7DT7ln2GnIdcOnfRMosuo
-         SnTB48kPmBz+kcH0Hd5VVeHEA1tRsAVxO2WTsoHXlKZwO6XhfuqHZ/pAlKTIXwkRdxMD
-         kIQNVQT2nTzoFjpB+VDwn2RkGOQ9uEcuDjKLPX3bNH9AVwBdOe+vvjgj7n13ZvV9gEn8
-         m/S/ndiQlr8jgrBJp+vm9irdCVyol+pKZfKzw+DRkCeFb4NjmZzey49rNcwUTQm1ptES
-         o6PvFV7r9I0F0vKLEo7Pn3LFXT8cNdKwiOtsYwTQyGuZawFY+KDvd7da8d4Fs3lReI/b
-         Rahw==
-X-Gm-Message-State: AOJu0YwbValU6jczrhUpnJGsaevjJnW8YKkfES0wd9HjVRw3HNmKVVhM
-	QC8Gj7FdEtGaG4N3kGgryfD4lzTHyNzUyFKfzfXmUHANZLRvMaD02FUpSLekH2fBNM25QsA34dk
-	=
-X-Gm-Gg: ASbGncsIjl8h5rFA517xkOoHeBPqxcrVVAH6AAqTPfItmlY0GO61pYpO79IZWG2iWCR
-	P7mo1XeZJq8qr9Q1WYtVmYNUMDwcDYlNUzPOl8ivk6nlAfz8HwDZnTqv92TdK5i8GziKNDhp9p/
-	7W6P3ywUeZTpMX9XO5e83JGLcTZKsr0WWiKtSKSx56Zo6kXV4OQdj7NZmNpFUHLMD1xfSSTRolu
-	Ja6my9QD4TMZpoojTuAmxOSkE1zZuX+3rt8LDfjSnOSPHWr1glZyMK+0tZjaOrccoYC0zU1qoaF
-	GDQOXiNisvaZ6QWVs8t+7Zw=
-X-Google-Smtp-Source: AGHT+IHkRvNSmwLnZR5nEvSnqJfM5WfL06y8n/o/qjhK2juqC8KzopIOtauKiKjjVT8/WlFU9EtmeQ==
-X-Received: by 2002:a17:902:f648:b0:216:48dd:d15c with SMTP id d9443c01a7336-218d7229e58mr39564875ad.27.1734532727219;
-        Wed, 18 Dec 2024 06:38:47 -0800 (PST)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com. [209.85.215.180])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e54062sm74917865ad.124.2024.12.18.06.38.46
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Dec 2024 06:38:46 -0800 (PST)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7fd4c0220bbso6181475a12.0
-        for <linux-media@vger.kernel.org>; Wed, 18 Dec 2024 06:38:46 -0800 (PST)
-X-Received: by 2002:a17:90b:6cb:b0:2ee:ee77:2263 with SMTP id
- 98e67ed59e1d1-2f2e91a4d0fmr4369025a91.7.1734532725940; Wed, 18 Dec 2024
- 06:38:45 -0800 (PST)
+	s=arc-20240116; t=1734535426; c=relaxed/simple;
+	bh=6isPewvZO7mep6ORXfFLvPJtKQXnrg1IW8DlfaqLYRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BtiCZyPl2/OtJYTBBR/mj4Zugkj4TOHRNWrSpW1qvRaRCpyJy1XBmHw2sra3IbX5ZXlD/cs5NSVZ9tmZe9GYKSVDI4qvjuBRx0fchaWWmpyStailSwx4FxayN0cEsWaqPgYY5XpNxnNuCE1sPb6VQM7f7sDzJTA9f324afgzlzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TskqVGxa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE02EC4CECD;
+	Wed, 18 Dec 2024 15:23:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734535426;
+	bh=6isPewvZO7mep6ORXfFLvPJtKQXnrg1IW8DlfaqLYRA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=TskqVGxaykkVLnnPMzKiKKPgWKSTPZaO8XTsGtH/OFy5TpYHX2OoCtjIJhvHn0czm
+	 9MBPNWtXvBNFaZ5ktPlqI88LvgwoAa14+jOmB5gPmO3aEPNNaw2w8yjw3W1P+yOHUv
+	 tJGM1rMFk8Z3jsEXdYcvlTNwqN8g/sZmZco/QbVuYZOm9N6q4+zi8Zd90GYWv/xX6l
+	 yt1/kqhKg5faLwITS/J2OFr23RDf8BKsL6xpmnTxV9JV9k7odFkurfM/oEoVvvFbtH
+	 s4B/QEA5ZLN5bS8WK4xullLiXAcjV4LRcWgv4S1HfqLmDGjTf9dq6X63bajQXMDgOx
+	 0H5kVoh97hTkA==
+Date: Wed, 18 Dec 2024 16:23:41 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linuxtv-commits@linuxtv.org, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [GIT,PULL,FOR,v6.14] imx8-isi fixes and improvements
+Message-ID: <20241218162341.4c6f1814@foz.lan>
+In-Reply-To: <20241218021847.GA1844@pendragon.ideasonboard.com>
+References: <20241218004058.GA24802@pendragon.ideasonboard.com>
+	<67622b40.050a0220.3a9c93.6e95@mx.google.com>
+	<20241218021847.GA1844@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org>
-In-Reply-To: <20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 18 Dec 2024 15:38:34 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvL_C5mgGoXz9zWjJA7fXizM751hjm5jadWsRiymTRYsQ@mail.gmail.com>
-X-Gm-Features: AbW1kvb52yj2sbMxM_1uDygLEPKRrSHKKRayDwV2RH2nA3KvtVfgdEKgLrc_hIQ
-Message-ID: <CANiDSCvL_C5mgGoXz9zWjJA7fXizM751hjm5jadWsRiymTRYsQ@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Filter hw errors while enumerating controls
-To: Hans Verkuil <hverkuil@xs4all.nl>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, 13 Dec 2024 at 12:21, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> To implement VIDIOC_QUERYCTRL, we need to read from the hardware all the
-> values that were not cached previously. If that read fails, we used to
-> report back the error to the user.
->
-> Unfortunately this does not play nice with userspace. When they are
-> enumerating the contols, the only expect an error when there are no
-> "next" control.
->
-> This is probably a corner case, and could be handled in userspace, but
-> both v4l2-ctl and yavta fail to enumerate all the controls if we return
-> then -EIO during VIDIOC_QUERYCTRL. I suspect that there are tons of
-> userspace apps handling this wrongly as well.
+Em Wed, 18 Dec 2024 04:18:47 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Actually it CANNOT be handled in userspace.
+> On Tue, Dec 17, 2024 at 05:54:08PM -0800, Patchwork Integration wrote:
+> > Dear Laurent Pinchart:
+> > 
+> > Thanks for your patches! Unfortunately media-ci detected some issues:
+> > 
+> > # Test media-patchstyle:./0001-media-nxp-imx8-isi-fix-v4l2-compliance-test-errors.patch media style
+> > WARNING: Commit cf21f328fcafacf4f96e7a30ef9dceede1076378 found in the stable tree, but stable@vger.kernel.org not in Cc:
+> > WARNING: Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")' - ie: 'Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")'
+> > #16: 
+> > Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")  
+> 
+> I don't think Cc: stable makes sense for this particular commit.
 
-If we return anything different than 0, the structure is not copied to
-userspace:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/v4l2-core/v4l2-ioctl.c#n2929
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/v4l2-core/v4l2-ioctl.c#n3490
+Sure, not all commits are actually fixing things, but, in this
+particular case, it sounds that it contains a real problem:
+
+	Running the v4l2-compliance (1.27.0-5208, SHA: af114250d48d) on the m2m
+	device fails on the MMAP streaming tests, with the following messages:
+
+	fail: v4l2-test-buffers.cpp(240): g_field() == V4L2_FIELD_ANY
+	fail: v4l2-test-buffers.cpp(1508): buf.qbuf(node)
+
+causing userspace to fail. For me, it seems that such patch needs to 
+be backported.
+
+In doubt, please add c/c stable when fixes is used. If there are good
+reasons why not doing it, please place the rationale at the patch.
+
+> > total: 0 errors, 1 warnings, 15 lines checked
+> > WARNING: ./0001-media-nxp-imx8-isi-fix-v4l2-compliance-test-errors.patch: Fails some mandatory checkpatch tests
+> > 
+> > # Test checkpatch:./0001-media-nxp-imx8-isi-fix-v4l2-compliance-test-errors.patch checkpatch
+> > WARNING: Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")' - ie: 'Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")'
+> > #16: 
+> > Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
+> > 
+> > total: 0 errors, 1 warnings, 0 checks, 15 lines checked  
+> 
+> This I can fix. I'll wait for replies to the above though.
+
+Please do it.
+
+The rest of the PR sounds OK on my eyes.
+
+Thanks,
+Mauro
 
