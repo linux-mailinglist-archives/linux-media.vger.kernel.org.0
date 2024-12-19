@@ -1,154 +1,115 @@
-Return-Path: <linux-media+bounces-23775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23776-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4219F7894
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 10:31:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBCD99F79C4
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 11:44:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8C9447A285B
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 09:31:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1524E16E4CC
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 10:44:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18682221D9E;
-	Thu, 19 Dec 2024 09:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF764222D76;
+	Thu, 19 Dec 2024 10:44:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="sBMq9/SB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H6fR/n3O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B43D2165F7;
-	Thu, 19 Dec 2024 09:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA2F22256E;
+	Thu, 19 Dec 2024 10:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734600691; cv=none; b=beSP7a9QIgq1XotS5U/G66zdoFTmQ2L8qVVUeX+TGj+ZqVQgcjbm7FXMew3DyqheILkku1b0aP7OJ5IUJkT4IiLZI9PMf/PiE/LMtWSmdRvpFrviAZF64trn7rcF1VxAqu9v+fIPgKq8jf94bl1/KGm2nANrUhaRXuzUpmMX78I=
+	t=1734605047; cv=none; b=q9rW8BaLCI/SgaWY4rOQ5e9gL4STAdJ4ZkI1DrWIK9kWCRK1wwXb1B9Y9ugu7B9/R+AIiWV0KnLFDmg46DpQn2OG/ijttWMqIuP1afNx+detU+nRgcVXPM2x9nRUBSAsdjdBugbh2zBohDm0ItcHzPh4J20Hx7SGdJMohGG0P28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734600691; c=relaxed/simple;
-	bh=ik7oh3Iyx9RJyQqujVRwuabo9q5/sFl2UOPtQpw4W6U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=KnoTD0JtigWBvg+r1LNElWjngYJY+aoju8WZrgiU2Ci4b1JqdE/AMSzF/rW9+y5Y/Ybom8LfWc+KpQJKwUSYgMm+D3bEw2IRTlw9IdYBfYV0nBm4qzInlDfZnuQvAdTzmE92ngy0XaDkMcyXWAUNRDr7e5V0Th+ELZnaKxmUh/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=sBMq9/SB; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BJ8p3br024853;
-	Thu, 19 Dec 2024 10:31:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	WmGBp6Jz4nXDnKrhsKtK5WI9Ke0a+8w8SkZRoc2M1nA=; b=sBMq9/SB9yLoCwZP
-	V8U7mKt5eXGedyPPkpqqVvIL0pPA5BrabXv8o9A9vwa60x9zx9DLiSW2L8RVKAlX
-	1gI/GZikEuzTpTArtQxrBEC9O1lXnMG3NgsFmzYpe4jup1T65tD8jh/AM43Mfaom
-	Mb+UVwfYWrB0MpLVvFWzhWzkalWkmoAyJg4N6VcmZg5iNlvTE5iA1IihpB+fftMF
-	8/C5o2z8hP0ESLXEa9jRD/6GnZiClmlZX+JjS4pd4iIaWR6xyqEXjZL/+7H3Q/9k
-	WW/Ceujv7KDfUjwa1LCTo/fcO3mhI4WrotAEu5ot/3uxqjwcJ3nbfhbO4aOMpD7l
-	ZS+i4g==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43m03s3ecr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 19 Dec 2024 10:31:04 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 21ADB4004A;
-	Thu, 19 Dec 2024 10:29:42 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5E72A25CBE0;
-	Thu, 19 Dec 2024 10:28:40 +0100 (CET)
-Received: from [10.48.86.79] (10.48.86.79) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 19 Dec
- 2024 10:28:39 +0100
-Message-ID: <b6d92560-1bcc-4c9f-be1e-a5b7056f788a@foss.st.com>
-Date: Thu, 19 Dec 2024 10:28:39 +0100
+	s=arc-20240116; t=1734605047; c=relaxed/simple;
+	bh=KpiBPph0Gu8P36/nc+BaL1QztxpR7NzK1NNDiaT6XTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tUjO8A0D948V9e8BY8x1hGHf9wM5yPPPfzBW8Bi1fL88x/XzbnOyQLPMpzpVWoaiaNZ+BskDnZlq40izFlXX650d0ZfVhj6u9bmGFBjkNIl9vYijcALcYUJcrFCFAaKOjII8GYha+jAFBxinXyIN4MGvT8YtS/2di6jJTfN3b1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H6fR/n3O; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3819163;
+	Thu, 19 Dec 2024 11:43:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1734605003;
+	bh=KpiBPph0Gu8P36/nc+BaL1QztxpR7NzK1NNDiaT6XTg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H6fR/n3OhVX1rJV1XEaSYDQex24nGrjk89qXW2t4zEKPUU2o+jryw3X4+SmDIUFTr
+	 1h5PtBghdMX9FAAMEeTT0hLCAUNrPBdKwZAdjOfbc2rJFwGFS+1rVeqYmjEFTJMP+o
+	 +nC+JL4srfC49xF9ywGlIzmOtSqjQ2p0d1cyaj84=
+Date: Thu, 19 Dec 2024 12:43:58 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Filter hw errors while enumerating
+ controls
+Message-ID: <20241219104358.GA2510@pendragon.ideasonboard.com>
+References: <20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org>
+ <CANiDSCvL_C5mgGoXz9zWjJA7fXizM751hjm5jadWsRiymTRYsQ@mail.gmail.com>
+ <20241218232838.GG5518@pendragon.ideasonboard.com>
+ <CANiDSCtyRHgxOkEMYTi56AhoWS7xjskU-BMvGxpeJ=XBNJ=okw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/15] media: stm32: introduction of CSI / DCMIPP for
- STM32MP25
-To: Alain Volmat <alain.volmat@foss.st.com>,
-        Hugues Fruchet
-	<hugues.fruchet@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp
- Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-CC: <linux-media@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <stable@vger.kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski@linaro.org>
-References: <20241212-csi_dcmipp_mp25-v4-0-fbeb55a05ed7@foss.st.com>
-Content-Language: en-US
-From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20241212-csi_dcmipp_mp25-v4-0-fbeb55a05ed7@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCtyRHgxOkEMYTi56AhoWS7xjskU-BMvGxpeJ=XBNJ=okw@mail.gmail.com>
 
-Hi Alain
+On Thu, Dec 19, 2024 at 09:18:30AM +0100, Ricardo Ribalda wrote:
+> On Thu, 19 Dec 2024 at 00:28, Laurent Pinchart wrote:
+> > On Wed, Dec 18, 2024 at 03:38:34PM +0100, Ricardo Ribalda wrote:
+> > > On Fri, 13 Dec 2024 at 12:21, Ricardo Ribalda wrote:
+> > > >
+> > > > To implement VIDIOC_QUERYCTRL, we need to read from the hardware all the
+> > > > values that were not cached previously. If that read fails, we used to
+> > > > report back the error to the user.
+> > > >
+> > > > Unfortunately this does not play nice with userspace. When they are
+> > > > enumerating the contols, the only expect an error when there are no
+> > > > "next" control.
+> > > >
+> > > > This is probably a corner case, and could be handled in userspace, but
+> > > > both v4l2-ctl and yavta fail to enumerate all the controls if we return
+> > > > then -EIO during VIDIOC_QUERYCTRL. I suspect that there are tons of
+> > > > userspace apps handling this wrongly as well.
+> > >
+> > > Actually it CANNOT be handled in userspace.
+> > >
+> > > If we return anything different than 0, the structure is not copied to
+> > > userspace:
+> >
+> > That could be fixed, we do copy data back to userspace in case of
+> > failure for some ioctls. I don't think that would be needed though, I
+> > believe we can either mark controls as broken in the uvcvideo driver
+> > through quirks, or in a dynamic fashion.
+> 
+> I'd rather not introduce more differences between uvc and the rest of
+> the drivers.
+> 
+> the ctrl framework only seems to return -EINVAL or 0.
 
-On 12/12/24 10:17, Alain Volmat wrote:
-> This series introduces the camera pipeline support for the
-> STM32MP25 SOC.  The STM32MP25 has 3 pipelines, fed from a
-> single camera input which can be either parallel or csi.
-> 
-> This series adds the basic support for the 1st pipe (dump)
-> which, in term of features is same as the one featured on
-> the STM32MP13 SOC.  It focuses on introduction of the
-> CSI input stage for the DCMIPP, and the CSI specific new
-> control code for the DCMIPP.
-> One of the subdev of the DCMIPP, dcmipp_parallel is now
-> renamed as dcmipp_input since it allows to not only control
-> the parallel but also the csi interface.
-> 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
-> Changes in v4:
-> * stm32-dcmipp: correct patch 13/15 with clk error handling in
->    dcmipp_runtime_resume function
-> - Link to v3: https://lore.kernel.org/r/20241118-csi_dcmipp_mp25-v3-0-c1914afb0a0f@foss.st.com
-> 
-> Changes in v3:
-> * stm32-csi: use clk_bulk api
-> * stm32-csiL perform reset control within the probe
-> - Link to v2: https://lore.kernel.org/r/20241105-csi_dcmipp_mp25-v2-0-b9fc8a7273c2@foss.st.com
-> 
-> ---
-> Alain Volmat (15):
->        media: stm32: dcmipp: correct dma_set_mask_and_coherent mask value
->        dt-bindings: media: add description of stm32 csi
->        media: stm32: csi: addition of the STM32 CSI driver
->        media: stm32: dcmipp: use v4l2_subdev_is_streaming
->        media: stm32: dcmipp: replace s_stream with enable/disable_streams
->        media: stm32: dcmipp: rename dcmipp_parallel into dcmipp_input
->        media: stm32: dcmipp: add support for csi input into dcmipp-input
->        media: stm32: dcmipp: add bayer 10~14 bits formats
->        media: stm32: dcmipp: add 1X16 RGB / YUV formats support
->        media: stm32: dcmipp: avoid duplicated format on enum in bytecap
->        media: stm32: dcmipp: fill media ctl hw_revision field
->        dt-bindings: media: add the stm32mp25 compatible of DCMIPP
->        media: stm32: dcmipp: add core support for the stm32mp25
->        arm64: dts: st: add csi & dcmipp node in stm32mp25
->        arm64: dts: st: enable imx335/csi/dcmipp pipeline on stm32mp257f-ev1
+True, but that's likely because there's no driver today other than
+uvcvideo that needs to interogate the hardware in a way that can fail to
+implement QUERYCTRL. I wish we didn't have to, but UVC is special from
+that point of view.
 
-DT patches applied on stm32-next (as drivers and dt-bindings patches are 
-in linux-next branch).
+Anyway, as mentioned in a separate answer in this mail thread, we may
+not need this if we hide the problematic controls from applications.
 
-Thanks
-Alex
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/v4l2-core/v4l2-ioctl.c#n2929
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/v4l2-core/v4l2-ioctl.c#n3490
+
+-- 
+Regards,
+
+Laurent Pinchart
 
