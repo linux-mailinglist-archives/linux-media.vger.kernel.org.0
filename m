@@ -1,115 +1,195 @@
-Return-Path: <linux-media+bounces-23776-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23777-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBCD99F79C4
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 11:44:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C591D9F79E5
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 11:55:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1524E16E4CC
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 10:44:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DDBB188F5A5
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 10:55:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF764222D76;
-	Thu, 19 Dec 2024 10:44:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E391C222D5C;
+	Thu, 19 Dec 2024 10:55:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H6fR/n3O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ajYabAuW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA2F22256E;
-	Thu, 19 Dec 2024 10:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1882E221D8E
+	for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 10:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734605047; cv=none; b=q9rW8BaLCI/SgaWY4rOQ5e9gL4STAdJ4ZkI1DrWIK9kWCRK1wwXb1B9Y9ugu7B9/R+AIiWV0KnLFDmg46DpQn2OG/ijttWMqIuP1afNx+detU+nRgcVXPM2x9nRUBSAsdjdBugbh2zBohDm0ItcHzPh4J20Hx7SGdJMohGG0P28=
+	t=1734605706; cv=none; b=bIM7TiipGjsD/6/hYC4ngahH4FW7wt4NAHnI1dXLWoeVDONojPdD1G8DUvgGtA/K2kkQ5rbGoT5oh+KU0ILfHtplnRIPeWkx6kBiTfk5b+56O0JGi3RZIpDrIObazrrGfSU/bV7p7o3LjYw+p4Zojdnf2cBcToSWfc8/pnWdH7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734605047; c=relaxed/simple;
-	bh=KpiBPph0Gu8P36/nc+BaL1QztxpR7NzK1NNDiaT6XTg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tUjO8A0D948V9e8BY8x1hGHf9wM5yPPPfzBW8Bi1fL88x/XzbnOyQLPMpzpVWoaiaNZ+BskDnZlq40izFlXX650d0ZfVhj6u9bmGFBjkNIl9vYijcALcYUJcrFCFAaKOjII8GYha+jAFBxinXyIN4MGvT8YtS/2di6jJTfN3b1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=H6fR/n3O; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3819163;
-	Thu, 19 Dec 2024 11:43:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734605003;
-	bh=KpiBPph0Gu8P36/nc+BaL1QztxpR7NzK1NNDiaT6XTg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H6fR/n3OhVX1rJV1XEaSYDQex24nGrjk89qXW2t4zEKPUU2o+jryw3X4+SmDIUFTr
-	 1h5PtBghdMX9FAAMEeTT0hLCAUNrPBdKwZAdjOfbc2rJFwGFS+1rVeqYmjEFTJMP+o
-	 +nC+JL4srfC49xF9ywGlIzmOtSqjQ2p0d1cyaj84=
-Date: Thu, 19 Dec 2024 12:43:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Filter hw errors while enumerating
- controls
-Message-ID: <20241219104358.GA2510@pendragon.ideasonboard.com>
-References: <20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org>
- <CANiDSCvL_C5mgGoXz9zWjJA7fXizM751hjm5jadWsRiymTRYsQ@mail.gmail.com>
- <20241218232838.GG5518@pendragon.ideasonboard.com>
- <CANiDSCtyRHgxOkEMYTi56AhoWS7xjskU-BMvGxpeJ=XBNJ=okw@mail.gmail.com>
+	s=arc-20240116; t=1734605706; c=relaxed/simple;
+	bh=E1yo2+sqKtH3Lq10xdtSqoJFUvlhmXqbmyZMbpdhWb4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pWDUb3H31f9RHRfAarok8yCg9Xf8gvy8y+FSPSwZGJoncq/gg3e0GJiwmnaeupsO7pvuw3+vbfpK3BzscT1o3yN58TaR7HbPmTJVF8pHsJMdlk0MrK9bW04GBiEv9tt4eLUyVR2W8sFBNri138jHnfoD5hpK7IQ067629F/3dhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ajYabAuW; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734605705; x=1766141705;
+  h=date:from:to:cc:subject:message-id;
+  bh=E1yo2+sqKtH3Lq10xdtSqoJFUvlhmXqbmyZMbpdhWb4=;
+  b=ajYabAuWwvIJah7FWUxKPBVtAXDU4fyclhb05okGcWEhj9KX6Yz/aKFI
+   ucAkQGCLZNAQuwYfDAWPrfAB05iFqhPuYGznNTrvdogVuyTSc4Ada3Cb/
+   2mOFuX+pqiXK0iycvRuRzA9fplXke5jg7GMKURvQW+i6cqsmF4+BYk7VL
+   JSF2XaFEbHLSo0Qu1hQeryVwcsxzhbBBK5j1GWhj99FdAKTKsrJ0QvBMo
+   bF1yuEDL8zq43ekIYLfJzoM4sJ74OrZ+7Hv9kM2vG+runh5VFkzovEZA7
+   Wbzwssm9Yu48BTQITi0W882g64rQX1wKTB02D6sUY5cdbQuvGM1JUOgiF
+   A==;
+X-CSE-ConnectionGUID: TXP9oy82Q+q10quCQxlhCg==
+X-CSE-MsgGUID: auCyHT8cT9C1x1tz5UPFfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="38889443"
+X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
+   d="scan'208";a="38889443"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 02:54:59 -0800
+X-CSE-ConnectionGUID: Tc1VKMrfSbWzvKs1YtLSxg==
+X-CSE-MsgGUID: BbD6+MMeTF+eXDw2KFPUGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="135479565"
+Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 19 Dec 2024 02:54:58 -0800
+Received: from kbuild by a46f226878e0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tOEBC-0000An-3A;
+	Thu, 19 Dec 2024 10:54:54 +0000
+Date: Thu, 19 Dec 2024 18:54:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:devel] BUILD SUCCESS
+ 06022f4e6ab52b18dee64ac88fe4b7a8c60b484c
+Message-ID: <202412191842.ekthk4JF-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCtyRHgxOkEMYTi56AhoWS7xjskU-BMvGxpeJ=XBNJ=okw@mail.gmail.com>
 
-On Thu, Dec 19, 2024 at 09:18:30AM +0100, Ricardo Ribalda wrote:
-> On Thu, 19 Dec 2024 at 00:28, Laurent Pinchart wrote:
-> > On Wed, Dec 18, 2024 at 03:38:34PM +0100, Ricardo Ribalda wrote:
-> > > On Fri, 13 Dec 2024 at 12:21, Ricardo Ribalda wrote:
-> > > >
-> > > > To implement VIDIOC_QUERYCTRL, we need to read from the hardware all the
-> > > > values that were not cached previously. If that read fails, we used to
-> > > > report back the error to the user.
-> > > >
-> > > > Unfortunately this does not play nice with userspace. When they are
-> > > > enumerating the contols, the only expect an error when there are no
-> > > > "next" control.
-> > > >
-> > > > This is probably a corner case, and could be handled in userspace, but
-> > > > both v4l2-ctl and yavta fail to enumerate all the controls if we return
-> > > > then -EIO during VIDIOC_QUERYCTRL. I suspect that there are tons of
-> > > > userspace apps handling this wrongly as well.
-> > >
-> > > Actually it CANNOT be handled in userspace.
-> > >
-> > > If we return anything different than 0, the structure is not copied to
-> > > userspace:
-> >
-> > That could be fixed, we do copy data back to userspace in case of
-> > failure for some ioctls. I don't think that would be needed though, I
-> > believe we can either mark controls as broken in the uvcvideo driver
-> > through quirks, or in a dynamic fashion.
-> 
-> I'd rather not introduce more differences between uvc and the rest of
-> the drivers.
-> 
-> the ctrl framework only seems to return -EINVAL or 0.
+tree/branch: git://linuxtv.org/sailus/media_tree.git devel
+branch HEAD: 06022f4e6ab52b18dee64ac88fe4b7a8c60b484c  media: Documentation: PHY information can be obtained from OF endpoint too
 
-True, but that's likely because there's no driver today other than
-uvcvideo that needs to interogate the hardware in a way that can fail to
-implement QUERYCTRL. I wish we didn't have to, but UVC is special from
-that point of view.
+elapsed time: 1446m
 
-Anyway, as mentioned in a separate answer in this mail thread, we may
-not need this if we hide the problematic controls from applications.
+configs tested: 102
+configs skipped: 5
 
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/v4l2-core/v4l2-ioctl.c#n2929
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/v4l2-core/v4l2-ioctl.c#n3490
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-Regards,
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                          axs103_defconfig    gcc-13.2.0
+arc                   randconfig-001-20241218    gcc-13.2.0
+arc                   randconfig-002-20241218    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                         lpc18xx_defconfig    clang-19
+arm                   randconfig-001-20241218    clang-20
+arm                   randconfig-002-20241218    clang-19
+arm                   randconfig-003-20241218    clang-17
+arm                   randconfig-004-20241218    clang-19
+arm                           spitz_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20241218    clang-20
+arm64                 randconfig-002-20241218    clang-20
+arm64                 randconfig-003-20241218    gcc-14.2.0
+arm64                 randconfig-004-20241218    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20241218    gcc-14.2.0
+csky                  randconfig-002-20241218    gcc-14.2.0
+hexagon                           allnoconfig    clang-20
+hexagon               randconfig-001-20241218    clang-20
+hexagon               randconfig-002-20241218    clang-18
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20241218    clang-19
+i386        buildonly-randconfig-002-20241218    clang-19
+i386        buildonly-randconfig-003-20241218    gcc-12
+i386        buildonly-randconfig-004-20241218    gcc-12
+i386        buildonly-randconfig-005-20241218    clang-19
+i386        buildonly-randconfig-006-20241218    clang-19
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20241218    gcc-14.2.0
+loongarch             randconfig-002-20241218    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                        m5407c3_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20241218    gcc-14.2.0
+nios2                 randconfig-002-20241218    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20241218    gcc-14.2.0
+parisc                randconfig-002-20241218    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc                     ksi8560_defconfig    gcc-14.2.0
+powerpc                      mgcoge_defconfig    clang-20
+powerpc               randconfig-001-20241218    gcc-14.2.0
+powerpc               randconfig-002-20241218    clang-15
+powerpc               randconfig-003-20241218    clang-17
+powerpc64             randconfig-002-20241218    clang-20
+powerpc64             randconfig-003-20241218    gcc-14.2.0
+riscv                             allnoconfig    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-20
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20241218    gcc-14.2.0
+s390                  randconfig-002-20241218    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                        edosk7705_defconfig    gcc-14.2.0
+sh                            hp6xx_defconfig    gcc-14.2.0
+sh                    randconfig-001-20241218    gcc-14.2.0
+sh                    randconfig-002-20241218    gcc-14.2.0
+sh                     sh7710voipgw_defconfig    gcc-14.2.0
+sh                              ul2_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20241218    gcc-14.2.0
+sparc                 randconfig-002-20241218    gcc-14.2.0
+sparc64               randconfig-001-20241218    gcc-14.2.0
+um                                allnoconfig    clang-18
+um                    randconfig-001-20241218    gcc-12
+x86_64                           alldefconfig    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20241218    clang-19
+x86_64      buildonly-randconfig-002-20241218    clang-19
+x86_64      buildonly-randconfig-003-20241218    gcc-12
+x86_64      buildonly-randconfig-004-20241218    gcc-12
+x86_64      buildonly-randconfig-005-20241218    gcc-12
+x86_64      buildonly-randconfig-006-20241218    gcc-11
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
 
-Laurent Pinchart
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
