@@ -1,119 +1,115 @@
-Return-Path: <linux-media+bounces-23779-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23780-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9109F7AED
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 13:05:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F9E9F7AF2
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 13:07:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 94A481667D8
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 12:05:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7947A167B2A
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 12:07:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4051B223707;
-	Thu, 19 Dec 2024 12:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5509223E88;
+	Thu, 19 Dec 2024 12:07:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uo5Eb1Mq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QnFvLD/o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64FE22145D
-	for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 12:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC5F221DAE
+	for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 12:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734609950; cv=none; b=AmQKvjGVHPex2De5cooMjkmaqmwLCJeajjHIyeyCacB52C5k/NEo6Ft1xLhiwHbeuZZH7mHEYqg+/CqU3G3HLfG4l93lZ3uTp+AmdXJhQ3wRlUal9V5nvYk+lYXsSeRGhE2smpKnIxcfTxIDhOZ9M4l5wssrGqkuvfJCeeyDgSs=
+	t=1734610042; cv=none; b=WEEs2In5GvuJcB/eR0nFPaHU5BQtAm6aLZP6f2kRbL5SfTXTWGUbpBbZS6dv4/BazTyF73buP/vJr5XH96VqXl/dPnWo2iq3jjQNnhuGpsQTCqhlCpOL8yIGlHce2lzROLS9yvWzDgMCAS6l6yTkGXW521STgr1nfvTZMe5kFyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734609950; c=relaxed/simple;
-	bh=6o+EZBmnMn1O9ta3JMsEDR7eQxoNn+YCdroSKeP1jWU=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=tj8DfRP2q5nm29d0Jx0E3+nfL7rp4V7kVJh6FVfTMecVXT3DewGV7K3pK3+28Vtk3ck9cYrzNgdvG7hVSOptufKm5tgweSle6ptKb/pGhi9FRcUbiijWGxlGxWumsDBhO3i2nS+Xe+oUdpg/Khc0zJX6kWEJNOXYcpmfYoucOYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uo5Eb1Mq; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734609949; x=1766145949;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=6o+EZBmnMn1O9ta3JMsEDR7eQxoNn+YCdroSKeP1jWU=;
-  b=Uo5Eb1MqS2faTrfy/zXid9IG0O6iWLdBw3ieB6bnDdR8C3/ePyZb7Rbh
-   Tvq4ZN+t8wzIlIAsOQ+DyCI5No1dZgLCOiM0S1QzLu5rWEhLZP8TtqXmw
-   UYOiY0kA+MAlNGlP56PbcD2GzpCtGp25OO6YAVAVaMyHO8p2LZgi9kos+
-   5wNkv4Pqp4BnkGoZ50+QfpOlnc81JceLQ4KYIVBc72McQoxJ/b5OWFBsh
-   jtVVpfi/ArZgwEYCMDEnD+a+ff3+aLY9594n260/H4rl4+WnG7RMIgwwA
-   bmovTSEtk8vGwsVYJT7P4pkV6BDqXo7o+Gt56FUQqpiYqZlzuR3VXSxzA
-   A==;
-X-CSE-ConnectionGUID: 9yfCh6oWTieXFl/Db7Cb3A==
-X-CSE-MsgGUID: Xm8J17zPS4q5+K8sbIY/fA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="35331468"
-X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; 
-   d="scan'208";a="35331468"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 04:05:48 -0800
-X-CSE-ConnectionGUID: NuZMSZkETc61/Bqc8uy7aw==
-X-CSE-MsgGUID: qovbgpeQSH65zG3zsFlxSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="102307407"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 04:05:47 -0800
-Subject: Re: IPU6 Camera with ov08x40 (OVTI08F4 sensor) HP Spectre 16" Meteor
- Lake doesn't work
-To: "duanek@chorus.net" <duanek@chorus.net>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- linux-media <linux-media@vger.kernel.org>,
- libcamera-devel <libcamera-devel@lists.libcamera.org>
-References: <1594170563.10937137.1728935697496.JavaMail.zimbra@chorus.net>
- <1385342589.100511352.1734536762106.JavaMail.zimbra@chorus.net>
- <45xboahdow6gy7uanhrdsiln3zxcu4xdy7hew3usqtgurf7byj@wl7gvzgtzg5s>
- <1626527939.100593578.1734539132976.JavaMail.zimbra@chorus.net>
- <3csrwld4fbhg7fg7v4dm4fccvxkracxuwj6y7k5z7k7t5zpeha@qfgr6pmzyg6f>
- <698982370.100647689.1734540932591.JavaMail.zimbra@chorus.net>
- <4vlmoi3uto44j3cigzatkclqd5krybvihvkq77glwcblpdlrb5@yhdl6dvd2gmj>
- <06dcddff-84b3-8717-fa56-53d49abcaf5d@linux.intel.com>
- <578607689.101572908.1734571756163.JavaMail.zimbra@chorus.net>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <22f3bfe0-23ca-1ba9-95a7-5288bea5a723@linux.intel.com>
-Date: Thu, 19 Dec 2024 20:03:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1734610042; c=relaxed/simple;
+	bh=TQ2k0hDSEioqe4OJkjemYr7Wajz2gW6QOuogE6HFEH4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kikQYB4201wWiGYnVB0giWR/0Q9TpaOzlFNPEd/xVPUmfsiCPB6bFvsIVF1D4FLjRFZdn6kmotmu8LSgDhXunFwxeO9ujZBiJEnAxGTxCMo1b8mXC/2lROIlgcsYcNczmtMKivPrAkHt4RQjzw8Co0drRcaLmCNoIWrtLXgy3Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QnFvLD/o; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385eed29d17so360431f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 04:07:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734610039; x=1735214839; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8YmmN8nkKjrK99ISGjRqnOlBNpvXQaOLxV6iv9YKRvQ=;
+        b=QnFvLD/oE3b2PNktW0Znxw+G9fJ8vD833CaWnWQWZVd4lkXJPhNvQ01atxkpuLVgFf
+         +W7lCQJSjYzyXVrEMZeXY2G0V4dB4+EguoJNlPXeRX3al+hHLpZ9rllUXWoi9+SqR5t+
+         iGpqmgGxqX46OajhxUvlDC24wcRQrsQibn6pJMLA0bltCNPGXOO1FpLP1E6O7wRanuup
+         KTiYwpvU1AOOTLGttCZ+UQ/F+lIkDC8inLw0uVXgI/lecEs74o4HhdfJYnVB9YQcxjGW
+         BkTfzHJCEN1ZR2yQE90F2xviJyoR/6Bi91WfJf1zPKCeNWapkU96Jo9TB/CefH+SvaRU
+         omzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734610039; x=1735214839;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8YmmN8nkKjrK99ISGjRqnOlBNpvXQaOLxV6iv9YKRvQ=;
+        b=W5thpTVyvh2fXso1Ia/dyWpbePxOMYHi5ZppWEuI+Gre1edrL64U86awgFwLd8LLhI
+         dxsJNzcK11RZalwxuQPNojzSZKyYdzUIxCEj3i72oNvId4fVOSiA512Ucm6MlEuPt0AM
+         ZH4QuUKIkuT3HynSW4m8LVb4NotiuH/0G4cOML0DKvww9PDGXqxOi/HfIDft4ie48R/+
+         6v4yo/4Ji9O2Bln7PNHNy2MzNYjyS7dXVC2G7hZq/O9kLrVXLb9fdGPJhYf+idzRTP0A
+         24hCICYn8ijDWYmliQxZ5hQ/QLU2lksXKViZfNXzUCo1mgDQDFNtfoFB0Hna6ZiGUW9f
+         Kkqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNQcYXuq9x3QdZBXLEgLsVVjlpfH2yrgnjZMH7fv/R2Vrjd5OtbSQsZ0NfMRKRYgEp2d7Im8woQ6+SKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6gWXQ8GhcVwCArgRYbiX4kb6yXUT+ICaCf/VU0oO/Q5wNBeCH
+	XM2CfcvQDeZXTrdDCu1TxUn5UGE8kQhWHmptCTWq62YIzNRyCIEJGUprCgxOTZg=
+X-Gm-Gg: ASbGnctyDWIZUArzPin1Jova28pkkoe7mF907ucz0SbCQNpHy/dxlRE0XkxUqXIBsS/
+	yulFDrSYIQdL6evmRW4c/KIbWQLkf3LkW1RWLgxm0bh3SMP/83X21t8BoZszdQs44F/xez1B+cM
+	YEpPCIF7ucXf4LigVOiW5zp6G7IYHMawjKGWRlZr2mv6HLDgtbzfP7GON6xVKdW86W3tPzRuzdp
+	amcFaEFNltGY/mYfSkqzdjGRBuQ1LcSwjFIYGAqZyb4poSYOypNaYIKOH1hZRhNsvRpBQ==
+X-Google-Smtp-Source: AGHT+IHz+r3tOTq8K22KGT7iziw6NLDUZNcFTL4o5oiT1OGLu5RtR/FnRqLm817TU0hdrBOo//KULQ==
+X-Received: by 2002:a5d:6da9:0:b0:388:da10:ff13 with SMTP id ffacd0b85a97d-388e4d65ba7mr6286145f8f.21.1734610038756;
+        Thu, 19 Dec 2024 04:07:18 -0800 (PST)
+Received: from [192.168.0.10] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b4432dsm49706455e9.41.2024.12.19.04.07.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2024 04:07:18 -0800 (PST)
+Message-ID: <1e1c190d-b897-4d6b-bbaf-7b82b0935c14@linaro.org>
+Date: Thu, 19 Dec 2024 12:07:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <578607689.101572908.1734571756163.JavaMail.zimbra@chorus.net>
-Content-Type: text/plain; charset=windows-1252
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/3] media: venus: Provide support for selecting
+ encoder/decoder from in-driver
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: quic_renjiang@quicinc.com, quic_vnagar@quicinc.com,
+ quic_dikshita@quicinc.com, konradybcio@kernel.org,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20241209-media-staging-24-11-25-rb3-hw-compat-string-v5-0-ef7e5f85f302@linaro.org>
+ <d8cff621-3e19-da49-0a20-8df74123ac91@quicinc.com>
 Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <d8cff621-3e19-da49-0a20-8df74123ac91@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Duane,
-
-From the driver log, I see:
-[  197.992581] intel_ipu6_isys.isys intel_ipu6.isys.40: stream on Intel IPU6 CSI2 0 failed with -5
-
-The IPU6 isys driver will call the sensor driver .s_stream callback. The failure
-here is either from isys or sensor driver.
-
-Could you create /etc/modprobe.d/ipu.conf, add 2 lines below and reboot to
-capture a new dmesg log?
-
-options intel_ipu6_isys dyndbg=+pt
-options ov08x40 dyndbg=+pt
-
-On 12/19/24 9:29 AM, duanek@chorus.net wrote:
-> Dear Bingbu Cao,
+On 19/12/2024 07:37, Vikash Garodia wrote:
+>> Signed-off-by: Bryan O'Donoghue<bryan.odonoghue@linaro.org>
+> Thank you for the changes, looks good to me. Let me come back with some
+> validation on few SOCs and update here.
 > 
-> I appreciate your help.
-> 
-> Full disclosure: I rebooted to get you a 'clean' dmesg, but when I rebooted, I had to re-load the ov80x40 module
-> 
+> Regards,
+> Vikash
 
-<--snip-->
+ACK, appreciated.
 
--- 
-Best regards,
-Bingbu Cao
+---
+bod
 
