@@ -1,149 +1,145 @@
-Return-Path: <linux-media+bounces-23811-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23817-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852109F8156
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 18:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8469F816C
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 18:17:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 523E01621FA
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 17:12:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6189163ADF
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 17:15:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BAB51D7E41;
-	Thu, 19 Dec 2024 17:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2FD71EBFF8;
+	Thu, 19 Dec 2024 17:08:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QOP2kb7Y";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fZKLMjs4"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="gybgXzGQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C06D1A23A3;
-	Thu, 19 Dec 2024 17:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3184D1AA1CB;
+	Thu, 19 Dec 2024 17:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734627986; cv=none; b=lZ1pgESjf3cz375/1yNIPfFUiG17jjUGZ6Kfif1WddDMY0G3BEfeYp0YLoKlL3a1dRGBURQa01A0a6W+fpdli35IP03MaVGptKXAJcF+p9ivIMm9jz/EUl8tX8WtJZaAwLGdazNV0WrRZejqNaHOoL7zW0yXdVc2trfc9WVwhng=
+	t=1734628107; cv=none; b=caH8P4huPzOmlWBj3pA/GuVlTSGUcB4PEiZfyHHEMuXZDsziLcaRSaL0vH+u4N+z9EUWGq09CeO94Kr48Zzc2/KnUrkugbBQy0drJPugVqO5VyZIlgMpgNyPr+pTQnos+y11a/1mh37P5LG+YzDF4zsQE0eppx73CSHQE7T+KaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734627986; c=relaxed/simple;
-	bh=t/EcBHAqfkrnEKb6LG04R//r7a+uNB51wNvmxDf0j0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uPN1vfxqkyWRHSvAHJOW4usHvIsgiVThxYbfh8A957sJGfOHQQR7UDQqhOc/LY5ze2NpqPB+uSDTMehaVGeGOY/8qfwpb2SicmuUp6QqrdNcmNmOayTPbeRAsSpk3jVjZngRnQdr5na8822EsN+hJso4W98bgvAxam5UutLAu9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QOP2kb7Y; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fZKLMjs4; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 2101F25400FF;
-	Thu, 19 Dec 2024 12:06:22 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-08.internal (MEProxy); Thu, 19 Dec 2024 12:06:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1734627981;
-	 x=1734714381; bh=KEGJABDIZBRnKwBdvJqhB+BSVr0/3cbzIPdCUP+vBQY=; b=
-	QOP2kb7YBo1Zk9ydjrLzBsq684Ix5hbaXZ0Q9tcO7Fr2mwB25Mo2XCO5pkLDLNjD
-	GWx4CfrwS1WY3KgX8A5brdgW0pSpXYu28BgL6akiSUyc2Bfvc56uYHfiJfPNMBHn
-	fJdjk9NDw6LxM3Kp1In8mkVjsDeBt45HmNNBzOBRWDo6YPDkvsbinRJjoMU5hKZZ
-	RfO7jP/lozMG30Kk/D5KiPmvtZHJEQg+3qfb05P0iI7mnGKztlRWQZg2Usg3Kgam
-	c5aZHHvLYNL3i7tQr8Cnr43/Ykx23YPQDa2t50onMohhv4JKdex02ZecJdeyln9p
-	5+wJPnXMIkkHbGGUq5yZFg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734627981; x=
-	1734714381; bh=KEGJABDIZBRnKwBdvJqhB+BSVr0/3cbzIPdCUP+vBQY=; b=f
-	ZKLMjs4xY8eYnwFlUvYpuCYNtgEjHHU3iruQdfokrRrgw4/wor+UwZ4n2qwdcdyU
-	ewVOEUinrV6YRgEDdXwui2M1XvkaFV87ZkJJhLV6JlnNmdLA5JtWbwJLZJiH1JXT
-	Ii487I9G7sgyJfrgbLT5RScuiiCSs/GU/5TEKFFoFibhInqW7+siQyZjWtaAhByW
-	Nugs5848n17igHPY/1ljNzTioIexNAR+1Q5GCIzYuuKBjSUiSxR+eg/VlikTMoIk
-	wTJ6RoTVqdg0dIKcY6h6k8V13ZxqiKLFtzp5TNSo9PNl6qB2Q4kuYTFdPYJwFABm
-	qF+1X+XRbu00H65jg5b5A==
-X-ME-Sender: <xms:jVJkZ0LLXNC16dBfjMKZXxQsUbWhPnUaorFmZFO0Qr7sgtEnDy8J6w>
-    <xme:jVJkZ0Lz7fpJRK55cJkWzt6jwbD_PjNAlK4aXLEelU231m3Rkaf7CsuEo1Pk-NsWz
-    d9fcZ8Zx0kfTwmKilY>
-X-ME-Received: <xmr:jVJkZ0s3FhSNSlHzxUnBQO69Cz7BTVtcM8OAtDk4BiI_xh5ALK3wacF8Gy5PiC1cJzQqB_dbEKIjo05BMFjkG02T8uJXtPbDXg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddttddgleegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
-    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
-    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeeipdhmoh
-    guvgepshhmthhpohhuthdprhgtphhtthhopehlrghurhgvnhhtihhurdhprghltghuseho
-    shhsrdhngihprdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrd
-    guvghv
-X-ME-Proxy: <xmx:jVJkZxZZKsu4eQ5p_USUY4nK2eSpXDqmY4VRkPW03WT9vsEKxk8pUw>
-    <xmx:jVJkZ7Z2nf1oYbSogUiO3vzDfDEpscJCmh8kdC-Ab76AzXkIFERhrQ>
-    <xmx:jVJkZ9CrYTkVJYaqwtxV4U2BmQYXCfeW3PjDCXSnG-2-_idtxklHKw>
-    <xmx:jVJkZxaZUGXfjZTCW7rE1kepEY5AXQosAvkMi2s-o925b2gqyDtQ1Q>
-    <xmx:jVJkZwOFeybHppHIUQVjgALMKApvKV67JNTd_GyHHcSbxs97NF7ZvMFC>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Dec 2024 12:06:20 -0500 (EST)
-Date: Thu, 19 Dec 2024 18:06:18 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/3] staging: media: max96712: fix typo
-Message-ID: <20241219170618.GB3377144@ragnatech.se>
-References: <20241219150644.64507-1-laurentiu.palcu@oss.nxp.com>
- <20241219150644.64507-2-laurentiu.palcu@oss.nxp.com>
+	s=arc-20240116; t=1734628107; c=relaxed/simple;
+	bh=SWvwWBxO/fW4h3EuXtOlQmmqjrH9N25lte28UKvg+rc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i6ZLHeGbDTw32Uc/oNa8qMt/l83zmgqxs96f7wmq+jbNY64WGVlrW8rqcJ7PKBmbrNyEgsgWapUBI1AoVg0rEulnQqDSQHt/fG8fuX3bzzuh4aDkUKjYyBdcQewtPQiAXIlA6D1eMDHeaulw8eE0jtZsbzukl0rZPK+6sJBg/+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=gybgXzGQ; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: cea5219ebe2b11ef99858b75a2457dd9-20241220
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=r+nBjONYIuOND47X7/pY5egAoajtHsGsXRoPywWas48=;
+	b=gybgXzGQ3YifSTOLFXPOCE3HUk80w5rISwC7UEiv0bxjqIcsXl8kSSpeDbNOJUgsJSBK7KZQsVtNDwt89KjRgMfBzSNqqs60zsD+WsAiD9bFD+yz0S5t53iedVr59Wn5dtHhSPD88K0/MULIQHN2cE+wIQWqz4GY64gBkRexYPE=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:293eeede-ba8f-4bef-bcac-7666af7a5c0f,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-30,RT:-32768,SF:-32768,FILE:0,BULK:-32768,RULE:Re
+	lease_Ham,ACTION:release,TS:-30
+X-CID-META: VersionHash:6493067,CLOUDID:23666813-8f5d-4ac6-9276-7b9691c7b8d6,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:nil,TC:nil,Content:0,EDM:2,IP:nil,UR
+	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: cea5219ebe2b11ef99858b75a2457dd9-20241220
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 520218229; Fri, 20 Dec 2024 01:08:03 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 20 Dec 2024 01:08:01 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 20 Dec 2024 01:08:01 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Jassi Brar <jassisinghbrar@gmail.com>, Chun-Kuang Hu
+	<chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>, Singo Chang
+	<singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Moudy Ho
+	<moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jason-jh Lin
+	<jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH v3 0/7] Add GCE support for MT8196
+Date: Fri, 20 Dec 2024 01:07:53 +0800
+Message-ID: <20241219170800.2957-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241219150644.64507-2-laurentiu.palcu@oss.nxp.com>
+Content-Type: text/plain
+X-MTK: N
 
-Hello Laurentiu,
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
-Thanks for your work.
+This patch series adds support for the MediaTek MT8196 SoC in the CMDQ
+driver and related subsystems. The changes include adding compatible
+names and properties, updating driver data to accommodate hardware
+changes, and modifying the usage of CMDQ APIs to support non-subsys ID
+hardware.
 
-On 2024-12-19 17:06:41 +0200, Laurentiu Palcu wrote:
-> Fix a typo in VS_LOW expression.
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+---
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Change in v3:
+1. Merge 2 dt-bindings pathes together and add more detail commit message.
+2. Change type u32 to phys_addr_t for pa_base of struct cmdq_client_reg.
+3. Remove cmdq_subsys_is_valid() and subsys_num in CMDQ driver.
+4. Add CMDQ_SUBSYS_INVALID to check subsys instead of using
+   cmdq_subsys_is_invalid().
+5. Make use of CMDQ_THR_SPR0 define to the parameter of CMDQ APIs.
+6. Rebase on the new MACRO in mtk-mdp3-comp.h.
 
-> ---
->  drivers/staging/media/max96712/max96712.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index 0751b2e048958..5228f9ec60859 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -182,7 +182,7 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
->  	max96712_write_bulk_value(priv, 0x1052, 0, 3);
->  	max96712_write_bulk_value(priv, 0x1055, v_sw * h_tot, 3);
->  	max96712_write_bulk_value(priv, 0x1058,
-> -				  (v_active + v_fp + + v_bp) * h_tot, 3);
-> +				  (v_active + v_fp + v_bp) * h_tot, 3);
->  	max96712_write_bulk_value(priv, 0x105b, 0, 3);
->  	max96712_write_bulk_value(priv, 0x105e, h_sw, 2);
->  	max96712_write_bulk_value(priv, 0x1060, h_active + h_fp + h_bp, 2);
-> -- 
-> 2.44.1
-> 
+Change in v2:
+1. Remove the constant and fix warning in dt-bindings.
+2. Remove the pa_base parameter of CMDQ APIs and related modification.
+3. Move subsys checking to client drivers and use 2 alternative
+   CMDQ APIs to achieve the same functionality.
+
+---
+
+Jason-JH.Lin (7):
+  dt-bindings: mailbox: mediatek: Add MT8196 support for gce-mailbox
+  mailbox: mtk-cmdq: Add driver data to support for MT8196
+  soc: mediatek: mtk-cmdq: Add pa_base parsing for unsupported subsys ID
+    hardware
+  soc: mediatek: mtk-cmdq: Add mminfra_offset compatibility for DRAM
+    address
+  soc: mediatek: Add programming flow for unsupported subsys ID hardware
+  drm/mediatek: Add programming flow for unsupported subsys ID hardware
+  media: mediatek: mdp3: Add programming flow for unsupported subsys ID
+    hardware
+
+ .../mailbox/mediatek,gce-mailbox.yaml         |    4 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |   33 +-
+ drivers/mailbox/mtk-cmdq-mailbox.c            |   90 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |   18 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |   79 +-
+ drivers/soc/mediatek/mtk-cmdq-helper.c        |   53 +-
+ drivers/soc/mediatek/mtk-mmsys.c              |   14 +-
+ drivers/soc/mediatek/mtk-mutex.c              |   11 +-
+ .../dt-bindings/mailbox/mediatek,mt8196-gce.h | 1415 +++++++++++++++++
+ include/linux/mailbox/mtk-cmdq-mailbox.h      |    2 +
+ include/linux/soc/mediatek/mtk-cmdq.h         |    3 +
+ 11 files changed, 1679 insertions(+), 43 deletions(-)
+ create mode 100644 include/dt-bindings/mailbox/mediatek,mt8196-gce.h
 
 -- 
-Kind Regards,
-Niklas Söderlund
+2.43.0
+
 
