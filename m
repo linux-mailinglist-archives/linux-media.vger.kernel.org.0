@@ -1,181 +1,283 @@
-Return-Path: <linux-media+bounces-23769-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23770-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB479F7713
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 09:17:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 240EB9F7716
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 09:17:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E2C01673F1
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 08:16:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BBD4162B1A
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 08:17:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A8F21773A;
-	Thu, 19 Dec 2024 08:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6162A217667;
+	Thu, 19 Dec 2024 08:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hOxiT3qZ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aOPfQnVt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFC11A2396
-	for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 08:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4BA21639B
+	for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 08:17:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734596203; cv=none; b=KD7qqsgBLF6PBUrQODS/lp/LKNwWSejQe8pbo99dJj4I/UlhQP9JxVCh94owYphzZc3Of/jx/kLOfEk+8nc8z2JOfR0uKMjgzXn4B8UnWiWROUNwW5eFXek+jo0eeTasZU4zCDcZTwRvjUme6lPkGBnwnBLAhWDs08Mfpw4ZEuw=
+	t=1734596268; cv=none; b=iZbELoKkofG/mOW+l7+KCcppJkxLY7+tN4hZmPqdWpp7hW1nTJRwJQD5YfxnLxq2xwAUyMtHbcYaDBCb3hXk/88ZZ8hW8WRfyzlkLLfaRoa/jfKBdVbQ6cRvvqVDGps0p2+EYXSjFRqbB/IyK2dZNhLEFpIOK9jLcQsWxP1FK/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734596203; c=relaxed/simple;
-	bh=+6RSFXCZrKB0507GEU0Lxqzo/UBl3GwLgaSsOqt0Ppw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t6Re4Ko6L0bsm6dOSBKNhRY5f7xmzuGCctH1vduS4wZgLJJnAld+OeQkKLYA4feKMHavLEGbkTmfiEhjW3hkBBBpeE7IT33oFcKN5RKqR9hY5tmoDnj2rguhyu1KKeGz5bf2v5ZzHQvVjOyWVjmhZTVnJPAkXQ7xeAau5XRuoIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hOxiT3qZ; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4363299010dso787545e9.1
-        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 00:16:41 -0800 (PST)
+	s=arc-20240116; t=1734596268; c=relaxed/simple;
+	bh=ltUhAjKRs6o87tfULjrT3Cp5c4FGDjv4Ak+7nq8sYuU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EPqBLC8PjWr8C1hhELQoJpPsKeij6YsUE+6RYUYSoJFu60/OPfzXj3osTospk0Wk04g6JmI+RO8ehEwt/l1Aai81/AezPaj8MqRqjpO7Jre+fFoQV3KPaukBaawYUqcdmszlZSJZZcEVxxAfpc4+xqFLYm7ZRqYQO6xuClF16Nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aOPfQnVt; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2164b1f05caso4460605ad.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 00:17:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734596200; x=1735201000; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=yfCE2lBm3AGxDzeNkGrdgeE2MZ445obqvQgA9hms4ho=;
-        b=hOxiT3qZyy4rcvIUmctJlhiRYVRM4Tukcjww7zFxZK6QSwG362xFOYn31jXiukkHzj
-         ZA7+i6NQyuOGfBQTzpyqUPygqBShW1aHB5vkap9DEvkl2W7F+/NT3YFCuN/iOeTIYM6f
-         Ktw2Bhn36SXYMucXrbl7wm4eAGgTd7nJMX+QWiF7TcArQ8cKW9OBqpRSAJ0vRJKc2OcC
-         X+DqD42G0DliP3lK9S3sYTQPU/+qiwMEmBWbcYUZZMikKJVH6J2Zber1DkOgwloGuBCu
-         5EaG7sH4sXYN9qFd8L94aLSAHVfE0fUFzwEbg+2JkxOQeM2TuL9DaRtfCVneJhub4wcA
-         +o2w==
+        d=chromium.org; s=google; t=1734596266; x=1735201066; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nJL5oEw4hDuY3/xIH62WAaqOexOqx6Yo5l0vCcSlAEQ=;
+        b=aOPfQnVtzkOV5/Eo2xWaH3m7N95r6pMHIz2yyddxQQQ5+luBfCMIAVRxKohzy5oDvL
+         Zae4g8nlL2iWgYuc2UgAG8udH4ahUweOYVCVTqOvfHx3kK/z1ABUWMx7uki1GgArnTfR
+         yPErLN78X1HyXLWRF5VLkdZ5VDp6HE9mM8lcQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734596200; x=1735201000;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1734596266; x=1735201066;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yfCE2lBm3AGxDzeNkGrdgeE2MZ445obqvQgA9hms4ho=;
-        b=GVKjG0hWnFfQ0IP9Ni7o4na+8Fokt1J8mGXW8SyaoAqdiyo0ZaJPiPm/rC/2cgxnxk
-         jwMRr0KXfpWwUbIpKIrYk8f+Rxp/pwrLA5G01EY086IOR6zODiJOOPdy8NrJB33yejvi
-         UVeCFxhf1Xi13LxNJfJucDPdtzvwEYjyF5Wlev38YNAeF9zIo44PS64kpkZwSNa0BSoe
-         jUR+fAPpfZ9MjXd8LWrEwtqwKEbF/P6ZS2ElWKsraNsOEitBkld3H5YC43jTnLfidck6
-         tEI8nZAQQosSUI4R/gQ+chHnBvGYrB3sAjQcRzTVnxz5Biw0i7JOYg7oZh/HSgsVtRkE
-         rhlA==
-X-Forwarded-Encrypted: i=1; AJvYcCX7HxK9F5My+JSquhu1bn3o1heVPDtXJ7yHFnTyD8cDIq/FzJirgo0/OvmvL2RbmInn1wNIaY42xxRoNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGgb9GehsBmT1PF51WYQV/m9z2GdphLhjab0rrerFsO6TvcXTF
-	cuo4qsHKsRREODsv/ENlGyCFsGjEN9G071NXsdXBeioz8vWYTegL8N74bFvVWqM=
-X-Gm-Gg: ASbGncso4aNrYwBTf8gEidVRRCsB5Gki2LYVBejMPUFm/RQU/8jcNPMxd5Zt+oqtAYK
-	AIlQT1bZNwa1EW8Ki93m5trSAEYVM5rbpM9a7O/jDyktR3o+M7Cw+3XI+TvA9YlpXoPfMIjuRZh
-	36bbTl2iOd+CVPGo1mPsQ9MdLmEW0p6yG4wEE1tG6FIuRAgYXVkFjF6uGsj4IxPEH2VRx0uhxmb
-	HhQ8QgBlqVhTX6R6zP2IvaetnkBjpQiPDtfnE2yOKJRZbhtKlXiU5fk+0ap3KguIaSgG8mgKew7
-X-Google-Smtp-Source: AGHT+IGQ/hluryhzJy9pGLW52XrHS6g1bEUuWyR9c+ALG48g7EontSdRWWEVm7T37MkJ03ufIgv/Vg==
-X-Received: by 2002:a5d:47a2:0:b0:385:de67:229e with SMTP id ffacd0b85a97d-388e4d8e917mr1675008f8f.11.1734596200492;
-        Thu, 19 Dec 2024 00:16:40 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c828ba0sm940021f8f.14.2024.12.19.00.16.38
+        bh=nJL5oEw4hDuY3/xIH62WAaqOexOqx6Yo5l0vCcSlAEQ=;
+        b=xTUM0LRkD4278ivoIlfFiWVacZzREjduwgvmpUnSPWEmKDFki9hFwSIJBVJCDOjfg+
+         V03ctLkmJ60we1V9GbxYqkWX8e/SGbeARm//tPab44stDgByEefb991I4LPXPMxmZVWz
+         eIxRuF6AqXQ7FYY148jSRdtXbpBdcirgar+wMTDv0Hmx5yogTN+JrnL771OXYg2Dj+t/
+         /CTGasrXg8snkgEIS4yuQuEHsV6OXm3BQ8weC42M8m5b0b8ab3EnPy8sDNFwoZBF+Skm
+         /zFRVYZfxm4adSF4YC8gyy2XsoRwUM7zy0SK2skBmPB6oG8Lj1M7pdNoe1F7DIA/ISb+
+         Fw5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVkypTTu8zq1cGwJa39/vpUAZM1UP+1ZsVk3tvjYdfibpJ8rU0ASN+Ps2EcSL5oWDYip3lr1neoWeBHsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwA5zw5RI7FvT0pTqP6pII8sZ60wMtXToGh1pRAnIoN4i6oDYqr
+	IG8YKqtz/n92y122GSaksVA+Ki640EVYwgziHbG2HbZTT6uuiYqmq4LCzwpAbmbsV2grPg22DXg
+	=
+X-Gm-Gg: ASbGncvdkEz0hcG6SXi+BCyIRWdiZeX6YzGwsBptT+CYv5UQmWz5WPlg7uw98gaLhD0
+	ImKglTjceXy9FILbXXmF1xbtL5EUcBT3OefnwCYzhdbko/AiZ8ymSzzdoAaNN38pcvS5rMvHrSt
+	4ZDQjECfMu9w/viknVi9AYH3F0XCxxhivENCR9VgIIJHJulJxbxNq7uMt441lE5+2Z3Vw54tiYj
+	edhgsvDiwTU7mIpQ1YNMjym4eIFO9vOQicNI1f+qJGhEDZUmHg7nzf905O+R6WHmVu5qo9Ui0VC
+	szIM5a5yjW3SLthjEuw=
+X-Google-Smtp-Source: AGHT+IG1koUoj6dtNsA27CcHYxY7sBLtd/ihiDloWtmOdJpPBwhnmrn0dfU+1HLdeQy8y00XizfMlQ==
+X-Received: by 2002:a17:90b:2803:b0:2ea:4c4f:bd20 with SMTP id 98e67ed59e1d1-2f2e93ad642mr7509974a91.32.1734596266046;
+        Thu, 19 Dec 2024 00:17:46 -0800 (PST)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com. [209.85.216.49])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f2ee26fdfdsm2704291a91.52.2024.12.19.00.17.44
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2024 00:16:39 -0800 (PST)
-Message-ID: <5d0b06b7-1fed-43cc-93e2-9a5f7cd14ffb@linaro.org>
-Date: Thu, 19 Dec 2024 09:16:38 +0100
+        Thu, 19 Dec 2024 00:17:44 -0800 (PST)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ee46851b5eso378756a91.1
+        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 00:17:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUDiOhh6xV3tfT6n97XVvGtSQun0wcHKJMOEnjwx3OeZQIBeRYEZjEjOAd1yCCri6pTQM0frEaysPmwvQ==@vger.kernel.org
+X-Received: by 2002:a17:90b:4d11:b0:2ea:3f34:f190 with SMTP id
+ 98e67ed59e1d1-2f2e93889a9mr8132380a91.25.1734596263696; Thu, 19 Dec 2024
+ 00:17:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] media: dt-bindings: qcom-venus: Deprecate
- video-decoder and video-encoder where applicable
-To: Renjiang Han <quic_renjiang@quicinc.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: quic_vnagar@quicinc.com, quic_dikshita@quicinc.com,
- konradybcio@kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Stanimir Varbanov <stanimir.varbanov@linaro.org>
-References: <20241209-media-staging-24-11-25-rb3-hw-compat-string-v5-0-ef7e5f85f302@linaro.org>
- <20241209-media-staging-24-11-25-rb3-hw-compat-string-v5-3-ef7e5f85f302@linaro.org>
- <283a54b2-6e00-4d3a-95a3-df4a06bc1292@quicinc.com>
- <0a265953-0c6a-4b8b-a972-a59ec4755474@linaro.org>
- <61c27010-c49f-48df-b6d3-029b15c71bd3@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <61c27010-c49f-48df-b6d3-029b15c71bd3@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org> <20241218232730.GF5518@pendragon.ideasonboard.com>
+In-Reply-To: <20241218232730.GF5518@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 19 Dec 2024 09:17:31 +0100
+X-Gmail-Original-Message-ID: <CANiDSCu4krUbXq_RiaP5dSZVGdA6CxmUBzxEEPqMNCS4Ar05mw@mail.gmail.com>
+X-Gm-Features: AbW1kvaiV9V2JQJwMgcap1su7a-83XCHILA8PK2yWAEt8OIcGbGAb-Feh4oEa7c
+Message-ID: <CANiDSCu4krUbXq_RiaP5dSZVGdA6CxmUBzxEEPqMNCS4Ar05mw@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Filter hw errors while enumerating controls
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 19/12/2024 03:45, Renjiang Han wrote:
-> 
-> On 12/18/2024 8:38 PM, Krzysztof Kozlowski wrote:
->>>> @@ -132,12 +132,4 @@ examples:
->>>>            resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>,
->>>>                     <&videocc VIDEO_CC_MVS0C_CLK_ARES>;
->>>>            reset-names = "bus", "core";
->>>> -
->>>> -        video-decoder {
->>>> -            compatible = "venus-decoder";
->>>> -        };
->>>> -
->>>> -        video-encoder {
->>>> -            compatible = "venus-encoder";
->>>> -        };
->>>>        };
->>> It is working fine on QCS615.
->>> Tested-by: Renjiang Han<quic_renjiang@quicinc.com>
->> How? How is it possible to test a binding on real hardware? To my
->> knowledge it is impossible, so I really would like to see explanation of
->> this tag.
->   I used this binding and modified the driver to verify the video
->   function, and the result was fine. Also, I used this binding to
->   verify the dtb, and there was no related error, so I added
->   Tested-by.
+On Thu, 19 Dec 2024 at 00:27, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Fri, Dec 13, 2024 at 11:21:02AM +0000, Ricardo Ribalda wrote:
+> > To implement VIDIOC_QUERYCTRL, we need to read from the hardware all the
+> > values that were not cached previously. If that read fails, we used to
+> > report back the error to the user.
+> >
+> > Unfortunately this does not play nice with userspace. When they are
+> > enumerating the contols, the only expect an error when there are no
+> > "next" control.
+> >
+> > This is probably a corner case, and could be handled in userspace, but
+> > both v4l2-ctl and yavta fail to enumerate all the controls if we return
+> > then -EIO during VIDIOC_QUERYCTRL. I suspect that there are tons of
+> > userspace apps handling this wrongly as well.
+> >
+> > This patch get around this issue by ignoring the hardware errors and
+> > always returning 0 if a control exists.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> > Hi 2*Hans and Laurent!
+> >
+> > I came around a device that was listing just a couple of controls when
+> > it should be listing much more.
+> >
+> > Some debugging latter I found that the device was returning -EIO when
+> > all the focal controls were read.
+>
+> Was it transient and random errors, or does the device always fail for
+> those controls ?
 
-This is not a testing of binding. You tested driver. Don't add fake tags.
+For one of the devices the control is always failing (or I could not
+find a combination that made it work).
 
-Best regards,
-Krzysztof
+For the other it was more or less random.
+
+
+>
+> > This could be solved in userspace.. but I suspect that a lot of people
+> > has copied the implementation of v4l-utils or yavta.
+> >
+> > What do you think of this workaround?
+>
+> Pretending that the control could be queried is problematic. We'll
+> return invalid values to the user, I don't think that's a good idea. If
+> the problematic device always returns error for focus controls, we could
+> add a quirk, and extend the uvc_device_info structure to list the
+> controls to ignore.
+>
+> Another option would be to skip over controls that return -EIO within
+> the kernel, and mark those controls are broken. I think this could be
+> done transparently for userspace, the first time we try to populate the
+> cache for such controls, a -EIO error would mark the control as broken,
+> and from a userspace point of view it wouldn't be visible through as
+> ioctl.
+
+I see a couple of issues with this:
+- There are controls that fail randomly.
+- There are controls that fail based on the value of other controls
+(yeah, I know).
+- There are controls that do not implement RES, MIN, or MAX, but
+besides that, they are completely functional.
+In any of those cases we do not want to skip those controls.
+
+I am not against quirking specific cameras once we detect that they
+are broken... but we still need a solution for every camera that
+allows enumerating all the controls, even if there is a non compliant
+control.
+
+
+Now that I look into the patch... I think I have to remove the
+can_fail argument and let it always remove invalid values.
+
+>
+> > Without this patch:
+> > $ v4l2-ctl --list-ctrls
+> >                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+> >          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
+> >      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
+> > region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> >
+> > With this patch:
+> > $ v4l2-ctl --list-ctrls
+> >                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+> >          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
+> >      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
+> > error 5 getting ext_ctrl Focus, Absolute
+> > error 5 getting ext_ctrl Focus, Automatic Continuous
+> >    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
+> > region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> >
+> > --
+> > ---
+> >  drivers/media/usb/uvc/uvc_ctrl.c | 31 ++++++++++++++++++++++---------
+> >  1 file changed, 22 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > index 4fe26e82e3d1..a11048c9a105 100644
+> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > @@ -1283,7 +1283,8 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
+> >  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >       struct uvc_control *ctrl,
+> >       struct uvc_control_mapping *mapping,
+> > -     struct v4l2_queryctrl *v4l2_ctrl)
+> > +     struct v4l2_queryctrl *v4l2_ctrl,
+> > +     bool can_fail)
+> >  {
+> >       struct uvc_control_mapping *master_map = NULL;
+> >       struct uvc_control *master_ctrl = NULL;
+> > @@ -1307,17 +1308,28 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> >               s32 val;
+> >               int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> > -             if (ret < 0)
+> > -                     return ret;
+> >
+> > -             if (val != mapping->master_manual)
+> > -                             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> > +             if (ret < 0) {
+> > +                     dev_warn_ratelimited(&chain->dev->udev->dev,
+> > +                                          "UVC non compliance: Error %d querying master control %x\n",
+> > +                                           ret, master_map->id);
+> > +                     if (can_fail)
+> > +                             return ret;
+> > +             } else if (val != mapping->master_manual) {
+> > +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> > +             }
+> >       }
+> >
+> >       if (!ctrl->cached) {
+> >               int ret = uvc_ctrl_populate_cache(chain, ctrl);
+> > -             if (ret < 0)
+> > -                     return ret;
+> > +
+> > +             if (ret < 0) {
+> > +                     dev_warn_ratelimited(&chain->dev->udev->dev,
+> > +                                          "UVC non compliance: Error %d populating cache of control %x\n",
+> > +                                          ret, mapping->id);
+> > +                     if (can_fail)
+> > +                             return ret;
+> > +             }
+> >       }
+> >
+> >       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
+> > @@ -1420,7 +1432,8 @@ int uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >                       goto done;
+> >       }
+> >
+> > -     ret = __uvc_query_v4l2_ctrl(chain, ctrl, mapping, v4l2_ctrl);
+> > +     ret = __uvc_query_v4l2_ctrl(chain, ctrl, mapping, v4l2_ctrl,
+> > +                                 !(v4l2_ctrl->id & V4L2_CTRL_FLAG_NEXT_CTRL));
+> >  done:
+> >       mutex_unlock(&chain->ctrl_mutex);
+> >       return ret;
+> > @@ -1513,7 +1526,7 @@ static void uvc_ctrl_fill_event(struct uvc_video_chain *chain,
+> >  {
+> >       struct v4l2_queryctrl v4l2_ctrl;
+> >
+> > -     __uvc_query_v4l2_ctrl(chain, ctrl, mapping, &v4l2_ctrl);
+> > +     __uvc_query_v4l2_ctrl(chain, ctrl, mapping, &v4l2_ctrl, true);
+> >
+> >       memset(ev, 0, sizeof(*ev));
+> >       ev->type = V4L2_EVENT_CTRL;
+> >
+> > ---
+> > base-commit: a7f5b36b34824415c28875d615c49a3cf5070615
+> > change-id: 20241213-uvc-eaccess-755cc061a360
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
 
