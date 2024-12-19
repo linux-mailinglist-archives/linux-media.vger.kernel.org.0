@@ -1,132 +1,167 @@
-Return-Path: <linux-media+bounces-23839-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23840-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5D29F843B
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 20:28:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5A79F8458
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 20:32:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B6DD7A07F4
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 19:28:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BFA457A1F92
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 19:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF94E1B4220;
-	Thu, 19 Dec 2024 19:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E1851B85D3;
+	Thu, 19 Dec 2024 19:32:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dd/XOevT"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UVoS8Tnq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9703E1AAA0D
-	for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 19:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554DB1A0BF1
+	for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 19:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734636468; cv=none; b=caKJDu1IhaM/S0Anfrb/aqxVIq3AhowHoHHHFv5W70d/wVFuxdRvDrNuUWGxlbi8koKtQXRq9epfkOXaq1dIhtcJ5oiQ3Eyp882qcvAo4rRcUvan1QyHsUj0+tP5Etsq/emCaSBLnqFDt+I4hia+81fdLhol8G67k+oVxF/YTsU=
+	t=1734636749; cv=none; b=H13muUcRm48HeY9LwghwuNomJx/9pMD58zVsKbaq/AwP6w1dQUvmMzuSZYswWGMWyz1BT6cqWlYWctRvTq73X3l0OtyotXLoSnPU22Srq/vIEO9hYqDgbYhquSIjLTyWOmLa9hx8+UwAEPPeiqusfWjfIlW+nOL3rsh0Aq2DSnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734636468; c=relaxed/simple;
-	bh=PBG14hg0sWDIRS+jtzh3sHSuXsS4dCOf11Hlwm+zvxU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m9eTChD4bixOU/lQ6xOlKiwTT6ckFVIC2/P1rBuMapHudS27jqFeNO8xVLGPuwSPuFftUBzKSKjV9tpl739l7lJ8ihr81NxnyJPgpdorBc+lgNjrTrX8NMSBpwrG98obWP2Dox7SSWWHYbdKyS7eT0+QlgedHHfjd6zTUKTQqPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Dd/XOevT; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734636465;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=heDsUvY2themo17pphCDVW4owjAYMa0e97gtkFz1I5I=;
-	b=Dd/XOevTccm9WR2dZyGTxnAd+PFsgry7BK3IzbgPRxpz/ruU3SHVxwxbdUR6bdNNEmeWQ2
-	xWPYuHL61RjYuHYyuSVAgJE6C5ZQUMl24qIo/tDqqGeOcznWiNwYFc45HN5n0+G3lqZ3Bs
-	PEToRXpAE2CAXsAvirlt5p9j2pesZ+0=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-132-v7CvWrBAMsOOQO2nvXpNaw-1; Thu,
- 19 Dec 2024 14:27:42 -0500
-X-MC-Unique: v7CvWrBAMsOOQO2nvXpNaw-1
-X-Mimecast-MFC-AGG-ID: v7CvWrBAMsOOQO2nvXpNaw
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5B3AA1955F41;
-	Thu, 19 Dec 2024 19:27:41 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.194.60])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 09EA4195608A;
-	Thu, 19 Dec 2024 19:27:39 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH 4/4] media: hi556: Don't log hi556_check_hwcfg() errors twice
-Date: Thu, 19 Dec 2024 20:27:33 +0100
-Message-ID: <20241219192733.45659-4-hdegoede@redhat.com>
-In-Reply-To: <20241219192733.45659-1-hdegoede@redhat.com>
-References: <20241219192733.45659-1-hdegoede@redhat.com>
+	s=arc-20240116; t=1734636749; c=relaxed/simple;
+	bh=XisdETZGt1xGd/tAcysR1gf7SJZ+Q0OQ6PAQF/dE/QU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cefXkVgUiZSe4LINJPRBKCsJ7iGaqan1wXmwVuVjHgc4wKSYzR9mnP0MmZphpB7bS2iR1eNqPTN4gPJnpIJ4JKsUzgE0RiyF8zKv4LdcqNkvg7CxkoUXtgAMPnKFQ6U0QTx027mJou3vjw7pmrH5VmJGZDnZJiBYP5ciVvvko2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UVoS8Tnq; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53e395932c6so81642e87.2
+        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 11:32:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734636744; x=1735241544; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IW/1H+wBsYHEd+yu91SFC/VMNkW4y30uxY2FjxFoA0k=;
+        b=UVoS8Tnqvuihmed2kUERhKZeQvCpgyWsPVaDN7L9hyd6tUbSpenigE12GRuJFJZhvq
+         tFQy2fSgsZ+9iAStZ7rDB6gw9nzmd4fGCIgx5Z7OzWDQmKA6Z8mHTeBPb9cfmGJTQdc/
+         opaTLmKM8igS7ONiZ5wTj8RIip2RAZ1K8jva0b0Eck3fClr/mwl/PDIHUc0/H4EeP/6v
+         ZqRTPBSSaw/q06TFFOLTnXZmd3Sa7QblVGyZfVrE8sXO3XESwe/cPFJkTwnvKbyKnYuo
+         LSvkLxn7RRh4BWKIccHXv4+thDs7VxPa6OY5h1NJPG/Xirn1kZvfzrMG0ShIw5nGSe9Z
+         5j5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734636744; x=1735241544;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IW/1H+wBsYHEd+yu91SFC/VMNkW4y30uxY2FjxFoA0k=;
+        b=nFqxj0sztZfgjkknm0W7EFyezBHsPfkRtbgWIcpE05AZlUK0VR+M5ugiIknPD3FSgK
+         1woRoykyE6a+a87z5xZwRVKfYi2pxEvBScUatGQbBtenWkHR93lkeIE+dvxAZ4+kiW7D
+         q67KIblx65td7si8Hi1fbzUaVh+TZSvZ1674F1UKaC9q6hJhlDIk0KlFckg32RxuqBKH
+         wRP7VR3jGFnqvthCw1k2xiHohpoihhA+01zZ40y4/2Cr4xyhfqf4tDtPhCQFy1lW/8Ay
+         ArXY3gcBXfMWJne04wvU/MyiCxrOxHw30cU9XT7TjchnFwYdhfE2T4FKQPXyHx09TtTa
+         q3kA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+murwgz5uT/v9JdMq3cjnydT8nth45sOlofdkwCZ6f4Mxyw8x2gx70PjE60YDZcYtMxO8s0m94RvI4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNMuhI7JeIGKklGAAlAIuAEuLmK0to91WF9y9rGs06wwDmCwrd
+	UjE016fyy8E8s6crsJ9ubNSx8xWf/EIqOwgByMtqHKlAnl+MO1ot/kp/H6oCbnE=
+X-Gm-Gg: ASbGncsEv2MMMp+CoihFbpdTrTlt4WUFbJx/kPfFaq3+Uvq55nQaLV//8bfC00s+ZHw
+	8dTKywJB1q8re4JmCq3kpVw3NnLR2KUYy8oTwjA1n5limzRPn/bp7UpozRaU+q42v/W93hkmP57
+	CC2dQR8CS4MvqEUrdmaNlA4ROZZx7cUUEdcSf1cH+1X1tLyYZYgG/09AUkb89nA3io3Qbbwj6uw
+	hHDvwiTHho36lpCIaU1wLlaSvZmv2rFL3Z5KqFcDF/1qKrVxi0n6IRbt3oA1F6a7BR8/QGzeWKl
+	ibJyKdRa+b6tN2UCis+fPciSzGexzFDTY4Q=
+X-Google-Smtp-Source: AGHT+IHUvBst8RiUn9IST8/5AjNtAtHUWTb9tBGd8LLvhOk3TajPDIYTYMQtaGEJvz/fTfQPjsQaIg==
+X-Received: by 2002:a05:6512:398d:b0:540:2aeb:5d3c with SMTP id 2adb3069b0e04-541e673d7c7mr950150e87.2.1734636744478;
+        Thu, 19 Dec 2024 11:32:24 -0800 (PST)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542235f5d88sm256403e87.15.2024.12.19.11.32.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Dec 2024 11:32:23 -0800 (PST)
+Message-ID: <c7253f5f-eb4a-4636-b0f9-7d284a2f5a8d@linaro.org>
+Date: Thu, 19 Dec 2024 21:32:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 4/4] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+Content-Language: ru-RU
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org,
+ konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com
+References: <20241217140656.965235-1-quic_vikramsa@quicinc.com>
+ <20241217140656.965235-5-quic_vikramsa@quicinc.com>
+ <22479c27-9265-4994-8974-9739ecbae5ee@linaro.org>
+ <99cf5f7e-43f6-4ac4-a4a2-dc731b695572@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <99cf5f7e-43f6-4ac4-a4a2-dc731b695572@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-All hi556_check_hwcfg() error-exit paths already log a detailed reason,
-logging a second generic "failed to check HW configuration" error is not
-useful, and in case of the fwnode check failing with -EPROBE_DEFER this
-is outright problematic flooding the log with:
+On 12/19/24 21:06, Konrad Dybcio wrote:
+> On 17.12.2024 3:40 PM, Vladimir Zapolskiy wrote:
+>> On 12/17/24 16:06, Vikram Sharma wrote:
+>>> The Vision Mezzanine for the RB3 ships with an imx577 camera sensor.
+>>> Enable the IMX577 on the vision mezzanine.
+>>>
+>>> An example media-ctl pipeline for the imx577 is:
+>>>
+>>> media-ctl --reset
+>>> media-ctl -v -V '"imx577 '19-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+>>> media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+>>> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+>>> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+>>> media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+>>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+>>>
+>>> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+>>>
+>>> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
+>>> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+>>> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>> ---
+> 
+> [...]
+> 
+>>> +        rst-pins {
+>>> +            pins = "gpio78";
+>>> +            function = "gpio";
+>>> +            drive-strength = <2>;
+>>> +            bias-pull-down;
+>>> +            output-low;
+>>> +        };
+>>
+>> I have doubts that it's proper to embed a reset gpio into driver's
+>> pinctrl suspend/resume power management.
+>>
+>> Konrad, can you please confirm that it's really accepted?
+>>
+>> I'd rather ask to remove this reset pin control.
+> 
+> There's certainly some appearances of this in the tree.
+> 
+> You could make the argument that it makes sense to prevent misconfiguration
+> (i.e. the bootloader may set the pin in input mode), but then the counter
+> argument is that the (Linux) gpiod APIs request OUT_LOW/HIGH, and we would
+> expect that the driver uses that if the GPIO is requested through
+> e.g. reset-gpios.
+> 
+> I'm not particularly sure what to recommend here. Krzysztof?
+> 
 
-[    6.336318] hi556 i2c-INT3537:00: failed to check HW configuration: -517
-[    6.339006] hi556 i2c-INT3537:00: failed to check HW configuration: -517
-[    6.346293] hi556 i2c-INT3537:00: failed to check HW configuration: -517
-[    6.356129] hi556 i2c-INT3537:00: failed to check HW configuration: -517
-[    6.380316] hi556 i2c-INT3537:00: failed to check HW configuration: -517
-etc.
+I'm worried by a possibility that a device reset/shutdown control GPIO could
+be turned off by entering the "sleep" pinctrl setup. If a particular GPIO/pin
+is off, is it still continuously functional as a control GPIO of some device?
+I believe it is not anymore in general, this is my concern here.
 
-The one exception to all hi556_check_hwcfg() error-exit paths already
-logging an error is on v4l2_fwnode_endpoint_alloc_parse() errors.
-
-Make hi556_check_hwcfg() log an error in that case too and drop
-the duplicate "failed to check HW configuration" error logging.
-
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=2307279
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/hi556.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-index 57c51d0e9c4e..9b5b657f75f9 100644
---- a/drivers/media/i2c/hi556.c
-+++ b/drivers/media/i2c/hi556.c
-@@ -1226,7 +1226,7 @@ static int hi556_check_hwcfg(struct device *dev)
- 	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
- 	fwnode_handle_put(ep);
- 	if (ret)
--		return ret;
-+		return dev_err_probe(dev, ret, "parsing endpoint failed\n");
- 
- 	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
- 	if (ret) {
-@@ -1334,11 +1334,8 @@ static int hi556_probe(struct i2c_client *client)
- 	int ret;
- 
- 	ret = hi556_check_hwcfg(&client->dev);
--	if (ret) {
--		dev_err(&client->dev, "failed to check HW configuration: %d\n",
--			ret);
-+	if (ret)
- 		return ret;
--	}
- 
- 	hi556 = devm_kzalloc(&client->dev, sizeof(*hi556), GFP_KERNEL);
- 	if (!hi556)
--- 
-2.47.1
-
+--
+Best wishes,
+Vladimir
 
