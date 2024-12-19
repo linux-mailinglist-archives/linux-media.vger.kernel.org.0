@@ -1,87 +1,65 @@
-Return-Path: <linux-media+bounces-23774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3479F7876
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 10:27:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4219F7894
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 10:31:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 107A2188B1E5
-	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 09:27:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8C9447A285B
+	for <lists+linux-media@lfdr.de>; Thu, 19 Dec 2024 09:31:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E28B6221D80;
-	Thu, 19 Dec 2024 09:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18682221D9E;
+	Thu, 19 Dec 2024 09:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EJPi4CH9"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="sBMq9/SB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCF6221465
-	for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 09:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B43D2165F7;
+	Thu, 19 Dec 2024 09:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734600439; cv=none; b=Ct8L6kMs+fd9BuVyYmQo+jj+wtbyBnGJGsRR59/y3yHED7fhEjIc5dvIdpyA0nuzgRVEKz+5KNz9IgvGRjHmxlHYYdEnboWfgr61QnFnW/qP7s7HMUqIlGmzQAJiIEbd30yDXq4e2FiwHQ4oSgpl9uHCw5raCr8LBXt5TRGemBA=
+	t=1734600691; cv=none; b=beSP7a9QIgq1XotS5U/G66zdoFTmQ2L8qVVUeX+TGj+ZqVQgcjbm7FXMew3DyqheILkku1b0aP7OJ5IUJkT4IiLZI9PMf/PiE/LMtWSmdRvpFrviAZF64trn7rcF1VxAqu9v+fIPgKq8jf94bl1/KGm2nANrUhaRXuzUpmMX78I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734600439; c=relaxed/simple;
-	bh=Dhmh/fHKoO/5nFfxm0OoelmdAlM5m92OiFgk6tgg+Ig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i7+Z1gaR6bw1/azR/4e44NW8pKrWrDhU0OjHSgluVMOwKm8HmxSb5S/vp1vGcxzv0DWuKeKJas2E6tv0AKHg0szj/UOKfYFSGaSA0mAmrEzWm0oPnZdOA3WGv/+M+X71vdgzTHv69VrKFddzChxBY+Zdd/Gicno/AkZa4yeDNZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EJPi4CH9; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734600435;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rtOqNn5Ah7f9AT/ohPVGIekCuIswjUxtBeWBQzFVNlU=;
-	b=EJPi4CH9MS5ws8P92igfeTMoSp9ftHwh3I5tizvmlcIMRhQENuBNue4ajKQcreftqssd2j
-	KdfCD9TRTvbmE8qcmQS1eXCrVfBkwLriN+snG0HzwkKzFZ10tGTKPTCmfIZE7N3+jzAclP
-	p9mQMjrcJfbu0/zs9zpeW+gQv6LhtwU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-280-3PL6ZepsMuOWNDAopsHakQ-1; Thu, 19 Dec 2024 04:27:14 -0500
-X-MC-Unique: 3PL6ZepsMuOWNDAopsHakQ-1
-X-Mimecast-MFC-AGG-ID: 3PL6ZepsMuOWNDAopsHakQ
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5d3f3d6a922so708006a12.1
-        for <linux-media@vger.kernel.org>; Thu, 19 Dec 2024 01:27:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734600433; x=1735205233;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rtOqNn5Ah7f9AT/ohPVGIekCuIswjUxtBeWBQzFVNlU=;
-        b=muXUhw/Ejz+mTWza9XfrScFXj0bq1HC0R/2NR59NT/LBEHVFtr55kLYPttr3+2MxlZ
-         wmLRYvY6FR6JLNDDThKgJTdfEfIwOq6MdrXy+0w1jzi9K8lFiqU+C4tQwp3gMu9QQA5r
-         diZPZEtJqyW8DDU0JzWtO4x7vn2u2Q12k74sTvQI9Y0UPhobJoZYptL3tCmqX7sp3ZRK
-         Wmyh1aXpbjlDRNOKK5y9haJJ/YECb6/2UlNYjlCsH9/9BblyZY33Zq+9yHo1wRweX0qd
-         WxBka7/D+x/RjAK+t/AHI+BX9v9ygPzqpDBTKxyQtzvLBsrT+1Tq1r578ALKZ/BJX/OU
-         uN/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWpA7ZdgMUvr2w08bwd5qJKEW42kFCryYeJ+xC3DkePs6Mu1Mjo/cbiIBY4U94LcFWpcuUlPpWZ01uB4g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuqAYeoLbR/qDiuPJngJoAby7TMJdKzsoZFt1NwJ8Xp5HyFQYB
-	KTHfpO+xNY3YITIJmpFccwJh9g1dx17C82Zb7jQAhDaqJrg1o2JwkT1C4wW40BsQap+u8gUn7Un
-	5fv+kJHs1D4JTD4cFFDOdun5JSJdAr8awMZyxkYdwmeCC7WhPGEoWIkj22gJX
-X-Gm-Gg: ASbGncvkwBjoYTyZwfm0oDJ25lTqWAiRjOhBKUx7nXjMOIVx8ET+51cvC/o2MhzVNof
-	jaTX1/NDBqRR5XTCwFAayPRnCt5vkKOJcmMBdA/j3txycLXTzgKmacKcYOKziJ7GuiB8e0N3Sxd
-	KXC7S/ViFTMDO2d4kB6ZyVoWKNioP7KjQ+qvmGAbt3fU+U7X/3EWy+VToxQJN+Yx8PFY0JE2yJn
-	dYr8eTrX4qx4Dh6W5lJ2cn1sWmobT/CqWAjcjCmIYfVWIhx9V0HpCsmOOZsA/P4oDzoJ79gI1cp
-	BUQrAYN4Jbm5iwULCTmISypfVxeBGaOBmwJWHmEhMHYXgWcePTWyLONejGqF9n424g94P2xdyoZ
-	59a3Skm2UyiBffNQI1VDA943woSIeHpQ=
-X-Received: by 2002:a05:6402:524d:b0:5d6:37ec:60cf with SMTP id 4fb4d7f45d1cf-5d7ee3ff066mr7036919a12.27.1734600432876;
-        Thu, 19 Dec 2024 01:27:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHpY0yeTZkltgJqBoBxtx25H14dP/HivVpG6PUcBbKwyOlAVppb9zvsYEwHN/VFedwFnj7rFA==
-X-Received: by 2002:a05:6402:524d:b0:5d6:37ec:60cf with SMTP id 4fb4d7f45d1cf-5d7ee3ff066mr7036896a12.27.1734600432438;
-        Thu, 19 Dec 2024 01:27:12 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d806fede4csm468671a12.63.2024.12.19.01.27.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2024 01:27:11 -0800 (PST)
-Message-ID: <f0e267be-70ab-4323-8c67-8f28201a1696@redhat.com>
-Date: Thu, 19 Dec 2024 10:27:10 +0100
+	s=arc-20240116; t=1734600691; c=relaxed/simple;
+	bh=ik7oh3Iyx9RJyQqujVRwuabo9q5/sFl2UOPtQpw4W6U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=KnoTD0JtigWBvg+r1LNElWjngYJY+aoju8WZrgiU2Ci4b1JqdE/AMSzF/rW9+y5Y/Ybom8LfWc+KpQJKwUSYgMm+D3bEw2IRTlw9IdYBfYV0nBm4qzInlDfZnuQvAdTzmE92ngy0XaDkMcyXWAUNRDr7e5V0Th+ELZnaKxmUh/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=sBMq9/SB; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BJ8p3br024853;
+	Thu, 19 Dec 2024 10:31:04 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	WmGBp6Jz4nXDnKrhsKtK5WI9Ke0a+8w8SkZRoc2M1nA=; b=sBMq9/SB9yLoCwZP
+	V8U7mKt5eXGedyPPkpqqVvIL0pPA5BrabXv8o9A9vwa60x9zx9DLiSW2L8RVKAlX
+	1gI/GZikEuzTpTArtQxrBEC9O1lXnMG3NgsFmzYpe4jup1T65tD8jh/AM43Mfaom
+	Mb+UVwfYWrB0MpLVvFWzhWzkalWkmoAyJg4N6VcmZg5iNlvTE5iA1IihpB+fftMF
+	8/C5o2z8hP0ESLXEa9jRD/6GnZiClmlZX+JjS4pd4iIaWR6xyqEXjZL/+7H3Q/9k
+	WW/Ceujv7KDfUjwa1LCTo/fcO3mhI4WrotAEu5ot/3uxqjwcJ3nbfhbO4aOMpD7l
+	ZS+i4g==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43m03s3ecr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 19 Dec 2024 10:31:04 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 21ADB4004A;
+	Thu, 19 Dec 2024 10:29:42 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5E72A25CBE0;
+	Thu, 19 Dec 2024 10:28:40 +0100 (CET)
+Received: from [10.48.86.79] (10.48.86.79) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 19 Dec
+ 2024 10:28:39 +0100
+Message-ID: <b6d92560-1bcc-4c9f-be1e-a5b7056f788a@foss.st.com>
+Date: Thu, 19 Dec 2024 10:28:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,106 +67,88 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/5] media: uvcvideo: Two +1 fixes for async controls
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241203-uvc-fix-async-v6-0-26c867231118@chromium.org>
- <e3316372-d109-4d2e-ad2b-8989babdf546@redhat.com>
- <20241219003708.GK5518@pendragon.ideasonboard.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20241219003708.GK5518@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v4 00/15] media: stm32: introduction of CSI / DCMIPP for
+ STM32MP25
+To: Alain Volmat <alain.volmat@foss.st.com>,
+        Hugues Fruchet
+	<hugues.fruchet@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Sakari Ailus
+	<sakari.ailus@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp
+ Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC: <linux-media@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <stable@vger.kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>
+References: <20241212-csi_dcmipp_mp25-v4-0-fbeb55a05ed7@foss.st.com>
+Content-Language: en-US
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <20241212-csi_dcmipp_mp25-v4-0-fbeb55a05ed7@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-Hi,
+Hi Alain
 
-On 19-Dec-24 1:37 AM, Laurent Pinchart wrote:
-> On Mon, Dec 09, 2024 at 12:01:16PM +0100, Hans de Goede wrote:
->> Hi,
->>
->> On 3-Dec-24 10:20 PM, Ricardo Ribalda wrote:
->>> This patchset fixes two +1 bugs with the async controls for the uvc driver.
->>>
->>> They were found while implementing the granular PM, but I am sending
->>> them as a separate patches, so they can be reviewed sooner. They fix
->>> real issues in the driver that need to be taken care.
->>>
->>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>
->> Ricardo, Thank you for your patches.
->>
->> I have merged patches 1-4 into:
->>
->> https://gitlab.freedesktop.org/linux-media/users/uvc/-/commits/next/
+On 12/12/24 10:17, Alain Volmat wrote:
+> This series introduces the camera pipeline support for the
+> STM32MP25 SOC.  The STM32MP25 has 3 pipelines, fed from a
+> single camera input which can be either parallel or csi.
 > 
-> At least patch 5/5 was applied incorrectly. Does that result from a
-> merge conflict ? Or did you apply v5 by mistake ? There doesn't seem to
-> be any other issue.
-
-I think I applied v5 by mistake, sorry about that.
-
-> I've rebased the uvc/next branch to fix this. Once CI passes, I'll send
-> a pull request.
-
-Great, thank you.
-
-Regards,
-
-Hans
-
-
-
->>> ---
->>> Changes in v6:
->>> - Swap order of patches
->>> - Use uvc_ctrl_set_handle again
->>> - Move loaded=0 to uvc_ctrl_status_event()
->>> - Link to v5: https://lore.kernel.org/r/20241202-uvc-fix-async-v5-0-6658c1fe312b@chromium.org
->>>
->>> Changes in v5:
->>> - Move set handle to the entity_commit
->>> - Replace uvc_ctrl_set_handle with get/put_handle.
->>> - Add a patch to flush the cache of async controls.
->>> - Link to v4: https://lore.kernel.org/r/20241129-uvc-fix-async-v4-0-f23784dba80f@chromium.org
->>>
->>> Changes in v4:
->>> - Fix implementation of uvc_ctrl_set_handle.
->>> - Link to v3: https://lore.kernel.org/r/20241129-uvc-fix-async-v3-0-ab675ce66db7@chromium.org
->>>
->>> Changes in v3:
->>> - change again! order of patches.
->>> - Introduce uvc_ctrl_set_handle.
->>> - Do not change ctrl->handle if it is not NULL.
->>>
->>> Changes in v2:
->>> - Annotate lockdep
->>> - ctrl->handle != handle
->>> - Change order of patches
->>> - Move documentation of mutex
->>> - Link to v1: https://lore.kernel.org/r/20241127-uvc-fix-async-v1-0-eb8722531b8c@chromium.org
->>>
->>> ---
->>> Ricardo Ribalda (5):
->>>       media: uvcvideo: Only save async fh if success
->>>       media: uvcvideo: Remove redundant NULL assignment
->>>       media: uvcvideo: Remove dangling pointers
->>>       media: uvcvideo: Annotate lock requirements for uvc_ctrl_set
->>>       media: uvcvideo: Flush the control cache when we get an event
->>>
->>>  drivers/media/usb/uvc/uvc_ctrl.c | 83 ++++++++++++++++++++++++++++++++++------
->>>  drivers/media/usb/uvc/uvc_v4l2.c |  2 +
->>>  drivers/media/usb/uvc/uvcvideo.h |  9 ++++-
->>>  3 files changed, 82 insertions(+), 12 deletions(-)
->>> ---
->>> base-commit: 291a8d98186f0a704cb954855d2ae3233971f07d
->>> change-id: 20241127-uvc-fix-async-2c9d40413ad8
+> This series adds the basic support for the 1st pipe (dump)
+> which, in term of features is same as the one featured on
+> the STM32MP13 SOC.  It focuses on introduction of the
+> CSI input stage for the DCMIPP, and the CSI specific new
+> control code for the DCMIPP.
+> One of the subdev of the DCMIPP, dcmipp_parallel is now
+> renamed as dcmipp_input since it allows to not only control
+> the parallel but also the csi interface.
 > 
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> ---
+> Changes in v4:
+> * stm32-dcmipp: correct patch 13/15 with clk error handling in
+>    dcmipp_runtime_resume function
+> - Link to v3: https://lore.kernel.org/r/20241118-csi_dcmipp_mp25-v3-0-c1914afb0a0f@foss.st.com
+> 
+> Changes in v3:
+> * stm32-csi: use clk_bulk api
+> * stm32-csiL perform reset control within the probe
+> - Link to v2: https://lore.kernel.org/r/20241105-csi_dcmipp_mp25-v2-0-b9fc8a7273c2@foss.st.com
+> 
+> ---
+> Alain Volmat (15):
+>        media: stm32: dcmipp: correct dma_set_mask_and_coherent mask value
+>        dt-bindings: media: add description of stm32 csi
+>        media: stm32: csi: addition of the STM32 CSI driver
+>        media: stm32: dcmipp: use v4l2_subdev_is_streaming
+>        media: stm32: dcmipp: replace s_stream with enable/disable_streams
+>        media: stm32: dcmipp: rename dcmipp_parallel into dcmipp_input
+>        media: stm32: dcmipp: add support for csi input into dcmipp-input
+>        media: stm32: dcmipp: add bayer 10~14 bits formats
+>        media: stm32: dcmipp: add 1X16 RGB / YUV formats support
+>        media: stm32: dcmipp: avoid duplicated format on enum in bytecap
+>        media: stm32: dcmipp: fill media ctl hw_revision field
+>        dt-bindings: media: add the stm32mp25 compatible of DCMIPP
+>        media: stm32: dcmipp: add core support for the stm32mp25
+>        arm64: dts: st: add csi & dcmipp node in stm32mp25
+>        arm64: dts: st: enable imx335/csi/dcmipp pipeline on stm32mp257f-ev1
 
+DT patches applied on stm32-next (as drivers and dt-bindings patches are 
+in linux-next branch).
+
+Thanks
+Alex
 
