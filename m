@@ -1,268 +1,180 @@
-Return-Path: <linux-media+bounces-23897-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23898-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E9B9F933A
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:29:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D45A29F933F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:30:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AAD61189A0B9
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:26:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 333501899889
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:27:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17AB3215F41;
-	Fri, 20 Dec 2024 13:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E80B2165FA;
+	Fri, 20 Dec 2024 13:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Gvs+ShEg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djyFRx2C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2062.outbound.protection.outlook.com [40.107.96.62])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDE22156E7;
-	Fri, 20 Dec 2024 13:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734701171; cv=fail; b=dpvfl4MM13w1yaDZyMW8v35r/q+cKoxIoo4O9EgnT5wAIRMinyVipKvGaAVrMW6WltKouUzq7vGM1KBoXfNe6JLNyUbiIbTnQshdq5QNbn37C7tikxZeR1C45EgvBfZPAB2dtzcZ08YXdgb3UB20aCT08sUgfQFxj3WpLw3ve78=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734701171; c=relaxed/simple;
-	bh=SpVd5qRogbl9B6xufHX1phP1Gc7GPCPnfBB9yI5xYCY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=AMg6aq05PoTs7iRTFDdDxpLJCldryeE1BoBBE/Rdr8EqEQLHKKO5jXdtG+b7BaGCYAnOX9Ucaku+uBHn3VYnLwesuxrL21uV2o9Td4jCDUUgaIDpE5HtmvRuqJHhYiGdLOi5tlPIM+717U/N0/CNBSwJo77KqxaZ4p9cmlB+mbM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Gvs+ShEg; arc=fail smtp.client-ip=40.107.96.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q6QODVdaTbY+5xSXnjfV7/C0ZZdujeH5aO5pcatIjXqWWn7p4/t682TS/vr20mU5pSV7RCzHymMtScbW7q/d/Y16t7oU6+1y7U05DaJm6BzSgoRMFBiGibdCzvXzCmzTnqa1AAlC0BJJexlCytLKkTMsEuoA4JyFqRbdyz9zjy5bRdYrcNuB2OaXOM7J/L14zRHgwB9o/N1t22LOujXOL0pu+hnX4hrZRCqhtKP95Pm1bG4+azTGxVh8Ez+l/FvEmlyQ1PEg/H1x/LQEJd+SGsNEtBsEEI/xXxs34nj6jFkmvgSt0Ktg2D7VPj+bOvyWSWYIfTrrGX+UH0IG16JQmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iJ4wk64m1ZjGPrs4EsrSA/oc9JoaR0dSXNvRh0EdE8Y=;
- b=j2aHSyyg9DTGrB/wZDhi1V4OqtGHhwkqx6q2lkIk7ObJcwNBGGQ9vOhwfWvTSQHAMKjYBOVT6aTTYYVM8fOUe+rAgO9clNcP3gc7pzEeTIHcM4jXZ0zn44QPMvWKTCj74PX7u97yUNQXxF4g+ydMx/Ha7+AkPMF4nM/Cxy2OFDtwFMy9cYVnniZFGPB1gdj5HOV4UP+xeJhbSvCkQ+JrxuwxHzQGXcOxIzAmwzYPoz5iR35NYZivqv2pHtxyNcArjmn6fKAC5dNStKxJyQhYYg/kviYIy2gPLGiP5iK86FAAwgptmkQynb+N1YcJznBpqWQVV8ot3zXjwVJgPBYuHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iJ4wk64m1ZjGPrs4EsrSA/oc9JoaR0dSXNvRh0EdE8Y=;
- b=Gvs+ShEgU8mKp+FAgGT1890ikJs1VpezE7HTczmr0jAlGRjo8gYmNTNoE/gMLBuNYIibKQzt3vJch01iHwoSopb8B8q2Z4QylpEJ7qtfJULN1IBjbhuwsfLsMbmlKmZIv0XagysZHzi4xFF6N0Dj583FNUcKCRi2djX8tnjHhgo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BY5PR12MB4196.namprd12.prod.outlook.com (2603:10b6:a03:205::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.17; Fri, 20 Dec
- 2024 13:26:03 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8272.013; Fri, 20 Dec 2024
- 13:26:02 +0000
-Message-ID: <e366a206-9fa3-4c6b-b307-d48855a7b183@amd.com>
-Date: Fri, 20 Dec 2024 14:25:55 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Document run_job() refcount hazard
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Philipp Stanner <phasta@kernel.org>, Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Tvrtko Ursulin <tursulin@ursulin.net>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-References: <20241220124515.93169-2-phasta@kernel.org>
- <5c4c610e-26ec-447c-b4db-ad38e994720b@amd.com> <Z2VunIJ4ltfW_xqD@pollux>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <Z2VunIJ4ltfW_xqD@pollux>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0127.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:94::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87902153E9;
+	Fri, 20 Dec 2024 13:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734701193; cv=none; b=DBG5qZa984jzPaDrSKFdNjrL8G7y7Y5GUkFXeDuC9FN3vI7RMFFIO8V0yCBgE2IvxytMwvEEi3gIuA2h9mhuX7K3iIZEvyQo7yQidRvuV5a/8mPu5vbtMIyC6N34tA0R9F1dfuK3DvtMjKzqOwr55eVoBEjEjcrnW+zEIxKVo9g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734701193; c=relaxed/simple;
+	bh=gsHp8x3rZPFbbVXat+AkjIIGNsSe4fQXvwGDypL8V4A=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lavj404zbNgU2c2+nSfoTlDkXaPzHCYbMzgCwCv89bpkPNZNnTX8z7XKB6LwDy3HmT3EJt/oNYjtLIRV2lesMX4+HIXHn4rWrqspV3Pwa/Gj0OGjdlUgMvmuXJDLlCFTNUX+qACMtcsUWivpdrpiwRZ3OauC4cMRMCa0ULEH6hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djyFRx2C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9DF93C4CECD;
+	Fri, 20 Dec 2024 13:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734701193;
+	bh=gsHp8x3rZPFbbVXat+AkjIIGNsSe4fQXvwGDypL8V4A=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=djyFRx2CmUSI8SHzpb9b/9L4+YgpWnrZZHaBGO6LUpppgZTx8+otiTRVmu8EgkeH1
+	 o4bqH3DIKBEpZQjQoNb0A50nt034PR0EYMQ8+xdh8u+bT3iuWP1gbymwLSMIawZCV3
+	 aJV6MrbqcBF/p+rZKpqAc2YdZ9PKicgU+H0ZKyeQKAYgpxK5Jv8953WJ9Zt4hhABiP
+	 3c8N9GrZoIFfthtS+yM/aAJXmgpB9Ft3CYScFFL61kfbPwZEoD2vFXb5h3edALKJF0
+	 74mmeuMskcPrDe38eoDyTUEqNw30wEWyRT3QfM8eOxKbMxnTnikxcVFnLNtrwpkvl5
+	 b2bkruKyD6B/g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 900B9E77188;
+	Fri, 20 Dec 2024 13:26:33 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH v6 00/13] media: i2c: imx214: Miscellaneous cleanups and
+ improvements
+Date: Fri, 20 Dec 2024 14:25:59 +0100
+Message-Id: <20241220-imx214-v6-0-d90a185d82e5@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4196:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6b24d59-e84b-4534-8926-08dd20f9d988
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aW1nRk5QeWltaUd3SmZMK280aGR5MHNKaGNZZXN1NzlGYTJNdE9OOXN6MGVj?=
- =?utf-8?B?N3VycmVKMzdhbW9qK3JYcGVDZDM3MU94ZDN3ZW1NN1FzMlgxUDdiak9Pbm5R?=
- =?utf-8?B?UUdnOWJJR2hxQWtMK0trYjlFMUZ0L2hxdFhxZDVGc0hzbC9aMXV1QyswTkhD?=
- =?utf-8?B?L2NBS3B1WVVQSFlxYWdiaDBEVFdUdkZVS09EZ1pLMU00RG91bnR2dnA4QlNT?=
- =?utf-8?B?dXQ0Q0xUMnBIZTF6OGd0TGQ0NGV5WmpXQ3N3R2JDd0xtTTFvMmRUWFNVaGIv?=
- =?utf-8?B?WGI4VmVJdDRBVnpwYjIwS3o2TjQ2SkJSbENWZXA1VjNCZFl0S3l0Z2dOMWkx?=
- =?utf-8?B?ak5NeUhIWHZZMTVoVVlPWlZ4OENVaS83eWdHTzNxR3FiYnJtTkV3NElBUkJi?=
- =?utf-8?B?dlNsUWIzaDlvamRPeWVNV3V3QXhCOEMrV1QyV3BlTDFQVnJXUUp6MDg5TjYx?=
- =?utf-8?B?Qy9vdGxXL0Q3RXZSazZxeVcyMG9WY1pRdXNhU1pTSTN2Z25kYmQ0L2FYTWVi?=
- =?utf-8?B?MkFaTVRtUWNIakNSODFoTnlkVGtmdXh5amt4c1pSZ0NXYU4rNUo5ZUdXczUy?=
- =?utf-8?B?OGkvTlJSM2NqdFhxOVZ3d1JUQmVBWloyaEl4NnpMMzNDOHJsbHBFZ0t0bkc1?=
- =?utf-8?B?RmU0elpuWFN4aFhvcFEwZmNQQ0p4WTk1MkN0a1NObS85alk1MTE1Q0ZNQ2NK?=
- =?utf-8?B?bm5sem5aUVZMYzlOWGkyempyNWxENW9kRVU0VnQ0NUNyOCtwa2JQNGl1VGUy?=
- =?utf-8?B?ODZwVnJKOTZGYjVSKzhCOUtnQU1MQ2U0YW8yamtsR2IzeFp5SEF1K1BmaFdB?=
- =?utf-8?B?S3VGSUt3WVYvZTRNYnM3dlRMazd2amh2TlpzdDBPNWNtZk5EbGZ3SmFUbGVS?=
- =?utf-8?B?S1BuM053MXFja0NJbHV3TnhBZHVUZjMrT0hXb2NiVlR1SGdpZEYzdEZiVnVM?=
- =?utf-8?B?OUdCdVg4Zjl4OHpBa3E0UWdSNEwwRldKakYwYTY1VHBhelp5ay9yWWI4MERZ?=
- =?utf-8?B?ZkFuMHplYnk5cHVrcG9BcUpQOFBpOEdJU01VWWFXUGI1QXNFT3E3S3RGWXZD?=
- =?utf-8?B?Tm81YjBqaVQ0RUViNE1OeUNFUWhqQVI4U0NCbENQNVlmSmduNk9xOXdtYkVJ?=
- =?utf-8?B?ZjJvY3ZLdzJnUm45c20rbmlUWjhVU3F2ZEtYMWN3Q3hxZ2Y4cDJIM01ncitG?=
- =?utf-8?B?K0czTW4wSWFGYlR5R0NEYjRJQURUa0lZR1RDc2pyMHFWSW10WUd6ditmL3py?=
- =?utf-8?B?NDRPdFpXNnp5djlwalR1VmZEekhPT2hvM3d2VGYyTEVYNi9YaHNZRUJETU8w?=
- =?utf-8?B?ZmRkbE1CQlJEdnJQTnhBYTlNV0RYdUtGRXllTjlISHg4NWVRM1N6Unp4TVQx?=
- =?utf-8?B?WXU4SXdUTjhTanBVL1N1Zm8yWURQd0R1YStyVlpQMUk3bUpISUV2dDFBR0pB?=
- =?utf-8?B?ZEtjZEEvL2R5WWRMK3hWOVBnVzJRRmJqN0REY00zNWFaRHhpSGJ6NmZFb1lq?=
- =?utf-8?B?ZFI1d0VOQ3o3SEwxUTFycGhQekpDV1M4WU1XRHVXTmV0NlhVL0Ird2dhRWM1?=
- =?utf-8?B?ajF2SlBGSEpsL1Z2bEkvd3BqOThZRWQwdEkrbEpjdWlpam9lbzNHTlZYNUc0?=
- =?utf-8?B?TTViYkE1VWZGV085b2pSYXAvQm5lRVpvQTlNMHhxNjlmS0hTdHRkaGtUVWJS?=
- =?utf-8?B?R3JzMm5LRnRWN0xRV0hzWFdVMExZaE1WSlh1MnhwTmJjbkxScXFIVzBhNG1o?=
- =?utf-8?B?OVpOeGRnUisxbVhDTWhNcjhieHlNdGJEUXUxaVFmNkZ0L1pJT09RUzFnZWs1?=
- =?utf-8?B?OHMzTzhXRmlPcDA5TXUxdWZBZlBJYzEzSncrWTJjeXVjY0RTa0plaUJndG1v?=
- =?utf-8?Q?vUT2X+pR6lVJi?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NEdMdmFiVUNBcVFSZ1ppcFdISE1LV3VxRWVEM0xLamlHNGRKVTlQeHpYRERm?=
- =?utf-8?B?N2N0aEpUYjlhZnkwRGZwUDJIVjJxSkZVVWZkL0FpNmpuK244WHJGODRSbzVk?=
- =?utf-8?B?MzRnbU11UlFhVEUrd3piZ2MwZHd1YWJlN0VtbWhMUzdJRXErVWFDNUIwQ0l5?=
- =?utf-8?B?RmV2eFJXQjlJNHhSNHV1bVZqUk1RZjNha2JXeXUyU0lTNFpyTHVRQ1haYzNN?=
- =?utf-8?B?ZDc1N0Q3VlVvTXQzcXlXWkVZQkE5cU55WHlPU1cxbFBYbW43dk9JNDBVSWtj?=
- =?utf-8?B?d3ZoVnhEd2U5cW9rK08yYkVpNG9YT1V4ampVNVNhYnQyYWVtZER1Q0F2ZDdN?=
- =?utf-8?B?cURpNm5XSWxoMFBvVklnQ2N2VXZadWJXaGdkZ3lLU2JCVXdxVTVzNG9JN0J5?=
- =?utf-8?B?bVhDOEJUMk11c1l1MGZSNTRVUlhOQmtFZDdyLy91WitndGxqQW9EZFlHRzNi?=
- =?utf-8?B?eEdPMTVidFhTMVhOMTBXV2R4cE84TzlGSnRmOUpJVkRuNit3NkV3Ry9KV1ZH?=
- =?utf-8?B?ZHhJVDlEai9QUEJZZEhhbnNsY3FteVRCMHZJY2pyRHVZMmd6bW5IU003MCtS?=
- =?utf-8?B?MnJYYlZPR3AweXJPa3hZSmlYOVVUZFpCbmVsaHYrWjBteXVod1REbTlYS3hF?=
- =?utf-8?B?bmU0RzRhN3RkWEJNTVovcXFjMjNnTm0wSlNadXVuaFowQVlpK25MUTd3UUNa?=
- =?utf-8?B?cjhGL05WczRGOWF6TlArV01lbjVCRmdFczVWZklGRVJ3RnFjc0ZLbjBIdjd3?=
- =?utf-8?B?ZWNiT25ZN2Z5aW96ZC8rR1VhRWRiTTJFbmNncXJ5cFVzakV5TDliTUlRcVo4?=
- =?utf-8?B?V3BzZm5kU01tSzQ3YkZ4ZWU2UWdmeVV5ckR0VUZycDk3cHlLOU5mUnVCMW9j?=
- =?utf-8?B?TEQ3aTduSFlySkJBS3JEWDA5dTVJOUZEYWFRTmp5Z3gyancyVHBzTytyOWNW?=
- =?utf-8?B?OEFZUEEyMG05QmtBcE5CM0dGeEthazYvc3lqSitGRHBuaW9mVEtaSTMwZzJ1?=
- =?utf-8?B?aWpSdThvMEZ6NXdWNTZtbmQ1TTBUSHUzZ3BndXpEbkI4ekZwa251Q29JQkox?=
- =?utf-8?B?ZS9HMXZiRWpVaVdQQ1JIQmZQMVg5K01oL3ptTmJ1MlNJUVpDa1lUckdVbnA2?=
- =?utf-8?B?VGdtc25UYWtsUlVndTg5TzZIQ3hyTnI3YUwxSXZ3OW1rZVRFdzFRUG9uV1dK?=
- =?utf-8?B?UWRyY3dnUEtuQWZqem1pUm5mVm9IR0Z2NXhQV0wwcnNKV2RnTzU3K2VQSWc4?=
- =?utf-8?B?RGo3cEllMVRxRmNOd0YxQTRFRlI5bjRqanhVY1pZcVd4bnA2WEpzL0hDZU5Z?=
- =?utf-8?B?VHUwaVVtWlZQQW1hTHJ5Y04wQXVobnlzNy9qcUdSRm5mdkNlZVF4bkJFdTFQ?=
- =?utf-8?B?bVJYaXFJNi9DMHFUQndxV2lkb2RaSFFTaVhvTE81NU9saHZNYWNMUm9GSFVU?=
- =?utf-8?B?eWRUS0FKMW5Iell2aHA1SlRrSmhXY21CUi9pZ0toY2ZYTERrWTA1ZVR2RGZZ?=
- =?utf-8?B?bERFTmZZaExPMGk5SWpucVJFNlM1TjQ5RGRjaFY3ZkJiVzRpU0Y3Wnc3TXkv?=
- =?utf-8?B?MlFZRTE0VXdvUDJIUjZCeXBBQkFXaTJWcUdpdjRIMmxyVW45NGtxbnBTbUlI?=
- =?utf-8?B?cVV1YWhoVXZPbVJDMTBHTkU4a2czZE04aXdPV3FESlBtSXM5ZWIwdmJJL0ZW?=
- =?utf-8?B?eEExbnc4SzczY3VwNm1tNTZTbjBIOXZvWGtDWGJVbXM5cGJiVGR6ZmRnVFI4?=
- =?utf-8?B?c2xkSzBLd1dVa3NSVnV2V0wrenpZbWtIS0tJckpKQ3JtR09EQ09DV2xIK0kw?=
- =?utf-8?B?N2tnUWd6Mk9qeHh2RGdzU09FYjNlMnJMdUM1Z0FnU01vNjBodjlzakx2OEkr?=
- =?utf-8?B?L2Z5QStGQWRxQzZ3VnBPN0Jycm9NcThqbGhHMjN0V05UYnFmYVcwSnVJbXR3?=
- =?utf-8?B?cXhIalVnSC94VHkrMk8xcUJTcFhqNEp0eTdEMUxiZEUyOUw1bExwTVJtL1Ay?=
- =?utf-8?B?RzMzdFB3L2FCUXgrUnRPZCtkbVJJZXJyZGVsbU5Ob2RqYU1xR3ZmalNWTVFh?=
- =?utf-8?B?bkl3THRwUGdsSzN1WVJia3NqQTZMbGZTZ00wUlkxRFNBWUtCRS94K2tNNHZE?=
- =?utf-8?Q?Wl+LZ6eLh4q2dbS7bs4kc4OCR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6b24d59-e84b-4534-8926-08dd20f9d988
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 13:26:02.8120
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6mrXkR8C8xpot+U5DVGj203ZZQVjVAwP+fX4QXX0SWZiisM67YGEmAO72kl04F5w
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4196
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAGdwZWcC/23NS24CMRAE0Ksgr+PI3f5nlXugLPxpZ7wIoDGMS
+ NDcPYaIARSW1epXdWKNxkqNva1ObKSptrrd9GBeViwNYfNJvOaeGQpUwoHj9euIoLiTqKxTyUY
+ i1p93I5V6vBStP3oeattvx+9L7wTn61+FF3itmIALnrxJMXjnJej3sKv7n5aGVzqwc8mECwSBs
+ EDssMSMkrzXCug/lDeIwi5QdhiiEaFYIv9sUd1BMAtUHboUcwAjSkxPFvU9vC3qDqWzRWPIVFR
+ +hPM8/wIahqqCggEAAA==
+X-Change-ID: 20240818-imx214-8324784c7bee
+To: Ricardo Ribalda <ribalda@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Vincent Knecht <vincent.knecht@mailoo.org>, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734701191; l=3709;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=gsHp8x3rZPFbbVXat+AkjIIGNsSe4fQXvwGDypL8V4A=;
+ b=kpP/ESFAgb8Wb0hMNM857ZPboqwkgLMvplwHkTBM8Rb1m0q2a18F3IlcqCADtpSgIFqb7yRce
+ jShhJ8lEdaqAcuBx39G7csE7xws9Svzg9y2iyX/CI6papvOoGVPaJoa
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-Am 20.12.24 um 14:18 schrieb Danilo Krummrich:
-> On Fri, Dec 20, 2024 at 01:53:34PM +0100, Christian König wrote:
->> Am 20.12.24 um 13:45 schrieb Philipp Stanner:
->>> From: Philipp Stanner <pstanner@redhat.com>
->>>
->>> drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
->>> That fence is signalled by the driver once the hardware completed the
->>> associated job. The scheduler does not increment the reference count on
->>> that fence, but implicitly expects to inherit this fence from run_job().
->>>
->>> This is relatively subtle and prone to misunderstandings.
->>>
->>> This implies that, to keep a reference for itself, a driver needs to
->>> call dma_fence_get() in addition to dma_fence_init() in that callback.
->>>
->>> It's further complicated by the fact that the scheduler even decrements
->>> the refcount in drm_sched_run_job_work() since it created a new
->>> reference in drm_sched_fence_scheduled(). It does, however, still use
->>> its pointer to the fence after calling dma_fence_put() - which is safe
->>> because of the aforementioned new reference, but actually still violates
->>> the refcounting rules.
->>>
->>> Improve the explanatory comment for that decrement.
->>>
->>> Move the call to dma_fence_put() to the position behind the last usage
->>> of the fence.
->>>
->>> Document the necessity to increment the reference count in
->>> drm_sched_backend_ops.run_job().
->>>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
->>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->>> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
->>>    include/drm/gpu_scheduler.h            | 20 ++++++++++++++++----
->>>    2 files changed, 23 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>> index 7ce25281c74c..d6f8df39d848 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>> +	 *
->>> +	 * @sched_job: the job to run
->>> +	 *
->>> +	 * Returns: dma_fence the driver must signal once the hardware has
->>> +	 *	completed the job ("hardware fence").
->>> +	 *
->>> +	 * Note that the scheduler expects to 'inherit' its own reference to
->>> +	 * this fence from the callback. It does not invoke an extra
->>> +	 * dma_fence_get() on it. Consequently, this callback must return a
->>> +	 * fence whose refcount is at least 2: One for the scheduler's
->>> +	 * reference returned here, another one for the reference kept by the
->>> +	 * driver.
->> Well the driver actually doesn't need any extra reference. The scheduler
->> just needs to guarantee that this reference isn't dropped before it is
->> signaled.
-> I think he means the reference the driver's fence context has to have in order
-> to signal that thing eventually.
+This patch series is a collection of miscellaneous cleanups and
+improvements to the imx214 driver.
 
-Yeah, but this is usually a weak reference. IIRC most drivers don't 
-increment the reference count for the reference they keep to signal a fence.
+The series converts the driver to the CCI helpers and adds controls
+needed to make the driver work with libcamera.
 
-It's expected that the consumers of the dma_fence keep the fence alive 
-at least until it is signaled. That's why we have this nice warning in 
-dma_fence_release().
+The changes are inspired by the imx219 driver.
 
-On the other hand I completely agree it would be more defensive if 
-drivers increment the reference count for the reference they keep for 
-signaling.
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+Changes in v6:
+- Make series bisectable
+- Add A-b tag
+- Link to v5: https://lore.kernel.org/r/20241217-imx214-v5-0-387f52adef4d@apitzsch.eu
 
-So if we want to document that the fence reference count should at least 
-be 2 we somehow need to enforce this with a warning for example.
+Changes in v5:
+- Remove cur_mode field
+- Link to v4: https://lore.kernel.org/r/20241216-imx214-v4-0-8cbda160fbce@apitzsch.eu
 
-Regards,
-Christian.
+Changes in v4:
+- Drop function name from dev error message
+- Initialize *format to fix compile error
+- Improve comment "Update {FPS -> blank} limit"
+- Improve code formatting
+- Warn once on usage of frame_interval functions
+- Fix commit message
+- Add patch to fix clock handling on probe error or remove
+- Warn if number of DT provided link frequencies != 1
+- Add A-b tags
+- Link to v3: https://lore.kernel.org/r/20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu
 
+Changes in v3:
+- Also keep previous link freq for backward compatibility
+- Move link freq patch to the end of the series
+- Remove return-early check from imx214_set_format()
+- Remove unneeded struct imx214 function parameter
+- Use correct ret value on number of data lanes error
+- Revert changing order (imx214_parse_fwnode, devm_kzalloc)
+- Fix typo
+- Remove unused definition IMX214_EXPOSURE_MAX
+- Don't set FPS to default
+- Simplify exposure_def definition
+- Set state and format only if control id is V4L2_CID_VBLANK
+- Restore Ricardo's message to Sony
+- Drop "media: i2c: imx214: Extract format and crop settings" patch
+- Add A-b tag
+- Link to v2: https://lore.kernel.org/r/20241021-imx214-v2-0-fbd23e99541e@apitzsch.eu
 
+Changes in v2:
+- Add patch to fix link frequency
+- Don't use and remove fmt and crop from struct imx214
+- Squash patch 1/13 and 2/13
+- Only check if #lanes == 4
+- Add comment that enum_frame_interval() shouldn't be used by userspace
+- Set V4L2_CID_VBLANK step size to 2 (according to datasheet Table 4-4)
+- Increase IMX214_VBLANK_MIN to limit max frame rate of full resolution
+  to the documented 30 fps
+- As bpp is always 10, simplify setting IMX214_REG_CSI_DATA_FORMAT and
+  IMX214_REG_OPPXCK_DIV
+- Simplify imx214_get_format_code()
+- Cluster hflip and vflip
+- Remove kernel log note from 11/13, issue was fixed by a kernel update
+- Add A-b tags
+- Link to v1: https://lore.kernel.org/r/20240902-imx214-v1-0-c96cba989315@apitzsch.eu
 
->
->> Regards,
->> Christian.
->>
->>>    	 */
->>>    	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+---
+André Apitzsch (13):
+      media: i2c: imx214: Use subdev active state
+      media: i2c: imx214: Simplify with dev_err_probe()
+      media: i2c: imx214: Convert to CCI register access helpers
+      media: i2c: imx214: Replace register addresses with macros
+      media: i2c: imx214: Drop IMX214_REG_EXPOSURE from mode reg arrays
+      media: i2c: imx214: Check number of lanes from device tree
+      media: i2c: imx214: Add vblank and hblank controls
+      media: i2c: imx214: Implement vflip/hflip controls
+      media: i2c: imx214: Add analogue/digital gain control
+      media: i2c: imx214: Verify chip ID
+      media: i2c: imx214: Add test pattern control
+      media: i2c: imx214: Fix clock handling on probe error or remove
+      media: i2c: imx214: Fix link frequency validation
+
+ drivers/media/i2c/Kconfig  |    1 +
+ drivers/media/i2c/imx214.c | 1265 ++++++++++++++++++++++++++------------------
+ 2 files changed, 752 insertions(+), 514 deletions(-)
+---
+base-commit: 62f608176a46b6a794725022101d0d7f42faedb9
+change-id: 20240818-imx214-8324784c7bee
+
+Best regards,
+-- 
+André Apitzsch <git@apitzsch.eu>
+
 
 
