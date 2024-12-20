@@ -1,106 +1,105 @@
-Return-Path: <linux-media+bounces-23859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23860-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AFBC9F90C1
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 11:55:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 799289F90D0
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 11:59:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 816231660B3
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 10:55:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89DC518885B2
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 10:59:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D26141C07D8;
-	Fri, 20 Dec 2024 10:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A377F1C1F26;
+	Fri, 20 Dec 2024 10:59:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="lCVWNiHL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aw1xkFxX"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JqTekvBa";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ms4kjCD0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4A3172BD5;
-	Fri, 20 Dec 2024 10:55:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1761ABEB7;
+	Fri, 20 Dec 2024 10:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734692126; cv=none; b=VTY6XXIAQswd/LgDu7s06uq0c2nxqwf+RODbDkGF95XATbR3EN77SwPupvPH4FVZSheNpYuOv3WxOohPyxvOA55RDJXVf/X8gbEXdLA8SlD6B0up7Xd/5Zi2wFLMracWnYVlJ4N+csktevRl+55cbO0WUXedb3aNthjz82iIrE4=
+	t=1734692379; cv=none; b=nqS9NxHLSdo1288O1QCYgGw/cuTaJZA7Vz9heVoudWnOYr93BZtuQbxlOwm4Q5NSCHkE/hgRXUMsXHvzsiW1p4AJaQDLB0nfJwm/Kf4GjnTFF3gCdWF1oc3KwsBL6oleFYJJmlueP9pl2GaY9U7hDNTzjCNlxYe8Q7btCgwYIMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734692126; c=relaxed/simple;
-	bh=FM6H5r5/1Fq9sZywFLDERopehjmWZOm3gZBnWCVm/cE=;
+	s=arc-20240116; t=1734692379; c=relaxed/simple;
+	bh=wu/7LPH4E88PziyaAT+bYhhBSyvwqTmAGn8pjsjowEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OPIV2IgiYxPPAXNj15hW7zmPvf2YzNf2txTOrsH7fIZVw/4Sl+pymbJBGb/B+4SjxUcO63x7Yzf1q/b2Ly83wCX5ok55Y9sUXjAcgsMlOdHGJqkvql+ZVfc83SIAsPoPmHODLOEfL83g2dXEjYe8DINFwDBdw7KWEfzNTWJanas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=lCVWNiHL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aw1xkFxX; arc=none smtp.client-ip=202.12.124.149
+	 Content-Type:Content-Disposition:In-Reply-To; b=dEmYzMS44z4h2T5GEW4+pt/ozZU9Rongmpdl2uVaRwf5Q7Rwbv7Pg8Sr7q8zDxd8ziMrg5ei+gPXqV/8m/SpgTnx8slDBXOPhH2y298QhuECBu/3OTa9OdXZ4cAxY1hDJBdHFRsY4ROdyOD+h8CyQDeNfKdIPturx//7///pR/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JqTekvBa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ms4kjCD0; arc=none smtp.client-ip=202.12.124.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.stl.internal (Postfix) with ESMTP id 60ABE11401B3;
-	Fri, 20 Dec 2024 05:55:23 -0500 (EST)
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfout.stl.internal (Postfix) with ESMTP id 0883E11401CF;
+	Fri, 20 Dec 2024 05:59:37 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Fri, 20 Dec 2024 05:55:23 -0500
+  by phl-compute-02.internal (MEProxy); Fri, 20 Dec 2024 05:59:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1734692123;
-	 x=1734778523; bh=UV983xr3Fb9qU4OGykgmse7yIehLqW0ty4jbU/OEht8=; b=
-	lCVWNiHLGffDRzdRDb3gSKD+ppZaYvHVOraXBhy3sN4eJqlCyIwGKsVNqpul/zQM
-	sm/eMkblkl9v0z3REDPdwASfoksGmulW+2QakZRWEBtwJQYjR6eaoK//3QdVVMde
-	ndN1hxPMb9Sm3XSTJqbuCtOYt6v5iHnttlRCAooZtRzXx/XZnT/5fdGg4xNZDpp7
-	syZ9bUEf4Z9OPH4fKdMR8ELLz9cUYOYMqWSINZygbkGmGiwBAXqBc9yLj/MvUvdG
-	duCn2C7lbI+m9MqE1c1FVfNtcNfd/rA5DsJs/d0xqUZVMMuR29m26dSK9/fAGKQN
-	tfiaymAoxB0Gl/aURQy9IQ==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1734692376;
+	 x=1734778776; bh=67DpQfzCphjdRmBvrAMNjiOdW47kCrZYMO1bv14OmGw=; b=
+	JqTekvBaxZfYhpdrgeUjltcuz75VDiEJn/37X2N5r9Umwad2IOXZLUHyu2qo+UAc
+	U0P6VvNwlnznBfYEvb8yZsAhQ1P6+i2woyDPTFAJh/fXe5rf13hRVS97l9v3oh45
+	s7BV1FYWq+6tdlk49h6sqBAVDHXCtPArTAoMsANI17nFRdloZyulr/wmbuBWh/2K
+	4ZnR5bKF4/lLi1j/hyCRqB6rhhb9vwQBp9Nhr7KJ4AFHLGMoYJRJ8PYc9iHrqCac
+	Qm1S3UhnRWFPSuFd/10n9ivDBTi0BVoFKSZUeAJspcDofoHDInMNDl3aeB8NJTmL
+	s9CMR21gWG1V3z3fSjFPWg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734692123; x=
-	1734778523; bh=UV983xr3Fb9qU4OGykgmse7yIehLqW0ty4jbU/OEht8=; b=a
-	w1xkFxXRfc713wOtxXKeqcO52UaFuqwx+A5AN5NqAKxhO7RssxDYeoXgMzM2EGYv
-	HOpGK5I+jrP2QRK4GpifCNG4XkCGZgiDEtehMgjdh4XpwgB1fI9dWikrBsj0c5cW
-	64prZx/BXyaIm9S14xcQnbcsCHKwGafjsptK0Fe3/fQ9zgcZ4G8t25UiTwIwiyuv
-	eCQONmlSUSwg65kMO6aqEekzzXwkPzL18Utm2mAdu6pCbuqd8hE+Xh+4+fSRgLxY
-	JeD97dajU7Sjq1KTCOpfse2FnNcqqJ4L6hc7LDG9zXg/L7FcHxK3fZkaOGlnvYUb
-	sEmUSjELKj883zcxtXxTA==
-X-ME-Sender: <xms:Gk1lZ6UFDNwNW5ys0VrumSeMyCjkShDcVS0Zmda-QrprZz6N8obXNw>
-    <xme:Gk1lZ2nBQhBZlz07TTwxgkyxECSVprtjSrbdA2-n2Xj-lCkYbT8CzFsFc62U8glOR
-    b9ZPOxcLqIHl-88Uy0>
-X-ME-Received: <xmr:Gk1lZ-YHXThYsw8OLPq1hSNMGcZLaR04L8prqWXq-xVd12-9YRo-XgecjtfME80nXs-8YR5FjdWrIP1n2Zk8aNnHCeEv3TlIrA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtvddgudelucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734692376; x=
+	1734778776; bh=67DpQfzCphjdRmBvrAMNjiOdW47kCrZYMO1bv14OmGw=; b=m
+	s4kjCD0JA6b85QPNLyfvNyWX7rWPFKWTblybML16rmcdzdNbeO54jkLBh9LxRlXg
+	4DoEhkykuggr6dkeONhNXXvx75kSMyrZMfG1qWe22P0HBv366hSkdRd6TWIYWKyA
+	jMjWPc8+zSv6p7RLLSKJLfRmALya14KuoB28RAoxGDw8tcmYKZ76Kbt5aCAFwu7T
+	Ws0tiHytamgxXAKYwN+9QQ9ICjzzjUYwA5pxLGf2kooqeAl/IAiFy3YRkd0NYexZ
+	0SRjrV1oZNtFlWb+rhWKI1IuDA3RfSFeVCPBpOqM/rJh5m6KPgfJVOeWU9JV2O7V
+	KXL5N9Q8WExAAsW2oNS7g==
+X-ME-Sender: <xms:GE5lZ_jNEIidwlfhINN3vVl-NGSwL6UkPdNo6CvFwEEQGYKDvPJA7Q>
+    <xme:GE5lZ8CeykAFWwVdGpKGcpCx_g4I_K0U0HERllTXrj8PY-fUNUltJkzu840Fr1Ek8
+    _DC5iqjQiPcwM5aFng>
+X-ME-Received: <xmr:GE5lZ_FvRnHVsttLKM__bSg4qo5MTfCtKosBtrg8eGC44byljqtD5d5TBYZ7M5uXqfowZpQpcoMCDYHiu-PEuhbHtsCNfNjMOw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtvddgvdduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
     htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
     necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpedtgfeu
-    gfdtfedvkeffvdevheeuteffvefgvedvieduueegheetgffhvdfhtdeggfenucffohhmrg
-    hinheprghnrghlohhgrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtg
-    hhrdhsvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    oheplhgruhhrvghnthhiuhdrphgrlhgtuhesohhsshdrnhigphdrtghomhdprhgtphhtth
-    hopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhhes
-    lhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvg
-    hrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhm
-    vgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqsh
-    htrghgihhngheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:Gk1lZxVtoJWrVWA2IkXPldrfTBzOWn8kd1AShdN6Csl0vW3zaVKoVA>
-    <xmx:Gk1lZ0kU79hbXnh7dARXBQVRbcNWownENon1eHehNUK8mAuxEwS1ZA>
-    <xmx:Gk1lZ2fVN6zj16ogn8TDzR_4bFTjcbxw7mNCRdZUIsgkZXyD_fofTQ>
-    <xmx:Gk1lZ2H4Ef1tHkXnkNxYSYBalz3JK-TVbNaa7Rc__xXquXcOWLDw5w>
-    <xmx:G01lZyYeShEjB-x6Dc9XkZJ8WgoVXmQwZLVxsT77pTflNn-RZbPFwJOY>
+    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
+    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
+    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeeipdhmoh
+    guvgepshhmthhpohhuthdprhgtphhtthhopehlrghurhgvnhhtihhurdhprghltghuseho
+    shhsrdhngihprdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
+    pdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrd
+    guvghv
+X-ME-Proxy: <xmx:GE5lZ8Sbn_jUrApSsL5voZNLFNAW46Pk3460N498C3lASC0ATx_7Ag>
+    <xmx:GE5lZ8wu2w7iKQX4XudcQFgsXTFp2ZAc3maRJyq_XjVW6PSaiQAa7g>
+    <xmx:GE5lZy7RVMyQrkCz5DpCX2m6FOD4HrZ6aaaClpjrJm6GcpsCEGIG1A>
+    <xmx:GE5lZxz2EWE5OBjIchqJVIfg6vBd-7U7pGhviF3yoeJoqUjB30Fwsg>
+    <xmx:GE5lZzmhra13Q4uSJlDTpkNUhjPDA7IT6_rCkLQS4wZXpJti3feFgnI8>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Dec 2024 05:55:22 -0500 (EST)
-Date: Fri, 20 Dec 2024 11:55:19 +0100
+ 20 Dec 2024 05:59:36 -0500 (EST)
+Date: Fri, 20 Dec 2024 11:59:34 +0100
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] staging: media: max96712: remove extra debug
- register flag
-Message-ID: <20241220105519.GA3634024@ragnatech.se>
+Subject: Re: [PATCH v2 1/3] staging: media: max96712: fix typo
+Message-ID: <20241220105934.GB3634024@ragnatech.se>
 References: <20241220104939.503547-1-laurentiu.palcu@oss.nxp.com>
- <20241220104939.503547-3-laurentiu.palcu@oss.nxp.com>
+ <20241220104939.503547-2-laurentiu.palcu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -110,66 +109,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241220104939.503547-3-laurentiu.palcu@oss.nxp.com>
+In-Reply-To: <20241220104939.503547-2-laurentiu.palcu@oss.nxp.com>
 
 Hi Laurentiu,
 
-Thanks for your work.
-
-On 2024-12-20 12:49:37 +0200, Laurentiu Palcu wrote:
-> The current implementation has the register disabled since it is not
-> documented in the MAX96724 RM. However, in the chip's user's guide [1],
-> in the Video Pattern Generator section, the register is documented and
-> it appears to work just fine. Before the change I was experiencing
-> approx 10fps when streaming, after: 30.3fps.
-> 
-> Hence, since both max96712 and max96724 have the register, we can remove
-> the flag.
-> 
-> [1] https://www.analog.com/media/en/technical-documentation/user-guides/max96724fr-user-guide.pdf
+On 2024-12-20 12:49:36 +0200, Laurentiu Palcu wrote:
+> Fix a typo in VS_LOW expression.
 > 
 > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> Reviewed-by: Niklas S??derlund <niklas.soderlund+renesas@ragnatech.se>
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+I think your mail setup mangled my döts ;-) The Content-Type header for 
+this mail is set to 'text/plain; charset="us-ascii"' while the patch is 
+likely utf-8 encoded. Same in patch 3/3.
 
 > ---
-> v2:
->  * addressed Niklas' comments and removed the extra debug register flag;
-> 
->  drivers/staging/media/max96712/max96712.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
+>  drivers/staging/media/max96712/max96712.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index 5228f9ec60859..ed4d5db1ff8d1 100644
+> index 0751b2e048958..5228f9ec60859 100644
 > --- a/drivers/staging/media/max96712/max96712.c
 > +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -27,7 +27,6 @@ enum max96712_pattern {
->  
->  struct max96712_info {
->  	unsigned int dpllfreq;
-> -	bool have_debug_extra;
->  };
->  
->  struct max96712_priv {
-> @@ -174,9 +173,7 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
->  		return;
->  	}
->  
-> -	/* Set PCLK to 75MHz if device have DEBUG_EXTRA register. */
-> -	if (priv->info->have_debug_extra)
-> -		max96712_write(priv, DEBUG_EXTRA_REG, DEBUG_EXTRA_PCLK_75MHZ);
-> +	max96712_write(priv, DEBUG_EXTRA_REG, DEBUG_EXTRA_PCLK_75MHZ);
->  
->  	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
+> @@ -182,7 +182,7 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
 >  	max96712_write_bulk_value(priv, 0x1052, 0, 3);
-> @@ -457,7 +454,6 @@ static void max96712_remove(struct i2c_client *client)
->  
->  static const struct max96712_info max96712_info_max96712 = {
->  	.dpllfreq = 1000,
-> -	.have_debug_extra = true,
->  };
->  
->  static const struct max96712_info max96712_info_max96724 = {
+>  	max96712_write_bulk_value(priv, 0x1055, v_sw * h_tot, 3);
+>  	max96712_write_bulk_value(priv, 0x1058,
+> -				  (v_active + v_fp + + v_bp) * h_tot, 3);
+> +				  (v_active + v_fp + v_bp) * h_tot, 3);
+>  	max96712_write_bulk_value(priv, 0x105b, 0, 3);
+>  	max96712_write_bulk_value(priv, 0x105e, h_sw, 2);
+>  	max96712_write_bulk_value(priv, 0x1060, h_active + h_fp + h_bp, 2);
 > -- 
 > 2.34.1
 > 
