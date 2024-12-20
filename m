@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-23930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6B19F94AB
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 15:41:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 558899F94AC
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 15:42:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 543EC1889F71
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:41:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67B13188ABC8
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:42:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E886F2185B4;
-	Fri, 20 Dec 2024 14:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82C0721882C;
+	Fri, 20 Dec 2024 14:41:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WwGd34zs"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IuWdVzBu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D027121859D
-	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 14:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C6A218828
+	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 14:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734705709; cv=none; b=udxXecnGL/l7s+KwxgJ7UJ9bh7RPZR+tSqLyGJWUnigQsWz0B/Z3PanE3ogKHMDye7tlUcm1VJkH+GMh5/MyQNLqlw+sp+sHmAKpF54JKayNiOb6KmRWPgwvKarWPODElY0UwX4okovPFETVjTVY8s6KATTBfdc4eMc8JqHUCMY=
+	t=1734705713; cv=none; b=V92g2eWUAHmmQsC6v6T5OjP61Vh0+y0l8p4UkGxYO+NuiTeDj0DErhxwIfZj7l+ePt/vqASPyqOg4H5cpZ+nk/aT+eNdbZEgc6drimLkTHO1xkyjMteAaVBEPJniMfqS3XE9uDArwJp1o31p2JPtRdVeBnrtKSeUc3KF9QhIBDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734705709; c=relaxed/simple;
-	bh=S79IH9uQrKnSpqwqyKNdK8l18xDH1QS/F1MGC3GTQGc=;
+	s=arc-20240116; t=1734705713; c=relaxed/simple;
+	bh=dNHP0Vnk0oESiLPrIZC5uEoQ50/buQM5n9mlbB4vSQM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UPN0PIFVaRprIz9nOxWFa8dSiQHSYqg2OPGKzS31tzRJWmtXtP2U7tHjK5THwBa24IY/iYS5/UBpc2KFvKicmccmuMWlj7roaAagVLWGhYDoKdNiIhRxYNF8y/swFcebFvwk8gHLzbm6pqMZDEAdGOqpxbOTQETraurXnyumMOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WwGd34zs; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=RJbW5VCONPERzqBAM8Ofg4Jpfs36MV6I3GF/YYbGeM1h0olbEWpWR/M/+ho1sp1uxyXqauWqi7/zo79x001w+Zs4rMmeNc3GVAWBbfp4fGeJ3PlrBRKtMu2DY8xT6ilVxh3EleKpSIgjthmVO2L4TcRwRauvasXXYtH2FNDbTnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IuWdVzBu; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734705706;
+	s=mimecast20190719; t=1734705710;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vg3rH1dUVRipxtVAruGyIBJRtszYktTBFbJ2xpH6gSc=;
-	b=WwGd34zsQjWBFPARLpZlcQZXzV1PbdSVtLGtJXp749FSRwncCUx0qrnoOGJBQP3ln/RBsf
-	rUUS1Yyb59Yp265O0Wm3/rKbxjf1EvQ7uWqXb0AQbykUeZmm4VRNOOPWwKm4LeSpkawD9l
-	Yz7Jf5o26CM+ISkRn5fhkEaZkt7z1/g=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+	bh=kA1wpD4Nt80suqGrtQDzAVbBW3ugtlV7eFt9WMy+W1c=;
+	b=IuWdVzBuUzBUVtNcYkLWjvv0vOpkATozAzgJ5KW02glbAmuacNpiOFwre4pbayHLLdVBkp
+	cye1rej6Obslkvcqrs8E3+MIkNps70Tqhpo6LOPjtowcsVGhI9qZSkPex3LlbT2qr/2/xA
+	DTwOrKyvAJE2v5dEILg6U3gIRfJ8bkA=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-417-IFCnUmbZPw2zrXhJaS2weQ-1; Fri,
- 20 Dec 2024 09:41:45 -0500
-X-MC-Unique: IFCnUmbZPw2zrXhJaS2weQ-1
-X-Mimecast-MFC-AGG-ID: IFCnUmbZPw2zrXhJaS2weQ
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-694-Uhd5fmsNOVGZ2fp5kfxFLA-1; Fri,
+ 20 Dec 2024 09:41:46 -0500
+X-MC-Unique: Uhd5fmsNOVGZ2fp5kfxFLA-1
+X-Mimecast-MFC-AGG-ID: Uhd5fmsNOVGZ2fp5kfxFLA
 Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 71EAE195608B;
-	Fri, 20 Dec 2024 14:41:43 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9CE0719560BA;
+	Fri, 20 Dec 2024 14:41:45 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.193.74])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9D51219560AD;
-	Fri, 20 Dec 2024 14:41:41 +0000 (UTC)
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D7FC2195605F;
+	Fri, 20 Dec 2024 14:41:43 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Jason Chen <jason.z.chen@intel.com>,
@@ -64,9 +64,9 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: [PATCH v2 01/10] media: ov08x40: Properly turn sensor on/off when runtime-suspended
-Date: Fri, 20 Dec 2024 15:41:21 +0100
-Message-ID: <20241220144130.66765-2-hdegoede@redhat.com>
+Subject: [PATCH v2 02/10] media: ov08x40: Move fwnode_graph_get_next_endpoint() call up
+Date: Fri, 20 Dec 2024 15:41:22 +0100
+Message-ID: <20241220144130.66765-3-hdegoede@redhat.com>
 In-Reply-To: <20241220144130.66765-1-hdegoede@redhat.com>
 References: <20241220144130.66765-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -78,54 +78,101 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-Commit df1ae2251a50 ("media: ov08x40: Add OF probe support") added support
-for a reset GPIO, regulators and a clk provider controlled through new
-ov08x40_power_off() and ov08x40_power_on() functions.
+If the bridge has not yet setup the fwnode-graph then
+the fwnode_property_read_u32("clock-frequency") call will fail.
 
-But it missed adding a pm ops structure to call these functions on
-runtime suspend/resume. Add the missing pm ops and only call
-ov08x40_power_off() on remove() when not already runtime-suspended
-to avoid unbalanced regulator / clock disable calls.
+Make the fwnode_graph_get_next_endpoint() call the first call in
+ov08x40_check_hwcfg() and return -EPROBE_DEFER if it fails.
 
-Fixes: df1ae2251a50 ("media: ov08x40: Add OF probe support")
 Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Changes in v2:
-- Fix wrong argument order of DEFINE_RUNTIME_DEV_PM_OPS() macro (oops)
----
- drivers/media/i2c/ov08x40.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov08x40.c | 40 +++++++++++++++++++++----------------
+ 1 file changed, 23 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index b9682264e2f5..83b49cf114ac 100644
+index 83b49cf114ac..908a4752117b 100644
 --- a/drivers/media/i2c/ov08x40.c
 +++ b/drivers/media/i2c/ov08x40.c
-@@ -2324,11 +2324,14 @@ static void ov08x40_remove(struct i2c_client *client)
- 	ov08x40_free_controls(ov08x);
+@@ -2151,23 +2151,37 @@ static int ov08x40_check_hwcfg(struct ov08x40 *ov08x, struct device *dev)
+ 	int ret;
+ 	u32 xvclk_rate;
  
- 	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		ov08x40_power_off(&client->dev);
- 	pm_runtime_set_suspended(&client->dev);
--
--	ov08x40_power_off(&client->dev);
- }
- 
-+static DEFINE_RUNTIME_DEV_PM_OPS(ov08x40_pm_ops, ov08x40_power_off,
-+				 ov08x40_power_on, NULL);
+-	if (!fwnode)
+-		return -ENXIO;
++	/*
++	 * Sometimes the fwnode graph is initialized by the bridge driver.
++	 * Bridge drivers doing this also add sensor properties, wait for this.
++	 */
++	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
++	if (!ep)
++		return dev_err_probe(dev, -EPROBE_DEFER,
++				     "waiting for fwnode graph endpoint\n");
 +
- #ifdef CONFIG_ACPI
- static const struct acpi_device_id ov08x40_acpi_ids[] = {
- 	{"OVTI08F4"},
-@@ -2349,6 +2352,7 @@ static struct i2c_driver ov08x40_i2c_driver = {
- 		.name = "ov08x40",
- 		.acpi_match_table = ACPI_PTR(ov08x40_acpi_ids),
- 		.of_match_table = ov08x40_of_match,
-+		.pm = pm_sleep_ptr(&ov08x40_pm_ops),
- 	},
- 	.probe = ov08x40_probe,
- 	.remove = ov08x40_remove,
++	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
++	fwnode_handle_put(ep);
++	if (ret)
++		return ret;
+ 
+ 	if (!is_acpi_node(fwnode)) {
+ 		ov08x->xvclk = devm_clk_get(dev, NULL);
+ 		if (IS_ERR(ov08x->xvclk)) {
+ 			dev_err(dev, "could not get xvclk clock (%pe)\n",
+ 				ov08x->xvclk);
+-			return PTR_ERR(ov08x->xvclk);
++			ret = PTR_ERR(ov08x->xvclk);
++			goto out_err;
+ 		}
+ 
+ 		xvclk_rate = clk_get_rate(ov08x->xvclk);
+ 
+ 		ov08x->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 							    GPIOD_OUT_LOW);
+-		if (IS_ERR(ov08x->reset_gpio))
+-			return PTR_ERR(ov08x->reset_gpio);
++		if (IS_ERR(ov08x->reset_gpio)) {
++			ret = PTR_ERR(ov08x->reset_gpio);
++			goto out_err;
++		}
+ 
+ 		for (i = 0; i < ARRAY_SIZE(ov08x40_supply_names); i++)
+ 			ov08x->supplies[i].supply = ov08x40_supply_names[i];
+@@ -2176,31 +2190,23 @@ static int ov08x40_check_hwcfg(struct ov08x40 *ov08x, struct device *dev)
+ 					      ARRAY_SIZE(ov08x40_supply_names),
+ 					      ov08x->supplies);
+ 		if (ret)
+-			return ret;
++			goto out_err;
+ 	} else {
+ 		ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+ 					       &xvclk_rate);
+ 		if (ret) {
+ 			dev_err(dev, "can't get clock frequency");
+-			return ret;
++			goto out_err;
+ 		}
+ 	}
+ 
+ 	if (xvclk_rate != OV08X40_XVCLK) {
+ 		dev_err(dev, "external clock %d is not supported",
+ 			xvclk_rate);
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out_err;
+ 	}
+ 
+-	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+-	if (!ep)
+-		return -ENXIO;
+-
+-	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+-	fwnode_handle_put(ep);
+-	if (ret)
+-		return ret;
+-
+ 	if (bus_cfg.bus.mipi_csi2.num_data_lanes != OV08X40_DATA_LANES) {
+ 		dev_err(dev, "number of CSI2 data lanes %d is not supported",
+ 			bus_cfg.bus.mipi_csi2.num_data_lanes);
 -- 
 2.47.1
 
