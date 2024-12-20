@@ -1,87 +1,79 @@
-Return-Path: <linux-media+bounces-23913-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23914-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6379F9389
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:48:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1C89F93BB
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:56:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44E8C18896D1
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:47:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5C3A1621EB
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:56:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07A3D2156E2;
-	Fri, 20 Dec 2024 13:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79BCE217F58;
+	Fri, 20 Dec 2024 13:51:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jB4FK/rP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NhSgHnex"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9702419DF99
-	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 13:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2199C217F3D
+	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 13:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734702468; cv=none; b=dF8XxNnpIrQLeTIBuJXfxS4laFwC2pBPNzHsZE2LdiYK1iplOWAsx2C0nFkDZg4+V54D8rp1KYX5A581nMMxXyAsqEeH8MeYZCgFrQd4+uSni85cSvf0Cw/RsrCOo1kp7WkGEWH/f5wYcOtgL3PAJkKULn9G2NGjby7wf3xVInw=
+	t=1734702697; cv=none; b=DVLCVsZUI8m7IpYMoMhUpDN9qXbRj5UQ9mBg8/VyOh5KH69UcGDHamLV7qXP/hQxTz/YiuQAILnTWueZbG2KIKAxKAQwr18JUZC0wcVMgWGCOGVo0EW94vik+N1Gk8Jz/6YXvXswk5B+ni5UJtS9qo5vxzFpirgQq0MztXWa1hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734702468; c=relaxed/simple;
-	bh=mRbwuyvNkilVyNTLrDgx/IioK686L2UNVGxljrCStB4=;
+	s=arc-20240116; t=1734702697; c=relaxed/simple;
+	bh=EsvH9YJ0WvR2MKlsaNkveTqvceW1TF8x+5ALOaxJ5W8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YpMEswNcfHgf313+YDMMBef0krNoOq+r+6sR0KDjhgdaYpNcLYGZ12TPm3yViPk1Udk0FjnBnnucfs6pmLu6nw8nQdzn2ppsVQor41GWFGXCmYgPawBtEa+M5lBET+WR8p9Uoy5jS05CS6cXW0bwfLxgeG4bXMU0a5S8z/Z6zQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jB4FK/rP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734702465;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qSIN7YlEAWjWDErbIlvvyFosJ70ZGWQZteXhY6qeZJo=;
-	b=jB4FK/rPce3+VIgBNqHXfvQFweJsT5a8wn/ADLy886YX+aorXTn5YOVHtvF7zuzX5FlbgU
-	hJvsZMR24o223IXNv9kipHSKfZBdTUi1SYDtn46JzE+1fL60YtwQfgNwUTTwGki38qwpaJ
-	8O0sdBMupzdxXIV9FJN1c6sLbvaynTg=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-328-WoiYji1CN2KGEBFzSto6Aw-1; Fri, 20 Dec 2024 08:47:44 -0500
-X-MC-Unique: WoiYji1CN2KGEBFzSto6Aw-1
-X-Mimecast-MFC-AGG-ID: WoiYji1CN2KGEBFzSto6Aw
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-aa6a831f93cso193295866b.1
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 05:47:43 -0800 (PST)
+	 In-Reply-To:Content-Type; b=hRr81vgG9GWSQ3H8ZlJ+cSRCNaJS2v1Qtop5ZUOaQhjGuvfxmItf9dN6JClWTu/hjnvHtevZoLnDjZGlNktEhh5lGoiDEj7msZ9aGEea4P26VsUtS8wRRe7x4gbrV49zkHkRkvSMSeYrSAeWC5Hi0T6sm+PMocHRtsWrPC0ao20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NhSgHnex; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385df53e559so1549510f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 05:51:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734702693; x=1735307493; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3acQZgyaZl4Km72yKnDQ2Egdob+XLCB6LBTEzcAyKG4=;
+        b=NhSgHnex9sZCUOYI2JCY8NBEvnZ/By3y330zexq8vnoUF3oJJtJRVssmFwHBa2wIk3
+         LAzp11tTxUBvZD50XMoP2vhnoGOhjfM2amvssnFTBJyDEyJHIhkBcJL/zOgsAxXk3qyI
+         dDyniLQkaep+jF3UI+33z7CkTnQrgp+Ros3tvbZ7Q9oEgDGaGYFI8znHR7x7N9if4F3W
+         s4DLurXNDyxMSx6N/dXHP1TlTeagHXr3pv72tjbTZZ99d7F6rdpgGM4LWmONZS9eToC/
+         QIwEuR0PeRqbK31LkrERfnRqZbxDtlFmgJ8qIuOlLTAEYqbobaNDlLGvm1FugGe5AqBB
+         o7ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734702462; x=1735307262;
+        d=1e100.net; s=20230601; t=1734702693; x=1735307493;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qSIN7YlEAWjWDErbIlvvyFosJ70ZGWQZteXhY6qeZJo=;
-        b=u3f2zTa9m3zUOJcytQmtLxOXIIwvImdmFJQeUOSSD+BbAYevd4Wf8ml1bsYcMPbLoQ
-         ihJ94aQvTYxwdbR7C4GNJop1UCMqIJcyX3PxEQqiM/wiAaXLNE6xFJ1FBRB0Jrsib2TV
-         nmdshhqi9mZnPhL5xfvsZr09nChgNv4tHMhygE1INfdBhgotMaeN8klrL51CsYGZDphD
-         OYuzi5ZxW9rgWsEOGCG0e2do8zGEbXodf02jfitzWn5n9aDKNEdfBoMCJldPzrMXkgTl
-         lDwpX0outUZj/ret1euGWZxl68xgWEmfHPM0ZRedKh7wTCzIqKndUHB4QjDrqlJT5n4+
-         g6+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWXfiJuA7Sx+OGYGZe34N/JcYWba7AR+rFJjl3gkRqEE3/Fb4BLNgHoJ1S5yYMrdz1AthJwOwTyUeZ5Gg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPKv3MBTOzxl+yoITrl94QTcTPYQQVeHHL3lgOnsY7Xct4FBqS
-	iaZbsU6dkrp08AZejBSclycHwyocfsMwekl8VNXv4mGjRt72Rca9L7tjPdifV7H8fAoCGWnCemL
-	M5DpFDChfj+kb5+CuIBUaRhTNEwwENfsZiUXTbANB1phQydAIzSyYA+cxiB43
-X-Gm-Gg: ASbGncsIKUCUOWx4M4Ma3stl4kd1xBZlp9Ts1HaPx/zPQyW/y+J2LqtKYqqBmzmcdR2
-	PYZv6WHbnws7sRmkVwVuJDEs37KT+YsSLOAoOGD0HjX42+o0s1/Lyi9RU7wCWZwTq+uht51mumz
-	TfvNFrDWh4nQ9M3COyog6tHbmLkIrWj03swA5VLHDWgQkHL8ULsheiqkMb6BGxcVnPuzUi4FWfd
-	tykPno4oNT57+E+sIWTQIyzVGGGCBdV3yyu628vvBgIIWrSpON6OerT3mlqEQQqUztIzDbB9+N6
-	hMjc4QbHkYFFRRKtaJOqOLFc/e9HTZr/IQTXWulRSXvwwk1pJTxQvdw+s39JSwXDyAqSUF8fbBY
-	yVHHBh1kSzL3wMmzZ85PL+55GFZu+McM=
-X-Received: by 2002:a17:906:4795:b0:aa6:ab70:4a78 with SMTP id a640c23a62f3a-aac3355ea10mr206389066b.37.1734702461853;
-        Fri, 20 Dec 2024 05:47:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEtcrjovfagQUUaKGRC8NZbdRs7SJigrxCJ+w7zSBtARba9mryTAgVG4OnJ/eKWCyRwiMU/Mw==
-X-Received: by 2002:a17:906:4795:b0:aa6:ab70:4a78 with SMTP id a640c23a62f3a-aac3355ea10mr206386866b.37.1734702461499;
-        Fri, 20 Dec 2024 05:47:41 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e82f5c4sm178149966b.30.2024.12.20.05.47.40
+        bh=3acQZgyaZl4Km72yKnDQ2Egdob+XLCB6LBTEzcAyKG4=;
+        b=dJZQeXe7Y24CYtOKX8yroHHu2b4lSdSzuKjpfAEeKSmdsuXgFTPsZqUuMFmptKsctF
+         SHMVmmCbrTCD8kYMTxhDctsn31oSsuUGxvlmqEWfexQ3qLXrqi8YHKtTo+5nFF2G6u5/
+         umC9tnR72Yr2pGJR5iHKFOytVwnosI71dkcyu6w0amBUm7MG1LFE9nuxyhmeCtXqm+CK
+         SP3XkJ9MMdGDbDltHbslaH9pefrn1L/omo85h7u8jpxSdKIPZ6ZQDEiQEEsGRJha+PHG
+         9R268zvo/mg6QAoCbp/jbhSDFvyWoFma06z9AYB+cVumR5Qy8hLpoDeyCdUqzX7Edxwj
+         Ix+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWEMNGP3AaKjKpNPZLovfrfl2dTvomn3+V5+3gwNeBruydNyCyUcNdYVEEFQM0kwN5oN2TVEum7fuD/gg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHI+HzPpXmacVGClmRsdCblHcwJTRPaWb58npFEllfiKV1soIP
+	4SCn8D2j17/4bvl1tqssnKEQKPMLoxunc8uxJNrpJc9dtLzj3ZEjihLH/HoO1ldzofiC7jEOK3q
+	I
+X-Gm-Gg: ASbGncvXG8vqz4CwLV9hgf0sxcf4CN5KwFsprRsVWsaBuD6J3NgiWsEnXxGnFVxYSZQ
+	Nm87i8wxHnh3F5hfW0x83JXzrHh9o8Xxz3BhsCKd/0kqD4XZ+cf4vPYQ05og5TPfWr7XQGu96a1
+	5x3Mdp/b88+4/uo7x9vl3hdNvGvWLDGwADVhCDUJtFZ5ukEaXxU5auS0+dXy3BWNRwWvhSgZI0Q
+	X9taXf5CrFb65AFnjJYJMYUhiZMfnSRxJ4Z75Nv0w97vdaXUocwGMFLZzZNzGxGbKFaaA==
+X-Google-Smtp-Source: AGHT+IEGlLjJFXpVVOm4m9s2aBhPPk5mgkPCTT0T/Kb76YM376vrWlPfFeKUweABCPNVmFGTEoKvnA==
+X-Received: by 2002:a05:6000:4803:b0:385:ef39:6cf7 with SMTP id ffacd0b85a97d-38a222019a6mr2392886f8f.32.1734702693349;
+        Fri, 20 Dec 2024 05:51:33 -0800 (PST)
+Received: from [192.168.0.10] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8288b8sm4099735f8f.11.2024.12.20.05.51.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2024 05:47:41 -0800 (PST)
-Message-ID: <e3573352-f73e-43f5-8e21-6c313dc54057@redhat.com>
-Date: Fri, 20 Dec 2024 14:47:40 +0100
+        Fri, 20 Dec 2024 05:51:32 -0800 (PST)
+Message-ID: <c9f237bc-40c6-4b41-a963-abac306458bd@linaro.org>
+Date: Fri, 20 Dec 2024 13:51:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,138 +83,41 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/8] media: ov08x40: Properly turn sensor on/off when
  runtime-suspended
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+To: Hans de Goede <hdegoede@redhat.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Jason Chen <jason.z.chen@intel.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 References: <20241219134940.15472-1-hdegoede@redhat.com>
  <20241219134940.15472-2-hdegoede@redhat.com>
  <a2efc7e7-6e73-41b0-b8df-ae28175d7dda@linaro.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <a2efc7e7-6e73-41b0-b8df-ae28175d7dda@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ <e3573352-f73e-43f5-8e21-6c313dc54057@redhat.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <e3573352-f73e-43f5-8e21-6c313dc54057@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi,
-
-On 20-Dec-24 1:32 PM, Bryan O'Donoghue wrote:
-> On 19/12/2024 13:49, Hans de Goede wrote:
->> Commit df1ae2251a50 ("media: ov08x40: Add OF probe support") added support
->> for a reset GPIO, regulators and a clk provider controlled through new
->> ov08x40_power_off() and ov08x40_power_on() functions.
->>
->> But it missed adding a pm ops structure to call these functions on
->> runtime suspend/resume. Add the missing pm ops and only call
->> ov08x40_power_off() on remove() when not already runtime-suspended
->> to avoid unbalanced regulator / clock disable calls.
->>
->> Fixes: df1ae2251a50 ("media: ov08x40: Add OF probe support")
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/media/i2c/ov08x40.c | 8 ++++++--
->>   1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
->> index b9682264e2f5..aae923da1e86 100644
->> --- a/drivers/media/i2c/ov08x40.c
->> +++ b/drivers/media/i2c/ov08x40.c
->> @@ -2324,11 +2324,14 @@ static void ov08x40_remove(struct i2c_client *client)
->>       ov08x40_free_controls(ov08x);
->>         pm_runtime_disable(&client->dev);
->> +    if (!pm_runtime_status_suspended(&client->dev))
->> +        ov08x40_power_off(&client->dev);
->>       pm_runtime_set_suspended(&client->dev);
->> -
->> -    ov08x40_power_off(&client->dev);
->>   }
->>   +static DEFINE_RUNTIME_DEV_PM_OPS(ov08x40_pm_ops, ov08x40_power_on,
->> +                 ov08x40_power_off, NULL);
->> +
-
-Ugh I have on/off swapped here, second argument of the macro is the suspend
-function so that should be ov08x40_power_off. IOW this should be:
-
-static DEFINE_RUNTIME_DEV_PM_OPS(ov08x40_pm_ops, ov08x40_power_off,
-				 ov08x40_power_on, NULL);
-
-Can you give this a try with that change?
-
-Regards,
-
-Hans
-
-
-
-
-
->>   #ifdef CONFIG_ACPI
->>   static const struct acpi_device_id ov08x40_acpi_ids[] = {
->>       {"OVTI08F4"},
->> @@ -2349,6 +2352,7 @@ static struct i2c_driver ov08x40_i2c_driver = {
->>           .name = "ov08x40",
->>           .acpi_match_table = ACPI_PTR(ov08x40_acpi_ids),
->>           .of_match_table = ov08x40_of_match,
->> +        .pm = pm_sleep_ptr(&ov08x40_pm_ops),
->>       },
->>       .probe = ov08x40_probe,
->>       .remove = ov08x40_remove,
+On 20/12/2024 13:47, Hans de Goede wrote:
+>>>    }
+>>>    +static DEFINE_RUNTIME_DEV_PM_OPS(ov08x40_pm_ops, ov08x40_power_on,
+>>> +                 ov08x40_power_off, NULL);
+>>> +
+> Ugh I have on/off swapped here, second argument of the macro is the suspend
+> function so that should be ov08x40_power_off. IOW this should be:
 > 
-> Here's a trace of what I'm finding on the qcom crd with this patch.
+> static DEFINE_RUNTIME_DEV_PM_OPS(ov08x40_pm_ops, ov08x40_power_off,
+> 				 ov08x40_power_on, NULL);
 > 
-> [    4.383434] ov08x40 1-0036: ov08x40_power_on
-> [    4.393299] ov08x40 1-0036: ov08x40_power_on
-> [   10.119144] ov08x40 1-0036: ov08x40_set_stream
-> [   10.127842] ov08x40 1-0036: ov08x40_set_stream do pm_runtime_resume_and_get
-> [   10.135067] ov08x40 1-0036: ov08x40_power_off
-> [   10.139608] ov08x40 1-0036: ov08x40_start_streaming
-> [   10.150832] ov08x40 1-0036: ov08x40_start_streaming failed to set powerup registers
-> [   10.165625] ov08x40 1-0036: ov08x40_power_on
+> Can you give this a try with that change?
 > 
+> Regards,
 > 
-> diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-> index 579b4aa5f041d..c1dead0ca0756 100644
-> --- a/drivers/media/i2c/ov08x40.c
-> +++ b/drivers/media/i2c/ov08x40.c
-> @@ -1321,7 +1321,7 @@ static int ov08x40_power_on(struct device *dev)
->         struct v4l2_subdev *sd = dev_get_drvdata(dev);
->         struct ov08x40 *ov08x = to_ov08x40(sd);
->         int ret;
-> -
-> +dev_info(dev, "%s\n", __func__);
->         ret = clk_prepare_enable(ov08x->xvclk);
->         if (ret < 0) {
->                 dev_err(dev, "failed to enable xvclk\n");
-> @@ -1356,6 +1356,8 @@ static int ov08x40_power_off(struct device *dev)
->         struct v4l2_subdev *sd = dev_get_drvdata(dev);
->         struct ov08x40 *ov08x = to_ov08x40(sd);
-> 
-> +dev_info(dev, "%s\n", __func__);
-> +
->         if (ov08x->reset_gpio)
->                 gpiod_set_value_cansleep(ov08x->reset_gpio, 1);
-> 
-> @@ -1874,6 +1876,8 @@ static int ov08x40_start_streaming(struct ov08x40 *ov08x)
->         const struct ov08x40_reg_list *reg_list;
->         int ret, link_freq_index;
-> 
-> +dev_info(&client->dev, "%s\n", __func__);
-> +
->         /* Get out of from software reset */
->         ret = ov08x40_write_reg(ov08x, OV08X40_REG_SOFTWARE_RST,
->                                 OV08X40_REG_VALUE_08BIT, OV08X40_SOFTWARE_RST);
-> @@ -1967,9 +1971,11 @@ static int ov08x40_set_stream(struct v4l2_subdev *sd, int enable)
->         struct i2c_client *client = v4l2_get_subdevdata(sd);
->         int ret = 0;
-> 
-> +dev_info(&client->dev, "%s\n", __func__);
->         mutex_lock(&ov08x->mutex);
-> 
->         if (enable) {
-> +               dev_info(&client->dev, "%s do pm_runtime_resume_and_get\n", __func__);
->                 ret = pm_runtime_resume_and_get(&client->dev);
->                 if (ret < 0)
->                         goto err_unlock;
-> 
+> Hans
 
+Heh.
+
+That'd do it, works now.
+
+---
+bod
 
