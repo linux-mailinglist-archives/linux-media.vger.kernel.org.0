@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-23885-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23886-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36AE69F9301
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:21:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7239F9302
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:22:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B029E7A2DBE
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:21:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5062A168A2C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:22:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F57B2153EE;
-	Fri, 20 Dec 2024 13:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE52D2156E0;
+	Fri, 20 Dec 2024 13:22:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cJCAAUNE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wnRDt/Zp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCF62046A3
-	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 13:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDEF2046A3
+	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 13:22:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734700907; cv=none; b=DBksYJbW1x9Fr0/ARYpA1MgVqoZcVXvaYdx6qXmUHXvaCE4M6YI9a0YIra+xcU9hLnEyp9F1Pfu42adh8tOhGtSIVI+SQ41HeGFUhw7LtNAsEuGOU45iCYlmbWQ8Qp6uwF5DuD/WjFZRFCweC9tELfDAS4uI9VCWtA4t6z0Q97c=
+	t=1734700931; cv=none; b=ehz8EX4eGBX6VxKW3NxPupIcy8haCjfKXlHPeoeGB/Rgi/zBxint8zBe2gcy3Gaf8wkVto9TVFlS6Ic0LAmot6IxfCmTKZgzEJKDb3pcBB3y0Ctd8Hj+VL4LMiAyX6YdxMOzDg9sGFqrX6iaRElAsQD6lziSo7UvZGtm/grfBhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734700907; c=relaxed/simple;
-	bh=4S2NSrjIxtxOnO4RvwAb5MMcOGAI2A5lTBPdUYYTL2w=;
+	s=arc-20240116; t=1734700931; c=relaxed/simple;
+	bh=3uE1SazeSaeQNa2q7Z0JRYRw4NVOG+AvqfJDVH1aWvE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cbFuOLRAgpMO9kAT/D9/xqL+AoAV8jyWBT+NCbeoqA/C7dvNMEhOZr23nfMSopIv/59OYzB4iANGAbjGPvMIc97S842MwDh46f1x6z19FnE/GT9aRf7kN6ywgTtFgab9NYlENCW4dWvdpQ8oQMIoAHchQ8UMoeu0171L1JNnFHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cJCAAUNE; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=LMcmo5PhVOktOL82CK4aExAbVcyvpzCik9DaQz+Dcx0MFSfqeuEDN1Vo4W6X4s1Z5Zhg4FnlBJx2Y9AaD1E81mMRfkH28HfaH1ztLo6FhMvPdiSW9LuKhEGvC5dK77GA0NyqX5L1DX5PBUhjKSXLZEraIuN5hwy79AhtXrF9Fu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wnRDt/Zp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1388316A;
-	Fri, 20 Dec 2024 14:21:03 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A639A16A;
+	Fri, 20 Dec 2024 14:21:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734700864;
-	bh=4S2NSrjIxtxOnO4RvwAb5MMcOGAI2A5lTBPdUYYTL2w=;
+	s=mail; t=1734700889;
+	bh=3uE1SazeSaeQNa2q7Z0JRYRw4NVOG+AvqfJDVH1aWvE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cJCAAUNEoBP9zBNSqn4kI5226vrtIb7Rrzc6sqoFfooVfUsrah78RrgqK7IPyFB4G
-	 zHU6ak8tsfuEDXSuDBW6PaWNR//2yOoNGi8kzMVhANRXoL/xMzhWjliUJDTBQTe3NB
-	 tNHJVeZYliJn0Tf9UHE18iODerkHSLuzS/x9S8A8=
-Message-ID: <fbfefbab-011a-4f69-94f8-62c4bc6742d3@ideasonboard.com>
-Date: Fri, 20 Dec 2024 15:21:39 +0200
+	b=wnRDt/ZpFUj5/atrERqLWZkBVCeXSJUkulCpNFj8qjbW0V/ZDAsS2XP23bvTCjYrM
+	 aaCVCXaDoYiwZoG5cEieqjncCFIkSrIp9Q9AmAN9HVT/4g7Plyd05Pld9DXdvm+GMm
+	 P5MeCo0tN44thTACIYdV4DXjRmM3NMSO/TwCcNfo=
+Message-ID: <adba3151-4f94-47aa-8493-a2a6b742c1ea@ideasonboard.com>
+Date: Fri, 20 Dec 2024 15:22:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,13 +50,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 4/9] media: Documentation: tx-rx: Move transmitter
- control out of CSI-2 part
+Subject: Re: [PATCH v8 5/9] media: Documentation: Receiver drivers should call
+ v4l2_get_link_freq()
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
  laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com
 References: <20241217215445.901459-1-sakari.ailus@linux.intel.com>
- <20241217215445.901459-5-sakari.ailus@linux.intel.com>
+ <20241217215445.901459-6-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -102,54 +102,34 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20241217215445.901459-5-sakari.ailus@linux.intel.com>
+In-Reply-To: <20241217215445.901459-6-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 On 17/12/2024 23:54, Sakari Ailus wrote:
-> The subsection on stopping the transmitter belongs to the generic part and
-> is not specific to CSI-2. Move it out of the CSI-2 section.
+> Document that receiver drivers should call v4l2_get_link_freq() to obtain
+> the link frequency.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->   Documentation/driver-api/media/tx-rx.rst | 19 +++++++++----------
->   1 file changed, 9 insertions(+), 10 deletions(-)
+>   Documentation/driver-api/media/tx-rx.rst | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
 > diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-> index 6f9eba189a9f..03768e5aa88f 100644
+> index 03768e5aa88f..0b8c9cde8ee4 100644
 > --- a/Documentation/driver-api/media/tx-rx.rst
 > +++ b/Documentation/driver-api/media/tx-rx.rst
-> @@ -62,6 +62,15 @@ to control the transmitter driver's streaming state. These callbacks may not be
->   called directly, but by using ``v4l2_subdev_enable_streams()`` and
->   ``v4l2_subdev_disable_streams()``.
+> @@ -53,6 +53,9 @@ Drivers that do not have user-configurable link frequency should report it
+>   through the ``.get_mbus_config()`` subdev pad operation, in the ``link_freq``
+>   field of struct v4l2_mbus_config, instead of through controls.
 >   
-> +Stopping the transmitter
-> +^^^^^^^^^^^^^^^^^^^^^^^^
+> +Receiver drivers should use :c:func:`v4l2_get_link_freq` helper to obtain the
+> +link frequency from the transmitter sub-device.
 > +
-> +A transmitter stops sending the stream of images as a result of
-> +calling the ``.disable_streams()`` callback. Some transmitters may stop the
-> +stream at a frame boundary whereas others stop immediately,
-> +effectively leaving the current frame unfinished. The receiver driver
-> +should not make assumptions either way, but function properly in both
-> +cases.
+>   ``.enable_streams()`` and ``.disable_streams()`` callbacks
+>   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 >   
->   CSI-2 transmitter drivers
->   -------------------------
-> @@ -130,13 +139,3 @@ device, so this should be only done when it is needed.
->   
->   Receiver drivers that do not need explicit LP-11 or LP-111 state setup are
->   waived from calling the two callbacks.
-> -
-> -Stopping the transmitter
-> -^^^^^^^^^^^^^^^^^^^^^^^^
-> -
-> -A transmitter stops sending the stream of images as a result of
-> -calling the ``.disable_streams()`` callback. Some transmitters may stop the
-> -stream at a frame boundary whereas others stop immediately,
-> -effectively leaving the current frame unfinished. The receiver driver
-> -should not make assumptions either way, but function properly in both
-> -cases.
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
