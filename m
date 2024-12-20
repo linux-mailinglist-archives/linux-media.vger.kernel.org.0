@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-23895-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23896-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB819F9331
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:28:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F91A9F931E
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:26:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9A871895D23
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0012169721
 	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:26:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76870215F5D;
-	Fri, 20 Dec 2024 13:25:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E8E5216384;
+	Fri, 20 Dec 2024 13:25:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8RSn8zp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itNlfKMs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683D4215F74
-	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 13:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D0215F7E
+	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 13:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734701103; cv=none; b=VK37LGcJk8nG9A5X1fpXk082hRTmtps0/CZ6VYKGmz8m+q65MjK/RUwXIrFSg+yyD/Z7d4/w+EDbBLuOSJUP3/Y6k5qLd/hYyiWm5CW9JFPOWg98YxTwZ3TB6jJe3NvaV8YvljM3fuklZdUVURwumWCIdT9/mH6QPV4fhh0vxHc=
+	t=1734701107; cv=none; b=Co/GWbTzM38G8Ud7WVFBuuz3n3lil0UgFS2j1OII7oBV1SF8eSpM5C8OFwNfotHJLpVCovbybpVVux4Ue35xePAzEcEkGNYHqUT5T5NPe1OHjYgl2hVE8dzbkwLW7Rqm2D5Tv4d/1BKjl9iZUh+04D67ixsGGS2iVl/4C1pplok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734701103; c=relaxed/simple;
-	bh=HTyCnoWk1tOz72CfpazuPbpDpgl7NgjnENNbzgKusig=;
+	s=arc-20240116; t=1734701107; c=relaxed/simple;
+	bh=APCMTulVGvl/4oU3GCTZx2R+6M3HjalCZobgdjNcH2g=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sGww83+sotjln8FWXmU45e+Oqljpjo8Qcfi3RZ4pNWycTOQVpuXu84t2l+7GhdarzLnjddlxJRdXWx52zvSesRUGHno9v/DtSZainjHZ26XkvaZcQH5dRKR35f9ioPvQRBItR6CrjRyUVhX+FKDs5BucWt++ONPPUnE9KQ5opZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8RSn8zp; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=eQNar1P/xX9Yxb6otFf4zamSAqBZNluEfoXEPXhu4vV4Yb7yT75mYkfWE+jqGbd3xGC5Qk0zZ6w63s7h1vl2G0hG/To2AXA/kedPKoUbCXSGfjOGmAhqTOJKjwo+akWVAPu0vcUWNls+uIHxBDZaHjtp4S1AgphejquREnFhaoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itNlfKMs; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734701102; x=1766237102;
+  t=1734701106; x=1766237106;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=HTyCnoWk1tOz72CfpazuPbpDpgl7NgjnENNbzgKusig=;
-  b=N8RSn8zp1ddgpIN5u8DMXKVD3V/UvHDzZWLBVarR8mKAc0N4iE68RXPr
-   2leOUTH28PvlElfeYCr0Cec66fbT5dCOygHujCbNk9n2GVKmm7/jw6jMh
-   PCWs1S6IiqztFjGEhQEOm8qH0hCT06rxrBExtmXt/GsLGMk4fJ1b8nYkS
-   qL2cBu9XpZ6CgMSNTUy53ebQatlu3kLNKM15Y7KVZsUj0/3mZHMb+raSC
-   m7QsTAEF9x76xC1xiWJdhd3L3EtGas9CnRsfRoNh8T+akJPVrLRK4WT+c
-   3HePpH+wfcNKbiTee5YwDRQ5t9wpOQJYMmgc4R74qjx26ZU28r1QWDIA9
-   A==;
-X-CSE-ConnectionGUID: XtAnTlocQ26F0WBtxZfocg==
-X-CSE-MsgGUID: ZIpWVtZIQYGjvDPsWvp8Nw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="45937666"
+  bh=APCMTulVGvl/4oU3GCTZx2R+6M3HjalCZobgdjNcH2g=;
+  b=itNlfKMsuEDhOq7oXqtNtibV7BpgpegCc0/QTPhh8G10G9aySpva4MOX
+   mPr4zwRZ+O58y8h0/qIKqyFNfB53S0Ax58oVEYfrM1gxYuU2bwZZcn02n
+   B1WRZbARe9mUV4t9DbBh/mt/Q2MlI193GYOpTAPiX79+SE6ugQIt/4xtW
+   TNe4z+5NdcgM9SF07Fm0L0XQyOhpMrjiPZmIudznq4XdRfqg412a+ox9Q
+   pQmKHSK8375QZXzIeFegxtwdi+IQ2nAaju3R29ydhz/JULSj8B43U7hY5
+   AndXiz9olvDeADRL0uJXQWWx7JFcy+3kAHh68HbGeTsrbbz5yUbT5hKzM
+   g==;
+X-CSE-ConnectionGUID: rou9pJEyT+WUypIdJe1z8w==
+X-CSE-MsgGUID: wMDnfltgSMe99C5BdaUEFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="45937679"
 X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="45937666"
+   d="scan'208";a="45937679"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:25:02 -0800
-X-CSE-ConnectionGUID: CZYDqQ0tRtOdKFXr5VP1EQ==
-X-CSE-MsgGUID: 2ojxIa/zS5Ko6ciXVON7IA==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:25:06 -0800
+X-CSE-ConnectionGUID: A+iEhH4YTaCw1TI9T4YXfA==
+X-CSE-MsgGUID: Vuq7adqdTdylIbYkOAsTmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103132530"
+   d="scan'208";a="103132536"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:24:57 -0800
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:25:00 -0800
 Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id DCE5311F984;
-	Fri, 20 Dec 2024 15:24:49 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D164711FADB;
+	Fri, 20 Dec 2024 15:24:54 +0200 (EET)
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
@@ -90,9 +90,9 @@ Cc: hverkuil@xs4all.nl,
 	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [RFC v4 8/9] media: uapi: Add controls for sub-sampling configuration
-Date: Fri, 20 Dec 2024 15:24:18 +0200
-Message-Id: <20241220132419.1027206-9-sakari.ailus@linux.intel.com>
+Subject: [RFC v4 9/9] media: Documentation: Add binning and sub-sampling controls
+Date: Fri, 20 Dec 2024 15:24:19 +0200
+Message-Id: <20241220132419.1027206-10-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
 References: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
@@ -104,96 +104,53 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Sub-sampling is a way to decrease the data rates after the pixel array by
-systematically discarding some samples, either vertically or horizontally
-or both. Add two controls for the purpose and document them. The
-sub-sampling configuration is taken into account in the compose rectangle.
+Document the binning and scaling controls (V4L2_CID_BINNING and
+V4L2_CID_SUBSAMPLING_{HORIZONTAL,VERTICAL}) in the common raw sensor
+model.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- .../userspace-api/media/drivers/camera-sensor.rst  | 14 ++++++++++++--
- .../userspace-api/media/v4l/ext-ctrls-camera.rst   | 11 +++++++++++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  2 ++
- include/uapi/linux/v4l2-controls.h                 |  2 ++
- 4 files changed, 27 insertions(+), 2 deletions(-)
+ .../media/v4l/subdev-config-model.rst         | 20 ++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-index c6167c91f46c..e65e82c5940a 100644
---- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-+++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-@@ -107,8 +107,8 @@ values programmed by the register sequences. The default values of these
- controls shall be 0 (disabled). Especially these controls shall not be inverted,
- independently of the sensor's mounting rotation.
+diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+index f15e5495cc34..84957dc62800 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+@@ -113,8 +113,12 @@ separately horizontally and vertically.
  
--Binning
---------
-+Binning and sub-sampling
-+------------------------
+ Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE``
+ rectangle, relative to the analogue crop rectangle, on (pad, stream) pair
+-1/0. The driver implementation determines how to configure binning and
+-sub-sampling to achieve the desired size.
++1/0. It depends on the driver which of these operations are being used to
++achieve the resulting size. Binning and sub-sampling are also directly
++configured using :ref:`V4L2_CID_BINNING_FACTORS
++<v4l2-cid-camera-sensor-binning>` and :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
++V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>` controls on
++drivers that support them.
  
- Binning has traditionally been configured using :ref:`the compose selection
- rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
-@@ -117,6 +117,16 @@ users should use it when it's available. Drivers supporting the control shall
- also support the compose rectangle, albeit the rectangle may be read-only when
- the control is present.
- 
-+Sub-sampling is often supported as part of a camera sensor's binning
-+functionality and performed after the binning operation. Sub-sampling typically
-+produces quality-wise worse results than binning. Sub-sampling factors are
-+independent horizontally and vertically and they are controlled using two
-+controls, :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
-+V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>`. In
-+sub-sampling, the image size before sub-sampling is horizontally and vertically
-+divided by the respective sub-sampling factors. Drivers supporting the control shall
-+also reflect the sub-sampling configuration in the compose rectangle.
-+
- .. _media_using_camera_sensor_drivers_embedded_data:
- 
- Embedded data
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-index 18b484ff5d75..577b73045bee 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-@@ -701,3 +701,14 @@ enum v4l2_scene_mode -
- 
- For instance, a value of ``0x0001000300020003`` indicates binning by 3
- (horizontally) * 3/2 (vertically).
-+
-+.. _v4l2-cid-camera-sensor-subsampling:
-+
-+``V4L2_CID_SUBSAMPLING_HORIZONTAL`` and ``V4L2_CID_SUBSAMPLING_VERTICAL``
-+(integer)
-+
-+    Horizontal and vertical subsampling factors.
-+
-+    Sub-sampling is used to downscale an image, horizontally and vertically, by
-+    discarding a part of the image data. Typically sub-sampling produces lower
-+    quality images than binning.
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-index 5945976b841f..cddece2876ce 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1088,6 +1088,8 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
- 	case V4L2_CID_HDR_SENSOR_MODE:		return "HDR Sensor Mode";
- 	case V4L2_CID_BINNING_FACTORS:		return "Binning Factors";
-+	case V4L2_CID_SUBSAMPLING_HORIZONTAL:	return "Sub-Sampling Factor, Horizontal";
-+	case V4L2_CID_SUBSAMPLING_VERTICAL:	return "Sub-Sampling Factor, Vertical";
- 
- 	/* FM Radio Modulator controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 8d5815a058d7..e85747e2181b 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1089,6 +1089,8 @@ enum v4l2_auto_focus_range {
- 
- #define V4L2_CID_HDR_SENSOR_MODE		(V4L2_CID_CAMERA_CLASS_BASE+36)
- #define V4L2_CID_BINNING_FACTORS		(V4L2_CID_CAMERA_CLASS_BASE+37)
-+#define V4L2_CID_SUBSAMPLING_HORIZONTAL		(V4L2_CID_CAMERA_CLASS_BASE+38)
-+#define V4L2_CID_SUBSAMPLING_VERTICAL		(V4L2_CID_CAMERA_CLASS_BASE+39)
- 
- /* FM Modulator class control IDs */
- 
+ The digital crop operation takes place after binning and sub-sampling. It is
+ configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
+@@ -173,9 +177,15 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
+       - \-
+       - X
+       - Binning and sub-sampling. This rectangle is relative to the
+-        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). The
+-        combination of binning and sub-sampling is configured using this
+-        selection target.
++        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). Binning is
++        configured using the :ref:`V4L2_CID_BINNING_FACTORS
++        <v4l2-cid-camera-sensor-binning>` control and sub-sampling is configured
++        using the :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
++        V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>`
++        controls on drivers that support these controls. To configure binning
++        and sub-sampling on drivers that do not support these controls, the
++        selection rectangle may be changed directly to configure the combined
++        effect on the image size.
+     * - 2/0
+       - Format
+       - X
 -- 
 2.39.5
 
