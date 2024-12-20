@@ -1,162 +1,196 @@
-Return-Path: <linux-media+bounces-23871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23872-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87589F91F6
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:12:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A989F923C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:30:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 23F3716A711
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 12:12:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26F3418948C6
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 12:30:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDCF61C5CB1;
-	Fri, 20 Dec 2024 12:12:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E4A620B80F;
+	Fri, 20 Dec 2024 12:30:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FK5MyNF7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SJJl4vUu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA821C3F39
-	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 12:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6F720B215
+	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 12:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734696768; cv=none; b=QKlEVQe0IJV5LZADYfXnJA+IHfBoyxTkrQ+UrjSS1c5cSTdldiDjGSK3o8KCxUFJ6qYsIjn0FR+lNjTliQFakEmUxnLanQbAyYFl0iyk9DbEBWGcTrffJySAjAhaVxNGAFiH6uodcVE9yCq7kzkt17tWxuxSBxlnB7R4fZzookY=
+	t=1734697850; cv=none; b=ts9C4i6fFp9i110o+/pvP++tr8EpG007Qxfss6E1m7msrEOX5PnEoI/jbILdqF6LnaWTih/B2UbOffDOG3w1cVYzIJvtpapSnjwyfVs7lQZSN4UAhRo4PL2bh5owayT/pn7o3yq3ha29H0/fVpq4BldV1ecycp1f4dk8n8r6anY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734696768; c=relaxed/simple;
-	bh=2h1oS0yT23GIvxmbGIO7SG+Wuc6yZWp0kTWHeqQVr78=;
+	s=arc-20240116; t=1734697850; c=relaxed/simple;
+	bh=5GoKaHXFkZSf2WXLLfxMlIjwXjXAXdvIYWhn9gb0oD4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jJcCCGaIJZ2rC+ID3pmpAvz5N0g3nbo5xz3uEqTzXj8GPi2DNDgPb0JyJyOczhVg1x6ASoC6gxFFd64Mt/qwKPdXA6CnYZC4EBMtZuzIXBIL78xwX6AHAReqGxWu3SMUAeVuxlzWRxPqD6Jx/6vmrcCdSi3m+pYtxnRla756R60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FK5MyNF7; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-725ea1e19f0so1610275b3a.3
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 04:12:46 -0800 (PST)
+	 To:Cc:Content-Type; b=BWiThbDjcTXRIUzP9jgUE/TJXpHM8bQM1OK+t7ubaIrKuSHx5BdPFvT25wQ4QcQZ6mZwOoYTXZVp0eEVrRtabp4t1McmAGrCbk45cGD8m3IpKAxALnTHFlGy0W6c1ghfzGViK9o3J2diCVwRaf9Psox6LuhX6bKnCp9QZ3aPBzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SJJl4vUu; arc=none smtp.client-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-85bc7d126b2so743182241.1
+        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 04:30:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1734696765; x=1735301565; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fnZG/0RG5UJUEmKVNTvj9hkYCbi8QJ0Bgk6bDpAG7eA=;
-        b=FK5MyNF7fjNhTE6vFPy9lrutHWQ8bMG26kG+BYzoj7C1nAwchtfl06KSlZtXSjJ7OG
-         Dt81x92bURfg1qPEHBmMVpAKDjEiTO8jdSFpMftpXB7FRBK3bCyiCTkp168Fv/z7uISU
-         nnWHz+kpaSHn0tgCcO/UOEAWPU0tZaGoUAiJ4=
+        d=gmail.com; s=20230601; t=1734697847; x=1735302647; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s0IOwCFNZGsqTJxycNzweooFEfIMBOF/hZUBnYi18TU=;
+        b=SJJl4vUuWyinS1O4nKhhHj9K1lT+GXpn6x1Ly0CN04xSD/5A9T8v+0E6T1rVQ2bSay
+         oOVZlpZwG1hqOF/4s9j975AHwGauVtUapA7UT2mbmD+2hYE3RZM/yCVgYRKUOkOd0U65
+         2cU6kHRiR/l4ZspBIseJouyuxuU4SwG5KNxdzkJ3xec6RRBBmRa+//BaR5BIgxStwmmJ
+         Uc3QvNKaNJ15kOtmPv61zKzOaLW//qBN++rhGwJNzc6PEnt5yOiSYTAtMvZmIJ5waVBb
+         EFb8CeZGedZWGX+BIU4fi7w6u1qKYa1ByFokCgTVdHtYhdosfL/hNjqGMJ0fwHvdVmxU
+         fTWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734696765; x=1735301565;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fnZG/0RG5UJUEmKVNTvj9hkYCbi8QJ0Bgk6bDpAG7eA=;
-        b=SQKrRhFU4f65DZjjGgiAQ4N4hmreeOqk7S7UaTqmBroM0VRw+Dg7AgvqWTQgUh2CVF
-         0NJ5jaMCi713RR1va6BKqUHHShro1ArHzHpti9FPcPvEBKnGv1rBPnGLvjwHoUvrmnI7
-         DbUEZWNMZn/JShcjsiXWzVGuZcpi5BspeHTAi1tjDs7fFMn+jkWFIGOgUAhvJen/ssiJ
-         KmbRC3cAJ3fQ5FggNxSl88KDipk3ilszgRm9oSG27CULuL1ljPDmwRRQnRzXEHSLz088
-         CwAbzXtQSlDCIzao6mLXyoiM3DxND3NcMm6tspu62HiSG7ZWvrghtwlxMT8TBxMauR3V
-         IibA==
-X-Forwarded-Encrypted: i=1; AJvYcCW2cxyaBDPlHkeo8f4l+mTWBH14DXUmdoBSBwxjNNyWevFQx5nm7s52Lo5VGcS4lLv2BB4mTZjZBO1xkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgPz4fhV8VT3BSzhukU7tcJ/PaJErT2SJ/BtMO18PPN0bfpMlw
-	/2XR+8uuT27gVHCbN03yqiHT4iKuqI+6uQwrS1e5ZBocn3JK0o0y+X8jSFZ2KBKYAGynJmieTZY
-	=
-X-Gm-Gg: ASbGncsQ24keS9ixJR9D9DJbVLKoePcKmzWWirG7id5z5OUzLDPbcwuTvzpodig8Bm1
-	7CFvD9VsHBSUN4T12IeVGYzfAB4rgU7tJ9QOiaAXtgX34vtn9mBO6sBsj57IErF3jFw5QfNlCrl
-	7bEY+m7W8W0G0LFYD8UafBKE4yjGubnJcSWTFLcjM3f5HcOJ5pKuLpx+fY5PvZx21T8ZCOjHIyE
-	Kc7mbomduTRc17uzskk1veLSYI/6dj/vGWVsKRHYTNtMmW8FWUJ3oFOLFENhIAUORjLDHsaSonU
-	+HjM8mqyYIYVMze3+D0teUk=
-X-Google-Smtp-Source: AGHT+IEcjun36kYaUdB1KIYw+Wv580irFnA+bdksYp5w0NwxIvEDnYowrK6Y8ZptQbSbkyyECsmOqQ==
-X-Received: by 2002:a05:6a00:a84:b0:725:f1ca:fd8a with SMTP id d2e1a72fcca58-72abde989b4mr3862170b3a.19.1734696765390;
-        Fri, 20 Dec 2024 04:12:45 -0800 (PST)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com. [209.85.215.171])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad81644csm2958235b3a.33.2024.12.20.04.12.44
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2024 04:12:44 -0800 (PST)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7fcfb7db9bfso1327961a12.1
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 04:12:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW5XyAAUNk0J1NMwo/DDIKGEXz62LAPDH3pyutkLfcK5rTpPGc3u/8vYSA9J+yuOFeeHD1LtmXMpHCMSA==@vger.kernel.org
-X-Received: by 2002:a17:90a:e706:b0:2ee:fcb5:4f54 with SMTP id
- 98e67ed59e1d1-2f452eb127bmr4103129a91.27.1734696763597; Fri, 20 Dec 2024
- 04:12:43 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734697847; x=1735302647;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s0IOwCFNZGsqTJxycNzweooFEfIMBOF/hZUBnYi18TU=;
+        b=GmaNKzwXMEHWz1ib3u2QqXhYQPzziXhncjADkVZk0MGugP5WQAlNZ6EgRzqMjaZl0R
+         h8Pbq1K1m/WjyFJtSt7ZHs/W32bFMGotjmRPMv2Mxag5UtKeqHuQImzmkJZYZqz481qO
+         SBYROc1cm3DnqaFX9pRtlPlNkRXu5KFvz3AZrAd1Ousjt0gpoIhl7KFek43oLtxPjqNV
+         Sdec9TNPFE8GrTBfSi7q35gbr/ZXiNmHiIhVcT5w/muwi54xffgbIVhb26KvxVsEy/lN
+         3H0TWpwGPMVqP1NMv/aXD4XzLu0RcfdpzCcUmpeYX+NypLRCl/UcxW5zZ783nirPnIol
+         dAgw==
+X-Forwarded-Encrypted: i=1; AJvYcCVeexbILHmci8R9weT9JPqDB2vHrqItwcEioThoFMM1x0uGXzI2/e6LnNSyT1UVQvcvy023upyVonZjUg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRbmLolOIBkCZUmtjtnKbMJNC+wryCg0uYQo+6AKAIS2UH42KA
+	E88plov06R2IdtPAc7/Ih59PB8Zz+f2LN/sMaPaS9Fpqry4CAn6t4ueU0PZvT2hGFExuc+s2Fto
+	cCdrbQQyftTw1EGtkglfqgwfJTApt/g9o
+X-Gm-Gg: ASbGncvwPIOxdP74p4MuLCIoOSFFeLp4fiAXSUeVep76ptA1oRDnl05N7PtMKc8Q6t4
+	LJVvAQBZLqBmlRBIvM+e4aMK7R6D7kqphRXlPaLkh5a45p265DtJXvqM/Y6Pm2SsmqpM=
+X-Google-Smtp-Source: AGHT+IFwjQ+aiJfbEqGdr+MA/7F6HVUiqIPYp+B/Y4Yg1DbhSM40D/a15nkAib+pSTIBl3h3jeRuMwSSxlJHADqxHrE=
+X-Received: by 2002:a05:6122:2398:b0:515:d032:796b with SMTP id
+ 71dfb90a1353d-51b75d5caddmr2207955e0c.11.1734697847348; Fri, 20 Dec 2024
+ 04:30:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241220114317.21219-1-hdegoede@redhat.com> <20241220114317.21219-2-hdegoede@redhat.com>
-In-Reply-To: <20241220114317.21219-2-hdegoede@redhat.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 20 Dec 2024 13:12:30 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvgF+4X8vpNx54V+iC7Qxdwybhp+sitUT9hTV9oHS6f=g@mail.gmail.com>
-X-Gm-Features: AbW1kvbXVLRGdPjL6K3AqAmuZFEjT2MiANABiGS746VCVH9SqZk52BG1hbLAHsk
-Message-ID: <CANiDSCvgF+4X8vpNx54V+iC7Qxdwybhp+sitUT9hTV9oHS6f=g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] media: ov2740: Add camera orientation and sensor
- rotation controls
+References: <20241128152338.4583-1-hdegoede@redhat.com> <20241128152338.4583-4-hdegoede@redhat.com>
+ <CAPybu_3dbFxTd3GF+_dfwEnVtmUiZsZ+bsyPqh9+G4m+nHHkxA@mail.gmail.com> <3affc3c5-8c40-44b9-9350-7f7c4876cda9@redhat.com>
+In-Reply-To: <3affc3c5-8c40-44b9-9350-7f7c4876cda9@redhat.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Fri, 20 Dec 2024 13:30:29 +0100
+Message-ID: <CAPybu_1aH76UHTrsOohiLVTx-x1RXP+q=FpbMXYUTdVV0tqhvw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] media: ov2740: Add powerdown GPIO support
 To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: Tianshu Qiu <tian.shu.qiu@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 20 Dec 2024 at 12:43, Hans de Goede <hdegoede@redhat.com> wrote:
+On Fri, Dec 20, 2024 at 12:35=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
+> wrote:
 >
-> Add camera orientation and sensor rotation controls using
-> the v4l2_fwnode_device_parse() and v4l2_ctrl_new_fwnode_properties()
-> helpers.
+> Hi,
 >
-> Tested-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
-> Changes in v2:
-> - Call v4l2_ctrl_handler_free() on v4l2_fwnode_device_parse() errors
-> ---
->  drivers/media/i2c/ov2740.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+> On 28-Nov-24 5:53 PM, Ricardo Ribalda Delgado wrote:
+> > On Thu, Nov 28, 2024 at 4:24=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
+com> wrote:
+> >>
+> >> The ov2740 sensor has both reset and power_down inputs according to
+> >> the datasheet one or the other should always be tied to DOVDD but on
+> >> some designs both are attached to GPIOs.
+> >>
+> >> Add support for controlling both a reset and a powerdown GPIO.
+> >>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >
+> > Acked-by: Ricardo Ribalda <ribalda@chromium.org>
+> >
+> > Same question as before :)
 >
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index a79e478342dd..bd7475c337e2 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -755,15 +755,17 @@ static const struct v4l2_ctrl_ops ov2740_ctrl_ops = {
+> I assume that with this you mean if a call to v4l2_ctrl_handler_free()
+> is necessary on errors ?
+
+I actually meant if we needed to change a dt binding... but Sakari
+already clarified that this is an acpi only driver.
+
+Thanks!
+
 >
->  static int ov2740_init_controls(struct ov2740 *ov2740)
->  {
-> +       struct i2c_client *client = v4l2_get_subdevdata(&ov2740->sd);
->         struct v4l2_ctrl_handler *ctrl_hdlr;
->         const struct ov2740_mode *cur_mode;
->         s64 exposure_max, h_blank, pixel_rate;
->         u32 vblank_min, vblank_max, vblank_default;
-> +       struct v4l2_fwnode_device_properties props;
->         int size;
->         int ret;
+> That is not necessary in this case because the getting of the
+> GPIO is done before ov2740_init_controls().
 >
->         ctrl_hdlr = &ov2740->ctrl_handler;
-> -       ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-> +       ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
->         if (ret)
->                 return ret;
+> Regards,
 >
-> @@ -813,6 +815,15 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
->                                      V4L2_CID_TEST_PATTERN,
->                                      ARRAY_SIZE(ov2740_test_pattern_menu) - 1,
->                                      0, 0, ov2740_test_pattern_menu);
-> +
-> +       ret = v4l2_fwnode_device_parse(&client->dev, &props);
-> +       if (ret) {
-> +               v4l2_ctrl_handler_free(ctrl_hdlr);
-> +               return ret;
-> +       }
-> +
-> +       v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov2740_ctrl_ops, &props);
-> +
->         if (ctrl_hdlr->error) {
->                 v4l2_ctrl_handler_free(ctrl_hdlr);
->                 return ctrl_hdlr->error;
-> --
-> 2.47.1
+> Hans
+>
+>
+> >
+> >> ---
+> >>  drivers/media/i2c/ov2740.c | 15 +++++++++++++--
+> >>  1 file changed, 13 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+> >> index 998e1977978d..14d0a0588cc2 100644
+> >> --- a/drivers/media/i2c/ov2740.c
+> >> +++ b/drivers/media/i2c/ov2740.c
+> >> @@ -525,6 +525,7 @@ struct ov2740 {
+> >>
+> >>         /* GPIOs, clocks */
+> >>         struct gpio_desc *reset_gpio;
+> >> +       struct gpio_desc *powerdown_gpio;
+> >>         struct clk *clk;
+> >>
+> >>         /* Current mode */
+> >> @@ -1306,6 +1307,7 @@ static int ov2740_suspend(struct device *dev)
+> >>         struct ov2740 *ov2740 =3D to_ov2740(sd);
+> >>
+> >>         gpiod_set_value_cansleep(ov2740->reset_gpio, 1);
+> >> +       gpiod_set_value_cansleep(ov2740->powerdown_gpio, 1);
+> >>         clk_disable_unprepare(ov2740->clk);
+> >>         return 0;
+> >>  }
+> >> @@ -1320,6 +1322,7 @@ static int ov2740_resume(struct device *dev)
+> >>         if (ret)
+> >>                 return ret;
+> >>
+> >> +       gpiod_set_value_cansleep(ov2740->powerdown_gpio, 0);
+> >>         gpiod_set_value_cansleep(ov2740->reset_gpio, 0);
+> >>         msleep(20);
+> >>
+> >> @@ -1348,9 +1351,17 @@ static int ov2740_probe(struct i2c_client *clie=
+nt)
+> >>         if (IS_ERR(ov2740->reset_gpio)) {
+> >>                 return dev_err_probe(dev, PTR_ERR(ov2740->reset_gpio),
+> >>                                      "failed to get reset GPIO\n");
+> >> -       } else if (ov2740->reset_gpio) {
+> >> +       }
+> >> +
+> >> +       ov2740->powerdown_gpio =3D devm_gpiod_get_optional(dev, "power=
+down", GPIOD_OUT_HIGH);
+> >> +       if (IS_ERR(ov2740->powerdown_gpio)) {
+> >> +               return dev_err_probe(dev, PTR_ERR(ov2740->powerdown_gp=
+io),
+> >> +                                    "failed to get powerdown GPIO\n")=
+;
+> >> +       }
+> >> +
+> >> +       if (ov2740->reset_gpio || ov2740->powerdown_gpio) {
+> >>                 /*
+> >> -                * Ensure reset is asserted for at least 20 ms before
+> >> +                * Ensure reset/powerdown is asserted for at least 20 =
+ms before
+> >>                  * ov2740_resume() deasserts it.
+> >>                  */
+> >>                 msleep(20);
+> >> --
+> >> 2.47.0
+> >>
+> >>
+> >
+> >
 >
 
 
--- 
+--=20
 Ricardo Ribalda
 
