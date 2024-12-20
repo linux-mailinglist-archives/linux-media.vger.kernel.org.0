@@ -1,78 +1,87 @@
-Return-Path: <linux-media+bounces-23918-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23919-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17BB49F943F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 15:27:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 333AE9F9449
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 15:29:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E49F4188CA3B
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:27:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 88C45188AC34
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:29:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92949216386;
-	Fri, 20 Dec 2024 14:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D060921638C;
+	Fri, 20 Dec 2024 14:29:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EzGjiYYx"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dj23hesV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA84215F41
-	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 14:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731CD215F78
+	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 14:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734704865; cv=none; b=D+1PEyqy9ao9IRO+lP7Lq88G7Vnu1z3mLCfe2r5YY13b5WrIu5EHxdqfEauafYwr5JS59FL7aoxut7CjShpBwWCYGJ4N9X9TGK8nUzyesDN01Xlw4eUaMX1NXyUuaOm8IKpVpT8Bztr7w6Uz1johfLN7wtmtefGsUmHnjCrQXfc=
+	t=1734704960; cv=none; b=ZlSbiXuTsKgctrndos4lOtdy6nNNPX6fmtWWy/JRvskyd7ZuM5KyyBr5lEiaQfxV3Mp6hpbrf3BDQjSjQXngHLP6b51PWlsLzp9ElnSrmP8eYpZhKmicx0C0gnDqnd3H9pdRRj4TIqormmGX5IqYqmXyiQdZvzPelz/AP8BHzCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734704865; c=relaxed/simple;
-	bh=ugKfoPcP/Xu1opaEj+SOndwzDz876K4Yqkk4LtsRg3E=;
+	s=arc-20240116; t=1734704960; c=relaxed/simple;
+	bh=rYnknBKlfYFfL/9S/1ElQ+QBR+tmjhPSGipskw92xIU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b+FyjJMkHy1Poh3E5B113Ucbh3+rsPRGSSQbKsj31QAwmw4Iv3HFuqJExFNk4cmj6iZSsg5aFH8WPkLLNm24Bucmy8KspF0noBPrnYEQn53dMk/jaQBkWHTTyoiszTLetj2uUKupSPK/xWt9+TRc0wuW9L0fGvUn+u0aaPhd6oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EzGjiYYx; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4361dc6322fso13621065e9.3
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 06:27:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734704862; x=1735309662; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MpzRfQq/fw6JeEhzNuIJIHVIFokJcrYlcF6FJ0wY2cg=;
-        b=EzGjiYYxybvisuNgHyKnm5qeyt47YAgSI4h21d4k+BudwMlDRgqO1fidzpRch5Xrr3
-         Fd3UCZu2bbyD6+pLjn1nRuJ/m/rcMoHta6rH3zJVqTq/ojmep7+462oLr1Z78j41MVVU
-         ThVCBxuhdmSre9zCssDJmTG6+ATkqDr3w9t0NzZvLhJLR1vwT4E14Gjj73oCBu5/hZTd
-         wOB5MEFh0W9Ka1c/9iwb+KYNDSBs6d6XXytjSp6DbP2hBsXrnYxaXTasz8vVOf9SmDZn
-         qi6LEOHZGWEwbkOVq/R8XQmG4ZbAwGQ5fBO09JtQ/tSJytGWMXaRtlBwqQytlrD0alUV
-         KYsQ==
+	 In-Reply-To:Content-Type; b=K/HNOrpAhp/hZiUFBezfRUWYhNNs1Zd84+VVFmpj0rAv614FC5pRxjxjoa8Z4cYSMqlNjeIinUOGP8lZFiU+mlOBP0r7vxOSRb82nT6ARiisQx73Hr2Ym6IDns45UCl6ceN28MF3UfPr6tkp9paCu+bv9OqAfwt2LUp8hS7+kno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Dj23hesV; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734704955;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8YP3V5vLRqJQ2vdp8NefB6XGR4dGdh29y1zS+i8D8+E=;
+	b=Dj23hesVn4LVUHouDpLgMzShTY1trCilUs67fbTeT3ZUfcShcsEtRcAya+4cI0JZyc0c5v
+	dftrqV7JqGq+Eq1JOipe/moYF55/uJ8/WiNBj8AiLVUf6peEp62WqHmIYr/P+YmdfNoww6
+	LvkoBGENRBVLjhxOOJVqtQ55VURoW2o=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-647-UUXZ4zP3Px-xbXdR8OBNNw-1; Fri, 20 Dec 2024 09:29:13 -0500
+X-MC-Unique: UUXZ4zP3Px-xbXdR8OBNNw-1
+X-Mimecast-MFC-AGG-ID: UUXZ4zP3Px-xbXdR8OBNNw
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-aabf8e856e2so201908866b.0
+        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 06:29:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734704862; x=1735309662;
+        d=1e100.net; s=20230601; t=1734704951; x=1735309751;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MpzRfQq/fw6JeEhzNuIJIHVIFokJcrYlcF6FJ0wY2cg=;
-        b=v4GOjdIJNElP/xN1HWgWiEMfEDtHe2Hs3VSGcx75QZ5OiCrwwOE4+TwLf1lPDOHBB5
-         Pa/Mw+5o8kPmYJzoHl+WOYVOZrhdVZz0tYufS0i7glv3MT2h0hCE/KqrVJF9ob5sbKcN
-         b48uNH2iCAXI7HHKbrVhzC+t9QNu+HU10zriaiuZqp89f2VuUi2561q0A+H+76rZJFxh
-         4xhMhuzaiq/DInkuZhDK+B68R0LvoKuPcqQZYNi77yd+AzUWTNfpo+37onMBsyNxoMu8
-         titv40/RvFyxGW9RZ9aBlTOsbrbvIIxSjkuAGfhadPVjDpbPc+cgISTLZ10LEObe5wmC
-         BqRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWT6lDanHZ37EOAU5nkIUTae18wiWP3b4mIzv7oyUG2xXYBjm1PV7/FSqFycYybKeg4rex3CF2WFWfGIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuvQs39lgERW4jVAtPPnnZUohEe/7qIqWvE71vwSx7VivpImpM
-	bvBnCrjwLpx1B68wBwWY3gs0kyuVP63oGtiql4fj3Mn/75E7Ou6CD/YZjZ7Qo5k=
-X-Gm-Gg: ASbGncsglzrQv0toMsBWAyLgvKgmn4EWIiAJwrYJBpmmjfY3Kkn3x6Mlkuy0JC7Y7Ex
-	7qhLxIm+ljbwN3AuwBLFYvnUjB2UKAvU5ErT/APeoytV2JgzgGLbVAEjAPLlxtGrWSvhU+87gYa
-	am0bH59t5OtpKSYqmHTQ/L1N+R8iIck3eZLQQAVK5M4aGgKwdvINQMrYg9Z4pas+U8vOGNal9CV
-	dUvPQGNnUrm9XSBsoOaZTK5PVkLeV0P/PugTb6XQSmx7Xzi+H3rmTrVSUtsGW9F7BttGQ==
-X-Google-Smtp-Source: AGHT+IHzB2iopqh68lwwJkReMOJidpYHyl7rCqoRSWwwx9c7+No0HlNEgDyCviSrRyhppUcJ190CqA==
-X-Received: by 2002:a5d:6d8c:0:b0:386:62f:cf18 with SMTP id ffacd0b85a97d-38a22408cc9mr2979556f8f.49.1734704861729;
-        Fri, 20 Dec 2024 06:27:41 -0800 (PST)
-Received: from [192.168.0.10] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436611ea423sm48112535e9.2.2024.12.20.06.27.40
+        bh=8YP3V5vLRqJQ2vdp8NefB6XGR4dGdh29y1zS+i8D8+E=;
+        b=jnJihdfF6k7cdCOr8gCFuQW8VPlauqmhv32Zr928OeXmxAXxuOYZEHTBdnqCsLwkY1
+         Yp15O5JEDrF6LqPwFl2EKELZ/uIE+DY8ByHwaKaor50INS7IV6I7ww0/am2kaqhitclm
+         ItMEEnsM3GJyqS7j7RaacpRSPBaMaCAqOmMuHAFXfPQ5LJkb/jnmOiLNkWtwK6o4DENn
+         vDfZLdj1qF955LPDY4ZDK16iLcMM1vzg+K2D3H2neUV8A4RaRZfQXEVtU0Fw1uW55clt
+         v9G3e3pBn+biRGoK1ALU8Fx5SeibYzQ3Ae4CqC1YrZUtuS/8TWCu8A0UUkB2ZVrgi70i
+         yjPw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmvlfbsbof5FUTFYCf7kzfSgrLfkj5P9LKW0XDJgLnlGwKkP9zq8qsDHyhw8xMQGR9YcuaXOFaZpA1WQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYYk1M1yBspa0bldGHKiTD5e3p9nkM9V6p05CQJSTMi44dTbye
+	b+kyfTkbsdnYh8HRhYMJ0AERzX6lhuUbWW1KB6FVT3Ad9iuICKkkoVHUbWwtdd5p2LeC9S80jIP
+	SGlttJHk8O8rpiZRrOVeCsJmc8w6q6u/gVnx/ZCuk00B7YliiTbMes/CntTo1
+X-Gm-Gg: ASbGncvNpc6KpFsa/Sk34GUbZoV/DZv35TtQynoXp06Qpf+vYPM05GLwreaO+Z3dJt1
+	3GcSwXAnJLND5FAJBaD8k3TO3f2IY6sOnjkGIAlyrGDxU5t0KUCPAe4y/ZoFQ1uzhv4Ia47Luur
+	jrJX5UFgzdmhqI7NM2R68j7NxvW8AN8eJkJgdcOQzwMhc2rn3Hv4686afq6GSM3GlweDsCbG9rR
+	/YfSOs2kl8b7JJ/kDfyV5UWANiUHy1/iisKxi+4qSobp4ViicjcheI1e39iC35A550bZcH+due1
+	WTPuLua12MvKDIp5QXEEOvMcfKpu2aJS9eEL2RJ+3N8jyNUG8t2fHccFxNQk2DjiPCv6zosoQSr
+	kYJFgtzLFQ+azFEiZ/RtdeyxC2ZJCdZU=
+X-Received: by 2002:a17:907:9712:b0:aa6:7cae:dba7 with SMTP id a640c23a62f3a-aac2874b6dcmr267821066b.4.1734704951465;
+        Fri, 20 Dec 2024 06:29:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHWOYwMFx4V/tbPDZX4tTISX4X6kzf2n1Ih021YmJ1Jnia/vK7xJCXPe78Cf0IrKo5huh5piA==
+X-Received: by 2002:a17:907:9712:b0:aa6:7cae:dba7 with SMTP id a640c23a62f3a-aac2874b6dcmr267818366b.4.1734704951085;
+        Fri, 20 Dec 2024 06:29:11 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e894781sm180538166b.44.2024.12.20.06.29.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2024 06:27:41 -0800 (PST)
-Message-ID: <2349c1b9-0cdd-4759-9f2a-68ae53f22391@linaro.org>
-Date: Fri, 20 Dec 2024 14:27:39 +0000
+        Fri, 20 Dec 2024 06:29:10 -0800 (PST)
+Message-ID: <1bf92f43-91ff-4c2f-8b86-cf7618333725@redhat.com>
+Date: Fri, 20 Dec 2024 15:29:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,7 +91,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/8] media: ov08x40: Properly turn sensor on/off when
  runtime-suspended
-To: Hans de Goede <hdegoede@redhat.com>,
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Jason Chen <jason.z.chen@intel.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
@@ -92,20 +101,28 @@ References: <20241219134940.15472-1-hdegoede@redhat.com>
  <e3573352-f73e-43f5-8e21-6c313dc54057@redhat.com>
  <c9f237bc-40c6-4b41-a963-abac306458bd@linaro.org>
  <a2fd753f-a999-4d17-b799-be4a6ece7bea@redhat.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <a2fd753f-a999-4d17-b799-be4a6ece7bea@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <2349c1b9-0cdd-4759-9f2a-68ae53f22391@linaro.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <2349c1b9-0cdd-4759-9f2a-68ae53f22391@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/12/2024 13:59, Hans de Goede wrote:
-> I guess you are going to test the rest of the series and then provided
-> a Tested-by?
+Hi,
+
+On 20-Dec-24 3:27 PM, Bryan O'Donoghue wrote:
+> On 20/12/2024 13:59, Hans de Goede wrote:
+>> I guess you are going to test the rest of the series and then provided
+>> a Tested-by?
+>>
+>> If yes then I'll wait with posting v2 until you're done testing.
 > 
-> If yes then I'll wait with posting v2 until you're done testing.
+> I can give you Tested-by: for the series now + the change we discussed.
 
-I can give you Tested-by: for the series now + the change we discussed.
+Yes please, then I can include it in the v2 posting.
 
----
-bod
+Regards,
+
+Hans
+
 
