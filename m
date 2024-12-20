@@ -1,133 +1,131 @@
-Return-Path: <linux-media+bounces-23941-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23942-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA96F9F94E5
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 15:51:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BD99F9529
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 16:16:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADDD418834E1
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:51:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9CA218959AA
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 15:15:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C52521885D;
-	Fri, 20 Dec 2024 14:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D3AA218EA5;
+	Fri, 20 Dec 2024 15:15:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uZBizrab"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tk+BBfIj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0334D208AD;
-	Fri, 20 Dec 2024 14:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB307219A82
+	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 15:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734706306; cv=none; b=uXSRtGS4Yt0fvYQ6zYbG+fhS/l4ACbsVfcDZ/JNOZ8l9VyI0t2rVwW27uPg5fEY65we2kk1YMJf/7jzHzw3yxaOyypINI3Va15jQJMwHDF4SODEfQaqFs7AhpEo7+Ptv63HTHtl3SyRenZU/S07dWxJeywukS8g3yBnnSzjgvPU=
+	t=1734707707; cv=none; b=V4RtSz+y4abpn6/EFMnjiHwBrFPaUr0OPLGGh6+apuJYZQx1lKuRphgW4UYrcPP8ABebdiQ6Oqnt/udI+dH+16aJSzoIG3EyYR8gpOCpT1hIxJlWlgOCDU53iWLrTg87V25Nwhfw1x7LnDeECQ2qJakk5JMw8h8bDL3ZI2XWpYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734706306; c=relaxed/simple;
-	bh=qs/++TQWUXMzgnAiF0WumtbqnQ5reqmLtqvmX0M8WRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f8arRK1oucV4aOzA5zkFs9Vkr7Ba55LBekAo4btBH9FEBV1QUa1/6bGsO3/NqmboXgbwVxvO8WHAfg0G59Xk8xnBqI4huqHeVWrid8QbsSy8cojQIe3NLq7MsmIpcdx6WMujIN9w+r3wiIhJJFJFX0Su40CAZ4aknQ1aPo3DU/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uZBizrab; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06A1BC4CECD;
-	Fri, 20 Dec 2024 14:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734706305;
-	bh=qs/++TQWUXMzgnAiF0WumtbqnQ5reqmLtqvmX0M8WRo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uZBizrabWzPh67mQhay6G+Ts1QyF9Jf115RLeY8PNe1ddV8BmqaxJB7gwDj015bm8
-	 Z3Ukg2Q1IdSR9HbW2kN28JcYT2rCv2r+YsawPsX8PSOKSSCDxp4wZHWs6v4jCXr/KZ
-	 pcLBLY9V7SrntxT0KDQd23y6gCurZ/+8ysdMogY8RISIaJHWhj6x1xEhYPv07KFsIA
-	 c7gX/b3r9yi6bKoY9QoQNqV7oHctvZcDxNz8M+7E7h7/ts9AvcbPr1NIz9uZnwlSRe
-	 lWyBFoCAMIMmEaJEF6JB5VFYy45fTNOCPziynWk7Q5tmWRDZ+GDByy2LMSkFRtkfMA
-	 Cb87kRhWvAVFg==
-Date: Fri, 20 Dec 2024 15:51:39 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Luben Tuikov <ltuikov89@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Subject: Re: [PATCH] drm/sched: Document run_job() refcount hazard
-Message-ID: <Z2WEe-tgp5CDtk4w@pollux>
-References: <20241220124515.93169-2-phasta@kernel.org>
- <5c4c610e-26ec-447c-b4db-ad38e994720b@amd.com>
- <Z2VunIJ4ltfW_xqD@pollux>
- <e366a206-9fa3-4c6b-b307-d48855a7b183@amd.com>
- <46f22193d960c0a0960c2ceaa525e9ff57fc09b6.camel@redhat.com>
+	s=arc-20240116; t=1734707707; c=relaxed/simple;
+	bh=Z/WHDFbwWhIHPpTnKleEFiELhQb0EVVb7XmxvkBjKFk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lz9uddSl7Do8NKWNkihNiFyvfihobg9KmtdoBEdSkwBFBYC+X6y2ew5gY3RQSTgqsj4KJ5ID2QnQ8Y+EpWS2im1/hxb1Gz9sp3Z8pR8IqZMgKbkjLXYrY+AboFOW/L7cOnTf+9PXvZeJ8K0JeUTzUS35FrvaqwGOxbicr7wi64M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tk+BBfIj; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-432d86a3085so14099425e9.2
+        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 07:15:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734707704; x=1735312504; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ojhF/plDtmxHi3tW/ptgJiJj4UC221BmbfMuDVlg7kM=;
+        b=Tk+BBfIjGiRj5ArpBn8CBOmT4s0fbhFur82ko4pDalSwfHKFOWiwW0Pu7KzehB1Ig1
+         be5Z2p7j/7rkHytwBBdljEVcPRp/IUSClF8bkZmNSHUcktjB4PSy5cgvJ0vndn1sItIw
+         P2t11ki6aFt/EMFOfAq3FH4RVJxIAkG+hfIe0Kbyf7A/ltCUs3LIde8oM2EQhyUoyR9a
+         +ZSJUedxg1QXHKH7enspYHjcg/3hZpf2Pbo3S7lrdRuQ5ozX3/mbOrfREqmWRZD6N8/h
+         60BiRz/SEKPnoJPVUKFPtjRWCAD1WXO2MPc/SNUIJqx+lxpXHQiSFgEgEagSCZ4ZArqN
+         /xJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734707704; x=1735312504;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ojhF/plDtmxHi3tW/ptgJiJj4UC221BmbfMuDVlg7kM=;
+        b=YmwgXLPKMqP2DJW50T8uOIeQ9KKYC2wHW/p7+nTxmA1kkaWNIg0wDCnWjk6M1bVnRQ
+         uhyBy+/+LghLWN4uqV6/bNKsd22iSvh4IetjsQy28Fc+sWCEJ9JOr9n0tIMQgBG57EiE
+         6ET2ES9u9ozPm4rUWynKWUVkpH6FIAWAvQ3z2QvVzRTnKejF3NjwH+2esRCUnbc3Onym
+         W/oS/OV0yfIdmg76QK7CmckGFLULwAfnXZcDzPN0gGsrIlBI9/5XDACMocr4RUn66rL2
+         C2tybfiFa9shr77EnnpA6fW4y2d4cOTbhT/6RMO4CDczjrrIbmZXv6OAmG0uxFMekJl/
+         xeiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXhyeRaGJAB8dMOw24iNE05Ld2jZkkkCLV6tlUsk99mwP/5Ym7UkI86i4XLKAPAzPvzOPw01Qd7AUJHoA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3pEfOAeA74YLI2y9LHZqzC9WzCli7y2YxKG0f2vqb39nHOJb1
+	tZ/YKsFp9b04wxjj5NhVC7RivK9plbn2JHN92Xtkn2jBgPsV/Y9GBKHhr8yOD6WVOYICT8RCQDi
+	U
+X-Gm-Gg: ASbGnctt6b9rryLUGSKwx7pTlfFVaVyCB6NUx8TWu5oZFdbrFKjaYq37mn7XEVaIQ2Z
+	ppRXV3XE4dOjLq6m6wxCG7lP4edUVATzKz7DOqc1TiySOTobXlMDbJ/dECBb/rhAp/kMQ8VRVjj
+	8OV/A61in20d9N8WpvSOo1f1209kzxyLBpfI7CFgMh/snuHxZ6aQ4Ojrsap8/IFYO7vjHAECxTP
+	lyuaniP3GToE/j297EyS4yjVszzoUwaMdQup3abU0uXLjZ6+eyIb/5W2kRkMK5kIEfdpQ==
+X-Google-Smtp-Source: AGHT+IHn4mqFBscGdeOisRLn6JZ1v3CLUupQ/+ouJJeZbtoB2nOW+xH+gykAgoeP6j7NcJaK9ELXFQ==
+X-Received: by 2002:a5d:6c66:0:b0:385:f7ef:a57f with SMTP id ffacd0b85a97d-38a22200168mr3148790f8f.27.1734707703906;
+        Fri, 20 Dec 2024 07:15:03 -0800 (PST)
+Received: from [192.168.0.10] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c847513sm4292397f8f.49.2024.12.20.07.15.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Dec 2024 07:15:03 -0800 (PST)
+Message-ID: <b17e044e-b219-4245-9c03-88cfdce2f65f@linaro.org>
+Date: Fri, 20 Dec 2024 15:15:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <46f22193d960c0a0960c2ceaa525e9ff57fc09b6.camel@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/10] media: ov08x40: Various improvements
+To: Hans de Goede <hdegoede@redhat.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jason Chen <jason.z.chen@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20241220144130.66765-1-hdegoede@redhat.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20241220144130.66765-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 20, 2024 at 03:11:34PM +0100, Philipp Stanner wrote:
-> On Fri, 2024-12-20 at 14:25 +0100, Christian König wrote:
-> > Am 20.12.24 um 14:18 schrieb Danilo Krummrich:
-> > > On Fri, Dec 20, 2024 at 01:53:34PM +0100, Christian König wrote:
-> > > > Am 20.12.24 um 13:45 schrieb Philipp Stanner:
-> > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > index 7ce25281c74c..d6f8df39d848 100644
-> > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > +	 *
-> > > > > +	 * @sched_job: the job to run
-> > > > > +	 *
-> > > > > +	 * Returns: dma_fence the driver must signal once the
-> > > > > hardware has
-> > > > > +	 *	completed the job ("hardware fence").
-> > > > > +	 *
-> > > > > +	 * Note that the scheduler expects to 'inherit' its
-> > > > > own reference to
-> > > > > +	 * this fence from the callback. It does not invoke an
-> > > > > extra
-> > > > > +	 * dma_fence_get() on it. Consequently, this callback
-> > > > > must return a
-> > > > > +	 * fence whose refcount is at least 2: One for the
-> > > > > scheduler's
-> > > > > +	 * reference returned here, another one for the
-> > > > > reference kept by the
-> > > > > +	 * driver.
-> > > > Well the driver actually doesn't need any extra reference. The
-> > > > scheduler
-> > > > just needs to guarantee that this reference isn't dropped before
-> > > > it is
-> > > > signaled.
-> > > I think he means the reference the driver's fence context has to
-> > > have in order
-> > > to signal that thing eventually.
-> > 
-> > Yeah, but this is usually a weak reference. IIRC most drivers don't 
-> > increment the reference count for the reference they keep to signal a
-> > fence.
-> > 
-> > It's expected that the consumers of the dma_fence keep the fence
-> > alive 
-> > at least until it is signaled.
+On 20/12/2024 14:41, Hans de Goede wrote:
+> Hi All,
 > 
-> So are you saying that the driver having an extra reference (without
-> having obtained it with dma_fence_get()) is not an issue because the
-> driver is the one who will signal the fence [and then be done with it]?
+> Here is v2 of my ov08x40 series with various ov08x40 improvements
+> aimed at getting the ov08x40 driver to work on x86_64/ACPI platforms.
+> 
+> Changes in v2:
+> - Fix the brownpaper bag bug swapping the suspend/resume arguments
+>    to the DEFINE_RUNTIME_DEV_PM_OPS() macro. Many thanks to Bryan for
+>    catching this
+> - Add Bryan's Tested-by to patches 1-8
+> - Add 2 logging improvement patches which I posted as follow up
+>    patches to v1, so these now can run through CI too
+> 
+> Here is v1 of the series:
+> https://lore.kernel.org/linux-media/20241219134940.15472-1-hdegoede@redhat.com/
+> 
+> Regards,
+> 
+> Hans
 
-It's never a "real" issue if you have multiple pointers to a reference counted
-object as long as you can ensure that you hold at least one reference for the
-time you have pointers to the object.
+How would you feel about picking up a Fixes: appended to the front of 
+this series ?
 
-But, that's bad design. For every pointer to an object a separate reference
-should be taken.
+I noticed the reset pin logic and timings were out of spec when I was 
+testing out v1.
+
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/arm-laptop/wip/x1e80100-6.13-rc2+camss?ref_type=heads
+
+If this commit goes first, then it can go to -stable:
+
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/commit/f10539a3cbe5c072829b082683f0d1393a7e50dc
+
+---
+bod
 
