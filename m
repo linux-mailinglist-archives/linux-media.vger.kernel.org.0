@@ -1,157 +1,268 @@
-Return-Path: <linux-media+bounces-23896-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23897-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F91A9F931E
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:26:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E9B9F933A
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:29:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0012169721
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:26:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AAD61189A0B9
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:26:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E8E5216384;
-	Fri, 20 Dec 2024 13:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17AB3215F41;
+	Fri, 20 Dec 2024 13:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="itNlfKMs"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Gvs+ShEg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2062.outbound.protection.outlook.com [40.107.96.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D0215F7E
-	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 13:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734701107; cv=none; b=Co/GWbTzM38G8Ud7WVFBuuz3n3lil0UgFS2j1OII7oBV1SF8eSpM5C8OFwNfotHJLpVCovbybpVVux4Ue35xePAzEcEkGNYHqUT5T5NPe1OHjYgl2hVE8dzbkwLW7Rqm2D5Tv4d/1BKjl9iZUh+04D67ixsGGS2iVl/4C1pplok=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734701107; c=relaxed/simple;
-	bh=APCMTulVGvl/4oU3GCTZx2R+6M3HjalCZobgdjNcH2g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eQNar1P/xX9Yxb6otFf4zamSAqBZNluEfoXEPXhu4vV4Yb7yT75mYkfWE+jqGbd3xGC5Qk0zZ6w63s7h1vl2G0hG/To2AXA/kedPKoUbCXSGfjOGmAhqTOJKjwo+akWVAPu0vcUWNls+uIHxBDZaHjtp4S1AgphejquREnFhaoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=itNlfKMs; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734701106; x=1766237106;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=APCMTulVGvl/4oU3GCTZx2R+6M3HjalCZobgdjNcH2g=;
-  b=itNlfKMsuEDhOq7oXqtNtibV7BpgpegCc0/QTPhh8G10G9aySpva4MOX
-   mPr4zwRZ+O58y8h0/qIKqyFNfB53S0Ax58oVEYfrM1gxYuU2bwZZcn02n
-   B1WRZbARe9mUV4t9DbBh/mt/Q2MlI193GYOpTAPiX79+SE6ugQIt/4xtW
-   TNe4z+5NdcgM9SF07Fm0L0XQyOhpMrjiPZmIudznq4XdRfqg412a+ox9Q
-   pQmKHSK8375QZXzIeFegxtwdi+IQ2nAaju3R29ydhz/JULSj8B43U7hY5
-   AndXiz9olvDeADRL0uJXQWWx7JFcy+3kAHh68HbGeTsrbbz5yUbT5hKzM
-   g==;
-X-CSE-ConnectionGUID: rou9pJEyT+WUypIdJe1z8w==
-X-CSE-MsgGUID: wMDnfltgSMe99C5BdaUEFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="45937679"
-X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="45937679"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:25:06 -0800
-X-CSE-ConnectionGUID: A+iEhH4YTaCw1TI9T4YXfA==
-X-CSE-MsgGUID: Vuq7adqdTdylIbYkOAsTmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103132536"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 05:25:00 -0800
-Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id D164711FADB;
-	Fri, 20 Dec 2024 15:24:54 +0200 (EET)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [RFC v4 9/9] media: Documentation: Add binning and sub-sampling controls
-Date: Fri, 20 Dec 2024 15:24:19 +0200
-Message-Id: <20241220132419.1027206-10-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
-References: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDE22156E7;
+	Fri, 20 Dec 2024 13:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734701171; cv=fail; b=dpvfl4MM13w1yaDZyMW8v35r/q+cKoxIoo4O9EgnT5wAIRMinyVipKvGaAVrMW6WltKouUzq7vGM1KBoXfNe6JLNyUbiIbTnQshdq5QNbn37C7tikxZeR1C45EgvBfZPAB2dtzcZ08YXdgb3UB20aCT08sUgfQFxj3WpLw3ve78=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734701171; c=relaxed/simple;
+	bh=SpVd5qRogbl9B6xufHX1phP1Gc7GPCPnfBB9yI5xYCY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=AMg6aq05PoTs7iRTFDdDxpLJCldryeE1BoBBE/Rdr8EqEQLHKKO5jXdtG+b7BaGCYAnOX9Ucaku+uBHn3VYnLwesuxrL21uV2o9Td4jCDUUgaIDpE5HtmvRuqJHhYiGdLOi5tlPIM+717U/N0/CNBSwJo77KqxaZ4p9cmlB+mbM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Gvs+ShEg; arc=fail smtp.client-ip=40.107.96.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=q6QODVdaTbY+5xSXnjfV7/C0ZZdujeH5aO5pcatIjXqWWn7p4/t682TS/vr20mU5pSV7RCzHymMtScbW7q/d/Y16t7oU6+1y7U05DaJm6BzSgoRMFBiGibdCzvXzCmzTnqa1AAlC0BJJexlCytLKkTMsEuoA4JyFqRbdyz9zjy5bRdYrcNuB2OaXOM7J/L14zRHgwB9o/N1t22LOujXOL0pu+hnX4hrZRCqhtKP95Pm1bG4+azTGxVh8Ez+l/FvEmlyQ1PEg/H1x/LQEJd+SGsNEtBsEEI/xXxs34nj6jFkmvgSt0Ktg2D7VPj+bOvyWSWYIfTrrGX+UH0IG16JQmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iJ4wk64m1ZjGPrs4EsrSA/oc9JoaR0dSXNvRh0EdE8Y=;
+ b=j2aHSyyg9DTGrB/wZDhi1V4OqtGHhwkqx6q2lkIk7ObJcwNBGGQ9vOhwfWvTSQHAMKjYBOVT6aTTYYVM8fOUe+rAgO9clNcP3gc7pzEeTIHcM4jXZ0zn44QPMvWKTCj74PX7u97yUNQXxF4g+ydMx/Ha7+AkPMF4nM/Cxy2OFDtwFMy9cYVnniZFGPB1gdj5HOV4UP+xeJhbSvCkQ+JrxuwxHzQGXcOxIzAmwzYPoz5iR35NYZivqv2pHtxyNcArjmn6fKAC5dNStKxJyQhYYg/kviYIy2gPLGiP5iK86FAAwgptmkQynb+N1YcJznBpqWQVV8ot3zXjwVJgPBYuHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iJ4wk64m1ZjGPrs4EsrSA/oc9JoaR0dSXNvRh0EdE8Y=;
+ b=Gvs+ShEgU8mKp+FAgGT1890ikJs1VpezE7HTczmr0jAlGRjo8gYmNTNoE/gMLBuNYIibKQzt3vJch01iHwoSopb8B8q2Z4QylpEJ7qtfJULN1IBjbhuwsfLsMbmlKmZIv0XagysZHzi4xFF6N0Dj583FNUcKCRi2djX8tnjHhgo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BY5PR12MB4196.namprd12.prod.outlook.com (2603:10b6:a03:205::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.17; Fri, 20 Dec
+ 2024 13:26:03 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8272.013; Fri, 20 Dec 2024
+ 13:26:02 +0000
+Message-ID: <e366a206-9fa3-4c6b-b307-d48855a7b183@amd.com>
+Date: Fri, 20 Dec 2024 14:25:55 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Document run_job() refcount hazard
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>, Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+References: <20241220124515.93169-2-phasta@kernel.org>
+ <5c4c610e-26ec-447c-b4db-ad38e994720b@amd.com> <Z2VunIJ4ltfW_xqD@pollux>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <Z2VunIJ4ltfW_xqD@pollux>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0127.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:94::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4196:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6b24d59-e84b-4534-8926-08dd20f9d988
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aW1nRk5QeWltaUd3SmZMK280aGR5MHNKaGNZZXN1NzlGYTJNdE9OOXN6MGVj?=
+ =?utf-8?B?N3VycmVKMzdhbW9qK3JYcGVDZDM3MU94ZDN3ZW1NN1FzMlgxUDdiak9Pbm5R?=
+ =?utf-8?B?UUdnOWJJR2hxQWtMK0trYjlFMUZ0L2hxdFhxZDVGc0hzbC9aMXV1QyswTkhD?=
+ =?utf-8?B?L2NBS3B1WVVQSFlxYWdiaDBEVFdUdkZVS09EZ1pLMU00RG91bnR2dnA4QlNT?=
+ =?utf-8?B?dXQ0Q0xUMnBIZTF6OGd0TGQ0NGV5WmpXQ3N3R2JDd0xtTTFvMmRUWFNVaGIv?=
+ =?utf-8?B?WGI4VmVJdDRBVnpwYjIwS3o2TjQ2SkJSbENWZXA1VjNCZFl0S3l0Z2dOMWkx?=
+ =?utf-8?B?ak5NeUhIWHZZMTVoVVlPWlZ4OENVaS83eWdHTzNxR3FiYnJtTkV3NElBUkJi?=
+ =?utf-8?B?dlNsUWIzaDlvamRPeWVNV3V3QXhCOEMrV1QyV3BlTDFQVnJXUUp6MDg5TjYx?=
+ =?utf-8?B?Qy9vdGxXL0Q3RXZSazZxeVcyMG9WY1pRdXNhU1pTSTN2Z25kYmQ0L2FYTWVi?=
+ =?utf-8?B?MkFaTVRtUWNIakNSODFoTnlkVGtmdXh5amt4c1pSZ0NXYU4rNUo5ZUdXczUy?=
+ =?utf-8?B?OGkvTlJSM2NqdFhxOVZ3d1JUQmVBWloyaEl4NnpMMzNDOHJsbHBFZ0t0bkc1?=
+ =?utf-8?B?RmU0elpuWFN4aFhvcFEwZmNQQ0p4WTk1MkN0a1NObS85alk1MTE1Q0ZNQ2NK?=
+ =?utf-8?B?bm5sem5aUVZMYzlOWGkyempyNWxENW9kRVU0VnQ0NUNyOCtwa2JQNGl1VGUy?=
+ =?utf-8?B?ODZwVnJKOTZGYjVSKzhCOUtnQU1MQ2U0YW8yamtsR2IzeFp5SEF1K1BmaFdB?=
+ =?utf-8?B?S3VGSUt3WVYvZTRNYnM3dlRMazd2amh2TlpzdDBPNWNtZk5EbGZ3SmFUbGVS?=
+ =?utf-8?B?S1BuM053MXFja0NJbHV3TnhBZHVUZjMrT0hXb2NiVlR1SGdpZEYzdEZiVnVM?=
+ =?utf-8?B?OUdCdVg4Zjl4OHpBa3E0UWdSNEwwRldKakYwYTY1VHBhelp5ay9yWWI4MERZ?=
+ =?utf-8?B?ZkFuMHplYnk5cHVrcG9BcUpQOFBpOEdJU01VWWFXUGI1QXNFT3E3S3RGWXZD?=
+ =?utf-8?B?Tm81YjBqaVQ0RUViNE1OeUNFUWhqQVI4U0NCbENQNVlmSmduNk9xOXdtYkVJ?=
+ =?utf-8?B?ZjJvY3ZLdzJnUm45c20rbmlUWjhVU3F2ZEtYMWN3Q3hxZ2Y4cDJIM01ncitG?=
+ =?utf-8?B?K0czTW4wSWFGYlR5R0NEYjRJQURUa0lZR1RDc2pyMHFWSW10WUd6ditmL3py?=
+ =?utf-8?B?NDRPdFpXNnp5djlwalR1VmZEekhPT2hvM3d2VGYyTEVYNi9YaHNZRUJETU8w?=
+ =?utf-8?B?ZmRkbE1CQlJEdnJQTnhBYTlNV0RYdUtGRXllTjlISHg4NWVRM1N6Unp4TVQx?=
+ =?utf-8?B?WXU4SXdUTjhTanBVL1N1Zm8yWURQd0R1YStyVlpQMUk3bUpISUV2dDFBR0pB?=
+ =?utf-8?B?ZEtjZEEvL2R5WWRMK3hWOVBnVzJRRmJqN0REY00zNWFaRHhpSGJ6NmZFb1lq?=
+ =?utf-8?B?ZFI1d0VOQ3o3SEwxUTFycGhQekpDV1M4WU1XRHVXTmV0NlhVL0Ird2dhRWM1?=
+ =?utf-8?B?ajF2SlBGSEpsL1Z2bEkvd3BqOThZRWQwdEkrbEpjdWlpam9lbzNHTlZYNUc0?=
+ =?utf-8?B?TTViYkE1VWZGV085b2pSYXAvQm5lRVpvQTlNMHhxNjlmS0hTdHRkaGtUVWJS?=
+ =?utf-8?B?R3JzMm5LRnRWN0xRV0hzWFdVMExZaE1WSlh1MnhwTmJjbkxScXFIVzBhNG1o?=
+ =?utf-8?B?OVpOeGRnUisxbVhDTWhNcjhieHlNdGJEUXUxaVFmNkZ0L1pJT09RUzFnZWs1?=
+ =?utf-8?B?OHMzTzhXRmlPcDA5TXUxdWZBZlBJYzEzSncrWTJjeXVjY0RTa0plaUJndG1v?=
+ =?utf-8?Q?vUT2X+pR6lVJi?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NEdMdmFiVUNBcVFSZ1ppcFdISE1LV3VxRWVEM0xLamlHNGRKVTlQeHpYRERm?=
+ =?utf-8?B?N2N0aEpUYjlhZnkwRGZwUDJIVjJxSkZVVWZkL0FpNmpuK244WHJGODRSbzVk?=
+ =?utf-8?B?MzRnbU11UlFhVEUrd3piZ2MwZHd1YWJlN0VtbWhMUzdJRXErVWFDNUIwQ0l5?=
+ =?utf-8?B?RmV2eFJXQjlJNHhSNHV1bVZqUk1RZjNha2JXeXUyU0lTNFpyTHVRQ1haYzNN?=
+ =?utf-8?B?ZDc1N0Q3VlVvTXQzcXlXWkVZQkE5cU55WHlPU1cxbFBYbW43dk9JNDBVSWtj?=
+ =?utf-8?B?d3ZoVnhEd2U5cW9rK08yYkVpNG9YT1V4ampVNVNhYnQyYWVtZER1Q0F2ZDdN?=
+ =?utf-8?B?cURpNm5XSWxoMFBvVklnQ2N2VXZadWJXaGdkZ3lLU2JCVXdxVTVzNG9JN0J5?=
+ =?utf-8?B?bVhDOEJUMk11c1l1MGZSNTRVUlhOQmtFZDdyLy91WitndGxqQW9EZFlHRzNi?=
+ =?utf-8?B?eEdPMTVidFhTMVhOMTBXV2R4cE84TzlGSnRmOUpJVkRuNit3NkV3Ry9KV1ZH?=
+ =?utf-8?B?ZHhJVDlEai9QUEJZZEhhbnNsY3FteVRCMHZJY2pyRHVZMmd6bW5IU003MCtS?=
+ =?utf-8?B?MnJYYlZPR3AweXJPa3hZSmlYOVVUZFpCbmVsaHYrWjBteXVod1REbTlYS3hF?=
+ =?utf-8?B?bmU0RzRhN3RkWEJNTVovcXFjMjNnTm0wSlNadXVuaFowQVlpK25MUTd3UUNa?=
+ =?utf-8?B?cjhGL05WczRGOWF6TlArV01lbjVCRmdFczVWZklGRVJ3RnFjc0ZLbjBIdjd3?=
+ =?utf-8?B?ZWNiT25ZN2Z5aW96ZC8rR1VhRWRiTTJFbmNncXJ5cFVzakV5TDliTUlRcVo4?=
+ =?utf-8?B?V3BzZm5kU01tSzQ3YkZ4ZWU2UWdmeVV5ckR0VUZycDk3cHlLOU5mUnVCMW9j?=
+ =?utf-8?B?TEQ3aTduSFlySkJBS3JEWDA5dTVJOUZEYWFRTmp5Z3gyancyVHBzTytyOWNW?=
+ =?utf-8?B?OEFZUEEyMG05QmtBcE5CM0dGeEthazYvc3lqSitGRHBuaW9mVEtaSTMwZzJ1?=
+ =?utf-8?B?aWpSdThvMEZ6NXdWNTZtbmQ1TTBUSHUzZ3BndXpEbkI4ekZwa251Q29JQkox?=
+ =?utf-8?B?ZS9HMXZiRWpVaVdQQ1JIQmZQMVg5K01oL3ptTmJ1MlNJUVpDa1lUckdVbnA2?=
+ =?utf-8?B?VGdtc25UYWtsUlVndTg5TzZIQ3hyTnI3YUwxSXZ3OW1rZVRFdzFRUG9uV1dK?=
+ =?utf-8?B?UWRyY3dnUEtuQWZqem1pUm5mVm9IR0Z2NXhQV0wwcnNKV2RnTzU3K2VQSWc4?=
+ =?utf-8?B?RGo3cEllMVRxRmNOd0YxQTRFRlI5bjRqanhVY1pZcVd4bnA2WEpzL0hDZU5Z?=
+ =?utf-8?B?VHUwaVVtWlZQQW1hTHJ5Y04wQXVobnlzNy9qcUdSRm5mdkNlZVF4bkJFdTFQ?=
+ =?utf-8?B?bVJYaXFJNi9DMHFUQndxV2lkb2RaSFFTaVhvTE81NU9saHZNYWNMUm9GSFVU?=
+ =?utf-8?B?eWRUS0FKMW5Iell2aHA1SlRrSmhXY21CUi9pZ0toY2ZYTERrWTA1ZVR2RGZZ?=
+ =?utf-8?B?bERFTmZZaExPMGk5SWpucVJFNlM1TjQ5RGRjaFY3ZkJiVzRpU0Y3Wnc3TXkv?=
+ =?utf-8?B?MlFZRTE0VXdvUDJIUjZCeXBBQkFXaTJWcUdpdjRIMmxyVW45NGtxbnBTbUlI?=
+ =?utf-8?B?cVV1YWhoVXZPbVJDMTBHTkU4a2czZE04aXdPV3FESlBtSXM5ZWIwdmJJL0ZW?=
+ =?utf-8?B?eEExbnc4SzczY3VwNm1tNTZTbjBIOXZvWGtDWGJVbXM5cGJiVGR6ZmRnVFI4?=
+ =?utf-8?B?c2xkSzBLd1dVa3NSVnV2V0wrenpZbWtIS0tJckpKQ3JtR09EQ09DV2xIK0kw?=
+ =?utf-8?B?N2tnUWd6Mk9qeHh2RGdzU09FYjNlMnJMdUM1Z0FnU01vNjBodjlzakx2OEkr?=
+ =?utf-8?B?L2Z5QStGQWRxQzZ3VnBPN0Jycm9NcThqbGhHMjN0V05UYnFmYVcwSnVJbXR3?=
+ =?utf-8?B?cXhIalVnSC94VHkrMk8xcUJTcFhqNEp0eTdEMUxiZEUyOUw1bExwTVJtL1Ay?=
+ =?utf-8?B?RzMzdFB3L2FCUXgrUnRPZCtkbVJJZXJyZGVsbU5Ob2RqYU1xR3ZmalNWTVFh?=
+ =?utf-8?B?bkl3THRwUGdsSzN1WVJia3NqQTZMbGZTZ00wUlkxRFNBWUtCRS94K2tNNHZE?=
+ =?utf-8?Q?Wl+LZ6eLh4q2dbS7bs4kc4OCR?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6b24d59-e84b-4534-8926-08dd20f9d988
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 13:26:02.8120
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6mrXkR8C8xpot+U5DVGj203ZZQVjVAwP+fX4QXX0SWZiisM67YGEmAO72kl04F5w
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4196
 
-Document the binning and scaling controls (V4L2_CID_BINNING and
-V4L2_CID_SUBSAMPLING_{HORIZONTAL,VERTICAL}) in the common raw sensor
-model.
+Am 20.12.24 um 14:18 schrieb Danilo Krummrich:
+> On Fri, Dec 20, 2024 at 01:53:34PM +0100, Christian König wrote:
+>> Am 20.12.24 um 13:45 schrieb Philipp Stanner:
+>>> From: Philipp Stanner <pstanner@redhat.com>
+>>>
+>>> drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
+>>> That fence is signalled by the driver once the hardware completed the
+>>> associated job. The scheduler does not increment the reference count on
+>>> that fence, but implicitly expects to inherit this fence from run_job().
+>>>
+>>> This is relatively subtle and prone to misunderstandings.
+>>>
+>>> This implies that, to keep a reference for itself, a driver needs to
+>>> call dma_fence_get() in addition to dma_fence_init() in that callback.
+>>>
+>>> It's further complicated by the fact that the scheduler even decrements
+>>> the refcount in drm_sched_run_job_work() since it created a new
+>>> reference in drm_sched_fence_scheduled(). It does, however, still use
+>>> its pointer to the fence after calling dma_fence_put() - which is safe
+>>> because of the aforementioned new reference, but actually still violates
+>>> the refcounting rules.
+>>>
+>>> Improve the explanatory comment for that decrement.
+>>>
+>>> Move the call to dma_fence_put() to the position behind the last usage
+>>> of the fence.
+>>>
+>>> Document the necessity to increment the reference count in
+>>> drm_sched_backend_ops.run_job().
+>>>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+>>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
+>>>    include/drm/gpu_scheduler.h            | 20 ++++++++++++++++----
+>>>    2 files changed, 23 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>>> index 7ce25281c74c..d6f8df39d848 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>> +	 *
+>>> +	 * @sched_job: the job to run
+>>> +	 *
+>>> +	 * Returns: dma_fence the driver must signal once the hardware has
+>>> +	 *	completed the job ("hardware fence").
+>>> +	 *
+>>> +	 * Note that the scheduler expects to 'inherit' its own reference to
+>>> +	 * this fence from the callback. It does not invoke an extra
+>>> +	 * dma_fence_get() on it. Consequently, this callback must return a
+>>> +	 * fence whose refcount is at least 2: One for the scheduler's
+>>> +	 * reference returned here, another one for the reference kept by the
+>>> +	 * driver.
+>> Well the driver actually doesn't need any extra reference. The scheduler
+>> just needs to guarantee that this reference isn't dropped before it is
+>> signaled.
+> I think he means the reference the driver's fence context has to have in order
+> to signal that thing eventually.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../media/v4l/subdev-config-model.rst         | 20 ++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+Yeah, but this is usually a weak reference. IIRC most drivers don't 
+increment the reference count for the reference they keep to signal a fence.
 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-index f15e5495cc34..84957dc62800 100644
---- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-@@ -113,8 +113,12 @@ separately horizontally and vertically.
- 
- Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE``
- rectangle, relative to the analogue crop rectangle, on (pad, stream) pair
--1/0. The driver implementation determines how to configure binning and
--sub-sampling to achieve the desired size.
-+1/0. It depends on the driver which of these operations are being used to
-+achieve the resulting size. Binning and sub-sampling are also directly
-+configured using :ref:`V4L2_CID_BINNING_FACTORS
-+<v4l2-cid-camera-sensor-binning>` and :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
-+V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>` controls on
-+drivers that support them.
- 
- The digital crop operation takes place after binning and sub-sampling. It is
- configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
-@@ -173,9 +177,15 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
-       - \-
-       - X
-       - Binning and sub-sampling. This rectangle is relative to the
--        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). The
--        combination of binning and sub-sampling is configured using this
--        selection target.
-+        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). Binning is
-+        configured using the :ref:`V4L2_CID_BINNING_FACTORS
-+        <v4l2-cid-camera-sensor-binning>` control and sub-sampling is configured
-+        using the :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
-+        V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>`
-+        controls on drivers that support these controls. To configure binning
-+        and sub-sampling on drivers that do not support these controls, the
-+        selection rectangle may be changed directly to configure the combined
-+        effect on the image size.
-     * - 2/0
-       - Format
-       - X
--- 
-2.39.5
+It's expected that the consumers of the dma_fence keep the fence alive 
+at least until it is signaled. That's why we have this nice warning in 
+dma_fence_release().
+
+On the other hand I completely agree it would be more defensive if 
+drivers increment the reference count for the reference they keep for 
+signaling.
+
+So if we want to document that the fence reference count should at least 
+be 2 we somehow need to enforce this with a warning for example.
+
+Regards,
+Christian.
+
+
+
+>
+>> Regards,
+>> Christian.
+>>
+>>>    	 */
+>>>    	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
 
 
