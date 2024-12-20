@@ -1,53 +1,52 @@
-Return-Path: <linux-media+bounces-23898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23900-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45A29F933F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:30:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BB79F932D
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 14:28:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 333501899889
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:27:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9CB0F16CE71
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 13:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E80B2165FA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC7AC217714;
 	Fri, 20 Dec 2024 13:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djyFRx2C"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jBWoDBks"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87902153E9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263E021638F;
 	Fri, 20 Dec 2024 13:26:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734701193; cv=none; b=DBG5qZa984jzPaDrSKFdNjrL8G7y7Y5GUkFXeDuC9FN3vI7RMFFIO8V0yCBgE2IvxytMwvEEi3gIuA2h9mhuX7K3iIZEvyQo7yQidRvuV5a/8mPu5vbtMIyC6N34tA0R9F1dfuK3DvtMjKzqOwr55eVoBEjEjcrnW+zEIxKVo9g=
+	t=1734701194; cv=none; b=JcaiFMPaKWxscK94oDJ+ZlRob1BfCwqwIV9Ode2xeh0Shm+BWZ2ZKQd9lZKm6+HyScgZSc3i1xzcI0FAHUKmEnuAZC/qbkiOf0Qoq1pGU0GF9EOFR2Y0iiM9sR5IkWry9u2vkffrMpFi/vC3pyF4H1H5cj6fXiZJyWbjSHLOCIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734701193; c=relaxed/simple;
-	bh=gsHp8x3rZPFbbVXat+AkjIIGNsSe4fQXvwGDypL8V4A=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lavj404zbNgU2c2+nSfoTlDkXaPzHCYbMzgCwCv89bpkPNZNnTX8z7XKB6LwDy3HmT3EJt/oNYjtLIRV2lesMX4+HIXHn4rWrqspV3Pwa/Gj0OGjdlUgMvmuXJDLlCFTNUX+qACMtcsUWivpdrpiwRZ3OauC4cMRMCa0ULEH6hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djyFRx2C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9DF93C4CECD;
+	s=arc-20240116; t=1734701194; c=relaxed/simple;
+	bh=H+KBxXZjPd9VZdEYn0vO1XoUkq1rYO7rdU/RDr0VXBs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=fWuG6yaA5cNcPWzn00orSTnGjVylAFRD1mS9PYujV4kNkVtqiSooNaBCzdWitY6N9KzYDpCqa6FgLfX+QycCVpjJ3JFT4Xj6D5aMOOBiImC56jN1Fsx30Pc2WIAEO7R5cbxzbv15gLOIUSnwRg9Uyr4AVaGXdpzOeLpgOmZ9Ze8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jBWoDBks; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B7295C4AF09;
 	Fri, 20 Dec 2024 13:26:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1734701193;
-	bh=gsHp8x3rZPFbbVXat+AkjIIGNsSe4fQXvwGDypL8V4A=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=djyFRx2CmUSI8SHzpb9b/9L4+YgpWnrZZHaBGO6LUpppgZTx8+otiTRVmu8EgkeH1
-	 o4bqH3DIKBEpZQjQoNb0A50nt034PR0EYMQ8+xdh8u+bT3iuWP1gbymwLSMIawZCV3
-	 aJV6MrbqcBF/p+rZKpqAc2YdZ9PKicgU+H0ZKyeQKAYgpxK5Jv8953WJ9Zt4hhABiP
-	 3c8N9GrZoIFfthtS+yM/aAJXmgpB9Ft3CYScFFL61kfbPwZEoD2vFXb5h3edALKJF0
-	 74mmeuMskcPrDe38eoDyTUEqNw30wEWyRT3QfM8eOxKbMxnTnikxcVFnLNtrwpkvl5
-	 b2bkruKyD6B/g==
+	bh=H+KBxXZjPd9VZdEYn0vO1XoUkq1rYO7rdU/RDr0VXBs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=jBWoDBks4rxEOumHc3rDCD/x2YrlexjEW3Em9JVFHpvkzH0oeSssxRc/0Zh9mxWOh
+	 SmjMV7qRzuBolYMAWnvlEHalL3c1Fq3r93Ud6COYFDJmlZNqx8hyMNsbQ2ofxOYJ6W
+	 rc8ylkDrbmFxjdvpn8RBDIORDu/aWvVyYHydbIVtzlgWbV0vc8cpbIoxFwPJ7HZtgp
+	 RNcRct4BNYyVz21aKOqMI3gLCZ5lrtRfscF7GfQf/MBABoBdGnmM3p4YdMW44cNQae
+	 mdcK2SRGpqOqdQKTQdqA5utJlLrmbBebXu6ynrZoWvjmMjSm3VMPbB1Vd7zHhtAs0K
+	 wlPPjZ9kh9lew==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 900B9E77188;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A64A1E7718B;
 	Fri, 20 Dec 2024 13:26:33 +0000 (UTC)
 From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Subject: [PATCH v6 00/13] media: i2c: imx214: Miscellaneous cleanups and
- improvements
-Date: Fri, 20 Dec 2024 14:25:59 +0100
-Message-Id: <20241220-imx214-v6-0-d90a185d82e5@apitzsch.eu>
+Date: Fri, 20 Dec 2024 14:26:00 +0100
+Subject: [PATCH v6 01/13] media: i2c: imx214: Use subdev active state
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,12 +55,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAGdwZWcC/23NS24CMRAE0Ksgr+PI3f5nlXugLPxpZ7wIoDGMS
- NDcPYaIARSW1epXdWKNxkqNva1ObKSptrrd9GBeViwNYfNJvOaeGQpUwoHj9euIoLiTqKxTyUY
- i1p93I5V6vBStP3oeattvx+9L7wTn61+FF3itmIALnrxJMXjnJej3sKv7n5aGVzqwc8mECwSBs
- EDssMSMkrzXCug/lDeIwi5QdhiiEaFYIv9sUd1BMAtUHboUcwAjSkxPFvU9vC3qDqWzRWPIVFR
- +hPM8/wIahqqCggEAAA==
-X-Change-ID: 20240818-imx214-8324784c7bee
+Message-Id: <20241220-imx214-v6-1-d90a185d82e5@apitzsch.eu>
+References: <20241220-imx214-v6-0-d90a185d82e5@apitzsch.eu>
+In-Reply-To: <20241220-imx214-v6-0-d90a185d82e5@apitzsch.eu>
 To: Ricardo Ribalda <ribalda@kernel.org>, 
  Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -69,14 +65,13 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
  Vincent Knecht <vincent.knecht@mailoo.org>, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
- Ricardo Ribalda <ribalda@chromium.org>
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1734701191; l=3709;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734701191; l=9658;
  i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=gsHp8x3rZPFbbVXat+AkjIIGNsSe4fQXvwGDypL8V4A=;
- b=kpP/ESFAgb8Wb0hMNM857ZPboqwkgLMvplwHkTBM8Rb1m0q2a18F3IlcqCADtpSgIFqb7yRce
- jShhJ8lEdaqAcuBx39G7csE7xws9Svzg9y2iyX/CI6papvOoGVPaJoa
+ bh=3Sc6jLmHaRqTfWvya/hUi0fNJHx3PZb183+/a/z3ROM=;
+ b=iA3Kk/VT+AJ4yN9nrK0X6InpO0Fvxn8VyH2eUiRkGwz3qaNW50pIFrz1OvH+Qjdthuck2XuzQ
+ PrAthKmYfyKClUwf7vWTBmdWaxUHKKTWS6gxGCb7XQCaXQIcwd47tw2
 X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
  pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
 X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
@@ -84,97 +79,318 @@ X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
 X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 Reply-To: git@apitzsch.eu
 
-This patch series is a collection of miscellaneous cleanups and
-improvements to the imx214 driver.
+From: André Apitzsch <git@apitzsch.eu>
 
-The series converts the driver to the CCI helpers and adds controls
-needed to make the driver work with libcamera.
+Port the imx214 sensor driver to use the subdev active state.
 
-The changes are inspired by the imx219 driver.
+Move all the format configuration to the subdevice state and simplify
+the format handling, locking and initialization.
+
+While at it, simplify imx214_start_streaming() by removing unneeded goto
+statements and the corresponding error label.
 
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
-Changes in v6:
-- Make series bisectable
-- Add A-b tag
-- Link to v5: https://lore.kernel.org/r/20241217-imx214-v5-0-387f52adef4d@apitzsch.eu
+ drivers/media/i2c/imx214.c | 154 +++++++++++++++------------------------------
+ 1 file changed, 49 insertions(+), 105 deletions(-)
 
-Changes in v5:
-- Remove cur_mode field
-- Link to v4: https://lore.kernel.org/r/20241216-imx214-v4-0-8cbda160fbce@apitzsch.eu
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index 4962cfe7c83d62425aeccb46a400fa93146f14ea..646a25d9d3767c4c537fba47a5972269208150ee 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -59,8 +59,6 @@ struct imx214 {
+ 
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+-	struct v4l2_mbus_framefmt fmt;
+-	struct v4l2_rect crop;
+ 
+ 	struct v4l2_ctrl_handler ctrls;
+ 	struct v4l2_ctrl *pixel_rate;
+@@ -71,12 +69,6 @@ struct imx214 {
+ 	struct regulator_bulk_data	supplies[IMX214_NUM_SUPPLIES];
+ 
+ 	struct gpio_desc *enable_gpio;
+-
+-	/*
+-	 * Serialize control access, get/set format, get selection
+-	 * and start streaming.
+-	 */
+-	struct mutex mutex;
+ };
+ 
+ struct reg_8 {
+@@ -490,6 +482,22 @@ static int __maybe_unused imx214_power_off(struct device *dev)
+ 	return 0;
+ }
+ 
++static void imx214_update_pad_format(struct imx214 *imx214,
++				     const struct imx214_mode *mode,
++				     struct v4l2_mbus_framefmt *fmt, u32 code)
++{
++	fmt->code = IMX214_MBUS_CODE;
++	fmt->width = mode->width;
++	fmt->height = mode->height;
++	fmt->field = V4L2_FIELD_NONE;
++	fmt->colorspace = V4L2_COLORSPACE_SRGB;
++	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
++	fmt->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
++							  fmt->colorspace,
++							  fmt->ycbcr_enc);
++	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
++}
++
+ static int imx214_enum_mbus_code(struct v4l2_subdev *sd,
+ 				 struct v4l2_subdev_state *sd_state,
+ 				 struct v4l2_subdev_mbus_code_enum *code)
+@@ -549,52 +557,6 @@ static const struct v4l2_subdev_core_ops imx214_core_ops = {
+ #endif
+ };
+ 
+-static struct v4l2_mbus_framefmt *
+-__imx214_get_pad_format(struct imx214 *imx214,
+-			struct v4l2_subdev_state *sd_state,
+-			unsigned int pad,
+-			enum v4l2_subdev_format_whence which)
+-{
+-	switch (which) {
+-	case V4L2_SUBDEV_FORMAT_TRY:
+-		return v4l2_subdev_state_get_format(sd_state, pad);
+-	case V4L2_SUBDEV_FORMAT_ACTIVE:
+-		return &imx214->fmt;
+-	default:
+-		return NULL;
+-	}
+-}
+-
+-static int imx214_get_format(struct v4l2_subdev *sd,
+-			     struct v4l2_subdev_state *sd_state,
+-			     struct v4l2_subdev_format *format)
+-{
+-	struct imx214 *imx214 = to_imx214(sd);
+-
+-	mutex_lock(&imx214->mutex);
+-	format->format = *__imx214_get_pad_format(imx214, sd_state,
+-						  format->pad,
+-						  format->which);
+-	mutex_unlock(&imx214->mutex);
+-
+-	return 0;
+-}
+-
+-static struct v4l2_rect *
+-__imx214_get_pad_crop(struct imx214 *imx214,
+-		      struct v4l2_subdev_state *sd_state,
+-		      unsigned int pad, enum v4l2_subdev_format_whence which)
+-{
+-	switch (which) {
+-	case V4L2_SUBDEV_FORMAT_TRY:
+-		return v4l2_subdev_state_get_crop(sd_state, pad);
+-	case V4L2_SUBDEV_FORMAT_ACTIVE:
+-		return &imx214->crop;
+-	default:
+-		return NULL;
+-	}
+-}
+-
+ static int imx214_set_format(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *sd_state,
+ 			     struct v4l2_subdev_format *format)
+@@ -604,34 +566,20 @@ static int imx214_set_format(struct v4l2_subdev *sd,
+ 	struct v4l2_rect *__crop;
+ 	const struct imx214_mode *mode;
+ 
+-	mutex_lock(&imx214->mutex);
+-
+-	__crop = __imx214_get_pad_crop(imx214, sd_state, format->pad,
+-				       format->which);
+-
+ 	mode = v4l2_find_nearest_size(imx214_modes,
+ 				      ARRAY_SIZE(imx214_modes), width, height,
+ 				      format->format.width,
+ 				      format->format.height);
+ 
+-	__crop->width = mode->width;
+-	__crop->height = mode->height;
+-
+-	__format = __imx214_get_pad_format(imx214, sd_state, format->pad,
+-					   format->which);
+-	__format->width = __crop->width;
+-	__format->height = __crop->height;
+-	__format->code = IMX214_MBUS_CODE;
+-	__format->field = V4L2_FIELD_NONE;
+-	__format->colorspace = V4L2_COLORSPACE_SRGB;
+-	__format->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(__format->colorspace);
+-	__format->quantization = V4L2_MAP_QUANTIZATION_DEFAULT(true,
+-				__format->colorspace, __format->ycbcr_enc);
+-	__format->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(__format->colorspace);
++	imx214_update_pad_format(imx214, mode, &format->format,
++				 format->format.code);
++	__format = v4l2_subdev_state_get_format(sd_state, 0);
+ 
+-	format->format = *__format;
++	*__format = format->format;
+ 
+-	mutex_unlock(&imx214->mutex);
++	__crop = v4l2_subdev_state_get_crop(sd_state, 0);
++	__crop->width = mode->width;
++	__crop->height = mode->height;
+ 
+ 	return 0;
+ }
+@@ -640,14 +588,9 @@ static int imx214_get_selection(struct v4l2_subdev *sd,
+ 				struct v4l2_subdev_state *sd_state,
+ 				struct v4l2_subdev_selection *sel)
+ {
+-	struct imx214 *imx214 = to_imx214(sd);
+-
+ 	switch (sel->target) {
+ 	case V4L2_SEL_TGT_CROP:
+-		mutex_lock(&imx214->mutex);
+-		sel->r = *__imx214_get_pad_crop(imx214, sd_state, sel->pad,
+-						sel->which);
+-		mutex_unlock(&imx214->mutex);
++		sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
+ 		return 0;
+ 
+ 	case V4L2_SEL_TGT_NATIVE_SIZE:
+@@ -826,40 +769,35 @@ static int imx214_write_table(struct imx214 *imx214,
+ 
+ static int imx214_start_streaming(struct imx214 *imx214)
+ {
++	const struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_subdev_state *state;
+ 	const struct imx214_mode *mode;
+ 	int ret;
+ 
+-	mutex_lock(&imx214->mutex);
+ 	ret = imx214_write_table(imx214, mode_table_common);
+ 	if (ret < 0) {
+ 		dev_err(imx214->dev, "could not sent common table %d\n", ret);
+-		goto error;
++		return ret;
+ 	}
+ 
+-	mode = v4l2_find_nearest_size(imx214_modes,
+-				ARRAY_SIZE(imx214_modes), width, height,
+-				imx214->fmt.width, imx214->fmt.height);
++	state = v4l2_subdev_get_locked_active_state(&imx214->sd);
++	fmt = v4l2_subdev_state_get_format(state, 0);
++	mode = v4l2_find_nearest_size(imx214_modes, ARRAY_SIZE(imx214_modes),
++				      width, height, fmt->width, fmt->height);
+ 	ret = imx214_write_table(imx214, mode->reg_table);
+ 	if (ret < 0) {
+ 		dev_err(imx214->dev, "could not sent mode table %d\n", ret);
+-		goto error;
++		return ret;
+ 	}
+ 	ret = __v4l2_ctrl_handler_setup(&imx214->ctrls);
+ 	if (ret < 0) {
+ 		dev_err(imx214->dev, "could not sync v4l2 controls\n");
+-		goto error;
++		return ret;
+ 	}
+ 	ret = regmap_write(imx214->regmap, IMX214_REG_MODE_SELECT, IMX214_MODE_STREAMING);
+-	if (ret < 0) {
++	if (ret < 0)
+ 		dev_err(imx214->dev, "could not sent start table %d\n", ret);
+-		goto error;
+-	}
+ 
+-	mutex_unlock(&imx214->mutex);
+-	return 0;
+-
+-error:
+-	mutex_unlock(&imx214->mutex);
+ 	return ret;
+ }
+ 
+@@ -877,6 +815,7 @@ static int imx214_stop_streaming(struct imx214 *imx214)
+ static int imx214_s_stream(struct v4l2_subdev *subdev, int enable)
+ {
+ 	struct imx214 *imx214 = to_imx214(subdev);
++	struct v4l2_subdev_state *state;
+ 	int ret;
+ 
+ 	if (enable) {
+@@ -884,7 +823,9 @@ static int imx214_s_stream(struct v4l2_subdev *subdev, int enable)
+ 		if (ret < 0)
+ 			return ret;
+ 
++		state = v4l2_subdev_lock_and_get_active_state(subdev);
+ 		ret = imx214_start_streaming(imx214);
++		v4l2_subdev_unlock_state(state);
+ 		if (ret < 0)
+ 			goto err_rpm_put;
+ 	} else {
+@@ -948,7 +889,7 @@ static const struct v4l2_subdev_pad_ops imx214_subdev_pad_ops = {
+ 	.enum_mbus_code = imx214_enum_mbus_code,
+ 	.enum_frame_size = imx214_enum_frame_size,
+ 	.enum_frame_interval = imx214_enum_frame_interval,
+-	.get_fmt = imx214_get_format,
++	.get_fmt = v4l2_subdev_get_fmt,
+ 	.set_fmt = imx214_set_format,
+ 	.get_selection = imx214_get_selection,
+ 	.get_frame_interval = imx214_get_frame_interval,
+@@ -1083,9 +1024,6 @@ static int imx214_probe(struct i2c_client *client)
+ 	if (ret < 0)
+ 		goto error_power_off;
+ 
+-	mutex_init(&imx214->mutex);
+-	imx214->ctrls.lock = &imx214->mutex;
+-
+ 	imx214->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	imx214->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	imx214->sd.dev = &client->dev;
+@@ -1097,20 +1035,27 @@ static int imx214_probe(struct i2c_client *client)
+ 		goto free_ctrl;
+ 	}
+ 
+-	imx214_entity_init_state(&imx214->sd, NULL);
++	imx214->sd.state_lock = imx214->ctrls.lock;
++	ret = v4l2_subdev_init_finalize(&imx214->sd);
++	if (ret < 0) {
++		dev_err(dev, "subdev init error: %d\n", ret);
++		goto free_entity;
++	}
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&imx214->sd);
+ 	if (ret < 0) {
+ 		dev_err(dev, "could not register v4l2 device\n");
+-		goto free_entity;
++		goto error_subdev_cleanup;
+ 	}
+ 
+ 	return 0;
+ 
++error_subdev_cleanup:
++	v4l2_subdev_cleanup(&imx214->sd);
++
+ free_entity:
+ 	media_entity_cleanup(&imx214->sd.entity);
+ free_ctrl:
+-	mutex_destroy(&imx214->mutex);
+ 	v4l2_ctrl_handler_free(&imx214->ctrls);
+ error_power_off:
+ 	pm_runtime_disable(imx214->dev);
+@@ -1125,13 +1070,12 @@ static void imx214_remove(struct i2c_client *client)
+ 	struct imx214 *imx214 = to_imx214(sd);
+ 
+ 	v4l2_async_unregister_subdev(&imx214->sd);
++	v4l2_subdev_cleanup(sd);
+ 	media_entity_cleanup(&imx214->sd.entity);
+ 	v4l2_ctrl_handler_free(&imx214->ctrls);
+ 
+ 	pm_runtime_disable(&client->dev);
+ 	pm_runtime_set_suspended(&client->dev);
+-
+-	mutex_destroy(&imx214->mutex);
+ }
+ 
+ static const struct of_device_id imx214_of_match[] = {
 
-Changes in v4:
-- Drop function name from dev error message
-- Initialize *format to fix compile error
-- Improve comment "Update {FPS -> blank} limit"
-- Improve code formatting
-- Warn once on usage of frame_interval functions
-- Fix commit message
-- Add patch to fix clock handling on probe error or remove
-- Warn if number of DT provided link frequencies != 1
-- Add A-b tags
-- Link to v3: https://lore.kernel.org/r/20241207-imx214-v3-0-ab60af7ee915@apitzsch.eu
-
-Changes in v3:
-- Also keep previous link freq for backward compatibility
-- Move link freq patch to the end of the series
-- Remove return-early check from imx214_set_format()
-- Remove unneeded struct imx214 function parameter
-- Use correct ret value on number of data lanes error
-- Revert changing order (imx214_parse_fwnode, devm_kzalloc)
-- Fix typo
-- Remove unused definition IMX214_EXPOSURE_MAX
-- Don't set FPS to default
-- Simplify exposure_def definition
-- Set state and format only if control id is V4L2_CID_VBLANK
-- Restore Ricardo's message to Sony
-- Drop "media: i2c: imx214: Extract format and crop settings" patch
-- Add A-b tag
-- Link to v2: https://lore.kernel.org/r/20241021-imx214-v2-0-fbd23e99541e@apitzsch.eu
-
-Changes in v2:
-- Add patch to fix link frequency
-- Don't use and remove fmt and crop from struct imx214
-- Squash patch 1/13 and 2/13
-- Only check if #lanes == 4
-- Add comment that enum_frame_interval() shouldn't be used by userspace
-- Set V4L2_CID_VBLANK step size to 2 (according to datasheet Table 4-4)
-- Increase IMX214_VBLANK_MIN to limit max frame rate of full resolution
-  to the documented 30 fps
-- As bpp is always 10, simplify setting IMX214_REG_CSI_DATA_FORMAT and
-  IMX214_REG_OPPXCK_DIV
-- Simplify imx214_get_format_code()
-- Cluster hflip and vflip
-- Remove kernel log note from 11/13, issue was fixed by a kernel update
-- Add A-b tags
-- Link to v1: https://lore.kernel.org/r/20240902-imx214-v1-0-c96cba989315@apitzsch.eu
-
----
-André Apitzsch (13):
-      media: i2c: imx214: Use subdev active state
-      media: i2c: imx214: Simplify with dev_err_probe()
-      media: i2c: imx214: Convert to CCI register access helpers
-      media: i2c: imx214: Replace register addresses with macros
-      media: i2c: imx214: Drop IMX214_REG_EXPOSURE from mode reg arrays
-      media: i2c: imx214: Check number of lanes from device tree
-      media: i2c: imx214: Add vblank and hblank controls
-      media: i2c: imx214: Implement vflip/hflip controls
-      media: i2c: imx214: Add analogue/digital gain control
-      media: i2c: imx214: Verify chip ID
-      media: i2c: imx214: Add test pattern control
-      media: i2c: imx214: Fix clock handling on probe error or remove
-      media: i2c: imx214: Fix link frequency validation
-
- drivers/media/i2c/Kconfig  |    1 +
- drivers/media/i2c/imx214.c | 1265 ++++++++++++++++++++++++++------------------
- 2 files changed, 752 insertions(+), 514 deletions(-)
----
-base-commit: 62f608176a46b6a794725022101d0d7f42faedb9
-change-id: 20240818-imx214-8324784c7bee
-
-Best regards,
 -- 
-André Apitzsch <git@apitzsch.eu>
+2.47.1
 
 
 
