@@ -1,149 +1,89 @@
-Return-Path: <linux-media+bounces-23953-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23955-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1F09F966B
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 17:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F62C9F968E
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 17:28:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B961D1893135
-	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 16:24:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6943C189524C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Dec 2024 16:26:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8495E21E082;
-	Fri, 20 Dec 2024 16:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B76621A42A;
+	Fri, 20 Dec 2024 16:25:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Jk/K4z8/"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="TrodR7Cv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE40321D00D
-	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 16:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65796219A9B
+	for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 16:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734711704; cv=none; b=iOEWUf2jLaidlx8yKTKB1G1uDY95G/oda4ohG6eMUTYgvQ5x8iYkSi+RxkL051ID3Kd9nmFnMTyP12DT/finS253j7whK0PV+SEk1eod1bebS3S1H0RldWSTnIH52aywNUk5HCXsURK+kmH3QNw48fXBqe8dyVnQdEMFRspidYY=
+	t=1734711899; cv=none; b=OdCosYUK0OKJFTY5W4qINfey2grva/C8FTDHlFhLFkpOZk8EFyb//NC1sjfqaRNhkhBT9ekq/8h8Un8PP8GaSCfV/5y8GBV2pR6SOQ5e5fkqHbilBx7VvKsFvr5z/eImACZsssNWNK+MvQMS0ISEuo1P+3hQm2pldkAYVRkhMIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734711704; c=relaxed/simple;
-	bh=lP5fUIxnwfA9TrVj9PxAP3nMhg0Xse1CCwTK/R9Ub5Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bJfW0RQNeAU1rnCeTRKf92quck6iSydEPhTUNug0Yh1gp2loP5LSZ6oN3U/m8e9YyKt8MeNHrTvNTde7uDEEzPdo63ERfHG9RFPqNdw82du9/2G7/j+V2dYI7KR4wqkGBhXPl8qQ6OAiasgUDL7q2MLmg2WdCe8BRdPhupf+nIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Jk/K4z8/; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361fe642ddso21101915e9.2
-        for <linux-media@vger.kernel.org>; Fri, 20 Dec 2024 08:21:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1734711701; x=1735316501; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=av9B4J24iSkn+3gVD9YhMsMCbMdNI6QkecYKJAVC1Bg=;
-        b=Jk/K4z8/VO6btyAfWwYJhGJCeLrSB8ZzvmSYN7b8BdnaGH/lQI4LgumXcEQSjUoE1S
-         gP62wQTcNrJRAV0Js3cXRAhGZgmJU6sbHsg/pNmvJfvi/3CKftvy894bIfk6BGae2r65
-         jdsDp6O6DCDIq+4N9qOaOd5JkdhSyQoVbYIJY8Je2HJi+0+dFHBeGJRXagZlYe86bWrg
-         9LzFCwkC+I8ZOoDCUOiVUrLrMiBsYkwPWHMUOzAFUfFH4TQjoSNlAe54AQQgyf8SreKs
-         j8yEcKPXHYJ+LYAwvyw+gcisYeUMSpqr2w0kcBYgqGnO0XieCCQECQVmnWFfhBdyyKtf
-         iFVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734711701; x=1735316501;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=av9B4J24iSkn+3gVD9YhMsMCbMdNI6QkecYKJAVC1Bg=;
-        b=nIhkYK7djuhc/JDrXyrJkzv1MHIOcHis5C5yUY/tyXld5sXIxA5y8V2uEbEtXbudNT
-         BpNtozR4zMyShiE3UT72+q9xCiLi9xvnIFqHNDkLiy0GFP58TtDxpeukR0uUZsyVFpy6
-         koCxk5ktWuhQnr3cmuUK86nrRs7LJjNwNDQ3wLtemBy+5AHpaoSwCHeQG7BodeopQOHs
-         J2zOQdn84VGDxkg9C4UhAVt2sMqBSruTi25BPA9/ja+AHjFiHyalFr5Dany9sBmpZhtG
-         gz9hyBfBtb7fF7LBvnynt3R2ihQkNwOR/JOkh6iLchJL4if7+MUzejmXOjt1z8YcWhXM
-         KU/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVURIFkRm72S6SxeGsIHWEXdhxGLRpcXY4vH3+fileXg3aSbhp03taq305hjnnFinuNb54nbMaLwydx9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfHoPoARUUJ3hZbyHKZjLPc3PEEIk2nxOGaeURoGrwCGJR/ABC
-	BPA2MulH3LdC2MGZ7bv3TDg5liS32KT6G5ez9uk0EPUJt9YUFye6/OpFcCyxESg=
-X-Gm-Gg: ASbGnctQ8DSv4n5tlC2lh52A1BQfZBK8OuLvakf5ru+njOAhWR+Simwm/E6e1VQ6CwN
-	QcqmbimdooGPHDZ6qNf8mG0Ohkn/FWwKJ4eJY/bfw/scsg/BiW/Pdjmm6A1Hv9h2JBVGpjO2bHX
-	01jrOVqfXRE26bUFvWYF07P9sI7S6N1dTPIp/H/oLNj0W4B8KTBPMYXkDex06kpIgq7lllTV98C
-	jOYKgKVSHm+sJR93QL25ALJSdNG8xgTwzAwL6tRIDO31ta2
-X-Google-Smtp-Source: AGHT+IHg6VTmT54UYl9JM2Jsfkok9cq3oZeEbcD5pJ5HR0oeS3QenygH1VZpwXBGmdab27CtHTitYQ==
-X-Received: by 2002:a05:600c:35c1:b0:434:a94f:f8a9 with SMTP id 5b1f17b1804b1-43668b7873emr26854825e9.28.1734711700897;
-        Fri, 20 Dec 2024 08:21:40 -0800 (PST)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-43656b013e1sm82824045e9.12.2024.12.20.08.21.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Dec 2024 08:21:40 -0800 (PST)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 20 Dec 2024 16:21:18 +0000
-Subject: [PATCH 7/7] arm: dts: bcm2711-rpi: Add HEVC decoder node
+	s=arc-20240116; t=1734711899; c=relaxed/simple;
+	bh=+koUnLpli7PR7cJbF8A7ocRYfKQB6ffbbyeZh3vkCb0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=KXc5Oj/gkBAYcUBFEcdHU8AmWOtJFnRDFzJB/4+LEeXyFhjRzYi3YFIJWSWeTauCLwZdkcph/0U0K4hUSH0KgIpMRBA/lOT5uBN2RLe/LUTcHwxMAbavFlWjUQgzbCPE44wpI/O83piUltBPIuOqqJozQWs8/MpIVHcAMLOuAQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=TrodR7Cv; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=wHobf1N4RHGlJIwFfBQJGo52hGx6OuctfjjSkJkCbOw=; b=TrodR7CvLExBmFqjZxijl4HEao
+	Et6WKu8My43K9zM+cqUPi6ml+haNJbQPbZUJ7wNonyzzDwInsSdjGhfl0ZJCv4HPxJ5zkeAuXYBEr
+	xTo+IZWqnb6p07V92L9hLZgl9uK4ob2g3+4jh1JA1vIzexbaWj4YQQGrEcfHV8tAJ83IAqxqtgfg5
+	HY6PJUftLZ0LE2xEhqFpuPTUSVx35tO9sZ2vV/UtD3dQbE7sPb7dGFoJtPz0hKsV8FDNvO4fxLXcx
+	2GwJBr5BZefu1HSCEWuoKHOvoKTpLIc/ygwwZhIsRcEe9vnr+Luc+ddhlE7xhQZw0OpcVTiF0C+NK
+	JyZ3wAWQ==;
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1tOfo9-0004Hx-15;
+	Fri, 20 Dec 2024 16:24:57 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+	by slave0 with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1tOfo8-00D8ak-2B;
+	Fri, 20 Dec 2024 16:24:57 +0000
+From: Jenkins <jenkins@linuxtv.org>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: builder@linuxtv.org
+Subject: Re: [GIT PULL FOR 6.14] Qualcomm IRIS decoder (#106283)
+Date: Fri, 20 Dec 2024 16:24:55 +0000
+Message-Id: <20241220162455.3131281-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241220153945.mbjvw6r23tdw6z5r@basti-XPS-13-9310>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241220-media-rpi-hevc-dec-v1-7-0ebcc04ed42e@raspberrypi.com>
-References: <20241220-media-rpi-hevc-dec-v1-0-0ebcc04ed42e@raspberrypi.com>
-In-Reply-To: <20241220-media-rpi-hevc-dec-v1-0-0ebcc04ed42e@raspberrypi.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- John Cox <john.cox@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>, 
- review list <kernel-list@raspberrypi.com>, 
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: John Cox <jc@kynesim.co.uk>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-X-Mailer: b4 0.14.1
+Content-Transfer-Encoding: 8bit
 
-Add the configuration information for the HEVC decoder.
+From: builder@linuxtv.org
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi | 5 +++++
- arch/arm/boot/dts/broadcom/bcm2711.dtsi     | 9 +++++++++
- 2 files changed, 14 insertions(+)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20241220153945.mbjvw6r23tdw6z5r@basti-XPS-13-9310/
+Build log: https://builder.linuxtv.org/job/patchwork/409523/
+Build time: 00:41:41
+Link: https://lore.kernel.org/linux-media/20241220153945.mbjvw6r23tdw6z5r@basti-XPS-13-9310
 
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-index 6bf4241fe3b7..43fa2d82cedc 100644
---- a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-@@ -105,3 +105,8 @@ &vchiq {
- &xhci {
- 	power-domains = <&power RPI_POWER_DOMAIN_USB>;
- };
-+
-+&hevc_dec {
-+	clocks = <&firmware_clocks 11>;
-+	clock-names = "hevc";
-+};
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-index e4e42af21ef3..0a1f05a26a6a 100644
---- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-@@ -628,6 +628,15 @@ v3d: gpu@7ec00000 {
- 			resets = <&pm BCM2835_RESET_V3D>;
- 			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
- 		};
-+
-+		hevc_dec: codec@7eb10000 {
-+			compatible = "raspberrypi,hevc-dec";
-+			reg = <0x0 0x7eb10000  0x1000>,  /* INTC */
-+			      <0x0 0x7eb00000  0x10000>; /* HEVC */
-+			reg-names = "intc",
-+				    "hevc";
-+			interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-+		};
- 	};
- };
- 
+gpg: Signature made Fri 20 Dec 2024 03:31:19 PM UTC
+gpg:                using RSA key B71AEACB392868D77606602EC26580EBB1C88525
+gpg: requesting key C26580EBB1C88525 from hkps://keyserver.ubuntu.com
+gpg: Can't check signature: No public key
 
--- 
-2.34.1
-
+Summary: no issues. All 28 looked fine.
 
