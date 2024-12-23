@@ -1,153 +1,86 @@
-Return-Path: <linux-media+bounces-23998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23999-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CF69FACDA
-	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 10:50:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1853A9FAD26
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 11:31:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 917BF188128A
-	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 09:50:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B892F162F5A
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 10:31:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6397D18C937;
-	Mon, 23 Dec 2024 09:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50FE6199956;
+	Mon, 23 Dec 2024 10:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3FeDK4+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD1E38DD6
-	for <linux-media@vger.kernel.org>; Mon, 23 Dec 2024 09:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E614198A34;
+	Mon, 23 Dec 2024 10:30:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734947450; cv=none; b=k/yL7VyMX5M58em+QF+iaudwgYaoQYvp5deJJIw2Df34/dcKr7EMYJOESwFyGLZp7ZNkA7ql+RcEeB3qSvc3i8FIaR45mN1o7l2tLVUJtgD1YkXm0CumM6S1E/zt5O75OUoWPQ3oQUBcSku1g5PtL53v1ueDFF13M9bN4xvAvOI=
+	t=1734949835; cv=none; b=Ou9yBHrqViXbaziUisktAeZL5nQTUFQuZSaL2sOpvcDUCLx1WD3PCFLXM+e4XPmKuLzfTp4++KUvq9LVbGSklGYzAx+5ERCrePoUQVJ5orSe0dylOU0t4GuiQUbR9SCnvaYtlyqiSKwMkChsVKxQE5FgkXNYZmDfaoX+IHxVdjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734947450; c=relaxed/simple;
-	bh=jbWsvLoVN3ws6wdA/im40ps6CVb/iOuqGzr0ItetRKo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nfCJifh/ddrW1lCVl0NXERwqqLLb9ry61Qci+HHe7IDQrd4j8CP2e4BsBBq8e4yPcj8+L8BCA0LRi0arc3druxkodJkIOS2wm8U2IJllqHEV7XOBjrQaKJqPdSkUpFa4k0R8wDmSHaBR/lHfZt24v9hsQFUpiYW7zylMPJwUZYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 679EFC4CED3;
-	Mon, 23 Dec 2024 09:50:47 +0000 (UTC)
-Message-ID: <819a94dd-aa04-45d3-a43b-892e05038b0d@xs4all.nl>
-Date: Mon, 23 Dec 2024 10:50:45 +0100
+	s=arc-20240116; t=1734949835; c=relaxed/simple;
+	bh=hKGJ7WK7Gu3bIdfY90AYO0AyOpIUidEhTmnkKyIOL4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o8yKJIk/9wZfkVf6xLhe5tuGXiDGywLZk2eTRc4RReG4HCng4PfqIe/ETXs9hAwaWz5icO7P07E1E7aNJWkgQccdxtDR0Ta5b/pr+qGCE0sDQWDgAV0fUYluVPzI+HdRKiOrNHmrTVFHR5SPw67W6C2rmcH+POaM3m5znhxlXio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3FeDK4+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2F8CC4CEE0;
+	Mon, 23 Dec 2024 10:30:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734949835;
+	bh=hKGJ7WK7Gu3bIdfY90AYO0AyOpIUidEhTmnkKyIOL4k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=S3FeDK4+ha8SgS/NON6h90GCcIxLKIUxfv3A3bYj05jPQnhgyZjSj20JiM+dAzxcd
+	 6FugZa1BAvrEIU6/NmoPMNG+kdW40fIRBAk4ZTkkF/Gq0ONQNczx85NAevcbf8Ho1L
+	 g/DCzOKuIGeiqmZMasN+7mwebg8XH4QDHmO/v6Rh5ZmYPMxfkXwd2pRLkdt19isTKs
+	 yZewWBdflHPD/nsakZJEn7UfQ8+T9y6J5CHYqoggWz+fmS5RRkT/YdTnWL6qkLa2QA
+	 /6ins6zQVSUkeixMmlxFU4SwAFrQOqDS5SVcBP/1+AHHVZTh/VSHxzXlo91vi+yotA
+	 eIGHCbwIlB4JQ==
+Date: Mon, 23 Dec 2024 11:30:27 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>, Sebastian Fricke
+ <sebastian.fricke@collabora.com>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Rob Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, Bryan
+ O'Donoghue <bryan.odonoghue@linaro.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5p?=
+ =?UTF-8?B?Zw==?= <u.kleine-koenig@baylibre.com>, Jianhua Lu
+ <lujianhua000@gmail.com>, "Stefan Schmidt" <stefan.schmidt@linaro.org>,
+ <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of
+ SM8250 SoC
+Message-ID: <20241223113027.21b8f7ab@foz.lan>
+In-Reply-To: <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
+References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
+	<20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: i2c: add lt6911uxe hdmi bridge driver
-To: "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- "Yan, Dongcheng" <dongcheng.yan@intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com,
- tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
- daxing.li@intel.com, ong.hock.yu@intel.com, balamurugan.c@intel.com,
- wei.a.fu@intel.com
-References: <20241129061546.2237511-1-dongcheng.yan@intel.com>
- <Z1hOBpwLfB_wfRwL@kekkonen.localdomain>
- <66e2d69c-9413-48dc-9dcc-1df7576ddf2d@intel.com>
- <Z1oAGfRs28hgo-sc@kekkonen.localdomain>
- <e48e0778-7911-47ec-b8f2-d4b6e95484c1@intel.com>
- <Z1qbrkRTzqnzHtgz@kekkonen.localdomain>
- <7b690b8e-2fff-46ec-9f61-d46360ed9213@xs4all.nl>
- <9782b615-3ed0-4c99-aabd-2a7f4e6cd041@linux.intel.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <9782b615-3ed0-4c99-aabd-2a7f4e6cd041@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 23/12/2024 07:22, Yan, Dongcheng wrote:
-> Hi hans,
-> 
-> On 12/12/2024 4:54 PM, Hans Verkuil wrote:
->> Sakari, Dongcheng,
->>
->> On 12/12/2024 09:15, Sakari Ailus wrote:
->>> Hi Dongcheng,
->>>
->>> On Thu, Dec 12, 2024 at 03:24:16PM +0800, Yan, Dongcheng wrote:
->>>> Hi Sakari,
->>>>
->>>> Since you are planning to PR this patch, I will continue to use
->>
->> Please note that I still need to review v4. I hope to do that tomorrow
->> before my Christmas vacation starts.
->>
->> Regards,
->>
->> 	Hans
->>
->>>> CUR_LINK_FREQ to initialize the link_freq v4l2_ctl.
->>>>
->>>> Besides, I see your patch in intel/ipu6 that obtains the link frequency from
->>>> the sub-device instead of a control handler.
->>>>
->>>> Maybe I don't need init link_freq v4l2_ctl anymore?
->>>
->>> Please use get_mbus_config() operation.
->>>
->>
->>
-> 
-> Wishing you a happy Christmas holiday in advance! I wonder if you
-> have some new comments on patch v4?
+Em Thu, 12 Dec 2024 17:21:49 +0530
+Dikshita Agarwal <quic_dikshita@quicinc.com> escreveu:
 
-I hope to review this first thing after my Christmas vacation (Jan 6th).
+> +	.dma_mask = GENMASK(31, 29) - 1,
 
-Regards,
+Setting a mask to GENMASK() - 1 sounds weird. Is it really what you want?
+I so, why?
 
-	Hans
-
-> 
-> Thanks,
-> Dongcheng
-
+Thanks,
+Mauro
 
