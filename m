@@ -1,95 +1,129 @@
-Return-Path: <linux-media+bounces-23992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23993-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72729FA740
-	for <lists+linux-media@lfdr.de>; Sun, 22 Dec 2024 18:27:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2429FAA47
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 07:22:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90DD3166942
-	for <lists+linux-media@lfdr.de>; Sun, 22 Dec 2024 17:27:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2100D18844A3
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 06:22:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9515191F98;
-	Sun, 22 Dec 2024 17:27:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3858B188917;
+	Mon, 23 Dec 2024 06:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=eurecom.fr header.i=@eurecom.fr header.b="uZAMc4Ab"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXFtZHJ2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.eurecom.fr (smtp.eurecom.fr [193.55.113.210])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987CC7DA8C;
-	Sun, 22 Dec 2024 17:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.55.113.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BBE3987D
+	for <linux-media@vger.kernel.org>; Mon, 23 Dec 2024 06:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734888457; cv=none; b=nAD1ydZWBBWCnnhE9uOhLCjqTR4JzEhvohv7umIDuzS8ioCwYYOm0Eg4481M4iazXW0LYa1sequPQGU3HsVBihNS3C40W9CQaRBq2l+yDW9GMPzvhzZBAiHIjYXGeo2P2dbifiz31+HHW4MoK9S3p2irULItgZQkDOexA5IgTkY=
+	t=1734934940; cv=none; b=YiugpoP4KW9BEQKjcbKpI82r7E2wZAXJvSvR2Qs1/FC0UeD6+iKveN1lhM+tanodOQLLYzxhrapBFj+0vzyGgqlzRKnjCGmYseqLFDUF8iZRYV1Z2l1jvbUmk9VAksLKtnLeGJMHRgPnR5+Zad/qS6OkGd6MIC0/5FYJMxQ9nMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734888457; c=relaxed/simple;
-	bh=mWntqmS/N7xkczCX2PFuoOmXZbwTCOLcsCIkyfGC70I=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=t+Z2K2/E7SmPSitfJBlpeSMOjl+biyK82D/QUNZDd1DVbnQtwU8DFX5kH2Ku9zPIcg3uNP+DFpCas5BE3MGhtmHwGnlHRzFX0Na7GqsWdDRFMKA3sOSQYi02oy+SQVuNYi8eJS7v0Bhaya7JxO6ORjbMRPhrNb9AAs9wOl1ahjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=eurecom.fr; spf=pass smtp.mailfrom=eurecom.fr; dkim=pass (1024-bit key) header.d=eurecom.fr header.i=@eurecom.fr header.b=uZAMc4Ab; arc=none smtp.client-ip=193.55.113.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=eurecom.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eurecom.fr
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=eurecom.fr; i=@eurecom.fr; q=dns/txt; s=default;
-  t=1734888453; x=1766424453;
-  h=from:in-reply-to:references:date:cc:to:mime-version:
-   message-id:subject:content-transfer-encoding;
-  bh=mWntqmS/N7xkczCX2PFuoOmXZbwTCOLcsCIkyfGC70I=;
-  b=uZAMc4Abj9XcM23jfVtlyiQETp2/fk6cMiURSqVtlWetY8uI9h0tvla0
-   FZ8Sl14fLvJ3ODmNUvx6l0ZEBhVQ+6ZS1Dl7FAUDNwGeDEs4pCP1CyLG1
-   cI49U4UXov1n7nnZCU3URqjAPE9+dT1xMLiT+iZhtVQXj96T49GHJo077
-   c=;
-X-CSE-ConnectionGUID: 5DrgUXrgR6GMNzCvUaHl8w==
-X-CSE-MsgGUID: SsgJtOROS+2u4H1bguGcZg==
-X-IronPort-AV: E=Sophos;i="6.12,256,1728943200"; 
-   d="scan'208";a="28291696"
-Received: from quovadis.eurecom.fr ([10.3.2.233])
-  by drago1i.eurecom.fr with ESMTP; 22 Dec 2024 18:27:25 +0100
-From: "Ariel Otilibili-Anieli" <Ariel.Otilibili-Anieli@eurecom.fr>
-In-Reply-To: <20241222-resolute-calculating-mamba-531d3d-mkl@pengutronix.de>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 88.183.119.157
-References: <20241221111454.1074285-1-ariel.otilibili-anieli@eurecom.fr>
- <20241221111454.1074285-4-ariel.otilibili-anieli@eurecom.fr> <20241222-resolute-calculating-mamba-531d3d-mkl@pengutronix.de>
-Date: Sun, 22 Dec 2024 18:27:25 +0100
-Cc: linux-media@vger.kernel.org, linux-mips@vger.kernel.org, netdev@vger.kernel.org, linux-can@vger.kernel.org, "Vincent Mailhol" <mailhol.vincent@wanadoo.fr>, linux-kernel@vger.kernel.org
-To: "Marc Kleine-Budde" <mkl@pengutronix.de>
+	s=arc-20240116; t=1734934940; c=relaxed/simple;
+	bh=r23S72CijYsiia0qpUnrw13LCnFp2Odvwm10KZKMqk0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q+0pAWkQatDT1P/+6EBjXS8x5vXOfZgpQvnqpzcky9jYTMFetDbjiMm6R8oVdcimnlLbD6mpdzR9neOz/Dr5ybFH3PMNWDbnKVTEvdWcGm4fxeF4lqa3TfnLku+aBjdGXbjEURp5DEcF85HKTG1eWCE6e7QusadyIrSE0ulYIfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXFtZHJ2; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734934939; x=1766470939;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=r23S72CijYsiia0qpUnrw13LCnFp2Odvwm10KZKMqk0=;
+  b=eXFtZHJ2oH4t6/MtWG5KEUlk3qykbZlIkT/Km3UP+0wRhE0aDGi+oB30
+   QaHDzh1zUWjV6JLEDDh/XTgaUQ6BBvpjJTjo3ZB/mxp0+BPxy/mLg7IqY
+   XxowYkCtR/PMBWC0as1ELz60BwXx5GLg+obQsNGZeOFIDPPLxL3MDjqvT
+   RUDfvPIdRfXuUC3lcTdg33wGjRJJJ9pXZtEC/3kpAhkQRKhP+Qc3D+2+8
+   wi/7lx/7S3EpCM4xGlX43i7SWh5910aJHShsV/fc230bvFIILDwRx1nGX
+   SwXNyDFRsn9B/sITe7j9w0Q+Ibv4iuslW4Fh/WQXhLR9bBS/iOosQctJl
+   w==;
+X-CSE-ConnectionGUID: 9tgHsysBQoCI0fk+3Bes4A==
+X-CSE-MsgGUID: Lf7fGd2ZQXODD2cDEFHEcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="45887672"
+X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
+   d="scan'208";a="45887672"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 22:22:11 -0800
+X-CSE-ConnectionGUID: xEHUn/anRxmL0gnaYTypZw==
+X-CSE-MsgGUID: eXlCDmKITI63teiuNMXH1w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
+   d="scan'208";a="98983157"
+Received: from chengt5x-mobl.ccr.corp.intel.com (HELO [10.238.224.230]) ([10.238.224.230])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 22:22:07 -0800
+Message-ID: <9782b615-3ed0-4c99-aabd-2a7f4e6cd041@linux.intel.com>
+Date: Mon, 23 Dec 2024 14:22:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <2f7a8a-67684c00-9be3-1d1363a0@197697901>
-Subject: =?utf-8?q?Re=3A?= [PATCH v2 3/3] =?utf-8?q?net/can/dev=3A?= Remove dead 
- code
-User-Agent: SOGoMail 5.11.1
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] media: i2c: add lt6911uxe hdmi bridge driver
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ "Yan, Dongcheng" <dongcheng.yan@intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com,
+ tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+ daxing.li@intel.com, ong.hock.yu@intel.com, balamurugan.c@intel.com,
+ wei.a.fu@intel.com
+References: <20241129061546.2237511-1-dongcheng.yan@intel.com>
+ <Z1hOBpwLfB_wfRwL@kekkonen.localdomain>
+ <66e2d69c-9413-48dc-9dcc-1df7576ddf2d@intel.com>
+ <Z1oAGfRs28hgo-sc@kekkonen.localdomain>
+ <e48e0778-7911-47ec-b8f2-d4b6e95484c1@intel.com>
+ <Z1qbrkRTzqnzHtgz@kekkonen.localdomain>
+ <7b690b8e-2fff-46ec-9f61-d46360ed9213@xs4all.nl>
+Content-Language: en-US
+From: "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>
+In-Reply-To: <7b690b8e-2fff-46ec-9f61-d46360ed9213@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sunday, December 22, 2024 17:37 CET, Marc Kleine-Budde <mkl@pengutro=
-nix.de> wrote:
+Hi hans,
 
-> On 21.12.2024 12:06:49, Ariel Otilibili wrote:
-> > The default switch case ends with a return; meaning this return is =
-never
-> > reached.
-> >=20
-> > Coverity-ID: 1497123
-> > Signed-off-by: Ariel Otilibili <ariel.otilibili-anieli@eurecom.fr>
->=20
-> Applied this patch only to linux-can-next/testing.
+On 12/12/2024 4:54 PM, Hans Verkuil wrote:
+> Sakari, Dongcheng,
+> 
+> On 12/12/2024 09:15, Sakari Ailus wrote:
+>> Hi Dongcheng,
+>>
+>> On Thu, Dec 12, 2024 at 03:24:16PM +0800, Yan, Dongcheng wrote:
+>>> Hi Sakari,
+>>>
+>>> Since you are planning to PR this patch, I will continue to use
+> 
+> Please note that I still need to review v4. I hope to do that tomorrow
+> before my Christmas vacation starts.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>> CUR_LINK_FREQ to initialize the link_freq v4l2_ctl.
+>>>
+>>> Besides, I see your patch in intel/ipu6 that obtains the link frequency from
+>>> the sub-device instead of a control handler.
+>>>
+>>> Maybe I don't need init link_freq v4l2_ctl anymore?
+>>
+>> Please use get_mbus_config() operation.
+>>
+> 
+> 
 
-Great, Marc; thanks for the feedback.
->=20
-> Thanks,
-> Marc
->=20
-> --=20
-> Pengutronix e.K.                 | Marc Kleine-Budde          |
-> Embedded Linux                   | https://www.pengutronix.de |
-> Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-> Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+Wishing you a happy Christmas holiday in advance! I wonder if you
+have some new comments on patch v4?
 
+Thanks,
+Dongcheng
 
