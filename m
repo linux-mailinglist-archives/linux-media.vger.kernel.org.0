@@ -1,123 +1,142 @@
-Return-Path: <linux-media+bounces-24002-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24003-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F6A9FADE6
-	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 12:50:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5989FADF8
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 12:56:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A97B418814A0
-	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 11:50:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD350164364
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 11:56:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03CE019AA5A;
-	Mon, 23 Dec 2024 11:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79F611A83E3;
+	Mon, 23 Dec 2024 11:55:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LZbRvQnk"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Xl9LZqwF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D40C259489
-	for <linux-media@vger.kernel.org>; Mon, 23 Dec 2024 11:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB29166307;
+	Mon, 23 Dec 2024 11:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734954595; cv=none; b=DEKMtUuo5xQoNpvE8MYVagvqkbLNSqh8PxlaE0Stddai3gQ/o6rriitTQkv7y6IKgC0zHnYW3PiNd/oQiFRbn34noi2DU62k2PtUjkkJ+y7rWo0IUGBuZPBB4WaZuwTBv8tys8mwFofEsgG0hiYvqzuZb91B5SQgJOzyDKbwt7g=
+	t=1734954951; cv=none; b=U1/gI45kouNAKfuULnqVr3IfoHJcSJipJ4Iy8mfRUuCRYoYGz8jRn+0mkAtq52yFjr0qq3khO+XVaBtONOjmedF10DTX/5RJVVdtXn4FresOX5DZL3pbsDBneJI40xHMtiBJEWi7mU6U5N0V+dNY76KzQ05E0+mWWjrswKxoi8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734954595; c=relaxed/simple;
-	bh=6Yr21vDWuIkvsuZ47/NFrT8j3E23Ga5mNcpV2WGUrQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FF18gehqN3JCgSRRcAPjBNmrCFjmw8QNDDO/v/eMiBDwDoa+/ua3QFhU7/gHTdxJAuYBkuWsyOQrpEAdfczWc3s6G/TtTLjouT5gmLhMdhBZ9w8s9VNreKokLc4QA/1ge+yOTck4g8y0nIKNOPOYC8zY3ZS3QY2PaUfFRKVh038=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LZbRvQnk; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30033e07ef3so47824751fa.0
-        for <linux-media@vger.kernel.org>; Mon, 23 Dec 2024 03:49:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734954592; x=1735559392; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=81jl/t+cSQKe+ACOcy5lOOjJcqHObJWTUdY8j6yLjT4=;
-        b=LZbRvQnkBcIvLFWESdukXqB5GwfJMAXe7IxQN4kSr+tgZvgsn1QABAjIp5urX8koa+
-         TyFrV6MUmY3vIZtWyiNjdmsuHsmXvVTw2fqAxtGE2KyJG/ZEuP26dv7NXNPAQYnxe1EC
-         mKzqnnXDv5Yo77wOwKCK+2YPKpp6vf5wS0k1+dLPvOr3eOwntkPYMZRpziz2FYq8lCiz
-         f1K2nKNT5iMjyrXh8yye7SHJlhNP+zOO0YG6MUOeN1Evc4GRSKtDe+7nx/RqI2iU1IMC
-         62NqQWgIr7JuVV6YShK+ODvMy6K3j3ujJNr8gKW7CdeYBXb2I5ZxhjAHraWJCbk88rWw
-         2yWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734954592; x=1735559392;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=81jl/t+cSQKe+ACOcy5lOOjJcqHObJWTUdY8j6yLjT4=;
-        b=AqsZJxbNqJfGpjFUyFKl3P45B6SBDV77s/QriKJaXSEnOJVaG38KSEwOVY6q3dHG2q
-         hPUhz17RjeWWtd6PiVqDMAS74hNi9lxXw8EBVv53Nbqb7B+XYEPngJWQ6J4U/xYxBJh4
-         UeI1+ORwi2kfDtKV9jnK/+w/B0fTeWbp9FTfSe+M4SLo6k3FNjD/+yGPs5WqZRVGUm4T
-         S6Q6G58VboENl4cP/gxnR96mU24NVUX3zKdNYfeEyvCpdHRC5BpdqGNZ6MXT+4fr5aIA
-         MiMlTqqEcHEItVmFrSEVGYLkoxPbA1En5t+XzZXax87ZQfvEtFLHtjumN5pW7QzcxgFb
-         D/WQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWjohHsTk5FPAdH9bkza3tqKsOE6MdRyy/8AS+y2smb9FrwvQLKnES8AeEF3penAgtK+sYOyQsZ1TVAkg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqS/ga3qL+sYtmG1KG4ISUJmovJ6MTyvIMn66J1rnxyq1AQKwv
-	zeUFumCSoawPKlTYCXfIfiCGKuoCkufr1WuJ8uoDqS4gnTXkSNqEATTLAFHeJg4=
-X-Gm-Gg: ASbGncvW3EAmSgxnCQCkWRKPpNEIbeYolT5qUhGrCS2yyRTnwz4W5pU89d3aRRuiKY+
-	DfI1KKnWJzHrSabr03kLg3Iz/18Cp5kEBLoSdV48X4GO1iaaXO94B8s8s8i/+HX46HfvCTtt9zF
-	fMTiMJd5gGIO6zndNSYNRld24C6dslRZnJ8+kGfAjpFSNBHuGSgqf0ltcaTbV+awcFiJMNdk3Mo
-	Cu6rjH+536OTyilonsFQGd9Sbb931Nu19cZuqL1d2Wy9XhcO963+wBLmewDJx7p0evMjZZd0UQu
-	+hPyePgnc7OHgrrcprEY3lAtqNJRZVt9+lJt
-X-Google-Smtp-Source: AGHT+IHOzyQch22bff+q236NuBgW9EAlxYdWMJ7aLs2GLbKmy59AOI0ocsSlLrhAGSQfDmhwjLXuYA==
-X-Received: by 2002:a05:651c:4ca:b0:302:1c96:858f with SMTP id 38308e7fff4ca-304583710a9mr38211651fa.12.1734954591742;
-        Mon, 23 Dec 2024 03:49:51 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad6c5a0sm13023751fa.22.2024.12.23.03.49.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2024 03:49:50 -0800 (PST)
-Date: Mon, 23 Dec 2024 13:49:49 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Renjiang Han <quic_renjiang@quicinc.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>
-Subject: Re: [PATCH v2 1/2] clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for
- video GDSC's
-Message-ID: <tvfe4inkpz3zg7k3eo2nqhcujy5weozfroyf4cgftsyrgbutkm@olh7t3qsn4dd>
-References: <20241223-switch_gdsc_mode-v2-0-eb5c96aee662@quicinc.com>
- <20241223-switch_gdsc_mode-v2-1-eb5c96aee662@quicinc.com>
+	s=arc-20240116; t=1734954951; c=relaxed/simple;
+	bh=55mt979UyPOwsZIIw3itu68NXDCE89yBr3Bm0Z+m3Jg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=AHotIAyp0arY2mMvVahQvSeaeX0Couzg8j5y+df+ioqZ5yLcXJngh6RKAMF+cdBqf0QNFaOStypwKOH/GmChw+eC+niNEZHG/4g9IhL780txqfo19XZ2e18dh526zZe4U5vobfeSKs+HnCjk1jk6UAbAVGv8kFwnZZNTFI+ygy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Xl9LZqwF; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BN8oUZj026565;
+	Mon, 23 Dec 2024 11:55:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	UTPD8Q3U50PIWV4iKj8dhwhrAWIPxCDplmtXCS4jBOI=; b=Xl9LZqwFXO4j3WZz
+	5f5chQQGm/ANWDvZIkIa13pCjAs0h6zUwEVYez0VoFfyTYbMzua058b3AXaXOV14
+	YhYf0oPm3NBqezerHA7rsBnfGIhBvAZ+pH3la0uRnHUUNsPTbo09czUkfVtnJd/p
+	JS7fyf1fRLPOKOpGxbEaSR/oIlK/oeD0ybXlG9J2cdsIFsqxrq8WN72aduo8afdJ
+	7awXHAJO7UufOeiK+XluoVM4aXhPU7/a3KHCFvr/9obQis4UfJ9DaGPqpjiWcAAd
+	n92iZjH5/iK6F+RT4ureWeW6X4OzWxhOjaT5nIQh22KV1z0nKQyNrzHIdVuf5EyA
+	9/Rypg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43q4q4reej-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Dec 2024 11:55:45 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BNBtiru003171
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Dec 2024 11:55:44 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 23 Dec
+ 2024 03:55:38 -0800
+Message-ID: <697738c6-6867-4a7f-b0a8-8b425413ae65@quicinc.com>
+Date: Mon, 23 Dec 2024 19:55:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241223-switch_gdsc_mode-v2-1-eb5c96aee662@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/16] media: qcom: camss: vfe: Move common code into vfe
+ core
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>, <rfoss@kernel.org>,
+        <todor.too@gmail.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>
+References: <20241211140738.3835588-1-quic_depengs@quicinc.com>
+ <20241211140738.3835588-9-quic_depengs@quicinc.com>
+ <79fc669d-999f-42f3-948a-ee5f3a91ddfe@linaro.org>
+ <ef9a65a6-339e-4428-8487-ead242b3b2d4@linaro.org>
+ <add63655-626e-482c-a309-f124f3b18115@linaro.org>
+Content-Language: en-US
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <add63655-626e-482c-a309-f124f3b18115@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: PwlGcZjqReWUOYlmHQAR4YPoi14k32bM
+X-Proofpoint-ORIG-GUID: PwlGcZjqReWUOYlmHQAR4YPoi14k32bM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ mlxlogscore=963 clxscore=1015 bulkscore=0 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412230107
 
-On Mon, Dec 23, 2024 at 02:32:41PM +0530, Renjiang Han wrote:
-> From: Taniya Das <quic_tdas@quicinc.com>
+Hi Vladimir, Bryan,
+
+On 12/12/2024 3:57 PM, Vladimir Zapolskiy wrote:
+> On 12/12/24 03:35, Bryan O'Donoghue wrote:
+>> On 12/12/2024 01:06, Vladimir Zapolskiy wrote:
+>>>
+>>> This is a massive and a functional change
+>>
+>> It shouldn't be a _functional_ change at all, just a refactoring and a
+>> reduction.
 > 
-> The video driver will be using the newly introduced
-> dev_pm_genpd_set_hwmode() API to switch the video GDSC to HW and SW
-> control modes at runtime.
-> Hence use HW_CTRL_TRIGGER flag instead of HW_CTRL for video GDSC's for
-> Qualcomm SoC SC7180, SDM845, SM7150, SM8150 and SM8450.
+> I've just tested that this change breaks not only TPG on SM8250/RB5, but
+> a regular image capturing from imx577 camera sensor is also broken.
 > 
-> Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> ---
->  drivers/clk/qcom/videocc-sc7180.c | 2 +-
->  drivers/clk/qcom/videocc-sdm845.c | 4 ++--
->  drivers/clk/qcom/videocc-sm7150.c | 4 ++--
->  drivers/clk/qcom/videocc-sm8150.c | 4 ++--
->  drivers/clk/qcom/videocc-sm8450.c | 4 ++--
->  5 files changed, 9 insertions(+), 9 deletions(-)
+> Hope it helps.
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+I will remove a modification to update the enable_irq order in this 
+patch which is asked by Bryan in v4 patches [1] and make sure there is 
+no logical change between old code and new refactor code, in case any 
+regression in this change.
 
--- 
-With best wishes
-Dmitry
+>> I'll take a look too, see if I can spot a regression on rb3-gen1 and
+>> replicate the breakage on rb5.
+>>
+> 
+> Thank you, very much appreciated. Splitting the change would be still
+> welcome.
+> 
+>> @Depeng we can probably get you remote access to an RB5 if you need it.
+>>
+> 
+
+[1] 
+https://lore.kernel.org/all/47aa934d-bdad-4c76-9420-ce65950f67d1@linaro.org/
+
+Thanks,
+Depeng
+
 
