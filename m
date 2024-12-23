@@ -1,129 +1,110 @@
-Return-Path: <linux-media+bounces-23993-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-23994-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2429FAA47
-	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 07:22:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 636749FAB1C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 08:31:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2100D18844A3
-	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 06:22:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8508D7A20EF
+	for <lists+linux-media@lfdr.de>; Mon, 23 Dec 2024 07:31:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3858B188917;
-	Mon, 23 Dec 2024 06:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B52D5191478;
+	Mon, 23 Dec 2024 07:31:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXFtZHJ2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwUNEdpV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BBE3987D
-	for <linux-media@vger.kernel.org>; Mon, 23 Dec 2024 06:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24C327735;
+	Mon, 23 Dec 2024 07:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734934940; cv=none; b=YiugpoP4KW9BEQKjcbKpI82r7E2wZAXJvSvR2Qs1/FC0UeD6+iKveN1lhM+tanodOQLLYzxhrapBFj+0vzyGgqlzRKnjCGmYseqLFDUF8iZRYV1Z2l1jvbUmk9VAksLKtnLeGJMHRgPnR5+Zad/qS6OkGd6MIC0/5FYJMxQ9nMw=
+	t=1734939061; cv=none; b=Q+aVccCRnfyQwoF1jwyurHa17OdnZ9NjvXJDNOy9YQyV77h4DxEah9c8lmEhz/XqveXoTop3EepqvHB/0GlWwtlhtdLGD+INRygN9gafC1EslQPbiJ9e9FW96866ach+HZ+xbbGoJJt2rXwR4zL7oL+MpH0BnF3QGE/+i8BDzT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734934940; c=relaxed/simple;
-	bh=r23S72CijYsiia0qpUnrw13LCnFp2Odvwm10KZKMqk0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q+0pAWkQatDT1P/+6EBjXS8x5vXOfZgpQvnqpzcky9jYTMFetDbjiMm6R8oVdcimnlLbD6mpdzR9neOz/Dr5ybFH3PMNWDbnKVTEvdWcGm4fxeF4lqa3TfnLku+aBjdGXbjEURp5DEcF85HKTG1eWCE6e7QusadyIrSE0ulYIfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXFtZHJ2; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734934939; x=1766470939;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=r23S72CijYsiia0qpUnrw13LCnFp2Odvwm10KZKMqk0=;
-  b=eXFtZHJ2oH4t6/MtWG5KEUlk3qykbZlIkT/Km3UP+0wRhE0aDGi+oB30
-   QaHDzh1zUWjV6JLEDDh/XTgaUQ6BBvpjJTjo3ZB/mxp0+BPxy/mLg7IqY
-   XxowYkCtR/PMBWC0as1ELz60BwXx5GLg+obQsNGZeOFIDPPLxL3MDjqvT
-   RUDfvPIdRfXuUC3lcTdg33wGjRJJJ9pXZtEC/3kpAhkQRKhP+Qc3D+2+8
-   wi/7lx/7S3EpCM4xGlX43i7SWh5910aJHShsV/fc230bvFIILDwRx1nGX
-   SwXNyDFRsn9B/sITe7j9w0Q+Ibv4iuslW4Fh/WQXhLR9bBS/iOosQctJl
-   w==;
-X-CSE-ConnectionGUID: 9tgHsysBQoCI0fk+3Bes4A==
-X-CSE-MsgGUID: Lf7fGd2ZQXODD2cDEFHEcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="45887672"
-X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="45887672"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 22:22:11 -0800
-X-CSE-ConnectionGUID: xEHUn/anRxmL0gnaYTypZw==
-X-CSE-MsgGUID: eXlCDmKITI63teiuNMXH1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="98983157"
-Received: from chengt5x-mobl.ccr.corp.intel.com (HELO [10.238.224.230]) ([10.238.224.230])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 22:22:07 -0800
-Message-ID: <9782b615-3ed0-4c99-aabd-2a7f4e6cd041@linux.intel.com>
-Date: Mon, 23 Dec 2024 14:22:03 +0800
+	s=arc-20240116; t=1734939061; c=relaxed/simple;
+	bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZOjLR8mFzjAThfHaAqh3fQIrKm7MFq92wGYLUcAkHb6NtzZkzl+1sLUF64jab/tGfrMrwdmxtFfv+idAPmOoYpG+r2V7+jYKHyHxLWwJo/aercL/2bci/cZJcbPqrSOdmj8gEft9rpfC37NNpP2M5T381lFVYwET0MjB34MviE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwUNEdpV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BFCC4CED4;
+	Mon, 23 Dec 2024 07:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734939060;
+	bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UwUNEdpVksa3VeJ8fBbfU5ZM7cveMPPtJwrh5dBwK0gEoqVYDdF0NbABXvUPIJWBw
+	 xCqUqJSqJL6xtKZr6qQ7jAhuhWd71QCPd5TxS1HecY9J/hvR45WyJpacDQHEAg8Nxb
+	 2n3UaUf++ISc2NX01EI862mzeWJQXkc5aNu91d3n3AsdRCNSN+HKnHjEJRyLACr5nh
+	 BOO26q4g07K6IBNRx5aV7gSAqtRZNsSUNg+1F39wB4XcAaYzRqeyumIAvWSZFAj19D
+	 3ux6IHIQ91x+ZZx51WabplqJyaEEdtdtBHP6L6K1CKNx6HfC+4KG2P1qz8+vVZVY4x
+	 5cGLrZr9Tq1ag==
+Date: Mon, 23 Dec 2024 08:30:57 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, netdev@vger.kernel.org, 
+	Zijun Hu <quic_zijuhu@quicinc.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+Message-ID: <mrix3q75mawxszrp25yzpsrvenlxx7bihfzyfdcnp7egubvxpf@lzp7fcaxwquc>
+References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
+ <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: i2c: add lt6911uxe hdmi bridge driver
-To: Hans Verkuil <hverkuil@xs4all.nl>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- "Yan, Dongcheng" <dongcheng.yan@intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
- ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com,
- tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
- daxing.li@intel.com, ong.hock.yu@intel.com, balamurugan.c@intel.com,
- wei.a.fu@intel.com
-References: <20241129061546.2237511-1-dongcheng.yan@intel.com>
- <Z1hOBpwLfB_wfRwL@kekkonen.localdomain>
- <66e2d69c-9413-48dc-9dcc-1df7576ddf2d@intel.com>
- <Z1oAGfRs28hgo-sc@kekkonen.localdomain>
- <e48e0778-7911-47ec-b8f2-d4b6e95484c1@intel.com>
- <Z1qbrkRTzqnzHtgz@kekkonen.localdomain>
- <7b690b8e-2fff-46ec-9f61-d46360ed9213@xs4all.nl>
-Content-Language: en-US
-From: "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>
-In-Reply-To: <7b690b8e-2fff-46ec-9f61-d46360ed9213@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2ziq55rb3fq2bwkl"
+Content-Disposition: inline
+In-Reply-To: <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
 
-Hi hans,
 
-On 12/12/2024 4:54 PM, Hans Verkuil wrote:
-> Sakari, Dongcheng,
-> 
-> On 12/12/2024 09:15, Sakari Ailus wrote:
->> Hi Dongcheng,
->>
->> On Thu, Dec 12, 2024 at 03:24:16PM +0800, Yan, Dongcheng wrote:
->>> Hi Sakari,
->>>
->>> Since you are planning to PR this patch, I will continue to use
-> 
-> Please note that I still need to review v4. I hope to do that tomorrow
-> before my Christmas vacation starts.
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>> CUR_LINK_FREQ to initialize the link_freq v4l2_ctl.
->>>
->>> Besides, I see your patch in intel/ipu6 that obtains the link frequency from
->>> the sub-device instead of a control handler.
->>>
->>> Maybe I don't need init link_freq v4l2_ctl anymore?
->>
->> Please use get_mbus_config() operation.
->>
-> 
-> 
+--2ziq55rb3fq2bwkl
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+MIME-Version: 1.0
 
-Wishing you a happy Christmas holiday in advance! I wonder if you
-have some new comments on patch v4?
+Hello,
 
-Thanks,
-Dongcheng
+On Wed, Dec 11, 2024 at 08:08:06AM +0800, Zijun Hu wrote:
+>  drivers/pwm/core.c                     |  2 +-
+
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for drivers/pwm
+
+Best regards
+Uwe
+
+--2ziq55rb3fq2bwkl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdpEa8ACgkQj4D7WH0S
+/k4bUAgAh9LrZmd2eRZtQQDD7RKfHIeOmRCpwZcKO4VAM76QCcEzfVerUpZH2Emh
+tkSaCY38C9pM9hE0HsXsYV6zg/MBAVCwiVGbn+rgTAVtuiDiI8ygmP7cdzKnk7Ke
++l0xcXunQPwe3UHEzAvvPiu57dMcQ6h8732mqwqWrRh43gPAWdpAgktFqFLPCRQf
+1sOslGEFNX866KAUqB1jjxQSZjq0v0dXyd20GSu7yjzm7s1JzRG+msGCSSxv0vRT
+SWDRWVHepQ1AT5THBbY6xaXnaiwoTbnv6NCw4WFz8OHbBtIb6Fm7UUE1PNTnZM0t
+qDtxzk9rG0eZFX23d+rXwSg2JlM3VQ==
+=zwtk
+-----END PGP SIGNATURE-----
+
+--2ziq55rb3fq2bwkl--
 
