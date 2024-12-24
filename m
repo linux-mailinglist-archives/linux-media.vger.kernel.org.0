@@ -1,146 +1,136 @@
-Return-Path: <linux-media+bounces-24030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24031-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4E59FBADA
-	for <lists+linux-media@lfdr.de>; Tue, 24 Dec 2024 10:01:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B2B9FBB26
+	for <lists+linux-media@lfdr.de>; Tue, 24 Dec 2024 10:29:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8A131884B2F
-	for <lists+linux-media@lfdr.de>; Tue, 24 Dec 2024 09:01:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61FA91636D6
+	for <lists+linux-media@lfdr.de>; Tue, 24 Dec 2024 09:29:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F632190470;
-	Tue, 24 Dec 2024 09:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Becd+Mro"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1DA31B2180;
+	Tue, 24 Dec 2024 09:28:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17088EC0
-	for <linux-media@vger.kernel.org>; Tue, 24 Dec 2024 09:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9951C1ADFE3;
+	Tue, 24 Dec 2024 09:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.242.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735030881; cv=none; b=tM5sJkGRFiUKGMstrldgdBzFUR8t2tUbWxcsysBf0W/ICBuEVdz3GgsEe/x559yzRo8vD//eeilRrLYt/76zqIQQeEANj4jxfVoTH9QUCtCXL7EZs9nPbUeoLrgZDFxNgcUVMT7gxYaRzmyR8DYuCVhJDRjyrOWr/cjlEAvKBBs=
+	t=1735032525; cv=none; b=qzhKJRHrrt86nqCKV23B96cHF3Zj4h6vJoXxI1XSpkrM26taTUtjzoMENhemSmsgWHgN+jAua37WyT1/fWOUossleZUmQ/DZzrviQ33QcaiI9sJ/lNp51d+VNKa2QDBvmMLwJi/70BfnhWvvwJbIu4fWzc2IlGkstRKHW6KwVZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735030881; c=relaxed/simple;
-	bh=l9heioVeOzEuPAjjFbsVIxVeeOdtM60CIli35hh1UJ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CSzoTydVRZWZ9yxpGb3FP16Rbm8hQ9ShhYxd6cmPBIucYmbeK3lCRMKn6Ez53Ox3bDlA1ICTh3O4dvzCYhFKYL87tI1GTkhIzFe3oOl5DAPBeiRWXp45MRGuSJpwerOdNbnpmifB7v9rgMtIbZ2HAdHZgdWZlsgiTh1+DNE2UQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Becd+Mro; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30032baf9d3so3254151fa.2
-        for <linux-media@vger.kernel.org>; Tue, 24 Dec 2024 01:01:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735030877; x=1735635677; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=f5AG8QMUtbvBzSiU43An6Att8E4YlaSSFClBM2LiJfc=;
-        b=Becd+Mro/kIMrNyze8nXo78PzA4N1TwkfGaiU/UQaTn3OUBzhWrm3Y5r9jAhud+2A7
-         aRd2J5Q+/9MxYzD44nJJcRKRRUhtcWoS5sYwYmivqZwK7NuZmS6vIjDy7YtQiDnecMHV
-         oRF+LVMmr6dceH+00iOFppRw0wLJ0inkQtHd00ffTfxcftxczKb7wrLrpQ67DV50fUcV
-         cfLPAe7HBxUqnyRUGgZ7P047X8SghvnMBb8+FAPNRAyfxuDue0sCBXK1DX2VkK9IPUgZ
-         iu6oyZgyt7EihEYB4Niq68NY82FWoehGeSPFopfHbtLyRZQMYuxq3kgUp+UruOj/ZVg2
-         E0cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735030877; x=1735635677;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f5AG8QMUtbvBzSiU43An6Att8E4YlaSSFClBM2LiJfc=;
-        b=nWIRlQmYp+icZvxHwyMgLuRhRLrMdKiqx/OElwvQmTO1vFUjnWsta5mtwoXWyIgFiT
-         Sd2W3rWlm6W7W64WTk6dsoQXdnOKz4gknpmAfh/1EvJ6rMTIJ9ZFF5lHoqHIgM/FcdFS
-         Y5uS2FuFOkbYrx97XnzMwtcpobqvcnvRoxjg16gQtOAgVDe41r/44gs5uMeNC2RDs17t
-         xZRKmLVFOL3YV6YtvpsNztCkL7uHauYorw3pTQyEFai9KgssDgP59I6FC1lF5+uy2ZVr
-         ab0jZHKuk2QYkCViye5v2Zl9A6RlIvUnouc3M8XLqkKrcM2HyRsWIkwYwBTZwZccOXGn
-         qg5w==
-X-Gm-Message-State: AOJu0YxB96cXA9fcZOrSCYFYUk6QFtyZN0EvlXsmPWxRDe5OVBdQUxmc
-	kXMvR+8FFxHPJL6dgYyJioa88ymiDzOdyYVFjVlHNVpYmQXNiwOEnfTeeDTU5Qo=
-X-Gm-Gg: ASbGncshVjWC/iJTFXROM8081+nxiW9FEn8TgDdW57sv45t8wzWdTyUwJOb6X3Del3O
-	xiOsqhpUKw9yb8GpRuKAi+X9NP3ta2etbHXhMytL3VRf1idgzDoQGMyjfINbUtvr3pNvoLwqvMV
-	HBG+MQBQ4aAsetu0R30flz4Q7WeX7vi3rtImspoaQH4vs8T7YwP0VQrXf2RT0euhjMWCPaLlXaa
-	0K6Lan5cniD5HYQpgcJiswnHzn6POB3vCJ48OjyDL6STy6ylC4+7WTeuBHkLx+yhkYwUi8t+1m6
-	f0xRfhrWY/DX0WPNxdfxV86vks+M3t/Q4lM=
-X-Google-Smtp-Source: AGHT+IEkE/3s0TKAM9KieDA+4ucBCYqr37jx0CxUqXiD1peYo8BUVKo5tuHxft9Aa0DdzKXFtPLx9g==
-X-Received: by 2002:a05:651c:2224:b0:300:3a15:8f1b with SMTP id 38308e7fff4ca-304685cd1d3mr20149361fa.10.1735030877109;
-        Tue, 24 Dec 2024 01:01:17 -0800 (PST)
-Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad6c5absm16214791fa.16.2024.12.24.01.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Dec 2024 01:01:15 -0800 (PST)
-Message-ID: <9ac372b7-1f29-432a-8a25-0ed1a918edbf@linaro.org>
-Date: Tue, 24 Dec 2024 11:01:04 +0200
+	s=arc-20240116; t=1735032525; c=relaxed/simple;
+	bh=iMruZDV4VOq/Cq/2W4TU5FA/fF49BGnBYt6mjD7mnDU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f2zMJUAycUTTCBsSPsqlmq/Bh3O2tPAJsSG1SKb8VrN1l7PX0dI0XVFOU8Gv4J9/T9amSGYH1NbloC/sI/o/J4f8So0xBgajsKgayiKzaEcUX2oeGciURbYssYBU8k7VxkN3pUykQqW+K3J0ywuECxh9bslSZuvN46FOAWEkSVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=176.9.242.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout3.hostsharing.net (Postfix) with ESMTPS id B069D100DECA6;
+	Tue, 24 Dec 2024 10:28:31 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 7E7CC35A1CC; Tue, 24 Dec 2024 10:28:31 +0100 (CET)
+Date: Tue, 24 Dec 2024 10:28:31 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Sumit Garg <sumit.garg@linaro.org>
+Cc: simona.vetter@ffwll.ch, Jens Wiklander <jens.wiklander@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel@lists.infradead.org,
+	Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com
+Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
+Message-ID: <Z2p-v-xjhzhPso6u@wunner.de>
+References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
+ <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local>
+ <CAFA6WYNVHu7_-bNAuTYBRBdoJwfk2VrW5M4aFVkb_UWQ=uxTvQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media: imx: fix OF node leak in
- imx_media_add_of_subdevs()
-Content-Language: ru-RU
-To: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, slongerbeam@gmail.com,
- p.zabel@pengutronix.de, mchehab@kernel.org, gregkh@linuxfoundation.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com
-Cc: linux-media@vger.kernel.org
-References: <20241224035411.2220404-1-joe@pf.is.s.u-tokyo.ac.jp>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20241224035411.2220404-1-joe@pf.is.s.u-tokyo.ac.jp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYNVHu7_-bNAuTYBRBdoJwfk2VrW5M4aFVkb_UWQ=uxTvQ@mail.gmail.com>
 
-On 12/24/24 05:54, Joe Hattori wrote:
-> imx_media_add_of_subdevs() calls of_parse_phandle() and passes the
-> obtained node to imx_media_of_add_csi(). The passed node is used in
-> v4l2_async_nf_add_fwnode(), which increments the refcount of the node.
-> Therefore, while the current implementation only releases the node when
-> imx_media_of_add_csi() fails, but should always release it. Call
-> of_node_put() right after imx_media_of_add_csi().
-> 
-> Fixes: dee747f88167 ("media: imx: Don't register IPU subdevs/links if CSI port missing")
-> Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-> ---
->   drivers/staging/media/imx/imx-media-of.c | 8 ++------
->   1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
-> index 118bff988bc7..bb28daa4d713 100644
-> --- a/drivers/staging/media/imx/imx-media-of.c
-> +++ b/drivers/staging/media/imx/imx-media-of.c
-> @@ -54,22 +54,18 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
->   			break;
->   
->   		ret = imx_media_of_add_csi(imxmd, csi_np);
-> +		of_node_put(csi_np);
->   		if (ret) {
->   			/* unavailable or already added is not an error */
->   			if (ret == -ENODEV || ret == -EEXIST) {
-> -				of_node_put(csi_np);
->   				continue;
->   			}
->   
->   			/* other error, can't continue */
-> -			goto err_out;
-> +			return ret;
->   		}
->   	}
->   
->   	return 0;
-> -
-> -err_out:
-> -	of_node_put(csi_np);
-> -	return ret;
->   }
->   EXPORT_SYMBOL_GPL(imx_media_add_of_subdevs);
+On Tue, Dec 24, 2024 at 12:05:19PM +0530, Sumit Garg wrote:
+> Restricted memory is a feature enforced by hardware specific firewalls
+> where a particular TEE implementation governs which particular block
+> of memory is accessible to a particular peripheral or a CPU running in
+> a higher privileged mode than the Linux kernel.
+[...]
+> - Another possible use-case can be for the TEE implementation to store
+> key material in a restricted buffer which is only accessible to the
+> hardware crypto accelerator.
 
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Just a heads-up:
 
---
-Best wishes,
-Vladimir
+For RSA sign/verify operations using rsassa-pkcs1 encoding,
+the message to be signed/verified (which I understand could
+be located in restricted memory) is prepended by a padding.
+
+The crypto subsystem does the prepending of the padding in software.
+The actual signature generation/verification (which is an RSA encrypt
+or decrypt operation) may be performed in hardware by a crypto
+accelerator.
+
+Before commit 8552cb04e083 ("crypto: rsassa-pkcs1 - Copy source
+data for SG list"), the kernel constructed a scatterlist
+consisting of the padding on the one hand, and of the message
+to be signed/verified on the other hand.  I believe this worked
+for use cases where the message is located in restricted memory.
+
+However since that commit, the kernel kmalloc's a new buffer and
+copies the message to be signed/verified into it.  The argument
+was that although the *kernel* may be able to access the data,
+the crypto accelerator may *not* be able to do so.  In particular,
+portions of the padding are located in the kernel's .rodata section
+which is a valid virtual address on x86 but not on arm64 and
+which may be inaccessible to a crypto accelerator.
+
+However in the case of restricted memory, the situation is exactly
+the opposite:  The kernel may *not* be able to access the data,
+but the crypto accelerator can access it just fine.
+
+I did raise a concern about this to the maintainer, but to no avail:
+https://lore.kernel.org/r/Z1Kym1-9ka8kGHrM@wunner.de/
+
+This is the alternative solution I would have preferred:
+https://lore.kernel.org/r/3de5d373c86dcaa5abc36f501c1398c4fbf05f2f.1732865109.git.lukas@wunner.de/
+
+> I am also in favour of end to end open source use-cases. But I fear
+> without progressing in a step wise manner as with this proposal we
+> would rather force developers to upstream all the software pieces in
+> one go which will be kind of a chicken and egg situation. I am sure
+> once this feature lands Mediatek folks will be interested to port
+> their secure video playback patchset [3] on top of it. Similarly other
+> silicon vendors like NXP, Qcom etc. will be motivated to do the same.
+
+The crypto use case may be easier to bring up than the video decoding
+use case because you don't need to implement a huge amount of
+user space code.
+
+Thanks,
+
+Lukas
 
