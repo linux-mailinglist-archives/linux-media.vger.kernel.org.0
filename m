@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-24060-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24061-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E8C9FC518
-	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2024 12:28:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEB99FC523
+	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2024 12:35:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1D3C1640FA
-	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2024 11:28:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 370C4162D7C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2024 11:35:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E06C1A83F1;
-	Wed, 25 Dec 2024 11:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE21E1946B9;
+	Wed, 25 Dec 2024 11:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X5MWFsDL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FV51Z6sv"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFE91411C8;
-	Wed, 25 Dec 2024 11:28:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C58713B7BC;
+	Wed, 25 Dec 2024 11:35:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735126090; cv=none; b=tMAoPqShxM5pCpwviw3trh8TbNaZcNVqelCPjT/bKH73vk3nsT71+a3QL0GDrfwGWYCWVO4MNfcCMMu4C6fsKc8aIVdmPFjTTYTGki+pkXdr2JQ6KS6vRM4szBLSl69xvUrk5w20EaX3Esy8dkbf7/pEqjVgJSaEwpSVX++o8Ec=
+	t=1735126541; cv=none; b=a9Qy+U7mxvGhczzD4PzI9fAfBXZdHBj6MVLV51dMdwzN0+PKR0/TtloNrqPeHp/rA/7zxXelEEifoRWIN2JFd9qXpdOuEWU8EvXaiPzrJsjHxgVmkhriAsoT5FmeYjVup+yp+PpXiMIHsw1DmBG/WKBkgRfuA5qMMGUf5IgyzJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735126090; c=relaxed/simple;
-	bh=Q62zRfD0sLiKfZ4Jr4dFPX1tGNoHoZ6JpQKQvkbHKIs=;
+	s=arc-20240116; t=1735126541; c=relaxed/simple;
+	bh=+C9n8JDIWCsXwlKI2qAt89tsfjxEOZm49dWRgp9c/f8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ETuS/vQ96PnLw2C35TPxk6qEpWOZzAWguwnGda3cEx2w0MU847hIREvE377jm2xo0IhIoRH9XrmOFY6LO7SMiOE6jWqFe+Ev+zpBAidJACTpDvc34mm3cX8hlRHPh+kzz8FHhbUwr9o6yqi1QAzgB9j52t9zPGsgBQpU2OOXzUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X5MWFsDL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C33BC4CECD;
-	Wed, 25 Dec 2024 11:28:05 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=m44XqQvqZvAN/8whrz9bdhxKG+TVMnEqFxXCjaHqzSO0d9RGIG4aQIeenZ8PzuUzYvAfyRnAeEhX+8aq2qIdPwTKRso/PNg6qHFdjbDQF7cDY9mkQFkRG+qHF0GNIJxSqBxCoMF4vz3KRtdhDrGrs0aG4NAP7PajSHmw9ikFXWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FV51Z6sv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93C3C4CECD;
+	Wed, 25 Dec 2024 11:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735126089;
-	bh=Q62zRfD0sLiKfZ4Jr4dFPX1tGNoHoZ6JpQKQvkbHKIs=;
+	s=k20201202; t=1735126540;
+	bh=+C9n8JDIWCsXwlKI2qAt89tsfjxEOZm49dWRgp9c/f8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=X5MWFsDL7rTMJxVNtIrlLie7h94DIYLbrRGSIcLZARRNWBBKPKx/MH7dao4QuNLWA
-	 FIAna9Nu6z5HeRaRqRINZ/EPk1cMnwojg6oejldaFsGqpinM8+5mkrpk3Sp6oNJhSt
-	 9tT+Ugt9+A3Xw/6j4LkcaU02PcLV+t1wR4R6Mvc9FcyV8pZ2Q2uUmF1uXWB8D6j7WD
-	 rDPtz3TAKMrqE0YT11nu9vtqzhW23ppbK4oaaMN5wbWtadSOl8W3gLNArUwph8YtNd
-	 SoztPHtUsLKIyGiygtNF82SwVseDjzkHp/BRRif1eW2m8d40/D3/6b6o1DNW95J8hU
-	 BfI3i1kGmALYA==
-Message-ID: <940b6518-dfe5-43f2-9295-1706e3f7b02d@kernel.org>
-Date: Wed, 25 Dec 2024 12:28:03 +0100
+	b=FV51Z6sv9VwFqGzWb/yRWHRApK/SFKreF5KRaBeyLzPzEHX1GiEbXO/Bthp/A5lkd
+	 Nogy4ayudK9mX1VOWGO+Ouuq2ngh4gsP5zs9CcdzrhbTdESwNf8FuwCBzwcXl5NEOn
+	 5leBH88OmynDwscFn20MhDLu6e/wfxWjdd2gwSIZZXbJ/6odXMq2B34EzNVZgKomrx
+	 +Ye/HTT96t8jXWkycpGt1wFgdh2uRrE0L+IYSfgEYLlNlYod8/9HfmPYF6Xeo+tQaO
+	 wDBIg303EysL0RFSk8V4mhPHhses3/uq5GrIE2PF8N+kfwodaCclLE2idDzjCFW8Lh
+	 bz6Mj/DdkZG/w==
+Message-ID: <fea37c93-7165-4c27-80e6-921ae1c35f77@kernel.org>
+Date: Wed, 25 Dec 2024 12:35:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] media: dt-bindings: add MT8188 AIE
+Subject: Re: [PATCH v3 3/4] media: mediatek: add MT8188 AIE driver
 To: "bo.kong" <bo.kong@mediatek.com>, mchehab@kernel.org, robh@kernel.org,
  krzk+dt@kernel.org
 Cc: conor+dt@kernel.org, matthias.bgg@gmail.com,
@@ -59,7 +59,7 @@ Cc: conor+dt@kernel.org, matthias.bgg@gmail.com,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com
 References: <20241225090113.17027-1-bo.kong@mediatek.com>
- <20241225090113.17027-3-bo.kong@mediatek.com>
+ <20241225090113.17027-4-bo.kong@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,31 +105,162 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241225090113.17027-3-bo.kong@mediatek.com>
+In-Reply-To: <20241225090113.17027-4-bo.kong@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 25/12/2024 10:00, bo.kong wrote:
 > From: Bo Kong <Bo.Kong@mediatek.com>
 > 
-> Add YAML device tree bindings for MT8188 AIE.
+> Add a V4L2 sub-device driver for MT8188 AIE.
 > 
 > Signed-off-by: Bo Kong <Bo.Kong@mediatek.com>
 > ---
 > 
 > Changes in v3:
-> none
+> 1. Remove not used include file, include only headers which AIE use
+> 2. Remove Makefile some private driver headers
 > 
 > Changes in v2:
 > 1. Fix coding style
 
-Coding style? So none of my specific comments were implemented? No
-improvements in compatibles, properties, all these things I pointed out?
+Only? Although several of my comments were about coding style, I pointed
+out different issues lack totally fake CONFIG symbols, incorrect usage
+of singleton approach and more. Are they implemented?
 
-Please be more specific or just go back to previous email and implement
-all the comments.
+Both of your changelogs are very vague, so I say does not make the
+review process easier.
+
+> ---
+>  drivers/media/platform/mediatek/Kconfig       |    1 +
+>  drivers/media/platform/mediatek/Makefile      |    1 +
+>  drivers/media/platform/mediatek/aie/Kconfig   |   41 +
+>  drivers/media/platform/mediatek/aie/Makefile  |    8 +
+>  drivers/media/platform/mediatek/aie/mtk_aie.h |  950 +++++
+>  .../media/platform/mediatek/aie/mtk_aie_53.c  | 1398 +++++++
+>  .../media/platform/mediatek/aie/mtk_aie_drv.c | 3545 +++++++++++++++++
+>  7 files changed, 5944 insertions(+)
+>  create mode 100644 drivers/media/platform/mediatek/aie/Kconfig
+>  create mode 100644 drivers/media/platform/mediatek/aie/Makefile
+>  create mode 100644 drivers/media/platform/mediatek/aie/mtk_aie.h
+>  create mode 100644 drivers/media/platform/mediatek/aie/mtk_aie_53.c
+>  create mode 100644 drivers/media/platform/mediatek/aie/mtk_aie_drv.c
+> 
+> diff --git a/drivers/media/platform/mediatek/Kconfig b/drivers/media/platform/mediatek/Kconfig
+> index 84104e2cd024..cd161272666b 100644
+> --- a/drivers/media/platform/mediatek/Kconfig
+> +++ b/drivers/media/platform/mediatek/Kconfig
+> @@ -2,6 +2,7 @@
+>  
+>  comment "Mediatek media platform drivers"
+>  
+> +source "drivers/media/platform/mediatek/aie/Kconfig"
+>  source "drivers/media/platform/mediatek/jpeg/Kconfig"
+>  source "drivers/media/platform/mediatek/mdp/Kconfig"
+>  source "drivers/media/platform/mediatek/vcodec/Kconfig"
+> diff --git a/drivers/media/platform/mediatek/Makefile b/drivers/media/platform/mediatek/Makefile
+> index 38e6ba917fe5..23a096fdf21c 100644
+> --- a/drivers/media/platform/mediatek/Makefile
+> +++ b/drivers/media/platform/mediatek/Makefile
+> @@ -1,4 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +obj-y += aie/
+>  obj-y += jpeg/
+>  obj-y += mdp/
+>  obj-y += vcodec/
+> diff --git a/drivers/media/platform/mediatek/aie/Kconfig b/drivers/media/platform/mediatek/aie/Kconfig
+> new file mode 100644
+> index 000000000000..b7925cd69309
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/aie/Kconfig
+> @@ -0,0 +1,41 @@
+> +config VIDEO_MTK_AIE
+> +	tristate "MediaTek AI engine function"
+> +	depends on OF
+> +	select V4L2_MEM2MEM_DEV
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select MEDIA_CONTROLLER_REQUEST_API
+> +	help
+> +	  Support the AI engine (AIE) feature
+> +
+> +	  AIE driver is a V4L2 memory-to-memory device driver which
+> +	  provides hardware accelerated face detection function,
+> +	  it can detect different sizes of faces in a raw image.
+> +
+> +config VIDEO_MTK_AIE_RESULT_IN_KERNEL
+> +	bool "Operate AIE in kernel mode"
+> +	depends on VIDEO_MTK_AIE
+> +	default y
+> +	help
+> +	  When this option is enabled, the MediaTek (MTK) AIE driver operates in
+> +	  kernel mode, which is the default mode.
+> +
+> +	  In kernel mode, the AIE driver's results are processed directly within
+> +	  the kernel space, enhancing performance and reliability.
+> +
+> +	  Disabling this option might compromise the AIE driver performance and stability.
+> +
+> +	  Unless you have specific needs for operating the driver in user mode,
+> +	  for example: unit test (UT), this option should remain enabled.
+> +
+> +config VIDEO_MTK_AIE_RESULT_IN_USER
+> +	bool "Operate AIE in user mode"
+> +	depends on VIDEO_MTK_AIE
+> +	help
+> +	  Enabling this option sets the MediaTek (MTK) AIE driver to operate in
+> +	  user mode.
+> +
+> +	  In this mode, AIE driver result values are handled at user level, providing an
+> +	  organized manner to store multiple result values.
+> +
+> +	  Unless you understand the implications of operating in user mode,
+> +	  this option is usually recommended to be disabled.
+> \ No newline at end of file
 
 
+Your patches have patch warnings.
+
+> diff --git a/drivers/media/platform/mediatek/aie/Makefile b/drivers/media/platform/mediatek/aie/Makefile
+> new file mode 100644
+> index 000000000000..15c1638a5064
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/aie/Makefile
+> @@ -0,0 +1,8 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +mtk-aie-$(CONFIG_VIDEO_MTK_AIE) += mtk_aie_53.o
+> +mtk-aie-$(CONFIG_VIDEO_MTK_AIE) += mtk_aie_drv.o
+> +
+> +obj-$(CONFIG_VIDEO_MTK_AIE) += mtk-aie.o
+> +
+> +ccflags-$(CONFIG_VIDEO_MTK_AIE) += -I$(srctree)/drivers/misc/mediatek/mtk-interconnect/
+> +ccflags-$(CONFIG_VIDEO_MTK_AIE) += -I$(srctree)/drivers/media/platform/mtk-isp/mtk-vmm/
+
+Drop both. You are not supposed to include other drivers private data
+structures. Encapsulation and interfaces are there for a purpose.
+
+
+> \ No newline at end of file
+
+
+Same here
+
+....
+
+> +
+> +#define FLD_BLINK_WEIGHT_FOREST14_SIZE	6416
+> +#define FLD_CV_SIZE			19392
+> +#define FLD_FP_SIZE			80160
+> +#define FLD_LEAFNODE_SIZE		4608000
+> +#define FLD_TREE_KM02_SIZE		120000
+> +#define FLD_TREE_KM13_SIZE		120000
+> +#define FLD_OUTPUT_SIZE			112
+> +
+> +#define FD_VERSION	1946050
+> +#define ATTR_VERSION	1929401
+
+Nothing improved, drop. Drivers do not have versions.
+
+I'll skip the rest.
 
 Best regards,
 Krzysztof
