@@ -1,97 +1,91 @@
-Return-Path: <linux-media+bounces-24079-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24080-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7CC9FC5DF
-	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2024 16:31:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F039FC5F5
+	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2024 16:47:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 210201635E2
-	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2024 15:31:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C67B81882465
+	for <lists+linux-media@lfdr.de>; Wed, 25 Dec 2024 15:47:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88715823DE;
-	Wed, 25 Dec 2024 15:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CFB1323D;
+	Wed, 25 Dec 2024 15:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TljpQ9I1"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="k6JJqOQQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D8E323D
-	for <linux-media@vger.kernel.org>; Wed, 25 Dec 2024 15:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A53A3B19A
+	for <linux-media@vger.kernel.org>; Wed, 25 Dec 2024 15:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735140668; cv=none; b=k9rGl496pUJbKrAFHQuzdBhZ7BRU9JS2uDws1TbGgjEJr6VMcnB/gmTwd3NKgo2jyuqYcRrX2OLZRP2feC1dEGufMmV4rsagBv1OqmuCbt9rBqT3Tp0vUxPXuLKeFrFDECI4Fb50NMwDjL2KLbuJwdELB0I8Rp9zI0U2FKMqBa4=
+	t=1735141612; cv=none; b=rZbll5eb32nYsPeSuhdP8rJamJ8Bl80b9Qv8nLJbo14puuWUDWOadSZg+tkiPNhT65WIwkFabIuJWk+B4Y3mGz4HyOU5NKspiottv9wsCypaIZcnwFAjI/OA8cIGxd4SQtDYV6hatrjUk5jT4q1XrlfOfxPcVNF52cVTKpThX5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735140668; c=relaxed/simple;
-	bh=XPprf/LnUo1gIngVT2PfZiJ/xQVgWG2glGIwGN2mJtM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aU8JNm7vZnFbZ0LfjpNkU6noSF1rRd5gb8u5yXvMsDrzNnq3njt5mKPMkAP9gWGdF7GPo32OYLMR0yjSWL3uerXKXOmgAgcRLALUwiJ7gDWT3lWmTKxEu9uh8zIXMBO/ulRWJArr/G/JtYt5fJKWAyNXnVXccc5ncdh9K4+mVCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TljpQ9I1; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4D0F66EC;
-	Wed, 25 Dec 2024 16:30:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1735140615;
-	bh=XPprf/LnUo1gIngVT2PfZiJ/xQVgWG2glGIwGN2mJtM=;
-	h=Date:From:To:Cc:Subject:From;
-	b=TljpQ9I1BKj/VH8UomQ+DDSM8QCSr3t7P7R/FqcM6yk0PIcqdLmf4R1pSEOAC0Jgm
-	 CCiNsmle1Bpbgg/Svhupk1CDo1CTblWFdxqVSWsFWXw689yHJShjVTwe8pxBiFD5ju
-	 HC/qepMtx4GdTrIuiBbNy2/NC0hgxkEWt9PtXZZI=
-Date: Wed, 25 Dec 2024 17:30:56 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: =?utf-8?B?8J+Qpy1tZWRpYQ==?= <linux-media@vger.kernel.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [GIT PULL FOR v6.14] uvcvideo changes
-Message-ID: <20241225153056.GA3523@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1735141612; c=relaxed/simple;
+	bh=hPyS1Op3rNx51keUHbSzkqRuE9PjWHtpMNzkYaCwSvg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=bK9xRhh1lCAvcp068MhKb4E8zV9JKcj07oRFErtD9IrMzaaf01POGDCw6re54BY+Je4o1Vxcsd1HBS0OPh86nLSIcBFq9zny0NLouPwwoBOjtxk7tksBvVP4xk4S9NzEAyjcH9joGYInkUXAYMblvEo7f42ys3WXlMLfBKwReLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=k6JJqOQQ; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=wLKLwQb3B8D42FRW/tXtitqOOp0QcTrK+AjMyqp5V6Q=; b=k6JJqOQQMIO8cxH/98h5t9FQs5
+	8oN9vyHhBfU1T3Nb3lPzqO8ZBOvPG7QmQ9EfMuO/I3LuZnvf8cX+VFgoNvEIPbRdZQFbnOUzjyPWZ
+	orD1H9ZGHBheDsUAdejDfY8BTq06HFuSoumahoiT/tjwh2ucVOdyHNiBjb+k8YoXB/7uGxgH+XzMb
+	BOt3BhKhA+pa4/Yi5AAR1v/Ghh3UbbO5+K4TX2S4uw5ow41MNSBDfGdfOwyc5L+Y7DtX6Pw2uNm48
+	0Lwr2Hl1QKgSlKo61SPYPtn1qejs809zZxtqPhXfGxO4Tgg2C5UI8v8wQc91sh+1LVPpNQrktCe5d
+	YnfB1Flw==;
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1tQTb0-0000D5-0T;
+	Wed, 25 Dec 2024 15:46:50 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+	by slave0 with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1tQTaz-009cgS-2K;
+	Wed, 25 Dec 2024 15:46:49 +0000
+From: Jenkins <jenkins@linuxtv.org>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.14] uvcvideo changes (#106342)
+Date: Wed, 25 Dec 2024 15:46:49 +0000
+Message-Id: <20241225154649.2293643-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241225153056.GA3523@pendragon.ideasonboard.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Mauro, Hans,
+From: builder@linuxtv.org
 
-The following changes since commit 40ed9e9b2808beeb835bd0ed971fb364c285d39c:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20241225153056.GA3523@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/410924/
+Build time: 00:08:52
+Link: https://lore.kernel.org/linux-media/20241225153056.GA3523@pendragon.ideasonboard.com
 
-  media: uvcvideo: Announce the user our deprecation intentions (2024-12-19 14:44:43 +0000)
+gpg: Signature made Wed 25 Dec 2024 12:59:40 PM UTC
+gpg:                using EDDSA key 7804022A38B7D13F41738C3685F1965061424BE1
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Good signature from "Laurent Pinchart <laurent.pinchart@ideasonboard.com>" [full]
+gpg: laurent.pinchart@ideasonboard.com: Verified 8 signatures in the past
+     5 months.  Encrypted 0 messages.
 
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/next-media-uvc-20241225
-
-for you to fetch changes up to 602cb4ec107b094564a75270d8696ec2c951ece6:
-
-  media: uvcvideo: Add Kurokesu C1 PRO camera (2024-12-20 20:20:12 +0200)
-
-The series passes CI:
-https://gitlab.freedesktop.org/linux-media/users/pinchartl/-/pipelines/1335657.
-As it is based on top of the latest fdo next branch, there's no need to
-rebase.
-
-----------------------------------------------------------------
-uvcvideo: Quirk for dual-stream devices affected by packet loss
-
-----------------------------------------------------------------
-Isaac Scott (3):
-      media: uvcvideo: Implement dual stream quirk to fix loss of usb packets
-      media: uvcvideo: Add new quirk definition for the Sonix Technology Co. 292a camera
-      media: uvcvideo: Add Kurokesu C1 PRO camera
-
- drivers/media/usb/uvc/uvc_driver.c | 18 ++++++++++++++++++
- drivers/media/usb/uvc/uvc_video.c  | 27 ++++++++++++++++++++++++++-
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 45 insertions(+), 1 deletion(-)
-
--- 
-Regards,
-
-Laurent Pinchart
+Summary: no issues. All 3 looked fine.
 
