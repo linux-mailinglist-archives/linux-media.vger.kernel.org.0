@@ -1,161 +1,192 @@
-Return-Path: <linux-media+bounces-24101-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24102-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF149FCBC8
-	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2024 17:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0169FCD5C
+	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2024 20:34:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1D5B188327C
-	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2024 16:16:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C2B7B1883129
+	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2024 19:34:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB042126C02;
-	Thu, 26 Dec 2024 16:16:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 132D014AD29;
+	Thu, 26 Dec 2024 19:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vNuTWzpO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oJo4KlQn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8D64C74;
-	Thu, 26 Dec 2024 16:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AA61EEF9;
+	Thu, 26 Dec 2024 19:34:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735229761; cv=none; b=j+5tIrbKP0EcG3obdL4EyDtP8b4+ZjLdhGHh0PNZzfdhCKEnJuwNIdWB9D8xqP9GxSy+xzTJGxJSOofSg2gJ0ePDee3IaB8lyXL9vp/2II/VHZcTinYiBd0lxGd9FWGjzDrtSv8sOw1g9o6AE7nYhudb1o7uyopMQyiD3BzMtec=
+	t=1735241679; cv=none; b=jN96XC8eSH7zLqyt1Ez131UJ/3XWDJa/ZNnJrQ0Q/vqgtVQFQdXEvKP54dVIm7TeK2tHfD8+aXig6NuT4i+Qvm80wfempX4JQA4BeY2Fhv5B1muDhX15WinjukivWwarut493XL2qNlHwSPokA2fCZHCCj3qKGjryelG2pWpsM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735229761; c=relaxed/simple;
-	bh=06nc+tg/4UKFLfBYN5nBlZntSO6n2nOqTRR922L+9gQ=;
+	s=arc-20240116; t=1735241679; c=relaxed/simple;
+	bh=jaxKQkcQJ6HPxYdCnrscSMQA7KMAce/g/gry8Yxui9g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SXfCvlzNB+B26vNzpGAxSbB+eU0Jpp73oa1exz9q537IgsZqCdw8b5a1rsaUNEmUXqOR+SQ57dCeqWjD3G3ab4/+u552uRSGf/BG+Jsm6yNDeGDUn7/2X/Wn4MxczDEGI0bTJNtWLZ+vx5ZZIV83Gxf3hLCenIgITBBXvDZivVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vNuTWzpO; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=ucBVquP5wrniBG+Y+1qnUVZncRVk9CGDSIr7lSkHOM+7mQKUAIkjkKDRK3xnbnqNKkNZRVbZvoo0XMqEyff9ix4Uc79kEjPUuc64HHfclLLCPkxwgXgxlhJJ7HOKr+2MBhATKgFqZfD1jZcjDhjkyvV0XEu1Z7xUERJg57FKpOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oJo4KlQn; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (85-76-136-220-nat.elisa-mobile.fi [85.76.136.220])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 889ECC62;
-	Thu, 26 Dec 2024 17:15:06 +0100 (CET)
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:4ee5:4f3d:d64c:ba0b:db2e])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 774F163F;
+	Thu, 26 Dec 2024 20:33:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1735229707;
-	bh=06nc+tg/4UKFLfBYN5nBlZntSO6n2nOqTRR922L+9gQ=;
+	s=mail; t=1735241629;
+	bh=jaxKQkcQJ6HPxYdCnrscSMQA7KMAce/g/gry8Yxui9g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vNuTWzpO+NV6jThFUEyFTevR8A7JtDlja0Gx5dRVeTlETjo07XJu3yGTZWW5HKq9w
-	 6NJ2VHN6AIoGBBH+QqPxDlKa+JrwSHVmYaKIxfQckW9EURh5bJo018KShjyNXnMK0j
-	 wnbE/uvP83eDqTeARSttnsfurIwNQ/WsLc4awxMw=
-Date: Thu, 26 Dec 2024 18:15:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: yuji2.ishikawa@toshiba.co.jp, mchehab@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-	nobuhiro1.iwamatsu@toshiba.co.jp, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v12 1/8] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti MIPI CSI-2 Receiver
-Message-ID: <20241226161547.GB554@pendragon.ideasonboard.com>
-References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
- <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
- <07e0cc97-c0c4-42fd-b51d-87b0eaed4e4a@kernel.org>
- <TY3PR01MB9982FE7739FABB2275C79C0B923B2@TY3PR01MB9982.jpnprd01.prod.outlook.com>
- <cb6be804-1649-4d17-839c-fe58a39baa1d@kernel.org>
+	b=oJo4KlQnmcRWAQ7LVdo199ePRhaYuReaprdVaIqHuRyFQCEg2jHkRojFNQB40J7Cl
+	 SEQMJMJeuQqgJXhhxLCyWgQIKbd5zsTvMFnAPrHDJCvxWVh5iqN7mfneSbTmTU1OVw
+	 xfILWh0xp8hnGmY5eLGrXgNuBv8t6mjlsDkZf1vY=
+Date: Fri, 27 Dec 2024 01:04:23 +0530
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v4 4/5] media: i2c: imx219: Update PLL multipliers
+Message-ID: <y7k6uugodwgyijl7mmakycwoklzbb4i5zdwhccrooz2lo4aqm6@rcawfilxiqqm>
+X-PGP-Key: http://jailuthra.in/files/public-key.asc
+References: <20241226-imx219_fixes-v4-0-dd28383f06f7@ideasonboard.com>
+ <20241226-imx219_fixes-v4-4-dd28383f06f7@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ofiosnjpcgcnstu5"
 Content-Disposition: inline
-In-Reply-To: <cb6be804-1649-4d17-839c-fe58a39baa1d@kernel.org>
+In-Reply-To: <20241226-imx219_fixes-v4-4-dd28383f06f7@ideasonboard.com>
 
-On Tue, Dec 17, 2024 at 06:44:58AM +0100, Krzysztof Kozlowski wrote:
-> On 17/12/2024 00:57, yuji2.ishikawa@toshiba.co.jp wrote:
-> >> On 25/11/2024 10:21, Yuji Ishikawa wrote:
-> >>> Adds the Device Tree binding documentation that allows to describe the
-> >>> MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
-> >>>
-> >>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> >>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> >>
-> >> How newly added patch can have already Rb tag? Was this review really, really
-> >> performed internally or you just satisfy some internal managers requirements
-> >> and fake the stats?
-> >>
-> > 
-> > I added this Reviewed-by tag because the patch was reviewed internally.
-> 
-> What issues were identified by internal review, especially in the
-> context of bindings?
-> 
-> >>> ---
-> >>>
-> >>> Changelog v12:
-> >>> - Newly add bindings for CSI2RX driver
-> >>>
-> >>>  .../media/toshiba,visconti5-csi2rx.yaml       | 104
-> >> ++++++++++++++++++
-> >>>  1 file changed, 104 insertions(+)
-> >>>  create mode 100644
-> >>> Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
-> >>>
-> >>> diff --git
-> >>> a/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yam
-> >>> l
-> >>> b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yam
-> >>> l
-> >>> new file mode 100644
-> >>> index 000000000000..5488072bc82a
-> >>> --- /dev/null
-> >>> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx
-> >>> +++ .yaml
-> >>> @@ -0,0 +1,104 @@
-> >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> >>> +---
-> >>> +$id:
-> >>> +http://devicetree.org/schemas/media/toshiba,visconti5-csi2rx.yaml#
-> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>> +
-> >>> +title: Toshiba Visconti5 SoC MIPI CSI-2 receiver
-> >>> +
-> >>> +maintainers:
-> >>> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> >>> +
-> >>> +description: |-
-> >>
-> >> Drop |-
-> >>
-> > 
-> > I'll drop "|-"
-> > 
-> >>> +  Toshiba Visconti5 SoC MIPI CSI-2 receiver device receives MIPI
-> >>> + CSI-2 video  stream. Use with VIIF device. T.B.D
-> >>> +
-> >>> +properties:
-> >>> +  compatible:
-> >>> +    const: toshiba,visconti5-csi2rx
-> >>
-> >> Why this is called "RX"? Can you have a TX? I had impression that one cannot.
-> >>
-> > 
-> > VIIF has only MIPI CSI2 receiver (CSI2RX). There's no TX for it.
-> 
-> So this device cannot be anything else? Then drop rx.
 
-It's a compatible string, it identifies the IP core. As the SoC also has
-a CSI-2 transmitter (as mentioned by Ishikawa-san), it makes sense to
-name the CSI-2 receiver csi2rx.
+--ofiosnjpcgcnstu5
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 4/5] media: i2c: imx219: Update PLL multipliers
+MIME-Version: 1.0
 
-> > Visconti also has VOIF (Video Output Interface) hardware which has
-> > MIPI CSI2 (not DSI) transmitter (CSI2TX).
-> 
-> Or this can be something else? Confusing.
+On Thu, Dec 26, 2024 at 01:19:36PM +0530, Jai Luthra wrote:
+> Switch to different PLL multipliers and FLL/LLP to achieve the same
 
-In a camera capture pipeline the CSI-2 interface of the SoC is a CSI-2
-receiver, but SoCs commonly have CSI-2 transmitters as well (even if
-that's less common than receivers).
+Self NACK here. The new PLL multipliers also mean a different pixel rate, I=
+=20
+missed making that change in this patch.
 
--- 
-Regards,
+On further testing, only updating the minimum LLP from 0xd78 to 0xde8 is wh=
+at=20
+fixes the issue. The change to the PLL multipliers is not really needed.
 
-Laurent Pinchart
+> resolution and framerate while avoiding blocky artefacts seen when using
+> analog binning with RAW10 format on higher resolutions [1].
+>=20
+> These new settings match the register sequence generated for
+> 1640x1232@60fps (2x2 analog binned) RAW10 mode where no artefacts are
+> present. The same values work for other modes as well. It is unclear
+> from the datasheet why a higher HBLANK, lower VBLANK and lower PLL
+> multipliers fix the artefacts seen before.
+
+I will send a v5 that does not change the PLL multipliers but only increases
+the minimum LLP (and decreases vts_def for all modes, so that we still hit=
+=20
+30/60fps)
+
+>=20
+> [1]: https://github.com/raspberrypi/rpicam-apps/issues/281#issuecomment-1=
+082894118
+>=20
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx219.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 84681e5da3e238905139fe174e9ee3cfe5fa0246..a8fcb7234c78b888cd7424629=
+ced02cdc55a98fd 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -74,7 +74,7 @@
+>  #define IMX219_FLL_MAX			0xffff
+>  #define IMX219_VBLANK_MIN		32
+>  #define IMX219_REG_LINE_LENGTH		CCI_REG16(0x0162)
+> -#define IMX219_LLP_MIN			0x0d78
+> +#define IMX219_LLP_MIN			0x0de8
+>  #define IMX219_LLP_MAX			0x7ff0
+> =20
+>  #define IMX219_REG_X_ADD_STA_A		CCI_REG16(0x0164)
+> @@ -171,9 +171,9 @@ static const struct cci_reg_sequence imx219_common_re=
+gs[] =3D {
+>  	{ IMX219_REG_VTSYCK_DIV, 1 },
+>  	{ IMX219_REG_PREPLLCK_VT_DIV, 3 },	/* 0x03 =3D AUTO set */
+>  	{ IMX219_REG_PREPLLCK_OP_DIV, 3 },	/* 0x03 =3D AUTO set */
+> -	{ IMX219_REG_PLL_VT_MPY, 57 },
+> +	{ IMX219_REG_PLL_VT_MPY, 48 },
+>  	{ IMX219_REG_OPSYCK_DIV, 1 },
+> -	{ IMX219_REG_PLL_OP_MPY, 114 },
+> +	{ IMX219_REG_PLL_OP_MPY, 96 },
+> =20
+>  	/* Undocumented registers */
+>  	{ CCI_REG8(0x455e), 0x00 },
+> @@ -287,25 +287,25 @@ static const struct imx219_mode supported_modes[] =
+=3D {
+>  		/* 8MPix 15fps mode */
+>  		.width =3D 3280,
+>  		.height =3D 2464,
+> -		.vts_def =3D 3526,
+> +		.vts_def =3D 2876,
+>  	},
+>  	{
+>  		/* 1080P 30fps cropped */
+>  		.width =3D 1920,
+>  		.height =3D 1080,
+> -		.vts_def =3D 1763,
+> +		.vts_def =3D 1438,
+>  	},
+>  	{
+>  		/* 2x2 binned 30fps mode */
+>  		.width =3D 1640,
+>  		.height =3D 1232,
+> -		.vts_def =3D 1763,
+> +		.vts_def =3D 1438,
+>  	},
+>  	{
+>  		/* 640x480 30fps mode */
+>  		.width =3D 640,
+>  		.height =3D 480,
+> -		.vts_def =3D 1763,
+> +		.vts_def =3D 1438,
+>  	},
+>  };
+> =20
+>=20
+> --=20
+> 2.47.1
+>=20
+
+--ofiosnjpcgcnstu5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmdtr7kACgkQQ96R+SSa
+cUWpvhAAu+GZPY0XUfVj1SF47Dzu+71Ld/rHxdosfE8fH2eqPkyDe/i/sG+wr1UF
+KPThQ3B698CZIw0/vo18lqQB1MJGsqah0ssFi5oTANVuUlEhV7nxI8sBLIhW6xlW
+VtER54OAosHzJ9U4NfaigB/Z8TWqketyluQX0U5vZBTjpUNbTzq7ctlYmJq+ybZb
+iA7/YFHAxbhFhK/hJz/liLbioAUbD4p+2kilXCOfKcrrN9DjeFi+0kup8E2HZcJt
+74k0kNMIDuQdXHCkoh9E7/OwEh7mNSF3RT21eimMx+/ifYa5qwULSShVIKZn/tRv
+QNcuJYIMYm8yFHCzpmN3BIAqJ3H2lVqLgHez7SVYYN7Z09CmidktVh+FGocY//4a
+JCJFCPNCzICY1ekmtAfFtJhFaULM3O1uikCrRcTDyAmTIGaT1c8bTxFyCR2+o7gz
+wVgOTD6VcRGuj8i2h8jjoI9/wrbnay4A2+h+IT9xn7F28KsUd/Hw6v6qRV3SVQsa
+YB0Y/aydKPy3PUJweZCSgEN2rPAqL2OymSNeptA3+GZqmeZPXDua9hEZVNR8wcZ3
+w+O+ml4+lZ15UI7lOJAY6J2299KR3irKc66gLVAjnfk1TvzTmBhasVcETcbJe/2m
+KmbY4KXiAww2sf66t2E21IuWMuaHIcCqY5JI70TxeYKP1U3lUfQ=
+=1Qw2
+-----END PGP SIGNATURE-----
+
+--ofiosnjpcgcnstu5--
 
