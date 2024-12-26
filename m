@@ -1,107 +1,161 @@
-Return-Path: <linux-media+bounces-24100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4709FCA7F
-	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2024 12:26:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF149FCBC8
+	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2024 17:16:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30B101882F38
-	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2024 11:26:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1D5B188327C
+	for <lists+linux-media@lfdr.de>; Thu, 26 Dec 2024 16:16:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27F661D432F;
-	Thu, 26 Dec 2024 11:26:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB042126C02;
+	Thu, 26 Dec 2024 16:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vNuTWzpO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BA81CEE97;
-	Thu, 26 Dec 2024 11:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.242.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8D64C74;
+	Thu, 26 Dec 2024 16:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735212402; cv=none; b=ii2y7PBP593Agb+CAiw6d6XRVzPkSHG6q1Xpe+LM231cGwBcf+4NdeKdNpPZEBkKnLmf5jAJDMMx4tuKzvdWCEIQL5xuNDhNsaA8RK32IrMF1rQWC3QCDqkI6cNZrM2VLd6y7ftA8X1xVWABhVJdrVH9O1sp5thEQvVdDDP7xFs=
+	t=1735229761; cv=none; b=j+5tIrbKP0EcG3obdL4EyDtP8b4+ZjLdhGHh0PNZzfdhCKEnJuwNIdWB9D8xqP9GxSy+xzTJGxJSOofSg2gJ0ePDee3IaB8lyXL9vp/2II/VHZcTinYiBd0lxGd9FWGjzDrtSv8sOw1g9o6AE7nYhudb1o7uyopMQyiD3BzMtec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735212402; c=relaxed/simple;
-	bh=l2d9iiFp9yQIwq+9FuJBOu4w2gBJxorfZCr8o9X1RK0=;
+	s=arc-20240116; t=1735229761; c=relaxed/simple;
+	bh=06nc+tg/4UKFLfBYN5nBlZntSO6n2nOqTRR922L+9gQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u7YRwCJjcFtTeboSRYNDw+ZULjO4p5reI9Gf11iEm0hS2N8xJOw5c/eArL8DA01G/a915FEttmiCArwBDwHr1rDhAeM3WsWIx9GuQON8IomgasT/IkTOQz5/ajBOMAHc4t4TSKgIJH1UOMV7hZT3yGyEixGzRB+MHTBnb7DPwlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=176.9.242.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout3.hostsharing.net (Postfix) with ESMTPS id 73F66100D9404;
-	Thu, 26 Dec 2024 12:26:29 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 476F630F89E; Thu, 26 Dec 2024 12:26:29 +0100 (CET)
-Date: Thu, 26 Dec 2024 12:26:29 +0100
-From: Lukas Wunner <lukas@wunner.de>
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: simona.vetter@ffwll.ch, Jens Wiklander <jens.wiklander@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	op-tee@lists.trustedfirmware.org,
-	linux-arm-kernel@lists.infradead.org,
-	Olivier Masse <olivier.masse@nxp.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	azarrabi@qti.qualcomm.com
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-Message-ID: <Z209ZegsmgN1xlNG@wunner.de>
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local>
- <CAFA6WYNVHu7_-bNAuTYBRBdoJwfk2VrW5M4aFVkb_UWQ=uxTvQ@mail.gmail.com>
- <Z2p-v-xjhzhPso6u@wunner.de>
- <CAFA6WYMEjT5EAG3AL8NpbET6L=M86LBgnhLnWirvDZg9cUUiuA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=SXfCvlzNB+B26vNzpGAxSbB+eU0Jpp73oa1exz9q537IgsZqCdw8b5a1rsaUNEmUXqOR+SQ57dCeqWjD3G3ab4/+u552uRSGf/BG+Jsm6yNDeGDUn7/2X/Wn4MxczDEGI0bTJNtWLZ+vx5ZZIV83Gxf3hLCenIgITBBXvDZivVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vNuTWzpO; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (85-76-136-220-nat.elisa-mobile.fi [85.76.136.220])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 889ECC62;
+	Thu, 26 Dec 2024 17:15:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1735229707;
+	bh=06nc+tg/4UKFLfBYN5nBlZntSO6n2nOqTRR922L+9gQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vNuTWzpO+NV6jThFUEyFTevR8A7JtDlja0Gx5dRVeTlETjo07XJu3yGTZWW5HKq9w
+	 6NJ2VHN6AIoGBBH+QqPxDlKa+JrwSHVmYaKIxfQckW9EURh5bJo018KShjyNXnMK0j
+	 wnbE/uvP83eDqTeARSttnsfurIwNQ/WsLc4awxMw=
+Date: Thu, 26 Dec 2024 18:15:47 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: yuji2.ishikawa@toshiba.co.jp, mchehab@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+	nobuhiro1.iwamatsu@toshiba.co.jp, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v12 1/8] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti MIPI CSI-2 Receiver
+Message-ID: <20241226161547.GB554@pendragon.ideasonboard.com>
+References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
+ <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
+ <07e0cc97-c0c4-42fd-b51d-87b0eaed4e4a@kernel.org>
+ <TY3PR01MB9982FE7739FABB2275C79C0B923B2@TY3PR01MB9982.jpnprd01.prod.outlook.com>
+ <cb6be804-1649-4d17-839c-fe58a39baa1d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAFA6WYMEjT5EAG3AL8NpbET6L=M86LBgnhLnWirvDZg9cUUiuA@mail.gmail.com>
+In-Reply-To: <cb6be804-1649-4d17-839c-fe58a39baa1d@kernel.org>
 
-On Thu, Dec 26, 2024 at 11:29:23AM +0530, Sumit Garg wrote:
-> On Tue, 24 Dec 2024 at 14:58, Lukas Wunner <lukas@wunner.de> wrote:
-> > However in the case of restricted memory, the situation is exactly
-> > the opposite:  The kernel may *not* be able to access the data,
-> > but the crypto accelerator can access it just fine.
-> >
-> > I did raise a concern about this to the maintainer, but to no avail:
-> > https://lore.kernel.org/r/Z1Kym1-9ka8kGHrM@wunner.de/
+On Tue, Dec 17, 2024 at 06:44:58AM +0100, Krzysztof Kozlowski wrote:
+> On 17/12/2024 00:57, yuji2.ishikawa@toshiba.co.jp wrote:
+> >> On 25/11/2024 10:21, Yuji Ishikawa wrote:
+> >>> Adds the Device Tree binding documentation that allows to describe the
+> >>> MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
+> >>>
+> >>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> >>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> >>
+> >> How newly added patch can have already Rb tag? Was this review really, really
+> >> performed internally or you just satisfy some internal managers requirements
+> >> and fake the stats?
+> >>
+> > 
+> > I added this Reviewed-by tag because the patch was reviewed internally.
 > 
-> Herbert's point is valid that there isn't any point for mapping
-> restricted memory in the kernel virtual address space as any kernel
-> access to that space can lead to platform specific hardware error
-> scenarios. And for that reason we simply disallow dma_buf_mmap() and
-> don't support dma_buf_vmap() for DMA-bufs holding TEE restricted
-> memory.
+> What issues were identified by internal review, especially in the
+> context of bindings?
+> 
+> >>> ---
+> >>>
+> >>> Changelog v12:
+> >>> - Newly add bindings for CSI2RX driver
+> >>>
+> >>>  .../media/toshiba,visconti5-csi2rx.yaml       | 104
+> >> ++++++++++++++++++
+> >>>  1 file changed, 104 insertions(+)
+> >>>  create mode 100644
+> >>> Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
+> >>>
+> >>> diff --git
+> >>> a/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yam
+> >>> l
+> >>> b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yam
+> >>> l
+> >>> new file mode 100644
+> >>> index 000000000000..5488072bc82a
+> >>> --- /dev/null
+> >>> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx
+> >>> +++ .yaml
+> >>> @@ -0,0 +1,104 @@
+> >>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> >>> +---
+> >>> +$id:
+> >>> +http://devicetree.org/schemas/media/toshiba,visconti5-csi2rx.yaml#
+> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>> +
+> >>> +title: Toshiba Visconti5 SoC MIPI CSI-2 receiver
+> >>> +
+> >>> +maintainers:
+> >>> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> >>> +
+> >>> +description: |-
+> >>
+> >> Drop |-
+> >>
+> > 
+> > I'll drop "|-"
+> > 
+> >>> +  Toshiba Visconti5 SoC MIPI CSI-2 receiver device receives MIPI
+> >>> + CSI-2 video  stream. Use with VIIF device. T.B.D
+> >>> +
+> >>> +properties:
+> >>> +  compatible:
+> >>> +    const: toshiba,visconti5-csi2rx
+> >>
+> >> Why this is called "RX"? Can you have a TX? I had impression that one cannot.
+> >>
+> > 
+> > VIIF has only MIPI CSI2 receiver (CSI2RX). There's no TX for it.
+> 
+> So this device cannot be anything else? Then drop rx.
 
-The API for signature generation/verification (e.g. crypto_sig_sign(),
-crypto_sig_verify()) no longer accepts scatterlists, only buffers in
-virtual address space:
+It's a compatible string, it identifies the IP core. As the SoC also has
+a CSI-2 transmitter (as mentioned by Ishikawa-san), it makes sense to
+name the CSI-2 receiver csi2rx.
 
-https://lore.kernel.org/all/ZIrnPcPj9Zbq51jK@gondor.apana.org.au/
+> > Visconti also has VOIF (Video Output Interface) hardware which has
+> > MIPI CSI2 (not DSI) transmitter (CSI2TX).
+> 
+> Or this can be something else? Confusing.
 
-Hence in order to use buffers in restricted memory for signature
-generation/verification, you'd need to map them into virtual address
-space first.
+In a camera capture pipeline the CSI-2 interface of the SoC is a CSI-2
+receiver, but SoCs commonly have CSI-2 transmitters as well (even if
+that's less common than receivers).
 
-Thanks,
+-- 
+Regards,
 
-Lukas
+Laurent Pinchart
 
