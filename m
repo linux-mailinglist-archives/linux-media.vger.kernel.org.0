@@ -1,78 +1,48 @@
-Return-Path: <linux-media+bounces-24121-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24122-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C3C9FD0FA
-	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2024 08:20:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E559FD101
+	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2024 08:22:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD42E3A0651
-	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2024 07:20:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E21E1882A31
+	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2024 07:22:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF57D13665A;
-	Fri, 27 Dec 2024 07:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A8A1459F6;
+	Fri, 27 Dec 2024 07:22:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WGF1VaZl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rsCpJfBc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2EE45C14
-	for <linux-media@vger.kernel.org>; Fri, 27 Dec 2024 07:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C251DA4E;
+	Fri, 27 Dec 2024 07:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735284023; cv=none; b=AmOVPrLQmB2pCmgVzkIksFc2OH8bip/iLRzyNv2Z5KpXdaZggmTeyQ+sG/74hPRCzZmNrgSwE0qOKgceZXZtRUG9+B5X7jIxJUsZ/HrjE7W32dMd2t1t1ZwwKimQYRA+NMWNH97HcqjjUJZnxGWcLLqlOVMma9yUg34jBVDKM6k=
+	t=1735284150; cv=none; b=CC4w57BV/ktxJBR4q20sUE5Q95/xl115oFQMI/kQZliuzxAayf+AN/skgz8O1tDbGJjax6jymKd5ad6wDRf3XYLj2+PFi9lCsSxav8BMlLlCO1dTSu6/gXo+fHn+gXKbD6NbVdBZ+k5/RQdshwLEHDuC9T1WUDnMeQFBscIfp1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735284023; c=relaxed/simple;
-	bh=wY/QvHNIVtnbu6h2rDswH2OCZY06zeitq3xg8gtPS48=;
+	s=arc-20240116; t=1735284150; c=relaxed/simple;
+	bh=T1vaXl5C9+j3lCTZbsNb2DubF06/7f89mPCLJb0pzys=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IZps8zZcLn0ZeovVpDlJk52b5eloX+ady6yMg8MNEIOQtEbJ6TpiOQ5FipjiMMpP0Bfmv8qMJfW7dSk5wFsXICMUQ0saWFthZyU5+bLoKmegWjWZ4JtzNAT4ztNGRizhrhEG59OY/EmIlBL94orGu6N8jgFNifUyAjUyRVxpags=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WGF1VaZl; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3862e570832so860024f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 26 Dec 2024 23:20:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735284020; x=1735888820; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=VXAJa9FIW33aWA+s0k664EUsn4laTLVqXCPlW15NvKU=;
-        b=WGF1VaZlXUMFmmuJlKMcFgIUlR4nsJ++hjm5fQsAGpWbqUsofqYZDGzmL+MHkqxBB4
-         0ZiucE6glaqiMfnhBrzQ+EiqBc3N9VGe7VAGFfEnqR+/beheLJcHCz99Rc0vi1mkXPk/
-         eE0tP94gi9dIWs95nsX5Pes4RBQsctgYCvhLECQLiW1zVnf1U2ztgPJ6vfD+6fC4VaJy
-         AV/gp7+pXkM9qb2Zv4y6EIhhmWxk77cZ3vQJE/Wz2tP0ltugb2uz0kjAw61a5tgHIYa2
-         1y8OGrQEQsjJB+iLVm08DOBmY5ooOoND0PR09ySIppdlaiFOytcjl7bFIjDfABSgRg4J
-         zPFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735284020; x=1735888820;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VXAJa9FIW33aWA+s0k664EUsn4laTLVqXCPlW15NvKU=;
-        b=SBHPVN57ZYJ84Jq429ejZU98l99/fNkQI+6mISoT9OHVlavzAYdNwCOHIX9oh15Ic8
-         W6d2opIGmyIv8l0FLWE4bE05h/RGIucF0LpjF/5GjOlbR7uKouWnWeGjpNL4CYv262rt
-         OF+C6r+xRspUA6jQ1NBZWKDjOAmIDWrEkfZFgOUK2nPLVqNquXj4Wk8L4hT2Cto1TIa8
-         cNcX8Z5hs31HatV43Ge0K/qRpN61pZUow2JyueSUJEBwLoA8031HdGINptGnK6600DIo
-         ycEn9D8Tj4cMLmqjZPJl7zjH03uppb38ylAM2m1jFB2P7z5wipwPNeF2KK6C7i1l59GR
-         6EsA==
-X-Gm-Message-State: AOJu0YyiIKWLh+RCsok+ZxVduB9H8AlEz+GXK/9iY/bV+LOtQ7GtWxM6
-	af9Lg1v+gL+lMr7zreW6/g7XT8qEPBz6onNZZuEN1sa4/IZoKCQc8PaPwqEgl3s=
-X-Gm-Gg: ASbGnctsEUZtUHtKkNpNt7aqtFFloDyaHDAxE+0lHghWDOeag7vfUwvvmOzuUytcz+6
-	ekmxOoqHtdMmS56kSpeeElYE9DvWbyexfDKKhOzt+6fmbgEN8yI8TRbDiw3KfSX2Rb9/HIatLHM
-	S7QZDD4790kyj+KV7FGPKBPgYX4SdVzN0oazQmUmdeYIBCja46LMWatz5zg5R3AgV1gVUMQ1nqT
-	rCQPrHuUGykvjy1mx5mNVlJVR6yTR+ksaFUJ90asneDb+rT8Lwnts7Jgo7DFjyFJhoyZO/ikKMF
-X-Google-Smtp-Source: AGHT+IE5FOOE7koOS4pebPXpYoJjUNkp+NGrot5mwKtsXyQG16K9PXiYUfUMbnNUo/ke02E2C6R6fQ==
-X-Received: by 2002:a05:6000:1785:b0:385:e10a:4d98 with SMTP id ffacd0b85a97d-38a221fa483mr8982940f8f.8.1735284019934;
-        Thu, 26 Dec 2024 23:20:19 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656af6c66sm297193175e9.5.2024.12.26.23.20.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Dec 2024 23:20:18 -0800 (PST)
-Message-ID: <f4dca976-3cce-49e7-bb06-25219623d987@linaro.org>
-Date: Fri, 27 Dec 2024 08:20:16 +0100
+	 In-Reply-To:Content-Type; b=LGc76dFPuNvbluXZRAsV6bWmB3w6P758l8LPq/xizejt5tLaxXVE9pPiKrvPlcgXwWAI95bjVZFiRV+nngmm4iMvvmI3xlC4Suyw0ZhS0aCmo53tY+w+1efBBdYUGchJ8Nzm6hO1cpE+ymaGAYwI9+6lMXwF8QNS2BhVxGexLxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rsCpJfBc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17243C4CED0;
+	Fri, 27 Dec 2024 07:22:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735284149;
+	bh=T1vaXl5C9+j3lCTZbsNb2DubF06/7f89mPCLJb0pzys=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rsCpJfBcWEjal4Mt3A63pVrd10XxkTQiZcfOrGdBy2IadhB8cgbn854M3RPbSTEbP
+	 yKcJKR07FVjSbr52RiqO78kdXJS70XNp6SWQUoiWF/SfjbUzUfyyJCHMR3kwIZ3gqG
+	 jNKyiNVNpPe7KYWZiKQgsG4mdtLLB2jeE/GLreBaDvsvYItpSv3DAPWnFPHK5XM3ym
+	 lfyzMCv7eyl/MfUD0A6yOqCKHOnQ9mTUhpXC+XzESVaIfL4WKE0RR1x362bOZQehXm
+	 XkaRjskV3KkE0qgmUc8wXV1T2xs06AbfW0/HYrvSPq+PRGu2ulAdu1e3cvqc4WzfEh
+	 bbqXYOFFGH5mg==
+Message-ID: <0815e122-1f77-4f87-bc9d-386cc423c171@kernel.org>
+Date: Fri, 27 Dec 2024 08:22:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 03/10] dt-bindings: media: Add
- amlogic,c3-mipi-adapter.yaml
+Subject: Re: [PATCH v5 05/10] dt-bindings: media: Add amlogic,c3-isp.yaml
 To: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
@@ -90,10 +59,10 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com,
  jacopo.mondi@ideasonboard.com
 References: <20241227-c3isp-v5-0-c7124e762ff6@amlogic.com>
- <20241227-c3isp-v5-3-c7124e762ff6@amlogic.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <20241227-c3isp-v5-5-c7124e762ff6@amlogic.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
  JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
@@ -103,94 +72,44 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  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
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20241227-c3isp-v5-3-c7124e762ff6@amlogic.com>
+ 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 fv0=
+In-Reply-To: <20241227-c3isp-v5-5-c7124e762ff6@amlogic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 27/12/2024 08:09, Keke Li via B4 Relay wrote:
-> From: Keke Li <keke.li@amlogic.com>
-> 
-> c3-mipi-adapter is used to organize mipi data and
-> send raw data to ISP module.
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Keke Li <keke.li@amlogic.com>
-> ---
->  .../bindings/media/amlogic,c3-mipi-adapter.yaml    | 115 +++++++++++++++++++++
->  MAINTAINERS                                        |   6 ++
->  2 files changed, 121 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
-> new file mode 100644
-> index 000000000000..1105fee2d7a8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
-> @@ -0,0 +1,115 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/amlogic,c3-mipi-adapter.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Amlogic C3 MIPI adapter receiver
-> +
-> +maintainers:
-> +  - Keke Li <keke.li@amlogic.com>
-> +
-> +description:
-> +  MIPI adapter is used to convert the MIPI CSI-2 data
-> +  into an ISP supported data format.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - amlogic,c3-mipi-adapter
-> +
-> +  reg:
-> +    maxItems: 3
-> +
-> +  reg-names:
-> +    items:
-> +      - const: top
-> +      - const: fd
-> +      - const: rd
-> +
-> +  power-domains:
-> +    maxItems: 1
 > +
 > +  clocks:
 > +    maxItems: 2
@@ -204,10 +123,7 @@ On 27/12/2024 08:09, Keke Li via B4 Relay wrote:
 > +
 > +  assigned-clock-rates: true
 
-NAK. Drop my review tag. You cannot keep someone's review while making
-significant changes. Please carefully read submitting patches before
-next posting.
-
+No, drop these. Request re-review if you add new properties.
 
 Best regards,
 Krzysztof
