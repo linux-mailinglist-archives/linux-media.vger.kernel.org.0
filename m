@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-24120-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24121-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036219FD0F6
-	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2024 08:19:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C3C9FD0FA
+	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2024 08:20:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FD621882B41
-	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2024 07:19:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD42E3A0651
+	for <lists+linux-media@lfdr.de>; Fri, 27 Dec 2024 07:20:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1D7D145348;
-	Fri, 27 Dec 2024 07:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF57D13665A;
+	Fri, 27 Dec 2024 07:20:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L7hPpapY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WGF1VaZl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC5C13665A
-	for <linux-media@vger.kernel.org>; Fri, 27 Dec 2024 07:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2EE45C14
+	for <linux-media@vger.kernel.org>; Fri, 27 Dec 2024 07:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735283981; cv=none; b=l2/igHHLL6OnGg9YBb0UyCOPB4Lj/alz6vN6V+AQPnSVI2mYQMgD0jU12kTBtl2nt7c6NxIwCnIXq6fFDMLdeXA5A/c4e2fDxrSDg+r3rZmj1NfB0zFUsBNRmvsNugdfS9NPS7/uV7TbA5ouI7QvEy69DFMoy/wfWwzWBVAnGuk=
+	t=1735284023; cv=none; b=AmOVPrLQmB2pCmgVzkIksFc2OH8bip/iLRzyNv2Z5KpXdaZggmTeyQ+sG/74hPRCzZmNrgSwE0qOKgceZXZtRUG9+B5X7jIxJUsZ/HrjE7W32dMd2t1t1ZwwKimQYRA+NMWNH97HcqjjUJZnxGWcLLqlOVMma9yUg34jBVDKM6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735283981; c=relaxed/simple;
-	bh=R9vq5QXh1GuL5/rGPEpSOhtg6XdZdg2hAfFNguQMw0M=;
+	s=arc-20240116; t=1735284023; c=relaxed/simple;
+	bh=wY/QvHNIVtnbu6h2rDswH2OCZY06zeitq3xg8gtPS48=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Sw1sD92Z9OFRkfsnCXGtJ4wg3AaSmtCA63LjJBy4o+OawynAifSNETypWjFhrv6hYC4XlGFaRFBWnddx0Wp3iP5PwU8bhGHt+ywnWkfr6y4n2aygz1tPYxQhQvYv3Swgk8YoYF3aHIyaOcEkbthjdY21/F7hXu/6h5tik6RmSt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L7hPpapY; arc=none smtp.client-ip=209.85.128.52
+	 In-Reply-To:Content-Type; b=IZps8zZcLn0ZeovVpDlJk52b5eloX+ady6yMg8MNEIOQtEbJ6TpiOQ5FipjiMMpP0Bfmv8qMJfW7dSk5wFsXICMUQ0saWFthZyU5+bLoKmegWjWZ4JtzNAT4ztNGRizhrhEG59OY/EmIlBL94orGu6N8jgFNifUyAjUyRVxpags=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WGF1VaZl; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-436203f1203so9781145e9.2
-        for <linux-media@vger.kernel.org>; Thu, 26 Dec 2024 23:19:39 -0800 (PST)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3862e570832so860024f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 26 Dec 2024 23:20:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735283978; x=1735888778; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1735284020; x=1735888820; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=BGSb8pmPGSJ68yd0XrJuWpxwcRyD2MmcGIJrqHlCFMk=;
-        b=L7hPpapYYmP0Kdg4W7eZF7RQVoz9kxHMsDM/HVe0dXqQ9BHv67oBwGZCsT50uYs4nf
-         4wEdm/6VMUSvK2KyQz2MWQViIyvdaLfVrycdUyJ+uQNcDI71oUNlfpUPZibYTspkegEZ
-         hbs5HG+2FFByFbrWCUGUGiGLWcks/Ee8DRNJfdgEUw1/zS4t2m9VAybXO9Ir1DO3r3Ja
-         Cyw7yTUHrBnEJKFXlOEjhqVzpHSIeMrAN5fJW2/2tHUxTKskblRInsZwp3mqsdvK1DZ4
-         KlfS4iLEyIAWda6C02SyIquzs0MLImCDMsPzERBxmItyPKTeTwFHyxvmeebxGzZIr+rc
-         X8jg==
+        bh=VXAJa9FIW33aWA+s0k664EUsn4laTLVqXCPlW15NvKU=;
+        b=WGF1VaZlXUMFmmuJlKMcFgIUlR4nsJ++hjm5fQsAGpWbqUsofqYZDGzmL+MHkqxBB4
+         0ZiucE6glaqiMfnhBrzQ+EiqBc3N9VGe7VAGFfEnqR+/beheLJcHCz99Rc0vi1mkXPk/
+         eE0tP94gi9dIWs95nsX5Pes4RBQsctgYCvhLECQLiW1zVnf1U2ztgPJ6vfD+6fC4VaJy
+         AV/gp7+pXkM9qb2Zv4y6EIhhmWxk77cZ3vQJE/Wz2tP0ltugb2uz0kjAw61a5tgHIYa2
+         1y8OGrQEQsjJB+iLVm08DOBmY5ooOoND0PR09ySIppdlaiFOytcjl7bFIjDfABSgRg4J
+         zPFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735283978; x=1735888778;
+        d=1e100.net; s=20230601; t=1735284020; x=1735888820;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BGSb8pmPGSJ68yd0XrJuWpxwcRyD2MmcGIJrqHlCFMk=;
-        b=IkdtPq9EE2PQWx2GndbD2PDLPh39vAb5NH/bRQKNcQwL+CLbf14EZNZ29TxSwtGiio
-         kchd/Yco2Ru/o40k4n0anhm4obA717zV8yIfU00hiPknQH4lFlDPX6DYyenBBv4KQ28H
-         SpU35U9OQAqPNgTYpagUTt8VTygYdAJ5fTHIpi3XsyJW0lf7quY2l56ABdadj/HpdNjz
-         wtNxeB2Xp1iOtvtZM5ZoVkub4BU7Af30p6/0+Jrd0q4v0Zjfv+XWWq/cNv34EcRpIIu0
-         QGV/ErMK7o0eCTSfeO+O7XQhFh99LVEb1hQtsfCMtBjWy9VHfFRpoRxiV+ez1zYoSFWX
-         gyEw==
-X-Gm-Message-State: AOJu0YxuwJjwgzgFL7iAk7CuYoBzV95HOGs//y9VmkAkhLFmzMnq3uA9
-	pyffH8FykQUjK0GyOEeW3bHNGUS0K3P+ljUUCYTPz5cOe9icmhWIgTnndwGRgXU=
-X-Gm-Gg: ASbGnct2SzTaylsv+VMSdHzpK9vWm9t++hEp1ogFvtsmH32ednQxZQ7S5BXukDsthQJ
-	pxJIC2jxJn4mDTJgUtKJkwOUYeacyu9XDNkh/4OxAHms1up4rMFUX3Buirt+WfBKPx+2HdZhkJU
-	Sp8G5SB3dRS0gQD9i8SpJSh7CVpncdGqba1VjniwQ8nCQDy/oTI/W3X1N6mBA96L3uqO3XfFrfH
-	BaWQ53RENKFDqxz7wn0iVq7rz2OoxBEDJec9xITApnWrq+dmabP55YCflQO6ALjuuFuULY9oAea
-X-Google-Smtp-Source: AGHT+IG7i6bQDt3/mKimrQm4dDO0yvPNhqF8fcgg73PD3o+4LQbySUSrxdwzwcF4Ntyezzt2TuKSZw==
-X-Received: by 2002:a05:6000:1546:b0:385:edd4:1242 with SMTP id ffacd0b85a97d-38a223f635emr8330747f8f.10.1735283977756;
-        Thu, 26 Dec 2024 23:19:37 -0800 (PST)
+        bh=VXAJa9FIW33aWA+s0k664EUsn4laTLVqXCPlW15NvKU=;
+        b=SBHPVN57ZYJ84Jq429ejZU98l99/fNkQI+6mISoT9OHVlavzAYdNwCOHIX9oh15Ic8
+         W6d2opIGmyIv8l0FLWE4bE05h/RGIucF0LpjF/5GjOlbR7uKouWnWeGjpNL4CYv262rt
+         OF+C6r+xRspUA6jQ1NBZWKDjOAmIDWrEkfZFgOUK2nPLVqNquXj4Wk8L4hT2Cto1TIa8
+         cNcX8Z5hs31HatV43Ge0K/qRpN61pZUow2JyueSUJEBwLoA8031HdGINptGnK6600DIo
+         ycEn9D8Tj4cMLmqjZPJl7zjH03uppb38ylAM2m1jFB2P7z5wipwPNeF2KK6C7i1l59GR
+         6EsA==
+X-Gm-Message-State: AOJu0YyiIKWLh+RCsok+ZxVduB9H8AlEz+GXK/9iY/bV+LOtQ7GtWxM6
+	af9Lg1v+gL+lMr7zreW6/g7XT8qEPBz6onNZZuEN1sa4/IZoKCQc8PaPwqEgl3s=
+X-Gm-Gg: ASbGnctsEUZtUHtKkNpNt7aqtFFloDyaHDAxE+0lHghWDOeag7vfUwvvmOzuUytcz+6
+	ekmxOoqHtdMmS56kSpeeElYE9DvWbyexfDKKhOzt+6fmbgEN8yI8TRbDiw3KfSX2Rb9/HIatLHM
+	S7QZDD4790kyj+KV7FGPKBPgYX4SdVzN0oazQmUmdeYIBCja46LMWatz5zg5R3AgV1gVUMQ1nqT
+	rCQPrHuUGykvjy1mx5mNVlJVR6yTR+ksaFUJ90asneDb+rT8Lwnts7Jgo7DFjyFJhoyZO/ikKMF
+X-Google-Smtp-Source: AGHT+IE5FOOE7koOS4pebPXpYoJjUNkp+NGrot5mwKtsXyQG16K9PXiYUfUMbnNUo/ke02E2C6R6fQ==
+X-Received: by 2002:a05:6000:1785:b0:385:e10a:4d98 with SMTP id ffacd0b85a97d-38a221fa483mr8982940f8f.8.1735284019934;
+        Thu, 26 Dec 2024 23:20:19 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c848a47sm21203598f8f.62.2024.12.26.23.19.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656af6c66sm297193175e9.5.2024.12.26.23.20.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Dec 2024 23:19:37 -0800 (PST)
-Message-ID: <712ed366-233d-477b-b760-907b3d77a7db@linaro.org>
-Date: Fri, 27 Dec 2024 08:19:35 +0100
+        Thu, 26 Dec 2024 23:20:18 -0800 (PST)
+Message-ID: <f4dca976-3cce-49e7-bb06-25219623d987@linaro.org>
+Date: Fri, 27 Dec 2024 08:20:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,8 +80,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/10] dt-bindings: media: Add
- amlogic,c3-mipi-csi2.yaml
+Subject: Re: [PATCH v5 03/10] dt-bindings: media: Add
+ amlogic,c3-mipi-adapter.yaml
 To: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>
@@ -90,7 +90,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com,
  jacopo.mondi@ideasonboard.com
 References: <20241227-c3isp-v5-0-c7124e762ff6@amlogic.com>
- <20241227-c3isp-v5-1-c7124e762ff6@amlogic.com>
+ <20241227-c3isp-v5-3-c7124e762ff6@amlogic.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -137,57 +137,57 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20241227-c3isp-v5-1-c7124e762ff6@amlogic.com>
+In-Reply-To: <20241227-c3isp-v5-3-c7124e762ff6@amlogic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 27/12/2024 08:09, Keke Li via B4 Relay wrote:
 > From: Keke Li <keke.li@amlogic.com>
 > 
-> c3-mipi-csi2 is used to receive mipi data from image sensor.
+> c3-mipi-adapter is used to organize mipi data and
+> send raw data to ISP module.
 > 
 > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > Signed-off-by: Keke Li <keke.li@amlogic.com>
 > ---
->  .../bindings/media/amlogic,c3-mipi-csi2.yaml       | 131 +++++++++++++++++++++
->  MAINTAINERS                                        |   6 +
->  2 files changed, 137 insertions(+)
+>  .../bindings/media/amlogic,c3-mipi-adapter.yaml    | 115 +++++++++++++++++++++
+>  MAINTAINERS                                        |   6 ++
+>  2 files changed, 121 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,c3-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-csi2.yaml
+> diff --git a/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
 > new file mode 100644
-> index 000000000000..76b68d1e7316
+> index 000000000000..1105fee2d7a8
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-csi2.yaml
-> @@ -0,0 +1,131 @@
+> +++ b/Documentation/devicetree/bindings/media/amlogic,c3-mipi-adapter.yaml
+> @@ -0,0 +1,115 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/media/amlogic,c3-mipi-csi2.yaml#
+> +$id: http://devicetree.org/schemas/media/amlogic,c3-mipi-adapter.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Amlogic C3 MIPI CSI-2 receiver
+> +title: Amlogic C3 MIPI adapter receiver
 > +
 > +maintainers:
 > +  - Keke Li <keke.li@amlogic.com>
 > +
 > +description:
-> +  MIPI CSI-2 receiver contains CSI-2 RX PHY and host controller.
-> +  It receives the MIPI data from the image sensor and sends MIPI data
-> +  to MIPI adapter.
+> +  MIPI adapter is used to convert the MIPI CSI-2 data
+> +  into an ISP supported data format.
 > +
 > +properties:
 > +  compatible:
 > +    enum:
-> +      - amlogic,c3-mipi-csi2
+> +      - amlogic,c3-mipi-adapter
 > +
 > +  reg:
 > +    maxItems: 3
 > +
 > +  reg-names:
 > +    items:
-> +      - const: aphy
-> +      - const: dphy
-> +      - const: host
+> +      - const: top
+> +      - const: fd
+> +      - const: rd
 > +
 > +  power-domains:
 > +    maxItems: 1
@@ -198,18 +198,16 @@ On 27/12/2024 08:09, Keke Li via B4 Relay wrote:
 > +  clock-names:
 > +    items:
 > +      - const: vapb
-> +      - const: phy0
+> +      - const: isp0
 > +
 > +  assigned-clocks: true
 > +
 > +  assigned-clock-rates: true
 
-NAK
+NAK. Drop my review tag. You cannot keep someone's review while making
+significant changes. Please carefully read submitting patches before
+next posting.
 
-Adding new properties *INVALIDATES REVIEW*. Otherwise you can sneak
-whatever crap past reviewers.
-
-Drop all new properties and drop my review tag.
 
 Best regards,
 Krzysztof
