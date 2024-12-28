@@ -1,84 +1,115 @@
-Return-Path: <linux-media+bounces-24140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24141-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC57E9FD9EF
-	for <lists+linux-media@lfdr.de>; Sat, 28 Dec 2024 11:27:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACC19FDA34
+	for <lists+linux-media@lfdr.de>; Sat, 28 Dec 2024 12:42:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AE0B18839E9
-	for <lists+linux-media@lfdr.de>; Sat, 28 Dec 2024 10:27:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF48518836B9
+	for <lists+linux-media@lfdr.de>; Sat, 28 Dec 2024 11:42:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E287314D6ED;
-	Sat, 28 Dec 2024 10:27:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 241FE156F44;
+	Sat, 28 Dec 2024 11:42:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hx8Ezws+"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="m9KnveyC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2483669D2B;
-	Sat, 28 Dec 2024 10:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8470C14AD2B;
+	Sat, 28 Dec 2024 11:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735381632; cv=none; b=SytZtsAw0yhhyr3nhl71GJEmMU76LOIbhNDPGV4YGPF9v6jUygB/8mLc+uuVN7tzXgUOLqcXswMKDqWuFvXx/VO/lDO+Ig+oV7hTydOfiUkLck4udAGHUzST6+Xv/GJLXsFw/mA0/1e+pRs0HzDQcvGMbQfFYvrpL0pRr3ldn/E=
+	t=1735386128; cv=none; b=UJQoDbSKC29BHEG/bxuhKbcGo6XPKo013oNp423ORADae1KD9rL1nTe6R92iHaJ5a+jZ4XPaj1sb8IB0Pxs8EjfAd22utbM/XwcMLOOlbYQ/bvREVpU61ccWMZ2zY1TELT2unvhIjKDdSb236hci+mqng38XlzGFCY0ENy2uYQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735381632; c=relaxed/simple;
-	bh=JfLhmrGU25lVww0+TvuyRVt//7Ikcd/C6Y58IQ/MPhg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NgFcXGPpTOBoMKF8jw2XecWwnf633aSfECw7w6fPZTQnnYR11McvkykfVg6mYqs3830wADo3qypaC8wq7KfxMty8XOzbqMSSroYnG+9Nnm6y2g+UFVF8y2r5rwpuG0QCo4JNViv1amMvHySu+GmdexeDuz0iddHFmbixgHNZJEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hx8Ezws+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E37AFC4CECD;
-	Sat, 28 Dec 2024 10:27:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735381631;
-	bh=JfLhmrGU25lVww0+TvuyRVt//7Ikcd/C6Y58IQ/MPhg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hx8Ezws+4H0uHxyZGNClO4JPhtq74nPDSC3ybrh1rBKFtQteXOEn4uXQMKKyYqr7N
-	 vwSTBmLGC5UzYd2staT1PIGHpzuPm9fMDh79neXsJV0ZMSjsZN3Bk/fIMgki956/wa
-	 XnlMMdHbeoOJbWEMeTPSpZFoTbxovPmaCmcdhKHH/60ClHqNJq26m95HNch/1xTHTk
-	 uNrEhOa0IjMetJFZ1nQ7mygeijH9vQFcdKXGd1pbxFwcSZ5M+TpGHx7U9jz7AIOzcC
-	 kWtTAKglzTl8eTvbLTYyzug1O9iS+hFf9MYRaRoQLj6rBHkJEZ877zT3RPJIkD8ISv
-	 LvJyFpnsWMmUw==
-Date: Sat, 28 Dec 2024 11:27:08 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
-	Jagadeesh Kona <quic_jkona@quicinc.com>, Konrad Dybcio <konradybcio@kernel.org>, 
-	linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] dt-bindings: media: Add qcom,x1e80100-camss
-Message-ID: <vssl4q732cyvwlgx65ala6dwtzkyaezsrybni23fnv35ehtfs7@skvufuyhyuhn>
-References: <20241227-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v2-0-06fdd5a7d5bb@linaro.org>
- <20241227-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v2-3-06fdd5a7d5bb@linaro.org>
+	s=arc-20240116; t=1735386128; c=relaxed/simple;
+	bh=ynVOVb374DguH8zYFxXvjwn57gCX2dHvXIpcRkG4w0E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uhpyLU/J4oHzLHKVy7d1lwJONxjxYulUHJzutcFVtDHCUhMesuNG2BruYp4snNk+tvdsDVj5bpU1MUo7VUFPJSQuVnaZh8yWG3+Pc9TQGugcERvgfrW/TXGEDCRH/B4HoMzYcCBCFI8CHfYDWHpmR9atK6QPeu0UqJv11Lk1dSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=m9KnveyC; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+Received: from ldvnode.intra.ispras.ru (unknown [10.10.2.153])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 316FD518E788;
+	Sat, 28 Dec 2024 11:42:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 316FD518E788
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1735386121;
+	bh=hw1L5qkl3vLwYSsXmUEI6M4vzDu5ePLShg7Ci/9/bT0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=m9KnveyCeKAl95TIZu8IuOO165XWkwR6k5qxZpvNejVkaeWSyHeiNMR+T/NcoR2Sd
+	 zu+zFrCcCYg6LI8pb20Cf4RvYXh00vxf2rvnn0mEYAHzq6rm9n/9qp3/DLPmsxC7w8
+	 YRsBxNNG9U5v8fJZIGCvJrlvfV4+XZhS19inFEjI=
+From: Vitalii Mordan <mordan@ispras.ru>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Cc: Vitalii Mordan <mordan@ispras.ru>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fedor Pchelkin <pchelkin@ispras.ru>,
+	Alexey Khoroshilov <khoroshilov@ispras.ru>,
+	Vadim Mutilin <mutilin@ispras.ru>
+Subject: [PATCH] media: ov772x: fix call balance for priv->clk handling routines
+Date: Sat, 28 Dec 2024 14:41:47 +0300
+Message-Id: <20241228114147.2576079-1-mordan@ispras.ru>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241227-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v2-3-06fdd5a7d5bb@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 27, 2024 at 01:11:36PM +0000, Bryan O'Donoghue wrote:
-> Add bindings for qcom,x1e80100-camss in order to support the camera
-> subsystem for x1e80100 as found in various Co-Pilot laptops.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  .../bindings/media/qcom,x1e80100-camss.yaml        | 367 +++++++++++++++++++++
->  1 file changed, 367 insertions(+)
+If the clock priv->clk was not enabled in ov772x_power_on, it should not
+be disabled in any path.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Conversely, if it was enabled in ov772x_power_on, it must be disabled in
+all error paths to ensure proper cleanup.
 
-Best regards,
-Krzysztof
+Found by Linux Verification Center (linuxtesting.org) with Klever.
+
+Fixes: 762c28121d7c ("media: i2c: ov772x: Remove soc_camera dependencies")
+Signed-off-by: Vitalii Mordan <mordan@ispras.ru>
+---
+ drivers/media/i2c/ov772x.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+index 062e1023a411..8a0556e21659 100644
+--- a/drivers/media/i2c/ov772x.c
++++ b/drivers/media/i2c/ov772x.c
+@@ -1280,10 +1280,10 @@ static int ov772x_video_probe(struct ov772x_priv *priv)
+ 	/* Check and show product ID and manufacturer ID. */
+ 	ret = regmap_read(priv->regmap, PID, &pid);
+ 	if (ret < 0)
+-		return ret;
++		goto done;
+ 	ret = regmap_read(priv->regmap, VER, &ver);
+ 	if (ret < 0)
+-		return ret;
++		goto done;
+ 
+ 	switch (VERSION(pid, ver)) {
+ 	case OV7720:
+@@ -1301,10 +1301,10 @@ static int ov772x_video_probe(struct ov772x_priv *priv)
+ 
+ 	ret = regmap_read(priv->regmap, MIDH, &midh);
+ 	if (ret < 0)
+-		return ret;
++		goto done;
+ 	ret = regmap_read(priv->regmap, MIDL, &midl);
+ 	if (ret < 0)
+-		return ret;
++		goto done;
+ 
+ 	dev_info(&client->dev,
+ 		 "%s Product ID %0x:%0x Manufacturer ID %x:%x\n",
+-- 
+2.25.1
 
 
