@@ -1,141 +1,165 @@
-Return-Path: <linux-media+bounces-24144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589459FDDB4
-	for <lists+linux-media@lfdr.de>; Sun, 29 Dec 2024 08:25:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FEB09FDEB1
+	for <lists+linux-media@lfdr.de>; Sun, 29 Dec 2024 12:04:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B890B7A11FE
-	for <lists+linux-media@lfdr.de>; Sun, 29 Dec 2024 07:25:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDB1D3A17F9
+	for <lists+linux-media@lfdr.de>; Sun, 29 Dec 2024 11:04:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22E03BB48;
-	Sun, 29 Dec 2024 07:25:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5515156C72;
+	Sun, 29 Dec 2024 11:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elvW4jrz"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="a60DRqhI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CE0171C9;
-	Sun, 29 Dec 2024 07:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B6984D2B;
+	Sun, 29 Dec 2024 11:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735457110; cv=none; b=OSOXA99EDA9Vdf9WJeMsb2wv9uPRni2wjRgHRD6CuBs2NgSSIgTG3BDYaW8tkM1m9UaPxAucYz5VbRFG2QSKJgEgIB0RZz3GGxFiVxdf37XDEMWPrVkto2xv6rwyEuBrAEgSF/wGxZINIOJPLQ/7l6eTaoJhso6pyegQfj5OlTo=
+	t=1735470257; cv=none; b=T7dpZgbeAwhOaGTArvlfJFZtnbcp64j0FCYwt8mZHLGsVLCBg2RTSrTKGY/BIcBTr//IM6CAs0Hrm1KnXSVA+jInqniLyhiTmi2ZH1zWshNCtM/oBVazqhIFJ+fMOV+Z6onu7s0ZuQKSH5Sr+BVNejRVN45Z53XYgP+MLeF4bss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735457110; c=relaxed/simple;
-	bh=OUPCJ3B0rNiv9DTFSu8lwpO/wJ/bSRvlUXtFBm8eRBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R13QrXPprmrXmKKo3y4EwzpSWEOxtvkqD7DE/ZsT5zJUkoHkthXX0qgh2xX7rhnk5bm+0xfP/15tr9WC5CG/m/rESIDguPoBI7Cdl4R4YcR98yHQc0qG08v+CJ+6iQDj+fRQdg9YVfst2unWG/oZP3SBOu6f3DPucYMuBJI8ZpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=elvW4jrz; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735457108; x=1766993108;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OUPCJ3B0rNiv9DTFSu8lwpO/wJ/bSRvlUXtFBm8eRBU=;
-  b=elvW4jrze5OLs5qGtO27IfEMzg3RHtQ562UQ/WO2MikZLzeIIo94YMP/
-   Zw1feEi3YJHESO5SYE74Oqr0iHVAA1w0PLuCCZQz3/bAAO6Cxvsus2lq0
-   N6CmggVXLUPPpCItRIp3cA90ZZo19S/BRWNK5zHU+WcGyQgHgQ8NqjRqi
-   le5DVBJkxqkB87fyGDYk4mSGuQs/fZyiz/javrTASbhR2Y9T5Ck7HT9/p
-   uOPQIbSRYgOWQ4gB+6OsJ12sidInhnotOuSB7IvgSahtDCE+BynkOZYX0
-   YUn46xJ/ycIDCEdzzCSIHRFSJdhe1Yk8kmtJrKFspRHXjAyvQhEFG0YFz
-   g==;
-X-CSE-ConnectionGUID: TIqVk23lRP2aJD7FYhuqXQ==
-X-CSE-MsgGUID: NATGlvunQCy1jY1EIxIcXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="36004193"
-X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="36004193"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2024 23:25:07 -0800
-X-CSE-ConnectionGUID: QCgaMQSwSNGuKqGZwVNHHA==
-X-CSE-MsgGUID: JzAAkcJ7RpGEPYNuW70nqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,273,1728975600"; 
-   d="scan'208";a="131344903"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 28 Dec 2024 23:25:06 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tRnfb-0004YM-2n;
-	Sun, 29 Dec 2024 07:25:03 +0000
-Date: Sun, 29 Dec 2024 15:24:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:51:
- warning: 'DCEC' directive output may be truncated writing 4 bytes into a
- region of size between 0 and 53
-Message-ID: <202412291544.dM7D6yQz-lkp@intel.com>
+	s=arc-20240116; t=1735470257; c=relaxed/simple;
+	bh=kqGY7peCa7nM0QzKwbt15Hnnreh/dAaykpDqf890z6M=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=NKW8+F1pPwWP4OgOGyUX/F/sUbrLR41rU/CoCj46ZsjxWtivhYCTMHsahfChyO65egml2+/es5U52CIl5E6LDVssiCAYUL6KrkbHpNfsupNFdCtihPRlgo+XzIV4XR0D/fIwPx0JrZ2O8u4IQyDHAgZZGyjcWK12CnPtT/01JPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=a60DRqhI; arc=none smtp.client-ip=162.62.57.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1735470249; bh=qpwwX0CYaA2ZaPJMtou1h+AZfImKROxZGg5HaW/Jzxg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=a60DRqhI6HysZSzBwuQrTbX4XGbwFVb0jFn1N7DeoCROKCNOw6J/Y2IPo/LK6fn4n
+	 zMb6HhBtBPEZTbnc+BlATEqr4NXYbSAPDwVXRU0KYlcKSsLs67qKrVilVzifCSVIfR
+	 rJ5WIJAiD6ugHWf9h2x6OERcbFOt4ndYEHdPKILY=
+Received: from pek-lxu-l1.wrs.com ([114.244.57.34])
+	by newxmesmtplogicsvrszgpua5-1.qq.com (NewEsmtp) with SMTP
+	id CA6B1085; Sun, 29 Dec 2024 18:50:38 +0800
+X-QQ-mid: xmsmtpt1735469438t7melcqfi
+Message-ID: <tencent_2BDD951952CF980D9F25A10DE69222DD8A07@qq.com>
+X-QQ-XMAILINFO: NLNuKjcZ2ePXDYb677rLL2XXvKIiUKpg1guL4bmKBcLS7vwyX9qA/ShcdOZ6n4
+	 YHLGy8E7oDCTgIpptQhBp3wak1F9XfQfOTyyiNndeej7DWPSyFJrIZjPr+GbUru11wycBifB+/lM
+	 40DYKufd4hyfRaPRQFANi8GSLx5vElZj+DhsDrATS1D0MPcNCKMlx9uV1AkmZ7/IS11EhXXLRh/6
+	 01P6llItja/s1hhlACddo7RTo2MqYr6QMprce1++1uh8/dvQaRZV+olsm/MMV+gaVebfSaZTD//J
+	 AhGYScGd0rlD2PcHB70bsT0ShSS8hYNNg7Zy4lTvYuJSOJ8g6kqar+klqxqTgrq0tEG7t01NiM/B
+	 vYSLP1BFLeY+XupglEXnBdHRe9Q3p9GyKSyMe2hV6hQmNjZNUP0Vr4ambTnZIcomMRkQPinKVbYe
+	 2OcrVZkUPHEEUyPj44Bye8wiLW5514yYmojMU0QV9YKqDJi//FWmjvGRmvC2jPByhiIS4L8Wv6gG
+	 kYqVCp278o7esSIAKWjYJTJm4akOF4r0nFJbaJsQCUzSR1BiMPp54PsYcYeHAJgIN8Am8grrxKTc
+	 UOfHFyMVrrjHgYc+D6mROI3xIh+LgHmzDi4e+MwUE125/kXDMXS6cFQxr4KvcImzyGbnSMjbAOiu
+	 0CP8H8cgAVqz/oiE5d19o4axs/sW5phqNmjrqxK+xYN6VE5C/Fp/XUfitzrfTLpVOv8e1aH1VwWu
+	 S3pOJX3/awYadcbZoDQz6R+ib0+v+i0o+WnmEmKaV9uSoAIzN8QDJoztopS9POu3+xATNkiEHLc6
+	 HoioWA3sTV/XRYRt6hEngZ6Q08wvBYQ1MoMfAD82Sf8H9Zn+WSRiOfbaYLG1pJ9+fnZPNvkEZcaa
+	 /Vk9Fx6SAxyppmtNSXEd2gn03SrD98y4yMTd/6UCN0PoCUhzElIL8=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+5e248227c80a3be8e96a@syzkaller.appspotmail.com
+Cc: dwlsalmeida@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] media: vidtv: Fix a null-ptr-deref in vidtv_mux_stop_thread
+Date: Sun, 29 Dec 2024 18:50:39 +0800
+X-OQ-MSGID: <20241229105038.845517-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <6770e486.050a0220.2f3838.04a4.GAE@google.com>
+References: <6770e486.050a0220.2f3838.04a4.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Hans,
+syzbot report a null-ptr-deref in vidtv_mux_stop_thread. [1]
 
-FYI, the error/warning still remains.
+If dvb->mux is not initialized successfully by vidtv_mux_init() in the
+vidtv_start_streaming(), it will trigger null pointer dereference about mux
+in vidtv_mux_stop_thread().
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   059dd502b263d8a4e2a84809cf1068d6a3905e6f
-commit: 056f2821b631df2b94d3b017fd1e1eef918ed98d media: cec: extron-da-hd-4k-plus: add the Extron DA HD 4K Plus CEC driver
-date:   4 months ago
-config: sparc-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241229/202412291544.dM7D6yQz-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241229/202412291544.dM7D6yQz-lkp@intel.com/reproduce)
+Adjust the timing of streaming initialization and check it before
+stopping it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412291544.dM7D6yQz-lkp@intel.com/
+[1]
+KASAN: null-ptr-deref in range [0x0000000000000128-0x000000000000012f]
+CPU: 0 UID: 0 PID: 5842 Comm: syz-executor248 Not tainted 6.13.0-rc4-syzkaller-00012-g9b2ffa6148b1 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
+RIP: 0010:vidtv_mux_stop_thread+0x26/0x80 drivers/media/test-drivers/vidtv/vidtv_mux.c:471
+Code: 90 90 90 90 66 0f 1f 00 55 53 48 89 fb e8 82 2e c8 f9 48 8d bb 28 01 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 02 7e 3b 0f b6 ab 28 01 00 00 31 ff 89 ee e8
+RSP: 0018:ffffc90003f2faa8 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff87cfb125
+RDX: 0000000000000025 RSI: ffffffff87d120ce RDI: 0000000000000128
+RBP: ffff888029b8d220 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000003 R12: ffff888029b8d188
+R13: ffffffff8f590aa0 R14: ffffc9000581c5c8 R15: ffff888029a17710
+FS:  00007f7eef5156c0(0000) GS:ffff8880b8600000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7eef5e635c CR3: 0000000076ca6000 CR4: 00000000003526f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ vidtv_stop_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:209 [inline]
+ vidtv_stop_feed+0x151/0x250 drivers/media/test-drivers/vidtv/vidtv_bridge.c:252
+ dmx_section_feed_stop_filtering+0x90/0x160 drivers/media/dvb-core/dvb_demux.c:1000
+ dvb_dmxdev_feed_stop.isra.0+0x1ee/0x270 drivers/media/dvb-core/dmxdev.c:486
+ dvb_dmxdev_filter_stop+0x22a/0x3a0 drivers/media/dvb-core/dmxdev.c:559
+ dvb_dmxdev_filter_free drivers/media/dvb-core/dmxdev.c:840 [inline]
+ dvb_demux_release+0x92/0x550 drivers/media/dvb-core/dmxdev.c:1246
+ __fput+0x3f8/0xb60 fs/file_table.c:450
+ task_work_run+0x14e/0x250 kernel/task_work.c:239
+ get_signal+0x1d3/0x2610 kernel/signal.c:2790
+ arch_do_signal_or_restart+0x90/0x7e0 arch/x86/kernel/signal.c:337
+ exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:329 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x150/0x2a0 kernel/entry/common.c:218
+ do_syscall_64+0xda/0x250 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-All warnings (new ones prefixed by >>):
+Reported-by: syzbot+5e248227c80a3be8e96a@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=5e248227c80a3be8e96a
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ drivers/media/test-drivers/vidtv/vidtv_bridge.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_cec_adap_transmit':
->> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:51: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
-    1014 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
-         |                                                   ^~~~
-   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:9: note: 'snprintf' output between 13 and 72 bytes into a destination of size 61
-    1014 |         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1015 |                  port->direction, port->port.port,
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1016 |                  cec_msg_initiator(msg), cec_msg_destination(msg), buf);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/DCEC +1014 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-
-  1000	
-  1001	static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-  1002					    u32 signal_free_time, struct cec_msg *msg)
-  1003	{
-  1004		struct extron_port *port = cec_get_drvdata(adap);
-  1005		char buf[CEC_MAX_MSG_SIZE * 3 + 1];
-  1006		char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
-  1007		unsigned int i;
-  1008	
-  1009		if (port->disconnected)
-  1010			return -ENODEV;
-  1011		buf[0] = 0;
-  1012		for (i = 0; i < msg->len - 1; i++)
-  1013			sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
-> 1014		snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
-  1015			 port->direction, port->port.port,
-  1016			 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
-  1017		return extron_send_and_wait(port->extron, port, cmd, NULL);
-  1018	}
-  1019	
-
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+index e1dd8adeba46..438483c62fac 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+@@ -191,10 +191,11 @@ static int vidtv_start_streaming(struct vidtv_dvb *dvb)
+ 
+ 	mux_args.mux_buf_sz  = mux_buf_sz;
+ 
+-	dvb->streaming = true;
+ 	dvb->mux = vidtv_mux_init(dvb->fe[0], dev, &mux_args);
+ 	if (!dvb->mux)
+ 		return -ENOMEM;
++
++	dvb->streaming = true;
+ 	vidtv_mux_start_thread(dvb->mux);
+ 
+ 	dev_dbg_ratelimited(dev, "Started streaming\n");
+@@ -205,6 +206,11 @@ static int vidtv_stop_streaming(struct vidtv_dvb *dvb)
+ {
+ 	struct device *dev = &dvb->pdev->dev;
+ 
++	if (!dvb->streaming) {
++		dev_warn_ratelimited(dev, "No streaming. Skipping.\n");
++		return 0;
++	}
++
+ 	dvb->streaming = false;
+ 	vidtv_mux_stop_thread(dvb->mux);
+ 	vidtv_mux_destroy(dvb->mux);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.0
+
 
