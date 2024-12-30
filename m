@@ -1,57 +1,41 @@
-Return-Path: <linux-media+bounces-24171-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24172-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1125F9FE6B0
-	for <lists+linux-media@lfdr.de>; Mon, 30 Dec 2024 14:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952379FE6C8
+	for <lists+linux-media@lfdr.de>; Mon, 30 Dec 2024 15:04:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 012571882526
-	for <lists+linux-media@lfdr.de>; Mon, 30 Dec 2024 13:53:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8611A1881476
+	for <lists+linux-media@lfdr.de>; Mon, 30 Dec 2024 14:04:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 352841A9B24;
-	Mon, 30 Dec 2024 13:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CNd++Nvc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DEE01A8411;
+	Mon, 30 Dec 2024 14:03:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1C11A2544;
-	Mon, 30 Dec 2024 13:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DB31C32
+	for <linux-media@vger.kernel.org>; Mon, 30 Dec 2024 14:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735566802; cv=none; b=RuMuZIEPwjhMWWM4pebY8Yk0M878l4MhDFvASyWmp/sGTdF1/3a83U/kKQ3/86BWJ14s0N0IUzxZkPbNR8/+luDzVxRcoxYnjGpJs9n5Zg7yiE+rrxgXKJoOM9ZwHafu2HGOu+YLXqWoJQyrMUaQw/00Ki7+NP2TvFbbzGHJs1s=
+	t=1735567437; cv=none; b=qhg7Qf+9/6s6izfxs/lpVW6ew47V6nOLn/Mb9MMajcebgXos92k3vTWZj0eM1n9gwjPZOiQHQP3ddWp1IIWXFluR7eIxTLuumxyHabVnMoWSDBjdZP5opjqx2ZurVySIHDdm/VVc8XyDDaR3+iEICoNsDlLId6HYSkixQs/CaZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735566802; c=relaxed/simple;
-	bh=4KJMfkJbjuD1+I7HsDy0xyDU+DlgBavMOG3qlPzrG4c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s3HL5uZbl5CUb1RtMX79MxLBgKSnrfNUl9IHxg6Z/RdNgU4R/ZzER41z30kxTeORHA6v47ClIZchJMbImLchtki2QjblTUkytpUu3wr9kjtEeg0uVWTAst53bRBPdT/54zHiXQ22kCIE/K0Zf1QhhelqANrXX8HDnQYBkJzyD+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CNd++Nvc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41710C4CED0;
-	Mon, 30 Dec 2024 13:53:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735566802;
-	bh=4KJMfkJbjuD1+I7HsDy0xyDU+DlgBavMOG3qlPzrG4c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=CNd++Nvc/S3vwoaVFLgo5xuyrmVTyTcgkAnRPtoJioBsxm36SCmt+rlQ1uLjnACbc
-	 lSvcpFqHA0n6ypRSo3957U9NSnQU6QrZJhPt9CDnquNA8rJWQZi7qnvMcN+x13jZgo
-	 xMerSxY2TK3GQrP/Hu+tFp1EyqkYVaLjmcB4bMiu6EngbCEYGoY0gR4BSzhfvmlxBE
-	 +cDuQxc01HokM6IPL74hGk5+U3l8yTYT6XuMUm9zMSDCM9D9zI3mjh1EO0JfoD6nUN
-	 H6/vUMUW0gK4C4//iWZ7BcjeUxW9wXTkSZMfhoG51g6ABgWoZT0F1A3toIiWL/iavd
-	 PXON4Ifq41tMw==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] drm/mediatek: Remove unneeded semicolon
-Date: Mon, 30 Dec 2024 13:53:14 +0000
-Message-Id: <20241230135314.5419-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1735567437; c=relaxed/simple;
+	bh=cjDIGzLczy2qZ1c9ACsZBQSe9xsf3DSq8sUtpvi9z8s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eH7ZFJOg31ZoqMp/btUWAaSRf0rGqv1vh5tEdL82awvVk19PnQeKJO7rwdQnJ15bKVRsrggzhK7lZon8vQw1BmFfzgJEQcEfnFGtllE3IdEp+mIxDYljJS3Zs40kDHbr3feQBy9cKAVoZZLdFGIgx89RN9QRwfjkSQw7eoLVp9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+From: Matthias Schwarzott <zzam@gentoo.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Matthias Schwarzott <zzam@gentoo.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: [PATCH] cx23885: add simple suspend/resume
+Date: Mon, 30 Dec 2024 15:03:36 +0100
+Message-ID: <20241230140336.13541-1-zzam@gentoo.org>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,31 +44,81 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c:1092:2-3: Unneeded semicolon
+After suspend-to-memory or suspend-to-disk, additional chips are no longer
+reachable via i2c. Trying to tune to DVB-C on a cx23885 based
+Hauppauge WinTV-HVR-4400-HD:
 
-Fixes: 4c932840db1d ("drm/mediatek: Implement OF graphs support for display paths")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202412022048.kY2ZhxZ4-lkp@intel.com/
-Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+  si2165 8-0064: could not set chip_mode
+  tda18271: performing RF tracking filter calibration
+
+This patch implements the simplest possible suspend/resume that is
+enough to tune to dvb-c channel after resume.
+Afterwards dmesg looks like this:
+
+  si2165 8-0064: downloading firmware from file 'dvb-demod-si2165.fw' size=5768
+  si2165 8-0064: si2165_upload_firmware: extracted patch_version=0x9a, block_count=0x27, crc_expected=0xcc0a
+  si2165 8-0064: fw load finished
+  tda18271: performing RF tracking filter calibration
+  tda18271: RF tracking filter calibration complete
+
+Signed-off-by: Matthias Schwarzott <zzam@gentoo.org>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/cx23885/cx23885-core.c | 33 +++++++++++++++++++++---
+ 1 file changed, 29 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 9a8ef8558da9..9d8286424e98 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -1089,7 +1089,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		/* No devicetree graphs support: go with hardcoded paths if present */
- 		dev_dbg(dev, "Using hardcoded paths for MMSYS %u\n", mtk_drm_data->mmsys_id);
- 		private->data = mtk_drm_data;
--	};
-+	}
+diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
+index c8705d786cdd..a39f445ce22a 100644
+--- a/drivers/media/pci/cx23885/cx23885-core.c
++++ b/drivers/media/pci/cx23885/cx23885-core.c
+@@ -2231,6 +2231,28 @@ static void cx23885_finidev(struct pci_dev *pci_dev)
+ 	kfree(dev);
+ }
  
- 	private->all_drm_private = devm_kmalloc_array(dev, private->data->mmsys_dev_num,
- 						      sizeof(*private->all_drm_private),
++static int __maybe_unused cx23885_suspend(struct device *dev_d)
++{
++	struct pci_dev *pci_dev = to_pci_dev(dev_d);
++	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
++	struct cx23885_dev *dev = to_cx23885(v4l2_dev);
++
++	cx23885_shutdown(dev);
++
++	return 0;
++}
++
++static int __maybe_unused cx23885_resume(struct device *dev_d)
++{
++	struct pci_dev *pci_dev = to_pci_dev(dev_d);
++	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
++	struct cx23885_dev *dev = to_cx23885(v4l2_dev);
++
++	cx23885_reset(dev);
++
++	return 0;
++}
++
+ static const struct pci_device_id cx23885_pci_tbl[] = {
+ 	{
+ 		/* CX23885 */
+@@ -2250,11 +2272,14 @@ static const struct pci_device_id cx23885_pci_tbl[] = {
+ };
+ MODULE_DEVICE_TABLE(pci, cx23885_pci_tbl);
+ 
++static SIMPLE_DEV_PM_OPS(cx23885_pm_ops, cx23885_suspend, cx23885_resume);
++
+ static struct pci_driver cx23885_pci_driver = {
+-	.name     = "cx23885",
+-	.id_table = cx23885_pci_tbl,
+-	.probe    = cx23885_initdev,
+-	.remove   = cx23885_finidev,
++	.name      = "cx23885",
++	.id_table  = cx23885_pci_tbl,
++	.probe     = cx23885_initdev,
++	.remove    = cx23885_finidev,
++	.driver.pm = &cx23885_pm_ops,
+ };
+ 
+ static int __init cx23885_init(void)
 -- 
-2.34.1
+2.47.1
 
 
