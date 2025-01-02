@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-24211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A779FF9B0
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 14:10:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 587E79FF9B6
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 14:16:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED60B3A36BD
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 13:10:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29951162A47
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 13:16:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5DCC1B0F18;
-	Thu,  2 Jan 2025 13:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E851ADFF8;
+	Thu,  2 Jan 2025 13:16:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fC6KNRqj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gRT8wAz8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71C526ACB;
-	Thu,  2 Jan 2025 13:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AD64689;
+	Thu,  2 Jan 2025 13:16:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735823424; cv=none; b=Sxe64SyJIMKrDF6/kSh5HSQMlmzgYWgoxYyksusQXzWDOobFnbSPxurCXIXrTtCkTb8smR8t6Ra7+gsosEu/u6IS0LNFYyL4ronzoV/nGhXiamKGkICyBxSpNaVD0JENKLPBxdNqr47p77q+IS1zrc9YhA/anD+xsAyveeLktUY=
+	t=1735823801; cv=none; b=VdqitmlqSYo4n69XtbzIdJJ4PMbnkbjg4GRSVCTQQNMATyO9K9nP+WAhjU+POOEss+hsVLyDMawH7+WmkwSWy+FOLa8aimJ0r2jcF8dq89Ij0Z9PYmRULkNdUaKn2yI9D+b9gkvT+m2YJt2HndVCWcypBavnfI3oHX5o6Quo9HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735823424; c=relaxed/simple;
-	bh=/FIt1NbZBTAME3ryH8QiDZaLShzMnq6sDLI30re8kdE=;
+	s=arc-20240116; t=1735823801; c=relaxed/simple;
+	bh=GG6D7VW5sd8El2PazlyUfirAusWPoT+77452AHeQhAw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UPGMR/I49rJoN97uw5K1MDMyCuf1FBLY4dwQWkSITO7GlqAKE2p0bUh7/eUT/kCbwMw5qVQ3H4h0YUMIGD5AlFJ3jB4WvW13UB3B8ubBV6M/JG45NhodSzm/XKZh0GCyCO/y9wEf0acWzPSbdoWSRKMAfyaHEa678CB03eXUf/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fC6KNRqj; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=X9a26bRXEgwJPnOJxIX5HBdfBwg6hH4xiiWp1WSmlBcFmbxn9tONKqy+Ae5IxisatlRAdikvq7QuMojmhBDWk/SQ75YxIqL3TwoYUMdCn/bncJ47Rdlmuw8NdCkP0up8SHID4v73fJD4W1q49NziSjRotuXztN4OmfpgMRNcALE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gRT8wAz8; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EE2022F;
-	Thu,  2 Jan 2025 14:09:32 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF79B22F;
+	Thu,  2 Jan 2025 14:15:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1735823372;
-	bh=/FIt1NbZBTAME3ryH8QiDZaLShzMnq6sDLI30re8kdE=;
+	s=mail; t=1735823750;
+	bh=GG6D7VW5sd8El2PazlyUfirAusWPoT+77452AHeQhAw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fC6KNRqjuxULBxkKbxWyDhFK+DU5FUTO+mt1pqEgSpWCDL3miaT/8seSVj3okp/1I
-	 P7sBwbVYgKvgIMc6PCZExstfD4/pvssy7Qurk/5JLUDThEDeVLNi+t5tLO6GoOwIQT
-	 YHf8kP8zXiwgW1Zk/tEHY+fA3/Z3rbcypoJUChQU=
-Date: Thu, 2 Jan 2025 15:10:21 +0200
+	b=gRT8wAz8TR7vl6piGX6CDCiUanlmik07VbRId2KXLVDNNg7RF0/Yh+jD/K+B6i6df
+	 IK9MHSiGNonYPiPiDkE8qOmXEv1KIOo2dBny4B9N2Q6Q9PzjYhCvTVFcbobBaCsX7m
+	 Y0x+B7kRNU/fdukewUli/ALDpTynPugNZW/whas0=
+Date: Thu, 2 Jan 2025 15:16:38 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -53,10 +53,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v12 3/8] media: uapi: add visconti viif meta buffer format
-Message-ID: <20250102131021.GG554@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v12 8/8] MAINTAINERS: Add entries for Toshiba Visconti
+ Video Input Interface
+Message-ID: <20250102131638.GH554@pendragon.ideasonboard.com>
 References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
- <20241125092146.1561901-4-yuji2.ishikawa@toshiba.co.jp>
+ <20241125092146.1561901-9-yuji2.ishikawa@toshiba.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,72 +66,94 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241125092146.1561901-4-yuji2.ishikawa@toshiba.co.jp>
+In-Reply-To: <20241125092146.1561901-9-yuji2.ishikawa@toshiba.co.jp>
 
 Hi Ishikawa-san,
 
 Thank you for the patch.
 
+On Mon, Nov 25, 2024 at 06:21:46PM +0900, Yuji Ishikawa wrote:
+> Added entries for visconti Video Input Interface driver, including;
 
-On Mon, Nov 25, 2024 at 06:21:41PM +0900, Yuji Ishikawa wrote:
-> Adds the Toshiba Visconti VIIF specific metadata format
+Commit messages are written using the imperative mood, as if you were
+giving orders to someone:
 
-s/Adds/Add/
-s/format/formats./
+s/Added/Add/
 
-> 
-> - V4L2_META_FMT_VISCONTI_VIIF_PARAMS for ISP parameters
-> - V4L2_META_FMT_VISCONTI_VIIF_STATS for ISP statistics
+> * device tree bindings
+> * source files
+> * documentation files
 > 
 > Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 
-Assuming the documentation of the formats in subsequent patches is fine,
+I would have added the MAINTAINERS entry in 1/8 with just the DT binding
+file, and added more files in corresponding patches. That would be
+easier to review and check if entries are missing. I don't mind much
+though, so if you prefer keeping it this way:
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
+> Changelog v2:
+> - no change
+> 
+> Changelog v3:
+> - added entry for driver API documentation
+> 
+> Changelog v4:
+> - added entry for header file
+> 
+> Changelog v5:
+> - no change
+> 
+> Changelog v6:
+> - update path to VIIF driver source files
+> 
+> Changelog v7:
+> - no change
+> 
+> Changelog v8:
+> - rename bindings description file
+> 
+> Changelog v9:
+> - no change
+> 
 > Changelog v10:
-> - add entry for V4L2_META_FMT_VISCONTI_VIIF_PARAMS
-> - add entry for V4L2_META_FMT_VISCONTI_VIIF_STATS
+> - add a separate entry of VIIF driver
 > 
 > Changelog v11:
 > - no change
 > 
 > Changelog v12:
-> - add description for meta formats at v4l2-ioctl.c
+> - add a bindings description of CSI2RX driver
 > 
->  drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
->  include/uapi/linux/videodev2.h       | 4 ++++
->  2 files changed, 6 insertions(+)
+>  MAINTAINERS | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 0304daa8471d..f7facb63b8ea 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1470,6 +1470,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_META_FMT_RPI_BE_CFG:	descr = "RPi PiSP BE Config format"; break;
->  	case V4L2_META_FMT_RPI_FE_CFG:  descr = "RPi PiSP FE Config format"; break;
->  	case V4L2_META_FMT_RPI_FE_STATS: descr = "RPi PiSP FE Statistics format"; break;
-> +	case V4L2_META_FMT_VISCONTI_VIIF_PARAMS: descr = "Visconti ISP Parameters"; break;
-> +	case V4L2_META_FMT_VISCONTI_VIIF_STATS: descr = "Visconti ISP Statistics"; break;
->  	case V4L2_META_FMT_GENERIC_8:	descr = "8-bit Generic Metadata"; break;
->  	case V4L2_META_FMT_GENERIC_CSI2_10:	descr = "8-bit Generic Meta, 10b CSI-2"; break;
->  	case V4L2_META_FMT_GENERIC_CSI2_12:	descr = "8-bit Generic Meta, 12b CSI-2"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index a5418759e2ba..9e1f66fdf038 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -863,6 +863,10 @@ struct v4l2_pix_format {
->  #define V4L2_META_FMT_RPI_FE_CFG	v4l2_fourcc('R', 'P', 'F', 'C') /* PiSP FE configuration */
->  #define V4L2_META_FMT_RPI_FE_STATS	v4l2_fourcc('R', 'P', 'F', 'S') /* PiSP FE stats */
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b878ddc99f94..b5c819e94e9b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23430,6 +23430,18 @@ F:	Documentation/devicetree/bindings/media/i2c/tc358743.txt
+>  F:	drivers/media/i2c/tc358743*
+>  F:	include/media/i2c/tc358743.h
 >  
-> +/* Vendor specific - used for Visconti VIIF sub-system */
-> +#define V4L2_META_FMT_VISCONTI_VIIF_PARAMS	v4l2_fourcc('V', 'I', 'F', 'P') /* ISP Params */
-> +#define V4L2_META_FMT_VISCONTI_VIIF_STATS	v4l2_fourcc('V', 'I', 'F', 'S') /* ISP Stats */
+> +TOSHIBA VISCONTI VIIF DRIVER
+> +M:	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> +M:	Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/admin-guide/media/visconti-viif.*
+> +F:	Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
+> +F:	Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+> +F:	Documentation/userspace-api/media/v4l/metafmt-visconti-viif.rst
+> +F:	drivers/media/platform/toshiba/visconti/
+> +F:	include/uapi/linux/visconti_viif.h
 > +
->  #ifdef __KERNEL__
->  /*
->   * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
+>  TOSHIBA WMI HOTKEYS DRIVER
+>  M:	Azael Avalos <coproscefalo@gmail.com>
+>  L:	platform-driver-x86@vger.kernel.org
 
 -- 
 Regards,
