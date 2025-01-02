@@ -1,65 +1,63 @@
-Return-Path: <linux-media+bounces-24204-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24205-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123E39FF791
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 10:41:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0169FF7B5
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 10:56:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C7C01882B99
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 09:41:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5038E1623EC
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 09:56:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DF031A0714;
-	Thu,  2 Jan 2025 09:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66A6D1AAA10;
+	Thu,  2 Jan 2025 09:56:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O3Es2wxp"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vN7C9aQl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283D1192B9D;
-	Thu,  2 Jan 2025 09:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B72A1A8F94;
+	Thu,  2 Jan 2025 09:56:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735810868; cv=none; b=Fg0oI7/yKKaz0cjgi1QjjmQvYcNL5me1LTEgnExbp+SopVbyL7JKXHVkL0Q8KyclU/pDhRuWROT1E01XhCQexbEdaOV/Fr5q+v6Gh/9nvOA/sE+v6Z0p12iUxiR4MaGEIRqx25lzoU8DfloOtINdNl5ux69stA9A1vKAEV1IEHQ=
+	t=1735811763; cv=none; b=jCgeJI87fpkahsaqPeQjkVjGJof6QnvegH+HklmqPMUYMPvpDz+6ZQLbERVIBrqAwaEe+ghAATyedeqGGKe65CPZmFasYvVQis3MNgM+CHfKBYLHN7UWsFHEZpzOP85tRFMdUe2TwpOw5bJeZ7isjxwXuyKQeh8gjLxaLIPPjjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735810868; c=relaxed/simple;
-	bh=fFwEobIvrp9LyWBkORtJ/uRW7oOSs64PJjo+Ffia/Po=;
+	s=arc-20240116; t=1735811763; c=relaxed/simple;
+	bh=SwKcsYldoVTlPiegaDxvUarCv6o2PSToU5HzUy3D6TA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eank4N7vf03mnFLc0UYF2XPcbnFV8NjdTTe1lMDBHumL/W8YmNLNVg9IuRM5RqxY3pqGynf3AyJDghorOmcPWSqJaT4KmhCH9vEgXq9uuerywQa7sy/yB49y+yYV5Xq409TGduWQ9txvi4N5EPp1Gw0shc1jI/pFTgHYKElubZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O3Es2wxp; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Is6CSakHkacZz5SE3ws+prY1RcJmtkDd3tUTZh1np3HNt3rjAt9UextnRyCXqfHA45yeLPoI9Al8BJM3bjcNTBp8o/SUAYaBGKvXsg39U7LLmuspVycyAv6WIs0adX6dstJ0fCu5ILEfiiz+PGT8NTKMfWRKFedWfl2LSGRxMvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vN7C9aQl; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC76275A;
-	Thu,  2 Jan 2025 10:40:16 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA94575A;
+	Thu,  2 Jan 2025 10:55:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1735810816;
-	bh=fFwEobIvrp9LyWBkORtJ/uRW7oOSs64PJjo+Ffia/Po=;
+	s=mail; t=1735811712;
+	bh=SwKcsYldoVTlPiegaDxvUarCv6o2PSToU5HzUy3D6TA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O3Es2wxpDcrkmTnCTZSFuVAHRGUvGh8Mi1f7KVhkFUiegmVT7Bqf+wqVsGTXV42zM
-	 Z6LtfFcI1sib2E92aLcnTFRrRjZ+6ER9cAZZp0oK63oUHfZJ3rmTL96nZDnm+/YdD1
-	 x6vNPytQPUNbAjINh8Iu58KZxp3CNaPlI1UwU1P8=
-Date: Thu, 2 Jan 2025 11:41:05 +0200
+	b=vN7C9aQlcBOVibGqhImQTW0YgjW3fNP6LtVD1Sp7FgEGQCE8vvIWTmq8TqO3AQPJu
+	 +w2EqvPVvUBaQ5Es3IZqOpQ4gPFfpAii6kRK+jXnuiOigSsnvIdNI8oDvC6wjjoL8p
+	 V6mFSjKwH30ky85452xP0lDSq+w3fQ1zD+0gis6E=
+Date: Thu, 2 Jan 2025 11:56:00 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: yuji2.ishikawa@toshiba.co.jp, mchehab@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-	nobuhiro1.iwamatsu@toshiba.co.jp, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
+To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
 Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
  Toshiba Visconti Video Input Interface
-Message-ID: <20250102094105.GD554@pendragon.ideasonboard.com>
+Message-ID: <20250102095600.GE554@pendragon.ideasonboard.com>
 References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
  <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
- <04a7ebf7-2924-4894-bc53-ba77e2f64fae@kernel.org>
- <TY3PR01MB99822E6161ED319B4DE855B492042@TY3PR01MB9982.jpnprd01.prod.outlook.com>
- <d5294015-4790-490e-8136-615039a5c733@kernel.org>
- <20241217094508.GD11445@pendragon.ideasonboard.com>
- <7e50e257-9e13-4d32-8de9-8deb53fd30e4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,83 +66,200 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7e50e257-9e13-4d32-8de9-8deb53fd30e4@kernel.org>
+In-Reply-To: <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
 
-On Tue, Dec 17, 2024 at 01:51:54PM +0100, Krzysztof Kozlowski wrote:
-> On 17/12/2024 10:45, Laurent Pinchart wrote:
-> > On Tue, Dec 17, 2024 at 06:43:22AM +0100, Krzysztof Kozlowski wrote:
-> >> On 17/12/2024 01:00, yuji2.ishikawa@toshiba.co.jp wrote:
-> >>> Hello Krzysztof
-> >>>
-> >>> Thank you for your review
-> >>>
-> >>>> -----Original Message-----
-> >>>> From: Krzysztof Kozlowski <krzk@kernel.org>
-> >>>> Sent: Monday, November 25, 2024 7:08 PM
-> >>>> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
-> >>>> <yuji2.ishikawa@toshiba.co.jp>; Laurent Pinchart
-> >>>> <laurent.pinchart@ideasonboard.com>; Mauro Carvalho Chehab
-> >>>> <mchehab@kernel.org>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
-> >>>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Sakari Ailus
-> >>>> <sakari.ailus@linux.intel.com>; Hans Verkuil <hverkuil-cisco@xs4all.nl>;
-> >>>> iwamatsu nobuhiro(岩松 信洋 ○ＤＩＴＣ□ＤＩＴ○ＯＳＴ)
-> >>>> <nobuhiro1.iwamatsu@toshiba.co.jp>
-> >>>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
-> >>>> linux-arm-kernel@lists.infradead.org; devicetree@vger.kernel.org
-> >>>> Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
-> >>>> Toshiba Visconti Video Input Interface
-> >>>>
-> >>>> On 25/11/2024 10:21, Yuji Ishikawa wrote:
-> >>>>> Adds the Device Tree binding documentation that allows to describe the
-> >>>>> Video Input Interface found in Toshiba Visconti SoCs.
-> >>>>>
-> >>>>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> >>>>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> >>>>
-> >>>> Why this tag stayed and other was removed? What was the reason of tag
-> >>>> removal?
-> >>>>
-> >>>
-> >>> The stayed tag is due to internal review.
-> >>
-> >> Did the internal review really happened? How is it that immediately new
-> >> version has internal review without any traces?
-> >>
-> >> I have doubts this review happened in the context of reviewer's
-> >> statement of oversight.
-> >>
-> >>> The removed tag is due to code's change (split of csi2rx part) after the last review.
-> >>> If the code is largely changed following the instruction of another reviewer
-> >>> after obtaining the tags, how should the tags be handled?
-> >>
-> >> Drop all reviews and perform reviews on the list.
-> >>
-> >> Such internal review appearing afterwards is rather a proof it you are
-> >> adding just the tags to satisfy your process. I have no way to even
-> >> verify whether that person performed any reasonable review or maybe just
-> >> acked your patch.
-> > 
-> > How do you verify that for public reviews ?
+Hi Ishikawa-san,
+
+Thank you for the patch.
+
+On Mon, Nov 25, 2024 at 06:21:40PM +0900, Yuji Ishikawa wrote:
+> Adds the Device Tree binding documentation that allows to describe
+> the Video Input Interface found in Toshiba Visconti SoCs.
 > 
-> By quality or amount of comments. Or timing. Or reviewing cover letter
-> without any feedback on individual patches.
+> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> ---
+> Changelog v2:
+> - no change
 > 
-> There are many, many ways. Considering how many companies were adding
-> fake manager-review-tags in the past (or fake SoBs), I am pretty picky
-> on that.
+> Changelog v3:
+> - no change
+> 
+> Changelog v4:
+> - fix style problems at the v3 patch
+> - remove "index" member
+> - update example
+> 
+> Changelog v5:
+> - no change
+> 
+> Changelog v6:
+> - add register definition of BUS-IF and MPU
+> 
+> Changelog v7:
+> - remove trailing "bindings" from commit header message
+> - remove trailing "Device Tree Bindings" from title
+> - fix text wrapping of description
+> - change compatible to visconti5-viif
+> - explicitly define allowed properties for port::endpoint
+> 
+> Changelog v8:
+> - Suggestion from Krzysztof Kozlowski
+>   - rename bindings description file
+>   - use block style array instead of inline style
+>   - remove clock-lane (as it is fixed at position 0)
+>   - update sample node's name
+>   - use lowercase hex for literals
+> - Suggestion from Laurent Pinchart
+>   - update description message port::description
+>   - remove port::endpoint::bus-type as it is fixed to <4>
+>   - remove port::endpoint::clock-lanes from example
+>   - add port::endpoint::data-lanes to required parameters list
+>   - fix sequence of data-lanes: <1 2 3 4> because current driver does not support data reordering
+>   - update port::endpoint::data-lanes::description
+>   - remove redundant type definition for port::endpoint::data-lanes
+> 
+> Changelog v9:
+> - place "required" after "properties"
+> - dictionary ordering of properties
+> 
+> Changelog v10:
+> - no change
+> 
+> Changelog v11:
+> - no change
+> 
+> Changelog v12:
+> - remove property "clock-noncontinuous" as VIIF switches both modes automatically
+> - remove property "link-frequencies" as VIIF does not use the information
+> - remove reg[2] and interrupts[3] which are used for CSI2RX driver
+> - update example to refer csi2rx for remote-endpoint
+> 
+>  .../media/toshiba,visconti5-viif.yaml         | 95 +++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+> new file mode 100644
+> index 000000000000..ef0452a47e98
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
+> @@ -0,0 +1,95 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/toshiba,visconti5-viif.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Toshiba Visconti5 SoC Video Input Interface
+> +
+> +maintainers:
+> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> +
+> +description: |-
+> +  Toshiba Visconti5 SoC Video Input Interface (VIIF) receives videostream
+> +  from MIPI CSI-2 receiver device, processes the stream with image signal
+> +  processors (L1ISP, L2ISP), then stores pictures to main memory.
+> +
+> +properties:
+> +  compatible:
+> +    const: toshiba,visconti5-viif
+> +
+> +  reg:
+> +    items:
+> +      - description: Registers for capture control
+> +      - description: Registers for bus interface unit control
+> +      - description: Registers for Memory Protection Unit
 
-On the other hand I've heard numerous complains about patches being sent
-by new developers from large companies to upstream lists without first
-being reviewed internally by more experienced developers. You can't ask
-people to review patches internally before submitting them upstream and
-at the same time complain about R-b tags coming from internal reviews.
+I'm a bit surprised by the lack of clocks.
 
-The value of a R-b tag, regardless of whether or not it comes from an
-internal review, ultimately depends on the trust you have on the
-reviewer. You can take that into account to decide when you consider a
-patch to be ready to be merged, or to skip reviewing it if enough
-reviewers you trust have looked at it first.
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Sync Interrupt
+> +      - description: Status (Error) Interrupt
+> +      - description: L1ISP Interrupt
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +    description: CSI-2 input port, with a single endpoint connected to the CSI-2 transmitter.
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: video-interfaces.yaml#
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            description: VIIF supports 1, 2, 3 or 4 data lanes
+> +            minItems: 1
+> +            items:
+> +              - const: 1
+> +              - const: 2
+> +              - const: 3
+> +              - const: 4
+
+Now that the CSI-2 receiver is modeled as a separate DT node, I don't
+think data-lanes is applicable anymore. The interface between the CSI-2
+receiver and the VIIF isn't a CSI-2 bus.
+
+I think you can simplify the bindings by switching from port-base to
+port, as you don't need to specify additional properties for the
+endpoint:
+
+  port:
+    $ref: /schemas/graph.yaml#/$defs/port
+    description:
+      CSI-2 input port, with a single endpoint connected to the CSI-2
+      transmitter.
+
+Please test this though (by running the DT bindings checks).
+
+> +
+> +          remote-endpoint: true
+> +
+> +        required:
+> +          - data-lanes
+> +          - remote-endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        video@1c000000 {
+> +            compatible = "toshiba,visconti5-viif";
+> +            reg = <0 0x1c000000 0 0x6000>,
+> +                  <0 0x1c00e000 0 0x1000>,
+> +                  <0 0x2417a000 0 0x1000>;
+> +            interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +            port {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                csi_in0: endpoint {
+> +                    data-lanes = <1 2>;
+> +                    remote-endpoint = <&csi2rx_out0>;
+> +                };
+> +            };
+> +        };
+> +    };
 
 -- 
 Regards,
