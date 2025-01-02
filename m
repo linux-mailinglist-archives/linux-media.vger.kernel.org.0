@@ -1,63 +1,65 @@
-Return-Path: <linux-media+bounces-24203-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24204-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F2C9FF764
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 10:29:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 123E39FF791
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 10:41:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B004518813EB
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 09:29:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C7C01882B99
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 09:41:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5EFE1991DD;
-	Thu,  2 Jan 2025 09:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DF031A0714;
+	Thu,  2 Jan 2025 09:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AS9RF9/H"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O3Es2wxp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F46817996;
-	Thu,  2 Jan 2025 09:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283D1192B9D;
+	Thu,  2 Jan 2025 09:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735810169; cv=none; b=lNBzTGb+5G3YX3YI5FRCRWvJt8rsIwoC8J3Qg7AALysk1IQOIE9QacgegiP06StiVdqBmlyyt2yKSTcqjnApY5+JF3RuzvUOKjjYM1seTeGJotD6d3pt9NKu+VdkCyl+n34JtkoS2jmSR+r7i8P9JwMKAIsGEYy19dG8cGtYaNE=
+	t=1735810868; cv=none; b=Fg0oI7/yKKaz0cjgi1QjjmQvYcNL5me1LTEgnExbp+SopVbyL7JKXHVkL0Q8KyclU/pDhRuWROT1E01XhCQexbEdaOV/Fr5q+v6Gh/9nvOA/sE+v6Z0p12iUxiR4MaGEIRqx25lzoU8DfloOtINdNl5ux69stA9A1vKAEV1IEHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735810169; c=relaxed/simple;
-	bh=onqrZ9NPwzzCIC8p3BjmM6gfrgM7fWW/E8p+1b0xA1o=;
+	s=arc-20240116; t=1735810868; c=relaxed/simple;
+	bh=fFwEobIvrp9LyWBkORtJ/uRW7oOSs64PJjo+Ffia/Po=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PbDTgV1NvWj5pMFSR2iQ21SRUzf0L53zDwRXPntJfU4P+bwup+9npKXtwRhAkBR5nUCxibx9Ob1A8/rwF1fv0cec2haTkJo7AQuHG5S1xH5pY9C2flJ18T7MvqRe9SQpXWOipVY0S+sikaUAu1G35ah5XR/QHyF4/Gq8qSGv8AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AS9RF9/H; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=eank4N7vf03mnFLc0UYF2XPcbnFV8NjdTTe1lMDBHumL/W8YmNLNVg9IuRM5RqxY3pqGynf3AyJDghorOmcPWSqJaT4KmhCH9vEgXq9uuerywQa7sy/yB49y+yYV5Xq409TGduWQ9txvi4N5EPp1Gw0shc1jI/pFTgHYKElubZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O3Es2wxp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D246A75A;
-	Thu,  2 Jan 2025 10:28:36 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC76275A;
+	Thu,  2 Jan 2025 10:40:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1735810117;
-	bh=onqrZ9NPwzzCIC8p3BjmM6gfrgM7fWW/E8p+1b0xA1o=;
+	s=mail; t=1735810816;
+	bh=fFwEobIvrp9LyWBkORtJ/uRW7oOSs64PJjo+Ffia/Po=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AS9RF9/HaMlA5Tm0IJ0+t1rKXA8AV3vlNu4qb5Ox5C3VQ3Vzf2lL6J25vSESE9bbV
-	 qmORlUtuDDUS8ObgfdOj9eWbdu7McLMrxw6c5sf3uB98U7g/pYc7Fs5gSKQxS7//VU
-	 IyHEV/ffrtKK7gwa3C5K+OB+DvUVR/Zl7n/0mS2k=
-Date: Thu, 2 Jan 2025 11:29:25 +0200
+	b=O3Es2wxpDcrkmTnCTZSFuVAHRGUvGh8Mi1f7KVhkFUiegmVT7Bqf+wqVsGTXV42zM
+	 Z6LtfFcI1sib2E92aLcnTFRrRjZ+6ER9cAZZp0oK63oUHfZJ3rmTL96nZDnm+/YdD1
+	 x6vNPytQPUNbAjINh8Iu58KZxp3CNaPlI1UwU1P8=
+Date: Thu, 2 Jan 2025 11:41:05 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v12 1/8] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti MIPI CSI-2 Receiver
-Message-ID: <20250102092925.GC554@pendragon.ideasonboard.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: yuji2.ishikawa@toshiba.co.jp, mchehab@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org,
+	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+	nobuhiro1.iwamatsu@toshiba.co.jp, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface
+Message-ID: <20250102094105.GD554@pendragon.ideasonboard.com>
 References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
- <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
+ <20241125092146.1561901-3-yuji2.ishikawa@toshiba.co.jp>
+ <04a7ebf7-2924-4894-bc53-ba77e2f64fae@kernel.org>
+ <TY3PR01MB99822E6161ED319B4DE855B492042@TY3PR01MB9982.jpnprd01.prod.outlook.com>
+ <d5294015-4790-490e-8136-615039a5c733@kernel.org>
+ <20241217094508.GD11445@pendragon.ideasonboard.com>
+ <7e50e257-9e13-4d32-8de9-8deb53fd30e4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,160 +68,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241125092146.1561901-2-yuji2.ishikawa@toshiba.co.jp>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7e50e257-9e13-4d32-8de9-8deb53fd30e4@kernel.org>
 
-Hello Ishikawa-san,
-
-Thank you for the patch.
-
-On Mon, Nov 25, 2024 at 06:21:39PM +0900, Yuji Ishikawa wrote:
-> Adds the Device Tree binding documentation that allows to describe
-> the MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
+On Tue, Dec 17, 2024 at 01:51:54PM +0100, Krzysztof Kozlowski wrote:
+> On 17/12/2024 10:45, Laurent Pinchart wrote:
+> > On Tue, Dec 17, 2024 at 06:43:22AM +0100, Krzysztof Kozlowski wrote:
+> >> On 17/12/2024 01:00, yuji2.ishikawa@toshiba.co.jp wrote:
+> >>> Hello Krzysztof
+> >>>
+> >>> Thank you for your review
+> >>>
+> >>>> -----Original Message-----
+> >>>> From: Krzysztof Kozlowski <krzk@kernel.org>
+> >>>> Sent: Monday, November 25, 2024 7:08 PM
+> >>>> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
+> >>>> <yuji2.ishikawa@toshiba.co.jp>; Laurent Pinchart
+> >>>> <laurent.pinchart@ideasonboard.com>; Mauro Carvalho Chehab
+> >>>> <mchehab@kernel.org>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> >>>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Sakari Ailus
+> >>>> <sakari.ailus@linux.intel.com>; Hans Verkuil <hverkuil-cisco@xs4all.nl>;
+> >>>> iwamatsu nobuhiro(岩松 信洋 ○ＤＩＴＣ□ＤＩＴ○ＯＳＴ)
+> >>>> <nobuhiro1.iwamatsu@toshiba.co.jp>
+> >>>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+> >>>> linux-arm-kernel@lists.infradead.org; devicetree@vger.kernel.org
+> >>>> Subject: Re: [PATCH v12 2/8] dt-bindings: media: platform: visconti: Add
+> >>>> Toshiba Visconti Video Input Interface
+> >>>>
+> >>>> On 25/11/2024 10:21, Yuji Ishikawa wrote:
+> >>>>> Adds the Device Tree binding documentation that allows to describe the
+> >>>>> Video Input Interface found in Toshiba Visconti SoCs.
+> >>>>>
+> >>>>> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> >>>>> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+> >>>>
+> >>>> Why this tag stayed and other was removed? What was the reason of tag
+> >>>> removal?
+> >>>>
+> >>>
+> >>> The stayed tag is due to internal review.
+> >>
+> >> Did the internal review really happened? How is it that immediately new
+> >> version has internal review without any traces?
+> >>
+> >> I have doubts this review happened in the context of reviewer's
+> >> statement of oversight.
+> >>
+> >>> The removed tag is due to code's change (split of csi2rx part) after the last review.
+> >>> If the code is largely changed following the instruction of another reviewer
+> >>> after obtaining the tags, how should the tags be handled?
+> >>
+> >> Drop all reviews and perform reviews on the list.
+> >>
+> >> Such internal review appearing afterwards is rather a proof it you are
+> >> adding just the tags to satisfy your process. I have no way to even
+> >> verify whether that person performed any reasonable review or maybe just
+> >> acked your patch.
+> > 
+> > How do you verify that for public reviews ?
 > 
-> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> ---
+> By quality or amount of comments. Or timing. Or reviewing cover letter
+> without any feedback on individual patches.
 > 
-> Changelog v12:
-> - Newly add bindings for CSI2RX driver 
-> 
->  .../media/toshiba,visconti5-csi2rx.yaml       | 104 ++++++++++++++++++
->  1 file changed, 104 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
-> new file mode 100644
-> index 000000000000..5488072bc82a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2rx.yaml
-> @@ -0,0 +1,104 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/toshiba,visconti5-csi2rx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Toshiba Visconti5 SoC MIPI CSI-2 receiver
-> +
-> +maintainers:
-> +  - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> +
-> +description: |-
+> There are many, many ways. Considering how many companies were adding
+> fake manager-review-tags in the past (or fake SoBs), I am pretty picky
+> on that.
 
-As Krzysztof mentioned, '|-' isn't needed. See
-https://yaml-multiline.info/ for more information. The literal block
-style indicator ('|') is only needed when line breaks need to be
-preserved, e.g. when the description contains ASCII art.
+On the other hand I've heard numerous complains about patches being sent
+by new developers from large companies to upstream lists without first
+being reviewed internally by more experienced developers. You can't ask
+people to review patches internally before submitting them upstream and
+at the same time complain about R-b tags coming from internal reviews.
 
-> +  Toshiba Visconti5 SoC MIPI CSI-2 receiver device receives MIPI CSI-2 video
-> +  stream. Use with VIIF device. T.B.D
-
-T.B.D ?
-
-> +
-> +properties:
-> +  compatible:
-> +    const: toshiba,visconti5-csi2rx
-> +
-> +  reg:
-> +    items:
-> +      - description: Registers for CSI2 receiver control
-> +
-> +  interrupts:
-> +    items:
-> +      - description: CSI2 Receiver Interrupt
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2 transmitter.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-
-Please use a full path for the ref:
-
-            $ref: /schemas/media/video-interfaces.yaml#
-
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                description: CSI2 receiver supports 1, 2, 3 or 4 data lanes
-
-You can drop the description. The video-interfaces.yaml schema has a
-more complete description, and the fact that the receiver supports
-between 1 and 4 lanes is conveyed by minItems and items below.
-
-> +                minItems: 1
-> +                items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +            required:
-> +              - data-lanes
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node, single endpoint describing the Visconti VIIF.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        csi2rx@1c008000 {
-
-Node names should describe the function of the node, not the precise
-model of the device. "csi2" would be a more appropriate name.
-
-> +            compatible = "toshiba,visconti5-csi2rx";
-> +            reg = <0 0x1c008000 0 0x400>;
-> +            interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                port@0 {
-> +                    reg = <0>;
-> +                    csi2rx_in0: endpoint {
-> +                        data-lanes = <1 2>;
-> +                        remote-endpoint = <&imx219_out0>;
-> +                    };
-> +                };
-> +                port@1 {
-> +                    reg = <1>;
-> +                    csi2rx_out0: endpoint {
-> +                        remote-endpoint = <&csi_in0>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
+The value of a R-b tag, regardless of whether or not it comes from an
+internal review, ultimately depends on the trust you have on the
+reviewer. You can take that into account to decide when you consider a
+patch to be ready to be merged, or to skip reviewing it if enough
+reviewers you trust have looked at it first.
 
 -- 
 Regards,
