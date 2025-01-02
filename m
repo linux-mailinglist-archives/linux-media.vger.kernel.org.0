@@ -1,321 +1,214 @@
-Return-Path: <linux-media+bounces-24220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24221-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603B49FFBCC
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 17:35:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2E19FFBFD
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 17:40:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4B093A147C
-	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 16:35:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B908C7A25EA
+	for <lists+linux-media@lfdr.de>; Thu,  2 Jan 2025 16:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC4B82899;
-	Thu,  2 Jan 2025 16:34:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7FC214AD02;
+	Thu,  2 Jan 2025 16:38:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x85AF694"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="NUfF4yk+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A859A1531E9
-	for <linux-media@vger.kernel.org>; Thu,  2 Jan 2025 16:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AE8187848
+	for <linux-media@vger.kernel.org>; Thu,  2 Jan 2025 16:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735835665; cv=none; b=a4gvQlWkq3fBUtoZGBICc/gsbyRIqLph4HeXWBs4crA7jLn3zbs6aR/Mj3v4enCCaX+aZkSQjLHDojI1VzMGVhEtq/RtFI8poP4CtyPOJ2KXqDrG8MX/8FI6fZinaFwOEgj34xb2UMF1UtXGNy+CXtHJ2pLargM0TIUS4m7VK6o=
+	t=1735835915; cv=none; b=WRYbWowzNybcxXDONhJuFV0erY2KKMt/qJNfN4QxDZlzPcGuOmr3QY4ZM8+fS/w3bbAHoPNEwIMj/0EA86NX7UN9/Z8wBWFA58qfIwx4BKhS1LiDejW6O2P7QDjENZwUjPjSMjbG5gkfpWmWysYqWzSIlgU07gBEXRdToeKmnOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735835665; c=relaxed/simple;
-	bh=oNnL8hVQpNoqjucv+4l3yobMYSHjMBJfbEGmFgRGX5E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YWc2yQwObkK1C3AVtq5M3zvPpMBQ3bkF+Fx3KZwXwO78606IE5MNXfYoMuibLUVIERF0khCQlnP3LvbrfnZeQB5dE/wYnuEqX4HOpZS0Cinxjlm34NE6d5HIRBk5rVwfCqWooh00ozJZdMT3tqfKwu2IbI1YjnETduk06dhdI5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x85AF694; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4364a37a1d7so121737045e9.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Jan 2025 08:34:20 -0800 (PST)
+	s=arc-20240116; t=1735835915; c=relaxed/simple;
+	bh=YYW14kornmutL9wR7p63y0ohanjyZNis8IdCfOxANUY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ddwdxZp05vxPYJ4uT5YAn4ysqkouRUQwj+7R+P9yJzYF2evajDUDBii9Lk3uSaFTqPphmWfD541KZ2tR0nfauJ5RVm2+/v08jdETNC3FowadH/o7jkSXVW4HtBaM1BBn30bVeR5unHOuzQFRpBZYLdYUkYrdbVeAFthWA/K0Vqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=NUfF4yk+; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e53ef7462b6so10404772276.3
+        for <linux-media@vger.kernel.org>; Thu, 02 Jan 2025 08:38:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735835657; x=1736440457; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0b62UCuETWUYjOP9XcQNgSvVluIC9YjgjH3XPmV4qGo=;
-        b=x85AF694XH6KdAyeNKcE7EIlp9dK8dvKXSpb1zFY6EWcWDxI6OSd8wx9sFmAOfHyWn
-         lwIcd53VyhpuO4nJuvyEmAtM3lF7POC0OM6Y6Hb7ecdopO3tA013QykrWHmEh3BwiaGq
-         YeAOxQED0UhoMlIlAip5Mv5CEafX7Y/wRvKrRzXY9TrDWIU8sy6YcQYOnbcq5sngAvZ0
-         M3/71ikUiM4TIHXI00TsoV+F9sAWT/MIbaFNiTOodGbX206Hx/gt087FVzmYtpRFx3PR
-         I2hLPUbiXHdX/x7OnBxChTqrSe6twbeGyTKOiVHV1puKA6CxCCzgtRVbHRGdi6jJsLDB
-         A5tg==
+        d=raspberrypi.com; s=google; t=1735835894; x=1736440694; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ysnvKRDOIMPalcn8D7LlAr5KbbyQH5/iYcw/HIM0EBk=;
+        b=NUfF4yk+9DqJ6yKFdaOVRAhHYfjddvq62HhIqQBpxLdPnmII15oU6ZMgDARC8n6Ep1
+         nrYK6yQDhdVHLaJbdcnpxDLNd2KHef+ROp/7P2kyEUmJs4moJtO1+xG0LZcgkZBebCLi
+         UawZFDgb9Noo1BgpQdxWjfsiv0c8HYHQknH2T2h69PuTYrk+9hq+6cS9/qAsMWTQ2f/f
+         PF4VJKvQVH8JKNh2Bm7of9ZaYD6xZdF1t63Vh/De1rmDqZ2FSkfRMWmDWK18oaFkZ3wc
+         /wAWR18OQ2iTNSm5RrjFf3YhwnTm4G37rU//2DoMdADuB+e3RJpOjv4LmI0axGa1l168
+         Ni+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735835657; x=1736440457;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0b62UCuETWUYjOP9XcQNgSvVluIC9YjgjH3XPmV4qGo=;
-        b=DdHmyCgtW0cPYWApnHusEwVLiHP/5m2aXTni4Zq/hIzzfZ4uLdsTTG5uuRViyqlz6t
-         rkmO4HB7MMS9wmu9v0AccAJEe2UrFKeNqOcb/4gNTrAQIT3zaNFQaQmx5xAE7Zaz8CG5
-         f632ntL70jRcaz/tq2CexRumgZRCrfRykF9l3dyEFQ6k4ubhEqRZCM4qQuzrABfnMvqw
-         7t5W7nz5cEJo9vqOYnOEk+Ad1aS4PjBC2M+RccVo9EQOnJnkrSIiBz3LWeyri6X3Nbwe
-         Xx5WDh4Bj2LojOhA/CwtHMN4lSllECgcd9P5aJs9Gpfxz3w8snips+LVsv69Hb+vEVoD
-         ePaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVvCf/I47QuARS6zDgvzeDBeQz3+eeOTGe2ZyEK39C+qFwTyEspRQHL4/01NDdNizbZ+i44LWAcoBGnCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUv1P6p9nkQGgf6GmGNsXeX1MxPkx7fqkSyXNaANs7Skd4QxkX
-	O2Q2qoqL97IIZDyDxLSqmuC417tyaI65quKE5g76JZMEHtnHOev8os5zH5FkawI=
-X-Gm-Gg: ASbGncsSKoXHkfaeoR3aZbQgZvHsffd8EdD68YENYjUFWLgzp/ws34/Tns4kgQY17GV
-	xWKqkF8tqNVtRXTbV4EiETyZoWkouWnoXyIGGji/+OVjl3HCDOAw9njOJ+JicVDpIOh3ei4wAv3
-	IgxcRO/0I/F6C5u3ofmcx5mwYX3vigrHrI4BlViy25GAUBj6HVWqJIuLOoAXNsZNGl69SViGqko
-	mJaT+Nb3oILoXiJOZwlvuaB4UlZ+Wm9dqqEkiPrUBnnmVQGm5Y5usb9Mn2jRSK1Kw==
-X-Google-Smtp-Source: AGHT+IGrzTHhkEtGfmbQVMqc/B8UI4MzATc+HmmDKeaJPsd+R/bMiGGQ422VpCY8gq/IyysaVRdEzQ==
-X-Received: by 2002:a05:600c:35c1:b0:434:a94f:f8a9 with SMTP id 5b1f17b1804b1-43668b7873emr312282565e9.28.1735835657195;
-        Thu, 02 Jan 2025 08:34:17 -0800 (PST)
-Received: from [127.0.1.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b3b295sm499265665e9.33.2025.01.02.08.34.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jan 2025 08:34:16 -0800 (PST)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Thu, 02 Jan 2025 16:32:11 +0000
-Subject: [PATCH v3 6/6] arm64: dts: qcom: x1e80100: Add CAMSS block
- definition
+        d=1e100.net; s=20230601; t=1735835894; x=1736440694;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ysnvKRDOIMPalcn8D7LlAr5KbbyQH5/iYcw/HIM0EBk=;
+        b=AkcSll9TVG0gjyUs5t9iPZ6ryStbnD30dYj2iFkt6fpgRUSBWW31cpgsZHPeQV8eqh
+         P7xhYNynjd+jiMOv9plY4Cxx7hSr75HFbCXa7R8Mz4gvcGiHdybj2mmIEPBDmlEQm714
+         Pqtzq4lwX3zm/VseghWljWkZxw7aTocBOSGeiasjoYSnEzE7lWVqXfg5h19Kw21qdqX0
+         sKJ24cBmGE5dQo75Vqkw8hJgAA1PliPhMVCP8MDub9PI+BuULHfSAkUbHBPGs8Og7aRb
+         LDQXVO8krq6ztC8iCkn4jXedaGgbU7cCx2TCThzVaQIYHhF3NUmznpMMsf95WAJtGSCR
+         tecA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHH4fCRoIjPJrVBm5YCW92RVQb43LrkSyvBTF0cSwpMdlUYqIraj/XeIoaKU7Q9MBLnCwK4P3ULwKGeA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj8jNG6rZyYR4Pztmb7UTFnW2CwBt1/HzQ1XdKB2X8lzlJ2GhX
+	zwcQz+JHZU1F4Odd+J5cJqayEUu+yPgsFLAJGR6tI8cO5wuVeW8qP28dVLPl4kgYMUaldUKsEDc
+	ePLSjv9JtEsOY01SlsjkaxKp+o460Mi+AwKGobg==
+X-Gm-Gg: ASbGncuayFQTzN312x/8bmI5910bGWkDmYu0l8s5z+HM9ZSBcJHnYVpURNhsnhp/3de
+	aTAiuOZ8ndnZAIVNHt9y4VHLIQAsRu4Zb3L02SA==
+X-Google-Smtp-Source: AGHT+IHtHYLYZNLLmArksYSxDS5CTlJxJDcQUqbofJXmKhK08RVWbaUCtmYVSbl1EOmdMaXIKF9+Bdm0QWmgCUg2Cp4=
+X-Received: by 2002:a05:690c:f84:b0:6ef:c5f6:2ac8 with SMTP id
+ 00721157ae682-6f3f820dfbfmr284283287b3.27.1735835893694; Thu, 02 Jan 2025
+ 08:38:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250102-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v3-6-cb66d55d20cc@linaro.org>
-References: <20250102-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v3-0-cb66d55d20cc@linaro.org>
-In-Reply-To: <20250102-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v3-0-cb66d55d20cc@linaro.org>
-To: Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
- Jagadeesh Kona <quic_jkona@quicinc.com>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.15-dev-1b0d6
+References: <20241230-imx219_fixes-v5-0-98446d816489@ideasonboard.com> <20241230-imx219_fixes-v5-2-98446d816489@ideasonboard.com>
+In-Reply-To: <20241230-imx219_fixes-v5-2-98446d816489@ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 2 Jan 2025 16:37:56 +0000
+Message-ID: <CAPY8ntCSSe-T7ZjNZZ2-qQWcJd+rOFJwF2HY41NCKhx0T+weHA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/5] media: i2c: imx219: Rename VTS to FRM_LENGTH
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Add dtsi to describe the xe180100 CAMSS block
+Hi Jai
 
-4 x CSIPHY
-2 x CSID
-2 x CSID Lite
-2 x IFE
-2 x IFE Lite
+Thanks for the patch
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- arch/arm64/boot/dts/qcom/x1e80100.dtsi | 185 +++++++++++++++++++++++++++++++++
- 1 file changed, 185 insertions(+)
+On Mon, 30 Dec 2024 at 06:12, Jai Luthra <jai.luthra@ideasonboard.com> wrote:
+>
+> The IMX219 datasheet uses the terms FRM_LENGTH and LINE_LENGTH instead
+> of VTS/HTS.
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index 97ebf5596dfc3caa920ef85722ca8afd49cd3c24..0b5b48d2c59e0b18816ea131e0f687b8bf84e1da 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -4726,6 +4726,191 @@ cci1_i2c1: i2c-bus@1 {
- 			};
- 		};
- 
-+		camss: isp@acb6000 {
-+			compatible = "qcom,x1e80100-camss";
-+
-+			reg = <0 0x0acb6000 0 0x1000>,
-+			      <0 0x0acb7000 0 0x2000>,
-+			      <0 0x0acb9000 0 0x2000>,
-+			      <0 0x0acbb000 0 0x2000>,
-+			      <0 0x0acc6000 0 0x1000>,
-+			      <0 0x0acca000 0 0x1000>,
-+			      <0 0x0ace4000 0 0x2000>,
-+			      <0 0x0ace6000 0 0x2000>,
-+			      <0 0x0ace8000 0 0x2000>,
-+			      <0 0x0acec000 0 0x2000>,
-+			      <0 0x0acf6000 0 0x1000>,
-+			      <0 0x0acf7000 0 0x1000>,
-+			      <0 0x0acf8000 0 0x1000>,
-+			      <0 0x0acc7000 0 0x2000>,
-+			      <0 0x0accb000 0 0x2000>,
-+			      <0 0x0ac62000 0 0x4000>,
-+			      <0 0x0ac71000 0 0x4000>;
-+			reg-names = "csid_wrapper",
-+				    "csid0",
-+				    "csid1",
-+				    "csid2",
-+				    "csid_lite0",
-+				    "csid_lite1",
-+				    "csiphy0",
-+				    "csiphy1",
-+				    "csiphy2",
-+				    "csiphy4",
-+				    "csitpg0",
-+				    "csitpg1",
-+				    "csitpg2",
-+				    "vfe_lite0",
-+				    "vfe_lite1",
-+				    "vfe0",
-+				    "vfe1";
-+
-+			clocks = <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
-+				 <&camcc CAM_CC_CAMNOC_AXI_NRT_CLK>,
-+				 <&camcc CAM_CC_CORE_AHB_CLK>,
-+				 <&camcc CAM_CC_CPAS_AHB_CLK>,
-+				 <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
-+				 <&camcc CAM_CC_CPAS_IFE_0_CLK>,
-+				 <&camcc CAM_CC_CPAS_IFE_1_CLK>,
-+				 <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
-+				 <&camcc CAM_CC_CPHY_RX_CLK_SRC>,
-+				 <&camcc CAM_CC_CSID_CLK>,
-+				 <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
-+				 <&camcc CAM_CC_CSIPHY0_CLK>,
-+				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
-+				 <&camcc CAM_CC_CSIPHY1_CLK>,
-+				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
-+				 <&camcc CAM_CC_CSIPHY2_CLK>,
-+				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
-+				 <&camcc CAM_CC_CSIPHY4_CLK>,
-+				 <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
-+				 <&gcc GCC_CAMERA_HF_AXI_CLK>,
-+				 <&gcc GCC_CAMERA_SF_AXI_CLK>,
-+				 <&camcc CAM_CC_IFE_0_CLK>,
-+				 <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
-+				 <&camcc CAM_CC_IFE_1_CLK>,
-+				 <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
-+				 <&camcc CAM_CC_IFE_LITE_CLK>,
-+				 <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
-+				 <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
-+				 <&camcc CAM_CC_IFE_LITE_CSID_CLK>;
-+			clock-names = "camnoc_rt_axi",
-+				      "camnoc_nrt_axi",
-+				      "core_ahb",
-+				      "cpas_ahb",
-+				      "cpas_fast_ahb",
-+				      "cpas_vfe0",
-+				      "cpas_vfe1",
-+				      "cpas_vfe_lite",
-+				      "cphy_rx_clk_src",
-+				      "csid",
-+				      "csid_csiphy_rx",
-+				      "csiphy0",
-+				      "csiphy0_timer",
-+				      "csiphy1",
-+				      "csiphy1_timer",
-+				      "csiphy2",
-+				      "csiphy2_timer",
-+				      "csiphy4",
-+				      "csiphy4_timer",
-+				      "gcc_axi_hf",
-+				      "gcc_axi_sf",
-+				      "vfe0",
-+				      "vfe0_fast_ahb",
-+				      "vfe1",
-+				      "vfe1_fast_ahb",
-+				      "vfe_lite",
-+				      "vfe_lite_ahb",
-+				      "vfe_lite_cphy_rx",
-+				      "vfe_lite_csid";
-+
-+			interrupts = <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 431 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "csid0",
-+					  "csid1",
-+					  "csid2",
-+					  "csid_lite0",
-+					  "csid_lite1",
-+					  "csiphy0",
-+					  "csiphy1",
-+					  "csiphy2",
-+					  "csiphy4",
-+					  "vfe0",
-+					  "vfe1",
-+					  "vfe_lite0",
-+					  "vfe_lite1";
-+
-+			interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-+					 &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
-+					<&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-+					<&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-+					<&mmss_noc MASTER_CAMNOC_ICP QCOM_ICC_TAG_ALWAYS
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-+			interconnect-names = "cam_ahb",
-+					     "cam_hf_mnoc",
-+					     "cam_sf_mnoc",
-+					     "cam_sf_icp_mnoc";
-+
-+			iommus = <&apps_smmu 0x800 0x60>,
-+				 <&apps_smmu 0x860 0x60>,
-+				 <&apps_smmu 0x1800 0x60>,
-+				 <&apps_smmu 0x1860 0x60>,
-+				 <&apps_smmu 0x18e0 0x00>,
-+				 <&apps_smmu 0x1900 0x00>,
-+				 <&apps_smmu 0x1980 0x20>,
-+				 <&apps_smmu 0x19a0 0x20>;
-+
-+			power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
-+					<&camcc CAM_CC_IFE_1_GDSC>,
-+					<&camcc CAM_CC_TITAN_TOP_GDSC>;
-+			power-domain-names = "ife0",
-+					     "ife1",
-+					     "top";
-+
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@3 {
-+					reg = <3>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+			};
-+		};
-+
- 		camcc: clock-controller@ade0000 {
- 			compatible = "qcom,x1e80100-camcc";
- 			reg = <0 0x0ade0000 0 0x20000>;
+nit: This patch doesn't make any changes to HTS / LINE_LENGTH as there
+are no references to it (yet - that's patch 3/5)
+Taken with the context of the commit subject, it's fine by me.
 
--- 
-2.45.2
+>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+> ---
+>  drivers/media/i2c/imx219.c | 31 +++++++++++++++----------------
+>  1 file changed, 15 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 0486bbc046cb9c36afd911eb799c1b010a01d496..8565b1b030be2ee24bcc37415e99ee4ef83cc683 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -70,9 +70,8 @@
+>  #define IMX219_EXPOSURE_MAX            65535
+>
+>  /* V_TIMING internal */
+> -#define IMX219_REG_VTS                 CCI_REG16(0x0160)
+> -#define IMX219_VTS_MAX                 0xffff
+> -
+> +#define IMX219_REG_FRM_LENGTH          CCI_REG16(0x0160)
+> +#define IMX219_FLL_MAX                 0xffff
+>  #define IMX219_VBLANK_MIN              32
+>
+>  /* HBLANK control - read only */
+> @@ -154,7 +153,7 @@ struct imx219_mode {
+>         unsigned int height;
+>
+>         /* V-timing */
+> -       unsigned int vts_def;
+> +       unsigned int fll_def;
+>  };
+>
+>  static const struct cci_reg_sequence imx219_common_regs[] = {
+> @@ -289,25 +288,25 @@ static const struct imx219_mode supported_modes[] = {
+>                 /* 8MPix 15fps mode */
+>                 .width = 3280,
+>                 .height = 2464,
+> -               .vts_def = 3526,
+> +               .fll_def = 3526,
+>         },
+>         {
+>                 /* 1080P 30fps cropped */
+>                 .width = 1920,
+>                 .height = 1080,
+> -               .vts_def = 1763,
+> +               .fll_def = 1763,
+>         },
+>         {
+>                 /* 2x2 binned 30fps mode */
+>                 .width = 1640,
+>                 .height = 1232,
+> -               .vts_def = 1763,
+> +               .fll_def = 1763,
+>         },
+>         {
+>                 /* 640x480 30fps mode */
+>                 .width = 640,
+>                 .height = 480,
+> -               .vts_def = 1763,
+> +               .fll_def = 1763,
+>         },
+>  };
+>
+> @@ -418,7 +417,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
+>                           imx219->hflip->val | imx219->vflip->val << 1, &ret);
+>                 break;
+>         case V4L2_CID_VBLANK:
+> -               cci_write(imx219->regmap, IMX219_REG_VTS,
+> +               cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH,
+>                           format->height + ctrl->val, &ret);
+>                 break;
+>         case V4L2_CID_TEST_PATTERN_RED:
+> @@ -493,15 +492,15 @@ static int imx219_init_controls(struct imx219 *imx219)
+>         /* Initial vblank/hblank/exposure parameters based on current mode */
+>         imx219->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+>                                            V4L2_CID_VBLANK, IMX219_VBLANK_MIN,
+> -                                          IMX219_VTS_MAX - mode->height, 1,
+> -                                          mode->vts_def - mode->height);
+> +                                          IMX219_FLL_MAX - mode->height, 1,
+> +                                          mode->fll_def - mode->height);
+>         hblank = IMX219_PPL_DEFAULT - mode->width;
+>         imx219->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+>                                            V4L2_CID_HBLANK, hblank, hblank,
+>                                            1, hblank);
+>         if (imx219->hblank)
+>                 imx219->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> -       exposure_max = mode->vts_def - 4;
+> +       exposure_max = mode->fll_def - 4;
+>         exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+>                 exposure_max : IMX219_EXPOSURE_DEFAULT;
+>         imx219->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
+> @@ -847,12 +846,12 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>
+>                 /* Update limits and set FPS to default */
+>                 __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> -                                        IMX219_VTS_MAX - mode->height, 1,
+> -                                        mode->vts_def - mode->height);
+> +                                        IMX219_FLL_MAX - mode->height, 1,
+> +                                        mode->fll_def - mode->height);
+>                 __v4l2_ctrl_s_ctrl(imx219->vblank,
+> -                                  mode->vts_def - mode->height);
+> +                                  mode->fll_def - mode->height);
+>                 /* Update max exposure while meeting expected vblanking */
+> -               exposure_max = mode->vts_def - 4;
+> +               exposure_max = mode->fll_def - 4;
+>                 exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+>                         exposure_max : IMX219_EXPOSURE_DEFAULT;
+>                 __v4l2_ctrl_modify_range(imx219->exposure,
+>
+> --
+> 2.47.1
+>
 
