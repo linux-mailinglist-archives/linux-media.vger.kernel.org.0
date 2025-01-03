@@ -1,87 +1,79 @@
-Return-Path: <linux-media+bounces-24232-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24233-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC679A0094C
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2025 13:33:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62768A00AD5
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2025 15:48:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D06871884997
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2025 12:33:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3159A163B06
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2025 14:48:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BC951FA15C;
-	Fri,  3 Jan 2025 12:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CADF1FA832;
+	Fri,  3 Jan 2025 14:48:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gSU6ysg/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T6Ow8DXb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8078310F4
-	for <linux-media@vger.kernel.org>; Fri,  3 Jan 2025 12:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D361FA24E
+	for <linux-media@vger.kernel.org>; Fri,  3 Jan 2025 14:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735907622; cv=none; b=k1XnD/g0fNE7zoRkLShjFGhnImmRc7fryjRxPwyc5pjBZWMlZKEIVFaZ29YAhc0dYVbXdW81TSiSkBHhqwHu62v7NYxtksYd91CjT7Y0QAOlSn6r2OUWrlEW0oydbedOrfICEa3F2a4xTpKIVCAI4HpoyHmZF7WsAmViSWVF1gs=
+	t=1735915709; cv=none; b=O+p98vtM3Rulxj85pV8Pni/R/lL455K3Ck/V0LqT54s8lQ0+CcNPqePGj5opB8nWcT103wjHbKMeQsqyaCo0gOIy0a/TMKkF/fCfF7Ydp8ye7bFRZ44IZKL8jt3M67dJf1fSCWycTNtTEz1NcsvhYi4ji4/MYHfEavNOCZMozIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735907622; c=relaxed/simple;
-	bh=pEzUak3KSwcyxR/a9pc2u+/ko9TsfzXb06M294EVjmw=;
+	s=arc-20240116; t=1735915709; c=relaxed/simple;
+	bh=ARy/vXlaj5ReptwJhzWJ7HDJ7nhAj5kDO9HT4W3uHqE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DE2Kny32g8UwGBA4ZpbrjHjIhDqiOB9lqFLFx9PHRhbIiEbxLuHhCzUXGZNBxni51s6ea32FUKuljIuA0NkB2GHVigqGJEh+NYw6cmIdYOy65c7+dGaIhSq+1SlTECR4Pm2ejFHKQ0p6yN5jFpDBtAudsLd4XjscdfJDiD5jzPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gSU6ysg/; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5038KiKw010158
-	for <linux-media@vger.kernel.org>; Fri, 3 Jan 2025 12:33:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	n2Dpbmc/KnZM07+zlG/yLj5EEwSqvLtt5wQl4yd+ONY=; b=gSU6ysg/NIkk9D+9
-	++Vold3gv781AW4DhM6aV1y2JM2HGBq5Dl959mngtiMICh5ZuZBAsXAFuuJcY2t5
-	9WPCfXdxrRY+lEhPWgxtGUw1cYWP8K40P5X2OOp9BH11L8yNAPCojjUW+qqgR0Ak
-	qK8E0eJpMydmFYoGKx3RgO5JS2yW2C8WiaOwGgK0+5L9lPNDFbVMljthACC22V1G
-	44mj8AfzHxpA8YsaE2S3Eyzlx/9yYFQRT2QUWCxqBvHb6RvBHW7W7kOOELG9aLo0
-	t5phHpvChr0I6oJHlwsag4buHaULmge19D3n5/9fB3MLUSujjvrK/iso4GxdVVnt
-	rL/k6Q==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43xca50hgq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 03 Jan 2025 12:33:38 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-467922cf961so35971541cf.0
-        for <linux-media@vger.kernel.org>; Fri, 03 Jan 2025 04:33:38 -0800 (PST)
+	 In-Reply-To:Content-Type; b=eVSaGu/oHF2VexyeEEwHr8e1XdUYkkpL1SbiJzGgxarQl+6pPmkDvwt2Y4MzkgBD0E2gyGG7WVkfLffQ6frG9ds0PCI1elxRtzEdQymCfitY0w+Rkux6RGVSraNS50Q3IIoWNa+KW2kDM+zyhZSRbdDBlPxAWlom5UVhlToVoOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T6Ow8DXb; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43618283d48so89635825e9.1
+        for <linux-media@vger.kernel.org>; Fri, 03 Jan 2025 06:48:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1735915705; x=1736520505; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Yoqiwu0ZPISAmlNURS49rP/IFDhT/w9s1QlaAD1nD1w=;
+        b=T6Ow8DXbSnTp9usPLpcXy71f8IgIcgLf56e3wn7HUCYnnKgbuUTk2cwgRA0ofHKfQJ
+         5+BsxDVNCdJ32wJZDTer2ZFiE6LM7tzoK3kD3yxlj/Q2g9T6eZ30YhULSFQrrRkOiAJ0
+         R62bbRo8vpcjLRmIt03cPV8k4YuTw+EqO+R8ekBB/x/KnolE4T5JAqlIy4hdVylY5pU9
+         THi0Y+ntV/+GMHFtYGrMrLSXJbFHlVRSVbyS4OIO3bjCXjfjfgsN+QceNp+Ldnx/38YC
+         Mk6hiqwzq2Dj+DPYJu62/wk9DhQqieHO3uC8H2LcdDbTldd6DpJRubqgA7B35tyVUQKv
+         yNsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735907617; x=1736512417;
+        d=1e100.net; s=20230601; t=1735915705; x=1736520505;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n2Dpbmc/KnZM07+zlG/yLj5EEwSqvLtt5wQl4yd+ONY=;
-        b=bqWt9HqOPbEh56bBMWrzsRyrpFCB5ZQgyicz2+3FE5DByoCx7AGYG4ZVk7eTGWgBMg
-         5vGIUmeia/mjCVP9NIZbiGd6KHnSD99G/HbDSyY5ExoX+wAAPWCrUlGUIhAxFiH3eVqa
-         6DTbSYcjyqPUZkMsaKdvrXu8xWs7/UOa1AJigK4iRtbjB4jeyGKPuVWC9bEkzU5h7VZp
-         VtmHPdLSo3qoUW5icTomnxRrRUrVIgiE2VG3r0RRv0e7sHSZ9D0XwdZI2db1IKQ5jr31
-         aC0EfKWfWaRNR+kK9fQO5u34t/f2PIF/uGopnd6YPpjYzEhlFfZNceWFnBqUvbRMlO3/
-         TKJg==
-X-Forwarded-Encrypted: i=1; AJvYcCVX6wfdetsOTaFH6+yEn9DHOR11Xkp65K2Q3hFbv5aBEsi2bqay9HnTAoY1hqMVrB2b4CVw+aEw/ZiIBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1UHNGH2BqQTtkeFccE0Yr8yzKO7cdtEe8PIXA8QS9a4GLaNwb
-	fK3E88tysFHFXhv2A7BPsA5Bq1H+4qvy+3Zp1NU2+swzveYKGqhxO2oM9x+6abr9G9F8okavcCn
-	ELQIrn8ppGZ5d8bHNuB910nSrvnGMwr0uUqB6Sm092JQHuYDsx6Ar4DQw1LdBxA==
-X-Gm-Gg: ASbGncvan6yGV7eDtE5au8o3BtmaB9tnl6d3A+FbwMbzlatLcxYp/8WjFXK7mUjtsbo
-	/4wbsBE7xbHqckcxiswPL5cu/33DMzpA6U+Ma68s0WMZXC5y5VITR7ClkHDdXbyAG4CtI6H7V7d
-	WddG+YfFyjgHnpwmoErnJLEDEQX57+E6Pv9v3Ahg839NHqOZjytLxgOwV6INgq6mw6to2wgFwo9
-	ZY5gyrRP3YbNOPg2HM6kyu1Wr891TuSxxFuzKj25NsXqs0VNpJAmhQWQbtNebGlz7AakBuGGZbC
-	ozZ8P2YTYBMyDxWvYoY+GL1bxN/oW9gGEs0=
-X-Received: by 2002:ac8:5a4d:0:b0:467:5462:4a14 with SMTP id d75a77b69052e-46a4a68fa9bmr291986231cf.0.1735907617244;
-        Fri, 03 Jan 2025 04:33:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHnMA0EQ857HFoyRLGK5cmdBugpr0LylR4BGIjaNVCCKL8WAfGOH/wKHJw8YeCRcmbXx+Ybig==
-X-Received: by 2002:ac8:5a4d:0:b0:467:5462:4a14 with SMTP id d75a77b69052e-46a4a68fa9bmr291985931cf.0.1735907616857;
-        Fri, 03 Jan 2025 04:33:36 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e82ed65sm1871999766b.33.2025.01.03.04.33.34
+        bh=Yoqiwu0ZPISAmlNURS49rP/IFDhT/w9s1QlaAD1nD1w=;
+        b=jzOw8EHiW6Mes83d2/v92mq6XadFzWOBDkroM/jSGV2L5gk6WmdkoHm1JzDXl5/SHD
+         KnW0wBVNhyKCVpZSQigR8wBv99sWxnvAZjx5x3kw198Q35FR/c8M08Ouw+3raQsbs/iD
+         CC9R4pOdR3eHoqH1xLnWEN6uAgbKFDGqc0wgolVfDJxt+tmn+EoYmxFDjcmeguYx6zco
+         aHyiL4cz5Dwl5Gx7Yzd2jvaud/0RxLftnVmE7f0bt6xcfNe8LsiBwexhaY/UFlUx09bP
+         +Cuq/fJIWY0sQD5ABCV9BRHULJDgTPooHSodklpFhPM6hFEhVBNrvZh703mQGA+Nn1HF
+         0dDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWlZO/AL21I4PcHoRGilNftwlB/NbgLspIKTjw+6rbVmX9tSYNtCw383wDuqTF4XBZt7X9mdafVT69ZSA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdQmzRMSSyOZBIWPpxYqEly6ROIrUwi2RdS4cXdm1oPdEx9+Q4
+	ro7FWxyEvmt0Kt6jBEVQ+kQGyrZXuPDKrRayAP77dcTPBo4mQEHXztDZTQHbk59eIH3eEuvspj0
+	0
+X-Gm-Gg: ASbGncvP7gwGv09Mx1v4t9hzrG+QTqagePl0PgVpcAZw/A+Akht5gQs5TjKs97ETKXr
+	Kz5STyYrEgYRPoWF12ws8J23qKUs9agNBf0+fo6k0lz9Kd7fAJqWpRxOSlQC9EqHJ36XUONJfPv
+	8RP45WRYU9KXilzp2aM0cTNHXsDQbh5xIohYo2FyYPReHDfdyZqvYGBvF6xgyLyfO/SAplhE/Uh
+	DWD7DKq0M1kT6oWdVeSnyAeuyaNekmU5oG9uzL7/q4sXbcvEM+4ob0A3mG9MmcrdSmXBw==
+X-Google-Smtp-Source: AGHT+IGfednntDvu6ZXrObE1Cj/rDH9xIbJPG+EOjHXzT3RtNhQEXlwqANJ26bIHkmmk2a7qppbxug==
+X-Received: by 2002:a05:600c:3b02:b0:434:f609:1af7 with SMTP id 5b1f17b1804b1-43668547462mr416110305e9.4.1735915704896;
+        Fri, 03 Jan 2025 06:48:24 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b119b6sm523254265e9.22.2025.01.03.06.48.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jan 2025 04:33:36 -0800 (PST)
-Message-ID: <aecff79e-0c14-41e5-82a9-e24413798e21@oss.qualcomm.com>
-Date: Fri, 3 Jan 2025 13:33:33 +0100
+        Fri, 03 Jan 2025 06:48:24 -0800 (PST)
+Message-ID: <3e3136e5-cb59-45a8-8bd3-43bf401c14cb@linaro.org>
+Date: Fri, 3 Jan 2025 14:48:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,52 +81,86 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] arm64: dts: qcom: x1e80100: Add CAMCC block
- definition
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
-        Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
- <sboyd@kernel.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Jagadeesh Kona <quic_jkona@quicinc.com>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20250102-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v3-0-cb66d55d20cc@linaro.org>
- <20250102-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v3-4-cb66d55d20cc@linaro.org>
+Subject: Re: [PATCH v10 4/4] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, akapatra@quicinc.com,
+ hariramp@quicinc.com, andersson@kernel.org, konradybcio@kernel.org,
+ hverkuil-cisco@xs4all.nl, cros-qcom-dts-watchers@chromium.org,
+ catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com
+References: <20241217140656.965235-1-quic_vikramsa@quicinc.com>
+ <20241217140656.965235-5-quic_vikramsa@quicinc.com>
+ <22479c27-9265-4994-8974-9739ecbae5ee@linaro.org>
+ <99cf5f7e-43f6-4ac4-a4a2-dc731b695572@oss.qualcomm.com>
+ <c7253f5f-eb4a-4636-b0f9-7d284a2f5a8d@linaro.org>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250102-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v3-4-cb66d55d20cc@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: RjAYwMYBdTNCJc1ULzYgmIVprlCmccoB
-X-Proofpoint-GUID: RjAYwMYBdTNCJc1ULzYgmIVprlCmccoB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 suspectscore=0
- mlxlogscore=847 spamscore=0 impostorscore=0 lowpriorityscore=0
- clxscore=1015 adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2501030110
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <c7253f5f-eb4a-4636-b0f9-7d284a2f5a8d@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2.01.2025 5:32 PM, Bryan O'Donoghue wrote:
-> Add the CAMCC block for x1e80100. The x1e80100 CAMCC block is an iteration
-> of previous CAMCC blocks with the exception of having two required
-> power-domains not just one.
+On 19/12/2024 19:32, Vladimir Zapolskiy wrote:
+>>>> +        rst-pins {
+>>>> +            pins = "gpio78";
+>>>> +            function = "gpio";
+>>>> +            drive-strength = <2>;
+>>>> +            bias-pull-down;
+>>>> +            output-low;
+>>>> +        };
+>>>
+>>> I have doubts that it's proper to embed a reset gpio into driver's
+>>> pinctrl suspend/resume power management.
+>>>
+>>> Konrad, can you please confirm that it's really accepted?
+>>>
+>>> I'd rather ask to remove this reset pin control.
+>>
+>> There's certainly some appearances of this in the tree.
+>>
+>> You could make the argument that it makes sense to prevent 
+>> misconfiguration
+>> (i.e. the bootloader may set the pin in input mode), but then the counter
+>> argument is that the (Linux) gpiod APIs request OUT_LOW/HIGH, and we 
+>> would
+>> expect that the driver uses that if the GPIO is requested through
+>> e.g. reset-gpios.
+>>
+>> I'm not particularly sure what to recommend here. Krzysztof?
+>>
 > 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
+> I'm worried by a possibility that a device reset/shutdown control GPIO 
+> could
+> be turned off by entering the "sleep" pinctrl setup. If a particular 
+> GPIO/pin
+> is off, is it still continuously functional as a control GPIO of some 
+> device?
+> I believe it is not anymore in general, this is my concern here.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+I agree for this particular case that rst-pin should be excised.
 
-Konrad
+- RST is an active low signal, which is typically _pulsed_ for a period
+   when the sensor is powered to trigger a reset in the state machine of
+   the sensor
+
+- What is the use-case of pulling RST down the GPIO in suspend ?
+   I'd remove the output-low though it should make no difference as
+   the sensor regulators will be off.
+
+- MCLK I think should have a suspend state specified or at least
+   I can't think of a good reason right now why what I see here is wrong.
+
+For the default state this patch disables the GPIO pull down bias, which 
+to me seems logical and correct.
+
+TBH I don't have a big concern about the RST pin in reset because the 
+regulators will be off.
+
+---
+bod
 
