@@ -1,309 +1,129 @@
-Return-Path: <linux-media+bounces-24235-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24236-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CC8A00C84
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2025 18:04:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D58ADA00D9E
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2025 19:29:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 395AD1647BA
-	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2025 17:04:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E3581884BBF
+	for <lists+linux-media@lfdr.de>; Fri,  3 Jan 2025 18:29:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BFF91FBC83;
-	Fri,  3 Jan 2025 17:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E7B41FA261;
+	Fri,  3 Jan 2025 18:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HsMI649l"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sTg1kMpF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4F31CEADF;
-	Fri,  3 Jan 2025 17:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C5E167DB7
+	for <linux-media@vger.kernel.org>; Fri,  3 Jan 2025 18:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735923862; cv=none; b=TpDjX4m8sxPX1vTzPFINXBrvHSV8TN8v7VFjJNsGNVKRTLDgPEwsc8yjrLpMG26vTelnNcQfIcfaqehveFT2EZUzKVZS3UNaJI2t33BiPz4x3Fwxv8tjWMzGvkKDV1KJqN6JaBZlLCH24GC3C3XXtSQJrG+wd2KKk8nEo0mRx/w=
+	t=1735928963; cv=none; b=LCAanQqRrpzn9R4mgg8s6ZbNhaSefG8FFCXHYqTSBMwvWY5i9M4+spNLgquFMPGwgPMNJI05ZbC68NBZN+kAuBGoU7X2zQrdo2sGtMhlApMXpp6JjVU2G4HCHT8K7bZFd9HfHDvS2vTO+2PK1+ncAXZv9lSyGzZFlxONRAsDwEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735923862; c=relaxed/simple;
-	bh=SByc/N9How7/ZDztUDiEHkrbYTvlWlG9S5ZZuJl3oCs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ENIu9sbbIf9Kf33ZsQmepu0sJKb1476VFg81DEgZsAhATJ5JA2c7F7R33BSo06Sl5OmfFvWI+uRTwX9/AiLfBh4SfCwdChbnnbAgY7MFs8lHyynWIfzNwRGDuDhqA+nnll6QiwYh3MEW+6znlkigOgyIDhyT4DqICX9r1DUoL7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HsMI649l; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78D73C4CECE;
-	Fri,  3 Jan 2025 17:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735923861;
-	bh=SByc/N9How7/ZDztUDiEHkrbYTvlWlG9S5ZZuJl3oCs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HsMI649l/0xtPdAR6zjaBtsHAX7rIhwaFNEqMZpEtH42TwOX/Y3ojO+JoKCoGMgAv
-	 5Y1coZRBAlCKngjTtuxVn/dTSYogZZAm34hPPUvuDrVczvhbRPU6wfhWffH2Wd5o7X
-	 XzleAc7/aSl323IUfTL+7TSFJ4mE+IgE5uUGmTxhbkE9rWjlTopjg6mNnn6VAZsEM5
-	 fbujuA3wD668iSYJEO5u1WgRum7FU80AV7GzT4rue5dKXYy/Y1y134UCVfkN/SZNz4
-	 dRMwIrzFeu+uW571YRlF7t7LMoXPurSYO6nPiLKM4foZXUhVYKPxiN4fIUxjXOFwNl
-	 J7AxscPdUOdAQ==
-Message-ID: <6adfa5fe-7b68-4f8e-919d-7b7607fe617c@kernel.org>
-Date: Fri, 3 Jan 2025 18:04:11 +0100
+	s=arc-20240116; t=1735928963; c=relaxed/simple;
+	bh=LZEq5uiAw4+uyD4pIrNcIq+37sNf/AUqhpqffyKVmWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=quGtlanH4tGwxqAknl4pBGfTpT+xbKf181yH92WZhDy8lvGY3ggOolgJxPXqbWTqG+rMkxD/zzkct6ZGv3bB8AE29p9qm5mHSpGoxl8HG0HwlIusfhL0d9lXz8hX+kVDmwMgQ0pVPZH0KbI2xSb7LfvzihOEDPKxQx76UZFJ6uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sTg1kMpF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 69A88496;
+	Fri,  3 Jan 2025 19:28:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1735928909;
+	bh=LZEq5uiAw4+uyD4pIrNcIq+37sNf/AUqhpqffyKVmWk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sTg1kMpF886PtC1VQuJ1NMnWuoG2lzAM8u/n67WQLaijNnIo4vYWm3zYw8mNxPAcz
+	 0A6qcNIBw5NumyCvMh6IUCi1b45yEuAJ0h1b1KGLEpY137hs7LicoBZZw68CbM7eM6
+	 MPjynhQcthjZpjIsACbuVvA4JMV5Y26hFX5zHX8A=
+Date: Fri, 3 Jan 2025 20:29:18 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-media@vger.kernel.org, linuxtv-commits@linuxtv.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [GIT,PULL,FOR,v6.14] imx8-isi fixes and improvements
+Message-ID: <20250103182918.GA29245@pendragon.ideasonboard.com>
+References: <20241218004058.GA24802@pendragon.ideasonboard.com>
+ <67622b40.050a0220.3a9c93.6e95@mx.google.com>
+ <20241218021847.GA1844@pendragon.ideasonboard.com>
+ <20241218162341.4c6f1814@foz.lan>
+ <20241218213341.GA29014@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] dt-bindings: mailbox: mediatek: Add MT8196 support
- for gce-mailbox
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-Cc: Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "robh@kernel.org" <robh@kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mchehab@kernel.org"
- <mchehab@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "airlied@gmail.com"
- <airlied@gmail.com>, "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
- =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
-References: <20241219170800.2957-1-jason-jh.lin@mediatek.com>
- <20241219170800.2957-2-jason-jh.lin@mediatek.com>
- <yg7b2iaz53avd7gpvuewhi6b3myh6owls3dt2hzpqc26lnykjf@tpu2vxqqkipe>
- <11f168c11b4cea48cf51406c0afaf8f1f53ad90f.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <11f168c11b4cea48cf51406c0afaf8f1f53ad90f.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241218213341.GA29014@pendragon.ideasonboard.com>
 
-On 30/12/2024 10:23, Jason-JH Lin (林睿祥) wrote:
-> Hi Krzysztof,
+On Thu, Dec 19, 2024 at 01:25:55AM +0200, Laurent Pinchart wrote:
+> On Wed, Dec 18, 2024 at 04:23:41PM +0100, Mauro Carvalho Chehab wrote:
+> > Em Wed, 18 Dec 2024 04:18:47 +0200 Laurent Pinchart escreveu:
+> > > On Tue, Dec 17, 2024 at 05:54:08PM -0800, Patchwork Integration wrote:
+> > > > Dear Laurent Pinchart:
+> > > > 
+> > > > Thanks for your patches! Unfortunately media-ci detected some issues:
+> > > > 
+> > > > # Test media-patchstyle:./0001-media-nxp-imx8-isi-fix-v4l2-compliance-test-errors.patch media style
+> > > > WARNING: Commit cf21f328fcafacf4f96e7a30ef9dceede1076378 found in the stable tree, but stable@vger.kernel.org not in Cc:
+> > > > WARNING: Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")' - ie: 'Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")'
+> > > > #16: 
+> > > > Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")  
+> > > 
+> > > I don't think Cc: stable makes sense for this particular commit.
+> > 
+> > Sure, not all commits are actually fixing things, but, in this
+> > particular case, it sounds that it contains a real problem:
+> > 
+> > 	Running the v4l2-compliance (1.27.0-5208, SHA: af114250d48d) on the m2m
+> > 	device fails on the MMAP streaming tests, with the following messages:
+> > 
+> > 	fail: v4l2-test-buffers.cpp(240): g_field() == V4L2_FIELD_ANY
+> > 	fail: v4l2-test-buffers.cpp(1508): buf.qbuf(node)
+> > 
+> > causing userspace to fail. For me, it seems that such patch needs to 
+> > be backported.
 > 
-> On Fri, 2024-12-27 at 09:13 +0100, Krzysztof Kozlowski wrote:
->>
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> On Fri, Dec 20, 2024 at 01:07:54AM +0800, Jason-JH.Lin wrote:
->>>    2) GCE Subsys ID:
->>>    - Defined in the header file: `#define SUBSYS_1c00XXXX 3`
->>>    - Used in the Device Tree:
->>>       `mediatek,gce-client-reg = <&gce SUBSYS_1c00XXXX 0x0000
->>> 0x1000>;`
->>>    - Parsed and used in the driver to configure subsys ID:
->>>      ```c
->>>      int cmdq_dev_get_client_reg(struct device *dev,
->>>                                struct cmdq_client_reg *client_reg,
->>>                                int idx)
->>>      {
->>>       client_reg->subsys = (u8)spec.args[0];
->>>       client_reg->offset = (u16)spec.args[1];
->>>      }
->>>      // GCE write the value to the register 0x1c000000 + 0x0000 +
->>> offset
->>>      cmdq_pkt_write(cmdq_handle, client_reg->subsys,
->>>                   client_reg->offset + offset, value);
->>
->> This is a proof that SUBSYS_1300XXXX is not a binding. Your driver
->> does
->> not use it.
->>
->> Drop all such things which are not used by drivers or explain why
->> they
->> are needed to be in the binding - what do they bind.
->>
->> I asked for this already, for exactly the same thing.
->>
->>
->> I did not check the rest, so next time I will choose any other random
->> define and if I do not find it explained nor used, I will question
->> it.
->> Because you tend to apply pieces of review instead of really change
->> your
->> code.
-> 
-> Please forgive me for putting a lot of redundant message. I just want
-> to provide as much detail as possible to help you determine if they are
-> bindings. I appreciate your guidance and will make the necessary
-> adjustments.
-> 
-> 
-> I checked the clk header you accepted before:
-> https://lore.kernel.org/all/402ac5a2-334e-1843-0517-5ecf61f6a965@linaro.org/
+> If the fix wasn't fixing a problem, it wouldn't be a fix :-) The reason
+> why I don't think this is worth a backport is that it only fixes an
+> issue reported by v4l2-compliance, that hasn't to my knowledge affected
+> anyone in other use cases. Given that the driver evolves, backporting
+> this change blindly, testing compilation only but not runtime operation,
+> has a higher risk of introducing failures in stable kernels than it has
+> a chance to fix issues that affect people.
 
-With arguments like "someone, somewhere acked this, so I am allowed as
-well to send it" you enter tricky grounds.
+As there has been no voiced disagreement, I'll send a new version of the
+pull request without "Cc: stable" for this commit.
 
-> 
-> Please don't mind me to make a confirmation here because I can't find
-> the documentation of the definition for binding header.
-> Do you mean all the header defined in include/dt-bindings/* should be
-> used in a specific driver and the DTS in the same time?
+> > In doubt, please add c/c stable when fixes is used. If there are good
+> > reasons why not doing it, please place the rationale at the patch.
+> > 
+> > > > total: 0 errors, 1 warnings, 15 lines checked
+> > > > WARNING: ./0001-media-nxp-imx8-isi-fix-v4l2-compliance-test-errors.patch: Fails some mandatory checkpatch tests
+> > > > 
+> > > > # Test checkpatch:./0001-media-nxp-imx8-isi-fix-v4l2-compliance-test-errors.patch checkpatch
+> > > > WARNING: Please use correct Fixes: style 'Fixes: <12 chars of sha1> ("<title line>")' - ie: 'Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")'
+> > > > #16: 
+> > > > Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
+> > > > 
+> > > > total: 0 errors, 1 warnings, 0 checks, 15 lines checked  
+> > > 
+> > > This I can fix. I'll wait for replies to the above though.
+> > 
+> > Please do it.
+> > 
+> > The rest of the PR sounds OK on my eyes.
 
-Yes, otherwise how is it abstraction?
+-- 
+Regards,
 
-There are numerous exceptions of course when binding binds different
-pieces of software/firmware. Is that the case? Nothing in commit msg
-explained this.
-
-> 
-> Take the `#define CLK_TOP_AXI` and `#define CLK_TOP_VPP` in
-> mediatek,mt8188-clk.h for example:
-> 
-> `CLK_TOP_AXI` is used in the drivers/clk/mediatek/clk-mt8188-topckgen.c
-> but not in arch/arm64/boot/dts/mediatek/mt8188.dtsi:
-> ```
->   #include <dt-bindings/clock/mediatek,mt8188-clk.h>
-> 
->   ...
-> 
->   static const struct mtk_mux top_mtk_muxes[] = {
-> 	MUX_GATE_CLR_SET_UPD_FLAGS(CLK_TOP_AXI, "top_axi",
-> axi_parents,
-> 				   0x020, 0x024, 0x028, 0, 4, 7, 0x04,
->   ...
-> 	
-> 	MUX_GATE_CLR_SET_UPD(CLK_TOP_VPP, "top_vpp",
-> 			     vpp_parents, 0x02C, 0x030, 0x034, 0, 4,
-> 7, 
->   ...
-> ```
-> 
-> and `CLK_TOP_VPP` is used in the both clk-mt8188-topckgen.c and
-> mt8188.dtsi:
-> ```
->   power-domain@MT8188_POWER_DOMAIN_VPPSYS0 {
->   	reg = <MT8188_POWER_DOMAIN_VPPSYS0>;
-> 	clocks = <&topckgen CLK_TOP_VPP>,
-> 		 <&topckgen CLK_TOP_CAM>,
-> ...
-> ```
-> 
-> But it seems that both of `CLK_TOP_AXI` and `CLK_TOP_VPP` are regarded
-> as binding headers.
-
-I don't get the comparisons. Both constants represent abstraction, so
-they are correct.
-
-
-> 
-> 
-> From the previous description of the example you gave me:
-> Bindings are imaginary numbers starting from 0 or 1 which are used
-> between drivers and DTS, serving as abstraction layer (or abstraction
-> values) between these two.
-
-Exactly, what to say more?
-
-> 
-> As I understand, each clock definition corresponds to the clock CG
-> settings provided to different hardware, and each hardware driver can
-> control its own clock CG through the CCF to control their CG in clock
-> driver. So they can be an abstraction values between driver and DTS.
-> 
-> Similarly, the GCE subsys ID and GCE event ID correspond to symbols
-> used by GCE to control various hardware, and each hardware driver can
-> use these IDs to generate commands buffer for GCE through the API
-> provided by the GCE driver and achieve the desired control over their
-> hardware.
-
-So are they abstract or not? Then use some different values, really
-abstract.
-
-I brought you definition: abstract. You now cited it. But last paragraph
-entirely skips this point.
-
-
-> 
-> I guess the difference is that the clock driver has a platform-specific
-> clock table to store these binding headers, while the GCE driver does
-> not have a platform-specific thread priority table, subsys ID table,
-> and event ID table. Instead, the GCE client drivers can directly obtain
-> their respective hardware settings from the DTS.
-> 
-> On the other hand, definitions like CLK_TOP_MAINPLL_D3,
-> CLK_TOP_MAINPLL_D4, etc., correspond to different clock frequency
-> divider levels, and the CMDQ_THR_PRIO_X for GCE thread priority also
-> corresponds to different priority levels for GCE threads. Therefore, I
-> am not quite sure why GCE thread priority cannot be considered a
-> binding when it is also a symbol number for a hardware level setting.
-
-Well, maybe nothing here is a binding. I took one thing to inspect. I
-did not inspect the rest. How does it help your case?
-
-
-> 
-> 
-> If the condition for becoming a binding header is that it `must` be
-> used by a specific driver, such as a platform-specific table, then I
-
-No, "used by the driver" is indication that you use it as abstraction.
-
-> will remove the entire GCE dt-binding header. Because the current usage
-> of these definitions is that each GCE client drivers can directly store
-> these GCE definitions through the DTS, just like IRQ IDs, and without
-> the need for an additional table defined by the GCE driver.
-
-Do you store IRQ IDs as binding constants in binding headers? No. Why?
-
-Before proceeding with this header further, please answer to above - why
-interrupt numbers, MMIO addresses and some other values appearing in DTS
-are not used like "binding headers".
-
-
-Best regards,
-Krzysztof
+Laurent Pinchart
 
