@@ -1,36 +1,77 @@
-Return-Path: <linux-media+bounces-24288-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24289-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CC3A02777
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 15:07:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 600B3A0277B
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 15:08:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDBE3163C44
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 14:07:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 795C6163378
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 14:08:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF201DD543;
-	Mon,  6 Jan 2025 14:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0074A1DDC3A;
+	Mon,  6 Jan 2025 14:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N0MteEZP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5178839FCE;
-	Mon,  6 Jan 2025 14:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8097F1DC9AD
+	for <linux-media@vger.kernel.org>; Mon,  6 Jan 2025 14:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736172467; cv=none; b=kPelW3kLSMvyGdQtVpIUiA8kSDKk1L/rLHgSqFMa8c6YxF08rAvdBhEXLp5FYw9mtTf4N3EHbXM2EYIF2BKinfHrehrb8YmrffOAU/2EU4li78kKStI0jYKuhMe0vM1eUwDDuojyJ2kjT4NsBAVH/ZN1z5cuYCt4qQYQIlFXju4=
+	t=1736172488; cv=none; b=RTk2yx/DBcHC4HpPaij8Ygf/yGybwn9K+CCeDCvF0ub0/WHsxgybJETIzbhZYuF5jTZ1dbpJeD6Vyzzh9roEroVRCMMCIQXXkgHmt3CcUz0mBicg5w9Z2u8eN6j/e/y741P5aHAPo1ZS/XDgdsKPlWkBRbaKp3FgJupfbg7aECU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736172467; c=relaxed/simple;
-	bh=GYtGkn/aeshSa2iiwiOAZRV7NaFf3/yrzg+D98EqqQA=;
+	s=arc-20240116; t=1736172488; c=relaxed/simple;
+	bh=mk1DitITBu6wmhsqn2nmojT+Nq4BeNVWOenXUM2lmEw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j87LyoNsnyvU1ROhqwp1GR/4UsmHLkLYf6RrtJbu0pJRkPaOxwpQZtby/3UUp+F2yarCuD3dQC2Zos2SVO1pfn6jxtm3lub4ulxAgzXzMQqFt512a23zK6p2YVxUxlOGChh86jUkf0QqRETPAiQFe/RJo2t5+a8aOIshwWFBzGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA456C4CED2;
-	Mon,  6 Jan 2025 14:07:45 +0000 (UTC)
-Message-ID: <b228c210-73a9-4d4a-b884-7230be59dd82@xs4all.nl>
-Date: Mon, 6 Jan 2025 15:07:44 +0100
+	 In-Reply-To:Content-Type; b=jF6FEyZ6XOQZ95rWEVLnkhYH3jyGgLduooq5dw4mZDMBpMqbuQTaTUKeVVAM2gb1b8EF1NeOEpyOt/FhXkzDctmWsQh9VOtH4CG0U/QJlCweHFXPBbpAbnmhFu2zdbgHnFpI1Ro6Pkqj/TY3cRbWm90gMIOmNdmtOaPzEGUwWdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N0MteEZP; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-435f8f29f8aso104198935e9.2
+        for <linux-media@vger.kernel.org>; Mon, 06 Jan 2025 06:08:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736172485; x=1736777285; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EWT9lmpyxnN+ivmg93OmXz9oSbysfzx800Q4Ls4JS4Q=;
+        b=N0MteEZPUuWNDfqEplcQfjSgJOEibnEPodHQGSb9WHW07ih6eXoxx5FvGokqVMchvp
+         AJ2UMAy7TbeOfs5VEvx+peekQZP48gbY1slc48H3R8JaDYTrw4C1cM1C7DvjwW7aR3AB
+         Lc6DMjZtn7CVqFnd+cYzzNsF5NMAq715BAUrtKZLs3Ep6n7SpxYWunSCIWvbDRAl6n2h
+         iIxpTjlVjrx+WuosmlD+7wzBZpi4gFRMBGVBOb7Gh9QAwZy6WjAA0PyWnreqdeTKjPay
+         CZt6wavw9ehskVNGmW70rFzKdv3iV+MJQzsc4+8MfAlWaQtFxGxD+q1zIStzlinGyIwB
+         brGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736172485; x=1736777285;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EWT9lmpyxnN+ivmg93OmXz9oSbysfzx800Q4Ls4JS4Q=;
+        b=lBzxPrTsFuACkAnuX+gjgezuh7OTwe5oaOKJc6iX5COXjARKVVKFGcENNX/EJ9V1Sx
+         dhphH42hODSwzRut4KKnq6QMsRhxABF5RWSh/kqzEMS/RdFg51kTosjLwxzaIeI1gOO+
+         PqPGayJ+gkf/R7lnLuzDqVq1gJeGWv9Y0WdtL2rL18enI35OnlVBgQPkol1PuSTNo+N7
+         7q6MhpyfwjXpuA6+blAcPJjdqH8NIXKj93xFZnetw6O3X1WG9N5hF6lXcC2dq1QJnWdy
+         o38g30drFOWYFB2763VB0KRLf/VvCg4mSG5jEpZuQrRiJ+mlzfZ1f+Pg/yA6AM6BhZ/g
+         PaRQ==
+X-Gm-Message-State: AOJu0YxfJmJapg99AV8NtxVzbgHdqhe9/vpuW/0pXx8yFjQgZUrlf3a5
+	P1TECLE07Ct01pDEQqhWjexqf04FY1FruTOPg93Vl3F0hSJem4e+kPLjv7mbi2g=
+X-Gm-Gg: ASbGncsxI3cDBebZPj5Rt6po9BXhWfkUFAUSN3fmPtFZaClTZUW6fGWRVp8+ArHrkAs
+	fLXAO7tulavnNw3bSpK3+mj8LHj2PRHhyLM5R1WeLt9NYfItEfloKTq+V8XsD6ywEgBaHayBW64
+	cBIreB6kvu27tEXGVAEd2z7GNEq0JdeRgO3yNnbkgSMQ6fzir7mGMwcHbhpDzD6ohSZlZo/8vCi
+	dyVVDnGLWilDkbt90H/8gewTRw0EIvDBA2aOW8kD2PTxVkgfFODIdu6au0wtjZWWXR48g==
+X-Google-Smtp-Source: AGHT+IHXug5yLq0vZe9jWONZUJ9YxeEdyT8/tH+NsyQkfEAG5MJnrSgKUFKRqEqVTgqoOpnTJGzJPQ==
+X-Received: by 2002:a05:600c:3554:b0:434:9934:575 with SMTP id 5b1f17b1804b1-436686461d6mr509541595e9.16.1736172484915;
+        Mon, 06 Jan 2025 06:08:04 -0800 (PST)
+Received: from [192.168.0.40] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b442dasm600692965e9.42.2025.01.06.06.08.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jan 2025 06:08:04 -0800 (PST)
+Message-ID: <4df2adac-c9d8-46f5-ad92-105b91f8ae4e@linaro.org>
+Date: Mon, 6 Jan 2025 14:08:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,93 +79,49 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] usb/cx231xx: Remove unused value
-To: Ariel Otilibili <ariel.otilibili-anieli@eurecom.fr>,
- linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
- netdev@vger.kernel.org, linux-can@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20241221035352.1020228-1-ariel.otilibili-anieli@eurecom.fr>
- <20241221111454.1074285-1-ariel.otilibili-anieli@eurecom.fr>
- <20241221111454.1074285-3-ariel.otilibili-anieli@eurecom.fr>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241221111454.1074285-3-ariel.otilibili-anieli@eurecom.fr>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v4 2/6] media: venus: vdec: Ignore parm smaller than 1fps
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Hans Verkuil <hans.verkuil@cisco.com>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ linux-arm-msm@vger.kernel.org
+References: <20250106-fix-cocci-v4-0-3c8eb97995ba@chromium.org>
+ <20250106-fix-cocci-v4-2-3c8eb97995ba@chromium.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250106-fix-cocci-v4-2-3c8eb97995ba@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 21/12/2024 12:06, Ariel Otilibili wrote:
-> Coverity-ID: 1269153
-> Signed-off-by: Ariel Otilibili <ariel.otilibili-anieli@eurecom.fr>
-> ---
->  drivers/media/usb/cx231xx/cx231xx-avcore.c | 1 -
->  1 file changed, 1 deletion(-)
+On 06/01/2025 13:40, Ricardo Ribalda wrote:
+> The driver uses "whole" fps in all its calculations (e.g. in
+> load_per_instance()) Return -EINVAL if the user provides a parm that
+> will result in 0 whole fps.
 > 
-> diff --git a/drivers/media/usb/cx231xx/cx231xx-avcore.c b/drivers/media/usb/cx231xx/cx231xx-avcore.c
-> index 1cfec76b72f3..f2a2d0c39080 100644
-> --- a/drivers/media/usb/cx231xx/cx231xx-avcore.c
-> +++ b/drivers/media/usb/cx231xx/cx231xx-avcore.c
-> @@ -1896,7 +1896,6 @@ int cx231xx_dif_set_standard(struct cx231xx *dev, u32 standard)
->  		status = vid_blk_write_word(dev, DIF_SOFT_RST_CTRL_REVB,
->  						0x00000000);
->  		/* Save the Spec Inversion value */
-> -		dif_misc_ctrl_value &= FLD_DIF_SPEC_INV;
-
-Don't remove this line,
-
->  		dif_misc_ctrl_value = 0x3A093F10;
-
-instead this should have been |=, just like is done elsewhere in this function.
-
->  	} else if (standard &
->  		  (V4L2_STD_SECAM_B | V4L2_STD_SECAM_D | V4L2_STD_SECAM_G |
-
-Also, please just post this as a separate patch to linux-media. It is bad form
-to mix subsystems in the same patch series if there is no reason for it.
-
-Regards,
-
-	Hans
+> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Closes: https://lore.kernel.org/linux-media/f11653a7-bc49-48cd-9cdb-1659147453e4@xs4all.nl/T/#m91cd962ac942834654f94c92206e2f85ff7d97f0
+> Fixes: 7472c1c69138 ("[media] media: venus: vdec: add video decoder files")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>   drivers/media/platform/qcom/venus/vdec.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 98c22b9f9372..25edd77b9cf9 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -481,7 +481,7 @@ static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+>   	us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
+>   	do_div(us_per_frame, timeperframe->denominator);
+>   
+> -	if (!us_per_frame)
+> +	if (!us_per_frame || us_per_frame > USEC_PER_SEC)
+>   		return -EINVAL;
+>   
+>   	fps = (u64)USEC_PER_SEC;
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
