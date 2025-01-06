@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-24296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B47A028BA
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 16:01:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F4FA028D0
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 16:10:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F5753A049D
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 15:01:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5865A163C35
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 15:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1EC8158525;
-	Mon,  6 Jan 2025 15:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B54E1482F2;
+	Mon,  6 Jan 2025 15:10:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F2A14F12D;
-	Mon,  6 Jan 2025 15:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2814F282F5;
+	Mon,  6 Jan 2025 15:10:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736175689; cv=none; b=TWQbeu21eEVMn4rGm2Dzysb6FDVBJ+TbSwzN6NLnMGK4iMEPxA2GL2dq9frLtI1dvRxOFh1nlIMUX5C1tqQE23KJHu6rMFwV6TJucpOIz6eXdA5mCIF0/j4ETuikwzKWtTssNc40g7ovSDjR1PXWcgmZrn8k8NpANGZ5UvwaNzc=
+	t=1736176243; cv=none; b=Ub9XIzJX103Pij3vFzb3tnbNlSEoZMKemyjRvhgBBfvFkxlkOq7vgmA30IxGW3MDNauVejE6/9qEhyC17+joUx3GASdO9wGtX95Al4kW9W0rc/m1CbTmFmRpJYpYlXRj2l8vCuF+hgS9yNC0SbopO8X7cNGR9FnDNI1yw0Weqo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736175689; c=relaxed/simple;
-	bh=WerED6wgb0dNXO3YbPPhI2kGCRyzFBIwg77ltkDR12M=;
+	s=arc-20240116; t=1736176243; c=relaxed/simple;
+	bh=Udj/ssRl13ZueoEAC6lXfXAtfPEkpbyAk/UTlVNvwTc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qjiG43w9BoHjZ87/hzrqYnPmRvCbxZHAOmTcmZ3afhKTNB2aPMw7yWJ9fkFoDMVo45PXQ/CKEgFo4tvJtZqvOEVgQdRQZI0g1sTY+fEuogBudQj1RNoD6lfRjSkcOq3ofSmHvcmx+EJxO1xNiMIZD5MmaVO178YJZ7eJ/Hl6FAg=
+	 In-Reply-To:Content-Type; b=GX6sClP6BUOc1I9Gs4DQDUSBN9Gj9Q93aHCZrXDQhQhPjhAXbDxGRZawLfXiLIYPglAzMf2ejLYOOvUUtn8GJTbGejY42f22eEbSoXaP7ex60RdHse7YhNdZ+Jis0JW87xJLlw2GTKuTa13hyObewJQsEqPqZh0BX6ISmcuX/MQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 719A3C4CED2;
-	Mon,  6 Jan 2025 15:01:27 +0000 (UTC)
-Message-ID: <454a9a08-edd1-4593-9f78-71c76f1937a1@xs4all.nl>
-Date: Mon, 6 Jan 2025 16:01:25 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E951C4CEE1;
+	Mon,  6 Jan 2025 15:10:40 +0000 (UTC)
+Message-ID: <eacf3201-2884-48e3-b54d-2e52e16999be@xs4all.nl>
+Date: Mon, 6 Jan 2025 16:10:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,14 +38,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: uvcvideo: Filter hw errors while enumerating
- controls
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>,
+Subject: Re: [PATCH] media/mmp: Bring back registration of the device
+To: Lubomir Rintel <lrintel@redhat.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
+ stable@vger.kernel.org
+References: <20241231190434.438517-1-lkundrak@v3.sk>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -91,129 +90,103 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org>
+In-Reply-To: <20241231190434.438517-1-lkundrak@v3.sk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi all,
+Hi Lubomir,
 
-On 19/12/2024 16:33, Ricardo Ribalda wrote:
-> To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
-> step and flags of the control. For some of the controls, this involves
-> querying the actual hardware.
+On 31/12/2024 20:04, Lubomir Rintel wrote:
+> In commit 4af65141e38e ("media: marvell: cafe: Register V4L2 device
+> earlier"), a call to v4l2_device_register() was moved away from
+> mccic_register() into its caller, marvell/cafe's cafe_pci_probe().
+> This is not the only caller though -- there's also marvell/mmp.
 > 
-> Some non-compliant cameras produce errors when we query them. Right now,
-> we populate that error to userspace. When an error happens, the v4l2
-> framework does not copy the v4l2_queryctrl struct to userspace. Also,
-> userspace apps are not ready to handle any other error than -EINVAL.
+> Add v4l2_device_register() into mmpcam_probe() to unbreak the MMP camera
+> driver, in a fashion analogous to what's been done to the Cafe driver.
+> Same for the teardown path.
 > 
-> One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
-> of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
-> that usecase, a non-compliant control will make it almost impossible to
-> enumerate all controls of the device.
-> 
-> A control with an invalid max/min/step/flags is better than non being
-> able to enumerate the rest of the controls.
-> 
-> This patch makes VIDIOC_QUERYCTRL return 0 in all the error cases
-> different than -EINVAL and introduces a warning in dmesg so we can
-> have a trace of what has happened.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Hi 2*Hans and Laurent!
-> 
-> I came around a device that was listing just a couple of controls when
-> it should be listing much more.
-> 
-> Some debugging latter I found that the device was returning -EIO when
-> all the focal controls were read.
-> 
-> Lots of good arguments in favor/against this patch in the v1. Please
-> check!
-> 
-> Without this patch:
-> $ v4l2-ctl --list-ctrls
->                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
->          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
->      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
-> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
-> 
-> With this patch:
-> $ v4l2-ctl --list-ctrls
->                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
->          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
->      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
-> error 5 getting ext_ctrl Focus, Absolute
-> error 5 getting ext_ctrl Focus, Automatic Continuous
->    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
-> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> Fixes: 4af65141e38e ("media: marvell: cafe: Register V4L2 device earlier")
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 
-How about setting the V4L2_CTRL_FLAG_DISABLED flag for problematic controls, but still return 0?
+Should this be your redhat email? I have a mismatch between the From email
+and the email in this Sob.
 
-That way you can still report it, and you can see what the field values are (if you managed to read them),
-but the control is disabled, i.e. it can't be used.
-
-But it is probably wise to try at least twice to get the value in case it is a transient problem.
-
-Note that I think that v4l2-compliance will complain about the use of that flag, since it
-really shouldn't be used in 'normal' drivers, but it can skip that check if is_uvcvideo is set.
+I can fix it either way, but you have to tell me what you prefer.
 
 Regards,
 
 	Hans
 
-> 
-> --
+> Cc: stable@vger.kernel.org # v6.6+
 > ---
-> Changes in v2:
-> - Never return error, even if we are not enumerating the controls
-> - Improve commit message.
-> - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
+>  drivers/media/platform/marvell/mmp-driver.c | 21 +++++++++++++++++----
+>  1 file changed, 17 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 4e58476d305e..43ddc5bb02db 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1307,17 +1307,24 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
->  		s32 val;
->  		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> -		if (ret < 0)
-> -			return ret;
+> diff --git a/drivers/media/platform/marvell/mmp-driver.c b/drivers/media/platform/marvell/mmp-driver.c
+> index 3fd4fc1b9c48..d3da7ebb4a2b 100644
+> --- a/drivers/media/platform/marvell/mmp-driver.c
+> +++ b/drivers/media/platform/marvell/mmp-driver.c
+> @@ -231,13 +231,23 @@ static int mmpcam_probe(struct platform_device *pdev)
 >  
-> -		if (val != mapping->master_manual)
-> -				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> +		if (ret < 0) {
-> +			dev_warn_ratelimited(&chain->dev->udev->dev,
-> +					     "UVC non compliance: Error %d querying master control %x\n",
-> +					      ret, master_map->id);
-> +		} else if (val != mapping->master_manual) {
-> +			v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> +		}
->  	}
+>  	mcam_init_clk(mcam);
 >  
->  	if (!ctrl->cached) {
->  		int ret = uvc_ctrl_populate_cache(chain, ctrl);
-> -		if (ret < 0)
-> -			return ret;
+> +	/*
+> +	 * Register with V4L.
+> +	 */
 > +
-> +		if (ret < 0) {
-> +			dev_warn_ratelimited(&chain->dev->udev->dev,
-> +					     "UVC non compliance: Error %d populating cache of control %x\n",
-> +					     ret, mapping->id);
-> +		}
+> +	ret = v4l2_device_register(mcam->dev, &mcam->v4l2_dev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/*
+>  	 * Create a match of the sensor against its OF node.
+>  	 */
+>  	ep = fwnode_graph_get_next_endpoint(of_fwnode_handle(pdev->dev.of_node),
+>  					    NULL);
+> -	if (!ep)
+> -		return -ENODEV;
+> +	if (!ep) {
+> +		ret = -ENODEV;
+> +		goto out_v4l2_device_unregister;
+> +	}
+>  
+>  	v4l2_async_nf_init(&mcam->notifier, &mcam->v4l2_dev);
+>  
+> @@ -246,7 +256,7 @@ static int mmpcam_probe(struct platform_device *pdev)
+>  	fwnode_handle_put(ep);
+>  	if (IS_ERR(asd)) {
+>  		ret = PTR_ERR(asd);
+> -		goto out;
+> +		goto out_v4l2_device_unregister;
 >  	}
 >  
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
-> 
-> ---
-> base-commit: 40ed9e9b2808beeb835bd0ed971fb364c285d39c
-> change-id: 20241213-uvc-eaccess-755cc061a360
-> 
-> Best regards,
+>  	/*
+> @@ -254,7 +264,7 @@ static int mmpcam_probe(struct platform_device *pdev)
+>  	 */
+>  	ret = mccic_register(mcam);
+>  	if (ret)
+> -		goto out;
+> +		goto out_v4l2_device_unregister;
+>  
+>  	/*
+>  	 * Add OF clock provider.
+> @@ -283,6 +293,8 @@ static int mmpcam_probe(struct platform_device *pdev)
+>  	return 0;
+>  out:
+>  	mccic_shutdown(mcam);
+> +out_v4l2_device_unregister:
+> +	v4l2_device_unregister(&mcam->v4l2_dev);
+>  
+>  	return ret;
+>  }
+> @@ -293,6 +305,7 @@ static void mmpcam_remove(struct platform_device *pdev)
+>  	struct mcam_camera *mcam = &cam->mcam;
+>  
+>  	mccic_shutdown(mcam);
+> +	v4l2_device_unregister(&mcam->v4l2_dev);
+>  	pm_runtime_force_suspend(mcam->dev);
+>  }
+>  
 
 
