@@ -1,192 +1,231 @@
-Return-Path: <linux-media+bounces-24297-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24298-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F4FA028D0
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 16:10:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F32A028DB
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 16:14:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5865A163C35
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 15:10:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6241C188559C
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 15:14:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B54E1482F2;
-	Mon,  6 Jan 2025 15:10:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF72A14F9E7;
+	Mon,  6 Jan 2025 15:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OCTKZehE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2814F282F5;
-	Mon,  6 Jan 2025 15:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CE081728
+	for <linux-media@vger.kernel.org>; Mon,  6 Jan 2025 15:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736176243; cv=none; b=Ub9XIzJX103Pij3vFzb3tnbNlSEoZMKemyjRvhgBBfvFkxlkOq7vgmA30IxGW3MDNauVejE6/9qEhyC17+joUx3GASdO9wGtX95Al4kW9W0rc/m1CbTmFmRpJYpYlXRj2l8vCuF+hgS9yNC0SbopO8X7cNGR9FnDNI1yw0Weqo0=
+	t=1736176452; cv=none; b=fULMZj/+Kh3n0k92bt7LIHKCk8usLEXJ5irZGZUnTu9O0rV4DBItOgl1K0iiKkhKCk/Hpq0u2CRozwaScyNM5lTVbPWHVBLqFB5Ro9DcFuaT3aB78i+1tM5Kl1cpH2Ff5TIroh2EoFzhUtkk0v12jjpTC79jQ01CJnte95wIIdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736176243; c=relaxed/simple;
-	bh=Udj/ssRl13ZueoEAC6lXfXAtfPEkpbyAk/UTlVNvwTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GX6sClP6BUOc1I9Gs4DQDUSBN9Gj9Q93aHCZrXDQhQhPjhAXbDxGRZawLfXiLIYPglAzMf2ejLYOOvUUtn8GJTbGejY42f22eEbSoXaP7ex60RdHse7YhNdZ+Jis0JW87xJLlw2GTKuTa13hyObewJQsEqPqZh0BX6ISmcuX/MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E951C4CEE1;
-	Mon,  6 Jan 2025 15:10:40 +0000 (UTC)
-Message-ID: <eacf3201-2884-48e3-b54d-2e52e16999be@xs4all.nl>
-Date: Mon, 6 Jan 2025 16:10:39 +0100
+	s=arc-20240116; t=1736176452; c=relaxed/simple;
+	bh=0djxR5MjRKCwcSrtrQnqzRXHsKULLN9SHGYzjFDWYw4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H3zbgstTEhtzf/41+2sKF5oUdDAu0Jh9sqSAVKLTOqHnPHBxjOf3iQFt4xY36H6LbiIsGw7U+MGPuy9OUjV641sh8/FR9SvP0y2RfawW27oIIo2p40UvKDyYU8ulePk/Zz9zOL6lE+OeqZe1d6L4ljYpKUrFJHNYAEPv38K47Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OCTKZehE; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ffa49f623cso187901361fa.1
+        for <linux-media@vger.kernel.org>; Mon, 06 Jan 2025 07:14:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1736176448; x=1736781248; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6dKu2YLtzaHc/am3Oz/sUW0/k6vy9oGuzJQ9pclRxRY=;
+        b=OCTKZehEQCOsqHi+BpmYx8mcPq43041TLWWiwpyg03JSuA6hhAjLp9rygGg9PzY5pu
+         t9l/hogXXezAEbLktsAEOzb082x12lFdF2U+N1KK7W++0CBfgY9GcJ4MJblUJGiPbQR8
+         PBBHPgred30C1y3a3sBhg4bLJl3aNHJdvkGyE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736176448; x=1736781248;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6dKu2YLtzaHc/am3Oz/sUW0/k6vy9oGuzJQ9pclRxRY=;
+        b=DRfduIirwt+FLFkzwwGaibc221Aa73eIBdMWBzooqIFH5sVC5cI6/zETkAHJ5YfXnQ
+         s5Ld2bp0aoPsarbd7YtQi/E1H7MxJV8T9hSRWFwgdOQDYQNKOhDb6daQUmlgaWs7I7EC
+         XFkt7F6z9Ggi7ewgPcKhwEv3KEJ4UILgFt0IaQq3NKztBSLR4iz/aj2qK6nowTUvEnoY
+         kOlO5U5QBqpt+Se7iNzWShGSaIJ5ZTVcCw3QFHrH5vw1imMQcmOecqz15qW005Wa+c6l
+         XtrD9TFx2whLCQ1MW6wO3yd96dT7bhrXCz30fV9+IhlY1WbRcHBDlf/8dcZe1yshGEB4
+         SLkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVmG5+Nb9syIHmUU03kbtxLt7AFBq5RNWmi5CGOGKYMl3qnVSnrHr5es65Z9aGryqMh2UWdyU1YI67/4g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK/J9aACIH8C6AfgfqPHU5iInAXVMguZnl3rXw3RSf4hjurIFv
+	w1eWmvsSV2NB7nM5wtkaDNEpfZzWDefvSB7feFys8erEHfUwBwo0W/FOkqUlwwONQreWP/+fjFc
+	EFw==
+X-Gm-Gg: ASbGncuQEyG9B75E4q7Qq3UGOosPxuV0ZaauXvnYBoFIxeAlbHVvMZ3DXuYQ+R/t9IL
+	oMGo63uzUd90rJV6vLb9DtCoBczUu4Vjey2YRWOZO4uPyGlWEmjLxitvD4EbIMaIKcoOJC5VZB+
+	5t9MJkiG2KKWb9AgwpGfpQlmyiMTBMCp1Nv04P57+N3jzPAtZT0gTa3UruYUkPpYKCBlqS3FnYu
+	RGyU7qogDhxXSZpUiDgwOzwMiGF5MllbGd3mBH4EhGHNQmJ1ZDgM4pjpRYQzUY6zgtT8y6TI6P0
+	W4XMpMeJ7OaGcJ7tu5g=
+X-Google-Smtp-Source: AGHT+IHgeHr9lFsbvOgFYgEnicOCPcij+gEdkx+M2PVaYf6mWaKJ3QCFmRzfsZTNpDOwrum0tCHrzw==
+X-Received: by 2002:a05:6512:3d10:b0:53e:350a:72a0 with SMTP id 2adb3069b0e04-54229598a27mr18782427e87.51.1736176448323;
+        Mon, 06 Jan 2025 07:14:08 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54223813665sm4999511e87.146.2025.01.06.07.14.07
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jan 2025 07:14:07 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5401bd6cdb4so14395692e87.2
+        for <linux-media@vger.kernel.org>; Mon, 06 Jan 2025 07:14:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWX5F6Tdi84f2VM5p4NrlaHo+imCqW56QQYirKM83VY8ZD4HsrghktzLwKVYpFav18Z/H3CvYUHfYtY6A==@vger.kernel.org
+X-Received: by 2002:a05:6512:2252:b0:540:1faa:5945 with SMTP id
+ 2adb3069b0e04-54229550e39mr19014694e87.33.1736176446622; Mon, 06 Jan 2025
+ 07:14:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media/mmp: Bring back registration of the device
-To: Lubomir Rintel <lrintel@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
- stable@vger.kernel.org
-References: <20241231190434.438517-1-lkundrak@v3.sk>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241231190434.438517-1-lkundrak@v3.sk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250106140923.56896-1-hdegoede@redhat.com> <20250106140923.56896-2-hdegoede@redhat.com>
+In-Reply-To: <20250106140923.56896-2-hdegoede@redhat.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 6 Jan 2025 16:13:54 +0100
+X-Gmail-Original-Message-ID: <CANiDSCvTBzLqd-zJtvFE6_z_o0E6w8SfCiqOxJJ9Lk76YQtZhQ@mail.gmail.com>
+X-Gm-Features: AbW1kvYWOqqjZJcqkmhRLiq388GUCkTZl5aa_mw3kncD2zHiTNzFYCeAua1IZVI
+Message-ID: <CANiDSCvTBzLqd-zJtvFE6_z_o0E6w8SfCiqOxJJ9Lk76YQtZhQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] media: uvcvideo: Add a UVC_FIVAL_DENOM define
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Lubomir,
-
-On 31/12/2024 20:04, Lubomir Rintel wrote:
-> In commit 4af65141e38e ("media: marvell: cafe: Register V4L2 device
-> earlier"), a call to v4l2_device_register() was moved away from
-> mccic_register() into its caller, marvell/cafe's cafe_pci_probe().
-> This is not the only caller though -- there's also marvell/mmp.
-> 
-> Add v4l2_device_register() into mmpcam_probe() to unbreak the MMP camera
-> driver, in a fashion analogous to what's been done to the Cafe driver.
-> Same for the teardown path.
-> 
-> Fixes: 4af65141e38e ("media: marvell: cafe: Register V4L2 device earlier")
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-
-Should this be your redhat email? I have a mismatch between the From email
-and the email in this Sob.
-
-I can fix it either way, but you have to tell me what you prefer.
-
-Regards,
-
-	Hans
-
-> Cc: stable@vger.kernel.org # v6.6+
+On Mon, 6 Jan 2025 at 15:09, Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Add a define for the UVC frame interval denominator of 10000000
+> instead of hardcoding 10000000 everywhere.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/platform/marvell/mmp-driver.c | 21 +++++++++++++++++----
->  1 file changed, 17 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/marvell/mmp-driver.c b/drivers/media/platform/marvell/mmp-driver.c
-> index 3fd4fc1b9c48..d3da7ebb4a2b 100644
-> --- a/drivers/media/platform/marvell/mmp-driver.c
-> +++ b/drivers/media/platform/marvell/mmp-driver.c
-> @@ -231,13 +231,23 @@ static int mmpcam_probe(struct platform_device *pdev)
->  
->  	mcam_init_clk(mcam);
->  
-> +	/*
-> +	 * Register with V4L.
-> +	 */
-> +
-> +	ret = v4l2_device_register(mcam->dev, &mcam->v4l2_dev);
-> +	if (ret)
-> +		return ret;
-> +
->  	/*
->  	 * Create a match of the sensor against its OF node.
->  	 */
->  	ep = fwnode_graph_get_next_endpoint(of_fwnode_handle(pdev->dev.of_node),
->  					    NULL);
-> -	if (!ep)
-> -		return -ENODEV;
-> +	if (!ep) {
-> +		ret = -ENODEV;
-> +		goto out_v4l2_device_unregister;
-> +	}
->  
->  	v4l2_async_nf_init(&mcam->notifier, &mcam->v4l2_dev);
->  
-> @@ -246,7 +256,7 @@ static int mmpcam_probe(struct platform_device *pdev)
->  	fwnode_handle_put(ep);
->  	if (IS_ERR(asd)) {
->  		ret = PTR_ERR(asd);
-> -		goto out;
-> +		goto out_v4l2_device_unregister;
->  	}
->  
->  	/*
-> @@ -254,7 +264,7 @@ static int mmpcam_probe(struct platform_device *pdev)
->  	 */
->  	ret = mccic_register(mcam);
->  	if (ret)
-> -		goto out;
-> +		goto out_v4l2_device_unregister;
->  
->  	/*
->  	 * Add OF clock provider.
-> @@ -283,6 +293,8 @@ static int mmpcam_probe(struct platform_device *pdev)
->  	return 0;
->  out:
->  	mccic_shutdown(mcam);
-> +out_v4l2_device_unregister:
-> +	v4l2_device_unregister(&mcam->v4l2_dev);
->  
->  	return ret;
->  }
-> @@ -293,6 +305,7 @@ static void mmpcam_remove(struct platform_device *pdev)
->  	struct mcam_camera *mcam = &cam->mcam;
->  
->  	mccic_shutdown(mcam);
-> +	v4l2_device_unregister(&mcam->v4l2_dev);
->  	pm_runtime_force_suspend(mcam->dev);
->  }
->  
+>  drivers/media/usb/uvc/uvc_driver.c |  4 ++--
+>  drivers/media/usb/uvc/uvc_v4l2.c   | 16 ++++++++--------
+>  drivers/media/usb/uvc/uvc_video.c  |  4 ++--
+>  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+>  4 files changed, 14 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index c3ccd9be0a47..f754640fddf5 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -320,8 +320,8 @@ static int uvc_parse_frame(struct uvc_device *dev,
+>
+>         uvc_dbg(dev, DESCR, "- %ux%u (%u.%u fps)\n",
+>                 frame->wWidth, frame->wHeight,
+> -               10000000 / frame->dwDefaultFrameInterval,
+> -               (100000000 / frame->dwDefaultFrameInterval) % 10);
+> +               UVC_FIVAL_DENOM / frame->dwDefaultFrameInterval,
+> +               ((UVC_FIVAL_DENOM * 10) / frame->dwDefaultFrameInterval) % 10);
+I wish there was a nicer way for this expression than
+((a*10)%b) % 10
+I would have simply written.
+"%u 1/10 fps.
 
+
+>
+>         *intervals += n;
+>
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 93c6cdb23881..301999e94759 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -282,8 +282,8 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
+>         interval = frame->dwDefaultFrameInterval;
+>         uvc_dbg(stream->dev, FORMAT,
+>                 "Using default frame interval %u.%u us (%u.%u fps)\n",
+> -               interval / 10, interval % 10, 10000000 / interval,
+> -               (100000000 / interval) % 10);
+> +               interval / 10, interval % 10, UVC_FIVAL_DENOM / interval,
+> +               ((UVC_FIVAL_DENOM * 10) / interval) % 10);
+>
+>         /* Set the format index, frame index and frame interval. */
+>         memset(probe, 0, sizeof(*probe));
+> @@ -450,7 +450,7 @@ static int uvc_ioctl_g_parm(struct file *file, void *fh,
+>         numerator = stream->ctrl.dwFrameInterval;
+>         mutex_unlock(&stream->mutex);
+>
+> -       denominator = 10000000;
+> +       denominator = UVC_FIVAL_DENOM;
+>         v4l2_simplify_fraction(&numerator, &denominator, 8, 333);
+>
+>         memset(parm, 0, sizeof(*parm));
+> @@ -551,7 +551,7 @@ static int uvc_ioctl_s_parm(struct file *file, void *fh,
+>
+>         /* Return the actual frame period. */
+>         timeperframe.numerator = probe.dwFrameInterval;
+> -       timeperframe.denominator = 10000000;
+> +       timeperframe.denominator = UVC_FIVAL_DENOM;
+>         v4l2_simplify_fraction(&timeperframe.numerator,
+>                 &timeperframe.denominator, 8, 333);
+>
+> @@ -1240,17 +1240,17 @@ static int uvc_ioctl_enum_frameintervals(struct file *file, void *fh,
+>                 fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
+>                 fival->discrete.numerator =
+>                         frame->dwFrameInterval[index];
+> -               fival->discrete.denominator = 10000000;
+> +               fival->discrete.denominator = UVC_FIVAL_DENOM;
+>                 v4l2_simplify_fraction(&fival->discrete.numerator,
+>                         &fival->discrete.denominator, 8, 333);
+>         } else {
+>                 fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
+>                 fival->stepwise.min.numerator = frame->dwFrameInterval[0];
+> -               fival->stepwise.min.denominator = 10000000;
+> +               fival->stepwise.min.denominator = UVC_FIVAL_DENOM;
+>                 fival->stepwise.max.numerator = frame->dwFrameInterval[1];
+> -               fival->stepwise.max.denominator = 10000000;
+> +               fival->stepwise.max.denominator = UVC_FIVAL_DENOM;
+>                 fival->stepwise.step.numerator = frame->dwFrameInterval[2];
+> -               fival->stepwise.step.denominator = 10000000;
+> +               fival->stepwise.step.denominator = UVC_FIVAL_DENOM;
+>                 v4l2_simplify_fraction(&fival->stepwise.min.numerator,
+>                         &fival->stepwise.min.denominator, 8, 333);
+>                 v4l2_simplify_fraction(&fival->stepwise.max.numerator,
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index 7efed64b81a2..41cb1b45fa23 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -231,7 +231,7 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>                 u32 interval;
+>                 u32 bandwidth;
+>
+> -               interval = (ctrl->dwFrameInterval > 100000)
+> +               interval = (ctrl->dwFrameInterval > (UVC_FIVAL_DENOM / 100))
+>                          ? ctrl->dwFrameInterval
+>                          : frame->dwFrameInterval[0];
+>
+> @@ -243,7 +243,7 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>                  * header size (assumed to be 12 bytes long).
+>                  */
+>                 bandwidth = frame->wWidth * frame->wHeight / 8 * format->bpp;
+> -               bandwidth *= 10000000 / interval + 1;
+> +               bandwidth *= UVC_FIVAL_DENOM / interval + 1;
+>                 bandwidth /= 1000;
+>                 if (stream->dev->udev->speed >= USB_SPEED_HIGH)
+>                         bandwidth /= 8;
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 3d196a696f46..966ff82c2ba8 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -41,6 +41,8 @@
+>  #define UVC_EXT_GPIO_UNIT              0x7ffe
+>  #define UVC_EXT_GPIO_UNIT_ID           0x100
+>
+> +#define UVC_FIVAL_DENOM                        10000000
+> +
+>  /* ------------------------------------------------------------------------
+>   * Driver specific constants.
+>   */
+> --
+> 2.47.1
+>
+>
+
+
+-- 
+Ricardo Ribalda
 
