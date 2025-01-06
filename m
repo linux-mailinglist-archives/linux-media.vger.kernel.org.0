@@ -1,397 +1,703 @@
-Return-Path: <linux-media+bounces-24306-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24307-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C708A03234
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 22:39:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6E5A03259
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 22:55:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB70A188606F
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 21:39:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 101853A27D3
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 21:55:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31A021E048B;
-	Mon,  6 Jan 2025 21:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B3971E0B8A;
+	Mon,  6 Jan 2025 21:55:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="t4FWStWb"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="z3Cibmk7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633391D8DFE;
-	Mon,  6 Jan 2025 21:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D001DF969
+	for <linux-media@vger.kernel.org>; Mon,  6 Jan 2025 21:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736199536; cv=none; b=ase+jkHlsqUJk4Q9022QDq/X0gYead/G0dl89gQdYrjOJzkUjtQVw4dRwv8MsCNkBFyqVhkpr60r+vduBqgkWpNEJQxJfipkrjvZpqys8CMAFI/gKj27OiM/PQqQNI0Ow+JlKPA3Zf7j0xtYgtXAgW1vnj6wZArofK+JtPWLRAc=
+	t=1736200521; cv=none; b=Iz+cpvLPlNl1u6E5MrjgUY1fcZX9tVtuLQX4lpRKW2St4WpzR8etTRRdsbgc9XXmkbSqjDBE+GAXXbp8BSdBAo9ATg/NMZXW9NB88Ci4TBYZOb6ZRgXctPpUcnUYO+h8chtJwrdxpf1pfOTFZu171bPPVpxDr7v1fuiVZ8z71fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736199536; c=relaxed/simple;
-	bh=HdOXIjljc3d0zxheaM/15PoB3CZlJwOZ/XtJsNcSprY=;
+	s=arc-20240116; t=1736200521; c=relaxed/simple;
+	bh=wL4YcwxLPx96c/FNtqtVLsnKm+VHQ4cVwnAgXoBNwDc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=O1rI2GBow3d6M3ctyQVi7R5OWFGoOfbdns8bu0RRbgoNShWJLnTrB7i7VS+WL/wEtcK6PBTTAQLhJELGMGg702wTcNZlG8fgo64eK69MGE6cSsJHLxpTc4ivOpOcXbE26fwgJP2aCQ5OfstiSCD5QfIzRzp1t56fI1nIa5a9GV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=t4FWStWb; arc=none smtp.client-ip=168.119.26.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
-	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=HdOXIjljc3d0zxheaM/15PoB3CZlJwOZ/XtJsNcSprY=; b=t4FWStWbCA9L9F7kxfA8tkhwzc
-	wKy1Xc9AWvM7tFV9egJWM0K9KQsRUA4Pmz7WRDYcTwhuJaEtjZgU3WPs/J9RI9gaG108OqJ8NT8qk
-	DsAEWVPpuGsQIRu2sC5KVeGzVdqkTQChUM0mwe2GeFPFEVzpGS5apd1q0H9CHbtWvD9A/NY9OEovL
-	srd0jfN/MGUDal/ZIsMbK+9tKeBLKzCcvST0gMqqroS5slYpgZE8WXwV+tL4qKO4poQbcn3I3LVFd
-	5Tl6wla+G0sG24GCclRdRiKnsBCrarL5qrRhht3sItemgRozUz+CsFniJfokIWMf+OGwH04gTslh4
-	TG0rOdzA==;
-Received: from sslproxy08.your-server.de ([78.47.166.52])
-	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <git@apitzsch.eu>)
-	id 1tUuUr-0004Qj-2H;
-	Mon, 06 Jan 2025 22:18:49 +0100
-Received: from [92.206.121.241] (helo=framework.lan)
-	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <git@apitzsch.eu>)
-	id 1tUuUr-0005g9-1O;
-	Mon, 06 Jan 2025 22:18:49 +0100
-Message-ID: <6bf23034f42cf6bfa183fecdda63d22561dc0368.camel@apitzsch.eu>
-Subject: Re: [PATCH] media: i2c: imx334: Add support for 1280x720 & 640x480
- resolutions
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Shravan.Chippa@microchip.com, kieran.bingham@ideasonboard.com, 
-	mchehab@kernel.org, sakari.ailus@linux.intel.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Conor.Dooley@microchip.com, Valentina.FernandezAlanis@microchip.com, 
-	Praveen.Kumar@microchip.com
-Date: Mon, 06 Jan 2025 22:18:48 +0100
-In-Reply-To: <PH0PR11MB56115FC9509C549928E5E3E581352@PH0PR11MB5611.namprd11.prod.outlook.com>
-References: <20241129100036.193456-1-shravan.chippa@microchip.com>
-	 <173288149590.1143262.2853735316281702828@ping.linuxembedded.co.uk>
-	 <PH0PR11MB56115FC9509C549928E5E3E581352@PH0PR11MB5611.namprd11.prod.outlook.com>
+	 Content-Type:MIME-Version; b=WzLqR1N3tPwU8g5O2xh60yEUYBlVjP/hBqEoadh64G3S98NXcZ1DD7pic9/haHmnh4O89qVRBOu1QE0O/y93GETn/oNY5a1131vSTX7UdLWyfRLTqkLNzS5uh7rTubqDqJ7Rs7Xpr8o0YppaRyBeD3F0/GJAbcbzp7up6XlqkmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=z3Cibmk7; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6d8f916b40bso195524936d6.3
+        for <linux-media@vger.kernel.org>; Mon, 06 Jan 2025 13:55:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1736200515; x=1736805315; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fW8hdI6OqJh0dWWDQGRvo9CrT55Jt23ggLAYk7qjGXo=;
+        b=z3Cibmk7Fm7NzZSDBpHwFUKw9SKfzkhHqDnKzIcRu4uY0CwIxs3WKg7bv1fghwlbTM
+         HEIAu1EC/uJAXMd3MhSZa1vPKllehlIIwSwUZPeRoxhNbIpaGWhFRi97Ej47iaehS1x5
+         lg2l5CcAIooSo3f+/s8p85AEckxBR9Npuw0nbR+LEbhYSRS3V55M/INyFHtW3hl/gwd0
+         SqatWcdc5ASAtXlHTw5zjQG0ZPbYluetbg9kvoDdXtksXdMJFUj9XNnQ1EDS4HPaub/O
+         IoDOXA0Y3iWqKTghVxiEFb0vrq7zNZ3rNJUhgyuUUnuwp9mNu/H4OgJ2BPidAnphfghV
+         ZQpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736200515; x=1736805315;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fW8hdI6OqJh0dWWDQGRvo9CrT55Jt23ggLAYk7qjGXo=;
+        b=ni2Hbaa85DuzD4YNjscN7BL+XHy2BvCnfZ+Ux266xcG6bm0476FZVH8emrVSftk/cc
+         DUdxyUW7D1IzvPnwHVZCskQAKcTiFT0BikqViyu7PiYMo2no+36u8XPu/y303fryUjDE
+         8bS02D8nSXfG1jeq4vFfR1B9h/qdhVIlFKO4D26yjp3sLtIIfrFLVW4mjp5okooYFb1N
+         lyQ/q6oSxaxdCp+fDCLKvFI6CrxEI7f94SPNfLsifzfN9w/W3P0I+0H8lhmDlh2uI1AY
+         s8vF76386tJuV6tjqOF8jsPZNdu2K1Xn/jHkRmtVR0gbssGiSr1W8aTH0Bwa3nIBKGjY
+         mlWg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEGRM4KTcIXgHYoQCBlKTnVFwbzX1uuAArg5+3nHRmuV3nUsRnMSarJQxdRVgkgn+q1wUOrcyUm8DZ1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwcJZ+LXvcEHzlaDoPWRpI6KW9mmzDksUFdHZR9Sh6LDLfsA+3
+	ORE6L+uxpWB2EY9tc6uKvtokwce0tDzUANcCBz9IS+sLz82Df9Mefk2mwfW3nDY=
+X-Gm-Gg: ASbGncsXL1ULObf0oQwcvOzyljpXQPkT06A8oKw0U6tXicUvnOAHZpMFNXJ7VKqcyxN
+	w1YPX9S2DqDydSNL4rHv2y9O2KLP2jJpPkNpYfj9MRps+fWdzbU1S7YPh5eJh3+evFqy2Hfme1B
+	216u1z4ViLZQLlMo70SCUGW5Gx+Q9lnV40VOkGCYGbWNpD+nGCyMRA/cxpvI7bCBemDj/UUk57k
+	ybcRJAPI0DLttxhZwAnrUSOuE9i7kx33RL+0skaOEvPwM5nlMnsIg6wVQ==
+X-Google-Smtp-Source: AGHT+IHyFImGpVyVS4whWQuQGwntMIAkoFAJllux2YC1p18fREEsO7LZFvVepwsLojmnuxwhQdAo0A==
+X-Received: by 2002:a05:6214:240e:b0:6d8:9838:d3a9 with SMTP id 6a1803df08f44-6dd23356042mr869489616d6.26.1736200515342;
+        Mon, 06 Jan 2025 13:55:15 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:862e::7a9])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dd181c1e99sm174072366d6.93.2025.01.06.13.55.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jan 2025 13:55:14 -0800 (PST)
+Message-ID: <e6548df223ca891427aab1e145db04814a9eb67b.camel@ndufresne.ca>
+Subject: Re: [PATCH v2] media: amphion: Support dmabuf and v4l2 buffer
+ without binding
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Ming Qian <ming.qian@oss.nxp.com>, mchehab@kernel.org, 
+	hverkuil-cisco@xs4all.nl
+Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ xiahong.bao@nxp.com, 	eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+ imx@lists.linux.dev, 	linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org
+Date: Mon, 06 Jan 2025 16:55:13 -0500
+In-Reply-To: <20241213091030.2936864-1-ming.qian@oss.nxp.com>
+References: <20241213091030.2936864-1-ming.qian@oss.nxp.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.54.3 
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Authenticated-Sender: andre@apitzsch.eu
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27510/Mon Jan  6 10:45:39 2025)
 
-QW0gTW9udGFnLCBkZW0gMDIuMTIuMjAyNCB1bSAwNToyMCArMDAwMCBzY2hyaWViClNocmF2YW4u
-Q2hpcHBhQG1pY3JvY2hpcC5jb206Cj4gSGkgS2llcmFuLAo+IAo+ID4gLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0KPiA+IEZyb206IEtpZXJhbiBCaW5naGFtIDxraWVyYW4uYmluZ2hhbUBpZGVh
-c29uYm9hcmQuY29tPgo+ID4gU2VudDogRnJpZGF5LCBOb3ZlbWJlciAyOSwgMjAyNCA1OjI4IFBN
-Cj4gPiBUbzogbWNoZWhhYkBrZXJuZWwub3JnOyBzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29t
-OyBzaHJhdmFuCj4gPiBDaGlwcGEgLQo+ID4gSTM1MDg4IDxTaHJhdmFuLkNoaXBwYUBtaWNyb2No
-aXAuY29tPgo+ID4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZzsKPiA+IENvbm9yIERvb2xleSAtCj4gPiBNNTI2OTEgPENvbm9yLkRv
-b2xleUBtaWNyb2NoaXAuY29tPjsgVmFsZW50aW5hIEZlcm5hbmRleiBBbGFuaXMgLQo+ID4gTTYz
-MjM5IDxWYWxlbnRpbmEuRmVybmFuZGV6QWxhbmlzQG1pY3JvY2hpcC5jb20+OyBQcmF2ZWVuIEt1
-bWFyIC0KPiA+IEkzMDcxOCA8UHJhdmVlbi5LdW1hckBtaWNyb2NoaXAuY29tPjsgc2hyYXZhbiBD
-aGlwcGEgLSBJMzUwODgKPiA+IDxTaHJhdmFuLkNoaXBwYUBtaWNyb2NoaXAuY29tPgo+ID4gU3Vi
-amVjdDogUmU6IFtQQVRDSF0gbWVkaWE6IGkyYzogaW14MzM0OiBBZGQgc3VwcG9ydCBmb3IgMTI4
-MHg3MjAgJgo+ID4gNjQweDQ4MCByZXNvbHV0aW9ucwo+ID4gCj4gPiBFWFRFUk5BTCBFTUFJTDog
-RG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdQo+ID4ga25v
-dyB0aGUKPiA+IGNvbnRlbnQgaXMgc2FmZQo+ID4gCj4gPiBIaSBTaHJhdmFuLAo+ID4gCj4gPiBR
-dW90aW5nIHNocmF2YW4ga3VtYXIgKDIwMjQtMTEtMjkgMTA6MDA6MzYpCj4gPiA+IEZyb206IFNo
-cmF2YW4gQ2hpcHBhIDxzaHJhdmFuLmNoaXBwYUBtaWNyb2NoaXAuY29tPgo+ID4gPiAKPiA+ID4g
-QWRkIHN1cHBvcnQgZm9yIDEyODB4NzIwQDMwIGFuZCA2NDB4NDgwQDMwIHJlc29sdXRpb25zCj4g
-PiA+IAo+ID4gCj4gPiBUaGFua3MgZm9yIGltcHJvdmluZyB0aGUgZHJpdmVyLCBidXQgSSBhbSB3
-ZWFyeSB0aGVyZSBpcyBhIGxvdCBvZgo+ID4gd29yayByZXF1aXJlZCB0byBjbGVhbiB1cCB0aGUg
-aW14MzM0IGRyaXZlci4KPiA+IAo+ID4gRG8geW91IGhhdmUgdGhlIGRhdGFzaGVldCBmb3IgdGhp
-cyBkZXZpY2U/Cj4gCj4gSSBoYXZlIGxpbWl0ZWQgYWNjZXNzIHRvIGRhdGFzaGVldC4KCkhpIFNo
-cmF2YW4sCgp5b3UgY2FuIGZpbmQgdGhlIGRhdGFzaGVldCBmb3IgSU1YMzM0IGhlcmU6CgpodHRw
-czovL2VuLnN1bm55d2FsZS5jb20vdXBsb2FkZmlsZS8yMDIyLzEyMDUvSU1YMzM0TFFSLUMlMjBm
-dWxsJTIwZGF0YXNoZWV0X0F3aW4ucGRmCgpmcm9tIGh0dHBzOi8vZW4uc3Vubnl3YWxlLmNvbS9z
-aG93LTc1LTI0MjY0LTEuaHRtbC4KCkZvciBhbiBpbnNwaXJhdGlvbiBmb3IgZHJpdmVyIGNsZWFu
-LXVwcyBzZWUKCiogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAyNDEyMjAt
-aW14MjE0LXY2LTAtZDkwYTE4NWQ4MmU1QGFwaXR6c2NoLmV1LyAoaW14MjE0KQoqIGh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMjMwOTEzMTM1NjM4LjI2Mjc3LTEtbGF1cmVu
-dC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tLyAoaW14MjE5KQoKQmVzdCByZWdhcmRzLApBbmRy
-w6kKCj4gCj4gPiAKPiA+ID4gU2lnbmVkLW9mZi1ieTogU2hyYXZhbiBDaGlwcGEgPHNocmF2YW4u
-Y2hpcHBhQG1pY3JvY2hpcC5jb20+Cj4gPiA+IC0tLQo+ID4gPiDCoGRyaXZlcnMvbWVkaWEvaTJj
-L2lteDMzNC5jIHwgMzUyCj4gPiA+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysKPiA+ID4gwqAxIGZpbGUgY2hhbmdlZCwgMzUyIGluc2VydGlvbnMoKykKPiA+ID4gCj4gPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL2kyYy9pbXgzMzQuYwo+ID4gPiBiL2RyaXZlcnMv
-bWVkaWEvaTJjL2lteDMzNC5jCj4gPiA+IGluZGV4IGE1NDRmYzNkZjM5Yy4uYjdjZGViYzIzODJl
-IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL21lZGlhL2kyYy9pbXgzMzQuYwo+ID4gPiArKysg
-Yi9kcml2ZXJzL21lZGlhL2kyYy9pbXgzMzQuYwo+ID4gPiBAQCAtMTY3LDYgKzE2NywzMzIgQEAg
-c3RhdGljIGNvbnN0IHM2NCBsaW5rX2ZyZXFbXSA9IHsKPiA+ID4gwqDCoMKgwqDCoMKgwqAgSU1Y
-MzM0X0xJTktfRlJFUV80NDVNLAo+ID4gPiDCoH07Cj4gPiA+IAo+ID4gPiArLyogU2Vuc29yIG1v
-ZGUgcmVnaXN0ZXJzIGZvciA2NDB4NDgwQDMwZnBzICovIHN0YXRpYyBjb25zdAo+ID4gPiBzdHJ1
-Y3QKPiA+ID4gK2lteDMzNF9yZWcgbW9kZV82NDB4NDgwX3JlZ3NbXSA9IHsKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzMDAwLCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDE4LCAweDA0
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDMwLCAweGNhfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMDMxLCAweDA4fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDMyLCAweDAwfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDM0LCAweDRjfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MDM1LCAweDA0fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDJjLCAweDcwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMDJkLCAweDA2fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDJlLCAw
-eDgwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDJmLCAweDAyfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzMDc0LCAweDQ4fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDc1LCAweDA3fSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDhlLCAweDQ5fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzMDhmLCAweDA3fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDc2LCAweGUwfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzMDc3LCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDkw
-LCAweGUwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDkxLCAweDAxfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzMzA4LCAweGUwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMzA5LCAweDAx
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGQ4LCAweDMwfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMGQ5LCAweDBifSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMEM2LCAweDAwfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGM3LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MGNlLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGNmLCAweDAwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMDRjLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDRlLCAw
-eDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDRmLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzMDUwLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGI2LCAweDAwfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGI3LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzMTE2LCAweDA4fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTE3LCAweDAwfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzMWEwLCAweDIwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMWEx
-LCAweDBmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDBjLCAweDNifSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzMDBkLCAweDI5fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTRjLCAweDI5
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTRkLCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMTVhLCAweDBhfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTY4LCAweGEwfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTZhLCAweDdlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MTllLCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTk5LCAweDAwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMTlkLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMWRkLCAw
-eDAzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMzAwLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzNDFjLCAweGZmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNDFkLCAweDAxfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTAxLCAweDAzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzYTE4LCAweDdmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTE5LCAweDAwfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzYTFhLCAweDM3fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTFi
-LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTFjLCAweDM3fSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzYTFkLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTFlLCAweGY3
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTFmLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzYTIwLCAweDNmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIxLCAweDAwfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIwLCAweDZmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-YTIxLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIwLCAweDNmfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzYTIxLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIwLCAw
-eDVmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIxLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzYTIwLCAweDJmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIxLCAweDAwfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDc4LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzMDc5LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDdhLCAweDAwfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzMDdiLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDgw
-LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDgxLCAweDAwfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzMDgyLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDgzLCAweDAw
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDg4LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMDk0LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDk1LCAweDAwfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDk2LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MDliLCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDljLCAweDAwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMDlkLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDllLCAw
-eDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGE0LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzMGE1LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMjg4LCAweDIxfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMjhhLCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzNDE0LCAweDA1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNDE2LCAweDE4fSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzNUFjLCAweDBlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNjQ4
-LCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNjRhLCAweDA0fSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzNjRjLCAweDA0fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNjc4LCAweDAx
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNjdjLCAweDMxfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzNjdlLCAweDMxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzA4LCAweDAyfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzE0LCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-NzE1LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzE2LCAweDAyfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzNzE3LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzFjLCAw
-eDNkfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzFkLCAweDNmfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzNzJjLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzJkLCAweDAwfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzJlLCAweDQ2fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzNzJmLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzMwLCAweDg5fSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzNzMxLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzMy
-LCAweDA4fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzMzLCAweDAxfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzNzM0LCAweGZlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzM1LCAweDA1
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzVkLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzNzVlLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzVmLCAweDYxfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzYwLCAweDA2fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-NzY4LCAweDFifSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzY5LCAweDFifSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzNzZhLCAweDFhfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzZiLCAw
-eDE5fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzZjLCAweDE4fSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzNzZkLCAweDE0fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzZlLCAweDBmfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzc2LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzNzc3LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzc4LCAweDQ2fSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzNzc5LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzdh
-LCAweDA4fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzdiLCAweDAxfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzNzdjLCAweDQ1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzdkLCAweDAx
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzdlLCAweDIzfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzNzdmLCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzgwLCAweGQ5fSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzgxLCAweDAzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-NzgyLCAweGY1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzgzLCAweDA2fSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzNzg0LCAweGE1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzg4LCAw
-eDBmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzhhLCAweGQ5fSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzNzhiLCAweDAzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzhjLCAweGVifSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzhkLCAweDA1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzNzhlLCAweDg3fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzhmLCAweDA2fSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzNzkwLCAweGY1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzky
-LCAweDQzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzk0LCAweDdhfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzNzk2LCAweGExfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzN2IwLCAweDM3
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzZTA0LCAweDBlfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMGU4LCAweDUwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGU5LCAweDAwfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzZTA0LCAweDBlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MDAyLCAweDAwfSwKPiA+ID4gK307Cj4gPiA+ICsKPiA+ID4gKy8qIFNlbnNvciBtb2RlIHJlZ2lz
-dGVycyBmb3IgMTI4MHg3MjBAMzBmcHMgKi8gc3RhdGljIGNvbnN0Cj4gPiA+IHN0cnVjdAo+ID4g
-PiAraW14MzM0X3JlZyBtb2RlXzEyODB4NzIwX3JlZ3NbXSA9IHsKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMDAwLCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDE4LCAweDA0fSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDMwLCAweGNhfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MDMxLCAweDA4fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDMyLCAweDAwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMDM0LCAweDRjfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDM1LCAw
-eDA0fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDJjLCAweDMwfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzMDJkLCAweDA1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDJlLCAweDAwfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDJmLCAweDA1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzMDc0LCAweDg0fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDc1LCAweDAzfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzMDhlLCAweDg1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDhm
-LCAweDAzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDc2LCAweGQwfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzMDc3LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDkwLCAweGQw
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDkxLCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMzA4LCAweGQwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMzA5LCAweDAyfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGQ4LCAweDMwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MGQ5LCAweDBifSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMEM2LCAweDAwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMGM3LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGNlLCAw
-eDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGNmLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzMDRjLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDRlLCAweDAwfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDRmLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzMDUwLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGI2LCAweDAwfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzMGI3LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTE2
-LCAweDA4fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTE3LCAweDAwfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzMWEwLCAweDIwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMWExLCAweDBm
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDBjLCAweDNifSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMDBkLCAweDI5fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTRjLCAweDI5fSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTRkLCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MTVhLCAweDBhfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTY4LCAweGEwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMTZhLCAweDdlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTllLCAw
-eDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMTk5LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzMTlkLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMWRkLCAweDAzfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMzAwLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzNDFjLCAweGZmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNDFkLCAweDAxfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzYTAxLCAweDAzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTE4
-LCAweDdmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTE5LCAweDAwfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzYTFhLCAweDM3fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTFiLCAweDAw
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTFjLCAweDM3fSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzYTFkLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTFlLCAweGY3fSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTFmLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-YTIwLCAweDNmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIxLCAweDAwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzYTIwLCAweDZmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIxLCAw
-eDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIwLCAweDNmfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzYTIxLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIwLCAweDVmfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIxLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzYTIwLCAweDJmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzYTIxLCAweDAwfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzMDc4LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDc5
-LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDdhLCAweDAwfSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzMDdiLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDgwLCAweDAy
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDgxLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzMDgyLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDgzLCAweDAwfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDg4LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MDk0LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDk1LCAweDAwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMDk2LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDliLCAw
-eDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDljLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzMDlkLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDllLCAweDAwfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGE0LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzMGE1LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMjg4LCAweDIxfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzMjhhLCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNDE0
-LCAweDA1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNDE2LCAweDE4fSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzNUFjLCAweDBlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNjQ4LCAweDAx
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNjRhLCAweDA0fSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzNjRjLCAweDA0fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNjc4LCAweDAxfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzNjdjLCAweDMxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-NjdlLCAweDMxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzA4LCAweDAyfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzNzE0LCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzE1LCAw
-eDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzE2LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzNzE3LCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzFjLCAweDNkfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzFkLCAweDNmfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzNzJjLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzJkLCAweDAwfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzNzJlLCAweDQ2fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzJm
-LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzMwLCAweDg5fSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzNzMxLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzMyLCAweDA4
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzMzLCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzNzM0LCAweGZlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzM1LCAweDA1fSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzVkLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-NzVlLCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzVmLCAweDYxfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzNzYwLCAweDA2fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzY4LCAw
-eDFifSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzY5LCAweDFifSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzNzZhLCAweDFhfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzZiLCAweDE5fSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzZjLCAweDE4fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzNzZkLCAweDE0fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzZlLCAweDBmfSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzNzc2LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzc3
-LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzc4LCAweDQ2fSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzNzc5LCAweDAwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzdhLCAweDA4
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzdiLCAweDAxfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzNzdjLCAweDQ1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzdkLCAweDAxfSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzdlLCAweDIzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-NzdmLCAweDAyfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzgwLCAweGQ5fSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzNzgxLCAweDAzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzgyLCAw
-eGY1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzgzLCAweDA2fSwKPiA+ID4gK8KgwqDCoMKg
-wqDCoCB7MHgzNzg0LCAweGE1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzg4LCAweDBmfSwK
-PiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzhhLCAweGQ5fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzNzhiLCAweDAzfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzhjLCAweGVifSwKPiA+ID4g
-K8KgwqDCoMKgwqDCoCB7MHgzNzhkLCAweDA1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzhl
-LCAweDg3fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzhmLCAweDA2fSwKPiA+ID4gK8KgwqDC
-oMKgwqDCoCB7MHgzNzkwLCAweGY1fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzkyLCAweDQz
-fSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzNzk0LCAweDdhfSwKPiA+ID4gK8KgwqDCoMKgwqDC
-oCB7MHgzNzk2LCAweGExfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzN2IwLCAweDM3fSwKPiA+
-ID4gK8KgwqDCoMKgwqDCoCB7MHgzZTA0LCAweDBlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgz
-MGU4LCAweDUwfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMGU5LCAweDAwfSwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzZTA0LCAweDBlfSwKPiA+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDAyLCAw
-eDAwfSwKPiA+ID4gK307Cj4gPiAKPiA+IFRoaXMgaXMgYW4gZW5vcm1vdXMgYW1vdW50IG9mIGR1
-cGxpY2F0ZWQgZGF0YSB0aGF0IGNvdWxkIGJlCj4gPiBmYWN0b3JlZCBvdXQuCj4gPiAKPiA+IFRo
-ZXNlIGFyZSBhbHNvIC92ZXJ5LyBjb21tb24gYWdhaW5zdCB0aGUgZXhpc3RpbmcgbW9kZSByZWdp
-c3Rlcgo+ID4gdGFibGVzIHRvby4KPiA+IAo+ID4gSSB0aGluayBzZXZlcmFsIHRoaW5ncyBuZWVk
-IHRvIGhhcHBlbiBpbiB0aGlzIGRyaXZlcjoKPiA+IAo+ID4gwqAxLiBJdCBzaG91bGQgYmUgY29u
-dmVydGVkIHRvIHVzZSB0aGUgQ0NJIGhlbHBlcnMuCj4gPiDCoDIuIFdoZXJlZXZlciBpZGVudGlm
-aWFibGUsIHRoZSByZWdpc3RlciBuYW1lcyBzaG91bGQgYmUgdXNlZAo+ID4gaW5zdGVhZCBvZgo+
-ID4gwqDCoMKgIGp1c3QgdGhlIGFkZHJlc3Nlcy4KPiA+IMKgMy4gVGhlIGNvbW1vbiBmYWN0b3Jz
-IG9mIHRoZXNlIHRhYmxlcyBzaG91bGQgYmUgZGUtZHVwbGljYXRlZC4KPiA+IAo+ID4gSW4geW91
-ciBhZGRpdGlvbnMgeW91IG9ubHkgaGF2ZSBkaWZmZXJlbmNlcyBpbiB0aGUgZm9sbG93aW5nCj4g
-PiByZWdpc3RlcnMgZnJvbQo+ID4gdGhvc2UgZW50aXJlIHRhYmxlczoKPiAKPiBJIHdpbGwgdHJ5
-IHRvIG9wdGltaXplIGNhbWVyYSByZXNvbHV0aW9uIGFycmF5IHJlZ2lzdGVyIHZhbHVlIHVzYWdl
-Cj4gYnkgd3JpdGluZyBjb21tb24gcmVnaXN0ZXIgYXJyYXkgdmFsdWVzLgo+IAo+IFRoYW5rcywK
-PiBTaHJhdmFuCj4gCj4gPiAKPiA+ICvCoMKgwqDCoMKgwqAgezB4MzAyYywgMHg3MH0sCj4gPiAr
-wqDCoMKgwqDCoMKgIHsweDMwMmQsIDB4MDZ9LAo+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDJlLCAw
-eDgwfSwKPiA+ICvCoMKgwqDCoMKgwqAgezB4MzAyZiwgMHgwMn0sCj4gPiArwqDCoMKgwqDCoMKg
-IHsweDMwNzQsIDB4NDh9LAo+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDc1LCAweDA3fSwKPiA+ICvC
-oMKgwqDCoMKgwqAgezB4MzA4ZSwgMHg0OX0sCj4gPiArwqDCoMKgwqDCoMKgIHsweDMwOGYsIDB4
-MDd9LAo+ID4gK8KgwqDCoMKgwqDCoCB7MHgzMDc2LCAweGUwfSwKPiA+ICvCoMKgwqDCoMKgwqAg
-ezB4MzA3NywgMHgwMX0sCj4gPiArwqDCoMKgwqDCoMKgIHsweDMwOTAsIDB4ZTB9LAo+ID4gK8Kg
-wqDCoMKgwqDCoCB7MHgzMDkxLCAweDAxfSwKPiA+ICvCoMKgwqDCoMKgwqAgezB4MzMwOCwgMHhl
-MH0sCj4gPiArwqDCoMKgwqDCoMKgIHsweDMzMDksIDB4MDF9LAo+ID4gK8KgwqDCoMKgwqDCoCB7
-MHgzMGQ4LCAweDMwfSwKPiA+ICvCoMKgwqDCoMKgwqAgezB4MzBkOSwgMHgwYn0sCj4gPiAKPiA+
-IMKgNC4gQW5kIGlkZWFsbHkgLSB0aGUgZGlmZmVyZW5jZXMgd2hpY2ggZGV0ZXJtaW5lIHRoZSBt
-b2RlcyBzaG91bGQKPiA+IGJlCj4gPiDCoMKgwqAgZmFjdG9yZWQgb3V0IHRvIGNhbGN1bGF0aW9u
-cyBzbyB0aGF0IHdlIGFyZSBub3Qgd3JpdGluZyBvdXQKPiA+IGxhcmdlCj4gPiDCoMKgwqAgdGFi
-bGVzIGp1c3QgdG8gd3JpdGUgYSBwYXJhbWV0ZXJpc2VkIGZyYW1lIHNpemUuCj4gPiAKPiA+IAo+
-ID4gSSB3b3VsZCBiZWxlaXZlIHRoYXQgYXQgbGVhc3Qgc3RlcHMgMSBhbmQgMyB3b3VsZCBiZSBh
-Y2hpZXZhYmxlLCAyCj4gPiBhbmQgNCB3b3VsZAo+ID4gZGVwZW5kIHVwb24gYWNjZXNzIHRvIHRo
-ZSBkYXRhc2hlZXQuCj4gPiAKPiA+IElzIHRoYXQgYW55dGhpbmcgeW91IGNvdWxkIHdvcmsgb24g
-Pwo+ID4gCj4gPiBSZWdhcmRzCj4gPiAtLQo+ID4gS2llcmFuCj4gPiAKPiA+IAo+ID4gCj4gPiAK
-PiA+IAo+ID4gPiArCj4gPiA+IMKgLyogU2Vuc29yIG1vZGUgcmVnaXN0ZXJzIGZvciAxOTIweDEw
-ODBAMzBmcHMgKi/CoCBzdGF0aWMgY29uc3QKPiA+ID4gc3RydWN0Cj4gPiA+IGlteDMzNF9yZWcg
-bW9kZV8xOTIweDEwODBfcmVnc1tdID0gewo+ID4gPiDCoMKgwqDCoMKgwqDCoCB7MHgzMDAwLCAw
-eDAxfSwKPiA+ID4gQEAgLTUwNSw2ICs4MzEsMzIgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBpbXgz
-MzRfbW9kZQo+ID4gc3VwcG9ydGVkX21vZGVzW10gPSB7Cj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLm51bV9vZl9yZWdzID0KPiA+ID4gQVJSQVlf
-U0laRShtb2RlXzE5MjB4MTA4MF9yZWdzKSwKPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAucmVncyA9IG1vZGVfMTkyMHgxMDgwX3JlZ3MsCj4gPiA+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB9LAo+ID4gPiArwqDCoMKgwqDCoMKgIH0s
-IHsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLndpZHRoID0gMTI4MCwKPiA+
-ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmhlaWdodCA9IDcyMCwKPiA+ID4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmhibGFuayA9IDI0ODAsCj4gPiA+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIC52YmxhbmsgPSAxMTcwLAo+ID4gPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCAudmJsYW5rX21pbiA9IDQ1LAo+ID4gPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAudmJsYW5rX21heCA9IDEzMjg0MCwKPiA+ID4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgLnBjbGsgPSAyOTcwMDAwMDAsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIC5saW5rX2ZyZXFfaWR4ID0gMSwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgLnJlZ19saXN0ID0gewo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgLm51bV9vZl9yZWdzID0KPiA+ID4gQVJSQVlfU0laRShtb2Rl
-XzEyODB4NzIwX3JlZ3MpLAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgLnJlZ3MgPSBtb2RlXzEyODB4NzIwX3JlZ3MsCj4gPiA+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIH0sCj4gPiA+ICvCoMKgwqDCoMKgwqAgfSwgewo+ID4gPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAud2lkdGggPSA2NDAsCj4gPiA+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIC5oZWlnaHQgPSA0ODAsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIC5oYmxhbmsgPSAyNDgwLAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAudmJsYW5rID0gMTE3MCwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgLnZibGFua19taW4gPSA0NSwKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-LnZibGFua19tYXggPSAxMzI4NDAsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IC5wY2xrID0gMjk3MDAwMDAwLAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAu
-bGlua19mcmVxX2lkeCA9IDEsCj4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5y
-ZWdfbGlzdCA9IHsKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIC5udW1fb2ZfcmVncyA9Cj4gPiA+IEFSUkFZX1NJWkUobW9kZV82NDB4NDgwX3JlZ3Mp
-LAo+ID4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnJl
-Z3MgPSBtb2RlXzY0MHg0ODBfcmVncywKPiA+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfSwKPiA+ID4gwqDCoMKgwqDCoMKgwqAgfSwKPiA+ID4gwqB9Owo+ID4gPiAKPiA+ID4gLS0K
-PiA+ID4gMi4zNC4xCj4gPiA+IAoK
+Le vendredi 13 d=C3=A9cembre 2024 =C3=A0 18:10 +0900, Ming Qian a =C3=A9cri=
+t=C2=A0:
+> From: Ming Qian <ming.qian@nxp.com>
+>=20
+> When using VB2_DMABUF, the relationship between dma-buf and v4l2 buffer
+> may not one-to-one, a single dma-buf may be queued via different
+> v4l2 buffers, and different dma-bufs may be queued via the same
+> v4l2 buffer, so it's not appropriate to use the v4l2 buffer index
+> as the frame store id.
+>=20
+> We can generate a frame store id according to the dma address.
+> Then for a given dma-buf, the id is fixed.
+>=20
+> Driver now manages the frame store and vb2-buffer states independently.
+>=20
+> When a dmabuf is queued via another v4l2 buffer before the buffer is
+> released by firmware, need to pend it until firmware release it.
+>=20
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+> v2
+> -- fix an uninitialized issue reported by media-ci
+>=20
+>  drivers/media/platform/amphion/vdec.c     | 232 ++++++++++++++++++----
+>  drivers/media/platform/amphion/vpu.h      |   7 +-
+>  drivers/media/platform/amphion/vpu_dbg.c  |  15 +-
+>  drivers/media/platform/amphion/vpu_v4l2.c |  11 +
+>  4 files changed, 218 insertions(+), 47 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platfo=
+rm/amphion/vdec.c
+> index 61d5598ee6a1..a26cb0c264c9 100644
+> --- a/drivers/media/platform/amphion/vdec.c
+> +++ b/drivers/media/platform/amphion/vdec.c
+> @@ -26,6 +26,7 @@
+>  #include "vpu_cmds.h"
+>  #include "vpu_rpc.h"
+> =20
+> +#define VDEC_SLOT_CNT_DFT		32
+>  #define VDEC_MIN_BUFFER_CAP		8
+>  #define VDEC_MIN_BUFFER_OUT		8
+> =20
+> @@ -41,6 +42,14 @@ struct vdec_fs_info {
+>  	u32 tag;
+>  };
+> =20
+> +struct vdec_frame_store_t {
+> +	struct vpu_vb2_buffer *curr;
+> +	struct vpu_vb2_buffer *pend;
+> +	dma_addr_t addr;
+> +	unsigned int state;
+> +	u32 tag;
+> +};
+> +
+>  struct vdec_t {
+>  	u32 seq_hdr_found;
+>  	struct vpu_buffer udata;
+> @@ -48,7 +57,8 @@ struct vdec_t {
+>  	struct vpu_dec_codec_info codec_info;
+>  	enum vpu_codec_state state;
+> =20
+> -	struct vpu_vb2_buffer *slots[VB2_MAX_FRAME];
+> +	struct vdec_frame_store_t *slots;
+> +	u32 slot_count;
+>  	u32 req_frame_count;
+>  	struct vdec_fs_info mbi;
+>  	struct vdec_fs_info dcp;
+> @@ -289,6 +299,64 @@ static int vdec_ctrl_init(struct vpu_inst *inst)
+>  	return 0;
+>  }
+> =20
+> +static void vdec_attach_frame_store(struct vpu_inst *inst, struct vb2_bu=
+ffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
+> +	struct vpu_vb2_buffer *vpu_buf =3D to_vpu_vb2_buffer(vbuf);
+> +	struct vdec_t *vdec =3D inst->priv;
+> +	struct vdec_frame_store_t *new_slots =3D NULL;
+> +	dma_addr_t addr;
+> +	int i;
+> +
+> +	addr =3D vpu_get_vb_phy_addr(vb, 0);
+> +	for (i =3D 0; i < vdec->slot_count; i++) {
+> +		if (addr =3D=3D vdec->slots[i].addr) {
+> +			if (vdec->slots[i].curr && vdec->slots[i].curr !=3D vpu_buf) {
+> +				vpu_set_buffer_state(vbuf, VPU_BUF_STATE_CHANGED);
+> +				vdec->slots[i].pend =3D vpu_buf;
+> +			} else {
+> +				vpu_set_buffer_state(vbuf, vdec->slots[i].state);
+> +			}
+> +			vpu_buf->fs_id =3D i;
+> +			return;
+> +		}
+> +	}
+> +
+> +	for (i =3D 0; i < vdec->slot_count; i++) {
+> +		if (!vdec->slots[i].addr) {
+> +			vdec->slots[i].addr =3D addr;
+> +			vpu_buf->fs_id =3D i;
+> +			return;
+> +		}
+> +	}
+> +
+> +	new_slots =3D vzalloc(sizeof(*vdec->slots) * vdec->slot_count * 2);
+
+To avoid open coding arithmetics (see Documentation/process/deprecated.rst)=
+ you
+may be able to use flex_array_size(vdec, slots, vdec->slot_count * 2)
+
+> +	if (!vdec->slots) {
+> +		dev_err(inst->dev, "fail to alloc frame store\n");
+> +		vpu_set_buffer_state(vbuf, VPU_BUF_STATE_ERROR);
+> +		return;
+> +	}
+> +
+> +	memcpy(new_slots, vdec->slots, sizeof(*vdec->slots) * vdec->slot_count)=
+;
+> +	vfree(vdec->slots);
+> +	vdec->slots =3D new_slots;
+> +	vdec->slot_count *=3D 2;
+> +
+> +	vdec->slots[i].addr =3D addr;
+> +	vpu_buf->fs_id =3D i;
+> +}
+> +
+> +static void vdec_reset_frame_store(struct vpu_inst *inst)
+> +{
+> +	struct vdec_t *vdec =3D inst->priv;
+> +
+> +	if (!vdec->slots || !vdec->slot_count)
+> +		return;
+> +
+> +	vpu_trace(inst->dev, "inst[%d] reset slots\n", inst->id);
+> +	memset(vdec->slots, 0, sizeof(*vdec->slots) * vdec->slot_count);
+
+
+Same here, flex_array_size() would calculate the size for you.
+
+> +}
+> +
+>  static void vdec_handle_resolution_change(struct vpu_inst *inst)
+>  {
+>  	struct vdec_t *vdec =3D inst->priv;
+> @@ -745,11 +813,11 @@ static int vdec_frame_decoded(struct vpu_inst *inst=
+, void *arg)
+>  	struct vb2_v4l2_buffer *src_buf;
+>  	int ret =3D 0;
+> =20
+> -	if (!info || info->id >=3D ARRAY_SIZE(vdec->slots))
+> +	if (!info || info->id >=3D vdec->slot_count)
+>  		return -EINVAL;
+> =20
+>  	vpu_inst_lock(inst);
+> -	vpu_buf =3D vdec->slots[info->id];
+> +	vpu_buf =3D vdec->slots[info->id].curr;
+>  	if (!vpu_buf) {
+>  		dev_err(inst->dev, "[%d] decoded invalid frame[%d]\n", inst->id, info-=
+>id);
+>  		ret =3D -EINVAL;
+> @@ -770,11 +838,13 @@ static int vdec_frame_decoded(struct vpu_inst *inst=
+, void *arg)
+>  	if (vpu_get_buffer_state(vbuf) =3D=3D VPU_BUF_STATE_DECODED)
+>  		dev_info(inst->dev, "[%d] buf[%d] has been decoded\n", inst->id, info-=
+>id);
+>  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_DECODED);
+> +	vdec->slots[info->id].state =3D VPU_BUF_STATE_DECODED;
+>  	vdec->decoded_frame_count++;
+>  	if (vdec->params.display_delay_enable) {
+>  		struct vpu_format *cur_fmt;
+> =20
+>  		cur_fmt =3D vpu_get_format(inst, inst->cap_format.type);
+> +		vdec->slots[info->id].state =3D VPU_BUF_STATE_READY;
+>  		vpu_set_buffer_state(vbuf, VPU_BUF_STATE_READY);
+>  		for (int i =3D 0; i < vbuf->vb2_buf.num_planes; i++)
+>  			vb2_set_plane_payload(&vbuf->vb2_buf,
+> @@ -797,11 +867,11 @@ static struct vpu_vb2_buffer *vdec_find_buffer(stru=
+ct vpu_inst *inst, u32 luma)
+>  	struct vdec_t *vdec =3D inst->priv;
+>  	int i;
+> =20
+> -	for (i =3D 0; i < ARRAY_SIZE(vdec->slots); i++) {
+> -		if (!vdec->slots[i])
+> +	for (i =3D 0; i < vdec->slot_count; i++) {
+> +		if (!vdec->slots[i].curr)
+>  			continue;
+> -		if (luma =3D=3D vdec->slots[i]->luma)
+> -			return vdec->slots[i];
+> +		if (luma =3D=3D vdec->slots[i].addr)
+> +			return vdec->slots[i].curr;
+>  	}
+> =20
+>  	return NULL;
+> @@ -835,11 +905,11 @@ static void vdec_buf_done(struct vpu_inst *inst, st=
+ruct vpu_frame_info *frame)
+> =20
+>  	cur_fmt =3D vpu_get_format(inst, inst->cap_format.type);
+>  	vbuf =3D &vpu_buf->m2m_buf.vb;
+> -	if (vbuf->vb2_buf.index !=3D frame->id)
+> -		dev_err(inst->dev, "[%d] buffer id(%d, %d) dismatch\n",
+> -			inst->id, vbuf->vb2_buf.index, frame->id);
+> +	if (vpu_buf->fs_id !=3D frame->id)
+> +		dev_err(inst->dev, "[%d] buffer id(%d(%d), %d) dismatch\n",
+> +			inst->id, vpu_buf->fs_id, vbuf->vb2_buf.index, frame->id);
+> =20
+> -	if (vpu_get_buffer_state(vbuf) =3D=3D VPU_BUF_STATE_READY && vdec->para=
+ms.display_delay_enable)
+> +	if (vdec->params.display_delay_enable)
+>  		return;
+> =20
+>  	if (vpu_get_buffer_state(vbuf) !=3D VPU_BUF_STATE_DECODED)
+> @@ -852,10 +922,11 @@ static void vdec_buf_done(struct vpu_inst *inst, st=
+ruct vpu_frame_info *frame)
+>  	vbuf->sequence =3D vdec->sequence;
+>  	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.t=
+imestamp);
+> =20
+> -	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
+>  	vpu_inst_lock(inst);
+> +	vdec->slots[vpu_buf->fs_id].state =3D VPU_BUF_STATE_READY;
+>  	vdec->display_frame_count++;
+>  	vpu_inst_unlock(inst);
+> +	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
+>  	dev_dbg(inst->dev, "[%d] decoded : %d, display : %d, sequence : %d\n",
+>  		inst->id, vdec->decoded_frame_count, vdec->display_frame_count, vdec->=
+sequence);
+>  }
+> @@ -1083,18 +1154,30 @@ static int vdec_response_frame(struct vpu_inst *i=
+nst, struct vb2_v4l2_buffer *vb
+>  	if (!vbuf)
+>  		return -EINVAL;
+> =20
+> -	if (vdec->slots[vbuf->vb2_buf.index]) {
+> -		dev_err(inst->dev, "[%d] repeat alloc fs %d\n",
+> -			inst->id, vbuf->vb2_buf.index);
+> +	vpu_buf =3D to_vpu_vb2_buffer(vbuf);
+> +	if (vpu_buf->fs_id < 0 || vpu_buf->fs_id >=3D vdec->slot_count) {
+> +		dev_err(inst->dev, "invalid fs %d for v4l2 buffer %d\n",
+> +			vpu_buf->fs_id, vbuf->vb2_buf.index);
+>  		return -EINVAL;
+>  	}
+> =20
+> +	if (vdec->slots[vpu_buf->fs_id].curr) {
+> +		if (vdec->slots[vpu_buf->fs_id].curr !=3D vpu_buf) {
+> +			vpu_set_buffer_state(vbuf, VPU_BUF_STATE_CHANGED);
+> +			vdec->slots[vpu_buf->fs_id].pend =3D vpu_buf;
+> +		} else {
+> +			vpu_set_buffer_state(vbuf, vdec->slots[vpu_buf->fs_id].state);
+> +		}
+> +		dev_err(inst->dev, "[%d] repeat alloc fs %d (v4l2 index %d)\n",
+> +			inst->id, vpu_buf->fs_id, vbuf->vb2_buf.index);
+> +		return -EAGAIN;
+> +	}
+> +
+>  	dev_dbg(inst->dev, "[%d] state =3D %s, alloc fs %d, tag =3D 0x%x\n",
+>  		inst->id, vpu_codec_state_name(inst->state), vbuf->vb2_buf.index, vdec=
+->seq_tag);
+> -	vpu_buf =3D to_vpu_vb2_buffer(vbuf);
+> =20
+>  	memset(&info, 0, sizeof(info));
+> -	info.id =3D vbuf->vb2_buf.index;
+> +	info.id =3D vpu_buf->fs_id;
+>  	info.type =3D MEM_RES_FRAME;
+>  	info.tag =3D vdec->seq_tag;
+>  	info.luma_addr =3D vpu_get_vb_phy_addr(&vbuf->vb2_buf, 0);
+> @@ -1109,12 +1192,13 @@ static int vdec_response_frame(struct vpu_inst *i=
+nst, struct vb2_v4l2_buffer *vb
+>  	if (ret)
+>  		return ret;
+> =20
+> -	vpu_buf->tag =3D info.tag;
+>  	vpu_buf->luma =3D info.luma_addr;
+>  	vpu_buf->chroma_u =3D info.chroma_addr;
+>  	vpu_buf->chroma_v =3D 0;
+>  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_INUSE);
+> -	vdec->slots[info.id] =3D vpu_buf;
+> +	vdec->slots[info.id].tag =3D info.tag;
+> +	vdec->slots[info.id].curr =3D vpu_buf;
+> +	vdec->slots[info.id].state =3D VPU_BUF_STATE_INUSE;
+>  	vdec->req_frame_count--;
+> =20
+>  	return 0;
+> @@ -1175,25 +1259,47 @@ static void vdec_recycle_buffer(struct vpu_inst *=
+inst, struct vb2_v4l2_buffer *v
+>  	v4l2_m2m_buf_queue(inst->fh.m2m_ctx, vbuf);
+>  }
+> =20
+> -static void vdec_clear_slots(struct vpu_inst *inst)
+> +static void vdec_release_curr_frame_store(struct vpu_inst *inst, u32 id)
+>  {
+>  	struct vdec_t *vdec =3D inst->priv;
+>  	struct vpu_vb2_buffer *vpu_buf;
+>  	struct vb2_v4l2_buffer *vbuf;
+> +
+> +	if (id >=3D vdec->slot_count)
+> +		return;
+> +	if (!vdec->slots[id].curr)
+> +		return;
+> +
+> +	vpu_buf =3D vdec->slots[id].curr;
+> +	vbuf =3D &vpu_buf->m2m_buf.vb;
+> +
+> +	vdec_response_fs_release(inst, id, vdec->slots[id].tag);
+> +	if (vpu_buf->fs_id =3D=3D id) {
+> +		if (vpu_buf->state !=3D VPU_BUF_STATE_READY)
+> +			vdec_recycle_buffer(inst, vbuf);
+> +		vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
+> +	}
+> +
+> +	vdec->slots[id].curr =3D NULL;
+> +	vdec->slots[id].state =3D VPU_BUF_STATE_IDLE;
+> +
+> +	if (vdec->slots[id].pend) {
+> +		vpu_set_buffer_state(&vdec->slots[id].pend->m2m_buf.vb, VPU_BUF_STATE_=
+IDLE);
+> +		vdec->slots[id].pend =3D NULL;
+> +	}
+> +}
+> +
+> +static void vdec_clear_slots(struct vpu_inst *inst)
+> +{
+> +	struct vdec_t *vdec =3D inst->priv;
+>  	int i;
+> =20
+> -	for (i =3D 0; i < ARRAY_SIZE(vdec->slots); i++) {
+> -		if (!vdec->slots[i])
+> +	for (i =3D 0; i < vdec->slot_count; i++) {
+> +		if (!vdec->slots[i].curr)
+>  			continue;
+> =20
+> -		vpu_buf =3D vdec->slots[i];
+> -		vbuf =3D &vpu_buf->m2m_buf.vb;
+> -
+>  		vpu_trace(inst->dev, "clear slot %d\n", i);
+> -		vdec_response_fs_release(inst, i, vpu_buf->tag);
+> -		vdec_recycle_buffer(inst, vbuf);
+> -		vdec->slots[i]->state =3D VPU_BUF_STATE_IDLE;
+> -		vdec->slots[i] =3D NULL;
+> +		vdec_release_curr_frame_store(inst, i);
+>  	}
+>  }
+> =20
+> @@ -1324,39 +1430,29 @@ static void vdec_event_req_fs(struct vpu_inst *in=
+st, struct vpu_fs_info *fs)
+>  static void vdec_evnet_rel_fs(struct vpu_inst *inst, struct vpu_fs_info =
+*fs)
+>  {
+>  	struct vdec_t *vdec =3D inst->priv;
+> -	struct vpu_vb2_buffer *vpu_buf;
+> -	struct vb2_v4l2_buffer *vbuf;
+> =20
+> -	if (!fs || fs->id >=3D ARRAY_SIZE(vdec->slots))
+> +	if (!fs || fs->id >=3D vdec->slot_count)
+>  		return;
+>  	if (fs->type !=3D MEM_RES_FRAME)
+>  		return;
+> =20
+> -	if (fs->id >=3D vpu_get_num_buffers(inst, inst->cap_format.type)) {
+> +	if (fs->id >=3D vdec->slot_count) {
+>  		dev_err(inst->dev, "[%d] invalid fs(%d) to release\n", inst->id, fs->i=
+d);
+>  		return;
+>  	}
+> =20
+>  	vpu_inst_lock(inst);
+> -	vpu_buf =3D vdec->slots[fs->id];
+> -	vdec->slots[fs->id] =3D NULL;
+> -
+> -	if (!vpu_buf) {
+> +	if (!vdec->slots[fs->id].curr) {
+>  		dev_dbg(inst->dev, "[%d] fs[%d] has bee released\n", inst->id, fs->id)=
+;
+>  		goto exit;
+>  	}
+> =20
+> -	vbuf =3D &vpu_buf->m2m_buf.vb;
+> -	if (vpu_get_buffer_state(vbuf) =3D=3D VPU_BUF_STATE_DECODED) {
+> +	if (vdec->slots[fs->id].state =3D=3D VPU_BUF_STATE_DECODED) {
+>  		dev_dbg(inst->dev, "[%d] frame skip\n", inst->id);
+>  		vdec->sequence++;
+>  	}
+> =20
+> -	vdec_response_fs_release(inst, fs->id, vpu_buf->tag);
+> -	if (vpu_get_buffer_state(vbuf) !=3D VPU_BUF_STATE_READY)
+> -		vdec_recycle_buffer(inst, vbuf);
+> -
+> -	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
+> +	vdec_release_curr_frame_store(inst, fs->id);
+>  	vpu_process_capture_buffer(inst);
+> =20
+>  exit:
+> @@ -1552,6 +1648,11 @@ static void vdec_cleanup(struct vpu_inst *inst)
+>  		return;
+> =20
+>  	vdec =3D inst->priv;
+> +	if (vdec) {
+> +		vfree(vdec->slots);
+> +		vdec->slots =3D NULL;
+> +		vdec->slot_count =3D 0;
+> +	}
+>  	vfree(vdec);
+>  	inst->priv =3D NULL;
+>  	vfree(inst);
+> @@ -1683,6 +1784,38 @@ static int vdec_stop_session(struct vpu_inst *inst=
+, u32 type)
+>  	return 0;
+>  }
+> =20
+> +static int vdec_get_slot_debug_info(struct vpu_inst *inst, char *str, u3=
+2 size, u32 i)
+> +{
+> +	struct vdec_t *vdec =3D inst->priv;
+> +	struct vpu_vb2_buffer *vpu_buf;
+> +	int num =3D -1;
+> +
+> +	vpu_inst_lock(inst);
+> +	if (i >=3D vdec->slot_count || !vdec->slots[i].addr)
+> +		goto exit;
+> +
+> +	vpu_buf =3D vdec->slots[i].curr;
+> +
+> +	num =3D scnprintf(str, size, "slot[%2d] :", i);
+> +	if (vpu_buf) {
+> +		num +=3D scnprintf(str + num, size - num, " %2d",
+> +				 vpu_buf->m2m_buf.vb.vb2_buf.index);
+> +		num +=3D scnprintf(str + num, size - num, "; state =3D %d", vdec->slot=
+s[i].state);
+> +	} else {
+> +		num +=3D scnprintf(str + num, size - num, " -1");
+> +	}
+> +
+> +	if (vdec->slots[i].pend)
+> +		num +=3D scnprintf(str + num, size - num, "; %d",
+> +				 vdec->slots[i].pend->m2m_buf.vb.vb2_buf.index);
+> +
+> +	num +=3D scnprintf(str + num, size - num, "\n");
+> +exit:
+> +	vpu_inst_unlock(inst);
+> +
+> +	return num;
+> +}
+> +
+>  static int vdec_get_debug_info(struct vpu_inst *inst, char *str, u32 siz=
+e, u32 i)
+>  {
+>  	struct vdec_t *vdec =3D inst->priv;
+> @@ -1741,6 +1874,7 @@ static int vdec_get_debug_info(struct vpu_inst *ins=
+t, char *str, u32 size, u32 i
+>  				vdec->codec_info.vui_present);
+>  		break;
+>  	default:
+> +		num =3D vdec_get_slot_debug_info(inst, str, size, i - 10);
+>  		break;
+>  	}
+> =20
+> @@ -1764,6 +1898,8 @@ static struct vpu_inst_ops vdec_inst_ops =3D {
+>  	.get_debug_info =3D vdec_get_debug_info,
+>  	.wait_prepare =3D vpu_inst_unlock,
+>  	.wait_finish =3D vpu_inst_lock,
+> +	.attach_frame_store =3D vdec_attach_frame_store,
+> +	.reset_frame_store =3D vdec_reset_frame_store,
+>  };
+> =20
+>  static void vdec_init(struct file *file)
+> @@ -1804,6 +1940,14 @@ static int vdec_open(struct file *file)
+>  		return -ENOMEM;
+>  	}
+> =20
+> +	vdec->slots =3D vzalloc(sizeof(*vdec->slots) * VDEC_SLOT_CNT_DFT);
+> +	if (!vdec->slots) {
+> +		vfree(vdec);
+> +		vfree(inst);
+> +		return -ENOMEM;
+> +	}
+> +	vdec->slot_count =3D VDEC_SLOT_CNT_DFT;
+> +
+>  	inst->ops =3D &vdec_inst_ops;
+>  	inst->formats =3D vdec_formats;
+>  	inst->type =3D VPU_CORE_TYPE_DEC;
+> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platfor=
+m/amphion/vpu.h
+> index 22f0da26ccec..76bfd6b26170 100644
+> --- a/drivers/media/platform/amphion/vpu.h
+> +++ b/drivers/media/platform/amphion/vpu.h
+> @@ -223,6 +223,8 @@ struct vpu_inst_ops {
+>  	int (*get_debug_info)(struct vpu_inst *inst, char *str, u32 size, u32 i=
+);
+>  	void (*wait_prepare)(struct vpu_inst *inst);
+>  	void (*wait_finish)(struct vpu_inst *inst);
+> +	void (*attach_frame_store)(struct vpu_inst *inst, struct vb2_buffer *vb=
+);
+> +	void (*reset_frame_store)(struct vpu_inst *inst);
+>  };
+> =20
+>  struct vpu_inst {
+> @@ -296,7 +298,8 @@ enum {
+>  	VPU_BUF_STATE_DECODED,
+>  	VPU_BUF_STATE_READY,
+>  	VPU_BUF_STATE_SKIP,
+> -	VPU_BUF_STATE_ERROR
+> +	VPU_BUF_STATE_ERROR,
+> +	VPU_BUF_STATE_CHANGED
+>  };
+> =20
+>  struct vpu_vb2_buffer {
+> @@ -305,8 +308,8 @@ struct vpu_vb2_buffer {
+>  	dma_addr_t chroma_u;
+>  	dma_addr_t chroma_v;
+>  	unsigned int state;
+> -	u32 tag;
+>  	u32 average_qp;
+> +	s32 fs_id;
+>  };
+> =20
+>  void vpu_writel(struct vpu_dev *vpu, u32 reg, u32 val);
+> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/pla=
+tform/amphion/vpu_dbg.c
+> index 940e5bda5fa3..497ae4e8a229 100644
+> --- a/drivers/media/platform/amphion/vpu_dbg.c
+> +++ b/drivers/media/platform/amphion/vpu_dbg.c
+> @@ -48,6 +48,7 @@ static char *vpu_stat_name[] =3D {
+>  	[VPU_BUF_STATE_READY] =3D "ready",
+>  	[VPU_BUF_STATE_SKIP] =3D "skip",
+>  	[VPU_BUF_STATE_ERROR] =3D "error",
+> +	[VPU_BUF_STATE_CHANGED] =3D "changed",
+>  };
+> =20
+>  static inline const char *to_vpu_stat_name(int state)
+> @@ -164,6 +165,7 @@ static int vpu_dbg_instance(struct seq_file *s, void =
+*data)
+>  	for (i =3D 0; i < vb2_get_num_buffers(vq); i++) {
+>  		struct vb2_buffer *vb;
+>  		struct vb2_v4l2_buffer *vbuf;
+> +		struct vpu_vb2_buffer *vpu_buf;
+> =20
+>  		vb =3D vb2_get_buffer(vq, i);
+>  		if (!vb)
+> @@ -173,13 +175,24 @@ static int vpu_dbg_instance(struct seq_file *s, voi=
+d *data)
+>  			continue;
+> =20
+>  		vbuf =3D to_vb2_v4l2_buffer(vb);
+> +		vpu_buf =3D to_vpu_vb2_buffer(vbuf);
+> =20
+>  		num =3D scnprintf(str, sizeof(str),
+> -				"capture[%2d] state =3D %10s, %8s\n",
+> +				"capture[%2d] state =3D %10s, %8s",
+>  				i, vb2_stat_name[vb->state],
+>  				to_vpu_stat_name(vpu_get_buffer_state(vbuf)));
+>  		if (seq_write(s, str, num))
+>  			return 0;
+> +
+> +		if (vpu_buf->fs_id >=3D 0) {
+> +			num =3D scnprintf(str, sizeof(str), "; fs %d", vpu_buf->fs_id);
+> +			if (seq_write(s, str, num))
+> +				return 0;
+> +		}
+> +
+> +		num =3D scnprintf(str, sizeof(str), "\n");
+> +		if (seq_write(s, str, num))
+> +			return 0;
+>  	}
+> =20
+>  	num =3D scnprintf(str, sizeof(str), "sequence =3D %d\n", inst->sequence=
+);
+> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/pl=
+atform/amphion/vpu_v4l2.c
+> index 45707931bc4f..74668fa362e2 100644
+> --- a/drivers/media/platform/amphion/vpu_v4l2.c
+> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
+> @@ -501,14 +501,25 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq=
+,
+>  		call_void_vop(inst, release);
+>  	}
+> =20
+> +	if (V4L2_TYPE_IS_CAPTURE(vq->type))
+> +		call_void_vop(inst, reset_frame_store);
+> +
+>  	return 0;
+>  }
+> =20
+>  static int vpu_vb2_buf_init(struct vb2_buffer *vb)
+>  {
+>  	struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
+> +	struct vpu_vb2_buffer *vpu_buf =3D to_vpu_vb2_buffer(vbuf);
+> +	struct vpu_inst *inst =3D vb2_get_drv_priv(vb->vb2_queue);
+> =20
+> +	vpu_buf->fs_id =3D -1;
+>  	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
+> +
+> +	if (!inst->ops->attach_frame_store || V4L2_TYPE_IS_OUTPUT(vb->type))
+> +		return 0;
+> +
+> +	call_void_vop(inst, attach_frame_store, vb);
+>  	return 0;
+>  }
+> =20
+
+Just a general question, was the choice for a flexible array because the IP=
+ does
+not provide enough per-codec information to calculate the number of needed =
+slots
+or to actually avoid needing to do per codec array sizing ?
+
+Nicolas
 
 
