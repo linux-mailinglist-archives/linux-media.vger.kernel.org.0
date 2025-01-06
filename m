@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-24287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24288-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5A5A0275F
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 15:01:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8CC3A02777
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 15:07:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF26A3A4733
-	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 14:01:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDBE3163C44
+	for <lists+linux-media@lfdr.de>; Mon,  6 Jan 2025 14:07:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE4661DE3D8;
-	Mon,  6 Jan 2025 14:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF201DD543;
+	Mon,  6 Jan 2025 14:07:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF95B1DE3A7;
-	Mon,  6 Jan 2025 14:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5178839FCE;
+	Mon,  6 Jan 2025 14:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736172057; cv=none; b=F9nbj8YQjyhiaNvTJYm3dcueH4Xkn2bQ2mCWz/ZNTt4dkopKpj3+Pj51sePWXH1Lm6ECUzP4+aEheSBnl3OI6gW5+L3pR2LWgFiluhG9evyG3I3Izp1NXAqoQXzgBo9rzU8GTfLxCLRdEvm5XZA8k15Pz81lGj1pfxVs9HK4a/0=
+	t=1736172467; cv=none; b=kPelW3kLSMvyGdQtVpIUiA8kSDKk1L/rLHgSqFMa8c6YxF08rAvdBhEXLp5FYw9mtTf4N3EHbXM2EYIF2BKinfHrehrb8YmrffOAU/2EU4li78kKStI0jYKuhMe0vM1eUwDDuojyJ2kjT4NsBAVH/ZN1z5cuYCt4qQYQIlFXju4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736172057; c=relaxed/simple;
-	bh=bsPan0OGGtm+jfbyZTDT7w5z6WPw+KoNLVdD+s9Yak0=;
+	s=arc-20240116; t=1736172467; c=relaxed/simple;
+	bh=GYtGkn/aeshSa2iiwiOAZRV7NaFf3/yrzg+D98EqqQA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l5QYpte+4G9SNlvpvEHTmTlfElMQbL8wN+6bswaGD+OGPbaPn9vAQMOYke4DObqL2JtW/Dq7eHJwW7ULy9Zfu07BCj/qZF+RD2GXN1p1Ek0tWEDCQzXwQYEYELu/DY+V6wfvGJtD/GcHtArEXpc5y+PIZso3Th/YbLaPR1FTdn0=
+	 In-Reply-To:Content-Type; b=j87LyoNsnyvU1ROhqwp1GR/4UsmHLkLYf6RrtJbu0pJRkPaOxwpQZtby/3UUp+F2yarCuD3dQC2Zos2SVO1pfn6jxtm3lub4ulxAgzXzMQqFt512a23zK6p2YVxUxlOGChh86jUkf0QqRETPAiQFe/RJo2t5+a8aOIshwWFBzGI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67B3C4CED2;
-	Mon,  6 Jan 2025 14:00:53 +0000 (UTC)
-Message-ID: <a0eafc67-2ebf-4d2a-8213-c30c3c317a1a@xs4all.nl>
-Date: Mon, 6 Jan 2025 15:00:52 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA456C4CED2;
+	Mon,  6 Jan 2025 14:07:45 +0000 (UTC)
+Message-ID: <b228c210-73a9-4d4a-b884-7230be59dd82@xs4all.nl>
+Date: Mon, 6 Jan 2025 15:07:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,21 +38,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/16] dt-bindings: media: camss: Add qcom,sm8550-camss
- binding
-To: Depeng Shao <quic_depengs@quicinc.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, vladimir.zapolskiy@linaro.org,
- quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com,
- Yongsheng Li <quic_yon@quicinc.com>
-References: <20241225133523.4034820-1-quic_depengs@quicinc.com>
- <20241225133523.4034820-13-quic_depengs@quicinc.com>
- <ql3sufugcdpoxqgvs2f4clmbnx75t4jh6ts2ryneu2u5oeuwzn@yizcouuzfj2s>
- <eedaa77a-8070-41c8-a05b-b124d37ac093@quicinc.com>
+Subject: Re: [PATCH v2 2/3] usb/cx231xx: Remove unused value
+To: Ariel Otilibili <ariel.otilibili-anieli@eurecom.fr>,
+ linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+ netdev@vger.kernel.org, linux-can@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20241221035352.1020228-1-ariel.otilibili-anieli@eurecom.fr>
+ <20241221111454.1074285-1-ariel.otilibili-anieli@eurecom.fr>
+ <20241221111454.1074285-3-ariel.otilibili-anieli@eurecom.fr>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -98,76 +91,40 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <eedaa77a-8070-41c8-a05b-b124d37ac093@quicinc.com>
+In-Reply-To: <20241221111454.1074285-3-ariel.otilibili-anieli@eurecom.fr>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/01/2025 14:40, Depeng Shao wrote:
-> Hi Krzysztof,
+On 21/12/2024 12:06, Ariel Otilibili wrote:
+> Coverity-ID: 1269153
+> Signed-off-by: Ariel Otilibili <ariel.otilibili-anieli@eurecom.fr>
+> ---
+>  drivers/media/usb/cx231xx/cx231xx-avcore.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> On 12/27/2024 5:10 PM, Krzysztof Kozlowski wrote:
->> On Wed, Dec 25, 2024 at 07:05:19PM +0530, Depeng Shao wrote:
->>> Add bindings for qcom,sm8550-camss in order to support the camera
->>> subsystem for sm8550.
->>>
->>> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
->>> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
->>> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
->>> ---
->>
->> Is this v7 or v1? Same issue was all the time in the past, so why can't
->> you finally fix it?
->>
->> Look:
->>
->> $ b4 diff 20241225133523.4034820-13-quic_depengs@quicinc.com
->> Breaking thread to remove parents of 20241225133523.4034820-1-quic_depengs@quicinc.com
->> Checking for older revisions
->> Grabbing search results from lore.kernel.org
->>    Added from v6: 1 patches
->> ---
->> Analyzing 217 messages in the thread
->> Could not find lower series to compare against.
->>
->> I am not going to perform review, maybe other maintaners have spare
->> time to deal with this submission process.
-> 
-> Really sorry, I made a foolish mistake. I didn't realize that the patch 
-> subject was missing the version number, which might be why the b4 diff 
-> couldn't detect the old series. Thank you for pointing out this error. 
-> Could you please advise whether I should resend v7 or fix it in next 
-> version series?
+> diff --git a/drivers/media/usb/cx231xx/cx231xx-avcore.c b/drivers/media/usb/cx231xx/cx231xx-avcore.c
+> index 1cfec76b72f3..f2a2d0c39080 100644
+> --- a/drivers/media/usb/cx231xx/cx231xx-avcore.c
+> +++ b/drivers/media/usb/cx231xx/cx231xx-avcore.c
+> @@ -1896,7 +1896,6 @@ int cx231xx_dif_set_standard(struct cx231xx *dev, u32 standard)
+>  		status = vid_blk_write_word(dev, DIF_SOFT_RST_CTRL_REVB,
+>  						0x00000000);
+>  		/* Save the Spec Inversion value */
+> -		dif_misc_ctrl_value &= FLD_DIF_SPEC_INV;
 
-I marked this series as 'Changes Requested' in our media patchwork because
-of this issue.
+Don't remove this line,
 
-So resend it as v8 with the proper [PATCH v8 ...] subject.
+>  		dif_misc_ctrl_value = 0x3A093F10;
 
-It's a nightmare for maintainers/reviewers if it isn't clear if a patch series
-supersedes a previous series, so it is important that you do this right.
+instead this should have been |=, just like is done elsewhere in this function.
+
+>  	} else if (standard &
+>  		  (V4L2_STD_SECAM_B | V4L2_STD_SECAM_D | V4L2_STD_SECAM_G |
+
+Also, please just post this as a separate patch to linux-media. It is bad form
+to mix subsystems in the same patch series if there is no reason for it.
 
 Regards,
 
 	Hans
-
-> 
-> I have also found a workaround to replace "b4 diff". Last time, you 
-> helped by giving a RB tag on the version 4 dt-binding. You can check the 
-> differences[1] between version 4 and version 7 on the Patchew website. 
-> If possible, could you please help review the diff provided by Patchew 
-> once again? Sorry for wasting your time.
-> 
-> Visit below website[1], then search "dt-bindings: media: camss: Add 
-> qcom,sm8550-camss binding", then we can get the difference between 
-> version4 and version7.
-> 
-> 
-> [1] 
-> https://patchew.org/linux/20240812144131.369378-1-quic._5Fdepengs@quicinc.com/diff/20241225133523.4034820-1-quic._5Fdepengs@quicinc.com/
-> 
-> 
-> Thanks,
-> Depeng
-> 
-
 
