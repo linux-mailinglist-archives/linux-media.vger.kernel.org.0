@@ -1,230 +1,107 @@
-Return-Path: <linux-media+bounces-24322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24323-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40469A039E0
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 09:36:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B51BA03AD9
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 10:14:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27F521653EC
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 08:36:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F40EF1882706
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 09:14:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B349B1E0091;
-	Tue,  7 Jan 2025 08:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OBZ++xr9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F27EF1E1A16;
+	Tue,  7 Jan 2025 09:14:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE6513B58D;
-	Tue,  7 Jan 2025 08:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980E519ABCE
+	for <linux-media@vger.kernel.org>; Tue,  7 Jan 2025 09:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736239000; cv=none; b=dR+avjWdtCDBLWDQ6Y27MyxSj7fKft5y9rOz8Pj5Gt/fNHsdGN7Q8Y4P0tO3Is2WvK0p4lvzut6fqHFR+aslSYkMafd/85zC+EJMoN2Mez8irsR6rZ+mKjaRFTIhvWq02D6xfS0YnWeG7BfSLfdsU6Nl97IhlhRUnEpyxAeFp/I=
+	t=1736241286; cv=none; b=O9t8MvUWUIt46tX9dSHt6PtT7/4/Zam+ZX8VNHBb2mj+HFNFt7DCL/W4Gwf/LRVhILgx4ZOCYUUWGI5x1W6TcRFYadQLjf6Z9MZimbkaPvKvoE3NOEu4oSi9Rw0jzR+Blubr6tYL3sdhtJAWmekDa98r6KBJJCTej3z6I0U3ARM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736239000; c=relaxed/simple;
-	bh=bKued9kGOv1aKlOI/ltppi9djTLB4uTYa1slajCF9yc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKMEaTKMFi+Hbzns0Xpt5csTrLM3iazk4Jwq2npf9INyhINSY6OmdE5oqDqXOQhSUgvnoDZ5Gyum0H/6jC+dNeFpHS62H5z/bhQLPRd9TKJNeHVf6b9mm5xYcC04zpjhwrVhZtxowxFiQRSGyVEgfkvlaLBS4Bb2UG7rbhS041s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OBZ++xr9; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736238997; x=1767774997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=bKued9kGOv1aKlOI/ltppi9djTLB4uTYa1slajCF9yc=;
-  b=OBZ++xr9qh1e8MYDhJ/C1AolPzd1T65Sn/C2utLf/kQWDFlX4urIhDNV
-   VY3ATybKOkiPxxaACVdrb4kfsnKPpvFkDUWcbU82EBmKMbcrpwjTLigG6
-   ZG+5B7/h4n4AiiVPz2m1hUV8qEA1KlOri/nj6jfO3bLtchnaWWPm7WTIS
-   5j7sZNfYGnLvwnIRXA7QUw6NDwZNj3mzkfIpwzP//q45jMhZF7yhEulEc
-   LMZJl3irEWpKAD82Hz0ckUK5D+pMf1vQoS2xaimkGwUPYBlV9sw5GbQ3Q
-   SvPNrBplkWa63OHSn1ArBSJixNh5qNKMLjUtaCcn4ck2lsMFZ+IgIoOVo
-   Q==;
-X-CSE-ConnectionGUID: Fy/dGgDoRmWwVHlbgbpI+Q==
-X-CSE-MsgGUID: g2WWy1nnQYSStJLeiCeN3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="35706004"
-X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; 
-   d="scan'208";a="35706004"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 00:36:36 -0800
-X-CSE-ConnectionGUID: pDS5QeU9QYC9aWlPdu3K4g==
-X-CSE-MsgGUID: o+uP5GGnSQGJvcDxhVaxBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103194804"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 00:36:35 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0263511FA2C;
-	Tue,  7 Jan 2025 10:36:31 +0200 (EET)
-Date: Tue, 7 Jan 2025 08:36:31 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: v4l: fwnode: Parse CSI-2 C-PHY line-orders
- like bus-type
-Message-ID: <Z3znj0MOWvIhbOxj@kekkonen.localdomain>
-References: <20250104195548.1915578-1-niklas.soderlund+renesas@ragnatech.se>
- <20250104195548.1915578-3-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1736241286; c=relaxed/simple;
+	bh=CBKF+OiwHHND8Rx/gunrq0WnKev7iYWc2QTbB3bijmU=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=kmvxf8c6AMWeH5hvdJ5CLfj+lnJA49GRSk1lgV3C8lqCh6fbDcuJ7aN2CQ2qwl1i+0pom069FHX3+uCpi3xv0nsZl2JmzUchLijeMjr8RF91wtCoJkBWEPOULIFH46hZQo4mEI9ceNXWL1aNR9Fufb1FiVbpXQEr3MW9eTG2s0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA2A4C4CED6
+	for <linux-media@vger.kernel.org>; Tue,  7 Jan 2025 09:14:45 +0000 (UTC)
+Message-ID: <a1d9318d-5d2d-4054-b856-8216d0618d02@xs4all.nl>
+Date: Tue, 7 Jan 2025 10:14:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250104195548.1915578-3-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] media: radio-aztech.c: fix old email in comment
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hejssan Niklas,
+Fix a wrong email. It's only used in a comment, but it's easy enough to fix.
 
-Tack för dessa lappar!
-
-On Sat, Jan 04, 2025 at 08:55:48PM +0100, Niklas Söderlund wrote:
-> Provided a safe-guard from the raw values used in device tree sources
-> and the in-kernel defines used to describe the different line orders.
-> This mimics what have been done for the bus-type property to provide the
-> same safe-guard.
-> 
-> The macros used in device tree sources are defined in video-interfaces.h
-> (MEDIA_BUS_CSI2_CPHY_LINE_ORDER_*) and are only visible to DTS source
-> files. These raw values map directly to the in-kernel names by fwnode
-> defines in v4l2-fwnode.h (V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_*). These
-> fwnode defines are finally translated to defines which are exposed to
-> drivers to act on (V4L2_MBUS_CSI2_CPHY_LINE_ORDER_*).
-> 
-> Previously the translation to values provided to drivers have exploited
-> the fact that the numerical value for each setting are the same for the
-> defines used in device tree sources. While this is unlikely to change
-> this harmonises the bus-type and line-orders parsing to work using the
-> same mechanics, while at the same time make the large CSI-2 parsing
-> function a little more readable.
-
-Do we in fact need the V4L2_MBUS_ definitions of the line orders at all?
-
-The same could extend to the V4L2_MBUS_ bus type defitions, but that's out
-of scope of this patch.
-
-> 
-> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 80 ++++++++++++++++++++++-----
->  1 file changed, 66 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index cb153ce42c45..69f6d1df8c39 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -121,6 +121,70 @@ v4l2_fwnode_mbus_type_to_string(enum v4l2_mbus_type type)
->  	return conv ? conv->name : "not found";
->  }
->  
-> +static const struct v4l2_fwnode_csi2_cphy_line_orders_conv {
-> +	enum v4l2_fwnode_csi2_cphy_line_orders_type fwnode_order;
-> +	enum v4l2_mbus_csi2_cphy_line_orders_type mbus_order;
-> +	const char *name;
-> +} csi2_cphy_line_orders[] = {
-> +	{
-> +		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_ABC,
-> +		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC,
-> +		"ABC",
-> +	}, {
-> +		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_ACB,
-> +		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ACB,
-> +		"ACB",
-> +	}, {
-> +		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_BAC,
-> +		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BAC,
-> +		"BAC",
-> +	}, {
-> +		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_BCA,
-> +		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_BCA,
-> +		"BCA",
-> +	}, {
-> +		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_CAB,
-> +		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CAB,
-> +		"CAB",
-> +	}, {
-> +		V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_CBA,
-> +		V4L2_MBUS_CSI2_CPHY_LINE_ORDER_CBA,
-> +		"CBA",
-> +	}
-> +};
-> +
-> +static const struct v4l2_fwnode_csi2_cphy_line_orders_conv *
-> +get_v4l2_fwnode_line_order_conv_by_fwnode_order(enum v4l2_fwnode_csi2_cphy_line_orders_type order)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(csi2_cphy_line_orders); i++)
-> +		if (csi2_cphy_line_orders[i].fwnode_order == order)
-> +			return &csi2_cphy_line_orders[i];
-> +
-> +	/* The default line order is ABC */
-> +	pr_warn("invalid line-order assuming ABC (got %u)\n", order);
-> +	return &csi2_cphy_line_orders[0];
-> +}
-> +
-> +static enum v4l2_mbus_csi2_cphy_line_orders_type
-> +v4l2_fwnode_line_order_to_mbus(enum v4l2_fwnode_csi2_cphy_line_orders_type order)
-> +{
-> +	const struct v4l2_fwnode_csi2_cphy_line_orders_conv *conv =
-> +		get_v4l2_fwnode_line_order_conv_by_fwnode_order(order);
-> +
-> +	return conv->mbus_order;
-> +}
-> +
-> +static const char *
-> +v4l2_fwnode_line_order_to_string(enum v4l2_fwnode_csi2_cphy_line_orders_type order)
-> +{
-> +	const struct v4l2_fwnode_csi2_cphy_line_orders_conv *conv =
-> +		get_v4l2_fwnode_line_order_conv_by_fwnode_order(order);
-> +
-> +	return conv->name;
-> +}
-> +
->  static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  					       struct v4l2_fwnode_endpoint *vep,
->  					       enum v4l2_mbus_type bus_type)
-> @@ -268,21 +332,9 @@ static int v4l2_fwnode_endpoint_parse_csi2_bus(struct fwnode_handle *fwnode,
->  						       num_data_lanes);
->  
->  			for (i = 0; i < num_data_lanes; i++) {
-> -				static const char * const orders[] = {
-> -					"ABC", "ACB", "BAC", "BCA", "CAB", "CBA"
-> -				};
-> -
-> -				if (array[i] >= ARRAY_SIZE(orders)) {
-> -					pr_warn("lane %u invalid line-order assuming ABC (got %u)\n",
-> -						i, array[i]);
-> -					bus->line_orders[i] =
-> -						V4L2_MBUS_CSI2_CPHY_LINE_ORDER_ABC;
-> -					continue;
-> -				}
-> -
-> -				bus->line_orders[i] = array[i];
-> +				bus->line_orders[i] = v4l2_fwnode_line_order_to_mbus(array[i]);
->  				pr_debug("lane %u line order %s", i,
-> -					 orders[array[i]]);
-> +					 v4l2_fwnode_line_order_to_string(array[i]));
->  			}
->  		} else {
->  			for (i = 0; i < num_data_lanes; i++)
-> -- 
-> 2.47.1
-> 
-
--- 
-Med vänliga hälsningar,
-
-Sakari Ailus
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+---
+diff --git a/drivers/media/radio/radio-aztech.c b/drivers/media/radio/radio-aztech.c
+index 4909c337b027..d989c0b3966f 100644
+--- a/drivers/media/radio/radio-aztech.c
++++ b/drivers/media/radio/radio-aztech.c
+@@ -2,7 +2,7 @@
+ /*
+  * radio-aztech.c - Aztech radio card driver
+  *
+- * Converted to the radio-isa framework by Hans Verkuil <hans.verkuil@xs4all.nl>
++ * Converted to the radio-isa framework by Hans Verkuil <hverkuil@xs4all.nl>
+  * Converted to V4L2 API by Mauro Carvalho Chehab <mchehab@kernel.org>
+  * Adapted to support the Video for Linux API by
+  * Russell Kroll <rkroll@exploits.org>.  Based on original tuner code by:
 
