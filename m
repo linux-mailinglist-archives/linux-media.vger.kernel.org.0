@@ -1,97 +1,78 @@
-Return-Path: <linux-media+bounces-24353-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24355-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A72DA046A1
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 17:40:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D169A0471E
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 17:50:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F6543A3987
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 16:40:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 731027A15DC
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 16:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C52141F12E9;
-	Tue,  7 Jan 2025 16:39:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MAGlS6N6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 611551E9B09;
+	Tue,  7 Jan 2025 16:50:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB5A1F667C;
-	Tue,  7 Jan 2025 16:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F75219EB
+	for <linux-media@vger.kernel.org>; Tue,  7 Jan 2025 16:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736267951; cv=none; b=B4wd6IDyI4c1mydCRGe0vNe02CbARCsMD5+E8Zd5fwM8iTHfChBTH9fAvpl1kS1sjOT2GDoAk389hMWfHX4AZU8X63l9ScZmoQ31hF8RReexbNYXEZPxPX4DyjI76w/tCC8uWIF4l8w45Gw7ybqCtx8/FfKaeBLztIciAlnvRjE=
+	t=1736268645; cv=none; b=BEz8DAH/bGJd+mAtzBGn3dgMTANSO1lR6xRBRdm6NCDQeg/+QOd+oyeMEHO/zApy+YsePb1Ak0sgJfGaseknWI/63O11tecjPUlECB90a/zBR4NTBReEXEKMD+V8anjpzv7jezh8/MZKIF6xQnmauEiv6VeG5jaq547LCswNVAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736267951; c=relaxed/simple;
-	bh=+y5VPCQSZ3iOvbjUez9JjjnUBGmWE7u4QVulhWXo08A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DBlw3Lbs9lxQGvJDj7gi+tEN/DFpi6TsyS+7NDAZ6QbAij1DGu9R/4DK0+uaY5yUiy+714OuNVblbVLADt5M8LmJL+dQlFjDkFrN1jG/7WUbSURX0U78ZiwjwC+o2AZEuXylR4XdEzZ8kBBzsR8Z4hqmZn6nLepsi6XBBmbj6bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MAGlS6N6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FED2C4CEE3;
-	Tue,  7 Jan 2025 16:39:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736267950;
-	bh=+y5VPCQSZ3iOvbjUez9JjjnUBGmWE7u4QVulhWXo08A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MAGlS6N63wTdoEa4UI0+E8DzcXED0f0jAzvpMILZj/ohyOJxISyY9OvtAXTfuRzXz
-	 knT1ewvzmZcmzzAKZ61W0LnBwhyJHfKEivYg9wX/bwnQShwiYyJof4PsfSzshg1qNk
-	 JtMHHb+hc0xDCQp+Wx+Fk6Z/yXG5gAb9rNzEPbqLsp17HltxLQDsgqIXiuk2E9DtFz
-	 /8haXx6PP/Wm/pENFMGjU+LAyBhFssdZ7B1vgKSDnVk0MU3xFt9i4gJUb7Ad/E59NI
-	 BbDiPOl+4L227fJfQIeGAEsupMj5b9zXRKeI0EuUamcbA3mZJjvPgrld3zNkAPf1y9
-	 CqZtiUE6xF/OA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Richard Acayan <mailingradian@gmail.com>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Subject: Re: (subset) [PATCH v9 0/5] Add SDM670 camera subsystem
-Date: Tue,  7 Jan 2025 10:38:41 -0600
-Message-ID: <173626793403.69400.10932700285706894647.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241218231729.270137-7-mailingradian@gmail.com>
-References: <20241218231729.270137-7-mailingradian@gmail.com>
+	s=arc-20240116; t=1736268645; c=relaxed/simple;
+	bh=PBE+r4eyi3RMY7BARGiWUYFgV0sTenu7xjI183PuecM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tnnyHtjbQCwU12lk2aJ1SNR0uYpMx6GgJPC7Yg20Mf/T5KAsKelodl3Jg5xb9th/xVZUqdwyWdGHSJbSWtRAkdVlEOUFQKwAzhF8Dig9Ad2/JjA/deIZvYjWuEY+RTP4DkvNRs+FAO0rXACXoaGYIWNpEQCUJ3OTmJHju5kmZxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tVCmp-0003ZU-KI; Tue, 07 Jan 2025 17:50:35 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tVCmo-007NNo-29;
+	Tue, 07 Jan 2025 17:50:35 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1tVCmp-009cfP-18;
+	Tue, 07 Jan 2025 17:50:35 +0100
+Date: Tue, 7 Jan 2025 17:50:35 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Matthias Fend <matthias.fend@emfend.at>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: tc358746: add support for 8/10/12/14-bit RAW
+ Bayer formats
+Message-ID: <20250107165035.k72zqkyxbcrylecd@pengutronix.de>
+References: <20250107160702.641703-1-matthias.fend@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250107160702.641703-1-matthias.fend@emfend.at>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-
-On Wed, 18 Dec 2024 18:17:30 -0500, Richard Acayan wrote:
-> This adds support for the camera subsystem on the Snapdragon 670.
+On 25-01-07, Matthias Fend wrote:
+> The TC358746 supports RAW formats with 8, 10, 12, and 14-bit depths. Since
+> pixel data is transported transparently without modifying the pixel
+> arrangement, all Bayer patterns (RGGB, BGGR, GRBG, GBRG) are supported.
 > 
-> Changes since v8 (20241216223019.70155-8-mailingradian@gmail.com):
-> - revert clocks before interrupts change from v8 (3/5, 5/5)
-> - pre-declare endpoint nodes in dtsi (5/5)
-> - rename camss node to isp@acb3000 (2/5, 5/5)
-> - add Reviewed-by from Krzysztof for camss dt-bindings patch (2/5)
-> - add Reviewed-by from Vladimir for camss dtsi patch (5/5)
-> 
-> [...]
+> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 
-Applied, thanks!
-
-[1/5] dt-bindings: clock: qcom,sdm845-camcc: add sdm670 compatible
-      commit: bf6aa2d6935cc86b5eee67cdb8edef53fb6374cd
-
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
 
