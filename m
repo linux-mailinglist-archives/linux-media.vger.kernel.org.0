@@ -1,781 +1,354 @@
-Return-Path: <linux-media+bounces-24313-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24314-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C1BA034DA
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 03:04:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6683EA0354B
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 03:42:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 444587A02F4
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 02:04:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5129A1638B9
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 02:42:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DCB486349;
-	Tue,  7 Jan 2025 02:04:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92DD48248D;
+	Tue,  7 Jan 2025 02:42:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="P88CYuPg"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="hWPkKT/o";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="F0aM4iID"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2080.outbound.protection.outlook.com [40.107.22.80])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3ECE33EA;
-	Tue,  7 Jan 2025 02:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2461917F1;
+	Tue,  7 Jan 2025 02:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736215476; cv=fail; b=BEFK0zqtKqI6jYeXQJi/SowgtBiCJo8XgN6pakmMzGY+L8hGZ+66Nv9bWpOL6RJjRqIL9YUfdjsUGjV9oW+HmMm3ZqSZqysTBM6Wi1EM5O7uHiYE9HQ51erjz60HfWU9qNEGeA/xPQxbxcL2SUqGxgAjUUUJNuV2iAtZXymH43E=
+	t=1736217749; cv=fail; b=nWzAEvs8xILGkZ30SFpB8JL2K92Uiebs3Nq2Lbi6zMcW2hhtBSNvpYER/cb8VjoQuQr6uoJkEtcY+51wIAYc7DRAyejt6P+zu8dykffy72FtvaItETeheDzGiayG5ME3TsYRtqNfXQHqpz5149c/dIcSKb3Sh4idtGquPtykGag=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736215476; c=relaxed/simple;
-	bh=cSpBtNROPZCzzvgrhkxTTM2l+XNOtfoCJBOD/zoVVD8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=s+0J6AiEjzrZbEFgLtaH3AkvEmf0t0Q0R6pmrTWZt+bjmz+W810Upx69MrWzKcFbfr2LGHsSThLIYmxAYy8l1wwBinqN0d9iuO9WKARNZBBKqWDpkTYsULXU0oet5Q7OwwsNPFjthwA2+lHKXZPk4liMAocQDDlSURoEXAyXvqE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=P88CYuPg; arc=fail smtp.client-ip=40.107.22.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1736217749; c=relaxed/simple;
+	bh=JhvFfZ7q9SmN5PoQrugLWqvuWSvTunhn/h2FthYIgew=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=R5yL8BRZcqVOaZMCuWZaYp+8h1PpSEqSzV0fQVou1cgMb6o91dnTRDPz1Js4yalFRCSyYPHpZolv/XghlqSRkfL07k0uTsG3ohF6OpNa4OiYAUUWZM68aq0K7sbSFLkgkbukXpDkKXd1TzTJYycLheCHdQF4r3igAlJ7rJ83CPs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=hWPkKT/o; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=F0aM4iID; arc=fail smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 03e26136cca111ef99858b75a2457dd9-20250107
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=JhvFfZ7q9SmN5PoQrugLWqvuWSvTunhn/h2FthYIgew=;
+	b=hWPkKT/ozFjvcr2vOJ6afnn8L6WWg4pNp8HJUZgocvkJfQ1FW/b3hQEPd36NVL5/74gXSM4OlgJTu5MSpLEZtRAfPHybAfwgYqHt4t9YF0Wnii5B/duu+poh5qUveE9Y4IRWfaQmUs2Fi+oKeoG3biMlJkU3gsjaGFv8ng94S4I=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.46,REQID:b9a30d65-5465-4abe-8236-5adf3162425c,IP:0,U
+	RL:0,TC:0,Content:2,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:2
+X-CID-META: VersionHash:60aa074,CLOUDID:2d487837-e11c-4c1a-89f7-e7a032832c40,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:4|50,
+	EDM:-3,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-UUID: 03e26136cca111ef99858b75a2457dd9-20250107
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1757482671; Tue, 07 Jan 2025 10:42:19 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 7 Jan 2025 10:42:18 +0800
+Received: from SEYPR02CU001.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 7 Jan 2025 10:42:18 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YOxQU0+pQaxbDiMs5JDDR3WOMoAMxZVvTQKIIiBa5vVkuMhSlDDQRQsS+fo0nCS7iNQ3RKqur7LmXU+gfTPK4LVXPy74fyFAAst7MVT1GRn3mErChjdgnunCDd9f6pnZIjfThPo1ROMvPe7yqPXhgwh4PyPjwMjbxAaaEHcKUBkP0PHT7HEfDm2iIjDj9L23ed/d51Ea1n04msXxpB+OaRGBR+34NPtJqZ0byRrDfBIRAA01soD2aCJJyjnlQhBWIdyWfXDd+SkO+22n+EpS9zK/41n4MZ96m43oYcgVkWDaO/TVeQZK9XCSqgeRXHCBQ1xwyEEYX6gm8yzQe2Q+/g==
+ b=I4V9+agggqG0kV3NT93OXxm+ayMA3qU1mzaPgSm/pBeNsURpMuaCjzw34Nim8hS1hiUt/scTA3KyjTuuYEIZmTY7+BHnxkeYi96Nlpv/y515UJxjleLJ9dzWY9gDgzB60Z/+4Ec1XgGA4ga5Y+ZpOtcab0B1mPpyAMblsAUnIIt9P5Hfk2emAcWJdF11jzwfn3frLbK7vFOVpr5PprvYrQFGjhPu3Wu/hrxIWvItYzoFRxMBexnldl8NqFn2cod9oWKxcbv3vRpUcDItLFmXBgiV6/M0pY9jVOvCxWnAT6tGbGPjkCKOcRUMmb5fM/XJIS4vHP9FwnMEayGFEAkWWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=czEhmF0sC5tvNL2NR/gPXOms7km4MiAPW2rb0YDTHb8=;
- b=mIYNn/RPuwvPmKkLltB7ZwS5VKcTXnOg5cAwIaToU4M9pBFBVFT+5WcAsqvEYYxqEFfHD1bgWQx//MRHINsNhkFfEycEFrCAtwVO+L7xe2fetmXNGevYuC3XMEQFRuJ8nQAevNnf62ccgbRv/8N9oaE7DNMwyc3VW3vM+ubiGfJkh2tLDaWu9HHIHmDT0X/uYWF4H2w57nRrccGeDhNr+6ySv+Jotcs5uhNtLQaWA0vPqHZvXqrSnp4ddpQ5ZIQZ7lPJolrGs+XuH0u8iUgfUKKUOp/zxbNNEffTmwXiTV0LZSyDSGLpZwgSBKVpyXGju3bp0sEH9Kjz4UUrRPKRZA==
+ bh=JhvFfZ7q9SmN5PoQrugLWqvuWSvTunhn/h2FthYIgew=;
+ b=HPtnCrWCTp2/u4Q0nhrPxVLjkjWCpFhOUpCBtwaAinL8HR67gKQ56qy/IQ6gCpx1mPwLxaPP47NTsVrsNQiBzeaCmw4NLNQTYmvgElhRKjZrtGqzJfnqWoiDFmiU9RGGPAI9qYFrYGdj/x67q35kuFacxQvHPsBu6DdzUAJCXwRN7v22AnN7v2DJ6GQLuQQ48GrCBZkbA9iGCGhMp676HXNugTubfvbZ1HrDBrySmEWqQjJnyadGFaEgm50iZAbNNbLWzjeqXZHGgUE0skKSm7gHDik5rPgdzZi9yHzSO07Tx19F/3znE42D2EZWcJPlCQ/wYO1woiKVhlygUxTJlQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=czEhmF0sC5tvNL2NR/gPXOms7km4MiAPW2rb0YDTHb8=;
- b=P88CYuPgh61/JIEZb5MctO25Nh8bdPGQ7/XdM7PX7wSRXoi/teJPWdHqiVn+FxH5xyBNrz8YQc+d8a4rpY8zFaB7gjtueJPpd9L7rDwDnSi3dGbK3t2CM4LxtXJpycIuV5rCOfrkXIWycvwu4P7Rcp0zQnN1UYozv35uahY7FU4UfvU/ZDhVJyQdwkw1ojvqoZro1x30Jf1E3DEJfn0RMrcEnlx6l4IJokUTzpkRHD3XxgeoOrNYZlVIbUuryGETBZPu0aJM+Z1Eyo9JsB67ANGx90XAVs2ADaQsPq8fAy8EvNfB5rTzxJsxBQxSKTKWDOV210K6VvX9wbZ4pGiK8Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by DU0PR04MB9226.eurprd04.prod.outlook.com (2603:10a6:10:351::9) with
+ bh=JhvFfZ7q9SmN5PoQrugLWqvuWSvTunhn/h2FthYIgew=;
+ b=F0aM4iIDqqkSmQcvM0wTa7+7mF7lz3ZUP9myRUmSdvFs+KxD3mir/xRqqnbosgYsfe7LnAlzUWJl4uY+I21Y8oQ6u7Z1z1H1wqnprB/19tdlTPa/9QDsPjNuNBBV0Jur4HfNcIBGqTj9zLaNLZf7QftYhH7hiV45W5H5FXuOb78=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by TYSPR03MB8082.apcprd03.prod.outlook.com (2603:1096:400:479::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.17; Tue, 7 Jan
- 2025 02:04:25 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%6]) with mapi id 15.20.8314.018; Tue, 7 Jan 2025
- 02:04:25 +0000
-Message-ID: <e0c5483d-b438-4b1e-a0ee-58a123aeca61@oss.nxp.com>
-Date: Tue, 7 Jan 2025 10:04:16 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: amphion: Support dmabuf and v4l2 buffer without
- binding
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl
-Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
- imx@lists.linux.dev, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20241213091030.2936864-1-ming.qian@oss.nxp.com>
- <e6548df223ca891427aab1e145db04814a9eb67b.camel@ndufresne.ca>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <e6548df223ca891427aab1e145db04814a9eb67b.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0015.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::18) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.18; Tue, 7 Jan
+ 2025 02:42:16 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6%3]) with mapi id 15.20.8314.015; Tue, 7 Jan 2025
+ 02:42:15 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: "krzk@kernel.org" <krzk@kernel.org>
+CC: "robh@kernel.org" <robh@kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "simona@ffwll.ch" <simona@ffwll.ch>,
+	=?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "chunkuang.hu@kernel.org"
+	<chunkuang.hu@kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+	=?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "airlied@gmail.com"
+	<airlied@gmail.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, =?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?=
+	<Moudy.Ho@mediatek.com>, =?utf-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?=
+	<Xavier.Chang@mediatek.com>
+Subject: Re: [PATCH v3 1/7] dt-bindings: mailbox: mediatek: Add MT8196 support
+ for gce-mailbox
+Thread-Topic: [PATCH v3 1/7] dt-bindings: mailbox: mediatek: Add MT8196
+ support for gce-mailbox
+Thread-Index: AQHbUjifwIYL/sR61UKff0WQOKSFC7L5ygoAgATKiACABsoBgIAFWIAA
+Date: Tue, 7 Jan 2025 02:42:15 +0000
+Message-ID: <90b38dd6e093c89a7383814db786321cbd4533f6.camel@mediatek.com>
+References: <20241219170800.2957-1-jason-jh.lin@mediatek.com>
+	 <20241219170800.2957-2-jason-jh.lin@mediatek.com>
+	 <yg7b2iaz53avd7gpvuewhi6b3myh6owls3dt2hzpqc26lnykjf@tpu2vxqqkipe>
+	 <11f168c11b4cea48cf51406c0afaf8f1f53ad90f.camel@mediatek.com>
+	 <6adfa5fe-7b68-4f8e-919d-7b7607fe617c@kernel.org>
+In-Reply-To: <6adfa5fe-7b68-4f8e-919d-7b7607fe617c@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|TYSPR03MB8082:EE_
+x-ms-office365-filtering-correlation-id: 6ac10973-6d6c-4a22-697c-08dd2ec4e5a5
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?ZGMwNXk5bUR4bmJzZHI0SkFIZmUzYkFwZElLRFdwNklRVmtIZldMdnBQNCtu?=
+ =?utf-8?B?c2xLMFdwVXQxb0h0YTBRTGFRN0piTXl0RDhBMUQycVh5VWdSUldZcWVQNlh1?=
+ =?utf-8?B?M0ZGRklHUTRTL09WZXlWYUZLYlZLTjQ5ZlF3SEd3Q3BZdWY5RTk2aS83V2FP?=
+ =?utf-8?B?bEMxR3F4Y1A3bTk4ODVMNUJGZndoNGVPYkkxZE5lcVF0eGxFLzJWLzRhRDA4?=
+ =?utf-8?B?TVdySjNEVmRvZzJ5bkVOaHppbzNjNmFqSGpzZGRCQ202RzZ6L0o2T3NRajE5?=
+ =?utf-8?B?by9oYlRISEVEUEQzeVpCdGpvRW5VMWtsOTJZeUxVdk5RSXFIT2UxTzdCTUU1?=
+ =?utf-8?B?YXBBald1bkJnRk5iTkVVbzBPRzgzZXdDZ04waTlORE5DSlAvUnNDVm9aWUE2?=
+ =?utf-8?B?ZHlPbllUdjFzY1B5Uzk3c2oyaElKbUlEY2RHeEliMm9XbjFLZndwWjhHeTZY?=
+ =?utf-8?B?NWE2V2JLcS8zeTlKU1UydDBUWThaZEFsOFlhUDlMUmxNaG1QeklPbWxHQ1Jw?=
+ =?utf-8?B?VkZSZmxpSFM1MmpGMWxRYmZTMXJabktBUWNGUy9oeWdSdWlwK0lFa05EeE00?=
+ =?utf-8?B?UFFVczd3N1FBZ05CNjc5RlhSQm1hckxPK1YzK1drMm5FcFpaZkZLZkJlL1gy?=
+ =?utf-8?B?MzJuTk1NT0lqZUo5UjM3RFV4MjB2OHZFbEVsbTZJbEg0TCt6ZUFzSVpibTFZ?=
+ =?utf-8?B?eUNCM2hZWjZVc0VLbU1sNmpHY1oxdGJPZXJQZVlTUnpPSDcrSVBKNFEzb2Fo?=
+ =?utf-8?B?NTFNVE4ydFlqVFRCTVVublNyY2VBOGtBRmFmVlN1bTNRNDN6R1FSeG9UT1BX?=
+ =?utf-8?B?bHRjTEVmZWpmZmdrTzdzY0crTUpHUzNuakpGTFJ1TVRPdG9JZVpINDIxTG8v?=
+ =?utf-8?B?SEhQU2R0RGs0b3JjdzZ6ZEw5enoxTk8yQ3dNckpDWjZxMlZPeEU5YzM3VitC?=
+ =?utf-8?B?dHBmTUdDdHcyTFpLd0tqb3k3dks3ZmZ5UitReTRWSytuNldOUTQ1Z1NqNktC?=
+ =?utf-8?B?b2tjZk1WNjRIalJreVFrWWkyVnF3QkxaTDRXVWRDT2xvNnZDN2lxQTFNSVNX?=
+ =?utf-8?B?Nitsb0UzQWdqVlI0T2M1enc2YUpPY08zVVNDa3E3dG53c3hHTnhXZzlFSjBM?=
+ =?utf-8?B?YisyY3ZFdkl5Mk4zUmR6R2t0akRicUo1WkFkbHlrdm92NU5jQWN6VFpqZ21Y?=
+ =?utf-8?B?MzhTSHlDUUNxbkUrUEdUYStXcjRHdzIvWndiYXRUMmRMZUQzRGJ4Y25KOWFO?=
+ =?utf-8?B?MnozSmg4SWNtZDVkQng0cG9oVFhqMVgwdUNrUGt3V3huL2hXSHk5NjhBQita?=
+ =?utf-8?B?YWdtZXJwcTMycGh4L0ROSlZuUVZMSXFTTWZqd0FrNXlKZkRGa3Q0cUg2cmZz?=
+ =?utf-8?B?RmFtUDMrUnhXN0tic0FPZDkrWWFjWk5Nd2xCU0tZby9RamZPNFFLNUxTRDMz?=
+ =?utf-8?B?Vk1DVnMwdXdXNmFGd1Q1dUlaTm9wTGRCMGhiYmxYWkZRMHg5RHNvdldFdlBw?=
+ =?utf-8?B?bUUxQXRqdExoY1Vrd2xINkNvd2c4YmdBWlVMd0RvOXZxdmVxTWxETjYxRWdo?=
+ =?utf-8?B?MFUwWjFybWp4N3YvVmxmS3dkNlNEck1RM0wyM2dUTzEzWElhU2o0bmhkQVJi?=
+ =?utf-8?B?VGlLUDVKTXdaUnZoWVZZeVI4OTZ6SVpZbW5RYmRRTUFCSEsxMzZSdkhDY0o3?=
+ =?utf-8?B?ODc5OXQ5V1VBRnlMUWt2UDR6enBKYjEzRkczbzJHV0FOVmJQeEcrSHE3TlJq?=
+ =?utf-8?B?NHl1QXpEZElrUlVWbjVqZXZFU0dOQkRhaVZEWjI3WSswOEYxQTdmeFlwL0t2?=
+ =?utf-8?B?Wjc4a0gyNS9KV3NTdlA2M0EzSStNTTdBUEVJYWFuTCtYZjlNWVU4U1RxWU1K?=
+ =?utf-8?B?RUZuQm9xRWlIdWtlSysvY3FTcytTV1Y4a2FKYkVLaGxIMklSU2UwU2hrS0hs?=
+ =?utf-8?Q?VjntNEnERUaV2gErvBp9zu9o4iYXf8br?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR03MB7682.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SnpDKy9wNnBYeC9qSURXMm93UU9Pa0MxMEZPdnFmL21hK1lyYVMvUEw5d08r?=
+ =?utf-8?B?RlZyZjhQVm1LOXpIWXM4Q2pJenVyLzBHV0lwT0txZ2hJbGhtRHJLODh2VEM5?=
+ =?utf-8?B?OU9QdHpJSFd0bDVJNVBOOWhnNDBGdnJVUzI2SmphK1JTZ2lNMGpVaXZaZ0xz?=
+ =?utf-8?B?QWRRV2N4WHhQNldCNTVXRy9QNVVqMjRBZzFYbEJKcm9EYjFZMEppMmVIcGpl?=
+ =?utf-8?B?RXRmS1V3aUNEOTVOekpGbUozOUpBbkJSekxmRUpEdld3WjMrWnRENUsyTy81?=
+ =?utf-8?B?Nk4rZlYwWkk5QkhZenUzNUJvbEh6K2puYTBuVVNqVnlVa2gzSWtWU0VhNGE5?=
+ =?utf-8?B?VlJCWUQwVGZZeUlUVE9JOWtKaWRWc2RRTC9zNURLMjlEYnNLQklBMDBPVkJS?=
+ =?utf-8?B?bVQ1Z25iYWNhTFdZRHRyOFFpeml4aEtPOTJOUWtTQzBBZG9LZmhGcmdxV1p0?=
+ =?utf-8?B?QllPRlBFdU5ibmZjejNRc2RwM0Q0VlY4T0c4QTNGVGd4V0ViWGJxaWtJdG00?=
+ =?utf-8?B?NWJPZWgweVZjeU92UmZuYkVLUmhLVW12bGE0eXdPeFZqc0dYWFd3cWpzV2F6?=
+ =?utf-8?B?ZytMK1hxNUs4ZDV6N1AyR1Z2OTdPYVIzQmdJZWp6T1BBbnE2SnZUNTBya0pI?=
+ =?utf-8?B?QzJCWndyN2c3Nk9HUnRKd1ROc1dmYUxnNWlzQ21KUDdvbVdKTUdzWWgvK3Uz?=
+ =?utf-8?B?WVNjdFZQZ09TcTQ2V3g5V2xYbklReGVzNWFQTjFNOFpKYjJYK25EUE4wYVNS?=
+ =?utf-8?B?bFdUSlV0MDlIdHZxWktvNXp0VWw1dW4yWlRORGlwM09rdGVuRmluTldIMTVS?=
+ =?utf-8?B?aG1meXRETDJWSk93Ly9nMkk2YTFWcG1BSExJcC9Ya1RDVWhKcE45alhIYVZR?=
+ =?utf-8?B?QUxpVkw2T2NGR2xwK1pYazZqYS9rTnBZbHNzQWRneGl2UktPZk5UNkdkcHVK?=
+ =?utf-8?B?d2JoQTJWTlc3bmc5RmRRWjNMVVRnM1lSMGNHVC9lQUpNWG5ESHVITExFVXlp?=
+ =?utf-8?B?RnlhVkVCbG9pSEd6QmQzR09HLzYvdEh5YVpqZEZLS3RpN2Z4a0xCT1AybVNm?=
+ =?utf-8?B?SVE5TWtKWi96U3FrK2tMUmpSNWNqRkorZ1ZBbjh2aUFEaWkwY1l1VTR0d3JJ?=
+ =?utf-8?B?elVvdjJFdW9ETHpWenJCa3BUbUJCRkhBaDgvVVF0eW81WHhKRHU3cWhYZHpS?=
+ =?utf-8?B?K1ZhK3BmNWJTR0NFQW94UEIxZ1YyOTRLUDA1Umh6WUowSUFid2FQdDlaajZy?=
+ =?utf-8?B?YXFKMWhQVWw1RnYyVW9aRDZjblVsSGkrRDExSXUyQkFBRjBrT0g1RU5YVVBE?=
+ =?utf-8?B?NzVJSlR4bXNyZ3d5NXl2TVk5STB0bklNKy90MHZnWCtZVjhxVm45MkIzTTRm?=
+ =?utf-8?B?eERXVU80eStOMHlIeDJuYUlZSUxzWVhkSHZwVFR2d01Mb3pVbll6c0JNdUgv?=
+ =?utf-8?B?a1ZTbHRVSCt3Q3dxNmhqSEN1K0tMd3ZRdDBIZW1IeEZHYkxEVDBsOFkzcVZG?=
+ =?utf-8?B?Rm1ZcWJnSU8xT2dvdHB1VXhjRkkzNExjVW91OXJxYTBpajZ6blpkYlpZNWlX?=
+ =?utf-8?B?UUdVd0Q4ZW1USmJETHZBemlEREtueGZyODJTb3F1RWtZQjBkWmJ5OTRES2Vp?=
+ =?utf-8?B?eFQyKzVKenFLeDU4U1dMZFliMmVrcGN0ZytrWEEvOXdqUTRCVVVJNHBkbDF1?=
+ =?utf-8?B?Mmk3a0lZcUhsL1ZXYWk0VnBVSkhiTGFWQmJQNGZZSEIzbEFBVzhRcVQ3WnNy?=
+ =?utf-8?B?RmFFV3ZOWVJRci9OdDZaK3phRFU1Y2szUy9xZkoxeFpZcU0xbjRMUUtsQmxj?=
+ =?utf-8?B?bm9VdUI4bXlTWXF1dSt0eFVKN1Zpemh6QlQwQSs5QmdGWVBsd29udWdnNHE2?=
+ =?utf-8?B?TXIzZ3ZBU3I1U1ZrMkpKbEdSRnJ5dkQyQ1JLR2k5bUdpNFlIbDV3eFJhNit1?=
+ =?utf-8?B?OGRoY3F1SFlSWEloU0tjcm5ta3BmZFJ3VHRhQmVGVFI3NFdrdmI5M0NWeGRD?=
+ =?utf-8?B?NEtiZWR0ZzhabDAzOUFZYTZjSE8xakFGSVRTdndkTDFNaWprRGVQVjkvNnFK?=
+ =?utf-8?B?WmFBRTJIb3kwcVBLemhHeDN5d0ZmYVhmcEtJSHJrWW52NENxN1RDZ0d3Nys3?=
+ =?utf-8?B?SFdDTTREMWkzN1lSOU43WnREUHBBWm9uVTF2bVcyYVFpV2ZucEVtWEJkdTdR?=
+ =?utf-8?B?a3c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E4D198AF92AF4B468BD536791DE6EA98@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|DU0PR04MB9226:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5351ce46-e8e4-46a0-f04a-08dd2ebf9c6e
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Mkt2Zk11MS9NV29oTUQ4WmxIdE0xRDdRY3BQbGcxNXR4bW1yWm1qcVlSclVy?=
- =?utf-8?B?d0JHMnJzQ3h5NSt2OHFjOTJQL0xWaXBCYlFiaGEycjI5RUkzNlhTY3RnSDlo?=
- =?utf-8?B?YnQxekhqOW8rWUo1VUNNcXcxUU11Q08zOE5IRThnbXFoMWJpYjhWNmtMalZB?=
- =?utf-8?B?M2d1QzJ1SGQxTzZQbVNwb1UvYm1Nd0xDT1NyUlJVSyt2dkRXYms4SmRkTzJm?=
- =?utf-8?B?RFlMbmdVUUlFRG44WDJtRi9TbGJuY1A2MDFaa2dFeEVDeVJXWkJlOXVqYjRP?=
- =?utf-8?B?dlZzbWY1WVRSTVZqdGorMm1ac21PSTFEcmZMcnZCaTJLOWlFZ3NwWlZPQXRu?=
- =?utf-8?B?WGVyQnpuQmFQYWk1QmpBa3FHK3ROU0d2cHd4YkpaN08wS25IMU8xOXlhN01F?=
- =?utf-8?B?UGNpckpzanhIaHV4cGlsbWNjTUwyUzhPQnliMDRtSjdmKzMwSUFqRkdVQm5Z?=
- =?utf-8?B?L09wNVE0V0NFVjdrS3RPMHNvYzdaY2RjTWN3RlB5QTQ5c1l1VVNwYmhISncv?=
- =?utf-8?B?NTN0M2oySUdUTWkwT0c5S2tobFNGcC9CWHUzNmpZV0pyM3ByUURiT1p6WGZV?=
- =?utf-8?B?bGRkeFc0WDBZMUpRSjB0RGRtZDIvRlcxS1VIb0F3MmREa21ueUc2cm03V0xX?=
- =?utf-8?B?Qzg1WmtIcHVUbUtRdVJtNGxhbmZJT3IxcGpydE1Dck0rNDdmL2Ywakc4U1VL?=
- =?utf-8?B?ckZ3OFhqY25DOExzUyt1K3k0b25CR1ZabG02enNzY1dRRVdZakJaYjY0S3la?=
- =?utf-8?B?Ym05bHZFTGE3WnVkUU9uREluY0w4OUhKYndtWWlmWVlTUFNtalBKNUg1WVBU?=
- =?utf-8?B?WTNJS1U4aXZMU25HYU9kaEhMRHhNbmZlLzdVSmo0RGl1YnZJUkkwdFVvbFZa?=
- =?utf-8?B?U3JOTktyY3FZWnVzZ3pFdjVZbHpueERKelJpcTNweDdseGFmMDUvem50TWkr?=
- =?utf-8?B?S2s3MWFBQ3MzeThtRUNMZ1RLME9pc3hGZ2c0SFVHU2E3SEN1UHdxNXFVWEJY?=
- =?utf-8?B?Mi9lRHc0RFEydlpuQjZoaUtGVWdNM1BXbjYrSStOSlprcDZ3Z2JtaDlURjRw?=
- =?utf-8?B?bWRGMVRNWFVEOWthTHh0RGRhTS9SQWxVdE1Ya050clQxa1I0N3VNNXFXWUR2?=
- =?utf-8?B?TytwTnlSTlo3NWF5UWFFQUFpdHFJb0R5WitseklGbVlrenJMLzVuWTl4V1Jo?=
- =?utf-8?B?cS85cnVYckVSOC9DSlo1M0dLbVdKazJsQlFXQ21CYWQwWWlrSTJzS1FqS3lK?=
- =?utf-8?B?MlJNclUzRW9OdTdmVHBVbkh1Q3Qyd08wMjlZUEJMMTM0SzJRcmhrVzM0L21F?=
- =?utf-8?B?eW8vVkMwTVM1b0VTQmU1cUcrWm1YT21WOWllUUdTTTdHTnNjSnpqQll5ZUZV?=
- =?utf-8?B?eHBuSWhtZkhkYW9uTGhwdWJMcDQ5dk5GVFJMcUJ1aXRzY0VydnAzSXVJZ3E1?=
- =?utf-8?B?ZGYvUnIrakVKeVI5QTV2TmFJdjM4SGlIaHlJRFVNaWxTS0NTVmh4SlVVTUd6?=
- =?utf-8?B?VVdEbzFRY0pobXN4S05IMWdaVzBRWlBxZXhWU3pJdlZ5NzZMWHBZdXpYa0hl?=
- =?utf-8?B?TnRQSzZWWW5OL0JKWUtJZ1ZIZmgxTjRXMlZJclBkbkg4bkhSa3RWZCswYjNY?=
- =?utf-8?B?eDk4TTAxd2JCZDlzVkRnNThGMnRQNEhHdlZaS1ljWmsyWU03SlY2ZUd0NVZQ?=
- =?utf-8?B?c05PeFY2aUZxcGdRSmNzLzF2ZnJlVGxsMEhXaWhISEo3ZW5oQXV1dDhyQllO?=
- =?utf-8?B?MWtaMUNzSkMycHRiL21MRGttR3VlNGxPKzJwSDM4Si9KZjNNYTEyYlIrUW4x?=
- =?utf-8?B?ajZxWFl2U2d4aFpudXpQRTdKUzJ5MDg3cHNFajFkUzdsREpIaWpQVzk0Qlh2?=
- =?utf-8?Q?Y66NF06utK/cJ?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WGZSTTRWQ2p5UHlJSUE5Mm1PUGdoTXZiMTdmWmNaUUhnS3ZuYnRNdm9ZSFd2?=
- =?utf-8?B?L1RHUlRLWlhQQ2p3N0RuRmhqalpoZjF4L3JNOHNQWVRkYzgyeHVQZUxCeFFH?=
- =?utf-8?B?TXN3ZUdxdUx0TWhJd1BIaDgyelM4c3ozdER5U1ByZTVjbDZrRFZNdzFGZks5?=
- =?utf-8?B?UzdQc3FPK0hVRUdUQ2FpSGcrbFVVTGtoRGxZc2pSTnQ1U3ZZdjcrckJOQTZU?=
- =?utf-8?B?YXFncVFWLzhwUkRYM3ZNa3FERUZ5RlpERUlsTEZ3YnFBcDh1VnE2VUhxMmNa?=
- =?utf-8?B?OXpVNlh3N1hrb0ZyYlhRelV5ZzdRZFpsUEdmZjNPWi9GRnFPckI4ckZjZkNI?=
- =?utf-8?B?WE9nY3R4Nk1kRGsvV3hwQUgwdmFZVHo2dnlUNFd0VVhiOGtJQWFWcC94WFNM?=
- =?utf-8?B?QlNEUUUyaEZhNDFNanBQNFBlYzBQZjArOHpVaVRteVd2YmNITEZydE94aXVQ?=
- =?utf-8?B?NnNBY2U0ZWtwM1FLR0NPdUI1NkhINStmTUYxMUx0VWhBV3hiaDdBcFVseG9m?=
- =?utf-8?B?d2FRV0k0QzlMcWJQTHkxZ2MwczVSSU4zSFRuZGVLc1RPVU1TMGNSMXpFQllD?=
- =?utf-8?B?WHVkQWdOd21OcHo1T3RIQTZWbHFZM3BCU0lOLzRQb2VLOG5Ed3Q4QkdSdlhV?=
- =?utf-8?B?UXdBbkROcXptT0dPUjl3YzZjcWRTVyt0UXY0a2srSVpMbklCem1ONXgwTytm?=
- =?utf-8?B?cTBtRjBiWnRHd3VZU0Y1K0pmQjNOd0tJVzZjZWFFek1FS2dkTEdETTREWmZO?=
- =?utf-8?B?d0hhTU56blU5c1ZGTnhEcHhoQ1JHQjNLU0ZTY2sxQkU0N1BuYWJwRU00U2U1?=
- =?utf-8?B?L29JOVkzMTZTWEswVGNFeEEwUUJJZWZQdGdYSDdYU0E3ZDI3aFpUbTFucFlu?=
- =?utf-8?B?TE1SM1g2UE1OdFUvNEhzMWRGWW5MdVZlQTRIQnhyekRDNkE3Q1NnRkY1R25r?=
- =?utf-8?B?MU5Wa0Nhb0Z5WjZ2REQwZnV4ODJ4RUx0eGU1bnVSeXd5bW12Y2x0NU4yVVow?=
- =?utf-8?B?V1Yrb1Y2aE5JQ1FMbGdTYUZCMHFwQ3pGZGNvL01jWGJmSXpoMFkyMVh6bXE0?=
- =?utf-8?B?ZEpLa0YyOHdrcEtnc01YWXdNbHdabGQ2MjFqQlVpMW5VZ09aL3NSbnMrRWhC?=
- =?utf-8?B?NFR1RDdTT2pwL3Y3eXpBZnVrKzJNdk5RYTV4RXJqM1VRQTVZOStPbWwycEUz?=
- =?utf-8?B?aWZ3YUpKcEZPTGZ0cm01ak5IWlM4SDNlWFhKVzk0dlgyNmtBUmZIYTdxcFBP?=
- =?utf-8?B?cmdpQWxzNmc1UXBDaG9rbzFlODBsWS9iSGVDaW9yZHFFWmFNZFJaS2doQXh3?=
- =?utf-8?B?UTZTRC85bkJ6TnFZVFJiaGR2OXRYWGpoOGxFM000ellRL1dFdWtHeVVNenAv?=
- =?utf-8?B?Y240eS9mUFZYQnVFYlV5S2NWcXNQZzJibEtMRlNrTkNWVjJaMVpOMWdUWlU2?=
- =?utf-8?B?NjNsQlZvMTdCQS8rL0Q2ZHB5RmZyQ2JkR1NWNVlLU0VPakxZVXlSeHpMVytr?=
- =?utf-8?B?K1dZdlBCbkdXblA0NVRwR0hCV2ljeGlkYTR6MW50QWFlQWQrMzZqUHJySFVB?=
- =?utf-8?B?MzVpeUN6WjZUZjB6THhtdUJPOVZXZjh4bCtKanFHZUFmY1RpYnNxcnZId0kx?=
- =?utf-8?B?aU82M1NLNU95RzdPNFFRTkRlekVmUm9KWk8xRkNsYWltOVhaRG53a2xoc2Jo?=
- =?utf-8?B?RXd6TmhDN1NWRk1NRm9nK3g2N2JGdHVvM2JSVG1pSEpmcUt0elVock1SNUxD?=
- =?utf-8?B?ZHhjQ0o4eGRwNXAvRThqemhBbndJcWsrVzJmTVEwM2w0cWpCWS84dmVITHdY?=
- =?utf-8?B?WUVMbnJJVC9lVURmYzZOWGNuanRFeXhJVVYxcVhHT2MwdnUycVlKUitySmc4?=
- =?utf-8?B?cHBJS0Z4RjcwYXA4SE5reitiWUk2N1k3T2VEWllGVjdiMnNDZGpDdlRJYlhL?=
- =?utf-8?B?VUtLSDRuNGxxK1IrMWpBdVJwc1RwYnZvUTZnSEhRUUVDaHllcEVWVlNaY1Nr?=
- =?utf-8?B?RWtUZXAvbXJDNjdhRG05bE1SU1BUQzFqeERtMDBvSVNSOXB2Skx3bEpKbDRO?=
- =?utf-8?B?TDQwOUJjS1IvUDEzUTUyWCtFa2Z5NHNCUUprSVlTalVQK1N0RWo0TDQwaGJj?=
- =?utf-8?Q?Ii1snhQMTNU2h4ImFFm2Ni046?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5351ce46-e8e4-46a0-f04a-08dd2ebf9c6e
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2025 02:04:25.7211
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ac10973-6d6c-4a22-697c-08dd2ec4e5a5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jan 2025 02:42:15.7383
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ijscwCD8gzy6H/6/4qQui5DMJnMVwpmKtNRGzndLaqO/00yVvS8tMT0iNw/mWRuY+omsNKAnMybRY656w6QThA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9226
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WMzYds+mAi4w+xFEE6pXuU8oG92dJRJTtgvd10EDoNDlzblXjWCKzYGJ8EYfm6ZsUammAXHhxF8Av1OgG2JDqE3jQ+XZLNFX6Zyc8GgOJvk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8082
 
-
-Hi Nicolas,
-
-On 2025/1/7 5:55, Nicolas Dufresne wrote:
-> Le vendredi 13 décembre 2024 à 18:10 +0900, Ming Qian a écrit :
->> From: Ming Qian <ming.qian@nxp.com>
->>
->> When using VB2_DMABUF, the relationship between dma-buf and v4l2 buffer
->> may not one-to-one, a single dma-buf may be queued via different
->> v4l2 buffers, and different dma-bufs may be queued via the same
->> v4l2 buffer, so it's not appropriate to use the v4l2 buffer index
->> as the frame store id.
->>
->> We can generate a frame store id according to the dma address.
->> Then for a given dma-buf, the id is fixed.
->>
->> Driver now manages the frame store and vb2-buffer states independently.
->>
->> When a dmabuf is queued via another v4l2 buffer before the buffer is
->> released by firmware, need to pend it until firmware release it.
->>
->> Signed-off-by: Ming Qian <ming.qian@nxp.com>
->> ---
->> v2
->> -- fix an uninitialized issue reported by media-ci
->>
->>   drivers/media/platform/amphion/vdec.c     | 232 ++++++++++++++++++----
->>   drivers/media/platform/amphion/vpu.h      |   7 +-
->>   drivers/media/platform/amphion/vpu_dbg.c  |  15 +-
->>   drivers/media/platform/amphion/vpu_v4l2.c |  11 +
->>   4 files changed, 218 insertions(+), 47 deletions(-)
->>
->> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
->> index 61d5598ee6a1..a26cb0c264c9 100644
->> --- a/drivers/media/platform/amphion/vdec.c
->> +++ b/drivers/media/platform/amphion/vdec.c
->> @@ -26,6 +26,7 @@
->>   #include "vpu_cmds.h"
->>   #include "vpu_rpc.h"
->>   
->> +#define VDEC_SLOT_CNT_DFT		32
->>   #define VDEC_MIN_BUFFER_CAP		8
->>   #define VDEC_MIN_BUFFER_OUT		8
->>   
->> @@ -41,6 +42,14 @@ struct vdec_fs_info {
->>   	u32 tag;
->>   };
->>   
->> +struct vdec_frame_store_t {
->> +	struct vpu_vb2_buffer *curr;
->> +	struct vpu_vb2_buffer *pend;
->> +	dma_addr_t addr;
->> +	unsigned int state;
->> +	u32 tag;
->> +};
->> +
->>   struct vdec_t {
->>   	u32 seq_hdr_found;
->>   	struct vpu_buffer udata;
->> @@ -48,7 +57,8 @@ struct vdec_t {
->>   	struct vpu_dec_codec_info codec_info;
->>   	enum vpu_codec_state state;
->>   
->> -	struct vpu_vb2_buffer *slots[VB2_MAX_FRAME];
->> +	struct vdec_frame_store_t *slots;
->> +	u32 slot_count;
->>   	u32 req_frame_count;
->>   	struct vdec_fs_info mbi;
->>   	struct vdec_fs_info dcp;
->> @@ -289,6 +299,64 @@ static int vdec_ctrl_init(struct vpu_inst *inst)
->>   	return 0;
->>   }
->>   
->> +static void vdec_attach_frame_store(struct vpu_inst *inst, struct vb2_buffer *vb)
->> +{
->> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->> +	struct vpu_vb2_buffer *vpu_buf = to_vpu_vb2_buffer(vbuf);
->> +	struct vdec_t *vdec = inst->priv;
->> +	struct vdec_frame_store_t *new_slots = NULL;
->> +	dma_addr_t addr;
->> +	int i;
->> +
->> +	addr = vpu_get_vb_phy_addr(vb, 0);
->> +	for (i = 0; i < vdec->slot_count; i++) {
->> +		if (addr == vdec->slots[i].addr) {
->> +			if (vdec->slots[i].curr && vdec->slots[i].curr != vpu_buf) {
->> +				vpu_set_buffer_state(vbuf, VPU_BUF_STATE_CHANGED);
->> +				vdec->slots[i].pend = vpu_buf;
->> +			} else {
->> +				vpu_set_buffer_state(vbuf, vdec->slots[i].state);
->> +			}
->> +			vpu_buf->fs_id = i;
->> +			return;
->> +		}
->> +	}
->> +
->> +	for (i = 0; i < vdec->slot_count; i++) {
->> +		if (!vdec->slots[i].addr) {
->> +			vdec->slots[i].addr = addr;
->> +			vpu_buf->fs_id = i;
->> +			return;
->> +		}
->> +	}
->> +
->> +	new_slots = vzalloc(sizeof(*vdec->slots) * vdec->slot_count * 2);
-> 
-> To avoid open coding arithmetics (see Documentation/process/deprecated.rst) you
-> may be able to use flex_array_size(vdec, slots, vdec->slot_count * 2)
-
-Thanks for the tip, I will fix this issue in v3 patch.
-
-> 
->> +	if (!vdec->slots) {
->> +		dev_err(inst->dev, "fail to alloc frame store\n");
->> +		vpu_set_buffer_state(vbuf, VPU_BUF_STATE_ERROR);
->> +		return;
->> +	}
->> +
->> +	memcpy(new_slots, vdec->slots, sizeof(*vdec->slots) * vdec->slot_count);
->> +	vfree(vdec->slots);
->> +	vdec->slots = new_slots;
->> +	vdec->slot_count *= 2;
->> +
->> +	vdec->slots[i].addr = addr;
->> +	vpu_buf->fs_id = i;
->> +}
->> +
->> +static void vdec_reset_frame_store(struct vpu_inst *inst)
->> +{
->> +	struct vdec_t *vdec = inst->priv;
->> +
->> +	if (!vdec->slots || !vdec->slot_count)
->> +		return;
->> +
->> +	vpu_trace(inst->dev, "inst[%d] reset slots\n", inst->id);
->> +	memset(vdec->slots, 0, sizeof(*vdec->slots) * vdec->slot_count);
-> 
-> 
-> Same here, flex_array_size() would calculate the size for you.
-
-Got it.
-
-> 
->> +}
->> +
->>   static void vdec_handle_resolution_change(struct vpu_inst *inst)
->>   {
->>   	struct vdec_t *vdec = inst->priv;
->> @@ -745,11 +813,11 @@ static int vdec_frame_decoded(struct vpu_inst *inst, void *arg)
->>   	struct vb2_v4l2_buffer *src_buf;
->>   	int ret = 0;
->>   
->> -	if (!info || info->id >= ARRAY_SIZE(vdec->slots))
->> +	if (!info || info->id >= vdec->slot_count)
->>   		return -EINVAL;
->>   
->>   	vpu_inst_lock(inst);
->> -	vpu_buf = vdec->slots[info->id];
->> +	vpu_buf = vdec->slots[info->id].curr;
->>   	if (!vpu_buf) {
->>   		dev_err(inst->dev, "[%d] decoded invalid frame[%d]\n", inst->id, info->id);
->>   		ret = -EINVAL;
->> @@ -770,11 +838,13 @@ static int vdec_frame_decoded(struct vpu_inst *inst, void *arg)
->>   	if (vpu_get_buffer_state(vbuf) == VPU_BUF_STATE_DECODED)
->>   		dev_info(inst->dev, "[%d] buf[%d] has been decoded\n", inst->id, info->id);
->>   	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_DECODED);
->> +	vdec->slots[info->id].state = VPU_BUF_STATE_DECODED;
->>   	vdec->decoded_frame_count++;
->>   	if (vdec->params.display_delay_enable) {
->>   		struct vpu_format *cur_fmt;
->>   
->>   		cur_fmt = vpu_get_format(inst, inst->cap_format.type);
->> +		vdec->slots[info->id].state = VPU_BUF_STATE_READY;
->>   		vpu_set_buffer_state(vbuf, VPU_BUF_STATE_READY);
->>   		for (int i = 0; i < vbuf->vb2_buf.num_planes; i++)
->>   			vb2_set_plane_payload(&vbuf->vb2_buf,
->> @@ -797,11 +867,11 @@ static struct vpu_vb2_buffer *vdec_find_buffer(struct vpu_inst *inst, u32 luma)
->>   	struct vdec_t *vdec = inst->priv;
->>   	int i;
->>   
->> -	for (i = 0; i < ARRAY_SIZE(vdec->slots); i++) {
->> -		if (!vdec->slots[i])
->> +	for (i = 0; i < vdec->slot_count; i++) {
->> +		if (!vdec->slots[i].curr)
->>   			continue;
->> -		if (luma == vdec->slots[i]->luma)
->> -			return vdec->slots[i];
->> +		if (luma == vdec->slots[i].addr)
->> +			return vdec->slots[i].curr;
->>   	}
->>   
->>   	return NULL;
->> @@ -835,11 +905,11 @@ static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
->>   
->>   	cur_fmt = vpu_get_format(inst, inst->cap_format.type);
->>   	vbuf = &vpu_buf->m2m_buf.vb;
->> -	if (vbuf->vb2_buf.index != frame->id)
->> -		dev_err(inst->dev, "[%d] buffer id(%d, %d) dismatch\n",
->> -			inst->id, vbuf->vb2_buf.index, frame->id);
->> +	if (vpu_buf->fs_id != frame->id)
->> +		dev_err(inst->dev, "[%d] buffer id(%d(%d), %d) dismatch\n",
->> +			inst->id, vpu_buf->fs_id, vbuf->vb2_buf.index, frame->id);
->>   
->> -	if (vpu_get_buffer_state(vbuf) == VPU_BUF_STATE_READY && vdec->params.display_delay_enable)
->> +	if (vdec->params.display_delay_enable)
->>   		return;
->>   
->>   	if (vpu_get_buffer_state(vbuf) != VPU_BUF_STATE_DECODED)
->> @@ -852,10 +922,11 @@ static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
->>   	vbuf->sequence = vdec->sequence;
->>   	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.timestamp);
->>   
->> -	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
->>   	vpu_inst_lock(inst);
->> +	vdec->slots[vpu_buf->fs_id].state = VPU_BUF_STATE_READY;
->>   	vdec->display_frame_count++;
->>   	vpu_inst_unlock(inst);
->> +	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
->>   	dev_dbg(inst->dev, "[%d] decoded : %d, display : %d, sequence : %d\n",
->>   		inst->id, vdec->decoded_frame_count, vdec->display_frame_count, vdec->sequence);
->>   }
->> @@ -1083,18 +1154,30 @@ static int vdec_response_frame(struct vpu_inst *inst, struct vb2_v4l2_buffer *vb
->>   	if (!vbuf)
->>   		return -EINVAL;
->>   
->> -	if (vdec->slots[vbuf->vb2_buf.index]) {
->> -		dev_err(inst->dev, "[%d] repeat alloc fs %d\n",
->> -			inst->id, vbuf->vb2_buf.index);
->> +	vpu_buf = to_vpu_vb2_buffer(vbuf);
->> +	if (vpu_buf->fs_id < 0 || vpu_buf->fs_id >= vdec->slot_count) {
->> +		dev_err(inst->dev, "invalid fs %d for v4l2 buffer %d\n",
->> +			vpu_buf->fs_id, vbuf->vb2_buf.index);
->>   		return -EINVAL;
->>   	}
->>   
->> +	if (vdec->slots[vpu_buf->fs_id].curr) {
->> +		if (vdec->slots[vpu_buf->fs_id].curr != vpu_buf) {
->> +			vpu_set_buffer_state(vbuf, VPU_BUF_STATE_CHANGED);
->> +			vdec->slots[vpu_buf->fs_id].pend = vpu_buf;
->> +		} else {
->> +			vpu_set_buffer_state(vbuf, vdec->slots[vpu_buf->fs_id].state);
->> +		}
->> +		dev_err(inst->dev, "[%d] repeat alloc fs %d (v4l2 index %d)\n",
->> +			inst->id, vpu_buf->fs_id, vbuf->vb2_buf.index);
->> +		return -EAGAIN;
->> +	}
->> +
->>   	dev_dbg(inst->dev, "[%d] state = %s, alloc fs %d, tag = 0x%x\n",
->>   		inst->id, vpu_codec_state_name(inst->state), vbuf->vb2_buf.index, vdec->seq_tag);
->> -	vpu_buf = to_vpu_vb2_buffer(vbuf);
->>   
->>   	memset(&info, 0, sizeof(info));
->> -	info.id = vbuf->vb2_buf.index;
->> +	info.id = vpu_buf->fs_id;
->>   	info.type = MEM_RES_FRAME;
->>   	info.tag = vdec->seq_tag;
->>   	info.luma_addr = vpu_get_vb_phy_addr(&vbuf->vb2_buf, 0);
->> @@ -1109,12 +1192,13 @@ static int vdec_response_frame(struct vpu_inst *inst, struct vb2_v4l2_buffer *vb
->>   	if (ret)
->>   		return ret;
->>   
->> -	vpu_buf->tag = info.tag;
->>   	vpu_buf->luma = info.luma_addr;
->>   	vpu_buf->chroma_u = info.chroma_addr;
->>   	vpu_buf->chroma_v = 0;
->>   	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_INUSE);
->> -	vdec->slots[info.id] = vpu_buf;
->> +	vdec->slots[info.id].tag = info.tag;
->> +	vdec->slots[info.id].curr = vpu_buf;
->> +	vdec->slots[info.id].state = VPU_BUF_STATE_INUSE;
->>   	vdec->req_frame_count--;
->>   
->>   	return 0;
->> @@ -1175,25 +1259,47 @@ static void vdec_recycle_buffer(struct vpu_inst *inst, struct vb2_v4l2_buffer *v
->>   	v4l2_m2m_buf_queue(inst->fh.m2m_ctx, vbuf);
->>   }
->>   
->> -static void vdec_clear_slots(struct vpu_inst *inst)
->> +static void vdec_release_curr_frame_store(struct vpu_inst *inst, u32 id)
->>   {
->>   	struct vdec_t *vdec = inst->priv;
->>   	struct vpu_vb2_buffer *vpu_buf;
->>   	struct vb2_v4l2_buffer *vbuf;
->> +
->> +	if (id >= vdec->slot_count)
->> +		return;
->> +	if (!vdec->slots[id].curr)
->> +		return;
->> +
->> +	vpu_buf = vdec->slots[id].curr;
->> +	vbuf = &vpu_buf->m2m_buf.vb;
->> +
->> +	vdec_response_fs_release(inst, id, vdec->slots[id].tag);
->> +	if (vpu_buf->fs_id == id) {
->> +		if (vpu_buf->state != VPU_BUF_STATE_READY)
->> +			vdec_recycle_buffer(inst, vbuf);
->> +		vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
->> +	}
->> +
->> +	vdec->slots[id].curr = NULL;
->> +	vdec->slots[id].state = VPU_BUF_STATE_IDLE;
->> +
->> +	if (vdec->slots[id].pend) {
->> +		vpu_set_buffer_state(&vdec->slots[id].pend->m2m_buf.vb, VPU_BUF_STATE_IDLE);
->> +		vdec->slots[id].pend = NULL;
->> +	}
->> +}
->> +
->> +static void vdec_clear_slots(struct vpu_inst *inst)
->> +{
->> +	struct vdec_t *vdec = inst->priv;
->>   	int i;
->>   
->> -	for (i = 0; i < ARRAY_SIZE(vdec->slots); i++) {
->> -		if (!vdec->slots[i])
->> +	for (i = 0; i < vdec->slot_count; i++) {
->> +		if (!vdec->slots[i].curr)
->>   			continue;
->>   
->> -		vpu_buf = vdec->slots[i];
->> -		vbuf = &vpu_buf->m2m_buf.vb;
->> -
->>   		vpu_trace(inst->dev, "clear slot %d\n", i);
->> -		vdec_response_fs_release(inst, i, vpu_buf->tag);
->> -		vdec_recycle_buffer(inst, vbuf);
->> -		vdec->slots[i]->state = VPU_BUF_STATE_IDLE;
->> -		vdec->slots[i] = NULL;
->> +		vdec_release_curr_frame_store(inst, i);
->>   	}
->>   }
->>   
->> @@ -1324,39 +1430,29 @@ static void vdec_event_req_fs(struct vpu_inst *inst, struct vpu_fs_info *fs)
->>   static void vdec_evnet_rel_fs(struct vpu_inst *inst, struct vpu_fs_info *fs)
->>   {
->>   	struct vdec_t *vdec = inst->priv;
->> -	struct vpu_vb2_buffer *vpu_buf;
->> -	struct vb2_v4l2_buffer *vbuf;
->>   
->> -	if (!fs || fs->id >= ARRAY_SIZE(vdec->slots))
->> +	if (!fs || fs->id >= vdec->slot_count)
->>   		return;
->>   	if (fs->type != MEM_RES_FRAME)
->>   		return;
->>   
->> -	if (fs->id >= vpu_get_num_buffers(inst, inst->cap_format.type)) {
->> +	if (fs->id >= vdec->slot_count) {
->>   		dev_err(inst->dev, "[%d] invalid fs(%d) to release\n", inst->id, fs->id);
->>   		return;
->>   	}
->>   
->>   	vpu_inst_lock(inst);
->> -	vpu_buf = vdec->slots[fs->id];
->> -	vdec->slots[fs->id] = NULL;
->> -
->> -	if (!vpu_buf) {
->> +	if (!vdec->slots[fs->id].curr) {
->>   		dev_dbg(inst->dev, "[%d] fs[%d] has bee released\n", inst->id, fs->id);
->>   		goto exit;
->>   	}
->>   
->> -	vbuf = &vpu_buf->m2m_buf.vb;
->> -	if (vpu_get_buffer_state(vbuf) == VPU_BUF_STATE_DECODED) {
->> +	if (vdec->slots[fs->id].state == VPU_BUF_STATE_DECODED) {
->>   		dev_dbg(inst->dev, "[%d] frame skip\n", inst->id);
->>   		vdec->sequence++;
->>   	}
->>   
->> -	vdec_response_fs_release(inst, fs->id, vpu_buf->tag);
->> -	if (vpu_get_buffer_state(vbuf) != VPU_BUF_STATE_READY)
->> -		vdec_recycle_buffer(inst, vbuf);
->> -
->> -	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
->> +	vdec_release_curr_frame_store(inst, fs->id);
->>   	vpu_process_capture_buffer(inst);
->>   
->>   exit:
->> @@ -1552,6 +1648,11 @@ static void vdec_cleanup(struct vpu_inst *inst)
->>   		return;
->>   
->>   	vdec = inst->priv;
->> +	if (vdec) {
->> +		vfree(vdec->slots);
->> +		vdec->slots = NULL;
->> +		vdec->slot_count = 0;
->> +	}
->>   	vfree(vdec);
->>   	inst->priv = NULL;
->>   	vfree(inst);
->> @@ -1683,6 +1784,38 @@ static int vdec_stop_session(struct vpu_inst *inst, u32 type)
->>   	return 0;
->>   }
->>   
->> +static int vdec_get_slot_debug_info(struct vpu_inst *inst, char *str, u32 size, u32 i)
->> +{
->> +	struct vdec_t *vdec = inst->priv;
->> +	struct vpu_vb2_buffer *vpu_buf;
->> +	int num = -1;
->> +
->> +	vpu_inst_lock(inst);
->> +	if (i >= vdec->slot_count || !vdec->slots[i].addr)
->> +		goto exit;
->> +
->> +	vpu_buf = vdec->slots[i].curr;
->> +
->> +	num = scnprintf(str, size, "slot[%2d] :", i);
->> +	if (vpu_buf) {
->> +		num += scnprintf(str + num, size - num, " %2d",
->> +				 vpu_buf->m2m_buf.vb.vb2_buf.index);
->> +		num += scnprintf(str + num, size - num, "; state = %d", vdec->slots[i].state);
->> +	} else {
->> +		num += scnprintf(str + num, size - num, " -1");
->> +	}
->> +
->> +	if (vdec->slots[i].pend)
->> +		num += scnprintf(str + num, size - num, "; %d",
->> +				 vdec->slots[i].pend->m2m_buf.vb.vb2_buf.index);
->> +
->> +	num += scnprintf(str + num, size - num, "\n");
->> +exit:
->> +	vpu_inst_unlock(inst);
->> +
->> +	return num;
->> +}
->> +
->>   static int vdec_get_debug_info(struct vpu_inst *inst, char *str, u32 size, u32 i)
->>   {
->>   	struct vdec_t *vdec = inst->priv;
->> @@ -1741,6 +1874,7 @@ static int vdec_get_debug_info(struct vpu_inst *inst, char *str, u32 size, u32 i
->>   				vdec->codec_info.vui_present);
->>   		break;
->>   	default:
->> +		num = vdec_get_slot_debug_info(inst, str, size, i - 10);
->>   		break;
->>   	}
->>   
->> @@ -1764,6 +1898,8 @@ static struct vpu_inst_ops vdec_inst_ops = {
->>   	.get_debug_info = vdec_get_debug_info,
->>   	.wait_prepare = vpu_inst_unlock,
->>   	.wait_finish = vpu_inst_lock,
->> +	.attach_frame_store = vdec_attach_frame_store,
->> +	.reset_frame_store = vdec_reset_frame_store,
->>   };
->>   
->>   static void vdec_init(struct file *file)
->> @@ -1804,6 +1940,14 @@ static int vdec_open(struct file *file)
->>   		return -ENOMEM;
->>   	}
->>   
->> +	vdec->slots = vzalloc(sizeof(*vdec->slots) * VDEC_SLOT_CNT_DFT);
->> +	if (!vdec->slots) {
->> +		vfree(vdec);
->> +		vfree(inst);
->> +		return -ENOMEM;
->> +	}
->> +	vdec->slot_count = VDEC_SLOT_CNT_DFT;
->> +
->>   	inst->ops = &vdec_inst_ops;
->>   	inst->formats = vdec_formats;
->>   	inst->type = VPU_CORE_TYPE_DEC;
->> diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
->> index 22f0da26ccec..76bfd6b26170 100644
->> --- a/drivers/media/platform/amphion/vpu.h
->> +++ b/drivers/media/platform/amphion/vpu.h
->> @@ -223,6 +223,8 @@ struct vpu_inst_ops {
->>   	int (*get_debug_info)(struct vpu_inst *inst, char *str, u32 size, u32 i);
->>   	void (*wait_prepare)(struct vpu_inst *inst);
->>   	void (*wait_finish)(struct vpu_inst *inst);
->> +	void (*attach_frame_store)(struct vpu_inst *inst, struct vb2_buffer *vb);
->> +	void (*reset_frame_store)(struct vpu_inst *inst);
->>   };
->>   
->>   struct vpu_inst {
->> @@ -296,7 +298,8 @@ enum {
->>   	VPU_BUF_STATE_DECODED,
->>   	VPU_BUF_STATE_READY,
->>   	VPU_BUF_STATE_SKIP,
->> -	VPU_BUF_STATE_ERROR
->> +	VPU_BUF_STATE_ERROR,
->> +	VPU_BUF_STATE_CHANGED
->>   };
->>   
->>   struct vpu_vb2_buffer {
->> @@ -305,8 +308,8 @@ struct vpu_vb2_buffer {
->>   	dma_addr_t chroma_u;
->>   	dma_addr_t chroma_v;
->>   	unsigned int state;
->> -	u32 tag;
->>   	u32 average_qp;
->> +	s32 fs_id;
->>   };
->>   
->>   void vpu_writel(struct vpu_dev *vpu, u32 reg, u32 val);
->> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
->> index 940e5bda5fa3..497ae4e8a229 100644
->> --- a/drivers/media/platform/amphion/vpu_dbg.c
->> +++ b/drivers/media/platform/amphion/vpu_dbg.c
->> @@ -48,6 +48,7 @@ static char *vpu_stat_name[] = {
->>   	[VPU_BUF_STATE_READY] = "ready",
->>   	[VPU_BUF_STATE_SKIP] = "skip",
->>   	[VPU_BUF_STATE_ERROR] = "error",
->> +	[VPU_BUF_STATE_CHANGED] = "changed",
->>   };
->>   
->>   static inline const char *to_vpu_stat_name(int state)
->> @@ -164,6 +165,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
->>   	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
->>   		struct vb2_buffer *vb;
->>   		struct vb2_v4l2_buffer *vbuf;
->> +		struct vpu_vb2_buffer *vpu_buf;
->>   
->>   		vb = vb2_get_buffer(vq, i);
->>   		if (!vb)
->> @@ -173,13 +175,24 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
->>   			continue;
->>   
->>   		vbuf = to_vb2_v4l2_buffer(vb);
->> +		vpu_buf = to_vpu_vb2_buffer(vbuf);
->>   
->>   		num = scnprintf(str, sizeof(str),
->> -				"capture[%2d] state = %10s, %8s\n",
->> +				"capture[%2d] state = %10s, %8s",
->>   				i, vb2_stat_name[vb->state],
->>   				to_vpu_stat_name(vpu_get_buffer_state(vbuf)));
->>   		if (seq_write(s, str, num))
->>   			return 0;
->> +
->> +		if (vpu_buf->fs_id >= 0) {
->> +			num = scnprintf(str, sizeof(str), "; fs %d", vpu_buf->fs_id);
->> +			if (seq_write(s, str, num))
->> +				return 0;
->> +		}
->> +
->> +		num = scnprintf(str, sizeof(str), "\n");
->> +		if (seq_write(s, str, num))
->> +			return 0;
->>   	}
->>   
->>   	num = scnprintf(str, sizeof(str), "sequence = %d\n", inst->sequence);
->> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
->> index 45707931bc4f..74668fa362e2 100644
->> --- a/drivers/media/platform/amphion/vpu_v4l2.c
->> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
->> @@ -501,14 +501,25 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq,
->>   		call_void_vop(inst, release);
->>   	}
->>   
->> +	if (V4L2_TYPE_IS_CAPTURE(vq->type))
->> +		call_void_vop(inst, reset_frame_store);
->> +
->>   	return 0;
->>   }
->>   
->>   static int vpu_vb2_buf_init(struct vb2_buffer *vb)
->>   {
->>   	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->> +	struct vpu_vb2_buffer *vpu_buf = to_vpu_vb2_buffer(vbuf);
->> +	struct vpu_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
->>   
->> +	vpu_buf->fs_id = -1;
->>   	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_IDLE);
->> +
->> +	if (!inst->ops->attach_frame_store || V4L2_TYPE_IS_OUTPUT(vb->type))
->> +		return 0;
->> +
->> +	call_void_vop(inst, attach_frame_store, vb);
->>   	return 0;
->>   }
->>   
-> 
-> Just a general question, was the choice for a flexible array because the IP does
-> not provide enough per-codec information to calculate the number of needed slots
-> or to actually avoid needing to do per codec array sizing ?
-> 
-> Nicolas
-> 
-
-The decoder only requires the minimum number of frame buffers, it doesn't
-constrain the maximum value. And the frame buffer is managed by fs_id,
-so we make dma address of frame buffer have a one-to-one correspondence
-with the fs_id. Here I use the slot index as the fs_id.
-
-I guess I can give an example of why we use a flexible array.
-For example, 20 v4l2 buffers are created, and 20 dma-bufs are queued,
-they took 20 slots.
-But after they are dequeued, the client enqueue another 20 dma-bufs via
-the 20 v4l2 buffers. Then this results in a total of 40 slots.
-We may not release the previous 20 slots as they are not released by the vpu
-firmware.
-This only happens in certain extreme cases, in most cases, we won't need
-to enlarge the array.
-
-The problem we have so far is that the client may maintain a dma-buffer 
-pool,
-the number of dma-bufs in the pool is indeterminate. Each time the
-client get a dma-buf from the pool and qbuf() with a v4l2 buffer.
-For the worst-case scenarios, we choose a flexible array to store the
-frame buffers.
-
-Thanks,
-Ming
-
+T24gRnJpLCAyMDI1LTAxLTAzIGF0IDE4OjA0ICswMTAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
+b3RlOg0KDQpbc25pcF0NCg0KPiA+IA0KPiA+IFBsZWFzZSBmb3JnaXZlIG1lIGZvciBwdXR0aW5n
+IGEgbG90IG9mIHJlZHVuZGFudCBtZXNzYWdlLiBJIGp1c3QNCj4gPiB3YW50DQo+ID4gdG8gcHJv
+dmlkZSBhcyBtdWNoIGRldGFpbCBhcyBwb3NzaWJsZSB0byBoZWxwIHlvdSBkZXRlcm1pbmUgaWYg
+dGhleQ0KPiA+IGFyZQ0KPiA+IGJpbmRpbmdzLiBJIGFwcHJlY2lhdGUgeW91ciBndWlkYW5jZSBh
+bmQgd2lsbCBtYWtlIHRoZSBuZWNlc3NhcnkNCj4gPiBhZGp1c3RtZW50cy4NCj4gPiANCj4gPiAN
+Cj4gPiBJIGNoZWNrZWQgdGhlIGNsayBoZWFkZXIgeW91IGFjY2VwdGVkIGJlZm9yZToNCj4gPiBo
+dHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvNDAyYWM1YTItMzM0ZS0xODQzLTA1MTctNWVjZjYx
+ZjZhOTY1QGxpbmFyby5vcmcvDQo+IA0KPiBXaXRoIGFyZ3VtZW50cyBsaWtlICJzb21lb25lLCBz
+b21ld2hlcmUgYWNrZWQgdGhpcywgc28gSSBhbSBhbGxvd2VkDQo+IGFzDQo+IHdlbGwgdG8gc2Vu
+ZCBpdCIgeW91IGVudGVyIHRyaWNreSBncm91bmRzLg0KDQpIbW0uLi4NCkkgZGlkbid0IG1lYW4g
+dGhhdCwgSSBqdXN0IHdhbnQgdG8gZmluZCBhIGNvcnJlY3QgcmVmZXJlbmNlLg0KDQo+IA0KPiA+
+IA0KPiA+IFBsZWFzZSBkb24ndCBtaW5kIG1lIHRvIG1ha2UgYSBjb25maXJtYXRpb24gaGVyZSBi
+ZWNhdXNlIEkgY2FuJ3QNCj4gPiBmaW5kDQo+ID4gdGhlIGRvY3VtZW50YXRpb24gb2YgdGhlIGRl
+ZmluaXRpb24gZm9yIGJpbmRpbmcgaGVhZGVyLg0KPiA+IERvIHlvdSBtZWFuIGFsbCB0aGUgaGVh
+ZGVyIGRlZmluZWQgaW4gaW5jbHVkZS9kdC1iaW5kaW5ncy8qIHNob3VsZA0KPiA+IGJlDQo+ID4g
+dXNlZCBpbiBhIHNwZWNpZmljIGRyaXZlciBhbmQgdGhlIERUUyBpbiB0aGUgc2FtZSB0aW1lPw0K
+PiANCj4gWWVzLCBvdGhlcndpc2UgaG93IGlzIGl0IGFic3RyYWN0aW9uPw0KDQpPSywgdGhlbiBJ
+IHRoaW5rIGl0J3Mgbm90IGFic3RyYWN0LCBiZWNhdXNlIHdlIGp1c3QgdXNlIGl0IGluIHRoZSBE
+VFMuDQoNCj4gDQo+IFRoZXJlIGFyZSBudW1lcm91cyBleGNlcHRpb25zIG9mIGNvdXJzZSB3aGVu
+IGJpbmRpbmcgYmluZHMgZGlmZmVyZW50DQo+IHBpZWNlcyBvZiBzb2Z0d2FyZS9maXJtd2FyZS4g
+SXMgdGhhdCB0aGUgY2FzZT8gTm90aGluZyBpbiBjb21taXQgbXNnDQo+IGV4cGxhaW5lZCB0aGlz
+Lg0KDQpObywgSSB0aGluayBpdCBpcyBub3QgdGhlIGNhc2UuIEknbGwgZHJvcCBpdC4NCg0KPiAN
+Cj4gPiANCj4gPiBUYWtlIHRoZSBgI2RlZmluZSBDTEtfVE9QX0FYSWAgYW5kIGAjZGVmaW5lIENM
+S19UT1BfVlBQYCBpbg0KPiA+IG1lZGlhdGVrLG10ODE4OC1jbGsuaCBmb3IgZXhhbXBsZToNCj4g
+PiANCj4gPiBgQ0xLX1RPUF9BWElgIGlzIHVzZWQgaW4gdGhlIGRyaXZlcnMvY2xrL21lZGlhdGVr
+L2Nsay1tdDgxODgtDQo+ID4gdG9wY2tnZW4uYw0KPiA+IGJ1dCBub3QgaW4gYXJjaC9hcm02NC9i
+b290L2R0cy9tZWRpYXRlay9tdDgxODguZHRzaToNCj4gPiBgYGANCj4gPiDCoCAjaW5jbHVkZSA8
+ZHQtYmluZGluZ3MvY2xvY2svbWVkaWF0ZWssbXQ4MTg4LWNsay5oPg0KPiA+IA0KPiA+IMKgIC4u
+Lg0KPiA+IA0KPiA+IMKgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbXRrX211eCB0b3BfbXRrX211eGVz
+W10gPSB7DQo+ID4gwqDCoMKgwqDCoCBNVVhfR0FURV9DTFJfU0VUX1VQRF9GTEFHUyhDTEtfVE9Q
+X0FYSSwgInRvcF9heGkiLA0KPiA+IGF4aV9wYXJlbnRzLA0KPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgwMjAsIDB4
+MDI0LCAweDAyOCwgMCwgNCwgNywNCj4gPiAweDA0LA0KPiA+IMKgIC4uLg0KPiA+IA0KPiA+IMKg
+wqDCoMKgwqAgTVVYX0dBVEVfQ0xSX1NFVF9VUEQoQ0xLX1RPUF9WUFAsICJ0b3BfdnBwIiwNCj4g
+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHZw
+cF9wYXJlbnRzLCAweDAyQywgMHgwMzAsIDB4MDM0LCAwLCA0LA0KPiA+IDcsDQo+ID4gwqAgLi4u
+DQo+ID4gYGBgDQo+ID4gDQo+ID4gYW5kIGBDTEtfVE9QX1ZQUGAgaXMgdXNlZCBpbiB0aGUgYm90
+aCBjbGstbXQ4MTg4LXRvcGNrZ2VuLmMgYW5kDQo+ID4gbXQ4MTg4LmR0c2k6DQo+ID4gYGBgDQo+
+ID4gwqAgcG93ZXItZG9tYWluQE1UODE4OF9QT1dFUl9ET01BSU5fVlBQU1lTMCB7DQo+ID4gwqDC
+oMKgwqDCoCByZWcgPSA8TVQ4MTg4X1BPV0VSX0RPTUFJTl9WUFBTWVMwPjsNCj4gPiDCoMKgwqDC
+oMKgIGNsb2NrcyA9IDwmdG9wY2tnZW4gQ0xLX1RPUF9WUFA+LA0KPiA+IMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgPCZ0b3Bja2dlbiBDTEtfVE9QX0NBTT4sDQo+ID4gLi4uDQo+ID4gYGBg
+DQo+ID4gDQo+ID4gQnV0IGl0IHNlZW1zIHRoYXQgYm90aCBvZiBgQ0xLX1RPUF9BWElgIGFuZCBg
+Q0xLX1RPUF9WUFBgIGFyZQ0KPiA+IHJlZ2FyZGVkDQo+ID4gYXMgYmluZGluZyBoZWFkZXJzLg0K
+PiANCj4gSSBkb24ndCBnZXQgdGhlIGNvbXBhcmlzb25zLiBCb3RoIGNvbnN0YW50cyByZXByZXNl
+bnQgYWJzdHJhY3Rpb24sIHNvDQo+IHRoZXkgYXJlIGNvcnJlY3QuDQo+IA0KDQpPSywgSSBqdXN0
+IHdhbnQgdG8gbWFrZSBzdXJlIHRoYXQgaXQgaXMgbm90IGEgYG11c3RgIHRvIHVzZSB0aGUgYmlu
+ZGluZw0KaGVhZGVyIGluIGRyaXZlciBjb2RlIGFuZCBEVFMgYXQgdGhlIHNhbWUgdGltZS4NCg0K
+PiANCj4gPiANCj4gPiANCj4gPiBGcm9tIHRoZSBwcmV2aW91cyBkZXNjcmlwdGlvbiBvZiB0aGUg
+ZXhhbXBsZSB5b3UgZ2F2ZSBtZToNCj4gPiBCaW5kaW5ncyBhcmUgaW1hZ2luYXJ5IG51bWJlcnMg
+c3RhcnRpbmcgZnJvbSAwIG9yIDEgd2hpY2ggYXJlIHVzZWQNCj4gPiBiZXR3ZWVuIGRyaXZlcnMg
+YW5kIERUUywgc2VydmluZyBhcyBhYnN0cmFjdGlvbiBsYXllciAob3INCj4gPiBhYnN0cmFjdGlv
+bg0KPiA+IHZhbHVlcykgYmV0d2VlbiB0aGVzZSB0d28uDQo+IA0KPiBFeGFjdGx5LCB3aGF0IHRv
+IHNheSBtb3JlPw0KPiANCg0KU28gdGhlIGtleSBwb2ludCBpcyBhYnN0cmFjdC4NCg0KPiA+IA0K
+PiA+IEFzIEkgdW5kZXJzdGFuZCwgZWFjaCBjbG9jayBkZWZpbml0aW9uIGNvcnJlc3BvbmRzIHRv
+IHRoZSBjbG9jayBDRw0KPiA+IHNldHRpbmdzIHByb3ZpZGVkIHRvIGRpZmZlcmVudCBoYXJkd2Fy
+ZSwgYW5kIGVhY2ggaGFyZHdhcmUgZHJpdmVyDQo+ID4gY2FuDQo+ID4gY29udHJvbCBpdHMgb3du
+IGNsb2NrIENHIHRocm91Z2ggdGhlIENDRiB0byBjb250cm9sIHRoZWlyIENHIGluDQo+ID4gY2xv
+Y2sNCj4gPiBkcml2ZXIuIFNvIHRoZXkgY2FuIGJlIGFuIGFic3RyYWN0aW9uIHZhbHVlcyBiZXR3
+ZWVuIGRyaXZlciBhbmQNCj4gPiBEVFMuDQo+ID4gDQo+ID4gU2ltaWxhcmx5LCB0aGUgR0NFIHN1
+YnN5cyBJRCBhbmQgR0NFIGV2ZW50IElEIGNvcnJlc3BvbmQgdG8gc3ltYm9scw0KPiA+IHVzZWQg
+YnkgR0NFIHRvIGNvbnRyb2wgdmFyaW91cyBoYXJkd2FyZSwgYW5kIGVhY2ggaGFyZHdhcmUgZHJp
+dmVyDQo+ID4gY2FuDQo+ID4gdXNlIHRoZXNlIElEcyB0byBnZW5lcmF0ZSBjb21tYW5kcyBidWZm
+ZXIgZm9yIEdDRSB0aHJvdWdoIHRoZSBBUEkNCj4gPiBwcm92aWRlZCBieSB0aGUgR0NFIGRyaXZl
+ciBhbmQgYWNoaWV2ZSB0aGUgZGVzaXJlZCBjb250cm9sIG92ZXINCj4gPiB0aGVpcg0KPiA+IGhh
+cmR3YXJlLg0KPiANCj4gU28gYXJlIHRoZXkgYWJzdHJhY3Qgb3Igbm90PyBUaGVuIHVzZSBzb21l
+IGRpZmZlcmVudCB2YWx1ZXMsIHJlYWxseQ0KPiBhYnN0cmFjdC4NCj4gDQo+IEkgYnJvdWdodCB5
+b3UgZGVmaW5pdGlvbjogYWJzdHJhY3QuIFlvdSBub3cgY2l0ZWQgaXQuIEJ1dCBsYXN0DQo+IHBh
+cmFncmFwaA0KPiBlbnRpcmVseSBza2lwcyB0aGlzIHBvaW50Lg0KPiANCg0KT0ssIHNvIG1heWJl
+IEkgc2hvdWxkIHVzZSBhIHBsYXRmb3JtLXNwZWNpZmljIGRyaXZlciBjb2RlIHRvIHVzZSBpdCBh
+cw0KYW4gYWJzdHJhY3QgbnVtYmVyIGZvciB0aGUgcmVhbCBoYXJkd2FyZSBzZXR0aW5ncy4NCmUs
+Zy4NCg0KbXQ4MTk1LWNtZHEtcGxhdGZvcm0uYzoNCmBgYA0KdGhyZWFkX3ByaW9bQ01EUV9USFJf
+UFJJT19MT1dFU1RdID0gMCwNCnRocmVhZF9wcmlvW0NNRFFfVEhSX1BSSU9fMV0gPSAweDEsDQou
+Li4NCnRocmVhZF9wcmlvW0NNRFFfVEhSX1BSSU9fSEVJR0hFU1RdID0gMHg3LA0KYGBgDQoNCmFu
+ZA0KDQptdDgxODgtY21kcS1wbGF0Zm9ybS5jOg0KYGBgDQp0aHJlYWRfcHJpb1tDTURRX1RIUl9Q
+UklPX0xPV0VTVF0gPSBCSVQoMCksDQp0aHJlYWRfcHJpb1tDTURRX1RIUl9QUklPXzFdID0gQklU
+KDEpLA0KLi4uDQp0aHJlYWRfcHJpb1tDTURRX1RIUl9QUklPX0hJR0hFU1RdID0gQklUKDcpLA0K
+YGBgDQoNCkJ1dCBJIHRoaW5rIGl0J3Mgbm90IG5lY2Vzc2FyeSBpbiBpdHMgY2FzZS4NClNvIEkn
+bGwgZHJvcCB0aGlzIGR0LWJpbmRpbmdzIGhlYWRlci4NCg0KPiANCj4gPiANCj4gPiBJIGd1ZXNz
+IHRoZSBkaWZmZXJlbmNlIGlzIHRoYXQgdGhlIGNsb2NrIGRyaXZlciBoYXMgYSBwbGF0Zm9ybS0N
+Cj4gPiBzcGVjaWZpYw0KPiA+IGNsb2NrIHRhYmxlIHRvIHN0b3JlIHRoZXNlIGJpbmRpbmcgaGVh
+ZGVycywgd2hpbGUgdGhlIEdDRSBkcml2ZXINCj4gPiBkb2VzDQo+ID4gbm90IGhhdmUgYSBwbGF0
+Zm9ybS1zcGVjaWZpYyB0aHJlYWQgcHJpb3JpdHkgdGFibGUsIHN1YnN5cyBJRA0KPiA+IHRhYmxl
+LA0KPiA+IGFuZCBldmVudCBJRCB0YWJsZS4gSW5zdGVhZCwgdGhlIEdDRSBjbGllbnQgZHJpdmVy
+cyBjYW4gZGlyZWN0bHkNCj4gPiBvYnRhaW4NCj4gPiB0aGVpciByZXNwZWN0aXZlIGhhcmR3YXJl
+IHNldHRpbmdzIGZyb20gdGhlIERUUy4NCj4gPiANCj4gPiBPbiB0aGUgb3RoZXIgaGFuZCwgZGVm
+aW5pdGlvbnMgbGlrZSBDTEtfVE9QX01BSU5QTExfRDMsDQo+ID4gQ0xLX1RPUF9NQUlOUExMX0Q0
+LCBldGMuLCBjb3JyZXNwb25kIHRvIGRpZmZlcmVudCBjbG9jayBmcmVxdWVuY3kNCj4gPiBkaXZp
+ZGVyIGxldmVscywgYW5kIHRoZSBDTURRX1RIUl9QUklPX1ggZm9yIEdDRSB0aHJlYWQgcHJpb3Jp
+dHkNCj4gPiBhbHNvDQo+ID4gY29ycmVzcG9uZHMgdG8gZGlmZmVyZW50IHByaW9yaXR5IGxldmVs
+cyBmb3IgR0NFIHRocmVhZHMuDQo+ID4gVGhlcmVmb3JlLCBJDQo+ID4gYW0gbm90IHF1aXRlIHN1
+cmUgd2h5IEdDRSB0aHJlYWQgcHJpb3JpdHkgY2Fubm90IGJlIGNvbnNpZGVyZWQgYQ0KPiA+IGJp
+bmRpbmcgd2hlbiBpdCBpcyBhbHNvIGEgc3ltYm9sIG51bWJlciBmb3IgYSBoYXJkd2FyZSBsZXZl
+bA0KPiA+IHNldHRpbmcuDQo+IA0KPiBXZWxsLCBtYXliZSBub3RoaW5nIGhlcmUgaXMgYSBiaW5k
+aW5nLiBJIHRvb2sgb25lIHRoaW5nIHRvIGluc3BlY3QuIEkNCj4gZGlkIG5vdCBpbnNwZWN0IHRo
+ZSByZXN0LiBIb3cgZG9lcyBpdCBoZWxwIHlvdXIgY2FzZT8NCj4gDQoNClllcywgY29uc2lkZXJp
+bmcgdGhlIGFic3RyYWN0aW9uLCB0aGVyZSBhcmUgbm8gYmluZGluZ3MgaGVyZS4NCg0KPiANCj4g
+PiANCj4gPiANCj4gPiBJZiB0aGUgY29uZGl0aW9uIGZvciBiZWNvbWluZyBhIGJpbmRpbmcgaGVh
+ZGVyIGlzIHRoYXQgaXQgYG11c3RgIGJlDQo+ID4gdXNlZCBieSBhIHNwZWNpZmljIGRyaXZlciwg
+c3VjaCBhcyBhIHBsYXRmb3JtLXNwZWNpZmljIHRhYmxlLCB0aGVuDQo+ID4gSQ0KPiANCj4gTm8s
+ICJ1c2VkIGJ5IHRoZSBkcml2ZXIiIGlzIGluZGljYXRpb24gdGhhdCB5b3UgdXNlIGl0IGFzDQo+
+IGFic3RyYWN0aW9uLg0KPiANCg0KT0ssIEkgZ290IGl0Lg0KDQo+ID4gd2lsbCByZW1vdmUgdGhl
+IGVudGlyZSBHQ0UgZHQtYmluZGluZyBoZWFkZXIuIEJlY2F1c2UgdGhlIGN1cnJlbnQNCj4gPiB1
+c2FnZQ0KPiA+IG9mIHRoZXNlIGRlZmluaXRpb25zIGlzIHRoYXQgZWFjaCBHQ0UgY2xpZW50IGRy
+aXZlcnMgY2FuIGRpcmVjdGx5DQo+ID4gc3RvcmUNCj4gPiB0aGVzZSBHQ0UgZGVmaW5pdGlvbnMg
+dGhyb3VnaCB0aGUgRFRTLCBqdXN0IGxpa2UgSVJRIElEcywgYW5kDQo+ID4gd2l0aG91dA0KPiA+
+IHRoZSBuZWVkIGZvciBhbiBhZGRpdGlvbmFsIHRhYmxlIGRlZmluZWQgYnkgdGhlIEdDRSBkcml2
+ZXIuDQo+IA0KPiBEbyB5b3Ugc3RvcmUgSVJRIElEcyBhcyBiaW5kaW5nIGNvbnN0YW50cyBpbiBi
+aW5kaW5nIGhlYWRlcnM/IE5vLg0KPiBXaHk/DQo+IA0KPiBCZWZvcmUgcHJvY2VlZGluZyB3aXRo
+IHRoaXMgaGVhZGVyIGZ1cnRoZXIsIHBsZWFzZSBhbnN3ZXIgdG8gYWJvdmUgLQ0KPiB3aHkNCj4g
+aW50ZXJydXB0IG51bWJlcnMsIE1NSU8gYWRkcmVzc2VzIGFuZCBzb21lIG90aGVyIHZhbHVlcyBh
+cHBlYXJpbmcgaW4NCj4gRFRTDQo+IGFyZSBub3QgdXNlZCBsaWtlICJiaW5kaW5nIGhlYWRlcnMi
+Lg0KDQpCZWNhdXNlIGludGVycnVwdCBudW1iZXJzIGFuZCBNTUlPIGFkZHJlc3NlcyBhcmUgdGhl
+IHJlYWwgbnVtYmVycyBvZg0KaGFyZHdhcmUgc2V0dGluZ3MuIFRoZWlyIGRyaXZlciBjYW4gZ2V0
+IHRoZW0gZGlyZWN0bHkgZnJvbSB0aGVpciBkZXZpY2UNCm5vZGUgaW4gRFRTLiBUaGV5IGFyZSBh
+Y3R1YWwgbnVtYmVyIHRvIGJlIHNldCBpbnRvIHRoZWlyIGhhcmR3YXJlLCBzbw0KdGhleSBkb24n
+dCBuZWVkIHRvIGJlIHRyYW5zbGF0ZWQgaW4gdGhlaXIgcGxhdGZvcm0gZHJpdmVycy4NCg0KU28g
+SSB0aGluayBhbGwgdGhlIGRlZmluaXRpb25zIGluIHRoZSBgbWVkaWF0ZWssbXQ4MTk2LWdjZS5o
+YCBhcmUgdGhlDQpzYW1lIGNhc2UuIFRoZXkgYXJlIGFjdHVhbCBoYXJkd2FyZSBudW1iZXJzIGZv
+ciBHQ0UgaGFyZHdhcmUgdG8gdXNlLg0KSXQgc2hvdWxkIGJlIGRyb3AgZnJvbSB0aGUgaW5jbHVk
+ZS9kdC1iaW5kaW5ncy8qLg0KDQoNCkJUVywgdG8gbWFrZSB0aGVzZSBudW1iZXJzIG1vcmUgcmVh
+ZGFibGUgaW4gRFRTLCBjYW4gSSBtb3ZlDQpgaW5jbHVkZS9kdC1iaW5kaW5ncy9tYWlsYm94L21l
+ZGlhdGVrLG10ODE5Ni1nY2UuaGAgaW50bw0KYGFyY2gvYXJtNjQvYm9vdC9kdHMvbWVkaWF0ZWsv
+bXQ4MTk2LWdjZS5oYD8NCg0KSnVzdCBsaWtlIHRoZSBgYXJjaC9hcm02NC9ib290L2R0cy9tZWRp
+YXRlay9tdDgxNjctcGluZnVuYy5oYC4NCg0KUmVnYXJkcywNCkphc29uLUpILkxpbg0KDQo+IA0K
+PiANCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0b2YNCg0K
 
