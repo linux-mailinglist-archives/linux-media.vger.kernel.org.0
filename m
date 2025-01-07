@@ -1,35 +1,36 @@
-Return-Path: <linux-media+bounces-24323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24324-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B51BA03AD9
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 10:14:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC30A03B44
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 10:35:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F40EF1882706
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 09:14:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95EAB1656C8
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 09:35:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F27EF1E1A16;
-	Tue,  7 Jan 2025 09:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57DD91E2007;
+	Tue,  7 Jan 2025 09:35:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980E519ABCE
-	for <linux-media@vger.kernel.org>; Tue,  7 Jan 2025 09:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E869A1DB34E;
+	Tue,  7 Jan 2025 09:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736241286; cv=none; b=O9t8MvUWUIt46tX9dSHt6PtT7/4/Zam+ZX8VNHBb2mj+HFNFt7DCL/W4Gwf/LRVhILgx4ZOCYUUWGI5x1W6TcRFYadQLjf6Z9MZimbkaPvKvoE3NOEu4oSi9Rw0jzR+Blubr6tYL3sdhtJAWmekDa98r6KBJJCTej3z6I0U3ARM=
+	t=1736242509; cv=none; b=JhLdm6U1cjchQw0HSTY0csFM/+zI9cHOJWOGm1xLvABFmE8/rFmzlUqi4fSbCC5bzXkQlTLN3ns0g6QNCnk1mhfFghBCN/DGtFmj3dCxKqrLx1gBbW2moJHqNNo6U3sOMa/qOj+VDK1fJkYRmRA4M0mVoTGq+2VJ8a6YrFpaleY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736241286; c=relaxed/simple;
-	bh=CBKF+OiwHHND8Rx/gunrq0WnKev7iYWc2QTbB3bijmU=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=kmvxf8c6AMWeH5hvdJ5CLfj+lnJA49GRSk1lgV3C8lqCh6fbDcuJ7aN2CQ2qwl1i+0pom069FHX3+uCpi3xv0nsZl2JmzUchLijeMjr8RF91wtCoJkBWEPOULIFH46hZQo4mEI9ceNXWL1aNR9Fufb1FiVbpXQEr3MW9eTG2s0E=
+	s=arc-20240116; t=1736242509; c=relaxed/simple;
+	bh=j0fQz8+xElL/BxYpfAtRe5EfCLxi7fA6VFv4C2qW7Tw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B0rAX+nFzcrpqnNeYxcr9g2n0/WFIOUo7Cbzqi5aybsPFyI4r4spFyjUSbMNXzbLw94hMYrJV7gl3G9I7jGBAWLliEVacC6Cu9wzhBeNTy+xUpLjlcwWE4WNwY4rAyXLwLqpCg7J+BAspujZRW/Mtzhxnn5SKNmoXQi+ZVFvGpk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA2A4C4CED6
-	for <linux-media@vger.kernel.org>; Tue,  7 Jan 2025 09:14:45 +0000 (UTC)
-Message-ID: <a1d9318d-5d2d-4054-b856-8216d0618d02@xs4all.nl>
-Date: Tue, 7 Jan 2025 10:14:43 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F649C4CEE0;
+	Tue,  7 Jan 2025 09:35:06 +0000 (UTC)
+Message-ID: <9f089225-9c4a-4510-8b0c-da5ba9812a3d@xs4all.nl>
+Date: Tue, 7 Jan 2025 10:35:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -37,10 +38,21 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 6/6] media: venus: vdec: Make the range of us_per_frame
+ explicit
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ linux-arm-msm@vger.kernel.org
+References: <20250106-fix-cocci-v4-0-3c8eb97995ba@chromium.org>
+ <20250106-fix-cocci-v4-6-3c8eb97995ba@chromium.org>
 Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: radio-aztech.c: fix old email in comment
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -84,24 +96,70 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
+In-Reply-To: <20250106-fix-cocci-v4-6-3c8eb97995ba@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Fix a wrong email. It's only used in a comment, but it's easy enough to fix.
+On 06/01/2025 14:40, Ricardo Ribalda wrote:
+> Fps bigger than 0.000232829 fps, this fits in a 32 bit us_per_frame.
+> There is no need to do a 64 bit division here.
+> Also, the driver only works with whole fps.
+> 
+> Found by cocci:
+> drivers/media/platform/qcom/venus/vdec.c:488:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/platform/qcom/venus/vdec.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 6b8906ced6bc..88f6b5a3a4fe 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -464,7 +464,7 @@ static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+>  	struct venus_inst *inst = to_inst(file);
+>  	struct v4l2_captureparm *cap = &a->parm.capture;
+>  	struct v4l2_fract *timeperframe = &cap->timeperframe;
+> -	u64 us_per_frame, fps;
+> +	u64 us_per_frame;
+>  
+>  	if (a->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+>  	    a->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> @@ -486,10 +486,7 @@ static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+>  	if (!us_per_frame || us_per_frame > USEC_PER_SEC)
+>  		return -EINVAL;
+>  
+> -	fps = (u64)USEC_PER_SEC;
+> -	do_div(fps, us_per_frame);
+> -
+> -	inst->fps = fps;
+> +	inst->fps = USEC_PER_SEC / (u32)us_per_frame;
 
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
----
-diff --git a/drivers/media/radio/radio-aztech.c b/drivers/media/radio/radio-aztech.c
-index 4909c337b027..d989c0b3966f 100644
---- a/drivers/media/radio/radio-aztech.c
-+++ b/drivers/media/radio/radio-aztech.c
-@@ -2,7 +2,7 @@
- /*
-  * radio-aztech.c - Aztech radio card driver
-  *
-- * Converted to the radio-isa framework by Hans Verkuil <hans.verkuil@xs4all.nl>
-+ * Converted to the radio-isa framework by Hans Verkuil <hverkuil@xs4all.nl>
-  * Converted to V4L2 API by Mauro Carvalho Chehab <mchehab@kernel.org>
-  * Adapted to support the Video for Linux API by
-  * Russell Kroll <rkroll@exploits.org>.  Based on original tuner code by:
+This still allows for an fps value of USEC_PER_SEC if us_per_frame is 1.
+
+Looking at where inst->fps is used I see:
+
+drivers/media/platform/qcom/venus/pm_helpers.c: return mbs * inst->fps;
+drivers/media/platform/qcom/venus/venc.c:       frate.framerate = inst->fps * (1 << 16);
+
+(mbs is at most 512x512)
+
+So if fps is USEC_PER_SEC those calculations will wrap around.
+
+What is the real maximum fps that the HW can handle?
+
+Stan? Bryan? It would be nice if there is a proper sanity check here.
+
+Regards,
+
+	Hans
+
+
+>  	timeperframe->numerator = 1;
+>  	timeperframe->denominator = inst->fps;
+>  
+> 
+
 
