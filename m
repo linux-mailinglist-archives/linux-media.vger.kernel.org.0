@@ -1,36 +1,63 @@
-Return-Path: <linux-media+bounces-24342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24343-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7042A03ED9
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 13:12:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D10FA03FAE
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 13:48:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47FA0160611
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 12:12:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2C1F3A4D17
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 12:48:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BA611EE7B1;
-	Tue,  7 Jan 2025 12:12:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B844D1F03EE;
+	Tue,  7 Jan 2025 12:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="O6NdowBr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F18A1E1A2D;
-	Tue,  7 Jan 2025 12:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DF01EF08D;
+	Tue,  7 Jan 2025 12:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736251919; cv=none; b=iID24gLzEwf7GV+UukOwtX7gxHk6spfle/wL2P0kzVrYv/5NUvfabUCQ/I/2owwzfYL206WXerd+JxcqrFIyABxnO0rl4vZ8Khh2Zq8HizYe1HFRq1r5PVAvlLkwE2qKflg5+FpQJldz74NrfUNwe+SymwaGWCuLatXOFho7lV8=
+	t=1736254072; cv=none; b=Bu2Hf2TTr2hQjW2LidpGiWnWl4PM8KWOLGA9LjnX+hjJRPTQKOkZDCjq/5DIgd7Cq4XsR6Fy29JnB6JHXzRtxYTxuSQcPb1fOXBSuImINGpc97DeIc/uy1qb7XqdC9BkVVZqW7A//yACk17huSsex0iIHqJPZUE9BnG4ZAff1Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736251919; c=relaxed/simple;
-	bh=MW7zEmZrqkTamkCB0eLjS+omnIKYOMfReyb5ndSfoqU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WkbuW9CGrENlqLpCx4bbHCPZJQr2+/1+YUGmVl+4yYEWAkwF+WjCnwq2Gb0qKC3o4VzVi80S5Qf4oBgJuJR4PYKT5o1tnPVqnmILD8jR4x5X+4lA6XxPZxiw1/9EHoPR5xaBNeMmoJfatq6WqfmoHLYe1wqPP7OzYwD70XYRDJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD35CC4CED6;
-	Tue,  7 Jan 2025 12:11:57 +0000 (UTC)
-Message-ID: <a62d30fb-4a97-4edc-a0de-dbe442449818@xs4all.nl>
-Date: Tue, 7 Jan 2025 13:11:56 +0100
+	s=arc-20240116; t=1736254072; c=relaxed/simple;
+	bh=LQ+Vdd7Z5kAgBsQhJ5rMrLrEbbavYFLs9RzON+vTKTs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bpNGuVlc5jJoecpqJ01pl1Sg8OmtJkdBM6ndjOjr62x15ayDqAYyYIE5eEYPW7mTzlqK/H7THOa8gVv6x12mh4VTjHI1rDKpSF1ocJkfEz2SzzFK9xLM+Fxihy377iqj57O9bBm58JI2rCyWp0qX1odqEf0/sTrtGmyOODZlGzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=O6NdowBr; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5078bsnS011346;
+	Tue, 7 Jan 2025 12:47:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	R/udDLdHhcyCxkm6qe0P6CKQap5rHWoBYBtIhAwJEA4=; b=O6NdowBra/SNYVcv
+	Mp7f/XA0CVX4zWiGJ8QPjg7ybzMtKmwpQIP2AfNisedK7BWSNv2zrl6a5UaNxmrc
+	ezqLlqcg8bpIojkSH6MIosQ9gLbxI8PBmyhp0YZtXLoFydVzedAvNMC2qhevnbDx
+	nVMMX4WKRMVOiznQ+TyeoO61YBfOFCWqB0QVtK7xjpeV2hBlIGjZPyz8CkafBj1W
+	4ygowiRZ9KdyXJH2kYYd9xUEqGuZzOEux/zv54ip0lgxG+7i1YQQNu+btWxvl7nH
+	omi9AEPupRwJJOWE9A09ZDoDNAag6AsLUVY5sKI6xxOBLE1njV4nQPixuiKT/nE3
+	HTx2JQ==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4410x2rkqa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Jan 2025 12:47:41 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 507Clecg013456
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 7 Jan 2025 12:47:40 GMT
+Received: from [10.239.97.152] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 Jan 2025
+ 04:47:34 -0800
+Message-ID: <fd61c298-f271-4e21-b1e1-dee1029e978d@quicinc.com>
+Date: Tue, 7 Jan 2025 20:47:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,170 +65,115 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media/mmp: Bring back registration of the device
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Lubomir Rintel <lrintel@redhat.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>,
- stable@vger.kernel.org
-References: <20241231190434.438517-1-lkundrak@v3.sk>
- <Z30QWA-LfZHwVbmm@kekkonen.localdomain>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <Z30QWA-LfZHwVbmm@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 12/16] dt-bindings: media: camss: Add qcom,sm8550-camss
+ binding
+To: Hans Verkuil <hverkuil@xs4all.nl>, Krzysztof Kozlowski <krzk@kernel.org>
+CC: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <vladimir.zapolskiy@linaro.org>,
+        <quic_eberman@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kernel@quicinc.com>,
+        Yongsheng Li
+	<quic_yon@quicinc.com>
+References: <20241225133523.4034820-1-quic_depengs@quicinc.com>
+ <20241225133523.4034820-13-quic_depengs@quicinc.com>
+ <ql3sufugcdpoxqgvs2f4clmbnx75t4jh6ts2ryneu2u5oeuwzn@yizcouuzfj2s>
+ <eedaa77a-8070-41c8-a05b-b124d37ac093@quicinc.com>
+ <a0eafc67-2ebf-4d2a-8213-c30c3c317a1a@xs4all.nl>
+Content-Language: en-US
+From: Depeng Shao <quic_depengs@quicinc.com>
+In-Reply-To: <a0eafc67-2ebf-4d2a-8213-c30c3c317a1a@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: POuA7D1iMZFwM96Hr_44AveRt_5hMS8K
+X-Proofpoint-ORIG-GUID: POuA7D1iMZFwM96Hr_44AveRt_5hMS8K
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 malwarescore=0 clxscore=1011
+ phishscore=0 adultscore=0 mlxlogscore=999 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501070106
 
-On 07/01/2025 12:30, Sakari Ailus wrote:
-> Hi Lubomir,
-> 
-> Thanks for the patch.
-> 
-> On Tue, Dec 31, 2024 at 08:04:34PM +0100, Lubomir Rintel wrote:
->> In commit 4af65141e38e ("media: marvell: cafe: Register V4L2 device
->> earlier"), a call to v4l2_device_register() was moved away from
->> mccic_register() into its caller, marvell/cafe's cafe_pci_probe().
->> This is not the only caller though -- there's also marvell/mmp.
+Hi Hans,
+
+On 1/6/2025 10:00 PM, Hans Verkuil wrote:
+> On 04/01/2025 14:40, Depeng Shao wrote:
+>> Hi Krzysztof,
 >>
->> Add v4l2_device_register() into mmpcam_probe() to unbreak the MMP camera
->> driver, in a fashion analogous to what's been done to the Cafe driver.
->> Same for the teardown path.
+>> On 12/27/2024 5:10 PM, Krzysztof Kozlowski wrote:
+>>> On Wed, Dec 25, 2024 at 07:05:19PM +0530, Depeng Shao wrote:
+>>>> Add bindings for qcom,sm8550-camss in order to support the camera
+>>>> subsystem for sm8550.
+>>>>
+>>>> Co-developed-by: Yongsheng Li <quic_yon@quicinc.com>
+>>>> Signed-off-by: Yongsheng Li <quic_yon@quicinc.com>
+>>>> Signed-off-by: Depeng Shao <quic_depengs@quicinc.com>
+>>>> ---
+>>>
+>>> Is this v7 or v1? Same issue was all the time in the past, so why can't
+>>> you finally fix it?
+>>>
+>>> Look:
+>>>
+>>> $ b4 diff 20241225133523.4034820-13-quic_depengs@quicinc.com
+>>> Breaking thread to remove parents of 20241225133523.4034820-1-quic_depengs@quicinc.com
+>>> Checking for older revisions
+>>> Grabbing search results from lore.kernel.org
+>>>     Added from v6: 1 patches
+>>> ---
+>>> Analyzing 217 messages in the thread
+>>> Could not find lower series to compare against.
+>>>
+>>> I am not going to perform review, maybe other maintaners have spare
+>>> time to deal with this submission process.
 >>
->> Fixes: 4af65141e38e ("media: marvell: cafe: Register V4L2 device earlier")
->> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
->> Cc: stable@vger.kernel.org # v6.6+
->> ---
->>  drivers/media/platform/marvell/mmp-driver.c | 21 +++++++++++++++++----
->>  1 file changed, 17 insertions(+), 4 deletions(-)
+>> Really sorry, I made a foolish mistake. I didn't realize that the patch
+>> subject was missing the version number, which might be why the b4 diff
+>> couldn't detect the old series. Thank you for pointing out this error.
+>> Could you please advise whether I should resend v7 or fix it in next
+>> version series?
+> 
+> I marked this series as 'Changes Requested' in our media patchwork because
+> of this issue.
+> 
+> So resend it as v8 with the proper [PATCH v8 ...] subject.
+> 
+
+Thanks for the comments, I will follow your guidance to resend it.
+
+> It's a nightmare for maintainers/reviewers if it isn't clear if a patch series
+> supersedes a previous series, so it is important that you do this right.
+> 
+> Regards,
+> 
+> 	Hans
+> 
 >>
->> diff --git a/drivers/media/platform/marvell/mmp-driver.c b/drivers/media/platform/marvell/mmp-driver.c
->> index 3fd4fc1b9c48..d3da7ebb4a2b 100644
->> --- a/drivers/media/platform/marvell/mmp-driver.c
->> +++ b/drivers/media/platform/marvell/mmp-driver.c
->> @@ -231,13 +231,23 @@ static int mmpcam_probe(struct platform_device *pdev)
->>  
->>  	mcam_init_clk(mcam);
->>  
->> +	/*
->> +	 * Register with V4L.
->> +	 */
->> +
->> +	ret = v4l2_device_register(mcam->dev, &mcam->v4l2_dev);
-> 
-> I'd do this just before initialising the notifier (as in the patch in
-> Fixes: tag): registering the V4L2 device requires probably severe memory
-> pressure while it's entirely plausible there's no endpoint for the device.
+>> I have also found a workaround to replace "b4 diff". Last time, you
+>> helped by giving a RB tag on the version 4 dt-binding. You can check the
+>> differences[1] between version 4 and version 7 on the Patchew website.
+>> If possible, could you please help review the diff provided by Patchew
+>> once again? Sorry for wasting your time.
+>>
+>> Visit below website[1], then search "dt-bindings: media: camss: Add
+>> qcom,sm8550-camss binding", then we can get the difference between
+>> version4 and version7.
+>>
+>>
+>> [1]
+>> https://patchew.org/linux/20240812144131.369378-1-quic._5Fdepengs@quicinc.com/diff/20241225133523.4034820-1-quic._5Fdepengs@quicinc.com/
+>>
+>>
 
-Actually, v4l2_device_register does very little. No memory allocation is involved.
 
-I was planning to take this patch as-is.
-
-Regards,
-
-	Hans
-
-> 
->> +	if (ret)
->> +		return ret;
->> +
->>  	/*
->>  	 * Create a match of the sensor against its OF node.
->>  	 */
->>  	ep = fwnode_graph_get_next_endpoint(of_fwnode_handle(pdev->dev.of_node),
->>  					    NULL);
->> -	if (!ep)
->> -		return -ENODEV;
->> +	if (!ep) {
->> +		ret = -ENODEV;
->> +		goto out_v4l2_device_unregister;
->> +	}
->>  
->>  	v4l2_async_nf_init(&mcam->notifier, &mcam->v4l2_dev);
->>  
->> @@ -246,7 +256,7 @@ static int mmpcam_probe(struct platform_device *pdev)
->>  	fwnode_handle_put(ep);
->>  	if (IS_ERR(asd)) {
->>  		ret = PTR_ERR(asd);
->> -		goto out;
->> +		goto out_v4l2_device_unregister;
->>  	}
->>  
->>  	/*
->> @@ -254,7 +264,7 @@ static int mmpcam_probe(struct platform_device *pdev)
->>  	 */
->>  	ret = mccic_register(mcam);
->>  	if (ret)
->> -		goto out;
->> +		goto out_v4l2_device_unregister;
->>  
->>  	/*
->>  	 * Add OF clock provider.
->> @@ -283,6 +293,8 @@ static int mmpcam_probe(struct platform_device *pdev)
->>  	return 0;
->>  out:
-> 
-> For clarity, it'd be best to rename the out label to something more
-> specific, i.e. out_mccic_shutdown. Either way,
-> 
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
->>  	mccic_shutdown(mcam);
->> +out_v4l2_device_unregister:
->> +	v4l2_device_unregister(&mcam->v4l2_dev);
->>  
->>  	return ret;
->>  }
->> @@ -293,6 +305,7 @@ static void mmpcam_remove(struct platform_device *pdev)
->>  	struct mcam_camera *mcam = &cam->mcam;
->>  
->>  	mccic_shutdown(mcam);
->> +	v4l2_device_unregister(&mcam->v4l2_dev);
->>  	pm_runtime_force_suspend(mcam->dev);
->>  }
->>  
-> 
+Thanks,
+Depeng
 
 
