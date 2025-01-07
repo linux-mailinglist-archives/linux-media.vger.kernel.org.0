@@ -1,206 +1,212 @@
-Return-Path: <linux-media+bounces-24328-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24330-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691AFA03C9A
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 11:37:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64849A03CA3
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 11:39:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9244188378B
-	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 10:37:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC6C13A12D3
+	for <lists+linux-media@lfdr.de>; Tue,  7 Jan 2025 10:39:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ECD21E3DD0;
-	Tue,  7 Jan 2025 10:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267DD1E9B1D;
+	Tue,  7 Jan 2025 10:39:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="csUP9/Xh"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="duShz8cs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EF71E3DCC
-	for <linux-media@vger.kernel.org>; Tue,  7 Jan 2025 10:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC311E9B06;
+	Tue,  7 Jan 2025 10:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736246259; cv=none; b=jsABg9Nd2xglDExf/hYWGOlcsJadsAOouD0EaoFcgzAVo4nuOlQMFkiUEbNO2f4SYdG9mUkdGp9/tJV7RqGVfouPmLLdJ3CwyJEJqrb0V34oSTAUEau9MroiHM5zGS4QwaAzawoczCLbXiIZ1gMFyLo48Qv+raAllr2Wp0Y3IPk=
+	t=1736246352; cv=none; b=P4FyBHMJW6PqzvA7pkBk7hfQe9n3Vnu5M4lwQ+jTyqS8JSVoJd/6niCGwqTujeDLpYbhJSpki61pbsaBm+L5WjRrrqOlWc9KzsU/p2wYmgymptSwnkCgFOtJiWKlfe9at+MTPWVDKXglJbunC9sXQnPT6BMJxuAa11Jbz6RjnuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736246259; c=relaxed/simple;
-	bh=Lh+/n9HnEBEdAUCCTHJ4xwiF31BrECarqzPMxOH/DsQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=irf27hEe3LnXmnYWiY9erWiPPsgdhQIVP9CYGhkl2licfooO5ZuNw37c4H0XpFWzbSJRG/dg09mvj/FvLRl2Ru51jmNWZFufWO5KNBMYRm0S2AfG1qmQx8u0Hlb67Z5QBipSHloU27eNFRyXTlQ0XyOOcfQJBBjVzgZEhWEuXDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=csUP9/Xh; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54252789365so8871892e87.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Jan 2025 02:37:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1736246254; x=1736851054; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o1O4mtrUA8xb3bKiTsY1DsUybpMpm9vxH06xb7zcVj8=;
-        b=csUP9/XhLBAYQ91UobDEREUUZS6K1NPyZb05wPAG4AMP1RbeMf74jElECDMPOk3imX
-         bVFgYXwzUq3XW06hRJ8J1AIxThyf4xm+xOLneEa4CeSlKnh3I/RMN6vnDddxUgDDppcn
-         pF7szmKTwzBH7RkLwveitm0wRRqiY87xdbmyY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736246254; x=1736851054;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o1O4mtrUA8xb3bKiTsY1DsUybpMpm9vxH06xb7zcVj8=;
-        b=IESB8BcLVYZUlqYKPPxJvk3ly/veulXNj0aEkEphaDKM6rX0b7jRaaHHIRlLuHsscx
-         zFJcSw9/pzNglxm4aA3hEtmCYW5/+jb3n/H4qe7FHhv9/4h2AjA1zax0ogX2qHXa1EuT
-         Fv4ra3Uh3NBxz+OnBV9ndIEj832mfAkxd5N7xb5nNn7LHAbcrgzdG2gdUsj5Ffg0tBZZ
-         wbxtG9BNms02T1dIOplu3uw1ksBiybD+OmqSn7Iy3vzek13VQsi1wqpecsmp12eHvuqj
-         53jFJA4EDUyKjHak3bIx8l8BRXeu+YqEJ7ZwQcC80Ub+lZl5fc0CABe6tYPRahH/3qQ3
-         WD8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVStEFrG9BzmvM9BQeuAgiFpnYwiNprDwKRUro1X9zB8PfcGdZj1U+q2Pywb6ELuTrvRo/jZDtAebQWVw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1BGoqVLt5icVgkbKDbTFRrrfmaEIUME3ERGZMpFqJyMuQovcF
-	UOq+gFTQ91PPuXUP/96CKt0IztRBI+NPwH9Ua8Y87IWrh/RoVHWvfu1LrCFxwXsjLC7PbDCuFJb
-	tPw==
-X-Gm-Gg: ASbGncuR2snYmScQuccd/mGk+Lglqnt98zEh01BbbciLVMFE+gnkkJph9SlwAMUKWK6
-	L0Hyi7NqDoGe+1mL8KvZDMHK4RzVawR/aSFtRPldNRc+Qpnv6TVYMbECcGi+APoHkZ91r+JyiC/
-	lMpgdCWpCe9243FBhH/lQae+4x+glGFbd5ctapFk6R1bzxiSGnZQcp4uBHQ8LhCDUJKHExVBPKY
-	8255qU57Nq3SEkrEe4QUqcz76UhzszMFpf8X1SI2PnmjT+7nhwu1ZA/8WlVv3NQQYGWKWUqzfb5
-	q4zZNrk89SX2JXdva0M=
-X-Google-Smtp-Source: AGHT+IGNN9u9/VIOspZGVNeiOz2rWEuqlqXCLrt3rjVOSy/eox9zSqfb5NFvyEz8X2kPWEVUJsz50g==
-X-Received: by 2002:a05:6512:1193:b0:540:1d0a:581e with SMTP id 2adb3069b0e04-542295492ecmr19161680e87.28.1736246253766;
-        Tue, 07 Jan 2025 02:37:33 -0800 (PST)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542238214a6sm5126436e87.195.2025.01.07.02.37.31
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jan 2025 02:37:32 -0800 (PST)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-540215984f0so15900626e87.1
-        for <linux-media@vger.kernel.org>; Tue, 07 Jan 2025 02:37:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWYASe8lFgM+N2zSpzDLj/A8Pdrq4hxOrq8IUA3dle+XjgEu14JnI4ZySL3hKanOH2rmjY/Dr0WMST5Pw==@vger.kernel.org
-X-Received: by 2002:ac2:4c47:0:b0:542:22a0:9b35 with SMTP id
- 2adb3069b0e04-5422959cf96mr17743735e87.53.1736246250788; Tue, 07 Jan 2025
- 02:37:30 -0800 (PST)
+	s=arc-20240116; t=1736246352; c=relaxed/simple;
+	bh=by/BMO8HyphC0gOUA07wy6As9rKxn8I1hfOqZ4RcTRs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qsrVqKxzNtOKRCN+MH148hL7MS/heBY5ymwV4XkmSde5Q4u6btTPEx/84QqulC9QuGs57d5xzn2qWZYOKZJ3VugR62SLAaMAWCtcgHKMd6/I60sifLAQXEx1OaYRcVJCC8UtbFnQhG5I8MuGNBOmejUsyxMYZ0kvptRJtng60mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=duShz8cs; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5078AeD2015052;
+	Tue, 7 Jan 2025 10:39:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	olffPcbVhxGAPYBtnxW9rH14fKWdX8OdRVZGbiiwom8=; b=duShz8csW4nO1YaD
+	MEK2V2lczs9liXZsLlNPtMHSvBP7VSUdSvhlEBY2pEsoBZKOTCAEsEnNenHCoz2/
+	zwlA5NcxueAk5eHNeLfe8ippa68cg2L+g0vK+xL+VkOWYaknSns5u973qCCkJGAq
+	hsiwi9n2RMvW5fHEzgBuXKBz+f0xPgwF+fcfLrpapCsAqcRNnfA532kizriCSY0H
+	FredI4aI1YbASnJSsWkPiu0fjsGPasZPGcGmtu3C89PsjuwqeiFuvEMswPfgCkhf
+	NBhTr391zLdlCHngVf0cmU3UYdGTyIZsYWCwGcQOOxlhsKz6+jf1rBMJcdTLJBFu
+	cvscZg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4410he8bat-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Jan 2025 10:39:00 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 507Acxps020703
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 7 Jan 2025 10:38:59 GMT
+Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 Jan 2025
+ 02:38:55 -0800
+Message-ID: <ef75e12e-707c-410a-8b9b-c116f54bc7ba@quicinc.com>
+Date: Tue, 7 Jan 2025 16:08:52 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241212-usb-orientation-v1-1-0b69adf05f37@chromium.org>
- <20241217145612.GA1652259-robh@kernel.org> <CANiDSCu_mFQQVkDb_gSyXeb1_Tu+DxSeHYvGsGp6XVDuOdPyjQ@mail.gmail.com>
- <20241219122453.GA4008177-robh@kernel.org> <CANiDSCt+LAE-LzCDZgrWP_V-Jc-ywTF1-PuQtyDJMfV9v_ZzGA@mail.gmail.com>
- <CAL_JsqLON5xKoYtowKdk49s-YHbk9bq9akZSH1kHdQ_9vxKSQQ@mail.gmail.com>
-In-Reply-To: <CAL_JsqLON5xKoYtowKdk49s-YHbk9bq9akZSH1kHdQ_9vxKSQQ@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 7 Jan 2025 11:37:18 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvRfZiMafeJ6==oyduZCzJsv74pg9LbswnjoXFS2nTm=g@mail.gmail.com>
-X-Gm-Features: AbW1kvaLMLtXTjaById0Tmpn7DhVioJNoXfnhWB6MVdCLMx7bGwuyZWBT_mX3CM
-Message-ID: <CANiDSCvRfZiMafeJ6==oyduZCzJsv74pg9LbswnjoXFS2nTm=g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: usb: usb-device: Add panel-location
-To: Rob Herring <robh@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 20 Dec 2024 at 23:00, Rob Herring <robh@kernel.org> wrote:
->
-> On Thu, Dec 19, 2024 at 6:42=E2=80=AFAM Ricardo Ribalda <ribalda@chromium=
-.org> wrote:
-> >
-> > On Thu, 19 Dec 2024 at 13:24, Rob Herring <robh@kernel.org> wrote:
-> > >
-> > > On Tue, Dec 17, 2024 at 04:24:27PM +0100, Ricardo Ribalda wrote:
-> > > > Hi Rob
-> > > >
-> > > > On Tue, 17 Dec 2024 at 16:02, Rob Herring <robh@kernel.org> wrote:
-> > > > >
-> > > > > On Thu, Dec 12, 2024 at 09:44:37PM +0000, Ricardo Ribalda wrote:
-> > > > > > For some devices like cameras the system needs to know where th=
-ey are
-> > > > > > mounted.
-> > > > >
-> > > > > Why do you need this and why only this property and not the dozen=
-s
-> > > > > others ACPI has?
-> > > >
-> > > > Userspace needs that information to correctly show it in the UI. Eg=
-;
-> > > >
-> > > > - User facing camera needs to be mirrored during preview.
-> > > > - The user facing camera is selected by default during videoconfere=
-nces
-> > > > - The world facing camera is selected by default when taking a phot=
-o
-> > > > - User facing camera have different parameter defaults than world f=
-acing.
-> > >
-> > > We already have "orientation" defined for this purpose.
-> >
-> > Do you mean orientation from
-> > bindings/media/video-interface-devices.yaml ?
-> >
-> > I see a couple of issues:
-> > - Orientation has a very specific meaning for USB typeC. I'd prefer if
-> > we could avoid using that word.
->
-> Yes, but this is tied to the class of the device, not the bus. I find
-> defining the position for USB devices confusing.
->
-> > - For other applications different than cameras it might be useful to
-> > know the positions top, bottom, left, right, which are not available
-> > in video-interface-devices
->
-> Other devices may need some of the 20 other properties in the ACPI
-> table as well.
->
-> > - The value "external" does not makes too much sense for listed usb dev=
-ices
->
-> Then don't use it.
->
-> > - It makes our lives easier if dt and acpi have the same meaning (less
-> > conversion)
->
-> We have little to no input into what ACPI does. If we're just going to
-> copy ACPI, then just use ACPI instead.
->
-> > All that said, for my specific usecase, reusing orientation from
-> > bindings/media/video-interface-devices.yaml works... So if that is
-> > what you all prefer I can send a v2 with that.
-> > Let me know what you think
->
-> We already have something for cameras. Use it.
-
-So you are proposing a change like this?
-
-diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml
-b/Documentation/devicetree/bindings/usb/usb-device.yaml
-index da890ee60ce6..5322772a4470 100644
---- a/Documentation/devicetree/bindings/usb/usb-device.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
-@@ -37,6 +37,10 @@ properties:
-       but a device adhering to this binding may leave out all except
-       for "usbVID,PID".
-
-+  orientation:
-+    description: If present, specifies the orientation of the usb device.
-+    $ref: /schemas/media/video-interface-devices.yaml#/properties/orientat=
-ion
-+
-
-
-   reg:
-     description: the number of the USB hub port or the USB host-controller
-       port to which this device is attached. The range is 1-255.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] dmaengine: qcom: gpi: Add GPI Block event
+ interrupt support
+To: Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+        Vinod Koul
+	<vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal
+	<sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+References: <20241217170424.14703-1-quic_jseerapu@quicinc.com>
+ <20241217170424.14703-2-quic_jseerapu@quicinc.com>
+ <13c5b4d2-8fab-4ad2-98b7-1f71584509a6@quicinc.com>
+Content-Language: en-US
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+In-Reply-To: <13c5b4d2-8fab-4ad2-98b7-1f71584509a6@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: SDRavNl3jf52eKD5bID8gQFCqVdpp5QO
+X-Proofpoint-ORIG-GUID: SDRavNl3jf52eKD5bID8gQFCqVdpp5QO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 impostorscore=0 suspectscore=0 phishscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501070088
 
 
 
->
-> Rob
+On 1/7/2025 11:11 AM, Mukesh Kumar Savaliya wrote:
+> 
+> 
+> On 12/17/2024 10:34 PM, Jyothi Kumar Seerapu wrote:
+>> GSI hardware generates an interrupt for each transfer completion.
+>> For multiple messages within a single transfer, this results in
+>> N interrupts for N messages, leading to significant software
+>> interrupt latency.
+>>
+>> To mitigate this latency, utilize Block Event Interrupt (BEI) mechanism.
+>> Enabling BEI instructs the GSI hardware to prevent interrupt generation
+>> and BEI is disabled when an interrupt is necessary.
+>>
+>> When using BEI, consider splitting a single multi-message transfer into
+>> chunks of 8 internally. Interrupts are not expected for the first 7 
+>> message
+> chunks of 8 internally. This seems half statement to me. Something is 
+> missing to complete the statement.
+Okay, will review and update in next patch.
+>> completions, only the last message triggers an interrupt,indicating
+> ,indicating
+> here give space before.
+Sure, will update it in next patch v5.
+>> the completion of 8 messages.
+>>
+>> This BEI mechanism enhances overall transfer efficiency.
+>>
+>> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+>> ---
+>>
+>> v3 -> v4:
+>>    - API's added for Block event interrupt with multi descriptor 
+>> support for
+>>      I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+>>    - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+>>      I2C driver.
+>>
+>> v2-> v3:
+>>     - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+>>     - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+>>     - Added documentation for newly added changes in "qcom-gpi-dma.h" 
+>> file
+>>     - Updated commit description.
+>>
+>> v1 -> v2:
+>>     - Changed dma_addr type from array of pointers to array.
+>>     - To support BEI functionality with the TRE size of 64 defined in 
+>> GPI driver,
+>>       updated QCOM_GPI_MAX_NUM_MSGS to 16 and NUM_MSGS_PER_IRQ to 4.
+>>
+>>   drivers/dma/qcom/gpi.c           | 3 +++
+>>   include/linux/dma/qcom-gpi-dma.h | 9 +++++++++
+>>   2 files changed, 12 insertions(+)
+>>
+>> diff --git a/drivers/dma/qcom/gpi.c b/drivers/dma/qcom/gpi.c
+>> index 52a7c8f2498f..74eabcd1416d 100644
+>> --- a/drivers/dma/qcom/gpi.c
+>> +++ b/drivers/dma/qcom/gpi.c
+>> @@ -1693,6 +1693,9 @@ static int gpi_create_i2c_tre(struct gchan 
+>> *chan, struct gpi_desc *desc,
+>>           tre->dword[3] = u32_encode_bits(TRE_TYPE_DMA, TRE_FLAGS_TYPE);
+>>           tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_IEOT);
+>> +
+>> +        if (i2c->flags & QCOM_GPI_BLOCK_EVENT_IRQ)
+>> +            tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_BEI);
+>>       }
+>>       for (i = 0; i < tre_idx; i++)
+>> diff --git a/include/linux/dma/qcom-gpi-dma.h b/include/linux/dma/ 
+>> qcom-gpi-dma.h
+>> index 6680dd1a43c6..d818c6a955e2 100644
+>> --- a/include/linux/dma/qcom-gpi-dma.h
+>> +++ b/include/linux/dma/qcom-gpi-dma.h
+>> @@ -15,6 +15,13 @@ enum spi_transfer_cmd {
+>>       SPI_DUPLEX,
+>>   };
+>> +/**
+>> + * define QCOM_GPI_BLOCK_EVENT_IRQ - Block event interrupt support
+>> + *
+>> + * This is used to enable/disable the Block event interrupt mechanism.
+>> + */
+>> +#define QCOM_GPI_BLOCK_EVENT_IRQ    BIT(0)
+>> +
+>>   /**
+>>    * struct gpi_spi_config - spi config for peripheral
+>>    *
+>> @@ -65,6 +72,7 @@ enum i2c_op {
+>>    * @rx_len: receive length for buffer
+>>    * @op: i2c cmd
+>>    * @muli-msg: is part of multi i2c r-w msgs
+>> + * @flags: true for block event interrupt support
+>>    */
+>>   struct gpi_i2c_config {
+>>       u8 set_config;
+>> @@ -78,6 +86,7 @@ struct gpi_i2c_config {
+>>       u32 rx_len;
+>>       enum i2c_op op;
+>>       bool multi_msg;
+>> +    bool flags;
+> can we better singular name instead of general name ?
+> something like bei_flag ? OR block_int_flag ?
+Sure, will update it in next patch v5.
+> 
+>>   };
+>>   #endif /* QCOM_GPI_DMA_H */
+> 
 
-
-
---=20
-Ricardo Ribalda
 
