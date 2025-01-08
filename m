@@ -1,190 +1,231 @@
-Return-Path: <linux-media+bounces-24381-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24382-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8739A055CB
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 09:51:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6418CA055CD
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 09:52:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A1F03A65AD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 08:51:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E87E418886A4
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 08:52:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F19971F0E2E;
-	Wed,  8 Jan 2025 08:51:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 170D61F03C9;
+	Wed,  8 Jan 2025 08:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lsu/ymBp"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EAvvXVtY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAADE1D47A2;
-	Wed,  8 Jan 2025 08:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89DB1D47A2
+	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 08:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736326300; cv=none; b=E8dTQBHVm+DGRIPYar88XSVZNB3Ivb75vecoujSXM3cFewEfU5ebbU2zS9KpX9QaZfzM1osj9SYoHbv+01Jyu3A44MfbzDwA2qUZ5kAb252Rn8F60EBPLEON52TNWhDc4EKwNc+JYc1CGYlz5x7/TQP7LdF1fM6D/kZRcDR2xr8=
+	t=1736326312; cv=none; b=cgwzq4k1hty9NFREQOq59I/QM/MDOfFXw9tea11LAdP1arUEWqlupO2VG8r9u0SKrBKKp2/4f592TihB1DZ3vnbBRX0Q2Ql7/kJc9Wgc4wtoduLdA672tVaHQ6nXm1DbK1baTsiw7LlIwlnikDeD3lKSF9zjjCFn/SCliPByXFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736326300; c=relaxed/simple;
-	bh=xt7HRg+SHTwUxvYOWoNuFKGEB36Fv5XsmYv2ii2dvzs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lWXlB5Jg5ASFeHgYOFoZuDRr7BK5dciFLHsscZF7TOPAB1/pUmF349yCqdGhoYddSqCgh5sBSh3bighoHWBxIXWM2hJeha9k5LSeceFwIkUWNq22JF90lRRjXqxAcD8brLBYY58jKURQHHJT3fmz8jZlZByHth2kQyK4iEIpmSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lsu/ymBp; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5086l8eo025097;
-	Wed, 8 Jan 2025 08:51:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jB2VZGZ0NrAYMJdEFSaYBCLl8kbrmmkj5XE+wuVhsdM=; b=lsu/ymBpHqheZTg0
-	PFxda+b88BKxsOHLU3Fi/1Xz9aoQz7kDAWzEGZyKOlwg7Gl5CVYUrLdNF2SGG4qV
-	EO3EXOGiIwkQalaybHpqyHkw3/uZ7C0AQmpb/sD2vBzq1h83QIsLjojqSPb+KITE
-	ECbuTywl5gA1KK4qvZTb64b/V34USzjQsckJ3ldRofpn+xzTtpAT8KH8nnrVSJXb
-	4a8LxD4LUkE9ALwyqwwijjmI3gEn3ONt02StmBt+MwI2AKaop/3SQwKADjk3BG0h
-	mxAzyMWbaAEE4nwUeexehYEmEWgT1oz9zoOxYi32ZayrJ3hV5MHQG0NdxSmiM1hZ
-	TU/XpQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441md309rx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jan 2025 08:51:28 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5088pRQH000657
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 8 Jan 2025 08:51:27 GMT
-Received: from [10.50.21.116] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 Jan 2025
- 00:51:19 -0800
-Message-ID: <9fc76dd1-ef49-a9d2-0271-eacb50943b03@quicinc.com>
-Date: Wed, 8 Jan 2025 14:21:16 +0530
+	s=arc-20240116; t=1736326312; c=relaxed/simple;
+	bh=fJq7ros3YcEqXnW8lhic7CNgUrTijyQuFS6oBYRXqyk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I3/Trkh/lMRKdwI7veyn+tGjG3mhJxNTojyMEYBN3x+tnMLYFwwUjy6QKzbR/d846kAHARdETaaqkENrUoY7LsHmilLWqbQznBqfVZbz4T9hOxbgjLtaOFtgbJzJ0Gqbar57jPqwvKVmcIUSC8CZfUHj9AJEh1k19/5yoxFynIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EAvvXVtY; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5401c52000fso16368813e87.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2025 00:51:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1736326309; x=1736931109; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UbZVTJDWZ7xlQNj3S58PwFTZA9cCGUupjUxBClEpIns=;
+        b=EAvvXVtYLg52czkbUTKtD++4PMlyt+f98gZ1u/rCt1MVjwo4s2SZn35sNKcPKDR1+G
+         41Yk4gJ2C49CWwEvsaakUI2YGHFhr7NQz32SjRsVJ36d7LESO9a1VJZFQv/K24D/29AX
+         i5m5aMUM5AscpkVlz58eym9/ISthqugGD8Vj4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736326309; x=1736931109;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UbZVTJDWZ7xlQNj3S58PwFTZA9cCGUupjUxBClEpIns=;
+        b=U5BBwJatYa1IKo0OpbxNVHZG4nNxrsBxnQkKkk0ys9rGPNrZTAhvGTKZT8nNE6m3TD
+         dMt4j5YT/y9FvAi0DdsqzaLVY+YTHcKk7OBg8/qCP8eC0VDI5pavWgoe2YDbILt6BH5I
+         EbgqAhUUGwKY43PtoRuTuh2XIM4dH0knyauDuecPUoMYvfrXs7OBpqDbQt64iAszK0j7
+         cRq8gdEunPknm+L5wtkntg+tyi91nYmgyefR3fnaxQH/xkl+JxmQ7MtxIs3bfmb1pMzw
+         T/FbUc/P/JgNLpMX4RXrVXtpGZsBeM+drhUW+/FrKa5ju0Ar23frRddwjSduzVdzxV6F
+         /59g==
+X-Forwarded-Encrypted: i=1; AJvYcCVsvhzU5nWWOcgIYcv08jcf2xtzrthvjvbwZ+eKDNVIRCv7J4W3nHa+tlNUZtrzPmSejd9R0ITU4viOag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaQ139Jny9CT3+eZbh2Sk9GnlQTUqLlmmsGqvfSjF6X9ibyJyT
+	2emgUbGppa8dkA5rpojd/VORYklEP6S1AD6q01lEsArJoCwCjKG+Ph5p1XLHmL3UN7RwzDRvDPw
+	4WA==
+X-Gm-Gg: ASbGncsILwdTA2UKRykE1fNFfIdVsh7+OvOVc1jQ/X4oJ7tlE4QsWAKIrSoQtymzcsX
+	PH2n7GIbdq8i5Ztxer6VkvGT2nBIDPO/rXdizXf+FTz0aOsmdYk/NxDKlLloE6o0spCP8OWUMGT
+	450rygbjBrNFc/k3CHf87NKOA6OHy2qWnkF7wxHyb/3Xu7hRBTZKEJixnKjijNwbsLRsPXA6Jjv
+	Q2hhnDYguuTeq5gG2AZAMVAikOhqetWO3le72UHhD50iXcOv0q1wZNcYAh6nWnDn3bll19cF7Gk
+	7IrlG3dKQuv9JYPEiAo=
+X-Google-Smtp-Source: AGHT+IE5f9Hn/ybj+Ez66S+qC9NS4HB7J/hWrkxelx+oQZo8H1DmdjeEaESwHjufX5iGv6h6OvxlCQ==
+X-Received: by 2002:a05:6512:68b:b0:53f:231e:6fa2 with SMTP id 2adb3069b0e04-542845d73e1mr445702e87.26.1736326308817;
+        Wed, 08 Jan 2025 00:51:48 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54223832c26sm5461589e87.279.2025.01.08.00.51.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jan 2025 00:51:47 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5401e6efffcso19052465e87.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2025 00:51:47 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX9lB+WmfQQZncKwmUmqfe5+m2KCTEUpQzK6wcmrKlRaqMhxbQKep8HxnhgacDHTC83YtHMYuO0gW/gTg==@vger.kernel.org
+X-Received: by 2002:a05:6512:1392:b0:542:24c8:e062 with SMTP id
+ 2adb3069b0e04-54284815bc4mr514545e87.44.1736326306832; Wed, 08 Jan 2025
+ 00:51:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of SM8250
- SoC
-Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Dufresne
-	<nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>
-CC: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Abhinav Kumar
-	<quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@baylibre.com>,
-        Jianhua Lu
-	<lujianhua000@gmail.com>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
- <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
- <20241223113027.21b8f7ab@foz.lan>
- <fbe0d935-a3cf-dfa0-aad8-56834a0a002c@quicinc.com>
- <635ce4ed82aaca422b869f467300b0eccf9c8703.camel@ndufresne.ca>
- <c0f59149-713b-45e4-3755-4a52cfaa93f6@quicinc.com>
- <498a99e1-77ca-4acf-8850-cb74417ae88c@xs4all.nl>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <498a99e1-77ca-4acf-8850-cb74417ae88c@xs4all.nl>
+References: <20241212-usb-orientation-v1-1-0b69adf05f37@chromium.org>
+ <20241217145612.GA1652259-robh@kernel.org> <CANiDSCu_mFQQVkDb_gSyXeb1_Tu+DxSeHYvGsGp6XVDuOdPyjQ@mail.gmail.com>
+ <20241219122453.GA4008177-robh@kernel.org> <CANiDSCt+LAE-LzCDZgrWP_V-Jc-ywTF1-PuQtyDJMfV9v_ZzGA@mail.gmail.com>
+ <CAL_JsqLON5xKoYtowKdk49s-YHbk9bq9akZSH1kHdQ_9vxKSQQ@mail.gmail.com>
+ <CANiDSCvRfZiMafeJ6==oyduZCzJsv74pg9LbswnjoXFS2nTm=g@mail.gmail.com> <Z347NA00DMiyl1VN@kekkonen.localdomain>
+In-Reply-To: <Z347NA00DMiyl1VN@kekkonen.localdomain>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 8 Jan 2025 09:51:34 +0100
+X-Gmail-Original-Message-ID: <CANiDSCs37N79MnFZxvBJn2Jw3062EdLRuVP4EkJVfJcfMMuPAg@mail.gmail.com>
+X-Gm-Features: AbW1kvan1zyHFQY9XbZwCJKxWjOop6P67-eXGqvGZTUi5VkdEAJc4fptoroNTdc
+Message-ID: <CANiDSCs37N79MnFZxvBJn2Jw3062EdLRuVP4EkJVfJcfMMuPAg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: usb: usb-device: Add panel-location
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Rob Herring <robh@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: GfDLBmQb8nwhRNTSpDMuc9MPZqnxBXIe
-X-Proofpoint-ORIG-GUID: GfDLBmQb8nwhRNTSpDMuc9MPZqnxBXIe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 spamscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
- mlxlogscore=999 lowpriorityscore=0 adultscore=0 malwarescore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501080071
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, 8 Jan 2025 at 09:45, Sakari Ailus <sakari.ailus@linux.intel.com> wr=
+ote:
+>
+> Hi Ricardo,
+>
+> On Tue, Jan 07, 2025 at 11:37:18AM +0100, Ricardo Ribalda wrote:
+> > On Fri, 20 Dec 2024 at 23:00, Rob Herring <robh@kernel.org> wrote:
+> > >
+> > > On Thu, Dec 19, 2024 at 6:42=E2=80=AFAM Ricardo Ribalda <ribalda@chro=
+mium.org> wrote:
+> > > >
+> > > > On Thu, 19 Dec 2024 at 13:24, Rob Herring <robh@kernel.org> wrote:
+> > > > >
+> > > > > On Tue, Dec 17, 2024 at 04:24:27PM +0100, Ricardo Ribalda wrote:
+> > > > > > Hi Rob
+> > > > > >
+> > > > > > On Tue, 17 Dec 2024 at 16:02, Rob Herring <robh@kernel.org> wro=
+te:
+> > > > > > >
+> > > > > > > On Thu, Dec 12, 2024 at 09:44:37PM +0000, Ricardo Ribalda wro=
+te:
+> > > > > > > > For some devices like cameras the system needs to know wher=
+e they are
+> > > > > > > > mounted.
+> > > > > > >
+> > > > > > > Why do you need this and why only this property and not the d=
+ozens
+> > > > > > > others ACPI has?
+> > > > > >
+> > > > > > Userspace needs that information to correctly show it in the UI=
+. Eg;
+> > > > > >
+> > > > > > - User facing camera needs to be mirrored during preview.
+> > > > > > - The user facing camera is selected by default during videocon=
+ferences
+> > > > > > - The world facing camera is selected by default when taking a =
+photo
+> > > > > > - User facing camera have different parameter defaults than wor=
+ld facing.
+> > > > >
+> > > > > We already have "orientation" defined for this purpose.
+> > > >
+> > > > Do you mean orientation from
+> > > > bindings/media/video-interface-devices.yaml ?
+> > > >
+> > > > I see a couple of issues:
+> > > > - Orientation has a very specific meaning for USB typeC. I'd prefer=
+ if
+> > > > we could avoid using that word.
+> > >
+> > > Yes, but this is tied to the class of the device, not the bus. I find
+> > > defining the position for USB devices confusing.
+> > >
+> > > > - For other applications different than cameras it might be useful =
+to
+> > > > know the positions top, bottom, left, right, which are not availabl=
+e
+> > > > in video-interface-devices
+> > >
+> > > Other devices may need some of the 20 other properties in the ACPI
+> > > table as well.
+> > >
+> > > > - The value "external" does not makes too much sense for listed usb=
+ devices
+> > >
+> > > Then don't use it.
+> > >
+> > > > - It makes our lives easier if dt and acpi have the same meaning (l=
+ess
+> > > > conversion)
+> > >
+> > > We have little to no input into what ACPI does. If we're just going t=
+o
+> > > copy ACPI, then just use ACPI instead.
+> > >
+> > > > All that said, for my specific usecase, reusing orientation from
+> > > > bindings/media/video-interface-devices.yaml works... So if that is
+> > > > what you all prefer I can send a v2 with that.
+> > > > Let me know what you think
+> > >
+> > > We already have something for cameras. Use it.
+> >
+> > So you are proposing a change like this?
+> >
+> > diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > index da890ee60ce6..5322772a4470 100644
+> > --- a/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > @@ -37,6 +37,10 @@ properties:
+> >        but a device adhering to this binding may leave out all except
+> >        for "usbVID,PID".
+> >
+> > +  orientation:
+> > +    description: If present, specifies the orientation of the usb devi=
+ce.
+> > +    $ref: /schemas/media/video-interface-devices.yaml#/properties/orie=
+ntation
+>
+> Do you need this for a camera or for other kinds of USB devices, too?
+>
+> What about e.g. the rotation property?
 
+I need it for cameras. I do not have a usecase for rotation now, but I
+might have in the future.
 
-On 1/8/2025 1:17 PM, Hans Verkuil wrote:
-> On 08/01/2025 08:43, Dikshita Agarwal wrote:
->>
->>
->> On 1/7/2025 7:27 PM, Nicolas Dufresne wrote:
->>> Le lundi 23 décembre 2024 à 16:21 +0530, Dikshita Agarwal a écrit :
->>>>
->>>> On 12/23/2024 4:00 PM, Mauro Carvalho Chehab wrote:
->>>>> Em Thu, 12 Dec 2024 17:21:49 +0530
->>>>> Dikshita Agarwal <quic_dikshita@quicinc.com> escreveu:
->>>>>
->>>>>> +	.dma_mask = GENMASK(31, 29) - 1,
->>>>>
->>>>> Setting a mask to GENMASK() - 1 sounds weird. Is it really what you want?
->>>>> I so, why?
->>>>>
->>>> Hi Mauro,
->>>>
->>>> the value of this dma mask should be 0xe0000000 -1.
->>>>
->>>> The background for the same is, 0xe0000000 onward memory space is allocated
->>>> for IO register space so we are restricting the driver buffer allocations
->>>> to 0xe0000000 - 1.
->>>>
->>>> Based on the comments received in the past, we are using GENMASK to
->>>> generate 0xe0000000.
->>>>
->>>> Does this answer your query or I missed something?
->>>
->>> I'm not sure it will do what you want. (0xe0000000 -1) matches ~BIT(29). Perhaps
->>> you wanted to use ~0xe0000000. 
->>>
->> value of dma mask is coming as expected with GENMASK(31, 29) - 1
->>
->> qcom-iris aa00000.video-codec: dma_mask DFFFFFFF (0xe0000000 -1)
-> 
-> Isn't this just the equivalent of GENMASK(28, 0)? Can't you use that?
-> 
-> It's much easier to understand than GENMASK()-1.
-
-Sure, I can use either ~GENMASK(29, 29) or ~BIT(29),
-Please let me know which would be better?
-
-Thanks,
-Dikshita
-
-> 
+>
+> > +
+> >
+> >
+> >    reg:
+> >      description: the number of the USB hub port or the USB host-contro=
+ller
+> >        port to which this device is attached. The range is 1-255.
+>
+> --
 > Regards,
-> 
-> 	Hans
-> 
->>
->> Thanks,
->> Dikshita
->>> Nicolas
->>>
->>>>
->>>> Thanks,
->>>> Dikshita
->>>>> Thanks,
->>>>> Mauro
->>>
-> 
-> 
+>
+> Sakari Ailus
+
+
+
+--=20
+Ricardo Ribalda
 
