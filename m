@@ -1,303 +1,219 @@
-Return-Path: <linux-media+bounces-24465-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24466-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35D3A064C1
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 19:40:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C6AA064D4
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 19:45:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 676311889148
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 18:40:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAA8F7A3FE3
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 18:45:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7315820127F;
-	Wed,  8 Jan 2025 18:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99BA3202F67;
+	Wed,  8 Jan 2025 18:45:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="vzEYtTcy"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="Ao6Xr87n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FD2201259
-	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 18:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BE3202C4D
+	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 18:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736361612; cv=none; b=OwMxn5aJb60qO8/OFf8hwp1ddDAiqLsS1Zykax2cu9ai7ezDhhj4+vkj9I8YIXYWDJIP9C2VzyzZt+FWr4udBPGodaeFbGOMOJF24vZFFx8MD17DOXusIcD/21EuxgeogVPO23+eoGVFb6xIRXTnMUuOZkuA6uUKPhxQHy00M1w=
+	t=1736361900; cv=none; b=QmaZbyawT+q4jE77P2ucdLr31g970jeDCSv6zcXzVpmBY/am5apACog1NiogDZf6dluwO7LkQBdE4navIr+T49r+YV6werLB06/LhzOcmFqBC7+IX/yNRXStI+Urf4Gw7YiIhZZBSC2KGazqmJEQnWu1RMV/UP6uS5IEX8FNk4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736361612; c=relaxed/simple;
-	bh=g/zwBa9v71YSJn1jfFX51g1Op57Yml9HAACHO+zW+w8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZXSgzrxPbsRijFEvOSXwbXMLJR9RmnNppvKzEqaMaJ4nYDXaf18S90E+MgLrtXDe7oX8+dqFC1GcQ+C8ZwJJDfIsGo2W6j+P5bKGm/Qa1TftCJkrOjWYCGmIdjnKfwwM0l5XK4Y2ojIG/WTWE3MWFiIBpEOyOdM2lgFNjJkTLIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=vzEYtTcy; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7b6f1be1daeso8871885a.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2025 10:40:10 -0800 (PST)
+	s=arc-20240116; t=1736361900; c=relaxed/simple;
+	bh=TZn4YgL0P0jymgz8iCPIR8t9GoOgia+W722ov869n5E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KlzZVT1NxWXGOm8GM+B5LN5YuEvWKNS1DtwQ2L5EnACqQ1fDlu29yePFeVU/nBkPPhP2WH0yVe5hN/WCyYofodX+icIGQ51JVE2pQB3OO4q/N/N0eG5Ric9Q4c2ol94TwnuwTfmLKDD6M5G2HGcuTIk+yJ1zlEPs3/XuAgGABg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=Ao6Xr87n; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4364a37a1d7so1510275e9.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2025 10:44:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1736361609; x=1736966409; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=4ffX9s5lZZvi/RIVY3Ypy7RNThefOmFeXVp1Muk6+1U=;
-        b=vzEYtTcyjCE2gW4BmaiUqWIgDc44WVLNLZ0lhUQoaH53VH1PMtP3EBjocMScn+SrcE
-         7LKiT0htN1L6ygQF+BFK43YsoYpYRdzXzf7IZZVU4z8vT+MkXOGIkHNUYf9MYZfwp/ud
-         R8vVa3TAyW3ue0BSfxt/gQfENX+6fzZi8Jrzvg/Shn7CdAG9aI8Veam1RXhA6wDtsBk9
-         KnDVIWanleI/tS2u0mcDV0OSOcYfcHjUKTn6gBoeb7Gqjg4W6p0TZ/Me/G6mcbDPH1TL
-         oX55PZ6N8nCTRn+gt8QutitcE2YDp5Xk2aDToGGB+Rb5eY1WxAStzVbmGUvzxh9kXBUF
-         xaNQ==
+        d=ffwll.ch; s=google; t=1736361897; x=1736966697; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=biUOjGlssGWN8EwLhBP7GU2aZtnSDMl8F0vAilAylCg=;
+        b=Ao6Xr87nJH/yY+RXJVnQK5cX69sqxrJzFdf0TKcH7yFhdqudE7Fjllz6yScc0zsF9R
+         Kq20O0LQKCGqo3FSeS5JPUf9cwAvrszij3NwVBwwpxAAhxBApHIAQzuYrr80tBtjD2I7
+         ojdJOCYjIO/GlEQMGLbcokZRs/RHDwR1+oj0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736361609; x=1736966409;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4ffX9s5lZZvi/RIVY3Ypy7RNThefOmFeXVp1Muk6+1U=;
-        b=tdB3voljTT9wXV0s/P7YEdpXZujoCBF2SNvqTVEeTUfnbhuRTQkQrDi2MILs41GMUj
-         WsYdVCMvvvefrVlJNz8qpRGs+BGkA0bCI33lpEeZ/rzqI6Q/9HieNSplmbPk2JPmKkQb
-         LtPLwG41KXMnqPHWFUECUGmxBII3CF0y8GVMEWmv1zQjO2FLB5X9xcFHJSFPt/LvyAtO
-         rwwKJj12goe4c8wFy5oz0x7iSm1XNfIik8/4nUKfuCxmEvk97b88zZghu6TgpiBZsNgJ
-         8rhD8wdjYto11ncGKOYpWtzGhZlonRfX53NA+2yzMO+xv44gYJkACVXhsfx55zb3Od8o
-         +R+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVNlIuXsC//zfSapSL2X5J8aBZQT0+INsO/zpsZ+pmWJn7reR8/1PR/fh/0hRSFJrVIH3f3NqYK+AZ7oA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0kcv3FsTlOc7VGCM/6LCkjXZrpQUPix0uspx3zSDucp5Rn93v
-	eXGMkygejsPT1TJoBKGoWWWRALY+suI3xw52ojnYtmSAAnpFK84RFy9qRpgoagk=
-X-Gm-Gg: ASbGncsZ8KPgka/0gULNKDSOWdlcu8i9E6om0mAC5pQOdT7CXqpDyrM8FJdcXkAGAii
-	SVYFVD2D552gl3dDuO8LtnIcSIJJZXB9f0uJFWb8d4D2prTimr5FeuFrETjKNgmbmmaN8j233qv
-	ryVc+C8STTsILjK03nx4nv0W+Xd4iQzF8uItrpnQs5BdwI39Ib5fWiEIy4ZTCpHELeQoc8w6gde
-	CZfGf+fBpUaHdZexxr6gBJHo0uxsq5tLORynAO17ANBG5h7RhqjiAXMsw==
-X-Google-Smtp-Source: AGHT+IGW+2bZaLQkp8cMxdfoS+8Vn3bkQIJI43rs5ghM1jAE3+huimVx3cvmQ8g1/rbob0Gr49WI3A==
-X-Received: by 2002:a05:620a:17a2:b0:7b8:6331:a55e with SMTP id af79cd13be357-7bcd975a181mr670484685a.44.1736361609279;
-        Wed, 08 Jan 2025 10:40:09 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:862e::7a9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b9ac2bbc62sm1698645485a.4.2025.01.08.10.40.08
+        d=1e100.net; s=20230601; t=1736361897; x=1736966697;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=biUOjGlssGWN8EwLhBP7GU2aZtnSDMl8F0vAilAylCg=;
+        b=PQjRO1mQwievG/Xc/LrHwCSKuhYB6Gg/nUV3UUG6D/Ctr3MNh+ngqk48xx+I7zW3hE
+         eST/yEqH/N5Cnhnm3Db751BbCPqHfeXhvPc+mbZynF3H+jnVV7woJXUTPjf7gu6mt74r
+         aBnTgtdhETO0P1yY3k87uB6dlReCH1NMg4F7Gg5Zq3JlvOIbMLLIdvsXtIKkhTE6Z9w1
+         C3BILtXsh/HBPy8D/4E362rO6oas2UafHA4A8u9/AOz6ItUKv1WnkHJvk+vR64DVQUex
+         NU+xY80MLo0nf235r1YnAwk4KdoQqf3vYG7z1hrQpmX6Eh6yoQXqQxd4ERPyE91PjyM9
+         l6Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHnpN3OnRGCIUqUrUp3KW3J7Uk3/R0b8eCTH+z9VlXyZ7+3g2djpnGJv/dOFrSEUsOenUcCRp/+yHIaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5RcLT5jRDAB2cJ74pbdwop1Y4dfgSPAwzVM0VHTt7UJv+qbHT
+	POXIt9HxvPh13KHJkYH64YDf0OUan5cEAei1V64AAiaRTsWPttdP3NEAVTt87BQ=
+X-Gm-Gg: ASbGncv6uVp0fnQupuHEOQd4njN4E1FugU+4hGnYR2V+c5yMjH2kJgJF6dVBeEkO9zj
+	LhB6XbhsQQ91FNKaEfcpWYN7Ns4gmyKxYqoHVeLlY6QpTZVkoNxt2SCjMG49WI8Pa0nMY9RmTRm
+	0Ln64Ssci+FV9iH27+QYncK/79vpnYm9f9ejBePO+NCTRyDyWgpEoeT121XU6TXIxPd+GX+fvnX
+	F26ckWncsrkOE+jWOaj9mnIke2b+DwGUwmpxxDrZLwwAJUa7FQ7GOFqwanivUAwMHGl
+X-Google-Smtp-Source: AGHT+IExRhiMjUcJ+d2lZABMI97n3eXtXXWT0vriTVE6jNdGuPQr09X4d5/VTHHP1nckqDkKCH5ntA==
+X-Received: by 2002:a05:600c:5801:b0:436:30e4:459b with SMTP id 5b1f17b1804b1-436e26adf89mr31810775e9.18.1736361896818;
+        Wed, 08 Jan 2025 10:44:56 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2ddca2dsm29220505e9.21.2025.01.08.10.44.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 10:40:08 -0800 (PST)
-Message-ID: <308c2f4b6395fed3c2fbbb59d16cd8fa97da5d55.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/7] Raspberry Pi HEVC decoder driver
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart	
- <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list	
- <bcm-kernel-feedback-list@broadcom.com>, John Cox
- <john.cox@raspberrypi.com>,  Dom Cobley <dom@raspberrypi.com>, review list
- <kernel-list@raspberrypi.com>, Ezequiel Garcia	
- <ezequiel@vanguardiasur.com.ar>, John Cox <jc@kynesim.co.uk>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, John Cox <john.cox@raspberypi.com>
-Date: Wed, 08 Jan 2025 13:40:07 -0500
-In-Reply-To: <CAPY8ntCxH2C=YEJEcee0b2UuXU+xZ0Ntbuvc29MLAipr9DCmmw@mail.gmail.com>
-References: <20241220-media-rpi-hevc-dec-v1-0-0ebcc04ed42e@raspberrypi.com>
-	 <6d6c49919af9e782bd8e9be5066e92c9704ad5b7.camel@ndufresne.ca>
-	 <CAPY8ntCxH2C=YEJEcee0b2UuXU+xZ0Ntbuvc29MLAipr9DCmmw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+        Wed, 08 Jan 2025 10:44:56 -0800 (PST)
+Date: Wed, 8 Jan 2025 19:44:54 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+	zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <20250107142719.179636-2-yilun.xu@linux.intel.com>
+ <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
+ <20250108132358.GP5556@nvidia.com>
+ <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+ <20250108145843.GR5556@nvidia.com>
+ <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
+ <20250108162227.GT5556@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250108162227.GT5556@nvidia.com>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 
-Le mardi 07 janvier 2025 =C3=A0 16:13 +0000, Dave Stevenson a =C3=A9crit=C2=
-=A0:
-> Hi Nicolas
->=20
-> On Mon, 6 Jan 2025 at 20:46, Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
-e:
-> >=20
-> > Hi Dave,
-> >=20
-> > Le vendredi 20 d=C3=A9cembre 2024 =C3=A0 16:21 +0000, Dave Stevenson a =
-=C3=A9crit :
-> > > Hi All
-> > >=20
-> > > This has been in the pipeline for a while, but I've finally cleaned
-> > > up our HEVC decoder driver to be in a shape to at least get a first
-> > > review.
-> > > John Cox has done almost all of the work under contract to Raspberry
-> > > Pi, and I'm largely just doing the process of patch curation and
-> > > sending.
-> > >=20
-> > > There are a couple of questions raised in frameworks.
-> > > The main one is that the codec has 2 independent phases to the decode=
-,
-> > > CABAC and reconstruction. To keep the decoder operating optimally
-> > > means that two requests need to be in process at once, whilst the
-> > > current frameworks don't want to allow as there is an implicit
-> > > assumption of only a single job being active at once, and
-> > > completition returns both buffers and releases the media request.
-> > >=20
-> > > The OUTPUT queue buffer is finished with and can be returned at the
-> > > end of phase 1, but the media request is still required for phase 2.
-> > > The frameworks currently force the driver to be returning both
-> > > together via v4l2_m2m_buf_done_and_job_finish. v4l2_m2m_job_finish
-> > > would complete the job without returning the buffer as we need,
-> > > however if the driver has set VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_B=
-UF
-> > > then we have a WARN in v4l2_m2m_job_finish.
-> > > Dropping the WARN as this series is currently doing isn't going to be
-> > > the right answer, but it isn't obvious what the right answer is.
-> > > Discussion required.
-> >=20
-> > I think part of the manual request completion RFC will be to evaluate t=
-he impact
-> > on VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF feature. MTK does not supp=
-ort
-> > interleaved interlaced decoding (only alternate), so they didn't have t=
-o
-> > implement that feature.
-> >=20
-> > Overall, It would be nice to get your feedback on the new manual reques=
-t
-> > proposal, which is I believe better then the pin/unpin API you have in =
-this
-> > serie.
->=20
-> I wasn't aware of that series, but I / John will take a look.
->=20
-> > >=20
-> > > We also have a need to hold on to the media request for phase 2. John
-> > > had discussed this with Ezequiel (and others) a couple of years back,
-> > > and hence suggested a patch that adds media_request_{pin,unpin} to
-> > > grab references on the media request. Discussion required on that
-> > > or a better way of handling it.
-> > >=20
-> > > I will apologise in advance for sending this V1 just before I head of=
-f
-> > > on the Christmas break, but will respond to things as soon as possibl=
-e.
-> >=20
-> > One thing missing in this summary is how this driver is being validated
-> > (specially that for this one requires a downstream fork of FFMPEG). To =
-this
-> > report we ask for:
-> >=20
-> > - v4l2-compliance results
-> > - Fluster conformance tests results [1] and I believe you need [2]
-> >=20
-> > [1] https://github.com/fluendo/fluster
-> > [2] https://github.com/fluendo/fluster/pull/179
->=20
-> Sure, I'll sort that before doing a V2.
->=20
-> > GStreamer support is there in main now, but without the needed software=
- video
-> > converter for you column tiling, we can't use it for that (i.e. only wo=
-rks
-> > through GL or Wayland).
->=20
-> Can you point me at the right place for the software converter?
-> It's a relatively trivial reformat required to get it back into NV12 /
-> I420 or 10bit equivalents, so happy to do that. I think John already
-> has NEON optimised code if desired.
+On Wed, Jan 08, 2025 at 12:22:27PM -0400, Jason Gunthorpe wrote:
+> On Wed, Jan 08, 2025 at 04:25:54PM +0100, Christian König wrote:
+> > Am 08.01.25 um 15:58 schrieb Jason Gunthorpe:
+> > > I have imagined a staged approach were DMABUF gets a new API that
+> > > works with the new DMA API to do importer mapping with "P2P source
+> > > information" and a gradual conversion.
+> > 
+> > To make it clear as maintainer of that subsystem I would reject such a step
+> > with all I have.
+> 
+> This is unexpected, so you want to just leave dmabuf broken? Do you
+> have any plan to fix it, to fix the misuse of the DMA API, and all
+> the problems I listed below? This is a big deal, it is causing real
+> problems today.
+> 
+> If it going to be like this I think we will stop trying to use dmabuf
+> and do something simpler for vfio/kvm/iommufd :(
 
-Its challenging in the way its implemented in GStreamer Video library. Basi=
-cally
-all formats needs its GstVideoFormatInfo structure to be filled in the stat=
-ic
-table, and then minimally a slow path for color conversion, which is reduce=
-d to
-pack/unpack of a single line of video data. With tiled (or column format) t=
-he
-notion of line is not as obvious.
+As the gal who help edit the og dma-buf spec 13 years ago, I think adding
+pfn isn't a terrible idea. By design, dma-buf is the "everything is
+optional" interface. And in the beginning, even consistent locking was
+optional, but we've managed to fix that by now :-/
 
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/blob/main/subprojects/=
-gst-plugins-base/gst-libs/gst/video/video-format.c
+Where I do agree with Christian is that stuffing pfn support into the
+dma_buf_attachment interfaces feels a bit much wrong.
 
-For tile format with fixed dimensions, we have extra information for the ti=
-le
-layout (GstVideoTileInfo), but we didn't think about full height tiles when=
- that
-was added. This information is needed to generically crop images, which is =
-why
-its so complicated.
+> > We have already gone down that road and it didn't worked at all and
+> > was a really big pain to pull people back from it.
+> 
+> Nobody has really seriously tried to improve the DMA API before, so I
+> don't think this is true at all.
 
-One option we could use to make it fit as a tiled format is to introduce a =
-new
-GstVideoTileMode GST_VIDEO_TILE_MODE_COLUMN. Then we set the tiled height t=
-o
-match the usual HW height step, making it so you have 128 x step tiles, lai=
-d out
-in column. Alternatively, we can start with a step of 1 (which will make th=
-e
-slow path a lot slower then needed), and later add an optimization for the
-column layout, so it handle full columns.
+Aside, I really hope this finally happens!
 
-If you manage to find a good step size, then all you will have to implement=
- is
-the backend for gst_video_tile_get_index(), the rest of the slow path will =
-be
-generic.
+> > > 3) Importing devices need to know if they are working with PCI P2P
+> > > addresses during mapping because they need to do things like turn on
+> > > ATS on their DMA. As for multi-path we have the same hacks inside mlx5
+> > > today that assume DMABUFs are always P2P because we cannot determine
+> > > if things are P2P or not after being DMA mapped.
+> > 
+> > Why would you need ATS on PCI P2P and not for system memory accesses?
+> 
+> ATS has a significant performance cost. It is mandatory for PCI P2P,
+> but ideally should be avoided for CPU memory.
 
-Fast path are possible, with ORC (a cross platform byte code language that =
-can
-be JIT into SIMD instructions), but I don't currently see much use for "fas=
-t",
-since the GPU pretty much always accepts these buffers, so the software pat=
-h
-remains a neat debugging tool and allow conformance testing.
+Huh, I didn't know that. And yeah kinda means we've butchered the pci p2p
+stuff a bit I guess ...
 
-Nicolas
+> > > 5) iommufd and kvm are both using CPU addresses without DMA. No
+> > > exporter mapping is possible
+> > 
+> > We have customers using both KVM and XEN with DMA-buf, so I can clearly
+> > confirm that this isn't true.
+> 
+> Today they are mmaping the dma-buf into a VMA and then using KVM's
+> follow_pfn() flow to extract the CPU pfn from the PTE. Any mmapable
+> dma-buf must have a CPU PFN.
+> 
+> Here Xu implements basically the same path, except without the VMA
+> indirection, and it suddenly not OK? Illogical.
 
->=20
->   Dave
->=20
-> > regards,
-> > Nicolas
-> >=20
-> > >=20
-> > > Thanks
-> > >   Dave
-> > >=20
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > ---
-> > > Dave Stevenson (4):
-> > >       docs: uapi: media: Document Raspberry Pi NV12 column format
-> > >       media: ioctl: Add pixel formats NV12MT_COL128 and NV12MT_10_COL=
-128
-> > >       media: dt-bindings: media: Add binding for the Raspberry Pi HEV=
-C decoder
-> > >       arm: dts: bcm2711-rpi: Add HEVC decoder node
-> > >=20
-> > > Ezequiel Garcia (1):
-> > >       RFC: media: Add media_request_{pin,unpin} API
-> > >=20
-> > > John Cox (2):
-> > >       media: platform: Add Raspberry Pi HEVC decoder driver
-> > >       RFC: v4l2-mem2mem: Remove warning from v4l2_m2m_job_finish
-> > >=20
-> > >  .../bindings/media/raspberrypi,hevc-dec.yaml       |   72 +
-> > >  .../userspace-api/media/v4l/pixfmt-yuv-planar.rst  |   42 +
-> > >  MAINTAINERS                                        |   10 +
-> > >  arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi        |    5 +
-> > >  arch/arm/boot/dts/broadcom/bcm2711.dtsi            |    9 +
-> > >  drivers/media/mc/mc-request.c                      |   35 +
-> > >  drivers/media/platform/raspberrypi/Kconfig         |    1 +
-> > >  drivers/media/platform/raspberrypi/Makefile        |    1 +
-> > >  .../media/platform/raspberrypi/hevc_dec/Kconfig    |   17 +
-> > >  .../media/platform/raspberrypi/hevc_dec/Makefile   |    5 +
-> > >  .../media/platform/raspberrypi/hevc_dec/hevc_d.c   |  443 ++++
-> > >  .../media/platform/raspberrypi/hevc_dec/hevc_d.h   |  190 ++
-> > >  .../platform/raspberrypi/hevc_dec/hevc_d_h265.c    | 2629 ++++++++++=
-++++++++++
-> > >  .../platform/raspberrypi/hevc_dec/hevc_d_hw.c      |  376 +++
-> > >  .../platform/raspberrypi/hevc_dec/hevc_d_hw.h      |  303 +++
-> > >  .../platform/raspberrypi/hevc_dec/hevc_d_video.c   |  685 +++++
-> > >  .../platform/raspberrypi/hevc_dec/hevc_d_video.h   |   38 +
-> > >  drivers/media/v4l2-core/v4l2-ioctl.c               |    2 +
-> > >  drivers/media/v4l2-core/v4l2-mem2mem.c             |    7 -
-> > >  include/media/media-request.h                      |   12 +
-> > >  include/uapi/linux/videodev2.h                     |    5 +
-> > >  21 files changed, 4880 insertions(+), 7 deletions(-)
-> > > ---
-> > > base-commit: e90c9612ac3969cb8206029a26bcd2b6f5d4a942
-> > > change-id: 20241212-media-rpi-hevc-dec-3b5be739f3bd
-> > >=20
-> > > Best regards,
-> >=20
+So the big difference is that for follow_pfn() you need mmu_notifier since
+the mmap might move around, whereas with pfn smashed into
+dma_buf_attachment you need dma_resv_lock rules, and the move_notify
+callback if you go dynamic.
 
+So I guess my first question is, which locking rules do you want here for
+pfn importers?
+
+If mmu notifiers is fine, then I think the current approach of follow_pfn
+should be ok. But if you instead dma_resv_lock rules (or the cpu mmap
+somehow is an issue itself), then I think the clean design is create a new
+separate access mechanism just for that. It would be the 5th or so (kernel
+vmap, userspace mmap, dma_buf_attach and driver private stuff like
+virtio_dma_buf.c where you access your buffer with a uuid), so really not
+a big deal.
+
+And for non-contrived exporters we might be able to implement the other
+access methods in terms of the pfn method generically, so this wouldn't
+even be a terrible maintenance burden going forward. And meanwhile all the
+contrived exporters just keep working as-is.
+
+The other part is that cpu mmap is optional, and there's plenty of strange
+exporters who don't implement. But you can dma map the attachment into
+plenty devices. This tends to mostly be a thing on SoC devices with some
+very funky memory. But I guess you don't care about these use-case, so
+should be ok.
+
+I couldn't come up with a good name for these pfn users, maybe
+dma_buf_pfn_attachment? This does _not_ have a struct device, but maybe
+some of these new p2p source specifiers (or a list of those which are
+allowed, no idea how this would need to fit into the new dma api).
+
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
