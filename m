@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-24395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24396-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27EDA05AE0
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:01:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E6DA05AE3
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:02:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6FDA5166BCC
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 12:01:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 231E27A221D
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 12:01:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 708FD1F9438;
-	Wed,  8 Jan 2025 12:01:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18BF01F76C5;
+	Wed,  8 Jan 2025 12:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QyhCiX2y"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u1vwPCkE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD1F1F8667
-	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 12:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD2E1F0E51
+	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 12:01:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736337678; cv=none; b=GdeUkKnx7bEmIBKmduULgXLqxlJFKJxhIO5yX5iZkMbTGcGfg3MoAzaR7DfPXQcoXDZy93UvpVljRaYgbliZpXzu7VGzhpp7ETm+maO/pLABTBrCWzo++2y9FZT9e1bB0gfdyJGrv63Xs1y7CqEvNE8LafOqb6RRu1SzuDz6lbk=
+	t=1736337697; cv=none; b=OjygnOP4rODnTxkEp3H6uno2jIUTJaQZZJsmH25PJE6Bis7AHCkSj7c26Cnsp9QS40UyJts2dCj7NmUzKdo/Pt9M8LAxCqvBQtajdC7sW7fN7CV/LVvN99/5+W8Js8K5ZNm5cfxhaFD0WBuv3435hMYjtkEnVRTcYhlaaQmSxi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736337678; c=relaxed/simple;
-	bh=LdlJg98nowM9QcjStDc2gIDnykHAy+9xAAbZeuKhCXM=;
+	s=arc-20240116; t=1736337697; c=relaxed/simple;
+	bh=a706RckWvd8GUzEnbWeNUXcpQWQ12NVJ8eeao6vGpAU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gbUXWjV4Bvzv0K5oGAaqimtwWsFYzMR1NHg0szs5mUGj62o3xFeBT4BPHwfmMkaHcJIXzO/bPpWGguHJj8duTMOCoeiIel8QL0sK6O7NurbqzjaZM7Qdx6LrNFflP7c+YXzNb7LghDM8MOIISdx6U44dE2o5kDwzZp2JnVZwevM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QyhCiX2y; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=jJI0MVjyYOQGDV+G98feWsjXeFG19VskFdeiFQmYEoNDJfODBVYOXzL0Vk8i9nSGqypalflhfv8zMkQA8eq/le9tXudgE8TVjXVxbkiroHnc3WT0B/d8lJIxqvU8wUwDAZpyYhqTYXNpQEFKx/8NAInH2V+6k5YjrgVRDrWGEP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u1vwPCkE; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 198401A89;
-	Wed,  8 Jan 2025 13:00:21 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7917A5B3;
+	Wed,  8 Jan 2025 13:00:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736337622;
-	bh=LdlJg98nowM9QcjStDc2gIDnykHAy+9xAAbZeuKhCXM=;
+	s=mail; t=1736337639;
+	bh=a706RckWvd8GUzEnbWeNUXcpQWQ12NVJ8eeao6vGpAU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QyhCiX2yveJKesZ0sRA9fOZIGRrNn/OwRtC2shSpkvXtgPf/rRbMzr6mmhpLIr/gL
-	 SkZuPL8zyYGkVnFIi3DOh02jYZD/FKtyFWN2gShSrDTcMVEYRgiI8z1FtCnwjF0Tt4
-	 71T1WyXBKJQuio1wJZLQ7YzKtmLc4WI9tMsYSp7A=
-Message-ID: <72173931-8203-4441-8784-2c4017c745c7@ideasonboard.com>
-Date: Wed, 8 Jan 2025 14:01:10 +0200
+	b=u1vwPCkEzOD2EnZSSUD6PX0apnKyESdPiyfIYdu64AW3qY0ZvHbuZFnNDwhORc32t
+	 QpZ7O9nyOqwcT27CqFp1FSrATXWoxkSpueSnYCV+rB3QQ+TNOJEEclRW6eK6OXW6f8
+	 0lqmYOcze092j5LujGQgQbRYcIHrj9Rq03JX5Vms=
+Message-ID: <178ac794-df71-436e-a38f-a195acd5f0f3@ideasonboard.com>
+Date: Wed, 8 Jan 2025 14:01:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v4 2/9] media: Documentation: Add a hyphen to list-based
+Subject: Re: [RFC v4 3/9] media: Documentation: Reword split of sensor driver
+ to two classes
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
  Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
@@ -75,7 +76,7 @@ Cc: hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
  Mehdi Djait <mehdi.djait@linux.intel.com>,
  Ricardo Ribalda Delgado <ribalda@kernel.org>
 References: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
- <20241220132419.1027206-3-sakari.ailus@linux.intel.com>
+ <20241220132419.1027206-4-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -121,47 +122,45 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20241220132419.1027206-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20241220132419.1027206-4-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 20/12/2024 15:24, Sakari Ailus wrote:
-> Add a hyphen to list-based for uniform spelling in camera-sensor.rst.
+> The sensor drivers do not configure the output size of the sensors but the
+> entire internal pipeline. Reflect this in the documentation.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
->   Documentation/userspace-api/media/drivers/camera-sensor.rst | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   .../userspace-api/media/drivers/camera-sensor.rst      | 10 ++++++----
+>   1 file changed, 6 insertions(+), 4 deletions(-)
 > 
 > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> index 8e1083417ae1..9a1e8aa9fc77 100644
+> index 9a1e8aa9fc77..bc55c861fb69 100644
 > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
 > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> @@ -26,10 +26,10 @@ of cropping and scaling operations from the device's pixel array's size.
+> @@ -10,11 +10,13 @@ used to control the camera sensor drivers.
 >   
->   An example of such a driver is the CCS driver.
+>   You may also find :ref:`media_writing_camera_sensor_drivers` useful.
 >   
-> -Register list based drivers
-> +Register list-based drivers
->   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> -Frame size
+> -----------
+> +Sensor internal pipeline configuration
+> +--------------------------------------
 >   
-> -Register list based drivers generally, instead of able to configure the device
-> +Register list-based drivers generally, instead of able to configure the device
->   they control based on user requests, are limited to a number of preset
->   configurations that combine a number of different parameters that on hardware
->   level are independent. How a driver picks such configuration is based on the
-> @@ -67,7 +67,7 @@ is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
->   the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
->   sub-device. The unit of that control is pixels per second.
+> -There are two distinct ways to configure the frame size produced by camera
+> -sensors.
+> +Camera sensors have an internal processing pipeline including cropping and
+> +binning functionality. The sensor drivers belong to two distinct classes, freely
+> +configurable and register list-based drivers, depending on how the driver
+> +configures this functionality.
 >   
-> -Register list based drivers need to implement read-only sub-device nodes for the
-> +Register list-based drivers need to implement read-only sub-device nodes for the
->   purpose. Devices that are not register list based need these to configure the
->   device's internal processing pipeline.
->   
+>   Freely configurable camera sensor drivers
+>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
