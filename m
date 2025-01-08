@@ -1,250 +1,215 @@
-Return-Path: <linux-media+bounces-24479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24481-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E4DA06E04
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 07:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9F5A06F00
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 08:23:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 609AB3A2D05
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 06:09:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46C503A66DA
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 07:23:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04907214802;
-	Thu,  9 Jan 2025 06:09:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 167AD2147EF;
+	Thu,  9 Jan 2025 07:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HDTDRDz6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbJ391R6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1A92144DD
-	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 06:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F76201039;
+	Thu,  9 Jan 2025 07:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736402945; cv=none; b=oTpDYJeW+KBpFwb3+iXAYDqSaf7m0Nr8tW+HZ+XHhq8GNvlSHBtXWk3j47NX2l8CWDbmXk2QSZ4jY3bJYZoonZxh2QQJQg0xHYKUH9/KR/ji+nzXFnfymVSyFIOgI2UlAWnh1QndfAoEDTsq5Uh2UhwdGubfzo95V3Jy5cBBaRQ=
+	t=1736407407; cv=none; b=OdXASFDyi9kdfwWuKCnLk7t98G2LanH10c9EukOva2MYcqCDzfl3QEqdzWuUch2qOTH6FQrD3rnoiaP+vZFqO8Sgl4q5zGf6rect3viuiI+dUNSbDDtzykMIiSQ7N7zp2MOWIBVJPuqQ5dARiHMjIZ4qSyTHeNxaDYWLcUl98Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736402945; c=relaxed/simple;
-	bh=BPHagE0/RWjT5dajkjNtQG/0lS2lNohxsMU7JMUi5XE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RWWQ6bDqVjctC3HTO1chvwff+MpbWZqOqaaai2X42uidikReFuX1rcdzvF3t9PMOxh8p1YfdCGiwG2mLiiHrcIxCrRvzpWs7CHOXxU371bfeUUAQqfxSqW1fP0LDIxNj93gVrqIoEEGYyZrYLiUYa6vH1aKWZ2ppYK/y7qDZaA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HDTDRDz6; arc=none smtp.client-ip=209.85.217.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4afd68271b6so191200137.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2025 22:09:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736402942; x=1737007742; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vC9nJtt9rRq/geCAGZDFx6gLFWekfxOk8FhgpKUHqfQ=;
-        b=HDTDRDz6llZ1q4U5uG08fTpB0t65JPPZ3jFFDQ43F5BgmLEo+aRza0AmhgXR/zkyp6
-         jeur7W3eBCcC7kK5EUeb1VhCilGhpHKe7SPDPpWO0hTz/vBxCGHDjDy0SVePS9WIWd7i
-         SNWPUsD9PUq2thmJMc3JgEPrrC5HgRricTbFbKi1DZccXEZ5lsxDdjFToXtoa9F02Qpv
-         xEc17h+oXL7LdJa3dy+gfUvRBBW90tkVK83qDkvMnOcaHF3/rkeW1kuAjOaPQvuQeEC6
-         KKKblACUl60FS+B4AJSSdaWJEC9sFlO9p4ATQlsKeJa5GmfbouuuVc9GHMQe1ok/i3sH
-         7vIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736402942; x=1737007742;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vC9nJtt9rRq/geCAGZDFx6gLFWekfxOk8FhgpKUHqfQ=;
-        b=G/VWOCcUcdOt/qHOY4tyI/z4Erh8ESRYpIl6bSg3PgjRlgEOgm8A+nEdHD/HgrhK/h
-         QGofpaF/gAK8hlJjANI2p4ikVZZ+04uIa+yTLsWMdA87SJlZLomYDDcjy4FwBHWkIAEO
-         ak/jzC0AIwnM0TgkTp/Uixhy0gnDwiBP/XIIkSwQU9A2SzcRhjWA+doQC6s+6B1CA/iI
-         A2jezf3CTE6kUUogZwwuP7aJZFb9V8TTKoijM6hQFtThnUOUeOo1VikOxeFjrddtS+BF
-         fXwhSQjiV9kw5g3U7UV3GcXjmK2mdXz9QC9he/SIjvlY4IyZDxV5Zi5TW0bhvPFaMtOf
-         QCFw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZLfEc/ng9ZXXQoNkXMdD5dThPG/H0PuCpu62p++ddelsfvYfX7GHHzwRFVTmDPd6O0zQRG2pVuXzHew==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeV1uXp+mc81FMLJUNfWvdk6U223OtjSJhAy8FLQnfsf80Vi0b
-	tUJOlLFi7Ds8s+S3U3qsDBm70q8Zia+t/4MKFXgpmieWV1Y0zmXmL/TEQLRpLEYSNwF8tfuabMp
-	J8R53gELdAjDLPqx6tzpa77amgBv+5DQ/u0mxaQ==
-X-Gm-Gg: ASbGnctFBmKAWR9kOz5EnMdB//ig53IGDRnwp4Rvl1oRlFOBE13sQ0p9MzISYVAR/Ja
-	3Ccx7KwAGjnfY3d4J6f3KUfp0NbQk+ML4moQi+9xr
-X-Google-Smtp-Source: AGHT+IFkDZGBtCpO5FflLFvbdwmJ3sWoUbJtvuojzOG7I1CBRhorYbwloT2u1hpJHzN4tOBjlfcQFIZrLZuRC0Ec89I=
-X-Received: by 2002:a05:6102:c8b:b0:4b2:adfb:4f91 with SMTP id
- ada2fe7eead31-4b3d0fb1764mr3879731137.21.1736402941990; Wed, 08 Jan 2025
- 22:09:01 -0800 (PST)
+	s=arc-20240116; t=1736407407; c=relaxed/simple;
+	bh=5RtwYatc7XhYn22UVzvrAmXoefZVhRa51czG3ToYe9M=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Txk4mYDVgySIQzRr2QYNDWt56ylK608Nlq2CEkCZ0ycAh3mBORafNqPSw7sh5LxCBvRpA8Guqg7RLgUysULgr9+LTv4+gfhGuSQD+AnjocISMKEleb3fHPzwtpmUzEVLkE4lxBy/cQzdZOFR+q5jpCSfFOGvf1vq3fZotNZ/1R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbJ391R6; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736407405; x=1767943405;
+  h=date:from:to:subject:message-id:references:mime-version:
+   content-transfer-encoding:in-reply-to;
+  bh=5RtwYatc7XhYn22UVzvrAmXoefZVhRa51czG3ToYe9M=;
+  b=VbJ391R6EGtk+igehPwDG1/AkRzOlVGThIFC4uJRim+CTFX8s2WEH9J0
+   mk14TedrJdUiZgw247WGneOg370pjMnajKVHFP7cBLjYFNBkHLEJ+BGtt
+   lrqmgMg+E+gbU9mO9kVjjvD81sg0b4WxJk+RiOtjYHlwaPYhv/xfk9K7g
+   2qrrZrIQOKvhf74l2IOkpi+xgErTjUiqoXdpzMVuFVMXgL+1YVu0iqkUR
+   NKI0FO3hfRnuJPhMh75O3tDU3YxcuLIBKXnEr/tSY50xBiwrNNF7djrzR
+   5hAEcwL2G9W6diW86zvacpXVPAjIDfR5Q2FBuGNkgll4TFuhf/pzBXL1/
+   A==;
+X-CSE-ConnectionGUID: BHK9w8uCSXyVfU3SrvKY9Q==
+X-CSE-MsgGUID: sFYgzrPzS4G46ByyGFTiXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36881452"
+X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
+   d="scan'208";a="36881452"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 23:23:24 -0800
+X-CSE-ConnectionGUID: 61UpxkwVSgaeTrD6q7mOEA==
+X-CSE-MsgGUID: h27PgmbLToehe3kcn8ABVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="108431421"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa005.jf.intel.com with ESMTP; 08 Jan 2025 23:23:19 -0800
+Date: Thu, 9 Jan 2025 03:22:16 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
+	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+	dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
+	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <20250107142719.179636-2-yilun.xu@linux.intel.com>
+ <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
+ <20250108132358.GP5556@nvidia.com>
+ <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+ <20250108145843.GR5556@nvidia.com>
+ <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
+ <20250108162227.GT5556@nvidia.com>
+ <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local> <CAFA6WYNVHu7_-bNAuTYBRBdoJwfk2VrW5M4aFVkb_UWQ=uxTvQ@mail.gmail.com>
- <Z36ujiS8yyG1mfbA@phenom.ffwll.local>
-In-Reply-To: <Z36ujiS8yyG1mfbA@phenom.ffwll.local>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Thu, 9 Jan 2025 11:38:50 +0530
-X-Gm-Features: AbW1kvZpkNiFcSMyeI-DgMLrpBLgsFpc30qEZPbPGQ78luMHwy5kGq6PCahL58k
-Message-ID: <CAFA6WYPXxUQYe9TF3PB9C0NwCz1eceCdYNa1yoKpv320M20qDw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-To: simona.vetter@ffwll.ch
-Cc: Jens Wiklander <jens.wiklander@linaro.org>, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
-	linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
 
-On Wed, 8 Jan 2025 at 22:27, Simona Vetter <simona.vetter@ffwll.ch> wrote:
->
-> On Tue, Dec 24, 2024 at 12:05:19PM +0530, Sumit Garg wrote:
-> > Hi Simona,
-> >
-> > On Wed, 18 Dec 2024 at 16:36, Simona Vetter <simona.vetter@ffwll.ch> wrote:
-> > >
-> > > On Tue, Dec 17, 2024 at 11:07:36AM +0100, Jens Wiklander wrote:
-> > > > Hi,
-> > > >
-> > > > This patch set allocates the restricted DMA-bufs via the TEE subsystem.
-> > > >
-> > > > The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> > > > (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QCOMTEE) which sets up the
-> > > > restrictions for the memory used for the DMA-bufs.
-> > > >
-> > > > I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricted
-> > > > DMA-bufs. This IOCTL reaches the backend TEE driver, allowing it to choose
-> > > > how to allocate the restricted physical memory.
-> > > >
-> > > > TEE_IOC_RSTMEM_ALLOC takes in addition to a size and flags parameters also
-> > > > a use-case parameter. This is used by the backend TEE driver to decide on
-> > > > allocation policy and which devices should be able to access the memory.
-> > > >
-> > > > Three use-cases (Secure Video Playback, Trusted UI, and Secure Video
-> > > > Recording) has been identified so far to serve as examples of what can be
-> > > > expected. More use-cases can be added in userspace ABI, but it's up to the
-> > > > backend TEE drivers to provide the implementation.
-> > > >
-> > > > Each use-case has it's own restricted memory pool since different use-cases
-> > > > requires isolation from different parts of the system. A restricted memory
-> > > > pool can be based on a static carveout instantiated while probing the TEE
-> > > > backend driver, or dynamically allocated from CMA and made restricted as
-> > > > needed by the TEE.
-> > > >
-> > > > This can be tested on QEMU with the following steps:
-> > > > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
-> > > >         -b prototype/sdp-v4
-> > > > repo sync -j8
-> > > > cd build
-> > > > make toolchains -j$(nproc)
-> > > > make SPMC_AT_EL=1 all -j$(nproc)
-> > > > make SPMC_AT_EL=1 run-only
-> > > > # login and at the prompt:
-> > > > xtest --sdp-basic
-> > > >
-> > > > The SPMC_AT_EL=1 parameter configures the build with FF-A and an SPMC at
-> > > > S-EL1 inside OP-TEE. The parameter can be changed into SPMC_AT_EL=n to test
-> > > > without FF-A using the original SMC ABI instead. Please remember to do
-> > > > %rm -rf ../trusted-firmware-a/build/qemu
-> > > > for TF-A to be rebuilt properly using the new configuration.
-> > > >
-> > > > https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> > > > list dependencies needed to build the above.
-> > > >
-> > > > The tests are pretty basic, mostly checking that a Trusted Application in
-> > > > the secure world can access and manipulate the memory. There are also some
-> > > > negative tests for out of bounds buffers etc.
-> > >
-> > > I think I've dropped this on earlier encrypted dma-buf discussions for
-> > > TEE, but can't find one right now ...
-> >
-> > Thanks for raising this query.
-> >
-> > >
-> > > Do we have some open source userspace for this? To my knowledge we have
-> > > two implementations of encrypted/content protected dma-buf in upstream
-> > > right now in the amd and intel gpu drivers, and unless I'm mistaken they
-> > > both have some minimal userspace supporting EXT_protected_textures:
-> >
-> > First of all to clarify the support Jens is adding here for allocating
-> > restricted shared memory allocation in TEE subsystem is meant to be
-> > generic and not specific to only secure media pipeline use-case. Then
-> > here we not only have open source test applications but rather open
-> > source firmware too (OP-TEE as a Trusted OS) [1] supporting this as a
-> > core feature where we maintain a stable and extensible ABI among the
-> > kernel and the OP-TEE core.
-> >
-> > Restricted memory is a feature enforced by hardware specific firewalls
-> > where a particular TEE implementation governs which particular block
-> > of memory is accessible to a particular peripheral or a CPU running in
-> > a higher privileged mode than the Linux kernel. There can be numeric
-> > use-cases surrounding that as follows:
-> >
-> > - Secure media pipeline where the contents gets decrypted and stored
-> > in a restricted buffer which are then accessible only to media display
-> > pipeline peripherals.
-> > - Trusted user interface where a peripheral takes input from the user
-> > and stores it in a restricted buffer which then is accessible to TEE
-> > implementation only.
-> > - Another possible use-case can be for the TEE implementation to store
-> > key material in a restricted buffer which is only accessible to the
-> > hardware crypto accelerator.
-> >
-> > I am sure there will be more use-cases related to this feature but
-> > those will only be possible once we provide a stable and extensible
-> > restricted memory interface among the Linux user-space and the secure
-> > world user-space (normally referred to as Trusted Applications).
-> >
-> > [1] https://github.com/OP-TEE/optee_os/pull/7159
-> >
-> > >
-> > > https://github.com/KhronosGroup/OpenGL-Registry/blob/main/extensions/EXT/EXT_protected_textures.txt
-> > >
-> > > It's not great, but it does just barely clear the bar in my opinion. I
-> > > guess something in gstreamer or similar video pipeline framework would
-> > > also do the job.
-> > >
-> > > Especially with the context of the uapi discussion in the v1/RFC thread I
-> > > think we need more than a bare-bones testcase to make sure this works in
-> > > actual use.
-> >
-> > Currently the TEE subsystem already supports a stable ABI for shared
-> > memory allocator among Linux user-space and secure world user-space
-> > here [2]. And the stable ABI for restricted memory is also along the
-> > same lines meant to be a vendor neutral abstraction for the user-space
-> > access. The current test cases not only test the interface but also
-> > perform regression tests too.
-> >
-> > I am also in favour of end to end open source use-cases. But I fear
-> > without progressing in a step wise manner as with this proposal we
-> > would rather force developers to upstream all the software pieces in
-> > one go which will be kind of a chicken and egg situation. I am sure
-> > once this feature lands Mediatek folks will be interested to port
-> > their secure video playback patchset [3] on top of it. Similarly other
-> > silicon vendors like NXP, Qcom etc. will be motivated to do the same.
-> >
-> > [2] https://docs.kernel.org/userspace-api/tee.html
-> > [3] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-1-yong.wu@mediatek.com/
->
-> We get entire opengl/vulkan driver stacks ready before we merge new drm
-> drivers, I really don't think this is too hard from a technical pov. And I
-> think the mediatek patches had the same issue of lacking userspace for it,
-> so that's not moving things forward.
-> -Sima
->
+On Wed, Jan 08, 2025 at 07:44:54PM +0100, Simona Vetter wrote:
+> On Wed, Jan 08, 2025 at 12:22:27PM -0400, Jason Gunthorpe wrote:
+> > On Wed, Jan 08, 2025 at 04:25:54PM +0100, Christian König wrote:
+> > > Am 08.01.25 um 15:58 schrieb Jason Gunthorpe:
+> > > > I have imagined a staged approach were DMABUF gets a new API that
+> > > > works with the new DMA API to do importer mapping with "P2P source
+> > > > information" and a gradual conversion.
+> > > 
+> > > To make it clear as maintainer of that subsystem I would reject such a step
+> > > with all I have.
+> > 
+> > This is unexpected, so you want to just leave dmabuf broken? Do you
+> > have any plan to fix it, to fix the misuse of the DMA API, and all
+> > the problems I listed below? This is a big deal, it is causing real
+> > problems today.
+> > 
+> > If it going to be like this I think we will stop trying to use dmabuf
+> > and do something simpler for vfio/kvm/iommufd :(
+> 
+> As the gal who help edit the og dma-buf spec 13 years ago, I think adding
+> pfn isn't a terrible idea. By design, dma-buf is the "everything is
+> optional" interface. And in the beginning, even consistent locking was
+> optional, but we've managed to fix that by now :-/
+> 
+> Where I do agree with Christian is that stuffing pfn support into the
+> dma_buf_attachment interfaces feels a bit much wrong.
 
-Okay fair enough, I think I get your point. Currently we are missing
-at least one peripheral support being the consumer for these
-restricted DMA-bufs. So I discussed with Jens offline that we can try
-with a crypto peripheral use-case first which can simply be
-demonstrated using the current OP-TEE client user-space.
+So it could a dmabuf interface like mmap/vmap()? I was also wondering
+about that. But finally I start to use dma_buf_attachment interface
+because of leveraging existing buffer pin and move_notify.
 
-Also, in crypto peripheral use-case we can target the symmetric crypto
-use-case first which already has a concept of hardware backed
-symmetric key [1]. IOW, we should be able to come up with a generic
-symmetric crypto algorithm which can be supported by different crypto
-accelerators using a TEE backed restricted key DMA buffer.
+> 
+> > > We have already gone down that road and it didn't worked at all and
+> > > was a really big pain to pull people back from it.
+> > 
+> > Nobody has really seriously tried to improve the DMA API before, so I
+> > don't think this is true at all.
+> 
+> Aside, I really hope this finally happens!
+> 
+> > > > 3) Importing devices need to know if they are working with PCI P2P
+> > > > addresses during mapping because they need to do things like turn on
+> > > > ATS on their DMA. As for multi-path we have the same hacks inside mlx5
+> > > > today that assume DMABUFs are always P2P because we cannot determine
+> > > > if things are P2P or not after being DMA mapped.
+> > > 
+> > > Why would you need ATS on PCI P2P and not for system memory accesses?
+> > 
+> > ATS has a significant performance cost. It is mandatory for PCI P2P,
+> > but ideally should be avoided for CPU memory.
+> 
+> Huh, I didn't know that. And yeah kinda means we've butchered the pci p2p
+> stuff a bit I guess ...
+> 
+> > > > 5) iommufd and kvm are both using CPU addresses without DMA. No
+> > > > exporter mapping is possible
+> > > 
+> > > We have customers using both KVM and XEN with DMA-buf, so I can clearly
+> > > confirm that this isn't true.
+> > 
+> > Today they are mmaping the dma-buf into a VMA and then using KVM's
+> > follow_pfn() flow to extract the CPU pfn from the PTE. Any mmapable
+> > dma-buf must have a CPU PFN.
+> > 
+> > Here Xu implements basically the same path, except without the VMA
+> > indirection, and it suddenly not OK? Illogical.
+> 
+> So the big difference is that for follow_pfn() you need mmu_notifier since
+> the mmap might move around, whereas with pfn smashed into
+> dma_buf_attachment you need dma_resv_lock rules, and the move_notify
+> callback if you go dynamic.
+> 
+> So I guess my first question is, which locking rules do you want here for
+> pfn importers?
 
-[1] https://www.youtube.com/watch?v=GbcpwUBFGDw
+follow_pfn() is unwanted for private MMIO, so dma_resv_lock.
 
--Sumit
+> 
+> If mmu notifiers is fine, then I think the current approach of follow_pfn
+> should be ok. But if you instead dma_resv_lock rules (or the cpu mmap
+> somehow is an issue itself), then I think the clean design is create a new
+
+cpu mmap() is an issue, this series is aimed to eliminate userspace
+mapping for private MMIO resources.
+
+> separate access mechanism just for that. It would be the 5th or so (kernel
+> vmap, userspace mmap, dma_buf_attach and driver private stuff like
+> virtio_dma_buf.c where you access your buffer with a uuid), so really not
+> a big deal.
+
+OK, will think more about that.
+
+Thanks,
+Yilun
+
+> 
+> And for non-contrived exporters we might be able to implement the other
+> access methods in terms of the pfn method generically, so this wouldn't
+> even be a terrible maintenance burden going forward. And meanwhile all the
+> contrived exporters just keep working as-is.
+> 
+> The other part is that cpu mmap is optional, and there's plenty of strange
+> exporters who don't implement. But you can dma map the attachment into
+> plenty devices. This tends to mostly be a thing on SoC devices with some
+> very funky memory. But I guess you don't care about these use-case, so
+> should be ok.
+> 
+> I couldn't come up with a good name for these pfn users, maybe
+> dma_buf_pfn_attachment? This does _not_ have a struct device, but maybe
+> some of these new p2p source specifiers (or a list of those which are
+> allowed, no idea how this would need to fit into the new dma api).
+> 
+> Cheers, Sima
+> -- 
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
