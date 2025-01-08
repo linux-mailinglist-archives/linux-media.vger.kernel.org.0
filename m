@@ -1,176 +1,170 @@
-Return-Path: <linux-media+bounces-24424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24426-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187D2A05DAC
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:57:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F23A05ECC
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 15:36:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA50E3AA31A
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:53:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 37DA73A2E73
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:35:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC1F51FC7C6;
-	Wed,  8 Jan 2025 13:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D84C1FC7DF;
+	Wed,  8 Jan 2025 14:35:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="leQJ0P4x"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QSSzq61I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BDD1514F8
-	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 13:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899081FCFE5;
+	Wed,  8 Jan 2025 14:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736344407; cv=none; b=QL8ekMEhtoZGBxjsdLPcesi9bhYUbShkE2e2YDxkaildWII8qZsxh3rWv95IRr0UMKShI7aSBFQ7ZEIGBovlt7q1lwjzNPbsfb4R3MKVvzpmKI1TUP5AUvrUwbSLrv554hyV5RZpm2X/WhzGLLMSv8MQUnqaoWQToswX+9Edwts=
+	t=1736346934; cv=none; b=NM4Tq5LLtYQZ+IvUIeM/ObZH6/VebukhY4rACODtefO4AlZ9eqcHTkeekj6EDisa8dcT9AzxrwEg9JKAjOxLsZDmhdeNkRMcf1B4hWv7U1sfff8SANUUK7EQM940xXIlqLNiJ/o66CGPIslYZwrXEuuU25OCJ8Kza9TrZ1NALz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736344407; c=relaxed/simple;
-	bh=ClMM0PHcDShy1gGCy70PnmNY7H+z1O607LxpgWUERFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gsoZbA/q1HcJ5QZ15sz9XvcMDGOwk4z/cV96XKd55lcsy7M4xUbyMV/kgBc65QQ3nW4/igvzUEvFAvpJs309rYoevgsV6QNCuGMPayipqjdumOdCV7iPVQ29fXnldt+7yKblRzwjmdV9JJzxdQluKfMjm4zL3MqEWnADZj2pyDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=leQJ0P4x; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736344405; x=1767880405;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ClMM0PHcDShy1gGCy70PnmNY7H+z1O607LxpgWUERFk=;
-  b=leQJ0P4xQCJWi3hLkbdWo1J+lrKjf0AqwbkOIIZYdVkQMiA21VuMCTT1
-   LaOGBBrskjRisO7fBet/2DBtK59Tdw+IxZQi5k5DOHoymqFwijb4doJEL
-   Ss0hyvYfkiBsf2jyBodq7QJEyTUM/8mRJ7mn3ZEN+Rl88wPG/J9J8VgC6
-   rFgds8As4DTQqIEOD4TCydvAh4Gm7Avgfo8YfSIJxZk1hUmo2k0pDhc5q
-   0BrnDQPcRdjvnHAIWzQQ7g0U2eyTmLLJ8bKNnKd31JFCiI9Am58+WEGaS
-   SciLS6R2Ui//2WYExZr+oRFqDlzsLrcyK6R9+b0f6RyPzY/Gj0mipXTTD
-   g==;
-X-CSE-ConnectionGUID: 1S1+xREjR2qW+vvXf5X/AQ==
-X-CSE-MsgGUID: HtxDsS1RS2O5gS9pGQb1iA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="47144218"
-X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
-   d="scan'208";a="47144218"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 05:53:23 -0800
-X-CSE-ConnectionGUID: 0zeI4rASTh6M61YGPmyPUg==
-X-CSE-MsgGUID: wKPCzuKaQzWgu4cK0NUNpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="108148827"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 05:53:21 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B253411F8DF;
-	Wed,  8 Jan 2025 15:53:17 +0200 (EET)
-Date: Wed, 8 Jan 2025 13:53:17 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1736346934; c=relaxed/simple;
+	bh=1Vcd3m5CeikLybOKNrCxgdhM/0s/YGKHXucTnN2vmZ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AP9XZZ3QA7LBpCzWizQ/gW4SogzIrwlBBJvh+q5EjJntX6W/BrE7MGlqr3IfrWW8g6xKYYjgUeOdS1/0jmja9tR69MbuokpleQP9ockiRAMIGYON44XItm/DHua8Ky/WIwxQAtVd0bCW3fDGwXzYh0/msYXN10zjBkWrtyVQKnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QSSzq61I; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 911011BF20A;
+	Wed,  8 Jan 2025 14:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1736346929;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=trpeX/yrgvrx494dZDc3rwrb5PajAOKim9AmZ1tZ+lA=;
+	b=QSSzq61Itkc1oOkrfZwMJKrQ6ZFbMI9AcPaR0XBBVP7ZR1zJhjcgLaTXcgaLikFc3BVl85
+	FKrxPuLrGjehuO6N5WeuuSY+K+A7vZ73jP2hyAc1SRM1TAj26cNF3d83+LqtGhaKSi9uRj
+	5a4QAjEeYhqtKKSEqFP4BDnypEtXKlZe1udJkniN7BoTejJIUYZDuYKHzN3eujKSqPusWk
+	2Ynu1kzc1e+JunbINDJX0oYqffMcivRIZmyqz+Fla1eY2fCsWQ9lRHHRWmlMqgWaw32FnY
+	Sy9+fElj5FClUsirb0TYouOIctDMd6uxAuAUVg7xb+BV/NgC8v5kehh05lA17w==
+From: Romain Gantois <romain.gantois@bootlin.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com
-Subject: Re: [PATCH v8 2/9] media: v4l: Support obtaining link frequency via
- get_mbus_config
-Message-ID: <Z36DTYxNxs9-7DYT@kekkonen.localdomain>
-References: <20241217215445.901459-1-sakari.ailus@linux.intel.com>
- <20241217215445.901459-3-sakari.ailus@linux.intel.com>
- <079e6b31-ee12-4d83-9dce-61f4d4c1cc99@ideasonboard.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic <dragan.cvetic@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+Subject:
+ Re: [PATCH v4 4/9] i2c: use client addresses directly in ATR interface
+Date: Wed, 08 Jan 2025 15:35:28 +0100
+Message-ID: <2292785.iZASKD2KPV@fw-rgant>
+In-Reply-To: <0281025b-983a-42ab-90d3-3de845944de4@ideasonboard.com>
+References:
+ <20241230-fpc202-v4-0-761b297dc697@bootlin.com> <6115974.lOV4Wx5bFT@fw-rgant>
+ <0281025b-983a-42ab-90d3-3de845944de4@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <079e6b31-ee12-4d83-9dce-61f4d4c1cc99@ideasonboard.com>
+Content-Type: multipart/signed; boundary="nextPart1988756.PYKUYFuaPT";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Moi,
+--nextPart1988756.PYKUYFuaPT
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Wed, 08 Jan 2025 15:35:28 +0100
+Message-ID: <2292785.iZASKD2KPV@fw-rgant>
+In-Reply-To: <0281025b-983a-42ab-90d3-3de845944de4@ideasonboard.com>
+MIME-Version: 1.0
 
-On Fri, Dec 20, 2024 at 02:59:39PM +0200, Tomi Valkeinen wrote:
+Hi,
+
+On mercredi 8 janvier 2025 14:38:11 heure normale d=E2=80=99Europe centrale=
+ Tomi=20
+Valkeinen wrote:
 > Hi,
-> 
-> On 17/12/2024 23:54, Sakari Ailus wrote:
-> > Add link_freq field to struct v4l2_mbus_config in order to pass the link
-> > frequency to the receiving sub-device.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >   drivers/media/v4l2-core/v4l2-common.c | 15 +++++++++++++--
-> >   include/media/v4l2-mediabus.h         |  2 ++
-> >   2 files changed, 15 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > index 9fe74c7e064f..e4b2de3833ee 100644
-> > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > @@ -508,12 +508,23 @@ EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
-> >   s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> >   			     unsigned int div)
-> >   {
-> > +	struct v4l2_mbus_config mbus_config = {};
-> >   	struct v4l2_subdev *sd;
-> > +	int ret;
-> >   	sd = media_entity_to_v4l2_subdev(pad->entity);
-> > -	if (!sd)
-> > -		return -ENODEV;
-> > +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
-> > +			       &mbus_config);
-> > +	if (ret < 0 && ret != -ENOIOCTLCMD)
-> > +		return ret;
-> > +
-> > +	if (mbus_config.link_freq)
-> > +		return mbus_config.link_freq;
-> > +	/*
-> > +	 * Fall back to using the link frequency control if the media bus config
-> > +	 * doesn't provide a link frequency.
-> > +	 */
-> >   	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> >   }
-> >   EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
-> > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> > index e7f019f68c8d..24c738cd7894 100644
-> > --- a/include/media/v4l2-mediabus.h
-> > +++ b/include/media/v4l2-mediabus.h
-> > @@ -169,6 +169,7 @@ enum v4l2_mbus_type {
-> >   /**
-> >    * struct v4l2_mbus_config - media bus configuration
-> >    * @type: interface type
-> > + * @link_freq: The link frequency. See also V4L2_CID_LINK_FREQ control.
-> >    * @bus: bus configuration data structure
-> >    * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
-> >    *		  Used if the bus is parallel or BT.656.
-> > @@ -183,6 +184,7 @@ enum v4l2_mbus_type {
-> >    */
-> >   struct v4l2_mbus_config {
-> >   	enum v4l2_mbus_type type;
-> > +	u64 link_freq;
-> >   	union {
-> >   		struct v4l2_mbus_config_parallel parallel;
-> >   		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
-> 
-> Maybe the docs (V4L2_CID_LINK_FREQ and/or struct v4l2_mbus_config?) should
-> mention that only if v4l2_mbus_config.link_freq is == 0, V4L2_CID_LINK_FREQ
-> is used. Or, in other words, the driver must only use one of those methods.
+>=20
+> On 08/01/2025 15:31, Romain Gantois wrote:
+> > Hi,
+> >=20
+> > On lundi 6 janvier 2025 10:51:20 heure normale d=E2=80=99Europe central=
+e Tomi
+> >=20
+> > Valkeinen wrote:
+> >> Hi,
+> >>=20
+> >> On 30/12/2024 15:22, Romain Gantois wrote:
+> >>> The I2C Address Translator (ATR) module defines mappings from i2c_cli=
+ent
+> >>> structs to aliases. However, only the physical address of each
+> >>> i2c_client
+> >=20
+> > ...
+> >=20
+> >>> -	dev_dbg(atr->dev, "chan%u: client 0x%02x mapped at alias 0x%02x (%s)
+> >=20
+> > \n",
+> >=20
+> >>> -		chan->chan_id, client->addr, alias, client->name);
+> >>> +	dev_dbg(atr->dev, "chan%u: addr 0x%02x mapped at alias 0x%02x\n",
+> >>> +		chan->chan_id, addr, alias);
+> >>=20
+> >> This, and the dev_dbg() below, sound a bit odd to my ear. But I'm not
+> >> sure what would be a good print... "added alias 0x12 for address 0x34"?
+> >=20
+> > Maybe "assigned address 0x34 to alias 0x12"? Since the alias doesn't
+> > really go anywhere, we just assign different downstream addresses to it.
+>=20
+> I guess it's how you look at this =3D). I like to think it (in this
+> order): alias -> address, as it's basically a mapping. So a debug print
+> that prints the alias first and address second feels more natural.
+> "using alias 0x12 for address 0x34"?
 
-Such documentation is added by the 3rd patch ("media: Documentation: Update link frequency driver
-documentation"):
+This seems like a valid view as well. Since you're the ATR maintainer I'll =
+go=20
+with your suggestion.
 
-diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-index c71003f74b1c..6f9eba189a9f 100644
---- a/Documentation/driver-api/media/tx-rx.rst
-+++ b/Documentation/driver-api/media/tx-rx.rst
-@@ -49,6 +49,10 @@ Link frequency
- The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
- receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
- 
-+Drivers that do not have user-configurable link frequency should report it
-+through the ``.get_mbus_config()`` subdev pad operation, in the ``link_freq``
-+field of struct v4l2_mbus_config, instead of through controls.
-+
- ``.enable_streams()`` and ``.disable_streams()`` callbacks
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
+Thanks,
 
--- 
-Sakari Ailus
+=2D-=20
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--nextPart1988756.PYKUYFuaPT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEYFZBShRwOvLlRRy+3R9U/FLj284FAmd+jTAACgkQ3R9U/FLj
+285usw//Qd4pYBDL9wAILta7WOsX1FQ43pSO2+H1a85+OJH0dWd2pFOArEifUDnB
+VY+UIhmN5nyWFNG8I+ULDma9wXzGmQASm71ezBHPnezL53FeZYJMcmtHSAntkiy8
+T7ddbYtZaIeuMSdhyb3kXPumT2rVB0WpROo8dD2yU9YCRvrC1NDACoGAU9S45XSN
+B2gb8TpDDFIJnCExt03BQuWBHbPoWG48XisJUUnwcimF/rhTKG3Uonhzbk6UU3zn
+0mBA0Cno2iZ8q95/eM1mTKDilrP/UkrWUi4CfwVdmRhEzHyrbrlxM2rjD+Ru6iQj
+Smmw+rFLdbRU8xz7RRkG9DSJIBYtwaLRNsHe3WJvtmwvUWiEeXs55fcuIma1qPR8
+kEhaTZTiW2H4kuqlrtOrLHtTzkFE6iwpeOAaQnDbDRPVc7eJjEb6k5GLegCWKC9G
+xIFF83LpQ/mR/GpAhH/RSCNxY6mmKsgHKU/BEYvJSSr5kuTzewhp/1c56eAYRMPf
+Egeutv1p4PgLkVQe2r6mlUtxokSkzYhbI4cpFyfxOdlq1YosACb3mLfJTTrxYvBs
+8JDlkT3GtmgFvLxYcEXkNy+kVEPf+BpNA2m1qyZZhi9pbUc82/d+skI/gvLjDr0c
+Qp8mh+68O7NtSjEoT9fRJFM087bRHDEOL6SKnroCdV9Y/j/KBOs=
+=nOA3
+-----END PGP SIGNATURE-----
+
+--nextPart1988756.PYKUYFuaPT--
+
+
+
 
