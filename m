@@ -1,311 +1,105 @@
-Return-Path: <linux-media+bounces-24372-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24373-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F86A050D1
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 03:32:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFD6A0522B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 05:41:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1950D1889F44
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 02:32:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1439B7A29F8
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 04:41:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C5FF1AAA1B;
-	Wed,  8 Jan 2025 02:29:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C5221A0706;
+	Wed,  8 Jan 2025 04:41:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZJ9eokF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X7flTe72"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2291AA795;
-	Wed,  8 Jan 2025 02:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DDB2594B3;
+	Wed,  8 Jan 2025 04:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736303371; cv=none; b=fJOUw6CDmuzigWrMmW4bITb7KGCeNI+WjS8WzJndJ5/+Am/1zwx9Um/IIk78k1w3S+RqSx6WXO4EL/IUQou3OpkoZ+/xmPS0aEEf2/Q3451i5Yry9UN47/8FCljnjE6sMZpg6HRIu8t1JK9bwI6ooqv/xViTVb5qL5/SwYMoEGM=
+	t=1736311303; cv=none; b=RT3A3pkMdwExBrziFFwCCwudoOla/IgvTW/s0RdPAzITP+0r3vBx9F8G74yUMQfMP/GK5K2+vAHGWKNAmko+3CstamQCazdGoLsD/veGCNItECpuhh3D0CXaN06kUhU1WTrM/R2zvMyuJwGI6SMTl/xOlMut1W0r42v75akkUQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736303371; c=relaxed/simple;
-	bh=wVHrkI8pTk7m0SmAt5vONTuphWS7jc5OHQuJjOSNwbI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=n3Gicfd3uqYlHs8RtAe6XCj+P3SMfZJpDNvFj7GOoRwtYntwk3t5tW24M6VMuYViiuuHB6EKgYTpiDcHJfzb7FYyabf8xyyWygy2UR50dLDNDN5Jhwd6MM/qzkx/LVTX068CjqeKEIjwOaeC5LR78I19inz8mx2fyvbdK8CmPx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZJ9eokF; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736303371; x=1767839371;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=wVHrkI8pTk7m0SmAt5vONTuphWS7jc5OHQuJjOSNwbI=;
-  b=eZJ9eokF5biqXp7Psuwftgn7SuymIPdWcuqlFBohXOjLabhNTMKUNSv+
-   PLB/kSsK/MehXlbjN78ogLTrVCENKrsSGle+eDxyjKFOi86VOpha3IITv
-   XMrXKUgSqeGzb8NAyiWR2j5HbD2rNABtI7jw9D6n9ZuypT/BpVvuEuJEj
-   TaQH6dqi2joquG7J/O4yqVclyyu7guZ+1JlmX2qGvLd5yRlkxklSQU9EG
-   glFvU26LIDVjOcjim4+0g1n2B3dHWBExdsDDG0EerC0qt9+pKPmjTllqz
-   wGWwVnWy+kR8MDCkBA0mh6R+PsY6xU8gDQzqbL1oQshs3vpFEa5oTLMGH
-   g==;
-X-CSE-ConnectionGUID: QjECWk3wRImeSg9TQKpcTw==
-X-CSE-MsgGUID: jFWvoXMSSamDsKGlI19vSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47010654"
-X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="47010654"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 18:29:30 -0800
-X-CSE-ConnectionGUID: 0kj8MQWETA+EgGm5i13+zw==
-X-CSE-MsgGUID: YyKlmcGyQiKuexj+KBRfVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103793902"
-Received: from yilunxu-optiplex-7050.sh.intel.com ([10.239.159.165])
-  by orviesa008.jf.intel.com with ESMTP; 07 Jan 2025 18:29:25 -0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: kvm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org,
-	christian.koenig@amd.com,
-	pbonzini@redhat.com,
-	seanjc@google.com,
-	alex.williamson@redhat.com,
-	jgg@nvidia.com,
-	vivek.kasireddy@intel.com,
-	dan.j.williams@intel.com,
-	aik@amd.com
-Cc: yilun.xu@intel.com,
-	yilun.xu@linux.intel.com,
-	linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lukas@wunner.de,
-	yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch,
-	leon@kernel.org,
-	baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: [RFC PATCH 12/12] KVM: TDX: Implement TDX specific private MMIO map/unmap for SEPT
-Date: Tue,  7 Jan 2025 22:27:19 +0800
-Message-Id: <20250107142719.179636-13-yilun.xu@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250107142719.179636-1-yilun.xu@linux.intel.com>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+	s=arc-20240116; t=1736311303; c=relaxed/simple;
+	bh=t4h8zCOwCG5AD8GpOY5OU6yU/KVdGGb5Rom8rj+cD4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SAMti0YEZZnWczwNuw8KRmkV/qmm2uZ2p1r06asqmkC3xh7yvWIe6ruMrAWc5EeQgKAvJDg/nKFvEEJ5urlXTXTyRpHXWkLDjJjvVriOo/HlhXlZ3KY+FIvSkielI5uZzuV07SkGkZNNX/1W3ZCRKQohsVgO0ro9Ijz63XhrVFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X7flTe72; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C119C4CED0;
+	Wed,  8 Jan 2025 04:41:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736311303;
+	bh=t4h8zCOwCG5AD8GpOY5OU6yU/KVdGGb5Rom8rj+cD4I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X7flTe72mW0rA65BkJ/DS8YxQPsoESLFelPPySU02Ab57gj4StRm5bS6t9D7Bmjsk
+	 jt5XxiFZS243+2kFAY6izov/vHQ6VDovIAmvXYYRwNQmhOWrsz6rBN6FbabvYOLxax
+	 eaNU5JR2JlbDB/G7ws8LIIgT/yf4+D51fqcAwdTjyKvlZ4x02Q8OftM4ul0lJJnEU7
+	 +peuafh0Sihs6M8e2oNVhcrSUVKp92Micj/VYBJ9TUCLFyy34SD8VXuHHagN+XpBBj
+	 WB2786ENRbnD30Lj/8a84Y5z0vnI+ZUSPdP/t5dM4V5Ici/oPN5a0OHfEb0YBXxMom
+	 b+0Mr8gKMPLJg==
+Date: Tue, 7 Jan 2025 22:41:40 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Renjiang Han <quic_renjiang@quicinc.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>
+Subject: Re: [PATCH v2 1/2] clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for
+ video GDSC's
+Message-ID: <fmxvklw2fmt4akltrpw6v4wmmi6teu7rozz6tozr4hkos6io4s@4jp76l7xql3l>
+References: <20241223-switch_gdsc_mode-v2-0-eb5c96aee662@quicinc.com>
+ <20241223-switch_gdsc_mode-v2-1-eb5c96aee662@quicinc.com>
+ <szj4urqpxoek3y65ov6bavxqjsgs5nnu5o32e73z47mudelq4v@6fjbmm2h7pen>
+ <7556a703-db1a-48f1-8546-e9acf91ca0c6@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <7556a703-db1a-48f1-8546-e9acf91ca0c6@quicinc.com>
 
-Implement TDX specific private MMIO map/unmap in existing TDP MMU hooks.
+On Thu, Jan 02, 2025 at 12:06:14PM +0800, Renjiang Han wrote:
+> 
+> On 12/26/2024 11:54 AM, Bjorn Andersson wrote:
+> > > The video driver will be using the newly introduced
+> > > dev_pm_genpd_set_hwmode() API to switch the video GDSC to HW and SW
+> > > control modes at runtime.
+> > "Will be using", does that imply then that if this patch is merged
+> > before (or without the venus patch) something unexpected will happen?
+> > 
+> > Please clarify how you expect this to be merged, or clarify in the
+> > commit message that ordering is not of any concern.
+> > 
+> > Regards,
+> > Bjorn
+>  Thanks for your comment. This patch series is to make the video driver
+>  to use dev_pm_genpd_set_hwmode() to switch GDSC mode. This patch and
+>  the venus driver patch need to be merged at the same time. Otherwise,
+>  the video will not work properly on these platforms.
+> 
 
-Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
+The two patches are handled by different maintainers, of different
+subsystems and as such would not be expected to be merged together ever.
 
----
-TODO: This patch is still based on the earlier kvm-coco-queue version
-(v6.13-rc2). Will follow up the latest SEAMCALL wrapper change. [1]
+If you have such requirements, it need to be made very clear to the
+maintainers that they will have to synchronize the effort.
 
-[1] https://lore.kernel.org/all/20250101074959.412696-1-pbonzini@redhat.com/
----
- arch/x86/include/asm/tdx.h  |  3 ++
- arch/x86/kvm/vmx/tdx.c      | 57 +++++++++++++++++++++++++++++++++++--
- arch/x86/virt/vmx/tdx/tdx.c | 52 +++++++++++++++++++++++++++++++++
- arch/x86/virt/vmx/tdx/tdx.h |  3 ++
- 4 files changed, 113 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/tdx.h b/arch/x86/include/asm/tdx.h
-index 01409a59224d..7d158bbf79f4 100644
---- a/arch/x86/include/asm/tdx.h
-+++ b/arch/x86/include/asm/tdx.h
-@@ -151,6 +151,9 @@ u64 tdh_mem_page_remove(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx);
- u64 tdh_phymem_cache_wb(bool resume);
- u64 tdh_phymem_page_wbinvd_tdr(u64 tdr);
- u64 tdh_phymem_page_wbinvd_hkid(u64 hpa, u64 hkid);
-+u64 tdh_mmio_map(u64 tdr, u64 gpa, u64 level, u64 hpa, u64 *rcx, u64 *rdx);
-+u64 tdh_mmio_block(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx);
-+u64 tdh_mmio_unmap(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx);
- #else
- static inline void tdx_init(void) { }
- static inline int tdx_cpu_enable(void) { return -ENODEV; }
-diff --git a/arch/x86/kvm/vmx/tdx.c b/arch/x86/kvm/vmx/tdx.c
-index 69ef9c967fbf..9b43a2ee2203 100644
---- a/arch/x86/kvm/vmx/tdx.c
-+++ b/arch/x86/kvm/vmx/tdx.c
-@@ -1576,6 +1576,29 @@ static int tdx_mem_page_aug(struct kvm *kvm, gfn_t gfn,
- 	return 0;
- }
- 
-+static int tdx_mmio_map(struct kvm *kvm, gfn_t gfn,
-+			enum pg_level level, kvm_pfn_t pfn)
-+{
-+	int tdx_level = pg_level_to_tdx_sept_level(level);
-+	struct kvm_tdx *kvm_tdx = to_kvm_tdx(kvm);
-+	hpa_t hpa = pfn_to_hpa(pfn);
-+	gpa_t gpa = gfn_to_gpa(gfn);
-+	u64 entry, level_state;
-+	u64 err;
-+
-+	err = tdh_mmio_map(kvm_tdx->tdr_pa, gpa, tdx_level, hpa,
-+			   &entry, &level_state);
-+	if (unlikely(err & TDX_OPERAND_BUSY))
-+		return -EBUSY;
-+
-+	if (KVM_BUG_ON(err, kvm)) {
-+		pr_tdx_error_2(TDH_MMIO_MAP, err, entry, level_state);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * KVM_TDX_INIT_MEM_REGION calls kvm_gmem_populate() to get guest pages and
-  * tdx_gmem_post_populate() to premap page table pages into private EPT.
-@@ -1610,6 +1633,9 @@ int tdx_sept_set_private_spte(struct kvm *kvm, gfn_t gfn,
- 	if (KVM_BUG_ON(level != PG_LEVEL_4K, kvm))
- 		return -EINVAL;
- 
-+	if (kvm_is_mmio_pfn(pfn))
-+		return tdx_mmio_map(kvm, gfn, level, pfn);
-+
- 	/*
- 	 * Because guest_memfd doesn't support page migration with
- 	 * a_ops->migrate_folio (yet), no callback is triggered for KVM on page
-@@ -1647,6 +1673,20 @@ static int tdx_sept_drop_private_spte(struct kvm *kvm, gfn_t gfn,
- 	if (KVM_BUG_ON(!is_hkid_assigned(kvm_tdx), kvm))
- 		return -EINVAL;
- 
-+	if (kvm_is_mmio_pfn(pfn)) {
-+		do {
-+			err = tdh_mmio_unmap(kvm_tdx->tdr_pa, gpa, tdx_level,
-+					     &entry, &level_state);
-+		} while (unlikely(err == TDX_ERROR_SEPT_BUSY));
-+
-+		if (KVM_BUG_ON(err, kvm)) {
-+			pr_tdx_error_2(TDH_MMIO_UNMAP, err, entry, level_state);
-+			return -EIO;
-+		}
-+
-+		return 0;
-+	}
-+
- 	do {
- 		/*
- 		 * When zapping private page, write lock is held. So no race
-@@ -1715,7 +1755,7 @@ int tdx_sept_link_private_spt(struct kvm *kvm, gfn_t gfn,
- }
- 
- static int tdx_sept_zap_private_spte(struct kvm *kvm, gfn_t gfn,
--				     enum pg_level level)
-+				     enum pg_level level, kvm_pfn_t pfn)
- {
- 	int tdx_level = pg_level_to_tdx_sept_level(level);
- 	struct kvm_tdx *kvm_tdx = to_kvm_tdx(kvm);
-@@ -1725,6 +1765,19 @@ static int tdx_sept_zap_private_spte(struct kvm *kvm, gfn_t gfn,
- 	/* For now large page isn't supported yet. */
- 	WARN_ON_ONCE(level != PG_LEVEL_4K);
- 
-+	if (kvm_is_mmio_pfn(pfn)) {
-+		err = tdh_mmio_block(kvm_tdx->tdr_pa, gpa, tdx_level,
-+				     &entry, &level_state);
-+		if (unlikely(err == TDX_ERROR_SEPT_BUSY))
-+			return -EAGAIN;
-+		if (KVM_BUG_ON(err, kvm)) {
-+			pr_tdx_error_2(TDH_MMIO_BLOCK, err, entry, level_state);
-+			return -EIO;
-+		}
-+
-+		return 0;
-+	}
-+
- 	err = tdh_mem_range_block(kvm_tdx->tdr_pa, gpa, tdx_level, &entry, &level_state);
- 	if (unlikely(err == TDX_ERROR_SEPT_BUSY))
- 		return -EAGAIN;
-@@ -1816,7 +1869,7 @@ int tdx_sept_remove_private_spte(struct kvm *kvm, gfn_t gfn,
- 	if (KVM_BUG_ON(!is_hkid_assigned(to_kvm_tdx(kvm)), kvm))
- 		return -EINVAL;
- 
--	ret = tdx_sept_zap_private_spte(kvm, gfn, level);
-+	ret = tdx_sept_zap_private_spte(kvm, gfn, level, pfn);
- 	if (ret)
- 		return ret;
- 
-diff --git a/arch/x86/virt/vmx/tdx/tdx.c b/arch/x86/virt/vmx/tdx/tdx.c
-index 57195cf0d832..3b2109877a39 100644
---- a/arch/x86/virt/vmx/tdx/tdx.c
-+++ b/arch/x86/virt/vmx/tdx/tdx.c
-@@ -1951,3 +1951,55 @@ u64 tdh_phymem_page_wbinvd_hkid(u64 hpa, u64 hkid)
- 	return seamcall(TDH_PHYMEM_PAGE_WBINVD, &args);
- }
- EXPORT_SYMBOL_GPL(tdh_phymem_page_wbinvd_hkid);
-+
-+u64 tdh_mmio_map(u64 tdr, u64 gpa, u64 level, u64 hpa, u64 *rcx, u64 *rdx)
-+{
-+	struct tdx_module_args args = {
-+		.rcx = gpa | level,
-+		.rdx = tdr,
-+		.r8 = hpa,
-+	};
-+	u64 ret;
-+
-+	ret = tdx_seamcall_sept(TDH_MMIO_MAP, &args);
-+
-+	*rcx = args.rcx;
-+	*rdx = args.rdx;
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(tdh_mmio_map);
-+
-+u64 tdh_mmio_block(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx)
-+{
-+	struct tdx_module_args args = {
-+		.rcx = gpa | level,
-+		.rdx = tdr,
-+	};
-+	u64 ret;
-+
-+	ret = tdx_seamcall_sept(TDH_MMIO_BLOCK, &args);
-+
-+	*rcx = args.rcx;
-+	*rdx = args.rdx;
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(tdh_mmio_block);
-+
-+u64 tdh_mmio_unmap(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx)
-+{
-+	struct tdx_module_args args = {
-+		.rcx = gpa | level,
-+		.rdx = tdr,
-+	};
-+	u64 ret;
-+
-+	ret = tdx_seamcall_sept(TDH_MMIO_UNMAP, &args);
-+
-+	*rcx = args.rcx;
-+	*rdx = args.rdx;
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(tdh_mmio_unmap);
-diff --git a/arch/x86/virt/vmx/tdx/tdx.h b/arch/x86/virt/vmx/tdx/tdx.h
-index 58d5754dcb4d..a83a90a043a5 100644
---- a/arch/x86/virt/vmx/tdx/tdx.h
-+++ b/arch/x86/virt/vmx/tdx/tdx.h
-@@ -49,6 +49,9 @@
- #define TDH_VP_WR			43
- #define TDH_PHYMEM_PAGE_WBINVD		41
- #define TDH_SYS_CONFIG			45
-+#define TDH_MMIO_MAP			158
-+#define TDH_MMIO_BLOCK			159
-+#define TDH_MMIO_UNMAP			160
- 
- /*
-  * SEAMCALL leaf:
--- 
-2.25.1
+You're expected to always keep the tree "bisectable", i.e. the tree
+should function after each commit in the git history. Please clarify
+the best possible order here, and if the changes truly need to be merged
+in some specific order let's see if we can get Maruo's Acked-by and I
+could merge the pair through the clock tree.
 
+Regards,
+Bjorn
 
