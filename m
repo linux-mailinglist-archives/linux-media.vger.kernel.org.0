@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-24394-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06458A05AE1
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:01:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E27EDA05AE0
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:01:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5C4D77A03F0
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 12:01:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6FDA5166BCC
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 12:01:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1761E25FA;
-	Wed,  8 Jan 2025 12:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 708FD1F9438;
+	Wed,  8 Jan 2025 12:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MOOHA5ZX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QyhCiX2y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB961A3035
-	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 12:01:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD1F1F8667
+	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 12:01:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736337674; cv=none; b=PgS02hFFt651qPHK8jUfghHqyY3zHwQMNwye4iyKdk9YoImDrqE/EM2sJOCi706/bxF14rC+SHzuexZUUTB2HAhGbfd13PdYy4OAcpJcop0IU8/6mjDHvsHF4CdJBRG3ct+WhWg7K7mWnRyzqDvJmwls7kipar/3/waMG4gjMmY=
+	t=1736337678; cv=none; b=GdeUkKnx7bEmIBKmduULgXLqxlJFKJxhIO5yX5iZkMbTGcGfg3MoAzaR7DfPXQcoXDZy93UvpVljRaYgbliZpXzu7VGzhpp7ETm+maO/pLABTBrCWzo++2y9FZT9e1bB0gfdyJGrv63Xs1y7CqEvNE8LafOqb6RRu1SzuDz6lbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736337674; c=relaxed/simple;
-	bh=isbiZ1hj2IQQTYHk5ueBbjxcBKpDQR+8DhRrd9ltjh8=;
+	s=arc-20240116; t=1736337678; c=relaxed/simple;
+	bh=LdlJg98nowM9QcjStDc2gIDnykHAy+9xAAbZeuKhCXM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JWsfU7b7LHxhiWQIHLpgM6sXKvuLuZmpHYIJnlo5rudyMAxhhJd3zD+8lm4el/nOfim/m3pqXmTJ2oR7gCfEocUsDbRI3vM6XlSPGPWoYasl5ibavLVi59Dszuuf2sHXzhDZLeGuxAapZxm4E/as90A9RjRgDSSyIMPBeTNecC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MOOHA5ZX; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=gbUXWjV4Bvzv0K5oGAaqimtwWsFYzMR1NHg0szs5mUGj62o3xFeBT4BPHwfmMkaHcJIXzO/bPpWGguHJj8duTMOCoeiIel8QL0sK6O7NurbqzjaZM7Qdx6LrNFflP7c+YXzNb7LghDM8MOIISdx6U44dE2o5kDwzZp2JnVZwevM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QyhCiX2y; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8973A116B;
-	Wed,  8 Jan 2025 13:00:05 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 198401A89;
+	Wed,  8 Jan 2025 13:00:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736337607;
-	bh=isbiZ1hj2IQQTYHk5ueBbjxcBKpDQR+8DhRrd9ltjh8=;
+	s=mail; t=1736337622;
+	bh=LdlJg98nowM9QcjStDc2gIDnykHAy+9xAAbZeuKhCXM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MOOHA5ZX2XXeLC/DXcbSMcg4dJjCVyDENHOAeUQDXe3rKejEF+1peFD33hohKLgNS
-	 URTEsipfOW8gKZLjuMq/yBkksu8Tdkskf6Zh4kK4pdDbbOg0tyVgytnLdNn+RVj5av
-	 qBkrA+ozbKAV+Kzx7AmT9M5/Nh/LZKtMsWSoLBVo=
-Message-ID: <4cf61efd-bcf0-4bcb-9936-fa3d06ddd977@ideasonboard.com>
-Date: Wed, 8 Jan 2025 14:00:52 +0200
+	b=QyhCiX2yveJKesZ0sRA9fOZIGRrNn/OwRtC2shSpkvXtgPf/rRbMzr6mmhpLIr/gL
+	 SkZuPL8zyYGkVnFIi3DOh02jYZD/FKtyFWN2gShSrDTcMVEYRgiI8z1FtCnwjF0Tt4
+	 71T1WyXBKJQuio1wJZLQ7YzKtmLc4WI9tMsYSp7A=
+Message-ID: <72173931-8203-4441-8784-2c4017c745c7@ideasonboard.com>
+Date: Wed, 8 Jan 2025 14:01:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v4 1/9] media: Documentation: Rework embedded data
- documentation
+Subject: Re: [RFC v4 2/9] media: Documentation: Add a hyphen to list-based
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
  Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
@@ -76,7 +75,7 @@ Cc: hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
  Mehdi Djait <mehdi.djait@linux.intel.com>,
  Ricardo Ribalda Delgado <ribalda@kernel.org>
 References: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
- <20241220132419.1027206-2-sakari.ailus@linux.intel.com>
+ <20241220132419.1027206-3-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -122,49 +121,47 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20241220132419.1027206-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20241220132419.1027206-3-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 20/12/2024 15:24, Sakari Ailus wrote:
-> Rework embedded data documentation by removing the reference to the pixel
-> data stream. The specific documentation of the embedded data interface
-> will be elsewhere, in the near future either CCS or common raw camera
-> sensor model documentation.
+> Add a hyphen to list-based for uniform spelling in camera-sensor.rst.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->   .../userspace-api/media/drivers/camera-sensor.rst   | 13 ++++++-------
->   1 file changed, 6 insertions(+), 7 deletions(-)
+>   Documentation/userspace-api/media/drivers/camera-sensor.rst | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> index dc415b8f6c8e..8e1083417ae1 100644
+> index 8e1083417ae1..9a1e8aa9fc77 100644
 > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
 > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> @@ -111,13 +111,12 @@ the sensor configuration for the captured frame back to the host. While CSI-2 is
->   the most common data interface used by such sensors, embedded data can be
->   available on other interfaces as well.
+> @@ -26,10 +26,10 @@ of cropping and scaling operations from the device's pixel array's size.
 >   
-> -Such sensors expose two internal sink pads (pads that have both the
-> -``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and ``MEDIA_PAD_FL_INTERNAL
-> -<MEDIA-PAD-FL-INTERNAL>`` flags set) to model the source of the image and
-> -embedded data streams. Both of these pads produces a single stream, and the
-> -sub-device routes those streams to the external (source) pad. If the sub-device
-> -driver supports disabling embedded data, this can be done by disabling the
-> -embedded data route via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
-> +Embedded data support is indicated by the precence of an internal sink pad (pad
-> +that has both the ``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and
-> +``MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`` flags set) with a metadata
-> +format to model the embedded data stream. If the sub-device driver supports
-> +disabling embedded data, this can be done by disabling the embedded data route
-> +via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+>   An example of such a driver is the CCS driver.
 >   
->   In general, changing the embedded data format from the driver-configured values
->   is not supported. The height of the metadata is device-specific and the width
+> -Register list based drivers
+> +Register list-based drivers
+>   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   
+> -Register list based drivers generally, instead of able to configure the device
+> +Register list-based drivers generally, instead of able to configure the device
+>   they control based on user requests, are limited to a number of preset
+>   configurations that combine a number of different parameters that on hardware
+>   level are independent. How a driver picks such configuration is based on the
+> @@ -67,7 +67,7 @@ is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+>   the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+>   sub-device. The unit of that control is pixels per second.
+>   
+> -Register list based drivers need to implement read-only sub-device nodes for the
+> +Register list-based drivers need to implement read-only sub-device nodes for the
+>   purpose. Devices that are not register list based need these to configure the
+>   device's internal processing pipeline.
+>   
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
