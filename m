@@ -1,128 +1,196 @@
-Return-Path: <linux-media+bounces-24400-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24401-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA2CA05BED
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:47:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3211BA05C18
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:51:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EED01652F6
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 12:47:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EE76188941E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 12:51:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68DB61F9F67;
-	Wed,  8 Jan 2025 12:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7209B1FC10C;
+	Wed,  8 Jan 2025 12:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="u+222eb6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9k2RSoz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08143A59;
-	Wed,  8 Jan 2025 12:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDC01FBEA6
+	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 12:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736340415; cv=none; b=JzvT1PhaYgFWRXlv2kzii1IlsRDCd5iLTplnIzRKUuyQzZ0CsM7xvcD+bcuhj1hcVJStMrVXhwX5v+ksHy3Jmhl9Y9p113R5Dv9FXN9+72Xz2ug9qePKYZcnb5AILCMuSyBtUBTSLGeGayj4jwD+TXrRrReeTXLdg/fPpacC1bg=
+	t=1736340662; cv=none; b=lbchaNPgpOCynqP9N2seb9gYIKhzufYrpkjV6U8UJ0N0EUZRfIoFT5hqKDJmDNw3a/s5f0KVvF5PH7S0mofW+/Mw9wXMZK41XIzFgSUvLoKSVBxG68tr046jK78pNfNpjbAWIuBtjqpLVvK36KcNnRxrpte9aiZe1lq2jx9c/HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736340415; c=relaxed/simple;
-	bh=TuIWTBah/Asxh1TzKSlDVFZRcyFjfydZeObO1sMI0ZE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ltRezepd7hhWsbZRsZrABlLKYvRI7Um7msooQRnq5U1uQiKAtWpeYd2RlCqFYSDkSTEPTUa/D4xHPKmOQX3XfSPUhh5CpKkUAPdVIiRL6gr8JokEJKfBbLHkD1au1KS0NXM/Y14fj13/IsnbHZOC+0ZCQoDM4iL/RKnf5dK4sd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=u+222eb6; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5089S7TW008396;
-	Wed, 8 Jan 2025 13:46:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=selector1; bh=k/Owhr//HyiKIqL7/U5rQbAg
-	BbQdC2z3Ac5xKTuO6zs=; b=u+222eb6IRU84rOdobLv4zvXbz9vCeYzMO/OV/NT
-	Z1w+sXnsAJoRJeR53GkDlCRiiDhAbZIt5F2QU91gKvzgvD04NfOUObaMvf0p1Wdv
-	3en+DH04GTdWX82bzf2HmN97+B+pvaonsbur68tyZAt56P8QF3KGUMKXiDFtpGrw
-	Ml/N0zVkDZFbKOutfjSrSFoQOUYE5wgXoOd4FCGiYI5DP4Z4OdYY2bqrhR4c2UWy
-	EjDacST5H03g6pFev/AXpgVJdAEKndj4RNAsRzeDRQLkZbjpeAmX9uoeN9I6wA+A
-	ZUYKeNfGl5d2xSeNP9PEmTwLD8NJyyhOxaUENOLdrvvByA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 441m7t9gj1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jan 2025 13:46:18 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 2403440044;
-	Wed,  8 Jan 2025 13:45:11 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 591DE262B18;
-	Wed,  8 Jan 2025 13:42:12 +0100 (CET)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Wed, 8 Jan
- 2025 13:42:11 +0100
-Date: Wed, 8 Jan 2025 13:42:06 +0100
-From: Alain Volmat <alain.volmat@foss.st.com>
-To: Conor Dooley <conor@kernel.org>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hugues Fruchet
-	<hugues.fruchet@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 2/9] dt-bindings: media: clarify stm32 csi & simplify
- example
-Message-ID: <20250108124206.GA153605@gnbcxd0016.gnb.st.com>
-References: <20241217-csi_dcmipp_mp25_enhancements-v1-0-2b432805d17d@foss.st.com>
- <20241217-csi_dcmipp_mp25_enhancements-v1-2-2b432805d17d@foss.st.com>
- <20241217-crawfish-tiring-792c535301d0@spud>
- <Z2HpVyVEs7jn0VPd@kekkonen.localdomain>
- <20241218-yelling-palm-da676b67afb9@spud>
+	s=arc-20240116; t=1736340662; c=relaxed/simple;
+	bh=RknLEfW/PURoIjEcW0Jx6sjIUxXXyfztL6AysqsS5IE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y2UJDAxYUWr5fZHtY1p+VPDB453Gc0hFJUiPQlrn3bmpzdxEpCXFFuH1jp/IyO+y09FPAvxDaA+omCC4uz1ncer26G6/2cujUiZzxu25nUb+I7zP1lYRkliBt8SLCGx9MO01aKXE8e6Yk3Vuifsob4BsDWpYx4iM/CRSqlji4MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q9k2RSoz; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736340661; x=1767876661;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=RknLEfW/PURoIjEcW0Jx6sjIUxXXyfztL6AysqsS5IE=;
+  b=Q9k2RSozjko0ULP0uigCcML521EHZQF6QWItYV1GMbbeiv01pZqsD06r
+   AP/hzbis1lvh2DW7qSlyS0QOSNoe6Ko+YgXV5x0c8ZPnUZQlo/TTVSjf1
+   wPwHdLZ1pYW/67lSON4zSBRO+arCA+AsUl3nfYZqHQvzPH38M9azReFp8
+   zBos5hY2KSXOWMTdJUKgND3w6eQykZJ+/BvDrEMr3RdEm4N8XwL6muJGt
+   s9029CFB8PLqvmUw3fnAyjuz8jx5TF3KXhDE6HtX5PfvY6AVmJDDJ8Oue
+   vH4TUzkQOXfgdUPvqGFLTK1p/pJ9spoFYZXZq/8EKpa5WfYUYT13KaCEO
+   w==;
+X-CSE-ConnectionGUID: 5YKFEzEEQnGhxMYSiH1moQ==
+X-CSE-MsgGUID: PZFWsfxGTf6niBZQ1xtnSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36784448"
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="36784448"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 04:51:00 -0800
+X-CSE-ConnectionGUID: L4aca+tVRx6z8TeFP8ocwQ==
+X-CSE-MsgGUID: zLYnADdTTtOJd1kO1ail/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="103580757"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 04:50:58 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2093411F8DF;
+	Wed,  8 Jan 2025 14:50:56 +0200 (EET)
+Date: Wed, 8 Jan 2025 12:50:56 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com
+Subject: Re: [PATCH v8 9/9] media: v4l: Convert the users of
+ v4l2_get_link_freq to call it on a pad
+Message-ID: <Z350sEwO5HAhSY-x@kekkonen.localdomain>
+References: <20241217215445.901459-1-sakari.ailus@linux.intel.com>
+ <20241217215445.901459-10-sakari.ailus@linux.intel.com>
+ <232606b3-6f6f-4932-a9f5-44c2f89e99fb@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241218-yelling-palm-da676b67afb9@spud>
-X-Disclaimer: ce message est personnel / this message is private
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <232606b3-6f6f-4932-a9f5-44c2f89e99fb@ideasonboard.com>
 
-Hi Conor,
+Moi,
 
-On Wed, Dec 18, 2024 at 06:25:11PM +0000, Conor Dooley wrote:
-> On Tue, Dec 17, 2024 at 09:12:55PM +0000, Sakari Ailus wrote:
-> > Hi Conor,
-> > 
-> > On Tue, Dec 17, 2024 at 06:24:42PM +0000, Conor Dooley wrote:
-> > > On Tue, Dec 17, 2024 at 06:39:19PM +0100, Alain Volmat wrote:
-> > > > Clarify the description of the stm32 csi by mentioning CSI-2 and
-> > > > D-PHY.
-> > > 
-> > > > Remove the bus-type property from the example.
-> > > 
-> > > Why? What's there to gain from the example being (seemingly?) less
-> > > comprehensive?
-> > 
-> > As the device has D-PHY, other options are excluded. I.e. that property is
-> > redundant for this device.
+On Fri, Dec 20, 2024 at 03:19:09PM +0200, Tomi Valkeinen wrote:
+> Hi,
+
+Thanks for the review.
+
 > 
-> That should be mentioned in the commit message.
+> On 17/12/2024 23:54, Sakari Ailus wrote:
+> > diff --git a/drivers/media/platform/qcom/camss/camss-vfe-17x.c b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
+> > index 380c99321030..cc93f79179dd 100644
+> > --- a/drivers/media/platform/qcom/camss/camss-vfe-17x.c
+> > +++ b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
+> > @@ -443,16 +443,18 @@ static int vfe_enable_output(struct vfe_line *line)
+> >   	struct vfe_device *vfe = to_vfe(line);
+> >   	struct vfe_output *output = &line->output;
+> >   	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
+> > -	struct media_entity *sensor;
+> > +	struct media_pad *sensor;
+> >   	unsigned long flags;
+> >   	unsigned int frame_skip = 0;
+> >   	unsigned int i;
+> >   	sensor = camss_find_sensor(&line->subdev.entity);
+> >   	if (sensor) {
+> > -		struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(sensor);
+> > +		struct v4l2_subdev *subdev =
+> > +			media_entity_to_v4l2_subdev(sensor->entity);
+> > -		v4l2_subdev_call(subdev, sensor, g_skip_frames, &frame_skip);
+> > +		v4l2_subdev_call(subdev, sensor, g_skip_frames,
+> > +				 &frame_skip);
+> 
+> This looks a bit odd... The sensor parameter was media_entity, but now it's
+> media_pad, but I don't think the called op has changed. Is that right?
 
-Ok, I'll push a v2 with that commit message fixed.
+"sensor" in this case is the name of the operations struct, it's unrelated
+to the variable with the same name. :-)
 
-Alain
+But the second line wrap is unnecessary, I'll fix it.
 
+> 
+> >   		/* Max frame skip is 29 frames */
+> >   		if (frame_skip > VFE_FRAME_DROP_VAL - 1)
+> >   			frame_skip = VFE_FRAME_DROP_VAL - 1;
+> > diff --git a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
+> > index eb33c03df27e..1970f7aa6d4d 100644
+> > --- a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
+> > +++ b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
+> > @@ -170,7 +170,7 @@ static int vfe_enable_output(struct vfe_line *line)
+> >   	struct vfe_device *vfe = to_vfe(line);
+> >   	struct vfe_output *output = &line->output;
+> >   	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
+> > -	struct media_entity *sensor;
+> > +	struct media_pad *sensor;
+> >   	unsigned long flags;
+> >   	unsigned int frame_skip = 0;
+> >   	unsigned int i;
+> > @@ -182,9 +182,11 @@ static int vfe_enable_output(struct vfe_line *line)
+> >   	sensor = camss_find_sensor(&line->subdev.entity);
+> >   	if (sensor) {
+> > -		struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(sensor);
+> > +		struct v4l2_subdev *subdev =
+> > +			media_entity_to_v4l2_subdev(sensor->entity);
+> > -		v4l2_subdev_call(subdev, sensor, g_skip_frames, &frame_skip);
+> > +		v4l2_subdev_call(subdev, sensor, g_skip_frames,
+> > +				 &frame_skip);
+> 
+> Here too.
 
+Ditto.
+
+> 
+> >   		/* Max frame skip is 29 frames */
+> >   		if (frame_skip > VFE_FRAME_DROP_VAL - 1)
+> >   			frame_skip = VFE_FRAME_DROP_VAL - 1;
+> > diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> > index 004a74f6b2f6..e86de4b59723 100644
+> > --- a/drivers/media/platform/qcom/camss/camss.c
+> > +++ b/drivers/media/platform/qcom/camss/camss.c
+> > @@ -1996,12 +1996,12 @@ void camss_disable_clocks(int nclocks, struct camss_clock *clock)
+> >   }
+> >   /*
+> > - * camss_find_sensor - Find a linked media entity which represents a sensor
+> > + * camss_find_sensor - Find the media pad via which the sensor is linked
+> >    * @entity: Media entity to start searching from
+> >    *
+> >    * Return a pointer to sensor media entity or NULL if not found
+> >    */
+> > -struct media_entity *camss_find_sensor(struct media_entity *entity)
+> > +struct media_pad *camss_find_sensor(struct media_entity *entity)
+> 
+> I don't like this change. Maybe rename the function to
+> camss_find_sensor_pad(), and rename the "sensor" variables to "sensor_pad".
+> That would make the diff more readable, too, to show all the places where we
+> used to have a media_entity, but now have media_pad.
+> 
+> But even then, after this change, I think mostly the callers of
+> camss_find_sensor() will just end up changing it back to entity. Maybe
+> that's fine, but is there a way to keep the camss_find_sensor as it is now,
+> and just do something extra when calling v4l2_get_link_freq() to get the
+> media_pad...
+
+There are just a few callers of this function, we don't need a specific
+helper for that reason within a driver. I'll rename the function.
+
+-- 
+Ystävällisin terveisin,
+
+Sakari Ailus
 
