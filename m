@@ -1,227 +1,226 @@
-Return-Path: <linux-media+bounces-24414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24415-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47EDA05CB1
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:23:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACE3A05CB4
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:24:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4B20166AA5
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:23:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 644A53A52BA
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:24:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 213001FBC90;
-	Wed,  8 Jan 2025 13:23:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D86B31FBEAC;
+	Wed,  8 Jan 2025 13:24:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nkgBmJTT"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HgUvY9tP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF381FBC85
-	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 13:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736342596; cv=none; b=ctdj5cn16ghnLlK0sCtSWMYQWlR0DG7g5TOQPSZVggjYRehudBlq0oraUSumkU4QStAFoOMAdivFDFnVo5zlNKE1SvQ0NkP3Q7NDjsEvIz78m88ASSxY321HHfGD7Qqot+cuFWPUto4mLJE/NqZNC9z32kJA7eOym6p9FSoLdkQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736342596; c=relaxed/simple;
-	bh=Yl1dkkL4K14VbZFrPdwuPgecolRenjltdKcBSUUcjG0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NR0ECW7Ejkl3/dVk/KezSmgCnX6U9nixunt8ZuztgQmwv1yodgCTusRijD0ioYod3Gsbop+oYR+SdFIgCKfZiTTqe43I5B/H7OB3kuzVmF10z0tSR//9G/wv12zI8wkGdE3uBkcywxnsiYvgFruAfaXe06qRd+58DNxl7niwFHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nkgBmJTT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56F865B3;
-	Wed,  8 Jan 2025 14:22:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736342537;
-	bh=Yl1dkkL4K14VbZFrPdwuPgecolRenjltdKcBSUUcjG0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nkgBmJTT+qd90GsrYeptAYam01cR7ytwIvIiuw8wUgFvAu8oDVUnNT3opt5+EhLtF
-	 TtO9VhxBX/nl5syy5pvppe4AxbAZkmFzrD5q71IfLJPL0cDSCmbn69W7uiTdEzcwNE
-	 PyYkxLttXiGFODeI+9hWTN2CHb57iVr0w0+z2B04=
-Message-ID: <fc3b70ea-2f10-4ceb-8c16-4713121b806e@ideasonboard.com>
-Date: Wed, 8 Jan 2025 15:23:06 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18711F2C44;
+	Wed,  8 Jan 2025 13:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736342644; cv=fail; b=Yv5qzCj9yxnV2SFFu2mlUFR3j4rvc7u1uYw2Y6Dg/xWHIVgU4lTD9nAPIbMh9GM/kGIpEZyz/h2WvLODO4WsNSUMmfEWenX6YCZUC1ghQJ3RLxtkdrIV7ZDByMFZayPRLTj3KqsB5USySokpb0gE8bisczF827YI41XNHnXnmuU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736342644; c=relaxed/simple;
+	bh=/um49MXhKeYncXmHOujIRbU+w43XtXjiMBY+4pTUbaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=u85wzqSjFWbtzFiw6RkJD8hBiwa4Q+NhIc7P2xeehEPa1nDIgYdg0iIrDPyxGKQtwng5r1/cNsJES7jvPIdb5Y6aFKZ9biq8BfRQIioW/9Tvd7D4Y52cQ8xsHnwhGlCQBu9dFeH7Y472ehaZIsT1XHEuFMAXJ+M/DZmCWttgzzw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HgUvY9tP; arc=fail smtp.client-ip=40.107.220.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GhVSm46zr8mTBT2fSnSsC136ybbMaobOQA7rhyUj9swbQLYA2IFiiR8QyetgpBx2dxrBHg4YgwT8x9cYAyYgZ+xQoJSZVYAPHOW531qktjLS8Y3Vi8oFpBrWCxY0mntJCfZS7h+jbG5vdRFKDaPZqbcBzhkkkqn9710H20e7VugwF1LTRRVls3NT9pvanCc+h3Q69yFw6RvxRd3C9+EtvGi4wXnugR0qMQDH2HM6EEdN5W9M/1uS28mrS4z33iI9FZSGMveSPnPxmjUcv86zn1A/Fw/hKxMuszb3zuMM3zgZgTPlyJQ3oWMSkzzOyxLr1fmbQeriS3hBgiKtaKH/kQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5+ykCuqe/n8BsRDVoZVSfG2+0a3v/sSx/fhXnr6WOao=;
+ b=HlcH0XVIZfrKujlWYpibZUbmtBjUi3rSkjRfJGJ9wa8gBjg0u6Ax/vG+zUmotH2/iK+eKhZf/BzNti71gHkk7jKj/ti6xH+NnJzIoMGRVLtVCPZrlaLMUpOvY2vANc4ITI2ev7kyH3DMS28vaMLjaNze/ZsVu6HMV4KOms/I0UKkfM//cyaoYnlSDHOfWZ5ddCWwAHKSyPD5ofq7ZtIk6f0A2oDRNZr9OyZ+Znak50x+lHeHsIKItpQhq4YO0mWdz+MGCJE1wO45QulZWBKVxEy1OkzR0myy3wHzVrNDNTXoFnKeuP7U6H+2lX4SdeClJPIjpAhwURTVa0+pBgAxGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5+ykCuqe/n8BsRDVoZVSfG2+0a3v/sSx/fhXnr6WOao=;
+ b=HgUvY9tP3Z1M1+YkYL0Kl3Z4PTDAgQWtfFjGK8tqMvI73+HzT1O9upPYm00tEDYYixpinOnLI+BheaovdSpJUlzG33iNR3JrE6LIDdAmc109l1GVaaNG/WEeA72Lv2rVXv79rn1TqwRz7ZU7JiSsW1O9BXgJpQmM7pPQ6WQmqLt6C7bo5Y0SlLun40moI7t18DTujhs70yIErSJ6DBrTraRNl7nufQNW79a507E7RVm55K4Au7ofMdIfj6+grb9ovaP7GclZf2wJ+x+qfYc7INqo9vudU9a19aV9okSn9oiX/oKzY+JWM66Gg1ZATsxYQ4JLKY9ajaL3KGEO3yvtxA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by PH0PR12MB7886.namprd12.prod.outlook.com (2603:10b6:510:26e::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.15; Wed, 8 Jan
+ 2025 13:24:00 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8314.015; Wed, 8 Jan 2025
+ 13:23:59 +0000
+Date: Wed, 8 Jan 2025 09:23:58 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+	zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <20250108132358.GP5556@nvidia.com>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <20250107142719.179636-2-yilun.xu@linux.intel.com>
+ <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
+X-ClientProxiedBy: BN9PR03CA0221.namprd03.prod.outlook.com
+ (2603:10b6:408:f8::16) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v4 8/9] media: uapi: Add controls for sub-sampling
- configuration
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
- Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Mikhail Rudenko <mike.rudenko@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Julien Massot <julien.massot@collabora.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- "Yan, Dongcheng" <dongcheng.yan@intel.com>,
- "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu"
- <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>,
- Stefan Klug <stefan.klug@ideasonboard.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
- <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Ricardo Ribalda Delgado <ribalda@kernel.org>
-References: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
- <20241220132419.1027206-9-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20241220132419.1027206-9-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH0PR12MB7886:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3a0dee02-c885-433f-2def-08dd2fe7b61d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TkI0SzdhSkY3MVdSNnB5YU5hazlHbXcvcHpLTGRsNXpHOEpyamliOTIrQm5L?=
+ =?utf-8?B?Q1pENHYzSjhaR1NOd2NRL0Jtc1l6c0JoSkErcXB3Tm03bmxmK3NmakJzWnlS?=
+ =?utf-8?B?VDYyZVBzUU5TUGNlL2NkNUpvaE9NalNqWFdkc3JEbEJLWVdzVGRDaEppV2dt?=
+ =?utf-8?B?QU1Uc2JkMkRVL1lFRlQyZGtiZWVTeUJpbHZtSGFsSjNBM1lkRUYyRmZTOFEx?=
+ =?utf-8?B?cGxYM0N1TERtVnVsWDNMUHZ6QUY4V1VTMnF4WGhGL1J0NEgwNHBkMGxsWWxF?=
+ =?utf-8?B?YU1IdFMydUlNK0xXQWlHRzhMK2pJQ0hscGdIeURCN0RiQThzWXpmcUt6K1pD?=
+ =?utf-8?B?R1N6WmxIcXZxdzNMTzFuQ3pDb0ZYNmpRTFU0T0NIdWJUb2dWeUd5dGN0emF1?=
+ =?utf-8?B?SnlySUVmUk9NaTI2L2lBeWxZQjdaeFlXYUNjTG1rWmNPYmRLU3VMOHRuZ1l3?=
+ =?utf-8?B?aG8ybk5velFRd2QyRnY4UFNKVWhBMTVGaVZRZXBsTWNiNytpeVYwQ0pwOW1m?=
+ =?utf-8?B?YnBjNFFxTElaMHJKWVBQSU1DMGlkWklMRk1vSFdxbEZxNHhJanNYOFdjUk1L?=
+ =?utf-8?B?WEZPTm9vM2FMUDg2anZzdnJXZ0liQVR3ZVJHRVhCclNGbmNGZlhGUWtsbmVu?=
+ =?utf-8?B?czlZRS9PQUlCU2NjNlh1am1rMzJWK1Rkby9nMFc5aFZ2NGN6MXljdWNNSytX?=
+ =?utf-8?B?SGlzNElXTHRuZEJwR3BnajJacW93V1ltdXJoNVZia0xaUnA2S1FHR0hCZUdZ?=
+ =?utf-8?B?V0dwSHhFVWNGQVlqWUdCOVQwMWFDdEMxMXpndmZkSEJqMStHbmlWc3N6MStR?=
+ =?utf-8?B?eEVVdzQwUmlsVUtZQXBoU1huOXh4YW9FRjhmQUJXalJHUjY1QmFRM0hmNzBH?=
+ =?utf-8?B?cVo5RXJFUWxFYnpLQWZjeXRLUGNYN1p6aGs2NHMyNHdiVTJZOE1iWTVGV1ZS?=
+ =?utf-8?B?dE53WCtaMEk3MHY4QlBoWFlGcWhaZ3o0OHJBQnY3ZHhkTFNwUTk5T0NqSERm?=
+ =?utf-8?B?UDJkNWZ3YjhkWUJ5Qmx5QjBaQjIybklHUGo4dy9SSFJpMWdVeTk4QkFGbkZ0?=
+ =?utf-8?B?V2ZsOWExc3V4UWRDcnNJb01NNmtDaERWZG9KVXorOGRoc2RVV01lTXVaMjRt?=
+ =?utf-8?B?empyZW4weHlwWkJQTmhiMlI0S3Erdkp0K1lhS3hVakRKd1U3Q0tSZ2pSL2I0?=
+ =?utf-8?B?cW91c0plNW9TMy8vbUdSNkhtaGZURVBDMm9uYlp4cFFNd2dIUnpPV0NDUW9L?=
+ =?utf-8?B?b2I5ZklnY2w4a05GeE1MUWcvYm9TUnBnelVoWHYwVFFlRWxPWTVMaXN2WHhW?=
+ =?utf-8?B?UGNDY0UvUS9CcGJQVzdXeGJnRzczUUVhNCs5UE9KZ0lZOCszSEp6ZFZTYUdi?=
+ =?utf-8?B?U0NtK3VBL0YwVnQ2dlQyQTkrUWREMnltRy85R2EyTjZ6ZEt5YkxMekowaDVo?=
+ =?utf-8?B?TXA5alZ3NktldEsvNS8vcmRNUjZoRGVOT3Q2L0NxTTBnaUxJQ3hXQUJ6OGZS?=
+ =?utf-8?B?UU1Ra0NlcEZudWpxSlI2QjJWcHdMTERCL0JRQnlKVWN2akhsQlZ2NGRkTXhy?=
+ =?utf-8?B?S3E3WGtWWDBVbWRTS2hZbXkxWXRIODJrcitGMFVKd0FCSkRKTUhyMUVWVm9L?=
+ =?utf-8?B?V013TG1sWVBDeFI1dExndy9uV25FQk52ejdWS2U0UU5oN0FXNDA1YWZUQ0da?=
+ =?utf-8?B?eDRoNHZ4d3dBQUtiS0lLQXNrQUdnTzBnbFRzMXlqSnRFakJmRitERWpJZUti?=
+ =?utf-8?B?MitIRG96eHNtRDFHSHZRYjFhYkRvQW42ZnFEUWo4M1dCOVcvcE1EZE53SDQy?=
+ =?utf-8?B?dkhQNm1mcVFiQzh4U2lUeGRWWTZPaGh5NzZYaGpvMTVSaThnRm1MNzBpcXdY?=
+ =?utf-8?Q?2hS0vPvk/MYiE?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aVJWbnhZdjVEWFBXM282V01SRUEzVVVNdU9weXprK2xZZmtJU1ZJOHJsSDQ1?=
+ =?utf-8?B?RkNsMUE4a1BlUHpDbzhuUHhXRXVvU3NQaVNpWEpiK252TzQwVS9iNkhmQkVQ?=
+ =?utf-8?B?Rm9va0JTMlI5VEM4aTJUU0haSjc4bzNRYVh3K3ZDZXRobVo0VCtMQjQ2dW92?=
+ =?utf-8?B?TDhLcFNLZmp0RDN6dVI2QXdVbEZtRG9LVW5rQytVdDJLZFIycktoZ3VCVVpi?=
+ =?utf-8?B?ZmthYUMwOWxraHp2TnRtdTFBY2FLdTBQWjRUc212TFlzcVEyRkVBM1BnT2dy?=
+ =?utf-8?B?ek1tcE9TRzhxTmJuSGYrQWdmR3JEYUpDYzVoN2JRZWROdjJtcnZjeEplbW1D?=
+ =?utf-8?B?YVhkd0grd3F4VEVBRGtHbHJ5bERGcS9RTlZlOXNpNkpBY29yMmZyL0NVQjYz?=
+ =?utf-8?B?MWNTYldzc1BFcERxK3ZTUkRhSVNQdG1CS3ZNUFJ6U2ZwSEpzMU04RTFKaDJY?=
+ =?utf-8?B?TGh3bitrdFdJUjlQdTZJbFZ2NmExNFBpVFJSWUUyc3ZZZEpiV214VUtFU1lk?=
+ =?utf-8?B?Vk5MTThoSHQzaE43WDIxQlJQMnBhVmJWMHNyRUdNZThNa0VVSTB0VDhvKzJT?=
+ =?utf-8?B?akZLWWJIM2dVNjBEbkZmbVoxLzA5alNPOHRRL29pU0NqQ2VqYlNHZVQzNks3?=
+ =?utf-8?B?dTlUT3VhQTRvMG9jbFl6STBhNU1VYTZ0Tm9pODE3UmJqNXlMMWhwTDU3bHdF?=
+ =?utf-8?B?Nm9mZmFNNHlsbTZYMFh3cG9HdlFkMWh4TlRsWHdxUXdUK2h4ZzNHb1JWZGhC?=
+ =?utf-8?B?M1R5Smp3eHNKQjJrOU5ScTJrclhuT1Vqd0syS2U2blNNMXNwdE1rZHF3T0xa?=
+ =?utf-8?B?ZXk0aGhBTTh4dEVxeFQ2dmV4NERRMGx4THJFUkJhZFYzd1J6eWZnelp4QlJh?=
+ =?utf-8?B?dzRDYTBmbHZ3VW9UZEN6bDFHSEFVckl3eG1za0hYMm9OUFRGZUphU1c3OVYw?=
+ =?utf-8?B?SzJaZ0ZOSnpMdTlNTk0vei9KczRwckQ4cU1pZVBYb3hpdklaTksrT2M0bnNt?=
+ =?utf-8?B?SlRrOC9hbjlXYzJWcmNWRHFzOFVHU1FRM1o0andyQVpiNVR2SXZIOVhDTXZG?=
+ =?utf-8?B?eHBpOUE0NkxEOVJQSlduQm9LbGhnMkZzZTJSV2diRzZvRHA5WlhOK1UrVlVL?=
+ =?utf-8?B?Q1pzQko5MHhMdFV6TXMraldlWjQxZE1ncUdKWEkvRjc1aFVLRkU1TitZZldp?=
+ =?utf-8?B?bHYreTBSS01pTEY4cEM2aWl2ckFTeWV6WGNuUjZsTG43WlNNMFJIbXViVlRq?=
+ =?utf-8?B?cVllaVdhVDI1TTh5a0k1OEQ5RVhISU0xU05ESlVUanE4ckx0bWR3OXRwWEN6?=
+ =?utf-8?B?amdnd2VBZTh3TXg3RFlFTStEeE9JWmxJWVhtNVRXMlZJdnZVbEVGeFhFekZj?=
+ =?utf-8?B?QnExOVlXSGNuVENESjFqcXNESm9QV3pFN091WXhBOHo4aDlwaWdzRlFNRk9N?=
+ =?utf-8?B?cXlxbnB1bFNPblhod0J3ckhYa0pJWU5Eb0ZoRXhCQm1IUk5RemNZYVdEYjJ5?=
+ =?utf-8?B?UU1sbm1tRTVMeDRXRGZDaC9uR1VYcjdDcjlVOS9aT0JXeW5Ed1Noc2NYOFRK?=
+ =?utf-8?B?QkRoUGdmWXpLQ3MrcUhrcjI1M2Z2ejRQbTZJc0hINDgyR1hoVjErV0FMZzY4?=
+ =?utf-8?B?bW9OSXcwTTFaaGVCOHZwdE54MXVjS1ZCZUJJVkpSWmpoSm51NXU0d1pWL1RR?=
+ =?utf-8?B?VXMySTV3bFduTWY2NTQwNEFESVRhNThxc0V2WDc4MlB0NDdFMStMclNRTTI3?=
+ =?utf-8?B?Q3JCdGt2OW9kV1kveCtYU3FYTjJTc2xndmJRV3VPQXVLbHlveDZGUXZRdnFI?=
+ =?utf-8?B?dkdMeGVwQ0o4QTdvTU5FYmdFa2dhVXpXdjlLL1dIRVdVT1h0NFphc3M4L2hw?=
+ =?utf-8?B?bkpDMGtmYzhManlyNENJN2xqUkFYdFZjZHBZRVBHMG5SUXRpRlhyaFVLUnZm?=
+ =?utf-8?B?YWJiak9lWHFOM1duYlllNXh6YzBGb1grMmtTZmVseVJUaDNJSXpWV0hDNExO?=
+ =?utf-8?B?UCtIcGpoS0VrdUZBVEg0VGJiUm1Zb3dPdGRkZ3VpS1QzVzRMcTk4UjdGWFU3?=
+ =?utf-8?B?SkJjeGZxa1NhNk1peXl2amJ1NFFNM3Q5ZFV2a013a3hraEliVzdNdUh6bkpF?=
+ =?utf-8?Q?FmcRhqBK5cG63W16xiaWcDjyd?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a0dee02-c885-433f-2def-08dd2fe7b61d
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 13:23:59.7407
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: plUh1amnM/PYEi2nqfsvVCNr7/Dok4NKFLtiGixSRKwUyixggdUo9PbslCsSK77M
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7886
 
-Hi,
-
-On 20/12/2024 15:24, Sakari Ailus wrote:
-> Sub-sampling is a way to decrease the data rates after the pixel array by
-> systematically discarding some samples, either vertically or horizontally
-> or both. Add two controls for the purpose and document them. The
-> sub-sampling configuration is taken into account in the compose rectangle.
+On Wed, Jan 08, 2025 at 09:01:46AM +0100, Christian König wrote:
+> Am 07.01.25 um 15:27 schrieb Xu Yilun:
+> > Introduce a new API for dma-buf importer, also add a dma_buf_ops
+> > callback for dma-buf exporter. This API is for subsystem importers who
+> > map the dma-buf to some user defined address space, e.g. for IOMMUFD to
+> > map the dma-buf to userspace IOVA via IOMMU page table, or for KVM to
+> > map the dma-buf to GPA via KVM MMU (e.g. EPT).
+> > 
+> > Currently dma-buf is only used to get DMA address for device's default
+> > domain by using kernel DMA APIs. But for these new use-cases, importers
+> > only need the pfn of the dma-buf resource to build their own mapping
+> > tables.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->   .../userspace-api/media/drivers/camera-sensor.rst  | 14 ++++++++++++--
->   .../userspace-api/media/v4l/ext-ctrls-camera.rst   | 11 +++++++++++
->   drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  2 ++
->   include/uapi/linux/v4l2-controls.h                 |  2 ++
->   4 files changed, 27 insertions(+), 2 deletions(-)
+> As far as I can see I have to fundamentally reject this whole approach.
 > 
-> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> index c6167c91f46c..e65e82c5940a 100644
-> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> @@ -107,8 +107,8 @@ values programmed by the register sequences. The default values of these
->   controls shall be 0 (disabled). Especially these controls shall not be inverted,
->   independently of the sensor's mounting rotation.
->   
-> -Binning
-> --------
-> +Binning and sub-sampling
-> +------------------------
->   
->   Binning has traditionally been configured using :ref:`the compose selection
->   rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
-> @@ -117,6 +117,16 @@ users should use it when it's available. Drivers supporting the control shall
->   also support the compose rectangle, albeit the rectangle may be read-only when
->   the control is present.
->   
-> +Sub-sampling is often supported as part of a camera sensor's binning
-> +functionality and performed after the binning operation. Sub-sampling typically
-> +produces quality-wise worse results than binning. Sub-sampling factors are
-> +independent horizontally and vertically and they are controlled using two
-> +controls, :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
-> +V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>`. In
-> +sub-sampling, the image size before sub-sampling is horizontally and vertically
-> +divided by the respective sub-sampling factors. Drivers supporting the control shall
-> +also reflect the sub-sampling configuration in the compose rectangle.
-> +
->   .. _media_using_camera_sensor_drivers_embedded_data:
->   
->   Embedded data
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> index 18b484ff5d75..577b73045bee 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> @@ -701,3 +701,14 @@ enum v4l2_scene_mode -
->   
->   For instance, a value of ``0x0001000300020003`` indicates binning by 3
->   (horizontally) * 3/2 (vertically).
-> +
-> +.. _v4l2-cid-camera-sensor-subsampling:
-> +
-> +``V4L2_CID_SUBSAMPLING_HORIZONTAL`` and ``V4L2_CID_SUBSAMPLING_VERTICAL``
-> +(integer)
-> +
-> +    Horizontal and vertical subsampling factors.
-> +
-> +    Sub-sampling is used to downscale an image, horizontally and vertically, by
-> +    discarding a part of the image data. Typically sub-sampling produces lower
-> +    quality images than binning.
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 5945976b841f..cddece2876ce 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1088,6 +1088,8 @@ const char *v4l2_ctrl_get_name(u32 id)
->   	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
->   	case V4L2_CID_HDR_SENSOR_MODE:		return "HDR Sensor Mode";
->   	case V4L2_CID_BINNING_FACTORS:		return "Binning Factors";
-> +	case V4L2_CID_SUBSAMPLING_HORIZONTAL:	return "Sub-Sampling Factor, Horizontal";
-> +	case V4L2_CID_SUBSAMPLING_VERTICAL:	return "Sub-Sampling Factor, Vertical";
->   
->   	/* FM Radio Modulator controls */
->   	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 8d5815a058d7..e85747e2181b 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1089,6 +1089,8 @@ enum v4l2_auto_focus_range {
->   
->   #define V4L2_CID_HDR_SENSOR_MODE		(V4L2_CID_CAMERA_CLASS_BASE+36)
->   #define V4L2_CID_BINNING_FACTORS		(V4L2_CID_CAMERA_CLASS_BASE+37)
-> +#define V4L2_CID_SUBSAMPLING_HORIZONTAL		(V4L2_CID_CAMERA_CLASS_BASE+38)
-> +#define V4L2_CID_SUBSAMPLING_VERTICAL		(V4L2_CID_CAMERA_CLASS_BASE+39)
->   
->   /* FM Modulator class control IDs */
->   
+> It's intentional DMA-buf design that we don't expose struct pages nor PFNs
+> to the importer. Essentially DMA-buf only transports DMA addresses.
+> 
+> In other words the mapping is done by the exporter and *not* the importer.
+> 
+> What we certainly can do is to annotate those DMA addresses to a better
+> specify in which domain they are applicable, e.g. if they are PCIe bus
+> addresses or some inter device bus addresses etc...
+> 
+> But moving the functionality to map the pages/PFNs to DMA addresses into the
+> importer is an absolutely clear NO-GO.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Oh?
 
-  Tomi
+Having the importer do the mapping is the correct way to operate the
+DMA API and the new API that Leon has built to fix the scatterlist
+abuse in dmabuf relies on importer mapping as part of it's
+construction.
 
+Why on earth do you want the exporter to map? That is completely
+backwards and unworkable in many cases. The disfunctional P2P support
+in dmabuf is like that principally because of this.
+
+That said, I don't think get_pfn() is an especially good interface,
+but we will need to come with something that passes the physical pfn
+out.
+
+Jason
 
