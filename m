@@ -1,185 +1,246 @@
-Return-Path: <linux-media+bounces-24444-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24445-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF05A05F58
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 15:52:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE69A05F72
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 15:59:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 453931888CB0
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:52:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C657E3A3776
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:58:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B55921FDE07;
-	Wed,  8 Jan 2025 14:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 037CD1FCFF5;
+	Wed,  8 Jan 2025 14:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHB/0WmI"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ctgKpuqQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2076.outbound.protection.outlook.com [40.107.94.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C6C1FC7F1;
-	Wed,  8 Jan 2025 14:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736347965; cv=none; b=OzC6y9PM+ea6qnGm7AthohlPSNt4cKtEs7Kn04oXIjx//fHoU3Fy8H2/mtFxvTb4BDevI7F3IBsA/R/BuV3901vdknzhUX1SVVIDC/lw/VLVaDsEwox/+G/6sOnxaxilWA2zPQLtLkFHzpzFd+yQVMxVLdQjuiVfe6/uabkBSGg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736347965; c=relaxed/simple;
-	bh=a3ho2vecaIpCSyRJg3lIAeUiNwzNu5h3r+7NClo9Quc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mjdf7PedPyLteMIr0uyQB4UN8+z02wovVD8BhGUEkH2Jcr01P6JtNXFg1+5L+QgdA6QFC4Dht4L2lDtwarESu2t0eRa7K8jdked7CuJzdVJodft3V8pgSMUGr7dxmGcjyFV/WWvp4EU2ZAdcWedUc35zhM5UF5l8gYVrCm9wvKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHB/0WmI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D624C4CED3;
-	Wed,  8 Jan 2025 14:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736347964;
-	bh=a3ho2vecaIpCSyRJg3lIAeUiNwzNu5h3r+7NClo9Quc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tHB/0WmIDPXbQjh7juRiylvbGaNOmDFzMXOqexoHbRtZFWwQAvL17iATXT0ceNkC7
-	 vKN71mUB0nMJNSYnbPVidM8OyXTOYgpB59StbOCXO81s/6yaSx013Bb/dMwqXQtylE
-	 JB/pyyBOgxvH88Aca/Xoa0ObF2wAlD71buJvFgP4eiWN/ytkBDyT67+ntQIpBJl7tC
-	 +DJNkylikSep6qIKZSOMpWKpP1m+d43OwvAS6Q0sXGZGlJsYc/4FmriLO/5wzPJQth
-	 4KsFcVOnyPzBZ++2aRMQv//yhchr2pYul60bDHIMxu6eC+EXAVdydipm0FFkUbr3bU
-	 rgoudXHgr2DmQ==
-Date: Wed, 8 Jan 2025 15:52:37 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne
- <nicolas@ndufresne.ca>, Sebastian Fricke <sebastian.fricke@collabora.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Rob Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@baylibre.com>, Jianhua Lu <lujianhua000@gmail.com>, Stefan
- Schmidt <stefan.schmidt@linaro.org>, <linux-media@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of
- SM8250 SoC
-Message-ID: <20250108155237.5cf0ba10@foz.lan>
-In-Reply-To: <5953bea1-194d-fe2e-251a-d4ef3e7544d3@quicinc.com>
-References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
-	<20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
-	<20241223113027.21b8f7ab@foz.lan>
-	<fbe0d935-a3cf-dfa0-aad8-56834a0a002c@quicinc.com>
-	<635ce4ed82aaca422b869f467300b0eccf9c8703.camel@ndufresne.ca>
-	<c0f59149-713b-45e4-3755-4a52cfaa93f6@quicinc.com>
-	<498a99e1-77ca-4acf-8850-cb74417ae88c@xs4all.nl>
-	<9fc76dd1-ef49-a9d2-0271-eacb50943b03@quicinc.com>
-	<9b33ba28-5aa9-4863-8fde-535841ddbc10@xs4all.nl>
-	<6654d78e-d16b-489a-3532-e2fbc788b0ef@quicinc.com>
-	<067d0deb-50ea-46bd-9f09-827b0ba61aa3@xs4all.nl>
-	<5953bea1-194d-fe2e-251a-d4ef3e7544d3@quicinc.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF63249EB;
+	Wed,  8 Jan 2025 14:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736348329; cv=fail; b=f+L5nmZKhGRn6Kms4GeEyHF+NvGIKeTcx2hM13rmLBae25ftdkwwiPibUmuJvNak6tkg6yCIg0GBm99edI/YV2QVbju0ZA2cocEB/FR4Sir7Cs8IfjxvaPVHcPhyH49VmNyRNQnUT1KVLyhSm59NAj1LXf9i6lDupjTrljCK6HY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736348329; c=relaxed/simple;
+	bh=IJiT1ce+VCLsKDxVQdLo52CSvk+gbbemmvNwbkLRqkc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=serSAJXBIzyMMMpf8wdJMEtvv+15m+hmkEdeqUa5V3HKSZ56X75bmXoOXd37F857IPvQpuzUxPVLkXnJIVpTrisgEgOcqKcCCJyRhK4xA95v+G2wMWBRTnmSSmS5n+XxntT7kPhcD3ErtdgSll1Uo54odepvmgS9saQvRd10w3Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ctgKpuqQ; arc=fail smtp.client-ip=40.107.94.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VqCsjtdQdFX4Am1N1E14mX8BHTbeLpyWL8tR11TBiD1Ewhmi3oXwI465i3UoW5QxrdtMmbxphA9W04ujpzO3VOuCWrgWBKOx20/EYYcUWOHMY5bMo3BejCGOqF0D+gjvOrKvBF1K6tRdQI5VFd47DJBxyBA/FJkQ+/T0hY0ZAV1LCRp+lNS2RkpbDsyzS7Mnqy3oUkOdn8wXtoQhFJQI3aFzkwhhspJEa6/Vwrc6UTQUtWc58+ai93DgxT3Yd3fsmgzFLkGIkL2mQn25p8CbMW7C9YyZ2oQzkjSDILSsdZ+3uTkCJQRavpyYL4NVKOSxBN3WOtIz2uNfAo8+3/VBwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aliFBb1bXvJ4B8fyZRm7X82VaSNazDN1T2eelS6+DKo=;
+ b=gZYFR/tjTB+0xoKv7AVq77GWZu41GNLaNef4eHBla5pRyzXOgwzL8HqVKCXS44iT84MUetESGdCaCTgPDihusU4DsbDTHjrhdRBJvDradqgT5aR7qCL4oKb+VB1pG2pm9pKiJyvP/Xj4j+RWHVNK///c7c/X3BB5suBPS8HlhWZXjQCfEp7zZYXl/StDzIwqfrQpPlZTpJBS+3z88qtqf6mHLdPcOSxBZDXkVYN5SyUlnGA8Ib7kNNdFj5Cb3+/noWmgHeRnZiIFfFWZRK0paqDkutWCE/uYWeg9lzGUaUip+WeYdxzUz4cIl04i5w1dkG/doqm433+VTNTxAnJ/1Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aliFBb1bXvJ4B8fyZRm7X82VaSNazDN1T2eelS6+DKo=;
+ b=ctgKpuqQWovL+1dNpp+FYoDUUn7UBIC2ZKM80s2vjAqHWn1yV3p9/del9jIelVnXpq0tfC68JHTLqE7hz/dKym1ozqPDq4w1anCHPmTKFghh4SPz3ZP7e4u8bN5picfhsuMJ9sAUxf0HeECpw4mL0bIyzXXNUDDaBQo278IVHyUu3Y9Rei5GsJPsFavv4HikeqQLT76LBynajTkEF4pjJBL1K03aiFKVD4h+GwUKcRvqUyhrR4y/xwsmA4BCzrjy46iPL+3RCl2Qs2/QPv4Q+gKtGFKBh+jNnHK8aWovDb7JhXDR8G7z41J1UaUKrhQBBkahEOtlZ99JOVDzvAgSUA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by PH7PR12MB5734.namprd12.prod.outlook.com (2603:10b6:510:1e1::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.17; Wed, 8 Jan
+ 2025 14:58:44 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8314.015; Wed, 8 Jan 2025
+ 14:58:44 +0000
+Date: Wed, 8 Jan 2025 10:58:43 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+	zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <20250108145843.GR5556@nvidia.com>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <20250107142719.179636-2-yilun.xu@linux.intel.com>
+ <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
+ <20250108132358.GP5556@nvidia.com>
+ <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+X-ClientProxiedBy: BL6PEPF0001640D.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:22e:400:0:1004:0:14) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB5734:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11416b6d-0c7c-4186-f452-08dd2ff4f23d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?SXhPMDI0WGdRR1R3dURKdTE3L005SXUwOVc5b2xOaWRlZWFVL0haZThtazV3?=
+ =?utf-8?B?ei8yLzJ1eVpjRVJNUUc3NkRPOTJFUGp1ekU4S1ZEVlhoN2hCdi9wb1NudC9I?=
+ =?utf-8?B?Y1Rwdm16RFhHbjRGT003QkdQcTUxTlhuQTk2bFM0OFBzczVhU1l6TFpHdHl3?=
+ =?utf-8?B?cDIrc1hyMXhuSnh4TmN2M1lUN3pPRDArSDZwZHFndG56RlpOWUs0SXdPWEto?=
+ =?utf-8?B?QXZIeUZqdzdqajZoT0Jnek9lNkdNYWFWNjJyZzJ2UFFNK1V5U3NZWjJoL3NG?=
+ =?utf-8?B?enhvVk92RUpGUHR4bWNtZTRuSHA0QmxLZEx2TWx3VFRLS3NJbXBSTUdzNEdE?=
+ =?utf-8?B?RXFVMFF6UmhYTXBibGp0RGQvNUYvYjRYaklIM1lCVDFsQWdJM0tmYXpMekta?=
+ =?utf-8?B?NHhlcTJ6eG1zMUkwTzU0WUNWU0Y1cm5Rb0pGd2NaME5NOXpNNDk3YjUwU2hn?=
+ =?utf-8?B?RUFRVjYvUWFlTEdxNFlrMElGQXhWUHN6UEtDOExRYzM5S21XZTM1Y29pb3VN?=
+ =?utf-8?B?bUljWEJzam1wSlJpUUJHcXpRNGpzTTdpRWFkL2Z0MFFPbUtpWlFsTnpnYjBw?=
+ =?utf-8?B?Ty9ZS2ExUVl2NlRsQnJFR2JtanFJTnl5UDNSQTNqV1hyZ253Z0hFc0tBMU9n?=
+ =?utf-8?B?MUd1eEtnS1o1T2dESWZCVEUrZGM2NU1CVkd3MERSZW5ob1pqdkk1TXNKa042?=
+ =?utf-8?B?YVJyWGZLNjg3VHMxcmlWV0VKRVB6Vzk0Rm82U25mMkNQemZhVmVzVkxSQklq?=
+ =?utf-8?B?RWpKakl0SzM2TG4xbkJ5Z2ZIMGgxS1JGa1JqOXRyNjJEeGpvUmZybTNtWjlm?=
+ =?utf-8?B?dXNSVXlHYTliZEMrc2ZWUFpKOXUxamFqaUFZNjVPSE1VNmZwRGtvWVZDWW4z?=
+ =?utf-8?B?ZkZvVWpOU3Q5THZMZEJsWHZ2MkJrdmlUbTE5cUd4V2N2aXBmdVEyMVNMN2Fv?=
+ =?utf-8?B?Rm1RQ0RDa1Q0L282dklxT1haSGVOeTRYL3haY0FtWE5hRENFUGNsN0k0cUVY?=
+ =?utf-8?B?dC80WE1ybFNaRUoydTh4RGNrTFJmNmlkejlRUkdTS25aU2VnYTQ1bzJGVFd1?=
+ =?utf-8?B?MTl6blQ2Ym4rTFZ3L1RhQnk3TytMMjhMc2hHZTJDUlNPemptdGRSSkl4aVJD?=
+ =?utf-8?B?UWhZMUVleEtacUt5NWQ4QTJVZytNdE5lWW9nbC9XYnJlVnppWVZ0WHJqSldG?=
+ =?utf-8?B?OXNnNXJDSnU5WDh2dld4YVNGK1c0cnRlanVzeEpwaFpPMzcyWXRMVWkxSEUx?=
+ =?utf-8?B?M0dITHpraHlTYTRxNllJMjZpVDA0eUxGejA0ZFoxWmVDcDVuNGdER1hvZVlN?=
+ =?utf-8?B?b0NCY1ZkRGhrOFVhNVhOMGV6UTBMb1MvenRlWlFPNUpBaWwrdWVBUDRnL1hq?=
+ =?utf-8?B?NEFEbWt3b0J4dG5EaHR4RjRDbmUzQWFaeVMxUitGbVg0RzNic21kUU8yNURQ?=
+ =?utf-8?B?SFQ4bDk0ZjNqaFVNZ2lGT1JmZDV3Q1pZTCtsZW5yTTJua1pJbDRiQklXZnlI?=
+ =?utf-8?B?QnhBQ0kyaTBKMm9Za1ByRXNyaEZ5Uk5VMlY2VUpVNWNYRDRxVHk3RjZoMmJw?=
+ =?utf-8?B?MXlncTdCQnNPMTJ4cEluNFpwUWp3S0xsOGRVSWVRb21rajV4T0VSQTBIZ0pz?=
+ =?utf-8?B?ZWNoaVh1L1pCSWgrdTdMaDdjeXZNa0tJK2NQUzk2UXgrVTJGbUxSQ1RyK3lX?=
+ =?utf-8?B?VFpsOWxYOFI0blF4bnBrTG5NMm5nVjRHNnlaVFFzaElsS1QwSUhaMjk2aU80?=
+ =?utf-8?B?L2JDUTF6aWhLb0k0RzdWN1NYU1FPNlhleXkxZFd4eFI1bHVIejgya3VEQVZP?=
+ =?utf-8?B?YlliVXljL1N3cnpKSTVXWDdIZ1BoT1B3dmFKQzRLZ2FtODNBMHZuZ0FXRldj?=
+ =?utf-8?Q?1BbtVENNx/fWC?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?elphaFVTUUR0WFo4ZmFLZXVkTjNiVEJXajJqVFNpSUFDVUhkenVSd0JRKzhB?=
+ =?utf-8?B?endzQ0poYW1QMWltL2NqMUYzVGhhQ0k1SEM0VUlMVklNWWl0VmxNeEl3UGV4?=
+ =?utf-8?B?clZ6dDl0YWY5V0RBSEh6SUorTk00SEYzM2YvZGxmMjltcUl1eEVBUUNJeXQ3?=
+ =?utf-8?B?aGt1cUR0bE5MSWlkNHFKMmVYTnZCak1CYVErYnlsSXlCTzU3RzVFVW4xVXRC?=
+ =?utf-8?B?Rk5mcVZNUWJEYmNEM3BJZzR5QmdPdkZ3SitwdTBFN3FrZWNFQ0ZhR0xHTXp5?=
+ =?utf-8?B?L2FibVlNUUhXbjlWOUVNWmFucjNBZ2I2bWVPVDJUdnpMN28ybmNrVkV4Rkw0?=
+ =?utf-8?B?UHd2L1pIQUhrSjYzcWNJOE9vU3padjFENDNhb0dxWmtzQUdpMlZwU3puRTND?=
+ =?utf-8?B?bS83VTZVcC9WOWkyVEhFVTIrcHRSbStrTWF3a3MzMGNId1dLaVNCd3JNa2Fv?=
+ =?utf-8?B?Ti9nRDE0Y2JKSXFXYW1UWTRrdlRyREdVeEZjQkROUERLQWRkWXk0RUwvWjNI?=
+ =?utf-8?B?bVBrNlFIaENsZ0lMREhvN0p1a0lqeDAyZXhtMmZQWHVJMWNDczZ1UGprZHd0?=
+ =?utf-8?B?ckNuTmZrRDAwblIvT1ZsLzhQdkJyR25qN1F3RnpFblV3MXpFK1gxN1AyNTd3?=
+ =?utf-8?B?RnlTM3JIeUZ0SG1XaDhNSFZGMUJsT0YyNitQRm9yNFRuaXByZktmY2h5V3d4?=
+ =?utf-8?B?VzBjRW94RFdiSzhKelp5OThMUmlQM251T0R0eFl3NnRuSjdDRlY2NEpmNGFh?=
+ =?utf-8?B?eTZpa0RqUlJ5WGFzN1hGZG9GaEpEcm9QZ24zc0ptN3laK0prQlpQZ2o1WnJi?=
+ =?utf-8?B?ZThQNjlNR2lLdmc3SnlVT0lsNGNJd3VVWTdLRXk2RXM4UnIvN1d1cW5aR3ZV?=
+ =?utf-8?B?aFBFMWw1NURHUU1oWENWeDcyUUpYRm8yS1A5K21RSjdjUGx6U3hEZWpRbkpI?=
+ =?utf-8?B?QkFiVFJJa2xUUGdqcUhLT1N6aURTZkpGaWljSHBILzc4dzRiNXhYU21VUlc5?=
+ =?utf-8?B?N2FSZ1RTQmowNmdJbldGenVkVWxoTVRzbW5kdkdmclJGb3ZubUl4anFDajQv?=
+ =?utf-8?B?R0RvU2x4OUYzZ2Z5Q01CT01ZN29RWUdya0VvSnZLZE5rUkFCdHh5dTdWZ2pz?=
+ =?utf-8?B?Z2FGS1U5WTFLYTVxZURnbGxTM25yQ0pQQXEwa3VtWnA4amZGajZoVFhwdktw?=
+ =?utf-8?B?elhYKzRYWWZ0VG5kdlc4amJJdHNqNllSUFRiUTJDSkRXNFJuM1R4YnB4eGh4?=
+ =?utf-8?B?dCs2TmoyVmk2SU1VZHMwb1J2RS8yblVWQ2lNbzgwMWJMd3dGc0FvcVI3VUhG?=
+ =?utf-8?B?U1R5WnFpQVZvMmR2WHJWTU9nYVBJK3BoN016aGpYSnB5NzArU0FyU1pkalB4?=
+ =?utf-8?B?eFFTTHZ1dURHaXpJd3BIdG1ZVFh2VEticjlDY0oxNHBmT3hDTFNtdkxEMFFR?=
+ =?utf-8?B?NnY5ZldpY0k2U1RxaHhTMm0xNGFZSHYxZjc2YnNvRGUzUmR2NmlKY2hzMUhB?=
+ =?utf-8?B?MHVDZkNEN0diWlNYYVh4SjZ0UWZOOWovTEZHVmZJdTQrYWFLQURHQU1JS20x?=
+ =?utf-8?B?WWF5L201c2NmOWVoVTdOR0dqVVJyWHpEVksvRFU5eUFzWVFhODFJWU1DcVlM?=
+ =?utf-8?B?YTJ4TE5PZFRGR2MrMWVYbFc3R1NwaTRnQ2F4M092aHR3UmppbmROTkRrZXhH?=
+ =?utf-8?B?VXJITlhYN1FWQkFSM2VYZVhYSjR6bklEZXdQR0hUUmNxT0NzMGhWUUh1UDRF?=
+ =?utf-8?B?QU5wQm1YTVlWQVo2ZlBCbW15MXowaUdLVUMxOGc0VUVCUkkySGRXTHZhZGRt?=
+ =?utf-8?B?aUZ5TlBSU2FEcm9WUE4rSndXeHoxY1pzek50bzZjcW5JbnBYallaNE0ycGJV?=
+ =?utf-8?B?QzZ2OGtnUU1DVUZ2R00xc3ZPcUtFaWxBUWFUT1hNMlBDQVQ2Q2FhaTh0N2tR?=
+ =?utf-8?B?Z1kvSHJha2JyRWl5OEdVbEZmdDZYeHU2VXpaaHNsZHVHeDZkU1d2MVdJVjE5?=
+ =?utf-8?B?YjNnK3JIZ0M5Z2s2K3NIUVZMTFBkTFAxY3ZUN2JxZUJTQ2R0ZXh6cVZkeEJa?=
+ =?utf-8?B?Zk1jYTVTdlJGdlZpdHJGYUM1WjkyTVpIekMram5IUDUwOGptczJOY08rS1NF?=
+ =?utf-8?Q?uPXuGDDz1QgASwiPzo4PnmeeF?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11416b6d-0c7c-4186-f452-08dd2ff4f23d
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 14:58:44.0885
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y1zU3efPADksjArmTNaoSLDTKeBByW4QklWUSpr07JieIbSBz8oXUvUJN4GAAWZI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5734
 
-Em Wed, 8 Jan 2025 16:42:03 +0530
-Dikshita Agarwal <quic_dikshita@quicinc.com> escreveu:
+On Wed, Jan 08, 2025 at 02:44:26PM +0100, Christian König wrote:
 
-> On 1/8/2025 4:13 PM, Hans Verkuil wrote:
-> > On 1/8/25 11:21, Dikshita Agarwal wrote: =20
-> >>
-> >>
-> >> On 1/8/2025 2:25 PM, Hans Verkuil wrote: =20
-> >>> On 08/01/2025 09:51, Dikshita Agarwal wrote: =20
-> >>>>
-> >>>>
-> >>>> On 1/8/2025 1:17 PM, Hans Verkuil wrote: =20
-> >>>>> On 08/01/2025 08:43, Dikshita Agarwal wrote: =20
-> >>>>>>
-> >>>>>>
-> >>>>>> On 1/7/2025 7:27 PM, Nicolas Dufresne wrote: =20
-> >>>>>>> Le lundi 23 d=C3=A9cembre 2024 =C3=A0 16:21 +0530, Dikshita Agarw=
-al a =C3=A9crit=C2=A0: =20
-> >>>>>>>>
-> >>>>>>>> On 12/23/2024 4:00 PM, Mauro Carvalho Chehab wrote: =20
-> >>>>>>>>> Em Thu, 12 Dec 2024 17:21:49 +0530
-> >>>>>>>>> Dikshita Agarwal <quic_dikshita@quicinc.com> escreveu:
-> >>>>>>>>> =20
-> >>>>>>>>>> +	.dma_mask =3D GENMASK(31, 29) - 1, =20
-> >>>>>>>>>
-> >>>>>>>>> Setting a mask to GENMASK() - 1 sounds weird. Is it really what=
- you want?
-> >>>>>>>>> I so, why?
-> >>>>>>>>> =20
-> >>>>>>>> Hi Mauro,
-> >>>>>>>>
-> >>>>>>>> the value of this dma mask should be 0xe0000000 -1.
-> >>>>>>>>
-> >>>>>>>> The background for the same is, 0xe0000000 onward memory space i=
-s allocated
-> >>>>>>>> for IO register space so we are restricting the driver buffer al=
-locations
-> >>>>>>>> to 0xe0000000 - 1.
-> >>>>>>>>
-> >>>>>>>> Based on the comments received in the past, we are using GENMASK=
- to
-> >>>>>>>> generate 0xe0000000.
-> >>>>>>>>
-> >>>>>>>> Does this answer your query or I missed something? =20
-> >>>>>>>
-> >>>>>>> I'm not sure it will do what you want. (0xe0000000 -1) matches ~B=
-IT(29). Perhaps
-> >>>>>>> you wanted to use ~0xe0000000.=20
-> >>>>>>> =20
-> >>>>>> value of dma mask is coming as expected with GENMASK(31, 29) - 1
-> >>>>>>
-> >>>>>> qcom-iris aa00000.video-codec: dma_mask DFFFFFFF (0xe0000000 -1) =
-=20
-> >>>>>
-> >>>>> Isn't this just the equivalent of GENMASK(28, 0)? Can't you use tha=
-t? =20
-> >>>
-> >>> Too early in the morning, this suggestion was clearly wrong.
-> >>> =20
-> >>>>>
-> >>>>> It's much easier to understand than GENMASK()-1. =20
-> >>>>
-> >>>> Sure, I can use either ~GENMASK(29, 29) or ~BIT(29), =20
-> >>>
-> >>> ~BIT(29).
-> >>>
-> >>> It's really weird to just disable a single bit, so I think some comme=
-nts
-> >>> explaining why this mask is needed would be good (if there aren't com=
-ments
-> >>> already).
-> >>> =20
-> >> I tested this some more, and seems ~BIT(29) doesn't work, as its still
-> >> conflicting with the register space. =20
-> >=20
-> > Odd, perhaps a 64 vs 32 bit issue?
-> >  =20
-> >> Correct value would be GENMASK(31,30) + GENMASK(28,0) to set the exact=
- bits
-> >> to get the desired value i.e 0xe0000000 -1 =20
-> > Honestly, in this case I would prefer to just go with the actual hex va=
-lue
-> > 0xdfffffff together with an explanatory comment.
-> >  =20
-> We moved to GENMASK way to address comment on previous version, but sure
-> can directly use 0xdfffffff with a comment.
+> > Having the importer do the mapping is the correct way to operate the
+> > DMA API and the new API that Leon has built to fix the scatterlist
+> > abuse in dmabuf relies on importer mapping as part of it's
+> > construction.
+> 
+> Exactly on that I strongly disagree on.
+> 
+> DMA-buf works by providing DMA addresses the importer can work with and
+> *NOT* the underlying location of the buffer.
 
-If I understood it right, bits 0-31 can be used, but the hardware has some
-issue using bit 29 at the mask. Could you please comment why it can't be
-used?
+The expectation is that the DMA API will be used to DMA map (most)
+things, and the DMA API always works with a physaddr_t/pfn
+argument. Basically, everything that is not a private address space
+should be supported by improving the DMA API. We are on course for
+finally getting all the common cases like P2P and MMIO solved
+here. That alone will take care of alot.
 
-Btw, as this is a mask, IMO the better would be to document that all bits
-except for BIT(29) can be used with something like:
+For P2P cases we are going toward (PFN + P2P source information) as
+input to the DMA API. The additional "P2P source information" provides
+a good way for co-operating drivers to represent private address
+spaces as well. Both importer and exporter can have full understanding
+what is being mapped and do the correct things, safely.
 
-	/* Bit 29 can't be used because ... */
-	 .dma_mask =3D GENMASK(31, 0) - BIT(29)
+So, no, we don't loose private address space support when moving to
+importer mapping, in fact it works better because the importer gets
+more information about what is going on.
 
-Thanks,
-Mauro
+I have imagined a staged approach were DMABUF gets a new API that
+works with the new DMA API to do importer mapping with "P2P source
+information" and a gradual conversion.
+
+Exporter mapping falls down in too many cases already:
+
+1) Private addresses spaces don't work fully well because many devices
+need some indication what address space is being used and scatter list
+can't really properly convey that. If the DMABUF has a mixture of CPU
+and private it becomes a PITA
+
+2) Multi-path PCI can require the importer to make mapping decisions
+unique to the device and program device specific information for the
+multi-path. We are doing this in mlx5 today and have hacks because
+DMABUF is destroying the information the importer needs to choose the
+correct PCI path.
+
+3) Importing devices need to know if they are working with PCI P2P
+addresses during mapping because they need to do things like turn on
+ATS on their DMA. As for multi-path we have the same hacks inside mlx5
+today that assume DMABUFs are always P2P because we cannot determine
+if things are P2P or not after being DMA mapped.
+
+4) TPH bits needs to be programmed into the importer device but are
+derived based on the NUMA topology of the DMA target. The importer has
+no idea what the DMA target actually was because the exporter mapping
+destroyed that information.
+
+5) iommufd and kvm are both using CPU addresses without DMA. No
+exporter mapping is possible
+
+Jason
 
