@@ -1,233 +1,173 @@
-Return-Path: <linux-media+bounces-24500-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24501-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59510A073AA
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 11:48:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B029A07432
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 12:08:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 333A47A2C44
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 10:47:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E3A71659A6
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 11:08:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D32F215782;
-	Thu,  9 Jan 2025 10:47:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B392163B7;
+	Thu,  9 Jan 2025 11:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="nL1KVN0Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yu8QvwhI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5442594BA
-	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 10:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E9A204C3C;
+	Thu,  9 Jan 2025 11:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736419677; cv=none; b=J74PTgrAYU3gZlnzvDyMMHJ+kGylGWE7o2Nwa4xCwZ7ns5+yiSXN1tHbOXWm02zzpxTMyG+Tyy/lVwyiNXqEzTvQiCAIu36DNyfkXEkEdZcPfSNuGRB3ZiKzkDTkO3lAPzYL0VMVZ37bGLN8mV762OD9wDjDw/B9A8akkHC+2Mo=
+	t=1736420878; cv=none; b=Pb1kYg2E1aybsr1AxjJKXVZZvacoMiOBvWG+tc+L67BxD2O0DOqOhCPSxZ7dm/iMXHUMyQrMW9d03iNjog/MJ43cgJWzS+NovXcEdm95Z+EqJ/LTB61LU8sOzB5EzZB8+3ICX0i+Vkzsg2p7pXSQlKxoVLafKMfPBrndQUxRk7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736419677; c=relaxed/simple;
-	bh=PjZ/urAxiyNZ7NgXvSG8MQiEq4hf2HxALYOm3iBOOwQ=;
+	s=arc-20240116; t=1736420878; c=relaxed/simple;
+	bh=+rokNR1TBRe3TqEAQHJ6WAVWiY++bf7dkHnY6VnhOIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DdBsxItO0JeoGN9Aqe5RtnmUt8b8Op4f0DkMqBnOuKAtZfMiy9dF8pqFxHMCurF9+FaxbgiyFsBiiKsTMYAxz2FLsZTSKqovQo5J/YT5tYWWp00jUrpheVzKBAvV7IrjpBDy29JeNw6AOX8QhVKfN0FgtQ1tHQLwWAYr4wFHtsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=nL1KVN0Z; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=SdwjScrjmqb5wrguRd98XUCwFwEiGYVWwrdFxpchtIw=; b=nL1KVN0Zr1MGAvod1nq9uSp5X4
-	KaTxrUsMMCtqvRJ9rRKLXp08dIcOnjfMXvyviJUDODYM9IKMyLmNlLyivJfJslQg0ZLcTS16Dkbqe
-	yq43Crc1TVzxH1dedUftX+oJSPOP2XtXEQUuRZdQ9ahZG6/q89SfcuD/iRVrVMG7OQOmXmk9iPPLE
-	a7PCKDRfpEwoyxMesLGw7bFdlUzYM8wDDDpS38JnTqo1lbhRGFpvVsSlZxF0ctov0Cfcp/KP3gJvK
-	xuNSYsPaBVll7zEtrpA1uL9Q+tXQECQjcMZLRASEg/NZEaXteiwrmcDNhrLRnB5eMU1MHJrZhKlFy
-	hc6NyPvQ==;
-Received: from 179-125-71-237-dinamico.pombonet.net.br ([179.125.71.237] helo=quatroqueijos.cascardo.eti.br)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1tVq4j-00DWCL-0A; Thu, 09 Jan 2025 11:47:41 +0100
-Date: Thu, 9 Jan 2025 07:47:31 -0300
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: Tomasz Sikora <sikora.tomus@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	hverkuil-cisco@xs4all.nl, kernel-dev@igalia.com,
-	linux-media@vger.kernel.org, mchehab@kernel.org,
-	ribalda@chromium.org,
-	syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com,
-	syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-Subject: Re: [PATCH v3 1/1] media: uvcvideo: require entities to have a
- non-zero unique ID
-Message-ID: <Z3+pQ/xVdpiE/1GN@quatroqueijos.cascardo.eti.br>
-References: <CADBf=5nJVddk-yPVw3T5GH9JEPOxnO8McPJHaxtnPBvLCnp42Q@mail.gmail.com>
- <Z3u2vHFVPYTmCnwj@quatroqueijos.cascardo.eti.br>
- <CADBf=5nS8_cQvG3mRnXe_MGYmFMh=Myf_eptPqN9hgNMu73Wjg@mail.gmail.com>
- <Z36ad0OxZBnQ0Kxx@quatroqueijos.cascardo.eti.br>
- <20250108153637.GE32541@pendragon.ideasonboard.com>
- <Z36gMvN0XxfXwE82@quatroqueijos.cascardo.eti.br>
- <CADBf=5m0WVMJbVfDvpFdqoYdKj=nT+mOW=D-Q2MJJ=TCbsTMuQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RF+iIrWXS7HHBc7Ax2C05DYifstAsCKNKcXvSC1zoBg3lZSJNOnrFyDPI60nU/QodTpt0XXKT5VrJ5Gp65Q87BRRimdFz8EKTeeqLrxBuWJdNUgux2ZN6J+nP8po3LUAXq0gp76GaEvHCuMsuU6oGWZq70yCJXThxzi1sssB4Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yu8QvwhI; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736420876; x=1767956876;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+rokNR1TBRe3TqEAQHJ6WAVWiY++bf7dkHnY6VnhOIw=;
+  b=Yu8QvwhIklD6R96Mo7/pLl+Thr9iUG/xh7+neZft4Dg3puHijwxlPlNN
+   Bed5JeIu0qiiZv8VCsTogUZDgpVots6HFfjl79N5sMt3AJ3z4SPX5xliG
+   Q7nLLoTfA5+N+lh2LnWKZpd64i099vsXdA8lI33iP8uT7h31TLzo85r2H
+   XJ9klZSxB5u5EkMHi8xQhCCYxuZw88wOZkgmqxxtgRv10mgRJk2+ZcG4S
+   b6I4Q2puj+jVLXKExq6S4lQwEkcx2fkjz5nAaZNHq8KanC27TaMSiYsbW
+   bHbPgA+S693JnVqTB/GSXy8Bh9Ls4HMv33tG4FetKmmggp5hP3TKR9Qg1
+   w==;
+X-CSE-ConnectionGUID: QPRw3ZLcQZyEvJpsoJb1+Q==
+X-CSE-MsgGUID: WpvkjXsrTgyXi2cmGU5e0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="48090745"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="48090745"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 03:07:56 -0800
+X-CSE-ConnectionGUID: JZV1fD2DSIei0Kb+5rkS+Q==
+X-CSE-MsgGUID: U75bsEzcRwOUOMGJwatAdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="108432058"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa003.jf.intel.com with ESMTP; 09 Jan 2025 03:07:51 -0800
+Date: Thu, 9 Jan 2025 07:06:48 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
+References: <20250107142719.179636-2-yilun.xu@linux.intel.com>
+ <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
+ <20250108132358.GP5556@nvidia.com>
+ <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+ <20250108145843.GR5556@nvidia.com>
+ <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
+ <20250108162227.GT5556@nvidia.com>
+ <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
+ <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+ <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="nwQemdKUjYgXQ6Qm"
-Content-Disposition: inline
-In-Reply-To: <CADBf=5m0WVMJbVfDvpFdqoYdKj=nT+mOW=D-Q2MJJ=TCbsTMuQ@mail.gmail.com>
-
-
---nwQemdKUjYgXQ6Qm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
 
-On Wed, Jan 08, 2025 at 11:14:28PM +0100, Tomasz Sikora wrote:
-> Hello,
-> you right
-> I have in dmsg (line 1228):
-> [   12.981124] usb 3-2: Failed to create links for entity 5
-> [   12.981126] usb 3-2: Failed to register entities (-22).
+>  So I guess my first question is, which locking rules do you want here for
+>  pfn importers?
 > 
-> full output in my log.
+>  follow_pfn() is unwanted for private MMIO, so dma_resv_lock.
 > 
+>    As Sima explained you either have follow_pfn() and mmu_notifier or you
+>    have DMA addresses and dma_resv lock / dma_fence.
+> 
+>    Just giving out PFNs without some lifetime associated with them is one of
+>    the major problems we faced before and really not something you can do.
 
-Thanks, Tomasz.
+I'm trying to make exporter give out PFN with lifetime control via
+move_notify() in this series. May not be conceptually correct but seems
+possible.
 
-Can you test the attached fix? It should still keep the warning about the
-multiple units with the same ID, but now it would not return an error nor
-warn when registering the entities.
+> 
+> 
+>  If mmu notifiers is fine, then I think the current approach of follow_pfn
+>  should be ok. But if you instead dma_resv_lock rules (or the cpu mmap
+>  somehow is an issue itself), then I think the clean design is create a new
+> 
+>  cpu mmap() is an issue, this series is aimed to eliminate userspace
+>  mapping for private MMIO resources.
+> 
+>    Why?
 
-Cascardo.
+OK, I can start from here.
 
---nwQemdKUjYgXQ6Qm
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment;
-	filename="0001-media-uvcvideo-restore-support-for-non-compliant-dev.patch"
+It is about the Secure guest, or CoCo VM. The memory and MMIOs assigned
+to this kind of guest is unaccessable to host itself, by leveraging HW
+encryption & access control technology (e.g. Intel TDX, AMD SEV-SNP ...).
+This is to protect the tenant data being stolen by CSP itself.
 
-From f771f5c4657ed25ae36784bf13992ddbee3161e6 Mon Sep 17 00:00:00 2001
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Date: Thu, 9 Jan 2025 07:37:41 -0300
-Subject: [PATCH RFC] media: uvcvideo: restore support for non-compliant devices
+The impact is when host accesses the encrypted region, bad things
+happen to system, e.g. memory corruption, MCE. Kernel is trying to
+mitigate most of the impact by alloc and assign user unmappable memory
+resources (private memory) to guest, which prevents userspace
+accidents. guest_memfd is the private memory provider that only allows
+for KVM to position the page/pfn by fd + offset and create secondary
+page table (EPT, NPT...), no host mapping, no VMA, no mmu_notifier. But
+the lifecycle of the private memory is still controlled by guest_memfd.
+When fallocate(fd, PUNCH_HOLE), the memory resource is revoked and KVM
+is notified to unmap corresponding EPT.
 
-Some real-world devices have multiple units with the same ID. When creating
-their media entities, it would lead to warnings and failure to create such
-entities. However, the V4L2 devices would still be created and work.
+The further thought is guest_memfd is also suitable for normal guest.
+It makes no sense VMM must build host mapping table before guest access.
 
-Restore their support, but still warn about the multiple units with the
-same ID. Avoid the failure in navigating through the chain by storing
-pointers to the entities instead of only their IDs.
----
- drivers/media/usb/uvc/uvc_driver.c | 16 +++++++++++-----
- drivers/media/usb/uvc/uvc_entity.c |  4 +++-
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 15 insertions(+), 6 deletions(-)
+Now I'm trying to seek a similar way for private MMIO. A MMIO resource
+provider that is exported as an fd. It controls the lifecycle of the
+MMIO resource and notify KVM when revoked. dma-buf seems to be a good
+provider which have done most of the work, only need to extend the
+memory resource seeking by fd + offset.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 1a22364f7da9..dd81067f8d30 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -791,10 +791,8 @@ static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
- 	}
- 
- 	/* Per UVC 1.1+ spec 3.7.2, the ID is unique. */
--	if (uvc_entity_by_id(dev, id)) {
--		dev_err(&dev->udev->dev, "Found multiple Units with ID %u\n", id);
--		return ERR_PTR(-EINVAL);
--	}
-+	if (uvc_entity_by_id(dev, id))
-+		dev_warn(&dev->udev->dev, "Found multiple Units with ID %u\n", id);
- 
- 	extra_size = roundup(extra_size, sizeof(*entity->pads));
- 	if (num_pads)
-@@ -802,7 +800,7 @@ static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
- 	else
- 		num_inputs = 0;
- 	size = sizeof(*entity) + extra_size + sizeof(*entity->pads) * num_pads
--	     + num_inputs;
-+	     + num_inputs + sizeof(struct uvc_entity *) * num_inputs;
- 	entity = kzalloc(size, GFP_KERNEL);
- 	if (entity == NULL)
- 		return ERR_PTR(-ENOMEM);
-@@ -840,6 +838,7 @@ static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
- 
- 	entity->bNrInPins = num_inputs;
- 	entity->baSourceID = (u8 *)(&entity->pads[num_pads]);
-+	entity->source_entities = (struct uvc_entity **)(&entity->baSourceID[num_inputs]);
- 
- 	return entity;
- }
-@@ -1503,6 +1502,7 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
- 				}
- 
- 				forward->baSourceID[0] = source->id;
-+				forward->source_entities[0] = source;
- 			}
- 
- 			list_add_tail(&forward->chain, &chain->entities);
-@@ -1586,6 +1586,8 @@ static int uvc_scan_chain_backward(struct uvc_video_chain *chain,
- 				return -EINVAL;
- 			}
- 
-+			entity->source_entities[i] = term;
-+
- 			uvc_dbg_cont(PROBE, " %d", term->id);
- 
- 			list_add_tail(&term->chain, &chain->entities);
-@@ -1620,6 +1622,8 @@ static int uvc_scan_chain_backward(struct uvc_video_chain *chain,
- 		return -EINVAL;
- 	}
- 
-+	(*_entity)->source_entities[0] = entity;
-+
- 	*_entity = entity;
- 	return 0;
- }
-@@ -1783,6 +1787,7 @@ static int uvc_scan_fallback(struct uvc_device *dev)
- 			goto error;
- 
- 		prev->baSourceID[0] = entity->id;
-+		prev->source_entities[0] = entity;
- 		prev = entity;
- 	}
- 
-@@ -1790,6 +1795,7 @@ static int uvc_scan_fallback(struct uvc_device *dev)
- 		goto error;
- 
- 	prev->baSourceID[0] = iterm->id;
-+	prev->source_entities[0] = iterm;
- 
- 	list_add_tail(&chain->list, &dev->chains);
- 
-diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-index cc68dd24eb42..7f42292b7fde 100644
---- a/drivers/media/usb/uvc/uvc_entity.c
-+++ b/drivers/media/usb/uvc/uvc_entity.c
-@@ -36,7 +36,9 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
- 		if (!(entity->pads[i].flags & MEDIA_PAD_FL_SINK))
- 			continue;
- 
--		remote = uvc_entity_by_id(chain->dev, entity->baSourceID[i]);
-+		remote = entity->source_entities[i];
-+		if (remote == NULL)
-+			remote = uvc_entity_by_id(chain->dev, entity->baSourceID[i]);
- 		if (remote == NULL || remote->num_pads == 0)
- 			return -EINVAL;
- 
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 07f9921d83f2..a4ee79e4e85b 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -239,6 +239,7 @@ struct uvc_entity {
- 
- 	u8 bNrInPins;
- 	u8 *baSourceID;
-+	struct uvc_entity **source_entities;
- 
- 	int (*get_info)(struct uvc_device *dev, struct uvc_entity *entity,
- 			u8 cs, u8 *caps);
--- 
-2.34.1
+> 
+>  separate access mechanism just for that. It would be the 5th or so (kernel
+>  vmap, userspace mmap, dma_buf_attach and driver private stuff like
+>  virtio_dma_buf.c where you access your buffer with a uuid), so really not
+>  a big deal.
+> 
+>  OK, will think more about that.
+> 
+>    Please note that we have follow_pfn() + mmu_notifier working for KVM/XEN
 
+Folow_pfn & mmu_notifier won't work here, cause no VMA, no host mapping
+table.
 
---nwQemdKUjYgXQ6Qm--
+Thanks,
+Yilun
+>    with MMIO mappings and P2P. And that required exactly zero DMA-buf changes
+>    :)
+> 
+>    I don't fully understand your use case, but I think it's quite likely that
+>    we already have that working.
+> 
+>    Regards,
+>    Christian.
 
