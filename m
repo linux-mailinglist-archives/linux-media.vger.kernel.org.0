@@ -1,172 +1,184 @@
-Return-Path: <linux-media+bounces-24417-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24418-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18682A05CC9
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:30:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BD0A05CCE
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:31:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 067A0166FD5
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:30:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDF2216704B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:31:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC52A1FC0FB;
-	Wed,  8 Jan 2025 13:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93D851FBC89;
+	Wed,  8 Jan 2025 13:31:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="a6+9eKzP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mdI0O+9S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2057.outbound.protection.outlook.com [40.107.101.57])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99391F8AFC;
-	Wed,  8 Jan 2025 13:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736343031; cv=fail; b=mSP100Hv3G+DQbDk+9J45ewfOM52i+TSszLzsBtG/3D3rQFNIUqJ5qyzFFrZf4v2wVLF9nE1982nD2M+gprSaAI69pMtZsrB4XkO+yBjlvD7tImWP7bloiQXxyl02mJQ5GRB/VNFhd2IenlgwI0R+qTGRxMyFvdejuHwGK7b3Ok=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736343031; c=relaxed/simple;
-	bh=Yozc79SfbiXucW2IjmF/d0EDvndmGlBxkUTffpB/934=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=XgZANn6Z3eovcl32Oie4+GYkk78KGx0aQRZ3tcQZx8PBJuYItfbBM+/+7WXUzf1z22p6qOTIVHgFa//qWtkCTWS65cB9W34LEMRAeH7aBwzyxbTh+G8zPYZFgUPttZbztRha+dTmu1epbujL1QGtylmc96Hkowxq+/HuboDUcTc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=a6+9eKzP; arc=fail smtp.client-ip=40.107.101.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=To3WkLYgXN7pS4o6V9hAXBOZEo8JuH6sn/f5T9LX6CrsLd6C0azleFlLXDtulP01sxEy/yanpWPqhm9tiLRME9bR+DEcxgTbL84mzLYQQBS1p6YMvJF9YoG57Zy7mSLnJT0fUucRvP+jgv8oJ4DqT7EUS8f9gjediwlzAD0eFbVC06yBDCYi4xF8YuBFNxcUrhaC+whBDZnQXtrb/JTvxQhhfPUWM5r7a8hd1QIvf5fzEliSytL0xd7R6BJnt4KgAMhF0dvdhFgr9uSiFBhDtho+xPgwgpl5vC8+kJGJQnnzCKZ/heKKgDkUCLtoDog0rVhJjU4wSlBwYZrXvaKsmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yozc79SfbiXucW2IjmF/d0EDvndmGlBxkUTffpB/934=;
- b=OCwPkOC5iE8i+Rl0JHXt2VLPRifUqx4zMNy3RFFX5gdZh1CyeqJMBEva6ZKBriyAL+FZleb0NDdmZPvGMzlaCK1jjbmpLRAuHe4d/JxCVSNFTlKepaEeE85sgfI9KwtxbxroMR6RsyZFvT/4+U2qlNl5yrDqa+Ye0UEANK5cpPCNBoZWQOiDssLjspsKgOgR3QcAlROSugkX8vLHMWP4FOGQVKVLZ790UCBmUTjvqgkZlj52oNoWKi/EXdfjmv0hGtoFbZsxYjRpzG6MeySfGMFpqQ8m3ZN5gHoRLb5cWnVz1rAM+ID9VkVDVZhiY0Ysj122QVNVQfiUnZ2UV7UITw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yozc79SfbiXucW2IjmF/d0EDvndmGlBxkUTffpB/934=;
- b=a6+9eKzPyKihNsSH7GKRRGgp3hAhv6V4gm3xytg0TCRVP9g7xuEY+HJlhLLRz5xT07LnTUON3ixOjEqk8xSOlnZozGpUAbjs5C550cKNwXtRjWz3Kkbr3QitbIACDaIcoNquYLNVW0Gec+bW3hvm51uRwtvsgnI0vlnm8O8bPC/H7y+Bl/SoSrced+VKrWo44EtRotbj9heB7VDMKtwF9n0HqI5RPIYtDFng0Y0Cz2jiAe7ig6Qk2xuvstRUHQWNv0eSpbnEaflBsagasabNmehIrw/OyLZ/iiZCdhwi32fAwfwOT+adR06II614z7xBR7EKOTfLsm6qRiZ2I5pnhw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by CY8PR12MB7658.namprd12.prod.outlook.com (2603:10b6:930:9e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Wed, 8 Jan
- 2025 13:30:27 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8314.015; Wed, 8 Jan 2025
- 13:30:27 +0000
-Date: Wed, 8 Jan 2025 09:30:26 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <20250108133026.GQ5556@nvidia.com>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <20250107142719.179636-9-yilun.xu@linux.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250107142719.179636-9-yilun.xu@linux.intel.com>
-X-ClientProxiedBy: BN9PR03CA0142.namprd03.prod.outlook.com
- (2603:10b6:408:fe::27) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798E01FA8CA
+	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 13:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736343066; cv=none; b=AfNrjnKY88mzipz6xYmAs1+A9MfhO4PpaL5sEvUfsWB7OguMvho2rcpYNUUG83xBA80JK4jRI4Dci+jKgoY0aofYb6Ed3ZjftVa72ksElW7hcTjjg8vmClFbH0wYHlijcEQ7g7ypfX3DoSGbJJFpMXvfrRVIyM4Xcj3VtIERxuY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736343066; c=relaxed/simple;
+	bh=Jcyeynsix3rtsUhFvuJHcS89OB5EQ9MBj4cyJ84xq6Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uJM34DMxm9qfOsD1CSxs4ltiUkIdpyIdOhEjB3sRDXWr8J5rJqhJQ1AokjymRTRfROgABwvyKIu8wz0qDBPoLcUEnZkSxbs6TA6ieuTYg93tOlQAN0Zp21eVlArBP40fYXrTgT2ABO+cAILIoeK/7qCu0HfexO4kVM3r3yIXuJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mdI0O+9S; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1CCC110F;
+	Wed,  8 Jan 2025 14:30:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1736343005;
+	bh=Jcyeynsix3rtsUhFvuJHcS89OB5EQ9MBj4cyJ84xq6Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mdI0O+9SoB2c2b/4C4j6Pux1EeyL6kjSErt4+eoJWrG4nC224E6T2aQO6BaedwObo
+	 9sKFx6W/VYRAq10x1E0azgTTa+n2Sa2zoXalTkWQ37feWtgJOxrXuc63VwXVP6sVI9
+	 jN8f9pi5RbWazgl7JPl+cJsYePk/EyfvMw/vlKJ8=
+Message-ID: <fd66f8af-05ed-407b-a9c8-f74dabd250e2@ideasonboard.com>
+Date: Wed, 8 Jan 2025 15:30:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CY8PR12MB7658:EE_
-X-MS-Office365-Filtering-Correlation-Id: b42ad4a1-b6df-4610-d04b-08dd2fe89d62
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?pJBGhyPgTa3y3+Rr9N21tPVN5uaHsdSGiBBlaaBHyNor8WJ4oZ+WxIxA/g2q?=
- =?us-ascii?Q?M+7m8l6WB2S2lC6UyzBw+12Hg+PDbIhJTZi2SiLQFscOLO4TdMj8ZLwBTr3H?=
- =?us-ascii?Q?E/insBpwBN3Yt1WStut5BhY2/yniF9iegLeU7ZpAVHBLbCRtbC/1px8o916k?=
- =?us-ascii?Q?SO5RXukoK074x8oi4Fflw9OUmH1EmdrWv/D5FJo0IJ0SE4KkN+ROZUHQjCdM?=
- =?us-ascii?Q?9bH3lG4/nn8lh4hpxDR7tfM/jKf3isJR92iatD1R1qQ+iGVESF+cGtaFZ9+w?=
- =?us-ascii?Q?xJwsWfU3VIpSz/yrNqTYpI2nqxYs2pIzv7/lAE3O9WFudOy0o2hIbjuR0Xgy?=
- =?us-ascii?Q?IQ0UkAUsoWpCVcFT/JCGoArAHx1+ldERuoCpo7BSR1sLHy9kcthvQp5TC29E?=
- =?us-ascii?Q?vYKCgbswG2La9J9pJmo44Y+vDu6Kpz6R+6NUMlCcOD8Mci+BsnXQv0W4/qzt?=
- =?us-ascii?Q?i0v1QMukl+hPY2GDDnAPmx5ne0KHWMhCMCGNvvenpSQUu3y5HBNhxGpA7Ali?=
- =?us-ascii?Q?0chdJcx672u5yOL+kmtDQFHvTUKzdkPQYGjzi/sXxaMblKJDFJ7Ort7o0j8f?=
- =?us-ascii?Q?5GiTVdbxfdu5PBWLqxDEjEp5xetKIAxBIMxwKYFFWjrNtBsj2ZUkzlz1/49T?=
- =?us-ascii?Q?TBQPY3CxZ0GCh//YfBajg9ElPGvMXRXo/bcIOczOPd06K2mZROv1qipU1NZ7?=
- =?us-ascii?Q?3n/wb47gCa1WwZIP6CGSDjkQsno/UetDHbpsR7mVCjHB2xS1aUSWnNaPBx8A?=
- =?us-ascii?Q?x9uYyxpFYhR6jdOvf2/lkrc1I1hpk2j2f5I2Jc3+1s+pimOnCi/Fdvv3bROh?=
- =?us-ascii?Q?GToTf/0yvkOIjU0QIxdx0RwR4mWcChV7nMRiMUzplYXsR+x3KIubjw9Z6dZY?=
- =?us-ascii?Q?pXReut9XoKEXglGR6sdsv/U1kQaiP6nJc71+N+tevoPqp3SGmA1yj/I1WttJ?=
- =?us-ascii?Q?Yaqupvzdq/tgbaFMgTtTYZydotD5DZlQQPBv+9nIUEJsy43Gt3JOdkcjro37?=
- =?us-ascii?Q?W1Myv4kIX6h/UzEiSkTfCU5BwbFpazsOPRCmrRuQM+UwI5Oq8FtCSM0+xLWN?=
- =?us-ascii?Q?wIMxT+qsw3VVzi+gfiHF7Xe5MmgBp47RUP80NfToqwBQu+zxCvRn79Aibr1s?=
- =?us-ascii?Q?jx/AgpdcbkNtU+nxvVJtSd102H3AdKdlzR4Pew9ZWLNG7jJKn0uIW78/UHs7?=
- =?us-ascii?Q?jxwOKnaqSx9ELakizqoPteHJmu+YnAwPOFNUTDS3o7pyzhHqEFFG+qZCm4Oe?=
- =?us-ascii?Q?5+tiSgdV54F6R5XZg+teYAAKaetr5GuLKf7drRjSoQjv7sW9M2KxXCOMi3HI?=
- =?us-ascii?Q?L+zZ2XfPvIStLLrBNRYp6VyD6ECze8urWyTAdDsPRFmeL8zP7qFveT7ue/9L?=
- =?us-ascii?Q?QdOIREaK1xqDkwxwMs7jSFVOiFYv?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?mtCizJJaKUASIxai0DaE7LIWIZvUBwZUx00DWgsH7tbJn5gq1FFoP3jvEzEq?=
- =?us-ascii?Q?Cughi4nzL7DwDXtm85ntM8qv1xQWz4ktrF27NBrBIurz8HokzsQGJDXQEwSl?=
- =?us-ascii?Q?gjpEHKQXJN42Woxu5PjPggbk/EfE4X2o/IDG/eEI106yAkYHC5gJl1QdxTC3?=
- =?us-ascii?Q?V8GuBSjRpT3b9nb0nCn/ti6SP2nnSWWH+kbuL/8bVx2lEIxm6uPIeKlrAcyy?=
- =?us-ascii?Q?iWpNjzg+7nLUjUlxaBkrOKdyNvSh/B4pZVCqSkRURprMDNeuiO8r3jTfjZDJ?=
- =?us-ascii?Q?b/orq3TRogmpE6gfgOOnwZbMG4EQILCS0ScqfAGwhZGj/4SOeXdLDBaxRkqn?=
- =?us-ascii?Q?2oLG1xRtqN1X/1JT8kbNgQwwfuo2rvTz9MDJUB4TRG/iwwn5zT4tBP1Othez?=
- =?us-ascii?Q?FOiJEudJiZZsDo/v347haUcAqjwqVQ6lF0tRvb4kHvFRPS/yhqG2He3EU3M8?=
- =?us-ascii?Q?vjm9eW914HbQkwVf6qD56x928QrnBdJ+R7NRdScM20OUsi1zjPDoKwOMaxve?=
- =?us-ascii?Q?uachV7OuNUyKpyci8cG/e9WBGb+bhuXEyoMIE8SybouOpjam5h8EcO9uNtH/?=
- =?us-ascii?Q?6TKkRMfwRN2oqC1FgjsR30vm8R62Z5gm1RplCaxd1ovxuKn3UY+y3nthQDZT?=
- =?us-ascii?Q?zbZgl6YZ+yXBvGgnT/ZVxdkZ+1grjv3djTfhn0AUFdIqAeylFE2Em7BwNpF9?=
- =?us-ascii?Q?mUJL4EUE9rf/zYHwfU2P6QlMDDZ04CB8rfJQ8gcL/hmFonoAYhyIir0Szy9Y?=
- =?us-ascii?Q?cAzhubxupojy7Jg+ngqdXQmbRRfWfYuCW5g998RA1CXHSNIAWCFED0uylTa/?=
- =?us-ascii?Q?DFE5jVJ/y3Xm+A5dM3smp2TI0HhrUACybN3GrSpZNPThbs4Gb5ubegaefC5k?=
- =?us-ascii?Q?qlVvNbKAo6DO58VQ1uz1fRl7EY+FfhpVqAVJpH8ejuxVQIfndvcg9YImoCeA?=
- =?us-ascii?Q?icR6TqVI0TwDyKI5Fbz6HbdTDPaeQ0iW94uDkR7MSZtNRNQ/nX0OwULdLu/l?=
- =?us-ascii?Q?ORjZhPIcaO/dIIosniT+2i+Z6poPufamsibd4epslRojJpcOqCbfiQxe6PrB?=
- =?us-ascii?Q?4Rf8o021hi/iRCwfPrB2vIIJK/rbT4dHkRY7JIqtaOPLo924INaHAJMtEp74?=
- =?us-ascii?Q?jpI1zp4Y+RfIdnTxUBN+8m3SCY8Ac4vIszuNKCmKdAztfCEZ1uAhFeoY5fCh?=
- =?us-ascii?Q?aeuR/C1na1vYvTLJePZWx2aek2mtXH269wrq3TV+c/nx0YM7Vc2VHEXdFCx3?=
- =?us-ascii?Q?5UEfwFFGYH5HWKeIBbzjnZk1Xz8RZD2M/d/gAfczIW41NrCm7xo7h68mRwH9?=
- =?us-ascii?Q?ewT3PNJ98ubjoKiKZTaihH4SgdSUKTw+xwaGyV8tn0tVQ44pmyjAFuZh6PFZ?=
- =?us-ascii?Q?ONiP5/C0k0u5pAtw/kHGtM0R5eM5eLqT9Jog8vKql2uoQFL9jlwSsr+trYyC?=
- =?us-ascii?Q?4y/8mH0ZPd782jZ1bO15M1k1ui/W90a3gNjOx3bWK8Opnf1GV0G0pq6OZdeD?=
- =?us-ascii?Q?J5GRQlDMS1BSIrr64LHPxGiS9Mz2vMFQhfRv4PHIE5uRN8Q0JO/87AFc7dzG?=
- =?us-ascii?Q?Vvi1eA85i3g2bKKPIx8ucqtyI2k/FQXQJ9B3qSmL?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b42ad4a1-b6df-4610-d04b-08dd2fe89d62
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 13:30:27.7612
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jxTjV/BtzW5vp5TZYf/Fx9ZjWsE3byJhDk3WgrYFj7JUuuNjE2walttwbkxgMyXt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7658
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v4 9/9] media: Documentation: Add binning and sub-sampling
+ controls
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+ Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Mikhail Rudenko <mike.rudenko@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Julien Massot <julien.massot@collabora.com>,
+ Naushir Patuck <naush@raspberrypi.com>,
+ "Yan, Dongcheng" <dongcheng.yan@intel.com>,
+ "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu"
+ <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>,
+ Stefan Klug <stefan.klug@ideasonboard.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
+ <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Ricardo Ribalda Delgado <ribalda@kernel.org>
+References: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
+ <20241220132419.1027206-10-sakari.ailus@linux.intel.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241220132419.1027206-10-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 07, 2025 at 10:27:15PM +0800, Xu Yilun wrote:
-> Add a flag for ioctl(VFIO_DEVICE_BIND_IOMMUFD) to mark a device as
-> for private assignment. For these private assigned devices, disallow
-> host accessing their MMIO resources.
+Hi,
 
-Why? Shouldn't the VMM simply not call mmap? Why does the kernel have
-to enforce this?
+On 20/12/2024 15:24, Sakari Ailus wrote:
+> Document the binning and scaling controls (V4L2_CID_BINNING and
+> V4L2_CID_SUBSAMPLING_{HORIZONTAL,VERTICAL}) in the common raw sensor
+> model.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>   .../media/v4l/subdev-config-model.rst         | 20 ++++++++++++++-----
+>   1 file changed, 15 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> index f15e5495cc34..84957dc62800 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> @@ -113,8 +113,12 @@ separately horizontally and vertically.
+>   
+>   Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE``
+>   rectangle, relative to the analogue crop rectangle, on (pad, stream) pair
+> -1/0. The driver implementation determines how to configure binning and
+> -sub-sampling to achieve the desired size.
+> +1/0. It depends on the driver which of these operations are being used to
+> +achieve the resulting size. Binning and sub-sampling are also directly
+> +configured using :ref:`V4L2_CID_BINNING_FACTORS
+> +<v4l2-cid-camera-sensor-binning>` and :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
+> +V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>` controls on
+> +drivers that support them.
+>   
+>   The digital crop operation takes place after binning and sub-sampling. It is
+>   configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
+> @@ -173,9 +177,15 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
+>         - \-
+>         - X
+>         - Binning and sub-sampling. This rectangle is relative to the
+> -        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). The
+> -        combination of binning and sub-sampling is configured using this
+> -        selection target.
+> +        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). Binning is
+> +        configured using the :ref:`V4L2_CID_BINNING_FACTORS
+> +        <v4l2-cid-camera-sensor-binning>` control and sub-sampling is configured
+> +        using the :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
+> +        V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>`
+> +        controls on drivers that support these controls. To configure binning
+> +        and sub-sampling on drivers that do not support these controls, the
+> +        selection rectangle may be changed directly to configure the combined
+> +        effect on the image size.
+>       * - 2/0
+>         - Format
+>         - X
 
-Jason
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
+
 
