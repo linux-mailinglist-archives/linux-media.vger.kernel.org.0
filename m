@@ -1,163 +1,176 @@
-Return-Path: <linux-media+bounces-24425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24424-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1055AA05DB1
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:57:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 187D2A05DAC
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:57:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0CC93A8929
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:53:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA50E3AA31A
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:53:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CFE41FDE12;
-	Wed,  8 Jan 2025 13:53:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC1F51FC7C6;
+	Wed,  8 Jan 2025 13:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="j101E+6h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="leQJ0P4x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795BF1FCF47;
-	Wed,  8 Jan 2025 13:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BDD1514F8
+	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 13:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736344420; cv=none; b=VF5PD8JjNjgl8l716opuluwJ2q/wxSGb/zEM9xuTMFFIB1G9/q/4UpVYEvVqlVP+XjbWz0C/kKr7+7r93MFDK/JJ9fIwWHt7y5HbtKLGdBZksYF+dfzi6MO/JZJYK24Ks1r1Hg4nBxmwlH0obA+7YLHfz1p8ymPyShz0ELar+c4=
+	t=1736344407; cv=none; b=QL8ekMEhtoZGBxjsdLPcesi9bhYUbShkE2e2YDxkaildWII8qZsxh3rWv95IRr0UMKShI7aSBFQ7ZEIGBovlt7q1lwjzNPbsfb4R3MKVvzpmKI1TUP5AUvrUwbSLrv554hyV5RZpm2X/WhzGLLMSv8MQUnqaoWQToswX+9Edwts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736344420; c=relaxed/simple;
-	bh=uct8ngrtAYFwmaDlO5TtIfQDb3EXImPieYEtv+ChXJY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uLo4dvOkclt/1fcC5yvokH/uobJa85NAwIhBSrI+173/HxAU5O1CNVmi+d5hogsUPDKY0zfQW6HuyQaMlK8O9BWU0kvwizdDrJUYmnvb282KfbT2AiBizjYbyCuubo2ZUU2P8TcsBtxR2xrjotTvCtR4yoNCprQcfd/zRrQvfv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=j101E+6h; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8DB021C0006;
-	Wed,  8 Jan 2025 13:53:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736344415;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+3Kh9FOtNOABfkcFw/vRG/uViQsqV0K16PlRC2zuhdE=;
-	b=j101E+6hfpDaOII7o8qnF6mR1fc7olv4PQ6l0r0/K6hxVDwAXRJu4o7lBS/fH4Y3cH2GS1
-	ejsRWmHcz2BXVgAP8n1uyWattPKWJ09TclfPYz0NOGEqJAvryaw8cxrGVewo47ZuKPwKlb
-	whPuWO7FSJQODopUA/rsRkwRdhjXOMQ8rshHdpGPHaDhv6s7pKnkM7WYtRYl1W66jo7A/H
-	pTu/pEEF7f434jPbQ8TnW7SVwLpzGoFOLnhxQh9jkwMlfPf4A4+qJlpczuuiNRr0MfOZvi
-	NIf/EyfHghbGLZPGXb6AAH4H/r/h1JEX7jQZBkxdPZuWppAA6WuU0SqSWhLyDg==
-From: Romain Gantois <romain.gantois@bootlin.com>
+	s=arc-20240116; t=1736344407; c=relaxed/simple;
+	bh=ClMM0PHcDShy1gGCy70PnmNY7H+z1O607LxpgWUERFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gsoZbA/q1HcJ5QZ15sz9XvcMDGOwk4z/cV96XKd55lcsy7M4xUbyMV/kgBc65QQ3nW4/igvzUEvFAvpJs309rYoevgsV6QNCuGMPayipqjdumOdCV7iPVQ29fXnldt+7yKblRzwjmdV9JJzxdQluKfMjm4zL3MqEWnADZj2pyDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=leQJ0P4x; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736344405; x=1767880405;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ClMM0PHcDShy1gGCy70PnmNY7H+z1O607LxpgWUERFk=;
+  b=leQJ0P4xQCJWi3hLkbdWo1J+lrKjf0AqwbkOIIZYdVkQMiA21VuMCTT1
+   LaOGBBrskjRisO7fBet/2DBtK59Tdw+IxZQi5k5DOHoymqFwijb4doJEL
+   Ss0hyvYfkiBsf2jyBodq7QJEyTUM/8mRJ7mn3ZEN+Rl88wPG/J9J8VgC6
+   rFgds8As4DTQqIEOD4TCydvAh4Gm7Avgfo8YfSIJxZk1hUmo2k0pDhc5q
+   0BrnDQPcRdjvnHAIWzQQ7g0U2eyTmLLJ8bKNnKd31JFCiI9Am58+WEGaS
+   SciLS6R2Ui//2WYExZr+oRFqDlzsLrcyK6R9+b0f6RyPzY/Gj0mipXTTD
+   g==;
+X-CSE-ConnectionGUID: 1S1+xREjR2qW+vvXf5X/AQ==
+X-CSE-MsgGUID: HtxDsS1RS2O5gS9pGQb1iA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="47144218"
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="47144218"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 05:53:23 -0800
+X-CSE-ConnectionGUID: 0zeI4rASTh6M61YGPmyPUg==
+X-CSE-MsgGUID: wKPCzuKaQzWgu4cK0NUNpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="108148827"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 05:53:21 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B253411F8DF;
+	Wed,  8 Jan 2025 15:53:17 +0200 (EET)
+Date: Wed, 8 Jan 2025 13:53:17 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Derek Kiernan <derek.kiernan@amd.com>, Dragan Cvetic <dragan.cvetic@amd.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Subject:
- Re: [PATCH v4 2/9] media: i2c: ds90ub960: Replace aliased clients list with
- address list
-Date: Wed, 08 Jan 2025 14:50:13 +0100
-Message-ID: <2351676.ElGaqSPkdT@fw-rgant>
-In-Reply-To: <54985f33-a15a-4d9e-89ff-8999802e3a35@ideasonboard.com>
-References:
- <20241230-fpc202-v4-0-761b297dc697@bootlin.com> <2762571.mvXUDI8C0e@fw-rgant>
- <54985f33-a15a-4d9e-89ff-8999802e3a35@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com
+Subject: Re: [PATCH v8 2/9] media: v4l: Support obtaining link frequency via
+ get_mbus_config
+Message-ID: <Z36DTYxNxs9-7DYT@kekkonen.localdomain>
+References: <20241217215445.901459-1-sakari.ailus@linux.intel.com>
+ <20241217215445.901459-3-sakari.ailus@linux.intel.com>
+ <079e6b31-ee12-4d83-9dce-61f4d4c1cc99@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart4948939.GXAFRqVoOG";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-GND-Sasl: romain.gantois@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <079e6b31-ee12-4d83-9dce-61f4d4c1cc99@ideasonboard.com>
 
---nextPart4948939.GXAFRqVoOG
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 08 Jan 2025 14:50:13 +0100
-Message-ID: <2351676.ElGaqSPkdT@fw-rgant>
-In-Reply-To: <54985f33-a15a-4d9e-89ff-8999802e3a35@ideasonboard.com>
-MIME-Version: 1.0
+Moi,
 
-On mercredi 8 janvier 2025 14:32:54 heure normale d=E2=80=99Europe centrale=
- Tomi=20
-Valkeinen wrote:
+On Fri, Dec 20, 2024 at 02:59:39PM +0200, Tomi Valkeinen wrote:
 > Hi,
->=20
-> On 08/01/2025 15:27, Romain Gantois wrote:
-> > Hi Tomi,
-> >=20
-> > On lundi 6 janvier 2025 10:34:10 heure normale d=E2=80=99Europe central=
-e Tomi
-> >=20
-> > Valkeinen wrote:
-> >> Hi,
-> >=20
-> >> On 30/12/2024 15:22, Romain Gantois wrote:
-> > ...
-> >=20
-> >>> @@ -1031,17 +1031,17 @@ static int ub960_atr_attach_client(struct
-> >>> i2c_atr
-> >>> *atr, u32 chan_id,>
-> >>>=20
-> >>>    	struct device *dev =3D &priv->client->dev;
-> >>>    	unsigned int reg_idx;
-> >>>=20
-> >>> -	for (reg_idx =3D 0; reg_idx < ARRAY_SIZE(rxport->aliased_clients);
-> >>> reg_idx++) { -		if (!rxport->aliased_clients[reg_idx])
-> >>> +	for (reg_idx =3D 0; reg_idx < UB960_MAX_PORT_ALIASES; reg_idx++) {
-> >>=20
-> >> Any reason to drop the use of ARRAY_SIZE()? Usually when dealing with
-> >> fixed size arrays, it's nicer to use ARRAY_SIZE().
-> >=20
-> > No reason in particular, I just thought it was more explicit to use
-> > ARRAY_SIZE but I'll keep the UB960_MAX_PORT_ALIASES since you think it's
-> > nicer.
-> You got that the wrong way. The driver uses ARRAY_SIZE, but you change
-> it to UB960_MAX_PORT_ALIASES...
+> 
+> On 17/12/2024 23:54, Sakari Ailus wrote:
+> > Add link_freq field to struct v4l2_mbus_config in order to pass the link
+> > frequency to the receiving sub-device.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >   drivers/media/v4l2-core/v4l2-common.c | 15 +++++++++++++--
+> >   include/media/v4l2-mediabus.h         |  2 ++
+> >   2 files changed, 15 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > index 9fe74c7e064f..e4b2de3833ee 100644
+> > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > @@ -508,12 +508,23 @@ EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
+> >   s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+> >   			     unsigned int div)
+> >   {
+> > +	struct v4l2_mbus_config mbus_config = {};
+> >   	struct v4l2_subdev *sd;
+> > +	int ret;
+> >   	sd = media_entity_to_v4l2_subdev(pad->entity);
+> > -	if (!sd)
+> > -		return -ENODEV;
+> > +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
+> > +			       &mbus_config);
+> > +	if (ret < 0 && ret != -ENOIOCTLCMD)
+> > +		return ret;
+> > +
+> > +	if (mbus_config.link_freq)
+> > +		return mbus_config.link_freq;
+> > +	/*
+> > +	 * Fall back to using the link frequency control if the media bus config
+> > +	 * doesn't provide a link frequency.
+> > +	 */
+> >   	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> >   }
+> >   EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+> > diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+> > index e7f019f68c8d..24c738cd7894 100644
+> > --- a/include/media/v4l2-mediabus.h
+> > +++ b/include/media/v4l2-mediabus.h
+> > @@ -169,6 +169,7 @@ enum v4l2_mbus_type {
+> >   /**
+> >    * struct v4l2_mbus_config - media bus configuration
+> >    * @type: interface type
+> > + * @link_freq: The link frequency. See also V4L2_CID_LINK_FREQ control.
+> >    * @bus: bus configuration data structure
+> >    * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
+> >    *		  Used if the bus is parallel or BT.656.
+> > @@ -183,6 +184,7 @@ enum v4l2_mbus_type {
+> >    */
+> >   struct v4l2_mbus_config {
+> >   	enum v4l2_mbus_type type;
+> > +	u64 link_freq;
+> >   	union {
+> >   		struct v4l2_mbus_config_parallel parallel;
+> >   		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+> 
+> Maybe the docs (V4L2_CID_LINK_FREQ and/or struct v4l2_mbus_config?) should
+> mention that only if v4l2_mbus_config.link_freq is == 0, V4L2_CID_LINK_FREQ
+> is used. Or, in other words, the driver must only use one of those methods.
 
-Yes indeed, I meant the opposite, I'll keep ARRAY_SIZE.
+Such documentation is added by the 3rd patch ("media: Documentation: Update link frequency driver
+documentation"):
 
-Thanks,
+diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+index c71003f74b1c..6f9eba189a9f 100644
+--- a/Documentation/driver-api/media/tx-rx.rst
++++ b/Documentation/driver-api/media/tx-rx.rst
+@@ -49,6 +49,10 @@ Link frequency
+ The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
+ receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
+ 
++Drivers that do not have user-configurable link frequency should report it
++through the ``.get_mbus_config()`` subdev pad operation, in the ``link_freq``
++field of struct v4l2_mbus_config, instead of through controls.
++
+ ``.enable_streams()`` and ``.disable_streams()`` callbacks
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
 
-=2D-=20
-Romain Gantois, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---nextPart4948939.GXAFRqVoOG
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEYFZBShRwOvLlRRy+3R9U/FLj284FAmd+gpUACgkQ3R9U/FLj
-286cThAAoJuYYEDN1yt1QTy35tgWwGqUs77u4aQ6LzSFGn4S7zya0Ly6LwBUUwR3
-e1+cg0aSI/5fNN61eAWDQQP0dGC3fS34i3E3C5AsTV+lCjUN5a6wFR0Mazf0dTkl
-4Y1FiBdq7dobiATIg3j1tZFaZp7yCdUyXo2S72AOoNs3y1hG8ZNgdIrMOoJoUsky
-LZjRBIFTqCfWpQUXZ8t8//ef2XFNp/CnsCd81WY7QpH9OyFDGSSLDKoJxIqcQhOJ
-hgqGUgn1eHfeG7qgGcReqaSsKc2ubXjdPb90n0jrkU2oBDwSjRjyO4P95n1q8KX8
-WTXFpr3ORoacVpqKZpRegw/jgDi/y796gwXML9xVIRMvBpEPrqJ1bOkHoupWXZhT
-+D84JuVxCVQ7z383A4M/9DsD6lmcS74vPTqMScULr54FZZtrgLPOuCd26WFBrTN+
-rq135zABgLi8u2CXD2GBWFtRfMoGfWHAtrqre21dU9HUYTy++M+lks8pH46TzX/2
-M3wqf3MkIzaMsN8+wO/pnobuDACQ+A8gotYUsV0KEpfa46qPQuw91G3LxAQbA3pr
-TstHTOw1IsiX5LbhAEaDUzaCFE7YNyn1OHaUDjo+MekzIz1pQtiTJOZKfIUF39Og
-VaArH0UHHwyK+elwx59F/cw/OwJV3kxljW9kG3jsg3xYGCEcw5M=
-=nweI
------END PGP SIGNATURE-----
-
---nextPart4948939.GXAFRqVoOG--
-
-
-
+-- 
+Sakari Ailus
 
