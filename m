@@ -1,157 +1,125 @@
-Return-Path: <linux-media+bounces-24421-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24422-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86125A05CF5
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:38:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5651A05D10
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 14:42:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 05AAB1888482
-	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:38:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99D081670A0
+	for <lists+linux-media@lfdr.de>; Wed,  8 Jan 2025 13:42:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1206B1FC7D0;
-	Wed,  8 Jan 2025 13:38:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332DE1FC7C3;
+	Wed,  8 Jan 2025 13:42:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lG4fshcF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YRtYbN13"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101CB1FBEAF;
-	Wed,  8 Jan 2025 13:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2951FC103
+	for <linux-media@vger.kernel.org>; Wed,  8 Jan 2025 13:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736343499; cv=none; b=BdA9NDwY4F2yN75E2isvt5QDxs3MZO2a66LNT/gZEXfsue75x9LDXvA1W73NqUwvghDsoNOCmSmFyvp///tXyj0Bjv6dCh5yHe+eMZDP1uJM0t47dUi++KAH6iBUgfJKaSUtiOOTBQzcBgvzYJ4BdUzbgoZXNLWsthlJZdu5tj8=
+	t=1736343742; cv=none; b=LLPiR2dJb8W78+TnpY4xmISnMOL88j56NYMAdbfu9E5evjUbKp+RXs3QCbZYJ8Cb6c2jFCkDtQhA1om9wzOu0bnwGQv58SpCu18/ppY2l/bggyeGVxdkd7ReGxmKP36DUUQ4Xfz19nVBsFxNkQBspSLpTssri8bxc6IaSAiUqsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736343499; c=relaxed/simple;
-	bh=xBO1kwjUOtRgqWKjSS24GUJOJxN9ULpcl9DQ6ON9DrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ANOAh9g0aJn+Mc40gnxoIf6lMwjBKRBNaWFtHQM0NRSeCccH5hmcOT22D8Ivmtw9ZVdqWIybAaFssn4OvYMoRVs7rdYPJNhEAlesidQQ/i6TjKNEKdLipjdgnPqyMdYslLC0Vrs7ifOBL+rpqZVERb7muyqM7O4pngOxfsVKThk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lG4fshcF; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 969195B3;
-	Wed,  8 Jan 2025 14:37:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736343442;
-	bh=xBO1kwjUOtRgqWKjSS24GUJOJxN9ULpcl9DQ6ON9DrE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=lG4fshcFu7c7osy6ad+TBjGPrk9hJk/s5zFtAzNNJhfrxKtaU/ecvV4bECYTnVa6l
-	 9jhx4bNi1F9q9jBI/+IcYli57VH9DzCvUMbya83gmQwa9ZXn3VplmcQM+mDwEMNli+
-	 vAw6BHXlfdi7qatcQ8p+787TFXNmZOk260sGMDMc=
-Message-ID: <0281025b-983a-42ab-90d3-3de845944de4@ideasonboard.com>
-Date: Wed, 8 Jan 2025 15:38:11 +0200
+	s=arc-20240116; t=1736343742; c=relaxed/simple;
+	bh=lOEvnsfC+98W/jt6x1dIJwkMKbzbYPPRT2ADYW6aR2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o5Le3KjNsjl8IUKHWE8dJpW+/Oz1y3xBQYzFHV9CNouNLnNuUvP5kIY/3H5tqi17J4Qoj2dQ9e0buAV3UxcYIYVnT79+oS08vx1M5T4tz3vIL/2hts4rlpJE5Iy6hGcPJG98c235h3ZzDoVeXXnJM6HO8ixmGd8ER9NzBCxr6Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YRtYbN13; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736343741; x=1767879741;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lOEvnsfC+98W/jt6x1dIJwkMKbzbYPPRT2ADYW6aR2k=;
+  b=YRtYbN13Trr5ERsLhM098TygNJfm/lvlFC19QtmaSb7hGh2kvs9yWH3M
+   54Ewa55ZfTDE2YZ6ExM1EwbcM0R2EXbelsPAmtZjRN6/qoJe/z8OEHJ5G
+   eWzRrla5OLTBv1haJJDsoO3xiNM94NBadf/UVdfTzy8DwxXzJ5fUuppXl
+   frW/Ca4rY/4iSok1bkca5kD0zzZYVC1oZTTbAplxNZ4kdVsmy2vztbASK
+   6FjcHn2cQ8EuqKmzK2L5WBznnRPkCsh6DEazKl7yXeHi+Icd99sotH0ZV
+   6EEtjSSrWPQpvwcP1tE4PMxBzG1IxmQwtppDcDiSzD1dJLdKN1Vu4QQmo
+   g==;
+X-CSE-ConnectionGUID: Dci07jalR2iwFxTrardqbA==
+X-CSE-MsgGUID: zrI0LFv3R9iSDzXEDyCk+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="40246892"
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="40246892"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 05:42:19 -0800
+X-CSE-ConnectionGUID: sTRuuVuGRcOpT7NrfztPWA==
+X-CSE-MsgGUID: 4A+mo/n8SDWFyD62obzdvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="108083936"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 05:42:17 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C0E9E11F8DF;
+	Wed,  8 Jan 2025 15:42:14 +0200 (EET)
+Date: Wed, 8 Jan 2025 13:42:14 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com
+Subject: Re: [PATCH v8 6/9] media: Documentation: Add a note to set all
+ fields in get_mbus_config op
+Message-ID: <Z36Att20SRvDiGQL@kekkonen.localdomain>
+References: <20241217215445.901459-1-sakari.ailus@linux.intel.com>
+ <20241217215445.901459-7-sakari.ailus@linux.intel.com>
+ <eb0fe9bd-7d1a-4b1a-a127-4e9ce89ede8e@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/9] i2c: use client addresses directly in ATR
- interface
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Andi Shyti
- <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Derek Kiernan <derek.kiernan@amd.com>,
- Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-References: <20241230-fpc202-v4-0-761b297dc697@bootlin.com>
- <20241230-fpc202-v4-4-761b297dc697@bootlin.com>
- <f63b7744-b86e-4dbe-aa49-10614a025b7e@ideasonboard.com>
- <6115974.lOV4Wx5bFT@fw-rgant>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <6115974.lOV4Wx5bFT@fw-rgant>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb0fe9bd-7d1a-4b1a-a127-4e9ce89ede8e@ideasonboard.com>
 
-Hi,
-
-On 08/01/2025 15:31, Romain Gantois wrote:
-> Hi,
+On Fri, Dec 20, 2024 at 03:29:27PM +0200, Tomi Valkeinen wrote:
 > 
-> On lundi 6 janvier 2025 10:51:20 heure normale d’Europe centrale Tomi
-> Valkeinen wrote:
->> Hi,
->>
->> On 30/12/2024 15:22, Romain Gantois wrote:
->>> The I2C Address Translator (ATR) module defines mappings from i2c_client
->>> structs to aliases. However, only the physical address of each i2c_client
-> ...
->>>
->>> -	dev_dbg(atr->dev, "chan%u: client 0x%02x mapped at alias 0x%02x (%s)
-> \n",
->>> -		chan->chan_id, client->addr, alias, client->name);
->>> +	dev_dbg(atr->dev, "chan%u: addr 0x%02x mapped at alias 0x%02x\n",
->>> +		chan->chan_id, addr, alias);
->>
->> This, and the dev_dbg() below, sound a bit odd to my ear. But I'm not
->> sure what would be a good print... "added alias 0x12 for address 0x34"?
+> On 17/12/2024 23:54, Sakari Ailus wrote:
+> > Document that the implementations of the V4L2 sub-device pad operation
+> > get_mbus_config shall set all fields of the struct to defined values.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >   include/media/v4l2-subdev.h | 5 ++++-
+> >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 2f2200875b03..abcc879fabb2 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -822,7 +822,10 @@ struct v4l2_subdev_state {
+> >    *		     possible configuration from the remote end, likely calling
+> >    *		     this operation as close as possible to stream on time. The
+> >    *		     operation shall fail if the pad index it has been called on
+> > - *		     is not valid or in case of unrecoverable failures.
+> > + *		     is not valid or in case of unrecoverable failures. The
+> > + *		     implementations of the get_mbus_config operation shall set
+> > + *		     all the values of struct v4l2_mbus_config to defined
+> > + *		     values.
 > 
-> Maybe "assigned address 0x34 to alias 0x12"? Since the alias doesn't really go
-> anywhere, we just assign different downstream addresses to it.
+> The drivers can't set all fields, as we can add new fields (like you do in
+> this series). So I assume this means that the drivers should memset() the
+> struct to 0, and only then set the values it wants?
+> 
+> I think we should have a wrapper for get_mbus_config, which would clear the
+> struct before calling the op. And the drivers should always use that
+> wrapper.
 
-I guess it's how you look at this =). I like to think it (in this 
-order): alias -> address, as it's basically a mapping. So a debug print 
-that prints the alias first and address second feels more natural. 
-"using alias 0x12 for address 0x34"?
+It seems we already have a wrapper actually, one that checks the pad
+argument is valid. I'll add the memset().
 
-But this is nit-picking, I don't have any strong views here.
-
-  Tomi
-
+-- 
+Sakari Ailus
 
