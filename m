@@ -1,174 +1,179 @@
-Return-Path: <linux-media+bounces-24534-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24535-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8CB3A07897
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 15:07:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4656FA07941
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 15:31:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 074E33A44DD
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 14:07:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF4D87A15F4
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 14:31:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3766721A437;
-	Thu,  9 Jan 2025 14:07:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5DC421A431;
+	Thu,  9 Jan 2025 14:30:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="pRSqPvf0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="az+nXds1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1934C217658
-	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 14:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A52F21A953;
+	Thu,  9 Jan 2025 14:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736431622; cv=none; b=MfbpheCahUjBFptDfxNV28tXE/HDUZd/e6vwpXfvk5vt7eSPLZQknpFKKTXQAzqPOzmJHhEc8e8/FQ32UF0ZYvZR5/gvPdcYXfrLpM1wHuRksRKuFUT679JZYloaGR2bbryZrB6sX2CzRnOvOxASe0t/IG+4JOjYA7XDHwNbZho=
+	t=1736433032; cv=none; b=ixq3/tnq+M5EP4u1Y24VPln/cm5sr4lDGjhrTCi3NmpWyx0aUWDJZoZ0qdwAU33DcIPEMu/qyngiiojVn8cI7zbFiWyHFt/BiS6Z9FBVl3J0Uys9Yjfk/5kNNoeJkO6igLAqYz5/9BQJeLAK5baM+xijUiqIwLUZbLOg01sN8kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736431622; c=relaxed/simple;
-	bh=Ym1yDocfM13GAXNnJN+26yjZUBZZ3aFj68yIdbE9lfY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WfA3IHVpZX62CyJtwN9Y4h+DsXTqg313FRlZZYd5z4cSvaS1QKBf/YStYM4Y0ywCBJjWW7hlGbWxYgbyAp5hbudMG+djYiJttvt4G4zFDGG3sjryXpqSl/OtNCforNfDbcEoG/66CqtZx06KRlgDDu6UrSBapfDmdHwQ2HGNDs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=pRSqPvf0; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7b700c13edaso49213585a.3
-        for <linux-media@vger.kernel.org>; Thu, 09 Jan 2025 06:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1736431620; x=1737036420; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bywW9vMeiiYOYy2QNzu7ZKqXWuFCGn5oBIdbY0P2hyg=;
-        b=pRSqPvf0JjzAAh42MC3kLlu9ZH8Yx9NH5Iqvr5cdeKRBKwK+6W/r3T0K7WTKUUTRbD
-         vNgCDwhcMQNSGN/SiIb+OhMsRvmAXr1p1o/+45OEdnmVvNuj44BNgkP+y/motY7lMUay
-         x71WWsExf9DMToEjzy6UApIVeBSQySwc32AUEjF5VJ+PVeLhDLaUcK7GW1UetNN0I71B
-         omEtUTugBw1G1PayiX28W95IDPo5HraRLByFyyH5Km5ZruZq2PiywaznhaksvYl1QJ8+
-         yIQbQCE5e+6KOys+daNY+HlbgjYUfln9zCw8ZIoS6NcB7RLll0TyNQSNfjYPHxMHneqx
-         SXwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736431620; x=1737036420;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bywW9vMeiiYOYy2QNzu7ZKqXWuFCGn5oBIdbY0P2hyg=;
-        b=w20ayx1UadrnMc/VlRLiT991K2U+7ZfA+BUPfC28SA8Y4NDH+iK4oX9Oz0mPxgOzyd
-         QCpvTU+rKC5STnvnR1ASSshvpAZzzMC2T6g1SvVzikBw5CzXGuRj85GPjdNdbDNcp8xy
-         /fy1ubxQte14y59NGIgvvWw4LqePiPrzMwHUrc9/azLcmRgb0Ez3z7nE252o/OUvfLjR
-         Nbld0JsXQVHP2yQtgb+uEC/qjm15NSdNmLplGHIpujjyieW/yiRDxJYvO3fn5Si5W3TA
-         /Gl6anLdK+/2MRa6UPfzs11gOPetgHFQWnX6WJc+qvw7ZUqt7TFi0iEzuM4bGU8MkPxX
-         1Xew==
-X-Forwarded-Encrypted: i=1; AJvYcCVQlZ+CXbgSbLJBtaxmr7sidJxwCtwXangy/8tGuJx3uxXOk0NIfwT2utsTY3GE4dmR+SE0sIffudpbvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJN/AU5XzwyU/jSYWYV+wj/mY8bAMxbZ7ILyAF2F0XUujFhuj7
-	Rr+lPFacukhmftnS234HgnZkMAp094hhQMWCbW8tgJ2PElffnMlXpS3+Y1nkDm4=
-X-Gm-Gg: ASbGncsviDW9y4I0OaADegtNi4dxzqx2PI7SUfIqHvD65/kSsWEOGvDIyD/EMplGc3e
-	ZrRJGcWvhEdhWBKuFBm/jOntoHNFJWb6FqoGPLWC+/0ROWXzN66SLftOi1D9OiFbS6zRj9eSzin
-	AQME8zMG14bvaYfMSom+bYmxJT7hlK5es5A0NmregVpZtp3krt/aeR4frkhnVPFdZ6PnQn74KI6
-	X0UHtSekCRFWpMtvZGpsHXkQjgeXnceLNoBo32pG9m35rnOFBM077obww==
-X-Google-Smtp-Source: AGHT+IEscSxY4Do3TXZ6G7JOMUAekHEsOUeBZGyyHfF7ljBFczTdIIJ78AZHYR6zSk6tQnyqAKAV5A==
-X-Received: by 2002:a05:620a:414a:b0:7b6:dddb:b88 with SMTP id af79cd13be357-7bcd976277dmr964450385a.38.1736431620006;
-        Thu, 09 Jan 2025 06:07:00 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:862e::7a9])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7bce327bb28sm69478785a.64.2025.01.09.06.06.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 06:06:59 -0800 (PST)
-Message-ID: <c67ebf846d19086586b00d1d79252c8296a704b5.camel@ndufresne.ca>
-Subject: Re: [V1,00/12] Enable jpeg enc & dec multi-hardwares for MT8196
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "kyrie.wu" <kyrie.wu@mediatek.com>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>,  Mauro Carvalho Chehab	 <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Matthias Brugger	
- <matthias.bgg@gmail.com>, Tzung-Bi Shih <tzungbi@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,  Bin Liu <bin.liu@mediatek.com>,
- kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Date: Thu, 09 Jan 2025 09:06:58 -0500
-In-Reply-To: <20250109133513.20151-1-kyrie.wu@mediatek.com>
-References: <20250109133513.20151-1-kyrie.wu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+	s=arc-20240116; t=1736433032; c=relaxed/simple;
+	bh=noVcV6bVvOQXtSZUecX4gEi6hrcPaEtichTA7lxE4Eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QsxCeeVoekCChOm2un59u1lIrQaqmAlG9NNX+ZmBacX5ua4uf07eT7uole5QV0NILgoELvxbSry5Tunj/r4oVH+2dE0QcOl+KSzfS6oiGaf7kfPftTqUSeMhbS0NxPqxrJx3AOgqKwB2U8Mv6dd6xCJwBlxNEmlAS7Ql3PjS/kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=az+nXds1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 923C6C4CED3;
+	Thu,  9 Jan 2025 14:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736433031;
+	bh=noVcV6bVvOQXtSZUecX4gEi6hrcPaEtichTA7lxE4Eg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=az+nXds1m148ysZHmY486DStXjZLUw2NhY8yt5AB9l1LbNSIiSDYA621jWD/zURBG
+	 iqgArl1zUCCupz5d0yCBrXY3az7PBLnI1yXT2DcGN32lDkNOW5r1miwy8uH0l4fCGf
+	 Li4pYnatrlkp9GR63UbXBovTETWSks1VoFa3To+ZyV7i2vfV/b3Zo8KvbnThFf06m8
+	 lIPCK9oRBsUr/IsWBO+yzWXzjbKnaTC8/pRcea2ffOhcU7Hi8qzA1+Ms0sxYrrmwXZ
+	 DjBu5CPhmhF8T3h206aawjRpbEq9/18Y/XgX33FKv2JugOUVGICynZvIgTSKWwNvuh
+	 DwgbbEb07DH7A==
+Date: Thu, 9 Jan 2025 15:30:25 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Luben Tuikov <ltuikov89@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 1/3] drm/sched: Document run_job() refcount hazard
+Message-ID: <Z3_dgYGOSfLUcI0J@pollux>
+References: <20250109133710.39404-2-phasta@kernel.org>
+ <20250109133710.39404-4-phasta@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250109133710.39404-4-phasta@kernel.org>
 
-
-Hi,
-
-Le jeudi 09 janvier 2025 =C3=A0 21:35 +0800, kyrie.wu a =C3=A9crit=C2=A0:
-> This series adds support for mt8196 multi-hardwares jpeg enc & dec,
-> by first adding mt8196 jpegdec and jpegenc compatible to install
-> kernel driver. Add smmu setting to support smmu and iommu at the
-> same time.
-> Secondly refactor buffer and clock setting to support multi-hw jpeg
-> working.
-> Lastly, fix some bugs, including resolution change handleing, stop
-> streaming sw flow and others.
->=20
-> This series has been tested with MT8196 tast test.
-> Encoding and decoding worked for this chip.
->=20
-> Patches 1-3 Adds jpeg encoder and decoder compatible.
-> Patches 4 add jpeg smmu sid setting.
-> Patches 5 fix jpeg hw count setting to support different chips.
-> Patches 6 refactor jpeg buffer payload setting to handle buffer
-> size bug while resolution changed.
-> Patches 7 reconstruct jpeg dst buffer layout.
-> Patches 8 fix multi-core stop streaming flow
-> Patches 9 refactor multi-core clk suspend/resume setting
-> Patches 10 fix decoding buffer number setting timing issue
-> Patches 11 refactor decoding resolution change operation
-> Patches 12 fix remove buffer operation
->=20
+On Thu, Jan 09, 2025 at 02:37:10PM +0100, Philipp Stanner wrote:
+> From: Philipp Stanner <pstanner@redhat.com>
+> 
+> drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
+> That fence is signalled by the driver once the hardware completed the
+> associated job. The scheduler does not increment the reference count on
+> that fence, but implicitly expects to inherit this fence from run_job().
+> 
+> This is relatively subtle and prone to misunderstandings.
+> 
+> This implies that, to keep a reference for itself, a driver needs to
+> call dma_fence_get() in addition to dma_fence_init() in that callback.
+> 
+> It's further complicated by the fact that the scheduler even decrements
+> the refcount in drm_sched_run_job_work() since it created a new
+> reference in drm_sched_fence_scheduled(). It does, however, still use
+> its pointer to the fence after calling dma_fence_put() - which is safe
+> because of the aforementioned new reference, but actually still violates
+> the refcounting rules.
+> 
+> Improve the explanatory comment for that decrement.
+> 
+> Move the call to dma_fence_put() to the position behind the last usage
+> of the fence.
+> 
+> Document the necessity to increment the reference count in
+> drm_sched_backend_ops.run_job().
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 > ---
-> This series patches dependent on:
-> [1]
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20240808092555.=
-12999-1-jianhua.lin@mediatek.com/
->=20
-> kyrie.wu (11):
+>  drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
+>  include/drm/gpu_scheduler.h            | 19 +++++++++++++++----
+>  2 files changed, 22 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 57da84908752..5f46c01eb01e 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1218,15 +1218,19 @@ static void drm_sched_run_job_work(struct work_struct *w)
+>  	drm_sched_fence_scheduled(s_fence, fence);
+>  
+>  	if (!IS_ERR_OR_NULL(fence)) {
+> -		/* Drop for original kref_init of the fence */
+> -		dma_fence_put(fence);
+> -
+>  		r = dma_fence_add_callback(fence, &sched_job->cb,
+>  					   drm_sched_job_done_cb);
+>  		if (r == -ENOENT)
+>  			drm_sched_job_done(sched_job, fence->error);
+>  		else if (r)
+>  			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
+> +
+> +		/*
+> +		 * s_fence took a new reference to fence in the call to
+> +		 * drm_sched_fence_scheduled() above. The reference passed by
 
-would you mind fixing the --author in your configuration, write your name
-instead of your user name. UT8 is allowed, many people will use a ASCI spel=
-ling
-(some approximation) and then add their real name in parenthesis.
+I think mentioning that in this context is a bit misleading. The reason we can
+put the fence here, is because we stop using the local fence pointer we have a
+reference for (from run_job()).
 
-regards,
-Nicolas
+This has nothing to do with the fact that drm_sched_fence_scheduled() took its
+own reference when it stored a copy of this fence pointer in a separate data
+structure.
 
->   dt-bindings: mediatek: Add mediatek, mt8196-jpgdec compatible
->   dt-bindings: mediatek: Add mediatek, mt8196-jpgenc compatible
->   media: mediatek: jpeg: add jpeg compatible
->   media: mediatek: jpeg: add jpeg smmu sid setting
->   media: mediatek: jpeg: fix jpeg hw count setting
->   media: mediatek: jpeg: refactor jpeg buffer payload setting
->   media: mediatek: jpeg: refactor jpeg dst buffer layout
->   media: mediatek: jpeg: fix stop streaming flow for multi-core
->   media: mediatek: jpeg: refactor multi-core clk suspend and resume
->     setting
->   media: mediatek: jpeg: fix decoding buffer number setting timing issue
->   media: mediatek: jpeg: refactor decoding resolution change operation
->   media: mediatek: jpeg: fix remove buffer operation for multi-core
->=20
->  ....yaml =3D> mediatek,multi-core-jpegdec.yaml} |  10 +-
->  ....yaml =3D> mediatek,multi-core-jpegenc.yaml} |  10 +-
->  .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 126 ++++++++++++------
->  .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  17 ++-
->  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 116 +++++++++++++++-
->  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   4 +
->  .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 113 +++++++++++++++-
->  .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  |   4 +
->  8 files changed, 343 insertions(+), 57 deletions(-)
->  rename Documentation/devicetree/bindings/media/{mediatek,mt8195-jpegdec.=
-yaml =3D> mediatek,multi-core-jpegdec.yaml} (95%)
->  rename Documentation/devicetree/bindings/media/{mediatek,mt8195-jpegenc.=
-yaml =3D> mediatek,multi-core-jpegenc.yaml} (94%)
->=20
+With that fixed,
 
+Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+
+> +		 * run_job() above is now not needed any longer. Drop it.
+> +		 */
+> +		dma_fence_put(fence);
+>  	} else {
+>  		drm_sched_job_done(sched_job, IS_ERR(fence) ?
+>  				   PTR_ERR(fence) : 0);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 95e17504e46a..d5cd2a78f27c 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -420,10 +420,21 @@ struct drm_sched_backend_ops {
+>  					 struct drm_sched_entity *s_entity);
+>  
+>  	/**
+> -         * @run_job: Called to execute the job once all of the dependencies
+> -         * have been resolved.  This may be called multiple times, if
+> -	 * timedout_job() has happened and drm_sched_job_recovery()
+> -	 * decides to try it again.
+> +	 * @run_job: Called to execute the job once all of the dependencies
+> +	 * have been resolved. This may be called multiple times, if
+> +	 * timedout_job() has happened and drm_sched_job_recovery() decides to
+> +	 * try it again.
+> +	 *
+> +	 * @sched_job: the job to run
+> +	 *
+> +	 * Returns: dma_fence the driver must signal once the hardware has
+> +	 *	completed the job ("hardware fence").
+> +	 *
+> +	 * Note that the scheduler expects to 'inherit' its own reference to
+> +	 * this fence from the callback. It does not invoke an extra
+> +	 * dma_fence_get() on it. Consequently, this callback must take a
+> +	 * reference for the scheduler, and additional ones for the driver's
+> +	 * respective needs.
+>  	 */
+>  	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+>  
+> -- 
+> 2.47.1
+> 
 
