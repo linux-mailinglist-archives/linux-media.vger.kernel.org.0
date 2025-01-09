@@ -1,173 +1,144 @@
-Return-Path: <linux-media+bounces-24501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24503-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B029A07432
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 12:08:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6628A0746E
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 12:17:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E3A71659A6
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 11:08:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4E1523A7080
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 11:17:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5B392163B7;
-	Thu,  9 Jan 2025 11:07:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41FFC216E10;
+	Thu,  9 Jan 2025 11:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yu8QvwhI"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="kfWz33BY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E9A204C3C;
-	Thu,  9 Jan 2025 11:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12FA216381
+	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 11:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736420878; cv=none; b=Pb1kYg2E1aybsr1AxjJKXVZZvacoMiOBvWG+tc+L67BxD2O0DOqOhCPSxZ7dm/iMXHUMyQrMW9d03iNjog/MJ43cgJWzS+NovXcEdm95Z+EqJ/LTB61LU8sOzB5EzZB8+3ICX0i+Vkzsg2p7pXSQlKxoVLafKMfPBrndQUxRk7E=
+	t=1736421429; cv=none; b=JO7IXNfeR89xEf0+SF7HOczbZreZ8j+xY9vWgHMeaOjAhYSBcWuOHscuXCjpbiKmo+4hpFGVOAQCD0rbXuBY53cEqcpR01uKt1kqx33m1ZNVuqxS1vtCKvgdZAI2xYSEx7HpEMsgP4NQhupn4sPl/bh/1OlIsmnrbjatkYXevKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736420878; c=relaxed/simple;
-	bh=+rokNR1TBRe3TqEAQHJ6WAVWiY++bf7dkHnY6VnhOIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RF+iIrWXS7HHBc7Ax2C05DYifstAsCKNKcXvSC1zoBg3lZSJNOnrFyDPI60nU/QodTpt0XXKT5VrJ5Gp65Q87BRRimdFz8EKTeeqLrxBuWJdNUgux2ZN6J+nP8po3LUAXq0gp76GaEvHCuMsuU6oGWZq70yCJXThxzi1sssB4Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yu8QvwhI; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736420876; x=1767956876;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+rokNR1TBRe3TqEAQHJ6WAVWiY++bf7dkHnY6VnhOIw=;
-  b=Yu8QvwhIklD6R96Mo7/pLl+Thr9iUG/xh7+neZft4Dg3puHijwxlPlNN
-   Bed5JeIu0qiiZv8VCsTogUZDgpVots6HFfjl79N5sMt3AJ3z4SPX5xliG
-   Q7nLLoTfA5+N+lh2LnWKZpd64i099vsXdA8lI33iP8uT7h31TLzo85r2H
-   XJ9klZSxB5u5EkMHi8xQhCCYxuZw88wOZkgmqxxtgRv10mgRJk2+ZcG4S
-   b6I4Q2puj+jVLXKExq6S4lQwEkcx2fkjz5nAaZNHq8KanC27TaMSiYsbW
-   bHbPgA+S693JnVqTB/GSXy8Bh9Ls4HMv33tG4FetKmmggp5hP3TKR9Qg1
-   w==;
-X-CSE-ConnectionGUID: QPRw3ZLcQZyEvJpsoJb1+Q==
-X-CSE-MsgGUID: WpvkjXsrTgyXi2cmGU5e0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="48090745"
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="48090745"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 03:07:56 -0800
-X-CSE-ConnectionGUID: JZV1fD2DSIei0Kb+5rkS+Q==
-X-CSE-MsgGUID: U75bsEzcRwOUOMGJwatAdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="108432058"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa003.jf.intel.com with ESMTP; 09 Jan 2025 03:07:51 -0800
-Date: Thu, 9 Jan 2025 07:06:48 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
-References: <20250107142719.179636-2-yilun.xu@linux.intel.com>
- <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
- <20250108132358.GP5556@nvidia.com>
- <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
- <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com>
- <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+	s=arc-20240116; t=1736421429; c=relaxed/simple;
+	bh=8ApezzYHSX83RS3QA5w54DNd1lwZdDS5MBnMXND0oLo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=H/ArxKcR0Ptb0pi4Zl4V1mQHR9KffpZ4Fkc/RvWRa8UNupx8GM1ixduhymkim4cy986yvOeRpfNRWHKckeoD9Sl9DKumwQyPM+dZcnQLAcdS2apHFBDz0pRR++tMn0ZDVhiXEy6xaEnL0YAup7NBk+ZoVeJqOFwMh0sfK+uXOSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=kfWz33BY; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4362f61757fso8210895e9.2
+        for <linux-media@vger.kernel.org>; Thu, 09 Jan 2025 03:17:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1736421425; x=1737026225; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ll2c7q/HUE6mKHlwYYRK5+Gl0QpPwKqSQUEkwfzwiT4=;
+        b=kfWz33BYN4l0lytRRMQOBQxWSd2GTD9R+iQ/7fAzBHcgxqs0ksTkY1nlTkEelBoHc5
+         DjcaPH+ba3q3WhEGahkSiAHigV8hXocqRZT8MmryPxsTudsdpp4jmyYVKJLWrWvCarTo
+         mAsfZpbfGc4+Cf3PyjPk/FW3cTnPu4hCj1dIuDUNOTb5VYrzYXQ/Da3z7gjEOYsXJLlM
+         jfrl1Pg4SrpVXs3dC+sAyqbDMx+SvionflXFXW/Y1EEVriW+ruOxxkwkGJ9BtEC52xAD
+         pnaF90DinPT7LWcucHDbezOMP5oEI46JGltMW6MScLZY1GS1BYEp0ZPKCa2EzmWeGezM
+         pCew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736421425; x=1737026225;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ll2c7q/HUE6mKHlwYYRK5+Gl0QpPwKqSQUEkwfzwiT4=;
+        b=M9WJDZYCr+A0uh8GLpBttAthfEWb+Psqf5Rcnp1WZ+UBMVSFutNRomLpfHKoAJFy8O
+         xCvBZp0Bsb3tbKC109gmIbOQBb+abxUtSASz5CQ3MSKZntENtBVp1gmyDREX3Czafjne
+         reJrVmHEuAtsOM/hrJDxFMkhY4PlKv+yKSzRxG212Ze4nMCGQYHnkhZEAWwzkkOCEJKd
+         gloTl45/xLr1RNDQiWFdlnBRIsbqj7b/eAtExpfTw+cigffhSGOwml16srVmKIPaYwos
+         GuyDB0NJj/icJHmqVs99BiCs2v3ygk+Z4hXq2L8WaUCOQa74fZSpMVPCshBNV4QPexsS
+         iH/A==
+X-Gm-Message-State: AOJu0Yy4pVM3QdJ5TwNe5wUxRZ2V2zhXszqd2aUAefNBozbKFphCMFbd
+	U8bfbKZJ6YDfxRVZd6mJljwowd6fdacJvdz30M7bzqzeWFclXvXI92LinG8vRTY=
+X-Gm-Gg: ASbGncvE7k91OCGF5cJeCr0C7zODyWfS1fI2Prm9KlkF964QFP378b4o7nr6BCu4qFE
+	osK2qJdt3VMBBZXBIQARpZxLaU4kTsJ6M3UHCFEUQH4/6DonplQVDYbSPEp701RFwQtNXYpO6O8
+	pb7vX1YLGRmUTZ7/LcRddKK7pMIi5t7FbiUSYpy3HeiIXD8WDMTsiGO6B3ltXR7SIeGZZw+nkQk
+	1sWAEJLYHx/4LSCEH0soRVooZCjpVcLwt5GQoJUeJQfeX/P
+X-Google-Smtp-Source: AGHT+IEv8ivtJY3iUUMo5RtX3bP8dICn8/vKWP9h360RglG/jvTj42VueZEHFWb4KLiJRdN3bkDv4w==
+X-Received: by 2002:a05:6000:2aa:b0:385:fa26:f0d9 with SMTP id ffacd0b85a97d-38a87086c15mr6336508f8f.0.1736421425044;
+        Thu, 09 Jan 2025 03:17:05 -0800 (PST)
+Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-436e2dc0bb7sm51383635e9.16.2025.01.09.03.17.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jan 2025 03:17:04 -0800 (PST)
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH 0/3] media: imx415: Improvements for framerate and link
+ frequency control
+Date: Thu, 09 Jan 2025 11:16:59 +0000
+Message-Id: <20250109-media-imx415-v1-0-366ba6a234ab@raspberrypi.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACuwf2cC/x2MQQqAIBAAvyJ7bkElE/pKdJBcaw9aKIQg/j3pO
+ AwzDQplpgKraJDp5cJ3GqAmAcfl0knIfjBoqY1U0mIkzw451lkZ1D4s1pFWw8BInkyB67/b9t4
+ /Kxesnl4AAAA=
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Michael Riesch <michael.riesch@wolfvision.net>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+X-Mailer: b4 0.14.1
 
->  So I guess my first question is, which locking rules do you want here for
->  pfn importers?
-> 
->  follow_pfn() is unwanted for private MMIO, so dma_resv_lock.
-> 
->    As Sima explained you either have follow_pfn() and mmu_notifier or you
->    have DMA addresses and dma_resv lock / dma_fence.
-> 
->    Just giving out PFNs without some lifetime associated with them is one of
->    the major problems we faced before and really not something you can do.
+The driver was using reverse engineered pixel rates, and had different
+values for different link frequencies.
+In common with the other Starvis sensors (eg imx290), this isn't
+actually the situation, and the pixel array runs off a different
+PLL to the MIPI block, and there is a FIFO between the two.
 
-I'm trying to make exporter give out PFN with lifetime control via
-move_notify() in this series. May not be conceptually correct but seems
-possible.
+It's not quite so simple as HMAX is said to be in units of INCK,
+not pixel clocks. Working through the various modes that appears that
+even that is slightly wrong as it is units of a scaled INCK of
+either 72MHz (for INCK = 24 or 72MHz) or 74.25MHz (for INCK = 27,
+37.125, or 74.25MHz).
 
-> 
-> 
->  If mmu notifiers is fine, then I think the current approach of follow_pfn
->  should be ok. But if you instead dma_resv_lock rules (or the cpu mmap
->  somehow is an issue itself), then I think the clean design is create a new
-> 
->  cpu mmap() is an issue, this series is aimed to eliminate userspace
->  mapping for private MMIO resources.
-> 
->    Why?
+Rework the configuration so that the pixel rate is fixed, with the
+different link frequencies adjusting the minimum hmax value so that
+the FIFO doesn't overflow.
 
-OK, I can start from here.
+Switching between 2 and 4 data lanes also only changes the MIPI data
+rate, so also can be handled by altering the minimum HMAX.
 
-It is about the Secure guest, or CoCo VM. The memory and MMIOs assigned
-to this kind of guest is unaccessable to host itself, by leveraging HW
-encryption & access control technology (e.g. Intel TDX, AMD SEV-SNP ...).
-This is to protect the tenant data being stolen by CSP itself.
+Once you've got HMAX / V4L2_CID_HBLANK represented sensibly, then
+frame rate control through V4L2_CID_HBLANK and V4L2_CID_VBLANK is
+trivial, so add in frame rate control too.
+Exposure is set in lines (as usual), so amending VBLANK changes the
+range for the exposure control.
 
-The impact is when host accesses the encrypted region, bad things
-happen to system, e.g. memory corruption, MCE. Kernel is trying to
-mitigate most of the impact by alloc and assign user unmappable memory
-resources (private memory) to guest, which prevents userspace
-accidents. guest_memfd is the private memory provider that only allows
-for KVM to position the page/pfn by fd + offset and create secondary
-page table (EPT, NPT...), no host mapping, no VMA, no mmu_notifier. But
-the lifecycle of the private memory is still controlled by guest_memfd.
-When fallocate(fd, PUNCH_HOLE), the memory resource is revoked and KVM
-is notified to unmap corresponding EPT.
+This has been tested on a Pi5 with Waveshare "IMX415-98 IR-CUT Camera"
+module (SKU 28524). That uses a 24MHz clock, so only the 360MHz and
+720MHz link frequencies have been tested (other frequencies require
+a 27, 37.125, or 74.25MHz clock input.
 
-The further thought is guest_memfd is also suitable for normal guest.
-It makes no sense VMM must build host mapping table before guest access.
+It'd be nice to add support for 12bit readout and windowed mode readout,
+but those are a job for another day.
 
-Now I'm trying to seek a similar way for private MMIO. A MMIO resource
-provider that is exported as an fd. It controls the lifecycle of the
-MMIO resource and notify KVM when revoked. dma-buf seems to be a good
-provider which have done most of the work, only need to extend the
-memory resource seeking by fd + offset.
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+---
+Dave Stevenson (3):
+      media: i2c: imx415: Add read/write control of VBLANK
+      media: i2c: imx415: Make HBLANK controllable and in consistent units
+      media: i2c: imx415: Link frequencies are not exclusive to num lanes
 
-> 
->  separate access mechanism just for that. It would be the 5th or so (kernel
->  vmap, userspace mmap, dma_buf_attach and driver private stuff like
->  virtio_dma_buf.c where you access your buffer with a uuid), so really not
->  a big deal.
-> 
->  OK, will think more about that.
-> 
->    Please note that we have follow_pfn() + mmu_notifier working for KVM/XEN
+ drivers/media/i2c/imx415.c | 181 +++++++++++++++++++++++----------------------
+ 1 file changed, 92 insertions(+), 89 deletions(-)
+---
+base-commit: 40ed9e9b2808beeb835bd0ed971fb364c285d39c
+change-id: 20250107-media-imx415-2df67ae21107
 
-Folow_pfn & mmu_notifier won't work here, cause no VMA, no host mapping
-table.
+Best regards,
+-- 
+Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Thanks,
-Yilun
->    with MMIO mappings and P2P. And that required exactly zero DMA-buf changes
->    :)
-> 
->    I don't fully understand your use case, but I think it's quite likely that
->    we already have that working.
-> 
->    Regards,
->    Christian.
 
