@@ -1,294 +1,174 @@
-Return-Path: <linux-media+bounces-24533-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24534-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC99CA0786A
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 15:02:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CB3A07897
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 15:07:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85EF01889459
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 14:02:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 074E33A44DD
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 14:07:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1F9F218AC3;
-	Thu,  9 Jan 2025 14:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3766721A437;
+	Thu,  9 Jan 2025 14:07:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="s/j5gsfL"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="pRSqPvf0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2080.outbound.protection.outlook.com [40.107.237.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E3E8462;
-	Thu,  9 Jan 2025 14:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736431330; cv=fail; b=BP98NyTPqUY/HSYP2Kf3qZ33zd6sLIcwZH9j11Uh3OMb1SbsdYdDbegp4FfgZKdueqmFnJFXyWQH4SSNGzURixTvabO91otZJbRKjBT1oICjRnELY0ti+mGIZIzdlxZRiCJ7s+CIku3uJtNdFCKRoDuztqd+Lxnp15TdJQuMc4c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736431330; c=relaxed/simple;
-	bh=q9O+F2hSPOMAVmMipN3HTPcNA2l9Xs7YVjbOBEsMrc8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=R5PW4DKyEyC7cEMHwbMI4yyTZFSkeD71bAiz2rPs2+XZEwPTp8UclfU5RaEwWGTX6B14IJz9dVfZfQRS6xVALuAfKNJE1PnYYPutzC4jAsDP9GX3rDKY22njlxlQcFg83FvybavQx3KGWsc8g90en+GiCRyxpF9ylTLw44D7LqU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=s/j5gsfL; arc=fail smtp.client-ip=40.107.237.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CnsQocUuNR9t29WP9ngsDzVEo1NLrJYzsQwUp7IkgiCKHWvN6GghrOH1z7zvlDxiT22aYnM0QDYrbR8aC8BKOXTd7oQ7qXavp0rrKMcyeNKUnVbxyh9rGkZRPfNhBuHLpNZ7ixdxiOtf5A+R6s6bBMF07Wb+PoO7tYNdXkHKzgW7RIuYmB7jHK5/i5Y10aais2BfjFS6bIhpaGBDNtReexPkiTc97OJ3RN7swk7igAUmo2h4u8kmChHqm4Uyp9aMfumrjAws9wjFL/tFPR04LVwpGA87SNoA9H2ojhnGo2dnMx4Z4WGxxCqBZa9LzwBDA3yl76hDjc2VFWmd+r7nnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IKg1a7lJhVVLRXTkR+NNWnM+hjksSljw2HtNVuowqQc=;
- b=THjMMSxDkTd7koJ9kseZPiZg03vY4gI650cOC3ZWjVZt+ywsmvLS4XdRYWddeaKtdWk61EBN6pIIdXT1qnmCnEi2JcQpnHkQSogAZwd2i5crCVJzFfsjGjV3YRWe7vfbH4j+06ma+Y4po4QSkoTYm4lS8TevVo7OKPINQpofoE2FpLFPEFgzk9Pi4lTZ/zRCLFiDq+V/el1gAZzlDQ2sliVR3hWDF0fd3vDQ20zS99r4U+DcAoQbz7wf7RoLXjSHy/WVcm5jamcnTgXOJkFcFYSNSCn/fV8kl/3Y5e6/mI8k1eratn2pSqnRt5QZBdexOqpDqhMC8kLSqI6QIYHB0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IKg1a7lJhVVLRXTkR+NNWnM+hjksSljw2HtNVuowqQc=;
- b=s/j5gsfLi3dG5F8tw7/HT4yutD8tj3KdqQFrjZAN1DWOJd7ypoIzZgMZFFRB/W0jdI6L4x1PGgwN9EybLGLaAhU8QixX9cpV+d+6f3zQRi4w7b4jJPjwTUchzRVXSGN3PfYU8f+p52kU6BPrtAaWBHLx/0u9aGtnZwTfGjP94xs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BL3PR12MB6571.namprd12.prod.outlook.com (2603:10b6:208:38e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.13; Thu, 9 Jan
- 2025 14:02:04 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8335.010; Thu, 9 Jan 2025
- 14:02:03 +0000
-Message-ID: <a52651d1-16c3-4038-bea8-c6ec1812eb3d@amd.com>
-Date: Thu, 9 Jan 2025 15:01:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/sched: Document run_job() refcount hazard
-To: Philipp Stanner <phasta@kernel.org>, Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250109133710.39404-2-phasta@kernel.org>
- <20250109133710.39404-4-phasta@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250109133710.39404-4-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0190.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ab::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1934C217658
+	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 14:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736431622; cv=none; b=MfbpheCahUjBFptDfxNV28tXE/HDUZd/e6vwpXfvk5vt7eSPLZQknpFKKTXQAzqPOzmJHhEc8e8/FQ32UF0ZYvZR5/gvPdcYXfrLpM1wHuRksRKuFUT679JZYloaGR2bbryZrB6sX2CzRnOvOxASe0t/IG+4JOjYA7XDHwNbZho=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736431622; c=relaxed/simple;
+	bh=Ym1yDocfM13GAXNnJN+26yjZUBZZ3aFj68yIdbE9lfY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WfA3IHVpZX62CyJtwN9Y4h+DsXTqg313FRlZZYd5z4cSvaS1QKBf/YStYM4Y0ywCBJjWW7hlGbWxYgbyAp5hbudMG+djYiJttvt4G4zFDGG3sjryXpqSl/OtNCforNfDbcEoG/66CqtZx06KRlgDDu6UrSBapfDmdHwQ2HGNDs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=pRSqPvf0; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7b700c13edaso49213585a.3
+        for <linux-media@vger.kernel.org>; Thu, 09 Jan 2025 06:07:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1736431620; x=1737036420; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bywW9vMeiiYOYy2QNzu7ZKqXWuFCGn5oBIdbY0P2hyg=;
+        b=pRSqPvf0JjzAAh42MC3kLlu9ZH8Yx9NH5Iqvr5cdeKRBKwK+6W/r3T0K7WTKUUTRbD
+         vNgCDwhcMQNSGN/SiIb+OhMsRvmAXr1p1o/+45OEdnmVvNuj44BNgkP+y/motY7lMUay
+         x71WWsExf9DMToEjzy6UApIVeBSQySwc32AUEjF5VJ+PVeLhDLaUcK7GW1UetNN0I71B
+         omEtUTugBw1G1PayiX28W95IDPo5HraRLByFyyH5Km5ZruZq2PiywaznhaksvYl1QJ8+
+         yIQbQCE5e+6KOys+daNY+HlbgjYUfln9zCw8ZIoS6NcB7RLll0TyNQSNfjYPHxMHneqx
+         SXwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736431620; x=1737036420;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bywW9vMeiiYOYy2QNzu7ZKqXWuFCGn5oBIdbY0P2hyg=;
+        b=w20ayx1UadrnMc/VlRLiT991K2U+7ZfA+BUPfC28SA8Y4NDH+iK4oX9Oz0mPxgOzyd
+         QCpvTU+rKC5STnvnR1ASSshvpAZzzMC2T6g1SvVzikBw5CzXGuRj85GPjdNdbDNcp8xy
+         /fy1ubxQte14y59NGIgvvWw4LqePiPrzMwHUrc9/azLcmRgb0Ez3z7nE252o/OUvfLjR
+         Nbld0JsXQVHP2yQtgb+uEC/qjm15NSdNmLplGHIpujjyieW/yiRDxJYvO3fn5Si5W3TA
+         /Gl6anLdK+/2MRa6UPfzs11gOPetgHFQWnX6WJc+qvw7ZUqt7TFi0iEzuM4bGU8MkPxX
+         1Xew==
+X-Forwarded-Encrypted: i=1; AJvYcCVQlZ+CXbgSbLJBtaxmr7sidJxwCtwXangy/8tGuJx3uxXOk0NIfwT2utsTY3GE4dmR+SE0sIffudpbvQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJN/AU5XzwyU/jSYWYV+wj/mY8bAMxbZ7ILyAF2F0XUujFhuj7
+	Rr+lPFacukhmftnS234HgnZkMAp094hhQMWCbW8tgJ2PElffnMlXpS3+Y1nkDm4=
+X-Gm-Gg: ASbGncsviDW9y4I0OaADegtNi4dxzqx2PI7SUfIqHvD65/kSsWEOGvDIyD/EMplGc3e
+	ZrRJGcWvhEdhWBKuFBm/jOntoHNFJWb6FqoGPLWC+/0ROWXzN66SLftOi1D9OiFbS6zRj9eSzin
+	AQME8zMG14bvaYfMSom+bYmxJT7hlK5es5A0NmregVpZtp3krt/aeR4frkhnVPFdZ6PnQn74KI6
+	X0UHtSekCRFWpMtvZGpsHXkQjgeXnceLNoBo32pG9m35rnOFBM077obww==
+X-Google-Smtp-Source: AGHT+IEscSxY4Do3TXZ6G7JOMUAekHEsOUeBZGyyHfF7ljBFczTdIIJ78AZHYR6zSk6tQnyqAKAV5A==
+X-Received: by 2002:a05:620a:414a:b0:7b6:dddb:b88 with SMTP id af79cd13be357-7bcd976277dmr964450385a.38.1736431620006;
+        Thu, 09 Jan 2025 06:07:00 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:862e::7a9])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7bce327bb28sm69478785a.64.2025.01.09.06.06.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jan 2025 06:06:59 -0800 (PST)
+Message-ID: <c67ebf846d19086586b00d1d79252c8296a704b5.camel@ndufresne.ca>
+Subject: Re: [V1,00/12] Enable jpeg enc & dec multi-hardwares for MT8196
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: "kyrie.wu" <kyrie.wu@mediatek.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>,  Mauro Carvalho Chehab	 <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Matthias Brugger	
+ <matthias.bgg@gmail.com>, Tzung-Bi Shih <tzungbi@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,  Bin Liu <bin.liu@mediatek.com>,
+ kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Date: Thu, 09 Jan 2025 09:06:58 -0500
+In-Reply-To: <20250109133513.20151-1-kyrie.wu@mediatek.com>
+References: <20250109133513.20151-1-kyrie.wu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL3PR12MB6571:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9c0da7f4-7290-429b-f7ad-08dd30b631fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UmJDMFRWT3M2bFd0SkdWamh5dEl4U1c0dmRXWUtZU2JnU2crQ25jbzU1YnMx?=
- =?utf-8?B?VmZSQncyQzUrUWZsQjJrUFN0SGw2ZU9xMEQ5MkRpa0dlYndvTTI0SDdTdWRW?=
- =?utf-8?B?WEVudVNLN3hOa3AydlcvaVc4ZUJiYU9sOGRzQ2VUdTNYRDhIYUh0Z2c4c2sv?=
- =?utf-8?B?ejAxUloyWjNoT2xkODRqeHpuK0ozemJSUzM1YndvVHdxdXM1ZmVqa3UwZ1Ev?=
- =?utf-8?B?WU5LM1NaS3Q0K253enlmWHZBV0xDOTM1NWUyTE1JQklTdUwweS9uZldrVjFi?=
- =?utf-8?B?R05naFZTTXhoMERSekhvVFFCMjcxVi9idTR4eHZpYVUvU0YxNDdUR24yU212?=
- =?utf-8?B?cStVZGEvWVFoTG9lNFhlYkpaT01nd3FDc2ZEQjd1QzJDd1NNaU5va0lYeDli?=
- =?utf-8?B?NjFIanEwb3dFU2toRkFCQTlQb2t3bmhJcDExdmZZUmRwUGNHRVNqdHZHNFNz?=
- =?utf-8?B?ckwrNEtXMjBXODV2ajFtWnpxbHkxd0EzS3lJeHpsYmdPd0VZTVB0Q0puaWx3?=
- =?utf-8?B?Y0FObWFib1NrNGhYbWJqaDZJTjE5dzVBSzZUMy83VEc2a1d1WTBoS2M5d0Zk?=
- =?utf-8?B?ZUwwWjRESXpuQmNBem10bklqTThLU05rU2sxZ0dJZWltd3BWaTNIbi92OXQv?=
- =?utf-8?B?cWNEejdwMzRDbDZGaEEyemRHNHQzVWFsSzQ0V2xSbkNVL21vOWF5a0k1QmRp?=
- =?utf-8?B?Z1E0M2dsU2VGTndTNjZIcEtXMGVEM2ZXL1lIaXdpelRVOVJ0OTdJODV3dGxv?=
- =?utf-8?B?ZDdiRUh6ZWJiUGk0VHYrakpDTjdOV2xQVVBad0JseGh5NThlcmhaWWdxSG05?=
- =?utf-8?B?OWlNUGNIbEtLTjJIdTZsMERRdWdSSmhTaExUWldDbWVjOERES1ZvY3IrTmgr?=
- =?utf-8?B?UDZUcHBFemlETXpSem5DRnNja2RaYno5ZHBoZFRZQmdQbnVjZkN4R3JrVVNP?=
- =?utf-8?B?N2xqYnRmNitsMkpRUEpWajVFS0tjMnhNTmtyY2R2MGhyWWtwcG1JTmJmb3Ni?=
- =?utf-8?B?cWtTdDZFMDJKYUNOYnBCUmtWR1FFai9FR2gyTm14NUtEK21vVnBleDRIY2pt?=
- =?utf-8?B?dlkrckxWWVRWMkNZS1U5R3JFL2Z4OG5JaUl2Yk1LWFI3LzZhLzBlNGxLeU1a?=
- =?utf-8?B?VmNWS2lGSU9xWkd6MDhNTGZIN2d4ODZ5Tk1pUEViTFNuYnFiTnYzK3k5RnlK?=
- =?utf-8?B?NUROU1o2OEZ2K2FWQXRhYm5oYVl0cURTbWZlVzJFbTlaT2lMaWRWQU1LS0gv?=
- =?utf-8?B?b1lFQkdQaTQ1dW5sY3h2STBJZkQrR0tSc3krWjdqTFVrQVJlclZEUVZVcTFH?=
- =?utf-8?B?U0VWU3JoS1hSRFFaMDMvd3pJV0NYeFE4OHNyckNvK2tZQ3dhd3lWeWdHWW02?=
- =?utf-8?B?NTQ5SG5VSy9ZMTFLeVNsakZvdnF5SmdpRnBhZW0rNDM1aUtZSm82djdER1Rl?=
- =?utf-8?B?UlI1dTJLWHFxUUNMSndZMi9LYSt6Y2FiRjc5MG11NUExY3grRWxaUFQ2cnRn?=
- =?utf-8?B?cHdGbjNJaGdpOGZKcXhVblAyRHAzSFFDQVNBUHd5OXRsbThjQld0ZnRRL1hD?=
- =?utf-8?B?OTNCOVhHaFIvdldKK0ZzWGNtWWNKQXkvN1VmUmozbnJMeFRiNGVOK3czSUlS?=
- =?utf-8?B?dXFyRSs3RkYvbGdlVzhoT1NCdy9xVFZ6bzdCY1ZCWlJlV0x0T3dmLzgwc1lW?=
- =?utf-8?B?Q3ZmV0xONDlINmtuVndiOUxvejdrd1hqZ0NJOEU4N0l6VndRZnlwNExqZHlr?=
- =?utf-8?B?TzJzcVd5blNubE4wTklPWDRMTFlNR2RZczJHK1VjalZJdmd5OGtLZC9xblgx?=
- =?utf-8?B?YUVkdnZRamVuRHh0cit2TE9HdXFub29QQ3dxT2ZyY3ByV2lkeFpxdklQc0Nt?=
- =?utf-8?B?OFhMRU9MaStoc1ludTUxODB0RnpyUk9rS282aHBITVQ2QUNZSVQrNHkydWdw?=
- =?utf-8?Q?yoAaunqCats=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dGprTENRZjI3cUNTSlRpMDU0enVETWpCbk1iN0xlUk15cXNvdGV1VEhrSGZW?=
- =?utf-8?B?RS93R2E5Wng1MkxVN0Q0RGNUYTFSZWsrbzNnV21DdW12cEwxdVVteVNpeUUx?=
- =?utf-8?B?MjFzOE05TUpiRzdBSGxvSVpmTXlMR0tYQWg4TEcrMGl1UmI2THUrb3hxQy90?=
- =?utf-8?B?L0dUMFh2QmlINXREMzROQ2E3WXlKZmpEeU5yNlpZcklsa3UydlAxT2grbnEr?=
- =?utf-8?B?S0pxZnZJVkZkUWdFSHI1NWlwajhzdzdnMWFBUkpMSTJ3djZKNUR1OVJNYjRM?=
- =?utf-8?B?T0hzRXFYTVMySk0xdi91WldVYXgyUnFOc1VlSVFqSUZNOUNMbkJ1d2crZzkz?=
- =?utf-8?B?L3Jxa2Roalc2V3F0REJPVms4QWlCSWJ4cGdzRmhVUnN4Y0ZJUlJGc3hBd3U1?=
- =?utf-8?B?V2hjUVFmaU9MRUJTc1ZJbzdSYWJZeitBWE43NU83bDdWaDNkU0pXYnZLNm4x?=
- =?utf-8?B?WEVZZVNsSnI1QXRXcVBabzRkZ3ZrMy9yQm9xVVY1UHBuSTRZQXZHTmoyVkwx?=
- =?utf-8?B?R2cvb3FUSVkvc3dTL0V0c1ZDWkZYb1FST09LOTArWi8zelYyNHhkejJxcGY3?=
- =?utf-8?B?azEzL2tYM1l4ZlVaNVJma0c4UzYrYm1pTXhjandPNWcvOThMMzFNS2tvZTNE?=
- =?utf-8?B?cTF6cTl2bkFtNS9DWG04cUpLOUt3a0pMeXdhcS96MDlNQnZRWGJ3SHFCbFg3?=
- =?utf-8?B?aDdKZEtKOWxXam5XTStXRlR6Z1ZzdmxYS2FlRmFVRDVIOXAwNjlMNGZoN2pL?=
- =?utf-8?B?WnNPaHg0bFVzZUVhWktrUXo4WW9QMU1hK0xUcjhJNlhYVzhiSThxTitJL0lS?=
- =?utf-8?B?Y21mbHRCeUhtYk8rZW4vWTNxdkJjeFZ1NCszQS9WSVhnOWRlT0JrMVB0cWVL?=
- =?utf-8?B?ZWpxM3c3MjJMek9yV1A0QnQwNlNscm1ia0htelErVWxTWTdmMktBKzNhRkY3?=
- =?utf-8?B?SFQyYSsvSE5UdERZUDMvdmlGR0p5anErWERvZ3VXOWYrWnF2TEtXczd4MzV6?=
- =?utf-8?B?ajhSRzdTTVU0V0JSQmJNb1JkL0Znb1hqOFdDQXZvQ0l2dzFDTVQ0bDFvWVhX?=
- =?utf-8?B?U1o5djZJODM1K3FpaUdudkdneXREL1Fnd1N5TzFzcmpuaTd1V1B4N21DSjRi?=
- =?utf-8?B?S0pHNzhtMGJ5OGZkbWlCS0U0T2xCRlQyMDVwb1E4V251RlEzSHI4R2FNUVZT?=
- =?utf-8?B?aVRmbDhRbVRSZStpUjRiM1BJdFYydTllV2FlREhEQUR4TWozeHBEMmgvT1hB?=
- =?utf-8?B?c0FhZXU4UTFhK2krdEgvYnh6SEJ6c1lTa2N1VjdDclB2K084eTVVVVBsYVNs?=
- =?utf-8?B?UkdINUdQemYvTEFBL3lNb1ZkTWdIUlZvMWJ1aTMrY0FVelhYUWk3ZDU3TmVl?=
- =?utf-8?B?eEg4V2Rud21QNWRVK1ZNMXJicklxRUZZMlJ2Z2oyWmE4TFNiS29IK2dHSlFv?=
- =?utf-8?B?U2lLQjZrdlhLYlB5c3JFZ1Z5MTFCa0xVOTRWNTJ4NlhRZ1JKbDF5VkROUXhz?=
- =?utf-8?B?MmxQQ1FmZVBDTUxhdTJVZi8yM0s2TVY5c3pGRFF4MUJ5eXVibDc1S2RxaGlU?=
- =?utf-8?B?MzlraHZSc1ZXa21KdTE3TWUyVlZUOXhoK1pmWDQ3Qm1hYmpmZm9lR0JKMmxZ?=
- =?utf-8?B?bDBhbjVxWUI5YXpqOUNoeWxqcnFCY29FUTBqK0U3eFN0c3hEait1eW5PN3NQ?=
- =?utf-8?B?enkvRThESDQ4LzZ1MS90S2FndzJJeHUzb1lHRlZJblZJYWxFRTYza1NnbFFy?=
- =?utf-8?B?SFpFNkZ1RUp2emVFRlZpdENoTk1sbW5KVGhYZHVWZWhuQkRHZnZWQWhLdmxt?=
- =?utf-8?B?SVV3bXdIcExlVWVOYUdOSG5xSzl3ck9wNy9tV2RWdGkzN3o0MDJtNXVSK1hz?=
- =?utf-8?B?UzRsTGxCL0tMdzNtTDB5QllPUDZwU0dTV1JhdkpYZnoxUEhBd0plTm1jK0hm?=
- =?utf-8?B?RVU5ek1tRmI1d2VvU1FkVU5HU0NnRHQ5bHJsWmN1cjFmKzFWaEhoZEFvN0Yv?=
- =?utf-8?B?aDdLQkg5Y2lISnFlYk9OS1BaVlNhNHpBeGFoZHp6UnJLZDB6eFFwQzNkeFFx?=
- =?utf-8?B?Z0lkQXRHOVVZM0NHMFBzYlNlTldsQUJMMUpaYTd5eHlyNUFLVmlNcmZUWVpJ?=
- =?utf-8?Q?mmd+QW0yC+4xjc43xw4KXnxL2?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c0da7f4-7290-429b-f7ad-08dd30b631fb
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 14:02:03.8806
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WA9TmdmLrgK1o2LpY8LfxJp6ce1BaFNDVYB9Yh1NJ9wxp6MRpsQOAjsnqhfxahNC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6571
 
-Am 09.01.25 um 14:37 schrieb Philipp Stanner:
-> From: Philipp Stanner <pstanner@redhat.com>
->
-> drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
-> That fence is signalled by the driver once the hardware completed the
-> associated job. The scheduler does not increment the reference count on
-> that fence, but implicitly expects to inherit this fence from run_job().
->
-> This is relatively subtle and prone to misunderstandings.
->
-> This implies that, to keep a reference for itself, a driver needs to
-> call dma_fence_get() in addition to dma_fence_init() in that callback.
->
-> It's further complicated by the fact that the scheduler even decrements
-> the refcount in drm_sched_run_job_work() since it created a new
-> reference in drm_sched_fence_scheduled(). It does, however, still use
-> its pointer to the fence after calling dma_fence_put() - which is safe
-> because of the aforementioned new reference, but actually still violates
-> the refcounting rules.
->
-> Improve the explanatory comment for that decrement.
->
-> Move the call to dma_fence_put() to the position behind the last usage
-> of the fence.
->
-> Document the necessity to increment the reference count in
-> drm_sched_backend_ops.run_job().
->
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+
+Hi,
+
+Le jeudi 09 janvier 2025 =C3=A0 21:35 +0800, kyrie.wu a =C3=A9crit=C2=A0:
+> This series adds support for mt8196 multi-hardwares jpeg enc & dec,
+> by first adding mt8196 jpegdec and jpegenc compatible to install
+> kernel driver. Add smmu setting to support smmu and iommu at the
+> same time.
+> Secondly refactor buffer and clock setting to support multi-hw jpeg
+> working.
+> Lastly, fix some bugs, including resolution change handleing, stop
+> streaming sw flow and others.
+>=20
+> This series has been tested with MT8196 tast test.
+> Encoding and decoding worked for this chip.
+>=20
+> Patches 1-3 Adds jpeg encoder and decoder compatible.
+> Patches 4 add jpeg smmu sid setting.
+> Patches 5 fix jpeg hw count setting to support different chips.
+> Patches 6 refactor jpeg buffer payload setting to handle buffer
+> size bug while resolution changed.
+> Patches 7 reconstruct jpeg dst buffer layout.
+> Patches 8 fix multi-core stop streaming flow
+> Patches 9 refactor multi-core clk suspend/resume setting
+> Patches 10 fix decoding buffer number setting timing issue
+> Patches 11 refactor decoding resolution change operation
+> Patches 12 fix remove buffer operation
+>=20
 > ---
->   drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
->   include/drm/gpu_scheduler.h            | 19 +++++++++++++++----
->   2 files changed, 22 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 57da84908752..5f46c01eb01e 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1218,15 +1218,19 @@ static void drm_sched_run_job_work(struct work_struct *w)
->   	drm_sched_fence_scheduled(s_fence, fence);
->   
->   	if (!IS_ERR_OR_NULL(fence)) {
-> -		/* Drop for original kref_init of the fence */
-> -		dma_fence_put(fence);
-> -
->   		r = dma_fence_add_callback(fence, &sched_job->cb,
->   					   drm_sched_job_done_cb);
->   		if (r == -ENOENT)
->   			drm_sched_job_done(sched_job, fence->error);
->   		else if (r)
->   			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
-> +
-> +		/*
-> +		 * s_fence took a new reference to fence in the call to
-> +		 * drm_sched_fence_scheduled() above. The reference passed by
-> +		 * run_job() above is now not needed any longer. Drop it.
-> +		 */
-> +		dma_fence_put(fence);
->   	} else {
->   		drm_sched_job_done(sched_job, IS_ERR(fence) ?
->   				   PTR_ERR(fence) : 0);
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 95e17504e46a..d5cd2a78f27c 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -420,10 +420,21 @@ struct drm_sched_backend_ops {
->   					 struct drm_sched_entity *s_entity);
->   
->   	/**
-> -         * @run_job: Called to execute the job once all of the dependencies
-> -         * have been resolved.  This may be called multiple times, if
-> -	 * timedout_job() has happened and drm_sched_job_recovery()
-> -	 * decides to try it again.
-> +	 * @run_job: Called to execute the job once all of the dependencies
-> +	 * have been resolved. This may be called multiple times, if
-> +	 * timedout_job() has happened and drm_sched_job_recovery() decides to
-> +	 * try it again.
+> This series patches dependent on:
+> [1]
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20240808092555.=
+12999-1-jianhua.lin@mediatek.com/
+>=20
+> kyrie.wu (11):
 
-I just came to realize that this hack with calling run_job multiple 
-times won't work any more with this patch here.
+would you mind fixing the --author in your configuration, write your name
+instead of your user name. UT8 is allowed, many people will use a ASCI spel=
+ling
+(some approximation) and then add their real name in parenthesis.
 
-The background is that you can't allocate memory for a newly returned 
-fence and as far as I know no driver pre allocates multiple HW fences 
-for a job.
+regards,
+Nicolas
 
-So at least amdgpu used to re-use the same HW fence as return over and 
-over again, just re-initialized the reference count. I removed that hack 
-from amdgpu, but just FYI it could be that other driver did the same.
-
-Apart from that concern I think that this patch is really the right 
-thing and that driver hacks relying on the order of dropping references 
-are fundamentally broken approaches.
-
-So feel free to add Reviewed-by: Christian König <christian.koenig@amd.com>.
-
-Regards,
-Christian.
-
-> +	 *
-> +	 * @sched_job: the job to run
-> +	 *
-> +	 * Returns: dma_fence the driver must signal once the hardware has
-> +	 *	completed the job ("hardware fence").
-> +	 *
-> +	 * Note that the scheduler expects to 'inherit' its own reference to
-> +	 * this fence from the callback. It does not invoke an extra
-> +	 * dma_fence_get() on it. Consequently, this callback must take a
-> +	 * reference for the scheduler, and additional ones for the driver's
-> +	 * respective needs.
->   	 */
->   	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
->   
+>   dt-bindings: mediatek: Add mediatek, mt8196-jpgdec compatible
+>   dt-bindings: mediatek: Add mediatek, mt8196-jpgenc compatible
+>   media: mediatek: jpeg: add jpeg compatible
+>   media: mediatek: jpeg: add jpeg smmu sid setting
+>   media: mediatek: jpeg: fix jpeg hw count setting
+>   media: mediatek: jpeg: refactor jpeg buffer payload setting
+>   media: mediatek: jpeg: refactor jpeg dst buffer layout
+>   media: mediatek: jpeg: fix stop streaming flow for multi-core
+>   media: mediatek: jpeg: refactor multi-core clk suspend and resume
+>     setting
+>   media: mediatek: jpeg: fix decoding buffer number setting timing issue
+>   media: mediatek: jpeg: refactor decoding resolution change operation
+>   media: mediatek: jpeg: fix remove buffer operation for multi-core
+>=20
+>  ....yaml =3D> mediatek,multi-core-jpegdec.yaml} |  10 +-
+>  ....yaml =3D> mediatek,multi-core-jpegenc.yaml} |  10 +-
+>  .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 126 ++++++++++++------
+>  .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  17 ++-
+>  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 116 +++++++++++++++-
+>  .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   4 +
+>  .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 113 +++++++++++++++-
+>  .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  |   4 +
+>  8 files changed, 343 insertions(+), 57 deletions(-)
+>  rename Documentation/devicetree/bindings/media/{mediatek,mt8195-jpegdec.=
+yaml =3D> mediatek,multi-core-jpegdec.yaml} (95%)
+>  rename Documentation/devicetree/bindings/media/{mediatek,mt8195-jpegenc.=
+yaml =3D> mediatek,multi-core-jpegenc.yaml} (94%)
+>=20
 
 
