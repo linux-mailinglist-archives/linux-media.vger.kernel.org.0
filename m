@@ -1,728 +1,1353 @@
-Return-Path: <linux-media+bounces-24480-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24482-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB51A06EE8
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 08:18:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF00A06F3F
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 08:43:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7FDE51888F0D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 07:18:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE2743A1465
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 07:43:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FCED20102E;
-	Thu,  9 Jan 2025 07:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9731F214808;
+	Thu,  9 Jan 2025 07:43:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FF+w/aXv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gv9n0Rj2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8121A9B59
-	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 07:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0581F63CC
+	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 07:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736407084; cv=none; b=uiCkkw7ze+HdW07TVSAraUMSqDg0kRrnIsxEi1mDbi6uFfeYe7I5Zc8lT+4ntgbHKZUS4Z/l3rytad1oNo03lcaMyUIusoiO2Ew/vSuumejUktZgnNYVWjIR64l7qHwCm2+dl7iCaYNcnO/3oX3IUqCXSEuzJiFRN5mv4i2KqxE=
+	t=1736408589; cv=none; b=PLZoAoZYVuILSh+7RAaJwzcMgGUmfA6TVDkV3cPhYHTRFmx2rnSO8Weo9t4q9HXghi0wFnzN1/hh1mn+BWAn74uDy2IXoed11+WkrOmWBBN+RojXI9UvTfp3q1QHOYeimjVsg+3j/1rwXUTjVfaewhfQPI98kdoz4/wpq3h7fs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736407084; c=relaxed/simple;
-	bh=gd50QG2QwiyTh8Rgttkn7OqhocBTpXY+wNNKAPOpIAg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=B3hre8NV+y2sB6XWB8PFi/0ta0uZ5Y1/Ax6kB5Z6AUpNmB+Q/st+h86hukEMLbvi73D+1rHxNL/LAOs+vimcFtv4aDy9RM9iWj6YF66lWXlR3TB87vU+5fvJXKusd59WhZtObiuXZWbHDS8SK9gGO70s8NgBcpOlHZ5VpZYzTSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FF+w/aXv; arc=none smtp.client-ip=209.85.167.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3eb790888c6so160416b6e.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Jan 2025 23:18:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736407080; x=1737011880; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+y8qNwX81OYd7etLwE+QJtJ/fBsu6K51dBTfTWNy5S8=;
-        b=FF+w/aXvT9r8M0q2s0veiyrXS5goN4w079KNZIHVtxd1VgYyAuqaqTSOP4XCxRvbHm
-         /O469Yr+00KEJ3d0bxOqa7Qy0/nt2R4bJ6iskNGQ0VRif2aboKz+46Zb3Xyw8aINdXbt
-         GpgpQCFXHM3EH1vpkeB/HlnKPa37OzZDe/8gDqRtiUloIhwr8EqacHsKGCqZNgzTH5hC
-         0D9CYaZR+/0U2ckZSJ3MQhErpVvlsztyLbisLKhwGY7Scqc7HOEoMMmWFSR5wUfd/LbV
-         Ls+5q5gLuADStr6zpjZ+VhvrF8hn3bg/+DGaWTDSS4WY70CNf+dWHlzl+eAsRLO0lsbz
-         VtXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736407080; x=1737011880;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+y8qNwX81OYd7etLwE+QJtJ/fBsu6K51dBTfTWNy5S8=;
-        b=e/N5JdzuK/LsT6nJeVcXk7V9gbqCWVdlRUvcAHK7TH4y5QpX99qV96lIntK9tDaiB4
-         90iUxQJAxyrIP3EKkDfL+/NjnvbPDcSb7x2ZhpES05bbm7RNo91W+fucG16HfwQXSuMN
-         V8TdoCfRGdj4pPqv9IO4AAIeP5k+fGflOaK54v2MKbxVKA1rlVcxPHwlNlLvvTLyuaB7
-         biPHDCABAMWRqVh5960acWKW0Pvog3JYmO6NWypEhXO9h/4lK3lX1Jrynh5jwHBuXhxh
-         Pr65a2bK9hj7syXPzimPiONGHBCJfzcOQBygFjkrZKMOTtuzy8tEIYMp0V0NTQsidTYR
-         td0g==
-X-Forwarded-Encrypted: i=1; AJvYcCW/VPgMhcOCiP9e9oSmpkA9YAlAi0FYfsm9ePLiau0ILQdZCvEXaKPKkQuRU0bFMmP0J+Xi2751tXBF8A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUU1oU3I+Dtm6sCdGLWIbEur/6JQvrSOkpIRORkXd12KVE2+xz
-	gTT7wrhQ/Lq2dU/r168XLx4Xy82JgpW69e7NSXcnHgcSW54Ap87oi4iku1y15BnZlNiKUaSq1pG
-	RfWDkljpteKnKev3w2ELW5qhkAhsY+W7NdBhw9w==
-X-Gm-Gg: ASbGncsV9U+jag2WTwJdfLpmwSUDkZ6ztypJKlCnGEaeRbD9tiWlYEQvUGQ5mGtrZwH
-	wzhY4WKEkwyZLq7iP34cD2Ed795LLb9euzuP8K8A=
-X-Google-Smtp-Source: AGHT+IGo4/LGoqTFLDIrzNLBPqBxWYqNYR15v+6D81AlY0x1luBjtOpcmlfw4eWUCn1eR1I1rN7IHpKXCXR/Lkvqqwk=
-X-Received: by 2002:a05:6808:2f07:b0:3ea:3f06:4302 with SMTP id
- 5614622812f47-3ef2edd2d23mr3011425b6e.33.1736407080312; Wed, 08 Jan 2025
- 23:18:00 -0800 (PST)
+	s=arc-20240116; t=1736408589; c=relaxed/simple;
+	bh=8MxXz4wL/LLBiXjVTnRz9QWEmUUZ8Z0eSbu+g8jpu+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ADGmZYUZ7TGiS7IXWLPlmz2G3fgxjWp7HuLm41IEZuAQQ1zVkLFuTRvdlOHXrR1H7BxwEJoafbaM0Xyqj65ouFWEaRThLP5VcfKUxLsz783S2OhURf7gAf2thpkbnfVO8JcGaGj3PqVGOsO3RzOWncTOSxRhpbi5m3Fez1yQMDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gv9n0Rj2; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736408585; x=1767944585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8MxXz4wL/LLBiXjVTnRz9QWEmUUZ8Z0eSbu+g8jpu+k=;
+  b=Gv9n0Rj2zUoRIRH5fmSfxY95UZoVL+ug7JHBT6GqphGkRGDJTl5tGTax
+   fm0fpetfKwl7VDQt1DZurAf6Ro8UVKqlXGaSg2tG6+KOwg4UUIRknhI8D
+   w3axYvhFM37WKdbEQ/omuQo1JsdtGsXGZlAZ4YI/ctV8DXdcFOr/Ajptu
+   XAG10ELNTHfTHuJDus0kwI1FsKQgXzQrZb3ekhWIad1PmaBDlWXIOZzsd
+   NCGTkoVbDFkxBTq9vvgWmbmPA35mIxnc0V9wtUCxUefKq8DYG1upTwAPj
+   prl7UF3BaXEaRR/K1ssHORtwCtzDObz6GrjzjAcHtf+ABTb3rNBECsALi
+   g==;
+X-CSE-ConnectionGUID: iTzVIJSxSh2k8+k6dIutKA==
+X-CSE-MsgGUID: OYXJAKYyRsKg2AxiQs02Ew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="35880077"
+X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
+   d="scan'208";a="35880077"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 23:43:04 -0800
+X-CSE-ConnectionGUID: 1mCK+Zb2QPe2ux+AZP9GBw==
+X-CSE-MsgGUID: O07hLblvT8usMZ18wXidOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="108386905"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 23:42:57 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 165B21201CA;
+	Thu,  9 Jan 2025 09:42:54 +0200 (EET)
+Date: Thu, 9 Jan 2025 07:42:54 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>
+Subject: Re: [RFC v4 4/9] media: Documentation: Add subdev configuration
+ models, raw sensor model
+Message-ID: <Z399_ljDVgCpgL99@kekkonen.localdomain>
+References: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
+ <20241220132419.1027206-5-sakari.ailus@linux.intel.com>
+ <45d999a3-ff6d-44ec-aad1-17f43aeb6c1c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <20241217100809.3962439-2-jens.wiklander@linaro.org> <Z36tuDBafHA88yBv@phenom.ffwll.local>
-In-Reply-To: <Z36tuDBafHA88yBv@phenom.ffwll.local>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 9 Jan 2025 08:17:48 +0100
-X-Gm-Features: AbW1kvbW99sBj1Pg7ipbpFXTJ5VfQi6CYmNrAq1SxZ4kLgf90RjUn76pPiJLnrk
-Message-ID: <CAHUa44EjN6H-Nb7Jzfu3O16GXsMajua_n2MaABBPFZS7MGzfAg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] tee: add restricted memory allocation
-To: Jens Wiklander <jens.wiklander@linaro.org>, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
-	linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <45d999a3-ff6d-44ec-aad1-17f43aeb6c1c@ideasonboard.com>
 
-On Wed, Jan 8, 2025 at 5:54=E2=80=AFPM Simona Vetter <simona.vetter@ffwll.c=
-h> wrote:
->
-> On Tue, Dec 17, 2024 at 11:07:37AM +0100, Jens Wiklander wrote:
-> > Add restricted memory allocation to the TEE subsystem.
-> >
-> > Restricted memory refers to memory buffers behind a hardware enforced
-> > firewall. It is not accessible to the kernel during normal circumstance=
-s
-> > but rather only accessible to certain hardware IPs or CPUs executing in
-> > higher privileged mode than the kernel itself. This interface allows to
-> > allocate and manage such restricted memory buffers via interaction with
-> > a TEE implementation.
-> >
-> > A new ioctl TEE_IOC_RSTMEM_ALLOC is added to allocate these restricted
-> > memory buffers.
-> >
-> > The restricted memory is allocated for a specific use-case, like Secure
-> > Video Playback, Trusted UI, or Secure Video Recording where certain
-> > hardware devices can access the memory.
-> >
-> > More use-cases can be added in userspace ABI, but it's up to the backen=
-d
-> > drivers to provide the implementation.
-> >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+Moi,
+
+On Wed, Jan 08, 2025 at 02:01:42PM +0200, Tomi Valkeinen wrote:
+> Hi,
+>=20
+> On 20/12/2024 15:24, Sakari Ailus wrote:
+> > Sub-device configuration models define what V4L2 API elements are
+> > available on a compliant sub-device and how do they behave.
+> >=20
+> > The patch also adds a model for common raw sensors.
+> >=20
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > > ---
-> >  drivers/tee/Makefile       |   1 +
-> >  drivers/tee/tee_core.c     |  38 ++++++-
-> >  drivers/tee/tee_private.h  |   2 +
-> >  drivers/tee/tee_rstmem.c   | 201 +++++++++++++++++++++++++++++++++++++
-> >  drivers/tee/tee_shm.c      |   2 +
-> >  drivers/tee/tee_shm_pool.c |  69 ++++++++++++-
-> >  include/linux/tee_core.h   |  15 +++
-> >  include/linux/tee_drv.h    |   2 +
-> >  include/uapi/linux/tee.h   |  44 +++++++-
-> >  9 files changed, 370 insertions(+), 4 deletions(-)
-> >  create mode 100644 drivers/tee/tee_rstmem.c
-> >
-> > diff --git a/drivers/tee/Makefile b/drivers/tee/Makefile
-> > index 5488cba30bd2..a4c6b55444b9 100644
-> > --- a/drivers/tee/Makefile
-> > +++ b/drivers/tee/Makefile
-> > @@ -3,6 +3,7 @@ obj-$(CONFIG_TEE) +=3D tee.o
-> >  tee-objs +=3D tee_core.o
-> >  tee-objs +=3D tee_shm.o
-> >  tee-objs +=3D tee_shm_pool.o
-> > +tee-objs +=3D tee_rstmem.o
-> >  obj-$(CONFIG_OPTEE) +=3D optee/
-> >  obj-$(CONFIG_AMDTEE) +=3D amdtee/
-> >  obj-$(CONFIG_ARM_TSTEE) +=3D tstee/
-> > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> > index d113679b1e2d..f4a45b77753b 100644
-> > --- a/drivers/tee/tee_core.c
-> > +++ b/drivers/tee/tee_core.c
-> > @@ -1,12 +1,13 @@
-> >  // SPDX-License-Identifier: GPL-2.0-only
-> >  /*
-> > - * Copyright (c) 2015-2016, Linaro Limited
-> > + * Copyright (c) 2015-2022, 2024, Linaro Limited
-> >   */
-> >
-> >  #define pr_fmt(fmt) "%s: " fmt, __func__
-> >
-> >  #include <linux/cdev.h>
-> >  #include <linux/cred.h>
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/fs.h>
-> >  #include <linux/idr.h>
-> >  #include <linux/module.h>
-> > @@ -815,6 +816,38 @@ static int tee_ioctl_supp_send(struct tee_context =
-*ctx,
-> >       return rc;
-> >  }
-> >
-> > +static int
-> > +tee_ioctl_rstmem_alloc(struct tee_context *ctx,
-> > +                    struct tee_ioctl_rstmem_alloc_data __user *udata)
-> > +{
-> > +     struct tee_ioctl_rstmem_alloc_data data;
-> > +     struct dma_buf *dmabuf;
-> > +     int id;
-> > +     int fd;
+> >   .../media/drivers/camera-sensor.rst           |   4 +
+> >   .../media/v4l/common-raw-sensor.dia           | 441 ++++++++++++++++++
+> >   .../media/v4l/common-raw-sensor.svg           | 134 ++++++
+> >   .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
+> >   .../media/v4l/subdev-config-model.rst         | 209 +++++++++
+> >   5 files changed, 790 insertions(+)
+> >   create mode 100644 Documentation/userspace-api/media/v4l/common-raw-s=
+ensor.dia
+> >   create mode 100644 Documentation/userspace-api/media/v4l/common-raw-s=
+ensor.svg
+> >   create mode 100644 Documentation/userspace-api/media/v4l/subdev-confi=
+g-model.rst
+> >=20
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rs=
+t b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > index bc55c861fb69..5bc4c79d230c 100644
+> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > @@ -18,6 +18,8 @@ binning functionality. The sensor drivers belong to t=
+wo distinct classes, freely
+> >   configurable and register list-based drivers, depending on how the dr=
+iver
+> >   configures this functionality.
+> > +Also see :ref:`media_subdev_config_model_common_raw_sensor`.
 > > +
-> > +     if (copy_from_user(&data, udata, sizeof(data)))
-> > +             return -EFAULT;
+> >   Freely configurable camera sensor drivers
+> >   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > @@ -105,6 +107,8 @@ values programmed by the register sequences. The de=
+fault values of these
+> >   controls shall be 0 (disabled). Especially these controls shall not b=
+e inverted,
+> >   independently of the sensor's mounting rotation.
+> > +.. _media_using_camera_sensor_drivers_embedded_data:
 > > +
-> > +     if (data.use_case =3D=3D TEE_IOC_UC_RESERVED)
-> > +             return -EINVAL;
-> > +
-> > +     dmabuf =3D tee_rstmem_alloc(ctx, data.flags, data.use_case, data.=
-size,
-> > +                               &id);
-> > +     if (IS_ERR(dmabuf))
-> > +             return PTR_ERR(dmabuf);
-> > +     if (put_user(id, &udata->id)) {
-> > +             fd =3D -EFAULT;
-> > +             goto err;
-> > +     }
-> > +     fd =3D dma_buf_fd(dmabuf, O_CLOEXEC);
-> > +     if (fd < 0)
-> > +             goto err;
-> > +     return fd;
-> > +err:
-> > +     dma_buf_put(dmabuf);
-> > +     return fd;
-> > +}
-> > +
-> >  static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned lo=
-ng arg)
-> >  {
-> >       struct tee_context *ctx =3D filp->private_data;
-> > @@ -839,6 +872,8 @@ static long tee_ioctl(struct file *filp, unsigned i=
-nt cmd, unsigned long arg)
-> >               return tee_ioctl_supp_recv(ctx, uarg);
-> >       case TEE_IOC_SUPPL_SEND:
-> >               return tee_ioctl_supp_send(ctx, uarg);
-> > +     case TEE_IOC_RSTMEM_ALLOC:
-> > +             return tee_ioctl_rstmem_alloc(ctx, uarg);
-> >       default:
-> >               return -EINVAL;
-> >       }
-> > @@ -1286,3 +1321,4 @@ MODULE_AUTHOR("Linaro");
-> >  MODULE_DESCRIPTION("TEE Driver");
-> >  MODULE_VERSION("1.0");
-> >  MODULE_LICENSE("GPL v2");
-> > +MODULE_IMPORT_NS("DMA_BUF");
-> > diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
-> > index 9bc50605227c..bf97796909c0 100644
-> > --- a/drivers/tee/tee_private.h
-> > +++ b/drivers/tee/tee_private.h
-> > @@ -23,5 +23,7 @@ void teedev_ctx_put(struct tee_context *ctx);
-> >  struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t=
- size);
-> >  struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
-> >                                         unsigned long addr, size_t leng=
-th);
-> > +struct dma_buf *tee_rstmem_alloc(struct tee_context *ctx, u32 flags,
-> > +                              u32 use_case, size_t size, int *shm_id);
-> >
-> >  #endif /*TEE_PRIVATE_H*/
-> > diff --git a/drivers/tee/tee_rstmem.c b/drivers/tee/tee_rstmem.c
+> >   Embedded data
+> >   -------------
+> > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.di=
+a b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
 > > new file mode 100644
-> > index 000000000000..536bca2901e2
+> > index 000000000000..aa927527eae3
 > > --- /dev/null
-> > +++ b/drivers/tee/tee_rstmem.c
-> > @@ -0,0 +1,201 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (c) 2024 Linaro Limited
-> > + */
-> > +#include <linux/device.h>
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/genalloc.h>
-> > +#include <linux/scatterlist.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/tee_core.h>
-> > +#include "tee_private.h"
-> > +
-> > +struct tee_rstmem_attachment {
-> > +     struct sg_table table;
-> > +     struct device *dev;
-> > +};
-> > +
-> > +static int rstmem_dma_attach(struct dma_buf *dmabuf,
-> > +                          struct dma_buf_attachment *attachment)
-> > +{
-> > +     struct tee_shm *shm =3D dmabuf->priv;
-> > +     struct tee_rstmem_attachment *a;
-> > +     int rc;
-> > +
-> > +     a =3D kzalloc(sizeof(*a), GFP_KERNEL);
-> > +     if (!a)
-> > +             return -ENOMEM;
-> > +
-> > +     if (shm->pages) {
-> > +             rc =3D sg_alloc_table_from_pages(&a->table, shm->pages,
-> > +                                            shm->num_pages, 0,
-> > +                                            shm->num_pages * PAGE_SIZE=
-,
-> > +                                            GFP_KERNEL);
-> > +             if (rc)
-> > +                     goto err;
-> > +     } else {
-> > +             rc =3D sg_alloc_table(&a->table, 1, GFP_KERNEL);
-> > +             if (rc)
-> > +                     goto err;
-> > +             sg_set_page(a->table.sgl, phys_to_page(shm->paddr), shm->=
-size,
-> > +                         0);
-> > +     }
-> > +
-> > +     a->dev =3D attachment->dev;
-> > +     attachment->priv =3D a;
-> > +
-> > +     return 0;
-> > +err:
-> > +     kfree(a);
-> > +     return rc;
-> > +}
-> > +
-> > +static void rstmem_dma_detach(struct dma_buf *dmabuf,
-> > +                           struct dma_buf_attachment *attachment)
-> > +{
-> > +     struct tee_rstmem_attachment *a =3D attachment->priv;
-> > +
-> > +     sg_free_table(&a->table);
-> > +     kfree(a);
-> > +}
-> > +
-> > +static struct sg_table *
-> > +rstmem_dma_map_dma_buf(struct dma_buf_attachment *attachment,
-> > +                    enum dma_data_direction direction)
-> > +{
-> > +     struct tee_rstmem_attachment *a =3D attachment->priv;
-> > +     int ret;
-> > +
-> > +     ret =3D dma_map_sgtable(attachment->dev, &a->table, direction,
-> > +                           DMA_ATTR_SKIP_CPU_SYNC);
-> > +     if (ret)
-> > +             return ERR_PTR(ret);
-> > +
-> > +     return &a->table;
-> > +}
-> > +
-> > +static void rstmem_dma_unmap_dma_buf(struct dma_buf_attachment *attach=
-ment,
-> > +                                  struct sg_table *table,
-> > +                                  enum dma_data_direction direction)
-> > +{
-> > +     struct tee_rstmem_attachment *a =3D attachment->priv;
-> > +
-> > +     WARN_ON(&a->table !=3D table);
-> > +
-> > +     dma_unmap_sgtable(attachment->dev, table, direction,
-> > +                       DMA_ATTR_SKIP_CPU_SYNC);
-> > +}
-> > +
-> > +static int rstmem_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-> > +                                        enum dma_data_direction direct=
-ion)
-> > +{
-> > +     return -EPERM;
-> > +}
-> > +
-> > +static int rstmem_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-> > +                                      enum dma_data_direction directio=
-n)
-> > +{
-> > +     return -EPERM;
-> > +}
-> > +
-> > +static int rstmem_dma_buf_mmap(struct dma_buf *dmabuf,
-> > +                            struct vm_area_struct *vma)
-> > +{
-> > +     return -EPERM;
->
-> Just an aside, you should just not implment mmap if it's not possible.
-> Then you also don't need the cpu access functions. Both userspace mmap an=
-d
-> in-kernel vmap support is intentionally optional for dma-buf.
+> > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> > @@ -0,0 +1,441 @@
+> > +<?xml version=3D"1.0" encoding=3D"UTF-8"?>
+> > +<dia:diagram xmlns:dia=3D"http://www.lysator.liu.se/~alla/dia/">
+> > +  <dia:diagramdata>
+> > +    <dia:attribute name=3D"background">
+> > +      <dia:color val=3D"#ffffffff"/>
+> > +    </dia:attribute>
+> > +    <dia:attribute name=3D"pagebreak">
+> > +      <dia:color val=3D"#000099ff"/>
+> > +    </dia:attribute>
+> > +    <dia:attribute name=3D"paper">
+> > +      <dia:composite type=3D"paper">
+> > +        <dia:attribute name=3D"name">
+> > +          <dia:string>#A4#</dia:string>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"tmargin">
+> > +          <dia:real val=3D"2.8222"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"bmargin">
+> > +          <dia:real val=3D"2.8222"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"lmargin">
+> > +          <dia:real val=3D"2.8222"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"rmargin">
+> > +          <dia:real val=3D"2.8222"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"is_portrait">
+> > +          <dia:boolean val=3D"true"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"scaling">
+> > +          <dia:real val=3D"1"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"fitto">
+> > +          <dia:boolean val=3D"false"/>
+> > +        </dia:attribute>
+> > +      </dia:composite>
+> > +    </dia:attribute>
+> > +    <dia:attribute name=3D"grid">
+> > +      <dia:composite type=3D"grid">
+> > +        <dia:attribute name=3D"dynamic">
+> > +          <dia:boolean val=3D"true"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"width_x">
+> > +          <dia:real val=3D"1"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"width_y">
+> > +          <dia:real val=3D"1"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"visible_x">
+> > +          <dia:int val=3D"1"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"visible_y">
+> > +          <dia:int val=3D"1"/>
+> > +        </dia:attribute>
+> > +        <dia:composite type=3D"color"/>
+> > +      </dia:composite>
+> > +    </dia:attribute>
+> > +    <dia:attribute name=3D"color">
+> > +      <dia:color val=3D"#d8e5e5ff"/>
+> > +    </dia:attribute>
+> > +    <dia:attribute name=3D"guides"/>
+> > +    <dia:attribute name=3D"guide_color">
+> > +      <dia:color val=3D"#00ff00ff"/>
+> > +    </dia:attribute>
+> > +    <dia:attribute name=3D"display">
+> > +      <dia:composite type=3D"display">
+> > +        <dia:attribute name=3D"antialiased">
+> > +          <dia:boolean val=3D"true"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"snap-to-grid">
+> > +          <dia:boolean val=3D"false"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"snap-to-guides">
+> > +          <dia:boolean val=3D"true"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"snap-to-object">
+> > +          <dia:boolean val=3D"true"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"show-grid">
+> > +          <dia:boolean val=3D"true"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"show-guides">
+> > +          <dia:boolean val=3D"true"/>
+> > +        </dia:attribute>
+> > +        <dia:attribute name=3D"show-connection-points">
+> > +          <dia:boolean val=3D"true"/>
+> > +        </dia:attribute>
+> > +      </dia:composite>
+> > +    </dia:attribute>
+> > +  </dia:diagramdata>
+> > +  <dia:layer name=3D"Background" visible=3D"true" connectable=3D"false=
+"/>
+> > +  <dia:layer name=3D"Background" visible=3D"true" connectable=3D"false=
+"/>
+> > +  <dia:layer name=3D"Background" visible=3D"true" connectable=3D"true"=
+ active=3D"true">
+> > +    <dia:object type=3D"Standard - Box" version=3D"0" id=3D"O0">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"16.35,11.5"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"16.3,11.45;25.8,18.45"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_corner">
+> > +        <dia:point val=3D"16.35,11.5"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_width">
+> > +        <dia:real val=3D"9.4000000000000021"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_height">
+> > +        <dia:real val=3D"6.9000000000000021"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"show_background">
+> > +        <dia:boolean val=3D"true"/>
+> > +      </dia:attribute>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Geometric - Perfect Circle" version=3D"1" id=
+=3D"O1">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"25.5627,14.578"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"25.4627,14.478;26.0191,15.0344"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"meta">
+> > +        <dia:composite type=3D"dict"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_corner">
+> > +        <dia:point val=3D"25.5627,14.578"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_width">
+> > +        <dia:real val=3D"0.35638032780853468"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_height">
+> > +        <dia:real val=3D"0.35638032780853468"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_width">
+> > +        <dia:real val=3D"0.10000000000000001"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_colour">
+> > +        <dia:color val=3D"#000000ff"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"fill_colour">
+> > +        <dia:color val=3D"#ffffffff"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"show_background">
+> > +        <dia:boolean val=3D"true"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_style">
+> > +        <dia:enum val=3D"0"/>
+> > +        <dia:real val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"flip_horizontal">
+> > +        <dia:boolean val=3D"false"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"flip_vertical">
+> > +        <dia:boolean val=3D"false"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"subscale">
+> > +        <dia:real val=3D"1"/>
+> > +      </dia:attribute>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Geometric - Perfect Circle" version=3D"1" id=
+=3D"O2">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"17.7702,13.2656"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"17.6702,13.1656;18.24,13.7354"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"meta">
+> > +        <dia:composite type=3D"dict"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_corner">
+> > +        <dia:point val=3D"17.7702,13.2656"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_width">
+> > +        <dia:real val=3D"0.36980024191863681"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_height">
+> > +        <dia:real val=3D"0.36980024191863681"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_width">
+> > +        <dia:real val=3D"0.10000000000000001"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_colour">
+> > +        <dia:color val=3D"#000000ff"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"fill_colour">
+> > +        <dia:color val=3D"#ffffffff"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"show_background">
+> > +        <dia:boolean val=3D"true"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_style">
+> > +        <dia:enum val=3D"0"/>
+> > +        <dia:real val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"flip_horizontal">
+> > +        <dia:boolean val=3D"false"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"flip_vertical">
+> > +        <dia:boolean val=3D"false"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"subscale">
+> > +        <dia:real val=3D"1"/>
+> > +      </dia:attribute>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Geometric - Perfect Circle" version=3D"1" id=
+=3D"O3">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"17.7464,16.2056"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"17.6464,16.1056;18.2162,16.6754"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"meta">
+> > +        <dia:composite type=3D"dict"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_corner">
+> > +        <dia:point val=3D"17.7464,16.2056"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_width">
+> > +        <dia:real val=3D"0.36980024191863681"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"elem_height">
+> > +        <dia:real val=3D"0.36980024191863681"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_width">
+> > +        <dia:real val=3D"0.10000000000000001"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_colour">
+> > +        <dia:color val=3D"#000000ff"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"fill_colour">
+> > +        <dia:color val=3D"#ffffffff"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"show_background">
+> > +        <dia:boolean val=3D"true"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_style">
+> > +        <dia:enum val=3D"0"/>
+> > +        <dia:real val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"flip_horizontal">
+> > +        <dia:boolean val=3D"false"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"flip_vertical">
+> > +        <dia:boolean val=3D"false"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"subscale">
+> > +        <dia:real val=3D"1"/>
+> > +      </dia:attribute>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Standard - Line" version=3D"0" id=3D"O4">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"18.1609,16.3413"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"18.1016,14.5712;25.6221,16.4007"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"conn_endpoints">
+> > +        <dia:point val=3D"18.1609,16.3413"/>
+> > +        <dia:point val=3D"25.5627,14.7562"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"numcp">
+> > +        <dia:int val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"line_style">
+> > +        <dia:enum val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow">
+> > +        <dia:enum val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow_length">
+> > +        <dia:real val=3D"0.5"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow_width">
+> > +        <dia:real val=3D"0.5"/>
+> > +      </dia:attribute>
+> > +      <dia:connections>
+> > +        <dia:connection handle=3D"0" to=3D"O3" connection=3D"8"/>
+> > +        <dia:connection handle=3D"1" to=3D"O1" connection=3D"2"/>
+> > +      </dia:connections>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Standard - Line" version=3D"0" id=3D"O5">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"18.14,13.4505"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"18.0821,13.3926;25.6206,14.9674"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"conn_endpoints">
+> > +        <dia:point val=3D"18.14,13.4505"/>
+> > +        <dia:point val=3D"25.5627,14.7562"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"numcp">
+> > +        <dia:int val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow">
+> > +        <dia:enum val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow_length">
+> > +        <dia:real val=3D"0.5"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow_width">
+> > +        <dia:real val=3D"0.5"/>
+> > +      </dia:attribute>
+> > +      <dia:connections>
+> > +        <dia:connection handle=3D"0" to=3D"O2" connection=3D"3"/>
+> > +        <dia:connection handle=3D"1" to=3D"O1" connection=3D"2"/>
+> > +      </dia:connections>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Standard - Line" version=3D"0" id=3D"O6">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"25.919,14.7562"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"25.8686,14.3879;31.0068,15.0497"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"conn_endpoints">
+> > +        <dia:point val=3D"25.919,14.7562"/>
+> > +        <dia:point val=3D"30.9564,14.7131"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"numcp">
+> > +        <dia:int val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow">
+> > +        <dia:enum val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow_length">
+> > +        <dia:real val=3D"0.5"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"end_arrow_width">
+> > +        <dia:real val=3D"0.5"/>
+> > +      </dia:attribute>
+> > +      <dia:connections>
+> > +        <dia:connection handle=3D"0" to=3D"O1" connection=3D"3"/>
+> > +      </dia:connections>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Standard - Text" version=3D"1" id=3D"O7">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"17.9551,13.2656"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"17.9551,12.5181;22.7051,13.2656"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"text">
+> > +        <dia:composite type=3D"text">
+> > +          <dia:attribute name=3D"string">
+> > +            <dia:string>#image data (1)#</dia:string>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"font">
+> > +            <dia:font family=3D"sans" style=3D"0" name=3D"Helvetica"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"height">
+> > +            <dia:real val=3D"0.80000000000000004"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"pos">
+> > +            <dia:point val=3D"17.9551,13.1131"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"color">
+> > +            <dia:color val=3D"#000000ff"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"alignment">
+> > +            <dia:enum val=3D"0"/>
+> > +          </dia:attribute>
+> > +        </dia:composite>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"valign">
+> > +        <dia:enum val=3D"1"/>
+> > +      </dia:attribute>
+> > +      <dia:connections>
+> > +        <dia:connection handle=3D"0" to=3D"O2" connection=3D"1"/>
+> > +      </dia:connections>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Standard - Text" version=3D"1" id=3D"O8">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"17.9313,16.5754"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"17.9313,16.5754;24.1238,17.3229"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"text">
+> > +        <dia:composite type=3D"text">
+> > +          <dia:attribute name=3D"string">
+> > +            <dia:string>#embedded data (2)#</dia:string>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"font">
+> > +            <dia:font family=3D"sans" style=3D"0" name=3D"Helvetica"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"height">
+> > +            <dia:real val=3D"0.80000000000000004"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"pos">
+> > +            <dia:point val=3D"17.9313,17.1704"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"color">
+> > +            <dia:color val=3D"#000000ff"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"alignment">
+> > +            <dia:enum val=3D"0"/>
+> > +          </dia:attribute>
+> > +        </dia:composite>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"valign">
+> > +        <dia:enum val=3D"0"/>
+> > +      </dia:attribute>
+> > +      <dia:connections>
+> > +        <dia:connection handle=3D"0" to=3D"O3" connection=3D"0"/>
+> > +      </dia:connections>
+> > +    </dia:object>
+> > +    <dia:object type=3D"Standard - Text" version=3D"1" id=3D"O9">
+> > +      <dia:attribute name=3D"obj_pos">
+> > +        <dia:point val=3D"26.1,14.125"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"obj_bb">
+> > +        <dia:rectangle val=3D"26.1,13.53;30.7475,14.2775"/>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"text">
+> > +        <dia:composite type=3D"text">
+> > +          <dia:attribute name=3D"string">
+> > +            <dia:string>#source pad (0)#</dia:string>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"font">
+> > +            <dia:font family=3D"sans" style=3D"0" name=3D"Helvetica"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"height">
+> > +            <dia:real val=3D"0.80000000000000004"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"pos">
+> > +            <dia:point val=3D"26.1,14.125"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"color">
+> > +            <dia:color val=3D"#000000ff"/>
+> > +          </dia:attribute>
+> > +          <dia:attribute name=3D"alignment">
+> > +            <dia:enum val=3D"0"/>
+> > +          </dia:attribute>
+> > +        </dia:composite>
+> > +      </dia:attribute>
+> > +      <dia:attribute name=3D"valign">
+> > +        <dia:enum val=3D"3"/>
+> > +      </dia:attribute>
+> > +    </dia:object>
+> > +  </dia:layer>
+> > +</dia:diagram>
+> > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.sv=
+g b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > new file mode 100644
+> > index 000000000000..1d6055da2519
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > @@ -0,0 +1,134 @@
+> > +<?xml version=3D"1.0" encoding=3D"UTF-8"?>
+> > +<svg xmlns=3D"http://www.w3.org/2000/svg" xmlns:xlink=3D"http://www.w3=
+=2Eorg/1999/xlink" width=3D"296pt" height=3D"142pt" viewBox=3D"0 0 296 142"=
+ version=3D"1.1">
+> > +<defs>
+> > +<g>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-0">
+> > +<path style=3D"stroke:none;" d=3D"M 0.640625 2.265625 L 0.640625 -9.01=
+5625 L 7.03125 -9.015625 L 7.03125 2.265625 Z M 1.359375 1.546875 L 6.32812=
+5 1.546875 L 6.328125 -8.296875 L 1.359375 -8.296875 Z M 1.359375 1.546875 =
+"/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-1">
+> > +<path style=3D"stroke:none;" d=3D"M 1.203125 -7 L 2.359375 -7 L 2.3593=
+75 0 L 1.203125 0 Z M 1.203125 -9.71875 L 2.359375 -9.71875 L 2.359375 -8.2=
+65625 L 1.203125 -8.265625 Z M 1.203125 -9.71875 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-2">
+> > +<path style=3D"stroke:none;" d=3D"M 6.65625 -5.65625 C 6.9375 -6.16406=
+2 7.273438 -6.546875 7.671875 -6.796875 C 8.078125 -7.046875 8.550781 -7.17=
+1875 9.09375 -7.171875 C 9.820312 -7.171875 10.382812 -6.914062 10.78125 -6=
+=2E40625 C 11.175781 -5.894531 11.375 -5.164062 11.375 -4.21875 L 11.375 0 =
+L 10.21875 0 L 10.21875 -4.1875 C 10.21875 -4.851562 10.097656 -5.347656 9.=
+859375 -5.671875 C 9.628906 -6.003906 9.269531 -6.171875 8.78125 -6.171875 =
+C 8.1875 -6.171875 7.710938 -5.972656 7.359375 -5.578125 C 7.015625 -5.1796=
+88 6.84375 -4.640625 6.84375 -3.953125 L 6.84375 0 L 5.6875 0 L 5.6875 -4.1=
+875 C 5.6875 -4.863281 5.566406 -5.363281 5.328125 -5.6875 C 5.097656 -6.00=
+7812 4.734375 -6.171875 4.234375 -6.171875 C 3.648438 -6.171875 3.179688 -5=
+=2E96875 2.828125 -5.5625 C 2.484375 -5.164062 2.3125 -4.628906 2.3125 -3.9=
+53125 L 2.3125 0 L 1.15625 0 L 1.15625 -7 L 2.3125 -7 L 2.3125 -5.90625 C 2=
+=2E582031 -6.332031 2.898438 -6.648438 3.265625 -6.859375 C 3.628906 -7.066=
+406 4.0625 -7.171875 4.5625 -7.171875 C 5.070312 -7.171875 5.503906 -7.0390=
+62 5.859375 -6.78125 C 6.222656 -6.519531 6.488281 -6.144531 6.65625 -5.656=
+25 Z M 6.65625 -5.65625 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-3">
+> > +<path style=3D"stroke:none;" d=3D"M 4.390625 -3.515625 C 3.460938 -3.5=
+15625 2.816406 -3.40625 2.453125 -3.1875 C 2.097656 -2.976562 1.921875 -2.6=
+17188 1.921875 -2.109375 C 1.921875 -1.703125 2.050781 -1.378906 2.3125 -1.=
+140625 C 2.582031 -0.898438 2.953125 -0.78125 3.421875 -0.78125 C 4.054688 =
+-0.78125 4.566406 -1.003906 4.953125 -1.453125 C 5.335938 -1.910156 5.53125=
+ -2.515625 5.53125 -3.265625 L 5.53125 -3.515625 Z M 6.671875 -4 L 6.671875=
+ 0 L 5.53125 0 L 5.53125 -1.0625 C 5.269531 -0.632812 4.941406 -0.316406 4.=
+546875 -0.109375 C 4.160156 0.0859375 3.679688 0.1875 3.109375 0.1875 C 2.3=
+90625 0.1875 1.816406 -0.015625 1.390625 -0.421875 C 0.972656 -0.828125 0.7=
+65625 -1.363281 0.765625 -2.03125 C 0.765625 -2.820312 1.023438 -3.414062 1=
+=2E546875 -3.8125 C 2.078125 -4.21875 2.867188 -4.421875 3.921875 -4.421875=
+ L 5.53125 -4.421875 L 5.53125 -4.53125 C 5.53125 -5.0625 5.351562 -5.46875=
+ 5 -5.75 C 4.65625 -6.039062 4.171875 -6.1875 3.546875 -6.1875 C 3.140625 -=
+6.1875 2.75 -6.140625 2.375 -6.046875 C 2 -5.953125 1.632812 -5.8125 1.2812=
+5 -5.625 L 1.28125 -6.671875 C 1.695312 -6.835938 2.101562 -6.960938 2.5 -7=
+=2E046875 C 2.894531 -7.128906 3.28125 -7.171875 3.65625 -7.171875 C 4.6757=
+81 -7.171875 5.429688 -6.90625 5.921875 -6.375 C 6.421875 -5.851562 6.67187=
+5 -5.0625 6.671875 -4 Z M 6.671875 -4 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-4">
+> > +<path style=3D"stroke:none;" d=3D"M 5.8125 -3.578125 C 5.8125 -4.41015=
+6 5.640625 -5.054688 5.296875 -5.515625 C 4.953125 -5.972656 4.46875 -6.203=
+125 3.84375 -6.203125 C 3.226562 -6.203125 2.75 -5.972656 2.40625 -5.515625=
+ C 2.0625 -5.054688 1.890625 -4.410156 1.890625 -3.578125 C 1.890625 -2.753=
+906 2.0625 -2.113281 2.40625 -1.65625 C 2.75 -1.195312 3.226562 -0.96875 3.=
+84375 -0.96875 C 4.46875 -0.96875 4.953125 -1.195312 5.296875 -1.65625 C 5.=
+640625 -2.113281 5.8125 -2.753906 5.8125 -3.578125 Z M 6.953125 -0.875 C 6.=
+953125 0.320312 6.6875 1.207031 6.15625 1.78125 C 5.632812 2.363281 4.82812=
+5 2.65625 3.734375 2.65625 C 3.328125 2.65625 2.945312 2.625 2.59375 2.5625=
+ C 2.238281 2.507812 1.890625 2.421875 1.546875 2.296875 L 1.546875 1.17187=
+5 C 1.890625 1.359375 2.222656 1.492188 2.546875 1.578125 C 2.878906 1.6718=
+75 3.21875 1.71875 3.5625 1.71875 C 4.3125 1.71875 4.875 1.519531 5.25 1.12=
+5 C 5.625 0.726562 5.8125 0.132812 5.8125 -0.65625 L 5.8125 -1.234375 C 5.5=
+70312 -0.816406 5.265625 -0.503906 4.890625 -0.296875 C 4.523438 -0.0976562=
+ 4.082031 0 3.5625 0 C 2.707031 0 2.015625 -0.328125 1.484375 -0.984375 C 0=
+=2E960938 -1.640625 0.703125 -2.503906 0.703125 -3.578125 C 0.703125 -4.660=
+156 0.960938 -5.53125 1.484375 -6.1875 C 2.015625 -6.84375 2.707031 -7.1718=
+75 3.5625 -7.171875 C 4.082031 -7.171875 4.523438 -7.066406 4.890625 -6.859=
+375 C 5.265625 -6.648438 5.570312 -6.34375 5.8125 -5.9375 L 5.8125 -7 L 6.9=
+53125 -7 Z M 6.953125 -0.875 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-5">
+> > +<path style=3D"stroke:none;" d=3D"M 7.1875 -3.78125 L 7.1875 -3.21875 =
+L 1.90625 -3.21875 C 1.957031 -2.425781 2.195312 -1.820312 2.625 -1.40625 C=
+ 3.050781 -1 3.644531 -0.796875 4.40625 -0.796875 C 4.84375 -0.796875 5.269=
+531 -0.847656 5.6875 -0.953125 C 6.101562 -1.066406 6.515625 -1.226562 6.92=
+1875 -1.4375 L 6.921875 -0.359375 C 6.515625 -0.179688 6.09375 -0.046875 5.=
+65625 0.046875 C 5.21875 0.140625 4.78125 0.1875 4.34375 0.1875 C 3.21875 0=
+=2E1875 2.328125 -0.132812 1.671875 -0.78125 C 1.023438 -1.4375 0.703125 -2=
+=2E320312 0.703125 -3.4375 C 0.703125 -4.582031 1.007812 -5.488281 1.625 -6=
+=2E15625 C 2.25 -6.832031 3.085938 -7.171875 4.140625 -7.171875 C 5.078125 =
+-7.171875 5.816406 -6.863281 6.359375 -6.25 C 6.910156 -5.644531 7.1875 -4.=
+820312 7.1875 -3.78125 Z M 6.046875 -4.125 C 6.035156 -4.75 5.859375 -5.25 =
+5.515625 -5.625 C 5.171875 -6 4.71875 -6.1875 4.15625 -6.1875 C 3.507812 -6=
+=2E1875 2.992188 -6.003906 2.609375 -5.640625 C 2.222656 -5.285156 2 -4.781=
+25 1.9375 -4.125 Z M 6.046875 -4.125 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-6">
+> > +<path style=3D"stroke:none;" d=3D""/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-7">
+> > +<path style=3D"stroke:none;" d=3D"M 5.8125 -5.9375 L 5.8125 -9.71875 L=
+ 6.953125 -9.71875 L 6.953125 0 L 5.8125 0 L 5.8125 -1.046875 C 5.570312 -0=
+=2E628906 5.265625 -0.316406 4.890625 -0.109375 C 4.523438 0.0859375 4.0820=
+31 0.1875 3.5625 0.1875 C 2.71875 0.1875 2.03125 -0.148438 1.5 -0.828125 C =
+0.96875 -1.503906 0.703125 -2.394531 0.703125 -3.5 C 0.703125 -4.59375 0.96=
+875 -5.476562 1.5 -6.15625 C 2.03125 -6.832031 2.71875 -7.171875 3.5625 -7.=
+171875 C 4.082031 -7.171875 4.523438 -7.066406 4.890625 -6.859375 C 5.26562=
+5 -6.660156 5.570312 -6.351562 5.8125 -5.9375 Z M 1.890625 -3.5 C 1.890625 =
+-2.644531 2.0625 -1.976562 2.40625 -1.5 C 2.757812 -1.019531 3.238281 -0.78=
+125 3.84375 -0.78125 C 4.457031 -0.78125 4.9375 -1.019531 5.28125 -1.5 C 5.=
+632812 -1.976562 5.8125 -2.644531 5.8125 -3.5 C 5.8125 -4.34375 5.632812 -5=
+=2E003906 5.28125 -5.484375 C 4.9375 -5.960938 4.457031 -6.203125 3.84375 -=
+6.203125 C 3.238281 -6.203125 2.757812 -5.960938 2.40625 -5.484375 C 2.0625=
+ -5.003906 1.890625 -4.34375 1.890625 -3.5 Z M 1.890625 -3.5 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-8">
+> > +<path style=3D"stroke:none;" d=3D"M 2.34375 -8.984375 L 2.34375 -7 L 4=
+=2E71875 -7 L 4.71875 -6.109375 L 2.34375 -6.109375 L 2.34375 -2.3125 C 2.3=
+4375 -1.738281 2.421875 -1.367188 2.578125 -1.203125 C 2.734375 -1.046875 3=
+=2E050781 -0.96875 3.53125 -0.96875 L 4.71875 -0.96875 L 4.71875 0 L 3.5312=
+5 0 C 2.644531 0 2.03125 -0.164062 1.6875 -0.5 C 1.351562 -0.832031 1.1875 =
+-1.4375 1.1875 -2.3125 L 1.1875 -6.109375 L 0.34375 -6.109375 L 0.34375 -7 =
+L 1.1875 -7 L 1.1875 -8.984375 Z M 2.34375 -8.984375 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-9">
+> > +<path style=3D"stroke:none;" d=3D"M 3.96875 -9.703125 C 3.40625 -8.742=
+188 2.988281 -7.796875 2.71875 -6.859375 C 2.445312 -5.929688 2.3125 -4.984=
+375 2.3125 -4.015625 C 2.3125 -3.054688 2.445312 -2.101562 2.71875 -1.15625=
+ C 3 -0.21875 3.414062 0.726562 3.96875 1.6875 L 2.96875 1.6875 C 2.34375 0=
+=2E707031 1.875 -0.253906 1.5625 -1.203125 C 1.25 -2.148438 1.09375 -3.0859=
+38 1.09375 -4.015625 C 1.09375 -4.941406 1.25 -5.875 1.5625 -6.8125 C 1.875=
+ -7.757812 2.34375 -8.722656 2.96875 -9.703125 Z M 3.96875 -9.703125 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-10">
+> > +<path style=3D"stroke:none;" d=3D"M 1.59375 -1.0625 L 3.65625 -1.0625 =
+L 3.65625 -8.171875 L 1.40625 -7.734375 L 1.40625 -8.875 L 3.640625 -9.3281=
+25 L 4.90625 -9.328125 L 4.90625 -1.0625 L 6.953125 -1.0625 L 6.953125 0 L =
+1.59375 0 Z M 1.59375 -1.0625 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-11">
+> > +<path style=3D"stroke:none;" d=3D"M 1.03125 -9.703125 L 2.03125 -9.703=
+125 C 2.65625 -8.722656 3.117188 -7.757812 3.421875 -6.8125 C 3.734375 -5.8=
+75 3.890625 -4.941406 3.890625 -4.015625 C 3.890625 -3.085938 3.734375 -2.1=
+48438 3.421875 -1.203125 C 3.117188 -0.253906 2.65625 0.707031 2.03125 1.68=
+75 L 1.03125 1.6875 C 1.582031 0.726562 1.992188 -0.21875 2.265625 -1.15625=
+ C 2.535156 -2.101562 2.671875 -3.054688 2.671875 -4.015625 C 2.671875 -4.9=
+84375 2.535156 -5.929688 2.265625 -6.859375 C 1.992188 -7.796875 1.582031 -=
+8.742188 1.03125 -9.703125 Z M 1.03125 -9.703125 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-12">
+> > +<path style=3D"stroke:none;" d=3D"M 6.234375 -3.5 C 6.234375 -4.34375 =
+6.054688 -5.003906 5.703125 -5.484375 C 5.359375 -5.960938 4.882812 -6.2031=
+25 4.28125 -6.203125 C 3.664062 -6.203125 3.179688 -5.960938 2.828125 -5.48=
+4375 C 2.484375 -5.003906 2.3125 -4.34375 2.3125 -3.5 C 2.3125 -2.644531 2.=
+484375 -1.976562 2.828125 -1.5 C 3.179688 -1.019531 3.664062 -0.78125 4.281=
+25 -0.78125 C 4.882812 -0.78125 5.359375 -1.019531 5.703125 -1.5 C 6.054688=
+ -1.976562 6.234375 -2.644531 6.234375 -3.5 Z M 2.3125 -5.9375 C 2.5625 -6.=
+351562 2.867188 -6.660156 3.234375 -6.859375 C 3.597656 -7.066406 4.039062 =
+-7.171875 4.5625 -7.171875 C 5.40625 -7.171875 6.09375 -6.832031 6.625 -6.1=
+5625 C 7.15625 -5.476562 7.421875 -4.59375 7.421875 -3.5 C 7.421875 -2.3945=
+31 7.15625 -1.503906 6.625 -0.828125 C 6.09375 -0.148438 5.40625 0.1875 4.5=
+625 0.1875 C 4.039062 0.1875 3.597656 0.0859375 3.234375 -0.109375 C 2.8671=
+88 -0.316406 2.5625 -0.628906 2.3125 -1.046875 L 2.3125 0 L 1.15625 0 L 1.1=
+5625 -9.71875 L 2.3125 -9.71875 Z M 2.3125 -5.9375 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-13">
+> > +<path style=3D"stroke:none;" d=3D"M 2.453125 -1.0625 L 6.859375 -1.062=
+5 L 6.859375 0 L 0.9375 0 L 0.9375 -1.0625 C 1.414062 -1.5625 2.066406 -2.2=
+26562 2.890625 -3.0625 C 3.722656 -3.894531 4.242188 -4.429688 4.453125 -4.=
+671875 C 4.859375 -5.128906 5.140625 -5.515625 5.296875 -5.828125 C 5.46093=
+8 -6.140625 5.546875 -6.445312 5.546875 -6.75 C 5.546875 -7.25 5.367188 -7.=
+65625 5.015625 -7.96875 C 4.671875 -8.28125 4.21875 -8.4375 3.65625 -8.4375=
+ C 3.257812 -8.4375 2.84375 -8.363281 2.40625 -8.21875 C 1.96875 -8.082031 =
+1.5 -7.878906 1 -7.609375 L 1 -8.875 C 1.507812 -9.082031 1.984375 -9.23828=
+1 2.421875 -9.34375 C 2.867188 -9.445312 3.273438 -9.5 3.640625 -9.5 C 4.60=
+9375 -9.5 5.378906 -9.253906 5.953125 -8.765625 C 6.523438 -8.285156 6.8125=
+ -7.640625 6.8125 -6.828125 C 6.8125 -6.453125 6.738281 -6.09375 6.59375 -5=
+=2E75 C 6.445312 -5.40625 6.1875 -5 5.8125 -4.53125 C 5.707031 -4.40625 5.3=
+75 -4.054688 4.8125 -3.484375 C 4.257812 -2.910156 3.472656 -2.101562 2.453=
+125 -1.0625 Z M 2.453125 -1.0625 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-14">
+> > +<path style=3D"stroke:none;" d=3D"M 5.671875 -6.796875 L 5.671875 -5.7=
+03125 C 5.347656 -5.867188 5.007812 -5.992188 4.65625 -6.078125 C 4.300781 =
+-6.160156 3.9375 -6.203125 3.5625 -6.203125 C 3 -6.203125 2.570312 -6.11328=
+1 2.28125 -5.9375 C 2 -5.769531 1.859375 -5.507812 1.859375 -5.15625 C 1.85=
+9375 -4.882812 1.957031 -4.671875 2.15625 -4.515625 C 2.363281 -4.367188 2.=
+773438 -4.226562 3.390625 -4.09375 L 3.78125 -4 C 4.601562 -3.832031 5.1875=
+ -3.585938 5.53125 -3.265625 C 5.875 -2.941406 6.046875 -2.5 6.046875 -1.93=
+75 C 6.046875 -1.28125 5.785156 -0.757812 5.265625 -0.375 C 4.753906 0 4.05=
+0781 0.1875 3.15625 0.1875 C 2.78125 0.1875 2.390625 0.148438 1.984375 0.07=
+8125 C 1.578125 0.00390625 1.144531 -0.101562 0.6875 -0.25 L 0.6875 -1.4375=
+ C 1.113281 -1.21875 1.53125 -1.050781 1.9375 -0.9375 C 2.351562 -0.832031 =
+2.765625 -0.78125 3.171875 -0.78125 C 3.710938 -0.78125 4.128906 -0.875 4.4=
+21875 -1.0625 C 4.710938 -1.25 4.859375 -1.507812 4.859375 -1.84375 C 4.859=
+375 -2.15625 4.753906 -2.394531 4.546875 -2.5625 C 4.335938 -2.726562 3.875=
+ -2.890625 3.15625 -3.046875 L 2.765625 -3.140625 C 2.046875 -3.285156 1.53=
+125 -3.515625 1.21875 -3.828125 C 0.90625 -4.140625 0.75 -4.566406 0.75 -5.=
+109375 C 0.75 -5.765625 0.976562 -6.269531 1.4375 -6.625 C 1.90625 -6.98828=
+1 2.570312 -7.171875 3.4375 -7.171875 C 3.851562 -7.171875 4.25 -7.140625 4=
+=2E625 -7.078125 C 5 -7.015625 5.347656 -6.921875 5.671875 -6.796875 Z M 5.=
+671875 -6.796875 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-15">
+> > +<path style=3D"stroke:none;" d=3D"M 3.921875 -6.1875 C 3.304688 -6.187=
+5 2.816406 -5.945312 2.453125 -5.46875 C 2.097656 -4.988281 1.921875 -4.332=
+031 1.921875 -3.5 C 1.921875 -2.65625 2.097656 -1.992188 2.453125 -1.515625=
+ C 2.804688 -1.035156 3.296875 -0.796875 3.921875 -0.796875 C 4.535156 -0.7=
+96875 5.019531 -1.035156 5.375 -1.515625 C 5.726562 -2.003906 5.90625 -2.66=
+4062 5.90625 -3.5 C 5.90625 -4.320312 5.726562 -4.972656 5.375 -5.453125 C =
+5.019531 -5.941406 4.535156 -6.1875 3.921875 -6.1875 Z M 3.921875 -7.171875=
+ C 4.921875 -7.171875 5.703125 -6.84375 6.265625 -6.1875 C 6.835938 -5.5390=
+62 7.125 -4.644531 7.125 -3.5 C 7.125 -2.351562 6.835938 -1.453125 6.265625=
+ -0.796875 C 5.703125 -0.140625 4.921875 0.1875 3.921875 0.1875 C 2.910156 =
+0.1875 2.117188 -0.140625 1.546875 -0.796875 C 0.984375 -1.453125 0.703125 =
+-2.351562 0.703125 -3.5 C 0.703125 -4.644531 0.984375 -5.539062 1.546875 -6=
+=2E1875 C 2.117188 -6.84375 2.910156 -7.171875 3.921875 -7.171875 Z M 3.921=
+875 -7.171875 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-16">
+> > +<path style=3D"stroke:none;" d=3D"M 1.09375 -2.765625 L 1.09375 -7 L 2=
+=2E234375 -7 L 2.234375 -2.8125 C 2.234375 -2.144531 2.363281 -1.644531 2.6=
+25 -1.3125 C 2.882812 -0.976562 3.269531 -0.8125 3.78125 -0.8125 C 4.40625 =
+-0.8125 4.894531 -1.007812 5.25 -1.40625 C 5.613281 -1.800781 5.796875 -2.3=
+4375 5.796875 -3.03125 L 5.796875 -7 L 6.953125 -7 L 6.953125 0 L 5.796875 =
+0 L 5.796875 -1.078125 C 5.515625 -0.648438 5.191406 -0.332031 4.828125 -0.=
+125 C 4.460938 0.0820312 4.035156 0.1875 3.546875 0.1875 C 2.742188 0.1875 =
+2.132812 -0.0625 1.71875 -0.5625 C 1.300781 -1.0625 1.09375 -1.796875 1.093=
+75 -2.765625 Z M 3.984375 -7.171875 Z M 3.984375 -7.171875 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-17">
+> > +<path style=3D"stroke:none;" d=3D"M 5.265625 -5.921875 C 5.128906 -5.9=
+92188 4.984375 -6.046875 4.828125 -6.078125 C 4.679688 -6.117188 4.519531 -=
+6.140625 4.34375 -6.140625 C 3.6875 -6.140625 3.179688 -5.925781 2.828125 -=
+5.5 C 2.484375 -5.082031 2.3125 -4.476562 2.3125 -3.6875 L 2.3125 0 L 1.156=
+25 0 L 1.15625 -7 L 2.3125 -7 L 2.3125 -5.90625 C 2.5625 -6.332031 2.878906=
+ -6.648438 3.265625 -6.859375 C 3.648438 -7.066406 4.117188 -7.171875 4.671=
+875 -7.171875 C 4.753906 -7.171875 4.84375 -7.164062 4.9375 -7.15625 C 5.03=
+125 -7.144531 5.132812 -7.128906 5.25 -7.109375 Z M 5.265625 -5.921875 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-18">
+> > +<path style=3D"stroke:none;" d=3D"M 6.25 -6.734375 L 6.25 -5.65625 C 5=
+=2E914062 -5.832031 5.585938 -5.960938 5.265625 -6.046875 C 4.941406 -6.140=
+625 4.613281 -6.1875 4.28125 -6.1875 C 3.53125 -6.1875 2.945312 -5.953125 2=
+=2E53125 -5.484375 C 2.125 -5.015625 1.921875 -4.351562 1.921875 -3.5 C 1.9=
+21875 -2.644531 2.125 -1.976562 2.53125 -1.5 C 2.945312 -1.03125 3.53125 -0=
+=2E796875 4.28125 -0.796875 C 4.613281 -0.796875 4.941406 -0.835938 5.26562=
+5 -0.921875 C 5.585938 -1.015625 5.914062 -1.148438 6.25 -1.328125 L 6.25 -=
+0.265625 C 5.925781 -0.117188 5.59375 -0.0078125 5.25 0.0625 C 4.90625 0.14=
+4531 4.539062 0.1875 4.15625 0.1875 C 3.09375 0.1875 2.25 -0.144531 1.625 -=
+0.8125 C 1.007812 -1.476562 0.703125 -2.375 0.703125 -3.5 C 0.703125 -4.632=
+812 1.015625 -5.53125 1.640625 -6.1875 C 2.273438 -6.84375 3.132812 -7.1718=
+75 4.21875 -7.171875 C 4.570312 -7.171875 4.914062 -7.132812 5.25 -7.0625 C=
+ 5.59375 -6.988281 5.925781 -6.878906 6.25 -6.734375 Z M 6.25 -6.734375 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-19">
+> > +<path style=3D"stroke:none;" d=3D"M 2.3125 -1.046875 L 2.3125 2.65625 =
+L 1.15625 2.65625 L 1.15625 -7 L 2.3125 -7 L 2.3125 -5.9375 C 2.5625 -6.351=
+562 2.867188 -6.660156 3.234375 -6.859375 C 3.597656 -7.066406 4.039062 -7.=
+171875 4.5625 -7.171875 C 5.40625 -7.171875 6.09375 -6.832031 6.625 -6.1562=
+5 C 7.15625 -5.476562 7.421875 -4.59375 7.421875 -3.5 C 7.421875 -2.394531 =
+7.15625 -1.503906 6.625 -0.828125 C 6.09375 -0.148438 5.40625 0.1875 4.5625=
+ 0.1875 C 4.039062 0.1875 3.597656 0.0859375 3.234375 -0.109375 C 2.867188 =
+-0.316406 2.5625 -0.628906 2.3125 -1.046875 Z M 6.234375 -3.5 C 6.234375 -4=
+=2E34375 6.054688 -5.003906 5.703125 -5.484375 C 5.359375 -5.960938 4.88281=
+2 -6.203125 4.28125 -6.203125 C 3.664062 -6.203125 3.179688 -5.960938 2.828=
+125 -5.484375 C 2.484375 -5.003906 2.3125 -4.34375 2.3125 -3.5 C 2.3125 -2.=
+644531 2.484375 -1.976562 2.828125 -1.5 C 3.179688 -1.019531 3.664062 -0.78=
+125 4.28125 -0.78125 C 4.882812 -0.78125 5.359375 -1.019531 5.703125 -1.5 C=
+ 6.054688 -1.976562 6.234375 -2.644531 6.234375 -3.5 Z M 6.234375 -3.5 "/>
+> > +</symbol>
+> > +<symbol overflow=3D"visible" id=3D"glyph0-20">
+> > +<path style=3D"stroke:none;" d=3D"M 4.0625 -8.5 C 3.414062 -8.5 2.9257=
+81 -8.175781 2.59375 -7.53125 C 2.269531 -6.894531 2.109375 -5.9375 2.10937=
+5 -4.65625 C 2.109375 -3.375 2.269531 -2.410156 2.59375 -1.765625 C 2.92578=
+1 -1.128906 3.414062 -0.8125 4.0625 -0.8125 C 4.71875 -0.8125 5.207031 -1.1=
+28906 5.53125 -1.765625 C 5.863281 -2.410156 6.03125 -3.375 6.03125 -4.6562=
+5 C 6.03125 -5.9375 5.863281 -6.894531 5.53125 -7.53125 C 5.207031 -8.17578=
+1 4.71875 -8.5 4.0625 -8.5 Z M 4.0625 -9.5 C 5.113281 -9.5 5.914062 -9.0820=
+31 6.46875 -8.25 C 7.019531 -7.425781 7.296875 -6.226562 7.296875 -4.65625 =
+C 7.296875 -3.082031 7.019531 -1.878906 6.46875 -1.046875 C 5.914062 -0.222=
+656 5.113281 0.1875 4.0625 0.1875 C 3.019531 0.1875 2.222656 -0.222656 1.67=
+1875 -1.046875 C 1.117188 -1.878906 0.84375 -3.082031 0.84375 -4.65625 C 0.=
+84375 -6.226562 1.117188 -7.425781 1.671875 -8.25 C 2.222656 -9.082031 3.01=
+9531 -9.5 4.0625 -9.5 Z M 4.0625 -9.5 "/>
+> > +</symbol>
+> > +</g>
+> > +</defs>
+> > +<g id=3D"surface11910">
+> > +<rect x=3D"0" y=3D"0" width=3D"296" height=3D"142" style=3D"fill:rgb(1=
+00%,100%,100%);fill-opacity:1;stroke:none;"/>
+> > +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity=
+:1;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%=
+,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 16.35 11.5 L 25.75 1=
+1.5 L 25.75 18.4 L 16.35 18.4 Z M 16.35 11.5 " transform=3D"matrix(20,0,0,2=
+0,-325,-228)"/>
+> > +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity=
+:1;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%=
+,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 25.919141 14.75625 C=
+ 25.919141 14.99375 25.562695 14.99375 25.562695 14.75625 C 25.562695 14.51=
+8555 25.919141 14.518555 25.919141 14.75625 " transform=3D"matrix(20,0,0,20=
+,-325,-228)"/>
+> > +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity=
+:1;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%=
+,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 18.140039 13.450586 =
+C 18.140039 13.69707 17.770117 13.69707 17.770117 13.450586 C 17.770117 13.=
+203906 18.140039 13.203906 18.140039 13.450586 " transform=3D"matrix(20,0,0=
+,20,-325,-228)"/>
+> > +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity=
+:1;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%=
+,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 18.116211 16.39043 C=
+ 18.116211 16.637109 17.746484 16.637109 17.746484 16.39043 C 17.746484 16.=
+143945 18.116211 16.143945 18.116211 16.39043 " transform=3D"matrix(20,0,0,=
+20,-325,-228)"/>
+> > +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-l=
+inejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-dasharray:1,1;st=
+roke-miterlimit:10;" d=3D"M 18.160937 16.341406 L 25.344141 14.80293 " tran=
+sform=3D"matrix(20,0,0,20,-325,-228)"/>
+> > +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-l=
+inejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" =
+d=3D"M 25.016797 15.128711 L 25.45332 14.779687 L 24.912109 14.639844 " tra=
+nsform=3D"matrix(20,0,0,20,-325,-228)"/>
+> > +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-l=
+inejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" =
+d=3D"M 18.140039 13.450586 L 25.342383 14.717383 " transform=3D"matrix(20,0=
+,0,20,-325,-228)"/>
+> > +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-l=
+inejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" =
+d=3D"M 24.916797 14.896484 L 25.452539 14.736914 L 25.003516 14.403906 " tr=
+ansform=3D"matrix(20,0,0,20,-325,-228)"/>
+> > +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-l=
+inejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" =
+d=3D"M 25.918945 14.75625 L 30.732813 14.715039 " transform=3D"matrix(20,0,=
+0,20,-325,-228)"/>
+> > +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-l=
+inejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" =
+d=3D"M 30.34668 14.968359 L 30.844531 14.714062 L 30.342383 14.468359 " tra=
+nsform=3D"matrix(20,0,0,20,-325,-228)"/>
+> > +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
+> > +  <use xlink:href=3D"#glyph0-1" x=3D"34.101562" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-2" x=3D"37.712674" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-3" x=3D"50.212674" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-4" x=3D"57.990451" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-5" x=3D"66.046007" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-6" x=3D"73.823785" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-7" x=3D"77.990451" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-3" x=3D"86.046007" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-8" x=3D"93.823785" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-3" x=3D"98.823785" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-6" x=3D"106.601562" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-9" x=3D"110.768229" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-10" x=3D"115.768229" y=3D"34.267687"/>
+> > +  <use xlink:href=3D"#glyph0-11" x=3D"123.823785" y=3D"34.267687"/>
+> > +</g>
+> > +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
+> > +  <use xlink:href=3D"#glyph0-5" x=3D"33.625" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-2" x=3D"41.402778" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-12" x=3D"53.902778" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-5" x=3D"61.958333" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-7" x=3D"69.736111" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-7" x=3D"77.791667" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-5" x=3D"85.847222" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-7" x=3D"93.625" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-6" x=3D"101.680556" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-7" x=3D"105.847222" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-3" x=3D"113.902778" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-8" x=3D"121.680556" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-3" x=3D"126.680556" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-6" x=3D"134.458333" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-9" x=3D"138.625" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-13" x=3D"143.625" y=3D"115.412218"/>
+> > +  <use xlink:href=3D"#glyph0-11" x=3D"151.680556" y=3D"115.412218"/>
+> > +</g>
+> > +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
+> > +  <use xlink:href=3D"#glyph0-14" x=3D"197" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-15" x=3D"203.666667" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-16" x=3D"211.444444" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-17" x=3D"219.5" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-18" x=3D"224.5" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-5" x=3D"231.444444" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-6" x=3D"239.222222" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-19" x=3D"243.388889" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-3" x=3D"251.444444" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-7" x=3D"259.222222" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-6" x=3D"267.277778" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-9" x=3D"271.444444" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-20" x=3D"276.444444" y=3D"54.505968"/>
+> > +  <use xlink:href=3D"#glyph0-11" x=3D"284.5" y=3D"54.505968"/>
+> > +</g>
+> > +</g>
+> > +</svg>
+>=20
+> That's a lot of text for a simple picture =3D).
 
-Got it, thanks. I'll remove those in the next version.
+There are arrows and a box, too. It's around 140 lines, not entirely
+unreasonable in my opinion.
 
-Cheers,
-Jens
-
-> -Sima
->
-> > +}
+>=20
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Doc=
+umentation/userspace-api/media/v4l/dev-subdev.rst
+> > index dcfcbd52490d..4d145bd3bd09 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > @@ -838,3 +838,5 @@ stream while it may be possible to enable and disab=
+le the embedded data stream.
+> >   The embedded data format does not need to be configured on the sensor=
+'s pads as
+> >   the format is dictated by the pixel data format in this case.
 > > +
-> > +static void rstmem_dma_buf_free(struct dma_buf *dmabuf)
-> > +{
-> > +     struct tee_shm *shm =3D dmabuf->priv;
+> > +.. include:: subdev-config-model.rst
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.=
+rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > new file mode 100644
+> > index 000000000000..b0bd09772ceb
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > @@ -0,0 +1,209 @@
+> > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
 > > +
-> > +     tee_shm_put(shm);
-> > +}
+> > +.. _media_subdev_config_model:
 > > +
-> > +static const struct dma_buf_ops rstmem_generic_buf_ops =3D {
-> > +     .attach =3D rstmem_dma_attach,
-> > +     .detach =3D rstmem_dma_detach,
-> > +     .map_dma_buf =3D rstmem_dma_map_dma_buf,
-> > +     .unmap_dma_buf =3D rstmem_dma_unmap_dma_buf,
-> > +     .begin_cpu_access =3D rstmem_dma_buf_begin_cpu_access,
-> > +     .end_cpu_access =3D rstmem_dma_buf_end_cpu_access,
-> > +     .mmap =3D rstmem_dma_buf_mmap,
-> > +     .release =3D rstmem_dma_buf_free,
-> > +};
+> > +Sub-device configuration models
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
 > > +
-> > +struct dma_buf *tee_rstmem_alloc(struct tee_context *ctx, u32 flags,
-> > +                              u32 use_case, size_t size, int *shm_id)
-> > +{
-> > +     struct tee_device *teedev =3D ctx->teedev;
-> > +     DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> > +     struct dma_buf *dmabuf;
-> > +     struct tee_shm *shm;
-> > +     void *ret;
-> > +     int rc;
+> > +A sub-device configuration model specifies in detail what the user spa=
+ce can
+> > +expect from a sub-device in terms of V4L2 sub-device interface support,
+> > +semantics included.
 > > +
-> > +     if (!tee_device_get(teedev))
-> > +             return ERR_PTR(-EINVAL);
+> > +A sub-device may implement more than one configuration model at the sa=
+me
+> > +time. The implemented configuration models can be obtained from the su=
+b-device's
+> > +``V4L2_CID_CONFIG_MODEL`` control.
 > > +
-> > +     if (!teedev->desc->ops->rstmem_alloc ||
-> > +         !teedev->desc->ops->rstmem_free) {
-> > +             dmabuf =3D ERR_PTR(-EINVAL);
-> > +             goto err;
-> > +     }
+> > +.. _media_subdev_config_model_common_raw_sensor:
 > > +
-> > +     shm =3D kzalloc(sizeof(*shm), GFP_KERNEL);
-> > +     if (!shm) {
-> > +             dmabuf =3D ERR_PTR(-ENOMEM);
-> > +             goto err;
-> > +     }
+> > +Common raw camera sensor model
+> > +------------------------------
 > > +
-> > +     refcount_set(&shm->refcount, 1);
-> > +     shm->flags =3D TEE_SHM_RESTRICTED;
-> > +     shm->use_case =3D use_case;
-> > +     shm->ctx =3D ctx;
+> > +The common raw camera sensor model defines a set of enumeration and
+> > +configuration interfaces (formats, selections etc.) that cover the vas=
+t majority
+> > +of functionality of raw camera sensors. Not all of the interfaces are
+> > +necessarily offered by all drivers.
 > > +
-> > +     mutex_lock(&teedev->mutex);
-> > +     shm->id =3D idr_alloc(&teedev->idr, NULL, 1, 0, GFP_KERNEL);
-> > +     mutex_unlock(&teedev->mutex);
-> > +     if (shm->id < 0) {
-> > +             dmabuf =3D ERR_PTR(shm->id);
-> > +             goto err_kfree;
-> > +     }
+> > +A sub-device complies with the common raw sensor model if the
+> > +``V4L2_CONFIG_MODEL_COMMON_RAW`` bit is set in the ``V4L2_CID_CONFIG_M=
+ODEL``
+> > +control of the sub-device.
 > > +
-> > +     rc =3D teedev->desc->ops->rstmem_alloc(ctx, shm, flags, use_case,=
- size);
-> > +     if (rc) {
-> > +             dmabuf =3D ERR_PTR(rc);
-> > +             goto err_idr_remove;
-> > +     }
+> > +The common raw camera sensor model is aligned with
+> > +:ref:`media_using_camera_sensor_drivers`. Please refer to that regardi=
+ng aspects
+> > +not specified here.
 > > +
-> > +     mutex_lock(&teedev->mutex);
-> > +     ret =3D idr_replace(&teedev->idr, shm, shm->id);
-> > +     mutex_unlock(&teedev->mutex);
-> > +     if (IS_ERR(ret)) {
-> > +             dmabuf =3D ret;
-> > +             goto err_rstmem_free;
-> > +     }
-> > +     teedev_ctx_get(ctx);
+> > +Each camera sensor implementing the common raw sensor model exposes a =
+single
+> > +V4L2 sub-device. The sub-device contains a single source pad (0) and t=
+wo or more
+> > +internal pads: an image data internal pad (1) and optionally an embedd=
+ed data
+> > +pad (2). Additionally, further internal pads may be supported for other
+> > +features, in which case they are documented separately for the given d=
+evice.
 > > +
-> > +     exp_info.ops =3D &rstmem_generic_buf_ops;
-> > +     exp_info.size =3D shm->size;
-> > +     exp_info.priv =3D shm;
-> > +     dmabuf =3D dma_buf_export(&exp_info);
-> > +     if (IS_ERR(dmabuf)) {
-> > +             tee_shm_put(shm);
-> > +             return dmabuf;
-> > +     }
+> > +This is shown in :ref:`media_subdev_config_model_common_raw_sensor_sub=
+dev`.
 > > +
-> > +     *shm_id =3D shm->id;
-> > +     return dmabuf;
+> > +.. _media_subdev_config_model_common_raw_sensor_subdev:
 > > +
-> > +err_rstmem_free:
-> > +     teedev->desc->ops->rstmem_free(ctx, shm);
-> > +err_idr_remove:
-> > +     mutex_lock(&teedev->mutex);
-> > +     idr_remove(&teedev->idr, shm->id);
-> > +     mutex_unlock(&teedev->mutex);
-> > +err_kfree:
-> > +     kfree(shm);
-> > +err:
-> > +     tee_device_put(teedev);
-> > +     return dmabuf;
-> > +}
-> > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> > index daf6e5cfd59a..416f7f25d885 100644
-> > --- a/drivers/tee/tee_shm.c
-> > +++ b/drivers/tee/tee_shm.c
-> > @@ -55,6 +55,8 @@ static void tee_shm_release(struct tee_device *teedev=
-, struct tee_shm *shm)
-> >                               "unregister shm %p failed: %d", shm, rc);
-> >
-> >               release_registered_pages(shm);
-> > +     } else if (shm->flags & TEE_SHM_RESTRICTED) {
-> > +             teedev->desc->ops->rstmem_free(shm->ctx, shm);
-> >       }
-> >
-> >       teedev_ctx_put(shm->ctx);
-> > diff --git a/drivers/tee/tee_shm_pool.c b/drivers/tee/tee_shm_pool.c
-> > index 80004b55628d..ee57ef157a77 100644
-> > --- a/drivers/tee/tee_shm_pool.c
-> > +++ b/drivers/tee/tee_shm_pool.c
-> > @@ -1,9 +1,8 @@
-> >  // SPDX-License-Identifier: GPL-2.0-only
-> >  /*
-> > - * Copyright (c) 2015, 2017, 2022 Linaro Limited
-> > + * Copyright (c) 2015, 2017, 2022, 2024 Linaro Limited
-> >   */
-> >  #include <linux/device.h>
-> > -#include <linux/dma-buf.h>
-> >  #include <linux/genalloc.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/tee_core.h>
-> > @@ -90,3 +89,69 @@ struct tee_shm_pool *tee_shm_pool_alloc_res_mem(unsi=
-gned long vaddr,
-> >       return ERR_PTR(rc);
-> >  }
-> >  EXPORT_SYMBOL_GPL(tee_shm_pool_alloc_res_mem);
+> > +.. kernel-figure:: common-raw-sensor.svg
+> > +    :alt:    common-raw-sensor.svg
+> > +    :align:  center
 > > +
-> > +static int rstmem_pool_op_gen_alloc(struct tee_shm_pool *pool,
-> > +                                 struct tee_shm *shm, size_t size,
-> > +                                 size_t align)
-> > +{
-> > +     size_t sz =3D ALIGN(size, PAGE_SIZE);
-> > +     phys_addr_t pa;
+> > +    **Common raw sensor sub-device**
 > > +
-> > +     pa =3D gen_pool_alloc(pool->private_data, sz);
-> > +     if (!pa)
-> > +             return -ENOMEM;
+> > +Routes
+> > +^^^^^^
 > > +
-> > +     shm->size =3D sz;
-> > +     shm->paddr =3D pa;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static void rstmem_pool_op_gen_free(struct tee_shm_pool *pool,
-> > +                                 struct tee_shm *shm)
-> > +{
-> > +     gen_pool_free(pool->private_data, shm->paddr, shm->size);
-> > +     shm->paddr =3D 0;
-> > +}
-> > +
-> > +static struct tee_shm_pool_ops rstmem_pool_ops_generic =3D {
-> > +     .alloc =3D rstmem_pool_op_gen_alloc,
-> > +     .free =3D rstmem_pool_op_gen_free,
-> > +     .destroy_pool =3D pool_op_gen_destroy_pool,
-> > +};
-> > +
-> > +struct tee_shm_pool *tee_rstmem_gen_pool_alloc(phys_addr_t paddr, size=
-_t size)
-> > +{
-> > +     const size_t page_mask =3D PAGE_SIZE - 1;
-> > +     struct tee_shm_pool *pool;
-> > +     int rc;
-> > +
-> > +     /* Check it's page aligned */
-> > +     if ((paddr | size) & page_mask)
-> > +             return ERR_PTR(-EINVAL);
-> > +
-> > +     pool =3D kzalloc(sizeof(*pool), GFP_KERNEL);
-> > +     if (!pool)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     pool->private_data =3D gen_pool_create(PAGE_SHIFT, -1);
-> > +     if (!pool->private_data) {
-> > +             rc =3D -ENOMEM;
-> > +             goto err_free;
-> > +     }
-> > +
-> > +     rc =3D gen_pool_add(pool->private_data, paddr, size, -1);
-> > +     if (rc)
-> > +             goto err_free_pool;
-> > +
-> > +     pool->ops =3D &rstmem_pool_ops_generic;
-> > +     return pool;
-> > +
-> > +err_free_pool:
-> > +     gen_pool_destroy(pool->private_data);
-> > +err_free:
-> > +     kfree(pool);
-> > +
-> > +     return ERR_PTR(rc);
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_rstmem_gen_pool_alloc);
-> > diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> > index a38494d6b5f4..608302f494fe 100644
-> > --- a/include/linux/tee_core.h
-> > +++ b/include/linux/tee_core.h
-> > @@ -26,6 +26,7 @@
-> >  #define TEE_SHM_USER_MAPPED  BIT(1)  /* Memory mapped in user space */
-> >  #define TEE_SHM_POOL         BIT(2)  /* Memory allocated from pool */
-> >  #define TEE_SHM_PRIV         BIT(3)  /* Memory private to TEE driver *=
-/
-> > +#define TEE_SHM_RESTRICTED   BIT(4)  /* Restricted memory */
-> >
-> >  #define TEE_DEVICE_FLAG_REGISTERED   0x1
-> >  #define TEE_MAX_DEV_NAME_LEN         32
-> > @@ -76,6 +77,8 @@ struct tee_device {
-> >   * @supp_send:               called for supplicant to send a response
-> >   * @shm_register:    register shared memory buffer in TEE
-> >   * @shm_unregister:  unregister shared memory buffer in TEE
-> > + * @rstmem_alloc:    allocate restricted memory
-> > + * @rstmem_free:     free restricted memory
-> >   */
-> >  struct tee_driver_ops {
-> >       void (*get_version)(struct tee_device *teedev,
-> > @@ -99,6 +102,9 @@ struct tee_driver_ops {
-> >                           struct page **pages, size_t num_pages,
-> >                           unsigned long start);
-> >       int (*shm_unregister)(struct tee_context *ctx, struct tee_shm *sh=
-m);
-> > +     int (*rstmem_alloc)(struct tee_context *ctx, struct tee_shm *shm,
-> > +                         u32 flags, u32 use_case, size_t size);
-> > +     void (*rstmem_free)(struct tee_context *ctx, struct tee_shm *shm)=
-;
-> >  };
-> >
-> >  /**
-> > @@ -229,6 +235,15 @@ static inline void tee_shm_pool_free(struct tee_sh=
-m_pool *pool)
-> >       pool->ops->destroy_pool(pool);
-> >  }
-> >
-> > +/**
-> > + * tee_rstmem_gen_pool_alloc() - Create a restricted memory manager
-> > + * @paddr:   Physical address of start of pool
-> > + * @size:    Size in bytes of the pool
-> > + *
-> > + * @returns pointer to a 'struct tee_shm_pool' or an ERR_PTR on failur=
-e.
-> > + */
-> > +struct tee_shm_pool *tee_rstmem_gen_pool_alloc(phys_addr_t paddr, size=
-_t size);
-> > +
-> >  /**
-> >   * tee_get_drvdata() - Return driver_data pointer
-> >   * @returns the driver_data pointer supplied to tee_register().
-> > diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> > index a54c203000ed..cba067715d14 100644
-> > --- a/include/linux/tee_drv.h
-> > +++ b/include/linux/tee_drv.h
-> > @@ -55,6 +55,7 @@ struct tee_context {
-> >   * @pages:   locked pages from userspace
-> >   * @num_pages:       number of locked pages
-> >   * @refcount:        reference counter
-> > + * @use_case:        defined by TEE_IOC_UC_* in tee.h
-> >   * @flags:   defined by TEE_SHM_* in tee_core.h
-> >   * @id:              unique id of a shared memory object on this devic=
-e, shared
-> >   *           with user space
-> > @@ -71,6 +72,7 @@ struct tee_shm {
-> >       struct page **pages;
-> >       size_t num_pages;
-> >       refcount_t refcount;
-> > +     u32 use_case;
-> >       u32 flags;
-> >       int id;
-> >       u64 sec_world_id;
-> > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> > index d0430bee8292..88834448debb 100644
-> > --- a/include/uapi/linux/tee.h
-> > +++ b/include/uapi/linux/tee.h
-> > @@ -1,5 +1,5 @@
-> >  /*
-> > - * Copyright (c) 2015-2016, Linaro Limited
-> > + * Copyright (c) 2015-2017, 2020, 2024, Linaro Limited
-> >   * All rights reserved.
-> >   *
-> >   * Redistribution and use in source and binary forms, with or without
-> > @@ -48,6 +48,7 @@
-> >  #define TEE_GEN_CAP_PRIVILEGED       (1 << 1)/* Privileged device (for=
- supplicant) */
-> >  #define TEE_GEN_CAP_REG_MEM  (1 << 2)/* Supports registering shared me=
-mory */
-> >  #define TEE_GEN_CAP_MEMREF_NULL      (1 << 3)/* NULL MemRef support */
-> > +#define TEE_GEN_CAP_RSTMEM   (1 << 4)/* Supports restricted memory */
-> >
-> >  #define TEE_MEMREF_NULL              (__u64)(-1) /* NULL MemRef Buffer=
- */
-> >
-> > @@ -389,6 +390,47 @@ struct tee_ioctl_shm_register_data {
-> >   */
-> >  #define TEE_IOC_SHM_REGISTER   _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 9, =
-\
-> >                                    struct tee_ioctl_shm_register_data)
-> > +
-> > +#define TEE_IOC_UC_RESERVED          0
-> > +#define TEE_IOC_UC_SECURE_VIDEO_PLAY 1
-> > +#define TEE_IOC_UC_TRUSTED_UI                2
-> > +#define TEE_IOC_UC_SECURE_VIDEO_RECORD       3
-> > +
-> > +/**
-> > + * struct tee_ioctl_rstmem_alloc_data - Restricted memory allocate arg=
-ument
-> > + * @size:    [in/out] Size of restricted memory to allocate
-> > + * @flags:   [in/out] Flags to/from allocate
-> > + * @use_case [in] Restricted memory use case, TEE_IOC_UC_*
-> > + * @id:              [out] Identifier of the restricted memory
-> > + */
-> > +struct tee_ioctl_rstmem_alloc_data {
-> > +     __u64 size;
-> > +     __u32 flags;
-> > +     __u32 use_case;
-> > +     __s32 id;
-> > +};
-> > +
-> > +/**
-> > + * TEE_IOC_RSTMEM_ALLOC - allocate restricted memory
-> > + *
-> > + * Allocates restricted physically memory normally not accessible by t=
+> > +A sub-device conforming to common raw camera sensor model implements t=
 he
-> > + * kernel.
-> > + *
-> > + * Restricted memory refers to memory buffers behind a hardware enforc=
-ed
-> > + * firewall. It is not accessible to the kernel during normal circumst=
-ances
-> > + * but rather only accessible to certain hardware IPs or CPUs executin=
-g in
-> > + * higher privileged mode than the kernel itself. This interface allow=
-s to
-> > + * allocate and manage such restricted memory buffers via interaction =
-with
-> > + * a TEE implementation.
-> > + *
-> > + * Returns a file descriptor on success or < 0 on failure
-> > + *
-> > + * The returned file descriptor is a dma-buf that can be attached and
-> > + * mapped for device with permission to access the physical memory.
-> > + */
-> > +#define TEE_IOC_RSTMEM_ALLOC     _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1=
-0, \
-> > +                                    struct tee_ioctl_rstmem_alloc_data=
-)
+> > +following routes.
 > > +
-> >  /*
-> >   * Five syscalls are used when communicating with the TEE driver.
-> >   * open(): opens the device associated with the driver
-> > --
-> > 2.43.0
-> >
->
-> --
-> Simona Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> > +.. flat-table:: Routes
+> > +    :header-rows: 1
+> > +
+> > +    * - Sink pad/stream
+> > +      - Source pad/stream
+> > +      - Static (X/M(aybe)/-)
+> > +      - Mandatory (X/-)
+> > +      - Synopsis
+> > +    * - 1/0
+> > +      - 0/0
+> > +      - X
+> > +      - X
+> > +      - Image data
+> > +    * - 2/0
+> > +      - 0/1
+> > +      - M
+> > +      - \-
+> > +      - Embedded data
+>=20
+> Maybe just have the X/M/- written out in the table (yes/maybe/no)? The
+> letter coding feels like it just makes it harder to read.
+
+We should follow the same notation here that's used in pre-existing
+documentation. Then we can separately discuss whether we should change the
+practices. I'll check the preceding streams / metadata patches, too, those
+may be using O for "optional".
+
+>=20
+> > +
+> > +Support for the embedded data stream is optional. Drivers supporting t=
+he
+> > +embedded data stream may allow disabling and enabling the route when t=
+he
+> > +streaming is disabled.
+> > +
+> > +Sensor pixel array size, cropping and binning
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +The sensor's pixel array is divided into one or more areas. The areas =
+around the
+> > +edge of the pixel array, usually one or more sides, may contain optica=
+l black
+> > +pixels, dummy pixels and other non-image pixels. The entire pixel arra=
+y size is
+> > +conveyed by the format on (pad, stream) pair 1/0.
+>=20
+> I think we often need to refer to a stream (or to a pad if streams are not
+> supported by the device). Maybe we can define a concise format, explained=
+ in
+> one place, and then use it everywhere?
+>=20
+> When referring to a pad, we should just say "pad". When referring to a
+> stream, I don't think it helps to talk about pad-stream pairs, just say
+> "stream".
+>=20
+> E.g. If the subdev is implicit: "pad 1" or stream "1/0". Or if we're deal=
+ing
+> with multiple subdevs, something like "pad ov1234:1" or "stream ov1234:1/=
+0"?
+> Or, if the subdev and pad are clear in the context, we can just say "stre=
+am
+> 1".
+
+The earlier patches in the set (around 50 in total now) use "(pad, stream)
+pair", and that was the result of a lengthy discussion. :-) I'm fine with
+changing that but we need to be consistent.
+
+>=20
+> > +
+> > +A rectangle within the pixel array contains the visible pixels. Captur=
+ing the
+> > +non-visible pixels outside the visible pixel area may be supported by =
+the
+> > +sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_=
+DEFAULT``
+> > +selection target on (pad, stream) pair 1/0.
+> > +
+> > +Sensors can perform multiple operations that affect the output image s=
+ize. First
+> > +of these is the analogue crop. Analogue crop limits the area of the pi=
+xel array
+> > +which the sensor will read, affecting sensor timing as well. The granu=
+larity of
+> > +the analogue crop configuration varies greatly across sensors: some se=
+nsors
+> > +support only a few different analogue crop configurations whereas othe=
+rs may
+> > +support anything divisible by a given number of pixels. The analogue c=
+rop
+> > +configuration corresponds the ``V4L2_SEL_TGT_CROP`` selection target o=
+n (pad,
+> > +stream) pair 1/0. The default analogue crop rectangle corresponds to t=
+he visible
+> > +pixel area.
+> > +
+> > +In the next step, binning is performed on the image data read from cam=
+era
+> > +sensor's pixel array, as determined by the analogue crop configuration=
+=2E Enabling
+> > +binning will effectively result in an image smaller than the original =
+by given
+> > +binning factors horizontally and vertically. Typical values are 1/2 an=
+d 1/3 but
+> > +others may well be supported by the hardware as well.
+> > +
+> > +Sub-sampling follows binning. Sub-sampling, like binning, reduces the =
+size of
+> > +the image by including only a subset of samples read from the sensor's=
+ pixel
+> > +matrix, typically every n'th pixel horizontally and vertically, taking=
+ the
+> > +sensor's colour pattern into account. Sub-sampling is generally config=
+urable
+> > +separately horizontally and vertically.
+> > +
+> > +Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPO=
+SE``
+> > +rectangle, relative to the analogue crop rectangle, on (pad, stream) p=
+air
+> > +1/0. The driver implementation determines how to configure binning and
+> > +sub-sampling to achieve the desired size.
+> > +
+> > +The digital crop operation takes place after binning and sub-sampling.=
+ It is
+> > +configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, str=
+eam) pair
+> > +0/0. The resulting image size is further output by the sensor.
+> > +
+> > +The sensor's output mbus code is configured by setting the format on t=
+he (pad,
+> > +stream) pair 0/0. When setting the format, always use the same width a=
+nd height
+> > +as for the digital crop setting.
+> > +
+> > +Drivers may only support some of even none of these configurations, in=
+ which
+> > +case they do not expose the corresponding selection rectangles. If any=
+ selection
+> > +targets are omitted, the further selection rectangle or format is inst=
+ead
+> > +related to the previous implemented selection rectangle. For instance,=
+ if the
+> > +sensor supports binning but not analogue crop, then the binning config=
+uration
+> > +(``V4L2_SEL_TGT_COMPOSE`` selection target) is done in relation to the=
+ visible
+> > +pixel area (``V4L2_SEL_TGT_CROP_DEFAULT`` selection target).
+> > +
+> > +Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
+> > +
+> > +.. flat-table:: Selection targets on pads
+> > +    :header-rows: 1
+> > +
+> > +    * - Pad/Stream
+> > +      - Selection target/format
+> > +      - Mandatory (X/-)
+> > +      - Modifiable (X/-)
+> > +      - Synopsis
+> > +    * - 1/0
+> > +      - Format
+> > +      - X
+> > +      - \-
+> > +      - Image data format. The width and the height fields indicates t=
+he full
+> > +        size of the pixel array, including non-visible pixels. The med=
+ia bus
+> > +        code of this format reflects the native pixel depth of the sen=
+sor.
+> > +    * - 1/0
+> > +      - ``V4L2_SEL_TGT_CROP_DEFAULT``
+> > +      - X
+> > +      - \
+> > +      - The visible pixel area. This rectangle is relative to the form=
+at on the
+> > +        same (pad, stream).
+> > +    * - 1/0
+> > +      - ``V4L2_SEL_TGT_CROP``
+> > +      - \-
+> > +      - X
+> > +      - Analogue crop. Analogue crop typically has a coarse granularit=
+y. This
+> > +        rectangle is relative to the format on the same (pad, stream).
+> > +    * - 1/0
+> > +      - ``V4L2_SEL_TGT_COMPOSE``
+> > +      - \-
+> > +      - X
+> > +      - Binning and sub-sampling. This rectangle is relative to the
+> > +        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). The
+> > +        combination of binning and sub-sampling is configured using th=
+is
+> > +        selection target.
+> > +    * - 2/0
+> > +      - Format
+> > +      - X
+> > +      - \-
+> > +      - Embedded data format.
+> > +    * - 0/0
+> > +      - ``V4L2_SEL_TGT_CROP``
+> > +      - \-
+> > +      - X
+> > +      - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT=
+_COMPOSE``
+> > +        rectangle on (pad, stream) pair 1/0.
+> > +    * - 0/0
+> > +      - Format
+> > +      - X
+> > +      - X
+> > +      - Image data source format. Always assign the width and height f=
+ields of
+> > +        the format to the same values than for the ``V4L2_SEL_TGT_CROP=
+``
+> > +        rectangle on (pad, stream) pair 0/0. The media bus code reflec=
+ts the
+> > +        pixel data output of the sensor.
+> > +    * - 0/1
+> > +      - Format
+> > +      - X
+> > +      - \-
+> > +      - Embedded data source format.
+> > +
+> > +Embedded data
+> > +^^^^^^^^^^^^^
+> > +
+> > +The embedded data stream is produced by the sensor when the correspond=
+ing route
+> > +is enabled. The embedded data route may also be immutable or not exist=
+ at all,
+> > +in case the sensor (or the driver) does not support it.
+> > +
+> > +Generally the sensor embedded data width is determined by the width of=
+ the image
+> > +data whereas the number of lines are constant for the embedded data. T=
+he user
+> > +space may obtain the size of the embedded data once the image data siz=
+e on the
+> > +source pad has been configured.
+> > +
+> > +Also see :ref:`media_using_camera_sensor_drivers_embedded_data`.
+>=20
+> I'm not that familiar with raw sensor pipelines and cropping, but looks g=
+ood
+> to me.
+>=20
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+Thanks!
+
+--=20
+Terveisin,
+
+Sakari Ailus
 
