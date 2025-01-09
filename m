@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-24483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74986A06F4C
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 08:45:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DDCA06F96
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 08:58:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A35AC3A17EF
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 07:45:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC5357A16A9
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 07:58:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A87AE214A7C;
-	Thu,  9 Jan 2025 07:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF27021481B;
+	Thu,  9 Jan 2025 07:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aiYDCLn3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/aHqoQo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985C61AC8A2
-	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 07:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620ED1714D7
+	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 07:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736408715; cv=none; b=N+8//g6MaMs5qy3geeXfAvwr3uhRUAVGgHJLXWDX66y6JwRAKpMlIJ90QE340tV46R8lcbB8eDUjcFdFvyFWLKp4fyaIgYZd408pnnzcI4f2SuNNsEhceHdyNfwU2AYDkjDr4FXCivvIbNEaIeTuXYpf8Kr9r5nkB3Kkl/RQuew=
+	t=1736409522; cv=none; b=l7nRGGe8QQXxb8UBxD3krnnsGlv1YPaHaKRu0f7kfdVrnD4KGcL4T4oELSUlZTNSijaaAEUn92ziWOaxju9UP6m2Ee1fgkdxpUIFAEy66aswukdG49yX3MvZ2CadiMBf0GbNct0lHLuFFDSvCHnoyOATLlTbZVyqQ3j/0z1bcQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736408715; c=relaxed/simple;
-	bh=/KrzM53s1Q8XoDZHBI+CPdJrYCcknG3IRwN/m83mPn4=;
+	s=arc-20240116; t=1736409522; c=relaxed/simple;
+	bh=R9QMHMFcFcdnVs3JdagfDBzKxNg9/1JCyXiAawCFC4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BrjBRA9eOj4GalQAbduqTB0/adTtn91vkL3y46lr88sH5SeVV01++GpKz97fQGcNznt/njNxs9TkrUFXAICl6hTh/21+Jx28EI4Om8BZYrIEn6Sr/a6isvVZ55/DuEDidB0Cp8MR8SjeWKDhdsEVxUVR6+gM5QKRQBsrgCvejmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aiYDCLn3; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=gACHxmNFMdVLcTjr+feylzMqins0nrpsu9gsT55odjYAfRw3KebERMBnHG59T3U7FfnrRu1NUMvzllbE2/HQYYHEHEg8FAZ9lV0wFyALrEMuzUk6Ic+9Kg17K2Ml6Ow+wlFdXob7gOh9Cq93DzqYIBx6BANfEESndMitnPUuvF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I/aHqoQo; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736408713; x=1767944713;
+  t=1736409520; x=1767945520;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/KrzM53s1Q8XoDZHBI+CPdJrYCcknG3IRwN/m83mPn4=;
-  b=aiYDCLn3z0s7tQmKew8ypgEFCJkzIwfzzvqeAXaB0blf9OeZYQUeBjmQ
-   tFTQ8ICUScSzY6dICoyvkUz61lzGorOoQdCsX5/Apf64vj71+JdLFmdGg
-   qJDvGWr/rIf88LFfgH/yMf7S0hGf38wrvCrI4n9+HEXfIyVf3i0ogVyBQ
-   Amo3oHiD/+0IaqGXCYVG3/KbroWsW34la1P6TA8rPDnxzctyGxB46E4MD
-   7/QTe7a0kKD6Gw4Z2ZRjE4J7kuSe8ckKNnTooRtRwQSNULkpJcuwh4nJR
-   7zscs4oTG6IgZiy1hsIFFZAB7DIqqa77USa+bOb6kydlFitS2sLw40lCX
-   w==;
-X-CSE-ConnectionGUID: UdSBYHwlQI278ES7/e+hpw==
-X-CSE-MsgGUID: D+yn4MIWRx+iQCbiBX7r8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="47153688"
+  bh=R9QMHMFcFcdnVs3JdagfDBzKxNg9/1JCyXiAawCFC4o=;
+  b=I/aHqoQoVcvN3Gf4PoSHSujCJuq3A9M6qtRxZp1O2UcHHxqlB688IBPw
+   qASBHqag61e2gckfVE/0zFnzV/LqMbEoMO4j7f9L5nWAHXkCKfdVMBgU9
+   diKiWE2e2PnbtW3T9JrNjOtTPiACJWkwpkOJJWBh/xoYh/Jkboy8jXoNZ
+   BW3elLrr81L9G0n/AN0k9Cx4LRb3CHDPsVhqsRpQpOtpuTuSpyOf4uA9u
+   iOTM4tcPEYpJHWirxqriB8eE0b3J9nETkOuLa4knzyMCeTPhS8ZN6D78w
+   rJWh3hy2pLn8+8i3e58zdgfJhB1eggEaw8OCXxtVLF8k7fsnPbueDhX2B
+   g==;
+X-CSE-ConnectionGUID: qRW29GCFRlqayoXlwBTftQ==
+X-CSE-MsgGUID: x4pyosYnT6ObQY9qC+rkxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="35944597"
 X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
-   d="scan'208";a="47153688"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 23:45:12 -0800
-X-CSE-ConnectionGUID: MDWZF31RTMWet7wRtKsP1w==
-X-CSE-MsgGUID: OeqBqVXuRdCJxoZWpsdrrQ==
+   d="scan'208";a="35944597"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 23:58:39 -0800
+X-CSE-ConnectionGUID: iHd+cyfPTHewAV+NwPAyAQ==
+X-CSE-MsgGUID: FQikJsxMT3iQKB/KE8nLww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; 
-   d="scan'208";a="103135840"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107373561"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 23:45:05 -0800
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 23:58:34 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E3E251201CA;
-	Thu,  9 Jan 2025 09:45:02 +0200 (EET)
-Date: Thu, 9 Jan 2025 07:45:02 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 28A821201CA;
+	Thu,  9 Jan 2025 09:58:31 +0200 (EET)
+Date: Thu, 9 Jan 2025 07:58:31 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
@@ -90,12 +90,11 @@ Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
 	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: Re: [RFC v4 5/9] media: Documentation: Add scaling and post-scaler
- crop for common raw
-Message-ID: <Z39-fm14e16Vfqsz@kekkonen.localdomain>
+Subject: Re: [RFC v4 6/9] media: uapi: Add V4L2_CID_CONFIG_MODEL control
+Message-ID: <Z3-Bp5hI0wOTqxX_@kekkonen.localdomain>
 References: <20241220132419.1027206-1-sakari.ailus@linux.intel.com>
- <20241220132419.1027206-6-sakari.ailus@linux.intel.com>
- <fbee3507-ed61-4e9b-b935-466a4e084378@ideasonboard.com>
+ <20241220132419.1027206-7-sakari.ailus@linux.intel.com>
+ <d638af2c-0ec8-490c-b2dd-487fbd62b5ca@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,83 +103,88 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fbee3507-ed61-4e9b-b935-466a4e084378@ideasonboard.com>
+In-Reply-To: <d638af2c-0ec8-490c-b2dd-487fbd62b5ca@ideasonboard.com>
 
 Moi,
 
-On Wed, Jan 08, 2025 at 02:08:37PM +0200, Tomi Valkeinen wrote:
+On Wed, Jan 08, 2025 at 02:20:40PM +0200, Tomi Valkeinen wrote:
 > Hi,
 > 
 > On 20/12/2024 15:24, Sakari Ailus wrote:
-> > Document scaling and post-scaler digital crop operations for the common
-> > raw sensor model.
-> > Signedg-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Missing line feed, and "Signedg". checkpatch didn't complain?
-
-Well, this is in "RFC" phase so I haven't run it through a lot of tests
-yet. ;) I'll fix it.
-
-> 
-> > ---
-> >   .../media/v4l/subdev-config-model.rst         | 24 +++++++++++++++----
-> >   1 file changed, 19 insertions(+), 5 deletions(-)
+> > Add the V4L2_CID_CONFIG_MODEL control for the configuration model.
 > > 
-> > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > index b0bd09772ceb..f15e5495cc34 100644
-> > --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > @@ -118,11 +118,18 @@ sub-sampling to achieve the desired size.
-> >   The digital crop operation takes place after binning and sub-sampling. It is
-> >   configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
-> > -0/0. The resulting image size is further output by the sensor.
-> > +0/0.
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >   .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
+> >   drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
+> >   include/uapi/linux/v4l2-controls.h                           | 3 +++
+> >   3 files changed, 12 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > index 27803dca8d3e..2ae17ed99729 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > @@ -55,3 +55,7 @@ Image Process Control IDs
+> >       control value divided by e.g. 0x100, meaning that to get no
+> >       digital gain the control value needs to be 0x100. The no-gain
+> >       configuration is also typically the default.
 > > +
-> > +The scaling operation is performed after the digital crop. It is configured by
-> > +setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on (pad, stream) pair 0/0,
-> > +relative to the digital crop.
-> >   The sensor's output mbus code is configured by setting the format on the (pad,
-> > -stream) pair 0/0. When setting the format, always use the same width and height
-> > -as for the digital crop setting.
-> > +stream) pair 0/0. The width and height fields are used to configure post-scaler
-> > +digital crop if supported by the driver, affecting the right and bottom edges of
-> > +the frame. If post-scaler digital crop is not supported, the width and height
-> > +fields of the format will match the compose rectangle sizes applied on the same
-> > +0/0 (pad, stream) pair.
-> >   Drivers may only support some of even none of these configurations, in which
-> >   case they do not expose the corresponding selection rectangles. If any selection
-> > @@ -180,12 +187,19 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
-> >         - X
-> >         - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_COMPOSE``
-> >           rectangle on (pad, stream) pair 1/0.
-> > +    * - 0/0
-> > +      - ``V4L2_SEL_TGT_COMPOSE``
-> > +      - \-
-> > +      - X
-> > +      - Scaling. This rectangle is relative to the ``V4L2_SEL_TGT_CROP``
-> > +        rectangle on (pad, stream) pair 0/0.
-> >       * - 0/0
-> >         - Format
-> >         - X
-> >         - X
-> > -      - Image data source format. Always assign the width and height fields of
-> > -        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
-> > +      - Image data source format and post-scaler crop. The width and height
-> > +        fields of the format, used to configure post-scaler crop on the right
-> > +        and bottom edges of the image, are related to the ``V4L2_SEL_TGT_COMPOSE``
-> >           rectangle on (pad, stream) pair 0/0. The media bus code reflects the
-> >           pixel data output of the sensor.
-> >       * - 0/1
+> > +``V4L2_CID_CONFIG_MODEL (bitmask)``
+> > +    Which configuration models the sub-device supports. Please see
+> > +    :ref:`media_subdev_config_model`. This is a read-only control.
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index 1ea52011247a..24c9c25e20d1 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1164,6 +1164,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >   	case V4L2_CID_TEST_PATTERN:		return "Test Pattern";
+> >   	case V4L2_CID_DEINTERLACING_MODE:	return "Deinterlacing Mode";
+> >   	case V4L2_CID_DIGITAL_GAIN:		return "Digital Gain";
+> > +	case V4L2_CID_CONFIG_MODEL:		return "Sub-device configuration model";
+> >   	/* DV controls */
+> >   	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > @@ -1481,6 +1482,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >   	case V4L2_CID_DV_RX_POWER_PRESENT:
+> >   		*type = V4L2_CTRL_TYPE_BITMASK;
+> >   		break;
+> > +	case V4L2_CID_CONFIG_MODEL:
+> > +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > +		*type = V4L2_CTRL_TYPE_BITMASK;
+> > +		break;
+> >   	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
+> >   	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
+> >   		*type = V4L2_CTRL_TYPE_INTEGER;
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > index 974fd254e573..0152240229ab 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1225,6 +1225,9 @@ enum v4l2_jpeg_chroma_subsampling {
+> >   #define V4L2_CID_TEST_PATTERN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 3)
+> >   #define V4L2_CID_DEINTERLACING_MODE		(V4L2_CID_IMAGE_PROC_CLASS_BASE + 4)
+> >   #define V4L2_CID_DIGITAL_GAIN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 5)
+> > +#define V4L2_CID_CONFIG_MODEL			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
+> > +
+> > +#define V4L2_CID_CONFIG_MODEL_COMMON_RAW	(1ULL << 0)
 > 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 32 models is enough, and the subdev can support multiple models?
 > 
-> Why wasn't this just part of the previous patch?
+> It sounds sensible, I guess, but do you have any ideas what the other config
+> models might be?
+> 
+> We could also have just a single 32 bit int for the model, but that allows
+> only one model per subdev. Or maybe split the 32 bit int into 4 parts, which
+> would allow 256 models, of which a subdev can support 4.
+> 
+> I'm not really suggesting anything here, I just fear we don't have a clue
+> what the other models might be and how they're used =).
 
-There was discussion on whether this should be part of the patches merged
-in the first phase or not. If so, I think it indeed should be squashed.
+Well, I think your test pattern generator is a candidate. :-)
+
+The bitmask control is actually 32 bits, I'll use 1U.
 
 -- 
-Terveisin,
+Regards,
 
 Sakari Ailus
 
