@@ -1,200 +1,129 @@
-Return-Path: <linux-media+bounces-24542-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24543-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E766A07CCE
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 17:04:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9AAA07DD2
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 17:38:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 083BA168CFD
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 16:04:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A3543A45EF
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 16:38:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DABE321E094;
-	Thu,  9 Jan 2025 16:04:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 951EF22371C;
+	Thu,  9 Jan 2025 16:37:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="yO+PK+0O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MbLyf6K9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D19021A424
-	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 16:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63611223710
+	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 16:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736438642; cv=none; b=j1Q9tRyUVNYrgI4r4pDQV78wvE7AX9PE/gvdjXgSyN0RDbuTK5EaBfGcSS3rzdsCg/00l1BEmbOz3DaY6EOXAOpZq3dpD1zWbdp7v35Sw7GpoZnLFJ7eaNBNstTLz9ljdjjokx1dY40Frr//wIVEarfmxouMWZvmHR25wCKcZ50=
+	t=1736440660; cv=none; b=sSm45CGKyy239he4Ld4n0Pv2RcpV1DUZw85Qo88vG0TGBecxYYCfdeRPS95ra3OXNX8MKrDZ/azQ5P4zVnsnoReWAvOgKDx2SsyEipF83rGvV/hRiFPnm1yx+cw5i2Z2WpR/1A20K6r7df8ltkUa4cnAUaQ0Kktyg8Glb0hDTQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736438642; c=relaxed/simple;
-	bh=Fq6DaAxirJFRN94AUdmcajaBmHdYYB6hBLRbAayKxTk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WHW9+9js+EjQ2S8zvzqnQSpONntp5kGI7b1PcBSXl3dVnxAEJ7k6K39gS1d0wW+LOKdCMHlm+/V2mEt6HrqAC+Ve1stBaY2KvRp29dv7H9n9S1Ug2jIa2bV1pwpN5vkUgYjz0jb/Xur/nOmQ3ZVmK8tKw6DkFgPiOqXDMuk5t3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=yO+PK+0O; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6d8ece4937fso8374536d6.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Jan 2025 08:04:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1736438639; x=1737043439; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5oWxpn0SGtmyDXb93tRyzmtUmQKPaYv4078+mCEzpoE=;
-        b=yO+PK+0OAwVNmL/uC2MGmWXtcUgz5hd8FYgOpJmaLUmGRBxgrptYuJ032ZT8c10ylu
-         Yw1XtHffzJGsIIwFpGiPVzS6wpX+gC4KKNn+F/+s1Qj2uQMRLVCo72ZVisB0GRzG8dZP
-         s3kqKod5QQX07gzAJlmBsLuKremVpOpIhfHeoyAlN8JViVTDjDGVyIxkfKGtyB48NHYf
-         Yb+27RaROG0xuwKAet0ca/Y5yyn0abLhjKvJf0pVKaVrRZ5gksrZdjgV3ZQ2+ND7vm4S
-         UkZwX9Q9hjnRNG3QRYAMKG1rjximrm0kglGA6vyjWFSw9EyJwjRJtF1EbWMB9cFHzpPY
-         Bycg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736438639; x=1737043439;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5oWxpn0SGtmyDXb93tRyzmtUmQKPaYv4078+mCEzpoE=;
-        b=rCGBSPX+F311BIm5IwQwppnVOFYaTpF3RhdROpr1FETaryzf/Q4ec9JXQqhXtZAoD2
-         iH5JkSeLqog0XSe8OvZ+jLHO0zRJK+DTlDqlzFSNosJEtfuvjJOrP/De0WAYv8WDRSps
-         uc9dvttbOv/vKHQSTF+jO/o/+BI2Vl6K7REyW4aPGRxTqfDY2V1BppIcor0cgCCaFGLr
-         tc6qhWmDfOaTAksCcY7VHpiy80JJLwFMjeeoDAo42r7gM5rCkp1O8ctcBUP11MbwuMh1
-         qzw0xFvjzjf0pkvYSDdjBiG/nAOlw2JPSirpwrsffGQfsdKQ+qv4bK1n+1OFS/Tf153N
-         uPrA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZyzBFxwND4jnQRrCGAFcKwbaFyMe3b6AZT5xD/8CK7aoM60mdB5HD2S7eZkvhrxi0V8366FfmnbJDnw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywk7pb3tjsZp33cZe5Hk+Ne2h+hXpZBJU00uzJDoziejsv/LEHm
-	uku1JK1jdGLwIE4vHjPV3yV+u9UA2qhISjO62dxHeWnJlhnifTHImAyKouaZZVS+VeoOrkCAjG5
-	I4x4=
-X-Gm-Gg: ASbGnctJsAfCV0PcHSbaFytwoFYkN9cgsTxddkl82NnUg74/rTP5D57CJ8Z94mwqeBp
-	GlrfKE5OTRxWDosihRcOhqU75kCpvaAIjhcfg/R0+Zwi+2XL9wtAXqSzWyvpxeyFpXQpjJGURWW
-	0ueAtqGk7CBlthh+8BXJaLPV1BWW45uzWBSJ71VIjo9sLCOngmw8KZ0TgB4fsuE7iE86G9TC3As
-	N9oMw7HXRYURKeJfjuZjTw2NYo7St+M4ufgnlBpfV67fuGdpl7IPEJFEw==
-X-Google-Smtp-Source: AGHT+IHEP9r9XQCkPOEzp+u0TLg6rUa7q7/plau936duR/pLj+daWig5JlHn1NDsNPPmeHHMicojCA==
-X-Received: by 2002:a05:6214:300e:b0:6d8:95c9:af2b with SMTP id 6a1803df08f44-6df9b2adae6mr110180926d6.35.1736438639396;
-        Thu, 09 Jan 2025 08:03:59 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:862e::7a9])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dd18137367sm202531376d6.65.2025.01.09.08.03.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 08:03:59 -0800 (PST)
-Message-ID: <bed10b8bcd85b4c03737107ac0aea1375d18a50e.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: docs: dev-decoder: Trigger dynamic source change
- for colorspace
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>, mchehab@kernel.org, 
-	hverkuil-cisco@xs4all.nl
-Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- xiahong.bao@nxp.com, 	eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
- imx@lists.linux.dev, 	linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org
-Date: Thu, 09 Jan 2025 11:03:58 -0500
-In-Reply-To: <1c1bb1b3-7e58-4a49-83bb-2c560cd66858@oss.nxp.com>
-References: <20250107053622.1287461-1-ming.qian@oss.nxp.com>
-	 <dcae7fbb810ebfa6e539c3b45c20e1d659600d80.camel@ndufresne.ca>
-	 <1c1bb1b3-7e58-4a49-83bb-2c560cd66858@oss.nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+	s=arc-20240116; t=1736440660; c=relaxed/simple;
+	bh=ARRcUPi2Wu0rud0AgY9YQaV8YRgaDLqfxYzzPZJO/w4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WIfxsUv1TXmljZWzr5kkwl+J/i4SX54eCiHQdl+GiFV37lxMfLLYgzfxTQUW2CLo3mpvloyS2QmfIKUd5ysHrblRMSQRbi+CdE+uLiEvD5S3vVmzWSlKR6yKnU3bcCArXrCX8w8INIzRvWs5p3BbF9n3BPpnSpqK7PGbOsetrIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MbLyf6K9; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736440658; x=1767976658;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ARRcUPi2Wu0rud0AgY9YQaV8YRgaDLqfxYzzPZJO/w4=;
+  b=MbLyf6K9Jim/lLVyup5JyEcIGARqrThqSFq4yUdRxFbTZ1buaxtfHtdu
+   mt8O0P3wLD2x/lSx/1gfS7ugUMccE3aFx/xSXiZfFzB208xEhCOjY/KSh
+   xBCw+gM2PzT//8bRaHDOkH4hrBJpb0Iu0tcqErKFeDMzsij0HH6WqXEdF
+   JimUNHQM5TuBYK5U+pFMgaGPyNq+/ZExoIXYEpjsMwtN6AosQu0Z7YJKT
+   QFTaNq5SCDeLsGlj//woJt1bO6q0dQQEJuDXJw0h6BpJk9E+t56GnXHYv
+   PcRyaDGjwNl+4NT5R1ku1M5WDTmaZEbhUcghUPjWufaxfX1hCk1jb2wIS
+   w==;
+X-CSE-ConnectionGUID: FbYDO/EUQxKZes8YAUlQGQ==
+X-CSE-MsgGUID: HPjuk4pHTISb/bnGtq4NvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36734435"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="36734435"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 08:37:36 -0800
+X-CSE-ConnectionGUID: 4ikPCyR6QFCV+MEjSmEXoA==
+X-CSE-MsgGUID: mn0oPO1ORD276SvEBPnOww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="108365672"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 08:37:34 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 11C8E11F951;
+	Thu,  9 Jan 2025 18:37:32 +0200 (EET)
+Date: Thu, 9 Jan 2025 16:37:32 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Jason Chen <jason.z.chen@intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 08/10] media: ov08x40: Add missing
+ ov08x40_identify_module() call on stream-start
+Message-ID: <Z3_7TAXXUlqkUcwY@kekkonen.localdomain>
+References: <20241220144130.66765-1-hdegoede@redhat.com>
+ <20241220144130.66765-9-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241220144130.66765-9-hdegoede@redhat.com>
 
-Le jeudi 09 janvier 2025 =C3=A0 10:25 +0800, Ming Qian(OSS) a =C3=A9crit=C2=
-=A0:
-> Hi Nicolas,
->=20
-> On 2025/1/9 3:34, Nicolas Dufresne wrote:
-> > Hi,
-> >=20
-> > Le mardi 07 janvier 2025 =C3=A0 14:36 +0900, Ming Qian a =C3=A9crit :
-> > > If colorspace changes, the client needs to renegotiate the pipeline,
-> > > otherwise the decoded frame may not be displayed correctly.
-> > >=20
-> > > If it can trigger an source change event, then client can switch to t=
-he
-> > > correct stream setting. And each frame can be displayed properly.
-> > >=20
-> > > So add colorspace as a trigger parameter for dynamic resolution chang=
-e.
-> > >=20
-> > > Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> > > ---
-> > >   Documentation/userspace-api/media/v4l/dev-decoder.rst | 4 +++-
-> > >   1 file changed, 3 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/=
-Documentation/userspace-api/media/v4l/dev-decoder.rst
-> > > index ef8e8cf31f90..49566569ad26 100644
-> > > --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
-> > > @@ -932,7 +932,9 @@ reflected by corresponding queries):
-> > >  =20
-> > >   * the minimum number of buffers needed for decoding,
-> > >  =20
-> > > -* bit-depth of the bitstream has been changed.
-> > > +* bit-depth of the bitstream has been changed,
-> > > +
-> > > +* colorspace of the bitstream has been changed.
-> >=20
-> > Did you really mean colorspace in the way this term is used in V4L2 ? W=
-hat we
-> > want this event to be used for is when the capture storage size or amou=
-nt
-> > changes, perhaps you mean when the capture pixelformat changes ? This w=
-ill
-> > indeed happen if you change the bit-depth, subsampling (not mentioned h=
-ere
-> > either) or change the way colors are repsented (RGB, YCbCr, etc.).
-> >=20
->=20
-> I am referring to the following attributes in v4l2_pix_fmt:
-> 	__u32		colorspace;	/* enum v4l2_colorspace */
-> 	__u32		ycbcr_enc;	/* enum v4l2_ycbcr_encoding */
-> 	__u32		quantization;	/* enum v4l2_quantization */
-> 	__u32		xfer_func;	/* enum v4l2_xfer_func */
->=20
-> For decoder, they are parsed from the sequence header.
-> Our issue is that when only these properties change in the middle of
-> some bitstream, but not the resolution or dpb amount, the decoder needs
-> to nofity the user.  As these properties are in v4l2_pix fmt, user need
-> to get/set them via VIDIOC_G_FMT/VIDIOC_S_FMT.
-> So in my opinion, it's reasonable to nitify user a source change event,
-> then user can call v4l_g_fmt() and renegotiate the pipeline.
->=20
-> Apart from this, all I can think of is that user call v4l_g_fmt() before
-> dequeueing each frame. But I don't think this is a good idea.
+Hi Hans,
 
-I agree an event is better then this ...
+On Fri, Dec 20, 2024 at 03:41:28PM +0100, Hans de Goede wrote:
+> The driver might skip the ov08x40_identify_module() on probe() based on
+> the acpi_dev_state_d0() check done in probe().
+> 
+> If the ov08x40_identify_module() call is skipped on probe() it should
+> be done on the first stream start. Add the missing call.
+> 
+> Note ov08x40_identify_module() will only do something on its first call,
+> subsequent calls are no-ops.
+> 
+> Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
->=20
-> As these properties are parts of the v4l2_format, I think it's
-> reasonable to handle their changes via the dynamic source change flow.
->=20
-> We're currently facing some real cases on android.
->=20
-> Or do you have any good suggestions? Then I can give a try.
+I'll add:
 
-But I think this is too much to put this under the changes
- =20
-   #define V4L2_EVENT_SRC_CH_RESOLUTION            (1 << 0)
+Fixes: b1a42fde6e07 ("media: ov08x40: Avoid sensor probing in D0 state")
+Cc: stable@vger.kernel.org
 
-We include under "resolution" everything that affects the allocation. So pe=
-rhaps
-for this one we can introduce
+> ---
+>  drivers/media/i2c/ov08x40.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
+> index 39430528f54f..7d00740222c1 100644
+> --- a/drivers/media/i2c/ov08x40.c
+> +++ b/drivers/media/i2c/ov08x40.c
+> @@ -1973,6 +1973,10 @@ static int ov08x40_set_stream(struct v4l2_subdev *sd, int enable)
+>  		if (ret < 0)
+>  			goto err_unlock;
+>  
+> +		ret = ov08x40_identify_module(ov08x);
+> +		if (ret)
+> +			goto err_rpm_put;
+> +
+>  		/*
+>  		 * Apply default & customized values
+>  		 * and then start streaming.
 
-   #define V4L2_EVENT_SRC_CH_COLORSPACE            (2 << 0)
-
-Of course, userspace implementation will be needed. Anyone one else have an
-opinion here ?
-
-Nicolas
-
->=20
-> Thanks,
-> Ming
->=20
-> > >  =20
-> > >   Whenever that happens, the decoder must proceed as follows:
-> > >  =20
-> >=20
-
+-- 
+Sakari Ailus
 
