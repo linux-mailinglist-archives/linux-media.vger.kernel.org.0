@@ -1,204 +1,246 @@
-Return-Path: <linux-media+bounces-24536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF38A0797E
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 15:41:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7018DA079C0
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 15:52:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA08F7A2284
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 14:41:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8443A3A3EE1
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 14:51:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49AEE21C180;
-	Thu,  9 Jan 2025 14:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C267E21B8F7;
+	Thu,  9 Jan 2025 14:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="i4GKBVB6"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="k7+gd84X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2061.outbound.protection.outlook.com [40.107.100.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B20D21B907;
-	Thu,  9 Jan 2025 14:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736433657; cv=fail; b=u0slen7XKXrUWt54gCnOGBesWYbRIMzGin83u0Bb6S3510FaypOb+BNkLbokLTNtGzyPWYcJW2pcY8qVsgB3699pAzlSqY43qLR3Q1G1MiQKi3+ixK6GxK4vfc+3Lm5mRHYnUhmrAkqKo77pbThMJkyK4gvzgm6bQf1/fi2C6o8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736433657; c=relaxed/simple;
-	bh=S3+fRmJkiqg4oVhVxEVOiNxc7XpcMAdygNE2LaIzjUU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=h7oIIsG1KvxJ+R60I39/DwvDPnP0II8TiljDxXs8Gzjqz4tZ7S5vLLBOiu4bihf/XJXvp5tE2V5cOvkmv4hoQFW+wy9UEMCpf5bYso0BWfisJi6bZ2X/FMsy7kU1+83p4w09mGVq6QbeuvIOrL7M6/fUpLHSAfb0OA+mJ9eF9yg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=i4GKBVB6; arc=fail smtp.client-ip=40.107.100.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ThvcghVpKnM5FwgyiBjAXDv7YVXV3LmXBfkvTOi4F03KQvn6uoM6mvZbQMjQu37i3S7Hsv88fX9yOnS97PR5EYI9VnrlBqb/Px3JIeiAsuN+6jqu5Y0FrK34LKc9Qr4fN+B0d/8Pta2aQ9CcNGWz5pRS7Qz44eVHo4Nnz8faGFBHBJdszWLtHXdOCe8JySqKcTHHEPMAA2bUX6HKo4DT+/d+skjC7lAnzCare3KMiHmRfIFXfRNJHydhfU9Esiin6h6Qm2vh/6wTaUEdJ1R55/yLte44PqfR2FNia8Gv7JumjgmLUAZ43ftBLFxCNaSAIRS4t49G/1R1B+UBkYp79g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+ITzwfueWfHqqcCarUI2h81nBJtROCWTrFLad1zgmx0=;
- b=bk/33JvXl9/dxqtg6NaqJHqDaU5Hdau09gXpS+0KKgIt3j1hEDgdC1UlmDRJuZyg6mn6EawNrosYNcpsXDb/f+OdzWxSNXOcdl3zFv3tYMLX93zVlaC+AwkYMklHs6yld5rRY/OpNaS6BXJawjnYrOK4DQ3ieqivzQcEA4NmhNj/MNpddRVQiIePDRYR3zT4Ezgb7iWCT6dBKVQZ3wW3j1613pM4HB+k5rSixbIObqt1kTZDbKqeMI1uObzP6Uv3eNGTQ89ifAJ1xNX23oAzJRvMkeNOR0/DnEwuho9vx8YInDAlAPsHNlihZg19PYkoUjRK7r7b2gLJslj8RInJ3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+ITzwfueWfHqqcCarUI2h81nBJtROCWTrFLad1zgmx0=;
- b=i4GKBVB6cg+NJFM0c7akuUDFVkL1T4oCLMbZkPvSTfsxmAU0Xh639scHMztriWrWe+J+hC8nwiLPFMTX0Yb+53xaYh/c3oUeAlhq+fx6RkUWGdGpiv7do1jBZyZyXYUlLSiO4xj1MlBcV1g2o056mB469EI4jnkAKKqCCgwLzLZ/QwP0+h0DHWN5uS+miLXXmbrZaz3V+jGqYpndtnXutJuiefWpP9WEwDOQrPioCmqa7an50747TvQ3ESX7aNgzKpwr/NafQJyeAptYqkSA8bv3TuRJvJxF8+LtFpLN+eX1OELsWl2Cm0/lQrMqFS60HZ+nWX+SKh/xqSGNUqHzUg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by PH7PR12MB6537.namprd12.prod.outlook.com (2603:10b6:510:1f2::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Thu, 9 Jan
- 2025 14:40:53 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8314.015; Thu, 9 Jan 2025
- 14:40:53 +0000
-Date: Thu, 9 Jan 2025 10:40:51 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <20250109144051.GX5556@nvidia.com>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <20250107142719.179636-9-yilun.xu@linux.intel.com>
- <20250108133026.GQ5556@nvidia.com>
- <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
-X-ClientProxiedBy: BL1PR13CA0378.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::23) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3026F21764D
+	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 14:51:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736434313; cv=none; b=RAatJxEmtHFVHOQMi8IUGCPIYGtZJahcxuozdNkpQWCV+QXXCnTuUGyYAWEZD8/au97hubEv5FjVe1cZE5RY4kxnyVXgo4henpSJROBnGjRLtMsyPYsR7/Bm0rhSa2BzsBrUARNxbv4iZSeuQciilfpaZoegcsbcuWUenJfXxL4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736434313; c=relaxed/simple;
+	bh=5iWcb2DT3oa1kBAmOPvx4VdqBGmT80iw/qGGBIb8tMc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ss1cNMoQ91s2+yab4OvXQi46612XlnGr4+1YrvRnczcdsTvRf04UYXaScZeO0e+xXCJPapcdtOlseSvNKSENTt5u79q6Pg5MC1V98lpYNPGHAX/IAIApZWol+MQ1Ij3pCAP2DBCoYIsrbvObL8Gs7PIsqMYegt5X8hEerACeyNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=k7+gd84X; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e460717039fso1309149276.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Jan 2025 06:51:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1736434310; x=1737039110; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3cfBkmvLTg4/yEDxW6jq/Ewc8vKfMbUsnqUNmouV8Go=;
+        b=k7+gd84XngeKT3VmKQTX2lDHQ6rXOEfjwNsUrtMePPRkP56jFTbo/r12g3oyHCFKpy
+         NaqT0UYlSPRV1K3n1nw9+3BzpCQtS5m8XSgFAAg8Qu4fZrQEcMabBRLajlXv+eZ86UCd
+         U6hsmN4WbPdNBaZXZ/Fa5zQbHekcbUPUgt7gH+5Q0cNq/nf1lKtj7hhmJkme/efvVkEa
+         7is2YN084tydZdHPwNZJu3e/5RHZUq0cIvMlNG8A17+bi5JXh5TByV9wCN87q+20RkyC
+         gBkGa5g8Quh3t07PWSEqOree66hoX6464JFQd5SHHOmZpUJ9Gg0vKVBxdZoN5DlLm44I
+         j+kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736434310; x=1737039110;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3cfBkmvLTg4/yEDxW6jq/Ewc8vKfMbUsnqUNmouV8Go=;
+        b=U6s/kN6m5+nSrVWqUiosa9tGg0SJbJv1HuF7+U5dyO790JTDXZdGK6iTxX7YvMiDfM
+         4jLslbG3FX+iIYvEwyNIdUxSILijHeCIB8mw74UcOB10W4P9JQPNTGn5j9x1UmhyCxlS
+         2rfYO6sAOZwVTFsAZrK69kXsH2kmzWsrgSp06vnH6BVcHfDexlrq9N4s8i206bFambqP
+         FQb+Ly291fOIRT79Q/utJG/7XZNwnGvHzmbqptKkF5qZlBstetFx0jldbrloSbOU4hNP
+         JqHYv7oz3IM6mCNb7YB9PSAUTRI5dDcvz/WUZcJQR730KWk98K+kj7FCXk9UxzeY5NVc
+         UNmw==
+X-Gm-Message-State: AOJu0Yz00eJG0JaW0Y7qWBUK9QvlS3YoPBpyEtlZ5IHx6MdxiBHHEDLk
+	E95mAQxWvXnLQEVHa+XhErUgi5jDl0p8T9KIirsO5DmTKmiEYcCad7b4kU8jxU0NUQgtDC47C3h
+	6l8Mhanp4MjAOtYQpP//77U4P9FxK3CZ22umF7Q==
+X-Gm-Gg: ASbGnctnRiC/84NHeeRXD7ur82fpHGomk0A2CH1yO/+biGhrEESHPEigDbjn+g9yZDa
+	pGlfYeei1Djo/Po+EANqtJ7VF+LIB/LqmsfdfAQ==
+X-Google-Smtp-Source: AGHT+IE/CtVlqMMVIQSjDPi3r1E+PtV8X3hW/j9xojPlittU/jPrcGxJ7aSyZ8hw1dHSSfwmD5xNhwuVg5oHn2+Ij00=
+X-Received: by 2002:a05:690c:4486:b0:6ef:7c45:84cc with SMTP id
+ 00721157ae682-6f531224a8cmr56217647b3.18.1736434309974; Thu, 09 Jan 2025
+ 06:51:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB6537:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1e2ed80-2db7-4fb8-093f-08dd30bb9e39
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?jMAlcqrXLM/nzF1z6ns228jo3gkfIdkrQ5kzgTJPoruYK4wGO0NCeCdES/2p?=
- =?us-ascii?Q?oGlfpScW4I5C3/QUi/82n1ZVyQc5ZlbsZJ2PiUnr4wfuhdiiDR7U95SBuOO+?=
- =?us-ascii?Q?ClgQM5U7DbsZVrEZ/2osGsE2y/pyTyzx8t2YORsracb4EVeN74gnMnv783NH?=
- =?us-ascii?Q?+esAE4T5s9/0Bwxx3c2V21/JAun4yhRifJYWwcmp50b8GubkoEbAClML7hiQ?=
- =?us-ascii?Q?+ifKfHqzM4OHAWw9ko1RN9vOk/gknA1dNas9uwjJO+Th5oSYHriR+w9LssFE?=
- =?us-ascii?Q?pb15grm1jpYFBuRZU20hxn4TlUivkMvz8aGTJwNk8D3jYyca4gM8XEJiV7jB?=
- =?us-ascii?Q?pgQ2j/AsOAsjm7YRWvDXb0Ipgycs19QH03rH96fvSe4TLLbczAGwPJHgpeI6?=
- =?us-ascii?Q?q04c8Jt35Zw0+dviPSDkrTBtRpZvrJ4bMaUXbfzwFz2cNVIT0k+I2E2EeuZP?=
- =?us-ascii?Q?YQ0U6nurawDINrIXsV0F0BYYbUYdCeSAFQTBYYDhetLlv76QZDuASb524kVu?=
- =?us-ascii?Q?wIR27UUXhbUtcgoBTN0/cz6s1kqYb6xvAsTtMYJDMPnsF2DQ3L1P3p2wfgCp?=
- =?us-ascii?Q?SROBF3n0ogiMbvVf8dEzVq+aSOZp+yeDRgzvTNb0CMnXzzTuPFoj82IPf7KL?=
- =?us-ascii?Q?RUh9smQsgXkK06NRLnk1cAVFlIp7rPdi1JhjicqugUwcAOGrix2Pg9fWu2mn?=
- =?us-ascii?Q?70d9yptyBqfdwA68lw/fVDG6kbucya8K9JtXOCdIR5Be2/uu4r9FBXgWfumj?=
- =?us-ascii?Q?HVH0TXtSBCVnO3z+kKGBPUID6oCqkn55Hy2wFbaXg0YH/be0W+Swix8yBCwb?=
- =?us-ascii?Q?NcGpzin5VJgYitKYywnoAFhP/ahIOFSIslyz1xOOyjGa7ZTgQ+EwiNFXKpkA?=
- =?us-ascii?Q?/K45/phX428tnBDzomIDhx4wolKc/szSyskmgeClwMykQfTR72V8yYfk6DJW?=
- =?us-ascii?Q?wt2g3+JaXmHkF1tBMyQ+4iHqV2psmNMbgCXe7N/nVdc/467so+ZslRaqoyEK?=
- =?us-ascii?Q?G1pxCyO1ryLsz8bfGON6wRGMxKVAJsUAoYnNWYLZkIfM4b5KRQbwkNvEBUwE?=
- =?us-ascii?Q?Xj8MWaFIEU/Uq2N3jpGuijaXnGnNH8kwvfpDBhEIVcFSNi4Vr/eHSVPcmfZE?=
- =?us-ascii?Q?lmBvw4V9w8ZGur6mQXqhNckXgpRUMC5OEMN3TUK/33doO/3kMvMXkIBWMp8u?=
- =?us-ascii?Q?a+9pByUTzmU32p5xaq8Kw6pzCy7eDX8Imh8Dwe//bavw6P1cJB4mzqOFsQEd?=
- =?us-ascii?Q?8/yUBxNNt8Da3HJCk6rWJsPxvtxoWQVKMtR2txqo6AxCdTkBwJGLSEbJzxS0?=
- =?us-ascii?Q?+Xw/XrNouYvRXglto/mvOXZXpLb3u7xuUmjVC7TD/3m6+q3EaIMTl/2oTQ5X?=
- =?us-ascii?Q?5v2mN2kSRdNOrAGTGIojcfwSopL1?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?UKpdUrS3G2my27E8NGEAhApb+6/wHhOrqdKusnvn4oJWQxAe8ibBupyiyRgY?=
- =?us-ascii?Q?Ar3IhpexW7/UsZUfsxRX+R1D0eABAnF8iEQ7Mb9ktUW7kPSEYn5g0lEd286x?=
- =?us-ascii?Q?yaJvZuRGN/zRPIKdUWahF2NYd00aei5pde1lwVNduBBF+MqcAAEkop0lwDBF?=
- =?us-ascii?Q?2jmAeMn5cTWCvhJJcZYg468uNQQyuHMogDGTHvBx8zY4wQGugJWSsqPJSVev?=
- =?us-ascii?Q?iZiSq9c3gs70D5H3idQt9UvfQt98ZjWP3tjpH7tqkEo1MWgtVb+XFwdTHqav?=
- =?us-ascii?Q?7WMUfayFkQOlhgfwCPlPhvMIfkAB0Qw0GswWd6FmpwdqaDte7aOHvbktOeoq?=
- =?us-ascii?Q?KENWn2JWIsji1uMs/fp2OYJ3T+awMJRuh3FkdsWrA1wbaCy7n1uqouBcMuyy?=
- =?us-ascii?Q?6JI/1DAxvSo1hAOBbcgVR2adCmMRlU3lNnsZAJ2zxMZoTumDpmG8YGPtqsSi?=
- =?us-ascii?Q?ONDJkZNKMmk2LoPNTgPA7nBzZrRyZemPmRnKBO8nHk86aoGzk6znWxHrfJgA?=
- =?us-ascii?Q?Vo6oNyNTiOCi4+JiDxorwvvgo3/c8pcEQ2CUHIGqQzN9gApkGH8hyrbUT4Ya?=
- =?us-ascii?Q?PVmO6k+H2mJ6tVppW8TYCP2ezfoDcKhvyj6WeNabF+JRZbYudKlniKVHAC/3?=
- =?us-ascii?Q?4WN62UxnoQvugY0xmHHoK73Kf4Mfzh7+8Vo9LkqTapCCIth+IuTED4XkITbX?=
- =?us-ascii?Q?uHD25g4oaV4JxTevQrUW2bWVcBZzn5GuX+XOF+fd1b2ETjL/RxYv2/nueXT1?=
- =?us-ascii?Q?d4p1x0ium0mGcMer0mOOoRVm2bctAfUP1XH7iRzPGOWbh9H78vMl2Iymbgc0?=
- =?us-ascii?Q?ob1oXh7Kp7qZxBFzJNuY99ywFdAvk4mVVVz5JInKVQGhwlhPduB7N3I7QwWF?=
- =?us-ascii?Q?Bepgqj9h2kPFHISsWDSte9fbOvZzvKoOum4WkqaoeI+gSOQs5ak9pyR+7g9m?=
- =?us-ascii?Q?hpNW/bImw7optLtQgtNgIOUpv1tD1+xMvHATQPpeLJMHhT+8tO3S1p71qufC?=
- =?us-ascii?Q?XUC78GyH6ce82ZHctq7aD25JC0Im/hNnvzIWf5xJfdFrar/ZSGlZ0xQE/fZs?=
- =?us-ascii?Q?CB/1IO9U4qcyqtKaacO1MQCgfzx7GG1GMPKtpR5V0bxcxnyAY11oh3ib41rS?=
- =?us-ascii?Q?O86pyIsApdmCHBubvJywncNm1OG/L7pXqx+c/qzf5iqd8wB6+p4JnpdngcxW?=
- =?us-ascii?Q?A2WHFFTXnwdnhmo83HHUfqTZZNNCVwe7MofSWS+otrgivJ1PT6z+2bI13A4W?=
- =?us-ascii?Q?2zMPqMQNa6ATvflpWMS2RUJ1rrgXIF5ERlh7i6bLtBtVKm4JOvZtDutmgoj+?=
- =?us-ascii?Q?fNt5WruN8OfoNgHxqZXRqENpAf8REaRQARjjgVFrndNJArQ2TPe4ycr43HMM?=
- =?us-ascii?Q?Kf14+ThBMznR96Zha+m7fXgTybfnvPn923MKyCmSP+rrPrWDFIU6hElECqq9?=
- =?us-ascii?Q?i8WwX4ckVAJbIf5E9fGjGaCReGH5PfAr/b173mwT3u6jKLUp2Lu+hW2ys0HZ?=
- =?us-ascii?Q?2L34+TeGLxxLfOlPRhXaIXWNPk7Ru6LSVh83jAggq3v1Rt/+nDs1v4PTEP2K?=
- =?us-ascii?Q?Uh3cA0L5Ft1Y5qKioNeL9atYgBfNuCOyrqjzaWNs?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1e2ed80-2db7-4fb8-093f-08dd30bb9e39
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 14:40:52.9306
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k5kjeqJhmJ/LfZ+5EIPrbHrYxLMqPeEeHUBbhemrOLGuee3ohxrll+TSDLmBlBFY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6537
+References: <20250109-media-imx415-v1-0-366ba6a234ab@raspberrypi.com> <20250109-media-imx415-v1-1-366ba6a234ab@raspberrypi.com>
+In-Reply-To: <20250109-media-imx415-v1-1-366ba6a234ab@raspberrypi.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 9 Jan 2025 14:51:31 +0000
+X-Gm-Features: AbW1kvaw6nBvKOjfPZGLbC45PRkCiCJV1VRWzcQFf82UwuI_vw1EIBmxweUXl7w
+Message-ID: <CAPY8ntCe8LB-sEwsG8iWgRWDEfUSGv+YMFtavoVhMryAo7awjg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: i2c: imx415: Add read/write control of VBLANK
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Michael Riesch <michael.riesch@wolfvision.net>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 09, 2025 at 12:57:58AM +0800, Xu Yilun wrote:
-> On Wed, Jan 08, 2025 at 09:30:26AM -0400, Jason Gunthorpe wrote:
-> > On Tue, Jan 07, 2025 at 10:27:15PM +0800, Xu Yilun wrote:
-> > > Add a flag for ioctl(VFIO_DEVICE_BIND_IOMMUFD) to mark a device as
-> > > for private assignment. For these private assigned devices, disallow
-> > > host accessing their MMIO resources.
-> > 
-> > Why? Shouldn't the VMM simply not call mmap? Why does the kernel have
-> > to enforce this?
-> 
-> MM.. maybe I should not say 'host', instead 'userspace'.
-> 
-> I think the kernel part VMM (KVM) has the responsibility to enforce the
-> correct behavior of the userspace part VMM (QEMU). QEMU has no way to
-> touch private memory/MMIO intentionally or accidently. IIUC that's one
-> of the initiative guest_memfd is introduced for private memory. Private
-> MMIO follows.
+On Thu, 9 Jan 2025 at 11:17, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> This also requires that the ranges for the exposure control
+> are updated.
+>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  drivers/media/i2c/imx415.c | 51 ++++++++++++++++++++++++++++++----------------
+>  1 file changed, 33 insertions(+), 18 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+> index 3f7924aa1bd3..2c8c0905aa99 100644
+> --- a/drivers/media/i2c/imx415.c
+> +++ b/drivers/media/i2c/imx415.c
+> @@ -26,6 +26,7 @@
+>  #define IMX415_PIXEL_ARRAY_WIDTH  3864
+>  #define IMX415_PIXEL_ARRAY_HEIGHT 2192
+>  #define IMX415_PIXEL_ARRAY_VBLANK 58
+> +#define IMX415_EXPOSURE_OFFSET   8
+>
+>  #define IMX415_NUM_CLK_PARAM_REGS 11
+>
+> @@ -51,6 +52,7 @@
+>  #define IMX415_OUTSEL            CCI_REG8(0x30c0)
+>  #define IMX415_DRV               CCI_REG8(0x30c1)
+>  #define IMX415_VMAX              CCI_REG24_LE(0x3024)
+> +#define IMX415_VMAX_MAX                  0xfffff
+>  #define IMX415_HMAX              CCI_REG16_LE(0x3028)
+>  #define IMX415_SHR0              CCI_REG24_LE(0x3050)
+>  #define IMX415_GAIN_PCG_0        CCI_REG16_LE(0x3090)
+> @@ -447,7 +449,6 @@ static const struct imx415_clk_params imx415_clk_params[] = {
+>
+>  /* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
+>  static const struct cci_reg_sequence imx415_mode_2_720[] = {
+> -       { IMX415_VMAX, 0x08CA },
+>         { IMX415_HMAX, 0x07F0 },
+>         { IMX415_LANEMODE, IMX415_LANEMODE_2 },
+>         { IMX415_TCLKPOST, 0x006F },
+> @@ -463,7 +464,6 @@ static const struct cci_reg_sequence imx415_mode_2_720[] = {
+>
+>  /* all-pixel 2-lane 1440 Mbps 30.01 Hz mode */
+>  static const struct cci_reg_sequence imx415_mode_2_1440[] = {
+> -       { IMX415_VMAX, 0x08CA },
+>         { IMX415_HMAX, 0x042A },
+>         { IMX415_LANEMODE, IMX415_LANEMODE_2 },
+>         { IMX415_TCLKPOST, 0x009F },
+> @@ -479,7 +479,6 @@ static const struct cci_reg_sequence imx415_mode_2_1440[] = {
+>
+>  /* all-pixel 4-lane 891 Mbps 30 Hz mode */
+>  static const struct cci_reg_sequence imx415_mode_4_891[] = {
+> -       { IMX415_VMAX, 0x08CA },
+>         { IMX415_HMAX, 0x044C },
+>         { IMX415_LANEMODE, IMX415_LANEMODE_4 },
+>         { IMX415_TCLKPOST, 0x007F },
+> @@ -600,6 +599,7 @@ struct imx415 {
+>         struct v4l2_ctrl *vblank;
+>         struct v4l2_ctrl *hflip;
+>         struct v4l2_ctrl *vflip;
+> +       struct v4l2_ctrl *exposure;
+>
+>         unsigned int cur_mode;
+>         unsigned int num_data_lanes;
+> @@ -730,17 +730,37 @@ static int imx415_s_ctrl(struct v4l2_ctrl *ctrl)
+>                                              ctrls);
+>         const struct v4l2_mbus_framefmt *format;
+>         struct v4l2_subdev_state *state;
+> +       u32 exposure_max;
+>         unsigned int vmax;
+>         unsigned int flip;
+>         int ret;
+>
+> -       if (!pm_runtime_get_if_in_use(sensor->dev))
+> -               return 0;
+> -
+>         state = v4l2_subdev_get_locked_active_state(&sensor->subdev);
+>         format = v4l2_subdev_state_get_format(state, 0);
+>
+> +       if (ctrl->id == V4L2_CID_VBLANK) {
+> +               exposure_max = format->height + ctrl->val -
+> +                              IMX415_EXPOSURE_OFFSET;
+> +               __v4l2_ctrl_modify_range(sensor->exposure,
+> +                                        sensor->exposure->minimum,
+> +                                        exposure_max, sensor->exposure->step,
+> +                                        sensor->exposure->default_value);
+> +       }
+> +
+> +       if (!pm_runtime_get_if_in_use(sensor->dev))
+> +               return 0;
+> +
+>         switch (ctrl->id) {
+> +       case V4L2_CID_VBLANK:
+> +               ret = cci_write(sensor->regmap, IMX415_VMAX,
+> +                               format->height + ctrl->val, NULL);
+> +               if (ret)
+> +                       return ret;
+> +               /*
+> +                * Deliberately fall through as exposure is set based on VMAX
+> +                * which has just changed.
+> +                */
+> +               fallthrough;
 
-Okay, but then why is it a flag like that? I'm expecting a much
-broader system here to make the VFIO device into a confidential device
-(like setup the TDI) where we'd have to enforce the private things,
-communicate with some secure world to assign it, and so on.
+Checkpatch complains "WARNING: Prefer 'fallthrough;' over fallthrough comment"
+Having a comment as to why we're wanting to fall through as well as
+fallthrough; seems reasonable to me.
 
-I want to see a fuller solution to the CC problem in VFIO before we
-can be sure what is the correct UAPI. In other words, make the
-VFIO device into a CC device should also prevent mmaping it and so on.
+However what I have just noticed is that the V4L2_CID_EXPOSURE case
+uses ctrl->val, which is going to be incorrect when we fall through.
+I'll sort out an update in due course.
 
-So, I would take this out and defer VFIO enforcment to a series which
-does fuller CC enablement of VFIO.
+  Dave
 
-The precursor work should just be avoiding requiring a VMA when
-installing VFIO MMIO into the KVM and IOMMU stage 2 mappings. Ie by
-using a FD to get the CPU pfns into iommufd and kvm as you are
-showing.
-
-This works just fine for non-CC devices anyhow and is the necessary
-building block for making a TDI interface in VFIO.
-
-Jason
+>         case V4L2_CID_EXPOSURE:
+>                 /* clamp the exposure value to VMAX. */
+>                 vmax = format->height + sensor->vblank->cur.val;
+> @@ -787,7 +807,8 @@ static int imx415_ctrls_init(struct imx415 *sensor)
+>         u64 pixel_rate = supported_modes[sensor->cur_mode].pixel_rate;
+>         u64 lane_rate = supported_modes[sensor->cur_mode].lane_rate;
+>         u32 exposure_max = IMX415_PIXEL_ARRAY_HEIGHT +
+> -                          IMX415_PIXEL_ARRAY_VBLANK - 8;
+> +                          IMX415_PIXEL_ARRAY_VBLANK -
+> +                          IMX415_EXPOSURE_OFFSET;
+>         u32 hblank;
+>         unsigned int i;
+>         int ret;
+> @@ -816,8 +837,9 @@ static int imx415_ctrls_init(struct imx415 *sensor)
+>         if (ctrl)
+>                 ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>
+> -       v4l2_ctrl_new_std(&sensor->ctrls, &imx415_ctrl_ops, V4L2_CID_EXPOSURE,
+> -                         4, exposure_max, 1, exposure_max);
+> +       sensor->exposure = v4l2_ctrl_new_std(&sensor->ctrls, &imx415_ctrl_ops,
+> +                                            V4L2_CID_EXPOSURE, 4,
+> +                                            exposure_max, 1, exposure_max);
+>
+>         v4l2_ctrl_new_std(&sensor->ctrls, &imx415_ctrl_ops,
+>                           V4L2_CID_ANALOGUE_GAIN, IMX415_AGAIN_MIN,
+> @@ -834,16 +856,9 @@ static int imx415_ctrls_init(struct imx415 *sensor)
+>         sensor->vblank = v4l2_ctrl_new_std(&sensor->ctrls, &imx415_ctrl_ops,
+>                                            V4L2_CID_VBLANK,
+>                                            IMX415_PIXEL_ARRAY_VBLANK,
+> -                                          IMX415_PIXEL_ARRAY_VBLANK, 1,
+> -                                          IMX415_PIXEL_ARRAY_VBLANK);
+> -       if (sensor->vblank)
+> -               sensor->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +                                          IMX415_VMAX_MAX - IMX415_PIXEL_ARRAY_HEIGHT,
+> +                                          1, IMX415_PIXEL_ARRAY_VBLANK);
+>
+> -       /*
+> -        * The pixel rate used here is a virtual value and can be used for
+> -        * calculating the frame rate together with hblank. It may not
+> -        * necessarily be the physically correct pixel clock.
+> -        */
+>         v4l2_ctrl_new_std(&sensor->ctrls, NULL, V4L2_CID_PIXEL_RATE, pixel_rate,
+>                           pixel_rate, 1, pixel_rate);
+>
+>
+> --
+> 2.34.1
+>
 
