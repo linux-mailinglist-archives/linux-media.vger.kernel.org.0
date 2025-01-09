@@ -1,217 +1,216 @@
-Return-Path: <linux-media+bounces-24546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24548-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660B8A07F3F
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 18:49:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 235E6A0804A
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 19:59:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5544616953B
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 17:49:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 086E91888985
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 18:59:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7746199235;
-	Thu,  9 Jan 2025 17:48:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48F6E1A9B4A;
+	Thu,  9 Jan 2025 18:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Hhn91vB7"
+	dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="kPuUrGJm";
+	dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b="GzdvCaIq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE02192B85;
-	Thu,  9 Jan 2025 17:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736444934; cv=none; b=TMjKgULdAueyPNR5ddhCiqcONWYSYbfZMsyiGrloWbXlVNcDztmryckB7uzlPXRnjB9tYUrBOfAIJ60qm7St58yZ6E/IP2FXigLLkCNM6S1fgyCA1g5TmTHvBeLf8HRo5oeM5Jiwxg0iUuxhwcOgQgRfMdBqwHij/z0qHfXWYjY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736444934; c=relaxed/simple;
-	bh=8QqYbCt6WatfmiIAot7P7MYKDIQi4GbdHhEb5n9ofwE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=h9Gyoaf5YLPUVu3W0LdtOWyl+hrXQ/FqZZYDzlDXXO98/ErxjpbOKVTohja4dS4rzEbv53RMc1wHG41sGrpEyx+imchCRKduv//vItmZY8kfS9OoajGY8mnurLvaxMimPamDtBy/aPtUeFLaHrEmqr3ieS/UhEi97zbFViUHo/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Hhn91vB7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 509D7h0L009940;
-	Thu, 9 Jan 2025 17:48:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	UOJcTVlMeEO28eOXItiv/fjqlqGkaT07u2vxtTbwYts=; b=Hhn91vB7NfS9w/K0
-	k5ANtPHdkMUYFQ9NyZP+DhvnJScCmyK+6KMc+XmELB97vfr4CXd1qf4YV+VzAoat
-	DeL487tB6GvyeSfQ7wB94r3fHLjx5qJ/Yknds3CsniUJM/Kro3OdDAD4yGLshWgl
-	qf2la9LnAWoY65fD+KoqvJ2psYac3k9v1F7o8W4WFgsFHMj9lPD703emEiTY+Xwi
-	4hlnajcnJDMEH/9ezGDCe14S8OYOyy9E75OlY41Fg+DPdT7iyl2Dusl4RwMmtcKi
-	khF1tHiezFkiKAW/XHgULXGDjkLh1K05Fr+QoqQ3FlFJp8WOvzcOBWo+S4C2Nu4i
-	mLHWMw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 442f2krnq8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Jan 2025 17:48:39 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 509HmdC0018354
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 9 Jan 2025 17:48:39 GMT
-Received: from [10.216.48.143] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 9 Jan 2025
- 09:48:32 -0800
-Message-ID: <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com>
-Date: Thu, 9 Jan 2025 23:18:29 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A21615B99E;
+	Thu,  9 Jan 2025 18:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.220
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736449133; cv=pass; b=iHNOK4Ti/dShkrxp1DPYauCmNnSvRr4hAFRre3y8D03lz/kHZVuLySJ/Ok5Ul7bUMCpy9LImEkANCAcofltivyFwuBchnMNPPEnC6SEPM4dA6V75uLt8yxFbAFJw2tR/Tz3HhEoWXo9ycocsdW33uOZujf5sJZ5EY9Fl3IVzgxE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736449133; c=relaxed/simple;
+	bh=GMCwBuCPoFRcD3FGs5+4s1FKXtPidJbvcE2cGK1A7R8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=dzOw3HKL+6xNa3ouu84PmvbL8KEiFIk6NhB5tmpW57FygivXA4mUCur1uA/fJEKebZV05FtaiAiB4e9L7vcqNf4ayGKwXhr3ZwDQW5Rhr3nax29b14JzZN3OeVtWzo/wdxfQFPpJNCbm+Dai/iwwSTsXwQ6pbFCpG0AN0xSYz9A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de; spf=pass smtp.mailfrom=a98shuttle.de; dkim=pass (2048-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=kPuUrGJm; dkim=permerror (0-bit key) header.d=fossekall.de header.i=@fossekall.de header.b=GzdvCaIq; arc=pass smtp.client-ip=81.169.146.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fossekall.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a98shuttle.de
+ARC-Seal: i=1; a=rsa-sha256; t=1736448938; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=IXB0uxMSW65yPnorqlkCZ2ifxgv887rEf0cX29xa8Q2bWdYWLK3L6No1/4YUcN01u/
+    Y43M4GND1ohOZ3KOJIQkMCYe0f8YmJwo6bFeQXL82ciQt/+Db2O9x6vomn9FYu+L98cn
+    fULLS+zQf54abJ8TvVeaitceb6IWfPKdLRsnIleBVMjxQ8bTXSzYwIYPS1+Wa89HozJJ
+    fHEXcN/TsT3AHcyJgDTrFV+t22AYWhR/u0M02/aVw7nRaR/yHfBL+fjbeWi/tPzwEgxj
+    qqh3MZGK4P2Oa2jx+/jCFQdNXkL98NOHynFS/a28fPNoqyM9AUPQ1tcOmPFte8EzHQgf
+    rorw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1736448938;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=Zt9TBg6V0ARuQzyKioQaHgFvFhqZ3HTMfR3QKsfsdhU=;
+    b=izvr+QmFNMIBrU8BSfE1uyX19266cyR2mZDsQn00ntrLqD45EaJeR6O0+/HrP2WBws
+    Iyuo+j8Ly6/GpLjtX60Mp3xYAAv0x1zb1P1IZt0xkRXm9IOAQggTdyoUBxDzwmW589fT
+    NxItPD2aUGQc87Ds+DHd4ZdNNfqPqxchl25Itr1G4XuFrTKHzAh2sMpANY37rYYvgj2C
+    XeJcTYLdth3B186DBft3gpw7mmNB1oBJJ2LFB7+D+gPLvNG3/xHNsFe+TLUKVVZPvTIl
+    YJRHPPyebJki+iTVSmNhtU3mxQIXLPYCfIG09cePhvdzbj4/DzyvC3DO0CeX2iTYRKmU
+    hfGw==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1736448938;
+    s=strato-dkim-0002; d=fossekall.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=Zt9TBg6V0ARuQzyKioQaHgFvFhqZ3HTMfR3QKsfsdhU=;
+    b=kPuUrGJmXHHD0wsj9WAiju0RqTV3DgMkJIFg9hubtTYi8Q75f1CAD+z1r6ZVzmvZ9h
+    fm/rVp3qYRqF1KMapchM1kOTdPHb3x7hSZqi8WsO0wZ2/AaOYADx33k4gTmu0VsIT/+D
+    rDY5FQb2N+Lt4VDOHg0uHdi+Y47NZaSKqELNJuWYTpylJAqxKdLpuXUvQGdepXjW8aeT
+    dOq8VuWbOIpg58L6np7bhMILqWfI9X3zl+ACq4xCA7y6LJmtSJc40X9uWsAey9peUNmH
+    /rcliSKFjG5B7VD8t5A9EHwNUxy7tbHTcYclQSF/P+uIQ0p6EBGsLCd+A1kUTnF+gy4Y
+    ddgA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1736448938;
+    s=strato-dkim-0003; d=fossekall.de;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=Zt9TBg6V0ARuQzyKioQaHgFvFhqZ3HTMfR3QKsfsdhU=;
+    b=GzdvCaIqNk4J7DtEieC8r0SmcJNjBysJA+4OpeOTWZPGK5qlEvGneVbNixUB3/yqB7
+    TPIRIR6nLXlxj1h0KkAA==
+X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBdao6FTL4AJcMdm+lap4JEHkzok9eyEg=="
+Received: from aerfugl
+    by smtp.strato.de (RZmta 51.2.16 AUTH)
+    with ESMTPSA id f86788109ItcYOr
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Thu, 9 Jan 2025 19:55:38 +0100 (CET)
+Received: from koltrast.home ([192.168.1.27] helo=a98shuttle.de)
+	by aerfugl with smtp (Exim 4.96)
+	(envelope-from <michael@a98shuttle.de>)
+	id 1tVxgv-00087t-2O;
+	Thu, 09 Jan 2025 19:55:37 +0100
+Received: (nullmailer pid 17089 invoked by uid 502);
+	Thu, 09 Jan 2025 18:55:37 -0000
+From: Michael Klein <michael@fossekall.de>
+To: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Michael Klein <michael@fossekall.de>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH] media: rc: add keymap for Siemens Gigaset RC20 remote
+Date: Thu,  9 Jan 2025 19:55:10 +0100
+Message-Id: <20250109185511.17049-1-michael@fossekall.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of SM8250
- SoC
-Content-Language: en-US
-To: Johan Hovold <johan@kernel.org>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>
-CC: Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sebastian Fricke
-	<sebastian.fricke@collabora.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Nicolas Dufresne
-	<nicolas@ndufresne.ca>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=
-	<u.kleine-koenig@baylibre.com>,
-        Jianhua Lu <lujianhua000@gmail.com>,
-        "Stefan
- Schmidt" <stefan.schmidt@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>
-References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
- <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
- <Z3_nCPk_g8znto4A@hovoldconsulting.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <Z3_nCPk_g8znto4A@hovoldconsulting.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 2QMg_BoYsf6-JkouaDwtAnat4Towmysy
-X-Proofpoint-ORIG-GUID: 2QMg_BoYsf6-JkouaDwtAnat4Towmysy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 mlxlogscore=999 clxscore=1011 lowpriorityscore=0
- impostorscore=0 spamscore=0 phishscore=0 bulkscore=0 malwarescore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501090142
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Johan,
+Add keymap for the Siemens Gigaset RC20 remote (RC-5).
 
-On 1/9/2025 8:41 PM, Johan Hovold wrote:
-> On Thu, Dec 12, 2024 at 05:21:49PM +0530, Dikshita Agarwal wrote:
->> Initialize the platform data and enable video driver probe of SM8250
->> SoC. Add a kernel param to select between venus and iris drivers for
->> platforms supported by both drivers, for ex: SM8250.
-> 
-> Why do you want to use a module parameter for this? What would be the
-> default configuration? (Module parameters should generally be avoided.)
-This was discussed during v4 [1] and implemented as per suggestion
+Signed-off-by: Michael Klein <michael@fossekall.de>
+---
+ drivers/media/rc/keymaps/Makefile             |  1 +
+ .../rc/keymaps/rc-siemens-gigaset-rc20.c      | 71 +++++++++++++++++++
+ include/media/rc-map.h                        |  1 +
+ 3 files changed, 73 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-siemens-gigaset-rc20.c
 
-[1]
-https://lore.kernel.org/linux-media/eea14133-2152-37bb-e2ff-fcc7ed4c47f5@quicinc.com/
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index 7fdf0d9edbfd..d04572627cdd 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -106,6 +106,7 @@ obj-$(CONFIG_RC_MAP) += \
+ 			rc-rc6-mce.o \
+ 			rc-real-audio-220-32-keys.o \
+ 			rc-reddo.o \
++			rc-siemens-gigaset-rc20.o \
+ 			rc-snapstream-firefly.o \
+ 			rc-streamzap.o \
+ 			rc-su3000.o \
+diff --git a/drivers/media/rc/keymaps/rc-siemens-gigaset-rc20.c b/drivers/media/rc/keymaps/rc-siemens-gigaset-rc20.c
+new file mode 100644
+index 000000000000..defc77932e10
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-siemens-gigaset-rc20.c
+@@ -0,0 +1,71 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/* rc-siemens-gigaset-rc20.c - Keytable for the Siemens Gigaset RC 20 remote
++ *
++ * Copyright (c) 2025 by Michael Klein
++ */
++
++#include <media/rc-map.h>
++#include <linux/module.h>
++
++static struct rc_map_table siemens_gigaset_rc20[] = {
++	{ 0x1501, KEY_POWER },
++	{ 0x1502, KEY_MUTE },
++	{ 0x1503, KEY_NUMERIC_1 },
++	{ 0x1504, KEY_NUMERIC_2 },
++	{ 0x1505, KEY_NUMERIC_3 },
++	{ 0x1506, KEY_NUMERIC_4 },
++	{ 0x1507, KEY_NUMERIC_5 },
++	{ 0x1508, KEY_NUMERIC_6 },
++	{ 0x1509, KEY_NUMERIC_7 },
++	{ 0x150a, KEY_NUMERIC_8 },
++	{ 0x150b, KEY_NUMERIC_9 },
++	{ 0x150c, KEY_NUMERIC_0 },
++	{ 0x150d, KEY_UP },
++	{ 0x150e, KEY_LEFT },
++	{ 0x150f, KEY_OK },
++	{ 0x1510, KEY_RIGHT },
++	{ 0x1511, KEY_DOWN },
++	{ 0x1512, KEY_SHUFFLE },        /* double-arrow */
++	{ 0x1513, KEY_EXIT },
++	{ 0x1514, KEY_RED },
++	{ 0x1515, KEY_GREEN },
++	{ 0x1516, KEY_YELLOW },         /* OPT */
++	{ 0x1517, KEY_BLUE },
++	{ 0x1518, KEY_MENU },
++	{ 0x1519, KEY_TEXT },
++	{ 0x151a, KEY_MODE },           /* TV/Radio */
++
++	{ 0x1521, KEY_EPG },
++	{ 0x1522, KEY_FAVORITES },
++	{ 0x1523, KEY_CHANNELUP },
++	{ 0x1524, KEY_CHANNELDOWN },
++	{ 0x1525, KEY_VOLUMEUP },
++	{ 0x1526, KEY_VOLUMEDOWN },
++	{ 0x1527, KEY_INFO },
++};
++
++static struct rc_map_list siemens_gigaset_rc20_map = {
++	.map = {
++		.scan     = siemens_gigaset_rc20,
++		.size     = ARRAY_SIZE(siemens_gigaset_rc20),
++		.rc_proto = RC_PROTO_RC5,
++		.name     = RC_MAP_SIEMENS_GIGASET_RC20,
++	}
++};
++
++static int __init init_rc_map_siemens_gigaset_rc20(void)
++{
++	return rc_map_register(&siemens_gigaset_rc20_map);
++}
++
++static void __exit exit_rc_map_siemens_gigaset_rc20(void)
++{
++	rc_map_unregister(&siemens_gigaset_rc20_map);
++}
++
++module_init(init_rc_map_siemens_gigaset_rc20)
++module_exit(exit_rc_map_siemens_gigaset_rc20)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Michael Klein");
++MODULE_DESCRIPTION("Siemens Gigaset RC20 remote keytable");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 4867eb2f931e..d90e4611b066 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -313,6 +313,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_RC6_MCE                   "rc-rc6-mce"
+ #define RC_MAP_REAL_AUDIO_220_32_KEYS    "rc-real-audio-220-32-keys"
+ #define RC_MAP_REDDO                     "rc-reddo"
++#define RC_MAP_SIEMENS_GIGASET_RC20      "rc-siemens-gigaset-rc20"
+ #define RC_MAP_SNAPSTREAM_FIREFLY        "rc-snapstream-firefly"
+ #define RC_MAP_STREAMZAP                 "rc-streamzap"
+ #define RC_MAP_SU3000                    "rc-su3000"
+-- 
+2.39.5
 
-> 
-> Why not simply switch to the new driver (and make sure that the new
-> driver is selected if the old one was enabled in the kernel config)?
-Its about the platform in migration i.e sm8250. Since new driver is not yet
-feature parity with old driver, choice is provided to client if it wants to use
-the new driver (default being old driver for sm8250)
-
-Regards,
-Vikash
->> Tested-by: Stefan Schmidt <stefan.schmidt@linaro.org> # x1e80100 (Dell
-> 
-> Looks like something is missing from Stefan's Tested-by tag throughout
-> the series ("Dell XPS13"?)
-> 
->> Reviewed-by: Stefan Schmidt <stefan.schmidt@linaro.org>
->> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->  
->> +static bool prefer_venus = true;
->> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
->> +module_param(prefer_venus, bool, 0444);
->> +
->> +/* list all platforms supported by only iris driver */
->> +static const char *const iris_only_platforms[] = {
->> +	"qcom,sm8550-iris",
->> +	NULL,
->> +};
-> 
-> Surely you don't want to have to add every new platform to two tables
-> (i.e. the id table and again here).
-> 
->> +
->> +/* list all platforms supported by both venus and iris drivers */
->> +static const char *const venus_to_iris_migration[] = {
->> +	"qcom,sm8250-venus",
->> +	NULL,
->> +};
->> +
->> +static bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
->> +{
->> +	if (of_device_compatible_match(dev->of_node, iris_only_platforms))
->> +		return is_iris_driver;
->> +
->> +	/* If it is not in the migration list, use venus */
->> +	if (!of_device_compatible_match(dev->of_node, venus_to_iris_migration))
->> +		return !is_iris_driver;
->> +
->> +	return prefer_venus ? !is_iris_driver : is_iris_driver;
->> +}
->> +
->>  static int iris_probe(struct platform_device *pdev)
->>  {
->>  	struct device *dev = &pdev->dev;
->> @@ -196,6 +224,9 @@ static int iris_probe(struct platform_device *pdev)
->>  	u64 dma_mask;
->>  	int ret;
->>  
->> +	if (!video_drv_should_bind(&pdev->dev, true))
->> +		return -ENODEV;
-> 
-> AFAICT nothing is preventing venus from binding even when 'prefer_venus'
-> is false.
-> 
->> +
->>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
->>  	if (!core)
->>  		return -ENOMEM;
->> @@ -324,6 +355,10 @@ static const struct of_device_id iris_dt_match[] = {
->>  		.compatible = "qcom,sm8550-iris",
->>  		.data = &sm8550_data,
->>  	},
->> +	{
->> +		.compatible = "qcom,sm8250-venus",
->> +		.data = &sm8250_data,
->> +	},
->>  	{ },
->>  };
->>  MODULE_DEVICE_TABLE(of, iris_dt_match);
-> 
-> Johan
 
