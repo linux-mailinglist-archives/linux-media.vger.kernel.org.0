@@ -1,80 +1,63 @@
-Return-Path: <linux-media+bounces-24505-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24506-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51ED5A07471
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 12:17:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F519A0749F
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 12:27:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3291E3A6FB7
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 11:17:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6C5E9167F71
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 11:27:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6239217651;
-	Thu,  9 Jan 2025 11:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2227F216E1D;
+	Thu,  9 Jan 2025 11:27:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="dLe+fCjL"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iz9fi8cy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAC72165F7
-	for <linux-media@vger.kernel.org>; Thu,  9 Jan 2025 11:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC756216E02;
+	Thu,  9 Jan 2025 11:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736421431; cv=none; b=iS1SNwa1kys8VCJvB4lgYkuPfd1r1lFgQg1hVqVxYphDMjTtJt5mKkGT+0p0JPnX9VIsimIt4LeV81l5J0LjwHT/yWk0H3j7nQ2UkFskgblyKg4gyOb/zW3U2ABt7IqR7oYpCKhkoKPatSbHI88ulTey5seMCj1qwoy7KxIH8Hk=
+	t=1736422026; cv=none; b=uSOV7HANmajRxMKmNLhsewXnQXzjpjPDVH7RMRKd98h9zXTpkRx8Jtyjaxg1Zj0Pe2IZ5TJCrPsmYFTSnBf+jeSDjvX/zvvLLzEbfSO32WwPvaBe8Ab6/tyaNtIiAmEkYdNE5hz6Xy6UvDae53wTYmQKZIStJ6kzXLrzZk2Pvls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736421431; c=relaxed/simple;
-	bh=xthAa1cQTtOTVbLk7Tq3zBebO5O/vfenPLhC6pmLsM4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aDJ0yFqa3Td+GGjQL/bVcs8SPzMhmhA3I8WMY1rsPI2rZN/rWEorN0oGiGWW8MUoUltr/86sRo4SwXYCyUSP1ZxytNw3SZl6xMzo/pwpD1MxhMRyJUwHRknWRG0wAgrHYGzV93zIgh5GZjhCyyYAAqf9sposUuBoYRpGkfQG9iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=dLe+fCjL; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4361815b96cso6004755e9.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Jan 2025 03:17:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1736421428; x=1737026228; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ENKXg0WVMIM6tIrW1zc4FaXBY9LbCyw/evnc79n5e0k=;
-        b=dLe+fCjLLCuBvozJZ8XjOV3Tu39MIQoP2lCUrtk92MJrzNSCHnqDSbCfv0Ztovq1ou
-         7f1zg9SCu/naLFqW5mBk/BaxHV1Sj+xI7RbQiMISnz/m4IOCJN2mJfxQkj0i1tUa3pAu
-         ENy1mYFRqFKgw49yGxPv55EDYdg3HT5Jciuclk1dFpix+LcY4b/Y5G5kdPLEn3NjsKku
-         89goOxJvkVI+OvVMuUN211BqKchrVWF0vtlqXoBbJ8IbTKnpSMrwCSsGyeh7qtF7zIOj
-         e+Sp86g3vlTeu+3pnRNZm8UQYEDJ5Pu9/hHSDbxwmBVETuMrbpKGyIg/I+UJVqJpQr7W
-         K5qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736421428; x=1737026228;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ENKXg0WVMIM6tIrW1zc4FaXBY9LbCyw/evnc79n5e0k=;
-        b=eFLq3mS3hmx/Hp29BolcXgT6mNZVQ3PpcDefetVq03gkubwDX9DTCji2nQU2usgrds
-         mNgm3vNRNVtpSk52KY5/UJa2o4aISoIOlv8jhGy8Lo9UqLj5q5vj78eb/7IYMITzDRVK
-         7hCgSpzxcxv7KPJfUl6c1jqeRTL+w6nvydOQSjP3H9rIorTKS2HAtDDcIKuS+6RmmqtE
-         g6j4PzPgi7CI63gqKZ6XBQAmaGjLOYpo26LFG3PRFEA5Uaqv+bhsJI5WwMySUi/fEZ9O
-         ZDtjXW5t+nPFDH+GZdirIpgKdvulWi6VXwkYD4walam5wHCf4c2kAwapCCn7AWvxL99o
-         Yonw==
-X-Gm-Message-State: AOJu0YwoYvahG8C1nwvoSkcDnlFufpMYDgv9UzPjI2rB9MAvqN7H/l97
-	jSwpQe7+FPVUN0E0aK0E+HCRG14TABB/vnfV6I+jtxTs4c+zDjhcvdabuXgzX3T1YKaXuq04Xh2
-	w
-X-Gm-Gg: ASbGncvsfjE5axfUK6/yxh+bwkFBtGEL58uIwPyw8Pggm2bnRv99a3b3lbHypohdac0
-	PJQU4zcUOfiRBs/RtDi2gohacwXgl+GAp0ud+8oF49J9KkvInO/tHUgL3xVA77UaiueJ1Irs2Nm
-	qjOWrf/hbn7/Ff6+kJVosSn1qN8sS4+DN8hKaMjAhwxy1hDwTGlpFOi3vCZgXmC4CftixG5xP0V
-	VvM6l1bbpUl5y81IrKqcOXCaWwM7Iox0sckceTRN3sgvMph
-X-Google-Smtp-Source: AGHT+IEG6RDcQzUUAmt24CybgylRmmcezNzdtUB8E8rnoCU+2bOcaekT9eUJt1BxsyPj/AuO1ssEzg==
-X-Received: by 2002:a05:600c:1d9c:b0:436:1af4:5e07 with SMTP id 5b1f17b1804b1-436e2696d35mr51753455e9.1.1736421427705;
-        Thu, 09 Jan 2025 03:17:07 -0800 (PST)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-436e2dc0bb7sm51383635e9.16.2025.01.09.03.17.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 03:17:07 -0800 (PST)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 09 Jan 2025 11:17:02 +0000
-Subject: [PATCH 3/3] media: i2c: imx415: Link frequencies are not exclusive
- to num lanes
+	s=arc-20240116; t=1736422026; c=relaxed/simple;
+	bh=ZcSP1j4lkCbZorbN4ZTodorbFyXFCjX3EagyKMdMTAk=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=VD1l2ZLKz4O6Ih04zi3BvQ+KRK2qK4L69toF/LqxK0yN12Ks3zKELvinL9uvsa6FnAi0UNEX/BUmG35RVQMiF28TcP6O5twZURqKtN74vE7a0yBn81DSfp4XJEP/rorEIDumhL7I6U91oZCbvLhNtQB/TR7K0mZrHPFjOnZ5B3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iz9fi8cy; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5095AWv8029722;
+	Thu, 9 Jan 2025 11:26:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=UycEyXLXNEG6VjFnAjAN7S
+	AGIeHWTQZ4d0OiYmkVoVw=; b=iz9fi8cyC+kElhqaVpp13qzXQLgDNZm/WJ4HlC
+	UfuoPU4NPurl/Kz9gTxm+3dCZsN5kW5swoUP7EPpK2Yxpa8VUbTlz6BE12YTEDm0
+	EBSiCbAMgTMJC6TVo47IVisjvkNYhXodkjLwnFTdUyJt1aSapEigiAX3ILgu4lMW
+	mA0IvVNxQ/0DjS6mHpkkMCjhX2E4EaFXZ9oXdypsGPgispfzy47PM9WGnJAH7qG0
+	GoYsDgTIGM5Gr2ktJjcB2CUvHAsUUUTcWhoRPqqeN3S3ioLFR1l4Xak8wtfjBbHB
+	ncKj/rg7/dbAA5vE88No+qKWvZxi7CMxUijHzCV/NlaufIqQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44282prvjc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Jan 2025 11:26:52 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 509BQpX3019478
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 9 Jan 2025 11:26:51 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 9 Jan 2025 03:26:48 -0800
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Subject: [PATCH 0/2] media: iris: fix memory leak and improve driver
+Date: Thu, 9 Jan 2025 16:56:39 +0530
+Message-ID: <20250109-iris-driver-fixes-v1-0-789a0f5dd7ee@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,161 +66,91 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250109-media-imx415-v1-3-366ba6a234ab@raspberrypi.com>
-References: <20250109-media-imx415-v1-0-366ba6a234ab@raspberrypi.com>
-In-Reply-To: <20250109-media-imx415-v1-0-366ba6a234ab@raspberrypi.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Michael Riesch <michael.riesch@wolfvision.net>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+X-B4-Tracking: v=1; b=H4sIAG+yf2cC/yWNS27DMAxEr2JoXQaiLMsfFEXvUWQhUUzKhe1ES
+ o0CQe4eJl4+cubN3VQuwtVMzd0U3qTKuijgR2PoNy5nBsnKxlnXWbQDSJEKucjGBU7yzwr9SJa
+ J0NpstHcp/H5o7ee4c+Hrn6pv+9HMXGt8q6fmU80eHTq40jrDJpnXfWQbwQIP5Cik7K3Hb5WQL
+ HTQ4NdrKcXKoDDLbWrCOKTALYY2xVMOyJj6jG3XO3bk3dj7SEPHZI6PxxM0GVcI9wAAAA==
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>
+CC: Hans Verkuil <hverkuil@xs4all.nl>, Joel Stanley <joel@jms.id.au>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
 X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736422008; l=2674;
+ i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
+ bh=ZcSP1j4lkCbZorbN4ZTodorbFyXFCjX3EagyKMdMTAk=;
+ b=G+bt3qwxhQrtDg50sAzWG99xNZtn/TIEfWws/0N62ewNOH1tNV2f2OYrrB3GTXPFxPrVBRtwb
+ v1Ov6LU8h1fC+uK2/iDeW+m+XOK0qudHKgMeJrQg5dvWLK5w86Gk85a
+X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: aJXL2jz-0QwljAxHDBMrlgrO1iuxjXAT
+X-Proofpoint-GUID: aJXL2jz-0QwljAxHDBMrlgrO1iuxjXAT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
+ impostorscore=0 phishscore=0 adultscore=0 mlxlogscore=471
+ lowpriorityscore=0 clxscore=1015 spamscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2501090091
 
-The link frequencies are equally valid in 2 or 4 lane modes, but
-they change the hmax_min value for the mode as the MIPI block
-has to have sufficient time to send the pixel data for each line.
+This series fixes a memory leak and improves the representation of 
+dma mask to set upper bound of DMA address space.
 
-Remove the association with number of lanes, and add hmax_min
-configuration for both lane options.
-
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- drivers/media/i2c/imx415.c | 53 ++++++++++++++++++++++------------------------
- 1 file changed, 25 insertions(+), 28 deletions(-)
+Dikshita Agarwal (2):
+      media: iris: represent dma_mask in more readable form
+      media: iris: fix memory leak while freeing queue memory
 
-diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-index e23b41027987..1071900416d2 100644
---- a/drivers/media/i2c/imx415.c
-+++ b/drivers/media/i2c/imx415.c
-@@ -452,9 +452,8 @@ static const struct imx415_clk_params imx415_clk_params[] = {
- 	},
- };
- 
--/* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
--static const struct cci_reg_sequence imx415_mode_2_720[] = {
--	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-+/* 720 Mbps CSI configuration */
-+static const struct cci_reg_sequence imx415_linkrate_720mbps[] = {
- 	{ IMX415_TCLKPOST, 0x006F },
- 	{ IMX415_TCLKPREPARE, 0x002F },
- 	{ IMX415_TCLKTRAIL, 0x002F },
-@@ -466,9 +465,8 @@ static const struct cci_reg_sequence imx415_mode_2_720[] = {
- 	{ IMX415_TLPX, 0x0027 },
- };
- 
--/* all-pixel 2-lane 1440 Mbps 30.01 Hz mode */
--static const struct cci_reg_sequence imx415_mode_2_1440[] = {
--	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-+/* 1440 Mbps CSI configuration */
-+static const struct cci_reg_sequence imx415_linkrate_1440mbps[] = {
- 	{ IMX415_TCLKPOST, 0x009F },
- 	{ IMX415_TCLKPREPARE, 0x0057 },
- 	{ IMX415_TCLKTRAIL, 0x0057 },
-@@ -480,9 +478,8 @@ static const struct cci_reg_sequence imx415_mode_2_1440[] = {
- 	{ IMX415_TLPX, 0x004F },
- };
- 
--/* all-pixel 4-lane 891 Mbps 30 Hz mode */
--static const struct cci_reg_sequence imx415_mode_4_891[] = {
--	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-+/* 891 Mbps CSI configuration */
-+static const struct cci_reg_sequence imx415_linkrate_891mbps[] = {
- 	{ IMX415_TCLKPOST, 0x007F },
- 	{ IMX415_TCLKPREPARE, 0x0037 },
- 	{ IMX415_TCLKTRAIL, 0x0037 },
-@@ -501,8 +498,7 @@ struct imx415_mode_reg_list {
- 
- struct imx415_mode {
- 	u64 lane_rate;
--	u32 lanes;
--	u32 hmax_min;
-+	u32 hmax_min[2];
- 	struct imx415_mode_reg_list reg_list;
- };
- 
-@@ -510,29 +506,26 @@ struct imx415_mode {
- static const struct imx415_mode supported_modes[] = {
- 	{
- 		.lane_rate = 720000000,
--		.lanes = 2,
--		.hmax_min = 2032,
-+		.hmax_min = { 2032, 1066 },
- 		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(imx415_mode_2_720),
--			.regs = imx415_mode_2_720,
-+			.num_of_regs = ARRAY_SIZE(imx415_linkrate_720mbps),
-+			.regs = imx415_linkrate_720mbps,
- 		},
- 	},
- 	{
- 		.lane_rate = 1440000000,
--		.lanes = 2,
--		.hmax_min = 1066,
-+		.hmax_min = { 1066, 533 },
- 		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(imx415_mode_2_1440),
--			.regs = imx415_mode_2_1440,
-+			.num_of_regs = ARRAY_SIZE(imx415_linkrate_1440mbps),
-+			.regs = imx415_linkrate_1440mbps,
- 		},
- 	},
- 	{
- 		.lane_rate = 891000000,
--		.lanes = 4,
--		.hmax_min = 1100,
-+		.hmax_min = { 1100, 550 },
- 		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(imx415_mode_4_891),
--			.regs = imx415_mode_4_891,
-+			.num_of_regs = ARRAY_SIZE(imx415_linkrate_891mbps),
-+			.regs = imx415_linkrate_891mbps,
- 		},
- 	},
- };
-@@ -782,7 +775,8 @@ static int imx415_ctrls_init(struct imx415 *sensor)
- {
- 	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl *ctrl;
--	u64 lane_rate = supported_modes[sensor->cur_mode].lane_rate;
-+	const struct imx415_mode *cur_mode = &supported_modes[sensor->cur_mode];
-+	u64 lane_rate = cur_mode->lane_rate;
- 	u32 exposure_max = IMX415_PIXEL_ARRAY_HEIGHT +
- 			   IMX415_PIXEL_ARRAY_VBLANK -
- 			   IMX415_EXPOSURE_OFFSET;
-@@ -823,7 +817,7 @@ static int imx415_ctrls_init(struct imx415 *sensor)
- 			  IMX415_AGAIN_MAX, IMX415_AGAIN_STEP,
- 			  IMX415_AGAIN_MIN);
- 
--	hblank_min = (supported_modes[sensor->cur_mode].hmax_min *
-+	hblank_min = (cur_mode->hmax_min[sensor->num_data_lanes == 2 ? 0 : 1] *
- 		      IMX415_HMAX_MULTIPLIER) - IMX415_PIXEL_ARRAY_WIDTH;
- 	hblank_max = (IMX415_HMAX_MAX * IMX415_HMAX_MULTIPLIER) -
- 		     IMX415_PIXEL_ARRAY_WIDTH;
-@@ -885,7 +879,12 @@ static int imx415_set_mode(struct imx415 *sensor, int mode)
- 			    IMX415_NUM_CLK_PARAM_REGS,
- 			    &ret);
- 
--	return 0;
-+	ret = cci_write(sensor->regmap, IMX415_LANEMODE,
-+			sensor->num_data_lanes == 2 ? IMX415_LANEMODE_2 :
-+						      IMX415_LANEMODE_4,
-+			NULL);
-+
-+	return ret;
- }
- 
- static int imx415_setup(struct imx415 *sensor, struct v4l2_subdev_state *state)
-@@ -1296,8 +1295,6 @@ static int imx415_parse_hw_config(struct imx415 *sensor)
- 		}
- 
- 		for (j = 0; j < ARRAY_SIZE(supported_modes); ++j) {
--			if (sensor->num_data_lanes != supported_modes[j].lanes)
--				continue;
- 			if (bus_cfg.link_frequencies[i] * 2 !=
- 			    supported_modes[j].lane_rate)
- 				continue;
+ drivers/media/platform/qcom/iris/iris_hfi_queue.c       | 8 +++++---
+ drivers/media/platform/qcom/iris/iris_platform_sm8250.c | 3 ++-
+ drivers/media/platform/qcom/iris/iris_platform_sm8550.c | 3 ++-
+ 3 files changed, 9 insertions(+), 5 deletions(-)
+---
+base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
+change-id: 20250108-iris-driver-fixes-d79c0ecc100d
+prerequisite-message-id: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
+prerequisite-patch-id: bfa9c88ec537e21017d5c9da3ad30d885d2eb132
+prerequisite-patch-id: bf37c5c6dc78b857caf6b544f6eb4000dee5dbaa
+prerequisite-patch-id: 4d3c8665de2faf0ad912943e3a9c9b4ca76bfd7f
+prerequisite-patch-id: 327454576fb8440c8521917a6582e4839b6088c3
+prerequisite-patch-id: fc523bc1a4f188e1924ebc18885c4dcd9b375e89
+prerequisite-patch-id: 1f837af2ed6c4925884b45e75828ff5b8ff057f0
+prerequisite-patch-id: 18c77c70db79b933a13df15f98f681a931156aea
+prerequisite-patch-id: 40168197cad291efe92bd5bf78e039475ed10ae8
+prerequisite-patch-id: b164fd80f4dcfb46b314377e8a595ce654418578
+prerequisite-patch-id: 271bf0ca62c46ff9b14db3c23196112c2f59256d
+prerequisite-patch-id: 67b096b9d1362eacfad13470c20e8eca833bf53d
+prerequisite-patch-id: 5c433b5a1407fda64de411ccdc723dc664319037
+prerequisite-patch-id: 8011d3230e717a0af3c6084b786612ff57bc770a
+prerequisite-patch-id: 6d6f8da843afa6d7159730838ab2ac6e800e9246
+prerequisite-patch-id: aa428f34e6695451780ff6b1bf8bc2dfb95c7071
+prerequisite-patch-id: c95c03b5085eaecafafcabf4d700247b3b00bd87
+prerequisite-patch-id: e41b4e7438a3fe56ba75501a417dba49365ed393
+prerequisite-patch-id: ff1531525f124cf59596b8ca80a58f31b85763d0
+prerequisite-patch-id: f20122e51eeb3691706b7d0f63628a84efc11b34
+prerequisite-patch-id: e397711e5044a5e830f7f46d3683b6c234c23dda
+prerequisite-patch-id: 99ad3fb3466a939438edf93e1591008a51004540
+prerequisite-patch-id: f96d6202f4ba4194b9a185243e0659d2bb8ec6e0
+prerequisite-patch-id: 71b8db4f106aa9322575573174c63d8d9eab20a1
+prerequisite-patch-id: 532f7998ec08c4cc01c69dcfd050ad854d8bdbad
+prerequisite-patch-id: cc80eabbf33df03053869cd47912efbd2c67d19a
+prerequisite-patch-id: 837959096e4fb7aa2b9d5afbd847aa0a4399ea87
+prerequisite-patch-id: f78814e6508d3439e1d77d82af471b839e03d1ec
+prerequisite-patch-id: 5a664eca073472e80da8f257cb030740e009737e
 
+Best regards,
 -- 
-2.34.1
+Dikshita Agarwal <quic_dikshita@quicinc.com>
 
 
