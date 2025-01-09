@@ -1,233 +1,217 @@
-Return-Path: <linux-media+bounces-24545-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24546-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B164A07EAA
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 18:21:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 660B8A07F3F
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 18:49:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02C23188D0A4
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 17:21:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5544616953B
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 17:49:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03DCA18E377;
-	Thu,  9 Jan 2025 17:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7746199235;
+	Thu,  9 Jan 2025 17:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z1WDds6P"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Hhn91vB7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7265D16FF4E;
-	Thu,  9 Jan 2025 17:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE02192B85;
+	Thu,  9 Jan 2025 17:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736443259; cv=none; b=FmtU9CA3TCAnrP2/lu8n2ssQJFeCT9mUTI9m6hUKtsci+IUIvDsWAZmz9KlOmaUSLrNyXTVRDoVz11NLnL+gbgqk4pdNkyg/lSuXuvMMiJdFsH1mgQRl+S/ohmw0hpS2vfeSLOTIdkOozkCrLTfKNADwd58oc3xN2TZZbHlj8+U=
+	t=1736444934; cv=none; b=TMjKgULdAueyPNR5ddhCiqcONWYSYbfZMsyiGrloWbXlVNcDztmryckB7uzlPXRnjB9tYUrBOfAIJ60qm7St58yZ6E/IP2FXigLLkCNM6S1fgyCA1g5TmTHvBeLf8HRo5oeM5Jiwxg0iUuxhwcOgQgRfMdBqwHij/z0qHfXWYjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736443259; c=relaxed/simple;
-	bh=uhkXg/EPKEWf0hrvEKJHWpb/MtLkbHrB4R9KcaWrJ5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HkDQzso0WRqtGph10KcJ12Gt8H8WayBqMULg1NPf2/LKEegmeBRJxw8Y1NfuFHGbg41JtmMp3RpR+LlpovS3xpTjKEzJ632gWeg2HxvvH5vwnN0s2qApEeGb4eFtmDShRJxWS7D+a2QbcrltABxNSU3E65qogqx4K0Ea8ty/eu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z1WDds6P; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29C9B9FC;
-	Thu,  9 Jan 2025 18:11:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736442701;
-	bh=uhkXg/EPKEWf0hrvEKJHWpb/MtLkbHrB4R9KcaWrJ5c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z1WDds6PNKloMPIdeFYjkX0VkFBb7SBPf9nkbHrZDhHD9xu9F8DnwP2oq+RVhlDO5
-	 PiXXUyn8NIvDSIYHNK6vaTM0zYyn02cOX9OCBEl4Rv6lFYf91tRxr+crRNx19iEjRa
-	 mIsHc3a+4skJifA1kAtYcHMxil/dRoBOJ7b7U4j8=
-Date: Thu, 9 Jan 2025 19:12:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	Mehdi Djait <mehdi.djait@bootlin.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>
-Subject: Re: [PATCH v2 0/6] media: rockchip: add a driver for the rockchip
- camera interface (cif)
-Message-ID: <20250109171232.GA17638@pendragon.ideasonboard.com>
-References: <20241217-v6-8-topic-rk3568-vicap-v2-0-b1d488fcc0d3@wolfvision.net>
+	s=arc-20240116; t=1736444934; c=relaxed/simple;
+	bh=8QqYbCt6WatfmiIAot7P7MYKDIQi4GbdHhEb5n9ofwE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=h9Gyoaf5YLPUVu3W0LdtOWyl+hrXQ/FqZZYDzlDXXO98/ErxjpbOKVTohja4dS4rzEbv53RMc1wHG41sGrpEyx+imchCRKduv//vItmZY8kfS9OoajGY8mnurLvaxMimPamDtBy/aPtUeFLaHrEmqr3ieS/UhEi97zbFViUHo/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Hhn91vB7; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 509D7h0L009940;
+	Thu, 9 Jan 2025 17:48:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	UOJcTVlMeEO28eOXItiv/fjqlqGkaT07u2vxtTbwYts=; b=Hhn91vB7NfS9w/K0
+	k5ANtPHdkMUYFQ9NyZP+DhvnJScCmyK+6KMc+XmELB97vfr4CXd1qf4YV+VzAoat
+	DeL487tB6GvyeSfQ7wB94r3fHLjx5qJ/Yknds3CsniUJM/Kro3OdDAD4yGLshWgl
+	qf2la9LnAWoY65fD+KoqvJ2psYac3k9v1F7o8W4WFgsFHMj9lPD703emEiTY+Xwi
+	4hlnajcnJDMEH/9ezGDCe14S8OYOyy9E75OlY41Fg+DPdT7iyl2Dusl4RwMmtcKi
+	khF1tHiezFkiKAW/XHgULXGDjkLh1K05Fr+QoqQ3FlFJp8WOvzcOBWo+S4C2Nu4i
+	mLHWMw==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 442f2krnq8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Jan 2025 17:48:39 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 509HmdC0018354
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 9 Jan 2025 17:48:39 GMT
+Received: from [10.216.48.143] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 9 Jan 2025
+ 09:48:32 -0800
+Message-ID: <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com>
+Date: Thu, 9 Jan 2025 23:18:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241217-v6-8-topic-rk3568-vicap-v2-0-b1d488fcc0d3@wolfvision.net>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of SM8250
+ SoC
+Content-Language: en-US
+To: Johan Hovold <johan@kernel.org>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>
+CC: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sebastian Fricke
+	<sebastian.fricke@collabora.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Nicolas Dufresne
+	<nicolas@ndufresne.ca>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=
+	<u.kleine-koenig@baylibre.com>,
+        Jianhua Lu <lujianhua000@gmail.com>,
+        "Stefan
+ Schmidt" <stefan.schmidt@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>
+References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
+ <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
+ <Z3_nCPk_g8znto4A@hovoldconsulting.com>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <Z3_nCPk_g8znto4A@hovoldconsulting.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 2QMg_BoYsf6-JkouaDwtAnat4Towmysy
+X-Proofpoint-ORIG-GUID: 2QMg_BoYsf6-JkouaDwtAnat4Towmysy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 mlxlogscore=999 clxscore=1011 lowpriorityscore=0
+ impostorscore=0 spamscore=0 phishscore=0 bulkscore=0 malwarescore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501090142
 
-Hi Michael,
+Hi Johan,
 
-On Tue, Dec 17, 2024 at 04:55:12PM +0100, Michael Riesch wrote:
-> Habidere,
+On 1/9/2025 8:41 PM, Johan Hovold wrote:
+> On Thu, Dec 12, 2024 at 05:21:49PM +0530, Dikshita Agarwal wrote:
+>> Initialize the platform data and enable video driver probe of SM8250
+>> SoC. Add a kernel param to select between venus and iris drivers for
+>> platforms supported by both drivers, for ex: SM8250.
 > 
-> TL;DR:
-> 
-> This series introduces support for the Rockchip Camera Interface (CIF),
-> which can be found (in the form of variants that differ significantly) in
-> different Rockchip SoCs in general, and for the Rockchip RK3568 Video
-> Capture (VICAP) variant in particular.
-> 
-> The patches are functional and have been tested successfully on a
-> custom RK3568 board including the ITE Tech. IT6801 HDMI receiver as
-> attached subdevice. The IT6801 driver still needs some loving care but
-> shall be submitted as well at some point.
-> 
-> The long story (gather 'round children):
-> 
-> The Rockchip Camera Interface (CIF) is featured in many Rockchip SoCs
-> in different variations. For example, the PX30 Video Input Processor (VIP)
-> is able to receive video data via the Digital Video Port (DVP, a parallel
-> data interface and transfer it into system memory using a double-buffering
-> mechanism called ping-pong mode. The RK3568 Video Capture (VICAP) unit,
-> on the other hand, features a DVP and a MIPI CSI-2 receiver that can
-> receive video data independently (both using the ping-pong scheme).
-> The different variants may have additional features, such as scaling
-> and/or cropping.
-> Finally, the RK3588 VICAP unit constitutes an essential piece of the camera
-> interface with one DVP, six MIPI CSI-2 receivers, scale/crop units, and
-> different data path multiplexers (to system memory, to ISP, ...).
-> 
-> This submission bases on the work of several Bootlin developers who have
-> been tirelessly submitting support for the PX30 Video Input Processor (VIP)
-> block for inclusion in mainline. This process has been going on for several
-> years now, with Maxime Chevallier working on the topic up to v5 [0] and
-> Mehdi Djait taking over until v13 [1].
-> In the review feedback on v13 a major rework with a media controller
-> centric driver as a goal was requested. This motivated me to take over
-> (with no clue about the MC framework whatsoever, though).
-> 
-> I decided to merge Mehdi's v13 with my v1 of the RK3568 VICAP support [2]
-> and refactor the whole thing. The resulting v2 of the series now adds a
-> basic media controller centric V4L2 driver for the Rockchip CIF with
->  - support for the PX30 VIP (not tested, though, due to the lack of HW)
->  - support for the RK3568 VICAP DVP
->  - abstraction for the ping-pong scheme to allow for future extensions 
-> 
-> However, several features are not yet addressed, such as
->  - support for the RK3568 MIPI CSI-2 receiver
+> Why do you want to use a module parameter for this? What would be the
+> default configuration? (Module parameters should generally be avoided.)
+This was discussed during v4 [1] and implemented as per suggestion
 
-We've discussed this previously on IRC, but I don't think the issue has
-been raised on the list.
+[1]
+https://lore.kernel.org/linux-media/eea14133-2152-37bb-e2ff-fcc7ed4c47f5@quicinc.com/
 
-I'm puzzled by how this will work. As far as I understand, the RK3568
-has a CSI-2 receiver with 4 data lanes and 2 clock lanes. I assume this
-is used to support both 2x2 lanes and 1x4 lanes. Both the VICAP and ISP
-sections of the TRM list CSI2 RX registers, but it's not clear how the
-components are all connected. Does the ISP need to be part of the same
-media graph ?
+> 
+> Why not simply switch to the new driver (and make sure that the new
+> driver is selected if the old one was enabled in the kernel config)?
+Its about the platform in migration i.e sm8250. Since new driver is not yet
+feature parity with old driver, choice is provided to client if it wants to use
+the new driver (default being old driver for sm8250)
 
->  - support for the RK3588 variant
->  - support for the scaling/cropping units that can be found in some
->    variants
->  - support for capturing different virtual channels (up to four IDs
->    possible)
-> This needs to be in the scope of future work.
-> 
-> Finally, please forgive me if I forgot to address reviewer comments from
-> the previous iterations. Between v1 and v13 they have seen significant
-> feedback including renaming the complete driver twice (from rkcif to vip
-> and back to cif) and I am pretty sure that I was not able to gather
-> everything.
-> 
-> Looking forward to your comments!
-> 
-> [0] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxime.chevallier@bootlin.com/
-> [1] https://lore.kernel.org/linux-media/cover.1707677804.git.mehdi.djait.k@gmail.com/
-> [2] https://lore.kernel.org/all/20240220-v6-8-topic-rk3568-vicap-v1-0-2680a1fa640b@wolfvision.net/
-> 
-> To: Mehdi Djait <mehdi.djait@linux.intel.com>
-> To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> To: Théo Lebrun <theo.lebrun@bootlin.com>
-> To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-> To: Sakari Ailus <sakari.ailus@iki.fi>
-> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>
-> To: Rob Herring <robh+dt@kernel.org>
-> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> To: Conor Dooley <conor+dt@kernel.org>
-> To: Heiko Stuebner <heiko@sntech.de>
-> To: Kever Yang <kever.yang@rock-chips.com>
-> To: Nicolas Dufresne <nicolas@ndufresne.ca>
-> To: Sebastian Fricke <sebastian.fricke@collabora.com>
-> To: Alexander Shiyan <eagle.alexander923@gmail.com>
-> To: Val Packett <val@packett.cool>
-> To: Rob Herring <robh@kernel.org>
-> To: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: linux-media@vger.kernel.org
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-rockchip@lists.infradead.org
-> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> 
-> Changes in v2:
-> - merged with Mehdi's v13
-> - refactored the complete driver towards a media controller centric driver
-> - abstracted the generic ping-pong stream (can be used for DVP as well as for CSI-2)
-> - switched to MPLANE API
-> - added support for notifications
-> - Link to v1: https://lore.kernel.org/r/20240220-v6-8-topic-rk3568-vicap-v1-0-2680a1fa640b@wolfvision.net
-> 
-> ---
-> Mehdi Djait (2):
->       media: dt-bindings: media: add bindings for rockchip px30 vip
->       arm64: dts: rockchip: add the vip node to px30
-> 
-> Michael Riesch (4):
->       media: dt-bindings: media: video-interfaces: add defines for sampling modes
->       media: dt-bindings: media: add bindings for rockchip rk3568 vicap
->       media: rockchip: add a driver for the rockchip camera interface (cif)
->       arm64: dts: rockchip: add vicap node to rk356x
-> 
->  .../bindings/media/rockchip,px30-vip.yaml          | 123 ++++
->  .../bindings/media/rockchip,rk3568-vicap.yaml      | 168 +++++
->  MAINTAINERS                                        |   9 +
->  arch/arm64/boot/dts/rockchip/px30.dtsi             |  12 +
->  arch/arm64/boot/dts/rockchip/rk356x-base.dtsi      |  44 ++
->  drivers/media/platform/rockchip/Kconfig            |   1 +
->  drivers/media/platform/rockchip/Makefile           |   1 +
->  drivers/media/platform/rockchip/cif/Kconfig        |  15 +
->  drivers/media/platform/rockchip/cif/Makefile       |   3 +
->  .../media/platform/rockchip/cif/cif-capture-dvp.c  | 794 +++++++++++++++++++++
->  .../media/platform/rockchip/cif/cif-capture-dvp.h  |  24 +
->  drivers/media/platform/rockchip/cif/cif-common.h   | 163 +++++
->  drivers/media/platform/rockchip/cif/cif-dev.c      | 405 +++++++++++
->  drivers/media/platform/rockchip/cif/cif-regs.h     | 132 ++++
->  drivers/media/platform/rockchip/cif/cif-stream.c   | 676 ++++++++++++++++++
->  drivers/media/platform/rockchip/cif/cif-stream.h   |  24 +
->  include/dt-bindings/media/video-interfaces.h       |   4 +
->  17 files changed, 2598 insertions(+)
-> ---
-> base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
-> change-id: 20240220-v6-8-topic-rk3568-vicap-b9b3f9925f44
-
--- 
 Regards,
-
-Laurent Pinchart
+Vikash
+>> Tested-by: Stefan Schmidt <stefan.schmidt@linaro.org> # x1e80100 (Dell
+> 
+> Looks like something is missing from Stefan's Tested-by tag throughout
+> the series ("Dell XPS13"?)
+> 
+>> Reviewed-by: Stefan Schmidt <stefan.schmidt@linaro.org>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>  
+>> +static bool prefer_venus = true;
+>> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
+>> +module_param(prefer_venus, bool, 0444);
+>> +
+>> +/* list all platforms supported by only iris driver */
+>> +static const char *const iris_only_platforms[] = {
+>> +	"qcom,sm8550-iris",
+>> +	NULL,
+>> +};
+> 
+> Surely you don't want to have to add every new platform to two tables
+> (i.e. the id table and again here).
+> 
+>> +
+>> +/* list all platforms supported by both venus and iris drivers */
+>> +static const char *const venus_to_iris_migration[] = {
+>> +	"qcom,sm8250-venus",
+>> +	NULL,
+>> +};
+>> +
+>> +static bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
+>> +{
+>> +	if (of_device_compatible_match(dev->of_node, iris_only_platforms))
+>> +		return is_iris_driver;
+>> +
+>> +	/* If it is not in the migration list, use venus */
+>> +	if (!of_device_compatible_match(dev->of_node, venus_to_iris_migration))
+>> +		return !is_iris_driver;
+>> +
+>> +	return prefer_venus ? !is_iris_driver : is_iris_driver;
+>> +}
+>> +
+>>  static int iris_probe(struct platform_device *pdev)
+>>  {
+>>  	struct device *dev = &pdev->dev;
+>> @@ -196,6 +224,9 @@ static int iris_probe(struct platform_device *pdev)
+>>  	u64 dma_mask;
+>>  	int ret;
+>>  
+>> +	if (!video_drv_should_bind(&pdev->dev, true))
+>> +		return -ENODEV;
+> 
+> AFAICT nothing is preventing venus from binding even when 'prefer_venus'
+> is false.
+> 
+>> +
+>>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
+>>  	if (!core)
+>>  		return -ENOMEM;
+>> @@ -324,6 +355,10 @@ static const struct of_device_id iris_dt_match[] = {
+>>  		.compatible = "qcom,sm8550-iris",
+>>  		.data = &sm8550_data,
+>>  	},
+>> +	{
+>> +		.compatible = "qcom,sm8250-venus",
+>> +		.data = &sm8250_data,
+>> +	},
+>>  	{ },
+>>  };
+>>  MODULE_DEVICE_TABLE(of, iris_dt_match);
+> 
+> Johan
 
