@@ -1,177 +1,144 @@
-Return-Path: <linux-media+bounces-24512-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24513-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92308A07735
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 14:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF32A07790
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 14:36:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 450EB3A89C2
-	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 13:21:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9FC823A6DF7
+	for <lists+linux-media@lfdr.de>; Thu,  9 Jan 2025 13:35:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E8E218AB3;
-	Thu,  9 Jan 2025 13:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADC8F218AA2;
+	Thu,  9 Jan 2025 13:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="OxNzW9un"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F0F218837;
-	Thu,  9 Jan 2025 13:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0B11A83E1;
+	Thu,  9 Jan 2025 13:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736428904; cv=none; b=oZKy5E30MZIdbra1L9NYt/lywsUkLN9i2GrWOYzbiggjCFSmRy4zitGBcCQRXnGWGYaPTQL6VLAA/+XhNu9o7HNpk8daQ8G0pjH55lXB9i8i460NGALb0P3V0WqH+5otBTQgv1YPKOdQFETStpYZcBIq85y/q1FSKbzxwy9YA1E=
+	t=1736429736; cv=none; b=iQjqyEunhLKUg/gaINbNOYI8SY2hr5nXQsQoiSQF4kTybv2Dba9h3ttX4zITfxpmkla4JkK/UebxdcwYE7WaXr0RxQRZusAe7XgXufDanICfy//1rfHinTUjp+UPbCg6hn0vWB0b6wgz6X+KmUM4qE72Gz+8myLiQr3uX//MbiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736428904; c=relaxed/simple;
-	bh=x53JsgUitjwT4JYv2K0Off0/mCpvowOe8rTgN1+NhsU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=L8usM/5tYHYrvnLOxi4k1+QNMkGRym0jbSEif5UPyGobDcZDYe3lymxv1yGhlio90KCpFBUVZjKyCApB0jXQ8JVVd2ONBJGvxpBC02gCifh57vLaEk6OxHdlhHTsUI+tR+KbFsFQ2ZhvtaCrEjX8mKZNLzg1qf/B4nAjtab0CU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F36DC4CED2;
-	Thu,  9 Jan 2025 13:21:41 +0000 (UTC)
-Message-ID: <29079904-dc97-4bf3-80e6-cb63a785c80e@xs4all.nl>
-Date: Thu, 9 Jan 2025 14:21:40 +0100
+	s=arc-20240116; t=1736429736; c=relaxed/simple;
+	bh=9xpajja8yxYHoRUKRft3X9m1o7b+Ai2scAJrzWDOJHQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PZxEZXXDsQgyCjo082/GD0Xtus6ivyYSxpzQpq999G9yMfQ/3LPTo9T3GEqqqZhXUe06okDhay/CUkGZ4tcg23ScCDNvaw/55DDQqKNMfXzwOHHoq9Sv+eRVnAhzyCB2XD0hH4j+s6iDgfEVrhy/lJqGNy/yRAWhusNPeYPH1gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=OxNzW9un; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 944a8156ce8e11ef99858b75a2457dd9-20250109
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Q7IqtAzsqRyq2MV5yJRjbh9Wk4+9FAZ/gH0fjGvtH5o=;
+	b=OxNzW9unI0DY2kGLvksThCOmnVwI9xxsCSzS0cTx6SCGCStgNv/hyiTfF0ZLfcNkBLdz8BSUepxenlSa9/TgXSYSFCuE4n51OVc/SQxujXuoEeXYEOVQgp3Z6J0/CllLXFp9pafY0j7Hs05g1cIHjhzkRS1OmWrY49E6JmO8XG4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.46,REQID:665d547c-e449-4c2e-b0a5-c830c43bf7e5,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:60aa074,CLOUDID:ce02a30e-078a-483b-8929-714244d25c49,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+	l,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-UUID: 944a8156ce8e11ef99858b75a2457dd9-20250109
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
+	(envelope-from <kyrie.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 338430475; Thu, 09 Jan 2025 21:35:24 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 9 Jan 2025 21:35:23 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 9 Jan 2025 21:35:22 +0800
+From: kyrie.wu <kyrie.wu@mediatek.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, Tzung-Bi Shih <tzungbi@chromium.org>
+CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Bin Liu <bin.liu@mediatek.com>,
+	kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>,
+	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, kyrie.wu <kyrie.wu@mediatek.com>
+Subject: [V1,00/12] Enable jpeg enc & dec multi-hardwares for MT8196
+Date: Thu, 9 Jan 2025 21:35:00 +0800
+Message-ID: <20250109133513.20151-1-kyrie.wu@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] media: iris: fix memory leak and improve driver
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stefan Schmidt <stefan.schmidt@linaro.org>,
- Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Joel Stanley <joel@jms.id.au>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- 20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com
-References: <20250109-iris-driver-fixes-v1-0-789a0f5dd7ee@quicinc.com>
- <c1b5dcba-b476-47be-a270-a100efef8ff6@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <c1b5dcba-b476-47be-a270-a100efef8ff6@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-On 09/01/2025 13:47, Hans Verkuil wrote:
-> Hi all,
-> 
-> The iris v3 series (https://patchwork.linuxtv.org/project/linux-media/list/?series=13467)
+This series adds support for mt8196 multi-hardwares jpeg enc & dec,
+by first adding mt8196 jpegdec and jpegenc compatible to install
+kernel driver. Add smmu setting to support smmu and iommu at the
+same time.
+Secondly refactor buffer and clock setting to support multi-hw jpeg
+working.
+Lastly, fix some bugs, including resolution change handleing, stop
+streaming sw flow and others.
 
-Sorry, I meant the v9 series (https://patchwork.linuxtv.org/bundle/hverkuil/b1/?series=14183)
-of course.
+This series has been tested with MT8196 tast test.
+Encoding and decoding worked for this chip.
 
-v3 was never marked Superseded in patchwork, so I accidentally selected that one. The v3
-series is now properly marked as Superseded.
+Patches 1-3 Adds jpeg encoder and decoder compatible.
+Patches 4 add jpeg smmu sid setting.
+Patches 5 fix jpeg hw count setting to support different chips.
+Patches 6 refactor jpeg buffer payload setting to handle buffer
+size bug while resolution changed.
+Patches 7 reconstruct jpeg dst buffer layout.
+Patches 8 fix multi-core stop streaming flow
+Patches 9 refactor multi-core clk suspend/resume setting
+Patches 10 fix decoding buffer number setting timing issue
+Patches 11 refactor decoding resolution change operation
+Patches 12 fix remove buffer operation
 
-Regards,
+---
+This series patches dependent on:
+[1]
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240808092555.12999-1-jianhua.lin@mediatek.com/
 
-	Hans
+kyrie.wu (11):
+  dt-bindings: mediatek: Add mediatek, mt8196-jpgdec compatible
+  dt-bindings: mediatek: Add mediatek, mt8196-jpgenc compatible
+  media: mediatek: jpeg: add jpeg compatible
+  media: mediatek: jpeg: add jpeg smmu sid setting
+  media: mediatek: jpeg: fix jpeg hw count setting
+  media: mediatek: jpeg: refactor jpeg buffer payload setting
+  media: mediatek: jpeg: refactor jpeg dst buffer layout
+  media: mediatek: jpeg: fix stop streaming flow for multi-core
+  media: mediatek: jpeg: refactor multi-core clk suspend and resume
+    setting
+  media: mediatek: jpeg: fix decoding buffer number setting timing issue
+  media: mediatek: jpeg: refactor decoding resolution change operation
+  media: mediatek: jpeg: fix remove buffer operation for multi-core
 
-> plus these two patches on top passed the media-ci tests.
-> 
-> If there are no further comments, then I plan to merge this for 6.14
-> tomorrow afternoon.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> On 09/01/2025 12:26, Dikshita Agarwal wrote:
->> This series fixes a memory leak and improves the representation of 
->> dma mask to set upper bound of DMA address space.
->>
->> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> ---
->> Dikshita Agarwal (2):
->>       media: iris: represent dma_mask in more readable form
->>       media: iris: fix memory leak while freeing queue memory
->>
->>  drivers/media/platform/qcom/iris/iris_hfi_queue.c       | 8 +++++---
->>  drivers/media/platform/qcom/iris/iris_platform_sm8250.c | 3 ++-
->>  drivers/media/platform/qcom/iris/iris_platform_sm8550.c | 3 ++-
->>  3 files changed, 9 insertions(+), 5 deletions(-)
->> ---
->> base-commit: 698b6e3163bafd61e1b7d13572e2c42974ac85ec
->> change-id: 20250108-iris-driver-fixes-d79c0ecc100d
->> prerequisite-message-id: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
->> prerequisite-patch-id: bfa9c88ec537e21017d5c9da3ad30d885d2eb132
->> prerequisite-patch-id: bf37c5c6dc78b857caf6b544f6eb4000dee5dbaa
->> prerequisite-patch-id: 4d3c8665de2faf0ad912943e3a9c9b4ca76bfd7f
->> prerequisite-patch-id: 327454576fb8440c8521917a6582e4839b6088c3
->> prerequisite-patch-id: fc523bc1a4f188e1924ebc18885c4dcd9b375e89
->> prerequisite-patch-id: 1f837af2ed6c4925884b45e75828ff5b8ff057f0
->> prerequisite-patch-id: 18c77c70db79b933a13df15f98f681a931156aea
->> prerequisite-patch-id: 40168197cad291efe92bd5bf78e039475ed10ae8
->> prerequisite-patch-id: b164fd80f4dcfb46b314377e8a595ce654418578
->> prerequisite-patch-id: 271bf0ca62c46ff9b14db3c23196112c2f59256d
->> prerequisite-patch-id: 67b096b9d1362eacfad13470c20e8eca833bf53d
->> prerequisite-patch-id: 5c433b5a1407fda64de411ccdc723dc664319037
->> prerequisite-patch-id: 8011d3230e717a0af3c6084b786612ff57bc770a
->> prerequisite-patch-id: 6d6f8da843afa6d7159730838ab2ac6e800e9246
->> prerequisite-patch-id: aa428f34e6695451780ff6b1bf8bc2dfb95c7071
->> prerequisite-patch-id: c95c03b5085eaecafafcabf4d700247b3b00bd87
->> prerequisite-patch-id: e41b4e7438a3fe56ba75501a417dba49365ed393
->> prerequisite-patch-id: ff1531525f124cf59596b8ca80a58f31b85763d0
->> prerequisite-patch-id: f20122e51eeb3691706b7d0f63628a84efc11b34
->> prerequisite-patch-id: e397711e5044a5e830f7f46d3683b6c234c23dda
->> prerequisite-patch-id: 99ad3fb3466a939438edf93e1591008a51004540
->> prerequisite-patch-id: f96d6202f4ba4194b9a185243e0659d2bb8ec6e0
->> prerequisite-patch-id: 71b8db4f106aa9322575573174c63d8d9eab20a1
->> prerequisite-patch-id: 532f7998ec08c4cc01c69dcfd050ad854d8bdbad
->> prerequisite-patch-id: cc80eabbf33df03053869cd47912efbd2c67d19a
->> prerequisite-patch-id: 837959096e4fb7aa2b9d5afbd847aa0a4399ea87
->> prerequisite-patch-id: f78814e6508d3439e1d77d82af471b839e03d1ec
->> prerequisite-patch-id: 5a664eca073472e80da8f257cb030740e009737e
->>
->> Best regards,
-> 
-> 
+ ....yaml => mediatek,multi-core-jpegdec.yaml} |  10 +-
+ ....yaml => mediatek,multi-core-jpegenc.yaml} |  10 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 126 ++++++++++++------
+ .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  17 ++-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 116 +++++++++++++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |   4 +
+ .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 113 +++++++++++++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  |   4 +
+ 8 files changed, 343 insertions(+), 57 deletions(-)
+ rename Documentation/devicetree/bindings/media/{mediatek,mt8195-jpegdec.yaml => mediatek,multi-core-jpegdec.yaml} (95%)
+ rename Documentation/devicetree/bindings/media/{mediatek,mt8195-jpegenc.yaml => mediatek,multi-core-jpegenc.yaml} (94%)
+
+-- 
+2.46.0
 
 
