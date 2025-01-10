@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-24614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24615-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F119A090F7
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 13:45:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A02BA09108
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 13:46:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BAB3A1889C3A
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 12:45:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4DE7516B1FC
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 12:45:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6BAB20DD5E;
-	Fri, 10 Jan 2025 12:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76CF920E718;
+	Fri, 10 Jan 2025 12:44:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7360C20D50C;
-	Fri, 10 Jan 2025 12:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0929D20E6ED;
+	Fri, 10 Jan 2025 12:44:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736512978; cv=none; b=NpRSLKh2oZzSerHf+hU5Ix6EMZqcDeSawzTmknqTeMWGY6E3hZDuFFORv+TNwo7LQKS20Q+ZemuNLVSitFzJXyKrOu6L7z+hVm0S4NjR+5gbcrFoZDsLHuyteQ1Rtxgo+nn71DUBnwWGOjSUBzmvxyQoUwz/Sfh5UrP9K2k1v50=
+	t=1736513048; cv=none; b=s4e1HtnEvD/Tqbvw/S3Y27Nb8L1l76duKthrTsC+WoWI7cqYbwJZvaB2Ra1TZKZtdK1UqH3Uj8rH/zaJtAWOOSWDLzBSpW9Gubh2gCuGPvwF20SYg0rF6AoVTyUReb2v6i7TqEND75SeJXD5uRZfKZhLT9LiROLgj1BVBFqtd4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736512978; c=relaxed/simple;
-	bh=bfmNNHUiqWGV4HS8CFR9qWI2BPn8Ci7zrRjz0NdTPQY=;
+	s=arc-20240116; t=1736513048; c=relaxed/simple;
+	bh=AuqmSzb2LShu0CtuE90EdjPyFpN59c4jcuYpuFMNzoE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DLCOuXL+G8GglVr0FZ36tnSgD/yrcWq811ZqQBvC9gKm+2k7kscYp/DyA093870C6wNBBrYsOgKRIrS/zCLqH0rmG9IZaCo3LpXbYwE8ajOzs511+qqn0qbZLEMhQbZpv+ZRxiGjXurGT8RoUrYR1RUvBWH5Yt70tktuCF1rpfQ=
+	 In-Reply-To:Content-Type; b=SI6fLdk01he+7VqGwXVCx8kCRA4ty4ASQMk55zFqHzlTwL1rIp0X28V32JWcp5RKODUweg1M8+pFZqu0etQnJl5LiDaXsdvLhZXeU8RsU5rTkvlxIa4wzggRyc7hGNfmXuHeHQXPZqqLu4H46u8PTkLE2MvU6KUvZzMwQApRe/c=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F311C4CED6;
-	Fri, 10 Jan 2025 12:42:53 +0000 (UTC)
-Message-ID: <11d18564-ad7a-4707-80b7-5dee57b973cb@xs4all.nl>
-Date: Fri, 10 Jan 2025 13:42:52 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 226B8C4CED6;
+	Fri, 10 Jan 2025 12:44:03 +0000 (UTC)
+Message-ID: <adb707fd-1567-407a-a6a7-2ea93dea6ab2@xs4all.nl>
+Date: Fri, 10 Jan 2025 13:44:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,7 +38,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] media: cec: move driver for TDA9950 from drm/i2c
+Subject: Re: [PATCH v2 3/3] drm/i2c: move TDA drivers under
+ drivers/gpu/drm/bridge
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -52,7 +53,7 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org
 References: <20250110-drm-move-tda998x-v2-0-ef2ae5832d21@linaro.org>
- <20250110-drm-move-tda998x-v2-2-ef2ae5832d21@linaro.org>
+ <20250110-drm-move-tda998x-v2-3-ef2ae5832d21@linaro.org>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -98,85 +99,133 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20250110-drm-move-tda998x-v2-2-ef2ae5832d21@linaro.org>
+In-Reply-To: <20250110-drm-move-tda998x-v2-3-ef2ae5832d21@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/01/2025 13:31, Dmitry Baryshkov wrote:
-> Move the driver for NXP TDA9950 / CEC part of TDA998x together to
-> drivers/media/i2c, close to other CEC drivers. Specify 'default
-> DRM_I2C_NXP_TDA998X' in order to simplify migration from old config
-> files as the Kconfig name has been changed to follow media/cec style.
+> TDA998x is the HDMI bridge driver, incorporating drm_connector and
+> optional drm_encoder (created via the component bind API by the TICLDC
+> and HDLCD drivers). Thus it should be residing together with the other
+> DRM bridge drivers under drivers/gpu/drm/bridge/.
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> TDA9950 is an I2C-CEC translator, being present on-die on the TDA9989
+> and TDA19989 chips, so it is being instantiated by the TDA998x driver.
+> Move it together with the TDA998x under bridge drivers subdir.
 
-Acked-by: Hans Verkuil <hverkuil@xs4all.nl>
+This last paragraph is no longer correct since the tda9950 is now moved
+to media cec.
 
 Regards,
 
 	Hans
 
-> ---
->  drivers/gpu/drm/i2c/Kconfig                  | 5 -----
->  drivers/gpu/drm/i2c/Makefile                 | 1 -
->  drivers/media/cec/i2c/Kconfig                | 9 +++++++++
->  drivers/media/cec/i2c/Makefile               | 1 +
->  drivers/{gpu/drm => media/cec}/i2c/tda9950.c | 0
->  5 files changed, 10 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i2c/Kconfig b/drivers/gpu/drm/i2c/Kconfig
-> index d5200f67958e68a8ec73401f1d3b79cbe0aa303d..1aa2a0bf5cc183b4ce92fc4f7eb61fd0065250d1 100644
-> --- a/drivers/gpu/drm/i2c/Kconfig
-> +++ b/drivers/gpu/drm/i2c/Kconfig
-> @@ -10,9 +10,4 @@ config DRM_I2C_NXP_TDA998X
->  	help
->  	  Support for NXP Semiconductors TDA998X HDMI encoders.
+> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  MAINTAINERS                                   |  2 +-
+>  drivers/gpu/drm/arm/Kconfig                   |  1 +
+>  drivers/gpu/drm/bridge/Kconfig                |  8 ++++++++
+>  drivers/gpu/drm/bridge/Makefile               |  4 ++++
+>  drivers/gpu/drm/{i2c => bridge}/tda998x_drv.c |  0
+>  drivers/gpu/drm/i2c/Kconfig                   | 13 -------------
+>  drivers/gpu/drm/i2c/Makefile                  |  3 ---
+>  7 files changed, 14 insertions(+), 17 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 223eb6bfd0579768c246dcc51831048627fb8d02..7a15fb49c2905dcba7bc08f03abe12bd7f493f84 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17045,7 +17045,7 @@ M:	Russell King <linux@armlinux.org.uk>
+>  S:	Maintained
+>  T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-devel
+>  T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-fixes
+> -F:	drivers/gpu/drm/i2c/tda998x_drv.c
+> +F:	drivers/gpu/drm/bridge/tda998x_drv.c
+>  F:	include/dt-bindings/display/tda998x.h
+>  K:	"nxp,tda998x"
 >  
-> -config DRM_I2C_NXP_TDA9950
-> -	tristate "NXP Semiconductors TDA9950/TDA998X HDMI CEC"
-> -	select CEC_NOTIFIER
-> -	select CEC_CORE
-> -
->  endmenu
-> diff --git a/drivers/gpu/drm/i2c/Makefile b/drivers/gpu/drm/i2c/Makefile
-> index 31fd35527d99d7eb23851d290175a3ff0c756772..45791fbfae983eecf58565109cf8eecb6431643b 100644
-> --- a/drivers/gpu/drm/i2c/Makefile
-> +++ b/drivers/gpu/drm/i2c/Makefile
-> @@ -1,4 +1,3 @@
->  # SPDX-License-Identifier: GPL-2.0
->  tda998x-y := tda998x_drv.o
->  obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
-> -obj-$(CONFIG_DRM_I2C_NXP_TDA9950) += tda9950.o
-> diff --git a/drivers/media/cec/i2c/Kconfig b/drivers/media/cec/i2c/Kconfig
-> index d912d143fb3129c6b3d0133dbfceffdd48bd543d..b9d21643eef1892ccff508b1864db30e83570212 100644
-> --- a/drivers/media/cec/i2c/Kconfig
-> +++ b/drivers/media/cec/i2c/Kconfig
-> @@ -13,3 +13,12 @@ config CEC_CH7322
->  	  generic CEC framework interface.
->  	  CEC bus is present in the HDMI connector and enables communication
->  	  between compatible devices.
+> diff --git a/drivers/gpu/drm/arm/Kconfig b/drivers/gpu/drm/arm/Kconfig
+> index c901ac00c0c3a8f356bd53d97305c6b39b3e6662..ed3ed617c6884876368c8bd072c53f1b710df443 100644
+> --- a/drivers/gpu/drm/arm/Kconfig
+> +++ b/drivers/gpu/drm/arm/Kconfig
+> @@ -9,6 +9,7 @@ config DRM_HDLCD
+>  	select DRM_CLIENT_SELECTION
+>  	select DRM_KMS_HELPER
+>  	select DRM_GEM_DMA_HELPER
+> +	select DRM_BRIDGE # for TDA998x
+>  	help
+>  	  Choose this option if you have an ARM High Definition Colour LCD
+>  	  controller.
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 6b4664d91faa80f096ac6a0548ed342e802ae68b..d20f1646dac27898ecb7599a9a06663357dcca14 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -90,6 +90,14 @@ config DRM_FSL_LDB
+>  	help
+>  	  Support for i.MX8MP DPI-to-LVDS on-SoC encoder.
+>  
+> +config DRM_I2C_NXP_TDA998X
+> +       tristate "NXP Semiconductors TDA998X HDMI encoder"
+> +       default m if DRM_TILCDC
+> +       select CEC_CORE if CEC_NOTIFIER
+> +       select SND_SOC_HDMI_CODEC if SND_SOC
+> +       help
+> +         Support for NXP Semiconductors TDA998X HDMI encoders.
 > +
-> +config CEC_NXP_TDA9950
-> +	tristate "NXP Semiconductors TDA9950/TDA998X HDMI CEC"
-> +	select CEC_NOTIFIER
-> +	select CEC_CORE
-> +	default DRM_I2C_NXP_TDA998X
-> +	help
-> +	  This is a driver for the NXP TDA9950 CEC controller and for the CEC
-> +	  controller block integrated into several NXP TDA998x HDMI encoders.
-> diff --git a/drivers/media/cec/i2c/Makefile b/drivers/media/cec/i2c/Makefile
-> index d7496dfd0fa49631299ff56c20e946757e50cdb2..95c9eda5258361c4d9196acb527e0c1b4351dbe0 100644
-> --- a/drivers/media/cec/i2c/Makefile
-> +++ b/drivers/media/cec/i2c/Makefile
-> @@ -3,3 +3,4 @@
->  # Makefile for the CEC I2C device drivers.
->  #
->  obj-$(CONFIG_CEC_CH7322) += ch7322.o
-> +obj-$(CONFIG_CEC_NXP_TDA9950) += tda9950.o
-> diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/media/cec/i2c/tda9950.c
+>  config DRM_ITE_IT6263
+>  	tristate "ITE IT6263 LVDS/HDMI bridge"
+>  	depends on OF
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 97304b429a530c108dcbff906965cda091b0a7a2..245e8a27e3fc525ffe02103e4436c71313f55d9a 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -6,6 +6,10 @@ obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
+>  obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
+>  obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
+>  obj-$(CONFIG_DRM_FSL_LDB) += fsl-ldb.o
+> +
+> +tda998x-y := tda998x_drv.o
+> +obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
+> +
+>  obj-$(CONFIG_DRM_ITE_IT6263) += ite-it6263.o
+>  obj-$(CONFIG_DRM_ITE_IT6505) += ite-it6505.o
+>  obj-$(CONFIG_DRM_LONTIUM_LT8912B) += lontium-lt8912b.o
+> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/bridge/tda998x_drv.c
 > similarity index 100%
-> rename from drivers/gpu/drm/i2c/tda9950.c
-> rename to drivers/media/cec/i2c/tda9950.c
+> rename from drivers/gpu/drm/i2c/tda998x_drv.c
+> rename to drivers/gpu/drm/bridge/tda998x_drv.c
+> diff --git a/drivers/gpu/drm/i2c/Kconfig b/drivers/gpu/drm/i2c/Kconfig
+> deleted file mode 100644
+> index 1aa2a0bf5cc183b4ce92fc4f7eb61fd0065250d1..0000000000000000000000000000000000000000
+> --- a/drivers/gpu/drm/i2c/Kconfig
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0-only
+> -menu "I2C encoder or helper chips"
+> -     depends on DRM && DRM_KMS_HELPER && I2C
+> -
+> -config DRM_I2C_NXP_TDA998X
+> -	tristate "NXP Semiconductors TDA998X HDMI encoder"
+> -	default m if DRM_TILCDC
+> -	select CEC_CORE if CEC_NOTIFIER
+> -	select SND_SOC_HDMI_CODEC if SND_SOC
+> -	help
+> -	  Support for NXP Semiconductors TDA998X HDMI encoders.
+> -
+> -endmenu
+> diff --git a/drivers/gpu/drm/i2c/Makefile b/drivers/gpu/drm/i2c/Makefile
+> deleted file mode 100644
+> index 45791fbfae983eecf58565109cf8eecb6431643b..0000000000000000000000000000000000000000
+> --- a/drivers/gpu/drm/i2c/Makefile
+> +++ /dev/null
+> @@ -1,3 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0
+> -tda998x-y := tda998x_drv.o
+> -obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
 > 
 
 
