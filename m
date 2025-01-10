@@ -1,199 +1,133 @@
-Return-Path: <linux-media+bounces-24628-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24629-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778C5A09905
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 19:01:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ABCBA09A3A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 19:50:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A0A13AABE3
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 18:01:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 24B9A3A3A67
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 18:50:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B3732144A5;
-	Fri, 10 Jan 2025 18:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB6D24B238;
+	Fri, 10 Jan 2025 18:50:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x3GXUeur"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HAe0+XEv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0952135AF
-	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 18:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976F224B221;
+	Fri, 10 Jan 2025 18:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736532089; cv=none; b=BfDXmdOvdmu2PIg3nMwoMiJbjKLJcyZitDW5i3zOy7to9iMqmOi6K+tK+aqyoT7VEaJ4QVix12sdcaTTgaIso3PM0OJKFHqG7/U1mWm0hcfqyUZZneyugFPFHxR5maZ9EaJn7kwtni/a6qWqEu9rmSWRoXNC51M/z6ZOJdZwnds=
+	t=1736535035; cv=none; b=EuhlZo8mm2LBmjpOUm7gXlPDQdcZPHKKJOBSK993z/alKK0WsI22DU79+wQ2ksFKU8riNqMKMgSF+JR4yxuG4O3NknWphS1unf8tNrJ2ox2v5NQsC9XF5cw8PjQ+Xg0rhrc7VnnZWT+r/Ltk2aM729r06kZukP62/g8E3z1dLfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736532089; c=relaxed/simple;
-	bh=X/xJXLWRnZaRfOEQYC73Y9UeYFgKDxpmErxZMkgVd8I=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=t53m43HJd9RTCm+Rzs9fYNPGijjKSKIOgZ2vLOkPSybErNxRxTeqXZkCqFUoGTfcl/4ALoR32dpERIBmHeey47KljOIH+kdPIOy5mpym+dilDtYg4O5aR4yHxvCuiwu9TwaVAfJnUom/+JhJSY2unaZlq+MMGQHawJSKQm3YhEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x3GXUeur; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-54263b52b5aso2362821e87.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 10:01:27 -0800 (PST)
+	s=arc-20240116; t=1736535035; c=relaxed/simple;
+	bh=vrT8a6O4opiIU7s9cC8Ep2OX2G8eqXuK9/RYBE5Tk9w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ChOFR2Gp30yHzQ1UF/rzb0vdg7WuV0Zw/JGsoOnOoKc+tArvQrRYLRAlwT+yjCsMHwBefYDQ5NACNTddQN3kxyVaI60lGhUNcVyjf0CWhiTZYN6OwhjiiZJd/VEeaAnckdftCRB7HmzR/wtricxiK2TRyvx3vvVNOy9xe5GsI48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HAe0+XEv; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21661be2c2dso39128585ad.1;
+        Fri, 10 Jan 2025 10:50:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736532085; x=1737136885; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qa098uKBIsYz+nXVCSydWRW4Agd+ejthyj8Yc9INVd4=;
-        b=x3GXUeur9xbAI9W+myQfwH8kiePXpYNDzC0jQmUJdcyL5o9jao7bcXE5JrNiXJkZUs
-         zw1bIeFYsNvG1NmMuzLV/yVqqhLYNh2zibk0QkGwJmHMcQ9XUKug5JMKXKJRNujxKxxn
-         CVLAVK7QZ66x46ORQGG1RhVXv+HfnZceN8SlH1ifwTh7SmbFOCQv0/dGpB5nIYUxhy/L
-         KQAb1DVZousajgOlrvHGNowP+siwYhsWVP3o4oxS35pF5rcIxBjYLkkB17EUGTAWDn+G
-         9QD6A8BudrimjKuAts93dC1+yWF/mv45tuO+oX2W4sxEkfWs0nsYHJoGm79I/6/ThVSa
-         O7ew==
+        d=gmail.com; s=20230601; t=1736535033; x=1737139833; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HcMvjcc6CYhEYyGOEDhz98L/qluxgiWXs8T6SJA0DOE=;
+        b=HAe0+XEvnEpaMa0Zjeo8f4TPbxp0R6O2SKT+w6UT4j2C9MZZEKUwRVXU74UlRfwNt1
+         wOdioQCbQGPhL5KItHgPlJaYWQeYpQ73qJDUaA5lDT3QwD4py58gd6/if8idmq1ZGwKt
+         BsYJwV5DGnye+GNTQxZEV0OyhH62gOZ8C99puVGNF/6+j3gw6yHjf44tIEzTzFwDNVSZ
+         IijJB1c37IiK2JVWC1e2sLMBWVO/d32n2+ZB+F2xsuVZtLCEmuH5RthoBtTFd4CixXjS
+         QW3PG/COPeAxHyYCgv+LSvqRkz/coR2XIjOUInUnSUxQADGk0rZDK6h3JIEIPboZZRMP
+         lpmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736532085; x=1737136885;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qa098uKBIsYz+nXVCSydWRW4Agd+ejthyj8Yc9INVd4=;
-        b=R1RpAsrRVz/qaEeyOmjSj4lZ9uMWxVqpj7hY+R4+bQR5XT650Ma9ugU3AXfE7x/+i8
-         nfN6wk0Ris4qaQXPcSrkWCdd/NZoZlo0wE2f7yis6OMojZQ7izWAfMX1VoDtSWWN0jUN
-         2OB9FUaOkOldtgDxUo1ZPYSeMYxHVlKqLrLEIRqItaumKxW9gv87e06a+oD9cxeeE1UX
-         pPZla99SQnA1nILcJOL7XEsXGK53xt/cH+FK5s6v7xMca/U48/xYM0tudzWVvTsZMZGt
-         2lulchaaupnwr1zZMz87SmoYnJ10H6VihCbkCJwTmqPSgIiFDu5oVpyAIvELk79PMr1A
-         05Tg==
-X-Forwarded-Encrypted: i=1; AJvYcCWdzFu0BENfBzPihYvyRaBCDVJOQaEWENKLpktjXTs7PyV3PwHYA2rtQB2XEHwIhsCHpF/CujE9xWJhVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmYjwj0foKupew4sdE9hxuoKAzJ2SoTHONTmdB5d8d9z3uEVV5
-	w3KxWqpJwBdZbwIb9BXNI1Fzwm3lyVN34k8a+wYekwB7Os8qv8Knka+Iv9rS8B0=
-X-Gm-Gg: ASbGnctFoHBYENSkU0eZu9j8mv4HvwfG6/Vlqrs9u1/tc47FOIEg6Zhfvh1qQwqHI0d
-	pfmvYAX4hfwmxC0HwbJxzP2a5PCiL6dAQ8aLs/h/UTSspwrsYKgVSGdVTcUDS3gKJ/PeewfJDfF
-	5L9WWmUymXw09lP9jU/Cry5ixD7w/nlbdkjt0xMzu330T01XRnrKbxGykBaIu9EKfdyGEMU4T/x
-	ANuN+6ei1O1GPrzvaU+Pg2bTNzTtFezpzcQsOHlQ9nP5fif/915j9feeJvhjkDfeGCfu2ynpDKp
-	gBiDgijqaJzLGc/XYyLFjzBe
-X-Google-Smtp-Source: AGHT+IFmu3hd8d6cJUw+lmlf9wdZPpV8V8P9orM1fWUQTJ9Odmo2pI0A05q2IP43SQW5x7AJCVDQTQ==
-X-Received: by 2002:a05:6512:2826:b0:540:1e5e:3876 with SMTP id 2adb3069b0e04-54284817b78mr3898054e87.52.1736532085256;
-        Fri, 10 Jan 2025 10:01:25 -0800 (PST)
-Received: from [127.0.0.1] (85-76-141-224-nat.elisa-mobile.fi. [85.76.141.224])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428be54795sm606491e87.101.2025.01.10.10.01.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 10:01:23 -0800 (PST)
-Date: Fri, 10 Jan 2025 20:01:21 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>, Johan Hovold <johan@kernel.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>
-CC: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?ISO-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
- Jianhua Lu <lujianhua000@gmail.com>,
- Stefan Schmidt <stefan.schmidt@linaro.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v9_27/28=5D_media=3A_iris=3A_en?=
- =?US-ASCII?Q?able_video_driver_probe_of_SM8250_SoC?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <24334fb8-4d83-eb06-aee3-dfe1f8e4937b@quicinc.com>
-References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com> <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com> <Z3_nCPk_g8znto4A@hovoldconsulting.com> <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com> <Z4EuiPEw8mvDQ2gv@hovoldconsulting.com> <24334fb8-4d83-eb06-aee3-dfe1f8e4937b@quicinc.com>
-Message-ID: <552972B8-1ACA-4243-A8E3-8F48DAF39C5C@linaro.org>
+        d=1e100.net; s=20230601; t=1736535033; x=1737139833;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HcMvjcc6CYhEYyGOEDhz98L/qluxgiWXs8T6SJA0DOE=;
+        b=EKC3S81o7+O533HGZ1HVxCj7xX4UH2gwemE//USzNesuix4ZodI0oos57jbyr/b5Ga
+         WY8pw1P4brOzs7wENNgtfx5EITFf2kql1opohB5D6EYiSv50wrTEL5EQn+MAKKmqXK34
+         zt4nn2vyUkl/TleGJoibM9GZxIj3HH4grN28m0L6iF8XmdIb8kItoIvgtw0J4gpp0x6M
+         6ecZOuuchCyyY42w/IB7YfzY/bFjTrqsayMUB7X/rF5pKGuz3lIjHwBQEcMtuz0bSpTs
+         VMRhK6KhluMQ2xb1d1wnPlLPsK3V6IGi2TybUUcYhtOmHTHQsyPthHJ6kpLHl7rSyk79
+         ap5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVKJ9AL6TYhGQbG5MbeKTfMAM/GYlH1EUaGp0MSSfJkq0d8WWDTb2HCPfCCnA7gbDxcE+lLfhAeJXsU@vger.kernel.org, AJvYcCXd0VMGsXtgKnvuIggeW9nqzonBOSYgCZY7FZxfzPQXOrQQACaeyhQZBnIplMaw3/QiFt1Hg0zpMYOPL1E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDLJGeU+XLWw5QcunBaebdyWJjh+Bt9LKvzRnmzWhL9FslL2kJ
+	dwghtYkxFvywaMu1g5+VNttcmcYNXVIv08FjILPcmQ/Bmuq2mcRQ
+X-Gm-Gg: ASbGnctJtKs12EuHlOdE0Cg90E3TpaL71KQcfyTugvLTxM7b9S7kBx19lag+3cEw8LB
+	lcKPLZGFmaFMFzS2QmgCWidkBoemxab2zO6m0EnxPOy6yIlMV5kCww7485IbJGlxgfc18pZBoTc
+	6FYFzSt5sNj+hrCX9d5Mtz4I2UY2cxpOleNtiY0wrmkt8IY9uT/+S01Is5VTKJ4bFE8UGjz4s8w
+	QzQhaF4DQNceAbB0cYnXH6eoLQd9RAF+/XeibF+6JKMKIFYYm1UCmFWXp5uI3HIcZ6zEIg=
+X-Google-Smtp-Source: AGHT+IGW+MuixB5XkEnE80DxPRK3INcukeNfB68zQBSb5p1L1ZGffWxuuz0c12sEGTJ0vsPhZNTyPQ==
+X-Received: by 2002:a05:6a00:1802:b0:727:3ac3:7f9c with SMTP id d2e1a72fcca58-72d21f29700mr17085694b3a.10.1736535032646;
+        Fri, 10 Jan 2025 10:50:32 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:a286:52bb:e897:3316])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d405485c2sm1843861b3a.5.2025.01.10.10.50.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jan 2025 10:50:32 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: hverkuil-cisco@xs4all.nl
+Cc: mchehab@kernel.org,
+	lars@metafoo.de,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v2] media: dt-bindings: adv7180: Document the 'interrupts' property
+Date: Fri, 10 Jan 2025 15:50:26 -0300
+Message-Id: <20250110185026.590049-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 10 January 2025 19:30:30 EET, Dikshita Agarwal <quic_dikshita@quicinc=2E=
-com> wrote:
->
->
->On 1/10/2025 7:58 PM, Johan Hovold wrote:
->> On Thu, Jan 09, 2025 at 11:18:29PM +0530, Vikash Garodia wrote:
->>> On 1/9/2025 8:41 PM, Johan Hovold wrote:
->>>> On Thu, Dec 12, 2024 at 05:21:49PM +0530, Dikshita Agarwal wrote:
->>>>> Initialize the platform data and enable video driver probe of SM8250
->>>>> SoC=2E Add a kernel param to select between venus and iris drivers f=
-or
->>>>> platforms supported by both drivers, for ex: SM8250=2E
->>>>
->>>> Why do you want to use a module parameter for this? What would be the
->>>> default configuration? (Module parameters should generally be avoided=
-=2E)
->>=20
->>> This was discussed during v4 [1] and implemented as per suggestion
->>>
->>> [1]
->>> https://lore=2Ekernel=2Eorg/linux-media/eea14133-2152-37bb-e2ff-fcc7ed=
-4c47f5@quicinc=2Ecom/
->>=20
->> First, the background and motivation for this still needs to go in the
->> commit message (and be mentioned in the cover letter)=2E
->>=20
->> Second, what you implemented here is not even equivalent to what was
->> done in the mdm drm driver since that module parameter is honoured by
->> both drivers so that at most one driver tries to bind to the platform
->> device=2E
->>=20
->> With this patch as it stands, which driver ends up binding depends on
->> things like link order and what driver has been built a module, etc=2E =
-(as
->> I pointed out below)=2E
->>=20
->>>> Why not simply switch to the new driver (and make sure that the new
->>>> driver is selected if the old one was enabled in the kernel config)?
->>=20
->>> Its about the platform in migration i=2Ee sm8250=2E Since new driver i=
-s not yet
->>> feature parity with old driver, choice is provided to client if it wan=
-ts to use
->>> the new driver (default being old driver for sm8250)
->>=20
->> This should be described in the commit message, along with details on
->> what the delta is so that the reasoning can be evaluated=2E
->>=20
->> And I'm still not sure using a module parameter for this is the right
->> thing to do as it is generally something that should be avoided=2E
->>=20
->I understand your concern of using module params=2E
->I will modify it to rely on Kconfig to select the driver (suggested by
->Hans) instead of module param=2E
+From: Fabio Estevam <festevam@denx.de>
 
-Please don't=2E This makes it impossible to perform side-by-side compariso=
-n=2E Also as venus and iris drivers are not completely equivalent wrt suppo=
-rted platforms, distributions will have to select whether to disable suppor=
-t for older platforms or for new platforms: Kconfig dependency will make it=
- impossible to enable support for both kinds=2E
+The ADV7180 family of chips have an INTRQ pin that can be connected
+to a SoC GPIO.
 
->something like:
->config VIDEO_QCOM_IRIS
->        tristate "Qualcomm iris V4L2 decoder driver"
->       =2E=2E=2E
->        depends on VIDEO_QCOM_VENUS=3Dn || COMPILE_TEST
->
->Thanks,
->Dikshita
->>>>>  static int iris_probe(struct platform_device *pdev)
->>>>>  {
->>>>>  	struct device *dev =3D &pdev->dev;
->>>>> @@ -196,6 +224,9 @@ static int iris_probe(struct platform_device *pd=
-ev)
->>>>>  	u64 dma_mask;
->>>>>  	int ret;
->>>>> =20
->>>>> +	if (!video_drv_should_bind(&pdev->dev, true))
->>>>> +		return -ENODEV;
->>>>
->>>> AFAICT nothing is preventing venus from binding even when 'prefer_ven=
-us'
->>>> is false=2E
->>>>
->>>>> +
->>>>>  	core =3D devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
->>>>>  	if (!core)
->>>>>  		return -ENOMEM;
->>=20
->> Johan
+Allow the 'interrupts' property to be described to fix the following
+dt-schema warning:
+
+'interrupt-parent', 'interrupts' do not match any of the
+regexes: 'pinctrl-[0-9]+'
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+Changes since v1:
+- Detail the interrupt description.
+
+ Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+index 4371a0ef2761..ede774dff4a8 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+@@ -49,6 +49,12 @@ properties:
+       Indicates that the output is a BT.656-4 compatible stream.
+     type: boolean
+ 
++  interrupts:
++    description:
++      The ADV7180 chips can generate interrupt in the INTRQ pin.
++    items:
++      - description: INTRQ pin interrupt.
++
+   port:
+     $ref: /schemas/graph.yaml#/$defs/port-base
+     unevaluatedProperties: false
+-- 
+2.34.1
 
 
