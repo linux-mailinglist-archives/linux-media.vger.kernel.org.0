@@ -1,119 +1,155 @@
-Return-Path: <linux-media+bounces-24574-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24575-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737E7A08994
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 09:10:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE02FA089DA
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 09:23:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F7F8188C680
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 08:10:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA267188C954
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 08:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F9F207A2B;
-	Fri, 10 Jan 2025 08:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290C6208995;
+	Fri, 10 Jan 2025 08:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DfWDMX48"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VrAL+4ST"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C617133987;
-	Fri, 10 Jan 2025 08:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1D6205E01;
+	Fri, 10 Jan 2025 08:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736496635; cv=none; b=URvrFYlFNzXEkA2kpmG/H18s5qmMRYQg5kNdJfRPO/LJ5fY/6ahlfMACgmpoQdyWnTgHFEcu1CPRi1meoMe0G4ej1RJVIcWZz61SI9XmFbnFOfVE+9rl8iaoSW1p0dPY6KGfwFFjrvkD/E0hS4O9QRSEvAgw5O4xw1eDdQ2aHPw=
+	t=1736497342; cv=none; b=rS+zX5dA6uCPecUsjJDcKc/37ary6YufB35GC6e3nmr2sJ1PfB8OouifM9BxEJCS0reKyPi56P4WfE59pcCZEJBanMFhJpPTX9WfTFKBtaHueZytrjb+nhg9czT00PhdMJ3KantCANewSsDQGckvk7WIoy+MaFlbunJsR0VePYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736496635; c=relaxed/simple;
-	bh=u0SlY39EHudaIchSfeH9EDK+XhR46+IbBeM2GLNudWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dd40ly8R16vLEb5LC6556nZ6ou5bDyRSvcdYZkNMiBrHOOtOW4M/AQ9SNFlbnjks5Lld41vHRFXLQTU0501r2UAQRNsNLRN9o+9KczKZB3BlkiIA9aN9DT6yePhNm4tmq3R5t30zp+tuKyPteWSRg9HhAEe30/QRr3FKC8zNVhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DfWDMX48; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736496634; x=1768032634;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u0SlY39EHudaIchSfeH9EDK+XhR46+IbBeM2GLNudWc=;
-  b=DfWDMX4848ca10+i66lWVNuRe31S0yt2FUyhrCQFrfN9XM04W4HG0pl6
-   P8miHlWVFUxBbcL/+2hQxNtqeCkl5UjPLLQKE96iVFAg7Tr2rooQAx5/G
-   WRevoUBObR4pyqjOZ5sS+Ei1BVuI4rpFaCFFKzoIVue+4jzUZVSDA+gm6
-   Xl3EKwWmE2CzmHy8HhRY2k7rDKXlmOZ8Cg8v8TV82KDAnwpbzafHvjIAW
-   MU3cuv0C7jKcBaBPrNTR+4q4keDI/EJfM8vcECiKc6F5YmSn1nb8P/B/Q
-   B8WjiQh/LWeijb2hiMJW9xYY4KcX3XYP9hWgNaK82a3Nh1WTU+WKkb9DI
-   g==;
-X-CSE-ConnectionGUID: gO7C2tdfRR+LeIpc5+h6oQ==
-X-CSE-MsgGUID: xCrBjnMlTQm5J748OG18KA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36471691"
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="36471691"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 00:10:33 -0800
-X-CSE-ConnectionGUID: i7ifN1BaQc2OMi34W+qoTA==
-X-CSE-MsgGUID: WYJk5AcTQVGQibvApw/qYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="134566256"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 00:10:30 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 91FA511F89A;
-	Fri, 10 Jan 2025 10:10:27 +0200 (EET)
-Date: Fri, 10 Jan 2025 08:10:27 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Alain Volmat <alain.volmat@foss.st.com>
-Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] media: stm32: csi / dcmipp corrections
-Message-ID: <Z4DV8zVqQf9Bl0X5@kekkonen.localdomain>
-References: <20250108-csi_dcmipp_mp25_enhancements-v2-0-05808ce50e41@foss.st.com>
- <Z4DVj9ubGkAmkZKN@kekkonen.localdomain>
+	s=arc-20240116; t=1736497342; c=relaxed/simple;
+	bh=2QacisfZC77wH3nmwmgatCSXgiarASOgF95tC5xTLqU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=pYLX4G4vwdOPkhDlu63gwkDR4AoOMRgQ7SD5HLezhnqQGHUPBvt6500/MnlLzkD1+8PGqPlACVMMTHb70I3XE7br1gAK0+L5Lmr+hbRgrjmdj7d3CGuU4Hsewpea9Lc86GTncex8mc/9MrORSrxzhANa2QmBlG+OGEBIrlT9Njw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VrAL+4ST; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50A2i7No018187;
+	Fri, 10 Jan 2025 08:22:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	0uPWMzQe26BjKrvpBxQ1DfCRGPTp4gTh6KZhjh7t+wk=; b=VrAL+4STtBHnU2Mi
+	sPjuLGPJ3ThTH7GOvETVuQBScS8Ohjt3tolp9PgRgQuiPn7oQvxSreCbSVjCUmtL
+	L3qCukhyY0E+zedayFj+UUugwrwYrrSuBz2K7oTb2dUab8f3e49MKYwBoizCRKX0
+	6Y3LEvdCxco85qU/QcZ4CMUPRUfTB8fayde8xQotahhYzFAaydoVz5Qnn0LOCVHZ
+	1Tlw0a7m7aBZqTfzTUdp6H8aOeCxyuyj3WBmaOYCefq1F/u7CV00ODqZnzkeGB3r
+	nHfRlJI7U/tyjoq9c4cqSjGTTWeE7Rl3ytz3GSgRRzlsWd++nSCULGPzdjS6K9Ip
+	/xiFtg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 442u14gqh1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jan 2025 08:22:03 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50A8M2Cv017952
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jan 2025 08:22:02 GMT
+Received: from [10.231.216.103] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 10 Jan
+ 2025 00:21:59 -0800
+Message-ID: <53082cad-a046-424a-ab05-67d34005131d@quicinc.com>
+Date: Fri, 10 Jan 2025 16:21:57 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z4DVj9ubGkAmkZKN@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for
+ video GDSC's
+To: Bjorn Andersson <andersson@kernel.org>
+CC: Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+	<sboyd@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        "Vikash Garodia" <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        Taniya Das
+	<quic_tdas@quicinc.com>
+References: <20241223-switch_gdsc_mode-v2-0-eb5c96aee662@quicinc.com>
+ <20241223-switch_gdsc_mode-v2-1-eb5c96aee662@quicinc.com>
+ <szj4urqpxoek3y65ov6bavxqjsgs5nnu5o32e73z47mudelq4v@6fjbmm2h7pen>
+ <7556a703-db1a-48f1-8546-e9acf91ca0c6@quicinc.com>
+ <fmxvklw2fmt4akltrpw6v4wmmi6teu7rozz6tozr4hkos6io4s@4jp76l7xql3l>
+Content-Language: en-US
+From: Renjiang Han <quic_renjiang@quicinc.com>
+In-Reply-To: <fmxvklw2fmt4akltrpw6v4wmmi6teu7rozz6tozr4hkos6io4s@4jp76l7xql3l>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: u1YZhsLFgM6TekFWozEZzxsKMONeSsnK
+X-Proofpoint-GUID: u1YZhsLFgM6TekFWozEZzxsKMONeSsnK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
+ phishscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=999 bulkscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501100068
 
-On Fri, Jan 10, 2025 at 08:08:47AM +0000, Sakari Ailus wrote:
-> Hi Alain,
-> 
-> On Wed, Jan 08, 2025 at 02:16:03PM +0100, Alain Volmat wrote:
-> > Various fixes within the stm32 csi bindings/drivers and
-> > stm32 dcmipp driver.
-> > 
-> > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> 
-> Thanks for the update. I tried to apply this but it doesn't, and the
-> culprit appears to be this line in dcmipp_graph_notify_bound():
-> 
-> 	unsigned int ret;
-> 
-> That appears to be a bug as such. The interesting thing is that the patch
-> changing things around it presumes
-> 
-> 	int ret;
-> 
-> so it won't apply. Do you already have a patch that fixes it? It should be
-> cc'd to stable, too, with a Fixes: tag.
 
-Ok, the tag isn't necessary as there lack of the sign doesn't seem to
-matter in this case.
+On 1/8/2025 12:41 PM, Bjorn Andersson wrote:
+> On Thu, Jan 02, 2025 at 12:06:14PM +0800, Renjiang Han wrote:
+>> On 12/26/2024 11:54 AM, Bjorn Andersson wrote:
+>>>> The video driver will be using the newly introduced
+>>>> dev_pm_genpd_set_hwmode() API to switch the video GDSC to HW and SW
+>>>> control modes at runtime.
+>>> "Will be using", does that imply then that if this patch is merged
+>>> before (or without the venus patch) something unexpected will happen?
+>>>
+>>> Please clarify how you expect this to be merged, or clarify in the
+>>> commit message that ordering is not of any concern.
+>>>
+>>> Regards,
+>>> Bjorn
+>>   Thanks for your comment. This patch series is to make the video driver
+>>   to use dev_pm_genpd_set_hwmode() to switch GDSC mode. This patch and
+>>   the venus driver patch need to be merged at the same time. Otherwise,
+>>   the video will not work properly on these platforms.
+>>
+> The two patches are handled by different maintainers, of different
+> subsystems and as such would not be expected to be merged together ever.
+>
+> If you have such requirements, it need to be made very clear to the
+> maintainers that they will have to synchronize the effort.
+>
+>
+> You're expected to always keep the tree "bisectable", i.e. the tree
+> should function after each commit in the git history. Please clarify
+> the best possible order here, and if the changes truly need to be merged
+> in some specific order let's see if we can get Maruo's Acked-by and I
+> could merge the pair through the clock tree.
+>
+> Regards,
+> Bjorn
+
+  Thanks for your explanation. The use of dev_pm_genpd_set_hwmode() depends
+  on the HW_CTRL_TRIGGER flag, and the reading and writing of the
+  WRAPPER_VCODEC0_MMCC_POWER_CONTROL and WRAPPER_VCODEC0_MMCC_POWER_STATUS
+  registers depends on the HW_CTRL flag. Therefore, the clock patch and
+  the venus driver patch need to be merged at the same time. Otherwise,
+  the venus driver cannot work properly.
 
 -- 
-Sakari Ailus
+Best Regards,
+Renjiang
+
 
