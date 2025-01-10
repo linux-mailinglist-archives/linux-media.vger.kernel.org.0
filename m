@@ -1,63 +1,87 @@
-Return-Path: <linux-media+bounces-24575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24576-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE02FA089DA
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 09:23:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 142EBA08A93
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 09:43:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA267188C954
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 08:23:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17B1516824A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 08:43:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290C6208995;
-	Fri, 10 Jan 2025 08:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6CB32080D2;
+	Fri, 10 Jan 2025 08:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VrAL+4ST"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XicTXnpU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1D6205E01;
-	Fri, 10 Jan 2025 08:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4F81FF7DA
+	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 08:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736497342; cv=none; b=rS+zX5dA6uCPecUsjJDcKc/37ary6YufB35GC6e3nmr2sJ1PfB8OouifM9BxEJCS0reKyPi56P4WfE59pcCZEJBanMFhJpPTX9WfTFKBtaHueZytrjb+nhg9czT00PhdMJ3KantCANewSsDQGckvk7WIoy+MaFlbunJsR0VePYY=
+	t=1736498611; cv=none; b=jAXyvZj45Agb/FM+lD1xUVSDSwufjiVGKHpv6WYmylIa1OPaKi5bvoIOdf14GN2iAGSbbXNQT+DNaAuoEnY8ITDT3FUygsN7K2ONewwZhQTMn5hUpd4VtO3cjZ1hTNk3X1fc/Bai4f7H9HV/HnJ8OFfBYWh3ndE3GOqt9X6DTUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736497342; c=relaxed/simple;
-	bh=2QacisfZC77wH3nmwmgatCSXgiarASOgF95tC5xTLqU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=pYLX4G4vwdOPkhDlu63gwkDR4AoOMRgQ7SD5HLezhnqQGHUPBvt6500/MnlLzkD1+8PGqPlACVMMTHb70I3XE7br1gAK0+L5Lmr+hbRgrjmdj7d3CGuU4Hsewpea9Lc86GTncex8mc/9MrORSrxzhANa2QmBlG+OGEBIrlT9Njw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VrAL+4ST; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50A2i7No018187;
-	Fri, 10 Jan 2025 08:22:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	0uPWMzQe26BjKrvpBxQ1DfCRGPTp4gTh6KZhjh7t+wk=; b=VrAL+4STtBHnU2Mi
-	sPjuLGPJ3ThTH7GOvETVuQBScS8Ohjt3tolp9PgRgQuiPn7oQvxSreCbSVjCUmtL
-	L3qCukhyY0E+zedayFj+UUugwrwYrrSuBz2K7oTb2dUab8f3e49MKYwBoizCRKX0
-	6Y3LEvdCxco85qU/QcZ4CMUPRUfTB8fayde8xQotahhYzFAaydoVz5Qnn0LOCVHZ
-	1Tlw0a7m7aBZqTfzTUdp6H8aOeCxyuyj3WBmaOYCefq1F/u7CV00ODqZnzkeGB3r
-	nHfRlJI7U/tyjoq9c4cqSjGTTWeE7Rl3ytz3GSgRRzlsWd++nSCULGPzdjS6K9Ip
-	/xiFtg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 442u14gqh1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jan 2025 08:22:03 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50A8M2Cv017952
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jan 2025 08:22:02 GMT
-Received: from [10.231.216.103] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 10 Jan
- 2025 00:21:59 -0800
-Message-ID: <53082cad-a046-424a-ab05-67d34005131d@quicinc.com>
-Date: Fri, 10 Jan 2025 16:21:57 +0800
+	s=arc-20240116; t=1736498611; c=relaxed/simple;
+	bh=iqwtiK1EmeVYnhW/GPUZXCaNlybXxMTGTh4U8LymXoU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZK+GbDs2tt8zvno6UG2PBQiY/Y5sSM6ZnH2KUFBo1WKDPhZE0ya7gGrR22AHWvhtthLe4bpEMhwEIyowRk8lp91dVORTcMT5Bjayc1+2MO28o9hiy+n+5Q+JZztbe3r8cmrZGPgaIJ8oI+rt1ngDA6NXOmE4LF5Plp1NKRjh8dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XicTXnpU; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736498608;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AwAaHj3wboM7saLgRPOMXwNzjUQJ4+6ZmF7WbXVOs6U=;
+	b=XicTXnpUvq0Ol5L+oN851a0MF10hNre68K2fkvVrXr4mDZqUypp8EOliC46C3TJ6eVk42l
+	GrGy8mgtBSqx1ti+2n+U8IJwEm8q0BVB8o+1fWB2K0KvjEXSDLE4gxAu4/lf+kT2pXFLKW
+	Mm3YGp3w67DE5rDGQim/5ARcJMFiY+Y=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-491-GUX1cZOlNySpmqxFo7pKcg-1; Fri, 10 Jan 2025 03:43:27 -0500
+X-MC-Unique: GUX1cZOlNySpmqxFo7pKcg-1
+X-Mimecast-MFC-AGG-ID: GUX1cZOlNySpmqxFo7pKcg
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5d40c0c728aso1434866a12.2
+        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 00:43:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736498606; x=1737103406;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AwAaHj3wboM7saLgRPOMXwNzjUQJ4+6ZmF7WbXVOs6U=;
+        b=NsOr4rJwWtcXOPBFuYUtWrz8ha6ZlDcKH4vfGA5m4A86xUWCv0wJCIOKsy/coOfnNc
+         a+QLw4/T/CgYdIP+5EAZUlQToPVy1N97SQrHPiAeJJhBV1S4u4FXCKq9ijK1kZGyVSb/
+         q5OKaY4FcRRvQiX6GnocHlZcai2Z7dJdQig8HNAuvqClivFCKcSHsNi1582y71RfSKjy
+         w3ndzRcy5H8vrgVqrkUG1Qw2wu53mBvU0DqCI0cqVU1wZGLzvj9JwJI8m2Ykuvbec/xm
+         ZDLCAmJsZPB7OEFevPjIcHeuPq6Dg2eJzYY70mr35al5JTp4LBW+UN7ZOB9AfmfnwvtM
+         6ilQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW084qMml/0NuAgXo9jW2lOVwr2H1RNMA6lSLP6RyRqXGXc4BAkJ10+DjNqXyRvGDveKCA8SeR79u+ESg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgNjQYl47hciKlSiAZ1mI1KiSwlXT2p2hO46nrI+1S0/uTXEA0
+	A5nj9fT62nh6n2+Uvp2YK///8OEigpDhnuvh6rbeb5nf/ARn7+QTtQ6s7sP8uxZ5tdYbxTWWbO5
+	qCbHu5my8uCZOdkBpoVH13dk8K4/gnJSj3o3gTZQ+h6z/EEtOf7QN6YzOK3Va
+X-Gm-Gg: ASbGncvvSe46V0WJq4mho67m6ysWSEhvT74lYWxnhM731Q0CebIa49lbB+zKXaoV8or
+	a/njDdxIYnzRCZKJLaUPm0YOwTI4UN1R9/MNVw0gTGyNEjiAiLSlVQSJOLFl3DrsB4KIMzLTnml
+	ei+/thhHX4K/ikkWikEuhfHod8nlQRgOBuh9YH/ZhDO4nobAEiOGItho/mOq5rdjxrB32KViJ34
+	X5DtoE9KLtcOM22dP4rpFRYDyn7NyXUTkVJONUmqZPh09ikit+bZWsNLYX3t4t9K6Ri2fhXpQ0z
+	mihlK9GGdeDnGPYRTA+t+xBMfDwMl8jl37OzoB0xYQvNAfe1ZW+U7lb95XwDs+Ji87Eo9iviF9r
+	HyB3eHoLeWuUZELNgVOkZulsn7svHibQ=
+X-Received: by 2002:a05:6402:51c9:b0:5d3:ba42:e9e3 with SMTP id 4fb4d7f45d1cf-5d972e0e3a0mr24169524a12.13.1736498606142;
+        Fri, 10 Jan 2025 00:43:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHJfy1uYDkgSVxXWScIA/ARH2ydtjCcW90eq1J6W1kWSZUxtnEpeAeUnb6JfuPsSdp0Okmoeg==
+X-Received: by 2002:a05:6402:51c9:b0:5d3:ba42:e9e3 with SMTP id 4fb4d7f45d1cf-5d972e0e3a0mr24169486a12.13.1736498605774;
+        Fri, 10 Jan 2025 00:43:25 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c95624e8sm143864566b.127.2025.01.10.00.43.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jan 2025 00:43:25 -0800 (PST)
+Message-ID: <a084ccf0-6b73-4e83-9310-59a618e82a28@redhat.com>
+Date: Fri, 10 Jan 2025 09:43:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,91 +89,74 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for
- video GDSC's
-To: Bjorn Andersson <andersson@kernel.org>
-CC: Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
-	<sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        "Vikash Garodia" <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        Taniya Das
-	<quic_tdas@quicinc.com>
-References: <20241223-switch_gdsc_mode-v2-0-eb5c96aee662@quicinc.com>
- <20241223-switch_gdsc_mode-v2-1-eb5c96aee662@quicinc.com>
- <szj4urqpxoek3y65ov6bavxqjsgs5nnu5o32e73z47mudelq4v@6fjbmm2h7pen>
- <7556a703-db1a-48f1-8546-e9acf91ca0c6@quicinc.com>
- <fmxvklw2fmt4akltrpw6v4wmmi6teu7rozz6tozr4hkos6io4s@4jp76l7xql3l>
-Content-Language: en-US
-From: Renjiang Han <quic_renjiang@quicinc.com>
-In-Reply-To: <fmxvklw2fmt4akltrpw6v4wmmi6teu7rozz6tozr4hkos6io4s@4jp76l7xql3l>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: u1YZhsLFgM6TekFWozEZzxsKMONeSsnK
-X-Proofpoint-GUID: u1YZhsLFgM6TekFWozEZzxsKMONeSsnK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- phishscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 clxscore=1015 mlxlogscore=999 bulkscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501100068
+Subject: Re: [PATCH v2 08/10] media: ov08x40: Add missing
+ ov08x40_identify_module() call on stream-start
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Jason Chen <jason.z.chen@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20241220144130.66765-1-hdegoede@redhat.com>
+ <20241220144130.66765-9-hdegoede@redhat.com>
+ <Z3_7TAXXUlqkUcwY@kekkonen.localdomain>
+ <d807cb98-40d0-41ea-8f7e-9ae51b05822f@redhat.com>
+ <Z4DKjLBGP_bZpHjq@kekkonen.localdomain>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Z4DKjLBGP_bZpHjq@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-On 1/8/2025 12:41 PM, Bjorn Andersson wrote:
-> On Thu, Jan 02, 2025 at 12:06:14PM +0800, Renjiang Han wrote:
->> On 12/26/2024 11:54 AM, Bjorn Andersson wrote:
->>>> The video driver will be using the newly introduced
->>>> dev_pm_genpd_set_hwmode() API to switch the video GDSC to HW and SW
->>>> control modes at runtime.
->>> "Will be using", does that imply then that if this patch is merged
->>> before (or without the venus patch) something unexpected will happen?
->>>
->>> Please clarify how you expect this to be merged, or clarify in the
->>> commit message that ordering is not of any concern.
->>>
->>> Regards,
->>> Bjorn
->>   Thanks for your comment. This patch series is to make the video driver
->>   to use dev_pm_genpd_set_hwmode() to switch GDSC mode. This patch and
->>   the venus driver patch need to be merged at the same time. Otherwise,
->>   the video will not work properly on these platforms.
+On 10-Jan-25 8:21 AM, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> On Thu, Jan 09, 2025 at 10:23:41PM +0100, Hans de Goede wrote:
+>> Hi,
 >>
-> The two patches are handled by different maintainers, of different
-> subsystems and as such would not be expected to be merged together ever.
->
-> If you have such requirements, it need to be made very clear to the
-> maintainers that they will have to synchronize the effort.
->
->
-> You're expected to always keep the tree "bisectable", i.e. the tree
-> should function after each commit in the git history. Please clarify
-> the best possible order here, and if the changes truly need to be merged
-> in some specific order let's see if we can get Maruo's Acked-by and I
-> could merge the pair through the clock tree.
->
-> Regards,
-> Bjorn
+>> On 9-Jan-25 5:37 PM, Sakari Ailus wrote:
+>>> Hi Hans,
+>>>
+>>> On Fri, Dec 20, 2024 at 03:41:28PM +0100, Hans de Goede wrote:
+>>>> The driver might skip the ov08x40_identify_module() on probe() based on
+>>>> the acpi_dev_state_d0() check done in probe().
+>>>>
+>>>> If the ov08x40_identify_module() call is skipped on probe() it should
+>>>> be done on the first stream start. Add the missing call.
+>>>>
+>>>> Note ov08x40_identify_module() will only do something on its first call,
+>>>> subsequent calls are no-ops.
+>>>>
+>>>> Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>>
+>>> I'll add:
+>>>
+>>> Fixes: b1a42fde6e07 ("media: ov08x40: Avoid sensor probing in D0 state")
+>>> Cc: stable@vger.kernel.org
+>>
+>> Sounds good, thank you.
+>>
+>> That is when you say "I'll add", you mean you'll add those tags
+>> while merging this series, right ?
+>>
+>> Or do you want me to the tags in a v3 series?
+> 
+> No need for v3. Thanks!
+> 
+> Are there other patches not merged for the driver, besides this set? No?
 
-  Thanks for your explanation. The use of dev_pm_genpd_set_hwmode() depends
-  on the HW_CTRL_TRIGGER flag, and the reading and writing of the
-  WRAPPER_VCODEC0_MMCC_POWER_CONTROL and WRAPPER_VCODEC0_MMCC_POWER_STATUS
-  registers depends on the HW_CTRL flag. Therefore, the clock patch and
-  the venus driver patch need to be merged at the same time. Otherwise,
-  the venus driver cannot work properly.
+Bryan was talking about a fix from him which also needs to be merged:
 
--- 
-Best Regards,
-Renjiang
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/commit/f10539a3cbe5c072829b082683f0d1393a7e50dc
+
+But I cannot find that in the lore archives.
+
+Bryan, did you ever post that fix ?
+
+Regards,
+
+Hans
+
 
 
