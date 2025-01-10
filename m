@@ -1,81 +1,77 @@
-Return-Path: <linux-media+bounces-24568-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24569-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E903A088E2
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 08:22:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC51A088EE
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 08:33:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D5C03A9ABF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 07:21:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64A3F3A9214
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 07:33:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 693302066C8;
-	Fri, 10 Jan 2025 07:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E09552066C0;
+	Fri, 10 Jan 2025 07:33:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iK176vwG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyO+F/t4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3A3157A46
-	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 07:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD55A14A08E
+	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 07:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736493714; cv=none; b=Vsbvmj1rL/mx8VxqW0c5m/wbND1RcyNFxOwgHPHVGDf8HJ6RnP0AU4sHmB3H8w+7XLTrjt6t9VcFVLalvUErGDbCxcxRjTEeX38sFUyZ7REo+8aujU4QGjrRVBMkFssOeBhApva80hb4XRcs39/RBv2hdKn3WvytkQctOlHThJA=
+	t=1736494401; cv=none; b=ifYJbyXO6sOr142swMugNSFgge0rbggg9Dom39XFMqam1Ch/Bd19atng55WQeAjreDiTtdtys3K9G3qA8YUTE5Wi+JE9KwEjc8UJOrjtrVSQBchAUk9djxChEwnfT/LC0mulikb69P2kEaDWwOSDo6gWJxgXmuDzBK7qlHhLuFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736493714; c=relaxed/simple;
-	bh=cIbof6xCJ/J7dnvBSMAaUHRPvdXspZ/8+WNJlDBaocw=;
+	s=arc-20240116; t=1736494401; c=relaxed/simple;
+	bh=5e76k0arGkKoEQdFkzAaDNCpXC2b3FqKbrMQXo0YTbQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u1DX4XJ8UFHf5dlHeLB9MbiwqYacY5ue3hNXxgmT4tX/Zj1EG7dMGpwUsD0x3xCSH4krbY1Vv4DuvO9YYYMMl+WCVqF1ZKR9rC2snb9rgpvGwctiGPPhaYQFpw5FHr+xo649BqMvPhRHh8byXg3eexHp4MuggO6glRy3UuAsRPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iK176vwG; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=WteKEnj++phFkDVsxTiqY1OHxF/WgctKpzKOCwn2kVyx68mM2EddfWQD1UvPiYOUHyjtZwWtFiAJSTqvddlbulf9P14BhB2SxEJ/+yfihLGdKRQu129ZkjJ4qhqD69EgDiIxQVFaRdty7Xsu0dOKiV2hp4DZXojCVw0kSXCFq7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyO+F/t4; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736493713; x=1768029713;
+  t=1736494400; x=1768030400;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cIbof6xCJ/J7dnvBSMAaUHRPvdXspZ/8+WNJlDBaocw=;
-  b=iK176vwG2cvV7kO8ulH4Kp3DNW6Rl97IiDfUhBlApGa9pAXTst76c/O5
-   hWkYDeq+jl+/5U4/maPQotzPHnSYwh/7JXzipd6Vcx+C5IY6euiaGLOT2
-   f9R2ElaEO6HL00ef3PFYVC/p5/601gqEnCDTv3DDxeJ9BoCOyRFikCZxm
-   CubKAZhp8boVoZB71OR68w8Z4ePxLnOFDExNK2txAwt+QxNRiQZRLukx0
-   o1XQBJJiYp3rujEqdpSANL9kdmTRGQy0gtTBF4DZIH/SrIA9V5+5P/stJ
-   nzzGJTJfKI4G63PbTPl0txj/5uPkcQacIRbNlYiaZlpukXl/X6yCLnqBY
-   g==;
-X-CSE-ConnectionGUID: sAkR2rsmQXmupRI1idi2DA==
-X-CSE-MsgGUID: qpVC1hFCSw2FRhV8EZmzFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="54321226"
+  bh=5e76k0arGkKoEQdFkzAaDNCpXC2b3FqKbrMQXo0YTbQ=;
+  b=AyO+F/t4IaS70c40khJiRk4M6+apOAlhb9xqmz6xn8h+eMmmoRO5mND8
+   5wjFoyP9erSWaV6l8yiU0LqM1I8liXjE/KiaOIVvU9VOi4NNxgBiEiyg5
+   d7sYuwLCwNJyCXzVr9OVUDW8qdD9PYPiOPQ20WutrJPl/M5E5mjGdRmhf
+   xylzucU2c7v9sp+wCTz+Br0dOazCA1En4HrlENA7ow9eihzlhvBYPr2zG
+   fvf+QzWFbnXtLFaVO4THn1nBVgKuyQ6elX/0W3QttD8KCosF3JUwXlmZk
+   4oyeJbNiwD+18Bg94S1y3U9AM1G95mmlNzdvnRvHtOQSlEy6jBt8ais5r
+   A==;
+X-CSE-ConnectionGUID: QzxDYY6mTjSfj8ud+gnQ/g==
+X-CSE-MsgGUID: HEzrymYaRqqwcxmH4/hSgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="24385246"
 X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="54321226"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 23:21:52 -0800
-X-CSE-ConnectionGUID: 1CVOne5fSZqcnr49WCfiQw==
-X-CSE-MsgGUID: yY/feGlFRx6eXJaaWOq32w==
+   d="scan'208";a="24385246"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 23:33:18 -0800
+X-CSE-ConnectionGUID: q2PurGyrRPS3tHu7PAXPoA==
+X-CSE-MsgGUID: hje4whAJRaGZFcBlzFV+hg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
-   d="scan'208";a="103607920"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="140962140"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 23:21:51 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 23:33:16 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6501511F89A;
-	Fri, 10 Jan 2025 09:21:48 +0200 (EET)
-Date: Fri, 10 Jan 2025 07:21:48 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 862AD11F89A;
+	Fri, 10 Jan 2025 09:33:13 +0200 (EET)
+Date: Fri, 10 Jan 2025 07:33:13 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Hans de Goede <hdegoede@redhat.com>
-Cc: Jason Chen <jason.z.chen@intel.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+Cc: Tianshu Qiu <tian.shu.qiu@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 08/10] media: ov08x40: Add missing
- ov08x40_identify_module() call on stream-start
-Message-ID: <Z4DKjLBGP_bZpHjq@kekkonen.localdomain>
-References: <20241220144130.66765-1-hdegoede@redhat.com>
- <20241220144130.66765-9-hdegoede@redhat.com>
- <Z3_7TAXXUlqkUcwY@kekkonen.localdomain>
- <d807cb98-40d0-41ea-8f7e-9ae51b05822f@redhat.com>
+	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Subject: Re: [PATCH v2 1/4] media: ov2740: Debug log chip ID
+Message-ID: <Z4DNOQL6RDxvjN8y@kekkonen.localdomain>
+References: <20241220114317.21219-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,44 +80,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d807cb98-40d0-41ea-8f7e-9ae51b05822f@redhat.com>
+In-Reply-To: <20241220114317.21219-1-hdegoede@redhat.com>
 
 Hi Hans,
 
-On Thu, Jan 09, 2025 at 10:23:41PM +0100, Hans de Goede wrote:
-> Hi,
+On Fri, Dec 20, 2024 at 12:43:14PM +0100, Hans de Goede wrote:
+> Calling the identify function may get delayed till the first stream-on,
+> add a dev_dbg() to it so that we know when it has run. This is useful
+> to debug bring-up problems related to regulators / clks / GPIOs.
 > 
-> On 9-Jan-25 5:37 PM, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Fri, Dec 20, 2024 at 03:41:28PM +0100, Hans de Goede wrote:
-> >> The driver might skip the ov08x40_identify_module() on probe() based on
-> >> the acpi_dev_state_d0() check done in probe().
-> >>
-> >> If the ov08x40_identify_module() call is skipped on probe() it should
-> >> be done on the first stream start. Add the missing call.
-> >>
-> >> Note ov08x40_identify_module() will only do something on its first call,
-> >> subsequent calls are no-ops.
-> >>
-> >> Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > 
-> > I'll add:
-> > 
-> > Fixes: b1a42fde6e07 ("media: ov08x40: Avoid sensor probing in D0 state")
-> > Cc: stable@vger.kernel.org
-> 
-> Sounds good, thank you.
-> 
-> That is when you say "I'll add", you mean you'll add those tags
-> while merging this series, right ?
-> 
-> Or do you want me to the tags in a v3 series?
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Tested-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v2:
+> - Prefix chip-id with "0x" when logging it as it is logged in hex
 
-No need for v3. Thanks!
-
-Are there other patches not merged for the driver, besides this set? No?
+It seems I accidentally took v1 and that is now merged. I'll post a few
+patches to bring in the fixes you wrote for v2.
 
 -- 
 Regards,
