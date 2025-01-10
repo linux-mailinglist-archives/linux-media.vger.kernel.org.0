@@ -1,172 +1,146 @@
-Return-Path: <linux-media+bounces-24620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDACA09281
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 14:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CC7A0936E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 15:28:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6843B16253D
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 13:50:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B399C163292
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 14:28:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 291C920E6F3;
-	Fri, 10 Jan 2025 13:50:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34848210F50;
+	Fri, 10 Jan 2025 14:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x/MHSryn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u5t4E4w4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B127B20E6E9
-	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 13:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B8820C017;
+	Fri, 10 Jan 2025 14:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736517045; cv=none; b=ghtidUvIZtVqO0Le7eATghYWvcAJ0wuixdCL7bfVhofUGuhTY9T6s/edylkZ4oGJrRhqKEzJTx8IxbAmaGSFj5XzJ64tFC40pF03KN5/mEl8nHOkcF5dVfceoS7GJqxPhcP1HjwnFGCSp78zpcwrSD2hJyU2286DpMN+tjQD6cg=
+	t=1736519303; cv=none; b=C1s3RW3RYjHts+5S02YkfXyjNO2vUY+Jcg5hjkiEqkgf/eyNEcVpxgtSdAPp2wTOqN5cCuAlMyp9ml5l3XXywczbNO7FcwLoacCxAx0RllIcPewWp0VUqeLfsNW8Lo8dBScOcYPNpZ+GZLFzqPFr0MAkUC6W5398A4VJkhHoB6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736517045; c=relaxed/simple;
-	bh=ciJAEmo8xS1YodmCHYYwU3P0gYxHOe/kHbBoWXH+FFY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cQpJCV4WHAa6UL/1Fd4tn8NSQDdW+s+xkQL+BDYg84zjyYqh2N2S7qtBI/94xR78SNrDtrPA9TcbbO0s1isFsCwreGAp98GAwL1/MeUtTMKIAhTRao3e8r84pv4deCfowRbRihLnh03tXkN0YsS3/ntQ9rhxGQP89oBLrDPKIfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x/MHSryn; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3863703258fso2067905f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 05:50:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736517042; x=1737121842; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+KDUqAsdGT0AfuSaRdiWzIkDzcUh2fPCqtIyZmpfwLg=;
-        b=x/MHSrynt13XPwt5cR6U2vDjhnPDRvjhJU3njGCW0HypqxMCRAldIYAnC7Im9gv3dV
-         ElqKmmPe76cCcAjmNxQwtQ9D2HfkH3vHoFQ5KPx68UdnCB7E0kvSh/7h68JgineZTIT/
-         e3UKu9wpn/CWUXx+pejAeFFrZt6d+pYqLvDnGv4U+2aOmkWa+PHUukY9GVyBm0QfPN0/
-         DNU9rjOf0DKp/0rIk1QWA6A+rM4VYAmPsXEd834rWyHJpwJCkt/pLwaTsEJEuxw0kad7
-         avNTh+877+90GmCX/1Mbcb0V0WCWdrq6B1AWlkJY2hpt7ft3cP8RksbZG2OVMpysJ3V8
-         CYYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736517042; x=1737121842;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+KDUqAsdGT0AfuSaRdiWzIkDzcUh2fPCqtIyZmpfwLg=;
-        b=LzXwUBIsKLyRV7hEVQKsBQYuoanejK0/KcbHndHLhFuHjAJ2CB87RXtF5uoD3fm1ep
-         CVLC0exJraC7Ul8ayD5U3kz65b53YsrdRJqJzV3xMOw2vFPgDD7Cxyp4qJbgwFU/WOud
-         XBUjdVWMCMaLBDcWF3jp+h/L9ORDbCpEd+v6+BFRSIqLgC9Vbgdbug7Os7h96zczUrjR
-         WqhbU+n8aiHqslWShRu20+tpUrGCPJOYa8WTc+UzQFIWQ6q9VJ9hi6oxiOzKDmGRcABv
-         8E4fd6er49vnPa+NygIJCaH+zmMx1DsW3ZBTtU7cUE1Fr9ffVI4fVit+/gbc5wbqtW1a
-         mblA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1Tc+yNGl3BJ5NWtuAwM3sekokagR5BHgvuLYSXzOKw2w7ulh+D+4NV9Y/H8mi6gZVysEy/2224m6Sww==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yya0J4AqMz1OP/XYGsZcnVnWi0BHxr3nCYN/skmtWTMkTTBKlQ8
-	lktTwIKKglNXHbz6egaj9UYkGKfdwEyBa4H2SdH6cwZrKkdpRi+nusYGrtpJFoD/72hQiQT0yKM
-	J
-X-Gm-Gg: ASbGnctvp3l5ngwvNWXiNB1bt5R0Tv6xShVtGh0nU54M12S2ZekNPGGmZqZ2uOpfCSY
-	cHruy1ZLA/JnxOv1F26eUHUhCGmSOyaucNrzRXPfSXgDGyMvVJKPR4IfsLU9swrjJZM1RtmP4Zy
-	o9fEkuCH3yXUwAQOlR+03pQrzY1Z3EYdt76uTAJ48I8APVcdOAaEClz89u5ONDFFUIUgDXLw7ZW
-	rZ3blkH2gQrJn2RARMv+AiWXIIp7qSVP9Js0Dea6G+10icdN56lvFCQGP2uIOEy0t+vJQ==
-X-Google-Smtp-Source: AGHT+IEgRpwnL9+2BYjn1UjqK+ab40fSxMxuHo8PKVl2h8lrY3ULkx3M7dtkhojEPsThVIBzRXZZGg==
-X-Received: by 2002:a05:6000:2a9:b0:38a:88bc:aea6 with SMTP id ffacd0b85a97d-38a8b0b816dmr6511542f8f.6.1736517042032;
-        Fri, 10 Jan 2025 05:50:42 -0800 (PST)
-Received: from [192.168.0.43] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9e03f62sm52506215e9.22.2025.01.10.05.50.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 05:50:41 -0800 (PST)
-Message-ID: <cc1f4718-2553-4c49-b1c8-6f6f3bbeeb56@linaro.org>
-Date: Fri, 10 Jan 2025 13:50:40 +0000
+	s=arc-20240116; t=1736519303; c=relaxed/simple;
+	bh=F+pRqybOv0EfGT0TG8OreId9zOD5mPSZO+2Pu0L++UI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pMRjlN/88GvH6WDbdzfWgD6ceQiGbunjEDAaW+Cg+vOAuC2hY+1kzEEq6FSiVVOAllTjj082b+2N3p+LjB5ocN3UttIfjCmRxrZANp/SBDrOYs+EV4VWbpmbh8rHG0rDYqP4WhqmIC+zA3ZCdORBBKu/nSySTrJbxkomY1ffw7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u5t4E4w4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DC34C4CEE0;
+	Fri, 10 Jan 2025 14:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736519303;
+	bh=F+pRqybOv0EfGT0TG8OreId9zOD5mPSZO+2Pu0L++UI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u5t4E4w4hmmlWCg5X8zLnMDjGObdeJf2B/92elesFrEpf6tIYAfjaq9aG3HlpFgO5
+	 FFf7Gu8YgokXqTBvCvDQLWh0JgQQh8+50XbsMAL7nQcqbp+De2+PXLOCeVEGS4eiLy
+	 M9XBNF3N5CxL0i9KmZVtmJT/+V+ureB5vs/5SDXBUnpfd6H8kWGP0nBazOiK2pBjQd
+	 bm3aQ/6ipo6lJO3CplNeliC9B/JDZjEtBOAhE8vbDJQ2G2mL/5BAeRCgbIk3Wy9l+e
+	 UfTGf9nOiIYcUfi/e7awe1eEDWw0VhB0n0W+n/naY0QO/N8d32U5BPg109SwjdSMwn
+	 8Jjp0EpJBPoXw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1tWFzs-000000005Lx-16wQ;
+	Fri, 10 Jan 2025 15:28:24 +0100
+Date: Fri, 10 Jan 2025 15:28:24 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Jianhua Lu <lujianhua000@gmail.com>,
+	Stefan Schmidt <stefan.schmidt@linaro.org>,
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of
+ SM8250 SoC
+Message-ID: <Z4EuiPEw8mvDQ2gv@hovoldconsulting.com>
+References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
+ <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
+ <Z3_nCPk_g8znto4A@hovoldconsulting.com>
+ <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/16] media: qcom: camss: Add sm8550 support
-To: Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.zapolskiy@linaro.org,
- hverkuil@xs4all.nl
-Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20250108143733.2761200-1-quic_depengs@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250108143733.2761200-1-quic_depengs@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com>
 
-On 08/01/2025 14:37, Depeng Shao wrote:
-> v8:
-> - Add correct version number for each patch - Krzysztof, Hans, Bryan
-> - Correct the copyright in patches [15/16] and [16/16]
-> - Link to v7: https://lore.kernel.org/all/20241225133523.4034820-1-quic_depengs@quicinc.com/
-Patch #9 doesn't apply to media.git/next
+On Thu, Jan 09, 2025 at 11:18:29PM +0530, Vikash Garodia wrote:
+> On 1/9/2025 8:41 PM, Johan Hovold wrote:
+> > On Thu, Dec 12, 2024 at 05:21:49PM +0530, Dikshita Agarwal wrote:
+> >> Initialize the platform data and enable video driver probe of SM8250
+> >> SoC. Add a kernel param to select between venus and iris drivers for
+> >> platforms supported by both drivers, for ex: SM8250.
+> > 
+> > Why do you want to use a module parameter for this? What would be the
+> > default configuration? (Module parameters should generally be avoided.)
 
-git remote add media git://linuxtv.org/media.git
-git fetch media
+> This was discussed during v4 [1] and implemented as per suggestion
+> 
+> [1]
+> https://lore.kernel.org/linux-media/eea14133-2152-37bb-e2ff-fcc7ed4c47f5@quicinc.com/
 
-git checkout -b media-next-25-10-01-camss-8550 media/next
+First, the background and motivation for this still needs to go in the
+commit message (and be mentioned in the cover letter).
 
-b4 shazam 20250108143733.2761200-1-quic_depengs@quicinc.com 
+Second, what you implemented here is not even equivalent to what was
+done in the mdm drm driver since that module parameter is honoured by
+both drivers so that at most one driver tries to bind to the platform
+device.
 
-Grabbing thread from 
-lore.kernel.org/all/20250108143733.2761200-1-quic_depengs@quicinc.com/t.mbox.gz
-Checking for newer revisions
-Grabbing search results from lore.kernel.org
-Analyzing 17 messages in the thread
-Analyzing 260 code-review messages
-Checking attestation on all messages, may take a moment...
----
-   ✓ [PATCH v8 1/16] media: qcom: camss: csiphy-3ph: Fix trivial 
-indentation fault in defines
-   ✓ [PATCH v8 2/16] media: qcom: camss: csiphy-3ph: Remove redundant 
-PHY init sequence control loop
-   ✓ [PATCH v8 3/16] media: qcom: camss: csiphy-3ph: Rename struct
-   ✓ [PATCH v8 4/16] media: qcom: camss: csiphy: Add an init callback to 
-CSI PHY devices
-   ✓ [PATCH v8 5/16] media: qcom: camss: csiphy-3ph: Move CSIPHY 
-variables to data field inside csiphy struct
-   ✓ [PATCH v8 6/16] media: qcom: camss: csiphy-3ph: Use an offset 
-variable to find common control regs
-   ✓ [PATCH v8 7/16] media: qcom: camss: csid: Move common code into 
-csid core
-   ✓ [PATCH v8 8/16] media: qcom: camss: vfe: Move common code into vfe core
-   ✓ [PATCH v8 9/16] media: qcom: camss: Add callback API for RUP update 
-and buf done
-   ✓ [PATCH v8 10/16] media: qcom: camss: Add default case in 
-vfe_src_pad_code
-   ✓ [PATCH v8 11/16] media: qcom: camss: csid: Only add TPG v4l2 ctrl 
-if TPG hardware is available
-   ✓ [PATCH v8 12/16] dt-bindings: media: camss: Add qcom,sm8550-camss 
-binding
-   ✓ [PATCH v8 13/16] media: qcom: camss: Add sm8550 compatible
-   ✓ [PATCH v8 14/16] media: qcom: camss: csiphy-3ph: Add Gen2 v2.1.2 
-two-phase MIPI CSI-2 DPHY support
-   ✓ [PATCH v8 15/16] media: qcom: camss: Add CSID 780 support
-   ✓ [PATCH v8 16/16] media: qcom: camss: Add support for VFE 780
-   ---
-   ✓ Signed: DKIM/quicinc.com
----
-Total patches: 16
----
-  Base: using specified base-commit 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-Applying: media: qcom: camss: csiphy-3ph: Fix trivial indentation fault 
-in defines
-Applying: media: qcom: camss: csiphy-3ph: Remove redundant PHY init 
-sequence control loop
-Applying: media: qcom: camss: csiphy-3ph: Rename struct
-Applying: media: qcom: camss: csiphy: Add an init callback to CSI PHY 
-devices
-Applying: media: qcom: camss: csiphy-3ph: Move CSIPHY variables to data 
-field inside csiphy struct
-Applying: media: qcom: camss: csiphy-3ph: Use an offset variable to find 
-common control regs
-Applying: media: qcom: camss: csid: Move common code into csid core
-Applying: media: qcom: camss: vfe: Move common code into vfe core
-Applying: media: qcom: camss: Add callback API for RUP update and buf done
-Patch failed at 0009 media: qcom: camss: Add callback API for RUP update 
-and buf done
-error: patch failed: drivers/media/platform/qcom/camss/camss.c:2454
+With this patch as it stands, which driver ends up binding depends on
+things like link order and what driver has been built a module, etc. (as
+I pointed out below).
 
+> > Why not simply switch to the new driver (and make sure that the new
+> > driver is selected if the old one was enabled in the kernel config)?
+
+> Its about the platform in migration i.e sm8250. Since new driver is not yet
+> feature parity with old driver, choice is provided to client if it wants to use
+> the new driver (default being old driver for sm8250)
+
+This should be described in the commit message, along with details on
+what the delta is so that the reasoning can be evaluated.
+
+And I'm still not sure using a module parameter for this is the right
+thing to do as it is generally something that should be avoided.
+
+> >>  static int iris_probe(struct platform_device *pdev)
+> >>  {
+> >>  	struct device *dev = &pdev->dev;
+> >> @@ -196,6 +224,9 @@ static int iris_probe(struct platform_device *pdev)
+> >>  	u64 dma_mask;
+> >>  	int ret;
+> >>  
+> >> +	if (!video_drv_should_bind(&pdev->dev, true))
+> >> +		return -ENODEV;
+> > 
+> > AFAICT nothing is preventing venus from binding even when 'prefer_venus'
+> > is false.
+> > 
+> >> +
+> >>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
+> >>  	if (!core)
+> >>  		return -ENOMEM;
+
+Johan
 
