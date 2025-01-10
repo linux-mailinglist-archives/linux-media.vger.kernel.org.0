@@ -1,319 +1,267 @@
-Return-Path: <linux-media+bounces-24599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24579-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB96A08B46
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 10:20:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 909DAA08B0E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 10:15:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FC1B188D1B3
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 09:20:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1F447A0662
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 09:14:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147BF20E6E2;
-	Fri, 10 Jan 2025 09:15:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55FB2209F38;
+	Fri, 10 Jan 2025 09:14:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NQ5V5/gD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HzUOtQ6A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F39D20E03B;
-	Fri, 10 Jan 2025 09:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AB73BBF0
+	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 09:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736500547; cv=none; b=VdrFU00nfJSmZ125ZZEf6cTIIpehjvZ6Qm6auuEJzmytShovyvH2XAu7T0q75t83AYeTWlSBVdB5RudICRmGnrWLKvF0Zlhe3yY5SM7ET9GtVQGMj+iTfiugZ3ze+JtOeiob0fllqGNJ16U0XLzsjrPid5oLkpTOFB9jL/nOvE0=
+	t=1736500496; cv=none; b=GkNGcPzmYWfRXY1IsCiDPDkD9hiI+JK+TT6aIgwzmaPWv1VnBqHGnLwwbLl3WPBNf2YZNDmo3Fz98vmQJlwASP8jlUagJM+imv488yZd9yNcdHt762cwfglY/vdrRb5ZOWWIQhrhRGGkXnFLXp/Os3Vod+NrINefFHkFO9qZJV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736500547; c=relaxed/simple;
-	bh=xENFn0j7WKkzC+GeAFdGiwux+LBDvFMD326jlfn1Wbo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hFfV31nl5aJo+FQpU614M3xpLp1Bi1+ADAv72g7rY7aY2hdpE6zDiy78H8ZNKPjfqjS0qImA4altjMgBfdKOoDsmZ1CdLKL7GHUWOg0w1rFKJbUvsNtCEk8vfPoTmL+EZ4FP3foATTLk4CgcT3bX4i9au70Ets3EQuGQ0T58xQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NQ5V5/gD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06E4326A3;
-	Fri, 10 Jan 2025 10:14:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736500461;
-	bh=xENFn0j7WKkzC+GeAFdGiwux+LBDvFMD326jlfn1Wbo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=NQ5V5/gDEKN402IqBB4sDO9rW1RCHvbF7tZhncJ0mnbNZFBBjS4UmcSpHv0Oy9tQW
-	 jQ1ifOy8DyO9FuK1jsWrv/chkl92BAbhcrZGWMWIhlj36NxQULkgJIne4s8EJPQoDW
-	 N1l9ZYqgy2tGaaxbS3sqV1PVWjPtRHrZg6dARgwY=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 10 Jan 2025 11:14:19 +0200
-Subject: [PATCH 19/19] media: i2c: ds90ub9xx: Set serializer temperature
- ramp
+	s=arc-20240116; t=1736500496; c=relaxed/simple;
+	bh=KrpQYKwCv1NFZiIePrfS/rkTV6cEnkv7v7NbHOxw+ao=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=S5ZJ814Mo+MLPnlbdP9kTQ1ts1UqU0EuZGdm6j79b5LWSkCpCKnbxCpgE7+FhwLi9+TYjJQg+RXpAF+o9hukGD6PG+Kyuj9szQBykySqH6tPplv7RC86itE7D4uLRLJ7fBGlFP5xKzUJfGQV/L+O+0wHl6yw0GBtsfiwJtW6lVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HzUOtQ6A; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736500494;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8WE2y7Tnn0z8S9WigHQq+Beyf3tmLnG35Pz4F1jLvso=;
+	b=HzUOtQ6Ac4c1d9fGXzZFDYyDzSkUXoUgRQPRoUwLNscg9RYhShCgmq2I8jrf78j+ynGGw7
+	kr2lcXoV7B+N/2AgGP4dG2z/EGlxZFYPumx/ddKCmOhU4BUhlbS96+Pc3kBTKTINLcDrtz
+	4MZ/Z94G0eDeDujlgnVnNSGRAzHNzOI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-112-AheBc4WWM4O3kRvVWjFLdg-1; Fri, 10 Jan 2025 04:14:52 -0500
+X-MC-Unique: AheBc4WWM4O3kRvVWjFLdg-1
+X-Mimecast-MFC-AGG-ID: AheBc4WWM4O3kRvVWjFLdg
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-38a873178f2so863864f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 01:14:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736500491; x=1737105291;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8WE2y7Tnn0z8S9WigHQq+Beyf3tmLnG35Pz4F1jLvso=;
+        b=cLUiY+E0fa44hIXS9mwZGsPWnUXFTdaitY0TOQpNvsinhXf4qewKDrwq6iVTX4Uj8S
+         aOQsw7nR4s9PI6ImEDcKX04eHdwHsqUfbSxRdHlI20Ufnq3EZYAtME2n1Orrc3+iEtpw
+         CjiDakFrkiO0yWis1L1d40Fk8s5yKTHKWalh3oGdRnZGbXuwGchX3X8uaUtRSKQZ0u7/
+         bxhVudBHrdcMjLh+RAhJoHgLLyJ3o+ynuho0nvdX8xNQ5vVYEjuRkjdOC/GQ0g6ORblM
+         YOAyQXBx0P4u/ygqT83ufQbB2IZppM5tNn4W8xSvlJqWIaxPZb2TT9zIn5fCBTib2x1F
+         wj5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVWc0f+RWECnQRbchlJDwUZbu/Z2yBWgrPJgvGsq4h4cO+I7Nc+BUPSurJ0ms3ODRRWnwjbamsbLX1rpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0krCQv8jIgMgOkegLQmH92zD4oldHDg97j12WfYqP9Bpmdee9
+	GVUpj2+vPn3znNQjhhuWAItPbSuHxuGlnIdbMoLVmRiRbweGn9LZXCrds6pNn69u/UTx4sF1JIz
+	9c5IUWTtBFxd3W3IqLOlJMzSQzzYt5GmPBDU1HCx06qz/CSe5XJDCfm4YCHiq
+X-Gm-Gg: ASbGncu5fVDD3QNm/Thz0CEeEsk3a1cOEEr7mVq/RVSHSoO2JQmkBSU/MpL5oyTc7Bq
+	Yk18/koyukV5yvn3Eo12ip4QJbmIE3TRNZRcywtPJsw5BtCWsyubuGP4+NPKrc80OGZHZ+Qj74d
+	HVSyZFBj5mmAt0FYqmNDp/m9vUtPuDumu+txAGeZ5HCBRbo3mZSa9054zSEtwjr5EdckjEmrm6Q
+	eRJChdEZUcwBETg347LOja7pW+N62AnP147rh1/btHiGtka9lGaPlp6PSwqIIFeUWYFy5zAI0wK
+	yNJK5HIJ3V23OS7WX2FlEBw/sGz9G0Q801X+VL7dNymUrOrlHQ2zkHHnaHnfct43lUKkMB6qjff
+	84cZQ0wBILJ/j
+X-Received: by 2002:a5d:5f52:0:b0:382:4926:98fa with SMTP id ffacd0b85a97d-38a8733691amr9430337f8f.40.1736500491581;
+        Fri, 10 Jan 2025 01:14:51 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFtXquHIJObzLgOAiA1rB/PNIksOhxW+GDPZKrOCv6KsWQW80GBE0j/RUI1fRpLdmchCqwXWg==
+X-Received: by 2002:a5d:5f52:0:b0:382:4926:98fa with SMTP id ffacd0b85a97d-38a8733691amr9430298f8f.40.1736500491137;
+        Fri, 10 Jan 2025 01:14:51 -0800 (PST)
+Received: from ?IPv6:2001:16b8:2d10:d100:478:f613:cd65:5ca1? (200116b82d10d1000478f613cd655ca1.dip.versatel-1u1.de. [2001:16b8:2d10:d100:478:f613:cd65:5ca1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e37e375sm3932101f8f.22.2025.01.10.01.14.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jan 2025 01:14:50 -0800 (PST)
+Message-ID: <dc31c33626c5f6100c93cb51eaf37070d5a7ba9f.camel@redhat.com>
+Subject: Re: [PATCH 1/3] drm/sched: Document run_job() refcount hazard
+From: Philipp Stanner <pstanner@redhat.com>
+To: Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>
+Cc: Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
+ <matthew.brost@intel.com>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org,  linaro-mm-sig@lists.linaro.org
+Date: Fri, 10 Jan 2025 10:14:49 +0100
+In-Reply-To: <Z3_dgYGOSfLUcI0J@pollux>
+References: <20250109133710.39404-2-phasta@kernel.org>
+	 <20250109133710.39404-4-phasta@kernel.org> <Z3_dgYGOSfLUcI0J@pollux>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250110-ub9xx-improvements-v1-19-e0b9a1f644da@ideasonboard.com>
-References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
-In-Reply-To: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <jai.luthra@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7480;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=j8VGR+q9mnFLoJmhSBGzWeDaLhfWfz5KiFjXcez6K8o=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBngOUXIjMNcAZG0fOOpyWxCZgqAkESM1i10Te/4
- MKhe6/llsOJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ4DlFwAKCRD6PaqMvJYe
- 9WWvD/9foVh0T4uzHHcItQeYVxUAxOKhnGdHgf2DmB9xeHVTkDsZrXsWGBfwmgJawJCZll+Yefe
- TGhk7wdqT19hWVn0kurlskTt//Y+f7c4Hu482MAC+XYxdFDmfo0LpHNlv7jFcm5bfSjGKJQ5isq
- 7f31BKQsfclEUc56fok9GIOCrVhw26GJhehIpdyppv8xAUr755M3CyINBrc1RPb9x2g+4a3biJx
- +9liO+DDQ+OioYWix2iegfiq2OBCM1no3AEGA435yKjK1tjL+1f5SxcecdIOp41xrD7yrDh+Kx/
- fnr+ehOYXwmPyKBV4s1ovBce5jyyMoOG8e/xl0Sw7+J+ICuAh1r/09yKW5rcIdWNtqbL0XaWBO3
- Hm1dQxckmwvnMU0/uuPPJ2TGMUlsfzIEc75pfVNcleXwvGX4Rj9jgl6apM6qUG9NYx0dSbVfvp3
- 0shla8ewqN29LpxTctP5rEvg0p9IgQAl2UFtbsLQlz/ylDSIpCe0EdDnU6I2Ju2rbzJQN+Kv/0B
- tIjqeEsbBZ9xAQRoLMGPsa2/Fx/2ZGKVVN2RKPyhfPGpxBc4EcfK3R9LWfU4RfQJXK0VHZVpLLB
- dFfXE7Z7PRWMSc1vQIPIg8t2y7SDXk+XHXf9vsoa9KE/St4IoW46/TewJ8i44+6VUwTt9EN7Oq7
- 7QXeuBcf3Pf5fcw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+On Thu, 2025-01-09 at 15:30 +0100, Danilo Krummrich wrote:
+> On Thu, Jan 09, 2025 at 02:37:10PM +0100, Philipp Stanner wrote:
+> > From: Philipp Stanner <pstanner@redhat.com>
+> >=20
+> > drm_sched_backend_ops.run_job() returns a dma_fence for the
+> > scheduler.
+> > That fence is signalled by the driver once the hardware completed
+> > the
+> > associated job. The scheduler does not increment the reference
+> > count on
+> > that fence, but implicitly expects to inherit this fence from
+> > run_job().
+> >=20
+> > This is relatively subtle and prone to misunderstandings.
+> >=20
+> > This implies that, to keep a reference for itself, a driver needs
+> > to
+> > call dma_fence_get() in addition to dma_fence_init() in that
+> > callback.
+> >=20
+> > It's further complicated by the fact that the scheduler even
+> > decrements
+> > the refcount in drm_sched_run_job_work() since it created a new
+> > reference in drm_sched_fence_scheduled(). It does, however, still
+> > use
+> > its pointer to the fence after calling dma_fence_put() - which is
+> > safe
+> > because of the aforementioned new reference, but actually still
+> > violates
+> > the refcounting rules.
+> >=20
+> > Improve the explanatory comment for that decrement.
+> >=20
+> > Move the call to dma_fence_put() to the position behind the last
+> > usage
+> > of the fence.
+> >=20
+> > Document the necessity to increment the reference count in
+> > drm_sched_backend_ops.run_job().
+> >=20
+> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > ---
+> > =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
+> > =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19 +++++++++++++++----
+> > =C2=A02 files changed, 22 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > b/drivers/gpu/drm/scheduler/sched_main.c
+> > index 57da84908752..5f46c01eb01e 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -1218,15 +1218,19 @@ static void drm_sched_run_job_work(struct
+> > work_struct *w)
+> > =C2=A0	drm_sched_fence_scheduled(s_fence, fence);
+> > =C2=A0
+> > =C2=A0	if (!IS_ERR_OR_NULL(fence)) {
+> > -		/* Drop for original kref_init of the fence */
+> > -		dma_fence_put(fence);
+> > -
+> > =C2=A0		r =3D dma_fence_add_callback(fence, &sched_job->cb,
+> > =C2=A0					=C2=A0=C2=A0 drm_sched_job_done_cb);
+> > =C2=A0		if (r =3D=3D -ENOENT)
+> > =C2=A0			drm_sched_job_done(sched_job, fence-
+> > >error);
+> > =C2=A0		else if (r)
+> > =C2=A0			DRM_DEV_ERROR(sched->dev, "fence add
+> > callback failed (%d)\n", r);
+> > +
+> > +		/*
+> > +		 * s_fence took a new reference to fence in the
+> > call to
+> > +		 * drm_sched_fence_scheduled() above. The
+> > reference passed by
+>=20
+> I think mentioning that in this context is a bit misleading. The
+> reason we can
+> put the fence here, is because we stop using the local fence pointer
+> we have a
+> reference for (from run_job()).
+>=20
+> This has nothing to do with the fact that drm_sched_fence_scheduled()
+> took its
+> own reference when it stored a copy of this fence pointer in a
+> separate data
+> structure.
+>=20
+> With that fixed,
 
-For continuous PLL lock, it is recommended to extend the temperature
-ramp down range of the DS90UB953-Q1 serializer based on the device's
-initial temperature [1].
+Then let's remove the comment completely I'd say.
 
-The serializer's die temperature is reported only to the deserializer
-through the sensor status registers, and for UB9702, it is recommended
-to set the temperature ramp during the link setup sequence, i.e. before
-we even probe the ub953 driver.
+>=20
+> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
 
-Add support to the deserializer driver to configure ub953's temperature
-ramp.
+And I forgot your SB. Will add.
 
-[1]: Section 7.3.1.1 - https://www.ti.com/lit/gpn/ds90ub953-q1
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/i2c/ds90ub953.c |   9 ---
- drivers/media/i2c/ds90ub960.c | 125 ++++++++++++++++++++++++++++++++++++++++++
- include/media/i2c/ds90ub9xx.h |  15 +++++
- 3 files changed, 140 insertions(+), 9 deletions(-)
+Danke,
+P.
 
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index 6c36980e8beb..bba8be031032 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -35,10 +35,6 @@
- 
- #define UB953_DEFAULT_CLKOUT_RATE	25000000UL
- 
--#define UB953_REG_RESET_CTL			0x01
--#define UB953_REG_RESET_CTL_DIGITAL_RESET_1	BIT(1)
--#define UB953_REG_RESET_CTL_DIGITAL_RESET_0	BIT(0)
--
- #define UB953_REG_GENERAL_CFG			0x02
- #define UB953_REG_GENERAL_CFG_CONT_CLK		BIT(6)
- #define UB953_REG_GENERAL_CFG_CSI_LANE_SEL_SHIFT	4
-@@ -92,16 +88,11 @@
- #define UB953_REG_PKT_HDR_WC_MSB		0x63
- #define UB953_REG_CSI_ECC			0x64
- 
--#define UB953_REG_IND_ACC_CTL			0xb0
--#define UB953_REG_IND_ACC_ADDR			0xb1
--#define UB953_REG_IND_ACC_DATA			0xb2
--
- #define UB953_REG_FPD3_RX_ID(n)			(0xf0 + (n))
- #define UB953_REG_FPD3_RX_ID_LEN		6
- 
- /* Indirect register blocks */
- #define UB953_IND_TARGET_PAT_GEN		0x00
--#define UB953_IND_TARGET_FPD3_TX		0x01
- #define UB953_IND_TARGET_DIE_ID			0x02
- 
- #define UB953_IND_PGEN_CTL			0x01
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index 1ec3c060d4c6..6daf760f394b 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -2036,6 +2036,110 @@ static int ub960_rxport_serializer_write(struct ub960_rxport *rxport, u8 reg,
- 	return ret;
- }
- 
-+static int ub960_rxport_serializer_read(struct ub960_rxport *rxport, u8 reg,
-+					u8 *val, int *err)
-+{
-+	struct ub960_data *priv = rxport->priv;
-+	struct device *dev = &priv->client->dev;
-+	union i2c_smbus_data data = { 0 };
-+	int ret;
-+
-+	if (err && *err)
-+		return *err;
-+
-+	ret = i2c_smbus_xfer(priv->client->adapter, rxport->ser.alias,
-+			     priv->client->flags, I2C_SMBUS_READ, reg,
-+			     I2C_SMBUS_BYTE_DATA, &data);
-+	if (ret)
-+		dev_err(dev,
-+			"rx%u: cannot read serializer register 0x%02x (%d)!\n",
-+			rxport->nport, reg, ret);
-+	else
-+		*val = data.byte;
-+
-+	if (ret && err)
-+		*err = ret;
-+
-+	return ret;
-+}
-+
-+static int ub960_serializer_temp_ramp(struct ub960_rxport *rxport)
-+{
-+	struct ub960_data *priv = rxport->priv;
-+	short temp_dynamic_offset[] = {-1, -1, 0, 0, 1, 1, 1, 3};
-+	u8 temp_dynamic_cfg;
-+	u8 nport = rxport->nport;
-+	u8 ser_temp_code;
-+	int ret;
-+
-+	/* Configure temp ramp only on UB953 */
-+	if (!fwnode_device_is_compatible(rxport->ser.fwnode, "ti,ds90ub953-q1"))
-+		return 0;
-+
-+	/* Read current serializer die temperature */
-+	ub960_rxport_read(priv, nport, UB960_RR_SENSOR_STS_2, &ser_temp_code,
-+			  &ret);
-+
-+	/* Enable I2C passthrough on back channel */
-+	ub960_rxport_update_bits(priv, nport, UB960_RR_BCC_CONFIG,
-+				 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH,
-+				 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* Select indirect page for analog regs on the serializer */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_CTL,
-+				      UB953_IND_TARGET_ANALOG << 2, &ret);
-+
-+	/* Set temperature ramp dynamic and static config */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_ADDR,
-+				      UB953_IND_ANA_TEMP_DYNAMIC_CFG, &ret);
-+	ub960_rxport_serializer_read(rxport, UB953_REG_IND_ACC_DATA,
-+				     &temp_dynamic_cfg, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	temp_dynamic_cfg |= UB953_IND_ANA_TEMP_DYNAMIC_CFG_OV;
-+	temp_dynamic_cfg += temp_dynamic_offset[ser_temp_code];
-+
-+	/* Update temp static config */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_ADDR,
-+				      UB953_IND_ANA_TEMP_STATIC_CFG, &ret);
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_DATA,
-+				      UB953_IND_ANA_TEMP_STATIC_CFG_MASK, &ret);
-+
-+	/* Update temperature ramp dynamic config */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_ADDR,
-+				      UB953_IND_ANA_TEMP_DYNAMIC_CFG, &ret);
-+
-+	/* Enable I2C auto ack on BC before we set dynamic cfg and reset */
-+	ub960_rxport_update_bits(priv, nport, UB960_RR_BCC_CONFIG,
-+				 UB960_RR_BCC_CONFIG_AUTO_ACK_ALL,
-+				 UB960_RR_BCC_CONFIG_AUTO_ACK_ALL, &ret);
-+
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_DATA,
-+				      temp_dynamic_cfg, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* Soft reset to apply PLL updates */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_RESET_CTL,
-+				      UB953_REG_RESET_CTL_DIGITAL_RESET_0,
-+				      &ret);
-+	msleep(20);
-+
-+	/* Disable I2C passthrough and auto-ack on BC */
-+	ub960_rxport_update_bits(priv, nport, UB960_RR_BCC_CONFIG,
-+				 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH |
-+					 UB960_RR_BCC_CONFIG_AUTO_ACK_ALL,
-+				 0x0, &ret);
-+
-+	return ret;
-+}
-+
- static int ub960_rxport_bc_ser_config(struct ub960_rxport *rxport)
- {
- 	struct ub960_data *priv = rxport->priv;
-@@ -2415,6 +2519,20 @@ static int ub960_init_rx_ports_ub960(struct ub960_data *priv)
- 		return ret;
- 	}
- 
-+	/* Set temperature ramp on serializer */
-+	for_each_active_rxport(priv) {
-+		ret = ub960_serializer_temp_ramp(it.rxport);
-+		if (ret)
-+			return ret;
-+
-+		ub960_rxport_update_bits(priv, it.nport, UB960_RR_BCC_CONFIG,
-+					 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH,
-+					 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH,
-+					 &ret);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/*
- 	 * Clear any errors caused by switching the RX port settings while
- 	 * probing.
-@@ -3171,6 +3289,13 @@ static int ub960_init_rx_ports_ub9702(struct ub960_data *priv)
- 	/* Wait time for stable lock */
- 	fsleep(15000);
- 
-+	/* Set temperature ramp on serializer */
-+	for_each_active_rxport(priv) {
-+		ret = ub960_serializer_temp_ramp(it.rxport);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	for_each_active_rxport_fpd4(priv) {
- 		ret = ub960_enable_dfe_lms_ub9702(priv, it.nport);
- 		if (ret)
-diff --git a/include/media/i2c/ds90ub9xx.h b/include/media/i2c/ds90ub9xx.h
-index 0245198469ec..d803af07cabc 100644
---- a/include/media/i2c/ds90ub9xx.h
-+++ b/include/media/i2c/ds90ub9xx.h
-@@ -5,6 +5,21 @@
- 
- #include <linux/types.h>
- 
-+#define UB953_REG_RESET_CTL			0x01
-+#define UB953_REG_RESET_CTL_DIGITAL_RESET_1	BIT(1)
-+#define UB953_REG_RESET_CTL_DIGITAL_RESET_0	BIT(0)
-+
-+#define UB953_REG_IND_ACC_CTL			0xb0
-+#define UB953_REG_IND_ACC_ADDR			0xb1
-+#define UB953_REG_IND_ACC_DATA			0xb2
-+
-+#define UB953_IND_TARGET_ANALOG			0x01
-+
-+#define UB953_IND_ANA_TEMP_DYNAMIC_CFG		0x4b
-+#define UB953_IND_ANA_TEMP_DYNAMIC_CFG_OV	BIT(5)
-+#define UB953_IND_ANA_TEMP_STATIC_CFG		0x4c
-+#define UB953_IND_ANA_TEMP_STATIC_CFG_MASK	GENMASK(6, 4)
-+
- struct i2c_atr;
- 
- /**
-
--- 
-2.43.0
+>=20
+> > +		 * run_job() above is now not needed any longer.
+> > Drop it.
+> > +		 */
+> > +		dma_fence_put(fence);
+> > =C2=A0	} else {
+> > =C2=A0		drm_sched_job_done(sched_job, IS_ERR(fence) ?
+> > =C2=A0				=C2=A0=C2=A0 PTR_ERR(fence) : 0);
+> > diff --git a/include/drm/gpu_scheduler.h
+> > b/include/drm/gpu_scheduler.h
+> > index 95e17504e46a..d5cd2a78f27c 100644
+> > --- a/include/drm/gpu_scheduler.h
+> > +++ b/include/drm/gpu_scheduler.h
+> > @@ -420,10 +420,21 @@ struct drm_sched_backend_ops {
+> > =C2=A0					 struct drm_sched_entity
+> > *s_entity);
+> > =C2=A0
+> > =C2=A0	/**
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * @run_job: Called to=
+ execute the job once all of the
+> > dependencies
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * have been resolved.=
+=C2=A0 This may be called multiple times,
+> > if
+> > -	 * timedout_job() has happened and
+> > drm_sched_job_recovery()
+> > -	 * decides to try it again.
+> > +	 * @run_job: Called to execute the job once all of the
+> > dependencies
+> > +	 * have been resolved. This may be called multiple times,
+> > if
+> > +	 * timedout_job() has happened and
+> > drm_sched_job_recovery() decides to
+> > +	 * try it again.
+> > +	 *
+> > +	 * @sched_job: the job to run
+> > +	 *
+> > +	 * Returns: dma_fence the driver must signal once the
+> > hardware has
+> > +	 *	completed the job ("hardware fence").
+> > +	 *
+> > +	 * Note that the scheduler expects to 'inherit' its own
+> > reference to
+> > +	 * this fence from the callback. It does not invoke an
+> > extra
+> > +	 * dma_fence_get() on it. Consequently, this callback must
+> > take a
+> > +	 * reference for the scheduler, and additional ones for
+> > the driver's
+> > +	 * respective needs.
+> > =C2=A0	 */
+> > =C2=A0	struct dma_fence *(*run_job)(struct drm_sched_job
+> > *sched_job);
+> > =C2=A0
+> > --=20
+> > 2.47.1
+> >=20
 
 
