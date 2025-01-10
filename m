@@ -1,187 +1,167 @@
-Return-Path: <linux-media+bounces-24609-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24611-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A25A08FCA
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 12:54:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DBBA09086
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 13:34:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF49A1889FE0
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 11:54:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D1B33AC821
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 12:32:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37EF820B7E0;
-	Fri, 10 Jan 2025 11:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFCFCDF78;
+	Fri, 10 Jan 2025 12:32:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ckWZqHGt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="insjnlDx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6781AAA1F
-	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 11:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6692520A5EB
+	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 12:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736510047; cv=none; b=bhteQmEi8nwQ4srDvWWet8Q20DxpjMFaXUq0NAfNrl5hLF2DYN0fo8ggH69QnCu2cXU2Hj8W5geQOgJkSrL2Mfhv9Z2esQ+hcUW+aS+oE9xoJHTDXNhE/BcT8FFSn9yREtpKTj3dnmb7q1gNDdxCnKCMGBQ0tt0Plz+4u7qGsKo=
+	t=1736512322; cv=none; b=KYMD8ouAqNiytOhIYTTQxUKDFYj/36OOh+0J0qzMEGy6pKOJoMUDqIooxVdyYZP2BzJahebytuz4c0M4E4DkuewbWYWhiijZQaQKdb5M2BS8j/65RIoK/mMTROY/E8ZO6S6zzmx8umS/p0Z9doVy3VUkVhZ/qWKw2fmWKKDOmf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736510047; c=relaxed/simple;
-	bh=ZU2NEQEXpnRJ7TUV0hsEwpYzLWK4f3J16LPkVfaVWv4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nJr857WFdgCX6+g4F7vJVqbj1xbzITi6egHcnuExq77loJ9xrskUdntr+9643kcEDpuASQcFxrM3dvA+ZJBTN0DZY6KRb+YdUIUTk6nsSm/9+wsvFv9TBTcZd8PN4ZSJFknU9TUzFdmIJTihAzF0BCPdTdz2FmbFpNupZgm4zC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ckWZqHGt; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1736512322; c=relaxed/simple;
+	bh=2Wi2hJcT1zNHSKX8/A2Lk6eiJ+5rudw9X/YYXOotMzo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tL5kXm3MHfjfamAi4DN2+SoLm/E3muqxV3sneYessYFNhUUfzdrcDt5BAJrPihOhZw1TWRhlApNW4zv8agqJR28BiWRS4OUlZ7h0q5z0sBgXdK9PdF8FtDyF3KrzV6UydDKGV8Lt05RO+jLdjRZ+JLaKINrJzvEAJUNQzObOpqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=insjnlDx; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4361b0ec57aso19824675e9.0
-        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 03:54:05 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30167f4c1deso16077441fa.1
+        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 04:31:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736510044; x=1737114844; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JDltOGspiQwBWcwTGosu4uY3Dz94uBOXTI38cxZ8gO4=;
-        b=ckWZqHGtvbuWIX0rRRPPL2tdzXvVsFz/b8pVKoxoGLmwb/q4jL3SVplPuvHzf0oKIY
-         spQNcZVT2rwgvGG+jo30X9+34+Y73+V39jilN2vr3B6+FdpYrQlz0Q0qiL2k6a4qEKrd
-         s3MOOWkaFV0Lexk6OlN4qZOktrNuYMqio8mJ8RamerpP9cA3fF2GuFmUPCDrxcMP+meQ
-         t4TkKtk1GjNWgmtZapP4qbx+ErPV487HNz4oHDZK5OT74W8yrUzqBzAO/ZbXOpwXB2qT
-         NTSjUCbXF7PCbKpjsJZrnVuZ/lNyz5Woufw/CyeRY5nFGCazlqWy7v0yp3d4iKonJC1m
-         I40w==
+        d=linaro.org; s=google; t=1736512317; x=1737117117; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0BP9LWU3E3FRLicswW2oBinqYyF3rhC14ijpoNXWp3o=;
+        b=insjnlDxwuqXCOiZZFD4lzDe2EtjP2hfXjEoArnXhagFXy6u+JkNFWlMvCFMVgjrNM
+         r1JaYPKWoQHfcFyKdHUoNIn6BQrfHl6nUxzIXzwhU8vpBVFmRaCAdBF89nEWJNAPdXoB
+         Esqa7tWdfBrC7r95GbxitNHkGgX80mcK1uLd+wV4mmrUcRPdVX7Rtd6537KDUUN0S5kh
+         YY9VwzHYPuHdNMRVis8x4W/0pbmYxZU1ipUWg5d8X8n6AEPv8+4M0+SPJQ4SvYTFM7jr
+         khn5QOVp2Cfp36pLQcjuB5lxT9KKL9MDzKh6fFG9oeuAsOwmUhStxga6nGgm4MvMiQFd
+         nKEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736510044; x=1737114844;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JDltOGspiQwBWcwTGosu4uY3Dz94uBOXTI38cxZ8gO4=;
-        b=orldbv0bZxfmXaLI4aMO/GIAEoj+uIa0/C9L6dpT8SBg5+qtfMnDtRdED1+2SDpy0t
-         sHDBfUAT9k1jYCk1iT9QIB8ezJFQJPg9XNa+2EzK98g5Gbso5J7a3tL+vG3s4hunFkWi
-         2M8xa4VTMO9OdgOKTFdMEBjR/SvK4OsHbRNLSXhVnG49oag6C5RdFw/vLxUu6f7fLcX9
-         pMYKalww6qS/s31/tihR3n/adSkbkMU9Ai8GU5LHfb2F25zqMSOnfAOhWMR3S7h5ESU/
-         zn67uMNgucSyL23jtg6HQqw802SOEgtIOyoGHbkFDTVEzxxwL27vJRz/LuqqN3yek1wL
-         HOQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXyANdJIPU6szO1DwOe3S8ST1RibnhEt1kvwNOjaKe2OWGtlFJPHZ+I158t3EbuJQqJg1G5hnctrPFRUQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzauv8QyFanX3/qFsKRicVX1Dt+AkVbIlZEBPTUnIiA9vv2lqn9
-	DfGS5cjH5CdjuipjaUfzIMIRPNeSbuoY72eL2xlWMqkdzFluUwqE9FGDVgYU8I0=
-X-Gm-Gg: ASbGncu4usnMdqvxh5fVL7YlYFfszkAGWZVAx5BjNTSXR+R9fMddAbE/NaKmm3dNXtY
-	gMZa2rtAzGzlY/w0nKZS0vv0AwMIXK+Lu5qv2f8y+qYB7G8S7WlFylBtC4J9sYndNG+kMh4l/u2
-	covBdv4FFDofuDDM3tlSSvEmvPvcpDuli6eg+MBMamXbHCRnSRCQcp9Qiazbi4HD4mr3y/S4kHx
-	k3QAmCaP/Zh2GWjyWwTUvIFtW2MWQq9eHgAhK4Ailh+NWtSnys6xoFZfu05x4uX5uDTGA==
-X-Google-Smtp-Source: AGHT+IF7zyl4gCTh1KpNa+l/rbckBdrlHt61ulLWgkeIfQr1nEwh+t79KUAveHTBm+XIPKPU2rXjhw==
-X-Received: by 2002:a05:600c:1d1f:b0:434:f99e:a5b5 with SMTP id 5b1f17b1804b1-436e271cf4amr75526525e9.28.1736510044306;
-        Fri, 10 Jan 2025 03:54:04 -0800 (PST)
-Received: from [192.168.0.43] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2ddd113sm86535115e9.25.2025.01.10.03.54.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 03:54:03 -0800 (PST)
-Message-ID: <0be6b419-6095-43b0-9b03-54daf10bc150@linaro.org>
-Date: Fri, 10 Jan 2025 11:54:02 +0000
+        d=1e100.net; s=20230601; t=1736512317; x=1737117117;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0BP9LWU3E3FRLicswW2oBinqYyF3rhC14ijpoNXWp3o=;
+        b=saFcnFSgB8Do5m52PqL7HuoTtwaKJjZyCI1q8/oNe6akUELOTJ7ls2AGW5vOQ/6Um+
+         Cprgsc5MoH0naF/09T9UY+M8WsqemjspLgVYkOTlud6/Wv6ixrpeqrFfxGKFLGxqk+G1
+         CXV0Ar3OYKhvjD3/rj4gqOBh0t8dcOyspbXoDhRecWzhXY2nQvSA25HAWqbmbs9xv9Ds
+         zACvt0wgUQCjrfPkMCxMm5v4fBq69j3y/PhTsfTHt/uVbnwcpo0GhDc+anlp0vYR0rMu
+         t+fsi+v3fh9H12zYhf1fVaKWM4AYxRlZXUr+2crW+zha5nUaC1FRCbmso0TFOHjwBs3y
+         uHeg==
+X-Forwarded-Encrypted: i=1; AJvYcCVH3PAR486yR1TXed3XKeEKSATxZd6dpps6wp7Mg7AHxaPxyuuVfjrtrCtwA7vuU8vUADrsZtu59MJOLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIPrwIq7U7sKa0+4H6mqr+yGqswv5j64AYQKIIF9fE21F4bB+1
+	cjytmpapno1sQVuwWCuA/VWU8qD4Ap7DQRj20PysEyKUuu7UVY8J1SWAqzdunxM=
+X-Gm-Gg: ASbGncv8BAx3ujagh8IltkVmdV4L+1iu28gLfmSIs5sAloIwLzANoGJdNgaUN/ieUUW
+	3cD1mVEnJmyUPFBvzBIoYBaFVQCHa8Ouya/YtAUX1UiDC2E3mdRjsNcWzzWDx/bHWvUd9ujm97t
+	O+7emXVRNiolHmwk3+4BtIyuoNCtfzZyk41ve78zbGayUnGclYMMS8FcND40oaz7drc/fXAOozp
+	aVITr5J7YDSRsECeJnKcsyz5memgf5RvecrhWGiezIypqfnodwuCawUVq5nrmjR
+X-Google-Smtp-Source: AGHT+IHZ9afttyn/cqAE1E7GmLuAXpsvCaaaWi8kC7R5oAwtkI7oOIPDRS/Hl/Zy4nFPu6RJGUwzIQ==
+X-Received: by 2002:a05:651c:220a:b0:302:175e:5abb with SMTP id 38308e7fff4ca-305f4533291mr27884991fa.3.1736512317337;
+        Fri, 10 Jan 2025 04:31:57 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff0cedafsm4720691fa.29.2025.01.10.04.31.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jan 2025 04:31:56 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 0/3] drm/i2c: tda998x: move under drivers/gpu/drm/bridge
+Date: Fri, 10 Jan 2025 14:31:52 +0200
+Message-Id: <20250110-drm-move-tda998x-v2-0-ef2ae5832d21@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/10] media: ov08x40: Add missing
- ov08x40_identify_module() call on stream-start
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Jason Chen <jason.z.chen@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20241220144130.66765-1-hdegoede@redhat.com>
- <20241220144130.66765-9-hdegoede@redhat.com>
- <Z3_7TAXXUlqkUcwY@kekkonen.localdomain>
- <d807cb98-40d0-41ea-8f7e-9ae51b05822f@redhat.com>
- <Z4DKjLBGP_bZpHjq@kekkonen.localdomain>
- <a084ccf0-6b73-4e83-9310-59a618e82a28@redhat.com>
- <d12a9f38-2ec9-4174-907a-00ff613e61c0@linaro.org>
- <Z4D2pDD4AY7zENkH@kekkonen.localdomain>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <Z4D2pDD4AY7zENkH@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADgTgWcC/2WNwQqDMBBEf0X23C3umqL21P8oHrSJulBN2Uiwi
+ P/eVOipxzfDvNkgOBUX4JptoC5KED8n4FMGj7GdB4diEwPnbIjJoNUJJx8dLrat62rFqu9MkZr
+ CWIY0e6nrZT2U9ybxKGHx+j4eIn3Tn+zyL4uEOZYVlcTckS2L21PmVv3Z6wDNvu8fzC92O7EAA
+ AA=
+X-Change-ID: 20241214-drm-move-tda998x-8fb4321434d2
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2255;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=2Wi2hJcT1zNHSKX8/A2Lk6eiJ+5rudw9X/YYXOotMzo=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBngRM8o+V3INgu9YQUcio8HytbKGG5QUzMU25hi
+ vtQ06/uvG+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ4ETPAAKCRCLPIo+Aiko
+ 1ZDCB/sGzYUNqF0GsWbGgXNdDxGTmZGdZyMaz3ASFYIr6I2qPYzg/qSDvNKlo54XHAfwL+EjlDO
+ xq/o+LS8FA8Y/7TdszSwaiPIztO8eEmjJnclgtYWsoe6/V0MDXKjXkfGKl96lNWltpuHDb/7gBM
+ tUYZORmsL0nUAk5fgys+WtrWbNaD3OUyroMgw5JGPVeqKXb2ydGGOkwruuGJihzDxqKtYz5yFpc
+ zK2LYVIliK2gzZCH0NB8QLrzCrlBdteHwNEHWH3EkRQQs2UlHUuxHsJiz0Jcvg8PJXdNm6SOIGj
+ UVm2Il4Vz3xXiLPDuwo6M6IcuPoOzhKBkfZxS9aa0vxNoreo
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-On 10/01/2025 10:29, Sakari Ailus wrote:
-> Hi Bryan,
-> 
-> On Fri, Jan 10, 2025 at 10:23:40AM +0000, Bryan O'Donoghue wrote:
->> On 10/01/2025 08:43, Hans de Goede wrote:
->>> Hi,
->>>
->>> On 10-Jan-25 8:21 AM, Sakari Ailus wrote:
->>>> Hi Hans,
->>>>
->>>> On Thu, Jan 09, 2025 at 10:23:41PM +0100, Hans de Goede wrote:
->>>>> Hi,
->>>>>
->>>>> On 9-Jan-25 5:37 PM, Sakari Ailus wrote:
->>>>>> Hi Hans,
->>>>>>
->>>>>> On Fri, Dec 20, 2024 at 03:41:28PM +0100, Hans de Goede wrote:
->>>>>>> The driver might skip the ov08x40_identify_module() on probe() based on
->>>>>>> the acpi_dev_state_d0() check done in probe().
->>>>>>>
->>>>>>> If the ov08x40_identify_module() call is skipped on probe() it should
->>>>>>> be done on the first stream start. Add the missing call.
->>>>>>>
->>>>>>> Note ov08x40_identify_module() will only do something on its first call,
->>>>>>> subsequent calls are no-ops.
->>>>>>>
->>>>>>> Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>>>>
->>>>>> I'll add:
->>>>>>
->>>>>> Fixes: b1a42fde6e07 ("media: ov08x40: Avoid sensor probing in D0 state")
->>>>>> Cc: stable@vger.kernel.org
->>>>>
->>>>> Sounds good, thank you.
->>>>>
->>>>> That is when you say "I'll add", you mean you'll add those tags
->>>>> while merging this series, right ?
->>>>>
->>>>> Or do you want me to the tags in a v3 series?
->>>>
->>>> No need for v3. Thanks!
->>>>
->>>> Are there other patches not merged for the driver, besides this set? No?
->>>
->>> Bryan was talking about a fix from him which also needs to be merged:
->>>
->>> https://git.codelinaro.org/bryan.odonoghue/kernel/-/commit/f10539a3cbe5c072829b082683f0d1393a7e50dc
->>>
->>> But I cannot find that in the lore archives.
->>>
->>> Bryan, did you ever post that fix ?
->>>
->>> Regards,
->>>
->>> Hans
->>>
->>>
->>
->> Yep, it would be nice to place that patch first as patch #3 in this series
->> conflicts with it.
->>
->> I've fixed up the tree here:
->>
->> https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/media-stage/master-ov08x40-integration?ref_type=heads
-> 
-> Hans's patches are in my tree already. Could you rebase yours on my devel
-> branch (tree at <URL:https://git.linuxtv.org/sailus/media_tree.git/>) and
-> post it?
-> 
+TDA998x is the HDMI bridge driver, incorporating drm_connector and
+optional drm_encoder (created via the component bind API by the TICLDC
+and HDLCD drivers). TDA9950 is an I2C-CEC translator, being present
+on-die on the TDA9989 and TDA19989 chips.
 
-https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/media-sailus/devel-ov08x40?ref_type=heads
+Move TDA9950 driver to drivers/media/cec/i2c and TDA998x driver to
+drivers/gpu/drm/bridge/.
 
-Puts
+Note to Hans and Mauro: I'd ask for all patches to be merged through
+drm-misc tree rather than splitting them between drm-misc and media
+trees. The patchset depends on the patches that are a part of
+drm-misc-next, but are not going to hit 6.14. Please specify if you are
+fine with that proposal and  if you'd need an immutable branch for
+linux-media.
 
-https://git.codelinaro.org/bryan.odonoghue/kernel/-/commit/b8f7e192b6bf0b8859158fb2b28b479d5c389054
+Note to RMK: I didn't change that, but I'd like to propose to use
+drm-misc tree for this bridge.
 
-before
-
-https://git.codelinaro.org/bryan.odonoghue/kernel/-/commit/9370a82094d47d0383b0d52681b6b3a8d711ef9e
-
-So that the first patch can be applied to stable.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v2:
+- Moved TDA9950 driver to drivers/media/cec/i2c (Hans, Laurent)
+- Moved TDA998x driver to drivers/gpu/drm/bridges istead of tda/ subdir
+  (Laurent)
+- Link to v1: https://lore.kernel.org/r/20241215-drm-move-tda998x-v1-0-7817122b1d73@linaro.org
 
 ---
-bod
+Dmitry Baryshkov (3):
+      drm/i2c: tda998x: drop support for platform_data
+      media: cec: move driver for TDA9950 from drm/i2c
+      drm/i2c: move TDA drivers under drivers/gpu/drm/bridge
+
+ MAINTAINERS                                   |  3 +-
+ drivers/gpu/drm/arm/Kconfig                   |  1 +
+ drivers/gpu/drm/bridge/Kconfig                |  8 +++++
+ drivers/gpu/drm/bridge/Makefile               |  4 +++
+ drivers/gpu/drm/{i2c => bridge}/tda998x_drv.c | 49 +++------------------------
+ drivers/gpu/drm/i2c/Kconfig                   | 18 ----------
+ drivers/gpu/drm/i2c/Makefile                  |  4 ---
+ drivers/media/cec/i2c/Kconfig                 |  9 +++++
+ drivers/media/cec/i2c/Makefile                |  1 +
+ drivers/{gpu/drm => media/cec}/i2c/tda9950.c  |  0
+ include/drm/i2c/tda998x.h                     | 40 ----------------------
+ 11 files changed, 28 insertions(+), 109 deletions(-)
+---
+base-commit: e91570cf7c1b3e406878e7b1efbe823d039d1659
+change-id: 20241214-drm-move-tda998x-8fb4321434d2
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
