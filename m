@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-24610-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D96FA09077
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 13:32:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE611A0907A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 13:32:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEF31188EC79
-	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 12:32:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 865DF188ECAF
+	for <lists+linux-media@lfdr.de>; Fri, 10 Jan 2025 12:32:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A9020E008;
-	Fri, 10 Jan 2025 12:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A457F20E309;
+	Fri, 10 Jan 2025 12:32:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FnHPmCmr"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B8cptrXp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42CDDF78
-	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 12:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAE120D4FB
+	for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 12:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736512321; cv=none; b=p5qDEYN3FVyU+TnfUxAG72guk2LjK5EvlyMeT2mk990ZqqJsBq3t2ewQ3FtI/Xo9lJyqnnzbb3dJ3G0kzv2oSnYErsiNODZWrS+ZNq4CPgJVDJ/P7ITbgY5DhZbgYdWOC5H2hutD4SWghtF/ILbQe9w8LoPLCQP/UzL27pMQ+vk=
+	t=1736512324; cv=none; b=WLKs0cqX4j4exc3gyDdX7voLsbN4d58vf0TdkQWg0djcvNjETGOe88eKgVb8tSI40+YRg3ZX8DvcUuiv6sY2bLI6hzzM4RjVUcsm6WuTc2d2AGNNpqDJONWe9y/B3jtv80Tahwruj7Uv8l/ey7f4AiRX7ukTvPVtFpsk/UUYwGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736512321; c=relaxed/simple;
-	bh=ynoYEf8e255Bg4jgwwDTCT/Dnh62RtjqpzCFJ2/k3Vs=;
+	s=arc-20240116; t=1736512324; c=relaxed/simple;
+	bh=8laCO1G6C22Qn5+rN+sCPt76jMJ4MGhNPQxJk96BxX4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q1Zn9yope2TxQJbUHZW4GPBU6nRRaRvq327x3gWH/0jzk61C/Cy8j54tKZOcELt97N5Nr9rWxc6TgAO9TnPoYW0YTKegw8CmJLpHCuDO4NQKkOv3rwMiIaDV9s6Ru1qnRfIQgNC2IHT4JWG/c14SGnSSgWY4CFkAfQRjI40jRPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FnHPmCmr; arc=none smtp.client-ip=209.85.208.173
+	 In-Reply-To:To:Cc; b=q19MsXDXlNIhlr6y9I7HTFE49+PRk6NtN+kl/XwXt4GZieY2XN0+LAaeNavOhtBlZjsC5kUZz/ProERvV14ps8+mMzOYlLjrrSV8CQya9Mb59mAYLlKJ1d3TeHITN85bhoVlzNLh+ZPpPQOQuX47x7XEREVBro3L6M+Rmow3QsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B8cptrXp; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3003c0c43c0so17975401fa.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 04:31:59 -0800 (PST)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-306007227d3so13767281fa.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Jan 2025 04:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736512318; x=1737117118; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1736512320; x=1737117120; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pu+t3eGEK8ZKk4cbdeq2Wt6p9hR7Yq831BJnA041QI0=;
-        b=FnHPmCmrx+ZSL1i7UWGQfvNAX1NaAdyxj9U6obTl+DN8PmrblCkj+KhsYvmpZfizDB
-         Qkl9KEZ6l+rEtQ0pVCBYrDk9UdoFWfXx/iW2RaMMqkhrRlTjRiEPZyg09Qg+LASBCtqk
-         ox8KrXpY4ixMtVcMr5y14feTgxyHi/+pSpSvk1z24MXki22ZXEgmUXi/PmdzdnOUvQ5k
-         306GZZCuZhUGltM2wCV18mWiuxIxHzCb2L7zBuT+EUACN+jPMMirfaPTiPcc/jwE1l91
-         yoqlEgwgvTVokFW7LiZurNUVwh1g5ttbGOuUrax8dt87p0L8CU4dO5RdKJaonZGe6B2g
-         1Msg==
+        bh=LNqcxeemu0dTYtSJZLx7nl127aYJDaVFq9hJPsyhj4k=;
+        b=B8cptrXpFNA/KTbWBbgN2KEAgqkmEYJMVVk9UeB48BWmI/mm5Y1oinSW1ZwQCA6D75
+         BCkkvhDhiQgnVnrgu9L7Oxf5CeLHxthzKfDKDi0YaXrExoiej/OCnyzdtxVnw6+rSVyX
+         mFYnZ7KrpDevLSdtbTM2xVnbD9zn5YF1uWTrJt/IfNf7AoDqDKanNc6+kW1E/LGjDIms
+         Zm29e2KXlj99wZMCUpN3BlwlpXYwcoa5YzxRWh1WJOTHXV+xqaQDv3QzwSNRihj75Bj9
+         94wwC1ArpCGyahrxJnW/1aG+cS8o3LPQ7XSKIbEArTfNCPfMw202iO8mwvTSlwY+F5wQ
+         065w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736512318; x=1737117118;
+        d=1e100.net; s=20230601; t=1736512320; x=1737117120;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pu+t3eGEK8ZKk4cbdeq2Wt6p9hR7Yq831BJnA041QI0=;
-        b=UVOW3aBos5sooH1bTgY8cGwIFVGHYEdRSD+vtuTPmjw+QqrC2bIIkzUWAQe1VDRq/n
-         JgptNmAtD5WeruEiKWG8uuU2NFrF8WDut9/3eGkBYJ1y+IjSwzgrJh3MiXL2TGWQ7xge
-         4ezjy6iv8uFPfPJGupsPyVFL4zcN14tLY5ViPzj1afHmQjv91hehoanERzJkCdpMAggs
-         fGq8fVUPfJ9CL83OSeYALBYemw5XcqccMahKZoYO8TCw0UJoum0Sw+KuirZayzSx7jFf
-         LTpMfGzS5uSrKsBFDBg+ScWzu0ZEDBKSJE9VKwLPndno85XVceBad9NwLRIZ+yJvJjV7
-         YiWA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6dqqCyvAvBjAOQbIpAzEjYEmK8SY/6ZugniX0vlJ74DdT7J5ljZ2DsnIgLglTq88NKova6KPiTHSxig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyW46RoRtpim7RrVCyBQgH7hCRibjlmPNykZmACHuThs/tiBNWP
-	ReqdLddwro7j8GGy+U9FM2yke5V7GVRVXMhG4dAaqobZzYx4OO8+c/FwTaAcalI=
-X-Gm-Gg: ASbGnct7bhU997BHMkhYlVIxoocz/wqItTr/aHgfRXm4KISRhOGTirvrh0/Fe2A4tYy
-	zM3L76Nuxk2ZP2WjvF6Gt6ubOmNHtl2bHr9FRdG7hinNBpgYFVHlFwGzuH5fSw4orVBkNT6Jc62
-	t8rSCcvBXFdvOvuNkM5GekMPqPZACbC3qkYAfR9RqHhd1uUYwNQOM2hVmKLzJT+DTMwNA+11c8p
-	xCoGdddWHGSXiNAlBVeJ9h+zqXkUzK+JXpZvp04rkHEaTalBe/se2e1WZc2kEnG
-X-Google-Smtp-Source: AGHT+IHIqxOyaNaQN2BbTx5w9qm3mPKfSMMsxEhtpOB8wpjQpkZW05iGwIzfb5VpPrzZMnxU/eo2ow==
-X-Received: by 2002:a05:651c:1a0c:b0:300:322e:6a with SMTP id 38308e7fff4ca-305f45aed51mr34797561fa.23.1736512317990;
-        Fri, 10 Jan 2025 04:31:57 -0800 (PST)
+        bh=LNqcxeemu0dTYtSJZLx7nl127aYJDaVFq9hJPsyhj4k=;
+        b=OPdrTsw6NPVsoiH+cT+rEyYsOF784nAvXA99HKmRpFTEYq2odjtO/F+4HTNX1CwIjs
+         umnnCAiF5CzlmgdVPxJkdybmSfSLu0MhE5FKzjB4iGjso0nqM4cXCfotm6XIdPulob4V
+         n+AqBGlal+b8Lpelm9THwcIVT8dnfYMB8a2X/y/HO4diCJoiLV/l0xW4fLwScpp/eIyc
+         Psgei0C9BF9xXxVGZK6+/26AaTU/FPYJ34ZOrxwr4Q0ga+UP0TI5BQ/aXCDbQFhAv+qI
+         asI44sy9795+WBC9jdes85/k3VC/nwLrJXe6VmDvIvrurrcq/yGTZTG8mxukzmRmg/z3
+         pMyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVDLtGlCze4OM72UdG8sRZ5ukSKRc3zwvnkGyrzwHaaKqR6c9zvuRzKMg0z0TnEvy3SnAE8c4gDPk8qHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YysTEmEuq6d0BulEAeJTvMool2viAdAYX9MBNCx55UYZ403y5hj
+	2wL1ZDBq3wTjao41EardqpBE5h/R6gUu1IDh6TWKdgYqPlkZIJhJx+hKl/mCk60=
+X-Gm-Gg: ASbGncvvQQJw9/+F0CqGHFwIT6oQQnZzXF9BbVgQ/1VaYBfMj8nlv2tQs1yWHDsRfTH
+	7r1qhAcihRdVLppJuoPv5MKLB+inTF/km2ZmSTTg2/pa40sjzTYf7i8RTduKIcJIgOXDoosDTkq
+	bZPsAB5KopK2Byd5/pGUxQTKZy5+FALHxFEDapyZKt6ez1ik8FTSbIuQPD39jikuwBKN+/FWn47
+	Tf5Nb3mqjuXfZ3SMUvLPpcJt+Y7MJQNI4lfTt/8gFccmJOreyuBumQfwjgSsnue
+X-Google-Smtp-Source: AGHT+IHpCKgjAmWJKiXDpM6QD6fFZBeaBe5TuPx/yke+1hwwlNLWjhZffdT0BC9t/x6+79dRRNucFQ==
+X-Received: by 2002:a05:651c:221a:b0:300:38ff:f8d9 with SMTP id 38308e7fff4ca-305f4533083mr26808201fa.3.1736512320358;
+        Fri, 10 Jan 2025 04:32:00 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff0cedafsm4720691fa.29.2025.01.10.04.31.57
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff0cedafsm4720691fa.29.2025.01.10.04.31.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 04:31:57 -0800 (PST)
+        Fri, 10 Jan 2025 04:31:59 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 10 Jan 2025 14:31:53 +0200
-Subject: [PATCH v2 1/3] drm/i2c: tda998x: drop support for platform_data
+Date: Fri, 10 Jan 2025 14:31:54 +0200
+Subject: [PATCH v2 2/3] media: cec: move driver for TDA9950 from drm/i2c
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250110-drm-move-tda998x-v2-1-ef2ae5832d21@linaro.org>
+Message-Id: <20250110-drm-move-tda998x-v2-2-ef2ae5832d21@linaro.org>
 References: <20250110-drm-move-tda998x-v2-0-ef2ae5832d21@linaro.org>
 In-Reply-To: <20250110-drm-move-tda998x-v2-0-ef2ae5832d21@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -95,179 +95,88 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Russell King <linux@armlinux.org.uk>, Hans Verkuil <hverkuil@xs4all.nl>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ linux-media@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5039;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2936;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=ynoYEf8e255Bg4jgwwDTCT/Dnh62RtjqpzCFJ2/k3Vs=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBngRM8LT2PCkJ7DKSTs3koimwKHNVTXiPHe9Tfa
- KflWlY3FruJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ4ETPAAKCRCLPIo+Aiko
- 1cFHB/9ziikfq/rWdcHX+v+rI9cm13Q1bzq5NuebkB3/EUtKi7J8WNQqOvl9fQIbix4A01x0Sl1
- oLy855x2xdcOsKws3KrDfzzVjmP1dnftx5x1iJOkV3laaPEFS1O39FFKMSlAPwhlZ+SL4wddGDb
- SX8mCjz09HVmGYVhO1pDNg+RyAyTRMjHIuW1FULp+rKYmofnSuZ+EwGgw9KQ0B1AMpqjX5/2Cbv
- rBuT47VvM2fKlZmRVp3Tu+XzfBrF8HfogpGt/hIwJuCGqiaMVIIl/7BdB1Fsq6gYy/qvtEzRB6B
- G5G0gatX1q6jLqOwkijn3bnYSFWe3soChcbhgSxl3FBqClCS
+ bh=8laCO1G6C22Qn5+rN+sCPt76jMJ4MGhNPQxJk96BxX4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBngRM8PZfvrJ3WUN4XrAgEELpTl91x/xncm8aZ/
+ NQ1/RMTwOqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ4ETPAAKCRCLPIo+Aiko
+ 1T1MB/4y9YgyIHmTdSzZpNz5olrK+8CNKOizShHvjLGlppR0+W+ax17g3FhL7KY98otV0YORhmo
+ Sw3GHeT/2j3q6C7ptJekboAfZsTCndAeNaVbGFwwRIpQCkRsC0bxm0Z3/WZO1EmO6+0aD/+TKY3
+ iybvwPOa8A5/wxZzeFLH/jNecwdDMdPkE4r4X/8WdzRQwV/1ogiMDPqrOSAcCrlEkjsNw2qOjzN
+ uy00+Gk8M3J5QYgSAIumS9vL6O0AmcMJ7YOKFnBDJQZw6SkfiNOeEclMupSieWgTL+GX2N+NRVR
+ z/+QeClMiNv5z6SXEm6oDk9tMiDgjQPrOPOdLhyWxb3C6KdL
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-After the commit 0fb2970b4b6b ("drm/armada: remove non-component
-support") there are no remaining users of the struct
-tda998x_encoder_params. Drop the header and corresponding API from the
-TDA998x driver.
+Move the driver for NXP TDA9950 / CEC part of TDA998x together to
+drivers/media/i2c, close to other CEC drivers. Specify 'default
+DRM_I2C_NXP_TDA998X' in order to simplify migration from old config
+files as the Kconfig name has been changed to follow media/cec style.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- MAINTAINERS                       |  1 -
- drivers/gpu/drm/i2c/tda998x_drv.c | 49 ++++-----------------------------------
- include/drm/i2c/tda998x.h         | 40 --------------------------------
- 3 files changed, 4 insertions(+), 86 deletions(-)
+ drivers/gpu/drm/i2c/Kconfig                  | 5 -----
+ drivers/gpu/drm/i2c/Makefile                 | 1 -
+ drivers/media/cec/i2c/Kconfig                | 9 +++++++++
+ drivers/media/cec/i2c/Makefile               | 1 +
+ drivers/{gpu/drm => media/cec}/i2c/tda9950.c | 0
+ 5 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a3566163f1cbd583b8fdb7f2f18d5289263adc31..223eb6bfd0579768c246dcc51831048627fb8d02 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17046,7 +17046,6 @@ S:	Maintained
- T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-devel
- T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-fixes
- F:	drivers/gpu/drm/i2c/tda998x_drv.c
--F:	include/drm/i2c/tda998x.h
- F:	include/dt-bindings/display/tda998x.h
- K:	"nxp,tda998x"
+diff --git a/drivers/gpu/drm/i2c/Kconfig b/drivers/gpu/drm/i2c/Kconfig
+index d5200f67958e68a8ec73401f1d3b79cbe0aa303d..1aa2a0bf5cc183b4ce92fc4f7eb61fd0065250d1 100644
+--- a/drivers/gpu/drm/i2c/Kconfig
++++ b/drivers/gpu/drm/i2c/Kconfig
+@@ -10,9 +10,4 @@ config DRM_I2C_NXP_TDA998X
+ 	help
+ 	  Support for NXP Semiconductors TDA998X HDMI encoders.
  
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-index 82d4a4e206a584e045a8fcd593fc12b7c1257bfe..ebc758c72891188e236d4da0cde283f108d80aca 100644
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -21,10 +21,11 @@
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
--#include <drm/i2c/tda998x.h>
- 
- #include <media/cec-notifier.h>
- 
-+#include <dt-bindings/display/tda998x.h>
+-config DRM_I2C_NXP_TDA9950
+-	tristate "NXP Semiconductors TDA9950/TDA998X HDMI CEC"
+-	select CEC_NOTIFIER
+-	select CEC_CORE
+-
+ endmenu
+diff --git a/drivers/gpu/drm/i2c/Makefile b/drivers/gpu/drm/i2c/Makefile
+index 31fd35527d99d7eb23851d290175a3ff0c756772..45791fbfae983eecf58565109cf8eecb6431643b 100644
+--- a/drivers/gpu/drm/i2c/Makefile
++++ b/drivers/gpu/drm/i2c/Makefile
+@@ -1,4 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0
+ tda998x-y := tda998x_drv.o
+ obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
+-obj-$(CONFIG_DRM_I2C_NXP_TDA9950) += tda9950.o
+diff --git a/drivers/media/cec/i2c/Kconfig b/drivers/media/cec/i2c/Kconfig
+index d912d143fb3129c6b3d0133dbfceffdd48bd543d..b9d21643eef1892ccff508b1864db30e83570212 100644
+--- a/drivers/media/cec/i2c/Kconfig
++++ b/drivers/media/cec/i2c/Kconfig
+@@ -13,3 +13,12 @@ config CEC_CH7322
+ 	  generic CEC framework interface.
+ 	  CEC bus is present in the HDMI connector and enables communication
+ 	  between compatible devices.
 +
- #define DBG(fmt, ...) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
- 
- enum {
-@@ -1717,10 +1718,10 @@ static int tda998x_get_audio_ports(struct tda998x_priv *priv,
- 		u8 ena_ap = be32_to_cpup(&port_data[2*i+1]);
- 
- 		switch (afmt) {
--		case AFMT_I2S:
-+		case TDA998x_I2S:
- 			route = AUDIO_ROUTE_I2S;
- 			break;
--		case AFMT_SPDIF:
-+		case TDA998x_SPDIF:
- 			route = AUDIO_ROUTE_SPDIF;
- 			break;
- 		default:
-@@ -1746,44 +1747,6 @@ static int tda998x_get_audio_ports(struct tda998x_priv *priv,
- 	return 0;
- }
- 
--static int tda998x_set_config(struct tda998x_priv *priv,
--			      const struct tda998x_encoder_params *p)
--{
--	priv->vip_cntrl_0 = VIP_CNTRL_0_SWAP_A(p->swap_a) |
--			    (p->mirr_a ? VIP_CNTRL_0_MIRR_A : 0) |
--			    VIP_CNTRL_0_SWAP_B(p->swap_b) |
--			    (p->mirr_b ? VIP_CNTRL_0_MIRR_B : 0);
--	priv->vip_cntrl_1 = VIP_CNTRL_1_SWAP_C(p->swap_c) |
--			    (p->mirr_c ? VIP_CNTRL_1_MIRR_C : 0) |
--			    VIP_CNTRL_1_SWAP_D(p->swap_d) |
--			    (p->mirr_d ? VIP_CNTRL_1_MIRR_D : 0);
--	priv->vip_cntrl_2 = VIP_CNTRL_2_SWAP_E(p->swap_e) |
--			    (p->mirr_e ? VIP_CNTRL_2_MIRR_E : 0) |
--			    VIP_CNTRL_2_SWAP_F(p->swap_f) |
--			    (p->mirr_f ? VIP_CNTRL_2_MIRR_F : 0);
--
--	if (p->audio_params.format != AFMT_UNUSED) {
--		unsigned int ratio, route;
--		bool spdif = p->audio_params.format == AFMT_SPDIF;
--
--		route = AUDIO_ROUTE_I2S + spdif;
--
--		priv->audio.route = &tda998x_audio_route[route];
--		priv->audio.cea = p->audio_params.cea;
--		priv->audio.sample_rate = p->audio_params.sample_rate;
--		memcpy(priv->audio.status, p->audio_params.status,
--		       min(sizeof(priv->audio.status),
--			   sizeof(p->audio_params.status)));
--		priv->audio.ena_ap = p->audio_params.config;
--		priv->audio.i2s_format = I2S_FORMAT_PHILIPS;
--
--		ratio = spdif ? 64 : p->audio_params.sample_width * 2;
--		return tda998x_derive_cts_n(priv, &priv->audio, ratio);
--	}
--
--	return 0;
--}
--
- static void tda998x_destroy(struct device *dev)
- {
- 	struct tda998x_priv *priv = dev_get_drvdata(dev);
-@@ -1982,10 +1945,6 @@ static int tda998x_create(struct device *dev)
- 		if (priv->audio_port_enable[AUDIO_ROUTE_I2S] ||
- 		    priv->audio_port_enable[AUDIO_ROUTE_SPDIF])
- 			tda998x_audio_codec_init(priv, &client->dev);
--	} else if (dev->platform_data) {
--		ret = tda998x_set_config(priv, dev->platform_data);
--		if (ret)
--			goto fail;
- 	}
- 
- 	priv->bridge.funcs = &tda998x_bridge_funcs;
-diff --git a/include/drm/i2c/tda998x.h b/include/drm/i2c/tda998x.h
-deleted file mode 100644
-index 3cb25ccbe5e68bf95ce13249f15549b7e2582281..0000000000000000000000000000000000000000
---- a/include/drm/i2c/tda998x.h
-+++ /dev/null
-@@ -1,40 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef __DRM_I2C_TDA998X_H__
--#define __DRM_I2C_TDA998X_H__
--
--#include <linux/hdmi.h>
--#include <dt-bindings/display/tda998x.h>
--
--enum {
--	AFMT_UNUSED =	0,
--	AFMT_SPDIF =	TDA998x_SPDIF,
--	AFMT_I2S =	TDA998x_I2S,
--};
--
--struct tda998x_audio_params {
--	u8 config;
--	u8 format;
--	unsigned sample_width;
--	unsigned sample_rate;
--	struct hdmi_audio_infoframe cea;
--	u8 status[5];
--};
--
--struct tda998x_encoder_params {
--	u8 swap_b:3;
--	u8 mirr_b:1;
--	u8 swap_a:3;
--	u8 mirr_a:1;
--	u8 swap_d:3;
--	u8 mirr_d:1;
--	u8 swap_c:3;
--	u8 mirr_c:1;
--	u8 swap_f:3;
--	u8 mirr_f:1;
--	u8 swap_e:3;
--	u8 mirr_e:1;
--
--	struct tda998x_audio_params audio_params;
--};
--
--#endif
++config CEC_NXP_TDA9950
++	tristate "NXP Semiconductors TDA9950/TDA998X HDMI CEC"
++	select CEC_NOTIFIER
++	select CEC_CORE
++	default DRM_I2C_NXP_TDA998X
++	help
++	  This is a driver for the NXP TDA9950 CEC controller and for the CEC
++	  controller block integrated into several NXP TDA998x HDMI encoders.
+diff --git a/drivers/media/cec/i2c/Makefile b/drivers/media/cec/i2c/Makefile
+index d7496dfd0fa49631299ff56c20e946757e50cdb2..95c9eda5258361c4d9196acb527e0c1b4351dbe0 100644
+--- a/drivers/media/cec/i2c/Makefile
++++ b/drivers/media/cec/i2c/Makefile
+@@ -3,3 +3,4 @@
+ # Makefile for the CEC I2C device drivers.
+ #
+ obj-$(CONFIG_CEC_CH7322) += ch7322.o
++obj-$(CONFIG_CEC_NXP_TDA9950) += tda9950.o
+diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/media/cec/i2c/tda9950.c
+similarity index 100%
+rename from drivers/gpu/drm/i2c/tda9950.c
+rename to drivers/media/cec/i2c/tda9950.c
 
 -- 
 2.39.5
