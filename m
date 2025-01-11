@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-24639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0D1A0A27E
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jan 2025 10:56:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5BCA0A281
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jan 2025 10:56:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8F153AAC49
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jan 2025 09:55:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1720B188AA0C
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jan 2025 09:56:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 813DC190665;
-	Sat, 11 Jan 2025 09:55:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE0701922FD;
+	Sat, 11 Jan 2025 09:55:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mzmvtG/6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="C96bSz6T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9B818FDAE
-	for <linux-media@vger.kernel.org>; Sat, 11 Jan 2025 09:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1C41917FB
+	for <linux-media@vger.kernel.org>; Sat, 11 Jan 2025 09:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736589329; cv=none; b=Wl6bpxqfrf8YqfcLH97BLifSe4g1KP20TxbExF8CZPKOOuDQdwzOU0KT+ppTfgxFX5Zv8m06AUPloP6qk8XIOesEwv5uJYyEECTtNw/u7V621TWdWUVmh2rwxUWGQ7oH9gVjdrZ9gKx6k+Twqw+WjP/OcBtVCbOwMjcPkRZjZuY=
+	t=1736589331; cv=none; b=tm7MtdlUzqNyxCtRR3FuPK2Xj1i6ycfpLnX8AU4RF82/hblqKArWg6G/fbuL7Uv1K7vv/XLdBhIFek1wKzgj7KhI+zmgVHXzwfb+Jp7pm/A/dJ9DGDT2vS9niYD+GPzNJIQM5tEauv9GAjS0gz7yznz4XgEclAsXGHiVXmpPEfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736589329; c=relaxed/simple;
-	bh=wNqPLVCH3hrYmgRdcOul7vFmT8NC6JPiLWWSYrAMGoA=;
+	s=arc-20240116; t=1736589331; c=relaxed/simple;
+	bh=+5gKBR6lmCbLgDxwlcOKTLF2APbAil9sB0eDtQkBz/w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m0XyAz5zi1BLRvgdkCc6VfI+tRiWW8SS4mCUmOyhiocERGbvDlV2K3iuoq3Tx1bH2j17h3D713sbh3+arZEiefEF4WNnJckfFs0YYE+3FshNApbYgooAtD+DEu97Byufvy3C+ooDTXMXi5v5jR3CMkDFq7tqFE6PIDF4BZ+VAWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mzmvtG/6; arc=none smtp.client-ip=209.85.219.42
+	 In-Reply-To:To:Cc; b=ZvXiVAPiCqKfIIN4+2yqRTLQFAflD9kDxPoJZ3hESdelDm4271ifPuKzH45WzZOZt4WsuYcC1+G36nlsgykF+feIyDQ0HHI/P+uuqUX5vedjC5U6V6jbBDAXsKD8/ojfcLYT/5/rw1X2GXqv5WrGNXUutfakkcMtFuGQBrG70ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=C96bSz6T; arc=none smtp.client-ip=209.85.222.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6d8e8445219so24168086d6.0
-        for <linux-media@vger.kernel.org>; Sat, 11 Jan 2025 01:55:27 -0800 (PST)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7b70e78351aso236813185a.0
+        for <linux-media@vger.kernel.org>; Sat, 11 Jan 2025 01:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1736589327; x=1737194127; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1736589328; x=1737194128; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oCQd+Ixr8eKIqoAvIvPqynaVVvGYXfmfSE/3mmNL7HE=;
-        b=mzmvtG/6r8mK1zoH6VyrK6+xwRRAqfawlkHIsMszsUYLwvRYn/6TL6Qr61/nvx8rAs
-         Gdd6cw9NSir9g7J/HgO8xO7qrQTrxXDEXPVfhXpquWrhuvR6ClZz03Lm7piHlXl+HFPd
-         BDIm1RO4GnaeoAduoXWkj5W/YsYTt8+q8gCHY=
+        bh=oGXizJerOok0lDZxPeMPfVFSvShgmDlyLJgvxCS81kE=;
+        b=C96bSz6TaoQXqnsfWjFREu7KcD0EjOj6CbbnAHPSV2wqMTwI6pYbppEnh56C8ciRLt
+         H/6p4gZMwGnmmDFNwcYC9KGNozEAzwSgg1WjdQioFifHmeBNay88+Q2Nqm16gdQZszcM
+         ZX50gFtVpauN4oFNajPz3VpJMepN/dQNUDEQk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736589327; x=1737194127;
+        d=1e100.net; s=20230601; t=1736589328; x=1737194128;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oCQd+Ixr8eKIqoAvIvPqynaVVvGYXfmfSE/3mmNL7HE=;
-        b=kmZx8Sv6S88AAzB8b/8R7KCcyTH+MvZBe8yBjdWLXVv4rbdN3z5qpSyyoNMQqiBiZ4
-         +HK5IJJo3r0NpmHrx8DxBGTAGetzzUIYCpmBycY3TjMFwHrD4vL3QEJvCoWvwzqRee+s
-         qMt4sm8fg8Q8tyzdSvtFRyDmw+CDQGKBaGtL+IkEJrVDY1MhYNr2OWRH1ibyk7mYqHHl
-         QNqJpEWC2b7Ky9mmRmXtH4+0Ge7PYX58njdlT1S71vPf27tnltYf9sk14eSnj0cPHlix
-         28IkgbzazXMoQG2T/7KZfHS6+R4O5ej4G1L+ZqPQGtF6MxqupEMg74LOiYdk1Vcf+gA5
-         4LEw==
-X-Gm-Message-State: AOJu0YwvQt565NIxw1x7WXfU54gBeqrtkF4B5XkwCKs7rAsC+Hor30Ea
-	S9pF4OZbf6iWpnY2IVBUse9HOuo1slfDS+OI0s9g7RYESPfO8E/Av6+z9LmsXA==
-X-Gm-Gg: ASbGncu+tNSqwa/gYsiRMfFB6saGwaLCrl3xEcfy8Bjq+6cgTRWpODznTNtf9vM/ywk
-	gAitoQKu224aHEv7QxzhFpjzQaWg+mWpU1VLuJm4nhO9TPUFlWPD+4SEnr0zO0zWxCggxWvqNkg
-	Rti+/93fO2U88FihUDrz518NZBZSHs3oL6krnkIR3RnT7igIOi4KGShFrih8IV6uapK46Ohm8Mq
-	HOJ+UHhSgztFXS9RzXKIX1a86US0tiEVyswYhy3U+iyxUrzU0hDH9XVFX6XRxY1eRiG0zz2xoQs
-	Glj9kH/xRGyDoNUFPeoiHIatXZRj46JURID7
-X-Google-Smtp-Source: AGHT+IHefNcjGKIvCVrBMfxFKkoA1dyzaoWQ3H4EQvH1E/W+4lJXoiyaYADeYG3+4FMKAC4ihgK0qA==
-X-Received: by 2002:a05:6214:4111:b0:6d8:8416:9c54 with SMTP id 6a1803df08f44-6df9b1ed60bmr244663736d6.16.1736589326457;
-        Sat, 11 Jan 2025 01:55:26 -0800 (PST)
+        bh=oGXizJerOok0lDZxPeMPfVFSvShgmDlyLJgvxCS81kE=;
+        b=u58iY3OI0bRWGxIoQYJlJitmUXcPZkJ/ZKxerDYVxyu5X1DcUHTRS1wwQpkaA+AjFk
+         xCmyLmWptgRaQo/Fw//x2EkwQOX95Dl+SCIw0IDoZXl1vIOSrr3KgPbu/Si0ZAim4oFm
+         nQx6Cht5Hft64H8f6CsZijCFGpvIWgnwsY52DcfBQVkammEv2EnUYYweHsBo0EpN0xCh
+         mMaWweMT6KnLek+M2H2AyNA554ervclzO8BH1GDz3QapSW28QTS+E5Vyd4h5XMF3IVl3
+         veNVprWNsiyXb9p/Cfap4riU17WcNNPn4MlmM6gPnCYxo6gAE46k1Q2oix5KdUmD3n2O
+         P4lw==
+X-Gm-Message-State: AOJu0YxDIThtmPzlcoplXUK0oHPqBZ34kGhTzPWR7cLo5/H75DVx8gEF
+	mS23fvjbXa3+yie25EA8LHa1M53IDA6QmM37USKLkfzcFgjXWtkVPq3N7KRP1A==
+X-Gm-Gg: ASbGncv8xw+Wz+2mSDPsM//lRgX+UfbsOtgRFPIPZ8QttXHdg4RkMSdo1ILFs5RuD5u
+	XWXm17kKKJEJNMvrqOs00XebBMJRSOQTN5zfnYiFXVHZTZiHp8XxJkONNAuRi+e1zHn6YDrqDLQ
+	4CWaI0Mc16T5zQ2XltG4QOXLLrzkUCw0Q/cytk1OJQOMIAd3+kev5A3KsE/96/z7ZxdZ1X5ZAek
+	6bvSY8+rwrgW9AucaBBdzvzKV0G64cCk8T0Hyf567ip4+YGamTBPbgIAZ7UOUoQ8KjLCmA7SOfG
+	EpOz5GYYtJg6bhhEJ9il2CyNuJ6+fl+GyY/b
+X-Google-Smtp-Source: AGHT+IEpVR9I5biYuCr+SXV0UBeBGfKSe31bfLKgP7VOr+BuuQiGS7W1xlNlsmHP///j6pnH4LIVBQ==
+X-Received: by 2002:a05:620a:462b:b0:7b6:c540:9531 with SMTP id af79cd13be357-7bcd974a281mr2043337685a.18.1736589328570;
+        Sat, 11 Jan 2025 01:55:28 -0800 (PST)
 Received: from denia.c.googlers.com (172.174.245.35.bc.googleusercontent.com. [35.245.174.172])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7bce327b8besm267096785a.59.2025.01.11.01.55.24
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7bce327b8besm267096785a.59.2025.01.11.01.55.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jan 2025 01:55:25 -0800 (PST)
+        Sat, 11 Jan 2025 01:55:27 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sat, 11 Jan 2025 09:55:15 +0000
-Subject: [PATCH v6 2/6] media: venus: vdec: Clamp parm smaller than 1fps
- and bigger than 240.
+Date: Sat, 11 Jan 2025 09:55:16 +0000
+Subject: [PATCH v6 3/6] media: venus: venc: Clamp parm smaller than 1fps
+ and bigger than 240
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,7 +80,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250111-fix-cocci-v6-2-1aa7842006cc@chromium.org>
+Message-Id: <20250111-fix-cocci-v6-3-1aa7842006cc@chromium.org>
 References: <20250111-fix-cocci-v6-0-1aa7842006cc@chromium.org>
 In-Reply-To: <20250111-fix-cocci-v6-0-1aa7842006cc@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -96,36 +96,22 @@ The driver uses "whole" fps in all its calculations (e.g. in
 load_per_instance()). Those calculation expect an fps bigger than 1, and
 not big enough to overflow.
 
-Clamp the value if the user provides a parm that will result in an invalid
+Clamp the parm if the user provides a value that will result in an invalid
 fps.
 
 Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
 Closes: https://lore.kernel.org/linux-media/f11653a7-bc49-48cd-9cdb-1659147453e4@xs4all.nl/T/#m91cd962ac942834654f94c92206e2f85ff7d97f0
-Fixes: 7472c1c69138 ("[media] media: venus: vdec: add video decoder files")
+Fixes: aaaa93eda64b ("[media] media: venus: venc: add video encoder files")
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/qcom/venus/core.h | 2 ++
- drivers/media/platform/qcom/venus/vdec.c | 5 ++---
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ drivers/media/platform/qcom/venus/venc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 44f1c3bc4186..afae2b9fdaf7 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -28,6 +28,8 @@
- #define VIDC_RESETS_NUM_MAX		2
- #define VIDC_MAX_HIER_CODING_LAYER 6
- 
-+#define VENUS_MAX_FPS			240
-+
- extern int venus_fw_debug;
- 
- struct freq_tbl {
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 98c22b9f9372..c1d5f94e16b4 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -481,11 +481,10 @@ static int vdec_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index c1c543535aaf..943d432b6568 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -411,11 +411,10 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *a)
  	us_per_frame = timeperframe->numerator * (u64)USEC_PER_SEC;
  	do_div(us_per_frame, timeperframe->denominator);
  
@@ -137,8 +123,8 @@ index 98c22b9f9372..c1d5f94e16b4 100644
  	do_div(fps, us_per_frame);
 +	fps = min(VENUS_MAX_FPS, fps);
  
- 	inst->fps = fps;
  	inst->timeperframe = *timeperframe;
+ 	inst->fps = fps;
 
 -- 
 2.47.1.613.gc27f4b7a9f-goog
