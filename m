@@ -1,217 +1,172 @@
-Return-Path: <linux-media+bounces-24646-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24647-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D58A0A2F1
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jan 2025 11:45:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56522A0A3F5
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jan 2025 14:39:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1DC787A41B7
-	for <lists+linux-media@lfdr.de>; Sat, 11 Jan 2025 10:45:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 24A58188A932
+	for <lists+linux-media@lfdr.de>; Sat, 11 Jan 2025 13:39:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6086A1922EF;
-	Sat, 11 Jan 2025 10:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA94B1A9B4F;
+	Sat, 11 Jan 2025 13:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6rMpOae"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D4F19006F;
-	Sat, 11 Jan 2025 10:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1472199234
+	for <linux-media@vger.kernel.org>; Sat, 11 Jan 2025 13:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736592309; cv=none; b=RVpIUvBpCPw1w4dAnbJOGvnR75dHC44ivVwGGfODZhMydGdkYSJQx8VowAqsLvwRFoTNru4OWv9JFq2DakNkLOIyq6joZlIhjdU/ve/OpMB1F8livFZ+m11Qpno+6vQfeY5NI+phYRR+M3KO+MqBnB540oIOBwuN9j/SxZR25ok=
+	t=1736602753; cv=none; b=NZoiokwhPbNR/ctW/PoAWCs5gWbYkmoaLz9OvRy5K/7on4Z0TAXGNYlx+2nvZB71dA7TEMMKnoj8O3oSpE1aS22bTZEUYAJz0ciewoVyVLfdzPsHDMko8lj7QjqnmE4qkl9fzJxPOQoQhlqcP0gSkdeJcMqw2g5wK3nuNSlNsgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736592309; c=relaxed/simple;
-	bh=52Pl44Q3COZfRIFHQEk5QMRdal6vOQrCpMHEDhgWu2k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b0QavjlAd99g0N4rQZ+wiFn8cNun2zI1iyw/kBiPQ798NYhUNNsuuhAK5lpMhLVqyz9FqBDYjqIoy1P0GrySPSAiMfVIluJAcPY+RbR+T1tAupTQO/SOae+VE36VZn19wROGlHCbJ9h/LaELi3rD7Zkff0I7gZLMzQ6fm0CyM58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F144DC4CED2;
-	Sat, 11 Jan 2025 10:45:04 +0000 (UTC)
-Message-ID: <7e75deb6-6c0e-4bf8-b4c5-d76b1abe2d5b@xs4all.nl>
-Date: Sat, 11 Jan 2025 11:45:02 +0100
+	s=arc-20240116; t=1736602753; c=relaxed/simple;
+	bh=VCX4QJkz3LhMA9l3NaVSVc+cesn+0lZP48GvA0aHGzk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qUqN+QZOhYVbcpXWclUOFTnTr9h7txeKxmV3jEP++0NI0+nwD+yJ4jIXs79XDDBemBLNyhj7OPQH9ed6pX2eeeIIZMfEKMoSs6iw1Qy1gAmingU3p+tPgEnZ70DxaIMJGlU1gjETxJ1m36JNYfzZzI0EH14exshlGRpIruK0U+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6rMpOae; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736602752; x=1768138752;
+  h=date:from:to:cc:subject:message-id;
+  bh=VCX4QJkz3LhMA9l3NaVSVc+cesn+0lZP48GvA0aHGzk=;
+  b=J6rMpOaeoUbUeSPc0oz2yuYU2IuLs64xeGNTDfAkO60C/2ueU1JhFcp1
+   sPWPlbF97EigWQ5vzl3x0v6T6wYoK+phA2WxzFwpEJ8vH73OMKAsOdEST
+   sBeE1GLWsanPwQ0AGB6etUCUEaa9JEdvIplfmA69UV4Gmquh9rgxICnsb
+   vCmsF5vGM7yx1kKmBglW1czfOGDNWT5OMBJ8sEKPCOqmAWw6r7lws9fH5
+   3zrkFJ6AuORlomfpPWam6hY5PQyXsaaUIts8hV/3VpEmizS8DeI3FYrkc
+   OPjTYC9QD5eY4xUtrffsm2Fk3YYaGZi2ikq09jubjnv7ngJYtJmVIut8a
+   Q==;
+X-CSE-ConnectionGUID: 9ivqT9gsSpaDnxk1vju4JA==
+X-CSE-MsgGUID: z3I8ZqUVQHOaoa4QKP5y4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47379503"
+X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
+   d="scan'208";a="47379503"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 05:39:12 -0800
+X-CSE-ConnectionGUID: 69f/SmvpS86PBSunc3mchg==
+X-CSE-MsgGUID: jscfVvMIQv+2kxTG+TpVzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; 
+   d="scan'208";a="103932178"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 11 Jan 2025 05:39:10 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tWbhj-000KhP-2Q;
+	Sat, 11 Jan 2025 13:39:07 +0000
+Date: Sat, 11 Jan 2025 21:38:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ c4b7779abc6633677e6edb79e2809f4f61fde157
+Message-ID: <202501112115.2Iqnl2tm-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of SM8250
- SoC
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>, Johan Hovold
- <johan@kernel.org>, Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Jianhua Lu <lujianhua000@gmail.com>,
- Stefan Schmidt <stefan.schmidt@linaro.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>
-References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
- <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
- <Z3_nCPk_g8znto4A@hovoldconsulting.com>
- <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com>
- <Z4EuiPEw8mvDQ2gv@hovoldconsulting.com>
- <24334fb8-4d83-eb06-aee3-dfe1f8e4937b@quicinc.com>
- <552972B8-1ACA-4243-A8E3-8F48DAF39C5C@linaro.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
- Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
- cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
- kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
- H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
- CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
- Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
- kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
- eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
- WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
- xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
- Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
- ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
- aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
- GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
- OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
- SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
- SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
- aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
- e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
- XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
- LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <552972B8-1ACA-4243-A8E3-8F48DAF39C5C@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 10/01/2025 19:01, Dmitry Baryshkov wrote:
-> On 10 January 2025 19:30:30 EET, Dikshita Agarwal <quic_dikshita@quicinc.com> wrote:
->>
->>
->> On 1/10/2025 7:58 PM, Johan Hovold wrote:
->>> On Thu, Jan 09, 2025 at 11:18:29PM +0530, Vikash Garodia wrote:
->>>> On 1/9/2025 8:41 PM, Johan Hovold wrote:
->>>>> On Thu, Dec 12, 2024 at 05:21:49PM +0530, Dikshita Agarwal wrote:
->>>>>> Initialize the platform data and enable video driver probe of SM8250
->>>>>> SoC. Add a kernel param to select between venus and iris drivers for
->>>>>> platforms supported by both drivers, for ex: SM8250.
->>>>>
->>>>> Why do you want to use a module parameter for this? What would be the
->>>>> default configuration? (Module parameters should generally be avoided.)
->>>
->>>> This was discussed during v4 [1] and implemented as per suggestion
->>>>
->>>> [1]
->>>> https://lore.kernel.org/linux-media/eea14133-2152-37bb-e2ff-fcc7ed4c47f5@quicinc.com/
->>>
->>> First, the background and motivation for this still needs to go in the
->>> commit message (and be mentioned in the cover letter).
->>>
->>> Second, what you implemented here is not even equivalent to what was
->>> done in the mdm drm driver since that module parameter is honoured by
->>> both drivers so that at most one driver tries to bind to the platform
->>> device.
->>>
->>> With this patch as it stands, which driver ends up binding depends on
->>> things like link order and what driver has been built a module, etc. (as
->>> I pointed out below).
->>>
->>>>> Why not simply switch to the new driver (and make sure that the new
->>>>> driver is selected if the old one was enabled in the kernel config)?
->>>
->>>> Its about the platform in migration i.e sm8250. Since new driver is not yet
->>>> feature parity with old driver, choice is provided to client if it wants to use
->>>> the new driver (default being old driver for sm8250)
->>>
->>> This should be described in the commit message, along with details on
->>> what the delta is so that the reasoning can be evaluated.
->>>
->>> And I'm still not sure using a module parameter for this is the right
->>> thing to do as it is generally something that should be avoided.
->>>
->> I understand your concern of using module params.
->> I will modify it to rely on Kconfig to select the driver (suggested by
->> Hans) instead of module param.
-> 
-> Please don't. This makes it impossible to perform side-by-side comparison. Also as venus and iris drivers are not completely equivalent wrt supported platforms, distributions will have to select whether to disable support for older platforms or for new platforms: Kconfig dependency will make it impossible to enable support for both kinds.
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: c4b7779abc6633677e6edb79e2809f4f61fde157  media: nuvoton: Fix an error check in npcm_video_ece_init()
 
-An alternative is that the module option is placed under
+elapsed time: 1445m
 
-#if defined(CONFIG_VIDEO_QCOM_IRIS) && defined(CONFIG_VIDEO_QCOM_VENUS)
+configs tested: 79
+configs skipped: 5
 
-So it only activates if both drivers are compiled.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-But the fact that both drivers can work for the same hardware is something that
-must be clearly documented. Probably in a comment block before this module option.
-Possibly also in the Kconfigs for the IRIS and VENUS drivers.
+tested configs:
+alpha                            allnoconfig    gcc-14.2.0
+arc                              allnoconfig    gcc-13.2.0
+arc                    nsimosci_hs_defconfig    gcc-13.2.0
+arc                  randconfig-001-20250110    gcc-13.2.0
+arc                  randconfig-002-20250110    gcc-13.2.0
+arc                          tb10x_defconfig    gcc-13.2.0
+arm                              allnoconfig    clang-17
+arm                  randconfig-001-20250110    clang-20
+arm                  randconfig-002-20250110    gcc-14.2.0
+arm                  randconfig-003-20250110    clang-19
+arm                  randconfig-004-20250110    gcc-14.2.0
+arm64                            allnoconfig    gcc-14.2.0
+arm64                randconfig-001-20250110    gcc-14.2.0
+arm64                randconfig-002-20250110    gcc-14.2.0
+arm64                randconfig-003-20250110    clang-17
+arm64                randconfig-004-20250110    gcc-14.2.0
+csky                             allnoconfig    gcc-14.2.0
+csky                               defconfig    gcc-14.2.0
+csky                 randconfig-001-20250111    gcc-14.2.0
+csky                 randconfig-002-20250111    gcc-14.2.0
+hexagon                          allnoconfig    clang-20
+hexagon              randconfig-001-20250111    clang-20
+hexagon              randconfig-002-20250111    clang-15
+i386       buildonly-randconfig-001-20250110    clang-19
+i386       buildonly-randconfig-002-20250110    clang-19
+i386       buildonly-randconfig-003-20250110    clang-19
+i386       buildonly-randconfig-004-20250110    gcc-12
+i386       buildonly-randconfig-005-20250110    gcc-12
+i386       buildonly-randconfig-006-20250110    clang-19
+loongarch                        allnoconfig    gcc-14.2.0
+loongarch            randconfig-001-20250111    gcc-14.2.0
+loongarch            randconfig-002-20250111    gcc-14.2.0
+nios2                randconfig-001-20250111    gcc-14.2.0
+nios2                randconfig-002-20250111    gcc-14.2.0
+openrisc                         allnoconfig    gcc-14.2.0
+openrisc                        allyesconfig    gcc-14.2.0
+parisc                          allmodconfig    gcc-14.2.0
+parisc                           allnoconfig    gcc-14.2.0
+parisc                          allyesconfig    gcc-14.2.0
+parisc               randconfig-001-20250111    gcc-14.2.0
+parisc               randconfig-002-20250111    gcc-14.2.0
+powerpc                         allmodconfig    gcc-14.2.0
+powerpc                          allnoconfig    gcc-14.2.0
+powerpc                         allyesconfig    clang-16
+powerpc                     katmai_defconfig    clang-18
+powerpc              randconfig-001-20250111    gcc-14.2.0
+powerpc              randconfig-002-20250111    gcc-14.2.0
+powerpc              randconfig-003-20250111    gcc-14.2.0
+powerpc64            randconfig-001-20250111    gcc-14.2.0
+powerpc64            randconfig-002-20250111    gcc-14.2.0
+riscv                            allnoconfig    gcc-14.2.0
+riscv                randconfig-001-20250111    clang-18
+riscv                randconfig-002-20250111    gcc-14.2.0
+s390                            allmodconfig    clang-19
+s390                             allnoconfig    clang-20
+s390                            allyesconfig    gcc-14.2.0
+s390                 randconfig-001-20250111    clang-20
+s390                 randconfig-002-20250111    clang-19
+sh                              allmodconfig    gcc-14.2.0
+sh                              allyesconfig    gcc-14.2.0
+sh                   randconfig-001-20250111    gcc-14.2.0
+sh                   randconfig-002-20250111    gcc-14.2.0
+sparc                           allmodconfig    gcc-14.2.0
+sparc                randconfig-001-20250111    gcc-14.2.0
+sparc                randconfig-002-20250111    gcc-14.2.0
+sparc64              randconfig-001-20250111    gcc-14.2.0
+sparc64              randconfig-002-20250111    gcc-14.2.0
+um                               allnoconfig    clang-18
+um                   randconfig-001-20250111    clang-18
+um                   randconfig-002-20250111    clang-20
+x86_64                           allnoconfig    clang-19
+x86_64     buildonly-randconfig-001-20250111    clang-19
+x86_64     buildonly-randconfig-002-20250111    gcc-12
+x86_64     buildonly-randconfig-003-20250111    gcc-12
+x86_64     buildonly-randconfig-004-20250111    clang-19
+x86_64     buildonly-randconfig-005-20250111    gcc-12
+x86_64     buildonly-randconfig-006-20250111    gcc-12
+x86_64                             defconfig    gcc-11
+xtensa               randconfig-001-20250111    gcc-14.2.0
 
-Things that are unusual require explanation, so in this case I'd like to see:
-
-1) Why are there two drivers?
-2) Why allow runtime-selection of which driver to use? (E.g. side-by-side comparison)
-3) Which hardware supports only venus, only iris, or both?
-4) What is the road forward? (I assume that venus is removed once feature parity is reached?)
-
-Regards,
-
-	Hans
-
-> 
->> something like:
->> config VIDEO_QCOM_IRIS
->>        tristate "Qualcomm iris V4L2 decoder driver"
->>       ...
->>        depends on VIDEO_QCOM_VENUS=n || COMPILE_TEST
->>
->> Thanks,
->> Dikshita
->>>>>>  static int iris_probe(struct platform_device *pdev)
->>>>>>  {
->>>>>>  	struct device *dev = &pdev->dev;
->>>>>> @@ -196,6 +224,9 @@ static int iris_probe(struct platform_device *pdev)
->>>>>>  	u64 dma_mask;
->>>>>>  	int ret;
->>>>>>  
->>>>>> +	if (!video_drv_should_bind(&pdev->dev, true))
->>>>>> +		return -ENODEV;
->>>>>
->>>>> AFAICT nothing is preventing venus from binding even when 'prefer_venus'
->>>>> is false.
->>>>>
->>>>>> +
->>>>>>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
->>>>>>  	if (!core)
->>>>>>  		return -ENOMEM;
->>>
->>> Johan
-> 
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
