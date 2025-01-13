@@ -1,206 +1,112 @@
-Return-Path: <linux-media+bounces-24686-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24681-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9F3A0B438
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 11:12:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B7DA0B27B
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 10:15:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 770FF7A329F
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 10:12:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1E42167322
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 09:15:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADA362045BE;
-	Mon, 13 Jan 2025 10:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E5C23499F;
+	Mon, 13 Jan 2025 09:15:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0zPJRTN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fk0alyLe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B9B186A;
-	Mon, 13 Jan 2025 10:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E282232360;
+	Mon, 13 Jan 2025 09:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736763115; cv=none; b=KO/RZWL8Mz3ZQt2xRzJGGALS/JCkbimGdjaYNiCOc0eAbufNVHTKGURXdbnmGwq+8XVcSA8Zn7Ax9nM0KhPopIb7hvMUdDFeZE16NmfpNcduhUGoidvpXGaiQ1qr1oFsWvErnMZYxgL14zQdNmNACFgPyOMhc/uaLEGlTQEHRmA=
+	t=1736759745; cv=none; b=fudI6D9FnGiPLAZgBIjYRKYUIsZ+qikiw2FXSQG+67HZHg3rbxt1UuXWHHj206Ng5KfICccs/dHpc4AlkhXLqq297bG7cu1MKXl17f2XalvDVw5VlLo6TyRkhelT33Kif6FwOiB4Ml14NCG03xssG8PsvDCvAiXuo8L0in4wz8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736763115; c=relaxed/simple;
-	bh=1V0smjfm6liFtFPXdzXRpp1hcMphdhXOdaciBJTxc3k=;
+	s=arc-20240116; t=1736759745; c=relaxed/simple;
+	bh=HpMFTNlT/QUlGyCRFBh6FBH578TFJxnl+vREEjEhiOE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SFE3664fUuenGl2NQHzDBNlYqBqANq5/1pRBMx8uMumtfXDKB5oNBA1peS2Qh7B1CysWWsCLnNcwoSoeK6ZzuElxB2Nc36Be6r3WmkFNqZ86y4KlYAV/zC479vg41L7Jf3+L5y/bGzftOHbe9cGoGaGwlbIbTWz0I0lWsBujoak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0zPJRTN; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736763113; x=1768299113;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1V0smjfm6liFtFPXdzXRpp1hcMphdhXOdaciBJTxc3k=;
-  b=O0zPJRTNxraCEZrGaAHXbs+64PRrD6dgH35gVUTROm5w3OlOQSkXoNvA
-   xo0dRmNrSSCihGPo/SXgplyImFJABvVMnJWQ0NIg7Amyy5yg+6nP+N2w2
-   rOiDqRvH2bche1j9iJ6oKaxwyvtP+WpIDZe2yiWVrXd40+CEnYPKwlO8t
-   3kFBxc3iS/meX3Ln64DQMAsutd5o7NUSbszUPyR9PONZZnoIvc2T3DVG3
-   wvxvIewtz327/WpgHaC/TN+Z5vsvCZQAjCa3MA66c92W0ebnPdbK9m0Yi
-   Ob2zACnMqD1lr3wmai8uGQB5kQxD1Ap3dvIVGjMMDnFQyQ80LJK+50ria
-   g==;
-X-CSE-ConnectionGUID: CQhZjaxITJaFlsw+qpKgGg==
-X-CSE-MsgGUID: Y4maSOBNQLyn5LbjxVDLKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="47680431"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="47680431"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 02:11:52 -0800
-X-CSE-ConnectionGUID: e1W5JBnaQKeKiTmx3Y+QPg==
-X-CSE-MsgGUID: iL1mS6fgQq2TTbSbHA6WqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="104509323"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa006.jf.intel.com with ESMTP; 13 Jan 2025 02:11:47 -0800
-Date: Mon, 13 Jan 2025 06:10:40 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
-	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
-	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
-	dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
-	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <Z4Q94E6JvWrhvCyq@yilunxu-OptiPlex-7050>
-References: <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
- <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com>
- <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
- <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
- <20250110203838.GL5556@nvidia.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FgdoB06E+pfO3mJqeVKJ2OGjxRjr6pJyNUyPtERY8dPJclXi/uA8knz8WV+mPU/zt3HNRAnS4MJOch0y2ESUecF5YyFoEz0JThapBqkKXgpNHoSBvQRDA3fP5ZudF7ph2OZbbTBmF55E2n77lvSbXdt21yxiAvnR7PbG+RZQMSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fk0alyLe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0874C4CED6;
+	Mon, 13 Jan 2025 09:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736759744;
+	bh=HpMFTNlT/QUlGyCRFBh6FBH578TFJxnl+vREEjEhiOE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fk0alyLeYSyG/VCKfNi7UcVTK4E22zLwr4XS29oQ6jQiD2smCUeVZNbPrWDX2NClG
+	 45ZvgPmcf31j0Dr5bg3tzSNX6M14W49tGlSw8pAkwYar1zPDFr1bu+0C6QwY8X9OeJ
+	 VL48J5Ui6ddph1Y6JJu166zLWHle0HzTTlqEgx8oCFx38cdmIytv+AvgDS0l9a981H
+	 GL/n3apcVmUyv+0st9mNb89KvoaxisInBe5XFzAXoj9IQpNN8fjSqLPkQ9xz9B1YiR
+	 D/1lXp9UxPUTqNmRsrZpeufYMaILLQH5QKqA5rqv2az7/6dSYjXgnWW1q0OPCyeroU
+	 VHzts5GoGS0Gw==
+Date: Mon, 13 Jan 2025 10:15:40 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, lars@metafoo.de, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+Subject: Re: [PATCH v2] media: dt-bindings: adv7180: Document the
+ 'interrupts' property
+Message-ID: <houf43cunqcvrd5laraakbzyc5p74gdgdqqoe6hm3hcymstb67@ovhwvvk5qjqu>
+References: <20250110185026.590049-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250110203838.GL5556@nvidia.com>
+In-Reply-To: <20250110185026.590049-1-festevam@gmail.com>
 
-On Fri, Jan 10, 2025 at 04:38:38PM -0400, Jason Gunthorpe wrote:
-> On Fri, Jan 10, 2025 at 08:34:55PM +0100, Simona Vetter wrote:
+On Fri, Jan 10, 2025 at 03:50:26PM -0300, Fabio Estevam wrote:
+> From: Fabio Estevam <festevam@denx.de>
 > 
-> > So if I'm getting this right, what you need from a functional pov is a
-> > dma_buf_tdx_mmap? Because due to tdx restrictions, the normal dma_buf_mmap
-
-I'm not sure if the word 'mmap' is proper here.
-
-It is kind of like the mapping from (FD+offset) to backend memory,
-which is directly provided by memory provider, rather than via VMA
-and cpu page table.  Basically VMA & cpu page table are for host to
-access the memory, but VMM/host doesn't access most of the guest
-memory, so why must build them.
-
-> > is not going to work I guess?
+> The ADV7180 family of chips have an INTRQ pin that can be connected
+> to a SoC GPIO.
 > 
-> Don't want something TDX specific!
+> Allow the 'interrupts' property to be described to fix the following
+> dt-schema warning:
 > 
-> There is a general desire, and CC is one, but there are other
-> motivations like performance, to stop using VMAs and mmaps as a way to
-> exchanage memory between two entities. Instead we want to use FDs.
+> 'interrupt-parent', 'interrupts' do not match any of the
+> regexes: 'pinctrl-[0-9]+'
 
-Exactly.
+Please don't wrap the warning message, unless it would be really, really
+long. Wrapping makes grepping difficult.
 
 > 
-> We now have memfd and guestmemfd that are usable with
-> memfd_pin_folios() - this covers pinnable CPU memory.
+> Signed-off-by: Fabio Estevam <festevam@denx.de>
+> ---
+> Changes since v1:
+> - Detail the interrupt description.
 > 
-> And for a long time we had DMABUF which is for all the other wild
-> stuff, and it supports movable memory too.
+>  Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> So, the normal DMABUF semantics with reservation locking and move
-> notifiers seem workable to me here. They are broadly similar enough to
-> the mmu notifier locking that they can serve the same job of updating
-> page tables.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+> index 4371a0ef2761..ede774dff4a8 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+> @@ -49,6 +49,12 @@ properties:
+>        Indicates that the output is a BT.656-4 compatible stream.
+>      type: boolean
+>  
+> +  interrupts:
+> +    description:
+> +      The ADV7180 chips can generate interrupt in the INTRQ pin.
 
-Yes. With this new sharing model, the lifecycle of the shared memory/pfn/Page
-is directly controlled by dma-buf exporter, not by CPU mapping. So I also
-think reservation lock & move_notify works well for lifecycle control,
-no conflict (nothing to do) with follow_pfn() & mmu_notifier.
+That's the same what is said in "items" with description, so no need for
+above description. Longer schema for no benefits makes it less readable.
 
-> 
-> > Also another thing that's a bit tricky is that kvm kinda has a 3rd dma-buf
-> > memory model:
-> > - permanently pinned dma-buf, they never move
-> > - dynamic dma-buf, they move through ->move_notify and importers can remap
-> > - revocable dma-buf, which thus far only exist for pci mmio resources
-> 
-> I would like to see the importers be able to discover which one is
-> going to be used, because we have RDMA cases where we can support 1
-> and 3 but not 2.
-> 
-> revocable doesn't require page faulting as it is a terminal condition.
-> 
-> > Since we're leaning even more on that 3rd model I'm wondering whether we
-> > should make it something official. Because the existing dynamic importers
-> > do very much assume that re-acquiring the memory after move_notify will
-> > work. But for the revocable use-case the entire point is that it will
-> > never work.
-> 
-> > I feel like that's a concept we need to make explicit, so that dynamic
-> > importers can reject such memory if necessary.
-> 
-> It strikes me as strange that HW can do page faulting, so it can
-> support #2, but it can't handle a non-present fault?
-> 
-> > So yeah there's a bunch of tricky lifetime questions that need to be
-> > sorted out with proper design I think, and the current "let's just use pfn
-> > directly" proposal hides them all under the rug. 
-> 
-> I don't think these two things are connected. The lifetime model that
-> KVM needs to work with the EPT, and that VFIO needs for it's MMIO,
-> definately should be reviewed and evaluated.
-> 
-> But it is completely orthogonal to allowing iommufd and kvm to access
-> the CPU PFN to use in their mapping flows, instead of the
-> dma_addr_t.
-> 
-> What I want to get to is a replacement for scatter list in DMABUF that
-> is an array of arrays, roughly like:
-> 
->   struct memory_chunks {
->       struct memory_p2p_provider *provider;
->       struct bio_vec addrs[];
->   };
->   int (*dmabuf_get_memory)(struct memory_chunks **chunks, size_t *num_chunks);
+> +    items:
+> +      - description: INTRQ pin interrupt.
+> +
 
-Maybe we need to specify which object the API is operating on,
-struct dma_buf, or struct dma_buf_attachment, or a new attachment.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-I think:
+Best regards,
+Krzysztof
 
-  int (*dmabuf_get_memory)(struct dma_buf_attachment *attach, struct memory_chunks **chunks, size_t *num_chunks);
-
-works, but maybe a new attachment is conceptually more clear to
-importers and harder to abuse?
-
-Thanks,
-Yilun
-
-> 
-> This can represent all forms of memory: P2P, private, CPU, etc and
-> would be efficient with the new DMA API.
-> 
-> This is similar to the structure BIO has, and it composes nicely with
-> a future pin_user_pages() and memfd_pin_folios().
-> 
-> Jason
 
