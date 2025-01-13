@@ -1,201 +1,240 @@
-Return-Path: <linux-media+bounces-24693-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24695-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6C9A0B4D2
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 11:53:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9CFA0B601
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 12:46:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E0DB1887087
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 10:53:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 862DB3A6B38
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 11:46:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EA9922F170;
-	Mon, 13 Jan 2025 10:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 050E51CAA9D;
+	Mon, 13 Jan 2025 11:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="evZEhXg0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GvrSSJMN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB76122F146;
-	Mon, 13 Jan 2025 10:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8891CAA78;
+	Mon, 13 Jan 2025 11:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736765585; cv=none; b=gtvqd0/idGgR4exQVN6cBN72+zzIHJ6Qy+AzPzRkLd0JMGYGMTaX8HNAVQioIzHhzkF3fsOXkC024zM3ryt05p5K6/1Zeyk/1LfeOP0p5HkN2QeLlQLtdAwiLgpMUjjPvkoiFi/Q7/hsg7eoGfHM6kM87l5egMk0P+yV8A0uO6k=
+	t=1736768792; cv=none; b=rNYp/Ws7wp7EIrHSmt3hIj27UkMlblAtc4tm3T1cH8M9mEL5rW4TuhnD+m8QzPk/mhaGXIttAdE5kKtNHWOeroTTLqiF7aObKyKyG2tUubU4xHDpShp+fubFzOry0MH1WKq9Xr+gUGw5+0lC/kpaYoKLRVx2CkjEylTWtgZS3b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736765585; c=relaxed/simple;
-	bh=c3kMX7CF4/OSNM9r3ASObt5eb9NEDXmLZJBiufjVj7Q=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pnFrTOcw88oUyl6qO5VkoeLHsq/xxuYqEOPUoKGV9m1DydtFMFRThZsm3JX4sesc4jxxgRuWFRfWJ0rz04z7O6m0Zq80Q3SevbPjgXe/4wx0vK+6H9pyeWBl0F/r5HvSTD9M7KL0TFuHGbSwWzvvtT+/gqki4rbRDYEU38Ndz+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=evZEhXg0; arc=none smtp.client-ip=81.200.124.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
-Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
-	by ksmg02.maxima.ru (Postfix) with ESMTP id 6E9161E000C;
-	Mon, 13 Jan 2025 13:53:00 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru 6E9161E000C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1736765580; bh=gF1VUS6sLCxvsI+6jlh7CVqcV/VF9xaGLz8v35hf57I=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=evZEhXg0gyU78OisXGhSx8uok/CtI7tXWEg7hGaQjSuBr1HXFvfTHSTW1bmbAle7p
-	 qpBSOYrJ+oIV1DvRU6qLNsq0M6+eOpxbWo3RfvozYDOl4I49ecuV3Z8ZsiXLVW5LKS
-	 rZhgyOMbFKIwhzCct353WgKdIn4a5PAJyDWFcAf8wPVsPWKh9NdqdVQdp4MyR1yczA
-	 ytv98/7VAx1K9Vj+wcb2RTBhZXR1i72KUTaAMZ9fsbUadH7VX+dYFwG20M385SnBug
-	 +O4o0umf5kwIfl9HyR3c1+eiqNwmQ+xYWmH+wOfuYjeujyc0Nx/jjfcD87fS6zQtiW
-	 V3W4XmnMmbf9Q==
-Received: from ksmg02.maxima.ru (autodiscover.maxima.ru [81.200.124.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
-	by ksmg02.maxima.ru (Postfix) with ESMTPS;
-	Mon, 13 Jan 2025 13:53:00 +0300 (MSK)
-Received: from GS-NOTE-190.mt.ru (10.0.246.105) by mmail-p-exch02.mt.ru
- (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Mon, 13 Jan
- 2025 13:52:58 +0300
-From: Murad Masimov <m.masimov@mt-integration.ru>
-To: Sean Young <sean@mess.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Jarod Wilson
-	<jarod@redhat.com>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Murad Masimov <m.masimov@mt-integration.ru>
-Subject: [PATCH 2/2] media: streamzap: prevent processing IR data on URB failure
-Date: Mon, 13 Jan 2025 13:51:31 +0300
-Message-ID: <20250113105132.275-3-m.masimov@mt-integration.ru>
-X-Mailer: git-send-email 2.46.0.windows.1
-In-Reply-To: <20250113105132.275-1-m.masimov@mt-integration.ru>
-References: <20250113105132.275-1-m.masimov@mt-integration.ru>
+	s=arc-20240116; t=1736768792; c=relaxed/simple;
+	bh=e4v0A94YQr67qclr/vVcz4wCL38MmJkXidTHTViGUzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zq1lHKrVBgu91ijmyg90/febwu5HHGwHI7LsAexlqqgR/MSF8ZJUqdT92RpVp4clIklouR+khi3Z6eduqoA75jVkpnyA6njJ69tVhVFFriuTux/BAHwYpHv4QxFlPpE8Ty73XF9EOWx487pf+A6tcFbKHAQbw+pq5B7c/VLwP3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GvrSSJMN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6834C4CEDD;
+	Mon, 13 Jan 2025 11:46:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736768791;
+	bh=e4v0A94YQr67qclr/vVcz4wCL38MmJkXidTHTViGUzM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GvrSSJMNJPVE6vn3kqVwW+Yc37WkSyvT9dVfA6epKneP/tKeJLzfRDYRVO+T+gcCr
+	 0Ccmm7ruHeaqiQnUQuDRbwxU8FnY14UPQQ6nyuiQZJlHLhAss/gyE7X3otUKMKz37x
+	 7PGggB0SwFOnt6m1Vgibs2fukiIt+aDsPeus85KaKlFMKs28iQNfcfsNU1OGqAMWap
+	 QRlF/jfoTq0dM3vuzx4kVeJkWOzrEraexf6o1UyPoe+epPq/eUWbz6PvgcoHWY5Oeh
+	 eSFKTvTiLWniFFPOEvYrrxhT/49M9XpqAwjituH6648qGbtN1HKJ/qgfmEr4ZpBGHv
+	 AycALBU4V/qrA==
+Date: Mon, 13 Jan 2025 12:46:26 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Luben Tuikov <ltuikov89@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 3/3] drm/sched: Update timedout_job()'s documentation
+Message-ID: <Z4T9Eq9lMPlmLUYk@pollux.localdomain>
+References: <20250109133710.39404-2-phasta@kernel.org>
+ <20250109133710.39404-6-phasta@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
- (81.200.124.62)
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
-X-KSMG-AntiSpam-Envelope-From: m.masimov@mt-integration.ru
-X-KSMG-AntiSpam-Info: LuaCore: 49 0.3.49 28b3b64a43732373258a371bd1554adb2caa23cb, {rep_avail}, {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2;mt-integration.ru:7.1.1;ksmg02.maxima.ru:7.1.1;81.200.124.62:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s, ApMailHostAddress: 81.200.124.62
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 190293 [Jan 13 2025]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.7
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/01/13 07:04:00 #26996016
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250109133710.39404-6-phasta@kernel.org>
 
-If streamzap_callback() receives an urb with any non-critical error
-status, i.e. any error code other than -ECONNRESET, -ENOENT or -ESHUTDOWN,
-it will try to process IR data, ignoring a possible transfer failure.
+On Thu, Jan 09, 2025 at 02:37:12PM +0100, Philipp Stanner wrote:
+> drm_sched_backend_ops.timedout_job()'s documentation is outdated. It
+> mentions the deprecated function drm_sched_resubmit_job(). Furthermore,
+> it does not point out the important distinction between hardware and
+> firmware schedulers.
+> 
+> Since firmware schedulers tyipically only use one entity per scheduler,
+> timeout handling is significantly more simple because the entity the
+> faulted job came from can just be killed without affecting innocent
+> processes.
+> 
+> Update the documentation with that distinction and other details.
+> 
+> Reformat the docstring to work to a unified style with the other
+> handles.
+> 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+>  include/drm/gpu_scheduler.h | 83 +++++++++++++++++++++++--------------
+>  1 file changed, 52 insertions(+), 31 deletions(-)
+> 
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index c4e65f9f7f22..380b8840c591 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -445,43 +445,64 @@ struct drm_sched_backend_ops {
+>  	 * @timedout_job: Called when a job has taken too long to execute,
+>  	 * to trigger GPU recovery.
+>  	 *
+> -	 * This method is called in a workqueue context.
+> +	 * @sched_job: The job that has timed out
+>  	 *
+> -	 * Drivers typically issue a reset to recover from GPU hangs, and this
+> -	 * procedure usually follows the following workflow:
+> +	 * Returns:
+> +	 * - DRM_GPU_SCHED_STAT_NOMINAL, on success, i.e., if the underlying
+> +	 *   driver has started or completed recovery.
+> +	 * - DRM_GPU_SCHED_STAT_ENODEV, if the device is no longer
+> +	 *   available, i.e., has been unplugged.
 
-Make streamzap_callback() process IR data only when urb->status is 0.
-Move processing logic to a separate function to make code cleaner and
-more similar to the URB completion handlers in other RC drivers.
+Maybe it'd be better to document this at the enum level and add a link.
 
-Found by Linux Verification Center (linuxtesting.org) with Syzkaller.
+>  	 *
+> -	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
+> -	 *    scheduler thread and cancel the timeout work, guaranteeing that
+> -	 *    nothing is queued while we reset the hardware queue
+> -	 * 2. Try to gracefully stop non-faulty jobs (optional)
+> -	 * 3. Issue a GPU reset (driver-specific)
+> -	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
+> +	 * Drivers typically issue a reset to recover from GPU hangs.
+> +	 * This procedure looks very different depending on whether a firmware
+> +	 * or a hardware scheduler is being used.
+> +	 *
+> +	 * For a FIRMWARE SCHEDULER, each (pseudo-)ring has one scheduler, and
+> +	 * each scheduler (typically) has one entity. Hence, you typically
 
-Fixes: 19770693c354 ("V4L/DVB: staging/lirc: add lirc_streamzap driver")
-Signed-off-by: Murad Masimov <m.masimov@mt-integration.ru>
----
- drivers/media/rc/streamzap.c | 68 ++++++++++++++++++++----------------
- 1 file changed, 38 insertions(+), 30 deletions(-)
+I think you can remove the first "typically" here. I don't think that for a
+firmware scheduler we ever have something else than a 1:1 relation, besides that
+having something else than a 1:1 relation (whatever that would be) would likely
+be a contradiction to the statement above.
 
-diff --git a/drivers/media/rc/streamzap.c b/drivers/media/rc/streamzap.c
-index 2ce62fe5d60f..d3b48a0dd1f4 100644
---- a/drivers/media/rc/streamzap.c
-+++ b/drivers/media/rc/streamzap.c
-@@ -138,39 +138,10 @@ static void sz_push_half_space(struct streamzap_ir *sz,
- 	sz_push_full_space(sz, value & SZ_SPACE_MASK);
- }
+> +	 * follow those steps:
+> +	 *
+> +	 * 1. Stop the scheduler using drm_sched_stop(). This will pause the
+> +	 *    scheduler workqueues and cancel the timeout work, guaranteeing
+> +	 *    that nothing is queued while we reset the hardware queue.
 
--/*
-- * streamzap_callback - usb IRQ handler callback
-- *
-- * This procedure is invoked on reception of data from
-- * the usb remote.
-- */
--static void streamzap_callback(struct urb *urb)
-+static void sz_process_ir_data(struct streamzap_ir *sz, int len)
- {
--	struct streamzap_ir *sz;
- 	unsigned int i;
--	int len;
--
--	if (!urb)
--		return;
--
--	sz = urb->context;
--	len = urb->actual_length;
--
--	switch (urb->status) {
--	case -ECONNRESET:
--	case -ENOENT:
--	case -ESHUTDOWN:
--		/*
--		 * this urb is terminated, clean up.
--		 * sz might already be invalid at this point
--		 */
--		dev_err(sz->dev, "urb terminated, status: %d\n", urb->status);
--		return;
--	default:
--		break;
--	}
+Rather reset / remove the software queue / ring.
 
--	dev_dbg(sz->dev, "%s: received urb, len %d\n", __func__, len);
- 	for (i = 0; i < len; i++) {
- 		dev_dbg(sz->dev, "sz->buf_in[%d]: %x\n",
- 			i, (unsigned char)sz->buf_in[i]);
-@@ -219,6 +190,43 @@ static void streamzap_callback(struct urb *urb)
- 	}
+(Besides: I think we should also define a distinct terminology, sometimes "queue"
+refers to the ring buffer, sometimes it refers to the entity, etc. At least we
+should be consequent within this commit, and then fix the rest.)
 
- 	ir_raw_event_handle(sz->rdev);
-+}
-+
-+/*
-+ * streamzap_callback - usb IRQ handler callback
-+ *
-+ * This procedure is invoked on reception of data from
-+ * the usb remote.
-+ */
-+static void streamzap_callback(struct urb *urb)
-+{
-+	struct streamzap_ir *sz;
-+	int len;
-+
-+	if (!urb)
-+		return;
-+
-+	sz = urb->context;
-+	len = urb->actual_length;
-+
-+	switch (urb->status) {
-+	case 0:
-+		dev_dbg(sz->dev, "%s: received urb, len %d\n", __func__, len);
-+		sz_process_ir_data(sz, len);
-+		break;
-+	case -ECONNRESET:
-+	case -ENOENT:
-+	case -ESHUTDOWN:
-+		/*
-+		 * this urb is terminated, clean up.
-+		 * sz might already be invalid at this point
-+		 */
-+		dev_err(sz->dev, "urb terminated, status: %d\n", urb->status);
-+		return;
-+	default:
-+		break;
-+	}
-+
- 	usb_submit_urb(urb, GFP_ATOMIC);
- }
+> +	 * 2. Try to gracefully stop non-faulty jobs (optional).
+> +	 * TODO: RFC ^ Folks, should we remove this step? What does it even mean
+> +	 * precisely to "stop" those jobs? Is that even helpful to userspace in
+> +	 * any way?
 
---
-2.39.2
+I think this means to prevent unrelated queues / jobs from being impacted by the
+subsequent GPU reset.
 
+So, this is likely not applicable here, see below.
+
+> +	 * 3. Issue a GPU reset (driver-specific).
+
+I'm not entirely sure it really applies to all GPUs that feature a FW scheduler,
+but I'd expect that the FW takes care of resetting the corresponding HW
+(including preventing impact on other FW rings) if the faulty FW ring is removed
+by the driver.
+
+> +	 * 4. Kill the entity the faulted job stems from, and the associated
+> +	 *    scheduler.
+>  	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
+> -	 *    jobs can be queued, and the scheduler thread is unblocked
+> +	 *    jobs can be queued, and the scheduler workqueues awake again.
+
+How can we start the scheduler again after we've killed it? I think the most
+likely scenario is that the FW ring (including the scheduler structures) is
+removed entirely and simply re-created. So, I think we can probably remove 5.
+
+> +	 *
+> +	 * For a HARDWARE SCHEDULER, each ring also has one scheduler, but each
+> +	 * scheduler typically has many attached entities. This implies that you
+
+Maybe better "associated". For the second sentence, I'd rephrase it, e.g. "This
+implies that all entities associated with the affected scheduler can't be torn
+down, because [...]".
+
+> +	 * cannot tear down all entities associated with the affected scheduler,
+> +	 * because this would effectively also kill innocent userspace processes
+> +	 * which did not submit faulty jobs (for example).
+> +	 *
+> +	 * Consequently, the procedure to recover with a hardware scheduler
+> +	 * should look like this:
+> +	 *
+> +	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop().
+> +	 * 2. Figure out to which entity the faulted job belongs.
+
+"belongs to"
+
+> +	 * 3. Try to gracefully stop non-faulty jobs (optional).
+> +	 * TODO: RFC ^ Folks, should we remove this step? What does it even mean
+> +	 * precisely to "stop" those jobs? Is that even helpful to userspace in
+> +	 * any way?
+
+See above.
+
+> +	 * 4. Kill that entity.
+> +	 * 5. Issue a GPU reset on all faulty rings (driver-specific).
+> +	 * 6. Re-submit jobs on all schedulers impacted by re-submitting them to
+> +	 *    the entities which are still alive.
+> +	 * 7. Restart all schedulers that were stopped in step #1 using
+> +	 *    drm_sched_start().
+>  	 *
+>  	 * Note that some GPUs have distinct hardware queues but need to reset
+>  	 * the GPU globally, which requires extra synchronization between the
+> -	 * timeout handler of the different &drm_gpu_scheduler. One way to
+> -	 * achieve this synchronization is to create an ordered workqueue
+> -	 * (using alloc_ordered_workqueue()) at the driver level, and pass this
+> -	 * queue to drm_sched_init(), to guarantee that timeout handlers are
+> -	 * executed sequentially. The above workflow needs to be slightly
+> -	 * adjusted in that case:
+> -	 *
+> -	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop()
+> -	 * 2. Try to gracefully stop non-faulty jobs on all queues impacted by
+> -	 *    the reset (optional)
+> -	 * 3. Issue a GPU reset on all faulty queues (driver-specific)
+> -	 * 4. Re-submit jobs on all schedulers impacted by the reset using
+> -	 *    drm_sched_resubmit_jobs()
+> -	 * 5. Restart all schedulers that were stopped in step #1 using
+> -	 *    drm_sched_start()
+> -	 *
+> -	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
+> -	 * and the underlying driver has started or completed recovery.
+> -	 *
+> -	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no longer
+> -	 * available, i.e. has been unplugged.
+> +	 * timeout handlers of different schedulers. One way to achieve this
+> +	 * synchronization is to create an ordered workqueue (using
+> +	 * alloc_ordered_workqueue()) at the driver level, and pass this queue
+> +	 * as drm_sched_init()'s @timeout_wq parameter. This will guarantee
+> +	 * that timeout handlers are executed sequentially.
+>  	 */
+>  	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
+>  
+> -- 
+> 2.47.1
+> 
 
