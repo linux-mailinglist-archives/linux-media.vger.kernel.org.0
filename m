@@ -1,112 +1,167 @@
-Return-Path: <linux-media+bounces-24681-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24682-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B7DA0B27B
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 10:15:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DB5A0B3A0
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 10:54:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1E42167322
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 09:15:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA3173A8328
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 09:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E5C23499F;
-	Mon, 13 Jan 2025 09:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88F0E1FDA8B;
+	Mon, 13 Jan 2025 09:53:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fk0alyLe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lz1gOYNJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E282232360;
-	Mon, 13 Jan 2025 09:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3420A1C1F00
+	for <linux-media@vger.kernel.org>; Mon, 13 Jan 2025 09:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736759745; cv=none; b=fudI6D9FnGiPLAZgBIjYRKYUIsZ+qikiw2FXSQG+67HZHg3rbxt1UuXWHHj206Ng5KfICccs/dHpc4AlkhXLqq297bG7cu1MKXl17f2XalvDVw5VlLo6TyRkhelT33Kif6FwOiB4Ml14NCG03xssG8PsvDCvAiXuo8L0in4wz8Q=
+	t=1736762030; cv=none; b=d80nOB9Hi+ckn9GUlLnM7sYeZvhLpVSTvy9+skEcillbXiqaSKOdK/PsZXX0xY7g7xqJiqDfOg+PgpAGf/d/fEpnphUKC0lQO5M5wqmNQuvO50qPg748U0wfZje8tlPtZ+CfdqLo7UFZG8CFLfYipBu3FbqNFmSbXJZ352v/fM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736759745; c=relaxed/simple;
-	bh=HpMFTNlT/QUlGyCRFBh6FBH578TFJxnl+vREEjEhiOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FgdoB06E+pfO3mJqeVKJ2OGjxRjr6pJyNUyPtERY8dPJclXi/uA8knz8WV+mPU/zt3HNRAnS4MJOch0y2ESUecF5YyFoEz0JThapBqkKXgpNHoSBvQRDA3fP5ZudF7ph2OZbbTBmF55E2n77lvSbXdt21yxiAvnR7PbG+RZQMSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fk0alyLe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0874C4CED6;
-	Mon, 13 Jan 2025 09:15:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736759744;
-	bh=HpMFTNlT/QUlGyCRFBh6FBH578TFJxnl+vREEjEhiOE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fk0alyLeYSyG/VCKfNi7UcVTK4E22zLwr4XS29oQ6jQiD2smCUeVZNbPrWDX2NClG
-	 45ZvgPmcf31j0Dr5bg3tzSNX6M14W49tGlSw8pAkwYar1zPDFr1bu+0C6QwY8X9OeJ
-	 VL48J5Ui6ddph1Y6JJu166zLWHle0HzTTlqEgx8oCFx38cdmIytv+AvgDS0l9a981H
-	 GL/n3apcVmUyv+0st9mNb89KvoaxisInBe5XFzAXoj9IQpNN8fjSqLPkQ9xz9B1YiR
-	 D/1lXp9UxPUTqNmRsrZpeufYMaILLQH5QKqA5rqv2az7/6dSYjXgnWW1q0OPCyeroU
-	 VHzts5GoGS0Gw==
-Date: Mon, 13 Jan 2025 10:15:40 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, lars@metafoo.de, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
-Subject: Re: [PATCH v2] media: dt-bindings: adv7180: Document the
- 'interrupts' property
-Message-ID: <houf43cunqcvrd5laraakbzyc5p74gdgdqqoe6hm3hcymstb67@ovhwvvk5qjqu>
-References: <20250110185026.590049-1-festevam@gmail.com>
+	s=arc-20240116; t=1736762030; c=relaxed/simple;
+	bh=fRGutChLLUoNS87CB1VvDD1XIyfOsE6JxyKnONK4z+Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=l1lFSKb7dW28r/nqUkgIF4cI5Hyf7b1njw4clfFDLLBbX0fVOxGkHBbKbwXvDOTN+muKfmS4uWOn6K1jhbBfc0I7R6r4I6j8P833FB/JuZCFgrs79Ct4Tza4pQ6tSLbkyfPWW0r7k+YZHoD5nzQcZazEUvPJ0HkbeOSWQ3t/Ga0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lz1gOYNJ; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30613037309so14668721fa.3
+        for <linux-media@vger.kernel.org>; Mon, 13 Jan 2025 01:53:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736762027; x=1737366827; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uM9tQkzj3OJfzp7RUkxy9I2sWdSVBHdxH3TTd0q0OWM=;
+        b=lz1gOYNJ2nwaPiWyiPNHrYGCLkF8WIIg0+p2OharcyCyE+ih61wmiJkxb0ZBzHetnH
+         3E6h/hwcR9Jb7p33pRPudSd1iR/nuGxuSp/VaKOsMg+lRSY7+4AwVGspKMYWPoUvYunG
+         GYLr1jNlWQnMtGEctSrnVdPB8gBoMuM3gizsA4W6mNuoIj1OHmVRw33I1qgXzytahfMZ
+         0UrN7rjz5rI9DXAEd/KREZeQ6Mj7XS1WwYgTUOh+CAjg1sbqQHNVHsV0tfNFG5dvnoKf
+         T1XNwA38is3mvIYvRlWjLPODEF9/SMpuHO9JrsNcNOhLXHpzjBa/1y5+xyO4zebmtgKK
+         OO3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736762027; x=1737366827;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uM9tQkzj3OJfzp7RUkxy9I2sWdSVBHdxH3TTd0q0OWM=;
+        b=uaZoXTqgk/B4v75I9ZxPHNHltC0/mMypl2q2rjNJWIasOoE1dempREjLfzXfOAlTJh
+         WYp+8b3ROt0ayKVmbLOrn/jWICtT9mzY87lMfzcVFNCntMn8uX70d4DfScZ06ujoLkcM
+         ihLv3adwYJyajg7FPJZcb62pWc6EkNjuzqjAcCFz+GbiKpKRlEuhDTYl77BjTpI2DXoF
+         GMorAcCU7TwjGI0cN/5S8ZsZxBqPGB3RkNpN6/+z3TvI/ZERf2vXiXR9W5xdCUg6rfjH
+         NVsF6czQjRbI+xRAuOWtDD8RSd05Ot+ZD4py4kL1ahFUM9wzX2PiCH1yeZTa6XLrAxXC
+         gIJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkwtvaFXfBCZNqMbRilZ7bcex9di6SWsuUPnzbF46YKTBURAbtyPSczg6FobxX0AJSKSSR1vIvEF8jmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyD4RDLYKgKmPK+3PV0Uejjk9sndLEBzDY396r8tfDhherX6Z2v
+	4YAYlywhxuyZ2kUNVat0sY0TLMl09YozSiR4QCHfuSVjEAn1W1nVdDnhlEaYmc0=
+X-Gm-Gg: ASbGncs4x3e8f09KXqtTeY0sZnrV6Ymq8VYWKtBYlJWHuV6ePPyAbVkYzP2Tj616I6E
+	jMrHaLkIuA9HoIxGl4c6iZmBDjHZy4KscvXH67bRs9blfmPCxNDXLA0lGEPr9tTSBSMky25ab1Y
+	1VyXUTqSaDy6I1iejsUfxaE1NmnVXLUTvTFS03Ut+v4K0U4B0/pEcK0hSgLArpe94gpE65m9Yf8
+	cahjFhkmlMoccP85hOfXcxNAqJ0dFP/xh0REIBa/op/8YaPTWt36qiG0PDSYo7i
+X-Google-Smtp-Source: AGHT+IGTFmyPSvGWllS1e9shSU24IuZFR3WeRQRaAsUfHfGVMbhTf+vz3uWh9lwuPXHK9lRQNl2vJg==
+X-Received: by 2002:a05:6512:3049:b0:542:9883:266 with SMTP id 2adb3069b0e04-54298830320mr1924158e87.37.1736762027306;
+        Mon, 13 Jan 2025 01:53:47 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428bea6a67sm1287085e87.167.2025.01.13.01.53.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2025 01:53:46 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v3 0/3] drm/i2c: tda998x: move under drivers/gpu/drm/bridge
+Date: Mon, 13 Jan 2025 11:53:43 +0200
+Message-Id: <20250113-drm-move-tda998x-v3-0-214e0682a5e4@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250110185026.590049-1-festevam@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKfihGcC/23NwQqDMAyA4VeRntfRpBXrTnuPsUNdoxamHa0Uh
+ /juq4KHsR3/hHxZWKTgKLJLsbBAyUXnxxzyVLBHb8aOuLO5GQpUgKC4DQMffCI+WVPXeua6bZT
+ MG6kssnz2CtS6eSdv99y9i5MP7/1Dgm16YOUvloALXmmoALEBW8nr040m+LMPHdu0hIdQCgDxR
+ 8AsUIuGSi3RInwJ67p+AIZnOYrzAAAA
+X-Change-ID: 20241214-drm-move-tda998x-8fb4321434d2
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2211;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=fRGutChLLUoNS87CB1VvDD1XIyfOsE6JxyKnONK4z+Y=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnhOKqRODIHsi9LCj4YN9lMxivnWqIg50lSK3lv
+ S4ufoqhAjuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ4TiqgAKCRCLPIo+Aiko
+ 1d4BB/9Ej4WifVIldOsPfNqeR3CcYulWReAILm0ciM2Nqgi+NoaGbbEHQ0i1h2QhhBBjvvOAxs0
+ tgXfjsnVRl4azRn/FlOW7IqAW4W4AlTjnwmuHWZUxGvLBZ2YBGvl7KsUwl/0mHg6TFo4IjwCTtY
+ wr67yd2T3caYWj73oOdI3L/zaMj0mfbgwf9fmujCwgYuTMD+AC5gkwnUdKH4zM/eOophO0RKr1z
+ 1houdSwqLRRUeu4ahhyh33o9Z3pTPJHiot0+vu2+Z1/kdZf2uv+HzbGm3JGe4sJczI5VZAoHOWd
+ 9fih95x5ErTycGRO65kpk3YKboBdVdhSt7PieYubyGqb5EeA
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-On Fri, Jan 10, 2025 at 03:50:26PM -0300, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
-> 
-> The ADV7180 family of chips have an INTRQ pin that can be connected
-> to a SoC GPIO.
-> 
-> Allow the 'interrupts' property to be described to fix the following
-> dt-schema warning:
-> 
-> 'interrupt-parent', 'interrupts' do not match any of the
-> regexes: 'pinctrl-[0-9]+'
+TDA998x is the HDMI bridge driver, incorporating drm_connector and
+optional drm_encoder (created via the component bind API by the TICLDC
+and HDLCD drivers). TDA9950 is an I2C-CEC translator, being present
+on-die on the TDA9989 and TDA19989 chips.
 
-Please don't wrap the warning message, unless it would be really, really
-long. Wrapping makes grepping difficult.
+Move TDA9950 driver to drivers/media/cec/i2c and TDA998x driver to
+drivers/gpu/drm/bridge/.
 
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
-> Changes since v1:
-> - Detail the interrupt description.
-> 
->  Documentation/devicetree/bindings/media/i2c/adv7180.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-> index 4371a0ef2761..ede774dff4a8 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
-> @@ -49,6 +49,12 @@ properties:
->        Indicates that the output is a BT.656-4 compatible stream.
->      type: boolean
->  
-> +  interrupts:
-> +    description:
-> +      The ADV7180 chips can generate interrupt in the INTRQ pin.
+Note: In a comment for v2 Hans has acked merging these patches through
+drm-misc(-next) with no additional immutable branch.
 
-That's the same what is said in "items" with description, so no need for
-above description. Longer schema for no benefits makes it less readable.
+Note to RMK: I didn't change that, but I'd like to propose to use
+drm-misc tree for this bridge.
 
-> +    items:
-> +      - description: INTRQ pin interrupt.
-> +
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v3:
+- Dropped irrelevant sentence from the tda9998 commit message (Hans)
+- Link to v2: https://lore.kernel.org/r/20250110-drm-move-tda998x-v2-0-ef2ae5832d21@linaro.org
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Changes in v2:
+- Moved TDA9950 driver to drivers/media/cec/i2c (Hans, Laurent)
+- Moved TDA998x driver to drivers/gpu/drm/bridges istead of tda/ subdir
+  (Laurent)
+- Link to v1: https://lore.kernel.org/r/20241215-drm-move-tda998x-v1-0-7817122b1d73@linaro.org
+
+---
+Dmitry Baryshkov (3):
+      drm/i2c: tda998x: drop support for platform_data
+      media: cec: move driver for TDA9950 from drm/i2c
+      drm/i2c: move TDA998x driver under drivers/gpu/drm/bridge
+
+ MAINTAINERS                                   |  3 +-
+ drivers/gpu/drm/arm/Kconfig                   |  1 +
+ drivers/gpu/drm/bridge/Kconfig                |  8 +++++
+ drivers/gpu/drm/bridge/Makefile               |  4 +++
+ drivers/gpu/drm/{i2c => bridge}/tda998x_drv.c | 49 +++------------------------
+ drivers/gpu/drm/i2c/Kconfig                   | 18 ----------
+ drivers/gpu/drm/i2c/Makefile                  |  4 ---
+ drivers/media/cec/i2c/Kconfig                 |  9 +++++
+ drivers/media/cec/i2c/Makefile                |  1 +
+ drivers/{gpu/drm => media/cec}/i2c/tda9950.c  |  0
+ include/drm/i2c/tda998x.h                     | 40 ----------------------
+ 11 files changed, 28 insertions(+), 109 deletions(-)
+---
+base-commit: e91570cf7c1b3e406878e7b1efbe823d039d1659
+change-id: 20241214-drm-move-tda998x-8fb4321434d2
 
 Best regards,
-Krzysztof
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 
