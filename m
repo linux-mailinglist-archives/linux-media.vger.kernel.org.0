@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-24687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24688-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3ECA0B459
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 11:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75287A0B460
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 11:19:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7FBC161FCA
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 10:18:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CF571644A1
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 10:19:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E82621ADBE;
-	Mon, 13 Jan 2025 10:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 320AA1FDA65;
+	Mon, 13 Jan 2025 10:19:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="Q9H2CGzi"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="iNSZItZ8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E922235C14;
-	Mon, 13 Jan 2025 10:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528EC1FDA69;
+	Mon, 13 Jan 2025 10:19:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736763492; cv=none; b=k92RLBbDEPTxNypqfRnIj3pllDopzjjJE91A/eZlBWChsV4ZmDOEeffFw//lROwDUQB8bQelTsDySI1HwuUe0cYA1xjVitosYrwuSuWgmSDCkQNWqezU3rSGF/giB2OfJb0okvG6afaFk7kuJZLxrh6EE/KePbm5MREGY8oEm7Q=
+	t=1736763565; cv=none; b=Gb0ZmffZb/t96il8rB5lx1Ljw73ZbOldq4ph3RmEXBUjSEAAxePDCkYOakzEbWzDVup2OXUH80VWVGp6Kwey/wtzQSbv2Y2o0d1CBOF2DjcoyheLW2oa9o3L3CXFcMvUuFMzOfytFbKHb9JIBmrS/TaQisgXKKAhU+EyTiybYVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736763492; c=relaxed/simple;
-	bh=iaFHLtgKkr5eLw+guyEk91BCvn615X23qDyv53l9Lj8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gac7RUWjOcbCTfQSqr9nTQpP1yYF9LWJMgPQIccS9lBVbfR9NcmyYd7DwLH2zEJa5Yj6t7IWcTcXwEH8YTcBEDgnsm4+ianezttFV09urjS2LPM5vn65WR4Wmot+NCteu8vQmRt7rM+J68Fk3X62Y08tyX2BaQ0aZD6NaYYE9y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=Q9H2CGzi; arc=none smtp.client-ip=83.149.199.84
+	s=arc-20240116; t=1736763565; c=relaxed/simple;
+	bh=Atf8vMRZ9EIMzjhuE4SCf4QiTTMAuk7esCjrBpXl310=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eBvLKYxDHITEZJ0pAhl+t37SNuC1Cu6VwoQ9he55WSalmpWBE3wqzF1jyMhyUed0AbOB48zXmYpMpgKXVI7/KcLoPP+i8nZRXwG8+U70qTTw1UExMfYl+vadbXxnzKuUkjurMpDiak4jyhcrP/Cc9Ms/80REX11lYwxzGXW7jlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=iNSZItZ8; arc=none smtp.client-ip=83.149.199.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
 Received: from ldvnode.intra.ispras.ru (unknown [10.10.2.153])
-	by mail.ispras.ru (Postfix) with ESMTPSA id E8ED540769AC;
-	Mon, 13 Jan 2025 10:17:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru E8ED540769AC
+	by mail.ispras.ru (Postfix) with ESMTPSA id 5E91E40769AC;
+	Mon, 13 Jan 2025 10:19:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 5E91E40769AC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1736763479;
-	bh=U51A4gH9eY3j+Jj5Eqv3cP9otx60XstkbxWOCnsHWQ4=;
+	s=default; t=1736763561;
+	bh=AtvRmghQBumH5Uo/aCVKY22UwzEZ3zBckU0U0TF6LD0=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Q9H2CGziJz5TECuRr9bdRo6MY5vyXwHbTbspeGZ3z8S2iCSCvRj4uXxGKsvDG50vt
-	 l2xclqR5i61eReXU24sHivwJrgGuOvaDfBqMAWYBZFNZQqYxnKF09l7rP8CLY2VGiv
-	 qLzfLHq5okYp4nLCW3EYgURNXAOVntOwJE9TIeNo=
+	b=iNSZItZ8utqaElptShFKvDnVQ74DEjt1cPA8qB5Z3tY3Ux+1kWIZn5Lfi27CRHxTt
+	 sE+39s4qOHlnu6wqo5PGfcdwud/xznIeXfgrQ1SVZU/WCm0v7S9EDZmiGRtjFHTUZt
+	 OODC28/pmUTSFjfvCwQ9Rd5mwxCm2kuAb7MECiAA=
 From: Vitalii Mordan <mordan@ispras.ru>
-To: Maxime Ripard <mripard@kernel.org>
+To: Jacopo Mondi <jacopo@jmondi.org>
 Cc: Vitalii Mordan <mordan@ispras.ru>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Benoit Parrot <bparrot@ti.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kuninori Morimoto <morimoto.kuninori@renesas.com>,
+	Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Fedor Pchelkin <pchelkin@ispras.ru>,
 	Alexey Khoroshilov <khoroshilov@ispras.ru>,
 	Vadim Mutilin <mutilin@ispras.ru>,
 	stable@vger.kernel.org
-Subject: [PATCH] media: cdns-csi2rx: fix call balance for csi2rx->p_clk handling routines
-Date: Mon, 13 Jan 2025 13:17:49 +0300
-Message-Id: <20250113101749.2440878-1-mordan@ispras.ru>
+Subject: [PATCH] media: mt9t112: fix error handling in mt9t112_camera_probe
+Date: Mon, 13 Jan 2025 13:19:14 +0300
+Message-Id: <20250113101914.2441210-1-mordan@ispras.ru>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -66,52 +66,37 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the clock csi2rx->p_clk was not enabled in csi2rx_stop(), it should not
-be disabled in any path.
-
-Conversely, if it was enabled in csi2rx_stop(), it must be disabled in all
-error paths to ensure proper cleanup.
+The macro mt9t112_reg_read returns from mt9t112_camera_probe() in case of
+an error. However, a call to the shutdown function mt9t112_s_power() is
+required at this point. Failure to execute the shutdown function will
+result in the priv->clk not being properly disabled.
 
 Found by Linux Verification Center (linuxtesting.org) with Klever.
 
-Fixes: 1fc3b37f34f6 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
+Fixes: 858424b998ae ("V4L/DVB (13670): soc-camera: Add mt9t112 camera driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Vitalii Mordan <mordan@ispras.ru>
 ---
- drivers/media/platform/cadence/cdns-csi2rx.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/media/i2c/mt9t112.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index 4d64df829e75..e7e8decf9a02 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -322,11 +322,14 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+diff --git a/drivers/media/i2c/mt9t112.c b/drivers/media/i2c/mt9t112.c
+index 878dff9b7577..82e2c42f4c7b 100644
+--- a/drivers/media/i2c/mt9t112.c
++++ b/drivers/media/i2c/mt9t112.c
+@@ -1034,7 +1034,11 @@ static int mt9t112_camera_probe(struct i2c_client *client)
+ 		return ret;
  
- static void csi2rx_stop(struct csi2rx_priv *csi2rx)
- {
-+	int ret, ret_clk;
- 	unsigned int i;
- 	u32 val;
--	int ret;
+ 	/* Check and show chip ID. */
+-	mt9t112_reg_read(chipid, client, 0x0000);
++	chipid = __mt9t112_reg_read(client, 0x0000);
++	if (chipid < 0) {
++		ret = chipid;
++		goto done;
++	}
  
--	clk_prepare_enable(csi2rx->p_clk);
-+	ret_clk = clk_prepare_enable(csi2rx->p_clk);
-+	if (ret_clk)
-+		dev_warn(csi2rx->dev,
-+			 "Couldn't prepare and enable P clock\n");
- 	reset_control_assert(csi2rx->sys_rst);
- 	clk_disable_unprepare(csi2rx->sys_clk);
- 
-@@ -348,7 +351,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
- 	}
- 
- 	reset_control_assert(csi2rx->p_rst);
--	clk_disable_unprepare(csi2rx->p_clk);
-+	if (!ret_clk)
-+		clk_disable_unprepare(csi2rx->p_clk);
- 
- 	if (v4l2_subdev_call(csi2rx->source_subdev, video, s_stream, false))
- 		dev_warn(csi2rx->dev, "Couldn't disable our subdev\n");
+ 	switch (chipid) {
+ 	case 0x2680:
 -- 
 2.25.1
 
