@@ -1,133 +1,131 @@
-Return-Path: <linux-media+bounces-24706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0274BA0C2A7
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 21:38:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99530A0C2CC
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 21:54:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB6DA3A5599
-	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 20:38:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B19791699CF
+	for <lists+linux-media@lfdr.de>; Mon, 13 Jan 2025 20:54:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9E6A1CD1E4;
-	Mon, 13 Jan 2025 20:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C3C11CEEB2;
+	Mon, 13 Jan 2025 20:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZSR/ut2Z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VvywL9EZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017641BEF6F
-	for <linux-media@vger.kernel.org>; Mon, 13 Jan 2025 20:38:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785721BD504
+	for <linux-media@vger.kernel.org>; Mon, 13 Jan 2025 20:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736800734; cv=none; b=Hi4+vZ5d9OXOn53TducUjSLngC1PldxxfPswshUr92QhjiZgEWiL1CSpc0+ARF3ve+nQ7TuusfI6LfOJD1ZxSUEZMEOICDklE41ZUCbhC7/0GWjvK4a8l00/MXexKtUERoLqWO2xYSQ+xresi/3ze0wDCvANMYhNwJXp6cxtnD0=
+	t=1736801692; cv=none; b=PlTMTSoEHpNPpGzpj6wuxWhl5vFX/hpWmaEvbTCrI5huMaS8SMxphTR42QayPjCbASJIPObhkYDpRdoAYMNuFg2UaRh1kEEG04QWxA+/FmF1H5JZZVTYus3xRmyZCkd+MGLTIc0lGiropEF1dyaxHW9vLIT5KFDUy3AFgijKOBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736800734; c=relaxed/simple;
-	bh=UF//EOt9SFppYiWCVbllnEfEZK/IThCiSVMaLRoAD7Q=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=c3HuW2qhJ/p/zkjO5yRhUHM+mJh4/oxqbjTQZkGo/yrf35tBO7VnHJobbHA55ULKHnW/sKuPSkeZbo56h9oGeM2BOtEFSVB5r5yNpl98xI9DpGDjL5gw60m+R50BsMWImtlPwJtRJGKH5tUsvNAVLGicuPeK4UVhdwY8PigYtD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZSR/ut2Z; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1736801692; c=relaxed/simple;
+	bh=XYdV7IiU1JyTm5xgvkz2sWX04fPFAl/0o+QX88NgTfg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H4V526a+fQnXEy9PFWmPNIaJUSrIHjbYHwko6pKR+2O8q2pcfMgCGcN9LwkXc0mzc5/qr6j/NgVxe9LjqaoSCbRzLvEE9wOBsA9uCQySEZuhC7J14oPl4+WHqxynYX4LGPGTQjm+9xbYVhyk4FpR/GM8Xw5C8ltWCZ+LarkO/EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VvywL9EZ; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2164b1f05caso82870235ad.3
-        for <linux-media@vger.kernel.org>; Mon, 13 Jan 2025 12:38:52 -0800 (PST)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2ee50ffcf14so8844688a91.0
+        for <linux-media@vger.kernel.org>; Mon, 13 Jan 2025 12:54:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736800732; x=1737405532; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1736801691; x=1737406491; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UF//EOt9SFppYiWCVbllnEfEZK/IThCiSVMaLRoAD7Q=;
-        b=ZSR/ut2ZZdQx4GqXu8vKMRuurXaf5eOj4St8fyH+y5L0j2Eir6a8H318flaSSZBuV8
-         26QvTvkDtmG217bxnyeFlta/9cSCLBj61uEhHLUkUPc0CewME2mousgV5SXuh0/KvGmu
-         iE69yB1SUTGMe8kyP3ggF7S6fCRBy0R+bepe6OlUdmtX+85VZOdwsV7mZEX24dIaFExe
-         KA74iCXyd95CZtWVPAEVvSqJ/jR1KUAZd0D1/PLeJ0SRkdQLLlK3xuSGcitmCq6QOpVl
-         ecxxHhhiwpkn46x5JqpLI1rdPyhURh6jNCZWPVaRzBr/+NJ1el0nyeqKhKybIb7uU3F3
-         3o/A==
+        bh=XYdV7IiU1JyTm5xgvkz2sWX04fPFAl/0o+QX88NgTfg=;
+        b=VvywL9EZRZEURxMxfidHPZxAEghejS2UYIj1+hvBZFMGODE6Q2sUAtg2EeePFFNo9V
+         4C0itDE0uoYa8XEmq2zKDQ/7pihuPgXVbV6NsYoOV58YVyU1SmQebcpq838z0thsGPW8
+         mJj+R1DzI0cfk6wp8/qj9I8fjZH4xlPubgbDlB1+SNlJ42MaDmE1WLw46RWfGT8FS+z9
+         UHA7GKXoHcR4IJB8sBVBg9BmQKwtf3e5aPrOGoxoPEcvaQ4wZwR+wJYJk9Xr5ecKSLKR
+         22UZtiitTNyTvQWqrDOjHT3LZup/LV28/9nUojUeB3Npl9HR3LQCG5V2z0YdNXoJjre5
+         ZyRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736800732; x=1737405532;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1736801691; x=1737406491;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UF//EOt9SFppYiWCVbllnEfEZK/IThCiSVMaLRoAD7Q=;
-        b=Izv2PQRNICnY10DQtGbI0kjxbbZGXh3jTJzpJuDiM/PKzIVERTBlFepxYjLNvLJPjC
-         jIkgdvYbaRhyOmtxzI0V/p+ru81Jmj8hPXPTF22MCwmunUwrtRHgDhJJTdYk2InSAx7E
-         6Gf9QMB5YZGJRB/9+0wKxhU+nxJZFDXP75X6tyFwHjzHUSTfgncWR3JPzC8vOdsIkpL6
-         AI/6b567JHWAo+GLiSIc53q+LPYLsdPa6EnxM7ARt2ftz+qOP26R4oJszWsG+cqm3a5z
-         R5Qdz6P1qLZLoUdF38fLHVZGSdlNcL1jDvTaIBgwuoSt1FBDePzXqkOmiadVP6DoQpco
-         LiKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVKjk/SnIcIrQkQy0k2hQZNBK+JHXw/pZywRQP/JPPBvTys2qLsHCC8WMYDyiuMvt7jleC+F7LAvGejIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzti5pZRrqKsYS90j8Apdjh9DH/qIR/I4MFEx9+6AqvoshCLiPb
-	8rq9CYUp/6xv8vXfFtDdhdOR/P7ihOlqmKQr5OJqf/PhTAFNjXpi
-X-Gm-Gg: ASbGnctwoJfXVIX1HEQAir+cB7Feg+2o/f4MNc4mz2WhNj/DNFcY9S1mb8/34Q8TdZe
-	CLADvGElPWa6LlYT7IlMJMe15zNpfRi/KVp+p1p96selJ5YpxTT7mN8Jn5iSyzvi33xumQun4jv
-	9I4g+juukxohTVde73ewTzMCAQu+Rp3LOKvt/S9LSa4mjOCgg6NchEvPnexA+Xycf1gjzhYvR96
-	La20dzLT1+I62pmWSyISid8YcwGyADh7toTjuTuPpnaSGY3y/xJ6I3YjH/KJdeGSOTpgT/sgvua
-	t1LZcJ1JDg==
-X-Google-Smtp-Source: AGHT+IH1XJ95fYSlcd/SGjZQdTq0CvdDBecEoecITGT08cjN+hBKQa2u1NdEuQ6tXFuOD60bQHYqiw==
-X-Received: by 2002:a05:6a21:2d09:b0:1e1:ba54:ffee with SMTP id adf61e73a8af0-1e88cfd3f88mr32208800637.21.1736800732159;
-        Mon, 13 Jan 2025 12:38:52 -0800 (PST)
-Received: from smtpclient.apple ([2804:18:114f:41b7:8121:40df:6d4a:e6cc])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d40658dd7sm6484505b3a.102.2025.01.13.12.38.49
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Jan 2025 12:38:51 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+        bh=XYdV7IiU1JyTm5xgvkz2sWX04fPFAl/0o+QX88NgTfg=;
+        b=itAVijBpFF7LhHfPWr/zF0nP1Pk8dZ9/E4PGW1GhmrEdUK+gjPz8bbKQH21P4ePaOe
+         rWwxBRFlWmsAtYApJqB9PmiCPgbDY45WqHwvamStwQCojT4LSVVOSmXcsSNuaB6O1HMl
+         KQj1NcEb2qlm5kTBic3q05NW7JKKNOc+j2usGWubS13MiH/bP8Xi8qC6e1NAZBxmw304
+         giHbjx+6vXpISkbh73GhwxfrYo0zboCs5cnoUi0KDK5BzKlWnvhuVHMPOzK4TOQ6W+Gc
+         avxgZrhMVCU16N28Qf4roogQHumJG2CTg0A2dcFS7LrFL1hqk+7yuTgRFzDmsDmFs2iZ
+         T49g==
+X-Forwarded-Encrypted: i=1; AJvYcCV2FvZvTN4dusIZI9F2awWLcvvzvM7zr16XpB1JgC94A3QvfzU5TAxYGsqDhWRmStq1GeJQtNBt51VyCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweGJtKj4TPLbrXazjsbtz8jCv2kR9n1hH4yT9sSZ2ySUsQoxOd
+	X051QBtrRFlz1KM2F1URRJHOW7lLtnMqTdNE+oH9afNulXWtGJ7tRjt6f9ehx1h4RKZKf6omNNw
+	7zN+4T6vlYNB+2no+t7l1gQPV7fU=
+X-Gm-Gg: ASbGncsORw7N3zNjjuOWQUEa7x0Pu1vkh6cONk2uHvQyo+mxCpzvaZskrxEXlYWvG1r
+	RaTNiDmGqA/9udHdSbXa/YHewJVY9bbjeLl3Cjg==
+X-Google-Smtp-Source: AGHT+IGdtJ/EYri/Oy9iFetANTtXbxgXOCHzI+A0qEy+jYguEMlIuM8EgM67p2X3gkId+d7LTxSPWlY4KUAgkxa3Ixs=
+X-Received: by 2002:a17:90b:2d0d:b0:2f2:e905:d5ff with SMTP id
+ 98e67ed59e1d1-2f55833cee6mr25581350a91.6.1736801690557; Mon, 13 Jan 2025
+ 12:54:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.300.87.4.3\))
-Subject: Re: Hantro H1 Encoding Upstreaming
-From: Daniel Almeida <dwlsalmeida@gmail.com>
-In-Reply-To: <CAOMZO5BJt6qzETzMeO47N5Gu8136tppuXKnqv4ypk6HyLR99vA@mail.gmail.com>
-Date: Mon, 13 Jan 2025 17:38:37 -0300
-Cc: andrzejtp2010@gmail.com,
- Frank Li <frank.li@nxp.com>,
- ming.qian@oss.nxp.com,
- linux-media <linux-media@vger.kernel.org>,
- Adam Ford <aford173@gmail.com>,
- linux-imx@nxmp.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F5E2D925-668C-4D4D-87C9-8F22126443FD@gmail.com>
+MIME-Version: 1.0
 References: <CAOMZO5D0QvYvr940giHPGwLpunQOpku7e5K_5hHyYYCwZQry2g@mail.gmail.com>
- <CAOMZO5BJt6qzETzMeO47N5Gu8136tppuXKnqv4ypk6HyLR99vA@mail.gmail.com>
-To: Fabio Estevam <festevam@gmail.com>
-X-Mailer: Apple Mail (2.3826.300.87.4.3)
+ <CAOMZO5BJt6qzETzMeO47N5Gu8136tppuXKnqv4ypk6HyLR99vA@mail.gmail.com> <F5E2D925-668C-4D4D-87C9-8F22126443FD@gmail.com>
+In-Reply-To: <F5E2D925-668C-4D4D-87C9-8F22126443FD@gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 13 Jan 2025 14:54:39 -0600
+X-Gm-Features: AbW1kvbboew9j4ePZzHEOX4vANTXLTpTzKrFZup_MRE7c678zYoCXbcgVKmCuAw
+Message-ID: <CAHCN7x+hUJoKRO8U8dgafFip31AKJRqfQw1kOw7YhvZ6xXqNnA@mail.gmail.com>
+Subject: Re: Hantro H1 Encoding Upstreaming
+To: Daniel Almeida <dwlsalmeida@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>, andrzejtp2010@gmail.com, 
+	Frank Li <frank.li@nxp.com>, ming.qian@oss.nxp.com, 
+	linux-media <linux-media@vger.kernel.org>, linux-imx@nxmp.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Fabio,
+On Mon, Jan 13, 2025 at 2:38=E2=80=AFPM Daniel Almeida <dwlsalmeida@gmail.c=
+om> wrote:
+>
+> Hi Fabio,
+>
+> > On 13 Jan 2025, at 17:28, Fabio Estevam <festevam@gmail.com> wrote:
+> >
+> > [Resending because Andrzej's Collabora e-mail bounces]
+> >
+> > On Mon, Jan 13, 2025 at 5:25=E2=80=AFPM Fabio Estevam <festevam@gmail.c=
+om> wrote:
+> >>
+> >> Hi Andrzej,
+> >>
+> >> Do you plan to submit a non-RFC of the Hantro Encoding patch series
+> >> that you submitted earlier?
+> >>
+> >> https://patchwork.kernel.org/project/linux-media/cover/20231116154816.=
+70959-1-andrzej.p@collabora.com/
+> >>
+> >> I don't have access to the ST chip, but I am interested in using it on
+> >> the i.MX8MM and i.MX8MP.
+> >>
+> >> Please let me know.
+> >>
+> >> Thanks,
+> >>
+> >> Fabio Estevam
+> >
+>
+> Andrzej doesn=E2=80=99t work for Collabora anymore.
 
-> On 13 Jan 2025, at 17:28, Fabio Estevam <festevam@gmail.com> wrote:
->=20
-> [Resending because Andrzej's Collabora e-mail bounces]
->=20
-> On Mon, Jan 13, 2025 at 5:25=E2=80=AFPM Fabio Estevam =
-<festevam@gmail.com> wrote:
->>=20
->> Hi Andrzej,
->>=20
->> Do you plan to submit a non-RFC of the Hantro Encoding patch series
->> that you submitted earlier?
->>=20
->> =
-https://patchwork.kernel.org/project/linux-media/cover/20231116154816.7095=
-9-1-andrzej.p@collabora.com/
->>=20
->> I don't have access to the ST chip, but I am interested in using it =
-on
->> the i.MX8MM and i.MX8MP.
->>=20
->> Please let me know.
->>=20
->> Thanks,
->>=20
->> Fabio Estevam
->=20
+Daniel,
 
-Andrzej doesn=E2=80=99t work for Collabora anymore.=20
+Do you know if anyone will be picking up the H1 encoder?
 
-=E2=80=94 Daniel=20
-
+adam
+>
+> =E2=80=94 Daniel
+>
 
