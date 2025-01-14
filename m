@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-24730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24731-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A482A1115C
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 20:46:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 899BAA1115F
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 20:47:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D77D1888126
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 19:47:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 361E03A762B
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 19:47:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB3C20ADE5;
-	Tue, 14 Jan 2025 19:46:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA50232457;
+	Tue, 14 Jan 2025 19:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BW5Cjdrt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qc8XydbV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539542080D0
-	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 19:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252D2209671
+	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 19:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736883998; cv=none; b=hMxwA0ElCtqo1lj1j7tEgbWHQTVMGosfhyJT/OJ5KqXVT14jZMboRs0XPqy4zIvl+ConZanSwfbHfDlgfSn4Ak7P+qixoNaaVcd0nbdUIU6JUPN0Jn8eR72KjBtAY85JpT9y1sWaFwpNgVjlBvhd+2D8fmEiQPvFT2iB2D1YU58=
+	t=1736884001; cv=none; b=DYraM2Hp7hAVaLzhNlbrWp7KsubMpykBBJqeTsmwsmkf6POhB/f1s1nm+zzssNvyw8yu+9DwCd7a2tC+QtlDFf696+cHM2i7K15Ikdk7FLSH6fBlFh1OoA3H7fS7CHSORemuvWMu1DPfn6AKJnPm5kncgxJpQVXTa3RshvORvBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736883998; c=relaxed/simple;
-	bh=mtlbO5pD3OH1lj6OMF21FLzICL+OBIxNoR/be1QT+nA=;
+	s=arc-20240116; t=1736884001; c=relaxed/simple;
+	bh=FjS+aOsoiOXqy8ece6i9Kgrj719RNrGV9AGnSamBXT0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gDS+FH67TxPZl8zFdown3H01WrNqOgtoHdxMa3/JS4Jvf0KOb/xZLQ1yvsBtFrz8vveTJ25BtZny6OYGmJgK6xLMqo+/r7z0a+41whTGqEGyZqyWh+HH4102f4O+M90nj/7hbvWAtY/ovI3CV+jVVDgluC1csehIrF7t1EgreNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BW5Cjdrt; arc=none smtp.client-ip=209.85.221.49
+	 In-Reply-To:To:Cc; b=GnAX1qkJDTG5y+UMI+NIUYD0w+Q7TZ5MUu04VtHC+Vjtz5S9r4h/znrRb6sMpIQ9wDlhOe5/EEy3fuE8YiKPIYxvXePd61lCMIK7LvcIe6k5f8WZPrxaTECANc+cg8CNCud8YMgZ5eP9eX0HD5cVEN8nUv8oM3sju5PVPjvE0B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qc8XydbV; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385dc85496dso290733f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 11:46:36 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43616c12d72so7417715e9.2
+        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 11:46:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736883994; x=1737488794; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1736883996; x=1737488796; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vxDB2Wb8JUamL19cl9GDthbDMznKMMo1W7TNxgSukcs=;
-        b=BW5CjdrtYVwLrZj23QrSV2+Gtcg4LbG+OJgIKLRSqdPdPU5IvwHIhqTOLGJkZcmw9H
-         aXUW1DRUxVFBd4HE7wTQqDscbiWlhOM5tQGz/zjMU/kVSm/R1inLws4Z74HqI5K5SBxw
-         grXb6DZupsnWgNRLJ4Hz0A+MchSke5s6s3UPbjrrHZMJQ4dy4Te5QCQCkb8Lxrq2SLof
-         ybnl88QMlHHg+USzK0lXuaGiH9bZyx5fcFz/M+QmdGQ9ck5ksGop/DNAztgQaK5P2JSh
-         eR7uEAVAUXPefZq31uI5LkpgLVa1R/NS3ewN4bk1kYVn/KrrT3tsNT2LkpIiFhLfiTO0
-         tstg==
+        bh=1NRbVWx2EOoMdZRWV2YWE/ywExpZXtagQ4Bh07isrgM=;
+        b=Qc8XydbVBZkXoKjOrDaYi+PZdDiDgqIGzkfTbOjoN3MyUjZbJ9e6gChTAkxKRq8IWH
+         atglZsj2SE1u2T6LVsFG6J66l81HETenlbPaE7GlbIzLJI8Q8BwulbAjebCW+05++U4u
+         27pH3fgyhcz8A+IjxroKkSguZzoQqepf4muDTyVLPOnKEDTKlQBet384lgcydsUTfLVV
+         YiFm6OV6dExkgGRerzORoo51EBtGN8las5/XOg7/t1pz9UiPu0YuiSucbZqei8iuY5u9
+         9UiXBixvOhWuHtnUdY5FA7uczfHny6R/tibVzesTPySVFWR0ku2jq+2B1d1uW4r76uCh
+         Tp6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736883994; x=1737488794;
+        d=1e100.net; s=20230601; t=1736883996; x=1737488796;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vxDB2Wb8JUamL19cl9GDthbDMznKMMo1W7TNxgSukcs=;
-        b=KlrXy02+DjOWOG6nqnd9I9hjuwGHL5+wTa2Art3wvYhwhjBX+/dR6LfpvjHyom3fjl
-         /dFP0jCm+p3PAaUZOP8V4punQ5FmWqZl+K/71HwQRpG3MCvo8ze+ncXCRGyD+i75rOP5
-         Cimz+cYa0OtRo9/aw0VRYNH/Nm9KI6+kJ64TDWgA2tZW3u7Cfdlc142/G9/FvH2knJPl
-         10ENdEP2DmSSFT0XStk1Il9bDp4wmAm95ipH3vt/BRMKSEESJGrcLWYwo0ddXUT63se2
-         YwdchN8h8IATtX8mwsGGw7EdbuF/Iysczu+AUCRF1QJBhmH+G0ms99zpsOrJBfkMh9WP
-         hyYA==
-X-Gm-Message-State: AOJu0YxVxrRmngO2V2iUqJCk9CUxAmQVkkKt6jNESRUqdUYpsF9cZHWF
-	z1+H1T/XMq/nVIkagsc0L3cPjHwispWAliK9VsLMqtxAvTCt+3Vka8Mtap5/CWg=
-X-Gm-Gg: ASbGncvj1xvu5EZ5rFkGWKgPbANL4AM2TpCEODv5ySGKyhnzJy9R1gWc6QduBxG8gab
-	DJpVUUjJ7UB/C918aPp+BrvI8NeNbrq0xk4onjUKDQc4KPOg2avC93ppYt8b42864SC0OTUz1Hm
-	YsHUpYswOqebZ1dhMRzgSwBWN2FXXZyP2ORtv3V5B36IJX1L70djXS8pb3xitroJDZtAn+/7zS0
-	//BK/RNW7gMyMnhKUW/A3Cfj3HF/rJTLgsoM6+PIy3LDc/r/TTUlcoaCCUwGXWo/Tk5au+n
-X-Google-Smtp-Source: AGHT+IER13mKPcCGVKuCMptsL9LazocaDj6jSmqEiz+kIc/LNX7GIxUpkepPagRdTlxs1DatTTSgcg==
-X-Received: by 2002:adf:b607:0:b0:385:e9ba:ace3 with SMTP id ffacd0b85a97d-38a872dc7b1mr7039415f8f.1.1736883994457;
-        Tue, 14 Jan 2025 11:46:34 -0800 (PST)
+        bh=1NRbVWx2EOoMdZRWV2YWE/ywExpZXtagQ4Bh07isrgM=;
+        b=FOqvgRWWqvkDNE9bEwloqDVGn8e16V3EsBfeUTtT3AyLDOirdL6WFqtTVHb5cGkf9H
+         Hax4GaV3R66ilQms7ymqeFHKNcVCmNL/TtImvkcNfe25FoJ8fHA4hqpyIeZR+9HoeSKj
+         vIMcscSndChpJAUq0up7FHBn7VZKcTL1H9tPnfksyFcFbGcUZ30jvCHLSBdcsSv8Q7zV
+         XupKQZbFbZbjjEP5xBOtCjQ5u3Xp6JN5uvGv5Z48HtqAmU+jbLg5PAKUDL9S20D7tMy9
+         o5/viBKORqCQhLTvpC8UlbQsvKgueeQ2A9X/O6z7awbKVrKgVSNmAtyjPcTYQORzt8Uq
+         mmFA==
+X-Gm-Message-State: AOJu0Yy+LVFnudWlscMpPK0dygw1qUo9qYFDj0TRpHZly3KIjq6hcfvE
+	l1ux1+SO9R4BG/AoIL3pULd+gbiwxPzc5f8aufljnWq+K0ml7tk5kmejmBqK+Nc=
+X-Gm-Gg: ASbGncsbPNoralfpeMFo0kim0uSsjaW0mwE+xromnqmxvcnfSZjgg2ol6E/RSfG9p6b
+	9gOZBkIsjzIOvNWgFtgrPLaiGHXx6oVnrxKZo62cS9HJVviwz5rVYlda6k8cvfSTIeKHZNfLY5z
+	Hp8A+P6kHL1qQeO8MwtG0kSkICcIfrmsaifhiUT1CTWlEYxbsZV15oqpyHtsALqq954saxXD6IN
+	wymqbmbXseh+wmLERQ6ZJ7jxf75k3dqIPYVWHhjxBbtKUseIhq6HmltJk6EXm9fU1mR937G
+X-Google-Smtp-Source: AGHT+IEm39xDGvRG6LIa6eTwjMOno1ysykfGcVPW7Rox4yS0rTGeEYYep2u13JBuebReasaYRgJ+0A==
+X-Received: by 2002:a05:600c:3ca0:b0:436:17f4:9b3b with SMTP id 5b1f17b1804b1-436e270729bmr100990625e9.6.1736883996333;
+        Tue, 14 Jan 2025 11:46:36 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9e37c2esm184337515e9.28.2025.01.14.11.46.31
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9e37c2esm184337515e9.28.2025.01.14.11.46.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 11:46:33 -0800 (PST)
+        Tue, 14 Jan 2025 11:46:35 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Tue, 14 Jan 2025 20:46:17 +0100
-Subject: [PATCH 1/6] media: Use str_enable_disable-like helpers
+Date: Tue, 14 Jan 2025 20:46:18 +0100
+Subject: [PATCH 2/6] media: dvb: Use str_enable_disable-like helpers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,7 +81,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250114-str-enable-disable-media-v1-1-9316270aa65f@linaro.org>
+Message-Id: <20250114-str-enable-disable-media-v1-2-9316270aa65f@linaro.org>
 References: <20250114-str-enable-disable-media-v1-0-9316270aa65f@linaro.org>
 In-Reply-To: <20250114-str-enable-disable-media-v1-0-9316270aa65f@linaro.org>
 To: Hans Verkuil <hverkuil@xs4all.nl>, 
@@ -102,21 +102,21 @@ To: Hans Verkuil <hverkuil@xs4all.nl>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11914;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7410;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=mtlbO5pD3OH1lj6OMF21FLzICL+OBIxNoR/be1QT+nA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnhr8PWzf8AUgl92d11XYLjAMWKfYLc6TOqLp97
- cp7f+c1SvCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ4a/DwAKCRDBN2bmhouD
- 1zcZD/9AmyRI+aMgg+IZ1AfpEUHi9nIxVVnmut42zvTqRsfX7tDvjkNx6DMgTcpz0EcCBCUoU/A
- hRedawppay9QdgHE7vxgwENIa8mHj/a/WV3e/R7RxZ2d0tm7CmuoxUwSSja9EEikfALJzNbJvK3
- wdUYaH8O7os7SD8ojy/xHm/HWi/733sPKhM/jgVHDDGwms3DWl1AS+NVXIXQM2GwVIj3cnPSSK0
- mJIujjUOKEC2IfNGQU1RP0hL04KDL3Ec9l3S3nDwXEo6QcRVmKXa8loZplHMt9HQlF9t2CPQGDV
- ZUMQiNBi4EKmfAIYNnGmFueHgIIoKt0RB4wEwe4QuvlKI5eLoIzqFg/ot5O5QLPYOrwbU8MVfh1
- PMAKA2Hu2AF48zQMrNKAgWol6+NFt7dYIiVKeqQ0OSvFn7JojMjj33dMRa7wxCX5gQ0n7OxMJBn
- NMMoMWThN9pUgxUPMtVKk0KvlejKDD9ZfLwLz7MGYbm+GYfce3HR25l/uxuXD57OI4WRiiU4114
- olebe44PwuVbDIEo3Xv+C15Usv5N2VKgiilLFoNXHpC5XzzU5Lb+SojiCzSajVklCTMH4QogK/f
- biEEtLpQxpckgfVcDHpnnqSjkupaGc3S+IFcGhxK08SyJLG7Ifa+DTvP7tvBHHuAz7cgqWRvKGX
- HIUGUHIkY5LWnFA==
+ bh=FjS+aOsoiOXqy8ece6i9Kgrj719RNrGV9AGnSamBXT0=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnhr8QqVgKxIe22RXTtvXcA8WP+Llq08lMITZmP
+ +N5Vvchia2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ4a/EAAKCRDBN2bmhouD
+ 17zoD/99VqxnhvQH2aNwSfHxVOh7Jga+L8BPvHkIxe94n8DjqqP6VPiyL93DyD7/SpH5cABNIdE
+ 7rgh3TpVsc7bFLM8kMEx1ol/2Fr/7kpFRy+qOvStNE3DNa2B5LJ6kB/wCLkEVzFxKlc2fzsGWx7
+ CGA3+zZFxHbYl/itTaKjSY8cPIMI3lECKf5zq3Jv62vxDAMbK58SOkxtvQFm7OHfoHqUHvtH64A
+ NrhcEhNwrFQO9ZAeJvpYZBddsyZXwBopdQeGl3XHHU62VRYAQVRhL2U6eOZDeymKe6w+uPgu1Te
+ rehOYjq/Nv3jY7v6DTltzB9icmo566fQJOmSi6CrX62pUXvNimxJP3oEVVAsvYq9rPLhm3xQ9tb
+ m+b6kLCjFapHHrrIS85XBiNDRajmQhNXE/YN7fGPMsyPIWSfl5blJeA4wusU0mTpJcjzB+vQb07
+ 0cxEgRsZguyRg6o3WWf168zlp75m+uki7275BwFM9/9xBgjm8UDd1xPO9qi28J0BM5a5KXSKok8
+ agrM0RNPqaIdJ8kgVcVvkdV6b22apXIVSJGsP1L46jOz/72zgqXyNiYBi/mM1cw8MjCiBdB8jyG
+ 7FpJMnGQjR5wrtxA9W1KGtRQ4X5rrbwvy8/vFOI1YCJA+sz0P7wbtTUOTgo2BO5vFqB4xMbiSk8
+ KRwokeXag15pDYw==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
@@ -132,282 +132,178 @@ from string_choices.h because:
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/cec/platform/cec-gpio/cec-gpio.c  |  5 +++--
- drivers/media/cec/usb/pulse8/pulse8-cec.c       |  5 +++--
- drivers/media/common/b2c2/flexcop-hw-filter.c   |  5 +++--
- drivers/media/common/siano/sms-cards.c          |  3 ++-
- drivers/media/common/videobuf2/videobuf2-core.c |  6 ++++--
- drivers/media/rc/ene_ir.c                       |  3 ++-
- drivers/media/rc/mceusb.c                       |  3 ++-
- drivers/media/rc/serial_ir.c                    |  5 +++--
- drivers/media/tuners/tda18250.c                 |  3 ++-
- drivers/media/tuners/tda9887.c                  | 11 ++++++-----
- 10 files changed, 30 insertions(+), 19 deletions(-)
+ drivers/media/dvb-frontends/ascot2e.c   | 3 ++-
+ drivers/media/dvb-frontends/cx24120.c   | 5 +++--
+ drivers/media/dvb-frontends/cxd2841er.c | 3 ++-
+ drivers/media/dvb-frontends/drxk_hard.c | 5 +++--
+ drivers/media/dvb-frontends/helene.c    | 3 ++-
+ drivers/media/dvb-frontends/horus3a.c   | 3 ++-
+ drivers/media/dvb-frontends/sp2.c       | 3 ++-
+ 7 files changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-index 50cdc557c9430a2625ae615a1f469d2b2b02e6be..c75c48c07b7fb42254ba82abaab5f3602ef6cd97 100644
---- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-+++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-@@ -9,6 +9,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/seq_file.h>
-+#include <linux/string_choices.h>
- #include <media/cec-notifier.h>
- #include <media/cec-pin.h>
- 
-@@ -136,10 +137,10 @@ static void cec_gpio_status(struct cec_adapter *adap, struct seq_file *file)
- 	seq_printf(file, "using irq: %d\n", cec->cec_irq);
- 	if (cec->hpd_gpio)
- 		seq_printf(file, "hpd: %s\n",
--			   cec->hpd_is_high ? "high" : "low");
-+			   str_high_low(cec->hpd_is_high));
- 	if (cec->v5_gpio)
- 		seq_printf(file, "5V: %s\n",
--			   cec->v5_is_high ? "high" : "low");
-+			   str_high_low(cec->v5_is_high));
- }
- 
- static int cec_gpio_read_hpd(struct cec_adapter *adap)
-diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-index 171366fe35443b19f4791ffada46c83ed5e4fe06..c0b48b526cd7c86d046386184a036fbadde51306 100644
---- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
-+++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-@@ -36,6 +36,7 @@
- #include <linux/workqueue.h>
- #include <linux/serio.h>
+diff --git a/drivers/media/dvb-frontends/ascot2e.c b/drivers/media/dvb-frontends/ascot2e.c
+index cf8e5f1bd10181a65376660bfa4648c0e536fd25..15a33dac3af95dbd6368b83eff7c49f5ae3187ed 100644
+--- a/drivers/media/dvb-frontends/ascot2e.c
++++ b/drivers/media/dvb-frontends/ascot2e.c
+@@ -13,6 +13,7 @@
  #include <linux/slab.h>
+ #include <linux/module.h>
+ #include <linux/dvb/frontend.h>
 +#include <linux/string_choices.h>
- #include <linux/time.h>
- #include <linux/delay.h>
+ #include <linux/types.h>
+ #include "ascot2e.h"
+ #include <media/dvb_frontend.h>
+@@ -104,7 +105,7 @@ static void ascot2e_i2c_debug(struct ascot2e_priv *priv,
+ 			      u8 reg, u8 write, const u8 *data, u32 len)
+ {
+ 	dev_dbg(&priv->i2c->dev, "ascot2e: I2C %s reg 0x%02x size %d\n",
+-		(write == 0 ? "read" : "write"), reg, len);
++		str_read_write(write == 0), reg, len);
+ 	print_hex_dump_bytes("ascot2e: I2C data: ",
+ 		DUMP_PREFIX_OFFSET, data, len);
+ }
+diff --git a/drivers/media/dvb-frontends/cx24120.c b/drivers/media/dvb-frontends/cx24120.c
+index 44515fdbe91d4f5eb23fb13dfc571507255655cb..2e4097a6043d05938c192a404099615cec5c8edb 100644
+--- a/drivers/media/dvb-frontends/cx24120.c
++++ b/drivers/media/dvb-frontends/cx24120.c
+@@ -21,6 +21,7 @@
+ #include <linux/moduleparam.h>
+ #include <linux/init.h>
+ #include <linux/firmware.h>
++#include <linux/string_choices.h>
+ #include <media/dvb_frontend.h>
+ #include "cx24120.h"
  
-@@ -695,14 +696,14 @@ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
- 		return err;
- 	pulse8->autonomous = data[0];
- 	dev_dbg(pulse8->dev, "Autonomous mode: %s",
--		data[0] ? "on" : "off");
-+		str_on_off(data[0]));
- 
- 	if (pulse8->vers >= 10) {
- 		cmd[0] = MSGCODE_GET_AUTO_POWER_ON;
- 		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
- 		if (!err)
- 			dev_dbg(pulse8->dev, "Auto Power On: %s",
--				data[0] ? "on" : "off");
-+				str_on_off(data[0]));
+@@ -453,13 +454,13 @@ static int cx24120_msg_mpeg_output_global_config(struct cx24120_state *state,
+ 	ret = cx24120_message_send(state, &cmd);
+ 	if (ret != 0) {
+ 		dev_dbg(&state->i2c->dev, "failed to %s MPEG output\n",
+-			enable ? "enable" : "disable");
++			str_enable_disable(enable));
+ 		return ret;
  	}
  
- 	cmd[0] = MSGCODE_GET_DEVICE_TYPE;
-diff --git a/drivers/media/common/b2c2/flexcop-hw-filter.c b/drivers/media/common/b2c2/flexcop-hw-filter.c
-index c5a3345c99e9ee4b39dfe453eeaa5f59eae93cfa..f0969af79311181404811857bf209a45b9014cd5 100644
---- a/drivers/media/common/b2c2/flexcop-hw-filter.c
-+++ b/drivers/media/common/b2c2/flexcop-hw-filter.c
-@@ -5,11 +5,12 @@
-  * see flexcop.c for copyright information
-  */
- #include "flexcop.h"
-+#include <linux/string_choices.h>
+ 	state->mpeg_enabled = enable;
+ 	dev_dbg(&state->i2c->dev, "MPEG output %s\n",
+-		enable ? "enabled" : "disabled");
++		str_enabled_disabled(enable));
  
- static void flexcop_rcv_data_ctrl(struct flexcop_device *fc, int onoff)
- {
- 	flexcop_set_ibi_value(ctrl_208, Rcv_Data_sig, onoff);
--	deb_ts("rcv_data is now: '%s'\n", onoff ? "on" : "off");
-+	deb_ts("rcv_data is now: '%s'\n", str_on_off(onoff));
+ 	return 0;
  }
- 
- void flexcop_smc_ctrl(struct flexcop_device *fc, int onoff)
-@@ -116,7 +117,7 @@ static void flexcop_pid_control(struct flexcop_device *fc,
- 		return;
- 
- 	deb_ts("setting pid: %5d %04x at index %d '%s'\n",
--			pid, pid, index, onoff ? "on" : "off");
-+			pid, pid, index, str_on_off(onoff));
- 
- 	/* First 6 can be buggy - skip over them if option set */
- 	if (fc->skip_6_hw_pid_filter)
-diff --git a/drivers/media/common/siano/sms-cards.c b/drivers/media/common/siano/sms-cards.c
-index d4a116ab6c888609800aeedf9a6c4e268205f3a3..e9aa95233ff178c126cc1e621ab2e096637cb27c 100644
---- a/drivers/media/common/siano/sms-cards.c
-+++ b/drivers/media/common/siano/sms-cards.c
-@@ -8,6 +8,7 @@
- #include "sms-cards.h"
- #include "smsir.h"
+diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
+index 415f1f91cc30724a77b6bb417e33f25aacf5a909..a4ec529b5ba547e866b9694527af0dad171eb318 100644
+--- a/drivers/media/dvb-frontends/cxd2841er.c
++++ b/drivers/media/dvb-frontends/cxd2841er.c
+@@ -15,6 +15,7 @@
  #include <linux/module.h>
-+#include <linux/string_choices.h>
- 
- static struct sms_board sms_boards[] = {
- 	[SMS_BOARD_UNKNOWN] = {
-@@ -326,7 +327,7 @@ int sms_board_lna_control(struct smscore_device_t *coredev, int onoff)
- 	int board_id = smscore_get_board_id(coredev);
- 	struct sms_board *board = sms_get_board(board_id);
- 
--	pr_debug("%s: LNA %s\n", __func__, onoff ? "enabled" : "disabled");
-+	pr_debug("%s: LNA %s\n", __func__, str_enabled_disabled(onoff));
- 
- 	switch (board_id) {
- 	case SMS1XXX_BOARD_HAUPPAUGE_TIGER_MINICARD_R2:
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 2df566f409b65eb99fa7fbe308b8e3afe1bdcbca..19fa5c133c28db9c3766aded8e123a621a34ff88 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -23,6 +23,7 @@
- #include <linux/poll.h>
- #include <linux/slab.h>
- #include <linux/sched.h>
-+#include <linux/string_choices.h>
- #include <linux/freezer.h>
- #include <linux/kthread.h>
- 
-@@ -2874,7 +2875,8 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
- 		return -EBUSY;
- 
- 	dprintk(q, 3, "setting up file io: mode %s, count %d, read_once %d, write_immediately %d\n",
--		(read) ? "read" : "write", q->min_reqbufs_allocation, q->fileio_read_once,
-+		str_read_write(read), q->min_reqbufs_allocation,
-+		q->fileio_read_once,
- 		q->fileio_write_immediately);
- 
- 	fileio = kzalloc(sizeof(*fileio), GFP_KERNEL);
-@@ -3022,7 +3024,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
- 	int ret;
- 
- 	dprintk(q, 3, "mode %s, offset %ld, count %zd, %sblocking\n",
--		read ? "read" : "write", (long)*ppos, count,
-+		str_read_write(read), (long)*ppos, count,
- 		nonblock ? "non" : "");
- 
- 	if (!data)
-diff --git a/drivers/media/rc/ene_ir.c b/drivers/media/rc/ene_ir.c
-index 67722e2e47ff78e504c55054480f0619e050f093..90bee860a8a13dda52e1efebfa42a30a26fb93fe 100644
---- a/drivers/media/rc/ene_ir.c
-+++ b/drivers/media/rc/ene_ir.c
-@@ -24,6 +24,7 @@
- #include <linux/interrupt.h>
- #include <linux/sched.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <media/rc-core.h>
- #include "ene_ir.h"
- 
-@@ -1118,7 +1119,7 @@ static void ene_remove(struct pnp_dev *pnp_dev)
- /* enable wake on IR (wakes on specific button on original remote) */
- static void ene_enable_wake(struct ene_device *dev, bool enable)
- {
--	dbg("wake on IR %s", enable ? "enabled" : "disabled");
-+	dbg("wake on IR %s", str_enabled_disabled(enable));
- 	ene_set_clear_reg_mask(dev, ENE_FW1, ENE_FW1_WAKE, enable);
- }
- 
-diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
-index 044767eb3a38c9354bdf4185bfb16521ddfceb91..fcf9e1559aea8b890e33ae6c9cdd951642ccdd44 100644
---- a/drivers/media/rc/mceusb.c
-+++ b/drivers/media/rc/mceusb.c
-@@ -25,6 +25,7 @@
- #include <linux/device.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <linux/workqueue.h>
- #include <linux/usb.h>
- #include <linux/usb/input.h>
-@@ -1126,7 +1127,7 @@ static int mceusb_set_rx_carrier_report(struct rc_dev *dev, int enable)
- 				    MCE_CMD_SETIRRXPORTEN, 0x00 };
- 
- 	dev_dbg(ir->dev, "%s short-range receiver carrier reporting",
--		enable ? "enable" : "disable");
-+		str_enable_disable(enable));
- 	if (enable) {
- 		ir->carrier_report_enabled = true;
- 		if (!ir->learning_active) {
-diff --git a/drivers/media/rc/serial_ir.c b/drivers/media/rc/serial_ir.c
-index fc5fd39271772013c78c466a5c322b4a04ec8d69..f9ec2f043529cbed1e3f4dfd805c3d27919954d4 100644
---- a/drivers/media/rc/serial_ir.c
-+++ b/drivers/media/rc/serial_ir.c
-@@ -25,6 +25,7 @@
- #include <linux/delay.h>
- #include <linux/platform_device.h>
- #include <linux/spinlock.h>
-+#include <linux/string_choices.h>
- #include <media/rc-core.h>
- 
- struct serial_ir_hw {
-@@ -588,10 +589,10 @@ static int serial_ir_probe(struct platform_device *dev)
- 		}
- 		sense = nlow >= nhigh ? 1 : 0;
- 		dev_info(&dev->dev, "auto-detected active %s receiver\n",
--			 sense ? "low" : "high");
-+			 str_low_high(sense));
- 	} else
- 		dev_info(&dev->dev, "Manually using active %s receiver\n",
--			 sense ? "low" : "high");
-+			 str_low_high(sense));
- 
- 	dev_dbg(&dev->dev, "Interrupt %d, port %04x obtained\n", irq, io);
- 
-diff --git a/drivers/media/tuners/tda18250.c b/drivers/media/tuners/tda18250.c
-index 68d0275f29e1b789ca1687283996c43ea3bacafc..1cfc0e3bfab455faee1da44de0ac5a473c68edc5 100644
---- a/drivers/media/tuners/tda18250.c
-+++ b/drivers/media/tuners/tda18250.c
-@@ -7,6 +7,7 @@
- 
- #include "tda18250_priv.h"
- #include <linux/regmap.h>
-+#include <linux/string_choices.h>
- 
- static const struct dvb_tuner_ops tda18250_ops;
- 
-@@ -107,7 +108,7 @@ static int tda18250_wait_for_irq(struct dvb_frontend *fe,
- 	dev_dbg(&client->dev, "waited IRQ (0x%02x) %d ms, triggered: %s", irq,
- 			jiffies_to_msecs(jiffies) -
- 			(jiffies_to_msecs(timeout) - maxwait),
--			triggered ? "true" : "false");
-+			str_true_false(triggered));
- 
- 	if (!triggered)
- 		return -ETIMEDOUT;
-diff --git a/drivers/media/tuners/tda9887.c b/drivers/media/tuners/tda9887.c
-index b2f7054c1832cef3610f38f2ff1421b01e7892c7..d1f9ef30782b5244083a1345def8cb8c2f343f44 100644
---- a/drivers/media/tuners/tda9887.c
-+++ b/drivers/media/tuners/tda9887.c
-@@ -6,6 +6,7 @@
  #include <linux/init.h>
- #include <linux/errno.h>
- #include <linux/delay.h>
+ #include <linux/string.h>
 +#include <linux/string_choices.h>
- #include <linux/videodev2.h>
- #include <media/v4l2-common.h>
- #include <media/tuner.h>
-@@ -291,11 +292,11 @@ static void dump_read_message(struct dvb_frontend *fe, unsigned char *buf)
- 		"+ 12.5 kHz",
- 	};
- 	tuner_info("read: 0x%2x\n", buf[0]);
--	tuner_info("  after power on : %s\n", (buf[0] & 0x01) ? "yes" : "no");
-+	tuner_info("  after power on : %s\n", str_yes_no(buf[0] & 0x01));
- 	tuner_info("  afc            : %s\n", afc[(buf[0] >> 1) & 0x0f]);
--	tuner_info("  fmif level     : %s\n", (buf[0] & 0x20) ? "high" : "low");
-+	tuner_info("  fmif level     : %s\n", str_high_low(buf[0] & 0x20));
- 	tuner_info("  afc window     : %s\n", (buf[0] & 0x40) ? "in" : "out");
--	tuner_info("  vfi level      : %s\n", (buf[0] & 0x80) ? "high" : "low");
-+	tuner_info("  vfi level      : %s\n", str_high_low(buf[0] & 0x80));
+ #include <linux/slab.h>
+ #include <linux/bitops.h>
+ #include <linux/math64.h>
+@@ -206,7 +207,7 @@ static void cxd2841er_i2c_debug(struct cxd2841er_priv *priv,
+ {
+ 	dev_dbg(&priv->i2c->dev,
+ 		"cxd2841er: I2C %s addr %02x reg 0x%02x size %d data %*ph\n",
+-		(write == 0 ? "read" : "write"), addr, reg, len, len, data);
++		str_read_write(write == 0), addr, reg, len, len, data);
  }
  
- static void dump_write_message(struct dvb_frontend *fe, unsigned char *buf)
-@@ -344,13 +345,13 @@ static void dump_write_message(struct dvb_frontend *fe, unsigned char *buf)
- 	tuner_info("  B0   video mode      : %s\n",
- 		   (buf[1] & 0x01) ? "video trap" : "sound trap");
- 	tuner_info("  B1   auto mute fm    : %s\n",
--		   (buf[1] & 0x02) ? "yes" : "no");
-+		   str_yes_no(buf[1] & 0x02));
- 	tuner_info("  B2   carrier mode    : %s\n",
- 		   (buf[1] & 0x04) ? "QSS" : "Intercarrier");
- 	tuner_info("  B3-4 tv sound/radio  : %s\n",
- 		   sound[(buf[1] & 0x18) >> 3]);
- 	tuner_info("  B5   force mute audio: %s\n",
--		   (buf[1] & 0x20) ? "yes" : "no");
-+		   str_yes_no(buf[1] & 0x20));
- 	tuner_info("  B6   output port 1   : %s\n",
- 		   (buf[1] & 0x40) ? "high (inactive)" : "low (active)");
- 	tuner_info("  B7   output port 2   : %s\n",
+ static int cxd2841er_write_regs(struct cxd2841er_priv *priv,
+diff --git a/drivers/media/dvb-frontends/drxk_hard.c b/drivers/media/dvb-frontends/drxk_hard.c
+index 87f3d4f0eb8c484ddee4104162679ddeb88f6d73..b7d93119dcaa60eb4f774b77d53163da368fab13 100644
+--- a/drivers/media/dvb-frontends/drxk_hard.c
++++ b/drivers/media/dvb-frontends/drxk_hard.c
+@@ -15,6 +15,7 @@
+ #include <linux/firmware.h>
+ #include <linux/i2c.h>
+ #include <linux/hardirq.h>
++#include <linux/string_choices.h>
+ #include <asm/div64.h>
+ 
+ #include <media/dvb_frontend.h>
+@@ -1068,7 +1069,7 @@ static int mpegts_configure_pins(struct drxk_state *state, bool mpeg_enable)
+ 	u16 err_cfg = 0;
+ 
+ 	dprintk(1, ": mpeg %s, %s mode\n",
+-		mpeg_enable ? "enable" : "disable",
++		str_enable_disable(mpeg_enable),
+ 		state->m_enable_parallel ? "parallel" : "serial");
+ 
+ 	/* stop lock indicator process */
+@@ -6279,7 +6280,7 @@ static int drxk_gate_ctrl(struct dvb_frontend *fe, int enable)
+ {
+ 	struct drxk_state *state = fe->demodulator_priv;
+ 
+-	dprintk(1, ": %s\n", enable ? "enable" : "disable");
++	dprintk(1, ": %s\n", str_enable_disable(enable));
+ 
+ 	if (state->m_drxk_state == DRXK_NO_DEV)
+ 		return -ENODEV;
+diff --git a/drivers/media/dvb-frontends/helene.c b/drivers/media/dvb-frontends/helene.c
+index f127adee3ebb7d041f0b85607a49aa1ec45b53e2..ae2a696a777050b6b0849481f9262893e34e7061 100644
+--- a/drivers/media/dvb-frontends/helene.c
++++ b/drivers/media/dvb-frontends/helene.c
+@@ -12,6 +12,7 @@
+ #include <linux/slab.h>
+ #include <linux/module.h>
+ #include <linux/dvb/frontend.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+ #include "helene.h"
+ #include <media/dvb_frontend.h>
+@@ -279,7 +280,7 @@ static void helene_i2c_debug(struct helene_priv *priv,
+ 		u8 reg, u8 write, const u8 *data, u32 len)
+ {
+ 	dev_dbg(&priv->i2c->dev, "helene: I2C %s reg 0x%02x size %d\n",
+-			(write == 0 ? "read" : "write"), reg, len);
++			str_read_write(write == 0), reg, len);
+ 	print_hex_dump_bytes("helene: I2C data: ",
+ 			DUMP_PREFIX_OFFSET, data, len);
+ }
+diff --git a/drivers/media/dvb-frontends/horus3a.c b/drivers/media/dvb-frontends/horus3a.c
+index 0330b78a5b3f29a88e65dcc228a6f09a2125434a..0c3280d4f4989ad37970107712884c3dece55ee7 100644
+--- a/drivers/media/dvb-frontends/horus3a.c
++++ b/drivers/media/dvb-frontends/horus3a.c
+@@ -13,6 +13,7 @@
+ #include <linux/slab.h>
+ #include <linux/module.h>
+ #include <linux/dvb/frontend.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+ #include "horus3a.h"
+ #include <media/dvb_frontend.h>
+@@ -38,7 +39,7 @@ static void horus3a_i2c_debug(struct horus3a_priv *priv,
+ 			      u8 reg, u8 write, const u8 *data, u32 len)
+ {
+ 	dev_dbg(&priv->i2c->dev, "horus3a: I2C %s reg 0x%02x size %d\n",
+-		(write == 0 ? "read" : "write"), reg, len);
++		str_read_write(write == 0), reg, len);
+ 	print_hex_dump_bytes("horus3a: I2C data: ",
+ 		DUMP_PREFIX_OFFSET, data, len);
+ }
+diff --git a/drivers/media/dvb-frontends/sp2.c b/drivers/media/dvb-frontends/sp2.c
+index 75adf2a4589fd058d8c07621c9ae00d64177c3c1..2865d52a88a1e9b949dcca1c6ba3dd8803cc9bf7 100644
+--- a/drivers/media/dvb-frontends/sp2.c
++++ b/drivers/media/dvb-frontends/sp2.c
+@@ -12,6 +12,7 @@
+  *  Copyright (C) 2009 Abylay Ospan <aospan@netup.ru>
+  */
+ 
++#include <linux/string_choices.h>
+ #include "sp2_priv.h"
+ 
+ static int sp2_read_i2c(struct sp2 *s, u8 reg, u8 *buf, int len)
+@@ -132,7 +133,7 @@ static int sp2_ci_op_cam(struct dvb_ca_en50221 *en50221, int slot, u8 acs,
+ 		return ret;
+ 
+ 	dev_dbg(&s->client->dev, "%s: slot=%d, addr=0x%04x, %s, data=%x",
+-			(read) ? "read" : "write", slot, addr,
++			str_read_write(read), slot, addr,
+ 			(acs == SP2_CI_ATTR_ACS) ? "attr" : "io",
+ 			(read) ? mem : data);
+ 
 
 -- 
 2.43.0
