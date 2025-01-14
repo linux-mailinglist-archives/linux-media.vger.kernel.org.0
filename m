@@ -1,141 +1,128 @@
-Return-Path: <linux-media+bounces-24724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2DEA10D03
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 18:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CE9A10DB3
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 18:26:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 51FCF1888874
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 17:07:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B92EB1887518
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 17:26:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 159CF1F9AA5;
-	Tue, 14 Jan 2025 17:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3CD11D5AD3;
+	Tue, 14 Jan 2025 17:26:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W2XP9C/u"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="G1J6j5k4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D021F943C;
-	Tue, 14 Jan 2025 17:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAEC1E764A
+	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 17:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736874451; cv=none; b=RdjsvJ10ErtmTGdHfypu9CpllkZ2xSn/k6kaMbav5VilZiVYHxn9/cUd16BZu1gJRwFMzAzMAlhZTGuHDWoRHzlkdK44mn5xInx+Pn4hSZf5RBRVPbfrun2adZDXoZe75eVckXoRAJgNIYNzhEIFIMwcgNvMZISZ8bXI7kUjjuw=
+	t=1736875584; cv=none; b=tw0fVIzAFtw2SwV17SWHo3i4ebzpNZMoSNx0e3hE/F5B5CXRl2bH1Zqr+2D+IuCAUselWGKELje9VDMjZUASXvZ7kpVs9zex8w1PKI2vskkmSJkp2xK78Z1mQnB67fsEmZ3WiHxoIA4PzWiQX3npbxF03gkxRPWBMhqQWDnaY+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736874451; c=relaxed/simple;
-	bh=Nnoh24Dz4UQuumTV0v3UEOHMNb0aqFjMMibU0zsSBlc=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=OOvfyflIer2rJPazmhR9vm2u2l43JGyvslmu1sZHP/lHgwdcG5F/EnaP9M6zVhHanL33YonKlEqrx6CecuWJ2XYi8soQa228H54DDGOx9YVMD7FsEz71yNldYASC8kBSHwd8ccBabUuHteIE2HZ0JPvNSL+TViySLlwMbIlQPmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W2XP9C/u; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53f22fd6887so4890318e87.2;
-        Tue, 14 Jan 2025 09:07:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736874447; x=1737479247; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nnoh24Dz4UQuumTV0v3UEOHMNb0aqFjMMibU0zsSBlc=;
-        b=W2XP9C/u4E934UASC8T0SAaDDHODm4FztKSFHdIy5J7xLmrKg0IoK78Un0xCa2cUQ2
-         0ucUpdJtRRMd71v930w96m2Z0yTqjZlFUNjD8vBUdvPa47JRdH3L08IEOPbhUaXnw/jg
-         akKPMyaWhecjIp4tGsjQnIPJaNVCkMoTzqtAqde/x181jwibstHeHz9hPdoixHwi8wYi
-         ZLLMb1Rb5o38SKslnElx2gzB3cEMi7IO/PvPWYWe2R7Dw8VDkPa2eZNm7HZwT0guBOWD
-         ISqw1eP//dr9CrXg2gS/CXZg9u7yIU726vJttHkaoKA7as89BOhWIlExO0lijoR2gjv2
-         w1jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736874447; x=1737479247;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Nnoh24Dz4UQuumTV0v3UEOHMNb0aqFjMMibU0zsSBlc=;
-        b=eJZ/AWlFKRWgx89a4f7Ar86b9OEbuZD+Ca+E4fKndloW6EYdjC58fv3R+7W+5N+v55
-         F5T4eLMPa30uMm6vO+oO4aNn7Prh5heFB9zhnQ7x1ZzLTnC85hQqk5JnDOllibLLeO/W
-         Ti9UHbaKaNHnFjzzLxHkcdlN/JF9uqXCQNEz7UNT5QLs4gxePKRdTPrQU/dMNsgPf87F
-         IgtYT64I7vUbqpHVdEecKai6sMvvEab0edv8n/+dz6ESemSqrQVWHBDKAN47iw3jdiNd
-         WgTwlM02WQpxPe/rWUMeE1odVwo5YaiHDHePVFa/ZWXHhKDsiQ7qbqtUz1KCwvph2/2N
-         Y7Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/SJyyJtEkp/PlJLdF8SPgv6YBTT65f/mp1ho3sqNyubSwgGUFnNPR908M/kcVsLnPogFRTJ0pPi1ZADk=@vger.kernel.org, AJvYcCXO8HNbh92OMKKAVpMn4lcgNsiEugPeDcmAqs6ds1VdpLHdQL69Hy6McmuPpSiwEmsArnD4a1fpzuNvbmY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwbwUdtPlERxlQ/CivmkzJ4w0zymhJ1RLraggF/juzrz0JV7DD
-	UNe1eP5Sq2vumOO0Ag0aKiiIxKeCHPOH5FKSyCJdzQscaQTYNuWnCgzpIR1ARS4=
-X-Gm-Gg: ASbGnctHGpVtYaXDxNgPt0hz3eslxR3bGAZfpM9VV+8bgGL+YS9vYB2jaZ8wIKsBuip
-	km2CEqpmCgCwPZwQhHhJYoixUVFPXwFS99GYpMxm85x4F0XVcLFDaNkhifhhs+DG2fWDuRYrqsX
-	yCIhNl/Wkq9kBWklh+J0teFN6ZtkgigbCvMj4rDXu2hLbOZGruvhhCa5Yqw6eAkyOBc47864Lmm
-	PeUmtYgB8eQ1dU39UhL0w77c/gMV/e/D5n2oj4dDwk5Q8DfYExtTGMFdy3tdfpr/l/ezc45rnHi
-	LxnfbVSQ2QhDXF8etK4He+HC2uSUcfv5b+Qa8R7Sln6X
-X-Google-Smtp-Source: AGHT+IHeaRN9PDguwxNaRUx8e7RlNc1zAJ+FhIwOOoRUyKrjzbduxhH7kD38+VAVbJRFlGbFeDbwlw==
-X-Received: by 2002:a05:6512:3a83:b0:53e:362e:ed3 with SMTP id 2adb3069b0e04-542845aed9emr6667187e87.1.1736874447229;
-        Tue, 14 Jan 2025 09:07:27 -0800 (PST)
-Received: from razdolb (static.248.157.217.95.clients.your-server.de. [95.217.157.248])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428bec073esm1769027e87.194.2025.01.14.09.07.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 09:07:26 -0800 (PST)
-References: <20250102-b4-rkisp-noncoherent-v1-1-bba164f7132c@gmail.com>
- <20250103152326.GP554@pendragon.ideasonboard.com>
-User-agent: mu4e 1.10.9; emacs 29.4.50
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rkisp1: allow non-coherent video capture buffers
-Date: Tue, 14 Jan 2025 19:00:39 +0300
-In-reply-to: <20250103152326.GP554@pendragon.ideasonboard.com>
-Message-ID: <87bjw9s4s3.fsf@gmail.com>
+	s=arc-20240116; t=1736875584; c=relaxed/simple;
+	bh=EaGvpvXAfJJWd4ividdL7glMt8ns96cbwytnDI/GZU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LUwOZznWBT/UXIrj2ZPh7ac1HQvClu1txWW9JyTPVpmJAnbhrkOUgGtB/J8ZP0Pmdi8oD2MVRUTPiOggAo7GqJUvyKG5It6e1EFTxr5EgkxKj1p9/h0tNbpVNPiKprFqCY/xJX7lCMu6wo04BmqExwNpnBdyPO3Q3dtH45E7s9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=G1J6j5k4; arc=none smtp.client-ip=178.60.130.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=Gq1SB2LaXjxVwa61Dc9hsgDAFFhtuffzThQL+BqW/Z0=; b=G1J6j5k489fDyyhAbcodbs3usJ
+	5NFF0BycI7p3GSGhMhJKRr2ox6sZrNqfjGESrTIOKhYpn3QDmOaA/xYMb0HicXWbqRF/ZL3aI4qSK
+	GMlPEUSnlU9PqZENEdzNI/PMW+kxjsb+pS4wyospqtTVLBbakDtIEAGwyfEDavME9w7ZuSIczRs2h
+	Opsc+7LnBRQBznNQz+A1LmFY3RRhHQ9pqC5ejkUvtGEMmiOmVuJyQpz8iJ1YBJa9H/Gp/mUoQe2f0
+	IDiXOWcyjuylXQKVmotLi4bRCSOkX6dLOia+T+2AQ/dkAJRShFbP814HYlEezXHx3GU/Ey7MKc/XJ
+	1EuwzvgA==;
+Received: from 179-125-92-253-dinamico.pombonet.net.br ([179.125.92.253] helo=quatroqueijos.cascardo.eti.br)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1tXkg6-00FkAN-J5; Tue, 14 Jan 2025 18:26:11 +0100
+Date: Tue, 14 Jan 2025 14:26:03 -0300
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomasz Sikora <sikora.tomus@gmail.com>, hverkuil-cisco@xs4all.nl,
+	kernel-dev@igalia.com, linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com,
+	syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3 1/1] media: uvcvideo: require entities to have a
+ non-zero unique ID
+Message-ID: <Z4aeK4Ct7L/9kR2H@quatroqueijos.cascardo.eti.br>
+References: <CADBf=5nS8_cQvG3mRnXe_MGYmFMh=Myf_eptPqN9hgNMu73Wjg@mail.gmail.com>
+ <Z36ad0OxZBnQ0Kxx@quatroqueijos.cascardo.eti.br>
+ <20250108153637.GE32541@pendragon.ideasonboard.com>
+ <Z36gMvN0XxfXwE82@quatroqueijos.cascardo.eti.br>
+ <CADBf=5m0WVMJbVfDvpFdqoYdKj=nT+mOW=D-Q2MJJ=TCbsTMuQ@mail.gmail.com>
+ <Z3+pQ/xVdpiE/1GN@quatroqueijos.cascardo.eti.br>
+ <20250113185059.GA30724@pendragon.ideasonboard.com>
+ <CANiDSCtvwUEP+66NiXQRNjxpVyh_XCztJRYwdQQMKWx9p_SOcA@mail.gmail.com>
+ <Z4ZbYavHz1DpCCwK@quatroqueijos.cascardo.eti.br>
+ <CANiDSCvx4syyRhsX5v_kzFN4dR0JUoB8c0pY4Tf+JB318M=qYA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvx4syyRhsX5v_kzFN4dR0JUoB8c0pY4Tf+JB318M=qYA@mail.gmail.com>
+
+On Tue, Jan 14, 2025 at 11:20:30PM +0800, Ricardo Ribalda wrote:
+> On Tue, 14 Jan 2025 at 20:41, Thadeu Lima de Souza Cascardo
+> <cascardo@igalia.com> wrote:
+[...] 
+> Please correct me if I am wrong, but the ID is only required to
+> configure the topology of the device. If multiple entities have the
+> same id then they cannot be part of the topology, because we will
+> never be sure about what entity is the correct one.
+> 
+
+I can say mostly about the device that has been reported:
+
+Output Terminal has ID 5 and source ID 4.
+Processing Unit has ID 5 and source ID 4.
+Input Terminal has ID 1.
+
+But we end up connecting them with uvc_scan_fallback:
+
+OT -> PU -> IT
+
+As if Processing Unit had ID 4 and source ID 1.
 
 
-Hi Laurent,
+> My proposal is to mark the duplicated as invalid so they cannot be
+> found with uvc_entity_by_id(), but they can still have controls.
+> 
 
-On 2025-01-03 at 17:23 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+I would need to test them.
 
-> On Thu, Jan 02, 2025 at 06:35:00PM +0300, Mikhail Rudenko wrote:
->> Currently, the rkisp1 driver always uses coherent DMA allocations for
->> video capture buffers. However, on some platforms, using non-coherent
->> buffers can improve performance, especially when CPU processing of
->> MMAP'ed video buffers is required.
->>
->> For example, on the Rockchip RK3399 running at maximum CPU frequency,
->> the time to memcpy a frame from a 1280x720 XRGB32 MMAP'ed buffer to a
->> malloc'ed userspace buffer decreases from 7.7 ms to 1.1 ms when using
->> non-coherent DMA allocation. CPU usage also decreases accordingly.
->
-> What's the time taken by the cache management operations ?
+> I think it can work with multiple duplicated IDs. It is also pretty
+> clean and is not affected by the issue found by syszcaller.
+> 
+> In any case we probably want to act fast on this one. We had reports
+> from multiple parties.
+> 
 
-Sorry for the late reply, your question turned out a little more
-interesting than I expected initially. :)
+Perhaps we should then revert the previous fix (which implies that this
+same device would lead to some warnings, but they don't seem to cause any
+other issues except for not exposing some media controls). And, then, we
+work on reapplying it and another fix on top, or a different fix during
+6.14 or 6.15.
 
-When capturing using Yavta with MMAP buffers under the conditions mentioned
-in the commit message, ftrace gives 437.6 +- 1.1 us for
-dma_sync_sgtable_for_cpu and 409 +- 14 us for
-dma_sync_sgtable_for_device. Thus, it looks like using non-coherent
-buffers in this case is more CPU-efficient even when considering cache
-management overhead.
+Thanks for the patience.
+Cascardo.
 
-When trying to do the same measurements with libcamera, I failed. In a
-typical libcamera use case when MMAP buffers are allocated from a
-device, exported as dmabufs and then used for capture on the same device
-with DMABUF memory type, cache management in kernel is skipped [1]
-[2]. Also, vb2_dc_dmabuf_ops_{begin,end}_cpu_access are no-ops [3], so
-DMA_BUF_IOCTL_SYNC from userspace does not work either.
-
-So it looks like to make this change really useful, the above issue of
-cache management for libcamera/DMABUF/videobuf2-dma-contig has to be
-solved. I'm not an expert in this area, so any advice is kindly welcome. :)
-
-[1] https://git.linuxtv.org/media.git/tree/drivers/media/common/videobuf2/videobuf2-core.c?id=94794b5ce4d90ab134b0b101a02fddf6e74c437d#n411
-[2] https://git.linuxtv.org/media.git/tree/drivers/media/common/videobuf2/videobuf2-core.c?id=94794b5ce4d90ab134b0b101a02fddf6e74c437d#n829
-[3] https://git.linuxtv.org/media.git/tree/drivers/media/common/videobuf2/videobuf2-dma-contig.c?id=94794b5ce4d90ab134b0b101a02fddf6e74c437d#n426
-
---
-Best regards,
-Mikhail Rudenko
+> Regards!
 
