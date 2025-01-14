@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-24733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24732-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB8FA11162
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 20:47:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B3CA11161
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 20:47:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 118957A3EA3
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 19:47:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BD5A1889315
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 19:47:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D9520CCDD;
-	Tue, 14 Jan 2025 19:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC6A820CCD9;
+	Tue, 14 Jan 2025 19:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OED1sDo9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oxCwXJ5o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F6D209671
-	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 19:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA83120C037
+	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 19:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736884005; cv=none; b=PJwgVqA69U3bSMbRJ09VgRf2bhFXSjRbP2ukzJiULcZx0xAnGaiWxLjs2V6tVdszTbPzhKCyjVuEGKE9wqn6aId9TYCswphzJhW7+QTbRMR54c21erPDFsU9cGek0vU/PAaS2te+bOttJuoX2le+7wsXLnpmk27DiX3/tNeOAss=
+	t=1736884005; cv=none; b=FZN0bGArZEUf/hmTJqe925MI+4Oexl8XFPgok9vwd+al5VTM0nag1CP/EXiv5kb94wmOCIFAeWFrXYg3RO6iKUdGuRpRqZSVmPYo6yZYGUtQvJAxdwh7JpiTDMHzoLPF1NCfXEVORoFICB6TXAHLcQBpdKCWKv4qKbRNtyfonRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736884005; c=relaxed/simple;
-	bh=J+bOpSDav9KLWsbQzTSsAbI6/NeG0pC4FqfVEYLhlLE=;
+	bh=WbLymYMShlzUKl2D3s6BMuVinKFHumRl83lJ3jM2rGI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ECsMiGcw9R7LSKthDZ223PTbvEY7haMNrowsIJ+Q7Yg1YbXD3RguXA+Py4/3Stw2C4fB4yAS+++Fn1/uCDDVtd3MtaSEfU0ITpYjtI4hUN2fY1GGThQLgyfzf1fF5uOqY+QeoEjghP1UVVxlvSvdoHcIy3SLrnQObnjw8HQf+lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OED1sDo9; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:To:Cc; b=Dpw8I+kfCTrpnHc3xH6PBcsgbtYAe0fZvhvbwbWPgFjAsJFgK215hc/kJNoB7EteVo+YOyUnWvj+vpqoFjPiZPGAExiKwLdS35ctAVE2sJPok7eOqHH/2BvU5eEIUxcnHjUG2DbcwMWtNGuWA7lGDiUl10DG4eYg0wl90R++DlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oxCwXJ5o; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43616bf3358so7447965e9.3
-        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 11:46:41 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4363299010dso6378725e9.1
+        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 11:46:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736884000; x=1737488800; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1736884001; x=1737488801; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XP1TbAg4KH9+xlcsz3vyOsAw2IgWf28lGyGn4Q94zVc=;
-        b=OED1sDo900jfeXPWZTq1I7ixrXduZG7m7daAK0lqsfV3ahikQHThbaQHKQHk8CN7g+
-         abt7Jr6I4nZQYlBdvrdKpDAzEpiKf5ApOAUhT0pU1PN1Pz6e1SjSBJHf8KTw+nT0MUWM
-         kUFDkOLh8VI70PcKFyj52Mkisz+h8SKxhYILRjxVw+B7oNYgLwyHpsrygY+Udeoj0eC/
-         Zxl0y6XZrouvSCYTnwIeLYFcIS0knQOmhdK2+JbTYLtFDUj9L/nH8jcOiaBJKILUhedr
-         BLgcLaDN93Wvmr/axY6pAK2XheOpu4Qtt2eVynbTGGhNznSKH7rXIbeqQdJu32PvBpp1
-         3Wqg==
+        bh=lW1RPdJO28XgohYSkXkEoEhTdTmjERSuMwVKq1h1f3I=;
+        b=oxCwXJ5oLOJk6ZEPX8t6Ywv9/X/NT5z2VuU925tm5Fzz4qfIMyU8ErE0kL8Qvjrn6V
+         jrJo7s/jxMVlzOhs16/Bh7GvYdsprCv7p5KWOyTNmCIrPVgHX+v+aXp/YikkQp3Yw8aB
+         3W7zW40mX/kf41K/CnV4gk02o/qp9yb93PAkjOgpJ3xg+KSWc4yIUwbfQ0Nx5FcWgEDa
+         wI/VOJDpiJDxm4bZ/BmQhSYsnVXYvLTx5iBL7Sfqi9dpWs7OzO5x48wLka6Kpn2re63w
+         iyt/uduO5BKI2uCF3pQWwlFcAGT/Lg3z6msbzrfv5uJfHLRf1xETCmWyth11cI8jHJyB
+         pE2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736884000; x=1737488800;
+        d=1e100.net; s=20230601; t=1736884001; x=1737488801;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XP1TbAg4KH9+xlcsz3vyOsAw2IgWf28lGyGn4Q94zVc=;
-        b=bVQngpVwYE+3iTEeGqo14aW1bRcaga/PYkGlWGeXEeDiZ01/0wBnL9l9mLWNZB2RnC
-         RI9G2WZ8ve7gxhRjyeW/YhDoHC0n3UURlHZc7EvHmdb+jZFMaQ53uy+jxGvaJkg+UVLM
-         xqWUSNXHABlHWCebzf27iv33MGwseehpXDzYnWNcB2wmtKzHsasHZP7REZNALfmdXeIm
-         EKEvCDZWxJAwmSuna6WiwBJcouwOACk6kDvXbPVJRnU7XVrygT5WuPbzf9BpLY0Llv/y
-         DH37mUpcYl+PvfZJV4jnmMiDPCBUP+l5X/NReZnovw6EgYhaNQbhrHtQfUl6FhM2Ma2y
-         CeIw==
-X-Gm-Message-State: AOJu0YxWwl2Nt7oaRrUCG6bxHHnCfy6bRRbxMrS28+mMaE0ueHystXfT
-	n9cz3wMSA2yzt1ZSA0HymKEEz7iJITtu81Qn7eBI0Rx+aSOarSmYiI3dl4hSdHA=
-X-Gm-Gg: ASbGncu5v/DQyv2pgFAVqx3qpkc64+zRzTcWHpgjonsYFROUZQHxs+B3S41UYYb+mcA
-	/Td24C8gpmTiH9HTJ6VWJCYREnTlGmR5on8zIEIIYuPpOiEhF84wYVsQV2yLn+QrsiEiFuuaoON
-	N4kEWUgVZBZ65rECpk2L4UOvqOCUKK+7I32dS+va2hn78u24hh6K9Zdg+8BOKvTBSl4XqgL0lLn
-	MRdlnq8ZDeTpRpd3gjL4II8rnvbhA3ycfXD6dSa1L4oVkFInnl9gxqDdehHN5IvAlpsZOPR
-X-Google-Smtp-Source: AGHT+IGShG0RwoxhG9NZzaebSfDGRDX8ggX+btd3dOSB2+uCAvZlI9ITUhzxoD3xUzJVaex96rMq9g==
-X-Received: by 2002:a05:600c:3b11:b0:42c:bb35:b6d0 with SMTP id 5b1f17b1804b1-436e267f21bmr103979185e9.1.1736883999138;
-        Tue, 14 Jan 2025 11:46:39 -0800 (PST)
+        bh=lW1RPdJO28XgohYSkXkEoEhTdTmjERSuMwVKq1h1f3I=;
+        b=Ve+TArSCAyv2fvcB5cXdgOFg0/ebEZD5TNTYtkivVRtJtvm3ACOqPlseKsa4nBsKjZ
+         UiTQ8Q1SoMp/acg66BPzYZ3As+Gw6ZTW0I85CnY6lrm0CKcKlKWKhPF9g68CjIKPJ2Qw
+         mTkOhqXuQbktlxwhJiA+yNN74nij6bJ5nrh8Qsx4Pz4E/WYvJtS/wmiIajPkmIuyN/eA
+         xpmvrvJ6pdUm3CdX+EqXZe4mTpPzfhqEMl9WPURwmelPrzKi8TqGNWt+hYuB1YrY+lJ3
+         aFhQHH2WgIbI6F9Y5dqAIKBnNwnN9Qy52Cv74bfl4g5BmualVWRKtXY5Z8k0U97ImII9
+         e+5w==
+X-Gm-Message-State: AOJu0YxtGkx/GgFC2s6FdjLHXZa9I4JVLBtjTZKMRR5qSgwZ24gi4K3v
+	q3Wssp0fUCs6U4OTMrE5/+qytIUIAMkZJHaf98jjcJGf46w5vnBxd+oPMvrZX4M=
+X-Gm-Gg: ASbGncvGCIJOTS4FKghzjRFppJflVRAJmzFDUUqmAIvIhZ+fqilZBzv+te4DYdVPqkj
+	O+O4yLY9HbQalFX83fRkh+YhPL1skBpS4dTXkUSkiuyVTFRRuzMuz2grNBiCc16RldtJTuFekcC
+	ohRg80N0+KY2kQhjvbc71OQrXDkRvYG3/S0BR3n0hRHko4/Rg1BZB3qmr/wfo8oYUS6PLj/p9Sz
+	YN4HhwpynnR/gvgsnVjPt1Rklp8en/wWbiWd3VT7+E9+sOnhXqUjUX3XaTXNbOSPhb3M4A/
+X-Google-Smtp-Source: AGHT+IGGG5GPUhMo1YJf0Z9vXxXLjktJfiE6m89IiYFvnQlQEPy8Ey1Xhvo+Kexsjl7OSohZcbwJpA==
+X-Received: by 2002:a05:600c:4e52:b0:434:a339:ec67 with SMTP id 5b1f17b1804b1-436eba35780mr82786225e9.3.1736884000979;
+        Tue, 14 Jan 2025 11:46:40 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9e37c2esm184337515e9.28.2025.01.14.11.46.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9e37c2esm184337515e9.28.2025.01.14.11.46.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 11:46:37 -0800 (PST)
+        Tue, 14 Jan 2025 11:46:40 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Tue, 14 Jan 2025 20:46:19 +0100
-Subject: [PATCH 3/6] media: i2c: Use str_enable_disable-like helpers
+Date: Tue, 14 Jan 2025 20:46:20 +0100
+Subject: [PATCH 4/6] media: pci: Use str_enable_disable-like helpers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,7 +81,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250114-str-enable-disable-media-v1-3-9316270aa65f@linaro.org>
+Message-Id: <20250114-str-enable-disable-media-v1-4-9316270aa65f@linaro.org>
 References: <20250114-str-enable-disable-media-v1-0-9316270aa65f@linaro.org>
 In-Reply-To: <20250114-str-enable-disable-media-v1-0-9316270aa65f@linaro.org>
 To: Hans Verkuil <hverkuil@xs4all.nl>, 
@@ -102,21 +102,21 @@ To: Hans Verkuil <hverkuil@xs4all.nl>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=35764;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=18328;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=J+bOpSDav9KLWsbQzTSsAbI6/NeG0pC4FqfVEYLhlLE=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnhr8R6i6gJBQFdiogyILc5eLTLuL9AB6XpNAMX
- JZIlsrPVgOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ4a/EQAKCRDBN2bmhouD
- 14qAD/0et86SvA9Kb26BeZHQl+hidokM/Tqzc8Q86qoULoM4+Dpsm5hqSheMLJY7Jqe404VsMRi
- lMAQ/CyctTzsKaC735AzD8nfVt11qqL6OHV80VQkcujTMtRo1W2i6MHeaaeEYeaf2wtwGmg4CaS
- hEcjNNlqyz95mxH1qywO69K87OswZpDL5/qNRnrXU/PEolzCI/hrrlegoYVY+bFhutT9kDQuWUv
- iKMBwTHgA1MjcdTgHOMCvrHE/A65ClJVLrO43cUUQaa+9tqZfgK/5lpdRTTuXOZDeKzkLQOLUvb
- +UCFgSqTE/9OBRfL1R1Qv3GcKU29jRIsGaHbqK43UoDiGwsPzRtMVzDy81eAvbSvpgxXTFIrd7D
- Gto43sJUO2Ou0svzmg3MWaHwUH1vlPSGa4zHzBLQSo2azkC8HR3G1GCNOyGYONrGQAdH9ORoUXR
- pHpCYAhPmgS6aqXCeyQQyZsOt7yy7wlQ53ylyySnQFlsXcIm3kA3auCxidm8+tepi1HuSzkBc5Y
- SSqqi6hI/6ZI9kbZo1XM6N7aAk+6bwlvJ0G6jmedOpP2i7ElLHwWv6QtYYNdcIoZLwBl/Uhaa97
- 6Jn+VeucjiPyTFMDpgfjkiTlezXw+bKKGfWnDHH1M78s7jq1U9g/5jEfFtxsOB+jpJN8hNFeAPh
- CxjEb8jbj6UaxnQ==
+ bh=WbLymYMShlzUKl2D3s6BMuVinKFHumRl83lJ3jM2rGI=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnhr8SZ3nNtwMjkF+RaV9wL2nhTZvxvg9kpg65C
+ 1b37w46FHqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ4a/EgAKCRDBN2bmhouD
+ 16UUD/0Vf5yzQubPciAGEQ5MQ4cu7mYiBSfcPM18nfEu1AuCnN2OTZ3AuaIKrsIsHj4l3q6t5v/
+ h7UfNhL36kFAjwKtZugGN4Ijsf1xmDauFQMukuGki2+cXwFZJBs2mC+UnXAZJ94jYmWrSoCc8e4
+ g/ZmyKbgM7pMWxgraymA6VJj9InTaWcB4rHoDHaCsmlde7/vFBycWSs8KMe6ajog91fmSjSKNSJ
+ f0oGe74Tka2oLNVx6J7hgQUSbzSvJ6VYi25VKivqb7RIAlsOmmIyAPl9p74iUYnh/EyVAn2BtA8
+ NZg0N5TwmBvB1XGK6V9C5i+JFnGGOYQj7mH+ywW9CpEflz7IMVZFyCMZVxe7Y2KJzywcvWobj9z
+ ZGqeCSu+sEfQss6sJIkjWpjogchvhUS4GND39W9mlopvY6Btw20EyBmETzr+sSMuaQRMaMMGvdt
+ 9Qh7Xctu4EaJyCGPLVRcf6AEOtoqAQR0IQb06Ie6NUCH1MCsfgTX2xzXQSLc2gwfnob+mXnS2l6
+ RnFfMCBKFET/LHj80Jxal6JkLWiT7eOuveAl8Q8PyIKcloS7ipAVLwPVYySrlNOUyji0Ojj8wpp
+ wfPHJ2TyxgJHb/CzABCfD1g+haZsG34lGBLRIsRS+ER7cTkWoZJabs1JGuRj5BHwWVmypFUkpOc
+ 0oYR9VK6HCtuF0Q==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
@@ -132,333 +132,204 @@ from string_choices.h because:
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/media/i2c/adv7511-v4l2.c         | 10 +++----
- drivers/media/i2c/adv7604.c              | 43 +++++++++++++++--------------
- drivers/media/i2c/adv7842.c              | 46 +++++++++++++++-----------------
- drivers/media/i2c/cx25840/cx25840-core.c |  5 ++--
- drivers/media/i2c/cx25840/cx25840-ir.c   | 35 ++++++++++++------------
- drivers/media/i2c/max9286.c              |  3 ++-
- drivers/media/i2c/msp3400-driver.c       |  5 ++--
- drivers/media/i2c/saa7110.c              |  3 ++-
- drivers/media/i2c/saa7115.c              |  4 +--
- drivers/media/i2c/saa7127.c              | 13 ++++-----
- drivers/media/i2c/saa717x.c              |  3 ++-
- drivers/media/i2c/tc358743.c             | 43 +++++++++++++----------------
- drivers/media/i2c/tda1997x.c             |  7 ++---
- drivers/media/i2c/ths7303.c              |  3 ++-
- drivers/media/i2c/ths8200.c              |  9 ++++---
- drivers/media/i2c/tvp7002.c              |  4 +--
- drivers/media/i2c/vpx3220.c              |  3 ++-
- 17 files changed, 119 insertions(+), 120 deletions(-)
+ drivers/media/pci/bt8xx/bttv-cards.c          | 17 ++++++------
+ drivers/media/pci/bt8xx/bttv-driver.c         |  7 +++--
+ drivers/media/pci/cobalt/cobalt-driver.c      |  3 ++-
+ drivers/media/pci/cx18/cx18-av-core.c         |  5 ++--
+ drivers/media/pci/cx23885/altera-ci.c         |  3 ++-
+ drivers/media/pci/cx23885/cimax2.c            |  3 ++-
+ drivers/media/pci/cx23885/cx23888-ir.c        | 37 ++++++++++++++-------------
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |  3 ++-
+ drivers/media/pci/ivtv/ivtv-ioctl.c           |  3 ++-
+ drivers/media/pci/saa7134/saa7134-cards.c     |  4 +--
+ drivers/media/pci/saa7134/saa7134-dvb.c       |  3 ++-
+ drivers/media/pci/saa7134/saa7134-input.c     |  7 ++---
+ drivers/media/pci/saa7134/saa7134-video.c     |  3 ++-
+ 13 files changed, 54 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
-index 4036972af3a6628b72de0c770b13ba829742ff2f..3589a99d1ad7b859c9b3ef59891b02ed732a1081 100644
---- a/drivers/media/i2c/adv7511-v4l2.c
-+++ b/drivers/media/i2c/adv7511-v4l2.c
-@@ -16,6 +16,7 @@
- #include <linux/slab.h>
- #include <linux/i2c.h>
- #include <linux/delay.h>
+diff --git a/drivers/media/pci/bt8xx/bttv-cards.c b/drivers/media/pci/bt8xx/bttv-cards.c
+index 365b04e5ae4d27e7f7b092ce69575d938381570c..5d1b08aae077090221d7a284a3614c12db9dc495 100644
+--- a/drivers/media/pci/bt8xx/bttv-cards.c
++++ b/drivers/media/pci/bt8xx/bttv-cards.c
+@@ -20,6 +20,7 @@
+ #include <linux/kmod.h>
+ #include <linux/init.h>
+ #include <linux/pci.h>
 +#include <linux/string_choices.h>
- #include <linux/videodev2.h>
- #include <linux/workqueue.h>
- #include <linux/hdmi.h>
-@@ -583,7 +584,7 @@ static int adv7511_log_status(struct v4l2_subdev *sd)
- 		"9", "A", "B", "C", "D", "E", "F"
- 	};
+ #include <linux/vmalloc.h>
+ #include <linux/firmware.h>
+ #include <net/checksum.h>
+@@ -3036,12 +3037,12 @@ static void flyvideo_gpio(struct bttv *btv)
+ 		tuner_type = TUNER_ABSENT; /* No tuner present */
  
--	v4l2_info(sd, "power %s\n", state->power_on ? "on" : "off");
-+	v4l2_info(sd, "power %s\n", str_on_off(state->power_on));
- 	v4l2_info(sd, "%s hotplug, %s Rx Sense, %s EDID (%d block(s))\n",
- 		  (adv7511_rd(sd, 0x42) & MASK_ADV7511_HPD_DETECT) ? "detected" : "no",
- 		  (adv7511_rd(sd, 0x42) & MASK_ADV7511_MSEN_DETECT) ? "detected" : "no",
-@@ -635,8 +636,7 @@ static int adv7511_log_status(struct v4l2_subdev *sd)
+ 	pr_info("%d: FlyVideo Radio=%s RemoteControl=%s Tuner=%d gpio=0x%06x\n",
+-		btv->c.nr, has_radio ? "yes" : "no",
+-		has_remote ? "yes" : "no", tuner_type, gpio);
++		btv->c.nr, str_yes_no(has_radio),
++		str_yes_no(has_remote), tuner_type, gpio);
+ 	pr_info("%d: FlyVideo  LR90=%s tda9821/tda9820=%s capture_only=%s\n",
+-		btv->c.nr, is_lr90 ? "yes" : "no",
+-		has_tda9820_tda9821 ? "yes" : "no",
+-		is_capture_only ? "yes" : "no");
++		btv->c.nr, str_yes_no(is_lr90),
++		str_yes_no(has_tda9820_tda9821),
++		str_yes_no(is_capture_only));
  
- 	v4l2_info(sd, "i2c cec addr: 0x%x\n", state->i2c_cec_addr);
- 
--	v4l2_info(sd, "CEC: %s\n", state->cec_enabled_adap ?
--			"enabled" : "disabled");
-+	v4l2_info(sd, "CEC: %s\n", str_enabled_disabled(state->cec_enabled_adap));
- 	if (state->cec_enabled_adap) {
- 		for (i = 0; i < ADV7511_MAX_ADDRS; i++) {
- 			bool is_valid = state->cec_valid_addrs & (1 << i);
-@@ -657,7 +657,7 @@ static int adv7511_s_power(struct v4l2_subdev *sd, int on)
- 	const int retries = 20;
- 	int i;
- 
--	v4l2_dbg(1, debug, sd, "%s: power %s\n", __func__, on ? "on" : "off");
-+	v4l2_dbg(1, debug, sd, "%s: power %s\n", __func__, str_on_off(on));
- 
- 	state->power_on = on;
- 
-@@ -888,7 +888,7 @@ static void adv7511_set_isr(struct v4l2_subdev *sd, bool enable)
- 	u8 irqs_rd;
- 	int retries = 100;
- 
--	v4l2_dbg(2, debug, sd, "%s: %s\n", __func__, enable ? "enable" : "disable");
-+	v4l2_dbg(2, debug, sd, "%s: %s\n", __func__, str_enable_disable(enable));
- 
- 	if (state->enabled_irq == enable)
- 		return;
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index e271782b7b70bd15beff57aa5436d453e4d8ebab..87709bba78948915635e2fa85c7b27f72045e7fb 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -23,6 +23,7 @@
- #include <linux/module.h>
- #include <linux/of_graph.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <linux/v4l2-dv-timings.h>
- #include <linux/videodev2.h>
- #include <linux/workqueue.h>
-@@ -2563,15 +2564,14 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 	};
- 
- 	v4l2_info(sd, "-----Chip status-----\n");
--	v4l2_info(sd, "Chip power: %s\n", no_power(sd) ? "off" : "on");
-+	v4l2_info(sd, "Chip power: %s\n", str_off_on(no_power(sd)));
- 	edid_enabled = rep_read(sd, info->edid_status_reg);
- 	v4l2_info(sd, "EDID enabled port A: %s, B: %s, C: %s, D: %s\n",
--			((edid_enabled & 0x01) ? "Yes" : "No"),
--			((edid_enabled & 0x02) ? "Yes" : "No"),
--			((edid_enabled & 0x04) ? "Yes" : "No"),
--			((edid_enabled & 0x08) ? "Yes" : "No"));
--	v4l2_info(sd, "CEC: %s\n", state->cec_enabled_adap ?
--			"enabled" : "disabled");
-+		  str_yes_no(edid_enabled & 0x01),
-+		  str_yes_no(edid_enabled & 0x02),
-+		  str_yes_no(edid_enabled & 0x04),
-+		  str_yes_no(edid_enabled & 0x08));
-+	v4l2_info(sd, "CEC: %s\n", str_enabled_disabled(state->cec_enabled_adap));
- 	if (state->cec_enabled_adap) {
- 		int i;
- 
-@@ -2587,19 +2587,18 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "-----Signal status-----\n");
- 	cable_det = info->read_cable_det(sd);
- 	v4l2_info(sd, "Cable detected (+5V power) port A: %s, B: %s, C: %s, D: %s\n",
--			((cable_det & 0x01) ? "Yes" : "No"),
--			((cable_det & 0x02) ? "Yes" : "No"),
--			((cable_det & 0x04) ? "Yes" : "No"),
--			((cable_det & 0x08) ? "Yes" : "No"));
-+		  str_yes_no(cable_det & 0x01),
-+		  str_yes_no(cable_det & 0x02),
-+		  str_yes_no(cable_det & 0x04),
-+		  str_yes_no(cable_det & 0x08));
- 	v4l2_info(sd, "TMDS signal detected: %s\n",
--			no_signal_tmds(sd) ? "false" : "true");
-+			str_false_true(no_signal_tmds(sd)));
- 	v4l2_info(sd, "TMDS signal locked: %s\n",
--			no_lock_tmds(sd) ? "false" : "true");
--	v4l2_info(sd, "SSPD locked: %s\n", no_lock_sspd(sd) ? "false" : "true");
--	v4l2_info(sd, "STDI locked: %s\n", no_lock_stdi(sd) ? "false" : "true");
--	v4l2_info(sd, "CP locked: %s\n", no_lock_cp(sd) ? "false" : "true");
--	v4l2_info(sd, "CP free run: %s\n",
--			(in_free_run(sd)) ? "on" : "off");
-+			str_false_true(no_lock_tmds(sd)));
-+	v4l2_info(sd, "SSPD locked: %s\n", str_false_true(no_lock_sspd(sd)));
-+	v4l2_info(sd, "STDI locked: %s\n", str_false_true(no_lock_stdi(sd)));
-+	v4l2_info(sd, "CP locked: %s\n", str_false_true(no_lock_cp(sd)));
-+	v4l2_info(sd, "CP free run: %s\n", str_on_off(in_free_run(sd)));
- 	v4l2_info(sd, "Prim-mode = 0x%x, video std = 0x%x, v_freq = 0x%x\n",
- 			io_read(sd, 0x01) & 0x0f, io_read(sd, 0x00) & 0x3f,
- 			(io_read(sd, 0x01) & 0x70) >> 4);
-@@ -2639,7 +2638,7 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 				(reg_io_0x02 & 0x02) ? "RGB" : "YCbCr",
- 				(((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
- 					"(16-235)" : "(0-255)",
--				(reg_io_0x02 & 0x08) ? "enabled" : "disabled");
-+				str_enabled_disabled(reg_io_0x02 & 0x08));
+ 	if (tuner_type != UNSET) /* only set if known tuner autodetected, else let insmod option through */
+ 		btv->tuner_type = tuner_type;
+@@ -3137,7 +3138,7 @@ static void miro_pinnacle_gpio(struct bttv *btv)
+ 		if (-1 != msp)
+ 			btv->c.type = BTTV_BOARD_PINNACLEPRO;
+ 		pr_info("%d: pinnacle/mt: id=%d info=\"%s\" radio=%s\n",
+-			btv->c.nr, id, info, btv->has_radio ? "yes" : "no");
++			btv->c.nr, id, info, str_yes_no(btv->has_radio));
+ 		btv->tuner_type = TUNER_MT2032;
  	}
- 	v4l2_info(sd, "Color space conversion: %s\n",
- 			csc_coeff_sel_rb[cp_read(sd, info->cp_csc) >> 4]);
-@@ -2651,9 +2650,9 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "Digital video port selected: %c\n",
- 			(hdmi_read(sd, 0x00) & 0x03) + 'A');
- 	v4l2_info(sd, "HDCP encrypted content: %s\n",
--			(hdmi_read(sd, 0x05) & 0x40) ? "true" : "false");
-+			str_true_false(hdmi_read(sd, 0x05) & 0x40));
- 	v4l2_info(sd, "HDCP keys read: %s%s\n",
--			(hdmi_read(sd, 0x04) & 0x20) ? "yes" : "no",
-+			str_yes_no(hdmi_read(sd, 0x04) & 0x20),
- 			(hdmi_read(sd, 0x04) & 0x10) ? "ERROR" : "");
- 	if (is_hdmi(sd)) {
- 		bool audio_pll_locked = hdmi_read(sd, 0x04) & 0x01;
-@@ -2674,7 +2673,7 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 		v4l2_info(sd, "Audio N: %u\n", ((hdmi_read(sd, 0x5d) & 0x0f) << 16) +
- 				(hdmi_read(sd, 0x5e) << 8) +
- 				hdmi_read(sd, 0x5f));
--		v4l2_info(sd, "AV Mute: %s\n", (hdmi_read(sd, 0x04) & 0x40) ? "on" : "off");
-+		v4l2_info(sd, "AV Mute: %s\n", str_on_off(hdmi_read(sd, 0x04) & 0x40));
+ }
+@@ -4077,8 +4078,8 @@ static void avermedia_eeprom(struct bttv *btv)
+ 	} else
+ 		pr_cont("Unknown type");
+ 	pr_cont(" radio:%s remote control:%s\n",
+-	       tuner_tv_fm     ? "yes" : "no",
+-	       btv->has_remote ? "yes" : "no");
++	       str_yes_no(tuner_tv_fm),
++	       str_yes_no(btv->has_remote));
+ }
  
- 		v4l2_info(sd, "Deep color mode: %s\n", deep_color_mode_txt[(hdmi_read(sd, 0x0b) & 0x60) >> 5]);
- 		v4l2_info(sd, "HDMI colorspace: %s\n", hdmi_color_space_txt[hdmi_read(sd, 0x53) & 0xf]);
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index 5545cd23e113d5c81d916eb764afb6f6612edc96..17055684f45b5b79cc8c5f09591d4d35653e8ff9 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -22,6 +22,7 @@
- #include <linux/slab.h>
- #include <linux/i2c.h>
- #include <linux/delay.h>
+ /*
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index 2782832f5eb8f272cf9acf29d7b4c31620c99227..33921a636b86d9eccf5fbd9792e3fe716de5c65a 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -32,6 +32,7 @@
+ #include <linux/fs.h>
+ #include <linux/kernel.h>
+ #include <linux/sched.h>
 +#include <linux/string_choices.h>
- #include <linux/videodev2.h>
- #include <linux/workqueue.h>
- #include <linux/v4l2-dv-timings.h>
-@@ -2657,12 +2658,12 @@ static int adv7842_sdp_log_status(struct v4l2_subdev *sd)
- 	/* SDP (Standard definition processor) block */
- 	u8 sdp_signal_detected = sdp_read(sd, 0x5A) & 0x01;
- 
--	v4l2_info(sd, "Chip powered %s\n", no_power(sd) ? "off" : "on");
-+	v4l2_info(sd, "Chip powered %s\n", str_on_off(no_power(sd)));
- 	v4l2_info(sd, "Prim-mode = 0x%x, video std = 0x%x\n",
- 		  io_read(sd, 0x01) & 0x0f, io_read(sd, 0x00) & 0x3f);
- 
- 	v4l2_info(sd, "SDP: free run: %s\n",
--		(sdp_read(sd, 0x56) & 0x01) ? "on" : "off");
-+		  str_on_off(sdp_read(sd, 0x56) & 0x01));
- 	v4l2_info(sd, "SDP: %s\n", sdp_signal_detected ?
- 		"valid SD/PR signal detected" : "invalid/no signal");
- 	if (sdp_signal_detected) {
-@@ -2687,7 +2688,7 @@ static int adv7842_sdp_log_status(struct v4l2_subdev *sd)
- 		v4l2_info(sd, "SDP: %s\n",
- 			(sdp_read(sd, 0x57) & 0x08) ? "Interlaced" : "Progressive");
- 		v4l2_info(sd, "SDP: deinterlacer %s\n",
--			(sdp_read(sd, 0x12) & 0x08) ? "enabled" : "disabled");
-+			  str_enabled_disabled(sdp_read(sd, 0x12) & 0x08));
- 		v4l2_info(sd, "SDP: csc %s mode\n",
- 			(sdp_io_read(sd, 0xe0) & 0x40) ? "auto" : "manual");
- 	}
-@@ -2734,19 +2735,16 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
- 	};
- 
- 	v4l2_info(sd, "-----Chip status-----\n");
--	v4l2_info(sd, "Chip power: %s\n", no_power(sd) ? "off" : "on");
-+	v4l2_info(sd, "Chip power: %s\n", str_on_off(no_power(sd)));
- 	v4l2_info(sd, "HDMI/DVI-D port selected: %s\n",
- 			state->hdmi_port_a ? "A" : "B");
- 	v4l2_info(sd, "EDID A %s, B %s\n",
--		  ((reg_rep_0x7d & 0x04) && (reg_rep_0x77 & 0x04)) ?
--		  "enabled" : "disabled",
--		  ((reg_rep_0x7d & 0x08) && (reg_rep_0x77 & 0x08)) ?
--		  "enabled" : "disabled");
-+		  str_enabled_disabled((reg_rep_0x7d & 0x04) && (reg_rep_0x77 & 0x04)),
-+		  str_enabled_disabled((reg_rep_0x7d & 0x08) && (reg_rep_0x77 & 0x08)));
- 	v4l2_info(sd, "HPD A %s, B %s\n",
--		  reg_io_0x21 & 0x02 ? "enabled" : "disabled",
--		  reg_io_0x21 & 0x01 ? "enabled" : "disabled");
--	v4l2_info(sd, "CEC: %s\n", state->cec_enabled_adap ?
--			"enabled" : "disabled");
-+		  str_enabled_disabled(reg_io_0x21 & 0x02),
-+		  str_enabled_disabled(reg_io_0x21 & 0x01));
-+	v4l2_info(sd, "CEC: %s\n", str_enabled_disabled(state->cec_enabled_adap));
- 	if (state->cec_enabled_adap) {
- 		int i;
- 
-@@ -2762,21 +2760,20 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "-----Signal status-----\n");
- 	if (state->hdmi_port_a) {
- 		v4l2_info(sd, "Cable detected (+5V power): %s\n",
--			  io_read(sd, 0x6f) & 0x02 ? "true" : "false");
-+			  str_true_false(io_read(sd, 0x6f) & 0x02));
- 		v4l2_info(sd, "TMDS signal detected: %s\n",
--			  (io_read(sd, 0x6a) & 0x02) ? "true" : "false");
-+			  str_true_false(io_read(sd, 0x6a) & 0x02));
- 		v4l2_info(sd, "TMDS signal locked: %s\n",
--			  (io_read(sd, 0x6a) & 0x20) ? "true" : "false");
-+			  str_true_false(io_read(sd, 0x6a) & 0x20));
- 	} else {
- 		v4l2_info(sd, "Cable detected (+5V power):%s\n",
--			  io_read(sd, 0x6f) & 0x01 ? "true" : "false");
-+			  str_true_false(io_read(sd, 0x6f) & 0x01));
- 		v4l2_info(sd, "TMDS signal detected: %s\n",
--			  (io_read(sd, 0x6a) & 0x01) ? "true" : "false");
-+			  str_true_false(io_read(sd, 0x6a) & 0x01));
- 		v4l2_info(sd, "TMDS signal locked: %s\n",
--			  (io_read(sd, 0x6a) & 0x10) ? "true" : "false");
-+			  str_true_false(io_read(sd, 0x6a) & 0x10));
- 	}
--	v4l2_info(sd, "CP free run: %s\n",
--		  (!!(cp_read(sd, 0xff) & 0x10) ? "on" : "off"));
-+	v4l2_info(sd, "CP free run: %s\n", str_on_off(!!(cp_read(sd, 0xff) & 0x10)));
- 	v4l2_info(sd, "Prim-mode = 0x%x, video std = 0x%x, v_freq = 0x%x\n",
- 		  io_read(sd, 0x01) & 0x0f, io_read(sd, 0x00) & 0x3f,
- 		  (io_read(sd, 0x01) & 0x70) >> 4);
-@@ -2820,7 +2817,7 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
- 		  (reg_io_0x02 & 0x02) ? "RGB" : "YCbCr",
- 		  (((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
- 			"(16-235)" : "(0-255)",
--		  (reg_io_0x02 & 0x08) ? "enabled" : "disabled");
-+		  str_enabled_disabled(reg_io_0x02 & 0x08));
- 	v4l2_info(sd, "Color space conversion: %s\n",
- 		  csc_coeff_sel_rb[cp_read(sd, 0xf4) >> 4]);
- 
-@@ -2829,9 +2826,9 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
- 
- 	v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : "DVI-D");
- 	v4l2_info(sd, "HDCP encrypted content: %s\n",
--			(hdmi_read(sd, 0x05) & 0x40) ? "true" : "false");
-+			str_true_false(hdmi_read(sd, 0x05) & 0x40));
- 	v4l2_info(sd, "HDCP keys read: %s%s\n",
--			(hdmi_read(sd, 0x04) & 0x20) ? "yes" : "no",
-+			str_yes_no(hdmi_read(sd, 0x04) & 0x20),
- 			(hdmi_read(sd, 0x04) & 0x10) ? "ERROR" : "");
- 	if (!is_hdmi(sd))
- 		return 0;
-@@ -2850,8 +2847,7 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "Audio N: %u\n", ((hdmi_read(sd, 0x5d) & 0x0f) << 16) +
- 			(hdmi_read(sd, 0x5e) << 8) +
- 			hdmi_read(sd, 0x5f));
--	v4l2_info(sd, "AV Mute: %s\n",
--			(hdmi_read(sd, 0x04) & 0x40) ? "on" : "off");
-+	v4l2_info(sd, "AV Mute: %s\n", str_on_off(hdmi_read(sd, 0x04) & 0x40));
- 	v4l2_info(sd, "Deep color mode: %s\n",
- 			deep_color_mode_txt[hdmi_read(sd, 0x0b) >> 6]);
- 
-diff --git a/drivers/media/i2c/cx25840/cx25840-core.c b/drivers/media/i2c/cx25840/cx25840-core.c
-index a90a9e5705a03088d844e1d1a9e894e73a5402d3..e0abee073b58931ed5940e18c6aac9ae2fd74e2e 100644
---- a/drivers/media/i2c/cx25840/cx25840-core.c
-+++ b/drivers/media/i2c/cx25840/cx25840-core.c
-@@ -33,6 +33,7 @@
- #include <linux/i2c.h>
- #include <linux/delay.h>
- #include <linux/math64.h>
-+#include <linux/string_choices.h>
- #include <media/v4l2-common.h>
- #include <media/drv-intf/cx25840.h>
- 
-@@ -2366,7 +2367,7 @@ static int cx25840_s_audio_stream(struct v4l2_subdev *sd, int enable)
- 		return 0;
- 
- 	v4l_dbg(1, cx25840_debug, client, "%s audio output\n",
--		enable ? "enable" : "disable");
-+		str_enable_disable(enable));
- 
- 	if (enable) {
- 		v = cx25840_read(client, 0x115) | 0x80;
-@@ -2389,7 +2390,7 @@ static int cx25840_s_stream(struct v4l2_subdev *sd, int enable)
- 	u8 v;
- 
- 	v4l_dbg(1, cx25840_debug, client, "%s video output\n",
--		enable ? "enable" : "disable");
-+		str_enable_disable(enable));
- 
- 	/*
- 	 * It's not clear what should be done for these devices.
-diff --git a/drivers/media/i2c/cx25840/cx25840-ir.c b/drivers/media/i2c/cx25840/cx25840-ir.c
-index 8cef9656c61224861f1b0027be5e67fdec18cacd..5ae6568b79b1563c1c386d8684533c3add5d7708 100644
---- a/drivers/media/i2c/cx25840/cx25840-ir.c
-+++ b/drivers/media/i2c/cx25840/cx25840-ir.c
+ #include <linux/interrupt.h>
+ #include <linux/kdev_t.h>
+ #include "bttvp.h"
+@@ -2983,12 +2984,10 @@ static irqreturn_t bttv_irq(int irq, void *dev_id)
+ 			bttv_print_irqbits(stat,astat);
+ 			if (stat & BT848_INT_HLOCK)
+ 				pr_cont("   HLOC => %s",
+-					dstat & BT848_DSTATUS_HLOC
+-					? "yes" : "no");
++					str_yes_no(dstat & BT848_DSTATUS_HLOC));
+ 			if (stat & BT848_INT_VPRES)
+ 				pr_cont("   PRES => %s",
+-					dstat & BT848_DSTATUS_PRES
+-					? "yes" : "no");
++					str_yes_no(dstat & BT848_DSTATUS_PRES));
+ 			if (stat & BT848_INT_FMTCHG)
+ 				pr_cont("   NUML => %s",
+ 					dstat & BT848_DSTATUS_NUML
+diff --git a/drivers/media/pci/cobalt/cobalt-driver.c b/drivers/media/pci/cobalt/cobalt-driver.c
+index 39e25cc53edb976795319c63c91164bca31edc6f..7fadf588a20c033e80686d02ca79b8b6a16713aa 100644
+--- a/drivers/media/pci/cobalt/cobalt-driver.c
++++ b/drivers/media/pci/cobalt/cobalt-driver.c
 @@ -10,6 +10,7 @@
- #include <linux/slab.h>
- #include <linux/kfifo.h>
- #include <linux/module.h>
-+#include <linux/string_choices.h>
- #include <media/drv-intf/cx25840.h>
- #include <media/rc-core.h>
  
-@@ -1023,11 +1024,11 @@ int cx25840_ir_log_status(struct v4l2_subdev *sd)
+ #include <linux/bitfield.h>
+ #include <linux/delay.h>
++#include <linux/string_choices.h>
+ #include <media/i2c/adv7604.h>
+ #include <media/i2c/adv7842.h>
+ #include <media/i2c/adv7511.h>
+@@ -260,7 +261,7 @@ static void msi_config_show(struct cobalt *cobalt, struct pci_dev *pci_dev)
+ 	u32 adrs_l, adrs_h;
+ 
+ 	pci_read_config_word(pci_dev, 0x52, &ctrl);
+-	cobalt_info("MSI %s\n", ctrl & 1 ? "enable" : "disable");
++	cobalt_info("MSI %s\n", str_enable_disable(ctrl & 1));
+ 	cobalt_info("MSI multiple message: Capable %u. Enable %u\n",
+ 		    (1 << ((ctrl >> 1) & 7)), (1 << ((ctrl >> 4) & 7)));
+ 	if (ctrl & 0x80)
+diff --git a/drivers/media/pci/cx18/cx18-av-core.c b/drivers/media/pci/cx18/cx18-av-core.c
+index ee6e71157786ed04ddc5228dac1608bfdf56a7da..ad7bb4d9a8fa78d726f9892bf94be4c56747cc82 100644
+--- a/drivers/media/pci/cx18/cx18-av-core.c
++++ b/drivers/media/pci/cx18/cx18-av-core.c
+@@ -8,6 +8,7 @@
+  *  Copyright (C) 2008  Andy Walls <awalls@md.metrocast.net>
+  */
+ 
++#include <linux/string_choices.h>
+ #include "cx18-driver.h"
+ #include "cx18-io.h"
+ #include "cx18-cards.h"
+@@ -1010,7 +1011,7 @@ static int cx18_av_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct cx18 *cx = v4l2_get_subdevdata(sd);
+ 
+-	CX18_DEBUG_INFO_DEV(sd, "%s output\n", enable ? "enable" : "disable");
++	CX18_DEBUG_INFO_DEV(sd, "%s output\n", str_enable_disable(enable));
+ 	if (enable) {
+ 		cx18_av_write(cx, 0x115, 0x8c);
+ 		cx18_av_write(cx, 0x116, 0x07);
+@@ -1115,7 +1116,7 @@ static void log_audio_status(struct cx18 *cx)
+ 	}
+ 	CX18_INFO_DEV(sd, "Detected audio standard:   %s\n", p);
+ 	CX18_INFO_DEV(sd, "Audio muted:               %s\n",
+-		      (mute_ctl & 0x2) ? "yes" : "no");
++		      str_yes_no(mute_ctl & 0x2));
+ 	CX18_INFO_DEV(sd, "Audio microcontroller:     %s\n",
+ 		      (download_ctl & 0x10) ? "running" : "stopped");
+ 
+diff --git a/drivers/media/pci/cx23885/altera-ci.c b/drivers/media/pci/cx23885/altera-ci.c
+index 0dc348215b72d0666fd43ddc87629441784484ab..cf490d2bd476e641a163ca5c079112f90f4ee916 100644
+--- a/drivers/media/pci/cx23885/altera-ci.c
++++ b/drivers/media/pci/cx23885/altera-ci.c
+@@ -41,6 +41,7 @@
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <linux/string_choices.h>
+ #include <media/dvb_demux.h>
+ #include <media/dvb_frontend.h>
+ #include "altera-ci.h"
+@@ -282,7 +283,7 @@ static int altera_ci_op_cam(struct dvb_ca_en50221 *en50221, int slot,
+ 	mutex_unlock(&inter->fpga_mutex);
+ 
+ 	ci_dbg_print("%s: %s: addr=[0x%02x], %s=%x\n", __func__,
+-			(read) ? "read" : "write", addr,
++			str_read_write(read), addr,
+ 			(flag == NETUP_CI_FLG_CTL) ? "ctl" : "mem",
+ 			(read) ? mem : val);
+ 
+diff --git a/drivers/media/pci/cx23885/cimax2.c b/drivers/media/pci/cx23885/cimax2.c
+index 06e41f92092dd0283bc04aeef58a207a18c962bc..8d76b436dea2f598a48c166bfadbaa3bb604c30f 100644
+--- a/drivers/media/pci/cx23885/cimax2.c
++++ b/drivers/media/pci/cx23885/cimax2.c
+@@ -11,6 +11,7 @@
+ 
+ #include "cx23885.h"
+ #include "cimax2.h"
++#include <linux/string_choices.h>
+ #include <media/dvb_ca_en50221.h>
+ 
+ /* Max transfer size done by I2C transfer functions */
+@@ -224,7 +225,7 @@ static int netup_ci_op_cam(struct dvb_ca_en50221 *en50221, int slot,
+ 			return -EREMOTEIO;
+ 
+ 	ci_dbg_print("%s: %s: chipaddr=[0x%x] addr=[0x%02x], %s=%x\n", __func__,
+-			(read) ? "read" : "write", state->ci_i2c_addr, addr,
++			str_read_write(read), state->ci_i2c_addr, addr,
+ 			(flag == NETUP_CI_CTL) ? "ctl" : "mem",
+ 			(read) ? mem : data);
+ 
+diff --git a/drivers/media/pci/cx23885/cx23888-ir.c b/drivers/media/pci/cx23885/cx23888-ir.c
+index 222d04421468e998dd02fdcf0784bce9fb7f2794..8d24f059cc8cc5f6dcebc229f0f76e9336ac6ff1 100644
+--- a/drivers/media/pci/cx23885/cx23888-ir.c
++++ b/drivers/media/pci/cx23885/cx23888-ir.c
+@@ -12,6 +12,7 @@
+ 
+ #include <linux/kfifo.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ 
+ #include <media/v4l2-device.h>
+ #include <media/rc-core.h>
+@@ -930,11 +931,11 @@ static int cx23888_ir_log_status(struct v4l2_subdev *sd)
  
  	v4l2_info(sd, "IR Receiver:\n");
  	v4l2_info(sd, "\tEnabled:                           %s\n",
@@ -473,7 +344,7 @@ index 8cef9656c61224861f1b0027be5e67fdec18cacd..5ae6568b79b1563c1c386d8684533c3a
  	switch (cntrl & CNTRL_EDG) {
  	case CNTRL_EDG_NONE:
  		s = "disabled";
-@@ -1086,33 +1087,33 @@ int cx25840_ir_log_status(struct v4l2_subdev *sd)
+@@ -993,37 +994,37 @@ static int cx23888_ir_log_status(struct v4l2_subdev *sd)
  		  pulse_width_count_to_us(FIFO_RXTX, rxclk),
  		  pulse_width_count_to_ns(FIFO_RXTX, rxclk));
  	v4l2_info(sd, "\tLow pass filter:                   %s\n",
@@ -517,8 +388,13 @@ index 8cef9656c61224861f1b0027be5e67fdec18cacd..5ae6568b79b1563c1c386d8684533c3a
 +		  str_enabled_disabled(cntrl & CNTRL_TFE));
  	v4l2_info(sd, "\tFIFO interrupt watermark:          %s\n",
  		  cntrl & CNTRL_TIC ? "not empty" : "half full or less");
+ 	v4l2_info(sd, "\tOutput pin level inversion         %s\n",
+-		  cntrl & CNTRL_IVO ? "yes" : "no");
++		  str_yes_no(cntrl & CNTRL_IVO));
  	v4l2_info(sd, "\tCarrier polarity:                  %s\n",
-@@ -1128,11 +1129,11 @@ int cx25840_ir_log_status(struct v4l2_subdev *sd)
+ 		  cntrl & CNTRL_CPL ? "space:burst mark:noburst"
+ 				    : "space:noburst mark:burst");
+@@ -1037,11 +1038,11 @@ static int cx23888_ir_log_status(struct v4l2_subdev *sd)
  		  pulse_width_count_to_us(FIFO_RXTX, txclk),
  		  pulse_width_count_to_ns(FIFO_RXTX, txclk));
  	v4l2_info(sd, "\tBusy:                              %s\n",
@@ -533,407 +409,151 @@ index 8cef9656c61224861f1b0027be5e67fdec18cacd..5ae6568b79b1563c1c386d8684533c3a
  
  	return 0;
  }
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 9fc4e130a273f8547d7e7ec194cade5b5e9c8df2..fb893b9855f323b5e4cc7b11acb44b72c2f52342 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -22,6 +22,7 @@
- #include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+index 051898ce53f439a68aff72c6c01978f7ce1de6fa..029561d84ad53c057c839f9cfaf0777f314c3738 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+@@ -12,6 +12,7 @@
+ #include <linux/io.h>
+ #include <linux/minmax.h>
+ #include <linux/sprintf.h>
 +#include <linux/string_choices.h>
  
- #include <media/v4l2-async.h>
+ #include <media/media-entity.h>
  #include <media/v4l2-ctrls.h>
-@@ -1330,7 +1331,7 @@ static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
+@@ -244,7 +245,7 @@ static int ipu6_isys_csi2_set_stream(struct v4l2_subdev *sd,
+ 	u32 mask = 0;
+ 	u32 i;
  
- 	if (ret < 0)
- 		dev_err(&priv->client->dev, "Unable to turn power %s\n",
--			enable ? "on" : "off");
-+			str_on_off(enable));
+-	dev_dbg(dev, "stream %s CSI2-%u with %u lanes\n", enable ? "on" : "off",
++	dev_dbg(dev, "stream %s CSI2-%u with %u lanes\n", str_on_off(enable),
+ 		csi2->port, nlanes);
  
- 	return ret;
- }
-diff --git a/drivers/media/i2c/msp3400-driver.c b/drivers/media/i2c/msp3400-driver.c
-index 4c0b0ad68c084e7a5d46fa08b4f182fe28805b01..3707b9f487674f08e383b509421d0f4d7538f659 100644
---- a/drivers/media/i2c/msp3400-driver.c
-+++ b/drivers/media/i2c/msp3400-driver.c
-@@ -39,6 +39,7 @@
- #include <linux/i2c.h>
- #include <linux/kthread.h>
- #include <linux/freezer.h>
+ 	cfg.port = csi2->port;
+diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
+index 7947dcd615e882da5240ed6b10dde8449036d019..ea8bb4f3669544780ad7b5502756ff382b27c8dd 100644
+--- a/drivers/media/pci/ivtv/ivtv-ioctl.c
++++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
+@@ -20,6 +20,7 @@
+ #include "ivtv-gpio.h"
+ #include "ivtv-controls.h"
+ #include "ivtv-cards.h"
 +#include <linux/string_choices.h>
- #include <linux/videodev2.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-ioctl.h>
-@@ -338,8 +339,8 @@ static int msp_s_ctrl(struct v4l2_ctrl *ctrl)
- 			val = (val * 0x7f / 65535) << 8;
- 
- 		dev_dbg_lvl(&client->dev, 1, msp_debug, "mute=%s scanning=%s volume=%d\n",
--				state->muted->val ? "on" : "off",
--				state->scan_in_progress ? "yes" : "no",
-+				str_on_off(state->muted->val),
-+				str_yes_no(state->scan_in_progress),
- 				state->volume->val);
- 
- 		msp_write_dsp(client, 0x0000, val);
-diff --git a/drivers/media/i2c/saa7110.c b/drivers/media/i2c/saa7110.c
-index 942aeeb40c524f47aa2fab6bda76d7bca5f0e2b2..7a96cefdb251938eaa54e314800ae68e4f24d2c2 100644
---- a/drivers/media/i2c/saa7110.c
-+++ b/drivers/media/i2c/saa7110.c
-@@ -17,6 +17,7 @@
- #include <linux/types.h>
- #include <linux/delay.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <linux/wait.h>
- #include <linux/uaccess.h>
- #include <linux/i2c.h>
-@@ -310,7 +311,7 @@ static int saa7110_s_stream(struct v4l2_subdev *sd, int enable)
- 	if (decoder->enable != enable) {
- 		decoder->enable = enable;
- 		saa7110_write(sd, 0x0E, enable ? 0x18 : 0x80);
--		v4l2_dbg(1, debug, sd, "YUV %s\n", enable ? "on" : "off");
-+		v4l2_dbg(1, debug, sd, "YUV %s\n", str_on_off(enable));
- 	}
- 	return 0;
- }
-diff --git a/drivers/media/i2c/saa7115.c b/drivers/media/i2c/saa7115.c
-index a1c71187e773ffd74cb0c0cf57247d65352d507f..7317414b64024d37dd899236e6eacbc768acd446 100644
---- a/drivers/media/i2c/saa7115.c
-+++ b/drivers/media/i2c/saa7115.c
-@@ -29,6 +29,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/i2c.h>
-+#include <linux/string_choices.h>
- #include <linux/videodev2.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-ctrls.h>
-@@ -1362,8 +1363,7 @@ static int saa711x_s_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct saa711x_state *state = to_state(sd);
- 
--	v4l2_dbg(1, debug, sd, "%s output\n",
--			enable ? "enable" : "disable");
-+	v4l2_dbg(1, debug, sd, "%s output\n", str_enable_disable(enable));
- 
- 	if (state->enable == enable)
- 		return 0;
-diff --git a/drivers/media/i2c/saa7127.c b/drivers/media/i2c/saa7127.c
-index 818ed19cf37b540895b591f3f59ac94947b8d569..771dfb5a6766fcba0e967e99ed0998ce7c010d02 100644
---- a/drivers/media/i2c/saa7127.c
-+++ b/drivers/media/i2c/saa7127.c
-@@ -39,6 +39,7 @@
- #include <linux/module.h>
- #include <linux/slab.h>
- #include <linux/i2c.h>
-+#include <linux/string_choices.h>
- #include <linux/videodev2.h>
- #include <media/v4l2-device.h>
  #include <media/i2c/saa7127.h>
-@@ -343,7 +344,7 @@ static int saa7127_set_vps(struct v4l2_subdev *sd, const struct v4l2_sliced_vbi_
- 	if (enable && (data->field != 0 || data->line != 16))
- 		return -EINVAL;
- 	if (state->vps_enable != enable) {
--		v4l2_dbg(1, debug, sd, "Turn VPS Signal %s\n", enable ? "on" : "off");
-+		v4l2_dbg(1, debug, sd, "Turn VPS Signal %s\n", str_on_off(enable));
- 		saa7127_write(sd, 0x54, enable << 7);
- 		state->vps_enable = enable;
+ #include <media/tveeprom.h>
+ #include <media/v4l2-event.h>
+@@ -1558,7 +1559,7 @@ static int ivtv_log_status(struct file *file, void *fh)
+ 		ivtv_vapi_result(itv, data, CX2341X_OSD_GET_STATE, 0);
+ 		data[0] |= (read_reg(0x2a00) >> 7) & 0x40;
+ 		IVTV_INFO("Overlay:      %s, Alpha: %s, Pixel Format: %s\n",
+-			data[0] & 1 ? "On" : "Off",
++			str_on_off(data[0] & 1),
+ 			alpha_mode[(data[0] >> 1) & 0x3],
+ 			pixel_format[(data[0] >> 3) & 0xf]);
  	}
-@@ -376,7 +377,7 @@ static int saa7127_set_cc(struct v4l2_subdev *sd, const struct v4l2_sliced_vbi_d
- 		return -EINVAL;
- 	if (state->cc_enable != enable) {
- 		v4l2_dbg(1, debug, sd,
--			"Turn CC %s\n", enable ? "on" : "off");
-+			"Turn CC %s\n", str_on_off(enable));
- 		saa7127_write(sd, SAA7127_REG_CLOSED_CAPTION,
- 			(state->xds_enable << 7) | (enable << 6) | 0x11);
- 		state->cc_enable = enable;
-@@ -402,7 +403,7 @@ static int saa7127_set_xds(struct v4l2_subdev *sd, const struct v4l2_sliced_vbi_
- 	if (enable && (data->field != 1 || data->line != 21))
- 		return -EINVAL;
- 	if (state->xds_enable != enable) {
--		v4l2_dbg(1, debug, sd, "Turn XDS %s\n", enable ? "on" : "off");
-+		v4l2_dbg(1, debug, sd, "Turn XDS %s\n", str_on_off(enable));
- 		saa7127_write(sd, SAA7127_REG_CLOSED_CAPTION,
- 				(enable << 7) | (state->cc_enable << 6) | 0x11);
- 		state->xds_enable = enable;
-@@ -427,7 +428,7 @@ static int saa7127_set_wss(struct v4l2_subdev *sd, const struct v4l2_sliced_vbi_
- 	if (enable && (data->field != 0 || data->line != 23))
- 		return -EINVAL;
- 	if (state->wss_enable != enable) {
--		v4l2_dbg(1, debug, sd, "Turn WSS %s\n", enable ? "on" : "off");
-+		v4l2_dbg(1, debug, sd, "Turn WSS %s\n", str_on_off(enable));
- 		saa7127_write(sd, 0x27, enable << 7);
- 		state->wss_enable = enable;
- 	}
-@@ -674,8 +675,8 @@ static int saa7127_log_status(struct v4l2_subdev *sd)
- 			output_strs[state->output_type] : "disabled");
- 	v4l2_info(sd, "WSS:      %s\n", state->wss_enable ?
- 			wss_strs[state->wss_mode] : "disabled");
--	v4l2_info(sd, "VPS:      %s\n", state->vps_enable ? "enabled" : "disabled");
--	v4l2_info(sd, "CC:       %s\n", state->cc_enable ? "enabled" : "disabled");
-+	v4l2_info(sd, "VPS:      %s\n", str_enabled_disabled(state->vps_enable));
-+	v4l2_info(sd, "CC:       %s\n", str_enabled_disabled(state->cc_enable));
- 	return 0;
- }
+diff --git a/drivers/media/pci/saa7134/saa7134-cards.c b/drivers/media/pci/saa7134/saa7134-cards.c
+index e80fb4ebfda61b614c73c5273b51acd4edf279bd..148cd43612a2df74135a2441a975c545ebdcc6ec 100644
+--- a/drivers/media/pci/saa7134/saa7134-cards.c
++++ b/drivers/media/pci/saa7134/saa7134-cards.c
+@@ -14,6 +14,7 @@
+ #include <linux/module.h>
+ #include <linux/i2c.h>
+ #include <linux/i2c-algo-bit.h>
++#include <linux/string_choices.h>
  
-diff --git a/drivers/media/i2c/saa717x.c b/drivers/media/i2c/saa717x.c
-index b0793bb0c02a443f7cad2e12e6fe20b4abd0241e..f2a342a6d7c95d1777471e032cf25ed1e94ea644 100644
---- a/drivers/media/i2c/saa717x.c
-+++ b/drivers/media/i2c/saa717x.c
-@@ -21,6 +21,7 @@
+ #include "xc2028.h"
+ #include <media/v4l2-common.h>
+@@ -7980,8 +7981,7 @@ int saa7134_board_init2(struct saa7134_dev *dev)
+ 			msg.flags = I2C_M_RD;
+ 			rc = i2c_transfer(&dev->i2c_adap, &msg, 1);
+ 			pr_info("%s: probe IR chip @ i2c 0x%02x: %s\n",
+-				   dev->name, msg.addr,
+-				   (1 == rc) ? "yes" : "no");
++				   dev->name, msg.addr, str_yes_no(rc == 1));
+ 			if (rc == 1)
+ 				dev->has_remote = SAA7134_REMOTE_I2C;
+ 		}
+diff --git a/drivers/media/pci/saa7134/saa7134-dvb.c b/drivers/media/pci/saa7134/saa7134-dvb.c
+index 6de8a02314af6a68e74c8c271e4d4e687a24576f..2827ae660632ed453d6bd556ceb3a32cf57e1d0a 100644
+--- a/drivers/media/pci/saa7134/saa7134-dvb.c
++++ b/drivers/media/pci/saa7134/saa7134-dvb.c
+@@ -16,6 +16,7 @@
+ #include <linux/kernel.h>
+ #include <linux/delay.h>
+ #include <linux/kthread.h>
++#include <linux/string_choices.h>
+ #include <linux/suspend.h>
+ 
+ #include <media/v4l2-common.h>
+@@ -90,7 +91,7 @@ static int pinnacle_antenna_pwr(struct saa7134_dev *dev, int on)
+ 	saa_setl(SAA7134_GPIO_GPSTATUS0 >> 2,   (1 << 28));
+ 	udelay(10);
+ 	ok = saa_readl(SAA7134_GPIO_GPSTATUS0) & (1 << 27);
+-	pr_debug("%s %s\n", __func__, ok ? "on" : "off");
++	pr_debug("%s %s\n", __func__, str_on_off(ok));
+ 
+ 	if (!ok)
+ 		saa_clearl(SAA7134_GPIO_GPSTATUS0 >> 2,   (1 << 26));
+diff --git a/drivers/media/pci/saa7134/saa7134-input.c b/drivers/media/pci/saa7134/saa7134-input.c
+index 8610eb473b39e1e33e13abb21bcb985760f0221f..23c92a566a603ecb27397b01c184a418dd094849 100644
+--- a/drivers/media/pci/saa7134/saa7134-input.c
++++ b/drivers/media/pci/saa7134/saa7134-input.c
+@@ -12,6 +12,7 @@
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ 
+ #define MODULE_NAME "saa7134"
+ 
+@@ -895,7 +896,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
+ 		rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
+ 		input_dbg("probe 0x%02x @ %s: %s\n",
+ 			msg_msi.addr, dev->i2c_adap.name,
+-			(1 == rc) ? "yes" : "no");
++			str_yes_no(rc == 1));
+ 		break;
+ 	case SAA7134_BOARD_SNAZIO_TVPVR_PRO:
+ 		dev->init_data.name = "SnaZio* TVPVR PRO";
+@@ -916,7 +917,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
+ 		rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
+ 		input_dbg("probe 0x%02x @ %s: %s\n",
+ 			msg_msi.addr, dev->i2c_adap.name,
+-			(rc == 1) ? "yes" : "no");
++			str_yes_no(rc == 1));
+ 		break;
+ 	case SAA7134_BOARD_KWORLD_PC150U:
+ 		/* copied and modified from MSI TV@nywhere Plus */
+@@ -931,7 +932,7 @@ void saa7134_probe_i2c_ir(struct saa7134_dev *dev)
+ 		rc = i2c_transfer(&dev->i2c_adap, &msg_msi, 1);
+ 		input_dbg("probe 0x%02x @ %s: %s\n",
+ 			msg_msi.addr, dev->i2c_adap.name,
+-			(1 == rc) ? "yes" : "no");
++			str_yes_no(rc == 1));
+ 		break;
+ 	case SAA7134_BOARD_HAUPPAUGE_HVR1110:
+ 		dev->init_data.name = saa7134_boards[dev->board].name;
+diff --git a/drivers/media/pci/saa7134/saa7134-video.c b/drivers/media/pci/saa7134/saa7134-video.c
+index 43e7b006eb596740771cf893d8fda39df0e4aff4..f36a666103b17d8c8b4d793c864d90fc003c17d0 100644
+--- a/drivers/media/pci/saa7134/saa7134-video.c
++++ b/drivers/media/pci/saa7134/saa7134-video.c
+@@ -16,6 +16,7 @@
  #include <linux/kernel.h>
  #include <linux/slab.h>
- #include <linux/sched.h>
+ #include <linux/sort.h>
 +#include <linux/string_choices.h>
  
- #include <linux/videodev2.h>
- #include <linux/i2c.h>
-@@ -1088,7 +1089,7 @@ static int saa717x_s_stream(struct v4l2_subdev *sd, int enable)
- 	struct saa717x_state *decoder = to_state(sd);
- 
- 	v4l2_dbg(1, debug, sd, "decoder %s output\n",
--			enable ? "enable" : "disable");
-+		 str_enable_disable(enable));
- 	decoder->enable = enable;
- 	saa717x_write(sd, 0x193, enable ? 0xa6 : 0x26);
- 	return 0;
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index c50d4e85dfd144bd6a8aee8622d59dbd03a143b0..828e575a4cf2705260351dac99b58e7fceecbd1d 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -22,6 +22,7 @@
- #include <linux/interrupt.h>
- #include <linux/timer.h>
- #include <linux/of_graph.h>
-+#include <linux/string_choices.h>
- #include <linux/videodev2.h>
- #include <linux/workqueue.h>
- #include <linux/v4l2-dv-timings.h>
-@@ -371,8 +372,7 @@ static void tc358743_delayed_work_enable_hotplug(struct work_struct *work)
- 
- static void tc358743_set_hdmi_hdcp(struct v4l2_subdev *sd, bool enable)
- {
--	v4l2_dbg(2, debug, sd, "%s: %s\n", __func__, enable ?
--				"enable" : "disable");
-+	v4l2_dbg(2, debug, sd, "%s: %s\n", __func__, str_enable_disable(enable));
- 
- 	if (enable) {
- 		i2c_wr8_and_or(sd, HDCP_REG3, ~KEY_RD_CMD, KEY_RD_CMD);
-@@ -1211,7 +1211,7 @@ static void tc358743_hdmi_sys_int_handler(struct v4l2_subdev *sd, bool *handled)
- 		bool tx_5v = tx_5v_power_present(sd);
- 
- 		v4l2_dbg(1, debug, sd, "%s: Tx 5V power present: %s\n",
--				__func__, tx_5v ?  "yes" : "no");
-+			 __func__, str_yes_no(tx_5v));
- 
- 		if (tx_5v) {
- 			tc358743_enable_edid(sd);
-@@ -1288,26 +1288,24 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
- 			!!(sysctl & MASK_CECRST),
- 			!!(sysctl & MASK_CTXRST),
- 			!!(sysctl & MASK_HDMIRST));
--	v4l2_info(sd, "Sleep mode: %s\n", sysctl & MASK_SLEEP ? "on" : "off");
-+	v4l2_info(sd, "Sleep mode: %s\n", str_on_off(sysctl & MASK_SLEEP));
- 	v4l2_info(sd, "Cable detected (+5V power): %s\n",
--			hdmi_sys_status & MASK_S_DDC5V ? "yes" : "no");
-+		  str_yes_no(hdmi_sys_status & MASK_S_DDC5V));
- 	v4l2_info(sd, "DDC lines enabled: %s\n",
--			(i2c_rd8(sd, EDID_MODE) & MASK_EDID_MODE_E_DDC) ?
--			"yes" : "no");
-+		  str_yes_no(i2c_rd8(sd, EDID_MODE) & MASK_EDID_MODE_E_DDC));
- 	v4l2_info(sd, "Hotplug enabled: %s\n",
--			(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0) ?
--			"yes" : "no");
-+		  str_yes_no(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0));
- 	v4l2_info(sd, "CEC enabled: %s\n",
--			(i2c_rd16(sd, CECEN) & MASK_CECEN) ?  "yes" : "no");
-+		  str_yes_no(i2c_rd16(sd, CECEN) & MASK_CECEN));
- 	v4l2_info(sd, "-----Signal status-----\n");
- 	v4l2_info(sd, "TMDS signal detected: %s\n",
--			hdmi_sys_status & MASK_S_TMDS ? "yes" : "no");
-+		  str_yes_no(hdmi_sys_status & MASK_S_TMDS));
- 	v4l2_info(sd, "Stable sync signal: %s\n",
--			hdmi_sys_status & MASK_S_SYNC ? "yes" : "no");
-+		  str_yes_no(hdmi_sys_status & MASK_S_SYNC));
- 	v4l2_info(sd, "PHY PLL locked: %s\n",
--			hdmi_sys_status & MASK_S_PHY_PLL ? "yes" : "no");
-+		  str_yes_no(hdmi_sys_status & MASK_S_PHY_PLL));
- 	v4l2_info(sd, "PHY DE detected: %s\n",
--			hdmi_sys_status & MASK_S_PHY_SCDT ? "yes" : "no");
-+		  str_yes_no(hdmi_sys_status & MASK_S_PHY_SCDT));
- 
- 	if (tc358743_get_detected_timings(sd, &timings)) {
- 		v4l2_info(sd, "No video detected\n");
-@@ -1324,17 +1322,13 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "Lanes in use: %d\n",
- 			state->csi_lanes_in_use);
- 	v4l2_info(sd, "Waiting for particular sync signal: %s\n",
--			(i2c_rd16(sd, CSI_STATUS) & MASK_S_WSYNC) ?
--			"yes" : "no");
-+		  str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_WSYNC));
- 	v4l2_info(sd, "Transmit mode: %s\n",
--			(i2c_rd16(sd, CSI_STATUS) & MASK_S_TXACT) ?
--			"yes" : "no");
-+		  str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_TXACT));
- 	v4l2_info(sd, "Receive mode: %s\n",
--			(i2c_rd16(sd, CSI_STATUS) & MASK_S_RXACT) ?
--			"yes" : "no");
-+		  str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_RXACT));
- 	v4l2_info(sd, "Stopped: %s\n",
--			(i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT) ?
--			"yes" : "no");
-+		  str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT));
- 	v4l2_info(sd, "Color space: %s\n",
- 			state->mbus_fmt_code == MEDIA_BUS_FMT_UYVY8_1X16 ?
- 			"YCbCr 422 16-bit" :
-@@ -1343,14 +1337,13 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
- 
- 	v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : "DVI-D");
- 	v4l2_info(sd, "HDCP encrypted content: %s\n",
--			hdmi_sys_status & MASK_S_HDCP ? "yes" : "no");
-+		  str_yes_no(hdmi_sys_status & MASK_S_HDCP));
- 	v4l2_info(sd, "Input color space: %s %s range\n",
- 			input_color_space[(vi_status3 & MASK_S_V_COLOR) >> 1],
- 			(vi_status3 & MASK_LIMITED) ? "limited" : "full");
- 	if (!is_hdmi(sd))
- 		return 0;
--	v4l2_info(sd, "AV Mute: %s\n", hdmi_sys_status & MASK_S_AVMUTE ? "on" :
--			"off");
-+	v4l2_info(sd, "AV Mute: %s\n", str_on_off(hdmi_sys_status & MASK_S_AVMUTE));
- 	v4l2_info(sd, "Deep color mode: %d-bits per channel\n",
- 			deep_color_mode[(i2c_rd8(sd, VI_STATUS1) &
- 				MASK_S_DEEPCOLOR) >> 2]);
-diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-index 3b7e5ff5b010b5525dcc784c92dd0d5b7b544f64..ca4992b07f57a1f5c4603d67b44c190253ec81bd 100644
---- a/drivers/media/i2c/tda1997x.c
-+++ b/drivers/media/i2c/tda1997x.c
-@@ -12,6 +12,7 @@
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/string_choices.h>
- #include <linux/types.h>
- #include <linux/v4l2-dv-timings.h>
- #include <linux/videodev2.h>
-@@ -1969,13 +1970,13 @@ static int tda1997x_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "-----Chip status-----\n");
- 	v4l2_info(sd, "Chip: %s N%d\n", state->info->name,
- 		  state->chip_revision + 1);
--	v4l2_info(sd, "EDID Enabled: %s\n", state->edid.present ? "yes" : "no");
-+	v4l2_info(sd, "EDID Enabled: %s\n", str_yes_no(state->edid.present));
- 
- 	v4l2_info(sd, "-----Signal status-----\n");
- 	v4l2_info(sd, "Cable detected (+5V power): %s\n",
--		  tda1997x_detect_tx_5v(sd) ? "yes" : "no");
-+		  str_yes_no(tda1997x_detect_tx_5v(sd)));
- 	v4l2_info(sd, "HPD detected: %s\n",
--		  tda1997x_detect_tx_hpd(sd) ? "yes" : "no");
-+		  str_yes_no(tda1997x_detect_tx_hpd(sd)));
- 
- 	v4l2_info(sd, "-----Video Timings-----\n");
- 	switch (tda1997x_detect_std(state, &timings)) {
-diff --git a/drivers/media/i2c/ths7303.c b/drivers/media/i2c/ths7303.c
-index b7cedc5b3e8ef4d992dd2bf8248f52be1f3ffaa2..8c3053251d92c655b4defc5bc6fe20ba47638fec 100644
---- a/drivers/media/i2c/ths7303.c
-+++ b/drivers/media/i2c/ths7303.c
-@@ -24,6 +24,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- 
- #include <media/i2c/ths7303.h>
- #include <media/v4l2-device.h>
-@@ -281,7 +282,7 @@ static int ths7303_log_status(struct v4l2_subdev *sd)
- {
- 	struct ths7303_state *state = to_state(sd);
- 
--	v4l2_info(sd, "stream %s\n", state->stream_on ? "On" : "Off");
-+	v4l2_info(sd, "stream %s\n", str_on_off(state->stream_on));
- 
- 	if (state->bt.pixelclock) {
- 		struct v4l2_bt_timings *bt = &state->bt;
-diff --git a/drivers/media/i2c/ths8200.c b/drivers/media/i2c/ths8200.c
-index 686f10641c7a6a028abfb8579df8c34478d08089..12f6c54c14fd6ceb53423895a6f14f4cfbe8b555 100644
---- a/drivers/media/i2c/ths8200.c
-+++ b/drivers/media/i2c/ths8200.c
-@@ -20,6 +20,7 @@
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/string_choices.h>
- #include <linux/v4l2-dv-timings.h>
- 
- #include <media/v4l2-dv-timings.h>
-@@ -127,10 +128,10 @@ static int ths8200_log_status(struct v4l2_subdev *sd)
- 
- 	v4l2_info(sd, "----- Chip status -----\n");
- 	v4l2_info(sd, "version: %u\n", state->chip_version);
--	v4l2_info(sd, "power: %s\n", (reg_03 & 0x0c) ? "off" : "on");
--	v4l2_info(sd, "reset: %s\n", (reg_03 & 0x01) ? "off" : "on");
-+	v4l2_info(sd, "power: %s\n", str_off_on(reg_03 & 0x0c));
-+	v4l2_info(sd, "reset: %s\n", str_off_on(reg_03 & 0x01));
- 	v4l2_info(sd, "test pattern: %s\n",
--		  (reg_03 & 0x20) ? "enabled" : "disabled");
-+		  str_enabled_disabled(reg_03 & 0x20));
- 	v4l2_info(sd, "format: %ux%u\n",
- 		  ths8200_read(sd, THS8200_DTG2_PIXEL_CNT_MSB) * 256 +
- 		  ths8200_read(sd, THS8200_DTG2_PIXEL_CNT_LSB),
-@@ -146,7 +147,7 @@ static int ths8200_s_power(struct v4l2_subdev *sd, int on)
- {
- 	struct ths8200_state *state = to_state(sd);
- 
--	v4l2_dbg(1, debug, sd, "%s: power %s\n", __func__, on ? "on" : "off");
-+	v4l2_dbg(1, debug, sd, "%s: power %s\n", __func__, str_on_off(on));
- 
- 	state->power_on = on;
- 
-diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
-index c09a5bd71fd0bb4d2e7d5d26f6c3be74de1b7efa..753ae187dea2f90088caab873453fd8f24872101 100644
---- a/drivers/media/i2c/tvp7002.c
-+++ b/drivers/media/i2c/tvp7002.c
-@@ -18,6 +18,7 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
-+#include <linux/string_choices.h>
- #include <linux/v4l2-dv-timings.h>
- #include <media/i2c/tvp7002.h>
- #include <media/v4l2-async.h>
-@@ -771,8 +772,7 @@ static int tvp7002_log_status(struct v4l2_subdev *sd)
- 		v4l2_info(sd, "Detected DV Timings: %ux%u\n",
- 				bt->width, bt->height);
- 	}
--	v4l2_info(sd, "Streaming enabled: %s\n",
--					device->streaming ? "yes" : "no");
-+	v4l2_info(sd, "Streaming enabled: %s\n", str_yes_no(device->streaming));
- 
- 	/* Print the current value of the gain control */
- 	v4l2_ctrl_handler_log_status(&device->hdl, sd->name);
-diff --git a/drivers/media/i2c/vpx3220.c b/drivers/media/i2c/vpx3220.c
-index 5f1a22284168d4256e5fcd236f7a446505ca74ea..63a2b6444bd09b5bcfd72aa6212160e748cea10a 100644
---- a/drivers/media/i2c/vpx3220.c
-+++ b/drivers/media/i2c/vpx3220.c
-@@ -10,6 +10,7 @@
- #include <linux/delay.h>
- #include <linux/types.h>
- #include <linux/slab.h>
-+#include <linux/string_choices.h>
- #include <linux/uaccess.h>
- #include <linux/i2c.h>
- #include <linux/videodev2.h>
-@@ -401,7 +402,7 @@ static int vpx3220_s_routing(struct v4l2_subdev *sd,
- 
- static int vpx3220_s_stream(struct v4l2_subdev *sd, int enable)
- {
--	v4l2_dbg(1, debug, sd, "s_stream %s\n", enable ? "on" : "off");
-+	v4l2_dbg(1, debug, sd, "s_stream %s\n", str_on_off(enable));
- 
- 	vpx3220_write(sd, 0xf2, (enable ? 0x1b : 0x00));
- 	return 0;
+ #include <media/v4l2-common.h>
+ #include <media/v4l2-event.h>
+@@ -619,7 +620,7 @@ static int saa7134_enable_analog_tuner(struct saa7134_dev *dev)
+ 		if (ret) {
+ 			pr_err("Couldn't change link %s->%s to %s. Error %d\n",
+ 			       source->name, sink->name,
+-			       flags ? "enabled" : "disabled",
++			       str_enabled_disabled(flags),
+ 			       ret);
+ 			return ret;
+ 		}
 
 -- 
 2.43.0
