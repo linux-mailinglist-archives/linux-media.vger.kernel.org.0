@@ -1,225 +1,244 @@
-Return-Path: <linux-media+bounces-24720-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24721-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B38CA108ED
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 15:17:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13489A1099F
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 15:44:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 795551884B77
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 14:17:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 230E8164E45
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 14:44:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E761313FD86;
-	Tue, 14 Jan 2025 14:17:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55BC1153BFC;
+	Tue, 14 Jan 2025 14:44:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="J6wdGop5"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="D9TrP13C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A79323244E;
-	Tue, 14 Jan 2025 14:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B271684B0
+	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 14:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736864225; cv=none; b=bc2F1n008xA9Tjr7At4jKiaSzEPoYepUTAzpDwUHYQcys4W2XT+uC5wx8zotpdbyBAQDpFN1anYcvvhwlgMlY3+RUmfJ1Ilaqv6Jp1YXzsViX5pYezRGuSWzgVzp8PHv3eueOqo5CXvKGhHm4ivGREqPnlWYdAmBbC3vyGOICrI=
+	t=1736865853; cv=none; b=LC+Bv2QDJtAOblmy4FoBOO9ZaVwERO/uXUOYnIQ/JKsbgAsJhTLjr/sBf0F4l0XzJTee+meztYd2dr4/9EF0L5otJ/OGMETignWiu+E+AvQkrvVXyiAvijkBUYNCmJDKIE63iuo3jHJTTczidZp3ixOJ0UMvxVVrLkOQEVjlKTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736864225; c=relaxed/simple;
-	bh=UcLT/NGwEPJZ5L1DHsFtFzF+XOJMTV8UvHS9FoikQUE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lvS3KdtUfWhQmgFfeB+oq+xu4M7nOrR1/zfZoZUFmDuYcl+7ImaTgBIwguVbDSnG63kAxCiUs9Rzp/xELaSmPRh5vUHQBKQzZqmnFY2/qEG2TTVTjUWmy2NhGXn2biLLns4gzsEeFUbEZg1zU1rxbpraMCklff2xWsvrMGcXPJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=J6wdGop5; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1736864221;
-	bh=UcLT/NGwEPJZ5L1DHsFtFzF+XOJMTV8UvHS9FoikQUE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=J6wdGop5G4nss4xyIPKF1t7RgMLG7uignLmWgtjyf/K7aqRNzaFLmZOLNdIgQoN03
-	 mBtzE0NfcjP8UrsFiF2V36hFhuIUuS/Pwwrrr132lusduiDR6OUdojfNFgn/O+h84e
-	 E2KCxWlMg/96AjAfJJ1HvgLwCevc73sjTmXVbWg0y9eU9v+GpGKZwoT+JAaBAH40NX
-	 44l/ff93fblxo6G79nkFpDImkyQ9G/UAiQ7clKytn/JT3zObw37DhHGdQBDVM+L3YP
-	 RbFY9HaEDzuKW2N7JPG8T+pwHMNNLsZy6WOwacukqcrxE9BIA51dW4iXT/PlZXg56e
-	 YFAM0Wx6kGIsw==
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 869C917E02BE;
-	Tue, 14 Jan 2025 15:16:58 +0100 (CET)
-Message-ID: <c71eb0c2052814f709d1cc36bd3e968d72a96749.camel@collabora.com>
-Subject: Re: [RESEND PATCH v5 0/4] Add Synopsys DesignWare HDMI RX Controller
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Tim Surber	
- <me@timsurber.de>, Shreeya Patel <shreeya.patel@collabora.com>,
- heiko@sntech.de, 	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, 	mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, 	jose.abreu@synopsys.com,
- nelson.costa@synopsys.com, shawn.wen@rock-chips.com, 	hverkuil@xs4all.nl,
- hverkuil-cisco@xs4all.nl
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-Date: Tue, 14 Jan 2025 09:16:55 -0500
-In-Reply-To: <9399a881-7d45-4ca3-8249-2e554184d038@collabora.com>
-References: <20241210193904.883225-1-shreeya.patel@collabora.com>
-	 <acb91a34-c0f8-4f03-8945-755b4e42dcf3@timsurber.de>
-	 <925d7571-48e4-437d-b55c-3f7bbad8af1d@collabora.com>
-	 <fbb5016e-678c-4e54-a6a8-0ccaa2bdf45c@timsurber.de>
-	 <a5226fac-2a5b-47f3-b32e-8662bf932bd4@collabora.com>
-	 <d61e344f-fcdd-47af-a142-e8d42edec045@timsurber.de>
-	 <9399a881-7d45-4ca3-8249-2e554184d038@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+	s=arc-20240116; t=1736865853; c=relaxed/simple;
+	bh=tJBzY/+esHF2sg7h4j+gHu6DCf5brYAZN8wsp9y4Jvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kz1S37aKGsNKqxQ5jFFdk9KQE8+zEu57/9Pv+9UFL+iTGfTy9nO2zjap1LIgya7fBzJNS2zxvi0JnDXZ7Yg86bvCNntFh6xZElgLOOicF5GVG1S8+iB9/H+7N7jBvWkvNi/5CRJeRFg/OfNL23jCJRbyK5HiqSBY4uGtSNqc5V8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=D9TrP13C; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5d9f0a6ad83so2808207a12.2
+        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 06:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1736865847; x=1737470647; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ATFNgMzaw3+odlncdmVbwQjWHseefp7b7ULkUB6sipQ=;
+        b=D9TrP13CAPTCLmyH8jV+Q049/Kn//XJgAmMizkx6C8C7z4muw7GZYs1RytdL96Fq/I
+         bpGPnHYv/TLODNoYFoWCgtiXmjl/wXCzSbMnW7f2RWaN1n+4e1bOV/Xn2EBU0300bNxD
+         sNLXKj4pmyZXGZZz5zkm4y51z4xo8pvNIikqQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736865847; x=1737470647;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ATFNgMzaw3+odlncdmVbwQjWHseefp7b7ULkUB6sipQ=;
+        b=HluARnCEaIQieLfwxjhvukbVMoLxbsLYhaMEinOFmdIkLvtayVdl10LLJlmXelHjqp
+         vfFj0jn7SwiHinw/4gzHngQ5IytudPc1yqzKy0M/07tFGxWk89rLutqhFPsf/yM8Xm6r
+         JGJrqbHNVIXpwchKhMzQ2XNoFV8yXz1yFXyNde5CA6ELuJyeIoe4dMZO4F7pcsBCzAxR
+         x7zCtidJfUnTE7M5mBJx8oOFNmq94lJ8fOwFLFQVpOAXz0A6ujyqS0nDxbtKgyOtlnWz
+         6ZiRE9zkQwLgwZk55lv+tA+g/+7Ov3LSA/+E10GzgMWvROwS24z8gzBK2UYkDcU7eufr
+         MNLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUna9s6n+6pD/9UxswAVOfSEYCgsMyfLWiRFBv86JRrIrl92shmb6rQhq66qYxCs62mc5P79uYpF9Dxig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCfsMCaZ4PyL3AQtk3iS5w28SSc8j3LhcFqd7MIjwuOK/fRLC9
+	LoxvcwC2WN19Q665I8IurnmFldsJFsTfJ3X7jw8WBHnD50sIeMTMLaKUL5C0aGo=
+X-Gm-Gg: ASbGncsbm+NUsImTqRN7TH0mhaWco+wFFe2UB+ZWWNvV9Td05jWEX4JZ9vzy1FRJrdX
+	8Y4ZSFCBtE67rguv1GWU3XkHeDBbznWn5jdojLnAcMAX9Q/Kt7dSX7xtLbz/5GGMSv99eWEGEl8
+	W9PISX73SW7ADiEwSE81HnJCELWWWNqPoIui5YmkuQJCXnfCjyZmj3yoNbMRENZkK6ZWp58lJQp
+	f+bnMYxGp8H5+GLviHQo1Duw7TXTecMWUjuF1EmQ86rCa01X3n4ApdeobS9FwmMzuAK
+X-Google-Smtp-Source: AGHT+IGAg6SbQyvl4hHoMLWiihnCnk4YJMHgw8ibbt0hblBqr0eHOCrKPtQvQh7P/3PbA4F//m55Iw==
+X-Received: by 2002:a17:907:a48:b0:ab2:c1e2:1da9 with SMTP id a640c23a62f3a-ab2c1e22977mr2341583266b.51.1736865847270;
+        Tue, 14 Jan 2025 06:44:07 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c95b2181sm636633966b.162.2025.01.14.06.44.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2025 06:44:06 -0800 (PST)
+Date: Tue, 14 Jan 2025 15:44:04 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
+	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+	dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
+	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
+	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+	dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
+	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+References: <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+ <20250108145843.GR5556@nvidia.com>
+ <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
+ <20250108162227.GT5556@nvidia.com>
+ <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
+ <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+ <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+ <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
+ <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
+ <20250110203838.GL5556@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250110203838.GL5556@nvidia.com>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 
-Le mardi 14 janvier 2025 à 14:37 +0300, Dmitry Osipenko a écrit :
-> On 1/9/25 02:17, Tim Surber wrote:
-> > Hi,
-> > 
-> > I tested your patch with the command
-> > 
-> > # gst-launch-1.0 -v v4l2src device=/dev/video1 ! fakesink
-> > 
-> > If this worked I moved on to a visual test using
-> > 
-> > # gst-launch-1.0 -v v4l2src device=/dev/video1 ! queue ! v4l2convert !
-> > waylandsink
-> > 
-> > I used a Windows PC  with a Nvidia GTX 4060 as my source for the
-> > following tests.
-> > 
-> > > Format       | Result                                      |
-> > > ------------ | ------------------------------------------- |
-> > > 4k60p RGB    | Recognized as 1080p / 120 fps - no output   |
-> > > 4k60p 4:2:2  | Recognized as 1080p / 120 fps - no output   |
-> > > 4k60p 4:4:4  | Error: Device wants 1 planes                |
-> > > 4k30p RGB    | ok                                          |
-> > > 4k30p 4:2:2  | ok                                          |
-> > > 4k30p 4:4:4  | Error: Device wants 1 planes                |
-> > > FHD60p RGB   | ok                                          |
-> > > FHD60p 4:2:2 | ok                                          |
-> > > FHD60p 4:4:4 | Error: Device wants 1 planes                |
-> > 
-> > 
-> > When testing 4:4:4 chroma I got the following error:
-> > 
-> > # gst-launch-1.0 -v v4l2src device=/dev/video1 ! fakesink
-> > /sys/v4l2/gstv4l2object.c(4344): gst_v4l2_object_set_format_full (): /
-> > GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> > Device wants 1 planes
-> > 
-> > I could record and convert (with errors) the files with 4:4:4 chroma
-> > using the command Shreeya posted, but the resulting video had wrong
-> > colors and was flashing.
-> > 
-> > I was not able to test 4:2:0 chroma. I tried to generate an custom EDID
-> > with support for it but I could not select it in the graphics driver in
-> > the source, maybe this is just an issue with my setup.
+On Fri, Jan 10, 2025 at 04:38:38PM -0400, Jason Gunthorpe wrote:
+> On Fri, Jan 10, 2025 at 08:34:55PM +0100, Simona Vetter wrote:
 > 
-> Thanks a lot for the testing, very appreciate it! Good that RGB works
-> for you with no problems.
+> > So if I'm getting this right, what you need from a functional pov is a
+> > dma_buf_tdx_mmap? Because due to tdx restrictions, the normal dma_buf_mmap
+> > is not going to work I guess?
 > 
-> Testing YUV formats isn't trivial. Personally I've a custom setup with a
-> modified display driver of RPi to test them. See more below.
+> Don't want something TDX specific!
 > 
-> > I also observed that the the framerate is reported wrong, for example
-> > setting the source to FHD60p RGB resulted in the following:
-> > 
-> > # v4l2-ctl --all -L --list-formats-ext -d /dev/video0
-> > Active width: 1920
-> >     Active height: 1080
-> >     Total width: 2200
-> >     Total height: 1125
-> >     Frame format: progressive
-> >     Polarities: -vsync -hsync
-> >     Pixelclock: 214076000 Hz (86.50 frames per second)
-> > 
-> > This wrong framerate reporting seemed to happen across all framerates
-> > and resolutions. Gstreamer Pipeline negotation showed the same results.
+> There is a general desire, and CC is one, but there are other
+> motivations like performance, to stop using VMAs and mmaps as a way to
+> exchanage memory between two entities. Instead we want to use FDs.
 > 
-> I've re-tested YUV444 4k capture using RPi4, works flawlessly. Note for
-> gst-launch-1.0 you used video1 and video0 device is used by v4l2-ctl
-> command above, maybe you're using wrong device. Please post a complete
-> output of the v4l2-ctl command.
+> We now have memfd and guestmemfd that are usable with
+> memfd_pin_folios() - this covers pinnable CPU memory.
 > 
-> The command I used to test YUV444 capture:
+> And for a long time we had DMABUF which is for all the other wild
+> stuff, and it supports movable memory too.
 > 
-> # v4l2-ctl --verbose -d /dev/video1
-> --set-fmt-video=width=3840,height=2160,pixelformat=NV24 --stream-mmap=4
-> --stream-skip=3 --stream-count=3300 --stream-to=hdmi.raw --stream-poll
-> 
-> The I converted captured data to a video file and played it:
-> 
-> # ffmpeg -f rawvideo -vcodec rawvideo -s 3840x2160 -r 30 -pix_fmt nv24
-> -y -i hdmi.raw output.mkv && mpv output.mkv -loop 0
-> 
-> Don't see any problems with a reported framerate:
-> 
-> DV timings:
->         Active width: 3840
->         Active height: 2160
->         Total width: 4400
->         Total height: 2250
->         Frame format: progressive
->         Polarities: -vsync -hsync
->         Pixelclock: 296992000 Hz (30.00 frames per second)
-> 
-> Note the timing data reported by v4l2-ctl updates after launching the
-> capture. It's not updated dynamically when you changing mode on the source.
+> So, the normal DMABUF semantics with reservation locking and move
+> notifiers seem workable to me here. They are broadly similar enough to
+> the mmu notifier locking that they can serve the same job of updating
+> page tables.
 
-GStreamer uses G_PARM to get and report the frame interval (and flip the
-fraction over to make it a frame rate). I've assumed these two should match and
-it wasn't worth a special case of HDMI receivers.
+Yeah raw pfn is fine with me too. It might come with more "might not work
+on this dma-buf" restrictions, but I can't think of a practical one right
+now.
 
-Nicolas
+> > Also another thing that's a bit tricky is that kvm kinda has a 3rd dma-buf
+> > memory model:
+> > - permanently pinned dma-buf, they never move
+> > - dynamic dma-buf, they move through ->move_notify and importers can remap
+> > - revocable dma-buf, which thus far only exist for pci mmio resources
+> 
+> I would like to see the importers be able to discover which one is
+> going to be used, because we have RDMA cases where we can support 1
+> and 3 but not 2.
+> 
+> revocable doesn't require page faulting as it is a terminal condition.
 
-> 
-> Lastly, please run `echo 3 >
-> /sys/module/synopsys_hdmirx/parameters/debug`.  Watch the kmsg log.
-> Check that it says "hdmirx_get_pix_fmt: pix_fmt: YUV444" when you
-> connecting HDMI cable to a YUV444 source and see other related messages.
-> If it says RGB, then your source is transmitting RGB.
-> 
-> > During my testing I got sometimes an error
-> > 
-> > 
-> > # dmesg
-> > dma alloc of size 24883200 failed
-> > 
-> > 
-> > I'm not sure when this happened and how to reproduce it.
-> 
-> This comes from v4l core, should be harmless as long as capture works.
-> It's a known noisy msg, you may ignore it for today.
-> 
-> > Then I tried to use an AppleTV 4k as source. I don't know what
-> > resolution it tried to negotiate but I got this error in addition to the
-> > previous "Device wants 1 planes" and no connection:
-> > 
-> > # dmesg
-> > fdee0000.hdmi_receiver: hdmirx_query_dv_timings: signal is not locked
-> > fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: signal not lock,
-> > tmds_clk_ratio:0
-> > fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: mu_st:0x0, scdc_st:0x0,
-> > dma_st10:0x10
-> > fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: signal not lock,
-> > tmds_clk_ratio:0
-> > fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: mu_st:0x0, scdc_st:0x0,
-> > dma_st10:0x14
-> 
-> "Device wants 1 planes" sounds like you're using a wrong v4l video
-> device. Please double check. Though, the "signal not lock" means it
-> doesn't work anyways, please make sure you're using the default driver
-> EDID and not a custom one.
-> 
+Yeah this is why I think we should separate the dynamic from the revocable
+use-cases clearly, because mixing them is going to result in issues.
 
+> > Since we're leaning even more on that 3rd model I'm wondering whether we
+> > should make it something official. Because the existing dynamic importers
+> > do very much assume that re-acquiring the memory after move_notify will
+> > work. But for the revocable use-case the entire point is that it will
+> > never work.
+> 
+> > I feel like that's a concept we need to make explicit, so that dynamic
+> > importers can reject such memory if necessary.
+> 
+> It strikes me as strange that HW can do page faulting, so it can
+> support #2, but it can't handle a non-present fault?
+
+I guess it's not a kernel issue, but userspace might want to know whether
+this dma-buf could potentially nuke the entire gpu context. Because that's
+what you get when we can't patch up a fault, which is the difference
+between a recovable dma-buf and a dynamic dma-buf.
+
+E.g. if a compositor gets a dma-buf it assumes that by just binding that
+it will not risk gpu context destruction (unless you're out of memory and
+everything is on fire anyway, and it's ok to die). But if a nasty client
+app supplies a revocable dma-buf, then it can shot down the higher
+priviledged compositor gpu workload with precision. Which is not great, so
+maybe existing dynamic gpu importers should reject revocable dma-buf.
+That's at least what I had in mind as a potential issue.
+
+> > So yeah there's a bunch of tricky lifetime questions that need to be
+> > sorted out with proper design I think, and the current "let's just use pfn
+> > directly" proposal hides them all under the rug. 
+> 
+> I don't think these two things are connected. The lifetime model that
+> KVM needs to work with the EPT, and that VFIO needs for it's MMIO,
+> definately should be reviewed and evaluated.
+> 
+> But it is completely orthogonal to allowing iommufd and kvm to access
+> the CPU PFN to use in their mapping flows, instead of the
+> dma_addr_t.
+> 
+> What I want to get to is a replacement for scatter list in DMABUF that
+> is an array of arrays, roughly like:
+> 
+>   struct memory_chunks {
+>       struct memory_p2p_provider *provider;
+>       struct bio_vec addrs[];
+>   };
+>   int (*dmabuf_get_memory)(struct memory_chunks **chunks, size_t *num_chunks);
+> 
+> This can represent all forms of memory: P2P, private, CPU, etc and
+> would be efficient with the new DMA API.
+> 
+> This is similar to the structure BIO has, and it composes nicely with
+> a future pin_user_pages() and memfd_pin_folios().
+
+Since you mention pin here, I think that's another aspect of the revocable
+vs dynamic question. Dynamic buffers are expected to sometimes just move
+around for no reason, and importers must be able to cope.
+
+For recovable exporters/importers I'd expect that movement is not
+happening, meaning it's pinned until the single terminal revocation. And
+maybe I read the kvm stuff wrong, but it reads more like the latter to me
+when crawling through the pfn code.
+
+Once we have the lifetime rules nailed then there's the other issue of how
+to describe the memory, and my take for that is that once the dma-api has
+a clear answer we'll just blindly adopt that one and done.
+
+And currently with either dynamic attachments and dma_addr_t or through
+fishing the pfn from the cpu pagetables there's some very clearly defined
+lifetime and locking rules (which kvm might get wrong, I've seen some
+discussions fly by where it wasn't doing a perfect job with reflecting pte
+changes, but that was about access attributes iirc). If we add something
+new, we need clear rules and not just "here's the kvm code that uses it".
+That's how we've done dma-buf at first, and it was a terrible mess of
+mismatched expecations.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
