@@ -1,267 +1,188 @@
-Return-Path: <linux-media+bounces-24726-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24727-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E10DA10DCC
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 18:31:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3368A10F15
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 19:05:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94B0D18850C4
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 17:31:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F38C7188A29B
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 18:05:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7DF41F943C;
-	Tue, 14 Jan 2025 17:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A20CD211A20;
+	Tue, 14 Jan 2025 18:01:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rdLuGh0Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WaIk6jRn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2085.outbound.protection.outlook.com [40.107.223.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623DB3C3C;
-	Tue, 14 Jan 2025 17:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736875870; cv=fail; b=PaVNB4Ai+xlpzDs52MgLr3wpyoPKSVDXaU2fB46q8G0QgnRF6A/sO88RjCj4zIziOC+Du4ILLY1DS8YTwY3OHfAaW7bDj092BpuoLqzS4J/lQN2MwxLZqGtEUKlbwvpJM8SvvmF0kYu1emaBd5NkePF5IfkfdnYJUxX2sfLQhMg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736875870; c=relaxed/simple;
-	bh=NPC8ZLx/mu4RqXa4YmBVMQT4PMeGVhNV8fHvywSdH4s=;
-	h=Date:From:To:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=VhvDfpDeiAmCnVAktiZmXwvlEd7yITtHnMr7b7m/zA/OPZ1mosSM+VsJrtjOuArThXEs58ytv23BGe6lE5fgMbzeHjr8aWXeOhFHYvq21JA8m/maarxyMSIW5G7dH25r6DfDMGxnr0sMc6lNUuvvJPjq8wAgsFcMYY6H8+SagIg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rdLuGh0Q; arc=fail smtp.client-ip=40.107.223.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HQcVfjDiauhuDDCxXCsk2lpGIK4n8/QASQHVKjdfE5VgMC8sjsKAg3EGlmGDjLeBip2Lsc06hkcG2U8iS7sh0BTUcvxYXIJwBhmT9lTnSRNi0c7PA+ZhPad6ieRBYYFt3YHzENqDlWVcv6w03KbZGe8WcY4GBm4P/+UQg6Dfubg+YXYoOQtJ3r3CXt7Gozp3A14rB8IQeErGX/DRGDEUu9jWyt15qFq4eAUkCrUcZynRkGorBGwJ6ihj381XqFb7Nm3BEwhAcgtcugp8sW1bZrTsYm2Y9zSGCTA1tFwDJknzJxGs2KIMzUrwiOjRjW0uoHzExjpyiGO60XVnyCiO6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wwPXVop7yZOoYa/6nTb1Si4es1VE81yC65xUpTFdGqw=;
- b=OzMt36SqMqtZ56mPzWYOIXrKBeBICCl+EE9dkx+780jDlmQ9GyRNivargJUzUXOL71G0bGbCL5pcC8VioCShgg2fp64lIdhD6+IYhDlju6ChBD8TIuaFXBk3DU9BVLUxterPlkx6Y/SuRg2KINDFOursVKWiLMninGFDSay3aK6F+PyIACksx7k333ErtfN8RYWfSUAMYqnLnZJcgdO/Qbl6poUEWh4l0D7oBfcEOb9Vspl5OTrwDViXnO8JvJosq5jBEJtCleGzrEhq1Unsd92TrZgKqEm25wFw+/2fdwMORTn/lb3hYPwhwCZu+o47ZsoaxLU5YQwok1sV+cnZyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wwPXVop7yZOoYa/6nTb1Si4es1VE81yC65xUpTFdGqw=;
- b=rdLuGh0QwUKNs/U391sKewNYTrHAoczH9ns3FKazfXUxze6aY6MteHhYMsPwmEI8NCfqqWhByYvaG3qSqF4H/JxbiQapjDd32w8Pe9tSDveavQQCc9ZRu7HUvM3G0k2BdeB3eNecTsfIoqbS70zpbS4iDVTB23utoWqqQ1WM79NTK0dgqXQUkgAsf6AAhZElLLvlvth5KdDjf2Jwo2edDdiDzrEIuzOtLIotBe3iIUJr6QM0ZkW/nq76XWAHeG4AezLoy9FjzrbM4nqYZai50b9peZRGJOoV+IzBe51V98eOqAoyfSzuUtNAiKuOoPbeu9HzPxalLbeN5zhga2pyrQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by BL3PR12MB6595.namprd12.prod.outlook.com (2603:10b6:208:38e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
- 2025 17:31:04 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8335.017; Tue, 14 Jan 2025
- 17:31:04 +0000
-Date: Tue, 14 Jan 2025 13:31:03 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
-	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
-	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
-	dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
-	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <20250114173103.GE5556@nvidia.com>
-References: <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com>
- <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
- <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
- <20250110203838.GL5556@nvidia.com>
- <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
-X-ClientProxiedBy: MN0PR02CA0016.namprd02.prod.outlook.com
- (2603:10b6:208:530::14) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329D61FBEB1
+	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 18:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736877683; cv=none; b=d31xwkPXgR2K+F2S5P/oWJnI+rOw9mEbgVMKyYIj5GTXe1rkdu1t4Zt9+DTYV+eK78prn4PK2sa1RQGzu52DgxE2yp4nWLXC6M6/OYWy8OFIHkxGgEWD4/8ddW7JsL+Jn1Dhcy3bJokisqQ4yceXg/pNXPrMD2cbTmA9mrKMUPQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736877683; c=relaxed/simple;
+	bh=J15WbASwEzR9ADVteW0AQsTzF/kWkDhIgJakrGw7qOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YtSULsNW9OOUuJsJprwfQasi1s9qG6cLDytWhOeEQXB+bxkumFgn+2ityFIvt8FTpfZ7DtdwsBn0uWfeff7qt99QfcmfHuJiZG1jeICig9kJUOm+AJNTJJVtxWvoODUHOjOJIpNPKdRH/Cz/naoNy1vsftLQUiy46AED25Rr+uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WaIk6jRn; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53e3c47434eso5448689e87.3
+        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 10:01:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736877679; x=1737482479; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Cju5Y6mvqeTO2cqpR/OIEtMM4g/7/RRmURfA2z2Xecg=;
+        b=WaIk6jRn5iA+McsLGVal3KhsRWmfXlPFQJ8nLz8H+1oUzdH3BiWA9KjxK7SUKUzvoj
+         4py0bNDc2IDQFNGuZFbpcB5uFEI/HZuZJYGIt2+0nzeftuMmKaDULad11STREqK/5KXP
+         TDFfyyVhSpiu80Esrjhnt+so3Z9OGOKSRBZ7IEPRbskiYYbjfo7rnMUnV21vrSu28oMY
+         EZleY1cRildCqD1zKfZje4Ghozi1QO8j/AJUSojX7LOdA1mzSXalWDajrEKqlGJYGmNi
+         76WMjg9phPAzKIoAzUbrPSuHlxMGwzWgohQZ2AQpLwMTgsa7wS1k2YnWDASkKGiQAxbg
+         rzYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736877679; x=1737482479;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cju5Y6mvqeTO2cqpR/OIEtMM4g/7/RRmURfA2z2Xecg=;
+        b=vC4DaqEVI2/ALl+4qmSqW5wnr0sJ7AEfi2qroDj1xMEML3n8NVKpfRfQaRBGPtDPpk
+         vFDZOSZ7z4E9MBHl3+PYTnqfkU0axwXNg/9037jQ4CbqwR1PtRsof2wrcwe29UF0WodT
+         TpLDgm5QyuxCqTpI1sIPBVBhOoJ1MkHzptKcYnrVPjpbV5/60L1TaII/RCJbZg0ZuSan
+         Cb8Z4rGy7WGIYbAgfErN3XBBARmsDVkBqijPZt9JHqsDCTPb/RHnzFiA02xEPp9f3U/A
+         uUXNvtu3agJV2wF1ImxlYib9JBzt2DhOBsH2pdEDVlLrBoMrAdruIN0OZcLHHuh5aHBm
+         je1g==
+X-Forwarded-Encrypted: i=1; AJvYcCXjV4zDYihfyFfgGYnaNrg9y2sD0vMb22HRVAnTJnaaLrA7Yc69i6t5QZGVG5O0e5cQYy9EYBm6wbVhPw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKPTQRjwr3zGO/RjVU0+fmBJxrxOM3JORzuqcV7YxBrfil2aXb
+	oxFODGhqeRwv+9PP30jd8f1AY2+BFxx6PyjmflRmsoEJGUpo1sqb
+X-Gm-Gg: ASbGncsDCndYb40er6trtmhu2Lhm+7oQqE9lD4yuiCmSk7T70L+QJN3TWrPYMtkjeHm
+	0onrzAXCYSg5RT+RAOxmRurKCvvoi57t8eazRmCsRwX5NjTsRwvrleDw8GMKR9zXLMCqTHSn4eC
+	K1RbUNFlWDksscAAMw31SovSXVmfQ/Yii7nmV15Xplh7V1OYo7B7BiQh6IKkU0muXCuWy/wROrt
+	BjxSsDWzpDR5gCrTqmeLXgOi9EhRvimt9iRk/G7e0CKkVaI89mfVlJy8F8S8An0bkcpTtj9jY2S
+	5wy11KDM
+X-Google-Smtp-Source: AGHT+IGwEgbnHids9nYgvMDHcSzYTQ9BXROnAH3k1VivGZ2rYT6TX0AMPYdkILOX/lqcK0Qz9GApsA==
+X-Received: by 2002:a05:6512:3046:b0:542:2999:399c with SMTP id 2adb3069b0e04-542847fe788mr8313174e87.46.1736877678760;
+        Tue, 14 Jan 2025 10:01:18 -0800 (PST)
+Received: from [192.168.15.130] (94-240-0-14.lukman.pl. [94.240.0.14])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428bf031aesm1790090e87.4.2025.01.14.10.01.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jan 2025 10:01:17 -0800 (PST)
+Message-ID: <51173416-c185-47a8-b342-04d4ba2c3625@gmail.com>
+Date: Tue, 14 Jan 2025 19:01:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BL3PR12MB6595:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9c4e0af-fe6a-405b-9044-08dd34c138d8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?XNt4fLehHId82BQXADJXY5MO7x5KJx2kFPGK2TRPewYznR9+z1WdloyFufSw?=
- =?us-ascii?Q?2OwB2+t2ZLeOa5WrEEq++uPG8/ZjZvt0ieHp6gnxmkAa1FA7q1zxPg1QE1d8?=
- =?us-ascii?Q?cBQHVosv1fmmY9U0P6R/vVSl5sRkQOfDFBAOgbRUmBcv/oBfB2Z2SF+b8FQG?=
- =?us-ascii?Q?RqdIhKl+LPfDuU9aefWGYoH8pw+VqwdCynYnCN5dhRn/HluqcpHKbH8+ZVa+?=
- =?us-ascii?Q?M5ITPVe6BcfGqggFTEH4yfDoaAywkH9+0+2rzxgmzNdk18lequwApPxqiOy9?=
- =?us-ascii?Q?J+tCtdaiGggqLiJ+yDhbnMf95yl7XcaWVve8xXq9/mHixcPV6HMB4Tz7dB+p?=
- =?us-ascii?Q?WlRHKdtvLSvTrgVtBmvNaxIL5sKxp2TfaXYGQjWk6gWmNAsE92VAifpO5dwi?=
- =?us-ascii?Q?8sZM5dCsAsNUXqsA8ulEPRw0uzCkiJRg7nPNL2mWB7bw6XHpo754yWcB4JJZ?=
- =?us-ascii?Q?eYPtCmE+MBLJrbNezkUrMYzrZ8MK3kxiGqQ7+dFvhukH7wSwADBVqde2RSbr?=
- =?us-ascii?Q?JgF2lyo3Dbtl/bYz5eHP52thQHszjJ627zRd7dFdPrsauUj8Hbaydz/L/dq3?=
- =?us-ascii?Q?fXBFJgj7LMbpTbCbBj7x+xlz0uuJSXywFpMEes3E02x3H3SrrFJl1q0CKlP5?=
- =?us-ascii?Q?GSId/j1hRdZ30q2sM+GOTuGdlDPV+9SJdeuapDpyqq9Pe/wJ/nruUprayZFI?=
- =?us-ascii?Q?UaV2Gv8fkNA2SM9IPRdjv3pxPSiieRPpgIyPjfYvkjI35xOTgkHDCDgYPLIz?=
- =?us-ascii?Q?Y2DDOlaZNtFylVDzZ+YB15V1AuLOoi4lmzQ7mUHAjZ2l0DF0oake7+GrcmMs?=
- =?us-ascii?Q?pvDhFxdgEMOx/Td66yRNTyxLvgV8q+w2usGciMKaF2YGqzRqN10tldvZBi/K?=
- =?us-ascii?Q?kE7zuD35dbQt5qO/Ol2sQX6KrPT6itcO/ig8CWOFUY0OhAbEknOvMPQoWy2+?=
- =?us-ascii?Q?cZDn+2LB/rC2bgcAddUZ7RLDkWCVeSfe6OUU383THQPuF8KyRZCIlA3IMSEm?=
- =?us-ascii?Q?aJ3v2FHkASnoAOw4reXga5j/9COQSXRlEaKna+KagpqIwdQcDbrkR8/ujlVi?=
- =?us-ascii?Q?zOTclYdA3PK9z+jl30ExFKwLvH3YWrEFZZSmJklibocM18oprwIpx9JsVVq3?=
- =?us-ascii?Q?NfcuCsWhgys/4DHopb77Cn6ARt3z0LklhIYDfO2t+XRSAiPP1k1JXmul9bAF?=
- =?us-ascii?Q?xJC7sPXoAYZP3OQWOrLgIpngW61ru3U70CUe4bc/DKHDA8Bz6rhaPfI0YxEw?=
- =?us-ascii?Q?eaZEpRt19hyJlEehhoayGS1F7iy7UBKiFOi4ZiM92Pks2J+q4om8IbCY5emx?=
- =?us-ascii?Q?+lnP7WOt2sMfv2XOqKllf6v4NmcU63YDrJ8UtPrOAcKm4NTu2YeRL/6O7QL4?=
- =?us-ascii?Q?U6Iq9bH97zukRMfXWQX+go0/2/yc1ILGouxn05TIP7ZN5lOS7t7od/6skbx3?=
- =?us-ascii?Q?1HLTHRD8RjI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4Gw9k2OyGF3acFkHI3B8Cq6AFJHBd8k9DOVB/9ixUvvzO2pirryZRl7T2dit?=
- =?us-ascii?Q?mroI1bS9IFR8LFuWP11q4UTKchTHBOL/rMc6z1VK7/C/LSyS595lljuG1M0X?=
- =?us-ascii?Q?rcYVusFLqhz68DUltin/u9HJGuzhmsoq3HKTyuDFdgMqc1pRKEIKgbA1zCYl?=
- =?us-ascii?Q?8ydU+ePyjP95J5VxAQyUZCpk8iuvV6WA+CwPaI/L4jZi6/SnQYE1oFKc6+S4?=
- =?us-ascii?Q?dFabyzKXytjgWxsARWPiaZ+x0LAt0TIcWlspIGHnEra+GCrePYV73sLUILFu?=
- =?us-ascii?Q?e2O1zr5FX9V4HL7MwNfBmNdIllySpQGRsPjKMkNlEk/8mEx+7+rxCbHZ5TLb?=
- =?us-ascii?Q?tQiZrdoTQebQ7bVh1wxoKcgThdX+kpsBa5yyJrioXXiCVpd69VqigBsNHkxh?=
- =?us-ascii?Q?s9ZDgUkiTqpHE1w7eeoFtNOPG42Rr5OGFEZWJZGSZaCa44GB8DHCeFVqzunP?=
- =?us-ascii?Q?8DZKrAITduMWt6z1i4xqUg7DBmKeYPPoUqNFs3cS9iZ6JtqtMVQeiFQoN36O?=
- =?us-ascii?Q?u6rm2wI9240vEp8tlzWens5XAGjE7ygqhygcO/CIeZl5ZoZMEgMWu72JLk+/?=
- =?us-ascii?Q?H0eHplHOP8vdPUd9pBmgFe1sATKo+Nt/yc1uMHCbZ5QIfLR9f9DlRjx28AYH?=
- =?us-ascii?Q?kBzTpLbPeG2ySSPJCOFb3d/Rgg5CkHjUCwvEMXjVzeXzx3/gkKFGt7YbSaND?=
- =?us-ascii?Q?LPwsSc2NXQv/KQgGNJOuZDFwXLXZr933EqctveL3ZuYKAqtKMWm3sqSrNQIe?=
- =?us-ascii?Q?mQmb7sHCIqafabcD4lZwWVE1HevDR3jxmrumPE61tq0LLbmFRd8LAEJ2RgpU?=
- =?us-ascii?Q?PgyOGRrruoYRjWOrxIflrUPoPicahjgZ8viDJ0c1cWl5tDuAed/4iiPiQsEq?=
- =?us-ascii?Q?GoTdr/Ln/UD49KWT+H5sX/ioF6OqxqGh2+GrsMfZxs8BPpDzlObolvwv6nyc?=
- =?us-ascii?Q?3VNR/bv3xiPZ1IOOtpOlhOIErgJ0faMx62f4Uf002mrYB5c7V4TRY6johvoV?=
- =?us-ascii?Q?bVwH57/2xRlSeC7U0owXOnEHy47Dpl+Y7p2nbWcWzFlPTa2E9Qv1iacBpJyK?=
- =?us-ascii?Q?xlJYpXV7NjzKaMmbQy/AxW293F9gJCKagU17CV8JfIM7moN9NAc1Q3t9c5oq?=
- =?us-ascii?Q?SrfOaXrOsAYSdp7RCbk2WhGlXsCtoDKRGuydfYxreCiukLDP5GJA9ZwBTOBt?=
- =?us-ascii?Q?TFpTQFwlX9hhc8vmqRkMlQMPoWjtVj5SZVe8FywJqgLc2CLKMByEVDBh+9VU?=
- =?us-ascii?Q?9CizvHyo1aimHOG/WU41iBl6Bnt5wyB4SRPljOVZMns6Hy2K+zHlEcD4/Jn8?=
- =?us-ascii?Q?FOB3UJH8gNunjG5+oq1vWunIGs7MKK2Ni5cPxH3sA1iO4LYjGfPQmr9bxhfn?=
- =?us-ascii?Q?eqiuIHyt//ZumCSGeKQ/GPZsTlPXGhj1ePFgWgyFd0pp/i/IIRKkSzDhvDG1?=
- =?us-ascii?Q?R3oAArLS3ztkl5vx9ieE84lVqWB9NqTnTsBriLrLx4GVO0GIy42/0/qFqhe2?=
- =?us-ascii?Q?TmU0rt2xeK53WBmLCJabBnWNRbqWhz1W2Wvw0EGxnLHZkz8wL/gPXxseLohl?=
- =?us-ascii?Q?JF9odQZjv9/SFekbTlba32Q3oAwEe/7YU1jJxXVk?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9c4e0af-fe6a-405b-9044-08dd34c138d8
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2025 17:31:04.5955
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j9CFajaXP4oh2gxVEtjK8vdlsZ+CCARgwVUclBHdwKwr2sUJlOQTQOWp1v96qqYP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6595
+User-Agent: Mozilla Thunderbird
+Subject: Re: Hantro H1 Encoding Upstreaming
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Daniel Almeida <dwlsalmeida@gmail.com>, Adam Ford <aford173@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>, Frank Li <frank.li@nxp.com>,
+ ming.qian@oss.nxp.com, linux-media <linux-media@vger.kernel.org>,
+ linux-imx@nxmp.com, paulk@sys-base.io,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Gustavo Padovan <gus@collabora.com>
+References: <CAOMZO5D0QvYvr940giHPGwLpunQOpku7e5K_5hHyYYCwZQry2g@mail.gmail.com>
+ <CAOMZO5BJt6qzETzMeO47N5Gu8136tppuXKnqv4ypk6HyLR99vA@mail.gmail.com>
+ <F5E2D925-668C-4D4D-87C9-8F22126443FD@gmail.com>
+ <CAHCN7x+hUJoKRO8U8dgafFip31AKJRqfQw1kOw7YhvZ6xXqNnA@mail.gmail.com>
+ <A3476357-8D8D-4B82-8CAB-58370BECF575@gmail.com>
+ <a393b3324c60c2c13994d34ca90faf4eb604ae43.camel@collabora.com>
+Content-Language: en-US
+From: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+In-Reply-To: <a393b3324c60c2c13994d34ca90faf4eb604ae43.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 14, 2025 at 03:44:04PM +0100, Simona Vetter wrote:
+Hi,
 
-> E.g. if a compositor gets a dma-buf it assumes that by just binding that
-> it will not risk gpu context destruction (unless you're out of memory and
-> everything is on fire anyway, and it's ok to die). But if a nasty client
-> app supplies a revocable dma-buf, then it can shot down the higher
-> priviledged compositor gpu workload with precision. Which is not great, so
-> maybe existing dynamic gpu importers should reject revocable dma-buf.
-> That's at least what I had in mind as a potential issue.
 
-I see, so it is not that they can't handle a non-present fault it is
-just that the non-present effectively turns into a crash of the
-context and you want to avoid the crash. It makes sense to me to
-negotiate this as part of the API.
-
-> > This is similar to the structure BIO has, and it composes nicely with
-> > a future pin_user_pages() and memfd_pin_folios().
+W dniu 14.01.2025 o 17:16, Nicolas Dufresne pisze:
+> Hi everyone,
 > 
-> Since you mention pin here, I think that's another aspect of the revocable
-> vs dynamic question. Dynamic buffers are expected to sometimes just move
-> around for no reason, and importers must be able to cope.
+> despite Andrzej having left the community, we are not giving up on the encoder
+> work. In 2025, we aim at working more seriously on the V4L2 spec, as just
 
-Yes, and we have importers that can tolerate dynamic and those that
-can't. Though those that can't tolerate it can often implement revoke.
+I'm glad you continue working on that. Can you define the "community" here?
 
-I view your list as a cascade:
- 1) Fully pinned can never be changed so long as the attach is present
- 2) Fully pinned, but can be revoked. Revoked is a fatal condition and
-    the importer is allowed to experience an error
- 3) Fully dynamic and always present. Support for move, and
-    restartable fault, is required
+Regards,
 
-Today in RDMA we ask the exporter if it is 1 or 3 and allow different
-things. I've seen the GPU side start to offer 1 more often as it has
-significant performance wins.
+Andrzej
 
-> For recovable exporters/importers I'd expect that movement is not
-> happening, meaning it's pinned until the single terminal revocation. And
-> maybe I read the kvm stuff wrong, but it reads more like the latter to me
-> when crawling through the pfn code.
+> writing driver won't cut it. Each class of codecs needs a general workflow spec
+> similar to what we have already for stateful encoder/decoder and stateless
+> decoder.
+> 
+> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-decoder.html
+> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encoder.html
+> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stateless-decoder.html
+> 
+> It is on top of this, that for each codec we have to add controls (mostly
+> compound) specifics and details that suites stateless accelerators.
+> 
+>  From a community stand point, the most important focus is to write and agree on
+> spec and controls. Once we have that, vendors will be able to slowly move away
+> from their custom solution, and compete on actual hardware rather then
+> integration.
+> 
+> It is also time to start looking toward the future, since Hantro H1 is very
+> limited and ancient encoder. On same brand, if someone could work on VC8000E
+> shipped on IMX8M Plus, or Rockchip codecs, that will certainly help progress. We
+> can also get inspiration from many other stateless encoding APIs now, notably
+> VA, DXVA and Vulkan Video.
+> 
+> Of course, folks likes to know when this will happen, stateless decoders took 5
+> years from start to the first codec being merged, hopefully we don't beat that
+> record. I personally aim for producing work during the summer, and mostly focus
+> on the spec. Its obvious for me that testing on H1 with a GStreamer
+> implementation is the most productive, though I have strong interest in having
+> an ecosystem of drivers. A second userspace implementation, perhaps ffmpeg ?,
+> could also be useful.
+> 
+> If you'd like to take a bite, this is a good thread to discuss forward. Until
+> the summer, I planned to reach to Paul, who made this great presentation [1] at
+> FOSDEM last year and start moving the RFC into using these ideas. One of the
+> biggest discussion is rate control, it is clear to me that modern HW integrated
+> RC offloading, though some HW specific knobs or even firmware offloading, and
+> this is what Paul has been putting some thought into.
+> 
+> If decoders have progressed so much in quality in the last few years, it is
+> mostly before we have better ways to test them. It is also needed to start
+> thinking how do we want to test our encoders. The stateful scene is not all
+> green, with a very organic groth and difficult to unify set of encoders. And we
+> have no metric of how good or bad they are either.
+> 
+> regards,
+> Nicolas
+> 
+> Le lundi 13 janvier 2025 à 18:08 -0300, Daniel Almeida a écrit :
+>> +cc Nicolas
+>>
+>>
+>> Hey Adam,
+>>
+>>
+>>>
+>>> Daniel,
+>>>
+>>> Do you know if anyone will be picking up the H1 encoder?
+>>>
+>>> adam
+>>>>
+>>>> — Daniel
+>>>>
+>>>
+>>
+>> I think my colleague Nicolas is the best person to answer this.
+>>
+>> — Daniel
+> 
 
-kvm should be fully faultable and it should be able handle move. It
-handles move today using the mmu notifiers after all.
-
-kvm would need to interact with the dmabuf reservations on its page
-fault path.
-
-iommufd cannot be faultable and it would only support revoke. For VFIO
-revoke would not be fully terminal as VFIO can unrevoke too
-(sigh).  If we make revoke special I'd like to eventually include
-unrevoke for this reason.
-
-> Once we have the lifetime rules nailed then there's the other issue of how
-> to describe the memory, and my take for that is that once the dma-api has
-> a clear answer we'll just blindly adopt that one and done.
-
-This is what I hope, we are not there yet, first Leon's series needs
-to get merged then we can start on making the DMA API P2P safe without
-any struct page. From there it should be clear what direction things
-go in.
-
-DMABUF would return pfns annotated with whatever matches the DMA API,
-and the importer would be able to inspect the PFNs to learn
-information like their P2Pness, CPU mappability or whatever.
-
-I'm pushing for the extra struct, and Christoph has been thinking
-about searching a maple tree on the PFN. We need to see what works best.
-
-> And currently with either dynamic attachments and dma_addr_t or through
-> fishing the pfn from the cpu pagetables there's some very clearly defined
-> lifetime and locking rules (which kvm might get wrong, I've seen some
-> discussions fly by where it wasn't doing a perfect job with reflecting pte
-> changes, but that was about access attributes iirc). 
-
-Wouldn't surprise me, mmu notifiers are very complex all around. We've
-had bugs already where the mm doesn't signal the notifiers at the
-right points.
-
-> If we add something
-> new, we need clear rules and not just "here's the kvm code that uses it".
-> That's how we've done dma-buf at first, and it was a terrible mess of
-> mismatched expecations.
-
-Yes, that would be wrong. It should be self defined within dmabuf and
-kvm should adopt to it, move semantics and all.
-
-My general desire is to move all of RDMA's MR process away from
-scatterlist and work using only the new DMA API. This will save *huge*
-amounts of memory in common workloads and be the basis for non-struct
-page DMA support, including P2P.
-
-Jason
 
