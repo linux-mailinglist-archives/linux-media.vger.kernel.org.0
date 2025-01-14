@@ -1,362 +1,194 @@
-Return-Path: <linux-media+bounces-24738-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24739-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B368A11253
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 21:43:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCD7A112B7
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 22:06:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8DC517A4BD3
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 20:43:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDFE7164F76
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 21:06:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4D520AF7E;
-	Tue, 14 Jan 2025 20:42:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E1A620E6FF;
+	Tue, 14 Jan 2025 21:06:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qLE9R3XB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="APONJFKs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B28A20AF65;
-	Tue, 14 Jan 2025 20:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB3F1FBC8B
+	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 21:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736887376; cv=none; b=h3p5CiRZ4GwIGIEnsL3FOwDtnT1Zy4ADgcx5nC1ohY1ccr1DHiEO+6JZ4XdtvN50+1Ec0otNKP+xfwfN2/Dyz/bokor35O7GLfQmfYbnv9Fa8PSAKbkVX/KdlwTCQmAU2yssq1itLv9RuV8HzBOQTMKDWdyZM94gPOFxQedp+Bw=
+	t=1736888783; cv=none; b=SVlBqFqzRNEo3a5GzrFnslBzQvnx3xDBFeiXEO1MSWYmb/dfJKVKWffPVtQFGWRnWmQsgvpcqpHyW5X2gU0PpRxYEU04kC8QN30EIJNWaRUk6AAWMKgvkM0m5dE+ZIXWIoZuGYgZnt/RK6unTEdYR1B+SIqJTVe1NLpbBgmJsyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736887376; c=relaxed/simple;
-	bh=knBeCZ/Pci7DtGSYrR7+mjr63pCPMRaSNdrcKTEColk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S1QYd56H8zDfKORnUy6Qz5X4mWtrr8+3X8OGTIdujHcX1mIjR/Ahh1GdA4exmly17eJZdnu3XTR1PIpxT9oiPCyk2n20hTRdPSDJJlJXFpo5o+XWQ8bwgS4v8Oq9SbuZpbu1q9d6q43Et7zuhoOygTBH/5iELMaHHoyUAUGtIVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qLE9R3XB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0290D7E9;
-	Tue, 14 Jan 2025 21:41:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736887308;
-	bh=knBeCZ/Pci7DtGSYrR7+mjr63pCPMRaSNdrcKTEColk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qLE9R3XB//5n8s2o/+NAtuj/BCaLwlTKOZr71W2RApEOTyi6RgMg5gdQHgQKVOy2h
-	 je2AlybY7MicqjenAr4rj+kbeF1V4H/9fyKzY/PINTQqnW2/eB2a3DtyrRHoLVYuaS
-	 IPsYqMZmCcIzl921PBH2AvXZHUJAFDmSUwF2qVjU=
-Date: Tue, 14 Jan 2025 22:42:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Sean Young <sean@mess.org>, Olli Salonen <olli.salonen@iki.fi>,
-	Abylay Ospan <aospan@amazon.com>, Jemma Denson <jdenson@gmail.com>,
-	Patrick Boettcher <patrick.boettcher@posteo.de>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] media: platform: Use str_enable_disable-like helpers
-Message-ID: <20250114204240.GA29414@pendragon.ideasonboard.com>
-References: <20250114-str-enable-disable-media-v1-0-9316270aa65f@linaro.org>
- <20250114-str-enable-disable-media-v1-5-9316270aa65f@linaro.org>
+	s=arc-20240116; t=1736888783; c=relaxed/simple;
+	bh=51Q2nrlUfdW/Lc/7yTyFynD+DttY9+jcTg9BgCE4LlE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PmLL4Su+D7bUq76t749t7FGsFN9cWnXvvATKPkYT253AuDFfmtSJqJzLi8EyRWoMM+arOfNCa/8+6X7t9Sh9Iz+wSJmwxVJfjYFuBXybs5XEBxRoYc0bTpj9j3NeO8eSGi9ap+mQgQ2IKp9cxDXWePvjOlA8UgBlqOk0R5R0Q0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=APONJFKs; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43616c12d72so7518255e9.2
+        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 13:06:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736888779; x=1737493579; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wh00ZVUQdXtx7FYp7M8XVQoCDixad56Rl/xOiGs9l8Y=;
+        b=APONJFKsLSs/vuH33CHi0tE9Y1jEgDv8xAU5IugTUph3oM6fEU0u2bhrihp5ySLTBe
+         McIlN65XTg88M6YaK4ABjyZVaB5xJ8HQLbG5K1jSj8de2JRdw2sFpjKMqkC2FO/QgUQl
+         7wiMDUXUVCVrG8s8zN4bpiI6MclXeldP0m1CE0p8WFUX1slANbFbkUb+9uxL/JU2oP2+
+         PiMqWgl5Qpu9KKLOJ4qGhtYeR9ePqoZx7OM8x88yDkl9o9dWATgGoIEfAxidyqH3reqK
+         dKmBLStgDzb6ieFmiicVo+bASh0du9Zo6ivjsI7PThm9vTYV16vbJbn0t/KAuVFH1Ih/
+         LHDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736888779; x=1737493579;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Wh00ZVUQdXtx7FYp7M8XVQoCDixad56Rl/xOiGs9l8Y=;
+        b=EZ4zY6j03D6P3tA+uBLFzqYO1GObvG8n/FxXAZKDTCCQnkGJuxxg4AX7Hh2L7Od8Ml
+         1BR4L36AgXKLuugvoigQSDlZEa6SQcNwzKKatj1cpXLcHPFu+hoUok+WlzUBLQjUndbA
+         fSuT32x2cvc7/CCkOaujGAOx+bT1B87nfY486b5Tdf4rxp4X2CjJRuBgmvXQuNHjeP52
+         5bIDvRSS/0YtHnrzXZvlhi3lj+LokMesS7Qvn7+3mUgSI1L/aisYMPN/e5NfFy9cceeR
+         k6LJ4IDJgJdBaeNYjVFz6/wdD9xmItl75Y4Y18C2ipnQFveM2QtubFvXmVhQXr5IAmXW
+         Sz+w==
+X-Forwarded-Encrypted: i=1; AJvYcCU4+hbITu8awL3hM8HanSjIxM48om/ZVQmq0GlEC9T7mUKE9rsQdHvdm68tTFoFBD2lypT67K1ytbsaSQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnTdl6r5ni9sYd5jlV9c67zdhWtB7b2M7d3EVX43YK7NkFp2Ky
+	W+DQXnDPkDCyWb1WGAqCM8OxSI3e0NeuZnzti+7mkOoTUBFq2GBurqHLQgdK0Bw=
+X-Gm-Gg: ASbGnctvSWgLTKc5/ASPN5sULYBL1tZyU2REKyjxAiOn3M4Nmmn5nuZUgU1N1+70fvi
+	Gfh+5YxQg+KfD1aMdEkMxQNZc8zMZDiy+EM+Wmf8v7SMD+9iY7lNl2cFNicLtHLxF9VIQYBIAAT
+	+LxMflR876RYuZEV16He0p4bWmVa5iCq0QP/alco7WjctGDKCIYrDqvPpLFtipH107vYb9J5E6u
+	hBF5Bo1M6yRkgcgaKnXt5Oaujnf2AoShlrdiHgd2PIdpWY+rN+yKz98LxwrfBAdSxYFs/+s8F3N
+X-Google-Smtp-Source: AGHT+IEeXSdzS1m6uyUV/OIiskdETkROyZC4FLFot2bkEL/mDiNIRHbH98Ewnj3p1H/ZvDvD6Rm6zA==
+X-Received: by 2002:a05:600c:1d07:b0:436:1902:23b5 with SMTP id 5b1f17b1804b1-436e26f4abbmr94069265e9.4.1736888778614;
+        Tue, 14 Jan 2025 13:06:18 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e37d11csm15947752f8f.16.2025.01.14.13.06.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jan 2025 13:06:18 -0800 (PST)
+Message-ID: <4c79c0e4-dbe9-4f4e-8b2a-a5cf58d49a7c@linaro.org>
+Date: Tue, 14 Jan 2025 22:06:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250114-str-enable-disable-media-v1-5-9316270aa65f@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] media: platform: Use str_enable_disable-like helpers
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
+ <tfiga@chromium.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Maxim Levitsky <maximlevitsky@gmail.com>, Sean Young <sean@mess.org>,
+ Olli Salonen <olli.salonen@iki.fi>, Abylay Ospan <aospan@amazon.com>,
+ Jemma Denson <jdenson@gmail.com>,
+ Patrick Boettcher <patrick.boettcher@posteo.de>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Tim Harvey <tharvey@gateworks.com>, Andy Walls <awalls@md.metrocast.net>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250114-str-enable-disable-media-v1-0-9316270aa65f@linaro.org>
+ <20250114-str-enable-disable-media-v1-5-9316270aa65f@linaro.org>
+ <20250114204240.GA29414@pendragon.ideasonboard.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20250114204240.GA29414@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
-
-Thank you for the patch.
-
-On Tue, Jan 14, 2025 at 08:46:21PM +0100, Krzysztof Kozlowski wrote:
-> Replace ternary (condition ? "enable" : "disable") syntax with helpers
-> from string_choices.h because:
-> 1. Simple function call with one argument is easier to read.  Ternary
->    operator has three arguments and with wrapping might lead to quite
->    long code.
-
-It's more difficult to read for me.
-
-> 2. Is slightly shorter thus also easier to read.
-> 3. It brings uniformity in the text - same string.
-> 4. Allows deduping by the linker, which results in a smaller binary
->    file.
-
-I don't see why the linker can't de-dup string in the current code.
-
-I'm sorry, I just don't see the point in doing this. I'd like to avoid
-those changes in the Linux media subsystem, or at the very least in
-drivers I maintain.
-
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/media/platform/amphion/venc.c              |  3 ++-
->  drivers/media/platform/amphion/vpu_dbg.c           |  3 ++-
->  drivers/media/platform/aspeed/aspeed-video.c       |  5 +++--
->  drivers/media/platform/chips-media/coda/coda-bit.c |  3 ++-
->  drivers/media/platform/chips-media/coda/imx-vdoa.c |  3 ++-
->  drivers/media/platform/st/sti/hva/hva-debugfs.c    |  7 ++++---
->  drivers/media/platform/ti/cal/cal-camerarx.c       |  3 ++-
->  drivers/media/platform/ti/omap3isp/ispstat.c       |  3 ++-
->  drivers/media/platform/xilinx/xilinx-csi2rxss.c    | 19 ++++++++++---------
->  9 files changed, 29 insertions(+), 20 deletions(-)
+On 14/01/2025 21:42, Laurent Pinchart wrote:
+> Hi Krzysztof,
 > 
-> diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-> index c5c1f1fbaa80366d5b18b8f24699eb9c3a18ef92..65b1665eece8cd6efc535281b3be593abaf9ba64 100644
-> --- a/drivers/media/platform/amphion/venc.c
-> +++ b/drivers/media/platform/amphion/venc.c
-> @@ -13,6 +13,7 @@
->  #include <linux/videodev2.h>
->  #include <linux/ktime.h>
->  #include <linux/rational.h>
-> +#include <linux/string_choices.h>
->  #include <linux/vmalloc.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-event.h>
-> @@ -1215,7 +1216,7 @@ static int venc_get_debug_info(struct vpu_inst *inst, char *str, u32 size, u32 i
->  		break;
->  	case 8:
->  		num = scnprintf(str, size, "rc: %s, mode = %d, bitrate = %d(%d), qp = %d\n",
-> -				venc->params.rc_enable ? "enable" : "disable",
-> +				str_enable_disable(venc->params.rc_enable),
->  				venc->params.rc_mode,
->  				venc->params.bitrate,
->  				venc->params.bitrate_max,
-> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-> index 940e5bda5fa391c47552c275bd1266f47d57f475..b726d884086d306cd4298dc46440a2235b311b86 100644
-> --- a/drivers/media/platform/amphion/vpu_dbg.c
-> +++ b/drivers/media/platform/amphion/vpu_dbg.c
-> @@ -11,6 +11,7 @@
->  #include <linux/kernel.h>
->  #include <linux/types.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/string_choices.h>
->  #include <media/v4l2-device.h>
->  #include <linux/debugfs.h>
->  #include "vpu.h"
-> @@ -256,7 +257,7 @@ static int vpu_dbg_core(struct seq_file *s, void *data)
->  		return 0;
->  
->  	num = scnprintf(str, sizeof(str), "power %s\n",
-> -			vpu_iface_get_power_state(core) ? "on" : "off");
-> +			str_on_off(vpu_iface_get_power_state(core)));
->  	if (seq_write(s, str, num))
->  		return 0;
->  	num = scnprintf(str, sizeof(str), "state = %d\n", core->state);
-> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-> index 54cae0da9aca3fd74800b51f79136a261aec241a..d9cf12af05b75c76c506f6e7d72dfc41c9e05317 100644
-> --- a/drivers/media/platform/aspeed/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed/aspeed-video.c
-> @@ -19,6 +19,7 @@
->  #include <linux/sched.h>
->  #include <linux/spinlock.h>
->  #include <linux/string.h>
-> +#include <linux/string_choices.h>
->  #include <linux/v4l2-controls.h>
->  #include <linux/videodev2.h>
->  #include <linux/wait.h>
-> @@ -1227,7 +1228,7 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
->  	v4l2_dbg(1, debug, &video->v4l2_dev, "compression quality(%d)\n",
->  		 video->jpeg_quality);
->  	v4l2_dbg(1, debug, &video->v4l2_dev, "hq_mode(%s) hq_quality(%d)\n",
-> -		 video->hq_mode ? "on" : "off", video->jpeg_hq_quality);
-> +		 str_on_off(video->hq_mode), video->jpeg_hq_quality);
->  
->  	if (video->format == VIDEO_FMT_ASPEED)
->  		aspeed_video_update(video, VE_BCD_CTRL, 0, VE_BCD_CTRL_EN_BCD);
-> @@ -1939,7 +1940,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
->  	seq_printf(s, "  %-20s:\t%d\n", "Quality", v->jpeg_quality);
->  	if (v->format == VIDEO_FMT_ASPEED) {
->  		seq_printf(s, "  %-20s:\t%s\n", "HQ Mode",
-> -			   v->hq_mode ? "on" : "off");
-> +			   str_on_off(v->hq_mode));
->  		seq_printf(s, "  %-20s:\t%d\n", "HQ Quality",
->  			   v->hq_mode ? v->jpeg_hq_quality : 0);
->  	}
-> diff --git a/drivers/media/platform/chips-media/coda/coda-bit.c b/drivers/media/platform/chips-media/coda/coda-bit.c
-> index 84ded154adfe37147218d60278a1c1fac88ecadc..2cb0c04003da750f7108578e274da31778c3f2d2 100644
-> --- a/drivers/media/platform/chips-media/coda/coda-bit.c
-> +++ b/drivers/media/platform/chips-media/coda/coda-bit.c
-> @@ -16,6 +16,7 @@
->  #include <linux/ratelimit.h>
->  #include <linux/reset.h>
->  #include <linux/slab.h>
-> +#include <linux/string_choices.h>
->  #include <linux/videodev2.h>
->  
->  #include <media/v4l2-common.h>
-> @@ -1881,7 +1882,7 @@ static int __coda_decoder_seq_init(struct coda_ctx *ctx)
->  	lockdep_assert_held(&dev->coda_mutex);
->  
->  	coda_dbg(1, ctx, "Video Data Order Adapter: %s\n",
-> -		 ctx->use_vdoa ? "Enabled" : "Disabled");
-> +		 str_enabled_disabled(ctx->use_vdoa));
->  
->  	/* Start decoding */
->  	q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
-> diff --git a/drivers/media/platform/chips-media/coda/imx-vdoa.c b/drivers/media/platform/chips-media/coda/imx-vdoa.c
-> index c3561fcecb98c7d3cd741c28afcb2a3854eaa0e7..abdff181d417788460b7f6230ea54789b242d436 100644
-> --- a/drivers/media/platform/chips-media/coda/imx-vdoa.c
-> +++ b/drivers/media/platform/chips-media/coda/imx-vdoa.c
-> @@ -15,6 +15,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/videodev2.h>
->  #include <linux/slab.h>
-> +#include <linux/string_choices.h>
->  
->  #include "imx-vdoa.h"
->  
-> @@ -117,7 +118,7 @@ static irqreturn_t vdoa_irq_handler(int irq, void *data)
->  	writel(val, vdoa->regs + VDOAIST);
->  	if (val & VDOAIST_TERR) {
->  		val = readl(vdoa->regs + VDOASR) & VDOASR_ERRW;
-> -		dev_err(vdoa->dev, "AXI %s error\n", val ? "write" : "read");
-> +		dev_err(vdoa->dev, "AXI %s error\n", str_write_read(val));
->  	} else if (!(val & VDOAIST_EOT)) {
->  		dev_warn(vdoa->dev, "Spurious interrupt\n");
->  	}
-> diff --git a/drivers/media/platform/st/sti/hva/hva-debugfs.c b/drivers/media/platform/st/sti/hva/hva-debugfs.c
-> index a86a07b6fbc792fc06db2dbbb3934694136a7813..1cb5bca44939606f39911a41e5f464be888848c2 100644
-> --- a/drivers/media/platform/st/sti/hva/hva-debugfs.c
-> +++ b/drivers/media/platform/st/sti/hva/hva-debugfs.c
-> @@ -6,6 +6,7 @@
->   */
->  
->  #include <linux/debugfs.h>
-> +#include <linux/string_choices.h>
->  
->  #include "hva.h"
->  #include "hva-hw.h"
-> @@ -71,12 +72,12 @@ static void format_ctx(struct seq_file *s, struct hva_ctx *ctx)
->  			      "  | |- SEI frame packing type=%s\n",
->  			      v4l2_ctrl_get_menu(entropy)[ctrls->entropy_mode],
->  			      ctrls->cpb_size,
-> -			      ctrls->dct8x8 ? "true" : "false",
-> +			      str_true_false(ctrls->dct8x8),
->  			      ctrls->qpmin,
->  			      ctrls->qpmax,
-> -			      ctrls->vui_sar ? "true" : "false",
-> +			      str_true_false(ctrls->vui_sar),
->  			      v4l2_ctrl_get_menu(vui_sar)[ctrls->vui_sar_idc],
-> -			      ctrls->sei_fp ? "true" : "false",
-> +			      str_true_false(ctrls->sei_fp),
->  			      v4l2_ctrl_get_menu(sei_fp)[ctrls->sei_fp_type]);
->  	}
->  
-> diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
-> index 42dfe08b765f6bbdb0ab8cca0f7d6d87f2ff18eb..a70814cbada82654e926b12bcde73300107aaa8a 100644
-> --- a/drivers/media/platform/ti/cal/cal-camerarx.c
-> +++ b/drivers/media/platform/ti/cal/cal-camerarx.c
-> @@ -17,6 +17,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
->  #include <linux/slab.h>
-> +#include <linux/string_choices.h>
->  
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -191,7 +192,7 @@ static void cal_camerarx_power(struct cal_camerarx *phy, bool enable)
->  
->  	if (i == 10)
->  		phy_err(phy, "Failed to power %s complexio\n",
-> -			enable ? "up" : "down");
-> +			str_up_down(enable));
->  }
->  
->  static void cal_camerarx_wait_reset(struct cal_camerarx *phy)
-> diff --git a/drivers/media/platform/ti/omap3isp/ispstat.c b/drivers/media/platform/ti/omap3isp/ispstat.c
-> index 359a846205b0ffe9e736c7ed37c22677991cc9f2..f1293d412415d3fe36a87e7aa93a60e7daf693d8 100644
-> --- a/drivers/media/platform/ti/omap3isp/ispstat.c
-> +++ b/drivers/media/platform/ti/omap3isp/ispstat.c
-> @@ -14,6 +14,7 @@
->  
->  #include <linux/dma-mapping.h>
->  #include <linux/slab.h>
-> +#include <linux/string_choices.h>
->  #include <linux/timekeeping.h>
->  #include <linux/uaccess.h>
->  
-> @@ -768,7 +769,7 @@ int omap3isp_stat_enable(struct ispstat *stat, u8 enable)
->  	unsigned long irqflags;
->  
->  	dev_dbg(stat->isp->dev, "%s: user wants to %s module.\n",
-> -		stat->subdev.name, enable ? "enable" : "disable");
-> +		stat->subdev.name, str_enable_disable(enable));
->  
->  	/* Prevent enabling while configuring */
->  	mutex_lock(&stat->ioctl_lock);
-> diff --git a/drivers/media/platform/xilinx/xilinx-csi2rxss.c b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-> index 146131b8f37e5a30b168164d4eaedc9641d6af31..a5074f05cee50e117256fdb8496b977332757e27 100644
-> --- a/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-> +++ b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-> @@ -16,6 +16,7 @@
->  #include <linux/of.h>
->  #include <linux/of_irq.h>
->  #include <linux/platform_device.h>
-> +#include <linux/string_choices.h>
->  #include <linux/v4l2-subdev.h>
->  #include <media/media-entity.h>
->  #include <media/mipi-csi2.h>
-> @@ -400,19 +401,19 @@ static int xcsi2rxss_log_status(struct v4l2_subdev *sd)
->  	dev_info(dev, "***** Core Status *****\n");
->  	data = xcsi2rxss_read(xcsi2rxss, XCSI_CSR_OFFSET);
->  	dev_info(dev, "Short Packet FIFO Full = %s\n",
-> -		 data & XCSI_CSR_SPFIFOFULL ? "true" : "false");
-> +		 str_true_false(data & XCSI_CSR_SPFIFOFULL));
->  	dev_info(dev, "Short Packet FIFO Not Empty = %s\n",
-> -		 data & XCSI_CSR_SPFIFONE ? "true" : "false");
-> +		 str_true_false(data & XCSI_CSR_SPFIFONE));
->  	dev_info(dev, "Stream line buffer full = %s\n",
-> -		 data & XCSI_CSR_SLBF ? "true" : "false");
-> +		 str_true_false(data & XCSI_CSR_SLBF));
->  	dev_info(dev, "Soft reset/Core disable in progress = %s\n",
-> -		 data & XCSI_CSR_RIPCD ? "true" : "false");
-> +		 str_true_false(data & XCSI_CSR_RIPCD));
->  
->  	/* Clk & Lane Info  */
->  	dev_info(dev, "******** Clock Lane Info *********\n");
->  	data = xcsi2rxss_read(xcsi2rxss, XCSI_CLKINFR_OFFSET);
->  	dev_info(dev, "Clock Lane in Stop State = %s\n",
-> -		 data & XCSI_CLKINFR_STOP ? "true" : "false");
-> +		 str_true_false(data & XCSI_CLKINFR_STOP));
->  
->  	dev_info(dev, "******** Data Lane Info *********\n");
->  	dev_info(dev, "Lane\tSoT Error\tSoT Sync Error\tStop State\n");
-> @@ -421,9 +422,9 @@ static int xcsi2rxss_log_status(struct v4l2_subdev *sd)
->  		data = xcsi2rxss_read(xcsi2rxss, reg);
->  
->  		dev_info(dev, "%d\t%s\t\t%s\t\t%s\n", i,
-> -			 data & XCSI_DLXINFR_SOTERR ? "true" : "false",
-> -			 data & XCSI_DLXINFR_SOTSYNCERR ? "true" : "false",
-> -			 data & XCSI_DLXINFR_STOP ? "true" : "false");
-> +			 str_true_false(data & XCSI_DLXINFR_SOTERR),
-> +			 str_true_false(data & XCSI_DLXINFR_SOTSYNCERR),
-> +			 str_true_false(data & XCSI_DLXINFR_STOP));
->  
->  		reg += XCSI_NEXTREG_OFFSET;
->  	}
-> @@ -889,7 +890,7 @@ static int xcsi2rxss_parse_of(struct xcsi2rxss_state *xcsi2rxss)
->  	fwnode_handle_put(ep);
->  
->  	dev_dbg(dev, "vcx %s, %u data lanes (%s), data type 0x%02x\n",
-> -		xcsi2rxss->en_vcx ? "enabled" : "disabled",
-> +		str_enabled_disabled(xcsi2rxss->en_vcx),
->  		xcsi2rxss->max_num_lanes,
->  		xcsi2rxss->enable_active_lanes ? "dynamic" : "static",
->  		xcsi2rxss->datatype);
+> Thank you for the patch.
+> 
+> On Tue, Jan 14, 2025 at 08:46:21PM +0100, Krzysztof Kozlowski wrote:
+>> Replace ternary (condition ? "enable" : "disable") syntax with helpers
+>> from string_choices.h because:
+>> 1. Simple function call with one argument is easier to read.  Ternary
+>>    operator has three arguments and with wrapping might lead to quite
+>>    long code.
+> 
+> It's more difficult to read for me.
 
--- 
-Regards,
+That's obviously subjective, but I am surprised that such stuff is
+readable for you:
 
-Laurent Pinchart
+data & XCSI_DLXINFR_SOTERR ? "true" : "false",
+video->hq_mode ? "on" : "off", video->jpeg_hq_quality);
+
+or from PCI parts of this set, note that's ternary is split here:
+
+	dstat & BT848_DSTATUS_HLOC
+	? "yes" : "no");
+
+> 
+>> 2. Is slightly shorter thus also easier to read.
+>> 3. It brings uniformity in the text - same string.
+>> 4. Allows deduping by the linker, which results in a smaller binary
+>>    file.
+> 
+> I don't see why the linker can't de-dup string in the current code.
+> 
+> I'm sorry, I just don't see the point in doing this. I'd like to avoid
+> those changes in the Linux media subsystem, or at the very least in
+> drivers I maintain.
+
+Ack.
+
+Best regards,
+Krzysztof
 
