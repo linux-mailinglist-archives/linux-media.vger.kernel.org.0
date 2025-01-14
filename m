@@ -1,379 +1,151 @@
-Return-Path: <linux-media+bounces-24722-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24723-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25157A10A90
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 16:20:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E77D2A10C0F
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 17:17:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CD6C73A7FF3
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 15:20:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4ABAD7A3C3C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 16:16:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99861156887;
-	Tue, 14 Jan 2025 15:20:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B0B91BD9E7;
+	Tue, 14 Jan 2025 16:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mzSjI2zJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gn0pXtVY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879B814A4C1
-	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 15:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E99D1B6CE4
+	for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 16:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736868050; cv=none; b=qbLMLOL83XujoLIftlgCK4VcGEa9DzevMno3FAuZlce3VgrJ5HJwZPvJIdMDzB5SVHMeZrsTVU94Sk8xUYYtl5AWI8Rk3+uVadz6IIVqoARucYNPOUd+LETElT0eTlRGdEUA3Y1s5FTsgF+edWnVxbvy+dyrRxE/CCkgukay52Y=
+	t=1736871414; cv=none; b=G+CWarMFNrs3S6FL9z99FHrRwtCvYBEXNi68CZYCpS+fMBJMQGQDFu3pTmN9KIz0RSzh9e5JQcaE1NVgZJxtrvSNsgOaEzqVhxRcvvFShhGxmH817tbGx53vCsFV3GgRxOjmXa7Pd5OpPNmHheEH6ZIk31cK9T+hn23IdmBiG+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736868050; c=relaxed/simple;
-	bh=hleinIF5zOvEG927eJdNqKNeAnpkYjnCTVZeu2Uj0UA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n3b0cVXNKOlNKpJPIljs2ndxQNqTI4GvxpgQZ4kkyieuMdf323XvHKApAiYYWPsNglGJ76iEKs7DFhjKfgBKzIbsWxqfNhDG4LjcCOPBJm+/2NgVQ8hO7C+IMeojHnfT1ueL3/8a1kCQVdZYCocfGFxkaj0SY2Mw15gwPo7y3R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mzSjI2zJ; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30167f4c1e3so49087161fa.3
-        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 07:20:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1736868045; x=1737472845; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IKDHRDfA5qhpTV4mOcPcg9mZZFl3NHkbGM8BFwsHo+E=;
-        b=mzSjI2zJ8g4f9FGezfnTjGjGkPQ9mQV5xFTJzzW1L/q/3W7nIO4lYy/KWOBKG/s5cw
-         HsXX3KrjDBwjFuWfJnlcnVF0D9FhRSqs4RfvCySFQ2ckYAlgpgUyTMs3hNmJ9hxZOUwR
-         msdsTy1k30jmb+bfBlZSjhdeB2/KqKQKspn64=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736868045; x=1737472845;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IKDHRDfA5qhpTV4mOcPcg9mZZFl3NHkbGM8BFwsHo+E=;
-        b=qypkL/8jV/REzEkxc0O+7OnX1KILHkrzJOQEffHRTd0EumKD4l5vzi040P0oGNkznO
-         nGWc7TD9bmiodrV/lpjT5ndh7I5lBHlRLlp8eMC5IB94yeqtNxncW61wL6tHfRuHRTJP
-         eyIsbX01AVbatgBpoDHo5VftsnHgyyxs0Sav9qFN2qxWvglFzJl7aYiaYxldwXRqykZp
-         S3VVucp6tKQ8GhIN+LgQ8or3JzMtmYrTqS78WAKyC/rieSi5xWJ75YM/ss6NU/S9a9cI
-         sqPmw4rjOqR+TzZ2UNSiLeccs8Gqbrhk9A/hvPreJScWz/QWL59pEozt96ePl2VIbjRL
-         BizA==
-X-Forwarded-Encrypted: i=1; AJvYcCXh7I5BHjnqILinW8W2qPR+lV2SDg0OUXlwGAuOY69UkDK86Dd8QQt5dHB7Br/k8hlPug8v56Yj0VNCUw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrR3UDy0fjNIRZ/XF2CnD8rmfdLcRgQOOfE6O1YF3YH64KHAux
-	nviinPOoC1Wq3V5IgdNXZHLVdiKjLe1pMhK/0jyVWjKN6P1UthWIxgKAcMqqcgHQR8Ix52ZhJGs
-	=
-X-Gm-Gg: ASbGncuMygJkR7hvf9TrHRJoRIBmrftvTbBP66tHoJAfkuXrj9aCSRN1OcWf4FktXa1
-	afxy7hm76ilWK4RvIvJ0S38lIqTZ3Q0nKSA3ijUdwmkTADxC2/jWGwpjShJXcm/Lytjh8SscLsJ
-	cVGxoYVgep5VeeOZWX4Ehmm2cPzZ7nEw6u0gMzf6D2WOotoDhyQL1bXh8okiTOD8xNZv0B5fTp2
-	XvHwvYEcJAuvVHk4hkyGauXbmfVbrCRrxs6zCgVYgwYFCgeamTKiosJbKQvw3qFdH75vs2U06LQ
-	5RVXaSSsh7m6zYMYVHttvUE=
-X-Google-Smtp-Source: AGHT+IG4KG5VOf3jf9IHsd2NBLY1Z/O0+K5u7I8y+KUdWDFRwUzkp00U478jAEebmUiIT3evMNpKmw==
-X-Received: by 2002:a2e:a781:0:b0:302:1aed:f62a with SMTP id 38308e7fff4ca-305f45a0a1emr82099601fa.21.1736868045485;
-        Tue, 14 Jan 2025 07:20:45 -0800 (PST)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff0ad0dcsm18488151fa.3.2025.01.14.07.20.43
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jan 2025 07:20:43 -0800 (PST)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30229d5b21cso45137781fa.1
-        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 07:20:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUZtIDDwqamUJFwRhQIfrvLCXuHN+WJqoiIloTS8iiDdKJsA7pXnUDUJMUAZRS7L82kIbFYtLU9hmhzMA==@vger.kernel.org
-X-Received: by 2002:a05:651c:1a0c:b0:2fc:9622:794b with SMTP id
- 38308e7fff4ca-305f45a4294mr79783001fa.24.1736868043302; Tue, 14 Jan 2025
- 07:20:43 -0800 (PST)
+	s=arc-20240116; t=1736871414; c=relaxed/simple;
+	bh=lt7KkUDtg/XGs925Gs0yrNTATid7sSWRB4gtE0t++Ts=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tZHT479vyx14ZUsDi/4DCYsq1q3tlrj2T5YonBAB62k4XtIIwW8XwSO1TnY9aUrcf+toEZ5lDS3Bsnb4RRfSW40pBPcqAmMlzsJLYu6rrL2wcrmNhJXm5MV2wvXK8Sf2H5fSwN4GmKH+f0obKgownuhw7DGJ8GXucjkZmzS6G64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gn0pXtVY; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1736871409;
+	bh=lt7KkUDtg/XGs925Gs0yrNTATid7sSWRB4gtE0t++Ts=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=gn0pXtVYm+FqJD48Xx/PFhayD5TrvNTk2xy+CGEj+Zd+NMYTRcwABJ9Yx8YXbYjpp
+	 Xi4Sd9ZlyC0UxxUxBgw1sooucJrrhpacTzrW4UZz8YEcZ+/cNpC3E9UJ9qhttCVIF/
+	 XBFJhM5yht1Q4KKp3DVScFREV4e0Iz8vUADQzcS+9ugzH/T20ytzZo040KOMYp66B8
+	 BV6M5pyIDVr2J1getl84eEn/7s8Vq3QrFjYiWrycGl3wMycovWRUREiGjaWTIBpgbN
+	 gsDhf92a6lc/mFnOR4/+6WKhiNY/5zVNgnYQ1oOSsyJ96aYv+/0p158wSkl0ncSA0Y
+	 Q6vj1NpgfuTQQ==
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3748517E0D72;
+	Tue, 14 Jan 2025 17:16:48 +0100 (CET)
+Message-ID: <a393b3324c60c2c13994d34ca90faf4eb604ae43.camel@collabora.com>
+Subject: Re: Hantro H1 Encoding Upstreaming
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Daniel Almeida <dwlsalmeida@gmail.com>, Adam Ford <aford173@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>, andrzejtp2010@gmail.com, Frank Li	
+ <frank.li@nxp.com>, ming.qian@oss.nxp.com, linux-media	
+ <linux-media@vger.kernel.org>, linux-imx@nxmp.com, paulk@sys-base.io,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, Gustavo Padovan
+ <gus@collabora.com>
+Date: Tue, 14 Jan 2025 11:16:47 -0500
+In-Reply-To: <A3476357-8D8D-4B82-8CAB-58370BECF575@gmail.com>
+References: 
+	<CAOMZO5D0QvYvr940giHPGwLpunQOpku7e5K_5hHyYYCwZQry2g@mail.gmail.com>
+	 <CAOMZO5BJt6qzETzMeO47N5Gu8136tppuXKnqv4ypk6HyLR99vA@mail.gmail.com>
+	 <F5E2D925-668C-4D4D-87C9-8F22126443FD@gmail.com>
+	 <CAHCN7x+hUJoKRO8U8dgafFip31AKJRqfQw1kOw7YhvZ6xXqNnA@mail.gmail.com>
+	 <A3476357-8D8D-4B82-8CAB-58370BECF575@gmail.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CADBf=5nJVddk-yPVw3T5GH9JEPOxnO8McPJHaxtnPBvLCnp42Q@mail.gmail.com>
- <Z3u2vHFVPYTmCnwj@quatroqueijos.cascardo.eti.br> <CADBf=5nS8_cQvG3mRnXe_MGYmFMh=Myf_eptPqN9hgNMu73Wjg@mail.gmail.com>
- <Z36ad0OxZBnQ0Kxx@quatroqueijos.cascardo.eti.br> <20250108153637.GE32541@pendragon.ideasonboard.com>
- <Z36gMvN0XxfXwE82@quatroqueijos.cascardo.eti.br> <CADBf=5m0WVMJbVfDvpFdqoYdKj=nT+mOW=D-Q2MJJ=TCbsTMuQ@mail.gmail.com>
- <Z3+pQ/xVdpiE/1GN@quatroqueijos.cascardo.eti.br> <20250113185059.GA30724@pendragon.ideasonboard.com>
- <CANiDSCtvwUEP+66NiXQRNjxpVyh_XCztJRYwdQQMKWx9p_SOcA@mail.gmail.com> <Z4ZbYavHz1DpCCwK@quatroqueijos.cascardo.eti.br>
-In-Reply-To: <Z4ZbYavHz1DpCCwK@quatroqueijos.cascardo.eti.br>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 14 Jan 2025 23:20:30 +0800
-X-Gmail-Original-Message-ID: <CANiDSCvx4syyRhsX5v_kzFN4dR0JUoB8c0pY4Tf+JB318M=qYA@mail.gmail.com>
-X-Gm-Features: AbW1kvZYOGH6_7kwojNEKBC7bNE_vVquN5dYF32qBZENCbXOvRL07EUSByenVmk
-Message-ID: <CANiDSCvx4syyRhsX5v_kzFN4dR0JUoB8c0pY4Tf+JB318M=qYA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] media: uvcvideo: require entities to have a
- non-zero unique ID
-To: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tomasz Sikora <sikora.tomus@gmail.com>, hverkuil-cisco@xs4all.nl, kernel-dev@igalia.com, 
-	linux-media@vger.kernel.org, mchehab@kernel.org, 
-	syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com, 
-	syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 14 Jan 2025 at 20:41, Thadeu Lima de Souza Cascardo
-<cascardo@igalia.com> wrote:
->
-> On Tue, Jan 14, 2025 at 11:01:32AM +0800, Ricardo Ribalda wrote:
-> > Hi
-> >
-> > On Tue, 14 Jan 2025 at 02:51, Laurent Pinchart
-> > <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > On Thu, Jan 09, 2025 at 07:47:31AM -0300, Thadeu Lima de Souza Cascardo wrote:
-> > > > On Wed, Jan 08, 2025 at 11:14:28PM +0100, Tomasz Sikora wrote:
-> > > > > Hello,
-> > > > > you right
-> > > > > I have in dmsg (line 1228):
-> > > > > [   12.981124] usb 3-2: Failed to create links for entity 5
-> > > > > [   12.981126] usb 3-2: Failed to register entities (-22).
-> > > > >
-> > > > > full output in my log.
-> > > >
-> > > > Thanks, Tomasz.
-> > > >
-> > > > Can you test the attached fix? It should still keep the warning about the
-> > > > multiple units with the same ID, but now it would not return an error nor
-> > > > warn when registering the entities.
-> > > >
-> > > > Cascardo.
-> > >
-> > > > From f771f5c4657ed25ae36784bf13992ddbee3161e6 Mon Sep 17 00:00:00 2001
-> > > > From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> > > > Date: Thu, 9 Jan 2025 07:37:41 -0300
-> > > > Subject: [PATCH RFC] media: uvcvideo: restore support for non-compliant devices
-> > > >
-> > > > Some real-world devices have multiple units with the same ID. When creating
-> > > > their media entities, it would lead to warnings and failure to create such
-> > > > entities. However, the V4L2 devices would still be created and work.
-> > > >
-> > > > Restore their support, but still warn about the multiple units with the
-> > > > same ID. Avoid the failure in navigating through the chain by storing
-> > >
-> > > What's "the failure" here ?
-> > >
-> > > > pointers to the entities instead of only their IDs.
-> > >
-> > > Missing SoB and Fixes tags.
-> > >
-> > > The commit message should explain why this is better than reverting
-> > > 3dd075fe8ebb ("media: uvcvideo: Require entities to have a non-zero
-> > > unique ID"). I'm wondering if a revert with a clean fix on top may not
-> > > be easier to review.
-> > >
-> > > > ---
-> > > >  drivers/media/usb/uvc/uvc_driver.c | 16 +++++++++++-----
-> > > >  drivers/media/usb/uvc/uvc_entity.c |  4 +++-
-> > > >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
-> > > >  3 files changed, 15 insertions(+), 6 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > index 1a22364f7da9..dd81067f8d30 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > @@ -791,10 +791,8 @@ static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
-> > > >       }
-> > > >
-> > > >       /* Per UVC 1.1+ spec 3.7.2, the ID is unique. */
-> > > > -     if (uvc_entity_by_id(dev, id)) {
-> > > > -             dev_err(&dev->udev->dev, "Found multiple Units with ID %u\n", id);
-> > > > -             return ERR_PTR(-EINVAL);
-> > > > -     }
-> > > > +     if (uvc_entity_by_id(dev, id))
-> > > > +             dev_warn(&dev->udev->dev, "Found multiple Units with ID %u\n", id);
-> > > >
-> > > >       extra_size = roundup(extra_size, sizeof(*entity->pads));
-> > > >       if (num_pads)
-> > > > @@ -802,7 +800,7 @@ static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
-> > > >       else
-> > > >               num_inputs = 0;
-> > > >       size = sizeof(*entity) + extra_size + sizeof(*entity->pads) * num_pads
-> > > > -          + num_inputs;
-> > > > +          + num_inputs + sizeof(struct uvc_entity *) * num_inputs;
-> > > >       entity = kzalloc(size, GFP_KERNEL);
-> > > >       if (entity == NULL)
-> > > >               return ERR_PTR(-ENOMEM);
-> > > > @@ -840,6 +838,7 @@ static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
-> > > >
-> > > >       entity->bNrInPins = num_inputs;
-> > > >       entity->baSourceID = (u8 *)(&entity->pads[num_pads]);
-> > > > +     entity->source_entities = (struct uvc_entity **)(&entity->baSourceID[num_inputs]);
-> > > >
-> > > >       return entity;
-> > > >  }
-> > > > @@ -1503,6 +1502,7 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
-> > > >                               }
-> > > >
-> > > >                               forward->baSourceID[0] = source->id;
-> > > > +                             forward->source_entities[0] = source;
-> > > >                       }
-> > > >
-> > > >                       list_add_tail(&forward->chain, &chain->entities);
-> > > > @@ -1586,6 +1586,8 @@ static int uvc_scan_chain_backward(struct uvc_video_chain *chain,
-> > > >                               return -EINVAL;
-> > > >                       }
-> > > >
-> > > > +                     entity->source_entities[i] = term;
-> > > > +
-> > > >                       uvc_dbg_cont(PROBE, " %d", term->id);
-> > > >
-> > > >                       list_add_tail(&term->chain, &chain->entities);
-> > > > @@ -1620,6 +1622,8 @@ static int uvc_scan_chain_backward(struct uvc_video_chain *chain,
-> > > >               return -EINVAL;
-> > > >       }
-> > > >
-> > > > +     (*_entity)->source_entities[0] = entity;
-> > > > +
-> > > >       *_entity = entity;
-> > > >       return 0;
-> > > >  }
-> > > > @@ -1783,6 +1787,7 @@ static int uvc_scan_fallback(struct uvc_device *dev)
-> > > >                       goto error;
-> > > >
-> > > >               prev->baSourceID[0] = entity->id;
-> > > > +             prev->source_entities[0] = entity;
-> > > >               prev = entity;
-> > > >       }
-> > > >
-> > > > @@ -1790,6 +1795,7 @@ static int uvc_scan_fallback(struct uvc_device *dev)
-> > > >               goto error;
-> > > >
-> > > >       prev->baSourceID[0] = iterm->id;
-> > > > +     prev->source_entities[0] = iterm;
-> > > >
-> > > >       list_add_tail(&chain->list, &dev->chains);
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-> > > > index cc68dd24eb42..7f42292b7fde 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_entity.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_entity.c
-> > > > @@ -36,7 +36,9 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
-> > > >               if (!(entity->pads[i].flags & MEDIA_PAD_FL_SINK))
-> > > >                       continue;
-> > > >
-> > > > -             remote = uvc_entity_by_id(chain->dev, entity->baSourceID[i]);
-> > > > +             remote = entity->source_entities[i];
-> > > > +             if (remote == NULL)
-> > > > +                     remote = uvc_entity_by_id(chain->dev, entity->baSourceID[i]);
-> > >
-> > > That looks worrying. Why would source_entities[i] be NULL ?
-> > >
-> > > Devices with bad descriptors can lead to crashes, and it's important to
-> > > harden the code. Just warning about duplicate ideas and adding a
-> > > source_entities array that may or may not point to the right source (and
-> > > could point to NULL) doesn't seem to go in the right direction.
-> > >
-> > > Other options include adding a device-specific quirk that overrides the
-> > > incorrect entity IDs, or, possibly better, implementing a heuristic to
-> > > fix those automatically.
-> >
-> >
-> > Can't we simply do something like this:
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c
-> > b/drivers/media/usb/uvc/uvc_driver.c
-> > index a10d4f4d9f95..b55dc440db26 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -135,6 +135,9 @@ struct uvc_entity *uvc_entity_by_id(struct
-> > uvc_device *dev, int id)
-> >  {
-> >         struct uvc_entity *entity;
-> >
-> > +       if (id == UVC_INVALID_ENTITY_ID)
-> > +               return NULL;
-> > +
-> >         list_for_each_entry(entity, &dev->entities, list) {
-> >                 if (entity->id == id)
-> >                         return entity;
-> > @@ -802,13 +805,13 @@ static struct uvc_entity
-> > *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
-> >         /* Per UVC 1.1+ spec 3.7.2, the ID should be non-zero. */
-> >         if (id == 0) {
-> >                 dev_err(&dev->udev->dev, "Found Unit with invalid ID 0.\n");
-> > -               return ERR_PTR(-EINVAL);
-> > +               id = UVC_INVALID_ENTITY_ID;
-> >         }
-> >
-> >         /* Per UVC 1.1+ spec 3.7.2, the ID is unique. */
-> >         if (uvc_entity_by_id(dev, id)) {
-> >                 dev_err(&dev->udev->dev, "Found multiple Units with ID
-> > %u\n", id);
-> > -               return ERR_PTR(-EINVAL);
-> > +               id = UVC_INVALID_ENTITY_ID;
-> >         }
-> >
-> >         extra_size = roundup(extra_size, sizeof(*entity->pads));
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index 5e388f05f3fc..2ba8e32260ca 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -41,6 +41,8 @@
-> >  #define UVC_EXT_GPIO_UNIT              0x7ffe
-> >  #define UVC_EXT_GPIO_UNIT_ID           0x100
-> >
-> > +#define UVC_INVALID_ENTITY_ID          0xffff
-> > +
-> >  /* ------------------------------------------------------------------------
-> >   * Driver specific constants.
-> >   */
-> >
->
-> At first, this looks fine, but the it would still allow for multiple units
-> on the list with the Invalid ID. We could reserve some range and allocate
-> from it instead.
+Hi everyone,
 
-Please correct me if I am wrong, but the ID is only required to
-configure the topology of the device. If multiple entities have the
-same id then they cannot be part of the topology, because we will
-never be sure about what entity is the correct one.
+despite Andrzej having left the community, we are not giving up on the encoder
+work. In 2025, we aim at working more seriously on the V4L2 spec, as just
+writing driver won't cut it. Each class of codecs needs a general workflow spec
+similar to what we have already for stateful encoder/decoder and stateless
+decoder.
 
-My proposal is to mark the duplicated as invalid so they cannot be
-found with uvc_entity_by_id(), but they can still have controls.
+- https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-decoder.html
+- https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encoder.html
+- https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stateless-decoder.html
 
-I think it can work with multiple duplicated IDs. It is also pretty
-clean and is not affected by the issue found by syszcaller.
+It is on top of this, that for each codec we have to add controls (mostly
+compound) specifics and details that suites stateless accelerators.
 
-In any case we probably want to act fast on this one. We had reports
-from multiple parties.
+From a community stand point, the most important focus is to write and agree on
+spec and controls. Once we have that, vendors will be able to slowly move away
+from their custom solution, and compete on actual hardware rather then
+integration.
 
-Regards!
+It is also time to start looking toward the future, since Hantro H1 is very
+limited and ancient encoder. On same brand, if someone could work on VC8000E
+shipped on IMX8M Plus, or Rockchip codecs, that will certainly help progress. We
+can also get inspiration from many other stateless encoding APIs now, notably
+VA, DXVA and Vulkan Video.
 
- >
-> For the case in hand, it may just work because there is only one entity
-> with the duplicate ID, so we only need to allocate one new ID.
->
-> Regards.
-> Cascardo.
+Of course, folks likes to know when this will happen, stateless decoders took 5
+years from start to the first codec being merged, hopefully we don't beat that
+record. I personally aim for producing work during the summer, and mostly focus
+on the spec. Its obvious for me that testing on H1 with a GStreamer
+implementation is the most productive, though I have strong interest in having
+an ecosystem of drivers. A second userspace implementation, perhaps ffmpeg ?,
+could also be useful.
 
+If you'd like to take a bite, this is a good thread to discuss forward. Until
+the summer, I planned to reach to Paul, who made this great presentation [1] at
+FOSDEM last year and start moving the RFC into using these ideas. One of the
+biggest discussion is rate control, it is clear to me that modern HW integrated
+RC offloading, though some HW specific knobs or even firmware offloading, and
+this is what Paul has been putting some thought into.
 
->
-> >
-> >
-> >
-> >
-> > >
-> > > >               if (remote == NULL || remote->num_pads == 0)
-> > > >                       return -EINVAL;
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > index 07f9921d83f2..a4ee79e4e85b 100644
-> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > @@ -239,6 +239,7 @@ struct uvc_entity {
-> > > >
-> > > >       u8 bNrInPins;
-> > > >       u8 *baSourceID;
-> > > > +     struct uvc_entity **source_entities;
-> > > >
-> > > >       int (*get_info)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > >                       u8 cs, u8 *caps);
-> > >
-> > > --
-> > > Regards,
-> > >
-> > > Laurent Pinchart
-> >
-> >
-> >
-> > --
-> > Ricardo Ribalda
+If decoders have progressed so much in quality in the last few years, it is
+mostly before we have better ways to test them. It is also needed to start
+thinking how do we want to test our encoders. The stateful scene is not all
+green, with a very organic groth and difficult to unify set of encoders. And we
+have no metric of how good or bad they are either.
 
+regards,
+Nicolas
 
+Le lundi 13 janvier 2025 à 18:08 -0300, Daniel Almeida a écrit :
+> +cc Nicolas
+> 
+> 
+> Hey Adam,
+> 
+> 
+> > 
+> > Daniel,
+> > 
+> > Do you know if anyone will be picking up the H1 encoder?
+> > 
+> > adam
+> > > 
+> > > — Daniel
+> > > 
+> > 
+> 
+> I think my colleague Nicolas is the best person to answer this.
+> 
+> — Daniel
 
--- 
-Ricardo Ribalda
 
