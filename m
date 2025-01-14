@@ -1,206 +1,225 @@
-Return-Path: <linux-media+bounces-24719-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24720-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B58A107F8
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 14:36:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B38CA108ED
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 15:17:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 051F33A01E3
-	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 13:36:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 795551884B77
+	for <lists+linux-media@lfdr.de>; Tue, 14 Jan 2025 14:17:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 209B0234D0B;
-	Tue, 14 Jan 2025 13:35:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E761313FD86;
+	Tue, 14 Jan 2025 14:17:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HHO8JSa+"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="J6wdGop5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2081.outbound.protection.outlook.com [40.107.243.81])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02A823244B;
-	Tue, 14 Jan 2025 13:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736861758; cv=fail; b=p07DHR4Ihg8xNxf4t5TRyxsrSXkkON/DWDhodUW1xiiQN6LA1h1v2dYfrX0XWnXsz9Atm6tr0Kz5Gu4lpqx5jivr1g/7IFM5Rne3SgK+isBNgzIK2yYzLO2rf6squXre6Iozk5nSNA7QEMwfm9u9j9K4VwaDgVKwbEgYOWN/k/U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736861758; c=relaxed/simple;
-	bh=qckIQXJnTmlFLeOADEbOe9Vt27OfrrSZwuo865NOatM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=fA78H831fRb6qF2rn1xrGgoI5Jg5/Cvu6zcQ6Eg+lb1KXkAQvmBvSEqZT0unYGH5biylelw4WToBXV9amkZfFaF2hdohxlEfaKzjYeGIJ4xl5yx/o8fJKlPqeRe+8XS7hNT+2UucCxw4cvuPEeD876AjwTYVY3nWgkpzCkFcgmY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HHO8JSa+; arc=fail smtp.client-ip=40.107.243.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uYjD65Ums/z5lq44ly2oAZG7BA/0D0WQKuwF5tdbLqcT/wM9XKtRJXvFlp/a0izU9oVHbHhpgykYg2JEmvGQCfGxh9sJogXY7tS+K4z2vdmUCcYIsb1yVaJ1HfnZsK0rbix42NDXWqEwxf4MNz40jk+ybvepFDGhzFzkfDsql9vKKAdysEVV5r/9vgXHILt4fX9zXDeGPwKJEDMkpGi7xJE3xb56ZvJvSS6jdoWSNSKhgPFJHuPYG02fpmw31m4FprPQTTnNbdeVs2slVCdq27a+CgtIhASRZO6hkirPI54IGl3yEvoyD5N1j7KuJdH0lrPU0vaqVKhag0gBcNQS2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bCU+np2FymwmOa/p/iANc4AkUige0f+/xzS42iKYUNM=;
- b=duz/c0GNeIovZdyp+sWcDnDFhow9ZKc9ciN4WxILB151Ty/C/+JDUbwJooIpaaQ9toVvhq+cH7QC0Mm5DmmpKBHxmFpmi2hB6+TjcIDSs/muwJ44Roq9hr3YvwLBy+sDATGGpndMkChiQTeR1C44wDkkPCfLWked8vPxXHPNF7vfHud0lzDVBDBN6bwHqI/9YiRea3CWYo1L8x4YUXhmM7tDgBBHAuufRHjlkvPsm0n4Hrst84qQnktnOkYsHdV+xUYYaqYE9QzxO0Q0D+qw5Vy0/5Nnxj1hoscVGFP1Z4/r+NNkcBAZtc7L17FHSoRpn6ZSFf8a05eM4LB02QkbaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bCU+np2FymwmOa/p/iANc4AkUige0f+/xzS42iKYUNM=;
- b=HHO8JSa+3GYVq8kR0hAVXF1o4f7yBSLnp45+myO/kqOfgDiQocqQvtrBCidKqcoruzqmpD9JEHPxDrR74ZaHI/NoKyYUzumxWpVzfP9UTG/9MxL7cE9ZEuWjX7aeeOZ5OB1ICkdP/fDaOVcFMn4YwPF5b5+mmFm1sAYjzPIcNUBqDJcmI7p33+cN1om79rcRn2xDvchr4tpTOL09xraEZ0/dLNpTI4U1s17JBwXkTyeO66F9ykIQ+bJiPs2C5ABm8TalD2rgiFVre04O/iyXPMruxbzYo0532GPQHAbEE4fAmokz4HWp2TTOt7ABAa4mkr2O8NkXGZek4g/NJd1XLA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by MW4PR12MB7429.namprd12.prod.outlook.com (2603:10b6:303:21b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
- 2025 13:35:54 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8335.017; Tue, 14 Jan 2025
- 13:35:54 +0000
-Date: Tue, 14 Jan 2025 09:35:53 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
-	zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <20250114133553.GB5556@nvidia.com>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <20250107142719.179636-9-yilun.xu@linux.intel.com>
- <20250108133026.GQ5556@nvidia.com>
- <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
- <20250109144051.GX5556@nvidia.com>
- <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
- <20250110133116.GF5556@nvidia.com>
- <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050>
- <20250113164935.GP5556@nvidia.com>
- <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
-X-ClientProxiedBy: MN0P221CA0009.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:208:52a::27) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A79323244E;
+	Tue, 14 Jan 2025 14:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736864225; cv=none; b=bc2F1n008xA9Tjr7At4jKiaSzEPoYepUTAzpDwUHYQcys4W2XT+uC5wx8zotpdbyBAQDpFN1anYcvvhwlgMlY3+RUmfJ1Ilaqv6Jp1YXzsViX5pYezRGuSWzgVzp8PHv3eueOqo5CXvKGhHm4ivGREqPnlWYdAmBbC3vyGOICrI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736864225; c=relaxed/simple;
+	bh=UcLT/NGwEPJZ5L1DHsFtFzF+XOJMTV8UvHS9FoikQUE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lvS3KdtUfWhQmgFfeB+oq+xu4M7nOrR1/zfZoZUFmDuYcl+7ImaTgBIwguVbDSnG63kAxCiUs9Rzp/xELaSmPRh5vUHQBKQzZqmnFY2/qEG2TTVTjUWmy2NhGXn2biLLns4gzsEeFUbEZg1zU1rxbpraMCklff2xWsvrMGcXPJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=J6wdGop5; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1736864221;
+	bh=UcLT/NGwEPJZ5L1DHsFtFzF+XOJMTV8UvHS9FoikQUE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=J6wdGop5G4nss4xyIPKF1t7RgMLG7uignLmWgtjyf/K7aqRNzaFLmZOLNdIgQoN03
+	 mBtzE0NfcjP8UrsFiF2V36hFhuIUuS/Pwwrrr132lusduiDR6OUdojfNFgn/O+h84e
+	 E2KCxWlMg/96AjAfJJ1HvgLwCevc73sjTmXVbWg0y9eU9v+GpGKZwoT+JAaBAH40NX
+	 44l/ff93fblxo6G79nkFpDImkyQ9G/UAiQ7clKytn/JT3zObw37DhHGdQBDVM+L3YP
+	 RbFY9HaEDzuKW2N7JPG8T+pwHMNNLsZy6WOwacukqcrxE9BIA51dW4iXT/PlZXg56e
+	 YFAM0Wx6kGIsw==
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 869C917E02BE;
+	Tue, 14 Jan 2025 15:16:58 +0100 (CET)
+Message-ID: <c71eb0c2052814f709d1cc36bd3e968d72a96749.camel@collabora.com>
+Subject: Re: [RESEND PATCH v5 0/4] Add Synopsys DesignWare HDMI RX Controller
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, Tim Surber	
+ <me@timsurber.de>, Shreeya Patel <shreeya.patel@collabora.com>,
+ heiko@sntech.de, 	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, 	mturquette@baylibre.com, sboyd@kernel.org,
+ p.zabel@pengutronix.de, 	jose.abreu@synopsys.com,
+ nelson.costa@synopsys.com, shawn.wen@rock-chips.com, 	hverkuil@xs4all.nl,
+ hverkuil-cisco@xs4all.nl
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Date: Tue, 14 Jan 2025 09:16:55 -0500
+In-Reply-To: <9399a881-7d45-4ca3-8249-2e554184d038@collabora.com>
+References: <20241210193904.883225-1-shreeya.patel@collabora.com>
+	 <acb91a34-c0f8-4f03-8945-755b4e42dcf3@timsurber.de>
+	 <925d7571-48e4-437d-b55c-3f7bbad8af1d@collabora.com>
+	 <fbb5016e-678c-4e54-a6a8-0ccaa2bdf45c@timsurber.de>
+	 <a5226fac-2a5b-47f3-b32e-8662bf932bd4@collabora.com>
+	 <d61e344f-fcdd-47af-a142-e8d42edec045@timsurber.de>
+	 <9399a881-7d45-4ca3-8249-2e554184d038@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MW4PR12MB7429:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30ba289e-ccc0-4a70-1139-08dd34a05e4e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0yFuPRrd9VkmSwtFfxP0buZGCgzV7B6x9HMKz9XE5h1KvsM3RrPN93YyIP5/?=
- =?us-ascii?Q?zEPYh48AxWac2IfMadmTwwqPanzXErE0h7uHX0Bm9H6OZrRKiFPLf6yLOE36?=
- =?us-ascii?Q?iJprNXof8uqj2xG9Oa/ztpKYpYAwUJHm4S0UWeY6IZafgPergArPCJxVBMhT?=
- =?us-ascii?Q?aLKm6gVTvWY/0g6vT4i/CgzEG5aOxPR615zKinbw9JejTlH6GpldXvSoBmVt?=
- =?us-ascii?Q?+T674ftnbDPveDvsFCRt/Tjr0PAtG4MSXiUHYs4xJBr7Lj0agOhLzd5a5yFp?=
- =?us-ascii?Q?VgpgBlEtEggrfvxV7i2w5pB9UBtIj5XbzPPg4ZhOZBIMh95vA5ZUZCrxXwOq?=
- =?us-ascii?Q?gfZhs6ct26OjzPdHwzsxU/o4oVHquQyTxO220rsKvaHCJNCg+O/m3hTM1SMF?=
- =?us-ascii?Q?TCUVObnsJVf8ht4bAnI0iSfzAP1Wnxdtg8F6aNNJAc7X7L9qc63QlG/bk98+?=
- =?us-ascii?Q?fdVn/Ca1R1LRVOVoQTIG68KSvud9MsY7GhtnMT6veicc5/ZGNqMlaEVuDzGO?=
- =?us-ascii?Q?NtIuSikp82bMy9az2eXAbMwtnSMkE8xm1f3twyo7Sxy8ouLd/Y4qRJvDkunZ?=
- =?us-ascii?Q?0ujVZLpcMY5AtkE1aQSlri6Nsu8N8QAnAj2izCrVzEa/e5Coe4+B8+fyBXkh?=
- =?us-ascii?Q?TPgjgB58e/LI0QSSUV0uTULQK0zRBHez8LiAESvxbxTArAQIVDAgr5QFjBTJ?=
- =?us-ascii?Q?ONFrRQOTv0Z6WVRCsfhcRfoYvLR9ptwUVfeW1xrSwGSpxTnPwQalxdT/9bQg?=
- =?us-ascii?Q?p4viL9abA8R/T+zh+SxoLvyVG5CGQvmwyOstmxvZyAn7b1DpXE5zVKmIUXC/?=
- =?us-ascii?Q?PhnXC3Bgq/BrL45HsPksxKE7jCPECss17jzs6OFBPweXPZyogeWtlLwX+xqk?=
- =?us-ascii?Q?q2ErhpoCSQagfUN58Bt8QrbONg3JKu6p0ljBeumMcTbw+317Q/Zf1Wa9RSX5?=
- =?us-ascii?Q?yO7NiItkBChi6u4M1Gb6KY2pKE1c90pkTa7x5+J9oDdBQq8RX2awxDB3UQNF?=
- =?us-ascii?Q?YEvdyjri8ByVcGw8N5zDy65CzTK5OqKB/8gdIgWictfISTj5Q7tio9XaBaLa?=
- =?us-ascii?Q?LNzfPSPnZBET4hrRehWg4oMg85GZO92jNhJSldNoQ8bF0j2ErIZ90iobF43V?=
- =?us-ascii?Q?l+eeE/iupftGrG0o5XqXQnvMjb0LCVvZGl2Ddw/XmVbtvSBG/lkmlLrrjUQm?=
- =?us-ascii?Q?TO1W/0qM5/jN+CHhb1pbK7qi/vvhr+Kt1njllRaocfjhHZcJtw4JXx/aaFWC?=
- =?us-ascii?Q?j6/Ae30A7vlAgaxFfLB6k7rNvs485fdfmYkGmJCGKkOyYbG5am/IlQImKvBe?=
- =?us-ascii?Q?AYIr2ou2gPzyuZ6yeq2oRaFMHssTWP/ML3sqSDoX47GIOge7IcLZCeiq463+?=
- =?us-ascii?Q?21vKoGdauCNnj8r6o++Ett5scjn0?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5UXR6/W3S0tjJrCmeutoNh8JhYu5M8+4SPOkHpWRqEauki9bQT4V37vwUdTS?=
- =?us-ascii?Q?SDMC9zZCoaxdFb6cifJntqtvePmpDFGS4acHfwNwjaBw0TrMqlimoeHJBZsl?=
- =?us-ascii?Q?0mm4aAIBr0uk5V3y5pDtDV/4Vrbckc62j1F5A+J/hTh+YiFMpp3+RWDcj3LI?=
- =?us-ascii?Q?ygjK9fH832DrDgXF6cwZ/YYqp/rX66vD2Dm17CRpUaUscGKHLNjq2Nfn/2Om?=
- =?us-ascii?Q?6Sd2im5TzFQW+HFm0/RZjl43wa1df8VRfWSIPcCgUDX7qDezKG4pPb/YBkob?=
- =?us-ascii?Q?N9fs1qY6N9GaGyWNffKdYRoqBN7k6he54tzviouToZptQVNZLd2yPVwZOg4O?=
- =?us-ascii?Q?CmbhRNpQIn/LwIE3WeamWh1wuXMcpSLHzPauajurqHyc0E7dd7FTxFyWMMt8?=
- =?us-ascii?Q?uBFTwkStk1/nHHSqT6zYV4b88aBKKq/ZAEoWooqxYQCLX9VriGQQnmRXunHG?=
- =?us-ascii?Q?pdZwebZ7egYekyLR32cjY3wt121yrH0xHEeklCSTBdouzMn4HMgTyjDekQ+s?=
- =?us-ascii?Q?vpXJvM+0ozVbmpBKuFe0szgxsvaAK3iR4VUlZDzar2c4b7QbdqvTLgWa2u/s?=
- =?us-ascii?Q?8auJhJIfJPgrIlrin1YOWyQuDHGKG0X4bxYA63k68/Oj/vg9e5lgB+t0qlbO?=
- =?us-ascii?Q?GCo5a/sKjhb/YHFN6QTBwZZvBBFlLsCWDXsr+oHmTQ2y7tyfGCL0SEtt+LfI?=
- =?us-ascii?Q?VDTcBAhfe07ezatyfYE8LK1OZf7OI+/EUZAutF5qUK4XuiXzqxk9O5vY4hGH?=
- =?us-ascii?Q?IBmUvqhodBVfqF16FeuBuaYFwmVNT0Gsu9kvrqlNM3oKUIhhlbHp5LjbaLKO?=
- =?us-ascii?Q?nAlQr23cwrEYWIwUh6VN/V/k9t5RyDMfihWI3jA2emRuZokjotNZkH9qcEX7?=
- =?us-ascii?Q?FsXX4WB3dza0gyFjph61yGe/ZkCbdXtWTO2zfRgtIRNbpZjtS7Hkvryu3334?=
- =?us-ascii?Q?N/hMSPd9YM8UDQZUlsixVRxOyV84qoX+tElgi2MsQ3xq0Reuyf8dy5xGW4rB?=
- =?us-ascii?Q?TQxJ7FguUvXNhud7tIXofrQUSeDHOC5j0nm1V+CPRCRIpeY3y8RNegVTpxDs?=
- =?us-ascii?Q?PDxHssHsL8Kpu3qBb34iP1hDjYvbyGyvfIyyT/vDXq8bN7mTLD7uX95BUWbT?=
- =?us-ascii?Q?kl283gtPcR2ONnbrP7eQjFlEg1cZOvZh08N7op18rOAv2YyOkd+NsTOGkhEz?=
- =?us-ascii?Q?C8Y09NOv2AXtBkz4rrEzNi8TlJa0D7nTlbKXOQ2iy81D++J4E1A78euyz/rH?=
- =?us-ascii?Q?T9RX14yKUnR9BxLlFrUZHw196h1d8OcL5rHNzY+HNx6a5ny0uwXdaejhNcJU?=
- =?us-ascii?Q?kqizxeyT1ayiUeGbZtkLTcbR+CCpmjeco+T5ORWbGOHw7thRYPhKUXmmhgLR?=
- =?us-ascii?Q?DU+g7XwUlKK0ku+aF3HqIIPtlejOwjKF1uTIdpDPAo7qFS3/JvTQIEE3aEys?=
- =?us-ascii?Q?M1hNG2Jt2wuG1Qeq0+kqeglELavgeORS1mqlsXO/mnxc7CPlUVM6933NxB9w?=
- =?us-ascii?Q?p1e714V/x6jIMfp5dB8dwcqDnnHE8CyTKA896oVQmMOPnzicGLAh7VLytN0g?=
- =?us-ascii?Q?PHCH49jkYj6oOz6gjDgzOTwLcTeBvk0YgzbcF1Ek?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30ba289e-ccc0-4a70-1139-08dd34a05e4e
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2025 13:35:53.9649
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7zzE58AxLoYG8JOAVdk6cXd374T3Zu8pDLga+4TU4RT/EWnHF5Cys8Jt/6EY0Ahu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7429
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 18, 2024 at 07:28:43AM +0800, Xu Yilun wrote:
-
-> > is needed so the secure world can prepare anything it needs prior to
-> > starting the VM.
+Le mardi 14 janvier 2025 à 14:37 +0300, Dmitry Osipenko a écrit :
+> On 1/9/25 02:17, Tim Surber wrote:
+> > Hi,
+> > 
+> > I tested your patch with the command
+> > 
+> > # gst-launch-1.0 -v v4l2src device=/dev/video1 ! fakesink
+> > 
+> > If this worked I moved on to a visual test using
+> > 
+> > # gst-launch-1.0 -v v4l2src device=/dev/video1 ! queue ! v4l2convert !
+> > waylandsink
+> > 
+> > I used a Windows PC  with a Nvidia GTX 4060 as my source for the
+> > following tests.
+> > 
+> > > Format       | Result                                      |
+> > > ------------ | ------------------------------------------- |
+> > > 4k60p RGB    | Recognized as 1080p / 120 fps - no output   |
+> > > 4k60p 4:2:2  | Recognized as 1080p / 120 fps - no output   |
+> > > 4k60p 4:4:4  | Error: Device wants 1 planes                |
+> > > 4k30p RGB    | ok                                          |
+> > > 4k30p 4:2:2  | ok                                          |
+> > > 4k30p 4:4:4  | Error: Device wants 1 planes                |
+> > > FHD60p RGB   | ok                                          |
+> > > FHD60p 4:2:2 | ok                                          |
+> > > FHD60p 4:4:4 | Error: Device wants 1 planes                |
+> > 
+> > 
+> > When testing 4:4:4 chroma I got the following error:
+> > 
+> > # gst-launch-1.0 -v v4l2src device=/dev/video1 ! fakesink
+> > /sys/v4l2/gstv4l2object.c(4344): gst_v4l2_object_set_format_full (): /
+> > GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> > Device wants 1 planes
+> > 
+> > I could record and convert (with errors) the files with 4:4:4 chroma
+> > using the command Shreeya posted, but the resulting video had wrong
+> > colors and was flashing.
+> > 
+> > I was not able to test 4:2:0 chroma. I tried to generate an custom EDID
+> > with support for it but I could not select it in the graphics driver in
+> > the source, maybe this is just an issue with my setup.
 > 
-> OK. From Dan's patchset there are some touch point for vendor tsm
-> drivers to do secure world preparation. e.g. pci_tsm_ops::probe().
+> Thanks a lot for the testing, very appreciate it! Good that RGB works
+> for you with no problems.
 > 
-> Maybe we could move to Dan's thread for discussion.
+> Testing YUV formats isn't trivial. Personally I've a custom setup with a
+> modified display driver of RPi to test them. See more below.
 > 
-> https://lore.kernel.org/linux-coco/173343739517.1074769.13134786548545925484.stgit@dwillia2-xfh.jf.intel.com/
-
-I think Dan's series is different, any uapi from that series should
-not be used in the VMM case. We need proper vfio APIs for the VMM to
-use. I would expect VFIO to be calling some of that infrastructure.
-
-Really, I don't see a clear sense of how this will look yet. AMD
-provided some patches along these lines, I have not seem ARM and Intel
-proposals yet, not do I sense there is alignment.
-
-> > Setting up secure vIOMMU emulation, for instance. I
+> > I also observed that the the framerate is reported wrong, for example
+> > setting the source to FHD60p RGB resulted in the following:
+> > 
+> > # v4l2-ctl --all -L --list-formats-ext -d /dev/video0
+> > Active width: 1920
+> >     Active height: 1080
+> >     Total width: 2200
+> >     Total height: 1125
+> >     Frame format: progressive
+> >     Polarities: -vsync -hsync
+> >     Pixelclock: 214076000 Hz (86.50 frames per second)
+> > 
+> > This wrong framerate reporting seemed to happen across all framerates
+> > and resolutions. Gstreamer Pipeline negotation showed the same results.
 > 
-> I think this could be done at VM late bind time.
-
-The vIOMMU needs to be setup before the VM boots
-
-> > secure. This should all be pre-arranged as possible before starting
+> I've re-tested YUV444 4k capture using RPi4, works flawlessly. Note for
+> gst-launch-1.0 you used video1 and video0 device is used by v4l2-ctl
+> command above, maybe you're using wrong device. Please post a complete
+> output of the v4l2-ctl command.
 > 
-> But our current implementation is not to prepare as much as possible,
-> but only necessary, so most of the secure work for vPCI function is done
-> at late bind time.
+> The command I used to test YUV444 capture:
+> 
+> # v4l2-ctl --verbose -d /dev/video1
+> --set-fmt-video=width=3840,height=2160,pixelformat=NV24 --stream-mmap=4
+> --stream-skip=3 --stream-count=3300 --stream-to=hdmi.raw --stream-poll
+> 
+> The I converted captured data to a video file and played it:
+> 
+> # ffmpeg -f rawvideo -vcodec rawvideo -s 3840x2160 -r 30 -pix_fmt nv24
+> -y -i hdmi.raw output.mkv && mpv output.mkv -loop 0
+> 
+> Don't see any problems with a reported framerate:
+> 
+> DV timings:
+>         Active width: 3840
+>         Active height: 2160
+>         Total width: 4400
+>         Total height: 2250
+>         Frame format: progressive
+>         Polarities: -vsync -hsync
+>         Pixelclock: 296992000 Hz (30.00 frames per second)
+> 
+> Note the timing data reported by v4l2-ctl updates after launching the
+> capture. It's not updated dynamically when you changing mode on the source.
 
-That's fine too, but both options need to be valid.
+GStreamer uses G_PARM to get and report the frame interval (and flip the
+fraction over to make it a frame rate). I've assumed these two should match and
+it wasn't worth a special case of HDMI receivers.
 
-Jason
+Nicolas
+
+> 
+> Lastly, please run `echo 3 >
+> /sys/module/synopsys_hdmirx/parameters/debug`.  Watch the kmsg log.
+> Check that it says "hdmirx_get_pix_fmt: pix_fmt: YUV444" when you
+> connecting HDMI cable to a YUV444 source and see other related messages.
+> If it says RGB, then your source is transmitting RGB.
+> 
+> > During my testing I got sometimes an error
+> > 
+> > 
+> > # dmesg
+> > dma alloc of size 24883200 failed
+> > 
+> > 
+> > I'm not sure when this happened and how to reproduce it.
+> 
+> This comes from v4l core, should be harmless as long as capture works.
+> It's a known noisy msg, you may ignore it for today.
+> 
+> > Then I tried to use an AppleTV 4k as source. I don't know what
+> > resolution it tried to negotiate but I got this error in addition to the
+> > previous "Device wants 1 planes" and no connection:
+> > 
+> > # dmesg
+> > fdee0000.hdmi_receiver: hdmirx_query_dv_timings: signal is not locked
+> > fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: signal not lock,
+> > tmds_clk_ratio:0
+> > fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: mu_st:0x0, scdc_st:0x0,
+> > dma_st10:0x10
+> > fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: signal not lock,
+> > tmds_clk_ratio:0
+> > fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: mu_st:0x0, scdc_st:0x0,
+> > dma_st10:0x14
+> 
+> "Device wants 1 planes" sounds like you're using a wrong v4l video
+> device. Please double check. Though, the "signal not lock" means it
+> doesn't work anyways, please make sure you're using the default driver
+> EDID and not a custom one.
+> 
+
 
