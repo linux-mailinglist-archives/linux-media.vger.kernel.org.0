@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-24812-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24813-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04E7A12BE9
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 20:43:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EA7A12BFF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 20:51:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B6A53A7258
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 19:43:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD0CD16303D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 19:51:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FDDE1D79A0;
-	Wed, 15 Jan 2025 19:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA901D6DB9;
+	Wed, 15 Jan 2025 19:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z2hzI/H0"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PLSIDgef"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD131D5AC3
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 19:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EF8191F75
+	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 19:51:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736970217; cv=none; b=IzpB4M0xZUbOiFVnJsW+VDlo3+N1P1lWOD6KCi21XM8yKHTkKg2LgkwJ5nk34mOH79/KwQFHFtxErRxISAKn2LRASXHOqPCy0TJDYmN/o1rGG7SduznDL3A1/JUFV4MmuesLmzuA6s65p6yfADZV33FWAobYKBG9vF0LdxnFsRc=
+	t=1736970681; cv=none; b=VkkFvjPke2BmKnLbwSby6VnVLEU+1agM94pRHJSwkVEEx4qHkRnV1D942fr1BZ55HWVzArhRKoEEvt3DlodaUsSTfmop3lQ3xEKHhVP51S/a0C3aXfuswqnZ0cOYNXrYisvouBIKjHUdqVKic/qkfs5mb1JEnAWZVUhNOnrrKjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736970217; c=relaxed/simple;
-	bh=cYFpbBlXuxVwB2nf68TTMId6mR88iIP1fXRCsAWU444=;
+	s=arc-20240116; t=1736970681; c=relaxed/simple;
+	bh=eApaEBs2l62buMdnrk/5QAHQKp7CzPNrtDWea9f/TvY=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jZJtb26nk/Fg5sA0mjQrZ28B0VmUVYgbhJKL4JrEZ+OunZ9BAfhe6d+jkjCP4oizi930V40JMx9jf5eUVTzJvGdmgRkPBxjPr7xrT2uGLEOYR6z9+904RoeaR+fLXStL2rjrsTvSW8xHwq+0rGG7j8RY+XGTiOMyVIr6HA8Ir4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z2hzI/H0; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=CeX2xnAC8nwEh+b6Nkm324JjkEegFZH/gmEkq28OlBf1BqeUEEw+Eajf0uwQ6ASS7AS4J9h8MJJGRKc3evAt9OQ73nxt5qduYrD2V2g3Qsu0EddiFkHI884EJhs1kEFHwnJZtF2hUWeOXiAuU2tczQ1W9P4r4Eya6taNwvxNVbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PLSIDgef; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1736970213;
-	bh=cYFpbBlXuxVwB2nf68TTMId6mR88iIP1fXRCsAWU444=;
+	s=mail; t=1736970677;
+	bh=eApaEBs2l62buMdnrk/5QAHQKp7CzPNrtDWea9f/TvY=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Z2hzI/H0s1+A4sRaOO7CRXGAqC/55X9KBEyxW/lFKkTHYNgnboa1NmlyLPIRQMHS/
-	 AJELJyviHR52a4RRM9FjUO5+W8dhqw5cwe8EZIP0IPqy4O06OcWzmjBKiQfZddmoyZ
-	 8W6fmgg4CpmHGuTdwquzLF6de6l7ugdbZumnwlx3nNDl0xv2hw7SojkQdbTI1R+uWL
-	 LQi35W9aTBJbefQiZ/Fqn/qy7Y9fFds9Lde7JjGVLLp2RF0ycAuyDC5zSG8az/7uF1
-	 DJ0ldggfaHMa1AlWpfoC8dntzA0+v//TAMLogb4H2tt51jzIZ6PeaAjDdKpiXME+f1
-	 gpKmBt16FEmZA==
+	b=PLSIDgefKouOijFL22hFtZOiFFEmJ3IVpsmdlrjrsGOkQ20p7womdbr+pokK9oNSB
+	 dwbShcCxJW0b4Dlbsz1GD4m8dDZezE2G78xCf1w6pOKpbaH1D57fhZEosRpfa7x9y5
+	 UrD7GdFUR6PuyZ1EMinLkM9cu6FliyDC5syYKqo7RhWqEB0l3ix9ou4xlCqSVcsDDq
+	 eNxyBXbLW3Qp6QR/2d2HP3ep3AF2l+jmGkiDxt8FN4DscGnGzTiewn4/QOgMylzMlC
+	 7axxu1wXb1B/ZyctYhtNEnkTyKeHr0hwKp1j03kvsl6EmGNkwC7fThKWBGMbgDVER/
+	 l3cYogTTfXT+A==
 Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:862e::7a9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E5D2D17E0DE6;
-	Wed, 15 Jan 2025 20:43:31 +0100 (CET)
-Message-ID: <9def2b5d38b338c31be09503805b85206223b36c.camel@collabora.com>
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A100217E0EAB;
+	Wed, 15 Jan 2025 20:51:15 +0100 (CET)
+Message-ID: <a6e7a9a0426df1902965262328d1da8e9339b952.camel@collabora.com>
 Subject: Re: Hantro H1 Encoding Upstreaming
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Paul Kocialkowski <paulk@sys-base.io>
@@ -57,7 +57,7 @@ Cc: Daniel Almeida <dwlsalmeida@gmail.com>, Adam Ford <aford173@gmail.com>,
  <frank.li@nxp.com>, ming.qian@oss.nxp.com,  linux-media
  <linux-media@vger.kernel.org>, linux-imx@nxmp.com, Benjamin Gaignard	
  <benjamin.gaignard@collabora.com>, Gustavo Padovan <gus@collabora.com>
-Date: Wed, 15 Jan 2025 14:43:30 -0500
+Date: Wed, 15 Jan 2025 14:51:14 -0500
 In-Reply-To: <Z4fOScVgLqYEU4Hw@collins>
 References: 
 	<CAOMZO5D0QvYvr940giHPGwLpunQOpku7e5K_5hHyYYCwZQry2g@mail.gmail.com>
@@ -78,45 +78,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Forking the thread,
-
 Le mercredi 15 janvier 2025 à 16:03 +0100, Paul Kocialkowski a écrit :
-> Last words about private driver buffers (such as motion vectors and
-> reconstruction buffers), I think they should remain private and unseen from
-> userspace. We could add something extra to the uAPI later if there is really a
-> need to access those.
+> We could have some common per-codec bitstream generation v4l2 code with either
+> a cpu buffer access backend or a driver-specific implementation for writing the
+> bits. I already have a base for this in my cedrus h264 encoder work:
+> https://github.com/bootlin/linux/blob/cedrus/h264-encoding/drivers/staging/media/sunxi/cedrus/cedrus_enc_h264.c#L722
 
-I don't know if you noticed, but Jacopo started a proposal around multi-context
-media controller. For this type of extension, my long term idea was that we
-could adopt this, and introduced new nodes to expose specialized memory. These
-nodes would be unlike by default, meaning the default behaviour with a single
-m2m video node would remain.
+There is a lot of code in there that you can throw directly into v4l2-h264, this
+is exactly what that library is meant for. It had never meant to be limited to
+generating intermediate reference lists for decoders, or to be decoder specific.
+Note that golomb coding can further be generalized.
 
-An existing use case for that would be in the decoder space, VC8000D and up have
-4 post processed output, which mean up to 5 outputs if you count the reference
-frames. So we could set it up:
-
-
-bitstream -> m2m -> reference frames
-              |
-              -- capture 1 -> post processed
-              |
-              -- capture 2 -> post processed
-              |
-              -- capture 3 -> post processed
-              |
-              -- capture 4 -> post processed
-
-
-Simpler said then done, but I think this can work. I suspect it is quite
-feasible to keep the stream state separated, allowing to reconfigure the chosen
-output resolution without having to reset the decoder state (which is only bound
-to reference frames). It also solve few issues we have in regard to over-memory
-allocation when we hide the reference frames.
-
-For encoders, reconstruction frames would also be capture nodes. I'm not
-completely versed into what they can be used for, also their pixel format would
-have to be known to be useful of course.
+I do agree at least for now that letting the driver write headers have more
+advantages. It allows notably to turn off the knobs that would not otherwise be
+supported. The modification would of course be reference at s_ctrl time,
+assuming you reuse existing sps/pps and other similar compound controls. As we
+didn't have encoder in mind when we created these compound controls, its
+possible that we'll have to add an extended one to fill the gaps, which has
+always been the plan.
 
 Nicolas
 
