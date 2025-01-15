@@ -1,126 +1,213 @@
-Return-Path: <linux-media+bounces-24771-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24772-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F172A11F60
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 11:28:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBFFA11FCB
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 11:36:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4D4F18861EA
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 10:28:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D21B7A3D8C
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 10:36:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF5B423F275;
-	Wed, 15 Jan 2025 10:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 625F11E9910;
+	Wed, 15 Jan 2025 10:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aAt6QHzC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SHSQR01.spreadtrum.com (mx1.unisoc.com [222.66.158.135])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A6A1DB130
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 10:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=222.66.158.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063E81E98FA;
+	Wed, 15 Jan 2025 10:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736936881; cv=none; b=euOj3wAVrI5wmtJutDrCi6dU2idNTr9wt65bPkDy3nX/cuSqv9dKizrn++K4UWmwcta95IqJdmZOOLgOKgkC0v+PKhoP5dgouIngef943gUle+Wthl9o9RGo0g8nQ3Qv1Y0pArgTcSHYX2ZTkqAkKO5Bd+5aMS7ty261XxXdf3A=
+	t=1736937333; cv=none; b=d57UF3EuHCotxQYOmzJ4EF2f5nMJaGGMZ72lewFFX5pomEmZnP93PsMl4qLrKvQUznBjQBKIYgLrjstSstW6T6Mh6oqJDeXTlLMKGyE4KxZmL0NCYQRqI9OHA3AgwDW996K37O/1SjiJM+WpQBGIbG5e7HIfK0VU42xyv4qypAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736936881; c=relaxed/simple;
-	bh=6IBe//irp++7hQboibe+IyOinHwrN9Uo5zBQjoEPCZA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BKAARwmUJpKzpl4PbPVc3mgCcX8q7wo5X9JWDF4ex7Cyp2KuL1BTu2qHVbuyRtol22IxQmgd6pYsV3sWNgcuzESYY87RxDwVVGl8kEjPGW1d8Z4yN1wmuT+FNOHv9DZihogOXp8bwkAgqnzp9c1opnOCHWdBxKzFZHsHVgWDh9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unisoc.com; spf=pass smtp.mailfrom=unisoc.com; arc=none smtp.client-ip=222.66.158.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unisoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unisoc.com
-Received: from dlp.unisoc.com ([10.29.3.86])
-	by SHSQR01.spreadtrum.com with ESMTP id 50FARmmW011362
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 18:27:48 +0800 (+08)
-	(envelope-from zhaoyang.huang@unisoc.com)
-Received: from SHDLP.spreadtrum.com (bjmbx01.spreadtrum.com [10.0.64.7])
-	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4YY2DP2Y4Zz2Q0GRh
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 18:24:37 +0800 (CST)
-Received: from BJMBX01.spreadtrum.com (10.0.64.7) by BJMBX01.spreadtrum.com
- (10.0.64.7) with Microsoft SMTP Server (TLS) id 15.0.1497.23; Wed, 15 Jan
- 2025 18:27:47 +0800
-Received: from BJMBX01.spreadtrum.com ([fe80::54e:9a:129d:fac7]) by
- BJMBX01.spreadtrum.com ([fe80::54e:9a:129d:fac7%16]) with mapi id
- 15.00.1497.023; Wed, 15 Jan 2025 18:27:47 +0800
-From: =?gb2312?B?u8azr9H0IChaaGFveWFuZyBIdWFuZyk=?=
-	<zhaoyang.huang@unisoc.com>
-To: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC: =?gb2312?B?v7W8zbH1IChTdGV2ZSBLYW5nKQ==?= <Steve.Kang@unisoc.com>
-Subject: reply//: [RFC] driver: dma-buf: use vmf_insert_page for
- cma_heap_vm_fault
-Thread-Topic: reply//: [RFC] driver: dma-buf: use vmf_insert_page for
- cma_heap_vm_fault
-Thread-Index: AQHbZzgewAlxtYq/xUKGyIVadgN0xw==
-Date: Wed, 15 Jan 2025 10:27:47 +0000
-Message-ID: <1736936867040.43424@unisoc.com>
-References: <20250115061805.3495048-1-zhaoyang.huang@unisoc.com>,<202501150911.50F9BvMX005131@SHSPAM01.spreadtrum.com>
-In-Reply-To: <202501150911.50F9BvMX005131@SHSPAM01.spreadtrum.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-transport-fromentityheader: Hosted
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1736937333; c=relaxed/simple;
+	bh=srmbFPQOHGz4l0rqphK2ONGqHNDOAhI+wHcwQagKgAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uRxVusxPzRQjIuZ5p/J0kqJFqW2q+QITJ/032JINJlDoa9VX5gt1NvIeWPvO8wU6qw1+Eq+oudm0sd9TQKGQGsOlIsP+Y1ZU3dbkRajf826RHqdhRSgm9qAPN13xP/unyS0WgxZhWLwSDu0daGH3MeygK+KuxoIChatuh4kZk1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aAt6QHzC; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736937332; x=1768473332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=srmbFPQOHGz4l0rqphK2ONGqHNDOAhI+wHcwQagKgAY=;
+  b=aAt6QHzC4HWGcl4rP4pAO4Z1DEvRhtyQJ+C6belHlWrQ/SPYJD3u25YI
+   Y1zMl+sQ42O445+ESyjXdu4j8gSPPVVvHdykzpngkmZB74DO0WbeDiXCz
+   oEwLNqTz9z6yb95DkKWPpdTwfAsEjiGUlQRQsABEc4Kx2anZfByl8XiLX
+   OT0uMq5QA8ufjyh2iFGv+FPNfelib7jrG1k6yULTFnAt9v0Bcvn49rVk6
+   HQx+DrVwj0BKYeYFhSUApwWv2Ca41uAE2xsa68zILp2SgSw5iJ24pwEnp
+   ax041C7itd0FZWCdGcpjnvidW12eSD0fPdxedagXulld92rkFET4rttHx
+   Q==;
+X-CSE-ConnectionGUID: HXZSP8PGTim6olc/09tFEA==
+X-CSE-MsgGUID: L+RrGddjThORE9vVzGENbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="37293886"
+X-IronPort-AV: E=Sophos;i="6.12,317,1728975600"; 
+   d="scan'208";a="37293886"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 02:35:31 -0800
+X-CSE-ConnectionGUID: yHD1Mg5hS+CA7ypCYlvO/A==
+X-CSE-MsgGUID: BCdZ7nwgR6K8jb4ux29lKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,317,1728975600"; 
+   d="scan'208";a="110064450"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.123])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 02:35:26 -0800
+Date: Wed, 15 Jan 2025 11:35:19 +0100
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, =?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Kever Yang <kever.yang@rock-chips.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	Mehdi Djait <mehdi.djait@bootlin.com>, Gerald Loacker <gerald.loacker@wolfvision.net>
+Subject: Re: [PATCH v2 0/6] media: rockchip: add a driver for the rockchip
+ camera interface (cif)
+Message-ID: <2ktcdemu3og64vuvyxykpxrwquewubsqcpmhxykynkbl5ddwym@dsxaldpwu2u4>
+References: <20241217-v6-8-topic-rk3568-vicap-v2-0-b1d488fcc0d3@wolfvision.net>
+ <20250109171232.GA17638@pendragon.ideasonboard.com>
+ <6380144e-f0c4-4415-89d5-36ed3d5a4205@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MAIL:SHSQR01.spreadtrum.com 50FARmmW011362
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6380144e-f0c4-4415-89d5-36ed3d5a4205@wolfvision.net>
 
-SSBkbyBmYWlsIGluIGFwcGx5IHRoaXMgcGF0Y2ggb24gdGhlIHRvcCBvZiAnaHR0cHM6Ly9naXRs
-YWIuZnJlZWRlc2t0b3Aub3JnL2xpbnV4LW1lZGlhL21lZGlhLWNvbW1pdHRlcnMuZ2l0IG5leHQn
-LCB3aGlsZSBpdCB3b3JrcyBvbiBtYWlubGluZS4gSSBkb24ndCBrbm93IHdoYXQgY2F1c2VkIHRo
-aXMuIEl0IGlzIGEgc2ltcGxlc3QgcGF0Y2ggd2hpY2gganVzdCBoYXMgb25lIGxpbmUgbW9kaWZp
-ZWQuCgoKCkRlYXIgemhhb3lhbmcuaHVhbmc6CgpUaGFua3MgZm9yIHlvdXIgcGF0Y2hlcyEgVW5m
-b3J0dW5hdGVseSB0aGUgTWVkaWEgQ0kgcm9ib3QgaGFzIG5vdCBiZWVuCmFibGUgdG8gdGVzdCB0
-aGVtLgoKTWFrZSBzdXJlIHRoYXQgdGhlIHdob2xlIHNlcmllcyAyMDI1MDExNTA2MTgwNS4zNDk1
-MDQ4LTEtemhhb3lhbmcuaHVhbmdAdW5pc29jLmNvbSBpcwphdmFpbGFibGUgYXQgbG9yZS4gQW5k
-IHRoYXQgaXQgY2FuIGJlIGNoZXJyeS1waWNrZWQgb24gdG9wIHRoZSAibmV4dCIKYnJhbmNoIG9m
-ICJodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbGludXgtbWVkaWEvbWVkaWEtY29tbWl0
-dGVycy5naXQiLgoKWW91IGNhbiB0cnkgc29tZXRoaW5nIGxpa2UgdGhpczoKICAgIGdpdCBmZXRj
-aCBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbGludXgtbWVkaWEvbWVkaWEtY29tbWl0
-dGVycy5naXQgbmV4dAogICAgZ2l0IGNoZWNrb3V0IEZFVENIX0hFQUQKICAgIGI0IHNoYXphbSAy
-MDI1MDExNTA2MTgwNS4zNDk1MDQ4LTEtemhhb3lhbmcuaHVhbmdAdW5pc29jLmNvbQoKRXJyb3Ig
-bWVzc2FnZTpcClRyeWluZyBicmFuY2ggbmV4dCBjNGI3Nzc5YWJjNjYzMzY3N2U2ZWRiNzllMjgw
-OWY0ZjYxZmRlMTU3Li4uClJ1bm5pbmcgaW4gT0ZGTElORSBtb2RlCkFuYWx5emluZyAxIG1lc3Nh
-Z2VzIGluIHRoZSB0aHJlYWQKQ2hlY2tpbmcgYXR0ZXN0YXRpb24gb24gYWxsIG1lc3NhZ2VzLCBt
-YXkgdGFrZSBhIG1vbWVudC4uLgotLS0KICBbUEFUQ0ggUkZDXSBkcml2ZXI6IGRtYS1idWY6IHVz
-ZSB2bWZfaW5zZXJ0X3BhZ2UgZm9yIGNtYV9oZWFwX3ZtX2ZhdWx0CiAgICArIExpbms6IGh0dHBz
-Oi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNTAxMTUwNjE4MDUuMzQ5NTA0OC0xLXpoYW95YW5nLmh1
-YW5nQHVuaXNvYy5jb20KLS0tClRvdGFsIHBhdGNoZXM6IDEKLS0tCkFwcGx5aW5nOiBkcml2ZXI6
-IGRtYS1idWY6IHVzZSB2bWZfaW5zZXJ0X3BhZ2UgZm9yIGNtYV9oZWFwX3ZtX2ZhdWx0ClBhdGNo
-IGZhaWxlZCBhdCAwMDAxIGRyaXZlcjogZG1hLWJ1ZjogdXNlIHZtZl9pbnNlcnRfcGFnZSBmb3Ig
-Y21hX2hlYXBfdm1fZmF1bHQKV2hlbiB5b3UgaGF2ZSByZXNvbHZlZCB0aGlzIHByb2JsZW0sIHJ1
-biAiZ2l0IGFtIC0tY29udGludWUiLgpJZiB5b3UgcHJlZmVyIHRvIHNraXAgdGhpcyBwYXRjaCwg
-cnVuICJnaXQgYW0gLS1za2lwIiBpbnN0ZWFkLgpUbyByZXN0b3JlIHRoZSBvcmlnaW5hbCBicmFu
-Y2ggYW5kIHN0b3AgcGF0Y2hpbmcsIHJ1biAiZ2l0IGFtIC0tYWJvcnQiLgplcnJvcjogcGF0Y2gg
-ZmFpbGVkOiBkcml2ZXJzL2RtYS1idWYvaGVhcHMvY21hX2hlYXAuYzoxNjgKZXJyb3I6IGRyaXZl
-cnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVhcC5jOiBwYXRjaCBkb2VzIG5vdCBhcHBseQpoaW50OiBV
-c2UgJ2dpdCBhbSAtLXNob3ctY3VycmVudC1wYXRjaD1kaWZmJyB0byBzZWUgdGhlIGZhaWxlZCBw
-YXRjaAoKVHJ5aW5nIGJyYW5jaCBmaXhlcyA4YjU1Zjg4MTg5MDBjOTlkZDRmNTVhNTlhMTAzZjVi
-MjllNDFlYjJjLi4uClJ1bm5pbmcgaW4gT0ZGTElORSBtb2RlCkFuYWx5emluZyAxIG1lc3NhZ2Vz
-IGluIHRoZSB0aHJlYWQKQ2hlY2tpbmcgYXR0ZXN0YXRpb24gb24gYWxsIG1lc3NhZ2VzLCBtYXkg
-dGFrZSBhIG1vbWVudC4uLgotLS0KICBbUEFUQ0ggUkZDXSBkcml2ZXI6IGRtYS1idWY6IHVzZSB2
-bWZfaW5zZXJ0X3BhZ2UgZm9yIGNtYV9oZWFwX3ZtX2ZhdWx0CiAgICArIExpbms6IGh0dHBzOi8v
-bG9yZS5rZXJuZWwub3JnL3IvMjAyNTAxMTUwNjE4MDUuMzQ5NTA0OC0xLXpoYW95YW5nLmh1YW5n
-QHVuaXNvYy5jb20KLS0tClRvdGFsIHBhdGNoZXM6IDEKLS0tCkFwcGx5aW5nOiBkcml2ZXI6IGRt
-YS1idWY6IHVzZSB2bWZfaW5zZXJ0X3BhZ2UgZm9yIGNtYV9oZWFwX3ZtX2ZhdWx0ClBhdGNoIGZh
-aWxlZCBhdCAwMDAxIGRyaXZlcjogZG1hLWJ1ZjogdXNlIHZtZl9pbnNlcnRfcGFnZSBmb3IgY21h
-X2hlYXBfdm1fZmF1bHQKV2hlbiB5b3UgaGF2ZSByZXNvbHZlZCB0aGlzIHByb2JsZW0sIHJ1biAi
-Z2l0IGFtIC0tY29udGludWUiLgpJZiB5b3UgcHJlZmVyIHRvIHNraXAgdGhpcyBwYXRjaCwgcnVu
-ICJnaXQgYW0gLS1za2lwIiBpbnN0ZWFkLgpUbyByZXN0b3JlIHRoZSBvcmlnaW5hbCBicmFuY2gg
-YW5kIHN0b3AgcGF0Y2hpbmcsIHJ1biAiZ2l0IGFtIC0tYWJvcnQiLgplcnJvcjogcGF0Y2ggZmFp
-bGVkOiBkcml2ZXJzL2RtYS1idWYvaGVhcHMvY21hX2hlYXAuYzoxNjgKZXJyb3I6IGRyaXZlcnMv
-ZG1hLWJ1Zi9oZWFwcy9jbWFfaGVhcC5jOiBwYXRjaCBkb2VzIG5vdCBhcHBseQpoaW50OiBVc2Ug
-J2dpdCBhbSAtLXNob3ctY3VycmVudC1wYXRjaD1kaWZmJyB0byBzZWUgdGhlIGZhaWxlZCBwYXRj
-aAoKCgpCZXN0IHJlZ2FyZHMsIGFuZCBIYXBweSBIYWNraW5nIQpNZWRpYSBDSSByb2JvdCBvbiBi
-ZWhhbGYgb2YgdGhlIGxpbnV4LW1lZGlhIGNvbW11bml0eS4KCi0tLQpDaGVjayB0aGUgbGF0ZXN0
-IHJ1bGVzIGZvciBjb250cmlidXRpbmcgeW91ciBwYXRjaGVzIGF0OgpodHRwczovL2RvY3Mua2Vy
-bmVsLm9yZy9kcml2ZXItYXBpL21lZGlhL21haW50YWluZXItZW50cnktcHJvZmlsZS5odG1sCgpJ
-ZiB5b3UgYmVsaWV2ZSB0aGF0IHRoZSBDSSBpcyB3cm9uZywga2luZGx5IG9wZW4gYW4gaXNzdWUg
-YXQKaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2xpbnV4LW1lZGlhL21lZGlhLWNpLy0v
-aXNzdWVzIG9yIHJlcGx5LWFsbAp0byB0aGlzIG1lc3NhZ2UuCgo=
+Hi Michael and Laurent,
+
+On Fri, Jan 10, 2025 at 09:48:04AM +0100, Michael Riesch wrote:
+> Hi Laurent,
+> 
+> On 1/9/25 18:12, Laurent Pinchart wrote:
+> > Hi Michael,
+> > 
+> > On Tue, Dec 17, 2024 at 04:55:12PM +0100, Michael Riesch wrote:
+> >> [...]
+> >> and refactor the whole thing. The resulting v2 of the series now adds a
+> >> basic media controller centric V4L2 driver for the Rockchip CIF with
+> >>  - support for the PX30 VIP (not tested, though, due to the lack of HW)
+> >>  - support for the RK3568 VICAP DVP
+> >>  - abstraction for the ping-pong scheme to allow for future extensions 
+> >>
+> >> However, several features are not yet addressed, such as
+> >>  - support for the RK3568 MIPI CSI-2 receiver
+> > 
+> > We've discussed this previously on IRC, but I don't think the issue has
+> > been raised on the list.
+> > 
+> > I'm puzzled by how this will work. As far as I understand, the RK3568
+> > has a CSI-2 receiver with 4 data lanes and 2 clock lanes. I assume this
+> > is used to support both 2x2 lanes and 1x4 lanes. Both the VICAP and ISP
+> > sections of the TRM list CSI2 RX registers, but it's not clear how the
+> > components are all connected. Does the ISP need to be part of the same
+> > media graph ?
+> 
+> Well you are not the only one to be puzzled by this HW :-) I started to
+> bring up the MIPI CSI-2 part and can describe the situation as I
+> understand it. No claim for correctness or completeness, though.
+> 
+> Indeed, the RK3568 MIPI CSI-2 PHY (TRM Chapter 28) has 4 data lanes and
+> 2 clock lanes. And indeed it is possible to attach one device (1x4) or
+> two devices (2x2) to it. In the latter case the PHY is operated in split
+> mode (and 1x4 would be the default full mode, then). The mode can be set
+> in a GRF register.
+> 
+> The RK3568 features a MIPI CSI-2 host controller (TRM Chapter 27) that
+> (apparently) is connected to the RK3568 VICAP but has its registers in a
+> separate memory region. Right now I am trying to clean up the downstream
+> V4L2 subdevice driver for this host controller, which shall be linked to
+> the PHY using the "phys" DT property, and linked to the VICAP using DT
+> endpoints. In the end, the media graph could look like
+> 
+>   CC1 (V4L2 subdev) --> RK3568 VICAP DVP (V4L2 device)
+> 
+>   CC2 (V4L2 subdev) --> RK3568 MIPI CSI-2 HOST (V4L2 subdev) -->
+>   RK3568 VICAP MIPI (V4L2 device)
+> 
+> where CC denotes a companion chip, such as an image sensor or a video
+> decoder. Note that there are two disjoint subgraphs in this topology.
+> 
+> As you already pointed out, the RK3568 ISP features its integrated MIPI
+> CSI-2 host controller (as e.g. the RK3399 ISP does). This host
+> controller is represented by a V4L2 subdevice as well, and the
+> connection to the (same) MIPI PHY is established similarly. The
+> difference may be that this controller has its registers within the ISP
+> register block and is thus tightly coupled to the ISP (and the rkisp1
+> driver).
+> 
+> Now I guess that in split mode the ISP MIPI path works completely
+> independent and could be represented either by a separate media graph or
+> by another disjoint subgraph in the same media graph.
+> In split mode we need to define which host controller should handle
+> which set of lanes (there are two sets, clock 1 + data 1 + data 2 as
+> well as clock 2 + data 3 + data 4). Right now I am not sure how this
+> should be accomplished, but then the split mode can also wait a bit.
+> 
+> However, as you pointed out in our IRC discussion, it is mentioned in
+> TRM Chapter 12 that the RK3568 ISP can also process the DVP input. This
+> still needs some verification, the rest of the paragraph is pure
+> speculation. But maybe on simply needs to set the correct bits in
+> CTRL_0000_VI_DPCL. Now this would mean that there should be one large
+> media graph the includes the RK3568 VICAP as well as the RK3568 ISP,
+> i.e., something along the lines
+> 
+>   CC0 (V4L2 subdev) --> RK3568 ISP MIPI CSI-2 HOST (V4L2 subdev)
+>                             |
+>                             v
+>                      RK3568 ISP MUX (V4L2 subdev) --> RK3568 ISP...
+>                             ^
+>                             |
+>   CC1 (V4L2 subdev) --> MAGIC V4L2 subdev? -->
+>   RK3568 VICAP DVP (V4L2 device)
+> 
+>   CC2 (V4L2 subdev) --> RK3568 MIPI CSI-2 HOST (V4L2 subdev) -->
+>   RK3568 VICAP MIPI (V4L2 device)
+> 
+> where the MAGIC V4L2 subdev should be a fan out of some sort?!
+> 
+> Now to answer your question: I guess it is going to be one media graph
+> for RK3568 VICAP and RK3588 ISP. This shall be in perfect alignment with
+> the RK3588, where VICAP and ISPs are clearly connected.
+
+From what I can gather online:
+
+"For RV1126/RV1109 and RK356X platforms, VICAP and ISP are two independent image processing IPs,
+If the image collected by VICAP is to be processed by ISP , it is necessary to generate v4l2
+corresponding to the interface of VICAP at the driver level sub The device is linked to the node
+corresponding to the ISP to provide parameters for the ISP driver to use."
+
+"For the RK356X chip, VICAP has only a single core and has both dvp/mipi interfaces. The dvp interface
+corresponds to a rkvicap_dvp node, and the mipi interface corresponds to a rkvicap_mipi_lvds node each
+node can be collected independently."
+
+"In order to synchronize the VICAP collected data information to the isp driver, it is necessary to link the
+logical sditf node generated by the VICAP driver to the virtual node
+device generated by the isp"
+
+In a graph showing how ISP and VICAP are connected a virtual connection
+is used (as opposed to a Entitative connection, e.g., between the mipi
+sensor and the csi2 dphy)
+
+So from my understanding, VICAP/ISP2.1 of rk3568 seem to be different from the rk3588,
+where the VICAP is clearly connected to the two ISP3.0
+
+--
+Kind Regards
+Mehdi Djait
 
