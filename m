@@ -1,93 +1,117 @@
-Return-Path: <linux-media+bounces-24817-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24818-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B84A12CC1
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 21:37:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BA5A12D18
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 22:01:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 065DF1888478
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 20:37:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E05EA3A6FD1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 21:01:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C60B41D95A2;
-	Wed, 15 Jan 2025 20:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A96301DB377;
+	Wed, 15 Jan 2025 21:01:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KlEwjR0W"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b8rogVbZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2499B41C6C;
-	Wed, 15 Jan 2025 20:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30FE1DACB1
+	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 21:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736973414; cv=none; b=EvdbMy+8cnwjiZ8P9UdgDWoH6H/ZNmC1/BU7yhIU6kvg2iVTs6a3JpD/ia2GLF3E5uxtNg24/3IIE/ldrcgInSyBX+3CJcBaA5lP2Wp2S4/3zbATi23kxWTXCOHPGfWZMQyp4KDTf8Bks47hLQ7zwYUmZGLEMcTocQqXFBFJXsc=
+	t=1736974869; cv=none; b=APLU4B9ox9phfoMmoum/5Lvk4gKo4To21a89BXa5bs5AoiVliUn70KfEl/nuGCRZgN5it9uasaqDQDHco0nYjF/XsFWs/s8O/3WM3WOwFRanYWXpZDMKkgJy5NGmY70OvX5cBWI6xh8ri48zwJByyZDv1I0PW/9b0LPuYaeQNzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736973414; c=relaxed/simple;
-	bh=kuJY3TgXQJr1XHQFK3y8JWvrFnD7+WKIbFOp2nhFwrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gZ68iTcshAxY1lenTH2zzh5B/M9DzqimUU6b1NnV1e93cwTgpEEdbo7aDfQyobvRtA9mnoB6/VdKxNaDj3dkxEugepNJia2RIyGVZqt18Mw4AU0vuI1DBOLnSIBZHPax88I9tmcsGNIxsT1jHYb7uNN9+jncOx6im7X8bmzEddE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KlEwjR0W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE6EFC4CED1;
-	Wed, 15 Jan 2025 20:36:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736973413;
-	bh=kuJY3TgXQJr1XHQFK3y8JWvrFnD7+WKIbFOp2nhFwrc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KlEwjR0WKPurtFO5D9fBje943ctd9Djv9G5zTfr3NBWIGAFcqxK1FNs0EqSfh01wW
-	 KPWVf72L+PD3ultELDOjk1JUGsQRgyB0qi8uVWmIpIPdsfIfEQljRjf+DLS8kZ1SMU
-	 nlnmCzLKflGfDaachZq5DJH09+EOQOqj7oXd3R69L3mdtOHpkJ5TMC+oobWB8tWIHm
-	 DvZZog8tt6FH1JtBhWUERkUXvfq2ccVgoB77MOuQX4tW5eZxqhO+JBjPpD9xqfny4W
-	 vX2Y1YCwx0OUjojP8Z7HOKUxfXQ9azjFPz4NPFP74f8aqHbbgLAauZ116dQkVPC/6l
-	 FGhvG1un3Z2WA==
-Date: Wed, 15 Jan 2025 14:36:50 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Renjiang Han <quic_renjiang@quicinc.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] venus: pm_helpers: Use dev_pm_genpd_set_hwmode to
- switch GDSC mode on V4
-Message-ID: <lo2zma6ch6av3obo4mj5hpua6hpi4dn6fl5cjnmwpplu66v6mf@nkfegdca5mzu>
-References: <20250115-switch_gdsc_mode-v3-0-9a24d2fd724c@quicinc.com>
- <20250115-switch_gdsc_mode-v3-2-9a24d2fd724c@quicinc.com>
- <8322416c-5762-4b64-80aa-7ef1b0b0287c@linaro.org>
- <hlre46s5jz7kro34w5ah3pvxvkdnplukoiubkptx6oeepdx2ox@mh6geaqspa6l>
+	s=arc-20240116; t=1736974869; c=relaxed/simple;
+	bh=Yru/S4SXBY9NO29A74t0YcdN+foUcuveHw4jgqMb01M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZnU1SXYgZEPQucqs5NhTJO9lOy6lZQWPi+PxVoedpEFemIq+y5SRHjylxgK7SEVSi0/IQWfSvP9006d8tXbKapbPETP7deQAsbcTLZNjpltCmBDL3sJh6l4AUT5sCDZPRVHlULZUCnHp4Z1W7eEv5FYp8nZcoxZdoDUCIUFikbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b8rogVbZ; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-386329da1d9so134478f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 13:01:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736974865; x=1737579665; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xzLGGAQlqPStmsjhVya2d8yxZkJH7fx5YrloQvwS7X4=;
+        b=b8rogVbZujdxeDJjqYY2JrCwxgIHs63Lsj1U8AtO386vHUn+pbNsh8Yx+uChQySA1H
+         A8vjmwf1uQqcNHYEjyTS7DKUK4VJFVQu62ESJV+JhXUqwiBlRLy3XcmV3uHWVPI5QeER
+         MA/OstJWBT2Gx17UCX3xHjyMCvOjyEYT5Zcnev1KA0mHDpjgawCa+tpa/6EU1nA7MLAP
+         7kRnPRl/TIx1CBnk6e/OScYZc2CTndaYQkCjP25QWnC7kDweCRbFUP1XnMiV5MnHxHGt
+         qku1rH3q5YG1IrjATd530fFlnRcbOnyr30L9bOFH8pH0zrVgzk/mQmqqfCRBMaLGMWbg
+         gZPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736974865; x=1737579665;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xzLGGAQlqPStmsjhVya2d8yxZkJH7fx5YrloQvwS7X4=;
+        b=UT9bVhm+ipfp4/HEFUo8TiJAV3Vj/bhMdnnSPU9hM54hcg8FNTWXdnQGq9Iw9e0oGU
+         XoNxrqHhvk3jzJ/ss+BJ0zYn0NWJ+yxiyoSE0AUauQqoshEIabJLAmeKzjErobG0q13I
+         MAJpitdF8lY7zdveTdasqIbIRm6EpnAxWAZvUUUFsOoEO/IomwuNbg2mH5PFaRMHSbPZ
+         nzPa32boTp6XAOOXZoD90bkfDgwnkTh5KTaU2SIugPlK3PoZmnYsxwgc+phPSL48FJe+
+         Rjd2PkgAkQSqwi38jdmsglIdgYgo7VgV3YlzFK523C9fh3vxFTUZSRPls1QHSozshnrU
+         /C4g==
+X-Forwarded-Encrypted: i=1; AJvYcCWeepm9q1bySPa4uh4QfSB3kqna+wZ1AE/D/Xrk93EB+6dWCvMLvmgFaydJNDS63BJyfv0v5jJn6T6xsw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcTPBn6H/ByfbyKUW79hkjURrRR+vK25WO4ZfRcY/yOuY+Prfx
+	YBljViIbZ00QS9LpEqTYfFDv/RClYA9RLu7C8eAzSwfAqlEowD06L4m/NC0Vmdc=
+X-Gm-Gg: ASbGncu64GR7RZpDfhlINL0wdabb93+8BtulLikawXCmKKYxr0IetF0eykerhfZQM4Q
+	SkJ1Xc1OPpu3yUl1EmS3jXGA5m2xt2wW+LVRhuy3XrieqdxgnJbHmqKaC42yFcVmV8x0/CiJprN
+	Acaz7txANpguHoY63BtFPfyjBden5cy82GbPaFHWiz9krh94SJ8dhxQ3gaICx3g17VFuH+c98SW
+	rVqh5Lsra7/kWxLtUoolqKlpedGm6Da82KEdMv8hTx0QWv9nkxyHUF1OH2NiULQ0dwGlQ==
+X-Google-Smtp-Source: AGHT+IHTg22Q+fG9klizKomPZryDwOzxB/InrEh50EdlHpVQwJM10Smqg7fSX+Z4+PMIk0to3OjhDQ==
+X-Received: by 2002:adf:c007:0:b0:385:eb8b:3ec6 with SMTP id ffacd0b85a97d-38a872e9356mr18598719f8f.29.1736974864869;
+        Wed, 15 Jan 2025 13:01:04 -0800 (PST)
+Received: from [192.168.0.35] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c7528076sm36591545e9.25.2025.01.15.13.01.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jan 2025 13:01:03 -0800 (PST)
+Message-ID: <238411cd-1bcc-496a-9077-07bb6c4892ec@linaro.org>
+Date: Wed, 15 Jan 2025 21:01:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <hlre46s5jz7kro34w5ah3pvxvkdnplukoiubkptx6oeepdx2ox@mh6geaqspa6l>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 05/16] media: qcom: camss: csiphy-3ph: Move CSIPHY
+ variables to data field inside csiphy struct
+To: Laurentiu Tudor <tudor.laurentiu.oss@gmail.com>,
+ Depeng Shao <quic_depengs@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.zapolskiy@linaro.org,
+ hverkuil@xs4all.nl
+Cc: quic_eberman@quicinc.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com
+References: <20250108143733.2761200-1-quic_depengs@quicinc.com>
+ <20250108143733.2761200-6-quic_depengs@quicinc.com>
+ <79b3e4d6-becf-4bcd-91fa-768b4098d01d@gmail.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <79b3e4d6-becf-4bcd-91fa-768b4098d01d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 15, 2025 at 02:22:11PM -0600, Bjorn Andersson wrote:
-> On Wed, Jan 15, 2025 at 12:02:31PM +0000, Bryan O'Donoghue wrote:
-> > On 15/01/2025 09:30, Renjiang Han wrote:
-> > > The POWER_CONTROL register addresses are not constant and can vary across
-> > > the variants. Also as per the HW recommendation, the GDSC mode switching
-> > > needs to be controlled from respective GDSC register and this is a uniform
-> > > approach across all the targets. Hence use dev_pm_genpd_set_hwmode() API
-> > > which controls GDSC mode switching using its respective GDSC register.
-> > 
-> > This paragraph is difficult to read and understand. Try something a bit more
-> > like "Use dev_pm_genpd_set_hwmode() API to control GDSC mode switching. Do
-> > that because of reason x, y z"
+On 15/01/2025 18:01, Laurentiu Tudor wrote:
+>> Reviewed-by: default avatarVladimir Zapolskiy 
+>> <vladimir.zapolskiy@linaro.org>
 > 
-> No, follow https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
+> Nit: Something's not right with this tag.
 > 
-> It says "describe your problem, then describe your solution". "Use "
-> isn't a good start of any problem description that I can think of.
-> 
+> ---
+> Best Regards, Laurentiu
 
-But just to clarify, I have no concern with your request for
-improvements to the description of the problem being addressed. 
+Doh.
 
-Regards,
-Bjorn
+@Hans could you possibly drop the "default avatar" when applying ?
+
+---
+bod
 
