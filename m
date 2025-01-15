@@ -1,252 +1,118 @@
-Return-Path: <linux-media+bounces-24775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24776-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73966A12304
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 12:49:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9624BA12368
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 13:02:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 957CD1889B98
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 11:49:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D6C4D7A2DDF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 12:02:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 179E022FE0F;
-	Wed, 15 Jan 2025 11:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5098236ED0;
+	Wed, 15 Jan 2025 12:02:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mhWd/74B"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Znz9P2lr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2047.outbound.protection.outlook.com [40.107.94.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C650A1E98E3;
-	Wed, 15 Jan 2025 11:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736941788; cv=fail; b=i1v+Rac+BwT+q51UsbCHxgnCyEoPRedOK+lrQJFZYomL7vyO9jlVCiCaRKCGclKH5OmGeOlDxHqFFzefnzOrgGU1wIKzPy729YSFLSSr2QPSEfiMdR7/lJgK5tGZgM52tBE7jscmGwuXGMoQ9MnTKz1u0TT3RIZ4l4sIxGmXuBg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736941788; c=relaxed/simple;
-	bh=VZP+y+QOm8e/HwzzOyOqiebqZWzOexb2vP8CvsEPEYw=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=tuCaQECXSp+LDv6ew11F+NoO071HGVn0Fgw2oB9pLdnTieDLPzMNiAXttoMQy5MSS4o9aXJyXYmRqcajhYsbHqfcLvrJ856K74jVODATPFaIRrJMcI68GdQ7BU8uT/lXw0CPMr6bQT5XbfdffaRNt6/oXP+rNEvERnNh1J/JCm0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mhWd/74B; arc=fail smtp.client-ip=40.107.94.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UqkPGUeS1JrjnnCTrAKPLOv8XKdzvmOwUXkpFD2pon7KuIxhI16ro4kQGMSQV1UDXdR5O6boH3vySDYLPUpueiq9ELd1XPB39/hwz349pjY47NAnVKz2WR0PR0vamHOep2zZgP5S/eNqwD1NkQHgOHQdfL15RzEaNZ7D+2iWBHvJK2sKqg9KRiTV2egpuHZI4M2AFXjasBJBTtWFyuRUDF4nGu5iR0TCw3vm0eQZrR1yInpmY8leVhzHYsnF9rOyigbxCZctuVxl321qlnymhlQtnf40ycEPNA2YJ74td5aCOB6zpxTpH+42KbbM5rYStT7WCw4hRWjqzsieWvl7qQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g4Ayrrl6vZyHKovxsMwlg8hxyb09bVKOBqgHmF/1tTA=;
- b=MKrE9/+gAoOpLGSowV4OMFzuhksBLJo0U7HgNhvrRMe590gyZGmLcxBCz8dHBc5PQvHSOWT5CuPloC2aE6qwmo8eWuavmjvA+ESyIpSgiSAUA1WR9M39QF0XDMxSDf6eZr0BEizq6eEgX4mZcZGsa/DuZ4knxy2eES5mCQ+ffaTYtQvRranrRWxu30B11EwuzlYAG0A0iiEBCLVAup31JVu5v0u7S/QWJIAo5wRz6U48JT5S84GCqnfAzEKtFbCJ+QFDb/ex5eS1vxRjUFahh69CTAy4B54ZLpnFf2e6lJoaj++EcvNbyoir0tyuL78d8qVYG6cPkKIYBB/Xhr8I4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g4Ayrrl6vZyHKovxsMwlg8hxyb09bVKOBqgHmF/1tTA=;
- b=mhWd/74BkttMFSuaqzK3gUwLzGbQcj/cchya8M+zw8noCqZolh6XlEHZ7nhrsg3gaEp6qD7VCp9jgxPQEvQL8VXQRRFlQ8QrvjNbxBxBCnqUWucIWW9MDNfKgi8A7Lk7fHG9vKCI1WSj4auA+cKizd0ikIJs5xh3h4JEkvMkabc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB8413.namprd12.prod.outlook.com (2603:10b6:8:f9::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8335.18; Wed, 15 Jan 2025 11:49:45 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 11:49:45 +0000
-Message-ID: <bfd19718-e7dc-45c4-8f86-34205e733916@amd.com>
-Date: Wed, 15 Jan 2025 12:49:38 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] driver: dma-buf: use vmf_insert_page for
- cma_heap_vm_fault
-To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T . J . Mercier" <tjmercier@google.com>,
- "open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
- "open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA-BUF HEAPS FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- linux-kernel@vger.kernel.org, Zhaoyang Huang <huangzhaoyang@gmail.com>,
- steve.kang@unisoc.com
-References: <20250115061805.3495048-1-zhaoyang.huang@unisoc.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250115061805.3495048-1-zhaoyang.huang@unisoc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0191.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ab::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F06C2475E5
+	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 12:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736942557; cv=none; b=ZXgG80+bXN54Atdl/jwAv6veXnpxx2wKRw3OjRiyzV/6E8NosF9oT3AQKgaQl1n3yXV02oOqSA0zdnqbhq7QnCuRU4IKsQx/M4Tans5lfMBuEnX/GGsHmFgvH8+1uPJMjEsT8QpPyK3/ktAeWc6uqOptE4q2Ss6ucGBMb9w3iw0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736942557; c=relaxed/simple;
+	bh=GxiMUN5sqtriveaI/HLFwTpRRwlH2UsAEbUeMqe17Qw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h/9XD+gKj6a/aFKJWK+Wpe7ZR2D5eMjXNePkuKXQcNpucjiIOhiiaVj/vl0LjE/jEfKj46o/X1++bJZ95TIS3VopSUyNRz3bGWkb/KTPNydun+fqeLsz7D3us+u+wmnDyhJtBM2fVFdy8VJV/8ZSbyZxaggl+/U/NMgu6rRWjpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Znz9P2lr; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385f07cd1a4so5434941f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 04:02:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736942552; x=1737547352; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J09817AefuwhTALG6OGHGhgUnuZ4yA9WXWtiMWd3gZ4=;
+        b=Znz9P2lrJglPk3coNHRK0cjlTWtCC43MgS+5q2HzRml0qL9kN81Li9nCKchc4RWK6P
+         9YFjRWa7ppEjv8dyvqe0EQNL12SVVVOS+1JyO/Kkpqut0t1o2ckANKOidtCoTkuCh7R4
+         Ct0EQzixYjscKyG/ZpqMJbNYwU2wp7ajE+YgO/5Zz7qOVaFaCEF0VsfmPg9AL7OF35im
+         EABtqqArw/vHjh6xSTA7pmzkH3MVQXHiagNeoBqcHXfE11UpbykR0AFh4HR8kQkto7TF
+         XJ1ZVP1bgP6nN/CPkNZavBwu97BKKtHJGOG4jOX73PPJhhnVmvlPi4IdJEXOv1oBbkhl
+         P/CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736942552; x=1737547352;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=J09817AefuwhTALG6OGHGhgUnuZ4yA9WXWtiMWd3gZ4=;
+        b=Wkxr6yErkPf3+vqIaug5ARmQUwN+wD/DhHllw+ywv5mhe1YeKHrNQy+UUi5Fs6jwA3
+         4xppRVnlVtSKbaqxec5GjbI2nByVQLzUGbUpaE7NYGhlmmFfSGXpHcNHanKQXPvmnYCj
+         0RNJCbnzQwSGar6muBbAOt6gBEWFMEdKyJRu6OPzXxzzuBodXBySbcPylB6Uej8Kcd4m
+         METWBlOcCduNpWhkrHPpYVQKZbgOpO8peiXoAr5RQ19KgHfPGE+STJiKFC9/g8Q6SGe5
+         DuF7kvL/qgre4hQzjj9UwH9b2hGna+0X1saV+wvvZddQGnYSHZ55ox1osRU86G1z8HuA
+         IPHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUpt1XPmLwWGaeXMgr7zKmCb6tkaq8DB/pWhHBlAmDZK46rnhl6O2VbpdeI/QBvLrRj3i6OljStBFPWdw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhbXaKSjeNsVi8imyQdUCWVh/CsgGHJP5gm78am6+IrXjDE0ra
+	uxSRqA4d0X78yjtBi0klA29yYAjXIUAyEaHm4ZpLfjp5+S2TgXmrSvLZ7snL7qg=
+X-Gm-Gg: ASbGncuNnrt+9ZV38yNL1QofDcnJiTE4z/u+tF+9vNn/bpxw6u3O8hrKhl5QUGOzywd
+	jnFADwzQOwPp+R72HjSrM1fK9H6joxfjKQ2Cf+hSaKZNFupbgaU4qtIS61FdL47GnAUyq/qb/n+
+	vcGESfLsZlbwksefLpx+lgwR4F1Z7jSH9nNGfxvg0MIgCRQJQEvMjGSVN1KkGpW0HeprvH9JNzR
+	m//RiD2HfR3oMu7Lkzri3gb9pE4mzwrFKQXeU0PzcHij060r35x+E5bRfjdmPzDGYsO3g==
+X-Google-Smtp-Source: AGHT+IFfKyGn52ipjdfPZD6RVd7v4EFf3NGE8QU70ELIZjBpZX1RbqBIB9xbQUWlnKSlaXcoGcGZmA==
+X-Received: by 2002:a5d:5847:0:b0:38b:e32a:10a6 with SMTP id ffacd0b85a97d-38be32a12d5mr6050542f8f.41.1736942552589;
+        Wed, 15 Jan 2025 04:02:32 -0800 (PST)
+Received: from [192.168.0.35] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e38c1d6sm17718135f8f.50.2025.01.15.04.02.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jan 2025 04:02:32 -0800 (PST)
+Message-ID: <8322416c-5762-4b64-80aa-7ef1b0b0287c@linaro.org>
+Date: Wed, 15 Jan 2025 12:02:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8413:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4fd577e4-5221-44ad-6a3e-08dd355ab47a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|7053199007|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?b1JaelFoZUhKTDFzTVQ2ZVFsOU5zWnZUUWF1SDlhMzU5enhaMUk1cm13NldS?=
- =?utf-8?B?bDRoQ2RkdGZkamhTUnN5UkFobFpvcjRDVEVpS0owRXlndVhRSUY1WjAxMTVC?=
- =?utf-8?B?N2p3bEUycmRJK094eXVxK1hVZnArL1JyMHNMS0ltV2UzbDRBUHZhdm9XUEhy?=
- =?utf-8?B?TmgzSXVwVStMS3lWNkczNEhxUVRtNU9jTGp1Uk9qNGl1WVF2cjh0WWZmYzI5?=
- =?utf-8?B?d2V6NHpzN2lyTXBKczhYMTkxMXZJQ084eHhXVjhSKzZBYnFSV2RLNmtBL0Ux?=
- =?utf-8?B?S1lxWWppRWZUYWhsYUp1MDFOUGRsWlFSbXoxMzVhbkgxcXVibXB1Tlg3a1RB?=
- =?utf-8?B?a3FnZmE5MGNlY1pjY2VHL2tYNU51Rmk2bjU1dDNEMFFMTUNNZlpLS1BaZXIx?=
- =?utf-8?B?NGtSSHNzcnNXTFh5VGxub2FMNjFGQkgxTzBvVUora2hySWlENmZsbW15aUpu?=
- =?utf-8?B?ODJkRjEwNnpDTmNXdnQwNFBQSTNCK2FvM0FBN0ROak94M2pqK080dVhNOTF3?=
- =?utf-8?B?U1JpV2RNeCtVWXlZN3phSkczZFNKNGh6L0llNmdFVVVnclpEZm5FYVgzMWpv?=
- =?utf-8?B?Q3doeFBabUFTY2NVejBrYTNXbWF5cmkwL3U1bDJmU2puMVpKaUhvYmdwdDhG?=
- =?utf-8?B?VUZIamZZcUxzbW84R1I1MWJHV2ZNMEJSaDlSTmpacW1Ca0NabmhJZXJpajln?=
- =?utf-8?B?RWxDcmlSR1k2MkhhTlU1Z2ZMNjNxUkhESDhRRElWcU1XVlN2cGZDSTliQUJo?=
- =?utf-8?B?UTNOQkNZSkZqM1pvNG1laVRpd3FjRTJSL0ZmV1N5RmtZNitHQjl5VDRtQjF3?=
- =?utf-8?B?SUFTZG8xall3cmYwUTBMem41dUQxOXNkVlhSbTF0ZzFWMmdMNDV2Z0J0ck80?=
- =?utf-8?B?N0V2WUMzWUZoKzdMc1VlOHpqSSs5eDhocCtLS0FWRHRkMGMvSkxoVkQvRVNL?=
- =?utf-8?B?S1N1enY2U090U081cUFOSGkyRnZMdGV3SGhsYUY4WGJZcHN6T1VCekRWTVhW?=
- =?utf-8?B?R3BUa1QyMWpkYS91V01uTks1MTYyVkxCdzVUZHR0NEVJMXBRSDQwQk0zaFkv?=
- =?utf-8?B?TzFDSytmOXBUWFE2MEpFZEhvNFpyU25rSmFOR0hIc0JkVWx1TEZ5VCt1SGtE?=
- =?utf-8?B?clpXTmk1RXRlbXZnaTZ5S3VrVHU5VHZ1RFNEK2MyR2svTXBuN0F6bDhCdzRX?=
- =?utf-8?B?alUrTFIwQ0RpZkNvK3NqNjdpZ0orc1N0azhBQW9kVDFOWEtQVzlxY2JoRW56?=
- =?utf-8?B?NTZubVUyV0hvYXY4bExjTFVZTGdEbVkwR0MvTjFHQ3Y2YkFYSW5BT0g5K3VB?=
- =?utf-8?B?ZE5JV2wrbWQvRDA5dy9xaDlsVGtSK1pPdXZiWjlXQmZoa0V5aVlreUMxK1ph?=
- =?utf-8?B?aEVFbWM5cE54VUdFU0lJODliQ0l3STFkYmJsY2l0TkNnV2Z2SVhFbjdMWmlt?=
- =?utf-8?B?b1ltYmQ1eTg5M0U5VEdPL1h6MVRIcVJnMmZLeVhjcXRsUU9pSGNUc0Z6SlZv?=
- =?utf-8?B?bURTVnkyWUplUGI5ZUE4VzgvWHlIUk5EMmJ5K08ya3VLRS85YlFKWCtmYmdS?=
- =?utf-8?B?SmZWbzUwdHdsVVNseHFDd2lKYnJvcDI1N3BWREg1cG5FL0E3RWx5aklZbFhr?=
- =?utf-8?B?NzlnY3MxeWVvSzVFMjl5N08zSjNVQzZQNmUzazZodlJ5c0IyVlVmVUVqRUxq?=
- =?utf-8?B?ekliRlZYTElWMS9Dei9uUXRHcWp2dnQ4Y09FMGhEamJMN0pwUDFTQWRxZE5l?=
- =?utf-8?B?UVBTbFREMHNtM2dQTm9UUlZOYWZxZHBOMlRDRU1nRzRjZmU3bHBSeGtpNURS?=
- =?utf-8?B?RFRtSGttS3dEYS9iQ3BYZWhBWWdCRDF0S1I2TXhJNnJ3bTExOFNheDN2WWFw?=
- =?utf-8?B?YWFiaUcvTFUvZ2dOUHJMZFJVQW55Y0IxZGF6ZDc4VHlHbDdrMTlPSWNpenN0?=
- =?utf-8?Q?44VFAeYjtfg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QU1waUQ1Q0VOUlZSRWJHOWhHVXhERDNRM1VzanVtVmtWUlVUa01lVkZCaGJw?=
- =?utf-8?B?SHRITjdlMEZWdC9ML2U0OURySnJubktHekVoL0dvNVMwbklNN0JyS0RCZENM?=
- =?utf-8?B?eGc0RmZBc1hSRzRVcDIwVjlUU2ExOGFKYXNqU0VYN29kQlFtOHNwdEVPOCtl?=
- =?utf-8?B?c1dmM2NRY2ZGMDZWYmhING83elBoNDFnWEFMSENURGpyS05uTnFtLzRRWXo1?=
- =?utf-8?B?cEFqVWYzWm5HcHJZMzZ1Z2FFak1NWGU1VkZxV3YvOFBrZHd4SzlKYXQwK3la?=
- =?utf-8?B?Um1Vc2FqYW1pdVVpQlQzbXMvai9PMVNrUWk1dGJHSTQwd21xTW1lK0tJOHNP?=
- =?utf-8?B?WkFHSDFrZDFZRWY2UWVvdEpJdW5vSlU3ektXcXczT0R1R2RPNGhUaEtIM29k?=
- =?utf-8?B?TytYSU9CdEFLSE5HLys2b1R0VDdQZFlqTkkwbTZnSkd3cC9LcmZsREhrdGk2?=
- =?utf-8?B?amgwYVlJK0hYd0lkV0N0Q1ZpN0R5VGQ2YlplL29XN21NWUFGSy9iZkFScUU5?=
- =?utf-8?B?T1hKM1RvRklUS0NXZXFXeGQ1NFg2a1Y4a2w4YmNxbW1kTU5ibGx6YVBDWldv?=
- =?utf-8?B?ei9IcG1KbTNFeWx2V3c1cnJBRC9sWUZyOUVTNCtZM25CY1l5SDRTM2E2V2ZN?=
- =?utf-8?B?QkJBSnBSZExPQTZ6WHk3SWxOZmNhd3NIOWFQNEd4RHBhYmlGTE0rNFpCVk8z?=
- =?utf-8?B?eDk2TzBUVkg3SVN4SDdtTmpyWi9PaGJGdTNyRmVaOTlzWEYxWmxrY3N0Zjc2?=
- =?utf-8?B?QnYycUJOTHlLYzFwbXlrU0RyRnhFVkVVdXZsZTN0VlN0SktaNmIzOS90dHNr?=
- =?utf-8?B?V1ZNbW5uRndpRVVLcmF0UEUzTGpVTmx0NVFqTlJ0V3ZTTXV1MExreE1uTEFM?=
- =?utf-8?B?RitDMHZEcnplYmgzQ3NEU0dXT3FzbWlSeVpldCs3LzRKMVBYaytPbkFpWEtC?=
- =?utf-8?B?STJ4SjUxZ1NHV1ZYN01BZ1M2cWQyWE9MTDNPRk8wZjU1bUZxWXc4eXVrcnFV?=
- =?utf-8?B?V20zcXlYQWQ5Qm5hdTVWZjhHUkhPMkF2dXRuYWVWaDBDK1NtNndVN21EWkt3?=
- =?utf-8?B?WGF5RHA1ZFE1c2lWNUFFdmllSGRUTFhySkpFTTFPRVlyalN0NlllNEpwT2Zn?=
- =?utf-8?B?YlE3ejFVV0lhMytPSGlGQzh3VXJ5andVUW9LOXFwMk1XTGFhV01HSTZtbVRs?=
- =?utf-8?B?eUJtTjc1b3BleVRTc3hoMGNGVXRlWHBZN1hEeFA5WGhMRTQvNGpFbEdjUWtH?=
- =?utf-8?B?NHJoZ3NLS2s2cG9haS82REtmVDlnRVhOeUdjVzVRVDRsOHNRL0V0bzRqMG9i?=
- =?utf-8?B?YnVCMDZRY3NLSXUxMUZUY21KeHVFUzhyeTdwTS8xRlByTUhnWXhtSkplaURl?=
- =?utf-8?B?ZHBQQWJVckVmSFJyd3I1a2YxYTlBZ0JYNmJ2ZjZoZ1R3aStLVEVKc0dtaVdK?=
- =?utf-8?B?d3VaQ2tLVUpndU9lb2pDaWo5N256M29VOTNMKzBSMHY5b1VVeVZHMFRqb3N3?=
- =?utf-8?B?cThVWEkxQmVxUjJ3YTJFcGxUaGlpcGRvN2NRbExjaVZ2UWhxUXVlQ3hGVWNk?=
- =?utf-8?B?TXJzOEZuNGRER2JZanNtK1lmWEFzL0xwV1VhQTVOOGVOMEpuaytmeFBld1F0?=
- =?utf-8?B?d0RkZjZ2QVEvdE8rcVhrTzNkMTlleGZvNWtWdnFtanZocE5YbE1WNElBeGJy?=
- =?utf-8?B?bHdKNlRLYXV4b3lUbVRMT2RkV1B4Z0JqaGtjeGREQnhOazlqbVVUMFpJYzRE?=
- =?utf-8?B?ekhna2tYT0ZNRFI3L3hLQkhPNWV3Zm1kNXEra2RPNm96aGVUb3d0Z0F6ZEEv?=
- =?utf-8?B?M0dLYkJvOGJMVlVqMkVmTWhlaForRmV4eFJSTVVwL2c2elRyZHcvYnJOUFBW?=
- =?utf-8?B?SXZIUEdWNHB5SmcxejJoY3AybkxkbEVyM2pleUtnWDVoNERGcTZhVTNHZVhP?=
- =?utf-8?B?UXNWblJlV1BzTkVVZk1kUnFoSjIyaVVGbjA5alpmTjJieWtHakdMSy84UVNs?=
- =?utf-8?B?eDNqWksyYmZJOGJmMW5sd1M4ZVk5NEpkY3VxbFBSR2FMMlBRWGZnSnBqamhY?=
- =?utf-8?B?WTJsYTlnVG9yZUo4MHQ4dFZMLzNEYzJBVGd6ZFcvMHlYcnFwbEVvdkpVeGVJ?=
- =?utf-8?Q?522L8UkIc8Su9ZTRhY9emn8ae?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fd577e4-5221-44ad-6a3e-08dd355ab47a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 11:49:45.0133
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ye8/fcIOVN919ZswXpgC1KGl1XuWAO6L38F4k90yk1SR/9bcXPhsECtJCC/+7qhH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8413
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] venus: pm_helpers: Use dev_pm_genpd_set_hwmode to
+ switch GDSC mode on V4
+To: Renjiang Han <quic_renjiang@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250115-switch_gdsc_mode-v3-0-9a24d2fd724c@quicinc.com>
+ <20250115-switch_gdsc_mode-v3-2-9a24d2fd724c@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250115-switch_gdsc_mode-v3-2-9a24d2fd724c@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Am 15.01.25 um 07:18 schrieb zhaoyang.huang:
-> From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
->
-> When using dma-buf as memory pool for VMM. The vmf_insert_pfn will
-> apply PTE_SPECIAL on pte which have vm_normal_page report bad_pte and
-> return NULL. This commit would like to suggest to replace
-> vmf_insert_pfn by vmf_insert_page.
+On 15/01/2025 09:30, Renjiang Han wrote:
+> The POWER_CONTROL register addresses are not constant and can vary across
+> the variants. Also as per the HW recommendation, the GDSC mode switching
+> needs to be controlled from respective GDSC register and this is a uniform
+> approach across all the targets. Hence use dev_pm_genpd_set_hwmode() API
+> which controls GDSC mode switching using its respective GDSC register.
 
-Setting PTE_SPECIAL is completely intentional here to prevent 
-get_user_pages() from working on DMA-buf mappings.
+This paragraph is difficult to read and understand. Try something a bit 
+more like "Use dev_pm_genpd_set_hwmode() API to control GDSC mode 
+switching. Do that because of reason x, y z"
 
-So absolutely clear NAK to this patch here.
+"We are making this change because of reason a, b, c"
 
-What exactly are you trying to do?
+Basically just try to state the facts as clearly and concisely as possible.
 
-Regards,
-Christian.
-
->
-> [  103.402787] kvm [5276]: gfn(ipa)=0x80000 hva=0x7d4a400000 write_fault=0
-> [  103.403822] BUG: Bad page map in process crosvm_vcpu0  pte:168000140000f43 pmd:8000000c1ca0003
-> [  103.405144] addr:0000007d4a400000 vm_flags:040400fb anon_vma:0000000000000000 mapping:ffffff8085163df0 index:0
-> [  103.406536] file:dmabuf fault:cma_heap_vm_fault [cma_heap] mmap:dma_buf_mmap_internal read_folio:0x0
-> [  103.407877] CPU: 3 PID: 5276 Comm: crosvm_vcpu0 Tainted: G        W  OE      6.6.46-android15-8-g8bab72b63c20-dirty-4k #1 1e474a12dac4553a3ebba3a911f3b744176a5d2d
-> [  103.409818] Hardware name: Unisoc UMS9632-base Board (DT)
-> [  103.410613] Call trace:
-> [  103.411038] dump_backtrace+0xf4/0x140
-> [  103.411641] show_stack+0x20/0x30
-> [  103.412184] dump_stack_lvl+0x60/0x84
-> [  103.412766] dump_stack+0x18/0x24
-> [  103.413304] print_bad_pte+0x1b8/0x1cc
-> [  103.413909] vm_normal_page+0xc8/0xd0
-> [  103.414491] follow_page_pte+0xb0/0x304
-> [  103.415096] follow_page_mask+0x108/0x240
-> [  103.415721] __get_user_pages+0x168/0x4ac
-> [  103.416342] __gup_longterm_locked+0x15c/0x864
-> [  103.417023] pin_user_pages+0x70/0xcc
-> [  103.417609] pkvm_mem_abort+0xf8/0x5c0
-> [  103.418207] kvm_handle_guest_abort+0x3e0/0x3e4
-> [  103.418906] handle_exit+0xac/0x33c
-> [  103.419472] kvm_arch_vcpu_ioctl_run+0x48c/0x8d8
-> [  103.420176] kvm_vcpu_ioctl+0x504/0x5bc
-> [  103.420785] __arm64_sys_ioctl+0xb0/0xec
-> [  103.421401] invoke_syscall+0x60/0x11c
-> [  103.422000] el0_svc_common+0xb4/0xe8
-> [  103.422590] do_el0_svc+0x24/0x30
-> [  103.423131] el0_svc+0x3c/0x70
-> [  103.423640] el0t_64_sync_handler+0x68/0xbc
-> [  103.424288] el0t_64_sync+0x1a8/0x1ac
->
-> Signed-off-by: Xiwei Wang <xiwei.wang1@unisoc.com>
-> Signed-off-by: Aijun Sun <aijun.sun@unisoc.com>
-> Signed-off-by: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
-> ---
->   drivers/dma-buf/heaps/cma_heap.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> index c384004b918e..b301fb63f16b 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -168,7 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *vmf)
->   	if (vmf->pgoff > buffer->pagecount)
->   		return VM_FAULT_SIGBUS;
->   
-> -	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(buffer->pages[vmf->pgoff]));
-> +	return vmf_insert_page(vma, vmf->address, buffer->pages[vmf->pgoff]);
->   }
->   
->   static const struct vm_operations_struct dma_heap_vm_ops = {
-
+---
+bod
 
