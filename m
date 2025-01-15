@@ -1,165 +1,210 @@
-Return-Path: <linux-media+bounces-24773-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24774-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FF6A12167
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 11:56:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD12A12292
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 12:31:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 14C2F168E12
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 10:56:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7C771889973
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 11:31:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47F6E1E9905;
-	Wed, 15 Jan 2025 10:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04B671EEA4F;
+	Wed, 15 Jan 2025 11:31:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDPwCkKb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dg2jkHq7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89091248BD1;
-	Wed, 15 Jan 2025 10:56:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26A029A5
+	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 11:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736938567; cv=none; b=qcZipOH3tNOAshZpS/kyjirLMGXBnn4aLA99j/lzeRNCIqhc81KFXmz16CZpSCoRXrtqTrOvtpcy12Ao18Q6c34oKHVtvWU3J+OPwlhH2T6Rn+JVfNZwcTv7dJjnc/ds0vftlEZIv8Dejdl8hVvr//vyNPZ/yKCzjLcg/8wllZI=
+	t=1736940688; cv=none; b=J3Z0+EhDvquna1WWJg/RaQ6BwSK2svCJR6YUR0ozTvQutBTxqoTfaDyQpSuxl/FpwkQZQGKP4YdjOsGWC/K/wLrOlctMtlzhG6yIZyacAD+RoLkDkelHIYhcrPmignukphhuZwz/cn+u79lMGxDBv6fhT317+KkzP1sLlaf543U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736938567; c=relaxed/simple;
-	bh=a21DYM9Y6e9dtyfgQrzamCDEH03wQiwkyZKuBps1SoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q5d4vvTC1bSzOtA/xdSyGLETac3EmBc5gJAJ5DO1V1eLeSBs2awidi6uxvTKIHYdP5+JYbQpbuuCOOsWKrOrx7lrBvlfmTeZkX5KPW0UKeya6OVl5sCBchnpjn/OeiABHyxNpiYdU9wxWIVSzE09bhyOXrLiw54l94ccy9IfwTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDPwCkKb; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736938566; x=1768474566;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a21DYM9Y6e9dtyfgQrzamCDEH03wQiwkyZKuBps1SoA=;
-  b=MDPwCkKbGDvFLgMgVoQgPOC4ydnaPwRtLx3eEfQiK03KBryS0bHHHwgU
-   w74FT/wmazmlf4a0By19FWGHl2/Yj7z3y5d8mGy/CuQ2A58fDDRE2KWOF
-   I4ESaBKwLBohe4qdS4B04r9336huKh47w6JFWxtSw1nsHw3sRYnALWRq1
-   lwgDe4bSQFNEp1UDmcsVtq9qWez+k9IQZMBcdgbvYj8qm343JBieKF8LY
-   cUf1mfsd/Ai5z4twJrzdphpNrnu6pXtsOomO0wSM9gFjihh584cyCw3MP
-   2xwYDOCYboC3dBetq7YsiOBCPmutZ+Y1p+Kck3++gCWgm931cT4DQ2+aM
-   Q==;
-X-CSE-ConnectionGUID: 3hV7ylxDQfO6cN/jcSc9QA==
-X-CSE-MsgGUID: QYAsEBqnSHKGtQVpYEmGRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="48676868"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="48676868"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 02:56:02 -0800
-X-CSE-ConnectionGUID: TmEfFQvuR1ePkAM3ceV8tw==
-X-CSE-MsgGUID: dWdMibSbRlaXaN84cYZa8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,317,1728975600"; 
-   d="scan'208";a="104936194"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.123])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 02:55:56 -0800
-Date: Wed, 15 Jan 2025 11:55:43 +0100
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Kever Yang <kever.yang@rock-chips.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
-	Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	Mehdi Djait <mehdi.djait@bootlin.com>, Gerald Loacker <gerald.loacker@wolfvision.net>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH v2 0/6] media: rockchip: add a driver for the rockchip
- camera interface (cif)
-Message-ID: <vbhqvvdjfjv2plavyd4gd2aypy6epybatq22mhgkcenndjgjly@73vacmvvv2fj>
-References: <20241217-v6-8-topic-rk3568-vicap-v2-0-b1d488fcc0d3@wolfvision.net>
+	s=arc-20240116; t=1736940688; c=relaxed/simple;
+	bh=JLFz6XbP5x4c+099TC/g3c5RoYCHGafKBTnQvYQVX3o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mB33uMniEcviVr7mkZ0l8og0C1okJ6/CWpNdL4xsum/qfE7H4IoBj82IpjRl9bGySR4Tdy/tDsTM8IGnbnLpgqzv52uZbwjoojMVzcyA+6jlwzYX/QMXUSSP390Jpf0BzRj70RDSE4wnGECitwL2F2Aey6PFmTI9+Y+e9WZhPZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dg2jkHq7; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2161eb94cceso80633025ad.2
+        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 03:31:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736940685; x=1737545485; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZsEMzV7+4lbRlAi3Wlu2J/UUINveZN8oKbfKk5Yf2Aw=;
+        b=dg2jkHq7Qfk6f8lLDhb8KqUWMEk7Pbw0vdpi1sTwbSAf7tPm88Brod6mevwBc2gut9
+         knpMyYL93dbe6qpTWguxFtqlSqTnYn1sZAnrB66W9bNC2R3K+Xnv6jajP4VdTsy+zhNX
+         QiTeMJlzPYE/C14fu6oemHhXYN/kidM9eqNu0bVFULGSUZ+Bk7buv8b5iUxLbUs4RX3g
+         AhmP6UBrUpyf1nBjkNIyXlPQs7WqOKXymgMIizskMdzxv4I6yW0yjvSwZACixjfrRmvY
+         2K9wooahyUuIWDZYKNc5c8HI0hcwhdc3x78Huv57hpjCU/wHsdOUCe2Ym9p7Qz8zPqwp
+         JT1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736940685; x=1737545485;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZsEMzV7+4lbRlAi3Wlu2J/UUINveZN8oKbfKk5Yf2Aw=;
+        b=Qm5CKv73BoF8ElYciQRbb00PUBDI9nx5wgNuZrJcj3jENdjy/D9ztapw4IpwJ4AjKv
+         9D0Ntj6WNqLmXAU+7TBOEFpA7ZSdEtdTxSvh8L841wO1mzzMfwBKMWEE+qA8pNC3WsF3
+         9oDtU/l8CTaNTDJihuwMZVNpZVc0cnVTD6bHw2gCuDfnFgTFXs5JU4mAKoM7De6dAcIN
+         AogwNLHtMRc0we5Nvfykf4dbX62MAxQNDut+d8SMvItafbwish9fWdI1+vVBWyYWMLG4
+         RCrv0Y/aCVPd520gW1ev1cPzPsqu1S6cij+8opD65rzrQjrOAK5+uCfcDmuO+H1aJrVf
+         eTwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhsryjAq3l6psipIoM1eG51+3W0TZyq/QLiyk19Wx8bJTBN5W4k8YnbpH6zS0imsmTXHDKMwKO/t4bIA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmDiVWrw0M+nMqeJzKKXeC2dvv7vBG4fMO67jKyZK9ReHwg+1s
+	ABMp+8HsSu5YUO4vKyJLvN2rDrDukJdLZ/TIFORvjVA/Y1LUmv1C5mptAVYaz6nmpc2mCV5QJlw
+	X3ayq78U507iIDvP6kaakUg2P+3E=
+X-Gm-Gg: ASbGncudZrbKOAmeUDICS/g/++g9dudEF5pFnch+OPOHnoPL7fU9T7yf5E9Flib9ock
+	8q9ZO5OjGWlYkITYQtiV0tPZGhTeqrldyXZPV0w==
+X-Google-Smtp-Source: AGHT+IGpHFeM1PEqSB+5qLN7Lr5FQecpUXGzGuql2Noc39rDDFuwEs9BW9ZYQICyVR9rLm06phstND84r9FxKQo2QxA=
+X-Received: by 2002:a17:90a:d64e:b0:2ee:dd79:e046 with SMTP id
+ 98e67ed59e1d1-2f548eba62dmr39579644a91.13.1736940685013; Wed, 15 Jan 2025
+ 03:31:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241217-v6-8-topic-rk3568-vicap-v2-0-b1d488fcc0d3@wolfvision.net>
+References: <CAOMZO5D0QvYvr940giHPGwLpunQOpku7e5K_5hHyYYCwZQry2g@mail.gmail.com>
+ <CAOMZO5BJt6qzETzMeO47N5Gu8136tppuXKnqv4ypk6HyLR99vA@mail.gmail.com>
+ <F5E2D925-668C-4D4D-87C9-8F22126443FD@gmail.com> <CAHCN7x+hUJoKRO8U8dgafFip31AKJRqfQw1kOw7YhvZ6xXqNnA@mail.gmail.com>
+ <A3476357-8D8D-4B82-8CAB-58370BECF575@gmail.com> <a393b3324c60c2c13994d34ca90faf4eb604ae43.camel@collabora.com>
+In-Reply-To: <a393b3324c60c2c13994d34ca90faf4eb604ae43.camel@collabora.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Wed, 15 Jan 2025 05:31:13 -0600
+X-Gm-Features: AbW1kvYKwhBnBA4jeK7q_7XxMmfm45yikx15V9pKuDGRRKwKeIBjBREqZIrtRbw
+Message-ID: <CAHCN7xJn6SVqLHG5EqK4aPvjA-xa36QGK_xewc+4+wpvAOcmXQ@mail.gmail.com>
+Subject: Re: Hantro H1 Encoding Upstreaming
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Daniel Almeida <dwlsalmeida@gmail.com>, Fabio Estevam <festevam@gmail.com>, andrzejtp2010@gmail.com, 
+	Frank Li <frank.li@nxp.com>, ming.qian@oss.nxp.com, 
+	linux-media <linux-media@vger.kernel.org>, linux-imx@nxmp.com, paulk@sys-base.io, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Gustavo Padovan <gus@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Michael,
+On Tue, Jan 14, 2025 at 10:16=E2=80=AFAM Nicolas Dufresne
+<nicolas.dufresne@collabora.com> wrote:
+>
+> Hi everyone,
+>
+> despite Andrzej having left the community, we are not giving up on the en=
+coder
+> work. In 2025, we aim at working more seriously on the V4L2 spec, as just
+> writing driver won't cut it. Each class of codecs needs a general workflo=
+w spec
+> similar to what we have already for stateful encoder/decoder and stateles=
+s
+> decoder.
+>
+> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-deco=
+der.html
+> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-enco=
+der.html
+> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stat=
+eless-decoder.html
+>
+> It is on top of this, that for each codec we have to add controls (mostly
+> compound) specifics and details that suites stateless accelerators.
+>
+> From a community stand point, the most important focus is to write and ag=
+ree on
+> spec and controls. Once we have that, vendors will be able to slowly move=
+ away
+> from their custom solution, and compete on actual hardware rather then
+> integration.
+>
+> It is also time to start looking toward the future, since Hantro H1 is ve=
+ry
+> limited and ancient encoder. On same brand, if someone could work on VC80=
+00E
+> shipped on IMX8M Plus, or Rockchip codecs, that will certainly help progr=
+ess. We
+> can also get inspiration from many other stateless encoding APIs now, not=
+ably
+> VA, DXVA and Vulkan Video.
 
-On Tue, Dec 17, 2024 at 04:55:12PM +0100, Michael Riesch wrote:
-> Habidere,
-> 
-> TL;DR:
-> 
-> This series introduces support for the Rockchip Camera Interface (CIF),
-> which can be found (in the form of variants that differ significantly) in
-> different Rockchip SoCs in general, and for the Rockchip RK3568 Video
-> Capture (VICAP) variant in particular.
-> 
-> The patches are functional and have been tested successfully on a
-> custom RK3568 board including the ITE Tech. IT6801 HDMI receiver as
-> attached subdevice. The IT6801 driver still needs some loving care but
-> shall be submitted as well at some point.
-> 
-> The long story (gather 'round children):
-> 
-> The Rockchip Camera Interface (CIF) is featured in many Rockchip SoCs
-> in different variations. For example, the PX30 Video Input Processor (VIP)
-> is able to receive video data via the Digital Video Port (DVP, a parallel
-> data interface and transfer it into system memory using a double-buffering
-> mechanism called ping-pong mode. The RK3568 Video Capture (VICAP) unit,
-> on the other hand, features a DVP and a MIPI CSI-2 receiver that can
-> receive video data independently (both using the ping-pong scheme).
-> The different variants may have additional features, such as scaling
-> and/or cropping.
-> Finally, the RK3588 VICAP unit constitutes an essential piece of the camera
-> interface with one DVP, six MIPI CSI-2 receivers, scale/crop units, and
-> different data path multiplexers (to system memory, to ISP, ...).
+I have an 8MP and I looked at the VC800E a little, and I attempted to
+port what was done before to the 8MM.  If that's a sufficient place to
+start, I can give it a try, but if the userpace isn't finalized, I am
+not sure how to test it.
 
-I wanted to CC Paul on this and add this really GOOD summary he provided
-while reviewing v6 of the CIF driver: Feel free to add (or not) some of
-the infos from it.
+>
+> Of course, folks likes to know when this will happen, stateless decoders =
+took 5
+> years from start to the first codec being merged, hopefully we don't beat=
+ that
+> record. I personally aim for producing work during the summer, and mostly=
+ focus
+> on the spec. Its obvious for me that testing on H1 with a GStreamer
+> implementation is the most productive, though I have strong interest in h=
+aving
+> an ecosystem of drivers. A second userspace implementation, perhaps ffmpe=
+g ?,
+> could also be useful.
+>
+> If you'd like to take a bite, this is a good thread to discuss forward. U=
+ntil
+> the summer, I planned to reach to Paul, who made this great presentation =
+[1] at
+> FOSDEM last year and start moving the RFC into using these ideas. One of =
+the
+> biggest discussion is rate control, it is clear to me that modern HW inte=
+grated
+> RC offloading, though some HW specific knobs or even firmware offloading,=
+ and
+> this is what Paul has been putting some thought into.
 
-----------------------------------------------------------------------------------
-So I have spent a bit of time trying to figure out the history of this unit
-and in which platform in was used. The takeaway is that the earliest Rockchip
-SoC that uses it is the RK3066 (2012) and the latest SoC is the RK3566/RK3568
-(2020). Earlier SoCs (RK29) do mention VIP but seems quite clear that this is
-a whole different unit and the recent RK3588 (2021) has a new VICAP_DVP unit
-(mixed with VICAP_MIPI) which also seems significantly different.
+I'll take a look at the presentation.  I will admit that I am not an
+expert on the video formats or how the encoding works, but I'm willing
+to try.
 
-Over the course of the existence of this unit, it is most often referred to
-as CIF. Since this is also the name for the driver in the Rockchip tree,
-I feel like it is best to use CIF as the mainline terminology instead of VIP.
-Note that the unit is also called VICAP in RK3566/RK3568.
 
-Here is the detail of my research on the concerned chips. The + at the beginning
-of the line indicate support in Rockchip's 4.4 tree:
+>
+> If decoders have progressed so much in quality in the last few years, it =
+is
+> mostly before we have better ways to test them. It is also needed to star=
+t
+> thinking how do we want to test our encoders. The stateful scene is not a=
+ll
+> green, with a very organic groth and difficult to unify set of encoders. =
+And we
+> have no metric of how good or bad they are either.
 
-- RK3566/RK3568 (2020): CIF pins + VICAP terminology
-+ RK1808 (2019): CIF pins + VIP registers + VIP_MIPI registers
-+ PX30 (2017): VIP pins + VIP registers
-+ RK3328 (2017): CIF pins + VIP terminology
-- RK3326 (2017): CIF pins + VIP terminology
-- RK3399 (2016): CIF pins
-- RK3368 (2015): CIF pins
-- PX2 (2014-11): CIF pins + CIF registers
-+ RK3126/RK3128 (2014-10): CIF pins + registers
-+ RK3288 (2014-05): CIF pins + VIP terminology
-- RK3026 (2013): CIF pins + CIF registers
-- RK3168/RK3188/PX3 (2012): CIF pins + CIF registers
-- RK3066 (2012): CIF pins + CIF registers
-----------------------------------------------------------------------------------
-
-I also CC'd Sebastian Reichel, as he might be interested in this, he is tracking 
-the upstream status of the RK3588: 
-https://gitlab.collabora.com/hardware-enablement/rockchip-3588/notes-for-rockchip-3588/-/blob/main/mainline-status.md?ref_type=heads
-
---
-Kind Regards
-Mehdi Djait
+adam
+>
+> regards,
+> Nicolas
+>
+> Le lundi 13 janvier 2025 =C3=A0 18:08 -0300, Daniel Almeida a =C3=A9crit =
+:
+> > +cc Nicolas
+> >
+> >
+> > Hey Adam,
+> >
+> >
+> > >
+> > > Daniel,
+> > >
+> > > Do you know if anyone will be picking up the H1 encoder?
+> > >
+> > > adam
+> > > >
+> > > > =E2=80=94 Daniel
+> > > >
+> > >
+> >
+> > I think my colleague Nicolas is the best person to answer this.
+> >
+> > =E2=80=94 Daniel
+>
 
