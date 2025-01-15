@@ -1,90 +1,90 @@
-Return-Path: <linux-media+bounces-24769-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24770-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E787A11EC3
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 11:01:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5F3A11ED0
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 11:03:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E2843A1A32
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 10:01:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 771231649D0
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 10:03:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC91720C499;
-	Wed, 15 Jan 2025 10:01:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29EE120CCCE;
+	Wed, 15 Jan 2025 10:02:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nT/8QB1Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dlwMvqpA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D32A248160
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 10:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D19248160;
+	Wed, 15 Jan 2025 10:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736935268; cv=none; b=NyHhczCaG6yj5POAj2Rgf7zOvlLdoa+vFHczyRJHR/4wvxtOzJZTzNMsHpt+rxLEFoZWEdNoQeXVYfDCcnvETyr9KkS7mqRIEmHi2cdBpcMuU994eOUYwX8YdplhVA3uGU0/dRb5d8KZGyVMDS550f22zkK7TAC2TUsL7+Ha5eA=
+	t=1736935376; cv=none; b=s7c0aj/jR32ieimNCmfDf4ubUYz0f+gcLYnDNJi6FxZzDzlauQZkAnA7mDRnRnfdDv9feWngoyiYQqefa6thngH28D+i1q6bODchnkajRvAE0KdZlgJjX+ypUO00hzzkimTL3Ps9mWFAjU1p5jhsM2CrVfULX5SKjfX9lpy/Lxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736935268; c=relaxed/simple;
-	bh=Fg+37e6woVvUUebjXjbz5FU8XYpgwfQR33aFm0Qvgy4=;
+	s=arc-20240116; t=1736935376; c=relaxed/simple;
+	bh=JoZEgsC26B+m7sk2PctIPwPPabGPfFf+j0coBGyXGVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MKRm7GCsEFuyUPoZQ+NxuXpSDRpJEsO6sjlOtLn5n5HAcKb9h9EBM4vRUrnmgpzXIiRg2IiUosl48lbJyaL2gMWIWFkCk/BVGQu5JQb2+0FChaYyO9N8CAO05ja5XdCWBf4pvYcSAadiGj0OOtiEkpv3/jXwri7e4EGRUTTlSv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nT/8QB1Y; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5426fcb3c69so5482365e87.3
-        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 02:01:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736935264; x=1737540064; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vZ5dt/qLr3VvJ8B5OacAL/6U7yodrgZD0IL2tTlPHPc=;
-        b=nT/8QB1Yti3IAvkc0mH9GvbZXOOeE5pJyYmv43/TXibNFrpLN88Jo2GDGu71JuWiuk
-         fqavWn3XJnOJw4G3uG7Fzswkkdswu+K39Ky9Upeq82W9rnlisdJb7YbuXQikICVG6Hw/
-         c3NrIngMpYW5jpDU7Mwrqlhezo9fzqkCoTT+4m+aa57JN3W6OjCJBwEFbXAMWk1pkpYl
-         6LatXlxoTn9Uz+8Om2uVVwH5sI3yEr9eFLfvIb3/blvnzjk/LKE8Rj5al5OmuOwwSLIr
-         97nZmHHqTc7T7HGVUjxAcK3s9zQDAcQ90XBzkHs5GE7H1Gm635Jh6JXYTAh2Zrd7eorB
-         10jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736935264; x=1737540064;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vZ5dt/qLr3VvJ8B5OacAL/6U7yodrgZD0IL2tTlPHPc=;
-        b=QTG5lnGG0ga3FZnsobGgY9DNZ682kPsTClcnyVHDt8YjFr71D75LvQBtkD3KvwsRSA
-         5DyC2U2rFIECEvg0E/HdIyH9XP00e1YfciNY2/qEhE3EwDVxcaqtEpvxX2+2BCFFelZo
-         1asEmhn0Ljk/w4n+AGDlmivIa6JiEK3f0kXhsWTqLU/Vk2Hbbydnz8hbwzJze2Gqj96V
-         V4ZyMtoR1Mpyia5Cty6wA8ymIf7WKPeTHPxnpkMyK5SKkGFdHw4zKJReSoo64SQunWyT
-         iHsIN9uWfKI8ro0XKtQRhc28dD3eg9cm9ADhFdnLz2MbYGbi1Fx8RgpGUe754CcgusQb
-         MC1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUtL2I4N7tbWR6cPYOj3k7jlbJbTfJjpjZDX1m6sMAtQlDZIxrqK7+6kOpJ1hYjKw0q4s+NRC84KK4vDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxkeKAzYXDMYHbHmeUZ10CV1ZbUQs39PR9C4unxs+vYVKCMvZE
-	db6jiLIVlbsWoHOelnh5IL7INBibHI7r3dmOJK1LU59X4BVk7NmAxzdTcX8dmPc=
-X-Gm-Gg: ASbGnctNlmQ4NPvWb37gunLjUO+XmlW/CRUgnEV89/taqOULVHzbRvlMki+ZzRK8D/S
-	e7iT6HUR1kDcgSkHwNqUawTGwbpv+jrRKjHqTAomif+yHsVrn1jd16QCQK3+YntIRRNmtfuzzzi
-	wJ3RGJivopMMVp/16B5l+92AZiYhHx9QdBTSbXdqmX/JsVi5f0aesC8ZLEjTrllxvx1mvz0vyUz
-	eqB0nyomy7VcAr9eL4srw+1jhPERB0njNJAV8b5g8+ciOHBeI5tR7RWLL4rZfb/0xefjdC/xPgJ
-	WtQLqMgIb0IHkTg231WYHHiU6bsHcbYZ1Bfd
-X-Google-Smtp-Source: AGHT+IH1cl4tHzKbcYYDDe2QwnGPmD4imeSfkQtHhn289Ax/JxMouFvFg7I8mRg66j/rsW7P93KXow==
-X-Received: by 2002:a05:6512:2246:b0:540:1e7e:ca80 with SMTP id 2adb3069b0e04-542845d35d9mr8769193e87.30.1736935264443;
-        Wed, 15 Jan 2025 02:01:04 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428bea6bddsm1960300e87.120.2025.01.15.02.01.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2025 02:01:04 -0800 (PST)
-Date: Wed, 15 Jan 2025 12:01:02 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Renjiang Han <quic_renjiang@quicinc.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	 Content-Type:Content-Disposition:In-Reply-To; b=LmmGCQHYv2ROTt5FE7AsxZQb5H7a835kHLNCh8dc9YPB+RMGkIMPzMruGFK2Mb7jowdZMfQmL3NFN/a/QZxD+2VQ6qUwXwHkpcvKrXVe/Ue1s/JP6lYNoQJCvWfg0NqJ5ViNIglTgTjSNDDksAPgH4atolbFzWWitRk7ZT71Ks8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dlwMvqpA; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736935372; x=1768471372;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JoZEgsC26B+m7sk2PctIPwPPabGPfFf+j0coBGyXGVs=;
+  b=dlwMvqpA+LFPMQTooG2FFX8dBKeTdCHtufLY6qFfDqV2P2KOU7b0R2+Y
+   YQXmDmzF0FsR71n0j9emDQTE9VUFZlFqBNHYql6B6ZJdTLT85yKlUs0Vq
+   zMo8N7pRFkxxGorAQa49DxzFNh7Ri1N8krE58svfSPP6KYeonwJ2npOTQ
+   PpX9ZRLq7eU8Ixm11d85gslas66GuPhxUFV6Px2/Yoc7HSHMmi5jIIAUP
+   y7xzg18bmoSwNQ7KQozNjn5RyDI57aGj5rl4opXJvcSs0efy60uSauur0
+   pKHh/sW6aQ1jgzx9JUrL5x4ZV77WtDXzpbm9MENOI+S6g/uTa2GFH01K8
+   w==;
+X-CSE-ConnectionGUID: xljbMPecQ3CV1dWQ8jcqiQ==
+X-CSE-MsgGUID: vqWdyVK/ToekrSSDbpmuTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="48264441"
+X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
+   d="scan'208";a="48264441"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 02:02:51 -0800
+X-CSE-ConnectionGUID: wo8lSug0RymJn/8J9m7osg==
+X-CSE-MsgGUID: 8vuEDfHkR7adKfLZDXc8zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="135945796"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 02:02:48 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E0E9D11F8B3;
+	Wed, 15 Jan 2025 12:02:45 +0200 (EET)
+Date: Wed, 15 Jan 2025 10:02:45 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jacopo Mondi <jacopo@jmondi.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] venus: pm_helpers: Remove dead code and simplify
- power management
-Message-ID: <a6qhm6viuldidhtc32l7qajx24yh6wrntxi63jm4n4cvp7ktmu@sum7w5cwpbms>
-References: <20250115-switch_gdsc_mode-v3-0-9a24d2fd724c@quicinc.com>
- <20250115-switch_gdsc_mode-v3-3-9a24d2fd724c@quicinc.com>
+Subject: Re: [PATCH] dt-bindings: usb: usb-device: Add panel-location
+Message-ID: <Z4eHxTzn1aUyUT7z@kekkonen.localdomain>
+References: <20241217145612.GA1652259-robh@kernel.org>
+ <CANiDSCu_mFQQVkDb_gSyXeb1_Tu+DxSeHYvGsGp6XVDuOdPyjQ@mail.gmail.com>
+ <20241219122453.GA4008177-robh@kernel.org>
+ <CANiDSCt+LAE-LzCDZgrWP_V-Jc-ywTF1-PuQtyDJMfV9v_ZzGA@mail.gmail.com>
+ <CAL_JsqLON5xKoYtowKdk49s-YHbk9bq9akZSH1kHdQ_9vxKSQQ@mail.gmail.com>
+ <CANiDSCvRfZiMafeJ6==oyduZCzJsv74pg9LbswnjoXFS2nTm=g@mail.gmail.com>
+ <Z347NA00DMiyl1VN@kekkonen.localdomain>
+ <CANiDSCs37N79MnFZxvBJn2Jw3062EdLRuVP4EkJVfJcfMMuPAg@mail.gmail.com>
+ <Z35BnplCOVyboSBs@kekkonen.localdomain>
+ <CANiDSCteoJ_Lk_G6KQKyK1MWikEHF36bYaSHwFEhJh0BFxb6Dw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,190 +93,87 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115-switch_gdsc_mode-v3-3-9a24d2fd724c@quicinc.com>
+In-Reply-To: <CANiDSCteoJ_Lk_G6KQKyK1MWikEHF36bYaSHwFEhJh0BFxb6Dw@mail.gmail.com>
 
-On Wed, Jan 15, 2025 at 03:00:54PM +0530, Renjiang Han wrote:
-> The functions poweron_coreid(), poweroff_coreid() and vcodec_control_v4()
-> are only used for v4 and v6. Remove the dead code by:
-> - Removing vcodec_control_v4() function
-> - Removing the check for !IS_V6(core) && !IS_V4(core) in poweron_coreid()
-> and poweroff_coreid()
+Hi Ricardo,
+
+On Wed, Jan 08, 2025 at 10:48:34AM +0100, Ricardo Ribalda wrote:
+> Hi Sakari
 > 
-> Directly call dev_pm_genpd_set_hwmode() without vcodec_control_v4().
+> On Wed, 8 Jan 2025 at 10:13, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Ricardo,
+> >
+> > On Wed, Jan 08, 2025 at 09:51:34AM +0100, Ricardo Ribalda wrote:
+> > > > > diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > > > > b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > > > > index da890ee60ce6..5322772a4470 100644
+> > > > > --- a/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > > > > +++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> > > > > @@ -37,6 +37,10 @@ properties:
+> > > > >        but a device adhering to this binding may leave out all except
+> > > > >        for "usbVID,PID".
+> > > > >
+> > > > > +  orientation:
+> > > > > +    description: If present, specifies the orientation of the usb device.
+> > > > > +    $ref: /schemas/media/video-interface-devices.yaml#/properties/orientation
+> > > >
+> > > > Do you need this for a camera or for other kinds of USB devices, too?
+> > > >
+> > > > What about e.g. the rotation property?
+> > >
+> > > I need it for cameras. I do not have a usecase for rotation now, but I
+> > > might have in the future.
+> >
+> > If it's specific for cameras (UVC kind I presume?), wouldn't it be
+> > reasonable to add specific bindings for it?
+> Yes, they are uvc cameras
 > 
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/pm_helpers.c | 73 +++-----------------------
->  1 file changed, 8 insertions(+), 65 deletions(-)
+> Do you mean something like this:
 > 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index a2062b366d4aedba3eb5e4be456a005847eaec0b..846aa765edbb33df0b0c39bb463dd68c16ce1b68 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -406,74 +406,29 @@ static const struct venus_pm_ops pm_ops_v3 = {
->  	.load_scale = load_scale_v1,
->  };
->  
-> -static int vcodec_control_v4(struct venus_core *core, u32 coreid, bool enable)
-> -{
-> -	void __iomem *ctrl, *stat;
-> -	u32 val;
-> -	int ret;
-> -
-> -	if (IS_V6(core) || IS_V4(core))
-> -		return dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[coreid], !enable);
-> -	else if (coreid == VIDC_CORE_ID_1) {
-> -		ctrl = core->wrapper_base + WRAPPER_VCODEC0_MMCC_POWER_CONTROL;
-> -		stat = core->wrapper_base + WRAPPER_VCODEC0_MMCC_POWER_STATUS;
-> -	} else {
-> -		ctrl = core->wrapper_base + WRAPPER_VCODEC1_MMCC_POWER_CONTROL;
-> -		stat = core->wrapper_base + WRAPPER_VCODEC1_MMCC_POWER_STATUS;
-> -	}
-> -
-> -	if (enable) {
-> -		writel(0, ctrl);
-> -
-> -		ret = readl_poll_timeout(stat, val, val & BIT(1), 1, 100);
-> -		if (ret)
-> -			return ret;
-> -	} else {
-> -		writel(1, ctrl);
-> -
-> -		ret = readl_poll_timeout(stat, val, !(val & BIT(1)), 1, 100);
-> -		if (ret)
-> -			return ret;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  static int poweroff_coreid(struct venus_core *core, unsigned int coreid_mask)
->  {
->  	int ret;
->  
->  	if (coreid_mask & VIDC_CORE_ID_1) {
-> -		ret = vcodec_control_v4(core, VIDC_CORE_ID_1, true);
-> +		ret = dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[VIDC_CORE_ID_1], false);
->  		if (ret)
->  			return ret;
->  
->  		vcodec_clks_disable(core, core->vcodec0_clks);
->  
-> -		if (!IS_V6(core) && !IS_V4(core)) {
-> -			ret = vcodec_control_v4(core, VIDC_CORE_ID_1, false);
-> -			if (ret)
-> -				return ret;
-> -		}
-> -
->  		ret = pm_runtime_put_sync(core->pmdomains->pd_devs[1]);
->  		if (ret < 0)
->  			return ret;
->  	}
->  
->  	if (coreid_mask & VIDC_CORE_ID_2) {
-> -		ret = vcodec_control_v4(core, VIDC_CORE_ID_2, true);
-> +		ret = dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[VIDC_CORE_ID_2], false);
->  		if (ret)
->  			return ret;
->  
->  		vcodec_clks_disable(core, core->vcodec1_clks);
->  
-> -		if (!IS_V6(core) && !IS_V4(core)) {
-> -			ret = vcodec_control_v4(core, VIDC_CORE_ID_2, false);
-> -			if (ret)
-> -				return ret;
-> -		}
-> -
->  		ret = pm_runtime_put_sync(core->pmdomains->pd_devs[2]);
->  		if (ret < 0)
->  			return ret;
-> @@ -491,17 +446,11 @@ static int poweron_coreid(struct venus_core *core, unsigned int coreid_mask)
->  		if (ret < 0)
->  			return ret;
->  
-> -		if (!IS_V6(core) && !IS_V4(core)) {
-> -			ret = vcodec_control_v4(core, VIDC_CORE_ID_1, true);
-> -			if (ret)
-> -				return ret;
-> -		}
-> -
->  		ret = vcodec_clks_enable(core, core->vcodec0_clks);
->  		if (ret)
->  			return ret;
->  
-> -		ret = vcodec_control_v4(core, VIDC_CORE_ID_1, false);
-> +		ret = dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[VIDC_CORE_ID_1], true);
->  		if (ret < 0)
->  			return ret;
->  	}
-> @@ -511,17 +460,11 @@ static int poweron_coreid(struct venus_core *core, unsigned int coreid_mask)
->  		if (ret < 0)
->  			return ret;
->  
-> -		if (!IS_V6(core) && !IS_V4(core)) {
-> -			ret = vcodec_control_v4(core, VIDC_CORE_ID_2, true);
-> -			if (ret)
-> -				return ret;
-> -		}
-> -
->  		ret = vcodec_clks_enable(core, core->vcodec1_clks);
->  		if (ret)
->  			return ret;
->  
-> -		ret = vcodec_control_v4(core, VIDC_CORE_ID_2, false);
-> +		ret = dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[VIDC_CORE_ID_2], true);
->  		if (ret < 0)
->  			return ret;
->  	}
-> @@ -802,7 +745,7 @@ static int vdec_power_v4(struct device *dev, int on)
->  	if (!legacy_binding)
->  		return 0;
->  
-> -	ret = vcodec_control_v4(core, VIDC_CORE_ID_1, true);
-> +	ret = dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[VIDC_CORE_ID_1], false);
->  	if (ret)
->  		return ret;
->  
-> @@ -811,7 +754,7 @@ static int vdec_power_v4(struct device *dev, int on)
->  	else
->  		vcodec_clks_disable(core, core->vcodec0_clks);
->  
-> -	vcodec_control_v4(core, VIDC_CORE_ID_1, false);
-> +	dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[VIDC_CORE_ID_1], true);
-
-Check for the error here.
-
->  
->  	return ret;
->  }
-> @@ -847,7 +790,7 @@ static int venc_power_v4(struct device *dev, int on)
->  	if (!legacy_binding)
->  		return 0;
->  
-> -	ret = vcodec_control_v4(core, VIDC_CORE_ID_2, true);
-> +	ret = dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[VIDC_CORE_ID_2], false);
->  	if (ret)
->  		return ret;
->  
-> @@ -856,7 +799,7 @@ static int venc_power_v4(struct device *dev, int on)
->  	else
->  		vcodec_clks_disable(core, core->vcodec1_clks);
->  
-> -	vcodec_control_v4(core, VIDC_CORE_ID_2, false);
-> +	dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[VIDC_CORE_ID_2], true);
-
-
-Check for the error here.
-
->  
->  	return ret;
->  }
+> diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml
+> b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> index da890ee60ce6..bc80c1e7360f 100644
+> --- a/Documentation/devicetree/bindings/usb/usb-device.yaml
+> +++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+> @@ -75,6 +75,12 @@ patternProperties:
+>            configuration value.
+>          maxItems: 1
 > 
-> -- 
-> 2.34.1
+> +      image-sensor:
+> +        description: Video interface properties associated to USB cameras,
+> +          typically UVC compliant.
+> +        allOf:
+> +          - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+
+I missed earlier the compatible string comes directly from the USB vendor
+and product IDs and this isn't the primary means of identifying a USB
+device anyway, IOW we couldn't have a compatible for UVC webcams for
+instance.
+
+None of the alternatives here seem exactly great to me but all of them
+would likely just work.
+
+I think I prefer your earlier suggestion, the question I have though is
+whether or not it should be limited to certain VIDs/PIDs.
+
+>  required:
+>    - reg
 > 
+> @@ -113,6 +119,9 @@ examples:
+>              interface@0 {
+>                  compatible = "usbif123,abcd.config1.0";
+>                  reg = <0 1>;
+> +                image-sensor {
+> +                  orientation: 0;
+> +                };
+>              };
+> 
+>              interface@0,2 {
 
 -- 
-With best wishes
-Dmitry
+Kind regards,
+
+Sakari Ailus
 
