@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-24787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24788-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7043A125F1
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 15:24:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 042BEA125FD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 15:25:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA2411889055
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 14:24:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 437AA188B931
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 14:25:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 699F878F2E;
-	Wed, 15 Jan 2025 14:24:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77A53824A0;
+	Wed, 15 Jan 2025 14:25:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PhXHqFJk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kren/GoB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0962B70821;
-	Wed, 15 Jan 2025 14:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363F878289;
+	Wed, 15 Jan 2025 14:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736951041; cv=none; b=QpLFpjlvZvSY0ggclg67jA8lEMfXw9/h4j93blyfJ0fjc4f3IsVsLtMleOa6vVzyGR3mXXxvx+65qCgmCYQqJfyvSC9ZxNq5T1F/g8SIFNEZC/f58Mws1qIMvhV6FG1cW7lPI79nU9DFP4cYAXb7SeIygWSsNZz0wSugXvEwN0k=
+	t=1736951114; cv=none; b=uO8dRIfpP+Q44kCFWs7Bl8zHaf2Tq57jWAd3Kh24G7pndgCtXJOGmO4uJZTNA8pdo2IxBiCj+XRjce6OjTwZ1yzoAzNC8B6R2e5BffNQTPLRSOTLN7lkGdJfg1G+4r4GoB3QpKc/6cCXkDbRq74ite+44UNmMRXilVP5Z7EJMso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736951041; c=relaxed/simple;
-	bh=OjIcTOLTDFl0wgUKS+7r6V/v2ikRnt7CCIOHbDO/lCA=;
+	s=arc-20240116; t=1736951114; c=relaxed/simple;
+	bh=62StWwxYii/GNRtwycjsTiAvIRWmaHYxk0UCF5Rkn+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k1OqGlR1EjgHrATPq/GaDCusP5zDi2NkgWXJ3997UfqD88qY52hdQzCnsKKbfuVp28sL9kLEkgwMOsaqbasyimJ6U+W/tsHdUMImAPAyuqQNmH4Y1fsm2JaotyDweLrKFh0VC1uwEi6H2wNsw2feXBNDi3iNuB6l11fmE4rtTIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PhXHqFJk; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qqn4eR2ch0415exGex8CEOY9C84YOvX6mAberKOgHxUzoUtr6W2xsMnhWk0ztXOtcAtaCF9xzGO0TXuiEXidao+7LQaS/5NkCN4cZI8HfXbHCqLCCZRkGek37uwN1qpvcb+Ukfef52Oqzu1ZmTtsdm8OhH6apaH/OuMSPusqLt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kren/GoB; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736951040; x=1768487040;
+  t=1736951113; x=1768487113;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OjIcTOLTDFl0wgUKS+7r6V/v2ikRnt7CCIOHbDO/lCA=;
-  b=PhXHqFJkoBRXQD+FGtUgZSgufw/wd6yXok823Ai8urvx9eA8JW1ausGW
-   g5up8Ob6VRSkUbHod6oYrPuTy4Y3peDhUb9ouXznOqDlf3H1eY6l43Btf
-   Kg22quI9AV+sG1Av5VhGHAJSGlpHAUWYOQ6O4TM0975kFfvuqrU5Qso7x
-   NkeRLLgAS7XEqrKwl71maGmFam9/SJfdyKzCQRP+yAdGLRqosgIpZGCyG
-   tc2qlh+vizP3waO05gwMO69DNKrtYMnnlItKB7/QrltOYDf2QVBngdLLD
-   mEaSFUOcAybrQShvvGU66Y1CBKGlq47kcs9ZqIDibUSopGMgld+dnDcUS
-   Q==;
-X-CSE-ConnectionGUID: exr+Is/7SuuFaugx1Fm7/g==
-X-CSE-MsgGUID: OuRUToOfR5+ApqkYcDL9Wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="36568132"
+  bh=62StWwxYii/GNRtwycjsTiAvIRWmaHYxk0UCF5Rkn+I=;
+  b=Kren/GoBbxe/VhWO5OB3kSmqJyOmzXmZenwv8PTXtqFMZrOdxR0zSL/8
+   f52xhgpIXxzF0Ece0eOZ+fhPVlS6fs7vjec8HuZiPYnTe7KYg2sjtDlSW
+   1cfs9fgiZx39upsjwgivukt7fAYO8rJpL9WbPsFh32ct4/Kb46KjuLkU1
+   jLHEXXygqOPLLAPlayjhILgBSTVxAYQlWHOc5nubyZqKhMw9MEpWHC671
+   7b24bI141BDGIZIu7HZrNz+0PvrGuroH23plg3lFy+EaXSEu/xshicohk
+   gq6sHQBz1hJGYt0W9Qr3wKgflZkDv7WgX25lt809kLjnsHIN0nbMM8fJG
+   g==;
+X-CSE-ConnectionGUID: 1ncsjuR3Qrq7dc6j3Sm68A==
+X-CSE-MsgGUID: 7EZxNH9WTt+zKHw6tvxg1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="41051793"
 X-IronPort-AV: E=Sophos;i="6.13,206,1732608000"; 
-   d="scan'208";a="36568132"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:23:58 -0800
-X-CSE-ConnectionGUID: yDlKQIiaT2CSsg680cS6uQ==
-X-CSE-MsgGUID: 5eFay0YzRo2q5th4DRKvEg==
+   d="scan'208";a="41051793"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:25:13 -0800
+X-CSE-ConnectionGUID: QHbaO8RZQ3ua5QaDq5JWHA==
+X-CSE-MsgGUID: I7lKnBofRcet0Jo2ldwrEA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="109189852"
+X-IronPort-AV: E=Sophos;i="6.13,206,1732608000"; 
+   d="scan'208";a="104911961"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:23:57 -0800
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:25:11 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3A82E11F8B3;
-	Wed, 15 Jan 2025 16:23:54 +0200 (EET)
-Date: Wed, 15 Jan 2025 14:23:54 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 9D2C611F8B3;
+	Wed, 15 Jan 2025 16:25:08 +0200 (EET)
+Date: Wed, 15 Jan 2025 14:25:08 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [PATCH 12/19] media: i2c: ds90ub960: Add RX port iteration
- support
-Message-ID: <Z4fE-qD7QvNiwOeH@kekkonen.localdomain>
+Subject: Re: [PATCH 13/19] media: i2c: ds90ub960: Move all RX port init code
+ into ub960_init_rx_ports()
+Message-ID: <Z4fFRJfgwSCcmrbd@kekkonen.localdomain>
 References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
- <20250110-ub9xx-improvements-v1-12-e0b9a1f644da@ideasonboard.com>
+ <20250110-ub9xx-improvements-v1-13-e0b9a1f644da@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,96 +81,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110-ub9xx-improvements-v1-12-e0b9a1f644da@ideasonboard.com>
+In-Reply-To: <20250110-ub9xx-improvements-v1-13-e0b9a1f644da@ideasonboard.com>
 
 Moi,
 
-On Fri, Jan 10, 2025 at 11:14:12AM +0200, Tomi Valkeinen wrote:
-> The driver does a lot of iteration over the RX ports with for loops. In
-> most cases the driver will skip unused RX ports. Also, in the future
-> patches the FPD-Link IV support will be refreshed with TI's latest init
-> sequences which involves a lot of additional iterations over the RX
-> ports, often only for FPD-Link IV ports.
+On Fri, Jan 10, 2025 at 11:14:13AM +0200, Tomi Valkeinen wrote:
+> We have some code in probe() which is related to RX port initialization,
+> and should be in ub960_init_rx_ports(). Move the code there.
 > 
-> To make the iteration simpler and to make it clearer what we're
-> iterating over (all or only-active, all or only-fpd4), add macros and
-> support functions for iterating the RX ports. Use the macros in the
-> driver, replacing the for loops.
+> We also move ub960_reset() so that it is accessible from
+> ub960_init_rx_ports().
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/i2c/ds90ub960.c | 260 ++++++++++++++++++++++--------------------
->  1 file changed, 135 insertions(+), 125 deletions(-)
+>  drivers/media/i2c/ds90ub960.c | 115 ++++++++++++++++++++++--------------------
+>  1 file changed, 59 insertions(+), 56 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index bca858172942..02e22ae813fa 100644
+> index 02e22ae813fa..cc944d737524 100644
 > --- a/drivers/media/i2c/ds90ub960.c
 > +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -649,6 +649,63 @@ static const struct ub960_format_info *ub960_find_format(u32 code)
->  	return NULL;
+> @@ -1225,6 +1225,33 @@ static int ub960_ind_update_bits(struct ub960_data *priv, u8 block, u8 reg,
+>  	return ret;
 >  }
 >  
-> +struct ub960_rxport_iter {
-> +	unsigned int nport;
-> +	struct ub960_rxport *rxport;
-> +};
-> +
-> +enum ub960_iter_flags {
-> +	UB960_ITER_ACTIVE_ONLY = BIT(0),
-> +	UB960_ITER_FPD4_ONLY = BIT(1),
-> +};
-> +
-> +static struct ub960_rxport_iter ub960_iter_rxport(struct ub960_data *priv,
-> +						  struct ub960_rxport_iter it,
-> +						  enum ub960_iter_flags flags)
+> +static int ub960_reset(struct ub960_data *priv, bool reset_regs)
 > +{
-> +	for (; it.nport < priv->hw_data->num_rxports; it.nport++) {
-> +		it.rxport = priv->rxports[it.nport];
+> +	struct device *dev = &priv->client->dev;
+> +	unsigned int v;
+> +	int ret;
+> +	u8 bit;
 > +
-> +		if ((flags & UB960_ITER_ACTIVE_ONLY) && !it.rxport)
-> +			continue;
+> +	bit = reset_regs ? UB960_SR_RESET_DIGITAL_RESET1 :
+> +			   UB960_SR_RESET_DIGITAL_RESET0;
 > +
-> +		if ((flags & UB960_ITER_FPD4_ONLY) &&
-> +		    it.rxport->cdr_mode != RXPORT_CDR_FPD4)
-> +			continue;
+> +	ret = ub960_write(priv, UB960_SR_RESET, bit, NULL);
+> +	if (ret)
+> +		return ret;
+
+Not related to the patch but if you're serialising things below, why aren't
+you doing that here?
+
 > +
-> +		return it;
-> +	}
+> +	mutex_lock(&priv->reg_lock);
 > +
-> +	it.rxport = NULL;
+> +	ret = regmap_read_poll_timeout(priv->regmap, UB960_SR_RESET, v,
+> +				       (v & bit) == 0, 2000, 100000);
 > +
-> +	return it;
+> +	mutex_unlock(&priv->reg_lock);
+> +
+> +	if (ret)
+> +		dev_err(dev, "reset failed: %d\n", ret);
+> +
+> +	return ret;
 > +}
-> +
-> +#define for_each_rxport(priv)                                                 \
-
-it should be also an argument to the macro as it's visible outside it.
-
-And wouldn't it be reasonable to use a pointer instead for the purpsoe?
-
-> +	for (struct ub960_rxport_iter it =                                    \
-> +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
-> +				       0);                                    \
-> +	     it.nport < (priv)->hw_data->num_rxports;                         \
-> +	     it.nport++, it = ub960_iter_rxport(priv, it, 0))
-> +
-> +#define for_each_active_rxport(priv)                                          \
-> +	for (struct ub960_rxport_iter it =                                    \
-> +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
-> +				       UB960_ITER_ACTIVE_ONLY);               \
-> +	     it.nport < (priv)->hw_data->num_rxports;                         \
-> +	     it.nport++, it = ub960_iter_rxport(priv, it,                     \
-> +						UB960_ITER_ACTIVE_ONLY))
-> +
-> +#define for_each_active_rxport_fpd4(priv)                                     \
-> +	for (struct ub960_rxport_iter it =                                    \
-> +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
-> +				       UB960_ITER_ACTIVE_ONLY |               \
-> +					       UB960_ITER_FPD4_ONLY);         \
-> +	     it.nport < (priv)->hw_data->num_rxports;                         \
-> +	     it.nport++, it = ub960_iter_rxport(priv, it,                     \
-> +						UB960_ITER_ACTIVE_ONLY |      \
-> +							UB960_ITER_FPD4_ONLY))
 
 -- 
 Terveisin,
