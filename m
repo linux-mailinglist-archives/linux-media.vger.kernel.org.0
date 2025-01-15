@@ -1,166 +1,169 @@
-Return-Path: <linux-media+bounces-24746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78CFA11B55
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 08:54:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E36A11BA9
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 09:15:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0645B162D85
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 07:54:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ADD557A059E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 08:15:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D064020C494;
-	Wed, 15 Jan 2025 07:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C97420AF91;
+	Wed, 15 Jan 2025 08:15:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CyJb2/W4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQaNX0eI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D3C1DB15B
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 07:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A0824333D;
+	Wed, 15 Jan 2025 08:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736927653; cv=none; b=mLvGtmjRB4pB2Kx2zDTfNSwOFhMKZEMfQ6fr1cGeWfS3JkbWaQgZdO0snMDa5dw+Gt14jM+pDV48JaHJQX44YsmKkS2d8VuN2nsfeW2llVdS1Og8i57cYopdGO2pRiBUCFr2P6xDIDjNO//oyORmQNebz0yrNqoUDlVsX4vo2jg=
+	t=1736928935; cv=none; b=N+2yyG2xXgXaM1/qe7rNrVkiAmJVxiqSWb8N25ECW73+SyYY5pwIcPZ32Xgl0VT7LN7z290qMwVSuwL0D5JAOODqusBGbdA53J2WABf+kV1dFrDS6RN+Zh7Ph+Nguw7nlqSIUjMT990+OJQ+U6YzIIOap3TOehhdRWLl9tOwUqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736927653; c=relaxed/simple;
-	bh=LfjITparxecmgs/OMSXQDhOgSUALhQ5AtLzIE6/vce4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Du/zKPv56G4j/JcrwdbMwc7GnYBA/zo9d/gFbacrEv2cQ3LzceKWT6odOgmDp6tf2X0rcoOr487/03vXjCRF0t7yU0UGfo42RLnOfbPyaNXS6vVxd29nL490fX1wnLAxJw8BLDPLwwowjOJMJfGGrB76IVxU4rYPyG//p6IJlDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CyJb2/W4; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d932eac638so12324436a12.1
-        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 23:54:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1736927649; x=1737532449; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ECOn+cnCIb0Bi7+W4OWUT6XQNCiNMEF2qI8394m/Z0A=;
-        b=CyJb2/W4/5mylZGSsHAaoufxar2p1osdgp8xUCv8JKQU6lo1BUzdmP1Yx7AEM3g7vu
-         82q0bMKeIEyBSoIRA3bPfVnyLgvozFWu0igU3mUeOufz+zBeSKFWeha1vMGGGeZukvhU
-         +wID33YKUbgaj07VtmH8525pKZ19ui0W4usQk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736927649; x=1737532449;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ECOn+cnCIb0Bi7+W4OWUT6XQNCiNMEF2qI8394m/Z0A=;
-        b=B2lUzFy9s2RVxP1G3XMgDV+HoFlQeC7C3LQyCaJjgNQEiG+n8SfRiEk2DwUIeERFeS
-         cKOG1UMeZdpYZA32LOvthDRTod4fkBAZPqHVur7Hr0ZHyA70iZSUd+SJ56YivH4brJsV
-         HQUSsDsl07oc4PSQ8ebiBaEq+QhI2Cvew365W+Aech1vnOTN1LtNXIS/otaNRezLWeBy
-         d4gYYpvDa6ndYkrrmsf0IFH0iQFplsugiVX4bWyxbHBXaDjbf4k9KCYWGPBd3T+AycoL
-         cct/LvJapUh+/0DQwS78YEQjiO8hJ5SgCO0hCMavenXIoFh9M8bW2vvr1v1t0mXCwj7x
-         zLhg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9k0m8ldlPB6IorA44+O0hDx4vkf2uDm+lCP338LYciD6MBPwfP1oPVtZ1qgaHiRYn+6dRcEwJDptNGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkvedNvTb+UFEOlgV6ZB/zUfMAQaUwYpBeH6Sq4pYLC08PMEtF
-	020YgyopEzKLKKLLpRJUx4PfVqDVBBRxCpQZmT3l6epsF87Qw49eklF6zvcJzeT/WhFTDwwArxu
-	yCt2p
-X-Gm-Gg: ASbGnctHFJLdXXeOI6RFamK3jRRMZhzG/Y9HXrkU5jFGKS/eQ/X9BWmqEFKI9oOer30
-	dk/J8SNQuZ3n83QzuX4+7Kqp99uMemUtTglydwM9YTdaNQQM+L70u7yjqV4gRwJzpNEQquvLcOF
-	0V7x0R+l94qtKdoUulZcJcVN+tlg+scHy5Z2iK1IEQFB/PCnILtfvT1tAiVvTQKmm3p7A7BNbtf
-	KEwmyhSXgeMBj5IJdjNKJWfn+VLxqEvm5edjqJbj6j2x5BxyeVl0xIeG/XOZblg/yluN9MhwJa5
-	MgWqS29I2N/GXXzT
-X-Google-Smtp-Source: AGHT+IEeg6bzNbUVrcET8uRVxbLwdzPSUih+Fo61LUda5JMvH3UZDXc8zUvYLJrk9glhzckkzfBdAA==
-X-Received: by 2002:a17:907:2cc5:b0:aab:cd45:5d3c with SMTP id a640c23a62f3a-ab2abdbfa0bmr2846453066b.50.1736927649339;
-        Tue, 14 Jan 2025 23:54:09 -0800 (PST)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d9c592ec59sm4562061a12.30.2025.01.14.23.54.07
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jan 2025 23:54:08 -0800 (PST)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361d5730caso96465e9.1
-        for <linux-media@vger.kernel.org>; Tue, 14 Jan 2025 23:54:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXwNBJcgkhcEeWLQgxS3nFaqTBBOHIOQN/WbItKOnBc0FRLfK+PMclkp+MOPm/wHWduzHVif38DYnPz6w==@vger.kernel.org
-X-Received: by 2002:a05:6402:419:b0:5d0:b20c:205c with SMTP id
- 4fb4d7f45d1cf-5da0dd88945mr41288a12.5.1736927288927; Tue, 14 Jan 2025
- 23:48:08 -0800 (PST)
+	s=arc-20240116; t=1736928935; c=relaxed/simple;
+	bh=T0IdFn0MO9THjwmFrjdVpSDN00JpLLnGIr0LGMN8FaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i7oCgUIioRYPuxCURBO9FSdPTMEByZTx7sShzJX/nfCnAT1N0eqVPB3+JFiyB/pF5sZBVEaWf1vljg9jzBiFMl+cy2shO06DF4R3VN2s0jHD8N6lICD7AorzRrSuVZmrRtNXQ5RqxA8+yj9Q/K7VzOVdPcxxV7L579CvTNHsZ5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQaNX0eI; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736928934; x=1768464934;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=T0IdFn0MO9THjwmFrjdVpSDN00JpLLnGIr0LGMN8FaU=;
+  b=YQaNX0eIsmVAhSZJStNlbdLb/ErVgNBwrS0SleGHNlntKGAnBKm/nVQt
+   qm/Xi6ZAip8D8HLVzrYR0fWYBmoR2gXHLUBwYK/ZLdJSWvszFQoRL6R06
+   MFABr4rx8bzmcR2m1rHFfVQcfyxfX3dj9E/N7LHviylgoryktVFvr1jME
+   2nUdPfRCMdFAeX/FBD9veb7lT00xumx6TSCFDgjbMGlXb8g2x4lhCdZC5
+   PWsdRWkVVNUXSmvEOTLyRrBN1qkhTtWBxlcGBx88Z6WKeFb3KFKLjnI1c
+   PGJV7zxLIAXM2iLWrzuvdkrsOh1Iv4NWKk8D8RKLfDQRwnON5ILw0Hh1e
+   g==;
+X-CSE-ConnectionGUID: 61NYUgwEQxaM1yahJQohsA==
+X-CSE-MsgGUID: +3SgpITrQx++xtwwJJiv1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="24852178"
+X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
+   d="scan'208";a="24852178"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 00:15:33 -0800
+X-CSE-ConnectionGUID: navOLFn1SpCo68KhG9DkjQ==
+X-CSE-MsgGUID: J5hfQ/WjRqO8qy9oCaCMfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="110197947"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 00:15:32 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id BDF9A11F8B3;
+	Wed, 15 Jan 2025 10:15:28 +0200 (EET)
+Date: Wed, 15 Jan 2025 08:15:28 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: v4l: fwnode: Parse CSI-2 C-PHY line-orders
+ like bus-type
+Message-ID: <Z4duoOn2ywLseSyJ@kekkonen.localdomain>
+References: <20250104195548.1915578-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250104195548.1915578-3-niklas.soderlund+renesas@ragnatech.se>
+ <Z3znj0MOWvIhbOxj@kekkonen.localdomain>
+ <20250107095219.GF2766897@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250114-str-enable-disable-media-v1-0-9316270aa65f@linaro.org>
- <20250114-str-enable-disable-media-v1-5-9316270aa65f@linaro.org>
- <20250114204240.GA29414@pendragon.ideasonboard.com> <Z4dmFlJ_0hugX2rY@kekkonen.localdomain>
-In-Reply-To: <Z4dmFlJ_0hugX2rY@kekkonen.localdomain>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 15 Jan 2025 16:47:52 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5ASMNr2tO+R1sYa58diWLHJr8iomKA2-PinEojCdXT98A@mail.gmail.com>
-X-Gm-Features: AbW1kvY14DfSpnwTLqBt72p4pu76YvOiOANEOo0Q2EYntPgnjoz9_xaoOvLxMK0
-Message-ID: <CAAFQd5ASMNr2tO+R1sYa58diWLHJr8iomKA2-PinEojCdXT98A@mail.gmail.com>
-Subject: Re: [PATCH 5/6] media: platform: Use str_enable_disable-like helpers
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Maxim Levitsky <maximlevitsky@gmail.com>, Sean Young <sean@mess.org>, 
-	Olli Salonen <olli.salonen@iki.fi>, Abylay Ospan <aospan@amazon.com>, 
-	Jemma Denson <jdenson@gmail.com>, Patrick Boettcher <patrick.boettcher@posteo.de>, 
-	Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Tim Harvey <tharvey@gateworks.com>, Andy Walls <awalls@md.metrocast.net>, 
-	Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250107095219.GF2766897@ragnatech.se>
 
-On Wed, Jan 15, 2025 at 4:39=E2=80=AFPM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Laurent,
->
-> On Tue, Jan 14, 2025 at 10:42:40PM +0200, Laurent Pinchart wrote:
-> > Hi Krzysztof,
-> >
-> > Thank you for the patch.
-> >
-> > On Tue, Jan 14, 2025 at 08:46:21PM +0100, Krzysztof Kozlowski wrote:
-> > > Replace ternary (condition ? "enable" : "disable") syntax with helper=
-s
-> > > from string_choices.h because:
-> > > 1. Simple function call with one argument is easier to read.  Ternary
-> > >    operator has three arguments and with wrapping might lead to quite
-> > >    long code.
-> >
-> > It's more difficult to read for me.
->
-> I don't have any issue in using the ternary operator either. Using these
-> helpers makes the lines generally 3 characters shorter.
->
-> >
-> > > 2. Is slightly shorter thus also easier to read.
-> > > 3. It brings uniformity in the text - same string.
-> > > 4. Allows deduping by the linker, which results in a smaller binary
-> > >    file.
-> >
-> > I don't see why the linker can't de-dup string in the current code.
->
-> In fact the functions are static inline so from that point of view I don'=
-t
-> think there's any difference.
->
-> >
-> > I'm sorry, I just don't see the point in doing this. I'd like to avoid
-> > those changes in the Linux media subsystem, or at the very least in
-> > drivers I maintain.
->
-> I don't have much of an opinion, perhaps I slightly prefer using these as
-> the rest of the kernel does, too. Yet if we choose not to use these
-> helpers, we continue to be occasional targets of largish patchsets "fixin=
-g"
-> this.
+Hejssan,
 
-To put one more aspect on the scales:
+On Tue, Jan 07, 2025 at 10:52:19AM +0100, Niklas Söderlund wrote:
+> Hi Sakari,
+> 
+> Tack för din feedback.
+> 
+> On 2025-01-07 08:36:31 +0000, Sakari Ailus wrote:
+> > Hejssan Niklas,
+> > 
+> > Tack för dessa lappar!
+> > 
+> > On Sat, Jan 04, 2025 at 08:55:48PM +0100, Niklas Söderlund wrote:
+> > > Provided a safe-guard from the raw values used in device tree sources
+> > > and the in-kernel defines used to describe the different line orders.
+> > > This mimics what have been done for the bus-type property to provide the
+> > > same safe-guard.
+> > > 
+> > > The macros used in device tree sources are defined in video-interfaces.h
+> > > (MEDIA_BUS_CSI2_CPHY_LINE_ORDER_*) and are only visible to DTS source
+> > > files. These raw values map directly to the in-kernel names by fwnode
+> > > defines in v4l2-fwnode.h (V4L2_FWNODE_CSI2_CPHY_LINE_ORDER_*). These
+> > > fwnode defines are finally translated to defines which are exposed to
+> > > drivers to act on (V4L2_MBUS_CSI2_CPHY_LINE_ORDER_*).
+> > > 
+> > > Previously the translation to values provided to drivers have exploited
+> > > the fact that the numerical value for each setting are the same for the
+> > > defines used in device tree sources. While this is unlikely to change
+> > > this harmonises the bus-type and line-orders parsing to work using the
+> > > same mechanics, while at the same time make the large CSI-2 parsing
+> > > function a little more readable.
+> > 
+> > Do we in fact need the V4L2_MBUS_ definitions of the line orders at all?
+> 
+> I'm not sure :-)
+> 
+> Geert pointed out in [1] that in comparison to the V4L2_MBUS_ bus-type 
+> definitions the line-order definitions did not have this intermediary 
+> step as a safe guard between values used in DTS files and values used in 
+> V4L2 drivers.
+> 
+> Looking at the original functionality,
+> 
+>     bus->line_orders[i] = array[i];
+> 
+> Seems a bit "hack" compared to what this patch do,
+> 
+> 
+>     bus->line_orders[i] = v4l2_fwnode_line_order_to_mbus(array[i]);
+> 
+> But if it's worth the extra churn, and if it in reality provides us with 
+> a safe-guard between DTS-files and V4L2-drivers I'm not sure. I'm on the 
+> fence on this one, the one good thing is that it aligns how V4L2_MBUS_ 
+> macros are parsed.
+> 
+> But if you don't like it and I'm on the fence I'm happy to drop this 
+> series. This series don't add any extra functionality.
 
-These kinds of patches actually make it more difficult to backport
-changes (e.g. fixes) to stable kernels, so my preference would be to
-only use the new helpers in new drivers.
+I wasn't asking dropping the series, but instead get rid of the V4L2_MBUS_
+line order definitions altogether, by replacing them by V4L2_FWNODE_
+equivalents.
 
-Best regards,
-Tomasz
+> 
+> 1. CAMuHMdXwqb7vhUeoMKDDJO5dp-V3LmnURZLSC1_ko=YL=cNyUA@mail.gmail.com
+> 
+> > 
+> > The same could extend to the V4L2_MBUS_ bus type defitions, but that's out
+> > of scope of this patch.
+> 
+> Out of scope indeed. If we drop this series do we want to try and remove 
+> them for V4L2_MBUS_ bus-type in future?
+
+I think that would be reasonable. I don't think we need two sets of
+definitions that effectively are interchangeable. But that may well be out
+of scope of this series.
+
+-- 
+Med vänliga hälsningar,
+
+Sakari Ailus
 
