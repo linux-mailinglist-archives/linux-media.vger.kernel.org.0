@@ -1,78 +1,77 @@
-Return-Path: <linux-media+bounces-24788-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24789-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042BEA125FD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 15:25:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 656E9A125FF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 15:27:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 437AA188B931
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 14:25:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A5A73A74AD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 14:27:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77A53824A0;
-	Wed, 15 Jan 2025 14:25:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16BB978F52;
+	Wed, 15 Jan 2025 14:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kren/GoB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ih0131jg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363F878289;
-	Wed, 15 Jan 2025 14:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA7227726;
+	Wed, 15 Jan 2025 14:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736951114; cv=none; b=uO8dRIfpP+Q44kCFWs7Bl8zHaf2Tq57jWAd3Kh24G7pndgCtXJOGmO4uJZTNA8pdo2IxBiCj+XRjce6OjTwZ1yzoAzNC8B6R2e5BffNQTPLRSOTLN7lkGdJfg1G+4r4GoB3QpKc/6cCXkDbRq74ite+44UNmMRXilVP5Z7EJMso=
+	t=1736951222; cv=none; b=S4bcf5Vc1ufJDUu42Zpq7GKJA/EmhhbcamdsuIo3m26QptM33GXgXDuNTmLDGd1ctyNjbRMxKpG/4CKIDZIeckRsO9ygNO8BVSAuhlkWLDtZjGxNLt/NH68Rz8tD2XuIel05umgA7L1VMx02OYlTV3gS8GMuTjO+hWebr5HKZig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736951114; c=relaxed/simple;
-	bh=62StWwxYii/GNRtwycjsTiAvIRWmaHYxk0UCF5Rkn+I=;
+	s=arc-20240116; t=1736951222; c=relaxed/simple;
+	bh=wFnnw+VvNqHZLTuoFenA5zl/t3RtdvH/yH3+RVXyvbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qqn4eR2ch0415exGex8CEOY9C84YOvX6mAberKOgHxUzoUtr6W2xsMnhWk0ztXOtcAtaCF9xzGO0TXuiEXidao+7LQaS/5NkCN4cZI8HfXbHCqLCCZRkGek37uwN1qpvcb+Ukfef52Oqzu1ZmTtsdm8OhH6apaH/OuMSPusqLt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kren/GoB; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=dujgqvLpGnnZ96Mw7imh/go3ebjKWYUdOFjrHI7Q3MbMABEU7od3V7Uryf6sdgWBQzpjxEQ5myF8V2MBWZg4jCcAxaWy43XrTm5VqnMLsHS9yf/Z08/clqK0FFNVnDVcspR56/3c4s9YRdwnnMtCnjMlYVHx9HOl5rmpbMSjPbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ih0131jg; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736951113; x=1768487113;
+  t=1736951221; x=1768487221;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=62StWwxYii/GNRtwycjsTiAvIRWmaHYxk0UCF5Rkn+I=;
-  b=Kren/GoBbxe/VhWO5OB3kSmqJyOmzXmZenwv8PTXtqFMZrOdxR0zSL/8
-   f52xhgpIXxzF0Ece0eOZ+fhPVlS6fs7vjec8HuZiPYnTe7KYg2sjtDlSW
-   1cfs9fgiZx39upsjwgivukt7fAYO8rJpL9WbPsFh32ct4/Kb46KjuLkU1
-   jLHEXXygqOPLLAPlayjhILgBSTVxAYQlWHOc5nubyZqKhMw9MEpWHC671
-   7b24bI141BDGIZIu7HZrNz+0PvrGuroH23plg3lFy+EaXSEu/xshicohk
-   gq6sHQBz1hJGYt0W9Qr3wKgflZkDv7WgX25lt809kLjnsHIN0nbMM8fJG
-   g==;
-X-CSE-ConnectionGUID: 1ncsjuR3Qrq7dc6j3Sm68A==
-X-CSE-MsgGUID: 7EZxNH9WTt+zKHw6tvxg1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="41051793"
+  bh=wFnnw+VvNqHZLTuoFenA5zl/t3RtdvH/yH3+RVXyvbI=;
+  b=Ih0131jgTms1fdG68G2ZJQZUwUHNBCKNEurIgDQlubNmPWtBVlTNqWQe
+   YJrp0hF9YVO7ghEDQY4D7IOVS8faGq5r3sA/MeAxOOr+GUmgYx0gf/KU/
+   Jqg4Nm63C7W1tdeMUrcuNkh02bqoGcqq+mCkHtT8ywh+SRbO8Vr8Qyxdg
+   RRseehho6eC3J7np2oyi/raeq1/8a1dPLOOAnv8QbhyW8VC27luo0a5AW
+   xDanHKbfYdH+g65I/wUfJl7Nzy2mXfeUbhu4+ZDpcTM1D+pnN5ZW6jtT6
+   8MJ4FIzYoHfXHl37ogK/rgV6yVt+qEWdKIsW6rFdVqz6eNmpH4ozmcCtm
+   A==;
+X-CSE-ConnectionGUID: 0tRhc8KNRMqz9Rw5EEv6TA==
+X-CSE-MsgGUID: Vzuvx7NXSfaoqwmiUUbmmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="37171775"
 X-IronPort-AV: E=Sophos;i="6.13,206,1732608000"; 
-   d="scan'208";a="41051793"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:25:13 -0800
-X-CSE-ConnectionGUID: QHbaO8RZQ3ua5QaDq5JWHA==
-X-CSE-MsgGUID: I7lKnBofRcet0Jo2ldwrEA==
+   d="scan'208";a="37171775"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:27:00 -0800
+X-CSE-ConnectionGUID: 1REYJsrJTSiPZiD6X5+6Kg==
+X-CSE-MsgGUID: nm1pq5z6SDaszC2GYrcywA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,206,1732608000"; 
-   d="scan'208";a="104911961"
+   d="scan'208";a="110124927"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:25:11 -0800
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 06:26:58 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9D2C611F8B3;
-	Wed, 15 Jan 2025 16:25:08 +0200 (EET)
-Date: Wed, 15 Jan 2025 14:25:08 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 484C011F88A;
+	Wed, 15 Jan 2025 16:26:55 +0200 (EET)
+Date: Wed, 15 Jan 2025 14:26:55 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [PATCH 13/19] media: i2c: ds90ub960: Move all RX port init code
- into ub960_init_rx_ports()
-Message-ID: <Z4fFRJfgwSCcmrbd@kekkonen.localdomain>
+Subject: Re: [PATCH 16/19] media: i2c: ds90ub960: Enable SSCG for UB9702
+Message-ID: <Z4fFr-ZgCIFT_PTx@kekkonen.localdomain>
 References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
- <20250110-ub9xx-improvements-v1-13-e0b9a1f644da@ideasonboard.com>
+ <20250110-ub9xx-improvements-v1-16-e0b9a1f644da@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,60 +80,43 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110-ub9xx-improvements-v1-13-e0b9a1f644da@ideasonboard.com>
+In-Reply-To: <20250110-ub9xx-improvements-v1-16-e0b9a1f644da@ideasonboard.com>
 
 Moi,
 
-On Fri, Jan 10, 2025 at 11:14:13AM +0200, Tomi Valkeinen wrote:
-> We have some code in probe() which is related to RX port initialization,
-> and should be in ub960_init_rx_ports(). Move the code there.
+On Fri, Jan 10, 2025 at 11:14:16AM +0200, Tomi Valkeinen wrote:
+> From: Jai Luthra <jai.luthra@ideasonboard.com>
 > 
-> We also move ub960_reset() so that it is accessible from
-> ub960_init_rx_ports().
+> UB9702 supports spread-spectrum clock generation for the back-channel
+> clock, which is futher used by serializers in synchronous mode to
+> generate the forward-channel clock, which can help reduce peak EMI
+> energy. The SSCG is common to all RX ports, so it can only be used if
+> all the ports are in the same mode.
 > 
+> Add basic support for SSCG by adding a module parameter to enable the
+> SSCG. The SSCG uses hardcoded configurationg, with 0.5% center-spread at
+> 33kHz modulation rate. See datasheet if different configuration is
+> required.
+> 
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/i2c/ds90ub960.c | 115 ++++++++++++++++++++++--------------------
->  1 file changed, 59 insertions(+), 56 deletions(-)
+>  drivers/media/i2c/ds90ub960.c | 102 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 102 insertions(+)
 > 
 > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index 02e22ae813fa..cc944d737524 100644
+> index f6d6c2fe12cd..a534d077f045 100644
 > --- a/drivers/media/i2c/ds90ub960.c
 > +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -1225,6 +1225,33 @@ static int ub960_ind_update_bits(struct ub960_data *priv, u8 block, u8 reg,
->  	return ret;
->  }
+> @@ -52,6 +52,10 @@
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
 >  
-> +static int ub960_reset(struct ub960_data *priv, bool reset_regs)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	unsigned int v;
-> +	int ret;
-> +	u8 bit;
-> +
-> +	bit = reset_regs ? UB960_SR_RESET_DIGITAL_RESET1 :
-> +			   UB960_SR_RESET_DIGITAL_RESET0;
-> +
-> +	ret = ub960_write(priv, UB960_SR_RESET, bit, NULL);
-> +	if (ret)
-> +		return ret;
+> +static bool ub960_enable_sscg;
+> +module_param_named(enable_sscg, ub960_enable_sscg, bool, 0644);
+> +MODULE_PARM_DESC(enable_sscg, "Enable SSCG (if available)");
 
-Not related to the patch but if you're serialising things below, why aren't
-you doing that here?
-
-> +
-> +	mutex_lock(&priv->reg_lock);
-> +
-> +	ret = regmap_read_poll_timeout(priv->regmap, UB960_SR_RESET, v,
-> +				       (v & bit) == 0, 2000, 100000);
-> +
-> +	mutex_unlock(&priv->reg_lock);
-> +
-> +	if (ret)
-> +		dev_err(dev, "reset failed: %d\n", ret);
-> +
-> +	return ret;
-> +}
+Shouldn't this come from DT instead?
 
 -- 
 Terveisin,
