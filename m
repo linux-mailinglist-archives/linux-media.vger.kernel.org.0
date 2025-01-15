@@ -1,134 +1,143 @@
-Return-Path: <linux-media+bounces-24743-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24744-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3459A1198B
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 07:19:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 982FFA11B11
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 08:39:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFB8A1886C21
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 06:19:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4077A3A58E1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 07:39:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0B1D22F3A4;
-	Wed, 15 Jan 2025 06:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F37C522F85A;
+	Wed, 15 Jan 2025 07:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Av9gfyJi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SHSQR01.spreadtrum.com (unknown [222.66.158.135])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE47A13B7A1
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 06:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=222.66.158.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B1722F3B3;
+	Wed, 15 Jan 2025 07:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736921966; cv=none; b=kc+swija/7w8k3Vw9HpwAtQiVuKM6QNIBWACr6sHJiQZunGO/kzgvZjnfa3zDBjcXdb9dxQEgNb1myJ+ufIeymy0f2VkBCuMIZcR9odDu2yzDEdc5RCJBhk5wYO08AQFSCLGAa9cMaIZmmeycU9xMES1eDlprpjLmBBYsi2QOnc=
+	t=1736926752; cv=none; b=dC2pW32MgEkWOy/VNrXtJR6+r4QajkBde50qvmSdKL/1v2Z2yxOzITwODg8cM3c2xJ5hHF39H7GGGB2qIGM5xAzmxSlLtIJ9VIILmJCdtILMeaipwjPD02WQy7g0U83cMA0UgvGuiOB6IrnenKAy0++9mDoeERUq41LuwjV/zFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736921966; c=relaxed/simple;
-	bh=sok2zXbACSZKkiCcre6mIBNL55eeM1Bokf6O+JDqHLw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nF8s5BmY/lbUM5DZ705EnHcp5CKCYLi7D0uht8s+sAlJIBB/1Fy/FRYA5JCj8+qG+FdZJOkHVHPSHjjxNiIvf0mc3o9xjjEoOqds8fSQEmFvkl8W/RF0qFSZi7agXcmUljAcf8lBEnzPObV1+tUrqAoNJA7OAjeJ3dDYRKnLHj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unisoc.com; spf=pass smtp.mailfrom=unisoc.com; arc=none smtp.client-ip=222.66.158.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=unisoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unisoc.com
-Received: from dlp.unisoc.com ([10.29.3.86])
-	by SHSQR01.spreadtrum.com with ESMTP id 50F6IOuR038057;
-	Wed, 15 Jan 2025 14:18:24 +0800 (+08)
-	(envelope-from zhaoyang.huang@unisoc.com)
-Received: from SHDLP.spreadtrum.com (bjmbx01.spreadtrum.com [10.0.64.7])
-	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4YXwhc5Zz4z2PwgWJ;
-	Wed, 15 Jan 2025 14:15:12 +0800 (CST)
-Received: from bj03382pcu01.spreadtrum.com (10.0.73.40) by
- BJMBX01.spreadtrum.com (10.0.64.7) with Microsoft SMTP Server (TLS) id
- 15.0.1497.23; Wed, 15 Jan 2025 14:18:21 +0800
-From: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        "T . J . Mercier" <tjmercier@google.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open
- list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>,
-        "open
- list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>,
-        "moderated
- list:DMA-BUF HEAPS FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>,
-        Zhaoyang Huang <huangzhaoyang@gmail.com>, <steve.kang@unisoc.com>
-Subject: [RFC PATCH] driver: dma-buf: use vmf_insert_page for cma_heap_vm_fault
-Date: Wed, 15 Jan 2025 14:18:05 +0800
-Message-ID: <20250115061805.3495048-1-zhaoyang.huang@unisoc.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1736926752; c=relaxed/simple;
+	bh=DPY/roXzZjdAZ6YP3yf0lbpZsr8gCT9vKa98hBD5uwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LwgGhkRhAVc4QoCRCYb1kpWdkEUVHA6LVk23ess6h7Hp5X0PM6GtErAuLOqqFphp2aKwDtSkBIsU6I9LrghAkM1BNiTUnnEJwnM0Vf+VoHrvm4ceSKq9LRwjL+RZu67YuEaNJUSlhrqhS2Z1xtoyCfI6Wms9aW4vk+EEy7XKfRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Av9gfyJi; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736926751; x=1768462751;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DPY/roXzZjdAZ6YP3yf0lbpZsr8gCT9vKa98hBD5uwg=;
+  b=Av9gfyJiHp1TIlgQC2DlsO9TXPCuF6BnabvDk5Y3yyYT9gd4C8dXPW2m
+   Xv+JaRhPbUCYTpjREvny7iyrOY6GPt8MetwUjZ/dOXDeYKCPZlmqYa/0f
+   ysVktMLERYfo5K9PgAnImWUy7bFoyjH6DxiYA978vR7arQIdeY0WkN4zj
+   PHAQKZwQzASjmB41+FDEt5OuxGaqQzatAIxHOZuOd2wMLQ5sTjl2vK8s0
+   ACnPgrmMQ16YHWnGZxkkIE39WbruOpUt0EgfMliqZpvqCC9AUdxwUMAmW
+   6eyDdnkpXEsoe/7SmImiNkjIRNVds9BxwQ3FHqVlfxVLf8MJwUNS5fYpg
+   A==;
+X-CSE-ConnectionGUID: BWRGS3N+SdWTKjLcjtNNwA==
+X-CSE-MsgGUID: cReyFx5OTkazWlB6wiUBww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="47912542"
+X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
+   d="scan'208";a="47912542"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 23:39:10 -0800
+X-CSE-ConnectionGUID: UMqyZiuzSv66AB1ay369mQ==
+X-CSE-MsgGUID: sZIatDy8SuiT+/3BDPcNSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; 
+   d="scan'208";a="105585032"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 23:39:05 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D1E3711F8B3;
+	Wed, 15 Jan 2025 09:39:02 +0200 (EET)
+Date: Wed, 15 Jan 2025 07:39:02 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Sean Young <sean@mess.org>, Olli Salonen <olli.salonen@iki.fi>,
+	Abylay Ospan <aospan@amazon.com>, Jemma Denson <jdenson@gmail.com>,
+	Patrick Boettcher <patrick.boettcher@posteo.de>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Andy Walls <awalls@md.metrocast.net>,
+	Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/6] media: platform: Use str_enable_disable-like helpers
+Message-ID: <Z4dmFlJ_0hugX2rY@kekkonen.localdomain>
+References: <20250114-str-enable-disable-media-v1-0-9316270aa65f@linaro.org>
+ <20250114-str-enable-disable-media-v1-5-9316270aa65f@linaro.org>
+ <20250114204240.GA29414@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SHCAS03.spreadtrum.com (10.0.1.207) To
- BJMBX01.spreadtrum.com (10.0.64.7)
-X-MAIL:SHSQR01.spreadtrum.com 50F6IOuR038057
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250114204240.GA29414@pendragon.ideasonboard.com>
 
-From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+Hi Laurent,
 
-When using dma-buf as memory pool for VMM. The vmf_insert_pfn will
-apply PTE_SPECIAL on pte which have vm_normal_page report bad_pte and
-return NULL. This commit would like to suggest to replace
-vmf_insert_pfn by vmf_insert_page.
+On Tue, Jan 14, 2025 at 10:42:40PM +0200, Laurent Pinchart wrote:
+> Hi Krzysztof,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Jan 14, 2025 at 08:46:21PM +0100, Krzysztof Kozlowski wrote:
+> > Replace ternary (condition ? "enable" : "disable") syntax with helpers
+> > from string_choices.h because:
+> > 1. Simple function call with one argument is easier to read.  Ternary
+> >    operator has three arguments and with wrapping might lead to quite
+> >    long code.
+> 
+> It's more difficult to read for me.
 
-[  103.402787] kvm [5276]: gfn(ipa)=0x80000 hva=0x7d4a400000 write_fault=0
-[  103.403822] BUG: Bad page map in process crosvm_vcpu0  pte:168000140000f43 pmd:8000000c1ca0003
-[  103.405144] addr:0000007d4a400000 vm_flags:040400fb anon_vma:0000000000000000 mapping:ffffff8085163df0 index:0
-[  103.406536] file:dmabuf fault:cma_heap_vm_fault [cma_heap] mmap:dma_buf_mmap_internal read_folio:0x0
-[  103.407877] CPU: 3 PID: 5276 Comm: crosvm_vcpu0 Tainted: G        W  OE      6.6.46-android15-8-g8bab72b63c20-dirty-4k #1 1e474a12dac4553a3ebba3a911f3b744176a5d2d
-[  103.409818] Hardware name: Unisoc UMS9632-base Board (DT)
-[  103.410613] Call trace:
-[  103.411038] dump_backtrace+0xf4/0x140
-[  103.411641] show_stack+0x20/0x30
-[  103.412184] dump_stack_lvl+0x60/0x84
-[  103.412766] dump_stack+0x18/0x24
-[  103.413304] print_bad_pte+0x1b8/0x1cc
-[  103.413909] vm_normal_page+0xc8/0xd0
-[  103.414491] follow_page_pte+0xb0/0x304
-[  103.415096] follow_page_mask+0x108/0x240
-[  103.415721] __get_user_pages+0x168/0x4ac
-[  103.416342] __gup_longterm_locked+0x15c/0x864
-[  103.417023] pin_user_pages+0x70/0xcc
-[  103.417609] pkvm_mem_abort+0xf8/0x5c0
-[  103.418207] kvm_handle_guest_abort+0x3e0/0x3e4
-[  103.418906] handle_exit+0xac/0x33c
-[  103.419472] kvm_arch_vcpu_ioctl_run+0x48c/0x8d8
-[  103.420176] kvm_vcpu_ioctl+0x504/0x5bc
-[  103.420785] __arm64_sys_ioctl+0xb0/0xec
-[  103.421401] invoke_syscall+0x60/0x11c
-[  103.422000] el0_svc_common+0xb4/0xe8
-[  103.422590] do_el0_svc+0x24/0x30
-[  103.423131] el0_svc+0x3c/0x70
-[  103.423640] el0t_64_sync_handler+0x68/0xbc
-[  103.424288] el0t_64_sync+0x1a8/0x1ac
+I don't have any issue in using the ternary operator either. Using these
+helpers makes the lines generally 3 characters shorter.
 
-Signed-off-by: Xiwei Wang <xiwei.wang1@unisoc.com>
-Signed-off-by: Aijun Sun <aijun.sun@unisoc.com>
-Signed-off-by: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
----
- drivers/dma-buf/heaps/cma_heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> > 2. Is slightly shorter thus also easier to read.
+> > 3. It brings uniformity in the text - same string.
+> > 4. Allows deduping by the linker, which results in a smaller binary
+> >    file.
+> 
+> I don't see why the linker can't de-dup string in the current code.
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index c384004b918e..b301fb63f16b 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -168,7 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault *vmf)
- 	if (vmf->pgoff > buffer->pagecount)
- 		return VM_FAULT_SIGBUS;
- 
--	return vmf_insert_pfn(vma, vmf->address, page_to_pfn(buffer->pages[vmf->pgoff]));
-+	return vmf_insert_page(vma, vmf->address, buffer->pages[vmf->pgoff]);
- }
- 
- static const struct vm_operations_struct dma_heap_vm_ops = {
+In fact the functions are static inline so from that point of view I don't
+think there's any difference.
+
+> 
+> I'm sorry, I just don't see the point in doing this. I'd like to avoid
+> those changes in the Linux media subsystem, or at the very least in
+> drivers I maintain.
+
+I don't have much of an opinion, perhaps I slightly prefer using these as
+the rest of the kernel does, too. Yet if we choose not to use these
+helpers, we continue to be occasional targets of largish patchsets "fixing"
+this.
+
 -- 
-2.25.1
+Kind regards,
 
+Sakari Ailus
 
