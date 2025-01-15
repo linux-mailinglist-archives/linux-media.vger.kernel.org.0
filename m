@@ -1,233 +1,179 @@
-Return-Path: <linux-media+bounces-24767-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24768-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A33A11E36
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 10:38:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFCBA11EBB
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 11:00:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9D0637A1C9A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 09:38:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61F191617CC
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 10:00:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FDFD248164;
-	Wed, 15 Jan 2025 09:38:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3265220C499;
+	Wed, 15 Jan 2025 09:59:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3ay0+BF1"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oyhZ31Aj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2054.outbound.protection.outlook.com [40.107.94.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07749248161;
-	Wed, 15 Jan 2025 09:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736933892; cv=fail; b=nlXVyfcI6y7iZxHJYS83/LH3oxo5a+LZur92V5qPRBMM+F/u9zExvBhF3iQjYHQl+0j8cBjqN5rucKT8qzB0cI9lfRUG67OSWW5B1K9GQnZBNYfTveSS7J6SBO6l3eyKlrLV0bZ0t2oZnDDJnyjM5L122725OV28fqti55smP/4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736933892; c=relaxed/simple;
-	bh=YrmyHGcDU7jRdc/fVIHzV+TE0SFuxh//jEzFXj4tXXg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=GxILh80kqVAsa625jWGQTsKESHLf/h9bB0CzPxxX/OezJiHTW8MX3yzuviLRY+HRg8brQs2TLgsFrFnDulo4ouId76RwFwUYSDZjB8QXPng46a6U/4hUn2dN+HJo5VGfmKGPlCNu8DaaOxU7duDYQ1tAGYPmQ0VFJyL9IogCx44=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3ay0+BF1; arc=fail smtp.client-ip=40.107.94.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S+JFFPPOQvktmzuu/wNu+SN8K/LhKasUdUEdIW9OB2IU4GNqaXQ81udNIPO2vW94F8z/LJr7/aomIDXUQsbgxVoAiqh8WkF4Vxf7kkCUDrkHarxJnVyh2LCoWk6FErZA5twv0t7eutFRh8J/drcJ1NCZGqDgYuwqE973WNEOMNi74qbslnqgvInq1seIr5Oc1UN3hbSPXFkphQI1yA+aAY9Zv72k+yHCK8BEDIH0L3ni7IYyFug/x/NjTvCBN/DMenUeVi4+MiEzGYLn19wVUq9oCaNu+40SOaYfeohjdcnVPeN8XFNnJZNShNciNUnyeTkpxZ4y+Am8jAG2DhXvdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nRx9XQgDkDdG6zH/+FxrTPmMYUsWMZfPZhTySCFVk3A=;
- b=mJ1w194bu5dzff02tiueTnJZde06wQy0N0S+jlTEVaoprymZeU2efTt3lng7p8ipK/Ea1EM+pOAbH7lUfDeJytLiyAxgMR5ip9kPlUtJbAoPfHouSbGpTDo+k2k+XT6nMzAgxTozyPzFM2ZL5J2DU/efpGEt7OxL3pZIyekIgyaMy9AHf4XB+lpz9FBzbAnNfkeDldAlL/UdOWiKduiCmgHzkymGBBVYDQY3i+fmtS7tyxIKBNXkxbqCLepWjtmMSZOPtEHwJF02Mti0JflWOMx2dEg3cGhIJ1fqYuT+OmfY220ODgw03pVBF/jD9lZPIdAjoRtFEVAczfepOgDtXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nRx9XQgDkDdG6zH/+FxrTPmMYUsWMZfPZhTySCFVk3A=;
- b=3ay0+BF1ZvRUenkMt/lQAwgsLWyIbtRxv5mb+FoMovpdoJLrBnhuUZqcWcnXzm+2hIcPyvAUlN6EgdlcWSop0RUBOv2DBLAj0qJ0KC/prKfHT076Nj4WXkdqdDnvwsLfPcqVYkpdx4y92YXzOF5/d0v9lL0Hl75B3HmCdJvGrCg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB6693.namprd12.prod.outlook.com (2603:10b6:510:1b0::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
- 2025 09:38:08 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 09:38:08 +0000
-Message-ID: <d213eee7-0501-4a63-9dfe-b431408c4c37@amd.com>
-Date: Wed, 15 Jan 2025 10:38:00 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
- Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-References: <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
- <20250108132358.GP5556@nvidia.com>
- <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
- <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com> <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <c823f70c-9b70-441c-b046-71058c315857@amd.com>
- <20250110205454.GM5556@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250110205454.GM5556@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0259.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e8::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C531EEA56
+	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 09:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736935196; cv=none; b=ma7vHsTyzyt4Y2ZwJkOEskll0G24YN5Pg7nwi7us/5jfKqdpHKAa3yeGt7IbTFlInWvjAdMt13diu/uwjMe0FZPGsByEStXfFuZg14iC7/ZusxN03fWB9xHeDwC1ZjsumgaemNUR1y12PCr2DMlFksAHkfo72ky0qQzqpj0hqQo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736935196; c=relaxed/simple;
+	bh=arnBScITMw6eWK5Hb/OMFQMtjHacKocanV14wKe420c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FiGXm/Sagy+vTyaKXgmJr0eYKnuCXEb+CAp/uXqykUkrkjFlKCiUri3NUwawz6f+p0EFx5ipDQILa08lfu2FKUK4ea5PjxUrsvhJ6+YhbEVa7x5edSZY56LMNxqyaphb00/HXeFvOhLnhIHsmkv5wGl09JXLMkxDliR1Y5vAZsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oyhZ31Aj; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-305d843d925so51561711fa.2
+        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 01:59:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1736935193; x=1737539993; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KAC0ImRqrlKmmuDsCZDTBGDlxgeMelWM2j2WFaaGPeg=;
+        b=oyhZ31Aj89CwXU//neqwQ+U6G8HdabL7azE++DOWEyOtdY/TUsAn53GzwBZlKa8/90
+         QDDKVkzajCZHvMuJy/KlAkNVOArns8GZtBFjuAimCltDuYIaR7bF06lslmwC9pU2roRE
+         /ESfLTY5gYIOYl9eYmSyK6Hy/WeSXw8ufPclYqQuGJ+x6zWjvrG0D3EFgwzzq/DHr1GM
+         M5yqzLNJ0K3k6Q89CcHkPzfS7TXVNiVHWQrkV1CIfcLFA04JaKbKoAK8vHgV0fVLXk4F
+         OaXlPrK/c0Va+DKBOShYXlqXWa8oao/KAcxVilTO9xzSzmLoH4uUIfl2gOJVCQeapfRK
+         m8FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736935193; x=1737539993;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KAC0ImRqrlKmmuDsCZDTBGDlxgeMelWM2j2WFaaGPeg=;
+        b=mVNGwc7ulAviObj+L8HG8G22jhCqcK3bK4P4VFdDvtS83h7+drq+peoUPQvRGrtYtf
+         BH13qCn3MBQPyfa/PaQLD+UkwAFVe1nf77vwGePoRKdhgmtiXdxyJiiwXoc6GnPmcNSP
+         iuGp1XhtMX25g1IDKU2O/R8Q3B68mKDjpuBy3JtGROHG1QiqPZJSqvjQgQ3ozbmTdgN0
+         rIAlG6aoT2MSBPPpSfIe263v4uIrxrRtqRqdn3xYn4KKUTnfoTz9AZFXzC/OM4vAhUMX
+         dNqvY9c4ctYoRJMwKZrd1qRtfVD6lcXYUuA4qnPnZQqsRljr5rSsZEfsE/VCn5vbVYf6
+         90HA==
+X-Forwarded-Encrypted: i=1; AJvYcCXUlTqqwSXuAds211fY9SHpQw0tD6AyuxmcvD/cedTfsvquPi2UvBVEqOcCtErUJLpMZDWFvnHSJElBAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfFbhTXUrRfzmiL8kIm1d7ztxe0f6ap5I8QSdJNfOznva52a/J
+	qs/Tc6dll+Rl2NO59LkP/lac5kWxL/9vC3o0XFw123n2nNkymc2QGnNurVaRpnM=
+X-Gm-Gg: ASbGnct4w/0HkdnygpmeWB9KhtAfcbx2eIYSIrmMVNqJRtySo0ooaTWdIIKUlmWMaAT
+	CdtgHRKieDm/6plFMM7ZC29SZJQsAmyWRNC03DT0jKt3wL9UVal2S7lmjriJRJ9yphENl1g+Xhm
+	scks1rVAx7Ru3Nh+FURqzUiLM12rUIUSYbjlpm134fNQL0p0eH6KlRg3oj+0R8foHGLR4GUk9nR
+	+v3vJOTnbZokPqCUi/1BfqhtifkcSs2Sm+SRkuvEsBy7FHDGtezjW7g3P9E0M1pnFt63f9GdMqn
+	KNiu1401G3RotZT92iGgVoaTBZ+hNPkjV+FT
+X-Google-Smtp-Source: AGHT+IE7R9Qxg16KDuzLxSKIeuLYGKpQVT1tb0Zi8z6Fsln5bLd6SnosN5wWzlYrBvclpItzOVRwzA==
+X-Received: by 2002:a2e:a78a:0:b0:300:1f2c:e3cf with SMTP id 38308e7fff4ca-305f454ffabmr99049431fa.13.1736935192587;
+        Wed, 15 Jan 2025 01:59:52 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1c7af6sm21333041fa.92.2025.01.15.01.59.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2025 01:59:51 -0800 (PST)
+Date: Wed, 15 Jan 2025 11:59:48 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Renjiang Han <quic_renjiang@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, Taniya Das <quic_tdas@quicinc.com>
+Subject: Re: [PATCH v3 0/3] Use APIs in gdsc genpd to switch gdsc mode for
+ venus v4 core
+Message-ID: <bkjthw5osu5dkwpr46zanwyfqquo45gaivlojqp6n7ixwbdnua@3t3ap2yor5z4>
+References: <20250115-switch_gdsc_mode-v3-0-9a24d2fd724c@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB6693:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3e24c3c-0665-40a8-dc7e-08dd354851e4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Z0s5bmFobGZmQVRKUko0RjVSZkFKUFIya0pNN2JTam5ma2RHVkorakVIYzIz?=
- =?utf-8?B?eVpsbVRMVG9ra1MybDduODFpdHhaWHNSTVA0djZQTit3SEw2Si81U1RFMDhE?=
- =?utf-8?B?WmdYemxCQ1lGK3RRalM3VEFmSnNBOUhpcHVNbzdCcWNBZGRsTnBLNEVOQkJp?=
- =?utf-8?B?UGZPaVljOXFCSHJoaWNhWFd5WStpcnZFQmlKYjdNeGx5UnozNUNiSlpxZjFM?=
- =?utf-8?B?bEZhZ3FxZ2lXTFpVSU1sWEhHREJKWTI1cXVpOHRya2VJQXVwL2Q3dTdqRm9L?=
- =?utf-8?B?OGdOVm45b2NVN1ZzTGRzbE00OFlpS1hCQWx6clRVcGh1MWY4SU8xTDhzVFZa?=
- =?utf-8?B?eExiclU4VXJkUlg1bVp0cXVnQUF2VHRuelM1enkrQlQ5di9MRytNSkE3ZXNv?=
- =?utf-8?B?QTFQOTVHYWwycDlLVWMzKzAxMUk3cFhYMkVmZGhVQS9hY0FiNytldFB4UmIv?=
- =?utf-8?B?emgveFBadTlOTDRZU3NnZDVZUG1SNERHTEZSbnU0QlA5aXEzbURieG5pWXNY?=
- =?utf-8?B?SWpqRitRNDdLM3VWYld2Z2RseFBINDczdWhzZmlHQzNGaEV6K3dlaEhUU2Q2?=
- =?utf-8?B?V2RuSEx0UktjZDQxbitTemxXc1NzNUhNY0U1YmpsZWtaOGtzai9hQ1NXR04x?=
- =?utf-8?B?M0RHYXhEMHdXR1JPMVc0UGw1amZoVUhsSmxJTGl4Vmg4emMvNEw5ZFVweTVk?=
- =?utf-8?B?ZjFlTCtqTGE2ejFMeCtQWUFTYnJHWTRlei9IS1VoR3c4WUZwRVBLREpmQmFB?=
- =?utf-8?B?aVRBMy8vOG1tV2pzajliYnJvNWx1NmNoZk5yTG9iaERWWmhzUys5TTJIYWxu?=
- =?utf-8?B?YzQxUUlTMStMbFVUNU5VUS9qSkcyb0pad3Q1OTJHUXBEb3NzbVpHenZDb0lV?=
- =?utf-8?B?RUV3cmpnanNPa3QvLzlObVk0cm5VWTY2WWhBWkl2Uk4vL1owc0IveklBbkdQ?=
- =?utf-8?B?WC9VSjM0dzFUMHM4S0NRMTNVN3RuazUzdnNVQ0sxaEx4YWNDSnQ2aXlOOWpa?=
- =?utf-8?B?WnVRSWdVUE1ISTdzc2t0QUd4dWd5UGwwRDRqaENObU8zbllRLzRDUTdVU256?=
- =?utf-8?B?K0tPWlRaTVdGSFMvVHFkVkRwMENVNTNDT2pkS21LNmlYL3ZURys2YTAvUWNK?=
- =?utf-8?B?TVFQU3Y3bm1QY3hYK0svTmo3eEJLYjJVb0V3Qmk3dnNZVGF6QWw4NW9lVThD?=
- =?utf-8?B?N1dPUXVmUHVKT1VnZGt0cjZFbURTdFZEMVd4TEFXK3REaEswWlZXZEN5YVc2?=
- =?utf-8?B?QVJrSy84eVZrMmJFZ2N2UmZ0SGMvUzJiRjB1R2RkWjVVdEI4cVczbFYwUzB6?=
- =?utf-8?B?WXZ1ODlTdEtqbk1kSUFOYnRiREJvNzNCYWt2UlpOaW9Oclk3TDh1NVRvdDcv?=
- =?utf-8?B?KytsSVhBbFMxeUlzZ28rWGNpaVJ4ODAzR2pHTWpMdWhVUzBCZWhxRWd4SVVy?=
- =?utf-8?B?T0I1ZjQ4dHJjVkQ5eFpsL2xzYytmV1ZnYXE0N0V1dlBlY2FaNk4yUFYvaEpz?=
- =?utf-8?B?QlU3YVFodEhhblhwZVN1dFhzMUhvQzR1THBNT1pmcXpTYWpwQ3pIazBRcjky?=
- =?utf-8?B?YkozSzZYdjlVcVliY2lOY0xIUmJyR1JGdXk4enk4NjgyS29mZ1FhVHJMTzU3?=
- =?utf-8?B?S2hnTkFBV01ucHhRM0dFZG9jdHdJTEF1b2FqM2xRLy9LdVhybTA2SkMxdHNT?=
- =?utf-8?B?NWxkUUN5QUI5Y1JpVkc0UE1ackNUQTV2elhyMnZIUWhQb3plQmNkZ2JBdk9Y?=
- =?utf-8?B?V3RGb1FidGo2eUxkQmk4VHBsZlA3VnN4TVhhVnhvcjFYcUQ3d2ZpZXp6bWRk?=
- =?utf-8?B?SUlYN0cxZjI0SFI3OWlmMWJ2alQvbUlUWHJFaWhiVlRoMXhQbnJuWVVXV2JT?=
- =?utf-8?Q?sEKfDkFxRPOJK?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TEcrN1VGTG53RTE4VDdGeVlnNmxyQzVIUEZrb293ZE03bjR0S0x1Zll4YUhj?=
- =?utf-8?B?MS8vc05NYm5tem11ZjFuVmpSUU92VCtKNXVBb21ITDdqYnU4QjhUR05rK0hS?=
- =?utf-8?B?SFpIU1RGUWFuV3h4ZUVLRnFRckVRdy92OXhpY09MM3pLTnVqU0N6ajlJM0Mr?=
- =?utf-8?B?Z09ldGhxcmhIVFo5ZmxlUyt4OHV0bEJaVTgyeThySXl0YVFpZ2VqMTMyYzVr?=
- =?utf-8?B?THFFTGwrdXVFL3VWemlkclg4RHdZb1JLdkhPNXM3WXVGak43UXBPekdISGxZ?=
- =?utf-8?B?bWp1WExXZ3lMcTQ4bDYyNVZ4Z3plQjhyZDhlZzZ0UGZ5Q3BMbm9obWt4TGxJ?=
- =?utf-8?B?bmVTcGtSNG4zSkM0YjNVSFZubkxpUGFKcndRWGd1K2lkWDQ4MlBNSTJCVU91?=
- =?utf-8?B?MFAwNXFDcUVLME5YamNQbk1JbUlJSndaNHFOTE1Dc1AxVzBJekxBb0FwZzhu?=
- =?utf-8?B?ZksvdktheEw2NllnS2xLQVZwN2FBRDEyTHpXNWhqUjhJRzFHM1IrRnRud3hz?=
- =?utf-8?B?bTlwdVU3U0QyRGpWb1YwWGQ1aW1mcm1RS2h6cEJBM1I5T01CbjhPaFJvS3VF?=
- =?utf-8?B?bVJzOVo4YThLMkNMU2dHNHlaUE0vbVVGQTduNjFucmxVUzNVRnk3TTkyeEtT?=
- =?utf-8?B?bUJ4VGdJdEkxRUh0UWNlK2grRVhvUXMxUEU5em1pS1V1bWdVRnovRkJhOWd2?=
- =?utf-8?B?TU9aV25OeGUvSEhXMVV1L0ZWK3BObnBBL25HeFJKdXBJQUYrTTBhcDd4cmt4?=
- =?utf-8?B?dXpEQWtQVFRqUjZadjc2SFE4aEdwRVFGQVRtVGcrUHVMMmdrN0Q2cWgxKzVD?=
- =?utf-8?B?OFl6aU52TFIyb2JvV2U5MEFPUlhORFEzUlorbWdldm5QUmZKeFUwMlo2UGZS?=
- =?utf-8?B?c2RqZTRwODc4NFlXbWNqTkErUUJvN0VzUWlEQVRUdjVkRW9WcjNvcFNEWi9k?=
- =?utf-8?B?U0daZGJHZ1EyNW5xMmliTkk3RkdYKzA5VnhRU3h5UE9RNFRtTHNaSjU5SUht?=
- =?utf-8?B?MlUxaXpmaVhjNEc3TGYxNU0rOWh1MXIzNzlEdTJxNWswU293ell0ZWlNLzdH?=
- =?utf-8?B?M3hBR2NlN0pOaXJzZWN5V3NNMmhIaW00endkMFhYVy8xQmcrOTg4emxoQ1Yr?=
- =?utf-8?B?N05LRWdBNGQwWFFEVFVJVk1lbHFHRmlEeGJFcjQvV3JVaUppZEhic00wTEpJ?=
- =?utf-8?B?NkRtS0VaQ0ZYQ29hbVN5VlBUbHNVem5WV2I5bkhCTjJDZzNOUFBLSVcvZlZT?=
- =?utf-8?B?ZUs4MFdTbTVXMWdLZnFIbmZmbnFiekN6MkdPSTRKa0JPVVhPWjQ1NEpGeVZk?=
- =?utf-8?B?U2NIQUVySHNXRTV1ZTBiTnM0Vk8xdEk2K25JY1VIVjc0Ujg4d1IralpRS0Jp?=
- =?utf-8?B?TFk1NnJtbzVReFF6TDhJYTIzOUQwdUpXODlvK2lpTjhQN1lXVEtERUFJQ01z?=
- =?utf-8?B?eSs4STJkUmc3VVV0eUFMV1g2aloralExbE5rUUhCL2NXVnBmcEUxOGE5V2p0?=
- =?utf-8?B?d2krWXBkaDRRdXh2aVdFeEV5aDU4MkRacXNOYXE2ZU5VdU1yOCtkSlI2NnFh?=
- =?utf-8?B?OEh3QWZjVlhnWC9XRW1kanUwQlNjSTZla3hDTWc3RDJJVmc3NU13VUdJVGRP?=
- =?utf-8?B?cXZJTTI0S1FVMHE2ZDVkbVJVZllXVEVtb3cxc3YyZ2RhL3NHNFpVSzU2YmJr?=
- =?utf-8?B?R05iK0ZMbTBTQ2s1bXBBTWFuQUlNNmxyd1E3alBXSlJsNWpIMExxY1VVZHlJ?=
- =?utf-8?B?RTdjQlNZQk9CTG91RE84OEtpRk5UQktSY1p1OE9LaWpjallxVTZNZ1IzTDBi?=
- =?utf-8?B?SFF1T1J2cUpSeEo4bXd0VTlPZHlEMjYzbTBtOGpjWDB5dG9RSTVKRmpqdHds?=
- =?utf-8?B?WjAyZnh1US9ZQnRRU2M5NG4rYVR5RUc4SGQ3UzFueWZDUFNWbVd2UGxURHRk?=
- =?utf-8?B?T0xRNVlHbVNaYytmbmZmaU9BN3N4d2VUbzRIMGRGaTQ1a0MyZWZQWklZY3FX?=
- =?utf-8?B?RnArTWFma0FyTUQ3NW1qeUp1dS9TM0c4SjdHYk5GZkgwZWRxd2lpdy9lRHZD?=
- =?utf-8?B?VUxEcGVoN0NiRWVpTVdtSy9WcXBJbTg1RzQzeHpUNENGcXdMOGR1d09DdjBQ?=
- =?utf-8?Q?GfXSOf8/oCGrAOVJn6eccUt43?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3e24c3c-0665-40a8-dc7e-08dd354851e4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 09:38:08.6784
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HTkZbuPooJZB34kO5/8J2rC3Z528RRjZRo4IcloEHgNpGsFY25vxt9CRGCBUbznv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6693
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250115-switch_gdsc_mode-v3-0-9a24d2fd724c@quicinc.com>
 
-Am 10.01.25 um 21:54 schrieb Jason Gunthorpe:
-> [SNIP]
->>> I don't fully understand your use case, but I think it's quite likely
->>> that we already have that working.
-> In Intel CC systems you cannot mmap secure memory or the system will
-> take a machine check.
->
-> You have to convey secure memory inside a FD entirely within the
-> kernel so that only an importer that understands how to handle secure
-> memory (such as KVM) is using it to avoid machine checking.
->
-> The patch series here should be thought of as the first part of this,
-> allowing PFNs to flow without VMAs. IMHO the second part of preventing
-> machine checks is not complete.
->
-> In the approach I have been talking about the secure memory would be
-> represented by a p2p_provider structure that is incompatible with
-> everything else. For instance importers that can only do DMA would
-> simply cleanly fail when presented with this memory.
+On Wed, Jan 15, 2025 at 03:00:51PM +0530, Renjiang Han wrote:
+> The Venus driver requires vcodec GDSC to be ON in SW mode for clock
+> operations and move it back to HW mode to gain power benefits. Earlier,
+> as there is no interface to switch the GDSC mode from GenPD framework,
+> the GDSC is moved to HW control mode as part of GDSC enable callback and
+> venus driver is writing to its POWER_CONTROL register to keep the GDSC ON
+> from SW whereever required. But the POWER_CONTROL register addresses are
+> not constant and can vary across the variants.
+> 
+> Also as per the HW recommendation, the GDSC mode switching needs to be
+> controlled from respective GDSC register and this is a uniform approach
+> across all the targets. Hence use dev_pm_genpd_set_hwmode() API which
+> controls GDSC mode switching using its respective GDSC register.
+> 
+> If only the clock patch or the venus driver patch is merged, the venus
+> driver will not work properly. Although it does not affect other system
+> functions, it is still recommended to wait until both the clock patch
+> and the venus driver patch are reviewed and passed, and then merge them
+> into the same release by their respective maintainers.
 
-That's a rather interesting use case, but not something I consider 
-fitting for the DMA-buf interface.
+NO! This will not work, as both -media and arm-soc branches will be
+broken. Please read about the git-bisect before making such suggestions.
 
-See DMA-buf in meant to be used between drivers to allow DMA access on 
-shared buffers.
+A proper plan would be:
+- implement a function which allows one to check that hwmode is
+  supported by the genpd driver
+- Change Venus to use hwmode for those platforms if it is enabled
+- Enable HWMODE support in the clock driver. Clearly identify that this
+  patch should be merged together and after Venus changes if all
+  maintainers agree with that
+- Clean up now-dead code.
 
-What you try to do here instead is to give memory in the form of a file 
-descriptor to a client VM to do things like CPU mapping and giving it to 
-drivers to do DMA etc...
+Doing it in any other way would result in the broken kernels.
 
-As far as I can see this memory is secured by some kind of MMU which 
-makes sure that even the host CPU can't access it without causing a 
-machine check exception.
+> 
+> Validated this series on QCS615 and SC7180.
+> 
+> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+> ---
+> Changes in v3:
+> - 1. Update commit message.
+> - 2. Add a patch to clean up the dead code for the venus driver.
+> - 3. Remove vcodec_control_v4() function.
+> - 4. Directly call dev_pm_genpd_set_hwmode() without vcodec_control_v4().
+> - Link to v2: https://lore.kernel.org/r/20241223-switch_gdsc_mode-v2-0-eb5c96aee662@quicinc.com
+> 
+> Changes in v2:
+> - 1. Add the HW_CTRL_TRIGGER flag for the targets SM7150/SM8150 and SM8450
+> video GDSCs supporting movement between HW and SW mode of the GDSC.
+> (Suggested by Dmitry Baryshkov)
+> - 2. There is a dependency of the clock driver introducing the new flag
+> and the video driver adapting to this new API. Missing either the clock
+> and video driver could potentially break the video driver.
+> - Link to v1: https://lore.kernel.org/r/20241122-switch_gdsc_mode-v1-0-365f097ecbb0@quicinc.com
+> 
+> ---
+> Renjiang Han (2):
+>       venus: pm_helpers: Use dev_pm_genpd_set_hwmode to switch GDSC mode on V4
+>       venus: pm_helpers: Remove dead code and simplify power management
+> 
+> Taniya Das (1):
+>       clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for video GDSC's
+> 
+>  drivers/clk/qcom/videocc-sc7180.c              |  2 +-
+>  drivers/clk/qcom/videocc-sdm845.c              |  4 +-
+>  drivers/clk/qcom/videocc-sm7150.c              |  4 +-
+>  drivers/clk/qcom/videocc-sm8150.c              |  4 +-
+>  drivers/clk/qcom/videocc-sm8450.c              |  4 +-
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 73 +++-----------------------
+>  6 files changed, 17 insertions(+), 74 deletions(-)
+> ---
+> base-commit: 63b3ff03d91ae8f875fe8747c781a521f78cde17
+> change-id: 20250115-switch_gdsc_mode-a9c14fad9a36
+> 
+> Best regards,
+> -- 
+> Renjiang Han <quic_renjiang@quicinc.com>
+> 
 
-That sounds more something for the TEE driver instead of anything 
-DMA-buf should be dealing with.
-
-Regards,
-Christian.
-
->
-> Jason
-
+-- 
+With best wishes
+Dmitry
 
