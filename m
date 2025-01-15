@@ -1,299 +1,276 @@
-Return-Path: <linux-media+bounces-24794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24793-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FFBA126F9
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 16:11:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F369A126F7
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 16:11:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33EE8188691F
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 15:11:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66DF23A4656
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 15:11:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F8B814900B;
-	Wed, 15 Jan 2025 15:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8F1C14D708;
+	Wed, 15 Jan 2025 15:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="pSmgixfi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2069.outbound.protection.outlook.com [40.107.94.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C716F155325
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 15:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736953871; cv=none; b=Hy8bqKid2vl2wEXKv+x8wVENwtxdOuYAjd6ZQlA5iZAilsoPMC1tQ/QoAKBwFGRicbEZYg7mHMZ3m1aQyN+7AyxmzNFKSKYtxHmCXza7aBhjoiOEDDjfJ4Wj6F4PVw9LJAHKwLI6Pt7pTrc3L6heFBqROJcw7KPECPs02gCU15w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736953871; c=relaxed/simple;
-	bh=w3iXKpEml9lXLDs+5vLs0CfNg7YDdkXN7EgMTuM4CRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRR6SmHfC8a32W21UwQgAmSjaZIoUHtqKlgIxWR0eJ8pciBD0ucA3iWJ4hJV7dQRPA3FzqJO48s9uAej/NXfmGV9d8r5nPMDbZaXd2oeXPTre+GbZlQUp87pmWBsPm+pwD21HT5oxsTkRaobipKlirN6mW5Dj3+CBYUjaA9TfVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 9338B1F0004F
-	for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 15:03:43 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id DC0FAAA1FC9; Wed, 15 Jan 2025 15:03:41 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id EBC49AA1FBF;
-	Wed, 15 Jan 2025 15:03:39 +0000 (UTC)
-Date: Wed, 15 Jan 2025 16:03:37 +0100
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Daniel Almeida <dwlsalmeida@gmail.com>, Adam Ford <aford173@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>, andrzejtp2010@gmail.com,
-	Frank Li <frank.li@nxp.com>, ming.qian@oss.nxp.com,
-	linux-media <linux-media@vger.kernel.org>, linux-imx@nxmp.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Gustavo Padovan <gus@collabora.com>
-Subject: Re: Hantro H1 Encoding Upstreaming
-Message-ID: <Z4fOScVgLqYEU4Hw@collins>
-References: <CAOMZO5D0QvYvr940giHPGwLpunQOpku7e5K_5hHyYYCwZQry2g@mail.gmail.com>
- <CAOMZO5BJt6qzETzMeO47N5Gu8136tppuXKnqv4ypk6HyLR99vA@mail.gmail.com>
- <F5E2D925-668C-4D4D-87C9-8F22126443FD@gmail.com>
- <CAHCN7x+hUJoKRO8U8dgafFip31AKJRqfQw1kOw7YhvZ6xXqNnA@mail.gmail.com>
- <A3476357-8D8D-4B82-8CAB-58370BECF575@gmail.com>
- <a393b3324c60c2c13994d34ca90faf4eb604ae43.camel@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541B0143871;
+	Wed, 15 Jan 2025 15:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736953863; cv=fail; b=O89FxdBaM8pVyGrTLy21Xc37Ftc34dknS9B96mubN7vLmrwvpkhy3lcj85utlEgfl7a/KaR/81QehqKXAl+NTykKXvpBM73NEaw0/58rl/T4NZC9lxx1trOOuUttcF5H26ZV4cKe0jOZOPEVNW+ozWGqEpzdZgpSmuY3LTzDAJs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736953863; c=relaxed/simple;
+	bh=/XU+8vQGcL9/2/JLsj3Bs8auHO7VTOiFWzz4FebhH/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DBM94BH9EVGY6minK6BWSW5G1qLybc3c5lq52+po5wuqEpJgTRBxS6iH1Zp8II8VgZHXNvXyNZw1H0IfzvVrFZrHMmnWi7i7rQaJHQd/t+wgNpGnADv2ZPoLGmp4NW4LoUTX3E3Xq+ZbFzSqVYKmczmBnZNWc1cjSKtOqq2Zu68=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=pSmgixfi; arc=fail smtp.client-ip=40.107.94.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QcQjB1F4RZ0uujAUjcHT0Ceuzky8wAtv2LOgzvNtYQ/rICcyTiQqgkCzQ00gAG4S+ROdmET/7gm1VzogyxYHJFU+3EwkAkBwR1SbMAr41FWwQgc4PXXNpCR+Q13FoQiRbSkEtVggfyJJGBiqUBBQcXm72/UopXanoSDpOMSjyMIpEjZgtHl7Tc+SawDPnORUghkWpxj0khMtmXliYB/0HZuWgFTUK1gIrQLgACubKN7ZWIq3fOQ3/zq19ybKTK367js7gdMMy1hnzFtRNO61paYPqrVzcKzgcS6MMhoDs+86GnxdW8AehLZJbRezphnU6oZhJXTjIc1gqqAsoLgTwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l73z8496Yb2BtWB609biLJ2hTccV1KqS2qgDESvHoNc=;
+ b=p0xriaZ7shP2EcD3PUPO0mQKQxCJ9NS1kKrD5p+RqR5DaByD+dyWHLQ2owqJwIbG1LlZ1klHqavhgRDnlj/CsnglPu4tee9AxKaaqkGvX71dcWrm8lYWzLNJzTAnHxyE37rmhhRsmuDQeAacsHeFPunoQzveSrE8KiYhiuxRQmROI6c6L3p1x5P5sFK3u9qlMbd/IZm9NYGcP6IcVrlPAq82cpVpWf70/0dpi6vPYQRRFSJp7bgmkf5hG9ivrIPqYKw06K0bDJOCI0cDgxf46PjJKAZYSB+96KU+HkUNC6ME7a6kIL17IEQQfLtwccbuMpzjAFmQohikeoayMgXfEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l73z8496Yb2BtWB609biLJ2hTccV1KqS2qgDESvHoNc=;
+ b=pSmgixfiySi/PsyePN5hAzYGg/DlXH5qjZ2YUhGsYCGbQiAJATwz7hRer5ySYJN8egz+xpFpsWpT8LGeWf2u3ZvwY4+kkafM57Nu59b2Gj4EZwADowwV86bL41fZkJTGMJdNjDpgbZ3DTt7NgIa0FhnLgc+YlE3Y+tho+QZ6P0IPCIwdeI/zQnZwvFEJPF991abeC2ZASDoNYCQssBK4jqoyCOEHxl9GyYnNQ0MvhEmWaGpuyT2FOqjBiab2eXbuSSsKPH5X6+Je943+NQkkXe7s4hRYMS9hyti9IoDW8Dq7QEEnJ9SnV3WfiSp/1ZXX0F8IcDj7UZ1lfpPktcV+Mw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by CH2PR12MB4071.namprd12.prod.outlook.com (2603:10b6:610:7b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
+ 2025 15:10:58 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8335.017; Wed, 15 Jan 2025
+ 15:10:58 +0000
+Date: Wed, 15 Jan 2025 11:10:56 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+	Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <20250115151056.GS5556@nvidia.com>
+References: <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+ <c823f70c-9b70-441c-b046-71058c315857@amd.com>
+ <20250110205454.GM5556@nvidia.com>
+ <d213eee7-0501-4a63-9dfe-b431408c4c37@amd.com>
+ <20250115133821.GO5556@nvidia.com>
+ <f6c2524f-5ef5-4c2c-a464-a7b195e0bf6c@amd.com>
+ <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
+ <20250115141458.GP5556@nvidia.com>
+ <c86cfee1-063a-4972-a343-ea0eff2141c9@amd.com>
+ <86afb69a-79bd-4719-898e-c6c2e62103f7@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <86afb69a-79bd-4719-898e-c6c2e62103f7@amd.com>
+X-ClientProxiedBy: BL1P221CA0004.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c5::15) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="F48ighn3Nxv23xv1"
-Content-Disposition: inline
-In-Reply-To: <a393b3324c60c2c13994d34ca90faf4eb604ae43.camel@collabora.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH2PR12MB4071:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80603e98-66bb-42e8-f0e1-08dd3576d074
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?d3RQVWZEN3lHWGZvSlBjWXRLQ2dnaXlEekNyaTFFdW9KanhNUmxJY2JpWVl5?=
+ =?utf-8?B?ZStsTlFTN0FaVUJ5UzU0RkFXLzU5cHdSUEFLRG43UUZQOWM1ZzkrSmxKeldn?=
+ =?utf-8?B?VWswS0dLYWdYenc2YzFGclUxL3VQK0VJNlYwblloWUU4T1lFRVl6YmdmWGdX?=
+ =?utf-8?B?NDFJWWdDUUIwOFZJRlN2Y2RjMmgwd2lRdGJPNkNUYndaTGdiTkhuKzliejds?=
+ =?utf-8?B?ZmpIV3Y2SkpHSFJ2NEo2YVYvcERhb1FabzVXVm1aL3lqWXZaVzhucXFBR0Zx?=
+ =?utf-8?B?Tyt0aS9hSk10b2Z6U3RscUNmS1dIWTFTeGk0K1ZjM3BsV0lTN2xiaEZESGgx?=
+ =?utf-8?B?b0Rub0h0VGg3emgxY2YxamozNE1MQW14TUltSUx4QjB1Tkg0c2o5cUE1TTlz?=
+ =?utf-8?B?V3ZTZEZjQmNVMVR3M1gwSThxQmZVQjBzWFdIeUFubjNhOTZkN3N3L1ZsMGhs?=
+ =?utf-8?B?UUxCQXVJUnRORFl3Wm9nNGx2WFFSY2tMb2JFMVJzNWdNOE9jM2M2RUFvamNl?=
+ =?utf-8?B?R0FmbFRKSVN2MlZhMFhNdk9keDZVbHhDd2VacVFNakRRSGU2Z2l5Sm9Tdlht?=
+ =?utf-8?B?MGtUQ2FsVUZHQjVOSGlORklmQTF4ZjRRSDN4c2lYZW5CVzF5ZzQ0d0xJTDZF?=
+ =?utf-8?B?L1k1U1kzR0FPYTByZ3h1Kys0a1VpZFlSZHhZd1diYlJPMHk4ZHlYSUNaUUVN?=
+ =?utf-8?B?UUhrelFhbTRURko1U0t3SzhTaUsvaG9JZ2xFZGphSTlIaUdDbzhLRGk5bXBp?=
+ =?utf-8?B?UmhpYzlhbzRvbGRiRmJlYVJ0UGVKdWtQSlIwclVKY3hVWWMxRUhVVS9hTmg0?=
+ =?utf-8?B?aEd4blRjMVBvTlByRmNwWUlmWXZMVXMxb1RHUjgvQmoxc0k5UllFMDM5Qzl0?=
+ =?utf-8?B?bDJZcnY3eitPL3pXTzR5alNIY2F2amU5RlpueHNYR0o5bG1EdDIyRlEzbXdt?=
+ =?utf-8?B?bmFDRFpxSU1paExZekIyczZJelRxRW84YkJOZ1E3NkdWZ2VnNkVpaWliR2ll?=
+ =?utf-8?B?YVY4b2hYN083UzdDVUhxcVVYeVBzUGdwTDYzT0dLTjlaK0FhSTl5by9RTitM?=
+ =?utf-8?B?RDZjUHpPYlZVK0Z4dXhwdjlGQStkTm9OMmRKb2wxVUIvdCtONGdHek5YNkx6?=
+ =?utf-8?B?Y0RaL01ETURRYklhM2NRSVRLeVQ3QzBBMVJVVjBPcGNGWU9ZNjB1eldML0tY?=
+ =?utf-8?B?UzluWE5XYVdlQXJ5L0cwWS9YQUthbmRmUDZ0OWFrMnhKS0ZldU1ZMzVIb0Zl?=
+ =?utf-8?B?dE94MUdpa1ZEZTI1Z25HYmxKWHFiWnlSclphdmJPSjBnOTgyZ0hNZklvYnJI?=
+ =?utf-8?B?NTNHM3JsMHlYS3FGQVR0VWJ1M1BqM0MvQkxOWHEvM0UyaFk3Y0c3eXFRWkNR?=
+ =?utf-8?B?dkxhdVlMRmI1MEVMdHEzb080cXQ1VnpZa2tLdDIvUkpEcDZzK3dhMlJXdXc5?=
+ =?utf-8?B?U212aDUzNEdFRUt1dkN3N3hnS2RqSEJ1MVpranlEWjE4WEFNaUdpZHNzcFVr?=
+ =?utf-8?B?OXlWV0poTFFaaWdLWXZ4dUhVZitLMDh3T3YzUDM5eVFYZ0JkTGpEWVRwZVEz?=
+ =?utf-8?B?RlJ5UzVQTDlMZmFKMWVtSnlhMlRMRnhVWEJiMVlua25uaTNmb0VHcUZ3K2FV?=
+ =?utf-8?B?NmpET3NRTTYxVVFLaFNwcW5tVldmZlNzbkNPd2NwR1AxOERPb1NpL3lDcy9x?=
+ =?utf-8?B?MlZHSnR1cW5YbGtSaWRjTmRMMWM2emVLeUp3cjIvUkJhdndEbmN0aEx4ZWNE?=
+ =?utf-8?B?OC9idWtaWnBnSmc1S0piL0x6OHRtVkR4VmNSZjlhdWV0SDF6K2xCQ05iUmR4?=
+ =?utf-8?B?SFh3dFp5cmZVSHpMTHpkZGhmSzlNWFZTY3FsNEk0MWMxekVaNDM5bFZndDh3?=
+ =?utf-8?Q?MVHM4obrfHzk5?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eFBjMnJRdWI0YjVCaVQ0NjRxSGlLczFheTVVNytvdFNDSTE1R1dTVlJac210?=
+ =?utf-8?B?Q0svdHIwcEl2UDJySzBlNnNuM0p2cHFDLy9YMkZIYkRQbFVQbzZiVy85KzZt?=
+ =?utf-8?B?UmxDYVNQUWgyeXJtY2lYeERWbnNQdXVKdU5JeGQvZTJ0MDJXNWg5a0E4TklT?=
+ =?utf-8?B?NWsyMUIzVWRDYm45VEVGejVPQTBFNkJabVZoaDBQclFyb0g4K1BrSGFBYWVD?=
+ =?utf-8?B?WFo4Rk82MlErZ0VTaHNjZk5XYTkzR0JITEtXSlNQcXhBVXJVeFVSUE56Wm5k?=
+ =?utf-8?B?QXBuaGd3cGhMTGJTd2JsVk5RVmFzcGRXL3Vucjk5RWpVZkluSFBKUHNJZC8z?=
+ =?utf-8?B?QWRFTVZ2dEpxR01XMGg3RS90cjhiVS9aalNrTWNwbWFoZXRkbkxGT0xETWFE?=
+ =?utf-8?B?SFdwekk3NjBlMDU0TmMzZENVZVU3MGE1ZWZOdXkxS1ZWcmJrL1hod3M5ZExz?=
+ =?utf-8?B?a1E0cC9ZdDlQdzhOaVBUTHYvNTFmUm1Qd0FWOWlzWGJTSnpkdWhWVW1Dbi9J?=
+ =?utf-8?B?aDcxOXRWa3dCNHFTbDI4YUpOWm55R1F0bDc3V2w2Ylhpdm9tYnhDcGNHWEVP?=
+ =?utf-8?B?SWpzVHBScGlrRDI4eXMvZmFkby83OEorbUZEWEVLOVBhcUJoM0ZnVFJxU1JL?=
+ =?utf-8?B?LzFoUk1JYktrK3JNSHlQajFwRUpNK1VIdlVISWpuN1M0dS8yWnFMRnVMOSsy?=
+ =?utf-8?B?SXpBazRjRkhVd2xCR2l3ajNwK290b0JjSGFLV2g1TkdaZFZMMm96MFd5MTdX?=
+ =?utf-8?B?U2FBK1B1N1U3Z3ZOTFRBZFBLcmt4VG5ySURhNlFQWTJreTRLQy9xSmcxdzEz?=
+ =?utf-8?B?VGRkYUdwQlRhcUFna0kxYk5sZ1Y3KytVTEJPdVhOUXhTeUFiaUZRaFBhSzZM?=
+ =?utf-8?B?VVYxbEllaU5VL1dtKzFqbDFrcUVNVDlqcUFjTW1ZUEJBa2hkN3J2bUN4MUxR?=
+ =?utf-8?B?TjNiQmtNWjFJOEVqMkxBOG5oTWxZV0tKbEwxWkhvaFN1dnpUbnZRSmxWUDBm?=
+ =?utf-8?B?Rkk2Si9xSmk4dDdtbUdQSHg2VnI2QzdDZ3RaV2crcWp5eGgyMnFMY3ZuMEtL?=
+ =?utf-8?B?SVd1RVhobHZlaVkybkpkbk53dDRzYmlQaGtDYjZkUzRUSEV0UHc5N0VjeU9D?=
+ =?utf-8?B?ZXBISzZzLzJTN2dSYjhaWk1jcnpyc0g2RmZ6dDZwYVFHbjdUdjFuQjVqSVZP?=
+ =?utf-8?B?QW1yVzJFU281bGcwNDF0a2ZvckE3M0ZMblZNUUtVYWsydzd2NVVwL3BOVmIw?=
+ =?utf-8?B?ZlM5eU9YdGZzSkRFTXRYeEhYOE5RNlZrQVN3RWpxT1ZwWVlIekJzUWJEb21B?=
+ =?utf-8?B?MnRsL1I3T0ZtVXJvQzlPSy8wRmJFdzlRenpuS2ExMzd1eU05bngxeWVzTjhO?=
+ =?utf-8?B?TjVLbEI4WkNJYXBFMTJHVFFoZC81bnorcTZveU1tdVRmZ1pJc05WVFpRZUxv?=
+ =?utf-8?B?bVdwMmJ6cXdoVGpxb0orN0ZjS09QbHBCbTdWTk1IVVl5TEZQTndteGNLUUVh?=
+ =?utf-8?B?byt6cDRnZTEzUVhzODliQlhURVBMaXR6dVhGUkt5RnVLbC9NZlliRnExUExv?=
+ =?utf-8?B?YmxaREw0UE1HNytoRVVNdHpHT2tnUkw0WFR5Y0pCc1hDLzdNa3V6bFIvMG5v?=
+ =?utf-8?B?QXc1WnBXWTI5eEl3c1k5NS93T2RGbFJmd1kyTVZRaUtJYnNPWTE0Y1pJT0k0?=
+ =?utf-8?B?YWttUU96QVNLK1Y2cldTemJ2NXFMcHVGUVVVdkdId2NKMzBoeDgyUHdjUDg2?=
+ =?utf-8?B?RVBNWTh2TzNVbmxLREY3T1BKcUk0SVp5T0VrLzBPSEZFQXJQSjA3U0YxakFa?=
+ =?utf-8?B?RzJLaGl0aERtZENlVlZSRVluWElvVDBZb3dFeUtLc3N0UkdLUWRXWTR3bjB4?=
+ =?utf-8?B?VzhuaE5pV1g1emVnK2FReDRKc2F4VlA1dkFmRFJFZkNMWUl4bElSWStFVDhz?=
+ =?utf-8?B?U3ErNkJscmdmekNtSzM2b0ZMallKWE04L3lMa1NTMjR0OWRydWhJSkhaaDBM?=
+ =?utf-8?B?dVFDT0pIZFE0ZlR6NG5hZXZleUgwTEtCaXZ3M2w5VWFDZlA4dEFYWStheUxD?=
+ =?utf-8?B?VUxYK0NEbGFhd01wMllIaGQ2QWV5RDBmbHg2eVdQeUJEYjlHcUM0eXhSaCtR?=
+ =?utf-8?Q?779QwyXsy8vlGOEIpYoxeBvnZ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80603e98-66bb-42e8-f0e1-08dd3576d074
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 15:10:57.8675
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QOnaZkoZ2DUn4EgoeoOYBCvIXfrK2OiGFiv0HqN1DWSrqdPzKeF+DOzFh4rC1T9Y
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4071
 
+On Wed, Jan 15, 2025 at 03:30:47PM +0100, Christian König wrote:
 
---F48ighn3Nxv23xv1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > Those rules are not something we cam up with because of some limitation
+> > of the DMA-API, but rather from experience working with different device
+> > driver and especially their developers.
 
-Hi folks,
+I would say it stems from the use of scatter list. You do not have
+enough information exchanged between exporter and importer to
+implement something sane and correct. At that point being restrictive
+is a reasonable path.
 
-Le Tue 14 Jan 25, 11:16, Nicolas Dufresne a =C3=A9crit :
-> despite Andrzej having left the community, we are not giving up on the en=
-coder
-> work. In 2025, we aim at working more seriously on the V4L2 spec, as just
-> writing driver won't cut it. Each class of codecs needs a general workflo=
-w spec
-> similar to what we have already for stateful encoder/decoder and stateless
-> decoder.
->=20
-> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-deco=
-der.html
-> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-enco=
-der.html
-> - https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stat=
-eless-decoder.html
->=20
-> It is on top of this, that for each codec we have to add controls (mostly
-> compound) specifics and details that suites stateless accelerators.
->=20
-> From a community stand point, the most important focus is to write and ag=
-ree on
-> spec and controls. Once we have that, vendors will be able to slowly move=
- away
-> from their custom solution, and compete on actual hardware rather then
-> integration.
+Because of scatterlist developers don't have APIs that correctly solve
+the problems they want to solve, so of course things get into a mess.
 
-Thanks for the continued interest in this topic, I am also still interested=
- in
-pushing it forward and defining a mainline API for stateless encore that fi=
-ts
-the bill.
+> > Applying and enforcing those restrictions is absolutely mandatory must
+> > have for extending DMA-buf.
 
-> It is also time to start looking toward the future, since Hantro H1 is ve=
-ry
-> limited and ancient encoder. On same brand, if someone could work on VC80=
-00E
-> shipped on IMX8M Plus, or Rockchip codecs, that will certainly help progr=
-ess. We
-> can also get inspiration from many other stateless encoding APIs now, not=
-ably
-> VA, DXVA and Vulkan Video.
+You said to come to the maintainers with the problems, here are the
+problems. Your answer is don't use dmabuf.
 
-The VC8000E on the i.MX8MP is definitely my next hardware of interest here.
-I will have time available to work on it in the near future.
+That doesn't make the problems go away :(
 
-> Of course, folks likes to know when this will happen, stateless decoders =
-took 5
-> years from start to the first codec being merged, hopefully we don't beat=
- that
-> record. I personally aim for producing work during the summer, and mostly=
- focus
-> on the spec.
+> > > I really don't want to make a dmabuf2 - everyone would have to
+> > > implement it, including all the GPU drivers if they want to work with
+> > > RDMA. I don't think this makes any sense compared to incrementally
+> > > evolving dmabuf with more optional capabilities.
+> > 
+> > The point is that a dmabuf2 would most likely be rejected as well or
+> > otherwise run into the same issues we have seen before.
 
-To be fair we are not starting from scratch and seem to have a good momentum
-here so I am hopeful it will not take as long!
+You'd need to be much more concrete and technical in your objections
+to cause a rejection. "We tried something else before and it didn't
+work" won't cut it.
 
-> Its obvious for me that testing on H1 with a GStreamer
-> implementation is the most productive, though I have strong interest in h=
-aving
-> an ecosystem of drivers. A second userspace implementation, perhaps ffmpe=
-g ?,
-> could also be useful.
+There is a very simple problem statement here, we need a FD handle for
+various kinds of memory, with a lifetime model that fits a couple of
+different use cases. The exporter and importer need to understand what
+type of memory it is and what rules apply to working with it. The
+required importers are more general that just simple PCI DMA.
 
-Would be glad to not have to work on the GStreamer side and focus on kernel
-work instead. Sofar we can already aim to support:
-- Hantro H1
-- Hantro H2/VC8000E
-- Allwinner Video Engine
+I feel like this is already exactly DMABUF's mission.
 
-> If you'd like to take a bite, this is a good thread to discuss forward. U=
-ntil
-> the summer, I planned to reach to Paul, who made this great presentation =
-[1] at
-> FOSDEM last year and start moving the RFC into using these ideas. One of =
-the
-> biggest discussion is rate control, it is clear to me that modern HW inte=
-grated
-> RC offloading, though some HW specific knobs or even firmware offloading,=
- and
-> this is what Paul has been putting some thought into.
+Besides, you have been saying to go do this in TEE or whatever, how is
+that any different from dmabuf2?
 
-In terms of RC offloading, what's I've seen in the Hantro H1 is a checkpoint
-mechanism that allows making per-slice QP adjustments around the global pic=
-ture
-QP to bit the bill in terms of size. This can be a desirable thing if the u=
-se
-case is to stick to a given bitrate strictly.
+> > > > > > > That sounds more something for the TEE driver instead of anything DMA-buf
+> > > > > > > should be dealing with.
+> > > > > > Has nothing to do with TEE.
+> > > > > Why?
+> > > The Linux TEE framework is not used as part of confidential compute.
+> > > 
+> > > CC already has guest memfd for holding it's private CPU memory.
+> > 
+> > Where is that coming from and how it is used?
 
-There's also the regions of interest that are supported by many (most?) enc=
-oders
-and allow region-based QP changes (typically as offset). The number of avai=
-lable
-slots is hardware-specific.
+What do you mean? guest memfd is the result of years of negotiation in
+the mm and x86 arch subsystems :( It is used like a normal memfd, and
+we now have APIs in KVM and iommufd to directly intake and map from a
+memfd. I expect guestmemfd will soon grow some more generic
+dmabuf-like lifetime callbacks to avoid pinning - it already has some
+KVM specific APIs IIRC.
 
-In addition the H1 provides some extra statistics such as the "average"
-resulting QP when on of these methods is used.
+But it is 100% exclusively focused on CPU memory and nothing else.
 
-I guess my initial point about rate control was that it would be easier for
-userspace to be able to choose a rate-control strategy directly and to have
-common implementations kernel-side that would apply to all codecs. It also
-allows leveraging hardware features without userspace knowing about them.
+> > > This is about confidential MMIO memory.
+> > 
+> > Who is the exporter and who is the importer of the DMA-buf in this use
+> > case?
 
-However the main drawback is that there will always be a need for a more
-specific/advanced use-case than what the kernel is doing (e.g. using a npu),
-which would need userspace to have more control over the encoder.
+In this case Xu is exporting MMIO from VFIO and importing to KVM and
+iommufd.
 
-So a more direct interface would be required to let userspace do rate-contr=
-ol.
-At the end of the day, I think it would make more sense to expose these enc=
-oders
-for what they are and deal with the QP and features directly through the uA=
-PI
-and avoid any kernel-side rate-control. Hardware-specific features that nee=
-d to
-be configured and may return stats would just have extra controls for those.
+> > This is also not just about the KVM side, the VM side also has issues
+> > with DMABUF and CC - only co-operating devices can interact with the
+> > VM side "encrypted" memory and there needs to be a negotiation as part
+> > of all buffer setup what the mutual capability is. :\ swiotlb hides
+> > some of this some times, but confidential P2P is currently unsolved.
+> 
+> Yes and it is documented by now how that is supposed to happen with
+> DMA-buf.
 
-So all in all we'd need a few new controls to configure the encode for code=
-cs
-(starting with h.264) and also some to provide encode stats (e.g. requested=
- qp,
-average qp). It feels like we could benefit from existing stateful encoder
-controls for various bitstream parameters.
+I doubt that. It is complex and not fully solved in the core code
+today. Many scenarios do not work correctly, devices don't even exist
+yet that can exercise the hard paths. This is a future problem :(
 
-Then userspace would be responsible for configuring each encode run with a
-target QP value, picture type and list of references. We'd need to also inf=
-orm
-userspace of how many references are supported.
-
-Another topic of interest is bitstream generation. I believe it would be ea=
-sier
-for the kernel side to generate those (some hardware has specific registers=
- to
-write them) based on the configuration provided by userspace through contro=
-ls.
-It is also useful to be able to regenerate them on demand. I am not sure if
-there would be interest in more precise tracking of bitstream headers (e.g.
-H.264 PPS and SPS that have ids) and be able to bind them to specific encode
-runs.
-
-We could have some common per-codec bitstream generation v4l2 code with eit=
-her
-a cpu buffer access backend or a driver-specific implementation for writing=
- the
-bits. I already have a base for this in my cedrus h264 encoder work:
-https://github.com/bootlin/linux/blob/cedrus/h264-encoding/drivers/staging/=
-media/sunxi/cedrus/cedrus_enc_h264.c#L722
-
-Last words about private driver buffers (such as motion vectors and
-reconstruction buffers), I think they should remain private and unseen from
-userspace. We could add something extra to the uAPI later if there is reall=
-y a
-need to access those.
-
-Cheers,
-
-Paul
-
-> If decoders have progressed so much in quality in the last few years, it =
-is
-> mostly before we have better ways to test them. It is also needed to start
-> thinking how do we want to test our encoders. The stateful scene is not a=
-ll
-> green, with a very organic groth and difficult to unify set of encoders. =
-And we
-> have no metric of how good or bad they are either.
->
-> regards,
-> Nicolas
->=20
-> Le lundi 13 janvier 2025 =C3=A0 18:08 -0300, Daniel Almeida a =C3=A9crit=
-=C2=A0:
-> > +cc Nicolas
-> >=20
-> >=20
-> > Hey Adam,
-> >=20
-> >=20
-> > >=20
-> > > Daniel,
-> > >=20
-> > > Do you know if anyone will be picking up the H1 encoder?
-> > >=20
-> > > adam
-> > > >=20
-> > > > =E2=80=94 Daniel
-> > > >=20
-> > >=20
-> >=20
-> > I think my colleague Nicolas is the best person to answer this.
-> >=20
-> > =E2=80=94 Daniel
->=20
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---F48ighn3Nxv23xv1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAEBCAAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmeHzkkACgkQhP3B6o/u
-lQwVNQ/1FIzK6k1Dqa9nxG4Vt3GRLANsH2j4xUJVttt/viyZbPhGxXyU5OdBmb67
-yzBsolW5LfYwDl1IVZ9FHgwiHHtowPL0Sy4e4MH3X3jFHxX0+/wXAA271HEmLhZ0
-ZOZy7aajtY3dC76ap1uIgQc3aDnyV03SZGpoa6YzuxI+v5v/EuJTKwecl8rUMyAd
-6pzrvzMvL0tiWxnHae088BdQP32qc6APh6e8Y904fF5LJAjj3MQdaMbKdkXSHc2N
-KK9cBadaZPrny8gKdY4lR/IeYrWFX1o+bzp2ltfdf/cGo1zk9KoqoHki+eU5kcCD
-Oz7l0xyRoXWpazgmORObOrtq7RsCPeVtLWQ90X6UW99MzAgd5enwSwNi8LFa27FI
-sBnQLo6ecF18Pfr9G3gg+YfLh5WuTPI2WCE+bAaYfNFTJ7X9t+H9lZiqbbrz3yNb
-mwjwsD+Hf7NAd0SWFRVWrzE1knncrdeAtJJFPyemNim9X1+etqfRgvPBn1YJRow3
-BRyhVoLgI5OfJ+Zj4OxGMSLHzwjfCxZOb4AofyD2NofmH6wWhi1nAFjK9vf4Qm9k
-Zmob5WjPLnDVt9P3yM56cY1IcjthDlD9qzpZnUsEGohVsaTmzFk59uwQm3JlHQai
-tI0o7WUPpKqxz+McZdRnnBGhbegUfX6Fb8Kmhsx3H85qZ2TGuQ==
-=qJ9C
------END PGP SIGNATURE-----
-
---F48ighn3Nxv23xv1--
+Jason
 
