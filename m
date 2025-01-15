@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-24802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24803-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0E9A1298F
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 18:14:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E34F4A129A1
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 18:19:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4ECA163AE3
-	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 17:14:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D05916752D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Jan 2025 17:19:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FB2A1C07EE;
-	Wed, 15 Jan 2025 17:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D95819645C;
+	Wed, 15 Jan 2025 17:19:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wjb/2xLu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NpGdcY1T"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2AC19B5AC;
-	Wed, 15 Jan 2025 17:14:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4757C70812;
+	Wed, 15 Jan 2025 17:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736961258; cv=none; b=ZRllPDOXZQtQgw13+iIsSgW7hibd4SSPoDilp8+NOWUfHnurUH96YtK6SZDek8gg7LntlwBFk2MioVweR2K/zGcODfIzIE26LOTT725CUKf/xMBiqHH4ieFJnmFjzluOAA7IqsbKbuP4pbKPpaMnaE0mrGgs9b97GuynexQSyTY=
+	t=1736961557; cv=none; b=Qd0LnVresSZEKbHOI0umWcSLQdlq8q4Lb1z1yuc3NpDOTJO7xWZE4lyh+5GFH/wGlVA5A5bA3Synep5R0uFT083h80uAWx5ZQ8XquTsWCfubbgOh/hUoQNMqYyYy+EBJKsthgfKxzSlYmQD2N9l/Ppn9gf33Z259CcdvE4XFUoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736961258; c=relaxed/simple;
-	bh=w5+WLs9NPOmxed0fhmRJlsYstS4wr5KHcB7lZVqLOYE=;
+	s=arc-20240116; t=1736961557; c=relaxed/simple;
+	bh=gqrBU1gUF5yo0xMHlXHHkS2L/VlMzO2x48llo6fkfuI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G16mCqhqblMy/u8fACjOksT6jdYQv42ctZqx9rONjWXVck3+LgknxctvotdpjR5BsO5vDxKLR3kMKIATi4QMGiN3vd+/nqE+WuqX1UzBurx4/eCNi8Zxe/jZT0/vtNsJXzG20jt7ep9zDDPCvy40AyFQKQ0lt++spk36BxLlI3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Wjb/2xLu; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=Lk/8hOq9UwqkAJT4bIb/ib12fA9JGgp6+3oiXMF8rfkR2Q6I+L7C31i4+TVm/2chbN/SNBEpNjPVRTuzNvbWtftp5rAoRGnxsy908U+xZuCNL8iSNc3Lqv6uJmCa7Ul6msbdtXrC4kg65i67iTmWrftULPo66I/CGQ6W3SSc1wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NpGdcY1T; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DF544AD;
-	Wed, 15 Jan 2025 18:13:15 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 139034AD;
+	Wed, 15 Jan 2025 18:18:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1736961196;
-	bh=w5+WLs9NPOmxed0fhmRJlsYstS4wr5KHcB7lZVqLOYE=;
+	s=mail; t=1736961496;
+	bh=gqrBU1gUF5yo0xMHlXHHkS2L/VlMzO2x48llo6fkfuI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Wjb/2xLuQiNmWyNFua8FBMgKk53PrIymS+XUsuK4Y7MKY/+glY46+HrJp8bIcNzCJ
-	 Vxfp3NXSXNMCbG5afNnStYgtQCW47/PLppCNvvAhSdL3mhjwvcozL+KfiPPZPYneDi
-	 tccgfCOYbafAme81s6qItRp2PBg3llOIWNjcWWYI=
-Message-ID: <d13e6d77-8fe9-406c-878a-e95f9e57b10b@ideasonboard.com>
-Date: Wed, 15 Jan 2025 19:14:10 +0200
+	b=NpGdcY1TutHcfzDRlar2g7RRdGBSAKmGJNNOWwGNxorev2KBvqnzaYhLpnHuZse/I
+	 cXX1IbAZPqwCzUbq2XSRAc1EJAIEjFKbVFwoHRTsalG5krCZYXEr9HC7pvAkmJD4EV
+	 KDgb0kJ0HewE8qeiasgr0jadPQCyOsqXP7WjZXwc=
+Message-ID: <b083ab17-a34e-42cf-9696-ff774731dc58@ideasonboard.com>
+Date: Wed, 15 Jan 2025 19:19:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,8 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 17/19] media: dt-bindings: ti,ds90ub960: Add "i2c-addr"
  link property
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
  Jai Luthra <jai.luthra@ideasonboard.com>,
@@ -63,9 +62,7 @@ References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
  <20250110-ub9xx-improvements-v1-17-e0b9a1f644da@ideasonboard.com>
  <iet6yl4mloktmpm7ngkug2dgtddriot7qwrkgg6loqermj7f74@mzyg34r7f4pc>
  <19c22201-e3ec-4d07-97ae-c149b172e480@ideasonboard.com>
- <20250115-brave-whispering-cougar-a11f26@lemur>
- <b360f7d5-4e3b-434a-a9da-73ae1c5b42a3@ideasonboard.com>
- <0365989e-3531-4dbf-9439-a69baa967240@kernel.org>
+ <ffecd7b0-39f1-494b-8a9f-81702a439752@kernel.org>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -111,42 +108,31 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <0365989e-3531-4dbf-9439-a69baa967240@kernel.org>
+In-Reply-To: <ffecd7b0-39f1-494b-8a9f-81702a439752@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 15/01/2025 18:46, Krzysztof Kozlowski wrote:
-> On 15/01/2025 17:09, Tomi Valkeinen wrote:
->> Hi,
->>
->> On 15/01/2025 17:53, Konstantin Ryabitsev wrote:
->>> On Tue, Jan 14, 2025 at 01:50:08PM +0200, Tomi Valkeinen wrote:
->>>>> If you need it for your own patch management purposes, keep it under the
->>>>> --- separator.
->>>>
->>>> I'm using b4. I don't know how to do that with b4, but I'll look into it.
->>>
->>> You just put them under --- in your git commit message and b4 will preserve
->>> it as-is when it renders the email.
->>
->> Alright, thanks!
->>
-> That's exactly what I wrote:
-> 
-> "If you need it for your own patch management purposes, keep it under
-> the --- separator."
-> 
-> It's nothing related to b4 - it comes from standard git commit and git
-> send-email.
+On 15/01/2025 10:40, Krzysztof Kozlowski wrote:
 
-Yep. For some odd reason I was under the impression that I can't have 
-that in a commit message in my local branch, but would have to add the 
----, and the lines after that, to the mail file. And so, as b4 handles 
-creating and sending the mails, I wasn't sure how to get in between.
+>>> Why only these folks? Why not all of the maintainers?
+>>
+>> The whole series is sent to the media list and maintainers. I thought
+>> this single patch doesn't warrant sending the whole series to DT list
+>> and maintainers, so I cc'd them here.
+> 
+> 
+> I was wondering why only some of the DT maintainers, not all? My usual
+> assumption is: you are not using get_maintainers.pl or you are working
+> on an old kernel.
 
-This does make my life a bit easier, so I'm glad this topic came up =).
+It's simpler than that: a copy-paste mistake. I'm not sure how I managed 
+to miss Conor there.
+
+Any preference on cc'ing the DT maintainers and the dt-list only for 
+this patch (I'll use --- this time, I promise!), or just sending the 
+whole series also to DT people?
 
   Tomi
 
