@@ -1,181 +1,438 @@
-Return-Path: <linux-media+bounces-24833-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24834-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CC2A13760
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 11:05:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4BBA137B1
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 11:20:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C453A1646F0
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 10:05:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7ED31888FF9
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 10:20:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E13BB1DD9AC;
-	Thu, 16 Jan 2025 10:05:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994AF1DDC39;
+	Thu, 16 Jan 2025 10:20:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YMvIePw4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZAwhqpq6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3978139566;
-	Thu, 16 Jan 2025 10:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CA51DB365
+	for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 10:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737021938; cv=none; b=gUosuLJnv33eYwcIjlNULr0kua+QGsnbPay7glcSYLEP+Bhnk2/aPjLDLxXZHWHcsmskdehzPWDCrCSZykITQJYdqY4JIT85xCCjk6oH9qTvTmz3ZepOruonc3gy2xZHcLzS0I/KtvMo6XLdSKA2W71HVjrPIFZ7KZgCX9PmKkQ=
+	t=1737022836; cv=none; b=Q0jSQ/r5uqQQSM+0gvy8yeFKOIhQsuUjlqwlYOoebBfqRR0bCLyupuIuDGeR2tQSPDBrWRezVyAFHeAyt3w4gAxOcd8gE93LZ84jhZtDFKzyDA7359YyU1cwrqh7FXVC63DCC9Kbw45VXsqO6d+QTNh7sT4SW7eD2x4T8kI9ovM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737021938; c=relaxed/simple;
-	bh=z8wJtdOhffsKfj1mM3OHQ70mutizLA2iDQi4p9K/OJk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OAyXPJSeMuzijWg9xngQIUgfvLnga0IM1POMtfxMSmcdaFgAyxrYWEBC+gMQZ+KJSVKm7//8Q7tyT2VWcmBd4PSvEwvrjhNWwnVjYBSkQ/TWg0haOWPJUbMZhNJgI0IhCfUjEyhKThOroJS5khmkF1KmqqQoBR4XtrbCJOXxJBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YMvIePw4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C473C169;
-	Thu, 16 Jan 2025 11:04:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737021877;
-	bh=z8wJtdOhffsKfj1mM3OHQ70mutizLA2iDQi4p9K/OJk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YMvIePw4pfy5Vv5FmTU8roCP1cUC+6mvLefmANBIaCr0a8AFwkYbBJBzVqIjOTvIY
-	 +f21uvl5N/PcwmOGIa3TXlXJxDcNdWdLDKYlPXI5a6nPBE7p81TiAknMIAt5B5TkKh
-	 z3U27r2iR7hEc6YaMOmF4M7DN9qdzPA4CJlkeGr4=
-Message-ID: <d233005f-a43e-437c-ad8d-2e4505da3593@ideasonboard.com>
-Date: Thu, 16 Jan 2025 12:05:31 +0200
+	s=arc-20240116; t=1737022836; c=relaxed/simple;
+	bh=hQq3LtLLzAgbs9lMleFMABeHLJ7RA3JE/VRxLNZyRvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPxqxIQkjhkzAS1RPfyTNy83kDgDtGJ5+zKlaJ6dBwdik94Zj5l4x5VyGVBEZTRJaQlvyZrT/oN6jljJxVSRVMdYjaEtPEW/XCYBO5wiTcsvCZKD7CfYzXGpWprywoNgO3kkF3uKpFJvszUT0CTBOVtP1iZnA9re7blD02WXIws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZAwhqpq6; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54020b0dcd2so2019677e87.1
+        for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 02:20:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737022832; x=1737627632; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IKzS07QyNV5PfVKuDGj2iZEKiDP4ruqCdUX0hoG49YM=;
+        b=ZAwhqpq6BsKfWBtSJOXkR8d8q/yl5JP9nOwc+kTaXHy61quTNdt/mz2BVUscjH3HRx
+         dpPR7fsSnAOY1GQU5+T/xX4QvtIH2wTutkrAm6RAUD6EwtVLtTDvVbeAKZ96gnMlLQjv
+         OLZgl6sBnyKRChQrJu4iMeStgGCx2FPYxW54pINGb3WaLsUWQFvSLdVt4jZRP//0820E
+         KFw3gnksiAkuwex1eO2sMto2wp0aWNXv8GIFL7/AGoTGcAxTXS/T0hk/yYcyURroT4CG
+         I7NfIRXYVFPpc/nHF96mde4x5l+DGcwqC2DRWH1kvqvqYHYYSfi69ytSSaFPJrxtoZUN
+         oQ3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737022832; x=1737627632;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IKzS07QyNV5PfVKuDGj2iZEKiDP4ruqCdUX0hoG49YM=;
+        b=Ukq2XbkdR11DIzGBf1b/XcsKs3+asIuxz5T5mufC0knRUo5oqjdqLRc99nvMkYA3bQ
+         RhsymDeE6ZpTVF5duKIjmNQe/NBRq8fILl67xhPmUkX2Pgw7A4+QOkkATwgoPsBdADmr
+         /BQbx1hfbRQjkChezpDPQl9kdkeV/nG/6SKKTeAp6eR3wrJWX+a1XWCg04qYXMRGge+m
+         +F/2QACRrM6da85vj+jRGJTMSBXpEeol+PT4E/a7eKgWGGl5/PQ5ZWWYw3jf2NjrvAOY
+         3DHwlf0t9VKfudIqSzFFs0mwNj03HQhO6aun38mKUV1lNZkK3vk6VTW3W8zs7pwCQYHd
+         AncQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVBYDlnwJcUwvTaOd8OIc7kH/QWQXbvBawosB5yHQ5c6L5OROAA7nSP2h46W5jhOwV1JaazFQA/iPEgYg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH0wgxiO8lwatApuulp3pXHNJ4zf108VCD1nfTuEOPTz730sPV
+	/qOILQDTjuQ3ij6SRAkWqoAmJxUZOBnSTFjbVGyU44NeAmDZpHPSOZK4dDUTZqw=
+X-Gm-Gg: ASbGncs+X5jiXiF/fY352JlXg6AeFSfyyhcVLMGnRL0zRDwtfq4kCtX8nuMMbXPhfXZ
+	TUpXeLOGOV5OPPF14N2lfK2CSoNebcTjZeUbwO3llXHCi/lFQvsJysvjA0H90B8vxN2xz3SNdkp
+	h2V9xQ39WXaU8Pk6FV733DqxWLuSFguLp5UYC6GCxaZ1FQf5YLY5TN/ab5pIEs5KHuoZDOTfgM2
+	KASzTfktnslt2RFRI1e4I8q27WJYai4JwgkrwgrQd4zeS+r/VYaTzfSqMRC+K4YmJ1nlb3x0Enn
+	IOFdCtwW9h4Ly70BusC4bTl3stP7i1zhRKnM
+X-Google-Smtp-Source: AGHT+IG+bbFDC/EdDSi/gHjALTs2O820pXIV5L3kyMR/k99YeNT4ma3kwBSovX+wwkES0o4gplvGlA==
+X-Received: by 2002:a05:6512:224b:b0:540:2d60:d6ce with SMTP id 2adb3069b0e04-542abfbe688mr2337273e87.24.1737022831663;
+        Thu, 16 Jan 2025 02:20:31 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5428be5483bsm2315800e87.105.2025.01.16.02.20.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2025 02:20:31 -0800 (PST)
+Date: Thu, 16 Jan 2025 12:20:29 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: quic_vgarodia@quicinc.com, quic_abhinavk@quicinc.com, 
+	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, p.zabel@pengutronix.de, 
+	hverkuil@xs4all.nl, sebastian.fricke@collabora.com, bryan.odonoghue@linaro.org, 
+	neil.armstrong@linaro.org, nicolas@ndufresne.ca, u.kleine-koenig@baylibre.com, 
+	stefan.schmidt@linaro.org, lujianhua000@gmail.com, linux-arm-msm@vger.kernel.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	krzysztof.kozlowski@linaro.org, johan@kernel.org
+Subject: Re: [RFC PATCH v10 27/28] media: iris: enable video driver probe of
+ SM8250 SoC
+Message-ID: <opr6hm5ci2palw3ilj3qrotqnkxbrphngfknddd6yhgojf2ixm@kfu22wuaylek>
+References: <20250116070234.4027116-1-quic_dikshita@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 16/19] media: i2c: ds90ub960: Enable SSCG for UB9702
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
- Jai Luthra <jai.luthra@ideasonboard.com>
-References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
- <20250110-ub9xx-improvements-v1-16-e0b9a1f644da@ideasonboard.com>
- <Z4fFr-ZgCIFT_PTx@kekkonen.localdomain>
- <fcf3ae9c-37db-4c47-b0d2-800bb24e967d@ideasonboard.com>
- <Z4jYPHQx6C6rQw2U@kekkonen.localdomain>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <Z4jYPHQx6C6rQw2U@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250116070234.4027116-1-quic_dikshita@quicinc.com>
 
-Hi,
-
-On 16/01/2025 11:58, Sakari Ailus wrote:
-> Moi,
+On Thu, Jan 16, 2025 at 12:32:34PM +0530, Dikshita Agarwal wrote:
+> Initialize the platform data and enable video driver probe of SM8250
+> SoC. Add a kernel param to select between venus and iris drivers for
+> platforms supported by both drivers, for ex: SM8250.
 > 
-> On Wed, Jan 15, 2025 at 06:04:40PM +0200, Tomi Valkeinen wrote:
->> On 15/01/2025 16:26, Sakari Ailus wrote:
->>> Moi,
->>>
->>> On Fri, Jan 10, 2025 at 11:14:16AM +0200, Tomi Valkeinen wrote:
->>>> From: Jai Luthra <jai.luthra@ideasonboard.com>
->>>>
->>>> UB9702 supports spread-spectrum clock generation for the back-channel
->>>> clock, which is futher used by serializers in synchronous mode to
->>>> generate the forward-channel clock, which can help reduce peak EMI
->>>> energy. The SSCG is common to all RX ports, so it can only be used if
->>>> all the ports are in the same mode.
->>>>
->>>> Add basic support for SSCG by adding a module parameter to enable the
->>>> SSCG. The SSCG uses hardcoded configurationg, with 0.5% center-spread at
->>>> 33kHz modulation rate. See datasheet if different configuration is
->>>> required.
->>>>
->>>> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>    drivers/media/i2c/ds90ub960.c | 102 ++++++++++++++++++++++++++++++++++++++++++
->>>>    1 file changed, 102 insertions(+)
->>>>
->>>> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
->>>> index f6d6c2fe12cd..a534d077f045 100644
->>>> --- a/drivers/media/i2c/ds90ub960.c
->>>> +++ b/drivers/media/i2c/ds90ub960.c
->>>> @@ -52,6 +52,10 @@
->>>>    #include <media/v4l2-fwnode.h>
->>>>    #include <media/v4l2-subdev.h>
->>>> +static bool ub960_enable_sscg;
->>>> +module_param_named(enable_sscg, ub960_enable_sscg, bool, 0644);
->>>> +MODULE_PARM_DESC(enable_sscg, "Enable SSCG (if available)");
->>>
->>> Shouldn't this come from DT instead?
->>
->> SSCG is an option to use or not to use, based on what the user wants. DT
->> should describe the hardware.
->>
->> A module parameter is bad for this, though, as it's then used for all ub960
->> devices... But I'm not sure what other options we have. We need to have it
->> at probe time.
->>
->> Probably the whole driver could be changed to not connect the serializers at
->> probe, but instead would offer a set of userspace APIs to enable/disable
->> SSCG, and to enable the links. But that brings in its own set of problems,
->> as the links are used for i2c communication to the ser and sensor, not to
->> mention new userspace APIs which always complicates things.
+> This is for preview only, and I will post a proper v10,
+> if everyone is OK with this RFC patch.
 > 
-> Typically determining whether you need spread spectrum signalling is highly
-> specific to the board. I wonder if this topic has been discussed (and
-> possibly somehow resolved) for other subsystems. CSI-2 appears to allow for
-> spread spectrum clocks but I don't think I've seen that implemeted
-> anywhere, scrambling may be more popular (but also that is right now
-> unsupported but could be supported, probably this would be best to consider
-> in conjunction with other CSI-2 parameters).
+> Tested-by: Stefan Schmidt <stefan.schmidt@linaro.org> # x1e80100 (Dell XPS 13 9345)
+> Reviewed-by: Stefan Schmidt <stefan.schmidt@linaro.org>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-SDK
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
-Well, I personally would rather have this option in the DT, so I'm all 
-for it =). We can change this to a DT parameter, and see how the DT 
-maintainers react.
+Hmm, it seems lore has only this patch from the whole series. Was it
+sent properly?
 
-  Tomi
+> ---
+>  drivers/media/platform/qcom/iris/Makefile     |   1 +
+>  drivers/media/platform/qcom/iris/iris_core.h  |   1 +
+>  .../platform/qcom/iris/iris_platform_common.h |   1 +
+>  .../platform/qcom/iris/iris_platform_sm8250.c | 149 ++++++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_probe.c |  48 ++++++
+>  drivers/media/platform/qcom/venus/core.c      |   5 +
+>  drivers/media/platform/qcom/venus/core.h      |   1 +
+>  7 files changed, 206 insertions(+)
+>  create mode 100644 drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+> 
+> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
+> index ca31db847273..a746681e03cd 100644
+> --- a/drivers/media/platform/qcom/iris/Makefile
+> +++ b/drivers/media/platform/qcom/iris/Makefile
+> @@ -9,6 +9,7 @@ iris-objs += iris_buffer.o \
+>               iris_hfi_gen2_packet.o \
+>               iris_hfi_gen2_response.o \
+>               iris_hfi_queue.o \
+> +             iris_platform_sm8250.o \
+>               iris_platform_sm8550.o \
+>               iris_power.o \
+>               iris_probe.o \
+> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+> index 37fb4919fecc..f2e478c25c02 100644
+> --- a/drivers/media/platform/qcom/iris/iris_core.h
+> +++ b/drivers/media/platform/qcom/iris/iris_core.h
+> @@ -107,5 +107,6 @@ struct iris_core {
+>  
+>  int iris_core_init(struct iris_core *core);
+>  void iris_core_deinit(struct iris_core *core);
+> +bool iris_should_not_bind(struct device *dev);
+>  
+>  #endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index 189dd081ad0a..af24ce4fc417 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -34,6 +34,7 @@ enum pipe_type {
+>  };
+>  
+>  extern struct iris_platform_data sm8550_data;
+> +extern struct iris_platform_data sm8250_data;
 
+Keep it sorted, please.
+
+>  
+>  enum platform_clk_type {
+>  	IRIS_AXI_CLK,
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+> new file mode 100644
+> index 000000000000..b14b1c5d632c
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+> @@ -0,0 +1,149 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "iris_core.h"
+> +#include "iris_ctrls.h"
+> +#include "iris_platform_common.h"
+> +#include "iris_resources.h"
+> +#include "iris_hfi_gen1.h"
+> +#include "iris_hfi_gen1_defines.h"
+> +#include "iris_vpu_common.h"
+> +
+> +static struct platform_inst_fw_cap inst_fw_cap_sm8250[] = {
+> +	{
+> +		.cap_id = PIPE,
+> +		.min = PIPE_1,
+> +		.max = PIPE_4,
+> +		.step_or_mask = 1,
+> +		.value = PIPE_4,
+> +		.hfi_id = HFI_PROPERTY_PARAM_WORK_ROUTE,
+> +		.set = iris_set_pipe,
+> +	},
+> +	{
+> +		.cap_id = STAGE,
+> +		.min = STAGE_1,
+> +		.max = STAGE_2,
+> +		.step_or_mask = 1,
+> +		.value = STAGE_2,
+> +		.hfi_id = HFI_PROPERTY_PARAM_WORK_MODE,
+> +		.set = iris_set_stage,
+> +	},
+> +	{
+> +		.cap_id = DEBLOCK,
+> +		.min = 0,
+> +		.max = 1,
+> +		.step_or_mask = 1,
+> +		.value = 0,
+> +		.hfi_id = HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER,
+> +		.set = iris_set_u32,
+> +	},
+> +};
+> +
+> +static struct platform_inst_caps platform_inst_cap_sm8250 = {
+> +	.min_frame_width = 128,
+> +	.max_frame_width = 8192,
+> +	.min_frame_height = 128,
+> +	.max_frame_height = 8192,
+> +	.max_mbpf = 138240,
+> +	.mb_cycles_vsp = 25,
+> +	.mb_cycles_vpp = 200,
+> +};
+> +
+> +static void iris_set_sm8250_preset_registers(struct iris_core *core)
+> +{
+> +	writel(0x0, core->reg_base + 0xB0088);
+> +}
+> +
+> +static const struct icc_info sm8250_icc_table[] = {
+> +	{ "cpu-cfg",    1000, 1000     },
+> +	{ "video-mem",  1000, 15000000 },
+> +};
+> +
+> +static const char * const sm8250_clk_reset_table[] = { "bus", "core" };
+> +
+> +static const struct bw_info sm8250_bw_table_dec[] = {
+> +	{ ((4096 * 2160) / 256) * 60, 2403000 },
+> +	{ ((4096 * 2160) / 256) * 30, 1224000 },
+> +	{ ((1920 * 1080) / 256) * 60,  812000 },
+> +	{ ((1920 * 1080) / 256) * 30,  416000 },
+> +};
+> +
+> +static const char * const sm8250_pmdomain_table[] = { "venus", "vcodec0" };
+> +
+> +static const char * const sm8250_opp_pd_table[] = { "mx" };
+> +
+> +static const struct platform_clk_data sm8250_clk_table[] = {
+> +	{IRIS_AXI_CLK,  "iface"        },
+> +	{IRIS_CTRL_CLK, "core"         },
+> +	{IRIS_HW_CLK,   "vcodec0_core" },
+> +};
+> +
+> +static struct tz_cp_config tz_cp_config_sm8250 = {
+> +	.cp_start = 0,
+> +	.cp_size = 0x25800000,
+> +	.cp_nonpixel_start = 0x01000000,
+> +	.cp_nonpixel_size = 0x24800000,
+> +};
+> +
+> +static const u32 sm8250_vdec_input_config_param[] = {
+> +	HFI_PROPERTY_PARAM_FRAME_SIZE,
+> +	HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE,
+> +	HFI_PROPERTY_PARAM_UNCOMPRESSED_FORMAT_SELECT,
+> +	HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_CONSTRAINTS_INFO,
+> +	HFI_PROPERTY_PARAM_BUFFER_COUNT_ACTUAL,
+> +	HFI_PROPERTY_PARAM_VDEC_MULTI_STREAM,
+> +	HFI_PROPERTY_PARAM_BUFFER_SIZE_ACTUAL,
+> +	HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE,
+> +};
+> +
+> +static const u32 sm8250_dec_ip_int_buf_tbl[] = {
+> +	BUF_BIN,
+> +	BUF_SCRATCH_1,
+> +};
+> +
+> +static const u32 sm8250_dec_op_int_buf_tbl[] = {
+> +	BUF_DPB,
+> +};
+> +
+> +struct iris_platform_data sm8250_data = {
+> +	.get_instance = iris_hfi_gen1_get_instance,
+> +	.init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
+> +	.init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
+> +	.vpu_ops = &iris_vpu2_ops,
+> +	.set_preset_registers = iris_set_sm8250_preset_registers,
+> +	.icc_tbl = sm8250_icc_table,
+> +	.icc_tbl_size = ARRAY_SIZE(sm8250_icc_table),
+> +	.clk_rst_tbl = sm8250_clk_reset_table,
+> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8250_clk_reset_table),
+> +	.bw_tbl_dec = sm8250_bw_table_dec,
+> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8250_bw_table_dec),
+> +	.pmdomain_tbl = sm8250_pmdomain_table,
+> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8250_pmdomain_table),
+> +	.opp_pd_tbl = sm8250_opp_pd_table,
+> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8250_opp_pd_table),
+> +	.clk_tbl = sm8250_clk_table,
+> +	.clk_tbl_size = ARRAY_SIZE(sm8250_clk_table),
+> +	/* Upper bound of DMA address range */
+> +	.dma_mask = 0xe0000000 - 1,
+> +	.fwname = "qcom/vpu-1.0/venus.mbn",
+> +	.pas_id = IRIS_PAS_ID,
+> +	.inst_caps = &platform_inst_cap_sm8250,
+> +	.inst_fw_caps = inst_fw_cap_sm8250,
+> +	.inst_fw_caps_size = ARRAY_SIZE(inst_fw_cap_sm8250),
+> +	.tz_cp_config_data = &tz_cp_config_sm8250,
+> +	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+> +	.num_vpp_pipe = 4,
+> +	.max_session_count = 16,
+> +	.max_core_mbpf = (8192 * 4352) / 256,
+> +	.input_config_params =
+> +		sm8250_vdec_input_config_param,
+> +	.input_config_params_size =
+> +		ARRAY_SIZE(sm8250_vdec_input_config_param),
+> +
+> +	.dec_ip_int_buf_tbl = sm8250_dec_ip_int_buf_tbl,
+> +	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8250_dec_ip_int_buf_tbl),
+> +	.dec_op_int_buf_tbl = sm8250_dec_op_int_buf_tbl,
+> +	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8250_dec_op_int_buf_tbl),
+> +};
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> index 954cc7c0cc97..a9cec0d15dcb 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -189,6 +189,45 @@ static void iris_sys_error_handler(struct work_struct *work)
+>  	iris_core_init(core);
+>  }
+>  
+> +/* The venus driver supports only hfi gen1 to communicate with the firmware while
+> + * the iris driver supports both hfi gen1 and hfi gen2.
+> + * The support of hfi gen1 is added to the iris driver with the intention that
+> + * it can support old gen1 interface based firmware, while enabling gen2 based future SOCs.
+> + * With this, the plan is to migrate older SOCs from venus to iris.
+> + * As of now, since the iris driver supports only entry level features and doesn't have
+> + * feature parity with the venus driver, a runtime-selection is provided to user via
+> + * module parameter 'prefer_venus' to select the driver.
+> + * This selection is available only for the SoCs which are supported by both venus
+> + * and iris eg: SM8250.
+> + * When the feature parity is achieved, the plan is to switch the default to point to
+> + * the iris driver, then gradually start removing platforms from venus.
+> + * Hardware supported by only venus - 8916, 8996, SDM660, SDM845, SC7180, SC7280
+
+Please mention that SC7280 should also be migrated to the Iris driver by
+the interested parties.
+
+> + * Hardware supported by only iris - SM8550
+> + * Hardware supported by both venus and iris - SM8250
+> + */
+> +
+> +#if IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS)
+> +static bool prefer_venus = true;
+> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
+> +module_param(prefer_venus, bool, 0444);
+> +
+> +/* list all platforms supported by both venus and iris drivers */
+> +static const char *const venus_to_iris_migration[] = {
+> +	"qcom,sm8250-venus",
+> +	NULL,
+> +};
+> +
+> +bool iris_should_not_bind(struct device *dev)
+> +{
+> +	/* If it is in the migration list, use venus */
+> +	if (of_device_compatible_match(dev->of_node, venus_to_iris_migration))
+> +		return prefer_venus;
+> +
+> +	return false;
+> +}
+> +EXPORT_SYMBOL_GPL(iris_should_not_bind);
+> +#endif
+> +
+>  static int iris_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -196,6 +235,11 @@ static int iris_probe(struct platform_device *pdev)
+>  	u64 dma_mask;
+>  	int ret;
+>  
+> +#if IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS)
+> +	if (iris_should_not_bind(&pdev->dev))
+> +		return -ENODEV;
+> +#endif
+> +
+>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
+>  	if (!core)
+>  		return -ENOMEM;
+> @@ -324,6 +368,10 @@ static const struct of_device_id iris_dt_match[] = {
+>  		.compatible = "qcom,sm8550-iris",
+>  		.data = &sm8550_data,
+>  	},
+> +	{
+> +		.compatible = "qcom,sm8250-venus",
+> +		.data = &sm8250_data,
+> +	},
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(of, iris_dt_match);
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 77d48578ecd2..9116188bfe74 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -375,6 +375,11 @@ static int venus_probe(struct platform_device *pdev)
+>  	struct venus_core *core;
+>  	int ret;
+>  
+> +#if IS_REACHABLE(CONFIG_VIDEO_QCOM_IRIS)
+> +	if (!iris_should_not_bind(&pdev->dev))
+> +		return -ENODEV;
+> +#endif
+> +
+
+The practice of having preprocessor code in function body is frowned
+upon. Please add a stub function instead.
+
+Also, as I wrote earlier, this call will result in (unnecessary) runtime
+dependency from venus to the iris module. Please add a small helper
+module which basically contains this function (and a separate header
+file for it). Then both iris and venus drivers can use that function.
+
+>  	core = devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
+>  	if (!core)
+>  		return -ENOMEM;
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index abeeafa86697..e2e7d8ec9807 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -570,4 +570,5 @@ is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+>  }
+>  
+>  void venus_close_common(struct venus_inst *inst);
+> +extern bool iris_should_not_bind(struct device *dev);
+>  #endif
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
 
