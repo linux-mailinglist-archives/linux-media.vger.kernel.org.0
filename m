@@ -1,256 +1,182 @@
-Return-Path: <linux-media+bounces-24824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24825-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0BAA130BD
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 02:24:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AECEAA130E8
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 02:47:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B7423A3139
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 01:24:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C686E165FCD
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 01:47:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A8B2481A3;
-	Thu, 16 Jan 2025 01:23:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C942F3D97A;
+	Thu, 16 Jan 2025 01:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vSU4/cqE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ltckbMT0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80929CA4E
-	for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 01:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1901DA31;
+	Thu, 16 Jan 2025 01:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736990632; cv=none; b=GD3FRVGKNIF4UmXNgTfD4lg9NN3/r2aSZ8bUsGNCRRsUSXQ7T5Rn0VBGUCEOO3hU9ptfYWE8ubjwkd7Z9VNirg5PYqNdO2FF3rBQ/zRHMiiy+LWk8esxfyBXD1+ucbuImIH/HqZNcUb7m/XLcvZXvBf1VWWFnBaMV4HLIBiJCAA=
+	t=1736992015; cv=none; b=mc5ZEzV1ReuejhXbJv3RwNvZ0hWahGZZjCjjYhgXLcZRbjlWjBnITO6eb6CZO8Cw2tOiMIkIZ6qb1RLhY6q1nDpBnXDD3kOmd2H1Fnu5CiAKZapLSuNT+G5/3N1ocTj58U0M0UsNSwIVlY2LkHb46EFe8MWiC+lYZTVpFzU2GI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736990632; c=relaxed/simple;
-	bh=7WCB0TMdg14tT4wzmyltTbxRPx9gWJXDhDmGnVXmR7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uwimaXzqhNRDmMObeEP9y/qzTJ5plV7JFG8SWzg9TD/grBxJ4O+xPezOEL10VoxmemryedgNULgN2VFcxwhd5yxscCSstY5q2XbuuWiD75n7mMMt3mXw/Eg4Nzen1E+oBYm8CcsGGtFKRHOh5duXBJZDcN+PndAL1zTFEVlaTO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vSU4/cqE; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-540201cfedbso318744e87.3
-        for <linux-media@vger.kernel.org>; Wed, 15 Jan 2025 17:23:50 -0800 (PST)
+	s=arc-20240116; t=1736992015; c=relaxed/simple;
+	bh=T5C/WOvZgx4zV5k73aBBSvSWf1MY20XkowTYZ1yid4M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=P4PoAgEFsEBXC7Fy7rAGPMPAPwD1HDARtG9xB4lBQCBt2o1MO6Hrff6fMJf9W8V/HDKT/mnGazvEX3bsMQK4RpSY9Oxk8ukzJ1L/cqPNauwjZaHC2qJCjEFAkF8o41+vX2irC7EtYh3Qgr2FduMjJ+LuKI3mAMBiN0tVr68b2c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ltckbMT0; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5426f48e501so69402e87.2;
+        Wed, 15 Jan 2025 17:46:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736990629; x=1737595429; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IbDhKJFQy4EO5f+mpYskXg5HTSB2g/vn6zwWJ10k7s0=;
-        b=vSU4/cqEznlRoRYR5Cn2x+zg3O8zLyqXV3bJ32+hDAwZ0HgglUJqxd3wFwbPUg7Ppg
-         8re/XZFS/U6Rb1ApHObFb/imnKQwQriSVQlnd/y+6NV8OHou4mAkGVg2B+OqxthtDk0O
-         DfGY9W+X5QGv/yt8lFA8CVmng9luGAK5qfZHodjW1dctk0vi/Z3BvUafbBAbFjP0WFXT
-         hpso7xl4OBwkaMz9NqLsenwap2tW7FDD6oP4DXEqFFNfi0AKOeNWBWN5QHeSPAs6Fump
-         q60jgOBOS7qPceADrcHk0jVfnsasJHOfn670F3upfh+fPmTepnmLxMWYgS/6fZaTRWE4
-         dNXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736990629; x=1737595429;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1736992011; x=1737596811; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IbDhKJFQy4EO5f+mpYskXg5HTSB2g/vn6zwWJ10k7s0=;
-        b=AWPYGCM+A1gto3MexZeDcPu0lJgajDZkNI8AEzWjYzD0ysP3jt23cHiZThHVGJEYGf
-         VRpGb2KCMFdhVDzHzYZLUuhXhGLyboZne6L+URXqcQx8useV8E3sDPNeGaFruVDKSfP3
-         EdCQPNR2WGH95joPUKYuNas3JNZa2g4dpZ7RX0GmavMo9FAj/wLK/ckplyFkY5I+A5/F
-         wjZZmNJxRPbLPTrsPfmVU2G2p9zIfqNIgcaxmrfxyA/3sKI/6rsu3Ove0+wgn8/R4aNs
-         GREKyYK6Y2LisV8cCubKbPC2AHzWo0zrkZIJWKK8lGrH8q3X7fl6+rRpcIqjNTjqiKyU
-         uiLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWIJElaEeLCqLtfG+VInrjfabic0MaqEXVNEGUYKJNJHkxxs4M4LKCj7grZ/vYAO0X89cqRMyjICIglfA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt4wpAs7EDkj33oQm7g4i9zJqGTNf1Ofws2cmfXCVc89Dx+dwz
-	mKe/15Six6W5Ai7oufgZRzwNwb4Dj0kXKhiXZTk2n3K6SdhIL+WVrQH7g575qSg=
-X-Gm-Gg: ASbGncvNoePOhyUgFo6yA1YBu8vLi6lrq9iKdGhQAMVCEUAb+zsOq2H/iyzf7FdTZO4
-	hyS/Ui2C3YKWZnXzKda3W7Eyrh2B91cn4GKjeiUr/+eOrHxYknZBo/Q4fOBLjqocyw6dvBTTSZm
-	1zApW0NaPvCNdqA3DSc8B9JaTvZkk4rIKg4NT2ZpHYYaWaE48r17dF8Vw6EYxAZC6XaSHjnpFeO
-	IplbzBeMc5doCp1azCxAz91sOUs5nYN6LMP1ZMuLEP9Vm6kfrUli2+vd+0Dq4Vv/LZ+3/pMqaa4
-	ZolgsJUUYeo3llMpJmuoGsLveDUIYZ7s9ZjK
-X-Google-Smtp-Source: AGHT+IG82e1Wkv6Li8H+ap0AJxiNGQt3kJpHHk4MMHOvoB+WUvJpWPETVn8I6UxKnfFGzs9oqOtyMQ==
-X-Received: by 2002:a05:6512:3049:b0:542:9883:266 with SMTP id 2adb3069b0e04-54298830320mr5819379e87.37.1736990628631;
-        Wed, 15 Jan 2025 17:23:48 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-305ff1c78e8sm23909331fa.86.2025.01.15.17.23.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2025 17:23:47 -0800 (PST)
-Date: Thu, 16 Jan 2025 03:23:45 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>, 
-	Dikshita Agarwal <quic_dikshita@quicinc.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, Jianhua Lu <lujianhua000@gmail.com>, 
-	Stefan Schmidt <stefan.schmidt@linaro.org>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bjorn Andersson <andersson@kernel.org>
-Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of
- SM8250 SoC
-Message-ID: <xh5jbf2w7lwqub5f7re7yipsbax5p4svpdpuctgpo2a2efmpah@haqjpch44hzc>
-References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
- <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
- <Z3_nCPk_g8znto4A@hovoldconsulting.com>
- <te2nhzkl2mx3y7vknokzwtr7szfge7dum7sy37ndy6laot5yqn@urv7svjqgmk7>
- <1bcf0995-cb77-4e01-b3e0-14f88dc91140@linaro.org>
+        bh=X8PoeOsoXnkcQ1O7xfrGNP7/yyYzidTgWWnK8gVG9bI=;
+        b=ltckbMT030Z/nWMgtuSxm8IA7PTUhuS4kjQvyf8iMsYYcLTql4Eaeiy+0ND674xv/7
+         LAB/Bgo8LQda2cUpBrq/hhkI2mwsgNIfGSlEfEsU6YIuPnDUuapU7WthnCcVZ/8snNdm
+         dEFcMnjxHC7Z7CH3/a3tIYBHXO3iigXd3CflbqJ+39UVoOXpG68S6Fljm7jIOI0JI454
+         UQ/SyHd7ZiEA73z6WTe/WbKSF3WAHOoLF03ZADsGFlO1Pb+fhHmQv2UBWQNPr9+Ey5q7
+         9N02JT4VUQO9DOueklhPfu8XZEGxKqc9BFT39rr31ykEVmxKxRQqwRLYnmyGuYmn/9Cb
+         0zug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736992011; x=1737596811;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X8PoeOsoXnkcQ1O7xfrGNP7/yyYzidTgWWnK8gVG9bI=;
+        b=eMfOl/EcRuhe+llAvUJYw/FhrHYPhYGovh0J5es1TlKy55B4oyeNT4UOAg1SEhrEVz
+         lLYwo6dld83Psg2uj9aXlyj7GJaeznON8detsX9TBmk/2AqRPl95ZbW6Epu3aNur05h8
+         i2cnjZxVD+JYZ6saQUtUgwVxeWCV4v7dkMZKuPlkkpY/u5SMzlvO07Hk4akoMHFv2zET
+         trVgNF7NfChcS0SgOp1pdUN0zfGlKYEOcNAvyfd8mcXRZn0ZKfSz5V9BhsT/5Q/2dZxJ
+         9stK8Uc4pjoX7308Rw1BPgQeGby9VWkuUBsQTHyygDwTYKdHVHBj1i7xWghPFFkwpY0h
+         evfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfkjFwnlDZbqCYNFJ+632k7zCuquhmAHeBH5ly3LO0mxoT4aRzuff8ZdQGNjWzXD4c+kFT/sXx6jhlhGE=@vger.kernel.org, AJvYcCVEnGWKR/4/T6z/7IUkDza4CCW52JFWiqgFXjVe092PGX4NpAgar8qrAUXovT5BmURRkOx1iphIIW4vHSA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywkqbiF3xCiR9P99SIEgIKMQ2YSFkPWKkIgZss2eXCCpm3gI0D
+	uPx4LGNk24NDDWPII9DAIgjobiiDMqknJXzdS6LrwgPnishi/zNSivDdwgtCaenF3eqmyDv6rKz
+	C4eY978K/cjTpb2pReBxzQhS/uYo=
+X-Gm-Gg: ASbGncvdUtDwFP8HLPESIMsWadLnCPZ7FvLa06IjugIcxLWBMxwo+1FLGRAxKRktAc0
+	f0xK0m1oE5keXHQQ9tXJIYt86g+/TV7D/D660PZQ=
+X-Google-Smtp-Source: AGHT+IHnNLWeeqpj57WGvJejzaCSapO0If0R+l2iOTzev4nPKnL5beC7psjCRroxUhM+vE5Xk3YyT2D3LaljS2es8/s=
+X-Received: by 2002:a2e:a54b:0:b0:2ff:c3d2:b0a0 with SMTP id
+ 38308e7fff4ca-305f45591d2mr37589001fa.5.1736992010959; Wed, 15 Jan 2025
+ 17:46:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1bcf0995-cb77-4e01-b3e0-14f88dc91140@linaro.org>
+References: <20250115061805.3495048-1-zhaoyang.huang@unisoc.com> <bfd19718-e7dc-45c4-8f86-34205e733916@amd.com>
+In-Reply-To: <bfd19718-e7dc-45c4-8f86-34205e733916@amd.com>
+From: Zhaoyang Huang <huangzhaoyang@gmail.com>
+Date: Thu, 16 Jan 2025 09:46:39 +0800
+X-Gm-Features: AbW1kvZMIDWkIbbFDGe-0Zd-xPI-J2w2DbOKu3HU-iaXKLtJhuUsl6jRHJUc_ds
+Message-ID: <CAGWkznFPpU6uHQbgYrdwwWO8L-ct5nJoYnmdfqewxgNtMu2Qqg@mail.gmail.com>
+Subject: Re: [RFC PATCH] driver: dma-buf: use vmf_insert_page for cma_heap_vm_fault
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	"open list:DMA-BUF HEAPS FRAMEWORK" <linux-media@vger.kernel.org>, 
+	"open list:DMA-BUF HEAPS FRAMEWORK" <dri-devel@lists.freedesktop.org>, 
+	"moderated list:DMA-BUF HEAPS FRAMEWORK" <linaro-mm-sig@lists.linaro.org>, linux-kernel@vger.kernel.org, 
+	steve.kang@unisoc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 15, 2025 at 10:49:28PM +0000, Bryan O'Donoghue wrote:
-> On 10/01/2025 00:12, Dmitry Baryshkov wrote:
-> > On Thu, Jan 09, 2025 at 04:11:04PM +0100, Johan Hovold wrote:
-> > > On Thu, Dec 12, 2024 at 05:21:49PM +0530, Dikshita Agarwal wrote:
-> > > > Initialize the platform data and enable video driver probe of SM8250
-> > > > SoC. Add a kernel param to select between venus and iris drivers for
-> > > > platforms supported by both drivers, for ex: SM8250.
-> > > 
-> > > Why do you want to use a module parameter for this? What would be the
-> > > default configuration? (Module parameters should generally be avoided.)
-> > > 
-> > > Why not simply switch to the new driver (and make sure that the new
-> > > driver is selected if the old one was enabled in the kernel config)?
-> > 
-> > Because the new driver doesn't yet have feature parity with the venus
-> > driver. So it was agreed that developers provide upgrade path to allow
-> > users to gradually test and switch to the new driver. When the feature
-> > parity is achieved, the plan is to switch default to point to the Iris
-> > driver, then after a few releases start removing platforms from Venus.
-> > 
-> > > > Tested-by: Stefan Schmidt <stefan.schmidt@linaro.org> # x1e80100 (Dell
-> > > 
-> > > Looks like something is missing from Stefan's Tested-by tag throughout
-> > > the series ("Dell XPS13"?)
-> > > 
-> > > > Reviewed-by: Stefan Schmidt <stefan.schmidt@linaro.org>
-> > > > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> > > > +static bool prefer_venus = true;
-> > > > +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
-> > > > +module_param(prefer_venus, bool, 0444);
-> > > > +
-> > > > +/* list all platforms supported by only iris driver */
-> > > > +static const char *const iris_only_platforms[] = {
-> > > > +	"qcom,sm8550-iris",
-> > > > +	NULL,
-> > > > +};
-> > > 
-> > > Surely you don't want to have to add every new platform to two tables
-> > > (i.e. the id table and again here).
-> > 
-> > I'd agree here, this list should go. We should only list platforms under
-> > the migration.
-> > 
-> > > 
-> > > > +
-> > > > +/* list all platforms supported by both venus and iris drivers */
-> > > > +static const char *const venus_to_iris_migration[] = {
-> > > > +	"qcom,sm8250-venus",
-> > > > +	NULL,
-> > > > +};
-> > > > +
-> > > > +static bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
-> > 
-> > The name should follow other names in the driver.
-> > `video_drv_should_bind` doesn't have a common prefix.
-> > 
-> > Also export it and use it from the venus driver if Iris is enabled.
-> > 
-> > > > +{
-> > > > +	if (of_device_compatible_match(dev->of_node, iris_only_platforms))
-> > > > +		return is_iris_driver;
-> > > > +
-> > > > +	/* If it is not in the migration list, use venus */
-> > > > +	if (!of_device_compatible_match(dev->of_node, venus_to_iris_migration))
-> > > > +		return !is_iris_driver;
-> > > > +
-> > > > +	return prefer_venus ? !is_iris_driver : is_iris_driver;
-> > > > +}
-> > > > +
-> > > >   static int iris_probe(struct platform_device *pdev)
-> > > >   {
-> > > >   	struct device *dev = &pdev->dev;
-> > > > @@ -196,6 +224,9 @@ static int iris_probe(struct platform_device *pdev)
-> > > >   	u64 dma_mask;
-> > > >   	int ret;
-> > > > +	if (!video_drv_should_bind(&pdev->dev, true))
-> > > > +		return -ENODEV;
-> > > 
-> > > AFAICT nothing is preventing venus from binding even when 'prefer_venus'
-> > > is false.
-> > > 
-> > > > +
-> > > >   	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
-> > > >   	if (!core)
-> > > >   		return -ENOMEM;
-> > > > @@ -324,6 +355,10 @@ static const struct of_device_id iris_dt_match[] = {
-> > > >   		.compatible = "qcom,sm8550-iris",
-> > > >   		.data = &sm8550_data,
-> > > >   	},
-> > > > +	{
-> > > > +		.compatible = "qcom,sm8250-venus",
-> > > > +		.data = &sm8250_data,
-> > > > +	},
-> > > >   	{ },
-> > > >   };
-> > > >   MODULE_DEVICE_TABLE(of, iris_dt_match);
-> > > 
-> > > Johan
-> > 
-> 
-> One drawback to this approach is; if CONFIG_QCOM_VENUS=n and
-> CONFIG_QCOM_IRIS=m you still need to-do
-> 
-> zcat /proc/config.gz | grep -e VENUS -e IRIS
-> CONFIG_VIDEO_QCOM_IRIS=m
-> # CONFIG_VIDEO_QCOM_VENUS is not set
-> 
-> rmmod iris
-> modprobe iris prefer_venus=0
-> 
-> which is awkward.
-> 
-> Certainly if venus is off the parameter should default to false.
-
-Not just the parameter. The whole function should become a stub if
-either iris or venus is off.
-
-> Perhaps I've missed the resolution of this discussion but how exactly are we
-> fixing the "racy" nature of binding here ?
-> 
-> Shouldn't there be a parallel venus patch which either has its own module
-> parameter to quiesce binding in favour of iris ?
-
-Venus should call video_drv_should_bind() too. Possibly it's worth
-separating this function and a table to a helper kernel module, so that
-the venus driver doesn't suddenly get a runtime dependency on iris if
-both are enabled.
-
-> 
-> i.e if
-> 
-> CONFIG_QCOM_VENUS=m and CONFIG_QCOM_IRIS=m
-> 
-> rmmod iris
-> rmmod venus
-> 
-> (sleep $((RANDOM % 3600)); (modprobe iris prefer_venus=0) &> /dev/null &
-> disown) &
-> 
-> (sleep $((RANDOM % 3600)); (modprobe venus) &> /dev/null & disown) &
-> 
-> Will do what exactly ?
-
-Nice question. I'd add iris.prefer_venus=0 to kernel commandline and let
-it live there for a transition period. It should fix the possible race
-condition here.
-
--- 
-With best wishes
-Dmitry
+On Wed, Jan 15, 2025 at 7:49=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 15.01.25 um 07:18 schrieb zhaoyang.huang:
+> > From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+> >
+> > When using dma-buf as memory pool for VMM. The vmf_insert_pfn will
+> > apply PTE_SPECIAL on pte which have vm_normal_page report bad_pte and
+> > return NULL. This commit would like to suggest to replace
+> > vmf_insert_pfn by vmf_insert_page.
+>
+> Setting PTE_SPECIAL is completely intentional here to prevent
+> get_user_pages() from working on DMA-buf mappings.
+ok. May I ask the reason?
+>
+> So absolutely clear NAK to this patch here.
+>
+> What exactly are you trying to do?
+I would like to have pkvm have guest kernel be faulted of its second
+stage page fault(ARM64's memory virtualization method) on dma-buf
+which use pin_user_pages.
+>
+> Regards,
+> Christian.
+>
+> >
+> > [  103.402787] kvm [5276]: gfn(ipa)=3D0x80000 hva=3D0x7d4a400000 write_=
+fault=3D0
+> > [  103.403822] BUG: Bad page map in process crosvm_vcpu0  pte:168000140=
+000f43 pmd:8000000c1ca0003
+> > [  103.405144] addr:0000007d4a400000 vm_flags:040400fb anon_vma:0000000=
+000000000 mapping:ffffff8085163df0 index:0
+> > [  103.406536] file:dmabuf fault:cma_heap_vm_fault [cma_heap] mmap:dma_=
+buf_mmap_internal read_folio:0x0
+> > [  103.407877] CPU: 3 PID: 5276 Comm: crosvm_vcpu0 Tainted: G        W =
+ OE      6.6.46-android15-8-g8bab72b63c20-dirty-4k #1 1e474a12dac4553a3ebba=
+3a911f3b744176a5d2d
+> > [  103.409818] Hardware name: Unisoc UMS9632-base Board (DT)
+> > [  103.410613] Call trace:
+> > [  103.411038] dump_backtrace+0xf4/0x140
+> > [  103.411641] show_stack+0x20/0x30
+> > [  103.412184] dump_stack_lvl+0x60/0x84
+> > [  103.412766] dump_stack+0x18/0x24
+> > [  103.413304] print_bad_pte+0x1b8/0x1cc
+> > [  103.413909] vm_normal_page+0xc8/0xd0
+> > [  103.414491] follow_page_pte+0xb0/0x304
+> > [  103.415096] follow_page_mask+0x108/0x240
+> > [  103.415721] __get_user_pages+0x168/0x4ac
+> > [  103.416342] __gup_longterm_locked+0x15c/0x864
+> > [  103.417023] pin_user_pages+0x70/0xcc
+> > [  103.417609] pkvm_mem_abort+0xf8/0x5c0
+> > [  103.418207] kvm_handle_guest_abort+0x3e0/0x3e4
+> > [  103.418906] handle_exit+0xac/0x33c
+> > [  103.419472] kvm_arch_vcpu_ioctl_run+0x48c/0x8d8
+> > [  103.420176] kvm_vcpu_ioctl+0x504/0x5bc
+> > [  103.420785] __arm64_sys_ioctl+0xb0/0xec
+> > [  103.421401] invoke_syscall+0x60/0x11c
+> > [  103.422000] el0_svc_common+0xb4/0xe8
+> > [  103.422590] do_el0_svc+0x24/0x30
+> > [  103.423131] el0_svc+0x3c/0x70
+> > [  103.423640] el0t_64_sync_handler+0x68/0xbc
+> > [  103.424288] el0t_64_sync+0x1a8/0x1ac
+> >
+> > Signed-off-by: Xiwei Wang <xiwei.wang1@unisoc.com>
+> > Signed-off-by: Aijun Sun <aijun.sun@unisoc.com>
+> > Signed-off-by: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+> > ---
+> >   drivers/dma-buf/heaps/cma_heap.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/c=
+ma_heap.c
+> > index c384004b918e..b301fb63f16b 100644
+> > --- a/drivers/dma-buf/heaps/cma_heap.c
+> > +++ b/drivers/dma-buf/heaps/cma_heap.c
+> > @@ -168,7 +168,7 @@ static vm_fault_t cma_heap_vm_fault(struct vm_fault=
+ *vmf)
+> >       if (vmf->pgoff > buffer->pagecount)
+> >               return VM_FAULT_SIGBUS;
+> >
+> > -     return vmf_insert_pfn(vma, vmf->address, page_to_pfn(buffer->page=
+s[vmf->pgoff]));
+> > +     return vmf_insert_page(vma, vmf->address, buffer->pages[vmf->pgof=
+f]);
+> >   }
+> >
+> >   static const struct vm_operations_struct dma_heap_vm_ops =3D {
+>
 
