@@ -1,244 +1,122 @@
-Return-Path: <linux-media+bounces-24854-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24855-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15EAEA14110
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 18:44:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E88B5A1443D
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 22:53:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03A071888D5F
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 17:44:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 342727A34CB
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 21:53:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA85F22FDFD;
-	Thu, 16 Jan 2025 17:43:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD5C6234D01;
+	Thu, 16 Jan 2025 21:53:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="l4YsjycP"
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="XTdjsoDn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mr85p00im-hyfv06011401.me.com (mr85p00im-hyfv06011401.me.com [17.58.23.191])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F90B1DED44
-	for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 17:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD5A14901B
+	for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 21:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.23.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737049405; cv=none; b=UUnY8rwRf0YoiLFXm4PL1vf5kDtfcLhImktGctIoUlyFN6TUze2eX8b6GxgjSEfRmfncqTgKTcxoKy4fZQvtcTERcNwvsK6tq/uKUxY0mNRIy/CC1xbvqOFcJBh4RlxsDmMFWVN1jWHt6mWhRHIPuhHUrIDBElIEELmg5qNPiaE=
+	t=1737064432; cv=none; b=k/Iq7BGY04x/vyK6E0snxWf9BkKTC2fzyyOKSOF+NKsO10Y9LvvIlN9vp1UpBgtWB/TZM8HndIU59/gruI4z+CfUNe5GfGb4u6osro7OaM8754F1C+HmK6l9//guz9lJ6g7ec44N0Op5ucLsfmxZwNSZ7+XbUa/vypzLELPqw+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737049405; c=relaxed/simple;
-	bh=eWJgCm/jjyutYsF0u2FHRMTAmQxi4fcBGQ/dHrMP+UM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bzcqVsiWgil2zRrhHPBbfXkTH4T3nmV9mlClpvQ4PxeMnnrCQx1RUMpat8TP5nlPQSZOHSTdE4bTfUIGlXtMlPmEw32zg4fMZUE6/Wt6MzW5ihVVY3WFyPYMj6iYnAhnIaDQdrFxxHXT9Cetzdqf4IUI912Z/UH7sAa401IJ2Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=l4YsjycP; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4361f796586so12689375e9.3
-        for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 09:43:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1737049402; x=1737654202; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3c5ov7st4tFk0rMU34jT12B0MxOAS1BPe9J0SsPXA2Q=;
-        b=l4YsjycPU2K1PPwqkPfZbO+7gxn+mSM/QVzG9885bn6kK17jaLYIeUZSsvb9wJsp5o
-         9wsES9CFOTFo46bf4jwWn1aTM+4D9QU+q3Uw8z5Ko1q1Jub0GNAYCU3+uDSWMVUD2YJ6
-         YuSJcR1KyHVzsYAbnAWU7KNFN4WWBawdoSh2knGrUygrW2df4P829SEjabjmpIJIIh7J
-         WjynWVgL79TY39AofORjw1ZPzNfAbQZ/hbi9z3h6m5d2WOc3a5IXx7EgNr1hOxFBOS1o
-         2/+iVhM+8iA1KnEE4hWVgM2ciLvtEHpZFAQWL80JhMraoWgMkiW8IUVHEYMTZD87ba4f
-         Igwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737049402; x=1737654202;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3c5ov7st4tFk0rMU34jT12B0MxOAS1BPe9J0SsPXA2Q=;
-        b=bRt5TI+yV6GFjdYPW6QmlXkuNX9gai1m+yOYQi3rO0Y5TGQDBfrVX1F/O/rydBlNse
-         gx+rE7yK64MUuhlsIAZkBABlNujekieKP8D84xdWfj/K0g7ljXBb8qqaCA7JKvceplcY
-         aMuTv5OK6nf27xV9aaIZNhsP/VYkaeySTO7CFFzwpWVVftom+6JqDtarX00zIm1hf+P2
-         9MbagghnhWoM840koMCWtEG/ffvVqgXCRSFUzPtLD19RYnbqdqyNJyuGnPPB8d5Lj3c4
-         7H02PJfKFySPrKv7Lr6nUkSkyUjJ3+s1IlSljXccz133aqMbg0I8HnyYcWsvbGKpDerg
-         r+EA==
-X-Forwarded-Encrypted: i=1; AJvYcCV4EBrc4OBukZHn6xh/S1RACEI+UovNQs0nhoIM51UdCYcvFQWha8V2VcpLu1UjC0G+kjlSIFA5sGU4Qw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywbsm7A964mHJEiudoSpN5N20Z63G6aZd6tjK3chv+zwAeikIPl
-	a8WLj2eUyhz3t+UCuN91UEEjwgT9K0/EnCbNEvj6wOTNodnSOe4Fz5fzKJ2kUe4=
-X-Gm-Gg: ASbGncumdAB1ZRzrcK5x8duZ9FWRYX7I0kPvwmn3NqYlwO1dVIujrotDSejNgSwmkPv
-	x2cRzs+1oXpP3FEprNrffVrstrsSQ8feWafSieB2x+q5xFhp8NaV9J8ZdrRv7+zyug5i7K+0Wyc
-	5HiqnfW3FP855bHTkNiZ90OViflKPT19S3pK3NvE1aGtRMl7z47NlbX3AwiGYzt7DixjEU/fXJh
-	Dnz2pw47MXSqAXwmckZDeafZw0YkM1QTpSfdYU46k0PgZlB
-X-Google-Smtp-Source: AGHT+IEQXYtZhwUYeCeL1LvktSO96MXKLnY+XjiG9kqdgpPIWu4aDWvI2TS60uQHB/HnbLr716bFxw==
-X-Received: by 2002:a05:600c:1c9a:b0:428:d31:ef25 with SMTP id 5b1f17b1804b1-436e26975f1mr354804105e9.12.1737049401790;
-        Thu, 16 Jan 2025 09:43:21 -0800 (PST)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-43890413053sm6302515e9.10.2025.01.16.09.43.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2025 09:43:21 -0800 (PST)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 16 Jan 2025 17:43:11 +0000
-Subject: [PATCH v2 3/3] media: i2c: imx415: Link frequencies are not
- exclusive to num lanes
+	s=arc-20240116; t=1737064432; c=relaxed/simple;
+	bh=wFXDl3L0c9T109VFvVuL+RPJWkYbr/AKXuvK4AkDIPU=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=GETG1racE9NfoEw43ETHDs30SVRySVTss9xaI9i0jSVQvTjqcagoodDnhZvBdxFelUSWOQyaYcTPpgjfJd05pgNA3coKxMCUDkjJ9PCxfiILv3IafKfR+E4BETiMp8Fd4+d4vhOeZUtbmlQMa+9ermxjKyf+wV/mQHVnSbiMF7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=XTdjsoDn; arc=none smtp.client-ip=17.58.23.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1737064430;
+	bh=1hZ4hX7+EthGgK1IFYZZNGg61Puc87JeHnCV+0Wdv2A=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type:
+	 x-icloud-hme;
+	b=XTdjsoDn4hNXHZBTnBhEwliNQ4ZrqRKB6lIc7KtNqd/rMkrsW3zDctWLy5xhUHhTn
+	 WuZMWoBQQcMHQ7glyGKWiyUU92+yiR/K0MNovxTpFS3YexgowNr5sKzWCzEPe1Ib1S
+	 p0o4n0tApT8oL3Eiug4PG1D/yOE1No8x2VCU1Hyz0MEi0UNb/8AvvzQrzsw8R+U8fj
+	 ykDZXzcu0FX5fe2AvSttt4xWN+kS49hlY4V2cZnx9yzXiP3b+XaUdqQktXznYh88BL
+	 ybBkl2Nm8MRckhdlanaXKiPu+or9SEOyhKrYLtQMRu3Fiz5tYLbvZ7YFgciKb8PXVN
+	 HJJrgA73bjU+w==
+Received: from [10.1.1.110] (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
+	by mr85p00im-hyfv06011401.me.com (Postfix) with ESMTPSA id 63D84357AC96
+	for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 21:53:48 +0000 (UTC)
+Message-ID: <605529f8-a186-4847-8dc7-65351a08596f@icloud.com>
+Date: Fri, 17 Jan 2025 08:53:46 +1100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250116-media-imx415-v2-3-735263f04652@raspberrypi.com>
-References: <20250116-media-imx415-v2-0-735263f04652@raspberrypi.com>
-In-Reply-To: <20250116-media-imx415-v2-0-735263f04652@raspberrypi.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Michael Riesch <michael.riesch@wolfvision.net>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Gerald Loacker <Gerald.Loacker@wolfvision.net>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-X-Mailer: b4 0.14.1
+User-Agent: Mozilla Thunderbird
+To: linux-media@vger.kernel.org
+Content-Language: en-US
+From: David Arnold <david.c.arnold@icloud.com>
+Subject: Hauppauge quadHD DVB PCIe (new revision?)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: f20FYaHQiRw_lkruAMYIXMJJqFX1pRJv
+X-Proofpoint-GUID: f20FYaHQiRw_lkruAMYIXMJJqFX1pRJv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-16_09,2025-01-16_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=968
+ adultscore=0 phishscore=0 suspectscore=0 mlxscore=0 bulkscore=0
+ clxscore=1015 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2501160162
 
-The link frequencies are equally valid in 2 or 4 lane modes, but
-they change the hmax_min value for the mode as the MIPI block
-has to have sufficient time to send the pixel data for each line.
+Hi linux-media people,
 
-Remove the association with number of lanes, and add hmax_min
-configuration for both lane options.
+I've installed a brand new Hauppauge WinTV-quadHD DVB-T/T2/C PCIe card, 
+which is being recognised only as a dualHD.  I suspect it's a new 
+revision of the card, as the product number on the label is 178100 LF 
+Rev. A416, which is different to the number in the photo of the card in 
+the LinuxTV wiki.
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/media/i2c/imx415.c | 53 ++++++++++++++++++++++------------------------
- 1 file changed, 25 insertions(+), 28 deletions(-)
+Also, 'lspci -v' output contains no reference to the card, but instead 
+it is listed by 'lsusb -v' (but only as dualHD).
 
-diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-index 24633d17cb09..5729edf06add 100644
---- a/drivers/media/i2c/imx415.c
-+++ b/drivers/media/i2c/imx415.c
-@@ -452,9 +452,8 @@ static const struct imx415_clk_params imx415_clk_params[] = {
- 	},
- };
- 
--/* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
--static const struct cci_reg_sequence imx415_mode_2_720[] = {
--	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-+/* 720 Mbps CSI configuration */
-+static const struct cci_reg_sequence imx415_linkrate_720mbps[] = {
- 	{ IMX415_TCLKPOST, 0x006F },
- 	{ IMX415_TCLKPREPARE, 0x002F },
- 	{ IMX415_TCLKTRAIL, 0x002F },
-@@ -466,9 +465,8 @@ static const struct cci_reg_sequence imx415_mode_2_720[] = {
- 	{ IMX415_TLPX, 0x0027 },
- };
- 
--/* all-pixel 2-lane 1440 Mbps 30.01 Hz mode */
--static const struct cci_reg_sequence imx415_mode_2_1440[] = {
--	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-+/* 1440 Mbps CSI configuration */
-+static const struct cci_reg_sequence imx415_linkrate_1440mbps[] = {
- 	{ IMX415_TCLKPOST, 0x009F },
- 	{ IMX415_TCLKPREPARE, 0x0057 },
- 	{ IMX415_TCLKTRAIL, 0x0057 },
-@@ -480,9 +478,8 @@ static const struct cci_reg_sequence imx415_mode_2_1440[] = {
- 	{ IMX415_TLPX, 0x004F },
- };
- 
--/* all-pixel 4-lane 891 Mbps 30 Hz mode */
--static const struct cci_reg_sequence imx415_mode_4_891[] = {
--	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-+/* 891 Mbps CSI configuration */
-+static const struct cci_reg_sequence imx415_linkrate_891mbps[] = {
- 	{ IMX415_TCLKPOST, 0x007F },
- 	{ IMX415_TCLKPREPARE, 0x0037 },
- 	{ IMX415_TCLKTRAIL, 0x0037 },
-@@ -501,8 +498,7 @@ struct imx415_mode_reg_list {
- 
- struct imx415_mode {
- 	u64 lane_rate;
--	u32 lanes;
--	u32 hmax_min;
-+	u32 hmax_min[2];
- 	struct imx415_mode_reg_list reg_list;
- };
- 
-@@ -510,29 +506,26 @@ struct imx415_mode {
- static const struct imx415_mode supported_modes[] = {
- 	{
- 		.lane_rate = 720000000,
--		.lanes = 2,
--		.hmax_min = 2032,
-+		.hmax_min = { 2032, 1066 },
- 		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(imx415_mode_2_720),
--			.regs = imx415_mode_2_720,
-+			.num_of_regs = ARRAY_SIZE(imx415_linkrate_720mbps),
-+			.regs = imx415_linkrate_720mbps,
- 		},
- 	},
- 	{
- 		.lane_rate = 1440000000,
--		.lanes = 2,
--		.hmax_min = 1066,
-+		.hmax_min = { 1066, 533 },
- 		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(imx415_mode_2_1440),
--			.regs = imx415_mode_2_1440,
-+			.num_of_regs = ARRAY_SIZE(imx415_linkrate_1440mbps),
-+			.regs = imx415_linkrate_1440mbps,
- 		},
- 	},
- 	{
- 		.lane_rate = 891000000,
--		.lanes = 4,
--		.hmax_min = 1100,
-+		.hmax_min = { 2200, 1100 },
- 		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(imx415_mode_4_891),
--			.regs = imx415_mode_4_891,
-+			.num_of_regs = ARRAY_SIZE(imx415_linkrate_891mbps),
-+			.regs = imx415_linkrate_891mbps,
- 		},
- 	},
- };
-@@ -783,7 +776,8 @@ static int imx415_ctrls_init(struct imx415 *sensor)
- {
- 	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl *ctrl;
--	u64 lane_rate = supported_modes[sensor->cur_mode].lane_rate;
-+	const struct imx415_mode *cur_mode = &supported_modes[sensor->cur_mode];
-+	u64 lane_rate = cur_mode->lane_rate;
- 	u32 exposure_max = IMX415_PIXEL_ARRAY_HEIGHT +
- 			   IMX415_PIXEL_ARRAY_VBLANK -
- 			   IMX415_EXPOSURE_OFFSET;
-@@ -824,7 +818,7 @@ static int imx415_ctrls_init(struct imx415 *sensor)
- 			  IMX415_AGAIN_MAX, IMX415_AGAIN_STEP,
- 			  IMX415_AGAIN_MIN);
- 
--	hblank_min = (supported_modes[sensor->cur_mode].hmax_min *
-+	hblank_min = (cur_mode->hmax_min[sensor->num_data_lanes == 2 ? 0 : 1] *
- 		      IMX415_HMAX_MULTIPLIER) - IMX415_PIXEL_ARRAY_WIDTH;
- 	hblank_max = (IMX415_HMAX_MAX * IMX415_HMAX_MULTIPLIER) -
- 		     IMX415_PIXEL_ARRAY_WIDTH;
-@@ -886,7 +880,12 @@ static int imx415_set_mode(struct imx415 *sensor, int mode)
- 			    IMX415_NUM_CLK_PARAM_REGS,
- 			    &ret);
- 
--	return 0;
-+	ret = cci_write(sensor->regmap, IMX415_LANEMODE,
-+			sensor->num_data_lanes == 2 ? IMX415_LANEMODE_2 :
-+						      IMX415_LANEMODE_4,
-+			NULL);
-+
-+	return ret;
- }
- 
- static int imx415_setup(struct imx415 *sensor, struct v4l2_subdev_state *state)
-@@ -1297,8 +1296,6 @@ static int imx415_parse_hw_config(struct imx415 *sensor)
- 		}
- 
- 		for (j = 0; j < ARRAY_SIZE(supported_modes); ++j) {
--			if (sensor->num_data_lanes != supported_modes[j].lanes)
--				continue;
- 			if (bus_cfg.link_frequencies[i] * 2 !=
- 			    supported_modes[j].lane_rate)
- 				continue;
+The machine is running Linux Mint 21.3 Virginia on an Acer MG43M 
+motherboard (which has been running mythtv for a few years, with 
+external USB tuners).
 
--- 
-2.34.1
+I followed the installation instructions for Linux on Hauppauge website
+https://www.hauppauge.com/pages/support/support_linux.html
+
+The output of a few display commands is below.
+I hope you can help work out how to get all 4 tuners running!
+Thanks
+
+david@mythserver:~$ uname -a
+Linux mythserver 5.15.0-1122405280420-generic 
+#2+mediatree+hauppauge-Ubuntu SMP Wed May 29 22:21:00 UTC 2024 x86_64 
+x86_64 x86_64 GNU/Linux
+
+david@mythserver:~$ sudo lspci -v |grep -i wintv
+david@mythserver:~$ sudo lspci -v |grep -i haupp
+david@mythserver:~$ sudo lsusb -v |grep -i haupp
+Bus 009 Device 003: ID 2040:8265 Hauppauge dualHD
+   idVendor           0x2040 Hauppauge
+david@mythserver:~$
+
+david@mythserver:~$ dmesg |grep -i quad
+david@mythserver:~$ dmesg |grep -i dual
+[    2.912753] usb 9-2: Product: dualHD
+[   15.918553] em28xx 9-2:1.0: New device HCW dualHD @ 480 Mbps 
+(2040:8265, interface 0, class 0)
+[   17.252253] em28xx 9-2:1.0: Identified as Hauppauge WinTV-dualHD DVB 
+(card=99)
+[   17.254719] em28xx 9-2:1.0: We currently don't support analog TV or 
+stream capture on dual tuners.
+[   18.608243] em28xx 9-2:1.0: Identified as Hauppauge WinTV-dualHD DVB 
+(card=99)
+[   19.960477] rc rc1: Hauppauge WinTV-dualHD DVB as 
+/devices/pci0000:00/0000:00:1c.0/0000:02:00.0/usb9/9-2/9-2:1.0/rc/rc1
+[   19.960682] input: Hauppauge WinTV-dualHD DVB as 
+/devices/pci0000:00/0000:00:1c.0/0000:02:00.0/usb9/9-2/9-2:1.0/rc/rc1/input16
 
 
