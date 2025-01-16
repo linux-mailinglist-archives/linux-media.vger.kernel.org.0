@@ -1,79 +1,93 @@
-Return-Path: <linux-media+bounces-24843-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24846-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650D0A13A14
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 13:41:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A024CA13A7C
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 14:08:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CC24188916C
-	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 12:41:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 04269167CB5
+	for <lists+linux-media@lfdr.de>; Thu, 16 Jan 2025 13:08:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 647011DE4EF;
-	Thu, 16 Jan 2025 12:41:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B37C41F3D5F;
+	Thu, 16 Jan 2025 13:07:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kBf+WuCQ"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="n62c+lQH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f98.google.com (mail-ed1-f98.google.com [209.85.208.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6671DE89A
-	for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 12:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B461F37AB
+	for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 13:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737031289; cv=none; b=dse+gl8KaUo6auLdqi+l/nE+EgV1gNAOoWP4l4Quji6KDSsQMQqSn8ioPG0IjfeSc1phwpYPBaRrM5GZOq8Jbui37mm1zsFxWQBqHCY8JlxM/0ww4suiCd8aBB6YKmbQEyzDTYktaaD4IQ4CFGsgXWLNQhpiml+olummQzRTwKg=
+	t=1737032847; cv=none; b=a5Wh0rh6bqVWMn5pjkiIYzQJt360NnD3pkrbUtSwcchLNvFXrB1o2wZxUvY9uzpk0uyh6OmGYfThga62vsSp2TmBKkds0mt+gn0tP4/vI4DnveTo4Ij+andMIRhOPW5paDOd/HQ1yzrSFCkw43E2pI1YOWBznDYCuIc8ggHi0u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737031289; c=relaxed/simple;
-	bh=UbRAVxIeufsAoLDPiXeWpWLCauvWx3c9RQGf6oIqKPc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=asW8YvhXbylZUzFcvkxs6pzOZ9fnAuxGWqtr4QVfI5MhUnZrYaFfxnErF2N08Rp4e6WBHvVULfPdXvbXoVuhcEJep2oh7LaxaicJqw9PwmsxThKg1UvIKG2qXdIdNUz3lU/GCerx/FagRk8c7jZ0RBYlZkdfMrjCEuK7JYz4RMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kBf+WuCQ; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737031288; x=1768567288;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=UbRAVxIeufsAoLDPiXeWpWLCauvWx3c9RQGf6oIqKPc=;
-  b=kBf+WuCQILyousv8k5AJBDEC15A6MDssp7I1GlqOsK4ctX5H5zKRKfQQ
-   ynRXz3Pb4zuA8MxJqm26c/3aGBR/f/jFuKjxxLpStOCFTQ9uCeyhAvySx
-   zqMryehfRmUNk3p9xeWWUTdoa+Vg7bdwCPe5qttk7wqJn5ueibCDOlLs+
-   PntCzVTS78HOYLIvdmXLrZr1sONVjOBt5aZ9eonRhdE4jZtfTodtVfekC
-   WxAqXPIJNuzopB/jZwNHzAsMxsuLVNFlEgntzuljw9JR4FCxfLCD71Bv9
-   WiovLbMgmH2MYKmGLUtQA39IvryIrO+nwfN/4Qy01573b2SYglQBX8Klc
-   w==;
-X-CSE-ConnectionGUID: WvkldfwjTVuQT7nTK3e14w==
-X-CSE-MsgGUID: Rgy0x/SUSpyG32/nJysQbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="37568967"
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="37568967"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 04:41:27 -0800
-X-CSE-ConnectionGUID: Yo+Po4SZSKuE5RqpSLvdNQ==
-X-CSE-MsgGUID: EJcseG31RSaNDI84IE57yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; 
-   d="scan'208";a="106025370"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 04:41:26 -0800
-Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 43B0E120213;
-	Thu, 16 Jan 2025 14:41:23 +0200 (EET)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>
-Subject: [PATCH 4/4] media: i2c: imx319: Rectify runtime PM handling probe and remove
-Date: Thu, 16 Jan 2025 14:41:18 +0200
-Message-Id: <20250116124118.42130-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250116124118.42130-1-sakari.ailus@linux.intel.com>
-References: <20250116124118.42130-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1737032847; c=relaxed/simple;
+	bh=NLVUtRDWIyErhGq1btJXLWXuuVShqXuFKgAtujLSvrU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q7SWsZS0jtyX1Y/Qrk6t8yG9HXRd6iMT+zIW6Nal7dDJ5n0A0zvcflyEhmQH9v8RCNwS6Wi2iPtO2JVNwaV8CNi3fDeOLIa64cdHu5X+Etpudv09J4h16ImILX/05AoABxv07iQIYyECDjy7vEgM8edJ7xgCbZyqNOmCrk2hx68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=n62c+lQH; arc=none smtp.client-ip=209.85.208.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-ed1-f98.google.com with SMTP id 4fb4d7f45d1cf-5d7e3f1fdafso1851823a12.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Jan 2025 05:07:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1737032843; x=1737637643; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7P+v3T+nrQTMibupPu9ktHQrDK2ERVyoiAaGUmlwr34=;
+        b=n62c+lQH0MrrRQQFas4C5JMk8qJxJNQsTb29k1yJbyez43m40/zCmKip9Z52CPoh06
+         Y6hbrDbp1CT+nKJrIk5Pnp+XKVOPH0/wEPo3PfGFAhGpFjFnNVjPH+QYcBbSsvnEhUzz
+         ZXSTuSQ5dfaEbVW348F/uJzt88TmAeB1BD37VDdDftvX6SyAcGFVHPlM30xXdASjh6hi
+         L7Pe78yEvFkzxCr2ngEFqucOtGNAFiQq9ygFuyHRiJ8YLMFsoyuu/jMUrGuEmzAVYb1W
+         O011O931wybJxn5Q3xGuPo24E94esoztJdwqd7pc5DJp0Q+fK8nWK4v2xcJLdJfLHrOp
+         lClQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737032843; x=1737637643;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7P+v3T+nrQTMibupPu9ktHQrDK2ERVyoiAaGUmlwr34=;
+        b=GoaDLWEjmNlQd2/72hmGlaeJa/GmhJZ7rFBnXPlvhaMPZkHWMiqSu6YLt3Z4Ihkoui
+         M3R/phc+ADC4WZx+yL6Qnqlm61cDu7NjCj2YTas0TaOJD+x+Ptc12gH9a08kd20qjcS2
+         7Wg2V+SOZ6sBAX21xZzzFBJMylhEbZiWd9aeB1zxo/AVwm+jXJw58DdPhqCsRbn2oKk0
+         6dYoFFHxlixNuYcfTVJHbc1Lm8QRyO56Rx/senMiE6yhoM8FPXRW4tgbdUXusdG2qH33
+         AYdNSyF6ci6ETiS9tjWyy8lrMwwArGb1lbZcsADEbYSnaRurr0GJMJWmFtq9lpSBE7Tg
+         eByg==
+X-Gm-Message-State: AOJu0YxQ2Z/5RszGYuOzQlngK3hU68cIsZyVQx2bgvQEE0YocFAHP23W
+	L13lf4hY1O8A8keZc78gfBIq/lJ5LO9gg9KaHxtRkHUw3PWrkvtB5DBEbHj76nr0bCGVVv79ou0
+	w9mZWppAsaxZZHcBFvxY9HVCq2Hq8+SwR
+X-Gm-Gg: ASbGncut+nU1T7aq/3CmSHxtQ7M+uJvkv6OBbdPEqI5vw68e/Y2ClC1N9n3wgIXwwiZ
+	GlALwf6NT+4YS5LqfUR+qK7pQ2yonFFYb8krQ2PIYshMrALk/df+5O4AVphVOryVQlv8w071aJo
+	Zei3YlljPUz8uUGtKXuHEsX8dY3g5dfVQy7FaY6HmJejxGdk9Qdjdu5HgUpPV2/KckoAsHgQgZo
+	Gyxb5dhztAKvE/5o2mS/huPmXuVToyIGuBwZriLrsuv8ni752GP3mYe0OY5npFWwVlJvbJk
+X-Google-Smtp-Source: AGHT+IGViDPhV57wZ6b9jVwuuHeCZhjQncFp1lN6cuhdiqlXIycDF1nRHxi+kNX1Yeo7TN1wCIAeIuZIX8jO
+X-Received: by 2002:a05:6402:3514:b0:5da:105b:86c2 with SMTP id 4fb4d7f45d1cf-5da105b87d5mr4665682a12.20.1737032843068;
+        Thu, 16 Jan 2025 05:07:23 -0800 (PST)
+Received: from raspberrypi.com ([93.93.133.154])
+        by smtp-relay.gmail.com with ESMTPS id 4fb4d7f45d1cf-5d99efc9b94sm660964a12.28.2025.01.16.05.07.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2025 05:07:23 -0800 (PST)
+X-Relaying-Domain: raspberrypi.com
+From: Naushir Patuck <naush@raspberrypi.com>
+To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>
+Cc: linux-media@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	jacopo.mondi@ideasonboard.com,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Naushir Patuck <naush@raspberrypi.com>
+Subject: [PATCH v1] media: uapi: pisp_be_config: Remove unused config fields
+Date: Thu, 16 Jan 2025 13:07:21 +0000
+Message-Id: <20250116130721.3354550-1-naush@raspberrypi.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,57 +96,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Idle the device only after the async sub-device has been successfully
-registered. In error handling, set the device's runtime PM status to
-suspended only if it has been set to active previously in probe.
+These fields should not be set by either the user or the kernel driver
+so remove them. Replace them with padding bytes to maintain uapi
+compatibility.
 
-Also set the device's runtime PM status to suspended in remove only if it
-wasn't so already.
-
-Fixes: 8a89dc62f28c ("media: add imx319 camera sensor driver")
-Cc: stable@vger.kernel.org # for >= v6.12
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
 ---
- drivers/media/i2c/imx319.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ .../linux/media/raspberrypi/pisp_be_config.h  | 42 ++-----------------
+ 1 file changed, 4 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-index dd1b4ff983dc..701840f4a5cc 100644
---- a/drivers/media/i2c/imx319.c
-+++ b/drivers/media/i2c/imx319.c
-@@ -2442,17 +2442,19 @@ static int imx319_probe(struct i2c_client *client)
- 	if (full_power)
- 		pm_runtime_set_active(&client->dev);
- 	pm_runtime_enable(&client->dev);
--	pm_runtime_idle(&client->dev);
+diff --git a/include/uapi/linux/media/raspberrypi/pisp_be_config.h b/include/uapi/linux/media/raspberrypi/pisp_be_config.h
+index cbeb714f4d61..82560db4da61 100644
+--- a/include/uapi/linux/media/raspberrypi/pisp_be_config.h
++++ b/include/uapi/linux/media/raspberrypi/pisp_be_config.h
+@@ -716,13 +716,6 @@ struct pisp_be_hog_buffer_config {
+ /**
+  * struct pisp_be_config - RaspberryPi PiSP Back End Processing configuration
+  *
+- * @input_buffer:		Input buffer addresses
+- * @tdn_input_buffer:		TDN input buffer addresses
+- * @stitch_input_buffer:	Stitch input buffer addresses
+- * @tdn_output_buffer:		TDN output buffer addresses
+- * @stitch_output_buffer:	Stitch output buffer addresses
+- * @output_buffer:		Output buffers addresses
+- * @hog_buffer:			HOG buffer addresses
+  * @global:			Global PiSP configuration
+  * @input_format:		Input image format
+  * @decompress:			Decompress configuration
+@@ -761,28 +754,10 @@ struct pisp_be_hog_buffer_config {
+  * @output_format:		Output format configuration
+  * @hog:			HOG configuration
+  * @axi:			AXI bus configuration
+- * @lsc_extra:			LSC extra info
+- * @cac_extra:			CAC extra info
+- * @downscale_extra:		Downscaler extra info
+- * @resample_extra:		Resample extra info
+- * @crop:			Crop configuration
+- * @hog_format:			HOG format info
+- * @dirty_flags_bayer:		Bayer enable dirty flags
+- *				(:c:type:`pisp_be_bayer_enable`)
+- * @dirty_flags_rgb:		RGB enable dirty flags
+- *				(:c:type:`pisp_be_rgb_enable`)
+- * @dirty_flags_extra:		Extra dirty flags
+  */
+ struct pisp_be_config {
+-	/* I/O configuration: */
+-	struct pisp_be_input_buffer_config input_buffer;
+-	struct pisp_be_tdn_input_buffer_config tdn_input_buffer;
+-	struct pisp_be_stitch_input_buffer_config stitch_input_buffer;
+-	struct pisp_be_tdn_output_buffer_config tdn_output_buffer;
+-	struct pisp_be_stitch_output_buffer_config stitch_output_buffer;
+-	struct pisp_be_output_buffer_config
+-				output_buffer[PISP_BACK_END_NUM_OUTPUTS];
+-	struct pisp_be_hog_buffer_config hog_buffer;
++	/* For backward compatibility */
++	uint8_t pad0[112];
+ 	/* Processing configuration: */
+ 	struct pisp_be_global_config global;
+ 	struct pisp_image_format_config input_format;
+@@ -823,17 +798,8 @@ struct pisp_be_config {
+ 				output_format[PISP_BACK_END_NUM_OUTPUTS];
+ 	struct pisp_be_hog_config hog;
+ 	struct pisp_be_axi_config axi;
+-	/* Non-register fields: */
+-	struct pisp_be_lsc_extra lsc_extra;
+-	struct pisp_be_cac_extra cac_extra;
+-	struct pisp_be_downscale_extra
+-				downscale_extra[PISP_BACK_END_NUM_OUTPUTS];
+-	struct pisp_be_resample_extra resample_extra[PISP_BACK_END_NUM_OUTPUTS];
+-	struct pisp_be_crop_config crop;
+-	struct pisp_image_format_config hog_format;
+-	__u32 dirty_flags_bayer; /* these use pisp_be_bayer_enable */
+-	__u32 dirty_flags_rgb; /* use pisp_be_rgb_enable */
+-	__u32 dirty_flags_extra; /* these use pisp_be_dirty_t */
++	/* For backward compatibility */
++	uint8_t pad1[84];
+ } __attribute__((packed));
  
- 	ret = v4l2_async_register_subdev_sensor(&imx319->sd);
- 	if (ret < 0)
- 		goto error_media_entity_pm;
- 
-+	pm_runtime_idle(&client->dev);
-+
- 	return 0;
- 
- error_media_entity_pm:
- 	pm_runtime_disable(&client->dev);
--	pm_runtime_set_suspended(&client->dev);
-+	if (full_power)
-+		pm_runtime_set_suspended(&client->dev);
- 	media_entity_cleanup(&imx319->sd.entity);
- 
- error_handler_free:
-@@ -2474,7 +2476,8 @@ static void imx319_remove(struct i2c_client *client)
- 	v4l2_ctrl_handler_free(sd->ctrl_handler);
- 
- 	pm_runtime_disable(&client->dev);
--	pm_runtime_set_suspended(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		pm_runtime_set_suspended(&client->dev);
- 
- 	mutex_destroy(&imx319->mutex);
- }
+ /**
 -- 
-2.39.5
+2.34.1
 
 
