@@ -1,93 +1,93 @@
-Return-Path: <linux-media+bounces-24881-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24882-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF8FA151F1
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 15:37:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C6BA15207
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 15:42:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5023167167
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 14:37:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D88D1162096
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 14:42:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79261158870;
-	Fri, 17 Jan 2025 14:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E44B17A586;
+	Fri, 17 Jan 2025 14:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZDIOm7NW"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="I9nC3yAP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CCF86324
-	for <linux-media@vger.kernel.org>; Fri, 17 Jan 2025 14:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC3F158858
+	for <linux-media@vger.kernel.org>; Fri, 17 Jan 2025 14:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737124654; cv=none; b=X/jZVnW7Q/EuW2GWPCHD5r5w1Rb5X56ncXMsFXoON5F/Cg6CURvLjTZ6h4BtKxpN4wa85ZEpN69eEKVic8Nfzs3vD+YGkHyWrCZNppNipspXuiG8lLoc5R3LR8cE2qOtOzrmp36iA0CgwH3d5jjVoFb24VtrxGHkZDxaPycavi8=
+	t=1737124943; cv=none; b=jjjP5qiKPlRY7CuVcBMEVFBCYN14p9ygCWLp+YLsgkVeSqqsKpAeBwPrWIgvZlvS61T9frDRDxDhykggSUkgqAT0+2mx/S2FUQudsuS6Dlv+0+0EgEYT5yed3IbN0nZ/OiU/IXlOSLsMWDbk259KsIH4VwabLr94LXv45a5E5UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737124654; c=relaxed/simple;
-	bh=ESWgX5V62XCad2HR/HJ25M+BlFYnA66ZmcatpUrszL4=;
+	s=arc-20240116; t=1737124943; c=relaxed/simple;
+	bh=jwi6a8f3gsj2mguyz/YQikPgquL4wOvJ/aPvkXnwZdE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LaO9XUvk9vgmYntroacoJn/w6XSZ3Peo9o+GYvu51wHpoMR5GJTzhaYRBKVF2q0URAGbMQgx57CslyUjEfK1ViKLYtsrG328xUVp/ABzDWz5I9OQQKt9ZvUoocDe/sHckgBBkinsAy6gVc2KCr9HFcC19nUG8KOrQLTtleWrJxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=ZDIOm7NW; arc=none smtp.client-ip=209.85.221.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=EJSlL/6/MdYRbqGWwDfTXkAAd4fi08lOVkIyaMvZ5VE57HTF4mb07pdillfTTOBHb/f7qgf1Jg1R0fNBUZ3aTS6fsq1EKCWACHZl8tXVaESUlXAUemUB9CHtTXDVmGaTJlE2SN+7QTH/yt54jD3L1tij06NfhmTz2A4ubIdUFqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=I9nC3yAP; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-38be3bfb045so2018379f8f.0
-        for <linux-media@vger.kernel.org>; Fri, 17 Jan 2025 06:37:32 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-436637e8c8dso20869905e9.1
+        for <linux-media@vger.kernel.org>; Fri, 17 Jan 2025 06:42:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1737124651; x=1737729451; darn=vger.kernel.org;
+        d=ffwll.ch; s=google; t=1737124939; x=1737729739; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:mail-followup-to:message-id:subject:cc:to
          :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XotKZ5aC4hzDyG2o0IeDG6hv28Jq5p2Sy4ygAsaPcU8=;
-        b=ZDIOm7NWy0rRxJTOh11g4HzWPnQu5cM/ONRZTFx4LbDnp5ZEcnvvLvjtwUTwCO1reZ
-         w//Cjy2R8gRcEznvPcANS/h1ms0gYaTBgi6c7WkPa1xkZeqeH3cchYFDmLeXowM5TtIA
-         fEm+1M9on+FqMUQYvi32s2y70AVMzmN1UB5HE=
+        bh=vOyiy7rFa+fZCX1B+kcinTvPMKMqiU+uIoOM7Jp3fa0=;
+        b=I9nC3yAP0M5JCPEpqCiQzRUbwt1lIP0ivNjvWgf7gvK/3avzyrdslDLPsg+UlGJgQE
+         M0KWZiiiFhBGedKdGT+eawg+JJYNxR/lPw/BP04CtmckZGYvS/WkkdLjUPl4XuMa5fOy
+         nhaPQye9LMMVi4gZeX1gtObWC20pvTDFUl4Ho=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737124651; x=1737729451;
+        d=1e100.net; s=20230601; t=1737124939; x=1737729739;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:mail-followup-to:message-id:subject:cc:to
          :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XotKZ5aC4hzDyG2o0IeDG6hv28Jq5p2Sy4ygAsaPcU8=;
-        b=s58m53TDT/Gp80MPreU+cgnmiLdeBxjDBmReEaSajNjXEuftigJyuBsTCQRQGjlR2i
-         65kJMpqMpAauuyxu1U1Rgse9jmXxwfYHon9nr9XwvkjX2KessGFPPCNW5kZjx0aHXX5Y
-         8AEwoOgt0oBOBjbK/XnjjJT7BHdZ+rAr5OzfhyseNuBY199uT635T/l7qxBhLQgDgTto
-         E0ilWZBZH7KecpY7QZ8CjLOETviQKtf7hfZ+O0Ncli18ycGPMYR+zn2QZLlRNsLvn7s9
-         1Kvj9rlNELXE36bMiQquHj2uIKlkJHHGEQKjEl+aRmsNSRqYnKgOSbahk2bPYycxehVs
-         IsVA==
-X-Forwarded-Encrypted: i=1; AJvYcCW2pRyIc8mSQBG+8jDHa0epz/ZnC8lcMIddF2EvN2bmqorwxtHFmZiqKFDxmkob6Lg2by6zZJR/NtDRRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgPESnqEXCOUu8++CzNdAMaz+yO82Lpd3frALbnV1YFts/z5B/
-	orQ3O+ZSBv8VEder+4WSZtdREB26VNE0B1I2cHXiWek0uRWGzgJiMqUid+fv9Q8=
-X-Gm-Gg: ASbGncsOU/iCdLg4M57YJncQDOWmkdazz+CIAqQ8BX9zcPyRUW5HKceW2UPJe6HR6/F
-	xEJye7ENH4WGLoFLNULje0eAbxzkUeQBgVxBFsnbYS4D5knGZ/xSVW7GrdzR116jW/lji8/T8aJ
-	7b2mD2UOBx0nS3VEZYXIgNtJ/gLbY9gvLbXqedlNn0vvuc7A4c0tp7HAwyXpT7wQSCbRBUMzxLK
-	doFpyBzSr6Mls0Nj9ualISBesxFqfYgcwLc60jFiiQtkY4pMaDYrsPkHCS0UirfSzb1
-X-Google-Smtp-Source: AGHT+IGRKn0mOd/rGrQjlD6Ss6MEpPjLO2iVNpAQ/jZBO5GUHVoXw6I4KLkLGt5y/u2vf1HmVS66CA==
-X-Received: by 2002:a05:6000:1788:b0:386:3d27:b4f0 with SMTP id ffacd0b85a97d-38bec505c43mr6963889f8f.14.1737124651189;
-        Fri, 17 Jan 2025 06:37:31 -0800 (PST)
+        bh=vOyiy7rFa+fZCX1B+kcinTvPMKMqiU+uIoOM7Jp3fa0=;
+        b=scTCzmBKBU7PNJtYl4Vm8va20Mb8cozU7Pr3oitLBcQEqbCLoG9qrUPbGOX58gfl+g
+         dO1Ejigspa8XAtnavqBeM/qAgOCMvZMI5KVZ2EBYXp2TqY/23KMoxZQK2uPU4u/DaXa9
+         lbbGsjKpLOeypCS5hmHk+3mVFklB39n9EAhJAfKENYYArf1FTcCF482bvPtNyQEll7GY
+         OAQJikz5MLJ++HuN9UQhjZhsOst0CEbpP9IOcHs4EPG6j5dm6ERc8kQ0t0sPzzGgHNvS
+         BUFMKKAw5gqpU3hpA80hgiENG7DSRGAaH6jpUEmWJB5xkSO+ERrPGDX1OxuElDpXELg/
+         5bgg==
+X-Forwarded-Encrypted: i=1; AJvYcCXc9TLS6W38hEowichQfapVUxQju1QflcEv8sbO9s43Setf77UW4O6UNf2Qaxf9ILXPsmzLvn3tJ1ILKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrB18qFEbOYjNr2QFa1a+sW5RRyTc8SkrLgev9pCxj6mjDpmfb
+	iz2Q+jvocA20Ghp64NgHx+1sdWL4FT7+Y0PKBQAuZlTLLT9APLr3F2Jbjd/vw/Y=
+X-Gm-Gg: ASbGncsTKJvkVRGFnPajZGqTHly6HhDR4eA2d8WkXBEkl7Ns0nBySFi3gUqLYwnR8sh
+	CdxDI6piUaDnqAJfwXzrflo4p4LjZhVJkTrldKK0e+Y+xkAynzGsVktK4fjf8uy9kkfOAGGK9pT
+	AgGx79XLpva2Q6rhK5lnYSUbIz6d0+cGu2khaqJ8AKoSk6x2FVhvPsOn9pkwkSXqWBUD8PP/qMC
+	DkK9O+7HmLa0+nUD5Y7KhrgmPpK6PeomcocCx+EHJU4qwFN4sYeqyYymykSsjzLZHeY
+X-Google-Smtp-Source: AGHT+IHxPap8BX01LyIGTU1AEqlpVQWXx2beTFQEyS1P7fpRD3tWSHNYAjM0oXYB5BLI/yHWy1ejYw==
+X-Received: by 2002:a05:600c:3b27:b0:434:fd15:3ac9 with SMTP id 5b1f17b1804b1-43891438051mr28828925e9.22.1737124939130;
+        Fri, 17 Jan 2025 06:42:19 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c753cc1fsm97636935e9.39.2025.01.17.06.37.29
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74ac5f9sm93712865e9.11.2025.01.17.06.42.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2025 06:37:30 -0800 (PST)
-Date: Fri, 17 Jan 2025 15:37:28 +0100
+        Fri, 17 Jan 2025 06:42:17 -0800 (PST)
+Date: Fri, 17 Jan 2025 15:42:15 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
-	Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>,
+	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
+	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+	dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
+	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
 	tao1.su@intel.com
 Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
  kAPI
-Message-ID: <Z4prKEpIg7A5pjHQ@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+Message-ID: <Z4psR1qoNQUQf3Q2@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
 	Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
 	Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
 	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
@@ -98,16 +98,16 @@ Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
 	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
 	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
 	tao1.su@intel.com
-References: <f6c2524f-5ef5-4c2c-a464-a7b195e0bf6c@amd.com>
- <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
- <20250115141458.GP5556@nvidia.com>
- <c86cfee1-063a-4972-a343-ea0eff2141c9@amd.com>
- <86afb69a-79bd-4719-898e-c6c2e62103f7@amd.com>
- <20250115151056.GS5556@nvidia.com>
- <6f7a14aa-f607-45f9-9e15-759e26079dec@amd.com>
- <20250115170942.GT5556@nvidia.com>
- <5f588dac-d3e2-445d-9389-067b875412dc@amd.com>
- <20250116160747.GV5556@nvidia.com>
+References: <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
+ <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+ <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+ <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
+ <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
+ <20250110203838.GL5556@nvidia.com>
+ <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
+ <20250114173103.GE5556@nvidia.com>
+ <Z4d4AaLGrhRa5KLJ@phenom.ffwll.local>
+ <420bd2ea-d87c-4f01-883e-a7a5cf1635fe@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -117,196 +117,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250116160747.GV5556@nvidia.com>
+In-Reply-To: <420bd2ea-d87c-4f01-883e-a7a5cf1635fe@amd.com>
 X-Operating-System: Linux phenom 6.12.3-amd64 
 
-On Thu, Jan 16, 2025 at 12:07:47PM -0400, Jason Gunthorpe wrote:
-> On Thu, Jan 16, 2025 at 04:13:13PM +0100, Christian König wrote:
-> >> But this, fundamentally, is importers creating attachments and then
-> >> *ignoring the lifetime rules of DMABUF*. If you created an attachment,
-> >> got a move and *ignored the move* because you put the PFN in your own
-> >> VMA, then you are not following the attachment lifetime rules!
+On Wed, Jan 15, 2025 at 11:06:53AM +0100, Christian König wrote:
+> Am 15.01.25 um 09:55 schrieb Simona Vetter:
+> > > > If we add something
+> > > > new, we need clear rules and not just "here's the kvm code that uses it".
+> > > > That's how we've done dma-buf at first, and it was a terrible mess of
+> > > > mismatched expecations.
+> > > Yes, that would be wrong. It should be self defined within dmabuf and
+> > > kvm should adopt to it, move semantics and all.
+> > Ack.
 > > 
-> >    Move notify is solely for informing the importer that they need to
-> >    re-fresh their DMA mappings and eventually block for ongoing DMA to
-> >    end.
+> > I feel like we have a plan here.
 > 
-> I feel that it is a bit pedantic to say DMA and CPU are somehow
-> different. The DMABUF API gives you a scatterlist, it is reasonable to
-> say that move invalidates the entire scatterlist, CPU and DMA equally.
+> I think I have to object a bit on that.
+> 
+> >   Summary from my side:
+> > 
+> > - Sort out pin vs revocable vs dynamic/moveable semantics, make sure
+> >    importers have no surprises.
+> > 
+> > - Adopt whatever new dma-api datastructures pops out of the dma-api
+> >    reworks.
+> > 
+> > - Add pfn based memory access as yet another optional access method, with
+> >    helpers so that exporters who support this get all the others for free.
+> > 
+> > I don't see a strict ordering between these, imo should be driven by
+> > actual users of the dma-buf api.
+> > 
+> > Already done:
+> > 
+> > - dmem cgroup so that we can resource control device pinnings just landed
+> >    in drm-next for next merge window. So that part is imo sorted and we can
+> >    charge ahead with pinning into device memory without all the concerns
+> >    we've had years ago when discussing that for p2p dma-buf support.
+> > 
+> >    But there might be some work so that we can p2p pin without requiring
+> >    dynamic attachments only, I haven't checked whether that needs
+> >    adjustment in dma-buf.c code or just in exporters.
+> > 
+> > Anything missing?
+> 
+> Well as far as I can see this use case is not a good fit for the DMA-buf
+> interfaces in the first place. DMA-buf deals with devices and buffer
+> exchange.
+> 
+> What's necessary here instead is to give an importing VM full access on some
+> memory for their specific use case.
+> 
+> That full access includes CPU and DMA mappings, modifying caching
+> attributes, potentially setting encryption keys for specific ranges etc....
+> etc...
+> 
+> In other words we have a lot of things the importer here should be able to
+> do which we don't want most of the DMA-buf importers to do.
 
-dma-buf doesn't even give you a scatterlist, there's dma-buf which truly
-are just handles that are 100% device specific.
+This proposal isn't about forcing existing exporters to allow importers to
+do new stuff. That stays as-is, because it would break things.
 
-It really is the "everything is optional" interface. And yes we've had
-endless amounts of fun where importers tried to peek behind the curtain,
-largely because scatterlists didn't cleanly separate the dma_addr_t from
-the struct page side of things. So I understand Christian's concerns here.
+It's about adding yet another interface to get at the underlying data, and
+we have tons of those already. The only difference is that if we don't
+butcher the design, we'll be able to implement all the existing dma-buf
+interfaces on top of this new pfn interface, for some neat maximal
+compatibility.
 
-But that doesn't mean we cannot add another interface that does allow
-importers to peek behind the curtiain. As long as we don't make a mess and
-confuse importers, and ideally have compat functions so that existing
-importers can deal with pfn exporters too it's all fine with me.
+But fundamentally there's never been an expectation that you can take any
+arbitrary dma-buf and pass it any arbitrary importer, and that is must
+work. The fundamental promise is that if it _does_ work, then
+- it's zero copy
+- and fast, or as fast as we can make it
 
-And I also don't see an issue with reasonable pfn semantics that would
-prevent a generic mmap implementation on top of that, so that
-dma_buf_mmap() just works for those. The mmu notifier pain is when you
-consume mmaps/vma in a generic way, but implementing mmap with the current
-dma_resv locking is dead easy. Unless I've missed something nonobvious and
-just made a big fool of myself :-)
-
-What we cannot demand is that all existing dma-buf exporters switch over
-to the pfn interfaces. But hey it's the everything optional interface, the
-only things is guarantees are
-- fixed length
-- no copying
-- refcounting and yay it only took 10 years: consistent locking rules
-
-So I really don't understand Christian's fundamental opposition here.
+I don't see this any different than all the much more specific prposals
+and existing code, where a subset of importers/exporters have special
+rules so that e.g. gpu interconnect or vfio uuid based sharing works.
+pfn-based sharing is just yet another flavor that exists to get the max
+amount of speed out of interconnects.
 
 Cheers, Sima
 
-> >    This semantics doesn't work well for CPU mappings because you need to
-> >    hold the reservation lock to make sure that the information stay valid
-> >    and you can't hold a lock while returning from a page fault.
 > 
-> Sure, I imagine hooking up a VMA is hard - but that doesn't change my
-> point. The semantics can be reasonable and well defined.
+> The semantics for things like pin vs revocable vs dynamic/moveable seems
+> similar, but that's basically it.
 > 
-> >    Yeah and exactly that is something we don't want to allow because it
-> >    means that every importer need to get things right to prevent exporters
-> >    from running into problems.
+> As far as I know the TEE subsystem also represents their allocations as file
+> descriptors. If I'm not completely mistaken this use case most likely fit's
+> better there.
 > 
-> You can make the same argument about the DMA address. We should just
-> get rid of DMABUF entirely because people are going to mis-use it and
-> wrongly implement the invalidation callback.
-> 
-> I have no idea why GPU drivers want to implement mmap of dmabuf, that
-> seems to be a uniquely GPU thing. We are not going to be doing stuff
-> like that in KVM and other places. And we can implement the
-> invalidation callback with correct locking. Why should we all be
-> punished because DRM drivers seem to have this weird historical mmap
-> problem?
-> 
-> I don't think that is a reasonable way to approach building a general
-> purpose linux kernel API.
->  
-> >    Well it's not miss-used, it's just a very bad design decision to let
-> >    every importer implement functionality which actually belong into a
-> >    single point in the exporter.
-> 
-> Well, this is the problem. Sure it may be that importers should not
-> implement mmap - but using the PFN side address is needed for more
-> than just mmap!
-> 
-> DMA mapping belongs in the importer, and the new DMA API makes this
-> even more explicit by allowing the importer alot of options to
-> optimize the process of building the HW datastructures. Scatterlist
-> and the enforeced represetation of the DMA list is very inefficient
-> and we are working to get rid of it. It isn't going to be replaced by
-> any sort of list of DMA addresses though.
-> 
-> If you really disagree you can try to convince the NVMe people to give
-> up their optimizations the new DMA API allows so DRM can prevent this
-> code-review problem.
-> 
-> I also want the same optimizations in RDMA, and I am also not
-> convinced giving them up is a worthwhile tradeoff.
-> 
-> >    Why would you want to do a dmabuf2 here?
-> 
-> Because I need the same kind of common framework. I need to hook VFIO
-> to RDMA as well. I need to fix RDMA to have working P2P in all
-> cases. I need to hook KVM virtual device stuff to iommufd. Someone
-> else need VFIO to hook into DRM.
-> 
-> How many different times do I need to implement a buffer sharing
-> lifetime model? No, we should not make a VFIO specific thing, we need
-> a general tool to do this properly and cover all the different use
-> cases. That's "dmabuf2" or whatever you want to call it. There are
-> more than enough use cases to justify doing this. I think this is a
-> bad idea, we do not need two things, we should have dmabuf to handle
-> all the use cases people have, not just DRMs.
-> 
-> >    I don't mind improving the scatterlist approach in any way possible.
-> >    I'm just rejecting things which we already tried and turned out to be a
-> >    bad idea.
-> >    If you make an interface which gives DMA addresses plus additional
-> >    information like address space, access hints etc.. to importers that
-> >    would be really welcomed.
-> 
-> This is not welcomed, having lists of DMA addresses is inefficient and
-> does not match the direction of the DMA API. We are trying very hard
-> to completely remove the lists of DMA addresses in common fast paths.
-> 
-> >    But exposing PFNs and letting the importers created their DMA mappings
-> >    themselves and making CPU mappings themselves is an absolutely clear
-> >    no-go.
-> 
-> Again, this is what we must have to support the new DMA API, the KVM
-> and IOMMUFD use cases I mentioned.
-> 
-> >> In this case Xu is exporting MMIO from VFIO and importing to KVM and
-> >> iommufd.
+> > I feel like this is small enough that m-l archives is good enough. For
+> > some of the bigger projects we do in graphics we sometimes create entries
+> > in our kerneldoc with wip design consensus and things like that. But
+> > feels like overkill here.
 > > 
-> >    So basically a portion of a PCIe BAR is imported into iommufd?
+> > > My general desire is to move all of RDMA's MR process away from
+> > > scatterlist and work using only the new DMA API. This will save *huge*
+> > > amounts of memory in common workloads and be the basis for non-struct
+> > > page DMA support, including P2P.
+> > Yeah a more memory efficient structure than the scatterlist would be
+> > really nice. That would even benefit the very special dma-buf exporters
+> > where you cannot get a pfn and only the dma_addr_t, altough most of those
+> > (all maybe even?) have contig buffers, so your scatterlist has only one
+> > entry. But it would definitely be nice from a design pov.
 > 
-> Yeah, and KVM. And RMDA.
+> Completely agree on that part.
 > 
-> >    Then create an interface between VFIO and KVM/iommufd which allows to
-> >    pass data between these two.
-> >    We already do this between DMA-buf exporters/importers all the time.
-> >    Just don't make it general DMA-buf API.
+> Scatterlist have a some design flaws, especially mixing the input and out
+> parameters of the DMA API into the same structure.
 > 
-> I have no idea what this means. We'd need a new API linked to DMABUF
-> that would be optional and used by this part of the world. As I said
-> above we could protect it with some module namespace so you can keep
-> it out of DRM. If you can agree to that then it seems fine..
+> Additional to that DMA addresses are basically missing which bus they belong
+> to and details how the access should be made (e.g. snoop vs no-snoop
+> etc...).
 > 
-> > > Someone else had some use case where they wanted to put the VFIO MMIO
-> > > PCIe BAR into a DMABUF and ship it into a GPU driver for
-> > > somethingsomething virtualization but I didn't understand it.
-> > 
-> >    Yeah, that is already perfectly supported.
+> > Aside: A way to more efficiently create compressed scatterlists would be
+> > neat too, because a lot of drivers hand-roll that and it's a bit brittle
+> > and kinda silly to duplicate. With compressed I mean just a single entry
+> > for a contig range, in practice thanks to huge pages/folios and allocators
+> > trying to hand out contig ranges if there's plenty of memory that saves a
+> > lot of memory too. But currently it's a bit a pain to construct these
+> > efficiently, mostly it's just a two-pass approach and then trying to free
+> > surplus memory or krealloc to fit. Also I don't have good ideas here, but
+> > dma-api folks might have some from looking at too many things that create
+> > scatterlists.
 > 
-> No, it isn't. Christoph is blocking DMABUF in VFIO because he does not
-> want to scatterlist abuses that dmabuf is doing to proliferate.  We
-> already have some ARM systems where the naive way typical DMABUF
-> implementations are setting up P2P does not work. Those systems have
-> PCI offset.
+> I mailed with Christoph about that a while back as well and we both agreed
+> that it would probably be a good idea to start defining a data structure to
+> better encapsulate DMA addresses.
 > 
-> Getting this to be "perfectly supported" is why we are working on all
-> these aspects to improve the DMA API and remove the scatterlist
-> abuses.
+> It's just that nobody had time for that yet and/or I wasn't looped in in the
+> final discussion about it.
 > 
-> >> In a certain sense CC is a TEE that is built using KVM instead of the
-> >> TEE subsystem. Using KVM and integrating with the MM brings a whole
-> >> set of unique challenges that TEE got to avoid..
-> > 
-> >    Please go over those challenges in more detail. I need to get a better
-> >    understanding of what's going on here.
-> >    E.g. who manages encryption keys, who raises the machine check on
-> >    violations etc...
+> Regards,
+> Christian.
 > 
-> TEE broadly has Linux launch a secure world that does some private
-> work. The secure worlds tend to be very limited, they are not really
-> VMs and they don't run full Linux inside
-> 
-> CC broadly has the secure world exist at boot and launch Linux and
-> provide services to Linux. The secure world enforces memory isolation
-> on Linux and generates faults on violations. KVM is the gateway to
-> launch new secure worlds and the secure worlds are full VMs with all
-> the device emulation and more.
-> 
-> It CC is much more like xen with it's hypervisor and DOM0 concepts.
-> 
-> From this perspective, the only thing that matters is that CC secure
-> memory is different and special - it is very much like your private
-> memory concept. Only special places that understand it and have the
-> right HW capability can use it. All the consumers need a CPU address
-> to program their HW because of how the secure world security works.
-> 
-> Jason
+> > -Sima
 
 -- 
 Simona Vetter
