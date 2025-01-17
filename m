@@ -1,137 +1,100 @@
-Return-Path: <linux-media+bounces-24872-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24873-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53651A14B4E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 09:40:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F936A14C9D
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 10:56:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C07D1188BD70
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 08:40:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8264D1882945
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 09:56:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E04851F91D7;
-	Fri, 17 Jan 2025 08:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oel8crqH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366331FC7EA;
+	Fri, 17 Jan 2025 09:55:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39D21F791B;
-	Fri, 17 Jan 2025 08:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C661FC7C4;
+	Fri, 17 Jan 2025 09:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737103190; cv=none; b=DiTdLvY/+0631ydIp5Tr1n0kd9NTEMq/2Q+NZPgsjvAMp3rpC2eiH600cnw7T8e8+rjtpGFfLtiuGFmxP8KnKiitZRi2VXW5eSnZ3q3C2BZ292+yk/2t/qJMZAmon2Fqj0lNiq+7bq45hl7TQ2cA1PeZdGRk+vCIffRAUCMAkQc=
+	t=1737107742; cv=none; b=H0yfoeHitYtdM38wPG/B8NpY7q6HEMrFgVg95wrMwXdCjtn3kOHfPX+3dvAUpMMQinbA+hrgnsToBWz8PIn8uxqGvvArSs9xENczGp8uN+CmoW8PCt27Wo1+HgrWg9Ry7GVbIEMNCxF99QHFQIuyStEdN8Vcxal0WunOeem8cao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737103190; c=relaxed/simple;
-	bh=RmI/SvTohP+pfTEfaWJxFe1M7/+Gp3uh0nXTvWxppX0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=EeXlbTmJi4v+tnUSUnaacD0VGYY5xrPTpTOjbK7RJas7zzZxXo59oK31Ra/0+RCr5OZ5xtUSh0923OLYF5uglDA32T/Y1nAglYnEvlGAJO2ja5O+zjZM3yYE3YPW54EnkJttoTQxOnaLt1MeSxoDPO+o9xvInx1CZ/HC/vl3Kys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oel8crqH; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H2kKwV022665;
-	Fri, 17 Jan 2025 08:39:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5g8BF3IbtjnjhhJuU0EXM1c5dpi4a1gzVPV+T8iKvho=; b=oel8crqHjKoX4Om7
-	kKbmt7TH3COhdsJoCgkF0vIrtNiF/C/Up8oHQZgHJhYZ1Cqb+aWQhuLB5SI00naq
-	pXevLN8L3K5W2kMP9i5VVI9qYJSD6recl9I8I0u0UIoL11FlfH59+8Ig+LjTERQ/
-	ioZ1JnFriHamyVrtRNR7IAjHC8iP+C25Y1mTOtbnniH+y5BwxGjyluQ8+bdqMI6U
-	/aBLfIYCnC6b6fUadISmMc814ZQPN6/8z1XC6T5RYXAzheo48HjIkejn0ZEcCT2+
-	Oeh3MUEXcIGYSxf22uLX05H7YAsGOu8hjc9wCKYQVdSL5MxE5bjv9kUtCLkIrIex
-	VsszbQ==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 447eq30rmx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 08:39:44 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50H8dhu5000706
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 08:39:43 GMT
-Received: from [10.216.55.47] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 Jan
- 2025 00:39:40 -0800
-Message-ID: <7a782ea9-f227-4f46-a757-b4b69f5c287f@quicinc.com>
-Date: Fri, 17 Jan 2025 14:09:37 +0530
+	s=arc-20240116; t=1737107742; c=relaxed/simple;
+	bh=v3xyECUrUCkbS6uPteZCsVvLDbOaYHQksZF67am3hEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D1q8zwHdOxCaqL0W7Bdp/rZYssKTS9/qU8EJ6WDoulwfKjLXtgPcodmynjxzhkuqPxIyC1IJ+rldARdEHMVULae5DZcpz3jgH4fbL6geIY8ThQq3fyHA2k8Nr2kPWRGZOlfJeeBzqIuc1H0QKLgD7rSJG+SsJx9xdML6HkgEAVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 31f5a7acd4b911efa216b1d71e6e1362-20250117
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:f63353ef-1cd4-4f4f-af23-1aebfc7e2e52,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:6493067,CLOUDID:3285e49d4ea2522a3d6aed9243522d5a,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:5,IP:nil,URL
+	:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SP
+	R:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 31f5a7acd4b911efa216b1d71e6e1362-20250117
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 698949766; Fri, 17 Jan 2025 17:55:34 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 3A145E0080FF;
+	Fri, 17 Jan 2025 17:55:34 +0800 (CST)
+X-ns-mid: postfix-678A2915-9982401618
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 02DD6E0080FF;
+	Fri, 17 Jan 2025 17:55:32 +0800 (CST)
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	laurent.pinchart+renesas@ideasonboard.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH] media: pwc: remove useless header files
+Date: Fri, 17 Jan 2025 17:55:30 +0800
+Message-ID: <20250117095530.3988154-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: venus: fix OOB access issue while reading
- sequence changed events
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250104-venus-security-fixes-v1-0-9d0dd4594cb4@quicinc.com>
- <20250104-venus-security-fixes-v1-2-9d0dd4594cb4@quicinc.com>
- <2b0528f5-f9fa-4cfd-abda-a0e95ba4a2f1@linaro.org>
-Content-Language: en-US
-From: Vedang Nagar <quic_vnagar@quicinc.com>
-In-Reply-To: <2b0528f5-f9fa-4cfd-abda-a0e95ba4a2f1@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: f6KKJobMGCSswGsA6MNgxz21IVTQhjWA
-X-Proofpoint-ORIG-GUID: f6KKJobMGCSswGsA6MNgxz21IVTQhjWA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_03,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 mlxscore=0 spamscore=0
- priorityscore=1501 mlxlogscore=999 impostorscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501170068
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bryan,
+It was originally intended to introduce simple_strtol,
+but since commit a081c3400ff2 ("[media] pwc: Remove dev_hint
+module parameter"), that simple_strtol has been removed,
+so in orderto prevent disputes,the header file should be removed.
 
-On 1/6/2025 5:36 AM, Bryan O'Donoghue wrote:
-> On 04/01/2025 05:41, Vedang Nagar wrote:
->> num_properties_changed is being read from the message queue but is
->> not validated. Value can be corrupted from the firmware leading to
->> OOB read access issues. Add fix to read the size of the packets as
->> well and crosscheck before reading from the packet.
->>
->> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
-> Please see Vikash's series on this.
-> 
-> https://lore.kernel.org/linux-arm-msm/20241128-venus_oob_2-v2-2-483ae0a464b8@quicinc.com/
-> 
-> it seems to have exactly the same patch title ?
-> 
-> Is this patch supposed to be a follow-up to that patch ?
-> 
-> https://lore.kernel.org/linux-arm-msm/20241128-venus_oob_2-v2-0-483ae0a464b8@quicinc.com/
-> 
-> Expecting to see a V3 of the above. If the intention is to supersede that patch or some of those patches you should make clear here.
-No, this is a different series having OOB fixes similar to ones posted by Vikash.
-> 
-> On the switch statement I'd have two comments.
-> 
-> #1 is everything really a " -= sizeof(u32)" ?
-Yes, it's everytime " -= sizeof(u32) " since the first the first word read is ptype of size u32
-> #2 if so then this ought to be factored out into a function
->    => functional decomposition
-Sure, will fix this with decomposition into functions.
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ drivers/media/usb/pwc/pwc-if.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Regards,
-Vedang Nagar
-> 
-> ---
-> bod
+diff --git a/drivers/media/usb/pwc/pwc-if.c b/drivers/media/usb/pwc/pwc-i=
+f.c
+index 3ec9eb5956ed..c6e5d031f068 100644
+--- a/drivers/media/usb/pwc/pwc-if.c
++++ b/drivers/media/usb/pwc/pwc-if.c
+@@ -56,7 +56,6 @@
+ #endif
+ #include <linux/vmalloc.h>
+ #include <asm/io.h>
+-#include <linux/kernel.h>		/* simple_strtol() */
+=20
+ #include "pwc.h"
+ #include "pwc-kiara.h"
+--=20
+2.47.1
 
 
