@@ -1,260 +1,199 @@
-Return-Path: <linux-media+bounces-24882-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24883-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C6BA15207
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 15:42:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42654A15678
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 19:26:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D88D1162096
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 14:42:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B3D2188CDFB
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 18:26:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E44B17A586;
-	Fri, 17 Jan 2025 14:42:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5731A7265;
+	Fri, 17 Jan 2025 18:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="I9nC3yAP"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="R2/9Zf07"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC3F158858
-	for <linux-media@vger.kernel.org>; Fri, 17 Jan 2025 14:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9C4A95C;
+	Fri, 17 Jan 2025 18:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737124943; cv=none; b=jjjP5qiKPlRY7CuVcBMEVFBCYN14p9ygCWLp+YLsgkVeSqqsKpAeBwPrWIgvZlvS61T9frDRDxDhykggSUkgqAT0+2mx/S2FUQudsuS6Dlv+0+0EgEYT5yed3IbN0nZ/OiU/IXlOSLsMWDbk259KsIH4VwabLr94LXv45a5E5UA=
+	t=1737138380; cv=none; b=bmScxkqfyy+BN3sus6yJtMxxdrdsNAwMg5I0V8iqyUrpYRPIKGQnKs8xqvBPQxsgdtC32S8hoDDf2b/IXtJsTUuGbdMHgq4lYmztKiLaXtF12Ho+vgEheWSVWwloJhgXRjoGTELi8S390smh0YGNgchnVa60YePSBYHHAQG/Xe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737124943; c=relaxed/simple;
-	bh=jwi6a8f3gsj2mguyz/YQikPgquL4wOvJ/aPvkXnwZdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EJSlL/6/MdYRbqGWwDfTXkAAd4fi08lOVkIyaMvZ5VE57HTF4mb07pdillfTTOBHb/f7qgf1Jg1R0fNBUZ3aTS6fsq1EKCWACHZl8tXVaESUlXAUemUB9CHtTXDVmGaTJlE2SN+7QTH/yt54jD3L1tij06NfhmTz2A4ubIdUFqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=I9nC3yAP; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-436637e8c8dso20869905e9.1
-        for <linux-media@vger.kernel.org>; Fri, 17 Jan 2025 06:42:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1737124939; x=1737729739; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vOyiy7rFa+fZCX1B+kcinTvPMKMqiU+uIoOM7Jp3fa0=;
-        b=I9nC3yAP0M5JCPEpqCiQzRUbwt1lIP0ivNjvWgf7gvK/3avzyrdslDLPsg+UlGJgQE
-         M0KWZiiiFhBGedKdGT+eawg+JJYNxR/lPw/BP04CtmckZGYvS/WkkdLjUPl4XuMa5fOy
-         nhaPQye9LMMVi4gZeX1gtObWC20pvTDFUl4Ho=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737124939; x=1737729739;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vOyiy7rFa+fZCX1B+kcinTvPMKMqiU+uIoOM7Jp3fa0=;
-        b=scTCzmBKBU7PNJtYl4Vm8va20Mb8cozU7Pr3oitLBcQEqbCLoG9qrUPbGOX58gfl+g
-         dO1Ejigspa8XAtnavqBeM/qAgOCMvZMI5KVZ2EBYXp2TqY/23KMoxZQK2uPU4u/DaXa9
-         lbbGsjKpLOeypCS5hmHk+3mVFklB39n9EAhJAfKENYYArf1FTcCF482bvPtNyQEll7GY
-         OAQJikz5MLJ++HuN9UQhjZhsOst0CEbpP9IOcHs4EPG6j5dm6ERc8kQ0t0sPzzGgHNvS
-         BUFMKKAw5gqpU3hpA80hgiENG7DSRGAaH6jpUEmWJB5xkSO+ERrPGDX1OxuElDpXELg/
-         5bgg==
-X-Forwarded-Encrypted: i=1; AJvYcCXc9TLS6W38hEowichQfapVUxQju1QflcEv8sbO9s43Setf77UW4O6UNf2Qaxf9ILXPsmzLvn3tJ1ILKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrB18qFEbOYjNr2QFa1a+sW5RRyTc8SkrLgev9pCxj6mjDpmfb
-	iz2Q+jvocA20Ghp64NgHx+1sdWL4FT7+Y0PKBQAuZlTLLT9APLr3F2Jbjd/vw/Y=
-X-Gm-Gg: ASbGncsTKJvkVRGFnPajZGqTHly6HhDR4eA2d8WkXBEkl7Ns0nBySFi3gUqLYwnR8sh
-	CdxDI6piUaDnqAJfwXzrflo4p4LjZhVJkTrldKK0e+Y+xkAynzGsVktK4fjf8uy9kkfOAGGK9pT
-	AgGx79XLpva2Q6rhK5lnYSUbIz6d0+cGu2khaqJ8AKoSk6x2FVhvPsOn9pkwkSXqWBUD8PP/qMC
-	DkK9O+7HmLa0+nUD5Y7KhrgmPpK6PeomcocCx+EHJU4qwFN4sYeqyYymykSsjzLZHeY
-X-Google-Smtp-Source: AGHT+IHxPap8BX01LyIGTU1AEqlpVQWXx2beTFQEyS1P7fpRD3tWSHNYAjM0oXYB5BLI/yHWy1ejYw==
-X-Received: by 2002:a05:600c:3b27:b0:434:fd15:3ac9 with SMTP id 5b1f17b1804b1-43891438051mr28828925e9.22.1737124939130;
-        Fri, 17 Jan 2025 06:42:19 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74ac5f9sm93712865e9.11.2025.01.17.06.42.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2025 06:42:17 -0800 (PST)
-Date: Fri, 17 Jan 2025 15:42:15 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>,
-	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
-	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
-	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
-	dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
-	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
-	lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
-	baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <Z4psR1qoNQUQf3Q2@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
-	Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-References: <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
- <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
- <20250110203838.GL5556@nvidia.com>
- <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
- <20250114173103.GE5556@nvidia.com>
- <Z4d4AaLGrhRa5KLJ@phenom.ffwll.local>
- <420bd2ea-d87c-4f01-883e-a7a5cf1635fe@amd.com>
+	s=arc-20240116; t=1737138380; c=relaxed/simple;
+	bh=OcOyXqiG40bVi8QUxUxz6FT3v7Ae14DfBiR5plxokUI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UuLeyHDQdGOfPZ0mAuedOc/vcvTOnqW0yIrjMGWCQObJ+uzw3+V797CBoMBHYZMN00gyzhZzr2+0hrMpax9HLq63g61Z8piNL8L4iR99lpWBHcmTDUTRE3ktpLw8Fvg+uJXOXE19WcnxR++kL2coD6/NQZj7pgZfAQMqWfO8SCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=R2/9Zf07; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A52CF60002;
+	Fri, 17 Jan 2025 18:26:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1737138369;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XLrilTvSeVgL95ft30Ux+KpvfhUSLP8ehfo9grmap8c=;
+	b=R2/9Zf07APhYrnskerwpgKcLM/ipA17GWDknh9yipWHE1xUOzaEY1IXGFZYUtOi2jiaohs
+	IVyFLCN5BWgmKaJqBa+QDbixd5wtXixZ7mrKgNCYA62HzxhakepQube4+/uOJIYU6ycwqh
+	0ZmBXgvzhZ6/5ruo1nBox3Wm8NrZgQDZCn/NI53TuZWwRsxp6/khs/tN2/3U/n+ETREZ15
+	BPuvu+fmQ5SpbExipkZ+c4WPsQsLi/zKGaJO7LWGCyndzE4a615ANBRvAN85HYbrqDom04
+	2KqsI+Ny3s+ZdVz2SM3wuwf0U/dRcMwDwyePeScIJFotRyCKXLBmSH1gU1M0qw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Keguang Zhang <keguang.zhang@gmail.com>
+Cc: Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>,
+  Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
+ <vigneshr@ti.com>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
+  linux-mtd@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-media@vger.kernel.org
+Subject: Re: [PATCH v11 2/2] mtd: rawnand: Add Loongson-1 NAND Controller
+ Driver
+In-Reply-To: <CAJhJPsWe+maw+zK6uiwvObTd_Ew73yjH=KddkgxwY7Zp0Y7ZYw@mail.gmail.com>
+	(Keguang Zhang's message of "Fri, 17 Jan 2025 19:58:39 +0800")
+References: <20241217-loongson1-nand-v11-0-b692c58988bb@gmail.com>
+	<20241217-loongson1-nand-v11-2-b692c58988bb@gmail.com>
+	<87v7ufnc0w.fsf@bootlin.com>
+	<CAJhJPsWe+maw+zK6uiwvObTd_Ew73yjH=KddkgxwY7Zp0Y7ZYw@mail.gmail.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Fri, 17 Jan 2025 19:26:08 +0100
+Message-ID: <87plkli9fj.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <420bd2ea-d87c-4f01-883e-a7a5cf1635fe@amd.com>
-X-Operating-System: Linux phenom 6.12.3-amd64 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Wed, Jan 15, 2025 at 11:06:53AM +0100, Christian König wrote:
-> Am 15.01.25 um 09:55 schrieb Simona Vetter:
-> > > > If we add something
-> > > > new, we need clear rules and not just "here's the kvm code that uses it".
-> > > > That's how we've done dma-buf at first, and it was a terrible mess of
-> > > > mismatched expecations.
-> > > Yes, that would be wrong. It should be self defined within dmabuf and
-> > > kvm should adopt to it, move semantics and all.
-> > Ack.
-> > 
-> > I feel like we have a plan here.
-> 
-> I think I have to object a bit on that.
-> 
-> >   Summary from my side:
-> > 
-> > - Sort out pin vs revocable vs dynamic/moveable semantics, make sure
-> >    importers have no surprises.
-> > 
-> > - Adopt whatever new dma-api datastructures pops out of the dma-api
-> >    reworks.
-> > 
-> > - Add pfn based memory access as yet another optional access method, with
-> >    helpers so that exporters who support this get all the others for free.
-> > 
-> > I don't see a strict ordering between these, imo should be driven by
-> > actual users of the dma-buf api.
-> > 
-> > Already done:
-> > 
-> > - dmem cgroup so that we can resource control device pinnings just landed
-> >    in drm-next for next merge window. So that part is imo sorted and we can
-> >    charge ahead with pinning into device memory without all the concerns
-> >    we've had years ago when discussing that for p2p dma-buf support.
-> > 
-> >    But there might be some work so that we can p2p pin without requiring
-> >    dynamic attachments only, I haven't checked whether that needs
-> >    adjustment in dma-buf.c code or just in exporters.
-> > 
-> > Anything missing?
-> 
-> Well as far as I can see this use case is not a good fit for the DMA-buf
-> interfaces in the first place. DMA-buf deals with devices and buffer
-> exchange.
-> 
-> What's necessary here instead is to give an importing VM full access on some
-> memory for their specific use case.
-> 
-> That full access includes CPU and DMA mappings, modifying caching
-> attributes, potentially setting encryption keys for specific ranges etc....
-> etc...
-> 
-> In other words we have a lot of things the importer here should be able to
-> do which we don't want most of the DMA-buf importers to do.
+On 17/01/2025 at 19:58:39 +08, Keguang Zhang <keguang.zhang@gmail.com> wrot=
+e:
 
-This proposal isn't about forcing existing exporters to allow importers to
-do new stuff. That stays as-is, because it would break things.
+> Hello Miquel,
+>
+> On Thu, Jan 16, 2025 at 2:54=E2=80=AFAM Miquel Raynal <miquel.raynal@boot=
+lin.com> wrote:
+>>
+>> Hello Keguang,
+>>
+>> On 17/12/2024 at 18:16:50 +08, Keguang Zhang via B4 Relay <devnull+kegua=
+ng.zhang.gmail.com@kernel.org> wrote:
+>>
+>> > +static int ls1x_nand_op_cmd_mapping(struct nand_chip *chip, struct ls=
+1x_nand_op *op, u8 opcode)
+>> > +{
+>> > +     struct ls1x_nand_host *host =3D nand_get_controller_data(chip);
+>> > +     int ret =3D 0;
+>>
+>> This return code is unused.
+>>
+>> > +
+>> > +     op->row_start =3D chip->page_shift + 1;
+>> > +
+>> > +     /* The controller abstracts the following NAND operations. */
+>> > +     switch (opcode) {
+>> > +     case NAND_CMD_STATUS:
+>> > +             op->cmd_reg =3D LS1X_NAND_CMD_STATUS;
+>> > +             break;
+>> > +     case NAND_CMD_RESET:
+>> > +             op->cmd_reg =3D LS1X_NAND_CMD_RESET;
+>> > +             break;
+>> > +     case NAND_CMD_READID:
+>> > +             op->is_readid =3D true;
+>> > +             op->cmd_reg =3D LS1X_NAND_CMD_READID;
+>> > +             break;
+>> > +     case NAND_CMD_ERASE1:
+>> > +             op->is_erase =3D true;
+>> > +             op->addrs_offset =3D 2;
+>> > +             break;
+>> > +     case NAND_CMD_ERASE2:
+>> > +             if (!op->is_erase)
+>> > +                     return -EOPNOTSUPP;
+>> > +             /* During erasing, row_start differs from the default va=
+lue. */
+>>
+>> ...
+>>
+>> > +static void ls1x_nand_trigger_op(struct ls1x_nand_host *host, struct =
+ls1x_nand_op *op)
+>> > +{
+>> > +     struct nand_chip *chip =3D &host->chip;
+>> > +     struct mtd_info *mtd =3D nand_to_mtd(chip);
+>> > +     int col0 =3D op->addrs[0];
+>> > +     short col;
+>> > +
+>> > +     /* restore row address for column change */
+>> > +     if (op->is_change_column) {
+>> > +             op->addr2_reg =3D readl(host->reg_base + LS1X_NAND_ADDR2=
+);
+>> > +             op->addr1_reg =3D readl(host->reg_base + LS1X_NAND_ADDR1=
+);
+>> > +             op->addr1_reg &=3D ~(mtd->writesize - 1);
+>> > +     }
+>>
+>> This looks very suspicious. You should not have to do that and to be
+>> honest, I don't undertand what this means.
+>>
+> The Loongson-1 NAND controller requires a full address (column address
+> + row address).
+> However, nand_change_read_column_op() function only provides the
+> column address. Therefore, the row address must be restored.
+> The above logic retrieves the row address from the addr1_reg in order
+> to restore the row address.
 
-It's about adding yet another interface to get at the underlying data, and
-we have tons of those already. The only difference is that if we don't
-butcher the design, we'll be able to implement all the existing dma-buf
-interfaces on top of this new pfn interface, for some neat maximal
-compatibility.
+If it needs the full offset, it's probably not a change column
+command.
 
-But fundamentally there's never been an expectation that you can take any
-arbitrary dma-buf and pass it any arbitrary importer, and that is must
-work. The fundamental promise is that if it _does_ work, then
-- it's zero copy
-- and fast, or as fast as we can make it
+What you do here is very risky and clearly not future proof, I'd prefer
+to avoid it. If anything happens in the core between the read0 and the
+column change, your logic breaks, and there are chances that this will
+happen at some point.
 
-I don't see this any different than all the much more specific prposals
-and existing code, where a subset of importers/exporters have special
-rules so that e.g. gpu interconnect or vfio uuid based sharing works.
-pfn-based sharing is just yet another flavor that exists to get the max
-amount of speed out of interconnects.
+Are you sure you implemented it correctly? What if you provide 0 as page
+offset? If there is no change column possible, maybe the best thing is
+to not support it.
 
-Cheers, Sima
+...
 
-> 
-> The semantics for things like pin vs revocable vs dynamic/moveable seems
-> similar, but that's basically it.
-> 
-> As far as I know the TEE subsystem also represents their allocations as file
-> descriptors. If I'm not completely mistaken this use case most likely fit's
-> better there.
-> 
-> > I feel like this is small enough that m-l archives is good enough. For
-> > some of the bigger projects we do in graphics we sometimes create entries
-> > in our kerneldoc with wip design consensus and things like that. But
-> > feels like overkill here.
-> > 
-> > > My general desire is to move all of RDMA's MR process away from
-> > > scatterlist and work using only the new DMA API. This will save *huge*
-> > > amounts of memory in common workloads and be the basis for non-struct
-> > > page DMA support, including P2P.
-> > Yeah a more memory efficient structure than the scatterlist would be
-> > really nice. That would even benefit the very special dma-buf exporters
-> > where you cannot get a pfn and only the dma_addr_t, altough most of those
-> > (all maybe even?) have contig buffers, so your scatterlist has only one
-> > entry. But it would definitely be nice from a design pov.
-> 
-> Completely agree on that part.
-> 
-> Scatterlist have a some design flaws, especially mixing the input and out
-> parameters of the DMA API into the same structure.
-> 
-> Additional to that DMA addresses are basically missing which bus they belong
-> to and details how the access should be made (e.g. snoop vs no-snoop
-> etc...).
-> 
-> > Aside: A way to more efficiently create compressed scatterlists would be
-> > neat too, because a lot of drivers hand-roll that and it's a bit brittle
-> > and kinda silly to duplicate. With compressed I mean just a single entry
-> > for a contig range, in practice thanks to huge pages/folios and allocators
-> > trying to hand out contig ranges if there's plenty of memory that saves a
-> > lot of memory too. But currently it's a bit a pain to construct these
-> > efficiently, mostly it's just a two-pass approach and then trying to free
-> > surplus memory or krealloc to fit. Also I don't have good ideas here, but
-> > dma-api folks might have some from looking at too many things that create
-> > scatterlists.
-> 
-> I mailed with Christoph about that a while back as well and we both agreed
-> that it would probably be a good idea to start defining a data structure to
-> better encapsulate DMA addresses.
-> 
-> It's just that nobody had time for that yet and/or I wasn't looped in in the
-> final discussion about it.
-> 
-> Regards,
-> Christian.
-> 
-> > -Sima
+>> > +static int ls1x_nand_controller_init(struct ls1x_nand_host *host)
+>> > +{
+>> > +     struct device *dev =3D host->dev;
+>> > +     struct dma_chan *chan;
+>> > +     struct dma_slave_config cfg =3D {};
+>> > +     int ret;
+>> > +
+>> > +     host->regmap =3D devm_regmap_init_mmio(dev, host->reg_base, &ls1=
+x_nand_regmap_config);
+>> > +     if (IS_ERR(host->regmap))
+>> > +             return dev_err_probe(dev, PTR_ERR(host->regmap), "failed=
+ to init regmap\n");
+>> > +
+>> > +     chan =3D dma_request_chan(dev, "rxtx");
+>> > +     if (IS_ERR(chan))
+>> > +             return dev_err_probe(dev, PTR_ERR(chan), "failed to requ=
+est DMA channel\n");
+>> > +     host->dma_chan =3D chan;
+>> > +
+>> > +     cfg.src_addr =3D host->dma_base;
+>> > +     cfg.src_addr_width =3D DMA_SLAVE_BUSWIDTH_4_BYTES;
+>> > +     cfg.dst_addr =3D host->dma_base;
+>>
+>> Don't you need a dma_addr_t here instead? You shall remap the resource.
+>>
+> Sorry, I don't quite understand.
+> 'dma_base' is already of type dma_addr_t.
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I didn't identify where the dma_base was remapped, but if that's already
+done then we're good.
+
+Thanks,
+Miqu=C3=A8l
 
