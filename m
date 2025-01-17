@@ -1,151 +1,229 @@
-Return-Path: <linux-media+bounces-24868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24864-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02FDA149D9
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 07:55:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8A6A1499D
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 07:20:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A1A516AFB8
-	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 06:55:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A83E63A9482
+	for <lists+linux-media@lfdr.de>; Fri, 17 Jan 2025 06:20:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 426171F78E1;
-	Fri, 17 Jan 2025 06:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C06EB1F76B5;
+	Fri, 17 Jan 2025 06:20:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BAGWZ/7f"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="U22YWuxy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2041.outbound.protection.outlook.com [40.107.21.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DB81F7564;
-	Fri, 17 Jan 2025 06:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737096939; cv=none; b=b66Wqp8Dt2c5MzosCHqWaK8fp+PYZLIBuqElf6WHX1qkbhAZdDx3/+s9McFZD5l8Eg6Fig5DK7SCEszxBVaBRo9701vwC+JH3SbugSPJoyZJ6AQgA0EUZ0DotPM52Qy7g54j3YAfrCitCwotDSy9IVvgZ0w+p42KXfQ1iTgYpIM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737096939; c=relaxed/simple;
-	bh=a0dUK/jQpDvIM8/nBDBU73ylJDOTGNarHp7F4VWxh2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HnCHSUbzysG/bEvSX0dG7b3Vl5dqtljVCE3ATwYU0I0zV+HYjyi2fVDA20fhn7hqk3AXSKpumXjlYq+/AqEtMhUbwTRyswuid3VHgAxDtJmFU+4PhSNZM1fFPcOmuSJWxRWVtUxTLOTIZGyUgJ1w/Wwj2unWQgDHVUKpe4nwoOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BAGWZ/7f; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737096939; x=1768632939;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=a0dUK/jQpDvIM8/nBDBU73ylJDOTGNarHp7F4VWxh2Y=;
-  b=BAGWZ/7fEaIl3foWPAIo9ZebSnMETgwNPT+d4AS3tZBxpsHVYlSdKtJH
-   iZSGwMb6LEYb9BHRSNM+wFt2bjgAB9P3iRSEhX5oIouwDTwsB1ydCWUEd
-   7vD+dbVLcQTvXU38njr6T0Imn9ILxs1ub0vIQt5/MjeVMH3w2h7LXBeMy
-   sU8Zz/iMikNIv2aTFv2byENAKBF+GauKVt2j71jWBVg1gfYE+faNnwh3q
-   jeQR9C5Nw9y27sysl7SMBR0eUS8Q8+L9fIn6WeaCdOmQ1K+In0Nxmn8NV
-   jpB/n/IZP6ItDdZRluSx9Xr6wZf2dXBpmavCrvqNz8Oay6C458F5i2agh
-   Q==;
-X-CSE-ConnectionGUID: 8rUuzQchQpiCvDL8nrI29g==
-X-CSE-MsgGUID: IsoL10krTd6lmtOAqkhRdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="41284406"
-X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="41284406"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2025 22:55:38 -0800
-X-CSE-ConnectionGUID: RxiCzTo0ROmjq7QbZX/TYg==
-X-CSE-MsgGUID: jaCx/4CdQQ2PY/ze4H41mQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; 
-   d="scan'208";a="106312339"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Jan 2025 22:55:32 -0800
-Date: Fri, 21 Jun 2024 06:02:17 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
-	Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <ZnSm6ULbJbxOU27J@yilunxu-OptiPlex-7050>
-References: <20250115133821.GO5556@nvidia.com>
- <f6c2524f-5ef5-4c2c-a464-a7b195e0bf6c@amd.com>
- <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
- <20250115141458.GP5556@nvidia.com>
- <c86cfee1-063a-4972-a343-ea0eff2141c9@amd.com>
- <86afb69a-79bd-4719-898e-c6c2e62103f7@amd.com>
- <20250115151056.GS5556@nvidia.com>
- <6f7a14aa-f607-45f9-9e15-759e26079dec@amd.com>
- <20250115170942.GT5556@nvidia.com>
- <5f588dac-d3e2-445d-9389-067b875412dc@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE341F7586;
+	Fri, 17 Jan 2025 06:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737094828; cv=fail; b=HRb9I/hvoJFDKuDDYeNofrCPiEAIzXADN9/BvX3Rfgk+aEU9fKPKz9x64oK/DZFGhxEDf4pOcK4XrpIAR6l3GxKRDDU1kJjLg7COrpTxpluNMswVzVDqlIKMykMEwjeg9rmjG2xm2x2VK7z3JesoQ6Kd7F+XrlpBo8yB9GriBTk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737094828; c=relaxed/simple;
+	bh=7zTdu4qCEhdKHq9n/rhoFraoqyzSoCaasNT8O7quTWY=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=D98o9cHzvkCmW5uFciW7X3YYXo+f21xUyRvBTBmwHwpHlMbNP9gsn6y0v8q3aM5b6trTVW2Ii0n4e3Z3z9mI6vMdsFzsYzmrp4OReMIAHuFrzqiCZypJGb2ruxwVOoVEFlItPo1U7IJ3xQ54xj5GQYecDIIq5BYc5os8fx5pCk0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=U22YWuxy; arc=fail smtp.client-ip=40.107.21.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Huc5v9TzqnCcYapIFKlACqOUWZAdw/HLsuYiIYROKdI6voIWkAdGmeUxH7pCOyZWTLvb/U9tN6nq9m1HnD3pKaBZ0J6vjVytscKc7UELsGMtqRn/YpXhuEz9Q7KwCWB3BHMmGVp2dC7sx03hi4sAxota35TPkJoomLQ5m6mCa9UBvRkvN0S0iQ5K1/wgHX0zW4nfJySkrojUvlI7GE2KK+GJwM6Jc4ITyoO3gfnL7qk7duFhmjh+GTwvro+xuWCPBGy2rwk4mNj9TpOFeU15BzWLGPNS+XBfumySp5kNG5e++wlmnHIEVeTTo3Ltpj9aNVdDiu0rOd0o4WCjp8pNkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bquDV/bmUAb9pFD/nbqifxv3X/8ei8IhgKKoVYCEd7A=;
+ b=G8dX7kQuJc2GgdzvTuJNLY9p0QJREgs7pOuCuFEfynwyc2YV9INiAVN/Xn4PTbxQeoxQ5lv5Q/QGqiLauaoK9+k2H9s3oo2ajwMDMfbxt5wyHMPdBWjspnh9meNWFCnuCDcHwHCTX0YEStYLx6WnJbPRt/nzLGWOlAL0lYQm8NaglHR8HRRYGtzxFbX4CMRHE7+G2gWse2XSjE+YVoroocnhjBPzbkBcNKcLZHOKBsjTWCQZT+UE0WhtNz8TMIVT36PTNEfUNPiHHt8nxUos1J9OO7BabBB5hG6CH46so7YzIeFF1Fo8UHSCd48+Dsr5DoSaGoP/Wg8agjDYQMDM2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bquDV/bmUAb9pFD/nbqifxv3X/8ei8IhgKKoVYCEd7A=;
+ b=U22YWuxyJ/mKN2OxkmRqIleUTdA4J/50Mt5mr+x5jaY0AnZvoEXwWq0OrH7g/AiUpmQdrltWDh5zcaH0V4JhzBs51iZQ2QTQgaw1/dmqjACMtBX0U/68C5VJU5G/NDEnAphsc7+Sr7hv15Eenz9KS8VZN/ZJTUq4Fw1T5t4nM4UYlaq2Vy5bpduE0lLK/3HogkakFJh5urwtHUE/mA48X5G1VjZwTx8c+f6fTspns97ihY3NjD+YHoagroRoJplhWpX0shLIwSMEbdHiH0yIUlI+grlGZse8jK7NQ0wkmiYDbLMzed1YEdrGBqlT363KyaN2IoCaPyU9jtRC+p84tw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
+ by AS8PR04MB8053.eurprd04.prod.outlook.com (2603:10a6:20b:2ad::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.16; Fri, 17 Jan
+ 2025 06:20:22 +0000
+Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
+ ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
+ ([fe80::2755:55ac:5d6f:4f87%6]) with mapi id 15.20.8356.014; Fri, 17 Jan 2025
+ 06:20:22 +0000
+From: Ming Qian <ming.qian@oss.nxp.com>
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl
+Cc: nicolas@ndufresne.ca,
+	shawnguo@kernel.org,
+	robh+dt@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	xiahong.bao@nxp.com,
+	eagle.zhou@nxp.com,
+	tao.jiang_2@nxp.com,
+	ming.qian@oss.nxp.com,
+	imx@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 1/4] media: v4l: dev-decoder: Add source change V4L2_EVENT_SRC_CH_COLORSPACE
+Date: Fri, 17 Jan 2025 15:19:35 +0900
+Message-ID: <20250117061938.3923516-1-ming.qian@oss.nxp.com>
+X-Mailer: git-send-email 2.43.0-rc1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0034.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::9) To PAXPR04MB8254.eurprd04.prod.outlook.com
+ (2603:10a6:102:1cd::24)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5f588dac-d3e2-445d-9389-067b875412dc@amd.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|AS8PR04MB8053:EE_
+X-MS-Office365-Filtering-Correlation-Id: cdcd5b1e-aaf7-415b-31ad-08dd36bf05f9
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?MC9XYCgVfWV/mFR7rbxJdfdFfhH4u4XyUEvCdz6eWzi1wz7rMOlmsNAfaDXq?=
+ =?us-ascii?Q?mdFFt/3ZoO5ZZQNbYvcilwXZyI/T+JwEIIfWff3B5Pv4wad7p37fJ6ho187q?=
+ =?us-ascii?Q?GelJmZTC8lW8hVIDuASPd5QQis278+NcHD39yZyDg/mdvz93CLXT2K6xPs3s?=
+ =?us-ascii?Q?FKxv10R50JtP67aR4GBmFvbM+xIvC3EJXdsiGELX5qEYs/D2MgEJ+A376qnW?=
+ =?us-ascii?Q?cKtlXB1B9xOEOsPL2MB/sFbi/T/4fshfXADtTwP9Dk9jqbEiDVf8UnVnUJ3X?=
+ =?us-ascii?Q?q650ycmfwPS5Nd1i4CpwZGqwsdnUKjpzMkkzLXPgLWZEsWMV9nI6pFLoysxb?=
+ =?us-ascii?Q?gsuC67eLtxpcrzavlNqjrBWSeC/70RwwxDxw7vxKEw9wmk2EhBrgm05ACFI2?=
+ =?us-ascii?Q?rQw3kbhhuTo4J3wFsatVjuM2PhtTC2X17AEpyUEGpsGbPMlldP8HNQHLaZeC?=
+ =?us-ascii?Q?itgB9mLzwlQ70HMSJU1k4QLaXfb40yGcvE0CZa+F8Leo9qerMaT+qUqPwtoL?=
+ =?us-ascii?Q?E/F5MPf13SOsuQIvVubEXwGgPnboa0CCI9aeSoW3hsX7be/FN2bTcvbBbsTt?=
+ =?us-ascii?Q?rTgTOsA6JJzYvoujMb6/x8AWmanWLqU4g11A5iuiO8BT1HKThjRzpfAkdRyi?=
+ =?us-ascii?Q?9gyXecuX1hxODyleXKw2Y8tJqcIkFqxmMgSl7+MnHFrAb1DzlOhR7LJIttQo?=
+ =?us-ascii?Q?kcs4NbodvZWZTtlrOTDSewGY+/319HX2MdaQz6z7mqhO4CV4L81RH+dNnUJJ?=
+ =?us-ascii?Q?IVqF+x5cCh7fA20McB8fRK6pOLTmDQSbt1x3pxsAsgPqSi53CWmgBPA5O10U?=
+ =?us-ascii?Q?KOVQASSUcBHOSw0Lks6U7rblU71/+vDnv2kKxu3ZRYQatNOELCy2/9j+K4R+?=
+ =?us-ascii?Q?6uxkPfJJFX87c1Fibsepf/pl9rH7RvkDPpK6m5lifAYQBM6pXXinANaoL9l0?=
+ =?us-ascii?Q?Q2qee3Jpw6L9XAQVmEaa0ZVrfT2KuV5EvgIxN1ojoUYntREOR2Wl2juJChvP?=
+ =?us-ascii?Q?HXSNcD/QbsiNnYNi8z3lg6lUXBgd41hMYfYRNH6Pv0uTt9mgPt9elBtzSwE8?=
+ =?us-ascii?Q?nN6pRjKlaHzn6M7iVPvR004pUArUVebeTCSa+YKI9XH9ixVlwl1DANMW2VfP?=
+ =?us-ascii?Q?7Ed/tcyJX2R8JrMz5iwqmGhAjiJT8Cq2ZmckUr00KCJIh5w0OiA7Fc7f/8oU?=
+ =?us-ascii?Q?IejK+9G8203YQ/NFQV4iEmrmOhIEnPnYOZuBOcZd/A9I9orxtPXuxOKM2mV2?=
+ =?us-ascii?Q?5SMCvfRIfVGHcmTZjqin5JxrmmNIDEelpaM/iuqjS/7KvbsMvwfOsXETcnN+?=
+ =?us-ascii?Q?2z/9IP7Ud0Bfw9Hfm2t/iRQRJ0GuFB93xhKNpauO2/Fju6If8bv9iqQ7KjXz?=
+ =?us-ascii?Q?CfvBmXlXrsNZqy/1PsyFSwD3rU1Hb8JJgYQ0lzceMkTiPeftElg0jsD+lrET?=
+ =?us-ascii?Q?sBrSd+2l0kEAlxK+t3CF6Ls0qzOJvz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?FsVUVvlWBPdSuI3tnrRFlZDQkLULAQFLcVFwUw2EpmQKx6x8uxtNbbTYTyNZ?=
+ =?us-ascii?Q?6C95ZETYNzAC6wxB1MelVLO/s5WXo8MhhDJeza984d0Mwj9sow5Zl5myPYk2?=
+ =?us-ascii?Q?UH6T0zE8PUWuWSmu93s6GxCBJJGtnvPL9BdypsQisBV0ovWItDkUSEwPC/DA?=
+ =?us-ascii?Q?Bku43C0TEnz6ki8w1nEvIOAYGG+lyHOffQa/YisksnOtVIJzdRbVcLDBP0Wu?=
+ =?us-ascii?Q?y3v5PfpRkmkGSJK1y/tQDXQYweVqq7dQxuv041BrCSqdcFypTfmOl7xRxbOl?=
+ =?us-ascii?Q?KyNxUSjeIesBwn1NWXXnsADNL+lb4rQIA01ai3tfLVRtq3oPk9fNcZZP1UlX?=
+ =?us-ascii?Q?OwQRuQvSBCjpEmzMJCROqR8aBl4ooaY5kN6wIs+FzO2dFiI4nk8PnMYiUEwe?=
+ =?us-ascii?Q?4f7vzxctpZZL7S68D1cXD6m0Q16cgrKDYApMVVVUKwuf4NojMB6vxeWhjQ5q?=
+ =?us-ascii?Q?SWKgADdYJMcKPzitKODmEsDce/PWsEkVS2rNyPAgDLg7yJ4WfaloAWRzGA+x?=
+ =?us-ascii?Q?ghtWSw5PJX8fbHXNMfWPGqg3tpLwGs0VFD1qTvbWkpE6mPoYoSBz8qtXfZ61?=
+ =?us-ascii?Q?veexYIo9KMGXJJrib7e6acujR9YUJzJz9TMtoCAV9z6ZyiYrDde8e6lwkEjE?=
+ =?us-ascii?Q?W/KNrrLwBjDa/hhbGuKIID+i0vSY0GLxNdVpiV/aqBGz+fUdaEtSfSp8XF4E?=
+ =?us-ascii?Q?qSzJfIjtSzqrg4bIOTDUVM8ApHMR5f/woxKDW9LEUrDSlqoLBUKaMNPyLcJt?=
+ =?us-ascii?Q?CE4ZZJRsCyZeDa6FXSXp1DjBpkOKc/yrWvY6jhI0M+JhLFe3hYYprZDGbVMq?=
+ =?us-ascii?Q?xbkW+CtkE7TUQql8RHGMGD6BPEt0ANQ83JhX010KapNu3GA64mvPzZk1Rzvs?=
+ =?us-ascii?Q?n2C5QXdNFR7WRHcL2v+6i4kmsjwhImfmGzyLjgldGyEdG6NmFFxBNe+rG53i?=
+ =?us-ascii?Q?kmT7fq1+FLO3kfu903boV8tKjGT9mcv2cl4HpP5mkxi1Qev1negWD5Tu4riZ?=
+ =?us-ascii?Q?iXqovrf+vMDHTxj567L1b86rCHWtR0H4Dc4q5sgupjm9sQoofK+K5KSXvK9n?=
+ =?us-ascii?Q?RxhuJRKPVJ9EKiJZ5Tdf1sx6Qq8xYDaEyaPPGA4x6vzVKW/Y3wXgXX2JfZwY?=
+ =?us-ascii?Q?4KtzhYlqauIfRFGbGOyR60UnQrv020kZG2dwpjMI5P4o+yuY/FzOuUFs1fWF?=
+ =?us-ascii?Q?B7nW/906GP/Hz05vUfDRuqjMA2LeebYLenHfGzWUYFoXBTB3+zlF+7B28kWo?=
+ =?us-ascii?Q?fvFJNlCbU2d7iOWNBKixIQNetPwI/KPBnTk5fxYkrDLmyJBKXX1G22aMY3rF?=
+ =?us-ascii?Q?GrdYHxbUOTMoGdf6BSKV4cLAF4GkqvKnWSKpwxdWhTGtI3kTGdnt6UdcHus/?=
+ =?us-ascii?Q?XpSKVewKIwvxT7QXPxAtT3GuexKLBD0jviQy2XTcXtRDKnqYhz0gRraqH6wi?=
+ =?us-ascii?Q?nsmB2SJotVmVywNVglV90HozlUcMU7+4k96J0v+2b9W69yjPLJTeWL09roeU?=
+ =?us-ascii?Q?0BjyEoM+n9ClcvgsIzsp61B4zXbBgwubdyIM8hWrcSon4HSzkeMadp4VrwdP?=
+ =?us-ascii?Q?MhgEcCUcL4W6dWeNVGAnufAK/hGvAfHaY7JN7nD9?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cdcd5b1e-aaf7-415b-31ad-08dd36bf05f9
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2025 06:20:22.5374
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oiV7/4ymi9w+8OiiZb+SsKUc/9KoIQxS4AQYYvV80+X+jpPT79UM4FPducm1jmKSu+5eOFuvplbSMqLoXoETqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8053
 
-On Thu, Jan 16, 2025 at 04:13:13PM +0100, Christian König wrote:
->    Am 15.01.25 um 18:09 schrieb Jason Gunthorpe:
-> 
->  On Wed, Jan 15, 2025 at 05:34:23PM +0100, Christian König wrote:
-> 
->     Granted, let me try to improve this.
->     Here is a real world example of one of the issues we ran into and why
->     CPU mappings of importers are redirected to the exporter.
->     We have a good bunch of different exporters who track the CPU mappings
->     of their backing store using address_space objects in one way or
->     another and then uses unmap_mapping_range() to invalidate those CPU
->     mappings.
->     But when importers get the PFNs of the backing store they can look
->     behind the curtain and directly insert this PFN into the CPU page
->     tables.
->     We had literally tons of cases like this where drivers developers cause
->     access after free issues because the importer created a CPU mappings on
->     their own without the exporter knowing about it.
->     This is just one example of what we ran into. Additional to that
->     basically the whole synchronization between drivers was overhauled as
->     well because we found that we can't trust importers to always do the
->     right thing.
-> 
->  But this, fundamentally, is importers creating attachments and then
->  *ignoring the lifetime rules of DMABUF*. If you created an attachment,
->  got a move and *ignored the move* because you put the PFN in your own
->  VMA, then you are not following the attachment lifetime rules!
-> 
->    Move notify is solely for informing the importer that they need to
->    re-fresh their DMA mappings and eventually block for ongoing DMA to end.
-> 
->    This semantics doesn't work well for CPU mappings because you need to hold
->    the reservation lock to make sure that the information stay valid and you
->    can't hold a lock while returning from a page fault.
+Add a new source change V4L2_EVENT_SRC_CH_COLORSPACE that
+indicates colorspace change in the stream.
+The change V4L2_EVENT_SRC_CH_RESOLUTION will always affect
+the allocation, but V4L2_EVENT_SRC_CH_COLORSPACE won't.
 
-Dealing with CPU mapping and resource invalidation is a little hard, but is
-resolvable, by using other types of locks. And I guess for now dma-buf
-exporters should always handle this CPU mapping VS. invalidation contention if
-they support mmap().
+Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+---
+ Documentation/userspace-api/media/v4l/vidioc-dqevent.rst | 9 +++++++++
+ .../userspace-api/media/videodev2.h.rst.exceptions       | 1 +
+ include/uapi/linux/videodev2.h                           | 1 +
+ 3 files changed, 11 insertions(+)
 
-It is resolvable so with some invalidation notify, a decent importers could
-also handle the contention well.
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+index 8db103760930..91e6b86c976d 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+@@ -369,6 +369,15 @@ call.
+ 	loss of signal and so restarting streaming I/O is required in order for
+ 	the hardware to synchronize to the video signal.
+ 
++    * - ``V4L2_EVENT_SRC_CH_COLORSPACE``
++      - 0x0002
++      - This event gets triggered when a colorsapce change is detected at
++	an input. This can come from a video decoder. Applications will query
++	the new colorspace information (if any, the signal may also have been
++	lost)
++
++	For stateful decoders follow the guidelines in :ref:`decoder`.
++
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+index 35d3456cc812..ac47c6d9448b 100644
+--- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
++++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+@@ -526,6 +526,7 @@ replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
+ replace define V4L2_EVENT_CTRL_CH_DIMENSIONS ctrl-changes-flags
+ 
+ replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
++replace define V4L2_EVENT_SRC_CH_COLORSPACE src-changes-flags
+ 
+ replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
+ 
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index c8cb2796130f..242242c8e57b 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -2559,6 +2559,7 @@ struct v4l2_event_frame_sync {
+ };
+ 
+ #define V4L2_EVENT_SRC_CH_RESOLUTION		(1 << 0)
++#define V4L2_EVENT_SRC_CH_COLORSPACE		(1 << 1)
+ 
+ struct v4l2_event_src_change {
+ 	__u32 changes;
+-- 
+2.43.0-rc1
 
-IIUC now the only concern is importer device drivers are easier to do
-something wrong, so move CPU mapping things to exporter. But most of the
-exporters are also device drivers, why they are smarter?
-
-And there are increasing mapping needs, today exporters help handle CPU primary
-mapping, tomorrow should they also help on all other mappings? Clearly it is
-not feasible. So maybe conditionally give trust to some importers.
-
-Thanks,
-Yilun
 
