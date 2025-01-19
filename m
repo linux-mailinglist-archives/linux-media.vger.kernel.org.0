@@ -1,335 +1,218 @@
-Return-Path: <linux-media+bounces-24898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24899-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8686BA15FF5
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 03:14:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDCCA16020
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 04:53:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA52D165C96
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 02:14:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D1353A699D
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 03:53:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39FFC1F95C;
-	Sun, 19 Jan 2025 02:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8441A42AB4;
+	Sun, 19 Jan 2025 03:53:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timsurber.de header.i=@timsurber.de header.b="xopNy89k"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="xkvbqTpa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A26A10A1F;
-	Sun, 19 Jan 2025 02:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857ED2C9D;
+	Sun, 19 Jan 2025 03:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737252882; cv=none; b=GimkQZLs/7/08PXeIi989fXh00+0sRZ2LaVryttb7YsIJ9N2Lkpogu6jw0PUMOZsj3nQ1xmWhGPpXvgJeQkuaMSk78DFgCUbVPmuauUG3kgVVvO+39pwk7JzNBoqB03KTpmS7vIx96iVuLwfYzDPUGL0GQMNBi2GyUyAwrZHFZo=
+	t=1737258821; cv=none; b=tTNeJyFnqDnJKMJDrZcrouByF56NKWZhtRsXpv7UiDVN1/1BYUrNESWCwZS6fovyu/vqI2fGQfMmzYIJJhHZXa7qYEI3dFaeyISBg8b5/FLQxNs2tHC7HQYT5/tZMSOA1+/8KDoVkMHUWVDCExATmHswLs6glCBsOI2jSspd/ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737252882; c=relaxed/simple;
-	bh=QqirX0Q0VjLVqU0qyf1kgIBR6b4sc8TOUnugZvCOQbo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hIVSwne4g/xMMYII9bpeB7mND5b/7xPmbbnhG1MyQlgPr1BHLYmW81CRm1fLNKCbwXCbVkfj1Iw0zMCb8qTq/LFLKbm4fM12kmvufodF3pghpiLIR/AV0qEOvQCoQXeRdh09C5lHJW9Pf1hscHoksfV7E14ZfQ4bNpPcfX/1aRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=timsurber.de; spf=pass smtp.mailfrom=timsurber.de; dkim=pass (2048-bit key) header.d=timsurber.de header.i=@timsurber.de header.b=xopNy89k; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=timsurber.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timsurber.de
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4YbH962WKFz9sZj;
-	Sun, 19 Jan 2025 03:14:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=timsurber.de;
-	s=MBO0001; t=1737252874;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7wWue60IpM+2K4rr9WI0pySVl96xPtpPDMA0zbtye8g=;
-	b=xopNy89kIA+rB0qNLpHBi5apwEvbOPxJ38lvwY7Xd7GKnZkMVTvaLLb/sA9sMkOTGCb5Rv
-	SdISYOlAbUJ7grlPglVqyHcGok7sWXK+AJCw4QE/1eQXteFY6tnZP2dZM4CIEgwTAxFFbL
-	j5KFo4yNZdfMoOPRyFuvGNm8RHXuPOTMrHsg3bVHMuCWSzxr1yjZa5RRGoG09ePK6uV/yg
-	wxg7HoX2ECIu2WkUjZVZkQjbwOSbL2DQQ847X+TeDhPTF2iAyJaxj6oVIgnAhlXxVolCXZ
-	KiyN1f1mMDl8d5saJilHpPGZSs8mUVcyrNl7rNkofmFNL6iN2Eixna/ovG+AEQ==
-Message-ID: <bed5f370-113f-4109-b8f4-870dd15e93ce@timsurber.de>
-Date: Sun, 19 Jan 2025 03:14:28 +0100
+	s=arc-20240116; t=1737258821; c=relaxed/simple;
+	bh=/6r3+lP93r4R5DLqAh1SdUBku/KykWHPzxO2/S62TdU=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=j/X5MLwh3x8biBRg+rQVecC3JiR5onbfjtk4rz90IO0SLV5IFRLUel1FNXEoV8w9y1+4TThHqfFZAFi4GU4quFlKhNcVN24MuBFpH16b+KWaDR/yowp8W5NseXYTvKCyBHx1jkSrwXRW/ZMpFJzYopCx8VMzm8egQtT3oI1aEtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=xkvbqTpa; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1737258511; bh=7Oi23ZwQwn/1pF4hPYinuDN3qqB+5LZQ6XbjGD6JMbY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=xkvbqTpaMSJ/Np+fElgtQVtwqjRpYWUDpHib2SbCu0UyZKJJbUDMefCjMrzv2D6Mj
+	 i1nC1l2XNnTfj5ZGij21nfo99zfdGw4STZFVh1S4YmeJj3iWWa1TtRFL9G5n9nRv6I
+	 R64nOc1a5Os0Dbyddq7LG9qFk/rYByygVIP11dlM=
+Received: from pek-lxu-l1.wrs.com ([114.244.57.157])
+	by newxmesmtplogicsvrszb20-0.qq.com (NewEsmtp) with SMTP
+	id A8906E43; Sun, 19 Jan 2025 11:42:09 +0800
+X-QQ-mid: xmsmtpt1737258129tx6kjhphc
+Message-ID: <tencent_741B182568BA97BBA133319E461B544B2C08@qq.com>
+X-QQ-XMAILINFO: M4rXzlpNAA0NiQ50A9OOeW7WnlKzuz3H2tH1RW566od5zoX0x5Lexh1c15LHqB
+	 B6ZsYr00EC5dOOpbwXnsC5TpBvP08Uc4heyZZqXdSAa4rQV7XXdG0LyN73oYk5pKz0tMcEhrn9VB
+	 eDIllRRO/LIT/YhgQFjDk/uqFJPcMVr0lSx3gTIQ5tgv0W3w+fy4+bKTJY8CYJyRuklZBH+2bFUo
+	 lkw7G9j6EGElCJtWPBwV4M2w6jcxKX/And49DpoEPS8hYl3zhBy0pXejcJVsTlPcS2ps8odZbza5
+	 ioqKnaeOVl3Iycq3HzwCFITtkq+G2q2In6K1ChgKBikBQdt5GSi0m8J6MKY07c+fD/JC0X1ZvdjY
+	 7V3nfJCrFaTbRxlxhytwjlvRQB+nbFf5N+MqvHZgYe29Zqp79aXbgY0/6gla8VJLLYZFzhedQIcH
+	 T4N8DA7SZa3xTLT8K3Js9JKpos5nmpmn8xKmqlm0ONL0Ov7yLoZwlE5sMM+mIC7QHiawflNCRCaP
+	 ZMsDta48CZh2YAESU2J5x+Zw5n2hxtRpDz1xhSwSXSyW4ppml849ly0hh2O8zel5x939nuq6nTMC
+	 +8RGfyu0cxaolxNFXwRe+A0MfrCbItEWgk7+IeY6h3bnvV0WshcK1QA2OwSzXmQXvpYtXMPnkkDR
+	 miTQnyHgqAXJ+0d8A2DQJ1fqqxc5BR1vwUXn0CVRm79ujrBUbc0kriSJvEw6Df8BtSxmPfTBsoE2
+	 AfAhnQsi7cJI1yfgwYYscpDb2xMwNsyaDVjjZQUkKhxDxVsKjup19YTO+SbRzQlz3rdGnnExuqRa
+	 cSplUFMKzAxw0spINPRQrsrRZfReLl61dT2/T8b5h0uy3bTe4d53I5isJB8dkf2YGX5k31Ac4n/F
+	 hYyHvpJmOlKuFeNER82TOlgDwBXwTImreCv/L2QUg9UJ7FltF3SDfLlCLB1ChFqA==
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+1eb177ecc3943b883f0a@syzkaller.appspotmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] media: dvbdev: keep dvb device ref balanced in dvb generic release and open
+Date: Sun, 19 Jan 2025 11:42:09 +0800
+X-OQ-MSGID: <20250119034209.935527-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <678c0605.050a0220.303755.0031.GAE@google.com>
+References: <678c0605.050a0220.303755.0031.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [RESEND PATCH v5 0/4] Add Synopsys DesignWare HDMI RX Controller
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Shreeya Patel <shreeya.patel@collabora.com>, heiko@sntech.de,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
- p.zabel@pengutronix.de, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
- hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-References: <20241210193904.883225-1-shreeya.patel@collabora.com>
- <acb91a34-c0f8-4f03-8945-755b4e42dcf3@timsurber.de>
- <925d7571-48e4-437d-b55c-3f7bbad8af1d@collabora.com>
- <fbb5016e-678c-4e54-a6a8-0ccaa2bdf45c@timsurber.de>
- <a5226fac-2a5b-47f3-b32e-8662bf932bd4@collabora.com>
- <d61e344f-fcdd-47af-a142-e8d42edec045@timsurber.de>
- <9399a881-7d45-4ca3-8249-2e554184d038@collabora.com>
-Content-Language: en-US
-From: Tim Surber <me@timsurber.de>
-In-Reply-To: <9399a881-7d45-4ca3-8249-2e554184d038@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Dmitry,
+syzbot report a slab-use-after-free Read in dvb_device_open. [1]
 
-I enabled the debug output and ran some tests again.
+The dvb device have been putted by dvb_generic_release() in dvb_frontend_open()
+and have been freed in dvb_device_open() by dvb_device_put().
 
+[1]
+BUG: KASAN: slab-use-after-free in dvb_device_open+0x36a/0x3b0 drivers/media/dvb-core/dvbdev.c:99
+Read of size 8 at addr ffff8881476baa18 by task syz-executor353/9116
 
-This is with the source (Windows / Nvidia GPU) set to 1920 x 1080 / 59 
-Hz and 4:4:4 chroma. I use the default EDID.
+CPU: 1 UID: 0 PID: 9116 Comm: syz-executor353 Not tainted 6.13.0-rc7-syzkaller-00189-g595523945be0 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 12/27/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xc3/0x620 mm/kasan/report.c:489
+ kasan_report+0xd9/0x110 mm/kasan/report.c:602
+ dvb_device_open+0x36a/0x3b0 drivers/media/dvb-core/dvbdev.c:99
+ chrdev_open+0x237/0x6a0 fs/char_dev.c:414
+ do_dentry_open+0xf59/0x1ea0 fs/open.c:945
+ vfs_open+0x82/0x3f0 fs/open.c:1075
+ do_open fs/namei.c:3828 [inline]
+ path_openat+0x1e6a/0x2d60 fs/namei.c:3987
+ do_filp_open+0x20c/0x470 fs/namei.c:4014
+ do_sys_openat2+0x17a/0x1e0 fs/open.c:1402
+ do_sys_open fs/open.c:1417 [inline]
+ __do_sys_openat fs/open.c:1433 [inline]
+ __se_sys_openat fs/open.c:1428 [inline]
+ __x64_sys_openat+0x175/0x210 fs/open.c:1428
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fbafad2db29
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff3ae8be88 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fbafad2db29
+RDX: 0000000000000001 RSI: 0000000020000000 RDI: ffffffffffffff9c
+RBP: 00000000000f4240 R08: 0000000000008000 R09: 0000000000008000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000015edd
+R13: 00007fff3ae8beac R14: 00007fff3ae8bec0 R15: 00007fff3ae8beb0
+ </TASK>
 
-# gst-launch-1.0 -v v4l2src device=/dev/video2 ! fakesink
-# dmesg
-hdmirx_hdmi_irq_handler: en_fiq
-[  226.901822] fdee0000.hdmi_receiver: wait_reg_bit_status:  i:0, time: 10ms
-[  226.938715] fdee0000.hdmi_receiver: wait_reg_bit_status:  i:36, time: 
-50ms
-[  226.938730] fdee0000.hdmi_receiver: hdmirx_tmds_clk_ratio_config: 
-scdc_regbank_st:0x0
-[  226.938738] fdee0000.hdmi_receiver: hdmirx_tmds_clk_ratio_config: 
-HDMITX less than 3.4Gbps
-[  226.946675] fdee0000.hdmi_receiver: tx_5v_power_present: 1
-[  226.946689] fdee0000.hdmi_receiver: hdmirx_tmds_clk_ratio_config: 
-scdc_regbank_st:0x0
-[  226.946698] fdee0000.hdmi_receiver: hdmirx_tmds_clk_ratio_config: 
-HDMITX less than 3.4Gbps
-[  226.954724] fdee0000.hdmi_receiver: tx_5v_power_present: 1
-[  226.954738] fdee0000.hdmi_receiver: hdmirx_tmds_clk_ratio_config: 
-scdc_regbank_st:0x0
-[  226.954746] fdee0000.hdmi_receiver: hdmirx_tmds_clk_ratio_config: 
-HDMITX less than 3.4Gbps
-[  226.962824] fdee0000.hdmi_receiver: tx_5v_power_present: 1
-[  226.962838] fdee0000.hdmi_receiver: hdmirx_tmds_clk_ratio_config: 
-scdc_regbank_st:0x0
-[  226.962846] fdee0000.hdmi_receiver: hdmirx_tmds_clk_ratio_config: 
-HDMITX less than 3.4Gbps
-[  226.962856] fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: signal 
-lock ok, i:3
-[  227.036484] fdee0000.hdmi_receiver: pkt_2_int_handler: pk2_st:0x800
-[  227.036504] fdee0000.hdmi_receiver: pkt_2_int_handler: AVIIF_RCV_IRQ
-[  227.036512] fdee0000.hdmi_receiver: hdmirx_hdmi_irq_handler: en_fiq
-[  227.092219] fdee0000.hdmi_receiver: hdmirx_get_pix_fmt: pix_fmt: YUV444
-[  227.092233] fdee0000.hdmi_receiver: hdmirx_get_colordepth: 
-color_depth: 24, reg_val:4
-[  227.092251] fdee0000.hdmi_receiver: hdmirx_format_change: queue 
-res_chg_event
-[  227.092261] fdee0000.hdmi_receiver: hdmirx_set_ddr_store_fmt: 
-pix_fmt: YUV444, DMA_CONFIG1:0x12006001
-[  227.092272] fdee0000.hdmi_receiver: hdmirx_interrupts_setup: enable
-[  231.039033] fdee0000.hdmi_receiver: tx_5v_power_present: 1
-[  231.039061] fdee0000.hdmi_receiver: get timings from dma
-[  231.039068] fdee0000.hdmi_receiver: act:1920x1080p, total:2200x1125, 
-fps:86, pixclk:214076000
-[  231.039080] fdee0000.hdmi_receiver: hfp:84, hact:1920, hs:48, 
-hbp:148, vfp:4, vact:1080, vs:5, vbp:36
-[  231.039092] fdee0000.hdmi_receiver: tmds_clk:214076000, pix_clk:214076000
-[  231.039100] fdee0000.hdmi_receiver: interlace:0, fmt:2, color:24, 
-mode:hdmi
-[  231.039108] fdee0000.hdmi_receiver: deframer_st:0x11
+Allocated by task 1:
+ kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+ poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:394
+ kmalloc_noprof include/linux/slab.h:901 [inline]
+ kzalloc_noprof include/linux/slab.h:1037 [inline]
+ dvb_register_device+0x1e2/0x2380 drivers/media/dvb-core/dvbdev.c:475
+ dvb_register_frontend+0x5a7/0x880 drivers/media/dvb-core/dvb_frontend.c:3051
+ vidtv_bridge_dvb_init drivers/media/test-drivers/vidtv/vidtv_bridge.c:430 [inline]
+ vidtv_bridge_probe+0x45e/0xa90 drivers/media/test-drivers/vidtv/vidtv_bridge.c:502
+ platform_probe+0xff/0x1f0 drivers/base/platform.c:1404
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x23e/0xa90 drivers/base/dd.c:658
+ __driver_probe_device+0x1de/0x440 drivers/base/dd.c:800
+ driver_probe_device+0x4c/0x1b0 drivers/base/dd.c:830
+ __driver_attach+0x283/0x580 drivers/base/dd.c:1216
+ bus_for_each_dev+0x13c/0x1d0 drivers/base/bus.c:370
+ bus_add_driver+0x2e9/0x690 drivers/base/bus.c:675
+ driver_register+0x15c/0x4b0 drivers/base/driver.c:246
+ vidtv_bridge_init+0x45/0x80 drivers/media/test-drivers/vidtv/vidtv_bridge.c:592
+ do_one_initcall+0x128/0x630 init/main.c:1266
+ do_initcall_level init/main.c:1328 [inline]
+ do_initcalls init/main.c:1344 [inline]
+ do_basic_setup init/main.c:1363 [inline]
+ kernel_init_freeable+0x58f/0x8b0 init/main.c:1577
+ kernel_init+0x1c/0x2b0 init/main.c:1466
+ ret_from_fork+0x45/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
 
+Freed by task 9110:
+ kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+ kasan_save_free_info+0x3b/0x60 mm/kasan/generic.c:582
+ poison_slab_object mm/kasan/common.c:247 [inline]
+ __kasan_slab_free+0x51/0x70 mm/kasan/common.c:264
+ kasan_slab_free include/linux/kasan.h:233 [inline]
+ slab_free_hook mm/slub.c:2353 [inline]
+ slab_free mm/slub.c:4613 [inline]
+ kfree+0x14f/0x4b0 mm/slub.c:4761
+ dvb_free_device drivers/media/dvb-core/dvbdev.c:619 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ dvb_device_put.part.0+0x60/0x90 drivers/media/dvb-core/dvbdev.c:632
+ dvb_device_put drivers/media/dvb-core/dvbdev.c:631 [inline]
+ dvb_device_open+0x2a4/0x3b0 drivers/media/dvb-core/dvbdev.c:113
+ chrdev_open+0x237/0x6a0 fs/char_dev.c:414
+ do_dentry_open+0xf59/0x1ea0 fs/open.c:945
+ vfs_open+0x82/0x3f0 fs/open.c:1075
+ do_open fs/namei.c:3828 [inline]
+ path_openat+0x1e6a/0x2d60 fs/namei.c:3987
+ do_filp_open+0x20c/0x470 fs/namei.c:4014
+ do_sys_openat2+0x17a/0x1e0 fs/open.c:1402
+ do_sys_open fs/open.c:1417 [inline]
+ __do_sys_openat fs/open.c:1433 [inline]
+ __se_sys_openat fs/open.c:1428 [inline]
+ __x64_sys_openat+0x175/0x210 fs/open.c:1428
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-It seems that YUV444 is recognized - but not always - sometimes it does 
-not register changes in the source and it tries to establish a pipeline 
-still with RGB.
+Reported-by: syzbot+1eb177ecc3943b883f0a@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=1eb177ecc3943b883f0a
+Tested-by: syzbot+1eb177ecc3943b883f0a@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ drivers/media/dvb-core/dvb_frontend.c | 1 +
+ drivers/media/dvb-core/dvbdev.c       | 1 +
+ 2 files changed, 2 insertions(+)
 
-This is with the source set to RGB.
-# gst-launch-1.0 -v v4l2src device=/dev/video2 ! fakesink
-
-[  869.317467] fdee0000.hdmi_receiver: tx_5v_power_present: 1
-[  869.317491] fdee0000.hdmi_receiver: get timings from dma
-[  869.317497] fdee0000.hdmi_receiver: act:1920x1080p, total:2200x1125, 
-fps:86, pixclk:214072000
-[  869.317506] fdee0000.hdmi_receiver: hfp:84, hact:1920, hs:48, 
-hbp:148, vfp:4, vact:1080, vs:5, vbp:36
-[  869.317515] fdee0000.hdmi_receiver: tmds_clk:214072000, pix_clk:214072000
-[  869.317521] fdee0000.hdmi_receiver: interlace:0, fmt:0, color:24, 
-mode:hdmi
-[  869.317528] fdee0000.hdmi_receiver: deframer_st:0x11
-[  869.317534] fdee0000.hdmi_receiver: query_dv_timings: 1920x1080p86.49 
-(2200x1125)
-[  869.317556] fdee0000.hdmi_receiver: s_dv_timings: 1920x1080p86.49 
-(2200x1125)
-[  869.317574] fdee0000.hdmi_receiver: C-Plane 0 size: 6220800, Total 
-imagesize: 6220800
-[  869.317581] fdee0000.hdmi_receiver: hdmirx_set_fmt: req(1920, 1080), 
-out(1920, 1080), fmt:0x33524742
-[  869.317637] fdee0000.hdmi_receiver: C-Plane 0 size: 6220800, Total 
-imagesize: 6220800
-[  869.317650] fdee0000.hdmi_receiver: C-Plane 0 size: 6220800, Total 
-imagesize: 6220800
-[  869.317881] fdee0000.hdmi_receiver: C-Plane 0 size: 6220800, Total 
-imagesize: 6220800
-[  869.318092] fdee0000.hdmi_receiver: C-Plane 0 size: 6220800, Total 
-imagesize: 6220800
-[  869.318287] fdee0000.hdmi_receiver: C-Plane 0 size: 6220800, Total 
-imagesize: 6220800
-[  869.318298] fdee0000.hdmi_receiver: hdmirx_set_fmt: req(1920, 1080), 
-out(1920, 1080), fmt:0x33524742
-[  869.318836] fdee0000.hdmi_receiver: vid-cap-mplane: count 4, size 6220800
-[  869.321814] fdee0000.hdmi_receiver: hdmirx_start_streaming: 
-start_stream cur_buf y_addr:0xe10c0000, uv_addr:0xe10c0000
-[  869.321831] fdee0000.hdmi_receiver: hdmirx_start_streaming: enable dma
-[  869.331693] fdee0000.hdmi_receiver: dma_irq st1:0x100, st13:546
-[  869.331708] fdee0000.hdmi_receiver: line_flag_int_handler: last have 
-no dma_idle_irq
-[  869.339684] fdee0000.hdmi_receiver: dma_irq st1:0x80, st13:0
-[  869.348380] fdee0000.hdmi_receiver: dma_irq st1:0x100, st13:547
-
-
-Observe the reported fps of 86 in the above log file. Also gstreamer 
-reports a framerate of 214072/2475 - also around 86.
-
-I could sometimes also create the "Device wants 1 planes" using RGB - 
-replugging fixed it, but could never fix it in YUV444.
-
-Next week I have time for more testing.
-
-Best regards,
-Tim
-
-On 1/14/25 12:37, Dmitry Osipenko wrote:
-> On 1/9/25 02:17, Tim Surber wrote:
->> Hi,
->>
->> I tested your patch with the command
->>
->> # gst-launch-1.0 -v v4l2src device=/dev/video1 ! fakesink
->>
->> If this worked I moved on to a visual test using
->>
->> # gst-launch-1.0 -v v4l2src device=/dev/video1 ! queue ! v4l2convert !
->> waylandsink
->>
->> I used a Windows PC  with a Nvidia GTX 4060 as my source for the
->> following tests.
->>
->> | Format       | Result                                      |
->> | ------------ | ------------------------------------------- |
->> | 4k60p RGB    | Recognized as 1080p / 120 fps - no output   |
->> | 4k60p 4:2:2  | Recognized as 1080p / 120 fps - no output   |
->> | 4k60p 4:4:4  | Error: Device wants 1 planes                |
->> | 4k30p RGB    | ok                                          |
->> | 4k30p 4:2:2  | ok                                          |
->> | 4k30p 4:4:4  | Error: Device wants 1 planes                |
->> | FHD60p RGB   | ok                                          |
->> | FHD60p 4:2:2 | ok                                          |
->> | FHD60p 4:4:4 | Error: Device wants 1 planes                |
->>
->>
->> When testing 4:4:4 chroma I got the following error:
->>
->> # gst-launch-1.0 -v v4l2src device=/dev/video1 ! fakesink
->> /sys/v4l2/gstv4l2object.c(4344): gst_v4l2_object_set_format_full (): /
->> GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
->> Device wants 1 planes
->>
->> I could record and convert (with errors) the files with 4:4:4 chroma
->> using the command Shreeya posted, but the resulting video had wrong
->> colors and was flashing.
->>
->> I was not able to test 4:2:0 chroma. I tried to generate an custom EDID
->> with support for it but I could not select it in the graphics driver in
->> the source, maybe this is just an issue with my setup.
-> 
-> Thanks a lot for the testing, very appreciate it! Good that RGB works
-> for you with no problems.
-> 
-> Testing YUV formats isn't trivial. Personally I've a custom setup with a
-> modified display driver of RPi to test them. See more below.
-> 
->> I also observed that the the framerate is reported wrong, for example
->> setting the source to FHD60p RGB resulted in the following:
->>
->> # v4l2-ctl --all -L --list-formats-ext -d /dev/video0
->> Active width: 1920
->>      Active height: 1080
->>      Total width: 2200
->>      Total height: 1125
->>      Frame format: progressive
->>      Polarities: -vsync -hsync
->>      Pixelclock: 214076000 Hz (86.50 frames per second)
->>
->> This wrong framerate reporting seemed to happen across all framerates
->> and resolutions. Gstreamer Pipeline negotation showed the same results.
-> 
-> I've re-tested YUV444 4k capture using RPi4, works flawlessly. Note for
-> gst-launch-1.0 you used video1 and video0 device is used by v4l2-ctl
-> command above, maybe you're using wrong device. Please post a complete
-> output of the v4l2-ctl command.
-> 
-> The command I used to test YUV444 capture:
-> 
-> # v4l2-ctl --verbose -d /dev/video1
-> --set-fmt-video=width=3840,height=2160,pixelformat=NV24 --stream-mmap=4
-> --stream-skip=3 --stream-count=3300 --stream-to=hdmi.raw --stream-poll
-> 
-> The I converted captured data to a video file and played it:
-> 
-> # ffmpeg -f rawvideo -vcodec rawvideo -s 3840x2160 -r 30 -pix_fmt nv24
-> -y -i hdmi.raw output.mkv && mpv output.mkv -loop 0
-> 
-> Don't see any problems with a reported framerate:
-> 
-> DV timings:
->          Active width: 3840
->          Active height: 2160
->          Total width: 4400
->          Total height: 2250
->          Frame format: progressive
->          Polarities: -vsync -hsync
->          Pixelclock: 296992000 Hz (30.00 frames per second)
-> 
-> Note the timing data reported by v4l2-ctl updates after launching the
-> capture. It's not updated dynamically when you changing mode on the source.
-> 
-> Lastly, please run `echo 3 >
-> /sys/module/synopsys_hdmirx/parameters/debug`.  Watch the kmsg log.
-> Check that it says "hdmirx_get_pix_fmt: pix_fmt: YUV444" when you
-> connecting HDMI cable to a YUV444 source and see other related messages.
-> If it says RGB, then your source is transmitting RGB.
-> 
->> During my testing I got sometimes an error
->>
->>
->> # dmesg
->> dma alloc of size 24883200 failed
->>
->>
->> I'm not sure when this happened and how to reproduce it.
-> 
-> This comes from v4l core, should be harmless as long as capture works.
-> It's a known noisy msg, you may ignore it for today.
-> 
->> Then I tried to use an AppleTV 4k as source. I don't know what
->> resolution it tried to negotiate but I got this error in addition to the
->> previous "Device wants 1 planes" and no connection:
->>
->> # dmesg
->> fdee0000.hdmi_receiver: hdmirx_query_dv_timings: signal is not locked
->> fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: signal not lock,
->> tmds_clk_ratio:0
->> fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: mu_st:0x0, scdc_st:0x0,
->> dma_st10:0x10
->> fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: signal not lock,
->> tmds_clk_ratio:0
->> fdee0000.hdmi_receiver: hdmirx_wait_signal_lock: mu_st:0x0, scdc_st:0x0,
->> dma_st10:0x14
-> 
-> "Device wants 1 planes" sounds like you're using a wrong v4l video
-> device. Please double check. Though, the "signal not lock" means it
-> doesn't work anyways, please make sure you're using the default driver
-> EDID and not a custom one.
-> 
+diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
+index a05aa271a1ba..738b63255e5c 100644
+--- a/drivers/media/dvb-core/dvb_frontend.c
++++ b/drivers/media/dvb-core/dvb_frontend.c
+@@ -2873,6 +2873,7 @@ static int dvb_frontend_open(struct inode *inode, struct file *file)
+ 
+ 	if (adapter->mfe_shared)
+ 		mutex_unlock(&adapter->mfe_lock);
++	dvb_generic_release(inode, file);
+ 	return ret;
+ 
+ err3:
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 9df7c213716a..d17f08adf443 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -148,6 +148,7 @@ int dvb_generic_open(struct inode *inode, struct file *file)
+ 	}
+ 
+ 	dvbdev->users--;
++	dvb_device_get(dvbdev);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(dvb_generic_open);
+-- 
+2.47.0
 
 
