@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-24905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF6A3A1623B
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 15:39:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B50CA1623C
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 15:39:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 282433A3DA4
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 14:39:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8056E7A2CE7
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 14:39:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B061F1DF255;
-	Sun, 19 Jan 2025 14:39:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E941DF247;
+	Sun, 19 Jan 2025 14:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heDOTGMc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EcKLGE/m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DD51EEE6
-	for <linux-media@vger.kernel.org>; Sun, 19 Jan 2025 14:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78831EEE6
+	for <linux-media@vger.kernel.org>; Sun, 19 Jan 2025 14:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737297576; cv=none; b=gsZ0Q663sqLMEhNcExRSyLc9GX30HgFPIcr9hUcVmciowKpPhnrNJyCbW3Xl/Y9M5RqbFPAXeGhaSUSuHUwYMx/Wd0xShrUPp8+MR9JxdMIqric00oHIbcbbsKuh+z1qnQCgvyD6YEfjItOLFdOcyXXydn4nKPLJG5u9aTRmOiY=
+	t=1737297581; cv=none; b=V8zvucuR/USuUG2uuFv9QqwaEkuyfY/m8xzqZdKh9x1AwiOV3QH/nmyUaVmn8XY39BD5/qf/sED7iYMDhERyw4ILRiKrHkmEphqr8Y1E29PS6MNcJNc6CzU8b7D94tDi1NT22NHh+oJrsI9V9EO/dZLa+GEtor5i/yPEFckt9mU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737297576; c=relaxed/simple;
-	bh=CDpJIykji9XXBenkGq/Z8ah3EMNQq2l+P8vJF+EZsUw=;
+	s=arc-20240116; t=1737297581; c=relaxed/simple;
+	bh=znKITT5Hr+Rs5mEt6PfK6F5mPmB0LeLfkHLiW6maAp4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ajxO0nqpz86Qf8u3ncGlElaJYmdiRSq3ISJdNL1d3gkOYyMyct5NVRkkH3UKQJekcj8gUo71ZLK5Qo85koMWWv9wNL/0tER9hno8Nnv4qfnTlUCBjYiBuTrNwNEg05bo1YGrV8BRlVaTklSklBnF2pEPCzrMGLFLHjL3ZD06YqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heDOTGMc; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version; b=tRt1Ijh7GusLH+EaMcMHlYr7XB25oLuAj5vxBpeZKEC6nGEBrLtp+CNBbZ4jMzyok0YaGCUAjzP95jT1OLojmLt1XInQ1HzApmAWii2Oy73UUjdALcUOdiug2e2UuUpxzOWBVZyyK7XRGj6BrsHu7E20XEK6ZzFpYpL0VYDWhz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EcKLGE/m; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737297574; x=1768833574;
+  t=1737297580; x=1768833580;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CDpJIykji9XXBenkGq/Z8ah3EMNQq2l+P8vJF+EZsUw=;
-  b=heDOTGMcIUomyfPLe/X1cdLN7OtMvwF+ijl9y7bRuBpJ5aAtmD9Lj9rx
-   ssFqycxdNyZ5+kQrG2tJ7adFLoVPijfGYyI8VG6k9KQE16WzGiHxRL6Ez
-   35nEAJ/jqoHDQp46k+tM5xwAiyqGQ3wK9xGYb6m2JS1ZZVZ5r7bQfe6s8
-   5zComN2W1BVMksNDTp3E/kbAm8/KTH7SonVZ8jXej10J91i/VvD67SCpQ
-   x5h2x56677MyZZo5INj+aSxbGDJVaa58iS6MPlOSaIRiWcr7qxu/kTaKX
-   Ue0MZj8MxnvUHsPpIs/WN5TquGFcwF5onpgeMSUdQ5ZeHGPDsyzsQ/UoA
-   g==;
-X-CSE-ConnectionGUID: dex406WPQiqG1URRsb5VBA==
-X-CSE-MsgGUID: scCpzgduQ52Q/Q+sRBonZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37579755"
-X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
-   d="scan'208";a="37579755"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 06:39:34 -0800
-X-CSE-ConnectionGUID: f2OO8+izQS2mZoYTluCktA==
-X-CSE-MsgGUID: 0tGSrvufTXuR8GvQ/y6TeQ==
+  bh=znKITT5Hr+Rs5mEt6PfK6F5mPmB0LeLfkHLiW6maAp4=;
+  b=EcKLGE/muxOnAr7sfxvXggxKXBqrVvFXk7Cp8RCPDfu6KtnhtGy7NmN1
+   GxS5JiuANS5xx2EjvqRufMBK8f0hIwSbHRcyhWSiQOZCVFe3Kl+UqqEaG
+   SkShm4/XDV72RHRgXLbMUpN6CzdxVs44r6HXzr/9+1m9yJurTQcpjZTBY
+   IHBrsdFir0F3yVHPw3EBW//cuusSDoUVMkD+AZ1h8YjfJsFK8Gatjjn3J
+   gUMFXINGAkx4g90mn9oPMNuWcftd2WdjndcegB2xMi7aW7IAFoelYsjOG
+   lcEAALo6McQDoLtyeCOIo40seHp9X/E53MxOmx5R2WcMQWYhmfGHcD+14
+   w==;
+X-CSE-ConnectionGUID: YXsPMzS8R5KWa2AdyP/h9g==
+X-CSE-MsgGUID: Z35q2GC7TDOimloPPyELgQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49086265"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="49086265"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 06:39:39 -0800
+X-CSE-ConnectionGUID: 25vnQVUOSrSXqBOwtzrHCQ==
+X-CSE-MsgGUID: usAm/izYSNeTGl5R+EAMgw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
-   d="scan'208";a="111232084"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106701516"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 06:39:28 -0800
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 06:39:33 -0800
 Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id BEACF11F95E;
-	Sun, 19 Jan 2025 16:39:21 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 47EE711FA93;
+	Sun, 19 Jan 2025 16:39:26 +0200 (EET)
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
@@ -93,9 +93,9 @@ Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	Benoit Parrot <bparrot@ti.com>,
 	Ricardo Ribalda <ribalda@chromium.org>,
 	"Duc-Long, Le" <duclong.linux@gmail.com>
-Subject: [PATCH v9 4/9] media: Documentation: tx-rx: Move transmitter control out of CSI-2 part
-Date: Sun, 19 Jan 2025 16:38:59 +0200
-Message-Id: <20250119143904.114991-5-sakari.ailus@linux.intel.com>
+Subject: [PATCH v9 5/9] media: Documentation: Receiver drivers should call v4l2_get_link_freq()
+Date: Sun, 19 Jan 2025 16:39:00 +0200
+Message-Id: <20250119143904.114991-6-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250119143904.114991-1-sakari.ailus@linux.intel.com>
 References: <20250119143904.114991-1-sakari.ailus@linux.intel.com>
@@ -107,49 +107,29 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The subsection on stopping the transmitter belongs to the generic part and
-is not specific to CSI-2. Move it out of the CSI-2 section.
+Document that receiver drivers should call v4l2_get_link_freq() to obtain
+the link frequency.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- Documentation/driver-api/media/tx-rx.rst | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ Documentation/driver-api/media/tx-rx.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-index 6f9eba189a9f..03768e5aa88f 100644
+index 03768e5aa88f..0b8c9cde8ee4 100644
 --- a/Documentation/driver-api/media/tx-rx.rst
 +++ b/Documentation/driver-api/media/tx-rx.rst
-@@ -62,6 +62,15 @@ to control the transmitter driver's streaming state. These callbacks may not be
- called directly, but by using ``v4l2_subdev_enable_streams()`` and
- ``v4l2_subdev_disable_streams()``.
+@@ -53,6 +53,9 @@ Drivers that do not have user-configurable link frequency should report it
+ through the ``.get_mbus_config()`` subdev pad operation, in the ``link_freq``
+ field of struct v4l2_mbus_config, instead of through controls.
  
-+Stopping the transmitter
-+^^^^^^^^^^^^^^^^^^^^^^^^
++Receiver drivers should use :c:func:`v4l2_get_link_freq` helper to obtain the
++link frequency from the transmitter sub-device.
 +
-+A transmitter stops sending the stream of images as a result of
-+calling the ``.disable_streams()`` callback. Some transmitters may stop the
-+stream at a frame boundary whereas others stop immediately,
-+effectively leaving the current frame unfinished. The receiver driver
-+should not make assumptions either way, but function properly in both
-+cases.
+ ``.enable_streams()`` and ``.disable_streams()`` callbacks
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
- CSI-2 transmitter drivers
- -------------------------
-@@ -130,13 +139,3 @@ device, so this should be only done when it is needed.
- 
- Receiver drivers that do not need explicit LP-11 or LP-111 state setup are
- waived from calling the two callbacks.
--
--Stopping the transmitter
--^^^^^^^^^^^^^^^^^^^^^^^^
--
--A transmitter stops sending the stream of images as a result of
--calling the ``.disable_streams()`` callback. Some transmitters may stop the
--stream at a frame boundary whereas others stop immediately,
--effectively leaving the current frame unfinished. The receiver driver
--should not make assumptions either way, but function properly in both
--cases.
 -- 
 2.39.5
 
