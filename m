@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-24912-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24913-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F7AA1636D
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 18:47:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FE2A1637F
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 19:18:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF5F93A4E8C
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 17:46:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8388F3A5050
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 18:18:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B4311DF960;
-	Sun, 19 Jan 2025 17:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84AC31DF756;
+	Sun, 19 Jan 2025 18:18:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgHQiEf+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvY/GGED"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BF714375C
-	for <linux-media@vger.kernel.org>; Sun, 19 Jan 2025 17:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1119F36D
+	for <linux-media@vger.kernel.org>; Sun, 19 Jan 2025 18:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737308820; cv=none; b=mtcyYQ6TiBVO34ss4mlSVcKIKjkzvg2PvvsHGcnN6kWBGHGiUPtyCIsv5khcsBiAmX1C0MTCPyw6xBCFzbuNZFt6c+PVe7CN6XGjQ7l+whlmU9QKxAtpYmtyaG5jsmIiWsCSDDI0ETArNc103/XSjPDi8q4gU6KDsNTMgplp0Uc=
+	t=1737310680; cv=none; b=SqiERG9l9hovMsjSRPrHo9rgSlQuFmNqfK+QkMFGthGne+8fzxFoi9aCGfhtPvASZRRfO56jHuL8sa0JDb2oKf+47VlZ4pFw6/sdYJBxaO8ZEuG4567RGwPjsjLLMkMrVKcoT41EhYa67m5o+GRJcG1arO4PpGAjTA6vsAlWxAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737308820; c=relaxed/simple;
-	bh=aZbHJYRbMKCJpHFItl5oFbQn5XFWVdyTVMiyc2yxH90=;
+	s=arc-20240116; t=1737310680; c=relaxed/simple;
+	bh=id4HJV1/TzS8NjIQd/64ur704QkdK+Utcl+bVVjN6Tk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f3q5iCOuQ6gEZdVFJi6v4Sh//lqkVn1R1bKEg7F/YaR42akOpKxY6UJU8aHoROukKn32EDMaZSIcN/5caClAJDDSDWH2r7anXUW7sCrqckZ3QraaK5wqEIVDVgj9rot4VB3opigmF9whDeh6nxK3ye9MM6rxf67dA5w4jxmumDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgHQiEf+; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=fyL5OIh5kjGPkPg2vt0w9eAt/JssYRpAR/mxjFchq6GJvRrokYYkwL46Q/cE+lp47fK5gQjJ2fB2zWV8LYGLaIWcDQAz1aedxgy6zPJaNXlQVhGAuaTtxgYwjoRRNvT7xoASiXExtyJr0bCOz1ccmkMwXnaRJIBNtKZQl3DZZ24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvY/GGED; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737308817; x=1768844817;
+  t=1737310679; x=1768846679;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aZbHJYRbMKCJpHFItl5oFbQn5XFWVdyTVMiyc2yxH90=;
-  b=lgHQiEf++xGVYq2++HFFkW0B6HDTjlmu1w4xR3qqQVSTZT+fN1f6QOc5
-   TcPmUf90oW32R4bi6PBukPXy70UCCA+h+ORE3O7b10BAt7uV30pcuT4H2
-   2EC6K6x9nawUiPIsTQ4V/DCzdpFnTgx/zaGoeTarGTw67NExX54np/f5/
-   1K4tQQpU/PyURS6/zS+Q+QVSUhr1m7peZTBdRx51XuVmVO+qiWWnx2G5c
-   by+doKhdcM/1AaX5b0PhBdO1bn3unt5G6bqibRag4mfgEhHme8+1eHfHa
-   CK610m+SMzm+7DK7rs+6MLyrRslpA+ohK9OcySRzW7gNXKuHWvKm6x3ek
-   A==;
-X-CSE-ConnectionGUID: 6A0vGp39QCycLA7RzGIVlQ==
-X-CSE-MsgGUID: KANcRpUmSHa4EE8naFtorw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="60144692"
-X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
-   d="scan'208";a="60144692"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 09:46:56 -0800
-X-CSE-ConnectionGUID: 7vS0xZRDSUuer5HnoMqclw==
-X-CSE-MsgGUID: ERhnETa0R/WOE5VKd2yxzQ==
+  bh=id4HJV1/TzS8NjIQd/64ur704QkdK+Utcl+bVVjN6Tk=;
+  b=IvY/GGEDD4Uh22EPVThEWVUE3SZ+2JW3pOOrqdNhfZ3ieQll3pyhlee4
+   ifmIy+01uVKameHXmkbFNa5wZqwrCeNMlpkJ/PFUPSdkOmQjpIB+qH255
+   jGq0HdVoHbMcEBqzaBjtf5OdsgmYiu5TEIPxKT8f61yU+6nxqttAVYBYD
+   +QOMFYg17TjoDN0IXx+E/32xaQNELBL7UTh8DnDCjfILb3K09VZ/4pnam
+   uLl1a/fuNaZvdDnUwOPGXVK/TZLpsAZtCBobkC45vXA6PiF+PVRTjac2Q
+   ACQhTNJZDT8TU9SiNLGharKPcxdLU8Z4isWEHAjL2UfZS8O+KcdCIUavB
+   Q==;
+X-CSE-ConnectionGUID: Qu5A2dKNQ+CpGHODc7V3vA==
+X-CSE-MsgGUID: 8gwH3E+GSQy8ClvYXsX40Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37557909"
+X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
+   d="scan'208";a="37557909"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 10:17:58 -0800
+X-CSE-ConnectionGUID: 2prkNUdlTjaDs+Gqgj/E7g==
+X-CSE-MsgGUID: Qx84ZA2iTXq906znTGp9AA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106109892"
+   d="scan'208";a="111378358"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Jan 2025 09:46:50 -0800
+  by orviesa005.jf.intel.com with ESMTP; 19 Jan 2025 10:17:52 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tZZNm-000Vg3-2b;
-	Sun, 19 Jan 2025 17:46:46 +0000
-Date: Mon, 20 Jan 2025 01:46:26 +0800
+	id 1tZZrp-000VhD-0u;
+	Sun, 19 Jan 2025 18:17:49 +0000
+Date: Mon, 20 Jan 2025 02:17:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org
@@ -94,7 +94,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	"Duc-Long, Le" <duclong.linux@gmail.com>
 Subject: Re: [PATCH v9 9/9] media: v4l: Convert the users of
  v4l2_get_link_freq to call it on a pad
-Message-ID: <202501200100.zPV2fkA4-lkp@intel.com>
+Message-ID: <202501200228.jk1X695m-lkp@intel.com>
 References: <20250119143904.114991-10-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -108,27 +108,27 @@ In-Reply-To: <20250119143904.114991-10-sakari.ailus@linux.intel.com>
 
 Hi Sakari,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on c4b7779abc6633677e6edb79e2809f4f61fde157]
+[auto build test WARNING on c4b7779abc6633677e6edb79e2809f4f61fde157]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Support-passing-media-pad-argument-to-v4l2_get_link_freq/20250119-224053
 base:   c4b7779abc6633677e6edb79e2809f4f61fde157
 patch link:    https://lore.kernel.org/r/20250119143904.114991-10-sakari.ailus%40linux.intel.com
 patch subject: [PATCH v9 9/9] media: v4l: Convert the users of v4l2_get_link_freq to call it on a pad
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250120/202501200100.zPV2fkA4-lkp@intel.com/config)
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250120/202501200228.jk1X695m-lkp@intel.com/config)
 compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501200100.zPV2fkA4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250120/202501200228.jk1X695m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501200100.zPV2fkA4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501200228.jk1X695m-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    drivers/media/platform/qcom/camss/camss.c: In function 'camss_get_pixel_clock':
->> drivers/media/platform/qcom/camss/camss.c:2057:9: error: 'sensor_pad' undeclared (first use in this function); did you mean 'sensor'?
+   drivers/media/platform/qcom/camss/camss.c:2057:9: error: 'sensor_pad' undeclared (first use in this function); did you mean 'sensor'?
     2057 |         sensor_pad = camss_find_sensor_pad(entity);
          |         ^~~~~~~~~~
          |         sensor
@@ -137,7 +137,7 @@ All errors (new ones prefixed by >>):
                     from include/linux/kernel.h:22,
                     from include/linux/clk.h:13,
                     from drivers/media/platform/qcom/camss/camss.c:10:
->> include/linux/container_of.h:20:35: error: invalid type argument of unary '*' (have 'int')
+   include/linux/container_of.h:20:35: error: invalid type argument of unary '*' (have 'int')
       20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
          |                                   ^~~~~~
    include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
@@ -191,80 +191,12 @@ All errors (new ones prefixed by >>):
    drivers/media/platform/qcom/camss/camss.c:2061:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
     2061 |         subdev = media_entity_to_v4l2_subdev(sensor_pad->entity);
          |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss.c:2053:27: warning: unused variable 'sensor' [-Wunused-variable]
-    2053 |         struct media_pad *sensor;
-         |                           ^~~~~~
---
-   camss.c: In function 'camss_get_pixel_clock':
-   camss.c:2057:9: error: 'sensor_pad' undeclared (first use in this function); did you mean 'sensor'?
-    2057 |         sensor_pad = camss_find_sensor_pad(entity);
-         |         ^~~~~~~~~~
-         |         sensor
-   camss.c:2057:9: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:22,
-                    from include/linux/clk.h:13,
-                    from camss.c:10:
->> include/linux/container_of.h:20:35: error: invalid type argument of unary '*' (have 'int')
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                   ^~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1132:17: note: in expansion of macro 'container_of'
-    1132 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   camss.c:2061:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-    2061 |         subdev = media_entity_to_v4l2_subdev(sensor_pad->entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:21:35: error: invalid type argument of unary '*' (have 'int')
-      21 |                       __same_type(*(ptr), void),                        \
-         |                                   ^~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |                       __same_type(*(ptr), void),                        \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1132:17: note: in expansion of macro 'container_of'
-    1132 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   camss.c:2061:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-    2061 |         subdev = media_entity_to_v4l2_subdev(sensor_pad->entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:483:27: error: expression in static assertion is not an integer
-     483 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   include/media/v4l2-subdev.h:1132:17: note: in expansion of macro 'container_of'
-    1132 |                 container_of(__me_sd_ent, struct v4l2_subdev, entity) : \
-         |                 ^~~~~~~~~~~~
-   camss.c:2061:18: note: in expansion of macro 'media_entity_to_v4l2_subdev'
-    2061 |         subdev = media_entity_to_v4l2_subdev(sensor_pad->entity);
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   camss.c:2053:27: warning: unused variable 'sensor' [-Wunused-variable]
+>> drivers/media/platform/qcom/camss/camss.c:2053:27: warning: unused variable 'sensor' [-Wunused-variable]
     2053 |         struct media_pad *sensor;
          |                           ^~~~~~
 
 
-vim +2057 drivers/media/platform/qcom/camss/camss.c
+vim +/sensor +2053 drivers/media/platform/qcom/camss/camss.c
 
   2043	
   2044	/*
@@ -276,11 +208,11 @@ vim +2057 drivers/media/platform/qcom/camss/camss.c
   2050	 */
   2051	int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock)
   2052	{
-  2053		struct media_pad *sensor;
+> 2053		struct media_pad *sensor;
   2054		struct v4l2_subdev *subdev;
   2055		struct v4l2_ctrl *ctrl;
   2056	
-> 2057		sensor_pad = camss_find_sensor_pad(entity);
+  2057		sensor_pad = camss_find_sensor_pad(entity);
   2058		if (!sensor_pad)
   2059			return -ENODEV;
   2060	
