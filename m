@@ -1,150 +1,216 @@
-Return-Path: <linux-media+bounces-24900-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24901-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C02A16224
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 15:24:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A4CA16237
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 15:39:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7A6D1886053
-	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 14:24:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBE003A3DC7
+	for <lists+linux-media@lfdr.de>; Sun, 19 Jan 2025 14:39:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78FB81DE4C3;
-	Sun, 19 Jan 2025 14:24:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 751441DED78;
+	Sun, 19 Jan 2025 14:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o+in867H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RhdUN9SN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABD32F3E
-	for <linux-media@vger.kernel.org>; Sun, 19 Jan 2025 14:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176751C68A6
+	for <linux-media@vger.kernel.org>; Sun, 19 Jan 2025 14:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737296682; cv=none; b=UM4rSwqhwKsSOjavWplBxcSnT+3DYWvZkAptywYQi2AsQomnH3XX7E08Rx3EY9tGt7ilagNzGqLoDggAJGNoFdTZh+7K4vaxh+axgooXoN5mGgFXNPFGI9OxV/f+pYxapxb0AHDxnRnifOKHdP/UyA/7TDVv1p8dC4kbNgQhtVI=
+	t=1737297561; cv=none; b=KN47n5Yn0fPAqGsDFKArWtRaJqab1wjZyKkpA2WMIZgJcL+y+EoDG4zAa/XaTW3LhpddyIPoQFBO28fuIe54ppiv7RkN/naIwJBd3Y/UtkpBdGNhGZfiQE4n6UZn7L0OM6OA0Dqxr5D6Txzmtmu3686liDXDd+a3lT4A+wMwVKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737296682; c=relaxed/simple;
-	bh=g7h4NlqJGMXBeebBP7aJfIDjHc7jasAVF77nqDtRFkc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=uFWvLXLwaCk7/Ou7slKIMvx5Y8rnYqcytjX7KeRvuQduxaCtbqAgSyAjt0bSefcXlBCHECLkHSMGShXoOOMD4nlNcz+Zc39KZFo9pzqSZJkcMkGl0n3jLaGF1TFPpvcOrpxNGtI74g4FnoXoEGFwI1dHrkXpW0M7wpYY8Iexz1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o+in867H; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-436326dcb1cso24293135e9.0
-        for <linux-media@vger.kernel.org>; Sun, 19 Jan 2025 06:24:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737296678; x=1737901478; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BsZHwq9YYGM4tKLeg/hpJnM4XT4NmMxFvzC2Zd1xz6s=;
-        b=o+in867HZ9JR6Q5P93wWMKkEK8kydIysVQtUlyEH0QUwrAeWu6uHy+HHcPR2vTkFKv
-         bxADFYunkMhYzx/TvOVyJwbm7sdj64pmQp6TVftK7+jyLYMrs4S3nhR8tCSfUNbQ23hS
-         u4EHsXtgwIOxDWBVI8u19z/JNRO7EZ9xNmFfXTSMsCz2+2bUYpKzexXXe58hhoFpL7Or
-         l1/68UUr3+cHZIe+xzC0FeUjj5HTYjAAaVUZDu+LdxY4I8nIyvRqJqz1iWDmUVSbLYrI
-         kn5Iy4gh9kIQKvZ7NKvboIOGLEqu4BA/HnhCuh6lMBUi0nKQZ7Rlf8JTjiVyRD7FA1Gb
-         ZaOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737296678; x=1737901478;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BsZHwq9YYGM4tKLeg/hpJnM4XT4NmMxFvzC2Zd1xz6s=;
-        b=KN6apvNYla80QT88Ms+H21nYPYQEtiyZviuo6+zLURXwUN0DCqVzc3cuSqCoayncT7
-         +GOlfEdPI4cUEYvJ3Kpl5lCnKjnABvaJj4jNJlqMCfTj85a0tySORVQwLktDWdZcxnqb
-         rXLvnVvPzyEkRN6DQUFsdZp7mlw02hHvQ7Uuhu/8oDQiVKDQttNzLYk7gRum/pB0jwsZ
-         btgQ4EaJ+qFOzWUxS59Z4UHupuUaDrDN+wGYjlg28iQD5YQOltICo7bNa1U7LMcBOspa
-         RuE9U92J1T6XhdlP8GGuLg437IFvOxv1kS/27ZJliIjRcjtSNWBm6nXg3bY5uCqk9yMu
-         B5tw==
-X-Gm-Message-State: AOJu0Yx/DyTHzGDUTETXU41iyGSWEqR2msjUEAhop7QyWjn2GR7ZBaAn
-	tvYHzuBqoD/XPVDE9MAzbz+4Fj9zGC5PlPDnSJkn2rmsgxY8wfq8TjUqpgwPTnNO1o6+08bj9f0
-	EAn0=
-X-Gm-Gg: ASbGncv9+GGY6aQF+e4CFvNY3Ffq78hu7x/M2nLof+uJug0SMmqytvoS4PMXyV1ThVr
-	equPbvssiFkluRatiMQlTBjINzL0g5zLcBmJ/71LgzewK7vETR0bjxOf90hbyeyOPuVywcI5KfM
-	LWatTh9H5IVJmjwdrwaIa9ZQ0hqIvXHXRTs8M9vEtVJQtTLRfncuTxODduT/E/6Kp85lYGgokkF
-	mQYhdie8WWK1Pk7RCmx/qWi5TB1MzNJ687LkHiwJNG9v9fleDCmsCE48juej5Re+4S1H2xvAfCZ
-	5JJ9l2I=
-X-Google-Smtp-Source: AGHT+IEvPuhjBnzRgK5GvQ25U0lvYEyAbYmeNKLYwWaLDkQs0fArxTjvHwWEzMMG/z3mNp+fDS9IVQ==
-X-Received: by 2002:a05:600c:1386:b0:434:f2f4:4c07 with SMTP id 5b1f17b1804b1-438913de07cmr93462675e9.15.1737296678544;
-        Sun, 19 Jan 2025 06:24:38 -0800 (PST)
-Received: from [192.168.0.43] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c7499b28sm170433265e9.8.2025.01.19.06.24.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Jan 2025 06:24:37 -0800 (PST)
-Message-ID: <de1dbb4d-1dc2-436f-99a0-7a71c5854846@linaro.org>
-Date: Sun, 19 Jan 2025 14:24:36 +0000
+	s=arc-20240116; t=1737297561; c=relaxed/simple;
+	bh=yLazcRgU+7Ai6aEnad47gl7ttRJcAgLl/+5EXDlaXVY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D+15B9/7nPLm5gcnvQtLICcTHb4dRswyIlzhF1VP2k0DXWz7bRm+x3xc2VdZ52e6OSFNBk/h4WUvfCz3yEx2u8ss4w94y6daOBFxBE4XoBZ5LJ98qKf9DXTy5brkyuFHY1H5Xkh8DItRp60EMwwAguMzwpFxZTfKceTOR50EI8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RhdUN9SN; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737297560; x=1768833560;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yLazcRgU+7Ai6aEnad47gl7ttRJcAgLl/+5EXDlaXVY=;
+  b=RhdUN9SNMChw7zsi87dARGUmsEz0GSjWA34/vyoYV4LeM5uj7c3N9dr1
+   Havs2k8QVnTR+LJeH7UjRB3/fpJWueNLVfKKa0Nr7itBAS1bNpOhPXmOd
+   tSrCPzK2Xl36TJjGIzqrT6npu7JNserIyWE2vPoRQr7nwZ/cYleD/NO+E
+   +ReIZzgBKs4AUm7Pe7D4iomZ0NQUGunHO3bLpR7JqVMJMMeHwNx4y98oO
+   0IBIAgd8+dDOOTp7HpqfTInwAQ6A4tMDoOeZHAIy4Ks+BvzOF8b5ZB68U
+   /X26QVsuABVYnE3voXzQonuV4gTTKYU1BWKIAgPCEE2DtDm/bkEiON5MZ
+   g==;
+X-CSE-ConnectionGUID: lpcKe2HDSAa9KV9fKrmdzg==
+X-CSE-MsgGUID: mRgWhhw2RMatIrwVxEJKUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37579681"
+X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
+   d="scan'208";a="37579681"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 06:39:19 -0800
+X-CSE-ConnectionGUID: Bbj5HgRaSxWiRDEvQpZb0Q==
+X-CSE-MsgGUID: NUQaXBdfTvGoh730BbisNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,217,1732608000"; 
+   d="scan'208";a="111232028"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 06:39:11 -0800
+Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id EBE5E11F95E;
+	Sun, 19 Jan 2025 16:39:04 +0200 (EET)
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Yong Zhi <yong.zhi@intel.com>,
+	Dan Scally <djrscally@gmail.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	bingbu.cao@intel.com,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Benoit Parrot <bparrot@ti.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	"Duc-Long, Le" <duclong.linux@gmail.com>
+Subject: [PATCH v9 0/9] Use V4L2 mbus config for conveying link frequency
+Date: Sun, 19 Jan 2025 16:38:55 +0200
+Message-Id: <20250119143904.114991-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v4,0/4] Add dt-bindings and dtsi changes for CAMSS on x1e80100
- silicon
-To: linux-media@vger.kernel.org
-References: <20250119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v4-0-c2964504131c@linaro.org>
- <678c5da0.050a0220.879e2.1cdc@mx.google.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <678c5da0.050a0220.879e2.1cdc@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 19/01/2025 02:04, Patchwork Integration wrote:
-> Dear Bryan O'Donoghue:
-> 
-> Thanks for your patches! Unfortunately the Media CI robot detected some
-> issues:
-> 
-> # Test checkpatch:./0001-dt-bindings-media-Add-qcom-x1e80100-camss.patch checkpatch
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #18:
-> new file mode 100644
-> 
-> total: 0 errors, 1 warnings, 0 checks, 367 lines checked
-> 
-> # Test checkpatch:./0003-arm64-dts-qcom-x1e80100-Add-CCI-definitions.patch checkpatch
-> WARNING: DT compatible string "qcom,x1e80100-cci" appears un-documented -- check ./Documentation/devicetree/bindings/
-> #36: FILE: arch/arm64/boot/dts/qcom/x1e80100.dtsi:4450:
-> +compatible = "qcom,x1e80100-cci", "qcom,msm8996-cci";
-> 
-> WARNING: DT compatible string "qcom,x1e80100-cci" appears un-documented -- check ./Documentation/devicetree/bindings/
-> #75: FILE: arch/arm64/boot/dts/qcom/x1e80100.dtsi:4489:
-> +compatible = "qcom,x1e80100-cci", "qcom,msm8996-cci";
-> 
-> total: 0 errors, 2 warnings, 0 checks, 162 lines checked
-> 
-> 
-> 
-> Please fix your series, and upload a new version. If you have a patchwork
-> account, do not forget to mark the current series as Superseded.
-> 
-> For more details, check the full report at:
-> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/69583267/artifacts/report.htm .
-> 
-> 
-> 
-> Best regards, and Happy Hacking!
-> Media CI robot on behalf of the linux-media community.
-> 
-> ---
-> Check the latest rules for contributing your patches at:
-> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
-> 
-> If you believe that the CI is wrong, kindly open an issue at
-> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-all
-> to this message.
-> 
+Hi folks,
 
-It's in -next @CI robot ;)
+This set adds a few helpers for obtaining the link frequency from the V4L2
+mbus config for devices that don't need to provide an UAPI to change it,
+and finally move drivers to call v4l2_get_link_freq() on a pad.
+
+since v8:
+
+- Use memset() to zero mbus config in call_get_mbus_config() instead of
+  documenting the caller is responsible for that.
+
+- Call the function obtaining media pad in the external sub-device
+  camss_find_sensor_pad() in the qcom camss driver. Correspondingly, call
+  the related local variables "sensor_pad" instead of "sensor".
+
+since v7:
+
+- Drop ctrl_to_csi() as it's now unused.
+
+- Add patches to document how CSI-2 receiver should obtain the link
+  frequency, moving stopping streaming out of CSI-2 specific part and
+  adding a note on setting all fields in get_mbus_config() op.
+
+- Added a patch to convert existing users of v4l2_get_link_freq() to
+  operate on a media pad (vs. the control handler). I'll postpone merging
+  this however to test it a bit as it touches a number of drivers for
+  which I have no hardware for.
+
+- Revert the order or the ivsc and ipu6 patches.
+
+- Improved documentation as discussed with Laurent in v7 review.
+
+since v6:
+
+- Remove comments on #else / #endif, it's trivial.
+
+- Add a patch to convert the ipu6 driver.
+
+since v5:
+
+- Only support pad-based operation with CONFIG_MEDIA_CONTROLLER (1st and
+  2nd patches).
+
+since v4:
+
+- Rework documentation a little.
+
+- Remove wrong alignment change in 2nd patch.
+
+- Move link_freq field after the type field in struct v4l2_mbus_config.
+
+since v3:
+
+- Add back missing ret I accidentally removed rather than moved to the 2nd
+  patch.
+
+since v2:
+
+- Switch to V4L2 mbus config for conveying the link frequency.
+
+since v1:
+
+- Add a new 64-bit integer control V4L2_CID_CUR_LINK_FREQ instead of
+  re-using V4L2_CID_LINK_FREQ.
+
+Sakari Ailus (9):
+  media: v4l: Support passing media pad argument to v4l2_get_link_freq()
+  media: v4l: Support obtaining link frequency via get_mbus_config
+  media: Documentation: Update link frequency driver documentation
+  media: Documentation: tx-rx: Move transmitter control out of CSI-2
+    part
+  media: Documentation: Receiver drivers should call
+    v4l2_get_link_freq()
+  media: v4l: Memset argument to 0 before calling get_mbus_config pad op
+  media: intel/ipu6: Obtain link frequency from the remote subdev pad
+  media: ivsc: csi: Obtain link frequency from the media pad
+  media: v4l: Convert the users of v4l2_get_link_freq to call it on a
+    pad
+
+ Documentation/driver-api/media/tx-rx.rst      | 26 ++++---
+ drivers/media/i2c/st-mipid02.c                |  5 +-
+ drivers/media/i2c/tc358746.c                  |  4 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      | 11 ++-
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 12 +--
+ drivers/media/pci/intel/ivsc/mei_csi.c        | 78 +++++++------------
+ drivers/media/platform/cadence/cdns-csi2rx.c  |  4 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c    |  5 +-
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 11 ++-
+ .../media/platform/qcom/camss/camss-vfe-17x.c |  9 ++-
+ .../platform/qcom/camss/camss-vfe-gen1.c      |  9 ++-
+ drivers/media/platform/qcom/camss/camss.c     | 27 +++----
+ drivers/media/platform/qcom/camss/camss.h     |  2 +-
+ .../media/platform/raspberrypi/rp1-cfe/cfe.c  |  4 +-
+ drivers/media/platform/st/stm32/stm32-csi.c   |  4 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c  |  3 +-
+ drivers/media/platform/ti/cal/cal.c           |  4 +-
+ drivers/media/platform/ti/cal/cal.h           |  1 +
+ drivers/media/v4l2-core/v4l2-common.c         | 32 +++++++-
+ drivers/media/v4l2-core/v4l2-subdev.c         |  2 +
+ include/media/v4l2-common.h                   | 19 ++++-
+ include/media/v4l2-mediabus.h                 |  2 +
+ include/media/v4l2-subdev.h                   |  4 +-
+ 23 files changed, 161 insertions(+), 117 deletions(-)
 
 
-febe15218072e - dt-bindings: i2c: qcom-cci: Document x1e80100 compatible 
-(12 days ago)
+base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
+-- 
+2.39.5
 
----
-bod
 
