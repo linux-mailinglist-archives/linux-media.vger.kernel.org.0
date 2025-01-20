@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-24964-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24965-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F221BA16D1D
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 14:13:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CBBA16D1B
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 14:13:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 905A67A4885
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 13:12:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B15B93A48D0
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 13:12:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7A921E3762;
-	Mon, 20 Jan 2025 13:11:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29F0C1E0B62;
+	Mon, 20 Jan 2025 13:11:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SFr/5Buu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Gx+e0m21"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15A21E2843;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041011E2849;
 	Mon, 20 Jan 2025 13:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737378701; cv=none; b=BmNhpiG5ie4ku/fhkUMvR1WRWf7z08YaFi+TCfKWGWsCf65C42wEiid5S2WHtDQPNgXU/v7eN/VaGcY2xENc5CVmM9d+p9++txfl9qEnSnkb4huLq4kKgDn9ctOmBwteWVpDEzDoZJwQf/bTQBL3stdUJ8m8Wxt2AzAoYnqPTMc=
+	t=1737378701; cv=none; b=kgGUYZFMZXw66hDvwLhzR6QoMnrg5o2yGXJ+EPyvH7F01+CRDqj0ycrYdBEE1/3eKz/eaHrd2Xsf/7mck1+HjzNJ9OR1QxwB5NKAJw9TQLIPEDPt/222Ajn1r7rAVhUjVd0ETW2zq33kOih1OVIZ7Mu+cxXOjTjyh2tUbuxujl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737378701; c=relaxed/simple;
-	bh=HOC0iwOhFBcP5j1MwMPNRotFW8j1Ia86cs/Eq8KP/9A=;
+	bh=BjZpjYpEImADkqmU9fCdV5ag2Un9S02MUkMa7EiNmvY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h+bO2X6iqNR0K/zBuY0M9oayjBzEJ8+Wh0hDEyPH7Sr6I3KeVqL24UY/99yAdv9grIc+TIgU9oOq9TDsPGnsUK05A9c6IWiJv5ccUsE6x8jMktEc9xpVgQJbo+rwXGBFSp2v/Rf7MXH3VjSL0FKk7HacL7kQdyURy97gvqZHEp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SFr/5Buu; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=HYjWsrmhVUZHxmlySEpkjJsXqnGk2vdrdVQiEbkSZxypaxkMs5sQpHI+EJzAdyej2AJd0KX92jatjzgwj8Cx36FZe8U0LC9DgFIgu12Y0WSdBp+oi59YDQO+Loe6aGM++CTjf7MQuHvC1IDYY2TwlJ2dKK4We5KL/fNxUjFX//8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Gx+e0m21; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9EEBC11A1;
-	Mon, 20 Jan 2025 14:10:24 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21EC811B3;
+	Mon, 20 Jan 2025 14:10:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737378624;
-	bh=HOC0iwOhFBcP5j1MwMPNRotFW8j1Ia86cs/Eq8KP/9A=;
+	s=mail; t=1737378625;
+	bh=BjZpjYpEImADkqmU9fCdV5ag2Un9S02MUkMa7EiNmvY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SFr/5BuuVYAeHBLv3RnLVgdsxYr/XmxEn/XNcVHQtGLE5Hh6RdqdB2faCoyAYIdoX
-	 gRegpOTMzlDaFKS7/lO/Od02dFmvS2ujxeoSXGUSj8BN0IP7F6xxNNob9zDN7CSm0X
-	 H+e9IxTTise3PMx8mKzxYSbYoJycC+xgGZCEUJAc=
+	b=Gx+e0m21L0kMw7EXFAKTpDXTKO9gBDBknoDJqCeNiGlxqoaBuG5V6ZWMiW17PFiW0
+	 FZXZnI+t7y/3/5SRqcv8N3BLurW7gHTx9E3ZqZaixFxlmBM7yD/9ZdFaKoqjaOuXyh
+	 Jy9HYvAiW6z1WD98Nk+mk/WL+dwWXF6Q/P2VedXU=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Mon, 20 Jan 2025 15:10:37 +0200
-Subject: [PATCH 04/10] media: rcar-csi2: Use v4l2_get_link_freq()
+Date: Mon, 20 Jan 2025 15:10:38 +0200
+Subject: [PATCH 05/10] media: rcar-vin: Use
+ v4l2_subdev_{enable|disable}_streams()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250120-rcar-media-impro-v1-4-043823c3893e@ideasonboard.com>
+Message-Id: <20250120-rcar-media-impro-v1-5-043823c3893e@ideasonboard.com>
 References: <20250120-rcar-media-impro-v1-0-043823c3893e@ideasonboard.com>
 In-Reply-To: <20250120-rcar-media-impro-v1-0-043823c3893e@ideasonboard.com>
 To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
@@ -61,93 +62,55 @@ Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2175;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1231;
  i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=HOC0iwOhFBcP5j1MwMPNRotFW8j1Ia86cs/Eq8KP/9A=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnjkt56oCr0WVy8D2Pu1OpmZK4MzT2ojO0Gj0R8
- hbJP9UD6wiJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ45LeQAKCRD6PaqMvJYe
- 9Xj6D/9AVEMlaP7qNsVxHEMYI8pGvNz/7oNxkvVznpqYLB5GblBNTBltyH/t6uycQqblzt0FBFE
- WKndWD0FOFKjO6Re+or6ClpfO13W+PZMqo7DaO/7NQ+9jwvW8rhE2C8uzHqEVPoOLZmTYw0Ut1e
- SxCL6vltMD5k8dWZDrx7pUCGaPX/G17ofs26xcQ6bCcPcs0KAluywwNo3Z6+vTORvN0hyf5i1x1
- Rcg+YyvbkPrH6sufvQtspZRHNCgi06YjNa3GQY0u8iyKuVtLy0on8k8kNDgbktvJ3G5S6sD/9RK
- mrAJ9SkyVMPMOna33bfmgPGAU997nIG5jjBml6yZRy4XQRWFl2+iFFd9mjGeRwZ3WqD8h2lFoFa
- AjttBducPkBmDe3t9kbR1jdAn6zzShTTTUCmNDLOf7nZ2qndbN+uOqPDME/NM7HeU+u+s2QhJmS
- w1FxctalwPKVHH8fThbFlhqp/i/oPO6EseHC35nFn4GiM545v95yziZuJsAut7LHp2INHVWIrjs
- rVf8gwwLv2ndQ3ggvvpjTpx82CrSh7IA6hri9rx3VDXWMqo9bC9ag5g6ZYtkJxGmpE+QpMeRUqW
- dXuBsAt9SUdMWSLVKRy0UrbVbtOxCRlI7uP09hiVoHf/bgnvoXKlp8LDgiC9q+PmMgus5Lh+Ba0
- amJD+Tqh98V2NiQ==
+ bh=BjZpjYpEImADkqmU9fCdV5ag2Un9S02MUkMa7EiNmvY=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnjkt5mZUbGiVDLMYkk52gAT41iQG2L1ylu5z1y
+ b5lJReNAfKJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ45LeQAKCRD6PaqMvJYe
+ 9fNyEACHxvjAUoK9xoJvdPB6YJziJqb1iyiJt61cXSzck/nP5gi45CxlmGamL38t/HJ7rl+xSkZ
+ KM0JNwuZ6ZnAbgvHzNOAUxx1MbTwGRg44G3t97I3QFheCn6aNWkrLXNlwW79xYyJKgGKlmYTmpY
+ q6yENDtQdPUyw3i9HXs4Rvoy8QbVh4JB80ogYxXxeBwm9utQQ7e9EvOBkc+jFb7JjNHN4oOb6EI
+ 6SIVgtVbJKC2IV7ld9LJqoGmsOky9m6p6WxDHATl2YNoztWVCxjUEcjzBIWBVzv8tYaU0DE8k2I
+ mnUXFScqAAfXLufjGUyoA7PPyju0H0iRKilShrIW10NJNfgVuH962WLr/1ns5/aFozZNJ6Zvcm2
+ fToTMISAohTdst4tiqDdSiZ8jtBLChCuBWu4hYhrE5UyjBAl6GDtrEAOjtbX+dK1xFi/gNnBQ2n
+ zoH1x1GMKuvy3N0mJKU8h1T0IfzqZF1Szs4j3g41fZkGwZ5pY6U+pm0FqbMPoPLgWNlstsanwMn
+ BRQZZLGnfI0kC18fQZK7xt+R0kN5pfeh3rg1eV41LYxGALKhNF82bem/Ox+HsgTksUtg6itJMJn
+ El4NIWE+YSSxV+oLPtp5m9epyQ1lgSZA4EY5jvTVBCkZt2tc68c+sC/Zu+FHyMyoR94T3my02X0
+ nRHP9+aWcDQKpyg==
 X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Instead of directly using V4L2_CID_PIXEL_RATE and calculating the mbps
-from that, use v4l2_get_link_freq(), which also supports
-V4L2_CID_LINK_FREQ.
+Use v4l2_subdev_{enable|disable}_streams() instead of calling s_stream
+op directly. This allows the called subdev to drop the legacy s_stream
+op.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/rcar-csi2.c | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index 52d4e333c735..84e6194fed6c 100644
---- a/drivers/media/platform/renesas/rcar-csi2.c
-+++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -8,6 +8,7 @@
- #include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-+#include <linux/math64.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_graph.h>
-@@ -15,6 +16,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
- #include <linux/sys_soc.h>
-+#include <linux/units.h>
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index 8773998101ff..8de871240440 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -1397,7 +1397,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
  
- #include <media/mipi-csi2.h>
- #include <media/v4l2-ctrls.h>
-@@ -953,7 +955,7 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
- 			   unsigned int lanes)
- {
- 	struct v4l2_subdev *source;
--	struct v4l2_ctrl *ctrl;
-+	s64 freq;
- 	u64 mbps;
- 
- 	if (!priv->remote)
-@@ -961,21 +963,17 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
- 
- 	source = priv->remote;
- 
--	/* Read the pixel rate control from remote. */
--	ctrl = v4l2_ctrl_find(source->ctrl_handler, V4L2_CID_PIXEL_RATE);
--	if (!ctrl) {
--		dev_err(priv->dev, "no pixel rate control in subdev %s\n",
--			source->name);
--		return -EINVAL;
-+	freq = v4l2_get_link_freq(source->ctrl_handler, bpp, 2 * lanes);
-+	if (freq < 0) {
-+		int ret = (int)freq;
-+
-+		dev_err(priv->dev, "failed to get link freq for %s: %d\n",
-+			source->name, ret);
-+
-+		return ret;
+ 	if (!on) {
+ 		video_device_pipeline_stop(&vin->vdev);
+-		return v4l2_subdev_call(sd, video, s_stream, 0);
++		return v4l2_subdev_disable_streams(sd, pad->index, BIT_ULL(0));
  	}
  
--	/*
--	 * Calculate the phypll in mbps.
--	 * link_freq = (pixel_rate * bits_per_sample) / (2 * nr_of_lanes)
--	 * bps = link_freq * 2
--	 */
--	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
--	do_div(mbps, lanes * 1000000);
-+	mbps = div_u64(freq * 2, MEGA);
+ 	ret = rvin_mc_validate_format(vin, sd, pad);
+@@ -1408,7 +1408,7 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
+ 	if (ret)
+ 		return ret;
  
- 	/* Adjust for C-PHY, divide by 2.8. */
- 	if (priv->cphy)
+-	ret = v4l2_subdev_call(sd, video, s_stream, 1);
++	ret = v4l2_subdev_enable_streams(sd, pad->index, BIT_ULL(0));
+ 	if (ret == -ENOIOCTLCMD)
+ 		ret = 0;
+ 	if (ret)
 
 -- 
 2.43.0
