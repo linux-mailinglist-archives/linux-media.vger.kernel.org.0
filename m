@@ -1,103 +1,94 @@
-Return-Path: <linux-media+bounces-24923-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24924-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C33A167EE
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 09:10:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0219A167F0
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 09:11:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6139E3A5B58
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 08:10:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA449169EA3
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 08:11:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 707E71922FD;
-	Mon, 20 Jan 2025 08:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B24321922F3;
+	Mon, 20 Jan 2025 08:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="OnvprkhI"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YIMCeUPJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A370A189B8B;
-	Mon, 20 Jan 2025 08:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA398189B8B;
+	Mon, 20 Jan 2025 08:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737360609; cv=none; b=BjAp9mkh3huWI2I3Ofr+8e2dxcZjZLgkEiaItUtSP0BRBm5nHBUsKhy5GU50yPUxX0/xdOMx6MeZSNpjJkovSQqG/B5DFeNYhQN1JjltGK1AafjMbsR9lDfoIg9zU+wNG/ECXtJBUEScspPwSMe86KZ1Bf9Y6FEtNVVGwTUijkw=
+	t=1737360669; cv=none; b=XuJjtb3BCUa7vhYG/Pjd97KfhYEk3aiQbn9UvjAmVDk2xILXWxff1pLjvGzSeeZnPtzfLXdjV/RwwMjVvfL0dQ+s9kXcQWwdXKqrLqm1JrUMhbOihaenGEKzbogxTKqH325jiv6ztFY8aKF33JwKx12tDsyPvHdZd+Sr4JASenM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737360609; c=relaxed/simple;
-	bh=H4+cy6US/uZAjZmugxgIPG09WzOslaSKe4LUtckj+9w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QiYaCDPw0haGqg+Iydf4YFqt7UQqCy0h/h6BbpurRPwiEqFuyRUkuWLGBx/KIStk5Fms6KOUz2yBIXD5+vfQ/0/PYgjGbs9iHjuIZwSJgGLgkCvTlA6/uGo6nl58xvbe1w/h4/82/AfD7oJhj2GgNenilKpJx+8jz6LoOTDtF0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=OnvprkhI; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4C5DB24000A;
-	Mon, 20 Jan 2025 08:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1737360605;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H4+cy6US/uZAjZmugxgIPG09WzOslaSKe4LUtckj+9w=;
-	b=OnvprkhIw7yOUZO1XyyC2I5wZ2cCxTJv7kjHrd0itixN6Q2mDOz6pzI4c98f8Dl8hQrkeM
-	DNFQMnXhiLPVc+KThh0RKrNEOGfapOzeNySQqdphA44+0HG7T6j3zl2SSp6UCRicQn6lP0
-	rJh3mG/4c4AdZRz+Ayiv5WFkVHV/nEejPpkXha9TaZPOzBl9h9JjWJcIZx8JouIB5DP7Hl
-	hb32Xf/eSeaaBMlAkNIlX4eNrVbsKOOqF7upJkh0b3XbWQjQVZAV82KuGTtqSOCr36y3MO
-	/C60C3WdnPj8ogR0Ash4b7QrPapaB03l/GAV8cLkrv2UZSkJyHKmrrefRyzEyw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Keguang Zhang <keguang.zhang@gmail.com>
-Cc: Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>,
-  Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
-  linux-mtd@lists.infradead.org,  linux-kernel@vger.kernel.org,
-  devicetree@vger.kernel.org,  linux-media@vger.kernel.org
-Subject: Re: [PATCH v11 2/2] mtd: rawnand: Add Loongson-1 NAND Controller
- Driver
-In-Reply-To: <CAJhJPsVhH=8dKmUgmTSHnG8H1_9G3zvovX9hDv_VM6fSUR5oQw@mail.gmail.com>
-	(Keguang Zhang's message of "Sat, 18 Jan 2025 16:01:19 +0800")
-References: <20241217-loongson1-nand-v11-0-b692c58988bb@gmail.com>
-	<20241217-loongson1-nand-v11-2-b692c58988bb@gmail.com>
-	<87v7ufnc0w.fsf@bootlin.com>
-	<CAJhJPsWe+maw+zK6uiwvObTd_Ew73yjH=KddkgxwY7Zp0Y7ZYw@mail.gmail.com>
-	<87plkli9fj.fsf@bootlin.com>
-	<CAJhJPsVhH=8dKmUgmTSHnG8H1_9G3zvovX9hDv_VM6fSUR5oQw@mail.gmail.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Mon, 20 Jan 2025 09:10:04 +0100
-Message-ID: <874j1tykgz.fsf@bootlin.com>
+	s=arc-20240116; t=1737360669; c=relaxed/simple;
+	bh=B6ejVHdkmCKPVaeaHisS+dhhloo5Xrxs/wwTGt9Fhmc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mu9yy3aEYD+TwW8FTe5ARO4wDNlFtvV5iqODKXdLsthir2gsrxYLSxZj8tf5fZcJZMPeYMYQ8qlis2W4wI1TM8Chb+WSkIKR9I+jwXR83JYfkkRTro0lzLF6/1aRbP9IcuULtzlpsASiRiB3JJxDWocrPRzgNOvBHtugMYVUjBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YIMCeUPJ; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1737360658;
+	bh=B6ejVHdkmCKPVaeaHisS+dhhloo5Xrxs/wwTGt9Fhmc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YIMCeUPJRYnLkkkBD5SwxV+TX5PaVqnaX3nzqb/PNQfO7OQw9sE/qOMJ2Mc5Bc1i9
+	 2mjY3Z4SJA4N/Mx2p3xUD8Os1yECwblUkzdm9NRfeCbWlXzxprgfvmN5FvCwJ7Qauq
+	 Nhgfg6j50Vj+hXICTemSBsUbbhV4LebQYMUtic6uwMvch98KM0TNMZZjUtarog7urc
+	 KbILIB2lhvD9iI+S/L7l624U3Gjzzh3OXx84OwajlxpuGlLQXdrfN563iOVL3Ppyzv
+	 0o2frXRVrItg1hgZUz4d6DApPuoO+oGdYsfnsYu3fkz2f4PoPheDhvCEQnREMIFc37
+	 Ui6t/OqH2EH2w==
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:fb75:b420:7f1c:508])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id AEAB317E0D72;
+	Mon, 20 Jan 2025 09:10:58 +0100 (CET)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: nicolas.dufresne@collabora.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: verisilicon: HEVC: Initialize start_bit field
+Date: Mon, 20 Jan 2025 09:10:52 +0100
+Message-ID: <20250120081052.63224-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 8bit
 
+Always set start_bit field to 0, if not it could lead to corrupted frames
+specially when decoding VP9 bitstreams at the same time since VP9 driver
+set it for it own purpose.
 
->> >> Don't you need a dma_addr_t here instead? You shall remap the resourc=
-e.
->> >>
->> > Sorry, I don't quite understand.
->> > 'dma_base' is already of type dma_addr_t.
->>
->> I didn't identify where the dma_base was remapped, but if that's already
->> done then we're good.
->
-> Perhaps I misunderstand the usage of dma_map_resource(). dma_base is
-> the physical address and will be written to the DMA controller
-> register at last.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-IIUC, yes and no. It is the remapped address of the physical address you
-want to reach, not the physical address itself. The type is dma_addr_t
-and not phys_addr_t and you can get a dma address out of a physical
-address with a call to dma_map_resource(). The numerical value might be
-the same if there is no IO-MMU involved, but the good practice is to
-remap anyway.
-
-Thanks,
-Miqu=C3=A8l
+diff --git a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
+index 85a44143b378..0e212198dd65 100644
+--- a/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
++++ b/drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c
+@@ -518,6 +518,7 @@ static void set_buffers(struct hantro_ctx *ctx)
+ 	hantro_reg_write(vpu, &g2_stream_len, src_len);
+ 	hantro_reg_write(vpu, &g2_strm_buffer_len, src_buf_len);
+ 	hantro_reg_write(vpu, &g2_strm_start_offset, 0);
++	hantro_reg_write(vpu, &g2_start_bit, 0);
+ 	hantro_reg_write(vpu, &g2_write_mvs_e, 1);
+ 
+ 	hantro_write_addr(vpu, G2_TILE_SIZES_ADDR, ctx->hevc_dec.tile_sizes.dma);
+-- 
+2.43.0
 
 
