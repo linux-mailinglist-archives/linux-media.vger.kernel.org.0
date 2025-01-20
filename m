@@ -1,320 +1,292 @@
-Return-Path: <linux-media+bounces-24957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24958-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C652A16C2C
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 13:14:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 184A4A16C58
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 13:28:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E43CD188467A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 12:14:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C37018830CF
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 12:28:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 010A71E0DCC;
-	Mon, 20 Jan 2025 12:14:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47D611DFE00;
+	Mon, 20 Jan 2025 12:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PRNnkbK2"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="jYvunCzR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2053.outbound.protection.outlook.com [40.107.236.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6466F1B87EE;
-	Mon, 20 Jan 2025 12:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737375266; cv=fail; b=iV3dswbZoDYu8YvDIQGOIFeoSWFtZgY2G9kaLbhPPh/S8+qwiOrIp6AeRVNyqkrpxVdx9t4e/1XkMrp6duzR6rKAnzSVZ0xYtGACKAz29mU284s99/yL7ur/w03Hsk/fS9MCQJRvLB/V6KhagD9v69vVbr4yxply/w5EhQ/U5xE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737375266; c=relaxed/simple;
-	bh=zhTT8DxRKAswCfKSIrQa6siUXbZFTVpMnrJL6pJt0Aw=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=aK7Bfi+unS2m4B8Us9tUm6WbvOH+qwkBLIM4uto27R3LgjPtO/j+XbbJ+s3xsI1QVWOjqx+NIGFGJYdHcb5Erl2TsvORBkEpyK0GRqQQ6DpcWYl3WsebjH1IUaUeU6DzanAXYuIrUX3tyEYVnUUGOp4eIaNMOuNNUo0nuR9Kv8w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PRNnkbK2; arc=fail smtp.client-ip=40.107.236.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iFj+jNarWaZieliOmBcPiW2SZoJsWuSEK2OZOWmRlphuOY6oOPKLzyxSmQQj2IlOwiSzHlRXlvMLCqbUMR29YeskdQbNtIX3cAP1Xki4NVywGEPIrZkM03gtE2tiCBj6yfhiBXsjV05kDm3DCnoHmfqlDZQxJ6AJuecuNVzFNCV9UmQIQ0n+B0l+feJrFdh2r9lTUQk+YQ6lQt235fWxI0WeNsFnCLUou7ee+8FJbOg/SfV8ytw8PZnVxbptKC3IrlcClYCQUynJVtFuPDCqrabDAbkveLrdBxrRzI4wznY+mOKoPeNjsVZwfn1fz9JTUc8kKoxvhVM26Hx+wtnowQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EmIGCcCxV+InFu8lURi95xI1fXXLJQsB6Yaw1WuvoDo=;
- b=C+7L7OARr6XPG/Hg7BpmuOGeMKfS3NFKql0iLx5R9MSrANZaj5/nHE1PyaKXp6U8PZjZbx6dUZHekdUwGLB1yMk2/u1zbjsfg2sAOAE8O9m/MXJC5n9VpqwiW+n0r//HNAgzHYtHWrVUyoboS3r8OmDFSOhxaaZyu/zvL5ROSolSjd+YlXBqiC9kCtbTwueMIfwjjM3dB36v4n80hCldXLfVCSFEkYChzO+62ghohvTowRDoA3+9ml7QoAjCH7fw2HF2PDCP3kz6jWZQjqwSVx0ZOGymKtGJkhnDQ41klevp7yGbZGvh3AduRjqZ5c3kFA4ngkNks+G+ci4o8b5i2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EmIGCcCxV+InFu8lURi95xI1fXXLJQsB6Yaw1WuvoDo=;
- b=PRNnkbK2iejoh8WzojUIZhuUotvgEtQPSlzaKLCAjC2+Dwb35Gmq5WNUHdSZCFFUG4Lz4baDdHluaKgZB8rZYVxOnj+IYkxouYCaJ1+wxno5dREE4KHxRPtXKcD78DuqYxlUXAT9UwoaEFd+6rblPYES5NNwWspcRGg187F3/+g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB7939.namprd12.prod.outlook.com (2603:10b6:510:278::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Mon, 20 Jan
- 2025 12:14:20 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8356.014; Mon, 20 Jan 2025
- 12:14:20 +0000
-Message-ID: <c10ae58f-280c-4131-802f-d7f62595d013@amd.com>
-Date: Mon, 20 Jan 2025 13:14:12 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-To: Jason Gunthorpe <jgg@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>,
- Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, lukas@wunner.de,
- yan.y.zhao@intel.com, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-References: <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
- <Z4F2X7Fu-5lprLrk@phenom.ffwll.local> <20250110203838.GL5556@nvidia.com>
- <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local> <20250114173103.GE5556@nvidia.com>
- <Z4d4AaLGrhRa5KLJ@phenom.ffwll.local>
- <420bd2ea-d87c-4f01-883e-a7a5cf1635fe@amd.com>
- <Z4psR1qoNQUQf3Q2@phenom.ffwll.local>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <Z4psR1qoNQUQf3Q2@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0099.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cb::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26BC1DF257
+	for <linux-media@vger.kernel.org>; Mon, 20 Jan 2025 12:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737376107; cv=none; b=aIGDpJ62bYC9d97aSatYG1QUbxKd1mdXcSIOrx0sMbfGGEiSd1c3lE+K24DSEMM623qe6EwlQNMC6qScqrXkzZuA+V/Q1+yrnlBr4xutW7ZdVfB2KPLTxomrz8J7OtwPD13vr7D5sQS9j860FuNSDwh81nXiP/WZCH0P+H/9XRg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737376107; c=relaxed/simple;
+	bh=CK3xPvQnCokeTskE75DijI6ZmLLDOJM1rjdUxpcDxnc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gJXUGQhFevjD99J+QUa+cuyuqL5CMZdO5S76z7xlzVk605V61wT0MP7wDlgp0QqQfZI31vzKx3DInpq1TnqJrg9AZjNt5mX5ncjGzwObxpxunUpEoRUTr5WRE7XfingoXdr/1IXOlgeLgHqiel/4IwaB1wuigwGCAPfH4ZapN9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=jYvunCzR; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e53537d8feeso6317687276.0
+        for <linux-media@vger.kernel.org>; Mon, 20 Jan 2025 04:28:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1737376104; x=1737980904; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lV70bDDXqQSLTw4jmAF3p1crqVCV8bGnlVi82KemcAo=;
+        b=jYvunCzRUFPRE9VhbBlPh0Vuny2H7Ce9cG+zFR2KNDH33BcW/h/10wQh4EQ4P3pMXu
+         yi6O/X5Ag0eCC1y3KflnpXwwsHZ1FnLrTveZ19c3wYrBj0q/cg35mfGsTHl4vbE2hm4m
+         BcJMrroy5v4flCMuv0LopwuJJWM4AwKmFuZQsf0zh4wIe262iq4BCPApiCPIUP0vZsza
+         ibJuZRDmNae5tzCSuflhk/uq4U/5kcv0keA9tkxzmKHDWO69ih9UThTYN+aqCmMaYQWF
+         FZ3ES2HoJehOcWkgtCCwAZdNEPynVibLDEuqXMZonarXtCD3sWDqtgqZgsptQoBXDi+L
+         Kvsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737376104; x=1737980904;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lV70bDDXqQSLTw4jmAF3p1crqVCV8bGnlVi82KemcAo=;
+        b=ajmSKDiASC7uwjvD3IUDMyirXP+fOU7a5Cfq+igXITInTanvDnMCOFgWPw6QWYcSMu
+         OGeEkNBqYdTilbvLIxIYQxC1JVd5ijVxzxQRR7t2qIfONjZLljMOOneHW+iOEZfOYZ+I
+         JvtTjjPbkMMynu3eSQA9L+79nywOQ6xsAqgLg9IvPVs07rsBskUJmxoyuyEbwQmHf3sV
+         cba1c2MZyxgc95ozUNluv4LdPDknhS3AUtxiF+lWep8ICcofBteeKfEkg02mR0j6h6F6
+         nyCZnWqQCvJgf+/cThbFfGySHt+cSPUqE7IvMuFvp3m0qpFhml4HvJhHUwwnzE5QR92X
+         zqZg==
+X-Forwarded-Encrypted: i=1; AJvYcCWRAVtxwJtsOKeNneltIqxfNUwcQywEpHw+AFb2kEGw9FpQCDq/sI986tKkbDrZ73GMVcIQE/xm4q2bWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsY6wGV2Aiiv86HkhJfPfQUgrWMTWQnhZpokxOHcksVszyy9gB
+	DmYfp7PwCQ2iLrHj/v2XfBZ/lyRH/FUYMHNw1ysjUzazjbuWZSdavklH/MfJuphlzWqjEfdJk+d
+	2QZVHMtlbdAuun/S9KgkpKtWus+Z0Yien9MBj7Q==
+X-Gm-Gg: ASbGncvVbWVhUn3ZJnDiKncS/Itd+NeLgUbmv3aI/hnUt+o30EJ+r5/0l+38Wg6ES6p
+	/+FnFLc6od3kvSWMaOUPlQ6lSw7E7Cl5n6YfuHeWuVDIAe4MSKfI=
+X-Google-Smtp-Source: AGHT+IEhfd+/gGOPLvTpociBdpXw2s58VpFJSOGSJCUMcfxjlEAS0gGRWbnet6vzaQc6nMmbQQiuNydoXMF+3Vju6ak=
+X-Received: by 2002:a05:6902:2387:b0:e57:3bef:e083 with SMTP id
+ 3f1490d57ef6-e57b135201fmr9723975276.43.1737376103848; Mon, 20 Jan 2025
+ 04:28:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB7939:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d39f5df-542e-4ef6-caf9-08dd394bf7cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dG1FVFZYbGtRMy92UmEwQm1kMW1NZzZtNVhBUEZDTFZ5MXpvWkR5M3RKbWVF?=
- =?utf-8?B?SEw1UE1sRU9IU3RnMXdBNFd4MU5LU2ZFaGVYQWV4a2FjbFBNNEtlYXdjQlNP?=
- =?utf-8?B?MFNTcWltVy9LSzg5YW1EZ08vUVdhVWVJZENXQUJFS3pBRVhEQ0t2dkRFejVT?=
- =?utf-8?B?bXdRK2QyQTlxSVdncU9uL04xTVlTUGpvVjFQdnFvQWlyNHpZQUE0UUFUODMv?=
- =?utf-8?B?cUplNFJXMkhRZ1l3K2tFdytOWVdRck15djk3VzZQSWVzQXZ4M2NmWk9WaGxq?=
- =?utf-8?B?MFdqOElvbVA3ZjBrakhUY2FpZ1Zvbk50M1RuZHpYLzZ5WGZoa01sb1dFcEZ0?=
- =?utf-8?B?aklEa2RmcVRRczJzUmVnVUdrWDR2ZGovc24xNFgyZGxicWRUTlM2dEw2Zlhh?=
- =?utf-8?B?TFdzSWpnS1V4SXU4MHpvaDByaFVnY3BDZ1N5eFpINGVyQ21acU9xVGJrN2lV?=
- =?utf-8?B?TXhFZE1YZHNQQVI1ck1maExhQjhDMVJkMTcyU2hxU2hCc3Y4Q0E0b1NrKzF5?=
- =?utf-8?B?ckwweWZkNGJnL1dEKzFjc3lOaWZHT1F6Z25TNytGMC85dGNTaGFpeU1VM2pW?=
- =?utf-8?B?NWhyeXFUOVFjYW1mQ3RzN0RYaGFyc29pZjZGblJ5ZEZ5SkxwbWJ0VHBwckx2?=
- =?utf-8?B?K0ZTOWZWdm02d0Q0dTRveElxWEgwbWwxMGUrcEtFMkNreW1INE5aTFRraW9s?=
- =?utf-8?B?NGF3cXBrbTFUWUthcjNLUnIvNVJqdDZFTlJQTHNvdk8zZE5vSmd6eGpmMGZO?=
- =?utf-8?B?M0NkVWxUd0tCS0Vlam9BQXBma0poK0JLVnpNWVA1Z3U1LzR3V1AwQXdMOGMy?=
- =?utf-8?B?YWlJZHdZaTFEWVRCWi9VQk1PR3pEV1ZKTTNFVEg2QkNoenhESTFod0g2TU9T?=
- =?utf-8?B?TldpZGR3dWJxaitWOFBiWW1GWFk2VzNMU2d1a2J6a2ZiQ2dWcUl3ZENoSUIx?=
- =?utf-8?B?Rjh4NlhwN0ppY3NmcWE3eDVHZC9ZOTRlWTRHNk1CcjdFcHVwWFZLY3BXaFB4?=
- =?utf-8?B?OG5lQVIvRWlFMk1kaWMweUFjb0E3WEp2VmNIR0NWTG1MVWFwaGRJcm5tanZR?=
- =?utf-8?B?UGlZbTg1UWZFMUlvOGpCLzJ4c2RxbHdQTnNqNnllamx6SGNtZy9lbEZsY1ZN?=
- =?utf-8?B?cWkrbFNYRGFBWFZWbFY0U3h3VWw5WHp0c2RjOUw1VWhneGwxUWdqMTlGVlQ2?=
- =?utf-8?B?eTlneHFLQkFKRVdtN2RVNWZMNDlOYnBrdGQ2WTcyaGlQWHRJRFU4MUtmRlhW?=
- =?utf-8?B?bmhQT2hINDJLbUFmSFlSWTFiZkxRUm5qZmlldzJHeXE2L2hMckd1cTExR0JI?=
- =?utf-8?B?bmNjS0V3Nld3Z0huOE9FMzBSSERMQjdvYTRtSUdxMGluWCtab3ZYaXVhTTJz?=
- =?utf-8?B?cm80TnRDbzRPakpFRnJDSU15WVJqN2paeGg4STRkcFlHQm1GY3NseGVUc1c0?=
- =?utf-8?B?R2RmZUlnZVRmeVYwSHRPN3JzcXgrd3RlZW94dEloRGxQYlBXYkJ4YUttb0VG?=
- =?utf-8?B?UkZRNDloaW1EUnE1OTg2UXZvS3M4czNyRit5M1lMYXJkbDFCZWppdXk3T080?=
- =?utf-8?B?TnN2T2gwWEwxWFMzSy84a2JMWFEzS2kyVncxdko3a2I2MXhUTCtCTjFYK09p?=
- =?utf-8?B?ZUFsZTdkVFhYSWxIYm1qcXExbkV0UWNHcVZUM2l3MEphdkVhRWVHZWRzem9q?=
- =?utf-8?B?UTh6NzQvanlKQ2NjaURTSFJWSmp3VXZXUlA2WWhyeWlwSHo0akZqdCtRREhX?=
- =?utf-8?B?NUd1Qmx2SzVkYllXd2xrVFh1ZXZQZThzRUs3L3RLbDNuNnNteHpPRjhxaW1H?=
- =?utf-8?B?Q0h6NmRrVEpoVUZsUFVTZVJsYVNJUFpIRnBoY25GSnRKS25Oc3dySnA5bkdq?=
- =?utf-8?B?TDlkV3VybkhHMk12YitVeGNNMFlHNkFiZ0Zva3pMb0ozS1NnVkNnei9YcjZj?=
- =?utf-8?Q?77K7bp9bG2M=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WHkxYWQrVW9mUnAxQjNkUTJNb0tzRmMvQWtaYStiVjNBZG81VWNTSDM0eko1?=
- =?utf-8?B?bXFtM21DOW1yNGM3MGMxTXJIVEs3dHFxY1EyZWVtY0ppK3ZCTnBpOHV5QUJN?=
- =?utf-8?B?OFFwL0RjQ0IwSklBNWRINkd5WDdLWnIzQy9YclByL25CRHY2RmlqS0J0Z1RI?=
- =?utf-8?B?ak9UaHA4NUR0bzFFYkFGdWxDV0pyYWQ2cXR4dmhPR0VQbC95UkY1Z2dvMkFP?=
- =?utf-8?B?Mk9UVlA1QS9XUXlZSmxlUkZtUU1TQ1FsMmgxMlExNEZrMVdMcG1FVnY4NHRl?=
- =?utf-8?B?Snhjd2RTcXY1ek5MY3RqRWdnMHhzeEJ1R2hyVHlmUnJQaWh2ajNpS3NOeW1t?=
- =?utf-8?B?ZlAvQ2EzYU9DNU1xWUJYSzA5OHR0VnAzTjF4R0ErVVB2Tm9tR29OQ1RIbFB3?=
- =?utf-8?B?QkFadEFuNGQvWTU2NmVCbU1Yb0FnRzRkU0EvZVZPSGRQREZaUWdPR0JuMmN3?=
- =?utf-8?B?S2tGQTU2SitmMDZBMm1BSFRwc0J4NVptOFVEYklqY3k4dFRqL2FvZVBQUlVk?=
- =?utf-8?B?U1FpcTNxRGVrYVRQSUVKV2RZMVA5TC9uTENjRWk5ZVh2cCt3b3IwNlVSRjFI?=
- =?utf-8?B?Ym5tUVN4VzFiNjc0VkVncFk0QVdiZzA1S1dEOHZNd29FRnlEYU0yeTByOWdz?=
- =?utf-8?B?NnN6T0tJb0tUcy9zZk9uc2pmV1RqT09tTUNrZTdHZ3MzZmhkR3RTaTNwcm5a?=
- =?utf-8?B?enBETktUK2hIUkIxRHphMzB0OXJpWGpRenBKZ1p1VWNBckZtcitVRU85dW9I?=
- =?utf-8?B?OUNhTkh1Nk93eXllWG0wcDMvQ0toYVF6NWhhc2tXaXFyZ1Z5U2Y3Q2pTc0xT?=
- =?utf-8?B?c1hUNmJFVU5oMUdVNmZUaFFsdjJoWTRrNDlIcngwMmRjN01RWUNnbUlvTnFl?=
- =?utf-8?B?SjNPZ0FLU0xuRnlwMGsyN1Rycy9iV3o3WmNaUU1rVDVZelJnYTlwTE1lcGxs?=
- =?utf-8?B?VlcybU1TOG44Rk92ellFaG9uRXJrck9ZTjZpWlFRT3FVMDI3WGFUU2I1ay9W?=
- =?utf-8?B?bkZRMFBiMVVRUW4zRCtEYmN1OWFVVUFvM1ZQOUhZWkVXWFJ3c1RIOVpQVm5h?=
- =?utf-8?B?K3lXekZCZVlzb1FBYUdjZi8zM0VnU1BpVXlqZFM0QndEVWZDNjJxNElYRWtJ?=
- =?utf-8?B?dzJLZlRSZUtpK09ELzRuMDVUdmpTWklqSHZpN3hJeDZrNzJqTjNPRkYyU2R4?=
- =?utf-8?B?bHpCMzRVYmZOeE9jZktLRGYyUnIrdzBPRmhvWWlqcmVrZkJmbWhQQmdTL3lu?=
- =?utf-8?B?a09FSS9SMjNWcnBhcE1jTUpJWVFmWTBqRmNwc2h1YTArcVgvWkN1Mi9obUtT?=
- =?utf-8?B?S3BpaVZTWUJnaFFVL1lyRGpZSHY3ZkhkeDZ5M044RFo4T05KdmJvS0x2OWV2?=
- =?utf-8?B?M3dkalhDTjhHblZ0NU4vaVVza3JXemoreW5TMVI1S2hCLzdONXA5NStoVDdK?=
- =?utf-8?B?VWhuVHdNQWxNRmRQUDNUNEJEcTh4bjRaanFieUFwa2JGZHFpUFlwOGlneU1D?=
- =?utf-8?B?UFhjdnhxblBUNjBCRWcxVmxxN3pObVZ4am52TnVUK2RIR2RGcFBsYWFSMytl?=
- =?utf-8?B?cVVsODhVQmFNOXFEbzIrZXpJRGhRTzB4YXkxVTBLSElpKy9YS01ud0dpK0pH?=
- =?utf-8?B?R0FzM0t5YVF1d2ZoazhkQ1ZYdnQxaVJjS3ZTdzl6QXNOWldIeFpJRWRZdkx2?=
- =?utf-8?B?dGxBYWJrZkdjTS9tN0ZQUU92Y2xIbDY1QVFJODhGR1NidzdTUW1nNWRxUGx3?=
- =?utf-8?B?emVSWW5aczQ2WjM2V3dRejV1UmpnN0lzck1WRGMzQ2pkR05FR3JuTkhubGlQ?=
- =?utf-8?B?a0dBRXJTN214a0FOV2QwMi9kYjZCS2tpdXdLM21MTE5HbWxRRGJpVEhpSjM1?=
- =?utf-8?B?bng3L2FpeFI0b2w4bld2VE40S1RrNGI4R1RKMVJxRVNxN1R1UWZ3a3hEQzZi?=
- =?utf-8?B?dHNLN0xrU1ljbTNiZHBSMFo3NmZOSmgxRGFod29hSmNJZlZQYUpxMDU0Qkxp?=
- =?utf-8?B?ZitKVHdGU25rcVRpUVRTVUdWRGdqRjRGK2FTd29BWWQ1VXg0eXNlZ0FvdURi?=
- =?utf-8?B?TnF3TlY0Vis1Z2loejdaUFFBemhZODRqWE1RRkxBR3VJbHBPMS9ZYlFPTW9n?=
- =?utf-8?Q?ilSMAZ69PU9GTZ8aEIlURhAts?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d39f5df-542e-4ef6-caf9-08dd394bf7cc
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2025 12:14:20.1430
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UCg5MDHSaLmhNtSb7zdMWB6acTN50eINlgukuXhnMc1x+h7PrIFU2Vlwjaarv4zS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7939
+References: <20200110200915.22575-1-andrey.konovalov@linaro.org>
+ <20200110200915.22575-3-andrey.konovalov@linaro.org> <Z44soIWngnmCjoe6@kekkonen.localdomain>
+In-Reply-To: <Z44soIWngnmCjoe6@kekkonen.localdomain>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 20 Jan 2025 12:28:04 +0000
+X-Gm-Features: AbW1kvaiuOZQSNGomDp4EsawWoPbCa79FN43ZoZFckeOa6XV8JIiDtpsNJu29Ow
+Message-ID: <CAPY8ntBXwUmjSgb2z65mUZ1GSEUT8oczQMN+dewaevz9HemYag@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] media: i2c: Add driver for Sony IMX219 sensor
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: robh+dt@kernel.org, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, peter.griffin@linaro.org, ezequiel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 
-Am 17.01.25 um 15:42 schrieb Simona Vetter:
-> On Wed, Jan 15, 2025 at 11:06:53AM +0100, Christian König wrote:
->> [SNIP]
->>> Anything missing?
->> Well as far as I can see this use case is not a good fit for the DMA-buf
->> interfaces in the first place. DMA-buf deals with devices and buffer
->> exchange.
->>
->> What's necessary here instead is to give an importing VM full access on some
->> memory for their specific use case.
->>
->> That full access includes CPU and DMA mappings, modifying caching
->> attributes, potentially setting encryption keys for specific ranges etc....
->> etc...
->>
->> In other words we have a lot of things the importer here should be able to
->> do which we don't want most of the DMA-buf importers to do.
-> This proposal isn't about forcing existing exporters to allow importers to
-> do new stuff. That stays as-is, because it would break things.
+Hi Sakari
+
+On Mon, 20 Jan 2025 at 10:59, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 >
-> It's about adding yet another interface to get at the underlying data, and
-> we have tons of those already. The only difference is that if we don't
-> butcher the design, we'll be able to implement all the existing dma-buf
-> interfaces on top of this new pfn interface, for some neat maximal
-> compatibility.
-
-That sounds like you missed my concern.
-
-When an exporter and an importer agree that they want to exchange PFNs 
-instead of DMA addresses then that is perfectly fine.
-
-The problems start when you define the semantics how those PFNs, DMA 
-address, private bus addresses, whatever is echanged different to what 
-we have documented for DMA-buf.
-
-This semantics is very well defined for DMA-buf now, because that is 
-really important or otherwise things usually seem to work under testing 
-(e.g. without memory pressure) and then totally fall apart in production 
-environments.
-
-In other words we have defined what lock you need to hold when calling 
-functions, what a DMA fence is, when exchanged addresses are valid etc...
-
-> But fundamentally there's never been an expectation that you can take any
-> arbitrary dma-buf and pass it any arbitrary importer, and that is must
-> work. The fundamental promise is that if it _does_ work, then
-> - it's zero copy
-> - and fast, or as fast as we can make it
+> Hi Dave,
 >
-> I don't see this any different than all the much more specific prposals
-> and existing code, where a subset of importers/exporters have special
-> rules so that e.g. gpu interconnect or vfio uuid based sharing works.
-> pfn-based sharing is just yet another flavor that exists to get the max
-> amount of speed out of interconnects.
-
-Please take another look at what is proposed here. The function is 
-called dma_buf_get_pfn_*unlocked* !
-
-This is not following DMA-buf semantics for exchanging addresses and 
-keeping them valid, but rather something more like userptrs.
-
-Inserting PFNs into CPU (or probably also IOMMU) page tables have a 
-different semantics than what DMA-buf usually does, because as soon as 
-the address is written into the page table it is made public. So you 
-need some kind of mechanism to make sure that this addr you made public 
-stays valid as long as it is public.
-
-The usual I/O operation we encapsulate with DMA-fences have a 
-fundamentally different semantics because we have the lock which 
-enforces that stuff stays valid and then have a DMA-fence which notes 
-how long the stuff needs to stay valid for an operation to complete.
-
-Regards,
-Christian.
-
+> On Fri, Jan 10, 2020 at 11:09:15PM +0300, Andrey Konovalov wrote:
+> > +/* Power/clock management functions */
+> > +static int imx219_power_on(struct device *dev)
+> > +{
+> > +     struct i2c_client *client = to_i2c_client(dev);
+> > +     struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +     struct imx219 *imx219 = to_imx219(sd);
+> > +     int ret;
+> > +
+> > +     ret = regulator_bulk_enable(IMX219_NUM_SUPPLIES,
+> > +                                 imx219->supplies);
+> > +     if (ret) {
+> > +             dev_err(&client->dev, "%s: failed to enable regulators\n",
+> > +                     __func__);
+> > +             return ret;
+> > +     }
+> > +
+> > +     ret = clk_prepare_enable(imx219->xclk);
+> > +     if (ret) {
+> > +             dev_err(&client->dev, "%s: failed to enable clock\n",
+> > +                     __func__);
+> > +             goto reg_off;
+> > +     }
+> > +
+> > +     gpiod_set_value_cansleep(imx219->reset_gpio, 1);
+> > +     msleep(IMX219_XCLR_DELAY_MS);
+> > +
+> > +     return 0;
+> > +reg_off:
+> > +     regulator_bulk_disable(IMX219_NUM_SUPPLIES, imx219->supplies);
+> > +     return ret;
+> > +}
+> > +
+> > +static int imx219_power_off(struct device *dev)
+> > +{
+> > +     struct i2c_client *client = to_i2c_client(dev);
+> > +     struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +     struct imx219 *imx219 = to_imx219(sd);
+> > +
+> > +     gpiod_set_value_cansleep(imx219->reset_gpio, 0);
 >
-> Cheers, Sima
->
->> The semantics for things like pin vs revocable vs dynamic/moveable seems
->> similar, but that's basically it.
->>
->> As far as I know the TEE subsystem also represents their allocations as file
->> descriptors. If I'm not completely mistaken this use case most likely fit's
->> better there.
->>
->>> I feel like this is small enough that m-l archives is good enough. For
->>> some of the bigger projects we do in graphics we sometimes create entries
->>> in our kerneldoc with wip design consensus and things like that. But
->>> feels like overkill here.
->>>
->>>> My general desire is to move all of RDMA's MR process away from
->>>> scatterlist and work using only the new DMA API. This will save *huge*
->>>> amounts of memory in common workloads and be the basis for non-struct
->>>> page DMA support, including P2P.
->>> Yeah a more memory efficient structure than the scatterlist would be
->>> really nice. That would even benefit the very special dma-buf exporters
->>> where you cannot get a pfn and only the dma_addr_t, altough most of those
->>> (all maybe even?) have contig buffers, so your scatterlist has only one
->>> entry. But it would definitely be nice from a design pov.
->> Completely agree on that part.
->>
->> Scatterlist have a some design flaws, especially mixing the input and out
->> parameters of the DMA API into the same structure.
->>
->> Additional to that DMA addresses are basically missing which bus they belong
->> to and details how the access should be made (e.g. snoop vs no-snoop
->> etc...).
->>
->>> Aside: A way to more efficiently create compressed scatterlists would be
->>> neat too, because a lot of drivers hand-roll that and it's a bit brittle
->>> and kinda silly to duplicate. With compressed I mean just a single entry
->>> for a contig range, in practice thanks to huge pages/folios and allocators
->>> trying to hand out contig ranges if there's plenty of memory that saves a
->>> lot of memory too. But currently it's a bit a pain to construct these
->>> efficiently, mostly it's just a two-pass approach and then trying to free
->>> surplus memory or krealloc to fit. Also I don't have good ideas here, but
->>> dma-api folks might have some from looking at too many things that create
->>> scatterlists.
->> I mailed with Christoph about that a while back as well and we both agreed
->> that it would probably be a good idea to start defining a data structure to
->> better encapsulate DMA addresses.
->>
->> It's just that nobody had time for that yet and/or I wasn't looped in in the
->> final discussion about it.
->>
->> Regards,
->> Christian.
->>
->>> -Sima
+> The polarity of the reset GPIO appears to be wrong above. Given it works
+> somewhere (arch/arm64/boot/dts/ti/k3-am62x-sk-csi2-imx219.dtso), the
+> existing DTS files have it wrong, too. The bindings still appear to
+> document it correctly.
 
+Why do you say it is wrong?
+I don't recall why this got called reset-gpio - the signal on the
+sensor is XCLR, and that is documented in the binding.
+The datasheet says low is standby and high is active, which matches
+what the driver does.
+
+> Laurent confirmed xcrl isn't controllable in the RPi imx219 camera module.
+>
+> How about fixing this? Currently correctly written DTBs including imx219
+> won't work.
+
+Seeing as the DTB is ABI, the only improvement I can see is to rename
+"imx219->reset_gpio" to "imx219->xclr_gpio".
+What else would you be proposing?
+
+  Dave
+
+> I noticed this while fixing the power sequences in this and a few other
+> drivers.
+>
+> > +     regulator_bulk_disable(IMX219_NUM_SUPPLIES, imx219->supplies);
+> > +     clk_disable_unprepare(imx219->xclk);
+> > +
+> > +     return 0;
+> > +}
+>
+> ...
+>
+> > +static int imx219_probe(struct i2c_client *client,
+> > +                     const struct i2c_device_id *id)
+> > +{
+> > +     struct device *dev = &client->dev;
+> > +     struct fwnode_handle *endpoint;
+> > +     struct imx219 *imx219;
+> > +     int ret;
+> > +
+> > +     imx219 = devm_kzalloc(&client->dev, sizeof(*imx219), GFP_KERNEL);
+> > +     if (!imx219)
+> > +             return -ENOMEM;
+> > +
+> > +     imx219->dev = dev;
+> > +
+> > +     v4l2_i2c_subdev_init(&imx219->sd, client, &imx219_subdev_ops);
+> > +
+> > +     /* Get CSI2 bus config */
+> > +     endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+> > +                                               NULL);
+> > +     if (!endpoint) {
+> > +             dev_err(dev, "endpoint node not found\n");
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     ret = v4l2_fwnode_endpoint_parse(endpoint, &imx219->ep);
+> > +     fwnode_handle_put(endpoint);
+> > +     if (ret) {
+> > +             dev_err(dev, "could not parse endpoint\n");
+> > +             return ret;
+> > +     }
+> > +
+> > +     /* Check the number of MIPI CSI2 data lanes */
+> > +     if (imx219->ep.bus_type != V4L2_MBUS_CSI2_DPHY ||
+> > +         imx219->ep.bus.mipi_csi2.num_data_lanes != 2) {
+> > +             dev_err(dev, "only 2 data lanes are currently supported\n");
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     /* Get system clock (xclk) */
+> > +     imx219->xclk = devm_clk_get(dev, NULL);
+> > +     if (IS_ERR(imx219->xclk)) {
+> > +             dev_err(dev, "failed to get xclk\n");
+> > +             return PTR_ERR(imx219->xclk);
+> > +     }
+> > +
+> > +     imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> > +     if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> > +             dev_err(dev, "xclk frequency not supported: %d Hz\n",
+> > +                     imx219->xclk_freq);
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     ret = imx219_get_regulators(imx219);
+> > +     if (ret) {
+> > +             dev_err(dev, "failed to get regulators\n");
+> > +             return ret;
+> > +     }
+> > +
+> > +     /* Request optional enable pin */
+> > +     imx219->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> > +                                                   GPIOD_OUT_HIGH);
+> > +
+> > +     /*
+> > +      * The sensor must be powered for imx219_identify_module()
+> > +      * to be able to read the CHIP_ID register
+> > +      */
+> > +     ret = imx219_power_on(dev);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     ret = imx219_identify_module(imx219);
+> > +     if (ret)
+> > +             goto error_power_off;
+> > +
+> > +     /* Set default mode to max resolution */
+> > +     imx219->mode = &supported_modes[0];
+> > +
+> > +     ret = imx219_init_controls(imx219);
+> > +     if (ret)
+> > +             goto error_power_off;
+> > +
+> > +     /* Initialize subdev */
+> > +     imx219->sd.internal_ops = &imx219_internal_ops;
+> > +     imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > +     imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> > +
+> > +     /* Initialize source pad */
+> > +     imx219->pad.flags = MEDIA_PAD_FL_SOURCE;
+> > +
+> > +     ret = media_entity_pads_init(&imx219->sd.entity, 1, &imx219->pad);
+> > +     if (ret) {
+> > +             dev_err(dev, "failed to init entity pads: %d\n", ret);
+> > +             goto error_handler_free;
+> > +     }
+> > +
+> > +     ret = v4l2_async_register_subdev_sensor_common(&imx219->sd);
+> > +     if (ret < 0) {
+> > +             dev_err(dev, "failed to register sensor sub-device: %d\n", ret);
+> > +             goto error_media_entity;
+> > +     }
+> > +
+> > +     /* Enable runtime PM and turn off the device */
+> > +     pm_runtime_set_active(dev);
+> > +     pm_runtime_enable(dev);
+> > +     pm_runtime_idle(dev);
+> > +
+> > +     return 0;
+> > +
+> > +error_media_entity:
+> > +     media_entity_cleanup(&imx219->sd.entity);
+> > +
+> > +error_handler_free:
+> > +     imx219_free_controls(imx219);
+> > +
+> > +error_power_off:
+> > +     imx219_power_off(dev);
+> > +
+> > +     return ret;
+> > +}
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
