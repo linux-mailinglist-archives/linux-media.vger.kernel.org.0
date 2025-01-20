@@ -1,479 +1,234 @@
-Return-Path: <linux-media+bounces-24993-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24994-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BDFA16FA7
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 16:49:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 878EDA16FCE
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 17:05:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04FE718856A5
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 15:49:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B46B7167C72
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 16:05:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EA7F1EF0B4;
-	Mon, 20 Jan 2025 15:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492E91E990A;
+	Mon, 20 Jan 2025 16:05:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RnkbOXwP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UmPLvnzO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D191EE017
-	for <linux-media@vger.kernel.org>; Mon, 20 Jan 2025 15:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAE410F9;
+	Mon, 20 Jan 2025 16:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737388034; cv=none; b=QoUuur2+43NQd03bUrg8Bz2RfgtYBaYpVpQqdaAWgH5hnWtZKWiJSJbOcq/X/3kTNiwkOXbJmwvcx+jKsqcXBCuHqDyCMQBgT8qf3ltfp8zKgM5knrRATY6iGJjBxaxJ0IRsTctCvz/EjP8tpytMb1a7cbDoFZW3F+lXSlPh+Wo=
+	t=1737389117; cv=none; b=PL4/o9s9WOMk7qv3pzBFpzE59Igi4vl+XE5neFkLMFZCypc5gID/zO6cpuZSBtWv7fC7aA22kYtHyqcFIHxCWMfDwYaTL2KH6bthKw8FCUMatwd0W4OW1N0D2Y05BnTkphDDd+aq2I2GQFpzB8I45Atd0RttaDc2PzUQEohXRdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737388034; c=relaxed/simple;
-	bh=w3R74BaBkfWv6/gs5HkZ+GN7B/D/n3Ira0ZO8St8Ttw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kvOH19y5UZPGdD/7UIl7RFpoVb613axjAd9XaQ0zfxglB+OHP+G3BMt1xnzCAnr/M3my2fNpkcQMYF7mTPwVpDKjJbQWk2TFQC4mI7oruo1IvPf7mNhg9hKQhpPiqmO9n8ZZnJVkSVbZrKdzLSOM5OCmTF1VnQyiI77nQnD2qVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RnkbOXwP; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3862b40a6e0so2958429f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 20 Jan 2025 07:47:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737388030; x=1737992830; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dlbfgbMP4TlW1lPU13Kg+FtoOjGMZvKdb8QxriksIXE=;
-        b=RnkbOXwP/zNbMEoIvEjinOhPQZzg4XxTXoWWT3QCfVAr+7R/ABZYF8hPOpyjWCHHJD
-         4cTS8jQukrCdxyInJJC8jvz37oDp2JEEmmstw2Dd4kn4D8CX/Y7d9fai3Cm4Vpxw+pUF
-         IHwHqEs6bTCPIR510jwbX0qclacxXw9cOKNWETimWB/3UORxG+iyOkjUTzP9DNOk3bNd
-         ekEPemyKk7mH5YUqOq2NVNoCHvP7uZO08iFbTSK6utqIO9VNDcfNVBN0nWRQjw+hqCtb
-         tpapTahgC15zZ1TKoYUJ4MZOz7l7IueBpHrLgMuJs62yRPh+blXQzPE3lAwxbb6bP/mv
-         ehqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737388030; x=1737992830;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dlbfgbMP4TlW1lPU13Kg+FtoOjGMZvKdb8QxriksIXE=;
-        b=dah2N7dzLKoGo4FnS2daaJWL0tzb2dL0Fsqi+H8YJkJUlmMmsRaVbWd5RbxozMU6pj
-         Km7U83HydaMpYMP5wyb2951MYto39ZR7v4qVuKpXlzX5kSi+0BDlt2umbGKrJccU7wJ7
-         FD2g8tlyK/8zTyReWvL8hx5En/zoG+GQ+cpS3qCBS+4/NO8KunZBfN4/YOwSMUBGKuzL
-         nt8PuRDi7Q8GI6efk1SEjP22HWUfuS6ogpeSh/iyMQWh1DwVMaYvdAF2qC/u0UfLcsiz
-         mlFHkY/vmxYdWtpaCKBbIKcvtu60q2bLsTpgvAx0kT4/pchC44/F7Ao9UOBoZb1l6gnL
-         2dvg==
-X-Gm-Message-State: AOJu0YzZ5tmVtvixd0KP5FPDxi5pTjHGHZaiw8c4QlOvrCeB+9tbCobS
-	BfYHEqyRm82jgyoh9AkXcGmQqT3SEXrCMOL5HtgyEZuQ4UEz2Rhdtn+fb3J0ULM=
-X-Gm-Gg: ASbGncs4Q41u/hhiwIDcE+ZJUo88Mu6j6EaTkgm/0tuiYWMGPFw1Et/4f0p+vFU6drd
-	Rm4QylQ4FcV/XRluD1/ofvgXQJosCL7tNuSzp7Pb68x3llE/29ySdQbzsodAIKaRJ5sBtGEadJf
-	wmOKaPn/u0fUl9yCfzFrEc+2JXXiZof5ODyy7Y2PYjX+QUGXAyNYBfD1gMXjK1GoSG+rdqWZN7O
-	in2XafTFiOcOxHS6+Y9Qe/PA7Whqk8c9CIX/VobJVBaJQ4k/Uoh5pWfMQqvfGOQ+PhhSCE1xHGi
-	2B4=
-X-Google-Smtp-Source: AGHT+IEjAuygC/EX+XK7ApY/+FyQ99t76VxiNzEuMeI4fS4vGaTa6OLrfRDJfPl/9iSs7F/F5z9JGQ==
-X-Received: by 2002:a5d:47cf:0:b0:38c:1270:f964 with SMTP id ffacd0b85a97d-38c1270fbaamr1640338f8f.47.1737388030397;
-        Mon, 20 Jan 2025 07:47:10 -0800 (PST)
-Received: from [127.0.1.1] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3221b70sm10645766f8f.26.2025.01.20.07.47.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 07:47:10 -0800 (PST)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Mon, 20 Jan 2025 15:47:04 +0000
-Subject: [PATCH 7/7] media: qcom: camss: Add x1e80100 specific support
+	s=arc-20240116; t=1737389117; c=relaxed/simple;
+	bh=BchMBmmkg4hyEbz27FTrr5BAhxDTrhyicpFimrKlODI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bobn9XjTXfEka0cvIGL2TmzqyKBiuBZpdiFGtT5DwNZRkSaQDDtKvyIlYxGzFAt61w5qEItCKGiASjCY0UIuLkA/zCOlQWsRv4lU8q87WWEycGFglGKEvQ2bz/doF+Z9iHB8kyk97ZFc5jQIhB2a3HG0HPvrOUTK+IDR3ZsmzC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UmPLvnzO; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FB4D594;
+	Mon, 20 Jan 2025 17:04:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1737389051;
+	bh=BchMBmmkg4hyEbz27FTrr5BAhxDTrhyicpFimrKlODI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UmPLvnzOuNYv4bG8n9ZFX8mfIdM4p7Izi1t+lXBa+i9JqW8uMB640qn9JGGzJnP2m
+	 fOT/+LpqqU6GXA2iabgTOVo/frZEwoiDrzLVutcJp4f7frCUBQw7e3eWJf5EBTcfNY
+	 xKiBwpnagfaNfMGX4MIdeO4sABDIDhnK/5DMV43w=
+Date: Mon, 20 Jan 2025 18:05:05 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Subject: Re: [PATCH v1 1/1] media: ov7251: Remap "reset" to "enable" for
+ OV7251
+Message-ID: <20250120160505.GA21978@pendragon.ideasonboard.com>
+References: <20241108145024.1490536-1-andriy.shevchenko@linux.intel.com>
+ <Zy43D7wAZLrBDtiX@kekkonen.localdomain>
+ <Zy48Fc_nUceCs3PK@smile.fi.intel.com>
+ <Zy4_hR9AsDhmK5MK@kekkonen.localdomain>
+ <2957d1f6-f846-4916-980d-4346bc2b9d64@redhat.com>
+ <ZzG4ekFKe25Ws0D7@kekkonen.localdomain>
+ <20b988cb-603a-4c1f-8a6e-76a4cb98baa0@redhat.com>
+ <Z4kcLFlmp51QQAFZ@smile.fi.intel.com>
+ <Z44Z3kedl2I0i9Z5@kekkonen.localdomain>
+ <0a0b765e-b342-4433-9c6c-07da78f0f63b@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250120-linux-next-25-01-19-x1e80100-camss-driver-v1-7-44c62a0edcd2@linaro.org>
-References: <20250120-linux-next-25-01-19-x1e80100-camss-driver-v1-0-44c62a0edcd2@linaro.org>
-In-Reply-To: <20250120-linux-next-25-01-19-x1e80100-camss-driver-v1-0-44c62a0edcd2@linaro.org>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
- Depeng Shao <quic_depengs@quicinc.com>, 
- Vikram Sharma <quic_vikramsa@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.15-dev-33ea6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0a0b765e-b342-4433-9c6c-07da78f0f63b@redhat.com>
 
-Populate CAMSS with x1e80100 specific hooks.
+On Mon, Jan 20, 2025 at 02:30:46PM +0100, Hans de Goede wrote:
+> +Cc platform-driver-x86@vger.kernel.org
+> 
+> Hi Sakari,
+> 
+> On 20-Jan-25 10:39 AM, Sakari Ailus wrote:
+> > Hi Andy,
+> > 
+> > On Thu, Jan 16, 2025 at 04:48:12PM +0200, Andy Shevchenko wrote:
+> >> On Mon, Nov 11, 2024 at 10:46:32AM +0100, Hans de Goede wrote:
+> >>> On 11-Nov-24 8:55 AM, Sakari Ailus wrote:
+> >>>> On Fri, Nov 08, 2024 at 07:19:05PM +0100, Hans de Goede wrote:
+> >>>>> On 8-Nov-24 5:42 PM, Sakari Ailus wrote:
+> >>>>>> On Fri, Nov 08, 2024 at 06:28:05PM +0200, Andy Shevchenko wrote:
+> >>>>>>> On Fri, Nov 08, 2024 at 04:06:39PM +0000, Sakari Ailus wrote:
+> >>>>>>>> On Fri, Nov 08, 2024 at 04:50:24PM +0200, Andy Shevchenko wrote:
+> >>>>>>>>> The driver of OmniVision OV7251 expects "enable" pin instead of "reset".
+> >>>>>>>>> Remap "reset" to "enable" and update polarity.
+> >>>>>>>>>
+> >>>>>>>>> In particular, the Linux kernel can't load the camera sensor
+> >>>>>>>>> driver on Microsoft Surface Book without this change:
+> >>>>>>>>>
+> >>>>>>>>>  ov7251 i2c-INT347E:00: supply vdddo not found, using dummy regulator
+> >>>>>>>>>  ov7251 i2c-INT347E:00: supply vddd not found, using dummy regulator
+> >>>>>>>>>  ov7251 i2c-INT347E:00: supply vdda not found, using dummy regulator
+> >>>>>>>>>  ov7251 i2c-INT347E:00: cannot get enable gpio
+> >>>>>>>>>  ov7251 i2c-INT347E:00: probe with driver ov7251 failed with error -2
+> >>
+> >> ...
+> >>
+> >>>>>>>> Should this be cc'd to stable? I guess it's not exactly a fix in the driver
+> >>>>>>>> but a BIOS bug, but it can be worked around in the driver. :-)
+> >>>>>>>
+> >>>>>>> It's everything, but a BIOS bug, it's DT bug and whoever first introduced that
+> >>>>>>> GPIO in the driver. Even in the DT present in kernel the pin was referred as
+> >>>>>>
+> >>>>>> How is that a DT (binding?) bug?
+> >>>>>
+> >>>>> Since it is not following the datasheet name for the pin,
+> >>>>> it arguably is a DT binding bug
+> >>>>>
+> >>>>> But whatever, the whole discussion about if it is a bug and whose
+> >>>>> bug it is is not useful. Since we cannot go back in time and change
+> >>>>> the DT binding DT and ACPI are simply going to disagree on the name
+> >>>>> and we will need something like this patch.
+> >>>>>
+> >>>>>>> CAM_RST_N, which is exactly how this patch names it.
+> >>>>>>>
+> >>>>>>> OTOH it's a fix to the driver that never worked for ACPI case, so there never
+> >>>>>>> was a regression to fix.
+> >>>>>>
+> >>>>>> It probably worked just fine, just not with that Surface Book.
+> >>>>>>
+> >>>>>> The polarity of the enable gpio appears to be set wrong in devm_gpiod_get()
+> >>>>>> call. I can post a patch but cannot test it.
+> >>>>>
+> >>>>> That is on purpose, at least the polarity if the devm_gpiod_get(..., "reset",
+> >>>>> ...) is inverted from the existing one for "enable" because reset needs
+> >>>>> to be inactive/disabled to enable the sensor.
+> >>>>>
+> >>>>>> Similarly, you should actually set the flags to GPIOD_OUT_HIGH as reset
+> >>>>>> should be enabled here -- it's disabled only in power_on() as part of the
+> >>>>>> power-on sequence.
+> >>>>>
+> >>>>> This seems to be a pre-existing bug in this driver, which currently
+> >>>>> starts driving enable high, enabling the sensor at gpiod_get() time.
+> >>>>>
+> >>>>> Note that fixing this is tricky-ish, if the pin was already high at
+> >>>>> gpiod_get() time then changing the gpiod_get() to drive it low
+> >>>>> will result in it only being driven low for a very short time since
+> >>>>> ov7251_set_power_on() will get called almost immediately after this
+> >>>>> and it will drive the pin high again without any delays.
+> >>>>
+> >>>> The question here is not about how long the hard reset is applied, but
+> >>>> whether or not the sensor's power-on sequence is followed. Currently it is
+> >>>> not.
+> >>>
+> >>> Right / agreed. The 2 points which I am trying to make are:
+> >>>
+> >>> 1. This is a pre-existing problem unrelated to this patch.
+> >>>
+> >>> So this should be fixed in a separate patch.
+> >>>
+> >>> 2. That separate patch should put a delay after requesting the GPIO
+> >>> to enforce that it is (logically) low (for "enable") for a minimum
+> >>> amount of time.
+> >>
+> >> Sakari, what's the status on this, please?
+> >> We have non-working camera just because of this small patch is absent.
+> > 
+> > Thanks for the ping.
+> > 
+> > I took a closer look at the problem, indeed the GPIO name comes from the
+> > int3472 driver and it's much better to work around this there than to ram
+> > Windows ACPI table specifics to sensor drivers. I'll post a patch for that
+> > shortly. Testing would be appreciated as the Surface Go 2 doesn't have a
+> > GPIO connected to this sensor.
+> 
+> Actually Andy wrote this patch after first writing a similar quirk patch
+> as yours from:
+> 
+> https://lore.kernel.org/platform-driver-x86/1cf93f61-9285-f2fe-fb92-8fb8a3f44201@linux.intel.com/T/#t
+> 
+> because I asked him to fix this in the sensor driver instead.
+> 
+> The problem is that we cannot fix this in the INT3472 driver without
+> that becoming one big mess of driver specific quirks.
+> 
+> The Windows code seems to have separate power-ctrl/sequence drivers
+> for the INT3472 device vs the rest of the sensor driver and this
+> power-sequence driver happily consumes whatever GPIOs the INT3472
+> device provides independent of the sensor.
+> 
+> So e.g. on some designs we are going to see a reset pin and on others
+> a powerdown pin.
+> 
+> But in this specific case things are actually more simple,
+> the datasheet describes the pin as:
+> 
+> XSHUTDOWN input reset (active low with internal pull down resistor)
+> 
+> So the devicetree binding calling it "enable" is just wrong and in
+> this case it is actually the DT binding which is buggy (there is no
+> "enable" pin anywhere in the datasheet) and not the ACPI tables.
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     |   6 +
- drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
- drivers/media/platform/qcom/camss/camss.c          | 286 +++++++++++++++++++++
- drivers/media/platform/qcom/camss/camss.h          |   1 +
- 4 files changed, 295 insertions(+)
+There has never been a requirement for the GPIO in DT to match the pin
+name from the datasheet. It's actually quite the contrary, DT
+maintainers request GPIO names to be standardized. Using
+"xshutdown-gpios" wouldn't be appreciated, instead DT bindings are
+encouraged to use standard names such as "reset", "enable" and
+"powerdown". As the pin is called "XSHUTDOWN", "enable" is not
+necessarily a bad match. "reset" could have been picked too, but that
+wasn't the case and we can't change that.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index fc624a3da1c43..24dd20de014e0 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -754,6 +754,7 @@ static bool csiphy_is_gen2(u32 version)
- 	case CAMSS_8280XP:
- 	case CAMSS_845:
- 	case CAMSS_8550:
-+	case CAMSS_X1E80100:
- 		ret = true;
- 		break;
- 	}
-@@ -842,6 +843,11 @@ static int csiphy_init(struct csiphy_device *csiphy)
- 		regs->lane_regs = &lane_regs_sc8280xp[0];
- 		regs->lane_array_size = ARRAY_SIZE(lane_regs_sc8280xp);
- 		break;
-+	case CAMSS_X1E80100:
-+		regs->lane_regs = &lane_regs_x1e80100[0];
-+		regs->lane_array_size = ARRAY_SIZE(lane_regs_x1e80100);
-+		regs->offset = 0x1000;
-+		break;
- 	case CAMSS_8550:
- 		regs->lane_regs = &lane_regs_sm8550[0];
- 		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8550);
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index 9ffa6bc72cf1e..4f7a559f9992c 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -346,6 +346,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 	case CAMSS_8280XP:
- 	case CAMSS_845:
- 	case CAMSS_8550:
-+	case CAMSS_X1E80100:
- 		switch (sink_code) {
- 		case MEDIA_BUS_FMT_YUYV8_1X16:
- 		{
-@@ -1972,6 +1973,7 @@ static int vfe_bpl_align(struct vfe_device *vfe)
- 	case CAMSS_8280XP:
- 	case CAMSS_845:
- 	case CAMSS_8550:
-+	case CAMSS_X1E80100:
- 		ret = 16;
- 		break;
- 	default:
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index a128b1d1c6d57..02fc49ff46d18 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -2294,6 +2294,276 @@ static const struct resources_icc icc_res_sm8550[] = {
- 	},
- };
- 
-+static const struct camss_subdev_resources csiphy_res_x1e80100[] = {
-+	/* CSIPHY0 */
-+	{
-+		.regulators = { "vdd-csiphy-0p8-supply",
-+				"vdd-csiphy-1p2-supply" },
-+		.clock = { "csiphy0", "csiphy0_timer" },
-+		.clock_rate = { { 300000000, 400000000, 480000000 },
-+				{ 266666667, 400000000 } },
-+		.reg = { "csiphy0" },
-+		.interrupt = { "csiphy0" },
-+		.csiphy = {
-+			.id = 0,
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sdm845
-+		},
-+	},
-+	/* CSIPHY1 */
-+	{
-+		.regulators = { "vdd-csiphy-0p8-supply",
-+				"vdd-csiphy-1p2-supply" },
-+		.clock = { "csiphy1", "csiphy1_timer" },
-+		.clock_rate = { { 300000000, 400000000, 480000000 },
-+				{ 266666667, 400000000 } },
-+		.reg = { "csiphy1" },
-+		.interrupt = { "csiphy1" },
-+		.csiphy = {
-+			.id = 1,
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sdm845
-+		},
-+	},
-+	/* CSIPHY2 */
-+	{
-+		.regulators = { "vdd-csiphy-0p8-supply",
-+				"vdd-csiphy-1p2-supply" },
-+		.clock = { "csiphy2", "csiphy2_timer" },
-+		.clock_rate = { { 300000000, 400000000, 480000000 },
-+				{ 266666667, 400000000 } },
-+		.reg = { "csiphy2" },
-+		.interrupt = { "csiphy2" },
-+		.csiphy = {
-+			.id = 2,
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sdm845
-+		},
-+	},
-+	/* CSIPHY4 */
-+	{
-+		.regulators = { "vdd-csiphy-0p8-supply",
-+				"vdd-csiphy-1p2-supply" },
-+		.clock = { "csiphy4", "csiphy4_timer" },
-+		.clock_rate = { { 300000000, 400000000, 480000000 },
-+				{ 266666667, 400000000 } },
-+		.reg = { "csiphy4" },
-+		.interrupt = { "csiphy4" },
-+		.csiphy = {
-+			.id = 4,
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sdm845
-+		},
-+	},
-+};
-+
-+static const struct camss_subdev_resources csid_res_x1e80100[] = {
-+	/* CSID0 */
-+	{
-+		.regulators = {},
-+		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb",
-+			   "cpas_fast_ahb", "csid", "csid_csiphy_rx" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 64000000, 80000000 },
-+				{ 80000000,  100000000, 200000000,
-+				  300000000, 400000000 },
-+				{ 300000000, 400000000, 480000000 },
-+				{ 300000000, 400000000, 480000000 }, },
-+		.reg = { "csid0" },
-+		.interrupt = { "csid0" },
-+		.csid = {
-+			.hw_ops = &csid_ops_680,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
-+			.formats = &csid_formats_gen2
-+		},
-+	},
-+	/* CSID1 */
-+	{
-+		.regulators = {},
-+		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb",
-+			   "cpas_fast_ahb", "csid", "csid_csiphy_rx" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 64000000, 80000000 },
-+				{ 80000000,  100000000, 200000000,
-+				  300000000, 400000000 },
-+				{ 300000000, 400000000, 480000000 },
-+				{ 300000000, 400000000, 480000000 }, },
-+		.reg = { "csid1" },
-+		.interrupt = { "csid1" },
-+		.csid = {
-+			.hw_ops = &csid_ops_680,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
-+			.formats = &csid_formats_gen2
-+		},
-+	},
-+	/* CSID2 */
-+	{
-+		.regulators = {},
-+		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb",
-+			   "cpas_fast_ahb", "csid", "csid_csiphy_rx" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 64000000, 80000000 },
-+				{ 80000000,  100000000, 200000000,
-+				  300000000, 400000000 },
-+				{ 300000000, 400000000, 480000000 },
-+				{ 300000000, 400000000, 480000000 }, },
-+		.reg = { "csid2" },
-+		.interrupt = { "csid2" },
-+		.csid = {
-+			.hw_ops = &csid_ops_680,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
-+			.formats = &csid_formats_gen2
-+		},
-+	},
-+	/* CSID_LITE0 */
-+	{
-+		.regulators = {},
-+		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb",
-+			   "cpas_fast_ahb", "csid", "csid_csiphy_rx" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 64000000, 80000000 },
-+				{ 80000000,  100000000, 200000000,
-+				  300000000, 400000000 },
-+				{ 300000000, 400000000, 480000000 },
-+				{ 300000000, 400000000, 480000000 }, },
-+		.reg = { "csid_lite0" },
-+		.interrupt = { "csid_lite0" },
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_680,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
-+			.formats = &csid_formats_gen2
-+		}
-+	},
-+	/* CSID_LITE1 */
-+	{
-+		.regulators = {},
-+		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb",
-+			   "cpas_fast_ahb", "csid", "csid_csiphy_rx" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 64000000, 80000000 },
-+				{ 80000000,  100000000, 200000000,
-+				  300000000, 400000000 },
-+				{ 300000000, 400000000, 480000000 },
-+				{ 300000000, 400000000, 480000000 }, },
-+
-+		.reg = { "csid_lite1" },
-+		.interrupt = { "csid_lite1" },
-+		.csid = {
-+			.is_lite = true,
-+			.hw_ops = &csid_ops_680,
-+			.parent_dev_ops = &vfe_parent_dev_ops,
-+			.formats = &csid_formats_gen2
-+		}
-+	},
-+};
-+
-+static const struct camss_subdev_resources vfe_res_x1e80100[] = {
-+	/* IFE0 */
-+	{
-+		.regulators = {},
-+		.clock = {"camnoc_rt_axi", "camnoc_nrt_axi", "cpas_ahb",
-+			  "cpas_fast_ahb", "cpas_vfe0", "vfe0_fast_ahb",
-+			  "vfe0" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 345600000, 432000000, 594000000, 675000000,
-+				  727000000 }, },
-+		.reg = { "vfe0" },
-+		.interrupt = { "vfe0" },
-+		.vfe = {
-+			.line_num = 4,
-+			.pd_name = "ife0",
-+			.hw_ops = &vfe_ops_680,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		},
-+	},
-+	/* IFE1 */
-+	{
-+		.regulators = {},
-+		.clock = { "camnoc_rt_axi", "camnoc_nrt_axi", "cpas_ahb",
-+			   "cpas_fast_ahb", "cpas_vfe1", "vfe1_fast_ahb",
-+			   "vfe1"  },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 345600000, 432000000, 594000000, 675000000,
-+				  727000000 }, },
-+		.reg = { "vfe1" },
-+		.interrupt = { "vfe1" },
-+		.vfe = {
-+			.line_num = 4,
-+			.pd_name = "ife1",
-+			.hw_ops = &vfe_ops_680,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		},
-+	},
-+	/* IFE_LITE_0 */
-+	{
-+		.regulators = {},
-+		.clock = { "camnoc_rt_axi", "camnoc_nrt_axi", "cpas_ahb",
-+			   "vfe_lite_ahb", "cpas_vfe_lite", "vfe_lite",
-+			   "vfe_lite_csid" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 266666667, 400000000, 480000000 },
-+				{ 266666667, 400000000, 480000000 }, },
-+		.reg = { "vfe_lite0" },
-+		.interrupt = { "vfe_lite0" },
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_680,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		},
-+	},
-+	/* IFE_LITE_1 */
-+	{
-+		.regulators = {},
-+		.clock = { "camnoc_rt_axi", "camnoc_nrt_axi", "cpas_ahb",
-+			   "vfe_lite_ahb", "cpas_vfe_lite", "vfe_lite",
-+			   "vfe_lite_csid" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 266666667, 400000000, 480000000 },
-+				{ 266666667, 400000000, 480000000 }, },
-+		.reg = { "vfe_lite1" },
-+		.interrupt = { "vfe_lite1" },
-+		.vfe = {
-+			.is_lite = true,
-+			.line_num = 4,
-+			.hw_ops = &vfe_ops_680,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		},
-+	},
-+};
-+
-+static const struct resources_wrapper csid_wrapper_res_x1e80100 = {
-+	.reg = "csid_wrapper",
-+};
-+
- /*
-  * camss_add_clock_margin - Add margin to clock frequency rate
-  * @rate: Clock frequency rate
-@@ -3346,6 +3616,21 @@ static const struct camss_resources sm8550_resources = {
- 	.link_entities = camss_link_entities
- };
- 
-+static const struct camss_resources x1e80100_resources = {
-+	.version = CAMSS_X1E80100,
-+	.pd_name = "top",
-+	.csiphy_res = csiphy_res_x1e80100,
-+	.csid_res = csid_res_x1e80100,
-+	.vfe_res = vfe_res_x1e80100,
-+	.csid_wrapper_res = &csid_wrapper_res_x1e80100,
-+	.icc_res = icc_res_sc8280xp,
-+	.icc_path_num = ARRAY_SIZE(icc_res_sc8280xp),
-+	.csiphy_num = ARRAY_SIZE(csiphy_res_x1e80100),
-+	.csid_num = ARRAY_SIZE(csid_res_x1e80100),
-+	.vfe_num = ARRAY_SIZE(vfe_res_x1e80100),
-+	.link_entities = camss_link_entities
-+};
-+
- static const struct of_device_id camss_dt_match[] = {
- 	{ .compatible = "qcom,msm8916-camss", .data = &msm8916_resources },
- 	{ .compatible = "qcom,msm8953-camss", .data = &msm8953_resources },
-@@ -3356,6 +3641,7 @@ static const struct of_device_id camss_dt_match[] = {
- 	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
- 	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
- 	{ .compatible = "qcom,sm8550-camss", .data = &sm8550_resources },
-+	{ .compatible = "qcom,x1e80100-camss", .data = &x1e80100_resources },
- 	{ }
- };
- 
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 58fc61e7cf7ad..426e80f1c4b52 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -86,6 +86,7 @@ enum camss_version {
- 	CAMSS_8280XP,
- 	CAMSS_845,
- 	CAMSS_8550,
-+	CAMSS_X1E80100,
- };
- 
- enum icc_count {
+The core of the issue here is that we have two firmware representations,
+DT and ACPI, and no coordination between the two. I don't expect that to
+change, and until Windows OEMs collaborate to standardize ACPI bindings,
+I'll consider this as a Windows-specific hack that I don't want to see
+being pushed to indidividual sensor drivers. This would be better
+handled in my opinion in the INT3472 driver.
+
+> Also since you match on the sensor-type for the remapping this clearly
+> is a per sensor thing and per sensor handling should be in the sensor
+> drivers, which gives us the per sensor mapping for free.
+> 
+> Yes needing to handle this in the sensor driver makes the sensor
+> driver slightly less pretty. But dealing with platform specifics
+> in drivers is done all over the kernel and I don't see why camera
+> sensor drivers are so special that they get to be excluded from
+> sometimes needing to deal with platform specifics.
+
+The whole point of having standardized firmware descriptions is to avoid
+board-specific code in drivers. INT3472 is meant to handle board
+specificities.
 
 -- 
-2.47.1
+Regards,
 
+Laurent Pinchart
 
