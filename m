@@ -1,283 +1,167 @@
-Return-Path: <linux-media+bounces-24930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D22A169C8
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 10:46:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E3EA16A18
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 10:58:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64BE87A0830
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 09:46:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD41C163CCB
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 09:58:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEA931AD403;
-	Mon, 20 Jan 2025 09:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB31A1B0F32;
+	Mon, 20 Jan 2025 09:58:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dtmncvNl"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LN2oev/L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2046.outbound.protection.outlook.com [40.107.102.46])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2D017CA17;
-	Mon, 20 Jan 2025 09:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737366367; cv=fail; b=qXf286wF/iWUHYF7i1oOHFxmlMFBSqWPd5fclpaT9ik06O78xpabubEigVg2SGPjHNhZJtei6/Ys4F2Lkhxj7AFGdux6ROJYZ4ThSp2dIwK0jSmtVQES9OQ6CJewS6/YhQ5zrZ5EP2avg46WbBLi5rxwSgCEgViNCmmaeUPhy54=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737366367; c=relaxed/simple;
-	bh=NgOaPaPyvOLmKBgQZuGmcVtHCozRkg2NOk91G3fxQ/4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=s1jNjRmdoE/GB+DgNa4GEJBszMvMvVX+uibKi/JXvP7q1/WHKr8NKxtdVeohP+DkuPm/J9VyaF7iPU5/2HIb6kZ72sEdxWLkJO3kNmyTlWK9hYp0BoA/VIB2yvk8ZReMu3uqwpIYTmynX+KK3gjVgmi2kI6Ie7ArdRHteaJQeFE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dtmncvNl; arc=fail smtp.client-ip=40.107.102.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hHB/wPRZAuPSTmCrbiGTn2oFZyCbP/xTf/Hgs08GPwc+7bfwHVpcpYxytTk3sSLv240DSt8suwmxeXCKiHUIj5z40nwAynjduNI4DDi8OdesEXKyydegK//kmXB4DLiDAieds9iJymY0bnvtp3Ke0skHjp2lNP11+FmX0pDjEn+tyHdGocOGvcPJxfWobagbCAOtLkhnePzxn9atxA5ElGITI7Y9shPNddZM1yKT17tOb5UWTY6ePjijgHJ2wbaZ5awXeoNFzovjB/WxmnkqKU2uH3zD7Wa81bTl/Ju5LULX0pA+7sxyi7C1W/zY9YPrR3OBEnGGjUs1qFnXNf3SQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HI6RKqOm8UvIqwsR+7Ol6GveDJRZp3HytAsUjAiXObI=;
- b=XV4miNA3POt3CI0F9ncEgu+TKsVy5Ne7GBSqrKCXcrJ1vUPCXS4Oay2FEvBAnn/X6ZqRId2IASnlADZve20MyFf37mChF/EuGhsUs0hrVG30Sq7+6n3HqUL7Rh7jDfTkjSL1SsIHWhNe/hQJOCRaf2DQzY6Lamp+gb2BqzFgsYGR5DEjgBIiBUZ6ubr40Qp/TJNp1EnP66tsu3GukPfG37RvtUPAs6kIh0YlVVXLfuctjL66f93tyRY5pNhT+FaVg2VJjvyMhMYdwwKdF/3NnZh8P+CDfjl8ZOJzPb7N4JiV3Ac4pdXgUoX6LPn/by4dagUO5qR/4bhJ2NoCv7WD2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HI6RKqOm8UvIqwsR+7Ol6GveDJRZp3HytAsUjAiXObI=;
- b=dtmncvNl1s8C9R6JA2LxkmAKQtnsxCW7JhZSdFSKD2K9cr4jvrUMEqd0Nke+vhIggWqSRw9/PIR0WheQE7nG9Fsx7RFTCJx280iayhTlB7JdyybCR4RTKm/CdwjSGq1va7DtgtmswpyDpG32eBE7RvtYMLG6Qd6g+HcX1q98EPo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV3PR12MB9213.namprd12.prod.outlook.com (2603:10b6:408:1a6::20)
- by MW4PR12MB6730.namprd12.prod.outlook.com (2603:10b6:303:1ec::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.20; Mon, 20 Jan
- 2025 09:46:03 +0000
-Received: from LV3PR12MB9213.namprd12.prod.outlook.com
- ([fe80::dcd3:4b39:8a3a:869a]) by LV3PR12MB9213.namprd12.prod.outlook.com
- ([fe80::dcd3:4b39:8a3a:869a%5]) with mapi id 15.20.8356.010; Mon, 20 Jan 2025
- 09:46:02 +0000
-Message-ID: <835c7751-d8ba-4af0-812f-2b3a9a91d0bc@amd.com>
-Date: Mon, 20 Jan 2025 20:45:51 +1100
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, Baolu Lu <baolu.lu@linux.intel.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-References: <20250109144051.GX5556@nvidia.com>
- <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050> <20250110133116.GF5556@nvidia.com>
- <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050> <20250113164935.GP5556@nvidia.com>
- <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050> <20250114133553.GB5556@nvidia.com>
- <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
- <20250115130102.GM5556@nvidia.com>
- <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
- <20250117132523.GA5556@nvidia.com>
-From: Alexey Kardashevskiy <aik@amd.com>
-In-Reply-To: <20250117132523.GA5556@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MEVPR01CA0075.ausprd01.prod.outlook.com
- (2603:10c6:220:201::11) To LV3PR12MB9213.namprd12.prod.outlook.com
- (2603:10b6:408:1a6::20)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38C818801A;
+	Mon, 20 Jan 2025 09:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737367100; cv=none; b=gtxX2GV4qjDXwdDe7BhdlA8fJh+q7ESknYvLTAds+sxvljq+KUW4neB0kpe6Ed1qukheifnIhbk2JOkxplwNYm5hUtKLkAB1wYaOaFzDvNdvYfYcmGYU1xM/6yofDC8X3FDQXpmt+6Ub4KexpE36dXl2yA48YlFGMQZrUzqiprU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737367100; c=relaxed/simple;
+	bh=5GPpJhmUBIfhYoB8yxu0DhjKWbmPWT7lDCwNC2s9RGc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WmlQZCluDcNs8Y0tbpk3ad6x25hbAHnWv7uPfVAObQfA4Igw1vZxVDTcfS/IEPdn3w0FPU8p63MCqbH57JJP7wmccVb07A0A+DBAZGiBg/qMXj1fj2hLVs75zOad9PuaCfCy/fe6WK3Mk1BMjaOf4c64U57XLM+/WiAgZof+KKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LN2oev/L; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50K6gxaN007185;
+	Mon, 20 Jan 2025 09:58:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=nLz/GzCMRPuM71qBBVKXfuXubdgaybSk3JA4GxjpB9Q=; b=LN
+	2oev/L6MJjw27yOzNo7BboQWVFigL9IxLdTVVYeNZX0g1n10/7pneGcpCjmMyYwr
+	GamGa9Bbh3oTcU4yVkE7mxwD2j93RpMArxSvT3JL4BJX1SmiX4hABYgdfw1EUFaY
+	YUpT1oJXuWXWxae0xI45/WETCJEoRCISuNPd5ex7QzIQNvmiUaKTifEkUp1eZtS6
+	VwbHACIzljJ1ryFRKnWMjrBrRh4/940jU4crzLmS3TXf8xr+2/t0DMd49juxG8Rl
+	bzlXuJ383umMKN24RzRiAwWBGm9rHCkeCGbgY0+J6zEDYPNxOWDr6SGoV5jyopk5
+	dc/eIxEmq9AHCauO9Y5w==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 449hfb0fjr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Jan 2025 09:58:12 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50K9wB0O015288
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 20 Jan 2025 09:58:11 GMT
+Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 20 Jan 2025 01:58:06 -0800
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        "Sumit
+ Semwal" <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
+        <quic_vtanuku@quicinc.com>
+Subject: [PATCH v5 0/2] Add Block event interrupt support for I2C protocol
+Date: Mon, 20 Jan 2025 15:27:51 +0530
+Message-ID: <20250120095753.25539-1-quic_jseerapu@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9213:EE_|MW4PR12MB6730:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59db7e7d-ede1-4804-de20-08dd3937408a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NitrVzBXQzA1SUtRM3A2UnVDWmx0QVNsSEdWdlVFa01uY1N4R2Q2aTlRSk44?=
- =?utf-8?B?UjZkWUtSWUQrbEdqVzVUWEtXSUM1aWFBb2VmUHdwc0kzdmd6dVRBaC83WnRi?=
- =?utf-8?B?WEVLOThHWmo4R2M5UGRIaldDOWdnUXk1SXpPb2hVU2I0akUwWVd5Tno2MjN0?=
- =?utf-8?B?MThhMFFteXMwODNHNkxhLysvdDV2ZWcyKytSd3kxeXA3czVKa3FCdno5cDhl?=
- =?utf-8?B?MXFML0dMUStyVlpzSSs0eXR4TXZjRnRYUnY2ZmhlWDhrc1FwNVM0bVk0Wnk1?=
- =?utf-8?B?VmVGVW5PYnFKcGl5TzVIQjBGSUI0bDVjUDdsUHQvdGRTdTg1TFA5bFU0eU40?=
- =?utf-8?B?VnM5UExKdWZxR1d4K3ljR2t6N052Rmw4VDA5ZXZKZitFUmRadmNReTMzdlg0?=
- =?utf-8?B?dERpZUYwWVJ2TTVtOVBrUlpDZElURjFia2ZuakVkZ1M2RkR5VHZOUU1NQTdE?=
- =?utf-8?B?VmVna3RZcXNIYitpL01kLzZFbHZhVUFtMElUWUJlT21ZRHFoZ2Y4WW45R3Er?=
- =?utf-8?B?S3I2ZUg4Wk1kV2k1a1FYTmRFOFhSRjFMMEQ2QWJ2d3pZOGhuK0RGd2hGRzhj?=
- =?utf-8?B?R0RndlIvTmhHMXgwSzlIWW5kNU90b0sxMyt4TkxaanZVN29FNGN3V081NXo0?=
- =?utf-8?B?RW1ZY0YxQ0xnOVo3ZVlFNEZJc1R1UGdhSmc1a2w5YlBDeXAvMnBmR2d5akNO?=
- =?utf-8?B?WWNob3p3YzVqSzFTTm9ienBCVW5BbEJUK2I0cHB6aFp2ZStMK01WT0FURDFv?=
- =?utf-8?B?NXFSUFdZUGF6R2h5RGhKaWRZazZqb2JHRzFEQ1NibnFMaHI0YmZSVG94V1pQ?=
- =?utf-8?B?WEU1OUxkdUVGMU9NRU1CWG5jRFlQaDg2bERLbWdnR1QwRm1UUkhkU0xxVXk3?=
- =?utf-8?B?eEQvTkoyU2hreWwvbnFBR2s5TnBHZkpzZFNxVGFqSndIelc3TXQ4eWRHeVZS?=
- =?utf-8?B?NkpBMnlodEhZZ040c2xDaG5TeGdHRnBYTHB0QUhwNjRVMUtIUWZTVkZhZG5q?=
- =?utf-8?B?eTUreUNjVGxxYjJzamhnMXBYd3hRdHBRcnRkemM4WXkwSURNTGhUSjJxMnRv?=
- =?utf-8?B?UE9HaHpzdDF2VWRPaUhFb0xZMm0wQVByTG03U3J5bFlFWmZGZ1lCWTZFcjl4?=
- =?utf-8?B?S1BXeHVKOXd1OE5obTRqalFGd3AyVDZyWmw2NnljdUFPWnMyRTlRTkxIdXQr?=
- =?utf-8?B?Q1RaWHhabmNJdUVqT01keVBPNDJ4ek42N1JaMTFFR29wazd5VVJGalJlT3hq?=
- =?utf-8?B?bFVDNWhhYzFtYURSQlVXUzRNWVVTVnBNbWp2SVlQU3dKcG1XSzkzbFBSSWsr?=
- =?utf-8?B?aHQ5b0M4MlIvc1NxL3F1K0xtQzBzbVVGZUg4WXRoS0tVcC94dHIwOGYzVGpN?=
- =?utf-8?B?WmdiaVJHVkVTOE9vVEhESHcyYUQzWW00dkhmS0VWNnZsUjdUNDRJVlJWT3ow?=
- =?utf-8?B?MWxYNDdXUDk3aGxxbnB1ZGVNZkpzWkEzQ1dMQzJQUzlxMm1xZE1nM0ljR0FW?=
- =?utf-8?B?RU9DNnZQTmo5bWhxTVpqY0Y2WVJOMGovSkp5RlprTExKVlRyNk5SKzhnUGh6?=
- =?utf-8?B?OFZZZ3V6U3JHUHJDTU1jSmdCUW1JaVRnNGU4SW41Q21pK0dBQTc4a25XNVdi?=
- =?utf-8?B?N01FNGY1aFcwMVp5UkFWZ096ZnFWdFp6Mk0vM0VTVVVtaWs5Y3dJRmI1N1NH?=
- =?utf-8?B?aWhWQzU3SWVQVFNVSGtTZGh1cThtUlFnMDJ1bUFpSGU2eDg2MmlEUE5uV2kz?=
- =?utf-8?B?bXNKZFBVRS8zWTljUm5xc0JsdUNRS28rbmFmeFNWdWtxcEpwK1VqeFpsd3RZ?=
- =?utf-8?B?clppYXZmckJsZVQyYzR4QT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9213.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OEV0UllEOXNONXZOTTBzLzRVU0VneW9pd0c4MEZmZnNlTDBsZXpDSXA4REg0?=
- =?utf-8?B?Q0NORDB6T0tWS1NnYXdhaVRyOHU5OTRnb1p4dGJEdkx3Y1V2cFVVT2VzalBR?=
- =?utf-8?B?SENBUi9NcUVjQUIzWFF0eGt6YTR0SzF4Umd4NXA5MmttbEFPMG5hK3k2aWtR?=
- =?utf-8?B?SXBJSGh3Smg4T1hmaGlDWDBVOU1OV2VvT2c5VWl1QWhGNUtDSm1peGxtMUdS?=
- =?utf-8?B?N0w0MVE3bTQrTVM2V0gvS1dFMFEvQURMNFcydjFhdTd2Q1NJaytUVU1uY0x6?=
- =?utf-8?B?TmlFdkg0ZTZuTGkyZFFqRi9nVkRyZlRGRzY2L3pmNll0TzdiWStqa0d4LzQ4?=
- =?utf-8?B?Y1N0V252dTJyOU0zMFl4eVllMlEyZXBTOVdPR00yTitPVy9MeUtVU2JGaFpt?=
- =?utf-8?B?Z1VMM0ZTRXc2OFZEY0R4RlZDSyt6OGpwY1Z0V1o3cVdxdjVtUU1NZ1NuOXlL?=
- =?utf-8?B?WndGK2VZYVhoZXVPZFBjVGxiKzZTOVFFN0xmMURiTEs1aVlwK09EUFpVU2V1?=
- =?utf-8?B?NWxkSFZhN3RUeXJ1YUtXQkJIYk9WVG9CbXovSUlwZXMweEhObnFzcXpaSU5D?=
- =?utf-8?B?ak5ZWVZFbWVlTStJNzZ6aVlVMis1b0hKbXh0WHFkQ0ZMczB4NUxtSTc4MU1h?=
- =?utf-8?B?eFdncUxSbnpqMFI1aWZFY1dRSUVjeXhPYXI2bEVpMHdPbzJMRll4WDI0MkdB?=
- =?utf-8?B?ZWowNk9HRVVudWlPUHJNNE00MURHUGx6MlJmV21URUg4V2JvU3dPU0Q5TzJn?=
- =?utf-8?B?Z1JsZDN2ZmxBUzJwS0Nnc01oR0QwOTRyNTRBcjR3NGpoS2xVTHc1VVZVdnpS?=
- =?utf-8?B?L0FWcjl5YXNsbFk1ZCtrTE5oWGtIcWg1TTBCUEhhU080ZllJTUsxc1E4ZEY2?=
- =?utf-8?B?TVRncjVLbmtPd0Z0eEhoZ3g4WXcyS3crSXNuVU9rQWRLUTBTbS92aUs2WmEz?=
- =?utf-8?B?NFhUbjJFQmo5dEVjT1NQU0kwZkc5QTlNcU1SWis5endYMVdtdjU2ZGFCNVhV?=
- =?utf-8?B?Nzh4V0xNVXF0N01OWjg1dHdmYittb0J0MHZWaHNPYWNQRUxoU0EvVHhUbHJk?=
- =?utf-8?B?TzU1T2VCV09sc2I4ek5jR0VhVlJ6eWRKV0FRbktDSzl0YnVwUFlqaFhWdk1a?=
- =?utf-8?B?NFovV3V1SmJXQkpLQ1piUzhzVUhQajFwTWoyT01nNEpNdHZTZEgxWjZHQktz?=
- =?utf-8?B?RDEvNUJEYkFxRTZ2RVR5SFkwQmVVRXNpSC9lR3V2M1EyNU5NanQvY0x0SURR?=
- =?utf-8?B?dlFNUzNTc0FGZUtaditHLzlnd2lKZ1dmZXBwMDJ5MXZWeHhZSHo4N0h6MWF4?=
- =?utf-8?B?ZnZwcHk5S2hLb1E0dUxjbHhiWWYwak9WZm03UHNNSGxxUWJMQlF1ZGwwN1RX?=
- =?utf-8?B?RDVMS2c3TytYbnl1QXVGTHVvZnh6Qkl2ZEVIRzRqdUNBdEE0N2MxeThBdE11?=
- =?utf-8?B?V3NhU2podVlaSUxHU3JOcDlQVGRBK3IyZXVDZ1lHWGc3VmdlMURlVzVOaGxS?=
- =?utf-8?B?QU1Wb2piS3F0cG9aUW50ZDdqRUJ3V3hTMjhFdUU4YTBSQnBwTGdjdXFxTWJQ?=
- =?utf-8?B?eGdSMmk4TmpRUlNjaFpMNFhPRUJxanpnbHBYQWI0RVhVYTJ5M1o4QnVyRW10?=
- =?utf-8?B?ckdaazZKamg3N3QrbUhRQ2pyeG9jTlJHTGJwWi9Nd2hRdk9hSVBNSTNzTDg1?=
- =?utf-8?B?REVSUnFDaitnU2J3S0crbHBHb1RFWEc4TVlWaGZyTWQvdHllWlFNQW9JajV0?=
- =?utf-8?B?RG5qMWZUa2wxQ3FXbXhoaGNGMjJEZXpDQVlpY2VBUklIZjVMeHVKeDdPcXhB?=
- =?utf-8?B?MXpyWW96QnZkK2JQcjE5S2V5OWs0NU56a3oyR2Exa3kvbSt2RnhyRndBZ1JP?=
- =?utf-8?B?eHFCanRYMXloK3hiZk5MTG1WeEtsZE84YlluZ04xeFpkMnRVakl0U2VZcURP?=
- =?utf-8?B?TW9semxzbkJRV0YvNVFIZTl5SGxKOXBwOXBETzgxM3FJeVp0SStlbUFnKzh5?=
- =?utf-8?B?QTJ1S3R0dDdKUDdkMVM5TjlzMHJSSG9XTXZqdkdMU1kxYUkvREhTRm94aDFw?=
- =?utf-8?B?WTEwYnZ5LytMQTR6L0I3amhDYXZsL1NzQVd0NUxuSFFpWld2RWZ2bXpQN21Q?=
- =?utf-8?Q?gv3y1BK9JfhCcvZKgqEQWH6+T?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59db7e7d-ede1-4804-de20-08dd3937408a
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9213.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2025 09:46:02.8592
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RXqSzitfgnQ8eNXbZtWpjouhiTvNsMYIUcEWxpH89zvj9yzgPPfzED1Pme58oQUIbldofCAnSfT4ZctbVgzNtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6730
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Br1-mwRJmev4zFMInKLy5UsacosqXNXA
+X-Proofpoint-ORIG-GUID: Br1-mwRJmev4zFMInKLy5UsacosqXNXA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-20_02,2025-01-20_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ lowpriorityscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
+ malwarescore=0 adultscore=0 mlxlogscore=999 bulkscore=0 spamscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501200082
 
-On 18/1/25 00:25, Jason Gunthorpe wrote:
-> On Fri, Jan 17, 2025 at 09:57:40AM +0800, Baolu Lu wrote:
->> On 1/15/25 21:01, Jason Gunthorpe wrote:
->>> On Wed, Jan 15, 2025 at 11:57:05PM +1100, Alexey Kardashevskiy wrote:
->>>> On 15/1/25 00:35, Jason Gunthorpe wrote:
->>>>> On Tue, Jun 18, 2024 at 07:28:43AM +0800, Xu Yilun wrote:
->>>>>
->>>>>>> is needed so the secure world can prepare anything it needs prior to
->>>>>>> starting the VM.
->>>>>> OK. From Dan's patchset there are some touch point for vendor tsm
->>>>>> drivers to do secure world preparation. e.g. pci_tsm_ops::probe().
->>>>>>
->>>>>> Maybe we could move to Dan's thread for discussion.
->>>>>>
->>>>>> https://lore.kernel.org/linux-
->>>>>> coco/173343739517.1074769.13134786548545925484.stgit@dwillia2-
->>>>>> xfh.jf.intel.com/
->>>>> I think Dan's series is different, any uapi from that series should
->>>>> not be used in the VMM case. We need proper vfio APIs for the VMM to
->>>>> use. I would expect VFIO to be calling some of that infrastructure.
->>>> Something like this experiment?
->>>>
->>>> https://github.com/aik/linux/commit/
->>>> ce052512fb8784e19745d4cb222e23cabc57792e
->>> Yeah, maybe, though I don't know which of vfio/iommufd/kvm should be
->>> hosting those APIs, the above does seem to be a reasonable direction.
->>>
->>> When the various fds are closed I would expect the kernel to unbind
->>> and restore the device back.
->>
->> I am curious about the value of tsm binding against an iomnufd_vdevice
->> instead of the physical iommufd_device.
-> 
-> Interesting question
->   
->> It is likely that the kvm pointer should be passed to iommufd during the
->> creation of a viommu object.
-> 
-> Yes, I fully expect this
-> 
->> If my recollection is correct, the arm
->> smmu-v3 needs it to obtain the vmid to setup the userspace event queue:
-> 
-> Right now it will use a VMID unrelated to KVM. BTM support on ARM will
-> require syncing the VMID with KVM.
-> 
-> AMD and Intel may require the KVM for some reason as well.
-> 
-> For CC I'm expecting the KVM fd to be the handle for the cVM, so any
-> RPCs that want to call into the secure world need the KVM FD to get
-> the cVM's identifier. Ie a "bind to cVM" RPC will need the PCI
-> information and the cVM's handle.
+The I2C driver gets an interrupt upon transfer completion.
+When handling multiple messages in a single transfer, this
+results in N interrupts for N messages, leading to significant
+software interrupt latency.
 
-And keep KVM fd open until unbind? Or just for the short time to call 
-the PSP?
+To mitigate this latency, utilize Block Event Interrupt (BEI)
+mechanism. Enabling BEI instructs the hardware to prevent interrupt
+generation and BEI is disabled when an interrupt is necessary.
 
->  From that perspective it does make sense that any cVM related APIs,
-> like "bind to cVM" would be against the VDEVICE where we have a link
-> to the VIOMMU which has the KVM. On the iommufd side the VIOMMU is
-> part of the object hierarchy, but does not necessarily have to force a
-> vIOMMU to appear in the cVM.
+Large I2C transfer can be divided into chunks of 8 messages internally.
+Interrupts are not expected for the first 7 message completions, only
+the last message triggers an interrupt, indicating the completion of
+8 messages. This BEI mechanism enhances overall transfer efficiency.
 
-Well, in my sketch it "appears" as an ability to make GUEST TIO REQUEST 
-calls (guest <-> secure FW protocol).
+This optimization reduces transfer time from 168 ms to 48 ms for a
+series of 200 I2C write messages in a single transfer, with a
+clock frequency support of 100 kHz.
 
-> But it also seems to me that VFIO should be able to support putting
-> the device into the RUN state without involving KVM or cVMs.
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
 
-AMD's TDI bind handler in the PSP wants a guest handle ("GCTX") and a 
-guest device BDFn, and VFIO has no desire to dive into this KVM business 
-beyond IOMMUFD.
+v4 -> v5:
+   -  BEI flag naming changed from flags to bei_flag.  
+   -  QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
+      file, and Block event support is checked with bei_flag.
+   -  Documentation added for "struct geni_i2c_dev".
 
-And then this GUEST TIO REQUEST which is used for 1) enabling secure 
-part of IOMMU (so it relates to IOMMUFD)  2) enabling secure MMIO (which 
-is more VFIO business).
+v3 -> v4:
+  - API's added for Block event interrupt with multi descriptor support is
+    moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+    I2C driver.
+  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
+    struct geni_i2c_dev.
+  - Removed the changes of making I2C driver is dependent on GPI driver.
 
-We can do all sorts of things but the lifetime of these entangled 
-objects is tricky sometimes. Thanks,
+v2 -> v3:
+  - Updated commit description
+  - In I2C GENI driver, for i2c_gpi_cb_result moved the logic of
+    "!is_tx_multi_xfer" to else part.
+  - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+  - Changes of I2C GENI driver to depend on the GPI driver moved
+    to patch3.
+  - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+  - Added description for newly added changes in "qcom-gpi-dma.h" file.
+
+v1 -> v2:
+  - DT changes are reverted for adding dma channel size as a new arg of
+    dma-cells property.
+  - DT binding change reveted for dma channel size as a new arg of
+    dma-cells property.
+  - In GPI driver, reverted the changes to parse the channel TRE size
+    from device tree.
+  - Made the changes in QCOM I2C geni driver to support the BEI
+    functionality with the existing TRE size of 64.
+  - Made changes in QCOM I2C geni driver as per the review comments.
+  - Fixed Kernel test robot reported compiltion issues.
 
 
->> Intel TDX connect implementation also needs a reference to the kvm
->> pointer to obtain the secure EPT information. This is crucial because
->> the CPU's page table must be shared with the iommu.
-> 
-> I thought kvm folks were NAKing this sharing entirely? Or is the
-> secure EPT in the secure world and not directly managed by Linux?
-> 
-> AFAIK AMD is going to mirror the iommu page table like today.
-> 
-> ARM, I suspect, will not have an "EPT" under Linux control, so
-> whatever happens will be hidden in their secure world.
-> 
-> Jason
+Jyothi Kumar Seerapu (2):
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: i2c-qcom-geni: Add Block event interrupt support
+
+ drivers/dma/qcom/gpi.c             |   3 +
+ drivers/i2c/busses/i2c-qcom-geni.c | 304 ++++++++++++++++++++++++++---
+ include/linux/dma/qcom-gpi-dma.h   |   2 +
+ 3 files changed, 284 insertions(+), 25 deletions(-)
 
 -- 
-Alexey
+base-commit: 55bcd2e0d04c1171d382badef1def1fd04ef66c5
+2.17.1
 
 
