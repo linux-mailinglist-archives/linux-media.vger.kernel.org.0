@@ -1,286 +1,118 @@
-Return-Path: <linux-media+bounces-24977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24978-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F27A16D9C
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 14:44:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F809A16DCF
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 14:52:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D99E93A5491
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 13:44:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 056261888F3C
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 13:52:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 336981E260A;
-	Mon, 20 Jan 2025 13:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A74271E25FC;
+	Mon, 20 Jan 2025 13:52:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="G1jC7oEh"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="U2VOSQ/O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2054.outbound.protection.outlook.com [40.107.236.54])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C5E1E1C33;
-	Mon, 20 Jan 2025 13:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737380666; cv=fail; b=ll1VFxjmQB63HNzKAeyDNFDRk7cfjimp2qbgxgstwKlSa2BJijp65Wa+hkaogxKAXwbXonvV2os77wekuvDam9EQWDLkbqYhyn12sl2IsBaGnfPnqUuHgeY8NOlbbl6ckt1Alxla1Svv1ZwJ+H32a6skAHwXWr/0fvFPXvB148w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737380666; c=relaxed/simple;
-	bh=LzCKIECt+ZdPTTeXrvHkKoAqpZSYZdRopIfxAHtiuHI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=q/VBAmqltOkbl3iSGXIke2fBwLaHYXtSd9J81wvtiQ4LKo+ckPecvmGuM/k5EfGbM0aXetEX8m56fpIEqHaBoSmvyiDqfyt4R4imr6BRAWaiZVT/SmUh36aI5v4P3fHpmOjU8SoJMyz0KEsNPoTWE9STpwjdbdprlTfO8EyzFbc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=G1jC7oEh; arc=fail smtp.client-ip=40.107.236.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jKMqra9VtQpo3Vl0XOA06ePSQ7VZ+KUbP+DJuD1Dp8KCYguMCR8Z/QFparn7XkSH7JVQSSfA7Ot0x517YMkh5TVrpvxjLmVHEy//T+jq5TrZKHvtHCylIl6H6vpsfhaJteX67dpMPXlez/K7440wcbaYkTBkmqodlY9ozbtIQj6mMfcO6k+ldkLdsD1xjmc/jKk5wCf4mm1qIZkAbvEOSeT6hPohHlb/Fdq6DnuLbBkdzP5AjmBu3rAwlejDQ3H2tEaEtAO2MEFS2JgEjMYLQX6GPhbdve6Y+noFY7uKaM0t9XUglwOwqLqUQIpYyKlKPL4mqXtc8YH52yUkNzjZJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aNMq6shzugyHf0NqHwBRJGQdA3omGz/1wVdBClhiDtk=;
- b=KUftGn0tT/jBc73eWNuqztgbjvRPXWlBEYUmoLZ2gZq0PGc7BvYD7I2GCxJseNxsCGcOoEM9OH+8OF61MaQl7SHKukL7slBFTczSNU3g6xeMhgEZqIVB1WIvbwqigPiNBTvwylrOoyWk/q0iZFq8TkV/uFhhYcUAH94BMxX32AFCivwwb1DpO3gShjPwPDESLjZmLQohh/knrxnfdTIozVK/0WDkGVA7kbAXhGm6bHMrmr05Rh7lnDP4w8l6Kx/bNC5mKlYutMNBo1MfkRhW+td+I6aCr26vKvthxGzYeaTdmCI5m8oNUv3aBe5US1JFAiQjzaz49XMvAmSe8438UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aNMq6shzugyHf0NqHwBRJGQdA3omGz/1wVdBClhiDtk=;
- b=G1jC7oEhfZ9njF95OtMRkj15lOZeatDo71NLwHGoP0A/brj8T3W2RHWpy4Yb4vu7d95AZkBB15Fhp/52nQY1d6bzfYppQyAKgz+bGtb+BetrhKL5E+CVTW1aGaJJ8KmoTp8yK3FqRFNZqIP4cvec/pQrJWCR2T6vnm25koX+tdc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB6271.namprd12.prod.outlook.com (2603:10b6:208:3c1::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.20; Mon, 20 Jan
- 2025 13:44:21 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8356.014; Mon, 20 Jan 2025
- 13:44:20 +0000
-Message-ID: <0d77dc64-df9c-457b-af3b-ecfa49dac7b4@amd.com>
-Date: Mon, 20 Jan 2025 14:44:13 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-References: <20250115133821.GO5556@nvidia.com>
- <f6c2524f-5ef5-4c2c-a464-a7b195e0bf6c@amd.com>
- <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
- <20250115141458.GP5556@nvidia.com>
- <c86cfee1-063a-4972-a343-ea0eff2141c9@amd.com>
- <86afb69a-79bd-4719-898e-c6c2e62103f7@amd.com>
- <20250115151056.GS5556@nvidia.com>
- <6f7a14aa-f607-45f9-9e15-759e26079dec@amd.com>
- <20250115170942.GT5556@nvidia.com>
- <5f588dac-d3e2-445d-9389-067b875412dc@amd.com>
- <ZnSm6ULbJbxOU27J@yilunxu-OptiPlex-7050>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ZnSm6ULbJbxOU27J@yilunxu-OptiPlex-7050>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0171.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a0::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB8E1E1A3B;
+	Mon, 20 Jan 2025 13:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737381153; cv=none; b=MZOEzlFYob14bK4WteL3MAnSYlABekcMJoqD3ENFdjFn2Jt7p2Vsx5GHP4M5LDgCJSZ9zb8m/zXTjTAA1IZAqBW8JWZ7MSqjGMczghUQTNlXepG3uQTb93e+K9M4DGHHXngf7hvmQhiGej/pPvn2SnEKvGVambKGuodySKL3uTk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737381153; c=relaxed/simple;
+	bh=5Td+YxxxuV+xbfq0ImDCCVLnUVvWM9MDAy5tsXq0CtQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=M7csybNPTTE2PlpmlkPHtkeNdM0y46uNca2yjsY+eVXSUzS0vu/ZtrvgoL+okrDrifZzXWaRyK3G+lOdIR157QOFnlxHp51MrxR/6XDJn0FD7gkoyi587ZRKzgRDSP0j6a/5B9qa5jnpKGv1n1TzcX//ozpx7LCqH8tK146SfMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=U2VOSQ/O; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1737381149;
+	bh=5Td+YxxxuV+xbfq0ImDCCVLnUVvWM9MDAy5tsXq0CtQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=U2VOSQ/OaJhBNek0Qp3/V6keabtO5z13XATTH09F0U31Fy4g0V076TX6tq1gFnvMF
+	 wpUzHS5XegZr3CuVo4pdcntfzIArKwzM2lMU88KteyJrxKXNwXt6PthkECBMKUqdSX
+	 IXpgfN0iSlOv4cZk9XMX+p1nOxvG1zYjmiUsm5zyzKc+pAH7mwMcoFqH3ikWMqg2Ow
+	 IQEW3tyQBWs+PKAm05yCqoDXyh5ZBzh0SN+/ZYcUzlitpGSNw6YT85n92lxYc3hyKd
+	 Y0/FMxC4fyWllga5g5o2OywixZIjFeh/qWj3YlSbcCRF+nxXCvfHw+BhOVDizExm0D
+	 D5dKMG7cIqsOg==
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:11:e976::7a9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3510B17E0CD5;
+	Mon, 20 Jan 2025 14:52:28 +0100 (CET)
+Message-ID: <809cbfa09953bd3031a58c91d8c978ea2d7ff276.camel@collabora.com>
+Subject: Re: [PATCH] media: verisilicon: VP9: Fix typo
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	p.zabel@pengutronix.de, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 20 Jan 2025 08:52:26 -0500
+In-Reply-To: <20250120081342.66853-1-benjamin.gaignard@collabora.com>
+References: <20250120081342.66853-1-benjamin.gaignard@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6271:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0262313-7f98-4ce8-b2f8-08dd39588af4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SnZQWERVWVpjejlhbFVvT3AvTXJyb01PUFhuZDBKSHdZZEdzSXI1UVJWa21s?=
- =?utf-8?B?VkQ0dys2b0Z6ay9YbW5FR3c3TjZXeUYrNTBjSTVkOVR2cVl5dSszL01Wbm1a?=
- =?utf-8?B?K3prTnhtd2hCSEJUTkZYYlR0cm5GZ3NnVmlpdENFNDd1eEl5SEhqRktraURI?=
- =?utf-8?B?UVJXV1Ivb0NIVUZVZlFrYmpmaTBGNHAxdFQ1aGw0Uk45YjAzNk8xTThPQnIz?=
- =?utf-8?B?bi95Wjg4aFVxdmF1MzBUVjZMei9POFlHT1oyclZYOGtoSmI2M0N4MVowUUZM?=
- =?utf-8?B?THcrd3FaS0ZYUFhiSFdKNVhaMndEd3lKQ3JZaXJNRVNWY3pWK0VKYWp3QU44?=
- =?utf-8?B?YW1wOTlXWVFXaWtWNFplNkdvMkdjKzhjYTRuaWNOWVl2NHA3OHlEY3lBcEdN?=
- =?utf-8?B?U3FqT3lBYjNaVndiMjhyb3pxc0xqODRMMFFYdVJCOEdYUXhPMmZJM2RiMHRO?=
- =?utf-8?B?a1lpcnp5QWFNM1ZOaG1hczNOb0V0dUxLQWRWZ0Q0ZnlEVE9ta1RvZUE4TUJV?=
- =?utf-8?B?QnpBNlk2K01YZ0N1ZVlYeDhLekx3ZjJvVU45dVQzakloVG5iWS9lVkRuM1pm?=
- =?utf-8?B?dlY0ZCtCWUFVcnZrWER2RUgvZVM4V2owdldXL2VUbW1USytpOGZvRS8zYUJw?=
- =?utf-8?B?WXZzS2VSdW1vWkpkb09Fa3ZnK3FiM2FWYXFlOUF0cG1zZmV2d1BOeGU4M3lY?=
- =?utf-8?B?Y2diaTZmVFVXRnZENDN2NmxxWEhkc3BZZHVWUkd2WWRVYytES1NhOTZ1QTJh?=
- =?utf-8?B?L1NwMWk0ajNrbkVNc3pUb2JBeWd5S1MxRmFBRWpSUGxhRHRRNlRoZmh5eHdk?=
- =?utf-8?B?WTc4dE5wUG1DRThpWmd1cmpDczdFVVpONk1SOXlWVk10azlqVmt0NE1OMHBh?=
- =?utf-8?B?ZXVhT2JlWElJbGhQSnp0RWkvQWtMMERKWWs2UmJINmI5aEtjWHlEVGhZMGRK?=
- =?utf-8?B?cFR5akkwdXplQnpKVHp4M0gxNHhWV3c1encrQ3p5SGliT2ptcjBFTmt0UTkv?=
- =?utf-8?B?ejZ3cmpEcWNUWWtaRDdHOVd2SDFWNHlGSFp6QytLdnpOeWtBdVkyamFqZFpQ?=
- =?utf-8?B?cHV0RUluZ1l5WnFWZzFlY0I1Ulo5bllOQWxjeXQxdDlIM2Y0RS9JS2lMb0F6?=
- =?utf-8?B?cnJWd2pIa3VyWTJLbDBKbDFVQ0JaVjg1QXhGQnJKdVdwU0dMdmhGcFZkbGhi?=
- =?utf-8?B?c01VWDZJMGdqbks3ZlNKOTdsVkN0UTdFSW1UMUl6M0djWkRHaEJueE9oZVdk?=
- =?utf-8?B?WlR6R2l2U25pNmNVQjVpYUxXcFFUNDFZT3p2NlNpSFh0aFZWTy84dzJhc01m?=
- =?utf-8?B?MEhxdzF1cFpZdEkyNStndE5QL0hpUjd6RTFVYTdkZ2gxWUo2U2hnNUQxTEtY?=
- =?utf-8?B?clBVdk9WQ09jUC90REc3cVhKajk4aHJNWklMYVRUdm9vQ1hya21Xb2VBRWl0?=
- =?utf-8?B?QTB5d3hLUFFBZlAxcmV3eVdMWUsvd2U3SnFKcTVqNGVyUFE2ekF0Z3YzWGVt?=
- =?utf-8?B?V0FqcVpHbGRDWkhQZDNUa0pUNnNLMTc1ZW9wenZHV05iS0tvQ1FpWG9vbENY?=
- =?utf-8?B?YUV5ZWRZZkRSTTZUcnlwWElIeDJGUTdLVXhBZmVjS1JGb2RnRExIdDU3bHVy?=
- =?utf-8?B?UTljMmlLVE5vc1M0ZTRzU3NibkluTWJNK0RhZU1mQmtld2JDRnNZVi9tTnBs?=
- =?utf-8?B?c2l0WnZyZHBJK1NBTzZqZTNwclZjb25PcjJoWndoS0M0czFwQitFNkxxZzdx?=
- =?utf-8?B?SVVOZWgrVkxZVlVpc21ZZjNRY0ZacjlDVzdvaDhxbStUbU8rUHRWYVVQYndD?=
- =?utf-8?B?c045T3plUDNUeHFGOE5qT251Tll3eGFMVnhKRzJlZXA2RWxic2Nvci9oTzQ1?=
- =?utf-8?Q?BOGIc/rbxC49M?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V0srcHZzTURKYUZWZHRBTk5ZS3U2NlQ1RGo5RTJOWmxUdFVReVdSdHQ4bG1w?=
- =?utf-8?B?djgvQzZmSm1tcXRWMHRiMlBrQjJDbWJtRUE0TnBCbUs3cU9QVncwZWRNL0k4?=
- =?utf-8?B?Sk1kYlV5M1RBY1VPM2JjdkxzR0pjcjVYKzVWSytlMjFqQ2pEMmUxZnJMQmNF?=
- =?utf-8?B?NFg2aEIzMUhFYTRpRXZRK3hqcVZKc282dDBoRzJkYk9HTGIxYUg5N090VXl5?=
- =?utf-8?B?SG1xZGdvYkFoaEJ3enVvVXYxazlHMVQydFU4S2o5a25oTkpkYTdlZjJ0VVVV?=
- =?utf-8?B?c3dFZnVKbm4rOXFKVXJmempJdUlNVE51d09PSktoSDJjZkpDcXBmMzViQUJC?=
- =?utf-8?B?T3ZxT1FvekpjMVFmb0NzVUNNMHNyOFBsMGlRQUZEK1hNalQ3d3kxbDI5d3cv?=
- =?utf-8?B?bmVLSDZveE9zRStlZ0hMVU9MTWJWZ3dFNkwyNXk5OG56akx5N0RydUFVemkv?=
- =?utf-8?B?MmV6V3d4NzBkTXlmK2Roek8xd0VXSTJUeUtka0Z4eitaVTVVK2tod3E3WjFi?=
- =?utf-8?B?Y0lKRGJqZ0ZlTlRaSkhPU2ErRVNwbUZ5QjNjbE5Ra0lqRC82azJkUVRpZ3hS?=
- =?utf-8?B?R2psak1jeXQrSUN5SWxZSkg4TnpEYXJlVVdDMVdYc09hbXNoblFCOEoyMkhR?=
- =?utf-8?B?VU9vaGdwdVpSYzMxWGZkUERqcytEa3BteVBmdkRaQjI2NnQyajQ0bHlqRXJn?=
- =?utf-8?B?TjBURE5LbE44eTl5d3BkVDM2NWhGUkJMY2FtWlB2Qnc3Z0txV1pvMjl3aDVN?=
- =?utf-8?B?Y1RWZnFrUThUbE90YVZxcEVEMTExbVcrQ0dmWXlmUElwczVIUUZNV25MSjZ5?=
- =?utf-8?B?KytaOXNwb095SmhWMjhSZ2R3akVLaHI3eDM2RXduRWhxWTJxcXd3SWttVFRG?=
- =?utf-8?B?SHd5VXZ0VExkNGZtcjR4M2pTNWg2Yml4S1ljdWV2TmQ1Z3k1Q052ZHFUYWdt?=
- =?utf-8?B?WGZpa0g1OXVGQ200ZFFEU2NKdTVjaUd0S1YxK0lJUGYxMEcwTC9zWFRIR0Uy?=
- =?utf-8?B?b0dDNWZLeXdXek00aVZOMzM0UDMzU2hST0Njald2VHlLSVVsTVFtQmFoM0k5?=
- =?utf-8?B?QXZzaWtqWE9EZ2I2RmEzT3hNRkpmNlZNQjFnKzBKMzFoNVJEMWZuNTVtT2c0?=
- =?utf-8?B?QzZxZ2JnUW5pK0FmWTZWN1dEOTgrZlR4U3FpRFIzWnBXMThFWVUwS0RyUjEz?=
- =?utf-8?B?UWI1YlVpTjViZVRhNW9RVUZSTXRoVnlIaGdranpST3JNV0t5RTlkN3BzZEkx?=
- =?utf-8?B?T2JyV3BsL1BFZG00R09xS0FnL0d1N2ZnTmtUaTZyUnE3dzdnb3diMWJvN2ph?=
- =?utf-8?B?ZUZ6QWV5c2ZFTWE1NDJyMEVJNGxLQ1JJaWpTM1hESXIzSmhNTFI1eWtBOUdk?=
- =?utf-8?B?Y2ZMSDUxQnA2TjUzUnNkKzFUenVDZzNEY3VtbUc3bzBjazh2ME1tTVY1ci9k?=
- =?utf-8?B?NE5TR0NrQTAwQ0FGODIvL2QrU0NuNGc1L3c3ck0yaStaTnoxZitBRExqV1Rh?=
- =?utf-8?B?ZHMxSHoyU1phRXdvS2VxM2hjK3dEQnZrRmlINTgvVms1b0M5cWtVWUdpck1S?=
- =?utf-8?B?amR2MUVIMUNhcncrTHB5cHI0OHFTT1VVVG9aVGwzVXNGcjJLbzJwc1JtQmlB?=
- =?utf-8?B?eEhmMncwN0J3bTFvekRRUjFwRXA1K0JzQXUydmkzOExZb3Y1S25uL2pMWjF6?=
- =?utf-8?B?QVgyMlo0aEtrSTFpYlNZcVFOMlpLcUdRTUNnVE5DbzVoYWdtVzFsTEJxV1d5?=
- =?utf-8?B?WjVZZlZ2UUdsVzVPbTUwL2tYSUdWMUQ2ZEZPcDRtajl1SmZnVmFnZnBORjBY?=
- =?utf-8?B?b3hOaW9TZlAvbnNnTGkzSm9mU1AwejVZSHovbUdqemxNL3pVUFNuSVZRdDk2?=
- =?utf-8?B?T0ZtWHA3QTFTRmtwL012c1ZJMENmVlk5ajlRdmM5VWpIdjcxWlMzU0xpcUNT?=
- =?utf-8?B?TjBxN1paZFVLQ2p4UW1Ib0hpa2VONmQ2MVRza081TDR2QWJHY0NJSFBqSEM5?=
- =?utf-8?B?QzJmdG1hdjZJOW9LQmFhbmVEY1R1aWR3UHc0a3l1K1huak9lVzk1akwyN0F1?=
- =?utf-8?B?T2dORjZIdmtna05GblpRVkhpd2tCbmtpTFAwNmtKL2R1QVc3cktDeWg0TXVI?=
- =?utf-8?Q?vcVFdvDiD53hB+g+hmt/gsyj4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0262313-7f98-4ce8-b2f8-08dd39588af4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2025 13:44:20.8701
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q+rm2VTl9msIv71h6Uo7d66GwH3aglle2Lrg2CnF2+CW7xAkq5Kynxm6HvssOOVj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6271
+Content-Transfer-Encoding: 8bit
 
-Am 21.06.24 um 00:02 schrieb Xu Yilun:
-> On Thu, Jan 16, 2025 at 04:13:13PM +0100, Christian König wrote:
->>     Am 15.01.25 um 18:09 schrieb Jason Gunthorpe:
->>
->>   On Wed, Jan 15, 2025 at 05:34:23PM +0100, Christian König wrote:
->>
->>      Granted, let me try to improve this.
->>      Here is a real world example of one of the issues we ran into and why
->>      CPU mappings of importers are redirected to the exporter.
->>      We have a good bunch of different exporters who track the CPU mappings
->>      of their backing store using address_space objects in one way or
->>      another and then uses unmap_mapping_range() to invalidate those CPU
->>      mappings.
->>      But when importers get the PFNs of the backing store they can look
->>      behind the curtain and directly insert this PFN into the CPU page
->>      tables.
->>      We had literally tons of cases like this where drivers developers cause
->>      access after free issues because the importer created a CPU mappings on
->>      their own without the exporter knowing about it.
->>      This is just one example of what we ran into. Additional to that
->>      basically the whole synchronization between drivers was overhauled as
->>      well because we found that we can't trust importers to always do the
->>      right thing.
->>
->>   But this, fundamentally, is importers creating attachments and then
->>   *ignoring the lifetime rules of DMABUF*. If you created an attachment,
->>   got a move and *ignored the move* because you put the PFN in your own
->>   VMA, then you are not following the attachment lifetime rules!
->>
->>     Move notify is solely for informing the importer that they need to
->>     re-fresh their DMA mappings and eventually block for ongoing DMA to end.
->>
->>     This semantics doesn't work well for CPU mappings because you need to hold
->>     the reservation lock to make sure that the information stay valid and you
->>     can't hold a lock while returning from a page fault.
-> Dealing with CPU mapping and resource invalidation is a little hard, but is
-> resolvable, by using other types of locks. And I guess for now dma-buf
-> exporters should always handle this CPU mapping VS. invalidation contention if
-> they support mmap().
->
-> It is resolvable so with some invalidation notify, a decent importers could
-> also handle the contention well.
+Thanks,
 
-That doesn't work like this.
+Le lundi 20 janvier 2025 à 09:13 +0100, Benjamin Gaignard a écrit :
+> Change headres_size to headers_size.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-See page tables updates under DMA-buf works by using the same locking 
-approach for both the validation and invalidation side. In other words 
-we hold the same lock while inserting and removing entries into/from the 
-page tables.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-That this here should be an unlocked API means that can only use it with 
-pre-allocated and hard pinned memory without any chance to invalidate it 
-while running. Otherwise you can never be sure of the validity of the 
-address information you got from the exporter.
-
-> IIUC now the only concern is importer device drivers are easier to do
-> something wrong, so move CPU mapping things to exporter. But most of the
-> exporters are also device drivers, why they are smarter?
-
-Exporters always use their invalidation code path no matter if they are 
-exporting their buffers for other to use or if they are stand alone.
-
-If you do the invalidation on the importer side you always need both 
-exporter and importer around to test it.
-
-Additional to that we have much more importers than exporters. E.g. a 
-lot of simple drivers only import DMA-heap buffers and never exports 
-anything.
-
-> And there are increasing mapping needs, today exporters help handle CPU primary
-> mapping, tomorrow should they also help on all other mappings? Clearly it is
-> not feasible. So maybe conditionally give trust to some importers.
-
-Why should that be necessary? Exporters *must* know what somebody does 
-with their buffers.
-
-If you have an use case the exporter doesn't support in their mapping 
-operation then that use case most likely doesn't work in the first place.
-
-For example direct I/O is enabled/disabled by exporters on their CPU 
-mappings based on if that works correctly for them. And importer simply 
-doesn't know if they should use vm_insert_pfn() or vm_insert_page().
-
-We could of course implement that logic into each importer to chose 
-between the different approaches, but than each importer gains logic it 
-only exercises with a specific exporter. And that doesn't seem to be a 
-good idea at all.
-
-Regards,
-Christian.
-
->
-> Thanks,
-> Yilun
+> ---
+>  drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> index 342e543dee4c..82a478ac645e 100644
+> --- a/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> +++ b/drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c
+> @@ -776,15 +776,15 @@ config_source(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_para
+>  	      struct vb2_v4l2_buffer *vb2_src)
+>  {
+>  	dma_addr_t stream_base, tmp_addr;
+> -	unsigned int headres_size;
+> +	unsigned int headers_size;
+>  	u32 src_len, start_bit, src_buf_len;
+>  
+> -	headres_size = dec_params->uncompressed_header_size
+> +	headers_size = dec_params->uncompressed_header_size
+>  		     + dec_params->compressed_header_size;
+>  
+>  	stream_base = vb2_dma_contig_plane_dma_addr(&vb2_src->vb2_buf, 0);
+>  
+> -	tmp_addr = stream_base + headres_size;
+> +	tmp_addr = stream_base + headers_size;
+>  	if (ctx->dev->variant->legacy_regs)
+>  		hantro_write_addr(ctx->dev, G2_STREAM_ADDR, (tmp_addr & ~0xf));
+>  	else
+> @@ -794,7 +794,7 @@ config_source(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_para
+>  	hantro_reg_write(ctx->dev, &g2_start_bit, start_bit);
+>  
+>  	src_len = vb2_get_plane_payload(&vb2_src->vb2_buf, 0);
+> -	src_len += start_bit / 8 - headres_size;
+> +	src_len += start_bit / 8 - headers_size;
+>  	hantro_reg_write(ctx->dev, &g2_stream_len, src_len);
+>  
+>  	if (!ctx->dev->variant->legacy_regs) {
 
 
