@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-24951-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-24952-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682AFA16B2B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 12:02:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 830E7A16B2C
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 12:02:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED8B9188755A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 11:02:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE7081637A3
+	for <lists+linux-media@lfdr.de>; Mon, 20 Jan 2025 11:02:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96FEC1BBBF7;
-	Mon, 20 Jan 2025 11:02:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 349571BC062;
+	Mon, 20 Jan 2025 11:02:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGNJd7I1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BfuY0LVa"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D631991CD
-	for <linux-media@vger.kernel.org>; Mon, 20 Jan 2025 11:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E451991CD
+	for <linux-media@vger.kernel.org>; Mon, 20 Jan 2025 11:02:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737370964; cv=none; b=XLBOO9pH0h0Eh7g6gMwh7ytP1Y2xpDPJgPlak+Ry53CpJwbg4Ayv1TSI+QDicB1kUhNbh/5tdGrCNI8kOroploBKEyHOFwLJICYaB02CHsw1q3P+8E4BRzS1yOvFWZ7zg94N1Cgs9/FT5z8tCksHIJaoQEmxIgozJaCtQ2axjkA=
+	t=1737370970; cv=none; b=qKDgz0wdysJI8opii+gE6NUCbEMugO+bwgIiAm31j4bGiDCrUmMFN3gOD/FD6vAdOrUu9fGhNWv7mfOhpIcrwQn2tfAhUXEmTfOace6AVh+8yfH0ww7Qi1nFyNaWb8ewY7mslHh9CUfcnrHdkn2AHx8gUIRoKTgYL3Msw5Wd67A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737370964; c=relaxed/simple;
-	bh=75ZQyIaBWia2JQ1Fw7fjbUiYJWt2tiOBwL+a86BcjQI=;
+	s=arc-20240116; t=1737370970; c=relaxed/simple;
+	bh=gzLZu75xGxxtAjjZqpJNfiYIv2ZYJpbEvARLlKEwjkY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=czZFbkJk50dUSZ18GLUbX1bXRDtnZPo91fX+bfsan6vZsTwD1oajE7RvobLWB/uEA+dCUiPWjsnPsKns+OTDKW1VrFF955oHRVWt00nD+b57GJeYL8BfH6KmQu07FzorLs/q8aEbxm3YBngnkhKofm23yVVgnlwGUj5cczi+mE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGNJd7I1; arc=none smtp.client-ip=192.198.163.12
+	 MIME-Version; b=pw5kPFuAJtpS2oHUJDNJQrIvPzSbx3160dDuGtu8FM6BJUBx3E5X0xM2IewtsxUlmhOH7l4gAHUf4Yl45PkgtplfNzIcK1YE9r/B1NlCLvGdJKtFfHQ/XB9uOw2eWpCp/5G1px+c1rFAVde2LlO3Rj4NUXgbZNa6dUh3Il4FZaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BfuY0LVa; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737370963; x=1768906963;
+  t=1737370969; x=1768906969;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=75ZQyIaBWia2JQ1Fw7fjbUiYJWt2tiOBwL+a86BcjQI=;
-  b=dGNJd7I1UDQcCXejF9U+p0lJzMLPuiblCfShZmJTbfjjY7lHmndpRhY1
-   KUZVlupZrB8+61A3ekKg3LFncFjSFIiDwMvXqXHb6AEiDM/fnzGwUkm4U
-   srU+4REyOLjghAx10hNzsKqT8rd/a0Si+tw2dcP4Oovu6shCryAF1Zk8L
-   NR8dQKnRrW0s8rE6QuAofGV2DICrB/v4KoNJFSDHXNOs4FEtdpI/MjBtl
-   /5YxD9o+aQPalSC2Dkfpa5Gc0U59osjqOt6qmNg3YpkCeXgNg4vOHmbg8
-   ZmyKZwvQlAc7K8wRejOWgLvN6xZJb1HXPtAteJ+RFsIeGRhv4e2MDv+qw
-   A==;
-X-CSE-ConnectionGUID: zfNCgF8HQMCDVOIk6Z+xAA==
-X-CSE-MsgGUID: MZhxYfN7SPOPBZQYCqszMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="41680365"
+  bh=gzLZu75xGxxtAjjZqpJNfiYIv2ZYJpbEvARLlKEwjkY=;
+  b=BfuY0LVaWUWtKMgTU1bWYd7mPHbnuOAvAclQk4/gRbGAP4sosahW2Ypc
+   2kZ5gU0A+Ow+nRm2kNllHHlrcdTGYPkN0f9AuTx884R0tTyclLrZpN8Bd
+   YJP8UFk3C5UfdF1cXh3COfP1tZeu9cReMeHyq1SdIkjpEVP0un2abkq8g
+   OEUAe186bb2aOVazX4sieA/7ehuDNKx5V7xoW6wfjJ/+qGrenwEt+KqCg
+   ODlAMpTN65LcdtkHW841owMm27hLIsVOQsfzXuzrlHmPGdNu1HU/uoXTy
+   5PBGyQgewhL0qEVIN90L2gqaC69PoGKELtBDguedixc6wVfrOj8oJw1oC
+   g==;
+X-CSE-ConnectionGUID: Mk7IJ0g5TR+qR9qZAErSNg==
+X-CSE-MsgGUID: Ikt/sYVLSyehzuuJzhz0tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="41680385"
 X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="41680365"
+   d="scan'208";a="41680385"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 03:02:42 -0800
-X-CSE-ConnectionGUID: 4qWCiosVQJ+PQCoeEWb1+Q==
-X-CSE-MsgGUID: jGXx7EoZRWeEiHfDOrPaVQ==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 03:02:48 -0800
+X-CSE-ConnectionGUID: Xul+0viDQxm/4oSjG1J+hQ==
+X-CSE-MsgGUID: UtVt4DLCR2qP+o7JcCULBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="106606524"
+   d="scan'208";a="106606550"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 03:02:36 -0800
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 03:02:40 -0800
 Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 4974C11F94F;
-	Mon, 20 Jan 2025 13:02:30 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5BD7111FA93;
+	Mon, 20 Jan 2025 13:02:34 +0200 (EET)
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
@@ -93,9 +93,9 @@ Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	Benoit Parrot <bparrot@ti.com>,
 	Ricardo Ribalda <ribalda@chromium.org>,
 	"Duc-Long, Le" <duclong.linux@gmail.com>
-Subject: [PATCH v10 8/9] media: ivsc: csi: Obtain link frequency from the media pad
-Date: Mon, 20 Jan 2025 13:01:56 +0200
-Message-Id: <20250120110157.152732-9-sakari.ailus@linux.intel.com>
+Subject: [PATCH v10 9/9] media: v4l: Convert the users of v4l2_get_link_freq to call it on a pad
+Date: Mon, 20 Jan 2025 13:01:57 +0200
+Message-Id: <20250120110157.152732-10-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250120110157.152732-1-sakari.ailus@linux.intel.com>
 References: <20250120110157.152732-1-sakari.ailus@linux.intel.com>
@@ -107,196 +107,404 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Support the use of the media pad for obtaining the link frequency.
-Similarly, call the v4l2_get_link_freq() on the media pad, not on the
-remote's control handler.
+Call v4l2_get_link_freq() on a pad, instead of a control handler. This way
+we can soon convert v4l2_get_link_freq() to be callable only on a pad and
+remove the compatibility code.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Acked-by: Naushir Patuck <naush@raspberrypi.com> # rp1-cfe
+Acked-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com> # st-mipid02
 ---
- drivers/media/pci/intel/ivsc/mei_csi.c | 78 +++++++++-----------------
- 1 file changed, 26 insertions(+), 52 deletions(-)
+ drivers/media/i2c/st-mipid02.c                |  5 ++--
+ drivers/media/i2c/tc358746.c                  |  4 ++-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      | 11 +++++---
+ drivers/media/platform/cadence/cdns-csi2rx.c  |  4 ++-
+ drivers/media/platform/nxp/imx-mipi-csis.c    |  5 ++--
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 11 ++++++--
+ .../media/platform/qcom/camss/camss-vfe-17x.c |  9 ++++---
+ .../platform/qcom/camss/camss-vfe-gen1.c      |  9 ++++---
+ drivers/media/platform/qcom/camss/camss.c     | 27 +++++++++----------
+ drivers/media/platform/qcom/camss/camss.h     |  2 +-
+ .../media/platform/raspberrypi/rp1-cfe/cfe.c  |  4 ++-
+ drivers/media/platform/st/stm32/stm32-csi.c   |  4 ++-
+ drivers/media/platform/ti/cal/cal-camerarx.c  |  3 ++-
+ drivers/media/platform/ti/cal/cal.c           |  4 ++-
+ drivers/media/platform/ti/cal/cal.h           |  1 +
+ 15 files changed, 64 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
-index 2a9c12c975ca..545de4654609 100644
---- a/drivers/media/pci/intel/ivsc/mei_csi.c
-+++ b/drivers/media/pci/intel/ivsc/mei_csi.c
-@@ -35,8 +35,6 @@
- 
- #define MEI_CSI_ENTITY_NAME "Intel IVSC CSI"
- 
--#define MEI_CSI_LINK_FREQ_400MHZ 400000000ULL
--
- /* the 5s used here is based on experiment */
- #define CSI_CMD_TIMEOUT (5 * HZ)
- /* to setup CSI-2 link an extra delay needed and determined experimentally */
-@@ -121,14 +119,13 @@ struct mei_csi {
- 	struct mutex lock;
- 
- 	struct v4l2_subdev subdev;
--	struct v4l2_subdev *remote;
-+	struct media_pad *remote;
- 	struct v4l2_async_notifier notifier;
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct v4l2_ctrl *freq_ctrl;
- 	struct v4l2_ctrl *privacy_ctrl;
- 	/* lock for v4l2 controls */
- 	struct mutex ctrl_lock;
--	unsigned int remote_pad;
- 	/* start streaming or not */
- 	int streaming;
- 
-@@ -147,10 +144,6 @@ static const struct v4l2_mbus_framefmt mei_csi_format_mbus_default = {
- 	.field = V4L2_FIELD_NONE,
- };
- 
--static s64 link_freq_menu_items[] = {
--	MEI_CSI_LINK_FREQ_400MHZ
--};
--
- static inline struct mei_csi *notifier_to_csi(struct v4l2_async_notifier *n)
+diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+index f08db3cfe076..f4568e87f018 100644
+--- a/drivers/media/i2c/st-mipid02.c
++++ b/drivers/media/i2c/st-mipid02.c
+@@ -301,8 +301,9 @@ static int mipid02_detect(struct mipid02_dev *bridge)
+ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
+ 					   struct v4l2_mbus_framefmt *fmt)
  {
- 	return container_of(n, struct mei_csi, notifier);
-@@ -161,11 +154,6 @@ static inline struct mei_csi *sd_to_csi(struct v4l2_subdev *sd)
- 	return container_of(sd, struct mei_csi, subdev);
++	struct media_pad *remote =
++		&bridge->s_subdev->entity.pads[bridge->s_subdev_pad_id];
+ 	struct i2c_client *client = bridge->i2c_client;
+-	struct v4l2_subdev *subdev = bridge->s_subdev;
+ 	struct v4l2_fwnode_endpoint *ep = &bridge->rx;
+ 	u32 bpp = bpp_from_code(fmt->code);
+ 	/*
+@@ -312,7 +313,7 @@ static int mipid02_configure_from_rx_speed(struct mipid02_dev *bridge,
+ 	u64 ui_4 = 2000000000;
+ 	s64 link_freq;
+ 
+-	link_freq = v4l2_get_link_freq(subdev->ctrl_handler, bpp,
++	link_freq = v4l2_get_link_freq(remote, bpp,
+ 				       2 * ep->bus.mipi_csi2.num_data_lanes);
+ 	if (link_freq < 0) {
+ 		dev_err(&client->dev, "Failed to get link frequency");
+diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
+index 389582420ba7..31586f8e4be4 100644
+--- a/drivers/media/i2c/tc358746.c
++++ b/drivers/media/i2c/tc358746.c
+@@ -896,6 +896,7 @@ tc358746_link_validate(struct v4l2_subdev *sd, struct media_link *link,
+ 	const struct tc358746_format *fmt;
+ 	unsigned int fifo_sz, tmp, n;
+ 	struct v4l2_subdev *source;
++	struct media_pad *src_pad;
+ 	s64 source_link_freq;
+ 	int err;
+ 
+@@ -910,7 +911,8 @@ tc358746_link_validate(struct v4l2_subdev *sd, struct media_link *link,
+ 	fmt = tc358746_get_format_by_code(TC358746_SINK, mbusfmt->code);
+ 
+ 	source = media_entity_to_v4l2_subdev(link->source->entity);
+-	source_link_freq = v4l2_get_link_freq(source->ctrl_handler, 0, 0);
++	src_pad = &source->entity.pads[source_fmt->pad];
++	source_link_freq = v4l2_get_link_freq(src_pad, 0, 0);
+ 	if (source_link_freq <= 0) {
+ 		dev_err(tc358746->sd.dev,
+ 			"Failed to query or invalid source link frequency\n");
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+index 4e98f432ed55..7731eb70fc8e 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+@@ -309,12 +309,17 @@ static int cio2_csi2_calc_timing(struct cio2_device *cio2, struct cio2_queue *q,
+ 				 unsigned int bpp, unsigned int lanes)
+ {
+ 	struct device *dev = &cio2->pci_dev->dev;
++	struct media_pad *src_pad;
+ 	s64 freq;
+ 
+-	if (!q->sensor)
+-		return -ENODEV;
++	src_pad = media_entity_remote_source_pad_unique(&q->subdev.entity);
++	if (IS_ERR(src_pad)) {
++		dev_err(dev, "can't get source pad of %s (%ld)\n",
++			q->subdev.name, PTR_ERR(src_pad));
++		return PTR_ERR(src_pad);
++	}
+ 
+-	freq = v4l2_get_link_freq(q->sensor->ctrl_handler, bpp, lanes * 2);
++	freq = v4l2_get_link_freq(src_pad, bpp, lanes * 2);
+ 	if (freq < 0) {
+ 		dev_err(dev, "error %lld, invalid link_freq\n", freq);
+ 		return freq;
+diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+index 4d64df829e75..cebcae196eec 100644
+--- a/drivers/media/platform/cadence/cdns-csi2rx.c
++++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+@@ -164,6 +164,8 @@ static void csi2rx_reset(struct csi2rx_priv *csi2rx)
+ 
+ static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
+ {
++	struct media_pad *src_pad =
++		&csi2rx->source_subdev->entity.pads[csi2rx->source_pad];
+ 	union phy_configure_opts opts = { };
+ 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+ 	struct v4l2_subdev_format sd_fmt = {
+@@ -181,7 +183,7 @@ static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
+ 
+ 	fmt = csi2rx_get_fmt_by_code(sd_fmt.format.code);
+ 
+-	link_freq = v4l2_get_link_freq(csi2rx->source_subdev->ctrl_handler,
++	link_freq = v4l2_get_link_freq(src_pad,
+ 				       fmt->bpp, 2 * csi2rx->num_lanes);
+ 	if (link_freq < 0)
+ 		return link_freq;
+diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+index 29523bb84d95..d060eadebc7a 100644
+--- a/drivers/media/platform/nxp/imx-mipi-csis.c
++++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+@@ -597,12 +597,13 @@ static void __mipi_csis_set_format(struct mipi_csis_device *csis,
+ static int mipi_csis_calculate_params(struct mipi_csis_device *csis,
+ 				      const struct csis_pix_format *csis_fmt)
+ {
++	struct media_pad *src_pad =
++		&csis->source.sd->entity.pads[csis->source.pad->index];
+ 	s64 link_freq;
+ 	u32 lane_rate;
+ 
+ 	/* Calculate the line rate from the pixel rate. */
+-	link_freq = v4l2_get_link_freq(csis->source.sd->ctrl_handler,
+-				       csis_fmt->width,
++	link_freq = v4l2_get_link_freq(src_pad, csis_fmt->width,
+ 				       csis->bus.num_data_lanes * 2);
+ 	if (link_freq < 0) {
+ 		dev_err(csis->dev, "Unable to obtain link frequency: %d\n",
+diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+index 1f2657cf6e82..a8bcf60e2f37 100644
+--- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
++++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+@@ -287,6 +287,7 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+ 					  struct v4l2_subdev_state *sd_state,
+ 					  u32 *hs_settle)
+ {
++	struct media_pad *src_pad;
+ 	s64 link_freq;
+ 	u32 lane_rate;
+ 	unsigned long esc_clk_rate;
+@@ -294,13 +295,19 @@ static int imx8mq_mipi_csi_calc_hs_settle(struct csi_state *state,
+ 	const struct v4l2_mbus_framefmt *fmt;
+ 	const struct csi2_pix_format *csi2_fmt;
+ 
++	src_pad = media_entity_remote_source_pad_unique(&sd_state->sd->entity);
++	if (IS_ERR(src_pad)) {
++		dev_err(state->dev, "can't get source pad of %s (%ld)\n",
++			sd_state->sd->name, PTR_ERR(src_pad));
++		return PTR_ERR(src_pad);
++	}
++
+ 	/* Calculate the line rate from the pixel rate. */
+ 
+ 	fmt = v4l2_subdev_state_get_format(sd_state, MIPI_CSI2_PAD_SINK);
+ 	csi2_fmt = find_csi2_format(fmt->code);
+ 
+-	link_freq = v4l2_get_link_freq(state->src_sd->ctrl_handler,
+-				       csi2_fmt->width,
++	link_freq = v4l2_get_link_freq(src_pad, csi2_fmt->width,
+ 				       state->bus.num_data_lanes * 2);
+ 	if (link_freq < 0) {
+ 		dev_err(state->dev, "Unable to obtain link frequency: %d\n",
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-17x.c b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
+index 380c99321030..b8af019f2f45 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-17x.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
+@@ -443,14 +443,15 @@ static int vfe_enable_output(struct vfe_line *line)
+ 	struct vfe_device *vfe = to_vfe(line);
+ 	struct vfe_output *output = &line->output;
+ 	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
+-	struct media_entity *sensor;
++	struct media_pad *sensor_pad;
+ 	unsigned long flags;
+ 	unsigned int frame_skip = 0;
+ 	unsigned int i;
+ 
+-	sensor = camss_find_sensor(&line->subdev.entity);
+-	if (sensor) {
+-		struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(sensor);
++	sensor_pad = camss_find_sensor_pad(&line->subdev.entity);
++	if (sensor_pad) {
++		struct v4l2_subdev *subdev =
++			media_entity_to_v4l2_subdev(sensor_pad->entity);
+ 
+ 		v4l2_subdev_call(subdev, sensor, g_skip_frames, &frame_skip);
+ 		/* Max frame skip is 29 frames */
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
+index eb33c03df27e..d84a375e3318 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-gen1.c
+@@ -170,7 +170,7 @@ static int vfe_enable_output(struct vfe_line *line)
+ 	struct vfe_device *vfe = to_vfe(line);
+ 	struct vfe_output *output = &line->output;
+ 	const struct vfe_hw_ops *ops = vfe->res->hw_ops;
+-	struct media_entity *sensor;
++	struct media_pad *sensor_pad;
+ 	unsigned long flags;
+ 	unsigned int frame_skip = 0;
+ 	unsigned int i;
+@@ -180,9 +180,10 @@ static int vfe_enable_output(struct vfe_line *line)
+ 	if (!ub_size)
+ 		return -EINVAL;
+ 
+-	sensor = camss_find_sensor(&line->subdev.entity);
+-	if (sensor) {
+-		struct v4l2_subdev *subdev = media_entity_to_v4l2_subdev(sensor);
++	sensor_pad = camss_find_sensor_pad(&line->subdev.entity);
++	if (sensor_pad) {
++		struct v4l2_subdev *subdev =
++			media_entity_to_v4l2_subdev(sensor_pad->entity);
+ 
+ 		v4l2_subdev_call(subdev, sensor, g_skip_frames, &frame_skip);
+ 		/* Max frame skip is 29 frames */
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index a85e9df0f301..9a3dff9a55ec 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1996,12 +1996,12 @@ void camss_disable_clocks(int nclocks, struct camss_clock *clock)
  }
  
--static inline struct mei_csi *ctrl_to_csi(struct v4l2_ctrl *ctrl)
--{
--	return container_of(ctrl->handler, struct mei_csi, ctrl_handler);
--}
+ /*
+- * camss_find_sensor - Find a linked media entity which represents a sensor
++ * camss_find_sensor_pad - Find the media pad via which the sensor is linked
+  * @entity: Media entity to start searching from
+  *
+- * Return a pointer to sensor media entity or NULL if not found
++ * Return a pointer to sensor media pad or NULL if not found
+  */
+-struct media_entity *camss_find_sensor(struct media_entity *entity)
++struct media_pad *camss_find_sensor_pad(struct media_entity *entity)
+ {
+ 	struct media_pad *pad;
+ 
+@@ -2017,7 +2017,7 @@ struct media_entity *camss_find_sensor(struct media_entity *entity)
+ 		entity = pad->entity;
+ 
+ 		if (entity->function == MEDIA_ENT_F_CAM_SENSOR)
+-			return entity;
++			return pad;
+ 	}
+ }
+ 
+@@ -2032,16 +2032,13 @@ struct media_entity *camss_find_sensor(struct media_entity *entity)
+ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+ 			unsigned int lanes)
+ {
+-	struct media_entity *sensor;
+-	struct v4l2_subdev *subdev;
++	struct media_pad *sensor_pad;
+ 
+-	sensor = camss_find_sensor(entity);
+-	if (!sensor)
++	sensor_pad = camss_find_sensor_pad(entity);
++	if (!sensor_pad)
+ 		return -ENODEV;
+ 
+-	subdev = media_entity_to_v4l2_subdev(sensor);
 -
- /* send a command to firmware and mutex must be held by caller */
- static int mei_csi_send(struct mei_csi *csi, u8 *buf, size_t len)
+-	return v4l2_get_link_freq(subdev->ctrl_handler, bpp, 2 * lanes);
++	return v4l2_get_link_freq(sensor_pad, bpp, 2 * lanes);
+ }
+ 
+ /*
+@@ -2053,15 +2050,15 @@ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+  */
+ int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock)
  {
-@@ -286,11 +274,13 @@ static void mei_csi_rx(struct mei_cl_device *cldev)
- static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
+-	struct media_entity *sensor;
++	struct media_pad *sensor_pad;
+ 	struct v4l2_subdev *subdev;
+ 	struct v4l2_ctrl *ctrl;
+ 
+-	sensor = camss_find_sensor(entity);
+-	if (!sensor)
++	sensor_pad = camss_find_sensor_pad(entity);
++	if (!sensor_pad)
+ 		return -ENODEV;
+ 
+-	subdev = media_entity_to_v4l2_subdev(sensor);
++	subdev = media_entity_to_v4l2_subdev(sensor_pad->entity);
+ 
+ 	ctrl = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
+ 
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index 9a046eea334f..f912a58ae070 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -153,7 +153,7 @@ void camss_add_clock_margin(u64 *rate);
+ int camss_enable_clocks(int nclocks, struct camss_clock *clock,
+ 			struct device *dev);
+ void camss_disable_clocks(int nclocks, struct camss_clock *clock);
+-struct media_entity *camss_find_sensor(struct media_entity *entity);
++struct media_pad *camss_find_sensor_pad(struct media_entity *entity);
+ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+ 			unsigned int lanes);
+ int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
+diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+index 12660087b12f..ed3d18917f2d 100644
+--- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
++++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+@@ -1102,6 +1102,8 @@ static void cfe_buffer_queue(struct vb2_buffer *vb)
+ 
+ static s64 cfe_get_source_link_freq(struct cfe_device *cfe)
  {
- 	struct mei_csi *csi = sd_to_csi(sd);
-+	struct v4l2_subdev *remote_sd =
-+		media_entity_to_v4l2_subdev(csi->remote->entity);
- 	s64 freq;
- 	int ret;
++	struct media_pad *src_pad =
++		&cfe->source_sd->entity.pads[cfe->source_pad];
+ 	struct v4l2_subdev_state *state;
+ 	s64 link_freq;
+ 	u32 bpp;
+@@ -1136,7 +1138,7 @@ static s64 cfe_get_source_link_freq(struct cfe_device *cfe)
+ 		bpp = 0;
+ 	}
  
- 	if (enable && csi->streaming == 0) {
--		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
-+		freq = v4l2_get_link_freq(csi->remote, 0, 0);
- 		if (freq < 0) {
- 			dev_err(&csi->cldev->dev,
- 				"error %lld, invalid link_freq\n", freq);
-@@ -309,11 +299,11 @@ static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
- 		if (ret < 0)
- 			goto err_switch;
+-	link_freq = v4l2_get_link_freq(cfe->source_sd->ctrl_handler, bpp,
++	link_freq = v4l2_get_link_freq(src_pad, bpp,
+ 				       2 * cfe->csi2.dphy.active_lanes);
+ 	if (link_freq < 0)
+ 		cfe_err(cfe, "failed to get link freq for subdev '%s'\n",
+diff --git a/drivers/media/platform/st/stm32/stm32-csi.c b/drivers/media/platform/st/stm32/stm32-csi.c
+index 48941aae8c9b..b25afeee4f24 100644
+--- a/drivers/media/platform/st/stm32/stm32-csi.c
++++ b/drivers/media/platform/st/stm32/stm32-csi.c
+@@ -444,6 +444,8 @@ static void stm32_csi_phy_reg_write(struct stm32_csi_dev *csidev,
+ static int stm32_csi_start(struct stm32_csi_dev *csidev,
+ 			   struct v4l2_subdev_state *state)
+ {
++	struct media_pad *src_pad =
++		&csidev->s_subdev->entity.pads[csidev->s_subdev_pad_nb];
+ 	const struct stm32_csi_mbps_phy_reg *phy_regs;
+ 	struct v4l2_mbus_framefmt *sink_fmt;
+ 	const struct stm32_csi_fmts *fmt;
+@@ -465,7 +467,7 @@ static int stm32_csi_start(struct stm32_csi_dev *csidev,
+ 	if (!csidev->s_subdev)
+ 		return -EIO;
  
--		ret = v4l2_subdev_call(csi->remote, video, s_stream, 1);
-+		ret = v4l2_subdev_call(remote_sd, video, s_stream, 1);
- 		if (ret)
- 			goto err_switch;
- 	} else if (!enable && csi->streaming == 1) {
--		v4l2_subdev_call(csi->remote, video, s_stream, 0);
-+		v4l2_subdev_call(remote_sd, video, s_stream, 0);
+-	link_freq = v4l2_get_link_freq(csidev->s_subdev->ctrl_handler,
++	link_freq = v4l2_get_link_freq(src_pad,
+ 				       fmt->bpp, 2 * csidev->num_lanes);
+ 	if (link_freq < 0)
+ 		return link_freq;
+diff --git a/drivers/media/platform/ti/cal/cal-camerarx.c b/drivers/media/platform/ti/cal/cal-camerarx.c
+index 42dfe08b765f..9cc875665695 100644
+--- a/drivers/media/platform/ti/cal/cal-camerarx.c
++++ b/drivers/media/platform/ti/cal/cal-camerarx.c
+@@ -65,7 +65,8 @@ static s64 cal_camerarx_get_ext_link_freq(struct cal_camerarx *phy)
  
- 		/* switch CSI-2 link to IVSC */
- 		ret = csi_set_link_owner(csi, CSI_LINK_IVSC);
-@@ -470,34 +460,30 @@ static int mei_csi_set_fmt(struct v4l2_subdev *sd,
+ 	bpp = fmtinfo->bpp;
+ 
+-	freq = v4l2_get_link_freq(phy->source->ctrl_handler, bpp, 2 * num_lanes);
++	freq = v4l2_get_link_freq(&phy->source->entity.pads[phy->source_pad],
++				  bpp, 2 * num_lanes);
+ 	if (freq < 0) {
+ 		phy_err(phy, "failed to get link freq for subdev '%s'\n",
+ 			phy->source->name);
+diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
+index 4bd2092e0255..6cb3e5f49686 100644
+--- a/drivers/media/platform/ti/cal/cal.c
++++ b/drivers/media/platform/ti/cal/cal.c
+@@ -798,7 +798,6 @@ static int cal_async_notifier_bound(struct v4l2_async_notifier *notifier,
+ 		return 0;
+ 	}
+ 
+-	phy->source = subdev;
+ 	phy_dbg(1, phy, "Using source %s for capture\n", subdev->name);
+ 
+ 	pad = media_entity_get_fwnode_pad(&subdev->entity,
+@@ -820,6 +819,9 @@ static int cal_async_notifier_bound(struct v4l2_async_notifier *notifier,
+ 		return ret;
+ 	}
+ 
++	phy->source = subdev;
++	phy->source_pad = pad;
++
  	return 0;
  }
  
--static int mei_csi_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-+static int mei_csi_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
-+				   struct v4l2_mbus_config *mbus_config)
- {
--	struct mei_csi *csi = ctrl_to_csi(ctrl);
-+	struct mei_csi *csi = sd_to_csi(sd);
-+	unsigned int i;
- 	s64 freq;
+diff --git a/drivers/media/platform/ti/cal/cal.h b/drivers/media/platform/ti/cal/cal.h
+index 0856297adc0b..72a246a64d9e 100644
+--- a/drivers/media/platform/ti/cal/cal.h
++++ b/drivers/media/platform/ti/cal/cal.h
+@@ -174,6 +174,7 @@ struct cal_camerarx {
+ 	struct device_node	*source_ep_node;
+ 	struct device_node	*source_node;
+ 	struct v4l2_subdev	*source;
++	unsigned int		source_pad;
  
--	if (ctrl->id == V4L2_CID_LINK_FREQ) {
--		if (!csi->remote)
--			return -EINVAL;
-+	mbus_config->type = V4L2_MBUS_CSI2_DPHY;
-+	for (i = 0; i < V4L2_MBUS_CSI2_MAX_DATA_LANES; i++)
-+		mbus_config->bus.mipi_csi2.data_lanes[i] = i + 1;
-+	mbus_config->bus.mipi_csi2.num_data_lanes = csi->nr_of_lanes;
- 
--		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
--		if (freq < 0) {
--			dev_err(&csi->cldev->dev,
--				"error %lld, invalid link_freq\n", freq);
--			return -EINVAL;
--		}
--
--		link_freq_menu_items[0] = freq;
--		ctrl->val = 0;
--
--		return 0;
-+	freq = v4l2_get_link_freq(csi->remote, 0, 0);
-+	if (freq < 0) {
-+		dev_err(&csi->cldev->dev,
-+			"error %lld, invalid link_freq\n", freq);
-+		return -EINVAL;
- 	}
- 
--	return -EINVAL;
--}
-+	csi->link_freq = freq;
-+	mbus_config->link_freq = freq;
- 
--static const struct v4l2_ctrl_ops mei_csi_ctrl_ops = {
--	.g_volatile_ctrl = mei_csi_g_volatile_ctrl,
--};
-+	return 0;
-+}
- 
- static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
- 	.s_stream = mei_csi_set_stream,
-@@ -506,6 +492,7 @@ static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
- static const struct v4l2_subdev_pad_ops mei_csi_pad_ops = {
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = mei_csi_set_fmt,
-+	.get_mbus_config = mei_csi_get_mbus_config,
- };
- 
- static const struct v4l2_subdev_ops mei_csi_subdev_ops = {
-@@ -533,8 +520,7 @@ static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
- 	if (pad < 0)
- 		return pad;
- 
--	csi->remote = subdev;
--	csi->remote_pad = pad;
-+	csi->remote = &subdev->entity.pads[pad];
- 
- 	return media_create_pad_link(&subdev->entity, pad,
- 				     &csi->subdev.entity, CSI_PAD_SINK,
-@@ -558,28 +544,16 @@ static const struct v4l2_async_notifier_operations mei_csi_notify_ops = {
- 
- static int mei_csi_init_controls(struct mei_csi *csi)
- {
--	u32 max;
- 	int ret;
- 
- 	mutex_init(&csi->ctrl_lock);
- 
--	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 2);
-+	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 1);
- 	if (ret)
- 		return ret;
- 
- 	csi->ctrl_handler.lock = &csi->ctrl_lock;
- 
--	max = ARRAY_SIZE(link_freq_menu_items) - 1;
--	csi->freq_ctrl = v4l2_ctrl_new_int_menu(&csi->ctrl_handler,
--						&mei_csi_ctrl_ops,
--						V4L2_CID_LINK_FREQ,
--						max,
--						0,
--						link_freq_menu_items);
--	if (csi->freq_ctrl)
--		csi->freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY |
--					 V4L2_CTRL_FLAG_VOLATILE;
--
- 	csi->privacy_ctrl = v4l2_ctrl_new_std(&csi->ctrl_handler, NULL,
- 					      V4L2_CID_PRIVACY, 0, 1, 1, 0);
- 	if (csi->privacy_ctrl)
+ 	struct v4l2_subdev	subdev;
+ 	struct media_pad	pads[CAL_CAMERARX_NUM_PADS];
 -- 
 2.39.5
 
