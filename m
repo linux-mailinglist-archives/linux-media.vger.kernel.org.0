@@ -1,147 +1,188 @@
-Return-Path: <linux-media+bounces-25051-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25052-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7CAA17E1A
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 13:55:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AFAA17EEE
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 14:35:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 801757A05BC
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 12:55:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B42D93A868D
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 13:35:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EFFE1F238B;
-	Tue, 21 Jan 2025 12:55:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDB711F2C30;
+	Tue, 21 Jan 2025 13:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ck210Lyc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IX4fh/SG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9961F1503;
-	Tue, 21 Jan 2025 12:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9241E4113;
+	Tue, 21 Jan 2025 13:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737464112; cv=none; b=WLYH2XE6hRxsnYAppYhm3a/1G4Y+vmvI3ecSwX0ZB5SgBjGJMqszogxDzTUuISyf3BSEZA2bDgFDTyC1ji7V3Xk7W6B7bLHn1AabhtTQLWoJ8BrUbWGrn2YsqIGt6NLbQy7ePRTuYsRES3piUAdStf6W6vBHiro3a5rWN23N73k=
+	t=1737466525; cv=none; b=SPJCepVOtZ0GlKGY1Epha8I2eQ2AHmJu4UxJm730ouLp1K4BWsHnxIlW4cKKiuH3VedsX7ygxIXn+nm0ikXoco0cEPIYMJ+0VFxpeHMFJW/EEIu+/BIaC4jKejPaH2/pqfPoiZU7ovKT1NDYFSOWgMmnTIEgTBIfiJSRtr8rksg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737464112; c=relaxed/simple;
-	bh=2QTP5vZI0WIec9j9DFzXQ4+LctdoFs1ad3x+levD6qA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J7yL6Dwn6hHC3EIXeqEFcv4FI7tA9dOvswNEnAQfUrbVEfrn1uBOPKINZh5DeHKoQZ+9mwimZ4/GdbhpQDXIjKQy1md434aDwiU8pMbfvmozTfqnpTbiVAvIINIw6TKLmGLzJOuEbXnzhkokELx23wpYA6F37krKqrST/gj0LiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ck210Lyc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33CECC4CEDF;
-	Tue, 21 Jan 2025 12:55:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737464111;
-	bh=2QTP5vZI0WIec9j9DFzXQ4+LctdoFs1ad3x+levD6qA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ck210LyclgH8uoCSDasWSxH4hpuhhzB6hzZqqRjQqTTOLJ8wBeUz1wsUG1+IFROxa
-	 ktJPOQ2+oPRvJlq5C2ptOcyO7mUDXa5PugDp0H+Lyiz7qydp2s2/OIQs1sjmZ5hsEV
-	 IVzIvDNZaZo6ZUeS9sV24+eaE7z9Vvh1wSOvnOs0YRcyiKiDsnZeCzK+9tjmhT4EPY
-	 O55dtqPEsgmo3Qwe/xj4NJpTgKUt6JQA7qD4EmpILE3ZO8UtDofPh42wT+eeuLl8S2
-	 mTcIrgxi4x6AqKGhVxx4r9elawWPGPNurX0C9gWEeOn9AVCeKpP5hty/4uqnTT+cD0
-	 gIFMopTEY+XZw==
-Message-ID: <c985b741-35db-4e3b-8fe4-8d2085371033@kernel.org>
-Date: Tue, 21 Jan 2025 13:55:02 +0100
+	s=arc-20240116; t=1737466525; c=relaxed/simple;
+	bh=g0/quh0+pmOTi4h4XfHkMkXIn6nb+LX133mtkl+KEXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k5/xOVr95y/Uk96nCzX1XwI0c6e5q7p9p3gITIjccKjb1WSYBQ1/AlUlND1N3rmda8FlotQKLq8BRSo23foOBeDyWZ6sW5SMdu/7mp9CC0xavVhoPtefqQV8tGOsnP0/RlNjAKgxZuY1e41FZ6ROIMdYgECDHgBaAGqfbffVssI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IX4fh/SG; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737466524; x=1769002524;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=g0/quh0+pmOTi4h4XfHkMkXIn6nb+LX133mtkl+KEXA=;
+  b=IX4fh/SGDGeGhgEzWyCy8Brf4G0fNhb906ONaUhn8TtgxJmhtgF5+5uH
+   hCxOLBMI7JlYXl4oVvYX+h1d90CoCLuqVQ/OtkQF9iN7iycnm5fKK/xn8
+   JQC0E23jixNFKMuQ+R9cAJpiiBSgzMYWA0obG3DY8zduD34ztZVAaQ375
+   hMkBMJIoH4utdL2+Ra8ZuBGzZKgtvvVvEQlwvV005ta11atqM0NnULdQJ
+   OcekPAEsg2gUXeQSEU+n1RCYeVBx4FkXhlSqMYdtpjpwP3apdnz011Vy/
+   ItI3c9Ai7JFoi4roEkn3wCC6DWzZ8XmDTISy9nI75SbfDV7XUmA7zFNrI
+   A==;
+X-CSE-ConnectionGUID: SgxsvmYATbuIqv6gSqjIPA==
+X-CSE-MsgGUID: I7RWQ+2pQU+T/w1jnMS/xg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="38122199"
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="38122199"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 05:35:23 -0800
+X-CSE-ConnectionGUID: wYI0ik/mTcmbgckRTAr+aQ==
+X-CSE-MsgGUID: u9lP8NESRXy54BhZ6+H28g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="106819960"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 05:35:20 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id F054911F944;
+	Tue, 21 Jan 2025 15:35:17 +0200 (EET)
+Date: Tue, 21 Jan 2025 13:35:17 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Daniel Scally <djrscally@gmail.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] platform/x86: int3472: Call "reset" GPIO "enable"
+ for INT347E
+Message-ID: <Z4-ilZz5Lv_o90_K@kekkonen.localdomain>
+References: <20250120101743.149169-1-sakari.ailus@linux.intel.com>
+ <94978806-e077-4f45-a1a1-f4dd0cf07fad@redhat.com>
+ <Z4-A3znM3sNMA9Li@kekkonen.localdomain>
+ <5e786433-326d-4f81-a93c-2c1819a4b6db@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] media: dt-bindings: update clocks for sc7280-camss
-To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org,
- konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
- cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@quicinc.com
-References: <20250121120901.1841142-1-quic_vikramsa@quicinc.com>
- <20250121120901.1841142-2-quic_vikramsa@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250121120901.1841142-2-quic_vikramsa@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5e786433-326d-4f81-a93c-2c1819a4b6db@redhat.com>
 
-On 21/01/2025 13:09, Vikram Sharma wrote:
-> This patch change clock names to make it consistent with
+Hi Hans,
 
-
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-
-
-> existing platforms as gcc_cam_hf_axi -> gcc_axi_hf.
-
-Which ones? sm8250 uses different.
-
-> This also adds gcc_axi_sf and remove gcc_camera_ahb.
-
-Why?
-
+On Tue, Jan 21, 2025 at 01:35:49PM +0100, Hans de Goede wrote:
+> Hi,
 > 
-> This change will not break ABI because the ABI hasn't
-> been cemented yet as the dtsi changes are not merged
-> yet and there are no users for this driver as of now.
+> On 21-Jan-25 12:11 PM, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > Thanks for the review.
+> > 
+> > On Tue, Jan 21, 2025 at 10:42:41AM +0100, Hans de Goede wrote:
+> >> Hi Sakari,
+> >>
+> >> On 20-Jan-25 11:17 AM, Sakari Ailus wrote:
+> >>> The DT bindings for ov7251 specify "enable" GPIO (xshutdown in
+> >>> documentation) but the int3472 indiscriminately provides this as a "reset"
+> >>> GPIO to sensor drivers. Take this into account by assigning it as "enable"
+> >>> with active high polarity for INT347E devices, i.e. ov7251.
+> >>>
+> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>> ---
+> >>> since v1:
+> >>>
+> >>> - Fixed device name string.
+> >>>
+> >>>  drivers/platform/x86/intel/int3472/discrete.c | 45 ++++++++++++++++---
+> >>>  1 file changed, 40 insertions(+), 5 deletions(-)
+> >>>
+> >>> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> >>> index d881b2cfcdfc..6404ef1eb4a7 100644
+> >>> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> >>> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> >>> @@ -122,13 +122,47 @@ skl_int3472_gpiod_get_from_temp_lookup(struct int3472_discrete_device *int3472,
+> >>>  	return desc;
+> >>>  }
+> >>>  
+> >>> -static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polarity)
+> >>> +/**
+> >>> + * struct int3472_reset_gpio_map - Map "reset" GPIO to whatever is expected by
+> >>> + * the sensor driver (as in DT bindings)
+> >>> + * @devname: The name of the device without the instance number e.g. i2c-INT347E
+> >>> + * @func: The function, e.g. "enable"
+> >>> + * @polarity: GPIO_ACTIVE_{HIGH,LOW}
+> >>> + */
+> >>> +static const struct int3472_reset_gpio_map {
+> >>> +	const char *devname;
+> >>
+> >> Instead of using a devname match this should be changed to using
+> >> proper ACPI HID matching.
+> >>
+> >> Instead of passing int3472->sensor_name as extra argument to
+> >> int3472_get_func_and_polarity(), pass int3472->sensor which
+> >> is a "struct acpi_device *" and then use e.g. :
+> >>
+> >> 	acpi_dev_hid_uid_match(int3472->sensor, "INT347E", NULL)
+> >>
+> >> but then with the new sensor function argument
+> >>
+> >>> +	const char *func;
+> >>> +	unsigned int polarity;
+> >>> +} int3472_reset_gpio_map[] = {
+> >>> +	{ "i2c-INT347E", "enable", GPIO_ACTIVE_HIGH },
+> >>> +};
+> >>
+> >> Rather then having a mechanism for just the reset pin, I would prefer
+> >> to be able to remap any type to any type.
+> >>
+> >> So I would like to see this struct changed to e.g. :
+> >>
+> >> static struct int3472_gpio_map {
+> >> 	const char *hid;
+> >> 	u8 type_from;
+> >> 	u8 type_to;
+> >> 	const char *func;
+> > 
+> > I'll place func before the u8 fields for fewer holes.
+> 
+> Hmm, by itself that is a good idea, but ...
+>  
+> >> 	unsigned int polarity;
+> >> };
+> >>
+> >> static const struct int3472_gpio_map[] = {
+> >> 	{ "INT347E", INT3472_GPIO_TYPE_RESET, INT3472_GPIO_TYPE_RESET, "enable", GPIO_ACTIVE_HIGH },
+> 
+> ... that changes this line from the above to:
+> 
+>  	{ "INT347E", "enable", INT3472_GPIO_TYPE_RESET, INT3472_GPIO_TYPE_RESET, GPIO_ACTIVE_HIGH },
+> 
+> which IMHO is slightly less logical/readable. I would like to keep
+> the ACPI-hid and the type_from next to each other. So I have a slight
+> preference for keeping things as I suggested.
 
-So why did you wait till it gets to this merge window? Or is there some
-sort of history here which you hid? The user was merged to media tree
-and it is going to be merged for RC1.
+Works for me.
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
-
-Best regards,
-Krzysztof
+-- 
+Sakari Ailus
 
