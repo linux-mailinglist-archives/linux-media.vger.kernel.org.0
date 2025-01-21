@@ -1,141 +1,117 @@
-Return-Path: <linux-media+bounces-25070-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25071-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24EA3A18637
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 21:44:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A66A1871F
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 22:16:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BA413A3858
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 20:44:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A54E2161D88
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 21:16:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 392661F78E1;
-	Tue, 21 Jan 2025 20:44:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5B611F890B;
+	Tue, 21 Jan 2025 21:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QdQU+3Ol";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XurY7Ioe"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A+pvBThc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C191B808;
-	Tue, 21 Jan 2025 20:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEEE1F791C
+	for <linux-media@vger.kernel.org>; Tue, 21 Jan 2025 21:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737492274; cv=none; b=JsfK1IxG226Pa8L2SxLbluUu8KWZ6qrKM3GB78KZPiaoLwobVyq+r4DGMG+IqC+GIqQRoh9VH6e/GwaQOgDlT+t27qbL044w/+dztSC//5kPsqUNqTdEBE2+CX/HaulvM7+YfVSgfe0a9DrPBp35kSZNdB4ajtSdNUIS3wcHzRk=
+	t=1737494099; cv=none; b=HAok/Ufna6h3q5cNkhrJLSIH39ITNDFqSvhyAxNPPSj0lhBXEi8Is/c/ykKF9oH62jl0eUOnyN5ASwa6z6Em4Q7tsVxg5tSCqLOXNbytlcKYMXdIP0oBkqIQFDiEcjGX5eqBBA/esdOmwkzhMm8DI+Sgdon5NCkUflZuAQFrBwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737492274; c=relaxed/simple;
-	bh=yo4wlpdr/6Dbs6aayy+WBc6bxvL+D7s/8FKptRM5AmQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CvX/J+Xksl0W/HNB6pyl0shKjFB1g5Y0Wt2V43X+i9NdznmhH4by//V1xkGPJOrop+RaO1v5E9IzwwAvW1SDI2wLJmsWuisvaG0g6OXpBpvIDxOVmXdrEaqCZfZsHwaNVTG9yCytqxuEyZa6Qi0B68mbNi0DYPjHG3vLd0wpfWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QdQU+3Ol; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XurY7Ioe; arc=none smtp.client-ip=202.12.124.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 2AFAB254017A;
-	Tue, 21 Jan 2025 15:44:30 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Tue, 21 Jan 2025 15:44:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1737492270; x=1737578670; bh=hn
-	P3Ci28Onvn0w+XMpeq8bD6Py1e4ZTGnJ50kBrMyzM=; b=QdQU+3OlHacTaIEgbA
-	uHlEVIOkcFBunm3mJMEUXIp3vRW7LlouIEUzXmYc08Ec6FfPFVBx9sQuvwMypt2U
-	bDNMzU4J1Mc+J7/S97o3F5bWLkKLqqzXa6zyR5HwwPneZdIHhE+7X8+vzoSyaJFq
-	RrUN9KKnLdrVEw4lvnEE0l6ViHs+PGK5mS/WTzYPXv286aGb46erHx/eoeHBa5Os
-	C+YhjoOLbrtKHdPZzptIs1S4IJMxzJvoU3IflDalvJ07G4DeKaOHvzggULPh0CK/
-	MwYbgWn4u8WXoDscGOWffX/HiNgErugn64UbzOCA367h/DNansVOnVq79Pwh4Iuh
-	9ltg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1737492270; x=1737578670; bh=hnP3Ci28Onvn0w+XMpeq8bD6Py1e
-	4ZTGnJ50kBrMyzM=; b=XurY7Ioe3V8WnIBM/rigZun74Sq6B8l2QM0zhztZfPnK
-	a9Dyduf/qfAJyV1VJyhhfkxbusEvdTk6GXchBONZUldlQWMLtktKH6u97gpsvF8K
-	3et/ojS8NWN1ZxL3ALEcR11O0uYGCkFiImz0XEZaA0drjNITwirtB88l1p5auCLN
-	i8IZLmyW4L1KU+cZx6SVlkB62zG3FS+k8Hu9V59GKj3uH2Kyafzx+X3oiRTAAcGV
-	8E1z0c8pEZgZa6h9HFLTujwh12HU3HSrsHC7JGF/EgNhSmuaTQ+azGoPzD+OS+1l
-	cWz7C6XCYz8snqwNVTzqEWilt/+J4J/OLB3xPcpNdQ==
-X-ME-Sender: <xms:LQeQZ6XUKH-uqpAFIF8F3TBwhJU1krLee3hEOVGyGnrS80q6eMk_Cw>
-    <xme:LQeQZ2nkgDnzH2_ggfeAlUE-bqNcjLRzm1tZISLn6trQM2rt2Ddf8MNsmNetBvQ-3
-    0jQWfl0oSVlqc1Uirw>
-X-ME-Received: <xmr:LQeQZ-buQ9-lX20MVF1aBHpI-rxlzEqigwkxrtPbwJcChlOaft5BcEQU-9EzAbsrbY1YMgUjF958RpFgZgTmwhVaTA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejvddguddutdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
-    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
-    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
-    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
-    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
-    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
-    htohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepkhhivghrrghnrdgsihhn
-    ghhhrghmsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehmtghhvghhrg
-    gssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhrghnshdrvhgvrhhkuhhilhestghi
-    shgtohdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhg
-    vghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluh
-    hnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:LQeQZxXIeg0rwFaYQwni6mOMy-etRFju4SJ7EqYZoORKNI77ZWTOFw>
-    <xmx:LQeQZ0nTqfLpvWrNi163TTK-KRM1TR_8cjf8C7m4gSp-B26Qhm_nhg>
-    <xmx:LQeQZ2coVXwzL_5SrLQzbEPzEI5tu0SGU2Knb74N4RA2yOxZNYbRqQ>
-    <xmx:LQeQZ2FPIHZ7Za08bDaU19s9i1MdW41LV0oZeE8PbYqxu-vGWZ6STA>
-    <xmx:LQeQZyatOIH0Ao6SGdHg7NEx0IhkImYNkMnEJCIZAUlppbalr5TtX30b>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 21 Jan 2025 15:44:29 -0500 (EST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: i2c: adv748x: Fix test pattern selection mask
-Date: Tue, 21 Jan 2025 21:44:00 +0100
-Message-ID: <20250121204400.4184438-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1737494099; c=relaxed/simple;
+	bh=kK/OufzQmQI4XPHyamMFXi0pV8mkYyucQJnxY3oRAPo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=t1TRJpqVLUePR7RPQ+eP+B3J0Ox1zIh9+3520D4dIO8XACflQuS2CwN7RzBLKJfiL1z6GT8dGxbECBk2hzCRKxVqd1r7cOvQZONbd636nZgnEa93wU6S2B9wfhn1OhlxJKRoLlWDJEl12dxU5ZUu6dfDs1tFZRmdcBgTW1BYg9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A+pvBThc; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6dd420f82e2so37489786d6.1
+        for <linux-media@vger.kernel.org>; Tue, 21 Jan 2025 13:14:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1737494096; x=1738098896; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rQuSQ7bovNI6GEsgzAgDtL6O/sCAbswELfNsKv2rreI=;
+        b=A+pvBThcevOQSX8rSJZLGxwp7AVqfRTK3Ct+TqadbDOpColpGiTy+YT39dPnbZrwWS
+         k63xI/S54Ur7Ft4vRfYJJFqV2Q6UnoSAjaj+4Hns840lnyDVno0jjNtHsLwNneCThbwx
+         bLJ8Pjsf7ixt/GYFHeIaePEXhzDzXgxMy2lBk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737494096; x=1738098896;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rQuSQ7bovNI6GEsgzAgDtL6O/sCAbswELfNsKv2rreI=;
+        b=Bl1nKZ9nTBvhrOHuInj+d6dxT1Ln6pbFtBXf7EkB7o5pGB5FNv9Z+IZatfez5iVb7d
+         ONOifxyYNAZsemwTNZSUIALEdaeyHOjdL4pZRNHByUgCEwR8WtMWafqB8iA5kdhyFgqp
+         /dhUNCzvTs27lYzxV2siVFvatTLNlh6woffptcY7r2IyeFHslxDJ9mBfbDBhh41B7bdM
+         kowXcHhZ+YkOdgd0VfArbcOJ0zkI37yEjIT6CYSpokeZNzL8vqdvVykhjMPJ16vTacvE
+         a8A5kv1fQdKEUERUpEObEdZ1tFp7bXR0ZpoyKaizdj+a3JDPhpUx77xwViCAwYbyYcmB
+         G0iA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMVXnJ1+qLuxTCMQlVge6TCCW64DBkY4OBtLlzlOScU7voLWymFVTj13BRW70ChoxbewNDohbLdj9AFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxti34fqwoEHAS6PoQyUXqAmbiCOKcZrAuI8FLrMrhbYTeZX0BT
+	4y76fjoaXVUM3Mtw5ZZishe1hbMo+7R/82Kim+NLwOwCmbcI29uFAl7Edghoig==
+X-Gm-Gg: ASbGnct6lxuDtr8WLhfqSFyaXJ0x0N1SFYnV0AI+rMzEtVmH0A0vATAsrnd9sc+sf1f
+	0et7cWHGNRxMR1CvwAXRTFSa6QrtQ4rZrpxAOKkCRExag838QqJ7z4cNf95JlmoXf7mP/i0IGZr
+	qistLj5p7KTkBqXlDQHd4iBECuOq49e6iRizdq4QK2RcVW1wwqnNfROhPaFtTM927+Xfi+sE0NR
+	EvgAve3los2Y3KcI67QsR1xSZGyHpVemgzzJEAmDEd+y8sTL1JnPhyKmT+bKR60NSY3jxuQcjrL
+	9frYEb9J+us4Jy7C2gG+Lo16dM0jhyEn1Elj+0Avq83+GbqucA==
+X-Google-Smtp-Source: AGHT+IFVRDtX4xLCSgnndPd/KmBxnL9FoLZx0NyA+ZEg2Wgowuj2xhPVpo4f+zf+P1TtX9DKiJhurQ==
+X-Received: by 2002:ad4:5747:0:b0:6d8:9be9:7d57 with SMTP id 6a1803df08f44-6e1b222e66amr323757436d6.37.1737494096451;
+        Tue, 21 Jan 2025 13:14:56 -0800 (PST)
+Received: from denia.c.googlers.com (172.174.245.35.bc.googleusercontent.com. [35.245.174.172])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e1afc28f84sm54790186d6.63.2025.01.21.13.14.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jan 2025 13:14:55 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/4] media: nuvoton: Fix some reference handling issues
+Date: Tue, 21 Jan 2025 21:14:49 +0000
+Message-Id: <20250121-nuvoton-v1-0-1ea4f0cdbda2@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEkOkGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDQyND3bzSsvyS/DzdtFQLc4PkpNS0tCQzJaDqgqLUtMwKsEnRsbW1ABh
+ h0VdZAAAA
+To: Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Marvin Lin <milkfafa@gmail.com>, linux-media@vger.kernel.org, 
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
+X-Mailer: b4 0.13.0
 
-The mask to select the test-pattern in register ADV748X_SDP_FRP is
-incorrect, it's the lower 3 bits which controls the pattern. The
-GENMASK() macro is used incorrectly and the generated mask is 0x0e
-instead of 0x07.
+When trying out 6.13 cocci, some bugs were found.
 
-The result is that not all test patterns are selectable, and that in
-some cases the wrong test pattern is activated. Fix this my correcting
-the GENMASK().
+The fixes without using cleanup.h should be backported. The last two
+patches make use of cleanup.h to avoid this kind of errors in the
+future.
 
-Fixes: 3e89586a64df ("media: i2c: adv748x: add adv748x driver")
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/adv748x/adv748x.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ricardo Ribalda (4):
+      media: nuvoton: Fix reference handling of ece_pdev
+      media: nuvoton: Fix reference handling of ece_node
+      media: nuvoton: Use cleanup.h macros for device_node
+      media: nuvoton: Use cleanup.h macros for put_device
 
-diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-index 9bc0121d0eff..2c1db5968af8 100644
---- a/drivers/media/i2c/adv748x/adv748x.h
-+++ b/drivers/media/i2c/adv748x/adv748x.h
-@@ -320,7 +320,7 @@ struct adv748x_state {
- 
- /* Free run pattern select */
- #define ADV748X_SDP_FRP			0x14
--#define ADV748X_SDP_FRP_MASK		GENMASK(3, 1)
-+#define ADV748X_SDP_FRP_MASK		GENMASK(2, 0)
- 
- /* Saturation */
- #define ADV748X_SDP_SD_SAT_U		0xe3	/* user_map_rw_reg_e3 */
+ drivers/media/platform/nuvoton/npcm-video.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+---
+base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
+change-id: 20250121-nuvoton-fe870cbeffb6
+
+Best regards,
 -- 
-2.48.1
+Ricardo Ribalda <ribalda@chromium.org>
 
 
