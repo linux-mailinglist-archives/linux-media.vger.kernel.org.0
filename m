@@ -1,203 +1,148 @@
-Return-Path: <linux-media+bounces-25058-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25059-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1164A180EE
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 16:17:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 790E0A181AD
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 17:05:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C3B8168BC0
-	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 15:17:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6803D16BB14
+	for <lists+linux-media@lfdr.de>; Tue, 21 Jan 2025 16:05:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 271F91F472D;
-	Tue, 21 Jan 2025 15:16:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F69F1F4E4E;
+	Tue, 21 Jan 2025 16:05:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iY1fez84"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fedwas1B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754041F429B;
-	Tue, 21 Jan 2025 15:16:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F991C36;
+	Tue, 21 Jan 2025 16:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737472615; cv=none; b=fJu9MaMPC8LSwJXh8t2oaCNGPSiea68PUm7gysAJUR398pPx1LrRSfSF305LzkgS6l10gu6e3KwhkwL/KrZNtXa9A5+M7j/V1S8vWmeVVA+0VQUrpbj6GFevgH9DwrcFxYFY3ubwYbLPrB8LAsFfYmop5pejiBCOdRLwEsPxF3A=
+	t=1737475520; cv=none; b=hKMPHdDJLdffsFwwcJaT5NM+XOZF37cZxsDle8ZZJ30AZJgwBm1JQ/N+2ouBZ0S+hQtoWXk48ZAW0c25QVshd0ORWYN8en4tT5xU4kB+4OYwLTibvj891YQWDGjB0XN/d+No+WUXg+f6jTIhp5Qgi7zROZkBJQpzIAo9LTfqouc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737472615; c=relaxed/simple;
-	bh=FDRipuPPvfmCDCeAd0Ls0RxootY4kCESdc8OiZt7GIw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kynnz0CwO/30889cUYi5kAP8yCMgk82OWfvyETc07Ditd0VFo3l31l3ft2lAqheeXveGiQoaNoPUbevM2HSVABxRY6vCP5cb4aC7M0OwzRO+ryPr8d5g7NMNnwsKO/dcdeMoliE9q1dY2n/cgdYjq4NFGxr8t/UU748oYieTBUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iY1fez84; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D22AEC4CEE0;
-	Tue, 21 Jan 2025 15:16:51 +0000 (UTC)
+	s=arc-20240116; t=1737475520; c=relaxed/simple;
+	bh=MHI+vof2GyyV6YhpRlrmHssVZYdwMvNV8ot1Fz55+l8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fdio3/I2q53ETwzE8e/VyJJEoHEf86+E8Ih+rtyORBpIabrrriQ6mqJ1ah2bSlIvBFVs0N1yGWxecsu8K9G/LjomTzuioRd1N2/nc3qbpScbB1aG6QHhq0r1Euce9ohXmzU11qWBzmx3mxeX+wdhUx+PJPHebA19uNU0bKOBWJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fedwas1B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07ACEC4CEDF;
+	Tue, 21 Jan 2025 16:05:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737472615;
-	bh=FDRipuPPvfmCDCeAd0Ls0RxootY4kCESdc8OiZt7GIw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iY1fez84iqgBQbrqP4iW04Xuq+aZzIkhRWF6iUdQuMQvg689MvAmXXMKGbCxGrcOu
-	 nEce/HGxnYT5fD2ZE4KPyDk2iauORb1sEjfMxiQjiWYuIbqWibGoJQh4xs+v9R/uh6
-	 6JaFZn3lRFq4Cft7H16HAgaF7m5ngialRJQGYqVZcY7D/FmZn6ImkcmXtH/mZOwvcm
-	 fkKNnMk965Nb3cCEZJezJTPxArfw8aP6BQ65pz/u7cBYws8YCKG8kc1ukXulA7ctS1
-	 SJu/x1VPdJ1ivSPtE9hvhNwSYyVJsDaBgykhhX3CFzyD8LYtqrVnrquCTd42N/+1Kw
-	 iu0JSUz9ekdkA==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <pstanner@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 3/3] drm/sched: Update timedout_job()'s documentation
-Date: Tue, 21 Jan 2025 16:15:46 +0100
-Message-ID: <20250121151544.44949-6-phasta@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250121151544.44949-2-phasta@kernel.org>
-References: <20250121151544.44949-2-phasta@kernel.org>
+	s=k20201202; t=1737475520;
+	bh=MHI+vof2GyyV6YhpRlrmHssVZYdwMvNV8ot1Fz55+l8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fedwas1BBT2yW1T1L+B9DGHc1z0iKrlKLAgUPhk6yLFwWI5iTJiVLglXrRsf9EaDT
+	 Kf26guZ5tvSIBsy5itqj1+tV03bw2fuJywNZ925wBqv0C6ZMBcxldBi1iBD43ls2ur
+	 iTSjWq1Nv7CJbe1o2Ettvk68w54skYBRyb0f6FKt8eV8wnIWwEnmIzmS5V1PIsEgrd
+	 Lhw4+/rGAt3gH6qenPD4HySYiBDBXIUI5W5LUcESYOxyi2X6hrlzs1AgPZDYCNAUEl
+	 af8rRwquE7cXHzjvHFOWJZTSTXZSz74OqtIExDEZR+0rltPwEqBE/HQ54XKiI5uFkI
+	 BIDdvAWlkL0lQ==
+Message-ID: <901ede5f-c5a1-42c4-ad87-b02e3ab332e4@kernel.org>
+Date: Tue, 21 Jan 2025 17:05:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] media: dt-bindings: update clocks for sc7280-camss
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org,
+ konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@quicinc.com
+References: <20250121120901.1841142-1-quic_vikramsa@quicinc.com>
+ <20250121120901.1841142-2-quic_vikramsa@quicinc.com>
+ <c985b741-35db-4e3b-8fe4-8d2085371033@kernel.org>
+ <1f509ab0-dd4a-4a93-90df-292bd4e6989e@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <1f509ab0-dd4a-4a93-90df-292bd4e6989e@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-drm_sched_backend_ops.timedout_job()'s documentation is outdated. It
-mentions the deprecated function drm_sched_resubmit_job(). Furthermore,
-it does not point out the important distinction between hardware and
-firmware schedulers.
+On 21/01/2025 17:02, Vikram Sharma wrote:
+> 
+> On 1/21/2025 6:25 PM, Krzysztof Kozlowski wrote:
+>> On 21/01/2025 13:09, Vikram Sharma wrote:
+>>> This patch change clock names to make it consistent with
+>>
+>> Please do not use "This commit/patch/change", but imperative mood. See
+>> longer explanation here:
+>> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+> Hi Krzysztof,
+> Thanks for your response.
+> Will update commit text.
+>>> existing platforms as gcc_cam_hf_axi -> gcc_axi_hf.
+>> Which ones? sm8250 uses different.
+> qcom,sc8280xp-camss.yaml uses 'gcc_axi_hf'
 
-Since firmware schedulers tyipically only use one entity per scheduler,
-timeout handling is significantly more simple because the entity the
-faulted job came from can just be killed without affecting innocent
-processes.
 
-Update the documentation with that distinction and other details.
+Then mention with which binding you align it.
 
-Reformat the docstring to work to a unified style with the other
-handles.
+>>
+>>> This also adds gcc_axi_sf and remove gcc_camera_ahb.
+>> Why?
+> 
+> 'gcc_camera_ahb' is always 'on' and we don't need to enable it explicitly.
+> 'gcc_axi_sf' basic use case works even without this clock but our 'Hardware programing guide' suggest to enable this one too to avoid unexpected behaviors.
+> Konrad pointed these points in V8 of the series.
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 82 ++++++++++++++++++++++---------------
- 1 file changed, 49 insertions(+), 33 deletions(-)
+That's what the commit msg is for.
 
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index cf40fdb55541..4806740b9023 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -394,8 +394,14 @@ static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
- }
- 
- enum drm_gpu_sched_stat {
--	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
-+	/* Reserve 0 */
-+	DRM_GPU_SCHED_STAT_NONE,
-+
-+	/* Operation succeeded */
- 	DRM_GPU_SCHED_STAT_NOMINAL,
-+
-+	/* Failure because dev is no longer available, for example because
-+	 * it was unplugged. */
- 	DRM_GPU_SCHED_STAT_ENODEV,
- };
- 
-@@ -447,43 +453,53 @@ struct drm_sched_backend_ops {
- 	 * @timedout_job: Called when a job has taken too long to execute,
- 	 * to trigger GPU recovery.
- 	 *
--	 * This method is called in a workqueue context.
-+	 * @sched_job: The job that has timed out
- 	 *
--	 * Drivers typically issue a reset to recover from GPU hangs, and this
--	 * procedure usually follows the following workflow:
-+	 * Returns: A drm_gpu_sched_stat enum.
- 	 *
--	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
--	 *    scheduler thread and cancel the timeout work, guaranteeing that
--	 *    nothing is queued while we reset the hardware queue
--	 * 2. Try to gracefully stop non-faulty jobs (optional)
--	 * 3. Issue a GPU reset (driver-specific)
--	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
--	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
--	 *    jobs can be queued, and the scheduler thread is unblocked
-+	 * Drivers typically issue a reset to recover from GPU hangs.
-+	 * This procedure looks very different depending on whether a firmware
-+	 * or a hardware scheduler is being used.
-+	 *
-+	 * For a FIRMWARE SCHEDULER, each (pseudo-)ring has one scheduler, and
-+	 * each scheduler has one entity. Hence, you typically follow those
-+	 * steps:
-+	 *
-+	 * 1. Stop the scheduler using drm_sched_stop(). This will pause the
-+	 *    scheduler workqueues and cancel the timeout work, guaranteeing
-+	 *    that nothing is queued while we remove the ring.
-+	 * 2. Remove the ring. In most (all?) cases the firmware will make sure
-+	 *    that the corresponding parts of the hardware are resetted, and that
-+	 *    other rings are not impacted.
-+	 * 3. Kill the entity the faulted job stems from, and the associated
-+	 *    scheduler.
-+	 *
-+	 *
-+	 * For a HARDWARE SCHEDULER, each ring also has one scheduler, but each
-+	 * scheduler is typically associated with many entities. This implies
-+	 * that all entities associated with the affected scheduler cannot be
-+	 * torn down, because this would effectively also kill innocent
-+	 * userspace processes which did not submit faulty jobs (for example).
-+	 *
-+	 * Consequently, the procedure to recover with a hardware scheduler
-+	 * should look like this:
-+	 *
-+	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop().
-+	 * 2. Figure out to which entity the faulted job belongs to.
-+	 * 3. Kill that entity.
-+	 * 4. Issue a GPU reset on all faulty rings (driver-specific).
-+	 * 5. Re-submit jobs on all schedulers impacted by re-submitting them to
-+	 *    the entities which are still alive.
-+	 * 6. Restart all schedulers that were stopped in step #1 using
-+	 *    drm_sched_start().
- 	 *
- 	 * Note that some GPUs have distinct hardware queues but need to reset
- 	 * the GPU globally, which requires extra synchronization between the
--	 * timeout handler of the different &drm_gpu_scheduler. One way to
--	 * achieve this synchronization is to create an ordered workqueue
--	 * (using alloc_ordered_workqueue()) at the driver level, and pass this
--	 * queue to drm_sched_init(), to guarantee that timeout handlers are
--	 * executed sequentially. The above workflow needs to be slightly
--	 * adjusted in that case:
--	 *
--	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop()
--	 * 2. Try to gracefully stop non-faulty jobs on all queues impacted by
--	 *    the reset (optional)
--	 * 3. Issue a GPU reset on all faulty queues (driver-specific)
--	 * 4. Re-submit jobs on all schedulers impacted by the reset using
--	 *    drm_sched_resubmit_jobs()
--	 * 5. Restart all schedulers that were stopped in step #1 using
--	 *    drm_sched_start()
--	 *
--	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
--	 * and the underlying driver has started or completed recovery.
--	 *
--	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no longer
--	 * available, i.e. has been unplugged.
-+	 * timeout handlers of different schedulers. One way to achieve this
-+	 * synchronization is to create an ordered workqueue (using
-+	 * alloc_ordered_workqueue()) at the driver level, and pass this queue
-+	 * as drm_sched_init()'s @timeout_wq parameter. This will guarantee
-+	 * that timeout handlers are executed sequentially.
- 	 */
- 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
- 
--- 
-2.47.1
 
+Best regards,
+Krzysztof
 
