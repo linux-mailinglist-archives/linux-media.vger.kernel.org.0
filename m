@@ -1,222 +1,171 @@
-Return-Path: <linux-media+bounces-25100-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25101-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B651A18AE6
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 05:07:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A41A18AFE
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 05:17:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C52FA188C403
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 04:07:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27686169EF5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 04:17:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F7816D9AF;
-	Wed, 22 Jan 2025 04:06:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33F7978F43;
+	Wed, 22 Jan 2025 04:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Avb8igKA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DD91B95B;
-	Wed, 22 Jan 2025 04:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9402143723;
+	Wed, 22 Jan 2025 04:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737518807; cv=none; b=XN26CVwQNL7wPL1RueHS4WlZZE5LpYM9lpoGC1E5NAsPYt4KjL7q6YJ2yN52ZqWXVtELQ3cCXrzcieNfeDRbMoGKMiljlduSXDa4jTFicqBwE4Hh1L468uRbqgzE1KiuRGwZR3661S1ScPBrKsoJWdZ3O72jtJIX/hsUsCYvEbE=
+	t=1737519412; cv=none; b=Rw5SQUxIP2aVklSETBeV+4N+ZCRhJLzleGo9hCHzG1iVFf+6NLkEXkhiLM43RGlXul6i0Sf6wgJ/d9I5D6MIki4N2KrlwLtSmQXM/oTK6HozRyfzUCiQXfrAo4TT+eGiJecsoL3c4C1kfBznjnsQ+jRf96Kr2sUcvqe2gBaM9K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737518807; c=relaxed/simple;
-	bh=IdaLKlCRLAsWwx4XruBwLM15qh+gkyjXQJnpTcIU+Ng=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=B7UkOP840pAbRMNXLUe+T1LqCA9Di27tJrd/IZkucDEuyk27yHJ5Z0OdVh2ONf9j4RKSiDMr8VdQBpsfGGQLIExPkl13WYN/3md089HwYzGTmEtVYzYKj2unhegUgnmjo8iCYV+sNqE9nSLjG05NPJYRo2cURVW9OYs9D25nFE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Yd9WR3cwTz20p8h;
-	Wed, 22 Jan 2025 12:06:59 +0800 (CST)
-Received: from dggemv711-chm.china.huawei.com (unknown [10.1.198.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2D1DE14013B;
-	Wed, 22 Jan 2025 12:06:34 +0800 (CST)
-Received: from kwepemn100009.china.huawei.com (7.202.194.112) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 22 Jan 2025 12:06:33 +0800
-Received: from [10.67.121.59] (10.67.121.59) by kwepemn100009.china.huawei.com
- (7.202.194.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 22 Jan
- 2025 12:06:32 +0800
-Message-ID: <15d63183-3bdb-e934-a68d-393ae2dcb8ea@huawei.com>
-Date: Wed, 22 Jan 2025 12:06:31 +0800
+	s=arc-20240116; t=1737519412; c=relaxed/simple;
+	bh=7N+WkV4xK2RjWSHcvKvxuLDFZUiR1saedshugIKoqxk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VMiYo50zHQ9kvCI9ia3dGrfRbNo2RzzJk5DhaaHTlmXi7wmEY7RCxBKDx2HOh3wsuGN3wAvSglZbQaLxqtC9SRMtyuarJuOLnCMz2qg4HVWasKs3O1XoHLOfN/gndXLA7Pdpw3EdQwrZ9HrCEbXVAy4+9oczGBkYR0KPhFt55LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Avb8igKA; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737519410; x=1769055410;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7N+WkV4xK2RjWSHcvKvxuLDFZUiR1saedshugIKoqxk=;
+  b=Avb8igKAmsM9DbGnpiLnK5ucYFzzXFn5l+PJVp7PwJPUlyFvKPrV4JQF
+   tQiL14W1ys/vw+/LHIMCMXI/Wg7ZwwmWzZxa+ffUhy3Gxb413SLt5z+ld
+   qHU+VSugLF3oVUhbbuEskfXionywE6ygyQ3TSVhLn2pHvq2e4FEGutQAc
+   ryXackXZxByR4N6nABg5MG2SaZdcb8eYRIK5/Obzjc4cVMVyVlFmWeUFP
+   zJ9ifR4bGkatjiEOyn3T4DErZCgxpWXDmZzz1vq61LrSgldui3XH1w+Mh
+   uexQ01eSiyvCW4VSI8uUbDWfHT36kd7D5lwwJChehtq2AF0ME7mvyC0OR
+   Q==;
+X-CSE-ConnectionGUID: CoS23vNTTcy/kHWVdRQnRg==
+X-CSE-MsgGUID: JpcnN6cLTpynXnD1eyd9hg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="38113818"
+X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; 
+   d="scan'208";a="38113818"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 20:16:49 -0800
+X-CSE-ConnectionGUID: GBhLq0WwTheYgMhSQk1s5Q==
+X-CSE-MsgGUID: 92navAJ9QACcQcn6tNGTrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="111994366"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa003.jf.intel.com with ESMTP; 21 Jan 2025 20:16:45 -0800
+Date: Wed, 22 Jan 2025 12:16:35 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+	Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+	vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+	yilun.xu@intel.com, linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+	leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+	tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z5BxI3efmCPSpOSK@yilunxu-OptiPlex-7050>
+References: <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
+ <20250115141458.GP5556@nvidia.com>
+ <c86cfee1-063a-4972-a343-ea0eff2141c9@amd.com>
+ <86afb69a-79bd-4719-898e-c6c2e62103f7@amd.com>
+ <20250115151056.GS5556@nvidia.com>
+ <6f7a14aa-f607-45f9-9e15-759e26079dec@amd.com>
+ <20250115170942.GT5556@nvidia.com>
+ <5f588dac-d3e2-445d-9389-067b875412dc@amd.com>
+ <ZnSm6ULbJbxOU27J@yilunxu-OptiPlex-7050>
+ <0d77dc64-df9c-457b-af3b-ecfa49dac7b4@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v1 00/21] hwmon: Fix the type of 'config' in struct
- hwmon_channel_info to u64
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>, Guenter Roeck
-	<linux@roeck-us.net>
-CC: Armin Wolf <W_Armin@gmx.de>, <linux-hwmon@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <arm-scmi@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
-	<oss-drivers@corigine.com>, <linux-rdma@vger.kernel.org>,
-	<platform-driver-x86@vger.kernel.org>, <linuxarm@huawei.com>,
-	<jdelvare@suse.com>, <kernel@maidavale.org>, <pauk.denis@gmail.com>,
-	<james@equiv.tech>, <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
-	<matt@ranostay.sg>, <mchehab@kernel.org>, <irusskikh@marvell.com>,
-	<andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <saeedm@nvidia.com>,
-	<leon@kernel.org>, <tariqt@nvidia.com>, <louis.peens@corigine.com>,
-	<hkallweit1@gmail.com>, <kabel@kernel.org>, <hdegoede@redhat.com>,
-	<ilpo.jarvinen@linux.intel.com>, <alexandre.belloni@bootlin.com>,
-	<krzk@kernel.org>, <jonathan.cameron@huawei.com>, <zhanjie9@hisilicon.com>,
-	<zhenglifeng1@huawei.com>, <liuyonglong@huawei.com>
-References: <20250121064519.18974-1-lihuisong@huawei.com>
- <03b138e9-688f-4ebc-bd01-3d54fd20e525@gmx.de>
- <9add68ac-7d10-4011-9da8-1f2de077d3e9@roeck-us.net>
- <Z4_XQQ0tkD1EkOJ4@shell.armlinux.org.uk>
-From: "lihuisong (C)" <lihuisong@huawei.com>
-In-Reply-To: <Z4_XQQ0tkD1EkOJ4@shell.armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemn100009.china.huawei.com (7.202.194.112)
+In-Reply-To: <0d77dc64-df9c-457b-af3b-ecfa49dac7b4@amd.com>
 
-Hi
+On Mon, Jan 20, 2025 at 02:44:13PM +0100, Christian König wrote:
+> Am 21.06.24 um 00:02 schrieb Xu Yilun:
+> > On Thu, Jan 16, 2025 at 04:13:13PM +0100, Christian König wrote:
+> > >     Am 15.01.25 um 18:09 schrieb Jason Gunthorpe:
+> > > 
+> > >   On Wed, Jan 15, 2025 at 05:34:23PM +0100, Christian König wrote:
+> > > 
+> > >      Granted, let me try to improve this.
+> > >      Here is a real world example of one of the issues we ran into and why
+> > >      CPU mappings of importers are redirected to the exporter.
+> > >      We have a good bunch of different exporters who track the CPU mappings
+> > >      of their backing store using address_space objects in one way or
+> > >      another and then uses unmap_mapping_range() to invalidate those CPU
+> > >      mappings.
+> > >      But when importers get the PFNs of the backing store they can look
+> > >      behind the curtain and directly insert this PFN into the CPU page
+> > >      tables.
+> > >      We had literally tons of cases like this where drivers developers cause
+> > >      access after free issues because the importer created a CPU mappings on
+> > >      their own without the exporter knowing about it.
+> > >      This is just one example of what we ran into. Additional to that
+> > >      basically the whole synchronization between drivers was overhauled as
+> > >      well because we found that we can't trust importers to always do the
+> > >      right thing.
+> > > 
+> > >   But this, fundamentally, is importers creating attachments and then
+> > >   *ignoring the lifetime rules of DMABUF*. If you created an attachment,
+> > >   got a move and *ignored the move* because you put the PFN in your own
+> > >   VMA, then you are not following the attachment lifetime rules!
+> > > 
+> > >     Move notify is solely for informing the importer that they need to
+> > >     re-fresh their DMA mappings and eventually block for ongoing DMA to end.
+> > > 
+> > >     This semantics doesn't work well for CPU mappings because you need to hold
+> > >     the reservation lock to make sure that the information stay valid and you
+> > >     can't hold a lock while returning from a page fault.
+> > Dealing with CPU mapping and resource invalidation is a little hard, but is
+> > resolvable, by using other types of locks. And I guess for now dma-buf
+> > exporters should always handle this CPU mapping VS. invalidation contention if
+> > they support mmap().
+> > 
+> > It is resolvable so with some invalidation notify, a decent importers could
+> > also handle the contention well.
+> 
+> That doesn't work like this.
+> 
+> See page tables updates under DMA-buf works by using the same locking
+> approach for both the validation and invalidation side. In other words we
+> hold the same lock while inserting and removing entries into/from the page
+> tables.
 
-在 2025/1/22 1:20, Russell King (Oracle) 写道:
-> On Tue, Jan 21, 2025 at 06:50:00AM -0800, Guenter Roeck wrote:
->> On 1/21/25 06:12, Armin Wolf wrote:
->>> Am 21.01.25 um 07:44 schrieb Huisong Li:
->>>> The hwmon_device_register() is deprecated. When I try to repace it with
->>>> hwmon_device_register_with_info() for acpi_power_meter driver, I found that
->>>> the power channel attribute in linux/hwmon.h have to extend and is more
->>>> than 32 after this replacement.
->>>>
->>>> However, the maximum number of hwmon channel attributes is 32 which is
->>>> limited by current hwmon codes. This is not good to add new channel
->>>> attribute for some hwmon sensor type and support more channel attribute.
->>>>
->>>> This series are aimed to do this. And also make sure that acpi_power_meter
->>>> driver can successfully replace the deprecated hwmon_device_register()
->>>> later.
->> This explanation completely misses the point. The series tries to make space
->> for additional "standard" attributes. Such a change should be independent
->> of a driver conversion and be discussed on its own, not in the context
->> of a new driver or a driver conversion.
-> I think something needs to budge here, because I think what you're
-> asking is actually impossible!
->
-> One can't change the type of struct hwmon_channel_info.config to be a
-> u64 without also updating every hwmon driver that assigns to that
-> member.
->
-> This is not possible:
->
->   struct hwmon_channel_info {
->           enum hwmon_sensor_types type;
-> -        const u32 *config;
-> +        const u64 *config;
->   };
->
-> static u32 marvell_hwmon_chip_config[] = {
-> ...
-> };
->
-> static const struct hwmon_channel_info marvell_hwmon_chip = {
->          .type = hwmon_chip,
->          .config = marvell_hwmon_chip_config,
-> };
->
-> This assignment to .config will cause a warning/error with the above
-> change. If instead we do:
->
-> -	.config = marvell_hwmon_chip_config,
-> +	.config = (u64 *)marvell_hwmon_chip_config,
->
-> which would have to happen to every driver, then no, this also doesn't
-> work, because config[1] now points beyond the bounds of
-> marvell_hwmon_chip_config, which only has two u32 entries.
->
-> You can't just change the type of struct hwmon_channel_info.config
-> without patching every driver that assigns to
-> struct hwmon_channel_info.config as things currently stand.
->
-> The only way out of that would be:
->
-> 1. convert *all* drivers that defines a config array to be defined by
->     their own macro in hwmon.h, and then switch that macro to make the
->     definitions be a u64 array at the same time as switching struct
->      hwmon_channel_info.config
->
-> 2. convert *all* drivers to use HWMON_CHANNEL_INFO() unconditionally,
->     and switch that along with struct hwmon_channel_info.config.
->
-> 3. add a new member to struct hwmon_channel_info such as
->     "const u64 *config64" and then gradually convert drivers to use it.
->     Once everyone is converted over, then remove "const u32 *config",
->     optionally rename "config64" back to "config" and then re-patch all
->     drivers. That'll be joyful, with multiple patches to drivers that
->     need to be merged in sync with hwmon changes - and last over several
->     kernel release cycles.
->
-> This is not going to be an easy change!
-Yeah, it's a very time-consuming method and not easy to change.
+Not sure what's the issue it causes, maybe I don't get why "you can't
+hold a lock while returning from a page fault".
 
-Although some attributes of acpi_power_meter, like power1_model_number, 
-can not add to the generic hwmon power attributes,
-I still don't think the maximum attribute number of one sensor type 
-doesn't need to limit to 32.
-We can not make sure that the current generic attributes can fully 
-satisfy the useage in furture.
+> 
+> That this here should be an unlocked API means that can only use it with
+> pre-allocated and hard pinned memory without any chance to invalidate it
+> while running. Otherwise you can never be sure of the validity of the
 
+Then importers can use a locked version to get pfn, and manually use
+dma_resv lock only to ensure the PFN validity during page table setup.
+Importers could detect the PFN will be invalid via move notify and
+remove page table entries. Then find the new PFN next time page fault
+happens.
 
-I got an idea. it may just need one patch in hwmon core, like the following:
+IIUC, Simona mentions drm/ttm is already doing it this way.
 
--->
+I'm not trying to change the CPU mmap things for existing drivers, just
+to ensure importer mapping is possible with faultable MMU. I wanna KVM
+MMU (also faultable) to work in this importer mapping way.
 
-  struct hwmon_channel_info {
-         enum hwmon_sensor_types type;
--       const u32 *config;
-+       union {
-+               const u32 *config;
-+               const u64 *config64;
-+       }
-  };
-
-  #define HWMON_CHANNEL_INFO(stype, ...)         \
-@@ -444,12 +447,22 @@ struct hwmon_channel_info {
-                 }                               \
-         })
-
-+#define HWMON_CHANNEL_INFO64(stype, ...)               \
-+       (&(const struct hwmon_channel_info) {   \
-+               .type = hwmon_##stype,          \
-+               .config64 = (const u64 []) {    \
-+                       __VA_ARGS__, 0          \
-+               }                               \
-+       })
-+
-+
-  /**
-   * struct hwmon_chip_info - Chip configuration
-   * @ops:       Pointer to hwmon operations.
-   * @info:      Null-terminated list of channel information.
-   */
-  struct hwmon_chip_info {
-+       bool hwmon_attribute_bit64; // use config64 pointer if it is true.
-         const struct hwmon_ops *ops;
-         const struct hwmon_channel_info * const *info;
-  };
-
-
-For hwmon core code, we can use the 'config' or 'confit64' and compute 
-attribute number based on the 'hwmon_attribute_bit64' value.
-New driver can use HWMON_CHANNEL_INFO64 macro. Old drivers are not 
-supposed to need to have any modification.
-
-/Huisong
->
+Thanks,
+Yilun
 
