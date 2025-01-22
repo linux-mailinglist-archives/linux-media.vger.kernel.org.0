@@ -1,140 +1,119 @@
-Return-Path: <linux-media+bounces-25115-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25116-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CACA18E78
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 10:36:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D599EA18EC5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 10:50:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA30D1647D2
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 09:36:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A82DD1885849
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 09:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D4B32046A1;
-	Wed, 22 Jan 2025 09:36:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E63241F8679;
+	Wed, 22 Jan 2025 09:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m0KoBh9d"
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="IGJiNKKy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07E884A3E
-	for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 09:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172461F76B5
+	for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 09:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737538594; cv=none; b=nQWg9pxILJP5t9GCTqtK8em0cwxc01w1NHLbGCg2RO6II/iOmNJhBhGmpaY77bcDWy2nXdXSdMrzEWPaHzAAxwtOiIR5CA/9sAHoeNtAcZ+1PHzzJkj1X52p+Z0V8QUCgv2n/Kf6beCAlohqPC0s9ETqqSg8H8B9gA3Nv0bLwF4=
+	t=1737539396; cv=none; b=dhxs3EhjAKZ+ighCbogFunS3pFhH3P950ZOWxD3AXb7diUwu6AntMg66x1mcuYJSpY/KEeSUCgI3+zcG3XUWS6qomISSX7/26yeHiCWqVVGwSfUiAbrze5cJUysK/nNv7sx2L9roqkJ2LY17UjmTO6m8R87mlSo5aBQO/LJWJt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737538594; c=relaxed/simple;
-	bh=brERMkUE4FtwvHy4mwF5HGTB/Q42qogg6EmxzCzEb7c=;
+	s=arc-20240116; t=1737539396; c=relaxed/simple;
+	bh=yIrMPQk1jpPdU/Y7nRboE6hJ8k1ZNfl+Ugh3AxvoCqI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L4vDce4Uv9Fr8R9TZ6EdXPnOLz5mOnwBBDfF0Xsk2bOv7PeopH0XV+5A1P5Pm3ezSO+XK50HuvMPKV/Te73qw/ym6UT4hIZsKyjZM98DuMWc9geyJjfg8jwoM6/wSQtbaKe1QF1QZ5V5JtSg6SPLZFjlXiemrIpocXYuvsLzQu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m0KoBh9d; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737538593; x=1769074593;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=brERMkUE4FtwvHy4mwF5HGTB/Q42qogg6EmxzCzEb7c=;
-  b=m0KoBh9dHYictyrqjd0LRVF3rdWtGbHgpxuFCirx0a5FO1bPYQ7oc+ri
-   dgWgBIWh2uDxXmvuoQZVWqgH9MI3iKW3/0RJ1C2sCAZxCkyP5rAaSfq+8
-   7NpJ2MCoESY4ABPmPZ/yxlbccxRASjshUAJs8VedyeCUTx1CYZgdEf61j
-   CqzMQ6cxzVwrpd5KTrOdGWkNaIUvCvhnB7UB3/PnSVoDUSYRtbbhvm3j1
-   ZJM1IHHU+qyKaA8joru0xI4PQaGwG3301L1b7zYerUStCOYyMGLzM2s3y
-   JoEVzFCxIpDZUQRe/dkyU7ExBE2RB6Q4Cx5MIEUMaPlq0bopx0y+oWdzi
-   A==;
-X-CSE-ConnectionGUID: ba9HTi4oS0ywfaOr7ZKUkg==
-X-CSE-MsgGUID: IgTBxGS8T9OE3QPKVLXg8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="48650866"
-X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; 
-   d="scan'208";a="48650866"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 01:36:32 -0800
-X-CSE-ConnectionGUID: 7dE+clt7SlGWKnMeXoD6BQ==
-X-CSE-MsgGUID: JC/+m3JLTvWgPXTAaGwiuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="106953031"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.246.8.237])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 01:36:29 -0800
-Date: Wed, 22 Jan 2025 10:36:27 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
-Cc: sakari.ailus@linux.intel.com, hao.yao@intel.com, mchehab@kernel.org,
-	linux-media@vger.kernel.org, hdegoede@redhat.com,
-	joachim.reichel@posteo.de,
-	Ingvar Hagelund <ingvar@redpill-linpro.com>
-Subject: Re: [PATCH v7] media: i2c: Add Omnivision OV02C10 sensor driver
-Message-ID: <Z5C8G3pR1jyTyToZ@linux.intel.com>
-References: <20250116232207.217402-1-heimir.sverrisson@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mh2DTyuzKG4ycX75PF9nculh4Ns6GR+KSTWebo6JeY1eHkIa99D2Dgjl8TXNsNpf9ikvYosvOsz2h0NUvSSzCHA+POPnvCMfrHltFarUcb4R/2sM+lY/hXzvVf+IO+qk1tdj2T8AaWqkewBcoG8v+zQpRAOeAeIk4bu69ZqhtbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=IGJiNKKy; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+Received: from localhost (unknown [10.10.165.14])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 7E0C14078537;
+	Wed, 22 Jan 2025 09:49:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 7E0C14078537
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1737539383;
+	bh=C5V0l3jQ4NhZBF5hmWDNsgD6wzWUeZcvRwpbsSszw+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IGJiNKKyDjsD+hUTF6wKXZ3JCv31k8P0VVhUTzjGObgpgvs1rwag0Pg7BZ46zHtXy
+	 Yvz2PpEhMDXUxzM7DLIXpoIvyEGpaxBwDBxTeK5N48RTBUhTA4wv2FWXO2QitvF4T2
+	 db/gFgFUSTzalSg2OxokX6xLOcYTw6thKd5n2DNI=
+Date: Wed, 22 Jan 2025 12:49:43 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: "Alexey V. Vissarionov" <gremlin@altlinux.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	lvc-project@linuxtesting.org, linux-media@vger.kernel.org, 
+	Manu Abraham <abraham.manu@gmail.com>, Luca Olivetti <luca@ventoso.org>
+Subject: Re: [PATCH] AF9005: fix typo in the bitmask size
+Message-ID: <fxwptdsbee7a3xmygcerapwmdl72ue5uacwixrzlsyzy6dturs@v3xncp73k6xg>
+References: <20250122092733.GD12162@altlinux.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250116232207.217402-1-heimir.sverrisson@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250122092733.GD12162@altlinux.org>
 
-Hi
+Hi,
 
-On Thu, Jan 16, 2025 at 04:22:07PM -0700, Heimir Thor Sverrisson wrote:
-> +static int ov02c10_set_stream(struct v4l2_subdev *sd, int enable)
-> +{
-> +	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> +	int ret = 0;
-> +
-> +	if (ov02c10->streaming == enable)
-> +		return 0;
-> +
-> +	mutex_lock(&ov02c10->mutex);
-> +	if (enable) {
-> +		ret = pm_runtime_get_sync(&client->dev);
-> +		if (ret < 0) {
-> +			pm_runtime_put_noidle(&client->dev);
-> +			mutex_unlock(&ov02c10->mutex);
-> +			return ret;
-> +		}
-> +
-> +		ret = ov02c10_start_streaming(ov02c10);
-> +		if (ret) {
-> +			enable = 0;
-> +			ov02c10_stop_streaming(ov02c10);
-> +			pm_runtime_put(&client->dev);
-> +		}
-> +	} else {
-> +		ov02c10_stop_streaming(ov02c10);
-> +		pm_runtime_put(&client->dev);
-> +	}
-> +
-> +	ov02c10->streaming = enable;
-> +	mutex_unlock(&ov02c10->mutex);
-<snip>
-> +static int __maybe_unused ov02c10_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct ov02c10 *ov02c10 = to_ov02c10(sd);
-> +	int ret = 0;
-> +
-> +	mutex_lock(&ov02c10->mutex);
-> +	if (!ov02c10->streaming)
-> +		goto exit;
+The same patch was sent twice [1,2]. Why? If something has changed, it's
+good to denote the next version as v2 and briefly explain the v1->v2
+changes in the zone after `---`.
 
-I think pm_runtime_get_sync() can call ov02c10_resume() internally so we
-can deadlock on mutex_lock(&ov02c10->mutex). We should avoid calling 
-pm_runtime_get_sync() with the mutex taken.
+[1]: https://lore.kernel.org/linux-media/20250122092733.GD12162@altlinux.org/
+[2]: https://lore.kernel.org/linux-media/20250122000103.GB12162@altlinux.org/
 
-It's not practical issue as runtime pm seems to be configured
-incorrectly and in any know setup is not needed. So I'm fine 
-to leave it as is and eventually work on that in incremental patches
-after driver merge.
+On Wed, 22. Jan 12:27, Alexey V. Vissarionov wrote:
+> Found by ALT Linux Team (altlinux.org) and Linux Verification Center
+> (linuxtesting.org)
 
-Regards
-Stanislaw
+Even for the one-line fixes there should be some brief explanation on
+*why* there is a problem and why it should be fixed, i.e. why there is
+a typo in the code.
 
+I guess the problem looks obvious here but still there may be some
+useful information (if any) provided to the changelog.
 
+> 
+> Fixes: af4e067e1dcf ("V4L/DVB (5625): Add support for the AF9005 demodulator from Afatech")
+> 
+
+The blank line between Fixes and Signed-off-by is unwanted.
+
+> Signed-off-by: Alexey V. Vissarionov <gremlin@altlinux.org>
+
+git format-patch usually generates a `---` line here after the end of
+the commit message.
+
+Please take a look at [3].
+
+[3]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
+
+> 
+> diff --git a/drivers/media/usb/dvb-usb/af9005-fe.c b/drivers/media/usb/dvb-usb/af9005-fe.c
+> index 404e56b32145f1e6..4621c1d24d578ede 100644
+> --- a/drivers/media/usb/dvb-usb/af9005-fe.c
+> +++ b/drivers/media/usb/dvb-usb/af9005-fe.c
+> @@ -453,7 +453,7 @@ static int af9005_fe_read_status(struct dvb_frontend *fe,
+> 	ret = af9005_read_register_bits(state->d,
+> 					xd_r_mp2if_sync_byte_locked,
+> 					mp2if_sync_byte_locked_pos,
+> -					mp2if_sync_byte_locked_pos, &temp);
+> +					mp2if_sync_byte_locked_len, &temp);
+> 	if (ret)
+> 		return ret;
+> 	if (temp)
+> 
+> -- 
+> Alexey V. Vissarionov
+> gremlin ПРИ altlinux ТЧК org; +vii-cmiii-ccxxix-lxxix-xlii
+> GPG: 0D92F19E1C0DC36E27F61A29CD17E2B43D879005 @ hkp://keys.gnupg.net
 
