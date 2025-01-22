@@ -1,142 +1,194 @@
-Return-Path: <linux-media+bounces-25148-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25151-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A63A19400
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 15:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F07A6A19413
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 15:36:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4FE13A39CB
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 14:35:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 219E23A6392
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 14:36:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A7ED2144A5;
-	Wed, 22 Jan 2025 14:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C44B214234;
+	Wed, 22 Jan 2025 14:36:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Owes9VWH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQQxuy0r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F148538DC0;
-	Wed, 22 Jan 2025 14:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9581212D69;
+	Wed, 22 Jan 2025 14:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737556504; cv=none; b=BDKoHbniL1WHAAxBiP5b6Dcm2U9Txn4VR0EFIahnU7pNHzKLo8tspIxm6sB5zQgVvJskjwsejl6pAi4z7KJVUen7c+miEvigDY+Ql8APx933vr/CjWSVLVmOjQrFWZCmI0hcfBAPHB9gGh/8uoDFY3JdQD3pcFpiBgICobzP+Aw=
+	t=1737556582; cv=none; b=fdCxk+IMrZKSSWPM08ZHB9UiulwVqBafOh/wY8wLxovS9pUNcCvyjrVihXIHyHAJT+9bQexrWdhr6zLnyTCU1lbUUgjaDqX25mVjInSbS0VbWDHuuOHe0fY07oZY3LSXjtQPJI4JJslok1RVEYrBrQNkzssTuemGm+Nd3jZ5YfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737556504; c=relaxed/simple;
-	bh=kK8h7xLBIzPsw1VKaFBDTNNqKoF3JPJbiYx6352zuUg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P2WMiRvReWhEHirZkMGyJ7uE0kmKNWokcboHzcqUdEcd64KYqVhZR4iSCV+BWKWDzecSieOdWLqduMg9L4TdbZeFrhW+ZQFk4FRx16W9bnnv3Y0Soa2/V6GGVjR2jiuX7OsjlIGUKySWDMIwuahpYZ8R18dQa+0AfR5mkCWnG7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Owes9VWH; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1737556582; c=relaxed/simple;
+	bh=SMDAbuQwzc7MzSRZ8aXUBMVB6Jsmdf7IOz/yWT+L480=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bMj69AUkbuOfUTZ3m/uHsPIwcYK+ZmAyB87c6Y5gJYd1AsdhAlNPVzIUfk/ejlpiqOQQdmYK15342sQk5DDFhgcW8XzElDrqd+boAE6WUdy81ocew9XestKp8exzdsREVcGjamVhDnMz3mOZpN2BHbWRpJU+o7pC3CrBqyVhVBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQQxuy0r; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21619108a6bso121200855ad.3;
-        Wed, 22 Jan 2025 06:35:02 -0800 (PST)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2161eb95317so126448005ad.1;
+        Wed, 22 Jan 2025 06:36:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737556502; x=1738161302; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AqJZ0B17C/QFiuxg4Z0TlsiA5NUry4lUYiqLGAeozHc=;
-        b=Owes9VWHgrO1PZiEBv+hG/h3CCV23SC1ud1Kre4h01TOpQRvGFX7LxGsqdb6Z3d24l
-         CgGFYqUBOrdBNvnwmjbHoK+jbmfbdOxc3dktvLuRuhE2vW4kLix+mDVdgLQUCfrDSgVT
-         n03UH7Ip9KnWTcDMrB56VIloUWDSC9ALSx384WmFakMPyhdfnx18vcXRvSdsa+YdttjW
-         KDy47K5DI914qUUz1F/Shg38xZluy7Ql9K94yrLPrs53lNJnoafXxTBqs3Fa+Qoz7QtG
-         Ymapyv6m69MrRz2f+R+LrKy656HGPFOvRh0yNt2L9LVJqTaB3YazwKSFfzees21jVoLq
-         VUIA==
+        d=gmail.com; s=20230601; t=1737556580; x=1738161380; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=MUvXvaO0Ss+nXb466/o7COpKXUbAueaXJWixHz+8ykQ=;
+        b=SQQxuy0rrY0f5yE17Bvxd4cCYwvkWqgYl66D6PC5Qsb6Vw+Px5o9uQGv5CabPHWWKX
+         wsZPi/yn96zzCSckak13j/O5HeiI7QjTjJRHHwBc2Ji7mGIoE8gGxC9Fe1k0ph0ltIHh
+         cXL38wRvZHuHSvbNz/6p7s8XoasIstJoi8LapqX4sBd4CaWQ6n9XAmtWBY9XyUcPBOcV
+         br9APH9oZZrmQiyturDVw9Y6bF3nP5OD7/RZCyz4B0JWA8igWBs+MNs1je1rKVp5DC93
+         zMHhsdMt7ABN8+7guIQxUaegGyrgINCB0ElhrBfhuvBuuuiW05wqUN9jJKpUujzhwVc4
+         2iYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737556502; x=1738161302;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AqJZ0B17C/QFiuxg4Z0TlsiA5NUry4lUYiqLGAeozHc=;
-        b=rqRrXgrP6Jt2G0lqcNsJd0BEQWbSopqq3jAbDDdptBL3wGg4/t4t4VM64gtei9KXkA
-         eL7oB5OXOY9zCXafWwNfLVNdsxrr8JLJWKuHs9zgwzbVGFWkfxAlFl/CuT0B9PmAiIDD
-         TJWnhiofM+OcXIkxWEDn6CQiRletqtttPguWKD67Cj5cEw5FLDu4X8uNb55kOjCwkDoE
-         oi7+/hUKP6v51LZaUaQHDkfu7Cb4DBxwde/jUxCE1+Kl4zQnzC2D12QryD9V2noyAtkJ
-         slacBM6ZEoerY2gooaRR2pK04LQTqi3oWxThADfEE695As+mAy9uhi6qj5Y1r21cKlPE
-         mQlg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWUmoxSFOTB/APzSp2VaCqqaHcg3j0W/pyyXCMCWvCvOEHLlCe4n0iwGbsllPdk5S4rIkge4EFQUG/@vger.kernel.org, AJvYcCWBcH+pKDl9Y1xoO6jYJG3MqBRCJkC1ZuLGtv5TnYzkU0JNOKGfsyR5xO0wcCH3Nsjm7nm6rcARMSNMdpL4@vger.kernel.org, AJvYcCXDGGGlQqRAvdGsR1QEhraMjK8D+cckNR3xlypxVFEOKX5PhQvId9jRV7new+dmUw8264nHjPQ1e1iqKA==@vger.kernel.org, AJvYcCXaDyGxAvAJ089PrAI5SmvG89O626jRzgp5vr+xqb1LoRQTiKBsUYBpCnJ9Yg7xCSjv6cdDlmELQCA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypJJ7ytTX2XbKGMUllfobE/j53ltBG1wDo20GC6nUiHEc2KlRb
-	7V7+BzrFdmSjq1p2aQznUqTaWjuC1ZRtmw9jtAziBbUHimU2njed
-X-Gm-Gg: ASbGncu9HE+9QAObVZxlXc6vZr1TiKVNM4yqcLxdJYHNnEjLfHZpgFVZfzNOVyTGUfJ
-	U2DIJZgCWyoxjE9JxNvhfchk2b2GB1dBoHOw9BKuAbYh0m7/hSvMLfNHMssJwx67kMXfT5A8cvA
-	xUOnnDDmCRdhEIfAZwqUPy94dYZ7ghOpG/nJqTZh8w/1jqdiIkm3v8whmW892C1ZXfWjQfLfSvE
-	w3t5w/eZ3LEAYKrcryM6okqt/cXFZPBcFIb02Myt0y7Svma50HR80RavWL6AWhYbQdTpA==
-X-Google-Smtp-Source: AGHT+IFOb2ZjmXA85XJnSrWuiW/6Ettwnat9B4bNw4q+ceJCYBLk8GlAznMag7vwyBrrVf+WMImL2Q==
-X-Received: by 2002:a05:6a00:21c3:b0:72a:a9d9:5a82 with SMTP id d2e1a72fcca58-72daf8878c0mr32294986b3a.0.1737556501983;
-        Wed, 22 Jan 2025 06:35:01 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab8132e4sm11118813b3a.40.2025.01.22.06.35.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 06:35:01 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 31A024244586; Wed, 22 Jan 2025 21:34:58 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Media <linux-media@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Block Devices <linux-block@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Power Management <linux-pm@vger.kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Ming Lei <ming.lei@redhat.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <len.brown@intel.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH 3/3] docs: power: Fix footnote reference for Toshiba Satellite P10-554
-Date: Wed, 22 Jan 2025 21:34:56 +0700
-Message-ID: <20250122143456.68867-4-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250122143456.68867-1-bagasdotme@gmail.com>
-References: <20250122143456.68867-1-bagasdotme@gmail.com>
+        d=1e100.net; s=20230601; t=1737556580; x=1738161380;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MUvXvaO0Ss+nXb466/o7COpKXUbAueaXJWixHz+8ykQ=;
+        b=rQdEaXGXY0F4jZpvl6UNScjWAo0yGya2w2+K7ifhYONO5DBJrRo0bV1EJtw+50NpXb
+         clknCeekRiGu484+xogAFngsT+FJACRtpougcggFYH5ezsmnQak5y+tTRFGaz3thsKA/
+         VElqxDtlT4ko6Kx+xcxRb6qs6oCClM5AP1mv9cqKkhcU0js31Hru4n6JWW4DfIwdBJ1F
+         wqWk9YIv151w8tAEBrDR8FiTUyb1IAhLtzbhCAiVgYYXw1j5Zzr098+LCwBlU4Ujyhhw
+         n9keJdJFK9OT012LISkXZ4iT64zoKZ0wAiwUCnx3OsuniaOD7tDNHGcgNhPV+7tnN2fG
+         7d0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU3KfOBiCyMppxjRiUEckMV+Q+/8CgYPgAIxoqIHPAPT4aNvvKuWPp8nLjv/gl4M7xti7EkuwWTNs5Pch4=@vger.kernel.org, AJvYcCV/LxnrqJoPbjKBK7w2z//l7YJmm/nbTcJBHAQN3e7xvfSKBMRUa5TLgjZN3Ki9HQrQZLTCuve4UzMP@vger.kernel.org, AJvYcCVC6D6U6QPN3pCNNQDeVDVWGHeF6ndlJ8RmOlaeIVADVTtI+6aYrtjj8K2yzmE902LqTA7tNFs0yQZl6w==@vger.kernel.org, AJvYcCVCqfF9/W0wdz6c4X3/LinQNekUzd5aravVvJIY2ZVo8oEl/P/elyjfptmXOYivr4vcqiSIC7JhTt3P1zs=@vger.kernel.org, AJvYcCX8+iZ9S1eg2A7Leru7pvel+B1OeJswa9yBAIXNWgP7PfG9YOnviDIWaWxeYeZZ+2MtJa98c0se@vger.kernel.org, AJvYcCXH+bJwSd7Qc8sec4/KWgeS/j0hK/By51d+qAgDvvHpm+GLahSzqTJRV4z3TAxwojOZ65cQW8RTnxlnfmddnunuKgTy1Q==@vger.kernel.org, AJvYcCXm18C5S+SAde06h7XGay4ucLK8vbTn/zf2uT/Wfv3d1d+3lhoYBEPE5N0QF+5z84lxUEIozKVVcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywx6kzTk8V7SUVZmCm2GczSiN1hsRN7G/5Vnfu+T+RKqIZUYVAd
+	0LkFCwPhgjoQQAC7ADQcK63XiHz23oGRgPH4slFGGDbAA4/y/I/39ngqHg==
+X-Gm-Gg: ASbGncso2XhrClj/ZOaiQML1/uSrJ+j8TBo2n/1r3AT1yepKL2zdd9+sRGaTf8ReKmK
+	A7/ZcR+0zX25htVlB5dRjXhhhMTBQ2a9JbyePWwynJkxvKNBKk2oZh4wFe+ND3oWuRnR+ZiLA5Y
+	ddF98nVcvujv3vl/uOmUbUQU47Uq8k12/bWxCbAhA/2iK4dlKSIng32bZSeCmXXExvTLeKjFath
+	sEH/bUGAIXoV5fcXVkz/WMAB3CLWLwQ2K1iIoH7uz2rqDeNwe+/QA1Wwt9/hy7VnOFongj1r6im
+	PHW85dvPjFBe1dtlS0ysZDhoRWcBWoDjzRkRgBoXmvg=
+X-Google-Smtp-Source: AGHT+IE5AzrnFf/Nma9OYi02LQfUZX52yZkuUVNniayLmYZBB0ifS+2Uz1Ehi/Gv2whWoMr2zKYJnw==
+X-Received: by 2002:a17:902:c412:b0:215:ae3d:1dd7 with SMTP id d9443c01a7336-21c3540c88dmr336405415ad.19.1737556579588;
+        Wed, 22 Jan 2025 06:36:19 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2d3aca8asm96019665ad.130.2025.01.22.06.36.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jan 2025 06:36:18 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <4e9d0552-b565-48e0-8183-d9cb5a85c76a@roeck-us.net>
+Date: Wed, 22 Jan 2025 06:36:15 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1438; i=bagasdotme@gmail.com; h=from:subject; bh=kK8h7xLBIzPsw1VKaFBDTNNqKoF3JPJbiYx6352zuUg=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDOkTGfUnHxFddvCC5T8jLo9WEe7zqYosj0TkvfXiJ7V+j vyyLMi8o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABN5ZsrIMJ+/Njb/eMv0zNPy 8/tdmJX5ih5ffbBrvzLfhK5oLUFuC0aGjT8OVPsHTM4+9Ptq88m64POHvzMl+1Z+OpvzsKx4jXc /JwA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 00/21] hwmon: Fix the type of 'config' in struct
+ hwmon_channel_info to u64
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ "lihuisong (C)" <lihuisong@huawei.com>, linux-hwmon@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, arm-scmi@vger.kernel.org,
+ netdev@vger.kernel.org, linux-rtc@vger.kernel.org, oss-drivers@corigine.com,
+ linux-rdma@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linuxarm@huawei.com, jdelvare@suse.com, kernel@maidavale.org,
+ pauk.denis@gmail.com, james@equiv.tech, sudeep.holla@arm.com,
+ cristian.marussi@arm.com, matt@ranostay.sg, mchehab@kernel.org,
+ irusskikh@marvell.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, saeedm@nvidia.com,
+ leon@kernel.org, tariqt@nvidia.com, louis.peens@corigine.com,
+ hkallweit1@gmail.com, linux@armlinux.org.uk, kabel@kernel.org,
+ W_Armin@gmx.de, hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
+ alexandre.belloni@bootlin.com, jonathan.cameron@huawei.com,
+ zhanjie9@hisilicon.com, zhenglifeng1@huawei.com, liuyonglong@huawei.com
+References: <20250121064519.18974-1-lihuisong@huawei.com>
+ <870c6b3e-d4f9-4722-934e-00e9ddb84e2e@kernel.org>
+ <d42bf49b-e71b-d31e-2784-379076ebf370@huawei.com>
+ <4959c2c0-564a-4e3c-9650-228dede9a1f9@kernel.org>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <4959c2c0-564a-4e3c-9650-228dede9a1f9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Sphinx reports unreferenced footnote warning on "Video issues with S3
-resume" doc:
+On 1/21/25 23:51, Krzysztof Kozlowski wrote:
+> On 21/01/2025 09:14, lihuisong (C) wrote:
+>>
+>> 在 2025/1/21 15:47, Krzysztof Kozlowski 写道:
+>>> On 21/01/2025 07:44, Huisong Li wrote:
+>>>> The hwmon_device_register() is deprecated. When I try to repace it with
+>>>> hwmon_device_register_with_info() for acpi_power_meter driver, I found that
+>>>> the power channel attribute in linux/hwmon.h have to extend and is more
+>>>> than 32 after this replacement.
+>>>>
+>>>> However, the maximum number of hwmon channel attributes is 32 which is
+>>>> limited by current hwmon codes. This is not good to add new channel
+>>>> attribute for some hwmon sensor type and support more channel attribute.
+>>>>
+>>>> This series are aimed to do this. And also make sure that acpi_power_meter
+>>>> driver can successfully replace the deprecated hwmon_device_register()
+>>>> later.
+>>> Avoid combining independent patches into one patch bomb. Or explain the
+>>> dependencies and how is it supposed to be merged - that's why you have
+>>> cover letter here.
+>> These patches having a title ('Use HWMON_CHANNEL_INFO macro to simplify
+>> code') are also for this series.
+>> Or we need to modify the type of the 'xxx_config' array in these patches.
+>> If we directly use the macro HWMON_CHANNEL_INFO, the type of 'config'
+>> has been modifyed in patch 1/21 and these driver don't need to care this
+>> change.
+> 
+> None of above addresses my concern. I am dropping the series from my
+> inbox/to-review box.
+> 
 
-Documentation/power/video.rst:213: WARNING: Footnote [#] is not referenced. [ref.footnote]
+If you need help with that, and if it wasn't obvious:
 
-Fix the warning by separating footnote reference for Toshiba Satellite
-P10-554 by a space.
+NACK for the series
 
-Fixes: 151f4e2bdc7a ("docs: power: convert docs to ReST and rename to *.rst")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250122170335.148a23b0@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/power/video.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/power/video.rst b/Documentation/power/video.rst
-index 337a2ba9f32f0f..8ab2458d130437 100644
---- a/Documentation/power/video.rst
-+++ b/Documentation/power/video.rst
-@@ -190,7 +190,7 @@ Toshiba Portege 3020CT		s3_mode (3)
- Toshiba Satellite 4030CDT	s3_mode (3) (S1 also works OK)
- Toshiba Satellite 4080XCDT      s3_mode (3) (S1 also works OK)
- Toshiba Satellite 4090XCDT      ??? [#f1]_
--Toshiba Satellite P10-554       s3_bios,s3_mode (4)[#f3]_
-+Toshiba Satellite P10-554       s3_bios,s3_mode (4) [#f3]_
- Toshiba M30                     (2) xor X with nvidia driver using internal AGP
- Uniwill 244IIO			??? [#f1]_
- =============================== ===============================================
--- 
-An old man doll... just what I always wanted! - Clara
+Guenter
 
 
