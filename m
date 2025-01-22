@@ -1,119 +1,121 @@
-Return-Path: <linux-media+bounces-25116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25117-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D599EA18EC5
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 10:50:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F282FA18FE2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 11:38:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A82DD1885849
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 09:50:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3968416374A
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 10:38:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E63241F8679;
-	Wed, 22 Jan 2025 09:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF9B1211465;
+	Wed, 22 Jan 2025 10:38:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="IGJiNKKy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eIK7hqkB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172461F76B5
-	for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 09:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CE720F987
+	for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 10:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737539396; cv=none; b=dhxs3EhjAKZ+ighCbogFunS3pFhH3P950ZOWxD3AXb7diUwu6AntMg66x1mcuYJSpY/KEeSUCgI3+zcG3XUWS6qomISSX7/26yeHiCWqVVGwSfUiAbrze5cJUysK/nNv7sx2L9roqkJ2LY17UjmTO6m8R87mlSo5aBQO/LJWJt4=
+	t=1737542320; cv=none; b=rs0RSPjhKb+Kedfvj5ie0LISy+oj+5wa1uIjPZ82v0yz/uRFuSEJial4vt+vJEdfie2/87grsIpsQHsUXzhcqIekxZjFrjdgd/ZAe5tvEAQZl7pepyO6xWh9IOfrQh5o4cZCSpCHeyOybIfbkVleeOMOowVSe/PCf5huGTjf0bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737539396; c=relaxed/simple;
-	bh=yIrMPQk1jpPdU/Y7nRboE6hJ8k1ZNfl+Ugh3AxvoCqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mh2DTyuzKG4ycX75PF9nculh4Ns6GR+KSTWebo6JeY1eHkIa99D2Dgjl8TXNsNpf9ikvYosvOsz2h0NUvSSzCHA+POPnvCMfrHltFarUcb4R/2sM+lY/hXzvVf+IO+qk1tdj2T8AaWqkewBcoG8v+zQpRAOeAeIk4bu69ZqhtbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=IGJiNKKy; arc=none smtp.client-ip=83.149.199.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
-Received: from localhost (unknown [10.10.165.14])
-	by mail.ispras.ru (Postfix) with ESMTPSA id 7E0C14078537;
-	Wed, 22 Jan 2025 09:49:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 7E0C14078537
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
-	s=default; t=1737539383;
-	bh=C5V0l3jQ4NhZBF5hmWDNsgD6wzWUeZcvRwpbsSszw+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IGJiNKKyDjsD+hUTF6wKXZ3JCv31k8P0VVhUTzjGObgpgvs1rwag0Pg7BZ46zHtXy
-	 Yvz2PpEhMDXUxzM7DLIXpoIvyEGpaxBwDBxTeK5N48RTBUhTA4wv2FWXO2QitvF4T2
-	 db/gFgFUSTzalSg2OxokX6xLOcYTw6thKd5n2DNI=
-Date: Wed, 22 Jan 2025 12:49:43 +0300
-From: Fedor Pchelkin <pchelkin@ispras.ru>
-To: "Alexey V. Vissarionov" <gremlin@altlinux.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	lvc-project@linuxtesting.org, linux-media@vger.kernel.org, 
-	Manu Abraham <abraham.manu@gmail.com>, Luca Olivetti <luca@ventoso.org>
-Subject: Re: [PATCH] AF9005: fix typo in the bitmask size
-Message-ID: <fxwptdsbee7a3xmygcerapwmdl72ue5uacwixrzlsyzy6dturs@v3xncp73k6xg>
-References: <20250122092733.GD12162@altlinux.org>
+	s=arc-20240116; t=1737542320; c=relaxed/simple;
+	bh=6ozu4vMfeNkJqIG2StWX5XYjhz2Wh6Oc6/I1hyg1Wz8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u18gh0FKeahaFztbfFeFAFMGNF5Mzfx5F04capwJaYskMcGLreDbFmNeiL92aqLcY5Ky4NSksTcpJ1NwcSzcdFlmF+qMhFcf71IghYK2RpBkhOZV1YkpfkBgOYiAGPlMhp3yac6eT656ZuXC/vCp+7atkR4BoPvLRN/xgesC6x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eIK7hqkB; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737542319; x=1769078319;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6ozu4vMfeNkJqIG2StWX5XYjhz2Wh6Oc6/I1hyg1Wz8=;
+  b=eIK7hqkB458lob02wnM22PNL/5mdyYMU0Ny7gEyRFk2YoMuVyi3V/h6V
+   Te3K0VVFtZUp+DdH32YolnIpVqNZlNqP4+tKKwdoeh5WS35ZmJch0wNv5
+   jHXygLnIYmg1ZpYelDTlLIS32W6Uv9dqqeL2reCZOvL7agPaQAnvlP5BN
+   zS/r+zboQSTkcN211fwicu1+FhkmXePiPFF60UubKwVc1hkn7yGCuwRGM
+   f0jmFY5QThHhyB19oz1fNHAJYPQUea7LvFIGoLEvmK8YDmf2R/981f3za
+   k3AGckQo7+ZSCzBH0vmO5JNP0/diFULF3AdWtUWARssXHb2NrmFBq9102
+   g==;
+X-CSE-ConnectionGUID: SuHFJJh2QfuuioHxHkQ/RQ==
+X-CSE-MsgGUID: qzqisP/lSvaitX1qomRFtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="37871504"
+X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
+   d="scan'208";a="37871504"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 02:38:38 -0800
+X-CSE-ConnectionGUID: 1eJx2M92Qo2fHj20re1JCA==
+X-CSE-MsgGUID: i5NYxUdhSt+87H6EpUNp8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107985971"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 22 Jan 2025 02:38:38 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1taY82-000Zkj-2c;
+	Wed, 22 Jan 2025 10:38:34 +0000
+Date: Wed, 22 Jan 2025 18:37:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:devel 46/46]
+ drivers/platform/x86/intel/int3472/discrete.c:138: warning: Function
+ parameter or struct member 'int3472_reset_gpio_map' not described in
+ 'int3472_reset_gpio_map'
+Message-ID: <202501221858.1YHNirHd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250122092733.GD12162@altlinux.org>
 
-Hi,
+tree:   git://linuxtv.org/sailus/media_tree.git devel
+head:   c3af137975ac5de4479d2f019acb74db0b36a26e
+commit: c3af137975ac5de4479d2f019acb74db0b36a26e [46/46] platform/x86: int3472: Call "reset" GPIO "enable" for INT347E
+config: i386-buildonly-randconfig-002-20250122 (https://download.01.org/0day-ci/archive/20250122/202501221858.1YHNirHd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250122/202501221858.1YHNirHd-lkp@intel.com/reproduce)
 
-The same patch was sent twice [1,2]. Why? If something has changed, it's
-good to denote the next version as v2 and briefly explain the v1->v2
-changes in the zone after `---`.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501221858.1YHNirHd-lkp@intel.com/
 
-[1]: https://lore.kernel.org/linux-media/20250122092733.GD12162@altlinux.org/
-[2]: https://lore.kernel.org/linux-media/20250122000103.GB12162@altlinux.org/
+All warnings (new ones prefixed by >>):
 
-On Wed, 22. Jan 12:27, Alexey V. Vissarionov wrote:
-> Found by ALT Linux Team (altlinux.org) and Linux Verification Center
-> (linuxtesting.org)
+>> drivers/platform/x86/intel/int3472/discrete.c:138: warning: Function parameter or struct member 'int3472_reset_gpio_map' not described in 'int3472_reset_gpio_map'
 
-Even for the one-line fixes there should be some brief explanation on
-*why* there is a problem and why it should be fixed, i.e. why there is
-a typo in the code.
 
-I guess the problem looks obvious here but still there may be some
-useful information (if any) provided to the changelog.
+vim +138 drivers/platform/x86/intel/int3472/discrete.c
 
-> 
-> Fixes: af4e067e1dcf ("V4L/DVB (5625): Add support for the AF9005 demodulator from Afatech")
-> 
+   124	
+   125	/**
+   126	 * struct int3472_reset_gpio_map - Map "reset" GPIO to whatever is expected by
+   127	 * the sensor driver (as in DT bindings)
+   128	 * @devname: The name of the device without the instance number e.g. i2c-INT347E
+   129	 * @func: The function, e.g. "enable"
+   130	 * @polarity: GPIO_ACTIVE_{HIGH,LOW}
+   131	 */
+   132	static const struct int3472_reset_gpio_map {
+   133		const char *devname;
+   134		const char *func;
+   135		unsigned int polarity;
+   136	} int3472_reset_gpio_map[] = {
+   137		{ "i2c-INT347E", "enable", GPIO_ACTIVE_HIGH },
+ > 138	};
+   139	
 
-The blank line between Fixes and Signed-off-by is unwanted.
-
-> Signed-off-by: Alexey V. Vissarionov <gremlin@altlinux.org>
-
-git format-patch usually generates a `---` line here after the end of
-the commit message.
-
-Please take a look at [3].
-
-[3]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
-
-> 
-> diff --git a/drivers/media/usb/dvb-usb/af9005-fe.c b/drivers/media/usb/dvb-usb/af9005-fe.c
-> index 404e56b32145f1e6..4621c1d24d578ede 100644
-> --- a/drivers/media/usb/dvb-usb/af9005-fe.c
-> +++ b/drivers/media/usb/dvb-usb/af9005-fe.c
-> @@ -453,7 +453,7 @@ static int af9005_fe_read_status(struct dvb_frontend *fe,
-> 	ret = af9005_read_register_bits(state->d,
-> 					xd_r_mp2if_sync_byte_locked,
-> 					mp2if_sync_byte_locked_pos,
-> -					mp2if_sync_byte_locked_pos, &temp);
-> +					mp2if_sync_byte_locked_len, &temp);
-> 	if (ret)
-> 		return ret;
-> 	if (temp)
-> 
-> -- 
-> Alexey V. Vissarionov
-> gremlin ПРИ altlinux ТЧК org; +vii-cmiii-ccxxix-lxxix-xlii
-> GPG: 0D92F19E1C0DC36E27F61A29CD17E2B43D879005 @ hkp://keys.gnupg.net
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
