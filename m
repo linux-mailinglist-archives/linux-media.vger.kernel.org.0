@@ -1,95 +1,316 @@
-Return-Path: <linux-media+bounces-25135-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25136-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB888A192B9
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 14:38:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C599FA192C5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 14:41:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1356216C264
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 13:38:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E9EC1883ACD
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 13:41:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FAFD213237;
-	Wed, 22 Jan 2025 13:38:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9B021325C;
+	Wed, 22 Jan 2025 13:41:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DONllKxT"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f79E9XLu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4C94E1CA;
-	Wed, 22 Jan 2025 13:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B86E2EB11
+	for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 13:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737553122; cv=none; b=WK7U9mB5an9JakQ6g+jF5uhnjFKeQszF1aQmjS/WHLfIxwjsv0HnSy9RVae7HVGkekdK6khWUWo1ufMAETwZSXBH9Wt7zuMWNfXFx+zxOYwXtDtsu6yvR3XdwkFtXpWIMlXrR8OouguE1RdJzdcCvRE++uW8UCsLRWtTaOf5YNA=
+	t=1737553298; cv=none; b=AkWXqh/h6npIpOmZeJzKFcvZr6ze+Z2t6XOvNaOMeK0md57AkBFiAA7dJDGaDjMO+q3gjal+eZ5T4JAYN35KR0z2fFbZhuIsRPGUjT0IYLhgPvJ0PXeDjCuANYVPHuBbc5h9apl9BMIN6iH6E7ybQRgQiq1bHXEcVEXEVwVlsvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737553122; c=relaxed/simple;
-	bh=IonhbDV5qukCWQ0rxAw5GlLOaxQ3uuEIenHy01XD090=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ML1Iea1oxh4c1rA9grBIkcgwBXhgY0SRUKznsfJq5U8vZnMz2vOrpbKXDUBxP4g7F/FOpylKKuur9D8AyY7Co2rNdgxG7Kdj1rCgH/88cqVOliGcE1oDRJRkqLy1PraBkP46O4VE+yJvqL+VsHo27PRdrlWIgneXvt2RH5mjeaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DONllKxT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6B22D520;
-	Wed, 22 Jan 2025 14:37:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737553055;
-	bh=IonhbDV5qukCWQ0rxAw5GlLOaxQ3uuEIenHy01XD090=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DONllKxTbjDzKszdB7Mvp2SoeJt30Gecf9qsePw+hxwW3PyB3GiCqEV/VuuHZmsK+
-	 fPV94kRUojaTvEnGEY4L9eEfJuYrz43tKVSqvU51d/+XzsP85Jdf2HZei9aKe9rUx2
-	 ImjPX9xkjumgm1Vc4emWR4t530pVUL1z/NpVLfv0=
-Date: Wed, 22 Jan 2025 14:38:34 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: keke.li@amlogic.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com, 
-	laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, jacopo.mondi@ideasonboard.com
-Subject: Re: [PATCH v5 05/10] dt-bindings: media: Add amlogic,c3-isp.yaml
-Message-ID: <jja74umhccvvg2nmolavpuaafsqrqj6pylyrblhcem4so4hz2j@fyutf4duwyrv>
-References: <20241227-c3isp-v5-0-c7124e762ff6@amlogic.com>
- <20241227-c3isp-v5-5-c7124e762ff6@amlogic.com>
- <0815e122-1f77-4f87-bc9d-386cc423c171@kernel.org>
+	s=arc-20240116; t=1737553298; c=relaxed/simple;
+	bh=Wgk8zZZUNvg9MP1jdfxaZ+8M8oxx6ykIpXlu++Rubog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HLHjTfgG+nE9JXRr064VmNVOnQh9XkIi4zseUW5E8u64gT0idS8/7Nb88Lic/3NP8sPULU0lKPaSDyIMc+qppaC8sz8CiDPnp0E19SYJzw2NpZSn5WBgSqN1Dlnr1/xZ6aBIfT79wlrS5SieMh97NYTXfNMtZliIkRk+BKz8wIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f79E9XLu; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43635796b48so6171275e9.0
+        for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 05:41:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737553295; x=1738158095; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Tv7xQXPsVhsp/qFSdjJTcBJiPV5vkVbgwyiggEpJzIg=;
+        b=f79E9XLuSx9ZqgyFkjag4/fpgDnzIMdv5iC3+a/Lo/xHRvMIAWikeFEFSWXbEIcSd9
+         fltmJAiNqDC8njTrN1aW7AMd7HRqc3FDxA0mxfUEUZMeklkdKd/lRC7TGKrqgtzu4VSj
+         RLHGUy3NUl4+D7J4/c9ZaZsuXJ7k1Al5JTyf/fB0zZKiyF3RzSxiapmAQcLxw0D8QTkO
+         teDcsbPdxExTwI/iATN204/EndsJJbA+N3yOn1Q4RL4G6qS7O7GzPsmUSnldkr4M+wFg
+         56sckO/euI/8H6hXXoZSf/7v47itFWhexxgmyYsSrzQJDerMnFwkMi7OOcRyz7wNFbsB
+         o1Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737553295; x=1738158095;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tv7xQXPsVhsp/qFSdjJTcBJiPV5vkVbgwyiggEpJzIg=;
+        b=O0DsUhVcQPUjdUpFSqI96UtghBFU1p3A4xEGpbSPrFd8oOqwuFpnjcdWoWBo5+SRSc
+         gGKKjlOwF4E1dBYfmbh9OIsfnFdYbBZF9vYILoDt3fyUt22MWj8Cf69dt3FZ4cyztEaO
+         R6uH18D4BdnrBhmAVBDV/1XUDAO+l079gK8PsO7eZxB0WzVPjAMcKfRF4pnGVnpYmFy2
+         f0xGPLaCohFus+Bux6IQWeiWVi//lWIlML5jsl8UspbHKkkD+U8DJ+PqXDsiTth+bCPM
+         Na1Vs4s/E6izZcc6OeFwUCNDbIU+llEiMm5CRkje7C/HgQ7DV3ukiPmCnxahNKKI729X
+         XVqg==
+X-Gm-Message-State: AOJu0YwBbja2vOFx9xO7O4B+JePpypbem6tyK1GCe03zciAw2eSrE81k
+	UuRpJfKk1WLV2ONGayFmG+ban4pJzS0m9R2uC/QzKOyeBEzXWHSquFoz4Uns9Dk=
+X-Gm-Gg: ASbGncuEs/5oZysouoWZlOLqbgYEzykxzTxyAieO55qRkLIRrakska6NBZzSoBpWjqo
+	oIIOQOGtbG7HQxXOdSN6YXpOsA4+2utufVecu/sKqWq36+t/kcX8ett0diUu+r1H9mS9M3XYEmp
+	Rp3Vjo5T+5fXyf/JCQwqOC5xdvUZmioR7WMP/Q+pI2TqEhugVVPmObsCaHISECshN8KkxB2pLvi
+	vTrjAy3uWa7IFTpM8NCwWme9a36GsFNdJ+FThnxvvkjMkSDcoOyRibjCIkwFzbr+7sNIB3RAbIQ
+	8SyUHV8=
+X-Google-Smtp-Source: AGHT+IGuPXvmCQONvi9I2qMckgrQaufMKySAeB9Dd+evPEakzske0rFxtu9ojMMm8/alwj20y1oEBA==
+X-Received: by 2002:a05:600c:1381:b0:434:fc5d:179c with SMTP id 5b1f17b1804b1-43891905c1fmr196346695e9.13.1737553294654;
+        Wed, 22 Jan 2025 05:41:34 -0800 (PST)
+Received: from [192.168.0.35] ([176.61.106.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b31df435sm25438275e9.34.2025.01.22.05.41.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jan 2025 05:41:34 -0800 (PST)
+Message-ID: <ff081020-6e6f-472e-823a-12b2cd2c9a72@linaro.org>
+Date: Wed, 22 Jan 2025 13:41:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0815e122-1f77-4f87-bc9d-386cc423c171@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] media: qcom: camss: csiphy-3ph: Add 4nm CSIPHY 2ph
+ 5Gbps DPHY v2.1.2 init sequence
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Depeng Shao <quic_depengs@quicinc.com>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>
+References: <20250120-linux-next-25-01-19-x1e80100-camss-driver-v1-0-44c62a0edcd2@linaro.org>
+ <20250120-linux-next-25-01-19-x1e80100-camss-driver-v1-6-44c62a0edcd2@linaro.org>
+ <00989990-85dd-46d7-a100-c986fc1fb066@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <00989990-85dd-46d7-a100-c986fc1fb066@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 27, 2024 at 08:22:22AM +0100, Krzysztof Kozlowski wrote:
-> On 27/12/2024 08:09, Keke Li via B4 Relay wrote:
-> > +
-> > +  clocks:
-> > +    maxItems: 2
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: vapb
-> > +      - const: isp0
-> > +
-> > +  assigned-clocks: true
-> > +
-> > +  assigned-clock-rates: true
->
-> No, drop these. Request re-review if you add new properties.
+On 22/01/2025 00:29, Vladimir Zapolskiy wrote:
+> Hi Bryan.
+> 
+> On 1/20/25 17:47, Bryan O'Donoghue wrote:
+>> For various SoC skews at 4nm CSIPHY 2.1.2 is used. Add in the init 
+>> sequence
+>> with base control reg offset of 0x1000.
+>>
+>> This initial version will support X1E80100. Take the silicon verification
+>> PHY init parameters as a first/best guess pass.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+>>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 126 +++++++++++ 
+>> ++++++++++
+>>   1 file changed, 126 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c 
+>> b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>> index b44939686e4bb..fc624a3da1c43 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>> @@ -55,6 +55,7 @@
+>>   #define CSIPHY_DNP_PARAMS        4
+>>   #define CSIPHY_2PH_REGS            5
+>>   #define CSIPHY_3PH_REGS            6
+>> +#define CSIPHY_SKEW_CAL            7
+> 
+> This one is not needed, having CSIPHY_DNP_PARAMS only is good enough.
+> 
+>>   struct csiphy_lane_regs {
+>>       s32 reg_addr;
+>> @@ -423,6 +424,130 @@ csiphy_lane_regs lane_regs_sm8550[] = {
+>>       {0x0C64, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>>   };
+>> +/* 4nm 2PH v 2.1.2 2p5Gbps 4 lane DPHY mode */
+>> +static const struct
+>> +csiphy_lane_regs lane_regs_x1e80100[] = {
+>> +    /* Power up lanes 2ph mode */
+>> +    {0x1014, 0xD5, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x101C, 0x7A, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x1018, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +
+>> +    {0x0094, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x00A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0090, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0098, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0094, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0030, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0000, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x001C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0020, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0008, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+>> +    {0x0010, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0094, 0xD7, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x005C, 0x00, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0060, 0xBD, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0064, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0064, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+> 
+> Double write record, which is anyway ignored, but one should
+> be enough.
 
-Why ?
+Yes except having the SKEW_CAL definition allows us to import the 
+downstream init sequence unmodified.
 
-I think the patches should be re-checked and it's fair to ask to drop
-the rb tag. But the idea that patches once reviewed should not be
-modified between two different versions of the same set seems really..
-debatable ?
+>> +
+>> +    {0x0E94, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0EA0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E90, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E98, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E94, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E30, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E28, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E00, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E0C, 0xFF, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E38, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E2C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E34, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E1C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E14, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E3C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E04, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E20, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E08, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+>> +    {0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+> 
+> Writing the same value to a register 4 times in a row, apparently
+> it's not needed, one time write is sufficient.
 
->
-> Best regards,
-> Krzysztof
->
+To be honest I just took the downstream sequence verbatim.
+
+I'll see if the 4 x has an effect though.
+
+>> +
+>> +    {0x0494, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x04A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0490, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0498, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0494, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0430, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0400, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0434, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x041C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0420, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0408, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+>> +    {0x0410, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0494, 0xD7, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x045C, 0x00, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0460, 0xBD, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0464, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0464, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+> 
+> Two equal "ignored" writes.
+
+Again I think these init sequences "do no harm" and its at least 
+possible we can improve the logic of our upstream init sequences to make 
+these NOPs mean more...
+
+At they very least they consume time in the APSS wrt the next writes..
+
+
+> 
+>> +
+>> +    {0x0894, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x08A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0890, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0898, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0894, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0830, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0800, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0838, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x082C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0834, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x081C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0814, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x083C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0804, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0820, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0808, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+>> +    {0x0810, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0894, 0xD7, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x085C, 0x00, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0860, 0xBD, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0864, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0864, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+> 
+> Two equal "ignored" writes.
+> 
+>> +
+>> +    {0x0C94, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0CA0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C90, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C98, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C94, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C30, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C00, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C38, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C2C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C34, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C1C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C14, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C3C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C04, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C20, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C08, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+>> +    {0x0C10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+>> +    {0x0C94, 0xD7, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0C5C, 0x00, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0C60, 0xBD, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0C64, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+>> +    {0x0C64, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+> 
+> Two equal "ignored" writes.
+> 
+>> +};
+>> +
+>>   static void csiphy_hw_version_read(struct csiphy_device *csiphy,
+>>                      struct device *dev)
+>>   {
+>> @@ -594,6 +719,7 @@ static void csiphy_gen2_config_lanes(struct 
+>> csiphy_device *csiphy,
+>>               val = settle_cnt & 0xff;
+>>               break;
+>>           case CSIPHY_DNP_PARAMS:
+>> +        case CSIPHY_SKEW_CAL:
+> 
+> Having CSIPHY_DNP_PARAMS is good enough, no need to add another
+> "dummy" write type.
+
+True but, I'd like to be able to bring in unmodified init sequences from 
+downstream.
+
+I think there is value in being able to setup the PHYs in the exact same 
+configuration.
+
+So, I think we should keep the SKEW_CAL support and I'm open to 
+experiment reducing repeated DNP/SKEW downwards, perhaps defining a real 
+number for the delay instead.
+
+---
+bod
 
