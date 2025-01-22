@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-25163-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25164-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE46A196F1
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 17:54:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF0AA196F2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 17:54:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 165C916B41B
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 16:54:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9C601686D1
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 16:54:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5727921507C;
-	Wed, 22 Jan 2025 16:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BCBA215176;
+	Wed, 22 Jan 2025 16:54:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="YOJPP/8j";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qFCsr/XT"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="DAOdgQzD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CYwI+x3q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11681215172;
-	Wed, 22 Jan 2025 16:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC2E21516A;
+	Wed, 22 Jan 2025 16:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737564876; cv=none; b=t5VDc5XxUphyCZazJKsBiG0GmophqideOgSGY/g7w94HAVr4v2fJ4iB3qtQ2VrnYvfLKHORLbLtN/F4gko/auMsMUCAZoNAKGCIpbvjMl9SvsSnV3UJo0eJigxR+A0VODZKA8hPMjq6m0Nyc0mRZ2YMGnSBdiMbJ0M2VYKDk9Ps=
+	t=1737564879; cv=none; b=Kxv7Jbw7YDmTNIkmxJOU55RjWSO0GNN4CkF8nIGysqYoBH4ENIWMMQozEGZC1FKHpjDBJ1nd0GDcJvU3O/OgpxdQk81loj2SF5nQtC7k6KB9Ae68u62ydfEdBibvxjAGfp590qsy41e8c3Kq1CqkpM7n2h2QKZXdu+aowQD7hHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737564876; c=relaxed/simple;
-	bh=DYCm1zJzYo5NcMshAqHzkLg+VVPAeVP+9FF2Ul7oDSM=;
+	s=arc-20240116; t=1737564879; c=relaxed/simple;
+	bh=Ccuo2mq1LuQHr+e4TdiNKfknAXdbMf65XTiKxzE7ETM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KpU0bMP79ndOvB/1cPzTMOO2WY2uAxpnHM0YbTq5I3Px4j5d8iaA5TtBMLJVEsYHB6IK1+GN/uaM7F5kZ7ZjAmvdeTSDVy+Cw409cbqPH1Lua09d3LUq6wHM72VNsgFpL1Q4r82myb6yGu7FoehKorh6NYB2gG1jXChXAh5Z75Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=YOJPP/8j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qFCsr/XT; arc=none smtp.client-ip=202.12.124.152
+	 MIME-Version:Content-Type; b=BWRclesl2pdgeq9blL/7gekp9oNrNJK5XU/EBtEe87nrraxFBfy5dyrAG7TrE6kOqAwxdlWzLGgTkymaV8YLRp/1exjOW07R5/3aCx+cEBY2LacJ6cUYF7F1bq/krfvz+t4a5DxB5l0O+tkknzgK4FtP3wFzGK/rV4eRExGXFRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=DAOdgQzD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CYwI+x3q; arc=none smtp.client-ip=202.12.124.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id F08502540148;
-	Wed, 22 Jan 2025 11:54:33 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 22 Jan 2025 11:54:34 -0500
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.stl.internal (Postfix) with ESMTP id 6070111401B0;
+	Wed, 22 Jan 2025 11:54:36 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Wed, 22 Jan 2025 11:54:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1737564873;
-	 x=1737651273; bh=PTZRoiIjD4yD4KVMlEgtRaAcraBCJAvziTqQxn5Asac=; b=
-	YOJPP/8jGqb6ajuKcMMGoTiZIUElXDFhrxq6I1MZiY65JU5TmikNHd68iUSX3Cal
-	b4+6iNLjWnpfA4Dou83ThW+k6OxM1jv7lCdvyPNTbqerP1zDFvvNTOyq1V733dOu
-	YAhd7tOWy7AM9zBKAmdF84gxhzh5YeNDwSCG5KtJWRvJBa2BwYHNgx/UHg0YfS2n
-	0Vp+hCLoyBHUWLvOfYxqBRG3Uv/Mg/ftRiV9nFGBUn4WbIwcYvqAKsR59n+5M1on
-	d1LKloJMn+WG3c4TcbBUiKNIXXaFwn9W+7vBxaAmlNTZ4NeERXNyK5ej9TKmuY0/
-	gsp09O8H7wntTgoACYIDEw==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1737564876;
+	 x=1737651276; bh=pXJn8/bP39TGwdBaVhH4ZLOX2mEgUTU+HWoOeLKZnKA=; b=
+	DAOdgQzDPnM/OE9eBU4jC+XsT8HyF3jJ5AQG2mOqwJmMJp0o483suIWMpsGfY60N
+	xsUHAN6QnYo2mPqH014V97IqyYtWEOpalTw2vDXw23wp230BuZrwvTOftbTioKa+
+	Ct/uL3U44ddgpThCwQIR1nxslo+wxWIymXIh97TdqmAvCfABNz2txqKQ95cpFO7e
+	z8YQNDIgzXOlIgwoVsKm7ZFPtbDOE5LKmngiSG/1g9oiNAj54qUjd+MvuU5M64Wv
+	516Eflva/Ac9OcS9/2WzgUEq+Orkwa3LIJB+X4xD/B4e+fjS/F3v2rlnyv8A2EYA
+	CJ5NZYAbxmUUP3Dqh7QnTQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737564873; x=
-	1737651273; bh=PTZRoiIjD4yD4KVMlEgtRaAcraBCJAvziTqQxn5Asac=; b=q
-	FCsr/XTKhWL1bKcjWYVWI98YimTim1bjqj+TkAqU7FN+fji4BkU8JGK8LqPOS0b4
-	AOOpqPrhqD3pjKaRt4NRJNblBYY54I4pU+rl3pEja7PqLn0cMRp5ovJFKauZEVMa
-	ocrFifpWgqMt4BLKlBSBjn/RznQCN5fv0TOtzASwZhCQuit3a08olycSV5Ttbo7i
-	6ytOTkDi4gDFWQ95mmHRaba9O0Us78F4iMfldfFjGDk59a75Kj+J11O8YarA8Yt0
-	Y6B16ZWZWRz5QDqEpSizIwglc+9F3ujgyFIHgMOD23/h2f1wyjGz79rlty3E+lT/
-	iMyRqkFDTLmi5bXLHvXcA==
-X-ME-Sender: <xms:ySKRZzGBTKfWfGYjo7GHu8OKDdzqLpYYwgwuXjXXLgd6PY6RAI1fiA>
-    <xme:ySKRZwUkx9bKm-8iU1s0_LHY5hNtjB0aUunFYmhbidZ9Ke9HTnn768b8eDl7HBVej
-    OyyTRkE9wXGRiIv9wY>
-X-ME-Received: <xmr:ySKRZ1IsI9-6z1U1OGSqd5MKDZPEcNqYLVQmQXV1Jl73j9svACUq5p7JlL0opFArMpH9-BbrUP5lMeHq9OohRDn_gg>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737564876; x=
+	1737651276; bh=pXJn8/bP39TGwdBaVhH4ZLOX2mEgUTU+HWoOeLKZnKA=; b=C
+	YwI+x3qTGT/GlP7cwX9fciKTryi/aZcalXkkAGzGQptdV8o/usXOvMH/3fvm6Fdp
+	ba8V0KMWRUsdbed11dMd4M1KMsyOtNKleAX/Tfj0EBCu/8rPp71MTI2h7JXyDbRi
+	QBNfCx9Q8Jpo/ztlwUGk+KZqMcLwmO/1YgFmLqIFBmpRtt6QMxLDFi9/7whB4XTA
+	FcY+PHXhHDPEhwox0US6xCBnGQq8sRd4AWJUyLdcTQlWd4gdJMQo7nGqs7AwpnFt
+	nmAVAJl5iM5QR+2gJDLx9P1mk4n6TEqfH8KT8Qh5N94OnjPRr1+uGKTrITjUh1Ao
+	cHEU20HSAR6HvyuiycQ6Q==
+X-ME-Sender: <xms:yyKRZ9IG5z79twBYuiNIbprOxzjUl0Nxtzyv5N2UWwKwr4Lf1Rn5Ow>
+    <xme:yyKRZ5KvDAYwdzsQEFU-yXEzYi5v9NTHbLmiOLObEnPqRQY0d1sxPctA-H7QK1Rfa
+    F4cgJTz0y7QZbhHBr0>
+X-ME-Received: <xmr:yyKRZ1tFHGc3qn7huqAhXWWHRYwEvMjxHf3UhV2z3ZyXwn-aphI7wNXNdTawFBdvZkdPXuxuhBDpyoGh5oO7JFa6BA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejfedgvddujecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
     uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejfedgvddujecutefuodetgg
     gidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtth
     hopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggt
     hhdrshgv
-X-ME-Proxy: <xmx:ySKRZxH3RtgYEPoJJFrTkavicagysj7MN1L7aGvC3WPW_8M2SoNroQ>
-    <xmx:ySKRZ5U8IJZ1qMoY2YFHD8vjlhdTLWumcyot8qdf2rQvrIoE2J6PVQ>
-    <xmx:ySKRZ8NFanInCIkEzjN4DaUajdT-pu2hC4RF-gMZgVl571PLnGZySA>
-    <xmx:ySKRZ413Tg7p_fTXke79Phx8t6fMJ6RnCjfil6mW1RHAmbh0z1WC_g>
-    <xmx:ySKRZ7KUEKkPhxPpAOLp5X76ZNVhBuvHMXx3a_Ot9y5DJMz1JGTLGOM7>
+X-ME-Proxy: <xmx:zCKRZ-a1IGxD5XN1pGWR6U-kJJcP9BSxZzhlCexeTpBxsUhcJMafog>
+    <xmx:zCKRZ0bbpc38e34CyIcwPQaBgbHLM-CsPqt2QXXm1fLo9-KV5odCew>
+    <xmx:zCKRZyDdDexENfhGTOm2znCFJWiJSGr7Yfe0HAORODzxRrxqqkDEow>
+    <xmx:zCKRZyZ4rwJwRBwM9AkCgd0mekcY0UlsBNfHGRDNnPVUGoZ8Luh3Ww>
+    <xmx:zCKRZ5PES0lO8oHtuQVO-uYRNyXSIqAsewQjs_Ae1vJpv591HvQ9XLho>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jan 2025 11:54:33 -0500 (EST)
+ 22 Jan 2025 11:54:35 -0500 (EST)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -97,9 +97,9 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 3/5] media: rcar-vin: Remove superfluous starting state
-Date: Wed, 22 Jan 2025 17:53:51 +0100
-Message-ID: <20250122165353.1273739-4-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 4/5] media: rcar-vin: Simplify the shutdown process
+Date: Wed, 22 Jan 2025 17:53:52 +0100
+Message-ID: <20250122165353.1273739-5-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
@@ -112,70 +112,246 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The STARTING state is superfluous and can be replaced with a check of
-the sequence counter. The design idea is that the first buffer returned
-from the driver have to come from the first hardware buffer slot.
-Failing this the first 3 buffers queued to the device can be returned
-out-of-order.
+When shutting down capture extra care was needed to try and complete a
+buffer that was involved in the emulated support for SEQ_{TB,BT}. This
+was needed as a buffer might be queued once to the driver, but two times
+to the hardware using different offsets.
 
-But it's much clearer to check the sequence counter to only return the
-first buffer if it comes from hardware slot 0 then it is to carry around
-an extra state just for this. Remove the unneeded state and replace it
-with a simpler check.
+As support for SEQ_{TB,BT} is now removed this shutdown process can be
+greatly simplified. And in addition the state keeping of the VIN device
+can be reduced to a single boolean value instead of keeping track of
+this SEQ_{TB,BT} stopping dance.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 5 ++---
- drivers/media/platform/renesas/rcar-vin/rcar-vin.h | 2 --
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ .../platform/renesas/rcar-vin/rcar-core.c     |  4 +-
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 75 ++++++-------------
+ .../platform/renesas/rcar-vin/rcar-vin.h      | 18 +----
+ 3 files changed, 26 insertions(+), 71 deletions(-)
 
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+index b8e35ef4d9d8..cfbc9ec27706 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+@@ -1080,7 +1080,7 @@ static int __maybe_unused rvin_suspend(struct device *dev)
+ {
+ 	struct rvin_dev *vin = dev_get_drvdata(dev);
+ 
+-	if (vin->state != RUNNING)
++	if (!vin->running)
+ 		return 0;
+ 
+ 	rvin_stop_streaming(vin);
+@@ -1092,7 +1092,7 @@ static int __maybe_unused rvin_resume(struct device *dev)
+ {
+ 	struct rvin_dev *vin = dev_get_drvdata(dev);
+ 
+-	if (vin->state != RUNNING)
++	if (!vin->running)
+ 		return 0;
+ 
+ 	/*
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index a16adc6fd4dc..ba55ccf648de 100644
+index ba55ccf648de..3eb6b5fcac89 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -1064,7 +1064,7 @@ static int rvin_capture_start(struct rvin_dev *vin)
+@@ -1022,8 +1022,7 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
+ 	if (WARN_ON(vin->buf_hw[slot].buffer))
+ 		return;
+ 
+-	if ((vin->state != STOPPED && vin->state != RUNNING) ||
+-	    list_empty(&vin->buf_list)) {
++	if (list_empty(&vin->buf_list)) {
+ 		vin->buf_hw[slot].buffer = NULL;
+ 		phys_addr = vin->scratch_phys;
+ 	} else {
+@@ -1064,8 +1063,6 @@ static int rvin_capture_start(struct rvin_dev *vin)
  	/* Continuous Frame Capture Mode */
  	rvin_write(vin, VNFC_C_FRAME, VNFC_REG);
  
--	vin->state = STARTING;
-+	vin->state = RUNNING;
- 
+-	vin->state = RUNNING;
+-
  	return 0;
  }
-@@ -1120,14 +1120,13 @@ static irqreturn_t rvin_irq(int irq, void *data)
- 	 * To hand buffers back in a known order to userspace start
- 	 * to capture first from slot 0.
- 	 */
--	if (vin->state == STARTING) {
-+	if (!vin->sequence) {
- 		if (slot != 0) {
- 			vin_dbg(vin, "Starting sync slot: %d\n", slot);
- 			goto done;
- 		}
  
- 		vin_dbg(vin, "Capture start synced!\n");
--		vin->state = RUNNING;
+@@ -1106,9 +1103,9 @@ static irqreturn_t rvin_irq(int irq, void *data)
+ 	if (!(int_status & VNINTS_FIS))
+ 		goto done;
+ 
+-	/* Nothing to do if capture status is 'STOPPED' */
+-	if (vin->state == STOPPED) {
+-		vin_dbg(vin, "IRQ while state stopped\n");
++	/* Nothing to do if not running. */
++	if (!vin->running) {
++		vin_dbg(vin, "IRQ while not running, ignoring\n");
+ 		goto done;
  	}
  
- 	/* Capture frame */
+@@ -1389,6 +1386,8 @@ int rvin_start_streaming(struct rvin_dev *vin)
+ 	if (ret)
+ 		rvin_set_stream(vin, 0);
+ 
++	vin->running = true;
++
+ 	spin_unlock_irqrestore(&vin->qlock, flags);
+ 
+ 	return ret;
+@@ -1421,44 +1420,21 @@ static int rvin_start_streaming_vq(struct vb2_queue *vq, unsigned int count)
+ 
+ void rvin_stop_streaming(struct rvin_dev *vin)
+ {
+-	unsigned int i, retries;
+ 	unsigned long flags;
+-	bool buffersFreed;
+ 
+ 	spin_lock_irqsave(&vin->qlock, flags);
+ 
+-	if (vin->state == STOPPED) {
++	if (!vin->running) {
+ 		spin_unlock_irqrestore(&vin->qlock, flags);
+ 		return;
+ 	}
+ 
+-	vin->state = STOPPING;
+-
+-	/* Wait until only scratch buffer is used, max 3 interrupts. */
+-	retries = 0;
+-	while (retries++ < RVIN_RETRIES) {
+-		buffersFreed = true;
+-		for (i = 0; i < HW_BUFFER_NUM; i++)
+-			if (vin->buf_hw[i].buffer)
+-				buffersFreed = false;
+-
+-		if (buffersFreed)
+-			break;
+-
+-		spin_unlock_irqrestore(&vin->qlock, flags);
+-		msleep(RVIN_TIMEOUT_MS);
+-		spin_lock_irqsave(&vin->qlock, flags);
+-	}
+-
+ 	/* Wait for streaming to stop */
+-	retries = 0;
+-	while (retries++ < RVIN_RETRIES) {
+-
++	for (unsigned int i = 0; i < RVIN_RETRIES; i++) {
+ 		rvin_capture_stop(vin);
+ 
+ 		/* Check if HW is stopped */
+ 		if (!rvin_capture_active(vin)) {
+-			vin->state = STOPPED;
+ 			break;
+ 		}
+ 
+@@ -1467,32 +1443,25 @@ void rvin_stop_streaming(struct rvin_dev *vin)
+ 		spin_lock_irqsave(&vin->qlock, flags);
+ 	}
+ 
+-	if (!buffersFreed || vin->state != STOPPED) {
+-		/*
+-		 * If this happens something have gone horribly wrong.
+-		 * Set state to stopped to prevent the interrupt handler
+-		 * to make things worse...
+-		 */
+-		vin_err(vin, "Failed stop HW, something is seriously broken\n");
+-		vin->state = STOPPED;
+-	}
++	if (rvin_capture_active(vin))
++		vin_err(vin, "Hardware did not stop\n");
++
++	vin->running = false;
+ 
+ 	spin_unlock_irqrestore(&vin->qlock, flags);
+ 
+-	/* If something went wrong, free buffers with an error. */
+-	if (!buffersFreed) {
+-		return_unused_buffers(vin, VB2_BUF_STATE_ERROR);
+-		for (i = 0; i < HW_BUFFER_NUM; i++) {
+-			if (vin->buf_hw[i].buffer)
+-				vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
+-						VB2_BUF_STATE_ERROR);
+-		}
+-	}
+-
+ 	rvin_set_stream(vin, 0);
+ 
+ 	/* disable interrupts */
+ 	rvin_disable_interrupts(vin);
++
++	/* Return unprocessed buffers from hardware. */
++	for (unsigned int i = 0; i < HW_BUFFER_NUM; i++) {
++		if (vin->buf_hw[i].buffer)
++			vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
++					VB2_BUF_STATE_ERROR);
++	}
++
+ }
+ 
+ static void rvin_stop_streaming_vq(struct vb2_queue *vq)
+@@ -1538,8 +1507,6 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+ 
+ 	spin_lock_init(&vin->qlock);
+ 
+-	vin->state = STOPPED;
+-
+ 	for (i = 0; i < HW_BUFFER_NUM; i++)
+ 		vin->buf_hw[i].buffer = NULL;
+ 
+@@ -1642,7 +1609,7 @@ void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
+ 
+ 	vin->alpha = alpha;
+ 
+-	if (vin->state == STOPPED)
++	if (!vin->running)
+ 		goto out;
+ 
+ 	switch (vin->format.pixelformat) {
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index 4cb25d8bbf32..f13ef379d095 100644
+index f13ef379d095..934474d2334a 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -64,13 +64,11 @@ enum rvin_isp_id {
+@@ -61,18 +61,6 @@ enum rvin_isp_id {
+ 	(((unsigned int)RVIN_CSI_MAX) > ((unsigned int)RVIN_ISP_MAX) ? \
+ 	 (unsigned int)RVIN_CSI_MAX : (unsigned int)RVIN_ISP_MAX)
+ 
+-/**
+- * enum rvin_dma_state - DMA states
+- * @STOPPED:   No operation in progress
+- * @RUNNING:   Operation in progress have buffers
+- * @STOPPING:  Stopping operation
+- */
+-enum rvin_dma_state {
+-	STOPPED = 0,
+-	RUNNING,
+-	STOPPING,
+-};
+-
  /**
-  * enum rvin_dma_state - DMA states
-  * @STOPPED:   No operation in progress
-- * @STARTING:  Capture starting up
-  * @RUNNING:   Operation in progress have buffers
-  * @STOPPING:  Stopping operation
-  */
- enum rvin_dma_state {
- 	STOPPED = 0,
--	STARTING,
- 	RUNNING,
- 	STOPPING,
- };
+  * struct rvin_video_format - Data format stored in memory
+  * @fourcc:	Pixelformat
+@@ -173,11 +161,11 @@ struct rvin_info {
+  * @scratch:		cpu address for scratch buffer
+  * @scratch_phys:	physical address of the scratch buffer
+  *
+- * @qlock:		protects @buf_hw, @buf_list, @sequence and @state
++ * @qlock:		Protects @buf_hw, @buf_list, @sequence and @running
+  * @buf_hw:		Keeps track of buffers given to HW slot
+  * @buf_list:		list of queued buffers
+  * @sequence:		V4L2 buffers sequence number
+- * @state:		keeps track of operation state
++ * @running:		Keeps track of if the VIN is running
+  *
+  * @is_csi:		flag to mark the VIN as using a CSI-2 subdevice
+  * @chsel:		Cached value of the current CSI-2 channel selection
+@@ -220,7 +208,7 @@ struct rvin_dev {
+ 	} buf_hw[HW_BUFFER_NUM];
+ 	struct list_head buf_list;
+ 	unsigned int sequence;
+-	enum rvin_dma_state state;
++	bool running;
+ 
+ 	bool is_csi;
+ 	unsigned int chsel;
 -- 
 2.48.1
 
