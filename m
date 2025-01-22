@@ -1,78 +1,80 @@
-Return-Path: <linux-media+bounces-25136-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25137-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C599FA192C5
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 14:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F43A192E8
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 14:48:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E9EC1883ACD
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 13:41:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D2AC188D76D
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 13:48:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9B021325C;
-	Wed, 22 Jan 2025 13:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6E4F2139B6;
+	Wed, 22 Jan 2025 13:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f79E9XLu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W4JDuP0V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B86E2EB11
-	for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 13:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974FB211A11
+	for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 13:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737553298; cv=none; b=AkWXqh/h6npIpOmZeJzKFcvZr6ze+Z2t6XOvNaOMeK0md57AkBFiAA7dJDGaDjMO+q3gjal+eZ5T4JAYN35KR0z2fFbZhuIsRPGUjT0IYLhgPvJ0PXeDjCuANYVPHuBbc5h9apl9BMIN6iH6E7ybQRgQiq1bHXEcVEXEVwVlsvc=
+	t=1737553693; cv=none; b=jzFgddpgqEkS+mDdQidfWneOxghfPN1fx38VK8YOsbRm/Ju2ln55grNFt9fGXT3SSPF96CMguXVVrxRLDzz7HHVaMaBrqqsrtwDarOrLs+6hSsJloT2ioC7TwjF5A3iIWO6GJ0nbsmvaaU73LzJeinBYgCxV4g0/gZ7AI9n/A74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737553298; c=relaxed/simple;
-	bh=Wgk8zZZUNvg9MP1jdfxaZ+8M8oxx6ykIpXlu++Rubog=;
+	s=arc-20240116; t=1737553693; c=relaxed/simple;
+	bh=6aDyKZht7twJt7R8q83/t3Pg0FR7pqD4i2CiZ3cCu/M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HLHjTfgG+nE9JXRr064VmNVOnQh9XkIi4zseUW5E8u64gT0idS8/7Nb88Lic/3NP8sPULU0lKPaSDyIMc+qppaC8sz8CiDPnp0E19SYJzw2NpZSn5WBgSqN1Dlnr1/xZ6aBIfT79wlrS5SieMh97NYTXfNMtZliIkRk+BKz8wIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f79E9XLu; arc=none smtp.client-ip=209.85.128.48
+	 In-Reply-To:Content-Type; b=vGd4oM6uJdDOBKgKCTqsj9snGGkIPBRzEAXcV0Vc1c4ELjqv1yCEI39Nq9QIU2q1TSAY4XSbjQ90iTe+wUyEKi0xsDORn7lhxyMf8nQmErjFaYlNTcXAuvkyBKQ+l6CYx7WAWIj0q5jNhOBaH1P0UYwtKpzsODd17fjYYSBlztU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W4JDuP0V; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43635796b48so6171275e9.0
-        for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 05:41:36 -0800 (PST)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43620a5f81bso6359785e9.0
+        for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 05:48:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737553295; x=1738158095; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Tv7xQXPsVhsp/qFSdjJTcBJiPV5vkVbgwyiggEpJzIg=;
-        b=f79E9XLuSx9ZqgyFkjag4/fpgDnzIMdv5iC3+a/Lo/xHRvMIAWikeFEFSWXbEIcSd9
-         fltmJAiNqDC8njTrN1aW7AMd7HRqc3FDxA0mxfUEUZMeklkdKd/lRC7TGKrqgtzu4VSj
-         RLHGUy3NUl4+D7J4/c9ZaZsuXJ7k1Al5JTyf/fB0zZKiyF3RzSxiapmAQcLxw0D8QTkO
-         teDcsbPdxExTwI/iATN204/EndsJJbA+N3yOn1Q4RL4G6qS7O7GzPsmUSnldkr4M+wFg
-         56sckO/euI/8H6hXXoZSf/7v47itFWhexxgmyYsSrzQJDerMnFwkMi7OOcRyz7wNFbsB
-         o1Hg==
+        d=linaro.org; s=google; t=1737553690; x=1738158490; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=lbWUQKHioaijJX1vPquN7hu8J86z5Wa8QMPeH6SO2Nc=;
+        b=W4JDuP0VxBZq75zE0cJHmdtXCyzOq+xfZYuCFMbW1muQSlWrDLlNGtEqg+DTWnokC9
+         v6agIz1Xt0HVKqKPY4507FlfQQB8wPCNIbJ0pyaqg8ockIqLVPjg0G6n97MZY4ZRQkh6
+         R/ttfIUzziQgmaWEcRCO5scsRtFvHK8JMiT7SrcG5PS+k4kqLhRGcpyN8j6+4XaPccVF
+         t5yT5vZ168G/ocwE45efzmRImVTf3s1S/m1TugoMPhnPrp2lhAZZG1rl97xWgngJOQYI
+         k2l7+oZ8iy9RmMCCs1qEIt8FqGDWO9QOPs81DcosctpYicDGi6Rrqqox5IY6zUT5rHu0
+         WANg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737553295; x=1738158095;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tv7xQXPsVhsp/qFSdjJTcBJiPV5vkVbgwyiggEpJzIg=;
-        b=O0DsUhVcQPUjdUpFSqI96UtghBFU1p3A4xEGpbSPrFd8oOqwuFpnjcdWoWBo5+SRSc
-         gGKKjlOwF4E1dBYfmbh9OIsfnFdYbBZF9vYILoDt3fyUt22MWj8Cf69dt3FZ4cyztEaO
-         R6uH18D4BdnrBhmAVBDV/1XUDAO+l079gK8PsO7eZxB0WzVPjAMcKfRF4pnGVnpYmFy2
-         f0xGPLaCohFus+Bux6IQWeiWVi//lWIlML5jsl8UspbHKkkD+U8DJ+PqXDsiTth+bCPM
-         Na1Vs4s/E6izZcc6OeFwUCNDbIU+llEiMm5CRkje7C/HgQ7DV3ukiPmCnxahNKKI729X
-         XVqg==
-X-Gm-Message-State: AOJu0YwBbja2vOFx9xO7O4B+JePpypbem6tyK1GCe03zciAw2eSrE81k
-	UuRpJfKk1WLV2ONGayFmG+ban4pJzS0m9R2uC/QzKOyeBEzXWHSquFoz4Uns9Dk=
-X-Gm-Gg: ASbGncuEs/5oZysouoWZlOLqbgYEzykxzTxyAieO55qRkLIRrakska6NBZzSoBpWjqo
-	oIIOQOGtbG7HQxXOdSN6YXpOsA4+2utufVecu/sKqWq36+t/kcX8ett0diUu+r1H9mS9M3XYEmp
-	Rp3Vjo5T+5fXyf/JCQwqOC5xdvUZmioR7WMP/Q+pI2TqEhugVVPmObsCaHISECshN8KkxB2pLvi
-	vTrjAy3uWa7IFTpM8NCwWme9a36GsFNdJ+FThnxvvkjMkSDcoOyRibjCIkwFzbr+7sNIB3RAbIQ
-	8SyUHV8=
-X-Google-Smtp-Source: AGHT+IGuPXvmCQONvi9I2qMckgrQaufMKySAeB9Dd+evPEakzske0rFxtu9ojMMm8/alwj20y1oEBA==
-X-Received: by 2002:a05:600c:1381:b0:434:fc5d:179c with SMTP id 5b1f17b1804b1-43891905c1fmr196346695e9.13.1737553294654;
-        Wed, 22 Jan 2025 05:41:34 -0800 (PST)
-Received: from [192.168.0.35] ([176.61.106.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b31df435sm25438275e9.34.2025.01.22.05.41.33
+        d=1e100.net; s=20230601; t=1737553690; x=1738158490;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lbWUQKHioaijJX1vPquN7hu8J86z5Wa8QMPeH6SO2Nc=;
+        b=nNb/oFiXwSzuWBVYOLlETcSAQIO0wboehTvRyaWmvooTyb5iF1KHMSsKGW1IlD9F5m
+         /Fj7aswMk9PFR+85q0ZbSMEL6RQwPIXGcom1jfUNU1UlquP6V5CaMUEpEkhgULzunNd5
+         in6Yvo+2SASBKm7XfFdIRlopX1yV1A/M7t8mYIm9w2fWPgDjJ9pAad0CGG0CCcL656as
+         P7pAyDrmIpBzKyn8DshjCzmklTnTTgdR428iK85yFknJMimGrsJNF5UNVqwNoojRaVdV
+         YVBqTCSUw/6IsVeH0N+ID8gEPQe4SJ78rtNUrmzj62/KXYbdWizpA1y8Bk/6h1+EpDkJ
+         RVyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVtm0FqFU4YSsSI7GL/jRC7gU9KPwJu1dJ89BzTM2NyEh4DblUdx6Ec3JuPffeRyFRo2OG4LZs6Q4g4CA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YztkBWvLXQ+6pb+/HPSog75rmmBLIFcGYtG4vuC1URt7JQURK3l
+	abhwKkGDWBJ6zqfg+zWEYMyAnzbdNRdP9qZWQxGFSulfoAwJrCVDGDuXCJKLxtA=
+X-Gm-Gg: ASbGncvoKcVnjVXIaQbQu2/A2XcStsl4R9hVIUbmQd7LEytxluldM1mlcZSntkTn9Aa
+	cMYKk2NbfoPZc8FTBFGGyFAErbTItgSGCobLaMNzGcxcCdvj5BXeu8gcYHqRctphW+N6Y8rj7Hc
+	9U+/9H7Ralf/Qn6zqtkD6FPI0iQmGppG9pagWf2ikewmG/Ldg7LWltBml+idDv0rtIFqHxLdM6H
+	WMrvVGE57v/CXSbcFOGOHKAX4dCYg3wDuHVy5XAhVxfzF+8YMWnvd8MRQZW4SoP6t5SXKo89gwz
+	rg1bIPrgZ3Yndg==
+X-Google-Smtp-Source: AGHT+IH/yVTpYGbu8rv8ePnnKHjmRp2BXhI3bLKGPMnfv+TqcCSWXgOS1bKVPugIOH5MwqorC0BHFA==
+X-Received: by 2002:a05:600c:4743:b0:434:fecf:cb2f with SMTP id 5b1f17b1804b1-43891460b86mr78012635e9.5.1737553689798;
+        Wed, 22 Jan 2025 05:48:09 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b318c004sm25521825e9.4.2025.01.22.05.48.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2025 05:41:34 -0800 (PST)
-Message-ID: <ff081020-6e6f-472e-823a-12b2cd2c9a72@linaro.org>
-Date: Wed, 22 Jan 2025 13:41:33 +0000
+        Wed, 22 Jan 2025 05:48:09 -0800 (PST)
+Message-ID: <fd993f74-1d95-4cb8-b6d4-dfbe0931a03d@linaro.org>
+Date: Wed, 22 Jan 2025 14:48:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,237 +82,102 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] media: qcom: camss: csiphy-3ph: Add 4nm CSIPHY 2ph
- 5Gbps DPHY v2.1.2 init sequence
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Depeng Shao <quic_depengs@quicinc.com>,
- Vikram Sharma <quic_vikramsa@quicinc.com>
-References: <20250120-linux-next-25-01-19-x1e80100-camss-driver-v1-0-44c62a0edcd2@linaro.org>
- <20250120-linux-next-25-01-19-x1e80100-camss-driver-v1-6-44c62a0edcd2@linaro.org>
- <00989990-85dd-46d7-a100-c986fc1fb066@linaro.org>
+Subject: Re: [PATCH v5 01/10] dt-bindings: media: Add
+ amlogic,c3-mipi-csi2.yaml
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Keke Li <keke.li@amlogic.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+ dan.scally@ideasonboard.com
+References: <20241227-c3isp-v5-0-c7124e762ff6@amlogic.com>
+ <20241227-c3isp-v5-1-c7124e762ff6@amlogic.com>
+ <712ed366-233d-477b-b760-907b3d77a7db@linaro.org>
+ <002e2ffc-3ef7-41aa-846f-3900694de675@amlogic.com>
+ <htggncswmu7on2btxkkzvhgrey3yvafjsedtpx3a5ze2gtyxb3@ecyuawmn6q2v>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <00989990-85dd-46d7-a100-c986fc1fb066@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <htggncswmu7on2btxkkzvhgrey3yvafjsedtpx3a5ze2gtyxb3@ecyuawmn6q2v>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 22/01/2025 00:29, Vladimir Zapolskiy wrote:
-> Hi Bryan.
-> 
-> On 1/20/25 17:47, Bryan O'Donoghue wrote:
->> For various SoC skews at 4nm CSIPHY 2.1.2 is used. Add in the init 
->> sequence
->> with base control reg offset of 0x1000.
+On 22/01/2025 14:36, Jacopo Mondi wrote:
+>>>> +  assigned-clocks: true
+>>>> +
+>>>> +  assigned-clock-rates: true
+>>> NAK
+>>>
+>>> Adding new properties *INVALIDATES REVIEW*. Otherwise you can sneak
+>>> whatever crap past reviewers.
+>>>
+>>> Drop all new properties and drop my review tag.
 >>
->> This initial version will support X1E80100. Take the silicon verification
->> PHY init parameters as a first/best guess pass.
 >>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 126 +++++++++++ 
->> ++++++++++
->>   1 file changed, 126 insertions(+)
+>> OK, will drop all new properties and drop your review tag. Thanks
 >>
->> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c 
->> b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> index b44939686e4bb..fc624a3da1c43 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> @@ -55,6 +55,7 @@
->>   #define CSIPHY_DNP_PARAMS        4
->>   #define CSIPHY_2PH_REGS            5
->>   #define CSIPHY_3PH_REGS            6
->> +#define CSIPHY_SKEW_CAL            7
 > 
-> This one is not needed, having CSIPHY_DNP_PARAMS only is good enough.
-> 
->>   struct csiphy_lane_regs {
->>       s32 reg_addr;
->> @@ -423,6 +424,130 @@ csiphy_lane_regs lane_regs_sm8550[] = {
->>       {0x0C64, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
->>   };
->> +/* 4nm 2PH v 2.1.2 2p5Gbps 4 lane DPHY mode */
->> +static const struct
->> +csiphy_lane_regs lane_regs_x1e80100[] = {
->> +    /* Power up lanes 2ph mode */
->> +    {0x1014, 0xD5, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x101C, 0x7A, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x1018, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +
->> +    {0x0094, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x00A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0090, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0098, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0094, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0030, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0000, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x001C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0020, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0008, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
->> +    {0x0010, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0094, 0xD7, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x005C, 0x00, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0060, 0xBD, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0064, 0x7F, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0064, 0x7F, 0x00, CSIPHY_SKEW_CAL},
-> 
-> Double write record, which is anyway ignored, but one should
-> be enough.
+> Krzysztof why should new properties added in-between two revisions be
+> dropped ?
 
-Yes except having the SKEW_CAL definition allows us to import the 
-downstream init sequence unmodified.
+You connected two independent issues.
 
->> +
->> +    {0x0E94, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0EA0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E90, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E98, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E94, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E30, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E28, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E00, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E0C, 0xFF, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E38, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E2C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E34, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E1C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E14, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E3C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E04, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E20, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E08, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
->> +    {0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-> 
-> Writing the same value to a register 4 times in a row, apparently
-> it's not needed, one time write is sufficient.
-
-To be honest I just took the downstream sequence verbatim.
-
-I'll see if the 4 x has an effect though.
-
->> +
->> +    {0x0494, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x04A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0490, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0498, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0494, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0430, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0400, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0434, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x041C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0420, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0408, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
->> +    {0x0410, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0494, 0xD7, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x045C, 0x00, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0460, 0xBD, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0464, 0x7F, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0464, 0x7F, 0x00, CSIPHY_SKEW_CAL},
-> 
-> Two equal "ignored" writes.
-
-Again I think these init sequences "do no harm" and its at least 
-possible we can improve the logic of our upstream init sequences to make 
-these NOPs mean more...
-
-At they very least they consume time in the APSS wrt the next writes..
-
+It is not that some new properties should be dropped, because I don't
+like new stuff. It's that these two particular properties - added in
+this version, but that's coincidence - are not appropriate and should be
+dropped because of that reason: not appropriateness.
 
 > 
->> +
->> +    {0x0894, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x08A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0890, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0898, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0894, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0830, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0800, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0838, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x082C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0834, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x081C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0814, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x083C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0804, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0820, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0808, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
->> +    {0x0810, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0894, 0xD7, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x085C, 0x00, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0860, 0xBD, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0864, 0x7F, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0864, 0x7F, 0x00, CSIPHY_SKEW_CAL},
-> 
-> Two equal "ignored" writes.
-> 
->> +
->> +    {0x0C94, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0CA0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C90, 0x0f, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C98, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C94, 0x07, 0x01, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C30, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C00, 0x8E, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C38, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C2C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C34, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C1C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C14, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C3C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C04, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C20, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C08, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
->> +    {0x0C10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
->> +    {0x0C94, 0xD7, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0C5C, 0x00, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0C60, 0xBD, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0C64, 0x7F, 0x00, CSIPHY_SKEW_CAL},
->> +    {0x0C64, 0x7F, 0x00, CSIPHY_SKEW_CAL},
-> 
-> Two equal "ignored" writes.
-> 
->> +};
->> +
->>   static void csiphy_hw_version_read(struct csiphy_device *csiphy,
->>                      struct device *dev)
->>   {
->> @@ -594,6 +719,7 @@ static void csiphy_gen2_config_lanes(struct 
->> csiphy_device *csiphy,
->>               val = settle_cnt & 0xff;
->>               break;
->>           case CSIPHY_DNP_PARAMS:
->> +        case CSIPHY_SKEW_CAL:
-> 
-> Having CSIPHY_DNP_PARAMS is good enough, no need to add another
-> "dummy" write type.
+> I understand the "drop my tag if you make changes" but I don't get why
+> the newly added properties should be removed.
 
-True but, I'd like to be able to bring in unmodified init sequences from 
-downstream.
+They are neither needed, nor beneficial. Core schema provides them.
 
-I think there is value in being able to setup the PHYs in the exact same 
-configuration.
-
-So, I think we should keep the SKEW_CAL support and I'm open to 
-experiment reducing repeated DNP/SKEW downwards, perhaps defining a real 
-number for the delay instead.
-
----
-bod
+Best regards,
+Krzysztof
 
