@@ -1,79 +1,80 @@
-Return-Path: <linux-media+bounces-25157-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25158-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2F6A196A5
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 17:37:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9A7A196E1
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 17:51:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C980161FC4
-	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 16:37:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2B373AC7D6
+	for <lists+linux-media@lfdr.de>; Wed, 22 Jan 2025 16:51:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92DBE215180;
-	Wed, 22 Jan 2025 16:36:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C001C215048;
+	Wed, 22 Jan 2025 16:51:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/jYHykA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4Cnusl5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9922B215040
-	for <linux-media@vger.kernel.org>; Wed, 22 Jan 2025 16:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B021CEAA3;
+	Wed, 22 Jan 2025 16:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737563819; cv=none; b=T9SNYmlYg1mTUFUkIYCBEGrE0hLYzExd3Vd+FxZeeVPuHi+YOwNT47fSmzGXPpEbKUdz9horS72tbvv9KrsYp5hC9Wjy4z/aVJzNFsDbQQaAw3vrNURYsk4kBMvk/ewIhW8dwcUvXwJSEFUPkSGFwsH/TK/0J4X0MokXKaNum7Q=
+	t=1737564673; cv=none; b=iDPtNfrC4ua0bLej/PbAiszKo1kdWb3y2+bMMqosPvHsfwVqP4hZOuxVJCUgQBmcLN9QCfP7E9Uid5MJ1kk1RZVSd74+HA0sLO80G/Hi3zVwyQqj4nFfXnSvd75HVXdUJta7KIB7aU3J1noUI5I6ioVEZ4Un6gBuEhkhxx1f4Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737563819; c=relaxed/simple;
-	bh=MKn5xyewK87RdfFFhUfu9KuVcuAeU5ptMHV5Dh+qxIA=;
+	s=arc-20240116; t=1737564673; c=relaxed/simple;
+	bh=YZF0gXS7Vo7ZUd0U8hikjsStSWyyTZbMnAirh6mKhsI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=leTnE7PLPTeMcauZf/i15WCwvi2i25+rh2NIAYblrm9IEN4wCK8gkYa8Mc0tAdBlRZXEONNHHHJyasgrXQ6ibkPrzrZEDJeNQ9vuO27W5O5cwxt1AW12nucJXoqF6YIbuiix/N//NLW0Qsze8HNbYv5ee7HkhcR1YKZpJKsiJhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/jYHykA; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=N+aSBrxoyd33x3Frn2KTxbZ2ZU6tVacJTuKfkUblVbmcXAfQu6SdiN9P2kg3t47E2RYClNJHoFM2bYiKpFM39Eo33iOWKXbAauS+NPgAtrQ9mnzPWINb2IPZHbyMGqPIJpqm+wvsCV0qFSJ7+eMncoHDXfyfo++5QIEt7y+gUaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4Cnusl5; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737563818; x=1769099818;
+  t=1737564672; x=1769100672;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MKn5xyewK87RdfFFhUfu9KuVcuAeU5ptMHV5Dh+qxIA=;
-  b=K/jYHykAtryqgmjjQ9vzzMTRqCNWbiENoZ8QQfudhp42II8nl6MrJKTy
-   kaPL0ruJzxns2oEs4M0GK/0MCk2sUNgvjO4CzcKNg8Ld6TeAULHtJ7ck+
-   j7njyfNPJlegJVG4dkX9p3oYyWgGEVvELKUeW/+Ioib2wWqAuWO1c7ta3
-   vjOG33xTtBZfcA9IovHKlAsUtec8IWRZpy7A1MQNq2UHuMyl4TcLRQWTX
-   v+prBRPX0jPwxQrPI4tou2jU5tXictxP8bKURSKZTjNhuL2SNQhuojhVp
-   UFT2PNSizO6iVikIKdGaHtPXKnumjgnjKGd3LCvPUb0XNDN5JjnZFwXTq
+  bh=YZF0gXS7Vo7ZUd0U8hikjsStSWyyTZbMnAirh6mKhsI=;
+  b=L4Cnusl5fGRwOlmb8sw6cBhrcpWoYNZGktHgeudhNOZNlXBgyi0oC18U
+   C5+AomBHiKLFUNhcCk/+KSkIks0go4L/whjXZsB1LqlcrJWDxKuZI4pkQ
+   4aFIW95TqYLDUZ/HKp4awo1FPaNxR6P29QkPmvuyemo8NS19NbkmVKiI7
+   GCI/CLMIpBuUG8v+SFfosjGDD5JmnSwqsBd6ZuZ5DqrPtWNhbEPoPNSfm
+   8AZIOG9RCFiCO2+h3XOmy/oS91q82Is+dWSfQtF35c3GB5/Z00XFqZ1V+
+   CzucEpHOQ1aECV07aPcdLFVf0YZu4tvBKnUiESrzMK/KLFyTtXhW6HqLJ
    Q==;
-X-CSE-ConnectionGUID: 4NQg9nQhTJuouGY2Wzdp+Q==
-X-CSE-MsgGUID: gmhRXenSQk6JIaqQMAJquA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="38180717"
+X-CSE-ConnectionGUID: yiFIUHIlRoSSm9EMNL1Q8g==
+X-CSE-MsgGUID: EZjGB85kQmyloZUT0ncv6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="48628149"
 X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="38180717"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 08:36:57 -0800
-X-CSE-ConnectionGUID: Q/klLbM1THOMfY4lD5giaw==
-X-CSE-MsgGUID: AiHSlHyYTqGlohtzgNuIuQ==
+   d="scan'208";a="48628149"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 08:51:11 -0800
+X-CSE-ConnectionGUID: ApLOAvCOTOiw4umRm8G45A==
+X-CSE-MsgGUID: WtEiSOH3S5CinIbeULAvGQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111216175"
+X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
+   d="scan'208";a="107122043"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 08:36:55 -0800
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 08:51:09 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tadin-000000048ft-0Q1w;
-	Wed, 22 Jan 2025 18:36:53 +0200
-Date: Wed, 22 Jan 2025 18:36:52 +0200
+	id 1tadwY-000000048uY-2Ot3;
+	Wed, 22 Jan 2025 18:51:06 +0200
+Date: Wed, 22 Jan 2025 18:51:06 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 2/2] media: i2c: ov7251: Introduce 1 ms delay between
- regulators and en GPIO
-Message-ID: <Z5EepNoMxL8Hfh3u@smile.fi.intel.com>
-References: <20250120101123.148482-1-sakari.ailus@linux.intel.com>
- <20250120101123.148482-2-sakari.ailus@linux.intel.com>
- <Z46GeyeYgf20pq7C@smile.fi.intel.com>
- <Z5DcY_DyYVZxOGaO@kekkonen.localdomain>
+Cc: Daniel Scally <djrscally@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] platform/x86: int3472: Call "reset" GPIO "enable"
+ for INT347E
+Message-ID: <Z5Eh-mX-RiWw9giI@smile.fi.intel.com>
+References: <20250122104344.245128-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,33 +83,65 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z5DcY_DyYVZxOGaO@kekkonen.localdomain>
+In-Reply-To: <20250122104344.245128-1-sakari.ailus@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Jan 22, 2025 at 11:54:11AM +0000, Sakari Ailus wrote:
-> On Mon, Jan 20, 2025 at 07:23:07PM +0200, Andy Shevchenko wrote:
-> > On Mon, Jan 20, 2025 at 12:11:23PM +0200, Sakari Ailus wrote:
-> > > Lift the xshutdown (enable) GPIO 1 ms after enabling the regulators, as
-> > > required by the sensor's power-up sequence.
+On Wed, Jan 22, 2025 at 12:43:44PM +0200, Sakari Ailus wrote:
+> The DT bindings for ov7251 specify "enable" GPIO (xshutdown in
+> documentation) but the int3472 indiscriminately provides this as a "reset"
+> GPIO to sensor drivers. Take this into account by assigning it as "enable"
+> with active high polarity for INT347E devices, i.e. ov7251. "reset" with
+> active low polarity remains the default GPIO name for other devices.
 
 ...
 
-> > > +	usleep_range(1000, 1100);
-> > 
-> > Why not fsleep() ?
-> 
-> Could be, but fsleep() uses a range that is as large as the delay is.
+> +/**
+> + * struct int3472_gpio_map - Map GPIOs to whatever is expected by the
+> + * sensor driver (as in DT bindings)
+> + * @hid: The ACPI HID of the device without the instance number e.g. i2c-INT347E
 
-fsleep() is recommended way as it knows much better the implementation details
-of the delay APIs and which one to choose based on input. As recently stated by
-the fix series to delay APIs the fsleep() will give up to 25% on top of the
-asked delay, meaning in this case somewhat 250us. Taking it into account the
-resulting values I do not think usleep_range() should be here. I.o.w. I do not
-see enough justification for _not_ using fsleep().
+W/o "i2c-" part.
 
-Also note that fsleep() ranges try to keep balance between oversleep and power
-consumption. Your delay is rather tough as sometimes 100us is almost the time
-needed to go to the deep sleep for the CPU package and return from it.
+> + * @type_from: The GPIO type from ACPI ?SDT
+> + * @type_to: The assigned GPIO type, typically same as type_from
+
+@type_from
+
+> + * @func: The function, e.g. "enable"
+
+Should we speak in terms of GPIOLIB, like connection ID ?
+
+> + * @polarity: GPIO_ACTIVE_{HIGH,LOW}
+
+Please, avoid using patterns with the defined constants. It's better to have
+this written as
+
+ * @polarity: One of %GPIO_ACTIVE_HIGH, %GPIO_ACTIVE_LOW
+
+> + */
+
+> +	const char *hid;
+> +	u8 type_from;
+> +	u8 type_to;
+> +	const char *func;
+> +	unsigned int polarity;
+
+Hmm... In other cases we usually use
+
+	bool active_low;
+
+Can we do the same here?
+
+> +};
+
+...
+
+> -	int3472_get_func_and_polarity(type, &func, &polarity);
+> +	int3472_get_func_and_polarity(int3472->sensor, &type, &func,
+> +				      &polarity);
+
+AFAIK, we don't have hard attachment to the 80-[character limit rule, please
+use more room on the previous line.
 
 -- 
 With Best Regards,
