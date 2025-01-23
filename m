@@ -1,143 +1,125 @@
-Return-Path: <linux-media+bounces-25181-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25182-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F09DA19EDC
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 08:24:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36627A19EF1
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 08:28:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8A0A3A3E83
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 07:24:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A01C188E500
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 07:28:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C12B20B210;
-	Thu, 23 Jan 2025 07:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF0F220B7FD;
+	Thu, 23 Jan 2025 07:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="grYMdPu5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jkgNbWKU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D827D201023;
-	Thu, 23 Jan 2025 07:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBFD1C1F0C;
+	Thu, 23 Jan 2025 07:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737617053; cv=none; b=vF4gtCP3GKMjgoIVg+8GYa3qEW/rcAngm399XT2jdyWJzvVzIUAExCEhi5b6BqfB3BZojLlSzS75xXADPI3u2XagK9xLNGazmJwKEHUaMPFqVpCmtvEI4S5xvU1XBGClrQZijNxpZi1I/by/kP1WacVPFAKFhCCdePHH1bYaOwQ=
+	t=1737617274; cv=none; b=Ig0vWJHmBUGjMbl2yePm4GCWn/Qciatbi6DtXttJX1Arv9onnW9Gq2DExwTuep+CWEMx36LHqfWXM5QIDPBfkN/CzX22m5NH5i3GWvX5JsGMc3EdJ7kWPfapAVvNm6J4gaZIFmWINJckvFx8sp33UXhjvmCUCKX9lhiI5G6YIuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737617053; c=relaxed/simple;
-	bh=XesGX8dwwo8WR67NzbSbaaylbEZYNb/wQMIZPicbNjw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=kr4Y7D8mq0uK68LQiC6X2XfSHLxhn3VK3rRGfdw2vaBoapech/HmRUdAyobZOczf/ndu+hW1f3Sy9mmLvIwAAcdvWLni9g6ieieeG+sq48uEE7KPCsAdZBzFjtWkRQlWRoCVxw4MBRwSx+HYFHFvN7Wb2nViAPBz47Dkl9/ZGmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=grYMdPu5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7557C3A4;
-	Thu, 23 Jan 2025 08:23:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737616986;
-	bh=XesGX8dwwo8WR67NzbSbaaylbEZYNb/wQMIZPicbNjw=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=grYMdPu5By+7AbnlYkBVT+5RF3Ixv4lzE9hgNCW1yJFfx/7f69JNVTaO+sPtLXAxG
-	 Q1/L9uh/dBBnR6481+LPrvHb25pzUAZXTDfmRo9StvXPp1DDzhsgCACm8uPDxrVeOV
-	 oiyxso3cm49eXQE1xzrUlkj+NQy9r0Z2rwmCw/8s=
-Message-ID: <d8d2b38a-3ab3-451b-80c7-ad9150f37675@ideasonboard.com>
-Date: Thu, 23 Jan 2025 09:24:07 +0200
+	s=arc-20240116; t=1737617274; c=relaxed/simple;
+	bh=gdr9OSLvfa/rDxAwNiHVCieR3Q9qH1tE8U7hPjzIo2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JENeVJsL0J41+Pij56VWDpg2+8cCaKcjwX1RsncPeU88YrcBOxBYhDvlG3gi6WDD+WZpW2RPabo4ON+EEBPnIPeCDs6xaKwJMowrX8l4gtIhWKVboZBhSN9n/MopORWrSeFFO1+aALlOGHoKj4VMusqbaYVwHYTDq1J14R7Imno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jkgNbWKU; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737617272; x=1769153272;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gdr9OSLvfa/rDxAwNiHVCieR3Q9qH1tE8U7hPjzIo2Q=;
+  b=jkgNbWKUeD6pFnqsALkJE8mw2NP+7J17aJ6oThW7DVNRA63vIciV0MY4
+   HMnD2S+sk6iuiDXL3bH0ZjFWwk8bQoTHrwsofmMtgxRmZVf2PC34+dPF5
+   J2cuviuB78FJ/mCqU2i1XA4MUc3mA6hJhaRCkBFnEyAeVsm1ub7+zV64Y
+   wXIBWeQSN7LNy58vHHLyWLLWnkJzdQfwBRKorLYiRYZcrC+HC5RtsZth+
+   j+9F1jYjX5FuHMjJBogVRIJhKShoJsmQXo9efRB0xwuJQX9LH6AyMjrv8
+   JtKVwkQBlGLsuhJuuBULln818aCwGF8anDb42FAmJY+nO3oJXA2Aw2QSG
+   Q==;
+X-CSE-ConnectionGUID: Xfu0ECBOS5i5Aff/kUeexQ==
+X-CSE-MsgGUID: OFf7UllpTme6hs4HvGeh0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38206719"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="38206719"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 23:27:52 -0800
+X-CSE-ConnectionGUID: 4VXT0TrlRmmXcoj/lpPvJw==
+X-CSE-MsgGUID: qDTHyeruT8CCrMlh51oj/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107233295"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 23:27:48 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2C27611F95E;
+	Thu, 23 Jan 2025 09:27:45 +0200 (EET)
+Date: Thu, 23 Jan 2025 07:27:45 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Media <linux-media@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Block Devices <linux-block@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Power Management <linux-pm@vger.kernel.org>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+	Rajmohan Mani <rajmohan.mani@intel.com>
+Subject: Re: [PATCH 1/3] media: ipu3.rst: Prune unreferenced footnotes
+Message-ID: <Z5HvcW2WXibhsTgm@kekkonen.localdomain>
+References: <20250122143456.68867-1-bagasdotme@gmail.com>
+ <20250122143456.68867-2-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] media: rcar-vin: Remove superfluous starting state
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
- <20250122165353.1273739-4-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-In-Reply-To: <20250122165353.1273739-4-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250122143456.68867-2-bagasdotme@gmail.com>
 
-Hi,
+Hi Bagas,
 
-On 22/01/2025 18:53, Niklas Söderlund wrote:
-> The STARTING state is superfluous and can be replaced with a check of
-> the sequence counter. The design idea is that the first buffer returned
-> from the driver have to come from the first hardware buffer slot.
-> Failing this the first 3 buffers queued to the device can be returned
-> out-of-order.
+Thanks for the patches.
+
+On Wed, Jan 22, 2025 at 09:34:54PM +0700, Bagas Sanjaya wrote:
+> Sphinx reports unreferenced footnotes warning on ipu3 docs:
 > 
-> But it's much clearer to check the sequence counter to only return the
-> first buffer if it comes from hardware slot 0 then it is to carry around
-> an extra state just for this. Remove the unneeded state and replace it
-> with a simpler check.
+> Documentation/admin-guide/media/ipu3.rst:592: WARNING: Footnote [#] is not referenced. [ref.footnote]
+> Documentation/admin-guide/media/ipu3.rst:598: WARNING: Footnote [#] is not referenced. [ref.footnote]
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->   drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 5 ++---
->   drivers/media/platform/renesas/rcar-vin/rcar-vin.h | 2 --
->   2 files changed, 2 insertions(+), 5 deletions(-)
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-
-I don't understand the feature, though =). Why does the first buffer 
-have to come from slot 0?
-
-  Tomi
-
+> Fix above warnings by pruning unreferenced footnote to intel_ipu3.h
+> UAPI header (already referenced in its full path in "Running mode and
+> firmware binary selection") and by directly link to v4l-utils repo in
+> ov5670 configuration example with media-ctl (since the example is in
+> literal code block).
 > 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> index a16adc6fd4dc..ba55ccf648de 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> @@ -1064,7 +1064,7 @@ static int rvin_capture_start(struct rvin_dev *vin)
->   	/* Continuous Frame Capture Mode */
->   	rvin_write(vin, VNFC_C_FRAME, VNFC_REG);
->   
-> -	vin->state = STARTING;
-> +	vin->state = RUNNING;
->   
->   	return 0;
->   }
-> @@ -1120,14 +1120,13 @@ static irqreturn_t rvin_irq(int irq, void *data)
->   	 * To hand buffers back in a known order to userspace start
->   	 * to capture first from slot 0.
->   	 */
-> -	if (vin->state == STARTING) {
-> +	if (!vin->sequence) {
->   		if (slot != 0) {
->   			vin_dbg(vin, "Starting sync slot: %d\n", slot);
->   			goto done;
->   		}
->   
->   		vin_dbg(vin, "Capture start synced!\n");
-> -		vin->state = RUNNING;
->   	}
->   
->   	/* Capture frame */
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> index 4cb25d8bbf32..f13ef379d095 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-> @@ -64,13 +64,11 @@ enum rvin_isp_id {
->   /**
->    * enum rvin_dma_state - DMA states
->    * @STOPPED:   No operation in progress
-> - * @STARTING:  Capture starting up
->    * @RUNNING:   Operation in progress have buffers
->    * @STOPPING:  Stopping operation
->    */
->   enum rvin_dma_state {
->   	STOPPED = 0,
-> -	STARTING,
->   	RUNNING,
->   	STOPPING,
->   };
+> Footnote numbers are unchanged.
+> 
+> Cc: Rajmohan Mani <rajmohan.mani@intel.com>
+> Fixes: dc794d3d2424 ("media: staging: ipu3-imgu: Move the UAPI header from include under include/uapi")
+> Fixes: 34fc0e1bf892 ("media: doc-rst: Add Intel IPU3 documentation")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
+The issues fixed by this patch have already been fixed in commit
+688c0a6907a7c6e6776f314195c10536f249b37f (in media tree).
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
