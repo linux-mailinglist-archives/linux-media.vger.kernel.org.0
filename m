@@ -1,172 +1,112 @@
-Return-Path: <linux-media+bounces-25197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25198-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D409A1A22C
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 11:48:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DC8A1A2D8
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 12:23:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADE02188DDEB
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 10:47:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA2403A355B
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 11:23:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BEB420DD7E;
-	Thu, 23 Jan 2025 10:47:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E711920E6FC;
+	Thu, 23 Jan 2025 11:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VkFFdcJc"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="kavhcopT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2451C1CAA75;
-	Thu, 23 Jan 2025 10:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737629262; cv=none; b=UrNOGBUuBtdFRww1lTRppJlcY0ponEqAe8OQBtUXvURBGc3vX8w6xwILVONgUKhWJhG9pOvPvCMvSdJYw9PIMFRvUz8d9sB3WKgl3f2+4xuNJCaqf64baaPqkC/Hbgz4kuae5R8uxwlj2sQGZ7kWQYKm27RIuqB37HwIM64IIJg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737629262; c=relaxed/simple;
-	bh=rYqOtU5oiT/GISXaL4/15iZ56RIPpVSZYDj0zuQOxCA=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=toa5M1HZ0TXrHVSKllKjXqNBV0xkqF8eoRX88BiHaJk2pLvuNEnCwNwsExU8B7azR0Qz8EPec9DXWjWxsobVcaLhypgDcI8iiLRB7Qw9rN1wQqPCqutri3TjHnRSCoTk2cPiqUGafKhWVyd4hmkicWmLo8Nh4rUncxmNOl9UUaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VkFFdcJc; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737629260; x=1769165260;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=rYqOtU5oiT/GISXaL4/15iZ56RIPpVSZYDj0zuQOxCA=;
-  b=VkFFdcJcHL25Fro7Qbcis+PPxc1KQzqlaMiqlJa6Jajh+lw3pCcVvect
-   cv+1yhzVXF/vAtF7NT+9OE+NOgjYpPw5r1pfD5DyhckGqOAujFV0bkHaw
-   aLMnHEh9blZWoa1BnJIFVZsuKKW7wS8UPV2alLKz/bSqql6fGE9Bq5zl8
-   5y7V0viUvz0swIhiOvLlfW+98e1Qig1C6kkPzmmMLUdPH47dQjLic7vcH
-   hODcnIlW5Yp0j4P3RPeAD02iiUu6ko9GG9IYairzau0TlVawl/QwpWJxO
-   hKvkOuOgL7ArEafo7M18EVeznQTKtRlYsKkhuFbLc7hlhQsz6nX9D5EsH
-   w==;
-X-CSE-ConnectionGUID: N8XaZSqzToiO1VJzasQNQg==
-X-CSE-MsgGUID: PHwrcOjkQoGs8bNRWHd2iQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="38285972"
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
-   d="scan'208";a="38285972"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 02:47:39 -0800
-X-CSE-ConnectionGUID: bOC92L0NRMmb7yJAVvZRPA==
-X-CSE-MsgGUID: xGA1PJBCS7utL99cp3jviQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
-   d="scan'208";a="112417012"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.22])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 02:47:37 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 23 Jan 2025 12:47:34 +0200 (EET)
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    Daniel Scally <djrscally@gmail.com>, Hans de Goede <hdegoede@redhat.com>, 
-    platform-driver-x86@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
-    hverkuil@xs4all.nl, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 1/1] platform/x86: int3472: Call "reset" GPIO "enable"
- for INT347E
-In-Reply-To: <Z5IIkM1i1MV42uvh@kekkonen.localdomain>
-Message-ID: <279b9682-ac78-bfa0-6e2f-08a22f76d867@linux.intel.com>
-References: <20250122104344.245128-1-sakari.ailus@linux.intel.com> <Z5Eh-mX-RiWw9giI@smile.fi.intel.com> <Z5IIkM1i1MV42uvh@kekkonen.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD32145A16;
+	Thu, 23 Jan 2025 11:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737631371; cv=pass; b=cVZATUCLxq2JmJEwGrvecojacf9iZu8cNVGgVSBJRIdzuNffDCMOPJkR6uuSlwHwXxxZ1ged3BHLSVZq6p2WVQTaG6RmFShSjy0wW+wkLObLyKbqpH9XBODdwYuYGMO3+wozRNx3eu6jGCSQI2AyXTpB4N3xnbXlGRbMDjJUKTA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737631371; c=relaxed/simple;
+	bh=jVOr9SNQmPlWwygMvJvKOtQWwb+Pp03Gj2qwRMh5Bdk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rknv4sUPWQzpxDrW4yleu+nfuoVyRpfoYB7VxeC508QPm3AWRTqEascQ0ty2Nau/Vm4WqUS8NKM5jcOjxaYbdUInzfk293fbXGtzHf8zesSJc/pP4e1jIIeXvMdhR9+CLbL+9kpGeA3i/hjY6ZMjze/IDvAaLEvm/g/qqpgzSlU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=kavhcopT; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1737631315; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=YJvbM80sjDBPxamcQuyjR3dNW+7oLsMfUeBei18ZkmKSPDyjB/LnjOJnpsUd++rOGTaBmvhrXfMvYnLZ7ZQ14loAU08vUW+mr5At6X67ddGJL7f9TUSOxjPa351iMJ8lOfqzJ2z9CRGNw1T59x4TF6I5V0TruGPCI9hBPzVkWdk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1737631315; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=RBk1ZeqWqkMzfPZglCYiALSDfj+N6We/OCFK6kR7Aow=; 
+	b=KbEWVc44sdtoTblvZY5FvIo48Pop0pU4E2E9l8ReZuKYY8ZSu3t86p9bRCnXu+13uGn2N8zmnDqTAC5BA3IjZm2lxC6Ig8anzOGPR5opO0tQWNRyz5U6pDcBJN7HAAjbeuWKbCYt86/lwnZNNCay0wE81gpFFryZgJc1XZdzgAs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737631315;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=RBk1ZeqWqkMzfPZglCYiALSDfj+N6We/OCFK6kR7Aow=;
+	b=kavhcopT+pSgJHgsA8KeuFJKKPZ8n1ybvrL0ZnhZbJ4DJD4pzRIiEo5h9Ct6KCiN
+	wKUm9yMbK4KrTPLz77O+/CR6ReUDYpAToxGE42yK8fEVcDpFTBSVE93YsOuebK4ykdS
+	/xki0nFO3PSsetB1ymR3bRkLzUp3Mn0DQbAZI0HE=
+Received: by mx.zohomail.com with SMTPS id 17376313084433.398115110351114;
+	Thu, 23 Jan 2025 03:21:48 -0800 (PST)
+Message-ID: <67fcd668-dff4-4dda-bc65-27f13293680f@collabora.com>
+Date: Thu, 23 Jan 2025 14:21:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v5 0/4] Add Synopsys DesignWare HDMI RX Controller
+To: Tim Surber <me@timsurber.de>, Shreeya Patel
+ <shreeya.patel@collabora.com>, heiko@sntech.de, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
+ jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
+ hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+References: <20241210193904.883225-1-shreeya.patel@collabora.com>
+ <acb91a34-c0f8-4f03-8945-755b4e42dcf3@timsurber.de>
+ <925d7571-48e4-437d-b55c-3f7bbad8af1d@collabora.com>
+ <fbb5016e-678c-4e54-a6a8-0ccaa2bdf45c@timsurber.de>
+ <a5226fac-2a5b-47f3-b32e-8662bf932bd4@collabora.com>
+ <d61e344f-fcdd-47af-a142-e8d42edec045@timsurber.de>
+ <9399a881-7d45-4ca3-8249-2e554184d038@collabora.com>
+ <bed5f370-113f-4109-b8f4-870dd15e93ce@timsurber.de>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <bed5f370-113f-4109-b8f4-870dd15e93ce@timsurber.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On Thu, 23 Jan 2025, Sakari Ailus wrote:
+Hi,
 
-> Hi Andy,
+On 1/19/25 05:14, Tim Surber wrote:
+> Hi Dmitry,
 > 
-> On Wed, Jan 22, 2025 at 06:51:06PM +0200, Andy Shevchenko wrote:
-> > On Wed, Jan 22, 2025 at 12:43:44PM +0200, Sakari Ailus wrote:
-> > > The DT bindings for ov7251 specify "enable" GPIO (xshutdown in
-> > > documentation) but the int3472 indiscriminately provides this as a "reset"
-> > > GPIO to sensor drivers. Take this into account by assigning it as "enable"
-> > > with active high polarity for INT347E devices, i.e. ov7251. "reset" with
-> > > active low polarity remains the default GPIO name for other devices.
-> > 
-> > ...
-> > 
-> > > +/**
-> > > + * struct int3472_gpio_map - Map GPIOs to whatever is expected by the
-> > > + * sensor driver (as in DT bindings)
-> > > + * @hid: The ACPI HID of the device without the instance number e.g. i2c-INT347E
-> > 
-> > W/o "i2c-" part.
-> > 
-> > > + * @type_from: The GPIO type from ACPI ?SDT
-> > > + * @type_to: The assigned GPIO type, typically same as type_from
-> > 
-> > @type_from
+> I enabled the debug output and ran some tests again.
+...
 > 
-> Agreed.
+> Observe the reported fps of 86 in the above log file. Also gstreamer
+> reports a framerate of 214072/2475 - also around 86.
 > 
-> > 
-> > > + * @func: The function, e.g. "enable"
-> > 
-> > Should we speak in terms of GPIOLIB, like connection ID ?
+> I could sometimes also create the "Device wants 1 planes" using RGB -
+> replugging fixed it, but could never fix it in YUV444.
 > 
-> That rename should be done in the entire driver probably then. I can post a
-> patch if Hans agrees, after this one.
-> 
-> > 
-> > > + * @polarity: GPIO_ACTIVE_{HIGH,LOW}
-> > 
-> > Please, avoid using patterns with the defined constants. It's better to have
-> > this written as
-> > 
-> >  * @polarity: One of %GPIO_ACTIVE_HIGH, %GPIO_ACTIVE_LOW
-> 
-> Sounds good.
-> 
-> > 
-> > > + */
-> > 
-> > > +	const char *hid;
-> > > +	u8 type_from;
-> > > +	u8 type_to;
-> > > +	const char *func;
-> > > +	unsigned int polarity;
-> > 
-> > Hmm... In other cases we usually use
-> > 
-> > 	bool active_low;
-> > 
-> > Can we do the same here?
-> 
-> This goes to the flags field of struct gpiod_lookup. Bool is a poor choice
-> for that (but u32 isn't correct either). We can put polarity here but pass
-> GPIO_ACTIVE_{HIGH,LOW} to GPIO_LOOKUP().
-> 
-> Putting polarity before function would same some bytes, too. Hans, any
-> thoughts?
-> 
-> > 
-> > > +};
-> > 
-> > ...
-> > 
-> > > -	int3472_get_func_and_polarity(type, &func, &polarity);
-> > > +	int3472_get_func_and_polarity(int3472->sensor, &type, &func,
-> > > +				      &polarity);
-> > 
-> > AFAIK, we don't have hard attachment to the 80-[character limit rule, please
-> > use more room on the previous line.
-> 
-> There's no reason for the line to be above 80 characters.
+> Next week I have time for more testing.
 
-Do you mean that on a single line it would not exceed 80 characters (or 
-that you just did not count at all)? :-)
-
-I'm like 'What?' ...I don't know why you guys are arguing about breaking 
-the 80 chars limit. :-D
+Thanks for the testing! Could you please try to test YUV using a
+downstream driver stack? If it will work, then please post the
+downstream kernel log. Will be interesting to compare the timing values.
 
 -- 
- i.
-
+Best regards,
+Dmitry
 
