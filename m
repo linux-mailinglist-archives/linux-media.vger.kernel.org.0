@@ -1,415 +1,285 @@
-Return-Path: <linux-media+bounces-25207-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25208-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28067A1A584
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 15:10:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D3DA1A5CD
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 15:35:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BD5E160E40
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 14:10:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 455CD3AA932
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 14:35:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36603210F7E;
-	Thu, 23 Jan 2025 14:10:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D191113C9D9;
+	Thu, 23 Jan 2025 14:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JprWiW9l"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WRPY3nKa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2074.outbound.protection.outlook.com [40.107.244.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AD238F83;
-	Thu, 23 Jan 2025 14:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737641452; cv=none; b=JHe/MrLn5xexDcPNRv8tD8zR+2w2qARGimtdBZjagVk3zV2A92Wo9Myc6vucDN2/BR2CcIcXAqM5EaQXERDetiE6gEWHaGfmFZnDSdb2vQjhB/t/5EYHyWgeFxsavBmSQHFJ1IREZeqrXPI20hjTOaMTUUuHdooV9faEtWF+fZk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737641452; c=relaxed/simple;
-	bh=fqze1BuohUZqvZbqRxbJSirnIBeoTX0x9KX/WWe80yc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tCb4PaMs6FIMm2VXhuu1jBQrdGGfs0K9wEhRWHuHP2viV/VeH879BIkfYsJaTTQDY5dDc7HQByv+APixizBpB2RmTYKHFyrmmzto9mIxMGLpeejJFTA70XnKdKIlAwqNZGxQ6e7so+xLBOz/J0ULhvcRVE50TRl0/CaEp54Neog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JprWiW9l; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ee397a82f6so1884479a91.2;
-        Thu, 23 Jan 2025 06:10:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737641450; x=1738246250; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D0IRMd5ISeb4Codonb5ae12BodDysjvP0m0ig+7L9Kg=;
-        b=JprWiW9lfmMj3Cg1aUzsA+5haeJ3YmSGZBwCEd8MratijeOyJ9sd9W9XYh+wA39iZG
-         DgORT8LoB+uk3eZJasBL9Aza3Dc/x6SHXGIAaHg0aTpqb0gg0lDvfwgaCpHQagbHpky4
-         wqXYn6pWZQBLs8JKmolPHkTZrCvwqicjgUeS1aIkNtGVVzSSYq4+Wml7hXYYiuoj4no0
-         W6v/azvKEzUHSmEcEyvgNVH9iAESHmvrJ4UOfW8Uu+NrLlCHDP1Y0okLjrzssDeNk+C6
-         XQRsNulhVKEZZVr8UnMTQ/rFpxN/pqYkJc8dPTTKHvqEmMYDWKS+8KPHouMXPXgBnFuS
-         vrZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737641450; x=1738246250;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D0IRMd5ISeb4Codonb5ae12BodDysjvP0m0ig+7L9Kg=;
-        b=BZ6uCGlYbU3JaRyRG1Fmmn8Fi6195HDmSvxeZR112UrKn8RUn+MkEfghJCpRerNHDt
-         +u2nLBP0K2sgLaPjbV0h8z2ZWAX3uXPk9aYEqxcBlveO6migyrMs4cC64O5I5PuQySyG
-         xbQ0k8mrheJC8HosufCwk3QcKbxZhL7niWTeYiGKIaOh4OQhJH8+1FINAtQ5psn5W63N
-         3bkVuY/dVOTEFgnAN9BR7A4O+AhujsfVXRBFqkT7FBvZKFtJG+JImB5z6ovJmG8o2QzH
-         Voh7D0MGW3kpsTVbh4fvbDL2Dm0q+KLhk0Bli0jaY04/rdUulT7uSaCNVEgUvQNVzxUF
-         6k4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWW5q/0oWahyxzB0ivXKo43AR71jJXZ/f5GVzWUxrFIq8vD8wDrE9IQH+tQdEq9SECvxgGjz8kj7CROLQk=@vger.kernel.org, AJvYcCWcgaCChhBKC8H8YcaSDMKMPLcOmKlSJOOxVYIuBIovO9y9mHR40qPPbQuPqv9ZyxMeVyYbsIhXyOro6RY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoJfFr/4CzXFBJV74cTduILMSnkS3cPHdQFTin2j+QzfaQeonD
-	q/LK9sMkLlzkTxztVvKAWHzrfLgh/nlegMfo7e3rKf52JOpl3eRhtAlUfcLAlWvZx0yVx5Rg0FA
-	Tvaoodyq7zbLu37uoVOLjnnsv4yk=
-X-Gm-Gg: ASbGncujr/fVgfgLYXVI+X4BHPMocDmjgY1h2X4k9Y1kAEDOKUPDpYXI2PWiLP1BPf3
-	Bs3cB4PWNgSHmzmq3ZhdXB7m+qmmZZs1NP1wdkgo9r2tAoAz6o1/nZqdUjlZfWA==
-X-Google-Smtp-Source: AGHT+IEJAMoKr8fkPq9nA8chQ4QWUd612N7ypTXx9qxQ/ebHDujTDPBXRczWRMOEG7m0rpaEZJ2uB/nVPo9ufAt5Cus=
-X-Received: by 2002:a05:6a00:2184:b0:725:ef4b:de33 with SMTP id
- d2e1a72fcca58-72daf88b1b9mr40170377b3a.0.1737641449695; Thu, 23 Jan 2025
- 06:10:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1A11CA8D;
+	Thu, 23 Jan 2025 14:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737642933; cv=fail; b=HXu1FiSv3zGD6fB/3l/kfCMZK4hhDspP7+sCcoL/c2MMnyQoxKS+Te+TWJ97cekz5i3aIOuRKHM4GGxMRa7T5uJNNQUiIaVbQ1dzMvdw42wGNV2iiJ8F127xI4P/b98v8/9a856G+TJxFOfEL9Cyjg3L2V7TEeB4Xt/Hxjzelpo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737642933; c=relaxed/simple;
+	bh=Nicj+mrOkMd8wa/FqChGUKkFVy8mwuJfiAE7dHb1quc=;
+	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mpkmOaaKEdUOiXiAlTRYsywzoQiVjbMu8FonyaSGKQloeOnuqd68IJiC2FhvPZagBmw7dQzKRMTgx+1lMZgUAnsif4VIr2Jn4u91PN6Rv8+P7seMvcppeGPu469s0MI0nMIJKFVA+JC6mCBjoGcbRGgl1/ZC1bhoRU8gaqG/gs4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WRPY3nKa; arc=fail smtp.client-ip=40.107.244.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YnaR4yns7O2eU5LQcJewPQJdZjEnysyNjalxRO0mTfOifEJaA8Hhmq/58Hj+EfIFY/AX6ii4rM1zf/SZhW/OfjmBIYVcdELmn/jVX4JwLyb9TSXR+KHoWXrCxZPMkYM7lAt4aH4hnU0mdcGBcl73y/BI7ezoyxmUs/6w19pxHZ6vMUndZp/cfYLxn6ZoX0bboNtXtfHtdqG+7KociPhXSwPB2VBB6fdMueCrTH0nHRIpuJEk64K2B4L3CRkpD9a71UKJqOgV3D1Wa6VAlKlwl3u/qsssHg/durJgJGOfUC5p+RwRBeZ3tiFDD8konJdaGJPmrgUXBjMcWDe7SXMqJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PBU2asAspSaoQz2L4KkCEgrslSn8uS/IBFrvCiixtz8=;
+ b=zVI65BbpuJBbgClojf2FSlDJsf5CpCKvrf42eMujbrDicbQp8QKAfH3od15iSY+vfpFCHvc877t+D/5+u2zAs+JLoHk2kUwWNrxJjT3UoAjvZZ9nVJbJ1iz7EWy+oR9yTfv11h3On42eooHIys+MelFxszb1U+eu2Lq+pC+ZkmvDnZC8jKYh/eQM8F4aNf4+VwsuDCA4c5QWiY0iMLGQF/mjrJCpEb5/F4YgvI4Jq/OrOnpK5r1H6m4uLTX6AIsKbLurCvtIRTP9ofYP/SYm3k0vndAKrt1LXNFTAMMBbT5v2IBot0XmP5PUa2TgY2LRUMlB9NVi/pClfm7900FO5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PBU2asAspSaoQz2L4KkCEgrslSn8uS/IBFrvCiixtz8=;
+ b=WRPY3nKagUFoc8qQj6E3jiDtqUIOPG/UpcRDd4ngLtWRbpg6g3EZknxtUOFsCX9LrHrSL28KRQMs+TZhqSv6XsaI79L5u96p1tuNRRuZylNgLmvvcQDboKRO93lnmaSZcIVWJjWHoEm+4+DAWOt6aMYLOBQvEvtIjzpaukF0/gc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH0PR12MB8007.namprd12.prod.outlook.com (2603:10b6:510:28e::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Thu, 23 Jan
+ 2025 14:35:29 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.8377.009; Thu, 23 Jan 2025
+ 14:35:29 +0000
+Message-ID: <97db03be-df86-440d-be4a-082f94934ddf@amd.com>
+Date: Thu, 23 Jan 2025 15:35:21 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+ Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+References: <c10ae58f-280c-4131-802f-d7f62595d013@amd.com>
+ <20250120175901.GP5556@nvidia.com> <Z46a7y02ONFZrS8Y@phenom.ffwll.local>
+ <20250120194804.GT5556@nvidia.com> <Z4_HNA4QQbIsK8D9@phenom.ffwll.local>
+ <20250121173633.GU5556@nvidia.com> <Z5DQsyV0vwX3Iabu@phenom.ffwll.local>
+ <6612c40d-4999-41a1-a4a5-74d3ff5875c3@amd.com>
+ <20250122143744.GF5556@nvidia.com>
+ <827315b0-23b6-4a39-88eb-34e756298d67@amd.com>
+ <20250123135946.GQ5556@nvidia.com>
+ <9a36fba5-2dee-46fd-9f51-47c5f0ffc1d4@amd.com>
+Content-Language: en-US
+In-Reply-To: <9a36fba5-2dee-46fd-9f51-47c5f0ffc1d4@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0029.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::22) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250120-media-imx219-4lane-v1-1-c7aa1a413ddc@raspberrypi.com>
- <Z5DeJ_-VWnE7vO8m@kekkonen.localdomain> <CAPY8ntDz7hxgBr1oeY9ccPJgxktm-kkTL93EM3XXp8kEOvqZ9A@mail.gmail.com>
- <Z5H5Lf0YZlkxI1n4@kekkonen.localdomain>
-In-Reply-To: <Z5H5Lf0YZlkxI1n4@kekkonen.localdomain>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 23 Jan 2025 08:10:38 -0600
-X-Gm-Features: AbW1kvY1wa5gvVMBg7nQSfeZSqlvVpfrQi3mdSpM_wacVZXOwjSgziHBKRPTtyo
-Message-ID: <CAHCN7xL+sQdt=kL_jM2W0LeoiRS7eEufbm5cwvNNtvxR-xDM5A@mail.gmail.com>
-Subject: Re: [PATCH] media: imx219: Adjust PLL settings based on the number of
- MIPI lanes
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Peyton Howe <peyton.howe@bellsouth.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB8007:EE_
+X-MS-Office365-Filtering-Correlation-Id: 75e05991-b5c6-4494-6b46-08dd3bbb2f20
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?eEdIbzFiYmFEbXA5VnV2NHM4emlOeTNjaGtXK1VKZ0hNT3VsODlidThlRUN4?=
+ =?utf-8?B?QXFSRGVmaFRuN3NMRjA2QWdacmdxWlBWVzNRbENEYkNBb0Q0c3g4STRYN0N2?=
+ =?utf-8?B?U3YvQmdmdUpMWnRWamVCUGw3SkZxTEM1LytvNXFOajdZZGRwNHRIbTlPK1Zs?=
+ =?utf-8?B?OGgxckM2U0o3Vm9Gc3N6V1BOTTgzN0dBMk0xKy9HVmd0OThOSVZWenh2cHNE?=
+ =?utf-8?B?ZzRYYmxoUjF6K3cvdHNiWE50WEc2clJDSXptSFRBRTQxeGpHeUoxK3dmcm41?=
+ =?utf-8?B?VWF5MnZzZTV3NWpLUEhlYVUyQ2t0Ukw5WGhwVjljdkt4NlpuQWRveElIdytE?=
+ =?utf-8?B?SUJLQ1UwK0FLczRlWllXVnhmKzJGK2Zzd1ZOMFkzT3o3S2xMaWNjY3pCVTdX?=
+ =?utf-8?B?TnRDeXE1K044TGhUdnZhTTJKOXJJZ0Vpd0M0aWFYUWNDRUdKS0tFVkoxNkZv?=
+ =?utf-8?B?NVlIMFZyekxIZlpSZFNpUDk5R3IvUVVIMG1md3BKKzlFYVlSTTQzRExtSjZh?=
+ =?utf-8?B?UnYrNVljK3VyUDA2L0pwL1FuczBCRDd4ZVZ5N25uaXRMYU9uOHl5N1EvVVZz?=
+ =?utf-8?B?dHJMNWMrQXJLbk5ZSTN5Mlh5WlJVemo5MVRlKzNzSkRyTDV6SC9XS1lQU09t?=
+ =?utf-8?B?M3BuaGRCYXlYZ2hXcGg5TmliTG5mTDVwSUU0WFFPUDFkODdNMk44U0s0ZnNw?=
+ =?utf-8?B?MG5CZk9Vd3hPUERlWmVDaEhaUnRzWU1PaHM3Z2NEVUUxZUkwZnF3NzgyMWFC?=
+ =?utf-8?B?alVoekEzakZncVEwaFV2Nll1VjNnV25yemNmUitvYjM1am5HdXhFaE5lNmhX?=
+ =?utf-8?B?SGR3eHNpYm01RTRHQXpQcUFndTlrNW1mV1dYUjlNaUY1WTlDVjMxTW5yOG5C?=
+ =?utf-8?B?ZHBRNWMvbXJFdlVGa3pmQ2R5OEJxN0l6Z0YrQnNQcENibGMxVWFPZzR2RUZJ?=
+ =?utf-8?B?T0F2V3VoUVFJU0ZQREgxNWNXNWtzcFdVWlVhbmlXWVNIQTI3cGtpeGZ4dW1n?=
+ =?utf-8?B?RWpNZmNMeVpLWDlzL0hobEFlaXM3aDVLc3k1S2NTOVpGMVA3cmZNM0VMOHIy?=
+ =?utf-8?B?alZYaVRtUDczZ2VKbmdGem9UTk1zeUVyNjJ6N0NFbitzN1lpdHBDOGZ3bE9u?=
+ =?utf-8?B?UUlXemJnVWJtY1JxMWdVaEVFZVhUOEkwYjY2ZTBGL2NzZzJ2UXFkaHpoTVcy?=
+ =?utf-8?B?UEdWSVo4UWJxK1dDVEN6NUJrb0VCK3lmVDBET0d4bHQzdDc3YlBYM0taNXln?=
+ =?utf-8?B?d25nM3Z3Z3cwRWh0U1ZRVnhDbHpZSmRwWENLVExVYnYya3RId1d4Mkx3dHd1?=
+ =?utf-8?B?eTQxMzdjdjErTnBGUG9YajdoN3F4NzJveHlnM00vci8rQ0F6SXA4YVZLU2lD?=
+ =?utf-8?B?RnB5RnV4Vks5VGdlUE5kUXlOWFo3a1JtRWZubVJrS3Z4VU9DZTdIL3RkRHdm?=
+ =?utf-8?B?b1h5dHAyeWcwM1podktOU1NXZVJpSnR3Y1JJUkpzNG5MMXlEVVl6SlRBOEpr?=
+ =?utf-8?B?R1VnVW83RFVHRWZRSVgzQ05nbUxjM1ZOOXpGWHZ0am4wQWNWQkpSVTE0MzZ6?=
+ =?utf-8?B?b2wrTUFlMGlJbE11RnpaQ212L1lZbTRmVGc3eUZ2dGR0dHpneEtLblY4dDJT?=
+ =?utf-8?B?RWkrbzkyMGQvS0xSY3dsY1ZZZjd2OXUwOG1uUUZWZVlmK01pczJXQjFSSFNy?=
+ =?utf-8?B?QjFJaEtuYm82VVh2dFlCNFZCWHNpcVhkemlFekV3dnduQjRkdDh0Y01WZFBW?=
+ =?utf-8?B?V0laRENlRVN4SnltTzUyWk1yeVQ1UXdyQWdvSXhydW55cVBTTUc0V2VCakpK?=
+ =?utf-8?B?RlN2VEJSSU9xU0FZamJiTVpwMHBGNi92Y29vWEhMSzFMSzd0Yzh6QzQ0d3Y1?=
+ =?utf-8?Q?oz9zSZ5grnQBz?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VHdickVXKzBvdHhkSHFEbFFydVlvRW9nd2c2dTF3aHdpeHVPcmpPZkNybzVM?=
+ =?utf-8?B?b1psNitxbXZubHIrcFN4QkdnOHcvaWxEZ3I3bEtJNjVLZ2Yxblpjc0dNem1u?=
+ =?utf-8?B?MFNocUlFSXVpQTZieUQ1ajFyeTg1OEVMNE8wajRGc1JGUzdoaUlCNFJCNWlP?=
+ =?utf-8?B?VGdKbk0yT3RNTHAyL1JDOHE1cUk5bmNES3JIeWxpUjQvNG1RUTd3S1YwM0xF?=
+ =?utf-8?B?VHE4NWU5YXNIUUgxZDdiL0FCbUtFaWJvbU51MHVKMDdRR2pUUzN0NnNzMTZ2?=
+ =?utf-8?B?TmRnd0NoaG1ydzRTb2RsN0RQdjFFZnNYVWNwQm51V1VQSGIyZmNDcUdiZDNC?=
+ =?utf-8?B?bmxvUnB0ZnFMUjNxMEcrbkZXUFNadlhHVklxd1ZlUEVObDUvM3EwOEdqSGhW?=
+ =?utf-8?B?QUpRaXRMNjFzdUsvV2hsSUdIbGs1a0drbGRvTjRwcU9zT1l2QjB2MW50SXcr?=
+ =?utf-8?B?ZW1heHJocGtib2lGRmNLaTJhT3BXZ1RKMEp2WXUvdGtvbUsrcmxYV3loUnM2?=
+ =?utf-8?B?WHF2eTlRU1hNams4VXN3bXVRNzZOWHBKZzdkR1JCUHd1a1Nudmlxc3U3dlB2?=
+ =?utf-8?B?aGlGbHBrdThBVEt2QmtMTDdmM0ZrcWR4ZEVyYlU3Q255eU5wZDlvZGRJbjVl?=
+ =?utf-8?B?STdUdlQ1VXR3RWVHZlRmVnNNbVB1ZGpzYldwUzFQT1EyOXpDdG1zMVpRSExY?=
+ =?utf-8?B?aXFHODJJeUhocW1EY0hqR3IyMDhOWGxyaU14T096Tkg0ckhXNlBvekhYbGRn?=
+ =?utf-8?B?OVFrczdVaVlZYkN1QWg5S1dTZGtUWUg5bjR1V1lXeWdlSDR1b2FiL3Zmb3pi?=
+ =?utf-8?B?QU0vL0tHeWozTVp3WVBuWUlOQklBbXhuek5tWGxObVpBZEl3MVkwY2hVTXZL?=
+ =?utf-8?B?RTNoREtQUWtpQkNkcXRlMnorVk96b0Q1cGhXZkErU1c5eUc1SmNwVHBiVWdl?=
+ =?utf-8?B?eUZOMHEyRC8ra0piZ2R6VnVYbDFxT05JYVczRUZYVGM0cGV6N1Q4T2Z6OUZq?=
+ =?utf-8?B?U2Z0ZmJoYTNNc010cHhuYTY5aS9RM1hYSi9CTWVTbVE4OXRMUDJVWlRtN2lR?=
+ =?utf-8?B?QjM2L0xrenRpNmFrTWJra0tEWVBsVm1tWEFsUGtvVFV0ejd2a3RoY25SbEwz?=
+ =?utf-8?B?UFlYa1NaenlUQjJDMHRyUjdQTWFLZXNpYk1CdmVXc3YybTlDQ2Z3czd1V29j?=
+ =?utf-8?B?ZlU2eDBPNlFhR0ZpbUwweUpWRXl5YnpMMHlQZng3T2lhY2hTZ3NoZDNQMzVz?=
+ =?utf-8?B?N1loY3A0QjFFdWljejl4Ly80dnBBcHJDTWdhMm5hZkx4SGY2YXBFTHJMN3dK?=
+ =?utf-8?B?YVJEUTMxT1RKM2M2RTVhWHRSeDJBQ1l2MnFvd2JmaFZGQm1DWTlrSjZPbVRl?=
+ =?utf-8?B?SFIwcVhWMlVHWHpMOHNTM2NyMENnVHJtVFNERzlMUlFtZVU4dmJHbWI1ZUdn?=
+ =?utf-8?B?VFhNT3phVEdTSUEraUVVR0VveGxWSW9VZVNCRW1BVmhZb0h0L2hHemZQcHo2?=
+ =?utf-8?B?Mll6K0YwcVBESFdJblR3eTNPZTcxekZPWWhjOWZOL09Gb3Q2bkYyWTNjcTBQ?=
+ =?utf-8?B?UEhpZ25yY29jcW5VaFBuK0RrSThEM2NHT0dXV0lvSnRBS2IySGRtNE10azg3?=
+ =?utf-8?B?c2pyUzlSczdldlg5alRadi90SVJFcklMNVJpRlFMbzZ2STF5UW4zZk50ajgx?=
+ =?utf-8?B?QjZVZVo0Z3planpMZmhRUDF3N3lKQ3RKL25ud3FkakE5YTFoU0hDQ0NjbjZ0?=
+ =?utf-8?B?VmQ3eGdpWE4yazN5STlXejFGaVAzWndvY1VlVjFGckpNbnVJbGF1emI0Rm84?=
+ =?utf-8?B?cnI4aUt4MXZuTDJPS2t6TDVNV2FyTzNEcmpPeCtsb3RuMlVPYUxJYUprRkls?=
+ =?utf-8?B?MVZMWVNmTFFjay9wS01KNkRiZk1WT0dpZmppSFJCQmlhNUJJVnEwQ28rTjdu?=
+ =?utf-8?B?UEpkWG1lU1JCZXZzMW1UakEyVXFZK0Y4bmdGVTF5L2Z0TlJzVzJIY2NTdTU2?=
+ =?utf-8?B?L2UvV1NhZVA2bkd0dmp3Z3lrblBIeWg3enJJdmpzWUxDUEplNG42Zm8wN3lS?=
+ =?utf-8?B?NkFtTGg3c3ZVR1JTS0pYdmNFY2pjbWJrY3prN3RtV1Z6L3YyaWRLQzV5M21J?=
+ =?utf-8?Q?PrcqUxF8+rVZpFfHGIjb1tv30?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75e05991-b5c6-4494-6b46-08dd3bbb2f20
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2025 14:35:29.4933
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /0K5xjnb49a6qhjzDq+ngxjRsSFMoLxCMqgyfkvIYHha76eFjaTOgI68jOsAY3SO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8007
 
-On Thu, Jan 23, 2025 at 2:09=E2=80=AFAM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+Sending it as text mail once more.
+
+Am 23.01.25 um 15:32 schrieb Christian König:
+> Am 23.01.25 um 14:59 schrieb Jason Gunthorpe:
+>> On Wed, Jan 22, 2025 at 03:59:11PM +0100, Christian König wrote:
+>>>>> For example we have cases with multiple devices are in the same IOMMU domain
+>>>>> and re-using their DMA address mappings.
+>>>> IMHO this is just another flavour of "private" address flow between
+>>>> two cooperating drivers.
+>>> Well that's the point. The inporter is not cooperating here.
+>> If the private address relies on a shared iommu_domain controlled by
+>> the driver, then yes, the importer MUST be cooperating. For instance,
+>> if you send the same private address into RDMA it will explode because
+>> it doesn't have any notion of shared iommu_domain mappings, and it
+>> certainly doesn't setup any such shared domains.
 >
-> Hi Dave,
+> Hui? Why the heck should a driver own it's iommu domain?
 >
-> On Wed, Jan 22, 2025 at 04:24:10PM +0000, Dave Stevenson wrote:
-> > Hi Sakari
-> >
-> > On Wed, 22 Jan 2025 at 12:01, Sakari Ailus <sakari.ailus@linux.intel.co=
-m> wrote:
-> > >
-> > > Hi Dave,
-> > >
-> > > On Mon, Jan 20, 2025 at 11:35:40AM +0000, Dave Stevenson wrote:
-> > > > Commit ceddfd4493b3 ("media: i2c: imx219: Support four-lane operati=
-on")
-> > > > added support for device tree to allow configuration of the sensor =
-to
-> > > > use 4 lanes with a link frequency of 363MHz, and amended the advert=
-ised
-> > > > pixel rate to 280.8MPix/s.
-> > > >
-> > > > However it didn't change any of the PLL settings, so actually it wo=
-uld
-> > > > have been running overclocked in the MIPI block, and with the frame
-> > > > rate and exposure calculations being wrong as the pixel rate was
-> > > > unchanged.
-> > > >
-> > > > The pixel rate and link frequency advertised were taken from the "C=
-lock
-> > > > Setting Example" section of the datasheet. However those are based =
-on an
-> > > > external clock of 12MHz, and are unachievable with a clock of 24MHz=
- - it
-> > > > seems PREPLLCLK_VT_DIV and PREPLLCK_OP_DIV can ONLY be set via the
-> > > > automatic configuration documented in "9-1-2 EXCK_FREQ setting depe=
-nd on
-> > > > INCK frequency", not by writing the registers.
-> > > > The closest we can get with a 24MHz clock is 281.6MPix/s and 364MHz=
-.
-> > > >
-> > > > Dropping all support for the 363MHz link frequency would cause prob=
-lems
-> > > > for existing users, so allow it, but log a warning that the request=
-ed
-> > > > value is being changed to the supported one.
-> > > >
-> > > > Fixes: ceddfd4493b3 ("media: i2c: imx219: Support four-lane operati=
-on")
-> > > > Co-developed-by: Peyton Howe <peyton.howe@bellsouth.net>
-> > > > Signed-off-by: Peyton Howe <peyton.howe@bellsouth.net>
-> > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > ---
-> > > > This was fed back to us by Peyton Howe as giving image corruption
-> > > > on a Raspberry Pi with DF Robot imx219 module, and confirmed with
-> > > > a Soho Enterprises module.
-> > > > Effectively the module was being overclocked and misbehaving.
-> > > >
-> > > > With this patch and the Soho Enterprises module no image corruption
-> > > > is observed, and the frame rates are spot on. I haven't checked
-> > > > exposure times, but those should follow frame rate as they are
-> > > > based on the same clock.
-> > > > ---
-> > > >  drivers/media/i2c/imx219.c | 78 ++++++++++++++++++++++++++++++++++=
-++----------
-> > > >  1 file changed, 61 insertions(+), 17 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.=
-c
-> > > > index 2d54cea113e1..562b3eb0cb1e 100644
-> > > > --- a/drivers/media/i2c/imx219.c
-> > > > +++ b/drivers/media/i2c/imx219.c
-> > > > @@ -133,10 +133,11 @@
-> > > >
-> > > >  /* Pixel rate is fixed for all the modes */
-> > > >  #define IMX219_PIXEL_RATE            182400000
-> > > > -#define IMX219_PIXEL_RATE_4LANE              280800000
-> > > > +#define IMX219_PIXEL_RATE_4LANE              281600000
-> > > >
-> > > >  #define IMX219_DEFAULT_LINK_FREQ     456000000
-> > > > -#define IMX219_DEFAULT_LINK_FREQ_4LANE       363000000
-> > > > +#define IMX219_DEFAULT_LINK_FREQ_4LANE_UNSUPPORTED   363000000
-> > > > +#define IMX219_DEFAULT_LINK_FREQ_4LANE       364000000
-> > >
-> > > This shows again the ill effects of register list based drivers. :-(
-> >
-> > Seeing as it was the PLL setup that was wrong, I believe the only
-> > drivers that may have avoided it are MT9P031, AR0521, and CCS assuming
-> > they compute all PLL settings correctly off an arbitrary pixel clock.
+> The domain is owned and assigned by the PCI subsystem under Linux.
 >
-> ov5640 does that, too, but it has a mode list.
+>>> The importer doesn't have the slightest idea that he is sharing it's DMA
+>>> addresses with the exporter.
+>> Of course it does. The importer driver would have had to explicitly
+>> set this up! The normal kernel behavior is that all drivers get
+>> private iommu_domains controled by the DMA API. If your driver is
+>> doing something else *it did it deliberately*.
 >
-> >
-> > Unfortunately I had no hardware to test the original patch adding 4
-> > lane support, and as the datasheet doesn't lay out the actual PLL
-> > configuration required for each option I hadn't twigged it was
-> > required. I would have hoped that the author of that patch would have
-> > noticed the frame rates were wrong, but things are never perfect.
-
-I didn't see video issues when I submitted the original patch.  I
-don't know if I just lucked out with having hardware that tolerated
-overclocking, or if it was due to the resolution or frame rate I was
-testing.
-
-> >
-> > And I assume that your comment means that we won't see Intel
-> > submitting any register list based drivers in future? I'll be quite
-> > happy not having to rework them due to only supporting a 19.2MHz clock
-> > :-)
-
-My original design for the IMX219 didn't use a 24MHz ref clock, but I
-noticed the datasheet supported different ref clocks.  I had
-considered adding support for the clock we originally designed, but I
-convinced the hardware guys to swap out the clock, so didn't spend a
-lot of time on the investigating the PLL's or clocking structure.
-Ironically, I was afraid to break something, which I apparently
-succeeded in doing anyway.  :-(
-
-Sorry about that.
-
+> As far as I know that is simply not correct. Currently IOMMU 
+> domains/groups are usually shared between devices.
 >
-> I'd wish I could say I won't merge any new register list based drivers bu=
-t
-> that would mean there would be very, very few new sensor drivers. :-(
-> Register list based are here to stay, I'm afraid.
+> Especially multi function devices get only a single IOMMU domain.
 >
-> >
-> > > >
-> > > >  /* IMX219 native and active pixel array size. */
-> > > >  #define IMX219_NATIVE_WIDTH          3296U
-> > > > @@ -168,15 +169,6 @@ static const struct cci_reg_sequence imx219_co=
-mmon_regs[] =3D {
-> > > >       { CCI_REG8(0x30eb), 0x05 },
-> > > >       { CCI_REG8(0x30eb), 0x09 },
-> > > >
-> > > > -     /* PLL Clock Table */
-> > > > -     { IMX219_REG_VTPXCK_DIV, 5 },
-> > > > -     { IMX219_REG_VTSYCK_DIV, 1 },
-> > > > -     { IMX219_REG_PREPLLCK_VT_DIV, 3 },      /* 0x03 =3D AUTO set =
-*/
-> > > > -     { IMX219_REG_PREPLLCK_OP_DIV, 3 },      /* 0x03 =3D AUTO set =
-*/
-> > > > -     { IMX219_REG_PLL_VT_MPY, 57 },
-> > > > -     { IMX219_REG_OPSYCK_DIV, 1 },
-> > > > -     { IMX219_REG_PLL_OP_MPY, 114 },
-> > > > -
-> > > >       /* Undocumented registers */
-> > > >       { CCI_REG8(0x455e), 0x00 },
-> > > >       { CCI_REG8(0x471e), 0x4b },
-> > > > @@ -201,6 +193,34 @@ static const struct cci_reg_sequence imx219_co=
-mmon_regs[] =3D {
-> > > >       { IMX219_REG_EXCK_FREQ, IMX219_EXCK_FREQ(IMX219_XCLK_FREQ / 1=
-000000) },
-> > > >  };
-> > > >
-> > > > +static const struct cci_reg_sequence imx219_2lane_regs[] =3D {
-> > > > +     /* PLL Clock Table */
-> > > > +     { IMX219_REG_VTPXCK_DIV, 5 },
-> > > > +     { IMX219_REG_VTSYCK_DIV, 1 },
-> > > > +     { IMX219_REG_PREPLLCK_VT_DIV, 3 },      /* 0x03 =3D AUTO set =
-*/
-> > > > +     { IMX219_REG_PREPLLCK_OP_DIV, 3 },      /* 0x03 =3D AUTO set =
-*/
-> > > > +     { IMX219_REG_PLL_VT_MPY, 57 },
-> > > > +     { IMX219_REG_OPSYCK_DIV, 1 },
-> > > > +     { IMX219_REG_PLL_OP_MPY, 114 },
-> > > > +
-> > > > +     /* 2-Lane CSI Mode */
-> > > > +     { IMX219_REG_CSI_LANE_MODE, IMX219_CSI_2_LANE_MODE },
-> > > > +};
-> > > > +
-> > > > +static const struct cci_reg_sequence imx219_4lane_regs[] =3D {
-> > > > +     /* PLL Clock Table */
-> > > > +     { IMX219_REG_VTPXCK_DIV, 5 },
-> > > > +     { IMX219_REG_VTSYCK_DIV, 1 },
-> > > > +     { IMX219_REG_PREPLLCK_VT_DIV, 3 },      /* 0x03 =3D AUTO set =
-*/
-> > > > +     { IMX219_REG_PREPLLCK_OP_DIV, 3 },      /* 0x03 =3D AUTO set =
-*/
-> > > > +     { IMX219_REG_PLL_VT_MPY, 88 },
-> > > > +     { IMX219_REG_OPSYCK_DIV, 1 },
-> > > > +     { IMX219_REG_PLL_OP_MPY, 91 },
-> > > > +
-> > > > +     /* 4-Lane CSI Mode */
-> > > > +     { IMX219_REG_CSI_LANE_MODE, IMX219_CSI_4_LANE_MODE },
-> > > > +};
-
-Instead of having a few tables of registers, would it make sense to
-have one common table and a small function to dynamically calculate
-these registers based on the ref clock and the desired link rate?
-Several of these values appear to be duplicates anyway.
-
-> > > > +
-> > > >  static const s64 imx219_link_freq_menu[] =3D {
-> > > >       IMX219_DEFAULT_LINK_FREQ,
-> > > >  };
-> > > > @@ -662,9 +682,11 @@ static int imx219_set_framefmt(struct imx219 *=
-imx219,
-> > > >
-> > > >  static int imx219_configure_lanes(struct imx219 *imx219)
-> > > >  {
-> > > > -     return cci_write(imx219->regmap, IMX219_REG_CSI_LANE_MODE,
-> > > > -                      imx219->lanes =3D=3D 2 ? IMX219_CSI_2_LANE_M=
-ODE :
-> > > > -                      IMX219_CSI_4_LANE_MODE, NULL);
-> > > > +     /* Write the appropriate PLL settings for the number of MIPI =
-lanes */
-> > > > +     return cci_multi_reg_write(imx219->regmap,
-> > > > +                               imx219->lanes =3D=3D 2 ? imx219_2la=
-ne_regs : imx219_4lane_regs,
-> > > > +                               imx219->lanes =3D=3D 2 ? ARRAY_SIZE=
-(imx219_2lane_regs) :
-> > > > +                               ARRAY_SIZE(imx219_4lane_regs), NULL=
-);
-> > > >  };
-> > > >
-> > > >  static int imx219_start_streaming(struct imx219 *imx219,
-> > > > @@ -1036,6 +1058,7 @@ static int imx219_check_hwcfg(struct device *=
-dev, struct imx219 *imx219)
-> > > >               .bus_type =3D V4L2_MBUS_CSI2_DPHY
-> > > >       };
-> > > >       int ret =3D -EINVAL;
-> > > > +     bool link_frequency_valid =3D false;
-> > > >
-> > > >       endpoint =3D fwnode_graph_get_next_endpoint(dev_fwnode(dev), =
-NULL);
-> > > >       if (!endpoint)
-> > > > @@ -1062,9 +1085,30 @@ static int imx219_check_hwcfg(struct device =
-*dev, struct imx219 *imx219)
-> > > >               goto error_out;
-> > > >       }
-> > > >
-> > > > -     if (ep_cfg.nr_of_link_frequencies !=3D 1 ||
-> > > > -        (ep_cfg.link_frequencies[0] !=3D ((imx219->lanes =3D=3D 2)=
- ?
-> > > > -         IMX219_DEFAULT_LINK_FREQ : IMX219_DEFAULT_LINK_FREQ_4LANE=
-))) {
-> > > > +     if (ep_cfg.nr_of_link_frequencies =3D=3D 1) {
-> > > > +             switch (imx219->lanes) {
-> > > > +             case 2:
-> > > > +                     if (ep_cfg.link_frequencies[0] =3D=3D
-> > > > +                                             IMX219_DEFAULT_LINK_F=
-REQ)
-> > > > +                             link_frequency_valid =3D true;
-> > > > +                     break;
-> > > > +             case 4:
-> > > > +                     if (ep_cfg.link_frequencies[0] =3D=3D
-> > > > +                                             IMX219_DEFAULT_LINK_F=
-REQ_4LANE)
-> > > > +                             link_frequency_valid =3D true;
-> > > > +                     else if (ep_cfg.link_frequencies[0] =3D=3D
-> > > > +                                IMX219_DEFAULT_LINK_FREQ_4LANE_UNS=
-UPPORTED) {
-> > > > +                             dev_warn(dev, "Link frequency of %d n=
-ot supported, but has been incorrectly advertised previously\n",
-> > > > +                                      IMX219_DEFAULT_LINK_FREQ_4LA=
-NE_UNSUPPORTED);
-> > > > +                             dev_warn(dev, "Using link frequency o=
-f %d\n",
-> > > > +                                      IMX219_DEFAULT_LINK_FREQ_4LA=
-NE);
-
-I grepped the code for 363000000 to see if anyone was using it in
-their device tree.  Maybe I missed something in linux-next, but I
-didn't see it.  I know I didn't push my camera device tree entries for
-the two devices I had tested, because I was going to use them as
-device tree overlays and never got around to pushing them upstream,
-but I do occasionally test them.  If nobody has a wrong device tree
-entry, it seems reasonable to me to simplify this code by just
-changing it from 363000000 to 364000000 and eliminate the stuff for
-the the unsupported value.
-
-
-> > >
-> > > Would it be helpful to use v4l2_link_freq_to_bitmap() here? The old
-> > > frequency requires separate handling but I guess you'll still want to
-> > > expose the correct frequency to the user space so it should be just o=
-ne
-> > > condition.
-> >
-> > I've done a quick prototype using it. I'm not sure it's any cleaner,
-> > and possibly ends up being more verbose.
-> >
-> > As I see it, either you end up with a call to v4l2_link_freq_to_bitmap
-> > for each of the 2 and 4 lane cases (6 lines each due to the number of
-> > parameters), or you combine both 2 & 4 lane frequency options into one
-> > array and then handle that certain bit options are only valid for one
-> > or other option, and pass the right value in when calling
-> > v4l2_ctrl_new_int_menu(..., V4L2_CID_LINK_FREQ...).
-> > Handling the unsupported link frequency requires knowledge of the
-> > positions in the array, so either hard coded indices or needing an
-> > enum for each index.
-> >
-> > I've pushed my quick patch to
-> > https://github.com/6by9/linux/tree/media_imx219_4lane.
-> > Personally I think it detracts from readability in this case, but I'm
-> > happy to switch to a cleaned up version of it if you view it as
-> > better.
+>> Some of that mess in tegra host1x around this area is not well
+>> structured, it should not be implicitly setting up domains for
+>> drivers. It is old code that hasn't been updated to use the new iommu
+>> subsystem approach for driver controled non-DMA API domains.
+>>
+>> The new iommu architecture has the probing driver disable the DMA API
+>> and can then manipulate its iommu domain however it likes, safely. Ie
+>> the probing driver is aware and particiapting in disabling the DMA
+>> API.
+>
+> Why the heck should we do this?
+>
+> That drivers manage all of that on their own sounds like a massive 
+> step in the wrong direction.
+>
+>> Again, either you are using the DMA API and you work in generic ways
+>> with generic devices or it is "private" and only co-operating drivers
+>> can interwork with private addresses. A private address must not ever
+>> be sent to a DMA API using driver and vice versa.
+>>
+>> IMHO this is an important architecture point and why Christoph was
+>> frowning on abusing dma_addr_t to represent things that did NOT come
+>> out of the DMA API.
+>>
+>>> We have a very limited number of exporters and a lot of different importers.
+>>> So having complexity in the exporter instead of the importer is absolutely
+>>> beneficial.
+>> Isn't every DRM driver both an importer and exporter? That is what I
+>> was expecting at least..
+>>
+>>> I still strongly think that the exporter should talk with the DMA API to
+>>> setup the access path for the importer and *not* the importer directly.
+>> It is contrary to the design of the new API which wants to co-optimize
+>> mapping and HW setup together as one unit.
+>
+> Yeah and I'm really questioning this design goal. That sounds like 
+> totally going into the wrong direction just because of the RDMA drivers.
+>
+>> For instance in RDMA we want to hint and control the way the IOMMU
+>> mapping works in the DMA API to optimize the RDMA HW side. I can't do
+>> those optimizations if I'm not in control of the mapping.
+>
+> Why? What is the technical background here?
+>
+>> The same is probably true on the GPU side too, you want IOVAs that
+>> have tidy alignment with your PTE structure, but only the importer
+>> understands its own HW to make the correct hints to the DMA API.
+>
+> Yeah but then express those as requirements to the DMA API and not 
+> move all the important decisions into the driver where they are 
+> implemented over and over again and potentially broken halve the time.
+>
+> See drivers are supposed to be simple, small and stupid. They should 
+> be controlled by the core OS and not allowed to do whatever they want.
+>
+> Driver developers are not trust able to always get everything right if 
+> you make it as complicated as this.
+>
+> Regards,
+> Christian.
+>
+>> Jason
 >
 
-Thanks for looking at this.
-
-> I was thinking of separate frequency lists for all three cases. That way
-> you'd avoid almost all manual checks of the frequencies.
->
-> The question I'd also have is whether we should try to continue to indica=
-te
-> the incorrect frequency or not. The values are not an integral part of th=
-e
-> ABI in my view as new ones can be added, even for the same board. And in
-> this case there's just a single one in any given case.
->
-> This information is also mainly used to configure the receiver timing and
-> wrong values here could lead to errors in reception.
->
-> IOW, I'd just show the correct value, independently of what's in firmware=
-.
->
-> --
-> Kind regards,
->
-> Sakari Ailus
 
