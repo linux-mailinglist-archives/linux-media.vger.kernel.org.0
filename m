@@ -1,303 +1,323 @@
-Return-Path: <linux-media+bounces-25212-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25213-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBC3A1A72D
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 16:38:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E34A1A766
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 16:57:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7B7803A2792
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 15:38:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37C3D1887C8E
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 15:58:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB58413D502;
-	Thu, 23 Jan 2025 15:38:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A5C22135A0;
+	Thu, 23 Jan 2025 15:57:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="OUDyE73V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hy7nN4an"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DE72F852
-	for <linux-media@vger.kernel.org>; Thu, 23 Jan 2025 15:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A4D212FAC;
+	Thu, 23 Jan 2025 15:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737646684; cv=none; b=bwZXJqR8C3DvpRkQdnO74Up4/t19nSYOT0+ibg/nzVVx9BSAyuNeNLfunNAN2E7M8buJupEfyG+eJqa82m787Uq0bukiU/euyFIULToedrqUfqR6Q+sSyxzo+0oAwhkWxOW1FSN6rm9ZjMtwLJcLBM15pJYaklUd3V22JsO7Bm8=
+	t=1737647866; cv=none; b=bjwrqDZ5qTJ/SlnY/yamrAkmdQTr2NZ1B40MEtIEBVkKvdvARM+ee6Ruih89c7GbICaUMG37wjmdHikKNS9TWPuCDEhB0PxkBQ8sofNqH1h3MLKIc/U5Vcc06RVCgF6L1BdR2LuY8iJKizUWHU88Ofat+EsAANydr10lM53vt8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737646684; c=relaxed/simple;
-	bh=go9UwyolASGgtSXstruaJesfxVG21rAb0RLMdlmz3mo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=RPULb2yXyKG0ubPSYg43dy/47zqA8e+F1ClH7ohwL1Ou1n+ZeLOIW1gopLOcXptzJ7vtfGeE1bqpgYGsxNG5zXEB8tJcKQihqa+0z4NM4PNFW7tUQ4z5bhiWsaeT22TY7S+75A2SjnDTQ4noMGkUZ9qBmG5HlYawreMufhfqS6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=OUDyE73V; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-385df53e559so793702f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 23 Jan 2025 07:38:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1737646680; x=1738251480; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TUn3iKdWrTKdy42YK9lrN5yhRM0D/wGv3Rh4t6Q5I5M=;
-        b=OUDyE73Vlo6Q48wll3iQAr7qGwZnHWX0QMRNKnvmN/PJEl4luyFfR4ACThkcxB1Tr4
-         c8DNBGpE+QHPjtszOCHEdKODrfUHYLEfkbLaiRCPd53inAnFcihzBp4vJYQl1wZ8L9LR
-         awNKOHKc/kFFq+5NXgl+FXiyS5RmaMjA88iYc+C1WgAtmwwp12pUSuVghrtukziIDQka
-         YXvFnmB2scKYNndEK1sLx8oo6e4W49x1XmBnkYcIxAqavqa0BNCW1/a0yDmwGhOhdjVT
-         gYQ28bKFCfEjOvTVUWM4uFYbzyuxhsdMxfaL9ne3d2EzGjcuL392uQb18Bj8stId1s7z
-         1oZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737646680; x=1738251480;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TUn3iKdWrTKdy42YK9lrN5yhRM0D/wGv3Rh4t6Q5I5M=;
-        b=j3X4i4gsJXagtf1V2yMjpNWCzsLihfIAI32c+gbtteeGLedzr7MGGuWFgxROwf+QEr
-         f3HzfFni7MzIsmR7glmeIiGta98znRVYs+iNxc1K6mTecYD2oPdyTXLcB2dHviq7ywW6
-         4o5SsCvjkvHIlbwVNvw0cs51+zwlkr//MewIw3SY0xh1iNzKpZf134HP0HginnwWcoio
-         xZx3hIx1AJy3ttUiNx/VHV0izUJlEnYBl4xsmLnYw3kMSC/i3tMlyAtlOEUVqY8/qkN1
-         XKP5VGS7gIq0vvG8Ca9stu3hiQfEIaPYVZrZ54QQo4FQgwapZtFBAQ37UzOO0O8hhuaa
-         lC0A==
-X-Gm-Message-State: AOJu0Yxjt2/43J94S1nOLGi9etkVmyI1t/fck9E7q/tBWfRWKoIs3YdQ
-	neyCmc7jORXH7CnCs+hYiHbUfHzJatgL9Q1N15L3BbJFgfLXTP9wRbHE7AUQPO4=
-X-Gm-Gg: ASbGncury/3v1dVDc9Ry+mMtMG6LbvcyN1kiiM6WbvSXe7lu/WeQ+r7h6RpzLbjueKm
-	ADlaRecnOmnpNe6h8UrzOupGn8sbXjubKVEC6Azr72pm86FUvgXzTJkYLzy0jx0uHKLFgybG8J+
-	P3TjLLfHxTK/tWn3QwfLswHoOSVEbFClEra9S1sXMP+Rs8JN+SLFLPHCJ/nfsZ5Ic9WtW43MFAs
-	5nMdfFZDkxjaTZ3dBCixFbwUf/RmH6VBgWcxx79ObUN3OKDIfWEfAm8E45F+tgdEtVZnjCe
-X-Google-Smtp-Source: AGHT+IGUP7W8Lban32wv+e4thc74TOLm+KZ4xfI/RK+Cafh67K7b18iKCh+s1CnARQIwWaAxVlzKmQ==
-X-Received: by 2002:a5d:64a1:0:b0:385:f7d9:99f5 with SMTP id ffacd0b85a97d-38bf57d3813mr29730924f8f.51.1737646679979;
-        Thu, 23 Jan 2025 07:37:59 -0800 (PST)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38bf328dc08sm19356058f8f.101.2025.01.23.07.37.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2025 07:37:59 -0800 (PST)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 23 Jan 2025 15:37:49 +0000
-Subject: [PATCH v2] media: imx219: Adjust PLL settings based on the number
- of MIPI lanes
+	s=arc-20240116; t=1737647866; c=relaxed/simple;
+	bh=FPoRGmjzqY7kjf8l67wTrBxrM/eEufKrizteXMLv4GY=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=drinRHyRpZj7tiYvHNhcflTCGXC4gyviElIzPsYU05aXZsJsIMlZeIsAXo4HlnbxMNbfOJVyMZCN0VH2BuRGW/9RecOS+CzAJ+fz+pibtnShRMWbh1dtY3L9rmlk6TCBRR/CauA3nE73BOhm2wY02XiD5EoEuF/06hhI8n/9Muo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hy7nN4an; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98493C4CEDD;
+	Thu, 23 Jan 2025 15:57:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737647865;
+	bh=FPoRGmjzqY7kjf8l67wTrBxrM/eEufKrizteXMLv4GY=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=Hy7nN4an9w5o3Pqyq6XgPerIxU8Hi8BsS5sCvEn43s7ynDweBehaJ0OrAb3R6/buQ
+	 cotaD55FR841DKPsdESrvLiCM684GA8yJJQF5uLPDe92QU5PY0OCtTtBiPMa8uOVMz
+	 7+8H2z2S3PeNjhV3tbQxajkPpbjyaNo1PehJ0CGoTFU9Cnb9HMz0gdyFxw2k4lp+eC
+	 lA4EHj6dEubqEB1SWZWmm+HSo0QUMDWhkg3n61UoPAFnLTOplTivfkvyvagd2wdd9f
+	 qqyPErLlG90lDM9BxI+Uwog5b2m4wIpxhH6HxZl7L7oIdcBG5H1XC3FmDchBD2refL
+	 sJFd7/t92yS7g==
+Date: Thu, 23 Jan 2025 09:57:44 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250123-media-imx219-4lane-v2-1-b001662f4310@raspberrypi.com>
-X-B4-Tracking: v=1; b=H4sIAExikmcC/32NTQ6CQAxGr0K6toaOIMGV9zAs6kyRJvKTjiEQw
- t0dOYDL95LvfRtEMZUIt2wDk1mjjkMCd8rAdzy8BDUkBpe7MieXYy9BGbVfHNVYvHkQbCkIc1m
- XV1dBGk4mrS5H9NEk7jR+RluPj5l+9m9uJiT0FTNxQZcQ/N04Tk8xWyc9+7GHZt/3L36W1fq6A
- AAA
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Adam Ford <aford173@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Peyton Howe <peyton.howe@bellsouth.net>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-X-Mailer: b4 0.14.1
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: akapatra@quicinc.com, todor.too@gmail.com, krzk+dt@kernel.org, 
+ catalin.marinas@arm.com, mchehab@kernel.org, devicetree@vger.kernel.org, 
+ bryan.odonoghue@linaro.org, linux-kernel@vger.kernel.org, 
+ cros-qcom-dts-watchers@chromium.org, hverkuil-cisco@xs4all.nl, 
+ kernel@quicinc.com, conor+dt@kernel.org, rfoss@kernel.org, 
+ konradybcio@kernel.org, will@kernel.org, linux-media@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, hariramp@quicinc.com, 
+ andersson@kernel.org, linux-arm-msm@vger.kernel.org
+To: Vikram Sharma <quic_vikramsa@quicinc.com>
+In-Reply-To: <20250121125010.1853269-1-quic_vikramsa@quicinc.com>
+References: <20250121125010.1853269-1-quic_vikramsa@quicinc.com>
+Message-Id: <173764774673.3793413.12753318541761077535.robh@kernel.org>
+Subject: Re: [PATCH v11 0/2] media: qcom: camss: Add sc7280 support
 
-Commit ceddfd4493b3 ("media: i2c: imx219: Support four-lane operation")
-added support for device tree to allow configuration of the sensor to
-use 4 lanes with a link frequency of 363MHz, and amended the advertised
-pixel rate to 280.8MPix/s.
 
-However it didn't change any of the PLL settings, so actually it would
-have been running overclocked in the MIPI block, and with the frame
-rate and exposure calculations being wrong as the pixel rate was
-unchanged.
+On Tue, 21 Jan 2025 18:20:08 +0530, Vikram Sharma wrote:
+> SC7280 is a Qualcomm SoC. This series adds support to bring up the CSIPHY,
+> CSID, VFE/RDI interfaces in SC7280.
+> 
+> SC7280 provides
+> - 3 x VFE, 3 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 5 x CSI PHY
+> 
+> This change is dependent on below series as we have updated clock names
+> in yaml and driver.
+> https://lore.kernel.org/linux-arm-msm/20250121120901.1841142-1-quic_vikramsa@quicinc.com/
+> 
+> We have tested this on qcs6490-rb3gen2-vision-mezzanine board having IMX577
+> sensor.
+> 
+> Used following tools for the sanity check of these changes.
+> 
+> - make CHECK_DTBS=y W=1 DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml
+> qcom/qcs6490-rb3gen2-vision-mezzanine.dtb
+> - make DT_CHECKER_FLAGS=-m W=1
+> DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml dt_binding_check
+> - Smatch: make CHECK="smatch --full-path" M=drivers/media/platform/qcom/camss/
+> - coccicheck : make coccicheck M=drivers/media/platform/qcom/camss/
+> - make -j32 W=1
+> - ./scripts/checkpatch.pl
+> 
+> Changes in V11:
+> - Moved [PATCH v10 1/4] and [PATCH v10 2/4] as a separate series.
+> - Marked dependency on
+>   https://lore.kernel.org/linux-arm-msm/20250121120901.1841142-1-quic_vikramsa@quicinc.com/
+> - Sorted the header files alphabetically in dtso.
+> - Removed invalid property for sensor.
+> - Removed rst-pin from default and suspend states of pinctrl. We have verified
+>   that for imx412 sensor there are no SET_SYSTEM_SLEEP_PM_OPS added.
+>   So removing rst-pin does not make any difference in power management.
+> - Link to v10: https://lore.kernel.org/linux-arm-msm/20241217140656.965235-1-quic_vikramsa@quicinc.com/
+> 
+> Changes in V10:
+> - Updated cover letter to add link for v8 under changes in v9.
+> - No change in the patches w.r.t V9
+> - Link to v9: https://lore.kernel.org/linux-arm-msm/20241217133955.946426-1-quic_vikramsa@quicinc.com/
+> 
+> Changes in V9:
+> - Removed GCC_CAMERA_AHB_CLK as its always enabled.
+> - Added GCC_CAMERA_SF_AXI_CLK.
+> - Renamed gcc_cam_hf_axi to gcc_axi_hf.
+> - V8 had 5 patches and V9 have 4 patches.
+> - First 3 patches of V8 are already promoted to linux-next
+> i.e
+>   media: dt-bindings: Add qcom,sc7280-camss
+>   media: qcom: camss: Sort camss version enums and compatible strings
+>   media: qcom: camss: Add support for camss driver on sc7280
+> - 2 new patches are added to handle new comments from Konrad on
+>   "Patch v8 4/5 arm64: dts: qcom: sc7280: Add support for camss"
+>   1 of the 2 new patches make changes in yaml and other one is making
+>   change in camss driver to handle new comments in dtsi.
+> - for "Patch v8 4/5 arm64: dts: qcom: sc7280: Add support for camss" I got
+>   comments from Konrad to make changes for clock names so I had to make
+>   respective changes in "bindings/media/qcom,sc7280-camss.yaml". As dtsi
+>   changes are not merged yet, so there is no issues with backward
+>   compatibility and I am assuming this should be acceptable.
+> - Link to v8: https://lore.kernel.org/linux-arm-msm/20241206191900.2545069-1-quic_vikramsa@quicinc.com/
+> 
+> Changes in V8:
+> - Changed node name from camss to isp.
+> - Added QCOM_ICC_TAG_ACTIVE_ONLY and QCOM_ICC_TAG_ALWAYS tags for
+>   interconnects.
+> - Added blank lines when required.
+> - Modified power-domain-names from horizontal to vertical list.
+> - Sorted pinctrl nodes based on gpio index.
+> - Link to v7: https://lore.kernel.org/linux-arm-msm/20241204100003.300123-1-quic_vikramsa@quicinc.com/
+> 
+> Changes in V7:
+> - Changed unit address for camss in documention and dts.
+> - Added avdd-supply and dvdd-supply for sensor.
+> - Changed reg/clocks/interrupts name for vfe_lite and csid_lite.
+> - Link to v6: https://lore.kernel.org/linux-arm-msm/20241127100421.3447601-1-quic_vikramsa@quicinc.com/
+> 
+> Changes in V6:
+> - Changed order of properties in Documentation [PATCH 1/5].
+> - Updated description for ports in Documentaion [PATCH 1/5].
+> - Moved regulators from csid to csiphy [PATCH 3/5].
+> - Link to v5: https://lore.kernel.org/linux-arm-msm/20241112173032.2740119-1-quic_vikramsa@quicinc.com/
+> 
+> Changes in V5:
+> - Updated Commit text for [PATCH v5 1/6].
+> - Moved reg after compatible string.
+> - Renamed csi'x' clocks to vfe'x'_csid
+> - Removed [PATCH v4 4/6] and raised a seprate series for this one.
+> - Moved gpio states to mezzanine dtso.
+> - Added more clock levels to address TPG related issues.
+> - Renamed power-domains-names -> power-domain-names.
+> - Link to v4: https://lore.kernel.org/linux-arm-msm/20241030105347.2117034-1-quic_vikramsa@quicinc.com/
+> 
+> Changes in V4:
+> - V3 had 8 patches and V4 is reduced to 6.
+> - Removed [Patch v3 2/8] as binding change is not required for dtso.
+> - Removed [Patch v3 3/8] as the fix is already taken care in latest
+>   kernel tip.
+> - Updated alignment for dtsi and dt-bindings.
+> - Adding qcs6490-rb3gen2-vision-mezzanine as overlay.
+> - Link to v3: https://lore.kernel.org/linux-arm-msm/20241011140932.1744124-1-quic_vikramsa@quicinc.com/
+> 
+> Changes in V3:
+> - Added missed subject line for cover letter of V2.
+> - Updated Alignment, indentation and properties order.
+> - edit commit text for [PATCH 02/10] and [PATCH 03/10].
+> - Refactor camss_link_entities.
+> - Removed camcc enablement changes as it already done.
+> - Link to v2: https://lore.kernel.org/linux-arm-msm/20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com/
+> 
+> Changes in V2:
+> - Improved indentation/formatting.
+> - Removed _src clocks and misleading code comments.
+> - Added name fields for power domains and csid register offset in DTSI.
+> - Dropped minItems field from YAML file.
+> - Listed changes in alphabetical order.
+> - Updated description and commit text to reflect changes
+> - Changed the compatible string from imx412 to imx577.
+> - Added board-specific enablement changes in the newly created vision
+>   board DTSI file.
+> - Fixed bug encountered during testing.
+> - Moved logically independent changes to a new/seprate patch.
+> - Removed cci0 as no sensor is on this port and MCLK2, which was a
+>   copy-paste error from the RB5 board reference.
+> - Added power rails, referencing the RB5 board.
+> - Discarded Patch 5/6 completely (not required).
+> - Removed unused enums.
+> - Link to v1: https://lore.kernel.org/linux-arm-msm/20240629-camss_first_post_linux_next-v1-0-bc798edabc3a@quicinc.com/
+> 
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> 
+> Vikram Sharma (2):
+>   arm64: dts: qcom: sc7280: Add support for camss
+>   arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision
+>     mezzanine
+> 
+>  arch/arm64/boot/dts/qcom/Makefile             |   4 +
+>  .../qcs6490-rb3gen2-vision-mezzanine.dtso     |  93 +++++++++
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi          | 178 ++++++++++++++++++
+>  3 files changed, 275 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+> 
+> --
+> 2.25.1
+> 
+> 
+> 
 
-The pixel rate and link frequency advertised were taken from the "Clock
-Setting Example" section of the datasheet. However those are based on an
-external clock of 12MHz, and are unachievable with a clock of 24MHz - it
-seems PREPLLCLK_VT_DIV and PREPLLCK_OP_DIV can ONLY be set via the
-automatic configuration documented in "9-1-2 EXCK_FREQ setting depend on
-INCK frequency", not by writing the registers.
-The closest we can get with a 24MHz clock is 281.6MPix/s and 364MHz.
 
-Dropping all support for the 363MHz link frequency would cause problems
-for existing users, so allow it, but log a warning that the requested
-value is being changed to the supported one.
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Fixes: ceddfd4493b3 ("media: i2c: imx219: Support four-lane operation")
-Co-developed-by: Peyton Howe <peyton.howe@bellsouth.net>
-Signed-off-by: Peyton Howe <peyton.howe@bellsouth.net>
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
-This was fed back to us by Peyton Howe as giving image corruption
-on a Raspberry Pi with DF Robot imx219 module, and confirmed with
-a Soho Enterprises module.
-Effectively the module was being overclocked and misbehaving.
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-With this patch and the Soho Enterprises module no image corruption
-is observed, and the frame rates are spot on. I haven't checked
-exposure times, but those should follow frame rate as they are
-based on the same clock.
----
-Changes in v2:
-- Reworked to use v4l2_link_freq_to_bitmap instead of manual checks of
-  the link frequency (Sakari).
-- Link to v1: https://lore.kernel.org/r/20250120-media-imx219-4lane-v1-1-c7aa1a413ddc@raspberrypi.com
----
- drivers/media/i2c/imx219.c | 93 ++++++++++++++++++++++++++++++++++------------
- 1 file changed, 69 insertions(+), 24 deletions(-)
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 2d54cea113e1..fd6cafc32847 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -133,10 +133,11 @@
- 
- /* Pixel rate is fixed for all the modes */
- #define IMX219_PIXEL_RATE		182400000
--#define IMX219_PIXEL_RATE_4LANE		280800000
-+#define IMX219_PIXEL_RATE_4LANE		281600000
- 
- #define IMX219_DEFAULT_LINK_FREQ	456000000
--#define IMX219_DEFAULT_LINK_FREQ_4LANE	363000000
-+#define IMX219_DEFAULT_LINK_FREQ_4LANE_UNSUPPORTED	363000000
-+#define IMX219_DEFAULT_LINK_FREQ_4LANE	364000000
- 
- /* IMX219 native and active pixel array size. */
- #define IMX219_NATIVE_WIDTH		3296U
-@@ -168,15 +169,6 @@ static const struct cci_reg_sequence imx219_common_regs[] = {
- 	{ CCI_REG8(0x30eb), 0x05 },
- 	{ CCI_REG8(0x30eb), 0x09 },
- 
--	/* PLL Clock Table */
--	{ IMX219_REG_VTPXCK_DIV, 5 },
--	{ IMX219_REG_VTSYCK_DIV, 1 },
--	{ IMX219_REG_PREPLLCK_VT_DIV, 3 },	/* 0x03 = AUTO set */
--	{ IMX219_REG_PREPLLCK_OP_DIV, 3 },	/* 0x03 = AUTO set */
--	{ IMX219_REG_PLL_VT_MPY, 57 },
--	{ IMX219_REG_OPSYCK_DIV, 1 },
--	{ IMX219_REG_PLL_OP_MPY, 114 },
--
- 	/* Undocumented registers */
- 	{ CCI_REG8(0x455e), 0x00 },
- 	{ CCI_REG8(0x471e), 0x4b },
-@@ -201,12 +193,45 @@ static const struct cci_reg_sequence imx219_common_regs[] = {
- 	{ IMX219_REG_EXCK_FREQ, IMX219_EXCK_FREQ(IMX219_XCLK_FREQ / 1000000) },
- };
- 
-+static const struct cci_reg_sequence imx219_2lane_regs[] = {
-+	/* PLL Clock Table */
-+	{ IMX219_REG_VTPXCK_DIV, 5 },
-+	{ IMX219_REG_VTSYCK_DIV, 1 },
-+	{ IMX219_REG_PREPLLCK_VT_DIV, 3 },	/* 0x03 = AUTO set */
-+	{ IMX219_REG_PREPLLCK_OP_DIV, 3 },	/* 0x03 = AUTO set */
-+	{ IMX219_REG_PLL_VT_MPY, 57 },
-+	{ IMX219_REG_OPSYCK_DIV, 1 },
-+	{ IMX219_REG_PLL_OP_MPY, 114 },
-+
-+	/* 2-Lane CSI Mode */
-+	{ IMX219_REG_CSI_LANE_MODE, IMX219_CSI_2_LANE_MODE },
-+};
-+
-+static const struct cci_reg_sequence imx219_4lane_regs[] = {
-+	/* PLL Clock Table */
-+	{ IMX219_REG_VTPXCK_DIV, 5 },
-+	{ IMX219_REG_VTSYCK_DIV, 1 },
-+	{ IMX219_REG_PREPLLCK_VT_DIV, 3 },	/* 0x03 = AUTO set */
-+	{ IMX219_REG_PREPLLCK_OP_DIV, 3 },	/* 0x03 = AUTO set */
-+	{ IMX219_REG_PLL_VT_MPY, 88 },
-+	{ IMX219_REG_OPSYCK_DIV, 1 },
-+	{ IMX219_REG_PLL_OP_MPY, 91 },
-+
-+	/* 4-Lane CSI Mode */
-+	{ IMX219_REG_CSI_LANE_MODE, IMX219_CSI_4_LANE_MODE },
-+};
-+
- static const s64 imx219_link_freq_menu[] = {
- 	IMX219_DEFAULT_LINK_FREQ,
- };
- 
- static const s64 imx219_link_freq_4lane_menu[] = {
- 	IMX219_DEFAULT_LINK_FREQ_4LANE,
-+	/*
-+	 * This will never be advertised to userspace, but will be used for
-+	 * v4l2_link_freq_to_bitmap
-+	 */
-+	IMX219_DEFAULT_LINK_FREQ_4LANE_UNSUPPORTED,
- };
- 
- static const char * const imx219_test_pattern_menu[] = {
-@@ -662,9 +687,11 @@ static int imx219_set_framefmt(struct imx219 *imx219,
- 
- static int imx219_configure_lanes(struct imx219 *imx219)
- {
--	return cci_write(imx219->regmap, IMX219_REG_CSI_LANE_MODE,
--			 imx219->lanes == 2 ? IMX219_CSI_2_LANE_MODE :
--			 IMX219_CSI_4_LANE_MODE, NULL);
-+	/* Write the appropriate PLL settings for the number of MIPI lanes */
-+	return cci_multi_reg_write(imx219->regmap,
-+				  imx219->lanes == 2 ? imx219_2lane_regs : imx219_4lane_regs,
-+				  imx219->lanes == 2 ? ARRAY_SIZE(imx219_2lane_regs) :
-+				  ARRAY_SIZE(imx219_4lane_regs), NULL);
- };
- 
- static int imx219_start_streaming(struct imx219 *imx219,
-@@ -1035,6 +1062,7 @@ static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
- 	struct v4l2_fwnode_endpoint ep_cfg = {
- 		.bus_type = V4L2_MBUS_CSI2_DPHY
- 	};
-+	unsigned long link_freq_bitmap;
- 	int ret = -EINVAL;
- 
- 	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-@@ -1056,23 +1084,40 @@ static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
- 	imx219->lanes = ep_cfg.bus.mipi_csi2.num_data_lanes;
- 
- 	/* Check the link frequency set in device tree */
--	if (!ep_cfg.nr_of_link_frequencies) {
--		dev_err_probe(dev, -EINVAL,
--			      "link-frequency property not found in DT\n");
--		goto error_out;
-+	switch (imx219->lanes) {
-+	case 2:
-+		ret = v4l2_link_freq_to_bitmap(dev,
-+					       ep_cfg.link_frequencies,
-+					       ep_cfg.nr_of_link_frequencies,
-+					       imx219_link_freq_menu,
-+					       ARRAY_SIZE(imx219_link_freq_menu),
-+					       &link_freq_bitmap);
-+		break;
-+	case 4:
-+		ret = v4l2_link_freq_to_bitmap(dev,
-+					       ep_cfg.link_frequencies,
-+					       ep_cfg.nr_of_link_frequencies,
-+					       imx219_link_freq_4lane_menu,
-+					       ARRAY_SIZE(imx219_link_freq_4lane_menu),
-+					       &link_freq_bitmap);
-+
-+		if (!ret && (link_freq_bitmap & BIT(1))) {
-+			dev_warn(dev, "Link frequency of %d not supported, but has been incorrectly advertised previously\n",
-+				 IMX219_DEFAULT_LINK_FREQ_4LANE_UNSUPPORTED);
-+			dev_warn(dev, "Using link frequency of %d\n",
-+				 IMX219_DEFAULT_LINK_FREQ_4LANE);
-+			link_freq_bitmap |= BIT(0);
-+		}
-+		break;
- 	}
- 
--	if (ep_cfg.nr_of_link_frequencies != 1 ||
--	   (ep_cfg.link_frequencies[0] != ((imx219->lanes == 2) ?
--	    IMX219_DEFAULT_LINK_FREQ : IMX219_DEFAULT_LINK_FREQ_4LANE))) {
-+	if (ret || !(link_freq_bitmap & BIT(0))) {
-+		ret = -EINVAL;
- 		dev_err_probe(dev, -EINVAL,
- 			      "Link frequency not supported: %lld\n",
- 			      ep_cfg.link_frequencies[0]);
--		goto error_out;
- 	}
- 
--	ret = 0;
--
- error_out:
- 	v4l2_fwnode_endpoint_free(&ep_cfg);
- 	fwnode_handle_put(endpoint);
+  pip3 install dtschema --upgrade
 
----
-base-commit: 94794b5ce4d90ab134b0b101a02fddf6e74c437d
-change-id: 20250120-media-imx219-4lane-f1deaa595627
 
-Best regards,
--- 
-Dave Stevenson <dave.stevenson@raspberrypi.com>
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250121125010.1853269-1-quic_vikramsa@quicinc.com:
+
+arch/arm64/boot/dts/qcom/sm7325-nothing-spacewar.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sm7325-nothing-spacewar.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-idp.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-idp.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-crd-r3.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-crd-r3.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r0.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r0.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
+	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+
+
+
+
 
 
