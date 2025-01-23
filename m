@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-25225-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25226-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11408A1ABF5
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 22:34:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A739EA1AC0A
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 22:45:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CF95C3AD02B
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 21:33:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 975A4188D4B8
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 21:45:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 008631CAA9D;
-	Thu, 23 Jan 2025 21:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E6A81CAA9D;
+	Thu, 23 Jan 2025 21:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Fik+yoRS"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vev18NNB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2D41CEEA4;
-	Thu, 23 Jan 2025 21:33:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7701CAA61;
+	Thu, 23 Jan 2025 21:44:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737668002; cv=none; b=OA4ts0fX2ClfEgVPRWXJRr3lQIAe/kon2nbI+6SgA548KIx1R74TnHDQIcZa7S0H+wTpwguo76nNBsPK+Aa9iJkNiLuju8GkIr7WfBqA43S1Hd+DLYvUGJXKIRAiQirb+RbujO/5DeBDbDWbTmpWswPgiDlM/f004duRcOaAGzY=
+	t=1737668698; cv=none; b=gkb1UhBrwLEm4z88UGEtSTdkgyO6yyIRj4x8c5KM46JLa8aPefvbp62tVty2d5FjxJwAeuVy3Zi0d3hkVnwXfiICAbejkMm3WgYgOtxhXu6YK9mjXrPdiM8p5EjcH184SW3iFf5DBw/2JDkh8NrGrNDxyi3xe95NrDaS8Oo68BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737668002; c=relaxed/simple;
-	bh=+mVLbiNXQsHaMaSE38NfKbb6p2ApuJNQ4P5kalK0aT0=;
+	s=arc-20240116; t=1737668698; c=relaxed/simple;
+	bh=ULmxtCI1siIPrMdvCIIFBFn7neRx4cArpCbH0o5UyFA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m0HVqRhNiZV6RtqywmAmPWXGXne7oqxbFWHbOiL5Qcc2PaVgCUvElymu3GdcVblk3JpikQ2IHIwyTjzn1cdomxgYnPdZQXXbft+kWv8vIZbxsoZlBO5WKpHpkGyqMNe8cNQ6uvZdp/FCiuNFHWtTheBE5MDtafATiC5bq4AB87c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Fik+yoRS; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=GqW3XAargaMXH8hMsgxsnJBhXOfTxFURnudfhKyGeaZD+K5VtOs/4uF8kLf+rPs+XHh7+QG8suca7SduzcvH87Jy0nl4n/ZC/PoFA67NOglNtjULEiK/vnFmlHtx5dFsuODved8fyf5m3w7nSxDIDqNJHhl3qf8z+KCI5ChEmrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vev18NNB; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E819D1F;
-	Thu, 23 Jan 2025 22:32:13 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76BE3D1F;
+	Thu, 23 Jan 2025 22:43:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737667933;
-	bh=+mVLbiNXQsHaMaSE38NfKbb6p2ApuJNQ4P5kalK0aT0=;
+	s=mail; t=1737668631;
+	bh=ULmxtCI1siIPrMdvCIIFBFn7neRx4cArpCbH0o5UyFA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fik+yoRSqqhRX1yemkp+aQARF3UaXNgkO0/UTHbNJsZkpZP/iUNiFhSUSEthE7n1S
-	 a5cgl4rLJIbCiGdPnQaChB90WAmGQZFdbAde8m4lGF7Ggq/4emUFmfhNqpAbI4wSPp
-	 /E8TfQ5DAQts9Hf/1vP7KDSupu20V6FBz7Nxf4Ic=
-Date: Thu, 23 Jan 2025 23:33:07 +0200
+	b=vev18NNBgtLqRLU+3XwbJYKmomzYl2PaXP0Hi+qb8ZDfZOxgw63GPs6UIpxxZPVd1
+	 cEh1lCLiGaEEPUugpl6/UAQh6JlWK3e4aV/bPK8laXmXx7N4Qxs4rR4JSzUa7Ye0DC
+	 4L4dhtvNfT69TAT46LMB10SSuTZOE/U+I/GxqXa0=
+Date: Thu, 23 Jan 2025 23:44:45 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -49,10 +49,10 @@ Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/6] media: vsp1: Enable FREE interrupt
-Message-ID: <20250123213307.GB10642@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/6] media: vsp1: dl: Use singleshot DL for VSPX
+Message-ID: <20250123214445.GC10642@pendragon.ideasonboard.com>
 References: <20250123-v4h-iif-v1-0-7b4e5299939f@ideasonboard.com>
- <20250123-v4h-iif-v1-2-7b4e5299939f@ideasonboard.com>
+ <20250123-v4h-iif-v1-3-7b4e5299939f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,82 +61,69 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250123-v4h-iif-v1-2-7b4e5299939f@ideasonboard.com>
+In-Reply-To: <20250123-v4h-iif-v1-3-7b4e5299939f@ideasonboard.com>
 
 Hi Jacopo,
 
 Thank you for the patch.
 
-s/FREE/FRE/ in the subject line, as FREE stands for "FRameEnd Enable",
-so the interrupt is FRE.
-
-On Thu, Jan 23, 2025 at 06:04:03PM +0100, Jacopo Mondi wrote:
-> Enable the "FrameEnd" interrupt to support the VSPX operations.
+On Thu, Jan 23, 2025 at 06:04:04PM +0100, Jacopo Mondi wrote:
+> The vsp1_dl library allows to program a display list and feed it
+> continuously to the VSP2. As an alternative operation mode, the library
+> allows to program the VSP2 in 'single shot' mode, where a display list
+> is submitted to the VSP on request only.
 > 
-> The frame completion interrupt signals that the transfer of
-> the config buffer and image buffer to the ISP has completed.
+> Currently the 'single shot' mode is only available when the VSP2 is
+> controlled by userspace, while it works in continuous mode when driven
+> by DRM, as frames have to be submitted to the display continuously.
 > 
-> Enable the interrupt source if the pipe has an IIF entity, such as
-> in the VSPX case.
+> For the VSPX use case, where there is no uapi support, we should however
+> work in single-shot mode as the ISP driver programs the VSPX on
+> request.
+> 
+> Initialize the display lists in single shot mode in case the VSP1 is
+> controlled by userspace or in case the pipeline features an IIF entity,
+> as in the VSPX case.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > ---
->  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 3 ++-
->  drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 5 +++--
->  2 files changed, 5 insertions(+), 3 deletions(-)
+>  drivers/media/platform/renesas/vsp1/vsp1_dl.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> index cbaad0ea0b73f90f3994bbdfb4304d2f71eabccd..5aa0751a896f8a58bd11128ccaa092c9596cdb5d 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> @@ -69,7 +69,8 @@ static irqreturn_t vsp1_irq_handler(int irq, void *data)
->  				i, wpf->entity.pipe->underrun_count);
->  		}
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> index ad3fa1c9cc737c92870c087dd7cb8cf584fce41b..b8f0398522257f2fb771b419f34b56e59707476b 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> @@ -1099,7 +1099,12 @@ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
+>  		return NULL;
 >  
-> -		if (status & VI6_WPF_IRQ_STA_DFE) {
-> +		if (status & VI6_WPF_IRQ_STA_DFE ||
-> +		    status & VI6_WPF_IRQ_STA_FRE) {
->  			vsp1_pipeline_frame_end(wpf->entity.pipe);
->  			ret = IRQ_HANDLED;
->  		}
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> index f176750ccd9847fdb8d51f7f51a6bd5092b70197..93a663f58a5930a3c7c40a96a30888d0b8ccb2ed 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> @@ -239,6 +239,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
->  	const struct v4l2_mbus_framefmt *source_format;
->  	const struct v4l2_mbus_framefmt *sink_format;
->  	unsigned int index = wpf->entity.index;
-> +	u32 irqmask = 0;
+>  	dlm->index = index;
+> -	dlm->singleshot = vsp1->info->uapi;
+> +	/*
+> +	 * uapi = single shot mode;
+> +	 * DRM = continuous mode;
+> +	 * VSPX = single shot mode;
+> +	 */
+> +	dlm->singleshot = (vsp1->info->uapi || vsp1->iif);
 
-No need to initialize this to 0.
+I'm wondering if we should make this a bit more generic, and allow the
+caller to select the mode of operation. It could be passed as a flag to
+vsp1_dl_list_commit() and stored in the vsp1_dl_list.
 
->  	unsigned int i;
->  	u32 outfmt = 0;
->  	u32 srcrpf = 0;
-> @@ -312,9 +313,9 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
->  	vsp1_wpf_write(wpf, dlb, VI6_WPF_SRCRPF, srcrpf);
+There is however no use case at the moment to switch between singleshot
+and continuous modes on a per display list basis. Implementing support
+for that may be overkill, but on the other hand, the implementation
+seems very simple, so it's not a big effort. The main and possibly only
+reason why we may not want to do that now is because the display list
+helpers haven't been tested to successfully switch between the modes, so
+we may falsely advertise something as supported. Despite that, as no
+caller would attempt switching, it wouldn't cause an issue.
+
+What do you think ? What do you feel would be cleaner ?
+
+>  	dlm->vsp1 = vsp1;
 >  
->  	/* Enable interrupts. */
-> +	irqmask = VI6_WPF_IRQ_ENB_DFEE | (pipe->iif ? VI6_WPF_IRQ_ENB_FREE : 0);
-
-Do we need te DFE interrupt for VSPX ? If both DFE and FRE fire,
-vsp1_pipeline_frame_end() will be called twice per frame, and that
-doesn't sound like what you need. If DFE is not generated, I'd rather
-not enable the interrupt, to be on the safe side.
-
-Another option, which may be better, is to use the DFE interrupt. As far
-as I understand, generation of the DFE interrupt is controlled by a bit
-in the display list. Is there a reason you can't use that and need FRE ?
-
->  	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_STA(index), 0);
-> -	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
-> -			   VI6_WPF_IRQ_ENB_DFEE);
-> +	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index), irqmask);
->  
->  	/*
->  	 * Configure writeback for display pipelines (the wpf writeback flag is
-> 
+>  	spin_lock_init(&dlm->lock);
 
 -- 
 Regards,
