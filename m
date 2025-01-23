@@ -1,112 +1,209 @@
-Return-Path: <linux-media+bounces-25198-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25199-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DC8A1A2D8
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 12:23:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA4CA1A386
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 12:48:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA2403A355B
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 11:23:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25BB516D8C4
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 11:46:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E711920E6FC;
-	Thu, 23 Jan 2025 11:22:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40A4720E6FC;
+	Thu, 23 Jan 2025 11:46:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="kavhcopT"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="c8tO6/7T";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UR+6U+5q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD32145A16;
-	Thu, 23 Jan 2025 11:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737631371; cv=pass; b=cVZATUCLxq2JmJEwGrvecojacf9iZu8cNVGgVSBJRIdzuNffDCMOPJkR6uuSlwHwXxxZ1ged3BHLSVZq6p2WVQTaG6RmFShSjy0wW+wkLObLyKbqpH9XBODdwYuYGMO3+wozRNx3eu6jGCSQI2AyXTpB4N3xnbXlGRbMDjJUKTA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737631371; c=relaxed/simple;
-	bh=jVOr9SNQmPlWwygMvJvKOtQWwb+Pp03Gj2qwRMh5Bdk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rknv4sUPWQzpxDrW4yleu+nfuoVyRpfoYB7VxeC508QPm3AWRTqEascQ0ty2Nau/Vm4WqUS8NKM5jcOjxaYbdUInzfk293fbXGtzHf8zesSJc/pP4e1jIIeXvMdhR9+CLbL+9kpGeA3i/hjY6ZMjze/IDvAaLEvm/g/qqpgzSlU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=kavhcopT; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1737631315; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YJvbM80sjDBPxamcQuyjR3dNW+7oLsMfUeBei18ZkmKSPDyjB/LnjOJnpsUd++rOGTaBmvhrXfMvYnLZ7ZQ14loAU08vUW+mr5At6X67ddGJL7f9TUSOxjPa351iMJ8lOfqzJ2z9CRGNw1T59x4TF6I5V0TruGPCI9hBPzVkWdk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1737631315; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=RBk1ZeqWqkMzfPZglCYiALSDfj+N6We/OCFK6kR7Aow=; 
-	b=KbEWVc44sdtoTblvZY5FvIo48Pop0pU4E2E9l8ReZuKYY8ZSu3t86p9bRCnXu+13uGn2N8zmnDqTAC5BA3IjZm2lxC6Ig8anzOGPR5opO0tQWNRyz5U6pDcBJN7HAAjbeuWKbCYt86/lwnZNNCay0wE81gpFFryZgJc1XZdzgAs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737631315;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=RBk1ZeqWqkMzfPZglCYiALSDfj+N6We/OCFK6kR7Aow=;
-	b=kavhcopT+pSgJHgsA8KeuFJKKPZ8n1ybvrL0ZnhZbJ4DJD4pzRIiEo5h9Ct6KCiN
-	wKUm9yMbK4KrTPLz77O+/CR6ReUDYpAToxGE42yK8fEVcDpFTBSVE93YsOuebK4ykdS
-	/xki0nFO3PSsetB1ymR3bRkLzUp3Mn0DQbAZI0HE=
-Received: by mx.zohomail.com with SMTPS id 17376313084433.398115110351114;
-	Thu, 23 Jan 2025 03:21:48 -0800 (PST)
-Message-ID: <67fcd668-dff4-4dda-bc65-27f13293680f@collabora.com>
-Date: Thu, 23 Jan 2025 14:21:42 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ACB20E6F1;
+	Thu, 23 Jan 2025 11:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737632767; cv=none; b=TlTOy7wNdP7gU4sb2c95bKL5LlQFgGDwAHAzNrpKrW6ngiVr26eurESU3oL7ts9qS/3wHq0feSZ9RL6UQdLew4VmPuPpOkoQyVkTOGt4wXhtxyqHoVWZg4vgAmv6F7guQCiLP/NjDtYC5j/VNnh4E6YeEvptQRkU5HQxlAx2n8U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737632767; c=relaxed/simple;
+	bh=p2gHTfXm2KZIagU0xRbRWTgTTjSK3ZdcpCtZbsHUX4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xvk9Oa/TjNtcUh9fDr0lsx5fdPOthKFcx+e37IRdzu7kQErMSkHL1KuW5sfRTuuy87UYSd5pzo6UpWcDDtePyPDpcjGlY40RUuVarM24WY6AlBxGbCY9Hop/332dr3a2k/A3yhD35kENi876LR6SZA+dvBm8I+j5yU9IIVGZ3hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=c8tO6/7T; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UR+6U+5q; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 8097C254018F;
+	Thu, 23 Jan 2025 06:45:59 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Thu, 23 Jan 2025 06:45:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1737632759;
+	 x=1737719159; bh=OV52CXtA9Mn9pl9P/tIMuFALFpRSQLfNRGrEzKRhM2k=; b=
+	c8tO6/7TdaLaRAHK7A56eBnAhK4uMqHifXsoIVroFwynAEyrqjlry5NeXpqjfGGI
+	2RvjE2EsniO3EtbW63C1iIytSFCM3xmBLeKS9jBH4W16NzcdOPPmituiXeGtUcfc
+	uNXJdxrC+IcFHOAwDkihD4auJ+1v6gUW5uqZzKtD4hWLJheFtDYHarwDlfj1Sz4j
+	IWEu94Sh8o1lTu6YmCCbPAzRs4oU0eTzbpGyXw0CSgc++4PiaxI0tEs+RrBqV+2G
+	Ihjq77tuf5Kybr8+5kQLuC9vn/u6JhPGK6ECdzp4LktJp1+i3xBKhHpagkqNZmfP
+	5KkEsIcLsCDq5ovPvUenxA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737632759; x=
+	1737719159; bh=OV52CXtA9Mn9pl9P/tIMuFALFpRSQLfNRGrEzKRhM2k=; b=U
+	R+6U+5qrnWiJkagrVYqud2N5C/Y7tnvbp9kYLqT0X+TC7kb4SHcxaS1tdA2LN3qk
+	w43QllaOkiAIwlk66/H+xT5gpQxJwza8SwSa5QR6ffuJidgiK+btNOElAcwpErz/
+	TdUTkvLAYJKIk8qNT8CcWWaA18wnP35hgka+zqq7FUq5HltRwKKF2uCuibp8dV7X
+	fhdYDrT+RKi+EHie0j4tzXZmDFD523JJiMoUBopX0Odzr3rRaXpaBL42kKD6qVNw
+	nM69kWlkPjcVQzT6Df8uOPSmk/1VXgp6V27K5o4x8e3tZcnMMMkTHGP/uXucKVGn
+	n64cXtzekVllLgeNSbULw==
+X-ME-Sender: <xms:9iuSZ_Dqf19utgroQe0KsGzMSsQxhhq8xZQ5FgfZyXrzq6XCnXRClg>
+    <xme:9iuSZ1jEwJPC_yVbXCISHHLLUxMOFf4iWbogjOjh42f4DC3JvcR4J3Wg294ldDPqt
+    eDhZfR6jx4lZ_xZkUg>
+X-ME-Received: <xmr:9iuSZ6kB-2HUeBKUQY1Ujwg5rn880rLJXOIm51QMLn-ByfE2fqehbkyJPHoA-t6TQxqZ74HJRmEjc2OPVk6UUKbtVw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejgedgudehjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
+    thhtvghrnhepfefhleelhfffjefgfedugfegjeelhfevheeikefhueelgfdtfeeuhefftd
+    dvleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    nhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrd
+    hsvgdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    thhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghsohhnsghorghrug
+    drtghomhdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdroh
+    hrgh
+X-ME-Proxy: <xmx:9iuSZxz3DJa-HFM9_EJJ9I9GzGUEUnzOSDPOvPaUZtflniDGXFnGDA>
+    <xmx:9iuSZ0QjnNtY2mGAOssGfgAambtongUyf2FP-YWe9H5xAmBMN9dQCQ>
+    <xmx:9iuSZ0a4wMT6aKpuexq_EcR-aEkIFroYWcVbPYZugOwMWYSqT0CyLw>
+    <xmx:9iuSZ1TrwvJABtMBiSJ2xcN3O5HlwwykKbYR4bmEvCuSgNskKKSUbQ>
+    <xmx:9yuSZ5J9-WhLy8_9noL_-ckILEk5oQJPc8EOzq1FoDMnetc8Rgdic4-4>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Jan 2025 06:45:58 -0500 (EST)
+Date: Thu, 23 Jan 2025 12:45:56 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] media: rcar-vin: Remove superfluous starting state
+Message-ID: <20250123114556.GB2085710@ragnatech.se>
+References: <20250122165353.1273739-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250122165353.1273739-4-niklas.soderlund+renesas@ragnatech.se>
+ <d8d2b38a-3ab3-451b-80c7-ad9150f37675@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v5 0/4] Add Synopsys DesignWare HDMI RX Controller
-To: Tim Surber <me@timsurber.de>, Shreeya Patel
- <shreeya.patel@collabora.com>, heiko@sntech.de, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
- jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
- hverkuil@xs4all.nl, hverkuil-cisco@xs4all.nl
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-References: <20241210193904.883225-1-shreeya.patel@collabora.com>
- <acb91a34-c0f8-4f03-8945-755b4e42dcf3@timsurber.de>
- <925d7571-48e4-437d-b55c-3f7bbad8af1d@collabora.com>
- <fbb5016e-678c-4e54-a6a8-0ccaa2bdf45c@timsurber.de>
- <a5226fac-2a5b-47f3-b32e-8662bf932bd4@collabora.com>
- <d61e344f-fcdd-47af-a142-e8d42edec045@timsurber.de>
- <9399a881-7d45-4ca3-8249-2e554184d038@collabora.com>
- <bed5f370-113f-4109-b8f4-870dd15e93ce@timsurber.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <bed5f370-113f-4109-b8f4-870dd15e93ce@timsurber.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d8d2b38a-3ab3-451b-80c7-ad9150f37675@ideasonboard.com>
 
-Hi,
+Ho Tomi,
 
-On 1/19/25 05:14, Tim Surber wrote:
-> Hi Dmitry,
+On 2025-01-23 09:24:07 +0200, Tomi Valkeinen wrote:
+> Hi,
 > 
-> I enabled the debug output and ran some tests again.
-...
+> On 22/01/2025 18:53, Niklas Söderlund wrote:
+> > The STARTING state is superfluous and can be replaced with a check of
+> > the sequence counter. The design idea is that the first buffer returned
+> > from the driver have to come from the first hardware buffer slot.
+> > Failing this the first 3 buffers queued to the device can be returned
+> > out-of-order.
+> > 
+> > But it's much clearer to check the sequence counter to only return the
+> > first buffer if it comes from hardware slot 0 then it is to carry around
+> > an extra state just for this. Remove the unneeded state and replace it
+> > with a simpler check.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >   drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 5 ++---
+> >   drivers/media/platform/renesas/rcar-vin/rcar-vin.h | 2 --
+> >   2 files changed, 2 insertions(+), 5 deletions(-)
 > 
-> Observe the reported fps of 86 in the above log file. Also gstreamer
-> reports a framerate of 214072/2475 - also around 86.
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > 
-> I could sometimes also create the "Device wants 1 planes" using RGB -
-> replugging fixed it, but could never fix it in YUV444.
-> 
-> Next week I have time for more testing.
+> I don't understand the feature, though =). Why does the first buffer have to
+> come from slot 0?
 
-Thanks for the testing! Could you please try to test YUV using a
-downstream driver stack? If it will work, then please post the
-downstream kernel log. Will be interesting to compare the timing values.
+The VIN have 3 slots it can use when streaming in continues mode. The 
+usual operation is that it starts with slot 0 for the first capture, 
+then moves to slot 1, slot 2, slot 0, etc.
+
+It was observed on that sometimes the first capture interrupt we get 
+comes from a slot other then 0. In that case up to the 3 first frames 
+returned from the device are out-of-order and that is not good. This 
+check is to check for that seldom trigged condition and drop 1 or 2 
+frames when starting capture in order for it to sync so buffers are 
+always returned in the order they where queued.
+
+IIRC this issue was only ever observed on Gen2 after the system had been 
+suspended and then resumed. But I can't recall if the VIN had to be 
+streaming at suspend time for this issue to have a chance to hit.
+
+> 
+>  Tomi
+> 
+> > 
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > index a16adc6fd4dc..ba55ccf648de 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> > @@ -1064,7 +1064,7 @@ static int rvin_capture_start(struct rvin_dev *vin)
+> >   	/* Continuous Frame Capture Mode */
+> >   	rvin_write(vin, VNFC_C_FRAME, VNFC_REG);
+> > -	vin->state = STARTING;
+> > +	vin->state = RUNNING;
+> >   	return 0;
+> >   }
+> > @@ -1120,14 +1120,13 @@ static irqreturn_t rvin_irq(int irq, void *data)
+> >   	 * To hand buffers back in a known order to userspace start
+> >   	 * to capture first from slot 0.
+> >   	 */
+> > -	if (vin->state == STARTING) {
+> > +	if (!vin->sequence) {
+> >   		if (slot != 0) {
+> >   			vin_dbg(vin, "Starting sync slot: %d\n", slot);
+> >   			goto done;
+> >   		}
+> >   		vin_dbg(vin, "Capture start synced!\n");
+> > -		vin->state = RUNNING;
+> >   	}
+> >   	/* Capture frame */
+> > diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > index 4cb25d8bbf32..f13ef379d095 100644
+> > --- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > +++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+> > @@ -64,13 +64,11 @@ enum rvin_isp_id {
+> >   /**
+> >    * enum rvin_dma_state - DMA states
+> >    * @STOPPED:   No operation in progress
+> > - * @STARTING:  Capture starting up
+> >    * @RUNNING:   Operation in progress have buffers
+> >    * @STOPPING:  Stopping operation
+> >    */
+> >   enum rvin_dma_state {
+> >   	STOPPED = 0,
+> > -	STARTING,
+> >   	RUNNING,
+> >   	STOPPING,
+> >   };
+> 
 
 -- 
-Best regards,
-Dmitry
+Kind Regards,
+Niklas Söderlund
 
