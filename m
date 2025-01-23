@@ -1,266 +1,174 @@
-Return-Path: <linux-media+bounces-25222-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25223-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F07A1A864
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 18:06:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83CC0A1A9EF
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 20:03:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 504FD188D9B3
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 17:06:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 434DB3A296F
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 19:03:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6B8A2139D2;
-	Thu, 23 Jan 2025 17:04:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA94919149F;
+	Thu, 23 Jan 2025 19:03:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="k1uKMqfB"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="WFli8LfM";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="W5YGi/HI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7676221325E;
-	Thu, 23 Jan 2025 17:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B3D14A4FB;
+	Thu, 23 Jan 2025 19:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737651893; cv=none; b=TiqeE4uQyitghtZO0R60BzGXefBMuka1467FVkvzMQDD/WzO2IToPIDi8QHjQmRE8TfQIZMkW6HzQWD2SdDTw7r2IGe5OHHRmjKYZPXCTuAbdE8ThTtRZ6mVTj1Myh3TVqdrGmqM92jbEhf7iETvyTyOWaZ+XouTxm/lm9+qX5w=
+	t=1737659023; cv=none; b=kJi4pKN3ybQk4SphOhDEkJfT03VEgfdSnmOzK5VLOtJTzAUn5X5LlHRTgYC6nZTqyA6gkZ+MzYj3evWJTILYOdOP9IBqwXyJU6+kvA2G3E21THujgGVGSBSvPhBSxo15WUgdBYE9t0P0vl2royF8fxwwCTPjzJEtnt0yyRmfRhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737651893; c=relaxed/simple;
-	bh=6Rhq7m0mfOiA+XjVW/iGea+Z9wS3Y4XZxjZqtEyzltk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bMrRnXL6XZx/1UmYwH1iS+WBvTK4ESzyksI0/gRDdu8KVcvj5hH64XGM0cM32xtfJuc6WbI99BexcQI0uf5HaJLD9JqMvRUlc3w+GJvEJZoJeaMzIlxjKxokKMmjrzuaqP/TSPba6ej12FHOxqR2sH+xXScx/dA2VJuMcUY4wZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=k1uKMqfB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.103] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88C251A89;
-	Thu, 23 Jan 2025 18:03:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737651817;
-	bh=6Rhq7m0mfOiA+XjVW/iGea+Z9wS3Y4XZxjZqtEyzltk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=k1uKMqfBdJk2nnt4GKqVDywKE7J+wDs+Zyw4Nd8WET6sG6RDFxkSdPDsVL+B5kV8m
-	 8EFZHqd+Ng6mqFALEXXtE4UEY3BNI5nMZzRoz/QpDAAhdnuwqLu0zBAMteJ5FvLbr5
-	 yOs2lzJrHnGXJMJOBUNy/J0C3+iKdfZauLyyM6/M=
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Date: Thu, 23 Jan 2025 18:04:07 +0100
-Subject: [PATCH 6/6] media: vsp1: rwpf: Support operations with IIF
+	s=arc-20240116; t=1737659023; c=relaxed/simple;
+	bh=aqKhhZyLMJ02KbE3BUyXrgG2c62RhuPxkrX4PbCOI24=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q/WenPjV5kZtyLiGVA6y7RyiFdDbncPZqCKLBLLOn8sFwzFwj7qPn4DRaeUQ10Na70QQAb4hc6OtWvUPDgI8oNtf45N9sg/Ug9vtEH1yJsiTgz1JJoAV73cLLJAwuQOecKsqpz0pF3AKgxMs3szr9aBikGKDGEWHHZuQP4rdUtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=WFli8LfM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=W5YGi/HI; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 3EE0B138022E;
+	Thu, 23 Jan 2025 14:03:39 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Thu, 23 Jan 2025 14:03:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1737659019;
+	 x=1737745419; bh=/xNJNntAkqVXokkAiicd7XjwXlL2R+5Nf9sPmUX9AeA=; b=
+	WFli8LfMv3ozi+cJ2j5VlJaApD4ZHoTLgSq4MRw0wRRoPuMnfiVqyaqlolMS6IDf
+	Lw/Pf9yYcQXSU6ubuAAbz7DdNwu6nld4QKhq818qHlvYPNAK+xDEGI1wODyLOt6R
+	9WC913GW2rkGqLNgIY2itOWERbWthoAaqph4d8bP8Q+BW+VG+/kTNwzy170+rJwG
+	9i/zvgjeaMyvjxWi3E0g8GzP347DtTLDizOv65rozVlW1v6PyZkKlin/WzamiZWx
+	QP1pWU/BcdsLPQqbeku4Abt1M2xA6XTOCTrtXzPlByGRU0LLqiIDXPzvzT5VAH1p
+	UXKwWu4X8C8O7XJ2iwbJHQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1737659019; x=
+	1737745419; bh=/xNJNntAkqVXokkAiicd7XjwXlL2R+5Nf9sPmUX9AeA=; b=W
+	5YGi/HICvv/Tta3XVXxCbBbUB2rugw4sZGos05TCVE3kM4Yym14oHd5xSejOKAxg
+	Iaskkzug4lozEz02LVXDbbmTvEbq3lRPJEocoVyhcz3jjgqJ1IKxFj/W/Kmb+gFU
+	LiUoi54T70fo3gUere4lefZH2ipARdQLeSy2pBE8ET1o7QeZal4kZu3CcWL7QSYj
+	FMCXVWQPCkEBf3ZZIKbjoGJ7Zsr9prH+qe5K1V+N/olPWbOGiMAUy5xrayMVTTkL
+	zccHkFxAZ1bIfIiGc0gMlqHzRBS9R63UsOTVcwRj4vLhfhu/UYOLaclz639qOs5o
+	VPCKU1yxgO8r+AzXSzixQ==
+X-ME-Sender: <xms:ipKSZ0RvNj-6lpveGBwTrcbwaWzO8QLhYkw52gdwshQ_kx8SZAqh6g>
+    <xme:ipKSZxyUyqSnkxqsaiAtMYucUdoVRf4RwHLTCBzqRQPOaodNB_zOPWjDsPjwDPzYR
+    oDCXUmRTIvwp1Khays>
+X-ME-Received: <xmr:ipKSZx2QgvSI5R7lDZTPuHE--PBgOnHypND8kmNC_A4GXdSkl79ZbVVxdb3z74T5RwS-ukM0FwS8Q2y66s-bTMK1kUw0Ne_pJg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudejgedgvdeghecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
+    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
+    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepjedpmh
+    houggvpehsmhhtphhouhhtpdhrtghpthhtohepjhgrtghophhordhmohhnughiodhrvghn
+    vghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnh
+    htrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohep
+    khhivghrrghnrdgsihhnghhhrghmodhrvghnvghsrghssehiuggvrghsohhnsghorghrug
+    drtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdroh
+    hrgh
+X-ME-Proxy: <xmx:ipKSZ4DWsK45kwg7novTi8mUxWsTODImbTNipx0p5p1Zk9Xeat8xOQ>
+    <xmx:i5KSZ9gYRjzQIQ7galVX4fY3W5Ca3aFQE3nJ9scuEbwWgNAAIKKi0g>
+    <xmx:i5KSZ0pAMVw3D5Nqo0ZyX-xjyFcBWSppMx1Y4WSIOKEm2Fy4i1M9sw>
+    <xmx:i5KSZwhtkGOk7LaIB_qI9TC-TCfQcR-gu0-xvc5badE-dY4ZwwVrWA>
+    <xmx:i5KSZ1hdsftsAlfrcNycmajprtvyYO3CN9pEoZ-n1533MEFlrDgoZpuE>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Jan 2025 14:03:38 -0500 (EST)
+Date: Thu, 23 Jan 2025 20:03:37 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/6] media: renesas: vsp1: Add support for IIF
+Message-ID: <20250123190337.GL3436806@ragnatech.se>
+References: <20250123-v4h-iif-v1-0-7b4e5299939f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250123-v4h-iif-v1-6-7b4e5299939f@ideasonboard.com>
-References: <20250123-v4h-iif-v1-0-7b4e5299939f@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20250123-v4h-iif-v1-0-7b4e5299939f@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6705;
- i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=6Rhq7m0mfOiA+XjVW/iGea+Z9wS3Y4XZxjZqtEyzltk=;
- b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBnknalUroA6hChXqG/NGKlBUKIrOrLeEF6QyE8N
- F42+XtTisiJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ5J2pQAKCRByNAaPFqFW
- POzFD/40oe/xdZVYBI4iVj6jcOsmU/X94M9v7ofF/uYXj//nsFgaID9CXwpNhmbXZ68zsDtapnE
- Y+DjhnX7Y+L2NEQ7MXlHTp+4/RwC89xTlK8lX8qWiskgL6p/94w33MvcLO8uUf1C29jqTSIu6ld
- cVlyzYr+Q2wdUSNNVOjQiwDEh1vEanzf5xe16IOZMH22/uCA2CapRoZQVqHGgrX0ynV3Bv6fINF
- Wrvh7E2FgSRuj/EBRuoHithcrSvP33Ti+KpksGlK8HD2PCRjmVGjAQQerSI977BZwA3Md5qiMtc
- uYyNF9RRuLsG092cHXCLg/N2mW8yEtkJc0x1gG75DEyH7KSe5abZvbZZTWlqF99lZRLzoFFefKM
- EUcN85bt5uKMQVkvFC1iWoyqSj2kK5Jj/wJNefB167hcSVzuZu8Fg9oNLNxUfqXqXG/wdS+Gque
- eDD4xN7trXQq528cs1eALTO+EYLxqbmVoHybDcrh0eKFYfvfFaMKfdk04XoVMTi4C7b/RBBOylj
- eDvCM5NumSWXCOv7+wvwqNLXfK3K8cDFxjHTPIHW81Kx+xhg3fV7SbBjs8vn/1ygRXW9PsLP7v4
- uKzHlTtYj9Q+eadU09JDHHH11HmoxdYvnfU/AwZen+udK/mJbY9u8JcUWQD7GFdyzJcj32XsSJp
- oW7jTShOfgiNi0g==
-X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-When the RPF/WPF units are used for ISP interfacing through
-the IIF, the set of accessible registers is limited compared to
-the regular VSPD operations.
+Hi Jacopo,
 
-Support ISP interfacing in the rpf and wpf drivers by checking if
-the pipe features an IIF instance and writing only the relevant
-registers.
+Thanks for your series.
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
----
- drivers/media/platform/renesas/vsp1/vsp1_rpf.c | 66 +++++++++++++++-----------
- drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 18 +++++--
- 2 files changed, 53 insertions(+), 31 deletions(-)
+On 2025-01-23 18:04:01 +0100, Jacopo Mondi wrote:
+> The IIF (ISP InterFace) is specialized BRU version that reads data from
+> external memory using two RPF instances and feed it to the ISP.
+> 
+> The IIF support is modeled in the vsp1 driver as a new, simple, entity type.
+> 
+> IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+> interfacing. To prepare to support VSPX, support IIF first by
+> introducing a new entity and by adjusting the RPF/WPF drivers to
+> operate correctly when an IIF is present.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-index 5c8b3ba1bd3c2c7b9289f05c9c2578e9717c23ff..e215491a3d962e2ae3c06b7835ca3b7654f04d10 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-@@ -60,6 +60,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	const struct v4l2_mbus_framefmt *sink_format;
- 	unsigned int left = 0;
- 	unsigned int top = 0;
-+	u32 alpha_sel = 0;
- 	u32 pstride;
- 	u32 infmt;
- 
-@@ -84,7 +85,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	sink_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
- 	source_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
- 
--	infmt = VI6_RPF_INFMT_CIPM
-+	infmt = (pipe->iif ? 0 : VI6_RPF_INFMT_CIPM)
- 	      | (fmtinfo->hwfmt << VI6_RPF_INFMT_RDFMT_SHIFT);
- 
- 	if (fmtinfo->swap_yc)
-@@ -98,7 +99,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
- 	vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
- 
--	if (entity->vsp1->info->gen == 4) {
-+	if (entity->vsp1->info->gen == 4 && !pipe->iif) {
- 		u32 ext_infmt0;
- 		u32 ext_infmt1;
- 		u32 ext_infmt2;
-@@ -150,23 +151,6 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 		vsp1_rpf_write(rpf, dlb, VI6_RPF_EXT_INFMT2, ext_infmt2);
- 	}
- 
--	/* Output location. */
--	if (pipe->brx) {
--		const struct v4l2_rect *compose;
--
--		compose = v4l2_subdev_state_get_compose(pipe->brx->state,
--							rpf->brx_input);
--		left = compose->left;
--		top = compose->top;
--	}
--
--	if (pipe->interlaced)
--		top /= 2;
--
--	vsp1_rpf_write(rpf, dlb, VI6_RPF_LOC,
--		       (left << VI6_RPF_LOC_HCOORD_SHIFT) |
--		       (top << VI6_RPF_LOC_VCOORD_SHIFT));
--
- 	/*
- 	 * On Gen2 use the alpha channel (extended to 8 bits) when available or
- 	 * a fixed alpha value set through the V4L2_CID_ALPHA_COMPONENT control
-@@ -188,11 +172,35 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
- 	 * contains an alpha channel. On Gen2 the global alpha is ignored in
- 	 * that case.
- 	 *
--	 * In all cases, disable color keying.
-+	 * In all the above cases, disable color keying.
-+	 *
-+	 * VSPX wants alpha_sel to be set to 0.
- 	 */
--	vsp1_rpf_write(rpf, dlb, VI6_RPF_ALPH_SEL, VI6_RPF_ALPH_SEL_AEXT_EXT |
--		       (fmtinfo->alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
--				       : VI6_RPF_ALPH_SEL_ASEL_FIXED));
-+	alpha_sel = pipe->iif ? 0
-+			      : VI6_RPF_ALPH_SEL_AEXT_EXT
-+				| (fmtinfo->alpha ? VI6_RPF_ALPH_SEL_ASEL_PACKED
-+						  : VI6_RPF_ALPH_SEL_ASEL_FIXED);
-+	vsp1_rpf_write(rpf, dlb, VI6_RPF_ALPH_SEL, alpha_sel);
-+
-+	if (pipe->iif)
-+		return;
-+
-+	/* Output location. */
-+	if (pipe->brx) {
-+		const struct v4l2_rect *compose;
-+
-+		compose = v4l2_subdev_state_get_compose(pipe->brx->state,
-+							rpf->brx_input);
-+		left = compose->left;
-+		top = compose->top;
-+	}
-+
-+	if (pipe->interlaced)
-+		top /= 2;
-+	vsp1_rpf_write(rpf, dlb, VI6_RPF_LOC,
-+		       (left << VI6_RPF_LOC_HCOORD_SHIFT) |
-+		       (top << VI6_RPF_LOC_VCOORD_SHIFT));
-+
- 
- 	if (entity->vsp1->info->gen >= 3) {
- 		u32 mult;
-@@ -338,11 +346,15 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
- 	 */
- 	if (pipe->interlaced) {
- 		vsp1_rpf_configure_autofld(rpf, dl);
--	} else {
--		vsp1_rpf_write(rpf, dlb, VI6_RPF_SRCM_ADDR_Y, mem.addr[0]);
--		vsp1_rpf_write(rpf, dlb, VI6_RPF_SRCM_ADDR_C0, mem.addr[1]);
--		vsp1_rpf_write(rpf, dlb, VI6_RPF_SRCM_ADDR_C1, mem.addr[2]);
-+		return;
- 	}
-+
-+	vsp1_rpf_write(rpf, dlb, VI6_RPF_SRCM_ADDR_Y, mem.addr[0]);
-+	if (!mem.addr[1])
-+		return;
-+
-+	vsp1_rpf_write(rpf, dlb, VI6_RPF_SRCM_ADDR_C0, mem.addr[1]);
-+	vsp1_rpf_write(rpf, dlb, VI6_RPF_SRCM_ADDR_C1, mem.addr[2]);
- }
- 
- static void rpf_partition(struct vsp1_entity *entity,
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-index 93a663f58a5930a3c7c40a96a30888d0b8ccb2ed..736f76389e07a7cc28ba098a0a0bdf350a0794f7 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-@@ -248,8 +248,11 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 	sink_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
- 	source_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
- 
--	/* Format */
--	if (!pipe->lif || wpf->writeback) {
-+	/*
-+	 * Format configuration. Skip for IIF (VSPX) or if the pipe doesn't have
-+	 * an active output.
-+	 */
-+	if (!pipe->iif && (!pipe->lif || wpf->writeback)) {
- 		const struct v4l2_pix_format_mplane *format = &wpf->format;
- 		const struct vsp1_format_info *fmtinfo = wpf->fmtinfo;
- 
-@@ -292,7 +295,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 	 * Sources. If the pipeline has a single input and BRx is not used,
- 	 * configure it as the master layer. Otherwise configure all
- 	 * inputs as sub-layers and select the virtual RPF as the master
--	 * layer.
-+	 * layer. For VSPX configure the enabled sources as masters.
- 	 */
- 	for (i = 0; i < vsp1->info->rpf_count; ++i) {
- 		struct vsp1_rwpf *input = pipe->inputs[i];
-@@ -300,7 +303,11 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 		if (!input)
- 			continue;
- 
--		srcrpf |= (!pipe->brx && pipe->num_inputs == 1)
-+		/* For VSPX we enable and use RPF0 only for now. */
-+		if (pipe->iif && i > 0)
-+			break;
-+
-+		srcrpf |= (pipe->iif || (!pipe->brx && pipe->num_inputs == 1))
- 			? VI6_WPF_SRCRPF_RPF_ACT_MST(input->entity.index)
- 			: VI6_WPF_SRCRPF_RPF_ACT_SUB(input->entity.index);
- 	}
-@@ -317,6 +324,9 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
- 	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_STA(index), 0);
- 	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index), irqmask);
- 
-+	if (pipe->iif)
-+		return;
-+
- 	/*
- 	 * Configure writeback for display pipelines (the wpf writeback flag is
- 	 * never set for memory-to-memory pipelines). Start by adding a chained
+I'm no expert on the VSP1, but the changes looks good. For the whole 
+series,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+> Jacopo Mondi (6):
+>       media: vsp1: Add support IIF ISP Interface
+>       media: vsp1: Enable FREE interrupt
+>       media: vsp1: dl: Use singleshot DL for VSPX
+>       media: vsp1: rwpf: Break out format handling
+>       media: vsp1: rwpf: Support RAW Bayer and ISP config
+>       media: vsp1: rwpf: Support operations with IIF
+> 
+>  drivers/media/platform/renesas/vsp1/Makefile      |   2 +-
+>  drivers/media/platform/renesas/vsp1/vsp1.h        |   3 +
+>  drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  14 ++-
+>  drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 ++
+>  drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 134 ++++++++++++++++++++++
+>  drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  31 +++++
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
+>  drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   7 ++
+>  drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |  66 ++++++-----
+>  drivers/media/platform/renesas/vsp1/vsp1_rwpf.c   |  42 +++++--
+>  drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  23 +++-
+>  14 files changed, 293 insertions(+), 47 deletions(-)
+> ---
+> base-commit: 94794b5ce4d90ab134b0b101a02fddf6e74c437d
+> change-id: 20250123-v4h-iif-a1dda640c95d
+> 
+> Best regards,
+> -- 
+> Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> 
 
 -- 
-2.47.1
-
+Kind Regards,
+Niklas Söderlund
 
