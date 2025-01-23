@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-25213-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25214-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E34A1A766
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 16:57:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E38A1A770
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 16:58:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 37C3D1887C8E
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 15:58:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E3B3169722
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 15:58:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A5C22135A0;
-	Thu, 23 Jan 2025 15:57:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A41215045;
+	Thu, 23 Jan 2025 15:57:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hy7nN4an"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HVBSJ3AW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A4D212FAC;
-	Thu, 23 Jan 2025 15:57:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFCF214802;
+	Thu, 23 Jan 2025 15:57:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737647866; cv=none; b=bjwrqDZ5qTJ/SlnY/yamrAkmdQTr2NZ1B40MEtIEBVkKvdvARM+ee6Ruih89c7GbICaUMG37wjmdHikKNS9TWPuCDEhB0PxkBQ8sofNqH1h3MLKIc/U5Vcc06RVCgF6L1BdR2LuY8iJKizUWHU88Ofat+EsAANydr10lM53vt8g=
+	t=1737647871; cv=none; b=HIKisYigC2QgxQnM6u8dca2kg3Xku+f3M8TssHApaQ8s6SWHmCAUsIpG8AAZtGL/LtGb9QXM8WTtbMdN5+Cp32oQZhNH0ypfj4wMgBoNqpN4qc2ovNjvjsxgWhQUCORvjBJD4BdSXlt5fJhpt4Ixgx+Up0y4GXAyGbzTl9DDRdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737647866; c=relaxed/simple;
-	bh=FPoRGmjzqY7kjf8l67wTrBxrM/eEufKrizteXMLv4GY=;
+	s=arc-20240116; t=1737647871; c=relaxed/simple;
+	bh=QSO02dBzJkhUaBSBCa/mo1kBNImpUvDK0tahdaO4jBo=;
 	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=drinRHyRpZj7tiYvHNhcflTCGXC4gyviElIzPsYU05aXZsJsIMlZeIsAXo4HlnbxMNbfOJVyMZCN0VH2BuRGW/9RecOS+CzAJ+fz+pibtnShRMWbh1dtY3L9rmlk6TCBRR/CauA3nE73BOhm2wY02XiD5EoEuF/06hhI8n/9Muo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hy7nN4an; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98493C4CEDD;
-	Thu, 23 Jan 2025 15:57:45 +0000 (UTC)
+	 Message-Id:Subject; b=I4z1u1a/Yt80L/Y1sjnRwWDYCIVagN/k87OwnYDeBrmpsshKn3u8DctrFoe3iRejaG9L+sIHDYAOH/mQ4ed78AJulzUZ7ZskmOkWBMdv8ZZeLPG6QDk+w1Lv8KOCevjwBHRFXgxs4RoGKT4xKNb5SfaZ5zHeYfR+F49LW0u5r+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HVBSJ3AW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE00C4CED3;
+	Thu, 23 Jan 2025 15:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737647865;
-	bh=FPoRGmjzqY7kjf8l67wTrBxrM/eEufKrizteXMLv4GY=;
+	s=k20201202; t=1737647870;
+	bh=QSO02dBzJkhUaBSBCa/mo1kBNImpUvDK0tahdaO4jBo=;
 	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=Hy7nN4an9w5o3Pqyq6XgPerIxU8Hi8BsS5sCvEn43s7ynDweBehaJ0OrAb3R6/buQ
-	 cotaD55FR841DKPsdESrvLiCM684GA8yJJQF5uLPDe92QU5PY0OCtTtBiPMa8uOVMz
-	 7+8H2z2S3PeNjhV3tbQxajkPpbjyaNo1PehJ0CGoTFU9Cnb9HMz0gdyFxw2k4lp+eC
-	 lA4EHj6dEubqEB1SWZWmm+HSo0QUMDWhkg3n61UoPAFnLTOplTivfkvyvagd2wdd9f
-	 qqyPErLlG90lDM9BxI+Uwog5b2m4wIpxhH6HxZl7L7oIdcBG5H1XC3FmDchBD2refL
-	 sJFd7/t92yS7g==
-Date: Thu, 23 Jan 2025 09:57:44 -0600
+	b=HVBSJ3AWtaOdYSpyccpeOaFNcoILX6mpQT7aLfzAvPrKXH4Md249+2GhgFrPr5uQT
+	 aVSKfm7b7/Y5T6+K1IJgUDiJnkAOR5xBcNxv5pShtbTlUM/Ae6dMXwHp6kag0sJQVt
+	 Z9Qnelrre73NlS5mWhsRcJbCwMFzsE+at1kxs1pTtyUQyT11gv65relIyBOICnZfz5
+	 AsNHqP08lS1VQPNcMXLZjCtgIZyHoP8BNouyD/KikLXIRaqp1My83t0GmLhyttJe2r
+	 cVHmW5FbF2CRvchnsp1cPzWP1YXAze+RpLhFz49sKDyuTGcuBrHAhGJxZfkHJRbsVx
+	 Xu9eWVFcsFI3A==
+Date: Thu, 23 Jan 2025 09:57:49 -0600
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -51,169 +51,196 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: akapatra@quicinc.com, todor.too@gmail.com, krzk+dt@kernel.org, 
- catalin.marinas@arm.com, mchehab@kernel.org, devicetree@vger.kernel.org, 
- bryan.odonoghue@linaro.org, linux-kernel@vger.kernel.org, 
- cros-qcom-dts-watchers@chromium.org, hverkuil-cisco@xs4all.nl, 
- kernel@quicinc.com, conor+dt@kernel.org, rfoss@kernel.org, 
- konradybcio@kernel.org, will@kernel.org, linux-media@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, hariramp@quicinc.com, 
- andersson@kernel.org, linux-arm-msm@vger.kernel.org
-To: Vikram Sharma <quic_vikramsa@quicinc.com>
-In-Reply-To: <20250121125010.1853269-1-quic_vikramsa@quicinc.com>
-References: <20250121125010.1853269-1-quic_vikramsa@quicinc.com>
-Message-Id: <173764774673.3793413.12753318541761077535.robh@kernel.org>
-Subject: Re: [PATCH v11 0/2] media: qcom: camss: Add sc7280 support
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Louis Kuo <louis.kuo@mediatek.com>, linux-mediatek@lists.infradead.org, 
+ Florian Sylvestre <fsylvestre@baylibre.com>, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Phi-Bang Nguyen <pnguyen@baylibre.com>, devicetree@vger.kernel.org, 
+ Andy Hsieh <andy.hsieh@mediatek.com>, 
+ Paul Elder <paul.elder@ideasonboard.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-media@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Julien Stephan <jstephan@baylibre.com>
+In-Reply-To: <20250122-add-mtk-isp-3-0-support-v8-0-a3d3731eef45@baylibre.com>
+References: <20250122-add-mtk-isp-3-0-support-v8-0-a3d3731eef45@baylibre.com>
+Message-Id: <173764775396.3793654.14266581007050031663.robh@kernel.org>
+Subject: Re: [PATCH v8 0/5] Add Mediatek ISP3.0
 
 
-On Tue, 21 Jan 2025 18:20:08 +0530, Vikram Sharma wrote:
-> SC7280 is a Qualcomm SoC. This series adds support to bring up the CSIPHY,
-> CSID, VFE/RDI interfaces in SC7280.
+On Wed, 22 Jan 2025 14:59:09 +0100, Julien Stephan wrote:
+> This series adds the support of the Mediatek ISP3.0 found on some
+> Mediatek SoCs such as the mt8365. The driver is divided into 2 parts:
 > 
-> SC7280 provides
-> - 3 x VFE, 3 RDI per VFE
-> - 2 x VFE Lite, 4 RDI per VFE
-> - 3 x CSID
-> - 2 x CSID Lite
-> - 5 x CSI PHY
+> * SENINF: the sensor interface
+> * CAMSV: this driver provides a path to bypass the SoC ISP so that image
+>   data coming from the SENINF can go directly into memory without any
+>   image processing. This allows the use of an external ISP or camera
+>   sensor directly.
 > 
-> This change is dependent on below series as we have updated clock names
-> in yaml and driver.
-> https://lore.kernel.org/linux-arm-msm/20250121120901.1841142-1-quic_vikramsa@quicinc.com/
+> The SENINF driver is based on previous work done by Louis Kuo available
+> as an RFC here: https://lore.kernel.org/all/20200708104023.3225-1-louis.kuo@mediatek.com/
 > 
-> We have tested this on qcs6490-rb3gen2-vision-mezzanine board having IMX577
-> sensor.
+> Changes in v8:
+> For the whole series:
+> - rebase  on v6.13-rc1 --> drop iommu_present and use device_iommu_mapped instead
+> - apply new trailers
+> - fix several coding style issues reported by Laurent and CK
+> - fix warnings and errors reported by media-ci:
+>   https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/66966282/artifacts/report.htm
 > 
-> Used following tools for the sanity check of these changes.
+> Camsv bindings:
+> - sort header alphabetically
 > 
-> - make CHECK_DTBS=y W=1 DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml
-> qcom/qcs6490-rb3gen2-vision-mezzanine.dtb
-> - make DT_CHECKER_FLAGS=-m W=1
-> DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml dt_binding_check
-> - Smatch: make CHECK="smatch --full-path" M=drivers/media/platform/qcom/camss/
-> - coccicheck : make coccicheck M=drivers/media/platform/qcom/camss/
-> - make -j32 W=1
-> - ./scripts/checkpatch.pl
+> Seninf driver:
+> - remove test pattern generator, as it was legacy untested code
+> - use v4l2_subdev_enable_streams/v4l2_subdev_disable_streams instead of
+>   v4l2_subdev_call(s_stream)
+> - simplify mtk_seninf_v4l2_register: correctly split the media device
+>   and seninf subdev initialization. Create an seninf_subdev_init
+> function and drop mtk_seninf_media_init which was confusing
+> - Fix several style issues
 > 
-> Changes in V11:
-> - Moved [PATCH v10 1/4] and [PATCH v10 2/4] as a separate series.
-> - Marked dependency on
->   https://lore.kernel.org/linux-arm-msm/20250121120901.1841142-1-quic_vikramsa@quicinc.com/
-> - Sorted the header files alphabetically in dtso.
-> - Removed invalid property for sensor.
-> - Removed rst-pin from default and suspend states of pinctrl. We have verified
->   that for imx412 sensor there are no SET_SYSTEM_SLEEP_PM_OPS added.
->   So removing rst-pin does not make any difference in power management.
-> - Link to v10: https://lore.kernel.org/linux-arm-msm/20241217140656.965235-1-quic_vikramsa@quicinc.com/
+> Camsv driver:
+> - remove the "30" suffix: renaming camsv30 to camsv (file name and
+>   function name)
+> - add comment to properly describe the fbc mechanism
+> - reduce spin_lock region in isp_irq_camsv function
+> - remove pm operation from mtk_camsv_fbc_inc
+> - call mtk_camsv_fbc_inc at the beginning of streaming or only when
+>   streaming: buf_queue touch the hw only if streaming
+> - remove op_lock and rely on the video device lock
+> - implement .link_validate() and drop mtk_cam_verify_format
+> - use video_device_pipeline_start instead of media_pipeline_start
+> - remove useless stream_count counter
+> - add various defines for constants
+> - merge content of mtk_camsv.c into mtk_camsv_video.c as suggested by CK
+> - merge mtk_cam_mbus_formats and mtk_cam_format_info intpo a single
+>   struct, and extend it with fields to remove the fmt_to_sparams() function.
 > 
-> Changes in V10:
-> - Updated cover letter to add link for v8 under changes in v9.
-> - No change in the patches w.r.t V9
-> - Link to v9: https://lore.kernel.org/linux-arm-msm/20241217133955.946426-1-quic_vikramsa@quicinc.com/
+> - Link to v7: https://lore.kernel.org/r/20241121-add-mtk-isp-3-0-support-v7-0-b04dc9610619@baylibre.com
 > 
-> Changes in V9:
-> - Removed GCC_CAMERA_AHB_CLK as its always enabled.
-> - Added GCC_CAMERA_SF_AXI_CLK.
-> - Renamed gcc_cam_hf_axi to gcc_axi_hf.
-> - V8 had 5 patches and V9 have 4 patches.
-> - First 3 patches of V8 are already promoted to linux-next
-> i.e
->   media: dt-bindings: Add qcom,sc7280-camss
->   media: qcom: camss: Sort camss version enums and compatible strings
->   media: qcom: camss: Add support for camss driver on sc7280
-> - 2 new patches are added to handle new comments from Konrad on
->   "Patch v8 4/5 arm64: dts: qcom: sc7280: Add support for camss"
->   1 of the 2 new patches make changes in yaml and other one is making
->   change in camss driver to handle new comments in dtsi.
-> - for "Patch v8 4/5 arm64: dts: qcom: sc7280: Add support for camss" I got
->   comments from Konrad to make changes for clock names so I had to make
->   respective changes in "bindings/media/qcom,sc7280-camss.yaml". As dtsi
->   changes are not merged yet, so there is no issues with backward
->   compatibility and I am assuming this should be acceptable.
-> - Link to v8: https://lore.kernel.org/linux-arm-msm/20241206191900.2545069-1-quic_vikramsa@quicinc.com/
+> Changes in v7:
+> - fix several comments from Laurent Pinchart and CK about style issues,
+>   such as: sort Kconfig and Makefile alphabetically, remove unneeded headers,
+>   use 80 char limits ...
+> - add back I/O accessors around readl/writel
+> - use enable_streams/disable_streams instead of s_stream
+> - use v4l2_subdev_init_finalize and don't store active format
+> - remove mtk_camsv30_regs.h file to merge it inside mtk_camsv30_hw.c
+> - adding reviewed-by tag from robh and angelo
+> - implement .has_pad_interdep callback to fix multistream error
+> - fix mtk_seninf_get_clk_divider to give the correct pad number. This
+>   caused an issue for multi camera
+> - use hardware FBC (framce buffer control) instead of dummy buffer to
+>   deal with underrruns
+> - simplify directory architecture and remove isp_30, camsv and seninf
+>   directories
 > 
-> Changes in V8:
-> - Changed node name from camss to isp.
-> - Added QCOM_ICC_TAG_ACTIVE_ONLY and QCOM_ICC_TAG_ALWAYS tags for
->   interconnects.
-> - Added blank lines when required.
-> - Modified power-domain-names from horizontal to vertical list.
-> - Sorted pinctrl nodes based on gpio index.
-> - Link to v7: https://lore.kernel.org/linux-arm-msm/20241204100003.300123-1-quic_vikramsa@quicinc.com/
+> - Link to v6: https://lore.kernel.org/r/20240729-add-mtk-isp-3-0-support-v6-0-c374c9e0c672@baylibre.com
 > 
-> Changes in V7:
-> - Changed unit address for camss in documention and dts.
-> - Added avdd-supply and dvdd-supply for sensor.
-> - Changed reg/clocks/interrupts name for vfe_lite and csid_lite.
-> - Link to v6: https://lore.kernel.org/linux-arm-msm/20241127100421.3447601-1-quic_vikramsa@quicinc.com/
+> Changes in v6:
+> - remove unneeded "link" tag from commits
 > 
-> Changes in V6:
-> - Changed order of properties in Documentation [PATCH 1/5].
-> - Updated description for ports in Documentaion [PATCH 1/5].
-> - Moved regulators from csid to csiphy [PATCH 3/5].
-> - Link to v5: https://lore.kernel.org/linux-arm-msm/20241112173032.2740119-1-quic_vikramsa@quicinc.com/
+> bindings:
+> - remove labels from example node
+> - remove complexity for phy and phy-name properties
 > 
-> Changes in V5:
-> - Updated Commit text for [PATCH v5 1/6].
-> - Moved reg after compatible string.
-> - Renamed csi'x' clocks to vfe'x'_csid
-> - Removed [PATCH v4 4/6] and raised a seprate series for this one.
-> - Moved gpio states to mezzanine dtso.
-> - Added more clock levels to address TPG related issues.
-> - Renamed power-domains-names -> power-domain-names.
-> - Link to v4: https://lore.kernel.org/linux-arm-msm/20241030105347.2117034-1-quic_vikramsa@quicinc.com/
+> driver:
+> - fix some comments from CK :
+>   - remove unneeded variables
+>   - rename irqlock to buf_list_lock for clarity
+>   - remove unneeded lock/unlock around hw_enable/hw_disable
 > 
-> Changes in V4:
-> - V3 had 8 patches and V4 is reduced to 6.
-> - Removed [Patch v3 2/8] as binding change is not required for dtso.
-> - Removed [Patch v3 3/8] as the fix is already taken care in latest
->   kernel tip.
-> - Updated alignment for dtsi and dt-bindings.
-> - Adding qcs6490-rb3gen2-vision-mezzanine as overlay.
-> - Link to v3: https://lore.kernel.org/linux-arm-msm/20241011140932.1744124-1-quic_vikramsa@quicinc.com/
+> - Link to v5: https://lore.kernel.org/r/20240704-add-mtk-isp-3-0-support-v5-0-bfccccc5ec21@baylibre.com
 > 
-> Changes in V3:
-> - Added missed subject line for cover letter of V2.
-> - Updated Alignment, indentation and properties order.
-> - edit commit text for [PATCH 02/10] and [PATCH 03/10].
-> - Refactor camss_link_entities.
-> - Removed camcc enablement changes as it already done.
-> - Link to v2: https://lore.kernel.org/linux-arm-msm/20240904-camss_on_sc7280_rb3gen2_vision_v2_patches-v1-0-b18ddcd7d9df@quicinc.com/
+> Changes on v5:
+> drivers:
+> - rebase on 6.10-rc1
+> - fix various comments from all reviews (mostly style issues and minor
+>   code refactor)
+> - add a function to calculate the clock divider for the master sensor
+>   clock: NOTE: setting this register seems to have no effect at all,
+>   currently checking with mediatek apps engineer (OOO until 17/04)
 > 
-> Changes in V2:
-> - Improved indentation/formatting.
-> - Removed _src clocks and misleading code comments.
-> - Added name fields for power domains and csid register offset in DTSI.
-> - Dropped minItems field from YAML file.
-> - Listed changes in alphabetical order.
-> - Updated description and commit text to reflect changes
-> - Changed the compatible string from imx412 to imx577.
-> - Added board-specific enablement changes in the newly created vision
->   board DTSI file.
-> - Fixed bug encountered during testing.
-> - Moved logically independent changes to a new/seprate patch.
-> - Removed cci0 as no sensor is on this port and MCLK2, which was a
->   copy-paste error from the RB5 board reference.
-> - Added power rails, referencing the RB5 board.
-> - Discarded Patch 5/6 completely (not required).
-> - Removed unused enums.
-> - Link to v1: https://lore.kernel.org/linux-arm-msm/20240629-camss_first_post_linux_next-v1-0-bc798edabc3a@quicinc.com/
+> bindings:
+> - camsv: update description
+> - seninf: fix phy definition and example indentation
+> - use generic name for node example
 > 
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> dts:
+> - sort nodes by addresses
+> - use lower case for hexadecimal
 > 
-> Vikram Sharma (2):
->   arm64: dts: qcom: sc7280: Add support for camss
->   arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision
->     mezzanine
+> Changes in v4:
+> - fix suspend/resume deadlock
+> - fix various locking issues reported by Laurent Pinchart on v3
+> - run LOCKDEP
+> - add missing include reported by kernel-test-robot for non mediatek arch and COMPILE_TEST=y
+> - use atomic poll inside mtk_camsv30_setup
+> - drop second lane support as it was not used
+> - remove useless members in structs
+> - fix media entity initialization
+> - initialize correct pad for camsv video device
+> - add isp support in mt8365.dtsi
+> - rebase on 6.7
 > 
->  arch/arm64/boot/dts/qcom/Makefile             |   4 +
->  .../qcs6490-rb3gen2-vision-mezzanine.dtso     |  93 +++++++++
->  arch/arm64/boot/dts/qcom/sc7280.dtsi          | 178 ++++++++++++++++++
->  3 files changed, 275 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+> Changes in v3:
+> - fix a lot of formatting issues/coding style issues found in camsv/seninf reported by Angelo on v2
+> - fix camsv/seninf binding file error reported by Rob
 > 
+> Changes in v2:
+> - renamed clock `cam_seninf` to `camsys`
+> - renamed clock `top_mux_seninf` to `top_mux`
+> - moved phy properties from port nodes to top level
+> - remove patternProperties
+> - specify power management dependency in the cover letter description to fix
+>   missing include in dt-binding example
+> - change '$ref' properties on some endpoint nodes from
+>   '$ref: video-interfaces.yaml#' to '$ref: /schemas/graph.yaml#/$defs/endpoint-base'
+>  where applicable
+> 
+> Best
+> Julien Stephan
+> 
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+> Julien Stephan (1):
+>       arm64: dts: mediatek: mt8365: Add support for camera
+> 
+> Louis Kuo (2):
+>       dt-bindings: media: add mediatek ISP3.0 sensor interface
+>       media: platform: mediatek: isp: add mediatek ISP3.0 sensor interface
+> 
+> Phi-bang Nguyen (2):
+>       dt-bindings: media: add mediatek ISP3.0 camsv
+>       media: platform: mediatek: isp: add mediatek ISP3.0 camsv
+> 
+>  .../bindings/media/mediatek,mt8365-camsv.yaml      |  109 ++
+>  .../bindings/media/mediatek,mt8365-seninf.yaml     |  259 ++++
+>  MAINTAINERS                                        |    9 +
+>  arch/arm64/boot/dts/mediatek/mt8365.dtsi           |  125 ++
+>  drivers/media/platform/mediatek/Kconfig            |    1 +
+>  drivers/media/platform/mediatek/Makefile           |    1 +
+>  drivers/media/platform/mediatek/isp/Kconfig        |   36 +
+>  drivers/media/platform/mediatek/isp/Makefile       |    8 +
+>  drivers/media/platform/mediatek/isp/mtk_camsv.h    |  152 ++
+>  drivers/media/platform/mediatek/isp/mtk_camsv_hw.c |  440 ++++++
+>  drivers/media/platform/mediatek/isp/mtk_camsv_hw.h |   19 +
+>  .../media/platform/mediatek/isp/mtk_camsv_reg.h    |   90 ++
+>  .../media/platform/mediatek/isp/mtk_camsv_video.c  | 1017 ++++++++++++++
+>  drivers/media/platform/mediatek/isp/mtk_seninf.c   | 1454 ++++++++++++++++++++
+>  .../media/platform/mediatek/isp/mtk_seninf_reg.h   |  114 ++
+>  15 files changed, 3834 insertions(+)
+> ---
+> base-commit: 414788dae5ac03f80234629c6d140a38fb1fbf9d
+> change-id: 20240704-add-mtk-isp-3-0-support-a08a978cac36
+> 
+> Best regards,
 > --
-> 2.25.1
+> Julien Stephan <jstephan@baylibre.com>
 > 
 > 
 > 
@@ -233,88 +260,12 @@ make sure dt-schema is up to date:
   pip3 install dtschema --upgrade
 
 
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250121125010.1853269-1-quic_vikramsa@quicinc.com:
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/mediatek/' for 20250122-add-mtk-isp-3-0-support-v8-0-a3d3731eef45@baylibre.com:
 
-arch/arm64/boot/dts/qcom/sm7325-nothing-spacewar.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sm7325-nothing-spacewar.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-crd-pro.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/qcm6490-idp.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-idp.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-idp.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-crd.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-idp2.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-evoker.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-herobrine-r1.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-crd-r3.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-crd-r3.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-zombie-nvme.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/qcm6490-shift-otter.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1-lte.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r1-lte.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r0.dtb: isp@acb3000: clock-names:12: 'gcc_camera_ahb' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
-arch/arm64/boot/dts/qcom/sc7280-herobrine-villager-r0.dtb: isp@acb3000: clock-names:13: 'gcc_cam_hf_axi' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sc7280-camss.yaml#
+arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: camsv@15050000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8365-camsv.yaml#
+arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: camsv@15050800: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8365-camsv.yaml#
 
 
 
