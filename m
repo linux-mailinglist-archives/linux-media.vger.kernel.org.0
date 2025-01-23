@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-25226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25227-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A739EA1AC0A
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 22:45:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B21A1AC1B
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 22:50:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 975A4188D4B8
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 21:45:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1412016C9CC
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 21:50:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E6A81CAA9D;
-	Thu, 23 Jan 2025 21:44:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A03B1CAA9F;
+	Thu, 23 Jan 2025 21:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vev18NNB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EQitMZAf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7701CAA61;
-	Thu, 23 Jan 2025 21:44:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93931ADC62;
+	Thu, 23 Jan 2025 21:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737668698; cv=none; b=gkb1UhBrwLEm4z88UGEtSTdkgyO6yyIRj4x8c5KM46JLa8aPefvbp62tVty2d5FjxJwAeuVy3Zi0d3hkVnwXfiICAbejkMm3WgYgOtxhXu6YK9mjXrPdiM8p5EjcH184SW3iFf5DBw/2JDkh8NrGrNDxyi3xe95NrDaS8Oo68BM=
+	t=1737669033; cv=none; b=fqoqEfxaRE8HM2iaAhsaLvrOPWHTPM4VwZ9M0nG7Ss9ZzV0SZb46bI6ndH0swODXIBs6RAm0XFXl8AaKv1uC8+FQFi4PNgEhk8uGG2+FQV31r4MUls2pJdFLvfsFr90ernn+uAdeYlGOofJPQSudKpZkigyaVPN6jSDaJp8/Er8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737668698; c=relaxed/simple;
-	bh=ULmxtCI1siIPrMdvCIIFBFn7neRx4cArpCbH0o5UyFA=;
+	s=arc-20240116; t=1737669033; c=relaxed/simple;
+	bh=75k6qi8rPAhTTR1SBrXzFni4owaaPxd7OKe4JkW7Xe4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqW3XAargaMXH8hMsgxsnJBhXOfTxFURnudfhKyGeaZD+K5VtOs/4uF8kLf+rPs+XHh7+QG8suca7SduzcvH87Jy0nl4n/ZC/PoFA67NOglNtjULEiK/vnFmlHtx5dFsuODved8fyf5m3w7nSxDIDqNJHhl3qf8z+KCI5ChEmrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vev18NNB; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=nmejHdP4QnIDSLoUazQTKLHS4DC4DTDN+IEna2jomdd5LuIBGtmpDx2eBRzcXVIxliwuZrxs8FLvYQVd2t/REbFoINxnPbR5Uu4yJ65vRwv37latsVsf1WQ1K/f+5EVMoupqipGzWgRHg/iLZgNwwjmsq5+Uk2lwYb0Sd7Ya/hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EQitMZAf; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76BE3D1F;
-	Thu, 23 Jan 2025 22:43:51 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D83BD1F;
+	Thu, 23 Jan 2025 22:49:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737668631;
-	bh=ULmxtCI1siIPrMdvCIIFBFn7neRx4cArpCbH0o5UyFA=;
+	s=mail; t=1737668966;
+	bh=75k6qi8rPAhTTR1SBrXzFni4owaaPxd7OKe4JkW7Xe4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vev18NNBgtLqRLU+3XwbJYKmomzYl2PaXP0Hi+qb8ZDfZOxgw63GPs6UIpxxZPVd1
-	 cEh1lCLiGaEEPUugpl6/UAQh6JlWK3e4aV/bPK8laXmXx7N4Qxs4rR4JSzUa7Ye0DC
-	 4L4dhtvNfT69TAT46LMB10SSuTZOE/U+I/GxqXa0=
-Date: Thu, 23 Jan 2025 23:44:45 +0200
+	b=EQitMZAf1zOvnAUU+7lfalASlqS9EjX8Y1cual7R12pTk99Pg6vmr0aq/hvpzIChP
+	 Hd/vxk6YL9w4sGFCw3o/7fpdL52uZUaUnyHXnmoCMEz1V6FT6voM5ENSSWoT7TZ7Ax
+	 fWNcnoBYsYBjn3qLyZcA6XVp5GAJl07Cw7XfsPUI=
+Date: Thu, 23 Jan 2025 23:50:19 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -49,10 +49,10 @@ Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/6] media: vsp1: dl: Use singleshot DL for VSPX
-Message-ID: <20250123214445.GC10642@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 4/6] media: vsp1: rwpf: Break out format handling
+Message-ID: <20250123215019.GD10642@pendragon.ideasonboard.com>
 References: <20250123-v4h-iif-v1-0-7b4e5299939f@ideasonboard.com>
- <20250123-v4h-iif-v1-3-7b4e5299939f@ideasonboard.com>
+ <20250123-v4h-iif-v1-4-7b4e5299939f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,69 +61,95 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250123-v4h-iif-v1-3-7b4e5299939f@ideasonboard.com>
+In-Reply-To: <20250123-v4h-iif-v1-4-7b4e5299939f@ideasonboard.com>
 
 Hi Jacopo,
 
 Thank you for the patch.
 
-On Thu, Jan 23, 2025 at 06:04:04PM +0100, Jacopo Mondi wrote:
-> The vsp1_dl library allows to program a display list and feed it
-> continuously to the VSP2. As an alternative operation mode, the library
-> allows to program the VSP2 in 'single shot' mode, where a display list
-> is submitted to the VSP on request only.
+On Thu, Jan 23, 2025 at 06:04:05PM +0100, Jacopo Mondi wrote:
+> The current implementation of the r/wpf format handling assumes
+> three formats to be supported in the RGB/YUV space.
 > 
-> Currently the 'single shot' mode is only available when the VSP2 is
-> controlled by userspace, while it works in continuous mode when driven
-> by DRM, as frames have to be submitted to the display continuously.
+> With the forthcoming support for VSPX the r/wpf units will be
+> used to fetch from exteranal memory images in RAW Bayer format
+
+s/exteranal/external/
+
+> and buffers of ISP configuration parameters.
 > 
-> For the VSPX use case, where there is no uapi support, we should however
-> work in single-shot mode as the ISP driver programs the VSPX on
-> request.
-> 
-> Initialize the display lists in single shot mode in case the VSP1 is
-> controlled by userspace or in case the pipeline features an IIF entity,
-> as in the VSPX case.
+> Prepare for adding support for these new formats by breaking
+> out the list of supported media bus codes in the vsp1_rwpf.c
+> file.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
 > ---
->  drivers/media/platform/renesas/vsp1/vsp1_dl.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  drivers/media/platform/renesas/vsp1/vsp1_rwpf.c | 25 ++++++++++++++-----------
+>  1 file changed, 14 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> index ad3fa1c9cc737c92870c087dd7cb8cf584fce41b..b8f0398522257f2fb771b419f34b56e59707476b 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> @@ -1099,7 +1099,12 @@ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
->  		return NULL;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> index 9d38203e73d00b82a1a7db0353e2f0b5a94084f6..93b0ed5fd0da0c6a182dbbfe1e54eb8cfd66c493 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> @@ -16,6 +16,12 @@
+>  #define RWPF_MIN_WIDTH				1
+>  #define RWPF_MIN_HEIGHT				1
 >  
->  	dlm->index = index;
-> -	dlm->singleshot = vsp1->info->uapi;
-> +	/*
-> +	 * uapi = single shot mode;
-> +	 * DRM = continuous mode;
-> +	 * VSPX = single shot mode;
-> +	 */
-> +	dlm->singleshot = (vsp1->info->uapi || vsp1->iif);
-
-I'm wondering if we should make this a bit more generic, and allow the
-caller to select the mode of operation. It could be passed as a flag to
-vsp1_dl_list_commit() and stored in the vsp1_dl_list.
-
-There is however no use case at the moment to switch between singleshot
-and continuous modes on a per display list basis. Implementing support
-for that may be overkill, but on the other hand, the implementation
-seems very simple, so it's not a big effort. The main and possibly only
-reason why we may not want to do that now is because the display list
-helpers haven't been tested to successfully switch between the modes, so
-we may falsely advertise something as supported. Despite that, as no
-caller would attempt switching, it wouldn't cause an issue.
-
-What do you think ? What do you feel would be cleaner ?
-
->  	dlm->vsp1 = vsp1;
+> +static const u32 rwpf_mbus_codes[] = {
+> +	MEDIA_BUS_FMT_ARGB8888_1X32,
+> +	MEDIA_BUS_FMT_AHSV8888_1X32,
+> +	MEDIA_BUS_FMT_AYUV8_1X32,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 Subdevice Operations
+>   */
+> @@ -24,16 +30,10 @@ static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
+>  				    struct v4l2_subdev_state *sd_state,
+>  				    struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -	static const unsigned int codes[] = {
+> -		MEDIA_BUS_FMT_ARGB8888_1X32,
+> -		MEDIA_BUS_FMT_AHSV8888_1X32,
+> -		MEDIA_BUS_FMT_AYUV8_1X32,
+> -	};
+> -
+> -	if (code->index >= ARRAY_SIZE(codes))
+> +	if (code->index >= ARRAY_SIZE(rwpf_mbus_codes))
+>  		return -EINVAL;
 >  
->  	spin_lock_init(&dlm->lock);
+> -	code->code = codes[code->index];
+> +	code->code = rwpf_mbus_codes[code->index];
+>  
+>  	return 0;
+>  }
+> @@ -57,6 +57,7 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>  	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
+>  	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+> +	unsigned int i;
+>  	int ret = 0;
+>  
+>  	mutex_lock(&rwpf->entity.lock);
+> @@ -68,9 +69,11 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>  	}
+>  
+>  	/* Default to YUV if the requested format is not supported. */
+> -	if (fmt->format.code != MEDIA_BUS_FMT_ARGB8888_1X32 &&
+> -	    fmt->format.code != MEDIA_BUS_FMT_AHSV8888_1X32 &&
+> -	    fmt->format.code != MEDIA_BUS_FMT_AYUV8_1X32)
+> +	for (i = 0; i < ARRAY_SIZE(rwpf_mbus_codes); ++i) {
+> +		if (fmt->format.code == rwpf_mbus_codes[i])
+> +			break;
+> +	}
+> +	if (i == ARRAY_SIZE(rwpf_mbus_codes))
+>  		fmt->format.code = MEDIA_BUS_FMT_AYUV8_1X32;
+>  
+>  	format = v4l2_subdev_state_get_format(state, fmt->pad);
+> 
 
 -- 
 Regards,
