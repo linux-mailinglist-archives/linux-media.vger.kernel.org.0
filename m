@@ -1,195 +1,150 @@
-Return-Path: <linux-media+bounces-25201-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25202-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D10DA1A4A8
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 14:09:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E40A1A4F1
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 14:28:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7B9A1884E32
-	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 13:09:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B57DB3AB3E5
+	for <lists+linux-media@lfdr.de>; Thu, 23 Jan 2025 13:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5234220F986;
-	Thu, 23 Jan 2025 13:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4932E211269;
+	Thu, 23 Jan 2025 13:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Xvd7NbiE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ahPwHEyw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E4120E319;
-	Thu, 23 Jan 2025 13:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.83
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737637744; cv=fail; b=DiWCC+R1XU3gynBDe+p6s1zmpLcR9IPfSBbdfuDabSYMg3KTEAhXAeUwyXsqI6vQDUlZ0I0+XezZWz36m5dS7FWrbXB59ccmhfaeEfoii1xJSpF4VXIjCv29gSM16IMlnwd8fpo/D8BUf3zNVPciSfSKLs6Z5MYfThaRMeYOG14=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737637744; c=relaxed/simple;
-	bh=SBvrlX2AU9GQsS5BkXHw9pZ5wjK2Zf70qkysT7YmKHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=jpEcpTdJmbb+I6Rk9LOYfFkoyTPIJ6Y99PisYwtVA2wH7Mji5XYTEkxkKCs3sm8izsUusCwFuVsKpSM4RRcNCQWPAG/gDHNbwgnlcEOL5gsIQesP/8hyWKCLsQU6/aWSojls0JjMZVYjLmg0xFkUxhF7+oBILv2AiEC9GdMGbdg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Xvd7NbiE; arc=fail smtp.client-ip=40.107.223.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g7V5uD72m4wTws06H7PbZAqYXHl+lhvgGCLG2Aec/QZV3kMc4u14qmJykyZv98eb+coAU64pOLk6Nzkyx2HS5HV8OISHUJKkmO8ElSieHhfy0xkDMmhuWNrH29qLevMCWDyb2RhqsMoX0k0TbYEvNJK/lxHQ9JfW1qpzP0mS1tdwnYPfWVJuQsGWFd+pf4n73QivNDYWEp1Yd61JstufWgrxoVOXbXzAagNmbTcB/y7x8rLzsdb9TsUrASli45eusGL/dSaJP+FM9f48+WRq3C2/I9Q8FchS1bdPSelksbUBgRPTMMGnvkBJDVlJENH9RBDlXO+Eb4Vs/hbLB5IYnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SBvrlX2AU9GQsS5BkXHw9pZ5wjK2Zf70qkysT7YmKHQ=;
- b=onobT6w/7XxYn5X7gWBUu4Nv7c+F8OckNqRMJUL56lSyPMYbdShvoVK1a65iOFAv6dWmF9k/mQCD9teTZgQIUP7zsAOuVIVi2LtsXj220P4XYdw1H19fmVJkkZN5/kXk4fa88hWZsN1CYNWvRHgDB4FhAo20J2VPexbvF1zlh84DzW6DU789/Q2XqKJW1VdMFrjDsJ1SllfFfskrsinvHqj3Cv93wL5FOaLK95Tli/rXW6DCMkx2cLw1mIo/RyW4udcIGQF58FVy05h2S1IK1u0+u8hoH7z8vwftgrh53YUex7aMkx38FmWHu0SFSIoG2JuVI3H8oyBgzUtK+zGYFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SBvrlX2AU9GQsS5BkXHw9pZ5wjK2Zf70qkysT7YmKHQ=;
- b=Xvd7NbiE+OfU1pMsPQY5In8uJcPvebq7Oyxm6yc9pK0ZTKpvRKjBP4ozlhEp+E686UX52hrEkcqcQgSfFfBbsAdFRzd48KPU9vZHCXqBQ9QqvVvoAIk69Jkj/uUM5UW4QM+W5YpF4pst/qCDVcX66xlbqK0WAWJ8TYzGCDddzZhIAcikUnS//2ytbKTKetSA1/lp70mKi+XfK0Br1YZcdPo1XeMQuTdDKYkqhUeBRt5uftqdMpDNQ61Nrj/IG8liYBnmxk7DNvYAxnH5k0krI24yJa+QdB37jso6JR/kFzYrZm5UcKbEqQ+MQTc49I6uI/m+VukHTCOddijg2KBX9g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by MN0PR12MB5716.namprd12.prod.outlook.com (2603:10b6:208:373::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Thu, 23 Jan
- 2025 13:09:00 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8356.010; Thu, 23 Jan 2025
- 13:09:00 +0000
-Date: Thu, 23 Jan 2025 09:08:58 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: Baolu Lu <baolu.lu@linux.intel.com>, Alexey Kardashevskiy <aik@amd.com>,
-	kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	sumit.semwal@linaro.org, christian.koenig@amd.com,
-	pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
-	vivek.kasireddy@intel.com, dan.j.williams@intel.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <20250123130858.GI5556@nvidia.com>
-References: <20250115130102.GM5556@nvidia.com>
- <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
- <20250117132523.GA5556@nvidia.com>
- <Znh+uTMe/wX2RIJm@yilunxu-OptiPlex-7050>
- <20250120132525.GH5556@nvidia.com>
- <ZnnhKtA2n4s1CLyf@yilunxu-OptiPlex-7050>
- <20250121174303.GV5556@nvidia.com>
- <Z5B0+OcLWsiHLRIA@yilunxu-OptiPlex-7050>
- <20250122125512.GD5556@nvidia.com>
- <Z5HyxlaiXqp2/KOA@yilunxu-OptiPlex-7050>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z5HyxlaiXqp2/KOA@yilunxu-OptiPlex-7050>
-X-ClientProxiedBy: MN2PR08CA0011.namprd08.prod.outlook.com
- (2603:10b6:208:239::16) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41FA20F094
+	for <linux-media@vger.kernel.org>; Thu, 23 Jan 2025 13:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737638921; cv=none; b=FJBz3an+PZAUKYw0aV0gfJZNb4dNzXJmmyo4KZMXl1DNz/tEkVsVje9nyaINCj9llPDgdlXXCfRhNe7mIecrPxKzJYUoGYneJwVNWi7JGzwnJFtWjjlXgnIBivzwoU/58OVZtsEhPH5gcPHqq3OhG8B557cOCLgC0dHd68Honvo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737638921; c=relaxed/simple;
+	bh=SyqqF2aJiM1l1ZeV57HasSK/uR7RmQIOFicPlEbp8EA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gulswsjODeK+xNes7bSmbpBQOBUIyNbZwUh9Rqy9hzyW6hcs+jdYFQxqZnKaneVV1ZFyXM4yWlXFJrjEw2SE96WMiJ3iuG+FPTdDqzDUn7HTU96v+yJEq3rGBW2VPTBhOzlOaRyxkBK99ERTYkIi1v0ihNnmjCwO8EPeoCM9A94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ahPwHEyw; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737638920; x=1769174920;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SyqqF2aJiM1l1ZeV57HasSK/uR7RmQIOFicPlEbp8EA=;
+  b=ahPwHEywfM5eBLJ6q+tKKDopGx6zqjyz29AM2Y6rOU6+2JLBDBkUSMnM
+   wje2taSFfM2WeyfC7zUH0gOIG4HijRaxPmBpS7e4FYyPRMP1XZFwgculf
+   4YFdf1xjRAyJe9cRRNanOhzUSWZS2A0UKUuwt8qX76fwkRoxF8N1ekaWl
+   PrAsiiRQBDedvElWffh2kIEvFVj54z3EKhr96RnHnHvYlLZhAH8d0poNo
+   a+cLfuIeGC5WeDzcaWiVjqxES5/eNYkDsPipdnnzY/sPd8Md15dYz/tcQ
+   tof03HUTp7Iiu8Lpmhu7IMYbcmy34KNVtu3f9zHhbLFY6qbMaPkEQXLc0
+   g==;
+X-CSE-ConnectionGUID: d+JA8oJsSV2zq+LwcR2oNQ==
+X-CSE-MsgGUID: EAjGw63vR5Go8mbH4BKxAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="40962702"
+X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
+   d="scan'208";a="40962702"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 05:25:36 -0800
+X-CSE-ConnectionGUID: 1QqcRHUsSLuH+0a9qEXCIw==
+X-CSE-MsgGUID: dh45Wz/dQFu5DYEt22K6Rg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; 
+   d="scan'208";a="107565410"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 05:25:34 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1taxD9-00000004Pl2-48WV;
+	Thu, 23 Jan 2025 15:25:31 +0200
+Date: Thu, 23 Jan 2025 15:25:31 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 2/2] media: i2c: ov7251: Introduce 1 ms delay between
+ regulators and en GPIO
+Message-ID: <Z5JDS2EGT1cWCBGW@smile.fi.intel.com>
+References: <20250120101123.148482-1-sakari.ailus@linux.intel.com>
+ <20250120101123.148482-2-sakari.ailus@linux.intel.com>
+ <Z46GeyeYgf20pq7C@smile.fi.intel.com>
+ <Z5DcY_DyYVZxOGaO@kekkonen.localdomain>
+ <Z5EepNoMxL8Hfh3u@smile.fi.intel.com>
+ <Z5Hw3CUBnSgfNJMS@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MN0PR12MB5716:EE_
-X-MS-Office365-Filtering-Correlation-Id: 67e490f5-f084-435a-e378-08dd3baf1a1d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?f7d0AGKMDSCvH6nRkKjuxwIMyIGQIWOUBS8V5LcudAMZnwP64VDO8bdNZ27O?=
- =?us-ascii?Q?2il6F4+9bFPt1WmbrDqDuNyb68ii3jr/ZItL00vUPsbBYAPiRhvhGVORHksH?=
- =?us-ascii?Q?B+1DRfN9cOk/pLD30G8BruBmYV44sq24fMFVNppWt+4amUvZvBJbo0vIhzTE?=
- =?us-ascii?Q?ATIlQSkb4lzLXkrTFP/YYcyhCWHx8CmZIO3gT/34yxou2pDjCD9sDT1PeK2X?=
- =?us-ascii?Q?CaseH5eWC1ekIsp0bjkj+ly3Tn6mpaLAK2pGe7H0/R0vqFYjvKb4zT9naxfF?=
- =?us-ascii?Q?jky/yNu23U47XUR40H+aqurPUoIQbu0SyvhfcfwI217OYNdasNi8R7cZ7F4s?=
- =?us-ascii?Q?kZRpygSbSYsOaBmcEoVkTHQYMwpGG8szR/fhVH5itNQxHdw00b1AM4J66pO6?=
- =?us-ascii?Q?7huIHYc7kw3z0mhTIBR9hF3jZpSjKlRCJVBqJ7xnRu4KzF9+tH2xUmfGXi8T?=
- =?us-ascii?Q?tTtWhXgP6efWgvY2sCQRWU7qX/IwT5XI13y2sv7B+L5qPKqUAk4mmlSTCs26?=
- =?us-ascii?Q?rHyGJqqL3fPDkVOhhUshvfopS0vqLmhAol/fcmc74HoXQ0WG952x1XTGijrx?=
- =?us-ascii?Q?X6NrncITqZtQHuV0zb36UhzSZNkLOnaq8hnU0KvNI3PZ2s7b3d2hVnwDvMsz?=
- =?us-ascii?Q?+/fDur4WbIk7gkurMbWmstKqn8WBlOrI1wYB8uYln/5aBIR3yLF19FXZ+3m6?=
- =?us-ascii?Q?s30ic83SBlN4aJZkzGKnEaYGKQsaow5se8OvK3PoCA0f3StYQx9VoII4PiOC?=
- =?us-ascii?Q?KhsOZj4NCPpUSC9BUY/Qov5ClB0sOTQy/ngklpb+qxZBY4sxrlHI2flx4Gjp?=
- =?us-ascii?Q?1F6cz0mxkKWhLsjKzrp59E7EQCa8qruX4Nwd2yOEKd3RoI8cn6xjZM86l5vH?=
- =?us-ascii?Q?I+6scwy/28+LKr/8Du+Eg7gcawBxgm+9rzfthDfxGSvGamqBxL99jlpJ6moj?=
- =?us-ascii?Q?WdZMFzCDc4IQhaobQ46RB0DN1giz0IQ+BzaI6iLygkdV1Z1HwkzTAGYBjuIV?=
- =?us-ascii?Q?le1mP8PFuvj0IzF1R+lX6zUDQSqOrGno/LwNeGgDZl7gbXrNR44uVUqdmcsB?=
- =?us-ascii?Q?vAingMcuUGeypGuPgIT461Q+VVMD2JdMtPTbCcUadojDAKaBm0XTAuw/jLs6?=
- =?us-ascii?Q?pdfnxQ8bX8ZDqDnoMi1eWm48m1tXXxhyvMRygElcO2eCwmmzePqOY3NtdIOk?=
- =?us-ascii?Q?rHvnoHmL0/BN8baQqrc7mTUwW0hd477NHi2z0PG5k8NBTWMjaHr9Cx01dJOm?=
- =?us-ascii?Q?aARkj12B/UI1P8YMhPjhGLxZX5eAcsF5Ke/fIB33r9LpiT6kAVanWDwuLt+Z?=
- =?us-ascii?Q?8KQUo86PVbc7B/G/G0rrhO0s3d6wJC4AlQheVAVTO2v0k4sxl16EcPVQDU95?=
- =?us-ascii?Q?Gpie5Jg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?F+WVboAOYjmDwinVO9XE8lBofXCKGuH8gdBziAK1YLXYCiAAyGZKOUwdfpVT?=
- =?us-ascii?Q?rOkXurOPJdMqOZeat/6ElpbPuuBFhVqbuAmtjLxZdl9JTkY0S9vXg8svzGAj?=
- =?us-ascii?Q?r3cKGl+zLQfDQ+iVVU1VKBaXHTWosStcYW+4oaPQDnyWjiw/u9zw45i4gbN3?=
- =?us-ascii?Q?J96jSLBkm9E/q545amoUFrvXY2OYqwdTZ/w0fU4duJISUSy6DfH0WRLz+O6g?=
- =?us-ascii?Q?c7YVqCppn8o+WiSH+KjtRKFDP1UsYTAb5/j1nPhi4VpqizRp6hUWtZCBAVr0?=
- =?us-ascii?Q?nrQ6CrBbzVdiqV2D/Xxmgf7xEU9vtqVAguEiv+gIX74lMKd5L5sF895ugvFl?=
- =?us-ascii?Q?FCP/+6btFt7pKXkWze+h/GqGmbS8NFAiE1xR29ic3vNE88ftcX4H5m4+qZ+r?=
- =?us-ascii?Q?h08hel7/egJnjTho/sxmA7jDFd7Dp3rrwDCdetFCHf3xz+irBXKKjTw3Adnm?=
- =?us-ascii?Q?YIVjEvlFemasdIGWlSml0cYpDafsjiVGspU4Drxsj4xTk5rnhbRDsgX+1Ceq?=
- =?us-ascii?Q?aPuTg0THH5rP24YVMXJB5nBTOnB3TQIHsyfv4x1z68Ou5KheU9p41dtB09xE?=
- =?us-ascii?Q?1LoBWYfHbw/QAJGzSxYHGEVWUTV+4t9iq/sHKLWCTxE4lOjEW5vkTt/cCyxS?=
- =?us-ascii?Q?DNfNz8LbwC8E9fd6OytowqA8eo4+FbqM6solQmhChiqA/ZGJDxza0KwXoo2B?=
- =?us-ascii?Q?S9uEp44hD/yFXoIEwLrrQvzw1kZI4MAvrAB8wxXo55Wz9GROh9hhzK8ejZX3?=
- =?us-ascii?Q?OWIhvWxVEzyP5wrinKtr4sdxn3GHJEN/Wu7FFEy3P85YEle/rVCDDQFdVvpx?=
- =?us-ascii?Q?Y9nZhU2CnzoI38KpjY/lwnz05RnglSgPL1BAVhd+X9OE+HdDwZDz/+EJJc51?=
- =?us-ascii?Q?hqbf4Vv7UQwO/tRxf0IPJUAeh+yKV/vjYj1xZnXNRxniG7Bkvc5hmDqyzbP8?=
- =?us-ascii?Q?D7YMaEqLG80OvoqNQ6LSip+f4G4CK1+BYPjYRHGg4Y2VYKcElVCD1J/Lke89?=
- =?us-ascii?Q?nFiMIRYwWKItViAGvIxzr+otmT2eAs2IeHRDwKeZ1YlocHYEQvsv82zyrYOa?=
- =?us-ascii?Q?SdjN8mohxeOneOruT791fK/8R/jtit1CJgKAlOiE1KTlqarkQBUTHRPzAgrm?=
- =?us-ascii?Q?3ImOTDAhLLz4DUG8vSvu1PvkdyDURPGqIgBSuXwk2+V8ukpAjq6I5o3RpCuq?=
- =?us-ascii?Q?CjHN/7W2E0965toXUTqFI/4CfrzLCfYvvGI5D3gUF2xq0ZjL5KLVg0oojxBT?=
- =?us-ascii?Q?Xxl8u1AhJX6sl/zET67/1V/XkleVtHz2xYCzKJi7n2Atua7kU+Bs4R+spco9?=
- =?us-ascii?Q?qQDBubC/SR3QBbOhNjRKEhV2LKEnFuV9fTdaGiuw0eo+UvS+S/isezSvORIm?=
- =?us-ascii?Q?2HIyDPU3mF+vEErQpxLYoux2IQCDJ8iSfhtscetRnW7quaqxtL59yOAFcbcx?=
- =?us-ascii?Q?qXM5NZjkZnPtyj+s2uWUDEVvhqHkwnp5QJwlqWov8ENvdg4/EosFZzC0O/S3?=
- =?us-ascii?Q?LhQjmOAQ2J7hh596eXi8CY+uYrm5BTVwnF83h4YcZm+Zta/N4Y5b3E34IzaY?=
- =?us-ascii?Q?TOVcgo8Va3O2R2BZ5pk=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67e490f5-f084-435a-e378-08dd3baf1a1d
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2025 13:09:00.1380
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G1+8LO9rfUjkdnUy1FtTmf7BeBmNq62vGwbUYZ8tyJRtqKpdEbhmjDaymjzsAo+b
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z5Hw3CUBnSgfNJMS@kekkonen.localdomain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Jan 23, 2025 at 03:41:58PM +0800, Xu Yilun wrote:
+On Thu, Jan 23, 2025 at 07:33:48AM +0000, Sakari Ailus wrote:
+> On Wed, Jan 22, 2025 at 06:36:52PM +0200, Andy Shevchenko wrote:
+> > On Wed, Jan 22, 2025 at 11:54:11AM +0000, Sakari Ailus wrote:
+> > > On Mon, Jan 20, 2025 at 07:23:07PM +0200, Andy Shevchenko wrote:
+> > > > On Mon, Jan 20, 2025 at 12:11:23PM +0200, Sakari Ailus wrote:
+> > > > > Lift the xshutdown (enable) GPIO 1 ms after enabling the regulators, as
+> > > > > required by the sensor's power-up sequence.
 
-> I don't have a complete idea yet. But the goal is not to make any
-> existing driver seamlessly work with secure device. It is to provide a
-> generic way for bind/attestation/accept, and may save driver's effort
-> if they don't care about this startup process. There are plenty of
-> operations that a driver can't do to a secure device, FLR is one of
-> them. The TDISP SPEC has described some general rules but some are even
-> device specific.
+...
 
-You can FLR a secure device, it just has to be re-secured and
-re-attested after. Otherwise no VFIO for you.
+> > > > > +	usleep_range(1000, 1100);
+> > > > 
+> > > > Why not fsleep() ?
+> > > 
+> > > Could be, but fsleep() uses a range that is as large as the delay is.
+> > 
+> > fsleep() is recommended way as it knows much better the implementation details
+> > of the delay APIs and which one to choose based on input. As recently stated by
+> > the fix series to delay APIs the fsleep() will give up to 25% on top of the
+> > asked delay, meaning in this case somewhat 250us. Taking it into account the
+> > resulting values I do not think usleep_range() should be here. I.o.w. I do not
+> > see enough justification for _not_ using fsleep().
+> > 
+> > Also note that fsleep() ranges try to keep balance between oversleep and power
+> > consumption. Your delay is rather tough as sometimes 100us is almost the time
+> > needed to go to the deep sleep for the CPU package and return from it.
+> 
+> Have you looked at what fsleep() does?
 
-> So I think a driver (including VFIO) expects change to support trusted
-> device, but may not have to cover bind/attestation/accept flow.
+Definitely, and also read the (updated) documentation. So, let me repeat:
+I do not see any justification for usleep_range() here and how 150us overhead
+(on top of what you proposed) makes any difference.
 
-I expect changes, but not fundamental ones. VFIO will still have to
-FLR devices as part of it's security architecture.
+> I agree most of the time it's the best choice when you need to sleep (at
+> least) some time, but generally sensor power-up time is critical.
 
-The entire flow needs to have options for drivers to be involved in
-the flow, somehow.
+Why? I don't see this in the commit message. Please also answer the question
+"what is the bad thing happen if we delay slightly more?" and the question of
+how this will cope with the case when HRTIMER is off in the kernel.
 
-Jason
+> I'm fine using 1000 for both, too.
+
+In accordance with the documentation one has to consider
+
+fsleep(1000)
+msleep(1)
+usleep_range(1000, 1100)
+
+(in this order), so I prefer that we use fsleep() if there is no good
+justification for the other one(s).
+
+Also just noticed that in the commit message you even used "ms" units and not
+"us", which pretty much suggests that tough range for usleep_range() is not
+justified.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
