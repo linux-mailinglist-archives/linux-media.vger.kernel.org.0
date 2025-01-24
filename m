@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-25264-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25265-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF2DA1B6C1
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 14:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B56A1B6CF
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 14:30:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8B923AEBA6
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 13:23:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57A693AEB9A
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 13:29:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A86A38DC8;
-	Fri, 24 Jan 2025 13:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E335F4207F;
+	Fri, 24 Jan 2025 13:29:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OlJ0EpEK"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n0qHNJok"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13760C8DF;
-	Fri, 24 Jan 2025 13:23:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59B13C47B;
+	Fri, 24 Jan 2025 13:29:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737725016; cv=none; b=kUtrVZo6RgNkfYtcBoiw5Sts4OEsoxx/1Uwkl4finFOzFtsH/rgt5+6w7eelMaJA1TBci38gD+sh34NOR4V5VrXc6iv3yZwfmoHRqJ3P4GnVCUAAS7aTuEsiyeOI/2fI/ht+nnNsy8y9k6CnIaCOXtByVjoxchkQ/pjEpceRgbo=
+	t=1737725389; cv=none; b=ddqciiH1A0pElSZkuEsqIN1WtqqP6fclI+jUrYq4fvq1b6uvqrNnPhXLQw+EeNVI2U3hLxSUQIdpBrr46UMK8Ehxwg40z2L3sBcpYyZFaioBDqS4SThuyGrBUHhuhoBJvsgjFGSBm3hwpn3Rd2H33PVYPd+Ncy1L8gGBSQOSgV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737725016; c=relaxed/simple;
-	bh=gfyHCDgDr2JkZgEaqHp8L9OzDNC8dAFjwSDGTYVb1BE=;
+	s=arc-20240116; t=1737725389; c=relaxed/simple;
+	bh=ccE8b6wW4fttm52HZV+NzeepgsiK9okfAaWNyO0laZ8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Am6sf4AOYtD9x2iQBueFzeau/gX7nC1nz4K5McERrizOJqLb5Nm/Yr5DK8n/dYATSE8C1hZilbMRj7YcR3a0ogHdgItDl/9fbRUJ+yipuMbYVo7I6KvogCk9TkIHBP+hzdnaKJTDVmernaAqn9qVdELUMPzKXG4autpBoQM6VkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OlJ0EpEK; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=pnwfAmDqLSbz5jVirakNs2MYwnOL0qP6fyT9kity3yn77WfbETrK8N5qitjk21JazPWQpKykgojcstmvPWt6J4d/ZvzFWlgraFK6veyf1kJZSpAna/VltX8kQdPvwsD7WrabbWqRSGvA3LNdWrleQE+FDbEdnga9WWvVbTy/ZBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n0qHNJok; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5C3D465;
-	Fri, 24 Jan 2025 14:22:28 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2FCC465;
+	Fri, 24 Jan 2025 14:28:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737724949;
-	bh=gfyHCDgDr2JkZgEaqHp8L9OzDNC8dAFjwSDGTYVb1BE=;
+	s=mail; t=1737725322;
+	bh=ccE8b6wW4fttm52HZV+NzeepgsiK9okfAaWNyO0laZ8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OlJ0EpEK54ra4TOdsXoMYzOOJjboZpGLQjFc7PNu2DwlZyX9Bz8z/Kr8mxeXtEx/Q
-	 v8Gs/QacA3yfvfbxe6jrRJIomiSgi6B5oJ9BIiIXPv6dKfEICd19rMSnnzT1slShnR
-	 V8RQRIRIRmR0hCfZtkkcKcQBP0wnrSn+dNnkf5Ms=
-Message-ID: <cb989b22-33e3-418e-9f58-676256720aec@ideasonboard.com>
-Date: Fri, 24 Jan 2025 15:23:30 +0200
+	b=n0qHNJokG9DRq1V8gab1wqR9LGbVufKbdf1fvmTqn6yJwV6icVO3Gg/VkWQJfHt7c
+	 FTxmmRXSri0fG4sYQTdki/GWuZrjiFsHKJLl/eo1ScJyBDHINEdxIqObPZgBxVqCN4
+	 Suz+Uf6N+Imru7SDMb5o6bBbbS8I7LWUYhVNDZyw=
+Message-ID: <15fbe245-e031-4bf5-9d17-2ee807081e18@ideasonboard.com>
+Date: Fri, 24 Jan 2025 15:29:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,15 +50,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/19] media: i2c: ds90ub960: Move all RX port init code
- into ub960_init_rx_ports()
+Subject: Re: [PATCH 18/19] media: i2c: ds90ub960: Configure serializer using
+ back-channel
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
  Jai Luthra <jai.luthra@ideasonboard.com>
 References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
- <20250110-ub9xx-improvements-v1-13-e0b9a1f644da@ideasonboard.com>
- <Z4fFRJfgwSCcmrbd@kekkonen.localdomain>
+ <20250110-ub9xx-improvements-v1-18-e0b9a1f644da@ideasonboard.com>
+ <Z4fGQY_9xIPQXSUD@kekkonen.localdomain>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -104,70 +104,57 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <Z4fFRJfgwSCcmrbd@kekkonen.localdomain>
+In-Reply-To: <Z4fGQY_9xIPQXSUD@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 15/01/2025 16:25, Sakari Ailus wrote:
+On 15/01/2025 16:29, Sakari Ailus wrote:
 > Moi,
 > 
-> On Fri, Jan 10, 2025 at 11:14:13AM +0200, Tomi Valkeinen wrote:
->> We have some code in probe() which is related to RX port initialization,
->> and should be in ub960_init_rx_ports(). Move the code there.
->>
->> We also move ub960_reset() so that it is accessible from
->> ub960_init_rx_ports().
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/i2c/ds90ub960.c | 115 ++++++++++++++++++++++--------------------
->>   1 file changed, 59 insertions(+), 56 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
->> index 02e22ae813fa..cc944d737524 100644
->> --- a/drivers/media/i2c/ds90ub960.c
->> +++ b/drivers/media/i2c/ds90ub960.c
->> @@ -1225,6 +1225,33 @@ static int ub960_ind_update_bits(struct ub960_data *priv, u8 block, u8 reg,
->>   	return ret;
->>   }
+> On Fri, Jan 10, 2025 at 11:14:18AM +0200, Tomi Valkeinen wrote:
+>> @@ -2956,6 +3033,36 @@ static int ub960_init_rx_ports_ub9702(struct ub960_data *priv)
+>>   	if (ret)
+>>   		return ret;
 >>   
->> +static int ub960_reset(struct ub960_data *priv, bool reset_regs)
->> +{
->> +	struct device *dev = &priv->client->dev;
->> +	unsigned int v;
->> +	int ret;
->> +	u8 bit;
+>> +	for_each_active_rxport(priv) {
+>> +		if (it.rxport->ser.addr >= 0) {
+>> +			/*
+>> +			 * Set serializer's I2C address if set in the dts file,
+>> +			 * and freeze it to prevent updates from the FC.
+>> +			 */
+>> +			ub960_rxport_write(priv, it.nport, UB960_RR_SER_ID,
+>> +					   it.rxport->ser.addr << 1 |
+>> +					   UB960_RR_SER_ID_FREEZE_DEVICE_ID,
+>> +					   &ret);
+>> +		}
 >> +
->> +	bit = reset_regs ? UB960_SR_RESET_DIGITAL_RESET1 :
->> +			   UB960_SR_RESET_DIGITAL_RESET0;
+>> +		/* Set serializer I2C alias with auto-ack */
+>> +		ub960_rxport_write(priv, it.nport, UB960_RR_SER_ALIAS_ID,
+>> +				   it.rxport->ser.alias << 1 |
+>> +				   UB960_RR_SER_ALIAS_ID_AUTO_ACK, &ret);
 >> +
->> +	ret = ub960_write(priv, UB960_SR_RESET, bit, NULL);
->> +	if (ret)
->> +		return ret;
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+>> +
+>> +	for_each_active_rxport(priv) {
+>> +		if (fwnode_device_is_compatible(it.rxport->ser.fwnode,
+>> +						"ti,ds90ub971-q1")) {
 > 
-> Not related to the patch but if you're serialising things below, why aren't
-> you doing that here?
+> I guess one instance is fine but consider using match data instead.
 
-ub960_write() takes the lock, regmap_read_poll_timeout() doesn't.
+This is checking the model of the (remote) serializer, not the 
+deserializer (which this driver deals with).
+
+Unfortunately we need to do some early configuration before the 
+serializer driver probes, and that configuration depends on the 
+serializer model.
+
+We could, perhaps, get the serializer models once and store it in the 
+rxport data for later use.
 
   Tomi
-
-> 
->> +
->> +	mutex_lock(&priv->reg_lock);
->> +
->> +	ret = regmap_read_poll_timeout(priv->regmap, UB960_SR_RESET, v,
->> +				       (v & bit) == 0, 2000, 100000);
->> +
->> +	mutex_unlock(&priv->reg_lock);
->> +
->> +	if (ret)
->> +		dev_err(dev, "reset failed: %d\n", ret);
->> +
->> +	return ret;
->> +}
-> 
 
 
