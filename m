@@ -1,242 +1,177 @@
-Return-Path: <linux-media+bounces-25262-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25263-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859B8A1B5E5
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 13:27:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A86A1B6BB
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 14:20:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7B60161EEF
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 12:27:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 736E43AE340
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 13:20:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C0D21B199;
-	Fri, 24 Jan 2025 12:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A23E38DC8;
+	Fri, 24 Jan 2025 13:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eBkTwDPX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="msDKGzyu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CBD1CEEA4;
-	Fri, 24 Jan 2025 12:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD69478F29;
+	Fri, 24 Jan 2025 13:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737721647; cv=none; b=mDaITazMM/VSrFwWyudsikcC10Egbsu4QUIGC8zxEhfvMM5lPx8uBl1iP8hFE8CrNXyYd7Zh5GlTs5qa7DqWoe5QM+gucMZhXtOORq6OgtwDzHfszQiB25+2wsZBewTlUZom2PJ2LI9z9DBnS739jTL6plj0TXM6Hi/Y87aBBGU=
+	t=1737724780; cv=none; b=obFm8J/XFfOj9ufQLIZOfMs4RhMpWtcc99ec9/dDE3C4NOQbaWkRjUxUk96CnqTxVlFulchD2S3U2cwr9zKvu/MrjRdOad5P6w1YcPk+OFAhvVKr1ED64S3lDneD+JvL8X+3O1Bn6ZaONajo3vj+0u6Nrn2EwVQfy6GlYRZvhak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737721647; c=relaxed/simple;
-	bh=+WjLRzIvgDcphFpxBffYBdd+ltPK1ZHMHAmZ7xKpbuw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RLbUNSHlRiSo3rMh3AD8CEgBkM9kykTo5vgIxGCm0ZBNpdd8qBehf8QMF8pnAEzNZmNbJKuCtp4FWChDV8a+Xdsg4ZIyAbyChMMmvMrnMDMd8VJsWpEHwIKDaYcnFGNjk/IdS9ppsX5tiglLCKvFRaaOGErqP+b0JOoY3oI/nTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eBkTwDPX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC3DCC4CEDD;
-	Fri, 24 Jan 2025 12:27:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737721646;
-	bh=+WjLRzIvgDcphFpxBffYBdd+ltPK1ZHMHAmZ7xKpbuw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eBkTwDPX0NlglTo3JToyEyHgXp0sNWWKbM4d2tmTEeL19FCjYSzfd75AQ+6s1rVPH
-	 QIuwiEvD2MrRfN+uwMWWkQnyQUYgQ4rbQ9bqVXtuS7Q5vzcnKICatNYn71VPgG1Hbw
-	 12DxiIYhLhKQtE6wmKjRyvVjtgbV84Vj/ISbZdTkP6j3yW5+5XxVMVsA3Fgm7DbX3n
-	 5M1nIcUtkZZU1l/K/YuWtZkLdEopznnSPZ3gplV3VLcP8w/WoecB86GNKplUO1qi6l
-	 PIvUUQXsL4vFPNoX9zLs1xPWSq2d3M1Q9+cjii+BiWDcRXbjpUiDq4rVebqwcBgCzZ
-	 yH8h3kc5kBHxg==
-Date: Fri, 24 Jan 2025 13:27:20 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 3/3] drm/sched: Update timedout_job()'s documentation
-Message-ID: <Z5OHKHZRBed_bxF6@pollux>
-References: <20250121151544.44949-2-phasta@kernel.org>
- <20250121151544.44949-6-phasta@kernel.org>
+	s=arc-20240116; t=1737724780; c=relaxed/simple;
+	bh=JOu4TI6erL4+9c/VJMPhYunm6by8dXTNzBQiZe6VjU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VO20lLfZ0WVtmAWe1H65Cnh99CzxqxTZqBSdSIBOI7IGOnAWHQKjq8p44r8NJJ9YOgzDjgPFBKCEqGguMXoFb0QBtb2VyphAEv1jAVQC3lfSINZyqFLuTvOGwF5nYdLyghvdpKo5/iEczasGmsb0jydXJaH5x6EljwdzBKMkK3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=msDKGzyu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66B9A465;
+	Fri, 24 Jan 2025 14:18:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1737724712;
+	bh=JOu4TI6erL4+9c/VJMPhYunm6by8dXTNzBQiZe6VjU4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=msDKGzyuB3XgCZyDdRxTh/AZcUybxtuovMifDs86rviFJULiqvO/yWoIy3qGxAAmu
+	 XVr3oIJE2BX9Y8BE9lgcWmCB6YCAK0Njkrj56WL/5tW+IhyU0wgJap9pcwz0RlL8bo
+	 o4kAR9o8bsejjh1GvZAIXJxUEIU0YfXgZoYackqQ=
+Message-ID: <7e034745-831a-4518-8c4e-003fa7773a57@ideasonboard.com>
+Date: Fri, 24 Jan 2025 15:19:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250121151544.44949-6-phasta@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/19] media: i2c: ds90ub953: Speed-up I2C watchdog timer
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
+ Jai Luthra <jai.luthra@ideasonboard.com>
+References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
+ <20250110-ub9xx-improvements-v1-7-e0b9a1f644da@ideasonboard.com>
+ <Z4fDfQcnZiHC0Fms@kekkonen.localdomain>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <Z4fDfQcnZiHC0Fms@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 21, 2025 at 04:15:46PM +0100, Philipp Stanner wrote:
-> drm_sched_backend_ops.timedout_job()'s documentation is outdated. It
-> mentions the deprecated function drm_sched_resubmit_job(). Furthermore,
-> it does not point out the important distinction between hardware and
-> firmware schedulers.
+Hi,
+
+On 15/01/2025 16:17, Sakari Ailus wrote:
+> Moi,
 > 
-> Since firmware schedulers tyipically only use one entity per scheduler,
-> timeout handling is significantly more simple because the entity the
-> faulted job came from can just be killed without affecting innocent
-> processes.
+> On Fri, Jan 10, 2025 at 11:14:07AM +0200, Tomi Valkeinen wrote:
+>> From: Jai Luthra <jai.luthra@ideasonboard.com>
+>>
+>> On the I2C bus for remote clients (sensors), by default the watchdog
+>> timer expires in 1s. To allow for a quicker system bring-up time, TI
+>> recommends to speed it up to 50us [1].
+>>
+>> [1]: Section 7.3.1.1 - https://www.ti.com/lit/gpn/ds90ub953-q1
+>>
+>> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/i2c/ds90ub953.c | 11 +++++++++++
+>>   1 file changed, 11 insertions(+)
+>>
+>> diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
+>> index 99a4852b9381..6c36980e8beb 100644
+>> --- a/drivers/media/i2c/ds90ub953.c
+>> +++ b/drivers/media/i2c/ds90ub953.c
+>> @@ -54,6 +54,10 @@
+>>   #define UB953_REG_CLKOUT_CTRL0			0x06
+>>   #define UB953_REG_CLKOUT_CTRL1			0x07
+>>   
+>> +#define UB953_REG_I2C_CONTROL2			0x0a
+>> +#define UB953_REG_I2C_CONTROL2_SDA_OUTPUT_SETUP_SHIFT	4
+>> +#define UB953_REG_I2C_CONTROL2_BUS_SPEEDUP	BIT(1)
+>> +
+>>   #define UB953_REG_SCL_HIGH_TIME			0x0b
+>>   #define UB953_REG_SCL_LOW_TIME			0x0c
+>>   
+>> @@ -1320,6 +1324,13 @@ static int ub953_hw_init(struct ub953_data *priv)
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> +	v = 0;
+>> +	v |= 1 << UB953_REG_I2C_CONTROL2_SDA_OUTPUT_SETUP_SHIFT;
 > 
-> Update the documentation with that distinction and other details.
+> BIT()? Or at least 1U <<< ...;.
+
+It's a three-bit field, the value just happens to be 1. What's wrong 
+with 1 << SHIFT?
+
 > 
-> Reformat the docstring to work to a unified style with the other
-> handles.
+>> +	v |= UB953_REG_I2C_CONTROL2_BUS_SPEEDUP;
+>> +	ret = ub953_write(priv, UB953_REG_I2C_CONTROL2, v, NULL);
 > 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->  include/drm/gpu_scheduler.h | 82 ++++++++++++++++++++++---------------
->  1 file changed, 49 insertions(+), 33 deletions(-)
+> I'd just do this without a temporary variable. If you prefer to keep it, do
+> assign the first calculated value there first and remove the assignment to
+> zero.
+
+I think we can do without.
+
+>> +	if (ret)
+>> +		return ret;
 > 
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index cf40fdb55541..4806740b9023 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -394,8 +394,14 @@ static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
->  }
->  
->  enum drm_gpu_sched_stat {
-> -	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
-> +	/* Reserve 0 */
-> +	DRM_GPU_SCHED_STAT_NONE,
-> +
-> +	/* Operation succeeded */
->  	DRM_GPU_SCHED_STAT_NOMINAL,
-> +
-> +	/* Failure because dev is no longer available, for example because
-> +	 * it was unplugged. */
->  	DRM_GPU_SCHED_STAT_ENODEV,
->  };
->  
-> @@ -447,43 +453,53 @@ struct drm_sched_backend_ops {
->  	 * @timedout_job: Called when a job has taken too long to execute,
->  	 * to trigger GPU recovery.
->  	 *
-> -	 * This method is called in a workqueue context.
+> No need for this.
 
-Why remove this line?
+No, but it keeps the code structure consistent and allows easy 
+future/debug modifications.
 
-> +	 * @sched_job: The job that has timed out
->  	 *
-> -	 * Drivers typically issue a reset to recover from GPU hangs, and this
-> -	 * procedure usually follows the following workflow:
-> +	 * Returns: A drm_gpu_sched_stat enum.
+  Tomi
 
-Maybe "The status of the scheduler, defined by &drm_gpu_sched_stat".
-
-I think you forgot to add the corresponding parts in the documentation of
-drm_gpu_sched_stat.
-
->  	 *
-> -	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
-> -	 *    scheduler thread and cancel the timeout work, guaranteeing that
-> -	 *    nothing is queued while we reset the hardware queue
-> -	 * 2. Try to gracefully stop non-faulty jobs (optional)
-> -	 * 3. Issue a GPU reset (driver-specific)
-> -	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
-> -	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
-> -	 *    jobs can be queued, and the scheduler thread is unblocked
-> +	 * Drivers typically issue a reset to recover from GPU hangs.
-> +	 * This procedure looks very different depending on whether a firmware
-> +	 * or a hardware scheduler is being used.
-> +	 *
-> +	 * For a FIRMWARE SCHEDULER, each (pseudo-)ring has one scheduler, and
-
-Why pseudo? It's still a real ring buffer.
-
-> +	 * each scheduler has one entity. Hence, you typically follow those
-> +	 * steps:
-
-Maybe better "Hence, the steps taken typically look as follows:".
-
-> +	 *
-> +	 * 1. Stop the scheduler using drm_sched_stop(). This will pause the
-> +	 *    scheduler workqueues and cancel the timeout work, guaranteeing
-> +	 *    that nothing is queued while we remove the ring.
-
-"while the ring is removed"
-
-> +	 * 2. Remove the ring. In most (all?) cases the firmware will make sure
-
-At least I don't know about other cases and I also don't think it'd make a lot
-of sense if it'd be different. But of course there's no rule preventing people
-to implement things weirdly.
-
-> +	 *    that the corresponding parts of the hardware are resetted, and that
-> +	 *    other rings are not impacted.
-> +	 * 3. Kill the entity the faulted job stems from, and the associated
-
-There can only be one entity in this case, so you can drop "the faulted job
-stems from".
-
-> +	 *    scheduler.
-> +	 *
-> +	 *
-> +	 * For a HARDWARE SCHEDULER, each ring also has one scheduler, but each
-> +	 * scheduler is typically associated with many entities. This implies
-
-What about "each scheduler can be scheduling one or more entities"?
-
-> +	 * that all entities associated with the affected scheduler cannot be
-
-I think you want to say that not all entites can be torn down, rather than none
-of them can be torn down.
-
-> +	 * torn down, because this would effectively also kill innocent
-> +	 * userspace processes which did not submit faulty jobs (for example).
-
-This is phrased ambiguously, "kill userspace processs" typically means something
-different than you mean in this context.
-
-> +	 *
-> +	 * Consequently, the procedure to recover with a hardware scheduler
-> +	 * should look like this:
-> +	 *
-> +	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop().
-> +	 * 2. Figure out to which entity the faulted job belongs to.
-> +	 * 3. Kill that entity.
-
-I'd combine the two steps: "2. Kill the entity the faulty job originates from".
-
-> +	 * 4. Issue a GPU reset on all faulty rings (driver-specific).
-> +	 * 5. Re-submit jobs on all schedulers impacted by re-submitting them to
-> +	 *    the entities which are still alive.
-> +	 * 6. Restart all schedulers that were stopped in step #1 using
-> +	 *    drm_sched_start().
->  	 *
->  	 * Note that some GPUs have distinct hardware queues but need to reset
->  	 * the GPU globally, which requires extra synchronization between the
-> -	 * timeout handler of the different &drm_gpu_scheduler. One way to
-> -	 * achieve this synchronization is to create an ordered workqueue
-> -	 * (using alloc_ordered_workqueue()) at the driver level, and pass this
-> -	 * queue to drm_sched_init(), to guarantee that timeout handlers are
-> -	 * executed sequentially. The above workflow needs to be slightly
-> -	 * adjusted in that case:
-> -	 *
-> -	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop()
-> -	 * 2. Try to gracefully stop non-faulty jobs on all queues impacted by
-> -	 *    the reset (optional)
-> -	 * 3. Issue a GPU reset on all faulty queues (driver-specific)
-> -	 * 4. Re-submit jobs on all schedulers impacted by the reset using
-> -	 *    drm_sched_resubmit_jobs()
-> -	 * 5. Restart all schedulers that were stopped in step #1 using
-> -	 *    drm_sched_start()
-> -	 *
-> -	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
-> -	 * and the underlying driver has started or completed recovery.
-> -	 *
-> -	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no longer
-> -	 * available, i.e. has been unplugged.
-> +	 * timeout handlers of different schedulers. One way to achieve this
-> +	 * synchronization is to create an ordered workqueue (using
-> +	 * alloc_ordered_workqueue()) at the driver level, and pass this queue
-> +	 * as drm_sched_init()'s @timeout_wq parameter. This will guarantee
-> +	 * that timeout handlers are executed sequentially.
->  	 */
->  	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
->  
-> -- 
-> 2.47.1
-> 
 
