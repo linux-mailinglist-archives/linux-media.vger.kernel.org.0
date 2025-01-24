@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-25287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25288-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C846AA1B91A
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 16:28:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2A2A1B909
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 16:25:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87F2316EC8C
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 15:24:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 70400188C953
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 15:25:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 028BE2248AD;
-	Fri, 24 Jan 2025 15:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F287D224AFA;
+	Fri, 24 Jan 2025 15:18:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qSYiXTcx"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BjFsC0dN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD53C223711;
-	Fri, 24 Jan 2025 15:18:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4452236FE;
+	Fri, 24 Jan 2025 15:18:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737731929; cv=none; b=H1XQkJXfdXh6WOJVFBpYUv/n8ZVJfFFuDt+Lbu4TI1910ITiHNt15AlBQQljUYI9a/yXGU/p8CMmKXQzv5HwgewDeacL2zuUN9Whz2mC0ovDU9rQLL73tn37oF4uVf64UfQdo70Ro2pvIAelZSr6gkbYcF528t1XTqmBY4r9A+Y=
+	t=1737731931; cv=none; b=UsiKNNOqD/dCNyR9gaD8siKHTbma6Ca6A5N/u/IemVpfbbNI7dP9HnCETPmHNvhGercBe60KpRH3qKVYrfhpLBylg/4eXIirdzM6f5emhvYUr8nvJ2PZSuDZFNJdTc4vSx87yvydOawQ8fdGDr9FwQFq3qas1lHSQleJAB56x4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737731929; c=relaxed/simple;
-	bh=CM1W56D9qM93BC4zWdZEOfu5UnrV9UncxDigXhO+g64=;
+	s=arc-20240116; t=1737731931; c=relaxed/simple;
+	bh=ZOGZT4ASeUilNUme935Ep0UKC8sliNAyBw1Q4IvYq/4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=W/yqXQzYAuUu7kRlBaB8h9d2s1SgQn8ys/TyjMV6+LGnnBRWhT61w4f03LqjHmylMBH/sM8JNpNLE5QFtKqiixuUvU0DgmfXIb69Q9cA3igi7KWqBCoeojjKAYW6yn7lONldzLeVK2yxW/dn9MZtVMLdBNM6gNqKtexEJSHih28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qSYiXTcx; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=KRQod1sUFGXu+wwfUUTVc/FYN5qYcR/F+Xe6aqBeEeS/UZBkufz8Di0fe7fVCsfars92xrHvZBLVbmdcYegVRRtgHMdHX+c1HbHe/ZW2fqsJkzxBxrNhyQ2exzelO7fGQB+hjJWvqXATMf/7omp/VFvObMzstBDXdUizIn97rtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BjFsC0dN; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E3B2269C;
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4F24269E;
 	Fri, 24 Jan 2025 16:17:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737731839;
-	bh=CM1W56D9qM93BC4zWdZEOfu5UnrV9UncxDigXhO+g64=;
+	s=mail; t=1737731840;
+	bh=ZOGZT4ASeUilNUme935Ep0UKC8sliNAyBw1Q4IvYq/4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qSYiXTcxkQ1x2WIDeIhnxIpndCmbiVtJeJGY+5+ippFvMooVxtB6dgDo5vY60xWF5
-	 nvR1MSSvMGM9Rz6Snc7tHahpymTyMR/6gY/KdlcSGY+LXQ+lmw9o5PZ7Rk2KQckHkq
-	 Ff0lUKhN4IFGIUUrXXcQ0tSzOuyHil6JHagOEvwg=
+	b=BjFsC0dNcLicSW0YZTAB/jyzeQ5TsC7q5GnzmuZxzgPDAKLDAbH1LF0AKxnlrykvb
+	 FVG7UvV4OmmRfmZQ7MXIiZcXo38OTkeVpkvclDpingnjrYXjpGlvo4MVgDcPiOvw+j
+	 b200zSIbwfwfvh1xUer2sXFcEouJlwukZ+Av5A2o=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 24 Jan 2025 17:17:56 +0200
-Subject: [PATCH v2 19/22] media: i2c: ds90ub960: Enable SSCG for UB9702
+Date: Fri, 24 Jan 2025 17:17:57 +0200
+Subject: [PATCH v2 20/22] media: i2c: ds90ub953: Move reg defines to a
+ header file
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250124-ub9xx-improvements-v2-19-f7075c99ea20@ideasonboard.com>
+Message-Id: <20250124-ub9xx-improvements-v2-20-f7075c99ea20@ideasonboard.com>
 References: <20250124-ub9xx-improvements-v2-0-f7075c99ea20@ideasonboard.com>
 In-Reply-To: <20250124-ub9xx-improvements-v2-0-f7075c99ea20@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -61,173 +62,242 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5315;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7729;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=d0G3mPnIMO2zJnVlgzXqqtY/YBI1ZTZf9T6977AeIWY=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnk68yBexrR3sufpomwv5eh3btV4xuFAW4rIYwC
- 5MEoYCFFruJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ5OvMgAKCRD6PaqMvJYe
- 9RdcD/9jGnBxGibTAU1a3he7a6c7FhcRRFL8HRIBz+6q6diwvYhGBHc5A7jGuvLCJXUaNdhFFop
- MSLtHMV2jIdqkDu/fgN3oL8lSf/R7Ez5lBSoOx37ywcBqwGl9gcPm3nSc8/uwsQn9o0FyReq1+G
- iemKiCIsIEdMi0Br2PqABoBLsuJNibDreg/i801d1Xy+GlDtn7L+L9znjsdq+Qv2MbeXPPdVFsJ
- Y/KhCmrujIYYERBkeGSfZ7qxQm80NEkUFbTT8yExSIhCVE8WKRn8nn3C+ywdUiQSB+eFwsNSCQQ
- 7/MMTTGKngF5VfSsXAsTkLkJLtuyxTTIxDUv+ElKUsI694pvojaiUfUgokQ2dtOchf7cGIeNLrH
- PTGcpK+s24bZ+f/2Yw2l7N3T3rCF4zNrHgnHiAuekfNOIw9RkPZ1YEvbZzw0Edg+BidE6Vr4MeS
- SjOF/Qq2QslzRRsaom7rpC/CvvFpBQTUJahWfjgkw7dIacVr6gYilmpZx1W/5dBJ/abnvkF8rog
- /8tj1F4f2an9C/ZMA09Ctw6hlYDMs9x4yYUt+NbN8xvKQAU5tIXwPiMw5NqUEBI28ZLc46uryH1
- X4HWClpR9G33DfnUa2aPuOlXc5gxIrFbmfOWX5V1Y7F0FMC1g9lKs7+NdnJoyywrtcmnnUbywVG
- zkvcMIGXC13dZYQ==
+ bh=ZOGZT4ASeUilNUme935Ep0UKC8sliNAyBw1Q4IvYq/4=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnk68yPnLBDiiROLp1blIcUa0TGbhiWSu6fskX/
+ FEdXpWy9EOJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ5OvMgAKCRD6PaqMvJYe
+ 9cWGD/wKh491bH01F4LQdln9Xlk+7uHxZZ06hRnWTwODWPXwvTWiJg/pa0y9gQJNGDyBJAwhmqA
+ zBe3fKkci+kApX+14yUv3LqpV75d0riw1GRSrkVYY4EkClVTfsm+i2JIYqCzOumVQ2EgARJq+s9
+ /1As2FrSUbz7INy+KWso2DJoYmCf+3bcIqZ/DpC0ns6NchjT5iBYxINDotejYh+GhXp0pRqEEQW
+ ordNbt0QiTRjZMGLxpGZUzULVQ7xBybz0y6iPpUCEczmMADJcodUg4w7nnzGvY2loFo/Hgwiwtj
+ dF2s/clAopjIY/xoqb6fqswq/uMYm+xZgbHm5CJYSL1lwrLKfo+SVo8AtmB04HuYhbHvUzqlayn
+ h/FOmKRar3ChjDJN15bS5yL8v7L+qyzq6DSrfaXIqxUYhRs6QTb4HLzWv24Fzns/ooOBwcFiz9U
+ yKFSWXuym3DO1LGSia0SFI/RTA5CAaITvY4amMkcHkaJmVCtmWtV4oIwfl4ryvmTStWYO6NRPNF
+ j4+mrFd5EsH+YlinFBFVsYyWDQTvwwHxxcDDkm1QgHexh3atdv2TempeRIR9HsSE8CWSH/XNhir
+ SDubhgE1Syj45J8sv+tE5WB7MabpDgMnFyVjMOfcb4H7oH6fNi7ScxgfrrZ4usU9TMCtmmSikJi
+ LIZ8r75t2GaAI6w==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+Move UB953 register defines to a header file. This is done so that the
+deserializer driver can access the defines, and do some early
+serializer configuration.
 
-UB9702 supports spread-spectrum clock generation for the back-channel
-clock, which is futher used by serializers in synchronous mode to
-generate the forward-channel clock, which can help reduce peak EMI
-energy. The SSCG is common to all RX ports, so it can only be used if
-all the ports are in the same mode.
-
-Add basic support for SSCG by adding a module parameter to enable the
-SSCG. The SSCG uses hardcoded configurationg, with 0.5% center-spread at
-33kHz modulation rate. See datasheet if different configuration is
-required.
-
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/media/i2c/ds90ub960.c | 98 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 98 insertions(+)
+ drivers/media/i2c/ds90ub953.c | 89 +---------------------------------------
+ drivers/media/i2c/ds90ub953.h | 95 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 97 insertions(+), 87 deletions(-)
 
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index ccc1c7e398ea..cc2a72fdcf4f 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -359,6 +359,7 @@
- /* Indirect register blocks */
- #define UB960_IND_TARGET_PAT_GEN		0x00
- #define UB960_IND_TARGET_RX_ANA(n)		(0x01 + (n))
-+#define UB960_IND_TARGET_PLL_CTRL		0x05
- #define UB960_IND_TARGET_CSI_ANA		0x07
+diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
+index 4832128dc9c4..64c3866ef1db 100644
+--- a/drivers/media/i2c/ds90ub953.c
++++ b/drivers/media/i2c/ds90ub953.c
+@@ -28,6 +28,8 @@
+ #include <media/v4l2-mediabus.h>
+ #include <media/v4l2-subdev.h>
  
- /* UB960_IR_PGEN_*: Indirect Registers for Test Pattern Generator */
-@@ -382,6 +383,22 @@
- #define UB960_IR_PGEN_VFP			0x0f
- #define UB960_IR_PGEN_COLOR(n)			(0x10 + (n)) /* n < 15 */
++#include "ds90ub953.h"
++
+ #define UB953_PAD_SINK			0
+ #define UB953_PAD_SOURCE		1
  
-+#define UB960_IR_PLL_DEN_MASH2			0x80
-+#define UB960_IR_PLL_DEN_MASH1			0x81
-+#define UB960_IR_PLL_DEN_MASH0			0x82
-+#define UB960_IR_PLL_NUM_MASH2			0x83
-+#define UB960_IR_PLL_NUM_MASH1			0x84
-+#define UB960_IR_PLL_NUM_MASH0			0x85
-+#define UB960_IR_PLL_NCOUNT1			0x86
-+#define UB960_IR_PLL_NCOUNT0			0x87
-+#define UB960_IR_PLL_SSCG_CTRL1			0x88
-+#define UB960_IR_PLL_MASH_ORDER			0x8a
-+#define UB960_IR_PLL_SSCG_CTRL2			0x8b
-+#define UB960_IR_PLL_SSCG_CTRL3			0x8c
-+#define UB960_IR_PLL_SSCG_CTRL4			0x8d
-+#define UB960_IR_PLL_SSCG_CTRL5			0x8e
-+#define UB960_IR_PLL_SSCG_MASH_CTRL		0x8f
-+
- #define UB960_IR_RX_ANA_STROBE_SET_CLK		0x08
- #define UB960_IR_RX_ANA_STROBE_SET_CLK_NO_EXTRA_DELAY	BIT(3)
- #define UB960_IR_RX_ANA_STROBE_SET_CLK_DELAY_MASK	GENMASK(2, 0)
-@@ -2837,6 +2854,81 @@ static int ub960_enable_dfe_lms_ub9702(struct ub960_data *priv,
- 	return 0;
- }
+@@ -35,93 +37,6 @@
  
-+/*
-+ * Configures back-channel spread-spectrum clocking with 0.5% center-spread at
-+ * 33kHz modulation rate. See datasheet if different configuration is required.
-+ */
-+static int ub960_enable_sscg_ub9702(struct ub960_data *priv)
-+{
-+	struct device *dev = &priv->client->dev;
-+	int ret = 0;
-+
-+	/*
-+	 * The configuration is hard-coded with FPD4 and BC frequency
-+	 * 47.1875Mbps, so make sure all RX ports are configured with
-+	 * synchronous clocking mode.
-+	 */
-+	for_each_active_rxport(priv, it) {
-+		if (it.rxport->cdr_mode != RXPORT_CDR_FPD4 ||
-+		    it.rxport->rx_mode != RXPORT_MODE_CSI2_SYNC) {
-+			dev_warn(dev,
-+				 "rx%u: Not in FPD4 SYNC mode, skipping SSCG\n",
-+				 it.nport);
-+			return 0;
-+		}
-+	}
-+
-+	/* Disable MASH */
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL,
-+			UB960_IR_PLL_SSCG_MASH_CTRL, 0x40, &ret);
-+
-+	/* Set MASH denominator */
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL, UB960_IR_PLL_DEN_MASH2,
-+			0x7f, &ret);
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL, UB960_IR_PLL_DEN_MASH1,
-+			0xff, &ret);
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL, UB960_IR_PLL_DEN_MASH0,
-+			0xf8, &ret);
-+
-+	/* Set MASH numerator */
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL, UB960_IR_PLL_NUM_MASH2,
-+			0x7f, &ret);
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL, UB960_IR_PLL_NUM_MASH1,
-+			0xff, &ret);
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL, UB960_IR_PLL_NUM_MASH0,
-+			0xf8, &ret);
-+
-+	/* Set NCOUNT */
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL, UB960_IR_PLL_NCOUNT1,
-+			0x00, &ret);
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL, UB960_IR_PLL_NCOUNT0,
-+			0x96, &ret);
-+
-+	/* Set MASH order */
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL,
-+			UB960_IR_PLL_MASH_ORDER, 0x20, &ret);
-+
-+	/* Set rampx increment and stop */
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL,
-+			UB960_IR_PLL_SSCG_CTRL2, 0xbd, &ret);
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL,
-+			UB960_IR_PLL_SSCG_CTRL4, 0x73, &ret);
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL,
-+			UB960_IR_PLL_SSCG_CTRL5, 0x41, &ret);
-+
-+	/* Enable SSCG */
-+	ub960_ind_update_bits(priv, UB960_IND_TARGET_PLL_CTRL,
-+			      UB960_IR_PLL_SSCG_CTRL1, BIT(7), BIT(7), &ret);
-+
-+	/* Enable MASH */
-+	ub960_write_ind(priv, UB960_IND_TARGET_PLL_CTRL,
-+			UB960_IR_PLL_SSCG_MASH_CTRL, 0x0, &ret);
-+
-+	dev_dbg(dev, "SSCG enabled\n");
-+
-+	return ret;
-+}
-+
- static int ub960_init_rx_ports_ub9702(struct ub960_data *priv)
- {
- 	struct device *dev = &priv->client->dev;
-@@ -2860,6 +2952,12 @@ static int ub960_init_rx_ports_ub9702(struct ub960_data *priv)
- 	if (ret)
- 		return ret;
+ #define UB953_DEFAULT_CLKOUT_RATE	25000000UL
  
-+	if (fwnode_property_read_bool(dev_fwnode(dev), "ti,enable-sscg")) {
-+		ret = ub960_enable_sscg_ub9702(priv);
-+		if (ret)
-+			return ret;
-+	}
+-#define UB953_REG_RESET_CTL			0x01
+-#define UB953_REG_RESET_CTL_DIGITAL_RESET_1	BIT(1)
+-#define UB953_REG_RESET_CTL_DIGITAL_RESET_0	BIT(0)
+-
+-#define UB953_REG_GENERAL_CFG			0x02
+-#define UB953_REG_GENERAL_CFG_CONT_CLK		BIT(6)
+-#define UB953_REG_GENERAL_CFG_CSI_LANE_SEL_SHIFT	4
+-#define UB953_REG_GENERAL_CFG_CSI_LANE_SEL_MASK	GENMASK(5, 4)
+-#define UB953_REG_GENERAL_CFG_CRC_TX_GEN_ENABLE	BIT(1)
+-#define UB953_REG_GENERAL_CFG_I2C_STRAP_MODE	BIT(0)
+-
+-#define UB953_REG_MODE_SEL			0x03
+-#define UB953_REG_MODE_SEL_MODE_DONE		BIT(3)
+-#define UB953_REG_MODE_SEL_MODE_OVERRIDE	BIT(4)
+-#define UB953_REG_MODE_SEL_MODE_MASK		GENMASK(2, 0)
+-
+-#define UB953_REG_CLKOUT_CTRL0			0x06
+-#define UB953_REG_CLKOUT_CTRL1			0x07
+-
+-#define UB953_REG_I2C_CONTROL2			0x0a
+-#define UB953_REG_I2C_CONTROL2_SDA_OUTPUT_SETUP_SHIFT	4
+-#define UB953_REG_I2C_CONTROL2_BUS_SPEEDUP	BIT(1)
+-
+-#define UB953_REG_SCL_HIGH_TIME			0x0b
+-#define UB953_REG_SCL_LOW_TIME			0x0c
+-
+-#define UB953_REG_LOCAL_GPIO_DATA		0x0d
+-#define UB953_REG_LOCAL_GPIO_DATA_GPIO_RMTEN(n)		BIT(4 + (n))
+-#define UB953_REG_LOCAL_GPIO_DATA_GPIO_OUT_SRC(n)	BIT(0 + (n))
+-
+-#define UB953_REG_GPIO_INPUT_CTRL		0x0e
+-#define UB953_REG_GPIO_INPUT_CTRL_OUT_EN(n)	BIT(4 + (n))
+-#define UB953_REG_GPIO_INPUT_CTRL_INPUT_EN(n)	BIT(0 + (n))
+-
+-#define UB953_REG_BC_CTRL			0x49
+-#define UB953_REG_BC_CTRL_CRC_ERR_CLR		BIT(3)
+-
+-#define UB953_REG_REV_MASK_ID			0x50
+-#define UB953_REG_GENERAL_STATUS		0x52
+-
+-#define UB953_REG_GPIO_PIN_STS			0x53
+-#define UB953_REG_GPIO_PIN_STS_GPIO_STS(n)	BIT(0 + (n))
+-
+-#define UB953_REG_BIST_ERR_CNT			0x54
+-#define UB953_REG_CRC_ERR_CNT1			0x55
+-#define UB953_REG_CRC_ERR_CNT2			0x56
+-
+-#define UB953_REG_CSI_ERR_CNT			0x5c
+-#define UB953_REG_CSI_ERR_STATUS		0x5d
+-#define UB953_REG_CSI_ERR_DLANE01		0x5e
+-#define UB953_REG_CSI_ERR_DLANE23		0x5f
+-#define UB953_REG_CSI_ERR_CLK_LANE		0x60
+-#define UB953_REG_CSI_PKT_HDR_VC_ID		0x61
+-#define UB953_REG_PKT_HDR_WC_LSB		0x62
+-#define UB953_REG_PKT_HDR_WC_MSB		0x63
+-#define UB953_REG_CSI_ECC			0x64
+-
+-#define UB953_REG_IND_ACC_CTL			0xb0
+-#define UB953_REG_IND_ACC_ADDR			0xb1
+-#define UB953_REG_IND_ACC_DATA			0xb2
+-
+-#define UB953_REG_FPD3_RX_ID(n)			(0xf0 + (n))
+-#define UB953_REG_FPD3_RX_ID_LEN		6
+-
+-/* Indirect register blocks */
+-#define UB953_IND_TARGET_PAT_GEN		0x00
+-#define UB953_IND_TARGET_FPD3_TX		0x01
+-#define UB953_IND_TARGET_DIE_ID			0x02
+-
+-#define UB953_IND_PGEN_CTL			0x01
+-#define UB953_IND_PGEN_CTL_PGEN_ENABLE		BIT(0)
+-#define UB953_IND_PGEN_CFG			0x02
+-#define UB953_IND_PGEN_CSI_DI			0x03
+-#define UB953_IND_PGEN_LINE_SIZE1		0x04
+-#define UB953_IND_PGEN_LINE_SIZE0		0x05
+-#define UB953_IND_PGEN_BAR_SIZE1		0x06
+-#define UB953_IND_PGEN_BAR_SIZE0		0x07
+-#define UB953_IND_PGEN_ACT_LPF1			0x08
+-#define UB953_IND_PGEN_ACT_LPF0			0x09
+-#define UB953_IND_PGEN_TOT_LPF1			0x0a
+-#define UB953_IND_PGEN_TOT_LPF0			0x0b
+-#define UB953_IND_PGEN_LINE_PD1			0x0c
+-#define UB953_IND_PGEN_LINE_PD0			0x0d
+-#define UB953_IND_PGEN_VBP			0x0e
+-#define UB953_IND_PGEN_VFP			0x0f
+-#define UB953_IND_PGEN_COLOR(n)			(0x10 + (n)) /* n <= 15 */
+-
+ /* Note: Only sync mode supported for now */
+ enum ub953_mode {
+ 	/* FPD-Link III CSI-2 synchronous mode */
+diff --git a/drivers/media/i2c/ds90ub953.h b/drivers/media/i2c/ds90ub953.h
+new file mode 100644
+index 000000000000..8bb28f0daee9
+--- /dev/null
++++ b/drivers/media/i2c/ds90ub953.h
+@@ -0,0 +1,95 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +
- 	for_each_active_rxport_fpd4(priv, it) {
- 		/* Hold state machine in reset */
- 		ub960_rxport_write(priv, it.nport, UB9702_RR_RX_SM_SEL_2, 0x10,
++#ifndef __MEDIA_I2C_DS90UB953_H__
++#define __MEDIA_I2C_DS90UB953_H__
++
++#include <linux/types.h>
++
++#define UB953_REG_RESET_CTL			0x01
++#define UB953_REG_RESET_CTL_DIGITAL_RESET_1	BIT(1)
++#define UB953_REG_RESET_CTL_DIGITAL_RESET_0	BIT(0)
++
++#define UB953_REG_GENERAL_CFG			0x02
++#define UB953_REG_GENERAL_CFG_CONT_CLK		BIT(6)
++#define UB953_REG_GENERAL_CFG_CSI_LANE_SEL_SHIFT	4
++#define UB953_REG_GENERAL_CFG_CSI_LANE_SEL_MASK	GENMASK(5, 4)
++#define UB953_REG_GENERAL_CFG_CRC_TX_GEN_ENABLE	BIT(1)
++#define UB953_REG_GENERAL_CFG_I2C_STRAP_MODE	BIT(0)
++
++#define UB953_REG_MODE_SEL			0x03
++#define UB953_REG_MODE_SEL_MODE_DONE		BIT(3)
++#define UB953_REG_MODE_SEL_MODE_OVERRIDE	BIT(4)
++#define UB953_REG_MODE_SEL_MODE_MASK		GENMASK(2, 0)
++
++#define UB953_REG_CLKOUT_CTRL0			0x06
++#define UB953_REG_CLKOUT_CTRL1			0x07
++
++#define UB953_REG_I2C_CONTROL2			0x0a
++#define UB953_REG_I2C_CONTROL2_SDA_OUTPUT_SETUP_SHIFT	4
++#define UB953_REG_I2C_CONTROL2_BUS_SPEEDUP	BIT(1)
++
++#define UB953_REG_SCL_HIGH_TIME			0x0b
++#define UB953_REG_SCL_LOW_TIME			0x0c
++
++#define UB953_REG_LOCAL_GPIO_DATA		0x0d
++#define UB953_REG_LOCAL_GPIO_DATA_GPIO_RMTEN(n)		BIT(4 + (n))
++#define UB953_REG_LOCAL_GPIO_DATA_GPIO_OUT_SRC(n)	BIT(0 + (n))
++
++#define UB953_REG_GPIO_INPUT_CTRL		0x0e
++#define UB953_REG_GPIO_INPUT_CTRL_OUT_EN(n)	BIT(4 + (n))
++#define UB953_REG_GPIO_INPUT_CTRL_INPUT_EN(n)	BIT(0 + (n))
++
++#define UB953_REG_BC_CTRL			0x49
++#define UB953_REG_BC_CTRL_CRC_ERR_CLR		BIT(3)
++
++#define UB953_REG_REV_MASK_ID			0x50
++#define UB953_REG_GENERAL_STATUS		0x52
++
++#define UB953_REG_GPIO_PIN_STS			0x53
++#define UB953_REG_GPIO_PIN_STS_GPIO_STS(n)	BIT(0 + (n))
++
++#define UB953_REG_BIST_ERR_CNT			0x54
++#define UB953_REG_CRC_ERR_CNT1			0x55
++#define UB953_REG_CRC_ERR_CNT2			0x56
++
++#define UB953_REG_CSI_ERR_CNT			0x5c
++#define UB953_REG_CSI_ERR_STATUS		0x5d
++#define UB953_REG_CSI_ERR_DLANE01		0x5e
++#define UB953_REG_CSI_ERR_DLANE23		0x5f
++#define UB953_REG_CSI_ERR_CLK_LANE		0x60
++#define UB953_REG_CSI_PKT_HDR_VC_ID		0x61
++#define UB953_REG_PKT_HDR_WC_LSB		0x62
++#define UB953_REG_PKT_HDR_WC_MSB		0x63
++#define UB953_REG_CSI_ECC			0x64
++
++#define UB953_REG_IND_ACC_CTL			0xb0
++#define UB953_REG_IND_ACC_ADDR			0xb1
++#define UB953_REG_IND_ACC_DATA			0xb2
++
++#define UB953_REG_FPD3_RX_ID(n)			(0xf0 + (n))
++#define UB953_REG_FPD3_RX_ID_LEN		6
++
++/* Indirect register blocks */
++#define UB953_IND_TARGET_PAT_GEN		0x00
++#define UB953_IND_TARGET_FPD3_TX		0x01
++#define UB953_IND_TARGET_DIE_ID			0x02
++
++#define UB953_IND_PGEN_CTL			0x01
++#define UB953_IND_PGEN_CTL_PGEN_ENABLE		BIT(0)
++#define UB953_IND_PGEN_CFG			0x02
++#define UB953_IND_PGEN_CSI_DI			0x03
++#define UB953_IND_PGEN_LINE_SIZE1		0x04
++#define UB953_IND_PGEN_LINE_SIZE0		0x05
++#define UB953_IND_PGEN_BAR_SIZE1		0x06
++#define UB953_IND_PGEN_BAR_SIZE0		0x07
++#define UB953_IND_PGEN_ACT_LPF1			0x08
++#define UB953_IND_PGEN_ACT_LPF0			0x09
++#define UB953_IND_PGEN_TOT_LPF1			0x0a
++#define UB953_IND_PGEN_TOT_LPF0			0x0b
++#define UB953_IND_PGEN_LINE_PD1			0x0c
++#define UB953_IND_PGEN_LINE_PD0			0x0d
++#define UB953_IND_PGEN_VBP			0x0e
++#define UB953_IND_PGEN_VFP			0x0f
++#define UB953_IND_PGEN_COLOR(n)			(0x10 + (n)) /* n <= 15 */
++
++#endif /* __MEDIA_I2C_DS90UB953_H__ */
 
 -- 
 2.43.0
