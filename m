@@ -1,674 +1,2287 @@
-Return-Path: <linux-media+bounces-25293-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25294-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E794A1BB2D
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 18:06:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76988A1BB49
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 18:17:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44DC93A4BFC
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 17:06:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D31C43AEAD9
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 17:17:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAB431BD51F;
-	Fri, 24 Jan 2025 17:06:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8497E1C5D54;
+	Fri, 24 Jan 2025 17:17:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="v6bOKS/X"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DNf5VF0K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3B423B0
-	for <linux-media@vger.kernel.org>; Fri, 24 Jan 2025 17:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE181CAA83
+	for <linux-media@vger.kernel.org>; Fri, 24 Jan 2025 17:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737738390; cv=none; b=bcQHoJ1BwTkOf+w/PKXCdMR8f7382uOgMwMtgAFGB0W4bpwRInLqwqGRJH6uQn7cPdnwCMASulnhkM6bwv1ZiyT6hSvFQ9khFUM4M/ivl5Ojf745M85MV88o3oo0XVaIWdX40VyQidoOm4LacLoYBQP8KJnj6GsPFHUoppptWG8=
+	t=1737739073; cv=none; b=DvoznjA6ctoMr356GTwOSHhrPmMJ9QtehwUJalI7znTUMOsfEOfoGmv+35Wg9ueJsOV6n/qveP0XUCg7S8IKXSbu/HDoEMvY1grK5DQUZ+lNwu0LOPryjZC0Rj6CTI6UGPu4Kc5iHE1wVeJRycxU2+f9VgwzDonfL82xqjYAgWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737738390; c=relaxed/simple;
-	bh=no8xuIuw4lwLg+yfpdXObOJnpSPglmLRpLuOQWOy13A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=enC8x7PsO2npqlTvvAfuVp/qxbA+hvgfzTcRnXxNmWunjG763vJk+DNuBuaNn6g+vX4MPoen2QP+z/k/dWlYxt2d2P5S4UVplbwvOweVD8qR9EipcV0g6Lz48CLvBLqV3lm14ZJ1CYDMuMxQWbYlSIyfgx954lZLl+dvM8Up4MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=v6bOKS/X; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5439b0dd4bfso1876440e87.0
-        for <linux-media@vger.kernel.org>; Fri, 24 Jan 2025 09:06:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737738385; x=1738343185; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AR2kGVAyxD3rBCYWNcomlT1SiKZUiqB0kHtMT9GDBFw=;
-        b=v6bOKS/Xe+NmqijFTHCI7YnLZCb7xEGCTXHSyXS60OdBPiXihYRGRAkXKyFbpOfXmH
-         92xzQEijZGhW54V2QvwmIWe7RvBVT/rngt0BiN7OosnWKLqYVajxeNwjxhURWZSFghOM
-         l1UhD6HYQYMt9PuSDAf2SFWfnulTIO17bparNlRwXL4CVl/ylYLLmUGNUYBokpwm6/+Q
-         /MOYy51OvkFdaYjhTtvyJua5+M2w+h7+OAuPm5DVuo6rw7NNJfKm6oXKdZ63V1Pd44ly
-         K3v/1Uy0Gjk6ARmeZlvpex5f5ziUfNCoczGwkzBOlFRmFhI2tBBTSYC5OOT4zldAn5Da
-         lIWA==
+	s=arc-20240116; t=1737739073; c=relaxed/simple;
+	bh=TZ0DZ39Q3YfzbaOG4bRaKcCvvN81ie35wjHqKIr9d2Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H8fLGmqfMUXI1fJNuT1sYWW2DB484bJb/k0mlqxUPqYEpwExNKGKMVeKO4dXtD3+SJBMId/i3ELOoxOj//XrabHae1RqG75YdUG91fL8dCP+T6+MFJkA5dxriQWKT6EUhnfOWWd1YrMni9/NV+plXdMPEM+QqjlplJfs9c1OP8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DNf5VF0K; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737739068;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Yk+hZyPKH94GV/SuwtQa+2gTrzqfFtvBw5qEGkzxaNg=;
+	b=DNf5VF0K+2fLZwDxFD3Yz9LJHXZ/MsRMThucAtzHQkkwAsRw2sZRMimQITbdbnrgNp0ne+
+	rqHeZICxAmSrLO5ogyPHdgPMOAjlxH1Fcskq9iI9rowzhi/Qa/b/vPhuOeC5jKS6NsRSyT
+	t3uHXbJP35W9uthIZYCtcbKfuet7rYM=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-118-gAfXwxcqOp-LlTxSGJn2Cw-1; Fri, 24 Jan 2025 12:17:46 -0500
+X-MC-Unique: gAfXwxcqOp-LlTxSGJn2Cw-1
+X-Mimecast-MFC-AGG-ID: gAfXwxcqOp-LlTxSGJn2Cw
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-aa68b4b957fso246146266b.3
+        for <linux-media@vger.kernel.org>; Fri, 24 Jan 2025 09:17:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737738385; x=1738343185;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AR2kGVAyxD3rBCYWNcomlT1SiKZUiqB0kHtMT9GDBFw=;
-        b=gjD/yE/w/v+JwApWIB5OCrZEqf7U5OoJWY1+lyf5U9ZueIZ1YkkaEJGe7b8b6JXfMz
-         PQBB3/Z6w4hFtI95rLmbuZWalC/MdvAje1O3Wq8uxmOODumcPNpo8ioCGM011Xb4XNxE
-         zVAwvExgDeHU+mDLW2S3UMhzdo4pTjlWzPBb4JrCvKjTRI6fetzJzwldjuKClSzeaZHP
-         qaJXmRkYYj2QB6WzrfU1vMumpPl74WiYTCOMvSy3UUpgx4+JE0207zprzoXmdQxweTNq
-         t1TEQdPVJmewj5EZaFXG/s/npI/wvxfq+PLUhTO1VRo74ZW+JXoJF4iVi4K8KEkYX89u
-         PCww==
-X-Gm-Message-State: AOJu0YwS+fWdw+J5ApX20whW9gBdrfdim7eXKbJvFyqN+aV/uut5Lp7x
-	A45oM+X/1oRicfxsL4GgKvpTOY4Rp1mpdEkdgFzQZDeWiYoZtSx676xw0kp63HQE0WtXj33eIav
-	cI1E=
-X-Gm-Gg: ASbGncv10h6B/X1pyy4UA6fQvpJqm0dbSl+oq+90HIy5S9vsOP8OcGjVRYram8czQhw
-	md5M7JywhvYxYt8xSPMeT7VGujZgtSAv0sqdHW6CaWtXYZrGg5urooDdhvjRJM2ITks1NeEsBop
-	K4633K0BXEU29mcNsAkQ4ZlOMH2Bpj/QVjwTk+2jgcFBbqIGbgOqaDmNp2zjK68oUNqCvmnbE9Q
-	xQRNS62w4CZ8cpQzrpgiEHnq4aU3JrGWgui6VxLxObfsiuBgm+Dq+8dRMvsGEabzZ+rSpMG7k89
-	OaQmaomdSaEurnIUd8GcOoIf4jfHPYFpGNIs8hpxTmnWDmnHXxVAlCr+gEh/cachUXAlbi7RhdD
-	VlJnNHOEezwwmEw==
-X-Google-Smtp-Source: AGHT+IFWyqcJBywcIs4amgQumg9mj+CXFTbLi6NzEFpk1DLzXtc81OVQ21tK+FDblM7IV/ukqkumHg==
-X-Received: by 2002:a19:2d15:0:b0:543:baca:6f12 with SMTP id 2adb3069b0e04-543baca7025mr4209356e87.37.1737738385116;
-        Fri, 24 Jan 2025 09:06:25 -0800 (PST)
-Received: from rohan.lan (2001-14bb-c3-1bd4-e879-53c0-7bc3-b726.rev.dnainternet.fi. [2001:14bb:c3:1bd4:e879:53c0:7bc3:b726])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c837e228sm352092e87.216.2025.01.24.09.06.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 09:06:23 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 24 Jan 2025 19:06:14 +0200
-Subject: [PATCH v2] edid-decode: support parsing EDID-Like Data
+        d=1e100.net; s=20230601; t=1737739066; x=1738343866;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yk+hZyPKH94GV/SuwtQa+2gTrzqfFtvBw5qEGkzxaNg=;
+        b=Pxqpa3fTLc7JHrXaSfS8PYP9pXtsprwHJb09nuiqBpSCkv+fvlljdCc4Y+BJgVU361
+         9eRE9sU6pxhmougdaxJcs+ut3qPAB82X3nwR+KCRK7QeeQzG8uaE0+RaQW1twdYR02Gn
+         0UVcoUH0x4pk1Juw4JSaz82yvvnXS9b0m1FwDf51wOspd69QmP2hAfwpauaY0U7fQ6w7
+         Wu0SEOYOCFYlXf1TByBoxnysFGFlL2Ddh8sRpLs7U3oJ41Bi6vYasl7RQS2kBuRE1IPv
+         0j0sf+Heofr5y8ekcUtH4inUwlNIZIsuvsjoHdgAH71EEpL9yOt10W7h+MQ41HxB+6eQ
+         MxxQ==
+X-Gm-Message-State: AOJu0YzR+002jcCMzMUT94xdOzSPLUpgd2WqZBv3GEubpl4uIjA2z4tz
+	dbvZvveLZhiZKKkaCr45HSbrk6XZ8ETX845jpsvzu7WrLwWIUAJpb89UT5vOYGT3f2Ep07Vtde5
+	y1gVQdQu2LuVxpeuHki2Ln045mrWoEiqst0OQSykJFXJM4D3gug5dcyqFch+N
+X-Gm-Gg: ASbGncvFaLp5bPUBHy3sUqzKMKdGDJ8iV9e/JUj/MWz4KyDTvi/bg+BCesaPQmhtN7e
+	xRgXhwzXJAYW+db0UZ4bQZEm5+rXB0vtV8Rob/KsSHrwxwJj/a4fEnG7A/q1Yynl81ZWnQIcWmu
+	2YofUNSiv49HrtZ5F4ZNvZQsXNPVMZ8bfj9XMOCUWI4t2WQk0sxDRicU+VAp0jbpgHvaHJnqAZK
+	XkRQGpve42rUAR73ANIjDxPgwL+HrhWzqKIsD1VpxF7lwncO6FjfetssIy18jrbCQyVvdo8CfD0
+	Y/k2ZwkK7Th3Nr/RB4Qa6yjM5dCQmqlkFSKb71cnHJPRdqyCBfRO67H9srOqL82Eup0o3K5TLEe
+	+3jj5h3THQgjn45LLAKjZgy8a6QdvCtVVKwR15otiTqsD
+X-Received: by 2002:a17:907:969f:b0:a9e:b2da:b4a3 with SMTP id a640c23a62f3a-ab38b36bccamr3210303066b.42.1737739065146;
+        Fri, 24 Jan 2025 09:17:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEB7yZBhUkRU0rRkDc9a8yl/ADTNISEjo30ZZxvZtEUo+r64vA/b3uBokBxv91rIDh64HNL0A==
+X-Received: by 2002:a17:907:969f:b0:a9e:b2da:b4a3 with SMTP id a640c23a62f3a-ab38b36bccamr3210298066b.42.1737739064358;
+        Fri, 24 Jan 2025 09:17:44 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6760ab2b8sm153823466b.123.2025.01.24.09.17.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jan 2025 09:17:42 -0800 (PST)
+Message-ID: <131271d3-f3be-450f-b4e1-a7efb65362f3@redhat.com>
+Date: Fri, 24 Jan 2025 18:17:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] media: ox05b1s: Add omnivision OX05B1S raw sensor
+ driver
+To: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, robh@kernel.org,
+ krzk+dt@kernel.org, bryan.odonoghue@linaro.org, laurentiu.palcu@nxp.com,
+ robert.chiras@nxp.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com,
+ dave.stevenson@raspberrypi.com, mike.rudenko@gmail.com,
+ alain.volmat@foss.st.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ alexander.stein@ew.tq-group.com, umang.jain@ideasonboard.com,
+ zhi.mao@mediatek.com, festevam@denx.de, julien.vuillaumier@nxp.com,
+ alice.yuan@nxp.com
+References: <20241126155100.1263946-1-mirela.rabulea@nxp.com>
+ <20241126155100.1263946-3-mirela.rabulea@nxp.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20241126155100.1263946-3-mirela.rabulea@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250124-eld-support-v2-1-108c1b3a0837@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAIXIk2cC/23MQQ7CIBCF4as0sxYDtFTtynuYLgiM7SQNkKE2m
- oa7i127/F/yvh0yMmGGodmBcaNMMdTQpwbcbMOEgnxt0FIbqWQvcPEiv1KKvIrO6q7F9nK7Kgf
- 1kRif9D60x1h7prxG/hz4pn7rf2dTQglje4vSa+O8vi8ULMdz5AnGUsoXwlGsGacAAAA=
-X-Change-ID: 20250106-eld-support-4a243e37981c
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=17921;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=no8xuIuw4lwLg+yfpdXObOJnpSPglmLRpLuOQWOy13A=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnk8iJuwZPT0e+3qLfwZfMRVUKSHmp13q/okPls
- xFhN52DznWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ5PIiQAKCRCLPIo+Aiko
- 1dxuB/9YeH6eW3C0Tdmk3TZg7x82t35f4gyoCdJrXMDlwqMxv54DIHzAO1ip5HJpee7OwzctYUm
- pJBqYbEC6s/BzCCr0Ff3TQBOOwzudRS34qA00GhiDupn82zL3iPpDcf+u4XJ4vEiDUCS3n6OxXf
- p5Cto5MFu101SHjWQrjrezC5KpNjCpuBsxKcHOvxlwUoElU0oyBjqCOWqJEoa9mPMjwgjiFS4Mz
- /gTIn2PA27QO5uMMq1yKkOXd7OZl5+T9U9rWLr85nmLmSH3qYck9FFnb5pZJaH+/zOi97w2bNfH
- Ez1p+kdCJFCioblMI1+Beu1ZdD/hVUXgiCjyyzt0VFVsV4qy
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-High Definition Audio spec defines a special data block, ELD, used to
-provide audio-related information for the connected monitors. HDMI Codec
-in Linux reuses ELD to provide data to userspace. Add support for
-parsing ELD blobs.
+Hi Mirela,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
-Changes in v2:
-- Mentioned HDA standard in the manual page (Hans)
-- Described new option in the manual page (Hans)
-- Described how to extract ELD on a running system (Hans)
-- Dropped unused variable in parse_eld_baseline().
-- Handle hex-encoded ELD and stdin as an argument.
-- Link to v1: https://lore.kernel.org/r/20250106-eld-support-v1-1-5a6ae0d25cd2@linaro.org
----
- utils/edid-decode/edid-decode.1.in     |  25 ++++
- utils/edid-decode/edid-decode.cpp      | 237 ++++++++++++++++++++++++++++++++-
- utils/edid-decode/edid-decode.h        |   6 +
- utils/edid-decode/meson.build          |   1 +
- utils/edid-decode/parse-base-block.cpp |   2 +-
- utils/edid-decode/parse-cta-block.cpp  |   4 +-
- utils/edid-decode/parse-eld.cpp        |  97 ++++++++++++++
- 7 files changed, 367 insertions(+), 5 deletions(-)
+On 26-Nov-24 4:50 PM, Mirela Rabulea wrote:
+> Add a v4l2 subdevice driver for the Omnivision OX05B1S RGB-IR sensor.
+> 
+> The Omnivision OX05B1S is a 1/2.5-Inch CMOS image sensor with an
+> active array size of 2592 x 1944.
+> 
+> The following features are supported for OX05B1S:
+> - Manual exposure an gain control support
+> - vblank/hblank control support
+> - Supported resolution: 2592 x 1944 @ 30fps (SGRBG10)
+> 
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 
-diff --git a/utils/edid-decode/edid-decode.1.in b/utils/edid-decode/edid-decode.1.in
-index 04edf5ff3fed7e24fb4668f8870f6729fa7d8f15..1e4cd6ae1418a8ce5757bab13836f9ab7df520c9 100644
---- a/utils/edid-decode/edid-decode.1.in
-+++ b/utils/edid-decode/edid-decode.1.in
-@@ -161,6 +161,8 @@ CVT 1.2: VESA Coordinated Video Timings (CVT) Standard, Version 1.2
- CVT 1.2: VESA CVT v1.2 Errata E2
- .TP
- GTF 1.1: VESA Generalized Timing Formula Standard, Version: 1.1
-+.TP
-+HDA 1.0a: High Definition Audio Specification, Version 1.0a
- .RE
- 
- .SH OPTIONS
-@@ -215,6 +217,29 @@ HDMI Specification. Otherwise it is assumed to be a regular CTA-861 InfoFrame
- without a checksum.
- 
- Note: this is still work-in-progress, specifically for the AVI and HDMI InfoFrames.
-+.TP
-+\fB\-E\fR, \fB\-\-eld\fR \fI<file>\fR
-+Parse the given EDID-Like Data (ELD) file. This option can be used multiple
-+times to parse multiple ELD files. Read data from stdin if '-' was passed as a
-+filename.  If the EDID of the display to which these ELD files are generated is
-+also given, then the conformity checks will take that EDID into account.
-+
-+On Linux systems ELD can be extracted via the amixer command (copy all hex after the 'values='):
-+  $ amixer -c 0 controls | grep ELD
-+  numid=6,iface=PCM,name='ELD',device=3
-+  numid=12,iface=PCM,name='ELD',device=7
-+  numid=18,iface=PCM,name='ELD',device=8
-+  numid=24,iface=PCM,name='ELD',device=9
-+  $ amixer -c 0 cget iface=PCM,name=ELD,device=3
-+  numid=6,iface=PCM,name='ELD',device=3
-+    ; type=BYTES,access=r--v----,values=95
-+    : values=0x10,0x00,0x08,0x00,0x6d,0x10,0x00,0x01,0x00,0x02,0x00,0x00,0x00,0x00,
-+    0x00,0x00,0x30,0xae,0xf1,0x61,0x4c,0x45,0x4e,0x20,0x54,0x33,0x32,0x68,0x2d,0x32,
-+    0x30,0x0a,0x20,0x09,0x7f,0x07,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-+    0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-+    0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-+    0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
-+
- .TP
- \fB\-\-diagonal\fR \fI<inches>\fR
- Specify the diagonal of the display in inches. This will enable additional checks
-diff --git a/utils/edid-decode/edid-decode.cpp b/utils/edid-decode/edid-decode.cpp
-index 595eb28777da2f1589b0f9083436156aa12a6036..25d872a3958fd85f5c06371cbf9b17d6649bab84 100644
---- a/utils/edid-decode/edid-decode.cpp
-+++ b/utils/edid-decode/edid-decode.cpp
-@@ -43,6 +43,7 @@ enum Option {
- 	OptI2CAdapter = 'a',
- 	OptCheck = 'c',
- 	OptCheckInline = 'C',
-+	OptEld = 'E',
- 	OptFBModeTimings = 'F',
- 	OptHelp = 'h',
- 	OptOnlyHexDump = 'H',
-@@ -129,6 +130,7 @@ static struct option long_options[] = {
- 	{ "list-rid-timings", required_argument, 0, OptListRIDTimings },
- 	{ "list-rids", no_argument, 0, OptListRIDs },
- 	{ "infoframe", required_argument, 0, OptInfoFrame },
-+	{ "eld", required_argument, 0, OptEld },
- 	{ 0, 0, 0, 0 }
- };
- 
-@@ -136,7 +138,8 @@ static void usage(void)
- {
- 	printf("Usage: edid-decode <options> [in [out]]\n"
- 	       "  [in]                  EDID file to parse. Read from standard input if none given\n"
--	       "                        and --infoframe was not used, or if the input filename is '-'.\n"
-+	       "                        and neither --infoframe nor --eld was not used, or if the\n"
-+	       "                        input filename is '-'.\n"
- 	       "  [out]                 Output the read EDID to this file. Write to standard output\n"
- 	       "                        if the output filename is '-'.\n"
- 	       "\nOptions:\n"
-@@ -225,6 +228,8 @@ static void usage(void)
- 	       "  --list-rid-timings <rid> List all timings for RID <rid> or all known RIDs if <rid> is 0.\n"
- 	       "  -I, --infoframe <file> Parse the InfoFrame from <file> that was sent to this display.\n"
- 	       "                        This option can be specified multiple times for different InfoFrame files.\n"
-+	       "  -E, --eld <file>      Parse the EDID-Like Data, ELD from <file> (or stdin if '-' was specified).\n"
-+	       "                        This option can be specified multiple times for different ELD files.\n"
- 	       "  -h, --help            Display this help message.\n");
- }
- #endif
-@@ -1600,6 +1605,9 @@ int edid_state::parse_edid()
- static unsigned char infoframe[32];
- static unsigned if_size;
- 
-+static unsigned char eld[128];
-+static unsigned eld_size;
-+
- static bool if_add_byte(const char *s)
- {
- 	char buf[3];
-@@ -1724,6 +1732,212 @@ static void show_if_msgs(bool is_warn)
- 	       s_msgs[0][is_warn].c_str());
- }
- 
-+static bool eld_add_byte(const char *s)
-+{
-+	char buf[3];
-+
-+	if (eld_size == sizeof(eld))
-+		return false;
-+	buf[0] = s[0];
-+	buf[1] = s[1];
-+	buf[2] = 0;
-+	eld[eld_size++] = strtoul(buf, NULL, 16);
-+	return true;
-+}
-+
-+static bool extract_eld_hex(const char *s)
-+{
-+	for (; *s; s++) {
-+		if (isspace(*s) || strchr(ignore_chars, *s))
-+			continue;
-+
-+		if (*s == '0' && tolower(s[1]) == 'x') {
-+			s++;
-+			continue;
-+		}
-+
-+		/* Read one or two hex digits from the log */
-+		if (!isxdigit(s[0]))
-+			break;
-+
-+		if (!isxdigit(s[1])) {
-+			odd_hex_digits = true;
-+			return false;
-+		}
-+		if (!eld_add_byte(s))
-+			return false;
-+		s++;
-+	}
-+	return eld_size;
-+}
-+
-+static bool extract_eld(int fd)
-+{
-+	std::vector<char> eld_data;
-+	char buf[128];
-+
-+	for (;;) {
-+		ssize_t i = read(fd, buf, sizeof(buf));
-+
-+		if (i < 0)
-+			return false;
-+		if (i == 0)
-+			break;
-+		eld_data.insert(eld_data.end(), buf, buf + i);
-+	}
-+
-+	if (eld_data.empty()) {
-+		eld_size = 0;
-+		return false;
-+	}
-+	// Ensure it is safely terminated by a 0 char
-+	eld_data.push_back('\0');
-+
-+	const char *data = &eld_data[0];
-+	const char *start;
-+
-+	/* Look for edid-decode output */
-+	start = strstr(data, "edid-decode ELD (hex):");
-+	if (start)
-+		return extract_eld_hex(strchr(start, ':') + 1);
-+
-+	unsigned i;
-+
-+	/* Is the EDID provided in hex? */
-+	for (i = 0; i < 32 && (isspace(data[i]) || strchr(ignore_chars, data[i]) ||
-+			       tolower(data[i]) == 'x' || isxdigit(data[i])); i++);
-+
-+	if (i == 32)
-+		return extract_eld_hex(data);
-+
-+	// Drop the extra '\0' byte since we now assume binary data
-+	eld_data.pop_back();
-+
-+	eld_size = eld_data.size();
-+
-+	/* Assume binary */
-+	if (eld_size > sizeof(eld)) {
-+		fprintf(stderr, "Binary ELD length %u is greater than %zu.\n",
-+			eld_size, sizeof(eld));
-+		return false;
-+	}
-+	memcpy(eld, data, eld_size);
-+	return true;
-+}
-+
-+static int eld_from_file(const char *from_file)
-+{
-+#ifdef O_BINARY
-+	// Windows compatibility
-+	int flags = O_RDONLY | O_BINARY;
-+#else
-+	int flags = O_RDONLY;
-+#endif
-+	int fd;
-+
-+	memset(eld, 0, sizeof(eld));
-+	eld_size = 0;
-+
-+	if (!strcmp(from_file, "-")) {
-+		from_file = "stdin";
-+		fd = 0;
-+	} else if ((fd = open(from_file, flags)) == -1) {
-+		perror(from_file);
-+		return -1;
-+	}
-+
-+	odd_hex_digits = false;
-+	if (!extract_eld(fd)) {
-+		if (!eld_size) {
-+			fprintf(stderr, "ELD of '%s' was empty.\n", from_file);
-+			return -1;
-+		}
-+		fprintf(stderr, "ELD extraction of '%s' failed: ", from_file);
-+		if (odd_hex_digits)
-+			fprintf(stderr, "odd number of hexadecimal digits.\n");
-+		else
-+			fprintf(stderr, "unknown format.\n");
-+		return -1;
-+	}
-+	close(fd);
-+
-+	return 0;
-+}
-+
-+static void show_eld_msgs(bool is_warn)
-+{
-+	printf("\n%s:\n\n", is_warn ? "Warnings" : "Failures");
-+	if (s_msgs[0][is_warn].empty())
-+		return;
-+	printf("ELD:\n%s",
-+	       s_msgs[0][is_warn].c_str());
-+}
-+
-+int edid_state::parse_eld(const std::string &fname)
-+{
-+	int ret = eld_from_file(fname.c_str());
-+	unsigned int min_size = 4;
-+	unsigned baseline_size;
-+	unsigned char ver;
-+
-+	if (ret)
-+		return ret;
-+
-+	if (!options[OptSkipHexDump]) {
-+		printf("edid-decode ELD (hex):\n\n");
-+		hex_block("", eld, eld_size, false);
-+		if (options[OptOnlyHexDump])
-+			return 0;
-+		printf("\n----------------\n\n");
-+	}
-+
-+	if (eld_size < min_size) {
-+		fail("ELD is too small to parse.\n");
-+		return -1;
-+	}
-+
-+	ver = eld[0] >> 3;
-+	switch (ver) {
-+	case 1:
-+		warn("Obsolete Baseline ELD version (%d)\n", ver);
-+		break;
-+	case 2:
-+		printf("Baseline ELD version: 861.D or below\n");
-+		break;
-+	default:
-+		warn("Unsupported ELD version (%d)\n", ver);
-+		break;
-+	}
-+
-+	baseline_size = eld[2] * 4;
-+	if (baseline_size > 80)
-+		warn("ELD too big\n");
-+
-+	parse_eld_baseline(&eld[4], baseline_size);
-+
-+	if (!options[OptCheck] && !options[OptCheckInline])
-+		return 0;
-+
-+	printf("\n----------------\n");
-+
-+	if (!options[OptSkipSHA] && strlen(STRING(SHA))) {
-+		options[OptSkipSHA] = 1;
-+		printf("\n");
-+		print_version();
-+	}
-+
-+	if (options[OptCheck]) {
-+		if (warnings)
-+			show_eld_msgs(true);
-+		if (failures)
-+			show_eld_msgs(false);
-+	}
-+
-+	printf("\n%s conformity: %s\n",
-+	       state.data_block.empty() ? "ELD" : state.data_block.c_str(),
-+	       failures ? "FAIL" : "PASS");
-+	return failures ? -2 : 0;
-+}
- int edid_state::parse_if(const std::string &fname)
- {
- 	int ret = if_from_file(fname.c_str());
-@@ -2370,6 +2584,7 @@ int main(int argc, char **argv)
- 	int adapter_fd = -1;
- 	double hdcp_ri_sleep = 0;
- 	std::vector<std::string> if_names;
-+	std::vector<std::string> eld_names;
- 	unsigned test_rel_duration = 0;
- 	unsigned test_rel_msleep = 50;
- 	unsigned idx = 0;
-@@ -2514,6 +2729,9 @@ int main(int argc, char **argv)
- 		case OptInfoFrame:
- 			if_names.push_back(optarg);
- 			break;
-+		case OptEld:
-+			eld_names.push_back(optarg);
-+			break;
- 		case ':':
- 			fprintf(stderr, "Option '%s' requires a value.\n",
- 				argv[optind]);
-@@ -2573,7 +2791,7 @@ int main(int argc, char **argv)
- 				ret = read_hdcp_ri(adapter_fd, hdcp_ri_sleep);
- 			if (options[OptI2CTestReliability])
- 				ret = test_reliability(adapter_fd, test_rel_duration, test_rel_msleep);
--		} else if (options[OptInfoFrame] && !options[OptGTF]) {
-+		} else if ((options[OptInfoFrame] || options[OptEld]) && !options[OptGTF]) {
- 			ret = 0;
- 		} else {
- 			ret = edid_from_file("-", stdout);
-@@ -2636,6 +2854,21 @@ int main(int argc, char **argv)
- 		if (r && !ret)
- 			ret = r;
- 	}
-+
-+	for (const auto &n : eld_names) {
-+		if (show_line)
-+			printf("\n================\n\n");
-+		show_line = true;
-+
-+		state.warnings = state.failures = 0;
-+		for (unsigned i = 0; i < EDID_MAX_BLOCKS + 1; i++) {
-+			s_msgs[i][0].clear();
-+			s_msgs[i][1].clear();
-+		}
-+		int r = state.parse_eld(n);
-+		if (r && !ret)
-+			ret = r;
-+	}
- 	return ret;
- }
- 
-diff --git a/utils/edid-decode/edid-decode.h b/utils/edid-decode/edid-decode.h
-index 0d71d544145ee6e55d1e50270c3317bb69c0fcf4..e64143deb79a7e58aba87c41a0d582e7bb236a2f 100644
---- a/utils/edid-decode/edid-decode.h
-+++ b/utils/edid-decode/edid-decode.h
-@@ -423,6 +423,7 @@ struct edid_state {
- 	void check_base_block(const unsigned char *x);
- 	void list_dmts();
- 	void list_established_timings();
-+	char *manufacturer_name(const unsigned char *x);
- 
- 	void data_block_oui(std::string block_name, const unsigned char *x, unsigned length, unsigned *ouinum,
- 	                    bool ignorezeros = false, bool do_ascii = false, bool big_endian = false,
-@@ -449,6 +450,8 @@ struct edid_state {
- 	void cta_displayid_type_8(const unsigned char *x, unsigned length);
- 	void cta_displayid_type_10(const unsigned char *x, unsigned length);
- 	void cta_block(const unsigned char *x, std::vector<unsigned> &found_tags);
-+	void cta_sadb(const unsigned char *x, unsigned length);
-+	void cta_audio_block(const unsigned char *x, unsigned length);
- 	void preparse_cta_block(unsigned char *x);
- 	void parse_cta_block(const unsigned char *x);
- 	void cta_resolve_svr(timings_ext &t_ext);
-@@ -532,6 +535,9 @@ struct edid_state {
- 	void parse_if_mpeg_source(const unsigned char *x, unsigned size);
- 	void parse_if_ntsc_vbi(const unsigned char *x, unsigned size);
- 	void parse_if_drm(const unsigned char *x, unsigned size);
-+
-+	int parse_eld(const std::string &fname);
-+	void parse_eld_baseline(const unsigned char *x, unsigned size);
- };
- 
- static inline void add_str(std::string &s, const std::string &add)
-diff --git a/utils/edid-decode/meson.build b/utils/edid-decode/meson.build
-index 807d4e873c05d944acbc4924a7e34bb30d97c3f0..d1ed5179413a4e464e6f3c946d714bbbdc0ea9e2 100644
---- a/utils/edid-decode/meson.build
-+++ b/utils/edid-decode/meson.build
-@@ -9,6 +9,7 @@ edid_decode_sources = [
- 	'parse-ls-ext-block.cpp',
- 	'parse-vtb-ext-block.cpp',
- 	'parse-if.cpp',
-+	'parse-eld.cpp',
- ]
- 
- edid_decode_args = []
-diff --git a/utils/edid-decode/parse-base-block.cpp b/utils/edid-decode/parse-base-block.cpp
-index a2f0e7408ef8c87fd218a2dfcf5e2ee3eb55e3f6..0d7f7c212f65d7a81e5e771387e4e679b1e2e2f5 100644
---- a/utils/edid-decode/parse-base-block.cpp
-+++ b/utils/edid-decode/parse-base-block.cpp
-@@ -14,7 +14,7 @@
- 
- #include "edid-decode.h"
- 
--static char *manufacturer_name(const unsigned char *x)
-+char *edid_state::manufacturer_name(const unsigned char *x)
- {
- 	static char name[4];
- 
-diff --git a/utils/edid-decode/parse-cta-block.cpp b/utils/edid-decode/parse-cta-block.cpp
-index 06bc07d30b0fb7a8ed73320e9cf91b9aca84cd73..ce47be7135272e8e81f3269f469e27c6c7b5e583 100644
---- a/utils/edid-decode/parse-cta-block.cpp
-+++ b/utils/edid-decode/parse-cta-block.cpp
-@@ -464,7 +464,7 @@ static std::string mpeg_h_3d_audio_level(unsigned char x)
- 	return std::string("Unknown MPEG-H 3D Audio Level (") + utohex(x) + ")";
- }
- 
--static void cta_audio_block(const unsigned char *x, unsigned length)
-+void edid_state::cta_audio_block(const unsigned char *x, unsigned length)
- {
- 	unsigned i, format, ext_format;
- 
-@@ -1824,7 +1824,7 @@ const char *cta_speaker_map[] = {
- 	NULL
- };
- 
--static void cta_sadb(const unsigned char *x, unsigned length)
-+void edid_state::cta_sadb(const unsigned char *x, unsigned length)
- {
- 	unsigned sad_deprecated = 0x7f000;
- 	unsigned sad;
-diff --git a/utils/edid-decode/parse-eld.cpp b/utils/edid-decode/parse-eld.cpp
-new file mode 100644
-index 0000000000000000000000000000000000000000..a569a278ef4f911b99de7ed2975dd038d40484a2
---- /dev/null
-+++ b/utils/edid-decode/parse-eld.cpp
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright 2024 Linaro Ltd. All rights reserved.
-+ *
-+ * Author: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-+ */
-+
-+#include <stdio.h>
-+
-+#include "edid-decode.h"
-+
-+void edid_state::parse_eld_baseline(const unsigned char *x, unsigned size)
-+{
-+	unsigned mnl, sad_count, data;
-+	unsigned char dummy_sadb[3] = {};
-+	char *manufacturer;
-+
-+	printf("Baseline ELD:\n");
-+
-+	if (size < 16) {
-+		fail("Baseline ELD too short (%d)\n", size);
-+		return;
-+	}
-+
-+	mnl = x[0] & 0x1f;
-+
-+	data = x[0] >> 5;
-+	switch (data) {
-+	case 0:
-+		printf("  no CEA EDID Timing Extension present\n");
-+		break;
-+	case 1:
-+		printf("  CEA EDID 861\n");
-+		break;
-+	case 2:
-+		printf("  CEA EDID 861.A\n");
-+		break;
-+	case 3:
-+		printf("  CEA EDID 861.B/C/D\n");
-+		break;
-+	default:
-+		warn("Unsupported CEA EDID version (%d)\n", data);
-+		break;
-+	}
-+
-+	if (x[1] & 1)
-+		printf("  HDCP Content Protection is supported\n");
-+	if (x[1] & 2)
-+		printf("  ACP / ISRC / ISRC2 packets are handled\n");
-+
-+	data = (x[1] >> 2) & 3;
-+	switch (data) {
-+	case 0:
-+		printf("  HDMI connection\n");
-+		break;
-+	case 1:
-+		printf("  DisplayPort connection\n");
-+		break;
-+	default:
-+		warn("  Unrecognized connection type (%d)\n", data);
-+	}
-+
-+	sad_count = x[1] >> 4;
-+
-+	if (x[2])
-+		printf("  Audio latency: %d ms\n", x[2] * 2);
-+	else
-+		printf("  No Audio latency information\n");
-+
-+	printf("  Speaker Allocation:\n");
-+	dummy_sadb[0] = x[3];
-+	cta_sadb(dummy_sadb, sizeof(dummy_sadb));
-+
-+	printf("  Port ID:\n");
-+	hex_block("    ", x + 0x4, 8);
-+
-+	manufacturer = manufacturer_name(x + 0x0c);
-+	printf("  Manufacturer: %s\n", manufacturer);
-+	printf("  Model: %u\n", (unsigned short)(x[0x0e] + (x[0x0f] << 8)));
-+
-+	if (0x10 + mnl >= size) {
-+		fail("Manufacturer name overflow (MNL = %d)\n", mnl);
-+		return;
-+	}
-+
-+	printf("  Display Product Name: '%s'\n", extract_string(x + 0x10, mnl, true));
-+
-+	if (0x10 + mnl + (3 * sad_count) >= size) {
-+		fail("Short Audio Descriptors overflow\n");
-+		return;
-+	}
-+
-+	if (sad_count != 0) {
-+		printf("  Short Audio Descriptors:\n");
-+		cta_audio_block(x + 0x10 + mnl, 3 * sad_count);
-+	}
-+}
 
----
-base-commit: 8fb667bc4ec202529799cca28fff5b69d34cee19
-change-id: 20250106-eld-support-4a243e37981c
+Thank you for your contribution, I noticed in $subject
+that the model-nr ends in a "S" and that you describe
+this as a RGB-IR sensor.
 
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+I've been working on OV01A1S support myself and one of
+the issues is how to communicate the RGB-IR color-filter
+to userspace.
+
+<snip>
+
+I see here:
+
+> +static const struct ox05b1s_sizes ox05b1s_supported_codes[] = {
+> +	{
+> +		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+> +		.sizes = ox05b1s_sgrbg10_sizes,
+> +	}, {
+> +		/* sentinel */
+> +	}
+> +};
+
+That you are using MEDIA_BUS_FMT_SGRBG10_1X10, but that suggests
+this sensor is using a plain Bayer color filter which is not correct.
+
+Here is what I have come up with:
+
+diff --git a/include/linux/drm_fourcc.h b/include/linux/drm_fourcc.h
+index db679877..68ed65c5 100644
+--- a/include/linux/drm_fourcc.h
++++ b/include/linux/drm_fourcc.h
+@@ -447,6 +447,8 @@ extern "C" {
+ #define DRM_FORMAT_SGRBG10	fourcc_code('B', 'A', '1', '0')
+ #define DRM_FORMAT_SGBRG10	fourcc_code('G', 'B', '1', '0')
+ #define DRM_FORMAT_SBGGR10	fourcc_code('B', 'G', '1', '0')
++/* Mixed 10 bit bayer + ir pixel pattern found on Omnivision ov01a1s */
++#define DRM_FORMAT_SIGIG_GBGR_IGIG_GRGB10 fourcc_code('O', 'V', '1', 'S')
+ 
+ /* 12-bit Bayer formats */
+ #define DRM_FORMAT_SRGGB12	fourcc_code('R', 'G', '1', '2')
+diff --git a/include/linux/media-bus-format.h b/include/linux/media-bus-format.h
+index b6acf8c8..e2938f0d 100644
+--- a/include/linux/media-bus-format.h
++++ b/include/linux/media-bus-format.h
+@@ -122,7 +122,7 @@
+ #define MEDIA_BUS_FMT_YUV16_1X48		0x202a
+ #define MEDIA_BUS_FMT_UYYVYY16_0_5X48		0x202b
+ 
+-/* Bayer - next is	0x3025 */
++/* Bayer - next is	0x3026 */
+ #define MEDIA_BUS_FMT_SBGGR8_1X8		0x3001
+ #define MEDIA_BUS_FMT_SGBRG8_1X8		0x3013
+ #define MEDIA_BUS_FMT_SGRBG8_1X8		0x3002
+@@ -159,6 +159,8 @@
+ #define MEDIA_BUS_FMT_SGBRG20_1X20		0x3022
+ #define MEDIA_BUS_FMT_SGRBG20_1X20		0x3023
+ #define MEDIA_BUS_FMT_SRGGB20_1X20		0x3024
++/* Mixed bayer + ir pixel pattern found on ov01a1s */
++#define MEDIA_BUS_FMT_SIGIG_GBGR_IGIG_GRGB10_1X10 0x3025
+ 
+ /* JPEG compressed formats - next is	0x4002 */
+ #define MEDIA_BUS_FMT_JPEG_1X8			0x4001
+diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
+index 3829c0b6..1b91ed0e 100644
+--- a/include/linux/videodev2.h
++++ b/include/linux/videodev2.h
+@@ -706,6 +706,9 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_SGBRG16 v4l2_fourcc('G', 'B', '1', '6') /* 16  GBGB.. RGRG.. */
+ #define V4L2_PIX_FMT_SGRBG16 v4l2_fourcc('G', 'R', '1', '6') /* 16  GRGR.. BGBG.. */
+ #define V4L2_PIX_FMT_SRGGB16 v4l2_fourcc('R', 'G', '1', '6') /* 16  RGRG.. GBGB.. */
++	/* 10bit mixed bayer + ir pixel pattern found on ov01a1s */
++#define V4L2_PIX_FMT_SIGIG_GBGR_IGIG_GRGB10  v4l2_fourcc('O', 'V', '1', 'S') /* unpacked */
++#define V4L2_PIX_FMT_SIGIG_GBGR_IGIG_GRGB10P v4l2_fourcc('O', 'V', '1', 'P') /* packed */
+ 
+ /* HSV formats */
+ #define V4L2_PIX_FMT_HSV24 v4l2_fourcc('H', 'S', 'V', '3')
+
+For this, note:
+
+1. This is against libcamera's copy of the relevant linux headers, the paths
+to the .h files are different in the kernel
+
+2. Since I wrote this I learned that it looks like the intel driver for
+the ov01a1s:
+
+https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/ov01a1s.c
+
+may have enabled horizontal-flip / mirroring by default, which means that
+the order of each of the quads needs to be flipped.
+
+IMHO we need to resolve how to communicate the color-filters used on
+these OV xxxxx"S" models to userspace. When I last discussed this with
+Laurent, Laurent suggested using V4L2_PIX_FMT_Y10, combined with
+a new field or v4l2-control to query the actual filter.
+
+The idea is to separate the depth/packing info from the filter info,
+avoiding the possible combinatioral explosion of needing this special
+filter with all possible deths. I gave this a quick try but at least on
+the libcamera side there is still a lot of code assuming that both
+depth and color-filter-type are communicated through a single fmt
+integer. Also it seems that in practice there only is this one new
+RGB-IR color filter used on the OV xxxxx"S" models so I think we
+need just 1 new V4L2_PIX_FMT_ define (*).
+
+If it interests you I also have code for the libcamera softwareISP
+to demosaiq this format (ignoring the IR pixels).
+
+Regards,
+
+Hans
+
+
+*) or 4 if we want to be able to do mirror + flip and then communicate
+the changed order due to the mirror / flip. But given the extra effort
+of demosaqing this format, IMHO we should just not offer mirror/flip
+functionality for the "S" version of the sensors. Otherwise the softisp
+would need 4 separate custom demosaiq functions for these sensors.
+
+
+
+
+
+
+> +
+> +static const struct regmap_config ox05b1s_regmap_config = {
+> +	.reg_bits = 16,
+> +	.val_bits = 8,
+> +	.cache_type = REGCACHE_RBTREE,
+> +};
+> +
+> +static int ox05b1s_power_on(struct ox05b1s *sensor)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	int ret = 0;
+> +
+> +	ret = regulator_bulk_enable(OX05B1S_NUM_SUPPLIES, sensor->supplies);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to enable regulators\n");
+> +		return ret;
+> +	}
+> +
+> +	/* get out of powerdown and reset */
+> +	gpiod_set_value_cansleep(sensor->rst_gpio, 0);
+> +
+> +	ret = clk_prepare_enable(sensor->sensor_clk);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Enable sensor clk fail ret=%d\n", ret);
+> +		goto reg_off;
+> +	}
+> +
+> +	/* with XVCLK@24MHz, t2 = 6ms required delay for ox05b1s before first SCCB transaction */
+> +	fsleep(6000);
+> +
+> +	return ret;
+> +
+> +reg_off:
+> +	regulator_bulk_disable(OX05B1S_NUM_SUPPLIES, sensor->supplies);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ox05b1s_power_off(struct ox05b1s *sensor)
+> +{
+> +	gpiod_set_value_cansleep(sensor->rst_gpio, 1);
+> +
+> +	/* XVCLK must be active for 512 cycles (0.34 ms at 24MHz) after last SCCB transaction */
+> +	fsleep(350);
+> +	clk_disable_unprepare(sensor->sensor_clk);
+> +
+> +	regulator_bulk_disable(OX05B1S_NUM_SUPPLIES, sensor->supplies);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ox05b1s_runtime_suspend(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +
+> +	return ox05b1s_power_off(sensor);
+> +}
+> +
+> +static int ox05b1s_runtime_resume(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +
+> +	return ox05b1s_power_on(sensor);
+> +}
+> +
+> +static int ox05b1s_write_reg(struct ox05b1s *sensor, u16 reg, u8 val)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	int ret;
+> +
+> +	ret = regmap_write(sensor->regmap, reg, val);
+> +	if (ret < 0)
+> +		dev_err(dev, "Failed to write reg addr 0x%04x with 0x%02x\n", reg, val);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ox05b1s_read_reg(struct ox05b1s *sensor, u16 reg, u8 *val)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	int ret;
+> +
+> +	ret = regmap_raw_read(sensor->regmap, reg, val, 1);
+> +	if (ret)
+> +		dev_err(dev, "Read reg error: reg=%x, val=%x\n", reg, *val);
+> +
+> +	return ret;
+> +}
+> +
+> +#define OX05B1S_MAX_REG_BULK 16
+> +static int ox05b1s_write_reg_array(struct ox05b1s *sensor,
+> +				   struct ox05b1s_reg *reg_array)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	struct ox05b1s_reg *table = reg_array;
+> +	u8 vals[OX05B1S_MAX_REG_BULK];
+> +	int i;
+> +	int ret;
+> +
+> +	while (table->addr) {
+> +		for (i = 0; i < OX05B1S_MAX_REG_BULK; i++) {
+> +			if (table[i].addr != (table[0].addr + i))
+> +				break;
+> +			vals[i] = table[i].data;
+> +		}
+> +		ret = regmap_bulk_write(sensor->regmap, table->addr, vals, i);
+> +		if (ret) {
+> +			dev_err(dev, "Failed to write reg addr=%x, count %d\n", table->addr, i);
+> +			return ret;
+> +		}
+> +		table += i;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ox05b1s_set_hts(struct ox05b1s *sensor, u32 hts)
+> +{
+> +	u8 values[2] = { (u8)(hts >> 8) & 0xff, (u8)(hts & 0xff) };
+> +
+> +	return regmap_bulk_write(sensor->regmap, OX05B1S_REG_TIMING_HTS_H, values, 2);
+> +}
+> +
+> +static int ox05b1s_set_vts(struct ox05b1s *sensor, u32 vts)
+> +{
+> +	u8 values[2] = { (u8)(vts >> 8) & 0xff, (u8)(vts & 0xff) };
+> +
+> +	return regmap_bulk_write(sensor->regmap, OX05B1S_REG_TIMING_VTS_H, values, 2);
+> +}
+> +
+> +static int ox05b1s_set_exp(struct ox05b1s *sensor, u32 exp)
+> +{
+> +	u8 values[2] = { (u8)(exp >> 8) & 0xff, (u8)(exp & 0xff) };
+> +
+> +	return regmap_bulk_write(sensor->regmap, OX05B1S_REG_EXPOSURE_H, values, 2);
+> +}
+> +
+> +static int ox05b1s_set_analog_gain(struct ox05b1s *sensor, u32 again)
+> +{
+> +	u8 values[2] = { (u8)(again >> 8) & 0xff, (u8)(again & 0xff) };
+> +
+> +	/* real gain */
+> +	return regmap_bulk_write(sensor->regmap, OX05B1S_REG_GAIN_H, values, 2);
+> +}
+> +
+> +static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+> +{
+> +	return &container_of(ctrl->handler, struct ox05b1s,
+> +			     ctrls.handler)->subdev;
+> +}
+> +
+> +static int ox05b1s_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +	u32 w = sensor->mode->width;
+> +	u32 h = sensor->mode->height;
+> +	int ret = 0;
+> +
+> +	/* apply V4L2 controls values only if power is already up */
+> +	if (!pm_runtime_get_if_in_use(&client->dev))
+> +		return 0;
+> +
+> +	/* s_ctrl holds sensor lock */
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_VBLANK:
+> +		ret = ox05b1s_set_vts(sensor, h + ctrl->val);
+> +		break;
+> +	case V4L2_CID_HBLANK:
+> +		if (sensor->mode->h_bin)
+> +			ret = ox05b1s_set_hts(sensor, w + ctrl->val);
+> +		else
+> +			ret = ox05b1s_set_hts(sensor, (w + ctrl->val) / 2);
+> +		break;
+> +	case V4L2_CID_PIXEL_RATE:
+> +		/* Read-only, but we adjust it based on mode. */
+> +		break;
+> +	case V4L2_CID_ANALOGUE_GAIN:
+> +		ret = ox05b1s_set_analog_gain(sensor, ctrl->val);
+> +		break;
+> +	case V4L2_CID_EXPOSURE:
+> +		ret = ox05b1s_set_exp(sensor, ctrl->val);
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +	pm_runtime_put(&client->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops ox05b1s_ctrl_ops = {
+> +	.s_ctrl = ox05b1s_s_ctrl,
+> +};
+> +
+> +/*
+> + * MIPI CSI-2 link frequencies.
+> + * link_freq = (pixel_rate * bpp) / (2 * data_lanes)
+> + */
+> +static const s64 ox05b1s_csi2_link_freqs[] = {
+> +	200000000,
+> +};
+> +
+> +/* Link freq for default mode: 1080p RAW10, 4 data lanes 800 Mbps/lane. */
+> +#define OX05B1S_DEFAULT_LINK_FREQ	0
+> +
+> +static int ox05b1s_init_controls(struct ox05b1s *sensor)
+> +{
+> +	const struct v4l2_ctrl_ops *ops = &ox05b1s_ctrl_ops;
+> +	struct ox05b1s_ctrls *ctrls = &sensor->ctrls;
+> +	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	struct v4l2_fwnode_device_properties props;
+> +	int ret;
+> +
+> +	v4l2_ctrl_handler_init(hdl, 7);
+> +
+> +	/* we can use our own mutex for the ctrl lock */
+> +	hdl->lock = &sensor->lock;
+> +
+> +	/* Clock related controls */
+> +	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops,
+> +						  V4L2_CID_LINK_FREQ,
+> +						  ARRAY_SIZE(ox05b1s_csi2_link_freqs) - 1,
+> +						  OX05B1S_DEFAULT_LINK_FREQ,
+> +						  ox05b1s_csi2_link_freqs);
+> +
+> +	/* mode dependent, actual range set in ox05b1s_update_controls */
+> +	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
+> +					      0, 0, 1, 0);
+> +
+> +	ctrls->hblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HBLANK,
+> +					  0, 0, 1, 0);
+> +
+> +	ctrls->vblank = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VBLANK,
+> +					  0, 0, 1, 0);
+> +
+> +	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
+> +					    0, 0, 1, 0);
+> +
+> +	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
+> +					0, 0xFFFF, 1, 0x80);
+> +
+> +	if (hdl->error) {
+> +		ret = hdl->error;
+> +		goto free_ctrls;
+> +	}
+> +
+> +	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	ret = v4l2_fwnode_device_parse(dev, &props);
+> +	if (ret)
+> +		goto free_ctrls;
+> +
+> +	ret = v4l2_ctrl_new_fwnode_properties(hdl, ops, &props);
+> +	if (ret)
+> +		goto free_ctrls;
+> +
+> +	sensor->subdev.ctrl_handler = hdl;
+> +	return 0;
+> +
+> +free_ctrls:
+> +	dev_err(dev, "Failed to init controls\n");
+> +	v4l2_ctrl_handler_free(hdl);
+> +	return ret;
+> +}
+> +
+> +static int ox05b1s_apply_current_mode(struct ox05b1s *sensor);
+> +
+> +static int ox05b1s_s_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +	int ret = 0;
+> +
+> +	if (enable) {
+> +		ret = pm_runtime_resume_and_get(&client->dev);
+> +		if (ret < 0)
+> +			return ret;
+> +		ret = ox05b1s_apply_current_mode(sensor);
+> +		if (!ret)
+> +			ret = ox05b1s_write_reg(sensor, OX05B1S_REG_SW_STB, 0x01);
+> +	} else {
+> +		ret = ox05b1s_write_reg(sensor, OX05B1S_REG_SW_STB, 0x00);
+> +	}
+> +
+> +	sensor->stream_status = enable;
+> +
+> +	if (!enable || ret) {
+> +		pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
+> +		pm_runtime_put_autosuspend(&client->dev);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void ox05b1s_update_pad_format(struct ox05b1s *sensor,
+> +				      const struct ox05b1s_mode *mode,
+> +				      struct v4l2_mbus_framefmt *fmt)
+> +{
+> +	fmt->code = mode->code;
+> +	fmt->width = mode->width;
+> +	fmt->height = mode->height;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +	fmt->colorspace = V4L2_COLORSPACE_RAW;
+> +	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
+> +}
+> +
+> +static int ox05b1s_init_state(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_state *state)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +	struct v4l2_mbus_framefmt *format;
+> +
+> +	/* Initialize the format. */
+> +	format = v4l2_subdev_state_get_format(state, 0);
+> +	ox05b1s_update_pad_format(sensor, &sensor->model->supported_modes[0], format);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ox05b1s_enum_mbus_code(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_state *state,
+> +				  struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +	const struct ox05b1s_sizes *supported_codes = sensor->model->supported_codes;
+> +	int i = 0;
+> +
+> +	while (i++ < code->index && supported_codes->code)
+> +		supported_codes++;
+> +	if (!supported_codes->code) /* code->index outside supported_codes[] */
+> +		return -EINVAL;
+> +
+> +	code->code = supported_codes->code;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ox05b1s_enum_frame_size(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_state *sd_state,
+> +				   struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +	const struct ox05b1s_sizes *supported_codes = sensor->model->supported_codes;
+> +	const struct v4l2_area *sizes;
+> +	int i = 0;
+> +
+> +	if (fse->pad != 0)
+> +		return -EINVAL;
+> +
+> +	while (supported_codes->code) {
+> +		if (supported_codes->code == fse->code)
+> +			break;
+> +		supported_codes++;
+> +	}
+> +
+> +	if (!supported_codes->code) /* fse->code not in supported_codes[] */
+> +		return -EINVAL;
+> +
+> +	sizes = supported_codes->sizes;
+> +	while (i++ < fse->index && sizes->width)
+> +		sizes++;
+> +	if (!sizes->width) /* fse->index outside sizes[] */
+> +		return -EINVAL;
+> +
+> +	fse->min_width = sizes->width;
+> +	fse->max_width = fse->min_width;
+> +	fse->min_height = sizes->height;
+> +	fse->max_height = fse->min_height;
+> +
+> +	return 0;
+> +}
+> +
+> +/* Update control ranges based on current streaming mode, needs sensor lock */
+> +static int ox05b1s_update_controls(struct ox05b1s *sensor)
+> +{
+> +	int ret;
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	u32 hts = sensor->mode->hts;
+> +	u32 hblank;
+> +	u32 vts = sensor->mode->vts;
+> +	u32 vblank = vts - sensor->mode->height;
+> +	u32 fps = sensor->mode->fps;
+> +	u64 pixel_rate = (sensor->mode->h_bin) ? hts * vts * fps : 2 * hts * vts * fps;
+> +	u32 min_exp = 8;
+> +	u32 max_exp = vts - 8;
+> +
+> +	ret = __v4l2_ctrl_modify_range(sensor->ctrls.pixel_rate, pixel_rate,
+> +				       pixel_rate, 1, pixel_rate);
+> +	if (ret) {
+> +		dev_err(dev, "Modify range for ctrl: pixel_rate %llu-%llu failed\n",
+> +			pixel_rate, pixel_rate);
+> +		goto out;
+> +	}
+> +
+> +	if (sensor->mode->h_bin)
+> +		hblank = hts - sensor->mode->width;
+> +	else
+> +		hblank = 2 * hts - sensor->mode->width;
+> +
+> +	ret = __v4l2_ctrl_modify_range(sensor->ctrls.hblank, hblank, hblank,
+> +				       1, hblank);
+> +	if (ret) {
+> +		dev_err(dev, "Modify range for ctrl: hblank %u-%u failed\n",
+> +			hblank, hblank);
+> +		goto out;
+> +	}
+> +	__v4l2_ctrl_s_ctrl(sensor->ctrls.hblank, sensor->ctrls.hblank->default_value);
+> +
+> +	ret = __v4l2_ctrl_modify_range(sensor->ctrls.vblank, 0, vblank * 4,
+> +				       1, vblank);
+> +	if (ret) {
+> +		dev_err(dev, "Modify range for ctrl: vblank %u-%u failed\n",
+> +			vblank, vblank);
+> +		goto out;
+> +	}
+> +	__v4l2_ctrl_s_ctrl(sensor->ctrls.vblank, sensor->ctrls.vblank->default_value);
+> +
+> +	ret = __v4l2_ctrl_modify_range(sensor->ctrls.exposure, min_exp, max_exp,
+> +				       1, max_exp / 2);
+> +	if (ret) {
+> +		dev_err(dev, "Modify range for ctrl: exposure %u-%u failed\n",
+> +			min_exp, max_exp);
+> +		goto out;
+> +	}
+> +	__v4l2_ctrl_s_ctrl(sensor->ctrls.exposure, sensor->ctrls.exposure->default_value);
+> +
+> +out:
+> +	return ret;
+> +}
+> +
+> +/* needs sensor lock and power on */
+> +static int ox05b1s_apply_current_mode(struct ox05b1s *sensor)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	struct ox05b1s_reglist *reg_data = sensor->mode->reg_data;
+> +	int ret = 0;
+> +
+> +	ox05b1s_write_reg(sensor, OX05B1S_REG_SW_RST, 0x01);
+> +
+> +	while (reg_data->regs) {
+> +		ret = ox05b1s_write_reg_array(sensor, reg_data->regs);
+> +		if (ret)
+> +			goto out;
+> +		reg_data++;
+> +	}
+> +
+> +	/* setup handler will write actual controls into sensor registers */
+> +	ret =  __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
+> +
+> +out:
+> +	if (ret < 0)
+> +		dev_err(dev, "Failed to apply mode %dx%d,bpp=%d\n", sensor->mode->width,
+> +			sensor->mode->height, sensor->mode->bpp);
+> +
+> +	return ret;
+> +}
+> +
+> +/* similar with v4l2_find_nearest_size but filter for mbus code, needs sensor lock */
+> +static const struct ox05b1s_mode *ox05b1s_nearest_size(const struct ox05b1s_mode *supported_modes,
+> +						       struct v4l2_subdev_format *fmt)
+> +{
+> +	u32 error, min_error = U32_MAX;
+> +	const struct ox05b1s_mode *best = NULL;
+> +
+> +	if (!supported_modes)
+> +		return NULL;
+> +
+> +	while (supported_modes->width) {
+> +		const u32 w = supported_modes->width;
+> +		const u32 h = supported_modes->height;
+> +
+> +		if (supported_modes->code != fmt->format.code)
+> +			continue;
+> +
+> +		error = abs(w - fmt->format.width) + abs(h - fmt->format.height);
+> +		if (error > min_error)
+> +			continue;
+> +
+> +		min_error = error;
+> +		best = supported_modes;
+> +		if (!error)
+> +			break;
+> +
+> +		supported_modes++;
+> +	}
+> +
+> +	return best;
+> +}
+> +
+> +/* get a valid mbus code for the model, either the requested one or the default one */
+> +static u32 ox05b1s_find_code(const struct ox05b1s_plat_data *model, u32 code)
+> +{
+> +	u32 found_code = 0;
+> +	const struct ox05b1s_sizes *supported_codes = model->supported_codes;
+> +
+> +	while (supported_codes->code) {
+> +		if (supported_codes->code == code) {
+> +			found_code = code;
+> +			break;
+> +		}
+> +		supported_codes++;
+> +	}
+> +
+> +	if (!supported_codes->code) /* code not in supported_codes[] */
+> +		found_code = model->supported_codes[model->default_mode_index].code;
+> +
+> +	return found_code;
+> +}
+> +
+> +static int ox05b1s_set_fmt(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_state *state,
+> +			   struct v4l2_subdev_format *fmt)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	struct v4l2_mbus_framefmt *format;
+> +	const struct ox05b1s_mode *mode;
+> +
+> +	/* if no matching mbus code is found, use the one from the default mode */
+> +	fmt->format.code = ox05b1s_find_code(sensor->model, fmt->format.code);
+> +	mode = ox05b1s_nearest_size(sensor->model->supported_modes, fmt);
+> +
+> +	fmt->format.width = mode->width;
+> +	fmt->format.height = mode->height;
+> +	fmt->format.field = V4L2_FIELD_NONE;
+> +
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> +		format = v4l2_subdev_state_get_format(state, 0);
+> +		*format = fmt->format;
+> +		return 0;
+> +	}
+> +
+> +	sensor->mode = mode;
+> +
+> +	/* update controls that depend on current mode */
+> +	ox05b1s_update_controls(sensor);
+> +
+> +	dev_dbg(dev, "Set mode index=%d, %d x %d, code=0x%x\n", sensor->mode->index,
+> +		fmt->format.width, fmt->format.height, fmt->format.code);
+> +
+> +	return 0;
+> +}
+> +
+> +static u8 ox05b1s_code2dt(const u32 code)
+> +{
+> +	switch (code) {
+> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> +		return MIPI_CSI2_DT_RAW10;
+> +	default:
+> +		return MIPI_CSI2_DT_RAW10;
+> +	}
+> +}
+> +
+> +static int ox05b1s_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> +				  struct v4l2_mbus_frame_desc *fd)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +
+> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+> +	fd->num_entries = 1;
+> +
+> +	/* get sensor current code*/
+> +	mutex_lock(&sensor->lock);
+> +	fd->entry[0].pixelcode = sensor->mode->code;
+> +	mutex_unlock(&sensor->lock);
+> +
+> +	fd->entry[0].bus.csi2.vc = 0;
+> +	fd->entry[0].bus.csi2.dt = ox05b1s_code2dt(fd->entry[0].pixelcode);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ox05b1s_get_selection(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *sd_state,
+> +				 struct v4l2_subdev_selection *sel)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +
+> +	switch (sel->target) {
+> +	case V4L2_SEL_TGT_NATIVE_SIZE:
+> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> +		sel->r.top = 0;
+> +		sel->r.left = 0;
+> +		sel->r.width = sensor->model->native_width;
+> +		sel->r.height = sensor->model->native_height;
+> +		return 0;
+> +	case V4L2_SEL_TGT_CROP:
+> +	case V4L2_SEL_TGT_CROP_DEFAULT:
+> +		sel->r.top = sensor->model->active_top;
+> +		sel->r.left = sensor->model->active_left;
+> +		sel->r.width = sensor->model->active_width;
+> +		sel->r.height = sensor->model->active_height;
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops ox05b1s_subdev_video_ops = {
+> +	.s_stream = ox05b1s_s_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops ox05b1s_subdev_pad_ops = {
+> +	.set_fmt		= ox05b1s_set_fmt,
+> +	.get_fmt		= v4l2_subdev_get_fmt,
+> +	.get_frame_desc		= ox05b1s_get_frame_desc,
+> +	.enum_mbus_code		= ox05b1s_enum_mbus_code,
+> +	.enum_frame_size	= ox05b1s_enum_frame_size,
+> +	.get_selection		= ox05b1s_get_selection,
+> +};
+> +
+> +static const struct v4l2_subdev_ops ox05b1s_subdev_ops = {
+> +	.video = &ox05b1s_subdev_video_ops,
+> +	.pad   = &ox05b1s_subdev_pad_ops,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops ox05b1s_internal_ops = {
+> +	.init_state = ox05b1s_init_state,
+> +};
+> +
+> +static void ox05b1s_get_gpios(struct ox05b1s *sensor)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +
+> +	sensor->rst_gpio = devm_gpiod_get_optional(dev, "reset",
+> +						   GPIOD_OUT_HIGH);
+> +	if (IS_ERR(sensor->rst_gpio))
+> +		dev_warn(dev, "No sensor reset pin available");
+> +}
+> +
+> +static int ox05b1s_get_regulators(struct ox05b1s *sensor)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < OX05B1S_NUM_SUPPLIES; i++)
+> +		sensor->supplies[i].supply = ox05b1s_supply_name[i];
+> +
+> +	return devm_regulator_bulk_get(dev, OX05B1S_NUM_SUPPLIES, sensor->supplies);
+> +}
+> +
+> +static int ox05b1s_read_chip_id(struct ox05b1s *sensor)
+> +{
+> +	struct device *dev = &sensor->i2c_client->dev;
+> +	u32 chip_id = 0;
+> +	u8 reg_val = 0;
+> +	char *camera_name;
+> +	int ret = 0;
+> +
+> +	ret = ox05b1s_read_reg(sensor, OX05B1S_REG_CHIP_ID_23_16, &reg_val);
+> +	chip_id |= reg_val << 16;
+> +	ret |= ox05b1s_read_reg(sensor, OX05B1S_REG_CHIP_ID_15_8, &reg_val);
+> +	chip_id |= reg_val << 8;
+> +	ret |= ox05b1s_read_reg(sensor, OX05B1S_REG_CHIP_ID_7_0, &reg_val);
+> +	chip_id |= reg_val;
+> +	if (ret) {
+> +		dev_err(dev, "Camera chip_id read error\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	switch (chip_id) {
+> +	case 0x580542:
+> +		camera_name = "ox05b1s";
+> +		break;
+> +	default:
+> +		camera_name = "unknown";
+> +		break;
+> +	}
+> +
+> +	if (chip_id == sensor->model->chip_id) {
+> +		dev_info(dev, "Camera %s detected, chip_id=%x\n", camera_name, chip_id);
+> +	} else {
+> +		dev_err(dev, "Detected %s camera (chip_id=%x), but expected %s (chip_id=%x)\n",
+> +			camera_name, chip_id, sensor->model->name, sensor->model->chip_id);
+> +		ret = -ENODEV;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int ox05b1s_probe(struct i2c_client *client)
+> +{
+> +	int retval;
+> +	struct device *dev = &client->dev;
+> +	struct v4l2_subdev *sd;
+> +	struct ox05b1s *sensor;
+> +
+> +	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+> +	if (!sensor)
+> +		return -ENOMEM;
+> +
+> +	sensor->regmap = devm_regmap_init_i2c(client, &ox05b1s_regmap_config);
+> +	if (IS_ERR(sensor->regmap))
+> +		return PTR_ERR(sensor->regmap);
+> +
+> +	sensor->i2c_client = client;
+> +
+> +	sensor->model = of_device_get_match_data(dev);
+> +
+> +	ox05b1s_get_gpios(sensor);
+> +
+> +	/* Get system clock, xvclk */
+> +	sensor->sensor_clk = devm_clk_get(dev, NULL);
+> +	if (IS_ERR(sensor->sensor_clk)) {
+> +		return dev_err_probe(dev, PTR_ERR(sensor->sensor_clk),
+> +				     "Failed to get xvclk\n");
+> +	}
+> +
+> +	retval = ox05b1s_get_regulators(sensor);
+> +	if (retval)
+> +		return dev_err_probe(dev, retval, "Failed to get regulators\n");
+> +
+> +	sd = &sensor->subdev;
+> +	v4l2_i2c_subdev_init(sd, client, &ox05b1s_subdev_ops);
+> +	sd->internal_ops = &ox05b1s_internal_ops;
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	sd->dev = &client->dev;
+> +	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +	sensor->pads[OX05B1S_SENS_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+> +	retval = media_entity_pads_init(&sd->entity, OX05B1S_SENS_PADS_NUM,
+> +					sensor->pads);
+> +	if (retval)
+> +		goto probe_out;
+> +
+> +	mutex_init(&sensor->lock);
+> +
+> +	retval = ox05b1s_init_controls(sensor);
+> +	if (retval)
+> +		goto probe_err_entity_cleanup;
+> +
+> +	/* power on manually */
+> +	retval = ox05b1s_power_on(sensor);
+> +	if (retval) {
+> +		dev_err(dev, "Failed to power on\n");
+> +		goto probe_err_free_ctrls;
+> +	}
+> +
+> +	pm_runtime_set_active(dev);
+> +	pm_runtime_get_noresume(dev);
+> +	pm_runtime_enable(dev);
+> +
+> +	retval = ox05b1s_read_chip_id(sensor);
+> +	if (retval)
+> +		goto probe_err_pm_runtime;
+> +
+> +	v4l2_i2c_subdev_set_name(sd, client, sensor->model->name, NULL);
+> +
+> +	/* Centrally managed subdev active state */
+> +	sd->state_lock = &sensor->lock;
+> +	retval = v4l2_subdev_init_finalize(sd);
+> +	if (retval < 0) {
+> +		dev_err(dev, "Subdev init error: %d\n", retval);
+> +		goto probe_err_pm_runtime;
+> +	}
+> +
+> +	retval = v4l2_async_register_subdev_sensor(sd);
+> +	if (retval < 0) {
+> +		dev_err(&client->dev, "Async register failed, ret=%d\n", retval);
+> +		goto probe_err_subdev_cleanup;
+> +	}
+> +
+> +	sensor->mode = &sensor->model->supported_modes[0];
+> +	ox05b1s_update_controls(sensor);
+> +
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_put_autosuspend(dev);
+> +
+> +	return 0;
+> +
+> +probe_err_subdev_cleanup:
+> +	v4l2_subdev_cleanup(sd);
+> +probe_err_pm_runtime:
+> +	pm_runtime_put_noidle(dev);
+> +	pm_runtime_disable(dev);
+> +	ox05b1s_runtime_suspend(dev);
+> +probe_err_free_ctrls:
+> +	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+> +probe_err_entity_cleanup:
+> +	media_entity_cleanup(&sd->entity);
+> +probe_out:
+> +	return retval;
+> +}
+> +
+> +static void ox05b1s_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct ox05b1s *sensor = client_to_ox05b1s(client);
+> +	struct device *dev = &client->dev;
+> +
+> +	pm_runtime_disable(dev);
+> +	if (!pm_runtime_status_suspended(dev))
+> +		ox05b1s_runtime_suspend(dev);
+> +	pm_runtime_set_suspended(dev);
+> +	v4l2_async_unregister_subdev(sd);
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+> +	mutex_destroy(&sensor->lock);
+> +}
+> +
+> +static DEFINE_RUNTIME_DEV_PM_OPS(ox05b1s_pm_ops, ox05b1s_runtime_suspend,
+> +				 ox05b1s_runtime_resume, NULL);
+> +
+> +static const struct ox05b1s_plat_data ox05b1s_data = {
+> +	.name			= "ox05b1s",
+> +	.chip_id		= 0x580542,
+> +	.native_width		= 2608, /* 8 dummy + 2592 active pixels + 8 dummy */
+> +	.native_height		= 1960, /* 8 dummy + 1944 active lines + 8 dummy */
+> +	.active_top		= 8,
+> +	.active_left		= 8,
+> +	.active_width		= 2592,
+> +	.active_height		= 1944,
+> +	.supported_modes	= ox05b1s_supported_modes,
+> +	.default_mode_index	= 0,
+> +	.supported_codes	= ox05b1s_supported_codes,
+> +};
+> +
+> +static const struct of_device_id ox05b1s_of_match[] = {
+> +	{
+> +		.compatible = "ovti,ox05b1s",
+> +		.data = &ox05b1s_data,
+> +	},
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ox05b1s_of_match);
+> +
+> +static struct i2c_driver ox05b1s_i2c_driver = {
+> +	.driver = {
+> +		.name  = "ox05b1s",
+> +		.pm = pm_ptr(&ox05b1s_pm_ops),
+> +		.of_match_table	= ox05b1s_of_match,
+> +	},
+> +	.probe	= ox05b1s_probe,
+> +	.remove = ox05b1s_remove,
+> +};
+> +
+> +module_i2c_driver(ox05b1s_i2c_driver);
+> +MODULE_DESCRIPTION("Omnivision OX05B1S MIPI Camera Subdev Driver");
+> +MODULE_AUTHOR("Mirela Rabulea <mirela.rabulea@nxp.com>");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/i2c/ox05b1s/ox05b1s_modes.c b/drivers/media/i2c/ox05b1s/ox05b1s_modes.c
+> new file mode 100644
+> index 000000000000..1830e9a9cc35
+> --- /dev/null
+> +++ b/drivers/media/i2c/ox05b1s/ox05b1s_modes.c
+> @@ -0,0 +1,1171 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Register configurations for all sensor supported modes
+> + * Copyright (C) 2024, NXP
+> + * Copyright (C) 2024, Omnivision
+> + * Copyright (C) 2024, Verisilicon
+> + *
+> + */
+> +
+> +#include "ox05b1s.h"
+> +
+> +/*
+> + * Register configuration for Omnivision OX05B1S raw camera
+> + * 2592X1944_30FPS_FULL_RGBIr 2592 1944
+> + */
+> +struct ox05b1s_reg ovx5b_init_setting_2592x1944[] = {
+> +	{0x0100, 0x00},
+> +	{0x0107, 0x01}, /* reserved */
+> +	{0x0104, 0x00},
+> +	{0x0301, 0x1a},
+> +	{0x0304, 0x01},
+> +	{0x0305, 0xe0},
+> +	{0x0306, 0x04},
+> +	{0x0307, 0x02}, /* reset 0x01 */
+> +	{0x0321, 0x03},
+> +	{0x0324, 0x01},
+> +	{0x0325, 0x80},
+> +	{0x0341, 0x03},
+> +	{0x0344, 0x01},
+> +	{0x0345, 0xb0},
+> +	{0x0347, 0x07},
+> +	{0x034a, 0x05}, /* reset 0x03 */
+> +	{0x034b, 0x06},
+> +	{0x0360, 0x80}, /* PLL_CTRL_REG60 bit7 mipi_enable */
+> +	{0x0400, 0xe8},
+> +	{0x0401, 0x00},
+> +	{0x0402, 0x2b},
+> +	{0x0403, 0x32},
+> +	{0x0404, 0x3a},
+> +	{0x0405, 0x00},
+> +	{0x0406, 0x0c},
+> +	{0x0407, 0xe8},
+> +	{0x0408, 0x00},
+> +	{0x0409, 0x2b},
+> +	{0x040a, 0x32},
+> +	{0x040b, 0x5c}, /* reset 0x30 */
+> +	{0x040c, 0xcd}, /* reset 0x00 */
+> +	{0x040d, 0x0c},
+> +	{0x040e, 0xe7},
+> +	{0x040f, 0xff},
+> +	{0x0410, 0x2b},
+> +	{0x0411, 0x32},
+> +	{0x0412, 0x33},
+> +	{0x0413, 0x8f},
+> +	{0x0414, 0x0c},
+> +	{0x2000, 0x04},
+> +	{0x2805, 0xff},
+> +	{0x2806, 0x0f},
+> +	{0x3000, 0x00},
+> +	{0x3001, 0x00},
+> +	{0x3002, 0x10},
+> +	{0x3004, 0x00},
+> +	{0x3009, 0x2e},
+> +	{0x3010, 0x41}, /* SC_CMMN_REG10 mipi_lane_num = 4, phy_mode = 1 */
+> +	{0x3015, 0xf0},
+> +	{0x3016, 0xf0},
+> +	{0x3017, 0xf0},
+> +	{0x3018, 0xf0}, /* SC_CMMN_REG18 */
+> +	{0x301a, 0x78},
+> +	{0x301b, 0xb4},
+> +	{0x301f, 0xe9},
+> +	{0x3024, 0x80},
+> +	{0x3039, 0x00},
+> +	{0x3044, 0x70},
+> +	{0x3101, 0x32},
+> +	{0x3182, 0x10},
+> +	{0x3187, 0xff},
+> +	{0x320a, 0x00},
+> +	{0x320b, 0x00},
+> +	{0x320c, 0x00},
+> +	{0x320d, 0x00},
+> +	{0x320e, 0x00},
+> +	{0x320f, 0x00},
+> +	{0x3211, 0x61},
+> +	{0x3212, 0x00},
+> +	{0x3215, 0xcc},
+> +	{0x3218, 0x06},
+> +	{0x3219, 0x08},
+> +	{0x3251, 0x00},
+> +	{0x3252, 0xe4},
+> +	{0x3253, 0x00},
+> +	{0x3304, 0x11},
+> +	{0x3305, 0x00},
+> +	{0x3306, 0x01},
+> +	{0x3307, 0x00},
+> +	{0x3308, 0x02},
+> +	{0x3309, 0x00},
+> +	{0x330a, 0x02},
+> +	{0x330b, 0x00},
+> +	{0x330c, 0x02},
+> +	{0x330d, 0x00},
+> +	{0x330e, 0x02},
+> +	{0x330f, 0x00},
+> +	{0x3310, 0x02},
+> +	{0x3311, 0x00},
+> +	{0x3312, 0x02},
+> +	{0x3313, 0x00},
+> +	{0x3314, 0x02},
+> +	{0x3315, 0x00},
+> +	{0x3316, 0x02},
+> +	{0x3317, 0x11},
+> +	{0x3400, 0x0c},
+> +	{0x3421, 0x00},
+> +	{0x3422, 0x00},
+> +	{0x3423, 0x00},
+> +	{0x3424, 0x00},
+> +	{0x3425, 0x00},
+> +	{0x3426, 0x00},
+> +	{0x3427, 0x00},
+> +	{0x3428, 0x00},
+> +	{0x3429, 0x40},
+> +	{0x342a, 0x55},
+> +	{0x342b, 0x05},
+> +	{0x342c, 0x00},
+> +	{0x342d, 0x00},
+> +	{0x342e, 0x00},
+> +	{0x3500, 0x00},
+> +	{0x3501, 0x00},
+> +	{0x3502, 0x08},
+> +	{0x3503, 0xa8},
+> +	{0x3504, 0x08},
+> +	{0x3505, 0x00},
+> +	{0x3506, 0x00},
+> +	{0x3507, 0x00},
+> +	{0x3508, 0x01},
+> +	{0x3509, 0x00},
+> +	{0x350a, 0x01},
+> +	{0x350b, 0x00},
+> +	{0x350c, 0x00},
+> +	{0x3541, 0x00},
+> +	{0x3542, 0x08},
+> +	{0x3603, 0x65},
+> +	{0x3604, 0x24},
+> +	{0x3608, 0x08},
+> +	{0x3610, 0x00},
+> +	{0x3612, 0x00},
+> +	{0x3619, 0x09},
+> +	{0x361a, 0x27},
+> +	{0x3620, 0x40},
+> +	{0x3622, 0x15},
+> +	{0x3623, 0x0e},
+> +	{0x3624, 0x1f},
+> +	{0x3625, 0x1f},
+> +	{0x362a, 0x01}, /* ANA_REG2A mipi_pk_0 */
+> +	{0x362b, 0x00}, /* ANA_REG2B mipi_pk_1 */
+> +	{0x3633, 0x88},
+> +	{0x3634, 0x86},
+> +	{0x3636, 0x80},
+> +	{0x3638, 0x3b},
+> +	{0x363a, 0x00},
+> +	{0x363b, 0x22},
+> +	{0x363c, 0x07},
+> +	{0x363d, 0x11},
+> +	{0x363e, 0x21},
+> +	{0x363f, 0x24},
+> +	{0x3640, 0xd3},
+> +	{0x3641, 0x00},
+> +	{0x3650, 0xe4},
+> +	{0x3651, 0x80},
+> +	{0x3652, 0xff},
+> +	{0x3653, 0x00},
+> +	{0x3654, 0x05},
+> +	{0x3655, 0xf8},
+> +	{0x3656, 0x00},
+> +	{0x3660, 0x00},
+> +	{0x3664, 0x00},
+> +	{0x366a, 0x80},
+> +	{0x366b, 0x00},
+> +	{0x3670, 0x00},
+> +	{0x3674, 0x00},
+> +	{0x367b, 0x50},
+> +	{0x3684, 0x6d},
+> +	{0x3685, 0x6d},
+> +	{0x3686, 0x6d},
+> +	{0x3687, 0x6d},
+> +	{0x368c, 0x07},
+> +	{0x368d, 0x07},
+> +	{0x368e, 0x07},
+> +	{0x368f, 0x00},
+> +	{0x3690, 0x04},
+> +	{0x3691, 0x04},
+> +	{0x3692, 0x04},
+> +	{0x3693, 0x04},
+> +	{0x3698, 0x00},
+> +	{0x369e, 0x1f},
+> +	{0x369f, 0x19},
+> +	{0x36a0, 0x05},
+> +	{0x36a2, 0x16},
+> +	{0x36a3, 0x03},
+> +	{0x36a4, 0x07},
+> +	{0x36a5, 0x24},
+> +	{0x36a6, 0x00},
+> +	{0x36a7, 0x80},
+> +	{0x36e3, 0x09},
+> +	{0x3700, 0x07},
+> +	{0x3701, 0x1b},
+> +	{0x3702, 0x0a},
+> +	{0x3703, 0x21},
+> +	{0x3704, 0x19},
+> +	{0x3705, 0x07},
+> +	{0x3706, 0x36},
+> +	{0x370a, 0x1c},
+> +	{0x370b, 0x02},
+> +	{0x370c, 0x00},
+> +	{0x370d, 0x6e},
+> +	{0x370f, 0x80},
+> +	{0x3710, 0x10},
+> +	{0x3712, 0x09},
+> +	{0x3714, 0x42},
+> +	{0x3715, 0x00},
+> +	{0x3716, 0x02},
+> +	{0x3717, 0xa2},
+> +	{0x3718, 0x41},
+> +	{0x371a, 0x80},
+> +	{0x371b, 0x0a},
+> +	{0x371c, 0x0a},
+> +	{0x371d, 0x08},
+> +	{0x371e, 0x01},
+> +	{0x371f, 0x20},
+> +	{0x3720, 0x0e},
+> +	{0x3721, 0x22},
+> +	{0x3722, 0x0c},
+> +	{0x3727, 0x84},
+> +	{0x3728, 0x03},
+> +	{0x3729, 0x64},
+> +	{0x372a, 0x0c},
+> +	{0x372b, 0x14},
+> +	{0x372d, 0x50},
+> +	{0x372e, 0x14},
+> +	{0x3731, 0x11},
+> +	{0x3732, 0x24},
+> +	{0x3733, 0x00},
+> +	{0x3734, 0x00},
+> +	{0x3735, 0x12},
+> +	{0x3736, 0x00},
+> +	{0x373b, 0x0b},
+> +	{0x373c, 0x14},
+> +	{0x373f, 0x3e},
+> +	{0x3740, 0x12},
+> +	{0x3741, 0x12},
+> +	{0x3753, 0x80},
+> +	{0x3754, 0x01},
+> +	{0x3756, 0x11},
+> +	{0x375c, 0x0f},
+> +	{0x375d, 0x35},
+> +	{0x375e, 0x0f},
+> +	{0x375f, 0x37},
+> +	{0x3760, 0x0f},
+> +	{0x3761, 0x27},
+> +	{0x3762, 0x3f},
+> +	{0x3763, 0x5d},
+> +	{0x3764, 0x01},
+> +	{0x3765, 0x17},
+> +	{0x3766, 0x02},
+> +	{0x3768, 0x52},
+> +	{0x376a, 0x30},
+> +	{0x376b, 0x02},
+> +	{0x376c, 0x08},
+> +	{0x376d, 0x2a},
+> +	{0x376e, 0x00},
+> +	{0x376f, 0x18},
+> +	{0x3770, 0x2c},
+> +	{0x3771, 0x0c},
+> +	{0x3772, 0x71},
+> +	{0x3776, 0xc0},
+> +	{0x3778, 0x00},
+> +	{0x3779, 0x80},
+> +	{0x377a, 0x00},
+> +	{0x377d, 0x14},
+> +	{0x377e, 0x0c},
+> +	{0x379c, 0x25},
+> +	{0x379f, 0x00},
+> +	{0x37a3, 0x40},
+> +	{0x37a4, 0x03},
+> +	{0x37a5, 0x10},
+> +	{0x37a6, 0x02},
+> +	{0x37a7, 0x0e},
+> +	{0x37a9, 0x00},
+> +	{0x37aa, 0x08},
+> +	{0x37ab, 0x08},
+> +	{0x37ac, 0x36},
+> +	{0x37ad, 0x40},
+> +	{0x37b0, 0x48},
+> +	{0x37d0, 0x00},
+> +	{0x37d1, 0x0b},
+> +	{0x37d2, 0x0c},
+> +	{0x37d3, 0x10},
+> +	{0x37d4, 0x10},
+> +	{0x37d5, 0x10},
+> +	{0x37d8, 0x0e},
+> +	{0x37d9, 0x0e},
+> +	{0x37da, 0x3c},
+> +	{0x37db, 0x52},
+> +	{0x37dc, 0x50},
+> +	{0x37dd, 0x00},
+> +	{0x37de, 0x55},
+> +	{0x37df, 0x7d},
+> +	{0x37e5, 0x88},
+> +	{0x37e7, 0x68},
+> +	{0x37e8, 0x07},
+> +	{0x37f0, 0x00},
+> +	{0x37f1, 0x0e},
+> +	{0x37f2, 0x35},
+> +	{0x37f3, 0x14},
+> +	{0x37f4, 0x0c},
+> +	{0x37f5, 0x14},
+> +	{0x37f6, 0x0c},
+> +	{0x37f7, 0x35},
+> +	{0x37f8, 0x35},
+> +	{0x37f9, 0x37},
+> +	{0x37fa, 0x37},
+> +	{0x37fb, 0x37},
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x00},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x00},
+> +	{0x3804, 0x0a},
+> +	{0x3805, 0x2f},
+> +	{0x3806, 0x07},
+> +	{0x3807, 0xa7},
+> +	{0x3808, 0x0a}, /* width 2592 = 0xa20 */
+> +	{0x3809, 0x20}, /* width */
+> +	{0x380a, 0x07}, /* height 1944 = 0x798 */
+> +	{0x380b, 0x98}, /* height */
+> +	{0x380c, 0x02},
+> +	{0x380d, 0xf0},
+> +	{0x380e, 0x08},
+> +	{0x380f, 0x50},
+> +	{0x3810, 0x00},
+> +	{0x3811, 0x08},
+> +	{0x3812, 0x00},
+> +	{0x3813, 0x08},
+> +	{0x3814, 0x11},
+> +	{0x3815, 0x11},
+> +	{0x3820, 0x40},
+> +	{0x3821, 0x04}, /* TIMING_CTRL_REG21 bit[2] = mirror */
+> +	{0x3822, 0x10},
+> +	{0x3823, 0x00},
+> +	{0x3826, 0x00},
+> +	{0x3827, 0x00},
+> +	{0x382b, 0x03},
+> +	{0x382c, 0x0c},
+> +	{0x382d, 0x15},
+> +	{0x382e, 0x01},
+> +	{0x3830, 0x00},
+> +	{0x3838, 0x00},
+> +	{0x383b, 0x00},
+> +	{0x3840, 0x00},
+> +	{0x384a, 0xa2},
+> +	{0x3858, 0x00},
+> +	{0x3859, 0x00},
+> +	{0x3860, 0x00},
+> +	{0x3861, 0x00},
+> +	{0x3866, 0x10},
+> +	{0x3867, 0x07},
+> +	{0x3868, 0x01},
+> +	{0x3869, 0x01},
+> +	{0x386a, 0x01},
+> +	{0x386b, 0x01},
+> +	{0x386c, 0x46},
+> +	{0x386d, 0x08},
+> +	{0x386e, 0x7b},
+> +	{0x3871, 0x01},
+> +	{0x3872, 0x01},
+> +	{0x3873, 0x01},
+> +	{0x3874, 0x01},
+> +	{0x3880, 0x00},
+> +	{0x3881, 0x00},
+> +	{0x3882, 0x00},
+> +	{0x3883, 0x00},
+> +	{0x3884, 0x00},
+> +	{0x3885, 0x00},
+> +	{0x3886, 0x00},
+> +	{0x3887, 0x00},
+> +	{0x3888, 0x00},
+> +	{0x3889, 0x00},
+> +	{0x3900, 0x13},
+> +	{0x3901, 0x19},
+> +	{0x3902, 0x05},
+> +	{0x3903, 0x00},
+> +	{0x3904, 0x00},
+> +	{0x3908, 0x00},
+> +	{0x3909, 0x18},
+> +	{0x390a, 0x00},
+> +	{0x390b, 0x11},
+> +	{0x390c, 0x15},
+> +	{0x390d, 0x84},
+> +	{0x390f, 0x88},
+> +	{0x3910, 0x00},
+> +	{0x3911, 0x00},
+> +	{0x3912, 0x03},
+> +	{0x3913, 0x62},
+> +	{0x3914, 0x00},
+> +	{0x3915, 0x06},
+> +	{0x3916, 0x0c},
+> +	{0x3917, 0x81},
+> +	{0x3918, 0xc8},
+> +	{0x3919, 0x94},
+> +	{0x391a, 0x17},
+> +	{0x391b, 0x05},
+> +	{0x391c, 0x81},
+> +	{0x391d, 0x05},
+> +	{0x391e, 0x81},
+> +	{0x391f, 0x05},
+> +	{0x3920, 0x81},
+> +	{0x3921, 0x14},
+> +	{0x3922, 0x0b},
+> +	{0x3929, 0x00},
+> +	{0x392a, 0x00},
+> +	{0x392b, 0xc8},
+> +	{0x392c, 0x81},
+> +	{0x392f, 0x00},
+> +	{0x3930, 0x00},
+> +	{0x3931, 0x00},
+> +	{0x3932, 0x00},
+> +	{0x3933, 0x00},
+> +	{0x3934, 0x1b},
+> +	{0x3935, 0xc0},
+> +	{0x3936, 0x1c},
+> +	{0x3937, 0x21},
+> +	{0x3938, 0x0d},
+> +	{0x3939, 0x92},
+> +	{0x393a, 0x85},
+> +	{0x393b, 0x8a},
+> +	{0x393c, 0x06},
+> +	{0x393d, 0x8b},
+> +	{0x393e, 0x0f},
+> +	{0x393f, 0x14},
+> +	{0x3940, 0x0f},
+> +	{0x3941, 0x14},
+> +	{0x3945, 0xc0},
+> +	{0x3946, 0x05},
+> +	{0x3947, 0xc0},
+> +	{0x3948, 0x01},
+> +	{0x3949, 0x00},
+> +	{0x394a, 0x00},
+> +	{0x394b, 0x0b},
+> +	{0x394c, 0x0c},
+> +	{0x394d, 0x0b},
+> +	{0x394e, 0x09},
+> +	{0x3951, 0xc7},
+> +	{0x3952, 0x0f},
+> +	{0x3953, 0x0f},
+> +	{0x3954, 0x0f},
+> +	{0x3955, 0x00},
+> +	{0x3956, 0x27},
+> +	{0x3957, 0x27},
+> +	{0x3958, 0x27},
+> +	{0x3959, 0x01},
+> +	{0x395a, 0x02},
+> +	{0x395b, 0x14},
+> +	{0x395c, 0x36},
+> +	{0x395e, 0xc0},
+> +	{0x3964, 0x55},
+> +	{0x3965, 0x55},
+> +	{0x3966, 0x88},
+> +	{0x3967, 0x88},
+> +	{0x3968, 0x66},
+> +	{0x3969, 0x66},
+> +	{0x396d, 0x80},
+> +	{0x396e, 0xff},
+> +	{0x396f, 0x10},
+> +	{0x3970, 0x80},
+> +	{0x3971, 0x80},
+> +	{0x3972, 0x00},
+> +	{0x397a, 0x55},
+> +	{0x397b, 0x10},
+> +	{0x397c, 0x10},
+> +	{0x397d, 0x10},
+> +	{0x397e, 0x10},
+> +	{0x3980, 0xfc},
+> +	{0x3981, 0xfc},
+> +	{0x3982, 0x66},
+> +	{0x3983, 0xfc},
+> +	{0x3984, 0xfc},
+> +	{0x3985, 0x66},
+> +	{0x3986, 0x00},
+> +	{0x3987, 0x00},
+> +	{0x3988, 0x00},
+> +	{0x3989, 0x00},
+> +	{0x398a, 0x00},
+> +	{0x398b, 0x00},
+> +	{0x398c, 0x00},
+> +	{0x398d, 0x00},
+> +	{0x398e, 0x00},
+> +	{0x398f, 0x00},
+> +	{0x3990, 0x00},
+> +	{0x3991, 0x00},
+> +	{0x3992, 0x00},
+> +	{0x3993, 0x00},
+> +	{0x3994, 0x00},
+> +	{0x3995, 0x00},
+> +	{0x3996, 0x00},
+> +	{0x3997, 0x0f},
+> +	{0x3998, 0x0c},
+> +	{0x3999, 0x0c},
+> +	{0x399a, 0x0c},
+> +	{0x399b, 0xf0},
+> +	{0x399c, 0x14},
+> +	{0x399d, 0x0d},
+> +	{0x399e, 0x00},
+> +	{0x399f, 0x0c},
+> +	{0x39a0, 0x0c},
+> +	{0x39a1, 0x0c},
+> +	{0x39a2, 0x00},
+> +	{0x39a3, 0x0f},
+> +	{0x39a4, 0x0c},
+> +	{0x39a5, 0x0c},
+> +	{0x39a6, 0x0c},
+> +	{0x39a7, 0x0c},
+> +	{0x39a8, 0x0f},
+> +	{0x39a9, 0xff},
+> +	{0x39aa, 0xbf},
+> +	{0x39ab, 0x3f},
+> +	{0x39ac, 0x7e},
+> +	{0x39ad, 0xff},
+> +	{0x39ae, 0x00},
+> +	{0x39af, 0x00},
+> +	{0x39b0, 0x00},
+> +	{0x39b1, 0x00},
+> +	{0x39b2, 0x00},
+> +	{0x39b3, 0x00},
+> +	{0x39b4, 0x00},
+> +	{0x39b5, 0x00},
+> +	{0x39b6, 0x00},
+> +	{0x39b7, 0x00},
+> +	{0x39b8, 0x00},
+> +	{0x39b9, 0x00},
+> +	{0x39ba, 0x00},
+> +	{0x39bb, 0x00},
+> +	{0x39bc, 0x00},
+> +	{0x39c2, 0x00},
+> +	{0x39c3, 0x00},
+> +	{0x39c4, 0x00},
+> +	{0x39c5, 0x00},
+> +	{0x39c7, 0x00},
+> +	{0x39c8, 0x00},
+> +	{0x39c9, 0x00},
+> +	{0x39ca, 0x01},
+> +	{0x39cb, 0x00},
+> +	{0x39cc, 0x85},
+> +	{0x39cd, 0x09},
+> +	{0x39cf, 0x04},
+> +	{0x39d0, 0x85},
+> +	{0x39d1, 0x09},
+> +	{0x39d2, 0x04},
+> +	{0x39d4, 0x02},
+> +	{0x39d5, 0x0e},
+> +	{0x39db, 0x00},
+> +	{0x39dc, 0x01},
+> +	{0x39dd, 0x0c},
+> +	{0x39e5, 0xff},
+> +	{0x39e6, 0xff},
+> +	{0x39fa, 0x38},
+> +	{0x39fb, 0x07},
+> +	{0x39ff, 0x00},
+> +	{0x3a05, 0x00},
+> +	{0x3a06, 0x07},
+> +	{0x3a07, 0x0d},
+> +	{0x3a08, 0x08},
+> +	{0x3a09, 0xb2},
+> +	{0x3a0a, 0x0a},
+> +	{0x3a0b, 0x3c},
+> +	{0x3a0c, 0x0b},
+> +	{0x3a0d, 0xe1},
+> +	{0x3a0e, 0x03},
+> +	{0x3a0f, 0x85},
+> +	{0x3a10, 0x0b},
+> +	{0x3a11, 0xff},
+> +	{0x3a12, 0x00},
+> +	{0x3a13, 0x01},
+> +	{0x3a14, 0x0c},
+> +	{0x3a15, 0x04},
+> +	{0x3a17, 0x09},
+> +	{0x3a18, 0x20},
+> +	{0x3a19, 0x09},
+> +	{0x3a1a, 0x9d},
+> +	{0x3a1b, 0x09},
+> +	{0x3a1e, 0x34},
+> +	{0x3a1f, 0x09},
+> +	{0x3a20, 0x89},
+> +	{0x3a21, 0x09},
+> +	{0x3a48, 0xbe},
+> +	{0x3a52, 0x00},
+> +	{0x3a53, 0x01},
+> +	{0x3a54, 0x0c},
+> +	{0x3a55, 0x04},
+> +	{0x3a58, 0x0c},
+> +	{0x3a59, 0x04},
+> +	{0x3a5a, 0x01},
+> +	{0x3a5b, 0x00},
+> +	{0x3a5c, 0x01},
+> +	{0x3a5d, 0xe8},
+> +	{0x3a62, 0x03},
+> +	{0x3a63, 0x86},
+> +	{0x3a64, 0x0b},
+> +	{0x3a65, 0xbe},
+> +	{0x3a6a, 0xdc},
+> +	{0x3a6b, 0x0b},
+> +	{0x3a6c, 0x1a},
+> +	{0x3a6d, 0x06},
+> +	{0x3a6e, 0x01},
+> +	{0x3a6f, 0x04},
+> +	{0x3a70, 0xdc},
+> +	{0x3a71, 0x0b},
+> +	{0x3a83, 0x10},
+> +	{0x3a84, 0x00},
+> +	{0x3a85, 0x08},
+> +	{0x3a87, 0x00},
+> +	{0x3a88, 0x6b},
+> +	{0x3a89, 0x01},
+> +	{0x3a8a, 0x53},
+> +	{0x3a8f, 0x00},
+> +	{0x3a90, 0x00},
+> +	{0x3a91, 0x00},
+> +	{0x3a92, 0x00},
+> +	{0x3a93, 0x60},
+> +	{0x3a94, 0xea},
+> +	{0x3a98, 0x00},
+> +	{0x3a99, 0x31},
+> +	{0x3a9a, 0x01},
+> +	{0x3a9b, 0x04},
+> +	{0x3a9c, 0xdc},
+> +	{0x3a9d, 0x0b},
+> +	{0x3aa4, 0x0f},
+> +	{0x3aad, 0x00},
+> +	{0x3aae, 0x3e},
+> +	{0x3aaf, 0x02},
+> +	{0x3ab0, 0x77},
+> +	{0x3ab2, 0x00},
+> +	{0x3ab3, 0x08},
+> +	{0x3ab6, 0x0b},
+> +	{0x3ab7, 0xff},
+> +	{0x3aba, 0x0b},
+> +	{0x3abb, 0xfa},
+> +	{0x3abd, 0x05},
+> +	{0x3abe, 0x09},
+> +	{0x3abf, 0x1e},
+> +	{0x3ac0, 0x00},
+> +	{0x3ac1, 0x63},
+> +	{0x3ac2, 0x01},
+> +	{0x3ac3, 0x55},
+> +	{0x3ac8, 0x00},
+> +	{0x3ac9, 0x2a},
+> +	{0x3aca, 0x01},
+> +	{0x3acb, 0x36},
+> +	{0x3acc, 0x00},
+> +	{0x3acd, 0x6f},
+> +	{0x3ad0, 0x00},
+> +	{0x3ad1, 0x79},
+> +	{0x3ad2, 0x02},
+> +	{0x3ad3, 0x59},
+> +	{0x3ad4, 0x06},
+> +	{0x3ad5, 0x5a},
+> +	{0x3ad6, 0x08},
+> +	{0x3ad7, 0x3a},
+> +	{0x3ad8, 0x00},
+> +	{0x3ad9, 0x79},
+> +	{0x3ada, 0x02},
+> +	{0x3adb, 0x59},
+> +	{0x3adc, 0x09},
+> +	{0x3add, 0x89},
+> +	{0x3ade, 0x0b},
+> +	{0x3adf, 0x69},
+> +	{0x3ae0, 0x03},
+> +	{0x3ae1, 0xc1},
+> +	{0x3ae2, 0x0b},
+> +	{0x3ae3, 0xaf},
+> +	{0x3ae4, 0x00},
+> +	{0x3ae5, 0x3e},
+> +	{0x3ae6, 0x02},
+> +	{0x3ae7, 0x77},
+> +	{0x3ae8, 0x00},
+> +	{0x3aea, 0x0b},
+> +	{0x3aeb, 0xbe},
+> +	{0x3aee, 0x08},
+> +	{0x3aef, 0x80},
+> +	{0x3af0, 0x09},
+> +	{0x3af1, 0x70},
+> +	{0x3af2, 0x08},
+> +	{0x3af3, 0x94},
+> +	{0x3af4, 0x09},
+> +	{0x3af5, 0x5c},
+> +	{0x3af6, 0x03},
+> +	{0x3af7, 0x85},
+> +	{0x3af8, 0x08},
+> +	{0x3af9, 0x80},
+> +	{0x3afa, 0x0b},
+> +	{0x3afb, 0xaf},
+> +	{0x3afc, 0x01},
+> +	{0x3afd, 0x5a},
+> +	{0x3b1e, 0x00},
+> +	{0x3b20, 0xa5},
+> +	{0x3b21, 0x00},
+> +	{0x3b22, 0x00},
+> +	{0x3b23, 0x00},
+> +	{0x3b24, 0x05},
+> +	{0x3b25, 0x00},
+> +	{0x3b26, 0x00},
+> +	{0x3b27, 0x00},
+> +	{0x3b28, 0x1a},
+> +	{0x3b2f, 0x40},
+> +	{0x3b40, 0x08},
+> +	{0x3b41, 0x70},
+> +	{0x3b42, 0x05},
+> +	{0x3b43, 0xf0},
+> +	{0x3b44, 0x01},
+> +	{0x3b45, 0x54},
+> +	{0x3b46, 0x01},
+> +	{0x3b47, 0x54},
+> +	{0x3b56, 0x08},
+> +	{0x3b80, 0x00},
+> +	{0x3b81, 0x00},
+> +	{0x3b82, 0x64},
+> +	{0x3b83, 0x00},
+> +	{0x3b84, 0x00},
+> +	{0x3b85, 0x64},
+> +	{0x3b9d, 0x61},
+> +	{0x3ba8, 0x38},
+> +	{0x3c11, 0x33},
+> +	{0x3c12, 0x3d},
+> +	{0x3c13, 0x00},
+> +	{0x3c14, 0xbe},
+> +	{0x3c15, 0x0b},
+> +	{0x3c16, 0xa8},
+> +	{0x3c17, 0x03},
+> +	{0x3c18, 0x9c},
+> +	{0x3c19, 0x0b},
+> +	{0x3c1a, 0x0f},
+> +	{0x3c1b, 0x97},
+> +	{0x3c1c, 0x00},
+> +	{0x3c1d, 0x3c},
+> +	{0x3c1e, 0x02},
+> +	{0x3c1f, 0x78},
+> +	{0x3c20, 0x06},
+> +	{0x3c21, 0x80},
+> +	{0x3c22, 0x08},
+> +	{0x3c23, 0x0f},
+> +	{0x3c24, 0x97},
+> +	{0x3c25, 0x00},
+> +	{0x3c26, 0x3c},
+> +	{0x3c27, 0x02},
+> +	{0x3c28, 0xa7},
+> +	{0x3c29, 0x09},
+> +	{0x3c2a, 0xaf},
+> +	{0x3c2b, 0x0b},
+> +	{0x3c2c, 0x38},
+> +	{0x3c2d, 0xf9},
+> +	{0x3c2e, 0x0b},
+> +	{0x3c2f, 0xfd},
+> +	{0x3c30, 0x05},
+> +	{0x3c35, 0x8c},
+> +	{0x3c3e, 0xc3},
+> +	{0x3c43, 0xcb},
+> +	{0x3c44, 0x00},
+> +	{0x3c45, 0xff},
+> +	{0x3c46, 0x0b},
+> +	{0x3c48, 0x3b},
+> +	{0x3c49, 0x40},
+> +	{0x3c4a, 0x00},
+> +	{0x3c4b, 0x5b},
+> +	{0x3c4c, 0x02},
+> +	{0x3c4d, 0x02},
+> +	{0x3c4e, 0x00},
+> +	{0x3c4f, 0x04},
+> +	{0x3c50, 0x0c},
+> +	{0x3c51, 0x00},
+> +	{0x3c52, 0x3b},
+> +	{0x3c53, 0x3a},
+> +	{0x3c54, 0x07},
+> +	{0x3c55, 0x9e},
+> +	{0x3c56, 0x07},
+> +	{0x3c57, 0x9e},
+> +	{0x3c58, 0x07},
+> +	{0x3c59, 0xe8},
+> +	{0x3c5a, 0x03},
+> +	{0x3c5b, 0x33},
+> +	{0x3c5c, 0xa8},
+> +	{0x3c5d, 0x07},
+> +	{0x3c5e, 0xd0},
+> +	{0x3c5f, 0x07},
+> +	{0x3c60, 0x32},
+> +	{0x3c61, 0x00},
+> +	{0x3c62, 0xd0},
+> +	{0x3c63, 0x07},
+> +	{0x3c64, 0x80},
+> +	{0x3c65, 0x80},
+> +	{0x3c66, 0x3f},
+> +	{0x3c67, 0x01},
+> +	{0x3c68, 0x00},
+> +	{0x3c69, 0xd0},
+> +	{0x3c6a, 0x07},
+> +	{0x3c6b, 0x01},
+> +	{0x3c6c, 0x00},
+> +	{0x3c6d, 0xcd},
+> +	{0x3c6e, 0x07},
+> +	{0x3c6f, 0xd1},
+> +	{0x3c70, 0x07},
+> +	{0x3c71, 0x01},
+> +	{0x3c72, 0x00},
+> +	{0x3c73, 0xc3},
+> +	{0x3c74, 0x01},
+> +	{0x3c75, 0x00},
+> +	{0x3c76, 0xcd},
+> +	{0x3c77, 0x07},
+> +	{0x3c78, 0xea},
+> +	{0x3c79, 0x03},
+> +	{0x3c7a, 0xcd},
+> +	{0x3c7b, 0x07},
+> +	{0x3c7c, 0x08},
+> +	{0x3c7d, 0x06},
+> +	{0x3c7e, 0x03},
+> +	{0x3c85, 0x3a},
+> +	{0x3c86, 0x08},
+> +	{0x3c87, 0x69},
+> +	{0x3c88, 0x0b},
+> +	{0x3c8f, 0xb2},
+> +	{0x3c90, 0x08},
+> +	{0x3c91, 0xe1},
+> +	{0x3c92, 0x0b},
+> +	{0x3c93, 0x06},
+> +	{0x3c94, 0x03},
+> +	{0x3c9b, 0x35},
+> +	{0x3c9c, 0x08},
+> +	{0x3c9d, 0x64},
+> +	{0x3c9e, 0x0b},
+> +	{0x3ca5, 0xb7},
+> +	{0x3ca6, 0x08},
+> +	{0x3ca7, 0xe6},
+> +	{0x3ca8, 0x0b},
+> +	{0x3ca9, 0x83},
+> +	{0x3caa, 0x3c},
+> +	{0x3cab, 0x01},
+> +	{0x3cac, 0x00},
+> +	{0x3cad, 0x9e},
+> +	{0x3cae, 0x07},
+> +	{0x3caf, 0x85},
+> +	{0x3cb0, 0x03},
+> +	{0x3cb1, 0xbc},
+> +	{0x3cb2, 0x0b},
+> +	{0x3cb7, 0x3c},
+> +	{0x3cb8, 0x01},
+> +	{0x3cb9, 0x00},
+> +	{0x3cba, 0xbc},
+> +	{0x3cbb, 0x07},
+> +	{0x3cbc, 0xa3},
+> +	{0x3cbd, 0x03},
+> +	{0x3cbe, 0x9e},
+> +	{0x3cbf, 0x0b},
+> +	{0x3cc4, 0x66},
+> +	{0x3cc5, 0xe6},
+> +	{0x3cc6, 0x99},
+> +	{0x3cc7, 0xe9},
+> +	{0x3cc8, 0x33},
+> +	{0x3cc9, 0x03},
+> +	{0x3cca, 0x33},
+> +	{0x3ccb, 0x03},
+> +	{0x3cce, 0x66},
+> +	{0x3ccf, 0x66},
+> +	{0x3cd0, 0x00},
+> +	{0x3cd1, 0x04},
+> +	{0x3cd2, 0xf4},
+> +	{0x3cd3, 0xb7},
+> +	{0x3cd4, 0x03},
+> +	{0x3cd5, 0x10},
+> +	{0x3cd6, 0x06},
+> +	{0x3cd7, 0x30},
+> +	{0x3cd8, 0x08},
+> +	{0x3cd9, 0x5f},
+> +	{0x3cda, 0x0b},
+> +	{0x3cdd, 0x88},
+> +	{0x3cde, 0x88},
+> +	{0x3cdf, 0x08},
+> +	{0x3ce0, 0x00},
+> +	{0x3ce1, 0x00},
+> +	{0x3ce3, 0x00},
+> +	{0x3ce4, 0x00},
+> +	{0x3ce5, 0x00},
+> +	{0x3ce6, 0x00},
+> +	{0x3ce7, 0x00},
+> +	{0x3ce8, 0x00},
+> +	{0x3ce9, 0x00},
+> +	{0x3cea, 0x00},
+> +	{0x3ceb, 0x00},
+> +	{0x3cec, 0x00},
+> +	{0x3ced, 0x00},
+> +	{0x3cee, 0x00},
+> +	{0x3cef, 0x85},
+> +	{0x3cf0, 0x03},
+> +	{0x3cf1, 0xaf},
+> +	{0x3cf2, 0x0b},
+> +	{0x3cf3, 0x03},
+> +	{0x3cf4, 0x2c},
+> +	{0x3cf5, 0x00},
+> +	{0x3cf6, 0x42},
+> +	{0x3cf7, 0x00},
+> +	{0x3cf8, 0x03},
+> +	{0x3cf9, 0x2c},
+> +	{0x3cfa, 0x00},
+> +	{0x3cfb, 0x42},
+> +	{0x3cfc, 0x00},
+> +	{0x3cfd, 0x03},
+> +	{0x3cfe, 0x01},
+> +	{0x3d81, 0x00},
+> +	{0x3e94, 0x0f},
+> +	{0x3e95, 0x5f},
+> +	{0x3e96, 0x02},
+> +	{0x3e97, 0x3c},
+> +	{0x3e98, 0x00},
+> +	{0x3e9f, 0x00},
+> +	{0x3f00, 0x00},
+> +	{0x3f05, 0x03},
+> +	{0x3f07, 0x01},
+> +	{0x3f08, 0x55},
+> +	{0x3f09, 0x25},
+> +	{0x3f0a, 0x35},
+> +	{0x3f0b, 0x20},
+> +	{0x3f11, 0x05},
+> +	{0x3f12, 0x05},
+> +	{0x3f40, 0x00},
+> +	{0x3f41, 0x03},
+> +	{0x3f43, 0x10},
+> +	{0x3f44, 0x02},
+> +	{0x3f45, 0xe6},
+> +	{0x4000, 0xf9},
+> +	{0x4001, 0x2b},
+> +	{0x4008, 0x04},
+> +	{0x4009, 0x1b},
+> +	{0x400a, 0x03},
+> +	{0x400e, 0x10},
+> +	{0x4010, 0x04},
+> +	{0x4011, 0xf7},
+> +	{0x4032, 0x3e},
+> +	{0x4033, 0x02},
+> +	{0x4050, 0x02},
+> +	{0x4051, 0x0d},
+> +	{0x40b0, 0x0f},
+> +	{0x40f9, 0x00},
+> +	{0x4200, 0x00},
+> +	{0x4204, 0x00},
+> +	{0x4205, 0x00},
+> +	{0x4206, 0x00},
+> +	{0x4207, 0x00},
+> +	{0x4208, 0x00},
+> +	{0x4244, 0x00},
+> +	{0x4300, 0x00},
+> +	{0x4301, 0xff},
+> +	{0x4302, 0xf0},
+> +	{0x4303, 0x00},
+> +	{0x4304, 0xff},
+> +	{0x4305, 0xf0},
+> +	{0x4306, 0x00},
+> +	{0x4307, 0x06},
+> +	{0x4308, 0x00},
+> +	{0x430a, 0x90}, /* reset 0x10 emb_dt */
+> +	{0x430b, 0x11},
+> +	{0x4310, 0x00},
+> +	{0x4316, 0x00},
+> +	{0x431c, 0x00},
+> +	{0x431e, 0x00},
+> +	{0x431f, 0x0a},
+> +	{0x4320, 0x20},
+> +	{0x4410, 0x08},
+> +	{0x4433, 0x08},
+> +	{0x4434, 0xf8},
+> +	{0x4508, 0x80},
+> +	{0x4509, 0x10},
+> +	{0x450b, 0x83},
+> +	{0x4511, 0x00},
+> +	{0x4580, 0x09},
+> +	{0x4587, 0x00},
+> +	{0x458c, 0x00},
+> +	{0x4640, 0x00},
+> +	{0x4641, 0xc1},
+> +	{0x4642, 0x00},
+> +	{0x4643, 0x00},
+> +	{0x4649, 0x00},
+> +	{0x4681, 0x04},
+> +	{0x4682, 0x10},
+> +	{0x4683, 0xa0},
+> +	{0x4698, 0x07},
+> +	{0x4699, 0xf0},
+> +	{0x4700, 0xe0},
+> +	{0x4710, 0x00},
+> +	{0x4718, 0x04},
+> +	{0x4802, 0x00}, /* MIPI_CORE_REG00 */
+> +	{0x481b, 0x3c}, /* MIPI_CORE_REG1B */
+> +	{0x4837, 0x19}, /* MIPI_CORE_REG37 pclk_period[7:0] */
+> +	{0x4860, 0x00},
+> +	{0x4883, 0x00},
+> +	{0x4884, 0x09},
+> +	{0x4885, 0x80},
+> +	{0x4886, 0x00},
+> +	{0x4888, 0x10},
+> +	{0x488b, 0x00},
+> +	{0x488c, 0x10},
+> +	{0x4980, 0x03},
+> +	{0x4981, 0x06},
+> +	{0x4984, 0x00},
+> +	{0x4985, 0x00},
+> +	{0x4a14, 0x04},
+> +	{0x4b01, 0x44},
+> +	{0x4b03, 0x80},
+> +	{0x4d06, 0xc8},
+> +	{0x4d09, 0xdf},
+> +	{0x4d12, 0x80},
+> +	{0x4d15, 0x7d},
+> +	{0x4d34, 0x7d},
+> +	{0x4d3c, 0x7d},
+> +	{0x4d5a, 0x14},
+> +	{0x4e03, 0x06},
+> +	{0x4e04, 0xb9},
+> +	{0x4e05, 0x08},
+> +	{0x4e06, 0x36},
+> +	{0x4e07, 0x04},
+> +	{0x4e08, 0x52},
+> +	{0x4e09, 0x05},
+> +	{0x4e0a, 0x47},
+> +	{0x4e0b, 0x02},
+> +	{0x4e0c, 0xe2},
+> +	{0x4e0d, 0x03},
+> +	{0x4e0e, 0x85},
+> +	{0x4e18, 0xf3},
+> +	{0x4e19, 0x0f},
+> +	{0x4e1b, 0x08},
+> +	{0x4e1c, 0x04},
+> +	{0x4f00, 0x7f},
+> +	{0x4f01, 0xff},
+> +	{0x4f03, 0x00},
+> +	{0x4f04, 0x18},
+> +	{0x4f05, 0x13},
+> +	{0x5000, 0x6e},
+> +	{0x5001, 0x00},
+> +	{0x500a, 0x00},
+> +	{0x5080, 0x00},
+> +	{0x5081, 0x00},
+> +	{0x5082, 0x00},
+> +	{0x5083, 0x00},
+> +	{0x5100, 0x00},
+> +	{0x5103, 0x00},
+> +	{0x5180, 0x70},
+> +	{0x5181, 0x70},
+> +	{0x5182, 0x73},
+> +	{0x5183, 0xff},
+> +	{0x5240, 0x73},
+> +	{0x5249, 0x06},
+> +	{0x524a, 0x44},
+> +	{0x524b, 0x44},
+> +	{0x524c, 0x44},
+> +	{0x524e, 0x66},
+> +	{0x524f, 0x06},
+> +	{0x5250, 0x00},
+> +	{0x5281, 0x18},
+> +	{0x5282, 0x08},
+> +	{0x5283, 0x08},
+> +	{0x5284, 0x18},
+> +	{0x5285, 0x18},
+> +	{0x5286, 0x08},
+> +	{0x5287, 0x08},
+> +	{0x5288, 0x18},
+> +	{0x5289, 0x2d},
+> +	{0x6000, 0x40},
+> +	{0x6001, 0x40},
+> +	{0x6002, 0x00},
+> +	{0x6003, 0x00},
+> +	{0x6004, 0x00},
+> +	{0x6005, 0x00},
+> +	{0x6006, 0x00},
+> +	{0x6007, 0x00},
+> +	{0x6008, 0x00},
+> +	{0x6009, 0x00},
+> +	{0x600a, 0x00},
+> +	{0x600b, 0x00},
+> +	{0x600c, 0x02},
+> +	{0x600d, 0x00},
+> +	{0x600e, 0x04},
+> +	{0x600f, 0x00},
+> +	{0x6010, 0x06},
+> +	{0x6011, 0x00},
+> +	{0x6012, 0x00},
+> +	{0x6013, 0x00},
+> +	{0x6014, 0x02},
+> +	{0x6015, 0x00},
+> +	{0x6016, 0x04},
+> +	{0x6017, 0x00},
+> +	{0x6018, 0x06},
+> +	{0x6019, 0x00},
+> +	{0x601a, 0x01},
+> +	{0x601b, 0x00},
+> +	{0x601c, 0x01},
+> +	{0x601d, 0x00},
+> +	{0x601e, 0x01},
+> +	{0x601f, 0x00},
+> +	{0x6020, 0x01},
+> +	{0x6021, 0x00},
+> +	{0x6022, 0x01},
+> +	{0x6023, 0x00},
+> +	{0x6024, 0x01},
+> +	{0x6025, 0x00},
+> +	{0x6026, 0x01},
+> +	{0x6027, 0x00},
+> +	{0x6028, 0x01},
+> +	{0x6029, 0x00},
+> +
+> +	{0x3501, 0x08},
+> +	{0x3502, 0x32},
+> +
+> +	/* PLL 6G */
+> +	{0x0307, 0x01}, /* pll1_divm */
+> +	{0x304a, 0x03},
+> +	{0x4837, 0x10}, /* MIPI_CORE_REG37 pclk_period[7:0] */
+> +
+> +	/* Ficosa specific */
+> +	{0x3503, 0xa8}, /* AEC enable */
+> +	{0x3501, 0x00}, /* AEC expusure time 0x3501, 0x3502 */
+> +	{0x3502, 0x40},
+> +	{0x3508, 0x01}, /* AEC gain 0x3508, 0x3509 */
+> +	{0x3509, 0x00},
+> +	{0x3002, 0x6f}, /* I/O */ /* SC_CMMN_REG02 io_pad_oen[7:0] */
+> +	{0x3005, 0x6a}, /* SC_CMMN_REG05 io_pad_out[7:0] */
+> +	{0x3008, 0x6a}, /* SC_CMMN_REG08 io_pad_sel[7:0] */
+> +	{0x3b20, 0xff}, /* Strobe */ /* STOBE_REG20 stobe_pattern[7:0] */
+> +	{0x3a9f, 0x08}, /* GLOBAL_SHUTTER_REG9F */
+> +	{0x3aa0, 0x00}, /* GLOBAL_SHUTTER_REGA0 */
+> +	{0x3aa1, 0x00}, /* GLOBAL_SHUTTER_REGA1 */
+> +	{0x3b21, 0x00},
+> +	{0x3b22, 0x00},
+> +	{0x3b23, 0x00},
+> +	{0x3b24, 0x00},
+> +	{0x3b25, 0x00},
+> +	{0x3b26, 0x00},
+> +	{0x3b27, 0x00},
+> +	{0x3b28, 0x10},
+> +	{0x3b2f, 0x4a},
+> +	{0x3b2d, 0x01},
+> +	{0x3b2e, 0x78},
+> +	{0x3b1e, 0x01},
+> +	{0x3b1f, 0x05},
+> +
+> +	{0x4e04, 0x06},
+> +	{0x4e04, 0xee},
+> +	{0x4e05, 0x08},
+> +	{0x4e06, 0x88},
+> +	{0x4e07, 0x04},
+> +	{0x4e08, 0x0d},
+> +	{0x4e09, 0x09},
+> +	{0x4e0a, 0xae},
+> +	{0x4e0b, 0x02},
+> +	{0x4e0c, 0x44},
+> +	{0x4e0d, 0x03},
+> +	{0x4e0e, 0x55},
+> +	{ /* sentinel*/ },
+> +};
+> +
+> +struct ox05b1s_reglist ox05b1s_reglist_2592x1944[] = {
+> +	{
+> +		.regs = ovx5b_init_setting_2592x1944
+> +	}, {
+> +		/* sentinel */
+> +	}
+> +};
 
 
