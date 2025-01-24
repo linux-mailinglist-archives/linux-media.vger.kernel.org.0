@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-25265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25266-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B56A1B6CF
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 14:30:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E59A1B6D5
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 14:34:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 57A693AEB9A
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 13:29:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 810033AD504
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 13:34:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E335F4207F;
-	Fri, 24 Jan 2025 13:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6527435958;
+	Fri, 24 Jan 2025 13:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n0qHNJok"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SwyhQR/H"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59B13C47B;
-	Fri, 24 Jan 2025 13:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436D579C0;
+	Fri, 24 Jan 2025 13:34:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737725389; cv=none; b=ddqciiH1A0pElSZkuEsqIN1WtqqP6fclI+jUrYq4fvq1b6uvqrNnPhXLQw+EeNVI2U3hLxSUQIdpBrr46UMK8Ehxwg40z2L3sBcpYyZFaioBDqS4SThuyGrBUHhuhoBJvsgjFGSBm3hwpn3Rd2H33PVYPd+Ncy1L8gGBSQOSgV0=
+	t=1737725691; cv=none; b=lM9GqCu5oor+NITeSeWTl1jwLMw4sL3oEA4IWQUaeL77Dw0iXiGliB71oGIQI7rlFykYH9R0ue+b4ip9kSVMVUTNTq4NrC2GJng+NdVC8UBrL5d0JnjpPobjGz5chzupt3fYDQUAxWFTPYj+bn7lbR2Bt2KpVqbuZzM5IAdwjmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737725389; c=relaxed/simple;
-	bh=ccE8b6wW4fttm52HZV+NzeepgsiK9okfAaWNyO0laZ8=;
+	s=arc-20240116; t=1737725691; c=relaxed/simple;
+	bh=5DONNukeEmxIRlXdEAqlTxNIsN42ueSRMR00ZmzuspI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pnwfAmDqLSbz5jVirakNs2MYwnOL0qP6fyT9kity3yn77WfbETrK8N5qitjk21JazPWQpKykgojcstmvPWt6J4d/ZvzFWlgraFK6veyf1kJZSpAna/VltX8kQdPvwsD7WrabbWqRSGvA3LNdWrleQE+FDbEdnga9WWvVbTy/ZBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=n0qHNJok; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=IlNEsIrYC/8iOp/71xa5MGZbXTafa03uq7mLfsARzPE9xznNYWO+SWiNyHmygdMKP1pXMpaXjl7Nb9IWVy6sD/8UPoO8O8+j9gHA5WfJRmGdqV9Z/WBNv1MhcuiYmNhOKidx/p/Vka97j6bUce8w7tFkImmoB5R2QI8PVuyrYSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SwyhQR/H; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2FCC465;
-	Fri, 24 Jan 2025 14:28:41 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30633465;
+	Fri, 24 Jan 2025 14:33:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737725322;
-	bh=ccE8b6wW4fttm52HZV+NzeepgsiK9okfAaWNyO0laZ8=;
+	s=mail; t=1737725624;
+	bh=5DONNukeEmxIRlXdEAqlTxNIsN42ueSRMR00ZmzuspI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n0qHNJokG9DRq1V8gab1wqR9LGbVufKbdf1fvmTqn6yJwV6icVO3Gg/VkWQJfHt7c
-	 FTxmmRXSri0fG4sYQTdki/GWuZrjiFsHKJLl/eo1ScJyBDHINEdxIqObPZgBxVqCN4
-	 Suz+Uf6N+Imru7SDMb5o6bBbbS8I7LWUYhVNDZyw=
-Message-ID: <15fbe245-e031-4bf5-9d17-2ee807081e18@ideasonboard.com>
-Date: Fri, 24 Jan 2025 15:29:43 +0200
+	b=SwyhQR/HggmYkL0ufFa33nJ0XgouEP72yJwDzyKVDSWw1ZThNG68umUxUHNXlyeJf
+	 ZsS3FKbFA8+8541Xeh/TZBivFO9oTA1HhZpFYDGgXRsBp+eZmZR5BnCjrPsyt+bmo/
+	 jb75RjGZ/bLohm6vtlYFz8TgA3WQWjVKydLw25R0=
+Message-ID: <92c7ee5b-3495-4398-99dd-881c704c64c1@ideasonboard.com>
+Date: Fri, 24 Jan 2025 15:34:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,15 +50,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/19] media: i2c: ds90ub960: Configure serializer using
- back-channel
+Subject: Re: [PATCH 12/19] media: i2c: ds90ub960: Add RX port iteration
+ support
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
  Jai Luthra <jai.luthra@ideasonboard.com>
 References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
- <20250110-ub9xx-improvements-v1-18-e0b9a1f644da@ideasonboard.com>
- <Z4fGQY_9xIPQXSUD@kekkonen.localdomain>
+ <20250110-ub9xx-improvements-v1-12-e0b9a1f644da@ideasonboard.com>
+ <Z4fE-qD7QvNiwOeH@kekkonen.localdomain>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -104,57 +104,113 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <Z4fGQY_9xIPQXSUD@kekkonen.localdomain>
+In-Reply-To: <Z4fE-qD7QvNiwOeH@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 15/01/2025 16:29, Sakari Ailus wrote:
+On 15/01/2025 16:23, Sakari Ailus wrote:
 > Moi,
 > 
-> On Fri, Jan 10, 2025 at 11:14:18AM +0200, Tomi Valkeinen wrote:
->> @@ -2956,6 +3033,36 @@ static int ub960_init_rx_ports_ub9702(struct ub960_data *priv)
->>   	if (ret)
->>   		return ret;
+> On Fri, Jan 10, 2025 at 11:14:12AM +0200, Tomi Valkeinen wrote:
+>> The driver does a lot of iteration over the RX ports with for loops. In
+>> most cases the driver will skip unused RX ports. Also, in the future
+>> patches the FPD-Link IV support will be refreshed with TI's latest init
+>> sequences which involves a lot of additional iterations over the RX
+>> ports, often only for FPD-Link IV ports.
+>>
+>> To make the iteration simpler and to make it clearer what we're
+>> iterating over (all or only-active, all or only-fpd4), add macros and
+>> support functions for iterating the RX ports. Use the macros in the
+>> driver, replacing the for loops.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/i2c/ds90ub960.c | 260 ++++++++++++++++++++++--------------------
+>>   1 file changed, 135 insertions(+), 125 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+>> index bca858172942..02e22ae813fa 100644
+>> --- a/drivers/media/i2c/ds90ub960.c
+>> +++ b/drivers/media/i2c/ds90ub960.c
+>> @@ -649,6 +649,63 @@ static const struct ub960_format_info *ub960_find_format(u32 code)
+>>   	return NULL;
+>>   }
 >>   
->> +	for_each_active_rxport(priv) {
->> +		if (it.rxport->ser.addr >= 0) {
->> +			/*
->> +			 * Set serializer's I2C address if set in the dts file,
->> +			 * and freeze it to prevent updates from the FC.
->> +			 */
->> +			ub960_rxport_write(priv, it.nport, UB960_RR_SER_ID,
->> +					   it.rxport->ser.addr << 1 |
->> +					   UB960_RR_SER_ID_FREEZE_DEVICE_ID,
->> +					   &ret);
->> +		}
+>> +struct ub960_rxport_iter {
+>> +	unsigned int nport;
+>> +	struct ub960_rxport *rxport;
+>> +};
 >> +
->> +		/* Set serializer I2C alias with auto-ack */
->> +		ub960_rxport_write(priv, it.nport, UB960_RR_SER_ALIAS_ID,
->> +				   it.rxport->ser.alias << 1 |
->> +				   UB960_RR_SER_ALIAS_ID_AUTO_ACK, &ret);
+>> +enum ub960_iter_flags {
+>> +	UB960_ITER_ACTIVE_ONLY = BIT(0),
+>> +	UB960_ITER_FPD4_ONLY = BIT(1),
+>> +};
 >> +
->> +		if (ret)
->> +			return ret;
+>> +static struct ub960_rxport_iter ub960_iter_rxport(struct ub960_data *priv,
+>> +						  struct ub960_rxport_iter it,
+>> +						  enum ub960_iter_flags flags)
+>> +{
+>> +	for (; it.nport < priv->hw_data->num_rxports; it.nport++) {
+>> +		it.rxport = priv->rxports[it.nport];
+>> +
+>> +		if ((flags & UB960_ITER_ACTIVE_ONLY) && !it.rxport)
+>> +			continue;
+>> +
+>> +		if ((flags & UB960_ITER_FPD4_ONLY) &&
+>> +		    it.rxport->cdr_mode != RXPORT_CDR_FPD4)
+>> +			continue;
+>> +
+>> +		return it;
 >> +	}
 >> +
->> +	for_each_active_rxport(priv) {
->> +		if (fwnode_device_is_compatible(it.rxport->ser.fwnode,
->> +						"ti,ds90ub971-q1")) {
+>> +	it.rxport = NULL;
+>> +
+>> +	return it;
+>> +}
+>> +
+>> +#define for_each_rxport(priv)                                                 \
 > 
-> I guess one instance is fine but consider using match data instead.
+> it should be also an argument to the macro as it's visible outside it.
+> 
+> And wouldn't it be reasonable to use a pointer instead for the purpsoe?
 
-This is checking the model of the (remote) serializer, not the 
-deserializer (which this driver deals with).
+You mean something like:
 
-Unfortunately we need to do some early configuration before the 
-serializer driver probes, and that configuration depends on the 
-serializer model.
+   struct ub960_rxport_iter it = { 0 };
 
-We could, perhaps, get the serializer models once and store it in the 
-rxport data for later use.
+   for_each_rxport(priv, &it) { }
+
+Then we leak the iterator, and I really hate it. I've fixed numerous 
+bugs caused by such cases.
 
   Tomi
+
+> 
+>> +	for (struct ub960_rxport_iter it =                                    \
+>> +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
+>> +				       0);                                    \
+>> +	     it.nport < (priv)->hw_data->num_rxports;                         \
+>> +	     it.nport++, it = ub960_iter_rxport(priv, it, 0))
+>> +
+>> +#define for_each_active_rxport(priv)                                          \
+>> +	for (struct ub960_rxport_iter it =                                    \
+>> +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
+>> +				       UB960_ITER_ACTIVE_ONLY);               \
+>> +	     it.nport < (priv)->hw_data->num_rxports;                         \
+>> +	     it.nport++, it = ub960_iter_rxport(priv, it,                     \
+>> +						UB960_ITER_ACTIVE_ONLY))
+>> +
+>> +#define for_each_active_rxport_fpd4(priv)                                     \
+>> +	for (struct ub960_rxport_iter it =                                    \
+>> +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
+>> +				       UB960_ITER_ACTIVE_ONLY |               \
+>> +					       UB960_ITER_FPD4_ONLY);         \
+>> +	     it.nport < (priv)->hw_data->num_rxports;                         \
+>> +	     it.nport++, it = ub960_iter_rxport(priv, it,                     \
+>> +						UB960_ITER_ACTIVE_ONLY |      \
+>> +							UB960_ITER_FPD4_ONLY))
+> 
 
 
