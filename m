@@ -1,60 +1,58 @@
-Return-Path: <linux-media+bounces-25256-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25257-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34044A1B16C
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 09:10:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC0EDA1B1E0
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 09:44:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 17BDA1886F6D
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 08:10:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 151F01631C1
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 08:44:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30B1B205E23;
-	Fri, 24 Jan 2025 08:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EF0D219A74;
+	Fri, 24 Jan 2025 08:44:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBEEXYtF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YqM7T/mF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA5C205AD2;
-	Fri, 24 Jan 2025 08:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776B7218EB9;
+	Fri, 24 Jan 2025 08:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737706237; cv=none; b=a5njUqTbqUGYEnMsTmMxUcDvm7neRZokO9/nTfPTZUBceqbupUn6ShIx4vcu8sKoKMiJPhPAdKaLObgIX9sEDB87IEKRhrVdeEHYj0N3J0m+K++vk3xvJi3GFZZT9RTrMQvJZCgBfXeb25pYl7+esFhu5YmO/RHthKglXOUfaDE=
+	t=1737708254; cv=none; b=j4KiBgl5JexBVx2aQ8BtKM2Q2DbJ6zTd/G+Wfh2yEAeOwJn/9lE5UgV6VFQGg5s4oMRBvcNDKhXX2sPe1OO1VW/W4eEHVu9X0kmJpW397BHdX1rYs6T4Mp0J+wVIy76mb4C87c05WmTpV7SsRmH6ZRCLIPuWSNhG1IT8FYyafFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737706237; c=relaxed/simple;
-	bh=5/s9gWaTZKbMFZoIoQ7KLfhqbFshe8YqcBEHwCpr/IE=;
+	s=arc-20240116; t=1737708254; c=relaxed/simple;
+	bh=k7sJDOY0dGd6Rsr79Xd9NugEwYlnGiw99AhYSuUf2V4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUBvQzS3fSut2/fNCD2SdcgTnBzhfwbQriYzUjvLlfAi2EeMNfUFsn4xeUoN6/oKxgFNoCelwWEJZrFpTofaqRd0ZDUBSg/XbZA0JMu2p11jyYkzEh6oNHNPDXUQFeYtjqDUpu2y1Txp5ZQYe9vp+nSw7YiIE7zYqZcW6o8RtDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBEEXYtF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FFC6C4CEE2;
-	Fri, 24 Jan 2025 08:10:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737706236;
-	bh=5/s9gWaTZKbMFZoIoQ7KLfhqbFshe8YqcBEHwCpr/IE=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=ns7PqkLdi8UQVzoetKUg7pxbCNbD9llM3EynsnbabrcSKR1Hcm1d1G4Gb8PGGCSobf7IMNJe95ny+hSFPveK9mYzjBhbEK5whc29/vVVPKKlQzX/5mKxjP3JdzNA28NcJ8BCMyU105n+Ugom/JgnEIpNryK7O5NYUEOedGQtZOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YqM7T/mF; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DA07514;
+	Fri, 24 Jan 2025 09:43:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1737708186;
+	bh=k7sJDOY0dGd6Rsr79Xd9NugEwYlnGiw99AhYSuUf2V4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uBEEXYtF92FvxyOXkggIvGkGgY3f0YCptxfceXN84Me+B44IV8zoqvVdCA7Gbg8NJ
-	 X29+mK5FhpgkOqvVuUmP4yaH94gKUtjLJrCMgTcyYEMAq0yUEuaALx79OXfv6CMZ6Y
-	 9stp7McnMrRxq/GMPnigRgXXKs7zizbhRapvQEL+2fnemWqYeT4H/DCrKKb5kKWaS1
-	 VVGg2lezuhJfeZcytuxo31ph9OUJWdnlCQ+e6AD4BnVE76gJ0gpugSh9a5sZg1yKD7
-	 oEsvQO12hkMel8LfZO3zNcKhDntRktIrPdvgquLNhZXoCSC7LVwGIhOTTA1coXR5FE
-	 gbhJ4qFSq25jg==
-Date: Fri, 24 Jan 2025 09:10:33 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vikram Sharma <quic_vikramsa@quicinc.com>
-Cc: rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org, 
-	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org, 
-	konradybcio@kernel.org, hverkuil-cisco@xs4all.nl, cros-qcom-dts-watchers@chromium.org, 
-	catalin.marinas@arm.com, will@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel@quicinc.com
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: update clocks for sc7280-camss
-Message-ID: <20250124-raspberry-aardwark-of-downpour-fc12cc@krzk-bin>
-References: <20250121180746.1989996-1-quic_vikramsa@quicinc.com>
- <20250121180746.1989996-2-quic_vikramsa@quicinc.com>
+	b=YqM7T/mFjBSRpSfePP3TCV6W/zW9ka03GzsTx3HHp58vJrb9+22OREEZnElLhND4J
+	 VfV7mHNiQgIN1c3YK/okYE5WbIEGQ/DJ+YWGAqPVnRK/fv+z4jJwLvxCbJCE0wiTWX
+	 kd4rxgDDQbW/k5L6dJZYk1N22gvwPTNtqy2aFjJA=
+Date: Fri, 24 Jan 2025 09:44:06 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 3/6] media: vsp1: dl: Use singleshot DL for VSPX
+Message-ID: <qss3vbdg7gwwhuluamffnlu5pxqkb6w7vn3taut3jm62anoi4x@zmqky7yom6wu>
+References: <20250123-v4h-iif-v1-0-7b4e5299939f@ideasonboard.com>
+ <20250123-v4h-iif-v1-3-7b4e5299939f@ideasonboard.com>
+ <20250123214445.GC10642@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,28 +61,80 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250121180746.1989996-2-quic_vikramsa@quicinc.com>
+In-Reply-To: <20250123214445.GC10642@pendragon.ideasonboard.com>
 
-On Tue, Jan 21, 2025 at 11:37:45PM +0530, Vikram Sharma wrote:
-> Update clock names to make them consistent with existing platform i.e
-> qcom,sc8280xp-camss.yaml. Rename gcc_cam_hf_axi to gcc_axi_hf and add
-> gcc_axi_sf.
-> 
-> gcc_camera_ahb is always on and we don't need to enable it explicitly.
-> gcc_axi_sf is added to avoid unexpected hardware behaviour.
-> 
-> This change will not break ABI because the ABI hasn't been cemented yet as
-> the dtsi changes are not merged yet and there are no users for this driver
-> as of now.
-> 
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-> ---
->  .../devicetree/bindings/media/qcom,sc7280-camss.yaml   | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+Hi Laurent
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Thu, Jan 23, 2025 at 11:44:45PM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Thu, Jan 23, 2025 at 06:04:04PM +0100, Jacopo Mondi wrote:
+> > The vsp1_dl library allows to program a display list and feed it
+> > continuously to the VSP2. As an alternative operation mode, the library
+> > allows to program the VSP2 in 'single shot' mode, where a display list
+> > is submitted to the VSP on request only.
+> >
+> > Currently the 'single shot' mode is only available when the VSP2 is
+> > controlled by userspace, while it works in continuous mode when driven
+> > by DRM, as frames have to be submitted to the display continuously.
+> >
+> > For the VSPX use case, where there is no uapi support, we should however
+> > work in single-shot mode as the ISP driver programs the VSPX on
+> > request.
+> >
+> > Initialize the display lists in single shot mode in case the VSP1 is
+> > controlled by userspace or in case the pipeline features an IIF entity,
+> > as in the VSPX case.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/renesas/vsp1/vsp1_dl.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> > index ad3fa1c9cc737c92870c087dd7cb8cf584fce41b..b8f0398522257f2fb771b419f34b56e59707476b 100644
+> > --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> > +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
+> > @@ -1099,7 +1099,12 @@ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
+> >  		return NULL;
+> >
+> >  	dlm->index = index;
+> > -	dlm->singleshot = vsp1->info->uapi;
+> > +	/*
+> > +	 * uapi = single shot mode;
+> > +	 * DRM = continuous mode;
+> > +	 * VSPX = single shot mode;
+> > +	 */
+> > +	dlm->singleshot = (vsp1->info->uapi || vsp1->iif);
+>
+> I'm wondering if we should make this a bit more generic, and allow the
+> caller to select the mode of operation. It could be passed as a flag to
+> vsp1_dl_list_commit() and stored in the vsp1_dl_list.
+>
+> There is however no use case at the moment to switch between singleshot
+> and continuous modes on a per display list basis. Implementing support
+> for that may be overkill, but on the other hand, the implementation
+> seems very simple, so it's not a big effort. The main and possibly only
+> reason why we may not want to do that now is because the display list
+> helpers haven't been tested to successfully switch between the modes, so
+> we may falsely advertise something as supported. Despite that, as no
+> caller would attempt switching, it wouldn't cause an issue.
 
-Best regards,
-Krzysztof
+I would simply avoid upstreaming code I can't test, and changing the
+singleshot mode between commit might create contentions with
+vsp1_dlm_irq_frame_end() which inspects dlm->singleshot.
 
+>
+> What do you think ? What do you feel would be cleaner ?
+>
+> >  	dlm->vsp1 = vsp1;
+> >
+> >  	spin_lock_init(&dlm->lock);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
