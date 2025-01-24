@@ -1,285 +1,182 @@
-Return-Path: <linux-media+bounces-25290-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25291-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD45A1B929
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 16:29:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0761A1B985
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 16:41:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2655917003D
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 15:25:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97317188EC53
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 15:41:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 203D6225768;
-	Fri, 24 Jan 2025 15:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 534B8158853;
+	Fri, 24 Jan 2025 15:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XP6OVcTt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cxhMypph"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFFA224B18;
-	Fri, 24 Jan 2025 15:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C80513AF2;
+	Fri, 24 Jan 2025 15:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737731934; cv=none; b=ML1xUECtOgLnev4xsRYpoZ30pLZH67TE4ka9bhrxX4iNWgkTBo2aBq4Q88j4LUALBoJUBQ/vLymtJoFEA45C5he5TDvknE2XRc2Z4ebX6H2cVgZyJvrsoHZJVmOwemiAChIrkQ/acAFjJJL86XZgtNrsJN4k2Z0TH/1j9IkVejg=
+	t=1737733284; cv=none; b=BoVCr53UVdP6xhXBFaWP5AnQOkjPWoct2kq/jeo522AKnaBiyCaOVWWAm6t649l25grZpS/3OoXAmrqz5iOpGOjc6p2Gx8/NILjjlm+RSlMBH7k87BZ1IdZ3sDX60GMF31IptpKNOAJxZFXPsxBtty6G9GlJGyVkasGITEWNA2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737731934; c=relaxed/simple;
-	bh=pHHlNWs87KoEi+LKSuCvQsoVT9mLtZj47HDn8RzVgIo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GFbYJs5xb8j/rqvPg3HHs540GJWRj78U7e6WvZalLiFkWu6PIx+p0craed9gOdg7M1KpWPb6jby7HU1a/X3hum/Ky/F9yCIO6LFmVCfwT7IaCUOTOSl+Gwh+h6f46JHai2dXgMP6bttXsMNLowGTcLt1gHLJ+aPILERtkzc4F70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XP6OVcTt; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6FE026A7;
-	Fri, 24 Jan 2025 16:17:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737731841;
-	bh=pHHlNWs87KoEi+LKSuCvQsoVT9mLtZj47HDn8RzVgIo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=XP6OVcTtxKLUMLwpSVAjpxth6s/djE6lZfJwKdFp8ToJ7jmAeveam9mhFEIuoqXT4
-	 gU3AmTf8jbPRjzIlm97cXQiPNWY7UI3GBbn0hmi2Th9x+FbczqZt1tTpGQvoDIBN4n
-	 Hl5y0Zg5YNQncUIjeG3nFQDtT8hnztZ7wu+1xf68=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 24 Jan 2025 17:17:59 +0200
-Subject: [PATCH v2 22/22] media: i2c: ds90ub9xx: Set serializer temperature
- ramp
+	s=arc-20240116; t=1737733284; c=relaxed/simple;
+	bh=ZyErGrWqBjIUomKxxTQ5ze426h2sH1hN040IREuZJlw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=amwg5ytuQHo93nM2GLRZLrz2MdeGa/d8T24FhkMQsxMJ9Vi4NWzlT/OONrwfgFlhgu77KRZqs/Fb/+e7LkrKYd1GgteMT1G+55Y1zYkkElPDodKGK5Fppjdfc1XohVRXscmwf6w5dnSv4FSt1mQLDoVKd2aoFUXgIsL4a1i5+0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cxhMypph; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2f43d17b0e3so4259438a91.0;
+        Fri, 24 Jan 2025 07:41:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737733282; x=1738338082; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=YCnBRMdd1g4JPsRjV+XUECjaKjlK+AZkZriiPXAYBCY=;
+        b=cxhMypph7bfRAtKvTm8ly5+JJwYyKNP/IfzAdwB/dKRgAzvIPe3s+bfkB0vVGShtWv
+         SsM/i6wIQdIQfCYEERnMBVHRcTL/6buS9gpF/gxTyMFtHa76zmpoJiktu85aRs0X7WvC
+         oPlKQTR9SMTompr3eHh6Kwdm2XVVp5DqTZdNxzivC8kQkwOP8ICHUONvudOD2qfLIkPe
+         UeREAXeKHn6xTY/ysCnDYIgoNf+9kU+k1o5za3eSVLFgGPGYEQsLMkDxnn1kh2O+Q7Ik
+         Lu58+Vn1N+v7vP8IUizKCJhEqCbeh4Kbzy0shFxn5iPZ8/POE6j3Q3K0ci8ng8FlJH+M
+         UWUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737733282; x=1738338082;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YCnBRMdd1g4JPsRjV+XUECjaKjlK+AZkZriiPXAYBCY=;
+        b=rzMsPUHE7eoltnPiI18hdunsG/tViFmnk9Q6Z2ff/Ua3OIohvpHkkETPxSaDrDfutE
+         8I0XH4WnQG7CHgJGMOTAGNirGJ2wM3x1B+0k8A5IJPY7eCGH2kjVkQWeMmeIgeFkrqjF
+         o4Qy8XNfR6xTffnzp5YKdgJetLlIOpFNJeAzEF3weMb4UR7fLD4DxkMRBnBxbiGD8VYj
+         OXE3G/go8TicIO8ZQDaGAN9eadV2qMaaBIYnsGX95+6OctLi20JGtD3XB2a5LsjR+Y8S
+         psmEixnu1D3xglsxtOFf4NDx1XytpqyBXx29TdeTci9bybIbgms7WhkesypQtcNtqT8i
+         9+qQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUgO1YuYRUAfMDYsPlD3gTNqQJUT5HRiLOal7Umtb4HkRnuL39BKLCK6uy3HcJC53XnZqCpzkG10Zpp1RQ=@vger.kernel.org, AJvYcCVbjGbT4lUN9ohLai5kF9OAVA6ovFDKT+mHeNOOmwuq++GkALbW1oHm1JB+e5uEG9ffus1HGgZI@vger.kernel.org, AJvYcCVyyrCT/nRh60qDNghdsDNdvsvV9NF/IcG+1Dd0Bk8AL3ySarbxH9vYheIkd4IkbOHk4O3o3kOqVjBIWi8=@vger.kernel.org, AJvYcCX+PfjahlbBNmPqhZu9ugdJA5/HVQ/XCfm2dn6Wb4ss2m5y2SyqJY7M1BHc32PUmWFWy/lWT5JxRjGY@vger.kernel.org
+X-Gm-Message-State: AOJu0YzafUHs3jspuDP8yIv9GWzE3RnJtW5qI5EUm0eSYsDS0hBd8SMs
+	mqGIZ/XOzGSfjst1RJJn6PD0HJVFSfpj9AvyP2UKI5Gh0DemkeD9
+X-Gm-Gg: ASbGncvE5qYy7ecw0oNAs0chAkc2Ls63HhDY0uIjDBoiW/aKevS16y7U0E51ye3GvwH
+	tkkpwvjR7cUQHMdW3RWEMrOYP0r4YsdkkTdKObCnjCY7wmDokf1HxEMZdkE4zcNegMVlJxuEwHz
+	07o/mnJMp0O4WX/LgotdIlI8unOimr2JD1ZKtSYR0pQpa6frMAUPeqBoZjqXlLCas/KUCCDr1kD
+	iiov8xPicsJGmHC0B55HV2aDg54LdO1w/pg5q1wL+Pso6vFDj/r5DzcBhzFSqsT2hrr3YYnjiea
+	QHqPECQEp8VetNLCJ3e593sxNWw6oRUPPb1aSYrGjOyJ3n85KxTuOQ==
+X-Google-Smtp-Source: AGHT+IE7ltkbcL/QJgvacTii0ri9Nic5YhUNqbSR7uZsa41gdHi9zXTMlQHOYcCmYc7eC5aPxaLV2g==
+X-Received: by 2002:a17:90b:2b8e:b0:2f5:88bb:12f with SMTP id 98e67ed59e1d1-2f782cca5ccmr42067583a91.21.1737733282058;
+        Fri, 24 Jan 2025 07:41:22 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7ffa83f8fsm1844384a91.49.2025.01.24.07.41.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jan 2025 07:41:21 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <ca9e3821-b793-499c-8ae8-abc677adf375@roeck-us.net>
+Date: Fri, 24 Jan 2025 07:41:18 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/9] Use HWMON_CHANNEL_INFO macro to simplify code
+To: Andrew Lunn <andrew@lunn.ch>, Huisong Li <lihuisong@huawei.com>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, netdev@vger.kernel.org,
+ linux-rtc@vger.kernel.org, oss-drivers@corigine.com, matt@ranostay.sg,
+ mchehab@kernel.org, irusskikh@marvell.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, louis.peens@corigine.com, hkallweit1@gmail.com,
+ linux@armlinux.org.uk, kabel@kernel.org, alexandre.belloni@bootlin.com,
+ krzk@kernel.org, zhanjie9@hisilicon.com, zhenglifeng1@huawei.com,
+ liuyonglong@huawei.com
+References: <20250124022635.16647-1-lihuisong@huawei.com>
+ <fca9ca93-16e4-44db-8fbb-90bc6af952e7@lunn.ch>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <fca9ca93-16e4-44db-8fbb-90bc6af952e7@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250124-ub9xx-improvements-v2-22-f7075c99ea20@ideasonboard.com>
-References: <20250124-ub9xx-improvements-v2-0-f7075c99ea20@ideasonboard.com>
-In-Reply-To: <20250124-ub9xx-improvements-v2-0-f7075c99ea20@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Devarsh Thakkar <devarsht@ti.com>, Jai Luthra <jai.luthra@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6440;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=+ZP7e0Qzo1yNr7AGYgMYKFAhOOXGLrrNKqhBZqj/j/8=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnk68zmyRWIvnyDGXMtY3VoTJNw6rsJtd/v+ISI
- CEDiCNd3j2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ5OvMwAKCRD6PaqMvJYe
- 9U+RD/9XgAxgPTf0burhntPTE0NW/GyDBPbrKoRnM/hnRBmhbzA03+JPkKXG13u5o/To52hDLsE
- 8NlKVweosDqONs0+dLgdoIveL8INSQhP/N1hmHsWa+UvGebXjRigz0BJ35d7D6Jx+iykL/lgYDK
- f+KfqE06zswuZuPkEiVHnGptJc+8KFwer/Sa5P7R4UfP2KoCJb03bBhAdfoo3WIMggkrjIFgbya
- Kc/RcFBhFlqhTnRob1fdi+52bhJaXaUS0CZ5NkDwq7MH+4mGKyBsOF4UGhnMPQzBiKvy4W45nsG
- fJpAI56FyDHS5QQf3824DBPIHIU57xfi8pgPcdUGJGmbvPp+twOJAUCjq8XPJCpzyoP4eZwSSJs
- tE5fyQySEbhox1G2w0BDH7G27vzC3Gd77wITKlEoI33OBTt/U3a04D7VsIiHIGDqcI7c/r/VuD4
- EYuCgqxM0JbscR8B7k0fJplmOPdzg1YpXmZIFpbMX9ZkamoarnslKPWrALD8t8dYANK0jlLcm9M
- 9AkA8uEcdhimbHDxukdHJR5GQFF7W24a/jXZRyHgLpKn9Lsud9A/ALP8C87MYEOwXQ6v5d+BpzM
- 0y6MR4QRoV99L7axGaAp/+yzlAjYNWHS0+DzKe8022J1qp1omOn0KRTP6oFJ/W2s95Zw9df07xy
- HSP+qvyuwP1PXJw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+On 1/24/25 07:08, Andrew Lunn wrote:
+> On Fri, Jan 24, 2025 at 10:26:26AM +0800, Huisong Li wrote:
+>> The HWMON_CHANNEL_INFO macro is provided by hwmon.h and used widely by many
+>> other drivers. This series use HWMON_CHANNEL_INFO macro to simplify code.
+>>
+>> Huisong Li (9):
+>>    media: video-i2c: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: aquantia: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: nfp: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: marvell: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: marvell10g: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    rtc: ab-eoz9: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    rtc: ds3232: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    w1: w1_therm: w1: Use HWMON_CHANNEL_INFO macro to simplify code
+>>    net: phy: aquantia: Use HWMON_CHANNEL_INFO macro to simplify code
+> 
+> Please split these patches per subsystem. Maintainers generally have
+> scripts to accept patches, and those scripts don't work when there are
+> patches for other Maintainers mixed in. So you need 4 patchsets,
+> media, net, rtc and w1.
+> 
+> I would also like to see the HWMON Maintainers opinion on these. A
+> patchset containing these have already been NACKed once. These patches
+> do however look like valid cleanups. But are they just so you can do
+> something bad in your vendor tree, which will never make it to
+> mainline?
+> 
 
-For continuous PLL lock, it is recommended to extend the temperature
-ramp down range of the DS90UB953-Q1 serializer based on the device's
-initial temperature [1].
+I no longer comment on hwmon related changes outside drivers/hwmon/
+unless there are blatant problems such as someone trying to use an obsolete
+API or abusing the current API.
 
-The serializer's die temperature is reported only to the deserializer
-through the sensor status registers, and for UB9702, it is recommended
-to set the temperature ramp during the link setup sequence, i.e. before
-we even probe the ub953 driver.
-
-Add support to the deserializer driver to configure ub953's temperature
-ramp.
-
-[1]: Section 7.3.1.1 - https://www.ti.com/lit/gpn/ds90ub953-q1
-
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/i2c/ds90ub953.h |   7 ++-
- drivers/media/i2c/ds90ub960.c | 125 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 131 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/ds90ub953.h b/drivers/media/i2c/ds90ub953.h
-index de606474493f..97a6b3af326e 100644
---- a/drivers/media/i2c/ds90ub953.h
-+++ b/drivers/media/i2c/ds90ub953.h
-@@ -71,7 +71,7 @@
- 
- /* Indirect register blocks */
- #define UB953_IND_TARGET_PAT_GEN		0x00
--#define UB953_IND_TARGET_FPD3_TX		0x01
-+#define UB953_IND_TARGET_ANALOG			0x01
- #define UB953_IND_TARGET_DIE_ID			0x02
- 
- #define UB953_IND_PGEN_CTL			0x01
-@@ -92,6 +92,11 @@
- #define UB953_IND_PGEN_VFP			0x0f
- #define UB953_IND_PGEN_COLOR(n)			(0x10 + (n)) /* n <= 15 */
- 
-+#define UB953_IND_ANA_TEMP_DYNAMIC_CFG		0x4b
-+#define UB953_IND_ANA_TEMP_DYNAMIC_CFG_OV	BIT(5)
-+#define UB953_IND_ANA_TEMP_STATIC_CFG		0x4c
-+#define UB953_IND_ANA_TEMP_STATIC_CFG_MASK	GENMASK(6, 4)
-+
- /* UB971 Registers */
- 
- #define UB971_ENH_BC_CHK			0x4b
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index 04488544da43..74977762bab6 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -2034,6 +2034,110 @@ static int ub960_rxport_serializer_write(struct ub960_rxport *rxport, u8 reg,
- 	return ret;
- }
- 
-+static int ub960_rxport_serializer_read(struct ub960_rxport *rxport, u8 reg,
-+					u8 *val, int *err)
-+{
-+	struct ub960_data *priv = rxport->priv;
-+	struct device *dev = &priv->client->dev;
-+	union i2c_smbus_data data = { 0 };
-+	int ret;
-+
-+	if (err && *err)
-+		return *err;
-+
-+	ret = i2c_smbus_xfer(priv->client->adapter, rxport->ser.alias,
-+			     priv->client->flags, I2C_SMBUS_READ, reg,
-+			     I2C_SMBUS_BYTE_DATA, &data);
-+	if (ret)
-+		dev_err(dev,
-+			"rx%u: cannot read serializer register 0x%02x (%d)!\n",
-+			rxport->nport, reg, ret);
-+	else
-+		*val = data.byte;
-+
-+	if (ret && err)
-+		*err = ret;
-+
-+	return ret;
-+}
-+
-+static int ub960_serializer_temp_ramp(struct ub960_rxport *rxport)
-+{
-+	struct ub960_data *priv = rxport->priv;
-+	short temp_dynamic_offset[] = {-1, -1, 0, 0, 1, 1, 1, 3};
-+	u8 temp_dynamic_cfg;
-+	u8 nport = rxport->nport;
-+	u8 ser_temp_code;
-+	int ret;
-+
-+	/* Configure temp ramp only on UB953 */
-+	if (!fwnode_device_is_compatible(rxport->ser.fwnode, "ti,ds90ub953-q1"))
-+		return 0;
-+
-+	/* Read current serializer die temperature */
-+	ub960_rxport_read(priv, nport, UB960_RR_SENSOR_STS_2, &ser_temp_code,
-+			  &ret);
-+
-+	/* Enable I2C passthrough on back channel */
-+	ub960_rxport_update_bits(priv, nport, UB960_RR_BCC_CONFIG,
-+				 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH,
-+				 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* Select indirect page for analog regs on the serializer */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_CTL,
-+				      UB953_IND_TARGET_ANALOG << 2, &ret);
-+
-+	/* Set temperature ramp dynamic and static config */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_ADDR,
-+				      UB953_IND_ANA_TEMP_DYNAMIC_CFG, &ret);
-+	ub960_rxport_serializer_read(rxport, UB953_REG_IND_ACC_DATA,
-+				     &temp_dynamic_cfg, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	temp_dynamic_cfg |= UB953_IND_ANA_TEMP_DYNAMIC_CFG_OV;
-+	temp_dynamic_cfg += temp_dynamic_offset[ser_temp_code];
-+
-+	/* Update temp static config */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_ADDR,
-+				      UB953_IND_ANA_TEMP_STATIC_CFG, &ret);
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_DATA,
-+				      UB953_IND_ANA_TEMP_STATIC_CFG_MASK, &ret);
-+
-+	/* Update temperature ramp dynamic config */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_ADDR,
-+				      UB953_IND_ANA_TEMP_DYNAMIC_CFG, &ret);
-+
-+	/* Enable I2C auto ack on BC before we set dynamic cfg and reset */
-+	ub960_rxport_update_bits(priv, nport, UB960_RR_BCC_CONFIG,
-+				 UB960_RR_BCC_CONFIG_AUTO_ACK_ALL,
-+				 UB960_RR_BCC_CONFIG_AUTO_ACK_ALL, &ret);
-+
-+	ub960_rxport_serializer_write(rxport, UB953_REG_IND_ACC_DATA,
-+				      temp_dynamic_cfg, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* Soft reset to apply PLL updates */
-+	ub960_rxport_serializer_write(rxport, UB953_REG_RESET_CTL,
-+				      UB953_REG_RESET_CTL_DIGITAL_RESET_0,
-+				      &ret);
-+	msleep(20);
-+
-+	/* Disable I2C passthrough and auto-ack on BC */
-+	ub960_rxport_update_bits(priv, nport, UB960_RR_BCC_CONFIG,
-+				 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH |
-+					 UB960_RR_BCC_CONFIG_AUTO_ACK_ALL,
-+				 0x0, &ret);
-+
-+	return ret;
-+}
-+
- static int ub960_rxport_bc_ser_config(struct ub960_rxport *rxport)
- {
- 	struct ub960_data *priv = rxport->priv;
-@@ -2413,6 +2517,20 @@ static int ub960_init_rx_ports_ub960(struct ub960_data *priv)
- 		return ret;
- 	}
- 
-+	/* Set temperature ramp on serializer */
-+	for_each_active_rxport(priv, it) {
-+		ret = ub960_serializer_temp_ramp(it.rxport);
-+		if (ret)
-+			return ret;
-+
-+		ub960_rxport_update_bits(priv, it.nport, UB960_RR_BCC_CONFIG,
-+					 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH,
-+					 UB960_RR_BCC_CONFIG_I2C_PASS_THROUGH,
-+					 &ret);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/*
- 	 * Clear any errors caused by switching the RX port settings while
- 	 * probing.
-@@ -3169,6 +3287,13 @@ static int ub960_init_rx_ports_ub9702(struct ub960_data *priv)
- 	/* Wait time for stable lock */
- 	fsleep(15000);
- 
-+	/* Set temperature ramp on serializer */
-+	for_each_active_rxport(priv, it) {
-+		ret = ub960_serializer_temp_ramp(it.rxport);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	for_each_active_rxport_fpd4(priv, it) {
- 		ret = ub960_enable_dfe_lms_ub9702(priv, it.nport);
- 		if (ret)
-
--- 
-2.43.0
+Guenter
 
 
