@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-25263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25264-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A86A1B6BB
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 14:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF2DA1B6C1
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 14:23:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 736E43AE340
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 13:20:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8B923AEBA6
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 13:23:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A23E38DC8;
-	Fri, 24 Jan 2025 13:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A86A38DC8;
+	Fri, 24 Jan 2025 13:23:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="msDKGzyu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OlJ0EpEK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD69478F29;
-	Fri, 24 Jan 2025 13:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13760C8DF;
+	Fri, 24 Jan 2025 13:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737724780; cv=none; b=obFm8J/XFfOj9ufQLIZOfMs4RhMpWtcc99ec9/dDE3C4NOQbaWkRjUxUk96CnqTxVlFulchD2S3U2cwr9zKvu/MrjRdOad5P6w1YcPk+OFAhvVKr1ED64S3lDneD+JvL8X+3O1Bn6ZaONajo3vj+0u6Nrn2EwVQfy6GlYRZvhak=
+	t=1737725016; cv=none; b=kUtrVZo6RgNkfYtcBoiw5Sts4OEsoxx/1Uwkl4finFOzFtsH/rgt5+6w7eelMaJA1TBci38gD+sh34NOR4V5VrXc6iv3yZwfmoHRqJ3P4GnVCUAAS7aTuEsiyeOI/2fI/ht+nnNsy8y9k6CnIaCOXtByVjoxchkQ/pjEpceRgbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737724780; c=relaxed/simple;
-	bh=JOu4TI6erL4+9c/VJMPhYunm6by8dXTNzBQiZe6VjU4=;
+	s=arc-20240116; t=1737725016; c=relaxed/simple;
+	bh=gfyHCDgDr2JkZgEaqHp8L9OzDNC8dAFjwSDGTYVb1BE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VO20lLfZ0WVtmAWe1H65Cnh99CzxqxTZqBSdSIBOI7IGOnAWHQKjq8p44r8NJJ9YOgzDjgPFBKCEqGguMXoFb0QBtb2VyphAEv1jAVQC3lfSINZyqFLuTvOGwF5nYdLyghvdpKo5/iEczasGmsb0jydXJaH5x6EljwdzBKMkK3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=msDKGzyu; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=Am6sf4AOYtD9x2iQBueFzeau/gX7nC1nz4K5McERrizOJqLb5Nm/Yr5DK8n/dYATSE8C1hZilbMRj7YcR3a0ogHdgItDl/9fbRUJ+yipuMbYVo7I6KvogCk9TkIHBP+hzdnaKJTDVmernaAqn9qVdELUMPzKXG4autpBoQM6VkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OlJ0EpEK; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66B9A465;
-	Fri, 24 Jan 2025 14:18:32 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5C3D465;
+	Fri, 24 Jan 2025 14:22:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737724712;
-	bh=JOu4TI6erL4+9c/VJMPhYunm6by8dXTNzBQiZe6VjU4=;
+	s=mail; t=1737724949;
+	bh=gfyHCDgDr2JkZgEaqHp8L9OzDNC8dAFjwSDGTYVb1BE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=msDKGzyuB3XgCZyDdRxTh/AZcUybxtuovMifDs86rviFJULiqvO/yWoIy3qGxAAmu
-	 XVr3oIJE2BX9Y8BE9lgcWmCB6YCAK0Njkrj56WL/5tW+IhyU0wgJap9pcwz0RlL8bo
-	 o4kAR9o8bsejjh1GvZAIXJxUEIU0YfXgZoYackqQ=
-Message-ID: <7e034745-831a-4518-8c4e-003fa7773a57@ideasonboard.com>
-Date: Fri, 24 Jan 2025 15:19:32 +0200
+	b=OlJ0EpEK54ra4TOdsXoMYzOOJjboZpGLQjFc7PNu2DwlZyX9Bz8z/Kr8mxeXtEx/Q
+	 v8Gs/QacA3yfvfbxe6jrRJIomiSgi6B5oJ9BIiIXPv6dKfEICd19rMSnnzT1slShnR
+	 V8RQRIRIRmR0hCfZtkkcKcQBP0wnrSn+dNnkf5Ms=
+Message-ID: <cb989b22-33e3-418e-9f58-676256720aec@ideasonboard.com>
+Date: Fri, 24 Jan 2025 15:23:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,14 +50,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/19] media: i2c: ds90ub953: Speed-up I2C watchdog timer
+Subject: Re: [PATCH 13/19] media: i2c: ds90ub960: Move all RX port init code
+ into ub960_init_rx_ports()
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
  Jai Luthra <jai.luthra@ideasonboard.com>
 References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
- <20250110-ub9xx-improvements-v1-7-e0b9a1f644da@ideasonboard.com>
- <Z4fDfQcnZiHC0Fms@kekkonen.localdomain>
+ <20250110-ub9xx-improvements-v1-13-e0b9a1f644da@ideasonboard.com>
+ <Z4fFRJfgwSCcmrbd@kekkonen.localdomain>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -103,75 +104,70 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <Z4fDfQcnZiHC0Fms@kekkonen.localdomain>
+In-Reply-To: <Z4fFRJfgwSCcmrbd@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 15/01/2025 16:17, Sakari Ailus wrote:
+On 15/01/2025 16:25, Sakari Ailus wrote:
 > Moi,
 > 
-> On Fri, Jan 10, 2025 at 11:14:07AM +0200, Tomi Valkeinen wrote:
->> From: Jai Luthra <jai.luthra@ideasonboard.com>
+> On Fri, Jan 10, 2025 at 11:14:13AM +0200, Tomi Valkeinen wrote:
+>> We have some code in probe() which is related to RX port initialization,
+>> and should be in ub960_init_rx_ports(). Move the code there.
 >>
->> On the I2C bus for remote clients (sensors), by default the watchdog
->> timer expires in 1s. To allow for a quicker system bring-up time, TI
->> recommends to speed it up to 50us [1].
+>> We also move ub960_reset() so that it is accessible from
+>> ub960_init_rx_ports().
 >>
->> [1]: Section 7.3.1.1 - https://www.ti.com/lit/gpn/ds90ub953-q1
->>
->> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 >> ---
->>   drivers/media/i2c/ds90ub953.c | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
+>>   drivers/media/i2c/ds90ub960.c | 115 ++++++++++++++++++++++--------------------
+>>   1 file changed, 59 insertions(+), 56 deletions(-)
 >>
->> diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
->> index 99a4852b9381..6c36980e8beb 100644
->> --- a/drivers/media/i2c/ds90ub953.c
->> +++ b/drivers/media/i2c/ds90ub953.c
->> @@ -54,6 +54,10 @@
->>   #define UB953_REG_CLKOUT_CTRL0			0x06
->>   #define UB953_REG_CLKOUT_CTRL1			0x07
+>> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+>> index 02e22ae813fa..cc944d737524 100644
+>> --- a/drivers/media/i2c/ds90ub960.c
+>> +++ b/drivers/media/i2c/ds90ub960.c
+>> @@ -1225,6 +1225,33 @@ static int ub960_ind_update_bits(struct ub960_data *priv, u8 block, u8 reg,
+>>   	return ret;
+>>   }
 >>   
->> +#define UB953_REG_I2C_CONTROL2			0x0a
->> +#define UB953_REG_I2C_CONTROL2_SDA_OUTPUT_SETUP_SHIFT	4
->> +#define UB953_REG_I2C_CONTROL2_BUS_SPEEDUP	BIT(1)
+>> +static int ub960_reset(struct ub960_data *priv, bool reset_regs)
+>> +{
+>> +	struct device *dev = &priv->client->dev;
+>> +	unsigned int v;
+>> +	int ret;
+>> +	u8 bit;
 >> +
->>   #define UB953_REG_SCL_HIGH_TIME			0x0b
->>   #define UB953_REG_SCL_LOW_TIME			0x0c
->>   
->> @@ -1320,6 +1324,13 @@ static int ub953_hw_init(struct ub953_data *priv)
->>   	if (ret)
->>   		return ret;
->>   
->> +	v = 0;
->> +	v |= 1 << UB953_REG_I2C_CONTROL2_SDA_OUTPUT_SETUP_SHIFT;
-> 
-> BIT()? Or at least 1U <<< ...;.
-
-It's a three-bit field, the value just happens to be 1. What's wrong 
-with 1 << SHIFT?
-
-> 
->> +	v |= UB953_REG_I2C_CONTROL2_BUS_SPEEDUP;
->> +	ret = ub953_write(priv, UB953_REG_I2C_CONTROL2, v, NULL);
-> 
-> I'd just do this without a temporary variable. If you prefer to keep it, do
-> assign the first calculated value there first and remove the assignment to
-> zero.
-
-I think we can do without.
-
+>> +	bit = reset_regs ? UB960_SR_RESET_DIGITAL_RESET1 :
+>> +			   UB960_SR_RESET_DIGITAL_RESET0;
+>> +
+>> +	ret = ub960_write(priv, UB960_SR_RESET, bit, NULL);
 >> +	if (ret)
 >> +		return ret;
 > 
-> No need for this.
+> Not related to the patch but if you're serialising things below, why aren't
+> you doing that here?
 
-No, but it keeps the code structure consistent and allows easy 
-future/debug modifications.
+ub960_write() takes the lock, regmap_read_poll_timeout() doesn't.
 
   Tomi
+
+> 
+>> +
+>> +	mutex_lock(&priv->reg_lock);
+>> +
+>> +	ret = regmap_read_poll_timeout(priv->regmap, UB960_SR_RESET, v,
+>> +				       (v & bit) == 0, 2000, 100000);
+>> +
+>> +	mutex_unlock(&priv->reg_lock);
+>> +
+>> +	if (ret)
+>> +		dev_err(dev, "reset failed: %d\n", ret);
+>> +
+>> +	return ret;
+>> +}
+> 
 
 
