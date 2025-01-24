@@ -1,150 +1,192 @@
-Return-Path: <linux-media+bounces-25259-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25260-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42046A1B282
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 10:22:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401C0A1B50C
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 12:56:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 47847188FF46
-	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 09:22:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4CFE3A6B1A
+	for <lists+linux-media@lfdr.de>; Fri, 24 Jan 2025 11:56:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EE7C218EB4;
-	Fri, 24 Jan 2025 09:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A461F21ADAF;
+	Fri, 24 Jan 2025 11:56:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iEDEAWqS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vhr1OYFA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3CC320B;
-	Fri, 24 Jan 2025 09:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE5A4A1D
+	for <linux-media@vger.kernel.org>; Fri, 24 Jan 2025 11:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737710539; cv=none; b=Fcs7m5oTMUYxK2TjjtVdm1nP5jcZ+wucEGx1/z3b0cXO7grQcWoRY2JOpGza64S0TxxSyX2o28zbliAUKXP4Pd7oPg0LWt0Qa1ClFYgn8DvpLTj5xhk99IwB3dUiK+crCSDMGQb2/qYun25z17N4bSPXn02PfmbEzuusv9P308c=
+	t=1737719788; cv=none; b=Xm34YKqVMorugcztO7Sp1SpqEyEpMc8vYdChQtgiblzBkKyRHpiLgRh52CNJG0EIv67+Mkq1wikbmuQXu0EstgmKFjPs/caQITmOfPe1lugkWY/A4Ft62xX8WHSdHUwERxr/zzPeS7weEGKGi48lWCg4/vl3tg91vSFC+G60jyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737710539; c=relaxed/simple;
-	bh=K2Xxy2Jw4H0u+kOMqmfGKbwvi89egxnMK7xmvjMNp3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KPjVoA/TvcQGG9FT9x3MFqBh9wNWT3EmcuXtfx5EIJAYrqPUjPlEjGVA6JcyPVimYFemjBVwh1C8aNP5ihOA/wq1kVphyEG5jEbt9MMd1KIQgd5fZVlOJXYHSmC4UPHQqKHDkTDMvvarIZbVoAtgBxw6qRAq7TFMEBRp+1hqqQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iEDEAWqS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7285B465;
-	Fri, 24 Jan 2025 10:21:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1737710465;
-	bh=K2Xxy2Jw4H0u+kOMqmfGKbwvi89egxnMK7xmvjMNp3Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iEDEAWqSO5sXr4K2KqZPB0WllBSJg8fVTpzkbS5qzpAN+CkPhA4aKPGpLAqLxeMo9
-	 MYcGp748jfSyA1paj/uFvZNSI5ZVDKBnXCSLCeTfqxNI3gjTJpnF8UQGVCzlzugCl0
-	 dit7zSa8T4u3BN+M3d3KNkvbnBjODqgHhFuWP6Dc=
-Date: Fri, 24 Jan 2025 11:21:59 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/6] media: vsp1: dl: Use singleshot DL for VSPX
-Message-ID: <20250124092159.GB24731@pendragon.ideasonboard.com>
-References: <20250123-v4h-iif-v1-0-7b4e5299939f@ideasonboard.com>
- <20250123-v4h-iif-v1-3-7b4e5299939f@ideasonboard.com>
- <20250123214445.GC10642@pendragon.ideasonboard.com>
- <qss3vbdg7gwwhuluamffnlu5pxqkb6w7vn3taut3jm62anoi4x@zmqky7yom6wu>
+	s=arc-20240116; t=1737719788; c=relaxed/simple;
+	bh=4WGP5dadGutjzJ3+H8p5KAG8XyR3Rj/yYU5qUl6jSTU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pe2d9CDp9Q/G8Sq492Daau2/+YjHF4phPvh19K/FF5y7v8/5molZxJXxFD5AAuOsHY5YIt5vQtqLXv6bPjY6LSnG0f76vE9JeZQTbxDcgtrYFEhB3FF659MPsUvRb/iJRJrzwzpzCulpXWvm0/4BfzkUueYdBu4nsXV+yFKyavc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vhr1OYFA; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2164b662090so38801525ad.1
+        for <linux-media@vger.kernel.org>; Fri, 24 Jan 2025 03:56:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737719786; x=1738324586; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r2R9y3ggvKVuzIkCaJAAdRrqVKtdraSfJvImQnZ5AKc=;
+        b=Vhr1OYFAAaDkZ1rMagifDIQbugCoaVFCXjmpPrurmxomnjHLeRI6WwHVN4uYeTFA94
+         NeWdphaeIp6YEvbNlcZvXGnBuAcxlMqzJv3v1FQt/crzUgoNSL3dDatLixxOSDReLoIs
+         gy8wPtM51VsPHuhayu4nk86g/SNvJo7MtIyvu7wR9vwO3Lpe0JA3WKfsc8vnrsHlp0aC
+         W95lC3DGY9W2CMtju8alj89ckUKecDNkCwJJcvbQFBzV3EHd4kFn3LEJ2DtaHRbf5+te
+         eBEzCJEvAJC2/9aK9wXJm51d184W7iqlXJtv6eBMMqmBR+r6wuXMURQgY55/0b2qaJ+X
+         up9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737719786; x=1738324586;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r2R9y3ggvKVuzIkCaJAAdRrqVKtdraSfJvImQnZ5AKc=;
+        b=kHJqz9jvkRvrEESL3DmyompA1iErKE5WWKOtUftzqIRWi4pdBfFd7AtP5h3GWt7tuG
+         WigFvFbNbCFMZ7iq+ItTUgrxedDTTmf0BSq/n/2ZEfH0oaKRhRFCtieazXuSujVU52+0
+         BOEBre9hhBZCghKfXw7qUmgY5QJUdqxzMZ8fDoggac8PYwrdZIi/ko+gVhhsOPt5HkLT
+         qEILY47Mb9c4x4qm26DkDoiXZrYwLFPNtNCPu4MH9A657AGq3PsETkvY6nN/PyrPGHGL
+         5HQKwjE745n6hsRxCk2WbcH/T4+JqnWYL8LivqMqf1jYeZV1V8W0EWcgDzwe5AogEeXr
+         KiPw==
+X-Gm-Message-State: AOJu0Yx20Woj/gxSMvEU8FNpdzTqof2Nls1xxuirmC9KU8Khzy6X90/u
+	vEyz5edQazS72h1Jf56W6b269ovWT3RanOHPyHejmbzB8phdHmSfPogcQqNC
+X-Gm-Gg: ASbGncvEfn3U8o2RQDsW+RyI99BEgs/6TyqmiDVBsQ8OB1o083J47DrLTpT6nihSZ8+
+	UsX3dceLFVCCyiH/H34YAXhlV5AAG3omzeEY1OZc24Kl7uNyMKHYqig1Pu3Els9t/nYD5qLXBfz
+	94sS5GJX50ndAHUETxxJJOm4TFLeT/ycF8buWYRUGYL0N+vQLIn4cPfe5bcr47nyW83S/Bo9/6c
+	BxpWyL2aRkVb3lq/S2nliyRqiSl2KXd10P115o6Qt5cdVgSWl9N0adAy9HdwGHCSNGkUJ7aY6DC
+	XmhWjINVQSll
+X-Google-Smtp-Source: AGHT+IEp9uSpvqcRSCpcA1v9cfLL4kxuYscX5yWK4yz5gITPjwm0liw2RNGmZa406bQpyI1LKsVhmg==
+X-Received: by 2002:a17:903:1ce:b0:216:4a06:e87a with SMTP id d9443c01a7336-21c355dc64bmr474991385ad.40.1737719785619;
+        Fri, 24 Jan 2025 03:56:25 -0800 (PST)
+Received: from localhost.localdomain ([240d:1a:f76:b500:4431:46e3:c76b:79bc])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da3d9c605sm14593715ad.41.2025.01.24.03.56.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 03:56:24 -0800 (PST)
+From: Alexandre Courbot <gnurou@gmail.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	Alexandre Courbot <gnurou@gmail.com>
+Subject: [PATCH] v4l2-ctl: process events before queues in stateful_m2m()
+Date: Fri, 24 Jan 2025 20:56:06 +0900
+Message-ID: <20250124115606.734788-1-gnurou@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <qss3vbdg7gwwhuluamffnlu5pxqkb6w7vn3taut3jm62anoi4x@zmqky7yom6wu>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 24, 2025 at 09:44:06AM +0100, Jacopo Mondi wrote:
-> Hi Laurent
-> 
-> On Thu, Jan 23, 2025 at 11:44:45PM +0200, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Thu, Jan 23, 2025 at 06:04:04PM +0100, Jacopo Mondi wrote:
-> > > The vsp1_dl library allows to program a display list and feed it
-> > > continuously to the VSP2. As an alternative operation mode, the library
-> > > allows to program the VSP2 in 'single shot' mode, where a display list
-> > > is submitted to the VSP on request only.
-> > >
-> > > Currently the 'single shot' mode is only available when the VSP2 is
-> > > controlled by userspace, while it works in continuous mode when driven
-> > > by DRM, as frames have to be submitted to the display continuously.
-> > >
-> > > For the VSPX use case, where there is no uapi support, we should however
-> > > work in single-shot mode as the ISP driver programs the VSPX on
-> > > request.
-> > >
-> > > Initialize the display lists in single shot mode in case the VSP1 is
-> > > controlled by userspace or in case the pipeline features an IIF entity,
-> > > as in the VSPX case.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > ---
-> > >  drivers/media/platform/renesas/vsp1/vsp1_dl.c | 7 ++++++-
-> > >  1 file changed, 6 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_dl.c b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> > > index ad3fa1c9cc737c92870c087dd7cb8cf584fce41b..b8f0398522257f2fb771b419f34b56e59707476b 100644
-> > > --- a/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_dl.c
-> > > @@ -1099,7 +1099,12 @@ struct vsp1_dl_manager *vsp1_dlm_create(struct vsp1_device *vsp1,
-> > >  		return NULL;
-> > >
-> > >  	dlm->index = index;
-> > > -	dlm->singleshot = vsp1->info->uapi;
-> > > +	/*
-> > > +	 * uapi = single shot mode;
-> > > +	 * DRM = continuous mode;
-> > > +	 * VSPX = single shot mode;
-> > > +	 */
-> > > +	dlm->singleshot = (vsp1->info->uapi || vsp1->iif);
-> >
-> > I'm wondering if we should make this a bit more generic, and allow the
-> > caller to select the mode of operation. It could be passed as a flag to
-> > vsp1_dl_list_commit() and stored in the vsp1_dl_list.
-> >
-> > There is however no use case at the moment to switch between singleshot
-> > and continuous modes on a per display list basis. Implementing support
-> > for that may be overkill, but on the other hand, the implementation
-> > seems very simple, so it's not a big effort. The main and possibly only
-> > reason why we may not want to do that now is because the display list
-> > helpers haven't been tested to successfully switch between the modes, so
-> > we may falsely advertise something as supported. Despite that, as no
-> > caller would attempt switching, it wouldn't cause an issue.
-> 
-> I would simply avoid upstreaming code I can't test, and changing the
-> singleshot mode between commit might create contentions with
-> vsp1_dlm_irq_frame_end() which inspects dlm->singleshot.
+Events can change the streaming state and affect our ability (or
+willingness) to further dequeue/requeue buffers.
 
-I had considered that when looking at the code. Moving the single shot
-flag to the vsp1_dl_list, vsp1_dlm_irq_frame_end() would check the flag
-from that structure instead of getting it from the dlm, so I don't think
-it would be an issue. That's the reason why I'm in two minds about this,
-I think it would be easy to do, with very low risk for our use cases,
-but indeed the switch itself wouldn't be fully tested.
+For instance, a V4L2_EVENT_EOS means that we will stop streaming, so we
+shouldn't process the OUTPUT queue any further once we receive it.
+However, the current code processes the queues before the events, and
+this can lead to issues such as an OUTPUT buffer dequeue attempt being
+performed even though there is no buffer currently queued, resulting in
+an indefinitely blocking DQBUF.
 
-> > What do you think ? What do you feel would be cleaner ?
-> >
-> > >  	dlm->vsp1 = vsp1;
-> > >
-> > >  	spin_lock_init(&dlm->lock);
+The issue was difficult to spot because (I assume) this usecase has been
+mostly tested with software drivers like vicodec, which publish their
+side-effects (notably in terms of events) before the ioctl that caused
+them returns. But as far as I can tell this is not a requirement, and
+events can also be sent asynchronously. In this case, a race condition
+can cause the decoding loop to iterate one extra time and perform the
+unfortunate DQBUF.
 
+The fix is simple: process events before queues, so that the latter are
+immediately affected by the result of published events instead of on the
+next iteration of the loop. Events are supposed to be higher priority
+anyway, and this is already done in that order in streaming_set_cap(),
+so this sounds reasonable to do in any case.
+
+Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
+---
+ utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 54 +++++++++++++--------------
+ 1 file changed, 27 insertions(+), 27 deletions(-)
+
+diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+index 1068ef2e6..a565628d3 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+@@ -2460,6 +2460,33 @@ static void stateful_m2m(cv4l_fd &fd, cv4l_queue &in, cv4l_queue &out,
+ 			return;
+ 		}
+ 
++		if (ex_fds && FD_ISSET(fd.g_fd(), ex_fds)) {
++			struct v4l2_event ev;
++
++			while (!fd.dqevent(ev)) {
++				if (ev.type == V4L2_EVENT_EOS) {
++					wr_fds = nullptr;
++					if (!verbose)
++						stderr_info("\n");
++					stderr_info("EOS EVENT\n");
++					fflush(stderr);
++				} else if (ev.type == V4L2_EVENT_SOURCE_CHANGE) {
++					if (!verbose)
++						stderr_info("\n");
++					stderr_info("SOURCE CHANGE EVENT\n");
++					in_source_change_event = true;
++
++					/*
++					 * if capture is not streaming, the
++					 * driver will not send a last buffer so
++					 * we set it here
++					 */
++					if (!cap_streaming)
++						last_buffer = true;
++				}
++			}
++		}
++
+ 		if (rd_fds && FD_ISSET(fd.g_fd(), rd_fds)) {
+ 			r = do_handle_cap(fd, in, fin, nullptr,
+ 					  count[CAP], fps_ts[CAP], fmt_in,
+@@ -2495,33 +2522,6 @@ static void stateful_m2m(cv4l_fd &fd, cv4l_queue &in, cv4l_queue &out,
+ 			}
+ 		}
+ 
+-		if (ex_fds && FD_ISSET(fd.g_fd(), ex_fds)) {
+-			struct v4l2_event ev;
+-
+-			while (!fd.dqevent(ev)) {
+-				if (ev.type == V4L2_EVENT_EOS) {
+-					wr_fds = nullptr;
+-					if (!verbose)
+-						stderr_info("\n");
+-					stderr_info("EOS EVENT\n");
+-					fflush(stderr);
+-				} else if (ev.type == V4L2_EVENT_SOURCE_CHANGE) {
+-					if (!verbose)
+-						stderr_info("\n");
+-					stderr_info("SOURCE CHANGE EVENT\n");
+-					in_source_change_event = true;
+-
+-					/*
+-					 * if capture is not streaming, the
+-					 * driver will not send a last buffer so
+-					 * we set it here
+-					 */
+-					if (!cap_streaming)
+-						last_buffer = true;
+-				}
+-			}
+-		}
+-
+ 		if (last_buffer) {
+ 			if (in_source_change_event) {
+ 				struct v4l2_control ctrl = {
 -- 
-Regards,
+2.48.1
 
-Laurent Pinchart
 
