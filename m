@@ -1,352 +1,71 @@
-Return-Path: <linux-media+bounces-25312-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25314-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574E9A1D64E
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2025 13:59:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D460FA1DA44
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2025 17:10:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A05B93A5BF4
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2025 12:59:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 82AB91882347
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2025 16:10:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B38C81FF602;
-	Mon, 27 Jan 2025 12:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwPJuTeA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93E7B15B99E;
+	Mon, 27 Jan 2025 16:10:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183641FF1A2;
-	Mon, 27 Jan 2025 12:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E1B13D521;
+	Mon, 27 Jan 2025 16:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737982786; cv=none; b=c8NR1brw3ofeurJmefv8nN945iS4mNXuescRzq3FOalquMUgpNY8uHrfpzeLSSkP+u3nJQShcjhIeuYGf6qvVEWTim/hE2dABdVpxUgZCe6csbnYIrvwq1CA0nvBcBzMYdfJ6WOjsdkTmXaXE3nHSxk+0O6Fu1DMHMfdrRzgkpU=
+	t=1737994210; cv=none; b=QFQuPQ5a95lvGj1fuA+CVc2M8NcebhnotDyvUAqnTgUVXx8xFnE1HExFYiq+9hwNNf0d29o7VIqj+D5PzSOLFTTl2P+NoM1g+JOTlhpBGLrnqGxTMu4PRBY+J3A363gref/UXzyTTEmx9EMc84mIe4bCeeUY22v+6JN3aDOGS8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737982786; c=relaxed/simple;
-	bh=ppFjk8LOf96wO2GfvBgwKK+jksyqZGpwOq7G6KF0lwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IMPJ49quB5hem32wbcRGVEPmXkSRrZDB31AkJ5JVLGRBUikUKu4DWjGBn/WwbtdleFPPWO5UIxcpSDYXUY/oyfELa+koJmIlEmoV+EC1PyeNuueSeBF0mmMBwLrJzvArFxNq2x4DGz1qL0MFFSkwmk6AqvAUHgWF1SCono1/Ty4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwPJuTeA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD72C4CED2;
-	Mon, 27 Jan 2025 12:59:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737982785;
-	bh=ppFjk8LOf96wO2GfvBgwKK+jksyqZGpwOq7G6KF0lwQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IwPJuTeABzNiFbEHNI/Po+8XuaqoTrOyh9w34U08QAUxTRc7OYAD4CcLK458PVm49
-	 m1ii2IYuQ1rfuAuraq7S0YyIKL+lWzg/VIfL4zOrgiVWV6CQioCe521JaCEn325MoI
-	 RLeYTswlB55xCkkiwfe3Slp599aQyyy+xjTGxzYteckMuvKopyi2EWiNuwQXVx6iDY
-	 7YkfpPCg/aRMMDUASKo6YqZonRnkc2iIkS5l0rRegjG5GRqzDQflajKDqWJM+wnewa
-	 e+s6Ab7VrcjjuTN31ITcQnkGTat+l2FmXj/DNDWbaqWWdAnSKFqFe56uqIYWKveI6X
-	 46detohoDa4yA==
-Date: Mon, 27 Jan 2025 13:59:39 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Philipp Stanner <phasta@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 3/3] drm/sched: Update timedout_job()'s documentation
-Message-ID: <Z5eDOzypN_6vcvzm@pollux>
-References: <20250121151544.44949-2-phasta@kernel.org>
- <20250121151544.44949-6-phasta@kernel.org>
- <Z5OHKHZRBed_bxF6@pollux>
- <1da78171e9bb5c533bfc5ddb232d81a6a531de10.camel@redhat.com>
+	s=arc-20240116; t=1737994210; c=relaxed/simple;
+	bh=AFFnsnqJ57xoZXnmmcTwW85+G561LrJ/pAtFNbNc+OY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RkbTeoiSoYHaWP4NX34JKoCSfwHK0CAxO00fRTv8xIP3PJolhhp8NxFyKka6qhUMasPhN3abgDFFG/NcpfrPVmKBe5g4lYI2FE6tA/ljz1jDo+0quZR6NQcnOuT+Cy/cp8EnW1+lBwjQwraqRTZ3Fd6As11gv2/fjjabfBpPlVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
+Received: from mgb4.. (unknown [62.77.71.229])
+	by mx.gpxsee.org (Postfix) with ESMTPSA id 1D37B5075E;
+	Mon, 27 Jan 2025 17:00:03 +0100 (CET)
+From: tumic@gpxsee.org
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
+Subject: [PATCH 0/2] Added support for new mgb4 GMSL modules
+Date: Mon, 27 Jan 2025 16:59:55 +0100
+Message-ID: <20250127155957.5254-1-tumic@gpxsee.org>
+X-Mailer: git-send-email 2.48.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1da78171e9bb5c533bfc5ddb232d81a6a531de10.camel@redhat.com>
 
-On Mon, Jan 27, 2025 at 01:32:40PM +0100, Philipp Stanner wrote:
-> On Fri, 2025-01-24 at 13:27 +0100, Danilo Krummrich wrote:
-> > On Tue, Jan 21, 2025 at 04:15:46PM +0100, Philipp Stanner wrote:
-> > > drm_sched_backend_ops.timedout_job()'s documentation is outdated.
-> > > It
-> > > mentions the deprecated function drm_sched_resubmit_job().
-> > > Furthermore,
-> > > it does not point out the important distinction between hardware
-> > > and
-> > > firmware schedulers.
-> > > 
-> > > Since firmware schedulers tyipically only use one entity per
-> > > scheduler,
-> > > timeout handling is significantly more simple because the entity
-> > > the
-> > > faulted job came from can just be killed without affecting innocent
-> > > processes.
-> > > 
-> > > Update the documentation with that distinction and other details.
-> > > 
-> > > Reformat the docstring to work to a unified style with the other
-> > > handles.
-> > > 
-> > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > > ---
-> > >  include/drm/gpu_scheduler.h | 82 ++++++++++++++++++++++-----------
-> > > ----
-> > >  1 file changed, 49 insertions(+), 33 deletions(-)
-> > > 
-> > > diff --git a/include/drm/gpu_scheduler.h
-> > > b/include/drm/gpu_scheduler.h
-> > > index cf40fdb55541..4806740b9023 100644
-> > > --- a/include/drm/gpu_scheduler.h
-> > > +++ b/include/drm/gpu_scheduler.h
-> > > @@ -394,8 +394,14 @@ static inline bool
-> > > drm_sched_invalidate_job(struct drm_sched_job *s_job,
-> > >  }
-> > >  
-> > >  enum drm_gpu_sched_stat {
-> > > -	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
-> > > +	/* Reserve 0 */
-> > > +	DRM_GPU_SCHED_STAT_NONE,
-> > > +
-> > > +	/* Operation succeeded */
-> > >  	DRM_GPU_SCHED_STAT_NOMINAL,
-> > > +
-> > > +	/* Failure because dev is no longer available, for example
-> > > because
-> > > +	 * it was unplugged. */
-> > >  	DRM_GPU_SCHED_STAT_ENODEV,
-> > >  };
-> > >  
-> > > @@ -447,43 +453,53 @@ struct drm_sched_backend_ops {
-> > >  	 * @timedout_job: Called when a job has taken too long to
-> > > execute,
-> > >  	 * to trigger GPU recovery.
-> > >  	 *
-> > > -	 * This method is called in a workqueue context.
-> > 
-> > Why remove this line?
-> 
-> I felt its surplus. All the functions here are callbacks that are
-> invoked by "the scheduler". I thought that's all the driver really
-> needs to know. Why should it care about the wq context?
+From: Martin TÅ¯ma <martin.tuma@digiteqautomotive.com>
 
-Yes, I think we should even be more clear and say which workqueue it's scheduled
-on. The fact that this runs in the context of workqueues is not transpararent to
-users. It's even that the exact workqueue to use is specified in
-drm_sched_init().
+Added support for new mgb4 GMSL modules variants.
 
-It's a good hint for drivers in terms of dma-fence handling.
+Martin TÅ¯ma (2):
+  media: mgb4: Added support for additional GMSL modules variants
+  media: admin-guide: add mgb4 GMSL modules variants description
 
-> 
-> Also, it's the only function for which the context is mentioned. If we
-> keep it here, we should probably provide it everywhere else, too.
+ Documentation/admin-guide/media/mgb4.rst |  4 +++-
+ drivers/media/pci/mgb4/mgb4_core.c       | 13 +++++++++----
+ drivers/media/pci/mgb4/mgb4_core.h       |  8 ++++++--
+ 3 files changed, 18 insertions(+), 7 deletions(-)
 
-Sounds good.
 
-> 
-> > 
-> > > +	 * @sched_job: The job that has timed out
-> > >  	 *
-> > > -	 * Drivers typically issue a reset to recover from GPU
-> > > hangs, and this
-> > > -	 * procedure usually follows the following workflow:
-> > > +	 * Returns: A drm_gpu_sched_stat enum.
-> > 
-> > Maybe "The status of the scheduler, defined by &drm_gpu_sched_stat".
-> > 
-> > I think you forgot to add the corresponding parts in the
-> > documentation of
-> > drm_gpu_sched_stat.
-> 
-> What do you mean, precisely? I added information to that enum. You mean
-> that I should add that that enum is a return type for this callback
-> here?
+base-commit: 94794b5ce4d90ab134b0b101a02fddf6e74c437d
+-- 
+2.48.0
 
-You did add information to &drm_gpu_sched_stat, but no kernel doc comments you
-can actually refer to.
-
-> 
-> > 
-> > >  	 *
-> > > -	 * 1. Stop the scheduler using drm_sched_stop(). This will
-> > > park the
-> > > -	 *    scheduler thread and cancel the timeout work,
-> > > guaranteeing that
-> > > -	 *    nothing is queued while we reset the hardware queue
-> > > -	 * 2. Try to gracefully stop non-faulty jobs (optional)
-> > > -	 * 3. Issue a GPU reset (driver-specific)
-> > > -	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
-> > > -	 * 5. Restart the scheduler using drm_sched_start(). At
-> > > that point, new
-> > > -	 *    jobs can be queued, and the scheduler thread is
-> > > unblocked
-> > > +	 * Drivers typically issue a reset to recover from GPU
-> > > hangs.
-> > > +	 * This procedure looks very different depending on
-> > > whether a firmware
-> > > +	 * or a hardware scheduler is being used.
-> > > +	 *
-> > > +	 * For a FIRMWARE SCHEDULER, each (pseudo-)ring has one
-> > > scheduler, and
-> > 
-> > Why pseudo? It's still a real ring buffer.
-> > 
-> > > +	 * each scheduler has one entity. Hence, you typically
-> > > follow those
-> > > +	 * steps:
-> > 
-> > Maybe better "Hence, the steps taken typically look as follows:".
-> > 
-> > > +	 *
-> > > +	 * 1. Stop the scheduler using drm_sched_stop(). This will
-> > > pause the
-> > > +	 *    scheduler workqueues and cancel the timeout work,
-> > > guaranteeing
-> > > +	 *    that nothing is queued while we remove the ring.
-> > 
-> > "while the ring is removed"
-> > 
-> > > +	 * 2. Remove the ring. In most (all?) cases the firmware
-> > > will make sure
-> > 
-> > At least I don't know about other cases and I also don't think it'd
-> > make a lot
-> > of sense if it'd be different. But of course there's no rule
-> > preventing people
-> > to implement things weirdly.
-> 
-> Seems like we can then use an absolute phrase here and who really wants
-> to do weird things won't be stopped by that anyways :]
-> 
-> > 
-> > > +	 *    that the corresponding parts of the hardware are
-> > > resetted, and that
-> > > +	 *    other rings are not impacted.
-> > > +	 * 3. Kill the entity the faulted job stems from, and the
-> > > associated
-> > 
-> > There can only be one entity in this case, so you can drop "the
-> > faulted job
-> > stems from".
-> > 
-> > > +	 *    scheduler.
-> > > +	 *
-> > > +	 *
-> > > +	 * For a HARDWARE SCHEDULER, each ring also has one
-> > > scheduler, but each
-> > > +	 * scheduler is typically associated with many entities.
-> > > This implies
-> > 
-> > What about "each scheduler can be scheduling one or more entities"?
-> > 
-> > > +	 * that all entities associated with the affected
-> > > scheduler cannot be
-> > 
-> > I think you want to say that not all entites can be torn down, rather
-> > than none
-> > of them can be torn down.
-> > 
-> > > +	 * torn down, because this would effectively also kill
-> > > innocent
-> > > +	 * userspace processes which did not submit faulty jobs
-> > > (for example).
-> > 
-> > This is phrased ambiguously, "kill userspace processs" typically
-> > means something
-> > different than you mean in this context.
-> 
-> then let's say "down, because this would also affect users that did not
-> provide faulty jobs through their entities.", ack?
-
-Sounds good.
-
-> 
-> 
-> Danke,
-> P.
-> 
-> > 
-> > > +	 *
-> > > +	 * Consequently, the procedure to recover with a hardware
-> > > scheduler
-> > > +	 * should look like this:
-> > > +	 *
-> > > +	 * 1. Stop all schedulers impacted by the reset using
-> > > drm_sched_stop().
-> > > +	 * 2. Figure out to which entity the faulted job belongs
-> > > to.
-> > > +	 * 3. Kill that entity.
-> > 
-> > I'd combine the two steps: "2. Kill the entity the faulty job
-> > originates from".
-> > 
-> > > +	 * 4. Issue a GPU reset on all faulty rings (driver-
-> > > specific).
-> > > +	 * 5. Re-submit jobs on all schedulers impacted by re-
-> > > submitting them to
-> > > +	 *    the entities which are still alive.
-> > > +	 * 6. Restart all schedulers that were stopped in step #1
-> > > using
-> > > +	 *    drm_sched_start().
-> > >  	 *
-> > >  	 * Note that some GPUs have distinct hardware queues but
-> > > need to reset
-> > >  	 * the GPU globally, which requires extra synchronization
-> > > between the
-> > > -	 * timeout handler of the different &drm_gpu_scheduler.
-> > > One way to
-> > > -	 * achieve this synchronization is to create an ordered
-> > > workqueue
-> > > -	 * (using alloc_ordered_workqueue()) at the driver level,
-> > > and pass this
-> > > -	 * queue to drm_sched_init(), to guarantee that timeout
-> > > handlers are
-> > > -	 * executed sequentially. The above workflow needs to be
-> > > slightly
-> > > -	 * adjusted in that case:
-> > > -	 *
-> > > -	 * 1. Stop all schedulers impacted by the reset using
-> > > drm_sched_stop()
-> > > -	 * 2. Try to gracefully stop non-faulty jobs on all queues
-> > > impacted by
-> > > -	 *    the reset (optional)
-> > > -	 * 3. Issue a GPU reset on all faulty queues (driver-
-> > > specific)
-> > > -	 * 4. Re-submit jobs on all schedulers impacted by the
-> > > reset using
-> > > -	 *    drm_sched_resubmit_jobs()
-> > > -	 * 5. Restart all schedulers that were stopped in step #1
-> > > using
-> > > -	 *    drm_sched_start()
-> > > -	 *
-> > > -	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
-> > > -	 * and the underlying driver has started or completed
-> > > recovery.
-> > > -	 *
-> > > -	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no
-> > > longer
-> > > -	 * available, i.e. has been unplugged.
-> > > +	 * timeout handlers of different schedulers. One way to
-> > > achieve this
-> > > +	 * synchronization is to create an ordered workqueue
-> > > (using
-> > > +	 * alloc_ordered_workqueue()) at the driver level, and
-> > > pass this queue
-> > > +	 * as drm_sched_init()'s @timeout_wq parameter. This will
-> > > guarantee
-> > > +	 * that timeout handlers are executed sequentially.
-> > >  	 */
-> > >  	enum drm_gpu_sched_stat (*timedout_job)(struct
-> > > drm_sched_job *sched_job);
-> > >  
-> > > -- 
-> > > 2.47.1
-> > > 
-> 
 
