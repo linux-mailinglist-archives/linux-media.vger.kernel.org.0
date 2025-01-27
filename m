@@ -1,94 +1,111 @@
-Return-Path: <linux-media+bounces-25301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25302-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760E5A1CF62
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2025 01:47:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E64ADA1D196
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2025 08:37:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1ADB166294
-	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2025 00:47:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F63F3A1CEC
+	for <lists+linux-media@lfdr.de>; Mon, 27 Jan 2025 07:37:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B7C523A;
-	Mon, 27 Jan 2025 00:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CB2F1FC11E;
+	Mon, 27 Jan 2025 07:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="F7IVyCwq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lV3RnbLe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02016291E;
-	Mon, 27 Jan 2025 00:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF55C18D;
+	Mon, 27 Jan 2025 07:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737938847; cv=none; b=NV8yI3fp3bQ3ecSuGXAoJGNi/8mmdxn4mEs/f7Khsl1oqNXbkS5wn+aBRYuHZbpGka8z2b6/PYYFoCTT6anm+2oVq8WCd783qTDKToj+i7wESvT0pZGqt9V5VOQqQCJOb5Z/V4U4qO6rPWtvK5DopYETAaQfKmB5qEgquUgpwIY=
+	t=1737963457; cv=none; b=ohuwY1ifMJxQLpFpeWbOMAfycK4FXgKyti/YcNKlKKCgRL+d2x2CsKBtmCHUJsQ9hww3g8X08QvtRcdpgxiEx6WRyF+ecv3p5u3gbd/ULsFd+r4OCdZCVN8dmqo0xyBAEnA4mDaQWLrj2KaxISvsG+iNTOUWiTFYizHnAJ8yrl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737938847; c=relaxed/simple;
-	bh=W9im4jG83X9gdqJZgmkXUmgjf6nxXYmEpTkA8Ho3lR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d6pZDiYHpNQfsgc01NiQ7iD2a4mtIlb4HHOFh+99noajxhXhgkjLwIeBeQlIlRKEKBzdjuWpPTyvg+lgUC9KGxHyWidZ6BdzirJJ7IuwsBoYRrBO42O8JeFAIENhqJDgfd5xvLCuslTxQzJPpTR5tg6XKxyrSLrjkiv/5f77iXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=F7IVyCwq; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=11JVMHa9ESzCFzaKAlJ98maILC70wuVRg08DC+E9mtI=; b=F7IVyCwqIxjcipKP
-	2Fi0HnUm3OkawvnkegdPhxLA8zLve+QVOAim8+7QrRG0Q83pXepulPE9kQLCMXmdU5MOMBwmbIdq2
-	AWhHjJQTnKL9q++U/opjF8osMgs54CeHNYE4OO1WITEiOJCZ/U9jLYLqhVNXh49Im5JMmHXbjt0pj
-	9NJTcsx08x+6fdov5aXKlNAxRLNvb3hydGwV5iPwnszLk55fZ2MBWGXCCl/PJEUjsgeGk6ze8NKAO
-	9HOsnLm1o9v7RdZzENJVmkfAUVpAo9jyl2FPhVNwg4p7ZWbM0D/s/7jsLuRSW+58QNXjFci7s4ic6
-	7+zfHkQjOHNRwBLxow==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1tcDHf-00CE1G-0e;
-	Mon, 27 Jan 2025 00:47:23 +0000
-Date: Mon, 27 Jan 2025 00:47:23 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: mantis_ca_init - missing call???
-Message-ID: <Z5bXm43f8BLLeCXy@gallifrey>
+	s=arc-20240116; t=1737963457; c=relaxed/simple;
+	bh=5eb2rU3BF+D0RBJuXDQEOE41vu4w7shDYZUOwzVVpow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IfuxhDFUnkr3ZX4j3m5HehxyXc4PfaI6Y9gPEMTJxCO13dGQnwbIiYQIb3QoYZdXJkhr5sgE/rZQOKDJRudVxFXhMLpsmX0FhRiX5tcRQ58pBtie0+LhPWtHwQR1whVi9liuVzcbfw+vsQ9FXpMo4XLNXwJE7naC2niBVesK0Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lV3RnbLe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A50FC4CEE9;
+	Mon, 27 Jan 2025 07:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737963456;
+	bh=5eb2rU3BF+D0RBJuXDQEOE41vu4w7shDYZUOwzVVpow=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lV3RnbLeaUOWGQK4HsADgHp9gFT21H/I88uErXlhYiJuf7yXEafWE61sZ883LEZpL
+	 LrPw/4QczreFVat08H4rnaBiiBm5wzjzergbeogpzy+yFOOb2tVD0rLprDMI0yxZZA
+	 oU6r+ICgnnsTbhZTbxpBXtOcOAJqZysNL74FJTIJl0edjtPOvKIKu6eSzyoCalr0r1
+	 qHN7Oe6KLnPwapMMiv0o5ioamyLvz/6i9ricjY9HAQMayx61asJFc7aB5s1PfkdUh3
+	 EylOIPbB3IK8Lcf0yBEL2DtqT2gtPlKbr41FlpRLTKQ5VGnGgYNC4WUHkf+qIRJ+my
+	 GOopDo4/pp00A==
+Date: Mon, 27 Jan 2025 08:37:32 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH v2 17/22] media: dt-bindings: ti,ds90ub960: Add
+ ti,enable-sscg property
+Message-ID: <20250127-neon-sandy-perch-5291e7@krzk-bin>
+References: <20250124-ub9xx-improvements-v2-0-f7075c99ea20@ideasonboard.com>
+ <20250124-ub9xx-improvements-v2-17-f7075c99ea20@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 00:37:26 up 263 days, 11:51,  1 user,  load average: 0.02, 0.02,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <20250124-ub9xx-improvements-v2-17-f7075c99ea20@ideasonboard.com>
 
-Hi,
-  My scripts noticed that the mantis_ca_init() and mantis_ca_exit()
-functions aren't called anywhere; I was about to deadcode them, but
-hmm, to me this looks more likely a bug, but I don't know
-the code, so thought it best to ask.
+On Fri, Jan 24, 2025 at 05:17:54PM +0200, Tomi Valkeinen wrote:
+> From: Jai Luthra <jai.luthra@ideasonboard.com>
+> 
+> Spread-spectrum clock generation is supported by UB9702, but only
+> optionally required depending upon the hardware. Add a device-tree
 
-mantis_ca_init() sets up a function pointer structure to a whole
-bunch of static functions that can't be called; so that means the
-whole of mantis_ca.c is dead.
+What does "optionally required" mean? Either it is required or it is
+optional.
 
-commit b3b961448f70 ("V4L/DVB (13795): [Mantis/Hopper] Code overhaul, add Hopper
-devices into the PCI ID list")
-removed the only call to mantis_ca_init() in 2009.
+> property for enabling SSCG.
+> 
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+> Cc: devicetree@vger.kernel.org
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> index 0b71e6f911a8..970f0f36449a 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> @@ -43,6 +43,11 @@ properties:
+>      minItems: 1
+>      maxItems: 32
+>  
+> +  ti,enable-sscg:
+> +    type: boolean
+> +    description:
+> +      Enable Spread-Spectrum Clock Generator for the BC clock for all ports.
 
-Similarly, the last call to mantis_ca_exit() was removed at nearly the same time
-by commit 0bdc799b8b82 ("V4L/DVB (13802): [Mantis/Hopper] Fix all build related warnings")
+And the SSC values are not configurable?
 
-There is a commented out call to mantis_ca_exit() in mantis_dvb.c.
+I don't want three bindings for the same (see IMX8, STM32 and pull
+request in dtschema), so be sure all your cases fit Dario's and Peng's
+work.
 
-Thanks in advance,
+Best regards,
+Krzysztof
 
-Dave
-
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
 
