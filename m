@@ -1,35 +1,35 @@
-Return-Path: <linux-media+bounces-25342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25343-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6674A20C99
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:05:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F138A20CA0
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:06:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D28BE188A2C9
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:05:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 931D73A1F38
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:06:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACC951B0F2C;
-	Tue, 28 Jan 2025 15:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FE851C3BFE;
+	Tue, 28 Jan 2025 15:06:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D920BE40;
-	Tue, 28 Jan 2025 15:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FF31A2630;
+	Tue, 28 Jan 2025 15:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738076705; cv=none; b=JWRqIaO3uXjZ2495E+QgOt2nUk1NAsaAEvuT0YlD3l2oFs3dzZh+HOukugmwc0c4pgjt4IfE7ZxARCPaqrE27afEfc/Z8ClU40RUbRV9AHMbbp7Md8Egs6gLBwJCEwenkKR4MBK9aK6OYDzqZ+/ZKy+FPEB1+/cDBsP08+An+Kc=
+	t=1738076771; cv=none; b=WOJ2N8j363b8ZZswQECq6IAFxDJno5ZOPLInh3+Uf+RP26YxIzFh+sG1vArxLsUGr+kFQAE0JC9APckPGIHdgPzS/MLJp7Zafzir8Df2ezFeGn9DyPCLz7x4VDNMzvFYNPiNjaETDTa/aLetUG3u1B/USZqCVwlGcbJzelSIpBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738076705; c=relaxed/simple;
-	bh=T/K5O5OcnPbR4x4zYpUjfQLx7hOQrPsuYE99u5KV4ew=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=DjSU+VCxAQrnNKfL/+0whli0UEzm6v59wkPdDTM954uqTefWcCJJekban8x4HPXw8EIb9MDQinHNnuOb7MYaRZIYGDvIczVX7y0f7jlauSfkglBwhH3j0c1SbgKkir3nFLCcx4+fJWgcFndg+GM2WkK90uVychYp7Ah+4fowAZI=
+	s=arc-20240116; t=1738076771; c=relaxed/simple;
+	bh=18e4SVqlrE3981FKaulWyVeb8HZjn3B8sIpulPj95DA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Hq1QnPnULlWxwzR9FxdD8jTQcUClVUW1xySPtnmQzegHGyU+qJJFDaAi5w/R63tms+aECZClGcpDASUCAOXSU8gQTfU8fTiFIO6SZljEq62Z4ne93LSvGLEEbbcDiORWMvCxcAh5zzsP7b2cAwCq7QXrgLpNhxrkgVzGiUYVmvI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12ED6C4CEE4;
-	Tue, 28 Jan 2025 15:05:03 +0000 (UTC)
-Message-ID: <ec811552-6014-43d4-9fcc-2ac729a8b08e@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:05:02 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58C5C4CED3;
+	Tue, 28 Jan 2025 15:06:10 +0000 (UTC)
+Message-ID: <2fb746b8-31c4-44e0-bf7b-7a0758edf52a@xs4all.nl>
+Date: Tue, 28 Jan 2025 16:06:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,11 +38,12 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US, nl
-To: linux-input <linux-input@vger.kernel.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Nick Dyer <nick@shmanahar.org>
+To: USB list <linux-usb@vger.kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] input: drop vb2_ops_wait_prepare/finish
+Subject: [PATCH] usb: gadget: uvc: drop vb2_ops_wait_prepare/finish
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -100,51 +101,25 @@ This simplifies the code and this is a step towards the goal of deleting
 these callbacks.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
 ---
- drivers/input/rmi4/rmi_f54.c             | 2 --
- drivers/input/touchscreen/atmel_mxt_ts.c | 2 --
- drivers/input/touchscreen/sur40.c        | 2 --
- 3 files changed, 6 deletions(-)
+ drivers/usb/gadget/function/uvc_queue.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
-index 5c3da910b5b2..ac4041a69fcd 100644
---- a/drivers/input/rmi4/rmi_f54.c
-+++ b/drivers/input/rmi4/rmi_f54.c
-@@ -372,8 +372,6 @@ static const struct vb2_ops rmi_f54_queue_ops = {
- 	.queue_setup            = rmi_f54_queue_setup,
- 	.buf_queue              = rmi_f54_buffer_queue,
- 	.stop_streaming		= rmi_f54_stop_streaming,
--	.wait_prepare           = vb2_ops_wait_prepare,
--	.wait_finish            = vb2_ops_wait_finish,
+diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+index 5eaeae3e2441..9a1bbd79ff5a 100644
+--- a/drivers/usb/gadget/function/uvc_queue.c
++++ b/drivers/usb/gadget/function/uvc_queue.c
+@@ -122,8 +122,6 @@ static const struct vb2_ops uvc_queue_qops = {
+ 	.queue_setup = uvc_queue_setup,
+ 	.buf_prepare = uvc_buffer_prepare,
+ 	.buf_queue = uvc_buffer_queue,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
  };
 
- static const struct vb2_queue rmi_f54_queue = {
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 3ddabc5a2c99..322d5a3d40a0 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -2535,8 +2535,6 @@ static void mxt_buffer_queue(struct vb2_buffer *vb)
- static const struct vb2_ops mxt_queue_ops = {
- 	.queue_setup		= mxt_queue_setup,
- 	.buf_queue		= mxt_buffer_queue,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
-
- static const struct vb2_queue mxt_queue = {
-diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
-index 8365a2ac6fce..7b3b10cbfcfc 100644
---- a/drivers/input/touchscreen/sur40.c
-+++ b/drivers/input/touchscreen/sur40.c
-@@ -1108,8 +1108,6 @@ static const struct vb2_ops sur40_queue_ops = {
- 	.buf_queue		= sur40_buffer_queue,
- 	.start_streaming	= sur40_start_streaming,
- 	.stop_streaming		= sur40_stop_streaming,
--	.wait_prepare		= vb2_ops_wait_prepare,
--	.wait_finish		= vb2_ops_wait_finish,
- };
-
- static const struct vb2_queue sur40_queue = {
+ int uvcg_queue_init(struct uvc_video_queue *queue, struct device *dev, enum v4l2_buf_type type,
 -- 
 2.45.2
 
