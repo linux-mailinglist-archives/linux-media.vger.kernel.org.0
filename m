@@ -1,81 +1,82 @@
-Return-Path: <linux-media+bounces-25386-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25387-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7ADA2132E
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 21:36:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9270FA21330
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 21:36:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9D521888892
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 20:36:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E779C166570
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 20:36:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29E9E1E6DC5;
-	Tue, 28 Jan 2025 20:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C081E1EEA56;
+	Tue, 28 Jan 2025 20:36:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ASMatkGe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BvGpkedl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31FF1A841A;
-	Tue, 28 Jan 2025 20:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBBA1E98E1;
+	Tue, 28 Jan 2025 20:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738096584; cv=none; b=CTmpryhDBr3+Gdb+LVM3bhQtUNvpmrjQp1tQF+xEgQfQpbH3OE1dIYVlFs2tPt/vDzzsGoX50/RMXj+xq+PBDZCNKr5wo9CCMXEW3VKtKfCgVetqi2SMjmX0F4XhukAWZnikIGKi/a903aEfzynmJ5C5Y8dj53wI9cs/45NlFJs=
+	t=1738096587; cv=none; b=L9+eqV8cdZGl4HT1eZ00rTc8lk1WeswKNSqVO5NasbQ3XRPpaa9jmYEuAd2TltA0zmTVV/8NGZsswRz8Z1ouP3PZP/1fpm2lmJmFClhUBCXTltuZmf8W0lpC+2uHGrmELv5ABZ8GmKUtVIfEpTBu2KsHMsV46GGBhe18+JnJWDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738096584; c=relaxed/simple;
-	bh=9HegVYpmcpsIjCAwYKV9jxL8aEd/LIX5x0DITCw3Gug=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Qy+yppgqR+Lw+hUiIgWlFJxQm6McABiwmSqBdBrmoMkzADZvCTWwEIClvVWRf20xS70AgF5aiK3X6M45ZIn/UkQ2rZ/4C+jf2kE/xm4NOtTfJfajCfgbPWHOMbHIlHZnHZBXj/pEmEylHnm1dZ6FB+M2TKyELh3TrhQgTu/Aa6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ASMatkGe; arc=none smtp.client-ip=209.85.167.42
+	s=arc-20240116; t=1738096587; c=relaxed/simple;
+	bh=qVTrrQkFDNqvXyLb4nP25mCPoBVYVZ41Pr+y0QNrMso=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=gcHdLHDdAj32p95VI360bI8VWExvydtZEeDEDkEuItKgm9+5/Lq1F65txq71wXXVmlTMdzCwePlszzjKQr3S26aF8ptv77gx8avl3DvLG7F9o2qDHOwg20dx2M8WVW7L9xRjNr3moN8qvLO9nbSa5bvcspPfbwQIVsoz4b8/KDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BvGpkedl; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53f22fd6887so6688282e87.2;
-        Tue, 28 Jan 2025 12:36:22 -0800 (PST)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5401be44b58so6557292e87.0;
+        Tue, 28 Jan 2025 12:36:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738096581; x=1738701381; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZeS284yiagAUt5myzqhlz9U/p7Feb1MPVxopSKm2pkQ=;
-        b=ASMatkGe5b4DdEaP0VjevpprddYxKTiGCWOgLX/iOc7EWjaLW7NL/HNKYc6VYTn0eX
-         IdCHrjOIueZAaslYf0IaugtvA8tghU6Xsn8VOXLUDyPwSawIosxyVoIePnvLBTguxkh5
-         0dw+2UznpoqrFpXH9hLsIpb+iz2l6PwrYV0ffI9vt82R6s3ibDi29Q6oe6jU4rDMH4lJ
-         ptb8uarpd4oOPFvUz9sLB3otw9X3FVxvHjJnootZVUHeYOV4TFrDpYV8Z9s8epKm0wXg
-         4dbFQ0vvnFyeHW0cUn6nXaQZYNkAqMGY/+go5cqjYVGqZ8jjZiN8ANooRZr7z6NTHDJp
-         zCSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738096581; x=1738701381;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1738096583; x=1738701383; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZeS284yiagAUt5myzqhlz9U/p7Feb1MPVxopSKm2pkQ=;
-        b=mm49MW/abYJ4NU5AJ+kz4kEbVnzexWC5UvkYSPjOvzn2ueSjU1soSd2kzp7Gt3qe3x
-         ULiiJeupfsZEj93/TOmOMXTL3n4r9XAN3Fvne/M8Y+MZk1BqWavV2+qNwljYPj91lP+l
-         2ZxXGT2JqSwemGhUUybfXdbbjqZvP1vN2IbnTvf4Buqzha103J0b1EYWoPRTudOL7rkJ
-         FrKZZpQaecXBSCUjRdOIXGhEx4oJj0ZG53QkM7e7XYulIagOYLFIxHoF3KAERXGH8vr+
-         AdtqS8BYk65xg4Zv7pIuFk7OsnF8ZXSorfimHC8nDhzV+uSSIpzHN5CcKU6er8IzSlIT
-         lW1w==
-X-Forwarded-Encrypted: i=1; AJvYcCUl5JEp/DtVcSvQae6xHHaV5dFfII5WOR+VpiUPc+QbU+ZaXQRUlhXgWRt4OjoU92H3dqVO02+A70oenIE=@vger.kernel.org, AJvYcCW4AuzLI2VJrXdeKQE2jzlItktfnr0BOJ8iclIevzT57xzKz6iV6kBtT3pSR8gVWXhp/AptlB4c@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3kt3o3oTeZ8YcaIEq22l6H4uEOjpfCm1gFVprDFPWeQ3sV2P7
-	HpwaBRafUtO9i5UWL4MMZe1BRTuTna1sG0QINtCfg3S3g7bU7vpimxSYA+un
-X-Gm-Gg: ASbGncusLS1irT/TYsb8KRq40P82cAHCJHIMGMjqP2HWrj1Ot+ZymtmNYo6q77B7u5p
-	sKj+xzPnK8npredUirAjZ5DowopMsd4H2f6ejUkfT7ZMaEtKieOJxYVwvvz2LUhYc1f/xrATYkw
-	sLT0XnCpUgctB71MYMvpfKjBfsV24Se9xE8Q75fkamVP0ZnYtOrTBsFIBJCi0PNljpgRMP9pDaW
-	h7mOouRU/wmfF4XImIKklsbg18fobSoNpYpDI2HB7oFakLVBTKf97BT2/XvhsIfMuCT1CdrEAnB
-	s0/PZzPRi6oFLUD0U2Ge97xaW7gBGUmgzQSHOzqLLUDvSH61IPeQtirciMXBwp3QFFIfLsxryF5
-	4xVjYBBHIFEU=
-X-Google-Smtp-Source: AGHT+IHcthjhhWNVY7ur0ZzUoR3bMalPrCYYX+hqCRvtnsfoAcW/QdYT3x+76JRzqpm9R+ts44luCw==
-X-Received: by 2002:a05:6512:3d2:b0:53e:383c:dfa9 with SMTP id 2adb3069b0e04-543e4c0323bmr115743e87.30.1738096579828;
-        Tue, 28 Jan 2025 12:36:19 -0800 (PST)
+        bh=z8MTyUlPh3gZbGYt+/m2sUV5tFwW7lwH2zL30YhNj3E=;
+        b=BvGpkedlxhN3T8I1AJiP9M5U7VQtOv6K6BAbAdWwX2uyfJD/RtegxjQ7jA8wbffrKE
+         hfgTzb05tiL3569gMJQQu2ZLLmUdcN/kgu0BnnNgpFGqyHw+L5NYCjFvrxdiQP9z9Nlu
+         qV9Q6Pdj/rXWL8O6vg7vr2ot6b/xP1wl77JTb4eIJJKr+Gse9pjlWG4rLX0uF1I8eVXM
+         sVa7YG2+sEIqnjJZwuexR97mDGqMhzYsE9bFUzJudVTU4lN0BjqNKswNxkdPVf4IYL5x
+         CJtk0rvB6DjvdugTpuoU/sfWO+SrdBhmfQGtpjB33VekG4WlfBiGZHsAV5hIZ0uaapet
+         vCrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738096583; x=1738701383;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z8MTyUlPh3gZbGYt+/m2sUV5tFwW7lwH2zL30YhNj3E=;
+        b=FIPwd7uxMY3UR+1PVoko6CEBZ6gMu9MJGQch0IIeom9S1MvIFeJZ03tiVrDCzFLv63
+         FKZQ0KtDBTPvy9VB08O1LLybzQ1IC85Ni/oqPozkPVQsRg9t92+gO+2QjyepZbILEbOv
+         Gavlo7OPHTYAEd/cJ8AYtA/u8KVZg1BsPSGWLvOZ7IHq2GhLcKtJbeVISO9XEzMHHdMb
+         EKh3xKQTWLQqEkWcECc1teJOR7t1cVuN3ojR7OI5fz52PCCPcRCyqRqvoT8H6NiMu/fS
+         3dDRzZWoFeVb6CEXDWu7J8hltsCPwaFYzAPwKr9S6dykNHafg8cPnsQa9I18xCJ9xP2W
+         0LJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU7PneG0fqTR6unjt2+Q9C8pZw5LfVerldIFV/WfRCFUtd/+/jQ/NVMzSA09yZfZ2YIuX42dgm7+QoLa/o=@vger.kernel.org, AJvYcCVSbBZKh4Hj19ud/fs95fP9U7YuZZiqmBDOdn43sKtugewRuQTWT4tTwKFk1fu622mrSaHU0s+N@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmuUEGL8mDtV5iW8X8xorA3ombYXqisdyhrh4enRZyg+BnhYZH
+	9IjTSXMv3kgf2Qa5aQe90JqJyIDIEMlaeKAm8yJQK1J4go0EPo5bqCz1yQPI
+X-Gm-Gg: ASbGncuI7423aXzwC+oOSJduqw8hnsU/db9zykyqtzRSEcZNz6D3UwZkv6NCJwGf6wz
+	yUDcHlaJFwcvSjN7rY/w81Gj41bVdxl+jWFm8PREuETpTgQwuwH02jIGpsJLPoyRIrSvjkq2l7O
+	V+SpeLk6vhuExHDdJGB4mSdVHOSRsu3/NJMIhjjF9iDwlNInj0pVgZQGe3KucIEIJxrXGS0LskM
+	2InK1+DuTvB12O1nOVXAasgbZpfhxeCA+NkWqmqPktn2qc7pLnxAQNj+Wp+FkECCPC5OxmOv6dt
+	3SPv6DB+YsKABOsejc61JNlZQ1oMLHBij3pNiPlbPSm5vrzbX/uBhJR7pMeLj/4VOPqg/HD2UOa
+	09fVVkMNWj/c=
+X-Google-Smtp-Source: AGHT+IGXx8ir1+EZxeY6N5v7kjSeoMSS2MCJ9pG/fcIMmWsjx/6j0N5nIJirlOL33zDZIryOayb8uQ==
+X-Received: by 2002:ac2:43bb:0:b0:540:1a0c:9bac with SMTP id 2adb3069b0e04-543e4c32548mr129480e87.34.1738096583093;
+        Tue, 28 Jan 2025 12:36:23 -0800 (PST)
 Received: from razdolb.local (static.248.157.217.95.clients.your-server.de. [95.217.157.248])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c822fcb0sm1778361e87.55.2025.01.28.12.36.16
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c822fcb0sm1778361e87.55.2025.01.28.12.36.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 12:36:18 -0800 (PST)
+        Tue, 28 Jan 2025 12:36:21 -0800 (PST)
 From: Mikhail Rudenko <mike.rudenko@gmail.com>
-Subject: [PATCH v3 0/2] Allow non-coherent video capture buffers on
- Rockchip ISP V1
-Date: Tue, 28 Jan 2025 23:35:50 +0300
-Message-Id: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com>
+Date: Tue, 28 Jan 2025 23:35:51 +0300
+Subject: [PATCH v3 1/2] media: videobuf2: Fix dmabuf cache sync/flush in
+ dma-contig
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,11 +85,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKY/mWcC/3XNTQ7CIBCG4as0rMUwA/2JK+9hXFA6bYkKDTRE0
- /Tu0q660OU7yTzfwiIFS5FdioUFSjZa73LIU8HMqN1A3Ha5GQpUgBJ4q3h42Dhx553xIwVyM9d
- dRbWpddW0muXXKVBv3zt7u+cebZx9+OwrCbbrBpYCBP4GE/A81WqoVF+DRHMdXto+z8a/2AYmP
- CBQ/kGQCy6aUhJoVALwiKzr+gWSROXf/QAAAA==
-X-Change-ID: 20241231-b4-rkisp-noncoherent-ad6e7c7a68ba
+Message-Id: <20250128-b4-rkisp-noncoherent-v3-1-baf39c997d2a@gmail.com>
+References: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com>
+In-Reply-To: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com>
 To: Dafna Hirschfeld <dafna@fastmail.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -102,39 +101,70 @@ Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  Mikhail Rudenko <mike.rudenko@gmail.com>, stable@vger.kernel.org
 X-Mailer: b4 0.14.2
 
-This small series adds support for non-coherent video capture buffers
-on Rockchip ISP V1. Patch 1 fixes cache management for dmabuf's
-allocated by dma-contig allocator. Patch 2 allows non-coherent
-allocations on the rkisp1 capture queue. Some timing measurements are
-provided in the commit message of patch 2.
+When support for V4L2_FLAG_MEMORY_NON_CONSISTENT was removed in
+commit 129134e5415d ("media: media/v4l2: remove
+V4L2_FLAG_MEMORY_NON_CONSISTENT flag"),
+vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions were made
+no-ops. Later, when support for V4L2_MEMORY_FLAG_NON_COHERENT was
+introduced in commit c0acf9cfeee0 ("media: videobuf2: handle
+V4L2_MEMORY_FLAG_NON_COHERENT flag"), the above functions remained
+no-ops, making cache maintenance for non-coherent dmabufs allocated by
+dma-contig impossible.
 
+Fix this by reintroducing dma_sync_sgtable_for_{cpu,device} and
+{flush,invalidate}_kernel_vmap_range calls to
+vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions for non-coherent
+buffers.
+
+Fixes: c0acf9cfeee0 ("media: videobuf2: handle V4L2_MEMORY_FLAG_NON_COHERENT flag")
+Cc: stable@vger.kernel.org
 Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
 ---
-Changes in v3:
-- ignore skip_cache_sync_* flags in vb2_dc_dmabuf_ops_{begin,end}_cpu_access
-- invalidate/flush kernel mappings as appropriate if they exist
-- use dma_sync_sgtable_* instead of dma_sync_sg_*
-- Link to v2: https://lore.kernel.org/r/20250115-b4-rkisp-noncoherent-v2-0-0853e1a24012@gmail.com
-
-Changes in v2:
-- Fix vb2_dc_dmabuf_ops_{begin,end}_cpu_access() for non-coherent buffers.
-- Add cache management timing information to patch 2 commit message.
-- Link to v1: https://lore.kernel.org/r/20250102-b4-rkisp-noncoherent-v1-1-bba164f7132c@gmail.com
-
----
-Mikhail Rudenko (2):
-      media: videobuf2: Fix dmabuf cache sync/flush in dma-contig
-      media: rkisp1: Allow non-coherent video capture buffers
-
  .../media/common/videobuf2/videobuf2-dma-contig.c  | 22 ++++++++++++++++++++++
- .../platform/rockchip/rkisp1/rkisp1-capture.c      |  1 +
- 2 files changed, 23 insertions(+)
----
-base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
-change-id: 20241231-b4-rkisp-noncoherent-ad6e7c7a68ba
+ 1 file changed, 22 insertions(+)
 
-Best regards,
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+index bb0b7fa67b539aa73ad5ccf3c3bc318e26f8a4cb..146d7997a0da5989fb081a6f28ce0641fe726e63 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+@@ -427,6 +427,17 @@ static int
+ vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
+ 				   enum dma_data_direction direction)
+ {
++	struct vb2_dc_buf *buf = dbuf->priv;
++	struct sg_table *sgt = buf->dma_sgt;
++
++	if (!buf->non_coherent_mem)
++		return 0;
++
++	if (buf->vaddr)
++		invalidate_kernel_vmap_range(buf->vaddr, buf->size);
++
++	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
++
+ 	return 0;
+ }
+ 
+@@ -434,6 +445,17 @@ static int
+ vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
+ 				 enum dma_data_direction direction)
+ {
++	struct vb2_dc_buf *buf = dbuf->priv;
++	struct sg_table *sgt = buf->dma_sgt;
++
++	if (!buf->non_coherent_mem)
++		return 0;
++
++	if (buf->vaddr)
++		flush_kernel_vmap_range(buf->vaddr, buf->size);
++
++	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
++
+ 	return 0;
+ }
+ 
+
 -- 
-Mikhail Rudenko <mike.rudenko@gmail.com>
+2.47.1
 
 
