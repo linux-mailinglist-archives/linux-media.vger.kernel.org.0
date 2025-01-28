@@ -1,60 +1,55 @@
-Return-Path: <linux-media+bounces-25347-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25348-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F32A20D1A
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:32:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73475A20D1B
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:32:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A5491888C0F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:32:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4FA6162608
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:32:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D83BB1B4223;
-	Tue, 28 Jan 2025 15:32:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6F181B4223;
+	Tue, 28 Jan 2025 15:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OkiibKYu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jsIeLBAJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A92F9F8
-	for <linux-media@vger.kernel.org>; Tue, 28 Jan 2025 15:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E9BF9F8
+	for <linux-media@vger.kernel.org>; Tue, 28 Jan 2025 15:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738078327; cv=none; b=TSVO87JwUlQhfkrjUGWQv2MriihliPAnMfiOTnkW5Jgqpwenan2++TiWz93djLgAT749Y/qUnTCWwofa0z8XQ+YCDlC182sBkkaAQJ1TtuybS/WApJmWsN+Nr2Eh/YPEV2WPmAleTR5DbS7qt54+TzG2h5/OUOHhiOP0ZX6zW5A=
+	t=1738078357; cv=none; b=WM+ypU82qrcCgAMHFS1rjzbJ3ZBxd15cliFu7xpmYRxvY61ZNBWtME8d8R+IPeKTQOM7l0ngNAmRfH11GGx9zr/8he5G8KGR2jLCISRpjRcH/SxkNfHF04TN6G8d7lC3Ss8TCgWsd4vbYni2tF2sFWNdhAJZrNmqyRFZmyJgVJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738078327; c=relaxed/simple;
-	bh=rDPwKTqOeByyD0+59GhzPIqMUK/x8TM04HYrLzcg5uc=;
+	s=arc-20240116; t=1738078357; c=relaxed/simple;
+	bh=1ndxqggmMcTcfuGB45rKcwepOis6YZ2f3HHP46JgXbQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CUKDZ7dkexYEGaPq9BTEYZEXY8qoNHyVVrEyCucNVKN7L4dCL2r6BAjhpRUiEnRMG0C2oT+mo/1nhBmJEZAIb5FdoVly3yVzYfDUT/Fx33W+n1zPyKDVALy/yfMP4oPBVNJ0fY2hLi47M0huTWmdJg22Jym4XloAn+VLm9SoICU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OkiibKYu; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=hKdbz7IUc/hAqpWtufX5UtL6g9qHg6O179lDg3e21dGdeEG4hAPSJuSsdCrCSGrPifr0yw7vK29vOXXktj6BkB3e/1rPwtNf6+i/r70W34agr9fULn2XzcN7CYjBGwN8+12YqcseyRz2iJ9h2DcUf+V3G0WZtoR0/Y6jEz7BmyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jsIeLBAJ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 386E83A4;
-	Tue, 28 Jan 2025 16:30:57 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 026A93A4;
+	Tue, 28 Jan 2025 16:31:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738078257;
-	bh=rDPwKTqOeByyD0+59GhzPIqMUK/x8TM04HYrLzcg5uc=;
+	s=mail; t=1738078287;
+	bh=1ndxqggmMcTcfuGB45rKcwepOis6YZ2f3HHP46JgXbQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OkiibKYu5fIN1gdNkKiIhHsi1q0+aBFPRv2Eqnw4n8qG9SscgC1M8hkClN6MGHRjI
-	 k/fM9CXEewWGqq4L5wjjrpVUBYI1Kj5vYZWsdSR/U2XwRS7uD0iV8wFsL8rX3l1b8h
-	 7v4wf+D1Wloo+fYHV+gtEliDQMciRI93P4KtAUuo=
-Date: Tue, 28 Jan 2025 17:31:53 +0200
+	b=jsIeLBAJxXlun5WMgzKgxbp8BWOK6YCkl/LkWdE6ikUT5A8F4qrRV7y9rhHjaky8J
+	 E17sLouFvMAdsYrO4w5x5kh8h5TtK+mF6TJ70DNoVyZZvZ7cfYNvtJTD6hfDgny8hU
+	 /HSo/hEYSNQVF4w9eYU1MKThDsQ7O/4rXtNUNRbo=
+Date: Tue, 28 Jan 2025 17:32:23 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [RESEND PATCH] staging: bcm2835-camera: drop
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH] media: platform: rpi1-cfe: drop
  vb2_ops_wait_prepare/finish
-Message-ID: <20250128153153.GD12673@pendragon.ideasonboard.com>
-References: <f01dc977-bc4a-46f5-abd7-35089c8f2031@xs4all.nl>
+Message-ID: <20250128153223.GE12673@pendragon.ideasonboard.com>
+References: <91a3443e-6723-4e80-a532-8a43ff74cd4f@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,13 +58,13 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f01dc977-bc4a-46f5-abd7-35089c8f2031@xs4all.nl>
+In-Reply-To: <91a3443e-6723-4e80-a532-8a43ff74cd4f@xs4all.nl>
 
 Hi Hans,
 
 Thank you for the patch.
 
-On Tue, Jan 28, 2025 at 04:16:27PM +0100, Hans Verkuil wrote:
+On Tue, Jan 28, 2025 at 04:03:39PM +0100, Hans Verkuil wrote:
 > Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
 > are NULL") it is no longer needed to set the wait_prepare/finish
 > vb2_ops callbacks as long as the lock field in vb2_queue is set.
@@ -84,31 +79,23 @@ On Tue, Jan 28, 2025 at 04:16:27PM +0100, Hans Verkuil wrote:
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Note that once we merge a driver for the ISP, this driver will likely be
-removed.
-
 > ---
-> Resend, adding missing CC to linux-media. No other changes.
-> ---
->  drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 2 --
+>  drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 2 --
 >  1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index deec33f63bcf..b839b50ac26a 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -658,8 +658,6 @@ static const struct vb2_ops bcm2835_mmal_video_qops = {
->  	.buf_queue = buffer_queue,
->  	.start_streaming = start_streaming,
->  	.stop_streaming = stop_streaming,
+> diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> index 12660087b12f..ff6f05b28c13 100644
+> --- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> +++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> @@ -1315,8 +1315,6 @@ static void cfe_stop_streaming(struct vb2_queue *vq)
+>  }
+> 
+>  static const struct vb2_ops cfe_video_qops = {
 > -	.wait_prepare = vb2_ops_wait_prepare,
 > -	.wait_finish = vb2_ops_wait_finish,
->  };
-> 
->  /* ------------------------------------------------------------------
-> -- 
-> 2.45.2
-> 
+>  	.queue_setup = cfe_queue_setup,
+>  	.buf_prepare = cfe_buffer_prepare,
+>  	.buf_queue = cfe_buffer_queue,
 
 -- 
 Regards,
