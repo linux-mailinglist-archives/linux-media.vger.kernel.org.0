@@ -1,103 +1,128 @@
-Return-Path: <linux-media+bounces-25389-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25390-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7367A213B8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 22:51:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D132A2148F
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 23:42:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A324B3A4F4F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 21:50:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4F6C3A8A3F
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 22:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BF6D1946B8;
-	Tue, 28 Jan 2025 21:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 422751EEA5C;
+	Tue, 28 Jan 2025 22:42:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arcor.de header.i=@arcor.de header.b="heZJGV8J"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NUNSUUGt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mr6.vodafonemail.de (mr6.vodafonemail.de [145.253.228.166])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD83878F58;
-	Tue, 28 Jan 2025 21:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.253.228.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F052B18F2D8;
+	Tue, 28 Jan 2025 22:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738101055; cv=none; b=WvlEoOtl3XsmZ+Itzc1EWvRqoaHPhQot/9L+oSxhqXWm3RIAZt4+ls/L32asqZGBeTbMrgFVU/VLjvfmCE0gX3XMNiToUkzEt/LhLH9xWK5sUaP9SLvLkphEd2U+ng/ZUIvxQcRxmlrCsyT2BPYGplSnYu0RZxkU1MWbYQlaXGM=
+	t=1738104123; cv=none; b=ZSF1tzNNEft+ZEMz5E4zgPPXk+febAiAn33i/Eh/A6X2yRIlMKHMYXePkYGjBA29YrW1R0lzdzk27xkElQ1TfsRtEt5A+Csf4YkVhqrQuLgDt0bgaRRhNqmMnL/t6zPWAoS/PF7kQE0QMZlFM67269x0X7WL/qUqMWlBuZ/lMyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738101055; c=relaxed/simple;
-	bh=HKMbHG41kO96ZF2P48iZY660NW4iqDPvky++tHvVjE0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CKGko+iso+tg/amLVycvpiJ1dKemJnwoMgUhKKTIKlicdiYEaLVIwzrhMI1V1VLnBloolB/e2sdbF5LiVxVHFknDZ5Mc8vDKEXEw6v4Z4spxep7hChgy2OjrFhEicbOCxP+mKujkcmP+rQ+noGyJwfkfXSzrBmDG8mqlYrk8+6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arcor.de; spf=pass smtp.mailfrom=arcor.de; dkim=pass (1024-bit key) header.d=arcor.de header.i=@arcor.de header.b=heZJGV8J; arc=none smtp.client-ip=145.253.228.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arcor.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arcor.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arcor.de;
-	s=vfde-mb-mr2-23sep; t=1738100684;
-	bh=tGbpeM79xiFk5lp0rBzeLonbHibRpHMeiZL0TF7ClVQ=;
-	h=Message-ID:Date:User-Agent:Subject:To:References:From:
-	 Content-Language:In-Reply-To:Content-Type:From;
-	b=heZJGV8J+vPNhcQzzlETPmmSiTlBizcsmYUW+lKUe46CVMEbFLGR5yYtzDzk+6iCe
-	 dcZAg33greGdgjO0FE3IemqWlsZv3l3+XDSPdGbPBnrxAiTtWTEjpSDUuRuH4B+YQH
-	 CjVk8Dokht4vNahB2wCpK2t27hhDwB9LMsJ0UAvA=
-Received: from smtp.vodafone.de (unknown [10.0.0.2])
+	s=arc-20240116; t=1738104123; c=relaxed/simple;
+	bh=AOq0SJfJiBWND1wZ8FCd25+xqo3YTjsEqxOPO7EP2Os=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FstZ4C6DuUxK9n5M/3sg7jpX/GB3dpw1cVdd0Rje5e+IrzQ204QiRqwwmVyx07DktIGradd5Ie/WbNADPj5RPL0y8Zpyb+ibRpIexleAFtYiDUFvEW3KX+VkOpd/umHn281FNaZhLY+iyFPjMBcDcp1VSYcbo8UhwRuSgJsix8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NUNSUUGt; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 06ECA403FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1738104121; bh=+meNH1juZBBtvrp/xo2cF0Sh2lEGZRx9Dv3JEMGVfwQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=NUNSUUGtYAw8IZ7v+u9urKWTHqRqgIaFDi/LwOklT1yZ+dVdXczOD9aTVo9dL8GaQ
+	 OAf5s35W/sLcrCXBP9L1rzztGXQrZf82Io4oQsEPVhxr2Gmfam9dfHpeHYHM4gAzS8
+	 Z5wJvtiQGdryhtYMX/RqM8UUTkxsZ7qqsI/DxEU04UzFD7wrLVaAgpDF9YgOAVZODR
+	 ghFfoDDu31L5plmrTy4y8+t+6MkL5TJscft0G5BNRz45gjvAU7I+oGLILjgoaHhU9M
+	 9iNee1I8iwhHjJ3JhYnCMWXNAtQ6QziZH5AMs5lTvSyDYyN1vQVIIWC4TLGwjRIBKs
+	 EZQClEOOCB0lQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by mr6.vodafonemail.de (Postfix) with ESMTPS id 4YjJj82c6tz1xqh;
-	Tue, 28 Jan 2025 21:44:44 +0000 (UTC)
-Received: from [192.168.178.41] (port-83-236-36-1.dynamic.as20676.net [83.236.36.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.vodafone.de (Postfix) with ESMTPSA id 4YjJhm5f97z8snN;
-	Tue, 28 Jan 2025 21:44:21 +0000 (UTC)
-Message-ID: <6c663851-52f7-42fe-92a4-3e33f46a8dd5@arcor.de>
-Date: Tue, 28 Jan 2025 22:44:21 +0100
+	by ms.lwn.net (Postfix) with ESMTPSA id 06ECA403FA;
+	Tue, 28 Jan 2025 22:42:00 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-hardening@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject: Re: [RFC v2 00/38] Improve ABI documentation generation
+In-Reply-To: <cover.1738020236.git.mchehab+huawei@kernel.org>
+References: <cover.1738020236.git.mchehab+huawei@kernel.org>
+Date: Tue, 28 Jan 2025 15:42:00 -0700
+Message-ID: <87h65i7e87.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: 6.12.10: Regression in Hans' commit 613f2150 leading to excessive
- sysfs entry recreation?
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, stable@vger.kernel.org,
- linux-media@vger.kernel.org
-Cc: regressions@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Farblos <farblos@vodafonemail.de>
-References: <6555309b-830d-449b-800c-55306c19c659@vodafonemail.de>
- <D69CB9C3-AF3E-4E60-B35B-FBBE1D363207@arcor.de>
- <0c8c26e3-f806-4238-80e7-14ec0a288589@xs4all.nl>
-From: Jens Schmidt <jens.schmidt140@arcor.de>
-Content-Language: de-DE-frami, en-US
-In-Reply-To: <0c8c26e3-f806-4238-80e7-14ec0a288589@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-purgate-type: clean
-X-purgate: clean
-X-purgate-size: 506
-X-purgate-ID: 155817::1738100680-837FD465-FE86B99C/0/0
+Content-Type: text/plain
 
-On 2025-01-28  16:45, Hans Verkuil wrote:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Well spotted! Yes, it is related to that commit.
-> 
-> I'll take a closer look at this tomorrow since this test against
-> cec_caps needs work.
+> Hi Jon/Greg,
+>
+> That's the second version of my RFC patches meant to modenize the ABI
+> parser that I wrote in Perl.
 
-Thanks.
+I have a couple of minor comments on the individual patches, but overall
+I do like this direction.
 
-Only I feel that I messed up my first ever kernel bug by using
-the wrong MUA at the wrong time ... if there is any "reported by"
-thingy to attribute to me (no feelings hurt if not), please
-attribute to my "Open Source alter ego" 
+It would be nice, though, if the code were a bit more extensively
+commented.  Parts of it get into the "twistly maze of regexes" mode that
+can be awfully hard to follow.
 
-  Farblos <farblos@vodafonemail.de>
+> On this series we have:
+>
+> patches 1 to 11: several bug fixes addressing issues at ABI symbols;
 
-Thanks again.
+1-3 aren't needed - it seems you already upstreamed #2?
 
-Jens
+For the rest, is there any reason to not apply them right away?  They
+just seem like worthwhile fixes.
 
+> patch 12: a fix for scripts/documentation-file-ref-check
+> patches 13-15: create new script with rest and search logic and 
+>   minimally integrate with kernel_abi Sphinx extension(phase 1);
+> patches 16-19: implement phase 2: class integration (phase 2);
+> patch 20: fix a bug at kernel_abi: the way it splits lines is buggy;
+> patches  21-24: rewrite kernel_abi logic to make it simpler and more
+>   robust;
+> patches 25-27: add cross-reference support at automarkup;
+> patches 28-36: several ABI cleanups to cope with the improvements;
+> patch 37: implement undefined command;
+> patch 38: get rid of the old Perl script.
+>
+> To make it easier to review/apply, I may end breaking the next version
+> on a couple of different patchsets. Still it would be nice to have more
+> people testing it and providing some feedback.
+
+I've looked over everything, though with limited depth.  My testing
+hasn't turned up any problems.  I've only tested with current Sphinx,
+have you tried this with the more ancient versions we support?
+
+[It's probably time to raise our minimum version again, especially now
+that current Sphinx has better performance.]
+
+I don't see a whole lot of reasons not to apply this set shortly after
+the merge window; anybody disagree?
+
+Thanks,
+
+jon
 
