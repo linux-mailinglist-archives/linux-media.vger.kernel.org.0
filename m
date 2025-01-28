@@ -1,142 +1,103 @@
-Return-Path: <linux-media+bounces-25388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25389-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573F6A21333
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 21:37:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7367A213B8
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 22:51:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C88057A4397
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 20:36:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A324B3A4F4F
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 21:50:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 914EF1F2C4B;
-	Tue, 28 Jan 2025 20:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BF6D1946B8;
+	Tue, 28 Jan 2025 21:50:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIu9wA8P"
+	dkim=pass (1024-bit key) header.d=arcor.de header.i=@arcor.de header.b="heZJGV8J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mr6.vodafonemail.de (mr6.vodafonemail.de [145.253.228.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490891EF084;
-	Tue, 28 Jan 2025 20:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD83878F58;
+	Tue, 28 Jan 2025 21:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.253.228.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738096590; cv=none; b=D9tQI8NLgS+DHPRsIzlHbDmsK+Q2jS5zoF5OZhHUT+PFoTuJ7097S/n+d1w9ggXw4tnUetIJDkF6rxDcI5Q9YYmh1oEL5Y/Odm3GzbMRpy9yriS9JbPPp17uhdZtJzxzqBIzmK8yaBoBYpM+1XafRbvhbOqLl7mDXb4B4PwC/9w=
+	t=1738101055; cv=none; b=WvlEoOtl3XsmZ+Itzc1EWvRqoaHPhQot/9L+oSxhqXWm3RIAZt4+ls/L32asqZGBeTbMrgFVU/VLjvfmCE0gX3XMNiToUkzEt/LhLH9xWK5sUaP9SLvLkphEd2U+ng/ZUIvxQcRxmlrCsyT2BPYGplSnYu0RZxkU1MWbYQlaXGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738096590; c=relaxed/simple;
-	bh=yqiH8zQa4ElqkkjmIJW5m3RfF/o4uD61OfV0gG8rgTM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=thINJfeSFQCd+lL9A8Wd27NWFHRjmDD1ATBw7E/o9zuCjUoSZgCBWe452If6DB5euQpCkgFpRdM2S4vrINnnyotqYROeRlyqgjSS1rNd2RaDQifN2yq7KpGwZPJorwQwJLOE8GXc0uVdzGTSTWTg8r22xBF8yv181kC6VMfLEsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIu9wA8P; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53e3a37ae07so6878199e87.3;
-        Tue, 28 Jan 2025 12:36:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738096586; x=1738701386; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UOk1tpd1Scx8u9ygptTnBU+QUAeBmZsMjmcHaDde8t4=;
-        b=GIu9wA8PAf4MY5/mc1aZ48zOZGUAi9Jw03CQ4RpL9An7OmdaOlEvYGuAqeHaHJTkGx
-         PhI1V33iVJgb8qgmFqvd4TdgsUbO4Wts/dht2JAxvg3eNaQ2+q36MOboeaBnMZ9hiyFM
-         g453wJkSYFWoIup2Sin72EGthZHp4GCxxZzeTwIwuY+yxlfQDAK8pCQobfp5WxlyM9I7
-         5NtxS39FrKYeuMiJTUbofqUn9qn+vksMVblzWwExJym97zw5bUIRhSGSI4nfD0M9chxK
-         rbK5uJNjUskOJvGAuKzac66tTiRNGTcgm71HUUFRkZrbN5zyyQdKzhWkZzfxswZGFLFz
-         yqgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738096586; x=1738701386;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UOk1tpd1Scx8u9ygptTnBU+QUAeBmZsMjmcHaDde8t4=;
-        b=lI8wDAuJW/9qsDb51OZ5/LYvut6N8mBy4TELW07rbK+j6a2UrXNXnjbXzJM64Spnfq
-         RGZvKtGpKsCctJ6koDFoFC/5wlHNYFS6UrKR4ZQ9Smr73xpsk0dwwwdp/8FTZ9UxgrXx
-         oCAnJASNnYeRDwTPTr3yOYbHIsXgf8zfR4801IlCJN4xafb5LPDNBcJGuSN4jOVExJjV
-         Cbpwvf+tvpProoqOf0cvMVVxkJgikieaRA/GEv2VUx2mE+OoGzrdYfE/+dCiN9kFk7ZL
-         H8eUuYBFCGaXxSnrXvBiCiZOmKU/ueUUym1jzGH9vsYGDquZVvzHPNsq/7DqRVliME5j
-         u4qw==
-X-Forwarded-Encrypted: i=1; AJvYcCXFFalzq5VimnADkPB4UDovhIpMlKRGEfbvOuABy0NiMmAsov1xj+7FnX4sRqVxGqK73chueBHWG83Hxis=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpEM8PRj5sujsbORr2Oz0WiSOO1D+XH3dfknYgLf5RcsQcgEod
-	Y7xAtc2BDRiTI8wbxMgjiIuX9P6kTB7ZZE//wTPbX0iKqzfWRDzGNcVff2cY
-X-Gm-Gg: ASbGncsU57AWS/u0RQFxUzp6AsoFubPCuFc6j2ctG7gY/iP7hfdfmIeotWguc/BF456
-	0cmgh/mYMPugDmn9OsHQ0J5Rb6Ryj7LAObNsT/o5D8sjWKmXLP4fLSqgj29/DEcQLdLZLhWPXGG
-	PxXylQd+1M0Nmr9MjAXs7lIxrrDDw9YxU3QNBqoKmWkhvNEDksVs7ADLrf7wXM5uAHmDqYo3Lh5
-	FpIOFwcx3jdExzBlDP8zm33onqo8z2Hlfjfdm0WmlnQpS3WTN2mEHTYqCmTHlmhIiCqeypumnAj
-	mmQJfv6j0f4wsIX0IJSHUyJdcvGgPECVN3TMTI3ousDo7xiwiGWHDZwdOnGT8PKKnGFedfNUH8t
-	3KRMnPHaXOqE=
-X-Google-Smtp-Source: AGHT+IGMzL/80XBmn1eSfudDP9ZNpYqbMrbvgK9R+lJGhmNTKy7DW7XmzgqBK5JBk5vxw5I6MfuFfQ==
-X-Received: by 2002:a05:6512:b81:b0:540:17ac:b379 with SMTP id 2adb3069b0e04-543e4bf6192mr102601e87.25.1738096585531;
-        Tue, 28 Jan 2025 12:36:25 -0800 (PST)
-Received: from razdolb.local (static.248.157.217.95.clients.your-server.de. [95.217.157.248])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c822fcb0sm1778361e87.55.2025.01.28.12.36.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 12:36:24 -0800 (PST)
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-Date: Tue, 28 Jan 2025 23:35:52 +0300
-Subject: [PATCH v3 2/2] media: rkisp1: Allow non-coherent video capture
- buffers
+	s=arc-20240116; t=1738101055; c=relaxed/simple;
+	bh=HKMbHG41kO96ZF2P48iZY660NW4iqDPvky++tHvVjE0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CKGko+iso+tg/amLVycvpiJ1dKemJnwoMgUhKKTIKlicdiYEaLVIwzrhMI1V1VLnBloolB/e2sdbF5LiVxVHFknDZ5Mc8vDKEXEw6v4Z4spxep7hChgy2OjrFhEicbOCxP+mKujkcmP+rQ+noGyJwfkfXSzrBmDG8mqlYrk8+6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arcor.de; spf=pass smtp.mailfrom=arcor.de; dkim=pass (1024-bit key) header.d=arcor.de header.i=@arcor.de header.b=heZJGV8J; arc=none smtp.client-ip=145.253.228.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arcor.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arcor.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arcor.de;
+	s=vfde-mb-mr2-23sep; t=1738100684;
+	bh=tGbpeM79xiFk5lp0rBzeLonbHibRpHMeiZL0TF7ClVQ=;
+	h=Message-ID:Date:User-Agent:Subject:To:References:From:
+	 Content-Language:In-Reply-To:Content-Type:From;
+	b=heZJGV8J+vPNhcQzzlETPmmSiTlBizcsmYUW+lKUe46CVMEbFLGR5yYtzDzk+6iCe
+	 dcZAg33greGdgjO0FE3IemqWlsZv3l3+XDSPdGbPBnrxAiTtWTEjpSDUuRuH4B+YQH
+	 CjVk8Dokht4vNahB2wCpK2t27hhDwB9LMsJ0UAvA=
+Received: from smtp.vodafone.de (unknown [10.0.0.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by mr6.vodafonemail.de (Postfix) with ESMTPS id 4YjJj82c6tz1xqh;
+	Tue, 28 Jan 2025 21:44:44 +0000 (UTC)
+Received: from [192.168.178.41] (port-83-236-36-1.dynamic.as20676.net [83.236.36.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.vodafone.de (Postfix) with ESMTPSA id 4YjJhm5f97z8snN;
+	Tue, 28 Jan 2025 21:44:21 +0000 (UTC)
+Message-ID: <6c663851-52f7-42fe-92a4-3e33f46a8dd5@arcor.de>
+Date: Tue, 28 Jan 2025 22:44:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: 6.12.10: Regression in Hans' commit 613f2150 leading to excessive
+ sysfs entry recreation?
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, stable@vger.kernel.org,
+ linux-media@vger.kernel.org
+Cc: regressions@lists.linux.dev,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Farblos <farblos@vodafonemail.de>
+References: <6555309b-830d-449b-800c-55306c19c659@vodafonemail.de>
+ <D69CB9C3-AF3E-4E60-B35B-FBBE1D363207@arcor.de>
+ <0c8c26e3-f806-4238-80e7-14ec0a288589@xs4all.nl>
+From: Jens Schmidt <jens.schmidt140@arcor.de>
+Content-Language: de-DE-frami, en-US
+In-Reply-To: <0c8c26e3-f806-4238-80e7-14ec0a288589@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-b4-rkisp-noncoherent-v3-2-baf39c997d2a@gmail.com>
-References: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com>
-In-Reply-To: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com>
-To: Dafna Hirschfeld <dafna@fastmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, Tomasz Figa <tfiga@chromium.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Hans Verkuil <hverkuil@xs4all.nl>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- Mikhail Rudenko <mike.rudenko@gmail.com>
-X-Mailer: b4 0.14.2
+X-purgate-type: clean
+X-purgate: clean
+X-purgate-size: 506
+X-purgate-ID: 155817::1738100680-837FD465-FE86B99C/0/0
 
-Currently, the rkisp1 driver always uses coherent DMA allocations for
-video capture buffers. However, on some platforms, using non-coherent
-buffers can improve performance, especially when CPU processing of
-MMAP'ed video buffers is required.
+On 2025-01-28  16:45, Hans Verkuil wrote:
 
-For example, on the Rockchip RK3399 running at maximum CPU frequency,
-the time to memcpy a frame from a 1280x720 XRGB32 MMAP'ed buffer to a
-malloc'ed userspace buffer decreases from 7.7 ms to 1.1 ms when using
-non-coherent DMA allocation. When doing cache management with
-DMA_BUF_IOCTL_SYNC, DMA_BUF_SYNC_START and DMA_BUF_SYNC_END operations
-take around 270 us each.
+> Well spotted! Yes, it is related to that commit.
+> 
+> I'll take a closer look at this tomorrow since this test against
+> cec_caps needs work.
 
-This change allows userspace to request the allocation of non-coherent
-buffers. Note that the behavior for existing users will remain unchanged
-unless they explicitly set the V4L2_MEMORY_FLAG_NON_COHERENT flag when
-allocating buffers.
+Thanks.
 
-Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
----
- drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 1 +
- 1 file changed, 1 insertion(+)
+Only I feel that I messed up my first ever kernel bug by using
+the wrong MUA at the wrong time ... if there is any "reported by"
+thingy to attribute to me (no feelings hurt if not), please
+attribute to my "Open Source alter ego" 
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-index 6dcefd144d5abe358323e37ac6133c6134ac636e..c94f7d1d73a92646457a27da20726ec6f92e7717 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-@@ -1563,6 +1563,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
- 	q->lock = &node->vlock;
- 	q->dev = cap->rkisp1->dev;
-+	q->allow_cache_hints = 1;
- 	ret = vb2_queue_init(q);
- 	if (ret) {
- 		dev_err(cap->rkisp1->dev,
+  Farblos <farblos@vodafonemail.de>
 
--- 
-2.47.1
+Thanks again.
+
+Jens
 
 
