@@ -1,85 +1,94 @@
-Return-Path: <linux-media+bounces-25325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25326-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FD8A2069D
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 10:01:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CADDBA207BA
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 10:54:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9791D188A0CB
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 09:02:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3580B168ACC
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 09:54:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C08881B0420;
-	Tue, 28 Jan 2025 09:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B08B419CD01;
+	Tue, 28 Jan 2025 09:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sjb9grWG"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LBIAbyj+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D108425A64A;
-	Tue, 28 Jan 2025 09:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731F1198E78
+	for <linux-media@vger.kernel.org>; Tue, 28 Jan 2025 09:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738054909; cv=none; b=b9kbcfTeG9ZvsYbxAmqna5OJ+7uBkn0gZ0YLQRg6Iuhz9WtBavC0Flrf9lQyQ0K9/aDt6DGb+hOuA7rEGOsA0XLqtBMsC7hg8VTrdJ1gxf5oz7aCJ9eQyAaHUfGE8roSIdomH5Wz9i38zVsWd8guP7qhkHPF866RKN0QTF/Eg5k=
+	t=1738058043; cv=none; b=dcpNNewjP0q7FzsN0/9pKi5PJQfMD8bViNfFphemEJwm7frGg7vJJpgxVyqFInm++lfRTDbUpjzyP9E4faLwBn7TZ6L0fRv0tV9vG2g19YWzvaGxk0CpB3shYb/x6qPu9So3TbzEhctjMUZNuiYF40+oB8U0adn6T37d1hBDLuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738054909; c=relaxed/simple;
-	bh=vC+CaopTNvqG7nL/bdNOXAIe9+c/xAkEGBQnm/oEY6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p30VsrD7MwLsPE+sgI357QPXwQxxuvCrXWwWTz+esVrjdB29PaodNqM+w2xLA5xB+XzT24mjSUgoIhw8+FsoCNCiwFCoMIvIZ+YmwdKUNIKpyDYLU1hapWXXvGRHaJ5g5k8sJWl2otOHg/jAlxy44QwKsnwKAmOxiLyZ3ZmSFaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sjb9grWG; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2156e078563so74834755ad.2;
-        Tue, 28 Jan 2025 01:01:47 -0800 (PST)
+	s=arc-20240116; t=1738058043; c=relaxed/simple;
+	bh=NQ6ugZuFusyIBLTqNAToTvLloxPH1ohbfhkFV/P7xag=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ooMnEviDxa5h+PNq9I8GsujQ+udqPjSGIqzyTEG/RPGGcedrOQuOfZtda3VPRq+wrUSEkx9B8Xiwkph43ABo6cHFgLCkbFLHCpyqwO3N1RuWvgbLjhKIJQqfAFsg5kjAg/eXtFJ8wCxSKtKTCgMckF1zzkv/zaGqsaukqrwb9ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LBIAbyj+; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43637977fa4so4627405e9.3
+        for <linux-media@vger.kernel.org>; Tue, 28 Jan 2025 01:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738054907; x=1738659707; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1738058039; x=1738662839; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5eYoQgyNutv+WCcDCPJ0j8gGQtLnaUSvrQJtYSPde4c=;
-        b=Sjb9grWGP0RgMRw127DNDhH6NeFYl1E1meRuMv/GpGjLOKQ+mlc5ujj3JiPOdFOT+s
-         D+hC3sm9Al2IGbx3SWtmuGmAsmKtdjrSwb2wIdI/rM4U35/MqQEeAUW30Afx84xG7UWE
-         bYtiPmxusA2pW53rkavg0WjbahD1wY4OjHLX/bZG+tWZGnkB+taCXo+Ng7gca9UgEuHg
-         gjWxdYVCsM3gD2pqa5PWxclCX6xoKhoj+qsisswZJaAhDgrjFMhgIpkHshgwUvFuByCi
-         WtAihO00Qj128TQXtt7Clr4rMLnTOk2sTn+efpmDHxQ1EeUPlQ/i1WzIGgrPbHfLXKZz
-         E73w==
+        bh=gX3wCMKWuGdO9a8FLqSF+Jru9DaiVGtaRKDUVUUwAh4=;
+        b=LBIAbyj+JuYdRwiS/v5efdibieD4f4gR1PzJh7k4gn9dYGIytmB5Gj4391wMcVgOaK
+         Z2elCX7SOCJpoQKIvxzAePItzX5VLZrqAdtsD18JryF7DG+6pGESwFmll26QIUN6rRM2
+         ZkTCRc3l8vpK5sHku2a0XCK/vNAyboNyBF2j6dgFa89/9ghm7udrwsBwt2OXiFm7sxtW
+         XOOSXu0mRfrOZw81cbe0ayTBCsDlQf38BuSzcxpF+TeqzCL74Xb9kxg2Mmps7dBsZfVW
+         enmNdTzIZ6WpHOSpt8MStpxqdvCsb7Zf2L5HwHwAnx7hMtkfM8mnfPKhfB2xPo7Eb0Cx
+         K6GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738054907; x=1738659707;
+        d=1e100.net; s=20230601; t=1738058039; x=1738662839;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5eYoQgyNutv+WCcDCPJ0j8gGQtLnaUSvrQJtYSPde4c=;
-        b=Du1Ukl09RXEpA119HxAb8egZK/YZnjQuEMjNEOzjA37kFb6p66ryrDdhLkgOlZLrGK
-         jz51liEvIqbZ7B2YzrrsiFil3j6HHd3Ih/nb6Ys9UHi/ByL0CfuElE4gkequ42hA21V2
-         hdFp/RWVfBx5kyvBf3G0Fcs24j/5sm9X3ZOdlr2WVt/JGKRbtAiRofXVBgkla09oiSMT
-         NIHfkLZqbdinJM4hVi/oCrTYss6GyZi8GGVqMJwiyx9dNlCSBgAjCwi0PFNH9U8qJOiS
-         ydv6H5nbTuxNJdqnm/w/zAO62a9ENjvXlMOfcTHLzd4aRkWYP653G0J4ACPp5px/75tk
-         37Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCV/SY1gSFBGJc/N8Ilb1sMtxLB+yji6SJ+Wktw9M/cw2AoPjZViY1vy9YSQ9WFUHt+wgBqtQ156W75MvG0=@vger.kernel.org, AJvYcCViOMGZXbRYpyBqZdmqayNt2BJxna9qcMnuXvPBWZ8fSk10hT1LU6TdR4fec3hONz70Md7kfvQfCwEql3g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQrrfiVdrhPEnDGO8JkrQD8AU5EbxUZKxmpuhnorz+rQcZslqX
-	ZR3QMLp792GfcevPKJqYvYIvfp/rU6Y9Re6Qwl0p30WonVtkW43S7J0/Xg==
-X-Gm-Gg: ASbGncv/YIdggymoYKr65uw7ahl7IxD/hdbMB3p+Xtjss+rkotjJFtXeOrLXXcPgeEs
-	zSaHP0+CWHItxFeuJGeXSyJparLzRrob3abVeMze/xmZSGNY6ZTIJfFMJYSHsxwD7WK+PoYaMwe
-	9k2WUa91/lZ2+3UZ3UrnMqEYHmcu72l27pYN30TU/daL4lpf0ClZEnTEBTbV/fqkRIQDTosA9iN
-	TBvH3ehVq5s25bQ/AVPOo2DcMDe0wtFdrCsu0F210l9W8QFF8eIyeEzPyN62fCygE5ezhqv7v2i
-	MO3RarxXSi0usmHVpXkz6pykS7t/sj4IAQ==
-X-Google-Smtp-Source: AGHT+IHH09VZ+enfdKrMR4UvAzl87iQPYN7R66YQq3CeyLKFU7UwgxppA6To4TAW+IHWkad/CYyo1A==
-X-Received: by 2002:a05:6a20:734e:b0:1e0:d848:9e83 with SMTP id adf61e73a8af0-1eb214e526cmr69572383637.25.1738054906773;
-        Tue, 28 Jan 2025 01:01:46 -0800 (PST)
-Received: from Ubuntu.. ([27.59.87.238])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-ac48e84c905sm7884472a12.6.2025.01.28.01.01.43
+        bh=gX3wCMKWuGdO9a8FLqSF+Jru9DaiVGtaRKDUVUUwAh4=;
+        b=WEbkDWy3eKwMoUbn3jmahTbyaXOAQDCF+bw3us/kTF1WyzqgHDPm6OSawRsy1l65pb
+         3G1DwlZYKqw7eygQ/b/tDlVbeLhGtyXVFHC9G/EXK+HyrEdR0CM7D7izk4KarWiQ4gD/
+         +DScrGkdab9QoZqpXB5jIE0QkF1C4LJ48jtfP0C8OfcznFxzJPcLoPpkclJ63XNP/Hoe
+         vvpZLjDoKtTcQ8ud5R68MM3BrbZbF7lz9hL0QqSeY7xRG2W5yqWc7gjZExbPIsxKc0os
+         pXe3AkfjDY0XaYu7uVir5xXwF47sWpiujHN7mMzmCZBUKoX+YwZbo4QWlZeyMH6F2/P5
+         TXfw==
+X-Forwarded-Encrypted: i=1; AJvYcCWENfIxU3kcbciHbFXyqeWb+kaq0jQVI8O1C8z/gRtF6ULMh2iu0G2seJJQ4O4BpGqJ7hB3sBjd94oy4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywc7Msn+UYa29aE84NhH/l9vWNkdajPV1TWOzqeK1fRLlyord3j
+	G6h+MPcwugqEGghdn3+M0sKyYpQcorSLlwhDgt1U3hGHzv3WBWsaV8RCDJsPP8E=
+X-Gm-Gg: ASbGnctfapjx9qgE0be5CUzGigXTsFVU9/S8SOT0CKSJtSBIjgZDbo2SqXxn2cIYD2r
+	IkBNWtLigl5mvi9R7AJiWdL1Hz6ZsWn3bZykG0KyzFeWaUtr+sGuolzAuykzJ+AL9oDbsWS3aPC
+	32zvFZSUT4Cw3CQHt6vUmsKGYTBqwtdGeVUNDwymRa7NChBoDja8W+4dztRbWjyMsbgDtByCMEr
+	L5IcO3NyMiZG86tk3Nm0x+HDxvr2vAhBEG4DUXnL+Oid6BDJ+BLrtcav1zSat1meVJcOIWunj1z
+	+r2Y4/+BSkw2P8A9Qeo90G4czt4c
+X-Google-Smtp-Source: AGHT+IH2lJvke32NprHWtE9+fl3bZUwS8VksN+GlfIiEv0zBLl3ziaJ2HPij7vJA9/GwRDVHWl9vUQ==
+X-Received: by 2002:a05:600c:1c23:b0:436:488f:4e4 with SMTP id 5b1f17b1804b1-4389149cc76mr150353635e9.8.1738058038800;
+        Tue, 28 Jan 2025 01:53:58 -0800 (PST)
+Received: from krzk-bin.. ([178.197.218.98])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd48ae56sm163002455e9.21.2025.01.28.01.53.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 01:01:46 -0800 (PST)
-From: Chandra Pratap <chandrapratap3519@gmail.com>
-To: mchehab@kernel.org,
+        Tue, 28 Jan 2025 01:53:58 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	Chandra Pratap <chandrapratap3519@gmail.com>
-Subject: [PATCH v2] Documentation: fix spelling error in the HDMI CEC documentation
-Date: Tue, 28 Jan 2025 14:20:12 +0530
-Message-ID: <20250128090107.5478-1-chandrapratap3519@gmail.com>
-X-Mailer: git-send-email 2.48.0-rc1
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v2 1/2] media: dt-bindings: renesas,fcp: add top-level constraints
+Date: Tue, 28 Jan 2025 10:53:54 +0100
+Message-ID: <20250128095355.65766-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,45 +97,66 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Correct the erroneous spelling of 'responsible' in
-Documentation/admin-guide/media/cec.rst. This fixes all errors
-pointed out by codespell in the file.
+Properties with variable number of items per each device are expected to
+have widest constraints in top-level "properties:" block and further
+customized (narrowed) in "if:then:".  Add missing top-level constraints
+for clocks and clock-names.
 
-Signed-off-by: Chandra Pratap <chandrapratap3519@gmail.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
 ---
-Changes since v1:
-- Add a commit message for the patch.
 
-Documentation/admin-guide/media/cec.rst | 2 +-
-1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+1. Add tag
+2. Move clocks description to top level
+---
+ .../bindings/media/renesas,fcp.yaml           | 23 ++++++++++---------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-Range-diff against v1:
-1:  846593ab51b5 ! 1: cbd43786b8e3 Documentation: fix spelling error in the HDMI CEC documentation
-    @@ Metadata
-      ## Commit message ##
-         Documentation: fix spelling error in the HDMI CEC documentation
-
-    +    Correct the erroneous spelling of 'responsible' in
-    +    Documentation/admin-guide/media/cec.rst. This fixes all errors
-    +    pointed out by codespell in the file.
-    +
-
-      ## Documentation/admin-guide/media/cec.rst ##
-
-diff --git a/Documentation/admin-guide/media/cec.rst b/Documentation/admin-guide/media/cec.rst
-index 92690e1f2183..b2e7a300494a 100644
---- a/Documentation/admin-guide/media/cec.rst
-+++ b/Documentation/admin-guide/media/cec.rst
-@@ -451,7 +451,7 @@ configure the CEC devices for HDMI Input and the HDMI Outputs manually.
- ---------------------
+diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+index f94dacd96278..acc08ba7940b 100644
+--- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+@@ -35,9 +35,18 @@ properties:
+   reg:
+     maxItems: 1
  
- A three character manufacturer name that is used in the EDID for the HDMI
--Input. If not set, then userspace is reponsible for configuring an EDID.
-+Input. If not set, then userspace is responsible for configuring an EDID.
- If set, then the driver will update the EDID automatically based on the
- resolutions supported by the connected displays, and it will not be possible
- anymore to manually set the EDID for the HDMI Input.
+-  clocks: true
++  clocks:
++    minItems: 1
++    items:
++      - description: Main clock
++      - description: Register access clock
++      - description: Video clock
+ 
+-  clock-names: true
++  clock-names:
++    items:
++      - const: aclk
++      - const: pclk
++      - const: vclk
+ 
+   iommus:
+     maxItems: 1
+@@ -69,15 +78,7 @@ allOf:
+     then:
+       properties:
+         clocks:
+-          items:
+-            - description: Main clock
+-            - description: Register access clock
+-            - description: Video clock
+-        clock-names:
+-          items:
+-            - const: aclk
+-            - const: pclk
+-            - const: vclk
++          minItems: 3
+       required:
+         - clock-names
+     else:
 -- 
-2.48.0-rc1
+2.43.0
 
 
