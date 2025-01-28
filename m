@@ -1,35 +1,35 @@
-Return-Path: <linux-media+bounces-25343-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25344-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F138A20CA0
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:06:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E7EA20CA2
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:08:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 931D73A1F38
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:06:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 347DC1881BB2
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:08:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FE851C3BFE;
-	Tue, 28 Jan 2025 15:06:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3DD41B0413;
+	Tue, 28 Jan 2025 15:08:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FF31A2630;
-	Tue, 28 Jan 2025 15:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA8342AA3
+	for <linux-media@vger.kernel.org>; Tue, 28 Jan 2025 15:08:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738076771; cv=none; b=WOJ2N8j363b8ZZswQECq6IAFxDJno5ZOPLInh3+Uf+RP26YxIzFh+sG1vArxLsUGr+kFQAE0JC9APckPGIHdgPzS/MLJp7Zafzir8Df2ezFeGn9DyPCLz7x4VDNMzvFYNPiNjaETDTa/aLetUG3u1B/USZqCVwlGcbJzelSIpBw=
+	t=1738076901; cv=none; b=VsevXSCZweKwdsPlKFG5qRiC0tfvQyIjbNbUunBhacGpDsDmyDRpo3Hfx6WEvjcY0KQwWgyxiUdPUmErM5QCy1fZLhUE6juKPpssBSbMaEBhWWmS48o/+4luS/BZINzdzTr0cLCapON7qU/nG6P/TFh4yRO7ednnW9Zx4E9IO7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738076771; c=relaxed/simple;
-	bh=18e4SVqlrE3981FKaulWyVeb8HZjn3B8sIpulPj95DA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Hq1QnPnULlWxwzR9FxdD8jTQcUClVUW1xySPtnmQzegHGyU+qJJFDaAi5w/R63tms+aECZClGcpDASUCAOXSU8gQTfU8fTiFIO6SZljEq62Z4ne93LSvGLEEbbcDiORWMvCxcAh5zzsP7b2cAwCq7QXrgLpNhxrkgVzGiUYVmvI=
+	s=arc-20240116; t=1738076901; c=relaxed/simple;
+	bh=734xBgiq0ap2L45mBxr2Bo2wSeOJyt1HSBr+Il79Ykw=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=uIGHYxdrkB59zpjflbxtKAE9n0drcZXz1C+yOd+7bfBdyrp1JYc+Z5Ciqpx0H0NEbTlHE0MWm96TiId8MxdxQXGT8fj5FiSwb5mT4f+DwoWr3lf9R7au87rDWrHyzGoAh05cM8I0jfIDvtGX/vgkUWGsLcNMSG7jKwF7DuyQb1s=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58C5C4CED3;
-	Tue, 28 Jan 2025 15:06:10 +0000 (UTC)
-Message-ID: <2fb746b8-31c4-44e0-bf7b-7a0758edf52a@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:06:08 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B30FC4CEE3;
+	Tue, 28 Jan 2025 15:08:20 +0000 (UTC)
+Message-ID: <218877d9-5f95-42ab-8bbf-2325cb31ed73@xs4all.nl>
+Date: Tue, 28 Jan 2025 16:08:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,12 +38,11 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US, nl
-To: USB list <linux-usb@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] usb: gadget: uvc: drop vb2_ops_wait_prepare/finish
+Subject: [PATCH] media: omap3isp: drop wait_prepare/finish callbacks
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -94,32 +93,59 @@ Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
 are NULL") it is no longer needed to set the wait_prepare/finish
 vb2_ops callbacks as long as the lock field in vb2_queue is set.
 
-Since the vb2_ops_wait_prepare/finish callbacks already rely on that field,
-we can safely drop these callbacks.
+Set the queue lock to &video->queue_lock, which makes it possible to drop
+the wait_prepare/finish callbacks.
 
 This simplifies the code and this is a step towards the goal of deleting
 these callbacks.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
 ---
- drivers/usb/gadget/function/uvc_queue.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/media/platform/ti/omap3isp/ispvideo.c | 19 +------------------
+ 1 file changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index 5eaeae3e2441..9a1bbd79ff5a 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -122,8 +122,6 @@ static const struct vb2_ops uvc_queue_qops = {
- 	.queue_setup = uvc_queue_setup,
- 	.buf_prepare = uvc_buffer_prepare,
- 	.buf_queue = uvc_buffer_queue,
--	.wait_prepare = vb2_ops_wait_prepare,
--	.wait_finish = vb2_ops_wait_finish,
+diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+index 5c9aa80023fd..78e30298c7ad 100644
+--- a/drivers/media/platform/ti/omap3isp/ispvideo.c
++++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+@@ -480,29 +480,11 @@ static int isp_video_start_streaming(struct vb2_queue *queue,
+ 	return 0;
+ }
+
+-static void omap3isp_wait_prepare(struct vb2_queue *vq)
+-{
+-	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
+-	struct isp_video *video = vfh->video;
+-
+-	mutex_unlock(&video->queue_lock);
+-}
+-
+-static void omap3isp_wait_finish(struct vb2_queue *vq)
+-{
+-	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
+-	struct isp_video *video = vfh->video;
+-
+-	mutex_lock(&video->queue_lock);
+-}
+-
+ static const struct vb2_ops isp_video_queue_ops = {
+ 	.queue_setup = isp_video_queue_setup,
+ 	.buf_prepare = isp_video_buffer_prepare,
+ 	.buf_queue = isp_video_buffer_queue,
+ 	.start_streaming = isp_video_start_streaming,
+-	.wait_prepare = omap3isp_wait_prepare,
+-	.wait_finish = omap3isp_wait_finish,
  };
 
- int uvcg_queue_init(struct uvc_video_queue *queue, struct device *dev, enum v4l2_buf_type type,
+ /*
+@@ -1338,6 +1320,7 @@ static int isp_video_open(struct file *file)
+ 	queue->buf_struct_size = sizeof(struct isp_buffer);
+ 	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	queue->dev = video->isp->dev;
++	queue->lock = &video->queue_lock;
+
+ 	ret = vb2_queue_init(&handle->queue);
+ 	if (ret < 0) {
 -- 
 2.45.2
 
