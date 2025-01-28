@@ -1,131 +1,117 @@
-Return-Path: <linux-media+bounces-25346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35E0A20CC1
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:16:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F32A20D1A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:32:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 314251676D9
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:16:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A5491888C0F
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BFE1AAE28;
-	Tue, 28 Jan 2025 15:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D83BB1B4223;
+	Tue, 28 Jan 2025 15:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OkiibKYu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D18619D89E;
-	Tue, 28 Jan 2025 15:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A92F9F8
+	for <linux-media@vger.kernel.org>; Tue, 28 Jan 2025 15:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738077390; cv=none; b=qib3GSWQvzSf/iU8MMZZFUF9AOO296jd8dPrZ3dLyTPSiNFUA60wfzMqlFXMsF+1fIF5U3uuzO03u/GFJIZBZ80Xf1GfcVky2wHsslTKkCQSfM0u/c/Eg6d9cmOgkzEab3q5nw9Be5EelRbmLVfpcaOSMWFMD0Q+izBFRzxrpyE=
+	t=1738078327; cv=none; b=TSVO87JwUlQhfkrjUGWQv2MriihliPAnMfiOTnkW5Jgqpwenan2++TiWz93djLgAT749Y/qUnTCWwofa0z8XQ+YCDlC182sBkkaAQJ1TtuybS/WApJmWsN+Nr2Eh/YPEV2WPmAleTR5DbS7qt54+TzG2h5/OUOHhiOP0ZX6zW5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738077390; c=relaxed/simple;
-	bh=c16VCpFZh5An4qgLj4LcEENVuR1oP8bEzp/lmS7lDnU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=Tj4UFEI4EzOgrJySuuLbD3PG4fQnZbETR5PShDXlM4/eNfp46L8VBTGlwYGNiQBpGlOJkQgufo1G/KKHxqLLqspnDr/lk2oDzkgv7rvsHFeMhUg97AxOXSLN1auLBJKJH1wdx9wRN5RPDWqeo4bu6TLGdLMt3/ldQRjPqqS5zIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6947FC4CED3;
-	Tue, 28 Jan 2025 15:16:28 +0000 (UTC)
-Message-ID: <f01dc977-bc4a-46f5-abd7-35089c8f2031@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:16:27 +0100
+	s=arc-20240116; t=1738078327; c=relaxed/simple;
+	bh=rDPwKTqOeByyD0+59GhzPIqMUK/x8TM04HYrLzcg5uc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CUKDZ7dkexYEGaPq9BTEYZEXY8qoNHyVVrEyCucNVKN7L4dCL2r6BAjhpRUiEnRMG0C2oT+mo/1nhBmJEZAIb5FdoVly3yVzYfDUT/Fx33W+n1zPyKDVALy/yfMP4oPBVNJ0fY2hLi47M0huTWmdJg22Jym4XloAn+VLm9SoICU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OkiibKYu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 386E83A4;
+	Tue, 28 Jan 2025 16:30:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1738078257;
+	bh=rDPwKTqOeByyD0+59GhzPIqMUK/x8TM04HYrLzcg5uc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OkiibKYu5fIN1gdNkKiIhHsi1q0+aBFPRv2Eqnw4n8qG9SscgC1M8hkClN6MGHRjI
+	 k/fM9CXEewWGqq4L5wjjrpVUBYI1Kj5vYZWsdSR/U2XwRS7uD0iV8wFsL8rX3l1b8h
+	 7v4wf+D1Wloo+fYHV+gtEliDQMciRI93P4KtAUuo=
+Date: Tue, 28 Jan 2025 17:31:53 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [RESEND PATCH] staging: bcm2835-camera: drop
+ vb2_ops_wait_prepare/finish
+Message-ID: <20250128153153.GD12673@pendragon.ideasonboard.com>
+References: <f01dc977-bc4a-46f5-abd7-35089c8f2031@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [RESEND PATCH] staging: bcm2835-camera: drop
- vb2_ops_wait_prepare/finish
-To: "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-rpi-kernel@lists.infradead.org,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f01dc977-bc4a-46f5-abd7-35089c8f2031@xs4all.nl>
 
-Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
-are NULL") it is no longer needed to set the wait_prepare/finish
-vb2_ops callbacks as long as the lock field in vb2_queue is set.
+Hi Hans,
 
-Since the vb2_ops_wait_prepare/finish callbacks already rely on that field,
-we can safely drop these callbacks.
+Thank you for the patch.
 
-This simplifies the code and this is a step towards the goal of deleting
-these callbacks.
+On Tue, Jan 28, 2025 at 04:16:27PM +0100, Hans Verkuil wrote:
+> Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
+> are NULL") it is no longer needed to set the wait_prepare/finish
+> vb2_ops callbacks as long as the lock field in vb2_queue is set.
+> 
+> Since the vb2_ops_wait_prepare/finish callbacks already rely on that field,
+> we can safely drop these callbacks.
+> 
+> This simplifies the code and this is a step towards the goal of deleting
+> these callbacks.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
----
-Resend, adding missing CC to linux-media. No other changes.
----
- drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 2 --
- 1 file changed, 2 deletions(-)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index deec33f63bcf..b839b50ac26a 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -658,8 +658,6 @@ static const struct vb2_ops bcm2835_mmal_video_qops = {
- 	.buf_queue = buffer_queue,
- 	.start_streaming = start_streaming,
- 	.stop_streaming = stop_streaming,
--	.wait_prepare = vb2_ops_wait_prepare,
--	.wait_finish = vb2_ops_wait_finish,
- };
+Note that once we merge a driver for the ISP, this driver will likely be
+removed.
 
- /* ------------------------------------------------------------------
+> ---
+> Resend, adding missing CC to linux-media. No other changes.
+> ---
+>  drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> index deec33f63bcf..b839b50ac26a 100644
+> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> @@ -658,8 +658,6 @@ static const struct vb2_ops bcm2835_mmal_video_qops = {
+>  	.buf_queue = buffer_queue,
+>  	.start_streaming = start_streaming,
+>  	.stop_streaming = stop_streaming,
+> -	.wait_prepare = vb2_ops_wait_prepare,
+> -	.wait_finish = vb2_ops_wait_finish,
+>  };
+> 
+>  /* ------------------------------------------------------------------
+> -- 
+> 2.45.2
+> 
+
 -- 
-2.45.2
+Regards,
 
+Laurent Pinchart
 
