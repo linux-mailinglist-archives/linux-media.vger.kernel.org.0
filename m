@@ -1,101 +1,140 @@
-Return-Path: <linux-media+bounces-25351-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2337A20D5A
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:45:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C473A20E1A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 17:11:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27B3518821B0
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:45:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F7733A2CBD
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:10:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 719611D5ABF;
-	Tue, 28 Jan 2025 15:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 392901D6DB5;
+	Tue, 28 Jan 2025 16:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMhFM/A9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCE01D5AD8;
-	Tue, 28 Jan 2025 15:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872F6199E8D;
+	Tue, 28 Jan 2025 16:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738079103; cv=none; b=OWe2wbxWCZKtJKW+0yNxLrsgrNe8qUP+qrVFRLDbOLQEIzaNvC07cbuDXybRU22nzuq3lGREQzXaEKCjyGs5IiLm4lwZB3OuC7133CJ96bqajszdLtExqTLXZ+0bibaGfsSHco8S41OzCstf7OGsbyi2x7IwieZX9Yv2HWk9lzA=
+	t=1738080651; cv=none; b=iVm2dY2GV5KYNxPwHWnqyF9SyFGIzLMKU3YTqCnxufJWw13vtSA+uJxHuqhsBOxup/OSHAElbwLEW72JGBeSWGT9bJ1SsoJUaCESttXUOlY0S/zra3pzoHumhJJg5rJHvU4mpHhiFdJ9CHBGZ/u3X3GQtuMlfjlh8NI2NoVpGWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738079103; c=relaxed/simple;
-	bh=Yl4pTeiZ+rcwJsY4/ebROdRqi3WjnxVZ5inlRFdaZQk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UzQdqFzjmWdFTvub1jcBtz+MBIrNDOk17s7PggMdMFAiNUpSZ2cGlnmnNULfYcb0vl/UXDHyGSuNckqpi11pn1pzcAeFT9leTBpe1KEeREmd8RaAXET2VYscFfPGhJBi6IO8nhaHW3tp0xGPqvhKsJ8YK18aVYHfJKRlboMzExo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD5EC4CEDF;
-	Tue, 28 Jan 2025 15:45:01 +0000 (UTC)
-Message-ID: <0c8c26e3-f806-4238-80e7-14ec0a288589@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:45:00 +0100
+	s=arc-20240116; t=1738080651; c=relaxed/simple;
+	bh=s4OfIy2xFOPDUcEYiKch6281mbiwNPc7sRWa122cyNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NBmQ79uHmSLGk9QIulmHm3iPd+1QI6t8pA0RVV1QFYJVlHooPWTS/7H7aOC4KmfdVR7w9MvKHBh/6Yj8+XQ4CKdsqvWChPcoi2cTw+a3IRYfmolv6FyhAT2beVBvIefy8QEEjXtiigNCRx9TpQ4alH83QEpv5+PKR3v6+I9CH0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMhFM/A9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C29D8C4CED3;
+	Tue, 28 Jan 2025 16:10:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738080651;
+	bh=s4OfIy2xFOPDUcEYiKch6281mbiwNPc7sRWa122cyNk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SMhFM/A9c4rdPxC/506znPyAFfVd1wB5+xTuT8haGc+GEuCIfX1ci6cgfurm2moJx
+	 8TqN9DyBlJDO3NJGoEBd4+c6yI5GJDx+z4zkCKJm+SITkHf8PtnEu5IiBW5dnIkxVX
+	 7L7Lzr7/y3LoqAsaz7ijEIQzVcYS12eo5bf8PbCEKPpG/R5GhFhhP6E+jp2ShG4GzX
+	 O2LQROkWpweP2GvcfnOCwKt/gu4fr1CjA1nqobHSPh3c4T4iepVoTjjU+ojjvf0tuW
+	 NVbVwHRFNdtKpF9lNFH256Zl+iqjOOD1I9sXumQO6HHjleFGoInglqa6dz5qtRBpmA
+	 gsGNRSOoRdecw==
+Date: Tue, 28 Jan 2025 10:10:49 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: renesas,fcp: add top-level
+ constraints
+Message-ID: <20250128161049.GA3543944-robh@kernel.org>
+References: <20250128095355.65766-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: 6.12.10: Regression in Hans' commit 613f2150 leading to excessive
- sysfs entry recreation?
-To: Jens Schmidt <jens.schmidt140@arcor.de>, stable@vger.kernel.org,
- linux-media@vger.kernel.org
-Cc: regressions@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-References: <6555309b-830d-449b-800c-55306c19c659@vodafonemail.de>
- <D69CB9C3-AF3E-4E60-B35B-FBBE1D363207@arcor.de>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <D69CB9C3-AF3E-4E60-B35B-FBBE1D363207@arcor.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250128095355.65766-1-krzysztof.kozlowski@linaro.org>
 
-On 28/01/2025 09:57, Jens Schmidt wrote:
-> This is on Debian testing with the following kernel, built from
-> the tarball on kernel.org:
+On Tue, Jan 28, 2025 at 10:53:54AM +0100, Krzysztof Kozlowski wrote:
+> Properties with variable number of items per each device are expected to
+> have widest constraints in top-level "properties:" block and further
+> customized (narrowed) in "if:then:".  Add missing top-level constraints
+> for clocks and clock-names.
 > 
->   Linux sappc1 6.12.10 #4 SMP PREEMPT_DYNAMIC Fri Jan 17 22:17:45 CET 2025 x86_64 GNU/Linux
-> 
-> More by chance than anything else I noticed this sysfs entry:
-> 
->   /devices/pci0000:00/0000:00:02.0/rc/rc0/input33
->                                                ^^
-> immediately after a reboot.  After letting the system run for
-> a while the file name counter may well be in the thousands.
-> 
-> I instrumented function drm_dp_cec_attach to dump the values
-> of the expressions involved in the following test:
-> 
->   if (aux->cec.adap->capabilities == cec_caps &&
->       aux->cec.adap->available_log_addrs == num_las) {
-> 
-> The result was that on every call I have
-> 
->   aux->cec.adap->capabilities == 0b1101111110
->   cec_caps                    == 0b0101111110
->   aux->cec.adap->available_log_addrs == 4
->   num_las                            == 4
-> 
-> which triggers recreation of the sysfs entry.
-> 
-> So the capabilities differ in CEC_CAP_REPLY_VENDOR_ID.  If I
-> clear that bit in above test, I am back to normal, getting only
-> 
->   /devices/pci0000:00/0000:00:02.0/rc/rc0/input1
-> 
-> and keeping that throughout the runtime of the system.
-> 
-> Could this be related to commit
-> 613f21505b25a4f43f33de00f11afc059bedde2b?
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Well spotted! Yes, it is related to that commit.
+How did you find these? The below dtschema patch will find them. 
+Unfortunately, there's a lot of false positives. We could eliminate some 
+of them, but not sure we could get to 0. The main problem is if the 
+constraints are somewhere else (e.g. reset-gpios) or via a $ref.
 
-I'll take a closer look at this tomorrow since this test against
-cec_caps needs work.
+8<-------------------------------------------------------
 
-Regards,
+diff --git a/dtschema/meta-schemas/cell.yaml b/dtschema/meta-schemas/cell.yaml
+index 3f61ed93593b..b4f0d9ea0559 100644
+--- a/dtschema/meta-schemas/cell.yaml
++++ b/dtschema/meta-schemas/cell.yaml
+@@ -7,6 +7,7 @@ $id: http://devicetree.org/meta-schemas/cell.yaml#
+ $schema: https://json-schema.org/draft/2019-09/schema
+ 
+ array:
++  type: object
+   description: cell array properties must define how many entries and what the
+     entries are when there is more than one entry.
+   anyOf:
+diff --git a/dtschema/meta-schemas/core.yaml b/dtschema/meta-schemas/core.yaml
+index c8cd03439239..233a2afd696b 100644
+--- a/dtschema/meta-schemas/core.yaml
++++ b/dtschema/meta-schemas/core.yaml
+@@ -16,7 +16,9 @@ allOf:
+ 
+ definitions:
+   unit-suffix-properties:
+-    $ref: cell.yaml#/array
++    oneOf:
++      - $ref: cell.yaml#/array
++      - type: boolean
+     propertyNames:
+       description: Standard unit suffix properties don't need a type $ref
+       not:
+@@ -44,7 +46,9 @@ definitions:
+   core-properties:
+     properties:
+       ranges:
+-        $ref: cell.yaml#/array
++        oneOf:
++          - $ref: cell.yaml#/array
++          - type: boolean
+       reg:
+         $ref: cell.yaml#/array
+       compatible:
+diff --git a/dtschema/meta-schemas/string-array.yaml b/dtschema/meta-schemas/string-array.yaml
+index f5234c6c2fc6..4d4824bc108b 100644
+--- a/dtschema/meta-schemas/string-array.yaml
++++ b/dtschema/meta-schemas/string-array.yaml
+@@ -5,7 +5,8 @@
+ ---
+ $id: http://devicetree.org/meta-schemas/string-array.yaml#
+ $schema: https://json-schema.org/draft/2019-09/schema
+-#type: object
++
++type: object
+ 
+ if:
+   not:
 
-	Hans
 
