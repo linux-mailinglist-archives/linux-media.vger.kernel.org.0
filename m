@@ -1,59 +1,65 @@
-Return-Path: <linux-media+bounces-25357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B1CCA20FD7
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 18:54:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D724A20FD9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 18:54:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 686F93A7488
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 17:54:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6E8861672FF
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 17:54:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 120C31DFE01;
-	Tue, 28 Jan 2025 17:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 387C81E1C02;
+	Tue, 28 Jan 2025 17:53:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OXNJeVcD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMrH4c2W"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6823E1DE8A6;
-	Tue, 28 Jan 2025 17:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0741E0B61;
+	Tue, 28 Jan 2025 17:53:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738086834; cv=none; b=WWL5TEDkuRjUPe/49qbUqOrJzH6ljQLIN8aFHjEGVjZKk5jfrYvMClc9htZCwcdT59GGAoflH5GzdToFeDdDnpwbRtFkmx7rAVVbSL4EZO2RI0q8Ph0EJLrfZG2k5Q3AfJXqox3/5h3ZhsqEbugK7zdKgf9w2IgCfoXitts6e64=
+	t=1738086836; cv=none; b=QPCNQ+4XIRJ+F73bk7yKJI9wtMOpjLpkHEqD+d3ZiBQFv+4GJ+NumRHRngL7at6W7EufGZerP5q6H2VEI/UkN8JV4Cm+SUASnCztfBK2mbHhImlV3HYOrvrV92F8kguOnaa9tha/ApJMKnRhdm4fLabnDpNiWTDY86WwsfSwXnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738086834; c=relaxed/simple;
-	bh=0qv+5Ubsd9PZC/w4ggwoSrWO2W958BTArHutbl6rMGc=;
+	s=arc-20240116; t=1738086836; c=relaxed/simple;
+	bh=XkXmMArbNvvj4vFv48WiqVxvsUM1hSZabdWEqOdwA64=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EM7Mlil430cFgLkFrtKOyi4DyW2qnHXqIgnstm/MW2GOsrkJeZn22KCQPzZjhsSD9FwJMb6Banc9IHmJWmoas9u02D09BUfZwi9dVpPzlBzqw1qw8PXmbIsgi0/VTzw8Q+jY5XnOna5EonWzkrK149iZ1oyDao56Z+y6CobSBmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OXNJeVcD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6D8CC4CEE2;
-	Tue, 28 Jan 2025 17:53:52 +0000 (UTC)
+	 MIME-Version; b=JwKmiUk30TaFKh9FDH4g9ONQDOunrzcv6r/CfGJlZ/yqlrYXp3FEHrwbz9TnhWiU+05CkQXFYcY8+8qBVZz7Fb+R4ZcHopjQZN0cj3js4/vhLMC1d4QsXmiAZbYPlvuZ0HcInNx7shRrNZMJsyIOBNX0HnKgHW9CSZRdK2nZPvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMrH4c2W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE33C4CEE9;
+	Tue, 28 Jan 2025 17:53:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738086833;
-	bh=0qv+5Ubsd9PZC/w4ggwoSrWO2W958BTArHutbl6rMGc=;
+	s=k20201202; t=1738086836;
+	bh=XkXmMArbNvvj4vFv48WiqVxvsUM1hSZabdWEqOdwA64=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OXNJeVcDaG+hnQp3atkOvGqgb/DOJnMYUmhhbQD1wj/pCw9cE//C6DQ8ayVuJ80lN
-	 oeUD5vSi8jbxwhyHBsBDDYy3fh9vLMlrZ3DrhalVFY756qGzaCuii0G3AScKcB/TTL
-	 zUU17CAsA9qtHAZuz4MMNXCCmh361INobgk7FKSEAERTnyMUSc8FFYZvauq2pMO1Na
-	 x+DndmHwvMxB1jXFsAYbreYPvdtOB24bDV7Is2l0W+qHnSSHlcK7dbky9V8ghht6dH
-	 BCRFJUJ+zwOtyJqXzOMZFfYK1Axp4w24IuxvU1qdz1K+WaAp/7xeXO0on2dmIl7MWc
-	 f7HBseyIYaFIw==
+	b=RMrH4c2WY8Y79VYoYpVN744gyYrnRLrLMtm7mwR7b59YudfNGzWAQS3unyxmU9PfN
+	 FEETyjrV8LI8A04P5Y4cAkUePgHDn5ha9z11aWMAuuqeJA/we2odO7R9C2qvOWqzRk
+	 OJDhVNQWuwyyVXB7qxDI3xhhZeHJfyCF6e8RP6VF/mY8ZyvIiTfhBmyZ02h9ly/xJS
+	 G76kNSKNrxIf09H/TnMlYF9rK7bG893u7lAFWzcWO8HU9SQ1LIokHxNHTpF0xX3C6C
+	 3BX8/01bWbv6qCVNTc7U0xz6hZVtlR8Q5c9o3zeF+mUb8ImAc2W0WUDvnfCClEeCQy
+	 PdbOshK8uoFOw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+Cc: Naushir Patuck <naush@raspberrypi.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	kernel-list@raspberrypi.com,
 	mchehab@kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 04/15] media: i2c: ds90ub953: Add error handling for i2c reads/writes
-Date: Tue, 28 Jan 2025 12:53:35 -0500
-Message-Id: <20250128175346.1197097-4-sashal@kernel.org>
+	florian.fainelli@broadcom.com,
+	rjui@broadcom.com,
+	sbranden@broadcom.com,
+	linux-media@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.13 05/15] media: bcm2835-unicam: Disable trigger mode operation
+Date: Tue, 28 Jan 2025 12:53:36 -0500
+Message-Id: <20250128175346.1197097-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250128175346.1197097-1-sashal@kernel.org>
 References: <20250128175346.1197097-1-sashal@kernel.org>
@@ -68,117 +74,55 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.13
 Content-Transfer-Encoding: 8bit
 
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+From: Naushir Patuck <naush@raspberrypi.com>
 
-[ Upstream commit 0794c43ea1e451007e80246e1288ebbf44139397 ]
+[ Upstream commit 697a252bb2ea414cc1c0b4cf4e3d94a879eaf162 ]
 
-Add error handling for i2c reads/writes in various places.
+The imx219/imx708 sensors frequently generate a single corrupt frame
+(image or embedded data) when the sensor first starts. This can either
+be a missing line, or invalid samples within the line. This only occurrs
+using the upstream Unicam kernel driver.
 
-Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Closes: https://lore.kernel.org/all/Zv40EQSR__JDN_0M@kekkonen.localdomain/
-Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Disabling trigger mode elimiates this corruption. Since trigger mode is
+a legacy feature copied from the firmware driver and not expected to be
+needed, remove it. Tested on the Raspberry Pi cameras and shows no ill
+effects.
+
+Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ds90ub953.c | 46 ++++++++++++++++++++++++-----------
- 1 file changed, 32 insertions(+), 14 deletions(-)
+ drivers/media/platform/broadcom/bcm2835-unicam.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index 725589b3e1c58..9baea95cc204f 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -397,8 +397,13 @@ static int ub953_gpiochip_probe(struct ub953_data *priv)
- 	int ret;
+diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
+index 3aed0e493c81f..4090a8e477402 100644
+--- a/drivers/media/platform/broadcom/bcm2835-unicam.c
++++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+@@ -816,11 +816,6 @@ static irqreturn_t unicam_isr(int irq, void *dev)
+ 		}
+ 	}
  
- 	/* Set all GPIOs to local input mode */
--	ub953_write(priv, UB953_REG_LOCAL_GPIO_DATA, 0);
--	ub953_write(priv, UB953_REG_GPIO_INPUT_CTRL, 0xf);
-+	ret = ub953_write(priv, UB953_REG_LOCAL_GPIO_DATA, 0);
-+	if (ret)
-+		return ret;
-+
-+	ret = ub953_write(priv, UB953_REG_GPIO_INPUT_CTRL, 0xf);
-+	if (ret)
-+		return ret;
- 
- 	gc->label = dev_name(dev);
- 	gc->parent = dev;
-@@ -958,10 +963,11 @@ static void ub953_calc_clkout_params(struct ub953_data *priv,
- 	clkout_data->rate = clkout_rate;
+-	if (unicam_reg_read(unicam, UNICAM_ICTL) & UNICAM_FCM) {
+-		/* Switch out of trigger mode if selected */
+-		unicam_reg_write_field(unicam, UNICAM_ICTL, 1, UNICAM_TFC);
+-		unicam_reg_write_field(unicam, UNICAM_ICTL, 0, UNICAM_FCM);
+-	}
+ 	return IRQ_HANDLED;
  }
  
--static void ub953_write_clkout_regs(struct ub953_data *priv,
--				    const struct ub953_clkout_data *clkout_data)
-+static int ub953_write_clkout_regs(struct ub953_data *priv,
-+				   const struct ub953_clkout_data *clkout_data)
- {
- 	u8 clkout_ctrl0, clkout_ctrl1;
-+	int ret;
+@@ -984,8 +979,7 @@ static void unicam_start_rx(struct unicam_device *unicam,
  
- 	if (priv->hw_data->is_ub971)
- 		clkout_ctrl0 = clkout_data->m;
-@@ -971,8 +977,15 @@ static void ub953_write_clkout_regs(struct ub953_data *priv,
+ 	unicam_reg_write_field(unicam, UNICAM_ANA, 0, UNICAM_DDL);
  
- 	clkout_ctrl1 = clkout_data->n;
- 
--	ub953_write(priv, UB953_REG_CLKOUT_CTRL0, clkout_ctrl0);
--	ub953_write(priv, UB953_REG_CLKOUT_CTRL1, clkout_ctrl1);
-+	ret = ub953_write(priv, UB953_REG_CLKOUT_CTRL0, clkout_ctrl0);
-+	if (ret)
-+		return ret;
-+
-+	ret = ub953_write(priv, UB953_REG_CLKOUT_CTRL1, clkout_ctrl1);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
- }
- 
- static unsigned long ub953_clkout_recalc_rate(struct clk_hw *hw,
-@@ -1052,9 +1065,7 @@ static int ub953_clkout_set_rate(struct clk_hw *hw, unsigned long rate,
- 	dev_dbg(&priv->client->dev, "%s %lu (requested %lu)\n", __func__,
- 		clkout_data.rate, rate);
- 
--	ub953_write_clkout_regs(priv, &clkout_data);
--
--	return 0;
-+	return ub953_write_clkout_regs(priv, &clkout_data);
- }
- 
- static const struct clk_ops ub953_clkout_ops = {
-@@ -1079,7 +1090,9 @@ static int ub953_register_clkout(struct ub953_data *priv)
- 
- 	/* Initialize clkout to 25MHz by default */
- 	ub953_calc_clkout_params(priv, UB953_DEFAULT_CLKOUT_RATE, &clkout_data);
--	ub953_write_clkout_regs(priv, &clkout_data);
-+	ret = ub953_write_clkout_regs(priv, &clkout_data);
-+	if (ret)
-+		return ret;
- 
- 	priv->clkout_clk_hw.init = &init;
- 
-@@ -1226,10 +1239,15 @@ static int ub953_hw_init(struct ub953_data *priv)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "i2c init failed\n");
- 
--	ub953_write(priv, UB953_REG_GENERAL_CFG,
--		    (priv->non_continous_clk ? 0 : UB953_REG_GENERAL_CFG_CONT_CLK) |
--		    ((priv->num_data_lanes - 1) << UB953_REG_GENERAL_CFG_CSI_LANE_SEL_SHIFT) |
--		    UB953_REG_GENERAL_CFG_CRC_TX_GEN_ENABLE);
-+	v = 0;
-+	v |= priv->non_continous_clk ? 0 : UB953_REG_GENERAL_CFG_CONT_CLK;
-+	v |= (priv->num_data_lanes - 1) <<
-+		UB953_REG_GENERAL_CFG_CSI_LANE_SEL_SHIFT;
-+	v |= UB953_REG_GENERAL_CFG_CRC_TX_GEN_ENABLE;
-+
-+	ret = ub953_write(priv, UB953_REG_GENERAL_CFG, v);
-+	if (ret)
-+		return ret;
- 
- 	return 0;
- }
+-	/* Always start in trigger frame capture mode (UNICAM_FCM set) */
+-	val = UNICAM_FSIE | UNICAM_FEIE | UNICAM_FCM | UNICAM_IBOB;
++	val = UNICAM_FSIE | UNICAM_FEIE | UNICAM_IBOB;
+ 	line_int_freq = max(fmt->height >> 2, 128);
+ 	unicam_set_field(&val, line_int_freq, UNICAM_LCIE_MASK);
+ 	unicam_reg_write(unicam, UNICAM_ICTL, val);
 -- 
 2.39.5
 
