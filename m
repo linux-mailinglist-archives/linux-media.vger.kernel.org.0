@@ -1,36 +1,35 @@
-Return-Path: <linux-media+bounces-25345-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25346-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEAEA20CB8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:14:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C35E0A20CC1
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:16:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07A8D7A41DB
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:13:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 314251676D9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:16:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F8EC1B4F3D;
-	Tue, 28 Jan 2025 15:14:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9BFE1AAE28;
+	Tue, 28 Jan 2025 15:16:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2237342AA3;
-	Tue, 28 Jan 2025 15:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D18619D89E;
+	Tue, 28 Jan 2025 15:16:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738077256; cv=none; b=J6+N52GE3ocm8lflJZRvWLbJjcop5qzSrYcuxt9fAFS9Z/BBXCoMTWWZYEV2d4X3YUsDqYF85nQf8lCtaa8dTlatIBvLGK5v9ZwqPQr6QC1lXYMCG73+c71QMZzoU4R1H8ZM+5xyxkGZIK3oSPOhHRL00ZpwnOHEghlLoy2FxW0=
+	t=1738077390; cv=none; b=qib3GSWQvzSf/iU8MMZZFUF9AOO296jd8dPrZ3dLyTPSiNFUA60wfzMqlFXMsF+1fIF5U3uuzO03u/GFJIZBZ80Xf1GfcVky2wHsslTKkCQSfM0u/c/Eg6d9cmOgkzEab3q5nw9Be5EelRbmLVfpcaOSMWFMD0Q+izBFRzxrpyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738077256; c=relaxed/simple;
-	bh=W6yFCVARpS+3ojPzRWRmAjVT58mW7GMrK2b6KLA6EK0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=V8INO1hOOysRxaT6Xw2TzlUIT9OdTSvSjmWZ7RcrOgiRdpgr4UIbiN0ripJaFp+EuSh4ry6p30EWlg/fw1cZJHJT9Mpa6vtlQdT0XG/Yp816cXbZ9U6PK1Yg4Hj9RsK7juK/5brrywhImZpsgtYqHTiOttqwsOYEs7Gl7t1OnF0=
+	s=arc-20240116; t=1738077390; c=relaxed/simple;
+	bh=c16VCpFZh5An4qgLj4LcEENVuR1oP8bEzp/lmS7lDnU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=Tj4UFEI4EzOgrJySuuLbD3PG4fQnZbETR5PShDXlM4/eNfp46L8VBTGlwYGNiQBpGlOJkQgufo1G/KKHxqLLqspnDr/lk2oDzkgv7rvsHFeMhUg97AxOXSLN1auLBJKJH1wdx9wRN5RPDWqeo4bu6TLGdLMt3/ldQRjPqqS5zIM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A9AC4CED3;
-	Tue, 28 Jan 2025 15:14:14 +0000 (UTC)
-Message-ID: <d96432bd-dda0-4d26-9825-391206ebf6ab@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:14:13 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6947FC4CED3;
+	Tue, 28 Jan 2025 15:16:28 +0000 (UTC)
+Message-ID: <f01dc977-bc4a-46f5-abd7-35089c8f2031@xs4all.nl>
+Date: Tue, 28 Jan 2025 16:16:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,12 +37,17 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6]
 From: Hans Verkuil <hverkuil@xs4all.nl>
-To: linux-media@vger.kernel.org
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <cover.1738076484.git.hverkuil@xs4all.nl>
+Subject: [RESEND PATCH] staging: bcm2835-camera: drop
+ vb2_ops_wait_prepare/finish
+To: "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-rpi-kernel@lists.infradead.org,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -88,14 +92,40 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <cover.1738076484.git.hverkuil@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/01/2025 16:01, Hans Verkuil wrote:
-> 
+Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
+are NULL") it is no longer needed to set the wait_prepare/finish
+vb2_ops callbacks as long as the lock field in vb2_queue is set.
 
-Sorry, email mishap. Just ignore.
+Since the vb2_ops_wait_prepare/finish callbacks already rely on that field,
+we can safely drop these callbacks.
 
-	Hans
+This simplifies the code and this is a step towards the goal of deleting
+these callbacks.
+
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+---
+Resend, adding missing CC to linux-media. No other changes.
+---
+ drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+index deec33f63bcf..b839b50ac26a 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+@@ -658,8 +658,6 @@ static const struct vb2_ops bcm2835_mmal_video_qops = {
+ 	.buf_queue = buffer_queue,
+ 	.start_streaming = start_streaming,
+ 	.stop_streaming = stop_streaming,
+-	.wait_prepare = vb2_ops_wait_prepare,
+-	.wait_finish = vb2_ops_wait_finish,
+ };
+
+ /* ------------------------------------------------------------------
+-- 
+2.45.2
+
 
