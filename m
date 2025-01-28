@@ -1,35 +1,35 @@
-Return-Path: <linux-media+bounces-25340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25341-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9C0A20C78
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:03:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 018D8A20C81
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 16:03:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5CF31889E27
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:03:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59B871647C0
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 15:03:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D541ACEBD;
-	Tue, 28 Jan 2025 15:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE73D1AE875;
+	Tue, 28 Jan 2025 15:03:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9ECBE40
-	for <linux-media@vger.kernel.org>; Tue, 28 Jan 2025 15:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B271ACEAF
+	for <linux-media@vger.kernel.org>; Tue, 28 Jan 2025 15:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738076576; cv=none; b=bEZMQxT0TerKSC3rN2aH3xvOBI196GHCsi06FPg4v9IYot4vv2CGbIOYGdUrN1nrH1QnWdrGx87mchGXowRLBvMnfO8GaIgGPJ+4UWv2cbvP/BKvCwPXWjYoABr0b78RgIZyybbp/livxORyt6GZB/hrc2N2NvUeYBm7a38nBZs=
+	t=1738076621; cv=none; b=cS1+9DM3xBG/gcps1CqjrFJec13ZB0swvbEzQBh6P3nPXLzx7U9MW38CCrTOueVZhxc7X5WogKMZ2CLobeFUdv/EkV8cfWys9zU8J9hp5e6maGDanIpWJ4zKnj0VN8r/f8HNXMm3/tEGsp0Kwf4iab9Z0F25uWNpATxJCqzBbhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738076576; c=relaxed/simple;
-	bh=bICopWsWHkWwul9BuQF/aHWXbDvFIDkqj3n7qWf9X+k=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=VLXdNOhvJwN/5CA/g+NTWmzDiezuc/bILO6L4caHvDwhUcktzdMiSRAcNopirOu81OKw9WMabmS7Vx70kI92cKf/Eb5+Rdj6QFeZFk/oADgIsBPtiNQlwgHCz0CujY5Xd79FFzAT4RNg+ZvybhCI9mTqflPI7WQPkzfSua8/0ao=
+	s=arc-20240116; t=1738076621; c=relaxed/simple;
+	bh=8xvw/3Oo4tfPepTIR4CHbD8rrr0uJwULIXWqEzpIc+8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=nTKhN5F7hiEogyzT35v65BE5Sr+Lxs5cUw2/uu/rLOfUrXZl1kB0VLYLm0f/+h2JR98AfdIFvjR6ZOPPYVL0U+Yfx9RwErX7mRrwsJVb5ELcvj4XjfIcLgu/HP6c/OrJQv2rxnQRzTG5jyYhjA67QjKWg0HeQ4IYw5b94XwSoZ8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88157C4CED3;
-	Tue, 28 Jan 2025 15:02:55 +0000 (UTC)
-Message-ID: <2509af99-bb80-42e4-9265-d1ab801b5cf1@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:02:53 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2BCBC4CED3;
+	Tue, 28 Jan 2025 15:03:40 +0000 (UTC)
+Message-ID: <91a3443e-6723-4e80-a532-8a43ff74cd4f@xs4all.nl>
+Date: Tue, 28 Jan 2025 16:03:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -39,9 +39,10 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US, nl
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: pci: ipu6: drop vb2_ops_wait_prepare/finish
+Subject: [PATCH] media: platform: rpi1-cfe: drop vb2_ops_wait_prepare/finish
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -100,22 +101,22 @@ these callbacks.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 2 --
+ drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-index bbb66b56ee88..72f5f987ef48 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-@@ -804,8 +804,6 @@ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
+diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+index 12660087b12f..ff6f05b28c13 100644
+--- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
++++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+@@ -1315,8 +1315,6 @@ static void cfe_stop_streaming(struct vb2_queue *vq)
+ }
 
- static const struct vb2_ops ipu6_isys_queue_ops = {
- 	.queue_setup = ipu6_isys_queue_setup,
+ static const struct vb2_ops cfe_video_qops = {
 -	.wait_prepare = vb2_ops_wait_prepare,
 -	.wait_finish = vb2_ops_wait_finish,
- 	.buf_init = ipu6_isys_buf_init,
- 	.buf_prepare = ipu6_isys_buf_prepare,
- 	.buf_cleanup = ipu6_isys_buf_cleanup,
+ 	.queue_setup = cfe_queue_setup,
+ 	.buf_prepare = cfe_buffer_prepare,
+ 	.buf_queue = cfe_buffer_queue,
 -- 
 2.45.2
 
