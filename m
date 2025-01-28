@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-25360-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25361-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00176A20FDD
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 18:55:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D4EA20FE3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 18:55:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 089151672DE
-	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 17:55:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4D4A3A7744
+	for <lists+linux-media@lfdr.de>; Tue, 28 Jan 2025 17:55:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 241BE1EEA2C;
-	Tue, 28 Jan 2025 17:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01F3F1F150D;
+	Tue, 28 Jan 2025 17:54:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VqsaHp3v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fz9fnvpf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FBF1E9B1E;
-	Tue, 28 Jan 2025 17:53:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A151EEA57;
+	Tue, 28 Jan 2025 17:54:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738086839; cv=none; b=rr15ad8NobuZ6RF/GrTEvyjXpCAVEDMx65r32vKKcPcNVgT80/uiP4KXR21ooH1l9nC3KwdeCX20rgK4KL5JsdKEqK9emzZ1FnMAfuH45FwyC/7YgtTGKW2+AV+v5fzGAjaQiykEFT8/Qp9B+XpXqKLuw8N1qkJeCa14k64rSGw=
+	t=1738086841; cv=none; b=hTmhiZc1e0LcfcclTbYh6Hzvj+00+Fw7zEtHcVFTnkKVW8+HytjbZ0nSDsGBxYrc+LbijNuzFvmSAGeT1Ql8dHgxBvyVKSXoeZF71Q6gxDms+q0y5RE2g21TOzXz4jtkLUSaVJw7SWBXsy90O4QQzJVr93IsiJZRLLVXBtCfiAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738086839; c=relaxed/simple;
-	bh=SCtgI849sik+0ORmdyiQw7A0KQpydXzp5TtoZD3Hxv4=;
+	s=arc-20240116; t=1738086841; c=relaxed/simple;
+	bh=LrQC9XId3TURQI6afhx0E28boXtdrpg5E0j7fqK2qdo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=f7grM7WLn0lc6oprx4XaHzkReUHjR5PEkc7OsJe3G8NejFcz3PiP+AmoZBvcd9f+gT8ySLNt5iRlKYAwJJPf0phPscJjffTIQ01JlrCcdPb+HsImeFzbWh/5DCPs3i34aTkRnOqj1D85bTXgbR0XER5BSfrCPNRD746gw+TBTJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VqsaHp3v; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F801C4CEE1;
-	Tue, 28 Jan 2025 17:53:58 +0000 (UTC)
+	 MIME-Version; b=qoN0tNL9fa1VkZI4VWnWzXzjgx1HcRz47bSgC978oIlqXxpzdmBtQhr1Os1fHMzJMfs6RU6RsrhPaOkl/g+4W0eL8if2GAR1n+qunqWqvYdu/I/byyH0vWvG6FKnluFCKLeAV/IYyqi4sz0h0PZypONM30G7bKOTR16cGwfFLRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fz9fnvpf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7974C4CED3;
+	Tue, 28 Jan 2025 17:53:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738086839;
-	bh=SCtgI849sik+0ORmdyiQw7A0KQpydXzp5TtoZD3Hxv4=;
+	s=k20201202; t=1738086840;
+	bh=LrQC9XId3TURQI6afhx0E28boXtdrpg5E0j7fqK2qdo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VqsaHp3vt0LOTBAW1eqk2iJ4znywqpprfRfUl0TNDOWyW0Ju9FkxOWf3BpNgWZwM+
-	 GURY/GX9x8+wYU3+Uy5OuBxSadaxLSHaRHspjZNT2LXUBnib3x2rI5Kj/jCOgHTUQJ
-	 QFHJkc8dYEwmyfaDnNCdx76OvTtDhIg41f441N9CJ22XtWTgSYrH779+ufb3/Ze/LD
-	 p/yMbDqGkfl0kIEURhfm4sOC3rJ2PkInAQSxSe59rFnxrqSncITR1su6mG2f7ozjBx
-	 IFXqJhni8+UiENFt8j77QX09k5p8/7WCPG0pBOvHiO3Huk+84GzpaEuZXlduHSvBqF
-	 gt3uWXTuxKkrw==
+	b=Fz9fnvpfK1q2kblbdtWVKg3m0Ni9kiIxSjbtf3arq97M+qofdTeyz8qpO5hMTA3R+
+	 bWsUU0wvlRQZOjTjBS5/0Fan16e8iVUSaMGbjXIMLCAYwdhDzn6yAtFPkVGtlA7TKt
+	 qLrgRnjx1DNZtWm0BgNJ791EwUNyLLrYc7iX1fdI6vrsbQ4g4Y6r6EAHkLzn860BUt
+	 SwvycZ/LD88lsEtk9FVM7CHir5YLS/5yNmefFukye2ItCWbvKS62ChgHpJpfrC2lpO
+	 7tGxW+GHkWMdAjQurisDF/4M2OU7yJTjUVDBRgRigGMYMYEImOOKZoadVKHbg9FrV8
+	 DsOfFa7SBdpkQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -51,9 +51,9 @@ Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
 	hdegoede@redhat.com,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 07/15] media: uvcvideo: Add new quirk definition for the Sonix Technology Co. 292a camera
-Date: Tue, 28 Jan 2025 12:53:38 -0500
-Message-Id: <20250128175346.1197097-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 08/15] media: uvcvideo: Add Kurokesu C1 PRO camera
+Date: Tue, 28 Jan 2025 12:53:39 -0500
+Message-Id: <20250128175346.1197097-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250128175346.1197097-1-sashal@kernel.org>
 References: <20250128175346.1197097-1-sashal@kernel.org>
@@ -70,17 +70,15 @@ Content-Transfer-Encoding: 8bit
 
 From: Isaac Scott <isaac.scott@ideasonboard.com>
 
-[ Upstream commit 81f8c0e138c43610cf09b8d2a533068aa58e538e ]
+[ Upstream commit 2762eab6d4140781840f253f9a04b8627017248b ]
 
-The Sonix Technology Co. 292A camera (which uses an AR0330 sensor), can
-produce MJPEG and H.264 streams concurrently. When doing so, it drops
-the last packets of MJPEG frames every time the H.264 stream generates a
-key frame. Set the UVC_QUIRK_MJPEG_NO_EOF quirk to work around the
-issue.
+Add support for the Kurokesu C1 PRO camera. This camera experiences the
+same issues faced by the Sonix Technology Co. 292A IPC AR0330. As such,
+enable the UVC_QUIRK_MJPEG_NO_EOF quirk for this device to prevent
+frames from being erroneously dropped.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-Link: https://lore.kernel.org/r/20241128145144.61475-3-isaac.scott@ideasonboard.com
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
@@ -89,23 +87,23 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+)
 
 diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index b3c8411dc05c9..f76289bd8bb3c 100644
+index f76289bd8bb3c..cc5981c3be3a4 100644
 --- a/drivers/media/usb/uvc/uvc_driver.c
 +++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2802,6 +2802,15 @@ static const struct usb_device_id uvc_ids[] = {
+@@ -2839,6 +2839,15 @@ static const struct usb_device_id uvc_ids[] = {
  	  .bInterfaceSubClass	= 1,
  	  .bInterfaceProtocol	= 0,
  	  .driver_info		= (kernel_ulong_t)&uvc_quirk_probe_minmax },
-+	/* Sonix Technology Co. Ltd. - 292A IPC AR0330 */
++	/* Kurokesu C1 PRO */
 +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
 +				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x0c45,
-+	  .idProduct		= 0x6366,
++	  .idVendor		= 0x16d0,
++	  .idProduct		= 0x0ed1,
 +	  .bInterfaceClass	= USB_CLASS_VIDEO,
 +	  .bInterfaceSubClass	= 1,
 +	  .bInterfaceProtocol	= 0,
 +	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_MJPEG_NO_EOF) },
- 	/* MT6227 */
+ 	/* Syntek (HP Spartan) */
  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
  				| USB_DEVICE_ID_MATCH_INT_INFO,
 -- 
