@@ -1,80 +1,81 @@
-Return-Path: <linux-media+bounces-25411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2248A21FED
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C33CCA21FEE
 	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 16:04:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8EDDB188638D
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 15:04:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27392168014
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 15:04:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C55C34C83;
-	Wed, 29 Jan 2025 15:03:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E4731DC99A;
+	Wed, 29 Jan 2025 15:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="MW3XZKUR"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="JKbCv5TZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BEB17BB21
-	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 15:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBD718F2EA
+	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 15:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738163039; cv=none; b=IUjK0nsd8PsMwMlhqJ7IJkdvvRU4C2/YkbwYZmqkLCaPThK/zepJzSVIx7qF+mOw7410kgru+Wqm9+q/YitD9ci2bsP2ZXfX++I55m17IMm1RGXnh8LnfVs4qHMRC1KYVo+81y+ChCxWbGEoTNr5qaUO81DV+WUdsENbWU5Nt4M=
+	t=1738163039; cv=none; b=SPWZdkDOY0y1HGvD5pXtYJOZpW6Pm1TdsxDWCaPeI7kBePjejsn82hMs/UX1YslGFfiO+YY7Mzan4mcxXTYo4SCtYTdFx8WdoaTR3FSst5bp5ksqYXLSvs1brOltkCIeuM4P4kE+IGmElfZV3FjBVS4Zcn1nQQmuXwyCqqyCRoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738163039; c=relaxed/simple;
-	bh=AZUkRTiXt/11j1aYVCU9foKtJ7qIL4neS/wOS4IuEAc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RM5B8wDxfb5L7fqHeib66fBFxs6ersG8ijVrYJrX02pOxGJiQ2p9PHbznD1jI3ZFSEBtQnIw9xACF+/l5lTgg7Sw0xxW41NFITWu+0pzxxcU2MKkaGwVDMRHuFwrDnNoGCFe/jp6vuZFzY/bfrw590tNNoh2OOfB/FQbhPPD2n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=MW3XZKUR; arc=none smtp.client-ip=209.85.128.53
+	bh=TqdDfVnt1s5oLrNMWo9iFiZRdsBIv+vctprwtCvzwRY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GpDby0HjvA7YeRIdmNZWxwJ2/OHZKnDTsPmayuQRxIj4IZSxSWYr57MUVZUinIbm0HG3nYzdRwtCG5GbpPO+eTM8/KYeDaDNpNkzxd1708P2DX5f+eRm2WuCG0Pnh9L9/Z+pW8lP8ClHhZeX25Dp34G6vYI+OtMCjt7IsgURmq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=JKbCv5TZ; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43690d4605dso47410235e9.0
-        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 07:03:56 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-436a03197b2so47925015e9.2
+        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 07:03:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1738163035; x=1738767835; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=z7jOr3jG/gqHO+XxbNXXOpqeLaZUfs/H2fLjYnPioHY=;
-        b=MW3XZKURvwmDFOhke/S6HSWIm4tL21CLWZdxYgst2vCBqY+H2R4on5HrOwy19RT4bJ
-         ulzY5NuXYq2pW7q1ZijJTim+5n8STD22dApt2u3VdE/ot1bqqNf8s0265I8Me7ll+9dg
-         kIxUfTbfHeF1JNxgb0zs4p0Xms7+3+kXBiV7QC+QSkS1DUQ91d+NPPgIcXQPvyaR2KBG
-         0/9rqF6B60sUjgt1a5t93ZHsI9Br5EuNv25IuNnwV6+bRVvPFy3CrbJBt5OEZ2pY+oKr
-         rboRU9Ce+TKZ5DNYjBnNc/5Xz/tyJUhSscpJNvKxZvwdlb3csliXyTzuub2djm44gZjy
-         WzqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738163035; x=1738767835;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=raspberrypi.com; s=google; t=1738163036; x=1738767836; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=z7jOr3jG/gqHO+XxbNXXOpqeLaZUfs/H2fLjYnPioHY=;
-        b=iNW+7JSpyYNPIye4RWpl+2c4gThDZSblvE1SaeBjTbse6dWYhC/Pw1LGeRY0wIpKV5
-         F/1JPVx6Mo3xgU83mNyZ4nZH/XpbkcRdEetWe+0BTfhAee0us8BjBxLgSQ3iYHPpUWiV
-         pmyMkkF/Alo3ukXfmx2fcorku2PXk+iuegRHHWRmzY4Kkj4ctzh+X5nZiE1mWiDmOCZ8
-         nHPj+LtWbCLXfEdj8R2MOsi2gORkb0LspLNr0JWOihGwVF3riZOyUy3Sc1W9U+vwqQDT
-         kcWNyQJOw/lSWD4PT7JdLSaNFpyMLjiguMq/nk0Agqcbptzwx4HaRO++Ca6+9NJxo8n2
-         LR+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVy6vdhfs9y4B1sZtr4XPgIar5TiMQffMNzeC5zi6sJpugBEqJsPLfsBFuz28rWJOsiI02ocoyAoNxpwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVNaovrkEPAF8V0iXmOKsShoBJoFtpkFoT4L5yMKIXI2yK13PT
-	ch78mpKW++oTLcJPHFurqF1kxjN/jRn9QFbl9rQBREiU+UK+W3CY8QgOzxsMY+Y=
-X-Gm-Gg: ASbGnctNzJz8qxe0oUNr9RuwM140hTNZ57PoVutoXoYGyfkYpRRxVjNfLT3gRmI7oAD
-	PMSvpxHiFKTRqkpAszC1gnWj4DLrAGmrIUeXfm8c9zn6qNF6Yhe9kv9Spxoj/pbgroZ2azxcdp9
-	Tk7xkvv5u9XgWaoCcwoHcrt4pLBXdt7tTfU6jkSV8zoPEmcFeTZR0hw2uzoyOFQzyeG0Mz2itx8
-	BjAcTPPqwM3YQG7LWLiWicA2oTX/Auu2u2fAi3lUpLNFaXdOzXWqjSFc6wZuzaR9/8AGjbm4xSS
-	t0zUnzw=
-X-Google-Smtp-Source: AGHT+IGk3IED1rW2H+gS5X9lthNkh4iJZQ+tN3q+utTgQBLLllIeFgCCCpIM4qO564jUt6GQ2RkF1A==
-X-Received: by 2002:a05:600c:4e14:b0:438:a214:52f4 with SMTP id 5b1f17b1804b1-438dc428c0amr25426485e9.25.1738163034675;
-        Wed, 29 Jan 2025 07:03:54 -0800 (PST)
+        bh=2RdELdmmM00SLhxC3lWyk5JiMZUv4m8x+ewbzx0VpYU=;
+        b=JKbCv5TZqhJ/7iuevg+GCkrFLGYdKN8SUdPCSU/GZBhHzItgu2Q29YGh47VnWVkFMS
+         oFqM1A4NFgx+D39Tv1fhzY1/bShTCrqcLie8cNzaw24EX4STHCsEROI7DstOIL+YFa4e
+         Y8WRRZdZxI/L8iN5zCTKD9KvcK7fKVAzvG6+R3g/mr4ZaAIWd3EVK59p2zJjPwnuCbmJ
+         MrhluHyeaL0UxOSWb9J7ejGA6vnqo/dVlFTrvwmLt6s73le5F2xtxc689KJXfSoQaOX4
+         +BQ5tm7KRDIjCX/DyfqZjcZ32+ZbykkEJzH2gEE70hAYaIpW2LVApw2zRjo+70jWGkwC
+         N0YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738163036; x=1738767836;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2RdELdmmM00SLhxC3lWyk5JiMZUv4m8x+ewbzx0VpYU=;
+        b=hx9v8dnp4/tbXq7LPxLonad3lv869zeFUp6yxpX5QV/K/a730uAUYH62RUFEGNJFLD
+         20hMqsea78x7NYUQ1ID0SYhdaTNtEJ70cGT6pSg8xy8ifjOhOI2Yqxh36xXau82tb/6Y
+         HpSAS/7Elr/AzqZDui/SriDzPpvaTcWU0uZ4FdsYF3xKoX/yH3XdPt0HGNARBV+wty2/
+         Pc4HlG4VixKQxqQBF+mH+Zuh/TSFslEr+F/PIN7/iGF3BI6GsKP6Pm2jByCnRCNU8rNg
+         AhH/CNUe2/EqkwJTJXXgMU2coiN5PRWwOXwfd2whgvavha8pfZPK30T8JIEH3k3TpDV2
+         rvYA==
+X-Forwarded-Encrypted: i=1; AJvYcCV9AHv2r0JMLCNfWE3+vMKyQF289bd2p0H8kGyCZcsfgIJdw9KxhX3gttrx2QuQJH8egvdQ9chOvdaHOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZFrhMEUbFErCap/Wxxsryfe7Nw4rvAKqtFnq6/pKdaHT+D+bJ
+	kYjLfvntNjjqEoyEqP53xd+EeZrtDgwJHBlFIvq++oca6PHdQj16VTIrq72QiDQ=
+X-Gm-Gg: ASbGncv/ywe1iWFadCFlMYO7pIyZBIH8sObcv9NTg0HrfxYuDGMxOfvtqMq59gna83g
+	mGvYC5/mhCQjvg0sKWoHNcxiHMefdfyzBm4J/1fcMXI5ogcJ8f4Bn5X+4olKRY0Rad2dYXzb2NP
+	35EmEc51YpySmxJgczj7RQB4EBoNRSDsbVWguCxss/ZIgaPTnjLHOVotR5blcDFtPje1i8EgULK
+	qPzYhfyXkgjMABNiGpdFJgkcGIvL4jA9Zz2bI2QFNA5LcfQ//FNKsZF2ysx6ixcJ29q5f2c/f4u
+	WN/NRqE=
+X-Google-Smtp-Source: AGHT+IEfdr26yni6vLyodzHwXpuihA52ws3krKB6jrbt5LefZJKD6s0VHpLBRoXv+pWE+xtfo+h3kw==
+X-Received: by 2002:a05:600c:3b98:b0:434:a4fe:cd71 with SMTP id 5b1f17b1804b1-438dc3be214mr31220785e9.12.1738163035433;
+        Wed, 29 Jan 2025 07:03:55 -0800 (PST)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-438d755375bsm39074745e9.0.2025.01.29.07.03.53
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-438d755375bsm39074745e9.0.2025.01.29.07.03.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 29 Jan 2025 07:03:54 -0800 (PST)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH v3 0/3] media: imx415: Improvements for framerate and link
- frequency control
-Date: Wed, 29 Jan 2025 15:03:48 +0000
-Message-Id: <20250129-media-imx415-v3-0-d16d4fa8fc10@raspberrypi.com>
+Date: Wed, 29 Jan 2025 15:03:49 +0000
+Subject: [PATCH v3 1/3] media: i2c: imx415: Add read/write control of
+ VBLANK
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,82 +84,163 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFRDmmcC/2XMywqDMBCF4VeRrJuSTEykXfkepYtRxzoLLyQlK
- OK7NwqFXpb/DOdbRSDPFMQ1W4WnyIHHIYU5ZaLucHiQ5Ca1AAVWaVXInhpGyf2cayuhaV2BBDp
- 9RJpMnlqeD+52T91xeI5+OfSo9+sbunxDUUsljXMVOgSTY1V6DFNF3i8Tn+uxFzsX4YPQ7oeAR
- BTGgjOtyp2Ff2LbthfFPuuI8QAAAA==
+Message-Id: <20250129-media-imx415-v3-1-d16d4fa8fc10@raspberrypi.com>
+References: <20250129-media-imx415-v3-0-d16d4fa8fc10@raspberrypi.com>
+In-Reply-To: <20250129-media-imx415-v3-0-d16d4fa8fc10@raspberrypi.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Michael Riesch <michael.riesch@wolfvision.net>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Gerald Loacker <Gerald.Loacker@wolfvision.net>, 
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 X-Mailer: b4 0.14.1
 
-The driver was using reverse engineered pixel rates, and had different
-values for different link frequencies.
-In common with the other Starvis sensors (eg imx290), this isn't
-actually the situation, and the pixel array runs off a different
-PLL to the MIPI block, and there is a FIFO between the two.
+This also requires that the ranges for the exposure control
+are updated.
 
-It's not quite so simple as HMAX is said to be in units of INCK,
-not pixel clocks. Working through the various modes that appears that
-even that is slightly wrong as it is units of a scaled INCK of
-either 72MHz (for INCK = 24 or 72MHz) or 74.25MHz (for INCK = 27,
-37.125, or 74.25MHz).
-
-Rework the configuration so that the pixel rate is fixed, with the
-different link frequencies adjusting the minimum hmax value so that
-the FIFO doesn't overflow.
-
-Switching between 2 and 4 data lanes also only changes the MIPI data
-rate, so also can be handled by altering the minimum HMAX.
-
-Once you've got HMAX / V4L2_CID_HBLANK represented sensibly, then
-frame rate control through V4L2_CID_HBLANK and V4L2_CID_VBLANK is
-trivial, so add in frame rate control too.
-Exposure is set in lines (as usual), so amending VBLANK changes the
-range for the exposure control.
-
-This has been tested on a Pi5 with Waveshare "IMX415-98 IR-CUT Camera"
-module (SKU 28524). That uses a 24MHz clock, so only the 360MHz and
-720MHz link frequencies have been tested (other frequencies require
-a 27, 37.125, or 74.25MHz clock input.
-
-It'd be nice to add support for 12bit readout and windowed mode readout,
-but those are a job for another day.
-
+Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
-Changes in v3:
-- Fix s_ctrl for HBLANK to not return and miss a pm_runtime_put()
-- Added Gerald's and Michael's R-b tags (not to patch 2 as that has been
-  updated)
-- Link to v2: https://lore.kernel.org/r/20250116-media-imx415-v2-0-735263f04652@raspberrypi.com
+ drivers/media/i2c/imx415.c | 52 ++++++++++++++++++++++++++++++----------------
+ 1 file changed, 34 insertions(+), 18 deletions(-)
 
-Changes in v2:
-- Fixed VBLANK fall-through for setting the exposure correctly
-- Sorted the checkpatch complaint over using fallthrough; vs commenting
-  why we're falling through.
-- Corrected HMAX for 891Mbit/s mode. I now have a module with 37.125MHz
-  clock, and have validated that.
-- Link to v1: https://lore.kernel.org/r/20250109-media-imx415-v1-0-366ba6a234ab@raspberrypi.com
+diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+index 3f7924aa1bd3..fa7ffb9220e5 100644
+--- a/drivers/media/i2c/imx415.c
++++ b/drivers/media/i2c/imx415.c
+@@ -26,6 +26,7 @@
+ #define IMX415_PIXEL_ARRAY_WIDTH  3864
+ #define IMX415_PIXEL_ARRAY_HEIGHT 2192
+ #define IMX415_PIXEL_ARRAY_VBLANK 58
++#define IMX415_EXPOSURE_OFFSET	  8
+ 
+ #define IMX415_NUM_CLK_PARAM_REGS 11
+ 
+@@ -51,6 +52,7 @@
+ #define IMX415_OUTSEL		  CCI_REG8(0x30c0)
+ #define IMX415_DRV		  CCI_REG8(0x30c1)
+ #define IMX415_VMAX		  CCI_REG24_LE(0x3024)
++#define IMX415_VMAX_MAX		  0xfffff
+ #define IMX415_HMAX		  CCI_REG16_LE(0x3028)
+ #define IMX415_SHR0		  CCI_REG24_LE(0x3050)
+ #define IMX415_GAIN_PCG_0	  CCI_REG16_LE(0x3090)
+@@ -447,7 +449,6 @@ static const struct imx415_clk_params imx415_clk_params[] = {
+ 
+ /* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
+ static const struct cci_reg_sequence imx415_mode_2_720[] = {
+-	{ IMX415_VMAX, 0x08CA },
+ 	{ IMX415_HMAX, 0x07F0 },
+ 	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
+ 	{ IMX415_TCLKPOST, 0x006F },
+@@ -463,7 +464,6 @@ static const struct cci_reg_sequence imx415_mode_2_720[] = {
+ 
+ /* all-pixel 2-lane 1440 Mbps 30.01 Hz mode */
+ static const struct cci_reg_sequence imx415_mode_2_1440[] = {
+-	{ IMX415_VMAX, 0x08CA },
+ 	{ IMX415_HMAX, 0x042A },
+ 	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
+ 	{ IMX415_TCLKPOST, 0x009F },
+@@ -479,7 +479,6 @@ static const struct cci_reg_sequence imx415_mode_2_1440[] = {
+ 
+ /* all-pixel 4-lane 891 Mbps 30 Hz mode */
+ static const struct cci_reg_sequence imx415_mode_4_891[] = {
+-	{ IMX415_VMAX, 0x08CA },
+ 	{ IMX415_HMAX, 0x044C },
+ 	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+ 	{ IMX415_TCLKPOST, 0x007F },
+@@ -600,6 +599,7 @@ struct imx415 {
+ 	struct v4l2_ctrl *vblank;
+ 	struct v4l2_ctrl *hflip;
+ 	struct v4l2_ctrl *vflip;
++	struct v4l2_ctrl *exposure;
+ 
+ 	unsigned int cur_mode;
+ 	unsigned int num_data_lanes;
+@@ -730,17 +730,38 @@ static int imx415_s_ctrl(struct v4l2_ctrl *ctrl)
+ 					     ctrls);
+ 	const struct v4l2_mbus_framefmt *format;
+ 	struct v4l2_subdev_state *state;
++	u32 exposure_max;
+ 	unsigned int vmax;
+ 	unsigned int flip;
+ 	int ret;
+ 
+-	if (!pm_runtime_get_if_in_use(sensor->dev))
+-		return 0;
+-
+ 	state = v4l2_subdev_get_locked_active_state(&sensor->subdev);
+ 	format = v4l2_subdev_state_get_format(state, 0);
+ 
++	if (ctrl->id == V4L2_CID_VBLANK) {
++		exposure_max = format->height + ctrl->val -
++			       IMX415_EXPOSURE_OFFSET;
++		__v4l2_ctrl_modify_range(sensor->exposure,
++					 sensor->exposure->minimum,
++					 exposure_max, sensor->exposure->step,
++					 sensor->exposure->default_value);
++	}
++
++	if (!pm_runtime_get_if_in_use(sensor->dev))
++		return 0;
++
+ 	switch (ctrl->id) {
++	case V4L2_CID_VBLANK:
++		ret = cci_write(sensor->regmap, IMX415_VMAX,
++				format->height + ctrl->val, NULL);
++		if (ret)
++			return ret;
++		/*
++		 * Exposure is set based on VMAX which has just changed, so
++		 * program exposure register as well
++		 */
++		ctrl = sensor->exposure;
++		fallthrough;
+ 	case V4L2_CID_EXPOSURE:
+ 		/* clamp the exposure value to VMAX. */
+ 		vmax = format->height + sensor->vblank->cur.val;
+@@ -787,7 +808,8 @@ static int imx415_ctrls_init(struct imx415 *sensor)
+ 	u64 pixel_rate = supported_modes[sensor->cur_mode].pixel_rate;
+ 	u64 lane_rate = supported_modes[sensor->cur_mode].lane_rate;
+ 	u32 exposure_max = IMX415_PIXEL_ARRAY_HEIGHT +
+-			   IMX415_PIXEL_ARRAY_VBLANK - 8;
++			   IMX415_PIXEL_ARRAY_VBLANK -
++			   IMX415_EXPOSURE_OFFSET;
+ 	u32 hblank;
+ 	unsigned int i;
+ 	int ret;
+@@ -816,8 +838,9 @@ static int imx415_ctrls_init(struct imx415 *sensor)
+ 	if (ctrl)
+ 		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
+-	v4l2_ctrl_new_std(&sensor->ctrls, &imx415_ctrl_ops, V4L2_CID_EXPOSURE,
+-			  4, exposure_max, 1, exposure_max);
++	sensor->exposure = v4l2_ctrl_new_std(&sensor->ctrls, &imx415_ctrl_ops,
++					     V4L2_CID_EXPOSURE, 4,
++					     exposure_max, 1, exposure_max);
+ 
+ 	v4l2_ctrl_new_std(&sensor->ctrls, &imx415_ctrl_ops,
+ 			  V4L2_CID_ANALOGUE_GAIN, IMX415_AGAIN_MIN,
+@@ -834,16 +857,9 @@ static int imx415_ctrls_init(struct imx415 *sensor)
+ 	sensor->vblank = v4l2_ctrl_new_std(&sensor->ctrls, &imx415_ctrl_ops,
+ 					   V4L2_CID_VBLANK,
+ 					   IMX415_PIXEL_ARRAY_VBLANK,
+-					   IMX415_PIXEL_ARRAY_VBLANK, 1,
+-					   IMX415_PIXEL_ARRAY_VBLANK);
+-	if (sensor->vblank)
+-		sensor->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
++					   IMX415_VMAX_MAX - IMX415_PIXEL_ARRAY_HEIGHT,
++					   1, IMX415_PIXEL_ARRAY_VBLANK);
+ 
+-	/*
+-	 * The pixel rate used here is a virtual value and can be used for
+-	 * calculating the frame rate together with hblank. It may not
+-	 * necessarily be the physically correct pixel clock.
+-	 */
+ 	v4l2_ctrl_new_std(&sensor->ctrls, NULL, V4L2_CID_PIXEL_RATE, pixel_rate,
+ 			  pixel_rate, 1, pixel_rate);
+ 
 
----
-Dave Stevenson (3):
-      media: i2c: imx415: Add read/write control of VBLANK
-      media: i2c: imx415: Make HBLANK controllable and in consistent units
-      media: i2c: imx415: Link frequencies are not exclusive to num lanes
-
- drivers/media/i2c/imx415.c | 183 +++++++++++++++++++++++----------------------
- 1 file changed, 94 insertions(+), 89 deletions(-)
----
-base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
-change-id: 20250107-media-imx415-2df67ae21107
-
-Best regards,
 -- 
-Dave Stevenson <dave.stevenson@raspberrypi.com>
+2.34.1
 
 
