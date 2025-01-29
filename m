@@ -1,169 +1,313 @@
-Return-Path: <linux-media+bounces-25395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25396-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCAEFA21A66
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 10:52:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A71FDA21A6F
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 10:54:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01929166813
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 09:52:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAA143A06E2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 09:54:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CA022D627;
-	Wed, 29 Jan 2025 09:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B0BB1B0406;
+	Wed, 29 Jan 2025 09:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="o6Sx/Rrh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2447318FDCE
-	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 09:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C501ADFFB;
+	Wed, 29 Jan 2025 09:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738144311; cv=none; b=TnDPmq7IyrlZse+4n2t0WFp1GCIufnmntAEWwVw+BxtovDxYaBN0BPiwGvUReWvoMniwJjUd3VumIoN3S5gH1nwJA7nLZKdvbE+LXMNZ99eNWeYf3aRjLIi6PlKLoDRkmwfnGIbiYiZoD1HDhb7bxDQOManr69D0tOfRjeqM3xg=
+	t=1738144449; cv=none; b=ASxaVTouRY9DzThpSHwNFITfMqm9hL40OIdom6bpP7Q0dJJfqnTEfCnuLEjThjtHa31z9hSXPKeMw7i5Psl4VJYuu7kUGthL1FP2PkSR+ppMgDHPntvxbqPgMlCPdny2mOc/qBlsWKGivN5NxUrKFruT1fYSqFWalZ8gPUX0jDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738144311; c=relaxed/simple;
-	bh=STjLT2/gWaqQpvjCmQ57q48jZA4UXIfmHFtZkRx0DuA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=XfwPPWD70l7k4Ob4Rtr7Qs6jmXA6r7dkgLHCFMv8CSgCB3yIoJ8hfxtTjh09PaofR0Tx/FuOdOjd5U8xQGx/rVq5AdcylOtwC0MnuVSjOr64fCgHjRvCrzvMtklaVEUmn/3s4JK6PXOb0JWsCwVQT+yBucEr8hB+y7CBDda1q/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C4DC4CED3;
-	Wed, 29 Jan 2025 09:51:49 +0000 (UTC)
-Message-ID: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
-Date: Wed, 29 Jan 2025 10:51:48 +0100
+	s=arc-20240116; t=1738144449; c=relaxed/simple;
+	bh=BgTN7qxz2qFIpjID3jYigzaGHpUiLrISwspFAg3E3L4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=tSNPQ40+FOy2HxGqNslFY1S41HcI9soMdnkkzHePddOKjD3AHA3Akfk9V5aV6EXmkvuNeAPPlJAZB79B1C8ba5/q2dPy7DXfa0mvYzWIlP/TI8lGk1lxVZlqOMnmc2NKxCeR/nET85yQCBIZ4qI2ZRdtM4aPA6G9O6ug4lVHBCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=o6Sx/Rrh; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50T2gxxk020862;
+	Wed, 29 Jan 2025 09:53:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	sOddlnfAJR+6/qnsXse4j7jW+dDq8/iiERtouCUAD0g=; b=o6Sx/Rrhlmp5UJQr
+	sq/9XxLEyxqE4TuwjJ6YatzgsCCRVIW2ZM/h+6qu77TWInD4M78ZJsiXzkmp/G3Y
+	tkGxMeTQfCdFE0jO/lsLs9193Raq3lSqNz8b8LBoRRPNvSUDz5LOeaTzrHHkeVBJ
+	teMvWxGkB/leC4ALut8ep/xBWQpqfrrT4S+hiEt2RbinZwi8BNwO1CaTWP85ZZ0O
+	M66k8/ee/RnHfZ2FQ9fODeQV+aBfag5XnU3sR4ZMZbhI6TOyAAHtTWjogse6RqGB
+	s5hhSTZaEyviuOhDpj+x4hodpyFQIF1/5luO7YVlyGh2TRJYlttR5OoDrCUgdDzf
+	pNC0Kg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44f7xfh0fk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Jan 2025 09:53:47 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50T9rlUe002427
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Jan 2025 09:53:47 GMT
+Received: from [10.50.59.27] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 29 Jan
+ 2025 01:53:31 -0800
+Message-ID: <45c3676a-aafe-59e8-910d-af82031c24a6@quicinc.com>
+Date: Wed, 29 Jan 2025 15:23:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Farblos <farblos@vodafonemail.de>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
- Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
- cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
- kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
- H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
- CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
- Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
- kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
- eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
- WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
- xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
- Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
- ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
- aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
- GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
- OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
- SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
- SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
- aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
- e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
- XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
- LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC PATCH v10 1/2] media: iris: introduce helper module to
+ select video driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <quic_vgarodia@quicinc.com>, <quic_abhinavk@quicinc.com>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <p.zabel@pengutronix.de>, <hverkuil@xs4all.nl>,
+        <sebastian.fricke@collabora.com>, <bryan.odonoghue@linaro.org>,
+        <neil.armstrong@linaro.org>, <nicolas@ndufresne.ca>,
+        <u.kleine-koenig@baylibre.com>, <stefan.schmidt@linaro.org>,
+        <lujianhua000@gmail.com>, <linux-arm-msm@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <krzysztof.kozlowski@linaro.org>,
+        <johan@kernel.org>
+References: <20250128080429.3911091-1-quic_dikshita@quicinc.com>
+ <20250128080429.3911091-2-quic_dikshita@quicinc.com>
+ <sb3beoyhnlcdfjbm37ogpdoph7m4fecpbuu3myglnpzblpnqhw@wdyskeps3uuh>
+Content-Language: en-US
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <sb3beoyhnlcdfjbm37ogpdoph7m4fecpbuu3myglnpzblpnqhw@wdyskeps3uuh>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: JMRudwU-uVJYECc4UmDh8K2dsyJxZ_Wc
+X-Proofpoint-GUID: JMRudwU-uVJYECc4UmDh8K2dsyJxZ_Wc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-28_04,2025-01-27_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
+ phishscore=0 mlxlogscore=999 adultscore=0 impostorscore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501290080
 
-If the hotplug detect of a display is low for longer than one second
-(configurable through drm_dp_cec_unregister_delay), then the CEC adapter
-is unregistered since we assume the display was disconnected. If the
-HPD went low for less than one second, then we check if the properties
-of the CEC adapter have changed, since that indicates that we actually
-switch to new hardware and we have to unregister the old CEC device and
-register a new one.
 
-Unfortunately, the test for changed properties was written poorly, and
-after a new CEC capability was added to the CEC core code the test always
-returned true (i.e. the properties had changed).
 
-As a result the CEC device was unregistered and re-registered for every
-HPD toggle. If the CEC remote controller integration was also enabled
-(CONFIG_MEDIA_CEC_RC was set), then the corresponding input device was
-also unregistered and re-registered. As a result the input device in
-/sys would keep incrementing its number, e.g.:
-
-/sys/devices/pci0000:00/0000:00:08.1/0000:e7:00.0/rc/rc0/input20
-
-Since short HPD toggles are common, the number could over time get into
-the thousands.
-
-While not a serious issue (i.e. nothing crashes), it is not intended
-to work that way.
-
-This patch changes the test so that it only checks for the single CEC
-capability that can actually change, and it ignores any other
-capabilities, so this is now safe as well if new caps are added in
-the future.
-
-With the changed test the bit under #ifndef CONFIG_MEDIA_CEC_RC can be
-dropped as well, so that's a nice cleanup.
-
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Reported-by: Farblos <farblos@vodafonemail.de>
----
-Jens (aka Farblos), can you test this patch?
----
- drivers/gpu/drm/display/drm_dp_cec.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
-index 007ceb281d00..56a4965e518c 100644
---- a/drivers/gpu/drm/display/drm_dp_cec.c
-+++ b/drivers/gpu/drm/display/drm_dp_cec.c
-@@ -311,16 +311,6 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
- 	if (!aux->transfer)
- 		return;
-
--#ifndef CONFIG_MEDIA_CEC_RC
--	/*
--	 * CEC_CAP_RC is part of CEC_CAP_DEFAULTS, but it is stripped by
--	 * cec_allocate_adapter() if CONFIG_MEDIA_CEC_RC is undefined.
--	 *
--	 * Do this here as well to ensure the tests against cec_caps are
--	 * correct.
--	 */
--	cec_caps &= ~CEC_CAP_RC;
--#endif
- 	cancel_delayed_work_sync(&aux->cec.unregister_work);
-
- 	mutex_lock(&aux->cec.lock);
-@@ -337,7 +327,9 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
- 		num_las = CEC_MAX_LOG_ADDRS;
-
- 	if (aux->cec.adap) {
--		if (aux->cec.adap->capabilities == cec_caps &&
-+		/* Check if the adapter properties have changed */
-+		if ((aux->cec.adap->capabilities & CEC_CAP_MONITOR_ALL) ==
-+		    (cec_caps & CEC_CAP_MONITOR_ALL) &&
- 		    aux->cec.adap->available_log_addrs == num_las) {
- 			/* Unchanged, so just set the phys addr */
- 			cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
--- 
-2.47.2
-
+On 1/28/2025 9:44 PM, Dmitry Baryshkov wrote:
+> On Tue, Jan 28, 2025 at 01:34:28PM +0530, Dikshita Agarwal wrote:
+>> Introduce a helper module with a kernel param to select between
+>> venus and iris drivers for platforms supported by both drivers.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+>>  drivers/media/platform/qcom/Makefile          |  1 +
+>>  drivers/media/platform/qcom/iris/iris_core.h  |  1 +
+>>  drivers/media/platform/qcom/iris/iris_probe.c |  3 +
+>>  drivers/media/platform/qcom/venus/core.c      |  5 ++
+>>  .../platform/qcom/video_drv_helper/Makefile   |  4 ++
+>>  .../qcom/video_drv_helper/video_drv_helper.c  | 70 +++++++++++++++++++
+>>  .../qcom/video_drv_helper/video_drv_helper.h  | 11 +++
+>>  7 files changed, 95 insertions(+)
+>>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/Makefile
+>>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c
+>>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h
+>>
+>> diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
+>> index ea2221a202c0..15accde3bd67 100644
+>> --- a/drivers/media/platform/qcom/Makefile
+>> +++ b/drivers/media/platform/qcom/Makefile
+>> @@ -2,3 +2,4 @@
+>>  obj-y += camss/
+>>  obj-y += iris/
+>>  obj-y += venus/
+>> +obj-y += video_drv_helper/
+>> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+>> index 37fb4919fecc..7108e751ff88 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_core.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_core.h
+>> @@ -107,5 +107,6 @@ struct iris_core {
+>>  
+>>  int iris_core_init(struct iris_core *core);
+>>  void iris_core_deinit(struct iris_core *core);
+>> +extern bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
+> 
+> s/extern //g
+> 
+>>  
+>>  #endif
+>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+>> index 954cc7c0cc97..276461ade811 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+>> @@ -196,6 +196,9 @@ static int iris_probe(struct platform_device *pdev)
+>>  	u64 dma_mask;
+>>  	int ret;
+>>  
+>> +	if (!video_drv_should_bind(&pdev->dev, true))
+>> +		return -ENODEV;
+>> +
+>>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
+>>  	if (!core)
+>>  		return -ENOMEM;
+>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>> index 77d48578ecd2..b38be7812efe 100644
+>> --- a/drivers/media/platform/qcom/venus/core.c
+>> +++ b/drivers/media/platform/qcom/venus/core.c
+>> @@ -369,12 +369,17 @@ static int venus_add_dynamic_nodes(struct venus_core *core)
+>>  static void venus_remove_dynamic_nodes(struct venus_core *core) {}
+>>  #endif
+>>  
+>> +extern bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
+> 
+> Use #include instead.
+> 
+>> +
+>>  static int venus_probe(struct platform_device *pdev)
+>>  {
+>>  	struct device *dev = &pdev->dev;
+>>  	struct venus_core *core;
+>>  	int ret;
+>>  
+>> +	if (!video_drv_should_bind(&pdev->dev, false))
+>> +		return -ENODEV;
+>> +
+>>  	core = devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
+>>  	if (!core)
+>>  		return -ENOMEM;
+>> diff --git a/drivers/media/platform/qcom/video_drv_helper/Makefile b/drivers/media/platform/qcom/video_drv_helper/Makefile
+>> new file mode 100644
+>> index 000000000000..82567e0392fb
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/video_drv_helper/Makefile
+>> @@ -0,0 +1,4 @@
+>> +# Makefile for Video driver helper
+>> +
+>> +obj-m := video_drv_helper.o
+> 
+> Always built as a module? And what if iris or venus are built into the
+> kernel?
+iris and venus are always built as module, and if we are adding the
+dependency of this module on IRIS && VENUS then this can't be Y I think.
+> Add a normal Kconfig symbol, tristate, no Kconfig string. Use depends on
+> IRIS && VENUS (and maybe default y) to let it be built only if both
+> drivers are enabled.
+> 
+>> +
+>> diff --git a/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c b/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c
+>> new file mode 100644
+>> index 000000000000..9009c2906e54
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c
+>> @@ -0,0 +1,70 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#include <linux/device.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of.h>
+>> +
+>> +#include "video_drv_helper.h"
+>> +
+>> +/* The venus driver supports only hfi gen1 to communicate with the firmware while
+>> + * the iris driver supports both hfi gen1 and hfi gen2.
+>> + * The support of hfi gen1 is added to the iris driver with the intention that
+>> + * it can support old gen1 interface based firmware, while enabling gen2 based future SOCs.
+>> + * With this, the plan is to migrate older SOCs from venus to iris.
+>> + * As of now, since the iris driver supports only entry level features and doesn't have
+>> + * feature parity with the venus driver, a runtime-selection is provided to user via
+>> + * module parameter 'prefer_venus' to select the driver.
+>> + * This selection is available only for the SoCs which are supported by both venus
+>> + * and iris eg: SM8250.
+>> + * When the feature parity is achieved, the plan is to switch the default to point to
+>> + * the iris driver, then gradually start removing platforms from venus.
+>> + * Hardware supported by only venus - 8916, 8996, SDM660, SDM845, SC7180, SC7280
+>> + * Hardware supported by only iris - SM8550
+>> + * Hardware supported by both venus and iris - SM8250
+>> + */
+>> +
+>> +#if !IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS) || !IS_REACHABLE(CONFIG_VIDEO_QCOM_IRIS)
+>> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
+>> +{
+>> +	/* If just a single driver is enabled, use it no matter what */
+>> +	return true;
+>> +}
+>> +
+>> +#else
+> 
+> Move the stub funtion to header.
+> 
+>> +static bool prefer_venus = true;
+>> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
+>> +module_param(prefer_venus, bool, 0444);
+>> +
+>> +/* list all platforms supported by both venus and iris drivers */
+>> +static const char *const venus_to_iris_migration[] = {
+>> +	"qcom,sm8250-venus",
+>> +	NULL,
+>> +};
+>> +
+>> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
+> 
+> The prefix is too broad, but maybe its fine.
+> 
+>> +{
+>> +	if (of_device_compatible_match(dev->of_node, venus_to_iris_migration))
+>> +		return prefer_venus ? !is_iris_driver : is_iris_driver;
+>> +
+>> +	return true;
+>> +}
+>> +EXPORT_SYMBOL_GPL(video_drv_should_bind);
+>> +#endif
+>> +
+>> +static int __init video_drv_helper_init(void)
+>> +{
+>> +	return 0;
+>> +}
+>> +
+>> +static void __exit video_drv_helper_exit(void)
+>> +{
+>> +}
+>> +
+>> +module_init(video_drv_helper_init);
+>> +module_exit(video_drv_helper_exit);
+> 
+> No need for this, please drop.
+> 
+>> +
+>> +MODULE_DESCRIPTION("A video driver helper module");
+>> +MODULE_LICENSE("GPL");
+>> diff --git a/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h b/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h
+>> new file mode 100644
+>> index 000000000000..6d835227fec2
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h
+>> @@ -0,0 +1,11 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#ifndef __VIDEO_DRV_HELPER_H__
+>> +#define __VIDEO_DRV_HELPER_H__
+>> +
+>> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
+>> +
+>> +#endif
+>> -- 
+>> 2.34.1
+>>
+> 
 
