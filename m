@@ -1,215 +1,178 @@
-Return-Path: <linux-media+bounces-25401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9750CA21C24
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 12:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E0BA21D06
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 13:21:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECDD916697F
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 11:27:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F6C91671C2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 12:21:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80C691BC9F4;
-	Wed, 29 Jan 2025 11:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vWj29di4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF7F91D9329;
+	Wed, 29 Jan 2025 12:21:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F581A9B53
-	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 11:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573CC1B412B
+	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 12:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738150058; cv=none; b=N/qRBrOCPW5fNwDPVbmPIp74K/n/HxROsUKqWM/63aUSbM/OHvuPd1vD6X3GkX2ssxzdBP5bEVmUikHqGI1YcbbkrqKNtxZyg2s4HEbB45veTkI1zfLw5zuPw0VYEJl9AYtk/KpeKmxeWQFsOgcHpklMYtQ02oaT2hLauwsK3Mg=
+	t=1738153301; cv=none; b=ljZltNGKhIdztLE/c1ra39e10Zi4gBUZoJHSfBi3yqjEbFfUabbIvwnddOsjvrLUiLsnmrSi1saMzluRf5P45QlIUNDtD3IN333sJ8UmqkLfDKlfa52aYTSFAcF1XpY97E3v7+Wh2pOrr8wYpBDDiFd87t02YlTMt7PKMILdMek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738150058; c=relaxed/simple;
-	bh=QbzMdo5twuN8qHdUuuA8eKAEXsCU81mC2eMowoF6pkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oa+535Qx3CYLfkpFg5/R6T9oE1VKVw28Ek6Ta9T1YFwt92is4wJrRkONvuPK9mdnwI7/BAax86Ux/5iMlOwlEzklJvKXoX4lW8LakTxzTtMRBrIUPxSO++twqCuwppP1y1fSVkAxpjb2aoNPfaOMIpR9/ZxPqhFt3GCSD2mZd5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vWj29di4; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54298ec925bso7779716e87.3
-        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 03:27:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738150055; x=1738754855; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MdMhtxP5R+RhzbtYpl+nDYBC1VN7c30OWolTsuKS8Es=;
-        b=vWj29di4IP3TNXPK3gzSGQuOHcrcyYXppym3TmeABM4iG0x+wofmD7dneNKRhlwC22
-         b4Zt3GIghhTTyRBgkkyWEjSBoc3SfZ46puJujWzyT2YhdH8bGM9IW5A1eCDh6UN+0Vb+
-         QvuveqUYT2tb8o+f+t5bmK+YQFtI/uo3uKW/GAx45jA5nkIKwr25nuBLTHYc9zLX12s/
-         fQY4Q8Uy0DPakT6CUqY+ZXyYrb/1qJtkEzM6KgdbIh5NR9pv1f+ZFQXVNh9S9vSidxAv
-         7VimNHfALmxYe8V9DB0p+dDlsqwJa7fCI8FHGHKVIQJ/tyh/r21t6Rftoz4x0SRVsd1Q
-         pg4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738150055; x=1738754855;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MdMhtxP5R+RhzbtYpl+nDYBC1VN7c30OWolTsuKS8Es=;
-        b=iX2M3uLKNqHLp5CitfJRsD81jQ+S4VImoZPACePL+VyMXfu+0lHV4kAtcUD8qcaDUa
-         qIjiFi9+Gwe4Pa07/CBpHBAidlTcoIrLEEsoQ1J5KnPMI7YNpPUovB1gx7MviY5iwUx6
-         9gu1Z0pC13NuLNIAWRxYlZBjWojBi28OnYjdyw5xdeoDNsxL3kxp900S6+uaM72ZWo4s
-         bxdxRElPaWWgDv7WrL8wNSnatXptRPeE57bq0hvgJ+p8tabYvMhmr0int3Ii42XOBwSV
-         //gxaGt3ZgT8tbx0E2l50hspanUQQ/3Xggbua+eL6KCF3LyZ82YsMAPFJbdYI3nMr4Dp
-         os6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXc2x2YVxFkiq3Pt/v/dPLiXfFAWHULG8y7pdNHznQ4aDYCqiy2DooRThEzRmHdwrHtF9D/GA4ey6KeDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXhRS5ivHI8yfxtRoOHdRTXww8bM1ckzyhBAAE7oe7+E25OlKV
-	6ijpPQfhq+PbOJuO/6ZzPStdzFN/Zu+S2g/rkGUicTF36oXRIWN/D75s04dmhuKFOa8rwPwfrgL
-	0ipA=
-X-Gm-Gg: ASbGncs4qAPR5fkuPjBRPL1qbxQbOhz8CW0TPMXhGf5ToeGRNLQAEe5NLAzGi0vYwCX
-	6PzY4MPcjJWrIW53sweo0oa24Tyo8iYVRZ+/SJyYGTLDTn9pRv0pf4/LzQQKK0+pDv3RG+BXo5d
-	tZmpf/X/wn0kc9qOuO6tiqvwZqw1IWyYtFia05x4vdtSJC/1sBBdiAzk2kAgmw3OzpX60C6SJHN
-	WJbsMKvAytkKUhtdBO9pmM8FdTmY26pbe4DmeF5zI2KnynzQ4aIkG96VV7FauscIpfo3AY7MhX9
-	keXP09JDf3JOx06AZ6V1BMM/1QpLouFS/qgDwdpfAxNZxAejBF3LoyTdnALHcplViWfvS/Q=
-X-Google-Smtp-Source: AGHT+IFtlc94QWGgPJciAfKJd6iML1fdimMywpw4Q1xwQVsFRb8X3q+yuNtr1tZBr1nfLKPhKsx6OQ==
-X-Received: by 2002:a05:6512:148:b0:540:2ff1:3c7c with SMTP id 2adb3069b0e04-543e4bdff2amr733639e87.7.1738150054904;
-        Wed, 29 Jan 2025 03:27:34 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c837949esm1965905e87.160.2025.01.29.03.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2025 03:27:33 -0800 (PST)
-Date: Wed, 29 Jan 2025 13:27:32 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: quic_vgarodia@quicinc.com, quic_abhinavk@quicinc.com, 
-	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, p.zabel@pengutronix.de, 
-	hverkuil@xs4all.nl, sebastian.fricke@collabora.com, bryan.odonoghue@linaro.org, 
-	neil.armstrong@linaro.org, nicolas@ndufresne.ca, u.kleine-koenig@baylibre.com, 
-	stefan.schmidt@linaro.org, lujianhua000@gmail.com, linux-arm-msm@vger.kernel.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	krzysztof.kozlowski@linaro.org, johan@kernel.org
-Subject: Re: [RFC PATCH v10 1/2] media: iris: introduce helper module to
- select video driver
-Message-ID: <dl5gxjxvajoq3tszujqrew7ynvepufcr2qj7ztj7ksgv2fxtdt@zaeqtxuwbayb>
-References: <20250128080429.3911091-1-quic_dikshita@quicinc.com>
- <20250128080429.3911091-2-quic_dikshita@quicinc.com>
- <sb3beoyhnlcdfjbm37ogpdoph7m4fecpbuu3myglnpzblpnqhw@wdyskeps3uuh>
- <45c3676a-aafe-59e8-910d-af82031c24a6@quicinc.com>
+	s=arc-20240116; t=1738153301; c=relaxed/simple;
+	bh=ZDECljI8SSleYyIKhcEtmnSCT1nqrq8X8+e0zK9NvSg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=blOKl+DUauPUbvb0GlZ1JF1AtHAImtOtSis3aINr6GEngI2gdvNLIh74N31sBCGoAR22ddIuv48anlkFhY46CY6EAR7MAshebyeOzNxMMqVTwxC0in7kA6b8/xIVDFWHASp7YO7YK/SH713F/eE9QxMJKWpeCxvzVJej1ptC610=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3667CC4CED3;
+	Wed, 29 Jan 2025 12:21:40 +0000 (UTC)
+Message-ID: <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
+Date: Wed, 29 Jan 2025 13:21:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <45c3676a-aafe-59e8-910d-af82031c24a6@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Farblos <farblos@vodafonemail.de>
+References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 29, 2025 at 03:23:22PM +0530, Dikshita Agarwal wrote:
+On 29/01/2025 10:51, Hans Verkuil wrote:
+> If the hotplug detect of a display is low for longer than one second
+> (configurable through drm_dp_cec_unregister_delay), then the CEC adapter
+> is unregistered since we assume the display was disconnected. If the
+> HPD went low for less than one second, then we check if the properties
+> of the CEC adapter have changed, since that indicates that we actually
+> switch to new hardware and we have to unregister the old CEC device and
+> register a new one.
 > 
+> Unfortunately, the test for changed properties was written poorly, and
+> after a new CEC capability was added to the CEC core code the test always
+> returned true (i.e. the properties had changed).
 > 
-> On 1/28/2025 9:44 PM, Dmitry Baryshkov wrote:
-> > On Tue, Jan 28, 2025 at 01:34:28PM +0530, Dikshita Agarwal wrote:
-> >> Introduce a helper module with a kernel param to select between
-> >> venus and iris drivers for platforms supported by both drivers.
-> >>
-> >> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> >> ---
-> >>  drivers/media/platform/qcom/Makefile          |  1 +
-> >>  drivers/media/platform/qcom/iris/iris_core.h  |  1 +
-> >>  drivers/media/platform/qcom/iris/iris_probe.c |  3 +
-> >>  drivers/media/platform/qcom/venus/core.c      |  5 ++
-> >>  .../platform/qcom/video_drv_helper/Makefile   |  4 ++
-> >>  .../qcom/video_drv_helper/video_drv_helper.c  | 70 +++++++++++++++++++
-> >>  .../qcom/video_drv_helper/video_drv_helper.h  | 11 +++
-> >>  7 files changed, 95 insertions(+)
-> >>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/Makefile
-> >>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c
-> >>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h
-> >>
-> >> diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
-> >> index ea2221a202c0..15accde3bd67 100644
-> >> --- a/drivers/media/platform/qcom/Makefile
-> >> +++ b/drivers/media/platform/qcom/Makefile
-> >> @@ -2,3 +2,4 @@
-> >>  obj-y += camss/
-> >>  obj-y += iris/
-> >>  obj-y += venus/
-> >> +obj-y += video_drv_helper/
-> >> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
-> >> index 37fb4919fecc..7108e751ff88 100644
-> >> --- a/drivers/media/platform/qcom/iris/iris_core.h
-> >> +++ b/drivers/media/platform/qcom/iris/iris_core.h
-> >> @@ -107,5 +107,6 @@ struct iris_core {
-> >>  
-> >>  int iris_core_init(struct iris_core *core);
-> >>  void iris_core_deinit(struct iris_core *core);
-> >> +extern bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
-> > 
-> > s/extern //g
-> > 
-> >>  
-> >>  #endif
-> >> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-> >> index 954cc7c0cc97..276461ade811 100644
-> >> --- a/drivers/media/platform/qcom/iris/iris_probe.c
-> >> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
-> >> @@ -196,6 +196,9 @@ static int iris_probe(struct platform_device *pdev)
-> >>  	u64 dma_mask;
-> >>  	int ret;
-> >>  
-> >> +	if (!video_drv_should_bind(&pdev->dev, true))
-> >> +		return -ENODEV;
-> >> +
-> >>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
-> >>  	if (!core)
-> >>  		return -ENOMEM;
-> >> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> >> index 77d48578ecd2..b38be7812efe 100644
-> >> --- a/drivers/media/platform/qcom/venus/core.c
-> >> +++ b/drivers/media/platform/qcom/venus/core.c
-> >> @@ -369,12 +369,17 @@ static int venus_add_dynamic_nodes(struct venus_core *core)
-> >>  static void venus_remove_dynamic_nodes(struct venus_core *core) {}
-> >>  #endif
-> >>  
-> >> +extern bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
-> > 
-> > Use #include instead.
-> > 
-> >> +
-> >>  static int venus_probe(struct platform_device *pdev)
-> >>  {
-> >>  	struct device *dev = &pdev->dev;
-> >>  	struct venus_core *core;
-> >>  	int ret;
-> >>  
-> >> +	if (!video_drv_should_bind(&pdev->dev, false))
-> >> +		return -ENODEV;
-> >> +
-> >>  	core = devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
-> >>  	if (!core)
-> >>  		return -ENOMEM;
-> >> diff --git a/drivers/media/platform/qcom/video_drv_helper/Makefile b/drivers/media/platform/qcom/video_drv_helper/Makefile
-> >> new file mode 100644
-> >> index 000000000000..82567e0392fb
-> >> --- /dev/null
-> >> +++ b/drivers/media/platform/qcom/video_drv_helper/Makefile
-> >> @@ -0,0 +1,4 @@
-> >> +# Makefile for Video driver helper
-> >> +
-> >> +obj-m := video_drv_helper.o
-> > 
-> > Always built as a module? And what if iris or venus are built into the
-> > kernel?
-> iris and venus are always built as module,
+> As a result the CEC device was unregistered and re-registered for every
+> HPD toggle. If the CEC remote controller integration was also enabled
+> (CONFIG_MEDIA_CEC_RC was set), then the corresponding input device was
+> also unregistered and re-registered. As a result the input device in
+> /sys would keep incrementing its number, e.g.:
+> 
+> /sys/devices/pci0000:00/0000:00:08.1/0000:e7:00.0/rc/rc0/input20
+> 
+> Since short HPD toggles are common, the number could over time get into
+> the thousands.
+> 
+> While not a serious issue (i.e. nothing crashes), it is not intended
+> to work that way.
+> 
+> This patch changes the test so that it only checks for the single CEC
+> capability that can actually change, and it ignores any other
+> capabilities, so this is now safe as well if new caps are added in
+> the future.
+> 
+> With the changed test the bit under #ifndef CONFIG_MEDIA_CEC_RC can be
+> dropped as well, so that's a nice cleanup.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Reported-by: Farblos <farblos@vodafonemail.de>
 
-This is not correct.
+Fixes: 2c6d1fffa1d9 ("drm: add support for DisplayPort CEC-Tunneling-over-AUX")
 
-> and if we are adding the
-> dependency of this module on IRIS && VENUS then this can't be Y I think.
+Regards,
 
-It surely can. Moreover, if one doesn't enable both Iris and Venus, this
-module is completely unnecessary.
+	Hans
 
-> > Add a normal Kconfig symbol, tristate, no Kconfig string. Use depends on
-> > IRIS && VENUS (and maybe default y) to let it be built only if both
-> > drivers are enabled.
+> ---
+> Jens (aka Farblos), can you test this patch?
+> ---
+>  drivers/gpu/drm/display/drm_dp_cec.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
+> index 007ceb281d00..56a4965e518c 100644
+> --- a/drivers/gpu/drm/display/drm_dp_cec.c
+> +++ b/drivers/gpu/drm/display/drm_dp_cec.c
+> @@ -311,16 +311,6 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
+>  	if (!aux->transfer)
+>  		return;
+> 
+> -#ifndef CONFIG_MEDIA_CEC_RC
+> -	/*
+> -	 * CEC_CAP_RC is part of CEC_CAP_DEFAULTS, but it is stripped by
+> -	 * cec_allocate_adapter() if CONFIG_MEDIA_CEC_RC is undefined.
+> -	 *
+> -	 * Do this here as well to ensure the tests against cec_caps are
+> -	 * correct.
+> -	 */
+> -	cec_caps &= ~CEC_CAP_RC;
+> -#endif
+>  	cancel_delayed_work_sync(&aux->cec.unregister_work);
+> 
+>  	mutex_lock(&aux->cec.lock);
+> @@ -337,7 +327,9 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
+>  		num_las = CEC_MAX_LOG_ADDRS;
+> 
+>  	if (aux->cec.adap) {
+> -		if (aux->cec.adap->capabilities == cec_caps &&
+> +		/* Check if the adapter properties have changed */
+> +		if ((aux->cec.adap->capabilities & CEC_CAP_MONITOR_ALL) ==
+> +		    (cec_caps & CEC_CAP_MONITOR_ALL) &&
+>  		    aux->cec.adap->available_log_addrs == num_las) {
+>  			/* Unchanged, so just set the phys addr */
+>  			cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
 
--- 
-With best wishes
-Dmitry
 
