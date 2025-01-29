@@ -1,169 +1,118 @@
-Return-Path: <linux-media+bounces-25419-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25420-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76845A22223
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 17:51:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C321A226B7
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jan 2025 00:05:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E398D188382E
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 16:51:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E379216403E
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 23:05:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1986D1DF996;
-	Wed, 29 Jan 2025 16:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C5E11B2182;
+	Wed, 29 Jan 2025 23:05:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="Z1AkDh9a"
+	dkim=pass (1024-bit key) header.d=vodafonemail.de header.i=@vodafonemail.de header.b="T5+BSGU0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mr3.vodafonemail.de (mr3.vodafonemail.de [145.253.228.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE55F1AD403;
-	Wed, 29 Jan 2025 16:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738169487; cv=pass; b=fCWLRtc0jknxf2Zzq16OUWQcT3ACjH+rK9T/f/2Ik2K4tx/MwZmbgvRYWXR2ZinIG6ocuZJvMDnOk0mrvSSMioU5qh3w2HCUljFIFUKL6kbInaO3w5z1l4kW1vPmKE9l3HGu9587kj/2DbXOqSRERM2LiaR+wgnJFlGhtYG4dRM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738169487; c=relaxed/simple;
-	bh=iha0Qb5CHXCtlSASKRIfGOfEeYnumvLm3mgF4a5jMWA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Agpcm3puINjWI9cnd5ZMfe7k1aYfEULaNOQWjtFlz+XoSmBEC5R92GXuPnEZB84cVDkGhfIs+xl2bUtdFDBwsHYkfEzhlOnXTyHWRc9hpUmYwly/pIAXZEWC3+m5v8RTTlHOr2vdcSnivRJJHASgZjXwT+gcbgtUYk+WARwm7SE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=Z1AkDh9a; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1738169451; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UgrcL6rMN/4wU8bq3QwCfqoUIJD14WOSBWTAEdNDTNn2oXvmKKlCeC8wFspeGiQad5gFf6LED4uJb/SNP0VFW90337Whkh/4SK4PYFrS57uGRnirxsXGfFsQbCtNCxu3yvP+pDXZibjUgKevgz89uDnByim6O8HrWIsez/BVILQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1738169451; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wPGGfc1qwmOrQZGLlJNOWgBoAZRzR/BbTbOKRT5al8k=; 
-	b=NG7AtYb2a2Q5uo4vpFBu/10e+848SICc0+d/3SduQISEn8qKRlBI1j7E1wi3ijsWsd4RICHqZybgQYOoIqJUPX5XlWeQznaAn6LF+wDPmUNfCDLAFge0Y+/kH6OAjfkVJ090In9m2yAC4XYDDKIU194LOeGIpen1EXTtjyb+sV4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
-	dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738169451;
-	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=wPGGfc1qwmOrQZGLlJNOWgBoAZRzR/BbTbOKRT5al8k=;
-	b=Z1AkDh9apOD+PwP6D7Nj3dw6dqAoxWhEZZpoE5MTrY+XFHQCP9YIKzk3aDle8Zw3
-	Igc8acgOSzr2oLLACUvyF3DZ48n/hhVyo6eUi6KajltJ7gnrpSFAIkWISzEhoajoj+w
-	hneSRZi4L/It/R0udbKYbQ+V4OfqoE1V5VU13v3A=
-Received: by mx.zohomail.com with SMTPS id 1738169445054994.6577657400422;
-	Wed, 29 Jan 2025 08:50:45 -0800 (PST)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Diederik de Haas <didi.debian@cknow.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andy Yan <andy.yan@rock-chips.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
-Date: Wed, 29 Jan 2025 11:50:43 -0500
-Message-ID: <8541055.T7Z3S40VBb@trenzalore>
-In-Reply-To: <CE4343FE-94AA-4F84-8C43-8366013AED84@gmail.com>
-References:
- <20240615015734.1612108-1-detlev.casanova@collabora.com>
- <5969581.LvFx2qVVIh@arisu> <CE4343FE-94AA-4F84-8C43-8366013AED84@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5CA18FDCE
+	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 23:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.253.228.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738191943; cv=none; b=Fep8ktTHcVNmRNEyI0F3siUH9eIuyXwM4DBTdzjs5/+taOTG0ERsQrK6eQI9oS0SmU820j35bZXNidHAfy/FGIG5L9dxoQYWeX7BhreWp22XC8LxZxDa/1/jMgGVI30i9srtwMcGslXTIvQ0CzF7QKBNa1fevA7jFkQXKtbh4NE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738191943; c=relaxed/simple;
+	bh=L5PLzyPsAd32On0W8lzRx2Gbi7aw7dWM/uDSUajeaAc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RiZrc+yof+LnkOd17hYV9AUgeuVzbktt3UMxrtYwsgJaXupeonFE1qOPXMlAkwE2Gj3g+y1Z2+lnrRpHuHHtf4eMuemzryFR7k9N1tLwEwWElpKIGycn8/v+uzffZfpP/81PLot21DmwwXVgvaOu7LK7EFvSoATJ0RrrTUvy+DA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vodafonemail.de; spf=pass smtp.mailfrom=vodafonemail.de; dkim=pass (1024-bit key) header.d=vodafonemail.de header.i=@vodafonemail.de header.b=T5+BSGU0; arc=none smtp.client-ip=145.253.228.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vodafonemail.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vodafonemail.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vodafonemail.de;
+	s=vfde-mb-mr2-23sep; t=1738191418;
+	bh=e816Kut5c0oevuTGyAkj7SlKXpwDTnui9YFYKBdtULI=;
+	h=Message-ID:Date:User-Agent:Subject:To:References:From:
+	 Content-Language:In-Reply-To:Content-Type:From;
+	b=T5+BSGU0ia9LioJ3EzNRA8hj6//MCvp1OlTZ4YLEc5El/CmGgfxDJpnfKgJgRmQGq
+	 HXY0InUNddrx0f91LcRU7ILWw7zdRx5NBIZQ5dSrebESfhBtx+GI5Fkx5PkS5hTSqE
+	 +CAunLxki3riArdUQqK7jDpQRShFyNpTiyD0XWhU=
+Received: from smtp.vodafone.de (unknown [10.0.0.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by mr3.vodafonemail.de (Postfix) with ESMTPS id 4YjyG22Nwbz2G8J;
+	Wed, 29 Jan 2025 22:56:58 +0000 (UTC)
+Received: from [192.168.178.41] (port-92-196-36-74.dynamic.as20676.net [92.196.36.74])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.vodafone.de (Postfix) with ESMTPSA id 4YjyFq2G99z8sXP;
+	Wed, 29 Jan 2025 22:56:44 +0000 (UTC)
+Message-ID: <44a95f7f-8a7a-4b2b-95f6-5c0b60bfa85c@vodafonemail.de>
+Date: Wed, 29 Jan 2025 23:56:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
+From: Jens Schmidt <farblos@vodafonemail.de>
+Content-Language: de-DE-frami, en-US
+In-Reply-To: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-purgate-server: smtpa08
+X-purgate-type: clean
+X-purgate: clean
+X-purgate-size: 1286
+X-purgate-ID: 155817::1738191413-C0C93C4A-47A298B7/0/0
 
-Hi Piotr,
+On 2025-01-29  10:51, Hans Verkuil wrote:
 
-On Wednesday, 29 January 2025 09:48:51 EST Piotr Oniszczuk wrote:
-> > Wiadomo=C5=9B=C4=87 napisana przez Detlev Casanova <detlev.casanova@col=
-labora.com> w
-> > dniu 15 cze 2024, o godz. 21:44:
-> >=20
-> >=20
-> >=20
-> >=20
-> > Yes, the vdpu34x decoder on rk356x socs should be supported by this dri=
-ver
-> > but I don't have boards to test that unfortunately.
->=20
-> Detlev,
->=20
-> Just FYI:
->=20
-> I done some tests of rkvdec2 on 6.12.11 on 3588, 3568 and 3566
->=20
-> For enabling rkvdec2 on 356x i:
-> -add 356x compatible in rkvdec2.c
-> -add dtsi nodes like this:
-> https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-6.12/=
-fi
-> les/1078-arm64-dtsi-rockchip-rk356x-add-rkvdec2-video-decoder-nodes.patch
->=20
-> With this i can say:
-> -on rk3588 i have some hevc 4k decoding perfectly but some others are
-> failing -on rk3566/3568 only subset of 3588=E2=80=99s samples is decoded =
-well. (but
-> is works then works perfectly fine) -when not failing on 3588 sample fails
-> on 356x - is see errors like:
->=20
-> [   95.666669] iova: 0x00000000f2e80000 already mapped to 0x0000000037378=
-000
-> cannot remap to phys: 0x000000002f8c0000 prot: 0x3 [   95.745082] iova:
-> 0x00000000f2f46000 already mapped to 0x00000000372b6000 cannot remap to
-> phys: 0x000000003a403000 prot: 0x3 [   95.822012] iova: 0x00000000f2ee6000
-> already mapped to 0x0000000037126000 cannot remap to phys:
-> 0x000000003a803000 prot: 0x3 [   95.896802] iova: 0x00000000f2ec6000
-> already mapped to 0x0000000029fe6000 cannot remap to phys:
-> 0x000000003a403000 prot: 0x3 turning-off iommu makes above errors disappe=
-ar
-> - but sample still fails.
+> Jens (aka Farblos), can you test this patch?
 
-I suppose you tested with my hevc branch, which is not really ready yet (So=
-me=20
-ref frames will work but usually, it won't) Can you confirm which branch/co=
-mmit=20
-you based your tests on ?
+TL;DR: Your patch fixes the issue on my system, thanks.
 
-=46or the iommu, do you see those errors like that only on 356x or also on =
-3588=20
-? The hevc branch should have the iommu patches to fix that kind of things.=
-=20
-(but note that hevc support is really new, so it may have bugs with buffer=
-=20
-allocations)
+Details:
 
-> If anybody hints me for way/tool to analyse of playing/failing samples to
-> catch: what encoding specifics makes given sample failing to decode  on
-> rkvdec2 - i'll be more that happy to provide details=E2=80=A6 (doing simp=
-le
-> mediainfo <file> shows no differences for me=E2=80=A6)
+### build #13 - stock 6.12.10 kernel
 
-=46ew features are supported for HEVC as of now:
- - No scanlist support (only default 16x16 blocks will work)
- - Long term reference frames are also not configured yet.
- - hevc 10 bits is also not supported yet
+[~]$ uname -a
+Linux host01 6.12.10 #13 SMP PREEMPT_DYNAMIC Wed Jan 29 22:10:03 CET 2025 x86_64 GNU/Linux
 
-These are specific to the encoding and mediainfo won't really give you=20
-information on that, except maybe on the 10 bits format.
+[~]$ ls -ald /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input*
+drwxr-xr-x 6 root root 0 Jan 29 22:17 /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input30
 
-You can also checkout YUView (https://github.com/IENT/YUView) to get=20
-information on media files structure, but I have had issues with HEVC suppo=
-rt=20
-lately.
+# you also get quite a lot of these without your patch ...
+[~]$ journalctl --boot | grep -c 'kernel: Registered IR keymap rc-cec'
+7
 
-Regards,
+### build #14 - 6.12.10 with your patch
 
-Detlev.
+[~]$ uname -a
+Linux host01 6.12.10 #14 SMP PREEMPT_DYNAMIC Wed Jan 29 22:24:47 CET 2025 x86_64 GNU/Linux
 
+[~]$ ls -ald /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input*
+drwxr-xr-x 6 root root 0 Jan 29 22:27 /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input11
 
+[~]$ journalctl --boot | grep -c 'kernel: Registered IR keymap rc-cec'
+1
+
+... wait ... let screen saver kick in ... wait ...
+
+[~]$ ls -ald /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input*
+drwxr-xr-x 6 root root 0 Jan 29 22:27 /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input11
+
+[~]$ journalctl --boot | grep -c 'kernel: Registered IR keymap rc-cec'
+1
 
 
