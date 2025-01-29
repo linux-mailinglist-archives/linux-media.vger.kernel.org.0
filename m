@@ -1,139 +1,215 @@
-Return-Path: <linux-media+bounces-25400-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25401-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D60BA21B77
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 11:59:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9750CA21C24
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 12:27:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7CB8163327
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 10:59:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ECDD916697F
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 11:27:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 146491C68A6;
-	Wed, 29 Jan 2025 10:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80C691BC9F4;
+	Wed, 29 Jan 2025 11:27:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OjyrCdSM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vWj29di4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADCA1B85E4
-	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 10:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F581A9B53
+	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 11:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738148326; cv=none; b=K5xyTnfxenAOzUkHa4d+kBoTf84VZDLAS/yw//2LtBn7CpwV5SlENJqii+uml8gJBMrbeJLgmEXXkj3QaiG98wXEhT5mey5SAj53nV4bil+DeGBlXARU1Y3xlVDgbxKJB08N1r8Ei5DfF4IWoPGxOXeE6OuAl6IwEZROcStoeKU=
+	t=1738150058; cv=none; b=N/qRBrOCPW5fNwDPVbmPIp74K/n/HxROsUKqWM/63aUSbM/OHvuPd1vD6X3GkX2ssxzdBP5bEVmUikHqGI1YcbbkrqKNtxZyg2s4HEbB45veTkI1zfLw5zuPw0VYEJl9AYtk/KpeKmxeWQFsOgcHpklMYtQ02oaT2hLauwsK3Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738148326; c=relaxed/simple;
-	bh=ctnIPlnolGiYKN7ZFs+jzSbQHdby+p9LuXPWm/WlufQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=COTS+bI1zPw2c59828IfdicUHBp2Exu61yTKDrbrOV2fJVacpAyyFtH0zSMxDfUsCscvdgJYWddatN7Kg/D9RnGKVxqu7dwCOX8txM4FAUyaJqg+ep6B51r4yb2hnHmBC4QL6VjuPCBSoG0XT3xu94x0ICP+NHk3Sre6/iF0Eds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OjyrCdSM; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-436202dd7f6so76222075e9.0
-        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 02:58:44 -0800 (PST)
+	s=arc-20240116; t=1738150058; c=relaxed/simple;
+	bh=QbzMdo5twuN8qHdUuuA8eKAEXsCU81mC2eMowoF6pkE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oa+535Qx3CYLfkpFg5/R6T9oE1VKVw28Ek6Ta9T1YFwt92is4wJrRkONvuPK9mdnwI7/BAax86Ux/5iMlOwlEzklJvKXoX4lW8LakTxzTtMRBrIUPxSO++twqCuwppP1y1fSVkAxpjb2aoNPfaOMIpR9/ZxPqhFt3GCSD2mZd5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vWj29di4; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54298ec925bso7779716e87.3
+        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 03:27:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738148323; x=1738753123; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BCZc8xDP9pPSNxttm70iMigfL5th12FqcCo7IOA6V+Q=;
-        b=OjyrCdSM43YCF5vqGbpv9CS/g93sSADNbusttleuZZXb1RF2Z3SoZZwpcjBguuJ+uN
-         QXEZdFSozeMcs+6ZVWz657kxfGx1xIqg0lkRpuNGFxIGL6NTGnBKcQQ7aQiV9gh8ExEn
-         li6m79weu1bV+5eQ9vXcx40bhBCLNKOVqeG4cjxxXgg3LpP/fspUkTdV4uzKK/kR+hzd
-         E2rdjpJz+TDOgVFJ7sasQdbN5J2psz7Vqkpm4h5JvsDxECxQlootq2kMrBJBb7QBHapu
-         QDxYF5r3Tu3mHOlzeWSsyYob4ihPR3WzaP3GHQNKmxoj9PHljeoNsbeMgq1VayjURCCQ
-         9fPQ==
+        d=linaro.org; s=google; t=1738150055; x=1738754855; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MdMhtxP5R+RhzbtYpl+nDYBC1VN7c30OWolTsuKS8Es=;
+        b=vWj29di4IP3TNXPK3gzSGQuOHcrcyYXppym3TmeABM4iG0x+wofmD7dneNKRhlwC22
+         b4Zt3GIghhTTyRBgkkyWEjSBoc3SfZ46puJujWzyT2YhdH8bGM9IW5A1eCDh6UN+0Vb+
+         QvuveqUYT2tb8o+f+t5bmK+YQFtI/uo3uKW/GAx45jA5nkIKwr25nuBLTHYc9zLX12s/
+         fQY4Q8Uy0DPakT6CUqY+ZXyYrb/1qJtkEzM6KgdbIh5NR9pv1f+ZFQXVNh9S9vSidxAv
+         7VimNHfALmxYe8V9DB0p+dDlsqwJa7fCI8FHGHKVIQJ/tyh/r21t6Rftoz4x0SRVsd1Q
+         pg4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738148323; x=1738753123;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BCZc8xDP9pPSNxttm70iMigfL5th12FqcCo7IOA6V+Q=;
-        b=UATvJ0u//dyG9XsxYZDcYv2b6T6O3i+tsb0K/rqvvDd9ra29X+vPZrgVOLV34OFiJS
-         c7Y0pb4Ys7IekrGCiWjd5NzpFSGkhFxKrkm6U69/kuhz+v2wg+SX9Hb1q3v6B5yIAt29
-         v1Oe4LxUBEhP7yF5qxRZuerUv4QXworsgahxIRG2GqFl9Oz+uBqUYVPY5URTAdjGVHmo
-         AMc2ogpvka8XNdC7MEnYKMa/UGCdu65cmfhoZnWGJHooth/2nv0SxfqG9h7PfhmPJe7N
-         aPtcwJSH7aoZoSuFEOyAsEXSwpAuLWOPeVqBWlYlcM7QFjOL4F5GxHERSYK+ZRhdxMqT
-         sC/w==
-X-Gm-Message-State: AOJu0YwU3HkuhFQC4UdL1yRYknGEctIVHkqMrQKnGbpM+MecEAdEuW5b
-	Vgz1BllYmwQrCJY9rXUlLtRq0AtTHDAdTk5nu+vA9EB2dtTJBNGS
-X-Gm-Gg: ASbGncs/EBpLo7QD7QYzPK9K0+oexNrVZMQpiC8ZN4XE+zdcLU6cqQ5cKjcgA3+F54H
-	MNH1MDSuM3NAh8TPpJ+vTPoWuqi8AsNJsucz/3UvS+VNyUAKx8hA78enTlj9VNAb2ssfdJTPrqz
-	1G+E7bmW5pxBEEFuDtRaATRrxR4s5zt9zGfI0Xn3DiaHb/7J2BTO+DL8xjUucd7Mv/+8C4tsyvm
-	4yWC1Y6y2jTRO+Fs1t9t9Q9Vpo7SLJ9mpW7TELz8X6oTCqficrC9PmO8xi0SK4jXKud0pvnWjW2
-	wjuLu3hxXs4Yao+xN0vzlj8cWOWg
-X-Google-Smtp-Source: AGHT+IGgtaEqtH/cW/86/vQfGKpvANAEytRLXGcfmwRSAwJkb80m0MYMQgXmvACFtIwUpFret10jlQ==
-X-Received: by 2002:a05:600c:1987:b0:434:fa61:fdfb with SMTP id 5b1f17b1804b1-438dc3ccaf8mr20504355e9.18.1738148322573;
-        Wed, 29 Jan 2025 02:58:42 -0800 (PST)
-Received: from able.fritz.box ([2a00:e180:155e:6600:95fb:4b3a:6bf6:e1ae])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc27125sm18370265e9.15.2025.01.29.02.58.41
+        d=1e100.net; s=20230601; t=1738150055; x=1738754855;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MdMhtxP5R+RhzbtYpl+nDYBC1VN7c30OWolTsuKS8Es=;
+        b=iX2M3uLKNqHLp5CitfJRsD81jQ+S4VImoZPACePL+VyMXfu+0lHV4kAtcUD8qcaDUa
+         qIjiFi9+Gwe4Pa07/CBpHBAidlTcoIrLEEsoQ1J5KnPMI7YNpPUovB1gx7MviY5iwUx6
+         9gu1Z0pC13NuLNIAWRxYlZBjWojBi28OnYjdyw5xdeoDNsxL3kxp900S6+uaM72ZWo4s
+         bxdxRElPaWWgDv7WrL8wNSnatXptRPeE57bq0hvgJ+p8tabYvMhmr0int3Ii42XOBwSV
+         //gxaGt3ZgT8tbx0E2l50hspanUQQ/3Xggbua+eL6KCF3LyZ82YsMAPFJbdYI3nMr4Dp
+         os6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXc2x2YVxFkiq3Pt/v/dPLiXfFAWHULG8y7pdNHznQ4aDYCqiy2DooRThEzRmHdwrHtF9D/GA4ey6KeDw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXhRS5ivHI8yfxtRoOHdRTXww8bM1ckzyhBAAE7oe7+E25OlKV
+	6ijpPQfhq+PbOJuO/6ZzPStdzFN/Zu+S2g/rkGUicTF36oXRIWN/D75s04dmhuKFOa8rwPwfrgL
+	0ipA=
+X-Gm-Gg: ASbGncs4qAPR5fkuPjBRPL1qbxQbOhz8CW0TPMXhGf5ToeGRNLQAEe5NLAzGi0vYwCX
+	6PzY4MPcjJWrIW53sweo0oa24Tyo8iYVRZ+/SJyYGTLDTn9pRv0pf4/LzQQKK0+pDv3RG+BXo5d
+	tZmpf/X/wn0kc9qOuO6tiqvwZqw1IWyYtFia05x4vdtSJC/1sBBdiAzk2kAgmw3OzpX60C6SJHN
+	WJbsMKvAytkKUhtdBO9pmM8FdTmY26pbe4DmeF5zI2KnynzQ4aIkG96VV7FauscIpfo3AY7MhX9
+	keXP09JDf3JOx06AZ6V1BMM/1QpLouFS/qgDwdpfAxNZxAejBF3LoyTdnALHcplViWfvS/Q=
+X-Google-Smtp-Source: AGHT+IFtlc94QWGgPJciAfKJd6iML1fdimMywpw4Q1xwQVsFRb8X3q+yuNtr1tZBr1nfLKPhKsx6OQ==
+X-Received: by 2002:a05:6512:148:b0:540:2ff1:3c7c with SMTP id 2adb3069b0e04-543e4bdff2amr733639e87.7.1738150054904;
+        Wed, 29 Jan 2025 03:27:34 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c837949esm1965905e87.160.2025.01.29.03.27.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jan 2025 02:58:42 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To: l.stach@pengutronix.de,
-	marek.olsak@amd.com,
-	sumit.semwal@linaro.org
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] dma-buf: fix timeout handling in dma_resv_wait_timeout v2
-Date: Wed, 29 Jan 2025 11:58:41 +0100
-Message-Id: <20250129105841.1806-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 29 Jan 2025 03:27:33 -0800 (PST)
+Date: Wed, 29 Jan 2025 13:27:32 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: quic_vgarodia@quicinc.com, quic_abhinavk@quicinc.com, 
+	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, p.zabel@pengutronix.de, 
+	hverkuil@xs4all.nl, sebastian.fricke@collabora.com, bryan.odonoghue@linaro.org, 
+	neil.armstrong@linaro.org, nicolas@ndufresne.ca, u.kleine-koenig@baylibre.com, 
+	stefan.schmidt@linaro.org, lujianhua000@gmail.com, linux-arm-msm@vger.kernel.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	krzysztof.kozlowski@linaro.org, johan@kernel.org
+Subject: Re: [RFC PATCH v10 1/2] media: iris: introduce helper module to
+ select video driver
+Message-ID: <dl5gxjxvajoq3tszujqrew7ynvepufcr2qj7ztj7ksgv2fxtdt@zaeqtxuwbayb>
+References: <20250128080429.3911091-1-quic_dikshita@quicinc.com>
+ <20250128080429.3911091-2-quic_dikshita@quicinc.com>
+ <sb3beoyhnlcdfjbm37ogpdoph7m4fecpbuu3myglnpzblpnqhw@wdyskeps3uuh>
+ <45c3676a-aafe-59e8-910d-af82031c24a6@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <45c3676a-aafe-59e8-910d-af82031c24a6@quicinc.com>
 
-Even the kerneldoc says that with a zero timeout the function should not
-wait for anything, but still return 1 to indicate that the fences are
-signaled now.
+On Wed, Jan 29, 2025 at 03:23:22PM +0530, Dikshita Agarwal wrote:
+> 
+> 
+> On 1/28/2025 9:44 PM, Dmitry Baryshkov wrote:
+> > On Tue, Jan 28, 2025 at 01:34:28PM +0530, Dikshita Agarwal wrote:
+> >> Introduce a helper module with a kernel param to select between
+> >> venus and iris drivers for platforms supported by both drivers.
+> >>
+> >> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> >> ---
+> >>  drivers/media/platform/qcom/Makefile          |  1 +
+> >>  drivers/media/platform/qcom/iris/iris_core.h  |  1 +
+> >>  drivers/media/platform/qcom/iris/iris_probe.c |  3 +
+> >>  drivers/media/platform/qcom/venus/core.c      |  5 ++
+> >>  .../platform/qcom/video_drv_helper/Makefile   |  4 ++
+> >>  .../qcom/video_drv_helper/video_drv_helper.c  | 70 +++++++++++++++++++
+> >>  .../qcom/video_drv_helper/video_drv_helper.h  | 11 +++
+> >>  7 files changed, 95 insertions(+)
+> >>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/Makefile
+> >>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c
+> >>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h
+> >>
+> >> diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
+> >> index ea2221a202c0..15accde3bd67 100644
+> >> --- a/drivers/media/platform/qcom/Makefile
+> >> +++ b/drivers/media/platform/qcom/Makefile
+> >> @@ -2,3 +2,4 @@
+> >>  obj-y += camss/
+> >>  obj-y += iris/
+> >>  obj-y += venus/
+> >> +obj-y += video_drv_helper/
+> >> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+> >> index 37fb4919fecc..7108e751ff88 100644
+> >> --- a/drivers/media/platform/qcom/iris/iris_core.h
+> >> +++ b/drivers/media/platform/qcom/iris/iris_core.h
+> >> @@ -107,5 +107,6 @@ struct iris_core {
+> >>  
+> >>  int iris_core_init(struct iris_core *core);
+> >>  void iris_core_deinit(struct iris_core *core);
+> >> +extern bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
+> > 
+> > s/extern //g
+> > 
+> >>  
+> >>  #endif
+> >> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> >> index 954cc7c0cc97..276461ade811 100644
+> >> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> >> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> >> @@ -196,6 +196,9 @@ static int iris_probe(struct platform_device *pdev)
+> >>  	u64 dma_mask;
+> >>  	int ret;
+> >>  
+> >> +	if (!video_drv_should_bind(&pdev->dev, true))
+> >> +		return -ENODEV;
+> >> +
+> >>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
+> >>  	if (!core)
+> >>  		return -ENOMEM;
+> >> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> >> index 77d48578ecd2..b38be7812efe 100644
+> >> --- a/drivers/media/platform/qcom/venus/core.c
+> >> +++ b/drivers/media/platform/qcom/venus/core.c
+> >> @@ -369,12 +369,17 @@ static int venus_add_dynamic_nodes(struct venus_core *core)
+> >>  static void venus_remove_dynamic_nodes(struct venus_core *core) {}
+> >>  #endif
+> >>  
+> >> +extern bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
+> > 
+> > Use #include instead.
+> > 
+> >> +
+> >>  static int venus_probe(struct platform_device *pdev)
+> >>  {
+> >>  	struct device *dev = &pdev->dev;
+> >>  	struct venus_core *core;
+> >>  	int ret;
+> >>  
+> >> +	if (!video_drv_should_bind(&pdev->dev, false))
+> >> +		return -ENODEV;
+> >> +
+> >>  	core = devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
+> >>  	if (!core)
+> >>  		return -ENOMEM;
+> >> diff --git a/drivers/media/platform/qcom/video_drv_helper/Makefile b/drivers/media/platform/qcom/video_drv_helper/Makefile
+> >> new file mode 100644
+> >> index 000000000000..82567e0392fb
+> >> --- /dev/null
+> >> +++ b/drivers/media/platform/qcom/video_drv_helper/Makefile
+> >> @@ -0,0 +1,4 @@
+> >> +# Makefile for Video driver helper
+> >> +
+> >> +obj-m := video_drv_helper.o
+> > 
+> > Always built as a module? And what if iris or venus are built into the
+> > kernel?
+> iris and venus are always built as module,
 
-Unfortunately that isn't what was implemented, instead of only returning
-1 we also waited for at least one jiffies.
+This is not correct.
 
-Fix that by adjusting the handling to what the function is actually
-documented to do.
+> and if we are adding the
+> dependency of this module on IRIS && VENUS then this can't be Y I think.
 
-v2: improve code readability
+It surely can. Moreover, if one doesn't enable both Iris and Venus, this
+module is completely unnecessary.
 
-Reported-by: Marek Olšák <marek.olsak@amd.com>
-Reported-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Cc: <stable@vger.kernel.org>
----
- drivers/dma-buf/dma-resv.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+> > Add a normal Kconfig symbol, tristate, no Kconfig string. Use depends on
+> > IRIS && VENUS (and maybe default y) to let it be built only if both
+> > drivers are enabled.
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 5f8d010516f0..c78cdae3deaf 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -684,11 +684,13 @@ long dma_resv_wait_timeout(struct dma_resv *obj, enum dma_resv_usage usage,
- 	dma_resv_iter_begin(&cursor, obj, usage);
- 	dma_resv_for_each_fence_unlocked(&cursor, fence) {
- 
--		ret = dma_fence_wait_timeout(fence, intr, ret);
--		if (ret <= 0) {
--			dma_resv_iter_end(&cursor);
--			return ret;
--		}
-+		ret = dma_fence_wait_timeout(fence, intr, timeout);
-+		if (ret <= 0)
-+			break;
-+
-+		/* Even for zero timeout the return value is 1 */
-+		if (timeout)
-+			timeout = ret;
- 	}
- 	dma_resv_iter_end(&cursor);
- 
 -- 
-2.34.1
-
+With best wishes
+Dmitry
 
