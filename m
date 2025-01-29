@@ -1,178 +1,151 @@
-Return-Path: <linux-media+bounces-25402-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25403-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E0BA21D06
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 13:21:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1082BA21D3B
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 13:40:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F6C91671C2
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 12:21:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1302F167700
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 12:40:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF7F91D9329;
-	Wed, 29 Jan 2025 12:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00F815C96;
+	Wed, 29 Jan 2025 12:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="N9oKnJFz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573CC1B412B
-	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 12:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3411FC8
+	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 12:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738153301; cv=none; b=ljZltNGKhIdztLE/c1ra39e10Zi4gBUZoJHSfBi3yqjEbFfUabbIvwnddOsjvrLUiLsnmrSi1saMzluRf5P45QlIUNDtD3IN333sJ8UmqkLfDKlfa52aYTSFAcF1XpY97E3v7+Wh2pOrr8wYpBDDiFd87t02YlTMt7PKMILdMek=
+	t=1738154392; cv=none; b=chDfj5aQkhI7ZoEedVmBjyzMc5hHtm6rxf1P/xuGPNDKcch/RtcJve2tw/fr+ciSD8+hq2lAvYJQRQEfyZn+pN8CRkcKN3QUMtNMk04IMOnmFW4W5FPTMd/wF8Ux0/X4dVTqpmS2C+xXpQybjadqtN9qhGF2y6j4EYAfXr0haFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738153301; c=relaxed/simple;
-	bh=ZDECljI8SSleYyIKhcEtmnSCT1nqrq8X8+e0zK9NvSg=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=blOKl+DUauPUbvb0GlZ1JF1AtHAImtOtSis3aINr6GEngI2gdvNLIh74N31sBCGoAR22ddIuv48anlkFhY46CY6EAR7MAshebyeOzNxMMqVTwxC0in7kA6b8/xIVDFWHASp7YO7YK/SH713F/eE9QxMJKWpeCxvzVJej1ptC610=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3667CC4CED3;
-	Wed, 29 Jan 2025 12:21:40 +0000 (UTC)
-Message-ID: <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
-Date: Wed, 29 Jan 2025 13:21:38 +0100
+	s=arc-20240116; t=1738154392; c=relaxed/simple;
+	bh=NH8Q4niJs4pSZDYUZgmPJ182AMQXEiqV6qbRV/5nhqk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TKhw1iJjwP7YNqT6zDjg8Yma05fa3cUaUqRR3Clv8ovNhJN310pDi5IZtFYNx5RMIBAKL1puJJSfrFAwf+0W+Pck9WbJKYn5GtnDBq6czz5WNLoR5yirFDk1fCXMKlkFN509aHlB9WmRUGYauIPn+NqKp6Cy13kgmcJyRpyGgPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=N9oKnJFz; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7b6eeff1fdfso625050085a.2
+        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 04:39:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1738154389; x=1738759189; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KLMpsfmYNeg8S0yCoo/BuyjCEBikFCujpB5IOWC6FmE=;
+        b=N9oKnJFzBxZJY4X9sOjkCfCiBjeLn3/2bvwdvVLIebSmg6iXFGdX5vPIY2oQfv8LRT
+         uZZAHbznBqEVFyOxDa+9hSG8YXhl4SVfKm152ODfursWyrcAgPwEfG6LBLUvqAzgHdC6
+         3oGeFu6kHUeUWzgQVk06DYSF4bBAAB+sv99kE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738154389; x=1738759189;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KLMpsfmYNeg8S0yCoo/BuyjCEBikFCujpB5IOWC6FmE=;
+        b=b1TizxM88gQsk6gaXsIizKebkNLNoXIdTjpsYlVCH7afmMFz0ApGyOM8585B4j99Ax
+         32gZSa4b+w/0SvxBDQpLHO6IC6o/k5bOyT2+z4xx135LlFL+e9srmcH+o4qGt6XuW1KZ
+         KXkUoxWmu4tppUKKA5UKssMcAHpOQ1yR+XmN4aO/fqg0V0t5PrWEWiKghLnzIDa+U6Qh
+         TZyE/O7ATk1IGAbwkqY0OdhE9Y5BdO3u/KaSJYptM9f0ORzQLhyu8LIJ0Vpxb1n7EyWq
+         1lyTqsF9WNtoXRvZKnBoy3rqBDriFRoPM7wcuh1Gv5ydX3QTE0IJY4C2AzNqGnaXSyIc
+         HrLA==
+X-Forwarded-Encrypted: i=1; AJvYcCWkHAgBfYRuzBHeaspkasIiJHbxdOt51jlC+fbVksis5EcCT5f4J/QQKjvJafmHzrBW+6gkGPR1U1qlkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyx7EEnzyVX2nldqfxK/PRGywXNo6fPk9BLiWq/CBCI1Je9xpN1
+	o23/qBGBerVUQL3HSL2CXVm+5Ha8x8V4dp2mf/eJ+J2x95r7kj4aZbwt7y+b+pFHnbj5QnzyQff
+	ECA==
+X-Gm-Gg: ASbGncvystoO6V+CxomNSdobd8yQWfjk1takecnSpe+Fuonu5VZwLUuJG5545bDY3/y
+	WLVcpk5H9UCr3t2ER8HopV8UyUPL5V3jZ/2iI6t48dSKpCNH0GhPOe1+ZMNhMD63AnSwaq5R934
+	/qHh8D1hyR8WqYtQJASNhwBtb+DMQAdK47LMKCIKggWCAy3JHRI95pBQlDnve2GDKASeGKhMw0T
+	3Ghz7VQEw86YX+slxE9p38QiYBy7K9WX8E2bJAs5ZVPWzTJXu+hjKCT9u/ctNFudYL6y5UabgRn
+	WajRlSzFgd3qzsgC6YGYI+57cJFO2yeGQ8WeadU98Ck8XbO5A4/NV8dL/oTDBqlwvTMBIYznYPl
+	8
+X-Google-Smtp-Source: AGHT+IFt0EbHXb6QlqMF4SNnfs9Wv+pT/TKw//M6O86iQrBWZWyL1ejpH5iUC3pvecax/9xQ/QpmNA==
+X-Received: by 2002:a05:620a:454b:b0:7b6:d1ce:67d6 with SMTP id af79cd13be357-7bffcd736e1mr422788785a.39.1738154389613;
+        Wed, 29 Jan 2025 04:39:49 -0800 (PST)
+Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46e6686311asm61572791cf.15.2025.01.29.04.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 04:39:48 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 29 Jan 2025 12:39:46 +0000
+Subject: [PATCH] media: uvcvideo: Fix deferred probing error
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Farblos <farblos@vodafonemail.de>
-References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250129-uvc-eprobedefer-v1-1-643b2603c0d2@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAJEhmmcC/x3MQQ5AMBBG4avIrDWpUglXEQvT/pgNMg2RiLtrL
+ L/Few8lqCBRXzykuCTJvmVUZUFhnbYFRmI2Oeu8rVxnzisYHLozImaoYQ/mJnJbh0C5OhSz3P9
+ xGN/3AzsfaHRhAAAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-On 29/01/2025 10:51, Hans Verkuil wrote:
-> If the hotplug detect of a display is low for longer than one second
-> (configurable through drm_dp_cec_unregister_delay), then the CEC adapter
-> is unregistered since we assume the display was disconnected. If the
-> HPD went low for less than one second, then we check if the properties
-> of the CEC adapter have changed, since that indicates that we actually
-> switch to new hardware and we have to unregister the old CEC device and
-> register a new one.
-> 
-> Unfortunately, the test for changed properties was written poorly, and
-> after a new CEC capability was added to the CEC core code the test always
-> returned true (i.e. the properties had changed).
-> 
-> As a result the CEC device was unregistered and re-registered for every
-> HPD toggle. If the CEC remote controller integration was also enabled
-> (CONFIG_MEDIA_CEC_RC was set), then the corresponding input device was
-> also unregistered and re-registered. As a result the input device in
-> /sys would keep incrementing its number, e.g.:
-> 
-> /sys/devices/pci0000:00/0000:00:08.1/0000:e7:00.0/rc/rc0/input20
-> 
-> Since short HPD toggles are common, the number could over time get into
-> the thousands.
-> 
-> While not a serious issue (i.e. nothing crashes), it is not intended
-> to work that way.
-> 
-> This patch changes the test so that it only checks for the single CEC
-> capability that can actually change, and it ignores any other
-> capabilities, so this is now safe as well if new caps are added in
-> the future.
-> 
-> With the changed test the bit under #ifndef CONFIG_MEDIA_CEC_RC can be
-> dropped as well, so that's a nice cleanup.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Reported-by: Farblos <farblos@vodafonemail.de>
+uvc_gpio_parse() can return -EPROBE_DEFER when the GPIOs it depends on
+have not yet been probed. This return code should be propagated to the
+caller of uvc_probe() to ensure that probing is retried when the required
+GPIOs become available.
 
-Fixes: 2c6d1fffa1d9 ("drm: add support for DisplayPort CEC-Tunneling-over-AUX")
+Currently, this error code is incorrectly converted to -ENODEV,
+causing some internal cameras to be ignored.
 
-Regards,
+This commit fixes this issue by propagating the -EPROBE_DEFER error.
 
-	Hans
+Cc: stable@vger.kernel.org
+Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-> ---
-> Jens (aka Farblos), can you test this patch?
-> ---
->  drivers/gpu/drm/display/drm_dp_cec.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
-> index 007ceb281d00..56a4965e518c 100644
-> --- a/drivers/gpu/drm/display/drm_dp_cec.c
-> +++ b/drivers/gpu/drm/display/drm_dp_cec.c
-> @@ -311,16 +311,6 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
->  	if (!aux->transfer)
->  		return;
-> 
-> -#ifndef CONFIG_MEDIA_CEC_RC
-> -	/*
-> -	 * CEC_CAP_RC is part of CEC_CAP_DEFAULTS, but it is stripped by
-> -	 * cec_allocate_adapter() if CONFIG_MEDIA_CEC_RC is undefined.
-> -	 *
-> -	 * Do this here as well to ensure the tests against cec_caps are
-> -	 * correct.
-> -	 */
-> -	cec_caps &= ~CEC_CAP_RC;
-> -#endif
->  	cancel_delayed_work_sync(&aux->cec.unregister_work);
-> 
->  	mutex_lock(&aux->cec.lock);
-> @@ -337,7 +327,9 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
->  		num_las = CEC_MAX_LOG_ADDRS;
-> 
->  	if (aux->cec.adap) {
-> -		if (aux->cec.adap->capabilities == cec_caps &&
-> +		/* Check if the adapter properties have changed */
-> +		if ((aux->cec.adap->capabilities & CEC_CAP_MONITOR_ALL) ==
-> +		    (cec_caps & CEC_CAP_MONITOR_ALL) &&
->  		    aux->cec.adap->available_log_addrs == num_las) {
->  			/* Unchanged, so just set the phys addr */
->  			cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index a10d4f4d9f95..73a7f23b616c 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -2253,9 +2253,10 @@ static int uvc_probe(struct usb_interface *intf,
+ 	}
+ 
+ 	/* Parse the associated GPIOs. */
+-	if (uvc_gpio_parse(dev) < 0) {
++	ret = uvc_gpio_parse(dev);
++	if (ret < 0) {
+ 		uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
+-		goto error;
++		goto error_retcode;
+ 	}
+ 
+ 	dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
+@@ -2328,9 +2329,11 @@ static int uvc_probe(struct usb_interface *intf,
+ 	return 0;
+ 
+ error:
++	ret = -ENODEV;
++error_retcode:
+ 	uvc_unregister_video(dev);
+ 	kref_put(&dev->ref, uvc_delete);
+-	return -ENODEV;
++	return ret;
+ }
+ 
+ static void uvc_disconnect(struct usb_interface *intf)
+
+---
+base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
+change-id: 20250129-uvc-eprobedefer-b5ebb4db63cc
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
 
