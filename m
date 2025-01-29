@@ -1,313 +1,142 @@
-Return-Path: <linux-media+bounces-25396-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25397-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71FDA21A6F
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 10:54:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA47A21AE2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 11:19:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAA143A06E2
-	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 09:54:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 133321885194
+	for <lists+linux-media@lfdr.de>; Wed, 29 Jan 2025 10:19:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B0BB1B0406;
-	Wed, 29 Jan 2025 09:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A076C1ABEC1;
+	Wed, 29 Jan 2025 10:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="o6Sx/Rrh"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gD5QubpI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C501ADFFB;
-	Wed, 29 Jan 2025 09:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089061AA1F6
+	for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 10:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738144449; cv=none; b=ASxaVTouRY9DzThpSHwNFITfMqm9hL40OIdom6bpP7Q0dJJfqnTEfCnuLEjThjtHa31z9hSXPKeMw7i5Psl4VJYuu7kUGthL1FP2PkSR+ppMgDHPntvxbqPgMlCPdny2mOc/qBlsWKGivN5NxUrKFruT1fYSqFWalZ8gPUX0jDE=
+	t=1738145940; cv=none; b=pV5KPLbdicNijzywu7y8+nnlBiKkWkjkwbcUBt3wcmjJV7HcbKNo7Gl9R2eypA4wDZwsfnMa3C54e/Q8nbtC3+o7nHvzhY+1r3LIMa7Z4gIyIKL7Pg3Vvm70/ZLcbg+gA/gN6GfP56SSByYDL3KxesCtfSQ0VBr1RJrXd0FxU7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738144449; c=relaxed/simple;
-	bh=BgTN7qxz2qFIpjID3jYigzaGHpUiLrISwspFAg3E3L4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=tSNPQ40+FOy2HxGqNslFY1S41HcI9soMdnkkzHePddOKjD3AHA3Akfk9V5aV6EXmkvuNeAPPlJAZB79B1C8ba5/q2dPy7DXfa0mvYzWIlP/TI8lGk1lxVZlqOMnmc2NKxCeR/nET85yQCBIZ4qI2ZRdtM4aPA6G9O6ug4lVHBCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=o6Sx/Rrh; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50T2gxxk020862;
-	Wed, 29 Jan 2025 09:53:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	sOddlnfAJR+6/qnsXse4j7jW+dDq8/iiERtouCUAD0g=; b=o6Sx/Rrhlmp5UJQr
-	sq/9XxLEyxqE4TuwjJ6YatzgsCCRVIW2ZM/h+6qu77TWInD4M78ZJsiXzkmp/G3Y
-	tkGxMeTQfCdFE0jO/lsLs9193Raq3lSqNz8b8LBoRRPNvSUDz5LOeaTzrHHkeVBJ
-	teMvWxGkB/leC4ALut8ep/xBWQpqfrrT4S+hiEt2RbinZwi8BNwO1CaTWP85ZZ0O
-	M66k8/ee/RnHfZ2FQ9fODeQV+aBfag5XnU3sR4ZMZbhI6TOyAAHtTWjogse6RqGB
-	s5hhSTZaEyviuOhDpj+x4hodpyFQIF1/5luO7YVlyGh2TRJYlttR5OoDrCUgdDzf
-	pNC0Kg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44f7xfh0fk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Jan 2025 09:53:47 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50T9rlUe002427
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Jan 2025 09:53:47 GMT
-Received: from [10.50.59.27] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 29 Jan
- 2025 01:53:31 -0800
-Message-ID: <45c3676a-aafe-59e8-910d-af82031c24a6@quicinc.com>
-Date: Wed, 29 Jan 2025 15:23:22 +0530
+	s=arc-20240116; t=1738145940; c=relaxed/simple;
+	bh=kl82VmWgXppX5VJ/EtJ0shYPRk3gaL/s/bAIlojjAn8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kkXVAL4LePKiaB6kKh6I9WyTdrlAU+klwLTtczduu3xviRqV8Kx18Gx9LNHObGb+gbSFE3Vqw5UZuPH/RtZ9rl+CSE6GDTZgKo/fLcfTYE3g5Mois+DTPtZd7hUULTnkClGPCzfrTIAEuft7S0tMqDoSLEFYuoxVRj60+100Huo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gD5QubpI; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30219437e63so5685741fa.1
+        for <linux-media@vger.kernel.org>; Wed, 29 Jan 2025 02:18:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738145936; x=1738750736; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CD7Rzq+gMDi5MyNxNk1w+uvvwKV4G+Zwfd1XSHVS6cQ=;
+        b=gD5QubpIJriyPuzkYP3rbiSgvl3pcQQu6ttqpp2zJc9Nids9jUuo5LKNZKLt/cgqXa
+         mmQ0B4MR8t9LM9SX1GP0W99ImefruNHrCvWHjoEo4QU3JUed0P6xqWpC1TDpU8P7IX0O
+         2KMZtxEipy7xrYkBAcsE2votRRb4nDZXm2NjRMU/6g5pTWl1PxtTkaTmJBZzaRF8HL1U
+         T0/HzzTaVKsyyYZQqAI6agGDCQHSyFtG9jLjCAYhPCtXxZiM8WAQHOyVDom5qEucjyjW
+         hVTYly6pmkRnbXJwNhmoqfjrKz3y6ZnFvr+tiZLSLhVYuQbflkFM6qWNx9bbzGB5CS3g
+         rGbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738145936; x=1738750736;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CD7Rzq+gMDi5MyNxNk1w+uvvwKV4G+Zwfd1XSHVS6cQ=;
+        b=S1oiAUeGBVQlQmNFqH+I5Es3gccG4WlZ+JPCBOoY3W8oJkDPhkSgGuRtf8lIpSPVsY
+         HCu3OIErJ6SXBMv8v08vza10A24WOD1YXfzgPAT3OLCFRc6w1MCjyAQHd2eE4eb6B6b8
+         OJLR5FVyIAF1apQQ1aCMNFJJb4NlH/gGLTMDuQuXLLc1yJZ/wqGNmlypDIgNwmgUCVu5
+         wSSxUhGd1NOxt3db7/ZclkzbXh72BlcLJv22if/9byXm3Qry21Gr1787dKQqC+95hzeY
+         8tCOZ7o71/DUktFUBqxdDSrZdZ6THiL4Atse8DttXTAYlAzMKCKHKcbiA1+9Tsja7jzl
+         nXYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlMa8hZcSVT5pOBWjJRQafv+xVamCgoLUM4RtgGL91ptrzVexIP40Kn4jbAZQ8W5Zy/37O3ZsQ2bZlAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtH803Kf12HONCFaM/1lj1n+/iu9atqqUAYPPk1i+0XqYKyNYk
+	2eh5ABA9uPsAgMnqddpcSHQJtg2gml4m03IzIlcav9iuxoDoEr4ztZ6aXrLbh7O4t8aTH4E80zP
+	SOGw=
+X-Gm-Gg: ASbGnctYaGGsiOPMOIEVXD4tBG2XAOSRL2V9KZoYwDngl2kEuBaU4ju2ZhDdzZSaXaY
+	EndF6e5LxLoiVdHd0u3KU9coS00x+Bz8VkaPYRYWOOjANJn7BbY2VIbJRnbX6ixQvftK1IcnikD
+	DunI2GYrOeu6mV+ZYEO2xepxVKNjbwmKCBN/oM6qTFcnrec+E8frRd3Rof0SdxossCu14jAFeCa
+	ZAbv+D2GYbeVt2ll0DFzPG1Hz31izRZAQuYg7CFYt2ifCb0ocLcHIoRLMs1V1FVPR/G9cHXsfCK
+	15bDBSTKiq5DOHtD9075CCoTtrgJXRbcIUhgoRaYUtLoUPyT5vourri3kV/v/epi34LhpQ0=
+X-Google-Smtp-Source: AGHT+IF9jHoLDnvcnghnxUeU87YKSzZMeWIi2QDM6j19kDW5g68ullXD1rILsMSfpCm/ZndoF2lP+g==
+X-Received: by 2002:ac2:4158:0:b0:542:8d53:5eab with SMTP id 2adb3069b0e04-543e4a71be8mr680136e87.6.1738145935932;
+        Wed, 29 Jan 2025 02:18:55 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543c822f85esm1949177e87.53.2025.01.29.02.18.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 02:18:54 -0800 (PST)
+Date: Wed, 29 Jan 2025 12:18:52 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, Farblos <farblos@vodafonemail.de>
+Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
+Message-ID: <idv2nm3dextozwfjyj7shq4gf7nbbat3fup2zixg5jwya7hi4m@a4g2kfxla4pi>
+References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC PATCH v10 1/2] media: iris: introduce helper module to
- select video driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <quic_vgarodia@quicinc.com>, <quic_abhinavk@quicinc.com>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <p.zabel@pengutronix.de>, <hverkuil@xs4all.nl>,
-        <sebastian.fricke@collabora.com>, <bryan.odonoghue@linaro.org>,
-        <neil.armstrong@linaro.org>, <nicolas@ndufresne.ca>,
-        <u.kleine-koenig@baylibre.com>, <stefan.schmidt@linaro.org>,
-        <lujianhua000@gmail.com>, <linux-arm-msm@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <krzysztof.kozlowski@linaro.org>,
-        <johan@kernel.org>
-References: <20250128080429.3911091-1-quic_dikshita@quicinc.com>
- <20250128080429.3911091-2-quic_dikshita@quicinc.com>
- <sb3beoyhnlcdfjbm37ogpdoph7m4fecpbuu3myglnpzblpnqhw@wdyskeps3uuh>
-Content-Language: en-US
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <sb3beoyhnlcdfjbm37ogpdoph7m4fecpbuu3myglnpzblpnqhw@wdyskeps3uuh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: JMRudwU-uVJYECc4UmDh8K2dsyJxZ_Wc
-X-Proofpoint-GUID: JMRudwU-uVJYECc4UmDh8K2dsyJxZ_Wc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-28_04,2025-01-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
- phishscore=0 mlxlogscore=999 adultscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501290080
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
 
+On Wed, Jan 29, 2025 at 10:51:48AM +0100, Hans Verkuil wrote:
+> If the hotplug detect of a display is low for longer than one second
+> (configurable through drm_dp_cec_unregister_delay), then the CEC adapter
+> is unregistered since we assume the display was disconnected. If the
+> HPD went low for less than one second, then we check if the properties
+> of the CEC adapter have changed, since that indicates that we actually
+> switch to new hardware and we have to unregister the old CEC device and
+> register a new one.
+> 
+> Unfortunately, the test for changed properties was written poorly, and
+> after a new CEC capability was added to the CEC core code the test always
+> returned true (i.e. the properties had changed).
+> 
+> As a result the CEC device was unregistered and re-registered for every
+> HPD toggle. If the CEC remote controller integration was also enabled
+> (CONFIG_MEDIA_CEC_RC was set), then the corresponding input device was
+> also unregistered and re-registered. As a result the input device in
+> /sys would keep incrementing its number, e.g.:
+> 
+> /sys/devices/pci0000:00/0000:00:08.1/0000:e7:00.0/rc/rc0/input20
+> 
+> Since short HPD toggles are common, the number could over time get into
+> the thousands.
+> 
+> While not a serious issue (i.e. nothing crashes), it is not intended
+> to work that way.
+> 
+> This patch changes the test so that it only checks for the single CEC
+> capability that can actually change, and it ignores any other
+> capabilities, so this is now safe as well if new caps are added in
+> the future.
+> 
+> With the changed test the bit under #ifndef CONFIG_MEDIA_CEC_RC can be
+> dropped as well, so that's a nice cleanup.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Reported-by: Farblos <farblos@vodafonemail.de>
+> ---
+> Jens (aka Farblos), can you test this patch?
+> ---
+>  drivers/gpu/drm/display/drm_dp_cec.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On 1/28/2025 9:44 PM, Dmitry Baryshkov wrote:
-> On Tue, Jan 28, 2025 at 01:34:28PM +0530, Dikshita Agarwal wrote:
->> Introduce a helper module with a kernel param to select between
->> venus and iris drivers for platforms supported by both drivers.
->>
->> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> ---
->>  drivers/media/platform/qcom/Makefile          |  1 +
->>  drivers/media/platform/qcom/iris/iris_core.h  |  1 +
->>  drivers/media/platform/qcom/iris/iris_probe.c |  3 +
->>  drivers/media/platform/qcom/venus/core.c      |  5 ++
->>  .../platform/qcom/video_drv_helper/Makefile   |  4 ++
->>  .../qcom/video_drv_helper/video_drv_helper.c  | 70 +++++++++++++++++++
->>  .../qcom/video_drv_helper/video_drv_helper.h  | 11 +++
->>  7 files changed, 95 insertions(+)
->>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/Makefile
->>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c
->>  create mode 100644 drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h
->>
->> diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
->> index ea2221a202c0..15accde3bd67 100644
->> --- a/drivers/media/platform/qcom/Makefile
->> +++ b/drivers/media/platform/qcom/Makefile
->> @@ -2,3 +2,4 @@
->>  obj-y += camss/
->>  obj-y += iris/
->>  obj-y += venus/
->> +obj-y += video_drv_helper/
->> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
->> index 37fb4919fecc..7108e751ff88 100644
->> --- a/drivers/media/platform/qcom/iris/iris_core.h
->> +++ b/drivers/media/platform/qcom/iris/iris_core.h
->> @@ -107,5 +107,6 @@ struct iris_core {
->>  
->>  int iris_core_init(struct iris_core *core);
->>  void iris_core_deinit(struct iris_core *core);
->> +extern bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
-> 
-> s/extern //g
-> 
->>  
->>  #endif
->> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
->> index 954cc7c0cc97..276461ade811 100644
->> --- a/drivers/media/platform/qcom/iris/iris_probe.c
->> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
->> @@ -196,6 +196,9 @@ static int iris_probe(struct platform_device *pdev)
->>  	u64 dma_mask;
->>  	int ret;
->>  
->> +	if (!video_drv_should_bind(&pdev->dev, true))
->> +		return -ENODEV;
->> +
->>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
->>  	if (!core)
->>  		return -ENOMEM;
->> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
->> index 77d48578ecd2..b38be7812efe 100644
->> --- a/drivers/media/platform/qcom/venus/core.c
->> +++ b/drivers/media/platform/qcom/venus/core.c
->> @@ -369,12 +369,17 @@ static int venus_add_dynamic_nodes(struct venus_core *core)
->>  static void venus_remove_dynamic_nodes(struct venus_core *core) {}
->>  #endif
->>  
->> +extern bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
-> 
-> Use #include instead.
-> 
->> +
->>  static int venus_probe(struct platform_device *pdev)
->>  {
->>  	struct device *dev = &pdev->dev;
->>  	struct venus_core *core;
->>  	int ret;
->>  
->> +	if (!video_drv_should_bind(&pdev->dev, false))
->> +		return -ENODEV;
->> +
->>  	core = devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
->>  	if (!core)
->>  		return -ENOMEM;
->> diff --git a/drivers/media/platform/qcom/video_drv_helper/Makefile b/drivers/media/platform/qcom/video_drv_helper/Makefile
->> new file mode 100644
->> index 000000000000..82567e0392fb
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/video_drv_helper/Makefile
->> @@ -0,0 +1,4 @@
->> +# Makefile for Video driver helper
->> +
->> +obj-m := video_drv_helper.o
-> 
-> Always built as a module? And what if iris or venus are built into the
-> kernel?
-iris and venus are always built as module, and if we are adding the
-dependency of this module on IRIS && VENUS then this can't be Y I think.
-> Add a normal Kconfig symbol, tristate, no Kconfig string. Use depends on
-> IRIS && VENUS (and maybe default y) to let it be built only if both
-> drivers are enabled.
-> 
->> +
->> diff --git a/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c b/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c
->> new file mode 100644
->> index 000000000000..9009c2906e54
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.c
->> @@ -0,0 +1,70 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#include <linux/device.h>
->> +#include <linux/module.h>
->> +#include <linux/of.h>
->> +
->> +#include "video_drv_helper.h"
->> +
->> +/* The venus driver supports only hfi gen1 to communicate with the firmware while
->> + * the iris driver supports both hfi gen1 and hfi gen2.
->> + * The support of hfi gen1 is added to the iris driver with the intention that
->> + * it can support old gen1 interface based firmware, while enabling gen2 based future SOCs.
->> + * With this, the plan is to migrate older SOCs from venus to iris.
->> + * As of now, since the iris driver supports only entry level features and doesn't have
->> + * feature parity with the venus driver, a runtime-selection is provided to user via
->> + * module parameter 'prefer_venus' to select the driver.
->> + * This selection is available only for the SoCs which are supported by both venus
->> + * and iris eg: SM8250.
->> + * When the feature parity is achieved, the plan is to switch the default to point to
->> + * the iris driver, then gradually start removing platforms from venus.
->> + * Hardware supported by only venus - 8916, 8996, SDM660, SDM845, SC7180, SC7280
->> + * Hardware supported by only iris - SM8550
->> + * Hardware supported by both venus and iris - SM8250
->> + */
->> +
->> +#if !IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS) || !IS_REACHABLE(CONFIG_VIDEO_QCOM_IRIS)
->> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
->> +{
->> +	/* If just a single driver is enabled, use it no matter what */
->> +	return true;
->> +}
->> +
->> +#else
-> 
-> Move the stub funtion to header.
-> 
->> +static bool prefer_venus = true;
->> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
->> +module_param(prefer_venus, bool, 0444);
->> +
->> +/* list all platforms supported by both venus and iris drivers */
->> +static const char *const venus_to_iris_migration[] = {
->> +	"qcom,sm8250-venus",
->> +	NULL,
->> +};
->> +
->> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
-> 
-> The prefix is too broad, but maybe its fine.
-> 
->> +{
->> +	if (of_device_compatible_match(dev->of_node, venus_to_iris_migration))
->> +		return prefer_venus ? !is_iris_driver : is_iris_driver;
->> +
->> +	return true;
->> +}
->> +EXPORT_SYMBOL_GPL(video_drv_should_bind);
->> +#endif
->> +
->> +static int __init video_drv_helper_init(void)
->> +{
->> +	return 0;
->> +}
->> +
->> +static void __exit video_drv_helper_exit(void)
->> +{
->> +}
->> +
->> +module_init(video_drv_helper_init);
->> +module_exit(video_drv_helper_exit);
-> 
-> No need for this, please drop.
-> 
->> +
->> +MODULE_DESCRIPTION("A video driver helper module");
->> +MODULE_LICENSE("GPL");
->> diff --git a/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h b/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h
->> new file mode 100644
->> index 000000000000..6d835227fec2
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/video_drv_helper/video_drv_helper.h
->> @@ -0,0 +1,11 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#ifndef __VIDEO_DRV_HELPER_H__
->> +#define __VIDEO_DRV_HELPER_H__
->> +
->> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver);
->> +
->> +#endif
->> -- 
->> 2.34.1
->>
-> 
+-- 
+With best wishes
+Dmitry
 
