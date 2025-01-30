@@ -1,123 +1,102 @@
-Return-Path: <linux-media+bounces-25442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F6AA23706
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jan 2025 22:59:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 766C9A237BD
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 00:20:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CBEF162168
-	for <lists+linux-media@lfdr.de>; Thu, 30 Jan 2025 21:59:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED76A1883EC8
+	for <lists+linux-media@lfdr.de>; Thu, 30 Jan 2025 23:20:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C18221F1532;
-	Thu, 30 Jan 2025 21:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D23DC1F1312;
+	Thu, 30 Jan 2025 23:20:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vodafonemail.de header.i=@vodafonemail.de header.b="u+o3XrD6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ERqVUCNt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mr5.vodafonemail.de (mr5.vodafonemail.de [145.253.228.165])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981AE191F92
-	for <linux-media@vger.kernel.org>; Thu, 30 Jan 2025 21:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.253.228.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BA519DF99;
+	Thu, 30 Jan 2025 23:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738274391; cv=none; b=QAcOvkyAE87uGMuiJz5tJg3XlQp8Ul8wfX9xOR4doPytETbX96OmBz1pGCCRvBmHLRIntLrQzQRcXD5oUSAFxP2qj1jD+FPbTpPS4i9kGz19lfOYbvJWBuOz2RwL5wT7t+Oox2X+ukQAlRU8xr1aIH2bkTLUB2q+EYsMffHt8O8=
+	t=1738279207; cv=none; b=pXmTs5kYsN79N++7qLvMrXSD08mN2cGaVdQjHMvrA6vaUMWEkMIknJmDPoejBYvhpXUdzVfhmVIa3wAH5p2dAEVO7hEEJIZjsgjHYj8yeomDyh7KVCaiLSv84sk+nEIQIV0WZrgERWXzHxToEwTWvmvLrk5F1Ssh+pnJnAyWMOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738274391; c=relaxed/simple;
-	bh=CdQpH2QJYQHBTVEkw+6x5tiM21k310OuB28JG4hfnTA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=sbRYgLILKdXDXa8kFITzK+/PouYTgL8HyN06cfbUIUpZf4DdQ4KOACkIZ7VkF79AE/u9SrIMxj1jAtlmM43w85YAHHevUGJ1XqWXBDssjXvdpc84GOEabrRKLCb8cqgasUQ6cTdanudMPMH5oB4Hb+w2KK7QqzmGkZ/lfS96O2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vodafonemail.de; spf=pass smtp.mailfrom=vodafonemail.de; dkim=pass (1024-bit key) header.d=vodafonemail.de header.i=@vodafonemail.de header.b=u+o3XrD6; arc=none smtp.client-ip=145.253.228.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vodafonemail.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vodafonemail.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vodafonemail.de;
-	s=vfde-mb-mr2-23sep; t=1738274380;
-	bh=ceRnqJqxZj5QOOrNLgLBL4o3YHQ/Skqh/9VfIUVZGQE=;
-	h=Message-ID:Date:User-Agent:From:Subject:To:References:
-	 Content-Language:In-Reply-To:Content-Type:From;
-	b=u+o3XrD6Jhb5y8T7eENE7eYkY5oBjNwN90GnppYtI50Fzg4GTkWuCOKGn749r7bUV
-	 tO7v01002Es0CM6ypzim68K7sECibJxlKeKvQMitaDOg+QlboPp47BP4GJngVfok4m
-	 v9q7VBbZpIYJgpkJOCf4QBsbOCo+8kiFshCCBXg4=
-Received: from smtp.vodafone.de (unknown [10.0.0.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by mr5.vodafonemail.de (Postfix) with ESMTPS id 4YkXxS25yLz1yGf;
-	Thu, 30 Jan 2025 21:59:40 +0000 (UTC)
-Received: from [192.168.178.41] (port-92-196-77-206.dynamic.as20676.net [92.196.77.206])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.vodafone.de (Postfix) with ESMTPSA id 4YkXxB6SzJz8slD;
-	Thu, 30 Jan 2025 21:59:23 +0000 (UTC)
-Message-ID: <80fa5087-733d-420d-ba8b-06c67ba10cf1@vodafonemail.de>
-Date: Thu, 30 Jan 2025 22:59:23 +0100
+	s=arc-20240116; t=1738279207; c=relaxed/simple;
+	bh=KpU19pPWgjFCuwWnk0SmFXgxBVKLllJYcw36Fo9osrg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lLdRYk+NQvjgv+Vqpa9N5igQIVUj7PjDYmqHqi8oM7a+uZOSKGld4PILlhjnEHPtsuPiwsaxjrwMCtkbdE7U9DPgCLgxG+t9M6WozVKPHM2QMJq+KT8CzI864fiy1qbaMMYHy9vZRGJn+PTdQ3XhhoqW9iNXeZVVvdLhoINkz6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ERqVUCNt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62DBEC4CED2;
+	Thu, 30 Jan 2025 23:20:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738279205;
+	bh=KpU19pPWgjFCuwWnk0SmFXgxBVKLllJYcw36Fo9osrg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ERqVUCNtbs+MzLdhNdvgBbEjriNPD+yPZlBdTguGqhpz6nhLt0Q1qEpzAz1NpSC+U
+	 UJRC4z+qMWIPBsk+AkOOIm8AAYpM0t2iMy1oWJ3OisQC2mXpY2wDDNo7yMV5e5te0d
+	 qjeh/puZLvAbfjwaYR+VQcPxIdPfDGSMakwFr6s5tWOGEYAvliMRWa3/burDmWPvc7
+	 aWJsFVAKeOPJP3JgMiUv3mLaItpjObrdvpYggJrl1DzHKdWgxWFIST81ZsBDj5ZBo1
+	 W7KIlck3OGfLXlCXHkzatU6xx1VGcNbZ0Nmx360SlZWcm1LWhyjcrTQcRMDnsD7Y7D
+	 NJYRI+1Iq4ldg==
+Date: Thu, 30 Jan 2025 17:20:04 -0600
+From: Rob Herring <robh@kernel.org>
+To: Florent Tomasin <florent.tomasin@arm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Yong Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, nd@arm.com,
+	Akash Goel <akash.goel@arm.com>
+Subject: Re: [RFC PATCH 1/5] dt-bindings: dma: Add CMA Heap bindings
+Message-ID: <20250130232004.GA1818629-robh@kernel.org>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+ <771534be8dfa2a3bdc3876502752f518224b9298.1738228114.git.florent.tomasin@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Jens Schmidt <farblos@vodafonemail.de>
-Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Hans Verkuil <hverkuil@xs4all.nl>
-References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
-Content-Language: de-DE-frami, en-US
-In-Reply-To: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-purgate-server: smtpa06
-X-purgate-type: clean
-X-purgate: clean
-X-purgate-size: 1400
-X-purgate-ID: 155817::1738274376-BA7F55E5-B7C8DFA7/0/0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <771534be8dfa2a3bdc3876502752f518224b9298.1738228114.git.florent.tomasin@arm.com>
 
-[Resend to make the automation happy ... thanks for the hint.]
+On Thu, Jan 30, 2025 at 01:08:57PM +0000, Florent Tomasin wrote:
+> Introduce a CMA Heap dt-binding allowing custom
+> CMA heap registrations.
+> 
+> * Note to the reviewers:
+> The patch was used for the development of the protected mode
+> feature in Panthor CSF kernel driver and is not initially thought
+> to land in the Linux kernel. It is mostly relevant if someone
+> wants to reproduce the environment of testing. Please, raise
+> interest if you think the patch has value in the Linux kernel.
 
-On 2025-01-29  10:51, Hans Verkuil wrote:
+Why would panthor need CMA, it has an MMU.
 
-> Jens (aka Farblos), can you test this patch?
+In any case, I agree with Maxime that this is redundant.
 
-TL;DR: Your patch fixes the issue on my system, thanks.
-
-Tested-by: Farblos <farblos@vodafonemail.de>
-
-Details:
-
-### build #13 - stock 6.12.10 kernel
-
-[~]$ uname -a
-Linux host01 6.12.10 #13 SMP PREEMPT_DYNAMIC Wed Jan 29 22:10:03 CET 2025 x86_64 GNU/Linux
-
-[~]$ ls -ald /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input*
-drwxr-xr-x 6 root root 0 Jan 29 22:17 /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input30
-
-# you also get quite a lot of these without your patch ...
-[~]$ journalctl --boot | grep -c 'kernel: Registered IR keymap rc-cec'
-7
-
-### build #14 - 6.12.10 with your patch
-
-[~]$ uname -a
-Linux host01 6.12.10 #14 SMP PREEMPT_DYNAMIC Wed Jan 29 22:24:47 CET 2025 x86_64 GNU/Linux
-
-[~]$ ls -ald /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input*
-drwxr-xr-x 6 root root 0 Jan 29 22:27 /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input11
-
-[~]$ journalctl --boot | grep -c 'kernel: Registered IR keymap rc-cec'
-1
-
-... wait ... let screen saver kick in ... wait ...
-
-[~]$ ls -ald /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input*
-drwxr-xr-x 6 root root 0 Jan 29 22:27 /sys/devices/pci0000:00/0000:00:02.0/rc/rc0/input11
-
-[~]$ journalctl --boot | grep -c 'kernel: Registered IR keymap rc-cec'
-1
+Rob
 
 
