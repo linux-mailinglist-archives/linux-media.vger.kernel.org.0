@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-25459-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25460-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A123A23CD0
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 12:22:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF4EA23CD3
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 12:24:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC8E43A5BE8
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 11:22:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8A171887210
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 11:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C091BFDFC;
-	Fri, 31 Jan 2025 11:22:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82FE11BF7E8;
+	Fri, 31 Jan 2025 11:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMdEVcTW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ElXTjVvs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5841BD4E5;
-	Fri, 31 Jan 2025 11:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792331B87F8;
+	Fri, 31 Jan 2025 11:24:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738322546; cv=none; b=i256s6rPCe4RZNNQlnNWmXd8PfaVnMKmj7TtewH/SbhM1C6px0bEttK7u2qr+tViVgodiJzuoZ2hB9HaKeB5m7EXFOgyyHh9DFjAPf0AQYvk3fNJGH4kXMsLHOaArdh4M3k+h8B4TLbDhCveP9LJ+/J6n+n4QlBQSmLEcLRikZc=
+	t=1738322651; cv=none; b=eSHXXyTXxYYKbSmjgD2mvMd7EUBr4wHtbdXeJZNeBBirSTLtVI+OG5aj4cGtchN/jwyo3aJ2z9idDlplMtLp3TGWFgrjEnPlVrnpKyjY4fc15Ya2cOjqNvsKFj2QrDJ9bzIWPDfOCt6IhvAGF8IZkOTAYDBFSFGXa7EBhLrVW14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738322546; c=relaxed/simple;
-	bh=+aNDvopup7SOQ9DkcO0GAXvXgjlKI20T9Nmv76XHuGU=;
+	s=arc-20240116; t=1738322651; c=relaxed/simple;
+	bh=h6qa2k1WW3uz+PAmFMZrhcU5GzXKEs6+pljzPtitg40=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3qI6TI94NhIYLsibtwvv2agTz09nAxSjmKcuKRSfV+BQ6yXBm+J3ZAu3NziZp6N8b9+e6kc83XisdPInBSIoWMwyA6fx8oawY2UhwWkPoO/5LVEidiKKKmniablOhZjzQJB9+DkEeM9RgQaWx4uGPWVdIngx8r+UOneY1Eof5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMdEVcTW; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=aQrnGIFUMtH0msH93KPGFgqgaIPupNaYBUY/DwauzEM+im9dwkcwt7j295s7HPtVrxNOqXTwvirlMZYew0MlHNJV0L3iDy+WM/f51iuWXslmVbRDl8kop+prLFdDC0vDuhjaZIXddT/Fd/2zlE5rvqHxUjdekW//Em/2YuP4CPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ElXTjVvs; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738322545; x=1769858545;
+  t=1738322651; x=1769858651;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+aNDvopup7SOQ9DkcO0GAXvXgjlKI20T9Nmv76XHuGU=;
-  b=KMdEVcTW84mzMm5S1O1SrrPlTW/4WFEjbOWHgtI73KXmXeOR2CAuDnBB
-   ij9Lrq59oT2b/M0/cViO6HSO9QMu3jBc7eBoMjn8zzwWnmpCZeMcwUYwa
-   0S4Jzu0bTlcUucDX//qZDUbW4zgXA8PtMVzlcOrXTr2g0NH/7KTICW28W
-   qdb/stDQ4NgICj46pB5LKWubVhTTOZQ5/NA6Lwmx3inoq+WQavFqDhUU7
-   43eiNAMbV8RbbfmrcwY55Kz+WVqrgI8YK2Fp4sMgaRMDa6P3WyxZImPOb
-   eGAJPWFXPnFAkD/32VGk6vKXM58oKORN5dXk4NikKMa83Qpgwdu2ddrL5
-   w==;
-X-CSE-ConnectionGUID: WEoDvUNcTAmF8aFE1Ta7gw==
-X-CSE-MsgGUID: bsMz3GxETYy5sIbj0dwheQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="50273914"
+  bh=h6qa2k1WW3uz+PAmFMZrhcU5GzXKEs6+pljzPtitg40=;
+  b=ElXTjVvs/gaVRP17UPZHxA23B+/O3u8T1XZfR22mZVQJhqXWDRnKg8mh
+   M1QO5LGtE1mRCJT5ROgU5p+1hMO5Ipoxi3+lx7IPCMjqwE5j+DengXQ3L
+   3MC8Zm4wKTmi1q++vY+gTsyNXmwu29gPmGOO3ofOKcblYVb29lTSsaSuA
+   eUgvVETPwHNrloKxRQFD4dFhS1eMA97cd5S/uJoy1eyqK3U/3Y2kSLYrc
+   jghxufydFY17MngHp6tSZIAahbRcVwJGPBePiBSDEfEOYE/bdo/IPL59Z
+   lbGbbh4L5Nf6Wlp8G/EpESiyPnL9K2KDot3yxtgJw06wpf8JUZvqDuqkn
+   A==;
+X-CSE-ConnectionGUID: iYD/ikyUQMmlZKp8bh128Q==
+X-CSE-MsgGUID: 6Tx30p4RRXysofAxgqwKNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="50274126"
 X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; 
-   d="scan'208";a="50273914"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 03:22:24 -0800
-X-CSE-ConnectionGUID: CoJJaMNbTUilyDNtdOuO6g==
-X-CSE-MsgGUID: mqODEGIiS86rVQ0wnOBzPw==
+   d="scan'208";a="50274126"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 03:24:09 -0800
+X-CSE-ConnectionGUID: bYejQYpQSmCCBKR0RLRs5Q==
+X-CSE-MsgGUID: c2KQCOvJTiS1eT8DxT9a+w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113628313"
+X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; 
+   d="scan'208";a="114611369"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 03:22:22 -0800
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 03:24:07 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tdp6J-00000006wxE-2BFB;
-	Fri, 31 Jan 2025 13:22:19 +0200
-Date: Fri, 31 Jan 2025 13:22:19 +0200
+	id 1tdp80-00000006wzt-0pm0;
+	Fri, 31 Jan 2025 13:24:04 +0200
+Date: Fri, 31 Jan 2025 13:24:03 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Daniel Scally <djrscally@gmail.com>,
@@ -71,11 +71,9 @@ Cc: Daniel Scally <djrscally@gmail.com>,
 	platform-driver-x86@vger.kernel.org,
 	laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
 	linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] platform/x86: int3472: Call "reset" GPIO "enable"
- for INT347E
-Message-ID: <Z5yya8BIK9GBtVEM@smile.fi.intel.com>
+Subject: Re: [PATCH v4 0/3] int3472: Support GPIO con_id based on _HID
+Message-ID: <Z5yy0-0pZWeYaHdJ@smile.fi.intel.com>
 References: <20250131073707.1082931-1-sakari.ailus@linux.intel.com>
- <20250131073707.1082931-3-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,49 +82,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250131073707.1082931-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250131073707.1082931-1-sakari.ailus@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Jan 31, 2025 at 09:37:06AM +0200, Sakari Ailus wrote:
-> The DT bindings for ov7251 specify "enable" GPIO (xshutdown in
-> documentation) but the int3472 indiscriminately provides this as a "reset"
-> GPIO to sensor drivers. Take this into account by assigning it as "enable"
-> with active high polarity for INT347E devices, i.e. ov7251. "reset" with
-> active low polarity remains the default GPIO name for other devices.
+On Fri, Jan 31, 2025 at 09:37:04AM +0200, Sakari Ailus wrote:
+> Hi folks,
+> 
+> One patch turned into a set, the second patch being the original one.
+> 
+> since v3:
+> 
+> - Add a patch (first one) to switch to unsigned long type for polarity
+>   field and renames it as gpio_flags.
+> 
+> - Use a polarity_low boolean field for indicating the GPIO polarity. This
+>   is turned to gpio_flags in int3472_get_con_id_and_polarity().
+> 
+> - Put the new polarity_low bool field next to the u8's for better struct
+>   packing.
+> 
+> - Add a patch (last one) to rename "func" as "con_id" which is used
+>   throughout the GPIO framework.
 
-...
-
-> +static void int3472_get_func_and_polarity(struct acpi_device *adev, u8 *type,
-> +					  const char **func, unsigned long *gpio_flags)
->  {
-> -	switch (type) {
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(int3472_gpio_map); i++) {
-
-> +		if (*type != int3472_gpio_map[i].type_from ||
-> +		    !acpi_dev_hid_uid_match(adev, int3472_gpio_map[i].hid, NULL))
-> +			continue;
-
-I think in a split form it is easier to read and maintain:
-
-		if (!acpi_dev_hid_uid_match(adev, int3472_gpio_map[i].hid, NULL))
-			continue;
-
-		if (*type != int3472_gpio_map[i].type_from)
-			continue;
-
-> +		*type = int3472_gpio_map[i].type_to;
-
-> +		*gpio_flags = int3472_gpio_map[i].polarity_low ?
-> +			GPIO_ACTIVE_LOW : GPIO_ACTIVE_HIGH;
-
-Still can be one line (100 characters). But in this case I have no strong
-preference. Up to Hans.
-
-> +		*func = int3472_gpio_map[i].func;
-> +		return;
-> +	}
+With a comment addressed in patch 2,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 -- 
 With Best Regards,
