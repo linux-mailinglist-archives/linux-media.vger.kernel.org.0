@@ -1,48 +1,86 @@
-Return-Path: <linux-media+bounces-25491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25492-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0907A240D1
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:40:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 481BCA240FB
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:46:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9696618841E5
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:40:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5E5B3AAF99
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:42:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ADF31E377F;
-	Fri, 31 Jan 2025 16:36:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA6031F3FEC;
+	Fri, 31 Jan 2025 16:39:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B5V/7Lw0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iuHUCFFi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2C21EEA44
-	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775091F0E4B
+	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738341382; cv=none; b=LIWvPc0s6/JOl1/vy9dYhOzqBhhrtoOhbsShmRzJ6FNid9ul/tKnhYOM5MubjN28VBjMS3IWhr//sVRKsl1rY2ZCZ26wh9TCD6fXr8r4ZeBQTnuyE7SeRFS78EWp7cRGzsWHNEemYvRBOodtMy1fz8t/KEStwmb8DhdzTe7jMQc=
+	t=1738341542; cv=none; b=dQZqvUkEt5j6pA0mJkvHCPn8B5uWuG7fSGXlZ5cCd3DH+J97Zm6Nx3F+6xzeOhROKP+/G2ipllW85B8Poh6FljEhdUlvmLeYVXEIC+Qgo5xHgtqD3AdVO3yvI1JHJMIIeGzfzIDYOJZ3Ro0MSZCDACIgxmtJHHjxHcAywc2yjJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738341382; c=relaxed/simple;
-	bh=viE1ikQvOXnsoS6pu2VFENLMTWGDx/UT139LfAHiSuo=;
+	s=arc-20240116; t=1738341542; c=relaxed/simple;
+	bh=DszMk21nY59cZOfvdiYLLrBFh/AuWiNHwaP7mdJXbiM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SfL2iwEcXVfUxr/jqeZsRh7Z9yxuuCaL6nJeiLszswPRQO/JoNeWAqGc/533oPZgxzCRaZXIb6snM3Gsrg7G9upNLsNda47kP5A0BKib8Dc41YXJlZKjHhiUOmO6vLyYtp7CCOR/j5XBF2Npa7HOWs2W4QbJZEwhnFEKxsIimrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B5V/7Lw0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2302465;
-	Fri, 31 Jan 2025 17:35:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738341307;
-	bh=viE1ikQvOXnsoS6pu2VFENLMTWGDx/UT139LfAHiSuo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=B5V/7Lw0dCWIPq4prGc5hZQR/co9R1TRHTXODo+VVA6gK57ENIOtAJ1qwKVXaw1tb
-	 xFjt6ijLKecFlFxkbHz388NB+TevliaOkOCM4e6Y4I+F6s1kGzcHcLskNhAGOAarrQ
-	 hO7OyY6ph7minsp0qjK2UTKMTRedgcfb1Vg/O6us=
-Message-ID: <1557bb75-225a-490f-9149-8d78d57f437f@ideasonboard.com>
-Date: Fri, 31 Jan 2025 18:36:12 +0200
+	 In-Reply-To:Content-Type; b=V9VWThYWMXi3xqc5sGntpuO+ZLBTnTiLnqh7qIpP35q+AD9mUHXSJbTRh9RXJZA98xfpd0syL5G4yKJVZr18yeoyNGnfvrqIsWzZlPnKuprBQL9q3CIuyHcXBcjfgfN7pAvVaXMq9c2EuN2KjbNKwnh00r1dbozLlpWyPENHX6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iuHUCFFi; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738341539;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gfm3rRgU3w6QH3ws6c7RGulHhgxBSembbBkeuZe4etQ=;
+	b=iuHUCFFis2fXFBooyhIHtm3OjNXx71Sl/V+6VK+jU92C9cGMUU4XOG1OZSUdKYEfF66TlG
+	Q23PDIuqeIRyDcC3AibNfBkB+KhRW6SX4kZ3kxq7UxbbtZJrZhASJEMRq36wagcEbbYjM3
+	WCYHnFpnEayuCjgzsWl0lPY0ClAf4jw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-133-eg2Rh9v9M8yZ-YFoMBt8PQ-1; Fri, 31 Jan 2025 11:38:58 -0500
+X-MC-Unique: eg2Rh9v9M8yZ-YFoMBt8PQ-1
+X-Mimecast-MFC-AGG-ID: eg2Rh9v9M8yZ-YFoMBt8PQ
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4362b9c15d8so10708955e9.3
+        for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 08:38:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738341537; x=1738946337;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gfm3rRgU3w6QH3ws6c7RGulHhgxBSembbBkeuZe4etQ=;
+        b=dD1do0idtlgKCiNepNb+ZTV8vkwSoqfDIhZnbYO5iw0Dx+pA4+vl1gASgk9nhZmADo
+         +j3jbOwhpmseQUfsnwilka4tQSco6DzOmJZ8U6e4B0JuwFiDOUZ6/TsyQogkMUzcIDd9
+         5iTWbPL8O9LTiVdQbu8QiqAjhNpfCrskeDgcNyTLvO67B9YTsr47Cj7QWrSefBTvEuho
+         KvLn59iTl8KBGAjgg3rteoicbIj4LdQCktzluH+xLi4W2Ma+9D78nPsJLdNBVsKLyR54
+         YIflpM7MVEd3UPhlVjR2t2q8MtJRgQWKfbTnxVjq0faEo+QIBgiLW8tz8LyiSHaXPBui
+         j9WA==
+X-Forwarded-Encrypted: i=1; AJvYcCUg+HS9iYEPDvMkxXHsgH5TtfNqi3l1V3f0JaNED+jaFngHSsutBwrUwdemMccCTfTaG+bePfEh+3Iqpw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH5gx2QScE8J0T2HsysgQVbjCpWMFP9aaPKvPuc2UvJxGy726Q
+	Pf8qRA4jBKrDn3NLw82G8r+nZBjpvPZDN4Aridapyhy7SPT9QCHBB++1ZM3vrTLzeC5F7NZFgNK
+	LPCssP3jyUOFW7EZOp/O+HPXEkfhkWexgOmoPXM8IJcqLvF5FizhPqhdG3mL0
+X-Gm-Gg: ASbGncvNwVDPLEJKj88XaL73SH6xMugdu2y9gSCb2qGETaAftaaavLq/7bLjdJ75wxs
+	zU5WsEoxCxTrdev33/qvkT1TmYiBBgjJ4Rb0nMPJnaTFk7Eqj2gJ3SHuEDavKajZk3Iyc8Hs/dt
+	HJz+J4HD/xAV9bQ1DloPfta7abVe9HNsLe6blSvT9I7uuQeJ/hURks1n3fS562x6zGqzdSPbuFz
+	qsWZ3CqyUzJ53ZqNrufeXSx8Wo3jxb4JrwmFey2sH7QVt8hmYObe44Ft+gEef6X1UyXdulSszsa
+	m5/XXA==
+X-Received: by 2002:a05:600c:5250:b0:438:ad4d:cf01 with SMTP id 5b1f17b1804b1-438dc3c2393mr115522795e9.7.1738341536959;
+        Fri, 31 Jan 2025 08:38:56 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHGQqOtKc1M0E3u7iETr9VzzKvbkOEp7zUYzbBVXmHtMN12xLQlBTH0W8YUXdK6VBGD34wORQ==
+X-Received: by 2002:a05:600c:5250:b0:438:ad4d:cf01 with SMTP id 5b1f17b1804b1-438dc3c2393mr115522595e9.7.1738341536566;
+        Fri, 31 Jan 2025 08:38:56 -0800 (PST)
+Received: from [10.1.19.242] ([82.146.96.225])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1028d0sm4986073f8f.25.2025.01.31.08.38.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jan 2025 08:38:55 -0800 (PST)
+Message-ID: <50a8cdc0-39eb-4dd1-8f96-b333ec323b92@redhat.com>
+Date: Fri, 31 Jan 2025 17:38:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,109 +88,92 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 9/9] media: v4l: Convert the users of
- v4l2_get_link_freq to call it on a pad
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi
- <yong.zhi@intel.com>, Dan Scally <djrscally@gmail.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
- laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com,
- Tianshu Qiu <tian.shu.qiu@intel.com>, Maxime Ripard <mripard@kernel.org>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>,
- Purism Kernel Team <kernel@puri.sm>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Benoit Parrot <bparrot@ti.com>, Ricardo Ribalda <ribalda@chromium.org>,
- "Duc-Long, Le" <duclong.linux@gmail.com>
-References: <20250120110157.152732-1-sakari.ailus@linux.intel.com>
- <20250120110157.152732-10-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250120110157.152732-10-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] Revert "media: uvcvideo: Require entities to have a
+ non-zero unique ID"
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
+ hverkuil-cisco@xs4all.nl,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, mchehab@kernel.org,
+ linux-media@vger.kernel.org, Tomasz Sikora <sikora.tomus@gmail.com>,
+ kernel-dev@igalia.com,
+ syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com,
+ syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
+References: <Z4aeK4Ct7L/9kR2H@quatroqueijos.cascardo.eti.br>
+ <20250114200045.1401644-1-cascardo@igalia.com>
+ <CANiDSCvx4QrAuhXgF51W+-B4XJU-6bxTd=5vCuw9SPmKXDXjdQ@mail.gmail.com>
+ <CANiDSCu6ociHkyatMHpH5a2TDsMmHNr=f7-wvpwGDSTw=DKNhQ@mail.gmail.com>
+ <6d67c5c2-be60-454b-b03c-ed89c74262b8@redhat.com>
+ <CANiDSCvr2PVmzir-0NO3P_WaPMcbLj5xe9KWtxCB=+dQFuj8ng@mail.gmail.com>
+ <20250131150618.6987c1c7@foz.lan>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250131150618.6987c1c7@foz.lan>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/01/2025 13:01, Sakari Ailus wrote:
-> Call v4l2_get_link_freq() on a pad, instead of a control handler. This way
-> we can soon convert v4l2_get_link_freq() to be callable only on a pad and
-> remove the compatibility code.
+Hi,
+
+On 31-Jan-25 15:06, Mauro Carvalho Chehab wrote:
+> Em Fri, 31 Jan 2025 12:17:25 +0100
+> Ricardo Ribalda <ribalda@chromium.org> escreveu:
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Naushir Patuck <naush@raspberrypi.com> # rp1-cfe
-> Acked-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com> # st-mipid02
-> ---
->   drivers/media/i2c/st-mipid02.c                |  5 ++--
->   drivers/media/i2c/tc358746.c                  |  4 ++-
->   drivers/media/pci/intel/ipu3/ipu3-cio2.c      | 11 +++++---
->   drivers/media/platform/cadence/cdns-csi2rx.c  |  4 ++-
->   drivers/media/platform/nxp/imx-mipi-csis.c    |  5 ++--
->   drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 11 ++++++--
->   .../media/platform/qcom/camss/camss-vfe-17x.c |  9 ++++---
->   .../platform/qcom/camss/camss-vfe-gen1.c      |  9 ++++---
->   drivers/media/platform/qcom/camss/camss.c     | 27 +++++++++----------
->   drivers/media/platform/qcom/camss/camss.h     |  2 +-
->   .../media/platform/raspberrypi/rp1-cfe/cfe.c  |  4 ++-
->   drivers/media/platform/st/stm32/stm32-csi.c   |  4 ++-
->   drivers/media/platform/ti/cal/cal-camerarx.c  |  3 ++-
->   drivers/media/platform/ti/cal/cal.c           |  4 ++-
->   drivers/media/platform/ti/cal/cal.h           |  1 +
->   15 files changed, 64 insertions(+), 39 deletions(-)
+>> On Fri, 31 Jan 2025 at 12:12, Hans de Goede <hdegoede@redhat.com> wrote:
+>>>
+>>> Hi Ricardo,
+>>>
+>>> On 31-Jan-25 11:04 AM, Ricardo Ribalda wrote:  
+>>>> Hi Hans  
+>>>
+>>> Which Hans, me or Hans Verkuil?  Since this needs to go out
+>>> through a fixed pull-request I think it would be best if
+>>> Hans Verkuil picks up the revert directly in the fixes
+>>> branch ?  
+>>
+>> Whoever started in v4l2 later needs to change their name :P.
+>>
+>> I was thinking about you this time :)
+>>
+>>>  
+>>>> We are seeing a spike of reports with the signature:
+>>>>
+>>>> "Found multiple Units with ID XX"
+>>>>
+>>>> Could you take a look at this patch? I agree with Thadeu that the best
+>>>> strategy is to land the revert asap and when the storm disappears work
+>>>> on a different solution.  
+>>>
+>>> Ack, Fedora is getting some bug reports about this too. Since both
+>>> you (Ricardo) and Laurant seemed to be on top of this I didn't take
+>>> a closer look yet. But this definitely is hitting users and we
+>>> need to fix this.
+>>>
+>>> Since we still don't have a fix yet we really should revert the commit
+>>> causing this problem ASAP.  
+>>
+>> Hans (Verkuil) if Hans (de Goede) adds a Reviewed-by or a Acked-by,
+>> could you take this patch to the media-committers/fixes branch ?
+> 
+> I can pick it as well. From what I got, Hans de Goede is also ok
+> with such change.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Yes I have just replied to the revert patch with my reviewed-by. Mauro
+if you can pick this up and send it to Linus soon(ish) that would be
+great.
 
-  Tomi
+Can you also please add a Cc: stable@vger.kernel.org tag while
+merging it?  This will need to be backported to kernels which have
+the troublesome commit.
+
+Regards,
+
+Hans
+
+
+> 
+> 
+> Thanks,
+> Mauro
+> 
 
 
