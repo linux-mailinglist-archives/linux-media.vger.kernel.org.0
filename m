@@ -1,280 +1,197 @@
-Return-Path: <linux-media+bounces-25448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF5CA23A39
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 08:37:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF17A23AB6
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 09:35:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BDA63A6B5F
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 07:37:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F3463A2B92
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 08:35:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B1FD15CD55;
-	Fri, 31 Jan 2025 07:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbfsgQpN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB73B16D9C2;
+	Fri, 31 Jan 2025 08:35:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EEAEED8;
-	Fri, 31 Jan 2025 07:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935434683
+	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 08:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738309041; cv=none; b=bj25H1IbSuL4Wp4uW9bf9lAcCBG5nx7mRQzv7EJIiUljzK3sbM9wbB8FrbpapTn0m/XdO+Gr5maa+FkfsMNnekGSkWfD3C/DeVA+rLPVPAXECbvzM5NKFKSlWBYuddIKqi9nShO3o8FslXrSBa/gQuC8d169t4ej2fVpeonWGm4=
+	t=1738312535; cv=none; b=YXRm8RODe9LQjNVoC5YYKDF+0IbMuKN1BlPJmqI1d2WgjAKvodNv186rP6A889Ni+lMLRWfg383YFQKepwN+PfA5pcgOol5lGB1ePQKAtIgDpgozUO7rJqwmMMlCZab3KLt9firykXreuJLNlXi6p776pWimuBi05JGpdXufrzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738309041; c=relaxed/simple;
-	bh=Lny/VL1eyKlLEqtGh5NtdbEHs1JibsxRYLB/3vW2cc8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LbLa7opokid8LSY2KrNEvqltOvGqdzay7nF4lbpeJ0k4M3dVZ5v5zf33BjTXDDXM0JIHRP0/otf/F3Wq8s/pTCHGAKwZK+cpkoPh4FxL1sEVlGOktpWXNG+LIDnMCzhec6MqhDoF7a+a1y/Lxx8zA4hWtPlEf/a0qVGsuHVAmKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbfsgQpN; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738309040; x=1769845040;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Lny/VL1eyKlLEqtGh5NtdbEHs1JibsxRYLB/3vW2cc8=;
-  b=UbfsgQpNoMgyY6oIuKPVLh/IhoBnG7xmYnmVu7jd+eo6iGD+dv80pem/
-   3MPX7DTZu8WZhqjUsDtwCNlOusfwxdq4UcFQRMuLTmt3SwdgafqNz6f0B
-   LO2ejYLcp/Qm6Wi/ndcL0KzoTafwGDVX0Znjg5OH7O+BdBB4wkhGAf0mH
-   jKzR9J0xf0ZPNVOxAaRAyxACzOVGyD4RYEHuEicdhZQg+24nq/jrLfPcL
-   56uylY9fN8weWSzIxkRa/l/EuJCaOfvpyVReYUdgosQh+uT6J3e9AZ3XF
-   eQMrEBaYnEdoNlKKF0+So8HDTbjwqxY7eSlDbRt3Td1nww5KCa3prjNjg
-   A==;
-X-CSE-ConnectionGUID: u6oQaM5dTveQ+35gOGTy2Q==
-X-CSE-MsgGUID: CgvlBOYwQ4C0uR/kWxdNKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="26481256"
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="26481256"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 23:37:18 -0800
-X-CSE-ConnectionGUID: y3JOsWnYQSuV80n9tRa1Tw==
-X-CSE-MsgGUID: jHtQicd+QmC/Lc8RcqcFbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="132821494"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 23:37:16 -0800
-Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 34FAE1202AB;
-	Fri, 31 Jan 2025 09:37:13 +0200 (EET)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Daniel Scally <djrscally@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: platform-driver-x86@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl,
-	linux-media@vger.kernel.org
-Subject: [PATCH v4 3/3] platform/x86: int3472: Call "func" "con_id" instead
-Date: Fri, 31 Jan 2025 09:37:07 +0200
-Message-Id: <20250131073707.1082931-4-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250131073707.1082931-1-sakari.ailus@linux.intel.com>
-References: <20250131073707.1082931-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1738312535; c=relaxed/simple;
+	bh=crHRz8muvam7DGcTCFqY58/pKPDHv+P1YPykzmuIpPk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ZHI8yfOl0PQEVEbhPleulWyE4TxnmVZ5IZVijsk/mLkyYMzDAfXkv2DxDdJ0aqRpW4Z5bzLgZDWbw1anp1LAl9oHI3DaU3HnH9hVF1lF2HJiUz8h/A2KRadpBoV7OWrQwYZ8enDrJJkTnSulS+3HaqMAwP26vc5/dE4Mg+8CiRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574ACC4CED1;
+	Fri, 31 Jan 2025 08:35:33 +0000 (UTC)
+Message-ID: <2b745a6f-b177-4590-94f5-0aa2145d5c3d@xs4all.nl>
+Date: Fri, 31 Jan 2025 09:35:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Farblos <farblos@vodafonemail.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
+ <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-"con_id" is an established variable name for the GPIO naming for drivers.
-Use it instead of "func" in the int3472 driver, too.
+On 29/01/2025 13:21, Hans Verkuil wrote:
+> On 29/01/2025 10:51, Hans Verkuil wrote:
+>> If the hotplug detect of a display is low for longer than one second
+>> (configurable through drm_dp_cec_unregister_delay), then the CEC adapter
+>> is unregistered since we assume the display was disconnected. If the
+>> HPD went low for less than one second, then we check if the properties
+>> of the CEC adapter have changed, since that indicates that we actually
+>> switch to new hardware and we have to unregister the old CEC device and
+>> register a new one.
+>>
+>> Unfortunately, the test for changed properties was written poorly, and
+>> after a new CEC capability was added to the CEC core code the test always
+>> returned true (i.e. the properties had changed).
+>>
+>> As a result the CEC device was unregistered and re-registered for every
+>> HPD toggle. If the CEC remote controller integration was also enabled
+>> (CONFIG_MEDIA_CEC_RC was set), then the corresponding input device was
+>> also unregistered and re-registered. As a result the input device in
+>> /sys would keep incrementing its number, e.g.:
+>>
+>> /sys/devices/pci0000:00/0000:00:08.1/0000:e7:00.0/rc/rc0/input20
+>>
+>> Since short HPD toggles are common, the number could over time get into
+>> the thousands.
+>>
+>> While not a serious issue (i.e. nothing crashes), it is not intended
+>> to work that way.
+>>
+>> This patch changes the test so that it only checks for the single CEC
+>> capability that can actually change, and it ignores any other
+>> capabilities, so this is now safe as well if new caps are added in
+>> the future.
+>>
+>> With the changed test the bit under #ifndef CONFIG_MEDIA_CEC_RC can be
+>> dropped as well, so that's a nice cleanup.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+>> Reported-by: Farblos <farblos@vodafonemail.de>
+> 
+> Fixes: 2c6d1fffa1d9 ("drm: add support for DisplayPort CEC-Tunneling-over-AUX")
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/platform/x86/intel/int3472/discrete.c | 48 +++++++++----------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+Cc: <stable@vger.kernel.org> # 6.12
 
-diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-index 3f3f50ce431c..4b0c72595c2b 100644
---- a/drivers/platform/x86/intel/int3472/discrete.c
-+++ b/drivers/platform/x86/intel/int3472/discrete.c
-@@ -56,7 +56,7 @@ static void skl_int3472_log_sensor_module_name(struct int3472_discrete_device *i
- 
- static int skl_int3472_fill_gpiod_lookup(struct gpiod_lookup *table_entry,
- 					 struct acpi_resource_gpio *agpio,
--					 const char *func, unsigned long gpio_flags)
-+					 const char *con_id, unsigned long gpio_flags)
- {
- 	char *path = agpio->resource_source.string_ptr;
- 	struct acpi_device *adev;
-@@ -71,14 +71,14 @@ static int skl_int3472_fill_gpiod_lookup(struct gpiod_lookup *table_entry,
- 	if (!adev)
- 		return -ENODEV;
- 
--	*table_entry = GPIO_LOOKUP(acpi_dev_name(adev), agpio->pin_table[0], func, gpio_flags);
-+	*table_entry = GPIO_LOOKUP(acpi_dev_name(adev), agpio->pin_table[0], con_id, gpio_flags);
- 
- 	return 0;
- }
- 
- static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int3472,
- 					  struct acpi_resource_gpio *agpio,
--					  const char *func, unsigned long gpio_flags)
-+					  const char *con_id, unsigned long gpio_flags)
- {
- 	int ret;
- 
-@@ -88,7 +88,7 @@ static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int347
- 	}
- 
- 	ret = skl_int3472_fill_gpiod_lookup(&int3472->gpios.table[int3472->n_sensor_gpios],
--					    agpio, func, gpio_flags);
-+					    agpio, con_id, gpio_flags);
- 	if (ret)
- 		return ret;
- 
-@@ -101,7 +101,7 @@ static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int347
- static struct gpio_desc *
- skl_int3472_gpiod_get_from_temp_lookup(struct int3472_discrete_device *int3472,
- 				       struct acpi_resource_gpio *agpio,
--				       const char *func, unsigned long gpio_flags)
-+				       const char *con_id, unsigned long gpio_flags)
- {
- 	struct gpio_desc *desc;
- 	int ret;
-@@ -112,12 +112,12 @@ skl_int3472_gpiod_get_from_temp_lookup(struct int3472_discrete_device *int3472,
- 		return ERR_PTR(-ENOMEM);
- 
- 	lookup->dev_id = dev_name(int3472->dev);
--	ret = skl_int3472_fill_gpiod_lookup(&lookup->table[0], agpio, func, gpio_flags);
-+	ret = skl_int3472_fill_gpiod_lookup(&lookup->table[0], agpio, con_id, gpio_flags);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
- 	gpiod_add_lookup_table(lookup);
--	desc = devm_gpiod_get(int3472->dev, func, GPIOD_OUT_LOW);
-+	desc = devm_gpiod_get(int3472->dev, con_id, GPIOD_OUT_LOW);
- 	gpiod_remove_lookup_table(lookup);
- 
- 	return desc;
-@@ -129,7 +129,7 @@ skl_int3472_gpiod_get_from_temp_lookup(struct int3472_discrete_device *int3472,
-  * @hid: The ACPI HID of the device without the instance number e.g. INT347E
-  * @type_from: The GPIO type from ACPI ?SDT
-  * @type_to: The assigned GPIO type, typically same as @type_from
-- * @func: The function, e.g. "enable"
-+ * @con_id: The name of the GPIO for the device
-  * @polarity_low: GPIO_ACTIVE_LOW true if the @polarity_low is true,
-  * GPIO_ACTIVE_HIGH otherwise
-  */
-@@ -138,15 +138,15 @@ struct int3472_gpio_map {
- 	u8 type_from;
- 	u8 type_to;
- 	bool polarity_low;
--	const char *func;
-+	const char *con_id;
- };
- 
- static const struct int3472_gpio_map int3472_gpio_map[] = {
- 	{ "INT347E", INT3472_GPIO_TYPE_RESET, INT3472_GPIO_TYPE_RESET, false, "enable" },
- };
- 
--static void int3472_get_func_and_polarity(struct acpi_device *adev, u8 *type,
--					  const char **func, unsigned long *gpio_flags)
-+static void int3472_get_con_id_and_polarity(struct acpi_device *adev, u8 *type,
-+					    const char **con_id, unsigned long *gpio_flags)
- {
- 	unsigned int i;
- 
-@@ -158,33 +158,33 @@ static void int3472_get_func_and_polarity(struct acpi_device *adev, u8 *type,
- 		*type = int3472_gpio_map[i].type_to;
- 		*gpio_flags = int3472_gpio_map[i].polarity_low ?
- 			GPIO_ACTIVE_LOW : GPIO_ACTIVE_HIGH;
--		*func = int3472_gpio_map[i].func;
-+		*con_id = int3472_gpio_map[i].con_id;
- 		return;
- 	}
- 
- 	switch (*type) {
- 	case INT3472_GPIO_TYPE_RESET:
--		*func = "reset";
-+		*con_id = "reset";
- 		*gpio_flags = GPIO_ACTIVE_LOW;
- 		break;
- 	case INT3472_GPIO_TYPE_POWERDOWN:
--		*func = "powerdown";
-+		*con_id = "powerdown";
- 		*gpio_flags = GPIO_ACTIVE_LOW;
- 		break;
- 	case INT3472_GPIO_TYPE_CLK_ENABLE:
--		*func = "clk-enable";
-+		*con_id = "clk-enable";
- 		*gpio_flags = GPIO_ACTIVE_HIGH;
- 		break;
- 	case INT3472_GPIO_TYPE_PRIVACY_LED:
--		*func = "privacy-led";
-+		*con_id = "privacy-led";
- 		*gpio_flags = GPIO_ACTIVE_HIGH;
- 		break;
- 	case INT3472_GPIO_TYPE_POWER_ENABLE:
--		*func = "power-enable";
-+		*con_id = "power-enable";
- 		*gpio_flags = GPIO_ACTIVE_HIGH;
- 		break;
- 	default:
--		*func = "unknown";
-+		*con_id = "unknown";
- 		*gpio_flags = GPIO_ACTIVE_HIGH;
- 		break;
- 	}
-@@ -231,7 +231,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 	union acpi_object *obj;
- 	struct gpio_desc *gpio;
- 	const char *err_msg;
--	const char *func;
-+	const char *con_id;
- 	unsigned long gpio_flags;
- 	int ret;
- 
-@@ -255,26 +255,26 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 
- 	type = FIELD_GET(INT3472_GPIO_DSM_TYPE, obj->integer.value);
- 
--	int3472_get_func_and_polarity(int3472->sensor, &type, &func, &gpio_flags);
-+	int3472_get_con_id_and_polarity(int3472->sensor, &type, &con_id, &gpio_flags);
- 
- 	pin = FIELD_GET(INT3472_GPIO_DSM_PIN, obj->integer.value);
- 	if (pin != agpio->pin_table[0])
- 		dev_warn(int3472->dev, "%s %s pin number mismatch _DSM %d resource %d\n",
--			 func, agpio->resource_source.string_ptr, pin,
-+			 con_id, agpio->resource_source.string_ptr, pin,
- 			 agpio->pin_table[0]);
- 
- 	active_value = FIELD_GET(INT3472_GPIO_DSM_SENSOR_ON_VAL, obj->integer.value);
- 	if (!active_value)
- 		gpio_flags ^= GPIO_ACTIVE_LOW;
- 
--	dev_dbg(int3472->dev, "%s %s pin %d active-%s\n", func,
-+	dev_dbg(int3472->dev, "%s %s pin %d active-%s\n", con_id,
- 		agpio->resource_source.string_ptr, agpio->pin_table[0],
- 		str_high_low(gpio_flags == GPIO_ACTIVE_HIGH));
- 
- 	switch (type) {
- 	case INT3472_GPIO_TYPE_RESET:
- 	case INT3472_GPIO_TYPE_POWERDOWN:
--		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, gpio_flags);
-+		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, con_id, gpio_flags);
- 		if (ret)
- 			err_msg = "Failed to map GPIO pin to sensor\n";
- 
-@@ -282,7 +282,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 	case INT3472_GPIO_TYPE_CLK_ENABLE:
- 	case INT3472_GPIO_TYPE_PRIVACY_LED:
- 	case INT3472_GPIO_TYPE_POWER_ENABLE:
--		gpio = skl_int3472_gpiod_get_from_temp_lookup(int3472, agpio, func, gpio_flags);
-+		gpio = skl_int3472_gpiod_get_from_temp_lookup(int3472, agpio, con_id, gpio_flags);
- 		if (IS_ERR(gpio)) {
- 			ret = PTR_ERR(gpio);
- 			err_msg = "Failed to get GPIO\n";
--- 
-2.39.5
+While the bug has been present since the introduction of drm_dp_cec.c, it lay
+dormant until a new CEC capability was introduced in 6.12. So this fix doesn't need
+to be backported all the way, just from 6.12 onwards.
+
+Dmitry, do you want to pick this up? I can do it as well, but it is quite some
+time ago since I last worked with drm.
+
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>> ---
+>> Jens (aka Farblos), can you test this patch?
+>> ---
+>>  drivers/gpu/drm/display/drm_dp_cec.c | 14 +++-----------
+>>  1 file changed, 3 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
+>> index 007ceb281d00..56a4965e518c 100644
+>> --- a/drivers/gpu/drm/display/drm_dp_cec.c
+>> +++ b/drivers/gpu/drm/display/drm_dp_cec.c
+>> @@ -311,16 +311,6 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
+>>  	if (!aux->transfer)
+>>  		return;
+>>
+>> -#ifndef CONFIG_MEDIA_CEC_RC
+>> -	/*
+>> -	 * CEC_CAP_RC is part of CEC_CAP_DEFAULTS, but it is stripped by
+>> -	 * cec_allocate_adapter() if CONFIG_MEDIA_CEC_RC is undefined.
+>> -	 *
+>> -	 * Do this here as well to ensure the tests against cec_caps are
+>> -	 * correct.
+>> -	 */
+>> -	cec_caps &= ~CEC_CAP_RC;
+>> -#endif
+>>  	cancel_delayed_work_sync(&aux->cec.unregister_work);
+>>
+>>  	mutex_lock(&aux->cec.lock);
+>> @@ -337,7 +327,9 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
+>>  		num_las = CEC_MAX_LOG_ADDRS;
+>>
+>>  	if (aux->cec.adap) {
+>> -		if (aux->cec.adap->capabilities == cec_caps &&
+>> +		/* Check if the adapter properties have changed */
+>> +		if ((aux->cec.adap->capabilities & CEC_CAP_MONITOR_ALL) ==
+>> +		    (cec_caps & CEC_CAP_MONITOR_ALL) &&
+>>  		    aux->cec.adap->available_log_addrs == num_las) {
+>>  			/* Unchanged, so just set the phys addr */
+>>  			cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
+> 
+> 
 
 
