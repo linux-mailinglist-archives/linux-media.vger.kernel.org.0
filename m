@@ -1,282 +1,116 @@
-Return-Path: <linux-media+bounces-25466-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25467-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8FCA23D71
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 13:02:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD91A23E20
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 14:09:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAEE87A1C3A
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 12:01:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE49D3A529C
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 13:09:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3593E1B87D1;
-	Fri, 31 Jan 2025 12:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 766DE1C3BE9;
+	Fri, 31 Jan 2025 13:09:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZM8Pbsq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o2ekYfG9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0526B1C3BF9;
-	Fri, 31 Jan 2025 12:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D921C3C0F
+	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 13:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738324925; cv=none; b=tFCbiEaazSWgPo/f5/rZwYd/TtqO66FWdaSIdFereT0UBOdocIbOG0+vIZ+uAl34ZZRM28bfI8EkpkMOd3XMTNRwMN6FT0dUFZxVF5obah+RMdF0tRRt4HL2CXzBJpzSTPiLrSGBsFMdDBBJcEQ08gfFdkFRtUUpsuvXSVniQls=
+	t=1738328978; cv=none; b=lUDu7WfCaOSCWnD/LJ1yXF0RYBMqlDIKYqdYVo26K01D/D20YK2zbxnrTcb3mgw01te/I5AJZq8zl6bY1A0fkDZZ5lN3xUUfBmY7pcDjmkD4M2GM9VEfO8955Riil89yijKK223EPYX3o/aniGAVg7poB58BrIgJ3JNwocAQCug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738324925; c=relaxed/simple;
-	bh=ePv2ijIqqa0tiFR/reaDpDHPKAhQmC8tDDnAnhr19M0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=N1//BMj+f9zSHEpr3BeTipggdxCk26A9PCNqoPz1I4k3N06JfQVTyz42FXnOEhNNfLbuMydkbLRSNqSbf61jweIWVtqLxxTq6qGKQSYe5s2Nt7wMe4yPM7ZTHtgxFmAvVXOzbIOTGzIPMh19itg8RTICGu0tbQx3CEUPxy59JEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZM8Pbsq; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738324924; x=1769860924;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ePv2ijIqqa0tiFR/reaDpDHPKAhQmC8tDDnAnhr19M0=;
-  b=RZM8Pbsq+WvBo2HGOnIqlxCnE6Xih8iOCDkHl2Snzmy4JbC+6lv4V1xt
-   Ua2lvaR+psucSl6kY6jycOsS39oP5J7ZGMzOeNP8NIsdqL/axbTco2NPv
-   VK3d2+zlHpGlYh+Wq8L7KLPDfK/Cui3jrLcXLJwTxv1+L9KM7rFoTDodu
-   91owpjHU6t8hr60qGMJoAUxqlhQqYKfGAfzsy3nFamjFUdFXA2a44CSZQ
-   bYAKSEu3Itgaf/NLf7CSLfvZ6y1xu8QYLE7o685fSGYsGE+c08Qpn06zm
-   e+27e+4SMwB4ZPF7TEI38wX8CMKqwcWMLgWBipOZV0pGk2Vr+ZePWi/4v
-   g==;
-X-CSE-ConnectionGUID: 7NLqA4FlRfunjAG2pghPkQ==
-X-CSE-MsgGUID: bEpPG17pSGekBmoE+zq/Nw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="39050281"
-X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; 
-   d="scan'208";a="39050281"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 04:02:04 -0800
-X-CSE-ConnectionGUID: VNeHQA8XQiOtiCa2MZos+w==
-X-CSE-MsgGUID: PcHoFnUDRQ+2BJkQ6NOT6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; 
-   d="scan'208";a="140498453"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2025 04:02:02 -0800
-Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6946E1202AB;
-	Fri, 31 Jan 2025 14:01:58 +0200 (EET)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Daniel Scally <djrscally@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: platform-driver-x86@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl,
-	linux-media@vger.kernel.org
-Subject: [PATCH v5 3/3] platform/x86: int3472: Call "func" "con_id" instead
-Date: Fri, 31 Jan 2025 14:01:52 +0200
-Message-Id: <20250131120152.1109476-4-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250131120152.1109476-1-sakari.ailus@linux.intel.com>
-References: <20250131120152.1109476-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1738328978; c=relaxed/simple;
+	bh=3pG2lOTXB63LELIdX7wJ+dxbCbVDRvaILFGCdMVkqJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QOYOR9Yn22g65pJDMXuZ4gqbj0qeLateR8UWxugRcFWDHHBT/GVgdiBYSm/bYXe2Ja+/IAzWY+RYvsRn+h2W6UFEj1/JyNcdkZIhntvQUEX9abJu1J6wkG3LisGhxA/5paff3x5I3SOXRYxD3zgDrXR5w1Abtj/DX9P/jbgtvxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o2ekYfG9; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53f757134cdso1965606e87.2
+        for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 05:09:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738328975; x=1738933775; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+ilJofaI+jD2h//x50bz+rerCHryaBa9HkfCASwoHRM=;
+        b=o2ekYfG9SLFwE9Z0ngbXhwFpEEaADdUYnhSkNFC7jaVXTZ9mWsx3zR3GiCRE6cp5vd
+         KY+iPNLPbXuaFHwkFUeAVJi6ENd59PhjOfPK3nGCQs/vwgA38L3klS2iKq9UNgzEySFQ
+         DIcydf4giR/8YranRGlio8dxNO/glsc5/utqOiBigXnDnJMvNlQ97+2KTVtCaPqhyZvh
+         vvFiJJYw8ArVTL5q3dh564lkMceVZk1FM/CZTo+xMUJgXfethZxaLgH7JJmRjawjQ1jc
+         0cCUNaj83G/hBgY7yJHQjiwIx4J/suStSADrnvpPISTjsUezfPWXh+CxghouR/aJXnLx
+         vpBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738328975; x=1738933775;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+ilJofaI+jD2h//x50bz+rerCHryaBa9HkfCASwoHRM=;
+        b=dOcYatBSnFE8761ZDXxevQcyp5Y6SdoD7TLH1/hvLuUD98fyJ8SfzGkBvOwcJQ4Smc
+         QXHxQ5LGvKLsxGsajUhARdzXQUyECKVv/egvuixgZQtzKfUTn7XZAN64jyIWEFgsyFFO
+         hvnoDrERqi4g+xHBDYPqQ8nuDVKXACEsxe8wg0ZLkXYJ/JiXyorzcL7IL1o5BELgxwEl
+         T6JnqUfNKcHBKc/ai18gntEzph2mc4gvyIcVaa0he+lYcJyd6FnfydxJcVN9bbH3OXeg
+         itrXcT7RKwYkHfpn0a6fhxFOF2qNEi/Q0O9JTzQPBzkgIDStQZ/Au2kCkEbV3dzRdfPv
+         wr0w==
+X-Gm-Message-State: AOJu0YwZUl9F5fb+/nlq2aOnPySWAgYmObzIxGIxFykMLmknpMjPhzQ6
+	uaYpi3kCCspVr6/FSezNdTYbO/bMOVGmdhD8g3zEBxYrs8l829Q0ZnQ3k5RUeA8bzxX4Ql3liSm
+	xFKU=
+X-Gm-Gg: ASbGnctVi5kV7LJduBxVlRyLRHCkvjJiIuydEweZ6gQrPsoay9i2apG8AgDqX6sqrOZ
+	I6LMVDE/PVb6OrutT+X1HknVD5elhcBiealQMRV3l4oBsYi/72XsikqoY81jgnvsTxBD/2Zt7YJ
+	I9AFLBblgdBNgNjuiXnLmXligVtyc6qLlfsxio3VdZvKZP84p+HNauEI/CS9qODL4Iy/eJ5ZSb8
+	4ed7qdXT0yJK2GO7jJFQjovAVWzyNeByAzIvwc/QSfvhOJrGsJEr5R26k1OI+LlmHp58vtMtJ86
+	0NKL0DRZ2NRioONOxh8dUKC01Jr0nxpxVhbWnudTLJf2v17BHVaZzzzKP3c=
+X-Google-Smtp-Source: AGHT+IG/+GMx6g1W5tJ6RHEPx6kKDqXp5EIrmUMWkH1XrLaoko3F5JbTbkHk1lZfpv6wKm3f1EcviQ==
+X-Received: by 2002:a05:6512:3ca4:b0:53d:f177:51c2 with SMTP id 2adb3069b0e04-543e4bd63bbmr3786512e87.11.1738328974760;
+        Fri, 31 Jan 2025 05:09:34 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307a30993adsm5719941fa.46.2025.01.31.05.09.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jan 2025 05:09:33 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Farblos <farblos@vodafonemail.de>
+Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
+Date: Fri, 31 Jan 2025 15:09:30 +0200
+Message-ID: <173832895910.3304844.12852379411429746576.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
+References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-"con_id" is an established variable name for the GPIO naming for drivers.
-Use it instead of "func" in the int3472 driver, too.
+On Wed, 29 Jan 2025 10:51:48 +0100, Hans Verkuil wrote:
+> If the hotplug detect of a display is low for longer than one second
+> (configurable through drm_dp_cec_unregister_delay), then the CEC adapter
+> is unregistered since we assume the display was disconnected. If the
+> HPD went low for less than one second, then we check if the properties
+> of the CEC adapter have changed, since that indicates that we actually
+> switch to new hardware and we have to unregister the old CEC device and
+> register a new one.
+> 
+> [...]
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/platform/x86/intel/int3472/discrete.c | 48 +++++++++----------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+Applied to drm-misc-next-fixes, thanks!
 
-diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-index 529ea2d08a21..0820a66c72fe 100644
---- a/drivers/platform/x86/intel/int3472/discrete.c
-+++ b/drivers/platform/x86/intel/int3472/discrete.c
-@@ -56,7 +56,7 @@ static void skl_int3472_log_sensor_module_name(struct int3472_discrete_device *i
- 
- static int skl_int3472_fill_gpiod_lookup(struct gpiod_lookup *table_entry,
- 					 struct acpi_resource_gpio *agpio,
--					 const char *func, unsigned long gpio_flags)
-+					 const char *con_id, unsigned long gpio_flags)
- {
- 	char *path = agpio->resource_source.string_ptr;
- 	struct acpi_device *adev;
-@@ -71,14 +71,14 @@ static int skl_int3472_fill_gpiod_lookup(struct gpiod_lookup *table_entry,
- 	if (!adev)
- 		return -ENODEV;
- 
--	*table_entry = GPIO_LOOKUP(acpi_dev_name(adev), agpio->pin_table[0], func, gpio_flags);
-+	*table_entry = GPIO_LOOKUP(acpi_dev_name(adev), agpio->pin_table[0], con_id, gpio_flags);
- 
- 	return 0;
- }
- 
- static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int3472,
- 					  struct acpi_resource_gpio *agpio,
--					  const char *func, unsigned long gpio_flags)
-+					  const char *con_id, unsigned long gpio_flags)
- {
- 	int ret;
- 
-@@ -88,7 +88,7 @@ static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int347
- 	}
- 
- 	ret = skl_int3472_fill_gpiod_lookup(&int3472->gpios.table[int3472->n_sensor_gpios],
--					    agpio, func, gpio_flags);
-+					    agpio, con_id, gpio_flags);
- 	if (ret)
- 		return ret;
- 
-@@ -101,7 +101,7 @@ static int skl_int3472_map_gpio_to_sensor(struct int3472_discrete_device *int347
- static struct gpio_desc *
- skl_int3472_gpiod_get_from_temp_lookup(struct int3472_discrete_device *int3472,
- 				       struct acpi_resource_gpio *agpio,
--				       const char *func, unsigned long gpio_flags)
-+				       const char *con_id, unsigned long gpio_flags)
- {
- 	struct gpio_desc *desc;
- 	int ret;
-@@ -112,12 +112,12 @@ skl_int3472_gpiod_get_from_temp_lookup(struct int3472_discrete_device *int3472,
- 		return ERR_PTR(-ENOMEM);
- 
- 	lookup->dev_id = dev_name(int3472->dev);
--	ret = skl_int3472_fill_gpiod_lookup(&lookup->table[0], agpio, func, gpio_flags);
-+	ret = skl_int3472_fill_gpiod_lookup(&lookup->table[0], agpio, con_id, gpio_flags);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
- 	gpiod_add_lookup_table(lookup);
--	desc = devm_gpiod_get(int3472->dev, func, GPIOD_OUT_LOW);
-+	desc = devm_gpiod_get(int3472->dev, con_id, GPIOD_OUT_LOW);
- 	gpiod_remove_lookup_table(lookup);
- 
- 	return desc;
-@@ -129,7 +129,7 @@ skl_int3472_gpiod_get_from_temp_lookup(struct int3472_discrete_device *int3472,
-  * @hid: The ACPI HID of the device without the instance number e.g. INT347E
-  * @type_from: The GPIO type from ACPI ?SDT
-  * @type_to: The assigned GPIO type, typically same as @type_from
-- * @func: The function, e.g. "enable"
-+ * @con_id: The name of the GPIO for the device
-  * @polarity_low: GPIO_ACTIVE_LOW true if the @polarity_low is true,
-  * GPIO_ACTIVE_HIGH otherwise
-  */
-@@ -138,15 +138,15 @@ struct int3472_gpio_map {
- 	u8 type_from;
- 	u8 type_to;
- 	bool polarity_low;
--	const char *func;
-+	const char *con_id;
- };
- 
- static const struct int3472_gpio_map int3472_gpio_map[] = {
- 	{ "INT347E", INT3472_GPIO_TYPE_RESET, INT3472_GPIO_TYPE_RESET, false, "enable" },
- };
- 
--static void int3472_get_func_and_polarity(struct acpi_device *adev, u8 *type,
--					  const char **func, unsigned long *gpio_flags)
-+static void int3472_get_con_id_and_polarity(struct acpi_device *adev, u8 *type,
-+					    const char **con_id, unsigned long *gpio_flags)
- {
- 	unsigned int i;
- 
-@@ -160,33 +160,33 @@ static void int3472_get_func_and_polarity(struct acpi_device *adev, u8 *type,
- 		*type = int3472_gpio_map[i].type_to;
- 		*gpio_flags = int3472_gpio_map[i].polarity_low ?
- 			GPIO_ACTIVE_LOW : GPIO_ACTIVE_HIGH;
--		*func = int3472_gpio_map[i].func;
-+		*con_id = int3472_gpio_map[i].con_id;
- 		return;
- 	}
- 
- 	switch (*type) {
- 	case INT3472_GPIO_TYPE_RESET:
--		*func = "reset";
-+		*con_id = "reset";
- 		*gpio_flags = GPIO_ACTIVE_LOW;
- 		break;
- 	case INT3472_GPIO_TYPE_POWERDOWN:
--		*func = "powerdown";
-+		*con_id = "powerdown";
- 		*gpio_flags = GPIO_ACTIVE_LOW;
- 		break;
- 	case INT3472_GPIO_TYPE_CLK_ENABLE:
--		*func = "clk-enable";
-+		*con_id = "clk-enable";
- 		*gpio_flags = GPIO_ACTIVE_HIGH;
- 		break;
- 	case INT3472_GPIO_TYPE_PRIVACY_LED:
--		*func = "privacy-led";
-+		*con_id = "privacy-led";
- 		*gpio_flags = GPIO_ACTIVE_HIGH;
- 		break;
- 	case INT3472_GPIO_TYPE_POWER_ENABLE:
--		*func = "power-enable";
-+		*con_id = "power-enable";
- 		*gpio_flags = GPIO_ACTIVE_HIGH;
- 		break;
- 	default:
--		*func = "unknown";
-+		*con_id = "unknown";
- 		*gpio_flags = GPIO_ACTIVE_HIGH;
- 		break;
- 	}
-@@ -233,7 +233,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 	union acpi_object *obj;
- 	struct gpio_desc *gpio;
- 	const char *err_msg;
--	const char *func;
-+	const char *con_id;
- 	unsigned long gpio_flags;
- 	int ret;
- 
-@@ -257,26 +257,26 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 
- 	type = FIELD_GET(INT3472_GPIO_DSM_TYPE, obj->integer.value);
- 
--	int3472_get_func_and_polarity(int3472->sensor, &type, &func, &gpio_flags);
-+	int3472_get_con_id_and_polarity(int3472->sensor, &type, &con_id, &gpio_flags);
- 
- 	pin = FIELD_GET(INT3472_GPIO_DSM_PIN, obj->integer.value);
- 	if (pin != agpio->pin_table[0])
- 		dev_warn(int3472->dev, "%s %s pin number mismatch _DSM %d resource %d\n",
--			 func, agpio->resource_source.string_ptr, pin,
-+			 con_id, agpio->resource_source.string_ptr, pin,
- 			 agpio->pin_table[0]);
- 
- 	active_value = FIELD_GET(INT3472_GPIO_DSM_SENSOR_ON_VAL, obj->integer.value);
- 	if (!active_value)
- 		gpio_flags ^= GPIO_ACTIVE_LOW;
- 
--	dev_dbg(int3472->dev, "%s %s pin %d active-%s\n", func,
-+	dev_dbg(int3472->dev, "%s %s pin %d active-%s\n", con_id,
- 		agpio->resource_source.string_ptr, agpio->pin_table[0],
- 		str_high_low(gpio_flags == GPIO_ACTIVE_HIGH));
- 
- 	switch (type) {
- 	case INT3472_GPIO_TYPE_RESET:
- 	case INT3472_GPIO_TYPE_POWERDOWN:
--		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, gpio_flags);
-+		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, con_id, gpio_flags);
- 		if (ret)
- 			err_msg = "Failed to map GPIO pin to sensor\n";
- 
-@@ -284,7 +284,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
- 	case INT3472_GPIO_TYPE_CLK_ENABLE:
- 	case INT3472_GPIO_TYPE_PRIVACY_LED:
- 	case INT3472_GPIO_TYPE_POWER_ENABLE:
--		gpio = skl_int3472_gpiod_get_from_temp_lookup(int3472, agpio, func, gpio_flags);
-+		gpio = skl_int3472_gpiod_get_from_temp_lookup(int3472, agpio, con_id, gpio_flags);
- 		if (IS_ERR(gpio)) {
- 			ret = PTR_ERR(gpio);
- 			err_msg = "Failed to get GPIO\n";
+[1/1] gpu: drm_dp_cec: fix broken CEC adapter properties check
+      commit: 6daaae5ff7f3b23a2dacc9c387ff3d4f95b67cad
+
+Best regards,
 -- 
-2.39.5
+With best wishes
+Dmitry
 
 
