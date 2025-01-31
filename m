@@ -1,324 +1,219 @@
-Return-Path: <linux-media+bounces-25476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25477-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0542AA240AC
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:37:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 007A9A240B2
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:37:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 827BE188A564
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:36:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B515F169FCE
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:36:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98DC61F37B9;
-	Fri, 31 Jan 2025 16:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ADC31F03EB;
+	Fri, 31 Jan 2025 16:34:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ihKB4EW3"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="XY+9tFBy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013016.outbound.protection.outlook.com [40.107.159.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257E61E9918
-	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738341202; cv=none; b=TFa7RHrlRv0rv3Kx2JEPL2DF6O3VsESeHJjw3TpLKjyFsEOp9TCAASNt/YZ41/koSZeHeSCOITn429rMY+rleEasPD6DvBvfcryHnsF4pCEjehRcwPpVEMLCzuOdQQpiMjjPltMt06/mYfax10ZseeUvqLCLkM6YRs52wWBGoRY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738341202; c=relaxed/simple;
-	bh=g/K8pA6c6joiOMtd5AiWs4+FlCBtWbixOOpu1PV06B4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mh21bPjt2hjgJbq8zg+45BaxH2qHpGIQTXJJL5rLqSts/rHTvtfKAyc+cD6WUxIFIB36QHP0TaLv0fxOye612y8lGM/vuXIv8XMDVdlG4z8U/IJD0hMRInpoqVq7sIS/z1E8c0PZ5i6PPTw7X0xHsEH6+P7GFv8xLqPRi2+VJl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ihKB4EW3; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29DCAB63;
-	Fri, 31 Jan 2025 17:32:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738341125;
-	bh=g/K8pA6c6joiOMtd5AiWs4+FlCBtWbixOOpu1PV06B4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ihKB4EW3cNbgSpJn3xMggxmd5C7a+TwLeNYkV0qo9NDYGyxMXtNbTp4/oZLI5urMg
-	 PwnMcbztPH58OR4/pSCXTVgAlLO/uPrltqka5s8VKms+MuUgsVZNflXi2ktc5homBB
-	 YRdIX37gDFbKYm/ALiDLVVO29AwAcVsisjTaUiNs=
-Message-ID: <d2cf5d7e-808b-4283-afbf-664913362369@ideasonboard.com>
-Date: Fri, 31 Jan 2025 18:33:10 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2938B1EE03C;
+	Fri, 31 Jan 2025 16:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738341271; cv=fail; b=GX2JC/QQtpQwcvEhQHyFJCP3vS6Y248T5fvWtus1J5EJN70cRSmJmuht9Re9G+u1gV3yEn1NJixLcSItwasU8CFwRSQgaBXm3yuFk+1hSnLBpvqfV215zFLlFIQr7TIw/J02rw+3iQwEEjEMjqv2yEhZ4jyvNm4KWH2vFIOwrK0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738341271; c=relaxed/simple;
+	bh=JGMiLOPliWJYCOJ/oSKwmppPItKLP7OAecIbXnUpgNI=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=EiuApIpQzEQBgfE9TDuTAT/YNTk41LeUpyXK59B4MQHjHUsf4BD/T2nMq7woaXEEgdfdwKYs3ngRMghZLx2smsk/cILoCTDARWuUPC3KonVFTtjrQvCRe/hLkV1tzzCtvaCdr8DF2BnHMSW8gNCzBwKVWyWkliUKCk92SWj+2yI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=XY+9tFBy; arc=fail smtp.client-ip=40.107.159.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jgCUbMn6fuBqIpBC7YcZYXfsY33iLkcWclpcWu1PZ4zHHSUROywuuxzy7L7B/qTK8z019GTOXJP6qv7UAR1ohuavdqslmZEw8HRWLBdZ/Dqg11dsw5dhppS/AndV+AN5soHLdnieUD8RWdabVrRn+yLcIQ7rWbN/GnmSCpVVZfxBbJbd1lcK39LHKADbKB4+hGOFTgyq9IbkqohyBLPKfoBKQtu647xf7RvQ8PbiSVK4i87+tBocK2XYjXpUifwd3UCR0rkWZLP88rLPuQBlS/Wby/v97yu/N6dh74U0yxbfUmJGjFlFuW0QatpLyVGzu9QoaIG1MImaLaxP/gej/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0qn/3wXg5+hOb6JQc8b09u4aVJDQBmKYi9pOk2UgKa8=;
+ b=NVR0MZEX0dyQSwTUKIxtOm+/So/YI3JCgXgqk7YhLKAQrwcDVWgbKLHNiKnovLsRL2Y3N44W/8fZjiL92cKJQvh+9EmMEVQbHgCg3U+upwsz9V+gwccRO2E8cqf0DKtT0jothZYWHsJPF98/IdRDCQteIZRiGTkXTMSSqTWgVXYS2otmH+WwY5/5NJj1vkPLjKcWo6pfLFqqhQlTPL68xkqM+6ni44pjD7C+aQRGCRin+aNK5+0sbYwQoimkdloNHHfd0shSr8i3gGi77iXfqRKiyp+zpof4bXUF6aL0R5VPVtro2iS6gCKpRXaCGYUdLIfeyd1Q3af4KV/5Q7BRuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0qn/3wXg5+hOb6JQc8b09u4aVJDQBmKYi9pOk2UgKa8=;
+ b=XY+9tFByEYdsryYscqH1Sp/N7ns4sSkdRezmYlfVVF6syoV8ISfw4EwyDalS44zDtV1u3WKW372NUMfsNRQVmG4TQWo/q+/OwLCI/+nLVo+04ft6UyAib1gsXtqE/MR6JPlxX47dXwWmZ4xYOFEpAmZBCfFUeffHvEYbfAI8s/9D98htD0k37b5EmAgfc8LBnChYbtmo73nTnXVprpvQbZ7EUpQZhmDi/cvzk8z1SwGs5V9SFCQ/2KFtIMBwXpB3QBYyjURG+nQJvLutp/K04vN+xl9dqCwXxP+NvGRLZJBl8QSqCWfkYjEuurAsb3SOG5uVHTHfMSDKJFGEcCqMjQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
+ by AS8PR04MB8529.eurprd04.prod.outlook.com (2603:10a6:20b:420::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.20; Fri, 31 Jan
+ 2025 16:34:25 +0000
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30%6]) with mapi id 15.20.8398.017; Fri, 31 Jan 2025
+ 16:34:25 +0000
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [RFC 00/12] staging: media: max96712: Add support for streams and multiple sensors
+Date: Fri, 31 Jan 2025 18:33:54 +0200
+Message-Id: <20250131163408.2019144-1-laurentiu.palcu@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AS4P189CA0002.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d7::11) To AS4PR04MB9576.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4fe::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 8/9] media: ivsc: csi: Obtain link frequency from the
- media pad
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi
- <yong.zhi@intel.com>, Dan Scally <djrscally@gmail.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
- laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com,
- Tianshu Qiu <tian.shu.qiu@intel.com>, Maxime Ripard <mripard@kernel.org>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>,
- Purism Kernel Team <kernel@puri.sm>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Benoit Parrot <bparrot@ti.com>, Ricardo Ribalda <ribalda@chromium.org>,
- "Duc-Long, Le" <duclong.linux@gmail.com>
-References: <20250120110157.152732-1-sakari.ailus@linux.intel.com>
- <20250120110157.152732-9-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250120110157.152732-9-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|AS8PR04MB8529:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd6ee848-56f1-417a-48a2-08dd42151fd4
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?xL3R6dNgsIhwOfyJWT+pAxaU1DEYKQGxz4OPxP6Nu5qK5EkU2pOakJ9BlST+?=
+ =?us-ascii?Q?nEAEPbLloGRK2JqyS2mGDQc9PPrM+CEqEzko3cndBnIBY6dY9kRZEO42OO67?=
+ =?us-ascii?Q?4ngpzfpSfOpBMSjCbvBy6XlxWGd4lJetgU6W9k9dq3xhTBS3K6A5srK43Ul0?=
+ =?us-ascii?Q?Ly1T9r6OeGlui3w367FiTY7guTeXa+Eg3+kkfpove3dKkuFEEnbJMwe810Ha?=
+ =?us-ascii?Q?0ANT673YiQrvGGCSOKL+/YHRpEsxh+K7ZC9vm2e+YOoWfJOruDWFhbIXyz++?=
+ =?us-ascii?Q?flnzeaqKucp67tP8p8o8hyBaowMQbD2jinTpEnSqZCNyudUz38g8E8ZFsfYt?=
+ =?us-ascii?Q?kljP0pGB25FQa78P0aGKUNwX4CVQtpx27QHpiTnjo6raTeO4AMuN+yPIUy1e?=
+ =?us-ascii?Q?xjAxebfj4GC7ZufI56M93bfhU/YzuD3NbMs3OU7uAJiKiThCR7lYqQc1zDsJ?=
+ =?us-ascii?Q?DoIKPyISl2g2lUy3ckflbbL6nu98OJ+dlsGNDDzHAUS7SEOIdqBOUJ1Qd2D3?=
+ =?us-ascii?Q?sCsw3O4pV11QjH5fGFbCJwG2zHM8Dv1spxsq1gwgnalW5lNsd4n6aDWkwLHq?=
+ =?us-ascii?Q?5UlKUoCkGaG+RY+fg6MZmD1I7J02IYmNCmNxpqgOIZQQJ8iBNKskf4INnOsY?=
+ =?us-ascii?Q?6V7IranrrBEgtS1dyQ3JJhTkOX+KELaTSOPbWI/xNGb+L1HA87akXyvRqrMt?=
+ =?us-ascii?Q?dFUPTVTmABoM/625G2p7+pTYBifQV4HBQAUL2yHENB6WTdnQ3ygdE8Uz5JFg?=
+ =?us-ascii?Q?sVHDybgErlBYMbL1XAB6l0QMUeTb9JxpmRoQ3wIjs6EMAb31FnNpKCSsRAUd?=
+ =?us-ascii?Q?BteULJ3i4hq+8oCimUTrOylhQWkiYol2LhmqYboKtDOhppYoLPjIUE0DeWTI?=
+ =?us-ascii?Q?UFfOc3rseO66UjgUz17Ypa5jDhW2bf0TqOiKrF66lEXuS5xHw1vmKLSwsAzr?=
+ =?us-ascii?Q?wp6KBvUnMmMxmBwtaOAHjVVf4QE2JD0w1qHBz9jrfS9sWGhIAAu+6t9vjUd6?=
+ =?us-ascii?Q?YCtw2DdptDAWqyI9OQbbxOWseGJlijeVd9LvL4IEHWlp8dk3TYmjv2/IlO12?=
+ =?us-ascii?Q?hmjH3komg19Bho4zwQoQrW9AfnBwtvJ8cnJeBPzfgvAwhCPJx3QDB5f/FF7b?=
+ =?us-ascii?Q?BvHd3tvPzPTJdBKqKCbKqjZLCWL+aGwKzS+4yoRzsMR5DJK05FMZlQuJeFKE?=
+ =?us-ascii?Q?gt9/83jzYk7xF6ZZdQQZ//04vaH3mKpYya0BNNuJmUaZHAY4PJSs2h5+forW?=
+ =?us-ascii?Q?V86lQwD5VwwoXar/ZWi2Id5uDVyea4oEHVHumbJpzB5hj7XAIfg2qE6Mi1EG?=
+ =?us-ascii?Q?+74/Me2sDamxD5yxYEg2xuwaz0x8wOuRQwzmatSmaoIgmBXZ1FkiI0Kw2cig?=
+ =?us-ascii?Q?eTq5syZ983/P2j0eK9MYO1Q4duBZ?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?yY/WnYlyeNCnHxTh37VReqWEcHiPE9pJ5sey/h1qbzo3Qsl1J8JOV161wNDy?=
+ =?us-ascii?Q?F6H2zuOt2gOkq8tL1q/V3pzNIvbB69/hKSVUdRTjXyb1REXpozQLBSe/9SU6?=
+ =?us-ascii?Q?gCC4zd72DD7mJmylBiwcNFPzQXvzPMBXb8qK57KzPTJlJAISprwBvosLzCAr?=
+ =?us-ascii?Q?TaChGSvHvTz4USjqc9oAkGf7k8d0HM4KE0OAkNvUDiZbCLdMQyGTKlZlpREC?=
+ =?us-ascii?Q?lZAVufdlSZBWt7G8ky58cDwtvLBkADM3gqlI04neiR7L1sjUbbbiZZuXGcoz?=
+ =?us-ascii?Q?Phyd1Pqrr5/2WwklMKM0t4LzdGIV2tpknqfAdmo0vPxJz9iz6fdbdOMD9SYC?=
+ =?us-ascii?Q?nvY81FPeH5Aw+XeOjzeYhDSynqoouewGJmpLff5d6/AuFJWXKwSRcKXC9KaX?=
+ =?us-ascii?Q?MZXbSFWnAdYV+Z87zpqzWgytFMnt0nPmUVDSQT4VoauG0p1efhp9DrAM/16M?=
+ =?us-ascii?Q?1vw0hcnTCCVDAS38w+SuSHw7zSy5s8RY8T/PEYSqnyiAt8rReXAQtkp1oXMx?=
+ =?us-ascii?Q?oQHCbDhPHV0K9jJTxZDlrP2UxMJoApMShoHOVluEI4k8HXcDrQQlhk6UUD9c?=
+ =?us-ascii?Q?5lUeXowrJXrYsECWDJ7IDkYp0zSHgp8YzDZRsEqbYIVeYCGicRzfnlPBM05K?=
+ =?us-ascii?Q?LhjTe5gFDML0bgmeXj3ONScS62yfcnv2JMJKAK5e8TVNaon8Ad/tCkZyT0vS?=
+ =?us-ascii?Q?todAeIXCCrq4aZvYF5i/joqDsWTHSaRW0aKTBQKnPm2gOqdfL3fCP1tWd6+p?=
+ =?us-ascii?Q?btHhrCPmboP8y62CdgB2utPm3KNIqS4DJX8WSrszA0LrajXC8KJhs05ufTL+?=
+ =?us-ascii?Q?63n4IYFFUzGls9g25MnFd1oGCUxLd0ieK4ILFjfVN7fQmJ4oWoOUHU3q6j4F?=
+ =?us-ascii?Q?Fwv7eSAsGFw5cGMm6trD5OruGRjfpHmPrNXBFZiQtJNdoeOBsY7cMPseocWc?=
+ =?us-ascii?Q?eq8F3S6aN6OP9yIRFt5XHvMKEUUKNBgo6uU4rJxa9AHEQar3hKM56Xvx6xu5?=
+ =?us-ascii?Q?hg8xBIoO8SEtUt+vb+PQhvD8VKAj/gvV629A3Hot6bRxkLjLANAygCxKoIES?=
+ =?us-ascii?Q?7wAmUVUVYEd6R4yrhRfp1GbRA0SZCSeVfCD49Ut1z/0AFPjh9XRl6WEl/GKq?=
+ =?us-ascii?Q?TuBqounkSNgVuJchfwmjRnNE0FhzkKs+qPgcUkLobXwYYl4jxsj0NRCEgQye?=
+ =?us-ascii?Q?GUeiWPL/+VYWnUmUQO1uPLbJm9ByCky6uTfc3lHeLStCmRnWUuLNaL1Z9RBA?=
+ =?us-ascii?Q?NCMtlzuQXE7OwLoXYIX31fHj/hKULF0080hzbp8QtwxnGxYJ1jhXJDcHgB+P?=
+ =?us-ascii?Q?fzIfPCdnJflX0KhadKVB9ZpuXj7ajvE27X1Fj7r89R1oWHq/60XPIFoVGls7?=
+ =?us-ascii?Q?8wgLvMMNhI4F2exF2jCauFjQwvhvrnaxMiw8j6sny+3px6rTcVNCAKOnKdQX?=
+ =?us-ascii?Q?4DSLQEQOwqusAMjTX3WAgpcpKykPnL6ZRHkQBDrNN/vMXERsxfmEwle8VLBY?=
+ =?us-ascii?Q?U2MW9+uTv5guipFrX9FjA4dAonQwMdZUKbZtdFDmncD17hjzJD5xINQ/a7uT?=
+ =?us-ascii?Q?VM6erv/TdhFtik8DAFfdaJC2T6xKTn2LpS8JMjBk1mSD6cVrbgW55/TU0MjD?=
+ =?us-ascii?Q?ug=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd6ee848-56f1-417a-48a2-08dd42151fd4
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2025 16:34:25.3813
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /rKKTJHugETBgOCZDY4tefbLoHCviAFNiu7YrzRsd/58ZI+e4+phg202SirGS7MC2B+QlyU9N0BxwAi4hjAeFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8529
 
-On 20/01/2025 13:01, Sakari Ailus wrote:
-> Support the use of the media pad for obtaining the link frequency.
-> Similarly, call the v4l2_get_link_freq() on the media pad, not on the
-> remote's control handler.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->   drivers/media/pci/intel/ivsc/mei_csi.c | 78 +++++++++-----------------
->   1 file changed, 26 insertions(+), 52 deletions(-)
-> 
-> diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
-> index 2a9c12c975ca..545de4654609 100644
-> --- a/drivers/media/pci/intel/ivsc/mei_csi.c
-> +++ b/drivers/media/pci/intel/ivsc/mei_csi.c
-> @@ -35,8 +35,6 @@
->   
->   #define MEI_CSI_ENTITY_NAME "Intel IVSC CSI"
->   
-> -#define MEI_CSI_LINK_FREQ_400MHZ 400000000ULL
-> -
->   /* the 5s used here is based on experiment */
->   #define CSI_CMD_TIMEOUT (5 * HZ)
->   /* to setup CSI-2 link an extra delay needed and determined experimentally */
-> @@ -121,14 +119,13 @@ struct mei_csi {
->   	struct mutex lock;
->   
->   	struct v4l2_subdev subdev;
-> -	struct v4l2_subdev *remote;
-> +	struct media_pad *remote;
->   	struct v4l2_async_notifier notifier;
->   	struct v4l2_ctrl_handler ctrl_handler;
->   	struct v4l2_ctrl *freq_ctrl;
->   	struct v4l2_ctrl *privacy_ctrl;
->   	/* lock for v4l2 controls */
->   	struct mutex ctrl_lock;
-> -	unsigned int remote_pad;
->   	/* start streaming or not */
->   	int streaming;
->   
-> @@ -147,10 +144,6 @@ static const struct v4l2_mbus_framefmt mei_csi_format_mbus_default = {
->   	.field = V4L2_FIELD_NONE,
->   };
->   
-> -static s64 link_freq_menu_items[] = {
-> -	MEI_CSI_LINK_FREQ_400MHZ
-> -};
-> -
->   static inline struct mei_csi *notifier_to_csi(struct v4l2_async_notifier *n)
->   {
->   	return container_of(n, struct mei_csi, notifier);
-> @@ -161,11 +154,6 @@ static inline struct mei_csi *sd_to_csi(struct v4l2_subdev *sd)
->   	return container_of(sd, struct mei_csi, subdev);
->   }
->   
-> -static inline struct mei_csi *ctrl_to_csi(struct v4l2_ctrl *ctrl)
-> -{
-> -	return container_of(ctrl->handler, struct mei_csi, ctrl_handler);
-> -}
-> -
->   /* send a command to firmware and mutex must be held by caller */
->   static int mei_csi_send(struct mei_csi *csi, u8 *buf, size_t len)
->   {
-> @@ -286,11 +274,13 @@ static void mei_csi_rx(struct mei_cl_device *cldev)
->   static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
->   {
->   	struct mei_csi *csi = sd_to_csi(sd);
-> +	struct v4l2_subdev *remote_sd =
-> +		media_entity_to_v4l2_subdev(csi->remote->entity);
->   	s64 freq;
->   	int ret;
->   
->   	if (enable && csi->streaming == 0) {
-> -		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
-> +		freq = v4l2_get_link_freq(csi->remote, 0, 0);
->   		if (freq < 0) {
->   			dev_err(&csi->cldev->dev,
->   				"error %lld, invalid link_freq\n", freq);
-> @@ -309,11 +299,11 @@ static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
->   		if (ret < 0)
->   			goto err_switch;
->   
-> -		ret = v4l2_subdev_call(csi->remote, video, s_stream, 1);
-> +		ret = v4l2_subdev_call(remote_sd, video, s_stream, 1);
->   		if (ret)
->   			goto err_switch;
->   	} else if (!enable && csi->streaming == 1) {
-> -		v4l2_subdev_call(csi->remote, video, s_stream, 0);
-> +		v4l2_subdev_call(remote_sd, video, s_stream, 0);
->   
->   		/* switch CSI-2 link to IVSC */
->   		ret = csi_set_link_owner(csi, CSI_LINK_IVSC);
-> @@ -470,34 +460,30 @@ static int mei_csi_set_fmt(struct v4l2_subdev *sd,
->   	return 0;
->   }
->   
-> -static int mei_csi_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-> +static int mei_csi_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
-> +				   struct v4l2_mbus_config *mbus_config)
->   {
-> -	struct mei_csi *csi = ctrl_to_csi(ctrl);
-> +	struct mei_csi *csi = sd_to_csi(sd);
-> +	unsigned int i;
->   	s64 freq;
->   
-> -	if (ctrl->id == V4L2_CID_LINK_FREQ) {
-> -		if (!csi->remote)
-> -			return -EINVAL;
-> +	mbus_config->type = V4L2_MBUS_CSI2_DPHY;
-> +	for (i = 0; i < V4L2_MBUS_CSI2_MAX_DATA_LANES; i++)
-> +		mbus_config->bus.mipi_csi2.data_lanes[i] = i + 1;
-> +	mbus_config->bus.mipi_csi2.num_data_lanes = csi->nr_of_lanes;
->   
-> -		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
-> -		if (freq < 0) {
-> -			dev_err(&csi->cldev->dev,
-> -				"error %lld, invalid link_freq\n", freq);
-> -			return -EINVAL;
-> -		}
-> -
-> -		link_freq_menu_items[0] = freq;
-> -		ctrl->val = 0;
-> -
-> -		return 0;
-> +	freq = v4l2_get_link_freq(csi->remote, 0, 0);
-> +	if (freq < 0) {
-> +		dev_err(&csi->cldev->dev,
-> +			"error %lld, invalid link_freq\n", freq);
-> +		return -EINVAL;
->   	}
->   
-> -	return -EINVAL;
-> -}
-> +	csi->link_freq = freq;
-> +	mbus_config->link_freq = freq;
->   
-> -static const struct v4l2_ctrl_ops mei_csi_ctrl_ops = {
-> -	.g_volatile_ctrl = mei_csi_g_volatile_ctrl,
-> -};
-> +	return 0;
-> +}
->   
->   static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
->   	.s_stream = mei_csi_set_stream,
-> @@ -506,6 +492,7 @@ static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
->   static const struct v4l2_subdev_pad_ops mei_csi_pad_ops = {
->   	.get_fmt = v4l2_subdev_get_fmt,
->   	.set_fmt = mei_csi_set_fmt,
-> +	.get_mbus_config = mei_csi_get_mbus_config,
->   };
->   
->   static const struct v4l2_subdev_ops mei_csi_subdev_ops = {
-> @@ -533,8 +520,7 @@ static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
->   	if (pad < 0)
->   		return pad;
->   
-> -	csi->remote = subdev;
-> -	csi->remote_pad = pad;
-> +	csi->remote = &subdev->entity.pads[pad];
->   
->   	return media_create_pad_link(&subdev->entity, pad,
->   				     &csi->subdev.entity, CSI_PAD_SINK,
-> @@ -558,28 +544,16 @@ static const struct v4l2_async_notifier_operations mei_csi_notify_ops = {
->   
->   static int mei_csi_init_controls(struct mei_csi *csi)
->   {
-> -	u32 max;
->   	int ret;
->   
->   	mutex_init(&csi->ctrl_lock);
->   
-> -	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 2);
-> +	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 1);
->   	if (ret)
->   		return ret;
->   
->   	csi->ctrl_handler.lock = &csi->ctrl_lock;
->   
-> -	max = ARRAY_SIZE(link_freq_menu_items) - 1;
-> -	csi->freq_ctrl = v4l2_ctrl_new_int_menu(&csi->ctrl_handler,
-> -						&mei_csi_ctrl_ops,
-> -						V4L2_CID_LINK_FREQ,
-> -						max,
-> -						0,
-> -						link_freq_menu_items);
-> -	if (csi->freq_ctrl)
-> -		csi->freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY |
-> -					 V4L2_CTRL_FLAG_VOLATILE;
-> -
->   	csi->privacy_ctrl = v4l2_ctrl_new_std(&csi->ctrl_handler, NULL,
->   					      V4L2_CID_PRIVACY, 0, 1, 1, 0);
->   	if (csi->privacy_ctrl)
+Hi,
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+This series adds more functionality to the existing max96712 staging
+driver allowing multiple sensors to be connected through other
+compatible serializers. I tried to split the changes in smaller logical
+changes to make them easier to review while not altering the existing
+VPG functionality but I could squash all of them together if needed.
 
-  Tomi
+The series only supports tunneling mode and uses the first MIPI-CSI
+port. Support for more functionality can be added later, if needed.
+
+I sent the set as a RFC because it depends on Sakari's pending internal
+pads patch which is needed if we want to have an elegant solution for
+allowing the user to switch between streaming from sensors or just
+video pattern generation.
+
+Also, the set depends on my previous series which was not yet merged:
+https://patchwork.linuxtv.org/project/linux-media/list/?series=14255
+
+Thanks,
+Laurentiu
+
+Laurentiu Palcu (11):
+  dt-bindings: i2c: maxim,max96712: add a couple of new properties
+  staging: media: max96712: convert to using CCI register access helpers
+  staging: media: max96712: change DT parsing routine
+  staging: media: max96712: add link frequency V4L2 control
+  staging: media: max96712: add I2C mux support
+  staging: media: max96712: add support for streams
+  staging: media: max96712: allow enumerating MBUS codes
+  staging: media: max96712: add set_fmt routine
+  staging: media: max96712: add gpiochip functionality
+  staging: media: max96712: add fsync support
+  staging: media: max96712: allow streaming from connected sensors
+
+Sakari Ailus (1):
+  media: mc: Add INTERNAL pad flag
+
+ .../bindings/media/i2c/maxim,max96712.yaml    |   45 +
+ .../media/mediactl/media-types.rst            |    8 +
+ drivers/media/mc/mc-entity.c                  |   10 +-
+ drivers/staging/media/max96712/max96712.c     | 1406 +++++++++++++++--
+ include/uapi/linux/media.h                    |    1 +
+ 5 files changed, 1352 insertions(+), 118 deletions(-)
+
+-- 
+2.44.1
 
 
