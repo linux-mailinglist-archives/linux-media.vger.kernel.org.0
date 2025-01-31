@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-25474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9B4A24032
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:22:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 070E7A24042
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:24:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65B953A4242
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:21:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DC511887B9E
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:25:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D94D1E47A3;
-	Fri, 31 Jan 2025 16:22:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54C1D1E8823;
+	Fri, 31 Jan 2025 16:24:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L6ZUOhWi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Pd69iotw"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503F48467
-	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:22:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ACF1E47A6
+	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738340521; cv=none; b=jvvwshBZ4dypsHLYeB9UnVNOLgzEXPjDhPYqPfkMi1ChjiObNAIwkCFkp9t53+RsxlvWuEMVwp29nIml0UetGFYTg8HVrCSxDr2obWk1MALSzrAKmpLmY5KwULm/0w+anNLCGeJGDul3KFUTXYpXMRl/NpSopqGXbE/ZcDvA7Mk=
+	t=1738340692; cv=none; b=MHjyh6NUqt6U8ywR5e79K1Ubd1v6XZwHsZH+OtZ+imyC/nJJ0xOq0mPTf3xthr/0lBEIiLKGN6b0e4IXg4CObj5y5zcKZiRlzUzI9g0DOdD8Yn/nwLLX5aj6L1XY6m+lfSztPmVmabnG5e/mWTBjk9vOh8K6T5aijB49tqEP4aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738340521; c=relaxed/simple;
-	bh=tX1DleGZRCJB9Dsqf7vx9EA32vfBAnQtLPB9RFaiqMs=;
+	s=arc-20240116; t=1738340692; c=relaxed/simple;
+	bh=hqN+E40U3Po9txMOzcum5nLrtU26SJDS6IrbsQSpYlY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lolq+jUbrDWX74A2xmQ4Y8QvlQ+aCoe++5/QwtOwjFwrikzce/AjeNX5WpKv380hAedhSIGeE/eGLpmfpekvhGVLvI9Rv73H9I8fhkkDz+v3zPfRxeJGeAFDwHXQFV7DL3SB6qXcYB/6lZhYQOrs935Y21FlkZ5gY/C2CCpsMj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L6ZUOhWi; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=s39eESwuiQW7A291OL0TfDnr326D6e5HsWCHY3tijzPbjdhq278PYqAFx/KwF5bmeR1vTDKi1rau1OfuEDCDbYZIXWXvirfE+4L++5wJUXKF8ca3FvjoDBMuHJFcHO5JSNhKa1numdtOFpaUSY3uG0iauACpcxdskjSgRfFKzgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Pd69iotw; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37678465;
-	Fri, 31 Jan 2025 17:20:48 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 171C1465;
+	Fri, 31 Jan 2025 17:23:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738340449;
-	bh=tX1DleGZRCJB9Dsqf7vx9EA32vfBAnQtLPB9RFaiqMs=;
+	s=mail; t=1738340619;
+	bh=hqN+E40U3Po9txMOzcum5nLrtU26SJDS6IrbsQSpYlY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=L6ZUOhWihMumjc8bKTofyVpu6N5QU09qUs6NPMFCRJyKbljiYdecJHD8Bh0pHBKil
-	 8WvJ4pHybPJNn9NUnfMIzaAvqfUsS7l086EwmpDdvPJtI3PppIu/AsLuUjAwxqHzA0
-	 7ilG/E7j7zmSW5fZQ2xJ/1mvxJQOdYSvRo7Ynju4=
-Message-ID: <f17552d4-5a73-44d2-9ad6-cce896f806fc@ideasonboard.com>
-Date: Fri, 31 Jan 2025 18:21:54 +0200
+	b=Pd69iotwJPXYcLqZtdfXJuAMJU1PT82xOjP8rWSaSkNB9rw+ymOW/I3Qox/WTwRLf
+	 Ag5oi7jV5Sp3pW+4CJ1jaOrlHzydaEVdd0ElyBySyObsTBSdgvJOThoGHkTdtc+UOb
+	 qocbZbX+gt01jUsJyycHpqaQvlXmjO4KU6lClTe8=
+Message-ID: <031ee16a-7c0a-4e7e-81b5-f17ad543f790@ideasonboard.com>
+Date: Fri, 31 Jan 2025 18:24:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/9] media: v4l: Support obtaining link frequency via
- get_mbus_config
+Subject: Re: [PATCH v10 7/9] media: intel/ipu6: Obtain link frequency from the
+ remote subdev pad
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
  Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi
@@ -75,7 +75,7 @@ Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
  Benoit Parrot <bparrot@ti.com>, Ricardo Ribalda <ribalda@chromium.org>,
  "Duc-Long, Le" <duclong.linux@gmail.com>
 References: <20250120110157.152732-1-sakari.ailus@linux.intel.com>
- <20250120110157.152732-3-sakari.ailus@linux.intel.com>
+ <20250120110157.152732-8-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -121,72 +121,61 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250120110157.152732-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250120110157.152732-8-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi,
+
 On 20/01/2025 13:01, Sakari Ailus wrote:
-> Add link_freq field to struct v4l2_mbus_config in order to pass the link
-> frequency to the receiving sub-device.
+> Obtain the link frequency from the sub-device's pad instead of a control
+> handler. This allows obtaining it using the get_mbus_config() sub-device
+> pad op which is the only method supported by the IVSC driver.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->   drivers/media/v4l2-core/v4l2-common.c | 15 +++++++++++++--
->   include/media/v4l2-mediabus.h         |  2 ++
->   2 files changed, 15 insertions(+), 2 deletions(-)
+>   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 12 +++---------
+>   1 file changed, 3 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 9fe74c7e064f..e4b2de3833ee 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -508,12 +508,23 @@ EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_ctrl);
->   s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
->   			     unsigned int div)
+> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> index 051898ce53f4..da8581a37e22 100644
+> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> @@ -80,25 +80,19 @@ static const struct ipu6_csi2_error dphy_rx_errors[] = {
+>   s64 ipu6_isys_csi2_get_link_freq(struct ipu6_isys_csi2 *csi2)
 >   {
-> +	struct v4l2_mbus_config mbus_config = {};
->   	struct v4l2_subdev *sd;
-> +	int ret;
+>   	struct media_pad *src_pad;
+> -	struct v4l2_subdev *ext_sd;
+> -	struct device *dev;
 >   
->   	sd = media_entity_to_v4l2_subdev(pad->entity);
-> -	if (!sd)
+>   	if (!csi2)
+>   		return -EINVAL;
+>   
+> -	dev = &csi2->isys->adev->auxdev.dev;
+>   	src_pad = media_entity_remote_source_pad_unique(&csi2->asd.sd.entity);
+>   	if (IS_ERR(src_pad)) {
+> -		dev_err(dev, "can't get source pad of %s (%ld)\n",
+> +		dev_err(&csi2->isys->adev->auxdev.dev,
+
+This looks like an extra change. I would have kept the "dev", but up to you.
+
+> +			"can't get source pad of %s (%ld)\n",
+>   			csi2->asd.sd.name, PTR_ERR(src_pad));
+>   		return PTR_ERR(src_pad);
+>   	}
+>   
+> -	ext_sd = media_entity_to_v4l2_subdev(src_pad->entity);
+> -	if (WARN(!ext_sd, "Failed to get subdev for %s\n", csi2->asd.sd.name))
 > -		return -ENODEV;
-> +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
-> +			       &mbus_config);
-> +	if (ret < 0 && ret != -ENOIOCTLCMD)
-> +		return ret;
-> +
-> +	if (mbus_config.link_freq)
-> +		return mbus_config.link_freq;
->   
-> +	/*
-> +	 * Fall back to using the link frequency control if the media bus config
-> +	 * doesn't provide a link frequency.
-> +	 */
->   	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+> -
+> -	return v4l2_get_link_freq(ext_sd->ctrl_handler, 0, 0);
+> +	return v4l2_get_link_freq(src_pad, 0, 0);
 >   }
->   EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
-> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-> index e7f019f68c8d..24c738cd7894 100644
-> --- a/include/media/v4l2-mediabus.h
-> +++ b/include/media/v4l2-mediabus.h
-> @@ -169,6 +169,7 @@ enum v4l2_mbus_type {
->   /**
->    * struct v4l2_mbus_config - media bus configuration
->    * @type: interface type
-> + * @link_freq: The link frequency. See also V4L2_CID_LINK_FREQ control.
->    * @bus: bus configuration data structure
->    * @bus.parallel: embedded &struct v4l2_mbus_config_parallel.
->    *		  Used if the bus is parallel or BT.656.
-> @@ -183,6 +184,7 @@ enum v4l2_mbus_type {
->    */
->   struct v4l2_mbus_config {
->   	enum v4l2_mbus_type type;
-> +	u64 link_freq;
->   	union {
->   		struct v4l2_mbus_config_parallel parallel;
->   		struct v4l2_mbus_config_mipi_csi1 mipi_csi1;
+>   
+>   static int csi2_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
 
   Tomi
 
