@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-25475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25476-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070E7A24042
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0542AA240AC
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:37:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DC511887B9E
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:25:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 827BE188A564
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54C1D1E8823;
-	Fri, 31 Jan 2025 16:24:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98DC61F37B9;
+	Fri, 31 Jan 2025 16:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Pd69iotw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ihKB4EW3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ACF1E47A6
-	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257E61E9918
+	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:33:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738340692; cv=none; b=MHjyh6NUqt6U8ywR5e79K1Ubd1v6XZwHsZH+OtZ+imyC/nJJ0xOq0mPTf3xthr/0lBEIiLKGN6b0e4IXg4CObj5y5zcKZiRlzUzI9g0DOdD8Yn/nwLLX5aj6L1XY6m+lfSztPmVmabnG5e/mWTBjk9vOh8K6T5aijB49tqEP4aE=
+	t=1738341202; cv=none; b=TFa7RHrlRv0rv3Kx2JEPL2DF6O3VsESeHJjw3TpLKjyFsEOp9TCAASNt/YZ41/koSZeHeSCOITn429rMY+rleEasPD6DvBvfcryHnsF4pCEjehRcwPpVEMLCzuOdQQpiMjjPltMt06/mYfax10ZseeUvqLCLkM6YRs52wWBGoRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738340692; c=relaxed/simple;
-	bh=hqN+E40U3Po9txMOzcum5nLrtU26SJDS6IrbsQSpYlY=;
+	s=arc-20240116; t=1738341202; c=relaxed/simple;
+	bh=g/K8pA6c6joiOMtd5AiWs4+FlCBtWbixOOpu1PV06B4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s39eESwuiQW7A291OL0TfDnr326D6e5HsWCHY3tijzPbjdhq278PYqAFx/KwF5bmeR1vTDKi1rau1OfuEDCDbYZIXWXvirfE+4L++5wJUXKF8ca3FvjoDBMuHJFcHO5JSNhKa1numdtOFpaUSY3uG0iauACpcxdskjSgRfFKzgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Pd69iotw; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=mh21bPjt2hjgJbq8zg+45BaxH2qHpGIQTXJJL5rLqSts/rHTvtfKAyc+cD6WUxIFIB36QHP0TaLv0fxOye612y8lGM/vuXIv8XMDVdlG4z8U/IJD0hMRInpoqVq7sIS/z1E8c0PZ5i6PPTw7X0xHsEH6+P7GFv8xLqPRi2+VJl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ihKB4EW3; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 171C1465;
-	Fri, 31 Jan 2025 17:23:38 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29DCAB63;
+	Fri, 31 Jan 2025 17:32:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738340619;
-	bh=hqN+E40U3Po9txMOzcum5nLrtU26SJDS6IrbsQSpYlY=;
+	s=mail; t=1738341125;
+	bh=g/K8pA6c6joiOMtd5AiWs4+FlCBtWbixOOpu1PV06B4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Pd69iotwJPXYcLqZtdfXJuAMJU1PT82xOjP8rWSaSkNB9rw+ymOW/I3Qox/WTwRLf
-	 Ag5oi7jV5Sp3pW+4CJ1jaOrlHzydaEVdd0ElyBySyObsTBSdgvJOThoGHkTdtc+UOb
-	 qocbZbX+gt01jUsJyycHpqaQvlXmjO4KU6lClTe8=
-Message-ID: <031ee16a-7c0a-4e7e-81b5-f17ad543f790@ideasonboard.com>
-Date: Fri, 31 Jan 2025 18:24:44 +0200
+	b=ihKB4EW3cNbgSpJn3xMggxmd5C7a+TwLeNYkV0qo9NDYGyxMXtNbTp4/oZLI5urMg
+	 PwnMcbztPH58OR4/pSCXTVgAlLO/uPrltqka5s8VKms+MuUgsVZNflXi2ktc5homBB
+	 YRdIX37gDFbKYm/ALiDLVVO29AwAcVsisjTaUiNs=
+Message-ID: <d2cf5d7e-808b-4283-afbf-664913362369@ideasonboard.com>
+Date: Fri, 31 Jan 2025 18:33:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 7/9] media: intel/ipu6: Obtain link frequency from the
- remote subdev pad
+Subject: Re: [PATCH v10 8/9] media: ivsc: csi: Obtain link frequency from the
+ media pad
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
  Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi
@@ -75,7 +75,7 @@ Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
  Benoit Parrot <bparrot@ti.com>, Ricardo Ribalda <ribalda@chromium.org>,
  "Duc-Long, Le" <duclong.linux@gmail.com>
 References: <20250120110157.152732-1-sakari.ailus@linux.intel.com>
- <20250120110157.152732-8-sakari.ailus@linux.intel.com>
+ <20250120110157.152732-9-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -121,61 +121,203 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250120110157.152732-8-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250120110157.152732-9-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
 On 20/01/2025 13:01, Sakari Ailus wrote:
-> Obtain the link frequency from the sub-device's pad instead of a control
-> handler. This allows obtaining it using the get_mbus_config() sub-device
-> pad op which is the only method supported by the IVSC driver.
+> Support the use of the media pad for obtaining the link frequency.
+> Similarly, call the v4l2_get_link_freq() on the media pad, not on the
+> remote's control handler.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 12 +++---------
->   1 file changed, 3 insertions(+), 9 deletions(-)
+>   drivers/media/pci/intel/ivsc/mei_csi.c | 78 +++++++++-----------------
+>   1 file changed, 26 insertions(+), 52 deletions(-)
 > 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-> index 051898ce53f4..da8581a37e22 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-> @@ -80,25 +80,19 @@ static const struct ipu6_csi2_error dphy_rx_errors[] = {
->   s64 ipu6_isys_csi2_get_link_freq(struct ipu6_isys_csi2 *csi2)
->   {
->   	struct media_pad *src_pad;
-> -	struct v4l2_subdev *ext_sd;
-> -	struct device *dev;
+> diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
+> index 2a9c12c975ca..545de4654609 100644
+> --- a/drivers/media/pci/intel/ivsc/mei_csi.c
+> +++ b/drivers/media/pci/intel/ivsc/mei_csi.c
+> @@ -35,8 +35,6 @@
 >   
->   	if (!csi2)
->   		return -EINVAL;
+>   #define MEI_CSI_ENTITY_NAME "Intel IVSC CSI"
 >   
-> -	dev = &csi2->isys->adev->auxdev.dev;
->   	src_pad = media_entity_remote_source_pad_unique(&csi2->asd.sd.entity);
->   	if (IS_ERR(src_pad)) {
-> -		dev_err(dev, "can't get source pad of %s (%ld)\n",
-> +		dev_err(&csi2->isys->adev->auxdev.dev,
-
-This looks like an extra change. I would have kept the "dev", but up to you.
-
-> +			"can't get source pad of %s (%ld)\n",
->   			csi2->asd.sd.name, PTR_ERR(src_pad));
->   		return PTR_ERR(src_pad);
->   	}
->   
-> -	ext_sd = media_entity_to_v4l2_subdev(src_pad->entity);
-> -	if (WARN(!ext_sd, "Failed to get subdev for %s\n", csi2->asd.sd.name))
-> -		return -ENODEV;
+> -#define MEI_CSI_LINK_FREQ_400MHZ 400000000ULL
 > -
-> -	return v4l2_get_link_freq(ext_sd->ctrl_handler, 0, 0);
-> +	return v4l2_get_link_freq(src_pad, 0, 0);
+>   /* the 5s used here is based on experiment */
+>   #define CSI_CMD_TIMEOUT (5 * HZ)
+>   /* to setup CSI-2 link an extra delay needed and determined experimentally */
+> @@ -121,14 +119,13 @@ struct mei_csi {
+>   	struct mutex lock;
+>   
+>   	struct v4l2_subdev subdev;
+> -	struct v4l2_subdev *remote;
+> +	struct media_pad *remote;
+>   	struct v4l2_async_notifier notifier;
+>   	struct v4l2_ctrl_handler ctrl_handler;
+>   	struct v4l2_ctrl *freq_ctrl;
+>   	struct v4l2_ctrl *privacy_ctrl;
+>   	/* lock for v4l2 controls */
+>   	struct mutex ctrl_lock;
+> -	unsigned int remote_pad;
+>   	/* start streaming or not */
+>   	int streaming;
+>   
+> @@ -147,10 +144,6 @@ static const struct v4l2_mbus_framefmt mei_csi_format_mbus_default = {
+>   	.field = V4L2_FIELD_NONE,
+>   };
+>   
+> -static s64 link_freq_menu_items[] = {
+> -	MEI_CSI_LINK_FREQ_400MHZ
+> -};
+> -
+>   static inline struct mei_csi *notifier_to_csi(struct v4l2_async_notifier *n)
+>   {
+>   	return container_of(n, struct mei_csi, notifier);
+> @@ -161,11 +154,6 @@ static inline struct mei_csi *sd_to_csi(struct v4l2_subdev *sd)
+>   	return container_of(sd, struct mei_csi, subdev);
 >   }
 >   
->   static int csi2_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
+> -static inline struct mei_csi *ctrl_to_csi(struct v4l2_ctrl *ctrl)
+> -{
+> -	return container_of(ctrl->handler, struct mei_csi, ctrl_handler);
+> -}
+> -
+>   /* send a command to firmware and mutex must be held by caller */
+>   static int mei_csi_send(struct mei_csi *csi, u8 *buf, size_t len)
+>   {
+> @@ -286,11 +274,13 @@ static void mei_csi_rx(struct mei_cl_device *cldev)
+>   static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
+>   {
+>   	struct mei_csi *csi = sd_to_csi(sd);
+> +	struct v4l2_subdev *remote_sd =
+> +		media_entity_to_v4l2_subdev(csi->remote->entity);
+>   	s64 freq;
+>   	int ret;
+>   
+>   	if (enable && csi->streaming == 0) {
+> -		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
+> +		freq = v4l2_get_link_freq(csi->remote, 0, 0);
+>   		if (freq < 0) {
+>   			dev_err(&csi->cldev->dev,
+>   				"error %lld, invalid link_freq\n", freq);
+> @@ -309,11 +299,11 @@ static int mei_csi_set_stream(struct v4l2_subdev *sd, int enable)
+>   		if (ret < 0)
+>   			goto err_switch;
+>   
+> -		ret = v4l2_subdev_call(csi->remote, video, s_stream, 1);
+> +		ret = v4l2_subdev_call(remote_sd, video, s_stream, 1);
+>   		if (ret)
+>   			goto err_switch;
+>   	} else if (!enable && csi->streaming == 1) {
+> -		v4l2_subdev_call(csi->remote, video, s_stream, 0);
+> +		v4l2_subdev_call(remote_sd, video, s_stream, 0);
+>   
+>   		/* switch CSI-2 link to IVSC */
+>   		ret = csi_set_link_owner(csi, CSI_LINK_IVSC);
+> @@ -470,34 +460,30 @@ static int mei_csi_set_fmt(struct v4l2_subdev *sd,
+>   	return 0;
+>   }
+>   
+> -static int mei_csi_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+> +static int mei_csi_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
+> +				   struct v4l2_mbus_config *mbus_config)
+>   {
+> -	struct mei_csi *csi = ctrl_to_csi(ctrl);
+> +	struct mei_csi *csi = sd_to_csi(sd);
+> +	unsigned int i;
+>   	s64 freq;
+>   
+> -	if (ctrl->id == V4L2_CID_LINK_FREQ) {
+> -		if (!csi->remote)
+> -			return -EINVAL;
+> +	mbus_config->type = V4L2_MBUS_CSI2_DPHY;
+> +	for (i = 0; i < V4L2_MBUS_CSI2_MAX_DATA_LANES; i++)
+> +		mbus_config->bus.mipi_csi2.data_lanes[i] = i + 1;
+> +	mbus_config->bus.mipi_csi2.num_data_lanes = csi->nr_of_lanes;
+>   
+> -		freq = v4l2_get_link_freq(csi->remote->ctrl_handler, 0, 0);
+> -		if (freq < 0) {
+> -			dev_err(&csi->cldev->dev,
+> -				"error %lld, invalid link_freq\n", freq);
+> -			return -EINVAL;
+> -		}
+> -
+> -		link_freq_menu_items[0] = freq;
+> -		ctrl->val = 0;
+> -
+> -		return 0;
+> +	freq = v4l2_get_link_freq(csi->remote, 0, 0);
+> +	if (freq < 0) {
+> +		dev_err(&csi->cldev->dev,
+> +			"error %lld, invalid link_freq\n", freq);
+> +		return -EINVAL;
+>   	}
+>   
+> -	return -EINVAL;
+> -}
+> +	csi->link_freq = freq;
+> +	mbus_config->link_freq = freq;
+>   
+> -static const struct v4l2_ctrl_ops mei_csi_ctrl_ops = {
+> -	.g_volatile_ctrl = mei_csi_g_volatile_ctrl,
+> -};
+> +	return 0;
+> +}
+>   
+>   static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
+>   	.s_stream = mei_csi_set_stream,
+> @@ -506,6 +492,7 @@ static const struct v4l2_subdev_video_ops mei_csi_video_ops = {
+>   static const struct v4l2_subdev_pad_ops mei_csi_pad_ops = {
+>   	.get_fmt = v4l2_subdev_get_fmt,
+>   	.set_fmt = mei_csi_set_fmt,
+> +	.get_mbus_config = mei_csi_get_mbus_config,
+>   };
+>   
+>   static const struct v4l2_subdev_ops mei_csi_subdev_ops = {
+> @@ -533,8 +520,7 @@ static int mei_csi_notify_bound(struct v4l2_async_notifier *notifier,
+>   	if (pad < 0)
+>   		return pad;
+>   
+> -	csi->remote = subdev;
+> -	csi->remote_pad = pad;
+> +	csi->remote = &subdev->entity.pads[pad];
+>   
+>   	return media_create_pad_link(&subdev->entity, pad,
+>   				     &csi->subdev.entity, CSI_PAD_SINK,
+> @@ -558,28 +544,16 @@ static const struct v4l2_async_notifier_operations mei_csi_notify_ops = {
+>   
+>   static int mei_csi_init_controls(struct mei_csi *csi)
+>   {
+> -	u32 max;
+>   	int ret;
+>   
+>   	mutex_init(&csi->ctrl_lock);
+>   
+> -	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 2);
+> +	ret = v4l2_ctrl_handler_init(&csi->ctrl_handler, 1);
+>   	if (ret)
+>   		return ret;
+>   
+>   	csi->ctrl_handler.lock = &csi->ctrl_lock;
+>   
+> -	max = ARRAY_SIZE(link_freq_menu_items) - 1;
+> -	csi->freq_ctrl = v4l2_ctrl_new_int_menu(&csi->ctrl_handler,
+> -						&mei_csi_ctrl_ops,
+> -						V4L2_CID_LINK_FREQ,
+> -						max,
+> -						0,
+> -						link_freq_menu_items);
+> -	if (csi->freq_ctrl)
+> -		csi->freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY |
+> -					 V4L2_CTRL_FLAG_VOLATILE;
+> -
+>   	csi->privacy_ctrl = v4l2_ctrl_new_std(&csi->ctrl_handler, NULL,
+>   					      V4L2_CID_PRIVACY, 0, 1, 1, 0);
+>   	if (csi->privacy_ctrl)
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
 
   Tomi
 
