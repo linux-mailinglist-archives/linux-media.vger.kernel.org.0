@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-25471-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25472-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F499A24022
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:15:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C09DA24024
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 17:15:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8627C163DA6
-	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:15:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7BC0D3A56D2
+	for <lists+linux-media@lfdr.de>; Fri, 31 Jan 2025 16:15:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 178341EB9F9;
-	Fri, 31 Jan 2025 16:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4E811E04B5;
+	Fri, 31 Jan 2025 16:15:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IU5Q/qGz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="twzKxr7X"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9506D1E9B02
-	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07068467
+	for <linux-media@vger.kernel.org>; Fri, 31 Jan 2025 16:15:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738340111; cv=none; b=WQ489RxY+xbxyR2L6FVztLV551z562Tx8s6WNLl67bSRQFw1hI9cb6t6/+x9RBYuC6yVYJndRxTa8SC/JwD03Wd/FZTqtvyYbCwFRROxA8seFjNmEche4LdOUCQwn9yt4snyCZbIryBaFIr1cG/Hx/1H2g3Yc4muKeN56o7mZHE=
+	t=1738340145; cv=none; b=EVUtpp2Keux5TyxzF5U5NBrFaGC2u3U5qcGKUXLVB/o8xNAlXWAXyoj/HRfdsQT4JMz9o1mou66M4alOT+iO/aHhZvGLM+csLfAKnhp1cV08cxMvoC5+xNgAq6R0HR2XDu2yNIRAh0TYHTNSb5SxD4d2sJKUliwTf2WmsavT924=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738340111; c=relaxed/simple;
-	bh=EiWulF3caRhgSStoprBlpTjTgdGxyiGAPMpSRHCSVCg=;
+	s=arc-20240116; t=1738340145; c=relaxed/simple;
+	bh=1Ie90mA4hJSgBywm+IBxonyFcD8N9e11gjfySpH9j4k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=au4n0wgvJkEVqGZX2omJsXFNxvtKT/KKkJGijsItUosgOZfBTsVWq/sp+d2uI66UxcWU0+wtTOUT1j36UGGioRWHtm567Bp4ZrE8wh1nDu7GRvaUL1PQ6QLQ8SC9SQFbNkx3L5fkb7yUzWVQ2klInVAAFQNEjLE1BYJGXuT/eVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IU5Q/qGz; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=p49TWGGlracoyM0Ju0JqaIWIi0upcTHJy7kKIq0ihkEON+fNDmHTuoo/WSuxgCY5ZLdUEK44Xv63cZI3XVvXL6TX5/yYs9ECR7JxNpWHzcTTZXVcxzOln0M72Y/CElLVEekcfVUBGW7Fh8AWuKBRFsYt9wc6BwH+JP4SrYeJ9jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=twzKxr7X; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0FA6465;
-	Fri, 31 Jan 2025 17:13:49 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 414A8465;
+	Fri, 31 Jan 2025 17:14:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738340031;
-	bh=EiWulF3caRhgSStoprBlpTjTgdGxyiGAPMpSRHCSVCg=;
+	s=mail; t=1738340072;
+	bh=1Ie90mA4hJSgBywm+IBxonyFcD8N9e11gjfySpH9j4k=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IU5Q/qGz6z6PnmEm3X61OukjTTunauohVQjXyLbeEmMN0z92yA3Hz4JQCHgtYe4MC
-	 WXb6gnes7v/Xbt+R+PWyFSJGveFutEaMPNLSErP+ToM+ZWfWvyl1BWGhDsxA9DsRoX
-	 8XufYPxogkL7UOcq45gZuhWxnfcvUSbXvV6eWf1s=
-Message-ID: <7cb8a9e2-9077-4281-8d49-4b4cf43e0977@ideasonboard.com>
-Date: Fri, 31 Jan 2025 18:14:54 +0200
+	b=twzKxr7XiUXQXVb9Jm6RvBLfIkiJR3pJygUdghGAOOJ/8CUyxrvRJkuh1ufXRgFf6
+	 56gSYj7mzSjRVekEtdLNkgWSRYmrJPpoVK4YgchmCDvjNPmpHyHddk0QSmoq8yxzgU
+	 Q9exnHU6bjviZkOcDL4tfn4Id3Njii9VhYBPaXF0=
+Message-ID: <dc5acfc2-5755-4f58-a421-0d1cbeb191e0@ideasonboard.com>
+Date: Fri, 31 Jan 2025 18:15:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/9] media: Documentation: Update link frequency
- driver documentation
+Subject: Re: [PATCH v10 6/9] media: v4l: Memset argument to 0 before calling
+ get_mbus_config pad op
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
  Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi
@@ -75,7 +75,7 @@ Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
  Benoit Parrot <bparrot@ti.com>, Ricardo Ribalda <ribalda@chromium.org>,
  "Duc-Long, Le" <duclong.linux@gmail.com>
 References: <20250120110157.152732-1-sakari.ailus@linux.intel.com>
- <20250120110157.152732-4-sakari.ailus@linux.intel.com>
+ <20250120110157.152732-7-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -121,34 +121,50 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250120110157.152732-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250120110157.152732-7-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 20/01/2025 13:01, Sakari Ailus wrote:
-> Add the get_mbus_config() as the means for conveying the link frequency
-> towards the receiver drivers.
+> Memset the config argument to get_mbus_config V4L2 sub-device pad
+> operation to zero before calling the operation. This ensures the callers
+> don't need to bother with it nor the implementations need to set all
+> fields that may not be relevant to them.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->   Documentation/driver-api/media/tx-rx.rst | 4 ++++
->   1 file changed, 4 insertions(+)
+>   drivers/media/v4l2-core/v4l2-subdev.c | 2 ++
+>   include/media/v4l2-subdev.h           | 4 +++-
+>   2 files changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-> index c71003f74b1c..6f9eba189a9f 100644
-> --- a/Documentation/driver-api/media/tx-rx.rst
-> +++ b/Documentation/driver-api/media/tx-rx.rst
-> @@ -49,6 +49,10 @@ Link frequency
->   The :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` control is used to tell the
->   receiver the frequency of the bus (i.e. it is not the same as the symbol rate).
->   
-> +Drivers that do not have user-configurable link frequency should report it
-> +through the ``.get_mbus_config()`` subdev pad operation, in the ``link_freq``
-> +field of struct v4l2_mbus_config, instead of through controls.
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index cde1774c9098..a3074f469b15 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -444,6 +444,8 @@ static int call_enum_dv_timings(struct v4l2_subdev *sd,
+>   static int call_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
+>   				struct v4l2_mbus_config *config)
+>   {
+> +	memset(config, 0, sizeof(*config));
 > +
->   ``.enable_streams()`` and ``.disable_streams()`` callbacks
->   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   
+>   	return check_pad(sd, pad) ? :
+>   	       sd->ops->pad->get_mbus_config(sd, pad, config);
+>   }
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 2f2200875b03..57f2bcb4eb16 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -822,7 +822,9 @@ struct v4l2_subdev_state {
+>    *		     possible configuration from the remote end, likely calling
+>    *		     this operation as close as possible to stream on time. The
+>    *		     operation shall fail if the pad index it has been called on
+> - *		     is not valid or in case of unrecoverable failures.
+> + *		     is not valid or in case of unrecoverable failures. The
+> + *		     config argument has been memset to 0 just before calling
+> + *		     the op.
+>    *
+>    * @set_routing: Enable or disable data connection routes described in the
+>    *		 subdevice routing table. Subdevs that implement this operation
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
