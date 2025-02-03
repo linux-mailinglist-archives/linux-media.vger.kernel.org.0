@@ -1,159 +1,169 @@
-Return-Path: <linux-media+bounces-25552-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25553-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09F6A2553A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 10:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B69A25587
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 10:12:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8B0C418886C5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:01:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA3271882A7E
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:12:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3C4E1FECC0;
-	Mon,  3 Feb 2025 09:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0D3B1FDA78;
+	Mon,  3 Feb 2025 09:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dyj/nVV+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kPAZ692D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989241FF60F
-	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 09:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C735635966
+	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 09:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738573207; cv=none; b=Es1pCHaccpxh3B/cDqB0Q91LC+KQ71qOJ/pWA6z0yazWDm4qkbXIlCSZ5I9qYKYdcHjaMnkzLBgKZ0RwrU/VZxHWIKC9JDrhIdpTlyYU4XjTCWdetxEbCUqjc6MbiVMH1zKvt99ur/uysbre0kxgvw1UXJy3O5UpXQeXv4OgTcg=
+	t=1738573948; cv=none; b=LW8RUf4+lokg3mupb9aEiR3DT8e7ke0vKTjntPzKqDUNwPm9iihJ5Whk1xurX9vleSYYk0G1WJL7IaB+uBdjZNGxdNfNUi+Z3gIGtNWlv8+/TnvOzkAKuETBr/QZ94hs1Yvo+lOZk1OMvY4QYqQ3PeMxGslAfQI1Z1QoZteA234=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738573207; c=relaxed/simple;
-	bh=j6Wf++t4tR9d3+JpRD4UsIZfaGMbstR49RtMy0C9GPw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kBD/3jWFns+R+PbLx7x+rCu8scmGrgkU3lR+1unrtcKErYiSvAaI44pHhGUeEr5ZtnIprn5iCabRUsn+QkaVUrpMKpkE8iGtnX0vPv/EEdY2H0FSAo2xn5IKbIwB+Dy3cKlefdjeVhgAnUuM7bOv6/0dt/z58UAdqqtpfJG5nKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dyj/nVV+; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1738573948; c=relaxed/simple;
+	bh=Ue3h+X5DFlB57sONU5fPlFzpPX3qyPIVODTw+j4+EyQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lMNppHE5sCI7l5pmhlMy56lHJ0oX2wVZLlkQ0/yuQhGgm9fYU0aRvSDsf4D692cofvYzJOXo4dO1X3JFaZ5CtVIQnERMbfwY3m2kP8nzIgutrhpE3s4pSzDj9BtIy+CMgC6NKLwCa7EcR8qE1//5kFPWHRNJNnUtPQv3II5rRIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kPAZ692D; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738573206; x=1770109206;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=j6Wf++t4tR9d3+JpRD4UsIZfaGMbstR49RtMy0C9GPw=;
-  b=Dyj/nVV+7N0MRSt29nxGptFCS4XJSlRIuhCuAkYyEN31TdgT+9Bp4t0/
-   mJoOzcIki31b2mfsQ/EW91tILIOtZg/2WwSJMCyrMWNpj6ZNRNQj3NSUU
-   mW7SphRRwwc7g9R7b/nxtk90wDAt2HE6HtgP12hOZV7jbe7P76887ojZP
-   +IoI6aYtDtuWiMBlp+jrazMVeaqMSbRWugJIkqCBQiX9Ytf08SLC7nNth
-   2lycXDZmaSwtm/z+u1lzqr68TlSswwdZMeLi+LbiRSxT8Cia4KMCd5EyH
-   Ul1CYg/Uu1xDWFStFHJMmRq2t+WH5i0M0JRk7vb/xwH/dTPJep/et448T
+  t=1738573947; x=1770109947;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ue3h+X5DFlB57sONU5fPlFzpPX3qyPIVODTw+j4+EyQ=;
+  b=kPAZ692DSVWcY2oayMYKgfBiFyf4kdWkkb12j+5ViWT3VqQCy9rKH669
+   vFmpXNlO9nobQdjCkzfyPhA+WsSio70NodwgUAtPwk9bTYQF/1jBgzIMt
+   RP/Unn/DHxQVYIsxNhaVdJnHFLIL9vOWTPzvkxoeNCIvIjKwG7ZXp3O+b
+   A2509eaZkz/G4lPxpJL5dVzuyEWBhl6XDZ3uN7/9ytptV6YWsbigcoWrv
+   75tOswO5L604LfXY8D3xr32zqGwlzI+sUEo+M0g/rI1kA0nilzrIwrmM9
+   OT07Wya0NlTcJ/xgEtVvDUEz50W/wrEsRndMn6oc5dKtU4IrTbRrT71wV
    A==;
-X-CSE-ConnectionGUID: bJS9R87XQACHAYEnox6AOw==
-X-CSE-MsgGUID: hYJHzSPES72FeShw+uvtyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="39211627"
+X-CSE-ConnectionGUID: 396ITHKbSFmKBq6TVV3MEQ==
+X-CSE-MsgGUID: YKBJIK8bSnWJpQHBkMpcRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="38293712"
 X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="39211627"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:00:05 -0800
-X-CSE-ConnectionGUID: mzyjA0KNRF+rxtdeAW0C0g==
-X-CSE-MsgGUID: SHQOKeO9QBuoOYaxvcn57Q==
+   d="scan'208";a="38293712"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:12:26 -0800
+X-CSE-ConnectionGUID: hsUkySvUSOybRHbhhiiXmw==
+X-CSE-MsgGUID: otf7mTtKQdSqjx2UVnZSDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="109988854"
+   d="scan'208";a="115243051"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:59:58 -0800
-Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3B6121204F2;
-	Mon,  3 Feb 2025 10:59:53 +0200 (EET)
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:12:20 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D56CC11F9C3;
+	Mon,  3 Feb 2025 11:12:16 +0200 (EET)
+Date: Mon, 3 Feb 2025 09:12:16 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: hverkuil@xs4all.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [RFC v5 15/15] media: Documentation: Add binning and sub-sampling controls
-Date: Mon,  3 Feb 2025 10:58:53 +0200
-Message-Id: <20250203085853.1361401-16-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
-References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
+	Yong Zhi <yong.zhi@intel.com>, Dan Scally <djrscally@gmail.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com, bingbu.cao@intel.com,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Benoit Parrot <bparrot@ti.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	"Duc-Long, Le" <duclong.linux@gmail.com>
+Subject: Re: [PATCH v10 7/9] media: intel/ipu6: Obtain link frequency from
+ the remote subdev pad
+Message-ID: <Z6CIcA2i_msR0yAB@kekkonen.localdomain>
+References: <20250120110157.152732-1-sakari.ailus@linux.intel.com>
+ <20250120110157.152732-8-sakari.ailus@linux.intel.com>
+ <031ee16a-7c0a-4e7e-81b5-f17ad543f790@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <031ee16a-7c0a-4e7e-81b5-f17ad543f790@ideasonboard.com>
 
-Document the binning and scaling controls (V4L2_CID_BINNING and
-V4L2_CID_SUBSAMPLING_{HORIZONTAL,VERTICAL}) in the common raw sensor
-model.
+Moi,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- .../media/v4l/subdev-config-model.rst         | 20 ++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+On Fri, Jan 31, 2025 at 06:24:44PM +0200, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 20/01/2025 13:01, Sakari Ailus wrote:
+> > Obtain the link frequency from the sub-device's pad instead of a control
+> > handler. This allows obtaining it using the get_mbus_config() sub-device
+> > pad op which is the only method supported by the IVSC driver.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 12 +++---------
+> >   1 file changed, 3 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > index 051898ce53f4..da8581a37e22 100644
+> > --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> > @@ -80,25 +80,19 @@ static const struct ipu6_csi2_error dphy_rx_errors[] = {
+> >   s64 ipu6_isys_csi2_get_link_freq(struct ipu6_isys_csi2 *csi2)
+> >   {
+> >   	struct media_pad *src_pad;
+> > -	struct v4l2_subdev *ext_sd;
+> > -	struct device *dev;
+> >   	if (!csi2)
+> >   		return -EINVAL;
+> > -	dev = &csi2->isys->adev->auxdev.dev;
+> >   	src_pad = media_entity_remote_source_pad_unique(&csi2->asd.sd.entity);
+> >   	if (IS_ERR(src_pad)) {
+> > -		dev_err(dev, "can't get source pad of %s (%ld)\n",
+> > +		dev_err(&csi2->isys->adev->auxdev.dev,
+> 
+> This looks like an extra change. I would have kept the "dev", but up to you.
 
-diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-index f15e5495cc34..84957dc62800 100644
---- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-+++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-@@ -113,8 +113,12 @@ separately horizontally and vertically.
- 
- Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE``
- rectangle, relative to the analogue crop rectangle, on (pad, stream) pair
--1/0. The driver implementation determines how to configure binning and
--sub-sampling to achieve the desired size.
-+1/0. It depends on the driver which of these operations are being used to
-+achieve the resulting size. Binning and sub-sampling are also directly
-+configured using :ref:`V4L2_CID_BINNING_FACTORS
-+<v4l2-cid-camera-sensor-binning>` and :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
-+V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>` controls on
-+drivers that support them.
- 
- The digital crop operation takes place after binning and sub-sampling. It is
- configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
-@@ -173,9 +177,15 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
-       - \-
-       - X
-       - Binning and sub-sampling. This rectangle is relative to the
--        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). The
--        combination of binning and sub-sampling is configured using this
--        selection target.
-+        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). Binning is
-+        configured using the :ref:`V4L2_CID_BINNING_FACTORS
-+        <v4l2-cid-camera-sensor-binning>` control and sub-sampling is configured
-+        using the :ref:`V4L2_CID_SUBSAMPLING_HORIZONTAL and
-+        V4L2_CID_SUBSAMPLING_VERTICAL <v4l2-cid-camera-sensor-subsampling>`
-+        controls on drivers that support these controls. To configure binning
-+        and sub-sampling on drivers that do not support these controls, the
-+        selection rectangle may be changed directly to configure the combined
-+        effect on the image size.
-     * - 2/0
-       - Format
-       - X
+I thought putting that into a local variable isn't worth it as there is
+just a single user left.
+
+> 
+> > +			"can't get source pad of %s (%ld)\n",
+> >   			csi2->asd.sd.name, PTR_ERR(src_pad));
+> >   		return PTR_ERR(src_pad);
+> >   	}
+> > -	ext_sd = media_entity_to_v4l2_subdev(src_pad->entity);
+> > -	if (WARN(!ext_sd, "Failed to get subdev for %s\n", csi2->asd.sd.name))
+> > -		return -ENODEV;
+> > -
+> > -	return v4l2_get_link_freq(ext_sd->ctrl_handler, 0, 0);
+> > +	return v4l2_get_link_freq(src_pad, 0, 0);
+> >   }
+> >   static int csi2_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
+> 
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+Kiitos!
+
 -- 
-2.39.5
+Terveisin,
 
+Sakari Ailus
 
