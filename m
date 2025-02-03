@@ -1,194 +1,192 @@
-Return-Path: <linux-media+bounces-25597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26BAA25EFC
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 16:39:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE16EA25F24
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 16:46:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 802893AB4DC
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 15:37:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25E8B162D8D
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 15:46:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B4F320A5CF;
-	Mon,  3 Feb 2025 15:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 783B320A5CF;
+	Mon,  3 Feb 2025 15:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TpiY7HNG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T+EwMecz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D9D20A5D2
-	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 15:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D425204689
+	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 15:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738597055; cv=none; b=Nvmg14dm7s84ucU6qEz+R+5Ebb5LcAhQ6UpJEuNulpMHRPmfTOcwh/181cHtx7rwAn6oYK4FZLyFGS1DfiiQ44U/S/cBKBrjGfY0pQDFaVymBCFqFEqhk8SvCSNPyBpyMfc1PXsai+ZtNx7HTguIIwY5EIkTAXml5Du2RGBjwX4=
+	t=1738597546; cv=none; b=gPtT28q1lMU/U6wCgh5NqJj4uPZ2iYDuuQilQD03w9VsBejtI4zwGsVIqy6x4Iv9K2u8pUxGBJ2UePNylR9dhRAP7akzkHKnR9S6KaFO1+g8xED0uVpEBPd6+oIn32Rlz1GF/vAIlDhugyj15UDq3DGd/nfEgd7U6NlmQJx8aIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738597055; c=relaxed/simple;
-	bh=fXSwyb6kluFm+mPLGWZ4iJ5T4rAna3D85/lI9eoXJ/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AvG+c+RVy4me4CQzxXO1pQD3fMeDOUF7pgxPJFBtoTq+Z0r9R+6yQz4D9cJFFkZNWdjZwLRa7hXP1nnxKqhlHRdLoORwq3XpcGzlTICoIICL0A5JZDXMz6abaElPKtapZQGvKJCWXwYP8u7/CtViA4ENEkUD0wqnyUDx7zKy2/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TpiY7HNG; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54024aa9febso4568462e87.1
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2025 07:37:32 -0800 (PST)
+	s=arc-20240116; t=1738597546; c=relaxed/simple;
+	bh=R2B4jIQdKb/vkOWps+vUmipjuzkyZom/shTiK3robDc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fEDR2GnrtppFetoA1I2PjrZW6KCEKftRviT6b0QRuNSODvk6RLU0QtuUIm7vpGjyD1ehGECIj+d0kw5JeWs+TGXdXleUU9ZKT821GiZlXfdHS9m5c9ohSuCGj8tCFzxWQD5QekCvKD8tcP2b5YHL2YLMzNWIEgywlhFGqH3+TQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T+EwMecz; arc=none smtp.client-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-860f0e91121so3073504241.0
+        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2025 07:45:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738597051; x=1739201851; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UHRIhzqvNH1bzn0adefvZWos6ZS5C0TEuaPKGujIOQI=;
-        b=TpiY7HNGSkPhFMjPF96dMgtKofwLOuWS4oXrZAhxjPtpf+OmGsadqTiOhlQGKx7ymm
-         Qxu2fQ+50v91dRjkoot8X7DxphsKitpL3+QIsyXB+RKoWkxCkvyKyKgdm7OlmugmJ0d6
-         SRPiwp8kWRgLQgHU6Zwfibwx2xKgYcHGRKclx8Dzkqiu5LXQ/+HyPQGX6c1TBQedNDqr
-         8XLwpw35Azd3iDbzM+QT1ZkfawbAWX+toqxc9h1n4Hmyn87ixrjOtIDN+c3nWsJApWuT
-         ILbCqB6/g/u5eHSxfORLQJgCk+64Y1s1teflNmSNS+UeAw9xDHTT0jUKIp2WE6lo/iP/
-         cWaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738597051; x=1739201851;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1738597544; x=1739202344; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UHRIhzqvNH1bzn0adefvZWos6ZS5C0TEuaPKGujIOQI=;
-        b=EES1IULvS+Nc3hH5i4wfgsiKLjyuKzraxFuaEv/0hj4mypttU/MgpyCAZKxEDylBdU
-         2lqowclOWEXUWkiypYKMQNWH98bm1BTftml+p7qNoVtukEo3C+FMmkfOL/qSRioTDDUd
-         pQFYXQMexeDlcT0Uc/tJmjGJ5hgiknanhSFzXT2a0GnaUlsMBANdfUnyRfr0k4rlpoNf
-         RoOFp0BK4kkj1GjReFmGxNkLR920mJ3DSVPc5f3MpCCGcwcYPqNMoA2Igmpz/cvpuO3F
-         PhkDJu+9ReLZPYyp1x3vSWsmiG3WOXz9X50+iFJf19X5GfJtN6EZK7vo9nzFaQ4Gcw2A
-         rEBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcP3upT+bwtrLSoczuaIGyUmxj0EvHRUlD5ii3kq1BQOm6DF7X+M7g0/ppAzzpdI00BZlLnumOR4F/ng==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyuv87dSOSCB3p9Y4W+bhNX+qsML8dnN+VQ4MTffTRE3jaah8TR
-	TkG2akCKwrUxUimcs0wbT9YXRu5O1KVQhF/EAKRrl3WPShGse6hqfl+9Yit4PuQ=
-X-Gm-Gg: ASbGncsD+1qayrpTo5Jn7DCPhanLkQ/EVJvtV1cT2J8Tg/qEOF+WD4OepDqQ1gR02UR
-	QdqHVFRbTswY+hRmAdKRs8/W2e/NVmKlkX8ZRHKPJsB7uGxvWsPrywm1D64Mhx0iP5q98qnBdBs
-	uzhLb2NOMweG+CyEf1aarxYXQmu+EgpCIZ5DyYHah0ZCLXZUO/MQOzO+mqY/0+AwmVkW3p3ctz/
-	zHbBgf0gjhgAtZe15+xR47v2WATgBykfbOXQ4Nc0PPcruX420tkTbaotL8zhin9605jV45EQ6GD
-	p/Mc/ihEtoZo+ACRElQ5PA80ju0VuShhFD63mP9u+koCTYRioIwSM08j2aINzf9WojI0Q9o=
-X-Google-Smtp-Source: AGHT+IGh+KF+0uAYGcEmgM7tPX/mz+NrDdDUP0TAAcJzdf4B7LZrgSe3h4Ylxvx3xmOG8C7EsGJV7w==
-X-Received: by 2002:a05:6512:3c8f:b0:543:bbe1:b0fe with SMTP id 2adb3069b0e04-543e4c03049mr7131057e87.24.1738597050676;
-        Mon, 03 Feb 2025 07:37:30 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebeb0993sm1308210e87.132.2025.02.03.07.37.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 07:37:30 -0800 (PST)
-Date: Mon, 3 Feb 2025 17:37:28 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, Jianhua Lu <lujianhua000@gmail.com>, 
-	Stefan Schmidt <stefan.schmidt@linaro.org>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bjorn Andersson <andersson@kernel.org>
-Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of
- SM8250 SoC
-Message-ID: <fhqlt5xsz7yyrbnvhnovt66gzldjjbitpeznlvxztobdxmjnuw@d4avd5fq3muh>
-References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
- <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
- <Z3_nCPk_g8znto4A@hovoldconsulting.com>
- <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com>
- <Z4EuiPEw8mvDQ2gv@hovoldconsulting.com>
- <24334fb8-4d83-eb06-aee3-dfe1f8e4937b@quicinc.com>
- <552972B8-1ACA-4243-A8E3-8F48DAF39C5C@linaro.org>
- <Z6CApNuSlPGvVL2k@hovoldconsulting.com>
+        bh=N+IOsVY4ARCr7MU51vy1vztEjycwnWv4/baRhzXM9zw=;
+        b=T+EwMeczh3ykeoDl4idbuPr9CXrI1NpGKFpezzbnlohTwQ+Y4abKYRBaTXQE6YwNrK
+         RBzgVoPZg3T5QJztdng+b7OfQRwOIgW3zoSrgJYvMLhiawdtVAVaiHsdbkNaoujHfMZ1
+         ZPwEjK4r6T0Je04nwud3U2DvsJLMapzgNjh+yacv3KCgNeKNhyEKoKkXQbf+Cuxzb16+
+         xhwaUx9odZN6hM5TdbcunMXxojUVyO3WxYXTFXZxr7oZYpnZfUjTomhV2LDqgQFqulMT
+         F5VHOXiEeUKH5lZRzigy1o6QxM/ubj7JEXazo261Waq4MlQ4180wbVkVCMMhRk407bsa
+         wJZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738597544; x=1739202344;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N+IOsVY4ARCr7MU51vy1vztEjycwnWv4/baRhzXM9zw=;
+        b=PFdRooqgsBe74z9wEK0SA4elw+uSjpcWZrT84G9otHPA5ewl0sw4ia+ewF5ginUqSQ
+         N44RHtQxvlLHgxYJNjwIGE6bKYjWsGI1MAYI5Lsef1KeZkjHMJnHMzFOYuka21xJF3Gw
+         H8uvaLCHMtHyiSiShZwrha1UojazUr4rmY/z9cvxVr+btORDEyYh9Lot7h2lB1SvMvsn
+         Pqab3aMbyETex7ymJNSUhl8EKfQW1L4ifrLe3/cqpkReY3ACrjoeiaz08HjskalL2MDY
+         9/ELrHjHjgoha5BayOdPoy16myXqXi2uXO8n1coB0AFdd2+B9Ajq1GMZcRDryk5hautj
+         psew==
+X-Gm-Message-State: AOJu0YzTJbAq833MHEypdAJuGAsbMWxOP7NfWqT4tw9vbIUjAsMQm67k
+	Us7YH371+yX53AzT4jjTm0a9EU444fH6uyhyGa95PSFMyHFj3E3pysN30Z6/s+97AsT/HlVFjRe
+	awsuF/diltvIl7an9PJmrjj8fo1A=
+X-Gm-Gg: ASbGncsTjJyDyZeeUGoFLeW1xmgEBjTA9HqSRwrOvhlVwI9Dx/WIYpqKLYTaAIJOpRN
+	QCGkKOX0E+vDu+z0ZT0tYrFeozh8Y1yZOGI8+FHmiq1GGPup3RaRdaFwmOdWkUtr3AV/WH3gk
+X-Google-Smtp-Source: AGHT+IEKjg7nl9qIgi3vxLaKyVYMl3TMsCMX96XHniGqFps3ytd9gHoEMH7wBzanjklhw487INoiKlWCNXYHULyfBp0=
+X-Received: by 2002:a05:6122:2206:b0:516:1b30:8779 with SMTP id
+ 71dfb90a1353d-51eaf08984cmr10819819e0c.6.1738597543974; Mon, 03 Feb 2025
+ 07:45:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z6CApNuSlPGvVL2k@hovoldconsulting.com>
+References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com> <20250203085853.1361401-6-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250203085853.1361401-6-sakari.ailus@linux.intel.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 3 Feb 2025 15:45:18 +0000
+X-Gm-Features: AWEUYZkrmvtvuHoC2ATK-5FZ3WO2qd4URlkBkEOdYQ5kwKWfrYJad2cGJeJ_BBY
+Message-ID: <CA+V-a8uUySbRAy5YSJ-s+wo8Y5aM82moonn-gef-euVg0rnWPQ@mail.gmail.com>
+Subject: Re: [RFC v5 05/15] media: Documentation: Add scaling and post-scaler
+ crop for common raw
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl, 
+	laurent.pinchart@ideasonboard.com, Kate Hsuan <hpa@redhat.com>, 
+	Alexander Shiyan <eagle.alexander923@gmail.com>, Mikhail Rudenko <mike.rudenko@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
+	"Wang, Hongju" <hongju.wang@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
+	Mirela Rabulea <mirela.rabulea@nxp.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 03, 2025 at 09:39:00AM +0100, Johan Hovold wrote:
-> On Fri, Jan 10, 2025 at 08:01:21PM +0200, Dmitry Baryshkov wrote:
-> > On 10 January 2025 19:30:30 EET, Dikshita Agarwal <quic_dikshita@quicinc.com> wrote:
-> > >
-> > >
-> > >On 1/10/2025 7:58 PM, Johan Hovold wrote:
-> > >> On Thu, Jan 09, 2025 at 11:18:29PM +0530, Vikash Garodia wrote:
-> > >>> On 1/9/2025 8:41 PM, Johan Hovold wrote:
-> > >>>> On Thu, Dec 12, 2024 at 05:21:49PM +0530, Dikshita Agarwal wrote:
-> > >>>>> Initialize the platform data and enable video driver probe of SM8250
-> > >>>>> SoC. Add a kernel param to select between venus and iris drivers for
-> > >>>>> platforms supported by both drivers, for ex: SM8250.
-> > >>>>
-> > >>>> Why do you want to use a module parameter for this? What would be the
-> > >>>> default configuration? (Module parameters should generally be avoided.)
-> > >> 
-> > >>> This was discussed during v4 [1] and implemented as per suggestion
-> > >>>
-> > >>> [1]
-> > >>> https://lore.kernel.org/linux-media/eea14133-2152-37bb-e2ff-fcc7ed4c47f5@quicinc.com/
-> > >> 
-> > >> First, the background and motivation for this still needs to go in the
-> > >> commit message (and be mentioned in the cover letter).
-> > >> 
-> > >> Second, what you implemented here is not even equivalent to what was
-> > >> done in the mdm drm driver since that module parameter is honoured by
-> > >> both drivers so that at most one driver tries to bind to the platform
-> > >> device.
-> > >> 
-> > >> With this patch as it stands, which driver ends up binding depends on
-> > >> things like link order and what driver has been built a module, etc. (as
-> > >> I pointed out below).
-> > >> 
-> > >>>> Why not simply switch to the new driver (and make sure that the new
-> > >>>> driver is selected if the old one was enabled in the kernel config)?
-> > >> 
-> > >>> Its about the platform in migration i.e sm8250. Since new driver is not yet
-> > >>> feature parity with old driver, choice is provided to client if it wants to use
-> > >>> the new driver (default being old driver for sm8250)
-> > >> 
-> > >> This should be described in the commit message, along with details on
-> > >> what the delta is so that the reasoning can be evaluated.
-> > >> 
-> > >> And I'm still not sure using a module parameter for this is the right
-> > >> thing to do as it is generally something that should be avoided.
-> > >> 
-> > >I understand your concern of using module params.
-> > >I will modify it to rely on Kconfig to select the driver (suggested by
-> > >Hans) instead of module param.
-> > 
-> > Please don't. This makes it impossible to perform side-by-side
-> > comparison.
-> 
-> Why? You can have two kernel builds and run the same tests. And you
-> obviously cannot run iris and venus on the same hardware at once anyway.
+On Mon, Feb 3, 2025 at 8:59=E2=80=AFAM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Document scaling and post-scaler digital crop operations for the common
+> raw sensor model.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  .../media/v4l/subdev-config-model.rst         | 24 +++++++++++++++----
+>  1 file changed, 19 insertions(+), 5 deletions(-)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-At once not. But unbindng and rebinding another driver works perfectly.
+Cheers,
+Prabhakar
 
-> > Also as venus and iris drivers are not completely
-> > equivalent wrt supported platforms, distributions will have to select
-> > whether to disable support for older platforms or for new platforms:
-> > Kconfig dependency will make it impossible to enable support for both
-> > kinds.
-> 
-> You shouldn't have both enabled. The only reason for keeping support
-> for the same hardware in both drivers is that the iris support is
-> incomplete and considered experimental. No one should enable that except
-> for development and evaluation purposes until the driver is up to par.
-> And then you drop support from the old driver along with the config
-> option.
-
-That's the plan. This modparam is a temporal thing for transition
-period. And yes, as a developers / platform enablers we want to be able
-to have a quick turnaround between drivers.
-
-Please stop forcing your decisions on other people. The Linux kernel and
-its development process has always been about providing a possibility,
-not a policy.
-
-> 
-> Johan
-
--- 
-With best wishes
-Dmitry
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rs=
+t b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> index b0bd09772ceb..f15e5495cc34 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> @@ -118,11 +118,18 @@ sub-sampling to achieve the desired size.
+>
+>  The digital crop operation takes place after binning and sub-sampling. I=
+t is
+>  configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, strea=
+m) pair
+> -0/0. The resulting image size is further output by the sensor.
+> +0/0.
+> +
+> +The scaling operation is performed after the digital crop. It is configu=
+red by
+> +setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on (pad, stream) pair 0/0=
+,
+> +relative to the digital crop.
+>
+>  The sensor's output mbus code is configured by setting the format on the=
+ (pad,
+> -stream) pair 0/0. When setting the format, always use the same width and=
+ height
+> -as for the digital crop setting.
+> +stream) pair 0/0. The width and height fields are used to configure post=
+-scaler
+> +digital crop if supported by the driver, affecting the right and bottom =
+edges of
+> +the frame. If post-scaler digital crop is not supported, the width and h=
+eight
+> +fields of the format will match the compose rectangle sizes applied on t=
+he same
+> +0/0 (pad, stream) pair.
+>
+>  Drivers may only support some of even none of these configurations, in w=
+hich
+>  case they do not expose the corresponding selection rectangles. If any s=
+election
+> @@ -180,12 +187,19 @@ Also refer to :ref:`Selection targets <v4l2-selecti=
+on-targets-table>`.
+>        - X
+>        - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_C=
+OMPOSE``
+>          rectangle on (pad, stream) pair 1/0.
+> +    * - 0/0
+> +      - ``V4L2_SEL_TGT_COMPOSE``
+> +      - \-
+> +      - X
+> +      - Scaling. This rectangle is relative to the ``V4L2_SEL_TGT_CROP``
+> +        rectangle on (pad, stream) pair 0/0.
+>      * - 0/0
+>        - Format
+>        - X
+>        - X
+> -      - Image data source format. Always assign the width and height fie=
+lds of
+> -        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
+> +      - Image data source format and post-scaler crop. The width and hei=
+ght
+> +        fields of the format, used to configure post-scaler crop on the =
+right
+> +        and bottom edges of the image, are related to the ``V4L2_SEL_TGT=
+_COMPOSE``
+>          rectangle on (pad, stream) pair 0/0. The media bus code reflects=
+ the
+>          pixel data output of the sensor.
+>      * - 0/1
+> --
+> 2.39.5
+>
 
