@@ -1,457 +1,204 @@
-Return-Path: <linux-media+bounces-25594-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25595-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788EFA25E6F
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 16:21:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35440A25E63
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 16:20:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C10771680A7
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 15:16:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65C761881D54
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 15:17:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE46205AA3;
-	Mon,  3 Feb 2025 15:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27B8B209F2A;
+	Mon,  3 Feb 2025 15:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBXxYOvQ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bqxzwYD7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A942208A7
-	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 15:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7255120897D
+	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 15:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738595681; cv=none; b=XVkM/Rbjn+TdhFBUGkw8qc0N1+Vqhv/60lxGm5l5GFgZ+ATsaLbApkTU1o8yCGnQkKUxia45JgGy0/P6U3Hto8DvHz6/itmxLRUNQGJuMucM2SfRF0AEfAiYHbLomHWghGgz3jNTcA+qe2mCpDHc8TDT1y28ffVHBqkQgsJ0C/U=
+	t=1738595817; cv=none; b=s153GoY8B+k9ioafGk6mHNyYrH/dl/eDCTr0R2H5KgIGur1xOlQAdRFgRdIGJjfz+8tMwDzzv1SujwMVH0u69uGroaVt6PUGoPkSQ57B5xn4F9zkDfdbLzcXd/2oYpwewg60Cqp/NDy9MR2lvh9xGwlmXLE/SDsx4QIlAIFxBTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738595681; c=relaxed/simple;
-	bh=xVYYrhuNL+G1ob06MwYKtYQ0J/CB2y07jhecYnHhAtI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dyt4wcIraXQ2cBBPrnBYVZGODRxe2ZLbVMuyJwqxhx8QyNuIBtWePQ0TGui53RqG5VLs7nj9iQdTIUpNIfhsocb7yXhSpn8UmDV/6pFCckhe279QHKFWohPxtXsiJVGj0o4NrGCkc3aCJr6sYPFzJo8x2eremPD1mURJcQlsCfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBXxYOvQ; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6d8f99cb0d9so37325816d6.0
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2025 07:14:38 -0800 (PST)
+	s=arc-20240116; t=1738595817; c=relaxed/simple;
+	bh=cTbrNYJLCNdhhwnl8aRo/ZlBGCgcrth/NNaKS4Dl3I4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UgqxwwJ9pzKS9pbyvHVLCQmR+pPX0U5DzBM+tF+6XJ4kyNCqH4ewxF8sGs2mBUlD+DqvOif8UBgoUAJL+jsS+zsxhogp6DrOEjgt+GATRDJizvXZjAGKz33iLJjo1WBADJQkgYjl5EtjfVlZ3PN8rMQ6TI40HzIKlnHrW3b5E9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bqxzwYD7; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5439a6179a7so4799973e87.1
+        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2025 07:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738595678; x=1739200478; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=45aHTHfgQP3zXdHwGx8iwx1VONBYNClfS5dpsMRNKaU=;
-        b=BBXxYOvQU5j6AYbpxiotfu5QMS32k5sviA+sD9n16nKx2203UIMB32kFmEj2Ts6XVv
-         j3vYLZJIJ0LC1KmVzfQtcl1emThWISJv8gXYJKBo9AxSBMDJKGCtvtV5SKPAJ6C2KOeq
-         8ug1wvn2kdLgl4RxvYgdxGeWBJ+N3pP1B+kSoqDYjRAg5OqEe8uWwz+ZkMZL23R8/mUN
-         ocLAW7g1m04ZZcdHqhYPtKNqd32NJ5lkLT7OZjE5Eichcy079/Pa9z1s1cIi5+iVFPdo
-         lvvRq562p3+066eWbY+wTT6ft0uv9frml63N2cMAYt5dZbkhTNL/nhhM2KtVD+pzX1Ec
-         EFHg==
+        d=linaro.org; s=google; t=1738595813; x=1739200613; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vyj67VRTVYAUNFxIG4OB3HpFs4YteBVpT2TtAqLX6IY=;
+        b=bqxzwYD74+gmpc19QIPgSZvpZEIONYQ5r9FegQRbqzokR6ZsIg9D6kTWxv+lJJwvSf
+         hdDbFGXSjdZOQzcUonkZjPyiNNg1JRmc5TsO7Vs1EHR2jhMJfakTWPvfJY7bAfvdXIuy
+         ZT8mdWe8lj79VqiQv4MCCp4VXtLnv0Jcb2vhS7IWkeFlEbtbV/2pc1BsIfvrJO/GfomE
+         xEOyW7pezMiGggv9Zf/34d7yEIaJat2wG3WSSFR/rWOgaaFy5FsCbFdvA6hcF+c5jE2h
+         tMSoG8VhnJR1NavOzLSaxhtmqtFdbO3pukFvXsMSJeQTpdH53ZNEw0EbJRWPQIw075Ce
+         S8Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738595678; x=1739200478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=45aHTHfgQP3zXdHwGx8iwx1VONBYNClfS5dpsMRNKaU=;
-        b=UwcgAgZqM5K7BU8QNGWVnf5rRInn/qhGuauMUflSsn5a9G4qzJudDD7VrineH2YjWL
-         7hJehkyNoi9DI7Z9hdPQ+BxTss5na+Km1pEkqWNmdeYMjUAbPd52NyfzAESyFdMSu2Iz
-         9KzAd+IYcQL8iqQIH9Uhw5X4ZBAwqJqDO3ZCN+QXqnKIwQ6gnqya/6zEuAvFefsj3uRu
-         mF+/dpzPQkxw9nWa2wihXegd+SaIbbgOBdRt8L5JAUxjSwfkcgxd9Y4fTEFidVopkOnm
-         xEbjK+1DJeNz+yJazEJvT548yO5MhQ+dn81TKhdXtBZi6CRkOZM9T4sVqfHfnx7fxvgm
-         8OAw==
-X-Gm-Message-State: AOJu0YxCNuJ7nyGzcP/VrTvkwD2vPz0iB+eFvVhM347MuTLuq0jSUR+L
-	aFwXjaslmtahC9WeIqg6kMPXskZ+P6s1lvNwMtuaPz4KiXXapvQRajJX17mNlh/F59ctvUCFcuh
-	ydI9pfq1fs2+mhq/b1sVDxu5ttRY=
-X-Gm-Gg: ASbGncuo/irQcAvxXVDXvyyKfwR37YNrxNOVkxDzu5YT262si93GW3tO8gXOutdDbP0
-	hB6mkVV2QOS2QTmjRMtrTG0SvSwojl29IodM2RBpuFLvzH5YzIpj4dyaOYoNqAa6x/0obWT/Z
-X-Google-Smtp-Source: AGHT+IFgGclKZjpTwD93mhWBRaieAPST73428DKhGHRTkHPH9a4WVhoorqiXYi3fwD2/c42eGd/mc0xe9CixbC5A58Q=
-X-Received: by 2002:a05:6214:3004:b0:6e1:7223:19a9 with SMTP id
- 6a1803df08f44-6e243bf62d6mr270287196d6.24.1738595677691; Mon, 03 Feb 2025
- 07:14:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738595813; x=1739200613;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vyj67VRTVYAUNFxIG4OB3HpFs4YteBVpT2TtAqLX6IY=;
+        b=JsNm2Ijiyv1JlaWnAPutzFxMSmbgKlNlX1SCrCHoKAzdktsYfCLqgtB9xBpO1nEzoQ
+         TH+XQxYlMcpyom5pyTVu36TEMis+/+t6rBSz/qTzzY71azPMn5S1dCmsJe4Z1hsUOVIG
+         MsOzqQittzfShe1SKtLrO+/HOgtDSIwVqChnGvMEkqoJ4jZ/rFVMVRVr6h3zf9PKnkJF
+         MuZiShmeQFHUtb9xyhK5OrX+K2Vo85NMxFDsfkX8WSWDYUgMg2koB5Wdx7nJpiIRKs7a
+         BWspBLtQNJCx/IKHvtWNtesymUf3kKQVxjJFu+NeyFNtGY5PsethjU6axz+7wVXJO0XH
+         yFUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXy8Yyjuyfxu9UdGBdDs8fGKuutCIwDuR3/Qxqwl30RgudEnccEa8SmMvIebtbtIEMJP1R0WYnaNwU37A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGa2QUxPD6DdG3sR+rTqnK81BG7vEkkknljBnSiLRPqz4obYWo
+	zpJ6gkGJW3HtScG1BPTjVk3Q4gx8nAoQUcclXM0mfof1eats1dw961nL0m3wB0J4qbE0fxPMb7x
+	0bqI=
+X-Gm-Gg: ASbGnct3UoR9c0RgiQPHuv5T+uiofW7O2WN3slQ7lS7H72lJ5oL1J5NA1o715eUtW64
+	azg4j0npWqSpzbFG40Cq4FVkG6tKzetJt9C5h8OypiJKJx68Y7P1iQOionPXxqs6eESUxRbN+Vv
+	ezWpwPKmoVcA3jd8eyC7MMHS+C9viUJZ1ItXKZILtX8kt6ibSCccdIx9qIU1p5hw04aU3gq/fny
+	3ipOaDKQgPwkFxAvx5wbhnR0Z+YH5zXkOCHlPF7v5UldFLF6CpqRFY9BlKkf1IQ+kX9KShuDHzo
+	E1Xt3WbAJX7PP6hJWno0MWNkgyqUsdQxYoVOEUqIFcyxed7hNTYZ0PVI+g9u8cEoQ/TSDAc=
+X-Google-Smtp-Source: AGHT+IFvcunhehAneV8WOuwnEKnlJW9yoQuXlRAFhfSrhoXK3pww1JqdTTeDy8iee3YPZkps+263Uw==
+X-Received: by 2002:a05:6512:2343:b0:543:e4de:3e12 with SMTP id 2adb3069b0e04-543f0f25405mr4806134e87.18.1738595813396;
+        Mon, 03 Feb 2025 07:16:53 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-543ebebec5esm1322732e87.236.2025.02.03.07.16.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 07:16:51 -0800 (PST)
+Date: Mon, 3 Feb 2025 17:16:50 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+	quic_vgarodia@quicinc.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	p.zabel@pengutronix.de, hverkuil@xs4all.nl, sebastian.fricke@collabora.com, 
+	bryan.odonoghue@linaro.org, neil.armstrong@linaro.org, nicolas@ndufresne.ca, 
+	u.kleine-koenig@baylibre.com, stefan.schmidt@linaro.org, lujianhua000@gmail.com, 
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org
+Subject: Re: [RFC PATCH v10 1/2] media: iris: introduce helper module to
+ select video driver
+Message-ID: <tqbm672pi223ipcw7btiemlb745weeeiy4gnazzeghozhq2emj@wppbkms6hir5>
+References: <20250128080429.3911091-1-quic_dikshita@quicinc.com>
+ <20250128080429.3911091-2-quic_dikshita@quicinc.com>
+ <5070e1f1-914b-4654-88ef-3566e3eee9ca@kernel.org>
+ <f1344e49-61b6-4115-ae88-55b4a3cfed28@quicinc.com>
+ <Z6B822-6UTxQfX46@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com> <20250203085853.1361401-5-sakari.ailus@linux.intel.com>
-In-Reply-To: <20250203085853.1361401-5-sakari.ailus@linux.intel.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 3 Feb 2025 15:14:11 +0000
-X-Gm-Features: AWEUYZnvH-plP0RY0T-oKvtGVBWdA2DPcf9f4AT1DnDJeLDRxSLDNzstZBepIbw
-Message-ID: <CA+V-a8u2UeeVwz6_-fi7ZeKNRT+rNxpnF+Mbh9PwF26=VQATfQ@mail.gmail.com>
-Subject: Re: [RFC v5 04/15] media: Documentation: Add subdev configuration
- models, raw sensor model
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl, 
-	laurent.pinchart@ideasonboard.com, Kate Hsuan <hpa@redhat.com>, 
-	Alexander Shiyan <eagle.alexander923@gmail.com>, Mikhail Rudenko <mike.rudenko@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Umang Jain <umang.jain@ideasonboard.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
-	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
-	"Wang, Hongju" <hongju.wang@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6B822-6UTxQfX46@hovoldconsulting.com>
 
-Hi Sakari,
+On Mon, Feb 03, 2025 at 09:22:51AM +0100, Johan Hovold wrote:
+> On Fri, Jan 31, 2025 at 10:44:28AM -0800, Abhinav Kumar wrote:
+> > On 1/29/2025 2:44 AM, Krzysztof Kozlowski wrote:
+> > > On 28/01/2025 09:04, Dikshita Agarwal wrote:
+> 
+> > >> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> > >> index 954cc7c0cc97..276461ade811 100644
+> > >> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> > >> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> > >> @@ -196,6 +196,9 @@ static int iris_probe(struct platform_device *pdev)
+> > >>   	u64 dma_mask;
+> > >>   	int ret;
+> > >>   
+> > >> +	if (!video_drv_should_bind(&pdev->dev, true))
+> > >> +		return -ENODEV;
+> > > 
+> > > Wouldn't it mark the probe as failed and cause dmesg regressions?
+> 
+> No, this is perfectly fine. Probe can return -ENODEV and driver core
+> will continue with any further matches.
+> 
+> > >> +#if !IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS) || !IS_REACHABLE(CONFIG_VIDEO_QCOM_IRIS)
+> > >> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
+> > >> +{
+> > >> +	/* If just a single driver is enabled, use it no matter what */
+> > >> +	return true;
+> > >> +}
+> > >> +
+> > >> +#else
+> > >> +static bool prefer_venus = true;
+> > >> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
+> > >> +module_param(prefer_venus, bool, 0444);
+> > > 
+> > > 
+> > > The choice of driver is by module blacklisting, not by failing probes.
+> > > 
+> > > I don't understand why this patchset is needed and neither commit msg
+> > > nor above longer code comment explain me that. Just blacklist the module.
+> 
+> > Summarizing the discussion with myself, Krzysztof and Dmitry:
+> > 
+> > 1) module blacklisting solution will not be ideal if users want to have 
+> > both venus and iris or either of them built-in
+> 
+> Module blacklisting is not the way to go, you shouldn't have two drivers
+> racing to bind to the same device ever.
+> 
+> > 2) with current approach, one of the probes (either venus or iris) will 
+> > certainly fail as video_drv_should_bind() will fail for one of them. 
+> > This can be considered as a regression and should not happen.
+> 
+> How can that be a regression? One driver must fail to probe (see above).
 
-Thank you for the patch.
+I also don't think that it's a regression. I think Krzysztof was
+concerned about the 'failed to bind' messages in dmesg.
 
-On Mon, Feb 3, 2025 at 8:59=E2=80=AFAM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+> > Solution: If the user prefers iris driver and iris driver has not probed 
+> > yet, and if venus tries to probe ahead of iris we keep -EDEFERing till 
+> > iris probes and succeeds. Vice-versa when the preference is venus as well.
+> 
+> This sounds wrong too.
+> 
+> Look, first you guys need to explain *why* you want to have two drivers
+> for the same hardware (not just to me, in the commit message and cover
+> letter).
 >
-> Sub-device configuration models define what V4L2 API elements are
-> available on a compliant sub-device and how do they behave.
->
-> The patch also adds a model for common raw sensors.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  .../media/drivers/camera-sensor.rst           |   4 +
->  .../media/v4l/common-raw-sensor.dia           | 441 ++++++++++++++++++
->  .../media/v4l/common-raw-sensor.svg           | 134 ++++++
->  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
->  .../media/v4l/subdev-config-model.rst         | 209 +++++++++
->  5 files changed, 790 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sens=
-or.dia
->  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sens=
-or.svg
->  create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-m=
-odel.rst
->
-> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst =
-b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> index bc55c861fb69..5bc4c79d230c 100644
-> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> @@ -18,6 +18,8 @@ binning functionality. The sensor drivers belong to two=
- distinct classes, freely
->  configurable and register list-based drivers, depending on how the drive=
-r
->  configures this functionality.
->
-> +Also see :ref:`media_subdev_config_model_common_raw_sensor`.
-> +
->  Freely configurable camera sensor drivers
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->
-> @@ -105,6 +107,8 @@ values programmed by the register sequences. The defa=
-ult values of these
->  controls shall be 0 (disabled). Especially these controls shall not be i=
-nverted,
->  independently of the sensor's mounting rotation.
->
-> +.. _media_using_camera_sensor_drivers_embedded_data:
-> +
->  Embedded data
->  -------------
-<snip>
-> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Docum=
-entation/userspace-api/media/v4l/dev-subdev.rst
-> index dcfcbd52490d..4d145bd3bd09 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -838,3 +838,5 @@ stream while it may be possible to enable and disable=
- the embedded data stream.
->
->  The embedded data format does not need to be configured on the sensor's =
-pads as
->  the format is dictated by the pixel data format in this case.
-> +
-> +.. include:: subdev-config-model.rst
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rs=
-t b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> new file mode 100644
-> index 000000000000..b0bd09772ceb
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> @@ -0,0 +1,209 @@
-> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-> +
-> +.. _media_subdev_config_model:
-> +
-> +Sub-device configuration models
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> +
-> +A sub-device configuration model specifies in detail what the user space=
- can
-> +expect from a sub-device in terms of V4L2 sub-device interface support,
-> +semantics included.
-> +
-> +A sub-device may implement more than one configuration model at the same
-> +time. The implemented configuration models can be obtained from the sub-=
-device's
-> +``V4L2_CID_CONFIG_MODEL`` control.
-> +
-> +.. _media_subdev_config_model_common_raw_sensor:
-> +
-> +Common raw camera sensor model
-> +------------------------------
-> +
-> +The common raw camera sensor model defines a set of enumeration and
-> +configuration interfaces (formats, selections etc.) that cover the vast =
-majority
-> +of functionality of raw camera sensors. Not all of the interfaces are
-> +necessarily offered by all drivers.
-> +
-> +A sub-device complies with the common raw sensor model if the
-> +``V4L2_CONFIG_MODEL_COMMON_RAW`` bit is set in the ``V4L2_CID_CONFIG_MOD=
-EL``
-> +control of the sub-device.
-> +
-> +The common raw camera sensor model is aligned with
-> +:ref:`media_using_camera_sensor_drivers`. Please refer to that regarding=
- aspects
-> +not specified here.
-> +
-> +Each camera sensor implementing the common raw sensor model exposes a si=
-ngle
-> +V4L2 sub-device. The sub-device contains a single source pad (0) and two=
- or more
-> +internal pads: an image data internal pad (1) and optionally an embedded=
- data
-> +pad (2). Additionally, further internal pads may be supported for other
-> +features, in which case they are documented separately for the given dev=
-ice.
-> +
-> +This is shown in :ref:`media_subdev_config_model_common_raw_sensor_subde=
-v`.
-> +
-> +.. _media_subdev_config_model_common_raw_sensor_subdev:
-> +
-> +.. kernel-figure:: common-raw-sensor.svg
-> +    :alt:    common-raw-sensor.svg
-> +    :align:  center
-> +
-> +    **Common raw sensor sub-device**
-> +
-> +Routes
-> +^^^^^^
-> +
-> +A sub-device conforming to common raw camera sensor model implements the
-> +following routes.
-> +
-> +.. flat-table:: Routes
-> +    :header-rows: 1
-> +
-> +    * - Sink pad/stream
-> +      - Source pad/stream
-> +      - Static (X/M(aybe)/-)
-> +      - Mandatory (X/-)
-> +      - Synopsis
-> +    * - 1/0
-> +      - 0/0
-> +      - X
-> +      - X
-> +      - Image data
-> +    * - 2/0
-> +      - 0/1
-> +      - M
-> +      - \-
-> +      - Embedded data
-> +
-> +Support for the embedded data stream is optional. Drivers supporting the
-> +embedded data stream may allow disabling and enabling the route when the
-> +streaming is disabled.
-> +
-> +Sensor pixel array size, cropping and binning
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The sensor's pixel array is divided into one or more areas. The areas ar=
-ound the
-> +edge of the pixel array, usually one or more sides, may contain optical =
-black
-> +pixels, dummy pixels and other non-image pixels. The entire pixel array =
-size is
-> +conveyed by the format on (pad, stream) pair 1/0.
-> +
-> +A rectangle within the pixel array contains the visible pixels. Capturin=
-g the
-> +non-visible pixels outside the visible pixel area may be supported by th=
-e
-> +sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DE=
-FAULT``
-> +selection target on (pad, stream) pair 1/0.
-> +
-> +Sensors can perform multiple operations that affect the output image siz=
-e. First
-> +of these is the analogue crop. Analogue crop limits the area of the pixe=
-l array
-> +which the sensor will read, affecting sensor timing as well. The granula=
-rity of
-> +the analogue crop configuration varies greatly across sensors: some sens=
-ors
-> +support only a few different analogue crop configurations whereas others=
- may
-> +support anything divisible by a given number of pixels. The analogue cro=
-p
-> +configuration corresponds the ``V4L2_SEL_TGT_CROP`` selection target on =
-(pad,
-s/ corresponds the/ corresponds to the
+> That's something that really should never be the case and would need to
+> be motivated properly.
 
-> +stream) pair 1/0. The default analogue crop rectangle corresponds to the=
- visible
-> +pixel area.
-> +
-> +In the next step, binning is performed on the image data read from camer=
-a
-> +sensor's pixel array, as determined by the analogue crop configuration. =
-Enabling
-> +binning will effectively result in an image smaller than the original by=
- given
-> +binning factors horizontally and vertically. Typical values are 1/2 and =
-1/3 but
-> +others may well be supported by the hardware as well.
-> +
-> +Sub-sampling follows binning. Sub-sampling, like binning, reduces the si=
-ze of
-> +the image by including only a subset of samples read from the sensor's p=
-ixel
-> +matrix, typically every n'th pixel horizontally and vertically, taking t=
-he
-> +sensor's colour pattern into account. Sub-sampling is generally configur=
-able
-> +separately horizontally and vertically.
-> +
-> +Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE=
-``
-> +rectangle, relative to the analogue crop rectangle, on (pad, stream) pai=
-r
-> +1/0. The driver implementation determines how to configure binning and
-> +sub-sampling to achieve the desired size.
-> +
-> +The digital crop operation takes place after binning and sub-sampling. I=
-t is
-> +configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, strea=
-m) pair
-> +0/0. The resulting image size is further output by the sensor.
-> +
-> +The sensor's output mbus code is configured by setting the format on the=
- (pad,
-> +stream) pair 0/0. When setting the format, always use the same width and=
- height
-> +as for the digital crop setting.
-> +
-> +Drivers may only support some of even none of these configurations, in w=
-hich
-s/some of/some or
+I think it has been written several time (not sure about this commit):
+to provide a way for a migration path _while_ people are working on Iris
+features. Being able to A/B test Venus and Iris drivers and to report
+possible regressions or lack of those on the common platforms supported
+by those (sm8250 at this moment).
 
-> +case they do not expose the corresponding selection rectangles. If any s=
-election
-> +targets are omitted, the further selection rectangle or format is instea=
-d
-> +related to the previous implemented selection rectangle. For instance, i=
-f the
-> +sensor supports binning but not analogue crop, then the binning configur=
-ation
-> +(``V4L2_SEL_TGT_COMPOSE`` selection target) is done in relation to the v=
-isible
-> +pixel area (``V4L2_SEL_TGT_CROP_DEFAULT`` selection target).
-> +
-> +Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
-> +
-> +.. flat-table:: Selection targets on pads
-> +    :header-rows: 1
-> +
-> +    * - Pad/Stream
-> +      - Selection target/format
-> +      - Mandatory (X/-)
-> +      - Modifiable (X/-)
-> +      - Synopsis
-> +    * - 1/0
-> +      - Format
-> +      - X
-> +      - \-
-> +      - Image data format. The width and the height fields indicates the=
- full
-> +        size of the pixel array, including non-visible pixels. The media=
- bus
-> +        code of this format reflects the native pixel depth of the senso=
-r.
-> +    * - 1/0
-> +      - ``V4L2_SEL_TGT_CROP_DEFAULT``
-> +      - X
-> +      - \
-> +      - The visible pixel area. This rectangle is relative to the format=
- on the
-> +        same (pad, stream).
-> +    * - 1/0
-> +      - ``V4L2_SEL_TGT_CROP``
-> +      - \-
-> +      - X
-> +      - Analogue crop. Analogue crop typically has a coarse granularity.=
- This
-> +        rectangle is relative to the format on the same (pad, stream).
-> +    * - 1/0
-> +      - ``V4L2_SEL_TGT_COMPOSE``
-> +      - \-
-> +      - X
-> +      - Binning and sub-sampling. This rectangle is relative to the
-> +        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). The
-> +        combination of binning and sub-sampling is configured using this
-> +        selection target.
-> +    * - 2/0
-> +      - Format
-> +      - X
-> +      - \-
-> +      - Embedded data format.
-> +    * - 0/0
-> +      - ``V4L2_SEL_TGT_CROP``
-> +      - \-
-> +      - X
-> +      - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_C=
-OMPOSE``
-> +        rectangle on (pad, stream) pair 1/0.
-> +    * - 0/0
-> +      - Format
-> +      - X
-> +      - X
-> +      - Image data source format. Always assign the width and height fie=
-lds of
-> +        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
-> +        rectangle on (pad, stream) pair 0/0. The media bus code reflects=
- the
-> +        pixel data output of the sensor.
-> +    * - 0/1
-> +      - Format
-> +      - X
-> +      - \-
-> +      - Embedded data source format.
-> +
-> +Embedded data
-> +^^^^^^^^^^^^^
-> +
-> +The embedded data stream is produced by the sensor when the correspondin=
-g route
-> +is enabled. The embedded data route may also be immutable or not exist a=
-t all,
-> +in case the sensor (or the driver) does not support it.
-> +
-> +Generally the sensor embedded data width is determined by the width of t=
-he image
-> +data whereas the number of lines are constant for the embedded data. The=
- user
-> +space may obtain the size of the embedded data once the image data size =
-on the
-> +source pad has been configured.
-> +
-> +Also see :ref:`media_using_camera_sensor_drivers_embedded_data`.
-> --
-> 2.39.5
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Second, if the reasons for keeping both drivers are deemed justifiable,
+> you need to come up with mechanism for only binding one of them.
+> 
+> I already told you that module parameters is not the way to go here (and
+> the msm drm driver's abuse of module parameters is not a good precedent
+> here).
+> 
+> If this is a transitional thing (which it must be), then just add a
+> Kconfig symbol to determine which driver should probe. That's good
+> enough for evaluating whatever needs to be evaluated, and doesn't
+> depend on adding anti-patterns like module parameters (and helper
+> modules for them).
 
-Cheers,
-Prabhakar
+No, Kconfig complicates A/B testing. What you usually want to do is to
+boot a kernel, then go over a bunch of files testing that they work with
+both drivers. Kconfig implies booting abother kernel, etc.
+
+> 
+> Keep it simple.
+> 
+> Johan
+
+-- 
+With best wishes
+Dmitry
 
