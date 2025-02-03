@@ -1,203 +1,160 @@
-Return-Path: <linux-media+bounces-25529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F0BA25448
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:21:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8F3A2544F
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:23:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59BCC1885927
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 08:21:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6ED2916195C
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 08:22:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D2EE1FBEA3;
-	Mon,  3 Feb 2025 08:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A8691FBCBD;
+	Mon,  3 Feb 2025 08:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nW7/c8LH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QTelIAoZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00FD78F5D;
-	Mon,  3 Feb 2025 08:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B5C26AE4;
+	Mon,  3 Feb 2025 08:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738570848; cv=none; b=JeS/V8qNjBG1sLL9P7LgtJ0d6UPouNy0Vlmq40jnJuPGhAcxShzeMsX1FIXlse6wI6XmuECzTXC75jg/I9cEJoSWQTMqHk+0aof5+GRniPDXp3mm8lJfMqNiZZ1YflldAXFiDZCd/qdiXhTkc+8TFGR+G4TLFQjE1aMlbBYubvc=
+	t=1738570968; cv=none; b=NnrNKxdsAlqfhSaxhQB82qHwy9DhM/QnKvr8KDagx5vZxj4cEmo0aMxBK04u6TxFZPHnIJRmrCOOSgwIytudLiFMVPEV2lvGbP/gkIcalaAbMSuPWmXYZtke8+XCWJif1VWefZLpXdxnxOv51c6PD5P85Dnwd78hOXi5UpFDMOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738570848; c=relaxed/simple;
-	bh=kZTnVYWcxne2ZyXeYLX31cj4QTOxhh+PBQgVbn5v+i4=;
+	s=arc-20240116; t=1738570968; c=relaxed/simple;
+	bh=4D7ohBd8vmVNBGTLY4YrjYleLW9zHfaWxTOXamEVLwY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QfJDO5+KnKA50kO9yuXrBBSemdRicRAwrKONNs89dKpWleBJfAQcduh1x+LlvJ31FcbIAh91a093w4mC2fPvmosCUJpj8G9/jbtzAyveRWp7r6SXDWs0XAMM3SxF2SybOokFXRfjiL7qLQeDQBCq8CUISgA31Ryzf52M0QAA0mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nW7/c8LH; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738570847; x=1770106847;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=kZTnVYWcxne2ZyXeYLX31cj4QTOxhh+PBQgVbn5v+i4=;
-  b=nW7/c8LHhWEVbTNV6awIkqFpIYDNcZDvz3S6E0KDIX5nEXeDGwd2eTV2
-   cf6lSm7Ngu+9z8V3Us6OYS0QKPEnpSKuRM0kZrBNNKi6ldAWbIo0GGipG
-   r4UuhYpJXGQ2EmgMBDKxk4XVfG0h1cTV3Oqz71XzP2aO8LAfzpLboiQ0+
-   8jIsH1yNs+6suGiqad7JUcGmvi0Camac4nMwQMd4O1pl0r+gke/L5o7hk
-   OgcX0PA8uAMcK1mljUzKZjGDk4DFuKff7iDKRz2u0uromN/lm7WOeBRcp
-   WVFXtoRn18HdKgfJssg4Jmw414SJ/niWkwQybD4AuqQS6nBDyVxqkULlV
-   g==;
-X-CSE-ConnectionGUID: Hh5sLmLuRwiVNO/PVHkzvA==
-X-CSE-MsgGUID: 7oA9l3/7Qj6HtMRLQYmJdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="49710890"
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="49710890"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:20:46 -0800
-X-CSE-ConnectionGUID: gmonul/4Tie6ueTqLbO2nA==
-X-CSE-MsgGUID: of4KRHd8QqCB1WUSfUUF+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="115234059"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:20:44 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2163511F9C3;
-	Mon,  3 Feb 2025 10:20:41 +0200 (EET)
-Date: Mon, 3 Feb 2025 08:20:41 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Daniel Scally <djrscally@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	platform-driver-x86@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] platform/x86: int3472: Call "reset" GPIO "enable"
- for INT347E
-Message-ID: <Z6B8WWwNwxS42ARa@kekkonen.localdomain>
-References: <20250131120152.1109476-1-sakari.ailus@linux.intel.com>
- <20250131120152.1109476-3-sakari.ailus@linux.intel.com>
- <86489549-c34c-e6ba-e8f6-c96543d06541@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RQWbel7JxRfJh23g25M7ttYPFds1ePR5AI2gSykiqI7Qcigu+ywbz6DIhTE4rPPJfl3xKNppnwNB6534u7+A7jADAKVgG43+bn96puKOf6vU3PhZNd7x3WPxzJTZwEbqRBRETzut4LL85y37I5Dobyy+uwfUS3fTZ1ryqOhdotQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QTelIAoZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC841C4CED2;
+	Mon,  3 Feb 2025 08:22:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738570968;
+	bh=4D7ohBd8vmVNBGTLY4YrjYleLW9zHfaWxTOXamEVLwY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QTelIAoZeqoIWeB3c1gNsMUXJ6xWGMo4LmQp5j7AgoESIts8OpPCaGRYezr4evlGx
+	 sRwgqa9PHWgnsvDtEaMiTF/i9WWzC7lECrFOx+6kNvKbZI3Aoz3DX3WweG1lWwXDp5
+	 1cewTdIfkg1l08fCeiZ7nFkpRcbJoWkua3Ouufy+vpiZD8O5vuI9to1LH8UXlBcpLP
+	 jRFBeM2CC0DRxnnxBkwwNVIGKAakJO9TmOLNpisLrr8nKHddC2k1j7yiDasYhER6N7
+	 Tth2Jmvx+3ga2eL5/ZWlmsu15Yw34U2Jwe6QicvWpC+h8GDoPQ+L8q+Wf3I0wa6Mcp
+	 bCX0lCdkl/VYg==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1terjH-000000006IC-0zOo;
+	Mon, 03 Feb 2025 09:22:51 +0100
+Date: Mon, 3 Feb 2025 09:22:51 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	quic_vgarodia@quicinc.com, mchehab@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, p.zabel@pengutronix.de, hverkuil@xs4all.nl,
+	sebastian.fricke@collabora.com, bryan.odonoghue@linaro.org,
+	dmitry.baryshkov@linaro.org, neil.armstrong@linaro.org,
+	nicolas@ndufresne.ca, u.kleine-koenig@baylibre.com,
+	stefan.schmidt@linaro.org, lujianhua000@gmail.com,
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	krzysztof.kozlowski@linaro.org
+Subject: Re: [RFC PATCH v10 1/2] media: iris: introduce helper module to
+ select video driver
+Message-ID: <Z6B822-6UTxQfX46@hovoldconsulting.com>
+References: <20250128080429.3911091-1-quic_dikshita@quicinc.com>
+ <20250128080429.3911091-2-quic_dikshita@quicinc.com>
+ <5070e1f1-914b-4654-88ef-3566e3eee9ca@kernel.org>
+ <f1344e49-61b6-4115-ae88-55b4a3cfed28@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <86489549-c34c-e6ba-e8f6-c96543d06541@linux.intel.com>
+In-Reply-To: <f1344e49-61b6-4115-ae88-55b4a3cfed28@quicinc.com>
 
-Hi Ilpo,
+On Fri, Jan 31, 2025 at 10:44:28AM -0800, Abhinav Kumar wrote:
+> On 1/29/2025 2:44 AM, Krzysztof Kozlowski wrote:
+> > On 28/01/2025 09:04, Dikshita Agarwal wrote:
 
-On Mon, Feb 03, 2025 at 10:03:14AM +0200, Ilpo Järvinen wrote:
-> On Fri, 31 Jan 2025, Sakari Ailus wrote:
-> 
-> > The DT bindings for ov7251 specify "enable" GPIO (xshutdown in
-> > documentation) but the int3472 indiscriminately provides this as a "reset"
-> > GPIO to sensor drivers. Take this into account by assigning it as "enable"
-> > with active high polarity for INT347E devices, i.e. ov7251. "reset" with
-> > active low polarity remains the default GPIO name for other devices.
+> >> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> >> index 954cc7c0cc97..276461ade811 100644
+> >> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> >> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> >> @@ -196,6 +196,9 @@ static int iris_probe(struct platform_device *pdev)
+> >>   	u64 dma_mask;
+> >>   	int ret;
+> >>   
+> >> +	if (!video_drv_should_bind(&pdev->dev, true))
+> >> +		return -ENODEV;
 > > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > ---
-> >  drivers/platform/x86/intel/int3472/discrete.c | 47 +++++++++++++++++--
-> >  1 file changed, 43 insertions(+), 4 deletions(-)
+> > Wouldn't it mark the probe as failed and cause dmesg regressions?
+
+No, this is perfectly fine. Probe can return -ENODEV and driver core
+will continue with any further matches.
+
+> >> +#if !IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS) || !IS_REACHABLE(CONFIG_VIDEO_QCOM_IRIS)
+> >> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
+> >> +{
+> >> +	/* If just a single driver is enabled, use it no matter what */
+> >> +	return true;
+> >> +}
+> >> +
+> >> +#else
+> >> +static bool prefer_venus = true;
+> >> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
+> >> +module_param(prefer_venus, bool, 0444);
 > > 
-> > diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> > index 3f7624714869..529ea2d08a21 100644
-> > --- a/drivers/platform/x86/intel/int3472/discrete.c
-> > +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> > @@ -2,6 +2,7 @@
-> >  /* Author: Dan Scally <djrscally@gmail.com> */
-> >  
-> >  #include <linux/acpi.h>
-> > +#include <linux/array_size.h>
-> >  #include <linux/bitfield.h>
-> >  #include <linux/device.h>
-> >  #include <linux/gpio/consumer.h>
-> > @@ -122,10 +123,48 @@ skl_int3472_gpiod_get_from_temp_lookup(struct int3472_discrete_device *int3472,
-> >  	return desc;
-> >  }
-> >  
-> > -static void int3472_get_func_and_polarity(u8 type, const char **func,
-> > -					  unsigned long *gpio_flags)
-> > +/**
-> > + * struct int3472_gpio_map - Map GPIOs to whatever is expected by the
-> > + * sensor driver (as in DT bindings)
-> > + * @hid: The ACPI HID of the device without the instance number e.g. INT347E
-> > + * @type_from: The GPIO type from ACPI ?SDT
-> > + * @type_to: The assigned GPIO type, typically same as @type_from
-> > + * @func: The function, e.g. "enable"
-> > + * @polarity_low: GPIO_ACTIVE_LOW true if the @polarity_low is true,
-> > + * GPIO_ACTIVE_HIGH otherwise
-> > + */
-> > +struct int3472_gpio_map {
-> > +	const char *hid;
-> > +	u8 type_from;
-> > +	u8 type_to;
-> > +	bool polarity_low;
-> > +	const char *func;
-> > +};
-> > +
-> > +static const struct int3472_gpio_map int3472_gpio_map[] = {
-> > +	{ "INT347E", INT3472_GPIO_TYPE_RESET, INT3472_GPIO_TYPE_RESET, false, "enable" },
-> > +};
-> > +
-> > +static void int3472_get_func_and_polarity(struct acpi_device *adev, u8 *type,
-> > +					  const char **func, unsigned long *gpio_flags)
-> >  {
-> > -	switch (type) {
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(int3472_gpio_map); i++) {
-> > +		if (*type != int3472_gpio_map[i].type_from)
-> > +			continue;
-> > +
-> > +		if (!acpi_dev_hid_uid_match(adev, int3472_gpio_map[i].hid, NULL))
-> > +			continue;
-> > +
-> > +		*type = int3472_gpio_map[i].type_to;
-> > +		*gpio_flags = int3472_gpio_map[i].polarity_low ?
-> > +			GPIO_ACTIVE_LOW : GPIO_ACTIVE_HIGH;
-> 
-> Don't start this continuation line left of = sign unless you really 
-> really have to do that, and it's not such a case here!
-
-Why? The documentation says the subsequent lines should be aligned
-"substantially" (I believe a tab stop qualifies), except in cases of
-arguments in parentheses just right of the opening parenthesis but that's
-not the case here.
-
-I can submit v6 with that if others agree.
-
-> 
-> Either put GPIO_ACTIVE_LOW on the first line and align the defines, or 
-> align the second line as it is with int3472_gpio_map[...].
-> 
-> > +		*func = int3472_gpio_map[i].func;
-> > +		return;
-> > +	}
-> > +
-> > +	switch (*type) {
-> >  	case INT3472_GPIO_TYPE_RESET:
-> >  		*func = "reset";
-> >  		*gpio_flags = GPIO_ACTIVE_LOW;
-> > @@ -218,7 +257,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
-> >  
-> >  	type = FIELD_GET(INT3472_GPIO_DSM_TYPE, obj->integer.value);
-> >  
-> > -	int3472_get_func_and_polarity(type, &func, &gpio_flags);
-> > +	int3472_get_func_and_polarity(int3472->sensor, &type, &func, &gpio_flags);
-> >  
-> >  	pin = FIELD_GET(INT3472_GPIO_DSM_PIN, obj->integer.value);
-> >  	if (pin != agpio->pin_table[0])
 > > 
+> > The choice of driver is by module blacklisting, not by failing probes.
+> > 
+> > I don't understand why this patchset is needed and neither commit msg
+> > nor above longer code comment explain me that. Just blacklist the module.
 
--- 
-Regards,
+> Summarizing the discussion with myself, Krzysztof and Dmitry:
+> 
+> 1) module blacklisting solution will not be ideal if users want to have 
+> both venus and iris or either of them built-in
 
-Sakari Ailus
+Module blacklisting is not the way to go, you shouldn't have two drivers
+racing to bind to the same device ever.
+
+> 2) with current approach, one of the probes (either venus or iris) will 
+> certainly fail as video_drv_should_bind() will fail for one of them. 
+> This can be considered as a regression and should not happen.
+
+How can that be a regression? One driver must fail to probe (see above).
+ 
+> Solution: If the user prefers iris driver and iris driver has not probed 
+> yet, and if venus tries to probe ahead of iris we keep -EDEFERing till 
+> iris probes and succeeds. Vice-versa when the preference is venus as well.
+
+This sounds wrong too.
+
+Look, first you guys need to explain *why* you want to have two drivers
+for the same hardware (not just to me, in the commit message and cover
+letter).
+
+That's something that really should never be the case and would need to
+be motivated properly.
+
+Second, if the reasons for keeping both drivers are deemed justifiable,
+you need to come up with mechanism for only binding one of them.
+
+I already told you that module parameters is not the way to go here (and
+the msm drm driver's abuse of module parameters is not a good precedent
+here).
+
+If this is a transitional thing (which it must be), then just add a
+Kconfig symbol to determine which driver should probe. That's good
+enough for evaluating whatever needs to be evaluated, and doesn't
+depend on adding anti-patterns like module parameters (and helper
+modules for them).
+
+Keep it simple.
+
+Johan
 
