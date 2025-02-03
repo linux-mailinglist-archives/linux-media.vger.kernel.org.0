@@ -1,225 +1,159 @@
-Return-Path: <linux-media+bounces-25531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A89A25461
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:26:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D97A25497
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:39:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC7CA160AEE
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 08:26:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A7FB160421
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 08:39:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA9D31FBC8B;
-	Mon,  3 Feb 2025 08:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9281B1FC0FA;
+	Mon,  3 Feb 2025 08:38:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hov9qOej"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XJD1AePS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5549126AE4;
-	Mon,  3 Feb 2025 08:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D659D1D7E50;
+	Mon,  3 Feb 2025 08:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738571198; cv=none; b=OhItXZEpFiKQFm7+4YjcRLsahRg+vSJw75vSmNl7kHo3bnpDER0DGXlMNuPycvxvWItOKma/St4a926aOYMbtWvLAwjARLG24Gi4IcBeC6C8o+tVEnmavcmZYurAQGApliygNuwhhb5/1NC7r91RBroIlWLB1uj2FO6/zdRQG6w=
+	t=1738571938; cv=none; b=oetnAs9NABpTjk5SPHi27TeHjWdnsDphqcM6jpzT63dESggPpC8XkcvgVtamMOPj2jZA5b3zuZVerDsYAVhlafVpJpz4UdRg1DHv5qvcCVouCx0Ri3cPibfn+VvA5ATfzOFDNbkvimOuok7M3qi2zBC96Sl7wSGx9567dEA6AH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738571198; c=relaxed/simple;
-	bh=49izfw/s8J7t1BTsmtbLRAyA+9LUt/RteUeaMPBoxmw=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=F8/18zQJlZ2Xn0wtaBRY7es/JXi/JK6cfrwQMnqZgJKR9QGl0z6qy0wMHI63lv0K+yASyW1F+gHIwqhUzhSCaUjkxu5b8xItyKEUwSJUTvVZpQ3CHhTuOWtz9LMTx7T9inuXVQH1pdC9D6Mle3EuxTjjX/M+/9CvowGoCQiFi3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hov9qOej; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738571196; x=1770107196;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=49izfw/s8J7t1BTsmtbLRAyA+9LUt/RteUeaMPBoxmw=;
-  b=hov9qOej/tHJrC8rvNY75V5LrjqabqU8SHW3CbOgD+OjQiylw6+zPoza
-   kzG5lXrGDxpAlg/aMipEnPKXFjhpTlG8GQcFZcPcnwpA1InpEIZmz0Ab3
-   YTxdltamsoknEK+rTaAka1ryF2+Lvvyyw84CDDWJWtRDt7/dmynICCe0Y
-   J5JPdfKQTN0h4EvNDWdR73v301491Cf9DMxhL9L8dWNIdlxbsvF9nPeaD
-   dMo5uHzmYhg5qw1vGDd9h9dBUgkUXIDLDj0WuEJ/pIXDxO22dpDI8Tp5m
-   dotCGJgcfeiQqBwta/I4Kea7hMsz0+QVrYHp9AuohqCmzugozNP/zIOmu
-   g==;
-X-CSE-ConnectionGUID: B1SM/U85TPCknTbH0hhKpQ==
-X-CSE-MsgGUID: A2qKwzivRm2wS6dWUiYBBg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="42976939"
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="42976939"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:26:35 -0800
-X-CSE-ConnectionGUID: THNK2Jr+SeexkLURHj0gzA==
-X-CSE-MsgGUID: Ub/M5QWpTuSyiSa7lkzJ4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="109983634"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.194])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:26:33 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 3 Feb 2025 10:26:29 +0200 (EET)
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-cc: Daniel Scally <djrscally@gmail.com>, Hans de Goede <hdegoede@redhat.com>, 
-    platform-driver-x86@vger.kernel.org, 
-    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-    laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl, 
-    linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] platform/x86: int3472: Call "reset" GPIO "enable"
- for INT347E
-In-Reply-To: <Z6B8WWwNwxS42ARa@kekkonen.localdomain>
-Message-ID: <acc436c0-2aad-2ce3-d1ba-f6fd40cf1fc0@linux.intel.com>
-References: <20250131120152.1109476-1-sakari.ailus@linux.intel.com> <20250131120152.1109476-3-sakari.ailus@linux.intel.com> <86489549-c34c-e6ba-e8f6-c96543d06541@linux.intel.com> <Z6B8WWwNwxS42ARa@kekkonen.localdomain>
+	s=arc-20240116; t=1738571938; c=relaxed/simple;
+	bh=tn2D/VXU3gO/10cPKSVc8ExofoOyoDNBmyGrz4AHorQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LgC9ALmLcfFouFN4Tbmhymdcw9ZhrW5GHzj90wyZuz2OZuQdsfsj4xdelz/ephU9auzFsCkJhiorVhBJNkWwCCINqVHhY3fQ/qissI9DywuPM19j9qKM0KXdt3v4KQsRGxYsHMgcwB8qlxcfo+AGzkslewWZMsKmUi62zSnO7aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XJD1AePS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D083C4CED2;
+	Mon,  3 Feb 2025 08:38:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738571937;
+	bh=tn2D/VXU3gO/10cPKSVc8ExofoOyoDNBmyGrz4AHorQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XJD1AePSGYwbioAb3WD4/DaRdqVJx86k9Bzfr76DIsjvOVKDl3UpC5Z8mWTjmylg1
+	 Bc8CUIz4LWEhU57kSly8ZnU3sD93k7vhpuLy6uhC+5wCl6r2/J1qDdCoBdXqlJ1+IM
+	 VvqBRJGwX3lj5UtIu1SbfbWbd+X7nMly6v/Y6k97/QtNO7ldRbmZIEzi+WCWAWGt4K
+	 UJAame1Rzn1JAA+OwZ60w93WeKw23eJPHitaf/F476ENkNSxKWQeR/Qdy9xG6KlEm/
+	 NKYiKx6QzF4osT3Q3fr1gBw0FK5yvI0EO5bQvsZVyDw45BTFsgSFOTQ089FiJxE5QG
+	 RQFXHiWUgAdzA==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1teryu-000000006Yr-03dx;
+	Mon, 03 Feb 2025 09:39:00 +0100
+Date: Mon, 3 Feb 2025 09:39:00 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Jianhua Lu <lujianhua000@gmail.com>,
+	Stefan Schmidt <stefan.schmidt@linaro.org>,
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of
+ SM8250 SoC
+Message-ID: <Z6CApNuSlPGvVL2k@hovoldconsulting.com>
+References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
+ <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
+ <Z3_nCPk_g8znto4A@hovoldconsulting.com>
+ <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com>
+ <Z4EuiPEw8mvDQ2gv@hovoldconsulting.com>
+ <24334fb8-4d83-eb06-aee3-dfe1f8e4937b@quicinc.com>
+ <552972B8-1ACA-4243-A8E3-8F48DAF39C5C@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1556452726-1738571189=:934"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <552972B8-1ACA-4243-A8E3-8F48DAF39C5C@linaro.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, Jan 10, 2025 at 08:01:21PM +0200, Dmitry Baryshkov wrote:
+> On 10 January 2025 19:30:30 EET, Dikshita Agarwal <quic_dikshita@quicinc.com> wrote:
+> >
+> >
+> >On 1/10/2025 7:58 PM, Johan Hovold wrote:
+> >> On Thu, Jan 09, 2025 at 11:18:29PM +0530, Vikash Garodia wrote:
+> >>> On 1/9/2025 8:41 PM, Johan Hovold wrote:
+> >>>> On Thu, Dec 12, 2024 at 05:21:49PM +0530, Dikshita Agarwal wrote:
+> >>>>> Initialize the platform data and enable video driver probe of SM8250
+> >>>>> SoC. Add a kernel param to select between venus and iris drivers for
+> >>>>> platforms supported by both drivers, for ex: SM8250.
+> >>>>
+> >>>> Why do you want to use a module parameter for this? What would be the
+> >>>> default configuration? (Module parameters should generally be avoided.)
+> >> 
+> >>> This was discussed during v4 [1] and implemented as per suggestion
+> >>>
+> >>> [1]
+> >>> https://lore.kernel.org/linux-media/eea14133-2152-37bb-e2ff-fcc7ed4c47f5@quicinc.com/
+> >> 
+> >> First, the background and motivation for this still needs to go in the
+> >> commit message (and be mentioned in the cover letter).
+> >> 
+> >> Second, what you implemented here is not even equivalent to what was
+> >> done in the mdm drm driver since that module parameter is honoured by
+> >> both drivers so that at most one driver tries to bind to the platform
+> >> device.
+> >> 
+> >> With this patch as it stands, which driver ends up binding depends on
+> >> things like link order and what driver has been built a module, etc. (as
+> >> I pointed out below).
+> >> 
+> >>>> Why not simply switch to the new driver (and make sure that the new
+> >>>> driver is selected if the old one was enabled in the kernel config)?
+> >> 
+> >>> Its about the platform in migration i.e sm8250. Since new driver is not yet
+> >>> feature parity with old driver, choice is provided to client if it wants to use
+> >>> the new driver (default being old driver for sm8250)
+> >> 
+> >> This should be described in the commit message, along with details on
+> >> what the delta is so that the reasoning can be evaluated.
+> >> 
+> >> And I'm still not sure using a module parameter for this is the right
+> >> thing to do as it is generally something that should be avoided.
+> >> 
+> >I understand your concern of using module params.
+> >I will modify it to rely on Kconfig to select the driver (suggested by
+> >Hans) instead of module param.
+> 
+> Please don't. This makes it impossible to perform side-by-side
+> comparison.
 
---8323328-1556452726-1738571189=:934
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Why? You can have two kernel builds and run the same tests. And you
+obviously cannot run iris and venus on the same hardware at once anyway.
 
-On Mon, 3 Feb 2025, Sakari Ailus wrote:
+> Also as venus and iris drivers are not completely
+> equivalent wrt supported platforms, distributions will have to select
+> whether to disable support for older platforms or for new platforms:
+> Kconfig dependency will make it impossible to enable support for both
+> kinds.
 
-> Hi Ilpo,
->=20
-> On Mon, Feb 03, 2025 at 10:03:14AM +0200, Ilpo J=E4rvinen wrote:
-> > On Fri, 31 Jan 2025, Sakari Ailus wrote:
-> >=20
-> > > The DT bindings for ov7251 specify "enable" GPIO (xshutdown in
-> > > documentation) but the int3472 indiscriminately provides this as a "r=
-eset"
-> > > GPIO to sensor drivers. Take this into account by assigning it as "en=
-able"
-> > > with active high polarity for INT347E devices, i.e. ov7251. "reset" w=
-ith
-> > > active low polarity remains the default GPIO name for other devices.
-> > >=20
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> > > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > ---
-> > >  drivers/platform/x86/intel/int3472/discrete.c | 47 +++++++++++++++++=
---
-> > >  1 file changed, 43 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/=
-platform/x86/intel/int3472/discrete.c
-> > > index 3f7624714869..529ea2d08a21 100644
-> > > --- a/drivers/platform/x86/intel/int3472/discrete.c
-> > > +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> > > @@ -2,6 +2,7 @@
-> > >  /* Author: Dan Scally <djrscally@gmail.com> */
-> > > =20
-> > >  #include <linux/acpi.h>
-> > > +#include <linux/array_size.h>
-> > >  #include <linux/bitfield.h>
-> > >  #include <linux/device.h>
-> > >  #include <linux/gpio/consumer.h>
-> > > @@ -122,10 +123,48 @@ skl_int3472_gpiod_get_from_temp_lookup(struct i=
-nt3472_discrete_device *int3472,
-> > >  =09return desc;
-> > >  }
-> > > =20
-> > > -static void int3472_get_func_and_polarity(u8 type, const char **func=
-,
-> > > -=09=09=09=09=09  unsigned long *gpio_flags)
-> > > +/**
-> > > + * struct int3472_gpio_map - Map GPIOs to whatever is expected by th=
-e
-> > > + * sensor driver (as in DT bindings)
-> > > + * @hid: The ACPI HID of the device without the instance number e.g.=
- INT347E
-> > > + * @type_from: The GPIO type from ACPI ?SDT
-> > > + * @type_to: The assigned GPIO type, typically same as @type_from
-> > > + * @func: The function, e.g. "enable"
-> > > + * @polarity_low: GPIO_ACTIVE_LOW true if the @polarity_low is true,
-> > > + * GPIO_ACTIVE_HIGH otherwise
-> > > + */
-> > > +struct int3472_gpio_map {
-> > > +=09const char *hid;
-> > > +=09u8 type_from;
-> > > +=09u8 type_to;
-> > > +=09bool polarity_low;
-> > > +=09const char *func;
-> > > +};
-> > > +
-> > > +static const struct int3472_gpio_map int3472_gpio_map[] =3D {
-> > > +=09{ "INT347E", INT3472_GPIO_TYPE_RESET, INT3472_GPIO_TYPE_RESET, fa=
-lse, "enable" },
-> > > +};
-> > > +
-> > > +static void int3472_get_func_and_polarity(struct acpi_device *adev, =
-u8 *type,
-> > > +=09=09=09=09=09  const char **func, unsigned long *gpio_flags)
-> > >  {
-> > > -=09switch (type) {
-> > > +=09unsigned int i;
-> > > +
-> > > +=09for (i =3D 0; i < ARRAY_SIZE(int3472_gpio_map); i++) {
-> > > +=09=09if (*type !=3D int3472_gpio_map[i].type_from)
-> > > +=09=09=09continue;
-> > > +
-> > > +=09=09if (!acpi_dev_hid_uid_match(adev, int3472_gpio_map[i].hid, NUL=
-L))
-> > > +=09=09=09continue;
-> > > +
-> > > +=09=09*type =3D int3472_gpio_map[i].type_to;
-> > > +=09=09*gpio_flags =3D int3472_gpio_map[i].polarity_low ?
-> > > +=09=09=09GPIO_ACTIVE_LOW : GPIO_ACTIVE_HIGH;
-> >=20
-> > Don't start this continuation line left of =3D sign unless you really=
-=20
-> > really have to do that, and it's not such a case here!
->=20
-> Why? The documentation says the subsequent lines should be aligned
-> "substantially" (I believe a tab stop qualifies), except in cases of
-> arguments in parentheses just right of the opening parenthesis but that's
-> not the case here.
+You shouldn't have both enabled. The only reason for keeping support
+for the same hardware in both drivers is that the iris support is
+incomplete and considered experimental. No one should enable that except
+for development and evaluation purposes until the driver is up to par.
+And then you drop support from the old driver along with the config
+option.
 
-Because I say so, it's not substancial to me when it's left of =3D. This is=
-=20
-not negotiable.
-
---=20
- i.
-
-
-> I can submit v6 with that if others agree.
->=20
-> >=20
-> > Either put GPIO_ACTIVE_LOW on the first line and align the defines, or=
-=20
-> > align the second line as it is with int3472_gpio_map[...].
-> >=20
-> > > +=09=09*func =3D int3472_gpio_map[i].func;
-> > > +=09=09return;
-> > > +=09}
-> > > +
-> > > +=09switch (*type) {
-> > >  =09case INT3472_GPIO_TYPE_RESET:
-> > >  =09=09*func =3D "reset";
-> > >  =09=09*gpio_flags =3D GPIO_ACTIVE_LOW;
-> > > @@ -218,7 +257,7 @@ static int skl_int3472_handle_gpio_resources(stru=
-ct acpi_resource *ares,
-> > > =20
-> > >  =09type =3D FIELD_GET(INT3472_GPIO_DSM_TYPE, obj->integer.value);
-> > > =20
-> > > -=09int3472_get_func_and_polarity(type, &func, &gpio_flags);
-> > > +=09int3472_get_func_and_polarity(int3472->sensor, &type, &func, &gpi=
-o_flags);
-> > > =20
-> > >  =09pin =3D FIELD_GET(INT3472_GPIO_DSM_PIN, obj->integer.value);
-> > >  =09if (pin !=3D agpio->pin_table[0])
-> > >=20
->=20
->=20
---8323328-1556452726-1738571189=:934--
+Johan
 
