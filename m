@@ -1,206 +1,176 @@
-Return-Path: <linux-media+bounces-25556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEED9A255CC
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 10:28:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59107A255D4
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 10:28:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8FD3D165B57
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:27:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 406313A8DEE
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:28:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D4971FF1D8;
-	Mon,  3 Feb 2025 09:27:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A6351FF1D1;
+	Mon,  3 Feb 2025 09:28:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="af1xjMeQ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WEkCUQUj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493BC2BB04;
-	Mon,  3 Feb 2025 09:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AE51FF61C;
+	Mon,  3 Feb 2025 09:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738574872; cv=none; b=d6nVshk3/zHK/xl7P3FAPpVipJwnzeU+AXJ6RIOLDdCC4XtTTZL6BPLoPvQeidDBJKJXDuRe2hzPiuyOu11MzqjF+HhqsjY9si3wFSkuLD7OIddPWPuiwyl+wO8x81NGU62Vrv/P+WpPlVgEWbr14upeUjo/BIMI0JlLZg4xKHQ=
+	t=1738574902; cv=none; b=rVkKY+jGkrFIJODioN30cd7TASv2rO+zA76/K1DlwJvM2f7qIbnFgNKz2ZtTvv+UYWT0saQuDtL2MAhQLFSABDV9rVg21cyROZ1qQgLm2eKoEtxBtJgwCccm6sk9HQdpRwYnpa7HLfZIah7VgJZCtzhbtJ21euLn2U2XFWgPsn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738574872; c=relaxed/simple;
-	bh=UoLyRftOTV/0DOSKoGx6OYjooGJd/mdHPKHSqp6jPQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QNy7oZ6UHdJj6b3DvToKCnqGTypXbvk41S+LOzw7zCn14Fb6GQlfU4JCkqd8b+znDerh5gmFb5/UUUsGyz2EhQL9yp9CmcNVlplPowmRg4fdkfk7ESfvvYQNjwRCRDmheRmnW7C0bn8+UAWtYqapyL8mX4bWVf+0FthGonCHjwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=af1xjMeQ; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738574871; x=1770110871;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UoLyRftOTV/0DOSKoGx6OYjooGJd/mdHPKHSqp6jPQo=;
-  b=af1xjMeQzJlHbejOt1/nUkgIJQvCUbPxV+Bnn4uIxcJ1rYe/UWj4YLPG
-   x8UWBGx5DqLbSrPEmjLY0JFwO8ECXZSFBDu41PfzVONs840gZNIQXoVpS
-   S2Nzkwnb7ana2H+LFA5mwW2PdkYB+ttr1OpGHPNn2t1tplm+dLsNfk/ed
-   C5+aXQJdOjGecOIlEUAYGFljPr9A9cgeN73ag4Ky28KRFH5n5dlHG7kfL
-   eAZoYtdq9MO8Cy/p9gBqzbFbusLi8W2N0hKw7KK1sda+8rUQMNPN5bstr
-   KIFIC1ryyum+CKtB+Zs1yP+yoBGOKFaKJCSz+9kBhPE6Jo31xDOw4ur4y
-   A==;
-X-CSE-ConnectionGUID: agwfT9eGRY2Y4k3gc9cPYQ==
-X-CSE-MsgGUID: 0BPkYmnhRWy4pDpbs+/kpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="39088842"
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="39088842"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:27:51 -0800
-X-CSE-ConnectionGUID: 9G1wxD0LSNWB+2r+5i/mvQ==
-X-CSE-MsgGUID: PiNCnsMWRn2bh20LUbdAsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111091570"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 01:27:49 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6BF7B11F9C3;
-	Mon,  3 Feb 2025 11:27:46 +0200 (EET)
-Date: Mon, 3 Feb 2025 09:27:46 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [PATCH 12/19] media: i2c: ds90ub960: Add RX port iteration
- support
-Message-ID: <Z6CMEkD5YLhJqQiI@kekkonen.localdomain>
-References: <20250110-ub9xx-improvements-v1-0-e0b9a1f644da@ideasonboard.com>
- <20250110-ub9xx-improvements-v1-12-e0b9a1f644da@ideasonboard.com>
- <Z4fE-qD7QvNiwOeH@kekkonen.localdomain>
- <92c7ee5b-3495-4398-99dd-881c704c64c1@ideasonboard.com>
+	s=arc-20240116; t=1738574902; c=relaxed/simple;
+	bh=TpujSEcge8EYKw1QhJY7JTWk7WVpg4aAMiegf3GmC8U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=drXGIb3PgPfcKxkpcLfxPQhWtj+A8IAo+UoAmNX5tnulsnzOjqSUgS1/viv8/R48jq9yb9m+peQtaj0ciqy/iwMwCPPjcK58k0PItT3OPSl31hXd1BW8W9VNwLPSiFswUObnVC3cgXK5DoOClMZbn3qdh0yQGcNZaClvRX3hFwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=WEkCUQUj; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5138CbJP031483;
+	Mon, 3 Feb 2025 09:28:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Mn+PnTGOb4HsErWV3eK1Lm1zv+wphpiGyn5+Yosvbtk=; b=WEkCUQUjhWxN8IHb
+	a+A/xeDlnoN7XaeENcl9p7YkxxXNV34V4fnANuRzk0H5YASamVCwzV4cPEd8f0AO
+	bxcArNLXPR8a47Hkd3ghueuoU9Zh5YXSLRmx+oCd/UPqbyRfRILBpHGWN31eecEw
+	mx8KoKTr4dZT+glYuK00kcb4blYszS3RbBKDig1XcOU+Gyw+aTDVa4t1FtB2LmZv
+	ydUxzOgg/n0Jd8dTh/BQ5bGKmjUaXfWVV9tU7cLLqnpO1G+dV1fOIj+HBaQ6/xdi
+	6USvArSdluIIsuUVxgM5rZycMleZ8yxKkePTT30o8dyvSOcZEAHW32yk8xIjpQN5
+	g4qTdg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44jt3ar537-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Feb 2025 09:28:09 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5139S98P001452
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 3 Feb 2025 09:28:09 GMT
+Received: from [10.216.21.39] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Feb 2025
+ 01:28:01 -0800
+Message-ID: <4dab19d0-22eb-2395-56fd-758c3c0d8bc7@quicinc.com>
+Date: Mon, 3 Feb 2025 14:57:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92c7ee5b-3495-4398-99dd-881c704c64c1@ideasonboard.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v9 00/28] Qualcomm iris video decoder driver
+Content-Language: en-US
+To: Johan Hovold <johan@kernel.org>,
+        Stefan Schmidt
+	<stefan.schmidt@linaro.org>
+CC: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Hans
+ Verkuil" <hverkuil@xs4all.nl>,
+        Sebastian Fricke
+	<sebastian.fricke@collabora.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Nicolas Dufresne
+	<nicolas@ndufresne.ca>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=
+	<u.kleine-koenig@baylibre.com>,
+        Jianhua Lu <lujianhua000@gmail.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzysztof.kozlowski@linaro.org>,
+        Vedang Nagar
+	<quic_vnagar@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>
+References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
+ <Z3_kLJ6Oy6m9D_wU@hovoldconsulting.com>
+ <CAEvtbuvHUF6tEiFOUUtqLh5hHf_Us+yA6TwtcmokM26v+QBLgg@mail.gmail.com>
+ <Z6CBrMus4SdSG9oF@hovoldconsulting.com>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <Z6CBrMus4SdSG9oF@hovoldconsulting.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: tvZEWs4jbm0pUGZUtl8u2I2gNHwiYjP4
+X-Proofpoint-ORIG-GUID: tvZEWs4jbm0pUGZUtl8u2I2gNHwiYjP4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-03_04,2025-01-31_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 bulkscore=0 malwarescore=0 clxscore=1015 adultscore=0
+ spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502030074
 
-Moi,
 
-On Fri, Jan 24, 2025 at 03:34:44PM +0200, Tomi Valkeinen wrote:
-> Hi,
+On 2/3/2025 2:13 PM, Johan Hovold wrote:
+> On Wed, Jan 22, 2025 at 04:34:51PM +0100, Stefan Schmidt wrote:
+>> On Thu, 9 Jan 2025 at 15:58, Johan Hovold <johan@kernel.org> wrote:
+>>> On Thu, Dec 12, 2024 at 05:21:22PM +0530, Dikshita Agarwal wrote:
 > 
-> On 15/01/2025 16:23, Sakari Ailus wrote:
-> > Moi,
-> > 
-> > On Fri, Jan 10, 2025 at 11:14:12AM +0200, Tomi Valkeinen wrote:
-> > > The driver does a lot of iteration over the RX ports with for loops. In
-> > > most cases the driver will skip unused RX ports. Also, in the future
-> > > patches the FPD-Link IV support will be refreshed with TI's latest init
-> > > sequences which involves a lot of additional iterations over the RX
-> > > ports, often only for FPD-Link IV ports.
-> > > 
-> > > To make the iteration simpler and to make it clearer what we're
-> > > iterating over (all or only-active, all or only-fpd4), add macros and
-> > > support functions for iterating the RX ports. Use the macros in the
-> > > driver, replacing the for loops.
-> > > 
-> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > ---
-> > >   drivers/media/i2c/ds90ub960.c | 260 ++++++++++++++++++++++--------------------
-> > >   1 file changed, 135 insertions(+), 125 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> > > index bca858172942..02e22ae813fa 100644
-> > > --- a/drivers/media/i2c/ds90ub960.c
-> > > +++ b/drivers/media/i2c/ds90ub960.c
-> > > @@ -649,6 +649,63 @@ static const struct ub960_format_info *ub960_find_format(u32 code)
-> > >   	return NULL;
-> > >   }
-> > > +struct ub960_rxport_iter {
-> > > +	unsigned int nport;
-> > > +	struct ub960_rxport *rxport;
-> > > +};
-> > > +
-> > > +enum ub960_iter_flags {
-> > > +	UB960_ITER_ACTIVE_ONLY = BIT(0),
-> > > +	UB960_ITER_FPD4_ONLY = BIT(1),
-> > > +};
-> > > +
-> > > +static struct ub960_rxport_iter ub960_iter_rxport(struct ub960_data *priv,
-> > > +						  struct ub960_rxport_iter it,
-> > > +						  enum ub960_iter_flags flags)
-> > > +{
-> > > +	for (; it.nport < priv->hw_data->num_rxports; it.nport++) {
-> > > +		it.rxport = priv->rxports[it.nport];
-> > > +
-> > > +		if ((flags & UB960_ITER_ACTIVE_ONLY) && !it.rxport)
-> > > +			continue;
-> > > +
-> > > +		if ((flags & UB960_ITER_FPD4_ONLY) &&
-> > > +		    it.rxport->cdr_mode != RXPORT_CDR_FPD4)
-> > > +			continue;
-> > > +
-> > > +		return it;
-> > > +	}
-> > > +
-> > > +	it.rxport = NULL;
-> > > +
-> > > +	return it;
-> > > +}
-> > > +
-> > > +#define for_each_rxport(priv)                                                 \
-> > 
-> > it should be also an argument to the macro as it's visible outside it.
-> > 
-> > And wouldn't it be reasonable to use a pointer instead for the purpsoe?
+>>>> Introduce support for Qualcomm new video acceleration hardware i.e.
+>>>> iris, used for video stream decoding.
+>>>
+>>>> Note: A harmless onetime error log "Lucid PLL latch failed. Output may
+>>>> be unstable!" is seen during bootup.  It doesn't impact any video
+>>>> usecase and is currently under discussion.
+>>>
+>>> This could be an indication that some resources are not described
+>>> correctly and could potentially require both binding and driver changes
+>>> to address.
+>>>
+>>> This is also something which could cause trouble later (e.g. during
+>>> suspend) even if you manage to get the clock running after boot.
+>>>
+>>> Generally, you should not be introducing any new warnings; they are
+>>> there to let you know that something is wrong.
+>>>
+>>> Where is this issue being discussed?
+>>>
+>>> I think we at least need a public analysis and understanding of the
+>>> problem before merging this.
+>>
+>> Taniya Das proposed a patchset to reconfigure PLL in the clk-alpha-pll
+>> which allows the videocc-sm8550 driver to configure it correctly.
+>> https://lore.kernel.org/linux-arm-msm/20250113-support-pll-reconfigure-v1-0-1fae6bc1062d@quicinc.com/T/
+>>
+>> I tested the Iris driver with this patchset and I am no longer seeing
+>> the Lucid PLL latch failed warning.
 > 
-> You mean something like:
+> Thanks for the pointer. Please make sure to reference this series (and
+> summarise the underlying issue) when resending this series.
 > 
->   struct ub960_rxport_iter it = { 0 };
-> 
->   for_each_rxport(priv, &it) { }
-> 
-> Then we leak the iterator, and I really hate it. I've fixed numerous bugs
-> caused by such cases.
+> Judging from a quick look the approach taken there seems like a bit of a
+> hack so it may not get merged in its current form. IIUC fixing the PLL
+> issue properly may depend on adding support for multiple power domains
+> to the clock drivers.
+It would be good if you can add your comment to the PLL fix series [1] so that
+the patch owner can discuss on your suggestion.
+Regards,
+Vikash
 
-You can still define it for the loop only, just give it a name instead of
-using a pre-determined name.
-
-Could you also pass the iterator by reference instead of the value?
-
-> 
->  Tomi
-> 
-> > 
-> > > +	for (struct ub960_rxport_iter it =                                    \
-> > > +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
-> > > +				       0);                                    \
-> > > +	     it.nport < (priv)->hw_data->num_rxports;                         \
-> > > +	     it.nport++, it = ub960_iter_rxport(priv, it, 0))
-> > > +
-> > > +#define for_each_active_rxport(priv)                                          \
-> > > +	for (struct ub960_rxport_iter it =                                    \
-> > > +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
-> > > +				       UB960_ITER_ACTIVE_ONLY);               \
-> > > +	     it.nport < (priv)->hw_data->num_rxports;                         \
-> > > +	     it.nport++, it = ub960_iter_rxport(priv, it,                     \
-> > > +						UB960_ITER_ACTIVE_ONLY))
-> > > +
-> > > +#define for_each_active_rxport_fpd4(priv)                                     \
-> > > +	for (struct ub960_rxport_iter it =                                    \
-> > > +		     ub960_iter_rxport(priv, (struct ub960_rxport_iter){ 0 }, \
-> > > +				       UB960_ITER_ACTIVE_ONLY |               \
-> > > +					       UB960_ITER_FPD4_ONLY);         \
-> > > +	     it.nport < (priv)->hw_data->num_rxports;                         \
-> > > +	     it.nport++, it = ub960_iter_rxport(priv, it,                     \
-> > > +						UB960_ITER_ACTIVE_ONLY |      \
-> > > +							UB960_ITER_FPD4_ONLY))
-> > 
-> 
-
--- 
-Terveisin,
-
-Sakari Ailus
+[1]
+https://lore.kernel.org/linux-arm-msm/20250113-support-pll-reconfigure-v1-0-1fae6bc1062d@quicinc.com/T/
 
