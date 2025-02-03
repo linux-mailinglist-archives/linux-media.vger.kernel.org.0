@@ -1,77 +1,78 @@
-Return-Path: <linux-media+bounces-25576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25577-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E33DA258D9
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 13:01:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD502A258D7
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 13:01:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 292CE3A42A9
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 11:59:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D2E561677F3
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 12:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46388206F2C;
-	Mon,  3 Feb 2025 11:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94906207A00;
+	Mon,  3 Feb 2025 11:56:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bUoD26cB"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BuHiA6+t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AAE204094
-	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 11:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363EE206F23
+	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 11:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738583774; cv=none; b=h9Eh0uTaJSJsLwe9u06Fkqo53tQaMMhYT46SCLthbazhNuqsWuhd/t2Etsa0f6xFEU/tVOdLztubldMeZcxhqevy0iXjdWlQq3jhIfElhTcOxWNB/jJnFG0pgW/i38/Lob3aGZNbJr2R5qV/72VbZA2eP6C2+an/bK1jQs0rKKg=
+	t=1738583778; cv=none; b=r+sY/iEn4lBlaJraRxpe0wwWkot4y5iakXxTrK1XUgaqDnHC/P2n2GWqxglpa5utcii0aRYJZ0X1QnofsF9mGzaykP1dEHSyfuAI/E1KCFPcF0s8RdPLjDRfyh14Mc5zBiy1nNqvWNUAS7ACXV3rh0Xpo02KgqBWmoxjOxAin1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738583774; c=relaxed/simple;
-	bh=6OqJ4t4D9TpNI+/c8tdRJ8rTXZIpervnpprgIzahFh4=;
+	s=arc-20240116; t=1738583778; c=relaxed/simple;
+	bh=KB4ZUGflb08SBeygnOriQPhddguTjGuBK5bS60Mly+s=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Zi6HORpJ1zy1BGrgV8N4aHNHxjZfiR00M0yXcPkOPRwwcnItRmUANw1ON0pqE2gXamzXPWMg1zrb82LkyNXQ+c6DhCZnNDmveQlO8NLb6/e3hBcVadxdq/7vkDLhXJIyOrwwxWX5K65DHzf1N3xygb8sRESep1nfABpGnshtQBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bUoD26cB; arc=none smtp.client-ip=209.85.217.42
+	 In-Reply-To:To:Cc; b=Zk6aDLBaN2cI43JwuoKOLhYHC1LF3HM/8rCn1rSiAEFyMtMznCiCBxdSxXt/LvsLoZhR4npjCHxaK2/U2Wfb4x4S5ANmnQ/KRmuodzeIrKL2p6akP0QyiqDIDP8LLcyDtkaudIclqgYlNy0RkMJqp0452R3SAvd2ThYcdoF6jgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BuHiA6+t; arc=none smtp.client-ip=209.85.222.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4afe6a8d2e1so2504125137.1
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2025 03:56:12 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-85c5a913cffso2246718241.0
+        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2025 03:56:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1738583772; x=1739188572; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1738583774; x=1739188574; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fIX2uAxqRPBLuXs0GvusMBked4RKndtatnuu6L3lKtc=;
-        b=bUoD26cBGAs0PdMdYSqs3E3s7TseZOvqBi57iK7klaZ63m6ZDOfgoog0EIM2oLmUmE
-         +GKP7deWY3Yp6Gs+dmIaD/5jM8EsgpwPoyuPWX0yIgykMWxpaao1S7VaZiLgPUVcDszG
-         tS+vhNV56/HG6aEOv0YrwSzfrauXXsLaHaP9Y=
+        bh=mVo9C3QqUMMv3jC7pdvKHUdadHQxzjv5Xy2z0Ro/wJ8=;
+        b=BuHiA6+tCAkTp5VWxnnrfZk6zYzFhBEdAAmmjlesZr+wjiGXlHybfttiHIol3jXSFx
+         43FL+n/fqZ8BgkzMdWB5ciKZtoec8MjcXpMY3EiR4KsHL/xnEh34MqPq19ZY083W4s3R
+         GOcET6Bv5OCsqZNExw72bcO8VrCa0KnUGTSaQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738583772; x=1739188572;
+        d=1e100.net; s=20230601; t=1738583774; x=1739188574;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fIX2uAxqRPBLuXs0GvusMBked4RKndtatnuu6L3lKtc=;
-        b=PqtMarHNjmLSZMsW5PZmIA23hQqsTmrawiHgDx6nv/jXTUHFbSsa1wiUNr7IJhlzwT
-         MIVnbR6qT+843L0wReuiDoBxxG7tw9cZeRQ71xzUO7XXUUyy+foF9lzzKNCcL12XSEng
-         gmMYG7uKP2zHv+lYoBESSPmpjZouUqveVSjxf3YR8GIjwQCFBH+Ipk9hvzz+VPoE4Nwu
-         kXDB2RT+TtgZfyMVt55opCCaKzIx4AQNusElNUEpYECKSxs/KvmUKPqfq0NuNmjeMyFV
-         T1LSyT2GL6ViJ/pb01TLGXbstPT1U239fFrqVn1DWuvtPhluD8H4CCeulKw4dOBAC5BK
-         /pQA==
-X-Forwarded-Encrypted: i=1; AJvYcCXjf7UNHbA8nRO+NI17SGFLRTDEVkt7u+QDfwD76JbjCk/BFhlFOpTlHgJp+nhIYfug4CvRiqSufoPD3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yye3hKselvM/vit6eDFa9yySzWFeWJgoJ5/o+W4VMA/XOQj5ozB
-	h42lnpk91QhwYgstKHUiVgFy1qQTKxKXljLUZW1M3Npr+xRc3etEs42smEMMcg==
-X-Gm-Gg: ASbGncvlqgCKa97ZoDtaAHUetYa9U69M5hROhCgdtQk9EZvI6MkmjRv4AHqFft9FRlQ
-	cB0RQhf4XYu1DGBUp0bQqPmrOSa7SPiRxCT5T3SojFBmGn8YshR7hiCuXnkYZ6ozyV1B4/QRuEQ
-	JX3f4lneu+BsYky8+zsWJQTOgZLSlitOe2y+HHPXWna7ww6f3sHvFKpU2WEn4jl22Cqc8woKpq1
-	bXsvwmmsZbkbGMCkMW73hSmUrWd3EgIaFmBgdpUkxENQKh1yYgDGoRdyGqXLGJwKQOWkKtWhMaV
-	tbgq7Iewh+ckTxG+8JsQKbAXC6oIE3UQ5qSo+WSwJ86c9iJowB/+eTlFXD/Jwp5uiQ==
-X-Google-Smtp-Source: AGHT+IH2ZsZ+lbBQnlfcNNHd5u82CT5JuG2EshCnjTuVYj98ALBGeh6RaE9Vvonn6P/Yd42u1O28Fg==
-X-Received: by 2002:a05:6102:94f:b0:4af:f809:5162 with SMTP id ada2fe7eead31-4b9b7077f33mr9674340137.3.1738583771399;
-        Mon, 03 Feb 2025 03:56:11 -0800 (PST)
+        bh=mVo9C3QqUMMv3jC7pdvKHUdadHQxzjv5Xy2z0Ro/wJ8=;
+        b=HpDottU9fiivYZ4NkB4+1Z1s0sxr9NtRbqKd/Vw+WqYmUKrL3RiHpt98PZ3b7StJGK
+         p1oolPiLv1VCWrdmC7qohUaLRnZlcpEMSWFBn3JTM+FHZ8qzcFi8Fa0YU6Pz3IcJsEcw
+         gj2pYBmWuBhjOHqXrr7V0ra2CBRDg/gy0zi+EBFLvYNnzncAN0G+gCl/DSlvaIqB7O53
+         32gVdqZklog0EV7c8+/NECmPREuSkKfaQ4KBLou7GmTf+OsXJ8/lOOalH6T3c1u4lvZp
+         pLOsv9TCmFT8WPMVGtgKxEjuUqLiSzG2DuSNYwTkCTRj9Vx8Ynbwz4qTAppqw80B4lXn
+         Q1Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCUjn3M+zNUCa5cpORnLox2s2VruuCpFvktIINLoFSr03mI0S93frFM0rB4r9r66GnWw5zIWuP28J4LmkA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZM2m27MAVmtGZHqy0UxXZlkxtZoMRvVZE5I/a5lmC3CwN2rYu
+	4H+UTXofr44tTgKrCxgSWOWwS/lIeGRUXqtR3p25/AhIe/cwEpHQ/Wj29BRIRg==
+X-Gm-Gg: ASbGncsNgrZphge1B4F3FJ6R5G5ss7K2/Tiac2Q2zcyvn0qA4NDmmzembDqloitORRE
+	/zr1n0JyFrlxYLchJfKGjJ0RBxj/KqOm5DIkfcRB43oPUqaEEbZOwEIPIpKQ7nnb5J44IgJr3OJ
+	7+V0Hr7+PI6om3j42PY9cWzDeyOvT1cLnvNJIuIuGLNRnkvQsLGxZsum0mCmrC3ThGx417RCrI4
+	x9B6QORUBdaD4KdzJmcGlAaoY+UP7Y2Y4/o4XXA9BQt/aAbW38XKUtNm4V31sp58vQ37Ucm744a
+	IeJdxYHo0Uvh54oLMzds0WQW/O9Q2rV7+OvheFbnkyuxrtRDfWO/YWF6dVnKT9EQzA==
+X-Google-Smtp-Source: AGHT+IHjiL4llIOfHY0i/Ml1ATfZuAes12e1J4qhFMEy3cP2BZEcsCtof6ekuCPTEJTO80oewTtWfw==
+X-Received: by 2002:a05:6102:1041:b0:4ba:b6:647c with SMTP id ada2fe7eead31-4ba00b68182mr209477137.10.1738583774051;
+        Mon, 03 Feb 2025 03:56:14 -0800 (PST)
 Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b9baa9aefcsm1592770137.12.2025.02.03.03.56.09
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b9baa9aefcsm1592770137.12.2025.02.03.03.56.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 03:56:10 -0800 (PST)
+        Mon, 03 Feb 2025 03:56:12 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 03 Feb 2025 11:55:50 +0000
-Subject: [PATCH v17 14/17] media: uvcvideo: Introduce uvc_mapping_v4l2_size
+Date: Mon, 03 Feb 2025 11:55:51 +0000
+Subject: [PATCH v17 15/17] media: uvcvideo: Add sanity check to
+ uvc_ioctl_xu_ctrl_map
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,7 +81,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250203-uvc-roi-v17-14-5900a9fed613@chromium.org>
+Message-Id: <20250203-uvc-roi-v17-15-5900a9fed613@chromium.org>
 References: <20250203-uvc-roi-v17-0-5900a9fed613@chromium.org>
 In-Reply-To: <20250203-uvc-roi-v17-0-5900a9fed613@chromium.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -93,64 +94,32 @@ Cc: Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org,
  Yunke Cao <yunkec@google.com>
 X-Mailer: b4 0.13.0
 
-Centralize the calculation for the v4l2_size of a mapping.
+Do not process unknown data types.
 
-Reviewed-by: Yunke Cao <yunkec@google.com>
 Tested-by: Yunke Cao <yunkec@google.com>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/media/usb/uvc/uvc_v4l2.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index d50137d19561..17a7ce525f71 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1471,6 +1471,14 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
- 	return 0;
- }
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 41430720ed47..d56f482723d3 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -108,6 +108,12 @@ static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
+ 	struct uvc_control_mapping *map;
+ 	int ret;
  
-+static size_t uvc_mapping_v4l2_size(struct uvc_control_mapping *mapping)
-+{
-+	if (uvc_ctrl_mapping_is_compound(mapping))
-+		return DIV_ROUND_UP(mapping->size, 8);
++	if (xmap->data_type > UVC_CTRL_DATA_TYPE_BITMASK) {
++		uvc_dbg(chain->dev, CONTROL,
++			"Unsupported UVC data type %u\n", xmap->data_type);
++		return -EINVAL;
++	}
 +
-+	return sizeof(s32);
-+}
-+
- static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 				 struct uvc_control *ctrl,
- 				 struct uvc_control_mapping *mapping,
-@@ -1512,7 +1520,7 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 			v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
- 	}
- 
--	v4l2_ctrl->elem_size = sizeof(s32);
-+	v4l2_ctrl->elem_size = uvc_mapping_v4l2_size(mapping);
- 	v4l2_ctrl->elems = 1;
- 
- 	if (v4l2_ctrl->type >= V4L2_CTRL_COMPOUND_TYPES) {
-@@ -2144,7 +2152,7 @@ static int uvc_mapping_get_xctrl_compound(struct uvc_video_chain *chain,
- 		return -EINVAL;
- 	}
- 
--	size = DIV_ROUND_UP(mapping->size, 8);
-+	size = uvc_mapping_v4l2_size(mapping);
- 	if (xctrl->size < size) {
- 		xctrl->size = size;
- 		return -ENOSPC;
-@@ -2327,9 +2335,8 @@ static int uvc_mapping_set_xctrl_compound(struct uvc_control *ctrl,
- 					  struct v4l2_ext_control *xctrl)
- {
- 	u8 *data __free(kfree) = NULL;
--	size_t size;
-+	size_t size = uvc_mapping_v4l2_size(mapping);
- 
--	size = DIV_ROUND_UP(mapping->size, 8);
- 	if (xctrl->size != size)
- 		return -EINVAL;
- 
+ 	map = kzalloc(sizeof(*map), GFP_KERNEL);
+ 	if (map == NULL)
+ 		return -ENOMEM;
 
 -- 
 2.48.1.362.g079036d154-goog
