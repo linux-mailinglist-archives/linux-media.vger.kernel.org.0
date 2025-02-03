@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-25546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25547-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98DD6A25535
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 10:00:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47653A2553E
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 10:01:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28A5F163EF1
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:00:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68A763A8DEF
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 09:00:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62113207A27;
-	Mon,  3 Feb 2025 08:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F712207A3D;
+	Mon,  3 Feb 2025 08:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESmvUH2C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZR3zefg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70525207A1C
-	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 08:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86979207A31
+	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 08:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738573183; cv=none; b=RIJ2XFYNn7BxUVW/3XiqZl/LvElaEw91INH1FpMrJ6u9RiQ1Rd9bdZ4D08XEuWwvWMwO6cCWbCC+BnenWQMpblMxeQZuoWQ2tTtIg8YxdsdsD7AKD2mlufLm7TVoHJ87VBg7RrdpxBJDEutUKhTMCe4px/gD0VxFsK0MJslkxO8=
+	t=1738573187; cv=none; b=u2Xqeree+kABlXZFfUKoBPbXEEpajzzPKRlumlr5AKwMWTuEw1hxrMcDq1jJGkDP9xkvOKW+69bIPUBfEz973G44rmkWlAEy1p26jurw3HyTN3t5vNO3F/CrlLvF8SSGB6l5nJIzPJ26q36lL6/y/vJjNBWXgxuvIL6UBXLipy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738573183; c=relaxed/simple;
-	bh=SfzJn9M2bjse7hkVshxkPCf9F6K8r07NrS2mWkE8rYE=;
+	s=arc-20240116; t=1738573187; c=relaxed/simple;
+	bh=A7LfAM8uQlowCF2ENCO4YsrEYCod4Tp1T3ZsImhdxwo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BN3gd5VUtshX+UpD6/RpXxy8YwvK21QYNRkjtHkJAlm0c7fy+13vFQ++c5D2NUGRIXHypfqOSFjAJXHvmw2rvwSVuZoW90SEgutJ11EO7t9H6mOuP6AQQ6n4n/7seR2tV1x1qEn3PlUn5bxlNYvGHh/TSHd1k2/PCtQDNAwKYnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESmvUH2C; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=HhgFZpgkFpdDC6qB5vPKPZ6FMS7iOML6yMnEo3GirsXwBVGXeMsN86FRH35FPU7a10TjUcSmTOyPsWOXVEu7HLt1sJo3W3mcEOfN1/VJ41MrCqGH7QDyvUXnP3fb7mkjwpUUMuuuu3fNJCaXc/GlcNCdv/cez2H7QpyolOV5wNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZR3zefg; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738573182; x=1770109182;
+  t=1738573186; x=1770109186;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=SfzJn9M2bjse7hkVshxkPCf9F6K8r07NrS2mWkE8rYE=;
-  b=ESmvUH2COr2bqD60y9fx0rdcJRSNHbZ1cXc0D1SUu+j90YDTQzADC0fk
-   MG7rUjdW+Vjx11VdXpMmdBZgzwfYnNlqwN7z+6vq+pbzXXagQZh0DK94V
-   LYDJ3d8CbjKrN4qEA7f4XundGwOWg74cz7bvAukg2hxr7TaKFmMgjbsEu
-   Fy/6B3Kn46mRM4DvvDoHuqWV/0SV4sCOQB2NqpTxME1JqkiWtZGpYDr6O
-   +Z0rECvbI19UWN4IAcakZOZ9xr/CRwQtzWHrCPIkKmXrYo+K37k+eS6D1
-   XKGTIRyd1OXTqv8at/tlkghmKTRFh3DqvyvLZPxvcNcLXdDpNBeMzoCdm
-   Q==;
-X-CSE-ConnectionGUID: jh2Z2dD+QmqwHpiKjppuUQ==
-X-CSE-MsgGUID: n2gns8ueSLOm13SJUZJQKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="56485401"
+  bh=A7LfAM8uQlowCF2ENCO4YsrEYCod4Tp1T3ZsImhdxwo=;
+  b=gZR3zefg1iy2XyiuBYIQDrMWn9h7UIfejw8zzl4zjGM2J0yc8Vv8zTpo
+   pzjpOR3dVcYR2QwchlmwGczqjrjLrvQCm2FUAnnuyfBAWpd2VPLvWY3Q3
+   XW6UQReY1LzThhaSbBgbI1PjDNhOkM36vUJgSKqUeQ5wTbO11im5C+Mf/
+   Q0M/5NHjaBC80k77gpB5nPMmLeHY4U5hJpEi8kdL764DzRZkHilnFkz3R
+   b7E6l1bABm1ROZWg4+wxGbw8VC5xUXNSDCErMgKAFy6s6V/X1M05KxcLs
+   WL8QapOZhrJ/I+XrTW6VtUY/vAwBq2zCykwXLjwpgTbtV5O1DEKaOF94/
+   w==;
+X-CSE-ConnectionGUID: TaAT2/1NSSK0CSVbZ28Z0w==
+X-CSE-MsgGUID: SleW+mnwRveah+xSNrw50g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="56485428"
 X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="56485401"
+   d="scan'208";a="56485428"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:59:42 -0800
-X-CSE-ConnectionGUID: X/QFMKdoQv6Qz0OgfjD92A==
-X-CSE-MsgGUID: rSfR41gRQW2BlhPk4PW+eg==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:59:45 -0800
+X-CSE-ConnectionGUID: pLCP3vXISrCrHb3pRo8wew==
+X-CSE-MsgGUID: KYUAU68vQOWt5+RDAYUdwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; 
-   d="scan'208";a="110066351"
+   d="scan'208";a="110066406"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:59:36 -0800
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 00:59:39 -0800
 Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B244011FC22;
-	Mon,  3 Feb 2025 10:59:30 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3B63A11F9C3;
+	Mon,  3 Feb 2025 10:59:34 +0200 (EET)
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
@@ -91,9 +91,9 @@ Cc: hverkuil@xs4all.nl,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>,
 	Hans de Goede <hdegoede@redhat.com>
-Subject: [RFC v5 09/15] media: uapi: Documentation: Improve column width hints for examples
-Date: Mon,  3 Feb 2025 10:58:47 +0200
-Message-Id: <20250203085853.1361401-10-sakari.ailus@linux.intel.com>
+Subject: [RFC v5 10/15] media: v4l: uapi: Add a control for colour pattern flipping effect
+Date: Mon,  3 Feb 2025 10:58:48 +0200
+Message-Id: <20250203085853.1361401-11-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
 References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
@@ -105,53 +105,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use less arbitrary widths for the columns in metadata layout examples.
+Add a bitmask control (V4L2_CID_COLOUR_PATTERN_FLIP) to tell whether
+flipping results in a change in the sensor's colour pattern, separately
+horizontally and vertically. The information is essential for raw formats
+when using generic raw mbus codes.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- Documentation/userspace-api/media/v4l/metafmt-generic.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../media/v4l/ext-ctrls-image-source.rst          |  8 ++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c         |  2 ++
+ include/uapi/linux/v4l2-controls.h                | 15 +++++++++++++++
+ 3 files changed, 25 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-index 1d46f1c4add1..a800342c8071 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-@@ -74,7 +74,7 @@ This format is little endian.
- **Byte Order Of V4L2_META_FMT_GENERIC_CSI2_10.**
- Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+index fca729512b6f..ecfa38c118e3 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+@@ -102,3 +102,11 @@ Image Source Control IDs
+     This control may only be used on a V4L2 sub-device.
  
--.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|
-+.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|
+     This is a read-only control.
++
++``V4L2_CID_COLOUR_PATTERN_FLIP (bitmask)``
++    Whether the horizontal or vertical flipping controls (V4L2_CID_HFLIP and
++    V4L2_CID_VFLIP) have an effect on the pixel order of the output colour
++    pattern. Macros ``V4L2_COLOUR_PATTERN_FLIP_HORIZONTAL`` and
++    ``V4L2_COLOUR_PATTERN_FLIP_VERTICAL`` define bitmasks for both bits. If
++    either horizontal or vertical bit is set, the readout pattern order is that
++    of the reversed readout.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+index 5b6a4a94f18f..3f0704a982b8 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+@@ -1156,6 +1156,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
+ 	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
+ 	case V4L2_CID_COLOUR_PATTERN:		return "Colour Pattern";
++	case V4L2_CID_COLOUR_PATTERN_FLIP:	return "Colour Pattern Flip";
  
- .. flat-table:: Sample 4x2 Metadata Frame
-     :header-rows:  0
-@@ -118,7 +118,7 @@ This format is little endian.
- **Byte Order Of V4L2_META_FMT_GENERIC_CSI2_12.**
- Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
+ 	/* Image processing controls */
+ 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+@@ -1474,6 +1475,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 		*max = 0xffff;
+ 		break;
+ 	case V4L2_CID_FLASH_FAULT:
++	case V4L2_CID_COLOUR_PATTERN_FLIP:
+ 	case V4L2_CID_JPEG_ACTIVE_MARKER:
+ 	case V4L2_CID_3A_LOCK:
+ 	case V4L2_CID_AUTO_FOCUS_STATUS:
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 8e761c38b995..fd6465e9a743 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -1215,11 +1215,26 @@ enum v4l2_jpeg_chroma_subsampling {
+ #define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
  
--.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
-+.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|
+ #define V4L2_CID_COLOUR_PATTERN			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 10)
++/*
++ * CFA pattern start shall be aligned with the number of patterns for colour
++ * components. Patterns shall be calculable based on flipping when it affects
++ * the pattern the following way:
++ *
++ * flipped_pattern = native_pattern ^
++ *	((hflip ? V4L2_COLOUR_PATTERN_FLIP_HORIZONTAL : 0) |
++ *	 (vflip ? V4L2_COLOUR_PATTERN_FLIP_VERTICAL : 0))
++ *
++ * where hflip and vflip are the values of V4L2_CID_HFLIP and V4L2_CID_VFLIP
++ * controls, respectively.
++ */
+ #define V4L2_COLOUR_PATTERN_GRBG		0
+ #define V4L2_COLOUR_PATTERN_RGGB		1
+ #define V4L2_COLOUR_PATTERN_BGGR		2
+ #define V4L2_COLOUR_PATTERN_GBRG		3
  
- .. flat-table:: Sample 4x2 Metadata Frame
-     :header-rows:  0
-@@ -159,7 +159,7 @@ This format is little endian.
- **Byte Order Of V4L2_META_FMT_GENERIC_CSI2_14.**
- Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
++#define V4L2_CID_COLOUR_PATTERN_FLIP		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 11)
++#define V4L2_COLOUR_PATTERN_FLIP_HORIZONTAL	(1U << 0)
++#define V4L2_COLOUR_PATTERN_FLIP_VERTICAL	(1U << 1)
  
--.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{.8cm}|
-+.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|p{1.8cm}|p{1.8cm}|
+ /* Image processing controls */
  
- .. flat-table:: Sample 4x2 Metadata Frame
-     :header-rows:  0
-@@ -255,7 +255,7 @@ This format is little endian.
- **Byte Order Of V4L2_META_FMT_GENERIC_CSI2_20.**
- Each cell is one byte. "M" denotes a byte of metadata and "x" a byte of padding.
- 
--.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{1.2cm}|p{.8cm}|p{.8cm}|
-+.. tabularcolumns:: |p{2.4cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.2cm}|p{1.8cm}
- 
- .. flat-table:: Sample 4x2 Metadata Frame
-     :header-rows:  0
 -- 
 2.39.5
 
