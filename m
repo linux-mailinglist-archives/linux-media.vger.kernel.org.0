@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-25608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25609-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C214CA2666D
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 23:17:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA65DA26675
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 23:20:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 46DA7161CC4
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 22:17:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6FCBB7A1DDF
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 22:19:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2E3020FA9C;
-	Mon,  3 Feb 2025 22:17:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29CEF20FAB9;
+	Mon,  3 Feb 2025 22:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O5SGTJYV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QnWSwFKL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083041D5CD4;
-	Mon,  3 Feb 2025 22:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783BE1F92A;
+	Mon,  3 Feb 2025 22:20:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738621021; cv=none; b=oxXZuEk8Nf4Iu9ligcUIrCev+Vib8mQWnrWz5SCzwA8GJ5+vB1vGkODiRcxl+IFvzh6ZQuVz7oK1HLUPmhmvVLlIX+KhMrAHHigS/pMRENsML08ySP+eSRvB8QxlIax/NkKb2aBz11sI5uEKlayHcYf7OZ/Bdh5vBvjpBZMD9m8=
+	t=1738621220; cv=none; b=udVyPaa1PREV0a7F4t/urrFx3dIBmmDWyinLnsP/qsKn6Sg/JIzobZ5V1LFTxpkOnP5OrOSfzxsRtgetibk2sWYZy6Zprqq3ScTmKMShkD+7WMPjQhCvdrb51q4MAAyI8W7CkX64zIq1Wo/+SKwI+uWwVwdyPyBqJxaNyx28bZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738621021; c=relaxed/simple;
-	bh=7svs+wKmG+cmpxhyFwkJOaZkFZ0sH/NMkYxSYvVASpA=;
+	s=arc-20240116; t=1738621220; c=relaxed/simple;
+	bh=YHnhH8TGTVwn5M7n1rEBKbWfWUvHH1qfDMRyCsjzgVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iiIB7H5J2NiP1BTOEzrqihl918HmVYpg7/BZtf6RRukDUYU58QIURCQ9cFnCdMQAcD0qxb/FnJu43aPO81CkRJDEF74ia+P9YcEaYBhOlGzlcrvDNISngdVhUvBLmsi16O32+5+tCEqcVEY6VfjjdgNLtOwyzdcKkKQhFgkUDu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O5SGTJYV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE5EC4CED2;
-	Mon,  3 Feb 2025 22:17:00 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=TQcnyVDbZP9Nx0rxz6FXiqA/3z4IsDzzdvq4q5Q1MmF5XSziJuVlmYp8n1vhjuSfUko64XM3pohae/dmRznGchIIupBsvhl98hQ6AF7ChTwFfDEGQ+aXFYXm/N9cNIxGm6vZnrzlGsSEX2J5uLmPLP9OXyrfG5ufIyaT7QSS3qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QnWSwFKL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 976C1C4CED2;
+	Mon,  3 Feb 2025 22:20:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738621020;
-	bh=7svs+wKmG+cmpxhyFwkJOaZkFZ0sH/NMkYxSYvVASpA=;
+	s=k20201202; t=1738621219;
+	bh=YHnhH8TGTVwn5M7n1rEBKbWfWUvHH1qfDMRyCsjzgVE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O5SGTJYVHZPmJijhTIVkKFqBL/LQ+LXHOLoLZN6HyTVDQpvwslxaAt8rk/NQIKXRQ
-	 rXzTeiz3f0E+oQJXbWPzUhUxigwKvrzwRbhwa5L4y2PqvHnN4SWwP4uS+KybParPIv
-	 rAI2Olu+qiKqkx1t4yawMj7b1Yyg6P7MGel+divo5gTXDgUEtOMMFVuMs3pQ3e9UW0
-	 br+V0YLQNoHYbM5YNVWH9g/i4lha4WmtmCmAkWsMqePah/WWMXriUEqxXBjZjzwvi4
-	 b1SxTU9P/sm53pRcDsUEY0tycrSbHKil2dqhkeHUk8UkJAdN7tTlLB2CtO3azrAPPU
-	 sJAMHHfY2MAZg==
-Date: Mon, 3 Feb 2025 16:16:59 -0600
+	b=QnWSwFKLxV/bQd8Pu43Oh88t0R1YK305mRti99NklxLCDM0Lm6X4CobKomvMce48o
+	 CJATxa7dNjXBRUU1KZFnCV8ixqVdgVzC87ccgl7Sq1Bi0+Q/H1rHXLx2RjeP4Wj4qu
+	 OWalL9BWbFK1TyGzAK1hwJI6yXhG7v/m/Hworcp/EhC+IH+Hvt9a3ELy9rzH7cn9D1
+	 vSJbfqK9y80/BMpPk/HjMOsbrg2dc5Ep+DtlZ33gqlvI06JOy3id8tMXJgKbzZhVsz
+	 t8i3JCc/m7Me1D4zc4VSNpUOLsMiYzgwesxFK482/eyNHr4d5FORsSPtW+OJ2ety47
+	 nTXAg33bTK6FA==
+Date: Mon, 3 Feb 2025 16:20:18 -0600
 From: Rob Herring <robh@kernel.org>
 To: Frank Li <Frank.Li@nxp.com>
 Cc: Vinod Koul <vkoul@kernel.org>,
@@ -64,11 +64,11 @@ Cc: Vinod Koul <vkoul@kernel.org>,
 	Robert Chiras <robert.chiras@nxp.com>,
 	Mirela Rabulea <mirela.rabulea@nxp.com>,
 	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Subject: Re: [PATCH 05/14] media: dt-bindings: nxp,imx8-isi: Add i.MX8Q ISI
- compatible strings
-Message-ID: <20250203221659.GA130749-robh@kernel.org>
+Subject: Re: [PATCH 08/14] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
+ i.MX8QM compatible strings
+Message-ID: <20250203222018.GA226659-robh@kernel.org>
 References: <20250131-8qxp_camera-v1-0-319402ab606a@nxp.com>
- <20250131-8qxp_camera-v1-5-319402ab606a@nxp.com>
+ <20250131-8qxp_camera-v1-8-319402ab606a@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,22 +77,16 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250131-8qxp_camera-v1-5-319402ab606a@nxp.com>
+In-Reply-To: <20250131-8qxp_camera-v1-8-319402ab606a@nxp.com>
 
-On Fri, Jan 31, 2025 at 04:33:50PM -0500, Frank Li wrote:
+On Fri, Jan 31, 2025 at 04:33:53PM -0500, Frank Li wrote:
 > From: Robert Chiras <robert.chiras@nxp.com>
 > 
-> Add compatible strings for i.MX8QM and i.MX8QXP platforms.
+> Add compatible strings for i.MX8QM platform. Remove fsl,mipi-phy-gpr from
+> required properties and add 'phys', since i.MX8QM use standard phy
+> interface.
 > 
-> Increase the number of max interrupts and clock to 8. i.MX8QM have 8
-> channels and i.MX8QXP have 5 channels. Each channel requires one clock
-> source and interrupt.
-> 
-> Remove fsl,blk-ctrl from required list because i.MX8Q needn't it.
-> 
-> i.MX8QM use port@2 and port@3. i.MX8QXP use port@2 and port@6.
-> 
-> Keep the same restriction for the other platform.
+> Keep the same restriction for other compatible strings.
 > 
 > Signed-off-by: Robert Chiras <robert.chiras@nxp.com>
 > Reviewed-by: Robby Cai <robby.cai@nxp.com>
@@ -100,140 +94,82 @@ On Fri, Jan 31, 2025 at 04:33:50PM -0500, Frank Li wrote:
 > Reviewed-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 > Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  .../devicetree/bindings/media/nxp,imx8-isi.yaml    | 87 +++++++++++++++++++---
->  1 file changed, 75 insertions(+), 12 deletions(-)
+>  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml       | 30 ++++++++++++++++++++--
+>  1 file changed, 28 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> index f43b91984f015..b713c8ba79e39 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
-> @@ -21,6 +21,8 @@ properties:
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> index 2a14e3b0e0040..91c4d8fbb1f8c 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> @@ -18,6 +18,8 @@ properties:
+>    compatible:
 >      enum:
->        - fsl,imx8mn-isi
->        - fsl,imx8mp-isi
-> +      - fsl,imx8qm-isi
-> +      - fsl,imx8qxp-isi
->        - fsl,imx8ulp-isi
->        - fsl,imx93-isi
+>        - fsl,imx8mq-mipi-csi2
+> +      - fsl,imx8qm-mipi-csi2
+> +      - fsl,imx8ulp-mipi-csi2
 >  
-> @@ -28,17 +30,12 @@ properties:
+>    reg:
 >      maxItems: 1
->  
->    clocks:
-> -    items:
-> -      - description: The AXI clock
-> -      - description: The APB clock
-> -      # TODO: Check if the per-channel ipg_proc_clk clocks need to be specified
-> -      # as well, in case some SoCs have the ability to control them separately.
-> -      # This may be the case of the i.MX8[DQ]X(P)
-> +    minItems: 1
-> +    maxItems: 8
-
-Isn't the minimum still 2?
-
->  
->    clock-names:
-> -    items:
-> -      - const: axi
-> -      - const: apb
-> +    minItems: 1
-> +    maxItems: 8
->  
->    fsl,blk-ctrl:
->      $ref: /schemas/types.yaml#/definitions/phandle
-> @@ -49,10 +46,11 @@ properties:
->    interrupts:
->      description: Processing pipeline interrupts, one per pipeline
->      minItems: 1
-> -    maxItems: 2
-> +    maxItems: 8
+> @@ -39,13 +41,18 @@ properties:
+>        - const: ui
 >  
 >    power-domains:
 > -    maxItems: 1
 > +    minItems: 1
-> +    maxItems: 8
+> +    maxItems: 2
 >  
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
-> @@ -66,7 +64,6 @@ required:
->    - interrupts
->    - clocks
+>    resets:
+>      items:
+>        - description: CORE_RESET reset register bit definition
+>        - description: PHY_REF_RESET reset register bit definition
+>        - description: ESC_RESET reset register bit definition
+> +    minItems: 1
+> +
+> +  phys:
+> +    maxItems: 1
+>  
+>    fsl,mipi-phy-gpr:
+>      description: |
+> @@ -113,9 +120,28 @@ required:
 >    - clock-names
-> -  - fsl,blk-ctrl
+>    - power-domains
+>    - resets
+> -  - fsl,mipi-phy-gpr
 >    - ports
 >  
->  allOf:
-> @@ -79,9 +76,17 @@ allOf:
->                - fsl,imx8ulp-isi
->                - fsl,imx93-isi
->      then:
-> +      required:
-> +        - fsl,blk-ctrl
->        properties:
->          interrupts:
->            maxItems: 1
-> +        clocks:
-> +          maxItems: 2
-> +        clock-names:
-> +          items:
-> +            - const: axi
-> +            - const: apb
->          ports:
->            properties:
->              port@0:
-> @@ -96,9 +101,17 @@ allOf:
->            contains:
->              const: fsl,imx8mp-isi
->      then:
-> +      required:
-> +        - fsl,blk-ctrl
->        properties:
->          interrupts:
->            maxItems: 2
-> +        clocks:
-> +          maxItems: 2
-> +        clock-names:
-> +          items:
-> +            - const: axi
-> +            - const: apb
->          ports:
->            properties:
->              port@0:
-> @@ -109,6 +122,56 @@ allOf:
->              - port@0
->              - port@1
->  
+> +allOf:
 > +  - if:
 > +      properties:
 > +        compatible:
 > +          contains:
-> +            const: fsl,imx8qm-isi
+> +            enum:
+> +              - fsl,imx8qm-mipi-csi2
+> +              - fsl,imx8ulp-mipi-csi2
 > +    then:
+> +      required:
+> +        - phys
+> +    else:
 > +      properties:
-> +        clocks:
-> +          minItems: 8
-> +        clock-names:
-> +          items:
-> +            pattern: "^per[0-7]"
-> +        interrupts:
-> +          minItems: 8
-> +        ports:
-> +          properties:
-> +            port@2:
-> +              description: MIPI CSI-2 RX 0
-> +            port@3:
-> +              description: MIPI CSI-2 RX 1
-> +          required:
-> +            - port@2
-> +            - port@3
+> +        reg:
+> +          maxItems: 1
 
-This schema is completely missing proper schemas for port nodes. It 
-needs to reference the port schema for each port. That should be at the 
-top-level.
+The max is already 1.
 
-I think this addition is borderline whether it should be its own schema 
-doc. The if/then schemas are larger than the main part. The ports are 
-not even the same.
+> +        resets:
+> +          minItems: 3
 
-Rob
+1, 2, or 3 resets is valid for imx8qm and imx8ulp?
+
+2 power-domains are also now valid?
+
+> +      required:
+> +        - fsl,mipi-phy-gpr
+> +
+>  additionalProperties: false
+>  
+>  examples:
+> 
+> -- 
+> 2.34.1
+> 
 
