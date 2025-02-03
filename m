@@ -1,187 +1,361 @@
-Return-Path: <linux-media+bounces-25601-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25602-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C75CA26038
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 17:34:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA22A2606F
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 17:43:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 58EAA7A1026
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 16:33:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7478164629
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 16:43:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D76120B20C;
-	Mon,  3 Feb 2025 16:34:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 721C120B21F;
+	Mon,  3 Feb 2025 16:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CjtwPXwD"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="isRhWrCy";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="isRhWrCy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11011038.outbound.protection.outlook.com [52.101.65.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C60420B1EC;
-	Mon,  3 Feb 2025 16:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738600469; cv=none; b=uNEd7w06ffSBas98ellLAgB5WOFYimLU4a0GaaLUcVw2HupdTLrq/1b5DkXKYBKUh+R0fiQNYqOvekAMEZsq4O9Y9PGuuazgNVSzHRwMlXMxiSmehKA/zdRNz7+L/7y5xiCrON/7PNg8c8xQGsYJeIzjbjQ3sRB137DxVI1TCFU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738600469; c=relaxed/simple;
-	bh=QzAhLfygH1VmeI6a93oc1pLJc+Tl3u3i4HIkwZDVWdY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sgdDBATogLe/h+Q+qbX8cR1pWMNwBo7m5+vhbARnVmq5PGAyZ+SH1arKkgFuopCVD2zG4LPiZ0tcZ+61hpbnnAtiet5UQtkRid7otUd/U1HWBfqTCh0SlLkQKAwrjchqgKa2X1dCq+LGkOcPj2Pz2aI3FUH8wht43CBZr2uK0BM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CjtwPXwD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36F7CC4CED2;
-	Mon,  3 Feb 2025 16:34:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738600468;
-	bh=QzAhLfygH1VmeI6a93oc1pLJc+Tl3u3i4HIkwZDVWdY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=CjtwPXwDLEP0VrI4vKCdbZ5sa0hagVfZ6VCFikPp3SIMjIT+bd+8zP61i4gnuuaGe
-	 tyUHQVeU2MOtAfxQ40rKhVyJUw6URKi3RSBZOL2YgezMtkfHA9kS951Om2RhNxIS3w
-	 5CnGn/QNR0XTrcUcaXFgZD+jswBRTnlKwDbQnniB2ggyYJ2DPDCeKohSVNCBkHJnda
-	 YH3iovjmXPMLXxFdNYYnLiIlzULAvDveZhf48NhLB2eUe/7MLnFcheO0cfnuQHAodH
-	 1DMVIL7oqN1Kmx6obxz0f2s09WLl/lxVfdFJtsra+enPJ1HIyEtV0i4nWXWFQTjRcO
-	 hBiS65sjjbRaQ==
-Message-ID: <0708dbf1-5914-4372-9df2-5cf590fd7bd6@kernel.org>
-Date: Mon, 3 Feb 2025 17:34:20 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67624204C31;
+	Mon,  3 Feb 2025 16:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.38
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738601028; cv=fail; b=U0pAlS/oYrqZqdOGKlPOdcw/eeyZBGeVDM+MVW+fmLQcgYwV7hCueizfUiDoUlnQOeZ5ucqEeIvOFodCR7+zqcV3Rg59Djy9W4xu5qwyhA5V6hvoe9aPXNhOkGuFnGyy/VTfHW2pvdpecj3ULmGH5yL6ytVGQU4NA4rEZ7EY/xg=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738601028; c=relaxed/simple;
+	bh=7YKztA7fdHpaqdoCcR9sTzMYrPDsS1sKnzzD7GysFbA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=nKfYwWXmiJDx01/X4Lh2L2paREWGW9KK55hcSaGEqYOAkqGKybFGqLrrHzy/HJGO8ToZIdXCy8GOPOGDyTpfFKoClVSsATJ43WRUpcO1lt5BX9kzh93Lr7UsxK8v2167zcdv2sM83i7orqubMwM0lHSogwe0RsqmIVo8XQhcbcQ=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=isRhWrCy; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=isRhWrCy; arc=fail smtp.client-ip=52.101.65.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=ZjbR9/jlt7Fj89tWZmVnplDunjOvmdbsOf9E6rD05Y22rsmabeZCO+zVD9v3YVlz9c4DHv50JrBjcyRga68yADx8+xoFr9MUGyftLZzKfrtC3ULSwq1jZY0j6ntEIWwCvyS06uli1+QNie2aybkp0qtjyJkRim86Ws8rQSkCylXoBJZAeAnHQJcMj8YlMmVn8bE5mmS8WxDqvYKzLuGjsHWbbdwffVjdsBa294gUXtqyS+DgN+ViE0wKguRBLjuYCCq6jH5uCOBY8uU9+ZfgOOw+POXz4nusYwqHcEUZ+XsufL+QxKE/tKbUUsr1HVC6C7D+fixn0LL1A9FMoOJMiQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4YovYaV1IB0d3IG0EyOIZHJq8T0KgPvnM8HVgRV8Tk0=;
+ b=I+dpzMCNNz4stlmaHzJ7jjYQ0+tOzaJXZ6g6ftyGHuhyfyYU/a9LsoWJk5l+1Ifu+SSo88PyQtDQZMxtfNdajUzQjGnMgre/GYkzammiLP2bJTUMEsgYTdGPU6+BMYYGyR5R/0+Spf/E/qkiEOFqcIQsFpsRzlr0lc+tE7D77st6rMUyW2QB87/AzNwGxXEPpSz6AKN2OpblprVtqLgktE2Ps89RA/h6iFKc1kGgILYzJMpLz+oaDcpi7So0rm1fI25LzdZNRIBgQEpax/9wm+uTU+9Tu/e39cNKzigXDTXeIwOUDkSOWZwVb6WzXQ5a/a5s4lrotjjbcNQDGNqUsA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4YovYaV1IB0d3IG0EyOIZHJq8T0KgPvnM8HVgRV8Tk0=;
+ b=isRhWrCyJv1Bny/KU/+kOFf9mHi8dOPf0K2nQxNz9hlvib774DY3sV+2yynUOHMnHUYyIs1087+mLOOVHj3UFGd8ZbAsV1aKwYfcfaNXztdrkA8+38w8DO2JrfT/TWh8RHJvRwQPcTqVc6UmXqyH0IeZpZ3+6paKv7uxIpgNQSg=
+Received: from AM0PR10CA0102.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:e6::19)
+ by AS8PR08MB10072.eurprd08.prod.outlook.com (2603:10a6:20b:634::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Mon, 3 Feb
+ 2025 16:43:39 +0000
+Received: from AM1PEPF000252E0.eurprd07.prod.outlook.com
+ (2603:10a6:208:e6:cafe::5c) by AM0PR10CA0102.outlook.office365.com
+ (2603:10a6:208:e6::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.25 via Frontend Transport; Mon,
+ 3 Feb 2025 16:43:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM1PEPF000252E0.mail.protection.outlook.com (10.167.16.58) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.14
+ via Frontend Transport; Mon, 3 Feb 2025 16:43:39 +0000
+Received: ("Tessian outbound 72f36a054dd6:v560"); Mon, 03 Feb 2025 16:43:38 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: ea92f48b8bbde35f
+X-TessianGatewayMetadata: hPoADkzqM3qy9TbyL41kFJ/lXTReNtTCql/NNtd8T/J6/Pyflxsojm+7FyQd8flwLvHQs7XbMGwl0L/1HMyjhLq1t6i1SlKMhCYASrIIznv49xJ3bHObfO8vDYaiZXSSIp+4Z/Zy8GMm+QfwqIjnATLtUYw5d0nfa1n5BYGy5Eo=
+X-CR-MTA-TID: 64aa7808
+Received: from Lc8418286d724.2
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 2367C1F2-EBF9-4496-A9E3-D0C8FFDF8186.1;
+	Mon, 03 Feb 2025 16:43:28 +0000
+Received: from DB3PR0202CU003.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id Lc8418286d724.2
+    (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+    Mon, 03 Feb 2025 16:43:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YycOy3S9XQqCpCbNx2O+Ws82iMMfd5oNGu+fqm0mBBYhOB/YHfjCaieFn0a5VlNwUzzyvp1YLHkbivwy/0YvshgQI8R9boMdu31YCLVzx0uFLg/yUzQUAMic5JYQZwCJ7rAstSezB2JEafRMawTEp2cV5lkyLJb+IWQU0vclK1xvzm7rGli3NrcSbyy+c3SLCdroIhdkPCJ1yd2hYpDmZve9TGQC4ttaWSB92tXm5DRk29m0Buu6AhPhq0r+Luz7nSY1QVnxqdAJJ7wy8M+WqEIXplKEFaeX1bB2patQrudKKVI/92UTaYmz+/v+bv2kC8SttURDQDeBCSU/x2Tfmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4YovYaV1IB0d3IG0EyOIZHJq8T0KgPvnM8HVgRV8Tk0=;
+ b=OqRMNnKBvLGJsBV09dCD0O+1GCCYcHDj14nQXWOkaJYXeS9wBNu1/flW2+kSCLtHS8cLbHX4LUshK1EGY0DgiJ9caqDvWIPyfQLYqCQYgepbt8ASFM1P3ynpzPAh6/IXMm4ulfTsib54PZ7PNszhG/RJG2JkKlJu2fdq9FNn4FOPCnc8DaHSfB1bkp1KGde2riMbVse06JrwxauplBNrHrbEyM4/3sM4fNv78XX0Datq1aF4PYCVLaLWzsABVe+mMF1v6R4HFDm8fePmBmiRPB8kAVmRLZvcBd2A0lhJ2/Mjk+bv1x2yaItZm2N/jMZk1E2LI5fwCmJzu3DRauxTBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4YovYaV1IB0d3IG0EyOIZHJq8T0KgPvnM8HVgRV8Tk0=;
+ b=isRhWrCyJv1Bny/KU/+kOFf9mHi8dOPf0K2nQxNz9hlvib774DY3sV+2yynUOHMnHUYyIs1087+mLOOVHj3UFGd8ZbAsV1aKwYfcfaNXztdrkA8+38w8DO2JrfT/TWh8RHJvRwQPcTqVc6UmXqyH0IeZpZ3+6paKv7uxIpgNQSg=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from AS4PR08MB7925.eurprd08.prod.outlook.com (2603:10a6:20b:574::8)
+ by VI0PR08MB11198.eurprd08.prod.outlook.com (2603:10a6:800:252::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Mon, 3 Feb
+ 2025 16:43:25 +0000
+Received: from AS4PR08MB7925.eurprd08.prod.outlook.com
+ ([fe80::8ef3:b027:e22f:1ea7]) by AS4PR08MB7925.eurprd08.prod.outlook.com
+ ([fe80::8ef3:b027:e22f:1ea7%7]) with mapi id 15.20.8398.021; Mon, 3 Feb 2025
+ 16:43:25 +0000
+Message-ID: <1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
+Date: Mon, 3 Feb 2025 16:43:23 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali CSF
+ GPUs
+Content-Language: en-GB
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Yong Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, nd@arm.com,
+ Akash Goel <akash.goel@arm.com>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+ <3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
+ <1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
+ <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
+ <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
+From: Florent Tomasin <florent.tomasin@arm.com>
+In-Reply-To: <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO4P123CA0084.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:190::17) To AS4PR08MB7925.eurprd08.prod.outlook.com
+ (2603:10a6:20b:574::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v10 1/2] media: iris: introduce helper module to
- select video driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Johan Hovold <johan@kernel.org>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>, quic_vgarodia@quicinc.com,
- mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- p.zabel@pengutronix.de, hverkuil@xs4all.nl, sebastian.fricke@collabora.com,
- bryan.odonoghue@linaro.org, neil.armstrong@linaro.org, nicolas@ndufresne.ca,
- u.kleine-koenig@baylibre.com, stefan.schmidt@linaro.org,
- lujianhua000@gmail.com, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org
-References: <20250128080429.3911091-1-quic_dikshita@quicinc.com>
- <20250128080429.3911091-2-quic_dikshita@quicinc.com>
- <5070e1f1-914b-4654-88ef-3566e3eee9ca@kernel.org>
- <f1344e49-61b6-4115-ae88-55b4a3cfed28@quicinc.com>
- <Z6B822-6UTxQfX46@hovoldconsulting.com>
- <tqbm672pi223ipcw7btiemlb745weeeiy4gnazzeghozhq2emj@wppbkms6hir5>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <tqbm672pi223ipcw7btiemlb745weeeiy4gnazzeghozhq2emj@wppbkms6hir5>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-TrafficTypeDiagnostic:
+	AS4PR08MB7925:EE_|VI0PR08MB11198:EE_|AM1PEPF000252E0:EE_|AS8PR08MB10072:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac0abae5-88d6-4719-8461-08dd4471e99c
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info-Original:
+ =?utf-8?B?V282VDFqdkdxV05TODVPeElBUStiZHFkeldaWDlhcGJJOWh4U3U1L0Z2dktK?=
+ =?utf-8?B?VVJHakxXczlENXBHM0dOZUdMSWtxYU5aajJvQlJrNTJGeE8wMEIzMjhPc1oz?=
+ =?utf-8?B?a3RBS1Q4REpiL0lpRTBOY1N2U2VQdmV3dlhiVG1US3o1UWt3Z3BKbzRXcUZN?=
+ =?utf-8?B?blVUOW5mSHRqRFdYaU1FTDYvNmx2Y01LL3BJSmhFV2orOTZCZHhRM0U1QkJu?=
+ =?utf-8?B?QUhKakJuQk5VUUtYSVpsL2NMb0p6YzMxTVJyczJpVmpuT2FKWlo2Ti9ld25u?=
+ =?utf-8?B?RFVPQ3p6T3VhYmpOWWdqdVpsMkVlbkd3VVBoMTZxVVNGWFIwWkY0SWkrRGFI?=
+ =?utf-8?B?Q3pxVkQ4SGhVSTN0dWJPT3NEQi81UEdZam9Bd2ZnMmFHZkcrNDlPK1ZESitI?=
+ =?utf-8?B?MnhXSGtQdnc4SHdSS00waU9DNWY4MW5oRFFFaE5rOGpDbHJ5RGI1TEhrcElv?=
+ =?utf-8?B?em4weWlDSEFvLzRhUkFVc2ZiRlp5a0pOM29xY09idk1tUDFxZmYxVTJlam51?=
+ =?utf-8?B?RDU5aE1vbFVENXFSZlhpM1RTcTBUQ0xQdHg0QVB0a1pDMmYwVXJ4Wlh6U3ho?=
+ =?utf-8?B?eHZ2YzRSYXoxOC9iQWhhVjNhanB0U2Q1KzAyZVpCb0d2SXFNTUVMNHlOM0hF?=
+ =?utf-8?B?Q3l0aFRNeDJ3WGtNK001cmJGbm52TjlDVTZlaFBjUGp1TGU0OHVjbGpXUUNy?=
+ =?utf-8?B?aFFYVzQ5c1U1aVJudEJJT0RYOVJ1cjFnc1FleUc3SUp6dEpVRVM3MEJjLzA3?=
+ =?utf-8?B?RThrUExKSjhoejdRVXZsWGxaLy93Wm1TUkxlZnhDRExVUFVoejBqN3pNT0lU?=
+ =?utf-8?B?ZzRkMmNlVVp3R0V2VU5odmg4UisyNUZFOGs5RzdGMmFCOTJhVm53dkJVeis1?=
+ =?utf-8?B?NmRLa2lKMXpwL1NYdDJvWHF6eTVSUkxjclFjNDEwQzRKUnE2bmltVnUrL0FQ?=
+ =?utf-8?B?Z2NFWUVwSjVZcUd0eDYxNDFGSFljZDhMLzVnRjVycUVKR3kxNkFIMmsxRi9U?=
+ =?utf-8?B?K2pGN0hlV0N4aFAwQUVxSzluVGJGQW1selVReXdmTTF6akNDMUQxRDQ1Y1h0?=
+ =?utf-8?B?RExCZXFkZWZDcENKYmdLUDZIY0RrREVVVjcxcDQ0WWRZNnRjamxLK0dVcXFw?=
+ =?utf-8?B?YmVFZkJzSVJTR0t3STJKNUFTblNreE9jekNwQkkrbGxtZXNPeDF6MFp2dFMr?=
+ =?utf-8?B?eVN1ekU1QTFqVGpJNVFuV3dwN2ZobGJHcjBNdlJsVGQrM0xYQjlYS1F1ZCtp?=
+ =?utf-8?B?OGZ3SVpuZUhQdWlTdzFpc1hTWndyRzJMckw4U0g5ZG9jajR2TUorQmE4dEc0?=
+ =?utf-8?B?NTdBTmRKdGFFTEZ3eFVuWmU1ckhUMUp4RmlhL2RXUURtQUY2WkZMZk5JNzd5?=
+ =?utf-8?B?VEFjNEVNV3lxNG1lekRoWFc1cVZJMmh0eHc1dGxNT3B0OFlNaUI2bFZzMUxj?=
+ =?utf-8?B?QlNobVZWVWhEU05Ha2RpV1Vja01LbUc5bnhScWZPY2tkMVBoTHpXbzk2MzhQ?=
+ =?utf-8?B?Q1E2dFBJZW5CallaUlVBM3cxT1JwcDg0bDVyMnc3M0xwK1N5R3pjWWF0TUtr?=
+ =?utf-8?B?aVB5WHQ1OG5NQ01OSGxFLzBwbmlpa1IrcnhZZkZ2UkwvSk1VMHJZWG1BRitr?=
+ =?utf-8?B?Wkw3Y0pKK3dqcHNmZEIrbzNBUzUvek9xd3RJTlZYU1A1bVJiZGdTMlBjclc1?=
+ =?utf-8?B?cEhqaUl1ZWhETlJEbk9kS2phVjdxbEVsdGJqazMxZWFQRGxpNEs3Ny9JZjN3?=
+ =?utf-8?B?NFNyN2pIZnFrSkpTNURDZFUzK2dCYkcrLzdjUWFaT0pXM2hhZlgxL3ljQnNM?=
+ =?utf-8?B?RHR5RUtqdWtxeTFDd3pTZz09?=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR08MB7925.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11198
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender:
+ ip=[2603:10a6:20b:574::8];domain=AS4PR08MB7925.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AM1PEPF000252E0.eurprd07.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	9117feac-9979-4695-df87-08dd4471e0d1
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|14060799003|1800799024|376014|36860700013|35042699022|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RTU0SDBKbjUrOFdNeEFBbXhzM0dIbGZ3Smk4SmNmOVVpWjFMaC9jcmxwZG9R?=
+ =?utf-8?B?eFl1R2FMNGFiaDFwbkx1MHMveU1OZnJhcFlEbUhwbmdBOGxZNzhQNTlrcVRX?=
+ =?utf-8?B?NEtjMThDWDNuV3F3WHVMUHU0Nk9IbFJlUndvV3ljT0txUTlmM1RiamlyOWQr?=
+ =?utf-8?B?UmsyY2tXVzhDc2RTbXhvdlVGTnh6QlFwLzI0OFpydGtnUVBDcXBFWUlVd2I2?=
+ =?utf-8?B?c1hWOWQ5cUQzVVhpOENUOXA5Rkx6WCtLZ25wbFBjNkxNMmF3dGI0TGZvSENO?=
+ =?utf-8?B?QU1IWGx4R1RqdzRBRXE5Vy9uZytxdHlIZlQwRXZ6ZlJVTm5DekRoRXN3ZUw3?=
+ =?utf-8?B?SlRrOG1XSkpTcTRIbjUyVGYvMzNLdzhLVXdmbFFaV3dOdHNsUlRMZnovVTBk?=
+ =?utf-8?B?K1VOQ0EvSHUwdm1lb01yVHRWREVJcDhoVFNOT1B3MGxBTTFTVVVqVkRCMzgr?=
+ =?utf-8?B?RG05VHRQL2MyU0doMU5ISVg1SGY5RE56eXpOTGllQnJCcm02MUU3OWZwMFNq?=
+ =?utf-8?B?TldVRC9QbFBWU21RU2RoeWlXYzFzaWNIOFg3dXV1dERYcjBEd1piM25iSFRu?=
+ =?utf-8?B?ME1hblFYZWQ3WDFsbTZDRkRjY3dLa2lSYVY3blRRZ0wrNjQzbFAxbTNMcGxp?=
+ =?utf-8?B?TWJzNWtiMmQyK1h5Zi9NZzE1a1M4aXZZN2RCTlNUNWgwY2xnQktGcmxpWk1B?=
+ =?utf-8?B?bFhIY3ZzM2JEZ1NRZ1pzUlJZRVJjY2FRWlR2VFAzbGx1R1Jsa2I2dUlwbE16?=
+ =?utf-8?B?R1hRdHdyUGg3Rnd6bHExL0QyNEM5bXZpc05YVFVxdE9GTTViOUpheXVvd0tS?=
+ =?utf-8?B?WERMcVZpL2hQZ25QRmJMQ0NNcWdGVHpSMXNTMmkzU0ZpNFJVU1I1dU14Uk5W?=
+ =?utf-8?B?U0ZQNnJXTVdTMEUxbjIzVk9pTW1HSXVvNjFCMTdnZGRYaEtaNXIrdDN1ak1i?=
+ =?utf-8?B?OFFFWGxTNVpjSjdmMWI0UGZ3aWFnSXE3clgwNXdvc0d4WERKY000MHpESitw?=
+ =?utf-8?B?bkpyT2k2d0Y0TU00YmdJc3pzYmdsd01UTzIzWjNITTR5cUNuMTZOVXN3MGts?=
+ =?utf-8?B?bjlodHFWaG56aXR1V0hTR2JYWUdVMUN3T0hBNTRKMFFMVzJwOEo2TWFyQkNx?=
+ =?utf-8?B?MFNYWVVIeGNHTU9PQTJrMUJTOGV2dzNvd3JCV2JYMDFJZzNhYndFcklmWFN5?=
+ =?utf-8?B?c2tzT1lrbVpneG55WnVkblgweGIvcUlwUUFOL2pSK0syUmlDQlR2RHZacHZJ?=
+ =?utf-8?B?MCt1U0ZaWTlNOEZxSHJpak9WdjZZVWZDMnllRjA0Wm9DT2N6Q2ljME9pdG1o?=
+ =?utf-8?B?NURkVWtweHFMRFFwTDNEU1BQenBNaFpPRzFKMjhKbTBBK1NldFRvM0V3QkN4?=
+ =?utf-8?B?NU5OMVI1ckFLd1RPYlJsY3hMRThnN3FFazNGODAyUk9ZV0RnSGdEeTZLTm5t?=
+ =?utf-8?B?SkE4a2ZGeDUzK0htRUo5NExSN2lPLysyVzdkUmVjSzYyNGUreGZtaXVadFNl?=
+ =?utf-8?B?WDFvbmNzUFZYUEcwT2xPbkFEWEZvdmk0QzJMS25ZSTB1YnBSWUlkdHJmZFZG?=
+ =?utf-8?B?VFZQMW92SEdidmdJNVZwckFkcVdFUm9yUVMrdVpMbnJwMzlpRmd4VGhaZEZZ?=
+ =?utf-8?B?YXk2K09Od0xpdmg0N2FOWTExT2o0MlNtck1zUkhzNjI2RzB6Nk1teW1YZUxR?=
+ =?utf-8?B?YWtFOE9BeERkdTMxRXRwZm93VExYaWxNM0hVZStKMkpBbXIzenJaUjdNUXVk?=
+ =?utf-8?B?THB5MTRvWmtCVTRNWm8yN2kwZ2M4d2VGbEtyNnBxbkNGUm1LZGNjcG91cWsr?=
+ =?utf-8?B?WHFuckN1d1N0V3BabmJsVWRpZktrTlBQYy8zQ2tYWWpJb3J2RWZ6dVZOKzdM?=
+ =?utf-8?B?bDU4c2JTdGY5ckF3WWt4YjBMaFhFdkVCUzBKaDIwUTh1Nm41R0lCRWJpY0pL?=
+ =?utf-8?Q?AmfhaPuLgTAgyn6oBp9TPVNWExLiFbjL?=
+X-Forefront-Antispam-Report:
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:64aa7808-outbound-1.mta.getcheckrecipient.com;CAT:NONE;SFS:(13230040)(14060799003)(1800799024)(376014)(36860700013)(35042699022)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 16:43:39.5633
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac0abae5-88d6-4719-8461-08dd4471e99c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM1PEPF000252E0.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10072
 
-On 03/02/2025 16:16, Dmitry Baryshkov wrote:
-> On Mon, Feb 03, 2025 at 09:22:51AM +0100, Johan Hovold wrote:
->> On Fri, Jan 31, 2025 at 10:44:28AM -0800, Abhinav Kumar wrote:
->>> On 1/29/2025 2:44 AM, Krzysztof Kozlowski wrote:
->>>> On 28/01/2025 09:04, Dikshita Agarwal wrote:
+Hi Maxime, Nicolas
+
+On 30/01/2025 17:47, Nicolas Dufresne wrote:
+> Le jeudi 30 janvier 2025 à 17:38 +0100, Maxime Ripard a écrit :
+>> Hi Nicolas,
 >>
->>>>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
->>>>> index 954cc7c0cc97..276461ade811 100644
->>>>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
->>>>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
->>>>> @@ -196,6 +196,9 @@ static int iris_probe(struct platform_device *pdev)
->>>>>   	u64 dma_mask;
->>>>>   	int ret;
->>>>>   
->>>>> +	if (!video_drv_should_bind(&pdev->dev, true))
->>>>> +		return -ENODEV;
+>> On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne wrote:
+>>> Le jeudi 30 janvier 2025 à 14:46 +0100, Maxime Ripard a écrit :
+>>>> Hi,
 >>>>
->>>> Wouldn't it mark the probe as failed and cause dmesg regressions?
->>
->> No, this is perfectly fine. Probe can return -ENODEV and driver core
->> will continue with any further matches.
->>
->>>>> +#if !IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS) || !IS_REACHABLE(CONFIG_VIDEO_QCOM_IRIS)
->>>>> +bool video_drv_should_bind(struct device *dev, bool is_iris_driver)
->>>>> +{
->>>>> +	/* If just a single driver is enabled, use it no matter what */
->>>>> +	return true;
->>>>> +}
->>>>> +
->>>>> +#else
->>>>> +static bool prefer_venus = true;
->>>>> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
->>>>> +module_param(prefer_venus, bool, 0444);
+>>>> I started to review it, but it's probably best to discuss it here.
 >>>>
+>>>> On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomasin wrote:
+>>>>> Hi,
+>>>>>
+>>>>> This is a patch series covering the support for protected mode execution in
+>>>>> Mali Panthor CSF kernel driver.
+>>>>>
+>>>>> The Mali CSF GPUs come with the support for protected mode execution at the
+>>>>> HW level. This feature requires two main changes in the kernel driver:
+>>>>>
+>>>>> 1) Configure the GPU with a protected buffer. The system must provide a DMA
+>>>>>    heap from which the driver can allocate a protected buffer.
+>>>>>    It can be a carved-out memory or dynamically allocated protected memory region.
+>>>>>    Some system includes a trusted FW which is in charge of the protected memory.
+>>>>>    Since this problem is integration specific, the Mali Panthor CSF kernel
+>>>>>    driver must import the protected memory from a device specific exporter.
 >>>>
->>>> The choice of driver is by module blacklisting, not by failing probes.
+>>>> Why do you need a heap for it in the first place? My understanding of
+>>>> your series is that you have a carved out memory region somewhere, and
+>>>> you want to allocate from that carved out memory region your buffers.
 >>>>
->>>> I don't understand why this patchset is needed and neither commit msg
->>>> nor above longer code comment explain me that. Just blacklist the module.
->>
->>> Summarizing the discussion with myself, Krzysztof and Dmitry:
+>>>> How is that any different from using a reserved-memory region, adding
+>>>> the reserved-memory property to the GPU device and doing all your
+>>>> allocation through the usual dma_alloc_* API?
 >>>
->>> 1) module blacklisting solution will not be ideal if users want to have 
->>> both venus and iris or either of them built-in
+>>> How do you then multiplex this region so it can be shared between
+>>> GPU/Camera/Display/Codec drivers and also userspace ?
 >>
->> Module blacklisting is not the way to go, you shouldn't have two drivers
->> racing to bind to the same device ever.
->>
->>> 2) with current approach, one of the probes (either venus or iris) will 
->>> certainly fail as video_drv_should_bind() will fail for one of them. 
->>> This can be considered as a regression and should not happen.
->>
->> How can that be a regression? One driver must fail to probe (see above).
+>> You could point all the devices to the same reserved memory region, and
+>> they would all allocate from there, including for their userspace-facing
+>> allocations.
 > 
-> I also don't think that it's a regression. I think Krzysztof was
-> concerned about the 'failed to bind' messages in dmesg.
+> I get that using memory region is somewhat more of an HW description, and
+> aligned with what a DT is supposed to describe. One of the challenge is that
+> Mediatek heap proposal endup calling into their TEE, meaning knowing the region
+> is not that useful. You actually need the TEE APP guid and its IPC protocol. If
+> we can dell drivers to use a head instead, we can abstract that SoC specific
+> complexity. I believe each allocated addressed has to be mapped to a zone, and
+> that can only be done in the secure application. I can imagine similar needs
+> when the protection is done using some sort of a VM / hypervisor.
+> 
+> Nicolas
+> 
 
-I never used word "regression" alone. I said "dmesg regression", which
-means you have error in logs or any system facility which provides you
-self-information about device probe history. I don't remember if -ENODEV
-leads to any printks, so maybe I am wrong here, but regardless normal
-and expected operation of a driver should never result in -ERRNO, except
-deferred probe of course.
+The idea in this design is to abstract the heap management from the
+Panthor kernel driver (which consumes a DMA buffer from it).
 
-Best regards,
-Krzysztof
+In a system, an integrator would have implemented a secure heap driver,
+and could be based on TEE or a carved-out memory with restricted access,
+or else. This heap driver would be responsible of implementing the
+logic to: allocate, free, refcount, etc.
+
+The heap would be retrieved by the Panthor kernel driver in order to
+allocate protected memory to load the FW and allow the GPU to enter/exit
+protected mode. This memory would not belong to a user space process.
+The driver allocates it at the time of loading the FW and initialization
+of the GPU HW. This is a device globally owned protected memory.
+
+When I came across this patch series:
+-
+https://lore.kernel.org/lkml/20230911023038.30649-1-yong.wu@mediatek.com/#t
+I found it could help abstract the interface between the secure heap and
+the integration of protected memory in Panthor.
+
+A kernel driver would have to find the heap: `dma_heap_find()`, then
+request allocation of a DMA buffer from it. The heap driver would deal
+with the specifities of the protected memory on the system.
+
+>>
+>>> Also, how the secure memory is allocted / obtained is a process that
+>>> can vary a lot between SoC, so implementation details assumption
+>>> should not be coded in the driver.
+>>
+>> But yeah, we agree there, it's also the point I was trying to make :)
+>>
+>> Maxime
+> 
+
+Agree with your point, the Panthor kernel driver may not be aware of the
+heap management logic. As an alternative to the DMA heap API used here,
+I also tried to expose the heap by passing the phandle of a "heap"
+device to Panthor. The reference to the DMA heap was stored as a private
+data of the heap device as a new type: `struct dma_heap_import_info`,
+similar to the existing type: `struct dma_heap_export_info`.
+This made me think it could be problematic, as the private data type
+would have to be cast before accessing it from the importer driver. I
+worried about a mis-use of the types with this approach.
+
+Regards,
+Florent
 
