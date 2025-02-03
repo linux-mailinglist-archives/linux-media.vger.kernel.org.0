@@ -1,60 +1,71 @@
-Return-Path: <linux-media+bounces-25605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5961AA2664A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 23:01:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A2A2664E
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 23:02:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E1AAB1647B4
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 22:00:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 219FB16537A
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 22:02:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 862D8209684;
-	Mon,  3 Feb 2025 22:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC5B520FAAB;
+	Mon,  3 Feb 2025 22:02:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJDcfNuV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMpqO6Vk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B54182B4;
-	Mon,  3 Feb 2025 22:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3731F182B4;
+	Mon,  3 Feb 2025 22:02:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738620052; cv=none; b=rApFjyWicUtZDTAsJuWEycGyynQCcNA4PTz0rDy1OkvVObmlutUfknAcBDyhCNuPLrK+ycjo3wbefZOHT039kXvCOtLJO9VhXbcT/qTMjq96xJrcV6LVG86ZD1foRJ79aMz7IST+9fzUc3zWgyQqA8Mk4y+fIwcgM78j+0lqu5c=
+	t=1738620152; cv=none; b=Xpn8QlQvRPTcSVfjbbHbrICowPlcZGJICbC7uT2e6JZgrFrM3AEMWIUmJq6tROWV2ngJu7FdBdabK5AnPfb4u3wcMkX5/P+R840kM8JuTY74xW/Wm3oGFOi0uzEIcAc5EZn3L5jfZfu7IY1GKPVLJ4lDJSUbGfCWkRxtcEp82+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738620052; c=relaxed/simple;
-	bh=EezpAkBoF00zoksO8UOZh2TfHi73W3du7AXPR52YZEU=;
+	s=arc-20240116; t=1738620152; c=relaxed/simple;
+	bh=4MG6GO9DO9XXRUtRL6e1XPm8IlP29lzu4zko2OYSN4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmGrKS+xCeaStVBZj3SZ8ljUP/+n8GhhwEXfk9SkIQsRENGf7IPrlpXrySl31HH3SDBAGC/J69k+ihiD46lMqcD4XMNRY1NYC9HBhT4kWtPX2ORO/76Ay/4HXwYuc8433c+BGSvmWwMzWN0/CRhGVevrF3lMJYjxS5J+4ssZ8Po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJDcfNuV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D980C4CED2;
-	Mon,  3 Feb 2025 22:00:51 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=WH0JojDfwarNyS8k/QgG1keMSLG6uqC+yscvK0OBGlakOg6d70gEY2W34HgLMTClhZs1u7b61SZTgUh2ESwKN1v2Gfy7g4pWJ01BHE2JEMsudxhsD/qaw5h6RrOepmL1flJitlJOtdTBicxVzEn5OhYBdh1LGxDrSsddSRZt3z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMpqO6Vk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F7D4C4CED2;
+	Mon,  3 Feb 2025 22:02:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738620051;
-	bh=EezpAkBoF00zoksO8UOZh2TfHi73W3du7AXPR52YZEU=;
+	s=k20201202; t=1738620151;
+	bh=4MG6GO9DO9XXRUtRL6e1XPm8IlP29lzu4zko2OYSN4I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MJDcfNuVQehzIIhYWFfRycZA7HXKJl4RHWD3q0+OgGvbAvMdJ+peRG96CU7FvPvt4
-	 3PDF/pyir2PwxQpzmGjFkOo5Jvvx1IhEVUw1ERanAvB66ZD500bSk10yuFMZYyY1d5
-	 kR19G5gF0GEBUVYIUzZXwprGgMEcJ9L8jWSQkK1WvZ3oiVxCyCdW5eR0KQKG+XUyni
-	 ZAT8zJlDNbBlUnjrvuqKHLv0kdmpyvhUarN4WgHOT2pqi6A9Vm/XWNwKYXGk8IIRA3
-	 sAC7Uz8I3gKOLkQGqmxKHSzcelFE7ZuKBDjYwdMW57ybpXT3yDRkJSmFEfkjCCQs63
-	 fL2rOKE1tmpIA==
-Date: Mon, 3 Feb 2025 16:00:50 -0600
+	b=oMpqO6VkqzpV+wbAibm7M8luRjJhxkCgqeGU7rn9lXqAg4ZtVc1T5FmKx3eq6W2xG
+	 consJmclmmkd7RVsl+PIG1Q+LinmL9Pdm8cQUnkzO1Z0+W8n8tv68OC6VXmiEkUuTv
+	 XKrEH3CIw0jZ3VZTlKR6LaRLO1+2hFrG/0zATTbcycZoicVhtSsWTp5Y08uOMR9dYk
+	 SrsKZaSDuCfNnW9LmkBev3uEA6lv01VdSgyO5nYUzYJ370KV1Jz3F8blq6rLpDsyxx
+	 I86WpWwDG0MWroQky/1hjH/4JLm8IbI1FwI92BqwtDQ67KZN6WMGZahMdroT3yz7vS
+	 WEucqe692Lp4Q==
+Date: Mon, 3 Feb 2025 16:02:30 -0600
 From: Rob Herring <robh@kernel.org>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [RFC 02/12] dt-bindings: i2c: maxim,max96712: add a couple of
- new properties
-Message-ID: <20250203220050.GA114735-robh@kernel.org>
-References: <20250131163408.2019144-1-laurentiu.palcu@oss.nxp.com>
- <20250131163408.2019144-3-laurentiu.palcu@oss.nxp.com>
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>, linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, "Guoniu.zhou" <guoniu.zhou@nxp.com>,
+	Robby Cai <robby.cai@nxp.com>,
+	Robert Chiras <robert.chiras@nxp.com>
+Subject: Re: [PATCH 01/14] dt-bindings: phy: Add MIPI CSI PHY for i.MX8Q
+Message-ID: <20250203220230.GA120569-robh@kernel.org>
+References: <20250131-8qxp_camera-v1-0-319402ab606a@nxp.com>
+ <20250131-8qxp_camera-v1-1-319402ab606a@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,90 +74,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250131163408.2019144-3-laurentiu.palcu@oss.nxp.com>
+In-Reply-To: <20250131-8qxp_camera-v1-1-319402ab606a@nxp.com>
 
-On Fri, Jan 31, 2025 at 06:33:56PM +0200, Laurentiu Palcu wrote:
-> Add new properties for configuring FSYNC functionality and operation
-> mode, as the chip can support both tunneling and pixel modes.
+On Fri, Jan 31, 2025 at 04:33:46PM -0500, Frank Li wrote:
+> Add MIPI CSI phy binding doc for i.MX8QXP, i.MX8QM and i.MX8ULP.
 > 
-> While at it, add the maxim,max96724 compatible to the bindings since it
-> was already added in the driver some time back.
-
-I don't see that change.
-
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  .../bindings/media/i2c/maxim,max96712.yaml    | 45 +++++++++++++++++++
->  1 file changed, 45 insertions(+)
+>  .../bindings/phy/fsl,imx8qxp-mipi-cphy.yaml        | 53 ++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> index 26f85151afbd3..410004f3a032f 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> @@ -36,6 +36,48 @@ properties:
->  
->    enable-gpios: true
->  
-> +  '#gpio-cells':
-> +    const: 2
-> +    description: |
+> diff --git a/Documentation/devicetree/bindings/phy/fsl,imx8qxp-mipi-cphy.yaml b/Documentation/devicetree/bindings/phy/fsl,imx8qxp-mipi-cphy.yaml
+> new file mode 100644
+> index 0000000000000..c6cbedd9ed114
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/fsl,imx8qxp-mipi-cphy.yaml
+> @@ -0,0 +1,53 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/fsl,imx8qxp-mipi-cphy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8 SoC MIPI CSI PHY
+> +
+> +maintainers:
+> +  - Frank Li <Frank.Li@nxp.com>
+> +
+> +properties:
+> +  "#phy-cells":
+> +    const: 0
+> +
+> +  compatible:
+> +    enum:
+> +      - fsl,imx8qxp-mipi-cphy
+> +      - fsl,imx8ulp-mipi-cphy
 
-Don't need '|' if no formatting.
+Where's imx8qm?
 
-> +      First cell is the GPIO pin number, second cell is the flags. The GPIO pin
-> +      number must be in range of [0, 11].
 > +
-> +  gpio-controller: true
+> +  reg:
+> +    maxItems: 1
 > +
-> +  maxim,operation-mode:
-> +    description: |
-> +      Deserializer mode of operation: 0 - tunneling mode, 1 - pixel mode
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum: [0, 1]
-> +    default: 0
+> +  power-domains:
+> +    maxItems: 1
 > +
-> +  maxim,fsync-config:
-> +    description: |
-> +      Frame synchronization (FSYNC) is used to align images sent from multiple
-> +      sources in surround-view applications and is required for concatenation.
-> +      In FSYNC mode, the deserializer sends a sync signal to each serializer;
-> +      the serializers then send the signal to the connected sensor.
-> +    $ref: /schemas/types.yaml#/definitions/uint32-array
-> +    minItems: 2
-> +    items:
-> +      - description: |
-> +          FSYNC mode:
-> +            0 - off, no FSYNC generation
-> +            1 - internal, GPIO is not used as input or output
-> +            2 - master, GPIO pin is used to drive a slave deserializer
-> +            3 - slave, GPIO pin is used as FSYNC input driven by a master device
-> +        enum: [0, 1, 2, 3]
-> +        default: 0
-> +      - description: |
-> +          FSYNC TX ID: GPIO ID used for transmitting FSYNC signal
-> +        minimum: 0
-> +        maximum: 31
-> +        default: 0
-> +      - description: |
-> +          FSYNC pin: 0 - MFP0, 1 - MFP7. Not used for internal mode.
-> +        enum: [0, 1]
-> +        default: 0
+> +required:
+> +  - "#phy-cells"
+> +  - compatible
 > +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->  
-> @@ -92,6 +134,9 @@ examples:
->      #include <dt-bindings/gpio/gpio.h>
->      #include <dt-bindings/media/video-interfaces.h>
->  
-> +    maxim,operation-mode = <0>;
-> +    maxim,fsync-config = <1 0>;
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - fsl,imx8qxp-mipi-cphy
+> +    then:
+> +      required:
+> +        - reg
+
+How is the device accessed with no registers?
+
+> +        - power-domains
 > +
->      i2c@e6508000 {
->              #address-cells = <1>;
->              #size-cells = <0>;
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    phy@58221000 {
+> +            compatible = "fsl,imx8qxp-mipi-cphy";
+> +            reg = <0x58221000 0x10000>;
+> +            #phy-cells = <0>;
+> +            power-domains = <&pd 0>;
+> +    };
+> +
+> 
 > -- 
-> 2.44.1
+> 2.34.1
 > 
 
