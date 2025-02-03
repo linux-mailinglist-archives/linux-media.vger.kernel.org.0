@@ -1,138 +1,238 @@
-Return-Path: <linux-media+bounces-25586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25587-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BC7A25971
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 13:28:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEB0A25AED
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 14:32:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF4161618E5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 12:28:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B03A91884DCE
+	for <lists+linux-media@lfdr.de>; Mon,  3 Feb 2025 13:32:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B65C7205AA3;
-	Mon,  3 Feb 2025 12:27:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0525205AA2;
+	Mon,  3 Feb 2025 13:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CrXroWyz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nxAkXTkk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F8C2054ED
-	for <linux-media@vger.kernel.org>; Mon,  3 Feb 2025 12:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406AF25A631;
+	Mon,  3 Feb 2025 13:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738585657; cv=none; b=GB/JKeejHw3BkCgJn5rB0tAuoiaeUmQBNwf5m50xqtGiur041B0P/Ik2z0vwxqjVy042ZrtZqEzHD3V2Ob8Zm4hAnitUKI4jDmQqg/LakIxgw2VipOtcT8byx+VRIIM+RbIVEUtfcpW9pLBd5H7mHUIghKA+MJuiq6yGslhQc60=
+	t=1738589553; cv=none; b=sTi7iMGqA/5R5R+hQydsJROQ1IwChByhmS74VXIL+4yc9FfrCzHP/3ClndRD4PG/aSzuYzSooYCxn8yWy6+d+F9ttF/L0V540MhaWySvzS203+dzzIUlo+iX6zIaM4mjy/Rmy/ZfrKrZUGZI5izHiX1rEKkD49vW2KaC5/tGbOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738585657; c=relaxed/simple;
-	bh=yM86SLF/6jAKbL4AMHEe3in6d4WcCvkufzZCjMCgLeo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KudfwtSOjnzLjf7wH72pdsBYiFMXkedvTzS7PExvwoYTcOiTsTp/MTPeKzIUX4fUNP8nMwZQBJhGwEq4MSO+mUpLHF0+mJwE7VryQjb3uuq4NoqLRHjRApR4qCAc37wltF3oCbGSMcBUUSOL8syCH3ZlPP4sB0LurwXYfF5lbOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CrXroWyz; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-467b086e0easo18589911cf.1
-        for <linux-media@vger.kernel.org>; Mon, 03 Feb 2025 04:27:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1738585654; x=1739190454; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7hiuieGhjR7AOoPsrkH+6ULiRM3jI6DLF1E4FTTyWNk=;
-        b=CrXroWyz5/rIBgI3iizA0mxANf/TufkLET+gWRNG29JzzLdH77e8ppvkhmIxWVaxq+
-         1SCp2PMIPJCc+9Fn8VrC5umDDhhR8E+H/d8WFZ2EuL3zLnqezOVetgDRREvgamk5NLkn
-         82jMCyTnXQB3Z7gXS8Un/uEk4t8SBrIavXE14=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738585654; x=1739190454;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7hiuieGhjR7AOoPsrkH+6ULiRM3jI6DLF1E4FTTyWNk=;
-        b=NL/p57C8cueJE7YIax6mumjnmbm4oaSpD8n4K6kkkzbDEOQBxIMVtxOc7vxsd5oKvS
-         ODypQfikCgihmu3+JQTgiptYnZ7n4r9foAk3lFDBQo06q2y6DHeJCosX30a3a6nAfLou
-         H8CzI9+WSXulhtMfCTW5f3eSQaeihGYkFnJfFPoW/YNriYtj7r7qhy2EmzIADg3U4N9N
-         QpWALNEkLtTgm34DLFQP2x7XTSo8ecVKSba3EdHXFtngViyBQCNCJY6kZpZBBJM0IsTj
-         xX008eqwgNK3aVQpUJhljZUzQmarsdDvx1BsK81GHo4S40z9BTa6BhVSP3EogULD2Q5W
-         qWYg==
-X-Gm-Message-State: AOJu0YzfHzrJRvpzWKrVRWiXIpQAGH7X/82625wRFLElnqx6woFNQ9we
-	u/i1KRtVMFDsLESyhlKs7iZHsm1meg9lJQyfDTXjBJx7v+WayTw4TFe0jFJLDw==
-X-Gm-Gg: ASbGncuNCCikq4YirtUu8jmdmoNLEphiPLm0Mw+9+oLShfofn2Ptnmdzz7gp2oGhf+r
-	5iq/UiTL0VKwGoVro46VSvFW8lCjCbfEkGtE0ufuPl96tCR0gQJerVTONniQohfPc5Cd6HOrFcF
-	NQfCxTNvzNpyzZSVolYfxsrHaGxxVHODfgTM6z07Qvon1QDGaEaty56Wv5E9NwtZW8O9ywheXWl
-	6STJohLmPRlC/f+NU2bSdl1AKGx5Y0T0GXrtv4eHAuRwpGWEBcPcCq0UQjiLFU49PB/4BFge2DX
-	Pi7suTDXHVRI8AaQS4Bu252XFkdoLfhaDYulan/BVbJjQa2rOjRh69xQ0W6VrqItXA==
-X-Google-Smtp-Source: AGHT+IFIwj70LhWN6hLpuq3VFcv+Apm216xu+A8hJyiHZuuHCWjbdAE/0GZTA+6rZasVQKTSwB6rlQ==
-X-Received: by 2002:a05:622a:1451:b0:467:73bf:e2ca with SMTP id d75a77b69052e-46fd0b916f6mr246510691cf.46.1738585654488;
-        Mon, 03 Feb 2025 04:27:34 -0800 (PST)
-Received: from denia.c.googlers.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46fdf0e0c12sm48240941cf.37.2025.02.03.04.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 04:27:34 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 03 Feb 2025 12:26:25 +0000
-Subject: [PATCH v2 6/6] media: uvcvideo: Do not turn on the camera for some
- ioctls
+	s=arc-20240116; t=1738589553; c=relaxed/simple;
+	bh=NWDhWtA0DUZLQLtHB543IZHP0ifSYiqe2MzuHajgCB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CTsbKfSpWvaif9rMYs8MaVPSxmNuIOpyRC5S8JJLyrirJMWRxNec+c4zi/SzE26cbpxlYLIvptwGV3QiC7utmKhDH4UAXqnjz2F9ix2v9Si9vzScW3w8dw9jwXaflgIyDah94iJJ95VI6GS9kB5A0tyv+YsjJlLkRvmuIXDqnDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nxAkXTkk; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 99AE0664;
+	Mon,  3 Feb 2025 14:31:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1738589476;
+	bh=NWDhWtA0DUZLQLtHB543IZHP0ifSYiqe2MzuHajgCB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nxAkXTkktDL9U0Jbldw6M913VAtsNtZesiVK7ObpaOzNRlUfdIGrz9JUbzcdZ8aoJ
+	 sxyeNvM9VEM3v2RpeOS4RCcmiocR2lrDc6GzU84yq15k8+cBql1rU5dteHWJ4C8AX6
+	 t3Ba3YXnsHMxe6q9WKsasWozAlcO2QSoAr5v+Eb8=
+Date: Mon, 3 Feb 2025 15:32:24 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+	robh@kernel.org, krzk+dt@kernel.org, bryan.odonoghue@linaro.org,
+	laurentiu.palcu@nxp.com, robert.chiras@nxp.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	LnxRevLi@nxp.com, kieran.bingham@ideasonboard.com,
+	hdegoede@redhat.com, dave.stevenson@raspberrypi.com,
+	mike.rudenko@gmail.com, alain.volmat@foss.st.com,
+	devicetree@vger.kernel.org, conor+dt@kernel.org,
+	alexander.stein@ew.tq-group.com, umang.jain@ideasonboard.com,
+	zhi.mao@mediatek.com, festevam@denx.de, julien.vuillaumier@nxp.com,
+	alice.yuan@nxp.com
+Subject: Re: [PATCH v3 2/4] media: ox05b1s: Add omnivision OX05B1S raw sensor
+ driver
+Message-ID: <20250203133224.GA22963@pendragon.ideasonboard.com>
+References: <20250124001243.446511-1-mirela.rabulea@nxp.com>
+ <20250124001243.446511-3-mirela.rabulea@nxp.com>
+ <20250124-benevolent-rat-of-tolerance-3a7eea@krzk-bin>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250203-uvc-granpower-ng-v2-6-bef4b55e7b67@chromium.org>
-References: <20250203-uvc-granpower-ng-v2-0-bef4b55e7b67@chromium.org>
-In-Reply-To: <20250203-uvc-granpower-ng-v2-0-bef4b55e7b67@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250124-benevolent-rat-of-tolerance-3a7eea@krzk-bin>
 
-There are some ioctls that do not need to turn on the camera. Do not
-call uvc_status_get in those cases.
+On Fri, Jan 24, 2025 at 09:07:01AM +0100, Krzysztof Kozlowski wrote:
+> On Fri, Jan 24, 2025 at 02:12:41AM +0200, Mirela Rabulea wrote:
+> > +
+> > +static int ox05b1s_read_chip_id(struct ox05b1s *sensor)
+> > +{
+> > +	struct device *dev = &sensor->i2c_client->dev;
+> > +	u64 chip_id = 0;
+> > +	char *camera_name;
+> > +	int ret = 0;
+> > +
+> > +	ret = cci_read(sensor->regmap, OX05B1S_REG_CHIP_ID, &chip_id, NULL);
+> 
+> This suggests these are compatible devices. But in the binding you said
+> they are not... so your binding is not correct. Express compatibility
+> with proper fallback.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_v4l2.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Unfortunately we can't do that for camera sensors. It's important for
+drivers to be able to identify the camera sensor model without having to
+power up the device at probe time, depending on what device the sensor
+is integrated in. For instance, with camera sensors found in laptops,
+the privacy LED is often connected to the sensor power supply, and a
+flashing privacy light when booting scares users.
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 90ec6f0015ca..121a582c7945 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -1379,6 +1379,26 @@ static long uvc_v4l2_video_ioctl2(struct file *file,
- {
- 	struct uvc_fh *handle = file->private_data;
- 
-+	/* The following IOCTLs do not need to turn on the camera. */
-+	switch (cmd) {
-+	case VIDIOC_CREATE_BUFS:
-+	case VIDIOC_DQBUF:
-+	case VIDIOC_ENUM_FMT:
-+	case VIDIOC_ENUM_FRAMEINTERVALS:
-+	case VIDIOC_ENUM_FRAMESIZES:
-+	case VIDIOC_ENUMINPUT:
-+	case VIDIOC_EXPBUF:
-+	case VIDIOC_G_FMT:
-+	case VIDIOC_G_PARM:
-+	case VIDIOC_G_SELECTION:
-+	case VIDIOC_QBUF:
-+	case VIDIOC_QUERYCAP:
-+	case VIDIOC_REQBUFS:
-+	case VIDIOC_SUBSCRIBE_EVENT:
-+	case VIDIOC_UNSUBSCRIBE_EVENT:
-+		return video_ioctl2(file, cmd, arg);
-+	}
-+
- 	guard(uvc_status)(handle->stream->dev);
- 
- 	return video_ioctl2(file, cmd, arg);
+Reading the ID register at probe time is fine when running on a platform
+where the sensor can be powered up when probing, so the driver isn't
+wrong doing so. It's also fine for drivers to not implement the no-power
+probe right away. DT bindings however need to be ready for this, so a
+fallback string can't be used.
+
+> > +	if (ret) {
+> > +		dev_err(dev, "Camera chip_id read error\n");
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	switch (chip_id) {
+> > +	case 0x580542:
+> > +		camera_name = "ox05b1s";
+> > +		break;
+> > +	default:
+> > +		camera_name = "unknown";
+> > +		break;
+> > +	}
+> > +
+> > +	if (chip_id == sensor->model->chip_id) {
+> > +		dev_dbg(dev, "Camera %s detected, chip_id=%llx\n", camera_name, chip_id);
+> > +	} else {
+> > +		dev_err(dev, "Detected %s camera (chip_id=%llx), but expected %s (chip_id=%x)\n",
+> > +			camera_name, chip_id, sensor->model->name, sensor->model->chip_id);
+> > +		ret = -ENODEV;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> 
+> ...
+> 
+> > +
+> > +static const struct of_device_id ox05b1s_of_match[] = {
+> > +	{
+> > +		.compatible = "ovti,ox05b1s",
+> 
+> And this is incomplete, according to current binding, so it seems you
+> wanted to make them compatible just did not write the binding like that?
+> 
+> Confusing.
+> 
+> > +		.data = &ox05b1s_data,
+> > +	},
+> > +	{ /* sentinel */ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, ox05b1s_of_match);
+> > +
+> > +static struct i2c_driver ox05b1s_i2c_driver = {
+> > +	.driver = {
+> > +		.name  = "ox05b1s",
+> > +		.pm = pm_ptr(&ox05b1s_pm_ops),
+> > +		.of_match_table	= ox05b1s_of_match,
+> > +	},
+> > +	.probe	= ox05b1s_probe,
+> > +	.remove = ox05b1s_remove,
+> > +};
+> > +
+> > +module_i2c_driver(ox05b1s_i2c_driver);
+> > +MODULE_DESCRIPTION("Omnivision OX05B1S MIPI Camera Subdev Driver");
+> > +MODULE_AUTHOR("Mirela Rabulea <mirela.rabulea@nxp.com>");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/drivers/media/i2c/ox05b1s/ox05b1s_modes.c b/drivers/media/i2c/ox05b1s/ox05b1s_modes.c
+> > new file mode 100644
+> > index 000000000000..1f3b822d4482
+> > --- /dev/null
+> > +++ b/drivers/media/i2c/ox05b1s/ox05b1s_modes.c
+> > @@ -0,0 +1,63 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Register configurations for all sensor supported modes
+> > + * Copyright (C) 2024, NXP
+> > + * Copyright (C) 2024, Omnivision
+> > + * Copyright (C) 2024, Verisilicon
+> > + *
+> > + */
+> > +
+> > +#include "ox05b1s.h"
+> > +
+> > +/*
+> > + * Register configuration for Omnivision OX05B1S raw camera
+> > + * 2592X1944_30FPS_FULL_RGBIr 2592 1944
+> > + */
+> > +struct ox05b1s_reg ovx5b_init_setting_2592x1944[] = {
+> 
+> Why this is not const? I commented last time with the same.
+> 
+> > +	{ 0x0107, 0x01 },
+> > +	{ 0x0307, 0x02 },
+> > +	{ 0x034a, 0x05 },
+> > +	{ 0x040b, 0x5c },
+> > +	{ 0x040c, 0xcd },
+> > +	{ 0x3009, 0x2e },
+> > +	{ 0x3219, 0x08 },
+> > +	{ 0x3684, 0x6d },
+> > +	{ 0x3685, 0x6d },
+> > +	{ 0x3686, 0x6d },
+> > +	{ 0x3687, 0x6d },
+> > +	{ 0x368c, 0x07 },
+> > +	{ 0x368d, 0x07 },
+> > +	{ 0x368e, 0x07 },
+> > +	{ 0x368f, 0x00 },
+> > +	{ 0x3690, 0x04 },
+> > +	{ 0x3691, 0x04 },
+> > +	{ 0x3692, 0x04 },
+> > +	{ 0x3693, 0x04 },
+> > +	{ 0x3698, 0x00 },
+> > +	{ 0x36a0, 0x05 },
+> > +	{ 0x36a2, 0x16 },
+> > +	{ 0x36a3, 0x03 },
+> > +	{ 0x36a4, 0x07 },
+> > +	{ 0x36a5, 0x24 },
+> > +	{ 0x36e3, 0x09 },
+> > +	{ 0x3702, 0x0a },
+> > +	{ 0x3821, 0x04 }, /* mirror */
+> > +	{ 0x3822, 0x10 },
+> > +	{ 0x382b, 0x03 },
+> > +	{ 0x3866, 0x10 },
+> > +	{ 0x386c, 0x46 },
+> > +	{ 0x386d, 0x08 },
+> > +	{ 0x386e, 0x7b },
+> > +	{ 0x4802, 0x00 },
+> > +	{ 0x481b, 0x3c },
+> > +	{ 0x4837, 0x19 },
+> > +	{ /* sentinel*/ },
+> > +};
+> > +
+> > +struct ox05b1s_reglist ox05b1s_reglist_2592x1944[] = {
+> 
+> Why not const?
+> 
+> Best regards,
+> Krzysztof
+> 
 
 -- 
-2.48.1.362.g079036d154-goog
+Regards,
 
+Laurent Pinchart
 
