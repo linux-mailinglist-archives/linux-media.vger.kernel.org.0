@@ -1,285 +1,159 @@
-Return-Path: <linux-media+bounces-25642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C6FA275E0
-	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2025 16:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D03A2760C
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2025 16:36:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0ACE164F54
-	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2025 15:31:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D63AC167EA9
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2025 15:35:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0607D2144C0;
-	Tue,  4 Feb 2025 15:31:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF3622144CD;
+	Tue,  4 Feb 2025 15:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="JdYZoNMi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FRHDnsg9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F299D207665
-	for <linux-media@vger.kernel.org>; Tue,  4 Feb 2025 15:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2817A2135D6
+	for <linux-media@vger.kernel.org>; Tue,  4 Feb 2025 15:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738683075; cv=none; b=Y5sJPEeSxtA/9Ylg7BXglSA/znA5BJ6pHsowaeBZqytZYaAzVqdMylZQvTOWtWr0T5dC61eX2lsjOcnHXOmzqZI9kenSoGYd0sTl2PGI2yEj01FNkPMSWsp3fLmGrZSlqV5YES3YDjUOCT2vzqbWgkXgHn0ErDLsr8ObWX7ri40=
+	t=1738683333; cv=none; b=amMu7hIR7Xm0LekceRlSoFM9Vn7dAm9O/JECDhepccHGpem31DCEZf0OXODevxuZxJkJ9/b4H3NYdS+KXSeWccsxnn1WXuAr7dOqwtdLRRbaZiIdusjl+8xVt60fFHR/Kc1Kus5E6GevqEj8nCdR42VSC1E1riU3CTRErgTJxaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738683075; c=relaxed/simple;
-	bh=w7uyyrr4hji67+OQhdxfK+juNW+27vozeL0bcgS/b6o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R+Mv1uAtN5D0Ot5BTBfLjIZdHes4Ta5sA9+iiCPSqFXak6ocTe2lz4lok0qHagXFUi1jSuduI98hoyvj8qbeXrNdQtU+543eXtQ8OlXHRq0UAbGwPXM/2tbWNulykXP0nNatPrHqY+arywECpgzBHWPVEBSqFkbJZ1ku5337CiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=JdYZoNMi; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43626213fffso42036225e9.1
-        for <linux-media@vger.kernel.org>; Tue, 04 Feb 2025 07:31:12 -0800 (PST)
+	s=arc-20240116; t=1738683333; c=relaxed/simple;
+	bh=DVWVLiFZX3pBISObkfjiwN9Rg1VSfP0CMx9QbuGF9Gg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iRCXR94Yerab1eitunCD7zrtaxhV+ZzhOx287dg8BlUFFlzMQDw2jNWaI0n1IvvMV8m/WzkIb4AwPujVpGL39fnffbdRzoF3ws2bCftPJkJPOaDXBO/9TKqroO4K+iRNAXHQI7ypybmE5gwCT+VbRJIez021FGgSHzewcx45RVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FRHDnsg9; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30613802a04so55940901fa.2
+        for <linux-media@vger.kernel.org>; Tue, 04 Feb 2025 07:35:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1738683071; x=1739287871; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YO04QLH+X8zKP3vbuSZ62NP1UERnKX1EVSjge29Xk6E=;
-        b=JdYZoNMiFf8s6Ue571L77VD5phGSxyXzgIJ2V7X7PvN6Kb0XMhua73PXrYGp6RIfnU
-         n8hSxeLZfZE9SipOlTk+cDX2L98XhupRgmX2yRAXsyLztQMquICYIP31i4gWMQWx93JZ
-         Q9oVoMDz9OlzPM52n2j/T98C9Ii+nwjrzo/lX+st77kv3Haqxf3WtTJkzUKuhkNur5Vf
-         cnSitxjuEOB6JXBEonyuyXfwA34WiOanDPyjZ4PS4IhlEzmd/Jmh7L7Rq/wK8GVjIg8f
-         4bDfSlfOxP/mP7aXfxCdch27JW46mtWpf8293fvc29bzNBYjLePTVSh4/nmwuJ0O9xh7
-         ICpg==
+        d=linaro.org; s=google; t=1738683329; x=1739288129; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mo0faCQWMQesSAiWhpm/M42GsGQUGBhbD7joezmU+YI=;
+        b=FRHDnsg9MKBV4f9bynE26YGmNgIvZ0f99xhfh9dtV7M34uxUY6s5dQgdhi5V2KIriW
+         4LLi7HhwFXLEHy2F1X405q76BnQLcsBDv84BtlK8TrKZ3MlgCQ+8Tu2mFElMw2+XVRk6
+         b0TuWjzu2Z0AkjsyJkTUESv59kDksXGZOL4FfJhs1MvD/UY8a2leHUR13KBcEPiQeXte
+         Y8pDv4sf7wZFbUsbMgX92xKFZsiqHChchUr0V7f7ZphF2zj+eZd6mDWEA2sH02dc6rFD
+         FFD6sV9dJRMlEcxa9JcjwF6MGfCYikjWJSIAEdDue33Mu4THV5MSX8H/AAH99UrcBsdu
+         tgXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738683071; x=1739287871;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YO04QLH+X8zKP3vbuSZ62NP1UERnKX1EVSjge29Xk6E=;
-        b=oa0FSPZEV9/iRPp5FuSyoSIlwApSI/oddeN1x7sMalv+xVq7+ngli6niUHVDOjtCMg
-         Tmco7TJuDRV6APxGSj915RE+5/YatjjPAPFnuDLAAhmxwiyebliNY2B8wAGwWiKNYhmn
-         LjljSX6cExuif60n5+sILyelFu07L+bpK0dUueqR7pnNoEJKvVQ6v6SkztN6spnfbNht
-         GYbsS0NKRIkVj6Fs6cCUFB/t0zHKvBtH13xoVUWne0n2iwu3HajoAp1nYojs2IpAgGGr
-         oK1kHSZ83Ja58LTfIbKf7yBfBt7yfqKul4UeYFEjOTPBt6bflwO1KCgWmof7ktPtAWoX
-         hnGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWRJUgtJi612Ogugdxv5liOwqEWIf1v2wPWyCZ5w7Q0iHjbpAByqQ0Z/dq4MPeQpvpJwRGe5aAZb6DAQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMSo8nFHFrJR7PgMTwPE+k3jzHbxLgrvYkXHOtHXPMQZ/s5pgX
-	S8/t08LJ3oibct4VxYIH6sixJlJGV6N99j0x9sO5YbvppyEtR6blaQ/gtm1ATF4=
-X-Gm-Gg: ASbGncsvw8z3c0gwUtBpylEWtqGsPdFO4KVvLxTjko/yEiQJFC5q38gIbnwbKJbMPes
-	n2tuhrPK1aJ5q5/NjeLZroaC8iFx/MPcOo/PzpgN565WJPUNdrUDcVFzqWQ/3+fXqn07naV8H1v
-	d5nZXKpjDFy9KgSe3fJGMzXct3wHy4OAIHvzl3ITUKC/0vmJxmnMlklsKbpqyvcUJxLdm4Z6czH
-	PYOxmhSvt+1FI+WTVJ0AD9x6V1dTsQzvjAW+B7RHf5OF0p5g4J0xokTmgJNWYGy7mj2PyOfwdw7
-	VPxI/Y8vovxoEnuwe74u6Ov28f/XnwQ=
-X-Google-Smtp-Source: AGHT+IGyCOrMOzLOqDd5nklSWFy5dFMUUbqMYwM7tDC92GnRTMCdM70CAqKld747kDZSUFBqJ1B0DA==
-X-Received: by 2002:a05:600c:3ac4:b0:436:185f:dfae with SMTP id 5b1f17b1804b1-43905f6ab6amr24808885e9.6.1738683069360;
-        Tue, 04 Feb 2025 07:31:09 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23de772sm191993285e9.13.2025.02.04.07.31.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 07:31:08 -0800 (PST)
-Message-ID: <bfc03583-03b8-4fc4-98f8-3d6c7c9f95fc@ursulin.net>
-Date: Tue, 4 Feb 2025 15:31:07 +0000
+        d=1e100.net; s=20230601; t=1738683329; x=1739288129;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mo0faCQWMQesSAiWhpm/M42GsGQUGBhbD7joezmU+YI=;
+        b=nWOJ8JXlggSgXO5no0jS7rMFAjqOZDl7lgRXyH8BiKEjamti7o3j/7vGu/m3ckAqwS
+         BAGHq8j7T49VaPOuidXoy7Y37aC1AWCoiS/Wct1koiwUFy10khwYGQjVVaT/PwkpKlIN
+         ranGIpqcweUnqB2K/pGsFm4DYOt71U/5TnYE3D5Db7vYH3gYwCL+RXWYC1mVOm+a66uz
+         58dGhfb1zd1xTxRJgBswMSJ+htGIwEGi8W5/zjr/w3E28p/UWcxJsKma8leTebvu05wn
+         W2DFdKabMM68fDkOfboXYdppUJHnyG8bff1TPt8JgCJ+6oDk7L8DSr0jF5H/sunugc60
+         uLyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUt5xifTcb3oV6m+iYlEnW+I9VhRkk5bLanvmGc/AMxH+yR+N1LFsaYR+u6LuGrLLdIFIc73GZXlh0z9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoBOB2BRDbcsdVnD9mrEQfMZZX8nI+uWJ+CCnSrn/hOyIm9zsS
+	52VXdABIZhhsWpzHVd2aLhCFq5OIcrFmgGTTumZztOOwu99mmT02BhYmgqUmQJg=
+X-Gm-Gg: ASbGncuNVEYRtMZR9KVGX3bftbnu2HCNegBk14z3KUVxFeVHtO4EzJivzDzP261NW6T
+	L65i/pgRXF09ZTyD+A2zNHlEPE6kwaRK+OJ0Fyo+O6rUWP1VcYOEd2JZiecWncaLpqe+Xb5Kybr
+	n9BmXPxBK5cbpe5/7wHRFg2VJ84VJJ5bZj5RoeQNncAz+vh8LWVn3mSqLObednpCnnGbudde4zQ
+	VlMWeFl6mxRFALrN9RDWSui+Hj4r8+lEtQ6YU0Cut7fCJfTC/gumt5vS0fmAXGSQc5sraVE88Gh
+	bznJet7CLUshykpaM6irgeqJthCiSpbvli2m1/V0VMeTIavMftMKXHWJqj5lJesoriAYegs=
+X-Google-Smtp-Source: AGHT+IGSOdu+12crB/KrJD62kGAd9vR+Tk3cUEAAA23UqBKca/FTqES0sbInnGw1I1bv8/42+SlQng==
+X-Received: by 2002:a2e:9fc5:0:b0:302:22e6:5f8 with SMTP id 38308e7fff4ca-30796878ee0mr112854481fa.22.1738683328930;
+        Tue, 04 Feb 2025 07:35:28 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-307a33f7747sm18683361fa.76.2025.02.04.07.35.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 07:35:27 -0800 (PST)
+Date: Tue, 4 Feb 2025 17:35:26 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+	Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, Jianhua Lu <lujianhua000@gmail.com>, 
+	Stefan Schmidt <stefan.schmidt@linaro.org>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH v9 27/28] media: iris: enable video driver probe of
+ SM8250 SoC
+Message-ID: <uc2rve7hqf4mmvobinaxzf5qncglysfeg2lbxmxvxapsewhgxh@2ppf757u352g>
+References: <20241212-qcom-video-iris-v9-0-e8c2c6bd4041@quicinc.com>
+ <20241212-qcom-video-iris-v9-27-e8c2c6bd4041@quicinc.com>
+ <Z3_nCPk_g8znto4A@hovoldconsulting.com>
+ <64f8bebd-35e1-c743-b212-e1a3292bade2@quicinc.com>
+ <Z4EuiPEw8mvDQ2gv@hovoldconsulting.com>
+ <24334fb8-4d83-eb06-aee3-dfe1f8e4937b@quicinc.com>
+ <552972B8-1ACA-4243-A8E3-8F48DAF39C5C@linaro.org>
+ <Z6CApNuSlPGvVL2k@hovoldconsulting.com>
+ <fhqlt5xsz7yyrbnvhnovt66gzldjjbitpeznlvxztobdxmjnuw@d4avd5fq3muh>
+ <Z6HjbXZsR9QmXxKy@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/7] drm/sched: trace dependencies for gpu jobs
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250131110328.706695-1-pierre-eric.pelloux-prayer@amd.com>
- <20250131110328.706695-6-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250131110328.706695-6-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6HjbXZsR9QmXxKy@hovoldconsulting.com>
 
-
-On 31/01/2025 11:03, Pierre-Eric Pelloux-Prayer wrote:
-> Trace the fence dependencies similarly to how we print fences:
+On Tue, Feb 04, 2025 at 10:52:45AM +0100, Johan Hovold wrote:
+> On Mon, Feb 03, 2025 at 05:37:28PM +0200, Dmitry Baryshkov wrote:
+> > On Mon, Feb 03, 2025 at 09:39:00AM +0100, Johan Hovold wrote:
+> > > On Fri, Jan 10, 2025 at 08:01:21PM +0200, Dmitry Baryshkov wrote:
 > 
->   ... , dependencies:{fence=606:38006}
+> > > > Also as venus and iris drivers are not completely
+> > > > equivalent wrt supported platforms, distributions will have to select
+> > > > whether to disable support for older platforms or for new platforms:
+> > > > Kconfig dependency will make it impossible to enable support for both
+> > > > kinds.
+> > > 
+> > > You shouldn't have both enabled. The only reason for keeping support
+> > > for the same hardware in both drivers is that the iris support is
+> > > incomplete and considered experimental. No one should enable that except
+> > > for development and evaluation purposes until the driver is up to par.
+> > > And then you drop support from the old driver along with the config
+> > > option.
+> > 
+> > That's the plan. This modparam is a temporal thing for transition
+> > period. And yes, as a developers / platform enablers we want to be able
+> > to have a quick turnaround between drivers.
+> > 
+> > Please stop forcing your decisions on other people. The Linux kernel and
+> > its development process has always been about providing a possibility,
+> > not a policy.
 > 
-> This allows tools to analyze the dependencies between the jobs (previously
-> it was only possible for fences traced by drm_sched_job_wait_dep).
+> That's just not true. The rule is to not have two drivers for the same
+> hardware (even if we very rarely have accepted some well-motivated
+> exceptions).
 > 
-> Since drm_sched_job and drm_run_job use the same base event class,
-> the caller of trace_drm_run_job have to pass a dep_count of 0 (which
-> is ignored because dependencies are only considered at submit time).
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 59 ++++++++++++++++---
->   drivers/gpu/drm/scheduler/sched_entity.c      |  8 ++-
->   drivers/gpu/drm/scheduler/sched_main.c        |  2 +-
->   3 files changed, 58 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> index 3cdd8d8f8021..ca19cd9a146a 100644
-> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> @@ -26,15 +26,41 @@
->   
->   #include <linux/stringify.h>
->   #include <linux/types.h>
-> +#include <linux/trace_seq.h>
->   #include <linux/tracepoint.h>
->   
->   #undef TRACE_SYSTEM
->   #define TRACE_SYSTEM gpu_scheduler
->   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
->   
-> +#ifndef __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
-> +#define __TRACE_EVENT_GPU_SCHEDULER_PRINT_FN
-> +/* Similar to trace_print_array_seq but for fences. */
-> +static inline const char *__print_dma_fence_array(struct trace_seq *p, const void *buf, int count)
-> +{
-> +	const char *ret = trace_seq_buffer_ptr(p);
-> +	u64 *fences = (u64 *) buf;
-> +	const char *prefix = "";
-> +
-> +	trace_seq_putc(p, '{');
-> +	for (int i = 0; i < count; i++) {
-> +		u64 context = fences[2 * i], seqno = fences[2 * i + 1];
-> +
-> +		trace_seq_printf(p, "%sfence=%llu:%llu",
-> +				 prefix, context, seqno);
-> +		prefix = ",";
-> +	}
-> +	trace_seq_putc(p, '}');
-> +	trace_seq_putc(p, 0);
-> +
-> +	return ret;
-> +}
-> +#endif
-> +
->   DECLARE_EVENT_CLASS(drm_sched_job,
-> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
-> -	    TP_ARGS(sched_job, entity),
-> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
-> +		     unsigned int dep_count),
-> +	    TP_ARGS(sched_job, entity, dep_count),
->   	    TP_STRUCT__entry(
->   			     __field(uint64_t, id)
->   			     __string(name, sched_job->sched->name)
-> @@ -43,9 +69,14 @@ DECLARE_EVENT_CLASS(drm_sched_job,
->   			     __string(dev, dev_name(sched_job->sched->dev))
->   			     __field(uint64_t, fence_context)
->   			     __field(uint64_t, fence_seqno)
-> +			     __field(int, n_deps)
-> +			     __dynamic_array(u64, deps, dep_count * 2)
->   			     ),
->   
->   	    TP_fast_assign(
-> +			   unsigned long idx;
-> +			   struct dma_fence *fence;
-> +			   u64 *dyn_arr;
->   			   __entry->id = sched_job->id;
->   			   __assign_str(name);
->   			   __entry->job_count = spsc_queue_count(&entity->job_queue);
-> @@ -54,22 +85,32 @@ DECLARE_EVENT_CLASS(drm_sched_job,
->   			   __assign_str(dev);
->   			   __entry->fence_context = sched_job->s_fence->finished.context;
->   			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
-> -
-> +			   __entry->n_deps = dep_count;
-> +			   if (dep_count) {
-> +				dyn_arr = __get_dynamic_array(deps);
-> +				xa_for_each(&sched_job->dependencies, idx, fence) {
-> +					dyn_arr[2 * idx] = fence->context;
-> +					dyn_arr[2 * idx + 1] = fence->seqno;
-> +				}
-> +			   }
->   			   ),
-> -	    TP_printk("dev=%s, id=%llu, fence=%llu:%llu, ring=%s, job count:%u, hw job count:%d",
-> +	    TP_printk("dev=%s, id=%llu, fence=%llu:%llu, ring=%s, job count:%u, hw job count:%d, dependencies:%s",
->   		      __get_str(dev), __entry->id,
->   		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
-> -		      __entry->job_count, __entry->hw_job_count)
-> +		      __entry->job_count, __entry->hw_job_count,
-> +		      __print_dma_fence_array(p, __get_dynamic_array(deps), __entry->n_deps))
->   );
->   
->   DEFINE_EVENT(drm_sched_job, drm_sched_job,
-> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
-> -	    TP_ARGS(sched_job, entity)
-> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
-> +		     unsigned int dep_count),
-> +	    TP_ARGS(sched_job, entity, dep_count)
->   );
->   
->   DEFINE_EVENT(drm_sched_job, drm_run_job,
-> -	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
-> -	    TP_ARGS(sched_job, entity)
-> +	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity,
-> +	    	     unsigned int dep_count),
-> +	    TP_ARGS(sched_job, entity, 0)
->   );
->   
->   TRACE_EVENT(drm_sched_process_job,
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 69bcf0e99d57..0ce3a82fe6fd 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -592,7 +592,13 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->   	bool first;
->   	ktime_t submit_ts;
->   
-> -	trace_drm_sched_job(sched_job, entity);
-> +	if (trace_drm_sched_job_enabled()) {
-> +		unsigned long index, n = 0;
-> +		void *f;
-> +
-> +		xa_for_each(&sched_job->dependencies, index, f) { n++; }
-> +		trace_drm_sched_job(sched_job, entity, n);
-> +	}
-I wonder if it would be good enough to simply trace dependencies one by 
-one in drm_sched_job_add_dependency and drop all the array magic/support 
-code?
+> I understand that you may have an unorthodox view of this as you work on
+> the MSM DRM driver, but hiding incomplete and broken code behind module
+> parameters so that you can game the upstreaming process (e.g. like you
+> did for the eDP PSR feature) is simply not a model that anyone should
+> follow.
 
-In which case that was the drm_sched_job_depdency tracepoint I hinted in 
-my reply to 4/7.
+Let me point you the aic7xxx story, we had, if my memory is correct,
+three drivers working with the same hardware at some point, during
+transition period.
 
-I know you are at v7 but as we are going towards the stable ABI route I 
-am thinking it is worth discussing this option.
+Regarding eDP PSR. It wasn't my implementation, so that's not correct
+comparison. MDP5 -> DPU migration is mine and yes, it is implemented in
+this way as we can trigger CI jobs having a single kernel, as developers
+we can switch between MDP5 and DPU drivers in a quick way, etc.
 
-We could even leave the separate "wait dep" vs "add dep" and have a set 
-like:
-
-drm_sched_job_add_dependency
-drm_sched_job_queue
-drm_sched_job_wait_dependency
-drm_sched_job_run
-drm_sched_job_done
-
-By tracing them one by one we remove the complications from the kernel 
-side and let the userspace parse multiple lines. Shouldn't be a problem 
-for there.
-
-Regards,
-
-Tvrtko
-
->   	atomic_inc(entity->rq->sched->score);
->   	WRITE_ONCE(entity->last_user, current->group_leader);
->   
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index ad306d3d7282..c645f07ebe26 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1214,7 +1214,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
->   	atomic_add(sched_job->credits, &sched->credit_count);
->   	drm_sched_job_begin(sched_job);
->   
-> -	trace_drm_run_job(sched_job, entity);
-> +	trace_drm_run_job(sched_job, entity, 0);
->   	fence = sched->ops->run_job(sched_job);
->   	complete_all(&entity->entity_idle);
->   	drm_sched_fence_scheduled(s_fence, fence);
+-- 
+With best wishes
+Dmitry
 
