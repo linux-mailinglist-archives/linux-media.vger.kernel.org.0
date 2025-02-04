@@ -1,262 +1,255 @@
-Return-Path: <linux-media+bounces-25651-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25652-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 980D8A279A9
-	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2025 19:23:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDE7A27B49
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2025 20:30:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5996B1629FC
-	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2025 18:23:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D6977A4007
+	for <lists+linux-media@lfdr.de>; Tue,  4 Feb 2025 19:29:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D448E217701;
-	Tue,  4 Feb 2025 18:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EF62215F72;
+	Tue,  4 Feb 2025 19:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="CsaThUYn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PJ28FiwK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DAE217655
-	for <linux-media@vger.kernel.org>; Tue,  4 Feb 2025 18:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B48620371F;
+	Tue,  4 Feb 2025 19:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738693383; cv=none; b=XSVdJubez5CwJxaF3QCjJLmKIQVexzHMNih41CDod56mZhY5NXsrMLmRhfrK1RLdWZ9VUfw7URZ1q00cWanRJ1VpHHOqKg4n5FBm/lAzcJZnBeGkUTOcbYIFbwL7GFinEDdMAlrXuRNHwrZ9PD4+g2xR9MBaNkA6g6xT2yHhepg=
+	t=1738697408; cv=none; b=WuwrHvLOzVUe+JKT4UxxV7Uyd1OUPnFu7wJ0DyZMkENENAylvZAM5YzPvVPAB/zXCKf4zDflqo2VsGjCaGVlDSKjShgXnUKVPAPV4WqWZYSX6w82fGMuF/ln3LOdORgIwed622If+7l72rVTbhoUj3+W+ecAF0emomyoINrfWO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738693383; c=relaxed/simple;
-	bh=wovIoxaB1GBhtTR1K6ERxfvU9SdF2qRsGfpDTFxhmrg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=R2RpOPYEs2YRdu+QpzQ5E38K/5uIU5wnSguApMN+mj0Xtv2+wZ/yw/aiVT8x20m7KbHuMEu41PWe8M9Qck61IwD09M/2T3cmc9DmZAMUN2UScW3UKRDXHYf/9L1lhNfjkH6ETehVKm0CFqjo4e25AZj2KGtgP+4tANS6nbJBWUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=CsaThUYn; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6d89a727a19so709126d6.0
-        for <linux-media@vger.kernel.org>; Tue, 04 Feb 2025 10:23:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1738693380; x=1739298180; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Tac0SuyxfkJEVndSE8YT8kHaqPS7Ds82fJ/2JoeM9mo=;
-        b=CsaThUYn2HBvFRVT2O3/SwiWG9cDXUIdyASrw7wOBFyOIu4tLC5GNAGFSpohtbCvEk
-         ziFAbIv2Npjs6aP+7gugorwfl9lgYDiGQXcCq7t0vmNqYk1h/JKdmovlq5sIlNVTJwpA
-         gNWxFRXvN0jgzhDP4F+WUQUlh9V4cG5wJE+5luU8mxwHIlrGNHko8au0MlMtz/owrLmQ
-         H7gxBFCpRYX0viZtWycFL/7S0O5j/pk67omhpJfsDqE0UX957kxDlHE4+UvDXvQ3LbIf
-         dTnrf7m9mnFQiUj9osKFhAlFsZ9Zo6N2tYc4J4GyLGNzCvEdiRnyC3lRj4kTcmED85nO
-         2sSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738693380; x=1739298180;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Tac0SuyxfkJEVndSE8YT8kHaqPS7Ds82fJ/2JoeM9mo=;
-        b=TW5l2FEn2td2BeVEcADbC0vBDPNROOYBzGsmtz2i/VHOxnvYqTu03+x8Z8956ipnAN
-         84yoaUGPXijuCVESu7a6qIJ/NAyQyB21xEB1kqXtVo2kbwJuKd2vA4dLL7Es/xbsrD9a
-         /JCs6jwfmOld7ptSA7rNL8SRnzxOTWMquZ7EVzJyUlxe3wMMD7CIYvlNUz27A+UR9i00
-         8qMJWCDwRFTdUrfiDoTMOkwAKVNlFH9ZVj7VBnjuNeEhLR5LOTxKvGrnTdynK3gidW9O
-         IdGzUhAG0qhZ6MsulMf4rsE+orMpAGSXMoWyY43Llm2nehcMOK6uZDjQn3YFPqKchSbT
-         9QKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdwAGoZypsTeMtUPb8kxAstGKwmrx/WxAtwr/8iBwr36p/WwNpQSjvZU4CTM7NEpJmYLJ3g7+U0ct6fw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjnWm+HVPxqzjJZxAwQMAhcagS7K0hez6UasJ5TvVfX37hSW4Q
-	e9jIAs47felr5ooANrWEkZor6OWky5OD9HzRpB55d0heBmpdwrZWI005n3QcB4o=
-X-Gm-Gg: ASbGncu39/xGyRacg57u+FXINTCNkStBRwLssL508J/tJZc2mtF52chbXNTyfdJ3ngF
-	8vUdb8JRJGvqbqVnCevwoN4mn6apsDqTH6QuPSL+zOHJyHxj9nuTvGzmektf3x2zry9tdAouYGy
-	HwQya748TcxAXjljaQ93vLUeru26Ml7S0+dZTjMH+6gtFIwH2U96gkS9A2yDk25u0TVC65rlkvT
-	8CVekFi4jEbKSQ4iqH0jSeecLO9pb3OtPtdFIPq+adoE0pSk5jITQafBd7lFlclEbDWJJYiLAy0
-	EHVqauSh5mlwnrP6
-X-Google-Smtp-Source: AGHT+IE/f1kxzWTc19HByUy9ODx9TdMIUe4LBdJWBN0eGiPy3I/9968X4R31P6i56Rq3iDSVWjRNWA==
-X-Received: by 2002:ad4:5ecb:0:b0:6e2:3761:71b0 with SMTP id 6a1803df08f44-6e420f3b728mr78300806d6.5.1738693380393;
-        Tue, 04 Feb 2025 10:23:00 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:e976::7a9])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e423ca0476sm9418096d6.124.2025.02.04.10.22.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 10:23:00 -0800 (PST)
-Message-ID: <c856a7059171bcc6afd6d829c6c025882855778b.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali
- CSF GPUs
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Florent Tomasin <florent.tomasin@arm.com>, Maxime Ripard
-	 <mripard@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Boris
- Brezillon	 <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>,  Sumit Semwal <sumit.semwal@linaro.org>, Benjamin
- Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey	
- <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T . J .
- Mercier"	 <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong
- Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, nd@arm.com, Akash Goel
- <akash.goel@arm.com>
-Date: Tue, 04 Feb 2025 13:22:58 -0500
-In-Reply-To: <1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
-References: <cover.1738228114.git.florent.tomasin@arm.com>
-	 <3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
-	 <1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
-	 <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
-	 <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
-	 <1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1738697408; c=relaxed/simple;
+	bh=dp3KkiRbpI5jTq31jDz9RRKWBTNV3PSWERsFVIuYVUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VQpLMcnM0Y1HYrKT/rVRPjwMTouCpTuWrjpYlq/ay8JE3obYCVT5ApmwaTJtKTP5jvXmm+uwBf1Jz0gNE04smvJ18xve5sS6IhJnNKa0Y30IYvTjlPePHgzzyp7pOvUx+SqDoqX7HIZcfHghuZa4Ja51UramJ4lHEmk6OjTJK2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PJ28FiwK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46AC9C4CEE9;
+	Tue,  4 Feb 2025 19:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738697407;
+	bh=dp3KkiRbpI5jTq31jDz9RRKWBTNV3PSWERsFVIuYVUE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PJ28FiwKrc8NJPI/UEnZa67oUEmxwlDSox0/vLcuo50zurUwA2+ytfQnM6Bv4u0PK
+	 vAoehoqdy9VadUapFOhWNyKJeVT++wKSeKmI7OkjbiXd6uV4midvRdJZancpyQ/RFe
+	 iHJ9n9P7LXMc5SUQiCKC5Leqbdieg7Yh1vV1vN4UFk+3/zV2NcTwFK9e/Js+zHfCKH
+	 B4bGIZak2YsfPaoAp0ADRNr0gPsZR2oevAC0Zda/tE85Zf2fsfTN/re9Xd6/r3qCiF
+	 7w7Rze4iYR5KCqJ4/giOPWK9lTqwVCOzrq61Sgtpt4Bcd0Y2Pb3bE41emxsTaPxzeq
+	 csBuOwM6KBsKg==
+Date: Tue, 4 Feb 2025 19:30:03 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Jammy Huang <jammy_huang@aspeedtech.com>
+Cc: eajames@linux.ibm.com, mchehab@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+	andrew@aj.id.au, linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: convert aspeed-video.txt to dt-schema
+Message-ID: <20250204-acronym-unshaved-18b89a389091@spud>
+References: <20250204062822.3738037-1-jammy_huang@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="i8IRvi06tcsVtedw"
+Content-Disposition: inline
+In-Reply-To: <20250204062822.3738037-1-jammy_huang@aspeedtech.com>
 
-Le lundi 03 f=C3=A9vrier 2025 =C3=A0 16:43 +0000, Florent Tomasin a =C3=A9c=
-rit=C2=A0:
-> Hi Maxime, Nicolas
->=20
-> On 30/01/2025 17:47, Nicolas Dufresne wrote:
-> > Le jeudi 30 janvier 2025 =C3=A0 17:38 +0100, Maxime Ripard a =C3=A9crit=
-=C2=A0:
-> > > Hi Nicolas,
-> > >=20
-> > > On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne wrote:
-> > > > Le jeudi 30 janvier 2025 =C3=A0 14:46 +0100, Maxime Ripard a =C3=A9=
-crit=C2=A0:
-> > > > > Hi,
-> > > > >=20
-> > > > > I started to review it, but it's probably best to discuss it here=
-.
-> > > > >=20
-> > > > > On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomasin wrote:
-> > > > > > Hi,
-> > > > > >=20
-> > > > > > This is a patch series covering the support for protected mode =
-execution in
-> > > > > > Mali Panthor CSF kernel driver.
-> > > > > >=20
-> > > > > > The Mali CSF GPUs come with the support for protected mode exec=
-ution at the
-> > > > > > HW level. This feature requires two main changes in the kernel =
-driver:
-> > > > > >=20
-> > > > > > 1) Configure the GPU with a protected buffer. The system must p=
-rovide a DMA
-> > > > > >    heap from which the driver can allocate a protected buffer.
-> > > > > >    It can be a carved-out memory or dynamically allocated prote=
-cted memory region.
-> > > > > >    Some system includes a trusted FW which is in charge of the =
-protected memory.
-> > > > > >    Since this problem is integration specific, the Mali Panthor=
- CSF kernel
-> > > > > >    driver must import the protected memory from a device specif=
-ic exporter.
-> > > > >=20
-> > > > > Why do you need a heap for it in the first place? My understandin=
-g of
-> > > > > your series is that you have a carved out memory region somewhere=
-, and
-> > > > > you want to allocate from that carved out memory region your buff=
-ers.
-> > > > >=20
-> > > > > How is that any different from using a reserved-memory region, ad=
-ding
-> > > > > the reserved-memory property to the GPU device and doing all your
-> > > > > allocation through the usual dma_alloc_* API?
-> > > >=20
-> > > > How do you then multiplex this region so it can be shared between
-> > > > GPU/Camera/Display/Codec drivers and also userspace ?
-> > >=20
-> > > You could point all the devices to the same reserved memory region, a=
-nd
-> > > they would all allocate from there, including for their userspace-fac=
-ing
-> > > allocations.
-> >=20
-> > I get that using memory region is somewhat more of an HW description, a=
-nd
-> > aligned with what a DT is supposed to describe. One of the challenge is=
- that
-> > Mediatek heap proposal endup calling into their TEE, meaning knowing th=
-e region
-> > is not that useful. You actually need the TEE APP guid and its IPC prot=
-ocol. If
-> > we can dell drivers to use a head instead, we can abstract that SoC spe=
-cific
-> > complexity. I believe each allocated addressed has to be mapped to a zo=
-ne, and
-> > that can only be done in the secure application. I can imagine similar =
-needs
-> > when the protection is done using some sort of a VM / hypervisor.
-> >=20
-> > Nicolas
-> >=20
->=20
-> The idea in this design is to abstract the heap management from the
-> Panthor kernel driver (which consumes a DMA buffer from it).
->=20
-> In a system, an integrator would have implemented a secure heap driver,
-> and could be based on TEE or a carved-out memory with restricted access,
-> or else. This heap driver would be responsible of implementing the
-> logic to: allocate, free, refcount, etc.
->=20
-> The heap would be retrieved by the Panthor kernel driver in order to
-> allocate protected memory to load the FW and allow the GPU to enter/exit
-> protected mode. This memory would not belong to a user space process.
-> The driver allocates it at the time of loading the FW and initialization
-> of the GPU HW. This is a device globally owned protected memory.
 
-This use case also applies well for codec. The Mediatek SCP firmware needs =
-to be
-loaded with a restricted memory too, its a very similar scenario, plus Medi=
-atek
-chips often include a Mali. On top of that, V4L2 codecs (in general) do nee=
-d to
-allocate internal scratch buffer for the IP to write to for things like mot=
-ion
-vectors, reconstruction frames, entropy statistics, etc. The IP will only b=
-e
-able to write if the memory is restricted.
+--i8IRvi06tcsVtedw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Nicolas
-
+On Tue, Feb 04, 2025 at 02:28:22PM +0800, Jammy Huang wrote:
+> Convert aspeed-video.txt to yaml format.
+> Update aspeed-video.txt to aspeed,video-engine.yaml in MAINTAINER file.
 >=20
-> When I came across this patch series:
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> ---
+>  .../bindings/media/aspeed,video-engine.yaml   | 84 +++++++++++++++++++
+>  .../bindings/media/aspeed-video.txt           | 33 --------
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 85 insertions(+), 34 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/aspeed,video-=
+engine.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/aspeed-video.=
+txt
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/aspeed,video-engine.=
+yaml b/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
+> new file mode 100644
+> index 000000000000..c66ae6b53cbb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
+> @@ -0,0 +1,84 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/aspeed,video-engine.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ASPEED Video Engine
+> +
+> +maintainers:
+> +  - Eddie James <eajames@linux.ibm.com>
+> +
+> +description:
+> +  The Video Engine (VE) embedded in the ASPEED SOCs can be configured to
+> +  capture and compress video data from digital or analog sources.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aspeed,ast2400-video-engine
+> +      - aspeed,ast2500-video-engine
+> +      - aspeed,ast2600-video-engine
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: vclk
+> +      - const: eclk
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +    description: |
+> +      Phandle to the reserved memory nodes to be associated with the
+> +      VE. VE will acquires memory space for 3 purposes:
+> +        1. JPEG header
+> +        2. Compressed result
+> +        3. Temporary transformed image data
+> +
+> +  aspeed,scu:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      Specifies the scu node that is needed if video wants to capture
+> +      from sources other than Host VGA.
+> +
+> +  aspeed,gfx:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: |
+> +      Specifies the Soc Display(gfx) node that needs to be queried to get
+> +      related information if video wants to use gfx as capture source.
+
+These two phandle properties are new and not mentioned in your commit
+message. Why have they been added?
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/ast2600-clock.h>
+> +
+> +    video@1e700000 {
+> +      compatible =3D "aspeed,ast2600-video-engine";
+> +      reg =3D <0x1e700000 0x1000>;
+> +      clocks =3D <&syscon ASPEED_CLK_GATE_VCLK>,
+> +               <&syscon ASPEED_CLK_GATE_ECLK>;
+> +      clock-names =3D "vclk", "eclk";
+> +      interrupts =3D <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +      aspeed,scu =3D <&syscon>;
+> +      aspeed,gfx =3D <&gfx>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/media/aspeed-video.txt b/D=
+ocumentation/devicetree/bindings/media/aspeed-video.txt
+> deleted file mode 100644
+> index d2ca32512272..000000000000
+> --- a/Documentation/devicetree/bindings/media/aspeed-video.txt
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -* Device tree bindings for Aspeed Video Engine
 > -
-> https://lore.kernel.org/lkml/20230911023038.30649-1-yong.wu@mediatek.com/=
-#t
-> I found it could help abstract the interface between the secure heap and
-> the integration of protected memory in Panthor.
+> -The Video Engine (VE) embedded in the Aspeed AST2400/2500/2600 SOCs can
+> -capture and compress video data from digital or analog sources.
+> -
+> -Required properties:
+> - - compatible:		"aspeed,ast2400-video-engine" or
+> -			"aspeed,ast2500-video-engine" or
+> -			"aspeed,ast2600-video-engine"
+> - - reg:			contains the offset and length of the VE memory region
+> - - clocks:		clock specifiers for the syscon clocks associated with
+> -			the VE (ordering must match the clock-names property)
+> - - clock-names:		"vclk" and "eclk"
+> - - resets:		reset specifier for the syscon reset associated with
+> -			the VE
+> - - interrupts:		the interrupt associated with the VE on this platform
+> -
+> -Optional properties:
+> - - memory-region:
+> -	phandle to a memory region to allocate from, as defined in
+> -	Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+> -
+> -Example:
+> -
+> -video-engine@1e700000 {
+> -    compatible =3D "aspeed,ast2500-video-engine";
+> -    reg =3D <0x1e700000 0x20000>;
+> -    clocks =3D <&syscon ASPEED_CLK_GATE_VCLK>, <&syscon ASPEED_CLK_GATE_=
+ECLK>;
+> -    clock-names =3D "vclk", "eclk";
+> -    resets =3D <&syscon ASPEED_RESET_VIDEO>;
+> -    interrupts =3D <7>;
+> -    memory-region =3D <&video_engine_memory>;
+> -};
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 896a307fa065..7e59daa1e89d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3549,7 +3549,7 @@ M:	Eddie James <eajames@linux.ibm.com>
+>  L:	linux-media@vger.kernel.org
+>  L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/media/aspeed-video.txt
+> +F:	Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
+>  F:	drivers/media/platform/aspeed/
+> =20
+>  ASUS EC HARDWARE MONITOR DRIVER
 >=20
-> A kernel driver would have to find the heap: `dma_heap_find()`, then
-> request allocation of a DMA buffer from it. The heap driver would deal
-> with the specifities of the protected memory on the system.
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> --=20
+> 2.25.1
 >=20
-> > >=20
-> > > > Also, how the secure memory is allocted / obtained is a process tha=
-t
-> > > > can vary a lot between SoC, so implementation details assumption
-> > > > should not be coded in the driver.
-> > >=20
-> > > But yeah, we agree there, it's also the point I was trying to make :)
-> > >=20
-> > > Maxime
-> >=20
->=20
-> Agree with your point, the Panthor kernel driver may not be aware of the
-> heap management logic. As an alternative to the DMA heap API used here,
-> I also tried to expose the heap by passing the phandle of a "heap"
-> device to Panthor. The reference to the DMA heap was stored as a private
-> data of the heap device as a new type: `struct dma_heap_import_info`,
-> similar to the existing type: `struct dma_heap_export_info`.
-> This made me think it could be problematic, as the private data type
-> would have to be cast before accessing it from the importer driver. I
-> worried about a mis-use of the types with this approach.
->=20
-> Regards,
-> Florent
 
+--i8IRvi06tcsVtedw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ6JqugAKCRB4tDGHoIJi
+0mCkAQDv+QJAtLQu581nLzkejap/mpHejKb7ON+oLm+XbsuanwD/XWZyc+D15A2m
+NvFwrl1iWOd3s3nRf2VSuRWBz8w31wk=
+=GNL1
+-----END PGP SIGNATURE-----
+
+--i8IRvi06tcsVtedw--
 
