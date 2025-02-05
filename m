@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-25684-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25677-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21296A2934C
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 16:11:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65236A28F86
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 15:26:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5465C3B040A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 15:04:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C0433AAA60
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 14:24:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1044817C7CA;
-	Wed,  5 Feb 2025 15:01:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B831D14A088;
+	Wed,  5 Feb 2025 14:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CV3eRX8G"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="11cEKcK9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E60155747;
-	Wed,  5 Feb 2025 15:01:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0488634E;
+	Wed,  5 Feb 2025 14:24:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738767717; cv=none; b=sLFsVmiFxN01X+UEMzU4YpFWVptNFgDMXhJEuvFFhW1ZN6R2v6tz5k9jKo6k3kYUyCIcxXlfomvuDlMdTNDf3D/IEieVNHuwADJLvmInBdi594GitDUEAP2zjPy2RP0L1FuPYd0X3Cbqhv3k70LME6MFSwHWFpVE2IEzV2ahUOw=
+	t=1738765470; cv=none; b=GAEg2A2ZjI5dp4Kl+asv8BeTgCmBeymqU049xBgxmAhUTvIQQbixzqZWSbLu7A/iqrXPOcEZ85V9i9q+9aIF7eo9K/JD8a0lloQQvcpUtkMJQb1bt72SmUdHXqJ6sul3HhEDpgct/MKsmwqXw3mg94vErsxb1W9DhBnhz3fCq4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738767717; c=relaxed/simple;
-	bh=bNT7faxWdbOeW2ypcSh3Gjz/c/PfYCHQ6Nswn4aROqI=;
+	s=arc-20240116; t=1738765470; c=relaxed/simple;
+	bh=77hd6zPQM0xfe8ZJQK/a0hoYl+21UUDNPA0+xPBqbTQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pesApPvQLrsQ7XkvZzOH+dhvVM1SZm1ZFv+JSKIXHmWqnB96tbOBalZq2LhC7wJPK9jatzgrFHUUYRVcCkMbjyJcycUzOjBJTautoxmPrJdbcCesKczLpt7/T2amYTDeF6qC/5LLCwwMAlw5rfPz0gQhCvfDp8vpqSQt7/cbrwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CV3eRX8G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A831C4CED1;
-	Wed,  5 Feb 2025 15:01:55 +0000 (UTC)
+	 MIME-Version:Content-Type; b=edPrK92EBRAc6R/01UghV+cb8EY4YBiiX+WSaJ8kOfWA9CHLIqHHKFoqPyILn+p7J3NE1LqKcD1JSfUplk3msw82us2fnqSlvV5F2LwFUkZZfZlCNdVLeIOKH4saISLjkLKkLUq60yF0hTPinPdi1IqH8P7rvkwSFeDiSiPa5Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=11cEKcK9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E74AC4CED1;
+	Wed,  5 Feb 2025 14:24:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1738767715;
-	bh=bNT7faxWdbOeW2ypcSh3Gjz/c/PfYCHQ6Nswn4aROqI=;
+	s=korg; t=1738765470;
+	bh=77hd6zPQM0xfe8ZJQK/a0hoYl+21UUDNPA0+xPBqbTQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CV3eRX8GUGNcs+nWoM/UwNxoGGlZ1EqZ/m3vUqL+Ssi0iDh6SffCmTbxHJwbdcjAf
-	 ehEMxNMPPWRyaIGgsxJlB5lChcEs2V7JSCJO3MMDoKRUt7muJ/WDnQYEKENBZ4MxmQ
-	 ske88v3g1ush8pUs8cUE+S09VLETGCTfj1OabUOc=
+	b=11cEKcK9KqtYNEFE3N2Y8qxat0i3iEqhYiIBqWocMwUd4JliJ02nsvgEeEIghSp5d
+	 0Kdmz4JK6mF4wWJP1hR8BpUB0yOOo/BA4XJgeg9+NOqeFp2xQySjdElrsUSUyYaDTY
+	 IhDtpgwetKzBghd3OS6SXi0zPC//4DlhrS2WHjpA=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -46,12 +46,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.13 420/623] ARM: dts: mediatek: mt7623: fix IR nodename
-Date: Wed,  5 Feb 2025 14:42:42 +0100
-Message-ID: <20250205134512.294050799@linuxfoundation.org>
+Subject: [PATCH 6.6 270/393] ARM: dts: mediatek: mt7623: fix IR nodename
+Date: Wed,  5 Feb 2025 14:43:09 +0100
+Message-ID: <20250205134430.641368827@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250205134456.221272033@linuxfoundation.org>
-References: <20250205134456.221272033@linuxfoundation.org>
+In-Reply-To: <20250205134420.279368572@linuxfoundation.org>
+References: <20250205134420.279368572@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-6.13-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -87,7 +87,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/mediatek/mt7623.dtsi b/arch/arm/boot/dts/mediatek/mt7623.dtsi
-index 814586abc2979..fd7a89cc337d6 100644
+index f0b4a09004b31..9c5a52ce9351a 100644
 --- a/arch/arm/boot/dts/mediatek/mt7623.dtsi
 +++ b/arch/arm/boot/dts/mediatek/mt7623.dtsi
 @@ -308,7 +308,7 @@
