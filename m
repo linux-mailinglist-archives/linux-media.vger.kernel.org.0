@@ -1,138 +1,186 @@
-Return-Path: <linux-media+bounces-25671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8386A28594
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 09:30:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C54EA28644
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 10:14:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97A2C1886A23
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 08:30:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DA4F161151
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 09:14:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A443322A1E4;
-	Wed,  5 Feb 2025 08:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CF2422A4F4;
+	Wed,  5 Feb 2025 09:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uzMIDa9N"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qgTAJYj7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F024F20E004;
-	Wed,  5 Feb 2025 08:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A05213240;
+	Wed,  5 Feb 2025 09:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738744240; cv=none; b=DTZmnlnpTKN3ozu+S1Ic0V/5tjqnBsM8StDy5lZmCOT/ftSP9w5BbW0fk5FDQa1Gl9d+pEvDMrMjzoxXTR/CQYNvRImhNYAlXwRllVlX74tWxGemWD4Y8p0EqZ9BCJTyCBBiXzeStTrZ0zEpCQKy0bxeJJ7DFgBZqi9tcHD6+PY=
+	t=1738746844; cv=none; b=Rp20+fTalAJzsT9E6n6q8C/VqdyY00AYhcEdClqEwt8n0TvkMQ53M5KsUV5e+6Bw47dQ5QWYv2s8b1ggGerc3OON320Lt/l4quELfZpUgTlagSSzVi5ZjhW+NsV9P0nTED/ZJZ/SmBZr7YwqZBDKWCbHlzCJtgKTkZCgIiQLQ/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738744240; c=relaxed/simple;
-	bh=BAeQkOipvrJpo8BJ7v2PB1Gs5G+nzczTlfJtspomTf0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OdTagi7r8BYXDX7fdomMCh97ZLjGWM9b23NosTTOBNcVaiaEXb1BEczlcw+MIKlkIpDG+cdO0Xs2OnCO5wHgTYjG3y7wxFvsoBD5ws3Hd7rndIXZSjgzVZOfohHFxwht+CR+J+5IWBHuTV2bvAummQzvFZXB9bMN9WGUN1roghY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uzMIDa9N; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 511CDC4CED1;
-	Wed,  5 Feb 2025 08:30:39 +0000 (UTC)
+	s=arc-20240116; t=1738746844; c=relaxed/simple;
+	bh=4C2JCBvwyEf/X2nHPrRMmWtMS/VF3OfV5sTLegNX37Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kKR8vWtTv+0ylpB3d5fisghF1WCZI/stfBA+eVHzY8qseFxLU4qXqTUcF1wXOZmHufTMuzhWH6et9JdK3aOKfsDlSPKKgCEDfMv8YomVtlpx8apR1odS8zXj8+4E+cu7H6sW3Ps3xRDpDS4VyuVgCugyAKSkv4SnVcH3how4roM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qgTAJYj7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D14B7C4CED1;
+	Wed,  5 Feb 2025 09:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738744239;
-	bh=BAeQkOipvrJpo8BJ7v2PB1Gs5G+nzczTlfJtspomTf0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uzMIDa9NNlHBWX10J9SI0j4NX434uZJ6mAkx6FLRfprYurjv5wfXdIBqaWeoG1Ud4
-	 hhz0jhCGk5vjEMI9NqumYpN430t9u/zXg11PPhlBzU3pCTxAn9qREnonlpzrHMsb2l
-	 N/iRTVQ5FCLv5Z6l7AsJMrd5xtXzGmPetrOXGLs/OnXeCOA7BIlvaOJUtGt0KVdx4v
-	 C7Qpd6DTUIoNfpoE2upRYPx7iXiQdPPL7eU05bulSMcblFjQqpxI+2bAQ4pbtJIEt+
-	 z1m1PX9zbyLxm8c7iaZFfYrfRtMcwdvOcBxCVq2rSP+cV6iQRAQO09Td33d0kgiqJ0
-	 qjNDMZ87HRt8w==
-Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan@kernel.org>)
-	id 1tfanz-000000008CI-1jTm;
-	Wed, 05 Feb 2025 09:30:44 +0100
-Date: Wed, 5 Feb 2025 09:30:43 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>, quic_vgarodia@quicinc.com,
-	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	p.zabel@pengutronix.de, hverkuil@xs4all.nl,
-	sebastian.fricke@collabora.com, bryan.odonoghue@linaro.org,
-	neil.armstrong@linaro.org, nicolas@ndufresne.ca,
-	u.kleine-koenig@baylibre.com, stefan.schmidt@linaro.org,
-	lujianhua000@gmail.com, linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org
-Subject: Re: [RFC PATCH v10 1/2] media: iris: introduce helper module to
- select video driver
-Message-ID: <Z6MhsxskgbFX3dFd@hovoldconsulting.com>
-References: <20250128080429.3911091-2-quic_dikshita@quicinc.com>
- <5070e1f1-914b-4654-88ef-3566e3eee9ca@kernel.org>
- <f1344e49-61b6-4115-ae88-55b4a3cfed28@quicinc.com>
- <Z6B822-6UTxQfX46@hovoldconsulting.com>
- <tqbm672pi223ipcw7btiemlb745weeeiy4gnazzeghozhq2emj@wppbkms6hir5>
- <Z6HehbKL88LW1lxC@hovoldconsulting.com>
- <hpcf7olw3ody7ns4ibdeoc5qrkmh3fgeqbhjd4eqwfuanevzoa@plenabtrjqi5>
- <Z6I5nx2Wt3bbBmSI@hovoldconsulting.com>
- <ilqfs6miq55ahyxjnhniv4k654vstfugmpswo5wld2ncgxxcx3@vsbr4bdl7y64>
- <69dc3c64-e0b7-a453-a73b-6a3c9dbded7d@quicinc.com>
+	s=k20201202; t=1738746844;
+	bh=4C2JCBvwyEf/X2nHPrRMmWtMS/VF3OfV5sTLegNX37Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qgTAJYj7he3xj5vx6537c+N0Gqm8DOtAgpmH3h1hKA+KhJr6iB1oBfJrM/4FpnYK9
+	 zY5e/VJxhZPBQMwAQQgUeZ/cNHG0tTwtgErxvItRjxJOiVejHN0FirRST+0kSMMJRr
+	 ut6HN5jaAgWOFwxv64Vv/+xG8oEXJQxPIe/ymoaNkxM8LPiXkwuAK/zahlRbALG2V6
+	 WnhtEt6n3F7hqezB6lJRWKI2GEgcZNPpq9Xqoq7IIxVoaMLwm7QWSoFkspkjvCHz2U
+	 W+GDekkfQDVL82VGA+02ti+atf6xdm2gc65+nD7vW0MnGFPN8DVul8qOMJWlmT5kNm
+	 ndaQtCogl6k4A==
+Message-ID: <c0aad911-ecc4-4b04-a453-6da226f76ed2@kernel.org>
+Date: Wed, 5 Feb 2025 10:13:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <69dc3c64-e0b7-a453-a73b-6a3c9dbded7d@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/5] dt-bindings: gpu: Add protected heap name to Mali
+ Valhall CSF binding
+To: Florent Tomasin <florent.tomasin@arm.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Yong Wu <yong.wu@mediatek.com>
+Cc: dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ nd@arm.com, Akash Goel <akash.goel@arm.com>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+ <36b57dcf20860398ba83985e1c5b6f6958d08ba7.1738228114.git.florent.tomasin@arm.com>
+ <7234f25c-a2aa-4834-931b-aeeb7a49dfa7@kernel.org>
+ <4b9deab1-e330-4c93-8260-75276c2bc9ff@arm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <4b9deab1-e330-4c93-8260-75276c2bc9ff@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 05, 2025 at 11:47:12AM +0530, Dikshita Agarwal wrote:
-> On 2/5/2025 4:39 AM, Dmitry Baryshkov wrote:
-> > On Tue, Feb 04, 2025 at 05:00:31PM +0100, Johan Hovold wrote:
-> >> On Tue, Feb 04, 2025 at 04:55:58PM +0200, Dmitry Baryshkov wrote:
-> >>> On Tue, Feb 04, 2025 at 10:31:49AM +0100, Johan Hovold wrote:
-
-> >>>> Unbinding and rebinding drivers is not part of any normal work flow
-> >>>> expect possibly during development. And a developer can easily compare
-> >>>> Venus and Iris for 8250 without a module parameter too.
-> >>>
-> >>> Yes, we are talking about development. And yes, modparam helps. If you'd
-> >>> like to do two separate kernel builds, that's fine.
-> >>
-> >> Please just motivate why you think this is needed as part of the
-> >> submission. And make sure that the implementation is sane (e.g. not some
-> >> random probe defer indefinitely thing).
-> >>
-> >> Like I said, having two drivers for the same hardware is normally not
-> >> something that is acceptable, and this would need to be a transitional
-> >> thing as we both agree. One way to guarantee that is to not expose it to
-> >> regular users until it is ready (e.g. a Kconfig hidden behind
-> >> CONFIG_EXPERT or similar). Otherwise, I fear you'll end up supporting
-> >> both forever (with at least one of them bitrotting behind that module
-> >> parameter over time).
-> > 
-> > I think I'm fine with hiding IRIS behind CONFIG_EXPERT, might be a good
-> > idea.
-
-I was only thinking about the (experimental) support for hardware
-already supported by venus (i.e. initially 8250) and possibly the
-module parameter if you think that is essential.
-
-I can imagine the feature set becoming non-overlapping overtime so that
-you end up with some users depending on venus and some depending on iris
-for the same hardware if you expose iris support prematurely.
-
-> Are you suggesting to add a dependency on CONFIG_EXPERT for IRIS driver?
-> Something like:
-> config VIDEO_QCOM_IRIS
->         tristate "Qualcomm iris V4L2 decoder driver"
->         depends on EXPERT
+On 03/02/2025 16:31, Florent Tomasin wrote:
+> Hi Krzysztof
 > 
-> This will impact the enablement of iris driver on SM8550 as well.
+> On 30/01/2025 13:25, Krzysztof Kozlowski wrote:
+>> On 30/01/2025 14:08, Florent Tomasin wrote:
+>>> Allow mali-valhall-csf driver to retrieve a protected
+>>> heap at probe time by passing the name of the heap
+>>> as attribute to the device tree GPU node.
+>>
+>> Please wrap commit message according to Linux coding style / submission
+>> process (neither too early nor over the limit):
+>> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+> Apologies, I think I made quite few other mistakes in the style of the
+> patches I sent. I will work on improving this aspect, appreciated
+> 
+>> Why this cannot be passed by phandle, just like all reserved regions?
+>>
+>> From where do you take these protected heaps? Firmware? This would
+>> explain why no relation is here (no probe ordering, no device links,
+>> nothing connecting separate devices).
+> 
+> The protected heap is generaly obtained from a firmware (TEE) and could
+> sometimes be a carved-out memory with restricted access.
 
-Right, it would, and that is not necessarily right.
+Which is a reserved memory, isn't it?
 
-> And will this also be needed to be captured in cover letter?
+> 
+> The Panthor CSF kernel driver does not own or manage the protected heap
+> and is instead a consumer of it (assuming the heap is made available by
+> the system integrator).
+> 
+> I initially used a phandle, but then I realised it would introduce a new
+> API to share the heap across kernel driver. In addition I found this
+> patch series:
+> -
+> https://lore.kernel.org/lkml/20230911023038.30649-1-yong.wu@mediatek.com/#t
+> 
+> which introduces a DMA Heap API to the rest of the kernel to find a
+> heap by name:
+> - dma_heap_find()
+> 
+> I then decided to follow that approach to help isolate the heap
+> management from the GPU driver code. In the Panthor driver, if the
+> heap is not found at probe time, the driver will defer the probe until
+> the exporter made it available.
 
-Yes, whatever solution you end up with need to be described and
-motivated in the cover letter (and commit messages) so that the
-reasoning can be evaluated.
 
-Johan
+I don't talk here really about the driver but even above mediatek
+patchset uses reserved memory bindings.
+
+You explained some things about driver yet you did not answer the
+question. This looks like reserved memory. If it does not, bring
+arguments why this binding cannot be a reserved memory, why hardware is
+not a carve out memory.
+
+Best regards,
+Krzysztof
 
