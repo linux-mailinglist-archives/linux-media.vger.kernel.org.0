@@ -1,129 +1,113 @@
-Return-Path: <linux-media+bounces-25678-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6225A2903F
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 15:34:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADE8A290B8
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 15:40:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B00103AA628
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 14:33:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05D70169BB9
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 14:39:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29FAB175D5D;
-	Wed,  5 Feb 2025 14:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A84017084F;
+	Wed,  5 Feb 2025 14:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WRrOIy/1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96E51632DA;
-	Wed,  5 Feb 2025 14:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD9916CD33
+	for <linux-media@vger.kernel.org>; Wed,  5 Feb 2025 14:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738765971; cv=none; b=hCBuAkSHLo9J/Pr4LQesjgMtY/BPA0N7vlU9rBIopIhImES3bL3bLmXiFpn2pvkDuGXXDfqblZ4VdcslxxY6BU2NZSSMtSC+1eFwyimjCTqEC7uvRYUxkNxD8jw5NLCVTdPvt0a9bhw4/30jMuv9uEOEwJh/LtGcYVUclSvxc1U=
+	t=1738766345; cv=none; b=beW2IJHk7DXksOVfgX4iP/dWwAe+6PrQKtATunmMuIQcncLU/5h41nLEXSaACD0tLRzY7D4Cg2CxmSIJadEqHPQGRn4bs/oR1b+weTL7kcWkwYC/gaqJiyvlqMNYYRiMWITBWMn6nZaGXhPIP0AxGPc8c5OwKf+qx9ci3RFEblc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738765971; c=relaxed/simple;
-	bh=0bYuOke5HicLvyysSTvwmqkgRqMgEAHNqs3w4ITvTZQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W/IgWt5fdvlO9Nc15TF13a6BcsgpAIoYt2mq479DVRDIOz4uzRt0/NNIr4OBFpv19Ip4AGXh9zoVp1c6jwqVQKzbQ/DLqNwsqnyq97BvT2Xbbcs7NmGnFxOawbn34bMydOkcAjFFlWvkSV04yVENlbRl3LoaBUjNkLJZ0kRAa68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD32C4CED1;
-	Wed,  5 Feb 2025 14:32:47 +0000 (UTC)
-Message-ID: <fc9d5253-9e78-4b12-8b1c-96c97b0f4438@xs4all.nl>
-Date: Wed, 5 Feb 2025 15:32:46 +0100
+	s=arc-20240116; t=1738766345; c=relaxed/simple;
+	bh=xN5tHfzpLYstbbdczvTm+2GebUFn0qY7h7C5jC3p/fw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WvhbqMXolyh4Al1l0ViqHFPdyX5kH822PJmn7hiUQ5MIpWfB682XCP0VCLGoLUD3R7gUc/UpdwYkFLo2xlcUCrg4/pSwpSTDvbe2DIo2H7IfGVoqkS0+P5ylmQizpSH0vexJY475+9V/a09PtikM5B8xNR7FsuQwzC3sx9IGMEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WRrOIy/1; arc=none smtp.client-ip=209.85.219.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6dd420f82e2so88194876d6.1
+        for <linux-media@vger.kernel.org>; Wed, 05 Feb 2025 06:39:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1738766343; x=1739371143; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BOL+0B+M9f0si4E1Qe1axryjBo4MHSmTJAhdoaOzDIM=;
+        b=WRrOIy/1brcV99ug9uAyRFccUaM7d3Cobd+pRj0MBAR8sc34Mz+EVB6/IKa7qApAEg
+         jPTx6+WfR5yjO5RVG/swst7Bi9yjX5A6XQFqR7zFPdHZj13kJL34D3ezLS77TVAyxQpI
+         TIuMHOgzocTuzzqlBb07ASOnnQgLTOaRhL4iA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738766343; x=1739371143;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BOL+0B+M9f0si4E1Qe1axryjBo4MHSmTJAhdoaOzDIM=;
+        b=gsjiGgejua5S1Fz238tLSIsWSdSYkmMGSc6Jpirw/Gj+OPbUXOlXZsnGZqwoLKsQn8
+         8anuz8XItObfFFNbDprjQvkdIUC6kzqs841BT2cTr8UK+roB5paTc/ZOUyXbZbujxDJ6
+         ex2CA/LS8zXsfPjziimAdW++jJqCxmR6j0wsQegq0jNeX0YNVQe1sWJ5J/+qs/rCq/5a
+         ciC+3QPGKd1rIBlIEnJpAxFhm7+bgz9PFZVSeP9z2mzE73NHfmXqebQLU9KeN8EQg+el
+         BeWPooJH+zFmQFBAlQwXhO0WCiBrY0z3rQIxhQ/MfD1R+6vw5L6+OMX9ehkwfQqkGM/H
+         6tqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVdRS8hSznw5geDt92Z5ImEEzOynPPhEpuxoFuXFqjy6NgyPDxqHdH6vecIwnXxWlktXYbzAo/jTSRl4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAYhYYYkFoErjJnBopfKn3efuK0JGvbYhj4p79FqrkLUOgRmm4
+	GcLbAGOWPRPGMZPx8uAP1owM5BMEVzpxN3nkIypEwKWLeOMBzHisFjhHTirg8A==
+X-Gm-Gg: ASbGncvOJYEn6iD0S7lM67aYzBtFYFT9FpNURwY379VnV83EVT0H/V/gMcIArUNZWat
+	OMklc9haqiqNw4lkNKv3XOPNycwpHu5555tOW2FIbC0epFG1nYV5UQIt8kp8JIRgvJxaGiYnoDW
+	QikIZJMzME0Em1UdZhgwR1uHhXs/N8+5uoikH/vek16zJ+AWIeiE4O4NjrFRVqJx4oEJ4qbkpNK
+	03ePCX7Ge02TIs5s9DMmh2Xg1BAma+pwnrpPSToibn8Z6tHCcouyXLYRRMXDc764deamOAMsUPl
+	mpV/2BAmQ/hQyd+WBcgsa1esmoBODCDT4n7M9EdGwnKDs+48+nTmGT3rx/4vQ2AhEj6qOOs=
+X-Google-Smtp-Source: AGHT+IHgSo5iJPKUOIAwqfPXPBCcXD3z7oySdMdGq+1QTZ2AA3CEnpY5NVaQIYUZ/8ucBJbTbUDDNg==
+X-Received: by 2002:a05:6214:252f:b0:6d8:8e0f:8c03 with SMTP id 6a1803df08f44-6e42fbb7cc9mr43024696d6.18.1738766343034;
+        Wed, 05 Feb 2025 06:39:03 -0800 (PST)
+Received: from denia.c.googlers.com.com (5.236.236.35.bc.googleusercontent.com. [35.236.236.5])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e427cf664fsm17854526d6.77.2025.02.05.06.39.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 06:39:02 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH] contrib/test/test-media: Increase modprobe time
+Date: Wed,  5 Feb 2025 14:38:11 +0000
+Message-ID: <20250205143858.14720-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.48.1.362.g079036d154-goog
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v10 27/28] media: iris: enable video driver probe of
- SM8250 SoC
-To: Johan Hovold <johan@kernel.org>
-Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, quic_vgarodia@quicinc.com,
- quic_abhinavk@quicinc.com, mchehab@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, p.zabel@pengutronix.de, sebastian.fricke@collabora.com,
- bryan.odonoghue@linaro.org, dmitry.baryshkov@linaro.org,
- neil.armstrong@linaro.org, nicolas@ndufresne.ca,
- u.kleine-koenig@baylibre.com, stefan.schmidt@linaro.org,
- lujianhua000@gmail.com, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org
-References: <20250116070234.4027116-1-quic_dikshita@quicinc.com>
- <a3cafc25-3453-4a2d-81fb-71730982ddc0@xs4all.nl>
- <Z6Nz5r8Z1BhtD2KZ@hovoldconsulting.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <Z6Nz5r8Z1BhtD2KZ@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 05/02/2025 15:21, Johan Hovold wrote:
-> On Wed, Feb 05, 2025 at 02:15:25PM +0100, Hans Verkuil wrote:
-> 
->> This discussion about probing the driver is holding up the merging of this
->> driver unnecessarily. For now, only support the iris driver for SM8250 SoC
->> if the venus driver is not enabled:
->>
->> #if !IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS)
->>
->> That should be uncontroversial, and allows us to merge the iris driver.
-> 
-> Sounds good to me, but that should be IS_ENABLED() as otherwise which
-> driver ends up binding depends on whether venus is built as a module or
-> not.
+We have seen some situations in CI where modprobe required more than 10
+seconds. Increase the delay after modprobe to reduce the test flakiness.
 
-You are right, good catch.
+Ideally we will find a solution that does not require a specific time...
+but that is work for another day.
 
-Regards,
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ contrib/test/test-media | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	Hans
-
-> 
-> Johan
+diff --git a/contrib/test/test-media b/contrib/test/test-media
+index 798de2b9..20290291 100755
+--- a/contrib/test/test-media
++++ b/contrib/test/test-media
+@@ -209,7 +209,7 @@ if [ $kobj_rel -eq 1 ]; then
+ 	unbind_time=10
+ 	reunbind_time=14
+ 	rmmod_time=10
+-	modprobe_time=10
++	modprobe_time=15
+ fi
+ 
+ if [ $unload -eq 1 ]; then
+-- 
+2.48.1.362.g079036d154-goog
 
 
