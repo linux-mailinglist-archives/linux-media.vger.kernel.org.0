@@ -1,259 +1,438 @@
-Return-Path: <linux-media+bounces-25679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25675-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322FDA2909A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 15:38:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7523AA28B85
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 14:19:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 251431886487
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 14:38:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57CC3168DFD
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 13:17:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0967515A86B;
-	Wed,  5 Feb 2025 14:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b="gJ/T0/Ey"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80BE614F9FD;
+	Wed,  5 Feb 2025 13:15:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mo-csw-fb.securemx.jp (mo-csw-fb1801.securemx.jp [210.130.202.160])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621FA7E792;
-	Wed,  5 Feb 2025 14:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.130.202.160
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738766294; cv=fail; b=udCL/pI3AE7runSwgsQxi+pUxSneV8/bagVHD/E6InbnEEJQYJaRbRPVtMuIOEzn/NOf8nIjw7FHYOLkVcZCO2KldbbA5qkh8CczLtCjMP10hCv+xbRklJqDXrBpyMSQXfJYCTWSyoZnczmw2DnO7Zb5UB0kC9O8oixfUCJqNI4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738766294; c=relaxed/simple;
-	bh=mnzjpuUUx1AZhQjWflPn6ytx6x4B+2Efd+4OAE3vfMQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=eQlEzkVYWl7RlHsVnk+q9KfRjIDj4aZ7UzlHPAAPMCs7sF/dqYBcRlomcZtf5yh3jjAtk0C8vqKlV95PDXzgpc+2wSPyTjs/FhM1DluJUQ3wDJeH3E7JKpfhqlqtpsCaqBv17q4P8SzhwQ49UvWuCdBiRf5oE/zEDKBeq4RU60U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b=gJ/T0/Ey; arc=fail smtp.client-ip=210.130.202.160
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toshiba.co.jp
-Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1801) id 515Cavtq1463202; Wed, 5 Feb 2025 21:36:57 +0900
-DKIM-Signature: v=1;a=rsa-sha256;c=relaxed/simple;d=toshiba.co.jp;h=From:To:CC
-	:Subject:Date:Message-ID:References:In-Reply-To:Content-Type:
-	Content-Transfer-Encoding:MIME-Version;i=yuji2.ishikawa@toshiba.co.jp;s=
-	key2.smx;t=1738758986;x=1739968586;bh=mnzjpuUUx1AZhQjWflPn6ytx6x4B+2Efd+4OAE3
-	vfMQ=;b=gJ/T0/Eym21cCoRCEdA9gWW/qEEclTggD1JMuRho9bLl20YabK35qYQAbsqtUGJ2nXlPM
-	/4EPwY4EwilI+luydRhxCruFkVbUzSPBG2ebgyTHRu+R+JC4olfnl1OVHzOxlx0xKc7tHvwIjGxd7
-	NDD1uo06jhoEsmxSFC8WhQi7AnleMTWGUuyh+cN4nH7qehhFfKz1qOa0Z1uP1cvpHBMym7H5TFkUO
-	6eIdag8/yHszXU9MJkDJCPCjy5cNENBxQq7v3xnBHalawlkjlTwC7iUAAtRVoCj7c8fZCWCUtvVAc
-	Nk0xvZXgVjTJ32xytKLxM42/b9g9kUP1tSooUwHQuA==;
-Received: by mo-csw.securemx.jp (mx-mo-csw1801) id 515CaOYw1196226; Wed, 5 Feb 2025 21:36:25 +0900
-X-Iguazu-Qid: 2yAbj3N9XXbP1lJokT
-X-Iguazu-QSIG: v=2; s=0; t=1738758984; q=2yAbj3N9XXbP1lJokT; m=VcHHnagf16gtAramRJkxuXmDmPM6B2GZ44cPI3mw9ns=
-Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
-	by relay.securemx.jp (mx-mr1802) id 515CaMiw865689
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 5 Feb 2025 21:36:22 +0900
-X-SA-MID: 39103918
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S/JGKWibLzUMdKYnXqkW2oOyJq2LyPX5AjnFpUrQ/lMRd7aygl1UzaPt4dKhWLK50uEc5Jp6XxnDEuNdDjXD1TIZQKDhSpMmD0VDRWOFPaxcpp3R4lwnJysWIJ46p3v/CCJjMqB4o5f9w+gV9ljs44aG8udkW4zB3xr1HyXAf/aKwouAjm07M+e55rCZ4BEnr2Jv//+Qq9f85ImlSzFbGkaSry8wepgagcse/BUUqRcyPAG/Foj1WEY+YsVwKdIxO0DMEpZXu+PQvAKqd+EMf8it8EpKQUL3A1YyS8QzO2Zga3U9v52xfTNlH/zFQduJecsCtj90D8e1Eor6MfKI9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mnzjpuUUx1AZhQjWflPn6ytx6x4B+2Efd+4OAE3vfMQ=;
- b=hVee41W2YAf1ftpfHm+f78Wey9T0tNU3yRyyXmkJZH4KQtxACQ443lLdqiCYoFZcpfeRCI1Cfe1ZM/fNbFooDxIDNrXwMYskbeDtg8Af2A35G9HDN74hQ2Bws1idzzp0JbSXDBczQ5ThMuV+Ee6ysZuOkLVVQj0OVHlJ1+WGT4pMl7v12OzYiUwr5VqDnNsHBaD7+eW93ylL3Ko1VJpJzgFINpyWiPmRFMFhhyc2hzVVb8tpn3M/wc5Gn5WDyN6HTsK1u6CYJ1v2X5m1+91wE6CLAxgxMh3oWWuBp0U0KlYfAu7529YZhTOJJGAmmDmuZP7+AK0j6nQ62smRarpV0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=toshiba.co.jp; dmarc=pass action=none
- header.from=toshiba.co.jp; dkim=pass header.d=toshiba.co.jp; arc=none
-From: <yuji2.ishikawa@toshiba.co.jp>
-To: <laurent.pinchart@ideasonboard.com>
-CC: <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <sakari.ailus@linux.intel.com>,
-        <hverkuil-cisco@xs4all.nl>, <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>
-Subject: RE: [PATCH v12 8/8] MAINTAINERS: Add entries for Toshiba Visconti
- Video Input Interface
-Thread-Topic: [PATCH v12 8/8] MAINTAINERS: Add entries for Toshiba Visconti
- Video Input Interface
-Thread-Index: AQHbPxuFzscAjuV7NE+EymIdi6bLi7MDsuQAgDViRdA=
-Date: Wed, 5 Feb 2025 12:31:16 +0000
-X-TSB-HOP2: ON
-Message-ID: 
- <TY3PR01MB9982674CA9B2D088DE142E0292F72@TY3PR01MB9982.jpnprd01.prod.outlook.com>
-References: <20241125092146.1561901-1-yuji2.ishikawa@toshiba.co.jp>
- <20241125092146.1561901-9-yuji2.ishikawa@toshiba.co.jp>
- <20250102131638.GH554@pendragon.ideasonboard.com>
-In-Reply-To: <20250102131638.GH554@pendragon.ideasonboard.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=toshiba.co.jp;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB9982:EE_|OSCPR01MB15035:EE_
-x-ms-office365-filtering-correlation-id: d424b71e-77e7-480f-13c8-08dd45e0fc58
-x-ld-processed: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f,ExtAddr,ExtFwd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?KzJQajlubnZjQ1I2SUtwbmcrZXNoZk00UDhOaWM0aTBWR1gyRkxlZkJhTEMr?=
- =?utf-8?B?NFVJeENxMjAyTkJmUklJbitnejMyck1LblNMRVZQanNBNjdRVkVqTEN0dFRD?=
- =?utf-8?B?VGZEQXVGV0VQamhHd2VocGJlek1OWE5xSHhOYW0wZk04Ukw4TTZVZnZ4Lzlw?=
- =?utf-8?B?YzUrNzZBZ1libjJ0ZWp1VVVZL2d2a3Jzd2lzOEtTU2dNQ3BzK2FVTmVHTjFY?=
- =?utf-8?B?a2o4b3FTZnZCaHZLZ1cwOE04RGQ2THFKa2tqTzdmUncxd29zRnhvcTZ4ay9p?=
- =?utf-8?B?RXI0bG82bWYzUEthZmoyUEtpSStvWmVvQWxPRGVhYVBiMHptdzY2WE5lOWlX?=
- =?utf-8?B?ajJmK0JyV2ZFdW1jNkJzT241NmsyWjY1a2RtTEwrSFFVTEhxZ1ErcE5aWTdY?=
- =?utf-8?B?bEJxV0Ura0ZJNkpaRHRSMGVXd1BkdHBVeURDemljRUhIWFhoNE0zRzQvL1pw?=
- =?utf-8?B?M1VLbmYyQ0l2aXBpWTFjejFPZmZpaVZITWtMcUl4akFPa1Z6WSs3a3FOVFRo?=
- =?utf-8?B?T2E3ekErM2NqaE1nQ2M4Skx1MEVuRGJjK0RWcFVodFVJVDV1d1JBanVxZnJt?=
- =?utf-8?B?R2tma2NHWWFyQldCbkdPM3o1bXFnajZVQ0FxZlNGNmNLT0c1ZUM5azkwOExh?=
- =?utf-8?B?N2tMcW5RTVhwbTdiZnRkdjZZelh0Z3FzUzhiaDJuZEZ5T0lwZ2VjMHFIWm9J?=
- =?utf-8?B?T0M5dWRaOFJFLzJlL2JOVHM0d2liTXhFeSt4aStIMUc5dHgrSHkxVUdva3Rk?=
- =?utf-8?B?STZyV29lOCtQQjVINFVybXJaSDhMNm56TTNGb3RmcnE3V3BacGNZN01ndzBL?=
- =?utf-8?B?MGk2RGgwa0YrdEtXUThvR1pEb3M1dng3aUhaNjQxQ3F2K1lvQnZTSE5pYmZE?=
- =?utf-8?B?YnhZZ2VMUHJyVHp3SFVWRjN5TG5FYjRIOFpYTkpGUGNuc3F6M1c3RkFoWkdi?=
- =?utf-8?B?dExiMmhXVU1xMG1ia3o1cWk2M3NIaGF0Um93VHBsSGxmQ3huY0tEaDE2Ym9M?=
- =?utf-8?B?ZVM5Q0xQdDJ3d0VvcWtwN3dQU01OYUxZSGFwdjA5UW5RT3VGN2w0anE4UVh4?=
- =?utf-8?B?cGNpK0J1NVNkdCtVUEcwNE1razUzNy9RaFgxaUNpeHNIUnVZblViY21LWWlH?=
- =?utf-8?B?cGQvQzhXL0tPVGtYMkdwdzk5cnFFUjMxSkkzQmwrYUZYQlhFY0FWWFlSck9s?=
- =?utf-8?B?eEt3LzByL2NsTk1ObEwzYVA1RmYyTjVrckFFQVMvekEyNXcxZWlxVTNydXJo?=
- =?utf-8?B?aTliYjUrSFgwR3BwN2dMSHUzODRibE94NEoya2sxUkJlL2tSTkRndEp6MDlW?=
- =?utf-8?B?aDNvZFd5UUp0MG85emprbzJBUmxHUmpSbzFoVGhobFFWMlJxZnN3OGhIMm9l?=
- =?utf-8?B?ZzAyOEJjb1FmcUFJWDh0MlpDUTFhdy9PK0hXaUZZRkdITDVDQzczaDR0eWs0?=
- =?utf-8?B?YTU0Wk9DRW9DZ1F4bTNMLzNMdnlvc2p3Sk00OTB4WGtnaVNCN2ZhdUNoRXdq?=
- =?utf-8?B?amhPcDRqWSt3YVdBQ3JhZWdVUXNWMlhWSXZZcnczcFpiT3VFUFpyNmRrcXUx?=
- =?utf-8?B?Q2lJNFdLSkJqNFNUOERBczVjaG0rLzdaT0ZKViswZ05tek9WS2VCalhIVlhW?=
- =?utf-8?B?alhSdlQ1a1NSay9zU1BPYWRuc3RXRHJXR3Q0bHdoY0hBUlQ1dkV1VzIwa1Iz?=
- =?utf-8?B?dVR5d2VOSkVyNmU2YlpVMlBGbDZGNVlYYkhMbytVWGNxWWEyNEc4RVBTU01Y?=
- =?utf-8?B?RFFpZ08yN2QvZFlrVmFsalN0UEkvd09nejNxOTVNa0Q0eVZsaGgvTU1hSmlI?=
- =?utf-8?B?VGdSTTdMVWdwaHVJMmQxekhHRmRYMzlQUDhhajJFWXNjNTdnSzJwMVB0ZVh5?=
- =?utf-8?B?MUxSYVZpN0VzV09DVks2YUNDbkFoNittVFZibFRnWUxHUEMxTmxVZWloWm5x?=
- =?utf-8?Q?TKiCBb6MPSVk0cDIrni+nlOEwEEkjL+K?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB9982.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?dHdzUU50cW1udVlmdWlMUm10aFVSRThoaFdneEdPNkd2anlOTS81QXpPbHJv?=
- =?utf-8?B?U29pNTh1STJSN3BsTHphbnhXYStrYUo2RkdTVjdDaTJVc2tZRzVjRnBuWW04?=
- =?utf-8?B?NHBhZWt2V3VwZXRLM3pId29QSVFoVkNpZXVxc0xSbWJEU2Z3NElZbHJrRlVp?=
- =?utf-8?B?cERHU0UyekRZcFRrTFY2T2tmbjZxWUxrNzVSdHhJTmFNcDdyMXE5K0kxS2FT?=
- =?utf-8?B?TDNwb3ZSMTBuNXlsU1Rmb1VoMS8yQ081SC9YUHpiVWhpaDRCS1VUbWFzc1NY?=
- =?utf-8?B?VHlEc3RqR3F0STh2dmhLZ0pFcVNDS2dxd3FCYXNiMFBGSjltanJQZjRVMzI0?=
- =?utf-8?B?SkpGTUNWR25qcEsrTm9FbGphMzV6NFJzN2hyaGQrMDVVeTcrSkFPbGdVd0sv?=
- =?utf-8?B?SmJrKzU5Q005WjJPckpmVXh2TjVRelk2WjRQeVNLS2JxWVFRVFNUaXVud09U?=
- =?utf-8?B?QjY0ZElBWHVtY3hpc2tiSHdidnFBc0lqdmNwYTRicUVLYTcyRzFQdlBsYmxm?=
- =?utf-8?B?QjhXMk11QlZhVzU3dHFzMXNZbEtKbGJlODVQNXk4L05xcEV5UmVsM3l4ZldM?=
- =?utf-8?B?bko0OUljbGU2WHY4M1Z0OVNEZWIxTXpVVU90eERFREZUK1NXUlUzYU1YUWcz?=
- =?utf-8?B?aGpnUDhVajFXL0luelFSaVpNVURza1JtQzlKZ1J2MExNYVNKM2NpRUlFdXVj?=
- =?utf-8?B?S05vdXRWck5TN05HQlk2R1I2VzcwNktFZnQxdmE1RVozWGpKU3ovR1p2dG4v?=
- =?utf-8?B?dWRxVUhaN21ueXhFNnpmd0tBQkNEZU5yZkNRSGZNbnl1eGpkQ2lJV0V6dS8v?=
- =?utf-8?B?K3JzaHZoRnpsUDlZQWg2cVFpY0Q3OHZPd21uWFZWNlFyYTY3NUFOWmVEa0tl?=
- =?utf-8?B?NUF3RzVhR1ZVdXo3RFhMbkg3ekV0bWk0WFZjcXEzT0tNbU9QWWNLM2dCUEUv?=
- =?utf-8?B?T2FISC9lMFh2TWhLNDRnYlRVaG5kd1V3RSttYzFxWGdtZEl2UFUyYkhwdCth?=
- =?utf-8?B?d3h3WTdBdjFhRE85VHFKbkNLZDZyaDAzazl2QUlqZ1lTWkpCQjA2VGhlUTVK?=
- =?utf-8?B?NGh5MjRZdWZBRDFDc1VzTlV1QzFUeDNUS1g0VURhbkNxQndFdUg0V0NmOG5I?=
- =?utf-8?B?eE84aFJmWnJia1NlemUxaHNqYVdYRE5iVUN4bmZtc0xvVUQ0UVRMS0tScHBy?=
- =?utf-8?B?aUtHTjRJc2VXdTRJOWRIbDJsUFNBbEtycGpUcCtLNXgyMjg5UG9uVm90Vit4?=
- =?utf-8?B?RnJTb0JCZDEwSmtteCtUNjBxakd4Znc2RlVhZTFsZENOVnRmVnJxcDJiTUdh?=
- =?utf-8?B?V2ZBa3ozQVdaalkwSGd5ZDFTd29pVEEwczFkTUVlZlFBMm5tM003Q0RvdEN2?=
- =?utf-8?B?LzVZK2M3VHp0bnFVRWVibGs2RzhDVHNhaDBVaTlhUUJ0NnMxcTZ6U2dqMS81?=
- =?utf-8?B?MU9MbS9CMEVsU3dndUlJWDhDam51NkNadG54SFMvcnczZGcrUnI1ZitmQXVB?=
- =?utf-8?B?eC8yUnNqS3NNMCswdGpCVm4yaXRBbHExQ0Fpd3ZrT09tN3FscGdRQnNvMEF0?=
- =?utf-8?B?dDBMbENtYVNYdjVCOGpsSmpLWUNFSEJBRC9WWDRVTGRuVFdYY1hPSzJCc2tk?=
- =?utf-8?B?NURDajd0MnpDd1pHbDZRSUFDWUVrQWlvMzN4WEtGSDZiQTFqeTdNcStRcGNH?=
- =?utf-8?B?MkNQdENscEF1SXBLaGZEOWI1SXFQWVE0T25oZit6SytkbktScW9qbTRjZHMr?=
- =?utf-8?B?WkNaL05QSC92eXFGd0FIb2ZjcXoxaUpYWG1FQlJRL2lMWVRlZThEYk04dW84?=
- =?utf-8?B?V1VnMG44bzRYYStMa1d6Z1kzYVZJMFpyUndzOUJGWEliaTlKUHF0WFFCbFd1?=
- =?utf-8?B?ZG1UaGJ1cTFqOVRMWHdDNGRZOGptNU5IZUtzK0dwV2R3UDVSNVVHWnVTYkMz?=
- =?utf-8?B?ZHZ4Tjl4cUx3QWU3ZWZ4anNDRVlPSUVFbEFrMXMzUnAzS2tRTzRrOGUzNTlO?=
- =?utf-8?B?WGM0dXhManVrM2kyOW5Yb0M0d3dzaFlTUjFta1hMY0MyQVFCa2t1dFV2Rmo2?=
- =?utf-8?B?eFlZQTM5RGF6Q1NEZTlvZCs0VlFLMVoyNndUQXgzbzRXUDFFcmNrcmg4L2NV?=
- =?utf-8?B?ZHF4cTc1aXJyWUkrM2pOTkZvK2J3V09YRlh3VEl5SUliZ01xOEw3SlNyeDZq?=
- =?utf-8?B?Ymc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F41914A630;
+	Wed,  5 Feb 2025 13:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738761332; cv=none; b=uZjntunMfayRgfqqV/SL21AatJsQxmpeKYrekgXKBtvP8ZPqpXCK63MHxQpxOEbG+yukHTGHRl4vT/G8NLSSPO/YvnDPJrB4u31AhwpyYGJk6mre0aST30c9mReF1TqiEVwA7a/DLcz0DEdN7TdrAyRzm5PfPynuIUNoRtlC66M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738761332; c=relaxed/simple;
+	bh=s+4A4rWLulugICad9dwwDfUDAelfscdvgsMYVsPDnSE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pEU1rW6Zz83Ltid99wVoKRaCy8XQnCENyQteduJ435CzfcZXbr76kzegKaP1lh27z1ve+3W0vgxd236JdKsH/1TMDAcR9fjEef/vmuSL1aavESpNhbkTI8mJKy0Hf0A3pgaeRT+8sv/Uva4TmFCVpIHeLytqt5/Xn/QIz6DtzHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE23FC4CED1;
+	Wed,  5 Feb 2025 13:15:27 +0000 (UTC)
+Message-ID: <a3cafc25-3453-4a2d-81fb-71730982ddc0@xs4all.nl>
+Date: Wed, 5 Feb 2025 14:15:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: toshiba.co.jp
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB9982.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d424b71e-77e7-480f-13c8-08dd45e0fc58
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2025 12:31:16.4964
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lhky9tr2tqg1Vz7fBiDJEPm82pt8NqNDeGu/MgaE3JEgWNd2LQhEzbrhf5y3B6sGyOf5MRo4zbIlDCYQY+dxEPJIsamLsqo++rA9VaJ8eCc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB15035
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v10 27/28] media: iris: enable video driver probe of
+ SM8250 SoC
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>, quic_vgarodia@quicinc.com,
+ quic_abhinavk@quicinc.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, p.zabel@pengutronix.de
+Cc: sebastian.fricke@collabora.com, bryan.odonoghue@linaro.org,
+ dmitry.baryshkov@linaro.org, neil.armstrong@linaro.org,
+ nicolas@ndufresne.ca, u.kleine-koenig@baylibre.com,
+ stefan.schmidt@linaro.org, lujianhua000@gmail.com,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ krzysztof.kozlowski@linaro.org, johan@kernel.org
+References: <20250116070234.4027116-1-quic_dikshita@quicinc.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
+ Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
+ cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
+ kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
+ H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
+ CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
+ Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
+ kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
+ eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
+ WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
+ xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
+ Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
+ ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
+ aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
+ GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
+ OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
+ SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
+ SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
+ aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
+ e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
+ XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
+ LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
+In-Reply-To: <20250116070234.4027116-1-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8gTGF1cmVudCwNCg0KVGhhbmsgeW91IGZvciB5b3VyIHJldmlldyBjb21tZW50cy4NCg0K
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVyZW50IFBpbmNoYXJ0IDxs
-YXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBKYW51
-YXJ5IDIsIDIwMjUgMTA6MTcgUE0NCj4gVG86IGlzaGlrYXdhIHl1amko55+z5bedIOaCoOWPuCDi
-l4vvvLLvvKTvvKPilqHvvKHvvKnvvLTvvKPil4vvvKXvvKHplospDQo+IDx5dWppMi5pc2hpa2F3
-YUB0b3NoaWJhLmNvLmpwPg0KPiBDYzogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiQGtl
-cm5lbC5vcmc+OyBSb2IgSGVycmluZw0KPiA8cm9iaEBrZXJuZWwub3JnPjsgS3J6eXN6dG9mIEtv
-emxvd3NraSA8a3J6aytkdEBrZXJuZWwub3JnPjsgQ29ub3IgRG9vbGV5DQo+IDxjb25vcitkdEBr
-ZXJuZWwub3JnPjsgU2FrYXJpIEFpbHVzIDxzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tPjsg
-SGFucw0KPiBWZXJrdWlsIDxodmVya3VpbC1jaXNjb0B4czRhbGwubmw+OyBpd2FtYXRzdSBub2J1
-aGlybyjlsqnmnb4g5L+h5rSLIOKXi++8pO+8qe+8tO+8ow0KPiDilqHvvKTvvKnvvLTil4vvvK/v
-vLPvvLQpIDxub2J1aGlybzEuaXdhbWF0c3VAdG9zaGliYS5jby5qcD47DQo+IGxpbnV4LW1lZGlh
-QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsNCj4gbGludXgt
-YXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnOyBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9y
-Zw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYxMiA4LzhdIE1BSU5UQUlORVJTOiBBZGQgZW50cmll
-cyBmb3IgVG9zaGliYSBWaXNjb250aQ0KPiBWaWRlbyBJbnB1dCBJbnRlcmZhY2UNCj4gDQo+IEhp
-IElzaGlrYXdhLXNhbiwNCj4gDQo+IFRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLg0KPiANCj4gT24g
-TW9uLCBOb3YgMjUsIDIwMjQgYXQgMDY6MjE6NDZQTSArMDkwMCwgWXVqaSBJc2hpa2F3YSB3cm90
-ZToNCj4gPiBBZGRlZCBlbnRyaWVzIGZvciB2aXNjb250aSBWaWRlbyBJbnB1dCBJbnRlcmZhY2Ug
-ZHJpdmVyLCBpbmNsdWRpbmc7DQo+IA0KPiBDb21taXQgbWVzc2FnZXMgYXJlIHdyaXR0ZW4gdXNp
-bmcgdGhlIGltcGVyYXRpdmUgbW9vZCwgYXMgaWYgeW91IHdlcmUgZ2l2aW5nDQo+IG9yZGVycyB0
-byBzb21lb25lOg0KPiANCj4gcy9BZGRlZC9BZGQvDQo+IA0KDQpUaGFuayB5b3UgZm9yIHRoZSBh
-ZHZpY2UuIEknbGwgdXBkYXRlIGNvbW1pdCBtZXNzYWdlcy4NCg0KPiA+ICogZGV2aWNlIHRyZWUg
-YmluZGluZ3MNCj4gPiAqIHNvdXJjZSBmaWxlcw0KPiA+ICogZG9jdW1lbnRhdGlvbiBmaWxlcw0K
-PiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWXVqaSBJc2hpa2F3YSA8eXVqaTIuaXNoaWthd2FAdG9z
-aGliYS5jby5qcD4NCj4gPiBSZXZpZXdlZC1ieTogTm9idWhpcm8gSXdhbWF0c3UgPG5vYnVoaXJv
-MS5pd2FtYXRzdUB0b3NoaWJhLmNvLmpwPg0KPiANCj4gSSB3b3VsZCBoYXZlIGFkZGVkIHRoZSBN
-QUlOVEFJTkVSUyBlbnRyeSBpbiAxLzggd2l0aCBqdXN0IHRoZSBEVCBiaW5kaW5nIGZpbGUsDQo+
-IGFuZCBhZGRlZCBtb3JlIGZpbGVzIGluIGNvcnJlc3BvbmRpbmcgcGF0Y2hlcy4gVGhhdCB3b3Vs
-ZCBiZSBlYXNpZXIgdG8gcmV2aWV3DQo+IGFuZCBjaGVjayBpZiBlbnRyaWVzIGFyZSBtaXNzaW5n
-LiBJIGRvbid0IG1pbmQgbXVjaCB0aG91Z2gsIHNvIGlmIHlvdSBwcmVmZXINCj4ga2VlcGluZyBp
-dCB0aGlzIHdheToNCj4gDQoNCkZyb20gdGhlIG5leHQgcGF0Y2ggc2V0LCBJJ2xsIHVwZGF0ZSBN
-QUlOVEFJTkVSUyBhdCB0aGUgc2FtZSB0aW1lIGFzIG5ldyBmaWxlcyBhcmUgYWRkZWQuDQoNCj4g
-UmV2aWV3ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJv
-YXJkLmNvbT4NCj4gDQo+ID4gLS0tDQo+ID4gQ2hhbmdlbG9nIHYyOg0KPiA+IC0gbm8gY2hhbmdl
-DQo+ID4NCj4gPiBDaGFuZ2Vsb2cgdjM6DQo+ID4gLSBhZGRlZCBlbnRyeSBmb3IgZHJpdmVyIEFQ
-SSBkb2N1bWVudGF0aW9uDQo+ID4NCj4gPiBDaGFuZ2Vsb2cgdjQ6DQo+ID4gLSBhZGRlZCBlbnRy
-eSBmb3IgaGVhZGVyIGZpbGUNCj4gPg0KPiA+IENoYW5nZWxvZyB2NToNCj4gPiAtIG5vIGNoYW5n
-ZQ0KPiA+DQo+ID4gQ2hhbmdlbG9nIHY2Og0KPiA+IC0gdXBkYXRlIHBhdGggdG8gVklJRiBkcml2
-ZXIgc291cmNlIGZpbGVzDQo+ID4NCj4gPiBDaGFuZ2Vsb2cgdjc6DQo+ID4gLSBubyBjaGFuZ2UN
-Cj4gPg0KPiA+IENoYW5nZWxvZyB2ODoNCj4gPiAtIHJlbmFtZSBiaW5kaW5ncyBkZXNjcmlwdGlv
-biBmaWxlDQo+ID4NCj4gPiBDaGFuZ2Vsb2cgdjk6DQo+ID4gLSBubyBjaGFuZ2UNCj4gPg0KPiA+
-IENoYW5nZWxvZyB2MTA6DQo+ID4gLSBhZGQgYSBzZXBhcmF0ZSBlbnRyeSBvZiBWSUlGIGRyaXZl
-cg0KPiA+DQo+ID4gQ2hhbmdlbG9nIHYxMToNCj4gPiAtIG5vIGNoYW5nZQ0KPiA+DQo+ID4gQ2hh
-bmdlbG9nIHYxMjoNCj4gPiAtIGFkZCBhIGJpbmRpbmdzIGRlc2NyaXB0aW9uIG9mIENTSTJSWCBk
-cml2ZXINCj4gPg0KPiA+ICBNQUlOVEFJTkVSUyB8IDEyICsrKysrKysrKysrKw0KPiA+ICAxIGZp
-bGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL01BSU5U
-QUlORVJTIGIvTUFJTlRBSU5FUlMgaW5kZXgNCj4gPiBiODc4ZGRjOTlmOTQuLmI1YzgxOWU5NGU5
-YiAxMDA2NDQNCj4gPiAtLS0gYS9NQUlOVEFJTkVSUw0KPiA+ICsrKyBiL01BSU5UQUlORVJTDQo+
-ID4gQEAgLTIzNDMwLDYgKzIzNDMwLDE4IEBAIEY6DQo+IAlEb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvbWVkaWEvaTJjL3RjMzU4NzQzLnR4dA0KPiA+ICBGOglkcml2ZXJzL21lZGlh
-L2kyYy90YzM1ODc0MyoNCj4gPiAgRjoJaW5jbHVkZS9tZWRpYS9pMmMvdGMzNTg3NDMuaA0KPiA+
-DQo+ID4gK1RPU0hJQkEgVklTQ09OVEkgVklJRiBEUklWRVINCj4gPiArTToJTm9idWhpcm8gSXdh
-bWF0c3UgPG5vYnVoaXJvMS5pd2FtYXRzdUB0b3NoaWJhLmNvLmpwPg0KPiA+ICtNOglZdWppIElz
-aGlrYXdhIDx5dWppMi5pc2hpa2F3YUB0b3NoaWJhLmNvLmpwPg0KPiA+ICtMOglsaW51eC1tZWRp
-YUB2Z2VyLmtlcm5lbC5vcmcNCj4gPiArUzoJTWFpbnRhaW5lZA0KPiA+ICtGOglEb2N1bWVudGF0
-aW9uL2FkbWluLWd1aWRlL21lZGlhL3Zpc2NvbnRpLXZpaWYuKg0KPiA+ICtGOg0KPiAJRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3Rvc2hpYmEsdmlzY29udGk1LWNzaTJy
-eC55DQo+IGFtbA0KPiA+ICtGOg0KPiAJRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L21lZGlhL3Rvc2hpYmEsdmlzY29udGk1LXZpaWYueWFtDQo+IGwNCj4gPiArRjoJRG9jdW1lbnRh
-dGlvbi91c2Vyc3BhY2UtYXBpL21lZGlhL3Y0bC9tZXRhZm10LXZpc2NvbnRpLXZpaWYucnN0DQo+
-ID4gK0Y6CWRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdG9zaGliYS92aXNjb250aS8NCj4gPiArRjoJ
-aW5jbHVkZS91YXBpL2xpbnV4L3Zpc2NvbnRpX3ZpaWYuaA0KPiA+ICsNCj4gPiAgVE9TSElCQSBX
-TUkgSE9US0VZUyBEUklWRVINCj4gPiAgTToJQXphZWwgQXZhbG9zIDxjb3Byb3NjZWZhbG9AZ21h
-aWwuY29tPg0KPiA+ICBMOglwbGF0Zm9ybS1kcml2ZXIteDg2QHZnZXIua2VybmVsLm9yZw0KPiAN
-Cj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg0KUmVnYXJkcywNCll1
-amkgSXNoaWthd2ENCg==
+Hi all,
+
+This discussion about probing the driver is holding up the merging of this
+driver unnecessarily. For now, only support the iris driver for SM8250 SoC
+if the venus driver is not enabled:
+
+#if !IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS)
+
+That should be uncontroversial, and allows us to merge the iris driver.
+
+A separate patch can be posted on top once the driver is merged that
+allows for runtime switching. That can be discussed on its own merits.
+To be honest, I can see pros and cons either way.
+
+It's a bit silly to have this discussion hold up the driver, so I think
+this is a reasonable path forward.
+
+Regards,
+
+	Hans
+
+On 16/01/2025 08:02, Dikshita Agarwal wrote:
+> Initialize the platform data and enable video driver probe of SM8250
+> SoC. Add a kernel param to select between venus and iris drivers for
+> platforms supported by both drivers, for ex: SM8250.
+> 
+> This is for preview only, and I will post a proper v10,
+> if everyone is OK with this RFC patch.
+> 
+> Tested-by: Stefan Schmidt <stefan.schmidt@linaro.org> # x1e80100 (Dell XPS 13 9345)
+> Reviewed-by: Stefan Schmidt <stefan.schmidt@linaro.org>
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
+> Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-SDK
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/iris/Makefile     |   1 +
+>  drivers/media/platform/qcom/iris/iris_core.h  |   1 +
+>  .../platform/qcom/iris/iris_platform_common.h |   1 +
+>  .../platform/qcom/iris/iris_platform_sm8250.c | 149 ++++++++++++++++++
+>  drivers/media/platform/qcom/iris/iris_probe.c |  48 ++++++
+>  drivers/media/platform/qcom/venus/core.c      |   5 +
+>  drivers/media/platform/qcom/venus/core.h      |   1 +
+>  7 files changed, 206 insertions(+)
+>  create mode 100644 drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+> 
+> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
+> index ca31db847273..a746681e03cd 100644
+> --- a/drivers/media/platform/qcom/iris/Makefile
+> +++ b/drivers/media/platform/qcom/iris/Makefile
+> @@ -9,6 +9,7 @@ iris-objs += iris_buffer.o \
+>               iris_hfi_gen2_packet.o \
+>               iris_hfi_gen2_response.o \
+>               iris_hfi_queue.o \
+> +             iris_platform_sm8250.o \
+>               iris_platform_sm8550.o \
+>               iris_power.o \
+>               iris_probe.o \
+> diff --git a/drivers/media/platform/qcom/iris/iris_core.h b/drivers/media/platform/qcom/iris/iris_core.h
+> index 37fb4919fecc..f2e478c25c02 100644
+> --- a/drivers/media/platform/qcom/iris/iris_core.h
+> +++ b/drivers/media/platform/qcom/iris/iris_core.h
+> @@ -107,5 +107,6 @@ struct iris_core {
+>  
+>  int iris_core_init(struct iris_core *core);
+>  void iris_core_deinit(struct iris_core *core);
+> +bool iris_should_not_bind(struct device *dev);
+>  
+>  #endif
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index 189dd081ad0a..af24ce4fc417 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -34,6 +34,7 @@ enum pipe_type {
+>  };
+>  
+>  extern struct iris_platform_data sm8550_data;
+> +extern struct iris_platform_data sm8250_data;
+>  
+>  enum platform_clk_type {
+>  	IRIS_AXI_CLK,
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+> new file mode 100644
+> index 000000000000..b14b1c5d632c
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+> @@ -0,0 +1,149 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include "iris_core.h"
+> +#include "iris_ctrls.h"
+> +#include "iris_platform_common.h"
+> +#include "iris_resources.h"
+> +#include "iris_hfi_gen1.h"
+> +#include "iris_hfi_gen1_defines.h"
+> +#include "iris_vpu_common.h"
+> +
+> +static struct platform_inst_fw_cap inst_fw_cap_sm8250[] = {
+> +	{
+> +		.cap_id = PIPE,
+> +		.min = PIPE_1,
+> +		.max = PIPE_4,
+> +		.step_or_mask = 1,
+> +		.value = PIPE_4,
+> +		.hfi_id = HFI_PROPERTY_PARAM_WORK_ROUTE,
+> +		.set = iris_set_pipe,
+> +	},
+> +	{
+> +		.cap_id = STAGE,
+> +		.min = STAGE_1,
+> +		.max = STAGE_2,
+> +		.step_or_mask = 1,
+> +		.value = STAGE_2,
+> +		.hfi_id = HFI_PROPERTY_PARAM_WORK_MODE,
+> +		.set = iris_set_stage,
+> +	},
+> +	{
+> +		.cap_id = DEBLOCK,
+> +		.min = 0,
+> +		.max = 1,
+> +		.step_or_mask = 1,
+> +		.value = 0,
+> +		.hfi_id = HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER,
+> +		.set = iris_set_u32,
+> +	},
+> +};
+> +
+> +static struct platform_inst_caps platform_inst_cap_sm8250 = {
+> +	.min_frame_width = 128,
+> +	.max_frame_width = 8192,
+> +	.min_frame_height = 128,
+> +	.max_frame_height = 8192,
+> +	.max_mbpf = 138240,
+> +	.mb_cycles_vsp = 25,
+> +	.mb_cycles_vpp = 200,
+> +};
+> +
+> +static void iris_set_sm8250_preset_registers(struct iris_core *core)
+> +{
+> +	writel(0x0, core->reg_base + 0xB0088);
+> +}
+> +
+> +static const struct icc_info sm8250_icc_table[] = {
+> +	{ "cpu-cfg",    1000, 1000     },
+> +	{ "video-mem",  1000, 15000000 },
+> +};
+> +
+> +static const char * const sm8250_clk_reset_table[] = { "bus", "core" };
+> +
+> +static const struct bw_info sm8250_bw_table_dec[] = {
+> +	{ ((4096 * 2160) / 256) * 60, 2403000 },
+> +	{ ((4096 * 2160) / 256) * 30, 1224000 },
+> +	{ ((1920 * 1080) / 256) * 60,  812000 },
+> +	{ ((1920 * 1080) / 256) * 30,  416000 },
+> +};
+> +
+> +static const char * const sm8250_pmdomain_table[] = { "venus", "vcodec0" };
+> +
+> +static const char * const sm8250_opp_pd_table[] = { "mx" };
+> +
+> +static const struct platform_clk_data sm8250_clk_table[] = {
+> +	{IRIS_AXI_CLK,  "iface"        },
+> +	{IRIS_CTRL_CLK, "core"         },
+> +	{IRIS_HW_CLK,   "vcodec0_core" },
+> +};
+> +
+> +static struct tz_cp_config tz_cp_config_sm8250 = {
+> +	.cp_start = 0,
+> +	.cp_size = 0x25800000,
+> +	.cp_nonpixel_start = 0x01000000,
+> +	.cp_nonpixel_size = 0x24800000,
+> +};
+> +
+> +static const u32 sm8250_vdec_input_config_param[] = {
+> +	HFI_PROPERTY_PARAM_FRAME_SIZE,
+> +	HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE,
+> +	HFI_PROPERTY_PARAM_UNCOMPRESSED_FORMAT_SELECT,
+> +	HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_CONSTRAINTS_INFO,
+> +	HFI_PROPERTY_PARAM_BUFFER_COUNT_ACTUAL,
+> +	HFI_PROPERTY_PARAM_VDEC_MULTI_STREAM,
+> +	HFI_PROPERTY_PARAM_BUFFER_SIZE_ACTUAL,
+> +	HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE,
+> +};
+> +
+> +static const u32 sm8250_dec_ip_int_buf_tbl[] = {
+> +	BUF_BIN,
+> +	BUF_SCRATCH_1,
+> +};
+> +
+> +static const u32 sm8250_dec_op_int_buf_tbl[] = {
+> +	BUF_DPB,
+> +};
+> +
+> +struct iris_platform_data sm8250_data = {
+> +	.get_instance = iris_hfi_gen1_get_instance,
+> +	.init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
+> +	.init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
+> +	.vpu_ops = &iris_vpu2_ops,
+> +	.set_preset_registers = iris_set_sm8250_preset_registers,
+> +	.icc_tbl = sm8250_icc_table,
+> +	.icc_tbl_size = ARRAY_SIZE(sm8250_icc_table),
+> +	.clk_rst_tbl = sm8250_clk_reset_table,
+> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8250_clk_reset_table),
+> +	.bw_tbl_dec = sm8250_bw_table_dec,
+> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8250_bw_table_dec),
+> +	.pmdomain_tbl = sm8250_pmdomain_table,
+> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8250_pmdomain_table),
+> +	.opp_pd_tbl = sm8250_opp_pd_table,
+> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8250_opp_pd_table),
+> +	.clk_tbl = sm8250_clk_table,
+> +	.clk_tbl_size = ARRAY_SIZE(sm8250_clk_table),
+> +	/* Upper bound of DMA address range */
+> +	.dma_mask = 0xe0000000 - 1,
+> +	.fwname = "qcom/vpu-1.0/venus.mbn",
+> +	.pas_id = IRIS_PAS_ID,
+> +	.inst_caps = &platform_inst_cap_sm8250,
+> +	.inst_fw_caps = inst_fw_cap_sm8250,
+> +	.inst_fw_caps_size = ARRAY_SIZE(inst_fw_cap_sm8250),
+> +	.tz_cp_config_data = &tz_cp_config_sm8250,
+> +	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+> +	.num_vpp_pipe = 4,
+> +	.max_session_count = 16,
+> +	.max_core_mbpf = (8192 * 4352) / 256,
+> +	.input_config_params =
+> +		sm8250_vdec_input_config_param,
+> +	.input_config_params_size =
+> +		ARRAY_SIZE(sm8250_vdec_input_config_param),
+> +
+> +	.dec_ip_int_buf_tbl = sm8250_dec_ip_int_buf_tbl,
+> +	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8250_dec_ip_int_buf_tbl),
+> +	.dec_op_int_buf_tbl = sm8250_dec_op_int_buf_tbl,
+> +	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8250_dec_op_int_buf_tbl),
+> +};
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> index 954cc7c0cc97..a9cec0d15dcb 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -189,6 +189,45 @@ static void iris_sys_error_handler(struct work_struct *work)
+>  	iris_core_init(core);
+>  }
+>  
+> +/* The venus driver supports only hfi gen1 to communicate with the firmware while
+> + * the iris driver supports both hfi gen1 and hfi gen2.
+> + * The support of hfi gen1 is added to the iris driver with the intention that
+> + * it can support old gen1 interface based firmware, while enabling gen2 based future SOCs.
+> + * With this, the plan is to migrate older SOCs from venus to iris.
+> + * As of now, since the iris driver supports only entry level features and doesn't have
+> + * feature parity with the venus driver, a runtime-selection is provided to user via
+> + * module parameter 'prefer_venus' to select the driver.
+> + * This selection is available only for the SoCs which are supported by both venus
+> + * and iris eg: SM8250.
+> + * When the feature parity is achieved, the plan is to switch the default to point to
+> + * the iris driver, then gradually start removing platforms from venus.
+> + * Hardware supported by only venus - 8916, 8996, SDM660, SDM845, SC7180, SC7280
+> + * Hardware supported by only iris - SM8550
+> + * Hardware supported by both venus and iris - SM8250
+> + */
+> +
+> +#if IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS)
+> +static bool prefer_venus = true;
+> +MODULE_PARM_DESC(prefer_venus, "Select whether venus or iris driver should be preferred");
+> +module_param(prefer_venus, bool, 0444);
+> +
+> +/* list all platforms supported by both venus and iris drivers */
+> +static const char *const venus_to_iris_migration[] = {
+> +	"qcom,sm8250-venus",
+> +	NULL,
+> +};
+> +
+> +bool iris_should_not_bind(struct device *dev)
+> +{
+> +	/* If it is in the migration list, use venus */
+> +	if (of_device_compatible_match(dev->of_node, venus_to_iris_migration))
+> +		return prefer_venus;
+> +
+> +	return false;
+> +}
+> +EXPORT_SYMBOL_GPL(iris_should_not_bind);
+> +#endif
+> +
+>  static int iris_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -196,6 +235,11 @@ static int iris_probe(struct platform_device *pdev)
+>  	u64 dma_mask;
+>  	int ret;
+>  
+> +#if IS_REACHABLE(CONFIG_VIDEO_QCOM_VENUS)
+> +	if (iris_should_not_bind(&pdev->dev))
+> +		return -ENODEV;
+> +#endif
+> +
+>  	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
+>  	if (!core)
+>  		return -ENOMEM;
+> @@ -324,6 +368,10 @@ static const struct of_device_id iris_dt_match[] = {
+>  		.compatible = "qcom,sm8550-iris",
+>  		.data = &sm8550_data,
+>  	},
+> +	{
+> +		.compatible = "qcom,sm8250-venus",
+> +		.data = &sm8250_data,
+> +	},
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(of, iris_dt_match);
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 77d48578ecd2..9116188bfe74 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -375,6 +375,11 @@ static int venus_probe(struct platform_device *pdev)
+>  	struct venus_core *core;
+>  	int ret;
+>  
+> +#if IS_REACHABLE(CONFIG_VIDEO_QCOM_IRIS)
+> +	if (!iris_should_not_bind(&pdev->dev))
+> +		return -ENODEV;
+> +#endif
+> +
+>  	core = devm_kzalloc(dev, sizeof(*core), GFP_KERNEL);
+>  	if (!core)
+>  		return -ENOMEM;
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index abeeafa86697..e2e7d8ec9807 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -570,4 +570,5 @@ is_fw_rev_or_older(struct venus_core *core, u32 vmajor, u32 vminor, u32 vrev)
+>  }
+>  
+>  void venus_close_common(struct venus_inst *inst);
+> +extern bool iris_should_not_bind(struct device *dev);
+>  #endif
 
 
