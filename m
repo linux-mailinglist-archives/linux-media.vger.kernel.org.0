@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-25681-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25684-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C626A29242
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 15:59:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21296A2934C
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 16:11:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED8773AA41D
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 14:54:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5465C3B040A
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 15:04:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 059E31FDE27;
-	Wed,  5 Feb 2025 14:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1044817C7CA;
+	Wed,  5 Feb 2025 15:01:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mNNNl1f/"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CV3eRX8G"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E3B1FDE12;
-	Wed,  5 Feb 2025 14:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E60155747;
+	Wed,  5 Feb 2025 15:01:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738766980; cv=none; b=tIqZajTvqkdpCq3cCuapIUDFQeZTQF1YsujiyGw0HKYlFO2PhMSDrQBejZU0mbmJ3YMYyNWw/B5HAecjwN6JAjVRbQC3Zu694R64ireCVw/vTMzUZdHfXZUL5ElPCKqFKP4bkm111FfndMC4B5lKB0IIbsmRFf6QOr65Mmossys=
+	t=1738767717; cv=none; b=sLFsVmiFxN01X+UEMzU4YpFWVptNFgDMXhJEuvFFhW1ZN6R2v6tz5k9jKo6k3kYUyCIcxXlfomvuDlMdTNDf3D/IEieVNHuwADJLvmInBdi594GitDUEAP2zjPy2RP0L1FuPYd0X3Cbqhv3k70LME6MFSwHWFpVE2IEzV2ahUOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738766980; c=relaxed/simple;
-	bh=PsR/Gzfn3XzvgnsDHb3k3rJuwQ2zdlAMOaqIc22VZ9g=;
+	s=arc-20240116; t=1738767717; c=relaxed/simple;
+	bh=bNT7faxWdbOeW2ypcSh3Gjz/c/PfYCHQ6Nswn4aROqI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EWCCeT6G08uxSbJJhyzbW5Pt7f996zUiw1dc1JfeCN1PDRInD6LebFhqO/+cUMDvI28Y4VhlfUArVoDQpEsEMSFJjd2MeZ1vnpN5yfSMVunKftxK5pP6/Agiyy3CsoZd+wcE8fKtUyyruOslkL4ZiY6sF/kql8NJBBha3M3N7RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mNNNl1f/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A4FC4CED1;
-	Wed,  5 Feb 2025 14:49:39 +0000 (UTC)
+	 MIME-Version:Content-Type; b=pesApPvQLrsQ7XkvZzOH+dhvVM1SZm1ZFv+JSKIXHmWqnB96tbOBalZq2LhC7wJPK9jatzgrFHUUYRVcCkMbjyJcycUzOjBJTautoxmPrJdbcCesKczLpt7/T2amYTDeF6qC/5LLCwwMAlw5rfPz0gQhCvfDp8vpqSQt7/cbrwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CV3eRX8G; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A831C4CED1;
+	Wed,  5 Feb 2025 15:01:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1738766980;
-	bh=PsR/Gzfn3XzvgnsDHb3k3rJuwQ2zdlAMOaqIc22VZ9g=;
+	s=korg; t=1738767715;
+	bh=bNT7faxWdbOeW2ypcSh3Gjz/c/PfYCHQ6Nswn4aROqI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mNNNl1f/Flui/uHRkrYW6BqT071136p6ssimwUXspucsbnjMP+FngB+eUOJAAEh6q
-	 JoBzvykTvls/5KF/Yvl4OyKY1Gd5DPkG7KZwPWaosrhmZ2eDuLzjxYdHYuAC/Ldgfv
-	 mK6nMuVlZHX8JHn2FHvJQhn45HUuyIV+SS7UYZkI=
+	b=CV3eRX8GUGNcs+nWoM/UwNxoGGlZ1EqZ/m3vUqL+Ssi0iDh6SffCmTbxHJwbdcjAf
+	 ehEMxNMPPWRyaIGgsxJlB5lChcEs2V7JSCJO3MMDoKRUt7muJ/WDnQYEKENBZ4MxmQ
+	 ske88v3g1ush8pUs8cUE+S09VLETGCTfj1OabUOc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -46,12 +46,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.12 388/590] ARM: dts: mediatek: mt7623: fix IR nodename
-Date: Wed,  5 Feb 2025 14:42:23 +0100
-Message-ID: <20250205134510.112586029@linuxfoundation.org>
+Subject: [PATCH 6.13 420/623] ARM: dts: mediatek: mt7623: fix IR nodename
+Date: Wed,  5 Feb 2025 14:42:42 +0100
+Message-ID: <20250205134512.294050799@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250205134455.220373560@linuxfoundation.org>
-References: <20250205134455.220373560@linuxfoundation.org>
+In-Reply-To: <20250205134456.221272033@linuxfoundation.org>
+References: <20250205134456.221272033@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-6.12-stable review patch.  If anyone has any objections, please let me know.
+6.13-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
