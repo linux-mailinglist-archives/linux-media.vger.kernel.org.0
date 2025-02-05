@@ -1,90 +1,128 @@
-Return-Path: <linux-media+bounces-25661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25659-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A10A281CD
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 03:30:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DA7A281AC
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 03:18:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A5DD3A5B7A
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 02:30:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7A61164105
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 02:18:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AABB4212FBC;
-	Wed,  5 Feb 2025 02:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40CFB211472;
+	Wed,  5 Feb 2025 02:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="hxBgZqX2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5D678F4C;
-	Wed,  5 Feb 2025 02:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F53120D51F;
+	Wed,  5 Feb 2025 02:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738722599; cv=none; b=IPDJLtVLC/cLbkxI+s6ixszEz697lHLE1GSyGcn56zWFKy6YUX9vtt9iyMrflF9ImXmX7fvw1EVb9slMb7FS5kQtg86NYUhZjB1lGwmkOiFKPe9Z0GjQrAjfJ1lKz+MJs8sCw7nv8k1FQDdIJXYeulOov+OuV3veTt1kwZf6UXU=
+	t=1738721926; cv=none; b=Uuei1kU5NAykcJPjJT5Gqfdae+LMrXe5vUFUS8tsQKN1XaxRNa3i++63HWtyyGm/S3NxJPwL1PbBVe+I2mEoYM1WvXnOzxkwdxvEOGCHxHzJrkfmJY7oECiuWp49XtdxXvdmwgMv4365r8fhAcWFKOJsnYOKxdNhmRqNDo8e9rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738722599; c=relaxed/simple;
-	bh=oxnH1SRs7qzqidSeh6lDtPs3UM5RE2YKmoGQtyn1w7g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=PC4Cp7/TtbgfKmfqZU0awPLzbjYGnW2QT8SBNMiJujbGstDPGyny+fgdMZvdw+z3twE8lYuRy5YTUtZuXQId9RoN+McDLoK0vvaa27noVMEv+DHPQI5uLO9lNcYfhHy/Tz89WR1mxRT82KEPuXipe0nl9R3+QvMjsouPB1koarc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Ynk9v3zQxz11PYG;
-	Wed,  5 Feb 2025 10:06:27 +0800 (CST)
-Received: from dggemv711-chm.china.huawei.com (unknown [10.1.198.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id 575E11800D9;
-	Wed,  5 Feb 2025 10:10:45 +0800 (CST)
-Received: from kwepemn100009.china.huawei.com (7.202.194.112) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 5 Feb 2025 10:10:45 +0800
-Received: from [10.67.121.59] (10.67.121.59) by kwepemn100009.china.huawei.com
- (7.202.194.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 5 Feb
- 2025 10:10:43 +0800
-Message-ID: <094ebe59-debd-4cc1-c963-904d8fff14c9@huawei.com>
-Date: Wed, 5 Feb 2025 10:10:43 +0800
+	s=arc-20240116; t=1738721926; c=relaxed/simple;
+	bh=qUuT77iTdaXvCS87a5KrQ3Pbb0JYPN+p43d3YwVVnZM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mwl316RuT3SOLk6U5JsfZSWWWtahNxQGvDn4u0TDOotzSmB4sAmrpcQJDrrekbaNyvJ58XrNPflGrSeKOJ+VSyudcgSE3B2dpRTPLElaZQgBHFgQyIGTHRz3qgg4Lm0Q2NmeYp9pps8G4pK1npEKpupJ63mo4k05lTz9dF8mojA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=hxBgZqX2; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=+Yfw3YYmQ42RTILNlusHnxgsov7m4pIrTmZuZQJm8vg=; b=hxBgZqX2iUarOki1
+	7a8QWu65p+dX7+GDq0vp/w+ZILVpp2qBdA4nku4KqP6VOUBSh25RpghyzVjLwthCB6wnX0IfLOaZZ
+	Tb7v46rnlaxD3Zkj06Tl36F9Z4m7cGRWkHlYLPMH9wCcc5H46+A30QxA9MGrb4ACZcL3/2b5hPKT1
+	CQ5Lbt12GaQAnS8zifoKCZabue0jwxQ1CGhT882CaG7MMhlJuur1tYXiaCNl0VrOW828L4F1BpRr1
+	1nW4O+bfn4qJiZZpSNkUA1jv2YvvqGR+mldSsH7DlFWMKkIeJNqVu9i+ixJdbsIqVeWhT0EMEQ/Qp
+	MP9g3vWWbjQYHSaeRw==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1tfUzr-00De3m-20;
+	Wed, 05 Feb 2025 02:18:35 +0000
+From: linux@treblig.org
+To: mchehab@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] media: platform: mtk-mdp3: Remove unused mdp_get_plat_device
+Date: Wed,  5 Feb 2025 02:18:34 +0000
+Message-ID: <20250205021834.497105-1-linux@treblig.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: (subset) [PATCH v1 8/9] w1: w1_therm: w1: Use HWMON_CHANNEL_INFO
- macro to simplify code
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-CC: <oss-drivers@corigine.com>, <matt@ranostay.sg>, <mchehab@kernel.org>,
-	<irusskikh@marvell.com>, <andrew+netdev@lunn.ch>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<louis.peens@corigine.com>, <hkallweit1@gmail.com>, <linux@armlinux.org.uk>,
-	<kabel@kernel.org>, <alexandre.belloni@bootlin.com>, <krzk@kernel.org>,
-	<zhanjie9@hisilicon.com>, <zhenglifeng1@huawei.com>,
-	<liuyonglong@huawei.com>, <linux-hwmon@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linux-rtc@vger.kernel.org>, <netdev@vger.kernel.org>
-References: <20250124022635.16647-1-lihuisong@huawei.com>
- <20250124022635.16647-9-lihuisong@huawei.com>
- <173858376808.132674.4568544450122043067.b4-ty@linaro.org>
-From: "lihuisong (C)" <lihuisong@huawei.com>
-In-Reply-To: <173858376808.132674.4568544450122043067.b4-ty@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemn100009.china.huawei.com (7.202.194.112)
 
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-在 2025/2/3 19:56, Krzysztof Kozlowski 写道:
-> On Fri, 24 Jan 2025 10:26:34 +0800, Huisong Li wrote:
->> Use HWMON_CHANNEL_INFO macro to simplify code.
->>
->>
-> Applied, thanks!
->
-> [8/9] w1: w1_therm: w1: Use HWMON_CHANNEL_INFO macro to simplify code
->        https://git.kernel.org/krzk/linux-w1/c/33c145297840dddf0dc23d5822159c26aba920d3
->
-Thanks for picking it up.
+mdp_get_plat_device() was added in 2022 as part of
+commit 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3
+driver")
+but has remained unused.
+
+Remove it.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |  2 --
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    | 19 -------------------
+ 2 files changed, 21 deletions(-)
+
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h
+index 935ae9825728..222611e03a06 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.h
+@@ -12,8 +12,6 @@
+ #include <linux/soc/mediatek/mtk-cmdq.h>
+ #include "mtk-img-ipi.h"
+ 
+-struct platform_device *mdp_get_plat_device(struct platform_device *pdev);
+-
+ struct mdp_cmdq_param {
+ 	struct img_config *config;
+ 	struct img_ipi_frameparam *param;
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+index f571f561f070..8de2c8e4d333 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+@@ -79,25 +79,6 @@ static struct platform_device *__get_pdev_by_id(struct platform_device *pdev,
+ 	return mdp_pdev;
+ }
+ 
+-struct platform_device *mdp_get_plat_device(struct platform_device *pdev)
+-{
+-	struct device *dev = &pdev->dev;
+-	struct device_node *mdp_node;
+-	struct platform_device *mdp_pdev;
+-
+-	mdp_node = of_parse_phandle(dev->of_node, MDP_PHANDLE_NAME, 0);
+-	if (!mdp_node) {
+-		dev_err(dev, "can't get node %s\n", MDP_PHANDLE_NAME);
+-		return NULL;
+-	}
+-
+-	mdp_pdev = of_find_device_by_node(mdp_node);
+-	of_node_put(mdp_node);
+-
+-	return mdp_pdev;
+-}
+-EXPORT_SYMBOL_GPL(mdp_get_plat_device);
+-
+ int mdp_vpu_get_locked(struct mdp_dev *mdp)
+ {
+ 	int ret = 0;
+-- 
+2.48.1
+
 
