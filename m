@@ -1,195 +1,258 @@
-Return-Path: <linux-media+bounces-25700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25701-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C8EA2975B
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 18:30:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE77A29865
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 19:07:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7951F3A2062
-	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 17:30:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7990188A4DB
+	for <lists+linux-media@lfdr.de>; Wed,  5 Feb 2025 18:07:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 756A61FBEAF;
-	Wed,  5 Feb 2025 17:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB921DC9B3;
+	Wed,  5 Feb 2025 18:07:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="PL1hactd"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="xRPpjKBF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766401519AD
-	for <linux-media@vger.kernel.org>; Wed,  5 Feb 2025 17:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6692161321
+	for <linux-media@vger.kernel.org>; Wed,  5 Feb 2025 18:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738776626; cv=none; b=MJ4Une0m+61Qmsbmncka97Gk8WMEcQ7nYuNKosXNnJvfDib90jNuFOblvGIsBhsPriqpF5U/iN9D8qyBgehpmGBM9zwp6ZEpQVJoO/+u3zQ/+7VUkWDM79Se9VYrFhtJfYBdapn8lTR9lo43CqwTyXyoHUkOWqj7tZgjjlcL6J4=
+	t=1738778850; cv=none; b=nciE0FGo4N7Zubg5WDAWMxU5vKDfBXEDw2Y1meXv76/JFA8gGpDPq1heq1rTfoKx04iWsl9vADTPUA2ZXt/X413ex4RPAu9F1COxwdQwHsc+aJVXIapbOXia7jpXlogrpZGzpcRIx3DzT9i/0gAc9C3tbQhJxHFKvlPFCagzJj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738776626; c=relaxed/simple;
-	bh=f2yEvU4TM3aZYdPhq5G+l+SmpWWP3YrRm11kspLYSHc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=mtwlovdtMWmCdHdxjDVA52SNADzMRQrZwINvFQsVh9KphQ4srdRUFmI53j4eSwwriinfNUSM89fpXM6iMpC35JKpIuH0OK4bfQshRobAmP0mnQB1vzUonIob6PaXIQxEoC7KXmfKsCDzjQ50sjxmIxGKD9Z3hQzYs0tCmrmVdcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=PL1hactd; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 84A68240027
-	for <linux-media@vger.kernel.org>; Wed,  5 Feb 2025 18:30:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
-	t=1738776622; bh=f2yEvU4TM3aZYdPhq5G+l+SmpWWP3YrRm11kspLYSHc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=PL1hactd8RdLkszMUmEdepRdB2nlcyk9mAUuzhmQDw87OY0Wy6vu09upgrTLphbd1
-	 HQwrtbjeGyVijzLY1XSUIT7ybkpqK1tOeUFfgt9m6LvXqiyyTwugJHUVhxkzSj+WaJ
-	 1aF5YpEbpw+E9NOC09TRUTFgVL+FHNk/u3IHwDGZYqnvTFN6orpvybyLfPDAJeLDGY
-	 Z31ALiMFc9Hx21frrtnfjRFp5SJ9IpR3PhkFNTIgAvxmEVof7+/3tVtU26RSdGekr/
-	 C8SqW2TzhnJk5F4oYnh69j5tuebBTEelGWnF1K1zmCTK2volCF56HaVepfjXvtuumd
-	 2fZzdoQxB3snw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4Yp6gv6fyqz9rxK;
-	Wed,  5 Feb 2025 18:30:19 +0100 (CET)
-From: =?UTF-8?q?Martin=20Kepplinger-Novakovi=C4=87?= <martink@posteo.de>
-To: laurent.pinchart@ideasonboard.com,
-	mchehab@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com
-Cc: linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20Kepplinger-Novakovi=C4=87?= <martink@posteo.de>
-Subject: [PATCH] media: nxp: imx8-isi: check return value of media_pad_remote_pad_first()
-Date: Wed,  5 Feb 2025 17:29:57 +0000
-Message-Id: <20250205172957.182362-1-martink@posteo.de>
+	s=arc-20240116; t=1738778850; c=relaxed/simple;
+	bh=ijNuuflNXrUb9eu8IX4GbOOlYC+05reWEq31MswjY30=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CS1Dh6xSjB1K69lKtQ8N4j0xuZGeZmZNApgCrLotI6SWPhlbUCpFoKPss3BvRdYRPdZWQCjleo5aESZyYB3stb3yxgaXljS4QIKvLR7I0yMfOmKXbVBbn77YMlZSPQETTlWKWOqgAfsiPHAPinzlhswe2E/CP2TErwVifVhI8ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=xRPpjKBF; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-467a17055e6so1114771cf.3
+        for <linux-media@vger.kernel.org>; Wed, 05 Feb 2025 10:07:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1738778848; x=1739383648; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5a3g63YXuRyBGyCYvHoCZXHBrCt33UAX5/d9X21sMZ4=;
+        b=xRPpjKBFsoqaqbEWaaP+WH7qekhTXK96G6wybhIWctpZB3bCwPZEhiBOUOOGYBnMze
+         qiSF3mB3InzOLM2L2e7J7j0lgze9yku86rZDUc1SgpKlMzixliHn9uWLG4vMVLVuFoNC
+         dsQpkwLx7eq1aoMy+NetVpzS1JxZXQPfBQRU/nuajoFHb0TMiKkpMcrrEkWHatt2t4q1
+         qXDfCNMbHQxdM9NFohmw/kzUMeLpliuBWBHrmmVVMpmpbjFMoTStld/DxPySlWWct9gp
+         kh7IN5LGl2CiY0OOx9wuwBxmHl3ygKld2dWyq+pgbr5re/wokG2MQ8Lth7pZb2m+2oUA
+         td+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738778848; x=1739383648;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5a3g63YXuRyBGyCYvHoCZXHBrCt33UAX5/d9X21sMZ4=;
+        b=VVaoIsKyErY+vcUFKJxyDh+K1cmm3RQuadMN8LCMLUyTOxumjHiNYelT6wZSAY7xyk
+         XfoBjPGPEmErR6PNe/6ydX9SJZnu3xo00Q/dzFBrt53SgxKgrx54kKRCXN63hEOy2n4z
+         85zYuyGZnGDGnEg07wK6qmhe86opBGVQEjEIpKQb1bQI8+UJqqdRlM8FfFxYXy6hc5an
+         5cqDELqHuhI9gvx3HtfBpRZwjT6k42Jf6UFz7vyPc5/ILQuocn7q95vymrbfZt/ugbk4
+         pNcHyH68lT4eHdALuYJ2M+yyOR1MnsiK8jbIXKQ4EapVmfiYUCAaQh1JtlDnM0Dxd5xM
+         /kaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCRuCSVHJeVdGd+CmgG4BVy+J13432whIappYZgd/uCOJRxXSYBa0bWgLVhKWRSiF39uir7IGJe9JlJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9rRB+xwArXRim0J7csRrEOokhIHccHjFo6KkYOuFCgLpfpeMf
+	lixi+0F2sCxij+dSoRAunwA2QdoOeQJ10hq7XmvWywRUW1df2pQeEVxwkCfP3+0=
+X-Gm-Gg: ASbGncv6RiAX2uny6EguVt1eeIUyyP9jEKoMf7yJvQgooH8V6vPVAKgAbhNsusVmuSb
+	zikzMxFHV0Z7io/z1q/RBl64/QxcRWo0/Y+KsNKXDtpaAuHaZX15az+sFrLBM1oXcP1kkIRfSSY
+	zcFwSwvvHQIu/iaToBkrLKrCPqjp10Gd+70LXf/Qyyr80j7zwn0edY3yanKlbeeLsys2TCgFeTz
+	ygvXQlxUGDk+8g1KS8lrLWWAgEyrl6ORumKz2J6TDHdP9dBkbbKXhlJ/QcMMOwQ3Nm8D7u+XG0/
+	r4OBmrGWLOU2+TFH
+X-Google-Smtp-Source: AGHT+IEo4hXzx1g4KENBMeo2s9vL7H7kP3tcfvoRUkgZj0tj3tMn7WAB4E53kizdrimAnj8XyGNu6g==
+X-Received: by 2002:ac8:7e93:0:b0:467:6833:e30c with SMTP id d75a77b69052e-470281e8607mr53959051cf.30.1738778847693;
+        Wed, 05 Feb 2025 10:07:27 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:e976::7a9])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4702c56c62bsm7919921cf.28.2025.02.05.10.07.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 10:07:27 -0800 (PST)
+Message-ID: <9b5104631f827fe44ad1030c971c72fba9a8ac90.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali
+ CSF GPUs
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Florent Tomasin <florent.tomasin@arm.com>, Vinod Koul
+ <vkoul@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Boris Brezillon
+ <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, Liviu
+ Dudau	 <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Benjamin
+ Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T . J .
+ Mercier"	 <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong
+ Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, nd@arm.com, Akash Goel
+ <akash.goel@arm.com>
+Date: Wed, 05 Feb 2025 13:07:25 -0500
+In-Reply-To: <20250205-robust-tall-parrot-69baf7@houat>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+	 <3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
+	 <1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
+	 <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
+	 <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
+	 <1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
+	 <c856a7059171bcc6afd6d829c6c025882855778b.camel@ndufresne.ca>
+	 <20250205-robust-tall-parrot-69baf7@houat>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-media_pad_remote_pad_first() return NULL if "no enabled link has been found".
-Check for that.
+Le mercredi 05 f=C3=A9vrier 2025 =C3=A0 15:53 +0100, Maxime Ripard a =C3=A9=
+crit=C2=A0:
+> On Tue, Feb 04, 2025 at 01:22:58PM -0500, Nicolas Dufresne wrote:
+> > Le lundi 03 f=C3=A9vrier 2025 =C3=A0 16:43 +0000, Florent Tomasin a =C3=
+=A9crit=C2=A0:
+> > > Hi Maxime, Nicolas
+> > >=20
+> > > On 30/01/2025 17:47, Nicolas Dufresne wrote:
+> > > > Le jeudi 30 janvier 2025 =C3=A0 17:38 +0100, Maxime Ripard a =C3=A9=
+crit=C2=A0:
+> > > > > Hi Nicolas,
+> > > > >=20
+> > > > > On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne wrote:
+> > > > > > Le jeudi 30 janvier 2025 =C3=A0 14:46 +0100, Maxime Ripard a =
+=C3=A9crit=C2=A0:
+> > > > > > > Hi,
+> > > > > > >=20
+> > > > > > > I started to review it, but it's probably best to discuss it =
+here.
+> > > > > > >=20
+> > > > > > > On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomasin wro=
+te:
+> > > > > > > > Hi,
+> > > > > > > >=20
+> > > > > > > > This is a patch series covering the support for protected m=
+ode execution in
+> > > > > > > > Mali Panthor CSF kernel driver.
+> > > > > > > >=20
+> > > > > > > > The Mali CSF GPUs come with the support for protected mode =
+execution at the
+> > > > > > > > HW level. This feature requires two main changes in the ker=
+nel driver:
+> > > > > > > >=20
+> > > > > > > > 1) Configure the GPU with a protected buffer. The system mu=
+st provide a DMA
+> > > > > > > >    heap from which the driver can allocate a protected buff=
+er.
+> > > > > > > >    It can be a carved-out memory or dynamically allocated p=
+rotected memory region.
+> > > > > > > >    Some system includes a trusted FW which is in charge of =
+the protected memory.
+> > > > > > > >    Since this problem is integration specific, the Mali Pan=
+thor CSF kernel
+> > > > > > > >    driver must import the protected memory from a device sp=
+ecific exporter.
+> > > > > > >=20
+> > > > > > > Why do you need a heap for it in the first place? My understa=
+nding of
+> > > > > > > your series is that you have a carved out memory region somew=
+here, and
+> > > > > > > you want to allocate from that carved out memory region your =
+buffers.
+> > > > > > >=20
+> > > > > > > How is that any different from using a reserved-memory region=
+, adding
+> > > > > > > the reserved-memory property to the GPU device and doing all =
+your
+> > > > > > > allocation through the usual dma_alloc_* API?
+> > > > > >=20
+> > > > > > How do you then multiplex this region so it can be shared betwe=
+en
+> > > > > > GPU/Camera/Display/Codec drivers and also userspace ?
+> > > > >=20
+> > > > > You could point all the devices to the same reserved memory regio=
+n, and
+> > > > > they would all allocate from there, including for their userspace=
+-facing
+> > > > > allocations.
+> > > >=20
+> > > > I get that using memory region is somewhat more of an HW descriptio=
+n, and
+> > > > aligned with what a DT is supposed to describe. One of the challeng=
+e is that
+> > > > Mediatek heap proposal endup calling into their TEE, meaning knowin=
+g the region
+> > > > is not that useful. You actually need the TEE APP guid and its IPC =
+protocol. If
+> > > > we can dell drivers to use a head instead, we can abstract that SoC=
+ specific
+> > > > complexity. I believe each allocated addressed has to be mapped to =
+a zone, and
+> > > > that can only be done in the secure application. I can imagine simi=
+lar needs
+> > > > when the protection is done using some sort of a VM / hypervisor.
+> > > >=20
+> > > > Nicolas
+> > > >=20
+> > >=20
+> > > The idea in this design is to abstract the heap management from the
+> > > Panthor kernel driver (which consumes a DMA buffer from it).
+> > >=20
+> > > In a system, an integrator would have implemented a secure heap drive=
+r,
+> > > and could be based on TEE or a carved-out memory with restricted acce=
+ss,
+> > > or else. This heap driver would be responsible of implementing the
+> > > logic to: allocate, free, refcount, etc.
+> > >=20
+> > > The heap would be retrieved by the Panthor kernel driver in order to
+> > > allocate protected memory to load the FW and allow the GPU to enter/e=
+xit
+> > > protected mode. This memory would not belong to a user space process.
+> > > The driver allocates it at the time of loading the FW and initializat=
+ion
+> > > of the GPU HW. This is a device globally owned protected memory.
+> >=20
+> > This use case also applies well for codec. The Mediatek SCP firmware ne=
+eds to be
+> > loaded with a restricted memory too, its a very similar scenario, plus =
+Mediatek
+> > chips often include a Mali. On top of that, V4L2 codecs (in general) do=
+ need to
+> > allocate internal scratch buffer for the IP to write to for things like=
+ motion
+> > vectors, reconstruction frames, entropy statistics, etc. The IP will on=
+ly be
+> > able to write if the memory is restricted.
+>=20
+> BTW, in such a case, do the scratch buffers need to be
+> protected/secure/whatever too, or would codecs be able to use any buffer
+> as a scratch buffer?
 
-backstory
-=========
-While trying to get a (Y10 grey) sensor working on imx8mp (v6.12.12 now and
-I know the hardware works on an ancient nxp-kernel),
-I tried to enable the sensor link, set formats and stream:
+They need to be protected yes. Its not very fine grained on the platform I =
+work
+on. When that protection is enabled, the decoder can only read and write fr=
+om
+protected memory. I know there is platform were it can read from both, but
+generally all IOs regardless what they are used for endup with the same
+restriction.
 
-media-ctl -d 1 --links "'vc-mipi-cam 3-001a':0->'csis-32e50000.csi':0[1]"
-media-ctl -d "platform:32e00000.isi" --set-v4l2 '"vc-mipi-cam 3-001a":0[fmt:Y10_1X10/2592x1944 field:none]'
-media-ctl -d "platform:32e00000.isi" --set-v4l2 '"csis-32e50000.csi":0[fmt:Y10_1X10/2592x1944 field:none colorspace:srgb]'
-media-ctl -d "platform:32e00000.isi" --set-v4l2 '"crossbar":0[fmt:Y10_1X10/2592x1944 field:none colorspace:srgb]'
-media-ctl -d "platform:32e00000.isi" --set-v4l2 '"mxc_isi.0":0[fmt:Y10_1X10/2592x1944 field:none colorspace:srgb]'
-v4l2-ctl -d /dev/video1 --set-fmt-video=width=2592,height=1944,pixelformat="Y10 "
-v4l2-ctl --verbose --device /dev/video1 --stream-mmap
+Nicolas
 
-and what I got was the NULL pointer deref, I append below. With this patch I
-at least get a nice "VIDIOC_STREAMON returned -1 (Broken pipe)".
+p.s. since Khronos seems to have adopted "protected", perhaps it will be ad=
+vised
+to go for that in the end.
 
-[   29.936640] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000020
-[   29.947993] Mem abort info:
-[   29.950791]   ESR = 0x0000000096000006
-[   29.954544]   EC = 0x25: DABT (current EL), IL = 32 bits
-[   29.959861]   SET = 0, FnV = 0
-[   29.962935]   EA = 0, S1PTW = 0
-[   29.966084]   FSC = 0x06: level 2 translation fault
-[   29.970977] Data abort info:
-[   29.973860]   ISV = 0, ISS = 0x00000006, ISS2 = 0x00000000
-[   29.979358]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-[   29.984414]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[   29.989740] user pgtable: 4k pages, 48-bit VAs, pgdp=000000004536d000
-[   29.996186] [0000000000000020] pgd=08000000452ec003, p4d=08000000452ec003, pud=080000004361a003, pmd=0000000000000000
-[   30.006820] Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-[   30.013087] Modules linked in:
-[   30.016143] CPU: 3 UID: 0 PID: 433 Comm: v4l2-ctl Not tainted 6.12.12-ge-24.09+-gd7393141dd76 #104
-[   30.025102] Hardware name: MMI4.0 i.MX8MPlus (DT)
-[   30.029804] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[   30.036766] pc : mxc_isi_crossbar_xlate_streams+0xb0/0x10c
-[   30.042258] lr : mxc_isi_crossbar_xlate_streams+0xac/0x10c
-[   30.047745] sp : ffff800083db3930
-[   30.051058] x29: ffff800083db3930 x28: ffff800083db39e8 x27: ffff800083db39f0
-[   30.058200] x26: ffff800083db39ec x25: ffff000002eff0a8 x24: 0000000000000000
-[   30.065339] x23: 0000000000000001 x22: 0000000000000001 x21: 0000000000000001
-[   30.072478] x20: 0000000000000003 x19: ffff000003e3c4b8 x18: 0000000000000000
-[   30.079616] x17: 0000000000000000 x16: ffff800080000000 x15: 000000000099e000
-[   30.086756] x14: 0000000000000002 x13: 0000000000036754 x12: 0000000000000010
-[   30.093894] x11: 0000000000000001 x10: 0000000000000064 x9 : 0000000000000004
-[   30.101032] x8 : ffff00000348332c x7 : ffff000003483200 x6 : ffff800083db39ec
-[   30.108172] x5 : ffff000003483000 x4 : 000000000fffffff x3 : ffff000002eff110
-[   30.115312] x2 : ffff0000048a5270 x1 : 0000000000000000 x0 : 0000000000000000
-[   30.122453] Call trace:
-[   30.124898]  mxc_isi_crossbar_xlate_streams+0xb0/0x10c
-[   30.130038]  mxc_isi_crossbar_enable_streams+0x44/0x16c
-[   30.135263]  v4l2_subdev_enable_streams.part.0+0x130/0x2ac
-[   30.140750]  v4l2_subdev_enable_streams+0x48/0x68
-[   30.145454]  mxc_isi_pipe_enable+0x1d4/0x24c
-ed 0 (Success)
-		[V  I D3I0O.C149725]  mxc_isi_vb2_start_streaming+0xa0/0xe4
-[   30.156596]  vb2_start_streaming+0x6c/0x180
-[   30.160782]  vb2_core_streamon+0x100/0x1c4
-[   30.164880]  vb2_streamon+0x18/0x64
-[   30.168369]  mxc_isi_video_streamon+0x284/0x2f4
-[   30.172901]  v4l_streamon+0x24/0x30
-[   30.176391]  __video_do_ioctl+0x15c/0x3c0
-[   30.180402]  video_usercopy+0x1a4/0x67c
-[   30.184240]  video_ioctl2+0x18/0x24
-[   30.187732]  v4l2_ioctl+0x40/0x60
-[   30.191047]  __arm64_sys_ioctl+0xac/0xf0
-[   30.194972]  invoke_syscall+0x48/0x110
-[   30.198726]  el0_svc_common.constprop.0+0x40/0xe0
-[   30.203431]  do_el0_svc+0x1c/0x28
-[   30.206747]  el0_svc+0x30/0xd0
-[   30.209806]  el0t_64_sync_handler+0x100/0x12c
-[   30.214164]  el0t_64_sync+0x190/0x194
-[   30.217830] Code: 937a7f00 8b000020 97fec7a3 aa0003e1 (f9401000)
-[   30.223923] ---[ end trace 0000000000000000 ]---
-_QBUF returned 0 (Success)
-		VIDIOC_QBUF returned 0 (Success)
-		VIDIOC_QBUF returned 0 (Success)
-		VIDIOC_QBUF returned 0 (Success)
-
-Signed-off-by: Martin Kepplinger-Novaković <martink@posteo.de>
----
-
-the real problem
-================
-Obviously "broken pipe" for "stream on" is still not what I want :)
-
-The "no enabled link has been found" seems to happen during "VIDIOC_QBUF".
-
-Does anything come to mind what goes wrong here for me?
-
-thanks a lot for having a look,
-
-                                      martin
-
-
-
-
- drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-index 93a55c97cd173..e53a8e01c8be1 100644
---- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-+++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-@@ -160,6 +160,11 @@ mxc_isi_crossbar_xlate_streams(struct mxc_isi_crossbar *xbar,
- 	}
- 
- 	pad = media_pad_remote_pad_first(&xbar->pads[sink_pad]);
-+	if (!pad) {
-+		dev_warn(xbar->isi->dev, "no enabled link has been found.\n");
-+		return ERR_PTR(-EPIPE);
-+	}
-+
- 	sd = media_entity_to_v4l2_subdev(pad->entity);
- 	if (!sd) {
- 		dev_dbg(xbar->isi->dev,
--- 
-2.39.5
+>=20
+> Maxime
 
 
