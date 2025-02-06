@@ -1,159 +1,134 @@
-Return-Path: <linux-media+bounces-25717-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25718-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711DAA2AEA9
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 18:17:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE71A2AF14
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 18:39:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DF55165DF8
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 17:17:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9CB237A2EC3
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 17:38:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C653D1632E6;
-	Thu,  6 Feb 2025 17:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bMRNtHrT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EDC419AA63;
+	Thu,  6 Feb 2025 17:38:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3324B239588;
-	Thu,  6 Feb 2025 17:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035CE1925BC
+	for <linux-media@vger.kernel.org>; Thu,  6 Feb 2025 17:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738862241; cv=none; b=uOCmyPWAegaSf72tO7jki4cJQ0x4RNaDIIxiPuLNqwmU170JFRSQKf/cbOHWgAmXcgHgmj8N+gNiICGfvOTkbqz+zXTzUbgBoEAzC8CEoNnFoq6baYmzcHLpXxaXxA9s47EM73awW3V+yAzFoTwX0YLHbWDXijukkdyUd/wSzVg=
+	t=1738863495; cv=none; b=KjZ1Byrx2IP++PfA9+pPmhkV0ztzhdy2gKA5gcCFhJNSxmzgjDKAbJG4Xynp/+M1zLkQNWIxxiz/hyGkFncFA11oCNet+FWET+EJAVVRhMEEQNu3SqPZM/Eayc5Hp7Pdb64wIVv/g4dLo/V+DghcHBI2S2B6ER83W+i/PKSCt9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738862241; c=relaxed/simple;
-	bh=zlo4C9Tvhxf4/57WA1N4h+WA5+QJ2Xjr/e4qgnsfxJ8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GRUUBpP0bs4ekYXy6XgyC4+3QUf1QQp95brZrSD2wjCvKcumFUMLcocURZV/w428y6VNq1IltAgexjAicXZRBriXF9ua6OZBpF93Ld8w4YnubhQ0QVxlmPdJrz2Mz3PR94TGQYQDe5upDz8AeJ7dasANuIRty/fXAa+JsAoLnjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bMRNtHrT; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EE1984434D;
-	Thu,  6 Feb 2025 17:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738862236;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yPqgb82RV5Eh4di0p99++tt4PTXyauGdKJYgPKVgVkw=;
-	b=bMRNtHrTdtXyip9IgAG/87kFux8hrvKvIyVVkK4rTjddnJCgjV7/VvqodbfSOmbeFgDN7r
-	gOR4J9InWsRbIAibyYjrCTbWpH02z8hR6/0O/7aGeg2C7oBd1vrVVGAMJxKdUj6IuEB9m1
-	kO5ZmvQzDG3y1/yw4Au0LnpvzqYIkPqtn89hLSfh0rmujsPEDHF+vp5ufVvC+11qmUfNvE
-	BIRBcjZb/UyXd2GlBfiajECikuzA58XBzf1kg7jiJm4dqYMBgEtwnIZcbGhjPK8+rOuCOf
-	wn8ZG3a7iRFdJba2ws9HyH6GEE9sRc8e1RJLRLn/TPPQbrlrgZ5vSLlGpQx9ug==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>
-Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
-  keguang.zhang@gmail.com,  linux-mtd@lists.infradead.org,
-  linux-kernel@vger.kernel.org,  devicetree@vger.kernel.org,
-  linux-media@vger.kernel.org
-Subject: Re: [PATCH v12 2/2] mtd: rawnand: Add Loongson-1 NAND Controller
- Driver
-In-Reply-To: <20250121-loongson1-nand-v12-2-53507999de39@gmail.com> (Keguang
-	Zhang via's message of "Tue, 21 Jan 2025 18:27:34 +0800")
-References: <20250121-loongson1-nand-v12-0-53507999de39@gmail.com>
-	<20250121-loongson1-nand-v12-2-53507999de39@gmail.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Thu, 06 Feb 2025 18:17:15 +0100
-Message-ID: <87tt972dt0.fsf@bootlin.com>
+	s=arc-20240116; t=1738863495; c=relaxed/simple;
+	bh=jFszdjlMqyk9W4kzaUG5Jsw7mHs4Po2UwH93QYFMn4I=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Lbz5G1L6kYJrVrpXZrdx9EZfB9NN0ThhR62ucQalK2kiz2xK5mv8U/h+aMXUIz52KZvyt/Ek4CxCSxKr9MOshLJVeoKEttxVynBsKtXSK29ZRRGgN0qXjT56MlT2+C+In+CaDUCYdmHawGdSmGpaE4kHBDuN2uvkqqX2CpWTGoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9927C4CEDD;
+	Thu,  6 Feb 2025 17:38:13 +0000 (UTC)
+Message-ID: <0a6cf5e1-2d30-4081-a8c3-265c78c2b40c@xs4all.nl>
+Date: Thu, 6 Feb 2025 18:38:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvieeliecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefujghffgffkfggtgfgsehtqhertddtreejnecuhfhrohhmpefoihhquhgvlhcutfgrhihnrghluceomhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepffeghfejtdefieeguddukedujeektdeihfelleeuieeuveehkedvleduheeivdefnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddupdhrtghpthhtohepuggvvhhnuhhllhdokhgvghhurghnghdriihhrghnghdrghhmrghilhdrtghomheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhitghhrghrugesnhhougdrrghtpdhrtghpthhtohepvhhighhnvghshhhrsehtihdrtghomhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhto
- heptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkvghguhgrnhhgrdiihhgrnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqmhhtugeslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
-X-GND-Sasl: miquel.raynal@bootlin.com
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.15] media: various fixes and enhancements
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi Mauro,
 
-> +static inline int ls1x_nand_check_op(struct nand_chip *chip, const
->  struct nand_operation *op)
+Five patches from me, fixing a few things and adding support for the EEODB
+in EDIDs. It's relevant for determining the number of EDID blocks, without
+it you will read too few blocks.
 
-No inline function in a c file.
+Regards,
 
-> +{
-> +	struct ls1x_nand_host *host =3D nand_get_controller_data(chip);
-> +	const struct nand_op_instr *instr1 =3D NULL, *instr2 =3D NULL;
-> +	int op_id;
-> +
-> +	for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
-> +		const struct nand_op_instr *instr =3D &op->instrs[op_id];
-> +
-> +		if (instr->type =3D=3D NAND_OP_CMD_INSTR) {
-> +			if (!instr1)
-> +				instr1 =3D instr;
-> +			else if (!instr2)
-> +				instr2 =3D instr;
-> +			else
-> +				break;
-> +		}
-> +	}
-> +
-> +	if (!instr1 || !instr2)
-> +		return 0;
+	Hans
 
-Is this expected?
+The following changes since commit 39e3f5bc0ab4a86b0c8fcda0688d21651ec17242:
 
-> +
-> +	if (instr1->ctx.cmd.opcode =3D=3D NAND_CMD_RNDOUT &&
-> +	    instr2->ctx.cmd.opcode =3D=3D NAND_CMD_RNDOUTSTART)
-> +		return 0;
-> +
-> +	if (instr1->ctx.cmd.opcode =3D=3D NAND_CMD_READ0 &&
-> +	    instr2->ctx.cmd.opcode =3D=3D NAND_CMD_READSTART)
-> +		return 0;
-> +
-> +	if (instr1->ctx.cmd.opcode =3D=3D NAND_CMD_ERASE1 &&
-> +	    instr2->ctx.cmd.opcode =3D=3D NAND_CMD_ERASE2)
-> +		return 0;
-> +
-> +	if (instr1->ctx.cmd.opcode =3D=3D NAND_CMD_SEQIN &&
-> +	    instr2->ctx.cmd.opcode =3D=3D NAND_CMD_PAGEPROG)
-> +		return 0;
-> +
-> +	dev_err(host->dev, "unsupported opcode sequence: %x %x",
-> +		instr1->ctx.cmd.opcode, instr2->ctx.cmd.opcode);
-> +
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static int ls1x_nand_exec_op(struct nand_chip *chip,
-> +			     const struct nand_operation *op,
-> +			     bool check_only)
-> +{
-> +	int ret;
-> +
+  media: qcom: camss: Add support for VFE 780 (2025-02-06 13:49:32 +0100)
 
-        if (check_only) ?
+are available in the Git repository at:
 
-> +	ret =3D ls1x_nand_check_op(chip, op);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return nand_op_parser_exec_op(chip, &ls1x_nand_op_parser, op, check_onl=
-y);
-> +}
-> +
-> +static const char * const nand_ecc_algos[] =3D {
-> +	[NAND_ECC_ALGO_UNKNOWN] =3D "none",
-> +	[NAND_ECC_ALGO_HAMMING] =3D "hamming",
-> +	[NAND_ECC_ALGO_BCH] =3D "bch",
-> +};
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.15b
 
-No way you need this in your driver :-)
+for you to fetch changes up to 19cfbac6f4a4fe3fbbd106c3116949e3cb389e3e:
 
-Thanks,
-Miqu=C3=A8l
+  media: platform: rpi1-cfe: drop vb2_ops_wait_prepare/finish (2025-02-06 17:03:28 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (5):
+      media: test-drivers: vivid: don't call schedule in loop
+      media: radio-aztech.c: fix old email in comment
+      media: v4l2-dv-timings: add v4l2_num_edid_blocks() helper
+      media: adv7511-v4l2: add support for the EEODB
+      media: platform: rpi1-cfe: drop vb2_ops_wait_prepare/finish
+
+ drivers/media/i2c/adv7511-v4l2.c                       |  6 ++++--
+ drivers/media/platform/raspberrypi/rp1-cfe/cfe.c       |  2 --
+ drivers/media/radio/radio-aztech.c                     |  2 +-
+ drivers/media/test-drivers/vivid/vivid-kthread-cap.c   | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-kthread-out.c   | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-kthread-touch.c | 11 ++++++++---
+ drivers/media/test-drivers/vivid/vivid-sdr-cap.c       | 11 ++++++++---
+ drivers/media/v4l2-core/v4l2-dv-timings.c              | 36 ++++++++++++++++++++++++++++++++++++
+ include/media/v4l2-dv-timings.h                        |  1 +
+ 9 files changed, 74 insertions(+), 17 deletions(-)
 
