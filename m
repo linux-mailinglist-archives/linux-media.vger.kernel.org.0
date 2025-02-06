@@ -1,149 +1,144 @@
-Return-Path: <linux-media+bounces-25723-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9A1A2AFB8
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 19:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB91BA2B16F
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 19:41:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3779F18873E4
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 18:04:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3CD718844BE
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 18:41:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB451A01CC;
-	Thu,  6 Feb 2025 18:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33A78190477;
+	Thu,  6 Feb 2025 18:40:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="o1Vz8BQd"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="a94DQrux"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1918319DF66
-	for <linux-media@vger.kernel.org>; Thu,  6 Feb 2025 18:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3CC19F13B
+	for <linux-media@vger.kernel.org>; Thu,  6 Feb 2025 18:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738865017; cv=none; b=aShPCzSSI/aohvDSSWPb1/u1yCMPmHlpx5g8i2WY4DLHqotbHtslWCeVbNAXI3DmY96GgUpb28scC415UL1HF5lRpU1oSEKeLsfSu7/h37m6k06lNyrgfD35C98RbCYCPpaLF0+yN5ANfif8GgOBG9OVSFqo66R7yPgTADXr1E8=
+	t=1738867252; cv=none; b=NeZoCtBWgE3Y21Xfz+CVkCQOAhxgI2oSfH934eY9hWQtU5iiMr4pp0iF2CoxgaIkPtR1N9wAhn+KGmHpCQztF+BUlh2+pGWedLsVJNEe3cQkU1weaG0PqDeCzYmbewLtySGDjNNhnDBfqfczafZpPVZQcwK8QuMc4NCLb7OpVwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738865017; c=relaxed/simple;
-	bh=JLtzbBvAzoLgpMCSxDT8+5G2iQll42daXycMfI5Pw00=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=W6DIck2YvgDy/LWeOEKt8iGQJAReDqqujHkc+zngUDYm7/G78M0xD///mL7I2awuTPfCJRmzYmEjhSwXa80JDmJUFtRvdGk41EoPLdttQaiIUpKBxkFJpjmWAOHAK91i3Ue2bE+VHhKmTs6qN3roKmIFJPyy753sL6hybC5xpSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=o1Vz8BQd; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43634b570c1so8853425e9.0
-        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2025 10:03:33 -0800 (PST)
+	s=arc-20240116; t=1738867252; c=relaxed/simple;
+	bh=Lf6xAoUU7NXYgLYtGsalOIOw/EEkhs0Vm3ezNCm6rGY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o5kULp5IpqJR1TFQFVbT/B41ggf46GjTK1lbgKFv5POj7m8GJzoKX7/YIPVk6TyvsKmvSYvHU/3p7M1ws3f8L9reVAso+OQeoRd+Jd1stMLDzMn9WI4cAD7SVQ5UuyWfol7QsGXNlIDZjtn61UNTaE8ekupn1hH5FIYgAPZ2AYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=a94DQrux; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30615661f98so13649931fa.2
+        for <linux-media@vger.kernel.org>; Thu, 06 Feb 2025 10:40:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1738865012; x=1739469812; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9j/Oa5YYyXRr2YC4IwFerwor4UG4DCkLhlqZUyCWpwA=;
-        b=o1Vz8BQdGyG6r70phXs0DmGJvo9HJHfnfjA5cqvFSMOVpvKtz1sLhUfn2RCxZudyAQ
-         B70JRVgbH6Vcs3YcTx3Df/KBeYBaCJuHzI27kYvwPWjigZhzE+7C/XCCzCy+Tg9U4Q13
-         2s9aRpZ8ZfjTPGTBtbtUw129xE/4/z9OyeNU8H85zVAlnil2RlBcdoreQO3B3V15H1Ef
-         lyLY8UgqKWJ0eepeY6d3rlTYp+u0EBKU5A9IJJyGkBf8409ZhCePPz8myZYunlzt6rtL
-         jz6+sCIFwkX/PUg8pJ/z4iwharMlBCF8Wlte6PqualktIK17Cs4Ss9GK+sIC/N9lIqQR
-         ncBw==
+        d=linaro.org; s=google; t=1738867247; x=1739472047; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B/1KLNT4FmOlGoDXvAF/z9DFY3XvpbckXqXugGtWIbQ=;
+        b=a94DQruxT7agE1iI+jz5k711GH1Zt4b/y2JJsktdmNJl7WbFdm6QLTYYEUMK+sVzCR
+         CAokLQaiB+G5a84ZlH570s4hQxAbrdvHpeavR1ywQrJPl1pRV3Q2D4nxNa/8OXOnHf/6
+         KdY3MjspdQmYzx7gY0aN+sO4auX78zYm71TbWyqbCqUna5mHb3I10GUP9AQpX2EQ6TEL
+         p64pBZrWC0nyAc6+sqUw/nPDDQOZRHZ7s6rZlYEidrKXr746QH1364cJmGtl+TXBeGFq
+         9ugkeEn08pbgCHOYxCYyLDUL1MHqzJjq3c17Z7iQR2beh26uOGMYROWj7UZsmC7Jl6n9
+         60Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738865012; x=1739469812;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1738867247; x=1739472047;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9j/Oa5YYyXRr2YC4IwFerwor4UG4DCkLhlqZUyCWpwA=;
-        b=IavjrEQVa57w0fC7XZz4DwpgLq1PxNQHX8qqUV0u4j0E9V/ok5/vjWSIH88MhBu5Y0
-         KI2yxGb1P9WNJvuWd22zunhR9SWy/pweOkF3hQP0aw54jhg4cYbQjPZoGYQbh9g2mYCa
-         IH0NNrRlMdsxtDu62zGnkKrBz8y9NEMsuF5+FWpEnN0JKFXJqmpnJWXp1/o8ujPVFjVF
-         +2jxU5lkfXfFZHJffL6qjR1sTNaLit75vcLPYTwwqbTnNqcw59B9ER+Y5xYNCdsIgBaP
-         sLvol0kvaGG2zuOQRErBw36aUDzrkVLg1v9quZrcEnjN0+MfcUO6MWCAYghX+6b893m2
-         Euag==
-X-Forwarded-Encrypted: i=1; AJvYcCVhE9ZIjE2GsG4rjKS//xSM4mMeUZudqifTDL/0r/m7TSYpK7xLw5moiolk3gMdotU58eMQKDKFlPBkRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2BZFUorBVnyDEVPBT5p0qtS6vMhdeiVdsV2OIX8/DQaZ50odL
-	gEAakpUXwSiPkEfYuqPj1u4l/SuWnxUIYScZsWqh+8/MNaJfvAWOx3O/BlkyoOk=
-X-Gm-Gg: ASbGncuozoVkpk2Dkpm5lMaBUcO7Bv6sdeykyS4EKbjTPwffZ+dQn1XXzAkZKhDHFmK
-	/0jLfXBD1IRIg9vTz1UMWYLEsixhZHFNtVWf13+x4zjuQ35LeiMXW5VJ8v2JzjjvMUOEII/U97u
-	pvtG83TGEXvn94SfM5Ka88s+OLZfzF/qS+OnuffptPCNCXf1rXHjwNUSvf1AMUcfIqjcSN7/2+x
-	MZGkPCJQZS4WTh8SWGzFpRFolBjvDS7yCg6yp0mwwQwI/CdOoMToCeKGmLYWaeqfZtWZJhJSsf+
-	zrLy5zI=
-X-Google-Smtp-Source: AGHT+IEGNVXFcPPbaAsAkKUz6RKFMzgdm3ieZv/CxcB2k8KxB6gUfL4TU2Ef/Sfmqg6Pd5YA7HWYzQ==
-X-Received: by 2002:a05:600c:46cb:b0:433:c76d:d57e with SMTP id 5b1f17b1804b1-43924972d1amr3677925e9.5.1738865012189;
-        Thu, 06 Feb 2025 10:03:32 -0800 (PST)
-Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38dbdd3856fsm2278858f8f.28.2025.02.06.10.03.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 10:03:31 -0800 (PST)
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 06 Feb 2025 18:02:38 +0000
-Subject: [PATCH v2 5/5] arm: dts: bcm2711-rpi: Add HEVC decoder node
+        bh=B/1KLNT4FmOlGoDXvAF/z9DFY3XvpbckXqXugGtWIbQ=;
+        b=t0bYmd6seQ6rpC26Z/CWh1TPPO3jdRNkUiUFPNgAQPqPEtpv+gWfHmpLPodCV/xGwe
+         SpRdQXweGiSqR3ELuGscvB9EoQIHAI2QEo5m09gf6Pg5Fy4wmvq4G5HuyQU1l4zHdUB9
+         DJKCWW8RrRiqLR1gT+4apgPwrFtUraJiO7gWUDwc7OTA3h9PIPFuZKoGOxEjb1VluUPf
+         0VHcvIFXOlJOb6DHnZ6E5uENoJ3pRtwxYzt4afbfUb/tnzfqoqiwP7GI7fxWqn4u7sAt
+         p2fne9ODR8Qa86+y5nV3RQ5AnAmFmxAotY4jWvUKR2CwOY0PHzl58G4vBlBUCpLiX0LN
+         0JpA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaIVR8JLA5hKk24HklTF0BR0AT4Fj0UmwsBUE5ROnRvTGVCLbIQd92SUr+ojUpHapYtkSc6j1VqlNhbw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK99oiET1SVzQv4aucWMRRPvYWrr1+vhoH/h8KBzy1HXAQiu58
+	gEI5ae0yVZg3wc4DMSinV4l/Rzj20yY6+Zfyj/j0BMYkXXfaSUAEmK652OkEYtU4qJ5xAHVCStD
+	37mke9PyX9E6Hn5yUF86LKGW9cfZcLgsZXyqrPw==
+X-Gm-Gg: ASbGncu9uEo9JprlEUO2dN8zqiqBMsMuyc2uTm64mSOMSqTzYaQG9sKBAwnDU8adw5B
+	nKtr8Mhe5pdGEE6hpIfnSyvCVtj9h3YpO0NJYiRLU6H2z3oGKWBj5hsPzqLOsukekmZL7rW8=
+X-Google-Smtp-Source: AGHT+IHspHnGQVYfpoYQGi9ctVZueJrpds613XgEY1o23R9cbS1fqYkeI3XWSr+wkrN1AUux/D6h/Xqji3ktxx+ndmY=
+X-Received: by 2002:a2e:bd8b:0:b0:300:38ff:f8de with SMTP id
+ 38308e7fff4ca-307e57fd2f3mr198711fa.16.1738867247273; Thu, 06 Feb 2025
+ 10:40:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-media-rpi-hevc-dec-v2-5-69353c8805b2@raspberrypi.com>
-References: <20250206-media-rpi-hevc-dec-v2-0-69353c8805b2@raspberrypi.com>
-In-Reply-To: <20250206-media-rpi-hevc-dec-v2-0-69353c8805b2@raspberrypi.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- John Cox <john.cox@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>, 
- review list <kernel-list@raspberrypi.com>, 
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: John Cox <jc@kynesim.co.uk>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-X-Mailer: b4 0.14.1
+References: <20250131163408.2019144-1-laurentiu.palcu@oss.nxp.com> <20250131163408.2019144-11-laurentiu.palcu@oss.nxp.com>
+In-Reply-To: <20250131163408.2019144-11-laurentiu.palcu@oss.nxp.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 6 Feb 2025 19:40:36 +0100
+X-Gm-Features: AWEUYZmtqR_uDonJm17O7Egr0R6Qg4Q94CdBZrZSOSqXSwlcXN7zzDhUzAF6Dck
+Message-ID: <CACRpkdYo9690n57FYAM1heSU+zGTKuze8B3d+Q4Py=HJr34-Eg@mail.gmail.com>
+Subject: Re: [RFC 10/12] staging: media: max96712: add gpiochip functionality
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the configuration information for the HEVC decoder.
+Hi Laurentiu,
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi | 4 ++++
- arch/arm/boot/dts/broadcom/bcm2711.dtsi     | 9 +++++++++
- 2 files changed, 13 insertions(+)
+thanks for your patch!
 
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-index 6bf4241fe3b7..56c633005941 100644
---- a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-@@ -105,3 +105,7 @@ &vchiq {
- &xhci {
- 	power-domains = <&power RPI_POWER_DOMAIN_USB>;
- };
-+
-+&hevc_dec {
-+	clocks = <&firmware_clocks 11>;
-+};
-diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-index e4e42af21ef3..2931d93ba184 100644
---- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-@@ -628,6 +628,15 @@ v3d: gpu@7ec00000 {
- 			resets = <&pm BCM2835_RESET_V3D>;
- 			interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
- 		};
-+
-+		hevc_dec: codec@7eb10000 {
-+			compatible = "raspberrypi,hevc-dec";
-+			reg = <0x0 0x7eb00000  0x10000>, /* HEVC */
-+			      <0x0 0x7eb10000  0x1000>;  /* INTC */
-+			reg-names = "hevc",
-+				    "intc";
-+			interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-+		};
- 	};
- };
- 
+On Fri, Jan 31, 2025 at 5:35=E2=80=AFPM Laurentiu Palcu
+<laurentiu.palcu@oss.nxp.com> wrote:
 
--- 
-2.34.1
+> The deserializer has GPIOs that can be used for various purposes. Add
+> support for gpiochip.
+>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 
+Since you are using CONFIG_GPIOLIB unconditionally you need
+to add
+
+select GPIOLIB
+
+in the Kconfig for this driver, or the autobuilder will soon start to
+spam you with compilation errors.
+
+> +static int max96712_gpiochip_probe(struct max96712_priv *priv)
+> +{
+> +       struct device *dev =3D &priv->client->dev;
+> +       struct gpio_chip *gc =3D &priv->gpio_chip;
+> +       int i, ret =3D 0;
+> +
+> +       gc->label =3D dev_name(dev);
+> +       gc->parent =3D dev;
+
+I don't think you need to assign parent. (Default)
+
+> +       gc->owner =3D THIS_MODULE;
+
+Or this. (Default)
+
+> +       gc->ngpio =3D MAX96712_NUM_GPIO;
+> +       gc->base =3D -1;
+> +       gc->can_sleep =3D true;
+> +       gc->get_direction =3D max96712_gpio_get_direction;
+> +       gc->direction_input =3D max96712_gpio_direction_in;
+> +       gc->direction_output =3D max96712_gpio_direction_out;
+> +       gc->request =3D gpiochip_generic_request;
+> +       gc->set =3D max96712_gpiochip_set;
+> +       gc->get =3D max96712_gpiochip_get;
+> +       gc->of_gpio_n_cells =3D 2;
+
+Isn't that the default? Do you need to assign this?
+
+Other than that this looks good, so with the small fix above:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
 
