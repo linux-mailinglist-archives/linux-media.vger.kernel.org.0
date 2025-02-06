@@ -1,287 +1,347 @@
-Return-Path: <linux-media+bounces-25738-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25739-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90030A2B463
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 22:49:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E22A2B67C
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 00:17:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D3443A9434
-	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 21:49:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA2B13A7F81
+	for <lists+linux-media@lfdr.de>; Thu,  6 Feb 2025 23:17:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 127EF236434;
-	Thu,  6 Feb 2025 21:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC8B2376E6;
+	Thu,  6 Feb 2025 23:17:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="QE6pIJan"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="wUO/C86z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013032.outbound.protection.outlook.com [40.107.159.32])
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37B8235378;
-	Thu,  6 Feb 2025 21:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738878553; cv=fail; b=FjFt1NCmN/mLiLVhlxHSfCKgQqtrSA99+7VoBeNQBI57jRr6lI7T8oPoHuOdLolXeqOvUUPw7cKW3+4izmhi32nG+N1NJpsIccbdUKvqcM7teOZhJiuzyMYhgAh1eni5Jw2xaMZbBMBLBYzaFAluwvoGnmcUEpyqIgW1m8krdO8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738878553; c=relaxed/simple;
-	bh=t3VOII7WYWT8DWys31kqmFvOUmed8dKazlSbdV6fdw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=KkTb5hulpHv/FNKwkFTDUoSWUT2O/TaV02r6dnShyWbdn7qjk6yZu1Ln26reimn8shVK57QmB45EmesZ9qhGr2hCe2afZi88sy5tfEHyW8VvvjS/CiGji1t3bwKd9hYEfIq/iUPLlxYwImptoAvGbJIPFe9tRGLM0PQRRCyCXlA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=QE6pIJan; arc=fail smtp.client-ip=40.107.159.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QJtb4Lp7UHrKKCkIRW089PPrIPEVBizYzDEdKMP7eZoLgGbL3xFdWeaQf6gpr9CJiaD1BVdhCk80K97Sw72C7c/9WNM3Geu+Mp7JXyYMxwf0EgHlyLmyPGQYywkUlALlMoDsC8ZxUuJJv72bOQxFvrHOfNHziaUc6Rtp0/y9JKbQvuVscz64NaY+x+49ktSoPNhp8ek/ClqVndM1oDZwiSVHcgJrIgveOGbKh4dDJdn6jEDyy5YOR8W4aXovfFmvnQMz1qchomPRPY/h7UckN6AfbHd2dxlg/W5dvrou5X4JhYXzfSsiPjlV2b6dZHtMu8GT6aLiNvgV3BzChoz0zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kkKfYAcyVnF4iK5aGhizpMBcd0HBbT3R95ccB5EPqSA=;
- b=F+D6k+6UM+CiXB3Hg2GAjEeMB1uOgbHKGThJ7VbvsEs7+vYzMHKj4J1Q0JR5WInj84wsGU3q1oOQqbVW7Y8mYwGdUH3/uK8tazWLCA/L1tmpI1hzrLLZPCBwNBUjjKMyBc9EJGlgOOyfjS+EuHVQAt0F3hi8GdHq/lRVjO1Jq1dCKab1WJZf+8LgzKwdPFJFCxWHziSvp7DLg1kZdLYkAueQ6GRUoAdDq4e7H4+/aRHy//jY3uJsQJUK2mdYi7ukshE27JmkiKkYVKgvTzqUonqFY7P4wjPRGdyPUclQt4aBOLAPUdBUoNxutJgTxXMstCbgaGkU4a2defa+pPMbyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kkKfYAcyVnF4iK5aGhizpMBcd0HBbT3R95ccB5EPqSA=;
- b=QE6pIJanL9kOMjo9gugQ1Nm9Zpx26sEglnkFEhKlbAJvE+05FJDPSwoydSyac7MqIRb/d1stJZfdWtvepTEcMGdJZBBYmDIriKqIcwGHBBnnRPz62Z7dEGAfxn0UG5E24pfSqF72lI7+itD2NKDCfcmjzVI/IS83mYtLa3caFvFTOt3bEHY7AyS3dgYUT8bvo5yhye2/BBEAaiaIJU3mA733VMTN2n9u/yBTSkMXvxq0cQ6pN/PheQo7gbzoiIutSWd34T+95JA81ivkVbU7DZmiHgEDBSfXWxMT5A7hAYqH2aAavpOP9EWVPJ84RY4XZumPtK7FTHk7ulRKEZ5QEA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by PA4PR04MB7967.eurprd04.prod.outlook.com (2603:10a6:102:b8::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.12; Thu, 6 Feb
- 2025 21:49:07 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%6]) with mapi id 15.20.8422.012; Thu, 6 Feb 2025
- 21:49:07 +0000
-Date: Thu, 6 Feb 2025 16:48:55 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>, linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, "Guoniu.zhou" <guoniu.zhou@nxp.com>,
-	Robby Cai <robby.cai@nxp.com>,
-	Robert Chiras <robert.chiras@nxp.com>
-Subject: Re: [PATCH v2 01/14] dt-bindings: phy: Add MIPI CSI PHY for i.MX8Q
-Message-ID: <Z6UuR9mHhQUdnBEc@lizhi-Precision-Tower-5810>
-References: <20250205-8qxp_camera-v2-0-731a3edf2744@nxp.com>
- <20250205-8qxp_camera-v2-1-731a3edf2744@nxp.com>
- <20250206211808.GA24886@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250206211808.GA24886@pendragon.ideasonboard.com>
-X-ClientProxiedBy: BYAPR08CA0044.namprd08.prod.outlook.com
- (2603:10b6:a03:117::21) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E5F2417E2
+	for <linux-media@vger.kernel.org>; Thu,  6 Feb 2025 23:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738883854; cv=none; b=a5/wDtPvpTo4XR3pU1KEkeOdJQxAMWeEnKJBmwa60lWLsZhDxBQWrdPB9dKf8sUQOdFu6mx6NBHPCc2XUNfFjznQz5R+8JU+SO4l3Pe6ym+1djDizh5KpRvspshaxT747keSYk+jsZVuV/M4v326+gY56QCSAqx6TwsHbTeg+WE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738883854; c=relaxed/simple;
+	bh=4ar1ZW3CDVsTZRBp9tR7gvm1fe+VLdf5rnY0sNoJMYY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ONXqW6vAV+ZF+bBpaHPWyakREEqvojIGseFidolDawQ01C1b3x3ex/XLJN2u0QMs+bJo14l6503NmW83OP8tCfU1p4BBEYeiV2d4YzAdd/naDVBuvxtRYkXEpUiq8J2F+QSxjCVi0c+1S7wJTEyoUY0t93WITBMQHxPElV88U/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=wUO/C86z; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=d/PVQFZfr9kbg+e4T3WhgGLnclGl4/vZIsK3OhhNxA4=; b=wUO/C86zH4insoc/OFOYeOptAC
+	C37cMiZ5P8ssHrtUOrpz35XPY88TqCtkZfNAYdJqnvuuFXsgD4ab9FYULzmtEKjIwiMXqTTlpXzsI
+	ePn9YQZPmmhQMHvagHz8wDdk+8qCIieo/QPzDP+8N1dJxxcTCtLbok4C1m3GYxBwFeGRMnl4F9sbG
+	a7oYs1P8bGCLdNxWt+9+uhKzb2KMl1TTStmeRLtmRNoN/arC6O/laXcp+516qzHprPgOlGOwUpwbi
+	Avk4kQp2+BL/Y5/Eir0GTlAeU9nYRu5hGluZkJ+G1q6A8SfoQh7Of6a5kfiVjtOACLppZpD4E4yuu
+	x+09uOtg==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1tgB7Z-000DeD-1V;
+	Fri, 07 Feb 2025 00:17:21 +0100
+Received: from [92.206.120.88] (helo=framework.lan)
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1tgB7Z-000EhJ-1i;
+	Fri, 07 Feb 2025 00:17:21 +0100
+Message-ID: <343f76201d60015bbf2ff4d2c9c6110796d63219.camel@apitzsch.eu>
+Subject: Re: [PATCH] media: dw9719: Add DW9761 support
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Hans de Goede <hdegoede@redhat.com>, Daniel Scally
+ <djrscally@gmail.com>,  Mauro Carvalho Chehab	 <mchehab@kernel.org>, Sakari
+ Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Date: Fri, 07 Feb 2025 00:17:19 +0100
+In-Reply-To: <20241105203658.29737-1-hdegoede@redhat.com>
+References: <20241105203658.29737-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|PA4PR04MB7967:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae93a92f-1da3-4847-5dc6-08dd46f81500
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?S38HYKS7QPKAqTsfTmXYTCOtpdk+wnmvkTmtW9WGWU0bJg6OF0qMSFs9tFXF?=
- =?us-ascii?Q?//1it19MwkihYhhN94OvKniAJKHv4GwozSV2gOuOl8HHclTdW1sR1pnKfXkc?=
- =?us-ascii?Q?cBjgnaLcEo5cUuhaq4JHpplgh0HY/d25o6JE+BmUnRS2XH85NFKPO51DBqJc?=
- =?us-ascii?Q?xbSUKfS6yjYBSdzwtQHSxxfSEB2plr3oa7kIMBJzq+BF77QxtHDkFA0Qr7K6?=
- =?us-ascii?Q?7mt2CtCDKPSjKnhtln0m5Tt1fumzzZZnJ6HCl5jD+ToHLT3ztHFL6GXFMiqe?=
- =?us-ascii?Q?gDYZC431WynUJAOJNMONdCUIkNklb7HVmug+wsnvaidyjR5OGH6NOXoSHPck?=
- =?us-ascii?Q?J4+zSSSyefi20jc3qUE9VoygSnlG7a94VMvHqQIEl3/aBP9JHNxu55gB5M9T?=
- =?us-ascii?Q?s+qvDd+wMEETpkNg2KDLhbAEb4dtflXJT8vHTTGKyW65rZ72o6geOrkYcMDh?=
- =?us-ascii?Q?3UGyeD8UWOq2CwaeuUyMtQmWhAYY8kH7Fp6xpPqMSmbT6STvMJX2yCTb0f0A?=
- =?us-ascii?Q?CBntfP7Gw2FD5DTAGUswveC6pdUhDCEIVidGLnNjMcr70qX/ClBAoh/NQ1mp?=
- =?us-ascii?Q?ZAzfgFhzoLGndtxG3XUkLNZk+9B7yldwyQgWMADGacu84KacwlPYo3c8YSzd?=
- =?us-ascii?Q?8j7rLdYHi6+yEE4OYnEyFZ4lWoSVsKnvL5oOVFq6ZLSXxtrCb98wiZB3Xnh6?=
- =?us-ascii?Q?SjNrHagKdcpFoTLGY7XKW0cE5MATuLThs8sLbyvq9si2NOXSqqXHR4k3PwdY?=
- =?us-ascii?Q?cgRQ211FYKe2p8KOLGkFc1hXSffmDm5QDrylb66VdH/gzU/k3fnsATdJgb6h?=
- =?us-ascii?Q?HQHDbzZZC3xfhKVVigMARiEX+o2V+74f1yQooGE11UnutnYai05qxTG0cJyT?=
- =?us-ascii?Q?yD+Fk67JFx3drdCINg5FJdq7LgOhliiikEbVbqg2bgZnlNhJKFHyJImLnYM3?=
- =?us-ascii?Q?NKE2ucyKBD2SmW6iaiybuppcE7bpPN+07B2SzJaxGHU3r0M/5u02u4C7lksp?=
- =?us-ascii?Q?IZKx629Gey4adMGpcIoVgOzoSHLOyza7Ny6FhA3UBOH5cwr9wWAiALmpb+D0?=
- =?us-ascii?Q?epcK1ZuETSrOyi0cJfAN56Jzgw7xPwzXlRF37qbeDU+G1TqXFsliagQP5Lyf?=
- =?us-ascii?Q?myoV3/RUlYhVO5gbzqxUiQmizLLL1/Lb3IHsHYrsmRxVi6q3FTyh+MEO6Uzi?=
- =?us-ascii?Q?uH9k/PI1oplSsbt7vCNUvEKjIueZkzfz7X03L+2ASR5LLeSod5V8HJZOzSdK?=
- =?us-ascii?Q?F8/AwFtTbA4Hn57bHhGxLgqThAPpOJ4VSWT8aOZeCgK07HLAu3Y2CjcQ92Qh?=
- =?us-ascii?Q?aF5Df/AI54E5mvpwgG3RSuKYbNiwQFugKbzyBNQ9wV28uMwlsnvWpmAaln/A?=
- =?us-ascii?Q?ubkKR/umqbW2C4YMvlCGKPxHSIl6?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?3pz8YO+9DatHyOwgnU42c2hhheF29vD0MLPGgEjkzfp7Kg8Sr8ujNRTAl2OH?=
- =?us-ascii?Q?NmFhJoOYdnMIJ3zIAYb7iyLydgV5e7uUSjvkRqAoQhqQ0kiDMNHqvXXY5qfU?=
- =?us-ascii?Q?GC5wHM0pl/yNYxzSvjRAnOLGRR+9I7uPITR18jlIileJLMseMoy1iDZfuKEM?=
- =?us-ascii?Q?iviqcgGGICryP7ONkmTnw/vv7mtKxLNfCGCD/CEbfJxe3p/qCQ5etW1PeSsg?=
- =?us-ascii?Q?c/PD/2/xw76ZNb+HR4FX2Wf5KLJhX+whwkd+0bBbIW7Lo/qsGU38MBAceQhg?=
- =?us-ascii?Q?XKxPJ6pfIrI+j+h3LgQ5eY80VnKtL34qqXH6tG5hv08hVuy+85feIyzXh/2G?=
- =?us-ascii?Q?SnKkeT8N5mqZxkSCx5W22zcD7MyEzugcXaskSkW8tMifyxU6bpDJzmr0Vpko?=
- =?us-ascii?Q?rli0RPyhhj+CU2EOjnW2bg1+FdXNKouIxGeo/4VlC/Df9r3xYna9gsx6/MAL?=
- =?us-ascii?Q?vL1tgAe4u9o6d7+1s1Q+1fZ5f035Su0QzMvK2o321ci32NcWID5R924RPr5F?=
- =?us-ascii?Q?+/ZWozHE/c6+OaBnGnAW7bu+xkMMSP6OMeOV/sDAdbG6vBUDePMi7GnE+y9O?=
- =?us-ascii?Q?6LxhOFMLyvvSleyJU7s0GMcKEwgphyVDZu3H5jlrgJL1MufL7gfO1heGIx4D?=
- =?us-ascii?Q?r0j0R+1Y7OSQXwJGJfjS9jGiHXMJc3G+/7g1pqRaYcdFYQpc3Z2ANB4vCVbP?=
- =?us-ascii?Q?sjD3mcKsSseG/NMbfQzDAeD8uQQQhWSYl5qz4hW7da7UEkXm+tjCcb3EuvOd?=
- =?us-ascii?Q?u7cVO6fnQPW9umb23Jk1mSiTdqufObK44Vb782ED1QPJTF3yIirSih71kqd6?=
- =?us-ascii?Q?zyDfQZO1V/PRjFfgwjDgoRC28TFKr8hZ2iE8qSeL9oybtrVjpm9KkwQfkw4R?=
- =?us-ascii?Q?AQyDJukZ8m/kdO/WecrB6e9A+nNhIZ7/jZan9Fe+Zi3it/BwLW4xSxMlL0hk?=
- =?us-ascii?Q?/KjX0RBOloIBgVyzTGSwMzmY92+y6yJZJJPDg/L9YiX2Yp1r3U4VhGpuw8K7?=
- =?us-ascii?Q?kr5hMG99A+cFNboJXT6eVNjhjH3nGc6Nx6xcWeVYpbX1O04hyWabb84mU6jW?=
- =?us-ascii?Q?wcjMuPn5JjZi4rWw49RfXhQSnYzlcbaQLzTDoWEncOEhln+bOQVdcymQqS4G?=
- =?us-ascii?Q?FEDDvyiejR5hqwGfxffsrwj1BLQlhsfGf5JeIUIu2Rd3A2J1ICkI2VEJy3ds?=
- =?us-ascii?Q?6nJm1hacZn4O9ZVmdXqB6RijQHL3VMfTgKW3sm+YmvQ+TIfFoa1btYDUXBq1?=
- =?us-ascii?Q?x24REKMlI3OxRf/i40KjQoO6O1roqOpYILZ6qRyKWmKxr96al5a2Y0k/Jn82?=
- =?us-ascii?Q?k4M3y5oZDqxW1wuGcndEtBYWt6Ix8w0T+CODyS/R63VzufTjybo7wqBWnUVJ?=
- =?us-ascii?Q?Bv34j0p+3sQR0MAQWx40kkFIDb7pJAV/wOP1Q5STXQSx+HOCG8S1ah+tP8NR?=
- =?us-ascii?Q?VtdrlUUULceOaWqEYa2n3s3bKIIwi7zoAlm4oPYzsrRfnTS0YD2h+Z/WbPxf?=
- =?us-ascii?Q?Q648mEgW4EXEdWBrMB5Wf/V5P70KkAs7UIkLJ56tTzYR0wnLP/X5fc9fLSRH?=
- =?us-ascii?Q?YCxikXBvjWpLk7+/BvejRbExIcDM4zxWBb2Ukh2q?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae93a92f-1da3-4847-5dc6-08dd46f81500
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 21:49:07.7128
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TksmNRqHevaRALzEVvGpvYR1Szdt0Iag4hm7GWwhsZ9ZEsz4GV8PUhfpZgbe5zwIApkHnuWU1XcozPrAKThXVw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7967
+X-Authenticated-Sender: andre@apitzsch.eu
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27541/Thu Feb  6 10:51:09 2025)
 
-On Thu, Feb 06, 2025 at 11:18:08PM +0200, Laurent Pinchart wrote:
-> Hi Frank,
->
-> Thank you for the patch.
->
-> On Wed, Feb 05, 2025 at 12:18:10PM -0500, Frank Li wrote:
-> > Add MIPI CSI phy binding doc for i.MX8QXP, i.MX8QM and i.MX8ULP.
->
-> s/CSI/CSI-2/ in the subject line, here and below.
-> s/phy/PHY/
->
-> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > ---
-> > change from v1 to v2
-> > - Add missed fsl,imx8qm-mipi-cphy, which failback to fsl,imx8qxp-mipi-cphy
-> > - Move reg to required. Previous 8ulp use fsl,offset in downstream version.
-> > which should be reg. So move it to required
-> > ---
-> >  .../bindings/phy/fsl,imx8qxp-mipi-cphy.yaml        | 57 ++++++++++++++++++++++
-> >  1 file changed, 57 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/phy/fsl,imx8qxp-mipi-cphy.yaml b/Documentation/devicetree/bindings/phy/fsl,imx8qxp-mipi-cphy.yaml
-> > new file mode 100644
-> > index 0000000000000..7335b9262d0e7
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/phy/fsl,imx8qxp-mipi-cphy.yaml
-> > @@ -0,0 +1,57 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/phy/fsl,imx8qxp-mipi-cphy.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Freescale i.MX8 SoC MIPI CSI PHY
-> > +
-> > +maintainers:
-> > +  - Frank Li <Frank.Li@nxp.com>
-> > +
-> > +properties:
-> > +  "#phy-cells":
-> > +    const: 0
-> > +
-> > +  compatible:
-> > +    oneOf:
-> > +      - enum:
-> > +          - fsl,imx8qxp-mipi-cphy
-> > +          - fsl,imx8ulp-mipi-cphy
-> > +      - items:
-> > +          - const: fsl,imx8qm-mipi-cphy
-> > +          - const: fsl,imx8qxp-mipi-cphy
->
-> Why are those called cphy when, as far as I can tell from the
-> documentation, they are D-PHYs ? Does that stand for *C*SI PHY ?
+Hello Hans,
 
-There are already have D-PHYS for MIPI display phy binding. cphy just means
-for camera PHY.
-
-> I find
-> it slightly confusing, but not so much that I'd ask for a change. It's
-> just a name at the end of the day.
->
-> Apart from that the binding looks fairly OK. Except maybe from the fact
-> that this device is not a PHY :-( It has two PHY control registers, but
-> the rest seems related to the glue logic at the output of the CSI-2
-> receiver. I wonder if we should go the syscon route.
-
-Do you means use phandle to syscon node in csi-2 driver? Actually this
-ways is not perferred by device tree team because it should be exported
-as what actual function, such as PHY or RESET by use standard interface.
-
-We met similar case at other substream.
-
-Frank
-
->
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - "#phy-cells"
-> > +  - compatible
-> > +  - reg
-> > +
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - fsl,imx8qxp-mipi-cphy
-> > +    then:
-> > +      required:
-> > +        - power-domains
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    phy@58221000 {
-> > +            compatible = "fsl,imx8qxp-mipi-cphy";
-> > +            reg = <0x58221000 0x10000>;
-> > +            #phy-cells = <0>;
-> > +            power-domains = <&pd 0>;
-> > +    };
-> > +
->
+Am Dienstag, dem 05.11.2024 um 21:36 +0100 schrieb Hans de Goede:
+> Add support for the DW9761 VCM controller, which is very similar to
+> the DW9719.
+>=20
+> The new support is based on
+> drivers/external_drivers/camera/drivers/media/i2c/micam/dw9761.c
+> from the Xiaomi kernel sources for the Mi Pad 2.
+>=20
+> The DW9761 support has been tested on a Xiaomi Mi Pad 2 tablet and
+> DW9719 support has been tested (to avoid regressions) on a Microsoft
+> Surface Go tablet.
+>=20
+> Link: https://github.com/MiCode/Xiaomi_Kernel_OpenSource/
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> =C2=A0drivers/media/i2c/dw9719.c | 113 +++++++++++++++++++++++-----------=
+-
 > --
-> Regards,
->
-> Laurent Pinchart
+> =C2=A01 file changed, 71 insertions(+), 42 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
+> index c626ed845928..032fbcb981f2 100644
+> --- a/drivers/media/i2c/dw9719.c
+> +++ b/drivers/media/i2c/dw9719.c
+> @@ -2,8 +2,10 @@
+> =C2=A0// Copyright (c) 2012 Intel Corporation
+> =C2=A0
+> =C2=A0/*
+> - * Based on linux/modules/camera/drivers/media/i2c/imx/dw9719.c in
+> this repo:
+> - * https://github.com/ZenfoneArea/android_kernel_asus_zenfone5
+> + * Based on linux/modules/camera/drivers/media/i2c/imx/dw9719.c
+> from:
+> + * https://github.com/ZenfoneArea/android_kernel_asus_zenfone5=C2=A0and
+> + * latte-l-
+> oss/drivers/external_drivers/camera/drivers/media/i2c/micam/dw9761.c
+> + * from: https://github.com/MiCode/Xiaomi_Kernel_OpenSource/
+> =C2=A0 */
+> =C2=A0
+> =C2=A0#include <linux/delay.h>
+> @@ -23,26 +25,45 @@
+> =C2=A0
+> =C2=A0#define DW9719_INFO			CCI_REG8(0)
+> =C2=A0#define DW9719_ID			0xF1
+> +#define DW9761_ID			0xF4
+> =C2=A0
+> =C2=A0#define DW9719_CONTROL			CCI_REG8(2)
+> +#define DW9719_STANDBY			0x00
+> +#define DW9719_SHUTDOWN			0x01
+> =C2=A0#define DW9719_ENABLE_RINGING		0x02
+> =C2=A0
+> =C2=A0#define DW9719_VCM_CURRENT		CCI_REG16(3)
+> =C2=A0
+> +#define DW9719_STATUS			CCI_REG16(5)
+> +#define DW9719_STATUS_BUSY		BIT(0)
+> +
+> =C2=A0#define DW9719_MODE			CCI_REG8(6)
+> =C2=A0#define DW9719_MODE_SAC_SHIFT		4
+> -#define DW9719_MODE_SAC3		4
+> +#define DW9719_DEFAULT_SAC		4
+> +#define DW9761_DEFAULT_SAC		6
+> =C2=A0
+> =C2=A0#define DW9719_VCM_FREQ			CCI_REG8(7)
+> =C2=A0#define DW9719_DEFAULT_VCM_FREQ		0x60
+> +#define DW9761_DEFAULT_VCM_FREQ		0x3E
+> +
+> +#define DW9761_VCM_PRELOAD		CCI_REG8(8)
+> +#define DW9761_DEFAULT_VCM_PRELOAD	0x73
+> +
+> =C2=A0
+> =C2=A0#define to_dw9719_device(x) container_of(x, struct dw9719_device,
+> sd)
+> =C2=A0
+> +enum dw9719_model {
+> +	DW9719,
+> +	DW9761,
+> +};
+> +
+> =C2=A0struct dw9719_device {
+> =C2=A0	struct v4l2_subdev sd;
+> =C2=A0	struct device *dev;
+> =C2=A0	struct regmap *regmap;
+> =C2=A0	struct regulator *regulator;
+> +	enum dw9719_model model;
+> +	u32 mode_low_bits;
+> =C2=A0	u32 sac_mode;
+> =C2=A0	u32 vcm_freq;
+> =C2=A0
+> @@ -52,30 +73,14 @@ struct dw9719_device {
+> =C2=A0	} ctrls;
+> =C2=A0};
+> =C2=A0
+> -static int dw9719_detect(struct dw9719_device *dw9719)
+> -{
+> -	int ret;
+> -	u64 val;
+> -
+> -	ret =3D cci_read(dw9719->regmap, DW9719_INFO, &val, NULL);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	if (val !=3D DW9719_ID) {
+> -		dev_err(dw9719->dev, "Failed to detect correct
+> id\n");
+> -		return -ENXIO;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+> =C2=A0static int dw9719_power_down(struct dw9719_device *dw9719)
+> =C2=A0{
+> =C2=A0	return regulator_disable(dw9719->regulator);
+> =C2=A0}
+> =C2=A0
+> -static int dw9719_power_up(struct dw9719_device *dw9719)
+> +static int dw9719_power_up(struct dw9719_device *dw9719, bool
+> detect)
+> =C2=A0{
+> +	u64 val;
+> =C2=A0	int ret;
+> =C2=A0
+> =C2=A0	ret =3D regulator_enable(dw9719->regulator);
+> @@ -83,16 +88,54 @@ static int dw9719_power_up(struct dw9719_device
+> *dw9719)
+> =C2=A0		return ret;
+> =C2=A0
+> =C2=A0	/* Jiggle SCL pin to wake up device */
+> -	cci_write(dw9719->regmap, DW9719_CONTROL, 1, &ret);
+> -
+> +	cci_write(dw9719->regmap, DW9719_CONTROL, DW9719_SHUTDOWN,
+> &ret);
+> +	fsleep(100);
+> +	cci_write(dw9719->regmap, DW9719_CONTROL, DW9719_STANDBY,
+> &ret);
+> =C2=A0	/* Need 100us to transit from SHUTDOWN to STANDBY */
+> =C2=A0	fsleep(100);
+> =C2=A0
+> +	if (detect) {
+> +		ret =3D cci_read(dw9719->regmap, DW9719_INFO, &val,
+> NULL);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		switch (val) {
+> +		case DW9719_ID:
+> +			dw9719->model =3D DW9719;
+> +			dw9719->mode_low_bits =3D 0x00;
+> +			dw9719->sac_mode =3D DW9719_DEFAULT_SAC;
+> +			dw9719->vcm_freq =3D DW9719_DEFAULT_VCM_FREQ;
+> +			break;
+> +		case DW9761_ID:
+> +			dw9719->model =3D DW9761;
+> +			dw9719->mode_low_bits =3D 0x01;
+> +			dw9719->sac_mode =3D DW9761_DEFAULT_SAC;
+> +			dw9719->vcm_freq =3D DW9761_DEFAULT_VCM_FREQ;
+> +			break;
+> +		default:
+> +			dev_err(dw9719->dev,
+> +				"Error unknown device id
+> 0x%02llx\n", val);
+> +			return -ENXIO;
+> +		}
+> +
+> +		/* Optional indication of SAC mode select */
+> +		device_property_read_u32(dw9719->dev, "dongwoon,sac-
+> mode",
+> +					 &dw9719->sac_mode);
+> +
+> +		/* Optional indication of VCM frequency */
+> +		device_property_read_u32(dw9719->dev, "dongwoon,vcm-
+> freq",
+> +					 &dw9719->vcm_freq);
+> +	}
+> +
+> =C2=A0	cci_write(dw9719->regmap, DW9719_CONTROL,
+> DW9719_ENABLE_RINGING, &ret);
+> -	cci_write(dw9719->regmap, DW9719_MODE,
+> -		=C2=A0 dw9719->sac_mode << DW9719_MODE_SAC_SHIFT, &ret);
+> +	cci_write(dw9719->regmap, DW9719_MODE, dw9719->mode_low_bits
+> |
+> +			=C2=A0 (dw9719->sac_mode <<
+> DW9719_MODE_SAC_SHIFT), &ret);
+> =C2=A0	cci_write(dw9719->regmap, DW9719_VCM_FREQ, dw9719->vcm_freq,
+> &ret);
+> =C2=A0
+> +	if (dw9719->model =3D=3D DW9761)
+> +		cci_write(dw9719->regmap, DW9761_VCM_PRELOAD,
+> +			=C2=A0 DW9761_DEFAULT_VCM_PRELOAD, &ret);
+> +
+> =C2=A0	if (ret)
+> =C2=A0		dw9719_power_down(dw9719);
+> =C2=A0
+> @@ -159,7 +202,7 @@ static int dw9719_resume(struct device *dev)
+> =C2=A0	int ret;
+> =C2=A0	int val;
+> =C2=A0
+> -	ret =3D dw9719_power_up(dw9719);
+> +	ret =3D dw9719_power_up(dw9719, false);
+> =C2=A0	if (ret)
+> =C2=A0		return ret;
+> =C2=A0
+> @@ -237,16 +280,6 @@ static int dw9719_probe(struct i2c_client
+> *client)
+> =C2=A0		return PTR_ERR(dw9719->regmap);
+> =C2=A0
+> =C2=A0	dw9719->dev =3D &client->dev;
+> -	dw9719->sac_mode =3D DW9719_MODE_SAC3;
+> -	dw9719->vcm_freq =3D DW9719_DEFAULT_VCM_FREQ;
+> -
+> -	/* Optional indication of SAC mode select */
+> -	device_property_read_u32(&client->dev, "dongwoon,sac-mode",
+> -				 &dw9719->sac_mode);
+> -
+> -	/* Optional indication of VCM frequency */
+> -	device_property_read_u32(&client->dev, "dongwoon,vcm-freq",
+> -				 &dw9719->vcm_freq);
+> =C2=A0
+> =C2=A0	dw9719->regulator =3D devm_regulator_get(&client->dev, "vdd");
+> =C2=A0	if (IS_ERR(dw9719->regulator))
+> @@ -274,14 +307,10 @@ static int dw9719_probe(struct i2c_client
+> *client)
+> =C2=A0	 * will work.
+> =C2=A0	 */
+> =C2=A0
+> -	ret =3D dw9719_power_up(dw9719);
+> +	ret =3D dw9719_power_up(dw9719, true);
+> =C2=A0	if (ret)
+> =C2=A0		goto err_cleanup_media;
+> =C2=A0
+> -	ret =3D dw9719_detect(dw9719);
+> -	if (ret)
+> -		goto err_powerdown;
+> -
+> =C2=A0	pm_runtime_set_active(&client->dev);
+> =C2=A0	pm_runtime_get_noresume(&client->dev);
+> =C2=A0	pm_runtime_enable(&client->dev);
+> @@ -299,7 +328,6 @@ static int dw9719_probe(struct i2c_client
+> *client)
+> =C2=A0err_pm_runtime:
+> =C2=A0	pm_runtime_disable(&client->dev);
+> =C2=A0	pm_runtime_put_noidle(&client->dev);
+> -err_powerdown:
+> =C2=A0	dw9719_power_down(dw9719);
+> =C2=A0err_cleanup_media:
+> =C2=A0	media_entity_cleanup(&dw9719->sd.entity);
+> @@ -327,6 +355,7 @@ static void dw9719_remove(struct i2c_client
+> *client)
+> =C2=A0
+> =C2=A0static const struct i2c_device_id dw9719_id_table[] =3D {
+> =C2=A0	{ "dw9719" },
+> +	{ "dw9761" },
+> =C2=A0	{ }
+> =C2=A0};
+> =C2=A0MODULE_DEVICE_TABLE(i2c, dw9719_id_table);
+
+Thanks for the patch.
+
+Do you plan to resend this patch?
+If not, I can send it again, together with a patch that adds an
+of_match table, that was needed to test these changes on my device.
+
+Tested-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+
+Best regards,
+Andr=C3=A9
 
