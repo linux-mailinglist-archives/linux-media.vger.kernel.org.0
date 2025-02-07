@@ -1,191 +1,313 @@
-Return-Path: <linux-media+bounces-25817-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25818-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82299A2C889
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 17:22:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA6CA2C8EF
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 17:32:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D4233AAEFE
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 16:22:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E8AB83AC466
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 16:32:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1886918C00B;
-	Fri,  7 Feb 2025 16:22:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C52C818DB28;
+	Fri,  7 Feb 2025 16:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OHKHZfH7"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Z941tF0h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BD457C9F
-	for <linux-media@vger.kernel.org>; Fri,  7 Feb 2025 16:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D6518DB27
+	for <linux-media@vger.kernel.org>; Fri,  7 Feb 2025 16:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738945351; cv=none; b=DpKWLHCURDaDYn7IlVZC6oAJf5Xke/cL5wDVNeKJoWyY9lfnovQ2bTxfA5usr7xp+x2dYpbE6LFaaNytkJHs8yTApndzvVcuYz641GBmZ3oaEjIFFJ9w3ntUzrsT86C+EbhIcBwN4tsxI/BWEPvmsUdqTN5gOGeRm1XukUphgb0=
+	t=1738945944; cv=none; b=Z3sQmWrp6Ie9T3vPGDsikSq9abQvoY+H4Zuv0oxLYn/rUi+cukvk5qfi6NueYu/qvebzqAAAuQE0Q7jPhB2DjBBE+7gKcFsRlPS0KsWnKptuCbqlZUxp6lddYyhIBBv3TmgrBDLgLPzzKw1mKjO32FslxyBjf1036oVkPGVjOgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738945351; c=relaxed/simple;
-	bh=iTsuxyEIymohulJzY7JTD8IGPdVLrm5BWF6T6qQbtUc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mMkH1F7DEKUA3ocjfSpLd5R6VM3hGA5J/Yu3IxxAOn70wVJnRSkmntABvMr9rKdPWPF/13fjOTShYuaznv3RvZHumBiY1iUI5sc6VVwWsQEAMYg9w+SWlZByudZ983qPlZvgOl3j+5QuMhSzDz79ppn64BqqIJVnN5KhVQpKSdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OHKHZfH7; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5dcef27deecso3325264a12.1
-        for <linux-media@vger.kernel.org>; Fri, 07 Feb 2025 08:22:29 -0800 (PST)
+	s=arc-20240116; t=1738945944; c=relaxed/simple;
+	bh=8W8kxm7Ck99w53h02b4o0GqmABP7jA/s61Kk2qEUBy4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SXGfjoIG/z+rWN+Y19WaeqEc8AH1Qm+4gI+kWyjd6ETG19wnFOLvl4A3C9QvWPU0rMpM11E/2q//9/YEP9mqNEbIbdHgXHnHTLT4EO8881YUCSqDInswl6GN72Ov7hpvS/W7BbU5Zvg+xeOin4OWkcX/xNYKo0sXJLN/lBrlwxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Z941tF0h; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7b9bc648736so216777585a.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Feb 2025 08:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1738945347; x=1739550147; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MCn5Dk3vMVo7X1t68AtKlpToAukuif5wkQVCcdE+FHY=;
-        b=OHKHZfH7+GSnutS2il90RCys5tE6eom85D+MnWz0Qq//8CLMVtPOmViPjLB/czpnMT
-         n41b3adIAzWrS+WLAegm/s4xW9XytOnbdkzzs5kvHmz+9ViWyXrl++ZBx7ElhySNEK/y
-         e9txjRDmJCEw4JXUC8vJf+LwdggQLEMJZD3j8=
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1738945941; x=1739550741; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1eyHbVSPzPS2H7ccJkoRfXPoW37SSjWSYPml0H3RVrY=;
+        b=Z941tF0h8cTh2pwFCKQe6SKKMQMneWA6SKystJ1wXLadW65I3vc8lbsYjH2JVTtBHV
+         X//Rf6oOeI2niq3m2Y6jONY+N2xthszgNfuSsxJN4DdnljMKmS5lzTySPkYZfKdYj3OB
+         qzGYnP0O2ucRoYIzILh75O92Gd6Yr8LNmvS8pkK1gPEw5A5AVhAHuGWtMPWmIWQToetF
+         EhAtxay1XnSU0rPe3YTPG1p9yTSOlaOlFz+oWPAmG9HXeJZqBuIFtjW5Vk1/e8cGcFAE
+         gXB75J0PbK0eN9e0AUuNY104bp5lCsc6jJEE+tRFTE0wzgmHnyWsCWie8yybNT+VI2RM
+         NEMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738945347; x=1739550147;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MCn5Dk3vMVo7X1t68AtKlpToAukuif5wkQVCcdE+FHY=;
-        b=cmHR9pAkk1sbQrYxX4iEjwH+Xi+4zw+acPe1lxgfM6yiirepqthemRHibhYv/seBoZ
-         UBguW12nUq6kYnOZdUhCp4Oo02dCApzpcXhVY4fD1LeQKyBkLTHC1gI9o2FzmUygs5Nz
-         DtuRCtLy1m/UY59kyt/9spYXl5MIqWzgtDsEqCfb557jS2gmxTiN0HS8iYOAXq9c547h
-         UvRB0/MCYK52Vwwva4ckvmEymbuFUQBYfImwTMVQNDdbw1ENRcUgSXK4IHgwFmH8b9VS
-         ns52E3N5UKm6U9whawSxr65FrL/bPpFdM+XjPjxrHFZfZY6tuEPNvgSciE2LTskBycjz
-         P2Fw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPaOI9Yaeh5v57U8dQJemIJ6jn+XBuYBU8EiO0XlLfzT3tof2vIM141YiTqRVLfsKMTLBvxi85U89TrA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjART+hwPo5PpBZsRdSX/IhfLmyOfU+GLnLfgmFfEnM3sjnC8r
-	aLOKIBvbj+dzrdUylr+xkOjnayV1/2nFDlqKsRQWC0ooAOMXP6MvWpwxIJYQI7Ob/z4u2rwSLAb
-	VrkoT
-X-Gm-Gg: ASbGncveU7dvzjE0ZgMvX17XDUrY4j7SHtcTGi4z2+h76K+eVBvTaiTIDdx4zkfZQLi
-	firZk0+ZjylmTndBpySDGhw2yOMRlZH+jHYwt2toOC7R6rfiYfH4uVTrPdZ6EjDB+NQV3RKy4wn
-	dJwCVNOui4RRaZcejnFf3GzaKorLOLYP8JE2Y39NTMpwWcNTvGX3kGNP769uWzYVgUnMl8zkxcq
-	QoOxMYJl7rRaRSKHpEov4q+eK0b97/7kca7sTYEMGijo+v2b/Pz/FXlDZsj2OQNg1T3XjkYJWah
-	HF29bZjiCrFa98GZNkRT+uF0rwrYqggqwmZrtgsAfkp+xA0wP48=
-X-Google-Smtp-Source: AGHT+IGVoDQS5Ca/HM7aFZrp9oDjITCtorUemjbLHIg4a7n6XOQnaQIwQLf4vYZvCOdUiwBP1B/vxQ==
-X-Received: by 2002:a05:6402:5409:b0:5dc:8ed9:6bc3 with SMTP id 4fb4d7f45d1cf-5de450734d3mr3948067a12.26.1738945346749;
-        Fri, 07 Feb 2025 08:22:26 -0800 (PST)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5de3f04ae59sm1767165a12.1.2025.02.07.08.22.25
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 07 Feb 2025 08:22:25 -0800 (PST)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5d442f9d285so8037a12.1
-        for <linux-media@vger.kernel.org>; Fri, 07 Feb 2025 08:22:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXC619f33VpGFcAhFx2OAkFCny1SHTOALSOhDs4sdVvQCuLDPgVDF/88k68xD85qoPI9MwBszj5lnscQg==@vger.kernel.org
-X-Received: by 2002:a50:ee16:0:b0:5dc:ccb4:cb11 with SMTP id
- 4fb4d7f45d1cf-5de46901c8dmr116990a12.4.1738945344498; Fri, 07 Feb 2025
- 08:22:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738945941; x=1739550741;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1eyHbVSPzPS2H7ccJkoRfXPoW37SSjWSYPml0H3RVrY=;
+        b=w9pOr4XoTNWnNVf84WIHQHyYOg1UP7BB9rYa2EthwA7mtU2JnGvsr3WHK/YMF1nUnh
+         qJyjBhN20SvfTT5VEgFccz12QujfLTCSLVAq+8Fid33buDvLyxO354SFJajUbkXUwHvO
+         YYahQwD1MJm4oR9mvvuW5Z/uxd0MEU5I085kk5Z86iacKW7JGd7Dj78qjln+nvW6GcPR
+         1xfm+3rPO/xiZ+ku8CjSVpcAZAm++NtsH6Q/mz7stcAwp593VP8CiJvY+xcLxzgWzOlz
+         HTTmgb4Lwmp24zYCgJrD3jXHj/ZFkPjOHRSrY6qOq4e0sd+yZnrsIOldNC1N3X0odbAM
+         HjnA==
+X-Forwarded-Encrypted: i=1; AJvYcCULdVskAm4I+i+TjD9IcHAcPrB0UjtsRWawmgeE4jiR51KJUJhPmtjQvP/e3RnZOvP+M7AyeDiQlhCulw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxY1YD76pswop4YCTPM0IPGg9yV0GNN/hUGwm45oRothFr3uUFL
+	g+fW3vq8lqchroBrUWkOyRNpv7QdhQfzxzvjKrMnV778h4RlSBJJv1hbLdMaKA4=
+X-Gm-Gg: ASbGnculqPvxXAkeI7xYz/wbo245TRI6c4ebmLw8WjVjwn9NGpOze6Ij6Z2zdxKtT/u
+	apOFgK74oYJbJ+bmRIlCUmzNbcduRuLu6ldmYkAjslEW7aDWciSZtejnDf0DFYt0nuDGVLdfkXF
+	zR//Y5aHhFwP8/4M3yTJh9/VLdrVmUjDku07jEs+J2VQbeo0M2F76n2NCZdViwFOrSX/sGIPw6c
+	8Pw7QDgyvFsnpvDibXAPPrKCCxTgo1AU9/XmWP7ExUDb17MjNZFnOCT3BDjO7AcQN92YmvOi0j7
+	3HcXx8YKwLYthfds
+X-Google-Smtp-Source: AGHT+IHMskAJ2FFpcL+LoXxgmr/MIx5nX+eElBqeikyP+Zh17IpGj4yP1i1w+a51aWNGdndmORetGg==
+X-Received: by 2002:a05:620a:248e:b0:7b6:f17d:f5a7 with SMTP id af79cd13be357-7c047c1f9d5mr701310685a.6.1738945941025;
+        Fri, 07 Feb 2025 08:32:21 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:e976::7a9])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c041eb7d12sm206602485a.106.2025.02.07.08.32.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2025 08:32:20 -0800 (PST)
+Message-ID: <2cef75795cf3eb1c224f3562134d2ed887dbff60.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali
+ CSF GPUs
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Florent Tomasin	
+ <florent.tomasin@arm.com>, Vinod Koul <vkoul@kernel.org>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau	
+ <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Benjamin
+ Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T . J .
+ Mercier"	 <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong
+ Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, nd@arm.com, Akash Goel
+ <akash.goel@arm.com>
+Date: Fri, 07 Feb 2025 11:32:18 -0500
+In-Reply-To: <20250207160253.42551fb1@collabora.com>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+		<3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
+		<1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
+		<ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
+		<9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
+		<1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
+		<20250205-amorphous-nano-agouti-b5baba@houat>
+		<2085fb785095dc5abdac2352adfb3e1e1c8ae549.camel@ndufresne.ca>
+	 <20250207160253.42551fb1@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com> <20250128-b4-rkisp-noncoherent-v3-1-baf39c997d2a@gmail.com>
-In-Reply-To: <20250128-b4-rkisp-noncoherent-v3-1-baf39c997d2a@gmail.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Fri, 7 Feb 2025 17:22:08 +0100
-X-Gmail-Original-Message-ID: <CAAFQd5BkbJz4VJOvj8P5gBtbi=VCgsgebw12PnepLj6Qn6C_AQ@mail.gmail.com>
-X-Gm-Features: AWEUYZkLRr1JxCvNI8JDDZBOdbLkP21kufM0wZUw4Akj7bxs1aInWlFMBNe_a0o
-Message-ID: <CAAFQd5BkbJz4VJOvj8P5gBtbi=VCgsgebw12PnepLj6Qn6C_AQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] media: videobuf2: Fix dmabuf cache sync/flush in dma-contig
-To: Mikhail Rudenko <mike.rudenko@gmail.com>, Christoph Hellwig <hch@lst.de>, 
-	Robin Murphy <robin.murphy@arm.com>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 28, 2025 at 9:36=E2=80=AFPM Mikhail Rudenko <mike.rudenko@gmail=
-.com> wrote:
->
-> When support for V4L2_FLAG_MEMORY_NON_CONSISTENT was removed in
-> commit 129134e5415d ("media: media/v4l2: remove
-> V4L2_FLAG_MEMORY_NON_CONSISTENT flag"),
-> vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions were made
-> no-ops. Later, when support for V4L2_MEMORY_FLAG_NON_COHERENT was
-> introduced in commit c0acf9cfeee0 ("media: videobuf2: handle
-> V4L2_MEMORY_FLAG_NON_COHERENT flag"), the above functions remained
-> no-ops, making cache maintenance for non-coherent dmabufs allocated by
-> dma-contig impossible.
->
-> Fix this by reintroducing dma_sync_sgtable_for_{cpu,device} and
-> {flush,invalidate}_kernel_vmap_range calls to
-> vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions for non-coherent
-> buffers.
->
-> Fixes: c0acf9cfeee0 ("media: videobuf2: handle V4L2_MEMORY_FLAG_NON_COHER=
-ENT flag")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
-> ---
->  .../media/common/videobuf2/videobuf2-dma-contig.c  | 22 ++++++++++++++++=
-++++++
->  1 file changed, 22 insertions(+)
->
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/driv=
-ers/media/common/videobuf2/videobuf2-dma-contig.c
-> index bb0b7fa67b539aa73ad5ccf3c3bc318e26f8a4cb..146d7997a0da5989fb081a6f2=
-8ce0641fe726e63 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -427,6 +427,17 @@ static int
->  vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
->                                    enum dma_data_direction direction)
->  {
-> +       struct vb2_dc_buf *buf =3D dbuf->priv;
-> +       struct sg_table *sgt =3D buf->dma_sgt;
-> +
-> +       if (!buf->non_coherent_mem)
-> +               return 0;
-> +
-> +       if (buf->vaddr)
-> +               invalidate_kernel_vmap_range(buf->vaddr, buf->size);
-> +
-> +       dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
-> +
->         return 0;
->  }
->
-> @@ -434,6 +445,17 @@ static int
->  vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
->                                  enum dma_data_direction direction)
->  {
-> +       struct vb2_dc_buf *buf =3D dbuf->priv;
-> +       struct sg_table *sgt =3D buf->dma_sgt;
-> +
-> +       if (!buf->non_coherent_mem)
-> +               return 0;
-> +
-> +       if (buf->vaddr)
-> +               flush_kernel_vmap_range(buf->vaddr, buf->size);
-> +
-> +       dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
-> +
->         return 0;
->  }
+Le vendredi 07 f=C3=A9vrier 2025 =C3=A0 16:02 +0100, Boris Brezillon a =C3=
+=A9crit=C2=A0:
+> Sorry for joining the party late, a couple of comments to back Akash
+> and Nicolas' concerns.
+>=20
+> On Wed, 05 Feb 2025 13:14:14 -0500
+> Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+>=20
+> > Le mercredi 05 f=C3=A9vrier 2025 =C3=A0 15:52 +0100, Maxime Ripard a =
+=C3=A9crit=C2=A0:
+> > > On Mon, Feb 03, 2025 at 04:43:23PM +0000, Florent Tomasin wrote: =20
+> > > > Hi Maxime, Nicolas
+> > > >=20
+> > > > On 30/01/2025 17:47, Nicolas Dufresne wrote: =20
+> > > > > Le jeudi 30 janvier 2025 =C3=A0 17:38 +0100, Maxime Ripard a =C3=
+=A9crit=C2=A0: =20
+> > > > > > Hi Nicolas,
+> > > > > >=20
+> > > > > > On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne wrot=
+e: =20
+> > > > > > > Le jeudi 30 janvier 2025 =C3=A0 14:46 +0100, Maxime Ripard a =
+=C3=A9crit=C2=A0: =20
+> > > > > > > > Hi,
+> > > > > > > >=20
+> > > > > > > > I started to review it, but it's probably best to discuss i=
+t here.
+> > > > > > > >=20
+> > > > > > > > On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomasin w=
+rote: =20
+> > > > > > > > > Hi,
+> > > > > > > > >=20
+> > > > > > > > > This is a patch series covering the support for protected=
+ mode execution in
+> > > > > > > > > Mali Panthor CSF kernel driver.
+> > > > > > > > >=20
+> > > > > > > > > The Mali CSF GPUs come with the support for protected mod=
+e execution at the
+> > > > > > > > > HW level. This feature requires two main changes in the k=
+ernel driver:
+> > > > > > > > >=20
+> > > > > > > > > 1) Configure the GPU with a protected buffer. The system =
+must provide a DMA
+> > > > > > > > >    heap from which the driver can allocate a protected bu=
+ffer.
+> > > > > > > > >    It can be a carved-out memory or dynamically allocated=
+ protected memory region.
+> > > > > > > > >    Some system includes a trusted FW which is in charge o=
+f the protected memory.
+> > > > > > > > >    Since this problem is integration specific, the Mali P=
+anthor CSF kernel
+> > > > > > > > >    driver must import the protected memory from a device =
+specific exporter. =20
+> > > > > > > >=20
+> > > > > > > > Why do you need a heap for it in the first place? My unders=
+tanding of
+> > > > > > > > your series is that you have a carved out memory region som=
+ewhere, and
+> > > > > > > > you want to allocate from that carved out memory region you=
+r buffers.
+> > > > > > > >=20
+> > > > > > > > How is that any different from using a reserved-memory regi=
+on, adding
+> > > > > > > > the reserved-memory property to the GPU device and doing al=
+l your
+> > > > > > > > allocation through the usual dma_alloc_* API? =20
+> > > > > > >=20
+> > > > > > > How do you then multiplex this region so it can be shared bet=
+ween
+> > > > > > > GPU/Camera/Display/Codec drivers and also userspace ? =20
+> > > > > >=20
+> > > > > > You could point all the devices to the same reserved memory reg=
+ion, and
+> > > > > > they would all allocate from there, including for their userspa=
+ce-facing
+> > > > > > allocations. =20
+> > > > >=20
+> > > > > I get that using memory region is somewhat more of an HW descript=
+ion, and
+> > > > > aligned with what a DT is supposed to describe. One of the challe=
+nge is that
+> > > > > Mediatek heap proposal endup calling into their TEE, meaning know=
+ing the region
+> > > > > is not that useful. You actually need the TEE APP guid and its IP=
+C protocol. If
+> > > > > we can dell drivers to use a head instead, we can abstract that S=
+oC specific
+> > > > > complexity. I believe each allocated addressed has to be mapped t=
+o a zone, and
+> > > > > that can only be done in the secure application. I can imagine si=
+milar needs
+> > > > > when the protection is done using some sort of a VM / hypervisor.
+> > > > >=20
+> > > > > Nicolas
+> > > > >  =20
+> > > >=20
+> > > > The idea in this design is to abstract the heap management from the
+> > > > Panthor kernel driver (which consumes a DMA buffer from it).
+> > > >=20
+> > > > In a system, an integrator would have implemented a secure heap dri=
+ver,
+> > > > and could be based on TEE or a carved-out memory with restricted ac=
+cess,
+> > > > or else. This heap driver would be responsible of implementing the
+> > > > logic to: allocate, free, refcount, etc.
+> > > >=20
+> > > > The heap would be retrieved by the Panthor kernel driver in order t=
+o
+> > > > allocate protected memory to load the FW and allow the GPU to enter=
+/exit
+> > > > protected mode. This memory would not belong to a user space proces=
+s.
+> > > > The driver allocates it at the time of loading the FW and initializ=
+ation
+> > > > of the GPU HW. This is a device globally owned protected memory. =
+=20
+> > >=20
+> > > The thing is, it's really not clear why you absolutely need to have t=
+he
+> > > Panthor driver involved there. It won't be transparent to userspace,
+> > > since you'd need an extra flag at allocation time, and the buffers
+> > > behave differently. If userspace has to be aware of it, what's the
+> > > advantage to your approach compared to just exposing a heap for those
+> > > secure buffers, and letting userspace allocate its buffers from there=
+? =20
+> >=20
+> > Unless I'm mistaken, the Panthor driver loads its own firmware. Since l=
+oading
+> > the firmware requires placing the data in a protected memory region, an=
+d that
+> > this aspect has no exposure to userspace, how can Panthor not be implic=
+ated ?
+>=20
+> Right, the very reason we need protected memory early is because some
+> FW sections need to be allocated from the protected pool, otherwise the
+> TEE will fault as soon at the FW enters the so-called 'protected mode'.
+>=20
+> Now, it's not impossible to work around this limitation. For instance,
+> we could load the FW without this protected section by default (what we
+> do right now), and then provide a DRM_PANTHOR_ENABLE_FW_PROT_MODE
+> ioctl that would take a GEM object imported from a dmabuf allocated
+> from the protected dma-heap by userspace. We can then reset the FW and
+> allow it to operate in protected mode after that point. This approach
+> has two downsides though:
+>=20
+> 1. We have no way of checking that the memory we're passed is actually
+> suitable for FW execution in a protected context. If we're passed
+> random memory, this will likely hang the platform as soon as we enter
+> protected mode.
+>=20
+> 2. If the driver already boot the FW and exposed a DRI node, we might
+> have GPU workloads running, and doing a FW reset might incur a slight
+> delay in GPU jobs execution.
+>=20
+> I think #1 is a more general issue that applies to suspend buffers
+> allocated for GPU contexts too. If we expose ioctls where we take
+> protected memory buffers that can possibly lead to crashes if they are
+> not real protected memory regions, and we have no way to ensure the
+> memory is protected, we probably want to restrict these ioctls/modes to
+> some high-privilege CAP_SYS_.
+>=20
+> For #2, that's probably something we can live with, since it's a
+> one-shot thing. If it becomes an issue, we can even make sure we enable
+> the FW protected-mode before the GPU starts being used for real.
+>=20
+> This being said, I think the problem applies outside Panthor, and it
+> might be that the video codec can't reset the FW/HW block to switch to
+> protected mode as easily as Panthor.
 
-I took some time (over)thinking the kernel vmap range synchronization,
-because these functions can be called both from the kernel space using
-respective dma_buf_*() kAPI and also from the user space using the
-DMA_BUF_SYNC IOCTLs, so we could in theory have the multiple
-invocations racing with each other, but then I realized that we don't
-really provide any guarantees for concurrent writes and reads from the
-CPU, so I believe this should work fine. Sorry for the delay.
+Overall the reset and reboot method is pretty ugly in my opinion. But to st=
+ick
+with the pure rationale, rebooting the SCP on MTK is much harder, since its=
+ not
+specific to a single HW/driver.
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
+Other codecs like Samsung MFC, Venus/Iris, Chips&Media, etc. that approach =
+seams
+plausible, but we still can't trust the buffer, which to me is not acceptab=
+le.
 
-Let me add @Christoph Hellwig and @Robin Murphy just in case I'm wrong
-on that, though... Hans, let's give them some time to take a look
-before applying this.
+>=20
+> Note that there's also downsides to the reserved-memory node approach,
+> where some bootloader stage would ask the secure FW to reserve a
+> portion of mem and pass this through the DT. This sort of things tend to
+> be an integration mess, where you need all the pieces of the stack (TEE,
+> u-boot, MTK dma-heap driver, gbm, ...) to be at a certain version to
+> work properly. If we go the ioctl() way, we restrict the scope to the
+> TEE, gbm/mesa and the protected-dma-heap driver, which is still a lot,
+> but we've ripped the bootloader out of the equation at least.
+>=20
+> Regards,
+>=20
+> Boris
 
-Best regards,
-Tomasz
 
