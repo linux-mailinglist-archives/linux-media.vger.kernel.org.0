@@ -1,36 +1,48 @@
-Return-Path: <linux-media+bounces-25802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25803-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1551BA2C1F9
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 12:55:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65693A2C222
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 13:02:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D18F1884659
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 11:55:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 917497A229D
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 12:01:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9237A1DF756;
-	Fri,  7 Feb 2025 11:54:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 514D51DF73B;
+	Fri,  7 Feb 2025 12:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AW5e00tc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A41DF260;
-	Fri,  7 Feb 2025 11:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8C82417C7;
+	Fri,  7 Feb 2025 12:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738929296; cv=none; b=ODLtM7nMufDGqojAdQFNZOFIHfLbNRaib7Fj5Wxtcbev6K2l2M56gtTJQ64riChUUNNX+FBK2KB6y7RYkVcJHHTGuZFMTquf0U4VzSD8vu8MEn8dgAZpl0zprlHeg77M0PxI1SfUkljCVPfLmXF1uYwup8hpGChq/ZZzU1+uOFY=
+	t=1738929738; cv=none; b=ikMIKJpN6B7tI405rcjqeOzkn1nyicRO7aTGINYiTzIaLHicrLTtYuZyeVsmKIABIOmpyLT4TAoE/0IAHiddv9O3uqBkrDZAQoQLM7sCgzHvxmNcrHypS1pfyV288/6ovtaUgKgVD2QILnVHhXNMMFCTvqfH/fym1T+8zv5djCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738929296; c=relaxed/simple;
-	bh=8SQg7TcF5hpBJJpgIKj3oXoAnUub+FtPN3W5PtDxUQA=;
+	s=arc-20240116; t=1738929738; c=relaxed/simple;
+	bh=1gbqzvtIyhZ2LOlMJiVsOC0kg7QFg2HRd5SIYjSn6Hc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TfuoR9D15IQB3L678DbTjJsQiZvGloWZFRrzwdol8zWQdcdcV/WdCCsNHTZFv+/jglc1U6jBrem08fAxEToFxispwo1sZlq0VvUUVcA98RbLwO/nNMaX5Z1JFLObJAy3J/lICd2K3lQ5XcVPU9t+NcclbrpT47zHtjq5UNWC3aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EAB7C4CED1;
-	Fri,  7 Feb 2025 11:54:54 +0000 (UTC)
-Message-ID: <d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
-Date: Fri, 7 Feb 2025 12:54:52 +0100
+	 In-Reply-To:Content-Type; b=J1/swxvr6DiWIxhd6det5wUMl5Zi0+rBPsZk4Ff4ODxTX4+0hjTnoqRlKzSP6QsJU9ooSz6e6FpA6SOaokuZ/DojIudt+1Wh6alE3FAKSn7c89oMUgQKraG2aM8z1XNgb2lF9df6N3+SmsrMdBLveUObRosff56gFrnIhiqgPwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AW5e00tc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8A26F0C;
+	Fri,  7 Feb 2025 13:00:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1738929654;
+	bh=1gbqzvtIyhZ2LOlMJiVsOC0kg7QFg2HRd5SIYjSn6Hc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AW5e00tczGFBIY8ZeewWJss6JBPOsjlbjoedObCb2LHKtNfI9HJ/AKysiFvvWEVFr
+	 oBQazn93Ov7pBSpDbW9528lzlqs5B3vNwUVUreO8AGGSDtHl4ZrKTkul0Wv+dlZljG
+	 +2HFMWI3FKOC9t7tP1pdTECIFCpk+2qpAULLeEYY=
+Message-ID: <8b0f0743-03d6-4b2a-a2c2-37b05b854fb8@ideasonboard.com>
+Date: Fri, 7 Feb 2025 14:02:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,130 +50,185 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Media committers model postponed to 6.14 - Was: Re: [PATCH v3
- 0/3] Document the new media-committer's model
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-References: <cover.1733131405.git.mchehab+huawei@kernel.org>
- <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
- <20241203081958.6c186835@foz.lan>
- <20241203112209.GR10736@pendragon.ideasonboard.com>
- <20241203140712.57daa65f@foz.lan> <20241209091548.165e5152@foz.lan>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241209091548.165e5152@foz.lan>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v7 0/9] misc: Support TI FPC202 dual-port controller
+To: Romain Gantois <romain.gantois@bootlin.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Derek Kiernan <derek.kiernan@amd.com>,
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Cosmin Tanislav <demonsingur@gmail.com>
+References: <20250204-fpc202-v7-0-78b4b8a35cf1@bootlin.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250204-fpc202-v7-0-78b4b8a35cf1@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/12/2024 09:15, Mauro Carvalho Chehab wrote:
-> Em Tue, 3 Dec 2024 14:07:12 +0100
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-> 
->>
->> The idea is to gradually open media-committers to more people, as each
->> phase succeeds, addressing infra, procedures, etc.
->>
->> My rough idea is to do:
->>
->> - Phase 0.99: beta testers;
->> - Phase 1 is to invite people that regularly submit PRs;
->> - Phase 2 is to invite other active maintainers;
->> - Phase 3 (or 2?, TBD) to open for non-maintainers.
->>
->> We shouldn't rush it, as there are a lot to be done before opening it
->> broadly. So, I would say that:
->> - phase 0.99 would start in -rc2 (if things go well during this week); 
->> - phase 1 may still happen on this merge window, but as there will be
->>   only a few weeks between -rc2 and -rc6, and people usually get
->>   holidays in Dec/Jan, it is more likely that it will start for
->>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
->>
->>   We should wait at least for a couple of releases on phase 1,
->>   again to cleanup process and fine-tune infra. If things go well, 
->>   we can move to phase 2.
-> 
-> After some discussions with Hans, we decided to postpone the
-> beta testers phase to the next kernel cycle. There are a couple of
-> reasons for that:
-> 
-> - This should give us more time to come up with a final version of 
->   the media-committers documentation and agreement;
+Hi,
 
-Where are we with this? I haven't seen any updates since this post.
+On 04/02/2025 11:29, Romain Gantois wrote:
+> Hello everyone,
+> 
+> This is version seven of my series which adds support for the TI FPC202
+> dual-port controller. This is an unusual kind of device which is used as a
+> low-speed signal aggregator for various types of SFP-like hardware ports.
+> 
+> The FPC202 exposes an I2C, or SPI (not supported in this series) control
+> interface, which can be used to access two downstream I2C busses, along
+> with a set of low-speed GPIO signals for each port. It also has I2C address
+> translation (ATR) features, which allow multiple I2C devices with the same
+> address (e.g. SFP EEPROMs at address 0x50) to be accessed from the upstream
+> control interface on different addresses.
+> 
+> I've chosen to add this driver to the misc subsystem, as it doesn't
+> strictly belong in either the i2c or gpio sybsystem, and as far as I know
+> it is the first device of its kind to be added to the kernel.
+> 
+> Along with the FPC202 driver itself, this series also adds support for
+> dynamic address translation to the i2c-atr module. This allows I2C address
+> translators to update their translation table on-the-fly when they receive
+> transactions to unmapped clients. This feature is needed by the FPC202
+> driver to access up to three logical I2C devices per-port, given that the
+> FPC202 address translation table only has two address slots.
+> 
+> Best Regards,
+> 
+> Romain
 
-Personally, I think the CI is ready for more committers, so it would be
-nice if we can get some experience with that.
+I tested this series on my ds90ub960 setup (with plenty of patches on 
+top of mainline to get full multi-streaming), and it works fine for me. So:
 
-Regards,
+Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-	Hans
+This series does conflict with the ub960 changes I've sent resently. 
+Nothing difficult, but just something to be aware of.
+
+I'll try to do an actual review next week.
+
+We also still have the GMSL i2c-atr questions to sort out. Cosmin 
+recently sent out this series to add a few patches which help on GMSL:
+
+https://lore.kernel.org/all/20250203121629.2027871-1-demonsingur%40gmail.com/
+
+  Tomi
 
 > 
-> - This would also work better with regards to end of year's vacations,
->   as they'll be affecting at least 2/3 -rc versions. Plus, we all have
->   things to finish before such vacations. So, better to start fresh next
->   year;
+> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+> ---
+> Changes in v7:
+> - Removed a superfluous log message
+> - Link to v6: https://lore.kernel.org/r/20250115-fpc202-v6-0-d47a34820753@bootlin.com
 > 
-> - Media CI still had issues with a patch series I submitted, as it picked
->   the wrong baseline, causing CI to not test two patches that were
->   applied on the top of media-committers/next branch. This was fixed
->   by Ricardo, but it means that we may still need to polish CI before
->   granting more people righs there.
+> Changes in v6:
+> - Replaced spaces with tabs in misc Makefile
+> - Link to v5: https://lore.kernel.org/r/20250108-fpc202-v5-0-a439ab999d5a@bootlin.com
 > 
-> With that, if we want to start the media committers for 6.14, we should
-> aim to close review this document by -rc6, or, at most, -rc7, getting 
-> the patches merged during the next merge window.
+> Changes in v5:
+> - Used mutex guards in ub960 and fpc202 drivers
+> - Changed wording of some i2c-atr logs
+> - Link to v4: https://lore.kernel.org/r/20241230-fpc202-v4-0-761b297dc697@bootlin.com
 > 
-> Regard
+> Changes in v4:
+> - Fixed unbalanced refcounting in FPC202 port probing path
+> - Fixed KASAN bug by setting alias_pool "shared" flag properly
+> - Dropped requirement for both FPC202 ports to be described in the DT
+> - Enabled dynamic translation by default, dropped support for non dynamic translation
+> - Used aliased_addrs list instead of insufficient bitmap in ub960 driver
+> - Added i2c_atr_destroy_c2a() function matching i2c_atr_create_c2a()
+> - Fixed list corruption bug in dynamic address translation
+> - Indented Kconfig entry with tabs instead of spaces
+> - Link to v3: https://lore.kernel.org/r/20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com
 > 
-> Thanks,
-> Mauro
+> Changes in v3:
+> - Described the "reg" property of downstream ports in the FPC202 bindings
+> - Link to v2: https://lore.kernel.org/r/20241118-fpc202-v2-0-744e4f192a2d@bootlin.com
 > 
+> Changes in v2:
+> - Renamed port nodes to match i2c adapter bindings.
+> - Declared atr ops struct as static const.
+> - Free downstream ports during FPC202 removal.
+> - Link to v1: https://lore.kernel.org/r/20241108-fpc202-v1-0-fe42c698bc92@bootlin.com
+> 
+> ---
+> Romain Gantois (9):
+>        dt-bindings: misc: Describe TI FPC202 dual port controller
+>        media: i2c: ds90ub960: Replace aliased clients list with address list
+>        media: i2c: ds90ub960: Protect alias_use_mask with a mutex
+>        i2c: use client addresses directly in ATR interface
+>        i2c: move ATR alias pool to a separate struct
+>        i2c: rename field 'alias_list' of struct i2c_atr_chan to 'alias_pairs'
+>        i2c: support per-channel ATR alias pools
+>        i2c: Support dynamic address translation
+>        misc: add FPC202 dual port controller driver
+> 
+>   .../devicetree/bindings/misc/ti,fpc202.yaml        |  94 ++++
+>   MAINTAINERS                                        |   7 +
+>   drivers/i2c/i2c-atr.c                              | 483 ++++++++++++++-------
+>   drivers/media/i2c/ds90ub913.c                      |   9 +-
+>   drivers/media/i2c/ds90ub953.c                      |   9 +-
+>   drivers/media/i2c/ds90ub960.c                      |  49 ++-
+>   drivers/misc/Kconfig                               |  11 +
+>   drivers/misc/Makefile                              |   1 +
+>   drivers/misc/ti_fpc202.c                           | 438 +++++++++++++++++++
+>   include/linux/i2c-atr.h                            |  54 ++-
+>   10 files changed, 964 insertions(+), 191 deletions(-)
+> ---
+> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+> change-id: 20241017-fpc202-6f0b739c2078
+> 
+> Best regards,
 
 
