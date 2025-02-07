@@ -1,127 +1,267 @@
-Return-Path: <linux-media+bounces-25790-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25791-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CFF6A2BF36
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 10:25:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3516AA2BF49
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 10:29:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DFA516A771
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 09:25:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B61D7163188
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 09:29:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1098E1DDC15;
-	Fri,  7 Feb 2025 09:25:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36A322343B3;
+	Fri,  7 Feb 2025 09:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FoDA4+SM"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ntYJUBZB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6478A1DC992;
-	Fri,  7 Feb 2025 09:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD049481B6
+	for <linux-media@vger.kernel.org>; Fri,  7 Feb 2025 09:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738920327; cv=none; b=ZN82sksFD6yqgo0bIMs9eB9P4ZRdNcYgjU2RVhkbLamni3MPKy5eKwhBAPXj7pDVR+UdkVwpn1TRnwkFOMhHscq1gUlzI3w0xInaQLyapmoD1ErAcyqaXNgbLgiujRbgVTJxpDvJ96Pa9MjbmR+RdgUSnuZDnYQwbvFSZkA3ZF0=
+	t=1738920532; cv=none; b=Ins+ObceqHxCF7+cGATsZvvE9fceUyf9IOUhVB370Pgs9PziBknNefBKjQ/wsu6ptYpq2oVeidpEbURPWol5uxNChTJsCoExNXlMnTpwZZynxcg0ZBDouSJfqxIFvWfTMG0d9W9EbaD55a6X9ZHrt3nwgP4Omn3fLWwpcs9SmwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738920327; c=relaxed/simple;
-	bh=kF7bqOfEPUr/1NjhgrCLEjkTuw9hFLco2ae4W2t7H38=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=hDmekiPxPiBRAHSx+GHoIoAY4MSUA665L72M35LVh1DZOQObmtstZyoHc3lWV+RuTfk3tcJGb1BDWZ8KYis/dGqDANWOQ0MS3yEzzDYq3cLAp64gFnKh9NH5KZrH0WMwxO8ObAsD7duxMftvXN1SrjPnc2O2EpsPZH+OkxkYRjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FoDA4+SM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFF92C4CED1;
-	Fri,  7 Feb 2025 09:25:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738920327;
-	bh=kF7bqOfEPUr/1NjhgrCLEjkTuw9hFLco2ae4W2t7H38=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=FoDA4+SMwU8LqI5xPUcyA5YFPx2OWZI08q3Zegddu0PgzHiWdxO7CWWhvxNWYlxfO
-	 dxkAoFvD3RWtPpsGuE01QUligb3BkydtmaoZ9r1m5GRHlXSAJnM1aGUM14/0YtftKv
-	 YJFXuGPrXlqL1jF+R4A2SGhThekSSY8+H3DM6AGpVU1h45nmQBol/xtwKLYmpy3MMa
-	 2rkC6jrFEvTH+QIqLb0TYStvohRDuUiYMwg+IrXXdCfeK5ehqdwQvzUndv4t1wpGwO
-	 ocRFK/Zdt2lU4sEVLCsY7bAd8mMJc7XDY973225MKpI4xz01Cpu/vxcuqwWCuwqdCp
-	 jl/ifOtnDArsQ==
-Date: Fri, 07 Feb 2025 03:25:25 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1738920532; c=relaxed/simple;
+	bh=eIHTE8qRxDWKcq6Qy29TlpDPdetAC+KeKbRIcSkyUKQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b4rbRKx6VPW4AFCt0dBlIqDdzbXm9GMYQUjEnbETx32htN74ggYB9FMM3dEHwG1ZN8O4AeCglbSWS9NgJ2xTKzAeS3en5iLUiopynDdGVIwSBm0wnwI4jYiPe1ta23/vkntQhw+AZs2cC0+UYvo39bYaLyX8bcmbeeGm7YLaV9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ntYJUBZB; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51770afW018024
+	for <linux-media@vger.kernel.org>; Fri, 7 Feb 2025 09:28:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	8NqxrxK3xet8+h8NdpIJWE0d4FKW87vOgxxpkOISpEs=; b=ntYJUBZBAEroMqow
+	mnj8ab2Di391eqecP8vTQu5LJSa060xRl0VQGhxs+O6xRd8uaUSJcUl29fpAz5s8
+	2Y7lmBlyW5/iTaKCBmCtVO0hdf70ViVbw6VLCz8b7EuYNLNDCC4d+n0VVdyY+dLK
+	+ri611+AnFNBPJEOMvwwdmAZKgNr5umdwvs1JsTDbR4KQhHMuqDBTmXb8FjJ5yuo
+	1DXxrMMZHK4fRBqVT2QeJAAv3QE3tu8s/0sTJ4A9ocWa1Or58+SYk06IetzoZ8BR
+	7yo3+PU8POBIFbMzo13M1wkehrdCbZgd3uScAKcZRrdF+wAStF/uzYK2m0c3sR7i
+	M9dsAQ==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44nddkrc38-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 07 Feb 2025 09:28:48 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-21f5067e443so10202375ad.0
+        for <linux-media@vger.kernel.org>; Fri, 07 Feb 2025 01:28:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738920528; x=1739525328;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8NqxrxK3xet8+h8NdpIJWE0d4FKW87vOgxxpkOISpEs=;
+        b=WYIUMKEWL+fouW7LtM+dXHcnh4F6JbVEeKcYDrs0+fPngQzly708qE/PYemoSncy0d
+         gsWFAmFfyvMcPeOed2KsR8Qd5y6k247spuAVZIlpUxxyndnoaS9B4jzA80h06Gm+j3aI
+         heA3gCAsUA9BZt79iFhlFnc3QUOSDad4hD6/4byCUi8PY0Mw7vhOqLvw3rClDW2Jfrg9
+         cKohvvEcyQjHEI2osFOUFLgc9z27TkYbKDy0Z4U6PVI/Dss6iYBlAoycj0MufKn47d77
+         PYF7ekp1LB8Gva54tEzOvc+PIvLhV9RCYCTU4YZ0zEB0vcVu/9wPU8e6GBLUKuITcDN2
+         neRw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCJOmI/QVCyXxlOJcsQOrLvaX/gO5WRN/gC9SanERRCzuDAMc1KcZ0sGHAZQgyux41shX7F2PLiLARUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNbMmswT5G7HS9jlPyHDZDvUBtEaHUdPROPZHnDD3Ia5YeRPSh
+	TVd5HR+npdIF56p6NPShJUTR+DEK3vsLEsvNRsfbP5apK3ntTlZDy4Reddr0ucbtd36KJcep+IH
+	rYamGfLLLaxfUrqHmLZCCYo8AbKNkcZrT3YgV7fFmOqlv/wUH0FJXWmN67RvgHw==
+X-Gm-Gg: ASbGncsCLGEhrvNaV18WK2hn69Wwdck8GEtKJhP4VEcUXiQANysDHJW+DkWvY467mdz
+	2OOMV6DZ77zlKOqXQ281od4ToyKeyFHCJGSzeYPXTZepi2ppSU9U/eOcBjbMBDLEDsyQfAgaira
+	fDKCf/VUMWHu/+ohxmqmueROALzhIZujBQb6q66wUDet4U0rtN2H0g1EAcRNCPmW0gTZWTxivdf
+	n+ZiIEDPJf0CsLR2CE6nhbbDwmPGSH56pw41RzEih1An0okjMXv0Ggbmccroo9qtgBAUj3IW/RK
+	JT8BPryQloYjTVKiWI8J1DtoPRqNk5owIgvxWdKiL9EvZ4Ec5Mrmc+Cgn9nGdHI=
+X-Received: by 2002:a17:902:fc4f:b0:21a:8769:302e with SMTP id d9443c01a7336-21f4e6ad349mr47724405ad.14.1738920527822;
+        Fri, 07 Feb 2025 01:28:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHdITSY3Xbsq3qeExulM7OKAMdr3dJ0xmAXSbW0AXp7CYFXVCNY98Q+WzzN9OaitkXgQXgptQ==
+X-Received: by 2002:a17:902:fc4f:b0:21a:8769:302e with SMTP id d9443c01a7336-21f4e6ad349mr47724115ad.14.1738920527391;
+        Fri, 07 Feb 2025 01:28:47 -0800 (PST)
+Received: from [10.133.33.7] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f36896b86sm26147275ad.212.2025.02.07.01.28.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Feb 2025 01:28:46 -0800 (PST)
+Message-ID: <61045cc3-d030-4c63-8a1b-103ff8c374f3@oss.qualcomm.com>
+Date: Fri, 7 Feb 2025 17:28:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-media@vger.kernel.org, conor+dt@kernel.org, 
- devicetree@vger.kernel.org, krzk+dt@kernel.org, eajames@linux.ibm.com, 
- mchehab@kernel.org, andrew@aj.id.au, openbmc@lists.ozlabs.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, joel@jms.id.au, 
- linux-arm-kernel@lists.infradead.org
-To: Jammy Huang <jammy_huang@aspeedtech.com>
-In-Reply-To: <20250207082351.1298990-1-jammy_huang@aspeedtech.com>
-References: <20250207082351.1298990-1-jammy_huang@aspeedtech.com>
-Message-Id: <173892032595.3714424.13095199531321692299.robh@kernel.org>
-Subject: Re: [PATCH v3] media: dt-bindings: aspeed,video-engine: Convert to
- json schema
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 2/2] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+        todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+        robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org,
+        konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+        cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com,
+        will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20250207090422.1609260-1-quic_vikramsa@quicinc.com>
+ <20250207090422.1609260-3-quic_vikramsa@quicinc.com>
+Content-Language: en-US
+From: Jie Gan <jie.gan@oss.qualcomm.com>
+In-Reply-To: <20250207090422.1609260-3-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: chR2JXJZWLG4XruGqlVbnzusLzReO4m_
+X-Proofpoint-GUID: chR2JXJZWLG4XruGqlVbnzusLzReO4m_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-07_04,2025-02-07_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ mlxlogscore=999 suspectscore=0 priorityscore=1501 bulkscore=0
+ malwarescore=0 phishscore=0 spamscore=0 mlxscore=0 clxscore=1011
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502070072
 
 
-On Fri, 07 Feb 2025 16:23:51 +0800, Jammy Huang wrote:
-> Convert aspeed-video.txt to yaml format.
-> Update aspeed-video.txt to aspeed,video-engine.yaml in MAINTAINER file.
+
+On 2/7/2025 5:04 PM, Vikram Sharma wrote:
+> The Vision Mezzanine for the RB3 ships with an imx577 camera sensor.
+> Enable the IMX577 on the vision mezzanine.
 > 
-> Additional changes:
-> - Two phandle properties, 'aspeed,scu' and 'aspeed,gfx', are added for
->   video engine to capture video from sources other than VGA.
-> - Update examples and include appropriate file directives to resolve
->   errors identified by `dt_binding_check` and `dtbs_check`.
+> An example media-ctl pipeline for the imx577 is:
 > 
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+> media-ctl --reset
+> media-ctl -v -V '"imx577 '17-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+> media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> 
+> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+> 
+> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
+> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 > ---
->  v3:
->   - Add Additional changes into comments.
->   - Remove | after phandle description
+>   arch/arm64/boot/dts/qcom/Makefile             |  4 +
+>   .../qcs6490-rb3gen2-vision-mezzanine.dtso     | 89 +++++++++++++++++++
+>   2 files changed, 93 insertions(+)
+>   create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
 > 
->  v2:
->   - Update patch subject
->   - Add NOTE for false positive warning
-> ---
->  .../bindings/media/aspeed,video-engine.yaml   | 84 +++++++++++++++++++
->  .../bindings/media/aspeed-video.txt           | 33 --------
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 85 insertions(+), 34 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/aspeed-video.txt
-> 
+> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+> index 140b0b2abfb5..213d941b1b79 100644
+> --- a/arch/arm64/boot/dts/qcom/Makefile
+> +++ b/arch/arm64/boot/dts/qcom/Makefile
+> @@ -116,6 +116,10 @@ dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-1000.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-4000.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs615-ride.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2.dtb
+> +
+> +qcs6490-rb3gen2-vision-mezzanine-dtbs := qcs6490-rb3gen2.dtb qcs6490-rb3gen2-vision-mezzanine.dtbo
+> +
+> +dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2-vision-mezzanine.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs8300-ride.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs8550-aim300-aiot.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs9100-ride.dtb
+> diff --git a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+> new file mode 100644
+> index 000000000000..2a59d2f22eb8
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+> @@ -0,0 +1,89 @@
+> +// SPDX-License-Identifier: BSD-3-Clause
+> +/*
+> + * Copyright (c) 2024, Qualcomm Innovation Center, Inc. All rights reserved.
+It's 2025 now, it should be 2024-2025.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Thanks,
+Jie
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/aspeed,video-engine.yaml:44:55: [error] syntax error: mapping values are not allowed here (syntax)
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml: ignoring, error parsing file
-./Documentation/devicetree/bindings/media/aspeed,video-engine.yaml:44:55: mapping values are not allowed in this context
-make[2]: *** Deleting file 'Documentation/devicetree/bindings/media/aspeed,video-engine.example.dts'
-Documentation/devicetree/bindings/media/aspeed,video-engine.yaml:44:55: mapping values are not allowed in this context
-make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/media/aspeed,video-engine.example.dts] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1511: dt_binding_check] Error 2
-make: *** [Makefile:251: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250207082351.1298990-1-jammy_huang@aspeedtech.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+> + */
+> +
+> +/*
+> + * Camera Sensor overlay on top of rb3gen2 core kit.
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/clock/qcom,camcc-sc7280.h>
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+> +&camss {
+> +	vdda-phy-supply = <&vreg_l10c_0p88>;
+> +	vdda-pll-supply = <&vreg_l6b_1p2>;
+> +
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		/* The port index denotes CSIPHY id i.e. csiphy3 */
+> +		port@3 {
+> +			reg = <3>;
+> +
+> +			csiphy3_ep: endpoint {
+> +				clock-lanes = <7>;
+> +				data-lanes = <0 1 2 3>;
+> +				remote-endpoint = <&imx577_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&cci1 {
+> +	status = "okay";
+> +};
+> +
+> +&cci1_i2c1 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	camera@1a {
+> +		compatible = "sony,imx577";
+> +
+> +		reg = <0x1a>;
+> +
+> +		reset-gpios = <&tlmm 78 GPIO_ACTIVE_LOW>;
+> +		pinctrl-names = "default", "suspend";
+> +		pinctrl-0 = <&cam2_default>;
+> +		pinctrl-1 = <&cam2_suspend>;
+> +
+> +		clocks = <&camcc CAM_CC_MCLK3_CLK>;
+> +		assigned-clocks = <&camcc CAM_CC_MCLK3_CLK>;
+> +		assigned-clock-rates = <24000000>;
+> +
+> +		dovdd-supply = <&vreg_l18b_1p8>;
+> +		avdd-supply = <&vph_pwr>;
+> +		dvdd-supply = <&vph_pwr>;
+> +
+> +		port {
+> +			imx577_ep: endpoint {
+> +				link-frequencies = /bits/ 64 <600000000>;
+> +				data-lanes = <1 2 3 4>;
+> +				remote-endpoint = <&csiphy3_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&tlmm {
+> +	cam2_default: cam2-default-state {
+> +		pins = "gpio67";
+> +		function = "cam_mclk";
+> +		drive-strength = <2>;
+> +		bias-disable;
+> +	};
+> +
+> +	cam2_suspend: cam2-suspend-state {
+> +		pins = "gpio67";
+> +		function = "cam_mclk";
+> +		drive-strength = <2>;
+> +		bias-pull-down;
+> +	};
+> +};
 
 
