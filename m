@@ -1,163 +1,230 @@
-Return-Path: <linux-media+bounces-25778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E417A2BD64
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 09:05:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B230EA2BDC5
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 09:24:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CC7B164519
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 08:05:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28A4018880A2
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 08:24:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27D0924633D;
-	Fri,  7 Feb 2025 07:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="AdcvZkvw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 578FC1AAA11;
+	Fri,  7 Feb 2025 08:24:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BEE246323;
-	Fri,  7 Feb 2025 07:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161802417F5;
+	Fri,  7 Feb 2025 08:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738915102; cv=none; b=Wdopnqkm8HxlpYIZY8hsERXIHfQPO7eEgtQlQBRWgnzi9Uj8oJ4+PEdcIGx1Gs4d+MOmqtxf6pIqQzRSXstJHXX+wOkAqwgz6QcGimifqXQP8qk7RepQYoVpVxO+qpjIF8Yo2Jv79ig4pJQKesaVgDTuS6McLV7QtnifuFM3nBU=
+	t=1738916645; cv=none; b=gnfQD3FHnvfwY5v1iwA/t7PxittIAYowOt3QV7Bn0sNYFsxDi6NN+I9gOdJl3CaOAeiGcpHQxqmuFXCyCKT2YcM6U+wukgthHifGzy2tQHfKnq/KMPBHs3HEjROv240pQS1COS1lONeU8/+TuVlrLnGVBlAXEKm+qtanqPrD5yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738915102; c=relaxed/simple;
-	bh=f1R4bitQrRJlRfWyXE0apdgMwbAZlRAvnd1OwuO1upQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Lyj/Y41aiaCFqaBrhg21BEUV39WmK6WuJJF+yLK3An9oFeFmTaSSgM0OxeZUPeUT3BkEhh271McPQA+oktgvwpxKeTd66CbReTxOvv6axg0KtwStMukf9Bb2L5cwWHW7jKIkPcUN0lM7paSXmJHJX+8vq/aNaLzAONWpqLlTPjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=AdcvZkvw; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5175GfO7021026;
-	Fri, 7 Feb 2025 07:58:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	1lykkkUImhEmn7iU2wCNDHiWuqHTLsVzcCLDHlBUQp8=; b=AdcvZkvwhqBr8Vpq
-	e3B9pu7euLdv+qOzU0ErYPuD9ewFyvpv1Ug3OXaMfZRYfaDAb1CUP06QACdZ/Qtb
-	+udycu/lKwqcmUZ5PXwzUsfYGNICch8y9oOZMSxrdS+unikDpafT0+rIOhVdtFBs
-	NXf+4EH5NcMHTf7EaBA6ILzw1k1gAfonFr50vVULUkbf80HEjIvH767D7z6rPA7K
-	uRsVrAEskyBAOPATgzgyIwTRU9NHlEH5qx/mK7BfPRHO72lIM7332ePUz/by1vat
-	SSJu834F5r60NNV+IY4ewYcauvXaom2cGi4/KUr2QzXByp5YTgzt/4dhyljx/i/t
-	Cln4JA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44nbvurc18-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Feb 2025 07:58:08 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5177w7Tw030975
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 7 Feb 2025 07:58:07 GMT
-Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 6 Feb 2025 23:58:00 -0800
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Fri, 7 Feb 2025 13:25:08 +0530
-Subject: [PATCH v10 28/28] media: MAINTAINERS: add Qualcomm iris video
- accelerator driver
+	s=arc-20240116; t=1738916645; c=relaxed/simple;
+	bh=CZMGDEpTBuajz0n9K+138SzdGdN6EbdDyI9fyhHHOnw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Sg7Xw3BXlODwHH62XVGM72zYJ+dm5cqYAyA9cnbXIz2K5y3uFDGPnoP37oPMpXRB85v8vdhKKL6vA84PzdrR/iYQBESyuL+x3NUgazrXopuWmTjCth0iH+PrEYWTwRZp8US7zvEHW02K5E1loJASeLKMrz08pLtI/fdUrtDNcIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 7 Feb
+ 2025 16:23:51 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Fri, 7 Feb 2025 16:23:51 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <joel@jms.id.au>,
+	<andrew@aj.id.au>, <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] media: dt-bindings: aspeed,video-engine: Convert to json schema
+Date: Fri, 7 Feb 2025 16:23:51 +0800
+Message-ID: <20250207082351.1298990-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250207-qcom-video-iris-v10-28-ab66eeffbd20@quicinc.com>
-References: <20250207-qcom-video-iris-v10-0-ab66eeffbd20@quicinc.com>
-In-Reply-To: <20250207-qcom-video-iris-v10-0-ab66eeffbd20@quicinc.com>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Abhinav Kumar
-	<quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: Hans Verkuil <hverkuil@xs4all.nl>,
-        Sebastian Fricke
-	<sebastian.fricke@collabora.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Nicolas Dufresne
-	<nicolas@ndufresne.ca>,
-        =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
-	<u.kleine-koenig@baylibre.com>,
-        Jianhua Lu <lujianhua000@gmail.com>,
-        "Stefan
- Schmidt" <stefan.schmidt@linaro.org>,
-        Joel Stanley <joel@jms.id.au>, "Johan
- Hovold" <johan@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738914893; l=1348;
- i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=f1R4bitQrRJlRfWyXE0apdgMwbAZlRAvnd1OwuO1upQ=;
- b=7KIrKKvXcH7TX4Bdxx88JLnHAE0GCzC0jeQWH4QO2aSxv+IKE6va6KyoYV6NX0rffDZ4G5nrV
- QOwXClBOuQ0DJG+S5TRcxb3dT5hTVYEYAgbwGuunp+EPzjljB0+MwhS
-X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
- pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: wO-BdD0yYO7lFYgRaLI-0IjJEveBN_8n
-X-Proofpoint-ORIG-GUID: wO-BdD0yYO7lFYgRaLI-0IjJEveBN_8n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-07_03,2025-02-07_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0 impostorscore=0
- suspectscore=0 bulkscore=0 priorityscore=1501 clxscore=1015 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502070060
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Add an entry for the iris video decoder accelerator driver.
+Convert aspeed-video.txt to yaml format.
+Update aspeed-video.txt to aspeed,video-engine.yaml in MAINTAINER file.
 
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-Tested-by: Stefan Schmidt <stefan.schmidt@linaro.org> # x1e80100 (Dell XPS 13 9345)
-Reviewed-by: Stefan Schmidt <stefan.schmidt@linaro.org>
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-QRD
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-HDK
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Additional changes:
+- Two phandle properties, 'aspeed,scu' and 'aspeed,gfx', are added for
+  video engine to capture video from sources other than VGA.
+- Update examples and include appropriate file directives to resolve
+  errors identified by `dt_binding_check` and `dtbs_check`.
+
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 ---
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ v3:
+  - Add Additional changes into comments.
+  - Remove | after phandle description
 
+ v2:
+  - Update patch subject
+  - Add NOTE for false positive warning
+---
+ .../bindings/media/aspeed,video-engine.yaml   | 84 +++++++++++++++++++
+ .../bindings/media/aspeed-video.txt           | 33 --------
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 85 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/aspeed-video.txt
+
+diff --git a/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml b/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
+new file mode 100644
+index 000000000000..93917c9ecfc3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
+@@ -0,0 +1,84 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/aspeed,video-engine.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ASPEED Video Engine
++
++maintainers:
++  - Eddie James <eajames@linux.ibm.com>
++
++description:
++  The Video Engine (VE) embedded in the ASPEED SOCs can be configured to
++  capture and compress video data from digital or analog sources.
++
++properties:
++  compatible:
++    enum:
++      - aspeed,ast2400-video-engine
++      - aspeed,ast2500-video-engine
++      - aspeed,ast2600-video-engine
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: vclk
++      - const: eclk
++
++  resets:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  memory-region:
++    maxItems: 1
++    description:
++      Phandle to the reserved memory nodes to be associated with the
++      VE. VE will acquires memory space for 3 purposes:
++        1. JPEG header
++        2. Compressed result
++        3. Temporary transformed image data
++
++  aspeed,scu:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Specifies the scu node that is needed if video wants to capture
++      from sources other than Host VGA.
++
++  aspeed,gfx:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Specifies the Soc Display(gfx) node that needs to be queried to get
++      related information if video wants to use gfx as capture source.
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/ast2600-clock.h>
++
++    video@1e700000 {
++        compatible = "aspeed,ast2600-video-engine";
++        reg = <0x1e700000 0x1000>;
++        clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
++                 <&syscon ASPEED_CLK_GATE_ECLK>;
++        clock-names = "vclk", "eclk";
++        interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++        aspeed,scu = <&syscon>;
++        aspeed,gfx = <&gfx>;
++    };
+diff --git a/Documentation/devicetree/bindings/media/aspeed-video.txt b/Documentation/devicetree/bindings/media/aspeed-video.txt
+deleted file mode 100644
+index d2ca32512272..000000000000
+--- a/Documentation/devicetree/bindings/media/aspeed-video.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-* Device tree bindings for Aspeed Video Engine
+-
+-The Video Engine (VE) embedded in the Aspeed AST2400/2500/2600 SOCs can
+-capture and compress video data from digital or analog sources.
+-
+-Required properties:
+- - compatible:		"aspeed,ast2400-video-engine" or
+-			"aspeed,ast2500-video-engine" or
+-			"aspeed,ast2600-video-engine"
+- - reg:			contains the offset and length of the VE memory region
+- - clocks:		clock specifiers for the syscon clocks associated with
+-			the VE (ordering must match the clock-names property)
+- - clock-names:		"vclk" and "eclk"
+- - resets:		reset specifier for the syscon reset associated with
+-			the VE
+- - interrupts:		the interrupt associated with the VE on this platform
+-
+-Optional properties:
+- - memory-region:
+-	phandle to a memory region to allocate from, as defined in
+-	Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+-
+-Example:
+-
+-video-engine@1e700000 {
+-    compatible = "aspeed,ast2500-video-engine";
+-    reg = <0x1e700000 0x20000>;
+-    clocks = <&syscon ASPEED_CLK_GATE_VCLK>, <&syscon ASPEED_CLK_GATE_ECLK>;
+-    clock-names = "vclk", "eclk";
+-    resets = <&syscon ASPEED_RESET_VIDEO>;
+-    interrupts = <7>;
+-    memory-region = <&video_engine_memory>;
+-};
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7a14891a8fa9..d647e59d9912 100644
+index 896a307fa065..7e59daa1e89d 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19156,6 +19156,16 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/regulator/vqmmc-ipq4019-regulator.yaml
- F:	drivers/regulator/vqmmc-ipq4019-regulator.c
+@@ -3549,7 +3549,7 @@ M:	Eddie James <eajames@linux.ibm.com>
+ L:	linux-media@vger.kernel.org
+ L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/media/aspeed-video.txt
++F:	Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
+ F:	drivers/media/platform/aspeed/
  
-+QUALCOMM IRIS VIDEO ACCELERATOR DRIVER
-+M:	Vikash Garodia <quic_vgarodia@quicinc.com>
-+M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
-+R:	Abhinav Kumar <quic_abhinavk@quicinc.com>
-+L:	linux-media@vger.kernel.org
-+L:	linux-arm-msm@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/media/qcom,*-iris.yaml
-+F:	drivers/media/platform/qcom/iris/
-+
- QUALCOMM NAND CONTROLLER DRIVER
- M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
- L:	linux-mtd@lists.infradead.org
+ ASUS EC HARDWARE MONITOR DRIVER
 
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
 -- 
-2.34.1
+2.25.1
 
 
