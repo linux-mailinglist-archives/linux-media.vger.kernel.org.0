@@ -1,213 +1,167 @@
-Return-Path: <linux-media+bounces-25800-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25802-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F7DA2C188
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 12:31:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1551BA2C1F9
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 12:55:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 18CEA16A548
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 11:31:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D18F1884659
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 11:55:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55DA51DEFE7;
-	Fri,  7 Feb 2025 11:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="R25gRjUl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9237A1DF756;
+	Fri,  7 Feb 2025 11:54:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2085.outbound.protection.outlook.com [40.107.21.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E589E1DF748;
-	Fri,  7 Feb 2025 11:30:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738927831; cv=fail; b=gABg0nx6E6tuVmhVBI4PIdUuN/hBX+PV0vUGW6FvBswLomSuBB6CrdzDJcjE3TI+7M/SH/w1t/chtnicVe8z8JBgiqqY+CwGBUUF2qhBvPULM0/uOabRQ5AOjOVdMN/Cm+emRJzsYvs2MVTalcujzozPQS+3uJziFzlK79DY11E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738927831; c=relaxed/simple;
-	bh=B56Q0pFcff+mkvfG1yzDWzWljQabsSM4nZWJpo1Lbds=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WUxnnUarcYleq5i7rIJniszOJg58/OT+RJCHwbiq513yyvtaKi8vr0vX8hYllYADCERPcXzIf9mmytu92TSU0bwKHdT3eon9S03eU2pX/M35KbHJuCqu4UWDsfDjceMTA7qMitrzj7xA5Of33iNqQLdDSwJsY4n+ZyviVwLvgUg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=R25gRjUl; arc=fail smtp.client-ip=40.107.21.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hmmnJZk4xUi+GTbvB7FBhPgXcnGRBbArjXxlRp98e92eyBHXigk2UQnr13WmsL+Zaj+Y6Sb4wxF6W9cVKhUGBEY8RshHC1oP1q0ebddNcq60zBUwXDa6RPeuqZ5f0zllKbXmOQlC/dWEbkZi87zRrMNCluhjOvBPUwUTcetk0YlKW5r8b+gpNUXV272waHqVNE7g0yyJ0kyLHefdxQizq0gKkFS49hgEzvhKuNHjrOIz93/LXs9N5w0IPbzk589lyVAMKljKnmfoTxMDCMtp7rXNKk5DjvPCteb2psRbZ0X050EPAQA9Srfh5uncnvWfBA7zdcyAFVIJ7EHudl7d8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XJjcZgdQV4jwKJmUOtqRlzKwZVbXQLQbEQ1NbL30x5Q=;
- b=uqOJ/s/ThZqMR7z97IqoFRuvocrUCbaMCWAACIkMBUcdm0MYsWfcYxhZlsTj3agCReyJR3RLiX/kjIz2OKzc/04zL3HEVYPFCQs91OkP5/F73Wxvof9I2Uye1lPke5E0MKJvoY7YFE3JHJHW9C9nulYwih4vageueUSQkurHhJWw7zXp91Bdtw6ZuZoR73TsI9ThW5b3+oxO/dYmsq7dp9dincT8KUO1PjST1y0v/kupl2H+kI0b/UkGrQwURqzK2xrEizbFin1uNcG2PqZ0onQCYh15gVWgs3d1XvpdoPppl3PrkE+JOVQ9ZMDtS17oFDoNvcl73n8zjC1byYrjjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XJjcZgdQV4jwKJmUOtqRlzKwZVbXQLQbEQ1NbL30x5Q=;
- b=R25gRjUlIjOQJGaMUaYStRRugBWKQTHexoPkt2D/dwx3f9tTEksjB+MwYBPmE7u28NeL8j0ByikctJsv2cNzUprzhnTWYdBDp8Rfx/Yt5QBKOUhQTyY8Fld0bTRs0kGZhlP1D+9SABNUP7QJEnhdlJ7jTkyy48Cp9mJ6lHucd19MIp9yWofwEmgW7c7LZLdRXE9IZ4y+b9CHH/poC1Donc/rS8pof9nblfmaMuqUiye0Ur+pThj6J9KOZcJ4CZCySIWVHwXJ1TtsKbTcpBe+dttL6F8vPDD8geRN0Wxs2/z+vC6HayrQJbrKepbu7aC2DglFKwjb/ttTA8glwb7FxA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
- by PA4PR04MB9392.eurprd04.prod.outlook.com (2603:10a6:102:2ab::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.23; Fri, 7 Feb
- 2025 11:30:21 +0000
-Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
- ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
- ([fe80::9cf2:8eae:c3d1:2f30%6]) with mapi id 15.20.8398.025; Fri, 7 Feb 2025
- 11:30:20 +0000
-From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-To: Julien Massot <julien.massot@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH 5/5] media/i2c: max96717: allow user to override operation mode from DT
-Date: Fri,  7 Feb 2025 13:29:57 +0200
-Message-Id: <20250207112958.2571600-6-laurentiu.palcu@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250207112958.2571600-1-laurentiu.palcu@oss.nxp.com>
-References: <20250207112958.2571600-1-laurentiu.palcu@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AS4P191CA0014.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d5::20) To AS4PR04MB9576.eurprd04.prod.outlook.com
- (2603:10a6:20b:4fe::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222A41DF260;
+	Fri,  7 Feb 2025 11:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738929296; cv=none; b=ODLtM7nMufDGqojAdQFNZOFIHfLbNRaib7Fj5Wxtcbev6K2l2M56gtTJQ64riChUUNNX+FBK2KB6y7RYkVcJHHTGuZFMTquf0U4VzSD8vu8MEn8dgAZpl0zprlHeg77M0PxI1SfUkljCVPfLmXF1uYwup8hpGChq/ZZzU1+uOFY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738929296; c=relaxed/simple;
+	bh=8SQg7TcF5hpBJJpgIKj3oXoAnUub+FtPN3W5PtDxUQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TfuoR9D15IQB3L678DbTjJsQiZvGloWZFRrzwdol8zWQdcdcV/WdCCsNHTZFv+/jglc1U6jBrem08fAxEToFxispwo1sZlq0VvUUVcA98RbLwO/nNMaX5Z1JFLObJAy3J/lICd2K3lQ5XcVPU9t+NcclbrpT47zHtjq5UNWC3aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EAB7C4CED1;
+	Fri,  7 Feb 2025 11:54:54 +0000 (UTC)
+Message-ID: <d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
+Date: Fri, 7 Feb 2025 12:54:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|PA4PR04MB9392:EE_
-X-MS-Office365-Filtering-Correlation-Id: 00914d31-8b2e-4e24-0565-08dd476acd3e
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0q8yoTCUdx6ySzW+Ijga8oMCWfz7rG/FX6AR7DiYbc5RA7Tj/ZEaP0Jq9iGS?=
- =?us-ascii?Q?hHkAzrMdbCWzU+oQ0Y01XPiR9g5hoHmtNx0VUaso9dghKAYOuANNe5u5unf1?=
- =?us-ascii?Q?z7sTFkfQjjYX/y8faXRDPeyOV1J3yFh4avFAIl/gd5JGAV8yagOU5ZiIAdD/?=
- =?us-ascii?Q?DVHuvrpZKlskSb/vgQm1ypEeAV8xSLypgl6+N6c351zBcwReaOqP32PBnlKT?=
- =?us-ascii?Q?iUfb/ACDsM5W1hp2whH9CwyW2v5jiyKLxPNZJeUXZ01Ioprosa/mc6rcGH07?=
- =?us-ascii?Q?PgkPlyuF/YLGk9GN3uOxqvIZIjG008t4ZF0dQekcNTX2oWthVFj6kiN/AXo0?=
- =?us-ascii?Q?QjRAZUtwG6hDvKUybx7c1KViuRZj4gXNeu7zCpBxwLNSGcIgkpYsbQSyQBjz?=
- =?us-ascii?Q?Q+2iXA7SbhUQfxu6OCXIJM7Zz0GOviFVfp0fE+9+Tk4O8yITbOb+jiQS8TyD?=
- =?us-ascii?Q?SFqFBPYqJwzkCwcDmaua3wLbJ3xM3j74oy0Tiheox41LhhTxh0L2BYvDE0q2?=
- =?us-ascii?Q?686QHEzpLTM/OZuNh930sSes+3B9UfeGUknrq22Tywz/UjV3YMZfwTdV4vft?=
- =?us-ascii?Q?KbPMmDe5oBcNoCCxW1SvGzcIz6577zZ6sogoCJ0onc6GHtASu/NrFOU0iLAD?=
- =?us-ascii?Q?UfduHTVCL0sBhOQ4Rp75DrSDscbT49AoMh7GQKoT81R1s7aIdwyIXNsxdlu7?=
- =?us-ascii?Q?pDMfM7oKh+YCdbEdYzkavTqWMsdtWktaombjuKgKPmHF1dEeebfcDLFyqKjh?=
- =?us-ascii?Q?3VqqTC1xNaMBSOgFUNVM2NkME2hitiumIWFjF3aSWHaEVt9ilCHkhDyve4N/?=
- =?us-ascii?Q?10imj70Fss5YPYVbhome4rQ+UZJUVx1HOx+JeRNnjm6/Vva7d1oJDr42ptEd?=
- =?us-ascii?Q?6+MYTEKGR8TA+EExur1v0nTlJK1W+mJhSpHVOBHHdhywqwJN+y//agrpluT2?=
- =?us-ascii?Q?qPCt5BE8m6f5CwZIgSjF3mK2xqcEy8ZU5YTkuZWEceRRkciXhdPrefjPHwyH?=
- =?us-ascii?Q?txFWPQzvomaF8WdOx0Wwo9l4BzNhQk6+0lpJ7Xn1LvFSyAOKOdUsJMKyTmCY?=
- =?us-ascii?Q?lpndsaK2rzPXgVm9NUQMN/AFruFZyGUPXgC+sioETjdc2JFNXF/Ve6cGYSfz?=
- =?us-ascii?Q?e2Zi+OVNBCXA6Bz6nu1qlzCVv7ddqe2W316J0U97o4EMOIRUO2kRrmznUjJD?=
- =?us-ascii?Q?j5jbw5/iRTA8GFBaCxTu6FaB2tXgwHSPmqM5ARhYu4yBXYWnQcfc6cQuM0Jg?=
- =?us-ascii?Q?9/4spINp0sKf3wfHIGnnW8nRM8HOlHbt25kj4jaZL+kJggisGSJc6dlS6J1G?=
- =?us-ascii?Q?cknEvDTfmA3uFM4RLj8HzK11roip4HlSD/Ai9dg85/mZXTT5Cpzv4YCtCLv7?=
- =?us-ascii?Q?GdvxBXcgQfmHRCDD8tiy657jspp0?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?j2EkEsth/8jRa3l80WLuYorQuLC+E208YjtioPeb1LWredT3P0KY4rcZf4Br?=
- =?us-ascii?Q?3j3/BV72XFbWXPj1mqnV1aCvomvs5Fp7Y8tsLsMiAdkDdUMjXBVqxn3S8oPo?=
- =?us-ascii?Q?UNSKE/uC8Kx/yIs1BgjCVaF6jYyfzKytGo5UowE5CGrRBvdpalNcuVsJIjnI?=
- =?us-ascii?Q?FnhrFhUQe6u81vLhmjN/lIic9pzXWMk7ECev8vZJQ8J1bzS+D5YGB9XUkxHN?=
- =?us-ascii?Q?N/yI4WzET0YsbvoKE+uiom7zCopievgE71m9Zf/SwwSwyQH/nBJQdkH2GvUg?=
- =?us-ascii?Q?TpuF7MHA3G5pgRuhYkSopMxMJ5YMisSN+vqw0P/DBr0rAxnBVxmKV3DeiOXC?=
- =?us-ascii?Q?ctCJL9eZ3PTad7tPily6DRnKz5AXFLpWdb6YiUWlnUpq6ErNl3aZDlqujkz5?=
- =?us-ascii?Q?pdXVt1AJVAPeu7nPrdlwdAQRagK1nB9WVimgsC2HnQo/5gsPoGXYY1HAUvxb?=
- =?us-ascii?Q?JZRZwMGrEbOH4S6GyzzTYYqh166ulnSK3OQk+lodSNIsBtNGNdh2AGBfE3P6?=
- =?us-ascii?Q?ucf03UPd0TP43KxVlTCfItKhFTUcKLIcTwsz3qKltmPNazI1pKA7+Smkfvo5?=
- =?us-ascii?Q?XoKQroPPwQ7yI/qBYSYHWxPhh3s0sJ7Mls5beszbe1ihkYecmVg82q6hpZUG?=
- =?us-ascii?Q?w4yPCF3RBwpystGkd/c/5WodRojpCBrtFCk8RvxUCgmbvKBC98pxIxmL2W5P?=
- =?us-ascii?Q?cQA6wq+jWveaA/YcKz29bVPEe92TnGn4OylsXHA/B/xYUW07mqgmeG/RC9Aw?=
- =?us-ascii?Q?GFTU4Oq0XMqIM3ALzHW+v0zDXIn2fpyRUQRH8R63Us44//ihET1teENQEQgl?=
- =?us-ascii?Q?pt7aKSogepv1bWusXfi9C5tqVuq15JB0BDVDNhDMiGGRcxEq8an/Zx145u5z?=
- =?us-ascii?Q?u2IReg8uvJnjUEK3dGn8Vr965kG7IkfrLFg4iC3uUjwNeqfMtocmbzJGAWts?=
- =?us-ascii?Q?jqwamb/nmNy3nNJaT5getVMLF0//PriqNrxCdfEooKxVtgD7cqmf6DNVjYuA?=
- =?us-ascii?Q?Vq0tyiZqp3mpihlxlqRW8+67aa8va2hOs3KJeM0/kbGeNhcIMrd2tzMZLn25?=
- =?us-ascii?Q?gof6HQO6DuYVXQ6cCYF6K4JaHo47V0w3yIFP9IirgcBkzgzjpMRcdeyB2sdw?=
- =?us-ascii?Q?tDec+ESO9bzUryCoH+Z3ozu8zspTHSjAf+TUEKNwVI8DDzEjXOWp7hNjM3+g?=
- =?us-ascii?Q?n49ETJqmPeBNssvawYHQQcHlam1A9teyX30uOtuBYRjY7LGqC4EC1Csth9bA?=
- =?us-ascii?Q?1YTN3xnbZgN2ttwmnU/Q+PMCDOhSI8CRWw5oDeJEYHHQutlMQquXS1kU1+oa?=
- =?us-ascii?Q?5vnLxQxHWswnCSw45qQtXfIIHBxzp1STJ7NZb8o9jaj9GR35zCgEvJ7Ok1V0?=
- =?us-ascii?Q?nbSRBc3P4TZ0Mg1hbOTEdCALMa5SCgcS2bu7myxlEL6X7BZR2oTVeZ7HEe8T?=
- =?us-ascii?Q?nWPEyCkNycjrt9ToLiBSZNIXa/v4qIzPpiNMS1qAMXKv0jJRDOErmqQrv3lR?=
- =?us-ascii?Q?ezFpZ0nb+x086kIOWiyqa9xZW2PWqXf4jzeLAlgCbBQF3WVsNL9+s/lut0ZY?=
- =?us-ascii?Q?f3atkzHDM8JZ9sL3osfb1J8RW9/v1i5BQr29941k1vOHCG5sLsF6vBpHjTwL?=
- =?us-ascii?Q?nA=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00914d31-8b2e-4e24-0565-08dd476acd3e
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2025 11:30:19.3634
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aWNNbvyuFbXdytcEpTvRMcrxCcahaXWmO+FW4bYPwmLRdQ5gk7Wnn5vkQqeG3c/e8LPe7CZPs9IMDI/6wTP8ww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9392
+User-Agent: Mozilla Thunderbird
+Subject: Re: Media committers model postponed to 6.14 - Was: Re: [PATCH v3
+ 0/3] Document the new media-committer's model
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+ <b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+ <20241203081958.6c186835@foz.lan>
+ <20241203112209.GR10736@pendragon.ideasonboard.com>
+ <20241203140712.57daa65f@foz.lan> <20241209091548.165e5152@foz.lan>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20241209091548.165e5152@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-There are situations when the CFG pins set the chip up for a certain
-mode of operation (ie: pixel mode or tunneling mode), because the HW
-designers decided this way, and we, the users, want to change that. For
-that, add an optional DT property that would allow toggling the
-operation mode from the configured one to the other one.
+On 09/12/2024 09:15, Mauro Carvalho Chehab wrote:
+> Em Tue, 3 Dec 2024 14:07:12 +0100
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> 
+>>
+>> The idea is to gradually open media-committers to more people, as each
+>> phase succeeds, addressing infra, procedures, etc.
+>>
+>> My rough idea is to do:
+>>
+>> - Phase 0.99: beta testers;
+>> - Phase 1 is to invite people that regularly submit PRs;
+>> - Phase 2 is to invite other active maintainers;
+>> - Phase 3 (or 2?, TBD) to open for non-maintainers.
+>>
+>> We shouldn't rush it, as there are a lot to be done before opening it
+>> broadly. So, I would say that:
+>> - phase 0.99 would start in -rc2 (if things go well during this week); 
+>> - phase 1 may still happen on this merge window, but as there will be
+>>   only a few weeks between -rc2 and -rc6, and people usually get
+>>   holidays in Dec/Jan, it is more likely that it will start for
+>>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
+>>
+>>   We should wait at least for a couple of releases on phase 1,
+>>   again to cleanup process and fine-tune infra. If things go well, 
+>>   we can move to phase 2.
+> 
+> After some discussions with Hans, we decided to postpone the
+> beta testers phase to the next kernel cycle. There are a couple of
+> reasons for that:
+> 
+> - This should give us more time to come up with a final version of 
+>   the media-committers documentation and agreement;
 
-The driver still only supports tunneling mode, that didn't change.
+Where are we with this? I haven't seen any updates since this post.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
----
- drivers/media/i2c/max96717.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Personally, I think the CI is ready for more committers, so it would be
+nice if we can get some experience with that.
 
-diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
-index 47a3be195a971..a591ca5d5f44f 100644
---- a/drivers/media/i2c/max96717.c
-+++ b/drivers/media/i2c/max96717.c
-@@ -161,6 +161,7 @@ struct max96717_priv {
- 	struct clk_hw                     clk_hw;
- 	struct gpio_chip                  gpio_chip;
- 	enum max96717_vpg_mode            pattern;
-+	bool				  mode_override;
- 	struct max96717_fsync_desc	  fsync;
- };
- 
-@@ -1066,6 +1067,14 @@ static int max96717_hw_init(struct max96717_priv *priv)
- 		return dev_err_probe(dev, ret,
- 				     "Fail to read mipi rx extension");
- 
-+	if (priv->mode_override) {
-+		val ^= MAX96717_TUN_MODE;
-+
-+		ret = cci_write(priv->regmap, MAX96717_MIPI_RX_EXT11, val, NULL);
-+		if (ret)
-+			return dev_err_probe(dev, ret, "Unable to update operation mode\n");
-+	}
-+
- 	if (!(val & MAX96717_TUN_MODE))
- 		return dev_err_probe(dev, -EOPNOTSUPP,
- 				     "Only supporting tunnel mode");
-@@ -1101,6 +1110,9 @@ static int max96717_parse_dt(struct max96717_priv *priv)
- 
- 	priv->mipi_csi2 = vep.bus.mipi_csi2;
- 
-+	if (fwnode_property_present(dev_fwnode(dev), "maxim,cfg-mode-override"))
-+		priv->mode_override = true;
-+
- 	priv->fsync.pin = -1;
- 	count = fwnode_property_present(dev_fwnode(dev), "maxim,fsync-config");
- 	if (count > 0) {
--- 
-2.34.1
+Regards,
+
+	Hans
+
+> 
+> - This would also work better with regards to end of year's vacations,
+>   as they'll be affecting at least 2/3 -rc versions. Plus, we all have
+>   things to finish before such vacations. So, better to start fresh next
+>   year;
+> 
+> - Media CI still had issues with a patch series I submitted, as it picked
+>   the wrong baseline, causing CI to not test two patches that were
+>   applied on the top of media-committers/next branch. This was fixed
+>   by Ricardo, but it means that we may still need to polish CI before
+>   granting more people righs there.
+> 
+> With that, if we want to start the media committers for 6.14, we should
+> aim to close review this document by -rc6, or, at most, -rc7, getting 
+> the patches merged during the next merge window.
+> 
+> Regard
+> 
+> Thanks,
+> Mauro
+> 
 
 
