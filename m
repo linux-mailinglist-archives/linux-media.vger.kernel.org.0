@@ -1,82 +1,91 @@
-Return-Path: <linux-media+bounces-25822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25823-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38812A2CD7D
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 21:04:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02830A2CD93
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 21:08:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 813E816DAF5
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 20:04:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 227883A8138
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 20:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94EE21BCA0A;
-	Fri,  7 Feb 2025 20:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 591C019DFB4;
+	Fri,  7 Feb 2025 20:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SEVWRcY7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ES4u4wzD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E361B415C;
-	Fri,  7 Feb 2025 20:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E2C19DF44
+	for <linux-media@vger.kernel.org>; Fri,  7 Feb 2025 20:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738958584; cv=none; b=G1HtTS0qbWfAkBFouX7bAHpqC7O5AOtwfTM5O6xNIScTsPRs3Zk+37d9CJgnHaUJ7t30l7qDN7oXihAg3Y/H/1tZaHiciskTzSFkUJ9vPety618vHqWlz+J2AU2L21gCgzAD6y2tJJWl5s0nVRZ35KVF36xkUTkz8IG/bfbtvqs=
+	t=1738958893; cv=none; b=MDc91Gqx9YrfkeWsKQUV2I7HqFp84Fs110F8zhfEA/mRLinQsMCVykNh7VYgGJL4HZPJO5h4ZBW2DYBfqY/jVayJXDpcIJ4kvF2WZdn0AjLMTl20Ba5UaFG+IxVqssdpyf9pKSOvjAalbVGqVtDaYYVYtbzvpePSn8QFNM6a00Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738958584; c=relaxed/simple;
-	bh=u4zVraTyuGvK4Z0Swz4Xx8h7XQdjp7S93iHbSrvP6S8=;
+	s=arc-20240116; t=1738958893; c=relaxed/simple;
+	bh=MbgpBNIaAwKh0Xwyh/rwjugty583wceU/kSTCQjjAxc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lMCrLErMrj7Oa0ps6AklNFNpEBAcwTY8XcW8u5+JnPQbhIrj97x4LCFKL+iHO8LNSekLWfTA1kVd5NFyISADiX4BHgaHbG/TBhPqYElhhH730CvLZa026dJIsJGaLkGdrqf7o9A2aWPBfAzM9Jc2/8rA0ksrSBHLVKyW/gdfN1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SEVWRcY7; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738958582; x=1770494582;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u4zVraTyuGvK4Z0Swz4Xx8h7XQdjp7S93iHbSrvP6S8=;
-  b=SEVWRcY7HBlu0P03FpBV/ABBT3WeYOg5kOOVIUaFvp1eE9tZuAKT1h2x
-   FlKcaRO3151zjoH5LLaUsI6stzFhmDCXy9jbnXmLNVxaxbsidES+EMLV5
-   KpX9tWNS/S3c1Awnf8OORs2wNMeCiuBJsjoKB117L/AJtCR1IbC3P2cpM
-   qIP9rZj1vSbyQac8v9WVCA2fXkOtlVHCvp5b7+Ax1r/UZetQpXIJv6/3z
-   eHshRYOHCixh/If0RZcNT+7XFAXpmwApzVlVRdDI4oD3anwNk4F/8gEkW
-   Zab8DFmCaaSS28RnJh/sWwRnJDPbcxef4MPr93HJHQxHC7/1aLOqpPfyY
-   A==;
-X-CSE-ConnectionGUID: r0/AzyEJTGGbL1cfLhdkVw==
-X-CSE-MsgGUID: 66RPgvYIQ2yf4Ic5EQ8Zlg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="39765567"
-X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="39765567"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 12:03:01 -0800
-X-CSE-ConnectionGUID: Bdxix+M2QL6AZzVjEoTyLw==
-X-CSE-MsgGUID: nlp2W7G7Saelv/jbYxT6iA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,268,1732608000"; 
-   d="scan'208";a="111831783"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Feb 2025 12:02:59 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E21BB1202DE;
-	Fri,  7 Feb 2025 22:02:56 +0200 (EET)
-Date: Fri, 7 Feb 2025 20:02:56 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Daniel Scally <djrscally@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v6 2/3] platform/x86: int3472: Call "reset" GPIO "enable"
- for INT347E
-Message-ID: <Z6Zm8GaCqIZe27Nt@kekkonen.localdomain>
-References: <20250207134126.1769183-1-sakari.ailus@linux.intel.com>
- <20250207134126.1769183-3-sakari.ailus@linux.intel.com>
- <Z6YnIJWmZpjolOda@smile.fi.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MKzA01oyTLFYZgafltgdV7b6hEyHHJZGd50UKB5K3aqfQyka+wu+rzGqHQnFAiB3GBBOzoQ4knBoSpRtmHT63pRqPsiZv+TZHzURR2OT8aD1vmpYSNuSWS6Wc+/twd4ak3qpJ/pJqjRTNCJjURTAATwxPy+qlz7OKGlhlk2JLKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ES4u4wzD; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-543e47e93a3so2675742e87.2
+        for <linux-media@vger.kernel.org>; Fri, 07 Feb 2025 12:08:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738958890; x=1739563690; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FYkob5dL+kHvl3z2XknwVDlIEJTWdgOpBDOpHuAAwH4=;
+        b=ES4u4wzD3i1AfhAf4zsU3Tgng2eIO+MJWHAmz2vcOs813Rf1QmNu3SjLtvNSRQHCYC
+         bMWqLuc4XqB0XovKItI4BfjJuDRlFEJrMp2h8RmVAD49nOnVxb9sW4CxS6OKyGyJtEcz
+         YFRyA4X4o3jlTsdnzwRDS+qcUGZuVPXuCzIg8cElMpQfrpwU82o3QUSU5HmAKGpUV9I6
+         zqq0y7wx/ddQB3cO3FLEqdLUm1hxGVygu6DIVjRrAsKuL/6EutgD5omBkXABA6ncLcEt
+         rNf7oaNB7QM8hOIiAxSw3UzvmynyHXCIP0J6sFCglIlj5FxjSCzRpYHeq7UfF/aY8TFx
+         IRLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738958890; x=1739563690;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FYkob5dL+kHvl3z2XknwVDlIEJTWdgOpBDOpHuAAwH4=;
+        b=kVCDnAELMpNRDQPeVSeALmA/q7nKjtT42H34qrPUCSjhEXD83ew2ywEebp7Un9vBL0
+         g5vPEgyLbQvM4pdpFAYnK0BlulNpiaknDxRgeZqbNBgxMUvO+9u4gSEuQN2hflXRm9Uh
+         nOT2RLjklTbVX5DElT4U4sAU2b4kcgI6IkFObXPe4cPKhPpbjOYs982itHGLYArAGNNn
+         WcFkITnf6TgyFtbmMVDX5PM7fjC/mNsubR4maT65o+rNBlhy6cfFlmfpow4FCdJa+H04
+         ACJxIOqXvM41FSJ9TdVR6xj7GtKcrtDig419Cu7ulD+kpJ9Ne7h9gIzYnO1yHok8eNPn
+         pzfw==
+X-Forwarded-Encrypted: i=1; AJvYcCXG9NHQW3q1uR0b2q90cXSRvX+QX/SGgd71o9PH3HanjsXLJoY1Qp3OKoWLcAcdL9NTYRyQhg8TQ4GxOw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+yJfwM8M+RfF96M7+pD1GFePmAeEi1m0j2yjntdX9ap1QSD55
+	+vbT4Fn83CHzL+LF43G5fEreR991NjgI2dsgsM93V+353+WEILKdKKXLqCsmGWs=
+X-Gm-Gg: ASbGncsWQk50q7DyDbsPT/alvMz63LqOO0YsidaUo8wFfBW+6tn/UVwpLTptzColpFT
+	IkqCxDIIgcLavBn0sExc6y5G8iF0foSQ4yOcWEEmxlInj8PfTATDNmtp3V6pMKjUTEVgydIojOJ
+	E3Zo+gZdaGuN5KTnqoIaT9d0ig2+/QFHtj0EAi9dr/0fu/VVILNbLJBKKfIZq2rvUSybaWEe4DB
+	zvX0wFQIaCM7XAHEWNLxi5RmUxs6D+cXqCiOYwiBEOWR6BNpYdQBXQmZO9Z/FUscp68cdtg/bKV
+	5e4+HxcPJeeA4cK6JalKPmRW/SBKJwyKHCdSX9sCaT9s0UlVr0rm/YvyyR5CS7Hk2eUAeIs=
+X-Google-Smtp-Source: AGHT+IG7/wH8lvWcq5WTdfj8YtPxXYAdI23+8Xf0vHDGS3N8knZZCrXym+bOiezQMN/DqbfaTNAu4w==
+X-Received: by 2002:a05:6512:a8f:b0:544:f77:1fbc with SMTP id 2adb3069b0e04-54414aa811bmr1516524e87.28.1738958890042;
+        Fri, 07 Feb 2025 12:08:10 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5441053ecb6sm546134e87.6.2025.02.07.12.08.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2025 12:08:08 -0800 (PST)
+Date: Fri, 7 Feb 2025 22:08:07 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org, 
+	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	akapatra@quicinc.com, hariramp@quicinc.com, andersson@kernel.org, 
+	konradybcio@kernel.org, hverkuil-cisco@xs4all.nl, cros-qcom-dts-watchers@chromium.org, 
+	catalin.marinas@arm.com, will@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v12 2/2] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+Message-ID: <slpvv4gvncgnpexu3lc6ujbyvhfne66kmwau3ch7i7sqraogc3@enc2jhll6kid>
+References: <20250207090422.1609260-1-quic_vikramsa@quicinc.com>
+ <20250207090422.1609260-3-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,66 +94,29 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6YnIJWmZpjolOda@smile.fi.intel.com>
+In-Reply-To: <20250207090422.1609260-3-quic_vikramsa@quicinc.com>
 
-Hi Andy,
+On Fri, Feb 07, 2025 at 02:34:22PM +0530, Vikram Sharma wrote:
+> The Vision Mezzanine for the RB3 ships with an imx577 camera sensor.
 
-On Fri, Feb 07, 2025 at 05:30:40PM +0200, Andy Shevchenko wrote:
-> On Fri, Feb 07, 2025 at 03:41:25PM +0200, Sakari Ailus wrote:
-> > The DT bindings for ov7251 specify "enable" GPIO (xshutdown in
-> > documentation) but the int3472 indiscriminately provides this as a "reset"
-> > GPIO to sensor drivers. Take this into account by assigning it as "enable"
-> > with active high polarity for INT347E devices, i.e. ov7251. "reset" with
-> > active low polarity remains the default GPIO name for other devices.
-> 
-> ...
-> 
-> > +static const struct int3472_gpio_map int3472_gpio_map[] = {
-> > +	{ "INT347E", INT3472_GPIO_TYPE_RESET, INT3472_GPIO_TYPE_RESET, false, "enable" },
-> > +};
-> > +
-> > +static void int3472_get_func_and_polarity(struct acpi_device *adev, u8 *type,
-> > +					  const char **func, unsigned long *gpio_flags)
-> >  {
-> > -	switch (type) {
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(int3472_gpio_map); i++) {
-> > +		/*
-> > +		 * Map the firmware-provided GPIO to whatever a driver expects
-> > +		 * (as in DT bindings). First check if the requested GPIO name
-> 
-> What name?
+No, RB3 uses a different sensor. RB3 != RB3 Gen2.
 
-Right, I was accidentally thinking of a driver here. How about:
-
-Map the firmware-provided GPIO type to whatever a driver expects (as in DT
-bindings). First check if the type matches with the GPIO map, then further
-check that the device _HID matches.
-
+> Enable the IMX577 on the vision mezzanine.
 > 
-> > +		 * matches the GPIO map, then see that the device _HID matches.
-> > +		 */
-> > +		if (*type != int3472_gpio_map[i].type_from)
-> > +			continue;
-> > +
-> > +		if (!acpi_dev_hid_uid_match(adev, int3472_gpio_map[i].hid, NULL))
-> > +			continue;
+> An example media-ctl pipeline for the imx577 is:
 > 
-> I still think this is unusual and confusing order of checks.
+> media-ctl --reset
+> media-ctl -v -V '"imx577 '17-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+> media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
 > 
-> At the end, it is up to the PDx86 maintainers.
-> 
-> > +		*type = int3472_gpio_map[i].type_to;
-> > +		*gpio_flags = int3472_gpio_map[i].polarity_low ?
-> > +			      GPIO_ACTIVE_LOW : GPIO_ACTIVE_HIGH;
-> > +		*func = int3472_gpio_map[i].func;
-> > +		return;
-> > +	}
+> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
 > 
 
 -- 
-Regards,
-
-Sakari Ailus
+With best wishes
+Dmitry
 
