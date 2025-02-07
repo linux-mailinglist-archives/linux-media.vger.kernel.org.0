@@ -1,156 +1,153 @@
-Return-Path: <linux-media+bounces-25785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25786-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57FCEA2BDE0
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 09:27:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C26A2BE95
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 09:57:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 572B63A76D0
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 08:26:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 17ABD188C367
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 08:57:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7085823642C;
-	Fri,  7 Feb 2025 08:25:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD821CDA2D;
+	Fri,  7 Feb 2025 08:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dqMs2wG6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RRGFwKpI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C63B23497C;
-	Fri,  7 Feb 2025 08:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5D11B4239;
+	Fri,  7 Feb 2025 08:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738916736; cv=none; b=lwn/vjn/uGMZ+prPu4sqjOa1qbk71jvQ0qxhc84DkWtxQkWttLeRIVr/5fh6M58XwEJFiy1D6UDxyXeeMlWA4jZmKs7SlWZBv1BhcLEOjVyPCaS6JXGD9a3zdFZTcg2RN0OkwVOLl3fwKGbcJCK1RXfgloI0DxCbaS95tcGzD8U=
+	t=1738918661; cv=none; b=Oi3403cgmUguwTjBmE5i7vaHEeligJmCjViNDHiNf1ckF1tjxuGfQ9RzDekidqN9Th44DKjxevW6Ljo6+BhZQCuuKOPERgOF7VaE/PFzbGge2qc0HO1vpV26DexBotaVRzU+jCAoYgTBF7H2vbSfDwkjPA7RLjBEh+pgYUnvA7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738916736; c=relaxed/simple;
-	bh=momNFG7HmrlvZT1BkDBQhwhSFM+A1S+Ius0MDXLSgYE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=K7VFuUPVvUORlSlXevFjqAMUQ3ZwD7kgX8d92PnPN5taOyEr6/OR749uRTM7HLFjSrSSGSbrgn0DdrYxZba1IDptjzBuHWvuKWG3n6raykxccDNy4SlN+sZGmn1IqAzuTGvxPDx2RTcNaMh24XLvZq4MMH87nFmktxDZHEASaD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dqMs2wG6; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5174KrMA008031;
-	Fri, 7 Feb 2025 08:25:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dwccvR0I8r73vh8lHYvXtH8o48ByEI6FWFPxtm9adwg=; b=dqMs2wG6JDuc9E0C
-	KB9Bgucm6jsPuNvs2/YVdrSloy0kWLsANaXsf2bF83BoTWocN57JjwKucsGKzgL2
-	OuM99iGFoPpLPH77o0fZYCKztnDvGfQArVGxb4PmuVwShHArnRwT2Gw1QMM8FEwG
-	AUN1T7LUFyN+6MaCZPL5EwnKgRoLhfL5mwy24VjWOafe5T5gO38l9VgZJ+F3m/eX
-	ETA4rRC0HToqt5QOU+gxob3SHq2h7YiGTY9U8vqrgVHHbrC7/GfO2cS7Lv/u146U
-	y5XjATf5wJs+eRl81AWzw+jFftHvXrnpS/YL22Eshtr/ZY9kUSD1/xObfgCTE1uE
-	bGfBgw==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44nb2m8jaj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 07 Feb 2025 08:25:29 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5178PS48016556
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 7 Feb 2025 08:25:28 GMT
-Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 7 Feb 2025 00:25:24 -0800
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-Date: Fri, 7 Feb 2025 13:54:52 +0530
-Subject: [PATCH v4 4/4] media: venus: hfi: add a check to handle OOB in sfr
- region
+	s=arc-20240116; t=1738918661; c=relaxed/simple;
+	bh=+NyYaGlH/oxOkgdXONu9qIcLVQUJc5wclZd/vJNT5yE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aJkjb5fs9YQU0RaDAtElrXoftX1h9X2emjcYeZZ9mj+8EE9enfJ9RQqrWYZjkzhGxvPGngjjBSvGUSTQxLbWH62XWARrjWYtdshUsa4vnmqsP8M4SZuWVEpphHlC9ICp8hrAm0vhyd8jl+nb9tsmWQIk2L6Ilhw967gmLQtF1ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RRGFwKpI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4D49520;
+	Fri,  7 Feb 2025 09:56:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1738918583;
+	bh=+NyYaGlH/oxOkgdXONu9qIcLVQUJc5wclZd/vJNT5yE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RRGFwKpIrzR0Q9jTkGFBT30qEgym7M/AQ9c2FHp2wHk9HxiuqfudrqPPujD3Q5uyo
+	 qO80NHWAG6pJjsJXDReutvrpGHKNHa2sBSVImL0s/FXhPojeliRKTZcOwpgqRh4J9r
+	 Q7awltRFXbTRHS1cRUc+bSQ25T1/vJucUWCB7Oy4=
+Date: Fri, 7 Feb 2025 10:57:30 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Zhang Zekun <zhangzekun11@huawei.com>, robh@kernel.org,
+	saravanak@google.com, justin.chen@broadcom.com,
+	florian.fainelli@broadcom.com, andrew+netdev@lunn.ch,
+	kuba@kernel.org, kory.maincent@bootlin.com,
+	jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	olteanv@gmail.com, davem@davemloft.net, taras.chornyi@plvision.eu,
+	edumazet@google.com, pabeni@redhat.com, sudeep.holla@arm.com,
+	cristian.marussi@arm.com, arm-scmi@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	chenjun102@huawei.com
+Subject: Re: [PATCH 1/9] of: Add warpper function
+ of_find_node_by_name_balanced()
+Message-ID: <20250207085730.GD24886@pendragon.ideasonboard.com>
+References: <20250207013117.104205-1-zhangzekun11@huawei.com>
+ <20250207013117.104205-2-zhangzekun11@huawei.com>
+ <Z6XDKi_V0BZSdCeL@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250207-venus_oob_2-v4-4-522da0b68b22@quicinc.com>
-References: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
-In-Reply-To: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-CC: Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab+samsung@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>, <stable@vger.kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738916708; l=1564;
- i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
- bh=momNFG7HmrlvZT1BkDBQhwhSFM+A1S+Ius0MDXLSgYE=;
- b=prPcLufdCupz/3NHyvik5CDUXSRa0eMiMXcZpkiIdANMwEo+EBNEfLMDfscRrVyktANLd+cVm
- xp+hyye1IcxB9CrqugCruLnz7NNWFA2erd2L/C4NU8XVgQbZQ5TQAbr
-X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
- pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: QKg2mcET48Ejmgl-RaoE7Xi2sM2yn7Ef
-X-Proofpoint-ORIG-GUID: QKg2mcET48Ejmgl-RaoE7Xi2sM2yn7Ef
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-07_04,2025-02-07_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=964
- suspectscore=0 bulkscore=0 phishscore=0 malwarescore=0 mlxscore=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
- clxscore=1015 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502070062
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z6XDKi_V0BZSdCeL@pengutronix.de>
 
-sfr->buf_size is in shared memory and can be modified by malicious user.
-OOB write is possible when the size is made higher than actual sfr data
-buffer. Cap the size to allocated size for such cases.
+Hi Oleksij,
 
-Cc: stable@vger.kernel.org
-Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
----
- drivers/media/platform/qcom/venus/hfi_venus.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+On Fri, Feb 07, 2025 at 09:24:10AM +0100, Oleksij Rempel wrote:
+> On Fri, Feb 07, 2025 at 09:31:09AM +0800, Zhang Zekun wrote:
+> > There are many drivers use of_find_node_by_name() with a not-NULL
+> > device_node pointer, and a number of callers would require a call to
+> > of_node_get() before using it. There are also some drivers who forget
+> > to call of_node_get() which would cause a ref count leak[1]. So, Add a
+> > wraper function for of_find_node_by_name(), drivers may use this function
+> > to call of_find_node_by_name() with the refcount already balanced.
+> > 
+> > [1] https://lore.kernel.org/all/20241024015909.58654-1-zhangzekun11@huawei.com/
+> 
+> Hi Zhang Zekun,
+> 
+> thank you for working on this issue!
+> 
+> First of all, let's take a step back and analyze the initial problem.
+> Everything following is only my opinion...
+> 
+> The main issue I see is that the current API - of_find_node_by_name -
+> modifies the refcount of its input by calling of_node_put(from) as part
+> of its search. Typically, a "find" function is expected to treat its
+> input as read-only. That is, when you pass an object into such a
+> function, you expect its reference count to remain unchanged unless
+> ownership is explicitly transferred. In this case, lowering the refcount
+> on the input node is counterintuitive and already lead to unexpected
+> behavior and subtle bugs.
+> 
+> To address this, the workaround introduces a wrapper function,
+> of_find_node_by_name_balanced, which first increments the input’s
+> refcount (via of_node_get()) before calling the original function. While
+> this "balances" the refcount change, the naming remains problematic from
+> my perspective. The "_balanced" suffix isn’t part of our common naming
+> conventions (traditions? :)). Most drivers expect that a function
+> starting with "find" will not alter the reference count of its input.
+> The term "balanced" doesn’t clearly convey that the input's refcount is
+> being explicitly managed - it instead obscures the underlying behavior,
+> leaving many developers confused about what guarantees the API provides.
+> 
+> In my view, a more natural solution would be to redesign the API so that
+> it doesn’t modify the input object’s refcount at all. Instead, it should
+> solely increase the refcount of the returned node (if found) for safe
+> asynchronous usage. This approach would align with established
+> conventions where "find" implies no side effects on inputs or output,
+> and a "get" indicates that the output comes with an extra reference. For
+> example, a function named of_get_node_by_name would clearly signal that
+> only the returned node is subject to a refcount increase while leaving
+> the input intact.
+> 
+> Thus, while the current workaround "balances" the reference count, it
+> doesn't address the underlying design flaw. The naming still suggests a
+> "find" function that should leave the input untouched, which isn’t the
+> case here. A redesign of the API - with both the behavior and naming
+> aligned to common expectations - would be a clearer and more robust
+> solution.
+> 
+> Nevertheless, it is only my POV, and the final decision rests with the
+> OpenFirmware framework maintainers.
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-index 6b615270c5dae470c6fad408c9b5bc037883e56e..c3113420d266e61fcab44688580288d7408b50f4 100644
---- a/drivers/media/platform/qcom/venus/hfi_venus.c
-+++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-@@ -1041,18 +1041,23 @@ static void venus_sfr_print(struct venus_hfi_device *hdev)
- {
- 	struct device *dev = hdev->core->dev;
- 	struct hfi_sfr *sfr = hdev->sfr.kva;
-+	u32 size;
- 	void *p;
- 
- 	if (!sfr)
- 		return;
- 
--	p = memchr(sfr->data, '\0', sfr->buf_size);
-+	size = sfr->buf_size;
-+	if (size > ALIGNED_SFR_SIZE)
-+		size = ALIGNED_SFR_SIZE;
-+
-+	p = memchr(sfr->data, '\0', size);
- 	/*
- 	 * SFR isn't guaranteed to be NULL terminated since SYS_ERROR indicates
- 	 * that Venus is in the process of crashing.
- 	 */
- 	if (!p)
--		sfr->data[sfr->buf_size - 1] = '\0';
-+		sfr->data[size - 1] = '\0';
- 
- 	dev_err_ratelimited(dev, "SFR message from FW: %s\n", sfr->data);
- }
+I agree overall that the naming is not optimal. Looking at the other
+patches in the series, I think at least some of them misuse
+of_find_node_by_name(). For instance, drivers/media/i2c/max9286.c calls
+the function to find a *child* node of the device's of_node named
+"i2c-mux", while of_find_node_by_name() looks at children first but will
+then walk the *whole* DT to find a named node. I haven't checked all
+patches, but other ones seem to suffer from the same misuse.
+
+Assuming that the named node those drivers are looking for is a direct
+child of the node passed as argument to of_find_node_by_name(), the
+right fix would tbe to use of_get_child_by_name(). If it's not a direct
+child, a recursive version of of_get_child_by_name() could be useful.
 
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
