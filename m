@@ -1,146 +1,191 @@
-Return-Path: <linux-media+bounces-25816-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25817-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C086A2C850
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 17:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82299A2C889
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 17:22:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AD783A6F20
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 16:07:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D4233AAEFE
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 16:22:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C5B91EB18D;
-	Fri,  7 Feb 2025 16:07:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1886918C00B;
+	Fri,  7 Feb 2025 16:22:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vCBtW1L/"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OHKHZfH7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8AC23C8AE;
-	Fri,  7 Feb 2025 16:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BD457C9F
+	for <linux-media@vger.kernel.org>; Fri,  7 Feb 2025 16:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738944435; cv=none; b=ZMK3k23LLqbvFLpgKuxseMC6rikfPhvJPj07HQYwcXte3+CqHNMs67JKCFXNUm3At+vCUZQRXJ1gXecgYur9D/HhSE4536zRa3fAHF/iReLkhzeExhm1/+M1em0/C/QbkdkNPd/6cXSFKLXwYAsIBfDqUq8VRU0BKgGtdOWdaAw=
+	t=1738945351; cv=none; b=DpKWLHCURDaDYn7IlVZC6oAJf5Xke/cL5wDVNeKJoWyY9lfnovQ2bTxfA5usr7xp+x2dYpbE6LFaaNytkJHs8yTApndzvVcuYz641GBmZ3oaEjIFFJ9w3ntUzrsT86C+EbhIcBwN4tsxI/BWEPvmsUdqTN5gOGeRm1XukUphgb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738944435; c=relaxed/simple;
-	bh=9RI9R95BCWXByN7ncvud0VHfAmpWEthzFIMhXO66zn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ozV3bkDrGuE+mjYlDX/0Ml6wgfTe0Sv84Rvqlarx3ajQfkKebnMO581eFJvAWDx07wh3Yhxd6ymsYEYyuRrhrur0/zUawkOBOKShZBNBtzJOGJofiNAjygUPqW6E8o6XQZR82eeK6VWgMImF6onLfnQ3P67R3AVaKqkMCOsFRSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vCBtW1L/; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-139-204.net.vodafone.it [5.90.139.204])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6389A2BA;
-	Fri,  7 Feb 2025 17:05:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1738944357;
-	bh=9RI9R95BCWXByN7ncvud0VHfAmpWEthzFIMhXO66zn8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vCBtW1L/ksNv9dQoWM+M0hzDLOTCMRoRlT6o7+lGHwTiymwxwr9Z3AZNvCzEUYz98
-	 OyHt1XKM9lHB4T9yOoCReerLaV7qA7NZpOYxq+oJXFy3HgWlvnHf8HxW3JYqTABbxx
-	 w7bO0RM24lSb5p7nxLxc/I9mocZZ7hHAtKraIOfY=
-Date: Fri, 7 Feb 2025 17:07:07 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v6 4/5] media: i2c: imx219: Increase minimum LLP to fix
- blocky artefacts
-Message-ID: <j4gczp5ch3cz5tvnjolnhwda4vqyztyq24p37ncqaephc45lo2@273oss3pilee>
-References: <20250204-imx219_fixes-v6-0-84ffa5030972@ideasonboard.com>
- <20250204-imx219_fixes-v6-4-84ffa5030972@ideasonboard.com>
+	s=arc-20240116; t=1738945351; c=relaxed/simple;
+	bh=iTsuxyEIymohulJzY7JTD8IGPdVLrm5BWF6T6qQbtUc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mMkH1F7DEKUA3ocjfSpLd5R6VM3hGA5J/Yu3IxxAOn70wVJnRSkmntABvMr9rKdPWPF/13fjOTShYuaznv3RvZHumBiY1iUI5sc6VVwWsQEAMYg9w+SWlZByudZ983qPlZvgOl3j+5QuMhSzDz79ppn64BqqIJVnN5KhVQpKSdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OHKHZfH7; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5dcef27deecso3325264a12.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Feb 2025 08:22:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1738945347; x=1739550147; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MCn5Dk3vMVo7X1t68AtKlpToAukuif5wkQVCcdE+FHY=;
+        b=OHKHZfH7+GSnutS2il90RCys5tE6eom85D+MnWz0Qq//8CLMVtPOmViPjLB/czpnMT
+         n41b3adIAzWrS+WLAegm/s4xW9XytOnbdkzzs5kvHmz+9ViWyXrl++ZBx7ElhySNEK/y
+         e9txjRDmJCEw4JXUC8vJf+LwdggQLEMJZD3j8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738945347; x=1739550147;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MCn5Dk3vMVo7X1t68AtKlpToAukuif5wkQVCcdE+FHY=;
+        b=cmHR9pAkk1sbQrYxX4iEjwH+Xi+4zw+acPe1lxgfM6yiirepqthemRHibhYv/seBoZ
+         UBguW12nUq6kYnOZdUhCp4Oo02dCApzpcXhVY4fD1LeQKyBkLTHC1gI9o2FzmUygs5Nz
+         DtuRCtLy1m/UY59kyt/9spYXl5MIqWzgtDsEqCfb557jS2gmxTiN0HS8iYOAXq9c547h
+         UvRB0/MCYK52Vwwva4ckvmEymbuFUQBYfImwTMVQNDdbw1ENRcUgSXK4IHgwFmH8b9VS
+         ns52E3N5UKm6U9whawSxr65FrL/bPpFdM+XjPjxrHFZfZY6tuEPNvgSciE2LTskBycjz
+         P2Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCVPaOI9Yaeh5v57U8dQJemIJ6jn+XBuYBU8EiO0XlLfzT3tof2vIM141YiTqRVLfsKMTLBvxi85U89TrA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjART+hwPo5PpBZsRdSX/IhfLmyOfU+GLnLfgmFfEnM3sjnC8r
+	aLOKIBvbj+dzrdUylr+xkOjnayV1/2nFDlqKsRQWC0ooAOMXP6MvWpwxIJYQI7Ob/z4u2rwSLAb
+	VrkoT
+X-Gm-Gg: ASbGncveU7dvzjE0ZgMvX17XDUrY4j7SHtcTGi4z2+h76K+eVBvTaiTIDdx4zkfZQLi
+	firZk0+ZjylmTndBpySDGhw2yOMRlZH+jHYwt2toOC7R6rfiYfH4uVTrPdZ6EjDB+NQV3RKy4wn
+	dJwCVNOui4RRaZcejnFf3GzaKorLOLYP8JE2Y39NTMpwWcNTvGX3kGNP769uWzYVgUnMl8zkxcq
+	QoOxMYJl7rRaRSKHpEov4q+eK0b97/7kca7sTYEMGijo+v2b/Pz/FXlDZsj2OQNg1T3XjkYJWah
+	HF29bZjiCrFa98GZNkRT+uF0rwrYqggqwmZrtgsAfkp+xA0wP48=
+X-Google-Smtp-Source: AGHT+IGVoDQS5Ca/HM7aFZrp9oDjITCtorUemjbLHIg4a7n6XOQnaQIwQLf4vYZvCOdUiwBP1B/vxQ==
+X-Received: by 2002:a05:6402:5409:b0:5dc:8ed9:6bc3 with SMTP id 4fb4d7f45d1cf-5de450734d3mr3948067a12.26.1738945346749;
+        Fri, 07 Feb 2025 08:22:26 -0800 (PST)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5de3f04ae59sm1767165a12.1.2025.02.07.08.22.25
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Feb 2025 08:22:25 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5d442f9d285so8037a12.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Feb 2025 08:22:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXC619f33VpGFcAhFx2OAkFCny1SHTOALSOhDs4sdVvQCuLDPgVDF/88k68xD85qoPI9MwBszj5lnscQg==@vger.kernel.org
+X-Received: by 2002:a50:ee16:0:b0:5dc:ccb4:cb11 with SMTP id
+ 4fb4d7f45d1cf-5de46901c8dmr116990a12.4.1738945344498; Fri, 07 Feb 2025
+ 08:22:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250204-imx219_fixes-v6-4-84ffa5030972@ideasonboard.com>
+References: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com> <20250128-b4-rkisp-noncoherent-v3-1-baf39c997d2a@gmail.com>
+In-Reply-To: <20250128-b4-rkisp-noncoherent-v3-1-baf39c997d2a@gmail.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Fri, 7 Feb 2025 17:22:08 +0100
+X-Gmail-Original-Message-ID: <CAAFQd5BkbJz4VJOvj8P5gBtbi=VCgsgebw12PnepLj6Qn6C_AQ@mail.gmail.com>
+X-Gm-Features: AWEUYZkLRr1JxCvNI8JDDZBOdbLkP21kufM0wZUw4Akj7bxs1aInWlFMBNe_a0o
+Message-ID: <CAAFQd5BkbJz4VJOvj8P5gBtbi=VCgsgebw12PnepLj6Qn6C_AQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] media: videobuf2: Fix dmabuf cache sync/flush in dma-contig
+To: Mikhail Rudenko <mike.rudenko@gmail.com>, Christoph Hellwig <hch@lst.de>, 
+	Robin Murphy <robin.murphy@arm.com>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jai
-
-On Tue, Feb 04, 2025 at 12:34:39PM +0530, Jai Luthra wrote:
-> The sensor's internal ADC supports a minimum line length of 3448 pixels,
-> which may be too small to use with analog binning, where ADC operates on
-> two lines together. Switch to a higher minimum line length of 3560
-> pixels to fix the blocky artefacts seen with analog binning [1].
+On Tue, Jan 28, 2025 at 9:36=E2=80=AFPM Mikhail Rudenko <mike.rudenko@gmail=
+.com> wrote:
 >
-
-Very nice finding!
-
-If the new value differs from the default register value in the
-datahseet, can we record the reason with a comment ?
-
-> To keep the same default framerate as before for all the modes, lower
-> the default fll value to compensate for the increase in llp.
-
-Thanks for handling this
-
-This seems fine to me
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
+> When support for V4L2_FLAG_MEMORY_NON_CONSISTENT was removed in
+> commit 129134e5415d ("media: media/v4l2: remove
+> V4L2_FLAG_MEMORY_NON_CONSISTENT flag"),
+> vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions were made
+> no-ops. Later, when support for V4L2_MEMORY_FLAG_NON_COHERENT was
+> introduced in commit c0acf9cfeee0 ("media: videobuf2: handle
+> V4L2_MEMORY_FLAG_NON_COHERENT flag"), the above functions remained
+> no-ops, making cache maintenance for non-coherent dmabufs allocated by
+> dma-contig impossible.
 >
-> [1]: https://github.com/raspberrypi/rpicam-apps/issues/281#issuecomment-1082894118
+> Fix this by reintroducing dma_sync_sgtable_for_{cpu,device} and
+> {flush,invalidate}_kernel_vmap_range calls to
+> vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions for non-coherent
+> buffers.
 >
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> Fixes: c0acf9cfeee0 ("media: videobuf2: handle V4L2_MEMORY_FLAG_NON_COHER=
+ENT flag")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
 > ---
->  drivers/media/i2c/imx219.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  .../media/common/videobuf2/videobuf2-dma-contig.c  | 22 ++++++++++++++++=
+++++++
+>  1 file changed, 22 insertions(+)
 >
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 8239e7ea8ec03849b339c1f314485266d4c4d8bd..e4aa6e66b673bb7a8942bf8daf27267c2884ec95 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -74,7 +74,7 @@
->  #define IMX219_FLL_MAX			0xffff
->  #define IMX219_VBLANK_MIN		32
->  #define IMX219_REG_LINE_LENGTH_A	CCI_REG16(0x0162)
-> -#define IMX219_LLP_MIN			0x0d78
-> +#define IMX219_LLP_MIN			0x0de8
->  #define IMX219_LLP_MAX			0x7ff0
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/driv=
+ers/media/common/videobuf2/videobuf2-dma-contig.c
+> index bb0b7fa67b539aa73ad5ccf3c3bc318e26f8a4cb..146d7997a0da5989fb081a6f2=
+8ce0641fe726e63 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -427,6 +427,17 @@ static int
+>  vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
+>                                    enum dma_data_direction direction)
+>  {
+> +       struct vb2_dc_buf *buf =3D dbuf->priv;
+> +       struct sg_table *sgt =3D buf->dma_sgt;
+> +
+> +       if (!buf->non_coherent_mem)
+> +               return 0;
+> +
+> +       if (buf->vaddr)
+> +               invalidate_kernel_vmap_range(buf->vaddr, buf->size);
+> +
+> +       dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+> +
+>         return 0;
+>  }
 >
->  #define IMX219_REG_X_ADD_STA_A		CCI_REG16(0x0164)
-> @@ -286,25 +286,25 @@ static const struct imx219_mode supported_modes[] = {
->  		/* 8MPix 15fps mode */
->  		.width = 3280,
->  		.height = 2464,
-> -		.fll_def = 3526,
-> +		.fll_def = 3415,
->  	},
->  	{
->  		/* 1080P 30fps cropped */
->  		.width = 1920,
->  		.height = 1080,
-> -		.fll_def = 1763,
-> +		.fll_def = 1707,
->  	},
->  	{
->  		/* 2x2 binned 30fps mode */
->  		.width = 1640,
->  		.height = 1232,
-> -		.fll_def = 1763,
-> +		.fll_def = 1707,
->  	},
->  	{
->  		/* 640x480 30fps mode */
->  		.width = 640,
->  		.height = 480,
-> -		.fll_def = 1763,
-> +		.fll_def = 1707,
->  	},
->  };
->
->
-> --
-> 2.48.1
->
+> @@ -434,6 +445,17 @@ static int
+>  vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
+>                                  enum dma_data_direction direction)
+>  {
+> +       struct vb2_dc_buf *buf =3D dbuf->priv;
+> +       struct sg_table *sgt =3D buf->dma_sgt;
+> +
+> +       if (!buf->non_coherent_mem)
+> +               return 0;
+> +
+> +       if (buf->vaddr)
+> +               flush_kernel_vmap_range(buf->vaddr, buf->size);
+> +
+> +       dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+> +
+>         return 0;
+>  }
+
+I took some time (over)thinking the kernel vmap range synchronization,
+because these functions can be called both from the kernel space using
+respective dma_buf_*() kAPI and also from the user space using the
+DMA_BUF_SYNC IOCTLs, so we could in theory have the multiple
+invocations racing with each other, but then I realized that we don't
+really provide any guarantees for concurrent writes and reads from the
+CPU, so I believe this should work fine. Sorry for the delay.
+
+Acked-by: Tomasz Figa <tfiga@chromium.org>
+
+Let me add @Christoph Hellwig and @Robin Murphy just in case I'm wrong
+on that, though... Hans, let's give them some time to take a look
+before applying this.
+
+Best regards,
+Tomasz
 
