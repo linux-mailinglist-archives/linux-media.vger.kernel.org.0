@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-25805-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25806-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C495A2C2CE
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 13:37:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34616A2C2D0
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 13:37:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 60394188DADE
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 12:37:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D06C188DA9F
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 12:37:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60FDE1E98FB;
-	Fri,  7 Feb 2025 12:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087E91EEA2A;
+	Fri,  7 Feb 2025 12:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jvWYGipA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGKUbyRQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B808833EC;
-	Fri,  7 Feb 2025 12:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D1533EC;
+	Fri,  7 Feb 2025 12:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738931831; cv=none; b=B44bmrax3dbfITnbhEYpdd8UcA7vsu5gf+rCN1tqfYraoPmsruDPjdrzY4zU+AR68DXy0eBYIalRLqRg5Ae8IFIZQff1AYNzZ0/THoApNIYxMgzr8gNod5zdxrTZWUskeyuxm4ADvhRpHsSc+DYrjvpdg1zZajjZ7/UZorw09cI=
+	t=1738931837; cv=none; b=ELb8oORbveSkIfjAFSC63RUQAVWcf0wff/b6g1vSBZWE4ME766rnNTvxY7FSVkVY91IYOsET5RLWeAliWgv211nnK4qoP0ZJmlt6Cn394yZ/rOTgCF3hwL9ZSRw2Ukhs6vfEm14vNF6LWdwJ/t/g9RIZQxO8m+DtfMXk92CZ+tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738931831; c=relaxed/simple;
-	bh=u0tYruvCsRv0U+eALTXlXOhV8iVcop1WlK5I0sT4TPs=;
+	s=arc-20240116; t=1738931837; c=relaxed/simple;
+	bh=KObGuLxNso7rtKMvpX2NnwNbW6cYh78MQmuHsn1FJpM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qlYB/ImweVblT8v6UGg05mVAP2tQz1Mww1UFhoICyUlCWqX8hsStCj8Mu7KmEkyFD+8Nd9rUHwcXqtysa6loxIwbs9l2qxNb4kwZULam3tClBDR2x9oR8H4HfG447xXKaYK8rnzfWW+V4hV6tulQD36lCWscJRa7vgn0UO3WjF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jvWYGipA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A2FAC4CEE6;
-	Fri,  7 Feb 2025 12:37:07 +0000 (UTC)
+	 MIME-Version; b=UAgVNYmxFP9Y+jWOpLGFIorukHcA1ra/TvrGJTkhFOjiFM33qJSaOJhpaPyNTvigo7Re6Vk4jZ4iBkPyvD1ZDBju3kRei3JzISxNyVCZzdoTDCwxOuAfUvKdamwhBs0cATSOPigQ/RvhQCMYkEvAbHiVkO8OkJSEKn0wNIpFrX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGKUbyRQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8611C4CEE4;
+	Fri,  7 Feb 2025 12:37:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738931831;
-	bh=u0tYruvCsRv0U+eALTXlXOhV8iVcop1WlK5I0sT4TPs=;
+	s=k20201202; t=1738931834;
+	bh=KObGuLxNso7rtKMvpX2NnwNbW6cYh78MQmuHsn1FJpM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jvWYGipAe95a+8wY7gJDThP0W3nUXZH4yqglS9bmAkqL6fymQVYLoBg2X0It+0/Q5
-	 8WUSJ1wPiJKChWBBtdf02ELMfVOnFbRXfM8GFDofTsdoQiL4BFk+BUuxxUANWgCgFA
-	 1Y3P2+hSNTf8gDWjX1R0uXnnGl2r/XETKQ1FA1SIaWYv+uPiUUgUAHrEMRsWanBdVY
-	 PNjO8w7NqdZz4SCYgovUuv9wR1AI+xGXV26RrUHR4ZLlnroTaIzzF9JWfdtNB6FssQ
-	 pl6jvrqS0/jmt8cxP2JSaKEWvBF1vykxZbfscN8pfIAdAXrRxf5RrOGF09s6f8v8Wz
-	 5PhoEabGEorcA==
+	b=eGKUbyRQKx3MU+JfqRnxEcMecdzuHU30Lar7Owxx1UttWvJrheuvIIB5TcdEpqKil
+	 laZz8J8+3bIG3e9a9UEUcW/hWRzYyWpYSwv47B9QcYv2XLKgmAVABSmcmLsucb3pyW
+	 XJfzSDAXI57Y91+YGD9jinG9SXVoUIzE9o8xJAm0LIOR0iHCDMD/1WY1NyFpqA88th
+	 T+BWJgVdNisxyOD9kKHjblIYrrJMRTC34woyGSDumYxSyqnFJqE0dx1O8zIh2oKray
+	 FPIRqqG0EZvs4/VjRHNYQqZd/A8gwN5XCR+qffSPzMdP29saa7MGyGsgPJMg/auRw+
+	 V1c3G7DRU8HgA==
 From: Philipp Stanner <phasta@kernel.org>
 To: Matthew Brost <matthew.brost@intel.com>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -55,11 +55,10 @@ To: Matthew Brost <matthew.brost@intel.com>,
 Cc: dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH v3 1/3] drm/sched: Document run_job() refcount hazard
-Date: Fri,  7 Feb 2025 13:36:51 +0100
-Message-ID: <20250207123652.27677-3-phasta@kernel.org>
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v3 2/3] drm/sched: Adjust outdated docu for run_job()
+Date: Fri,  7 Feb 2025 13:36:52 +0100
+Message-ID: <20250207123652.27677-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250207123652.27677-2-phasta@kernel.org>
 References: <20250207123652.27677-2-phasta@kernel.org>
@@ -71,91 +70,50 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Philipp Stanner <pstanner@redhat.com>
+The documentation for drm_sched_backend_ops.run_job() mentions a certain
+function called drm_sched_job_recovery(). This function does not exist.
+What's actually meant is drm_sched_resubmit_jobs(), which is by now also
+deprecated.
 
-drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
-That fence is signalled by the driver once the hardware completed the
-associated job. The scheduler does not increment the reference count on
-that fence, but implicitly expects to inherit this fence from run_job().
+Remove the mention of the removed function.
 
-This is relatively subtle and prone to misunderstandings.
+Discourage the behavior of drm_sched_backend_ops.run_job() being called
+multiple times for the same job.
 
-This implies that, to keep a reference for itself, a driver needs to
-call dma_fence_get() in addition to dma_fence_init() in that callback.
-
-It's further complicated by the fact that the scheduler even decrements
-the refcount in drm_sched_run_job_work() since it created a new
-reference in drm_sched_fence_scheduled(). It does, however, still use
-its pointer to the fence after calling dma_fence_put() - which is safe
-because of the aforementioned new reference, but actually still violates
-the refcounting rules.
-
-Move the call to dma_fence_put() to the position behind the last usage
-of the fence.
-
-Document the necessity to increment the reference count in
-drm_sched_backend_ops.run_job().
-
-Suggested-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_main.c |  5 ++---
- include/drm/gpu_scheduler.h            | 19 +++++++++++++++----
- 2 files changed, 17 insertions(+), 7 deletions(-)
+ include/drm/gpu_scheduler.h | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index a48be16ab84f..c80712453bad 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1222,15 +1222,14 @@ static void drm_sched_run_job_work(struct work_struct *w)
- 	drm_sched_fence_scheduled(s_fence, fence);
- 
- 	if (!IS_ERR_OR_NULL(fence)) {
--		/* Drop for original kref_init of the fence */
--		dma_fence_put(fence);
--
- 		r = dma_fence_add_callback(fence, &sched_job->cb,
- 					   drm_sched_job_done_cb);
- 		if (r == -ENOENT)
- 			drm_sched_job_done(sched_job, fence->error);
- 		else if (r)
- 			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
-+
-+		dma_fence_put(fence);
- 	} else {
- 		drm_sched_job_done(sched_job, IS_ERR(fence) ?
- 				   PTR_ERR(fence) : 0);
 diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index a0ff08123f07..38d2053528c8 100644
+index 38d2053528c8..8c1a6155011d 100644
 --- a/include/drm/gpu_scheduler.h
 +++ b/include/drm/gpu_scheduler.h
-@@ -420,10 +420,21 @@ struct drm_sched_backend_ops {
- 					 struct drm_sched_entity *s_entity);
+@@ -421,14 +421,19 @@ struct drm_sched_backend_ops {
  
  	/**
--         * @run_job: Called to execute the job once all of the dependencies
--         * have been resolved.  This may be called multiple times, if
--	 * timedout_job() has happened and drm_sched_job_recovery()
--	 * decides to try it again.
-+	 * @run_job: Called to execute the job once all of the dependencies
-+	 * have been resolved. This may be called multiple times, if
-+	 * timedout_job() has happened and drm_sched_job_recovery() decides to
-+	 * try it again.
+ 	 * @run_job: Called to execute the job once all of the dependencies
+-	 * have been resolved. This may be called multiple times, if
+-	 * timedout_job() has happened and drm_sched_job_recovery() decides to
+-	 * try it again.
++	 * have been resolved.
 +	 *
-+	 * @sched_job: the job to run
-+	 *
-+	 * Returns: dma_fence the driver must signal once the hardware has
-+	 *	completed the job ("hardware fence").
-+	 *
-+	 * Note that the scheduler expects to 'inherit' its own reference to
-+	 * this fence from the callback. It does not invoke an extra
-+	 * dma_fence_get() on it. Consequently, this callback must take a
-+	 * reference for the scheduler, and additional ones for the driver's
-+	 * respective needs.
- 	 */
- 	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
- 
++	 * The deprecated drm_sched_resubmit_jobs() (called from
++	 * drm_sched_backend_ops.timedout_job()) can invoke this again with the
++	 * same parameters. Doing this is strongly discouraged because it
++	 * violates dma_fence rules.
+ 	 *
+ 	 * @sched_job: the job to run
+ 	 *
+-	 * Returns: dma_fence the driver must signal once the hardware has
+-	 *	completed the job ("hardware fence").
++	 * Returns:
++	 * On success: dma_fence the driver must signal once the hardware has
++	 * completed the job ("hardware fence").
++	 * On failure: NULL or an ERR_PTR.
+ 	 *
+ 	 * Note that the scheduler expects to 'inherit' its own reference to
+ 	 * this fence from the callback. It does not invoke an extra
 -- 
 2.47.1
 
