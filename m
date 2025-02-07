@@ -1,230 +1,149 @@
-Return-Path: <linux-media+bounces-25779-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25780-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B230EA2BDC5
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 09:24:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BD9A2BDC7
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 09:24:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28A4018880A2
-	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 08:24:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A84D3A791D
+	for <lists+linux-media@lfdr.de>; Fri,  7 Feb 2025 08:24:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 578FC1AAA11;
-	Fri,  7 Feb 2025 08:24:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 926CD1A9B2A;
+	Fri,  7 Feb 2025 08:24:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161802417F5;
-	Fri,  7 Feb 2025 08:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.20.114.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D3E2417F5
+	for <linux-media@vger.kernel.org>; Fri,  7 Feb 2025 08:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738916645; cv=none; b=gnfQD3FHnvfwY5v1iwA/t7PxittIAYowOt3QV7Bn0sNYFsxDi6NN+I9gOdJl3CaOAeiGcpHQxqmuFXCyCKT2YcM6U+wukgthHifGzy2tQHfKnq/KMPBHs3HEjROv240pQS1COS1lONeU8/+TuVlrLnGVBlAXEKm+qtanqPrD5yo=
+	t=1738916684; cv=none; b=HzH8B0/EiMQ53ITKcibiS0kxbMO61wj3DTlnYo57PyDOlecdpMW8AoFieMzw1M/Th5NmVSbxI4/bT/wfBwzsnjXz2t7qVksvcJ33d0G2CO1d98NknB/1aWfZOqc8vNdkkiCPpB2BdWYIIOtRYrdbtUvcC1cPk8OI8VEiRTNVSMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738916645; c=relaxed/simple;
-	bh=CZMGDEpTBuajz0n9K+138SzdGdN6EbdDyI9fyhHHOnw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Sg7Xw3BXlODwHH62XVGM72zYJ+dm5cqYAyA9cnbXIz2K5y3uFDGPnoP37oPMpXRB85v8vdhKKL6vA84PzdrR/iYQBESyuL+x3NUgazrXopuWmTjCth0iH+PrEYWTwRZp8US7zvEHW02K5E1loJASeLKMrz08pLtI/fdUrtDNcIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass smtp.mailfrom=aspeedtech.com; arc=none smtp.client-ip=211.20.114.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aspeedtech.com
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 7 Feb
- 2025 16:23:51 +0800
-Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Fri, 7 Feb 2025 16:23:51 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <eajames@linux.ibm.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <joel@jms.id.au>,
-	<andrew@aj.id.au>, <linux-media@vger.kernel.org>, <openbmc@lists.ozlabs.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] media: dt-bindings: aspeed,video-engine: Convert to json schema
-Date: Fri, 7 Feb 2025 16:23:51 +0800
-Message-ID: <20250207082351.1298990-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1738916684; c=relaxed/simple;
+	bh=kI4Fyn7CvsZ6t9HvUQsul7UYVpT9ozBs0hE2VBctCOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ox4Vfg4jtfbPaIQiPnBii/gVfPeyDo467H1IkBpv1mo//nyE8XerYAYj2V09ZwO67leekQ36BbIv8yTjckbNG80+hfaYhHSYPWxFls54UJ0j0PzmI0QUt9eIoJZBJt7Xlc9GSREFwm2ERDtCOWO2NbPqE+BcwqeMrkEY4DUKwGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tgJep-0000UF-AY; Fri, 07 Feb 2025 09:24:15 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tgJek-003whN-2j;
+	Fri, 07 Feb 2025 09:24:10 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tgJek-001cd8-2G;
+	Fri, 07 Feb 2025 09:24:10 +0100
+Date: Fri, 7 Feb 2025 09:24:10 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Zhang Zekun <zhangzekun11@huawei.com>
+Cc: robh@kernel.org, saravanak@google.com, justin.chen@broadcom.com,
+	florian.fainelli@broadcom.com, andrew+netdev@lunn.ch,
+	kuba@kernel.org, kory.maincent@bootlin.com,
+	jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
+	laurent.pinchart+renesas@ideasonboard.com, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, npiggin@gmail.com, olteanv@gmail.com,
+	davem@davemloft.net, taras.chornyi@plvision.eu, edumazet@google.com,
+	pabeni@redhat.com, sudeep.holla@arm.com, cristian.marussi@arm.com,
+	arm-scmi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, chenjun102@huawei.com
+Subject: Re: [PATCH 1/9] of: Add warpper function
+ of_find_node_by_name_balanced()
+Message-ID: <Z6XDKi_V0BZSdCeL@pengutronix.de>
+References: <20250207013117.104205-1-zhangzekun11@huawei.com>
+ <20250207013117.104205-2-zhangzekun11@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <20250207013117.104205-2-zhangzekun11@huawei.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Convert aspeed-video.txt to yaml format.
-Update aspeed-video.txt to aspeed,video-engine.yaml in MAINTAINER file.
+On Fri, Feb 07, 2025 at 09:31:09AM +0800, Zhang Zekun wrote:
+> There are many drivers use of_find_node_by_name() with a not-NULL
+> device_node pointer, and a number of callers would require a call to
+> of_node_get() before using it. There are also some drivers who forget
+> to call of_node_get() which would cause a ref count leak[1]. So, Add a
+> wraper function for of_find_node_by_name(), drivers may use this function
+> to call of_find_node_by_name() with the refcount already balanced.
+> 
+> [1] https://lore.kernel.org/all/20241024015909.58654-1-zhangzekun11@huawei.com/
 
-Additional changes:
-- Two phandle properties, 'aspeed,scu' and 'aspeed,gfx', are added for
-  video engine to capture video from sources other than VGA.
-- Update examples and include appropriate file directives to resolve
-  errors identified by `dt_binding_check` and `dtbs_check`.
+Hi Zhang Zekun,
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- v3:
-  - Add Additional changes into comments.
-  - Remove | after phandle description
+thank you for working on this issue!
 
- v2:
-  - Update patch subject
-  - Add NOTE for false positive warning
----
- .../bindings/media/aspeed,video-engine.yaml   | 84 +++++++++++++++++++
- .../bindings/media/aspeed-video.txt           | 33 --------
- MAINTAINERS                                   |  2 +-
- 3 files changed, 85 insertions(+), 34 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/aspeed-video.txt
+First of all, let's take a step back and analyze the initial problem.
+Everything following is only my opinion...
 
-diff --git a/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml b/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
-new file mode 100644
-index 000000000000..93917c9ecfc3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
-@@ -0,0 +1,84 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/aspeed,video-engine.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ASPEED Video Engine
-+
-+maintainers:
-+  - Eddie James <eajames@linux.ibm.com>
-+
-+description:
-+  The Video Engine (VE) embedded in the ASPEED SOCs can be configured to
-+  capture and compress video data from digital or analog sources.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2400-video-engine
-+      - aspeed,ast2500-video-engine
-+      - aspeed,ast2600-video-engine
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 2
-+
-+  clock-names:
-+    items:
-+      - const: vclk
-+      - const: eclk
-+
-+  resets:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  memory-region:
-+    maxItems: 1
-+    description:
-+      Phandle to the reserved memory nodes to be associated with the
-+      VE. VE will acquires memory space for 3 purposes:
-+        1. JPEG header
-+        2. Compressed result
-+        3. Temporary transformed image data
-+
-+  aspeed,scu:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Specifies the scu node that is needed if video wants to capture
-+      from sources other than Host VGA.
-+
-+  aspeed,gfx:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Specifies the Soc Display(gfx) node that needs to be queried to get
-+      related information if video wants to use gfx as capture source.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/ast2600-clock.h>
-+
-+    video@1e700000 {
-+        compatible = "aspeed,ast2600-video-engine";
-+        reg = <0x1e700000 0x1000>;
-+        clocks = <&syscon ASPEED_CLK_GATE_VCLK>,
-+                 <&syscon ASPEED_CLK_GATE_ECLK>;
-+        clock-names = "vclk", "eclk";
-+        interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+        aspeed,scu = <&syscon>;
-+        aspeed,gfx = <&gfx>;
-+    };
-diff --git a/Documentation/devicetree/bindings/media/aspeed-video.txt b/Documentation/devicetree/bindings/media/aspeed-video.txt
-deleted file mode 100644
-index d2ca32512272..000000000000
---- a/Documentation/devicetree/bindings/media/aspeed-video.txt
-+++ /dev/null
-@@ -1,33 +0,0 @@
--* Device tree bindings for Aspeed Video Engine
--
--The Video Engine (VE) embedded in the Aspeed AST2400/2500/2600 SOCs can
--capture and compress video data from digital or analog sources.
--
--Required properties:
-- - compatible:		"aspeed,ast2400-video-engine" or
--			"aspeed,ast2500-video-engine" or
--			"aspeed,ast2600-video-engine"
-- - reg:			contains the offset and length of the VE memory region
-- - clocks:		clock specifiers for the syscon clocks associated with
--			the VE (ordering must match the clock-names property)
-- - clock-names:		"vclk" and "eclk"
-- - resets:		reset specifier for the syscon reset associated with
--			the VE
-- - interrupts:		the interrupt associated with the VE on this platform
--
--Optional properties:
-- - memory-region:
--	phandle to a memory region to allocate from, as defined in
--	Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
--
--Example:
--
--video-engine@1e700000 {
--    compatible = "aspeed,ast2500-video-engine";
--    reg = <0x1e700000 0x20000>;
--    clocks = <&syscon ASPEED_CLK_GATE_VCLK>, <&syscon ASPEED_CLK_GATE_ECLK>;
--    clock-names = "vclk", "eclk";
--    resets = <&syscon ASPEED_RESET_VIDEO>;
--    interrupts = <7>;
--    memory-region = <&video_engine_memory>;
--};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 896a307fa065..7e59daa1e89d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3549,7 +3549,7 @@ M:	Eddie James <eajames@linux.ibm.com>
- L:	linux-media@vger.kernel.org
- L:	openbmc@lists.ozlabs.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/media/aspeed-video.txt
-+F:	Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
- F:	drivers/media/platform/aspeed/
- 
- ASUS EC HARDWARE MONITOR DRIVER
+The main issue I see is that the current API - of_find_node_by_name -
+modifies the refcount of its input by calling of_node_put(from) as part
+of its search. Typically, a "find" function is expected to treat its
+input as read-only. That is, when you pass an object into such a
+function, you expect its reference count to remain unchanged unless
+ownership is explicitly transferred. In this case, lowering the refcount
+on the input node is counterintuitive and already lead to unexpected
+behavior and subtle bugs.
 
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+To address this, the workaround introduces a wrapper function,
+of_find_node_by_name_balanced, which first increments the input’s
+refcount (via of_node_get()) before calling the original function. While
+this "balances" the refcount change, the naming remains problematic from
+my perspective. The "_balanced" suffix isn’t part of our common naming
+conventions (traditions? :)). Most drivers expect that a function
+starting with "find" will not alter the reference count of its input.
+The term "balanced" doesn’t clearly convey that the input's refcount is
+being explicitly managed - it instead obscures the underlying behavior,
+leaving many developers confused about what guarantees the API provides.
+
+In my view, a more natural solution would be to redesign the API so that
+it doesn’t modify the input object’s refcount at all. Instead, it should
+solely increase the refcount of the returned node (if found) for safe
+asynchronous usage. This approach would align with established
+conventions where "find" implies no side effects on inputs or output,
+and a "get" indicates that the output comes with an extra reference. For
+example, a function named of_get_node_by_name would clearly signal that
+only the returned node is subject to a refcount increase while leaving
+the input intact.
+
+Thus, while the current workaround "balances" the reference count, it
+doesn't address the underlying design flaw. The naming still suggests a
+"find" function that should leave the input untouched, which isn’t the
+case here. A redesign of the API - with both the behavior and naming
+aligned to common expectations - would be a clearer and more robust
+solution.
+
+Nevertheless, it is only my POV, and the final decision rests with the
+OpenFirmware framework maintainers.
+
+Best Regards,
+Oleksij
 -- 
-2.25.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
