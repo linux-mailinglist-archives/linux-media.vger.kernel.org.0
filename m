@@ -1,137 +1,134 @@
-Return-Path: <linux-media+bounces-25828-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25830-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2DAA2D45F
-	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2025 08:07:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 380C1A2D5C1
+	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2025 12:14:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EB2B3AB436
-	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2025 07:07:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C549B188A179
+	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2025 11:14:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67FDD1B3927;
-	Sat,  8 Feb 2025 07:06:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25CEF2451E9;
+	Sat,  8 Feb 2025 11:13:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="R4yGVA08"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pIJc48uc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4C41AF0D7;
-	Sat,  8 Feb 2025 07:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AEF17ADE8;
+	Sat,  8 Feb 2025 11:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738998409; cv=none; b=pITtt9E+ywNFGRhqq0DTkAzd8zRqcGjlV0k1YNBT3t6jLvGNL5E8RF7px6vNgECMNSLHbb8qsZOtcLN3z6AiwQWCNT2/t3dp0C3jwqLK6wnHjLxoqyxYF1VTSwdR6UCUGTWPctFEh0oN1bc6ISGLolEJA/fWUMyU0oledWjCTJk=
+	t=1739013235; cv=none; b=ZS4Wp7jrf6cODADOb9F7KEKizj7KWYkfHvRgPHjgkZobAaciBQfIn8vwACxSDh9uurbyQADtp1SYkoedMruKmSLoxkJTSKUoFUWh9i9rGmj0AIUysr2NyQ54KXmtimq7PzGbPD8k8oYfC/0lrzS2n0SW+O3naLZSy/yzDxuPUaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738998409; c=relaxed/simple;
-	bh=uRAzajQpx0M+EntsA5me7vRiqzpko6fZEEhMfuDIuCw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oCfuRORizg7uSeFQGh6wdIZKHjoSosRbebfwpY7VvaEe1YjadgZlc2mZOzbJnJ3ogZETQ4i6xxYT8WFqyUeSvvsV6QniPiSQBYg9XBNf508q7D4CwiRT9stKoydtq6Xa8Dd9LsMmFPj4rVU19JO1nV1W5jul43kVXy5wzYJrHk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=R4yGVA08; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 3eaf1ec2e5eb11efb8f9918b5fc74e19-20250208
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=Q0isN7yBY8ga270/gUEwiWz1sG4JQD+MIRy5jScQiRk=;
-	b=R4yGVA08BnIQA2KzYFy0NpM3wNdjVKsOX2zZP0pJMGuNPwj6zzzhzwojBeRHU7XsGKtax9pC7W6wm+/+5JAS4MNVVUlPQNp5HSx8f8BMkLY5IGXhUlfJQ7k7kpH+EMX8DcOgg2Ebf+oI+k47zg3gJ9fxVaOZ3UHlkFlARRvRtfA=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46,REQID:4893f517-dc41-450f-8445-5be531a7159b,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:60aa074,CLOUDID:22f156ff-c190-4cfe-938d-595d7f10e0dc,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 3eaf1ec2e5eb11efb8f9918b5fc74e19-20250208
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-	(envelope-from <yunfei.dong@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 2047579636; Sat, 08 Feb 2025 15:06:40 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Sat, 8 Feb 2025 15:06:38 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.28 via Frontend Transport; Sat, 8 Feb 2025 15:06:38 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
-	<nfraprado@collabora.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Hans Verkuil
-	<hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Nathan Hebert <nhebert@chromium.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>
-CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>, Yunfei
- Dong <yunfei.dong@mediatek.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v7 3/3] media: mediatek: vcodec: add description for vsi struct
-Date: Sat, 8 Feb 2025 15:06:25 +0800
-Message-ID: <20250208070633.30862-4-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250208070633.30862-1-yunfei.dong@mediatek.com>
-References: <20250208070633.30862-1-yunfei.dong@mediatek.com>
+	s=arc-20240116; t=1739013235; c=relaxed/simple;
+	bh=FrdVi2CqVa9IJh4hdyg9dLTcJLkpJ4AWnneBkooQyWI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fvDJ/w5pvm4QnvAVUf3ZzdCcfgEaLPKJsRgfwlCG3xoQ1rhN78FZQUaDWA5Ot0wL5F8Hcb9641qdJwNBXI3HdHFYWDgE4R5dLYvJtkDSHPyOKCuJHmGsj5d9RtLausATTZs2kk954ioAseoLz1XWwI6VBAjoku3gfR+JgHZoZ34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pIJc48uc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D2BA9C4CED6;
+	Sat,  8 Feb 2025 11:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739013234;
+	bh=FrdVi2CqVa9IJh4hdyg9dLTcJLkpJ4AWnneBkooQyWI=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=pIJc48ucSRY8HRBmS/4o2bcfNBAQPOVRVu/enYiUnAXhfbPuQbWBxDKZnupPn5xBd
+	 9f4Y1PvWwIonprZadizY+mggGStUjmsxeSxLKIfzjy4RYGzUwZYTt+EFv8Or5Aenrw
+	 /zgn60yzdjH+Fz3jFqL/7mJck0QNWA6mdpmulW9Zd+9Msv74lAyqyX+QxJzZus0F0n
+	 SVFjO9pM3/oFaJck1YcMDmsZmdf2sF7DSIqTL0Y25FemQn089Nvm8VVtmclSfWKomO
+	 Y0jqZFyLD/rCtIeReIjHQnUUdlRNiJE+ESdxwbYqYe2o607nk30dMdHpNRJFcce0mm
+	 Tgvaho51CJTLA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B765BC02198;
+	Sat,  8 Feb 2025 11:13:54 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Date: Sat, 08 Feb 2025 12:13:49 +0100
+Subject: [PATCH v2] media: dw9719: Add of_match table
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+Message-Id: <20250208-dw9761dts-v2-1-c038f8a2fb94@apitzsch.eu>
+X-B4-Tracking: v=1; b=H4sIAGw8p2cC/43Oy27DIBCF4VexWJdoZrDBeJX3iLLAMI5ZOG6BX
+ CTL7x6atvsuf+no09lE5hQ5i6HZROJ7zHG91qCPRvjZXS8sY6gtCKgDAi3DwxqNoWTpg/fgDbY
+ jOlH3n4mn+Hxbp3PtKa2LLHNi9ye0iNARKN31B7JGGYlyDnxZOfAxcZhdOfh1+cUSf93qn/Iji
+ oVzdu8/9d6/reGO39zoMsuaSyxD009ak/UA9blVgZRG0i16pcGw6bseLVvjRnHe9xd6asUMIQE
+ AAA==
+X-Change-ID: 20250206-dw9761dts-cdcc0c714b1a
+To: Daniel Scally <djrscally@gmail.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739013233; l=1668;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=b835oDqUUZS0v891A6AlggPykmhV5x5NmgzamCCTc1s=;
+ b=4hhSpZKPITXRRN4vBFA46KSzOWefN37FlAADEfvQdm6PUU79Ry8HS4ryRkVrOS0GJDIQsHGJS
+ 3fWNMEHzD/qDwRtLdm0/SV1FW/mloJ8wuQd3KUY68+ottY4rHuay0XA
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-The vsi (video shared information) struct needs to be synchronized
-between firmware and host, as a change that is only done in the host
-version of the struct but isn't synchronized to the firmware can lead
-to decoding issues with H264 bitstreams. Highlight this requirement
-within the struct descriptions.
+From: André Apitzsch <git@apitzsch.eu>
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Add of_match table for "dongwoon,dw9719" and "dongwoon,dw9761"
+compatible string. This fixes automatic driver loading when using a
+device-tree, and if built as a module like major linux distributions do.
+
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- .../mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c    | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+This patch depends on https://lore.kernel.org/linux-media/20241105203658.29737-1-hdegoede@redhat.com/
+---
+ drivers/media/i2c/dw9719.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-index 651ffac8e5e8..9411c9ad8174 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-@@ -30,6 +30,7 @@ enum vdec_h264_core_dec_err_type {
- 
- /**
-  * struct vdec_h264_slice_lat_dec_param  - parameters for decode current frame
-+ *	(shared data between host and firmware)
-  *
-  * @sps:		h264 sps syntax parameters
-  * @pps:		h264 pps syntax parameters
-@@ -48,7 +49,7 @@ struct vdec_h264_slice_lat_dec_param {
+diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
+index 032fbcb981f20f4e93202415e62f67379897a048..6c76212d4c698462a9128d26ef95f0eccb243c7c 100644
+--- a/drivers/media/i2c/dw9719.c
++++ b/drivers/media/i2c/dw9719.c
+@@ -360,6 +360,13 @@ static const struct i2c_device_id dw9719_id_table[] = {
  };
+ MODULE_DEVICE_TABLE(i2c, dw9719_id_table);
  
- /**
-- * struct vdec_h264_slice_info - decode information
-+ * struct vdec_h264_slice_info - decode information (shared data between host and firmware)
-  *
-  * @nal_info:		nal info of current picture
-  * @timeout:		Decode timeout: 1 timeout, 0 no timeout
-@@ -72,7 +73,7 @@ struct vdec_h264_slice_info {
++static const struct of_device_id dw9719_of_table[] = {
++	{ .compatible = "dongwoon,dw9719" },
++	{ .compatible = "dongwoon,dw9761" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, dw9719_of_table);
++
+ static DEFINE_RUNTIME_DEV_PM_OPS(dw9719_pm_ops, dw9719_suspend, dw9719_resume,
+ 				 NULL);
  
- /**
-  * struct vdec_h264_slice_vsi - shared memory for decode information exchange
-- *        between SCP and Host.
-+ *        between SCP and Host (shared data between host and firmware).
-  *
-  * @wdma_err_addr:        wdma error dma address
-  * @wdma_start_addr:      wdma start dma address
+@@ -367,6 +374,7 @@ static struct i2c_driver dw9719_i2c_driver = {
+ 	.driver = {
+ 		.name = "dw9719",
+ 		.pm = pm_sleep_ptr(&dw9719_pm_ops),
++		.of_match_table = of_match_ptr(dw9719_of_table),
+ 	},
+ 	.probe = dw9719_probe,
+ 	.remove = dw9719_remove,
+
+---
+base-commit: 8f6629c004b193d23612641c3607e785819e97ab
+change-id: 20250206-dw9761dts-cdcc0c714b1a
+prerequisite-message-id: 20241105203658.29737-1-hdegoede@redhat.com:v1
+prerequisite-patch-id: b0a57666bd20b97291583c3052065dc314a37e79
+
+Best regards,
 -- 
-2.46.0
+André Apitzsch <git@apitzsch.eu>
+
 
 
