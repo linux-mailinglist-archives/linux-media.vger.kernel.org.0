@@ -1,104 +1,133 @@
-Return-Path: <linux-media+bounces-25835-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25836-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D15A2D92D
-	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2025 23:08:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 645F3A2D931
+	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2025 23:09:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB6893A601C
-	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2025 22:08:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC75A188781A
+	for <lists+linux-media@lfdr.de>; Sat,  8 Feb 2025 22:09:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BAF124394E;
-	Sat,  8 Feb 2025 22:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B10E244189;
+	Sat,  8 Feb 2025 22:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=truemaisha.co.tz header.i=@truemaisha.co.tz header.b="Ll4epe0/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zI+w0ylH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from server-598995.kolorio.com (server-598995.kolorio.com [162.241.152.247])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0BB244EA7
-	for <linux-media@vger.kernel.org>; Sat,  8 Feb 2025 22:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.241.152.247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C1F24394A
+	for <linux-media@vger.kernel.org>; Sat,  8 Feb 2025 22:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739052513; cv=none; b=u/bXGP4d83P6TwF2m4Gji/MtBA6cvh43fDkcSx7slyFEVidegAUgkrEiPISNkDbl+MXt3zbR6+z5Y1pf7prSkaE5id/Cdukvd9PzErekCLL+27CqgA8Eg2nSoEWNfHWEB2DMqsMEFUG35Ai6fgnhM5I13EFvG/Gja474PW+Pd8s=
+	t=1739052570; cv=none; b=gXd1S0Q2jqgnSaa6hkP8+Sh6Bpz0p2NlSYqLvOrLYLculN3clHcsTnxAGr5TLrtpM6M+ODA+QJywIswe18QlYvK8mpNVo3NTLWpQr3ttnZkI4Joi0xwFww7nf3KhGuWy7NU2ad8dvoX0cImOJKYpCGJfIM82PvoYXT4tshfxUN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739052513; c=relaxed/simple;
-	bh=gl4+7vNxgV9+JzZtw7EthQ6aGDgi0WVn3wQV/lnKiyo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ssb2qp+8F0E1aTY5azYrZH/KzYPMIfww8wIS3FcrQW2guuWvkz9iqyCjoFtAi1Zan7rs+jjbllUwHfFRmNGtflR0FRmjmcye+Gml3NSk5ExB9QQ10bbXhZZwfJ28aQtx06DSY8ZgmT7HbEN5eQswufOrESm1/fV4sMu1HbSiFGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=truemaisha.co.tz; spf=pass smtp.mailfrom=truemaisha.co.tz; dkim=pass (2048-bit key) header.d=truemaisha.co.tz header.i=@truemaisha.co.tz header.b=Ll4epe0/; arc=none smtp.client-ip=162.241.152.247
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=truemaisha.co.tz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=truemaisha.co.tz
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=truemaisha.co.tz; s=default; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=gl4+7vNxgV9+JzZtw7EthQ6aGDgi0WVn3wQV/lnKiyo=; b=Ll4epe0/H1cqosP/jx6R5qx0ua
-	wtFBYakFvMvfc3OpgOUNyz6whDCwx0v7sf0KFc/M9cP6QTjQz1yRgUAP0/jhu9ApPZIlauDAvR3UG
-	XBuGGnadLZ67uUCAhsZFJCKfF2bFcJ7VSee4PP14GXLUJPYBNOa6RXhSY30W/1ZYmK+1OWB65vjzH
-	6xTfZU862kAtzsBx4pm9ePoes/qsA9cFimZhtv7j0i7gPGx2ZtFXQFgtl6BnBZYrUltLQsEk3/JAa
-	v4G2/3B0PUXVNz6MhCSDNJqENs9chbeKPlAqDaDXCacAlf3MLywgmztcgN2znGYK1mLOuSXfQjy6g
-	b8y3Y9Qg==;
-Received: from [74.208.124.33] (port=59591 helo=truemaisha.co.tz)
-	by server-598995.kolorio.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <chrispinerick@truemaisha.co.tz>)
-	id 1tgt00-0003Yt-1T
-	for linux-media@vger.kernel.org;
-	Sat, 08 Feb 2025 16:08:29 -0600
-Reply-To: dsong@aa4financialservice.com
-From: David Song <chrispinerick@truemaisha.co.tz>
-To: linux-media@vger.kernel.org
-Subject: Re: The business loan- 
-Date: 08 Feb 2025 22:08:30 +0000
-Message-ID: <20250208210542.FDF758E68FA08911@truemaisha.co.tz>
+	s=arc-20240116; t=1739052570; c=relaxed/simple;
+	bh=nbh0lUP9+B3S+rH9TsK6SuaDCZWSaxFbqXXgX6kTQM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L22jgX6/dLf75oTJl7wK3SjpEMwDJ2T8+2rN2HNpQLfhL5tUbFLHbydbb+1m5aVCj2oxN/s6AcxpV8dHl81IRj8cOc6jAnKkRVbh0Wf2q5AkBy1cXbeIj0XoLpRJ+bci6vNBVSojdd8I8ElTnXoyZK3/+U9UcBUWYFeQRRU5ugw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zI+w0ylH; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5440efe97baso3774994e87.3
+        for <linux-media@vger.kernel.org>; Sat, 08 Feb 2025 14:09:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739052566; x=1739657366; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qTHcKUL0A9GikZYj1YTvr/EhlWV7sWgF6MMVtB1N/9Q=;
+        b=zI+w0ylHtIKcWCDf5JCPH4CobNz97bPRa0iCKNK+66ZCfHwvMvA1UZErij8irRaT8U
+         zan5Je+57zc0avCroPWKkO0ZSasD9zGLirKy+Fw9PD2HV6K0X8Zq1xqFitPAVN3cV4BN
+         TdlpniSciuDd/Jeu3usGaN0fmlaHkahWrISbSV9Zt8XPSJFp5acbJPvIaskWCr988Tpw
+         6u1rfkt/km4EYPUqwvY5wDz6q+5pIjW3oqyYAHH7l+V5UqD2mmgI4IczOU1nb/Yz8m1m
+         8WFnVqgE+vc9evRQvxxd2pJPeiwa6WStY6YE8zgAXo5Y0exBGP8ExT7TKxabtPrHTTG5
+         2sjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739052566; x=1739657366;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qTHcKUL0A9GikZYj1YTvr/EhlWV7sWgF6MMVtB1N/9Q=;
+        b=jVhDFu6Kirzqrf6gSPMQ+HtvnKdcEDSm8bGhsOECiBew29wrDgPnCGLV3MgTOO0498
+         gmSv1r3Speq2IeihkLWK/0NAMe7Y0pRwTl65ITSmVTX92L3zhjgyk2JtLM+X96lnp7TZ
+         K//Q/uefFDSrtzPXfgjXksTL0err7vgm+HpdFQZvFjXKgk7sNBnzLZWq4VqGAl4FQJJH
+         jGddMO1oSBARfqVr1wXEsq+KtpvdvNGJr8KTc98Nn7FxmpyPPa+Z6tpz2yVpGoGssd9a
+         u4OYe6OIXHA9hT81R5dI2DafaHHJwxXdL62LHK9OdQr+Cr7GCIfRwr2FacTTtqmtErgJ
+         4gaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXlKQDJXPn21QWKt/DzPwIDATgsCqWF4bF2Po8a4bxer3Wx6lvOrw0d9yMHNfIvQz0bAmiHqy85Uwqw/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+evrX0jQ+lVrssnp1CPYoyyRFxHibOiwBKhT5oJR/ghK1r5CG
+	CxcYbz6KsDCV1EeEMVxfLJmTb6n/b8s0voXtiKcIQagmeuPtTfefwEGtwUwZ19U=
+X-Gm-Gg: ASbGncuDY9ICgKj+fZRThp6sKm/B2uSnt7STMzRV7LXu/1Sg84tWa3UFt3fUq6Y5iHz
+	962wBlp7lY8bkU0AASvC1TsP6LQZTiaRiFJMmb0GHx8oL3wtDs8hp7KwSXtxb/pQaAKBEKUzFV9
+	zdlypnt+O38bSsiswzMlemTBW0W17yexD3cW+Ia8Chpwvc3rA1H/Gbt/CgwsPtcz7f7GRjvVMeF
+	6Z/Bh8bZP/03lud8t6BfNdf1B5OtRUO7diSiD/As2CY8vSsVsUFQTi9nmGuikKVUg3EqB0vuUQx
+	77Q4TbTxhUmXO0Vz4U57ywyojM/ygsOkJPIPD5Z5oGHwaBaDIukjOddPQ/vkv8wmskNU2kM=
+X-Google-Smtp-Source: AGHT+IGUH3UmhIKInMLmECf90pr5INGbeBJEBwOwexzDKJYYzBRhSekRFOt84/bINUn54xlSrNAvSw==
+X-Received: by 2002:a05:6512:1247:b0:543:f1a0:9e82 with SMTP id 2adb3069b0e04-54414a96211mr2604148e87.6.1739052565570;
+        Sat, 08 Feb 2025 14:09:25 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5441053ed99sm830251e87.3.2025.02.08.14.09.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Feb 2025 14:09:24 -0800 (PST)
+Date: Sun, 9 Feb 2025 00:09:21 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org, 
+	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl, 
+	cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v13 2/2] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+Message-ID: <mn5zxr72jn3qbn6uiqnzg6qf4s4bydjvmvqqxhd4wvrrmtf3ii@hoau7ge4wfk3>
+References: <20250208165232.2371889-1-quic_vikramsa@quicinc.com>
+ <20250208165232.2371889-3-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server-598995.kolorio.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - truemaisha.co.tz
-X-Get-Message-Sender-Via: server-598995.kolorio.com: authenticated_id: chrispinerick@truemaisha.co.tz
-X-Authenticated-Sender: server-598995.kolorio.com: chrispinerick@truemaisha.co.tz
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250208165232.2371889-3-quic_vikramsa@quicinc.com>
 
-Hello,
+On Sat, Feb 08, 2025 at 10:22:32PM +0530, Vikram Sharma wrote:
+> The Vision Mezzanine for the rb3gen2 ships with an imx577 camera sensor.
 
-My name is David Song, at AA4 FS, we are a consultancy and
-brokerage Firm specializing in Growth Financial Loan and joint
-partnership venture. We specialize in investments in all Private
-and public sectors in a broad range of areas within our Financial
-Investment Services.
+Qualcomm RB3 Gen 2
 
- We are experts in financial and operational management, due
-diligence and capital planning in all markets and industries. Our
-Investors wish to invest in any viable Project presented by your
-Management after reviews on your Business Project Presentation
-Plan.
+> Enable the IMX577 on the vision mezzanine.
+> 
+> An example media-ctl pipeline for the imx577 is:
+> 
+> media-ctl --reset
+> media-ctl -V '"imx577 '17-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+> media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> 
+> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+> 
+> Signed-off-by: Hariram Purushothaman <quic_hariramp@quicinc.com>
+> Signed-off-by: Trishansh Bhardwaj <quic_tbhardwa@quicinc.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/Makefile             |  4 +
+>  .../qcs6490-rb3gen2-vision-mezzanine.dtso     | 89 +++++++++++++++++++
+>  2 files changed, 93 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-rb3gen2-vision-mezzanine.dtso
+> 
 
- We look forward to your Swift response. We also offer commission
-to consultants and brokers for any partnership referrals.
-
- Regards,
-David Song
-Senior Broker
-
-AA4 Financial Services
-13 Wonersh Way, Cheam,
-Sutton, Surrey, SM2 7LX
-Email: dsong@aa4financialservice.com
-
+-- 
+With best wishes
+Dmitry
 
