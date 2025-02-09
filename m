@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-25864-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25863-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D9DA2E0FF
-	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2025 22:52:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE50BA2E0FE
+	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2025 22:52:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E95737A2BA4
-	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2025 21:51:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DE3D3A5764
+	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2025 21:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A781241C87;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A861241C89;
 	Sun,  9 Feb 2025 21:52:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vG9AyR5d"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9kWHUXo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD158248C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCC779CF;
 	Sun,  9 Feb 2025 21:52:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739137938; cv=none; b=Vue4KI1zIiGXb2E3+CQJ+ZJZniFX/n0BUjWct0j8oM11UIPPJQSVvt+wlSW8uMgczpvzBF4D+RAxU6kVNsx2Qu7+suTGf6KI4Yr2SSBKYSaNJHMBfU4hNp2Cu4u5t5tmB8VuwazIfJ0UymuRxnQfaNQbyLnsCW02DACp0mPmpFk=
+	t=1739137938; cv=none; b=OjrDGwNeo3KovEHl25TklT4ijqBp7fclGLq3O2nYFarNjaJWJdJyBYd4OUIitMFX8XtaJx8I7v3XZHp28LAKarMgI5p4tdi9qrsMblupyyKBhmeu6SiUtZRd3bpvnohI6/mA4mVwrOMsmtHn/Jj8hXVhl75BPhkMaTKnXEYXupM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739137938; c=relaxed/simple;
-	bh=0si0Xis62iZA84qjLJyvATPABObzdkShZCMEtd/PLkc=;
+	bh=iSJ5jtMLBZnq74EPv4uYBA24MtpHvrIdYdyloL79HmQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DCojjy3PnhD0Ft/p6kadRchk/erhDP3r7doRAB74LX18zjpo+i+SSWz8xH0FCEAnoRwz9FyDJvr4FST/TL/my3kfvlZeuNUudcQFYj80ZhzmgfI3Fuu8oDPZI2ucYOBo9VIK56G2BxynWdfFOG1YKEL4tern7pIctsdUaEO0nHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vG9AyR5d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EF51CC4CEE5;
-	Sun,  9 Feb 2025 21:52:17 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=u71sYrrFWQknAU/R0NHhM+VLtLmd8zwZHcBJ6rEjrDt0Z/yP49BtDdx/y9LMxcEdgEzc0bBx4zt2gNskEZo6JbZiMzldubXclrABqpTXv1c2H2xxO0sA2a9Klt6uVXJ04CXmKyIccaZbBgVR5mcDj9awqzMdpJEBxSnYJKcohbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9kWHUXo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 10978C4CEE8;
+	Sun,  9 Feb 2025 21:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1739137938;
-	bh=0si0Xis62iZA84qjLJyvATPABObzdkShZCMEtd/PLkc=;
+	bh=iSJ5jtMLBZnq74EPv4uYBA24MtpHvrIdYdyloL79HmQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=vG9AyR5dglSEMheQFu9Ye1G2CKwERsIGnDNCKNLoDEvzLCDvoP8x6RgykpcpVVCnH
-	 GhJwYV0scOUai3iiBDBcZUVxIFPbEZlUBIURw8cwIngOCHM/M798cDwR7fMD6DW2VE
-	 iEF6FTPQ9v9SINoG4ux68ZNZmZ1HotAFekFnmyZAEbCtuhmkku+rhzhbRsfhtFOcoJ
-	 0DR0qe8JIhBNfcELEz/Na7oZjdQA1kSGqrWUA8qFsyxsUffkw0doFuC8swinNvffmk
-	 58p3lZSI6C4lOt19lKbj8XUFsHAN5aw/37x67M935Dya7tYEuvZ8SQNpnzBIwuFRYy
-	 EiMu5RI9geW4Q==
+	b=G9kWHUXoYQjCFzivzfaWKClkbHpfpWhtKxAkxvfg2N6smufoztLbC2yKlEuC1y7bc
+	 SdF2RqPLQIRPteh0pdj3m3N9iPpjC98wqfwK3FaKEad8Uu/MfDTcjpm3bpr5C2KK4R
+	 TsGnv91SmFZT5fV5E774UPUuTJgJNhbmiZYGoAGJWZU+dTbwsQWMzLA4JqbeDRG75a
+	 D3SKwr1m+wjMUDGsO9MYlhCtnI6Ip2rnAsxUDs0GlXwJnhCsQ+LuSYmaNW+rRD+Zne
+	 zoQIkeIZZQRiTQ5XQ20qQ5fJMHChos5dSyZ8u2DoagDpoi63U3a9bzWbasU9M720SS
+	 ttzJEtwb325XA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB84EC0219D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC9DCC021A2;
 	Sun,  9 Feb 2025 21:52:17 +0000 (UTC)
 From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Sun, 09 Feb 2025 22:51:57 +0100
-Subject: [PATCH v3 1/2] dt-bindings: media: i2c: Add DW9719 and DW9761 VCM
+Date: Sun, 09 Feb 2025 22:51:58 +0100
+Subject: [PATCH v3 2/2] media: i2c: dw9719: Add of_match table
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250209-dw9761dts-v3-1-14d3f00f0585@apitzsch.eu>
+Message-Id: <20250209-dw9761dts-v3-2-14d3f00f0585@apitzsch.eu>
 References: <20250209-dw9761dts-v3-0-14d3f00f0585@apitzsch.eu>
 In-Reply-To: <20250209-dw9761dts-v3-0-14d3f00f0585@apitzsch.eu>
 To: Daniel Scally <djrscally@gmail.com>, 
@@ -67,11 +67,11 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739137936; l=1650;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739137936; l=1275;
  i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=VMCqVc24c9S5LJtNjPFsXe/GrcCNw3hzuYoj92Rfr3Y=;
- b=0ThCYlAuDhrGQ10YOxPYdp0nNASxxTKs4qP4uq+GUh8ksDVdew/NEv8VR7yZ8JVep7D5+nFdJ
- DNxu9OmClHdDQiVgp2oIazWRuJz7qo6gx8lmz0RiosuwVgCsT2vzvqi
+ bh=mGgvurDestv373N8gVyPxAuJTKfXOnE3tkcTk8bJG1E=;
+ b=XzW00rKO2isZu4IP2pkHVJ3PcZy+noiay7NCF3yEykQ/JGT+96Fxt4+ep/3N5XW4x+9Ld5y4j
+ MnH//KJxEvJD02Wk69bbm3tEn8zaqJJ2w4fRRLw4q9qkbewDCKSktzS
 X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
  pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
 X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
@@ -81,64 +81,41 @@ Reply-To: git@apitzsch.eu
 
 From: André Apitzsch <git@apitzsch.eu>
 
-Document Dongwoon DW9719 and DW9761 VCM devicetree bindings.
+Add of_match table for "dongwoon,dw9719" and "dongwoon,dw9761"
+compatible string. This fixes automatic driver loading when using a
+device-tree, and if built as a module like major linux distributions do.
 
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- .../bindings/media/i2c/dongwoon,dw9719.yaml        | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ drivers/media/i2c/dw9719.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..b38d22bf09713a7999e1f9ce6553de7587dbe5d2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
-@@ -0,0 +1,45 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9719.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
+index 032fbcb981f20f4e93202415e62f67379897a048..6c76212d4c698462a9128d26ef95f0eccb243c7c 100644
+--- a/drivers/media/i2c/dw9719.c
++++ b/drivers/media/i2c/dw9719.c
+@@ -360,6 +360,13 @@ static const struct i2c_device_id dw9719_id_table[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, dw9719_id_table);
+ 
++static const struct of_device_id dw9719_of_table[] = {
++	{ .compatible = "dongwoon,dw9719" },
++	{ .compatible = "dongwoon,dw9761" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, dw9719_of_table);
 +
-+title: Dongwoon Anatech DW9719 Voice Coil Motor (VCM) Controller
-+
-+maintainers:
-+  - devicetree@vger.kernel.org
-+
-+description:
-+  The Dongwoon DW9719 is a 10-bit digital-to-analog (DAC) converter. The DAC
-+  is controlled via a 2-wire (I2C-compatible) serial interface.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - dongwoon,dw9719
-+      - dongwoon,dw9761
-+
-+  reg:
-+    maxItems: 1
-+
-+  vdd-supply:
-+    description: Regulator providing power to the "VDD" pin.
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        camera-lens@c {
-+            compatible = "dongwoon,dw9761";
-+            reg = <0x0c>;
-+            vdd-supply = <&pm8916_l10>;
-+        };
-+    };
+ static DEFINE_RUNTIME_DEV_PM_OPS(dw9719_pm_ops, dw9719_suspend, dw9719_resume,
+ 				 NULL);
+ 
+@@ -367,6 +374,7 @@ static struct i2c_driver dw9719_i2c_driver = {
+ 	.driver = {
+ 		.name = "dw9719",
+ 		.pm = pm_sleep_ptr(&dw9719_pm_ops),
++		.of_match_table = of_match_ptr(dw9719_of_table),
+ 	},
+ 	.probe = dw9719_probe,
+ 	.remove = dw9719_remove,
 
 -- 
 2.48.1
