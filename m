@@ -1,53 +1,52 @@
-Return-Path: <linux-media+bounces-25865-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25864-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D705A2E0FD
-	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2025 22:52:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D9DA2E0FF
+	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2025 22:52:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 657C41886679
-	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2025 21:52:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E95737A2BA4
+	for <lists+linux-media@lfdr.de>; Sun,  9 Feb 2025 21:51:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D8BF241C8A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A781241C87;
 	Sun,  9 Feb 2025 21:52:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OjTZN1VC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vG9AyR5d"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD571474B8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD158248C;
 	Sun,  9 Feb 2025 21:52:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739137938; cv=none; b=j4vTSiYYc+hjA1NziYjryAHtsmzPTC2IX25V5Xk1SoXbsYQZJuxbIit1RLgG77ZchiWLI3dhtcKJN5SCJlKKcUcGwYVnTEbQfv3rlUm0FlwyzURhASlTfP/fvzcIpXVQ03aWA9K/PABn0awUWIs1JKGktwhNf51rzKSWYgm1f/c=
+	t=1739137938; cv=none; b=Vue4KI1zIiGXb2E3+CQJ+ZJZniFX/n0BUjWct0j8oM11UIPPJQSVvt+wlSW8uMgczpvzBF4D+RAxU6kVNsx2Qu7+suTGf6KI4Yr2SSBKYSaNJHMBfU4hNp2Cu4u5t5tmB8VuwazIfJ0UymuRxnQfaNQbyLnsCW02DACp0mPmpFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739137938; c=relaxed/simple;
-	bh=uLOKFkONbrwKQL0GVTL+RBqZQj2F5LXwTUf/BvmTzYQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FjU4e8iTWwsizzY2b9IkOZOiu4ZFtdouKu8WUz0Ez63rWfS8iE9ocygBQXWwK7CxXS7pp0TS/ZCYvSRe+wpsh5Ro8Auhl2CucdrCUki4xP8IK1BXC0cjlYgWqbLYfoVwY52qWh4HOSq1a2QcTOZ7wzvsqVyZfocWbCLQcBNpRfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OjTZN1VC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DCB07C4CEDD;
+	bh=0si0Xis62iZA84qjLJyvATPABObzdkShZCMEtd/PLkc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=DCojjy3PnhD0Ft/p6kadRchk/erhDP3r7doRAB74LX18zjpo+i+SSWz8xH0FCEAnoRwz9FyDJvr4FST/TL/my3kfvlZeuNUudcQFYj80ZhzmgfI3Fuu8oDPZI2ucYOBo9VIK56G2BxynWdfFOG1YKEL4tern7pIctsdUaEO0nHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vG9AyR5d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EF51CC4CEE5;
 	Sun,  9 Feb 2025 21:52:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739137937;
-	bh=uLOKFkONbrwKQL0GVTL+RBqZQj2F5LXwTUf/BvmTzYQ=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=OjTZN1VCtSWYw8Ihc1ht1u/VWLVtPL+qCcfWCMv4IYJT+MSO6kY5SD59DzC7OS7cT
-	 fJf+b6yKbehPHS81fQp5CwdpAPxWE45RzG+pK6WkBCcbHUXOsHQiazOg+hf2Bdiu1Z
-	 gOsW4xnGIfYqDw00qv8Ps94lfOTre5/s14y9ClNbd0AD0QR6oeCQv1wZiFD3rf4H5g
-	 OwI4IwLmlSx3KbqmNnmd9udILQNlPJQlh4KMeS4oZzLpaRODRWjentZFOtPE+yAHQi
-	 TUuXi8+m4CcLzC6r3ecb8bCzfr3xNL3sJk4EjPYFbFGqdSPnqat5EXJFHupvloA/+a
-	 qrMDBbrQYOjUg==
+	s=k20201202; t=1739137938;
+	bh=0si0Xis62iZA84qjLJyvATPABObzdkShZCMEtd/PLkc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=vG9AyR5dglSEMheQFu9Ye1G2CKwERsIGnDNCKNLoDEvzLCDvoP8x6RgykpcpVVCnH
+	 GhJwYV0scOUai3iiBDBcZUVxIFPbEZlUBIURw8cwIngOCHM/M798cDwR7fMD6DW2VE
+	 iEF6FTPQ9v9SINoG4ux68ZNZmZ1HotAFekFnmyZAEbCtuhmkku+rhzhbRsfhtFOcoJ
+	 0DR0qe8JIhBNfcELEz/Na7oZjdQA1kSGqrWUA8qFsyxsUffkw0doFuC8swinNvffmk
+	 58p3lZSI6C4lOt19lKbj8XUFsHAN5aw/37x67M935Dya7tYEuvZ8SQNpnzBIwuFRYy
+	 EiMu5RI9geW4Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9095C0219B;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB84EC0219D;
 	Sun,  9 Feb 2025 21:52:17 +0000 (UTC)
 From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Subject: [PATCH v3 0/2] media: i2c: dw9719: Add device tree bindings for
- the VCM
-Date: Sun, 09 Feb 2025 22:51:56 +0100
-Message-Id: <20250209-dw9761dts-v3-0-14d3f00f0585@apitzsch.eu>
+Date: Sun, 09 Feb 2025 22:51:57 +0100
+Subject: [PATCH v3 1/2] dt-bindings: media: i2c: Add DW9719 and DW9761 VCM
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,12 +55,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAHwjqWcC/42QzW7DIBAGX8XiXCxYbH58yntUOWBYBw6OUyBO2
- sjvXuKmUo89joRmh+9BMqaImQzNgyRcY47LuYJ4a4gL9nxCGn1lAgx6BkxSfzNKcl8ydd455hT
- vRm5JfX9JOMX77no/Vp7SMtMSEtpfQ8c564EJ2esWjBKKcho8nhb0eEjogy2tW+aXLOHHtfaUH
- yOZMWe79wzN/13Dyp+60WakFedYhkZPUoJxjNVyIzwIyUF23AnJFCrda27QKDuS5y9CzGVJn/t
- AK+wlry30ny1WqOcdE3rSFqbRdAd7ieUru9DilRy3bfsG+6/qdmoBAAA=
-X-Change-ID: 20250206-dw9761dts-cdcc0c714b1a
+Message-Id: <20250209-dw9761dts-v3-1-14d3f00f0585@apitzsch.eu>
+References: <20250209-dw9761dts-v3-0-14d3f00f0585@apitzsch.eu>
+In-Reply-To: <20250209-dw9761dts-v3-0-14d3f00f0585@apitzsch.eu>
 To: Daniel Scally <djrscally@gmail.com>, 
  Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -71,11 +67,11 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739137936; l=1009;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739137936; l=1650;
  i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=uLOKFkONbrwKQL0GVTL+RBqZQj2F5LXwTUf/BvmTzYQ=;
- b=IiP+hQdUKjqTHKOqSuxW1WjW+yGfW8hmUydgX6oR5AURPoKBy3XBShxsYFyalzKIFzRVTHQDS
- TolWnwqv4ZYB5rNwKTkTe4pScljy2iThcbsn3Uoipz2JDLP5bH9RXHg
+ bh=VMCqVc24c9S5LJtNjPFsXe/GrcCNw3hzuYoj92Rfr3Y=;
+ b=0ThCYlAuDhrGQ10YOxPYdp0nNASxxTKs4qP4uq+GUh8ksDVdew/NEv8VR7yZ8JVep7D5+nFdJ
+ DNxu9OmClHdDQiVgp2oIazWRuJz7qo6gx8lmz0RiosuwVgCsT2vzvqi
 X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
  pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
 X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
@@ -83,35 +79,69 @@ X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
 X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 Reply-To: git@apitzsch.eu
 
-Document the Dongwoon DW9719 and DW9761 dt-bindings and add the related
-of_match table.
+From: André Apitzsch <git@apitzsch.eu>
+
+Document Dongwoon DW9719 and DW9761 VCM devicetree bindings.
 
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
-Changes in v3:
-- Add patch to document devicetree bindings
-- Add "i2c:" to the subject of the 'Add of_match table' commit message
-- Link to v2: https://lore.kernel.org/r/20250208-dw9761dts-v2-1-c038f8a2fb94@apitzsch.eu
-
-Note, there was no v1.
-
----
-André Apitzsch (2):
-      dt-bindings: media: i2c: Add DW9719 and DW9761 VCM
-      media: i2c: dw9719: Add of_match table
-
  .../bindings/media/i2c/dongwoon,dw9719.yaml        | 45 ++++++++++++++++++++++
- drivers/media/i2c/dw9719.c                         |  8 ++++
- 2 files changed, 53 insertions(+)
----
-base-commit: 8f6629c004b193d23612641c3607e785819e97ab
-change-id: 20250206-dw9761dts-cdcc0c714b1a
-prerequisite-message-id: 20241105203658.29737-1-hdegoede@redhat.com:v1
-prerequisite-patch-id: b0a57666bd20b97291583c3052065dc314a37e79
+ 1 file changed, 45 insertions(+)
 
-Best regards,
+diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..b38d22bf09713a7999e1f9ce6553de7587dbe5d2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
+@@ -0,0 +1,45 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9719.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Dongwoon Anatech DW9719 Voice Coil Motor (VCM) Controller
++
++maintainers:
++  - devicetree@vger.kernel.org
++
++description:
++  The Dongwoon DW9719 is a 10-bit digital-to-analog (DAC) converter. The DAC
++  is controlled via a 2-wire (I2C-compatible) serial interface.
++
++properties:
++  compatible:
++    enum:
++      - dongwoon,dw9719
++      - dongwoon,dw9761
++
++  reg:
++    maxItems: 1
++
++  vdd-supply:
++    description: Regulator providing power to the "VDD" pin.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera-lens@c {
++            compatible = "dongwoon,dw9761";
++            reg = <0x0c>;
++            vdd-supply = <&pm8916_l10>;
++        };
++    };
+
 -- 
-André Apitzsch <git@apitzsch.eu>
+2.48.1
 
 
 
