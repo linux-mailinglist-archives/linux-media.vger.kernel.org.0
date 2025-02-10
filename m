@@ -1,202 +1,118 @@
-Return-Path: <linux-media+bounces-25890-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA58AA2E893
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 11:05:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC9FA2E8B8
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 11:08:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D774163582
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 10:05:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 51B933AB7B2
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 10:07:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5331CC89D;
-	Mon, 10 Feb 2025 10:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 241B51CAA6F;
+	Mon, 10 Feb 2025 10:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="e9JIjGIb"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="4xWJWD3A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A111C4A0A;
-	Mon, 10 Feb 2025 10:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB351C5F12;
+	Mon, 10 Feb 2025 10:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739181802; cv=none; b=cNlSlXZbQg6FHLPWgwrvNKIR23yprqntOg9uYSrOozADiwY9fAnOxIcbFnwDieX6CwjJqAyzI4Fi/ZOxKlKUrN88o2KNjJtcCozOAtC37amkk0XMs1/qALWPWFxKrWD/wwYzjgXgdVtxMHB0ElnnuSh3jvaJ9ORsO19zs4fmxdY=
+	t=1739182069; cv=none; b=D1lLvJB0ZDe1KoJN+citeHO8W/VzUEeunsh9kSHQXfd+fbKkaX8Q4PeSO2ym71PrRobQFlES8xwSjvR1LDF0Asjr15uPMDpDc0YJ/ckWhVQFG7aEr7RVR/t6G+Puu3OqmGx75OjIWT3b0C1+yfbaIlZYEbALw/YNOuY9N7wCkuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739181802; c=relaxed/simple;
-	bh=DYI8FPWv2nrFA0bms9nZRqfoHZqOqiWHzVO7WBrXD7c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ht47ZUb1sd7wRmzBeFXmgumD5a4lsN8wCmS/e4MrLlwuE3+J+46rBtgFxx71if4bMazGrDj5cOcGmKDewY9U9r8qiRP6e2BpULVDC3ymEr2Xd4+Qz4CpvedaKkrLs5GvbWJ1sRaD7roGSU72rp+XRwFa4y8I5/1vGRZC3A0lNAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=e9JIjGIb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE35322E;
-	Mon, 10 Feb 2025 11:02:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739181720;
-	bh=DYI8FPWv2nrFA0bms9nZRqfoHZqOqiWHzVO7WBrXD7c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e9JIjGIbxAbHFBZNoHhzMtWVU3aQ9YxlVTuCOKgJi2aq03Ua4rQA6/NKopcvO1WuG
-	 cHjfxeUHiqkeHdDEuwFrBPi5JqWzg2Kq/4BvNV1sd9vHfM8lVjcq46bd0u3vXU42pb
-	 vq62ObCJEh+arMeDvr5kTxRVUI5tnOOcDdKA4qGI=
-Date: Mon, 10 Feb 2025 12:03:07 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "zhangzekun (A)" <zhangzekun11@huawei.com>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, robh@kernel.org,
-	saravanak@google.com, justin.chen@broadcom.com,
-	florian.fainelli@broadcom.com, andrew+netdev@lunn.ch,
-	kuba@kernel.org, kory.maincent@bootlin.com,
-	jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
-	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
-	olteanv@gmail.com, davem@davemloft.net, taras.chornyi@plvision.eu,
-	edumazet@google.com, pabeni@redhat.com, sudeep.holla@arm.com,
-	cristian.marussi@arm.com, arm-scmi@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-media@vger.kernel.org,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	chenjun102@huawei.com
-Subject: Re: [PATCH 1/9] of: Add warpper function
- of_find_node_by_name_balanced()
-Message-ID: <20250210100307.GA2966@pendragon.ideasonboard.com>
-References: <20250207013117.104205-1-zhangzekun11@huawei.com>
- <20250207013117.104205-2-zhangzekun11@huawei.com>
- <Z6XDKi_V0BZSdCeL@pengutronix.de>
- <80b1c21c-096b-4a11-b9d7-069c972b146a@huawei.com>
- <20250207153722.GA24886@pendragon.ideasonboard.com>
- <c48952c7-716c-4302-949c-2c66ea102a3e@huawei.com>
+	s=arc-20240116; t=1739182069; c=relaxed/simple;
+	bh=qQ68sf6xTmfS+0HraBhqE6LqqgYEwQblx/dTeVABmZ0=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=drcQNbGE2ulmizYOpHgU+6+8JavgSZ06KQvtDwzIDkTKVaIMAqMUXVCgPSDJuM/6uoP24TLPwkRo158LcurO/hYsKCKa59f6iRp9F5xYX5+DLQ3LgUJYkQjWsd6psiWafIMwQSb1fN7e2ZM2QWxkc2y6iSoTjADFPlpoamV+bxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=4xWJWD3A; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51A9epr5012596;
+	Mon, 10 Feb 2025 11:07:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=selector1; bh=/H+us+EpN5gsIUBiB28735
+	vhfURAgKzhJf8uRl0O2pI=; b=4xWJWD3AB2S4EH6i28/FicuBfQaDy5KGsqp9Yy
+	xQ3UBm+EpK9IRp4LP1dIXUoCjDHyicQORR+48DCdMMmhBbmktc28Zsfnj5QvEnwH
+	0e+JPa6a9TGy5l3D/wk7wrHYxTaH/XyA/9mkPDzDKKRk0Kz4xSS+L3i+avQUfNfJ
+	VbdxPRlKddOdD7xVAs+pyKXyoqOF0j4bPj3zVbPEDdWYZJPvXPSRLKKFxkCY2Uin
+	81krOXng//YV27/HSDLEkfTQFv/IFj5wFPnT3QPkgLpon+SONoaMhEzhqU8MzRIY
+	QPfTEBYkS8msORr6G3foOogx3CbFw1PxxllHUJjFYlhjYpdw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 44p0wswptp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Feb 2025 11:07:13 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B2C4E4004C;
+	Mon, 10 Feb 2025 11:06:14 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9629D2BE929;
+	Mon, 10 Feb 2025 11:05:00 +0100 (CET)
+Received: from localhost (10.252.6.236) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 10 Feb
+ 2025 11:05:00 +0100
+From: Alain Volmat <alain.volmat@foss.st.com>
+Subject: [PATCH 0/2] ARM: dts: stm32: correct dtsi and yaml related to
+ dcmipp & mipid02
+Date: Mon, 10 Feb 2025 11:04:29 +0100
+Message-ID: <20250210-6-14-stm32-media-fixes-v1-0-c64ebe9af8bb@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c48952c7-716c-4302-949c-2c66ea102a3e@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC3PqWcC/x3LSQqAMAxA0atI1gaa2jpdRVw4RM3CgUZEEO9uc
+ fn4/AeUg7BCnTwQ+BKVfYugNIFh6baZUcZosMZ6Y8lgjuRQzzWzuPIoHU5ys6IvyfRu4r6iAuJ
+ 8BP5DfJv2fT/o7CZcaAAAAA==
+X-Change-ID: 20250210-6-14-stm32-media-fixes-5810b4feb917
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin
+	<mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marex@denx.de>
+CC: <devicetree@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, Alain Volmat <alain.volmat@foss.st.com>,
+        <stable@vger.kernel.org>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-10_05,2025-02-10_01,2024-11-22_01
 
-Hi Zekun,
+This series corrects two issues found on the stm32mp135f-dk related
+to a missing clock-names property within the stm32mp135.dtsi and a
+st-mipid02 device-tree bindings issue.
 
-On Mon, Feb 10, 2025 at 02:47:28PM +0800, zhangzekun (A) wrote:
-> > I think we all agree that of_find_node_by_name() is miused, and that it
-> > shows the API isn't optimal. What we have different opinions on is how
-> > to make the API less error-prone. I think adding a new
-> > of_find_node_by_name_balanced() function works around the issue and
-> > doesn't improve the situation much, I would argue it makes things even
-> > more confusing.
-> > 
-> > We have only 20 calls to of_find_node_by_name() with a non-NULL first
-> > argument in v6.14-rc1:
-> > 
-> > arch/powerpc/platforms/chrp/pci.c:      rtas = of_find_node_by_name (root, "rtas");
-> > 
-> > The 'root' variable here is the result of a call to
-> > 'of_find_node_by_path("/")', so I think we could pass a null pointer
-> > instead to simplify things.
-> > 
-> > arch/powerpc/platforms/powermac/pic.c:          slave = of_find_node_by_name(master, "mac-io");
-> > 
-> > Here I believe of_find_node_by_name() is called to find a *child* node
-> > of 'master'. of_find_node_by_name() is the wrong function for that.
-> > 
-> > arch/sparc/kernel/leon_kernel.c:        np = of_find_node_by_name(rootnp, "GAISLER_IRQMP");
-> > arch/sparc/kernel/leon_kernel.c:                np = of_find_node_by_name(rootnp, "01_00d");
-> > arch/sparc/kernel/leon_kernel.c:        np = of_find_node_by_name(nnp, "GAISLER_GPTIMER");
-> > arch/sparc/kernel/leon_kernel.c:                np = of_find_node_by_name(nnp, "01_011");
-> > 
-> > Here too the code seems to be looking for child nodes only (but I
-> > couldn't find a DT example or binding in-tree, so I'm not entirely
-> > sure).
-> > 
-> > drivers/clk/ti/clk.c:   return of_find_node_by_name(from, tmp);
-> > 
-> > Usage here seems correct, the reference-count decrement is intended.
-> > 
-> > drivers/media/i2c/max9286.c:    i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
-> > drivers/media/platform/qcom/venus/core.c:       enp = of_find_node_by_name(dev->of_node, node_name);
-> > drivers/net/dsa/bcm_sf2.c:      ports = of_find_node_by_name(dn, "ports");
-> > drivers/net/dsa/hirschmann/hellcreek_ptp.c:     leds = of_find_node_by_name(hellcreek->dev->of_node, "leds");
-> > drivers/net/ethernet/broadcom/asp2/bcmasp.c:    ports_node = of_find_node_by_name(dev->of_node, "ethernet-ports");
-> > drivers/net/ethernet/marvell/prestera/prestera_main.c:  ports = of_find_node_by_name(sw->np, "ports");
-> > drivers/net/pse-pd/tps23881.c:  channels_node = of_find_node_by_name(priv->np, "channels");
-> > drivers/regulator/scmi-regulator.c:     np = of_find_node_by_name(handle->dev->of_node, "regulators");
-> > drivers/regulator/tps6594-regulator.c:          np = of_find_node_by_name(tps->dev->of_node, multi_regs[multi].supply_name);
-> > 
-> > Incorrect usage, as far as I understand all those drivers are looking
-> > for child nodes only.
-> > 
-> > drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest16");
-> > drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest17");
-> > drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest18");
-> > drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest19");
-> > 
-> > Here too I think only child nodes are meant to be considered.
-> > 
-> > of_find_node_by_name() is very much misused as most callers want to find
-> > child nodes, while of_find_node_by_name() will walk the whole DT from a
-> > given starting point.
-> > 
-> > I think the right fix here is to
-> > 
-> > - Replace of_find_node_by_name(root, ...) with
-> >    of_find_node_by_name(NULL, ...) in arch/powerpc/platforms/chrp/pci.c
-> >    (if my understanding of the code is correct).
-> 
-> For arch/powerpc/platforms/chrp/pci.c, noticing that there is a comment 
-> in setup_peg2():
->   /* keep the reference to the root node */
-> 
-> It might can not be convert to of_find_node_by_name(NULL, ...), and the 
-> origin use of of_find_node_by_name() put the ref count which want to be 
-> kept.
+Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+---
+Alain Volmat (2):
+      ARM: dts: stm32: add missing dcmipp kclk clock-names in stm32mp135.dtsi
+      dt-bindings: media: st,stmipid02: correct lane-polarities maxItems
 
-But the reference is dropped by of_find_node_by_name(). Unless I'm
-missing something, dropping the lien
+ Documentation/devicetree/bindings/media/i2c/st,st-mipid02.yaml | 2 +-
+ arch/arm/boot/dts/st/stm32mp135.dtsi                           | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+---
+base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
+change-id: 20250210-6-14-stm32-media-fixes-5810b4feb917
 
-	struct device_node *root = of_find_node_by_path("/");
-
-and changing
-
-	rtas = of_find_node_by_name (root, "rtas");
-
-to
-
-	rtas = of_find_node_by_name (NULL, "rtas");
-
-will not change the behaviour of the code.
-
-> > 
-> > - Replace of_find_node_by_name() with of_get_child_by_name() in callers
-> >    that need to search immediate children only (I expected that to be the
-> >    majority of the above call sites)
->
-> Since there is no enough information about these DT nodes, it would take 
-> time to prove if it is OK to make such convert.
-
-It will take a bit of time, yes. I'm afraid time is needed to improve
-things :-) In most cases, as DT bindings are available, it shouldn't be
-very difficult.
-
-> > 
-> > - If there are other callers that need to find indirect children,
-> >    introduce a new of_get_child_by_name_recursive() function.
-> > 
-> > At that point, the only remaining caller of of_find_node_by_name()
-> > (beside its usage in the for_each_node_by_name() macro) will be
-> > drivers/clk/ti/clk.c, which uses the function correctly.
-> > 
-> > I'm tempted to then rename of_find_node_by_name() to
-> > __of_find_node_by_name() to indicate it's an internal function not meant
-> > to be called except in special cases. It could all be renamed to
-> > __of_find_next_node_by_name() to make its behaviour clearer.
-> >
-> 
-> The actual code logic of of_find_node_by_name() is more suitable to be 
-> used in a loop.So,rename of_find_node_by_name() to 
-> __of_find_next_node_by_name() seems to be a good idea.
-
+Best regards,
 -- 
-Regards,
+Alain Volmat <alain.volmat@foss.st.com>
 
-Laurent Pinchart
 
