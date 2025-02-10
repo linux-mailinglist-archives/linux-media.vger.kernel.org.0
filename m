@@ -1,71 +1,72 @@
-Return-Path: <linux-media+bounces-25927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25928-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282E3A2EFD1
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 15:32:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8280A2EFF7
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 15:37:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E92D83A32D2
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 14:32:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5217A188857F
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 14:37:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4015252911;
-	Mon, 10 Feb 2025 14:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DBC8204861;
+	Mon, 10 Feb 2025 14:36:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fDS7meTM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WNhSahZf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564822528FA
-	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 14:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9536204864
+	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 14:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739197942; cv=none; b=KzlgB/jhX0SKf2fc5blZvRKzH7HeEOnl22t96Xqbh/+8rjX2z6blxJ18gwq4/a2a5K2yZ0YaJxPTNt3pDt0VUWVvnDSvC0gbWqGZGnn0IWqB2eJ8PeaN9sbmHBUvhwVOSkbmZGYMbxHqS9Jp8xFWkOXTMHMGpG8rW1WhB9dtBnA=
+	t=1739198167; cv=none; b=k2RvGNkxgLtYm4RtyyHDSCfX2tqZN0JihQd9TYXeUmsta4SRnrtiYKlKHpW6VrFh5Jb4X2mPV6LFe9W7eeJ42PNG+JbTVifx3LHTyrHlgvC/pr1Y+4i2uaJvxAggW5u0G7hZgcD2PQ7oPS85as7LUbx9oKNCmuusX8fS6WXH/GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739197942; c=relaxed/simple;
-	bh=ymebnlNRKek7qoTCN5YtnTMeyGiS6c8NW1hm4bfthOA=;
+	s=arc-20240116; t=1739198167; c=relaxed/simple;
+	bh=zQEjSIUJfgMrND5TVNwRcJhQRZh2Xn48MAFoPUzNZQ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A24NJ0OKBk0xZUDzO7B0E1ddleyewdJEhlgy3lmsjcZoaTwDzUGnIrgFOYoA1Gus8R8coOTG6X9kuMEGA9dUM2r4f6hHCEaNaZ8GQxGbBbqWJrlCL1Y3FMpg8WP/kNrPsTaA+JHn263Od/iVfiT7qpOj4Pf2l9UBEaFHXMGfSSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fDS7meTM; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLTrGubPCKbJ3/rfs7P7pYH/TSCg7tdHXiSfEMVqtoOv4boRn0uFg5g6tnn+VtJfK8w/bG2lcveTJfBD3AKBEf86Q5YX8HPDeG5uNigDaYJNd1pmIYrkZgzY+iSWIqKs7cUde0+D7KRN511bLaiD4N/IL/hP8CQyDRLzKzJmCqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WNhSahZf; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739197941; x=1770733941;
+  t=1739198165; x=1770734165;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ymebnlNRKek7qoTCN5YtnTMeyGiS6c8NW1hm4bfthOA=;
-  b=fDS7meTMW/HptV+1E6VMtt6+Y+2/OXYgDtuJu7n6Fl/1iVOPXCGhRWQk
-   TkEP2U5qmKaRbgp2woj2vMLjldKp6n9OG/8RPMMQVSd630gvOTzT4+LCJ
-   WLB251RwpViPVvJXkLW0rMC4kMrxgORKtYv3homjLBGQ54RqnIvr1+4AC
-   BH5RAS6r7BIHHZgql/umiPYEf9N3MSQw7PfYlUiIRPl4Tu1++AJ3rbpFt
-   eI0Ecfil+JbSRmETeb1MJS7TZdlmoXzFZdP55PqQNIaT2df2HDk6U7P67
-   lCfK8kSydIo+VX78UQed92RUTCSCbhjGQLF+MNgiu1aVKOgNRT2lBSh6n
-   w==;
-X-CSE-ConnectionGUID: J4xpMgLkSjObJMZpdu3zRw==
-X-CSE-MsgGUID: BmHcgfMYSXOozpjYspR4RA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="51171680"
+  bh=zQEjSIUJfgMrND5TVNwRcJhQRZh2Xn48MAFoPUzNZQ4=;
+  b=WNhSahZfYdPB1e6sVncG3OgpQKdz3Hh21yEHYoxPdFzq15wL4bxnEA1n
+   uAfMxNezzR217w1SpyfgkGSK3V7HXIC36WOD3IIN5glnKCoJxQUr8dMCL
+   ONYrLOVJQiYB0S9u/AM7IKnwNkmM6n9byx1YoC6IZYUbvgNOpR7494Zb7
+   k4xK4gJHVmqC9M+2GHgQyKyOkVvtD2sCtyHtnwrca504wTZMF3sGPo/Rz
+   F7AIRgQnYuDIFloLCAy37pw0P9XA961J00fqstz9ZmciL63DZhxWXj3ri
+   KHgxWrm15TAgM0apWPxER5WgS/f9o71VyNSQCiEwldcTiCqeCHCwQF9G8
+   A==;
+X-CSE-ConnectionGUID: H46O3AnSSJK3X7RrbF57ww==
+X-CSE-MsgGUID: Mdxfme1qRHWx2PecRiZ+yA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="57193609"
 X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="51171680"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:32:20 -0800
-X-CSE-ConnectionGUID: oQy7mGk2QdeMxCCsq58o2g==
-X-CSE-MsgGUID: JL2Wi3ohSimFc8LZztHWog==
+   d="scan'208";a="57193609"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:36:02 -0800
+X-CSE-ConnectionGUID: KqWeeeT9Sk2sJ0d3mR6ZBw==
+X-CSE-MsgGUID: cGTjL/IaTuWJxVHIFubchA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116272261"
+X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
+   d="scan'208";a="112429917"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:32:14 -0800
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:35:35 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id AC3C011F8D9;
-	Mon, 10 Feb 2025 16:32:11 +0200 (EET)
-Date: Mon, 10 Feb 2025 14:32:11 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3193C11F8D9;
+	Mon, 10 Feb 2025 16:35:33 +0200 (EET)
+Date: Mon, 10 Feb 2025 14:35:33 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+To: Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
 	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
 	Alexander Shiyan <eagle.alexander923@gmail.com>,
 	Mikhail Rudenko <mike.rudenko@gmail.com>,
@@ -82,7 +83,6 @@ Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
 	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
 	"Wang, Hongju" <hongju.wang@intel.com>,
 	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
 	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
 	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
@@ -90,12 +90,12 @@ Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>,
 	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [RFC v5 13/15] media: uapi: Add V4L2_CID_BINNING control for
- binning configuration
-Message-ID: <Z6oN60Ek543JiylM@kekkonen.localdomain>
+Subject: Re: [EXT] [RFC v5 11/15] media: Documentation: Document luma-only
+ mbus codes and CFA for cameras
+Message-ID: <Z6oOtUxtbwu5kjxQ@kekkonen.localdomain>
 References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
- <20250203085853.1361401-14-sakari.ailus@linux.intel.com>
- <7215ff25-5fde-42ae-9f53-c2d200855849@xs4all.nl>
+ <20250203085853.1361401-12-sakari.ailus@linux.intel.com>
+ <d70aa0d1-9453-42ef-bede-debdad504dc8@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,96 +104,62 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7215ff25-5fde-42ae-9f53-c2d200855849@xs4all.nl>
+In-Reply-To: <d70aa0d1-9453-42ef-bede-debdad504dc8@nxp.com>
 
-Hi Hans,
+Hi Mirela,
 
-Thank you for the review.
-
-On Mon, Feb 10, 2025 at 03:07:25PM +0100, Hans Verkuil wrote:
-> On 03/02/2025 09:58, Sakari Ailus wrote:
-> > Add V4L2_CID_BINNING control for configuring binning and enumerating a
-> > camera sensor's binning capabilities. The control combines horizontal and
-> > vertical binning into a single control as the two are generally related.
+On Sun, Feb 09, 2025 at 07:48:27PM +0200, Mirela Rabulea wrote:
+> Hi Sakari,
+> 
+> On 03.02.2025 10:58, Sakari Ailus wrote:
+> > Caution: This is an external email. Please take care when clicking links or opening attachments. When in doubt, report the message using the 'Report this email' button
 > > 
-> > New drivers should use this control to configure binning.
+> > 
+> > Document the use of luma-only mbus codes for camera sensors and how the
+> > V4L2_CID_COLOUR_PATTERN and V4L2_CID_COLOUR_PATTERN_FLIP controls are used
+> > to convey the colour filter array pattern on UAPI.
 > > 
 > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > > ---
-> >  .../media/drivers/camera-sensor.rst           | 10 +++++++
-> >  .../media/v4l/ext-ctrls-camera.rst            | 29 +++++++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 ++
-> >  include/uapi/linux/v4l2-controls.h            |  1 +
-> >  4 files changed, 42 insertions(+)
+> >   .../userspace-api/media/drivers/camera-sensor.rst   | 13 +++++++++++++
+> >   .../media/v4l/ext-ctrls-image-source.rst            |  4 ++++
+> >   2 files changed, 17 insertions(+)
 > > 
 > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > index 91e5305458b9..59431ab0b923 100644
+> > index 5bc4c79d230c..91e5305458b9 100644
 > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
 > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > @@ -120,6 +120,16 @@ values programmed by the register sequences. The default values of these
-> >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> >  independently of the sensor's mounting rotation.
-> >  
-> > +Binning
-> > +-------
+> > @@ -41,6 +41,19 @@ format set on a source pad at the end of the device's internal pipeline.
+> > 
+> >   Most sensor drivers are implemented this way.
+> > 
+> > +V4L2_CID_COLOUR_PATTERN, luma-only mbus formats, flipping and cropping
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > > +
-> > +Binning has traditionally been configured using :ref:`the compose selection
-> > +rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
-> > +<v4l2-cid-camera-sensor-binning>` is also available for binning configuration and
-> > +users should use it when it's available. Drivers supporting the control shall
-> > +also support the compose rectangle, albeit the rectangle may be read-only when
-> > +the control is present.
+> > +For raw image data originating from camera sensors, :ref:`luma-only mbus codes
+> > +MEDIA_BUS_FMT_Yx_1Xx (where 'x' is the bit depth) <v4l2-mbus-pixelcode-yuv8>`
+> > +are used as Colour Filter Array (CFA) agnostic raw formats. The
+> > +``V4L2_CID_COLOUR_PATTERN <image-source-control-colour-pattern>`` control in the
+> > +same sub-device defines the native colour pattern of the device. Flipping may
+> > +further affect the readout pattern as indicated by the
+> > +``V4L2_CID_COLOUR_PATTERN_FLIP <image-source-control-colour-pattern-flip>``
+> > +control. Further on, cropping also has an effect on the pattern if cropped
+> > +amount is not divisible by the size of the pattern, horizontally and vertically.
 > > +
-> >  .. _media_using_camera_sensor_drivers_embedded_data:
-> >  
-> >  Embedded data
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > index cdc515c60468..18b484ff5d75 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > @@ -672,3 +672,32 @@ enum v4l2_scene_mode -
-> >  
-> >      As modes differ for each sensor, menu items are not standardized by this
-> >      control and are left to the programmer.
-> > +
-> > +.. _v4l2-cid-camera-sensor-binning:
-> > +
-> > +``V4L2_CID_BINNING_FACTORS (integer menu)``
-> > +
-> > +    Horizontal and vertical binning factors. Binning combines several
-> > +    horizontal, vertical or both pixel values into a single pixel. It is a way
-> > +    to scale an image. Binning typically produces fairly good quality output.
-> > +
-> > +    Determines both horizontal and vertical binning factors for a camera
-> > +    sensor. The values are encoded in the following way:
-> > +
-> > +.. flat-table::
-> > +    :header-rows:  1
-> > +    :stub-columns: 0
-> > +
-> > +    * - Bits
-> > +      - Synopsis
-> > +    * - 48--63
-> > +      - Horizontal binning numerator.
-> > +    * - 32--47
-> > +      - Horizontal binning denominator.
-> > +    * - 16--31
-> > +      - Vertical binning numerator.
-> > +    * - 0--15
-> > +      - Vertical binning denominator.
 > 
-> This suggests that the vertical and horizontal binning factors are not
-> independent settings, is that correct?
-
-There are dependencies between the two, yes.
-
+> Ok, so it is clear now, the V4L2_CID_COLOUR_PATTERN stands for the "native
+> colour pattern", as opposed to the "readout pattern". It is good to make the
+> distinction.
 > 
-> How does this control (and the subsampling controls) relate to the ROTATE control?
-> Does it happen before or after the rotate?
+> Maybe the V4L2_CID_COLOUR_PATTERN control description in patch #7 could also
+> be made more clear with regards to native vs readout pattern?
+> 
+> "This control determines the colour components and pixel order in the
+> sensor's CFA (Colour Filter Array)..." => "This control reports the colour
+> components and native pixel order in the sensor's CFA (Colour Filter
+> Array)..." ?
 
-In general there's no rotation support in (raw) camera sensors, just
-flipping. And flipping isn't affecting binning.
+I agree, I'll change this in v6.
 
 -- 
 Kind regards,
