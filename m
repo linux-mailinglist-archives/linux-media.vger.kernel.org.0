@@ -1,179 +1,187 @@
-Return-Path: <linux-media+bounces-25868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25869-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DD2A2E450
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 07:47:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F521A2E4DA
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 08:01:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BAE2A1883A66
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 06:47:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 076F6167CF6
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 07:01:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7E301A8419;
-	Mon, 10 Feb 2025 06:47:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 990161BBBC6;
+	Mon, 10 Feb 2025 07:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DAmCdaXC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8ABA189F20;
-	Mon, 10 Feb 2025 06:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30B2199E80;
+	Mon, 10 Feb 2025 07:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739170057; cv=none; b=uGMfG0ycsJR1KEprNDnC08vny8h2f0rYCGKbEA6neG/4+C67cMR3ABmw+lYVAp8U/C0mo2VK0EnNTR9gmyIF1jtgGmanWvpRUFVb3KCTrOj1ez+pd7Y6Jv75bBnrpcBk2U8OQpSstBUSlLiw6/fQRKvqM/YKvjpMYQ5yAc2HBs4=
+	t=1739170822; cv=none; b=sYFAx0fO7Zblp73RpWuUda5/hoCtJRzBf27TrbkepRBxUIFu2Qqs79P7m+dNUcS7dBSAzFPfzZrKcayGygjaUdvnfSSPycAEd5/wYC5OJs8ye6PkaipcUXWr7db9tIkY3T2qfsxa94H0N/s02ogRNQCR2EyIDhSuO8MOxAk6cLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739170057; c=relaxed/simple;
-	bh=e66W8EygnZvlrt91LMyE+AAHGIqSis3Oo8eWbRS+JTk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=f69ukjNvocauHkZKUh9DL1TjfXmxK19VufyPx80EcmMZrdSWomK9smmxKky9ASqDXnPWOZE9VTp/VQFFLPINzHz+EibGhNZ2nltdK9AtOjKSLAP8auIfqRTS/yry0edw2apslHc91B7Gbv5XDyz3TPF3b2VFFRrzCLNz1BSGbH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Yrw5c0HCfz1ltZX;
-	Mon, 10 Feb 2025 14:43:48 +0800 (CST)
-Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
-	by mail.maildlp.com (Postfix) with ESMTPS id EED2618001B;
-	Mon, 10 Feb 2025 14:47:30 +0800 (CST)
-Received: from [10.174.176.82] (10.174.176.82) by
- kwepemf500003.china.huawei.com (7.202.181.241) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 10 Feb 2025 14:47:28 +0800
-Message-ID: <c48952c7-716c-4302-949c-2c66ea102a3e@huawei.com>
-Date: Mon, 10 Feb 2025 14:47:28 +0800
+	s=arc-20240116; t=1739170822; c=relaxed/simple;
+	bh=Xl3BMLyDGUAanmjjk+KC91tfVRhpWXzxatEBHOqYqgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kniqJgilZ6NOHHSC9MKNe1mq4QPCrXmeno7oQu+p+XRE2h0ndY2kZLkddlTfuvQvp4WxdgWddFlj99pVi+K6nYCnrCSAuaEc0SRmCjseMqbCde2xmI1CHZtl3sCdNOQPFyLjdWBEyFunwHBPT7Pf0nqnxln2NdjH5L+IZJb7+FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DAmCdaXC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B145BC4CED1;
+	Mon, 10 Feb 2025 07:00:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739170821;
+	bh=Xl3BMLyDGUAanmjjk+KC91tfVRhpWXzxatEBHOqYqgA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DAmCdaXCUmboIE/ETNDWXRKXYYb2emgJl4jZrrjAdnnsaxk3GDjfjnQSPd6pdfgap
+	 XPspRb+hQYHhTJ4gfIgyN7ISYeaT2QRV4T4/35u6lKby5Xxckepk6P7gw6Ong0A7vx
+	 cVJ6PMDa/jy9vnx9+nPtKsk9a4Mw0aRCqLLJfC4oQ48Iuf7sZNGcWGFW+2xfAxlgYn
+	 CF9tubWhDbk2SciRn/t+n8ek+NrfuIPE/N33FbLAwA+wW2ZT3Lx1dUGDxKZMhWVnEQ
+	 emm1DeWpMiTDbWOMP4eGHma66v4wTKuMIohJdMDkSxvuJP3+IKpZc7x+hScctiSZMb
+	 cXyqpkzv+bHag==
+Date: Mon, 10 Feb 2025 08:00:16 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject: Re: Media committers model postponed to 6.14 - Was: Re: [PATCH v3
+ 0/3] Document the new media-committer's model
+Message-ID: <20250210080016.475d0518@foz.lan>
+In-Reply-To: <d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
+References: <cover.1733131405.git.mchehab+huawei@kernel.org>
+	<b0843e80-c46c-4344-b9f1-1d3b57dd2bbe@xs4all.nl>
+	<20241203081958.6c186835@foz.lan>
+	<20241203112209.GR10736@pendragon.ideasonboard.com>
+	<20241203140712.57daa65f@foz.lan>
+	<20241209091548.165e5152@foz.lan>
+	<d22d2f35-bf04-4d0c-a94c-70dcc08a945e@xs4all.nl>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: "zhangzekun (A)" <zhangzekun11@huawei.com>
-Subject: Re: [PATCH 1/9] of: Add warpper function
- of_find_node_by_name_balanced()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: Oleksij Rempel <o.rempel@pengutronix.de>, <robh@kernel.org>,
-	<saravanak@google.com>, <justin.chen@broadcom.com>,
-	<florian.fainelli@broadcom.com>, <andrew+netdev@lunn.ch>, <kuba@kernel.org>,
-	<kory.maincent@bootlin.com>, <jacopo+renesas@jmondi.org>,
-	<kieran.bingham+renesas@ideasonboard.com>, <maddy@linux.ibm.com>,
-	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <olteanv@gmail.com>,
-	<davem@davemloft.net>, <taras.chornyi@plvision.eu>, <edumazet@google.com>,
-	<pabeni@redhat.com>, <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
-	<arm-scmi@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <chenjun102@huawei.com>
-References: <20250207013117.104205-1-zhangzekun11@huawei.com>
- <20250207013117.104205-2-zhangzekun11@huawei.com>
- <Z6XDKi_V0BZSdCeL@pengutronix.de>
- <80b1c21c-096b-4a11-b9d7-069c972b146a@huawei.com>
- <20250207153722.GA24886@pendragon.ideasonboard.com>
-In-Reply-To: <20250207153722.GA24886@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemf500003.china.huawei.com (7.202.181.241)
 
-Hi, Laurent,
+Em Fri, 7 Feb 2025 12:54:52 +0100
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-> I think we all agree that of_find_node_by_name() is miused, and that it
-> shows the API isn't optimal. What we have different opinions on is how
-> to make the API less error-prone. I think adding a new
-> of_find_node_by_name_balanced() function works around the issue and
-> doesn't improve the situation much, I would argue it makes things even
-> more confusing.
+> On 09/12/2024 09:15, Mauro Carvalho Chehab wrote:
+> > Em Tue, 3 Dec 2024 14:07:12 +0100
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+> >   
+> >>
+> >> The idea is to gradually open media-committers to more people, as each
+> >> phase succeeds, addressing infra, procedures, etc.
+> >>
+> >> My rough idea is to do:
+> >>
+> >> - Phase 0.99: beta testers;
+> >> - Phase 1 is to invite people that regularly submit PRs;
+> >> - Phase 2 is to invite other active maintainers;
+> >> - Phase 3 (or 2?, TBD) to open for non-maintainers.
+> >>
+> >> We shouldn't rush it, as there are a lot to be done before opening it
+> >> broadly. So, I would say that:
+> >> - phase 0.99 would start in -rc2 (if things go well during this week); 
+> >> - phase 1 may still happen on this merge window, but as there will be
+> >>   only a few weeks between -rc2 and -rc6, and people usually get
+> >>   holidays in Dec/Jan, it is more likely that it will start for
+> >>   6.14-rc1, again if we didn't notice big issues on phase 0.99.
+> >>
+> >>   We should wait at least for a couple of releases on phase 1,
+> >>   again to cleanup process and fine-tune infra. If things go well, 
+> >>   we can move to phase 2.  
+> > 
+> > After some discussions with Hans, we decided to postpone the
+> > beta testers phase to the next kernel cycle. There are a couple of
+> > reasons for that:
+> > 
+> > - This should give us more time to come up with a final version of 
+> >   the media-committers documentation and agreement;  
 > 
-> We have only 20 calls to of_find_node_by_name() with a non-NULL first
-> argument in v6.14-rc1:
+> Where are we with this? I haven't seen any updates since this post.
 > 
-> arch/powerpc/platforms/chrp/pci.c:      rtas = of_find_node_by_name (root, "rtas");
-> 
-> The 'root' variable here is the result of a call to
-> 'of_find_node_by_path("/")', so I think we could pass a null pointer
-> instead to simplify things.
-> 
-> arch/powerpc/platforms/powermac/pic.c:          slave = of_find_node_by_name(master, "mac-io");
-> 
-> Here I believe of_find_node_by_name() is called to find a *child* node
-> of 'master'. of_find_node_by_name() is the wrong function for that.
-> 
-> arch/sparc/kernel/leon_kernel.c:        np = of_find_node_by_name(rootnp, "GAISLER_IRQMP");
-> arch/sparc/kernel/leon_kernel.c:                np = of_find_node_by_name(rootnp, "01_00d");
-> arch/sparc/kernel/leon_kernel.c:        np = of_find_node_by_name(nnp, "GAISLER_GPTIMER");
-> arch/sparc/kernel/leon_kernel.c:                np = of_find_node_by_name(nnp, "01_011");
-> 
-> Here too the code seems to be looking for child nodes only (but I
-> couldn't find a DT example or binding in-tree, so I'm not entirely
-> sure).
-> 
-> drivers/clk/ti/clk.c:   return of_find_node_by_name(from, tmp);
-> 
-> Usage here seems correct, the reference-count decrement is intended.
-> 
-> drivers/media/i2c/max9286.c:    i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
-> drivers/media/platform/qcom/venus/core.c:       enp = of_find_node_by_name(dev->of_node, node_name);
-> drivers/net/dsa/bcm_sf2.c:      ports = of_find_node_by_name(dn, "ports");
-> drivers/net/dsa/hirschmann/hellcreek_ptp.c:     leds = of_find_node_by_name(hellcreek->dev->of_node, "leds");
-> drivers/net/ethernet/broadcom/asp2/bcmasp.c:    ports_node = of_find_node_by_name(dev->of_node, "ethernet-ports");
-> drivers/net/ethernet/marvell/prestera/prestera_main.c:  ports = of_find_node_by_name(sw->np, "ports");
-> drivers/net/pse-pd/tps23881.c:  channels_node = of_find_node_by_name(priv->np, "channels");
-> drivers/regulator/scmi-regulator.c:     np = of_find_node_by_name(handle->dev->of_node, "regulators");
-> drivers/regulator/tps6594-regulator.c:          np = of_find_node_by_name(tps->dev->of_node, multi_regs[multi].supply_name);
-> 
-> Incorrect usage, as far as I understand all those drivers are looking
-> for child nodes only.
-> 
-> drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest16");
-> drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest17");
-> drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest18");
-> drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest19");
-> 
-> Here too I think only child nodes are meant to be considered.
-> 
-> of_find_node_by_name() is very much misused as most callers want to find
-> child nodes, while of_find_node_by_name() will walk the whole DT from a
-> given starting point.
-> 
-> I think the right fix here is to
-> 
-> - Replace of_find_node_by_name(root, ...) with
->    of_find_node_by_name(NULL, ...) in arch/powerpc/platforms/chrp/pci.c
->    (if my understanding of the code is correct).
+> Personally, I think the CI is ready for more committers, so it would be
+> nice if we can get some experience with that.
 
-For arch/powerpc/platforms/chrp/pci.c, noticing that there is a comment 
-in setup_peg2():
-  /* keep the reference to the root node */
+IMO, there are still some pending issues.
 
-It might can not be convert to of_find_node_by_name(NULL, ...), and the 
-origin use of of_find_node_by_name() put the ref count which want to be 
-kept.
+We still need to reach a consensus about what media maintainers will do.
+I have to confess that discussing last time was painful due to some
+arguments going too personal to my taste. Anyway, discussing it during
+the end of the year was not a good idea as people (including myself) were
+busy completing their yearly tasks. Also, people were taking vacations.
 
+At the end of the last year, I finally rewrote the scripts I use on my
+workflow. I'd like to test them during this cycle and see how it
+behaves. 
+
+While doing that, I noticed that we really need to have something like
+margebot to help our workflow. From my side, I'd like to have one separate
+MR per each separate patch series, as this makes easier to document the
+main changes that the media subsystem is merging. I hope to test them more
+during this Kernel cycle to be sure that everything is in place.
+
+While using my scripts, I ended having 4 or 5 pending MRs at
+media-committers. As we want a clean history without being bloated with
+merges from temp trees/branches, we need to have some automation to help
+basing the commits on the top of the branches.
+
+The idea is to have margebot enabled there, meaning that committers
+may delegate patches to margebot and let it automatically place patches
+on the top of the branches. However, margebot has currently a problem:
+it mangles with committer's metadata. Ricardo have been working upstream
+and they are reaching a consensus about how to support preserving
+committer data with margebot. IMO, we need that before having more
+committers.
+
+Finally, we need to have useful data to prepare changelog summary
+upstream. In the past, as we were reviewing everything, it was easier
+to identify the core changes (besides fixes/cleanups). With a
+multicommitter's model, we need to rely on what committers will be
+providing us. The idea I've been playing with, and that's what I
+ended implementing on last submission(*), is to generate it based on
+what each merge metadata contains.
+
+(*) Yet, the level of information there were very inconsistent.
+We need to do better during this cycle.
+
+> Regards,
 > 
-> - Replace of_find_node_by_name() with of_get_child_by_name() in callers
->    that need to search immediate children only (I expected that to be the
->    majority of the above call sites)
-Since there is no enough information about these DT nodes, it would take 
-time to prove if it is OK to make such convert.
+> 	Hans
 > 
-> - If there are other callers that need to find indirect children,
->    introduce a new of_get_child_by_name_recursive() function.
+> > 
+> > - This would also work better with regards to end of year's vacations,
+> >   as they'll be affecting at least 2/3 -rc versions. Plus, we all have
+> >   things to finish before such vacations. So, better to start fresh next
+> >   year;
+> > 
+> > - Media CI still had issues with a patch series I submitted, as it picked
+> >   the wrong baseline, causing CI to not test two patches that were
+> >   applied on the top of media-committers/next branch. This was fixed
+> >   by Ricardo, but it means that we may still need to polish CI before
+> >   granting more people righs there.
+> > 
+> > With that, if we want to start the media committers for 6.14, we should
+> > aim to close review this document by -rc6, or, at most, -rc7, getting 
+> > the patches merged during the next merge window.
+> > 
+> > Regard
+> > 
+> > Thanks,
+> > Mauro
+> >   
 > 
-> At that point, the only remaining caller of of_find_node_by_name()
-> (beside its usage in the for_each_node_by_name() macro) will be
-> drivers/clk/ti/clk.c, which uses the function correctly.
-> 
-> I'm tempted to then rename of_find_node_by_name() to
-> __of_find_node_by_name() to indicate it's an internal function not meant
-> to be called except in special cases. It could all be renamed to
-> __of_find_next_node_by_name() to make its behaviour clearer.
->
-
-The actual code logic of of_find_node_by_name() is more suitable to be 
-used in a loop.So,rename of_find_node_by_name() to 
-__of_find_next_node_by_name() seems to be a good idea.
-
-Best regards,
-Zekun
 
 
+
+Thanks,
+Mauro
 
