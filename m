@@ -1,145 +1,128 @@
-Return-Path: <linux-media+bounces-25929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E35A2F003
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 15:39:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DD82A2F240
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 16:56:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97B52161B0D
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 14:38:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2B5418819C2
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 15:56:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11C5F23C39B;
-	Mon, 10 Feb 2025 14:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F221C24418E;
+	Mon, 10 Feb 2025 15:56:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAztzmbD"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cigTyyx2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9F923C369
-	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 14:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E34B241CA6;
+	Mon, 10 Feb 2025 15:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739198248; cv=none; b=JV2Ca33P01v20Bf7QuCxTlDKHIp1NHVF5urXKxkxRMTJlSCZcoSjUcWDEnqf+7LAa63HQoNUc4L30NRa20rVdr+0VEOqNArGX23awGnBakJAoaFSXhDgf4Tp5/sJrWWmdiEJfAn+DJVx7BWo3/iyX50XNcX0LYgnB/S1Giq2Vew=
+	t=1739203000; cv=none; b=Mt4vZrlNKeQRI//jIaJI8+swBfbdDs3zhKsoEPAMbSbNcI9APxMBgOaUVMHiwfivignnIYWdTSqGACb5HwEEQX1yY8j/TETmhJPDlj/DUI9vN/Arevvt70JTfLHiTQNSYymJ946jiQ/PlMvIyuyTPMivYJsgrVOe9XylOCbOzeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739198248; c=relaxed/simple;
-	bh=cmcGZdByBpIwWXiCFPQx7UlhtAnaLVdfFIV/Cjv4AqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zi65Wnz1+hAnwCLXHAsUvU0EIuboyxa8M1mRigo5Zndpr/Oj8aUZ6jknvM72MsQb5ftlYjTX+oUWHi2b2t3fe3v+yjZHHRG6HfRcO8Vl8zN3sKAI3h0CpAreyqEd4tCOpgna8L+ZP/wbhK2xhtwAGIV/zhpmPVC7QPjSPMfq8ZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YAztzmbD; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739198247; x=1770734247;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cmcGZdByBpIwWXiCFPQx7UlhtAnaLVdfFIV/Cjv4AqU=;
-  b=YAztzmbDjNNS7Lr7WS/iLnA9WB1BR13guIKZm/11Y4PGrREq+oYaGl3e
-   MCVJzQ9/o9EQ151NEzXDme0umOdsOdAhoU2sJr0PUpb8TnLlIm+41LDLj
-   RjUCfrIqbj5R9byklK2F4AQhF24bgYSjupQc82STjEwZQ16ZVKULg7O/+
-   sSEEHl7vLDDLAT16McnfDMN7XJWytR76a4S6girwT2dBwTEJgv6RkB3di
-   FgMGB3yVovQxQY9mjhWwwyEABalrm0dxYoENix217ctVBAwbHOs3tvxpX
-   1SLnS+mcFqkY+CeVMX/AARfTHegtTd9d2TCylG3rz6XMtQP/dbXj3JZlz
-   w==;
-X-CSE-ConnectionGUID: W81VbkLVSHGS0C8EdCrp+Q==
-X-CSE-MsgGUID: Lr1rtT7ET7SjJ6oq9L+1bw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50012408"
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="50012408"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:37:26 -0800
-X-CSE-ConnectionGUID: 6wYIR3EXSn2xKrAchxlTaA==
-X-CSE-MsgGUID: Ll2p2A85SX6OAZ/aYZe3bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="112145091"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:37:20 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id C5C5711F8D9;
-	Mon, 10 Feb 2025 16:37:17 +0200 (EET)
-Date: Mon, 10 Feb 2025 14:37:17 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [RFC v5 07/15] media: uapi: Add V4L2_CID_COLOUR_PATTERN for
- describing colour patterns
-Message-ID: <Z6oPHQBiWRvduD8H@kekkonen.localdomain>
-References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
- <20250203085853.1361401-8-sakari.ailus@linux.intel.com>
- <d01e7921-4b50-47c5-8374-d55159a47cee@xs4all.nl>
+	s=arc-20240116; t=1739203000; c=relaxed/simple;
+	bh=rDedKxEefXsackABt6YFb3UahVifC+H9tWsS17tmshE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=peot3ezsYf5KM9KpJckFcWKfdaz0FQLcnT976RCloMBmHK+8e14j8ollJsBFlxTrTd4dePuivk9tEsaV8NEQ5wgb34oOGvKOyOsr3zai8pzm9/HB/lg1RKZMZfo2vJa0sEoTH4HzOmmnoFBV0l0iZUY59066yE29Qx31V2bpxeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cigTyyx2; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51A9HoDP001462;
+	Mon, 10 Feb 2025 15:56:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Wa0cJZMSZapOEwhgl8wBba
+	D2/qRsUY1uAW8tNNERCZ4=; b=cigTyyx2orDbmVFdHth0Y8Rib+2svLsWU6l/0q
+	ubLo9aF8vFpIbAH60i7U4UiL4DqAZdIU14XBMr+fuq9VOnMiEjLYrUDnZcVpnRQR
+	Lfza7jj6Y0lwIOHvu4gG6zkC0QLXZRXQEs9swBiPsbbz3rI2iVu2ntcVz5FS4gw0
+	JresF/gge1wkl5ilI1tg7KgvGvk5MhBo3zOPeU+pDosKvQkbGPMMaBkzgyLQIlFv
+	e+pa6GnIB6pK0gct2J8DM+RcnaXeJxq1b6b/b1ZJ6AElxE4l45sLZifLY4SBfugG
+	tSWNngV4FNyksXs/1BEr2XqwfGm/njV2K2RCehjLTx7DM7dw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qepxh0wf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Feb 2025 15:56:27 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51AFuPRD021331
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Feb 2025 15:56:25 GMT
+Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 10 Feb 2025 07:56:20 -0800
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <andersson@kernel.org>,
+        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <quic_vikramsa@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1 0/2] arm64: dts: qcom: sa8775p: Add sa8775p camss support
+Date: Mon, 10 Feb 2025 21:26:03 +0530
+Message-ID: <20250210155605.575367-1-quic_vikramsa@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d01e7921-4b50-47c5-8374-d55159a47cee@xs4all.nl>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _t0PWLJZIDep5kaAbqjtJanOuosYooqK
+X-Proofpoint-ORIG-GUID: _t0PWLJZIDep5kaAbqjtJanOuosYooqK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-10_09,2025-02-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ phishscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
+ mlxlogscore=613 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502100132
 
-Hi Hans,
+SA8775P is a Qualcomm SoC. This series adds bindings and devicetree to bring
+up CSIPHY, TPG, CSID, VFE/RDI interfaces in SA8775P.
 
-On Mon, Feb 10, 2025 at 09:57:08AM +0100, Hans Verkuil wrote:
-> Hi Sakari,
-> 
-> On 03/02/2025 09:58, Sakari Ailus wrote:
-> > Add V4L2_CID_COLOUR_PATTERN to tell the camera sensor's native colour
-> > pattern.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../userspace-api/media/v4l/ext-ctrls-image-source.rst | 10 ++++++++++
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c              |  1 +
-> >  include/uapi/linux/v4l2-controls.h                     |  6 ++++++
-> >  3 files changed, 17 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > index 71f23f131f97..fca729512b6f 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > @@ -92,3 +92,13 @@ Image Source Control IDs
-> >      representing a gain of exactly 1.0. For example, if this default value
-> >      is reported as being (say) 128, then a value of 192 would represent
-> >      a gain of exactly 1.5.
-> > +
-> > +``V4L2_CID_COLOUR_PATTERN (integer)``
-> 
-> Please use 'COLOR' instead of 'COLOUR' to be consistent with other color related
-> control names. So do a search-and-replace for this in code and documentation.
+SA8775P provides
+- 2 x VFE, 3 RDI per VFE
+- 5 x VFE Lite, 6 RDI per VFE
+- 2 x CSID
+- 5 x CSID Lite
+- 3 x TPG
+- 4 x CSIPHY
 
-Ack, I'll address this in v6.
+Used following tools for the sanity check of these changes.
+
+- make CHECK_DTBS=y W=1 DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml
+qcom/qcs6490-rb3gen2-vision-mezzanine.dtb
+- make DT_CHECKER_FLAGS=-m W=1
+DT_SCHEMA_FILES=media/qcom,sc7280-camss.yaml dt_binding_check
+- make -j32 W=1
+- ./scripts/checkpatch.pl
+
+Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+
+Vikram Sharma (2):
+  media: dt-bindings: Add qcom,sa8775p-camss
+  arm64: dts: qcom: sa8775p: Add support for camss
+
+ .../bindings/media/qcom,sa8775p-camss.yaml    | 351 ++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi         | 187 ++++++++++
+ 2 files changed, 538 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
 
 -- 
-Regards,
+2.25.1
 
-Sakari Ailus
 
