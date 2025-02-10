@@ -1,48 +1,36 @@
-Return-Path: <linux-media+bounces-25876-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25877-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D65EA2E679
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 09:30:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 600F2A2E713
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 09:57:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB632165939
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 08:30:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38A003A1538
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 08:57:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97F991C2439;
-	Mon, 10 Feb 2025 08:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bVBA3wW+"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DAF11C1F04;
+	Mon, 10 Feb 2025 08:57:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81DC1C1F21;
-	Mon, 10 Feb 2025 08:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94C143151
+	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 08:57:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739176172; cv=none; b=lFiIIKcxrwhNp7XEGj6n0frJC82BxdGMebw4qmRFjnjN4STiT4p63XQcODO9vnAcF8c/PgbhrBbt24mQOP5lc+TxuYIueOqcmSbRFNLXVXx5zoDW9TzNhTmCWY1vDC0tQahG7ZpctlIPobDb1PQqiwQOYzrFbKiaQswiVoRhq7A=
+	t=1739177836; cv=none; b=HYu3x+4E1AEPqVkBWfK3wz3lybWJbTDOsT6JDhpupZ2dQ37UXqU8uK2RhV40gRs/aNb3dbsBcJHpxmmT6ez9PdQPmBQs/PpludC0q2wDJQOALYzqXzNXDQ611XJEfxyGU3DK0kywLoNhJGBQKA4noTv4EnnMbRp9IHG0c3vshBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739176172; c=relaxed/simple;
-	bh=/Fp+B0JWQF2ROKHaiimvWG3bYLsZclFhzmKfyv5OYkw=;
+	s=arc-20240116; t=1739177836; c=relaxed/simple;
+	bh=AQu/Svo9pn/JxG6PbsUwEwjzHGSxeZatRBXvN6HCIZ4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P0DSajsIgWakqb51VjxDlFrpbxVjuKsTfn9jWVoKWiKefJuQpfjpL61AOEzCUG7DYB+82WpfnmQt/X8cCiKvVjSXmGWKJuB7qu2GxCkWUb0TLVmjF9JISwLw/xZjSiCQk0rWyoMn+w6kQRXcUtiBd4nRwXZreuXZ//wQHiSn7d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bVBA3wW+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D81DBC4CEE6;
-	Mon, 10 Feb 2025 08:29:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739176171;
-	bh=/Fp+B0JWQF2ROKHaiimvWG3bYLsZclFhzmKfyv5OYkw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bVBA3wW++dNGMP58Z9cllv1LGzIMObFRMWyxLw1axpn1j/g0uTxIFfszhARWqtzv1
-	 7who+w45hCHXtnChuBY3H9W8/VOoUIoPEaTPVnau/7gaunbfArjk98RmCkqzyw6/d3
-	 jH8zZKL9ryzDrXaDNnhLkK8kQf6zWY5qbY3k0M3UwSa9Yk9xizk7bGC/cvqnItBXQZ
-	 rvaxJiE484VrMw4LVDI4kmckMQA7EnJ2z7e1Db8RS+m5sAgl0yyobHF1BA0tMNgO1q
-	 deb9Bj1zMmLP+El5rJE+a5lKgPfCFVk1IIPbG72jT2ZEczCy4/PjBuzAD0TJ+JszNc
-	 Pl1K+9YbQdXXg==
-Message-ID: <c2ff273a-bac5-4fa3-8339-ab722c9e63bf@kernel.org>
-Date: Mon, 10 Feb 2025 09:29:25 +0100
+	 In-Reply-To:Content-Type; b=locM4ZeGhUT7+gbMWvKw+Vl1/EG06LS/ofjieXls7NUVXDglwGUoW7HA47WRBaH79XW5bkKG/3qth+2RGwmqb6E4YJlp9Ov5VFzPnUgS/kScoLH1fY7CEfYWQapAsv5hUri68Vcob91bCeneoN9ZOYZHxi27tWZvVk/qErzaGXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FEE6C4CED1;
+	Mon, 10 Feb 2025 08:57:10 +0000 (UTC)
+Message-ID: <d01e7921-4b50-47c5-8374-d55159a47cee@xs4all.nl>
+Date: Mon, 10 Feb 2025 09:57:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,227 +38,150 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] media: dt-bindings: i2c: add DW9719/DW9718S VCM
- binding
-To: Val Packett <val@packett.cool>
-Cc: Daniel Scally <djrscally@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250210082035.8670-1-val@packett.cool>
- <20250210082035.8670-2-val@packett.cool>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250210082035.8670-2-val@packett.cool>
+Subject: Re: [RFC v5 07/15] media: uapi: Add V4L2_CID_COLOUR_PATTERN for
+ describing colour patterns
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com, Prabhakar
+ <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Mikhail Rudenko <mike.rudenko@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Umang Jain <umang.jain@ideasonboard.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Julien Massot <julien.massot@collabora.com>,
+ Naushir Patuck <naush@raspberrypi.com>,
+ "Yan, Dongcheng" <dongcheng.yan@intel.com>,
+ "Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu"
+ <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>,
+ Stefan Klug <stefan.klug@ideasonboard.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
+ <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Ricardo Ribalda Delgado <ribalda@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>
+References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
+ <20250203085853.1361401-8-sakari.ailus@linux.intel.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250203085853.1361401-8-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/02/2025 09:19, Val Packett wrote:
-> Add DT bindings for the dw9719 voice coil motor driver, which is getting
-> devicetree compatibles added along with DW9718S support.
+Hi Sakari,
+
+On 03/02/2025 09:58, Sakari Ailus wrote:
+> Add V4L2_CID_COLOUR_PATTERN to tell the camera sensor's native colour
+> pattern.
 > 
-> Also mention the binding file in the corresponding MAINTAINERS entry.
-> 
-> Signed-off-by: Val Packett <val@packett.cool>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  .../bindings/media/i2c/dongwoon,dw9719.yaml   | 110 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 111 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
+>  .../userspace-api/media/v4l/ext-ctrls-image-source.rst | 10 ++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c              |  1 +
+>  include/uapi/linux/v4l2-controls.h                     |  6 ++++++
+>  3 files changed, 17 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
-> new file mode 100644
-> index 000000000000..88161038223f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/dongwoon,dw9719.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/dongwoon,dw9719.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> index 71f23f131f97..fca729512b6f 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> @@ -92,3 +92,13 @@ Image Source Control IDs
+>      representing a gain of exactly 1.0. For example, if this default value
+>      is reported as being (say) 128, then a value of 192 would represent
+>      a gain of exactly 1.5.
 > +
-> +title: Dongwoon Anatech DW9719 Voice Coil Motor (VCM) DAC
+> +``V4L2_CID_COLOUR_PATTERN (integer)``
+
+Please use 'COLOR' instead of 'COLOUR' to be consistent with other color related
+control names. So do a search-and-replace for this in code and documentation.
+
+Regards,
+
+	Hans
+
+> +    This control determines the colour components and pixel order in the
+> +    sensor's CFA (Colour Filter Array) when used in conjunction with
+> +    :ref:`luma-only mbus codes MEDIA_BUS_FMT_Yx_1Xx (where 'x' is the bit depth)
+> +    <v4l2-mbus-pixelcode-yuv8>` pixelformats.
 > +
-> +maintainers:
-> +  - Daniel Scally <djrscally@gmail.com>
+> +    This control may only be used on a V4L2 sub-device.
 > +
-> +description: |-
-> +  The Dongwoon DW9719/DW9718S is a single 10-bit digital-to-analog converter
-> +  with 100 mA output current sink capability, designed for linear control of
-> +  voice coil motors (VCM) in camera lenses. This chip provides a Smart Actuator
-> +  Control (SAC) mode intended for driving voice coil lenses in camera modules.
+> +    This is a read-only control.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index 24c9c25e20d1..5b6a4a94f18f 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1155,6 +1155,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_TEST_PATTERN_BLUE:	return "Blue Pixel Value";
+>  	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
+>  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
+> +	case V4L2_CID_COLOUR_PATTERN:		return "Colour Pattern";
+>  
+>  	/* Image processing controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 731add75d9ee..8e761c38b995 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1214,6 +1214,12 @@ enum v4l2_jpeg_chroma_subsampling {
+>  #define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
+>  #define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
+>  
+> +#define V4L2_CID_COLOUR_PATTERN			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 10)
+> +#define V4L2_COLOUR_PATTERN_GRBG		0
+> +#define V4L2_COLOUR_PATTERN_RGGB		1
+> +#define V4L2_COLOUR_PATTERN_BGGR		2
+> +#define V4L2_COLOUR_PATTERN_GBRG		3
 > +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - dongwoon,dw9719
-> +      - dongwoon,dw9718s
+>  
+>  /* Image processing controls */
+>  
 
-Keep alphabetical order.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: VDD power supply
-> +
-> +  dongwoon,sac-mode:
-> +    description: |
-> +      Slew Rate Control mode to use: direct, LSC (Linear Slope Control) or
-> +      SAC1-SAC6 (Smart Actuator Control).
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 0    # Direct mode
-> +      - 1    # LSC mode
-> +      - 2    # SAC1 mode (operation time# 0.32 x Tvib)
-> +      - 3    # SAC2 mode (operation time# 0.48 x Tvib)
-> +      - 4    # SAC3 mode (operation time# 0.72 x Tvib)
-> +      - 5    # SAC4 mode (operation time# 1.20 x Tvib)
-> +      - 6    # SAC5 mode (operation time# 1.64 x Tvib)
-> +      - 7    # SAC6 mode (operation time# 1.88 x Tvib)
-> +    default: 4
-> +
-> +  dongwoon,vcm-freq:
-> +    description:
-> +      The switching frequency for the voice coil motor.
-
-Frequency is in Hertz, so use proper property unit suffix. BTW, you
-cannot add incorrect properties post-factum based on already accepted
-ACPI driver. This would be nice bypass of review, right?
-
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-
-Drop.
-
-minimum/maximum constraints
-
-> +
-
-No reset/powerdown gpios in the hardware?
-
-Missing required block.
-
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: dongwoon,dw9718s
-> +    then:
-> +      properties:
-> +        dongwoon,vcm-freq:
-> +          default: 0
-> +          enum:
-> +            - 0    # 5.00 MHz
-> +            - 1    # 3.33 MHz
-> +            - 2    # 2.50 MHz
-> +            - 3    # 2.00 MHz
-> +            - 4    # 1.67 MHz
-> +            - 5    # 1.43 MHz
-> +            - 6    # 1.25 MHz
-> +            - 7    # 1.11 MHz
-> +            - 8    # 1.00 MHz
-> +            - 9    # 0.91 MHz
-> +            - 10   # 0.83 MHz
-> +            - 11   # 0.77 MHz
-> +            - 12   # 0.71 MHz
-> +            - 13   # 0.67 MHz
-> +            - 14   # 0.63 MHz
-> +            - 15   # 0.59 MHz
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: dongwoon,dw9719
-> +    then:
-> +      properties:
-> +        dongwoon,vcm-freq:
-> +          default: 0x60
-
-Why no constraints? Why suddenly hex?
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vdd-supply
-
-required always follows properties.
-
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-
-Drop stray blank line
-
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        vcm_rear: camera-lens@c {
-> +            compatible = "dongwoon,dw9718s";
-> +            reg = <0x0c>;
-> +
-> +            vdd-supply = <&pm8937_l17>;
-
-Missing properties, make the example complete.
-
-> +        };
-> +    };
-> +
-> +...
-
-
-
-Best regards,
-Krzysztof
 
