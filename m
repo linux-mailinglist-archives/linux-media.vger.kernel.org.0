@@ -1,76 +1,78 @@
-Return-Path: <linux-media+bounces-25900-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25901-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A04AA2EBA1
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 12:46:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D277A2EBA6
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 12:46:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 259BE165BD4
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 11:46:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 019A43A1D5E
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 11:46:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6C761F3BBF;
-	Mon, 10 Feb 2025 11:46:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77BCD1F3D3F;
+	Mon, 10 Feb 2025 11:46:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TmoGOqxf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncC5G3X+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A3C1F3B98;
-	Mon, 10 Feb 2025 11:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2295D1F3B95;
+	Mon, 10 Feb 2025 11:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739187972; cv=none; b=RI1Wo1De4C6U/9J0gbwruO18I393Zcv3RIgfji3fk9hK78rGMlnkOwr93+JlsBC+oXfOiFxsKtkRKKtGYXbhjKL/KWDlbUKcruH+uPdQdtMqAJ75XaJ5A81oPcu+Dni17IXFldOONkZ6DWKjoGxpz8NBaYJTbtF6L9/EItK5xlg=
+	t=1739187983; cv=none; b=cr+PZ5J13goO83maDuzw+IJ4va63YaPhrhmJzyxM3IaWKBirQMCivqf8K8eIxNor4v6NCHQDBfsI7HnLXCIj8BLSXq1yL0qJxHqSj8QYZT66TASaQ592zkmbuJtZ5mKw7WU3ZMHZEC+HVLk6tICIiE0zO9YeGUhMI18ZSsIPeS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739187972; c=relaxed/simple;
-	bh=2bOg6t+7UaA7uGF2/6f4yjJrwg9Bnk1DTtXIq0nn/ds=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fnWa5GTauEFlNLuAV/ecSKDU8L72pzpI330lNOUi2Lq0d6fvDFvkYsimkESEfqb9N1NhQf8032RTBJatxIKSFsk6RSVxB7TdKUFr3u226gHoAD5BjcUPvu/Lk5SWv5Hg7dJ5pW7xC8EzSvfO3WlxMwuDpqKfOxwvCHlfhAjSXRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TmoGOqxf; arc=none smtp.client-ip=209.85.208.41
+	s=arc-20240116; t=1739187983; c=relaxed/simple;
+	bh=Uo4TmisU7wn9Kpc2fbHxaydHm+iJ80nLy/agd1E+ApM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=dJnJaf5idzdP7m8BGkLiu73fyf/NDo34qKT9Tjq+/YS5tRNmLt3EUXX1t1QaYxHkFQoB/oHw/w8++KAFxSHhUvmNY70YuwdrQFHeVJLWmiTb86cf/wcFtIbLM0XMFM3zI/p01Kawhm00rf9MAsg/2mVrlqaQsCQ3xx+bYngrmc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ncC5G3X+; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5de64873d18so2919347a12.2;
-        Mon, 10 Feb 2025 03:46:09 -0800 (PST)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-aaecf50578eso845220666b.2;
+        Mon, 10 Feb 2025 03:46:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739187968; x=1739792768; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sNlJT7LqaCIJzVU8wYsxnqG8NDoq1czno8QRpGwi2ro=;
-        b=TmoGOqxfL8MI1OEZaYxxmrKcF/lJ2ohiERFbMLQW9OXTAlzOtCOoEdk8XgWQ13gWDC
-         dcOcCYgm446yVCTEnJDeZTngsZAC9GDEr77jaNljsGOlcf9eXMi/eCvCzaYVX6zvCGqt
-         VUeR2/90vHw2BV8sasWStoKqUuv6UF55laTq7WdC9xgsD26ikPtmwOfVQ4WOzxLTqeZ6
-         qo/M6YyUWumilvJKC6fQb/qjZPC5o/oGj4QvpSz/aPhvbOD9LHFKJNT9k2J5q0QlTmV9
-         8sgRct58IBGjAAXiFi7r+x2+SJ9lIFC4VoR2I14jLhREriyreI9/f6V5Cz27TnANhUDm
-         +4IA==
+        d=gmail.com; s=20230601; t=1739187980; x=1739792780; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tcko+2LGTEjB783TiWIDWhciLjGO64bpOmui7Jw9kx0=;
+        b=ncC5G3X+l8Y2u7nnqBi8C5zewdTstlg8XvTnSU7xFRk2CMucmwRm+2G0s0tVQ0WhUe
+         Gn7HmbCEVQWqo91ODCOVKfKy+Fzod1a8NsSrUMPM/j9V0Gus9G0Y9OLHDl/aKMyqHIff
+         vcyskuMBthqjFslvRjoln9W3EYL2pH31CudkpTMmJ/y1ADtWNi3GiuQxMAOvJvb8RcRI
+         F1wqH8e0bsteZNkgmc9L4IO5+PLKGPzj6T0UeR7YVaazbJ5PcDdInnKEOChV6GkElWNm
+         SZ/Ei3F5SoOZrWV/BLiocUYpmWLL+qKztfi43GCYHgkQiApgq1D5oFTes6GrCVTwc+RY
+         yLJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739187968; x=1739792768;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sNlJT7LqaCIJzVU8wYsxnqG8NDoq1czno8QRpGwi2ro=;
-        b=bGX6+GepzLV+NHlDtZYWqtDCntTJ4PFvGh9IXHRs6JPQ+NKQ2UpqiXkFMbnbUpwy9a
-         83DzY9VaR1IqbWNBDNjKeA6R0CWZKlEIB+q8ibBh6lSWpEuw5wS1IoKxwxz8KeufVesK
-         +iShoGQ2yjiERYYzymHmmlt9JywmFyWp41c3qRIqM3St0yICydwHRdI/Taqv4EHoWO8x
-         0RtcDwc0riljjwdHsJoteqFF6gSs89adJ4Td+38rDO+bM6JD0z6Cy1FawOFkQWUuJwT/
-         eItsJWGd+Lv0qFN084DQzC/U7uN9OLCDrFsIFhUo+x4t/2VExUZxvj2FlBYzjenw6tZZ
-         XWGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbZCURnokPunc/SWriimAsKdsYKvRtUbp4Zq4jJYuIct4qGW7slr25Yi0ZcT0UhVrLCMcAAoWrfkiktbZ7@vger.kernel.org, AJvYcCWmgsSN4QoHerc0HgjqwVIHdjOctVc5+OhlGnmFuIN4IjUB3NJCVCiZnsJ8e7AryCOl9Iem4GKgtAWkl08=@vger.kernel.org, AJvYcCXw9zMwEFgiG6HJyQqyDCyPMsDcwjkovwKzoPTuedPfmJ4MBvoQS+IUiHy7APA6LX9+I24E2OZI0JJc@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPfdTzoeZ7W+E6k2lOf0a2Cfwq51a9p0/uybaWVCPiN6+ETpcR
-	4FUq4bzh14V7ZlAel7Nbh1Fii1Cm1A57cPTmNuVA6G9f0Fp8gNxJ7p9HsQ==
-X-Gm-Gg: ASbGncui0jgkgyuCGDDQDb1VzbMjekre38F3c6xOvU2jvJWqd45RbL6CEhtH0xfusD3
-	9MOUd1QTV1iEwIhIMFSesAS85g88tyPdthWj4JvFOn4AD1sE3WCQ6jm/BtV4RlbVjz1iKi1uGk8
-	sb5v0jIeJnWXx5cZhUWUSXcBIIQroafNctMiI+e60WHFXkG8uNV/BYSIvp5KXC4G76MrojJl9rq
-	9hdqAir/1JOY9E6g3jYfsdr21iwJJHvlxT1YGi2/mKec0tRvEqHzxSZI/YKe/kLNWI0CuLbjplG
-	s3rrAqxypYLgBrugrj0meNr61vWwSDs7ls6VXm6F5JeHVgcHGadB7LCk6EYDW0HPZ86Ip0aT9wD
-	AApi76cFcyJoPhnMaq1mMu8Z0ep0=
-X-Google-Smtp-Source: AGHT+IEyPJkQH8uv/Gwdc8frNiGgLByT7wsA5ipoPJ1v3w2fPU7REYK2Mg7Upl9RGAxokMXhkcDvNw==
-X-Received: by 2002:a17:907:6d08:b0:ab6:f789:6668 with SMTP id a640c23a62f3a-ab789ade6f0mr1153368566b.17.1739187967845;
-        Mon, 10 Feb 2025 03:46:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739187980; x=1739792780;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Tcko+2LGTEjB783TiWIDWhciLjGO64bpOmui7Jw9kx0=;
+        b=fkCo/hYAVEz0szVu0hA3yURJBBCzVrAzNOb9nwAgwgcCBZhljlY9n7DMpTqpJZTRVs
+         7nRdVkvvMbGwE/sGj3HsVzqsRQ+yGEse5gjWi5RRmBc6kz75q+IX2GvVme+gK40b+Fm1
+         bie6qvYG1FJL+cassyfY7iWX0z4haX9n4jOxdOkVNCYi6c/UQX7AHpcJWtT/QgjigQPx
+         VaoZ0ersKEfKXMfRoyUKxtnIz7LFYj8PeQn17+Xrl+3IF9fBC78V0T+PEUa0SYzcHxnE
+         TK/BMaDoruU2irUM1lG9c5+CYArsMqq2fLbzGrAZkg0h9iacFYb4J63ebxwmpHBP9hCW
+         AcZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOMfK67oy4lvFtQldM2VWrtH6vmDaL1BxP5W7v/9NneiN3qHNfmbcvZg5/xk05lkPziimKldW5SSkd@vger.kernel.org, AJvYcCVZXs1ob/hrqFX6mSZCR6jbx1uYhVb7uqC0AFkpyWIRQ0Q7J3vwT19NoCYowWNzynzKSCVsE8QE2++fpYE=@vger.kernel.org, AJvYcCW3VxN4vk9I7eO7cTS7JKVyddba5Fm4IbKcmdnrzQEMt56pTALa4/n/Qp7P8YgH+FnxGL45hOclcAuaJYjo@vger.kernel.org, AJvYcCXsnIHw5tdm97n9Tp4BUbRsBCNeTWuixqNdJVi43Q9UtiypStDsjZ6UQPpE3ZVvDT6HW309379WrnDc@vger.kernel.org
+X-Gm-Message-State: AOJu0YydQbkEsRKAVnpRazZo0LGnFDoeI2FdwCv7VPB48BndFaZJwOEP
+	vlluMsFiV6VSFyUfvoawIKdQCWpYAGUTczzXQcPIqmBegSDpQEk3
+X-Gm-Gg: ASbGncsgyEb7nXtcq5P4FDa4dPhLX8ZMFHmoadJRwdfboLMgx3LCslyVQCE4zepOp+W
+	MrBOfVakLfJ4kFxb0jhk7X/hA+xnJoKIfCg2t16QIFeVwYDSEDP5KPSofNP3XxhLIMv5u2wtt3o
+	uarAgWKaqz1a3trDsQm8mfNEUOIIMW3b408KrR8iuuDiIPKBQYxYr3T0T4f5DHP4roWH/q/dkAh
+	2gLBRSE2X2DWwoqcftsnOEMnuqY7Il4bx1quYhFDVSTEPlw4rH9LsGch4P3LFSkfUreyMJ0S3fy
+	EFCz+WV6S594whUjqmc25Uej2f8984pbof8gk1RpN0Je2HVTxJQ/sXWXJZp30GfCJt03gX8l8E7
+	grwYE8jQR6t+XQlmqJoMFAu6FH84=
+X-Google-Smtp-Source: AGHT+IHLu0Y36JRC+51o0vyk4KbOZ8N6uUlsAc0UT5MymiVYg29nPUAml9edHiLfIvZ3aUgSS41LBA==
+X-Received: by 2002:a17:907:1ca0:b0:ab7:9df1:e562 with SMTP id a640c23a62f3a-ab79df1e783mr831432766b.48.1739187980240;
+        Mon, 10 Feb 2025 03:46:20 -0800 (PST)
 Received: from tom-desktop.example.org (net-188-217-54-237.cust.vodafonedsl.it. [188.217.54.237])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7a9e6e06fsm428948566b.80.2025.02.10.03.46.06
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab7a9e6e06fsm428948566b.80.2025.02.10.03.46.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 03:46:07 -0800 (PST)
+        Mon, 10 Feb 2025 03:46:19 -0800 (PST)
 From: Tommaso Merciai <tomm.merciai@gmail.com>
 X-Google-Original-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: tomm.merciai@gmail.com
@@ -84,13 +86,18 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/8] media: rzg2l-cru: Document RZ/G3E (CSI2, CRU)
-Date: Mon, 10 Feb 2025 12:45:32 +0100
-Message-Id: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: [PATCH 1/8] clk: renesas: r9a09g047: Add support for CRU0 clocks, and resets
+Date: Mon, 10 Feb 2025 12:45:33 +0100
+Message-Id: <20250210114540.524790-2-tommaso.merciai.xr@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
+References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,393 +106,93 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Dear All,
+Add support for CRU0 clocks and resets along with the corresponding
+divider.
 
-In preparation of supporting the CRU/CSI2 IPs found into the Renesas RZ/G3E
-SoC, this series adds support for CRU0 clocks and resets, adds also dt-bindings
-for CRU and CSI2 IP and adds some fixes into rzg2l-csi2 and rzg2l-core drivers.
+Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+---
+ drivers/clk/renesas/r9a09g047-cpg.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-The series was tested in a out of tree branch with the following media
-pipeline:
-
-imx219 -> rzg3e CSI2 -> rzg3e CRU
-
-Some logs:
-
-root@smarc-rzg3e:~# media-ctl -p
-Media controller API version 6.14.0
-
-Media device information
-------------------------
-driver          rzg2l_cru
-model           renesas,r9a09g047-cru
-serial
-bus info        platform:16000000.video
-hw revision     0x0
-driver version  6.14.0
-
-Device topology
-- entity 1: csi-16000400.csi2 (2 pads, 2 links, 0 routes)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev0
-        pad0: Sink
-                [stream:0 fmt:SRGGB8_1X8/1920x1080 field:none]
-                <- "imx219 0-0010":0 [ENABLED,IMMUTABLE]
-        pad1: Source
-                [stream:0 fmt:SRGGB8_1X8/1920x1080 field:none]
-                -> "cru-ip-16000000.video":0 [ENABLED,IMMUTABLE]
-
-- entity 4: imx219 0-0010 (1 pad, 1 link, 0 routes)
-            type V4L2 subdev subtype Sensor flags 0
-            device node name /dev/v4l-subdev1
-        pad0: Source
-                [stream:0 fmt:SRGGB8_1X8/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
-                 crop.bounds:(8,8)/3280x2464
-                 crop:(688,160)/1920x2160]
-                -> "csi-16000400.csi2":0 [ENABLED,IMMUTABLE]
-
-- entity 8: cru-ip-16000000.video (2 pads, 2 links, 0 routes)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev2
-        pad0: Sink
-                [stream:0 fmt:SRGGB8_1X8/1920x1080 field:none]
-                <- "csi-16000400.csi2":1 [ENABLED,IMMUTABLE]
-        pad1: Source
-                [stream:0 fmt:SRGGB8_1X8/1920x1080 field:none]
-                -> "CRU output":0 [ENABLED,IMMUTABLE]
-
-- entity 17: CRU output (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video0
-        pad0: Sink
-                <- "cru-ip-16000000.video":1 [ENABLED,IMMUTABLE]
-
-root@smarc-rzg3e:~# v4l2-compliance
-v4l2-compliance 1.26.1-5142, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 4aee01a02792 2023-12-12 21:40:38
-
-Compliance test for rzg2l_cru device /dev/video0:
-
-Driver Info:
-        Driver name      : rzg2l_cru
-        Card type        : RZG2L_CRU
-        Bus info         : platform:16000000.video
-        Driver version   : 6.14.0
-        Capabilities     : 0xa4200001
-        Serial           :
-        Bus info         : platform:16000000.video
-        Media version    : 6.14.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.14.0
-Interface Info:
-        ID               : 0x03000013
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x00000011 (17)
-        Name             : CRU output
-        Function         : V4L2 I/O
-        Pad 0x01000012   : 0: Sink, Must Connect
-          Link 0x02000017: from remote pad 0x100000a of entity 'cru-ip-16000000.video' (Video Pixel Formatter): Data, Enabled, Immutable
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video0 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-
-Total for rzg2l_cru device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
-
-root@smarc-rzg3e:~# v4l2-compliance -d /dev/v4l-subdev0
-
-v4l2-compliance SHA: 4aee01a02792 2023-12-12 21:40:38
-
-Compliance test for device /dev/v4l-subdev0:
-
-Driver Info:
-        Driver version   : 6.14.0
-        Capabilities     : 0x00000000
-
-Required ioctls:
-        test VIDIOC_SUDBEV_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/v4l-subdev0 open: OK
-        test VIDIOC_SUBDEV_QUERYCAP: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK (Not Supported)
-        test VIDIOC_TRY_FMT: OK (Not Supported)
-        test VIDIOC_S_FMT: OK (Not Supported)
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-
-Total for device /dev/v4l-subdev0: 44, Succeeded: 44, Failed: 0, Warnings: 0
-
-root@smarc-rzg3e:~# v4l2-compliance -d /dev/v4l-subdev2
-v4l2-compliance 1.26.1-5142, 64 [ 1509.489660] cru-ip-16000000.video: =================  START STATUS  =================
-bits, 64-bit tim[ 1509.498500] cru-ip-16000000.video: ==================  END STATUS  ==================
-e_t
-v4l2-compliance SHA: 4aee01a02792 2023-12-12 21:40:38
-
-Compliance test for rzg2l_cru device /dev/v4l-subdev2:
-
-Driver Info:
-        Driver version   : 6.14.0
-        Capabilities     : 0x00000000
-Media Driver Info:
-        Driver name      : rzg2l_cru
-        Model            : renesas,r9a09g047-cru
-        Serial           :
-        Bus info         : platform:16000000.video
-        Media version    : 6.14.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.14.0
-Interface Info:
-        ID               : 0x0300000f
-        Type             : V4L Sub-Device
-Entity Info:
-        ID               : 0x00000008 (8)
-        Name             : cru-ip-16000000.video
-        Function         : Video Pixel Formatter
-        Pad 0x01000009   : 0: Sink, Must Connect
-          Link 0x02000015: from remote pad 0x1000003 of entity 'csi-16000400.csi2' (Video Interface Bridge): Data, Enabled, Immutable
-        Pad 0x0100000a   : 1: Source, Must Connect
-          Link 0x02000017: to remote pad 0x1000012 of entity 'CRU output' (V4L2 I/O): Data, Enabled, Immutable
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_SUDBEV_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/v4l-subdev2 open: OK
-        test VIDIOC_SUBDEV_QUERYCAP: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Sub-Device ioctls (Sink Pad 0):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Sub-Device ioctls (Source Pad 1):
-        Try Stream 0
-        test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-        test Try VIDIOC_SUBDEV_G/S_FMT: OK
-        test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        Active Stream 0
-        test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-        test Active VIDIOC_SUBDEV_G/S_FMT: OK
-        test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
-        test VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK (Not Supported)
-        test VIDIOC_TRY_FMT: OK (Not Supported)
-        test VIDIOC_S_FMT: OK (Not Supported)
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-
-Total for rzg2l_cru device /dev/v4l-subdev2: 59, Succeeded: 59, Failed: 0, Warnings: 0
-
-Thanks & Regards,
-Tommaso
-
-Lad Prabhakar (3):
-  media: dt-bindings: renesas,rzg2l-csi2: Document Renesas RZ/V2H(P) SoC
-  media: rzg2l-cru: csi2: Use temporary variable for struct device in
-    rzg2l_csi2_probe()
-  media: rzg2l-cru: rzg2l-core: Use temporary variable for struct device
-    in rzg2l_cru_probe()
-
-Tommaso Merciai (5):
-  clk: renesas: r9a09g047: Add support for CRU0 clocks, and resets
-  media: dt-bindings: renesas,rzg2l-csi2: Document Renesas RZ/G3E CSI-2
-    block
-  media: dt-bindings: renesas,rzg2l-cru: Document Renesas RZ/G3E SoC
-  media: rzg2l-cru: csi2: Use devm_pm_runtime_enable()
-  media: rzg2l-cru: rzg2l-core: Use devm_pm_runtime_enable()
-
- .../bindings/media/renesas,rzg2l-cru.yaml     | 33 ++++++---
- .../bindings/media/renesas,rzg2l-csi2.yaml    | 67 ++++++++++++++-----
- drivers/clk/renesas/r9a09g047-cpg.c           | 24 +++++++
- .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 32 ++++-----
- .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 38 +++++------
- 5 files changed, 133 insertions(+), 61 deletions(-)
-
+diff --git a/drivers/clk/renesas/r9a09g047-cpg.c b/drivers/clk/renesas/r9a09g047-cpg.c
+index 51fd24c20ed5..5d02031219d8 100644
+--- a/drivers/clk/renesas/r9a09g047-cpg.c
++++ b/drivers/clk/renesas/r9a09g047-cpg.c
+@@ -28,6 +28,7 @@ enum clk_ids {
+ 	CLK_PLLCLN,
+ 	CLK_PLLDTY,
+ 	CLK_PLLCA55,
++	CLK_PLLVDO,
+ 
+ 	/* Internal Core Clocks */
+ 	CLK_PLLCM33_DIV16,
+@@ -35,7 +36,10 @@ enum clk_ids {
+ 	CLK_PLLCLN_DIV8,
+ 	CLK_PLLCLN_DIV16,
+ 	CLK_PLLDTY_ACPU,
++	CLK_PLLDTY_ACPU_DIV2,
+ 	CLK_PLLDTY_ACPU_DIV4,
++	CLK_PLLDTY_DIV16,
++	CLK_PLLVDO_CRU0,
+ 
+ 	/* Module Clocks */
+ 	MOD_CLK_BASE,
+@@ -49,6 +53,12 @@ static const struct clk_div_table dtable_1_8[] = {
+ 	{0, 0},
+ };
+ 
++static const struct clk_div_table dtable_2_4[] = {
++	{0, 2},
++	{1, 4},
++	{0, 0},
++};
++
+ static const struct clk_div_table dtable_2_64[] = {
+ 	{0, 2},
+ 	{1, 4},
+@@ -69,6 +79,7 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+ 	DEF_FIXED(".pllcln", CLK_PLLCLN, CLK_QEXTAL, 200, 3),
+ 	DEF_FIXED(".plldty", CLK_PLLDTY, CLK_QEXTAL, 200, 3),
+ 	DEF_PLL(".pllca55", CLK_PLLCA55, CLK_QEXTAL, PLL_CONF(0x64)),
++	DEF_FIXED(".pllvdo", CLK_PLLVDO, CLK_QEXTAL, 105, 2),
+ 
+ 	/* Internal Core Clocks */
+ 	DEF_FIXED(".pllcm33_div16", CLK_PLLCM33_DIV16, CLK_PLLCM33, 1, 16),
+@@ -78,7 +89,11 @@ static const struct cpg_core_clk r9a09g047_core_clks[] __initconst = {
+ 	DEF_FIXED(".pllcln_div16", CLK_PLLCLN_DIV16, CLK_PLLCLN, 1, 16),
+ 
+ 	DEF_DDIV(".plldty_acpu", CLK_PLLDTY_ACPU, CLK_PLLDTY, CDDIV0_DIVCTL2, dtable_2_64),
++	DEF_FIXED(".plldty_acpu_div2", CLK_PLLDTY_ACPU_DIV2, CLK_PLLDTY_ACPU, 1, 2),
+ 	DEF_FIXED(".plldty_acpu_div4", CLK_PLLDTY_ACPU_DIV4, CLK_PLLDTY_ACPU, 1, 4),
++	DEF_FIXED(".plldty_div16", CLK_PLLDTY_DIV16, CLK_PLLDTY, 1, 16),
++
++	DEF_DDIV(".pllvdo_cru0", CLK_PLLVDO_CRU0, CLK_PLLVDO, CDDIV3_DIVCTL3, dtable_2_4),
+ 
+ 	/* Core Clocks */
+ 	DEF_FIXED("sys_0_pclk", R9A09G047_SYS_0_PCLK, CLK_QEXTAL, 1, 1),
+@@ -154,6 +169,12 @@ static const struct rzv2h_mod_clk r9a09g047_mod_clks[] __initconst = {
+ 						BUS_MSTOP(8, BIT(4))),
+ 	DEF_MOD("sdhi_2_aclk",			CLK_PLLDTY_ACPU_DIV4, 10, 14, 5, 14,
+ 						BUS_MSTOP(8, BIT(4))),
++	DEF_MOD("cru_0_aclk",			CLK_PLLDTY_ACPU_DIV2, 13, 2, 6, 18,
++						BUS_MSTOP(9, BIT(4))),
++	DEF_MOD_NO_PM("cru_0_vclk",		CLK_PLLVDO_CRU0, 13, 3, 6, 19,
++						BUS_MSTOP(9, BIT(4))),
++	DEF_MOD("cru_0_pclk",			CLK_PLLDTY_DIV16, 13, 4, 6, 20,
++						BUS_MSTOP(9, BIT(4))),
+ };
+ 
+ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+@@ -177,6 +198,9 @@ static const struct rzv2h_reset r9a09g047_resets[] __initconst = {
+ 	DEF_RST(10, 7, 4, 24),		/* SDHI_0_IXRST */
+ 	DEF_RST(10, 8, 4, 25),		/* SDHI_1_IXRST */
+ 	DEF_RST(10, 9, 4, 26),		/* SDHI_2_IXRST */
++	DEF_RST(12, 5, 5, 22),		/* CRU_0_PRESETN */
++	DEF_RST(12, 6, 5, 23),		/* CRU_0_ARESETN */
++	DEF_RST(12, 7, 5, 24),		/* CRU_0_S_RESETN */
+ };
+ 
+ const struct rzv2h_cpg_info r9a09g047_cpg_info __initconst = {
 -- 
 2.34.1
 
