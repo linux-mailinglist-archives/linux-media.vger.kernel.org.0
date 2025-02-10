@@ -1,152 +1,138 @@
-Return-Path: <linux-media+bounces-25949-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25950-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0841EA2F615
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 18:57:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 249E5A2F623
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 18:58:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A55C1887415
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 17:57:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F1D8188777D
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 17:58:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A55257440;
-	Mon, 10 Feb 2025 17:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7D4B2566CD;
+	Mon, 10 Feb 2025 17:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="O6WtvWV7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FZHz04bQ"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W9MCy/FP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BEC25B66E;
-	Mon, 10 Feb 2025 17:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948A724394C
+	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 17:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739210216; cv=none; b=lbpMUjug94q0M4ySPk0bxhqOrKoNW+0Y/bye1CPOt72F0aAr97k2MmgimY/fEH+XVxQBHb9xnlFaFBCNgQugjxg1mYIhE0g1IqLp7o8hyMKoweGVCRytMcXYqKOVtZ3xStb1Jezj9FR2Pn0i3w2CalM6ayxR/cnKdRgB5oJvS5U=
+	t=1739210262; cv=none; b=lOmmA5ysz1/XZhBOnmgNo7RllRDV0CLzItVED9Qvza+pSC2KC+VJzy/GxohDNFnVac0qVjXlGh08Tj8+Mh/sM/INMLpWhL3Hke6vX9skNT8RhPQ2fdQurjZnlcNlVZn6Ncl57sj1zAUunK8t8DxOKlq5Xaxd8B3ZDWwKE61402Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739210216; c=relaxed/simple;
-	bh=H4IDeRAmX7Y4WnQ+uVNW07kZp2AdoCg6R147e9SL34c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BrZBePAYTS+Q0QbY0wA2H1LiSBrAFZT+0xqMmo95YFoAeOvwaTEEJp+/VN36DIGXqURpgggx2qDlBIc0rHpAA+T9xcIfYVx48ybbOwtVa/+ZtWywjfJGsyuM5Kex/mwSI+BbOy4xdrA8BR3kXs6KVyrQd42bBaTnqEfrKILmgng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=O6WtvWV7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FZHz04bQ; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id A55E213809B5;
-	Mon, 10 Feb 2025 12:56:53 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Mon, 10 Feb 2025 12:56:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1739210213;
-	 x=1739296613; bh=OS5OapSvaFpjT9JRLG5DYp9nzVMqDiBRyUF9duh/Pbs=; b=
-	O6WtvWV7MRT7WxItCGJtME1Sd7Vldo6hqF5hzHGl9vcgjINuOu41Gu4A0YV22+FX
-	TjHFUTCpL5hAXsIIdJamq001vbnMzK1PhTAoVX/xiH3uznx+Uo/RtUw4KoXc33S9
-	iG5MzCRY89KzNd2z/GcuV+A3cd+UAGgWf61cPnRVBPSgp747aVzlnT/XJQvgY7p3
-	F4Za9ysoN2G6oyAgbUHv8cb84Ke5xPbgSPt3OMgP3uSFABpfup/iLf9dk/Dup9yT
-	hVluVR36wwUMou7sEUCY1f24rVzuxRONq/p8yvHbRdjI6HiNkCfryaTnhvTdiVkT
-	wRL9Mjc+zpH6DdIqBaIfQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1739210213; x=
-	1739296613; bh=OS5OapSvaFpjT9JRLG5DYp9nzVMqDiBRyUF9duh/Pbs=; b=F
-	ZHz04bQst5qFZlBfWLr5ZevqYVsxl/ipwfUNQiXAQww23TjG71uPROGGzpiRrJps
-	XcMBCWmpqjQDFtNwMrNJA1xacAZ3ZJw3sZHzyaqng5SvxLlLxBTWj0GTI5fLJ7VK
-	7EN+8px77VMGEL3Gxe1+zRDPGHzXP/O4Bh+zaFqpaQbUf7yLTXLEKlG7zO3FKkOw
-	VuFuRoWV/VKJM8eDwHinuEQvothVK6XcLdgBe8IJ/6uyoInkLSnpjwx1V4bF6jde
-	1d6CYFcrnFifqhs3XPUAxHCURuNDDLA8ZZVnXorLpFKd10p388aDfiLnrSQD2eYs
-	ousW62MI6tjLGkj38ZmnA==
-X-ME-Sender: <xms:5T2qZ6rNwrb6wGfTEesqcxxNAZIVmj_kBvPQlggHvB05Qyt252uJcA>
-    <xme:5T2qZ4ppZiIQ1RSCPXgd0Wy1QA-cddKi2Bn0QyldX_oqDrFhJ-J6CIiym-mEB9SYx
-    CGvXWHLYcYq8mcA5Oo>
-X-ME-Received: <xmr:5T2qZ_NDBZd02X9X7xugEeJY7Af1wGErf6qAurxTeoBuPyZOpa05SDcs1L9dN0km5lpCatGIeFuF69SOAsP_J6l4QA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefkeejfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfgggtgfesthekredtredt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgr
-    thhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffhjeffgfegff
-    elfeegnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhep
-    nhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtg
-    hpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgrkhgrrhhirdgr
-    ihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsg
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhr
-    vghnvghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuh
-    igqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhu
-    gidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggt
-    hhdrshgv
-X-ME-Proxy: <xmx:5T2qZ56sMavxW7DiZm7-QNhSBeZQ4xdxOLR8fk0KZkIXAVfg_gi0RQ>
-    <xmx:5T2qZ543KOfzXdJskQVsOhtJWAtcOD83w8PZN8OdxNDVEBEt-z6V5A>
-    <xmx:5T2qZ5g-plhMONqXJ56KCBgRUR25gJlqi9bw8lMz_xx2a904afM9lQ>
-    <xmx:5T2qZz7IwhGnnkG4NLEiAfJvIoDCW9VSq18iXIuqzX76Z3_wLhxx0g>
-    <xmx:5T2qZ2vxhokzSMzsFHh2cw2-uW91OdKI0MXfqHHUAPDPmN6hSwR4BB7i>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Feb 2025 12:56:53 -0500 (EST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 5/5] media: rcar-csi2: Remove hack to detect NTSC content
-Date: Mon, 10 Feb 2025 18:56:15 +0100
-Message-ID: <20250210175615.1686529-6-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1739210262; c=relaxed/simple;
+	bh=zFAs1svrsFHe6quOtlp+VDvqJe/2P3nPX7t8jWFy9uA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CfJ5Fe47b4btdEVknuYMThF/wklKgQksjTVKzeBS7W3I03A/gk4PA+mGuDZPrLIcy/0o7C8BvapaZmmSWc3apW8PcXVcV1LzJpWMPAGjU5e234beDnmdE+U6KGagB1XgD+5J0N9K0fkDSATQ/K4elZ3V+o6D4hwgX2PDwSnX0iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W9MCy/FP; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51A9Vgnm018694
+	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 17:57:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ZoBM0xt2esw7qc4beiqqn/f/AmDRb3BhJo7cr1bIBo8=; b=W9MCy/FPU+e4ARsl
+	cXJ5l9zTokouLCvg6wC7UAhgIv9A0gfXBDOrum6mCiBwTTfy1c8U4Y5dWQA8uaoE
+	x8YFGyonYrFjxY+SLWyDngjmVNyzBuNUczAHDu2OoGtI96mFEPKiMDyJ4VAvKww3
+	ekBLjd/kXPhN6rF8RNnQ2SedhxjpsYWaWHklcZVC7GvcX6uYmaLefr6AqLIaWcDt
+	3Hm5PiJBWCDtBhB92KI5QNUOarJzaYh3+anuQiYC1MhWlXnvRZeENWCUWzY/mnxI
+	nEJpTDqUymmCIRK4WX3ykxgKgFTPY6AJ/xDdo4nTfS/pDva/2Xsw3Q8TLCoBA1/h
+	w8xTDQ==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44p0esd7ya-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 17:57:38 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6e440e2ddfbso11442426d6.2
+        for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 09:57:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739210257; x=1739815057;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZoBM0xt2esw7qc4beiqqn/f/AmDRb3BhJo7cr1bIBo8=;
+        b=ATIkyTqTblGdWEFGw+44bAM0t1C66wStQOlzX6v4ytFNoX7RJJ9Zc+kw+CgWcQnfbs
+         3T78fkC0J1XC0SEElEO0pdprMjqQzMfGFA810ygsjTG8JCajog2jrNjD20s15pHIplot
+         mcCI+shKUS2rb+EEqAB2mRjk5n479Wf7n2SjVgSgzNGtjNwMj7o77q8uRMGaIo71Lz1K
+         UUtBXtiKybs1lvN+lz+xYCNKVabogQVYucLxlTKndHSwzdvP8DnI05uGXpbviQ2k+4Ad
+         zcz0kN/amIrBhWlGXGmNpZcRR/aTwYtDo3XasxZEbbFUDxj1wio96Twd3HeIqtov3+2x
+         Vsvw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7tZQs9YwZ9QjvIcsHiBw9FmpBpm7DyoiCTHX8tnpj/YSR58/Qokb7+Jap7OcVcObW3UaboJf5vXM3vw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGt7A9h6zUbRqbElASeZ2R/6wwSPN3iwKF4UXl90QS/bGpVFqh
+	17yo5N4Ec4GZGbalB6tlw15Z1+J8w6zeuFRHXnQJzI4lcFEza6zJ7xiciuLMsUxl13aIG2GsiXD
+	+SfGPmm4phji+MCRjhFZSUEHNZsLXN7FMiuVtcSG3dRUUPAkEwE+qANgPRjtwQw==
+X-Gm-Gg: ASbGncue3VkEqL0NKQMokZ3qiW7iAbzLYKEoTVRvH+NHJauYIFZvRy8ezBBaKKhj1Il
+	rVTmKXxSeH8D1OMDIyeyW6v9aBFImTWJdTSkKKy0JhR4/DlBvIsRBNU0Zb8d54zyRUdXBbeuxrM
+	BJaqR7P+rKzzuCKB9WQFPgR0oCB3kOZSUfoWyeTciUivC+5Zv4NUa+WX33HlVfk3lh0aReklu/A
+	8wh3dy5qK4K4sYA7fLtWRxD/kk/oOJM/nMoxydczMVESV75ik+WGAtCqLIqELyP5ho3E1D+JRgY
+	RJ+vywgHYBen1jtZ9iDOsIRfRNvqrzzrt0syVN8j+ZSrgz52bFQ4NMu3hJ8=
+X-Received: by 2002:a05:622a:44a:b0:467:885e:2c6e with SMTP id d75a77b69052e-4716798b651mr67711401cf.1.1739210257543;
+        Mon, 10 Feb 2025 09:57:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE7DeNsTh1CNfVirsfKlW9PrWVuIz+r8cJvvKVifTpK5b9AMONLPYgEGR0MpSwUzhNbJHeA4g==
+X-Received: by 2002:a05:622a:44a:b0:467:885e:2c6e with SMTP id d75a77b69052e-4716798b651mr67711231cf.1.1739210257120;
+        Mon, 10 Feb 2025 09:57:37 -0800 (PST)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5de4f4f4daesm6393175a12.21.2025.02.10.09.57.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Feb 2025 09:57:35 -0800 (PST)
+Message-ID: <55a2ddf7-8d38-4dc9-8cd9-80fa90eafa6d@oss.qualcomm.com>
+Date: Mon, 10 Feb 2025 18:57:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 3/3] arm64: dts: qcom: sdm670: add camss and cci
+To: Richard Acayan <mailingradian@gmail.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+References: <20250205035013.206890-5-mailingradian@gmail.com>
+ <20250205035013.206890-8-mailingradian@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250205035013.206890-8-mailingradian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: VRjjKUOTmEVnAIWVm1iNajj_d7DU2WMA
+X-Proofpoint-ORIG-GUID: VRjjKUOTmEVnAIWVm1iNajj_d7DU2WMA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-10_09,2025-02-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 spamscore=0 mlxlogscore=736
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502100146
 
-In an effort to emulate support for SEQ_{TB,BT} in the R-Car VIN driver
-on data captured from a CVBS input a hack was added to detect NTSC vs
-PAL. This is ugly and as support for emulated SEQ_{TB,BT} have been
-removed from the VIN driver remove the ugly hack.
+On 5.02.2025 4:50 AM, Richard Acayan wrote:
+> Add the camera subsystem and CCI used to interface with cameras on the
+> Snapdragon 670.
+> 
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> ---
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Tested-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
----
- drivers/media/platform/renesas/rcar-csi2.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-index 0a53dd47d7bf..7dfa2729209d 100644
---- a/drivers/media/platform/renesas/rcar-csi2.c
-+++ b/drivers/media/platform/renesas/rcar-csi2.c
-@@ -1045,16 +1045,10 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
- 			vcdt2 |= vcdt_part << ((i % 2) * 16);
- 	}
- 
--	if (fmt->field == V4L2_FIELD_ALTERNATE) {
-+	if (fmt->field == V4L2_FIELD_ALTERNATE)
- 		fld = FLD_DET_SEL(1) | FLD_FLD_EN4 | FLD_FLD_EN3 | FLD_FLD_EN2
- 			| FLD_FLD_EN;
- 
--		if (fmt->height == 240)
--			fld |= FLD_FLD_NUM(0);
--		else
--			fld |= FLD_FLD_NUM(1);
--	}
--
- 	/*
- 	 * Get the number of active data lanes inspecting the remote mbus
- 	 * configuration.
--- 
-2.48.1
-
+Konrad
 
