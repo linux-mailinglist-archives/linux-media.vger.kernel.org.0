@@ -1,292 +1,159 @@
-Return-Path: <linux-media+bounces-25943-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25944-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5C7A2F577
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 18:41:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6702BA2F610
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 18:57:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1CB918871A0
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 17:41:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEBC5164CC6
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 17:57:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8474A255E5E;
-	Mon, 10 Feb 2025 17:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D29F243945;
+	Mon, 10 Feb 2025 17:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hnxHUAAe"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="XTGtMdZ9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="spkI8om1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9891F4628;
-	Mon, 10 Feb 2025 17:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4865825B68D;
+	Mon, 10 Feb 2025 17:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739209250; cv=none; b=IqzRqr0C13DwTx8aGtDso5HVfEFubnJLFjpRJ14iJjWq8cb8itWe95pWr752znC9T5VLuhfpzdeT0XaTVyuO7oKpOJtkM+DUjrzPUFsWLbu+J0y4SC9OvFDvJNxhDT4AlZgx5mOVYVGgfVed7125Cf6rXR57Ok2mxPrK49R55YQ=
+	t=1739210207; cv=none; b=miKaKqkAFQjQXrrWVjDWxAF+95uWn8m+Gh8oGDSQif2K03PHK8WKMTeGv9jJrKovng02chIZrOqyU9gCVGdUmZFy5pAKBjd0ZywxB+/6ntnLy8tMsN9k/E+nRGxHJ9v4moHY2Y7vSqNBpJtHjxXQLjXKTKIvchnpkVc4wppKprI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739209250; c=relaxed/simple;
-	bh=ydEKPUtT2Hh+NWUt2uwX2rQW8L4szP3hzQemITBPgnE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ak03U6RV4hVPVZhpHK4U3z2ErKxP76vGd/3bXEx1MCuyCyB9AxxKdtgnMFjTod1MG7qZDCyD5NzPwdDO15YoyGshBeRNvKaOfcdElR0BxXMXjoyIUJOC7wbJAIFynbqUEHza6O6fFP7eBr9/R9ibfRA0jGhkrLDfgudq6biVFcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hnxHUAAe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5156DC4CED1;
-	Mon, 10 Feb 2025 17:40:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739209249;
-	bh=ydEKPUtT2Hh+NWUt2uwX2rQW8L4szP3hzQemITBPgnE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hnxHUAAe67Yj8Cbt08VyRO3ucIdqST5NAitoqMEySOrUNaRLobnabZEmWZkM30dUx
-	 1fFY2ND/RmOy97XnKvlEE6UaRV2CmI3jY9aA6P1eMzP3b+Mzne+iVj/3iyc35EKxlG
-	 UrjeVO472XDha7ED74e8tnTH+QOkArxzPoXGJNl5XLJEQK62qJB2U23FH6iqmvSE1s
-	 QY04pDZrripwXNqhras+OxrASODwRHaN0Iv6zQzwth7B3m555+JY0PfLWKn4cXVLHe
-	 BaoZ/lKqmFUtXv1c0KIBvfcUi/PRd6exINKR98G9l9uaOxWOrswCiKufaL9Fk7Htgq
-	 6VmwaWyzHl+uw==
-Message-ID: <7373c956-216a-43a6-939c-4a9be5564c57@kernel.org>
-Date: Mon, 10 Feb 2025 18:40:44 +0100
+	s=arc-20240116; t=1739210207; c=relaxed/simple;
+	bh=zanr0Rvco2X6yCtrqiaHCX5WrY3B9zkm0/099sXDRrc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uCP3mrBqthS5O0j8CltU/A738pcxFHqT5IKxD4V5OoWrPDbFGZdK3bm2ypy+gazOSQTQEvnjO5M8WtDC8RCprSV0wt1konRircOf3xotviykL0hTygZqbnSggwroktGG171fkNaYCsSn4p7ypfylT0Jt6v7kUMsQOt6YEQYQSIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=XTGtMdZ9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=spkI8om1; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id 1E50D138016A;
+	Mon, 10 Feb 2025 12:56:43 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Mon, 10 Feb 2025 12:56:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1739210203; x=1739296603; bh=oy
+	vwNRLrt6bsmaX+kj3Lci83QE5SXWaneaIuBcKf3UQ=; b=XTGtMdZ9OAGxvcv4Nj
+	ugzjv8ckLKicGZ85kxujq29MXWGLCYqev1w1Ul+sku0tMK54anfwfglFfhFxcBTh
+	OHKS0KehOktUnC/wy8QkiRdKl6Akgpn3RSrC9iZrXWFpGXJ4yLZ2WJJNAv6r8Oru
+	HNuy040t0EHEsKIxQv3t6a6Of12kRhs5s0+/idWvwNLq4vulhe2WJVM7sStnA+0g
+	zLa0IDgiC8gETLt3kLbgqLX4pDJjBxA6N7pxnfN9IIqpSGEngg8HUPi3Jkow7fS8
+	yaN3Uh5fUrWzpwQMuyca2ARyZKwepGmYQ4ZO2QoVJAWqoEQKyFTP4i3myy601DSk
+	P07w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1739210203; x=1739296603; bh=oyvwNRLrt6bsmaX+kj3Lci83QE5S
+	XWaneaIuBcKf3UQ=; b=spkI8om1AyrXTY8ZMtN0jp+3du6lZUTTco9cSgrnyaVz
+	+jNRZkxgNqPDz1aWJ0tLKZdpAGQ9bwfrQYwbPie/N1aKmHDSd62U34E86vyJPrSu
+	Qm2ZVPkXLTSSTe6XXwad+pgMHpj1pIkXTlAkdbZoC6aXPGaz0eLUf2cwyiuPI8vd
+	NGukhbWIYJ6siHoLMJRJSgW+zSW2jyJulRnvZOaceVK/zpVIhPrE0vdKjaa1KPPI
+	aIdS7GseWTEi6vucm5iTkCe1w2c/SvRzU062mYQ7fD0g7zTS7xSuYYwQF+Ukzhc9
+	vFBMUX4hHliV19a5IBbKwRJ/qCIU2GOraQT8mf3hrQ==
+X-ME-Sender: <xms:2j2qZ6QyT-HuQ1nOoSoSIHvETMaPOWfy3jimeANBAtlzo76hqssNXA>
+    <xme:2j2qZ_wDXkVUDQ6fydf2CRJPSm219R5fkTseHZkHAlhYv3tAX3I4dFXtn8GWgb6Sq
+    AK63xFg0RZAOgkLmqE>
+X-ME-Received: <xmr:2j2qZ31yTCxZ_AMyuXEFXTh-I2TnbtE1y9uy7NBLNcvUhWBw-GlpTk26jUqDAFp9CA2AhArWA5FFAFhMXzbIukiPbQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefkeejfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthht
+    vghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledtvdevhfefte
+    egnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhi
+    khhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpth
+    htohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshgrkhgrrhhirdgrihhl
+    uhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghn
+    vghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqd
+    hmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidq
+    rhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdr
+    shgv
+X-ME-Proxy: <xmx:2j2qZ2B5iMFloGWnXOuhoYqQYTjg5qJaXLfT2UJmdZU00ay9Cg7XOQ>
+    <xmx:2j2qZziy62RfaQQqnvJae43O0SuGhE-m9uAJJtz3i_254wE1fEyRXg>
+    <xmx:2j2qZyrO_xYGY_rRTBslz6TONgrW_zqbSIfnKG6sEhJlorVGIQHH6A>
+    <xmx:2j2qZ2gVeotWEBGlZaiBBJ13OK-fTB0j5opnX1jkzWNidTtxDfTdKQ>
+    <xmx:2z2qZ-WIPvGfgrwWxSarfzdYuvVMsD8YODAOFm-lyJoKUrcYPj0dRmZH>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 10 Feb 2025 12:56:42 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 0/5] media: rcar-vin: Remove emulated SEQ_{TB,BT}
+Date: Mon, 10 Feb 2025 18:56:10 +0100
+Message-ID: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/8] media: chips-media: wave6: Add Wave6 codec driver
-To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
- hverkuil@xs4all.nl, sebastian.fricke@collabora.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-imx@nxp.com,
- linux-arm-kernel@lists.infradead.org, jackson.lee@chipsnmedia.com,
- lafley.kim@chipsnmedia.com
-References: <20250210090725.4580-1-nas.chung@chipsnmedia.com>
- <20250210090725.4580-5-nas.chung@chipsnmedia.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250210090725.4580-5-nas.chung@chipsnmedia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/02/2025 10:07, Nas Chung wrote:
-> +
-> +	dev->debugfs = debugfs_lookup(WAVE6_VPU_DEBUGFS_DIR, NULL);
-> +	if (IS_ERR_OR_NULL(dev->debugfs))
-> +		dev->debugfs = debugfs_create_dir(WAVE6_VPU_DEBUGFS_DIR, NULL);
-> +
-> +	pm_runtime_enable(&pdev->dev);
-> +
-> +	if (dev->res->codec_types & WAVE6_IS_DEC) {
-> +		ret = wave6_vpu_dec_register_device(dev);
-> +		if (ret) {
-> +			dev_err(&pdev->dev, "wave6_vpu_dec_register_device fail: %d\n", ret);
-> +			goto err_temp_vbuf_free;
-> +		}
-> +	}
-> +	if (dev->res->codec_types & WAVE6_IS_ENC) {
-> +		ret = wave6_vpu_enc_register_device(dev);
-> +		if (ret) {
-> +			dev_err(&pdev->dev, "wave6_vpu_enc_register_device fail: %d\n", ret);
-> +			goto err_dec_unreg;
-> +		}
-> +	}
-> +
-> +	if (dev->ctrl && wave6_vpu_ctrl_support_follower(dev->ctrl)) {
-> +		wave6_vpu_activate(dev);
-> +		ret = pm_runtime_resume_and_get(dev->dev);
-> +		if (ret)
-> +			goto err_enc_unreg;
-> +	}
-> +
-> +	dev_dbg(&pdev->dev, "Added wave6 driver with caps %s %s\n",
-> +		dev->res->codec_types & WAVE6_IS_ENC ? "'ENCODE'" : "",
-> +		dev->res->codec_types & WAVE6_IS_DEC ? "'DECODE'" : "");
-> +
-> +	return 0;
-> +
-> +err_enc_unreg:
-> +	if (dev->res->codec_types & WAVE6_IS_ENC)
-> +		wave6_vpu_enc_unregister_device(dev);
-> +err_dec_unreg:
-> +	if (dev->res->codec_types & WAVE6_IS_DEC)
-> +		wave6_vpu_dec_unregister_device(dev);
-> +err_temp_vbuf_free:
-> +	wave6_free_dma(&dev->temp_vbuf);
-> +err_kfifo_free:
-> +	kfifo_free(&dev->irq_status);
-> +err_m2m_dev_release:
-> +	wave6_vpu_release_m2m_dev(dev);
-> +err_v4l2_unregister:
-> +	v4l2_device_unregister(&dev->v4l2_dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static void wave6_vpu_remove(struct platform_device *pdev)
-> +{
-> +	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
-> +
-> +	if (dev->ctrl && wave6_vpu_ctrl_support_follower(dev->ctrl)) {
-> +		if (!pm_runtime_suspended(&pdev->dev))
-> +			pm_runtime_put_sync(&pdev->dev);
-> +	}
-> +	pm_runtime_disable(&pdev->dev);
-> +
-> +	wave6_vpu_enc_unregister_device(dev);
-> +	wave6_vpu_dec_unregister_device(dev);
-> +	wave6_free_dma(&dev->temp_vbuf);
-> +	kfifo_free(&dev->irq_status);
-> +	wave6_vpu_release_m2m_dev(dev);
-> +	v4l2_device_unregister(&dev->v4l2_dev);
-> +}
-> +
-> +#ifdef CONFIG_PM
-> +static int wave6_vpu_runtime_suspend(struct device *dev)
-> +{
-> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +
-> +	if (!vpu_dev)
-> +		return -ENODEV;
-> +
-> +	dprintk(dev, "runtime suspend\n");
+Hello,
 
-Drop
+When the driver was converted from soc_camera emulated support for
+V4L2_FIELD_SEQ_TB and V4L2_FIELD_SEQ_BT where added. This was done by
+capturing twice to the same VB2 buffer, but at different offsets.
 
-> +	if (vpu_dev->ctrl && vpu_dev->active)
-> +		wave6_vpu_ctrl_put_sync(vpu_dev->ctrl, &vpu_dev->entity);
-> +	if (vpu_dev->num_clks)
-> +		clk_bulk_disable_unprepare(vpu_dev->num_clks, vpu_dev->clks);
-> +
-> +	return 0;
-> +}
-> +
-> +static int wave6_vpu_runtime_resume(struct device *dev)
-> +{
-> +	struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +	int ret = 0;
-> +
-> +	if (!vpu_dev)
-> +		return -ENODEV;
-> +
-> +	dprintk(dev, "runtime resume\n");
+This trend out to be a bad idea and the wrong place to try and emulate
+this kind of thing. Further more it is fragile when it comes to things
+like suspend/resume and scaling. Just how fragile it was have been made
+more apparent when more features where added to the driver for things
+the hardware really can do.
 
-Drop
+If user-space really want to capture things in a SEQ_{TB,BT} fashion
+this emulation of capturing twice to the same buffer with a different
+offset can be emulated their instead of the kernel, where it always
+should have been.
 
-> +	if (vpu_dev->num_clks) {
-> +		ret = clk_bulk_prepare_enable(vpu_dev->num_clks, vpu_dev->clks);
-> +		if (ret) {
-> +			dev_err(dev, "failed to enable clocks: %d\n", ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	if (vpu_dev->ctrl && vpu_dev->active) {
-> +		ret = wave6_vpu_ctrl_resume_and_get(vpu_dev->ctrl, &vpu_dev->entity);
-> +		if (ret && vpu_dev->num_clks)
-> +			clk_bulk_disable_unprepare(vpu_dev->num_clks, vpu_dev->clks);
-> +	} else {
-> +		wave6_vpu_check_state(vpu_dev);
-> +	}
-> +
-> +	return ret;
-> +}
-> +#endif
-> +
-> +#ifdef CONFIG_PM_SLEEP
-> +static int wave6_vpu_suspend(struct device *dev)
-> +{
-> +	int ret;
-> +
-> +	dprintk(dev, "suspend\n");
+This series removes this emulation in patch 1/5 and then proceeds to
+remove a lot of cruft code needed to support it. The primary cleanups in
+patch 2/5 - 4/5 revolve around simplifying the VIN internal state
+tracking from 5 to 2 states needed to support the emulation.
 
-Drop. Don't re-implement existing tracing.
+Finally patch 5/5 removes a hack in the R-Car CSI-2 driver which was
+added to support this emulation, and is no longer needed.
 
-> +	wave6_vpu_pause(dev, 0);
-> +
-> +	ret = pm_runtime_force_suspend(dev);
-> +	if (ret)
-> +		wave6_vpu_pause(dev, 1);
-> +
-> +	return ret;
-> +}
-> +
-> +static int wave6_vpu_resume(struct device *dev)
-> +{
-> +	int ret;
-> +
-> +	dprintk(dev, "resume\n");
+I have tested this on Gen2, Gen3 and Gen4 without hitting any
+regressions or other issues, other then of course SEQ_{TB,BT} are no
+longer enumerated as output formats.
 
-Drop, useless.
+For changelog see individual patches.
 
-> +	ret = pm_runtime_force_resume(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	wave6_vpu_pause(dev, 1);
-> +	return 0;
-> +}
-> +#endif
-> +static const struct dev_pm_ops wave6_vpu_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(wave6_vpu_runtime_suspend, wave6_vpu_runtime_resume, NULL)
-> +	SET_SYSTEM_SLEEP_PM_OPS(wave6_vpu_suspend, wave6_vpu_resume)
-> +};
-> +
-> +static const struct of_device_id wave6_dt_ids[] = {
-> +	{ .compatible = "nxp,imx95-wave633c", .data = &wave633c_data },
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, wave6_dt_ids);
-> +
-> +static struct platform_driver wave6_vpu_driver = {
-> +	.driver = {
-> +		.name = VPU_PLATFORM_DEVICE_NAME,
-> +		.of_match_table = of_match_ptr(wave6_dt_ids),
+Niklas Söderlund (5):
+  media: rcar-vin: Remove emulated SEQ_{TB,BT}
+  media: rcar-vin: Remove superfluous suspended state
+  media: rcar-vin: Remove superfluous starting state
+  media: rcar-vin: Simplify the shutdown process
+  media: rcar-csi2: Remove hack to detect NTSC content
 
+ drivers/media/platform/renesas/rcar-csi2.c    |   8 +-
+ .../platform/renesas/rcar-vin/rcar-core.c     |   6 +-
+ .../platform/renesas/rcar-vin/rcar-dma.c      | 132 ++++--------------
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |   7 -
+ .../platform/renesas/rcar-vin/rcar-vin.h      |  40 +-----
+ 5 files changed, 33 insertions(+), 160 deletions(-)
 
-Drop of_match_ptr, you have here warnings.
+-- 
+2.48.1
 
-
-Best regards,
-Krzysztof
 
