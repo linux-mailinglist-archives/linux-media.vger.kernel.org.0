@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-25954-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25955-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C592A2F9C7
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 21:14:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF678A2FACB
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 21:38:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09BD93A81C2
-	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 20:14:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C6EC161EF2
+	for <lists+linux-media@lfdr.de>; Mon, 10 Feb 2025 20:38:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0800724C699;
-	Mon, 10 Feb 2025 20:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCEB264622;
+	Mon, 10 Feb 2025 20:38:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BLFZnaiX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Rm2uRo7V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE1D25C6E6
-	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 20:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E920264620
+	for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 20:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739218481; cv=none; b=CCBIp11iP28huyW9Hf+IcLw4ObVTbcJ+sirRU8tq3P/V75SGlBa7HSOBqrMu0nejvfpnIRf1CNlahRhjlJ4ox2ZiRgEyD9CjFlKEBZ+xn9LLJGVRIoyUswpuLct3cow+++yYvVUxwwAwZP1wJVAx/VHdJLNrffSxJ6EFZ9ygZVs=
+	t=1739219903; cv=none; b=LjQE5oGrOPF+xhsUBocELFIihqePDQwpdas0gbm8zvDXXZucLjPWeA1E9DF919ECfK5hBg6dTk/YKODEpvP2misr4iJsPQL1At/yfMslsiXQylodtfIlsAWH4iL2udMRIT5jMxHyQiXqrBDcJOYTbiP3u4J2ZSRPxdsX2z3n49s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739218481; c=relaxed/simple;
-	bh=/JG9BZXmaku9hcp0orNZpw6AJeKvpwZGjewRoTkBo/0=;
+	s=arc-20240116; t=1739219903; c=relaxed/simple;
+	bh=PSVGvr9r7eFct8bNwiYPCToFoXZCpc/M2wn+1bNwwn4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ex1T0MgEhAFRb+caISN6Drn7qGsiAu/gxHTHZMy4Rj+zzpNzgArRZqt2Re1czN9zvBJkXow14MBfsApQhTT9RWZqIZpmo88dBEzh5l6s2EPGTK2gZTtKmwRp9dF9WtEdV6W1+306OdImkxYFIaFy9C3bX9yI0ulAxncfqq1RPDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BLFZnaiX; arc=none smtp.client-ip=209.85.221.45
+	 In-Reply-To:Content-Type; b=G3v8/9YBJ/nXQsez/OhDh5NklKAv7y+JYrfDzSfSG2rKv54HUfAd4ooVB3SPhED0vVGZbCDGoyfzAlMLL+uo6tBmwAxdWpgU3DK1l9rndtSaxgrXibZdD9KSPyIw23j1L4j8qPjjKkcpieiAWJbkwyomdjE84AZI4ruYI84qq+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Rm2uRo7V; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38dd011ff8bso2634154f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 12:14:38 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38dc660b56cso3714285f8f.0
+        for <linux-media@vger.kernel.org>; Mon, 10 Feb 2025 12:38:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739218477; x=1739823277; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1739219899; x=1739824699; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NTMe6+6hxjDVpZc6C8kMNfMUjelO58kzqRqPgoo0HnE=;
-        b=BLFZnaiXi2qqWhJrXywR1eYC1gam+m6HgQYN2t42liQg9a/QTJqHSNF3Ucq8CW5ojD
-         Bqq8DF0MwyeZQAg3g5NrmZh90Ebcze7EeggrgYxf4jSgLOEEcWbvUp/BuN4/L1MfTC+j
-         1QRho2M0YNvYT0nkbozmrAphEumLCA8/IQf5/JEdn9KLh4mUthnMV1i+aUNacvMgHafw
-         SumvEsE0ToPLexd0GJ3ImMsxzsskS4qTSEe5h2BfLcsvRgVHYtH8PHSShsPxm9EXPax+
-         Dpy1poHFZszWKtFNQga3PkAW5WBnduLFpiWGOgHsl0kUf7VR6jBMyYPqVo6C+wxfCurx
-         soSA==
+        bh=NFVxtidowERMRc2GRZGGyno22q2Ajq4Bb5bd90iWpIY=;
+        b=Rm2uRo7VFovAeJSk3cc0iIH19dUA+czHHs2iinYyDG7qjeipk7RyNrNSyD1JovJqb5
+         Gac92MwBxVLgzvz3SGmiTSpYt7AavQcDsXT+65x/CjefYV8gL1IKUT35Wcy7S5W9o9Gk
+         x34SNlAwgjssdW08VBqP7su7opYVVlAzoCCy7yC9wA53lucwrHZ+oJhBEWSHJbWspL8L
+         46Ey+mKvNS1p+pMCG9vUpQVUBL2Hr//qqvjQ1P33f5WkbGNqEzfz2oAB1tYvzo7WbSMI
+         js/npqeaPI6dXcbLohyGgC7ebE1QM2c69PWwq7PJWtO1G8IGihZY7K3OY422+n/LgfuR
+         u2eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739218477; x=1739823277;
+        d=1e100.net; s=20230601; t=1739219899; x=1739824699;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NTMe6+6hxjDVpZc6C8kMNfMUjelO58kzqRqPgoo0HnE=;
-        b=LctshwIkM3n51lqGm0rWStoGHpNVYJCfsQuvYvv+4TSO5t+Rj+0UKjZGzeqJtmB2og
-         dXLXQZaOM8SH3ik+D56LFMaPRS9IQAl3w1OaSEIg7ikScv0mAKFfZHK4PcBErQSsCFE5
-         S4Kb8kSo9AOcvlLK+r2GUJ+olvl3grF7BiH1s871xgLIQZndhQhGppvYr8U7BOeO/Ntb
-         bVWyv3JKulaJeRcI3/bk9PdLweAHqCxY8W60CdIIuNwkD9VlKbh/4nUSf/kzgYB5NUME
-         XIdElUfbrrZdmDFNkD2fJ7VpWyvGPSZ3LWBwiYdQW8D3QDFCCe86EqICdiAUAtfwcnbZ
-         OV0w==
-X-Gm-Message-State: AOJu0Yx7agSakFFgqKWlfwH06O19NwixEtMNdMtao7iF8hdjo+YtfNlw
-	dQF6l5EX3yAQfKZjI/oh3T0co40bAQO++DFlfZKIBFRZmFohqZssvh93WtL+72w=
-X-Gm-Gg: ASbGnctA9K2Jp5rMyJ3Zp8iY3UOfxEQ6A+dZkZyRFjC0I6eLQILse0zcczcdUaqZLCG
-	IZHsZiagZjszrQfebhNBQKAhNesxVt/KsmHFeW1ef6uCMLClWCkL+nOm6EcP1hxWnERNRE05cEf
-	L5GPRmjV1SdQWX8PYbXTnA2Gu5WZ0iSIPMsiX2MozqinKBsB7bJdSZawBk83UKLet04nALQsyNm
-	g6/dtwmrRC+0MT95/utRs6ci9dUIG9gIqKjoA6XQ9bLcnq1c9R7aj8N5oZti5jivUcNPdXTGN0P
-	EM02fBTziEea5acTi3yXYDcqofGDzj3DqVdt0bSm893DNPSEuq6VMcV1LA==
-X-Google-Smtp-Source: AGHT+IEH4TqTSgJT/Eu4kRwlnAphBA2G4c4MYqZbCsmtKyrPdzMi2a/0iXF19xsgU+fdgItfBHm4SA==
-X-Received: by 2002:a5d:6d03:0:b0:38d:d664:67d8 with SMTP id ffacd0b85a97d-38dd6646bddmr5791783f8f.11.1739218477274;
-        Mon, 10 Feb 2025 12:14:37 -0800 (PST)
+        bh=NFVxtidowERMRc2GRZGGyno22q2Ajq4Bb5bd90iWpIY=;
+        b=JHeULotRdJgt3lrHcuFYP78Fk/Pmb1XghqtbnF+o4YTM32rVgys3mEJZxmTgEJEM7T
+         sQ/t22ygojin2zprAb9LBzr9dqiDUmTZokuXDnXZfQgjqtmgs2ZWP2xYs+Ls1XQr0dc3
+         P07E1iAd8krmcptDFs6ZNpTwKeMPKSYClbSlXp5/NDjad59o/+A15cIYS3vSoWf7adKs
+         ybB9SYzd8eLydh5P7JS/OgXbXXv1bcI1ndUrVckTK9ovUZD94O9Cy0F6zbiLdwdVRo0I
+         npE6sb3AadSiALBjgw6/CHiY5s0Q7s2adiaehcfylOS90TPU7gTUo54Sce24ucvzbKBo
+         HC+w==
+X-Gm-Message-State: AOJu0YzUHdLdsiXrPT0Cm1NzeDFODhOFjzksKVg5qchuXKn2sK+FGoeH
+	p+cDinzWixXoamxjqXtBOF/R7kEBCmKMvQf1dTDnNIcl0nLQZNQOJq4PVu1mUGg=
+X-Gm-Gg: ASbGncvtro4yvLCm1+KEvO8IB5pf9cHV4GGlausNmEzK0KtZ210AWvaCEQ/MijsiaOx
+	sm6kM7r0QC/A3PmGJkELQeAr7SgMaunskZlPriL36ykUgd7GjjMu+S9LMiE0Rhw7lnwlNZBiAIw
+	P3QOe1iNlJDif766aZWCWLkAwjSdBbEzxrY11zGZnVRu1GGVYU1+44qFRnNgfpSsrcNFtgTpXRm
+	0EqYuaBFppmBBZNAd/UQ5IEC8g+0USO7Yp73ERxQJLB8DudfRREnYmS4CsyxrefHkw2ZFaUQyo/
+	pguyp5z+BzRoYpMp8IxmN2NUHsfAKMBlrlPShO1rnWxPtVTKlK5Tn+SBrg==
+X-Google-Smtp-Source: AGHT+IEpzChVf01tMLaok2Mtr3axF6m/BwgR3Eh4IM2FXnH6HagBFGXNIicmufP6s/oLVeGxbxQbig==
+X-Received: by 2002:a05:6000:1865:b0:38c:5e03:5bb with SMTP id ffacd0b85a97d-38dc9138e84mr13870763f8f.41.1739219898538;
+        Mon, 10 Feb 2025 12:38:18 -0800 (PST)
 Received: from [192.168.0.156] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dd44c5e3dsm7671849f8f.62.2025.02.10.12.14.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dcdb54668sm9922250f8f.35.2025.02.10.12.38.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Feb 2025 12:14:36 -0800 (PST)
-Message-ID: <056858ef-3d4e-40ec-a10e-338055a97172@linaro.org>
-Date: Mon, 10 Feb 2025 20:14:35 +0000
+        Mon, 10 Feb 2025 12:38:17 -0800 (PST)
+Message-ID: <f35f3b57-4cc5-432d-8a4d-8d0cfdbee7a5@linaro.org>
+Date: Mon, 10 Feb 2025 20:38:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,15 +95,7 @@ Content-Transfer-Encoding: 7bit
 On 10/02/2025 16:28, Vikram Sharma wrote:
 > Add support for VFE found on SA8775P (Titan 690). This VFE is
 > different from vfe 780 w.r.t few register offsets.
-
-VFE780
-
-with-respect-to a few
-
 > It supports two full and five lite VFE.
-
-sa8775p supports that not VFE780.
-
 > 
 > Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
 > Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
@@ -317,10 +309,6 @@ sa8775p supports that not VFE780.
 > -		!strcmp(clock->name, "vfe_lite"));
 > +		!strcmp(clock->name, "vfe_lite") ||
 > +		!strcmp(clock->name, "camnoc_axi"));
-
-Suspicious you really need to add this clock here, shouldn't be 
-necessary unless you are setting the clock to a particular value.
-
 >   }
 >   
 >   /*
@@ -371,10 +359,6 @@ necessary unless you are setting the clock to a particular value.
 > +			{ 0, 80000000 },
 > +			{ 300000000, 400000000 },
 > +			{ 400000000 },
-
-Is 400 MHz required for camnoc_axi, would 0 i.e. enable not do the same 
-job ?
-
 > +			{ 0 },
 > +		},
 > +
@@ -424,9 +408,6 @@ job ?
 > +		}
 > +	},
 > +
-
-redundant newline
-
 > +	/* VFE2 (lite) */
 > +	{
 > +		.regulators = {},
@@ -565,11 +546,104 @@ redundant newline
 >   	.link_entities = camss_link_entities
 >   };
 
-I'd rather have the last patch in your series enumerate - fill out - 
-this structure.
+There's a pretty superficial difference between 780 and 990
 
-i.e. vfe and csid 780 should be added and then the enumeration of the 
-resource structure for the sa8775p implementation of 780 as the last patch.
+git diff drivers/media/platform/qcom/camss/camss-vfe-690.c 
+drivers/media/platform/qcom/camss/camss-vfe-780.c
+  
+                                           linux-media-qcom-camss/master?
+3c3
+<  * Qualcomm MSM Camera Subsystem - VFE (Video Front End) Module v690 
+(SA8755P)
+---
+ >  * Qualcomm MSM Camera Subsystem - VFE (Video Front End) Module v780 
+(SM8550)
+5c5
+<  * Copyright (c) 2025 Qualcomm Technologies, Inc.
+---
+ >  * Copyright (c) 2024 Qualcomm Technologies, Inc.
+15,16c15
+< #define VFE_TOP_CORE_CFG		(0x24)
+< #define BUS_REG_BASE			(vfe_is_lite(vfe) ? 0x480 : 0x400)
+---
+ > #define BUS_REG_BASE			(vfe_is_lite(vfe) ? 0x200 : 0xC00)
+
+19c18
+< #define	WM_CGC_OVERRIDE_ALL		(0x7FFFFFF)
+---
+ > #define		WM_CGC_OVERRIDE_ALL		(0x7FFFFFF)
+21c20
+< #define VFE_BUS_WM_TEST_BUS_CTRL	(BUS_REG_BASE + 0xFC)
+---
+ > #define VFE_BUS_WM_TEST_BUS_CTRL	(BUS_REG_BASE + 0xDC)
+46,47c45,46
+<  * VFE:
+<  * 16 = RDI0, 17 = RDI1, 18 = RDI2
+---
+ >  * Full VFE:
+ >  * 23 = RDI0, 24 = RDI1, 25 = RDI2
+50c49
+<  * 0 = RDI0, 1 = RDI1, 2 = RDI2, 3 = RDI3, 4 = RDI4, 5 = RDI5
+---
+ >  * 0 = RDI0, 1 = RDI1, 2 = RDI3, 4 = RDI4
+52c51
+< #define RDI_WM(n)			((vfe_is_lite(vfe) ? 0x0 : 0x10) + (n))
+---	
+ > #define RDI_WM(n)			((vfe_is_lite(vfe) ? 0x0 : 0x17) + (n))
+61d59
+< 	writel(WM_CGC_OVERRIDE_ALL, vfe->base + VFE_BUS_WM_CGC_OVERRIDE);
+62a61,62
+ > 	writel(WM_CGC_OVERRIDE_ALL, vfe->base + VFE_BUS_WM_CGC_OVERRIDE);
+ >
+65c65
+< 	writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height,
+---
+ > 	writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height >> 8,
+67c67
+< 	writel(WM_IMAGE_CFG_0_DEFAULT_WIDTH & 0xFFFF,
+---
+ > 	writel((WM_IMAGE_CFG_0_DEFAULT_WIDTH & 0xFFFF),
+71,75c71
+<
+< 	writel(0x0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
+<
+< 	/* TOP CORE CFG */
+< 	writel(0x600000, vfe->base + VFE_TOP_CORE_CFG);
+
+What's this for ?
+
+---
+ > 	writel(0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
+99c95
+< 	writel(addr, vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
+---
+ > 	writel((addr >> 8) & 0xFFFFFFFF, vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
+120c116
+< static const struct camss_video_ops vfe_video_ops_690 = {
+---
+ > static const struct camss_video_ops vfe_video_ops_780 = {
+127c123
+< 	vfe->video_ops = vfe_video_ops_690;
+---
+ > 	vfe->video_ops = vfe_video_ops_780;
+147c143
+< const struct vfe_hw_ops vfe_ops_690 = {
+---
+ > const struct vfe_hw_ops vfe_ops_780 = {
+
+I don't really see much logical difference here to justify all of the 
+copy/paste code.
+
+Could you comment on some set of offsets passed in the VFE resources 
+structure ?
+
+If not an offset then perhaps a camss-vfe-gen3.c file which contains the 
+shared code and wrappering that shared code in camss-vfe-690 and vfe-780 
+respectively ?
+
+Actually, I think that's the way to go, for his level of similarity it 
+should be possible to move the share code 1:1 in many cases to a shared 
+file.
 
 ---
 bod
