@@ -1,380 +1,272 @@
-Return-Path: <linux-media+bounces-25987-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25988-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC8FA305BE
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 09:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2839CA305CA
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 09:31:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F50D164792
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 08:29:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0ED0164886
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 08:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35CB81EF097;
-	Tue, 11 Feb 2025 08:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFA371EF0AB;
+	Tue, 11 Feb 2025 08:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="OL3Kb8ZG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJ3jAoWt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021117.outbound.protection.outlook.com [40.107.42.117])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1FC1EE039;
-	Tue, 11 Feb 2025 08:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.117
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739262535; cv=fail; b=rTVbXg0rGoTOtM+VFhiN35qdCiV89qAoGSXgWKMyMPklmXKq6M+PnPbozjBxuj2kA0Qm1quOfy0hQgAnx59SeojaD2ZPmYLUQDTDOyWSWIpYA89tsPxoKIgtLy9RZp3ZySytZo2QajJPS0f/VkTT4N12OenK35cZ/amJ8ZILNRE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739262535; c=relaxed/simple;
-	bh=1VOBRUsF3BYMRDm8SGHXN4cnvo/yNcidWI1ys/pLJD4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Jc9UbB1bple4Or5jTERqyigyO8yzPehubVjiz2KqIlKItLUNXXetsoeJbTLxhACjyqnJXnEodzxsnG4P1tagO8yg2kWFqBaEpjL2inul/ecsQ1AfJvHG7MfoPC/x1UzrVdLotT/8M48izsD/I7/qBff0jtR8zL2hkkti0Slg7vQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=OL3Kb8ZG; arc=fail smtp.client-ip=40.107.42.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GgcPzCJpEW7J/CMNHjFbqr7BuhN+Nk57hVHIWbIFnmzB4x4ePDUUsp9wsafYKCoAa5+0ZqMozRussYQMpSN0+sc1p99NqqtvY/T5f0SHNPzs6dVM4u1GCTL9kZzdkjPROsn3rzFdTPUCbqESaZGGStkdai8kgAa83Xtq8glefP+unXNFo49VoFjZw4gMNoPwj71/YYEMYUPRs8S89RJzww3BtGJBQOzUEl4YFVjmOwAtt9MF7XX2s5PHp5dD8avt6sWJkTlT63kftPnuh0AEyvvInn/kHi0YK97Abh/qCXu3atQyoc0DsQPbxSR0X3lpvZohmINFQ3MTvochIAaL6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wJxI6EuD0aaPhENQ9zY8fkmGelho6cFx3RapluMcLUg=;
- b=TMlJ4ijVs/47N7S5+wTXNelMdJifI+VjiNRZCk1GgsFfDim30jg/0wJWHIyQqzkJ92pxgZ8cnoSrW0nlIxyqXEANi1jNnpBVAdJP57bY1URRi12wCzNPvWvHH8q2pRpcrQygMzbwdYfmrqhb8ICfsN0U+33XCnJpYRcs5ew1UpUN6f9IvTJLK+Q7IsmyiLt5sE7Fddczk53+BH2tFklhzR6xjMvQROnLjqBeh/lK5TnvzvShLhpm+uLtgK2FjcKG9sjO7miAD09gaaMTviyCZPkuCzHgQCCIGX6mqusqUkazVc6nGsCu5otvie96C5/CtTHXFaUKziKCe+5MaAxURA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wJxI6EuD0aaPhENQ9zY8fkmGelho6cFx3RapluMcLUg=;
- b=OL3Kb8ZGgaqvSbKriCMvfaacAPODsJJxczpq9q4g9oBm0h+xVmPl08a6B5TJqQTbvKbmHpelcRzM4t+5rowpk/tSNL+u90Fx0JWLgHeOjrjXILqxL0uP4ILy8oqkjeMcnCR0wdEK4ILvmA6JV+qG2Pp7QTtex0I0sGmMrujnCqo=
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
- SE1P216MB2041.KORP216.PROD.OUTLOOK.COM (2603:1096:101:161::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8422.19; Tue, 11 Feb 2025 08:28:50 +0000
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::9e3d:ee20:8cc7:3c07]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::9e3d:ee20:8cc7:3c07%4]) with mapi id 15.20.8422.015; Tue, 11 Feb 2025
- 08:28:49 +0000
-From: Nas Chung <nas.chung@chipsnmedia.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-	"sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>,
-	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-imx@nxp.com" <linux-imx@nxp.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, jackson.lee
-	<jackson.lee@chipsnmedia.com>, lafley.kim <lafley.kim@chipsnmedia.com>
-Subject: RE: [PATCH 4/8] media: chips-media: wave6: Add Wave6 codec driver
-Thread-Topic: [PATCH 4/8] media: chips-media: wave6: Add Wave6 codec driver
-Thread-Index: AQHbe5s6TIh4rto0wEORrmYeUFOifbNAzpsAgAD2lwA=
-Date: Tue, 11 Feb 2025 08:28:49 +0000
-Message-ID:
- <SL2P216MB1246CB5966183FE8E17541D5FBFD2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-References: <20250210090725.4580-1-nas.chung@chipsnmedia.com>
- <20250210090725.4580-5-nas.chung@chipsnmedia.com>
- <7373c956-216a-43a6-939c-4a9be5564c57@kernel.org>
-In-Reply-To: <7373c956-216a-43a6-939c-4a9be5564c57@kernel.org>
-Accept-Language: ko-KR, en-US
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SL2P216MB1246:EE_|SE1P216MB2041:EE_
-x-ms-office365-filtering-correlation-id: 0d8596ee-4953-4899-ac7c-08dd4a761c4d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|1800799024|366016|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?t5LnNTHLGUnqCnzk7jVs3WKzIZ0zpYvUHkOkjXYUjLu98umggZXeCf3+A8H4?=
- =?us-ascii?Q?kWJ5vo2aWq1K4rA+2YaH2aUqgnOzYDmwodDyXJNnip1e29RLCuFv7ieLqwrC?=
- =?us-ascii?Q?KfyCGg9oczgQhVmam8xIymyPq2E4jKkvCuDl01amyUd/mW12ExRvYzChp0JU?=
- =?us-ascii?Q?Klq9BucvH0kVtln92s/g0DGxK5QwM/gPk2bA6NDXEbxiKfU7Vhnl7dgzCb+O?=
- =?us-ascii?Q?M8x3sQgdETAzghrTqZDKZNJT/AIfGZP6xQXqBq8V5KsvtOapoZZz+wgc365H?=
- =?us-ascii?Q?kWDXlicPUh/uPf8dcCjKNrhGDCZaawbx9zRyOGTB1utA9PfXgZCLyMTwbkBk?=
- =?us-ascii?Q?f7YujMaISoBFlQTyq3BV8Ll+oqswreLxnDG3tJWS2YXYi2uRdUINZoFKWX+v?=
- =?us-ascii?Q?exXl9CJ+UoVn1jdefeybJcZy/qobpbc1ZCPapNeMgRgzk0Xhbc5k0YAAUQQI?=
- =?us-ascii?Q?b44ugxGGFAq+ZmfTiuT7vbOfYp+ZIPjGkG9H7nR8s6PnHXLinTPLTNcYkmhV?=
- =?us-ascii?Q?P6pb1f7wv09z1SljU5xdprjfwpo3FnyZ5vmG2Z7ss+XXbT3qXW/rXymbHHNK?=
- =?us-ascii?Q?n0oxey83cUhlNhjCpvn5u3/QmJr60IJfbKGcbZ7jTiiRTmdLtQNOI9jfnFyV?=
- =?us-ascii?Q?DUdX03vmgYbDrzpIP7upL8tOH8yMSGL/DcxQ7ztIFDMGnuqJQ2kCGCWdADPL?=
- =?us-ascii?Q?I3T4EHwriUUNe1/qhxNin0sH3OjGA5KxBkEaQtdUiOMOgPkYJRUehkNm53Hi?=
- =?us-ascii?Q?tk+FB05wh/N5hJlBjGSQ7UWljpQZzOfi2jNUSMAHlbt87utFcUJFprA9ZN7E?=
- =?us-ascii?Q?ZSCQ8rVzeOCfqU/su0ZokddUir17R08v1acDWSGlxOJUO5fLa4AUA2Yt6AHG?=
- =?us-ascii?Q?JfwObdHzrm6mlLM34mwoG+1bkK/QNw6OL1Xw+jYuPZ3Entlt5+SPVlisohYw?=
- =?us-ascii?Q?LuejPUnV483C0nRe9NV4kupVYTZUIywEUFLTeZnFdA9ziQIdDmCjK9NQhRb2?=
- =?us-ascii?Q?7FJ1HGLNzgCU/inafcUYaUeNxs/1s6tXXLOg8/SIOby/o+CE7TMtigBi0WGF?=
- =?us-ascii?Q?pguiGk0Yzv99rkm+kPxE+T2HUdrXtEv5R+G/B86raKYxLF4F2v1s0F5TGLMU?=
- =?us-ascii?Q?wSv348U2DqREJbh4+5rVdCLXf8fp0W6nFGmBcOiZJpvsEzm/KSpSOTRJb+bf?=
- =?us-ascii?Q?M+kVQ6P+5PUQfDmCyr7zqZGA/K16dEpxjL+wTB4o/KlVKcfmY9fDpYm1jat4?=
- =?us-ascii?Q?mBMR3qGGDWThwU9zxET7eQiN7Dybmcam076P7uR8WQYIO0M/5lFe04kOzCAM?=
- =?us-ascii?Q?TfVI+diWiYpTQXUdWfUElxSImCxwpziZ8ttc7FsjCQvZ/3GUyyq8OyEzTR1M?=
- =?us-ascii?Q?3KW8Lp+hzrCKFtYY1VTjIbOmKE9ixf260Eb0DMSPsnrz9i/cdz2hPolv4iPX?=
- =?us-ascii?Q?JHDhU8kCcMlPj6DEOi0000+YGcIq/Yto?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?/9ugfNy45wyXIHuMGO+cOZTtTpWNTmlWX5ZBHdb/Bch0qcC/ezfGsitv7KaD?=
- =?us-ascii?Q?saEvg67vx2I8CR6ubiyqgL81VJSZrmMTGjUGOvwWPCJVorr2CWuj1G78hIo6?=
- =?us-ascii?Q?13V6uACsUiJTW5ghehlkAjbb/AqPgv56LHRFTNbwa5Jrvwil+8JwblSKiTJH?=
- =?us-ascii?Q?2P0C5aAF+oP15KvSF0nYmug3gI750iMt4AcQyc33ahuWkiKSNvVgvP/Z1K84?=
- =?us-ascii?Q?1uKWqIqsbvpRPXnsFTxcEOP55Niex/VHnhiu9F5Nes70vLv30tHJ5qVsPSGU?=
- =?us-ascii?Q?DAzrIpDlh3eNgNgFjN4bpsKOGduHDictLOA/JOP3T7qSNn84g01mO4wzPo/O?=
- =?us-ascii?Q?glkaR+ahuAAVWU17MktHz4MgAT6Qn/ZHGAzWCk555gtt8yWl499cco0Xnt9I?=
- =?us-ascii?Q?OCuUSvyOaDDTFVFUNJ2YPcdY4TKgXgpIjmmZpm9t965R8moYThRwW/eEa3Ol?=
- =?us-ascii?Q?fvICnMQW/zX/8U8kDUT1qUtoB+y31A3UEHnL26jtbNrxfLkUbKozoQWktqdU?=
- =?us-ascii?Q?twfWOGVFh6Xw9HCRR9kuEjry1Gx4uXXtX/kqTuXvmlp+B4RvZ7r1m1lzoJvm?=
- =?us-ascii?Q?OmZaxPfJv+QGhZl1wVGlHKh2+XwIylHFHO/lcJqwRcBb2XnuV0QydC96FUUZ?=
- =?us-ascii?Q?jWoT+Zxq1Eh8W5R/9zR2gDk5r8F1Ku9mhElHrZgf+RQM5qrww8dwp4FoI25M?=
- =?us-ascii?Q?p+CHfAzWWSBiI3yHqibPLwOiTp+a4gPPtd8xvzAXOG0exeQzwr4KHold7Cqc?=
- =?us-ascii?Q?9O4/iKl4zYfSFf9UVL7AHjvvgpISsYfgPAOV60dGexvYuQgtrrEEdCi/01MH?=
- =?us-ascii?Q?KyBcCFVhSOo3e6+qi6jPyvs/c3r48oF4OJAqriE8leRTH7NSDaaHshMLauzE?=
- =?us-ascii?Q?kRMAu5RPyNgvaSODbLgSlV5Fz9CM+KQeB9bw0Tvr6UJIunow0AduHyEtaqOL?=
- =?us-ascii?Q?/5+/ro+7yDgctocyRaw5nuPrTwMPdZihyO6lNXTY1lvxPx9a+G/RI8IAjvTq?=
- =?us-ascii?Q?e4W2CK1P+Rg1tA0UroXhR/EmV08ftaTx8VCBgS5JjBKM1E8PWxUK1LIsWGJ9?=
- =?us-ascii?Q?3WbFvqFwKyrBEraLspsZD3xyvi0m/NJ5b0z1x6HyJbczsoO3refAuR2eUHTT?=
- =?us-ascii?Q?eauY/jGLUQncEnHGJbUgxJJRWv0ge62WOAsz8QrDA/ft7WZbMjgB7s19LU7E?=
- =?us-ascii?Q?sKZq3sZScZ8IGiBlaArsLDcwQp3zJPMRWdjzgF4viY0u6e8DR4MkeWtVbVSy?=
- =?us-ascii?Q?+MFL7WCq/edSjc4hkqRbpcRpt7aXNy5VsOccPDsNHV9DnsFBgfEC3mvJFNn2?=
- =?us-ascii?Q?eZLYPhmFzlA+75g4rCWAPMhEKjJz1ngOrK+EkSG0t8dRV+TVqwOAJvykgq4v?=
- =?us-ascii?Q?9HneF49EhlWaw1unDaGazVDnT78GhrdsIYWCF37Dt6Sp1+XCnRm028PaQ+Ni?=
- =?us-ascii?Q?hjl1VicyhJQGHZ7HX0khGGRszVVbksbDEa434h4M6n2PLf5XPqou9Kpf87ow?=
- =?us-ascii?Q?W1ycOPnjvlqMoOsd8h0lq+u6zxmpXSSdTV9zNm1be0AbofkLOktkNL3cuEBq?=
- =?us-ascii?Q?gH0eGICLBsn+WTiq0duy1YLyOCknEY0LLX6GvFrE?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279E6192B86
+	for <linux-media@vger.kernel.org>; Tue, 11 Feb 2025 08:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739262703; cv=none; b=ftL8QiAwPuKfP7mj26NDjyflwEfNrxXMMLXbXgcJ6XaG9Qcse3RL0k2XVqFCKTW85PBs6K3V6GcrjktyqE3mDbqrcxxawoqyKHVAiPOC9c3ewOBnZlZYpo2EYUEv/NB1F/x9TAh4P26v9N2EDvC1mNNsnaXQdRG4TbL/IhGVoOE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739262703; c=relaxed/simple;
+	bh=sqKIAiSWdphXg2wUkYryJ96Od9m035/ViFFFQbZUyvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E1LO31JFIlzYaLEYEoZBBSoL2UveC6rXyz3diZQQLIYIrPhOqd6UFwfvvTHmlqsN+WjZJk8+EaAi58//qcfWllq/sajQbxfvgx9r+wd4ZkHiqpyap3mCctd1B54vwdtQrs8/+Dr4HMSvNJZoZLrUk0kxnutsjtgEQ1UBhStN5P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJ3jAoWt; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739262700; x=1770798700;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sqKIAiSWdphXg2wUkYryJ96Od9m035/ViFFFQbZUyvM=;
+  b=RJ3jAoWtcUfoqMvRq7sdo+OOiAcJPgycGf3KpbdCA7TD7wzL1B2mgzmq
+   JYMcFRqbB+VKyDsXDjt0h9T360joHU1w/WIhm638JsDeIIsdrHmFCv4Hj
+   9cnflxbgf7kqkS+g1NQypuLtqYGZABz2EWV0lN3g7ZiAeGjQvCo0I+OTS
+   wLhVgqx6igawvR1NOD59vrvZR/PRO4myN+u38qtaHuvMq9WZLuTVyzrck
+   z9CtxZKNxtBne3pXeHPm+K4bljU/Fd8MlFjkqwCQwD45UOfTY+Am57c/7
+   x3bAYYSQPJ5Sk8lqu6eFq0LPNM9oFg+IRLZMFtjMP5UAOeU6DZyRE39Ns
+   w==;
+X-CSE-ConnectionGUID: Ytvekc4mS8GYL8GZ6gNzXw==
+X-CSE-MsgGUID: 3FyxVenJR1mvzpBBzxfnuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="43798104"
+X-IronPort-AV: E=Sophos;i="6.13,276,1732608000"; 
+   d="scan'208";a="43798104"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 00:31:39 -0800
+X-CSE-ConnectionGUID: ny1WRUVLR/qwcbgHYRJWSQ==
+X-CSE-MsgGUID: x1pG1Z/3RqWv29um0ooo7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,276,1732608000"; 
+   d="scan'208";a="112270629"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 00:31:37 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3B47411F7E8;
+	Tue, 11 Feb 2025 10:31:34 +0200 (EET)
+Date: Tue, 11 Feb 2025 08:31:34 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [RFC 4/4] media: v4l: ctrl: Add V4L2_CID_CONFIG_MODEL control
+Message-ID: <Z6sK5oTiwez5brwk@kekkonen.localdomain>
+References: <20241011075535.588140-1-sakari.ailus@linux.intel.com>
+ <20241011075535.588140-5-sakari.ailus@linux.intel.com>
+ <137d5e38-b9fd-4274-8877-e5f71365242c@xs4all.nl>
+ <ZzRkwVlNLzXQmWoK@kekkonen.localdomain>
+ <846db937-9445-4f5c-b8fe-7c973522a3a1@xs4all.nl>
+ <20241118024002.GJ31681@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d8596ee-4953-4899-ac7c-08dd4a761c4d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2025 08:28:49.7728
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7GopREXElwoRbuPdWM3xTO84xXj/eIOJUvYf0s4Gsg3UdjOSGviMpjJdEDHeXx/cZvx7yFuO2OK8BPLb1pXay1H4mVdaJiy/ZGyaVtYaASg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB2041
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241118024002.GJ31681@pendragon.ideasonboard.com>
 
-Hi, Krzysztof.
+Hi Laurent,
 
->-----Original Message-----
->From: Krzysztof Kozlowski <krzk@kernel.org>
->Sent: Tuesday, February 11, 2025 2:41 AM
->To: Nas Chung <nas.chung@chipsnmedia.com>; mchehab@kernel.org;
->hverkuil@xs4all.nl; sebastian.fricke@collabora.com; robh@kernel.org;
->krzk+dt@kernel.org; conor+dt@kernel.org
->Cc: linux-media@vger.kernel.org; devicetree@vger.kernel.org; linux-
->kernel@vger.kernel.org; linux-imx@nxp.com; linux-arm-
->kernel@lists.infradead.org; jackson.lee <jackson.lee@chipsnmedia.com>;
->lafley.kim <lafley.kim@chipsnmedia.com>
->Subject: Re: [PATCH 4/8] media: chips-media: wave6: Add Wave6 codec driver
->
->On 10/02/2025 10:07, Nas Chung wrote:
->> +
->> +	dev->debugfs =3D debugfs_lookup(WAVE6_VPU_DEBUGFS_DIR, NULL);
->> +	if (IS_ERR_OR_NULL(dev->debugfs))
->> +		dev->debugfs =3D debugfs_create_dir(WAVE6_VPU_DEBUGFS_DIR,
->NULL);
->> +
->> +	pm_runtime_enable(&pdev->dev);
->> +
->> +	if (dev->res->codec_types & WAVE6_IS_DEC) {
->> +		ret =3D wave6_vpu_dec_register_device(dev);
->> +		if (ret) {
->> +			dev_err(&pdev->dev, "wave6_vpu_dec_register_device
->fail: %d\n", ret);
->> +			goto err_temp_vbuf_free;
->> +		}
->> +	}
->> +	if (dev->res->codec_types & WAVE6_IS_ENC) {
->> +		ret =3D wave6_vpu_enc_register_device(dev);
->> +		if (ret) {
->> +			dev_err(&pdev->dev, "wave6_vpu_enc_register_device
->fail: %d\n", ret);
->> +			goto err_dec_unreg;
->> +		}
->> +	}
->> +
->> +	if (dev->ctrl && wave6_vpu_ctrl_support_follower(dev->ctrl)) {
->> +		wave6_vpu_activate(dev);
->> +		ret =3D pm_runtime_resume_and_get(dev->dev);
->> +		if (ret)
->> +			goto err_enc_unreg;
->> +	}
->> +
->> +	dev_dbg(&pdev->dev, "Added wave6 driver with caps %s %s\n",
->> +		dev->res->codec_types & WAVE6_IS_ENC ? "'ENCODE'" : "",
->> +		dev->res->codec_types & WAVE6_IS_DEC ? "'DECODE'" : "");
->> +
->> +	return 0;
->> +
->> +err_enc_unreg:
->> +	if (dev->res->codec_types & WAVE6_IS_ENC)
->> +		wave6_vpu_enc_unregister_device(dev);
->> +err_dec_unreg:
->> +	if (dev->res->codec_types & WAVE6_IS_DEC)
->> +		wave6_vpu_dec_unregister_device(dev);
->> +err_temp_vbuf_free:
->> +	wave6_free_dma(&dev->temp_vbuf);
->> +err_kfifo_free:
->> +	kfifo_free(&dev->irq_status);
->> +err_m2m_dev_release:
->> +	wave6_vpu_release_m2m_dev(dev);
->> +err_v4l2_unregister:
->> +	v4l2_device_unregister(&dev->v4l2_dev);
->> +
->> +	return ret;
->> +}
->> +
->> +static void wave6_vpu_remove(struct platform_device *pdev)
->> +{
->> +	struct vpu_device *dev =3D dev_get_drvdata(&pdev->dev);
->> +
->> +	if (dev->ctrl && wave6_vpu_ctrl_support_follower(dev->ctrl)) {
->> +		if (!pm_runtime_suspended(&pdev->dev))
->> +			pm_runtime_put_sync(&pdev->dev);
->> +	}
->> +	pm_runtime_disable(&pdev->dev);
->> +
->> +	wave6_vpu_enc_unregister_device(dev);
->> +	wave6_vpu_dec_unregister_device(dev);
->> +	wave6_free_dma(&dev->temp_vbuf);
->> +	kfifo_free(&dev->irq_status);
->> +	wave6_vpu_release_m2m_dev(dev);
->> +	v4l2_device_unregister(&dev->v4l2_dev);
->> +}
->> +
->> +#ifdef CONFIG_PM
->> +static int wave6_vpu_runtime_suspend(struct device *dev)
->> +{
->> +	struct vpu_device *vpu_dev =3D dev_get_drvdata(dev);
->> +
->> +	if (!vpu_dev)
->> +		return -ENODEV;
->> +
->> +	dprintk(dev, "runtime suspend\n");
->
->Drop
->
->> +	if (vpu_dev->ctrl && vpu_dev->active)
->> +		wave6_vpu_ctrl_put_sync(vpu_dev->ctrl, &vpu_dev->entity);
->> +	if (vpu_dev->num_clks)
->> +		clk_bulk_disable_unprepare(vpu_dev->num_clks, vpu_dev->clks);
->> +
->> +	return 0;
->> +}
->> +
->> +static int wave6_vpu_runtime_resume(struct device *dev)
->> +{
->> +	struct vpu_device *vpu_dev =3D dev_get_drvdata(dev);
->> +	int ret =3D 0;
->> +
->> +	if (!vpu_dev)
->> +		return -ENODEV;
->> +
->> +	dprintk(dev, "runtime resume\n");
->
->Drop
->
->> +	if (vpu_dev->num_clks) {
->> +		ret =3D clk_bulk_prepare_enable(vpu_dev->num_clks, vpu_dev-
->>clks);
->> +		if (ret) {
->> +			dev_err(dev, "failed to enable clocks: %d\n", ret);
->> +			return ret;
->> +		}
->> +	}
->> +
->> +	if (vpu_dev->ctrl && vpu_dev->active) {
->> +		ret =3D wave6_vpu_ctrl_resume_and_get(vpu_dev->ctrl, &vpu_dev-
->>entity);
->> +		if (ret && vpu_dev->num_clks)
->> +			clk_bulk_disable_unprepare(vpu_dev->num_clks, vpu_dev-
->>clks);
->> +	} else {
->> +		wave6_vpu_check_state(vpu_dev);
->> +	}
->> +
->> +	return ret;
->> +}
->> +#endif
->> +
->> +#ifdef CONFIG_PM_SLEEP
->> +static int wave6_vpu_suspend(struct device *dev)
->> +{
->> +	int ret;
->> +
->> +	dprintk(dev, "suspend\n");
->
->Drop. Don't re-implement existing tracing.
->
->> +	wave6_vpu_pause(dev, 0);
->> +
->> +	ret =3D pm_runtime_force_suspend(dev);
->> +	if (ret)
->> +		wave6_vpu_pause(dev, 1);
->> +
->> +	return ret;
->> +}
->> +
->> +static int wave6_vpu_resume(struct device *dev)
->> +{
->> +	int ret;
->> +
->> +	dprintk(dev, "resume\n");
->
->Drop, useless.
+On Mon, Nov 18, 2024 at 04:40:02AM +0200, Laurent Pinchart wrote:
+> Hello,
+> 
+> On Wed, Nov 13, 2024 at 01:26:26PM +0100, Hans Verkuil wrote:
+> > On 11/13/24 09:35, Sakari Ailus wrote:
+> > > On Wed, Nov 13, 2024 at 09:03:57AM +0100, Hans Verkuil wrote:
+> > >> On 11/10/2024 09:55, Sakari Ailus wrote:
+> > >>> Add the V4L2_CID_CONFIG_MODEL control for the configuration model.
+> > >>>
+> > >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > >>> ---
+> > >>>  .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
+> > >>>  .../userspace-api/media/v4l/subdev-config-model.rst          | 2 ++
+> > >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
+> > >>>  include/uapi/linux/v4l2-controls.h                           | 3 +++
+> > >>>  4 files changed, 14 insertions(+)
+> > >>>
+> > >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > >>> index 27803dca8d3e..928e8e3eed7f 100644
+> > >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> > >>> @@ -55,3 +55,7 @@ Image Process Control IDs
+> > >>>      control value divided by e.g. 0x100, meaning that to get no
+> > >>>      digital gain the control value needs to be 0x100. The no-gain
+> > >>>      configuration is also typically the default.
+> > >>> +
+> > >>> +``V4L2_CID_CONFIG_MODEL (bitmask)``
+> > >>> +    Which configuration models the sub-device supports. Please see
+> > >>> +    :ref:`media_subdev_config_model`.
+> > >>
+> > >> First of all the naming is confusing: since this is specific to sub-devices, it
+> > >> should at least have 'SUBDEV' in the name. I first thought this reported the
+> > > 
+> > > I don't object in principle, but the reason why I didn't add that in v1 was
+> > > the names would get quite long. Maybe V4L2_CID_SUBDEV_CFG_MODEL?
+> > > 
+> > >> model name or something like that, I'm not sure "configuration model" is a very
+> > >> good name.
+> > > 
+> > > Feel free to propose a different one. :-)
+> > 
+> > I would, if I understood what you intend to achieve :-)
+> 
+> I'll try to rephrase what Sakari wrote in the patches.
+> 
+> The V4L2 specification defines a subdev API that exposes three type of
+> configuration elements: formats, selection rectangles and controls. The
+> specification contains generic information about how those configuration
+> elements behave, but not precisly how they apply to particular hardware
+> features. We leave some leeway to drivers to decide how to map selection
+> rectangles to device features, as long as they comply with the V4L2
+> specification. This is needed, as hardware features differ between
+> devices, so it's the driver's responsibility to handle this mapping.
+> 
+> Unfortunately, this lack of clearly defined mapping in the specification
+> has led to different drivers mapping the same hardware features to
+> different API elements, or implementing the API elements with slightly
+> different behaviours. Furthermore, many drivers have implemented
+> selection rectangles in ways that do not comply with the V4L2
+> specification. All of this makes userspace development difficult.
+> 
+> We can't define precisely how all configuration elements apply to
+> hardware features in a way that applies to all devices, as devices
+> differ widely. We can however develop such precise definitions for
+> classes of similar devices. In order to develop generic userspace code,
+> we then need a way for subdevs to indicate which class they belong to.
+> This is what the configuration model control does. The configuration
+> model tells userspace which section of the V4L2 specification defines
+> the precise behaviour of the device.
+> 
+> One example of how drivers implement features in different ways is
+> skipping and binning. Some sensor drivers use selection rectangles,
+> other just formats.
 
-Okay. I will remove the redundant debug message and dprintk in v2.
+I'll use this text, with some modifications, in the documentation of
+sub-device configuration models.
 
->
->> +	ret =3D pm_runtime_force_resume(dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	wave6_vpu_pause(dev, 1);
->> +	return 0;
->> +}
->> +#endif
->> +static const struct dev_pm_ops wave6_vpu_pm_ops =3D {
->> +	SET_RUNTIME_PM_OPS(wave6_vpu_runtime_suspend,
->wave6_vpu_runtime_resume, NULL)
->> +	SET_SYSTEM_SLEEP_PM_OPS(wave6_vpu_suspend, wave6_vpu_resume)
->> +};
->> +
->> +static const struct of_device_id wave6_dt_ids[] =3D {
->> +	{ .compatible =3D "nxp,imx95-wave633c", .data =3D &wave633c_data },
->> +	{ /* sentinel */ }
->> +};
->> +MODULE_DEVICE_TABLE(of, wave6_dt_ids);
->> +
->> +static struct platform_driver wave6_vpu_driver =3D {
->> +	.driver =3D {
->> +		.name =3D VPU_PLATFORM_DEVICE_NAME,
->> +		.of_match_table =3D of_match_ptr(wave6_dt_ids),
->
->
->Drop of_match_ptr, you have here warnings.
+> 
+> > >> Secondly, is this supposed to be valid for all subdevices? Only for sensors?
+> > >> Would an HDMI-to-CSI bridge qualify?
+> > > 
+> > > I think it could but we should have a use case for it. In other words,
+> > > something we can't reasonably express using existing means. In this case
+> > > it's a number of interfaces and device type specific behaviour (see the 3rd
+> > > patch).
+> 
+> The control can be used by any type of device, as long as someone
+> documents a corresponding configuration model.
+> 
+> > >> Thirdly, only V4L2_CID_CONFIG_MODEL_COMMON_RAW is defined right now. What other
+> > >> models do you have in mind? What models can co-exist (since this is a bitmask)?
+> > > 
+> > > We could have different raw camera models if needed. I don't have any
+> > > planned right now, though.
+> 
+> CCS would be another model, although I'm not sure if any other driver
+> would implement that model. Still, even if used by the CCS driver only,
+> I think it would make sense to define a CCS model.
 
-I will address this in v2.
+Currently the only way to determine CCS driver is being used is that some
+CCS specific controls are supported by the device. I'm beginning to lean
+towards having a CCS model, too. I'll add that in the next version.
 
-Thanks.
-Nas.
+> 
+> > >> Finally, why choose a control for this? Should this perhaps be better done as
+> > >> a field in media_entity_desc/media_v2_entity?
+> > > 
+> > > I don't think it's a great fit. This is largely about V4L2 (to some but
+> > > lesser extent about MC) and we traditionally have avoided MC -> V4L2
+> > > dependencies.
+> > 
+> > It sounds a bit like you want to report what Mauro calls a 'Profile'.
+> 
+> There are similarities but it's not the same concept. What Mauro named
+> "profile" was more about which ioctls were implemented by the device,
+> and less about their detailed behaviour.
 
->
->
->Best regards,
->Krzysztof
+I think it was only about the IOCTLs supported, that's it.
+
+> 
+> > But I would expect the control to be an enum and not a bitmask, since I
+> > would expect a device to fit just a single configuration mode, and not
+> > multiple modes.
+> 
+> I would have used an enum as well. In theory we could define models that
+> cover non-overlaping parts of the device features, and a device could
+> then implement multiple models, but I'm not sure that would happen.
+
+I'm open to making this an enum if you prefer that. My concern, and the
+reason why I used a bitmask, is that a sub-device could implement several
+models at a time. They could also be used to declare semantics of a specific
+part of the device interface, not the entire interface. For instance,
+analogue gain model could be an example of that albeit this likely could be
+derived from controls present.
+
+> 
+> > Also, V4L2_CID_CONFIG_MODEL_COMMON_RAW applies only to sensors, right?
+> > So this should be V4L2_CID_CONFIG_MODEL_SENSOR_COMMON_RAW. But what is
+> > common about it and what is raw about it?
+> 
+> Yes, mentioning "SENSOR" in the name makes sense.
+
+That name is very long. :-( Anyway, I don't see this being an issue in
+practice so I'll use that in the next version.
+
+> 
+> > Isn't it the case that pretty much all sensor drivers fall into this
+> > category?
+> 
+> "raw" is by opposition to YUV sensors. YUV sensors (a.k.a. "smart
+> sensors") require very different configuration parameters compared to
+> raw sensors, so the model we're standardizing for raw sensors isn't
+> applicable.
+> 
+> > The only reason I see for this is if there are actually other configuration
+> > modes going to be added in the near future.
+> 
+> Even before we add a second model, this is useful for userspace. We have
+> many camera sensor drivers that implement the V4L2 API in different (and
+> sometimes non-compliant) ways. Knowing that a sensor is compatible with
+> the new model we're defining will be useful for libcamera.
+> 
+> > What I am missing in this RFC is a high-level view of why it is needed and
+> > how it is going to be used.
+> > 
+> > Perhaps I missed a discussion on linux-media?
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
