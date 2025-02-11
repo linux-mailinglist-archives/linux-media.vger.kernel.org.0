@@ -1,501 +1,477 @@
-Return-Path: <linux-media+bounces-25996-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25992-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D450EA30812
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 11:10:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F645A30805
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 11:09:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F1761889A98
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 10:10:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93FDC188918C
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 10:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34A641F5435;
-	Tue, 11 Feb 2025 10:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEEA41F3B8A;
+	Tue, 11 Feb 2025 10:09:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="PcGUBa5+"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tp9g0bzd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F701F3D4A;
-	Tue, 11 Feb 2025 10:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4701F238B
+	for <linux-media@vger.kernel.org>; Tue, 11 Feb 2025 10:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739268551; cv=none; b=MJ/8HtXLqgjwR4MBMq26LDu1vc7dI2dqUkbK4TgY6HnIzPWOPG2x6cNKl/Z9jpmo5GGWtT4b6Ki2FC2Z0CfvXHW74QfhWwg8AYLl1vkK9eswqDT2eiAn7vKsWUv4W9IGrA8j52E6+ud+ZuhilUCq05ULtnI4Cz4W/IABrP5FulQ=
+	t=1739268540; cv=none; b=TTR5JyblVGvoNKxN+kAy2sOPKWQ+MKqmpVz62HEkfcjjMHMHx2cQVyqL8YaT+Wz4G2b+gQwoZ8WU96MOGo4XqvAsWNrI7ZOJMijP0LnSQK6VOwsMcuS66vI6b0F1bCRCdLfZQRvKNRZYZYFb1ldsUMy0CcoQUkC2ZipyjHnAd94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739268551; c=relaxed/simple;
-	bh=Arm/4iAQNJG/NzyUkyTcR4eoObnkPM0+Mrxc99rLtDA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=sT+Mazpj1d6c9wJLC8ZJcgrPE5eN2SjvL43mbgMs3vaoN1p+GTJqdA/7iOeNSByMb4LX1Gz2tVDMLmSDdbDyrAGPUokz8ZkFJKCrLP4meD6wiq2mIvPU4XJiEvB2tN45/4EBarDip3roGvOmzEeyYsAai9xk/jx5nzsOleVJJG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=PcGUBa5+; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51B8oaKL008247;
-	Tue, 11 Feb 2025 10:09:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	CA3uGWWpXCNgEhm7nAHZteu1E3I+bqsYlvOFx0spe1E=; b=PcGUBa5+bzPM8PP6
-	efL2aDiQH0wHrqyR3UWftI/tpxQyponatGzSxSeRVHg6MBjsaNt2S7KF9r7GiQ8g
-	PD4mSR4VCtVBJUG1HSHg7WlCUNro3cCeSudUrRi+DNTB6Omn0e5cc9CDGuFx+YlP
-	1KyZPc6cw9KFonWM7QeJIjnVKtIQBabBKvntgLhVJiBr82LchKi6a3cdlyVk7yq+
-	dVO5HMza3+Li79t9DmuqBIpsQeGFs4nKVywpA4Svr6n4h9fr30y1oyxM/8Ba9s3e
-	H+R6DGHy0CvajK7G0JhYsvwFaXR1mnlPSbbAlME3mzElE2qiw5Tmr8jHvJ+jCUoY
-	YQ/1/w==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qewh3jjk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Feb 2025 10:09:05 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51BA943B018112
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Feb 2025 10:09:05 GMT
-Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 11 Feb 2025 02:09:02 -0800
-From: Wenmeng Liu <quic_wenmliu@quicinc.com>
-Date: Tue, 11 Feb 2025 18:07:58 +0800
-Subject: [PATCH 3/3] media: qcom: camss: tpg: Add TPG support for SA8775P
+	s=arc-20240116; t=1739268540; c=relaxed/simple;
+	bh=qgED/VaTq2b+BKY/gVRDst+rBS9B6uxl4vUYwOKsCFY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V+PBaLg/OWaIFLwXGugS3OtXllp3m43n8l1csG+JyTFP4BrMRDPH/MdnACbHEsOs2s+VgVUVpGEpUnzwHibhu+3qbHzl/uHZ5z39qL6dG+MCqBcjnMn5greqsnoxEbHR9FEWapeFnDlM3U/XozKi6g7PEgRShjm5pYzEDavK+80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tp9g0bzd; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4361e89b6daso36743505e9.3
+        for <linux-media@vger.kernel.org>; Tue, 11 Feb 2025 02:08:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739268536; x=1739873336; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hS279wtgfC+HMu2GjBqlAO5ie1NpxFDuPG1BWrESvn0=;
+        b=Tp9g0bzdr2Ipnk6bNi0IAaPMUAXF0pFYfeYIkmkCvmcynzqrbnquI9wrmNDCYOvlZs
+         opkwbVvXVlKoRHz6P8yiZ38uBqj3w3HUmBVq5jNoHr4QnVrC2mrdfpSzrVbADui3/neR
+         YEnvNjaVkbLF0pMioa9tbGtjx1Kb0oHKXjX8EZwE9bNUETXIEd48NyIhHQpuRJ1w9Xos
+         pmcAgqOPJHHYnUaOsqeIvtXUlki0KhqdZo7kWX0R5EMp6EeHxFvo4+Rrld6zIxo4DRxx
+         8SwIMtAlu/csa91a0wSSgx4+/9fRo4wDdyaux/cVpfefxIvSOmPveCaStRbwvgPsmAwm
+         tAKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739268536; x=1739873336;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hS279wtgfC+HMu2GjBqlAO5ie1NpxFDuPG1BWrESvn0=;
+        b=McGV21569sdLKAdvRpF91gkJhJOMsPh13e9fWWQ1YiyMk5hx1y9sTkQ5H7oSR8FWs/
+         aRauJZ+ThzKHcoLUNRoUfcBO0F+tJVB+sm4QxybIr4vTJ7iJFQM1caJG4P7kwMgYwDLj
+         XMJEAz98T6fEsUHx1jND54dt4KcIo2E7Nb0MhZhVQoIakRj6B36oNFmSyWyk4D/eo8FL
+         BKnUyGLDTGCn/dtBED16LKop/beV1hlJfLFmLdxdFCWMhE4xVw3XRi9jTDdrW8HbfQVd
+         K8h82UJhGymSsvZQ6Hkcnnt5P9x7mIfL5MMLqbYsmEq88ws6CoXE3kwWCmV2KWjjcgzw
+         dRsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4RleRCms8f2R1S2E6TCM+fKq3grAx5XpDSP8vljAvwvwscsjgyhTP/JTBBPC8UykcjFvLx/KAQLwl7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyhsy3rAkBjsNFr78Okj3ap/EP5/Jw7DbEXZp0gOUq8XCdm7cnK
+	n9iUiFlZLMR1BM0/CLeUer96V6sinY1pGY/ytqhx8CJJDtVpIXkFs5QnY+4ppFc=
+X-Gm-Gg: ASbGncv9w5llzfRhddVglUJsOvbnktlN6vC6EjaJ0e/HWT9GnGgjMqXdJYFtxFTHKe0
+	rGOd0BKvQtvclaYOP1qJ39+QBm7e2rBrkaMKm7xwZ0EeHHKOWfy5OLQcu53nganNxQDpW9Nvxjk
+	OXdquNk0Ih7s0WWrhR6LMt8lg0eSW6XKy0PRX52rP+81UFzHq/zllbiNRoqlpzweaxVGJFsm56d
+	/MGv4535Rex6vVgJDVRaA/ZIFNAxx+Q0Wt/tft7jZNMG2wFofLlpBl50Lt/bhZ2OnuwVANMKDNf
+	OtEZ1NBM7zXHLRFT9cE/duVwoSO9Fs8ywja/LlGoES2uws0r23Z+3zYjJg==
+X-Google-Smtp-Source: AGHT+IFlquyvLpEOgTN92ry8b+zPCiAQjCN4XazaPqP0cYAEpyMAFcGq2rGZLwiX0+qTWvYPXNwHYQ==
+X-Received: by 2002:adf:e9cb:0:b0:38d:c85c:f917 with SMTP id ffacd0b85a97d-38dc948d81dmr9400460f8f.55.1739268535753;
+        Tue, 11 Feb 2025 02:08:55 -0800 (PST)
+Received: from [192.168.0.156] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dbdd7f039sm14664803f8f.59.2025.02.11.02.08.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Feb 2025 02:08:55 -0800 (PST)
+Message-ID: <e152ff78-caa5-493a-88da-96a6670eb2a2@linaro.org>
+Date: Tue, 11 Feb 2025 10:08:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] media: dt-bindings: Add qcom,sa8775p-camss
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250210155605.575367-1-quic_vikramsa@quicinc.com>
+ <20250210155605.575367-2-quic_vikramsa@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250210155605.575367-2-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250211-sa8775p_tpg-v1-3-3f76c5f8431f@quicinc.com>
-References: <20250211-sa8775p_tpg-v1-0-3f76c5f8431f@quicinc.com>
-In-Reply-To: <20250211-sa8775p_tpg-v1-0-3f76c5f8431f@quicinc.com>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>,
-        Wenmeng Liu <quic_wenmliu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739268533; l=12718;
- i=quic_wenmliu@quicinc.com; s=20250211; h=from:subject:message-id;
- bh=Arm/4iAQNJG/NzyUkyTcR4eoObnkPM0+Mrxc99rLtDA=;
- b=qDrDi72pq/yY4pI0pgphNbXrr64FQZz1E7MudhT3BAuEWGCHvSf4jth6kOSQ3XyTaPpEdc/lz
- lqz28s1Yi5+A/gY/1Ao6p+pyv+rKBi6+wXGHx5GdfI5hKC360TAK0Ut
-X-Developer-Key: i=quic_wenmliu@quicinc.com; a=ed25519;
- pk=PTegr3w0f1C9dOSL6CUdJR5+u+X/4vsW7VMfwIMeMXQ=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: ACSl6Nfa_pqj-KPQk2as8DVu4Yr8yQD0
-X-Proofpoint-GUID: ACSl6Nfa_pqj-KPQk2as8DVu4Yr8yQD0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-11_04,2025-02-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- impostorscore=0 mlxlogscore=999 phishscore=0 clxscore=1011 adultscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502110063
 
-Add support for TPG found on SA8775P (Titan 690).
+On 10/02/2025 15:56, Vikram Sharma wrote:
+> Add bindings for qcom,sa8775p-camss to support the camera subsystem
+> on SA8775P platform.
+> 
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>   .../bindings/media/qcom,sa8775p-camss.yaml    | 351 ++++++++++++++++++
+>   1 file changed, 351 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+> new file mode 100644
+> index 000000000000..083e1193c474
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
+> @@ -0,0 +1,351 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,sa8775p-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm SA8775P CAMSS ISP
+> +
+> +maintainers:
+> +  - Vikram Sharma <quic_vikramsa@quicinc.com>
+> +
+> +description:
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,sa8775p-camss
+> +
+> +  reg:
+> +    maxItems: 22
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csid_lite2
+> +      - const: csid_lite3
+> +      - const: csid_lite4
+> +      - const: csid_wrapper
 
-Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
----
- drivers/media/platform/qcom/camss/Makefile         |   3 +-
- drivers/media/platform/qcom/camss/camss-csid-690.c |  15 ++
- drivers/media/platform/qcom/camss/camss-tpg-gen1.c | 245 +++++++++++++++++++++
- drivers/media/platform/qcom/camss/camss.c          |  56 +++++
- 4 files changed, 318 insertions(+), 1 deletion(-)
+csid_wrapper should come first
 
-diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-index 65a83a60de00facbe3e94481aa0e121ffcf7b221..5c764ba32546b440f2c07bce1829dc37aa6032a6 100644
---- a/drivers/media/platform/qcom/camss/Makefile
-+++ b/drivers/media/platform/qcom/camss/Makefile
-@@ -24,6 +24,7 @@ qcom-camss-objs += \
- 		camss-vfe.o \
- 		camss-video.o \
- 		camss-format.o \
--		camss-tpg.o
-+		camss-tpg.o \
-+		camss-tpg-gen1.o
- 
- obj-$(CONFIG_VIDEO_QCOM_CAMSS) += qcom-camss.o
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-690.c b/drivers/media/platform/qcom/camss/camss-csid-690.c
-index a05ee76301177fb9a686c7d11235de4bf31d3457..f82fe5013555959b90eea68cda11e074e0d51c36 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-690.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-690.c
-@@ -108,13 +108,28 @@ static void __csid_configure_rx(struct csid_device *csid,
- 				struct csid_phy_config *phy, int vc)
- {
- 	int val;
-+	struct camss *camss;
-+	struct tpg_device *tpg;
- 
-+	camss = csid->camss;
- 	val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
- 	val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
- 	val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << CSI2_RX_CFG0_PHY_NUM_SEL;
- 	if (vc > 3)
- 		val |= 1 << CSI2_RX_CFG0_VC_MODE;
- 
-+	if (camss->tpg) {
-+		tpg = &camss->tpg[phy->csiphy_id];
-+
-+		if (tpg->testgen.mode > 0) {
-+			val |= (phy->csiphy_id + 1) << CSI2_RX_CFG0_TPG_NUM_SEL;
-+			val |= 1 << CSI2_RX_CFG0_TPG_NUM_EN;
-+		} else {
-+			val |= 0 << CSI2_RX_CFG0_TPG_NUM_SEL;
-+			val |= 0 << CSI2_RX_CFG0_TPG_NUM_EN;
-+		}
-+	}
-+
- 	writel(val, csid->base + CSID_CSI2_RX_CFG0);
- 
- 	val = CSI2_RX_CFG1_ECC_CORRECTION_EN;
-diff --git a/drivers/media/platform/qcom/camss/camss-tpg-gen1.c b/drivers/media/platform/qcom/camss/camss-tpg-gen1.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..a8899ccac52b0ad66296182f3fb70ad34bb1f711
---- /dev/null
-+++ b/drivers/media/platform/qcom/camss/camss-tpg-gen1.c
-@@ -0,0 +1,245 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * camss-tpg-gen1.c
-+ *
-+ * Qualcomm MSM Camera Subsystem - TPG (Test Patter Generator) Module
-+ *
-+ * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+#include <linux/completion.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/kernel.h>
-+#include <linux/of.h>
-+
-+#include "camss-tpg.h"
-+#include "camss.h"
-+
-+#define TPG_HW_VERSION		0x0
-+#define		HW_VERSION_STEPPING		0
-+#define		HW_VERSION_REVISION		16
-+#define		HW_VERSION_GENERATION		28
-+
-+#define TPG_HW_STATUS		0x4
-+
-+#define TPG_VC_n_GAIN_CFG(n)	(0x60 + (n) * 0x60)
-+
-+#define TPG_CTRL	0x64
-+#define		TPG_CTRL_TEST_EN		0
-+#define		TPG_CTRL_PHY_SEL		3
-+#define		TPG_CTRL_NUM_ACTIVE_LANES	4
-+#define		TPG_CTRL_VC_DT_PATTERN_ID	6
-+#define		TPG_CTRL_OVERLAP_SHDR_EN	10
-+#define		TPG_CTRL_NUM_ACTIVE_VC		30
-+#define			NUM_ACTIVE_VC_0_ENABLED		0
-+#define			NUM_ACTIVE_VC_0_1_ENABLED	1
-+#define			NUM_ACTIVE_VC_0_1_2_ENABLED	2
-+#define			NUM_ACTIVE_VC_0_1_3_ENABLED	3
-+
-+#define TPG_VC_n_CFG0(n)	(0x68 + (n) * 0x60)
-+#define		TPG_VC_n_CFG0_VC_NUM		0
-+#define		TPG_VC_n_CFG0_NUM_ACTIVE_DT	8
-+#define			NUM_ACTIVE_SLOTS_0_ENABLED		0
-+#define			NUM_ACTIVE_SLOTS_0_1_ENABLED		1
-+#define			NUM_ACTIVE_SLOTS_0_1_2_ENABLED		2
-+#define			NUM_ACTIVE_SLOTS_0_1_3_ENABLED		3
-+#define		TPG_VC_n_CFG0_NUM_BATCH		12
-+#define		TPG_VC_n_CFG0_NUM_FRAMES	16
-+
-+#define TPG_VC_n_LSFR_SEED(n)		(0x6C + (n) * 0x60)
-+
-+#define TPG_VC_n_HBI_CFG(n)		(0x70 + (n) * 0x60)
-+
-+#define TPG_VC_n_VBI_CFG(n)		(0x74 + (n) * 0x60)
-+
-+#define TPG_VC_n_COLOR_BARS_CFG(n)		(0x78 + (n) * 0x60)
-+#define		TPG_VC_n_COLOR_BARS_CFG_PIX_PATTERN		0
-+#define		TPG_VC_n_COLOR_BARS_CFG_QCFA_EN			3
-+#define		TPG_VC_n_COLOR_BARS_CFG_SPLIT_EN		4
-+#define		TPG_VC_n_COLOR_BARS_CFG_NOISE_EN		5
-+#define		TPG_VC_n_COLOR_BARS_CFG_ROTATE_PERIOD		8
-+#define		TPG_VC_n_COLOR_BARS_CFG_XCFA_EN			16
-+#define		TPG_VC_n_COLOR_BARS_CFG_SIZE_X			24
-+#define		TPG_VC_n_COLOR_BARS_CFG_SIZE_Y			28
-+
-+#define TPG_VC_m_DT_n_CFG_0(m, n)	(0x7C + (m) * 0x60 + (n) * 0xC)
-+#define		TPG_VC_m_DT_n_CFG_0_FRAME_HEIGHT	0
-+#define		TPG_VC_m_DT_n_CFG_0_FRAME_WIDTH		16
-+
-+#define TPG_VC_m_DT_n_CFG_1(m, n)	(0x80 + (m) * 0x60 + (n) * 0xC)
-+#define		TPG_VC_m_DT_n_CFG_1_DATA_TYPE		0
-+#define		TPG_VC_m_DT_n_CFG_1_ECC_XOR_MASK	8
-+#define		TPG_VC_m_DT_n_CFG_1_CRC_XOR_MASK	16
-+
-+#define TPG_VC_m_DT_n_CFG_2(m, n)	(0x84 + (m) * 0x60 + (n) * 0xC)
-+#define		TPG_VC_m_DT_n_CFG_2_PAYLOAD_MODE		0
-+#define		TPG_VC_m_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD	4
-+#define		TPG_VC_m_DT_n_CFG_2_ENCODE_FORMAT		28
-+
-+#define TPG_VC_n_COLOR_BAR_CFA_COLOR0(n)	(0xB0 + (n) * 0x60)
-+#define TPG_VC_n_COLOR_BAR_CFA_COLOR1(n)	(0xB4 + (n) * 0x60)
-+#define TPG_VC_n_COLOR_BAR_CFA_COLOR2(n)	(0xB8 + (n) * 0x60)
-+#define TPG_VC_n_COLOR_BAR_CFA_COLOR3(n)	(0xBC + (n) * 0x60)
-+
-+/* Line offset between VC(n) and VC(n-1), n form 1 to 3 */
-+#define TPG_VC_n_SHDR_CFG	(0x84 + (n) * 0x60)
-+
-+#define TPG_TOP_IRQ_STATUS	0x1E0
-+#define TPG_TOP_IRQ_MASK	0x1E4
-+#define TPG_TOP_IRQ_CLEAR	0x1E8
-+#define TPG_TOP_IRQ_SET		0x1EC
-+#define TPG_IRQ_CMD		0x1F0
-+#define TPG_CLEAR		0x1F4
-+
-+static int tpg_stream_on(struct tpg_device *tpg)
-+{
-+	struct tpg_testgen_config *tg = &tpg->testgen;
-+	struct v4l2_mbus_framefmt *input_format;
-+	const struct tpg_format_info *format;
-+	u8 lane_cnt = tpg->res->lane_cnt;
-+	u8 i;
-+	u8 dt_cnt = 0;
-+	u32 val;
-+
-+	/* Loop through all enabled VCs and configure stream for each */
-+	for (i = 0; i < tpg->res->vc_cnt; i++) {
-+		input_format = &tpg->fmt[MSM_TPG_PAD_SRC + i];
-+		format = tpg_get_fmt_entry(tpg->res->formats->formats,
-+					   tpg->res->formats->nformats,
-+					   input_format->code);
-+
-+		val = (input_format->height & 0xffff) << TPG_VC_m_DT_n_CFG_0_FRAME_HEIGHT;
-+		val |= (input_format->width & 0xffff) << TPG_VC_m_DT_n_CFG_0_FRAME_WIDTH;
-+		writel_relaxed(val, tpg->base + TPG_VC_m_DT_n_CFG_0(i, dt_cnt));
-+
-+		val = format->data_type << TPG_VC_m_DT_n_CFG_1_DATA_TYPE;
-+		writel_relaxed(val, tpg->base + TPG_VC_m_DT_n_CFG_1(i, dt_cnt));
-+
-+		val = (tg->mode - 1) << TPG_VC_m_DT_n_CFG_2_PAYLOAD_MODE;
-+		val |= 0xBE << TPG_VC_m_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD;
-+		val |= format->encode_format << TPG_VC_m_DT_n_CFG_2_ENCODE_FORMAT;
-+		writel_relaxed(val, tpg->base + TPG_VC_m_DT_n_CFG_2(i, dt_cnt));
-+
-+		writel_relaxed(0xA00, tpg->base + TPG_VC_n_COLOR_BARS_CFG(i));
-+
-+		writel_relaxed(0x4701, tpg->base + TPG_VC_n_HBI_CFG(i));
-+		writel_relaxed(0x438, tpg->base + TPG_VC_n_VBI_CFG(i));
-+
-+		writel_relaxed(0x12345678, tpg->base + TPG_VC_n_LSFR_SEED(i));
-+
-+		/* configure one DT, infinite frames */
-+		val = i << TPG_VC_n_CFG0_VC_NUM;
-+		val |= 0 << TPG_VC_n_CFG0_NUM_FRAMES;
-+		writel_relaxed(val, tpg->base + TPG_VC_n_CFG0(i));
-+	}
-+
-+	writel_relaxed(1, tpg->base + TPG_TOP_IRQ_MASK);
-+
-+	val = 1 << TPG_CTRL_TEST_EN;
-+	val |= 0 << TPG_CTRL_PHY_SEL;
-+	val |= (lane_cnt - 1) << TPG_CTRL_NUM_ACTIVE_LANES;
-+	val |= 0 << TPG_CTRL_VC_DT_PATTERN_ID;
-+	val |= (tpg->res->vc_cnt - 1) << TPG_CTRL_NUM_ACTIVE_VC;
-+	writel_relaxed(val, tpg->base + TPG_CTRL);
-+
-+	return 0;
-+}
-+
-+static void tpg_stream_off(struct tpg_device *tpg)
-+{
-+	writel_relaxed(0, tpg->base + TPG_CTRL);
-+	writel_relaxed(0, tpg->base + TPG_TOP_IRQ_MASK);
-+	writel_relaxed(1, tpg->base + TPG_TOP_IRQ_CLEAR);
-+	writel_relaxed(1, tpg->base + TPG_IRQ_CMD);
-+	writel_relaxed(1, tpg->base + TPG_CLEAR);
-+}
-+
-+static void tpg_configure_stream(struct tpg_device *tpg, u8 enable)
-+{
-+	if (enable)
-+		tpg_stream_on(tpg);
-+	else
-+		tpg_stream_off(tpg);
-+}
-+
-+static int tpg_configure_testgen_pattern(struct tpg_device *tpg, s32 val)
-+{
-+	if (val > 0 && val <= TPG_PAYLOAD_MODE_COLOR_BARS)
-+		tpg->testgen.mode = val;
-+
-+	return 0;
-+}
-+
-+/*
-+ * tpg_hw_version - tpg hardware version query
-+ * @tpg: tpg device
-+ *
-+ * Return HW version or error
-+ */
-+static u32 tpg_hw_version(struct tpg_device *tpg)
-+{
-+	u32 hw_version;
-+	u32 hw_gen;
-+	u32 hw_rev;
-+	u32 hw_step;
-+
-+	hw_version = readl_relaxed(tpg->base + TPG_HW_VERSION);
-+	hw_gen = (hw_version >> HW_VERSION_GENERATION) & 0xF;
-+	hw_rev = (hw_version >> HW_VERSION_REVISION) & 0xFFF;
-+	hw_step = (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
-+	dev_dbg(tpg->camss->dev, "tpg HW Version = %u.%u.%u\n",
-+		hw_gen, hw_rev, hw_step);
-+
-+	return hw_version;
-+}
-+
-+/*
-+ * tpg_isr - tpg module interrupt service routine
-+ * @irq: Interrupt line
-+ * @dev: tpg device
-+ *
-+ * Return IRQ_HANDLED on success
-+ */
-+static irqreturn_t tpg_isr(int irq, void *dev)
-+{
-+	struct tpg_device *tpg = dev;
-+	u32 val;
-+
-+	val = readl_relaxed(tpg->base + TPG_TOP_IRQ_STATUS);
-+	writel_relaxed(val, tpg->base + TPG_TOP_IRQ_CLEAR);
-+	writel_relaxed(1, tpg->base + TPG_IRQ_CMD);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+/*
-+ * tpg_reset - Trigger reset on tpg module and wait to complete
-+ * @tpg: tpg device
-+ *
-+ * Return 0 on success or a negative error code otherwise
-+ */
-+static int tpg_reset(struct tpg_device *tpg)
-+{
-+	writel_relaxed(0, tpg->base + TPG_CTRL);
-+	writel_relaxed(0, tpg->base + TPG_TOP_IRQ_MASK);
-+	writel_relaxed(1, tpg->base + TPG_TOP_IRQ_CLEAR);
-+	writel_relaxed(1, tpg->base + TPG_IRQ_CMD);
-+	writel_relaxed(1, tpg->base + TPG_CLEAR);
-+
-+	return 0;
-+}
-+
-+static void tpg_subdev_init(struct tpg_device *tpg)
-+{
-+	tpg->testgen.modes = testgen_payload_modes;
-+	tpg->testgen.nmodes = TPG_PAYLOAD_MODE_NUM_SUPPORTED_GEN1;
-+}
-+
-+const struct tpg_hw_ops tpg_ops_gen1 = {
-+	.configure_stream = tpg_configure_stream,
-+	.configure_testgen_pattern = tpg_configure_testgen_pattern,
-+	.hw_version = tpg_hw_version,
-+	.isr = tpg_isr,
-+	.reset = tpg_reset,
-+	.subdev_init = tpg_subdev_init,
-+};
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 1efcc7a5ee62c7aa644b2390832b6f1f29cc69ff..48d3d4f9dfbc8a730c150f175b39c4b8780a86b9 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -2331,6 +2331,53 @@ static const struct camss_subdev_resources csiphy_res_8775p[] = {
- 	},
- };
- 
-+static const struct camss_subdev_resources tpg_res_8775p[] = {
-+	/* TPG0 */
-+	{
-+		.regulators = {  },
-+		.clock = { "csiphy_rx" },
-+		.clock_rate = { { 400000000 } },
-+		.reg = { "tpg0" },
-+		.interrupt = { "tpg0" },
-+		.tpg = {
-+			.lane_cnt = 4,
-+			.vc_cnt = 1,
-+			.formats = &tpg_formats_gen1,
-+			.hw_ops = &tpg_ops_gen1
-+		}
-+	},
-+
-+	/* TPG1 */
-+	{
-+		.regulators = {  },
-+		.clock = { "csiphy_rx" },
-+		.clock_rate = { { 400000000 } },
-+		.reg = { "tpg1" },
-+		.interrupt = { "tpg1" },
-+		.tpg = {
-+			.lane_cnt = 4,
-+			.vc_cnt = 1,
-+			.formats = &tpg_formats_gen1,
-+			.hw_ops = &tpg_ops_gen1
-+		}
-+	},
-+
-+	/* TPG2 */
-+	{
-+		.regulators = {  },
-+		.clock = { "csiphy_rx" },
-+		.clock_rate = { { 400000000 } },
-+		.reg = { "tpg2" },
-+		.interrupt = { "tpg2" },
-+		.tpg = {
-+			.lane_cnt = 4,
-+			.vc_cnt = 1,
-+			.formats = &tpg_formats_gen1,
-+			.hw_ops = &tpg_ops_gen1
-+		}
-+	},
-+};
-+
- static const struct camss_subdev_resources csid_res_8775p[] = {
- 	/* CSID0 */
- 	{
-@@ -3535,6 +3582,13 @@ static int camss_probe(struct platform_device *pdev)
- 	if (!camss->csiphy)
- 		return -ENOMEM;
- 
-+	if (camss->res->version == CAMSS_8775P) {
-+		camss->tpg = devm_kcalloc(dev, camss->res->tpg_num,
-+					  sizeof(*camss->tpg), GFP_KERNEL);
-+		if (!camss->tpg)
-+			return -ENOMEM;
-+	}
-+
- 	camss->csid = devm_kcalloc(dev, camss->res->csid_num, sizeof(*camss->csid),
- 				   GFP_KERNEL);
- 	if (!camss->csid)
-@@ -3714,11 +3768,13 @@ static const struct camss_resources sa8775p_resources = {
- 	.version = CAMSS_8775P,
- 	.pd_name = "top",
- 	.csiphy_res = csiphy_res_8775p,
-+	.tpg_res = tpg_res_8775p,
- 	.csid_res = csid_res_8775p,
- 	.csid_wrapper_res = &csid_wrapper_res_sa8775p,
- 	.vfe_res = vfe_res_8775p,
- 	.icc_res = icc_res_sa8775p,
- 	.csiphy_num = ARRAY_SIZE(csiphy_res_8775p),
-+	.tpg_num = ARRAY_SIZE(tpg_res_8775p),
- 	.csid_num = ARRAY_SIZE(csid_res_8775p),
- 	.vfe_num = ARRAY_SIZE(vfe_res_8775p),
- 	.icc_path_num = ARRAY_SIZE(icc_res_sa8775p),
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/blob/x1e80100-6.13-inspiron14p/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml?ref_type=heads
 
--- 
-2.34.1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: tpg0
+> +      - const: tpg1
+> +      - const: tpg2
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +      - const: vfe_lite2
+> +      - const: vfe_lite3
+> +      - const: vfe_lite4
+> +
+> +  clocks:
+> +    maxItems: 28
+> +
+> +  clock-names:
+> +    items:
+> +      - const: camnoc_axi
+> +      - const: core_ahb
+> +      - const: cpas_ahb
+> +      - const: cpas_fast_ahb_clk
+> +      - const: cpas_ife_lite
+> +      - const: cpas_vfe0
+> +      - const: cpas_vfe1
+> +      - const: csid
+> +      - const: csiphy0
+> +      - const: csiphy0_timer
+> +      - const: csiphy1
+> +      - const: csiphy1_timer
+> +      - const: csiphy2
+> +      - const: csiphy2_timer
+> +      - const: csiphy3
+> +      - const: csiphy3_timer
+> +      - const: csiphy_rx
+> +      - const: gcc_axi_hf
+> +      - const: gcc_axi_sf
+> +      - const: icp_ahb
+> +      - const: vfe0
+> +      - const: vfe0_fast_ahb
+> +      - const: vfe1
+> +      - const: vfe1_fast_ahb
+> +      - const: vfe_lite
+> +      - const: vfe_lite_ahb
+> +      - const: vfe_lite_cphy_rx
+> +      - const: vfe_lite_csid
+> +
+> +  interrupts:
+> +    maxItems: 21
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid-lite0
+> +      - const: csid-lite1
+> +      - const: csid-lite2
+> +      - const: csid-lite3
+> +      - const: csid-lite4
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: tpg0
+> +      - const: tpg1
+> +      - const: tpg2
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe-lite0
+> +      - const: vfe-lite1
+> +      - const: vfe-lite2
+> +      - const: vfe-lite3
+> +      - const: vfe-lite4
+> +
+> +  interconnects:
+> +    maxItems: 3
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: ahb
+> +      - const: hf_0
+> +      - const: sf_0
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    items:
+> +      - description: Titan GDSC - Titan ISP Block, Global Distributed Switch Controller.
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: top
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    patternProperties:
+> +      "^port@[0-3]+$":
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data on CSIPHY 0-3.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - interconnects
+> +  - interconnect-names
+> +  - iommus
+> +  - power-domains
+> +  - power-domain-names
+
+ports should be required
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,sa8775p-camcc.h>
+> +    #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
+> +    #include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
+> +    #include <dt-bindings/interconnect/qcom,icc.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/qcom-rpmpd.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        isp@ac7a000 {
+> +            compatible = "qcom,sa8775p-camss";
+> +
+> +            reg = <0x0 0xac7a000 0x0 0x0f01>,
+> +                  <0x0 0xac7c000 0x0 0x0f01>,
+> +                  <0x0 0xac84000 0x0 0x0f01>,
+> +                  <0x0 0xac88000 0x0 0x0f01>,
+> +                  <0x0 0xac8c000 0x0 0x0f01>,
+> +                  <0x0 0xac90000 0x0 0x0f01>,
+> +                  <0x0 0xac94000 0x0 0x0f01>,
+> +                  <0x0 0xac78000 0x0 0x1000>,
+> +                  <0x0 0xac9c000 0x0 0x2000>,
+> +                  <0x0 0xac9e000 0x0 0x2000>,
+> +                  <0x0 0xaca0000 0x0 0x2000>,
+> +                  <0x0 0xaca2000 0x0 0x2000>,
+> +                  <0x0 0xacac000 0x0 0x0400>,
+> +                  <0x0 0xacad000 0x0 0x0400>,
+> +                  <0x0 0xacae000 0x0 0x0400>,
+> +                  <0x0 0xac4d000 0x0 0xd000>,
+> +                  <0x0 0xac5a000 0x0 0xd000>,
+> +                  <0x0 0xac85000 0x0 0x0d00>,
+> +                  <0x0 0xac89000 0x0 0x0d00>,
+> +                  <0x0 0xac8d000 0x0 0x0d00>,
+> +                  <0x0 0xac91000 0x0 0x0d00>,
+> +                  <0x0 0xac95000 0x0 0x0d00>;
+> +            reg-names = "csid0",
+> +                        "csid1",
+> +                        "csid_lite0",
+> +                        "csid_lite1",
+> +                        "csid_lite2",
+> +                        "csid_lite3",
+> +                        "csid_lite4",
+> +                        "csid_wrapper",
+> +                        "csiphy0",
+> +                        "csiphy1",
+> +                        "csiphy2",
+> +                        "csiphy3",
+> +                        "tpg0",
+> +                        "tpg1",
+> +                        "tpg2",
+> +                        "vfe0",
+> +                        "vfe1",
+> +                        "vfe_lite0",
+> +                        "vfe_lite1",
+> +                        "vfe_lite2",
+> +                        "vfe_lite3",
+> +                        "vfe_lite4";
+> +
+> +            clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
+> +                     <&camcc CAM_CC_CORE_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_0_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_1_CLK>,
+> +                     <&camcc CAM_CC_CSID_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                     <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY1_CLK>,
+> +                     <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY2_CLK>,
+> +                     <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY3_CLK>,
+> +                     <&camcc CAM_CC_CSI3PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
+> +                     <&gcc   GCC_CAMERA_HF_AXI_CLK>,
+> +                     <&gcc   GCC_CAMERA_SF_AXI_CLK>,
+> +                     <&camcc CAM_CC_ICP_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_0_CLK>,
+> +                     <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_1_CLK>,
+> +                     <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CSID_CLK>;
+> +            clock-names = "camnoc_axi",
+> +                          "core_ahb",
+> +                          "cpas_ahb",
+> +                          "cpas_fast_ahb_clk",
+> +                          "cpas_ife_lite",
+> +                          "cpas_vfe0",
+> +                          "cpas_vfe1",
+> +                          "csid",
+> +                          "csiphy0",
+> +                          "csiphy0_timer",
+> +                          "csiphy1",
+> +                          "csiphy1_timer",
+> +                          "csiphy2",
+> +                          "csiphy2_timer",
+> +                          "csiphy3",
+> +                          "csiphy3_timer",
+> +                          "csiphy_rx",
+> +                          "gcc_axi_hf",
+> +                          "gcc_axi_sf",
+> +                          "icp_ahb",
+> +                          "vfe0",
+> +                          "vfe0_fast_ahb",
+> +                          "vfe1",
+> +                          "vfe1_fast_ahb",
+> +                          "vfe_lite",
+> +                          "vfe_lite_ahb",
+> +                          "vfe_lite_cphy_rx",
+> +                          "vfe_lite_csid";
+> +
+> +            interrupts = <GIC_SPI 565 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 564 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 759 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 758 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 604 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 545 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 546 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 547 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 761 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 760 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 605 IRQ_TYPE_EDGE_RISING>;
+> +            interrupt-names = "csid0",
+> +                              "csid1",
+> +                              "csid-lite0",
+> +                              "csid-lite1",
+> +                              "csid-lite2",
+> +                              "csid-lite3",
+> +                              "csid-lite4",
+> +                              "csiphy0",
+> +                              "csiphy1",
+> +                              "csiphy2",
+> +                              "csiphy3",
+> +                              "tpg0",
+> +                              "tpg1",
+> +                              "tpg2",
+> +                              "vfe0",
+> +                              "vfe1",
+> +                              "vfe-lite0",
+> +                              "vfe-lite1",
+> +                              "vfe-lite2",
+> +                              "vfe-lite3",
+> +                              "vfe-lite4";
+> +
+> +            interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
+> +                             &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
+> +                            <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
+> +                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
+> +                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ACTIVE_ONLY
+> +                             &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ACTIVE_ONLY>;
+> +            interconnect-names = "ahb",
+> +                                 "hf_0",
+> +                                 "sf_0";
+> +
+> +            iommus = <&apps_smmu 0x3400 0x20>;
+> +
+> +            power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +            power-domain-names = "top";
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +            };
+> +        };
+> +    };
 
 
