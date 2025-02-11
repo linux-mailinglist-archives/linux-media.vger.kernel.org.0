@@ -1,116 +1,182 @@
-Return-Path: <linux-media+bounces-26000-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26001-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A7AA309D6
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 12:21:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B959A309E5
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 12:26:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A855161DB6
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 11:21:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90450188AE58
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 11:27:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0BFD1F8AC5;
-	Tue, 11 Feb 2025 11:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hMrujhFc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B52741F8BBF;
+	Tue, 11 Feb 2025 11:26:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6435670807;
-	Tue, 11 Feb 2025 11:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740061EB9E3;
+	Tue, 11 Feb 2025 11:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739272865; cv=none; b=iWNzxTFTegwmEh5yyixVK0TeMe/KzP7PS4UpakeZ6ytw7kc3JMXaXWrFGVF5wHHqvhQ5fR7eg7zcvNCfjQ5O1LUqj6YjbuF+myC0frtv4XyBq5FzJy2xINA+RyH5cCgM3HqryEi40osTKIIi+CXaxttK0OHxzITD8PJSKtEAqMc=
+	t=1739273207; cv=none; b=mtoTppJwRq34Iapzx+5xL6KVjMHGSBEqvaAbuVkUtv4C2iy8hp4ShnaZYa3fWQwNXGMZD/WWDhtpNoBa/IC00W4bwS45IuODuQ0aRp0djYekMkOuN+1NfdYkzaj/X4Uxfz2RK9LXuERQK/WWKioJIRE/QPvuei45yVmrfLkayWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739272865; c=relaxed/simple;
-	bh=uoP1nCCvDBGx8Z7jqAGdTm1hPsk3dkyFnV2/E09V82I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r6xCWcSlXckiZTLw8VYOZmjbJRmiwVxVXC+sOiKikeOmWYTK3MqaL54zCi33t3qk/ODp9DT0qYuPbiynopixgatapuGX/XZzh7Jfgfmiz/jjl/luFQQ+jlICC8DorXM9s9My95WPVP3BXUpYQWRP8dogymdjWW1dfbG/aeFMAa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hMrujhFc; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1739272861;
-	bh=uoP1nCCvDBGx8Z7jqAGdTm1hPsk3dkyFnV2/E09V82I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hMrujhFcOZq/4f66dL7dk+b6M2gxuegP3AwaTO8f1n9aKVEgZtlMNnY4Bhx/ejzMo
-	 pGydGWXFHnA9dpurrQF5alPZvAbxpAYPoU8StnnR1TnOtC2kRfP0P0HWRkql/TO0D/
-	 AO/IjMCit3Ob3tK2swaYdx2cFbxh+ddFXuYpgwwwBd/TLPrl0etaxbXsqx1rZMR+4S
-	 qW2a+K82BrOMXpC4modD0gLaLNGAhu1FPLTJcT5saZWCgOb/A7j6w2vZofUsFr1CLV
-	 5FdHFaAPaZrnZNYD5X11VJbi2Nzamdxrpz3mFC12cUu6rMtJJ8VrGRjTBAVvRBuD+w
-	 85thIsVMvH2Jw==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 77FD117E0657;
-	Tue, 11 Feb 2025 12:21:00 +0100 (CET)
-Date: Tue, 11 Feb 2025 12:20:52 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Florent Tomasin <florent.tomasin@arm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Steven
- Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Yong Wu <yong.wu@mediatek.com>,
- <dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <nd@arm.com>, Akash Goel
- <akash.goel@arm.com>
-Subject: Re: [RFC PATCH 4/5] drm/panthor: Add support for protected memory
- allocation in panthor
-Message-ID: <20250211122052.3f550650@collabora.com>
-In-Reply-To: <20250211120448.3e89e75f@collabora.com>
-References: <cover.1738228114.git.florent.tomasin@arm.com>
-	<821252c96ab2ab3e2d8ef211a09f8b171719baaa.1738228114.git.florent.tomasin@arm.com>
-	<20250211120448.3e89e75f@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1739273207; c=relaxed/simple;
+	bh=hpErxqO9TrxWw2avAFGoKg5qOxOy24OPO1tA0p/6pPo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=grOUXWGcOsU6s4rklnGoN4bFZKJ/BrFeLgi2x98P6uR8UFBCPJSDaxq2zLhsZnOBOGL+r6c4xPbcqBNHHGTVN7OlQnwfIv5G70z8mZ1/kgs1i6ja7tCLBAo1jS3MwyALQlnnabyC6dm8WuFTFVVfUIkMmoXBRYG42n+XkyLVIOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4YsfHs1XDJz1JJnb;
+	Tue, 11 Feb 2025 19:25:13 +0800 (CST)
+Received: from kwepemf500003.china.huawei.com (unknown [7.202.181.241])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4143C180069;
+	Tue, 11 Feb 2025 19:26:35 +0800 (CST)
+Received: from [10.174.176.82] (10.174.176.82) by
+ kwepemf500003.china.huawei.com (7.202.181.241) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 11 Feb 2025 19:26:33 +0800
+Message-ID: <664185f4-b87a-4635-9ee9-2f0e7494195a@huawei.com>
+Date: Tue, 11 Feb 2025 19:26:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] of: Add warpper function
+ of_find_node_by_name_balanced()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: Oleksij Rempel <o.rempel@pengutronix.de>, <robh@kernel.org>,
+	<saravanak@google.com>, <justin.chen@broadcom.com>,
+	<florian.fainelli@broadcom.com>, <andrew+netdev@lunn.ch>, <kuba@kernel.org>,
+	<kory.maincent@bootlin.com>, <jacopo+renesas@jmondi.org>,
+	<kieran.bingham+renesas@ideasonboard.com>, <maddy@linux.ibm.com>,
+	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <olteanv@gmail.com>,
+	<davem@davemloft.net>, <taras.chornyi@plvision.eu>, <edumazet@google.com>,
+	<pabeni@redhat.com>, <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
+	<arm-scmi@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <chenjun102@huawei.com>
+References: <20250207013117.104205-1-zhangzekun11@huawei.com>
+ <20250207013117.104205-2-zhangzekun11@huawei.com>
+ <Z6XDKi_V0BZSdCeL@pengutronix.de>
+ <80b1c21c-096b-4a11-b9d7-069c972b146a@huawei.com>
+ <20250207153722.GA24886@pendragon.ideasonboard.com>
+ <c48952c7-716c-4302-949c-2c66ea102a3e@huawei.com>
+ <20250210100307.GA2966@pendragon.ideasonboard.com>
+From: "zhangzekun (A)" <zhangzekun11@huawei.com>
+In-Reply-To: <20250210100307.GA2966@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemf500003.china.huawei.com (7.202.181.241)
 
-On Tue, 11 Feb 2025 12:04:48 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> > @@ -9,10 +9,14 @@
-> >  
-> >  #include <drm/panthor_drm.h>
-> >  
-> > +#include <uapi/linux/dma-heap.h>
-> > +
-> >  #include "panthor_device.h"
-> >  #include "panthor_gem.h"
-> >  #include "panthor_mmu.h"
-> >  
-> > +MODULE_IMPORT_NS(DMA_BUF);  
+
+在 2025/2/10 18:03, Laurent Pinchart 写道:
+> Hi Zekun,
 > 
-> Uh, that's ugly. If the consensus is to let panthor allocate
-> its protected buffers from a heap, let's just add a dependency on
-> DMABUF_HEAPS instead.
+> On Mon, Feb 10, 2025 at 02:47:28PM +0800, zhangzekun (A) wrote:
+>>> I think we all agree that of_find_node_by_name() is miused, and that it
+>>> shows the API isn't optimal. What we have different opinions on is how
+>>> to make the API less error-prone. I think adding a new
+>>> of_find_node_by_name_balanced() function works around the issue and
+>>> doesn't improve the situation much, I would argue it makes things even
+>>> more confusing.
+>>>
+>>> We have only 20 calls to of_find_node_by_name() with a non-NULL first
+>>> argument in v6.14-rc1:
+>>>
+>>> arch/powerpc/platforms/chrp/pci.c:      rtas = of_find_node_by_name (root, "rtas");
+>>>
+>>> The 'root' variable here is the result of a call to
+>>> 'of_find_node_by_path("/")', so I think we could pass a null pointer
+>>> instead to simplify things.
+>>>
+>>> arch/powerpc/platforms/powermac/pic.c:          slave = of_find_node_by_name(master, "mac-io");
+>>>
+>>> Here I believe of_find_node_by_name() is called to find a *child* node
+>>> of 'master'. of_find_node_by_name() is the wrong function for that.
+>>>
+>>> arch/sparc/kernel/leon_kernel.c:        np = of_find_node_by_name(rootnp, "GAISLER_IRQMP");
+>>> arch/sparc/kernel/leon_kernel.c:                np = of_find_node_by_name(rootnp, "01_00d");
+>>> arch/sparc/kernel/leon_kernel.c:        np = of_find_node_by_name(nnp, "GAISLER_GPTIMER");
+>>> arch/sparc/kernel/leon_kernel.c:                np = of_find_node_by_name(nnp, "01_011");
+>>>
+>>> Here too the code seems to be looking for child nodes only (but I
+>>> couldn't find a DT example or binding in-tree, so I'm not entirely
+>>> sure).
+>>>
+>>> drivers/clk/ti/clk.c:   return of_find_node_by_name(from, tmp);
+>>>
+>>> Usage here seems correct, the reference-count decrement is intended.
+>>>
+>>> drivers/media/i2c/max9286.c:    i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+>>> drivers/media/platform/qcom/venus/core.c:       enp = of_find_node_by_name(dev->of_node, node_name);
+>>> drivers/net/dsa/bcm_sf2.c:      ports = of_find_node_by_name(dn, "ports");
+>>> drivers/net/dsa/hirschmann/hellcreek_ptp.c:     leds = of_find_node_by_name(hellcreek->dev->of_node, "leds");
+>>> drivers/net/ethernet/broadcom/asp2/bcmasp.c:    ports_node = of_find_node_by_name(dev->of_node, "ethernet-ports");
+>>> drivers/net/ethernet/marvell/prestera/prestera_main.c:  ports = of_find_node_by_name(sw->np, "ports");
+>>> drivers/net/pse-pd/tps23881.c:  channels_node = of_find_node_by_name(priv->np, "channels");
+>>> drivers/regulator/scmi-regulator.c:     np = of_find_node_by_name(handle->dev->of_node, "regulators");
+>>> drivers/regulator/tps6594-regulator.c:          np = of_find_node_by_name(tps->dev->of_node, multi_regs[multi].supply_name);
+>>>
+>>> Incorrect usage, as far as I understand all those drivers are looking
+>>> for child nodes only.
+>>>
+>>> drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest16");
+>>> drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest17");
+>>> drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest18");
+>>> drivers/of/unittest.c:          found = of_find_node_by_name(nd->overlay, "test-unittest19");
+>>>
+>>> Here too I think only child nodes are meant to be considered.
+>>>
+>>> of_find_node_by_name() is very much misused as most callers want to find
+>>> child nodes, while of_find_node_by_name() will walk the whole DT from a
+>>> given starting point.
+>>>
+>>> I think the right fix here is to
+>>>
+>>> - Replace of_find_node_by_name(root, ...) with
+>>>     of_find_node_by_name(NULL, ...) in arch/powerpc/platforms/chrp/pci.c
+>>>     (if my understanding of the code is correct).
+>>
+>> For arch/powerpc/platforms/chrp/pci.c, noticing that there is a comment
+>> in setup_peg2():
+>>    /* keep the reference to the root node */
+>>
+>> It might can not be convert to of_find_node_by_name(NULL, ...), and the
+>> origin use of of_find_node_by_name() put the ref count which want to be
+>> kept.
+> 
+> But the reference is dropped by of_find_node_by_name(). Unless I'm
+> missing something, dropping the lien
+> 
+> 	struct device_node *root = of_find_node_by_path("/");
+> 
+> and changing
+> 
+> 	rtas = of_find_node_by_name (root, "rtas");
+> 
+> to
+> 
+> 	rtas = of_find_node_by_name (NULL, "rtas");
+> 
+> will not change the behaviour of the code.
+> 
 
-My bad, that one is required for dma_buf_put(). Should be
+Hi, Laurent,
 
-  MODULE_IMPORT_NS("DMA_BUF");
+I think that the original code try to keep the refcount get by 
+of_find_node_by_path(), but leak it accidently by 
+of_find_node_by_name(). I am not sure that what driver really wants to 
+do and if it has a bug here.
 
-though.
+Beset Regards,
+Zekun
 
