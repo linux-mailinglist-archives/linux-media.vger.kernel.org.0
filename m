@@ -1,58 +1,59 @@
-Return-Path: <linux-media+bounces-26022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26023-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99959A3141E
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 19:31:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15432A31456
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 19:46:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1486A1887D2A
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 18:31:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCC463A133F
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 18:46:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD468253B73;
-	Tue, 11 Feb 2025 18:30:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A68C26215F;
+	Tue, 11 Feb 2025 18:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEvRIfA0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dl4d6UA9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1430E1E3793;
-	Tue, 11 Feb 2025 18:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5CA1D7989;
+	Tue, 11 Feb 2025 18:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739298656; cv=none; b=ND3+AWSNkSJaCtgqu2Mj0IAtzSK4cF1a0QTG1bi+e8fAOYpIunV0YjXAt1p2Vf+1GlhV9jOPaOuQPffLloR0IoMMgvnYwR0/4qlDvjM2ML1FQsyOHCo5CJScEYcNFhO6OZZZIfkXADTzRUTYvFtnG/tisR8jEJZKWvpXm5NBpCI=
+	t=1739299576; cv=none; b=iOl3VE5bw8IFjEfu+FbneHSRid78Xwo5CZvpY4V+dtAhjslCuYv8XOjIEjaRc0pxnq0KeRm30WCSzTcTAQ9hK++XzLiw//6+EB5YfvcMmE5TooR6R1W/3iEyH8w7PcbBYrIO9AEUQDY8FIiG2n+JQdSeSff2oDrleBA59IZonC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739298656; c=relaxed/simple;
-	bh=UouR7Hq/5305cDEy8L5ZCWm8n4ZbVGn8bQH302oqU7I=;
+	s=arc-20240116; t=1739299576; c=relaxed/simple;
+	bh=/Q8nPQOdh4pnjecQT5SDR+UvXcomMmyjZMV67DY4plQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ivhEddX8bes7Jx+TJV1H6XHiOLdqxWcwBc8yk5DbClXv2ZpCh2w5LPo636g2qoO94kkiwbIUzBbX+918t8xEm7SFCn94gabmtrs6tPsTkC0uZJt9kcJsQUinFhIGggMFE9+odb0csleXdYNBA8dU8vP4n4b9SnjvhGCSxksrlr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEvRIfA0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA05EC4CEE6;
-	Tue, 11 Feb 2025 18:30:53 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=CrFCWdbPzTvOjP0Z+OiJYVjZXwvvDVefPnApqr3xyQvO3kLCRX+f82JsVmEOLH3DeP4fFqrTxyDfF5QXSIBlhiZH866K1PvwOiYGqcLqRM/OYPExjIYQ2ZbWTomPU1HpU+eJ9HkkGw+vHmZre5FYsEIcrZnEF72owZm3dMjRiZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dl4d6UA9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 241D9C4CEDD;
+	Tue, 11 Feb 2025 18:46:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739298655;
-	bh=UouR7Hq/5305cDEy8L5ZCWm8n4ZbVGn8bQH302oqU7I=;
+	s=k20201202; t=1739299575;
+	bh=/Q8nPQOdh4pnjecQT5SDR+UvXcomMmyjZMV67DY4plQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fEvRIfA0JONRcdjj07fnVPfYCkdCLLQFcRVwpHiEo80mZzpCuzKBsO43SC4vjBjzX
-	 zkbRLpbadEqwBln8gEso3PRTztIX2NrwdRTTbwg1eV2R4ihAVeM4N+XsIew0gmo4me
-	 gtF/Sin8p3/HJkQyXKlszaqpE93YG8LHtIQa62OsjyQMDi1fwY1T71DJAPcdOHIEhd
-	 bVn63gn/KobUhHL5ell+CUgb5QcYhqfmWwG6sBQ9ukmaNKCnIHOf+58NVmmOpjYaFE
-	 gaXna3bvheQXdNEFXJj1CN4KjMtH2Kk5mIBlCv9b5qvWxW2mISUthSXfRf05gSXygX
-	 Q7Dsp/c+BKiBg==
-Date: Tue, 11 Feb 2025 18:30:51 +0000
+	b=Dl4d6UA9VXiaKUc4ASuUZqJqgZwNLN+RMCP6WhjXj+eOBUTMWZgBttNFJR2VR2yg6
+	 cpgHMhkCX5Laf6CvWYxizFdFJN8eCWUA8sYSI8yjWVanc4clAksIr+4rTaNir4KQUD
+	 vC5zZI7QtkMfETXdO4glwj4U2mQTR4Oz0CXViYn1RWcCB1dqQmTiGTceFp3mc2SaZK
+	 yWIvdX3r26O8yr9UZ2nfI5QJVxAsuF7ZuYdofvecnlirtDVUzwNEvIbmqc8vUDsSqB
+	 DASjHxRBfS2enAfDhlv8w3jTR8uFOZgPtk7QJZJWFqpGmWGAvCZ2/L7s/R4UgAby4h
+	 Am1FToArZEkXg==
+Date: Tue, 11 Feb 2025 18:46:10 +0000
 From: Conor Dooley <conor@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>, Rob Herring <robh@kernel.org>,
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Julien Massot <julien.massot@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: imx219: Rename binding file with
- vendor prefix
-Message-ID: <20250211-tricking-blooming-3ba5fcc32d72@spud>
-References: <20250208195202.23164-1-laurent.pinchart@ideasonboard.com>
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 3/5] dt-bindings: i2c: maxim,max96717: add new properties
+Message-ID: <20250211-ecard-dallying-94ced9b29fd9@spud>
+References: <20250207112958.2571600-1-laurentiu.palcu@oss.nxp.com>
+ <20250207112958.2571600-4-laurentiu.palcu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,35 +61,102 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="CBR0+rR48SecnfFG"
+	protocol="application/pgp-signature"; boundary="2YN4dnJkh2x99pN8"
 Content-Disposition: inline
-In-Reply-To: <20250208195202.23164-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20250207112958.2571600-4-laurentiu.palcu@oss.nxp.com>
 
 
---CBR0+rR48SecnfFG
+--2YN4dnJkh2x99pN8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 08, 2025 at 09:52:02PM +0200, Laurent Pinchart wrote:
-> The imx219.yaml file is the only DT binding for Sony sensors that
-> doesn't start with the vendor "sony," prefix. Rename it to
-> sony,imx219.yaml.
+On Fri, Feb 07, 2025 at 01:29:55PM +0200, Laurentiu Palcu wrote:
+> Add 'maxim,override-mode' property to allow the user to toggle the pin
+> configured chip operation mode and 'maxim,fsync-config' to configure the
+> chip for relaying a frame synchronization signal, received from
+> deserializer, to the attached sensor. The latter is needed for
+> synchronizing the images in multi-sensor setups.
 >=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> ---
+>  .../bindings/media/i2c/maxim,max96717.yaml    | 28 +++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.y=
+aml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> index d1e8ba6e368ec..fae578d55fd4d 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> @@ -42,10 +42,35 @@ properties:
+>        number must be in range of [0, 10].
+> =20
+>    gpio-controller: true
+> +  gpio-reserved-ranges: true
+> =20
+>    '#clock-cells':
+>      const: 0
+> =20
+> +  maxim,override-mode:
+> +    description: Toggle the operation mode from the pin configured one.
+> +    type: boolean
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+type: flag
 
---CBR0+rR48SecnfFG
+
+> +  maxim,fsync-config:
+> +    description:
+> +      Frame synchronization (FSYNC) is used to align images sent from mu=
+ltiple
+> +      sources in surround-view applications and is required for concaten=
+ation.
+> +      In FSYNC mode, the deserializer sends a sync signal to each serial=
+izer;
+> +      the serializers then send the signal to the connected sensor.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    items:
+> +      - description: FSYNC RX ID, needs to match the TX ID configured in=
+ the deserializer.
+> +        minimum: 0
+> +        maximum: 31
+> +        default: 0
+> +      - description:
+> +          Output GPIO pin used for sending the FSYNC to the sensor. The =
+pin, however, needs
+> +          to be excluded from the gpiochip using the gpio-reserved-range=
+s property since
+> +          it will be used exclusively for FSYNC generation.
+> +        minimum: 0
+> +        maximum: 10
+> +        default: 0
+> +
+>    reg:
+>      maxItems: 1
+> =20
+> @@ -113,6 +138,9 @@ examples:
+>              #gpio-cells =3D <2>;
+>              #clock-cells =3D <0>;
+> =20
+> +            gpio-reserved-ranges =3D <0 1>;
+> +            maxim,fsync-config =3D <0 0>;
+> +
+>              ports {
+>                  #address-cells =3D <1>;
+>                  #size-cells =3D <0>;
+> --=20
+> 2.34.1
+>=20
+
+--2YN4dnJkh2x99pN8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ6uXWwAKCRB4tDGHoIJi
-0sXVAQDe1PeLWjx+NoLZSMmLMx6gkCQuvjtglVfda/Mlb0jn3AD/Ro/iX60eqSrN
-n1cOPtjrZbMAjIbnvMvUvvrh/ccV3wI=
-=jlV5
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ6ua8gAKCRB4tDGHoIJi
+0rWUAQC7DyKCXVN0UfP18uwC+5p5DYlNrG9wUl0Z9TRcFSMCpgD+N35w7t2QP+rl
+NJPsEV3Cc+Uy4iJB4fuKjWiNCvDFFQI=
+=NM+F
 -----END PGP SIGNATURE-----
 
---CBR0+rR48SecnfFG--
+--2YN4dnJkh2x99pN8--
 
