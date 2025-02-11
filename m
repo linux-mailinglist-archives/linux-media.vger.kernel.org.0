@@ -1,169 +1,380 @@
-Return-Path: <linux-media+bounces-25986-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-25987-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D269CA304BA
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 08:44:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC8FA305BE
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 09:29:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F9213A3C3E
-	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 07:44:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F50D164792
+	for <lists+linux-media@lfdr.de>; Tue, 11 Feb 2025 08:29:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E8601EDA22;
-	Tue, 11 Feb 2025 07:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35CB81EF097;
+	Tue, 11 Feb 2025 08:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Tj5GbFS6"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="OL3Kb8ZG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021117.outbound.protection.outlook.com [40.107.42.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F5C1E3DF7;
-	Tue, 11 Feb 2025 07:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739259879; cv=none; b=Gtbpu1bGe+Zbrfkc/TCQOoLUHh0kxdZI1r8Ps+FpYzULi9qgsMAMBKVUlB0Snu5n67dQhsxSMFxYud2qorMtls8rMXsuPxncJLy/X25tSfH4x4h4HdLB+PPvx3vPiVPR41jL1Ra3h3vSIsVedPnkzVQRmyakaO4HAnsBSCYH8vI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739259879; c=relaxed/simple;
-	bh=cm9PDeObe5p5RSqkrtZnN39LVuPDAZMxEFWvY/jtciQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YQkXFhWyKg1IgduBg2wWfZB8woINN6HsT6wOzhKtj9BcuPh4t2Jdg4tM8cYCwLKXlJvXH0rT9ORNb+EIe3iq1/0eWKdcgZDSVLmV41l0BTEf6qLLu51oHw0rP99KcH3h3HWxX3sXchu2UOlYdv893VlcsW4kmj06OVEA0WAXvKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Tj5GbFS6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [223.190.86.242])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF65122E;
-	Tue, 11 Feb 2025 08:43:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739259798;
-	bh=cm9PDeObe5p5RSqkrtZnN39LVuPDAZMxEFWvY/jtciQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tj5GbFS6qOaeLXyn7zOkwk4Lsb/HG6EyvM0spC5AmhUvQGH6SVvxtFukj4TNO24tS
-	 X+NJvIxAl4yn+29s02/FEuTCGAF2jyIUPf1Loa/dSUih0cvIaZXCxRo132TT2SsVnq
-	 S2dnABEebvKosZEK67GBjk0EsorqvZnXda2hZKOA=
-Date: Tue, 11 Feb 2025 13:14:12 +0530
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Naushir Patuck <naush@raspberrypi.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Vinay Varma <varmavinaym@gmail.com>
-Subject: Re: [PATCH v6 5/5] media: i2c: imx219: Scale the pixel rate for
- analog binning
-Message-ID: <n544346jf6wbzvrewfqs53fi6vlilw2kqirm4rh6fg7pfexkss@gynbikwrhmdh>
-X-PGP-Key: http://jailuthra.in/files/public-key.asc
-References: <20250204-imx219_fixes-v6-0-84ffa5030972@ideasonboard.com>
- <20250204-imx219_fixes-v6-5-84ffa5030972@ideasonboard.com>
- <ubuuob7mb3o5bxoumrxv4rufutgk3lvdmdery6d3bfc6rytfti@tcchhlechzzp>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1FC1EE039;
+	Tue, 11 Feb 2025 08:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.117
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739262535; cv=fail; b=rTVbXg0rGoTOtM+VFhiN35qdCiV89qAoGSXgWKMyMPklmXKq6M+PnPbozjBxuj2kA0Qm1quOfy0hQgAnx59SeojaD2ZPmYLUQDTDOyWSWIpYA89tsPxoKIgtLy9RZp3ZySytZo2QajJPS0f/VkTT4N12OenK35cZ/amJ8ZILNRE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739262535; c=relaxed/simple;
+	bh=1VOBRUsF3BYMRDm8SGHXN4cnvo/yNcidWI1ys/pLJD4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Jc9UbB1bple4Or5jTERqyigyO8yzPehubVjiz2KqIlKItLUNXXetsoeJbTLxhACjyqnJXnEodzxsnG4P1tagO8yg2kWFqBaEpjL2inul/ecsQ1AfJvHG7MfoPC/x1UzrVdLotT/8M48izsD/I7/qBff0jtR8zL2hkkti0Slg7vQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=OL3Kb8ZG; arc=fail smtp.client-ip=40.107.42.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GgcPzCJpEW7J/CMNHjFbqr7BuhN+Nk57hVHIWbIFnmzB4x4ePDUUsp9wsafYKCoAa5+0ZqMozRussYQMpSN0+sc1p99NqqtvY/T5f0SHNPzs6dVM4u1GCTL9kZzdkjPROsn3rzFdTPUCbqESaZGGStkdai8kgAa83Xtq8glefP+unXNFo49VoFjZw4gMNoPwj71/YYEMYUPRs8S89RJzww3BtGJBQOzUEl4YFVjmOwAtt9MF7XX2s5PHp5dD8avt6sWJkTlT63kftPnuh0AEyvvInn/kHi0YK97Abh/qCXu3atQyoc0DsQPbxSR0X3lpvZohmINFQ3MTvochIAaL6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wJxI6EuD0aaPhENQ9zY8fkmGelho6cFx3RapluMcLUg=;
+ b=TMlJ4ijVs/47N7S5+wTXNelMdJifI+VjiNRZCk1GgsFfDim30jg/0wJWHIyQqzkJ92pxgZ8cnoSrW0nlIxyqXEANi1jNnpBVAdJP57bY1URRi12wCzNPvWvHH8q2pRpcrQygMzbwdYfmrqhb8ICfsN0U+33XCnJpYRcs5ew1UpUN6f9IvTJLK+Q7IsmyiLt5sE7Fddczk53+BH2tFklhzR6xjMvQROnLjqBeh/lK5TnvzvShLhpm+uLtgK2FjcKG9sjO7miAD09gaaMTviyCZPkuCzHgQCCIGX6mqusqUkazVc6nGsCu5otvie96C5/CtTHXFaUKziKCe+5MaAxURA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wJxI6EuD0aaPhENQ9zY8fkmGelho6cFx3RapluMcLUg=;
+ b=OL3Kb8ZGgaqvSbKriCMvfaacAPODsJJxczpq9q4g9oBm0h+xVmPl08a6B5TJqQTbvKbmHpelcRzM4t+5rowpk/tSNL+u90Fx0JWLgHeOjrjXILqxL0uP4ILy8oqkjeMcnCR0wdEK4ILvmA6JV+qG2Pp7QTtex0I0sGmMrujnCqo=
+Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
+ SE1P216MB2041.KORP216.PROD.OUTLOOK.COM (2603:1096:101:161::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8422.19; Tue, 11 Feb 2025 08:28:50 +0000
+Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+ ([fe80::9e3d:ee20:8cc7:3c07]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+ ([fe80::9e3d:ee20:8cc7:3c07%4]) with mapi id 15.20.8422.015; Tue, 11 Feb 2025
+ 08:28:49 +0000
+From: Nas Chung <nas.chung@chipsnmedia.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+	"sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>,
+	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-imx@nxp.com" <linux-imx@nxp.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, jackson.lee
+	<jackson.lee@chipsnmedia.com>, lafley.kim <lafley.kim@chipsnmedia.com>
+Subject: RE: [PATCH 4/8] media: chips-media: wave6: Add Wave6 codec driver
+Thread-Topic: [PATCH 4/8] media: chips-media: wave6: Add Wave6 codec driver
+Thread-Index: AQHbe5s6TIh4rto0wEORrmYeUFOifbNAzpsAgAD2lwA=
+Date: Tue, 11 Feb 2025 08:28:49 +0000
+Message-ID:
+ <SL2P216MB1246CB5966183FE8E17541D5FBFD2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+References: <20250210090725.4580-1-nas.chung@chipsnmedia.com>
+ <20250210090725.4580-5-nas.chung@chipsnmedia.com>
+ <7373c956-216a-43a6-939c-4a9be5564c57@kernel.org>
+In-Reply-To: <7373c956-216a-43a6-939c-4a9be5564c57@kernel.org>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SL2P216MB1246:EE_|SE1P216MB2041:EE_
+x-ms-office365-filtering-correlation-id: 0d8596ee-4953-4899-ac7c-08dd4a761c4d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?t5LnNTHLGUnqCnzk7jVs3WKzIZ0zpYvUHkOkjXYUjLu98umggZXeCf3+A8H4?=
+ =?us-ascii?Q?kWJ5vo2aWq1K4rA+2YaH2aUqgnOzYDmwodDyXJNnip1e29RLCuFv7ieLqwrC?=
+ =?us-ascii?Q?KfyCGg9oczgQhVmam8xIymyPq2E4jKkvCuDl01amyUd/mW12ExRvYzChp0JU?=
+ =?us-ascii?Q?Klq9BucvH0kVtln92s/g0DGxK5QwM/gPk2bA6NDXEbxiKfU7Vhnl7dgzCb+O?=
+ =?us-ascii?Q?M8x3sQgdETAzghrTqZDKZNJT/AIfGZP6xQXqBq8V5KsvtOapoZZz+wgc365H?=
+ =?us-ascii?Q?kWDXlicPUh/uPf8dcCjKNrhGDCZaawbx9zRyOGTB1utA9PfXgZCLyMTwbkBk?=
+ =?us-ascii?Q?f7YujMaISoBFlQTyq3BV8Ll+oqswreLxnDG3tJWS2YXYi2uRdUINZoFKWX+v?=
+ =?us-ascii?Q?exXl9CJ+UoVn1jdefeybJcZy/qobpbc1ZCPapNeMgRgzk0Xhbc5k0YAAUQQI?=
+ =?us-ascii?Q?b44ugxGGFAq+ZmfTiuT7vbOfYp+ZIPjGkG9H7nR8s6PnHXLinTPLTNcYkmhV?=
+ =?us-ascii?Q?P6pb1f7wv09z1SljU5xdprjfwpo3FnyZ5vmG2Z7ss+XXbT3qXW/rXymbHHNK?=
+ =?us-ascii?Q?n0oxey83cUhlNhjCpvn5u3/QmJr60IJfbKGcbZ7jTiiRTmdLtQNOI9jfnFyV?=
+ =?us-ascii?Q?DUdX03vmgYbDrzpIP7upL8tOH8yMSGL/DcxQ7ztIFDMGnuqJQ2kCGCWdADPL?=
+ =?us-ascii?Q?I3T4EHwriUUNe1/qhxNin0sH3OjGA5KxBkEaQtdUiOMOgPkYJRUehkNm53Hi?=
+ =?us-ascii?Q?tk+FB05wh/N5hJlBjGSQ7UWljpQZzOfi2jNUSMAHlbt87utFcUJFprA9ZN7E?=
+ =?us-ascii?Q?ZSCQ8rVzeOCfqU/su0ZokddUir17R08v1acDWSGlxOJUO5fLa4AUA2Yt6AHG?=
+ =?us-ascii?Q?JfwObdHzrm6mlLM34mwoG+1bkK/QNw6OL1Xw+jYuPZ3Entlt5+SPVlisohYw?=
+ =?us-ascii?Q?LuejPUnV483C0nRe9NV4kupVYTZUIywEUFLTeZnFdA9ziQIdDmCjK9NQhRb2?=
+ =?us-ascii?Q?7FJ1HGLNzgCU/inafcUYaUeNxs/1s6tXXLOg8/SIOby/o+CE7TMtigBi0WGF?=
+ =?us-ascii?Q?pguiGk0Yzv99rkm+kPxE+T2HUdrXtEv5R+G/B86raKYxLF4F2v1s0F5TGLMU?=
+ =?us-ascii?Q?wSv348U2DqREJbh4+5rVdCLXf8fp0W6nFGmBcOiZJpvsEzm/KSpSOTRJb+bf?=
+ =?us-ascii?Q?M+kVQ6P+5PUQfDmCyr7zqZGA/K16dEpxjL+wTB4o/KlVKcfmY9fDpYm1jat4?=
+ =?us-ascii?Q?mBMR3qGGDWThwU9zxET7eQiN7Dybmcam076P7uR8WQYIO0M/5lFe04kOzCAM?=
+ =?us-ascii?Q?TfVI+diWiYpTQXUdWfUElxSImCxwpziZ8ttc7FsjCQvZ/3GUyyq8OyEzTR1M?=
+ =?us-ascii?Q?3KW8Lp+hzrCKFtYY1VTjIbOmKE9ixf260Eb0DMSPsnrz9i/cdz2hPolv4iPX?=
+ =?us-ascii?Q?JHDhU8kCcMlPj6DEOi0000+YGcIq/Yto?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?/9ugfNy45wyXIHuMGO+cOZTtTpWNTmlWX5ZBHdb/Bch0qcC/ezfGsitv7KaD?=
+ =?us-ascii?Q?saEvg67vx2I8CR6ubiyqgL81VJSZrmMTGjUGOvwWPCJVorr2CWuj1G78hIo6?=
+ =?us-ascii?Q?13V6uACsUiJTW5ghehlkAjbb/AqPgv56LHRFTNbwa5Jrvwil+8JwblSKiTJH?=
+ =?us-ascii?Q?2P0C5aAF+oP15KvSF0nYmug3gI750iMt4AcQyc33ahuWkiKSNvVgvP/Z1K84?=
+ =?us-ascii?Q?1uKWqIqsbvpRPXnsFTxcEOP55Niex/VHnhiu9F5Nes70vLv30tHJ5qVsPSGU?=
+ =?us-ascii?Q?DAzrIpDlh3eNgNgFjN4bpsKOGduHDictLOA/JOP3T7qSNn84g01mO4wzPo/O?=
+ =?us-ascii?Q?glkaR+ahuAAVWU17MktHz4MgAT6Qn/ZHGAzWCk555gtt8yWl499cco0Xnt9I?=
+ =?us-ascii?Q?OCuUSvyOaDDTFVFUNJ2YPcdY4TKgXgpIjmmZpm9t965R8moYThRwW/eEa3Ol?=
+ =?us-ascii?Q?fvICnMQW/zX/8U8kDUT1qUtoB+y31A3UEHnL26jtbNrxfLkUbKozoQWktqdU?=
+ =?us-ascii?Q?twfWOGVFh6Xw9HCRR9kuEjry1Gx4uXXtX/kqTuXvmlp+B4RvZ7r1m1lzoJvm?=
+ =?us-ascii?Q?OmZaxPfJv+QGhZl1wVGlHKh2+XwIylHFHO/lcJqwRcBb2XnuV0QydC96FUUZ?=
+ =?us-ascii?Q?jWoT+Zxq1Eh8W5R/9zR2gDk5r8F1Ku9mhElHrZgf+RQM5qrww8dwp4FoI25M?=
+ =?us-ascii?Q?p+CHfAzWWSBiI3yHqibPLwOiTp+a4gPPtd8xvzAXOG0exeQzwr4KHold7Cqc?=
+ =?us-ascii?Q?9O4/iKl4zYfSFf9UVL7AHjvvgpISsYfgPAOV60dGexvYuQgtrrEEdCi/01MH?=
+ =?us-ascii?Q?KyBcCFVhSOo3e6+qi6jPyvs/c3r48oF4OJAqriE8leRTH7NSDaaHshMLauzE?=
+ =?us-ascii?Q?kRMAu5RPyNgvaSODbLgSlV5Fz9CM+KQeB9bw0Tvr6UJIunow0AduHyEtaqOL?=
+ =?us-ascii?Q?/5+/ro+7yDgctocyRaw5nuPrTwMPdZihyO6lNXTY1lvxPx9a+G/RI8IAjvTq?=
+ =?us-ascii?Q?e4W2CK1P+Rg1tA0UroXhR/EmV08ftaTx8VCBgS5JjBKM1E8PWxUK1LIsWGJ9?=
+ =?us-ascii?Q?3WbFvqFwKyrBEraLspsZD3xyvi0m/NJ5b0z1x6HyJbczsoO3refAuR2eUHTT?=
+ =?us-ascii?Q?eauY/jGLUQncEnHGJbUgxJJRWv0ge62WOAsz8QrDA/ft7WZbMjgB7s19LU7E?=
+ =?us-ascii?Q?sKZq3sZScZ8IGiBlaArsLDcwQp3zJPMRWdjzgF4viY0u6e8DR4MkeWtVbVSy?=
+ =?us-ascii?Q?+MFL7WCq/edSjc4hkqRbpcRpt7aXNy5VsOccPDsNHV9DnsFBgfEC3mvJFNn2?=
+ =?us-ascii?Q?eZLYPhmFzlA+75g4rCWAPMhEKjJz1ngOrK+EkSG0t8dRV+TVqwOAJvykgq4v?=
+ =?us-ascii?Q?9HneF49EhlWaw1unDaGazVDnT78GhrdsIYWCF37Dt6Sp1+XCnRm028PaQ+Ni?=
+ =?us-ascii?Q?hjl1VicyhJQGHZ7HX0khGGRszVVbksbDEa434h4M6n2PLf5XPqou9Kpf87ow?=
+ =?us-ascii?Q?W1ycOPnjvlqMoOsd8h0lq+u6zxmpXSSdTV9zNm1be0AbofkLOktkNL3cuEBq?=
+ =?us-ascii?Q?gH0eGICLBsn+WTiq0duy1YLyOCknEY0LLX6GvFrE?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ubuuob7mb3o5bxoumrxv4rufutgk3lvdmdery6d3bfc6rytfti@tcchhlechzzp>
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d8596ee-4953-4899-ac7c-08dd4a761c4d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2025 08:28:49.7728
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7GopREXElwoRbuPdWM3xTO84xXj/eIOJUvYf0s4Gsg3UdjOSGviMpjJdEDHeXx/cZvx7yFuO2OK8BPLb1pXay1H4mVdaJiy/ZGyaVtYaASg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB2041
 
-Hi Jacopo, Naush,
+Hi, Krzysztof.
 
-On Feb 07, 2025 at 17:49:19 +0100, Jacopo Mondi wrote:
-> Hi Jai
-> 
-> On Tue, Feb 04, 2025 at 12:34:40PM +0530, Jai Luthra wrote:
-> > When the analog binning mode is used for high framerate operation, the
-> > pixel rate is effectively doubled. Account for this when setting up the
-> > pixel clock rate, and applying the vblank and exposure controls.
-> >
-> > The previous logic only used analog binning for RAW8, but normal binning
-> > limits the framerate on RAW10 480p [1]. So with this patch we switch to
-> > using special binning (with 2x pixel rate) wherever possible.
-> >
-> > [1]: https://github.com/raspberrypi/linux/issues/5493
-> >
-> > Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
-> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > Co-developed-by: Vinay Varma <varmavinaym@gmail.com>
-> > Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
-> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > ---
+>-----Original Message-----
+>From: Krzysztof Kozlowski <krzk@kernel.org>
+>Sent: Tuesday, February 11, 2025 2:41 AM
+>To: Nas Chung <nas.chung@chipsnmedia.com>; mchehab@kernel.org;
+>hverkuil@xs4all.nl; sebastian.fricke@collabora.com; robh@kernel.org;
+>krzk+dt@kernel.org; conor+dt@kernel.org
+>Cc: linux-media@vger.kernel.org; devicetree@vger.kernel.org; linux-
+>kernel@vger.kernel.org; linux-imx@nxp.com; linux-arm-
+>kernel@lists.infradead.org; jackson.lee <jackson.lee@chipsnmedia.com>;
+>lafley.kim <lafley.kim@chipsnmedia.com>
+>Subject: Re: [PATCH 4/8] media: chips-media: wave6: Add Wave6 codec driver
+>
+>On 10/02/2025 10:07, Nas Chung wrote:
+>> +
+>> +	dev->debugfs =3D debugfs_lookup(WAVE6_VPU_DEBUGFS_DIR, NULL);
+>> +	if (IS_ERR_OR_NULL(dev->debugfs))
+>> +		dev->debugfs =3D debugfs_create_dir(WAVE6_VPU_DEBUGFS_DIR,
+>NULL);
+>> +
+>> +	pm_runtime_enable(&pdev->dev);
+>> +
+>> +	if (dev->res->codec_types & WAVE6_IS_DEC) {
+>> +		ret =3D wave6_vpu_dec_register_device(dev);
+>> +		if (ret) {
+>> +			dev_err(&pdev->dev, "wave6_vpu_dec_register_device
+>fail: %d\n", ret);
+>> +			goto err_temp_vbuf_free;
+>> +		}
+>> +	}
+>> +	if (dev->res->codec_types & WAVE6_IS_ENC) {
+>> +		ret =3D wave6_vpu_enc_register_device(dev);
+>> +		if (ret) {
+>> +			dev_err(&pdev->dev, "wave6_vpu_enc_register_device
+>fail: %d\n", ret);
+>> +			goto err_dec_unreg;
+>> +		}
+>> +	}
+>> +
+>> +	if (dev->ctrl && wave6_vpu_ctrl_support_follower(dev->ctrl)) {
+>> +		wave6_vpu_activate(dev);
+>> +		ret =3D pm_runtime_resume_and_get(dev->dev);
+>> +		if (ret)
+>> +			goto err_enc_unreg;
+>> +	}
+>> +
+>> +	dev_dbg(&pdev->dev, "Added wave6 driver with caps %s %s\n",
+>> +		dev->res->codec_types & WAVE6_IS_ENC ? "'ENCODE'" : "",
+>> +		dev->res->codec_types & WAVE6_IS_DEC ? "'DECODE'" : "");
+>> +
+>> +	return 0;
+>> +
+>> +err_enc_unreg:
+>> +	if (dev->res->codec_types & WAVE6_IS_ENC)
+>> +		wave6_vpu_enc_unregister_device(dev);
+>> +err_dec_unreg:
+>> +	if (dev->res->codec_types & WAVE6_IS_DEC)
+>> +		wave6_vpu_dec_unregister_device(dev);
+>> +err_temp_vbuf_free:
+>> +	wave6_free_dma(&dev->temp_vbuf);
+>> +err_kfifo_free:
+>> +	kfifo_free(&dev->irq_status);
+>> +err_m2m_dev_release:
+>> +	wave6_vpu_release_m2m_dev(dev);
+>> +err_v4l2_unregister:
+>> +	v4l2_device_unregister(&dev->v4l2_dev);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static void wave6_vpu_remove(struct platform_device *pdev)
+>> +{
+>> +	struct vpu_device *dev =3D dev_get_drvdata(&pdev->dev);
+>> +
+>> +	if (dev->ctrl && wave6_vpu_ctrl_support_follower(dev->ctrl)) {
+>> +		if (!pm_runtime_suspended(&pdev->dev))
+>> +			pm_runtime_put_sync(&pdev->dev);
+>> +	}
+>> +	pm_runtime_disable(&pdev->dev);
+>> +
+>> +	wave6_vpu_enc_unregister_device(dev);
+>> +	wave6_vpu_dec_unregister_device(dev);
+>> +	wave6_free_dma(&dev->temp_vbuf);
+>> +	kfifo_free(&dev->irq_status);
+>> +	wave6_vpu_release_m2m_dev(dev);
+>> +	v4l2_device_unregister(&dev->v4l2_dev);
+>> +}
+>> +
+>> +#ifdef CONFIG_PM
+>> +static int wave6_vpu_runtime_suspend(struct device *dev)
+>> +{
+>> +	struct vpu_device *vpu_dev =3D dev_get_drvdata(dev);
+>> +
+>> +	if (!vpu_dev)
+>> +		return -ENODEV;
+>> +
+>> +	dprintk(dev, "runtime suspend\n");
+>
+>Drop
+>
+>> +	if (vpu_dev->ctrl && vpu_dev->active)
+>> +		wave6_vpu_ctrl_put_sync(vpu_dev->ctrl, &vpu_dev->entity);
+>> +	if (vpu_dev->num_clks)
+>> +		clk_bulk_disable_unprepare(vpu_dev->num_clks, vpu_dev->clks);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int wave6_vpu_runtime_resume(struct device *dev)
+>> +{
+>> +	struct vpu_device *vpu_dev =3D dev_get_drvdata(dev);
+>> +	int ret =3D 0;
+>> +
+>> +	if (!vpu_dev)
+>> +		return -ENODEV;
+>> +
+>> +	dprintk(dev, "runtime resume\n");
+>
+>Drop
+>
+>> +	if (vpu_dev->num_clks) {
+>> +		ret =3D clk_bulk_prepare_enable(vpu_dev->num_clks, vpu_dev-
+>>clks);
+>> +		if (ret) {
+>> +			dev_err(dev, "failed to enable clocks: %d\n", ret);
+>> +			return ret;
+>> +		}
+>> +	}
+>> +
+>> +	if (vpu_dev->ctrl && vpu_dev->active) {
+>> +		ret =3D wave6_vpu_ctrl_resume_and_get(vpu_dev->ctrl, &vpu_dev-
+>>entity);
+>> +		if (ret && vpu_dev->num_clks)
+>> +			clk_bulk_disable_unprepare(vpu_dev->num_clks, vpu_dev-
+>>clks);
+>> +	} else {
+>> +		wave6_vpu_check_state(vpu_dev);
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +#endif
+>> +
+>> +#ifdef CONFIG_PM_SLEEP
+>> +static int wave6_vpu_suspend(struct device *dev)
+>> +{
+>> +	int ret;
+>> +
+>> +	dprintk(dev, "suspend\n");
+>
+>Drop. Don't re-implement existing tracing.
+>
+>> +	wave6_vpu_pause(dev, 0);
+>> +
+>> +	ret =3D pm_runtime_force_suspend(dev);
+>> +	if (ret)
+>> +		wave6_vpu_pause(dev, 1);
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static int wave6_vpu_resume(struct device *dev)
+>> +{
+>> +	int ret;
+>> +
+>> +	dprintk(dev, "resume\n");
+>
+>Drop, useless.
 
-[snip]
+Okay. I will remove the redundant debug message and dprintk in v2.
 
-> > @@ -367,10 +426,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl 
-> > *ctrl)
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> >  	const struct v4l2_mbus_framefmt *format;
-> >  	struct v4l2_subdev_state *state;
-> > +	u32 rate_factor;
-> >  	int ret = 0;
-> >
-> >  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> >  	format = v4l2_subdev_state_get_format(state, 0);
-> > +	rate_factor = imx219_get_rate_factor(imx219);
-> >
-> >  	if (ctrl->id == V4L2_CID_VBLANK) {
-> >  		int exposure_max, exposure_def;
-> > @@ -399,7 +460,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  		break;
-> >  	case V4L2_CID_EXPOSURE:
-> >  		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
-> > -			  ctrl->val, &ret);
-> > +			  ctrl->val / rate_factor, &ret);
-> >  		break;
-> >  	case V4L2_CID_DIGITAL_GAIN:
-> >  		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-> > @@ -416,7 +477,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  		break;
-> >  	case V4L2_CID_VBLANK:
-> >  		cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
-> > -			  format->height + ctrl->val, &ret);
-> > +			  (format->height + ctrl->val) / rate_factor, &ret);
-> 
-> 
-> Isn't this (and exposure) compensatd by the doubled pixel rate ?
-> 
+>
+>> +	ret =3D pm_runtime_force_resume(dev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	wave6_vpu_pause(dev, 1);
+>> +	return 0;
+>> +}
+>> +#endif
+>> +static const struct dev_pm_ops wave6_vpu_pm_ops =3D {
+>> +	SET_RUNTIME_PM_OPS(wave6_vpu_runtime_suspend,
+>wave6_vpu_runtime_resume, NULL)
+>> +	SET_SYSTEM_SLEEP_PM_OPS(wave6_vpu_suspend, wave6_vpu_resume)
+>> +};
+>> +
+>> +static const struct of_device_id wave6_dt_ids[] =3D {
+>> +	{ .compatible =3D "nxp,imx95-wave633c", .data =3D &wave633c_data },
+>> +	{ /* sentinel */ }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, wave6_dt_ids);
+>> +
+>> +static struct platform_driver wave6_vpu_driver =3D {
+>> +	.driver =3D {
+>> +		.name =3D VPU_PLATFORM_DEVICE_NAME,
+>> +		.of_match_table =3D of_match_ptr(wave6_dt_ids),
+>
+>
+>Drop of_match_ptr, you have here warnings.
 
-The datasheet mentions that FRM_LENGTH_A register is in units of 2xLines 
-when analog binning mode is selected. And the exposure is also usually 
-in unit of lines, so I assume that is why the same division was made in 
-the original commit by Naush [1]
+I will address this in v2.
 
-[1] https://github.com/raspberrypi/linux/commit/caebe4fe817b5079
+Thanks.
+Nas.
 
-> Applications use the pixel rate to compute the line duration and from
-> there transform the frame duration and the exposure in lines, don't
-> they ?
-
-While this change doesn't update the user-side of the control values, 
-only the register values, I wonder if there is a clean way to handle 
-this without updating some assumptions in the application.
-
-The IMX219 pixel clock behaves differently with analog binning compared 
-to (most of our) intuitions, where rather than doubling the horizontal 
-pixel clock, each line is still read-out in the same time but the number 
-of lines read are halved.. at least that's the best explanation I have 
-from these results:
-https://lore.kernel.org/linux-media/zla2sogd7ov3yz2k2je6zrgh3uzeermowlaixt3qkcioturppo@tswbw354tpdk/
-
-And that is why the total pixel rate is doubled, but the actual line 
-duration should be the same as a digitally binned or cropped format.
-
-> 
-> Overall, very nice to be able to double the achievable frame rate
-> without any artifacts! Good job!
-> 
-> Thanks
->   j
-> 
-
-Thanks,
-Jai
-
-> >  		break;
-> >  	case V4L2_CID_HBLANK:
-> >  		cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
-
-[snip]
+>
+>
+>Best regards,
+>Krzysztof
 
