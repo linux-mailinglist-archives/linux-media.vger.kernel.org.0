@@ -1,99 +1,126 @@
-Return-Path: <linux-media+bounces-26075-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26076-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFE2A32CC0
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 18:04:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB84FA32D12
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 18:12:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E7AA1621A8
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 17:03:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 906363A7CC4
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 17:09:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD4E8230D0E;
-	Wed, 12 Feb 2025 17:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80DAC2586D0;
+	Wed, 12 Feb 2025 17:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AgFdjHyP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c+XqIQhC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF3C271838
-	for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 17:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680FD221D8B;
+	Wed, 12 Feb 2025 17:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739379779; cv=none; b=s/G/xsxW9MxCylxB6uwM/ryvKRqOm6ve9d8H4/JC/Nx1IQhxJlacwJuc4db+N6mLXAQkmFxU11IsJZss7a/SPlUtrplZPX5XiV72ojvCucXIJ0vL9v17zYkw/x2FYAR5h/f/UfpuKNg7X+qaTcCnM4KgdcP0HJyUMnqjoTOFG1I=
+	t=1739380162; cv=none; b=bIUyxFBVTIU5ZE+lBjoiDoXMdIDq+uy41EosENVy4mSbgmualtu85K9aZOdBQGbWOPWFtEjzsRCh8veX6NYX0S7L4Xl62xZ6pc94lg5gWWobV44Uaj1uvgExwkND0EZv5u/z7vKhZ3IdRYwe5G1T+ILdi3sRj+U7rUUpXtebqkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739379779; c=relaxed/simple;
-	bh=i2aViueIDXo730VZY/wT8GO2tY32x7UCeDuXUElhWPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gxz2/KFQJrL6peZxeSd8ib187nB1frPa2pRmRjwU9pMawclNSiaAQQlH8s2slf56Rzi6+Oqs/yoxrgpp/lhaWgcz/f3om2t11yP+RDBMN+m2bGZ+vbJha5fy7xTYRvn5Pe5evIiuCXEwcCcNWOGzF0tXzkNaGnSeSNCF3vZu9kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AgFdjHyP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0ACE455;
-	Wed, 12 Feb 2025 18:01:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739379697;
-	bh=i2aViueIDXo730VZY/wT8GO2tY32x7UCeDuXUElhWPw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AgFdjHyPzC23SNzBXb/1H8nbRcJ0W6G8UlTDZOdc1QtT5vxQxzzz4Tvypazns32me
-	 X8PuR2BlGRIi0+/tUINmT38nm61481GBDBN4S8STz/jmLQnBDYk2ioRczFs7uKngtT
-	 ssjaIQiXny9In+p0L5CNZmdptSrKYSkugeJRCvGM=
-Date: Wed, 12 Feb 2025 18:02:52 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Paul Elder <paul.elder@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH] media: uapi: rkisp1-config: Fix typo in extensible
- params example
-Message-ID: <e275man56x7ympofkwptm32h3cbfjbw5pn6dkez4f5obhuhxen@gkxnt3ewsbnt>
-References: <20250212165053.3378513-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1739380162; c=relaxed/simple;
+	bh=Lh55yAkn/jwAg8s+MFsDmpPz7xByDWEIZkZnARkgLDU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uJK97T6JXfQUfMfzh8EkvxwM202wjaGhgu7FApLqpERTj7KlMJ6bPcku5ndjJ9sdTbMSLtlza2UkGKW4/gpXmq3/NRQX5zITRHqK4qggBr7+OdSR2f9sNy2yk0Dwc1y3+DjQtVavgAhK/Xdr++xHVaDaA6uyjPG9GLfZeJr/MO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c+XqIQhC; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7c05aa6d3beso39405685a.0;
+        Wed, 12 Feb 2025 09:09:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739380160; x=1739984960; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9jyKbsmNHdxaThJU2NsEz7xz1EsWrp4w0F6ozYi/oa4=;
+        b=c+XqIQhCqV5hfso1lL5gOBbGD1NL1yzeRbnd5lzlEpT7/V8tdxUZvZ8zQadBja8xWT
+         hXK48TmXfNzs5okMih807+XXNsHzRU+N2MI4H7oVNGfVE4qxtXeeNNu6VP7jYLmhFh5v
+         e1byu/wn5YfaMYL4jJzSUxGFXZ0svVNNmF9QcUHC7DID9zNah27uGAUsnNdSWWr83bDL
+         ESlp/nPiOLYalJSSl79gmgG0/8IfWoxLEgOGBGk3BCnsJsyG9LyElTB2Kb1FU+7zOhEn
+         gnfCS0XbX8N0KyDqhy+uDnd+9Yj3Hv5Savd+Jd/XsNO5aEWeHLJ4Xjv6uOv63KAvaDl8
+         1C1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739380160; x=1739984960;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9jyKbsmNHdxaThJU2NsEz7xz1EsWrp4w0F6ozYi/oa4=;
+        b=Z0H7RleSLxLjJbS+z9nc8X4AzYqb/5VosRm4mO/AS7RxwruPG+FRsHBLXOBd5U4+ni
+         36sH5WKcxI4vCXHJs+Ret6pnCh9daZq+Dln9NL8N0/U6sbMSDbREPcILT7xnMVYJImOb
+         0Ljnpu0riIq3QU4cC8DFLs84XPQl5lzG+fKTfm2QSrfjEShVp2rfbesNTDsDu0AK4ihE
+         vP3gthIEkaG+CcVaYTKU2HKBoGS+QmiUTQOTYg/9rpkFwUmTv3YCdRUsnm8N9lkFoDXs
+         mXrxXGp7/Rwq2tfUILSj8w8pMPGYBlkQ6fDrDTwL2sxxHlQC462pYYBp9paSmvf10wOL
+         gp5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUHTUFuWbTCG5DbU5kEq/wjAKHWYM19I1lrWHdxL/8gf42FcmNVN0Y8iMc0GtqTXLhkGsqUeRox7NxFVWQ=@vger.kernel.org, AJvYcCWEqTp+XfRxrcGZ5usO+DGC/9L6z/pt6ENcLdG0r95KyOD5N+RTMn+fjCNF/PhZ/tAr7WAueMAsIdy+1oU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiOpwGnXUFWFjcYzK20X/Wez1PoU9boH3LKvbT2CeNZfuM0Hb+
+	SCpxrH9wDTGcQarL2OTon6wDzzzRXPQXIJxjqW19WCJZWszElWbo
+X-Gm-Gg: ASbGncsAO/gnVpbHZulWtUD5K3Si14dawe1lCFR/4HasuMRhZYGhIOpqp1H/CahExX0
+	+KHpl4UABYBU16eJg+Q/Yp9JGXMlziAIFS/2m1C0O+xEq9zKJGXxxAp5v9FiXXx6kITVqOIKrYd
+	oHXD422iGN0/VdKguxI2DgNcx/KUt+QM0DFtm5obrk5WpBvfvwEPrEzNSrtOIlbziwn3+9CmvbA
+	Xv6pf3WG6aWy04JFNC/iR6oLshAvhNap5sJCsoeuHzu+WBlrFz++F0HhIj2PFOtuR7ZdBs6cK2A
+	v8vTmkdmQIvXFIHC6QLwGAlNwsfBSbdYZfX9eloSKwMb53gQCkgGjN+L
+X-Google-Smtp-Source: AGHT+IFLqOvawynQDFjk6qHZV4hFnVvTcQB5/VW+Wp7M42vEsaUw9Cj/Yl8s7alh1TINeLoDtgqwdw==
+X-Received: by 2002:a05:6214:c65:b0:6d4:1f85:3975 with SMTP id 6a1803df08f44-6e46edb4baamr22705426d6.8.1739380160099;
+        Wed, 12 Feb 2025 09:09:20 -0800 (PST)
+Received: from matt-Z87X-UD4H.mynetworksettings.com ([2600:1002:a012:94a2:c438:570:6155:5ffc])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e52798f66asm12079546d6.37.2025.02.12.09.09.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 09:09:19 -0800 (PST)
+From: Matthew Majewski <mattwmajewski@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	"Uwe Kleine-Konig" <u.kleine-koenig@baylibre.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+Cc: devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matthew Majewski <mattwmajewski@gmail.com>
+Subject: [PATCH 0/2] media: m2m-deinterlace: add device-tree support
+Date: Wed, 12 Feb 2025 12:08:59 -0500
+Message-Id: <20250212170901.3881838-1-mattwmajewski@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250212165053.3378513-1-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Niklas
+Hello all, this patch series adds device-tree support for the generic
+m2m-deinterlace driver.
 
-On Wed, Feb 12, 2025 at 05:50:53PM +0100, Niklas Söderlund wrote:
-> The define used for the version in the example diagram do not match what
-> is defined in enum rksip1_ext_param_buffer_version, nor the description
-> above it. Correct the typo to make it clear which define to use.
->
-> Fixes: e9d05e9d5db1 ("media: uapi: rkisp1-config: Add extensible params format")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+A specific dma controller channel can now be provided to the driver
+via the dt, but the driver still supports the original dma query if an
+of_node is not present. This should preserve backwards compatibility
+with platform drivers that directly instantiate the device.
 
-Thanks for spotting
-Acked-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Probing the m2m-deinterlace device via device-tree was tested on the
+BeagleBone Black with an m2m-appropriate edma channel.
 
-> ---
->  include/uapi/linux/rkisp1-config.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> index 430daceafac7..2d995f3c1ca3 100644
-> --- a/include/uapi/linux/rkisp1-config.h
-> +++ b/include/uapi/linux/rkisp1-config.h
-> @@ -1528,7 +1528,7 @@ enum rksip1_ext_param_buffer_version {
->   * The expected memory layout of the parameters buffer is::
->   *
->   *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
-> - *	| version = RKISP_EXT_PARAMS_BUFFER_V1;                               |
-> + *	| version = RKISP1_EXT_PARAM_BUFFER_V1;                               |
->   *	| data_size = sizeof(struct rkisp1_ext_params_bls_config)             |
->   *	|           + sizeof(struct rkisp1_ext_params_dpcc_config);           |
->   *	| +------------------------- data  ---------------------------------+ |
-> --
-> 2.48.1
->
+Best,
+
+Matthew Majewski
+
+Matthew Majewski (2):
+  media: dt-bindings: Add dt bindings for m2m-deinterlace device
+  media: m2m-deinterlace: add device-tree support
+
+ .../bindings/media/m2m-deinterlace.yaml       | 41 +++++++++++++++++++
+ drivers/media/platform/m2m-deinterlace.c      | 25 ++++++++---
+ 2 files changed, 60 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/m2m-deinterlace.yaml
+
+-- 
+2.25.1
+
 
