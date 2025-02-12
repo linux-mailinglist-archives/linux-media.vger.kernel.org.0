@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-26034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26035-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30284A31E34
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 06:47:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFB8A31E4D
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 06:53:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD3357A377D
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 05:46:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E1768163ECB
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 05:53:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1601E1FBC8B;
-	Wed, 12 Feb 2025 05:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3F7E1FAC4F;
+	Wed, 12 Feb 2025 05:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OEY6BjB6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zx3D+BuL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F9C2BD10;
-	Wed, 12 Feb 2025 05:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF778271834;
+	Wed, 12 Feb 2025 05:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739339253; cv=none; b=PsFmL0YA7+K9EYtAYCG2RFaiCmqax7htM7uZEKzIi+FUM5OS7wMeCH9Bbt33RsD4kLi/OqfFFn9anwzkE/hWOU96Nwyv2sLG5CMFRt4RYtqF6YYLW2qpk1yGqk4YUajm1TRCTN3Hiz5NooECjOTHCAL4OsjWzUf49s0bph+kbn0=
+	t=1739339578; cv=none; b=VKqItfIOieNB/rB67OpOH+drK8W47ONudmdMXm3JHaGcgtc065DX9fHWywu3p45cugLKT1M+l6QzUzykKJf2EiF/fyHn0fAeJ7GSU92olmzdgW8I5MqxxYrW2AdbhB2kgYHBYxItbQ7/tFtx9Dtm9whCLfgsYahM3667hZT+QMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739339253; c=relaxed/simple;
-	bh=ilS7Vyw4k14KiS1Avo6VfcY56qUDNzLPX44dUnRds40=;
+	s=arc-20240116; t=1739339578; c=relaxed/simple;
+	bh=7ABNck4OSdeOsAGaKMgFtu9kfL0XbHjNUpueljNrBmU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BaHyk0gZGg1wZ132QkuPb+s6mUBPP0ovBwwmuxmKGu7hyVXHDNZbmPwks/IQCHBd1Yngjv8eQcrKwVnte4pMk+c263mBNjkrr6gKx0p4Grs0vZAlXd6QmE6WeVXYdePYbaoa/QPGDdtLMRU05B7zkvVW8whcawXeLhZS6f8w0GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OEY6BjB6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EE5EC4CEDF;
-	Wed, 12 Feb 2025 05:47:23 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=X37mAIEPUY1VN5scKf5ZlU0VkPRHqJHcKerynfTeK2DmNZs5qQxYQgCLkhTmfbDE1VFmmRXxp2o4h1Q35hKUDtG/gCwPT84/0QipRbXP9UyaaTeTnv0BjjsszJKJGkxcowlWoySEOnHQ7C1hDQUsfGSpz1YnxPwEEQRgH8BnVxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zx3D+BuL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6DCBC4CEDF;
+	Wed, 12 Feb 2025 05:52:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739339252;
-	bh=ilS7Vyw4k14KiS1Avo6VfcY56qUDNzLPX44dUnRds40=;
+	s=k20201202; t=1739339577;
+	bh=7ABNck4OSdeOsAGaKMgFtu9kfL0XbHjNUpueljNrBmU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OEY6BjB6CkYChOeih1Nh4KTQb5T3hOPO5/BHvi7V1yaiUS6QYrxbrMpu0V9TvJU9J
-	 PwMtEHJOV6jMdEDMrdF4qoiQ9afZeuZ6U3krh0RCknAFygY+3WJGg7Kih9DhWHKuSv
-	 i/NuEcces9zbZEenBCoX3iPwqBRmIs7J7JJgst006EuNAjOkCEUt+SsxGWFqfhCp88
-	 cUBp1jdnSvjeMgknSBOmx7GTlxJPM03xAa0VK2sY1ujBxaB2ENY3MKmls+qnGaSwJu
-	 qzkT/pTUkgod6PlEHu19Q/f8NAeU6ZmA7G/R1fLahfBESpsq3/opCLlle12M5ej6zZ
-	 VtgyK3wzJuDfw==
-Message-ID: <e7a1b608-2bad-41d4-844a-07fd73818bb3@kernel.org>
-Date: Wed, 12 Feb 2025 06:47:20 +0100
+	b=Zx3D+BuLnJMdMW33p7kLC9PykFcyt0BhStNllTw2J0jO/6f//eB3WxZGNTN5q+7R8
+	 0o2UxTRcMfbawSjnT+PNhIFCUCbqiz+DCX/NcIIs/txS2hI3nlEG1+n+73XAyl2Qlt
+	 yqkybpddM7K9ink5eomzh35ThmguCqHnJ0xZZRcIkxwowccaLVhYFE0WwerrUP9fti
+	 YLl+3w6x/AiuBWyz3ZfDxdMWdqMawHojpOqgaMiP4cSZ/vy4CxxeXrddFXa8EciCU1
+	 W5sDKNhiVualLJGqQJDgiuDSmNUib2dPmDrIFyYar527jTjYAm8qjBzzD8tPAcL/ro
+	 J09i7CUDr7L0w==
+Message-ID: <cb2db0c4-6f3a-4d44-90e5-b37cbe5e66fb@kernel.org>
+Date: Wed, 12 Feb 2025 06:52:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] of: Add warpper function
- of_find_node_by_name_balanced()
+Subject: Re: [PATCH 2/9] net: bcmasp: Add missing of_node_get() before
+ of_find_node_by_name()
 To: Zhang Zekun <zhangzekun11@huawei.com>, robh@kernel.org,
  saravanak@google.com, justin.chen@broadcom.com,
  florian.fainelli@broadcom.com, andrew+netdev@lunn.ch, kuba@kernel.org,
@@ -65,7 +65,7 @@ Cc: arm-scmi@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-media@vger.kernel.org, netdev@vger.kernel.org,
  devicetree@vger.kernel.org, chenjun102@huawei.com
 References: <20250207013117.104205-1-zhangzekun11@huawei.com>
- <20250207013117.104205-2-zhangzekun11@huawei.com>
+ <20250207013117.104205-3-zhangzekun11@huawei.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,41 +111,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250207013117.104205-2-zhangzekun11@huawei.com>
+In-Reply-To: <20250207013117.104205-3-zhangzekun11@huawei.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 07/02/2025 02:31, Zhang Zekun wrote:
-> There are many drivers use of_find_node_by_name() with a not-NULL
-> device_node pointer, and a number of callers would require a call to
-> of_node_get() before using it. There are also some drivers who forget
-> to call of_node_get() which would cause a ref count leak[1]. So, Add a
-> wraper function for of_find_node_by_name(), drivers may use this function
-> to call of_find_node_by_name() with the refcount already balanced.
+> of_find_node_by_name() will decrease the refcount of the device_node.
+> So, get the device_node before passing to it.
 > 
-> [1] https://lore.kernel.org/all/20241024015909.58654-1-zhangzekun11@huawei.com/
-> 
+> Fixes: 490cb412007d ("net: bcmasp: Add support for ASP2.0 Ethernet controller")
 > Signed-off-by: Zhang Zekun <zhangzekun11@huawei.com>
 > ---
->  include/linux/of.h | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/net/ethernet/broadcom/asp2/bcmasp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/linux/of.h b/include/linux/of.h
-> index eaf0e2a2b75c..b7c6d7ff278c 100644
-> --- a/include/linux/of.h
-> +++ b/include/linux/of.h
-> @@ -268,6 +268,11 @@ static inline const char *of_node_full_name(const struct device_node *np)
->  #define for_each_of_allnodes(dn) for_each_of_allnodes_from(NULL, dn)
->  extern struct device_node *of_find_node_by_name(struct device_node *from,
->  	const char *name);
-> +static inline struct device_node *of_find_node_by_name_balanced(struct device_node *from,
-> +								const char *name)
-> +{
-> +	return of_find_node_by_name(of_node_get(from), name);
+> diff --git a/drivers/net/ethernet/broadcom/asp2/bcmasp.c b/drivers/net/ethernet/broadcom/asp2/bcmasp.c
+> index a68fab1b05f0..093c8ea72af9 100644
+> --- a/drivers/net/ethernet/broadcom/asp2/bcmasp.c
+> +++ b/drivers/net/ethernet/broadcom/asp2/bcmasp.c
+> @@ -1367,7 +1367,7 @@ static int bcmasp_probe(struct platform_device *pdev)
+>  	bcmasp_core_init(priv);
+>  	bcmasp_core_init_filters(priv);
+>  
+> -	ports_node = of_find_node_by_name(dev->of_node, "ethernet-ports");
+> +	ports_node = of_find_node_by_name_balanced(dev->of_node, "ethernet-ports");
 
-I don't think that solution to people not reading API description is to
-create more API with similar but a bit different behavior, especially
-undocumented.
+Why this cannot be of_get_child_by_name()?
 
 Best regards,
 Krzysztof
