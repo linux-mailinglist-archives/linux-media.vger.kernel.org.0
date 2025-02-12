@@ -1,140 +1,114 @@
-Return-Path: <linux-media+bounces-26063-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26064-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D435A3262F
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 13:48:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8705A32669
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 13:58:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D38E718854FB
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 12:48:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B78C16585D
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 12:58:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0700720C487;
-	Wed, 12 Feb 2025 12:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F37620E02A;
+	Wed, 12 Feb 2025 12:58:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="j5pBgvZC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aYoHh9I8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A439427183F;
-	Wed, 12 Feb 2025 12:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C3120CCF5;
+	Wed, 12 Feb 2025 12:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739364515; cv=none; b=aqLsTOc5jlCTf8236aouWhuZQj8QFFjN7W5D2kvT0SwAH7sbVZwz9uOP6bduYRZw9WSXMiDlc4rT5fKi/3yfWdPDFNxWikNjhSrOXm3XO3heZyaSPViJbpZt5DaqK+8xb6IPSkegPwtqazELhN03FENCWO36rX69fTmBFVqkYjA=
+	t=1739365100; cv=none; b=At1IHgq7R16M8Jm4y7dHwYS6ZWxWRc3My/jtmhG5N8kDlTmrPR4GQ+n6QkTOnWjat3NtP/6W6WkzVeI8VxtWpIYI5eydGpp1yqnRZhWniBW4IMk1J1Kq/HwJqsbTMsYLX6vULPP0g2pqZpS1Wymgr+rf3AFwTmJL/nSPUU0Mokk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739364515; c=relaxed/simple;
-	bh=EDhW1xwyL7isb9C2EmKd1PTwPrB+uBSZBAvwvbLxlsU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=arm3UrtdgEMUT2TFdTvDG1ZjwYbNgGUjzXldhxxMLGWId3sSb/xbSsxVm07h/B46K/AqRQU8sfMhU+3IxekS11a/gpGsCqj47pYOjHq7SPmlzZ2UFrYQBdU45UiA99p/ad41A1wCTdm2L7DNRM1DMMM24dUBS1EVWvL9ADY5oqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=j5pBgvZC; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4YtJ5T3Wp4z9sS2;
-	Wed, 12 Feb 2025 13:48:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1739364509; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EDhW1xwyL7isb9C2EmKd1PTwPrB+uBSZBAvwvbLxlsU=;
-	b=j5pBgvZCJxV57HJTeE5y2LPp56nXHIwxZvfgLlKWmkys1ydTVzWJfzON5zgpGilZdlArp3
-	rM3s/1WXQZAXcYlZftjqV2NmRMyPXh5OYim9lkb7Rhv9458jFeas8V/s7iemMO2jdZLyBD
-	iZwg4EoadKFcSWldNTTmJPYn8A3kv7CIcgg8onJ8o/yGo1k2WivmsqZa7tJt757sCLfhQ7
-	T+tGLnR3bPcwtPVD+mCVbNPaMYtQ0+lFxpVbZcp6/VZNTXa2UqZEjdblIvom6SG88kdB9d
-	8sgUYqjBQjLJogg9rQSJP5u7/aVvZKNudWR0SqneomklpOur0COijAj1kSwbcQ==
-Message-ID: <25ea7d23e7b778a0c2372cc2bbc87fc2b3742dca.camel@mailbox.org>
-Subject: Re: [PATCH v3 0/3] drm/sched: Documentation and refcount
- improvements
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Philipp Stanner <phasta@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Wed, 12 Feb 2025 13:48:25 +0100
-In-Reply-To: <20250207123652.27677-2-phasta@kernel.org>
-References: <20250207123652.27677-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1739365100; c=relaxed/simple;
+	bh=+rUyy8CCsAX49LoyMo4QlyZTIfngKhPrGjoTwwC4T/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IwiesL5Qg9yxLF/KybMQcb7AMBL76/rOW+jnC2+dwYMrLrSw55v189nkfspgUZYA5JLxc2g19y0b9VihFE/05/75r8H5wJI1o/XHeXMxkZjSr2jm5I5UyikYKxQMDBgzajQGj5R9XUHLHDTtSHksGgM+WWpQtGI8qXMALLi10xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aYoHh9I8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC30EC4CEDF;
+	Wed, 12 Feb 2025 12:58:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739365099;
+	bh=+rUyy8CCsAX49LoyMo4QlyZTIfngKhPrGjoTwwC4T/4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aYoHh9I8hOFC/rd6q6DuWBa0ELk6Z7OMZH+d1Po86Hca4RmKPfp6Iy748FXUdyIlI
+	 tgH/3yl0mOAPAoIko670EqeX9y9i+3JZ/uI7ZsPHzcVNNFWCQ27UkVj53+bdt/O6h1
+	 tp2zNyvG6uiP3W6uc1ax8M6WidyQaPTSueZo4zk6WWNhXIYT0nyl+heT4KgnulLxOT
+	 VgWKUUVaGzBd9JgaNBnvjddPhhnrvtOVueKPNh9Ht9jYirxxZuEV9VqTmcHVbKcyW5
+	 ewHSt4dDIHHeiLGHQBiKMVEehzQ+s32Auf+U/HtB+/DzK1kpDbUrePlehroB/oTObM
+	 X96pQV4d2Rp4A==
+Date: Wed, 12 Feb 2025 13:58:08 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org, "David S. Miller"
+ <davem@davemloft.net>, Andreas Noever <andreas.noever@gmail.com>, Avadhut
+ Naik <avadhut.naik@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Eric Dumazet <edumazet@google.com>, Hu Haowen
+ <2023002089@link.tyut.edu.cn>, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Jamet <michael.jamet@intel.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>, Paolo Abeni <pabeni@redhat.com>, Sean
+ Young <sean@mess.org>, Yanteng Si <si.yanteng@linux.dev>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Michael
+ Ellerman <mpe@ellerman.id.au>, Shrikanth Hegde <sshegde@linux.ibm.com>,
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, James Morse <james.morse@arm.com>,
+ "Nysal Jan K.A" <nysal@linux.ibm.com>, Tom Lendacky
+ <thomas.lendacky@amd.com>, Sourabh Jain <sourabhjain@linux.ibm.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Frederic Barrat
+ <fbarrat@linux.ibm.com>, Andrew Donnellan <ajd@linux.ibm.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao
+ <naveen@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ workflows@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 0/9] Extend automarkup support for ABI symbols
+Message-ID: <20250212135808.58d2f032@foz.lan>
+In-Reply-To: <Z6yFG_NntQfkwYli@archie.me>
+References: <cover.1739254867.git.mchehab+huawei@kernel.org>
+	<Z6yFG_NntQfkwYli@archie.me>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: hthkmhf8qheg5okcazx6mxy5af9jigei
-X-MBO-RS-ID: ed3e673e6865dc3df69
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2025-02-07 at 13:36 +0100, Philipp Stanner wrote:
-> Changes in v3:
-> =C2=A0 - timedout_job(): various docu wording improvements. (Danilo)
-> =C2=A0 - Use the term "ring" consistently. (Danilo)
-> =C2=A0 - Add fully fledged docu for enum drm_gpu_sched_stat. (Danilo)
->=20
-> Changes in v2:
-> =C2=A0 - Document what run_job() is allowed to return. (Tvrtko)
-> =C2=A0 - Delete confusing comment about putting the fence. (Danilo)
-> =C2=A0 - Apply Danilo's RB to patch 1.
-> =C2=A0 - Delete info about job recovery for entities in patch 3. (Danilo,
-> me)
-> =C2=A0 - Set the term "ring" as fix term for both HW rings and FW rings. =
-A
-> =C2=A0=C2=A0=C2=A0 ring shall always be the thingy on the CPU ;) (Danilo)
-> =C2=A0 - Many (all) other comments improvements in patch 3. (Danilo)
->=20
-> This is as series succeeding my previous patch [1].
->=20
-> I recognized that we are still referring to a non-existing function
-> and
-> a deprecated one in the callback docu. We should probably also point
-> out
-> the important distinction between hardware and firmware schedulers
-> more
-> cleanly.
->=20
-> Please give me feedback, especially on the RFC comments in patch3.
->=20
-> (This series still fires docu-build-warnings. I want to gather
-> feedback
-> on the opion questions first and will solve them in v2.)
->=20
-> Thank you,
-> Philipp
->=20
-> [1]
-> https://lore.kernel.org/all/20241220124515.93169-2-phasta@kernel.org/
->=20
-> Philipp Stanner (3):
-> =C2=A0 drm/sched: Document run_job() refcount hazard
-> =C2=A0 drm/sched: Adjust outdated docu for run_job()
-> =C2=A0 drm/sched: Update timedout_job()'s documentation
+Em Wed, 12 Feb 2025 18:25:15 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
 
-I would like to pull this in soonish, since I think pushback is
-unlikely?
+> On Tue, Feb 11, 2025 at 07:22:54AM +0100, Mauro Carvalho Chehab wrote:
+> > Now that ABI creates a python dictionary, use automarkup to create cross
+> > references for ABI symbols as well.   
+> 
+> I get three new warnings:
+> 
+> WARNING: /sys/devices/system/cpu/cpuX/topology/physical_package_id is defined 2 times: /home/bagas/repo/linux-kernel/Documentation/ABI/stable/sysfs-devices-system-cpu:27; /home/bagas/repo/linux-kernel/Documentation/ABI/testing/sysfs-devices-system-cpu:70
+> WARNING: /sys/devices/system/cpu/cpuX/topology/ppin is defined 2 times: /home/bagas/repo/linux-kernel/Documentation/ABI/stable/sysfs-devices-system-cpu:89; /home/bagas/repo/linux-kernel/Documentation/ABI/testing/sysfs-devices-system-cpu:70
 
-RBs for the last two patches by someone would be nice, though.
+Those two are new reports that get_abi.py detects after the recent changes.
+In the past, symbol duplication were detected only within the same group
+(testing, stable, ...). The new version can detect symbols that are
+duplicated on different parts of the ABI. In this specific case, the same
+symbols exist on both stable and testing.
 
-P.
+There is a fix for them already at:
 
+https://lore.kernel.org/linux-doc/673e9543783349b0fcf625018e38e4e93fe98f52.1738020236.git.mchehab+huawei@kernel.org/
 
->=20
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c |=C2=A0=C2=A0 5 +-
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 109 ++++++++++++++++-------
-> --
-> =C2=A02 files changed, 74 insertions(+), 40 deletions(-)
->=20
+> WARNING: Documentation/ABI/testing/sysfs-class-cxl not found
 
+I need to double-check verify this one, as it didn't appear on
+my tests. Are you getting it against docs-next or linux-next?
+
+Thanks,
+Mauro
 
