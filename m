@@ -1,151 +1,138 @@
-Return-Path: <linux-media+bounces-26027-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26028-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1836A31A6F
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 01:24:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D67DBA31A8A
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 01:35:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A6943A57BE
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 00:24:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 836B0167608
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 00:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDFE95680;
-	Wed, 12 Feb 2025 00:24:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E5F68F77;
+	Wed, 12 Feb 2025 00:35:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WMoxpFTI"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KaFcib7l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A95B65C
-	for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 00:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655781876
+	for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 00:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739319842; cv=none; b=PySiGz8qwPp++4j5WXGt1Wljq1c0p7YgR2RGdptlXXy3PEo8jETrpdvTwzG0tDXlJt6qmApSLDFS7N8ZKLKuZn/UmtyV5m7H7I154dK73RfwBY64FPJb0r2b/OWgIMQMwwhuayQpt4cbsA8mKF4JFsRyTvrer0wKInqObI2Jm9k=
+	t=1739320514; cv=none; b=RF4b3srjlFLCmGq5/sy66N37UhFwylK4wN2TLpVBxaLE7fY8InH1dCFGJXlcUx9mvCQm+/EHl/IWONLv/EmdQw3P+/go+CiQpuVltDf9RDT6lqXqG3NjDkeUZO1kRCyBBRqsAx+CdBh3kKj0BTXh8CobVx2BPPnYdbU901edSMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739319842; c=relaxed/simple;
-	bh=MMNIfstKpT3Xv+vjrM+xLax3j160hMjGDMFsgx2aZZc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MKlwq7g9YpnkGSmyGUhDpujTZrqP5WaUvll8DLEeXYuIeDpNqOKbT3e4iOBDJyHfdB77uXA8MVytAzdh8O5yhsteUizRyrTiJoaF8twwgEcaAvvTZOxDRL5yDZH9bWz48JQ/HZhDuDwWvAK+ICEOFxdnNucmY62ZazOTOqvHlHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WMoxpFTI; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-38dcf8009f0so2295977f8f.2
-        for <linux-media@vger.kernel.org>; Tue, 11 Feb 2025 16:24:00 -0800 (PST)
+	s=arc-20240116; t=1739320514; c=relaxed/simple;
+	bh=/zoYSnZhploCCxHOu5+795pfizcOWqSCa+DKwvVdtE0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=laBJtT6laz/K5w171cZIAJWORhlf9MiVetsnWe9t1VdtDfI5xOH8g3zoVON6w/YXc9Wh1tahEBtcuuqqGrQTkEyrWQDxMzy+V3v3oXTc+9sc5ZlOR5EeAQcKdF2AQuzi6WLDqbeSX4Qf3gvJOCMtinQYrUj+64LlOwSEznJ3Lmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KaFcib7l; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21f6022c2c3so5019865ad.0
+        for <linux-media@vger.kernel.org>; Tue, 11 Feb 2025 16:35:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739319839; x=1739924639; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pfGDmNVScHcIIXsQGynSfUjulJw6pyhwlJ38vLwzZWk=;
-        b=WMoxpFTIr73AN2BB4dxNfqAYPuDXPgwIoKsUoQlE7yqaKEcwWyYWw6QSFK7DKwc3ub
-         pnoa5I/kJUxdjrSj13jEfJrrE8eDbryizcfhPjsplswbje5dA4G+ShvRo2vf2tIz5DQq
-         tMQRyE4iibPNhyQygG3cINM+ynyvrhSvvaKgkh9s7NHmyJyYDmKXQBMLcUjB+cgajm3X
-         sLCO4J1mR2rmgC/bGWK9sxYTbtfI872QFEUbEC37096AeqCYe3Y5SNjvbjlymOmp+GGL
-         IAebTvxfG7qppsOO9i/CmEbH5xvlld44vsJ6ai8lHoyRCBO/JO2y/7uGAeOtBt51GxvS
-         ziMg==
+        d=chromium.org; s=google; t=1739320512; x=1739925312; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mZNbqOyLMkR4zYGETdYI1Ds8jvtDMMy7KcjMP1dhBIk=;
+        b=KaFcib7l3JP1dFKeUUGOXPV0NZQML1/16GFWQin+WN7dR/afG92y4BIzoXFC8L1M03
+         D+jLpEqcnN6AZQLgO7kUzWeS5Oxi4FJ5V6QF+qXZgrERUcZNQ88BpLNz05I8DH2RHfi6
+         5BSw5ffKEipoJHoEsBNLig+p8FncEsIXGQv+g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739319839; x=1739924639;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pfGDmNVScHcIIXsQGynSfUjulJw6pyhwlJ38vLwzZWk=;
-        b=Bb1/sYAHZq43R8JOWySs6r2sot+KS5rcJWGQ4oKC3Chl08D6PB3r7axHZ+vA6sEMTW
-         l5KRvVvDT2/b0Kq+u5IZXf3A5oU5M/YG+UpLH+ZGsiWRWjW92ED9IIMJXfksLkeOH+lW
-         Ne4KH+0BQb1K6MHQZjb7jAIVUa0mCp/fP99QMl0beQf+yMI/un5FNyWiPwozeas+lYnH
-         bcWQ/aSem4YfPdQ/aA2c69QHFSzJWhGiG9HkdgETdHQMVcpJF5q6kirL/XqSJQvJ+nh1
-         uCB/LOoF6BWFcvm9mzLmxtl0op+loBV08hVYpz65V1brjnRXmNzvBohwFhqBrww3BgKx
-         JKXw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhKAjK1lxLXvKGa720Fz1cYZs+B93qDE8vT4oTUQk+iyc0hYkM8LIsam0rKGk0EIzS68GL8RiDlMaqoA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YysU7zROq2wsWW+SdgrvrOX9RWbkbZRjmDHffOkeaCEI+9Wh9qD
-	oihB50l0EySdh5FNpvFNVQuhWc2XP6GL3B7oegazLU5a5QoydNRO4TS8C/pDAss=
-X-Gm-Gg: ASbGnctFQinicFoK8TmCQ3H8AcsmrK7NewxIAsbOnp1g/tDOfNLgZsuURqRJ6eWzVlp
-	GFQmYWfeT0RAZFqb62oWMFnB6zZ6cl/hCz+qWRvmfWIoQUx5QetnqW/VwefKg7EaoQCVzznamhs
-	hf1QQDasOt73P0t1syS8hDV3t+EYxt6M5RWG+nPVtg9qYGfT9ZZ6ZMEBCnxfc9DE1HLUAjpfEnl
-	nSUSWTNfgrIHTQH0HUd1RO/1P3NbuaZ+qqHuzuCY0w0vq03tePx5fTwA5GP4x/tEIqooq3REoHg
-	kQQQ4gHrL16VcPoEf5tBSgVjPwvGDPU679JKeKsaFTUHhC0afI2wKO1w6w==
-X-Google-Smtp-Source: AGHT+IFu89sJVtv0ICMn6U0AgL7LBis+tuWkq5wW4VledUbDa+V9LIa1AQ9mV/LDKZLoabTxS2lvoA==
-X-Received: by 2002:a5d:5f50:0:b0:38d:cbc2:29c3 with SMTP id ffacd0b85a97d-38dea28d03bmr739530f8f.33.1739319838684;
-        Tue, 11 Feb 2025 16:23:58 -0800 (PST)
-Received: from [192.168.0.156] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dcf35b15bsm12517006f8f.64.2025.02.11.16.23.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Feb 2025 16:23:58 -0800 (PST)
-Message-ID: <8d05999a-b623-4a3e-b611-3f917cb46b82@linaro.org>
-Date: Wed, 12 Feb 2025 00:23:56 +0000
+        d=1e100.net; s=20230601; t=1739320512; x=1739925312;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mZNbqOyLMkR4zYGETdYI1Ds8jvtDMMy7KcjMP1dhBIk=;
+        b=k0qcwypdX0z8bsLOBOkE2AfO9GIwzmScK3Q08pCMHRb1OLNJQDZMr0/hHS/Cs2n12y
+         EG1E0uSqLpgUeXojc5WcdSfE68S80dLe0bFedjy1NTcTlvafTqJV2UhPEHG42YkLLbFf
+         O3MxSWyCoVz8DUntpl3brFEU08Nc2jYl2Nf4ivZVP44wiDEOphj3sMse/hXooxDgyBl8
+         A0hESTctYXTfT1HcGy9QCVamVFcrBqoqugTN/cFF7lkn7enepoGKS8n5ZwYRemFIvENo
+         +GPDHY08iiFSNtfQe2Q6oTVxXz03m4B4QY7I1YI73vCHb8d6gLKnX7dlW7VcftvM5EfU
+         OhjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6+a1wStRAKC4HDA7zFADpsGozdfj3p7ZArNLX6UdeIHNiLN9bz2fVQj4shQVvgEPsg2SaM9bfXQLO4g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+hhRcJaMJFf8K0Oe9UYTXv6t+t9W2yvEC6W2B5lt4RvppEOe2
+	1POggka6MuE2mouXmgwbMs8qXcySsi3dccqqOG4705ACvtZpgggAGvpeH4AM3Q==
+X-Gm-Gg: ASbGncv+VcRlN+XfozQeqOEndoQkg65EPzxFlo9s4aubKpUYaBgn683i8k1UV0eEzHI
+	4oVcb1SlAVhSJgZ4DsmVfibGdZ2wcr0QuTS+VNUHeIw0kntZ1XeatNsnV0NZ2JQZTDzVLoAJ0/k
+	tMwMph6FVCIwUn8xOTBc5M3OYpdeOvUmlk1AXIbPMDcJFslBx3DX9LIGdMdC5EU5tVr2njpp6OH
+	oY62q0HqAot8MCSa/jC8/RGG7cTKdkCkLx+LmS5orJ0bSK2X3GYVJwYujdT29fQox+ewq2U5Zfj
+	rFNBFpl5ezbS7qT06AVocAcAZ1fL22lKDVZ1SKMKDIBoFIbAFds4jCKZrmFm2q8gPFRNQrkV
+X-Google-Smtp-Source: AGHT+IGU2vBf6I17uMlZ6vPzIppLSPDMm3Mc2t33rkKE8ywv2pPmz0SDcC2eFj6qRDS96L9Z49Rppg==
+X-Received: by 2002:a17:90b:510a:b0:2fa:2c61:3e5a with SMTP id 98e67ed59e1d1-2faa0913af0mr8652088a91.10.1739320512530;
+        Tue, 11 Feb 2025 16:35:12 -0800 (PST)
+Received: from nhebert9.pdx.corp.google.com ([2a00:79e0:2e13:6:34c2:323:b5a8:3074])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fbf999b639sm165958a91.38.2025.02.11.16.35.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Feb 2025 16:35:12 -0800 (PST)
+From: Nathan Hebert <nhebert@chromium.org>
+Date: Tue, 11 Feb 2025 16:34:51 -0800
+Subject: [PATCH] media: mediatek: vcodec: Enable HEVC main still picture
+ decode
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/4] Venus driver fixes to avoid possible OOB accesses
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
- <tfiga@chromium.org>, Hans Verkuil <hans.verkuil@cisco.com>
-Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250211-enable_hevc_still_picture-v1-1-0c06c0c9add2@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAKrsq2cC/x3MWwqDMBBG4a3IPDeQjHihWxEJJv7qQEglsVIQ9
+ 27o4/dwzkUZSZDpXV2UcEqWTywwr4r8NsUVSuZiYs2NZmMU4uQC7IbT23xICHYXf3wTFLeubuB
+ 0z52m0u8Ji/z+72G87wcNGPdLawAAAA==
+To: Yunfei Dong <yunfei.dong@mediatek.com>, 
+ Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Nathan Hebert <nhebert@chromium.org>
+X-Mailer: b4 0.13.0
 
-On 07/02/2025 08:24, Vikash Garodia wrote:
-> This series primarily adds check at relevant places in venus driver
-> where there are possible OOB accesses due to unexpected payload from
-> venus firmware. The patches describes the specific OOB possibility.
-> 
-> Please review and share your feedback.
-> 
-> Validated on sc7180(v4), rb5(v6) and db410c(v1).
-> 
-> Changes in v4:
-> - fix an uninitialize variable(media ci)
-> - Link to v3: https://lore.kernel.org/r/20250128-venus_oob_2-v3-0-0144ecee68d8@quicinc.com
-> 
-> Changes in v3:
-> - update the packet parsing logic in hfi_parser. The utility parsing api
->    now returns the size of data parsed, accordingly the parser adjust the
->    remaining bytes, taking care of OOB scenario as well (Bryan)
-> - Link to v2:
->    https://lore.kernel.org/r/20241128-venus_oob_2-v2-0-483ae0a464b8@quicinc.com
-> 
-> Changes in v2:
-> - init_codec to always update with latest payload from firmware
->    (Dmitry/Bryan)
-> - Rewrite the logic of packet parsing to consider payload size for
->    different packet type (Bryan)
-> - Consider reading sfr data till available space (Dmitry)
-> - Add reviewed-by tags
-> - Link to v1:
->    https://lore.kernel.org/all/20241105-venus_oob-v1-0-8d4feedfe2bb@quicinc.com/
-> 
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
-> Vikash Garodia (4):
->        media: venus: hfi_parser: add check to avoid out of bound access
->        media: venus: hfi_parser: refactor hfi packet parsing logic
->        media: venus: hfi: add check to handle incorrect queue size
->        media: venus: hfi: add a check to handle OOB in sfr region
-> 
->   drivers/media/platform/qcom/venus/hfi_parser.c | 96 +++++++++++++++++++-------
->   drivers/media/platform/qcom/venus/hfi_venus.c  | 15 +++-
->   2 files changed, 83 insertions(+), 28 deletions(-)
-> ---
-> base-commit: c7ccf3683ac9746b263b0502255f5ce47f64fe0a
-> change-id: 20241115-venus_oob_2-21708239176a
-> 
-> Best regards,
+Mediatek devices that support HEVC also support the main still picture
+profile, but today, the main still picture profile is excluded.
 
-I think this series is ready for merge.
+This removes the skip mask for HEVC, and enables the main still
+picture profile decoding.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Nathan Hebert <nhebert@chromium.org>
+---
+On Mediatek devices that support HEVC decoding, HEVC Main Still Picture
+profile is also supported by the SOC and firmware. However, this
+capability is turned off in the vcodec driver.
+
+This removes the code that disables HEVC Main Still Picture profile
+decoding. Validation of the decoder has been done via V4L2-backed
+Android CTS tests on an MT8196 device.
+---
+ .../media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c   | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+index afa224da0f41..d873159b9b30 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+@@ -152,8 +152,6 @@ static const struct mtk_stateless_control mtk_stateless_controls[] = {
+ 			.id = V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
+ 			.def = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
+ 			.max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
+-			.menu_skip_mask =
+-				BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
+ 		},
+ 		.codec_type = V4L2_PIX_FMT_HEVC_SLICE,
+ 	},
+
+---
+base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+change-id: 20250211-enable_hevc_still_picture-26b35eb08270
+
+Best regards,
+-- 
+Nathan Hebert <nhebert@chromium.org>
+
 
