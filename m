@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-26094-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26095-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6EEA33087
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 21:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6D7A3308B
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 21:13:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2FF7C188B39E
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 20:12:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9D2C188BBDB
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 20:13:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51CD9201025;
-	Wed, 12 Feb 2025 20:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93C54201036;
+	Wed, 12 Feb 2025 20:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DO0KSLQ6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pC64zpCj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74A3201024
-	for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 20:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4B2201018
+	for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 20:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739391126; cv=none; b=l8mk7RR3Hg92c2GPSU7SxZkhCyDOkHMfEJMk6SUBGQx3dZ4IXv2EbmeUQvriKBrewMQiQ8M4to04kGNVMRBngyNe2PiY8hPzTTjblgoFpRenGJocmzujoEv5YwYngrcybvvt5dJ+ZrcrBRW+VGkWOxBPvRlHXk5sCuH5JgQqFLk=
+	t=1739391199; cv=none; b=iSO3FvrmDLL190v03QhjhEcuJFMEYH4Q86G5UdFSdhJ1Oy3b5Q9R+VqHJCMXGeg3p1R9ne/NmQBOMjxyESBmFJTlSZVFH0EsYTmqK99iFI5tk6ZdWb92WnuKidTn52MBwBjYqzfZM8/K26tHOZUIDfFmMtxKPudOZw2RLv9FXrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739391126; c=relaxed/simple;
-	bh=efb/0y4ygJFKnTQ/RDAjQmojXap8ztAoDsZftmAaz4Y=;
+	s=arc-20240116; t=1739391199; c=relaxed/simple;
+	bh=j/NWfqrGg2Htwk0XbFpelCllT9Cca3nYwhWHYC4gO5k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j2FEUu6m8oiEhu7GGSiBZDY/abtP8BaYHtQagISzSxDr3OkLUkbky06McxNZNBzUTyYT2WxfaKFI3a3S9TmYvdHHYwzGw7QmdFFM/fRKvsxB669QBhjKDwhO+gZFj7A7XLWYXCbvDRHjpmEEZ5Yf8rBhx51fmIXTcwmlz6qos3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DO0KSLQ6; arc=none smtp.client-ip=209.85.221.43
+	 In-Reply-To:Content-Type; b=AGoNztnZCh0ue3b1e0zceyzPy+NfQi7aQ1TB09CSRuOQQSkW+QREtL1hLfKOrTwxxrn0HI6kF8ZD/FdLnQ+Vq5bgAl0Qb/YF92DgimB/SC9rB1QzueEAvCMWiihpgliEbbkjW4TF1T+/ypmZ7RolSgW4xDh0k782cy+ipj70d7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pC64zpCj; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-38c62ef85daso11324f8f.3
-        for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 12:12:04 -0800 (PST)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43938828d02so159565e9.1
+        for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 12:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739391123; x=1739995923; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1739391195; x=1739995995; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cGuh2UpFaa2uhSTti4wLTQGn5xlWBin8bdkOwKV8rOc=;
-        b=DO0KSLQ60Vs9z5Vv4vaalWl95wQ0j9qgGEtKDyYUIyNFo1iVYDm6ABbTRnENb6Pwiy
-         pAj7C6++cjBY4i6vKGeMVWNG8PCJzFOWi6omsEOEsbYvgCIwtXs/+SDr0NcKHB+clR/C
-         SWEO3GDeXNsL6xSOP45aQQ3RZqagzGXebpxKaEG8fwFZdGqBj/tYJ5HcAAbgppm7PVd9
-         aA2burxOjQfAsAZwlWd6lMEH2zRXcHt2BUvuHHdwipzQZKTYERf6QYmL2Xanfctcqz78
-         9OHFy2dZb7Lc448oR5AroIUn0pQqjfneKHxC6ae8AIpc3pI9qGlKxwYEoQ/K2x94OM17
-         7cQA==
+        bh=siR4X3wXu1dY8Wk3/59DZPVn6YOYAggv/c5RGQ73U1w=;
+        b=pC64zpCjEulX9tkJR0KNJH6VNRUaBX+WgIZ6e7dxexo8brdVvGYNerOs5mfpcPe8yH
+         rfInGJHNNfvX/zqEGPucaxWYQPzgqoFXFW+++yZotrqyG+JX45VOGPj6owHQv1pPdZO2
+         g9AkcypH94DqLK+bdDVXrqYNxlEZTD7/mWlxAFncnxdKrz5lsoOXpH1FXShCyLuL6uCK
+         LWufQBt/6+yrKhKODg05vVrnqKt/I6gdOTJk0GgQ5tgAQZQdZodxmXLd8DTZIVhA16n9
+         lNHBj1xcNUSV8Ci3qaVvOhGG0dhfe7Hw5GaXjRQutF1P4smbBZc30w3B1nniFd7Xqqf6
+         O0Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739391123; x=1739995923;
+        d=1e100.net; s=20230601; t=1739391195; x=1739995995;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cGuh2UpFaa2uhSTti4wLTQGn5xlWBin8bdkOwKV8rOc=;
-        b=ZTfX1HfG4WcooRxzuM+wWUoGrvEL6IEmuPXvEGJTpUc3660Z8+2hjNCEHR1auOY+ow
-         RVhjGF/Ff66DuN3R0C/yCG01CIL8nj6Q83rcf1rwVVR17EbeF/M5AjxW71RNF+GllEzY
-         Xwdy1MnZ53KYcC0+gu67+QQIdL9LaAp6MAeum9q6CSUVe+loi+fHSqOfxCQse32tZ0jn
-         qojvEqF5pdfxqwes43JTBNvDT3AOB+cqbHHqD/PoTgtL3OK/UpFF/2acERtu813r9mSn
-         E9+WqSUx63FspJCpX7LjIrWiI6jOsrrnHo9GDGKal8oJPm+6WR+rnEtHgrWgPawg6Ojl
-         SQ0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVYdke0ueX1PK2364FUCjZeeNOrjd2kTvaB6tzzN5LApEQYDgcW6iJ371rpmcghhnqJvo9KVDkFmihNYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwW07MFr1RXEvR5H8GCfzkAdF65pNjPaZWYRySzclWr3Mj+aJrO
-	WT0RTzTs+UY/2QwK3SmaUOXGiAeK6ZmyFv3IXMHRsxMwuCpEnct/m/30cXYE08w=
-X-Gm-Gg: ASbGncvE6zW2aZ/g0035LIuD6aCn1e3DEDTGzr4PxsPY1TSXb+j7NBS2ll3XBHvqm3G
-	UdwwukmjRM0QOWBghNW87ZGF/xMq/y4TpfJ3Cc8YIoUpUwYaNCHZ4YclLEWoPyqojWKu4Ct5h6L
-	2zISBqAzVieTZN2dLhtKTyFkSLwnFNszU2dCby/lDXEQauMlPjlZLqYZIEv7wOHUwCH9EcfLSY2
-	Y687EzijkxLJw+ekNvxomOxigCnbqCb00i9gsHDmYQY2nmkSx957SfdFEWXzcIjQTzRyS1v5Oca
-	G1LDXlbt820NGfHVCO6J+gUNaro6d5aX1eE=
-X-Google-Smtp-Source: AGHT+IEfGn9LtFHGk0U8Y+QHBiuO20iTGGl0VWaOwFT9tOI69q9FhNUAIo2hVt9dHR5dTGoa1omXSw==
-X-Received: by 2002:a5d:5f42:0:b0:38a:9118:c09c with SMTP id ffacd0b85a97d-38dea3314cfmr1510971f8f.11.1739391122959;
-        Wed, 12 Feb 2025 12:12:02 -0800 (PST)
+        bh=siR4X3wXu1dY8Wk3/59DZPVn6YOYAggv/c5RGQ73U1w=;
+        b=NMiY9FhRSrg21+gx2xjSiAjUjUS96f/eQq2vEa3glTVDgkOfvGmzW5hvMCWFxKBDLg
+         HuCmSkGkYTig4fgOeTDQ+EY+q2kJdPBdYBTzzn3yHrChCoFhJpQXrtj7oM0uDAeRSX8S
+         P4DOledjaW/Wleah2MH3xuUQP83osrI2uR0MvolrLOovTJ7ZvaJdmPrAw3N4yR1tfFnz
+         JP+ZeBssfyTv4PED9+MPtUfdX/lFAmB70aTeS3KF2YisyIqzrUd7ndqiSAZvqh9qtygZ
+         k+p+nQW2twy9DiruN6JIEa3Vc0iofV8tSrLtV4CsuQX+U7UA60x0Je3S4lwzcvitZ8y6
+         VlZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkXWAW3w3k2spq7zecME0kIoTUVWyzJnSWTdcS+i5Lp7lymlAZodhStf/Qi5XkhvDzmlmXDz/SxGrBIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHKmqscIJyFYXo8Xxqi7u9iogQcSO1cKILyz+P7VxOmIpyqD3c
+	KTFl6deqzwi/3K6Q9yBtSO2AOdYu5LPQUuer+Ggdzb9pB01e01jsV8SIUT3NW0c=
+X-Gm-Gg: ASbGncuc0u0eXyLG+lldPnGNvky2S+wJLeWFGU233UU04B9iUx6wALcXmMJB+kexlpI
+	thl/JVGBHi7kzFCsyhr4WYoTtHjXvqGvL4SmwzsbMVS4oRu0Nq/5fZRxlvGtANfdNvDjR16090+
+	1bEJvhn29A2Ysk7K1ND+IPvzYqcJluimonAgRPLnRXZ95J5MtBcm0v11EyYzDqo7X9C2v+zQgEQ
+	1u2kRCEnjcxUzoBAeb3pjcfYTpBHmKvKrdUCVoVF2a86RYEsTqNH2/tD7qLBZR+JNBbF0wxOnR9
+	jX5AxJ7RtxMOFuQEwzpkIOz0uKHW7uydZf8=
+X-Google-Smtp-Source: AGHT+IHikjJvp5u8qCa0vEGl29r0IoBtI4+HDUF6b7Z7YpsAzvHLbGnS/H5Prc+T/NKOySlDUqzPlA==
+X-Received: by 2002:a05:6000:400b:b0:38d:cab2:91dd with SMTP id ffacd0b85a97d-38dea270b48mr1432182f8f.6.1739391193872;
+        Wed, 12 Feb 2025 12:13:13 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a1aa6f7sm28927165e9.32.2025.02.12.12.11.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38dd4ebdb8csm12825633f8f.55.2025.02.12.12.13.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 12:12:02 -0800 (PST)
-Message-ID: <416d75fd-40d0-45d7-9590-0322abb480ca@linaro.org>
-Date: Wed, 12 Feb 2025 21:11:58 +0100
+        Wed, 12 Feb 2025 12:13:13 -0800 (PST)
+Message-ID: <83f805b2-afa7-4939-87c5-840d9aaf2443@linaro.org>
+Date: Wed, 12 Feb 2025 21:13:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,7 +82,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] media: i2c: Add driver for Sony IMX728
+Subject: Re: [PATCH 3/4] arm64: dts: ti: k3-am62a7-sk: Add overlay for fusion
+ 2 board
 To: Sebastian LaVine <slavine@d3embedded.com>, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
@@ -116,7 +117,7 @@ Cc: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
  Vignesh Raghavendra <vigneshr@ti.com>, Will Deacon <will@kernel.org>,
  Zhi Mao <zhi.mao@mediatek.com>
 References: <20250212195656.69528-1-slavine@d3embedded.com>
- <20250212195656.69528-3-slavine@d3embedded.com>
+ <20250212195656.69528-4-slavine@d3embedded.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -163,198 +164,96 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20250212195656.69528-3-slavine@d3embedded.com>
+In-Reply-To: <20250212195656.69528-4-slavine@d3embedded.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/02/2025 20:56, Sebastian LaVine wrote:
-> +static int imx728_detect(struct imx728 *imx728)
-> +{
-> +       int ret = 0;
-> +       u64 minor, major;
-> +
-> +       cci_read(imx728->regmap, IMX728_REG_VMAJOR, &major, &ret);
-> +       if (ret != 0) {
-> +               dev_err(imx728->dev, "Could not read PARAM_MAJOR_VER!");
-> +               return ret;
-> +       }
-> +       cci_read(imx728->regmap, IMX728_REG_VMINOR, &minor, &ret);
-> +       if (ret != 0) {
-> +               dev_err(imx728->dev, "Could not read PARAM_MINOR_VER!");
-> +               return ret;
-> +       }
-> +       dev_dbg(imx728->dev, "Got version: %lld.%lld", major, minor);
-> +
-> +       return 0;
-> +}
-> +
-> +static int imx728_reset(struct imx728 *imx728)
-> +{
-> +
-> +       int ret = 0;
-> +
-> +       // Prefer hardware reset if available.
-> +       if (!IS_ERR_OR_NULL(imx728->reset_gpio)) {
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 27fb3c1be732..bf6a48da0887 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21890,6 +21890,7 @@ M:      Stuart Burtner <sburtner@d3embedded.com>
+>  L:     linux-media@vger.kernel.org
+>  S:     Odd Fixes
+>  F:     Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> +F:     arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso
+>  F:     drivers/media/i2c/imx728.c
+> 
+>  SONY MEMORYSTICK SUBSYSTEM
+> diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
+> index f71360f14f23..fcd8d11e5678 100644
+> --- a/arch/arm64/boot/dts/ti/Makefile
+> +++ b/arch/arm64/boot/dts/ti/Makefile
+> @@ -31,6 +31,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-am62-lp-sk-nand.dtbo
+>  # Boards with AM62Ax SoC
+>  dtb-$(CONFIG_ARCH_K3) += k3-am62a7-sk.dtb
+>  dtb-$(CONFIG_ARCH_K3) += k3-am62a7-phyboard-lyra-rdk.dtb
+> +dtb-$(CONFIG_ARCH_K3) += k3-am62a7-sk-fusion-2.dtbo
 
-Here can be ERR (although why?) but...
+I don't see the overlay being applied.
 
-> +               gpiod_set_value_cansleep(imx728->reset_gpio, 1);
-> +               usleep_range(1000, 10000);
-> +               gpiod_set_value_cansleep(imx728->reset_gpio, 0);
-> +               msleep(100);
-> +       } else {
-> +               // Software reset.
-> +               cci_write(imx728->regmap, IMX728_REG_RESET_0, 0xc3, &ret);
-> +               cci_update_bits(imx728->regmap, IMX728_REG_RESET_1, 0x1, 0x1, &ret);
-> +               msleep(100);
-> +       }
+> 
+>  # Boards with AM62Px SoC
+>  dtb-$(CONFIG_ARCH_K3) += k3-am62p5-sk.dtb
+> diff --git a/arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso b/arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso
+> new file mode 100644
+> index 000000000000..68e06d643bfd
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso
+> @@ -0,0 +1,115 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * DT Overlay for Fusion 2 (FPD-Link IV) board on SK-AM62A
+> + * https://www.ti.com/tool/J7EXPAXEVM/
+> + *
+> + * Copyright (C) 2024 D3 Embedded - https://www.d3embedded.com
+> + */
 > +
-> +       return ret;
-> +}
+> + /dts-v1/;
+> + /plugin/;
 > +
-> +static int imx728_power_on(struct imx728 *imx728)
-> +{
-> +       int ret;
+> +#include <dt-bindings/gpio/gpio.h>
 > +
-> +       ret = clk_prepare_enable(imx728->clk);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       imx728_reset(imx728);
-> +       return 0;
-> +}
-> +
-> +static int imx728_power_off(struct imx728 *imx728)
-> +{
-> +
-> +       if (imx728->reset_gpio) {
-
-Here cannot.
-
-> +               gpiod_set_value_cansleep(imx728->reset_gpio, 1);
-> +
-> +               usleep_range(1, 10);
-> +       }
-> +       clk_disable_unprepare(imx728->clk);
-> +       return 0;
-> +}
-> +
-
-
-...
-
-> +
-> +static int imx728_set_stream(struct v4l2_subdev *sd, int enable)
-> +{
-> +       struct imx728 *imx728 = to_imx728(sd);
-> +       int ret;
-> +
-> +       mutex_lock(&imx728->lock);
-
-Just use guard. That's actually perfect candidate.
-
-
-> +       if (imx728->streaming == enable) {
-> +               mutex_unlock(&imx728->lock);
-> +               return 0;
-> +       }
-> +
-> +       if (enable) {
-> +               ret = pm_runtime_get_sync(imx728->dev);
-> +               if (ret < 0) {
-> +                       pm_runtime_put_noidle(imx728->dev);
-> +                       goto err_unlock;
-> +               }
-> +
-> +               ret = imx728_start_stream(imx728);
-> +               if (ret < 0)
-> +                       goto err_runtime_put;
-> +       } else {
-> +               ret = imx728_stop_stream(imx728);
-> +               if (ret < 0)
-> +                       goto err_runtime_put;
-> +               pm_runtime_mark_last_busy(imx728->dev);
-> +               pm_runtime_put_autosuspend(imx728->dev);
-> +       }
-> +
-> +       imx728->streaming = enable;
-> +
-> +       __v4l2_ctrl_grab(imx728->ctrl.h_flip, enable);
-> +       __v4l2_ctrl_grab(imx728->ctrl.v_flip, enable);
-> +
-> +       mutex_unlock(&imx728->lock);
-> +
-> +       return 0;
-> +
-> +err_runtime_put:
-> +       pm_runtime_put(imx728->dev);
-> +
-> +err_unlock:
-> +       mutex_unlock(&imx728->lock);
-> +       dev_err(imx728->dev,
-> +               "%s: failed to setup streaming %d\n", __func__, ret);
-> +       return ret;
-> +}
-> +
-> +static const struct v4l2_subdev_core_ops imx728_core_ops = {
-> +       .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> +       .unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +&{/} {
+> +       clk_fusion2_25M_fixed: fixed-clock-25M {
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               clock-frequency = <25000000>;
+> +       };
 > +};
 > +
-> +static const struct v4l2_subdev_video_ops imx728_subdev_video_ops = {
-> +       .s_stream = imx728_set_stream,
+> +&exp2 {
+> +       p9-hog {
+> +               /* P9 - CSI_RSTz */
+> +               gpio-hog;
+> +               gpios = <9 GPIO_ACTIVE_HIGH>;
+> +               output-high;
+> +               line-name = "CSI_RSTz";
+> +       };
+> +
+> +       p19-hog {
+> +               /* P19 -CSI_SEL2 */
+> +               gpio-hog;
+> +               gpios = <19 GPIO_ACTIVE_HIGH>;
+> +               output-low;
+> +               line-name = "CSI_SEL2";
+> +       };
 > +};
 > +
-> +static const struct v4l2_subdev_pad_ops imx728_subdev_pad_ops = {
-> +       .enum_frame_size = imx728_enum_frame_sizes,
-> +       .enum_mbus_code = imx728_enum_mbus_code,
-> +       .get_fmt = v4l2_subdev_get_fmt,
-> +       .get_frame_desc = imx728_get_frame_desc,
-> +       .get_frame_interval = imx728_get_frame_interval,
-> +       .get_selection = imx728_get_selection,
-> +       .set_fmt = imx728_set_fmt,
-> +       .set_frame_interval = imx728_set_frame_interval,
-> +       .set_routing = imx728_set_routing,
-> +};
+> +&main_i2c2 {
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +       status = "okay";
 > +
-> +static const struct v4l2_subdev_ops imx728_subdev_ops = {
-> +       .core  = &imx728_core_ops,
-> +       .video = &imx728_subdev_video_ops,
-> +       .pad   = &imx728_subdev_pad_ops,
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops imx728_internal_ops = {
-> +       .init_state = imx728_init_state,
-> +};
-> +
-> +
-> +static const struct v4l2_ctrl_ops imx728_ctrl_ops = {
-> +       .s_ctrl = imx728_set_ctrl,
-> +};
-> +
-> +static int imx728_probe(struct i2c_client *client)
-> +{
-> +       struct imx728 *imx728;
-> +       struct v4l2_subdev *sd;
-> +       struct v4l2_ctrl_handler *ctrl_hdr;
-> +       int ret;
-> +
-> +       imx728 = devm_kzalloc(&client->dev, sizeof(*imx728), GFP_KERNEL);
-> +       if (!imx728)
-> +               return -ENOMEM;
-> +
-> +       imx728->dev = &client->dev;
-> +
-> +       imx728->regmap = devm_cci_regmap_init_i2c(client, 16);
-> +       if (IS_ERR(imx728->regmap))
-> +               return PTR_ERR(imx728->regmap);
-> +
-> +       imx728->reset_gpio = devm_gpiod_get_optional(imx728->dev,
-> +                                            "reset", GPIOD_OUT_LOW);
-> +       if (IS_ERR(imx728->reset_gpio))
-> +               return PTR_ERR(imx728->reset_gpio);
+> +       i2c-switch@71 {
+> +               compatible = "nxp,pca9543";
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               reg = <0x71>;
 
-So can it be ERR after that point? Looks like not.
+reg is always the second property. See DTS coding style.
 
 
 
