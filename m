@@ -1,408 +1,296 @@
-Return-Path: <linux-media+bounces-26032-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26033-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02422A31D49
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 05:10:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A20B2A31DA3
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 05:57:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98AFA3A6B97
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 04:10:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 085FB1886A8B
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 04:57:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A1811E1A05;
-	Wed, 12 Feb 2025 04:10:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 448F51F8937;
+	Wed, 12 Feb 2025 04:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e7fqtg4Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3Ka9cjg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A438271835;
-	Wed, 12 Feb 2025 04:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739333442; cv=none; b=JCAF07EycoyMPvi6VHfFQDqViEPXtJqgYVxNR2T+ltwUOHjyPggpACnOtcd3p36ISau48Q0YuJIu10VrXMmG3xIfhC6OIQdndZT83MeyGmqyNEN9LU1Cfa0zfNQxrX0k+Sxspl2SmwI99A8v1N8w+ihwXpv01xH8rHXMeWVFiak=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739333442; c=relaxed/simple;
-	bh=7Tfds7NKVEl85gfnoyxpDeu8Jiy4PnIL5zQnprI8QJ4=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=eaw/aZjdjsvMuu/rESixuX1JdSxk3uouO7zX9eR5eNLMtXD34jITPP2IWSGhq80MyCcUvok9NY3IL9DZjdeFuCTWMGK0nhpUBdSWhU1COIYI2rTVTE6NnF3bOGs5VHgP8BdGpsA81WoJfRzBDtV68GTdyiYhmr3uoyVNeYCS+go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e7fqtg4Q; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959F55474C;
+	Wed, 12 Feb 2025 04:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739336247; cv=fail; b=SpFeZ+moZQXTeos6F/APu5uB+pXqt0qMuHK5K4d4gGFsyq+EPUhrqHwcriGqfrWEWWjlPR/542TEkxViS61GNGpabyxeNDxD2gGdaewrM5PyXaNTi4ldSrmpSPyaBRG4hza26u6e3HiRj9/YW0j4WEAMttw3wg4mX/i1M7tCWpQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739336247; c=relaxed/simple;
+	bh=AQpPbs3ANiO1zq2hKzoZ8mztP1k1Qwws2zEi1j6lenE=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=sbzwtey7z9MmHLjqCOgDdaIt4zHr2dZazWjEWSZ8TOJLzz6bP1FaTVGKEQuVwhvSYY3kXZdLXznsgOrK8E31Ms/5OqtL+6d0Uvdn+wto6SrsLKf9Eh0I9osvkh43bMueej44YETmmWupIiBYwpAltBYE60Uz4h7eTQ5EUqVIQBo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3Ka9cjg; arc=fail smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739333441; x=1770869441;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=7Tfds7NKVEl85gfnoyxpDeu8Jiy4PnIL5zQnprI8QJ4=;
-  b=e7fqtg4QaQpXMzFcKScyYmaS05lqdMMJxvQtxPVgZFygOIoNbLzAhLvZ
-   ZkCEJLCDTI1BOhPowWtkMoBJJhP4+TfB1p6bfOR+H5jZzxx0XXU1UOh6l
-   l6accclL4luW9vCeGSno5bBaEaqcvvpJxSLFnOmqlLYbWMorTGTmHUs3Q
-   eL2IE9v2oiOil9VAG1hqsr8IgTdJmvbtIQvSxsNT5lcbTqHndGQN3jC8/
-   2PrRU3LrzHMbcZV1/9D5dIXw7raRLM4TXb1r2YakSgNdDZujEBR+1oi2U
-   suN344zVoctq97PGnIKxrwrEsXqAkFyaTiV261ndrf8FoB+Vr+Clrao5c
-   w==;
-X-CSE-ConnectionGUID: 7BoU0k6tQI2IJn3YqPRVzA==
-X-CSE-MsgGUID: C886USShSfmzr00D15YglQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39837595"
+  t=1739336246; x=1770872246;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AQpPbs3ANiO1zq2hKzoZ8mztP1k1Qwws2zEi1j6lenE=;
+  b=d3Ka9cjgEmfzZJuTRcc43Ho+v4SckzprnZJeHYG5DL9/IBkyppBX0vP6
+   LN8VREtcry8WFK+Xo3brdgzvg/NJZk3vu/t7MiEey+bS/Q3y4kYFZWYMp
+   VQd7YsAWtM8A+jrozg7syV7cY/lY+TjWRlUwWy1bKXArKgRvMK5hPE1IM
+   bDvo/1o/O/sxQNhIgIMqKmdEqAATm/uoMpwbG2faKzlNJhBJqNNBBenvn
+   JMKb2y3Xdt/vCaavd1Aw4enWQNv/FiuXN+uPJOVX230+0kjBxoNnRSqhp
+   SCf8fZwP4m1LVTAB2FmuoJIOmtKwAgajJ7tOiN6EcG3jOmK1HEPM+MrRd
+   g==;
+X-CSE-ConnectionGUID: w4AZ1HXsQo+ww9iw8+Zenw==
+X-CSE-MsgGUID: Z0ZTUTNVSm+gcYBWlPFwlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="40122054"
 X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="39837595"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 20:10:40 -0800
-X-CSE-ConnectionGUID: 78eT5DEhTT2MOJmyNY+xYw==
-X-CSE-MsgGUID: KL1lFhfyTCuiakA9WLt8xQ==
+   d="scan'208";a="40122054"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 20:57:25 -0800
+X-CSE-ConnectionGUID: iVq0sBg+QEqvWFSfYrLTJQ==
+X-CSE-MsgGUID: 6kJ4X5b+S2OKsq0KR4WeKQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; 
-   d="scan'208";a="112921356"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 20:10:36 -0800
-Subject: Re: RFC: How to deal with the INT3472 handshake GPIO found on Intel
- IPU6 MTL?
-To: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
- Hans de Goede <hdegoede@redhat.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- Dan Scally <djrscally@gmail.com>, Bingbu Cao <bingbu.cao@intel.com>,
- Alan Stern <stern@rowland.harvard.edu>, "duanek@chorus.net"
- <duanek@chorus.net>, "Yao, Hao" <hao.yao@intel.com>
-References: <59f672c3-6d87-4ec7-9b7f-f44fe2cce934@redhat.com>
- <Z5c6Yef3KBS6VbTC@kekkonen.localdomain>
- <ef5a8144-d60b-4719-926d-35e9fea5a435@redhat.com>
- <Z5y3XuKbdJqR_W-T@kekkonen.localdomain>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <2796d5a8-7c52-ef3e-f274-e3f5af2991ef@linux.intel.com>
-Date: Wed, 12 Feb 2025 12:08:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="113608302"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Feb 2025 20:57:24 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Tue, 11 Feb 2025 20:57:24 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Tue, 11 Feb 2025 20:57:24 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.177)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 11 Feb 2025 20:57:22 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yKLj7DOMTgx0hPSW8+c0iJIr6MMT2h4jO+I8QvYu6Hug5c2r4+PZXkY48OZE1wuHPqZf1GpYu5tshs+ELjYqhdi2Fatw+j1NmMEx2AzvgBnAjJRrZyH2aNYHQJavOkRLbGbr6OPHaDW8d9noBiOHQZerxJwD7ZIE2t5LHV4Q1Q6U8Fl/lvqApGmwxzf1YgyutgRNxN4P6JHevhLtCmvbglfAQ9gJZpIISIfLPzw4QIsWUlamrdwn7/bIkoNTig5zeeUWZGUQjVDY6D4EWK8bx3OlY34FxpeZ1C/2ksZgLPkZ+JuGeA20J+UnkYodOHXlKWpbXhMnQ8VaAy8x7xHIQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9xS19ITpW6p3lFQ69S9JrjzYnurvyZFlE9K3RIGnEBE=;
+ b=nMI92rH0fDDDf8rVdmxegIxVWxm4KvaLE3lDWEZ6/L26BJk+cgwBWW5rEr7jyLGF3/jQIi3zsu/W1xgl4//nfqrb9rDqDINc/HHw20Hro8YA8JrjT47FmbCtzRJvHQVt/jffrw3KwzlDdoczM/8cOyBU5z8ftA7R/rRwPNcKycT66Xmkl5szkWEmCfRgMAOHv2n0zrYnt20M/RJfk5XRjv559uU/fYVW2jQ1/A4JfqIMEqqjljBHzaSJALFj7trjzFHrLv9lOlXMecMfZFhy6/SmvKZXXJLduNhX8vtC0QtN1GAg02G3tE27ZAgyaFZVCsoMSHzhq/0QJTUCEFJEdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by CH3PR11MB8702.namprd11.prod.outlook.com (2603:10b6:610:1cb::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.11; Wed, 12 Feb
+ 2025 04:57:21 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%3]) with mapi id 15.20.8422.015; Wed, 12 Feb 2025
+ 04:57:21 +0000
+Date: Wed, 12 Feb 2025 12:57:07 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>, <kvm@vger.kernel.org>,
+	<linux-crypto@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+	<linux-media@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<intel-wired-lan@lists.osuosl.org>, <chrome-platform@lists.linux.dev>,
+	<linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<virtualization@lists.linux.dev>, <linux-watchdog@vger.kernel.org>,
+	<linux-erofs@lists.ozlabs.org>, <rcu@vger.kernel.org>,
+	<oliver.sang@intel.com>
+Subject: [linus:master] [treewide]  b04e317b52:
+ INFO:task_blocked_for_more_than#seconds
+Message-ID: <202502121025.55bfa801-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR02CA0026.apcprd02.prod.outlook.com
+ (2603:1096:3:18::14) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <Z5y3XuKbdJqR_W-T@kekkonen.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|CH3PR11MB8702:EE_
+X-MS-Office365-Filtering-Correlation-Id: c46323ac-296c-42bc-785a-08dd4b21bb95
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?uo0w6I6vEaKTOCsL7J8ifJ45cTTuQ7UqOValydjixMDw3twVrS4OVfepdsDw?=
+ =?us-ascii?Q?PcyRBJ07OcBrIf/LxcwO/99xJKp9q0UG29kWiCFHsxg6fpaJa+Oz4o5aBLl1?=
+ =?us-ascii?Q?3rznIjpUm1kISONqnkSnFlac+Fr2j85zPQiKhlw9az66GnuRfky7G7GJnI0A?=
+ =?us-ascii?Q?E+LmTkYnsVET7KtAFJthQuNXyp846a+QPGAkwYEoTPuneoan5UMt8CmzZ4Bm?=
+ =?us-ascii?Q?PGSdCSfNHSORQ3nELCE5IoWY1O12yKyZOioIebPLhVzYLeQe7ltUV7TxO7NB?=
+ =?us-ascii?Q?1Y31gxPssspJHy1rQPtlnPkxLQ6ipFsvp7smEw4wETmrpj+RsElD3MItteKI?=
+ =?us-ascii?Q?HLq5901/2WweX8xqFcUOrMUydVquWbPktX2zxTv7+STmLBpUAfHGJx9wPm2Y?=
+ =?us-ascii?Q?t3vi6rg0W6AOLMRJEsW3ZyobsLab8zfYT2J+m/DNmL8Wub0xShPZ/Equrk7v?=
+ =?us-ascii?Q?oMxvfvwJmuNkWzg6QgNdlqhczdn6rHlgfRoJmtXiM3+FyEvX+JgAsaBKr3cN?=
+ =?us-ascii?Q?zzQdHHp/h+2L1BrnRCgnKwmRrvv3Zo5hBDHAICua8UY8QQLY6E+TOpBuczJb?=
+ =?us-ascii?Q?uGJSJDdW8lvhXl57ggD2fjDJRRghlTrldMYRDwjvSKc6GTCyXi7X1r3G0cLb?=
+ =?us-ascii?Q?AimKgWsXQnIDu9KRpYiYqytOo5OPnomE9kzKlxTdyhTXenvFRqo1YjqYppOA?=
+ =?us-ascii?Q?ElkWo4Jio+ThalcuafQd95MXdjbsc/HuUYBtT2dD9Fz0pJ3DOQKtmijV5Ovc?=
+ =?us-ascii?Q?o7cALViBOWMmD1k784EuIu94EuhRHfeYoTA567j4Vx0ZpuqP1rzPmbieRXVp?=
+ =?us-ascii?Q?ooTTOvT7sedV/V8LQFCE+sdJeaOrZBlXUo7egVjtCKEGtnCgnoU8avPHbbtx?=
+ =?us-ascii?Q?pAN59K3QId/lVaP4Igc2wD0YcgTHnR5dS8uamFQa0cIJDGmcRk85gbzTOi2d?=
+ =?us-ascii?Q?PDZglBkS+0wrxllbCQz87gtFV5kcAKqTYRGTjYBfqVu7gKSJEHFGob1h5/Sr?=
+ =?us-ascii?Q?dsJSTZH6ZU9w82PCl6c7aRcg5mUiyfX5pl+14LRRrNhM37QF+BlCSn4lzFTc?=
+ =?us-ascii?Q?g89pe1eGkrcAfAXybcl4bs4r1S1h0sInVBFTDSz0vq7qhZoYzx6CcDyCO0YA?=
+ =?us-ascii?Q?fM3yb5SQOLQ2SosVItpZv99z02frAPl8Ya0OItxnfUJRNS1kKNTB9Zqh4++R?=
+ =?us-ascii?Q?AgjA/6/dv52kckc2NEDO0wZRmLf8o7dMXqnSpZ/kVsP/jf+dAnVldB7Z7pNM?=
+ =?us-ascii?Q?iDOl7LsH8MLafJ6UkaVsAhdIVf/Z4fBgEtX8oAXl22JcHEvbmGlVHMSdIUE8?=
+ =?us-ascii?Q?qFrzxZ/Y/XMbQrOwBl1wDiZZYzTRUi506Vh7xI1JhYRwGw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zrKrFoT4L86AWYuH+4n/i+5S8HqBpf07m7dbtjR2bNubIPSfZD0CxtYiWnGI?=
+ =?us-ascii?Q?IZYTXsIYzwHfKJwpQ/bMO/St9qOKjiyDE9yefNmRWqsHbTjZEXSb7taSbCQN?=
+ =?us-ascii?Q?og5mlqxO97K36cVDO/bEb08/Xr9YVMidqiX+q6LQot08/Y1Mdavzk/2wb0Ul?=
+ =?us-ascii?Q?eONBUAEi5CvvN5yxSRg+2yzZHtjSLIGkC7eIXosoCubODr+GXoId2Kl2dYiR?=
+ =?us-ascii?Q?GBqP6AQQgf3v47OvaqLhy2jiB/fGJm05fwHDvyUP4BIyZrHAPYxPvjjDYwbI?=
+ =?us-ascii?Q?Tqf+xQCrfLDR48HYbugCOUO0ByYZCB4KfM2raXDndeWQYocG+5FwBxCM9/gt?=
+ =?us-ascii?Q?RpsElh6ziUsMIJv0tgoL8gAd5ra4a2dG3SuqEowlqLRlw/g9gr33oOn+klaP?=
+ =?us-ascii?Q?Pz1yyu29HJYWzhgA3MlJor8pbLNKsQwrdAQavL12BkJ/f/hbgVAa3GMthBTm?=
+ =?us-ascii?Q?iyxl5hXShF4y4Y/l1JWPXKQ48dUy/HXWZIZ4bBlp/ERV694qTwVLCG/dE0eT?=
+ =?us-ascii?Q?Qq0sar7zOzrqHmqeT44C3wWkOfdv6Yq9LJTbfTjxxbC9k/mVZIaWgeBM1rdL?=
+ =?us-ascii?Q?cSLrAwqvB8KRwrGPhHEt5TfFCgKk546ho1u1w28kOLhnPincavBJIHZdywh/?=
+ =?us-ascii?Q?fmBaJufw9XzebE2AAWIo//oLG27Aa8z+czUrDEN8EoWTULL4OlOSzg+WEESe?=
+ =?us-ascii?Q?33UE7E2S2rU20bt+zPAJ8W3hmplA1W70Ngdy3dusV5l8Y+Mp1GYn6J1csKyp?=
+ =?us-ascii?Q?fyOdiEvOEPYC+how3CWISze2NYRurdV+reYXeB+mERwnrXuKNyh9TDhkfzez?=
+ =?us-ascii?Q?Qjg6etk+wglUQvPh0yeURScQWDkhZuhzKr2K0ayIDWti2iiZ2wMJHXaicpxz?=
+ =?us-ascii?Q?rDDelL1nq1gng185xUrdqLfaB14V17D2jQra/nRyzrtDr9gCbzGyAIYd47SQ?=
+ =?us-ascii?Q?+twN0sbDFcQ1Ygw2aUJ+q16JANTTiBdNHSdWWc8iXoTTVcpUh7YC6YbGca56?=
+ =?us-ascii?Q?GpHfaIwvBJHzCOB8mxalwLmgPRol7bursofdO6I+nxWEozermfdqx430ihHY?=
+ =?us-ascii?Q?FuuE0Ml447SuO50C4yWZCfkoLdbXwKCI2vwKhbKNwNSrwTi7Ia/y62Rf+CW6?=
+ =?us-ascii?Q?qQtXn0NHnt/FN+cPrz/P7JAc3nR9MSDW+ZrWR4QOHHsdqDz1j+uYCm813zli?=
+ =?us-ascii?Q?lCg+RQ1Ll9a02Z1XgPvlOFf4UQHWOA6XDNO1bozzEj7vScdCG1xnc9nVIRAw?=
+ =?us-ascii?Q?95X3RJ+ULbOzzn38nA7ANxAgyZS+6yAEt0bFPYqbTWero443GbTVzA6X8KVb?=
+ =?us-ascii?Q?Y/YUTyptjMOiHkZqBYLznIQZo6yLm8VX8io3tPPNlMXfqcqLTclejBZ3HnRf?=
+ =?us-ascii?Q?2c3VYENz1vPWtZtYl2JLBkZ19E9yOwO5vY5MmJiKFy2yIqomrUOBN04EALgv?=
+ =?us-ascii?Q?Ikn5uuyWY2y/6MzzJ82VDvTbva1LY9HakhtJ1VhPZx0wd3cSVtCiZ6hOQPaN?=
+ =?us-ascii?Q?9vi9+iLOJMKetZUBETrR4dH7fHhmLTGtDqDnHAKWe99i6oFnBl3RQJfMG+KK?=
+ =?us-ascii?Q?odjtyn67cplQrrV4FDt5AfAgflHlHWDET4srGm3FaAT+DakLoxJLdtQTndb5?=
+ =?us-ascii?Q?TA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c46323ac-296c-42bc-785a-08dd4b21bb95
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2025 04:57:21.0389
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LyN3mmZxBrwyJ6R8ZuLzRn9HoAcyKcqw/XreDJlhnnDYmw3Nn/aRxGMumgMEHGQ+sJiYnz2JYqc+wINeTP4EZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8702
+X-OriginatorOrg: intel.com
 
 
-Hans and Sakari,
 
-Sorry for the late reply, I am just back from holiday and take several
-days sick leave then.
+Hello,
 
-On 1/31/25 7:43 PM, sakari.ailus@linux.intel.com wrote:
-> Hi Hans,
-> 
-> On Thu, Jan 30, 2025 at 04:34:53PM +0100, Hans de Goede wrote:
->> Hi Sakari,
->>
->> On 27-Jan-25 8:48 AM, sakari.ailus@linux.intel.com wrote:
->>> Hi Hans,
->>>
->>> Thanks for your e-mail.
->>>
->>> On Wed, Jan 22, 2025 at 06:19:47PM +0100, Hans de Goede wrote:
->>>> Hi All,
->>>>
->>>> Background / analysis:
->>>> ----------------------
->>>>
->>>> New Intel Meteor Lake based laptops with IPU6 cameras have a new type 0x12
->>>> pin defined in the INT3472 sensor companion device which describes
->>>> the sensor's GPIOs.
->>>>
->>>> Based on what I know about this now, this pin seems to be used in at least
->>>> 3 different scenarios:
->>>>
->>>> 1. To power-up / activate some unknown auxiliary IC on HP laptop designs
->>>> where the sensor is directly connected to the main Meteor Lake SoC for
->>>> I2C and GPIOs (no USB io-expander used). Example dyndbg int3472 output:
->>>>
->>>> HP Spectre x360 2-in-1 Laptop 16t-aa000/8C17, BIOS F.11 08/14/2024 (ov08x40):
->>>> [    4.908016] int3472-discrete INT3472:01: unknown \_SB.GPI0 pin 65 active-high
->>>> [    4.908019] int3472-discrete INT3472:01: GPIO type 0x12 unknown; the sensor may not work
->>>> [    4.908100] int3472-discrete INT3472:01: privacy-led \_SB.GPI0 pin 107 active-high
->>>> (and lsusb shows no Lattice NX## / Synaptics Sabre USB-io expander)
->>>>
->>>> 2. To make the Lattice chip in designs with the Lattice chip is used run
->>>> the power-on sequence of the sensor which is handled by the Lattice chip
->>>> firmware itself running the entire power-on/-down sequence when changing
->>>> the GPIO value. Example dyndbg int3472 output:
->>>>
->>>> Dell Latitude 7450 (with patch to map handshake in INT3472) (ov02e10):
->>>> [    5.110920] int3472-discrete INT3472:01: Sensor name OVTI02E1:00
->>>> [    5.111908] int3472-discrete INT3472:01: Sensor module id: 'CIFNE24'
->>>> [    5.113653] int3472-discrete INT3472:01: handshake \_SB.PC00.XHCI.RHUB.HS05.VGPO pin 0 active-high
->>>> [    5.113676] int3472-discrete INT3472:01: privacy-led \_SB.PC00.XHCI.RHUB.HS05.VGPO pin 2 active-high
->>>> (with 2ac1:20c9 Lattice NX33 USB IO-expander)
->>>
->>> The good thing is that there's a datasheet
->>> <URL:https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/5726/FPGA-DS-02104-0-92-CrossLink-NX-33-and-CrossLink-NX-33U.pdf>
->>> so we don't need to guess.
->>>
->>> Lattice NX-33 is more than an USB IO expenader. Most likely it acts as a
->>> CSI-2 RX and CSI-2 TX and does something in between, like IVSC. It should
->>> have its own driver, even if all it does is toggle GPIOs and sleep a
->>> little.
->>
->> I guess that what you mean is having something similar to:
->>
->> drivers/media/pci/intel/ivsc/mei_csi.c
->>
->> which just toggles the handshake GPIO on the s_stream() callback ?
->>
->> That would require injecting the Lattice NX33 into the media fwnode
->> graph similar to how we are doing this for the ivsc. But where
->> the ivsc triggers this on there being an ACPI fwnode, there does
->> not appear to be any ACPI fwnode for the NX33 at least not
->> on Alan's laptop where we know the handshake signal is necessary.
-> 
-> I presume not all systems come with CVS/CVF but they could still use USB
-> I/O expanders.
-> 
->>
->> https://github.com/intel/vision-drivers
->>
->> suggests that the new chip shows up as an i2c device when it
->> actually is mitm-ing the sensor and here is "ls /sys/bus/i2c/devices"
->> output for Alan's laptop with the usbio-i2c driver loaded:
->>
->> $ ls -l /sys/bus/i2c/devices
->> total 0
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-0 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-0/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-1 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-1/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-10 -> ../../../devices/pci0000:00/0000:00:02.0/drm/card0/card0-DP-1/i2c-10/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-11 -> ../../../devices/pci0000:00/0000:00:02.0/drm/card0/card0-DP-2/i2c-11/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-12 -> ../../../devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-12/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-13 -> ../../../devices/pci0000:00/0000:00:15.3/i2c_designware.1/i2c-13/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-14 -> ../../../devices/pci0000:00/0000:00:1f.4/i2c-14/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-15 -> ../../../devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/usbio-i2c.2.auto/i2c-15/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-16 -> ../../../devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/usbio-i2c.3.auto/i2c-16/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-2 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-2/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-3 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-3/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-4 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-4/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-5 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-5/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-6 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-6/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-7 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-7/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-8 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-8/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-9 -> ../../../devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/i2c-9/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-HIMX1092:00 -> ../../../devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/usbio-i2c.2.auto/i2c-15/i2c-HIMX1092:00/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-OVTI02E1:00 -> ../../../devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/usbio-i2c.3.auto/i2c-16/i2c-OVTI02E1:00/
->> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-VEN_0488:00 -> ../../../devices/pci0000:00/0000:00:15.3/i2c_designware.1/i2c-13/i2c-VEN_0488:00/
->>
->> Notice there is no i2c device matching the devices expected by
->> the vision-drivers.
-> 
-> This gets interesting. This page under dell.com suggests Windows Hello is
-> supported on Latitude 7450:
-> <URL:https://www.dell.com/support/kbdoc/en-us/000225822/windows-hello-facial-recognition-may-not-work-on-dell-computers-with-mipi-cameras>.
-> 
->>
->> I have heard that the X1 carbon gen 13 (lunar lake) does have
->> such an i2c device.
->>
->> So I think that the CSI pass-through functionality is not used
->> on Alan's laptop.
->>
->> Also the ivcs needed to be configured for number of CSI lanes +
->> CSI frequency. That is not the case here. It is a fully opaque
->> black box and Windows seems to treat it mostly as if it is
->> not there at all.
->>
->> I believe that it would be best to do the same as Windows and
->> just make sure we toggle the handshake pin and otherwise forget
->> about the chip being there. In my many years if experience with
->> x86 hw primarily designed for Windows trying to behave differently
->> from Windows only causes trouble.
->>
->> If we were to try and model this as a separate v4l2-subdev
->> in the media graph then then the questions become:
->>
->> 1. When to inject such a node. The ivsc model of going by
->> ACPI HID's very likely does not work (or maybe it does and
->> we simply have not seen hw yet which actually uses the vision
->> parts? That is what the vision-drivers git repo suggests).
->>
->> Going by the presence of a handshake pin in the INT3472 device
->> is riddled with problems:
->>
->> a. It requires digging into the ACPI resources of a device
->> not owned by the ipu-bridge code.
->>
->> b. Given the HP laptop example, likely also Alan's laptop
->> the presence of a handshake pin on meteor lake laptops does
->> not seem to guarantee the CSI signals are actually MITM-ed
->> by a chip, so we will likely create false-positives.
->>
->> c. Some previous (alder/raptor lake) HP laptops advertise
->> a handshake pin but already work since they seem to not use it,
->> so more false-postive matches.
->>
->> 2. Without an ACPI hid we have no struct-device/fwnode
->> to use as parent for the extra v4l2-subdev, so what do we
->> use for this ?
->>
->> 3. What about models where the fwnode-s for the media graph
->> come from ACPI MIPI discovery? We skip the ipu-bridge code
->> there ...
->>
->> Combining these issues with the fact that the interface
->> is now just a single GPIO of which we do not exactly know
->> what it does, where as with the ivsc we actually needed
->> to program a CSI2 lane-count + link-freq I do not believe
->> that modelling this unknown hw controlled by the handshake
->> pin as an extra node on the media graph is the right thing
->> to do.
-> 
-> As I noted in my previous e-mail, I need to find more information on this
-> first. But when we have a device that is on the pixel data path, we likely
-> should have a driver for it, possibly also in cases there's less need for
-> control than with IVSC (CVF).
-> 
->>
->> ATM this feels much more like some power-sequencing thing,
->> just one more regulator / clk / reset-pin which we need
->> to set during power-up / -down.
->>
->> If in the future we get models where the ACPI HIDs claimed by:
->> https://github.com/intel/vision-drivers/blob/main/drivers/misc/icvs/intel_cvs.c#L720
->> actually show up then we can revisit this. It might make
->> sense to treat things like the ivsc setup in that case and
->> then if those too use the type 0x12 GPIO on the INT3472
->> device we can use the same code as used by the ipu-bridge
->> to create the extra media graph nodes to opt out of mapping
->> type 0x12 to a vdd supply.
->>
->> Another solution would be to move even closer to what Windows
->> does and switch the driver for the INT3472 ACPI device from
->> mapping pins to gpio-lookups / clks / regulators to it controlling
->> all the GPIOs listed in the INT3472 _DSM directly from runtime
->> suspend/resume functions, using a runtime pm device link from
->> the sensor to ensure that the INT3472 device is suspended / resumed
->> at the right time.
->>
->> This would also solve all of the mapping issues discussed in relation
->> to the ov7251 driver expecting an "enable" pin. I believe that this
->> would be the closest mirror of what Windows actually does and thus
->> is what will work without issues / quirks on the most laptop models.
->>
->>> Any thoughts, Bingbu?
 
-I have not dug into the Lattice device ever, but AFAIK it is more simple
-than IVSC. From the sensor driver perspective, it looks more like a
-gpio/regulator. So I don't perfer the first solution.
+we noticed the issue happens with a low rate on this commit, but keeps clean
+on parent when we even run the tests up to 999 times. just FYI.
 
-All these io devices are not under the scope of our IPU/Camera, but we
-have to unblock the dependencies. I also add Hao here as he made more
-communications with these devices owner.
+41f70d8e16349c65 b04e317b522630b46f78ee62ecb
+---------------- ---------------------------
+       fail:runs  %reproduction    fail:runs
+           |             |             |
+           :999          2%          16:999   dmesg.INFO:task_blocked_for_more_than#seconds
+           :999          2%          16:999   dmesg.Kernel_panic-not_syncing:hung_task:blocked_tasks
 
->>>
->>>>
->>>> 3. For unknown reason (ACPI table bug? / not actually used) there is
->>>> a handshake type pin in the INT3472 device on some older HP models with
->>>> a hi556 sensor connected directly to the Alder Lake or Raptor Lake SoC,
->>>> see e.g. the dmesg from: https://linux-hardware.org/?probe=a9a2e2ab03 :
->>>>
->>>> [    9.077107] int3472-discrete INT3472:01: reset \_SB.GPI0 pin number mismatch _DSM 141 resource 301
->>>> [    9.077170] int3472-discrete INT3472:01: power-enable \_SB.GPI0 pin number mismatch _DSM 142 resource 302
->>>> [    9.086727] int3472-discrete INT3472:01: GPIO type 0x12 unknown; the sensor may not work
->>>>
->>>> which is from a model where it has been confirmed that the FOSS stack
->>>> works already even though we have no handshake GPIO support yet.
->>>>
->>>> Testing has shown that for things to work in scenario 1. and 2. the 0x12 /
->>>> handshake type pin needs to be driven high, followed by a msleep of 25 ms.
->>>>
->>>> The 25 ms was taken from the out of tree drivers which specify this as
->>>> minimum sleep for the Lattice case. For the HP without Lattice, the default
->>>> 1 ms post reset delay also is not enough see:
->>>> https://lore.kernel.org/linux-media/1664997903.107383327.1734874558698.JavaMail.zimbra@chorus.net/
->>>
->>> Maybe that 25 ms is required for booting whatever runs on NX-33?
->>
->> Yes the comments in the out of tree driver refer to this being
->> related to the Lattice fw.
->>
->>>> This applies to both the HP Spectre x360 16t without Lattice chip and
->>>> the Dell Latitude 7450 with Lattice chip.
->>>>
->>>> I suspect that there might be some micro-controller or something running
->>>> the power-on sequence in the HP Spectre x360 16t case too, but there it
->>>> is just a standalone chip responding to the GPIO, not an USB attached chip
->>>> also offering, e.g. an I2C + GPIO controller like the Lattice chip.
->>>
->>> So there's nothing unusual there in terms of USB devices there?
->>>
->>> Would you be able to dump the ACPI tables from the HP machine? (I don't
->>> mind Dell either.)
->>
->> I have attached an acpidump from a HP Spectre x360 14-eu0xxx where
->> the handshake pin appears to be necessary but there is no lattice chip here:
->>
->> https://bugzilla.redhat.com/show_bug.cgi?id=2333331
->>
->> Alan can you send Sakari an acpidump of your laptop ?
->>
->> <snip>
->>
->>> I'll need to dig a bit further, hoping to find out what that special GPIO
->>> 0x12 is.
->>
->> Between this and the pin mapping discussion before I'm more and more
->> convinced that we are going all wrong about this.
->>
->> The INT3472 device seems to purely be a power-sequencing device which
->> I believe has its own driver separate from the sensor drivers under
->> Windows and the ACPI _DEP link ensures that it gets powered-up before
->> the sensor device does.
->>
->> We really should use this fw API as intended and simply have
->> the INT3472 driver directly control the GPIOs from its own runtime
->> suspend/resume methods and use a runtime-pm link to ensure
->> the INT3472 device gets runtime-resumed before the sensor device
->> gets runtime-resumed.
->>
->> This requires basically rewriting:
->> drivers/platform/x86/intel/int3472/discrete.c
->> but I believe that the end result will be cleaner / smaller and this
->> should solve most problems surrounding this code once and for all
->> avoiding us to have to revisit things all the time to work around
->> the mismatch in expectations between the ACPI tables on Windows
->> laptops and the devicetree-like setup the sensor drivers expect.
-> 
-> If I understand you correctly, you're suggesting implementing sensor's
-> power on / power off sequences in the int3472 driver? The INT3472 HID
-> really represents TPS68470 but it indeed is used for other purposes as well
-> in practice.
-> 
-> WFIW, my understanding is that in Windows the sensor drivers are
-> responsible for the power sequences, too, as they are device specific,
-> unless something changed recently. Moving them to int3472 doesn't sound
-> like a great idea to me, neither from Linux specific reasons (they're
-> already implemented in the drivers themselves) or for aligning the
-> implementation with Windows (I don't think that being is done on Windows
-> either).
-> 
-> The problem we have is really that the way cameras are described in Windows
-> specific ACPI tables today only contains partial information for these
-> devices and we have to keep the rest somewhere else. Luckily without a
-> somewhat complicated PMIC chip like the TPS67480 this is relatively simple.
-> The approach we currently have should minimise extra code that is required
-> to make these devices function as we only amend things where they are
-> lacking.
-> 
-> I wonder what Bingbu thinks.
 
-I think the ideal way is that we have a standalone driver to implement what
-the hardware really can do. However, in reality the device may just work as
-gpio/regulator, so the standalone driver is not necessary for sensor driver.
+kernel test robot noticed "INFO:task_blocked_for_more_than#seconds" on:
 
-> 
+commit: b04e317b522630b46f78ee62ecbdc5734e8d43de ("treewide: Introduce kthread_run_worker[_on_cpu]()")
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+
+[test failed on linus/master      7ee983c850b40043ac4751836fbd9a2b4d0c5937]
+[test failed on linux-next/master ed58d103e6da15a442ff87567898768dc3a66987]
+
+in testcase: rcuscale
+version: 
+with following parameters:
+
+	runtime: 300s
+	scale_type: rcu
+
+
+
+config: i386-randconfig-052-20250205
+compiler: gcc-12
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202502121025.55bfa801-lkp@intel.com
+
+
+[ 1023.501569][   T32] INFO: task UVCG:82 blocked for more than 491 seconds.
+[ 1023.510932][   T32]       Tainted: G                T  6.13.0-rc2-00014-gb04e317b5226 #1
+[ 1023.528506][   T32] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[ 1023.551252][   T32] task:UVCG            state:D stack:0     pid:82    tgid:82    ppid:2      flags:0x00004000
+[ 1023.582336][   T32] Call Trace:
+[ 1023.599286][ T32] __schedule (kernel/sched/core.c:5372 kernel/sched/core.c:6756) 
+[ 1023.617204][ T32] ? __this_cpu_preempt_check (lib/smp_processor_id.c:67) 
+[ 1023.637326][ T32] schedule (kernel/sched/core.c:6834 kernel/sched/core.c:6848) 
+[ 1023.653175][ T32] schedule_preempt_disabled (kernel/sched/core.c:6906) 
+[ 1023.672095][ T32] kthread (kernel/kthread.c:453) 
+[ 1023.684220][ T32] ? kthread_flush_work (kernel/kthread.c:970) 
+[ 1023.700611][ T32] ? kthread_is_per_cpu (kernel/kthread.c:413) 
+[ 1023.716756][ T32] ret_from_fork (arch/x86/kernel/process.c:153) 
+[ 1023.732758][ T32] ? kthread_is_per_cpu (kernel/kthread.c:413) 
+[ 1023.748605][ T32] ret_from_fork_asm (arch/x86/entry/entry_32.S:737) 
+[ 1023.764004][ T32] entry_INT80_32 (arch/x86/entry/entry_32.S:942) 
+[ 1023.776959][   T32]
+[ 1023.776959][   T32] Showing all locks held in the system:
+[ 1023.803410][   T32] 1 lock held by khungtaskd/32:
+[ 1023.815913][ T32] #0: c3baa3d4 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire (include/linux/rcupdate.h:336) 
+[ 1023.842061][   T32] 1 lock held by in:imklog/227:
+[ 1023.849815][ T32] #0: ecd0e884 (&f->f_pos_lock){+.+.}-{4:4}, at: fdget_pos (fs/file.c:1194) 
+[ 1023.877481][   T32] 1 lock held by dmesg/494:
+[ 1023.885260][   T32] 2 locks held by depmod/567:
+[ 1023.903871][   T32]
+[ 1023.907007][   T32] =============================================
+[ 1023.907007][   T32]
+[ 1023.938278][   T32] Kernel panic - not syncing: hung_task: blocked tasks
+[ 1023.951013][   T32] CPU: 0 UID: 0 PID: 32 Comm: khungtaskd Tainted: G                T  6.13.0-rc2-00014-gb04e317b5226 #1 78ab3595737b7bb7ccfbfed5c1dcb65e25af99a7
+[ 1023.973770][   T32] Tainted: [T]=RANDSTRUCT
+[ 1023.979010][   T32] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[ 1023.991787][   T32] Call Trace:
+[ 1023.995862][ T32] dump_stack_lvl (lib/dump_stack.c:122) 
+[ 1024.001535][ T32] dump_stack (lib/dump_stack.c:130) 
+[ 1024.006622][ T32] panic (kernel/panic.c:258 kernel/panic.c:375) 
+[ 1024.011360][ T32] check_hung_uninterruptible_tasks (kernel/hung_task.c:239) 
+[ 1024.018678][ T32] watchdog (kernel/hung_task.c:398) 
+[ 1024.023798][ T32] kthread (kernel/kthread.c:466) 
+[ 1024.028697][ T32] ? check_hung_uninterruptible_tasks (kernel/hung_task.c:380) 
+[ 1024.036601][ T32] ? kthread_is_per_cpu (kernel/kthread.c:413) 
+[ 1024.042763][ T32] ret_from_fork (arch/x86/kernel/process.c:153) 
+[ 1024.048431][ T32] ? kthread_is_per_cpu (kernel/kthread.c:413) 
+[ 1024.054588][ T32] ret_from_fork_asm (arch/x86/entry/entry_32.S:737) 
+[ 1024.060422][ T32] entry_INT80_32 (arch/x86/entry/entry_32.S:942) 
+[ 1024.067908][   T32] Kernel Offset: disabled
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20250212/202502121025.55bfa801-lkp@intel.com
+
+
 
 -- 
-Best regards,
-Bingbu Cao
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
