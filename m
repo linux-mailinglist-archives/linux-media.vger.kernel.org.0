@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-26041-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26042-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D435A3215A
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 09:39:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F60A32163
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 09:45:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDC7B3A31CB
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 08:39:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E06661886F71
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 08:45:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3D53205AA0;
-	Wed, 12 Feb 2025 08:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6736205AB4;
+	Wed, 12 Feb 2025 08:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VBmfEpWm"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HvRdISk0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493CA204C00
-	for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 08:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16722205AA2
+	for <linux-media@vger.kernel.org>; Wed, 12 Feb 2025 08:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739349590; cv=none; b=Nmx/oPL4nwZOaWuwEwCyh+ODvf48il1VemNICS4rGxvo/n1nR/o3qNAR8RBBGbA5pFcqmFriWcW0r4bej03FYJSSHSYEvR9KmZD9VfhFNeSh07UT6TgB/mr5FUTWMITPZn60wpz6Xvd0sL8XAA8giK9j41uPA70BKMGijSmWKi0=
+	t=1739349902; cv=none; b=nSfPZG0M6ZJk6CtDhO8DXIOP9YpkHX0eDa1BE8vMJXe9KpriFy0Fyualm7SRtlmjmuH31fNKsQYFbt90EsGI1gvbiOZn4qB/c4Bi9zMqgS3esgjTW6xxWy6JOLYZo1Ro+S1/F2R0CR1xdC8WZciP7tcAD2/wZ/1Q3EEWWR+IGGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739349590; c=relaxed/simple;
-	bh=A7+PupFGNYRdsFchFeR3DVfnl6+0mM/rBbaj/06e1+8=;
+	s=arc-20240116; t=1739349902; c=relaxed/simple;
+	bh=GG96kYxVT32AyoidxXb0MTjchmdeVtz5Wf5oe567R+o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rOGfoJklazFs1TxMs1YNxCnmEBCmgDCKqktTTLT2JS8OdShmjD3He/rENVbpF2XYkN9/QQmGi1oz5h0O+5yLIUue2IAp+99Zx0blEylXqQmuaCDcaCuaR1B1s/QqDfptGXd7jMQajAJOzy5Do4ZqXCTUpqJ4JMMehWtPHELl2yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VBmfEpWm; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=mcGZ0Q1q5ze9ViJ+R4Eqy5X4RGpMEvdnEumqPUHwm37oQWNShJmQCYCYPsqYMOM5+554lkJGSTBGD9Godb4x3RUibnFbGX9zmNQwUO1Gx9wExgNayV/1v9PJvrJBmDwkJswI53JHtU/D0TZTfDX0UhlYGpmHpZfpnf9LHY04toc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HvRdISk0; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C6YB7u006169;
-	Wed, 12 Feb 2025 08:39:41 GMT
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C21Huc010515;
+	Wed, 12 Feb 2025 08:44:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ruw7nyV81VvGU2AL56F180rLk3sUi0NTlReuLYKbKrw=; b=VBmfEpWmZN03Dbvn
-	Kdf8BzhJfManXItJ16CTEz+Rrj3hD+8gaJd0iJzamt1vlETqxl5Obihr+bqB9wyP
-	VRWAZBO2dakM3UK7PZ15TFpddG1iWnnKdJ5Rkwk6w/7w3h7htO2xxMcJqi+Sku7I
-	tm+ffz2Bm5mdf1KXSgAJQfohw2M/PWDZ7eshl6sNz7xjLVVjV6tS34tMWaP8gugB
-	PNSXtRhidVae3LVADqejEnjXrXtMKABjTO9en0vWxgiWOouLa8JS7jnRAjtrkMHk
-	33PbZYnm0mLihkOfQxWAg5Ybqup5xiMsfQhE6NZqC9K4kIxQZnQ+A1jAso67Unqb
-	7zNfcw==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qe5mxw0m-1
+	rm+j9kIM91Kgr09YF8hBoG5OUFhgZbpX5d/YzaURlBM=; b=HvRdISk0NcbkNOOL
+	pSptKOqDNnJ13DLrQjHsZ9Q/eVU3TZXOisCO4vKdNK7pDMWdiX44ABcB8Cd6Iam8
+	8MjP0gQKIuiHgmby8111SXIRC1FxO+1Q/kb/BpNVBZZA3zr1O9OTIKjR3tISdipS
+	nItarljzLT9TG8wwM6PKqr+lNILeK1Go7+1onq6Sj3Zs9ppN30cX62TI8XtFWFQE
+	Fi3Up5oc5ZUFmX7ONapmA6sAKf/LihQhWqrgTVI4//Ztw6R0L652z6uJz1FxypvT
+	zIK2BJGDzO+ctdsjN/O9BJNE3+BqQdwQBGR2Lw38P0pffUE9FJG7Mj+2MwEWzkR4
+	H/nRvw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qcs5f7jr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Feb 2025 08:39:41 +0000 (GMT)
+	Wed, 12 Feb 2025 08:44:54 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51C8deFf028905
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51C8irlt023590
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Feb 2025 08:39:40 GMT
+	Wed, 12 Feb 2025 08:44:53 GMT
 Received: from [10.204.66.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
  (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Feb
- 2025 00:39:37 -0800
-Message-ID: <d90d9783-292b-4e38-abb4-619ff8286712@quicinc.com>
-Date: Wed, 12 Feb 2025 14:09:14 +0530
+ 2025 00:44:51 -0800
+Message-ID: <5d406589-0e19-401a-8359-5a6168315bc7@quicinc.com>
+Date: Wed, 12 Feb 2025 14:14:32 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,46 +73,33 @@ CC: <linux-media@vger.kernel.org>,
 	<quic_svankada@quicinc.com>
 References: <20250210162843.609337-1-quic_vikramsa@quicinc.com>
  <20250210162843.609337-5-quic_vikramsa@quicinc.com>
- <056858ef-3d4e-40ec-a10e-338055a97172@linaro.org>
+ <f35f3b57-4cc5-432d-8a4d-8d0cfdbee7a5@linaro.org>
 Content-Language: en-US
 From: Vikram Sharma <quic_vikramsa@quicinc.com>
-In-Reply-To: <056858ef-3d4e-40ec-a10e-338055a97172@linaro.org>
+In-Reply-To: <f35f3b57-4cc5-432d-8a4d-8d0cfdbee7a5@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: GwZPo5fG0MqSKmIof7uOipr7KFbBJ0Sd
-X-Proofpoint-ORIG-GUID: GwZPo5fG0MqSKmIof7uOipr7KFbBJ0Sd
+X-Proofpoint-ORIG-GUID: SopUZe4uV3McHViMZGtQ3HPMBPGkI1if
+X-Proofpoint-GUID: SopUZe4uV3McHViMZGtQ3HPMBPGkI1if
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-12_02,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
- priorityscore=1501 clxscore=1015 suspectscore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 malwarescore=0 spamscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502120066
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
+ mlxlogscore=999 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ adultscore=0 clxscore=1015 mlxscore=0 priorityscore=1501 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
+ definitions=main-2502120066
 
-On 2/11/2025 1:44 AM, Bryan O'Donoghue wrote:
+
+On 2/11/2025 2:08 AM, Bryan O'Donoghue wrote:
 > On 10/02/2025 16:28, Vikram Sharma wrote:
 >> Add support for VFE found on SA8775P (Titan 690). This VFE is
 >> different from vfe 780 w.r.t few register offsets.
->
-> VFE780
->
-> with-respect-to a few
->
 >> It supports two full and five lite VFE.
->
-> sa8775p supports that not VFE780.
-
-Hi Bryan,
-
-Thanks for your comments.
-Will rephrase commit text.
-
->
 >>
 >> Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
 >> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
@@ -345,12 +332,6 @@ Will rephrase commit text.
 >> -        !strcmp(clock->name, "vfe_lite"));
 >> +        !strcmp(clock->name, "vfe_lite") ||
 >> +        !strcmp(clock->name, "camnoc_axi"));
->
-> Suspicious you really need to add this clock here, shouldn't be 
-> necessary unless you are setting the clock to a particular value.
-While testing we found that if camnoc_axi not set to a particular level 
-i.e. 400Mhz Overflows were seen on csid output.
->
 >>   }
 >>     /*
 >> @@ -1972,6 +1974,7 @@ static int vfe_bpl_align(struct vfe_device *vfe)
@@ -401,12 +382,6 @@ i.e. 400Mhz Overflows were seen on csid output.
 >> +            { 0, 80000000 },
 >> +            { 300000000, 400000000 },
 >> +            { 400000000 },
->
-> Is 400 MHz required for camnoc_axi, would 0 i.e. enable not do the 
-> same job?
-While testing we found that if camnoc_axi not set to a particular level 
-i.e. 400Mhz Overflows were seen on csid output.
->
 >> +            { 0 },
 >> +        },
 >> +
@@ -456,10 +431,6 @@ i.e. 400Mhz Overflows were seen on csid output.
 >> +        }
 >> +    },
 >> +
->
-> redundant newline
-ACK
->
 >> +    /* VFE2 (lite) */
 >> +    {
 >> +        .regulators = {},
@@ -599,20 +570,114 @@ ACK
 >>       .link_entities = camss_link_entities
 >>   };
 >
-> I'd rather have the last patch in your series enumerate - fill out - 
-> this structure.
+> There's a pretty superficial difference between 780 and 990
 >
-> i.e. vfe and csid 780 should be added and then the enumeration of the 
-> resource structure for the sa8775p implementation of 780 as the last 
-> patch.
-
-Does that mean we should add compatible string, new enum "CAMSS_8775P" 
-and enumerations of the resources as the last patch of the series?
+> git diff drivers/media/platform/qcom/camss/camss-vfe-690.c 
+> drivers/media/platform/qcom/camss/camss-vfe-780.c
+>
+> linux-media-qcom-camss/master?
+> 3c3
+> <  * Qualcomm MSM Camera Subsystem - VFE (Video Front End) Module v690 
+> (SA8755P)
+> ---
+> >  * Qualcomm MSM Camera Subsystem - VFE (Video Front End) Module v780 
+> (SM8550)
+> 5c5
+> <  * Copyright (c) 2025 Qualcomm Technologies, Inc.
+> ---
+> >  * Copyright (c) 2024 Qualcomm Technologies, Inc.
+> 15,16c15
+> < #define VFE_TOP_CORE_CFG        (0x24)
+> < #define BUS_REG_BASE            (vfe_is_lite(vfe) ? 0x480 : 0x400)
+> ---
+> > #define BUS_REG_BASE            (vfe_is_lite(vfe) ? 0x200 : 0xC00)
+>
+> 19c18
+> < #define    WM_CGC_OVERRIDE_ALL        (0x7FFFFFF)
+> ---
+> > #define        WM_CGC_OVERRIDE_ALL        (0x7FFFFFF)
+> 21c20
+> < #define VFE_BUS_WM_TEST_BUS_CTRL    (BUS_REG_BASE + 0xFC)
+> ---
+> > #define VFE_BUS_WM_TEST_BUS_CTRL    (BUS_REG_BASE + 0xDC)
+> 46,47c45,46
+> <  * VFE:
+> <  * 16 = RDI0, 17 = RDI1, 18 = RDI2
+> ---
+> >  * Full VFE:
+> >  * 23 = RDI0, 24 = RDI1, 25 = RDI2
+> 50c49
+> <  * 0 = RDI0, 1 = RDI1, 2 = RDI2, 3 = RDI3, 4 = RDI4, 5 = RDI5
+> ---
+> >  * 0 = RDI0, 1 = RDI1, 2 = RDI3, 4 = RDI4
+> 52c51
+> < #define RDI_WM(n)            ((vfe_is_lite(vfe) ? 0x0 : 0x10) + (n))
+> ---
+> > #define RDI_WM(n)            ((vfe_is_lite(vfe) ? 0x0 : 0x17) + (n))
+> 61d59
+> <     writel(WM_CGC_OVERRIDE_ALL, vfe->base + VFE_BUS_WM_CGC_OVERRIDE);
+> 62a61,62
+> >     writel(WM_CGC_OVERRIDE_ALL, vfe->base + VFE_BUS_WM_CGC_OVERRIDE);
+> >
+> 65c65
+> <     writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height,
+> ---
+> >     writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height 
+> >> 8,
+> 67c67
+> <     writel(WM_IMAGE_CFG_0_DEFAULT_WIDTH & 0xFFFF,
+> ---
+> >     writel((WM_IMAGE_CFG_0_DEFAULT_WIDTH & 0xFFFF),
+> 71,75c71
+> <
+> <     writel(0x0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
+> <
+> <     /* TOP CORE CFG */
+> <     writel(0x600000, vfe->base + VFE_TOP_CORE_CFG);
+>
+> What's this for ?
+>
+> ---
+> >     writel(0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
+> 99c95
+> <     writel(addr, vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
+> ---
+> >     writel((addr >> 8) & 0xFFFFFFFF, vfe->base + 
+> VFE_BUS_WM_IMAGE_ADDR(wm));
+> 120c116
+> < static const struct camss_video_ops vfe_video_ops_690 = {
+> ---
+> > static const struct camss_video_ops vfe_video_ops_780 = {
+> 127c123
+> <     vfe->video_ops = vfe_video_ops_690;
+> ---
+> >     vfe->video_ops = vfe_video_ops_780;
+> 147c143
+> < const struct vfe_hw_ops vfe_ops_690 = {
+> ---
+> > const struct vfe_hw_ops vfe_ops_780 = {
+>
+> I don't really see much logical difference here to justify all of the 
+> copy/paste code.
+>
+> Could you comment on some set of offsets passed in the VFE resources 
+> structure ?
+>
+> If not an offset then perhaps a camss-vfe-gen3.c file which contains 
+> the shared code and wrappering that shared code in camss-vfe-690 and 
+> vfe-780 respectively ?
+>
+> Actually, I think that's the way to go, for his level of similarity it 
+> should be possible to move the share code 1:1 in many cases to a 
+> shared file.
+>
+Agree with your suggestion to move common code to *_gen3.c. Next patch 
+in this series will take care of that.
+Additionally I will add more info regarding the delta for 'vfe 780' vs 
+'vfe 690'.
 
 Best Regards,
 Vikram
-
->
 > ---
 > bod
 
