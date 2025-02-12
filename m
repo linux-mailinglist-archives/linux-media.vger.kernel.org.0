@@ -1,75 +1,77 @@
-Return-Path: <linux-media+bounces-26076-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26077-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB84FA32D12
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 18:12:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 525D1A32D0D
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 18:12:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 906363A7CC4
-	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 17:09:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 19E201884332
+	for <lists+linux-media@lfdr.de>; Wed, 12 Feb 2025 17:10:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80DAC2586D0;
-	Wed, 12 Feb 2025 17:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D544F25A343;
+	Wed, 12 Feb 2025 17:09:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c+XqIQhC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fh7c2o0a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680FD221D8B;
-	Wed, 12 Feb 2025 17:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1A62586E2;
+	Wed, 12 Feb 2025 17:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739380162; cv=none; b=bIUyxFBVTIU5ZE+lBjoiDoXMdIDq+uy41EosENVy4mSbgmualtu85K9aZOdBQGbWOPWFtEjzsRCh8veX6NYX0S7L4Xl62xZ6pc94lg5gWWobV44Uaj1uvgExwkND0EZv5u/z7vKhZ3IdRYwe5G1T+ILdi3sRj+U7rUUpXtebqkY=
+	t=1739380166; cv=none; b=aBg0w8e8NqenZOH2z2h+oAy8tF8La6NU5dEbriwCQCI8HBbcFxKzz+cCUVc8+/8SXBINKu4Qpxtkj8PLTsm54inw0Oh2c9JksFvwEagRCSI/qEaYEh0Zeve9YpWo8OhOqHftzqYV9WIncdCjOKs2qvKg9kttpMYk0D7Ybulu7do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739380162; c=relaxed/simple;
-	bh=Lh55yAkn/jwAg8s+MFsDmpPz7xByDWEIZkZnARkgLDU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uJK97T6JXfQUfMfzh8EkvxwM202wjaGhgu7FApLqpERTj7KlMJ6bPcku5ndjJ9sdTbMSLtlza2UkGKW4/gpXmq3/NRQX5zITRHqK4qggBr7+OdSR2f9sNy2yk0Dwc1y3+DjQtVavgAhK/Xdr++xHVaDaA6uyjPG9GLfZeJr/MO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c+XqIQhC; arc=none smtp.client-ip=209.85.222.181
+	s=arc-20240116; t=1739380166; c=relaxed/simple;
+	bh=LpvD4GRKt56iJUYjxt5c/loK033MF5rI2aRsrq6XDOQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=naycj09739m4vv5OhR6nNdIpWzhybzW2RAM7qWF8vGwpVVH9k4Ce1IxREshEsqlM9Bo834scT+vGGu+9IwtK76IiEd8PxoTXWhiL/OhIUZi8vPy2vUrtPSKLPGKIO9N9Nb6slDiDsM+BH9GniI5nKIVkLOMYqPs/AIkTnTdfeIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fh7c2o0a; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7c05aa6d3beso39405685a.0;
-        Wed, 12 Feb 2025 09:09:21 -0800 (PST)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4719edfcd13so3261181cf.1;
+        Wed, 12 Feb 2025 09:09:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739380160; x=1739984960; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9jyKbsmNHdxaThJU2NsEz7xz1EsWrp4w0F6ozYi/oa4=;
-        b=c+XqIQhCqV5hfso1lL5gOBbGD1NL1yzeRbnd5lzlEpT7/V8tdxUZvZ8zQadBja8xWT
-         hXK48TmXfNzs5okMih807+XXNsHzRU+N2MI4H7oVNGfVE4qxtXeeNNu6VP7jYLmhFh5v
-         e1byu/wn5YfaMYL4jJzSUxGFXZ0svVNNmF9QcUHC7DID9zNah27uGAUsnNdSWWr83bDL
-         ESlp/nPiOLYalJSSl79gmgG0/8IfWoxLEgOGBGk3BCnsJsyG9LyElTB2Kb1FU+7zOhEn
-         gnfCS0XbX8N0KyDqhy+uDnd+9Yj3Hv5Savd+Jd/XsNO5aEWeHLJ4Xjv6uOv63KAvaDl8
-         1C1Q==
+        d=gmail.com; s=20230601; t=1739380163; x=1739984963; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BpLNszSPIwwrh77tKsORDywoOtjOjCMx1grEp42UkB4=;
+        b=Fh7c2o0ak7V/2SOW0tusVfMMXO99zlE4FOggKn0rLYnl5Zpu5olQFJ+zfitc8zIvRb
+         d2bP89mV+k7+dR67IfP3NzhkxkUhF19yexGnb8lhdbu/6rpqVE43zM4+bVZlmauOEK1T
+         JqN/uuuyqejfp/UMGgmIadXvuMJnELea8ktaXByZFh4Nh2uZTmyvutcdJPWpIa5F74Uo
+         Q6H6hW+xYjnMvojhRk+pvKAYAl+kTmtMA8VeXP+MLcFByenmI0Rbfv/lcQtprY1oMkDJ
+         o0yKrb+2TSmGFfJzPEykw6IPHXuGq3R4gQHVCvlnede55Dw08vWSSdKQMaEI1oI6GhFN
+         j4Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739380160; x=1739984960;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9jyKbsmNHdxaThJU2NsEz7xz1EsWrp4w0F6ozYi/oa4=;
-        b=Z0H7RleSLxLjJbS+z9nc8X4AzYqb/5VosRm4mO/AS7RxwruPG+FRsHBLXOBd5U4+ni
-         36sH5WKcxI4vCXHJs+Ret6pnCh9daZq+Dln9NL8N0/U6sbMSDbREPcILT7xnMVYJImOb
-         0Ljnpu0riIq3QU4cC8DFLs84XPQl5lzG+fKTfm2QSrfjEShVp2rfbesNTDsDu0AK4ihE
-         vP3gthIEkaG+CcVaYTKU2HKBoGS+QmiUTQOTYg/9rpkFwUmTv3YCdRUsnm8N9lkFoDXs
-         mXrxXGp7/Rwq2tfUILSj8w8pMPGYBlkQ6fDrDTwL2sxxHlQC462pYYBp9paSmvf10wOL
-         gp5g==
-X-Forwarded-Encrypted: i=1; AJvYcCUHTUFuWbTCG5DbU5kEq/wjAKHWYM19I1lrWHdxL/8gf42FcmNVN0Y8iMc0GtqTXLhkGsqUeRox7NxFVWQ=@vger.kernel.org, AJvYcCWEqTp+XfRxrcGZ5usO+DGC/9L6z/pt6ENcLdG0r95KyOD5N+RTMn+fjCNF/PhZ/tAr7WAueMAsIdy+1oU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiOpwGnXUFWFjcYzK20X/Wez1PoU9boH3LKvbT2CeNZfuM0Hb+
-	SCpxrH9wDTGcQarL2OTon6wDzzzRXPQXIJxjqW19WCJZWszElWbo
-X-Gm-Gg: ASbGncsAO/gnVpbHZulWtUD5K3Si14dawe1lCFR/4HasuMRhZYGhIOpqp1H/CahExX0
-	+KHpl4UABYBU16eJg+Q/Yp9JGXMlziAIFS/2m1C0O+xEq9zKJGXxxAp5v9FiXXx6kITVqOIKrYd
-	oHXD422iGN0/VdKguxI2DgNcx/KUt+QM0DFtm5obrk5WpBvfvwEPrEzNSrtOIlbziwn3+9CmvbA
-	Xv6pf3WG6aWy04JFNC/iR6oLshAvhNap5sJCsoeuHzu+WBlrFz++F0HhIj2PFOtuR7ZdBs6cK2A
-	v8vTmkdmQIvXFIHC6QLwGAlNwsfBSbdYZfX9eloSKwMb53gQCkgGjN+L
-X-Google-Smtp-Source: AGHT+IFLqOvawynQDFjk6qHZV4hFnVvTcQB5/VW+Wp7M42vEsaUw9Cj/Yl8s7alh1TINeLoDtgqwdw==
-X-Received: by 2002:a05:6214:c65:b0:6d4:1f85:3975 with SMTP id 6a1803df08f44-6e46edb4baamr22705426d6.8.1739380160099;
-        Wed, 12 Feb 2025 09:09:20 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739380163; x=1739984963;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BpLNszSPIwwrh77tKsORDywoOtjOjCMx1grEp42UkB4=;
+        b=T0DGHYxzSMROpqIoc6H/NGTNN1GxxmyI58/eqMe/9NiGmdo+tSGC3H3Cg7Nolzfjif
+         VuPa+BPloScF9EMXpjZmspLXULr4TicFSnx9djsCFBT9KZ0LGp1x491NXxsfoL/DAO5A
+         XuLhCTa3PFVseftbvAIK9AHHOoTKyAE3zh5u2SUrB/t//SuC5NWgV9EqDLuR8MQGZNId
+         IU7VRQ8zvT0eFnT6KTeXWDsnIx4Vtc2FbMaEx8eQqiVe+9zs7E9QEXxJ+GWpWMrAOwBd
+         KjtCG7BxHXFY2ebWX8na+fSwY8o7k4UZrkY7nQqgCZ4UeLedzVSQqUOLvJeMG1t/Vgdp
+         UufQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6slBQHhkEGrVhajOVimlaNG9eAqwPYUdy4AQ0NaiV3DVSmeIT5Jcl2sT2QGQjy/bxv3lQdMx+uCb8RL8=@vger.kernel.org, AJvYcCUgvWYX9v3Mc2DLFTAcqNk3iBnVHdIoYirTo8KZ+/4JUACww2qzT97YAi/bVByh1o5v+rCQg+VnRymlwxQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMM17JFDtCgTqibeSTn7pxfYVKXP0IXD1htSV1Ru0x9JPKPqrp
+	iJOrHcD3AYxvE1vlq55cdv9C8arjchmOqcy3hytsEN80La65QSNx
+X-Gm-Gg: ASbGncu+l8ZSmYEr8vDoI7ftWdKSVl5iAV1pHqcRxIDcvKk8RMUKCHBtXgVk5YFSLDf
+	zDSftuMs2tFTcqA+9vdtHkE+64axNwo2jg3BwuPCxbiUeX3pkpGceH4xqrMf7A8ERTARGIbW+D9
+	gnbFPPI7z0nuFaSaeBxTGO7uAYurqeS0KPa1nu38cFnFH8DRlwgNlC3YrkVF2kk1ThlwsRJaW0h
+	f6nKmMYfNunXvV+WqTVnUys7EHLA/c5SO0BPI6v9JlBEYo/PERWKtFjy3N6/o9RnXM1zlGhzVrf
+	/JLZ3B3yfEsd455disMEW6P4/AF/uQBcbUdAY1Ut47DggQt3R+vcY+kR
+X-Google-Smtp-Source: AGHT+IHKWzLwDfNePO702O88CwKx9UYCSyolieihropdI5zFR3komWMYTqdpjqYxT0udFvZHn0eykA==
+X-Received: by 2002:a05:6214:20e9:b0:6e4:449c:ab1d with SMTP id 6a1803df08f44-6e46ed77434mr26170986d6.2.1739380163677;
+        Wed, 12 Feb 2025 09:09:23 -0800 (PST)
 Received: from matt-Z87X-UD4H.mynetworksettings.com ([2600:1002:a012:94a2:c438:570:6155:5ffc])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e52798f66asm12079546d6.37.2025.02.12.09.09.18
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e52798f66asm12079546d6.37.2025.02.12.09.09.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 09:09:19 -0800 (PST)
+        Wed, 12 Feb 2025 09:09:23 -0800 (PST)
 From: Matthew Majewski <mattwmajewski@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -84,10 +86,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Matthew Majewski <mattwmajewski@gmail.com>
-Subject: [PATCH 0/2] media: m2m-deinterlace: add device-tree support
-Date: Wed, 12 Feb 2025 12:08:59 -0500
-Message-Id: <20250212170901.3881838-1-mattwmajewski@gmail.com>
+Subject: [PATCH 1/2] media: dt-bindings: Add dt bindings for m2m-deinterlace device
+Date: Wed, 12 Feb 2025 12:09:00 -0500
+Message-Id: <20250212170901.3881838-2-mattwmajewski@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250212170901.3881838-1-mattwmajewski@gmail.com>
+References: <20250212170901.3881838-1-mattwmajewski@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -96,30 +100,62 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello all, this patch series adds device-tree support for the generic
-m2m-deinterlace driver.
+Create a new yaml schema file to describe the device tree bindings for
+the generic m2m-deinterlace driver.
 
-A specific dma controller channel can now be provided to the driver
-via the dt, but the driver still supports the original dma query if an
-of_node is not present. This should preserve backwards compatibility
-with platform drivers that directly instantiate the device.
-
-Probing the m2m-deinterlace device via device-tree was tested on the
-BeagleBone Black with an m2m-appropriate edma channel.
-
-Best,
-
-Matthew Majewski
-
-Matthew Majewski (2):
-  media: dt-bindings: Add dt bindings for m2m-deinterlace device
-  media: m2m-deinterlace: add device-tree support
-
+Signed-off-by: Matthew Majewski <mattwmajewski@gmail.com>
+---
  .../bindings/media/m2m-deinterlace.yaml       | 41 +++++++++++++++++++
- drivers/media/platform/m2m-deinterlace.c      | 25 ++++++++---
- 2 files changed, 60 insertions(+), 6 deletions(-)
+ 1 file changed, 41 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/m2m-deinterlace.yaml
 
+diff --git a/Documentation/devicetree/bindings/media/m2m-deinterlace.yaml b/Documentation/devicetree/bindings/media/m2m-deinterlace.yaml
+new file mode 100644
+index 000000000000..3ac9c1e7be88
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/m2m-deinterlace.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/m2m-deinterlace.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: M2M Deinterlacer
++
++maintainers:
++ - Mauro Carvalho Chehab <mchehab@kernel.org>
++
++description: |
++  A generic memory2memory device for deinterlacing video
++  using dmaengine.
++
++properties:
++  compatible:
++    const: m2m-deinterlace
++
++  dma-names:
++    items:
++      - const: rxtx
++
++  dmas:
++    items:
++      - description: mem-to-mem capable DMA channel
++
++required:
++  - compatible
++  - dma-names
++  - dmas
++
++additionalProperties: false
++
++examples:
++  - |
++    m2m-deinterlace {
++        compatible = "m2m-deinterlace";
++        dma-names = "rxtx";
++        dmas = <&edma 20 0>;
++    };
 -- 
 2.25.1
 
