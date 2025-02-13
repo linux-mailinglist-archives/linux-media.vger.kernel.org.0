@@ -1,203 +1,105 @@
-Return-Path: <linux-media+bounces-26119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26120-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FCBA33C9E
-	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 11:23:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 748ADA33CE3
+	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 11:40:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC0A916912D
-	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 10:21:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 517267A38CB
+	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 10:39:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0169E213E76;
-	Thu, 13 Feb 2025 10:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8A3B2135B6;
+	Thu, 13 Feb 2025 10:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b4x4Wbeq"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b0JIacVt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C13B212F98;
-	Thu, 13 Feb 2025 10:19:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CAD211A06;
+	Thu, 13 Feb 2025 10:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739441965; cv=none; b=mdEXIDaHloMoEwci4grjrU9bmgATSTnGNvU47tXCnZdZPqNdz0fFHvyB2pbmf0NJu4nrh2EZtRSO4fZYZaSdJpENNaOVU40UxDGTa+VkUGDEk/mA1BS6vQ9hH1/851cEZUXmJaX8jhlhzGIU5STK4Cv7ZQdq2YdWTR2o/sC8Xsg=
+	t=1739443243; cv=none; b=dVGfZSZ40Xqo4vvbvPKWix7N+4SAKtZJHsgSiEZQLVwPqUNl+x3tOomcL+QVmacM2f5tSCTCkD3E2LiHBSi2tXKyn3x35EB7oY3YLOg1Hr+IAeVXLPobfL81/W3TVJI8hmtN/+6J90I75Rno7g5ct8pVPwJqHhcuAqT0O5r4n6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739441965; c=relaxed/simple;
-	bh=24IKPVvko7AYF/JdQjmDU6yGxxREmdCEYd1XuYo9HmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F1Dzz3t8kc1b4XlTuB6+j6lXO8OlnwK/1q4OYKzGvTJPIar+onf260UYzV4Vd/r9jI3O2+VT5eZbGrz/n+wl0kEkGLu0UH7gEG35AxiwXnRPLYMsbbhYaCiqeWkBJVcluzwr/mNM36FiZE3FMr0Iv2VgGfS4iOiXhbCoS88LwL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b4x4Wbeq; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1739443243; c=relaxed/simple;
+	bh=rKfJj/nOFTP3ITe5GatUlSP/bs0kOFPFXDa1/jdXj0Q=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=Ea3Z3atIRMfDy7odnVfpJmHWTGTGNuCIEWTHUq4GEa2uH1bf95Y/BT2vpdCGa8OQIWCRJy/OIbODQc4LzEsbWblaYjWs3A+N7t7o78fPSIRqElO4EiPpNcA3541wPXoT4f8oOTA5wFrj0T13eGwVL/eXR1NziKuAKzxiJwpI+lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b0JIacVt reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3024B6AF;
-	Thu, 13 Feb 2025 11:17:56 +0100 (CET)
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58AC36AF;
+	Thu, 13 Feb 2025 11:39:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739441876;
-	bh=24IKPVvko7AYF/JdQjmDU6yGxxREmdCEYd1XuYo9HmE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b4x4WbeqsNvXxNQyuRFhAU3Ed8ZwGP1OT+MWvlY7JpGqB4kloKWwzB07v7/KYld/M
-	 xhgJYJKvH5epfyl0iH9cIVSUPBxVmB2dn+7uBvY+GVu8/+400FhuklOcNVwR8sBwVh
-	 501sXqmw6+sS/O1SyCmfn3cavrs0GH0+UP06p6Ac=
-Date: Thu, 13 Feb 2025 12:19:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sebastian LaVine <slavine@d3embedded.com>
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	=?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>,
-	Abel Vesa <abel.vesa@linaro.org>,
-	Achath Vaishnav <vaishnav.a@ti.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Javier Carrasco <javier.carrasco@wolfvision.net>,
-	Jianzhong Xu <xuj@ti.com>,
-	Julien Massot <julien.massot@collabora.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Nishanth Menon <nm@ti.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Stuart Burtner <sburtner@d3embedded.com>,
-	Tero Kristo <kristo@kernel.org>, Thakkar Devarsh <devarsht@ti.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Will Deacon <will@kernel.org>, Zhi Mao <zhi.mao@mediatek.com>
-Subject: Re: [PATCH 2/4] media: i2c: Add driver for Sony IMX728
-Message-ID: <20250213101903.GH5888@pendragon.ideasonboard.com>
-References: <20250212195656.69528-1-slavine@d3embedded.com>
- <20250212195656.69528-3-slavine@d3embedded.com>
+	s=mail; t=1739443160;
+	bh=rKfJj/nOFTP3ITe5GatUlSP/bs0kOFPFXDa1/jdXj0Q=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=b0JIacVtrHBLExudGvxw2VW6F6/nRpG6Ko7zZRbOF5hzlown3X9l7YYBxDooS+kn0
+	 EP23NnSl/XMjJvwO6j+1Jl5FF0X9GJATp9tVJ3PujlTWBzn4f4d+gflviRsAoBU0Ca
+	 +rweftJoiunoNp8OZmz8bMPvRF65bN//JuR4eBUE=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250212195656.69528-3-slavine@d3embedded.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250212195656.69528-1-slavine@d3embedded.com>
+References: <20250212195656.69528-1-slavine@d3embedded.com>
+Subject: Re: [PATCH 0/4] media: i2c: Add driver for Sony IMX728
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: =?utf-8?q?N=C3=ADcolas?= F. R. A. Prado <nfraprado@collabora.com>, Abel Vesa <abel.vesa@linaro.org>, Achath Vaishnav <vaishnav.a@ti.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Ard Biesheuvel <ardb@kernel.org>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson <quic_bjorande@quicinc.com>, Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley <conor+dt@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>, Fabio Estevam <festevam@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Hans Verkuil <hverkuil@xs4all.nl>, Javier Carrasco <javier.carrasco@wolfvision.net>, Jianzhong Xu <xuj@ti.com>, Julien Massot <julien.massot@collabora.com>, Kory Maincent <kory.maincent@bootlin.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+ , Mikhail Rudenko <mike.rudenko@gmail.com>, Nishanth Menon <nm@ti.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Sascha Hauer <s.hauer@pengutronix.de>, Sebastian LaVine <slavine@d3embedded.com>, Shawn Guo <shawnguo@kernel.org>, Stuart Burtner <sburtner@d3embedded.com>, Tero Kristo <kristo@kernel.org>, Thakkar Devarsh <devarsht@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Umang Jain <umang.jain@ideasonboard.com>, Vignesh Raghavendra <vigneshr@ti.com>, Will Deacon <will@kernel.org>, Zhi Mao <zhi.mao@mediatek.com>
+To: Sebastian LaVine <slavine@d3embedded.com>, devicetree@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date: Thu, 13 Feb 2025 10:40:35 +0000
+Message-ID: <173944323591.1238111.8582110055649651187@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
 Hi Sebastian,
 
-Thank you for the patch.
+Quoting Sebastian LaVine (2025-02-12 19:56:52)
+<snip>
+>=20
+> Total for device /dev/v4l-subdev4: 44, Succeeded: 44, Failed: 0, Warnings=
+: 0
+>=20
+>=20
+> This is a v3 of a series that was originally sent last summer[0].
+>=20
+> [0]: https://lore.kernel.org/r/linux-media/20240628-imx728-driver-v2-0-80=
+efa6774286@d3engineering.com/
 
-I'll start with a partial review.
+This version of the driver was authored by "Spencer Hill
+<shill@d3engineering.com>" who seems to no longer be credited. Is this
+intentional?
 
-On Wed, Feb 12, 2025 at 02:56:54PM -0500, Sebastian LaVine wrote:
-> Adds a driver for the Sony IMX728 image sensor.
-> 
-> Signed-off-by: Sebastian LaVine <slavine@d3embedded.com>
-> Mentored-by: Stuart Burtner <sburtner@d3embedded.com>
-> ---
->  MAINTAINERS                  |    1 +
->  arch/arm64/configs/defconfig |    1 +
->  drivers/media/i2c/Kconfig    |   12 +
->  drivers/media/i2c/Makefile   |    1 +
->  drivers/media/i2c/imx728.c   | 9655 ++++++++++++++++++++++++++++++++++
->  5 files changed, 9670 insertions(+)
->  create mode 100644 drivers/media/i2c/imx728.c
+Does his original Signed-off-by: tag need to be kept at least ? Or
+perhaps Co-Authored-by: ?
 
-[snip]
+--
+Kieran
 
-> diff --git a/drivers/media/i2c/imx728.c b/drivers/media/i2c/imx728.c
-> new file mode 100644
-> index 000000000000..75120ca01ce6
-> --- /dev/null
-> +++ b/drivers/media/i2c/imx728.c
-> @@ -0,0 +1,9655 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Sony IMX728 CMOS Image Sensor Driver
-> + *
-> + * Copyright (c) 2024-2025 Define Design Deploy Corp
-> + */
 
-[snip]
-
-> +static const struct cci_reg_sequence imx728_wdr_12bit_3856x2176[] = {
-
-This table is way too big, with over 8000 entries. Some are even
-duplicated, with identical or different values for the same register. It
-will take more than a second at 400kHz to program this.
-
-At the very least I would expect a way to compact the table and make use
-of I2C register address auto-increment. Default power-up values should
-also likely be just dropped.
-
-I haven't checked in details, but doesn't this table also contain tuning
-data for your specific camera ?
-
-[snip]
-
-> +};
-
-[snip]
-
-> +static int imx728_get_frame_interval(struct v4l2_subdev *sd,
-> +                                    struct v4l2_subdev_state *sd_state,
-> +                                    struct v4l2_subdev_frame_interval *fi)
-> +{
-> +       struct imx728 *imx728 = to_imx728(sd);
-> +
-> +       fi->interval.numerator = 1;
-> +       fi->interval.denominator = imx728->fps;
-> +       return 0;
-> +}
-> +
-> +static int imx728_set_frame_interval(struct v4l2_subdev *sd,
-> +                                    struct v4l2_subdev_state *sd_state,
-> +                                    struct v4l2_subdev_frame_interval *fi)
-> +{
-> +       struct imx728 *imx728 = to_imx728(sd);
-> +       u32 req_fps;
-> +
-> +       mutex_lock(&imx728->lock);
-> +
-> +       if (fi->interval.numerator == 0 || fi->interval.denominator == 0) {
-> +               fi->interval.denominator = IMX728_FRAMERATE_DEFAULT;
-> +               fi->interval.numerator = 1;
-> +       }
-> +
-> +       req_fps = clamp_val(DIV_ROUND_CLOSEST(fi->interval.denominator,
-> +                                             fi->interval.numerator),
-> +                           IMX728_FRAMERATE_MIN, IMX728_FRAMERATE_MAX);
-> +
-> +       fi->interval.numerator = 1;
-> +       fi->interval.denominator = req_fps;
-> +
-> +       imx728->fps = req_fps;
-> +
-> +       mutex_unlock(&imx728->lock);
-> +       dev_dbg(imx728->dev, "%s frame rate = %d\n", __func__, imx728->fps);
-> +
-> +       return 0;
-> +}
-
-The frame rate on raw sensors is controlled through h/v blanking. You
-can drop thse functions, especially given that imx728->fps isn't used
-anywhere else.
-
--- 
-Regards,
-
-Laurent Pinchart
+>=20
+> v2 -> v3:
+> - Update maintainer
+> - Update bindings example
+> - Add devicetree overlays
+> - The driver now supports SRGGB12_1X12, not SRGGB10_1X10
+> - The driver now outputs at 3856x2176, not 2840x2160
+> - Fixed exposure, again controls
+> - Removed duplicate register writes (removed repeat HDR writes, etc)
+> - Fixed imx728_wait_for_state use of the cci_* API
+> - Re-added _imx728_set_routing (necessary for imx728_init_state)
+>=20
+> Sebastian LaVine (4):
+>   media: dt-bindings: Add Sony IMX728
+>   media: i2c: Add driver for Sony IMX728
+>   arm64: dts: ti: k3-am62a7-sk: Add overlay for fusion 2 board
+>   arm64: dts: ti: Add overlays for IMX728 RCM
 
