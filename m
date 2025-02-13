@@ -1,166 +1,167 @@
-Return-Path: <linux-media+bounces-26122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26123-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75799A3405D
-	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 14:27:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E72A34187
+	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 15:14:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71E1416A3FE
-	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 13:27:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C230A1894A58
+	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 14:09:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD89227EB9;
-	Thu, 13 Feb 2025 13:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86C4121D3FD;
+	Thu, 13 Feb 2025 14:05:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="W2R8s45M"
+	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="N3VjoQa0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5382123F427
-	for <linux-media@vger.kernel.org>; Thu, 13 Feb 2025 13:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20A923A9B0
+	for <linux-media@vger.kernel.org>; Thu, 13 Feb 2025 14:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739453242; cv=none; b=lWrwOUKFJ9quYaNnxZf5UjTIgE3SZPBAP4rKPijQie9F7k4e8/25oIKQ0k8I9CYY73eqlFtJPiHhs+NdTNLa4+EChb7GZyJhX339KKD67mV3zVJGW/eMtTvYNYkp6rz40K8gtEaLjDcsYNhEiu2XSo3GiemIsnH6nKR11KC3oDo=
+	t=1739455536; cv=none; b=mpzVYyTrqQiPJ5PSbpYwW6qBXb8DRtVlrMa1DUQV2Ev9t/RRASoNoume5Y2SnmzBkqziP7esky2H/nmmq5IF4yjRwvoL8SlksO1rAZxIpnM//9hbSdPvpxlXSl5uEv30PG5zOXVvtIC0XsvACMkJAY6kKc0YMzAZG45yY+hwxhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739453242; c=relaxed/simple;
-	bh=PETh38ePI29EJVHzrw4elbMK85jko6m6w3+fzKkGw4o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Njl5kfug3d3KzkOMZaiTKeQIIGWJpAKN3WvICGIEwv9u+hhgo0bEjjPvEKOiPvSmZDpOs1A6UiduT5s/frskElz7DH6GQ02ESwxEqAbWSm4xs2O8d0t8hZPEGKMoVfuoN3bDQiKSZfmGQ32bJHoErGpt9Gh5Ir+xLo8SPLOMN1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=W2R8s45M; arc=none smtp.client-ip=91.218.175.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Thu, 13 Feb 2025 18:56:45 +0530
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1739453226;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WzD/OC0ZByBLmQNngbMt1lFnaeNPGOwTY+A25jppGVo=;
-	b=W2R8s45M6Rdy6DBdhwhHWEe0Nrz/vcqTmXF6dPeS95nppgNdSxB9JUX13KftJDHnEbQMDI
-	R5cKlCH/iBFqLictE1CBrp49paOvXv9OV2Rroy4RuM7gDaJyOS6wv8KDZTl1gy4YyUaGlV
-	ZQnZAJJLwDI6ePm7MAWUuXlGnD+dBBo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jai Luthra <jai.luthra@linux.dev>
-To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, devarsht@ti.com, vaishnav.a@ti.com, 
-	r-donadkar@ti.com, u-kumar1@ti.com
-Subject: Re: [RFC PATCH 3/3] media: ti: j721e-csi2rx: Add support for
- VIDIOC_LOG_STATUS
-Message-ID: <nvyplkcl74rpe7zl2vprfztaivlmwvrsrwyrqw7lbvbeij5ubt@4dehnb7j6ona>
-X-PGP-Key: http://jailuthra.in/files/public-key.asc
-References: <20250212131244.1397722-1-y-abhilashchandra@ti.com>
- <20250212131244.1397722-4-y-abhilashchandra@ti.com>
+	s=arc-20240116; t=1739455536; c=relaxed/simple;
+	bh=xS258u4nZ8Oh1hovVFPvLu204SUXG1v2PhB8JQekrzU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jWX5EPMTIfJTe7rc2chF/nVH38Tkqjkd82brFRTYPq41XnWCIHKLwM07h9u9KFL/nVn3y0Z79X8+llZ153uAV0q9+szGKT9Ky+alCOgn+iO3lkZNcIitodchaSR/GKnFWMExhAiohxLBI0akwSdjup3Rl9bbvFefXqeAOHY+aDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=N3VjoQa0; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c05bb6dab7so94949985a.0
+        for <linux-media@vger.kernel.org>; Thu, 13 Feb 2025 06:05:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar.org; s=google; t=1739455533; x=1740060333; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fiZcI5pNzRU07XzzU8EnwEz/jsrm+hKHSzrUBfY4xZU=;
+        b=N3VjoQa0MULUdAyOJxAz+TTy3h9UxMiM6dSGwX/s4j44vFeLgIs7orav24SYoaEJHY
+         9Qx1BN5HVrKmPV5JS/xo3mcl1vs71nfz8GWw8sbmfY78yO4E+5jcLTfhrG3Eq3f1zEL6
+         scp63J/Lh4gm6WInS8Ikb0Ao2aWJikn9A+IDuE1OCPjSoGd+l5Apdsoq+cBwj2xqWaw+
+         klbA317LL+wlLBz7AIYNuZcs8CPyRFtW/JgzF3p6YAFfKponp0tLyFqSx+KPaKWemVbN
+         6zZgjIoy1lZUVQjp7o1hq5l20QURuo6asMe+f3ZrD8IlEqi+Wz+zLNH043lfvGnOyT6b
+         bQpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739455533; x=1740060333;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fiZcI5pNzRU07XzzU8EnwEz/jsrm+hKHSzrUBfY4xZU=;
+        b=CR3iRAs/gr9fyMFkXRV0AzDVc4aLJ40l28qth9ZAlKQ8hAsKbvl7ZG6f0iwDyeYmQC
+         0L9ZgM3dlRbXUkhrxryEItavSe49pdkzdFiRGHR1069SPXy7P7WgtJRxbWkDBW8MkbL7
+         kSjVSL2tge//LMSBk78vcmi12kSscFcMcNP3edRbbpdGZo5DRBi70Ih3gnviAwpERgKg
+         tnc9pWnK9YkASaZSmOAr2jD6iKHm53cDOJE+F+vHNKS/piqqc8PVfKOrUAuw/A+0T3gj
+         BY3Bso31ZOQXZct6S15YgbZNdAnzn9YwcTBmZPVnEeVxpuP9x5Bjk/qBcILu4a1/M5XS
+         pjww==
+X-Forwarded-Encrypted: i=1; AJvYcCWkjU8U474ZZmAAMufRavPfBajYlfpLfydg8XL3IZeR8jppcwepG/K3RPueys65T32uHr8DnRBekZqQPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPBTFPSVRrXCfCQYh02PRwCXCk2ZqdJ0C+to9U3dEmsfnHHulk
+	s/8QK4ukgMVWn6pFeTchILVATT23Qc72MV2HKifkiUE8JrhoUpTciYpydEeynm++Ta9sqLADkCg
+	ZS48DVJcHp1CrBz4VITCHUF/zi+FmbLh9uptHHQ==
+X-Gm-Gg: ASbGncvFbxOpUqa+FIm1fGjhDPg7ugMenf42ZdqNyZ6FL0aFZO50fqNXMxCeY56/Aot
+	2P11WWI2wHVA7kHTLGpuJXVI7r1UyvSSJ3PVUZ81nJYYnVHUZqJ3UKR2Z9oJ9fcmP5HPAyQ==
+X-Google-Smtp-Source: AGHT+IGMP88jINMPoFMOhhs/JAOS7v2yzIBooFPBVGpWjkqaheBF8kqUyMw9whWPj/OQ8rwmytDe/wVilf8O/rIqWwA=
+X-Received: by 2002:a05:620a:6841:b0:7b6:d611:ce6f with SMTP id
+ af79cd13be357-7c07a89294cmr506602985a.8.1739455533614; Thu, 13 Feb 2025
+ 06:05:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="s4c7q4omkexuyfrp"
-Content-Disposition: inline
-In-Reply-To: <20250212131244.1397722-4-y-abhilashchandra@ti.com>
-X-Migadu-Flow: FLOW_OUT
+References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
+ <20250212205613.4400a888@collabora.com> <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
+ <20250213093557.278f5d19@collabora.com> <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
+ <20250213134008.4cbef142@collabora.com>
+In-Reply-To: <20250213134008.4cbef142@collabora.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 13 Feb 2025 14:05:22 +0000
+X-Gm-Features: AWEUYZn29uWPvEYSBg2IY8QVofzDJvdO9H1dHkQQoSFoIsbJfLKOXfSzgdbP8WY
+Message-ID: <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Sumit Garg <sumit.garg@linaro.org>, Jens Wiklander <jens.wiklander@linaro.org>, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Florent Tomasin <florent.tomasin@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
---s4c7q4omkexuyfrp
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 3/3] media: ti: j721e-csi2rx: Add support for
- VIDIOC_LOG_STATUS
-MIME-Version: 1.0
+On Thu, 13 Feb 2025 at 12:40, Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+> On Thu, 13 Feb 2025 14:46:01 +0530 Sumit Garg <sumit.garg@linaro.org> wrote:
+> > Yeah but all the prior vendor specific secure/restricted DMA heaps
+> > relied on DT information.
+>
+> Right, but there's nothing in the DMA heap provider API forcing that.
 
-Hi Abhilash,
+Yeah. DMA heaps are just a way to allocate memory from a specific
+place. It allows people to settle on having a single way to do
+allocations from weird platform-specific places; the only weird
+platform-specific part userspace needs to deal with is figuring out
+the name to use. The rest is at least a unified API: the point of
+dma-heaps was exactly to have a single coherent API for userspace, not
+to create one API for ZONE_CMA and DT ranges and everyone else doing
+their own thing.
 
-On Wed, Feb 12, 2025 at 06:42:44PM +0530, Yemike Abhilash Chandra wrote:
-> The VIDIOC_LOG_STATUS ioctl outputs the current status of a device to the
-> kernel log. When this ioctl is called on a video device, the current
-> implementation queries the log status for all connected subdevices in the
-> media pipeline.
->=20
+> > Rather than that it's better
+> > for the user to directly ask the TEE device to allocate restricted
+> > memory without worrying about how the memory restriction gets
+> > enforced.
+>
+> If the consensus is that restricted/protected memory allocation should
+> always be routed to the TEE, sure, but I had the feeling this wasn't as
+> clear as that. OTOH, using a dma-heap to expose the TEE-SDP
+> implementation provides the same benefits, without making potential
+> future non-TEE based implementations a pain for users. The dma-heap
+> ioctl being common to all implementations, it just becomes a
+> configuration matter if we want to change the heap we rely on for
+> protected/restricted buffer allocation. And because heaps have
+> unique/well-known names, users can still default to (or rely solely on)
+> the TEE-SPD implementation if they want.
+>
+> > There have been several attempts with DMA heaps in the past which all
+> > resulted in a very vendor specific vertically integrated solution. But
+> > the solution with TEE subsystem aims to make it generic and vendor
+> > agnostic.
+>
+> Just because all previous protected/restricted dma-heap effort
+> failed to make it upstream, doesn't mean dma-heap is the wrong way of
+> exposing this feature IMHO.
 
-What is the benefit of doing this for a video node? The user can directly=
-=20
-check the status on the cdns-csi2rx subdev for CSI errors.
+To be fair, having a TEE implementation does give us a much better
+chance of having a sensible cross-vendor plan. And the fact it's
+already (sort of accidentally and only on one platform AFAICT) ready
+for a 'test' interface, where we can still exercise protected
+allocation paths but without having to go through all the
+platform-specific setup that is inaccessible to most people, is also
+really great! That's probably been the biggest barrier to having this
+tested outside of IHVs and OEMs.
 
-As far as I understand, the video node corresponds to a particular stream, =
-but=20
-the cdns-csi2rx source pad is shared for all video nodes, so it will report=
-=20
-the total errors seen for all video nodes in multi-camera scenarios.
+But just because TEE is one good backend implementation, doesn't mean
+it should be the userspace ABI. Why should userspace care that TEE has
+mediated the allocation instead of it being a predefined range within
+DT? How does userspace pick which TEE device to use?  What advantage
+does userspace get from having to have a different codepath to get a
+different handle to memory?  What about x86?
 
-This approach will also give you v4l2 control handler status from a few=20
-sensors (like OV5640) that implement the ioctl using=20
-v4l2_ctrl_subdev_log_status(), which is probably just noise for the case wh=
-ere=20
-a user wants to check for stream errors.
+I think this proposal is looking at it from the wrong direction.
+Instead of working upwards from the implementation to userspace, start
+with userspace and work downwards. The interesting property to focus
+on is allocating memory, not that EL1 is involved behind the scenes.
 
-> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> ---
->  drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->=20
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/driv=
-ers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index 6412a00be8ea..946704458fee 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -377,6 +377,15 @@ static int ti_csi2rx_enum_framesizes(struct file *fi=
-le, void *fh,
->  	return 0;
->  }
-> =20
-> +static int ti_csi2rx_log_status(struct file *file, void *fh)
-> +{
-> +	struct ti_csi2rx_dev *csi =3D video_drvdata(file);
-> +
-> +	v4l2_device_call_all(&csi->v4l2_dev, 0, core, log_status);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct v4l2_ioctl_ops csi_ioctl_ops =3D {
->  	.vidioc_querycap      =3D ti_csi2rx_querycap,
->  	.vidioc_enum_fmt_vid_cap =3D ti_csi2rx_enum_fmt_vid_cap,
-> @@ -393,6 +402,7 @@ static const struct v4l2_ioctl_ops csi_ioctl_ops =3D {
->  	.vidioc_expbuf        =3D vb2_ioctl_expbuf,
->  	.vidioc_streamon      =3D vb2_ioctl_streamon,
->  	.vidioc_streamoff     =3D vb2_ioctl_streamoff,
-> +	.vidioc_log_status	=3D ti_csi2rx_log_status,
->  };
-> =20
->  static const struct v4l2_file_operations csi_fops =3D {
-> --=20
-> 2.34.1
->=20
-
-Thanks,
-Jai
-
---s4c7q4omkexuyfrp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmet8xUACgkQQ96R+SSa
-cUWkRw/9Fha7996M+iSt4Hze7iS/MHJkt1zXGu/V5py5hMizMPXwke/BGF3rO6DM
-CyehfaRs2jdm4kq2U95udD/TB3WwH0ZYKqK7vJ5xgKpFK5/gJMqHhAAosto9XRFT
-L1STl7eIMclg2C65wEkPvYk7ZdSSM/7EK2153skpsoAao3xMBfaED1uFWQah/dW+
-XqHvnB4PoCy35Vsg8jT2rtfkXxv8GvkNmYzEgGqdRDE9vRIexTjLDPTovBVH768I
-bSgei72CSWlcHuQ7IFvfnuI0PPHVbEqCBo31mnCUIfRwSqXKq4b7ABEvw/HLyax0
-cNg753tCtEbkV6LFn20DS2OUEG2W2vOoAfaOEwljOhU+ehzO+61IJGsKyudD3heB
-f7UzczkacN5iyTfroW3fD6ZQhE76ZxW7CAeunbLUxaJi+kLbDwk+BD/x7DQ4WWQY
-h+mwzWFdyP+Y3oTRBftvk/iJ42nHabGsGnQrbUzHLke3uSjBGAPmFiqSCFPJ8fsj
-U3NMbgS5rdQrPWu8lydVK1n2GPDLSia9Ie8hTxiTcaEmDfLoOWoD4A3F1Bzh1YZn
-uimjh+pTkcpAk9Wi24I1/iWPfhk8xJPbaEsnvNeFNLfkO5p//tQ0kU/83GAEvG9L
-p+YKvNw9WdDFyz8GCgXbeY8bhLyef0cBwrBRGtUwYdrIqipnHv0=
-=W2Qx
------END PGP SIGNATURE-----
-
---s4c7q4omkexuyfrp--
+Cheers,
+Daniel
 
