@@ -1,458 +1,295 @@
-Return-Path: <linux-media+bounces-26113-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26114-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31975A33A45
-	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 09:50:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4547A33A4E
+	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 09:54:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6414167BDF
-	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 08:50:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A0953A675C
+	for <lists+linux-media@lfdr.de>; Thu, 13 Feb 2025 08:54:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6916120C46A;
-	Thu, 13 Feb 2025 08:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED10620B81E;
+	Thu, 13 Feb 2025 08:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ia57xZ3p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AdeOGeL8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2FE2063DA;
-	Thu, 13 Feb 2025 08:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E05A2063DA
+	for <linux-media@vger.kernel.org>; Thu, 13 Feb 2025 08:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739436593; cv=none; b=NWoMV1N+l4ptcp1vnp2DllPNXek4HFhJck2wxgJm4Koojo3+zBOxC8/7hxPy17rA5kghG5aoqvKoR21ABboRVuGHIBMIvePQ2Kd8t6nh4u8iXozxgYCWSDPZ4bwHHDtKn2B+ZV4lAQOrxGUpLONVDF5b32x0lUl6ntOMQ3Oei/Y=
+	t=1739436849; cv=none; b=FC6j0whJ99fffDC76UyyK9p8US6FBFO91cJ4iqYXoAEsaWLRa6d8WvUjElJAMshXg43vpev+5TDGfal7FfKpymryIDQi89s6xEuhrd+eZicFSHiEHqfFBt7TuSpKi9zbEjP0VVP1qfT8/Gwq4o+hCYZ9rEi/d5k9F7SSushTcEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739436593; c=relaxed/simple;
-	bh=cd7wC24agIPsKYoQD5ER+IECrpwNvYKfrWoOGu/d88k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GelW8V213Uk1eTkpOJmwedcPONavlL2y1Hc/vOpMiXqWo8oqj1auxN07yBjl+bEd2MtI8T0EW1eBVKC+hMdpa9xgeLcDrsKOFt0KWOw4Z+emZODhDDq56yq8tiy6eHuJDcyduuLj0l70clwdrPJfpcxSKQjEk3rPfcqA4ovkTaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ia57xZ3p; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EDC5C4CED1;
-	Thu, 13 Feb 2025 08:49:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739436593;
-	bh=cd7wC24agIPsKYoQD5ER+IECrpwNvYKfrWoOGu/d88k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ia57xZ3pwG5L7EjG/epzmI6HuQ4XdduMd+BUnr+fkc3YoXwsrw8IjUPXh7TGObBjt
-	 NFPEaINJ6xDAOwBTZe4CtAbSZjjGd1+wVeeLWO7COhzs4qrjG3d8aRaVAhB6VYp509
-	 9Du7pNsX38cYCsQegLRYnOMd0ImQ0iTisgR3O8o2xVB5MxbpavegGqNclkUGCN7ozB
-	 txpl77HL1ca4AzcD1gH3lBrtvtOLOc9GuprU8KmdZhJdDHubuLNkp4gruMw5HyODcE
-	 PczM6LdlRFf6JfQzfJU/qop+3EFMj0RZb/3xzZ8GZ2I9wmMU4AL8izKDMbwFIMUEjj
-	 pIAwF+DFhsxfA==
-Date: Thu, 13 Feb 2025 09:49:50 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Nas Chung <nas.chung@chipsnmedia.com>
-Cc: "mchehab@kernel.org" <mchehab@kernel.org>, 
-	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, 
-	"sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>, "robh@kernel.org" <robh@kernel.org>, 
-	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-imx@nxp.com" <linux-imx@nxp.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "jackson.lee" <jackson.lee@chipsnmedia.com>, 
-	"lafley.kim" <lafley.kim@chipsnmedia.com>
-Subject: Re: [PATCH 3/8] dt-bindings: media: nxp: Add Wave6 video codec device
-Message-ID: <20250213-imaginary-shrimp-of-merriment-6ccb6f@krzk-bin>
-References: <20250210090725.4580-1-nas.chung@chipsnmedia.com>
- <20250210090725.4580-4-nas.chung@chipsnmedia.com>
- <cb7937f5-2045-4903-825c-71ed70097efb@kernel.org>
- <SL2P216MB12460EDF6265459D11E2A5A9FBFF2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1739436849; c=relaxed/simple;
+	bh=VJviSIP7OJFCsUmgdYwlZkUglNVq7jZaOgB4u4dcC3A=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sViFkiIMDamTqF2yiJm9kRGdoCh3QXuTlGdDXV6Haw8yPvBYBTNDmZmSKDc7wt820iIL/Wbc7ImDck5cF/v0TYdVFm0Fq8RDFNPLvvEBBkICa2UR4D/Mr6ZrnJg9FVgqun4v/vT1l3/Cq2aYeH809f/cwuyLykl32hwl42Njqww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AdeOGeL8; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739436848; x=1770972848;
+  h=date:from:to:cc:subject:message-id;
+  bh=VJviSIP7OJFCsUmgdYwlZkUglNVq7jZaOgB4u4dcC3A=;
+  b=AdeOGeL8/QOrZhgMelfcsQ3i9SUpGgg9W7AXkehnVnLca1F43meXv/Ri
+   I1kMX8+DG5NAnuUH7eVRrDS19bFcGZn0W8VHbY6ZpPguLnZwoNBdhA2DN
+   HBR1C52DKo+FnptKgKjZGEIvSrNUkHLDT2EfE2w9W9a3athR6aHM1G+ui
+   MYinh4q9qbRaFUp1mowKF/mKs7TaTSGGbmwhI6CFToGVT4x4yiNwPIR0G
+   m/8jryXH3mRQfOz4WfMf538wwJK/S8SKRYoefOwKWfAmjPr0fIXtXD05U
+   /RyIlNHFA7qY+7eb1nzEFs67R1w9gtYIbR5FKqDBiyqZtu7OhHb5j66ea
+   g==;
+X-CSE-ConnectionGUID: TCgpVbC/QfexQ03mfE3whQ==
+X-CSE-MsgGUID: +pPPAtjuStqPgZ1aD4q3RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40244056"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="40244056"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2025 00:54:07 -0800
+X-CSE-ConnectionGUID: qEat8P7yT26kgGPR6WIpIQ==
+X-CSE-MsgGUID: Q1HGqkzXTf+8Phukz4O10w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,282,1732608000"; 
+   d="scan'208";a="113067466"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 13 Feb 2025 00:54:05 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tiUyx-0016qD-2b;
+	Thu, 13 Feb 2025 08:54:03 +0000
+Date: Thu, 13 Feb 2025 16:53:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ c52643b241525c0f4bf8902eeaba0d74bc5af278
+Message-ID: <202502131647.sNtclVoZ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <SL2P216MB12460EDF6265459D11E2A5A9FBFF2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
 
-On Thu, Feb 13, 2025 at 07:50:53AM +0000, Nas Chung wrote:
-> >> +    items:
-> >> +      - enum:
-> >> +          - nxp,imx95-wave633c-ctrl
-> >> +          - nxp,imx95-wave633c
-> >
-> >I don't understand why you duplicated compatibles. You split this for
-> >driver? That's a no. There are no two hardwares.
-> 
-> Yes, I want to introduce two different devices and drivers,
-> even though there is only one hardware.
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: c52643b241525c0f4bf8902eeaba0d74bc5af278  media: qcom: camss: add support for SDM670 camss
 
-That's a no. Bindings are for hardware, not drivers.
-Linux driver design is independent of bindings.
+elapsed time: 892m
 
-> 
-> Wave6 IP has five independent register regions:
-> 
-> One register region is dedicated to the control device,
-> which manages shared resources such as firmware loading and power domains.
-> 
-> The remaining four register regions are assigned to
-> four independent VPU devices, each accessing its own dedicated region.
-> (to support 4 vms)
+configs tested: 202
+configs skipped: 4
 
-This could be, but your binding said something completely opposite. Look
-how other bindings do it, first.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
-> Would it be reasonable to split the YAML into separate files
-> for the VPU control device and the VPU device ?
-> (like nxp,wave633c-ctrl.yaml)
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    clang-21
+alpha                            allyesconfig    gcc-14.2.0
+alpha                               defconfig    gcc-14.2.0
+arc                              allmodconfig    clang-18
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    clang-18
+arc                                 defconfig    gcc-14.2.0
+arc                   randconfig-001-20250213    gcc-13.2.0
+arc                   randconfig-001-20250213    gcc-14.2.0
+arc                   randconfig-002-20250213    gcc-13.2.0
+arc                   randconfig-002-20250213    gcc-14.2.0
+arm                              allmodconfig    clang-18
+arm                               allnoconfig    gcc-14.2.0
+arm                              allyesconfig    clang-18
+arm                                 defconfig    gcc-14.2.0
+arm                   randconfig-001-20250213    clang-17
+arm                   randconfig-001-20250213    gcc-14.2.0
+arm                   randconfig-002-20250213    clang-15
+arm                   randconfig-002-20250213    gcc-14.2.0
+arm                   randconfig-003-20250213    clang-21
+arm                   randconfig-003-20250213    gcc-14.2.0
+arm                   randconfig-004-20250213    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                               defconfig    gcc-14.2.0
+arm64                 randconfig-001-20250213    clang-19
+arm64                 randconfig-001-20250213    gcc-14.2.0
+arm64                 randconfig-002-20250213    gcc-14.2.0
+arm64                 randconfig-003-20250213    gcc-14.2.0
+arm64                 randconfig-004-20250213    clang-21
+arm64                 randconfig-004-20250213    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                                defconfig    gcc-14.2.0
+csky                  randconfig-001-20250213    clang-21
+csky                  randconfig-001-20250213    gcc-14.2.0
+csky                  randconfig-002-20250213    clang-21
+csky                  randconfig-002-20250213    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    gcc-14.2.0
+hexagon                          allyesconfig    clang-18
+hexagon                          allyesconfig    clang-21
+hexagon                             defconfig    gcc-14.2.0
+hexagon               randconfig-001-20250213    clang-21
+hexagon               randconfig-002-20250213    clang-18
+hexagon               randconfig-002-20250213    clang-21
+i386                             allmodconfig    clang-19
+i386                              allnoconfig    clang-19
+i386                             allyesconfig    clang-19
+i386        buildonly-randconfig-001-20250213    clang-19
+i386        buildonly-randconfig-001-20250213    gcc-12
+i386        buildonly-randconfig-002-20250213    clang-19
+i386        buildonly-randconfig-003-20250213    clang-19
+i386        buildonly-randconfig-004-20250213    clang-19
+i386        buildonly-randconfig-005-20250213    clang-19
+i386        buildonly-randconfig-006-20250213    clang-19
+i386                                defconfig    clang-19
+i386                  randconfig-001-20250213    clang-19
+i386                  randconfig-002-20250213    clang-19
+i386                  randconfig-003-20250213    clang-19
+i386                  randconfig-004-20250213    clang-19
+i386                  randconfig-005-20250213    clang-19
+i386                  randconfig-006-20250213    clang-19
+i386                  randconfig-007-20250213    clang-19
+i386                  randconfig-011-20250213    gcc-12
+i386                  randconfig-012-20250213    gcc-12
+i386                  randconfig-013-20250213    gcc-12
+i386                  randconfig-014-20250213    gcc-12
+i386                  randconfig-015-20250213    gcc-12
+i386                  randconfig-016-20250213    gcc-12
+i386                  randconfig-017-20250213    gcc-12
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch                           defconfig    gcc-14.2.0
+loongarch             randconfig-001-20250213    clang-21
+loongarch             randconfig-001-20250213    gcc-14.2.0
+loongarch             randconfig-002-20250213    clang-21
+loongarch             randconfig-002-20250213    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                                defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+microblaze                          defconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                               defconfig    gcc-14.2.0
+nios2                 randconfig-001-20250213    clang-21
+nios2                 randconfig-001-20250213    gcc-14.2.0
+nios2                 randconfig-002-20250213    clang-21
+nios2                 randconfig-002-20250213    gcc-14.2.0
+openrisc                          allnoconfig    clang-21
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-12
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    clang-21
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-12
+parisc                randconfig-001-20250213    clang-21
+parisc                randconfig-001-20250213    gcc-14.2.0
+parisc                randconfig-002-20250213    clang-21
+parisc                randconfig-002-20250213    gcc-14.2.0
+parisc64                            defconfig    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    clang-21
+powerpc                          allyesconfig    gcc-14.2.0
+powerpc               randconfig-001-20250213    clang-17
+powerpc               randconfig-001-20250213    clang-21
+powerpc               randconfig-002-20250213    clang-21
+powerpc               randconfig-002-20250213    gcc-14.2.0
+powerpc               randconfig-003-20250213    clang-21
+powerpc               randconfig-003-20250213    gcc-14.2.0
+powerpc64             randconfig-001-20250213    clang-19
+powerpc64             randconfig-001-20250213    clang-21
+powerpc64             randconfig-002-20250213    clang-21
+powerpc64             randconfig-003-20250213    clang-21
+powerpc64             randconfig-003-20250213    gcc-14.2.0
+riscv                            allmodconfig    gcc-14.2.0
+riscv                             allnoconfig    clang-21
+riscv                            allyesconfig    gcc-14.2.0
+riscv                               defconfig    gcc-12
+riscv                 randconfig-001-20250213    clang-19
+riscv                 randconfig-001-20250213    clang-21
+riscv                 randconfig-002-20250213    clang-17
+riscv                 randconfig-002-20250213    clang-21
+s390                             allmodconfig    clang-19
+s390                             allmodconfig    gcc-14.2.0
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    gcc-12
+s390                  randconfig-001-20250213    clang-21
+s390                  randconfig-001-20250213    gcc-14.2.0
+s390                  randconfig-002-20250213    clang-21
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-12
+sh                    randconfig-001-20250213    clang-21
+sh                    randconfig-001-20250213    gcc-14.2.0
+sh                    randconfig-002-20250213    clang-21
+sh                    randconfig-002-20250213    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250213    clang-21
+sparc                 randconfig-001-20250213    gcc-14.2.0
+sparc                 randconfig-002-20250213    clang-21
+sparc                 randconfig-002-20250213    gcc-14.2.0
+sparc64                             defconfig    gcc-12
+sparc64               randconfig-001-20250213    clang-21
+sparc64               randconfig-001-20250213    gcc-14.2.0
+sparc64               randconfig-002-20250213    clang-21
+sparc64               randconfig-002-20250213    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-21
+um                               allyesconfig    clang-21
+um                               allyesconfig    gcc-12
+um                                  defconfig    gcc-12
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250213    clang-19
+um                    randconfig-001-20250213    clang-21
+um                    randconfig-002-20250213    clang-21
+um                           x86_64_defconfig    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250213    gcc-11
+x86_64      buildonly-randconfig-001-20250213    gcc-12
+x86_64      buildonly-randconfig-002-20250213    gcc-12
+x86_64      buildonly-randconfig-003-20250213    clang-19
+x86_64      buildonly-randconfig-003-20250213    gcc-12
+x86_64      buildonly-randconfig-004-20250213    gcc-12
+x86_64      buildonly-randconfig-005-20250213    gcc-12
+x86_64      buildonly-randconfig-006-20250213    gcc-12
+x86_64                              defconfig    clang-19
+x86_64                                  kexec    clang-19
+x86_64                randconfig-001-20250213    clang-19
+x86_64                randconfig-002-20250213    clang-19
+x86_64                randconfig-003-20250213    clang-19
+x86_64                randconfig-004-20250213    clang-19
+x86_64                randconfig-005-20250213    clang-19
+x86_64                randconfig-006-20250213    clang-19
+x86_64                randconfig-007-20250213    clang-19
+x86_64                randconfig-008-20250213    clang-19
+x86_64                randconfig-071-20250213    gcc-12
+x86_64                randconfig-072-20250213    gcc-12
+x86_64                randconfig-073-20250213    gcc-12
+x86_64                randconfig-074-20250213    gcc-12
+x86_64                randconfig-075-20250213    gcc-12
+x86_64                randconfig-076-20250213    gcc-12
+x86_64                randconfig-077-20250213    gcc-12
+x86_64                randconfig-078-20250213    gcc-12
+x86_64                               rhel-9.4    clang-19
+x86_64                           rhel-9.4-bpf    clang-19
+x86_64                         rhel-9.4-kunit    clang-19
+x86_64                           rhel-9.4-ltp    clang-19
+x86_64                          rhel-9.4-rust    clang-19
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250213    clang-21
+xtensa                randconfig-001-20250213    gcc-14.2.0
+xtensa                randconfig-002-20250213    clang-21
+xtensa                randconfig-002-20250213    gcc-14.2.0
 
-No, it changes nothing.
-
-> 
-> >
-> >These compatibles are anyway weird - why imx95 is in chipmedia product?
-> >Is this part of a SoC?
-> 
-> I want to represent that the Wave633 is part of the i.MX95.
-> Chips&Media's Wave633 can also be integrated into SoCs from other vendors.
-
-OK
-
-
-> By using the compatible name, the same Wave6 driver can distinguish
-> different implementations.
-
-So you tell DT maintainer how DT works, brilliant...
-
-> 
-> However, I agree that "imx95" is not strictly necessary in current status.
-> So, using "nxp,wave633c" would be a better choice, right ?
-
-No, NXP did not create wave633c. SoC components must have SoC prefix,
-assuming this is a Soc component.
-
-> 
-> >
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +
-> >> +  interrupts:
-> >> +    maxItems: 1
-> >> +
-> >> +  clocks:
-> >> +    items:
-> >> +      - description: VPU clock
-> >> +      - description: VPU associated block clock
-> >> +
-> >> +  clock-names:
-> >> +    items:
-> >> +      - const: vpu
-> >> +      - const: vpublk_wave
-> >> +
-> >> +  power-domains:
-> >> +    minItems: 1
-> >> +    items:
-> >> +      - description: Main VPU power domain
-> >> +      - description: Performance power domain
-> >> +
-> >> +  power-domain-names:
-> >> +    items:
-> >> +      - const: vpumix
-> >> +      - const: vpuperf
-> >> +
-> >> +  cnm,ctrl:
-> >
-> >What is this prefix about? Is this nxp or something else?
-> 
-> Yes, using "nxp" as the prefix seems more appropriate.
-> 
-> >
-> >> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >> +    description: phandle of the VPU control device node. Required for VPU
-> >operation.
-> >
-> >Explain - required for what. Operation is too generic.
-> 
-> phandle of the VPU control device node, which manages shared resources
-> such as firmware access and power domains.
-
-Then NAK.
-
-Use proper bindings for this, e.g. power-domains.
-
-
-> 
-> >
-> >If this is phandle to second device, then it's proof your split is
-> >really wrong.
-> 
-> Are you suggesting that I should separate them into two YAML files,
-
-No. Splitting into separate files would change nothing - you still would
-have here a phandle, right?
-
-> or that I should structure them in a parent-child hierarchy
-> within the same YAML file ?
-
-You did not try hard enough to find similar devices, which there is a
-ton of.
-
-> 
-> I appreciate any guidance on the best approach to structure this in line
-> with existing bindings.
-
-Then look for them.
-
-You have one device. If you have sub-blocks with their own
-distinguishable address space, then they can be children. But you did
-not write it that way. Just look at your example DTS - no children at
-all!
-
-> 
-> >
-> >> +
-> >> +  boot:
-> >> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >> +    description: phandle of the boot memory region node for the VPU
-> >control device.
-> >
-> >No clue what is this... if memory region then use existing bindings.
-> 
-> Boot is a memory region used for firmware upload.
-> Only the control device can access this region.
-> By "existing bindings," do you mean I should use "memory-region" instead ?
-
-Look how other bindings do this and what property they use. Yes,
-memory-region.
-
-> 
-> >
-> >Anyway, wrap your code correctly.
-> 
-> Okay.
-> 
-> >
-> >> +
-> >> +  sram:
-> >> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >> +    description: phandle of the SRAM memory region node for the VPU
-> >control device.
-> >> +
-> >> +  '#cooling-cells':
-> >> +    const: 2
-> >> +
-> >> +  support-follower:
-> >> +    type: boolean
-> >> +    description: Indicates whether the VPU domain power always on.
-> >
-> >You cannot add new common properties in random way. Missing vendor
-> >prefix but more important: does not look at all as hardware property but
-> >OS policy.
-> 
-> I agree with you.
-> I'll remove it in v2.
-> 
-> >
-> >> +
-> >> +patternProperties:
-> >> +  "^vpu-ctrl@[0-9a-f]+$":
-> >> +    type: object
-> >> +    properties:
-> >> +      compatible:
-> >> +        items:
-> >> +          - enum:
-> >> +              - nxp,imx95-wave633c-ctrl
-> >
-> >Really, what? How nxp,imx95-wave633c-ctrl node can have a child with
-> >nxp,imx95-wave633c-ctrl compatible?
-> >
-> >NAK.
-> 
-> Apologies, I misunderstood the meaning of 'patternProperties'.
-> I'll remove it in v2.
-> 
-> >
-> >
-> >> +      reg: true
-> >> +      clocks: true
-> >> +      clock-names: true
-> >> +      power-domains:
-> >> +        items:
-> >> +          - description: Main VPU power domain
-> >> +          - description: Performance power domain
-> >> +      power-domain-names:
-> >> +        items:
-> >> +          - const: vpumix
-> >> +          - const: vpuperf
-> >> +      sram: true
-> >> +      boot: true
-> >> +      '#cooling-cells': true
-> >> +      support-follower: true
-> >> +    required:
-> >> +      - compatible
-> >> +      - reg
-> >> +      - clocks
-> >> +      - clock-names
-> >> +      - power-domains
-> >> +      - power-domain-names
-> >> +      - sram
-> >> +      - boot
-> >> +
-> >> +    additionalProperties: false
-> >> +
-> >> +  "^vpu@[0-9a-f]+$":
-> >> +    type: object
-> >> +    properties:
-> >> +      compatible:
-> >> +        items:
-> >> +          - enum:
-> >> +              - nxp,imx95-wave633c
-> >> +      reg: true
-> >> +      interrupts: true
-> >> +      clocks: true
-> >> +      clock-names: true
-> >> +      power-domains:
-> >> +        maxItems: 1
-> >> +        description: Main VPU power domain
-> >> +      cnm,ctrl: true
-> >> +    required:
-> >> +      - compatible
-> >> +      - reg
-> >> +      - interrupts
-> >> +      - clocks
-> >> +      - clock-names
-> >> +      - power-domains
-> >> +      - cnm,ctrl
-> >
-> >All this is just incorrect.
-> 
-> I'll remove it in v2.
-> 
-> >
-> >> +
-> >> +    additionalProperties: false
-> >> +
-> >> +additionalProperties: false
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >> +    #include <dt-bindings/clock/nxp,imx95-clock.h>
-> >> +
-> >> +    soc {
-> >> +      #address-cells = <2>;
-> >> +      #size-cells = <2>;
-> >> +
-> >> +      vpuctrl: vpu-ctrl@4c4c0000 {
-
-So this is the parent device...
-
-> >> +        compatible = "nxp,imx95-wave633c-ctrl";
-> >> +        reg = <0x0 0x4c4c0000 0x0 0x10000>;
-> >> +        clocks = <&scmi_clk 115>,
-> >> +            <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
-> >> +        clock-names = "vpu", "vpublk_wave";
-> >> +        power-domains = <&scmi_devpd 21>, <&scmi_perf 10>;
-> >> +        power-domain-names = "vpumix", "vpuperf";
-> >> +        #cooling-cells = <2>;
-> >> +        boot = <&vpu_boot>;
-> >> +        sram = <&sram1>;
-> >> +      };
-> >> +
-> >> +      vpu0: vpu@4c480000 {
-
-
-And here you have child which is not a child? Your binding and DTS
-neither match nor make any sense.
-
-> >
-> >Node names should be generic. See also an explanation and list of
-> >examples (not exhaustive) in DT specification:
-> >https://devicetree-specification.readthedocs.io/en/latest/chapter2-
-> >devicetree-basics.html#generic-names-recommendation
-> 
-> Thanks for sharing the link.
-> I'll use "video-codec" as the node name in v2.
-> 
-> >
-> >
-> >> +        compatible = "nxp,imx95-wave633c";
-> >> +        reg = <0x0 0x4c480000 0x0 0x10000>;
-> >> +        interrupts = <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>;
-> >> +        clocks = <&scmi_clk 115>,
-> >> +                <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
-> >> +        clock-names = "vpu", "vpublk_wave";
-> >> +        power-domains = <&scmi_devpd 21>;
-> >> +        cnm,ctrl = <&vpuctrl>;
-> >> +      };
-> >> +
-> >> +      vpu1: vpu@4c490000 {
-> >> +        compatible = "nxp,imx95-wave633c";
-> >
-> >Drop all duplicated examples.
-> 
-> Wave6 HW is designed for simultaneous access,
-> as each VPU device has its own separate register space.
-> Therefore, I defined the 4 VPU devices as independent nodes in the example
-> to reflect this.
-
-They are redundant in this example. Unless you wanted to express
-something else, but you did not.
-
-
-> 
-> >
-> >
-> >> +        reg = <0x0 0x4c490000 0x0 0x10000>;
-> >> +        interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-> >> +        clocks = <&scmi_clk 115>,
-> >> +                <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
-> >> +        clock-names = "vpu", "vpublk_wave";
-> >> +        power-domains = <&scmi_devpd 21>;
-> >> +        cnm,ctrl = <&vpuctrl>;
-> >> +      };
-> >> +
-> >> +      vpu2: vpu@4c4a0000 {
-> >> +        compatible = "nxp,imx95-wave633c";
-> >> +        reg = <0x0 0x4c4a0000 0x0 0x10000>;
-> >> +        interrupts = <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>;
-> >> +        clocks = <&scmi_clk 115>,
-> >> +                <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
-> >> +        clock-names = "vpu", "vpublk_wave";
-> >> +        power-domains = <&scmi_devpd 21>;
-> >> +        cnm,ctrl = <&vpuctrl>;
-> >> +      };
-> >> +
-> >> +      vpu3: vpu@4c4b0000 {
-> >> +        compatible = "nxp,imx95-wave633c";
-> >> +        reg = <0x0 0x4c4b0000 0x0 0x10000>;
-> >> +        interrupts = <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>;
-> >> +        clocks = <&scmi_clk 115>,
-> >> +                <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
-> >> +        clock-names = "vpu", "vpublk_wave";
-> >> +        power-domains = <&scmi_devpd 21>;
-> >> +        cnm,ctrl = <&vpuctrl>;
-> >> +      };
-> >> +    };
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index 896a307fa065..5ff5b1f1ced2 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -25462,6 +25462,14 @@ S:	Maintained
-> >>  F:	Documentation/devicetree/bindings/media/cnm,wave521c.yaml
-> >>  F:	drivers/media/platform/chips-media/wave5/
-> >>
-> >> +WAVE6 VPU CODEC DRIVER
-> >> +M:	Nas Chung <nas.chung@chipsnmedia.com>
-> >> +M:	Jackson Lee <jackson.lee@chipsnmedia.com>
-> >> +L:	linux-media@vger.kernel.org
-> >> +S:	Maintained
-> >> +F:	Documentation/devicetree/bindings/media/nxp,wave633c.yaml
-> >> +F:	drivers/media/platform/chips-media/wave6/
-> >
-> >There is no such file/directory.
-> 
-> Understood. I'll move the MAINTAINERS update to the last patch in v2.
-
-No, just add entry per entry.
-
-Best regards,
-Krzysztof
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
