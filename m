@@ -1,87 +1,88 @@
-Return-Path: <linux-media+bounces-26161-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26162-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62503A360B8
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 15:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9396A360D7
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 15:57:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62AC8188DB10
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 14:44:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 776801894EDE
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 14:57:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3BAE266592;
-	Fri, 14 Feb 2025 14:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C8E266581;
+	Fri, 14 Feb 2025 14:57:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="DyahSG8c"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="o3jLUM0C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D60266579
-	for <linux-media@vger.kernel.org>; Fri, 14 Feb 2025 14:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A672F265CA9
+	for <linux-media@vger.kernel.org>; Fri, 14 Feb 2025 14:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739544250; cv=none; b=uBasTgCmqulArcEDyMDnE7U1RwvWkefAcjWT5JIMFwTnlLFlFcXWk5cHKP2xthQQWVVxgGTCzh0upmYagWXMI3BzpWmYpe9lJEniI4u9zWvezd+Gmp1XAjFAiI2M59ve0FJdWYE6Exf0k5MiGVxFjVQHCDD2opMPBcAUD5jNQMQ=
+	t=1739545032; cv=none; b=QagcQvoJyL+2PmBL8tZrXYrnzI7AZIKDtA9fNkTkUAj/1ugX39VmGH5z207Jj+5qJ674iHJOJJXV6ugfIB/LYoML+vJ5ZXlVGKNuXGnY911UuZqNv2p1qgRdGzGqoYr4aBR+EwrpAtKDzRprCVwdpktLu4QTR2kIVlCMILxYozo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739544250; c=relaxed/simple;
-	bh=8f5lrx62gvWJsh/0RZ7tW7S9t8HtzyILj67RPVtwncA=;
+	s=arc-20240116; t=1739545032; c=relaxed/simple;
+	bh=eU6JtANmazyXVQUGhwEapzH6oqwLhuW0FlYA2qfVcdY=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CCWuF3KY/Us/VkJt/idj9vXzv0nG7AxyAPUNeMO8l5hB81YlfnXZiqSuzfuZxl38HzU0ilKq+gvWXAyuKkUbhu0HbxpuhbfMWSfEjcz9VlC1/KkjfIGPJ2nzfd73CXv7JeAsE8Rp61WzpJ2VRcrQz7XcD7VNUD2LY5K6FxDOiQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=DyahSG8c; arc=none smtp.client-ip=209.85.160.178
+	 Content-Type:MIME-Version; b=GmCdnaa7TRNY0peNQ/uZvqlO67wYm/dcR6KJwmw4hYV4B2HBnS9awvsuutduejR4MPFyJvQKQNflGIrkM4GsbQYjRVS2L96Cku+i8G0zCmSXoFRwBqv/lKiYcKWSs7iZ9xrzvTzeo5TT70Ubye1J8AE4idhUd+fIEYTqoM8niFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=o3jLUM0C; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-471bef62e12so17944481cf.0
-        for <linux-media@vger.kernel.org>; Fri, 14 Feb 2025 06:44:08 -0800 (PST)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c0893f9aa6so16804685a.1
+        for <linux-media@vger.kernel.org>; Fri, 14 Feb 2025 06:57:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1739544247; x=1740149047; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1739545029; x=1740149829; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Nm64wAClFiNYBGaeXW+Jy+0YKStQf2pFqHFb57LVGyg=;
-        b=DyahSG8c167q3JiIMjNst5He36olai7P7QQUVjjUP/qjZ/qkw6o/3IV6Hg+AYkHbuB
-         HHYJJGvJChGI6EpNhRKf0h4nnFXyAn+1AV+hBswMJxaXCZQnIRig+QZZtaM0YlU0iNwG
-         ZCBEhPC4lPG8YjdBmoZOy7WHWoeQFEmZa3ZXPR2R0/XygqUlsKKtZJ7p1aU8vtTvQGGR
-         oaE1xEilYRT8hOYdMytqREgYGYPQCVmIpqcTB1Qp5HojDAgvlaRTdAlHNPlfn975RBit
-         8Q6sRchjYGApbqcKxGJrklTGWdVKW6v7Jso9e4ICBPZ9XO620lB4MqZGfu5IhM0D7tmD
-         774Q==
+        bh=eU6JtANmazyXVQUGhwEapzH6oqwLhuW0FlYA2qfVcdY=;
+        b=o3jLUM0CrDJxyBr2TSGvs0IvIFQI2D5VWQlkU9O2yMRoB3vZVEuJqHMiru0AP5QRrP
+         HlWG1yk5AsIg+wkCnCn+vAlXt53uctMIEfbv+87UqzMtU0oXXS1+uktAdOtl3a3IRrm5
+         PVnpAaHdIYn7fofFb6yD0/Nn3ZaW8HRq4hq2TXyFvKJmHkn3chv8LllzwQVUQfwkyl22
+         WYax9HTJY+EqI+T60bKRsy104YsB5YFCxCd7VKp2o19v5oRhrwQmTm2RrxYzr4sAbJjo
+         ScViT7ZEQjtZSygCrhQUiUVUGO5azizUfLRsUdkUTf3yd8+h6KzgtBkJzpz+H3nqWiAd
+         c0ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739544247; x=1740149047;
+        d=1e100.net; s=20230601; t=1739545029; x=1740149829;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Nm64wAClFiNYBGaeXW+Jy+0YKStQf2pFqHFb57LVGyg=;
-        b=JWi9xsYQdiDT16p/MdKPBzvya2z/LWMXL/eTfTDwHseop2zSZmjZ0i36dxRvo4GZLm
-         BcXtXuWhn0ESbsHlFOp7lKK3sxHeooARAkDUgXYA9ULIrQiqLzDVg/zNcF0K8Pl3dQjr
-         7LCjPtks87ii+wAlYF9oqs247ZXattyEBlTmjty5KMOZhjNGW3lLY52cOrDoTCzzA6LK
-         ZTH+pJ/OPbIbWLhbYDUyOOyGosRCPVa2HjHZg1VrG7ARlDkkY/GXG65zFAVAsQqpx/jn
-         DhsG1BlcP7ICoJEnkPwiSusK/0qIzR7/l3xIJIAgevVerUOvnqaKSHLoYRYOTq7n2D9G
-         MofQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMKcEL159tfN+0FnCpzCLxfHBpeclD3c8P27XSkRwtjn0DJkJRizzx0LQi4ujXHztQA/TmmelphbaLIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoWlARUwbX+J721sgPXM9evDFUauM+oAqvvFLoorQ/SmAmx4CZ
-	7CzWp3+MV5hc4IMNFLDKQrzCF949HbMZaArBi9zq3jUN2eDGyEaomHYciFNoHQg=
-X-Gm-Gg: ASbGnct85vAuK62LpADOv5Ka7GbagM/piKqIBq3Wxaspw6+qnIHAb3G2lWddg55NDCY
-	XN8mgkKUqiNNQif3nyJ6B3NRi/32haY9LwOt1N3hW6ppgFmU922/ohXY0qrpgtWHGPkUg/UcNcK
-	JCHwrhedem6Hv6f7WYFZrz2kmnq5Bxa74LPDOL/YR5J7CVy2/VYvW6W7a1BIDYABiEM8K0du3lG
-	Il2dlbrepHukeKC9R/mdw5sqwiXrPHAuBnIZ3p0Em+A03EGd3RLcCohXcMw+KDNyqseZ5cB3Ijd
-	AsZXIzpOxKCAd4dLwF0M
-X-Google-Smtp-Source: AGHT+IGzD4tmaFdbKPAgw8y2G/S9CPB1VEBNfWCQGlYkIlxfwiitQKsGVA2pbWLHph9B27cyYKMs8Q==
-X-Received: by 2002:ac8:7fcd:0:b0:471:a7cc:8106 with SMTP id d75a77b69052e-471afe31a4bmr179507901cf.20.1739544246639;
-        Fri, 14 Feb 2025 06:44:06 -0800 (PST)
+        bh=eU6JtANmazyXVQUGhwEapzH6oqwLhuW0FlYA2qfVcdY=;
+        b=EO44dJuE1O40FHMh9LUwX0r++ziq/S0VamuCl+ByeXcqAJdAJo3uY+u92LJtsTkEXk
+         qebWXgJ6L7kEgmQy+uaJ7LQkS8/dJ/0Nrv9WTeFyiEnD0tMmVN3dLYujZY0kmNJba8uE
+         C8PbRJngAuj2MipAtr1BtFCI0NUGyYkCTVE+xBVVWkrxndGdU8ThP5NmGo49GT35P2C/
+         gVV9IUtrgxNahJbnKCfI/6bncD54oU7OCX9GI+k5GzDxx9muw6iwtq1iD3elOa7+SC+9
+         lDd4uwWC5ZpZYiuja5rf2QVd70PpeUWt23OKDqy4KzA28yfNW7IIdvFI2a8qaFISlxqL
+         aw+g==
+X-Gm-Message-State: AOJu0Yxf7ech92CXrtTiPvVCbZqd4KGJXrPxZbKl/jaSDoipGI1Al79J
+	Sewg0e9yygE5ZnYTKo/ZSrN0cVFsno9cEqY5yEGD+3Tm4pRctAbWPwsiZNVP0eE=
+X-Gm-Gg: ASbGncs4V3fQssdSRvbgHpVDUJ6B2THwoTr9fRrUJvUY3YyR3L8aWPmITHPW+GkhGLg
+	t+IRQCalkOgcslZ59HDiJOWo4rXDVhkISyr+BJtI+lwVG05DF2k2cbNmb5X3dLxa5ChvghgCYOg
+	AClSV9DkQQxl+NaRxbNkQHLPr9HKuEYkYKXgUxj6ubmehMc6Qd8XMaUMFkGG/wm8ygzxeQ3OZuB
+	JoW+3HvzByOtjaC7MW4TIl/xbmjYJ2kqTLCFKnGyOEVKp85dSNrawnOWlgRHy106B+9Ntgh2PD/
+	NjiYtL9R5PDyG0eXfCSq
+X-Google-Smtp-Source: AGHT+IHc54MVXc09B6FjnGCHQbrSmPd0nRl3xcqLsHp3d1WrlZjMlXcCYiOnwXusV0xluoD+NgGdYw==
+X-Received: by 2002:a05:620a:17a4:b0:7c0:7b3b:e5fd with SMTP id af79cd13be357-7c07b3be6bdmr989117785a.15.1739545029365;
+        Fri, 14 Feb 2025 06:57:09 -0800 (PST)
 Received: from ?IPv6:2606:6d00:11:e976::5ac? ([2606:6d00:11:e976::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-471c2b06002sm18172461cf.77.2025.02.14.06.44.05
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c07c6087d3sm212281185a.45.2025.02.14.06.57.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 06:44:06 -0800 (PST)
-Message-ID: <aae670db21a1de622cc89ac637c407bf6452c44f.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: imx335: Set vblank immediately
-From: nicolas@ndufresne.ca
-To: Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org
-Cc: kieran.bingham@ideasonboard.com, Sakari Ailus
- <sakari.ailus@linux.intel.com>,  Mauro Carvalho Chehab	
- <mchehab@kernel.org>, open list <linux-kernel@vger.kernel.org>
-Date: Fri, 14 Feb 2025 09:44:05 -0500
-In-Reply-To: <20250214133709.1290585-1-paul.elder@ideasonboard.com>
-References: <20250214133709.1290585-1-paul.elder@ideasonboard.com>
+        Fri, 14 Feb 2025 06:57:08 -0800 (PST)
+Message-ID: <4ab514ea0a365c758bbbc46382ad97ebc487d150.camel@ndufresne.ca>
+Subject: Re: Questions about image size listed in VIDIOC_ENUM_FMT
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Sakari Ailus <sakari.ailus@iki.fi>, Zhaoxuan Zhai
+	 <zhai.zhaoxuan@canonical.com>
+Cc: linux-media@vger.kernel.org, Ethan Hsieh <ethan.hsieh@canonical.com>, 
+	jianhui.lee@canonical.com, guoqing.jiang@canonical.com, hverkuil@xs4all.nl
+Date: Fri, 14 Feb 2025 09:57:08 -0500
+In-Reply-To: <Z67r76Fg-SOEbOJf@valkosipuli.retiisi.eu>
+References: <96f6dff1-f5c7-4fab-94e1-47004dd916a6@canonical.com>
+	 <3bd7482f-e41d-41df-9d25-08cb62d5d0db@canonical.com>
+	 <Z67r76Fg-SOEbOJf@valkosipuli.retiisi.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
@@ -92,69 +93,67 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi,
+Le vendredi 14 f=C3=A9vrier 2025 =C3=A0 07:08 +0000, Sakari Ailus a =C3=A9c=
+rit=C2=A0:
+> Hi Zhaoxuan,
+>=20
+> On Fri, Feb 14, 2025 at 12:19:23PM +0800, Zhaoxuan Zhai wrote:
+> > Hi all,
+> >=20
+> > Sorry I made a mistake. It should be VIDIOC_ENUM_FRAMESIZES instead of
+> > VIDIOC_ENUM_FMT. I'm sorry for the mistake.
+> >=20
+> > =E5=9C=A8 2025/2/14 12:08, Zhaoxuan Zhai =E5=86=99=E9=81=93:
+> > > Hi all,
+> > >=20
+> > > We are working on a camera driver. We plan to use v4l2 interface to s=
+end
+> > > image data to users. We have a question we'd like to ask.
+> > >=20
+> > > The situation we are facing is as follows.
+> > >=20
+> > > We have an image processing unit that can process raw data collected =
+by
+> > > the sensor into the V4L2_PIX_FMT_NV12M format and send it to the user=
+.
+> > >=20
+> > > However, due to the requirements of the V4L2_PIX_FMT_NV12M format, th=
+e
+> > > width and height of the image must be divisible by 16.
+> > >=20
+> > > For example, when the sensor provides an image size of 2104x1560, aft=
+er
+> > > NV12M encoding, it should be pading to=C2=A0 2112x1566. But the addit=
+ional 8
+> > > rows and 8 columns are padded with 0s and contain no actual content.
+> > >=20
+> > > So, we would like to ask, in this case, what size should we list in
+> > > VIDIOC_ENUM_FMT? Should it be the actual image size with content,
+> > > 2104x1560, or the padded size, 2112x1566?"
+>=20
+> I'd say the actual image size (i.e. where you have pixel data). The
+> sizeimage field needs to reflect the padding and the user needs to be awa=
+re
+> how the data is laid out in memory.
 
-Le vendredi 14 f=C3=A9vrier 2025 =C3=A0 22:37 +0900, Paul Elder a =C3=A9cri=
-t=C2=A0:
-> When the vblank v4l2 control is set, it does not get written to the
-> hardware immediately. It only gets updated when exposure is set.
-> Change
-> the behavior such that the vblank is written immediately when the
-> control is set.
+I'd be happy to see spec clarification in this regard. I also think
+that image size is best.
 
-Not my field of competence, but won't this cause a flicker ?
+For NV12M, you can absorb the padding in per plane bytesperline /
+sizeimage of the v4l2_format structure. That means the enumerated size
+will match the format. Though, for NV12 (single plane) you'd have to
+set at least the padded height and implement the SELECTION API to
+return the cropping area.
+
+In practice, for application point of view, it would all have been
+easier if the v4l2_format was always padded width/height, with the
+display dimension explicitly provided. But I'm pretty sure upstream
+drivers implement a mix.
 
 Nicolas
 
 >=20
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
-> =C2=A0drivers/media/i2c/imx335.c | 19 +++++++++++++------
-> =C2=A01 file changed, 13 insertions(+), 6 deletions(-)
+> Also cc Hans.
 >=20
-> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> index fcfd1d851bd4..e73a23bbbc89 100644
-> --- a/drivers/media/i2c/imx335.c
-> +++ b/drivers/media/i2c/imx335.c
-> @@ -559,12 +559,12 @@ static int imx335_set_ctrl(struct v4l2_ctrl
-> *ctrl)
-> =C2=A0			imx335->vblank,
-> =C2=A0			imx335->vblank + imx335->cur_mode->height);
-> =C2=A0
-> -		return __v4l2_ctrl_modify_range(imx335->exp_ctrl,
-> -						IMX335_EXPOSURE_MIN,
-> -						imx335->vblank +
-> -						imx335->cur_mode-
-> >height -
-> -
-> 						IMX335_EXPOSURE_OFFSET,
-> -						1,
-> IMX335_EXPOSURE_DEFAULT);
-> +		 __v4l2_ctrl_modify_range(imx335->exp_ctrl,
-> +					=C2=A0 IMX335_EXPOSURE_MIN,
-> +					=C2=A0 imx335->vblank +
-> +					=C2=A0 imx335->cur_mode->height -
-> +					=C2=A0 IMX335_EXPOSURE_OFFSET,
-> +					=C2=A0 1,
-> IMX335_EXPOSURE_DEFAULT);
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	/*
-> @@ -575,6 +575,13 @@ static int imx335_set_ctrl(struct v4l2_ctrl
-> *ctrl)
-> =C2=A0		return 0;
-> =C2=A0
-> =C2=A0	switch (ctrl->id) {
-> +	case V4L2_CID_VBLANK:
-> +		exposure =3D imx335->exp_ctrl->val;
-> +		analog_gain =3D imx335->again_ctrl->val;
-> +
-> +		ret =3D imx335_update_exp_gain(imx335, exposure,
-> analog_gain);
-> +
-> +		break;
-> =C2=A0	case V4L2_CID_EXPOSURE:
-> =C2=A0		exposure =3D ctrl->val;
-> =C2=A0		analog_gain =3D imx335->again_ctrl->val;
 
 
