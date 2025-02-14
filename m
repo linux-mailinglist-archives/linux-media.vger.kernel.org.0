@@ -1,198 +1,146 @@
-Return-Path: <linux-media+bounces-26157-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26158-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCBDA35C1D
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 12:04:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48113A35C98
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 12:33:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE31D3AF717
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 11:03:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AF1791661E2
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 11:33:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CD8625C6F5;
-	Fri, 14 Feb 2025 11:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AClasPOS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D06F8263C72;
+	Fri, 14 Feb 2025 11:33:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9120186E40
-	for <linux-media@vger.kernel.org>; Fri, 14 Feb 2025 11:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A1A257439
+	for <linux-media@vger.kernel.org>; Fri, 14 Feb 2025 11:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739531042; cv=none; b=n0nUbxVcMxwr1F4TL/cZOcjTyCKjQNLhFp4OCN1woXKaLanIIT4zZV/VH5lSySgQFBaS2XSsls8zItUnwk+vkl+sCNehsCHot/ij8PaixQfHkzBU4UC4/U/tu8OIrq/JeJFOZCm5amkdySyFg6DqzXDYQ93QUM/874vc5y6HCF0=
+	t=1739532780; cv=none; b=EYOUL8p4ck1GK4MoTQnJTGi/eEbk5w1EBlioOnI44on1ViJ8U/FRisELDZg8iloKfh3Ewcw/WRUn1kP123KsXbirFQqhkgXytExt3C2TlCQVSFj7s0LflZP5Rujrth2/VMSjQsbwBX1Iy3IriWYZWLlza7uOkMByAjgTOI6yddM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739531042; c=relaxed/simple;
-	bh=Go/p+X/m5ZcdcBSkEq9PZuqip0qUU6/zOGcz+43WZVk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=V8dtOCJsytZrUAkw/UlNWCPod7Wvug9k8oUSOgenmVd0p4dDHGkbBqTojJr3mtZ+muCK1LTLy+kDu2r5wI+gUja00CbfXvKMjMUKpiJWCHHUqnUDoEDJeHgWIVDwZTsOdb/wu3rQdHpXGFh6Oe5Qfri/XXfQ7MmE+CanPixV9vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AClasPOS; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739531041; x=1771067041;
-  h=date:from:to:cc:subject:message-id;
-  bh=Go/p+X/m5ZcdcBSkEq9PZuqip0qUU6/zOGcz+43WZVk=;
-  b=AClasPOS07yvZOmDwkaKCVq4Lu01w/DyiOtsOdZtuD1ALyELqg49Gs/X
-   c1RQXtmeV2eD+OUUmzO3pCOcgmTdbVQOO4yOKKYicsstIXH85dntI5q9k
-   eI2f1Cx9pLTkQTATIL9gKKeBprEvIhyn84ENYT0CQbwuQOKdFUexTiF2W
-   hwKLoK8WJf5pnYNujpFzjZmbrO/fAhTdpuA4WLPVMAx3HytkBoIpXbpRb
-   qlxRB7LjSLnpyEZ/4V3VZiJZCgIWHZvv84vGZXqxhnxRl1qMxOvGYmRkQ
-   F3x56+qN9MtPXl0ZnJY0ESO+f/Pl9wLR0I0nzHHfd2KSCt3bn4ehaUmnZ
-   Q==;
-X-CSE-ConnectionGUID: 8HfGAVZGRIa6fkfER3ocXg==
-X-CSE-MsgGUID: 19csxE8FT6KR6DPs66Yb4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51703026"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="51703026"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 03:04:00 -0800
-X-CSE-ConnectionGUID: cKUY84FET5yxYuKWfV2fCg==
-X-CSE-MsgGUID: UNXdwn5aT+Scko4Kx0NVqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="113298520"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Feb 2025 03:03:59 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1titUC-0019QB-2U;
-	Fri, 14 Feb 2025 11:03:56 +0000
-Date: Fri, 14 Feb 2025 19:03:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- b2c4bf0c102084e77ed1b12090d77a76469a6814
-Message-ID: <202502141944.xqGhEhL9-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1739532780; c=relaxed/simple;
+	bh=OHdKbHYxCH6vKNJ4kUbBkws76qhtjyynN8OZmRt3WFE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=EUXUaUoCzE4wUDOQJjZbzhM1on/+dlAOK0b/OrFsmXGqnXee2ZpIPrbQZLEqY2U/iDZOwcETpAiPv+oXM9rsQEpEql0kxl993qL4Z19LxDs9msWSfHR+tV5Wb+I6Wl2B5eew8hV/sXSrRB5/Zb4XKjW9l0+ETtAwOsJ3L4SkJ68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA5DFC4CED1;
+	Fri, 14 Feb 2025 11:32:59 +0000 (UTC)
+Message-ID: <6c4bf69d-81e4-4979-aafe-4203b8760db5@xs4all.nl>
+Date: Fri, 14 Feb 2025 12:32:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL FOR 6.15] Wave5 fixes
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ linux-media <linux-media@vger.kernel.org>
+References: <194fecb5ffb.102a3cee5964478.1717519691223129395@collabora.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <194fecb5ffb.102a3cee5964478.1717519691223129395@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: b2c4bf0c102084e77ed1b12090d77a76469a6814  media: rc: add keymap for Siemens Gigaset RC20 remote
+Hi Sebastian,
 
-elapsed time: 1348m
+On 13/02/2025 11:12, Sebastian Fricke wrote:
+> Hello Hans & Mauro,
+> 
+> here is a small set of fixes for the Wave5 driver.
+> 
+> Please pull.
+> 
+> ---
+> 
+> The following changes since commit c52643b241525c0f4bf8902eeaba0d74bc5af278:
+> 
+>   media: qcom: camss: add support for SDM670 camss (2025-02-12 09:01:34 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.15-wave5-critical-fixes
+> 
+> for you to fetch changes up to 74bc5089759dee749c48b317ad1362703568f111:
+> 
+>   media: chips-media: wave5: Fix timeout while testing 10bit hevc fluster (2025-02-13 11:03:29 +0100)
+> 
+> ----------------------------------------------------------------
+> A set of different fixes to errors encountered with the Wave5 driver
+> 
+> ----------------------------------------------------------------
+> Jackson.lee (4):
+>       media: chips-media: wave5: Fix gray color on screen
+>       media: chips-media: wave5: Avoid race condition in the interrupt handler
+>       media: chips-media: wave5: Fix a hang after seeking
+>       media: chips-media: wave5: Fix timeout while testing 10bit hevc fluster
 
-configs tested: 105
-configs skipped: 1
+Only the last patch has a Fixes tag, shouldn't they all have a Fixes tag?
+And if there is a Fixes tag, shouldn't there be a Cc to stable as well?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Regards,
 
-tested configs:
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                   randconfig-001-20250213    gcc-13.2.0
-arc                   randconfig-002-20250213    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                              allyesconfig    gcc-14.2.0
-arm                        multi_v5_defconfig    gcc-14.2.0
-arm                         orion5x_defconfig    clang-21
-arm                   randconfig-001-20250213    clang-17
-arm                   randconfig-002-20250213    clang-15
-arm                   randconfig-003-20250213    clang-21
-arm                   randconfig-004-20250213    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                 randconfig-001-20250213    clang-19
-arm64                 randconfig-002-20250213    gcc-14.2.0
-arm64                 randconfig-003-20250213    gcc-14.2.0
-arm64                 randconfig-004-20250213    clang-21
-csky                  randconfig-001-20250213    gcc-14.2.0
-csky                  randconfig-002-20250213    gcc-14.2.0
-hexagon                          allmodconfig    clang-21
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250213    clang-21
-hexagon               randconfig-002-20250213    clang-18
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250213    gcc-12
-i386        buildonly-randconfig-002-20250213    clang-19
-i386        buildonly-randconfig-003-20250213    clang-19
-i386        buildonly-randconfig-004-20250213    clang-19
-i386        buildonly-randconfig-005-20250213    clang-19
-i386        buildonly-randconfig-006-20250213    clang-19
-i386                                defconfig    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch             randconfig-001-20250213    gcc-14.2.0
-loongarch             randconfig-002-20250213    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                      bmips_stb_defconfig    clang-18
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250213    gcc-14.2.0
-nios2                 randconfig-002-20250213    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-openrisc                       virt_defconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250213    gcc-14.2.0
-parisc                randconfig-002-20250213    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                          allyesconfig    clang-16
-powerpc               randconfig-001-20250213    clang-17
-powerpc               randconfig-002-20250213    gcc-14.2.0
-powerpc               randconfig-003-20250213    gcc-14.2.0
-powerpc64             randconfig-001-20250213    clang-19
-powerpc64             randconfig-002-20250213    clang-21
-powerpc64             randconfig-003-20250213    gcc-14.2.0
-riscv                            allmodconfig    clang-21
-riscv                             allnoconfig    gcc-14.2.0
-riscv                            allyesconfig    clang-21
-riscv                 randconfig-001-20250213    clang-19
-riscv                 randconfig-002-20250213    clang-17
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-21
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250213    gcc-14.2.0
-s390                  randconfig-002-20250213    clang-21
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                    randconfig-001-20250213    gcc-14.2.0
-sh                    randconfig-002-20250213    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250213    gcc-14.2.0
-sparc                 randconfig-002-20250213    gcc-14.2.0
-sparc64               randconfig-001-20250213    gcc-14.2.0
-sparc64               randconfig-002-20250213    gcc-14.2.0
-um                               allmodconfig    clang-21
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250213    clang-19
-um                    randconfig-002-20250213    clang-21
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250213    gcc-11
-x86_64      buildonly-randconfig-002-20250213    gcc-12
-x86_64      buildonly-randconfig-003-20250213    clang-19
-x86_64      buildonly-randconfig-004-20250213    gcc-12
-x86_64      buildonly-randconfig-005-20250213    gcc-12
-x86_64      buildonly-randconfig-006-20250213    gcc-12
-x86_64                              defconfig    gcc-11
-x86_64                                  kexec    clang-19
-x86_64                               rhel-9.4    clang-19
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250213    gcc-14.2.0
-xtensa                randconfig-002-20250213    gcc-14.2.0
+	Hans
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+>  .../media/platform/chips-media/wave5/wave5-hw.c    |  2 +-
+>  .../platform/chips-media/wave5/wave5-vpu-dec.c     | 31 +++++++++++++++++++++-
+>  .../media/platform/chips-media/wave5/wave5-vpu.c   |  4 +--
+>  .../platform/chips-media/wave5/wave5-vpuapi.c      | 10 +++++++
+>  4 files changed, 43 insertions(+), 4 deletions(-)
+> 
+> Regards,
+> Sebastian Fricke
+> 
+> 
+
 
