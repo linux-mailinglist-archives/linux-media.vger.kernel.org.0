@@ -1,133 +1,305 @@
-Return-Path: <linux-media+bounces-26165-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26166-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12123A3634C
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 17:40:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B860A36572
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 19:10:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1194188329F
-	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 16:40:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6317C3AD1C1
+	for <lists+linux-media@lfdr.de>; Fri, 14 Feb 2025 18:10:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B3EC2676DF;
-	Fri, 14 Feb 2025 16:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 198A7269AE8;
+	Fri, 14 Feb 2025 18:08:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cm2p9J7C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UgmJaAEt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F568635A
-	for <linux-media@vger.kernel.org>; Fri, 14 Feb 2025 16:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B403B2698B8
+	for <linux-media@vger.kernel.org>; Fri, 14 Feb 2025 18:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739551235; cv=none; b=EXvnafQP07GxzlN1/gScA0LwObSwKCFgvmLl1sH8pRFw6lqM1/lqSNeXtnUq6cXnYcHQgAUqh2USQrlPtWf+wmkZ0V4Fj4/37rJpxNhxVNJuj1ie5TmoUmRXZH9lTToF5V29piFWjP+93pJQYwkKWIBG7fLqbhu8ju8NzkrRZ9Y=
+	t=1739556537; cv=none; b=VKUBT9bEgei+MvlvGrf9wdHYKwdAwbKTGiAaScroOLjS/Xwew4KrsrKNFCS6eJH6IO0xk8bUT76yAdX0/bFI5z+f396Znx/rTS+j7mAObnRFxuzzqDa/IDoAmt/BjMsloo3Uiex474tMtOq3wux4NF8UIXqiU7dMLGMSTCq56E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739551235; c=relaxed/simple;
-	bh=ojfXuqrVh2/vkRa1YABKxHOuESSubf2/Gs5UGK2Rl5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2mDUSxAIb4gXEjmnM7+aztMb9Cur6rflpVBnKSG4OSaNDs4iNwKucWJysNUR3q1bWy6dIJKK5rtpcWybc/k3FTLuorQmeHzv3Pkpejan/seNfwb66l04/VIqQ1ftekp0Vr8WvE4flZXrB5N6HmnYoDTuqp9ENEZNR61a7QbBG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cm2p9J7C; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2ABE710;
-	Fri, 14 Feb 2025 17:39:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739551152;
-	bh=ojfXuqrVh2/vkRa1YABKxHOuESSubf2/Gs5UGK2Rl5U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cm2p9J7C8l9X5rcKfnIYSegyyDV1O7YH2FKfF1/D5qCGrtFSJKl/ma8nSL/P4JxSg
-	 rGATbBPI9P5aPv8MhPqQe2OrsBPYRdg+nIQxNzIdnPv1Zqk3wXWCNHsO2UxJ59avAA
-	 ZZk6T9MiP2q0PgVuTpobyCzN11iOM/FI1hSy/QOY=
-Date: Fri, 14 Feb 2025 18:40:19 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>,
-	Zhaoxuan Zhai <zhai.zhaoxuan@canonical.com>,
-	linux-media@vger.kernel.org,
-	Ethan Hsieh <ethan.hsieh@canonical.com>, jianhui.lee@canonical.com,
-	guoqing.jiang@canonical.com, hverkuil@xs4all.nl
-Subject: Re: Questions about image size listed in VIDIOC_ENUM_FMT
-Message-ID: <20250214164019.GB19466@pendragon.ideasonboard.com>
-References: <96f6dff1-f5c7-4fab-94e1-47004dd916a6@canonical.com>
- <3bd7482f-e41d-41df-9d25-08cb62d5d0db@canonical.com>
- <Z67r76Fg-SOEbOJf@valkosipuli.retiisi.eu>
- <4ab514ea0a365c758bbbc46382ad97ebc487d150.camel@ndufresne.ca>
+	s=arc-20240116; t=1739556537; c=relaxed/simple;
+	bh=cuDGSrO0Q1FMmb3e4Tdf2NRa9GbQ0Z1notYqdwd9nxs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QCar7pwNJgi2fRUtowXtzv2bnUeoc7MLnIAk+DMln0QWDmLSK9IsG0rHxGJqFQR2g7w6iJ6Ouxm9x+0L95IROyZC90vQ84FQI0GyObKpvRqrFmjf5u8SaOwNz4sxHHct7KbZkwGZZbrNPvJbDEMl8pAX9H9+B79rSKp15ji7TII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UgmJaAEt; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739556536; x=1771092536;
+  h=date:from:to:cc:subject:message-id;
+  bh=cuDGSrO0Q1FMmb3e4Tdf2NRa9GbQ0Z1notYqdwd9nxs=;
+  b=UgmJaAEtpIkHBLw9lZmGUO5UmSGD/tTa+G3lYQJtFT4lgNmkZjdoKGpp
+   oC4B+DFf4PfF74Jynf9nz9IilXowwaHM8CwBlvxnTnmnReRUpPN+yD5n+
+   Nqpr8a57U9dKUkaoqOYOz0+FgFG4926HqFEDYFDPcBpgoG9uS7RWFwgUc
+   WeCzHaSeq6Yp0NOG0qj5nUVYGVY6fyNlyLw7mJMsypA5P8zAnUtFWSKId
+   DkbSAP3EdpzBfhREPfpsUUhgKU0soDU+Zf3xqsq571jBCnHUysnHJmo6S
+   WJ2nCy7L36Dsm5fcftY5qAjmyAZIvBKbkc0xgRvj/3CRl4V6yJHjoFkMO
+   w==;
+X-CSE-ConnectionGUID: vh9t56/gRa2zZpiHHUrq/w==
+X-CSE-MsgGUID: Zejm5fweSw+AC4lX3jYivw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11345"; a="40025247"
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="40025247"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 10:08:56 -0800
+X-CSE-ConnectionGUID: SQXM4TN0T7uz/s6oUdCGZA==
+X-CSE-MsgGUID: pqAHfpLfTZiyXtF/ZoXZtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,286,1732608000"; 
+   d="scan'208";a="113480206"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 14 Feb 2025 10:08:54 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tj07P-001A0B-2c;
+	Fri, 14 Feb 2025 18:08:51 +0000
+Date: Sat, 15 Feb 2025 02:08:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:devel] BUILD SUCCESS
+ 87d199af7f765cccde18934e8b656b95b395cacb
+Message-ID: <202502150254.8dpisLHf-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4ab514ea0a365c758bbbc46382ad97ebc487d150.camel@ndufresne.ca>
 
-On Fri, Feb 14, 2025 at 09:57:08AM -0500, Nicolas Dufresne wrote:
-> Le vendredi 14 février 2025 à 07:08 +0000, Sakari Ailus a écrit :
-> > Hi Zhaoxuan,
-> > 
-> > On Fri, Feb 14, 2025 at 12:19:23PM +0800, Zhaoxuan Zhai wrote:
-> > > Hi all,
-> > > 
-> > > Sorry I made a mistake. It should be VIDIOC_ENUM_FRAMESIZES instead of
-> > > VIDIOC_ENUM_FMT. I'm sorry for the mistake.
-> > > 
-> > > 在 2025/2/14 12:08, Zhaoxuan Zhai 写道:
-> > > > Hi all,
-> > > > 
-> > > > We are working on a camera driver. We plan to use v4l2 interface to send
-> > > > image data to users. We have a question we'd like to ask.
-> > > > 
-> > > > The situation we are facing is as follows.
-> > > > 
-> > > > We have an image processing unit that can process raw data collected by
-> > > > the sensor into the V4L2_PIX_FMT_NV12M format and send it to the user.
-> > > > 
-> > > > However, due to the requirements of the V4L2_PIX_FMT_NV12M format, the
-> > > > width and height of the image must be divisible by 16.
-> > > > 
-> > > > For example, when the sensor provides an image size of 2104x1560, after
-> > > > NV12M encoding, it should be pading to  2112x1566. But the additional 8
-> > > > rows and 8 columns are padded with 0s and contain no actual content.
-> > > > 
-> > > > So, we would like to ask, in this case, what size should we list in
-> > > > VIDIOC_ENUM_FMT? Should it be the actual image size with content,
-> > > > 2104x1560, or the padded size, 2112x1566?"
-> > 
-> > I'd say the actual image size (i.e. where you have pixel data). The
-> > sizeimage field needs to reflect the padding and the user needs to be aware
-> > how the data is laid out in memory.
-> 
-> I'd be happy to see spec clarification in this regard. I also think
-> that image size is best.
+tree/branch: git://linuxtv.org/sailus/media_tree.git devel
+branch HEAD: 87d199af7f765cccde18934e8b656b95b395cacb  media: dw9719: Add DW9761 support
 
-Which part of the spec do you think should be clarified ? I've always
-thought that ENUM_FMT should report the image dimensions, with padding
-being reported through bytesperline and sizeimage. Is there a place
-where we say something else ? If so that should indeed be fixed.
+elapsed time: 1117m
 
-> For NV12M, you can absorb the padding in per plane bytesperline /
-> sizeimage of the v4l2_format structure. That means the enumerated size
-> will match the format. Though, for NV12 (single plane) you'd have to
-> set at least the padded height and implement the SELECTION API to
-> return the cropping area.
+configs tested: 212
+configs skipped: 5
 
-NV12 is indeed ambiguous, as vertical padding reported by sizeimage
-could be just at the end of the image, or split between planes.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> In practice, for application point of view, it would all have been
-> easier if the v4l2_format was always padded width/height, with the
-> display dimension explicitly provided. But I'm pretty sure upstream
-> drivers implement a mix.
-> 
-> > Also cc Hans.
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    clang-21
+alpha                            allyesconfig    gcc-14.2.0
+alpha                               defconfig    gcc-14.2.0
+arc                              allmodconfig    clang-18
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    clang-18
+arc                                 defconfig    gcc-14.2.0
+arc                            hsdk_defconfig    gcc-14.2.0
+arc                   randconfig-001-20250214    gcc-13.2.0
+arc                   randconfig-001-20250214    gcc-14.2.0
+arc                   randconfig-002-20250214    gcc-13.2.0
+arc                   randconfig-002-20250214    gcc-14.2.0
+arm                              allmodconfig    clang-18
+arm                               allnoconfig    gcc-14.2.0
+arm                              allyesconfig    clang-18
+arm                                 defconfig    gcc-14.2.0
+arm                   randconfig-001-20250214    clang-16
+arm                   randconfig-001-20250214    gcc-14.2.0
+arm                   randconfig-002-20250214    gcc-14.2.0
+arm                   randconfig-003-20250214    clang-21
+arm                   randconfig-003-20250214    gcc-14.2.0
+arm                   randconfig-004-20250214    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                               defconfig    gcc-14.2.0
+arm64                 randconfig-001-20250214    gcc-14.2.0
+arm64                 randconfig-002-20250214    gcc-14.2.0
+arm64                 randconfig-003-20250214    gcc-14.2.0
+arm64                 randconfig-004-20250214    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                                defconfig    gcc-14.2.0
+csky                  randconfig-001-20250214    clang-21
+csky                  randconfig-001-20250214    gcc-14.2.0
+csky                  randconfig-002-20250214    clang-21
+csky                  randconfig-002-20250214    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    gcc-14.2.0
+hexagon                          allyesconfig    clang-18
+hexagon                          allyesconfig    clang-21
+hexagon                             defconfig    gcc-14.2.0
+hexagon               randconfig-001-20250214    clang-21
+hexagon               randconfig-002-20250214    clang-15
+hexagon               randconfig-002-20250214    clang-21
+i386                             allmodconfig    clang-19
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    clang-19
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    clang-19
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250214    gcc-12
+i386        buildonly-randconfig-002-20250214    gcc-12
+i386        buildonly-randconfig-003-20250214    clang-19
+i386        buildonly-randconfig-003-20250214    gcc-12
+i386        buildonly-randconfig-004-20250214    gcc-12
+i386        buildonly-randconfig-005-20250214    gcc-12
+i386        buildonly-randconfig-006-20250214    gcc-12
+i386                                defconfig    clang-19
+i386                  randconfig-001-20250214    gcc-12
+i386                  randconfig-002-20250214    gcc-12
+i386                  randconfig-003-20250214    gcc-12
+i386                  randconfig-004-20250214    gcc-12
+i386                  randconfig-005-20250214    gcc-12
+i386                  randconfig-006-20250214    gcc-12
+i386                  randconfig-007-20250214    gcc-12
+i386                  randconfig-011-20250214    clang-19
+i386                  randconfig-012-20250214    clang-19
+i386                  randconfig-013-20250214    clang-19
+i386                  randconfig-014-20250214    clang-19
+i386                  randconfig-015-20250214    clang-19
+i386                  randconfig-016-20250214    clang-19
+i386                  randconfig-017-20250214    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch                           defconfig    gcc-14.2.0
+loongarch             randconfig-001-20250214    clang-21
+loongarch             randconfig-001-20250214    gcc-14.2.0
+loongarch             randconfig-002-20250214    clang-21
+loongarch             randconfig-002-20250214    gcc-14.2.0
+m68k                             alldefconfig    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                                defconfig    gcc-14.2.0
+m68k                        m5272c3_defconfig    gcc-14.2.0
+m68k                            q40_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+microblaze                          defconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                               defconfig    gcc-14.2.0
+nios2                 randconfig-001-20250214    clang-21
+nios2                 randconfig-001-20250214    gcc-14.2.0
+nios2                 randconfig-002-20250214    clang-21
+nios2                 randconfig-002-20250214    gcc-14.2.0
+openrisc                          allnoconfig    clang-21
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-12
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    clang-21
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-12
+parisc                randconfig-001-20250214    clang-21
+parisc                randconfig-001-20250214    gcc-14.2.0
+parisc                randconfig-002-20250214    clang-21
+parisc                randconfig-002-20250214    gcc-14.2.0
+parisc64                            defconfig    gcc-14.2.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    clang-21
+powerpc                          allyesconfig    gcc-14.2.0
+powerpc                      katmai_defconfig    gcc-14.2.0
+powerpc               randconfig-001-20250214    clang-21
+powerpc               randconfig-001-20250214    gcc-14.2.0
+powerpc               randconfig-002-20250214    clang-18
+powerpc               randconfig-002-20250214    clang-21
+powerpc               randconfig-003-20250214    clang-21
+powerpc64             randconfig-001-20250214    clang-18
+powerpc64             randconfig-001-20250214    clang-21
+powerpc64             randconfig-002-20250214    clang-21
+powerpc64             randconfig-002-20250214    gcc-14.2.0
+powerpc64             randconfig-003-20250214    clang-21
+powerpc64             randconfig-003-20250214    gcc-14.2.0
+riscv                            allmodconfig    gcc-14.2.0
+riscv                             allnoconfig    clang-21
+riscv                            allyesconfig    gcc-14.2.0
+riscv                               defconfig    gcc-12
+riscv                 randconfig-001-20250214    clang-16
+riscv                 randconfig-001-20250214    clang-18
+riscv                 randconfig-002-20250214    clang-16
+riscv                 randconfig-002-20250214    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                             allmodconfig    gcc-14.2.0
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    gcc-12
+s390                  randconfig-001-20250214    clang-16
+s390                  randconfig-001-20250214    gcc-14.2.0
+s390                  randconfig-002-20250214    clang-16
+s390                  randconfig-002-20250214    clang-19
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                        apsh4ad0a_defconfig    gcc-14.2.0
+sh                                  defconfig    gcc-12
+sh                    randconfig-001-20250214    clang-16
+sh                    randconfig-001-20250214    gcc-14.2.0
+sh                    randconfig-002-20250214    clang-16
+sh                    randconfig-002-20250214    gcc-14.2.0
+sh                          rsk7201_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250214    clang-16
+sparc                 randconfig-001-20250214    gcc-14.2.0
+sparc                 randconfig-002-20250214    clang-16
+sparc                 randconfig-002-20250214    gcc-14.2.0
+sparc64                             defconfig    gcc-12
+sparc64               randconfig-001-20250214    clang-16
+sparc64               randconfig-001-20250214    gcc-14.2.0
+sparc64               randconfig-002-20250214    clang-16
+sparc64               randconfig-002-20250214    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-21
+um                               allyesconfig    clang-21
+um                               allyesconfig    gcc-12
+um                                  defconfig    gcc-12
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250214    clang-16
+um                    randconfig-001-20250214    gcc-12
+um                    randconfig-002-20250214    clang-16
+um                           x86_64_defconfig    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250214    clang-19
+x86_64      buildonly-randconfig-001-20250214    gcc-12
+x86_64      buildonly-randconfig-002-20250214    clang-19
+x86_64      buildonly-randconfig-002-20250214    gcc-12
+x86_64      buildonly-randconfig-003-20250214    gcc-12
+x86_64      buildonly-randconfig-004-20250214    clang-19
+x86_64      buildonly-randconfig-004-20250214    gcc-12
+x86_64      buildonly-randconfig-005-20250214    gcc-12
+x86_64      buildonly-randconfig-006-20250214    gcc-12
+x86_64                              defconfig    clang-19
+x86_64                              defconfig    gcc-11
+x86_64                                  kexec    clang-19
+x86_64                randconfig-001-20250214    clang-19
+x86_64                randconfig-002-20250214    clang-19
+x86_64                randconfig-003-20250214    clang-19
+x86_64                randconfig-004-20250214    clang-19
+x86_64                randconfig-005-20250214    clang-19
+x86_64                randconfig-006-20250214    clang-19
+x86_64                randconfig-007-20250214    clang-19
+x86_64                randconfig-008-20250214    clang-19
+x86_64                randconfig-071-20250214    gcc-12
+x86_64                randconfig-072-20250214    gcc-12
+x86_64                randconfig-073-20250214    gcc-12
+x86_64                randconfig-074-20250214    gcc-12
+x86_64                randconfig-075-20250214    gcc-12
+x86_64                randconfig-076-20250214    gcc-12
+x86_64                randconfig-077-20250214    gcc-12
+x86_64                randconfig-078-20250214    gcc-12
+x86_64                               rhel-9.4    clang-19
+x86_64                           rhel-9.4-bpf    clang-19
+x86_64                         rhel-9.4-kunit    clang-19
+x86_64                           rhel-9.4-ltp    clang-19
+x86_64                          rhel-9.4-rust    clang-19
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250214    clang-16
+xtensa                randconfig-001-20250214    gcc-14.2.0
+xtensa                randconfig-002-20250214    clang-16
+xtensa                randconfig-002-20250214    gcc-14.2.0
 
--- 
-Regards,
-
-Laurent Pinchart
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
