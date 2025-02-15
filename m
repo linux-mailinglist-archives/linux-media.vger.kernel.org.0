@@ -1,123 +1,93 @@
-Return-Path: <linux-media+bounces-26179-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26180-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C8AA37076
-	for <lists+linux-media@lfdr.de>; Sat, 15 Feb 2025 20:43:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7036A3707F
+	for <lists+linux-media@lfdr.de>; Sat, 15 Feb 2025 20:59:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A61291675AF
-	for <lists+linux-media@lfdr.de>; Sat, 15 Feb 2025 19:43:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 778D017002A
+	for <lists+linux-media@lfdr.de>; Sat, 15 Feb 2025 19:59:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DF0F1FBEAF;
-	Sat, 15 Feb 2025 19:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ciXV6QQK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 631861FC112;
+	Sat, 15 Feb 2025 19:59:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B09178F4B;
-	Sat, 15 Feb 2025 19:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764F61EA7E1
+	for <linux-media@vger.kernel.org>; Sat, 15 Feb 2025 19:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739648630; cv=none; b=RY7vpTXneXlR26wOt15Eu9BTTXeVs4j2zvT2a4fjP5tkJm+kifTErhnM3pEB0NKXEURVICwP6aa+TLp4HQZpyfiKTEdMlsbcq42L6DpbNLax2819rrONNQ2Odd1HIjWHIskLDvMf3T0R5y541NZ57DFwvwMDtovz4rVw0+2wiqU=
+	t=1739649545; cv=none; b=Ca+hWqxGLRMv25pJafaBtBLkO2wb5eCnq4qmaVr+WySN5MZoGlkSK2WuEr45Zhw8+55HG+J2uqo9bcil3nVx9cF7eG2f2kQ5iEQPDcjWqnY76Uoj/IROUs9iIgmra1CKD7L0v5FEGQicWGZ6Z8NsLtkbYyGxkTXUnODSuw73V5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739648630; c=relaxed/simple;
-	bh=aqlKCwiWQwaADZiGJGLwvMY4WxGCqqgsu+/fFmoalpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ePdADfXzD5AI3HtheL7fvA46J6WYQCDO+Yx/5VskD61OMYqSzYeHWVBXZdOWWdpmlFO79yfgDBPNzg8cGVClOwJyG9JAS0uEOOg8Zg06Zh+3870/NlJ1Z/xmxXWHlt0sBVYD9882GfjdcL5ykbb4k0Q8DR8QrP18D1ZlBJBXkkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ciXV6QQK; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8268578E;
-	Sat, 15 Feb 2025 20:42:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739648540;
-	bh=aqlKCwiWQwaADZiGJGLwvMY4WxGCqqgsu+/fFmoalpg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ciXV6QQKMNabAtWB71rKDXbANKJy2yaHJYmQjmMfOW/mo7VsdeM/SZ/3d1dZryChw
-	 8BHpgt6jUkPX/KKqqAxmgFrGHJD9ATWgivTFS68lFAREsNfcSAI2chxrmL/tvhFWfz
-	 k9YWROuZQxMg5m1R16mm9aeJ7fRWKHXVGSdIUrUY=
-Date: Sat, 15 Feb 2025 21:43:28 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sicelo <absicsz@gmail.com>
-Cc: Robin Murphy <robin.murphy@arm.com>, joro@8bytes.org, will@kernel.org,
-	mchehab@kernel.org, andersson@kernel.org,
-	mathieu.poirier@linaro.org, hns@goldelico.com, b-padhi@ti.com,
-	andreas@kemnade.info, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 2/4] media: omap3isp: Handle ARM dma_iommu_mapping
-Message-ID: <20250215194328.GF12632@pendragon.ideasonboard.com>
-References: <cover.1730136799.git.robin.murphy@arm.com>
- <34542c9552ce8cd12a5c292e79589acd964075d5.1730136799.git.robin.murphy@arm.com>
- <Z7A61N13dZpu53xI@tp440p.steeds.sam>
+	s=arc-20240116; t=1739649545; c=relaxed/simple;
+	bh=cjmLZcRAlefbwU0nv/Qg2Y9Rr8pWmnHARLkL+GFHg9Q=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=tq3Uf3GwxfTQs7xl2ddunC+DgxoTJcbtHi2aCTaQBAVcFelt7kJGNAt5gjw8A8KWCWl+XFwFreI1NVE21GG4Gcdph7La2nOB/JmHIqAtaFmsAj3ifBgcWANy8C7Fcz197LrFXY54Qs2/3rJ6G4oqJj6izL+2b/D5H3iwnFHdBTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3cfba354f79so62836325ab.1
+        for <linux-media@vger.kernel.org>; Sat, 15 Feb 2025 11:59:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739649542; x=1740254342;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vsSGdGLxp83+EP5yVNQjXJBE2N1zKb2aPVpOLY4p7Xo=;
+        b=RbwgKHaLmkkHSeuyhTctI8lupDst4qM0aJ3DWAHCh0RNau32l2/jhDrvl7jNkmLQpY
+         efHKP5on6Tswgx3VZ4Wzx3MCUnB8HqklGt5RRjgHbw/sTuRyJolWFppnt/5NpA0u7TNx
+         aQnfUJCg5xJSuGhILBy5FZWjlmE16NgtmsuDaNg+kwnoYEQMXBcYnKlXgza+IT95qqs3
+         IewepQqqeDhViJh6HfLODQxLqlgFKoVwcudBu3oc1gaMPONOZjpqp9eyZ6di4uTlb5Ap
+         sNXsIgk+2AaGK3gIPWEGNI7akw3LF0hzpZN/VVRGcikPABtfIxrd7hcfMkNn/rdYh+0G
+         wtMw==
+X-Forwarded-Encrypted: i=1; AJvYcCXVJ9Uffdnr7piqkP+s6pwCnY165fPEw2l5rWC9MDYi5Zv4aY0rR4ImU23yHEUCwSEyhKd0bTV6u1SZNg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw36CpNUTatV/7/041DcJC2kAP9RcrwyMAnnZEaYjkvjVFgkVDK
+	Pbz3XwJ6foBuAnBkoDSp0Kpp4mg3y7w7E4zUsBKcWWc6NuUf0AL90eug7E1spCCjYvKrXWulE8d
+	8XrnhLlc+dyUkDyTLo6p2vpddN4O7jyg/NBthKPj1v7L7fnb170F9UQQ=
+X-Google-Smtp-Source: AGHT+IGED8qB1mXWmmt+c7K6nBjduh4vT+n1AH1rSM0vh+OCwjQiG/6k5zmPAwYHWeUR2vWHB4xIUymZW+id/66hrnU6uPwYIiVw
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Z7A61N13dZpu53xI@tp440p.steeds.sam>
+X-Received: by 2002:a05:6e02:240b:b0:3d0:e52:7d33 with SMTP id
+ e9e14a558f8ab-3d2809d114bmr38457015ab.22.1739649542676; Sat, 15 Feb 2025
+ 11:59:02 -0800 (PST)
+Date: Sat, 15 Feb 2025 11:59:02 -0800
+In-Reply-To: <673de7f9.050a0220.363a1b.0011.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67b0f206.050a0220.6f0b7.001c.GAE@google.com>
+Subject: Re: [syzbot] [media?] WARNING in iguanair_get_features/usb_submit_urb
+From: syzbot <syzbot+e3ae1e7f4b88f3e696f5@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org, 
+	mchehab+huawei@kernel.org, mchehab@kernel.org, oneukum@suse.com, 
+	sean@mess.org, stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-CC'ing Sakari.
+syzbot suspects this issue was fixed by commit:
 
-Sakari, would you pick this patch ?
+commit b98d5000c50544f14bacb248c34e5219fbe81287
+Author: Oliver Neukum <oneukum@suse.com>
+Date:   Tue Nov 26 13:17:22 2024 +0000
 
-On Sat, Feb 15, 2025 at 08:57:24AM +0200, Sicelo wrote:
-> On Mon, Oct 28, 2024 at 05:58:36PM +0000, Robin Murphy wrote:
-> > It's no longer practical for the OMAP IOMMU driver to trick
-> > arm_setup_iommu_dma_ops() into ignoring its presence, so let's use the
-> > same tactic as other IOMMU API users on 32-bit ARM and explicitly kick
-> > the arch code's dma_iommu_mapping out of the way to avoid problems.
-> > 
-> > Fixes: 4720287c7bf7 ("iommu: Remove struct iommu_ops *iommu from arch_setup_dma_ops()")
-> > Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> > ---
-> >  drivers/media/platform/ti/omap3isp/isp.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
-> > index 91101ba88ef0..b2210841a320 100644
-> > --- a/drivers/media/platform/ti/omap3isp/isp.c
-> > +++ b/drivers/media/platform/ti/omap3isp/isp.c
-> > @@ -1961,6 +1961,13 @@ static int isp_attach_iommu(struct isp_device *isp)
-> >  	struct dma_iommu_mapping *mapping;
-> >  	int ret;
-> >  
-> > +	/* We always want to replace any default mapping from the arch code */
-> > +	mapping = to_dma_iommu_mapping(isp->dev);
-> > +	if (mapping) {
-> > +		arm_iommu_detach_device(isp->dev);
-> > +		arm_iommu_release_mapping(mapping);
-> > +	}
-> > +
-> >  	/*
-> >  	 * Create the ARM mapping, used by the ARM DMA mapping core to allocate
-> >  	 * VAs. This will allocate a corresponding IOMMU domain.
-> > -- 
-> > 2.39.2.101.g768bb238c484.dirty
-> > 
-> 
-> I have finally found time to test this patch on the Nokia N900 and can
-> confirm it is working fine.
-> 
-> I was wondering - is there a reason that it is not merged yet? I tested
-> on 6.14-rc2, which did not have it, and notice it is also not in
-> linux-next.
-> 
-> If it helps:
-> 
-> Tested-by: Sicelo A. Mhlongo <absicsz@gmail.com>
+    media: rc: iguanair: handle timeouts
 
--- 
-Regards,
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1007f098580000
+start commit:   f868cd251776 Merge tag 'drm-fixes-2024-11-16' of https://g..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d2aeec8c0b2e420c
+dashboard link: https://syzkaller.appspot.com/bug?extid=e3ae1e7f4b88f3e696f5
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10edf1a7980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10d892c0580000
 
-Laurent Pinchart
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: media: rc: iguanair: handle timeouts
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
