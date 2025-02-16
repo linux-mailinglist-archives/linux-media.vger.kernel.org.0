@@ -1,168 +1,233 @@
-Return-Path: <linux-media+bounces-26189-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26190-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A097A373CC
-	for <lists+linux-media@lfdr.de>; Sun, 16 Feb 2025 11:27:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF6E9A374F9
+	for <lists+linux-media@lfdr.de>; Sun, 16 Feb 2025 16:16:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFAD816B71C
-	for <lists+linux-media@lfdr.de>; Sun, 16 Feb 2025 10:27:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 209393A1D8B
+	for <lists+linux-media@lfdr.de>; Sun, 16 Feb 2025 15:16:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4530C18DB1B;
-	Sun, 16 Feb 2025 10:27:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A4591990AF;
+	Sun, 16 Feb 2025 15:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="K+An97/r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmG5ew7E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9B41487C8;
-	Sun, 16 Feb 2025 10:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739701658; cv=pass; b=X3gtZYkflRIX5jlP43ZHkasSopPMgHeg81XzWayjre6UFF6oqvCTWYVpwdfWIOdO+NEWw4pVkvcIMIY3dNiv0OlnGjKKQlUAEW43qPw6gml3Or7+G4q9m62psST8nLIlFfqWRyZ0nqQjUrLogWWj7drBvMTdiKQGPAW98xdXEb4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739701658; c=relaxed/simple;
-	bh=ZJVKciOgP7PmjbwdZRxbXiNIcAo73yiYS1lbDWwoIfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D8kQ00jCNwypYdevGyiBb27/Xl5cShgfFfDcALMX3xPQLlYbdeQUsB3BwWT8o79Ct/2xufrUy5flnFavl+vkdfwf3Kt1P9fzrS/Q/9RLfg7/dHpbLqHjPDpQfsSVG0lpb+chApvSaI/oxJZP2DmlXZLhb6LZGM8TRWa0JBEXWro=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=K+An97/r; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Ywhmz4Kyhz49Pwk;
-	Sun, 16 Feb 2025 12:27:31 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1739701653;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8UDdI7fW/FRxm0SJsuY4wz4Lj3XvYXPcwSHR/kIT/08=;
-	b=K+An97/rQeUnbTmrWPrvvfYWYEb0ba6S0P++RyswK5SuQfvgm3ptDEKeMwntqCAuCHjpEl
-	U17q8hUo8bRKpnVdbJqr+t3yq76iR+EpSg2kk0kEnbb4DM1gYLd+lRWs3ssHf7pUa+mQPT
-	xndl+4EeWuMmGCLN41AIzujd2Ds0DaSwvJG1Qk89L3TATKXW17W6NqGCsX/exoA+37rbgg
-	v4DiGTVcaDbqW36C/fBL0V31iCP98EESFsRzL/7g1ubE3ZQIstdC/9o42TIFbEd4cETOUQ
-	LTHyNXFiZXXdD/8d8GdF7cU7MzzF9ufSdxqpaXlzMd4kTcWEnuQRwWHZOmL5eQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1739701653;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8UDdI7fW/FRxm0SJsuY4wz4Lj3XvYXPcwSHR/kIT/08=;
-	b=VJOMQUOJqf5983pAmXgu3K/uH+noiSsRM2knVL/ON9EbWzS6A6hSQgNFK7l8e9+dvostFq
-	EPmfj7+Mz3OP+2dRWdfP3h0wcqqyXBPuq2w62LRQrFx4EKiGgVHcV290GYmPwsR1m/b+yJ
-	WAYgeO+of8dZ6Qc1ad5OwkFfdIdM79QQgSJGg+M/6JyD0kQ7ZiUtEs0Aw66WYiVUpolagY
-	TTrtRS5YCTrygiy3u9EhqEBWqc/dUbNglQsGvfTU/QGSyy8s506Dkffx/zFvGdH8R+m2uV
-	fylchr+47fBYNb72TEVe3fLxEaMTsBszCvph+JuHlsOSCMfwWP5hEUsrR/fjnQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1739701653; a=rsa-sha256;
-	cv=none;
-	b=ZBJ56CB07Z+z1S8bIb+4rr4vRBy8w5OVBoISiy3QMAVjzbBtBLc5Y1soyYHWX8fOb6mCdY
-	jbiZ5urA6n9O3nnnQGXoNeLv8TR3PTkyEQA4rh0DZOZ3v0PQgKLzTOiThP7zB3sZ+nCeYk
-	Xa4cFZEijGV377BvPEslHroBqWnxDMsTLaqGhdsWkl3XJdX9Gr63F4Zq5WRHkjYKhUkJV8
-	KyZCnWKQsA2yN8oIm5dk2UP4KgYwtRJMG3Xq8f8MPnzc1zwww/bql+32zYq+jDnDRQUKFC
-	OLlM+FWzb9oIH6DLu6045YxYhnmbdl58TNcn/MbSxONjf06B1bw5MTRzyNAu/Q==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 35F8A634C93;
-	Sun, 16 Feb 2025 12:27:30 +0200 (EET)
-Date: Sun, 16 Feb 2025 10:27:30 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sicelo <absicsz@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
-	joro@8bytes.org, will@kernel.org, mchehab@kernel.org,
-	andersson@kernel.org, mathieu.poirier@linaro.org, hns@goldelico.com,
-	b-padhi@ti.com, andreas@kemnade.info, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH 2/4] media: omap3isp: Handle ARM dma_iommu_mapping
-Message-ID: <Z7G9kkYgvWQu2xPa@valkosipuli.retiisi.eu>
-References: <cover.1730136799.git.robin.murphy@arm.com>
- <34542c9552ce8cd12a5c292e79589acd964075d5.1730136799.git.robin.murphy@arm.com>
- <Z7A61N13dZpu53xI@tp440p.steeds.sam>
- <20250215194328.GF12632@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12658192589
+	for <linux-media@vger.kernel.org>; Sun, 16 Feb 2025 15:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739718984; cv=none; b=c1qXAFdvgzXzpRUaZEDQ0W6FF+618vAX3FF/LqkJX7dQWWdgOxv6O9g092ULYMl0NViXqmFavWkdrJjGadx/6J4lGDwBzM6gF3URXxvHHqWMUN7jMb6lchQdF1cZb+Hzd81qSTcny0jOVQqf8qlNOPSbZ6bYcpj2wPg4h/x+T5A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739718984; c=relaxed/simple;
+	bh=rN5dvRGSZp/jX6+WBWONB47LtGirUvzKxx8rCXCWpV8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Vp3b6Ovd5fZ8Ltxno2a3fEEHp7Bv/izDsdgrpR59SlguZsZmyvVWtBJQLfQ93xwwNcXi60uADiJ/dkWaiim6Re+N2zkH+cNlm95b9RhfmPu0GagYkemWjGgrJdWjn+BPLbSnx9tDhd/jKoPtfznNIny55kz3C3a+doNsTh3F4Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmG5ew7E; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739718982; x=1771254982;
+  h=date:from:to:cc:subject:message-id;
+  bh=rN5dvRGSZp/jX6+WBWONB47LtGirUvzKxx8rCXCWpV8=;
+  b=SmG5ew7EzPGeJ98EqTi9FifXLncmgvxf1LqM9HkDVgQs8qq8ABdD9wT1
+   S3ZNPaFALLYsc76R0LYoUgEuIPpl7F5ouWD5yVj1Kv6akqb5Rskkgc6YB
+   rwvwVAJMvv9eRCHwQGE120+rQXr0Z5sl7YKl4w+daDf77G8PoCzYibFBG
+   H49I7r4bJTGBe7IGEmmKuiDUks3U+tFUePZGI2EjdTIvqZjPi1FGnCbzk
+   FdogUvW1iuf58GS+fP7Q4dKVvWkoN1e/zGevEW1yjDajnAKdmVVXwO4ig
+   wjM3mc+VohahsZ25zNgkNCnV+5SnkiU9d18CelJOVTynGM1Kup+2IS0uG
+   w==;
+X-CSE-ConnectionGUID: OL7LB+mWRnOluGj+lU+LKA==
+X-CSE-MsgGUID: iu3peNo9SrK81D7L3ElL5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11347"; a="51034770"
+X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
+   d="scan'208";a="51034770"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2025 07:16:21 -0800
+X-CSE-ConnectionGUID: skxGeIprQJSWq/K5jTR9MQ==
+X-CSE-MsgGUID: V+fm8mWJQ1C47y3TVn3DKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,291,1732608000"; 
+   d="scan'208";a="119019068"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 16 Feb 2025 07:16:20 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tjgNW-001C15-1H;
+	Sun, 16 Feb 2025 15:16:18 +0000
+Date: Sun, 16 Feb 2025 23:16:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ 2a1551665a8505150cf3f35f6028d7d06ea62024
+Message-ID: <202502162355.W1gOlQwB-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250215194328.GF12632@pendragon.ideasonboard.com>
 
-Hi Laurent, others,
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: 2a1551665a8505150cf3f35f6028d7d06ea62024  media: dw9719: Add DW9761 support
 
-On Sat, Feb 15, 2025 at 09:43:28PM +0200, Laurent Pinchart wrote:
-> CC'ing Sakari.
-> 
-> Sakari, would you pick this patch ?
+elapsed time: 1310m
 
-Thanks! I wonder what happened -- it wasn't visible in Linuxtv.org
-Patchwork but could be found via the message id.
+configs tested: 140
+configs skipped: 5
 
-It's in my tree now.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
-> On Sat, Feb 15, 2025 at 08:57:24AM +0200, Sicelo wrote:
-> > On Mon, Oct 28, 2024 at 05:58:36PM +0000, Robin Murphy wrote:
-> > > It's no longer practical for the OMAP IOMMU driver to trick
-> > > arm_setup_iommu_dma_ops() into ignoring its presence, so let's use the
-> > > same tactic as other IOMMU API users on 32-bit ARM and explicitly kick
-> > > the arch code's dma_iommu_mapping out of the way to avoid problems.
-> > > 
-> > > Fixes: 4720287c7bf7 ("iommu: Remove struct iommu_ops *iommu from arch_setup_dma_ops()")
-> > > Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> > > ---
-> > >  drivers/media/platform/ti/omap3isp/isp.c | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
-> > > index 91101ba88ef0..b2210841a320 100644
-> > > --- a/drivers/media/platform/ti/omap3isp/isp.c
-> > > +++ b/drivers/media/platform/ti/omap3isp/isp.c
-> > > @@ -1961,6 +1961,13 @@ static int isp_attach_iommu(struct isp_device *isp)
-> > >  	struct dma_iommu_mapping *mapping;
-> > >  	int ret;
-> > >  
-> > > +	/* We always want to replace any default mapping from the arch code */
-> > > +	mapping = to_dma_iommu_mapping(isp->dev);
-> > > +	if (mapping) {
-> > > +		arm_iommu_detach_device(isp->dev);
-> > > +		arm_iommu_release_mapping(mapping);
-> > > +	}
-> > > +
-> > >  	/*
-> > >  	 * Create the ARM mapping, used by the ARM DMA mapping core to allocate
-> > >  	 * VAs. This will allocate a corresponding IOMMU domain.
-> > > -- 
-> > > 2.39.2.101.g768bb238c484.dirty
-> > > 
-> > 
-> > I have finally found time to test this patch on the Nokia N900 and can
-> > confirm it is working fine.
-> > 
-> > I was wondering - is there a reason that it is not merged yet? I tested
-> > on 6.14-rc2, which did not have it, and notice it is also not in
-> > linux-next.
-> > 
-> > If it helps:
-> > 
-> > Tested-by: Sicelo A. Mhlongo <absicsz@gmail.com>
-> 
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+alpha                               defconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                                 defconfig    gcc-13.2.0
+arc                   randconfig-001-20250216    gcc-13.2.0
+arc                   randconfig-002-20250216    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-17
+arm                              allyesconfig    gcc-14.2.0
+arm                                 defconfig    clang-21
+arm                        neponset_defconfig    gcc-14.2.0
+arm                   randconfig-001-20250216    gcc-14.2.0
+arm                   randconfig-002-20250216    gcc-14.2.0
+arm                   randconfig-003-20250216    gcc-14.2.0
+arm                   randconfig-004-20250216    clang-21
+arm                         socfpga_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                               defconfig    gcc-14.2.0
+arm64                 randconfig-001-20250216    gcc-14.2.0
+arm64                 randconfig-002-20250216    clang-21
+arm64                 randconfig-003-20250216    gcc-14.2.0
+arm64                 randconfig-004-20250216    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                                defconfig    gcc-14.2.0
+csky                  randconfig-001-20250216    gcc-14.2.0
+csky                  randconfig-002-20250216    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon                             defconfig    clang-21
+hexagon               randconfig-001-20250216    clang-15
+hexagon               randconfig-002-20250216    clang-21
+i386                             alldefconfig    gcc-12
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250216    gcc-12
+i386        buildonly-randconfig-002-20250216    gcc-12
+i386        buildonly-randconfig-003-20250216    clang-19
+i386        buildonly-randconfig-004-20250216    gcc-12
+i386        buildonly-randconfig-005-20250216    gcc-12
+i386        buildonly-randconfig-006-20250216    clang-19
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch                           defconfig    gcc-14.2.0
+loongarch             randconfig-001-20250216    gcc-14.2.0
+loongarch             randconfig-002-20250216    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                                defconfig    gcc-14.2.0
+m68k                        m5407c3_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+microblaze                          defconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                           gcw0_defconfig    clang-15
+nios2                         10m50_defconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                               defconfig    gcc-14.2.0
+nios2                 randconfig-001-20250216    gcc-14.2.0
+nios2                 randconfig-002-20250216    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                              defconfig    gcc-14.2.0
+parisc                randconfig-001-20250216    gcc-14.2.0
+parisc                randconfig-002-20250216    gcc-14.2.0
+parisc64                            defconfig    gcc-14.1.0
+powerpc                          allmodconfig    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-16
+powerpc                          g5_defconfig    gcc-14.2.0
+powerpc                   lite5200b_defconfig    clang-21
+powerpc                   motionpro_defconfig    clang-17
+powerpc                  mpc866_ads_defconfig    clang-21
+powerpc                     ppa8548_defconfig    gcc-14.2.0
+powerpc               randconfig-001-20250216    gcc-14.2.0
+powerpc               randconfig-002-20250216    gcc-14.2.0
+powerpc               randconfig-003-20250216    gcc-14.2.0
+powerpc                     tqm8555_defconfig    gcc-14.2.0
+powerpc64             randconfig-001-20250216    gcc-14.2.0
+powerpc64             randconfig-002-20250216    gcc-14.2.0
+powerpc64             randconfig-003-20250216    clang-21
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-21
+riscv                               defconfig    clang-19
+riscv                 randconfig-001-20250216    clang-21
+riscv                 randconfig-002-20250216    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    clang-15
+s390                  randconfig-001-20250216    clang-19
+s390                  randconfig-002-20250216    clang-17
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-14.2.0
+sh                    randconfig-001-20250216    gcc-14.2.0
+sh                    randconfig-002-20250216    gcc-14.2.0
+sh                          rsk7269_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250216    gcc-14.2.0
+sparc                 randconfig-002-20250216    gcc-14.2.0
+sparc                       sparc64_defconfig    gcc-14.2.0
+sparc64                             defconfig    gcc-14.2.0
+sparc64               randconfig-001-20250216    gcc-14.2.0
+sparc64               randconfig-002-20250216    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                                  defconfig    clang-21
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250216    gcc-12
+um                    randconfig-002-20250216    gcc-12
+um                           x86_64_defconfig    clang-15
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250216    clang-19
+x86_64      buildonly-randconfig-002-20250216    gcc-12
+x86_64      buildonly-randconfig-003-20250216    gcc-12
+x86_64      buildonly-randconfig-004-20250216    gcc-12
+x86_64      buildonly-randconfig-005-20250216    gcc-12
+x86_64      buildonly-randconfig-006-20250216    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250216    gcc-14.2.0
+xtensa                randconfig-002-20250216    gcc-14.2.0
 
--- 
-Regards,
-
-Sakari Ailus
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
