@@ -1,143 +1,105 @@
-Return-Path: <linux-media+bounces-26191-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26194-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DFAA3755E
-	for <lists+linux-media@lfdr.de>; Sun, 16 Feb 2025 17:03:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5B3A376F6
+	for <lists+linux-media@lfdr.de>; Sun, 16 Feb 2025 19:47:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB03916E96E
-	for <lists+linux-media@lfdr.de>; Sun, 16 Feb 2025 16:03:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEA033ABD45
+	for <lists+linux-media@lfdr.de>; Sun, 16 Feb 2025 18:47:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 008971991A4;
-	Sun, 16 Feb 2025 16:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90701A3056;
+	Sun, 16 Feb 2025 18:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HlGlrnKn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="othqiyfU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826911BC20
-	for <linux-media@vger.kernel.org>; Sun, 16 Feb 2025 16:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C97B19CC3E;
+	Sun, 16 Feb 2025 18:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739721789; cv=none; b=ozGbTva6UpCvG413Lv2hWAzSN0wtQQ09uW50PfZR7ZPDKk6MGnEYc24/JY+29iXPAV6wyzBB/4sOSdAh43G76f1EKUGm/NRlLjfJKrRVhfSTRlByzUhMiO80jYulVNXgfNEv75Frz4LCBSJJMS5VNkwd238pgPkgb9mCX0kfjXQ=
+	t=1739731622; cv=none; b=GRpj7jCytes/5yLYuqMWPG63u3EK1cl/ETO1Zlz9HraEiWlbu8OS1P0BMp/Fn/KxrTiBAns8glnrGbQzPVDlB9rtbKYrClK54Tvokqc5UmxcD5vhvkIbIPKZmTNFHy7eg+kNolE6VXQKqtvGd7PBkKylwLIXKGQxcG0lkQFiW8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739721789; c=relaxed/simple;
-	bh=+hs8dPlv649ZuZboi0I0jvkHr4BIxeOpWHTRcis4xkw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ne67jLDuhlC9d8aR8nvXLfk2NRm/cGQUHV9IMRstfY6vj5pvwF6iWKiNsvAYDlzzs9KHLAOyDcG2p6GcBPQszXL0UdD/3AJwueHGkBIg4cb5Y4etP1dXMcS/KYgLinewLuOPw1iBXvmIxxd7h9zTPurzBeQ1icHzaM10IOn8D9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HlGlrnKn; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43690d4605dso22077895e9.0
-        for <linux-media@vger.kernel.org>; Sun, 16 Feb 2025 08:03:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739721786; x=1740326586; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1WalijOTNz/wHoQJXRkE+i0bnTCvGIIuSGBI+PUXsc8=;
-        b=HlGlrnKnsPgeGsoMJzeIqlqQxsgT2vGzZnQBh5Pf2O5j9s8GWlVR1oj3RNrQiP04uW
-         3Tbe/JSxTLzXsb/FbVTO0KE9x9lr6urAfjs8K6erZ3w5Kq+6nkxu7leSJqpUwpoUpXtK
-         zBRa/QmSBDYmaHeJu0maWRYjvI99tDQ2G0tG1OSag5e+FVr4ipape3Ft/0hcxZPWe41x
-         KTfDNM8E0mVhDXoYtYWveLFjztnr5NhJWiEkQVCuL/b7sbfUbcusxL/5OgP0EtO9J0p+
-         f24tzwdIT5vDIkaI/thoQZgdaB9s+jqMaWG2DL35z47/EMkN4LFTEpe4IRUie82r7mSZ
-         wSSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739721786; x=1740326586;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1WalijOTNz/wHoQJXRkE+i0bnTCvGIIuSGBI+PUXsc8=;
-        b=AMarJub1VnwL8bsey4tBxCeNiOkIleq5tbSa8STdJ/xuWGS33b/QGtBUxDxyv3RKLA
-         hp3plOooBnIvbls4jf7bYHV650Hz0Oq/DQ4s4dqHlphZART4JYheKbS7/Yd5gPBbpgbh
-         JiVxL9b1k+EO78Hhe0nsbsskwIuYY5FzDA5Gf6GFDBEASpEzDOAvklN42f4SY1Bm9QCt
-         pR9nBC0hUIt63GOAUm/SiwrFw6abcH7U8f1jBG4H/qRwsnZkZxOr+YMykZMGGVz4kYs4
-         IyhzjoV+DCpwUGHIfYA4V1Fac1SzjfsmwD0ZxS+dm0IB4MhTkz1YWdnU0gZmw5EFKTEm
-         HkOQ==
-X-Gm-Message-State: AOJu0Yzt5zwKs1fLaQ44Lt+E3oijTcQ2NayiBq2oLBezNvYDtqLCs4pX
-	n+tXwrG1dzxqDFlpc2Wmj7aJRnxHErRJeHNfb0WLOsJ7VLNcy7pzOrDS6oY8LiA=
-X-Gm-Gg: ASbGncsIVAHs7Rxs884JHRoJNrS800UaxfLS9lAYv5fnXqJyZXWwAckMqKEtTVFIgzQ
-	eomJSugA5ZadTC7CWAeS7uKok4Pgu/LxjH8jfUbxNZS3Vlr5XKBHHjIS8g2T/4/fV498uh6nVdW
-	h/MffyBmiPzfTYQJs8kES2CJ31bHpbhc209tn/cVpJRsq7Tx5H6i6eqdjrZwEe55is4YR/4MPXx
-	B2QV4jPPLY5FuGUI9ffby1JZJExUhGiRzBt0+GlZdgM5j/tp0J68Avqug/LGoTfULTIG1BF1Sl9
-	E/G7huOTY8athPVwWja+mDBiHMoxLVUl+grwVgDglyd1hDut/cNzwopq
-X-Google-Smtp-Source: AGHT+IHedH1KLJz+JAqT1o2zSIOfhcwUOiD2GGTr4gt+kVC6Y/4owul+oVcVO1XLpogHuuAgPnHPEA==
-X-Received: by 2002:a5d:5f4e:0:b0:385:f220:f798 with SMTP id ffacd0b85a97d-38f33f3737amr5455766f8f.6.1739721784259;
-        Sun, 16 Feb 2025 08:03:04 -0800 (PST)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439618a9970sm97159865e9.33.2025.02.16.08.03.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Feb 2025 08:03:03 -0800 (PST)
-Message-ID: <c3b27e55-f627-417c-bb62-3189f248fb99@linaro.org>
-Date: Sun, 16 Feb 2025 16:03:02 +0000
+	s=arc-20240116; t=1739731622; c=relaxed/simple;
+	bh=rJ3EJo67QZrfQjk9KphkLETXlDZM6lXQKTtE3crJb+w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kLf9RtE8tNM6IGwsF+C1Mx30j9radRrjMmAd5/i6uLt/PJyDdaVZobW6kCof2sNTIfnq7cwcsre6WGAPMh+gxK3+oxVyeVCVn49Jac+LzqaRNEvOW86/ur8h+zG75SMG5bApwEm9VPoQ+zDltBjyIgEmqAYfKi93+zyOHa4i91Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=othqiyfU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 901F6C4CEDD;
+	Sun, 16 Feb 2025 18:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739731621;
+	bh=rJ3EJo67QZrfQjk9KphkLETXlDZM6lXQKTtE3crJb+w=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=othqiyfUgNRdn3iyQkdUP9WyHx3QwKQS8VdsE4WUh/9B20TAMTvKLEBRhoxmr1QPg
+	 H9fAMPBLerlZ9NBvm7vmR9SS93eQaaIJof2irrhilIVEHaXUj68bDaJOGAORP54JTj
+	 WXxBCiimavc/lhPnQqq8rgreisVZXOiH6YwCXsTAf4nSJ5b7anRxoN/DICYOysfpzb
+	 mUfOPToYa+8aUV+yP6R5ZbRU8jftbUVPnkY/TgVqgCQSXMtZDWnd4dviNY0/ehgnM1
+	 TYPeoKYbbaGUO+BSZTTi1YzeNKSj8GdW9DiMQOhuUAUhFvRXQFHm6lHX9Ey8FZFzNZ
+	 66arjtsN0OIvA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ABC4C02198;
+	Sun, 16 Feb 2025 18:47:01 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH 0/4] media: i2c: imx214: Add support for 23.88MHz clock
+Date: Sun, 16 Feb 2025 19:46:43 +0100
+Message-Id: <20250216-imx214_clk_freq-v1-0-812f40f07db3@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] venus driver fixes to avoid possible OOB read
- access
-To: Vedang Nagar <quic_vnagar@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAJMysmcC/y2Myw5AMBBFf0VmrUmVWvgVESmmTLxbRCL+3QTLc
+ 3PPucCjI/SQBRc4PMjTPDFEYQB1Z6YWBTXMoKTSUkktaDxVlJT10JfW4SriyqZG6gZjbYCtxaG
+ l8y3mxcd82zm8/eN9P6SaR0h2AAAA
+X-Change-ID: 20250205-imx214_clk_freq-3bf6a05de35a
+To: Ricardo Ribalda <ribalda@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250215-venus-security-fixes-v2-0-cfc7e4b87168@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250215-venus-security-fixes-v2-0-cfc7e4b87168@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739731620; l=884;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=rJ3EJo67QZrfQjk9KphkLETXlDZM6lXQKTtE3crJb+w=;
+ b=FuN7euOnqyx4NSMvv220hPYnePtYt3PcpliJNlPCs5BQwXml35M/PyWVVwPOEOKZhys5HB/QI
+ Ff7rT06hnLRBN96GBH3O6Vmsj3S85D7u6C1PTJT0Nf0dnelvazd5uoD
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-On 15/02/2025 17:19, Vedang Nagar wrote:
-> This series primarily adds check at relevant places in venus driver
-> where there are possible OOB accesses due to unexpected payload
-> from venus firmware. The patches describes the specific OOB possibility.
-> 
-> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
-> ---
-> Changes in v2:
-> - Decompose sequence change event function.
-> - Fix repopulating the packet .with the first read during read_queue.
-> - Link to v1: https://lore.kernel.org/r/20250104-venus-security-fixes-v1-0-9d0dd4594cb4@quicinc.com
-> 
-> ---
-> Vedang Nagar (2):
->        media: venus: fix OOB read issue due to double read
->        media: venus: fix OOB access issue while reading sequence changed events
-> 
->   drivers/media/platform/qcom/venus/hfi_msgs.c  | 72 +++++++++++++++++++++++----
->   drivers/media/platform/qcom/venus/hfi_venus.c |  1 +
->   2 files changed, 63 insertions(+), 10 deletions(-)
-> ---
-> base-commit: 91e71d606356e50f238d7a87aacdee4abc427f07
-> change-id: 20241211-venus-security-fixes-50c22e2564d5
-> 
-> Best regards,
+The imx214 driver currently supports only a 24MHz external clock. But
+there are devices, like Qualcomm-MSM8916-based phones, which cannot
+provide this frequency. To make the sensor usable by those devices, add
+support for 23.88MHz clock. 
 
-Could you please address the feedback I gave you / questions posited in 
-these two messages ?
-
-4cfc1fe1-2fab-4256-9ce2-b4a0aad1069e@linaro.org
-
-0eab7323-ce86-40c7-9737-06eedcdf492d@linaro.org
-
-The basic question : what is the lifetime of the data from RX interrupt 
-to consumption by another system agent, DSP, userspace, whatever ?
-
-Why is it in this small specific window that the data can change but not 
-later ? What is the mechanism the data can change and how do the changes 
-you propose here address the data lifetime problem ?
-
-Without that context, I don't believe it is really possible to validate 
-an additional memcpy() here and there in the code as fixing anything.
-
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
-bod
+André Apitzsch (4):
+      media: i2c: imx214: Calculate link bit rate from clock frequency
+      media: i2c: imx214: Prepare for variable clock frequency
+      media: i2c: imx214: Read clock frequency from device tree
+      media: i2c: imx214: Add support for 23.88MHz clock
+
+ drivers/media/i2c/imx214.c | 188 +++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 146 insertions(+), 42 deletions(-)
+---
+base-commit: 942a51cca29ed20f23ba37f34ff52a6af32ab6c4
+change-id: 20250205-imx214_clk_freq-3bf6a05de35a
+
+Best regards,
+-- 
+André Apitzsch <git@apitzsch.eu>
+
+
 
