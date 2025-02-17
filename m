@@ -1,292 +1,137 @@
-Return-Path: <linux-media+bounces-26223-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26224-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6654A3881A
-	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 16:49:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2B9A388D2
+	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 17:09:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 790471885C13
-	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 15:48:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3895E166D15
+	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 16:03:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A797F2253A5;
-	Mon, 17 Feb 2025 15:48:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E7E7225404;
+	Mon, 17 Feb 2025 16:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Y2+mMyHY"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="DVyNJSKa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1781C216600;
-	Mon, 17 Feb 2025 15:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF02F2248B4
+	for <linux-media@vger.kernel.org>; Mon, 17 Feb 2025 16:02:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739807298; cv=none; b=UMPlTju6Q3QDIKp+myKIda9ZPku4tqLI9Gj8uYDjNk+S+7F8as14aG0yD31GiJZ/wI2coLwOSLMrCi4zX41UFZUEjgfE9bsVpue//eGJDUc4wD/DJZ9aIAKhTvYjRIlpQHYVRQ0IdsJRN27q7kUyHZQ3mQXC8qqCwhwlc+1CVgw=
+	t=1739808161; cv=none; b=ofXap8qGi84XS1rLjylUZuTEWYxNyew6mXXVLWRJ4kWRrgWrE5QFzgqKY7NOhQbUMs0nx0wbuP6+ukwAN2UPceTXrJ9q07kXnz3hWwyTLnpK71K+Q2xZX6YAbkPa0fA5D2I/ucmgJUlrTTFTiiAzQTbu9dzEtzxH450X3djn1DY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739807298; c=relaxed/simple;
-	bh=9axMPKOkbMsm7Rwf7o5OUBQXDBtmoYsqMxGtFJ9pkxk=;
+	s=arc-20240116; t=1739808161; c=relaxed/simple;
+	bh=/3Qp84YbWUafghDw2nrA7UlUdWsylk9smJ3CGsp5eoo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r/yudyeIKxkBxXMGqQsp/9d+lj2CxrS4DaLHPysMKOXyFGPF1PaaSe8i+CabkDWp5lEWc9g4mBXSVjIXky6pZXpOeEwFhrmBR4e+RwnuGeCeAVRI7n8Egy/EQhT9/hisG6By9uQmEZMZK8mbGOGlS+c92CK01EH8hBLKUPyYk44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Y2+mMyHY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [223.190.80.185])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF901D53;
-	Mon, 17 Feb 2025 16:46:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739807210;
-	bh=9axMPKOkbMsm7Rwf7o5OUBQXDBtmoYsqMxGtFJ9pkxk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y2+mMyHYLLdfHlGvI/nHlzIO4wUU4Hs1OgbffqDITwZ/1Vkn9mzZjPPkDSTszQOeW
-	 7h4SyySGFDfeh6y6tqVDc55PEVTsrWnDoX63wkSIjZW255Vpd+l2k87fGGLaElQwou
-	 wtkA4DrYe6xhEudSoSEOT+zRsOGfm8CZtgHcOnk0=
-Date: Mon, 17 Feb 2025 21:17:57 +0530
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	Vinay Varma <varmavinaym@gmail.com>
-Subject: Re: [PATCH v7 5/5] media: i2c: imx219: Scale the pixel rate for
- analog binning
-Message-ID: <zrjuuu5fwjnao5zgrofbu5yygl4zsk3dgzi232cmxecnq7n3mt@urv3f2guttus>
-References: <20250217-imx219_fixes-v7-0-83c3c63b737e@ideasonboard.com>
- <20250217-imx219_fixes-v7-5-83c3c63b737e@ideasonboard.com>
- <sejl7xskif6rlpdsg3jhczjwe5gi6rs53ehbyka6omv2zeg7qq@4iis7i2lla5p>
+	 Content-Type:Content-Disposition:In-Reply-To; b=L5IHxkcM5F6Vw/hP8K4D0TWoXm93WsAUfKXwhx6kRw9giUUjPJU2S93g+QyC/DgMW7uD9vR7F7BL1x0rxN8cEqZB+k0+b+t8A8+OSxZstXaCisnriyRV42UCxjgSe8m4sztI7yS3Yg3uxt68CsKEIFAafgHzO40QZt9gIdQSxiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=DVyNJSKa; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43984e9cc90so6220055e9.1
+        for <linux-media@vger.kernel.org>; Mon, 17 Feb 2025 08:02:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1739808158; x=1740412958; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=43jaqScBOTTKMVVM/pAEA4ORlDlz298tH89aK7G/qzQ=;
+        b=DVyNJSKaUPBbNlm8QECV3cLuv2mObwjMLZ+O5Akr+ytrXz9coZPTjr4nc4X6Kst7dJ
+         2Ha7eMhFY1AZx60hkSE1wENBfI0OJsC3QFllqBEoWYpTVVeiP4gJNvNYDrpqeI6Ho9G8
+         0vmuzFPKQUuJV6ArXaZniX6RBCFM/p8X/YeIM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739808158; x=1740412958;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=43jaqScBOTTKMVVM/pAEA4ORlDlz298tH89aK7G/qzQ=;
+        b=kqS4e+2H75TAh5LifhJC5AERGpyPc8CaLVUiZLzke35Ekr9s5jcLIMQvvPUxEBM5ae
+         mph24kD5D9dO/ZNd+1LQ+F28Xny4CRhidzgXc/iK1yyniWbfp7shFcykpl01VaRQ/vWg
+         /fyIXP0XBMbbaBJ2etZMaKvsTIIg1suUQXC2kJ/pwZPe8cu1GNmvaUhHVXgAETrogPsA
+         b6RuxV3Yd41hLBUpQK2yab2aDTOSQmdzfSAe6CVvnc5hlfP0EcBFdNhbfN/J8lltkQ5D
+         Kgtir0ezuXSlZftnpilmNQYLsJsbnn5Fo84ac9pDmTosCfLVLLyIyQ5w6NHfwPxR1TDW
+         8kOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPgqY36qtJc3xR8kis6r9FJYQZoDxym7KXO91+ocaKw9lUmbVuBIZAXAQuGI4dMkE+pfF6J1XJXExA6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbXq4+E5LgBRjoh7k7Oi5R14XAgAoNEqHiH8ixePZneQoNbgU6
+	jtpMB3Iryel9cGd9v8xkdjOahK4MC7KtttPZUiSogWe8PdMaRCYrhbShyAYgjUyDYBsnrlMP4QW
+	W
+X-Gm-Gg: ASbGncte3zGmOEeHyBrJh+cbppRjqP9JLj5zeOXy8NxwI9kHRsuoAPQ7RljC7YaUeN1
+	OI+RHqt8KcZIcTi3gqHi9Uo9yZpzVipFFgVWL9eQTuTNiyOiuZXUwH+SZFXBDoR6WH30UtxIZFW
+	6D7t0UZNUPPbYnjkX/6M3MGtqnN64ZW560kC+bvQcNAa8mZH9laq4EH8wY+zePYndsGnsvJ9u39
+	lR0vBgtyEfSDwJnBIcn0mp6gQP9S5lMs6+/yw2c3uRzJUwOc/Ei/vSLc4juilco+v7eWH6Q1988
+	OJ6nzYw7l3NKKljVkXZ+a/fmbls=
+X-Google-Smtp-Source: AGHT+IE8p/f7NWuxULy0RX/iH0m4yLEHHpOnki67v1mwiYaFNEagW21xEE3gux9AX/k9Qh9uiKXEuw==
+X-Received: by 2002:a5d:5f4e:0:b0:38f:2a99:b8e with SMTP id ffacd0b85a97d-38f339d85femr9481489f8f.4.1739808157513;
+        Mon, 17 Feb 2025 08:02:37 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f25a0fa1esm12476884f8f.100.2025.02.17.08.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 08:02:36 -0800 (PST)
+Date: Mon, 17 Feb 2025 17:02:34 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: sumit.semwal@linaro.org, tzimmermann@suse.de, simona@ffwll.ch,
+	dmitry.osipenko@collabora.com, tvrtko.ursulin@igalia.com,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 1/4] dma-buf: fix incorrect dma-fence documentation
+Message-ID: <Z7NdmkEPYRhYi0Ax@phenom.ffwll.local>
+References: <20250211163109.12200-1-christian.koenig@amd.com>
+ <20250211163109.12200-2-christian.koenig@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <sejl7xskif6rlpdsg3jhczjwe5gi6rs53ehbyka6omv2zeg7qq@4iis7i2lla5p>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250211163109.12200-2-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 
-Hi Jacopo,
+On Tue, Feb 11, 2025 at 05:31:06PM +0100, Christian König wrote:
+> There isn't much worse than documentation giving an incorrect advise.
+> Grabbing a spinlock while interrupts are disabled usually means that you
+> must also disable interrupts for all other uses of this spinlock.
+> 
+> Otherwise really hard to debug issues can occur. So fix that invalid
+> documentation.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-Thanks for the review.
+Oops :-/
 
-On Feb 17, 2025 at 15:38:12 +0100, Jacopo Mondi wrote:
-> Hi Jai
-> 
-> On Mon, Feb 17, 2025 at 06:57:35PM +0530, Jai Luthra wrote:
-> > When the analog binning mode is used for high framerate operation, the
-> > pixel rate is effectively doubled. Account for this when setting up the
-> > pixel clock rate, and applying the vblank and exposure controls.
-> >
-> > The previous logic only used analog binning for RAW8, but normal binning
-> > limits the framerate on RAW10 480p [1]. So with this patch we switch to
-> > using special binning (with 2x pixel rate) wherever possible.
-> >
-> > [1]: https://github.com/raspberrypi/linux/issues/5493
-> >
-> > Co-developed-by: Naushir Patuck <naush@raspberrypi.com>
-> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > Co-developed-by: Vinay Varma <varmavinaym@gmail.com>
-> > Signed-off-by: Vinay Varma <varmavinaym@gmail.com>
-> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/imx219.c | 80 +++++++++++++++++++++++++++++++---------------
-> >  1 file changed, 54 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 418f88386659d494ff674d64ed69b8441d1ee2cd..f97abcc5703ea32f1d6f19a4c0a671a7e978a974 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -296,13 +296,13 @@ static const struct imx219_mode supported_modes[] = {
-> >  		.fll_def = 1763,
-> >  	},
-> >  	{
-> > -		/* 2x2 binned 30fps mode */
-> > +		/* 2x2 binned 60fps mode */
-> >  		.width = 1640,
-> >  		.height = 1232,
-> >  		.fll_def = 1707,
-> >  	},
-> >  	{
-> > -		/* 640x480 30fps mode */
-> > +		/* 640x480 60fps mode */
-> >  		.width = 640,
-> >  		.height = 480,
-> >  		.fll_def = 1707,
-> > @@ -357,6 +357,45 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
-> >  	return imx219_mbus_formats[i];
-> >  }
-> >
-> > +static void imx219_get_binning(struct imx219 *imx219, u8 *bin_h, u8 *bin_v)
-> > +{
-> > +	struct v4l2_subdev_state *state =
-> > +		v4l2_subdev_get_locked_active_state(&imx219->sd);
-> > +	const struct v4l2_mbus_framefmt *format =
-> > +		v4l2_subdev_state_get_format(state, 0);
-> > +	const struct v4l2_rect *crop = v4l2_subdev_state_get_crop(state, 0);
-> > +	u32 hbin = crop->width / format->width;
-> > +	u32 vbin = crop->height / format->height;
-> > +
-> > +	*bin_h = IMX219_BINNING_NONE;
-> > +	*bin_v = IMX219_BINNING_NONE;
-> > +
-> > +	/*
-> > +	 * Use analog binning only if both dimensions are binned, as it crops
-> > +	 * the other dimension.
-> > +	 */
-> > +	if (hbin == 2 && vbin == 2) {
-> > +		*bin_h = IMX219_BINNING_X2_ANALOG;
-> > +		*bin_v = IMX219_BINNING_X2_ANALOG;
-> > +
-> > +		return;
-> > +	}
-> > +
-> > +	if (hbin == 2)
-> > +		*bin_h = IMX219_BINNING_X2;
-> > +	if (vbin == 2)
-> > +		*bin_v = IMX219_BINNING_X2;
-> > +}
-> > +
-> > +static inline u32 imx219_get_rate_factor(struct imx219 *imx219)
-> > +{
-> > +	u8 bin_h, bin_v;
-> > +
-> > +	imx219_get_binning(imx219, &bin_h, &bin_v);
-> > +
-> > +	return (bin_h & bin_v) == IMX219_BINNING_X2_ANALOG ? 2 : 1;
-> > +}
-> > +
-> >  /* -----------------------------------------------------------------------------
-> >   * Controls
-> >   */
-> > @@ -368,10 +407,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> >  	const struct v4l2_mbus_framefmt *format;
-> >  	struct v4l2_subdev_state *state;
-> > +	u32 rate_factor;
-> >  	int ret = 0;
-> >
-> >  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
-> >  	format = v4l2_subdev_state_get_format(state, 0);
-> > +	rate_factor = imx219_get_rate_factor(imx219);
-> >
-> >  	if (ctrl->id == V4L2_CID_VBLANK) {
-> >  		int exposure_max, exposure_def;
-> > @@ -400,7 +441,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  		break;
-> >  	case V4L2_CID_EXPOSURE:
-> >  		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
-> > -			  ctrl->val, &ret);
-> > +			  ctrl->val / rate_factor, &ret);
-> >  		break;
-> >  	case V4L2_CID_DIGITAL_GAIN:
-> >  		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-> > @@ -417,7 +458,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  		break;
-> >  	case V4L2_CID_VBLANK:
-> >  		cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
-> > -			  format->height + ctrl->val, &ret);
-> > +			  (format->height + ctrl->val) / rate_factor, &ret);
-> >  		break;
-> >  	case V4L2_CID_HBLANK:
-> >  		cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
-> > @@ -589,7 +630,7 @@ static int imx219_set_framefmt(struct imx219 *imx219,
-> >  	const struct v4l2_mbus_framefmt *format;
-> >  	const struct v4l2_rect *crop;
-> >  	unsigned int bpp;
-> > -	u64 bin_h, bin_v;
-> > +	u8 bin_h, bin_v;
-> >  	int ret = 0;
-> >
-> >  	format = v4l2_subdev_state_get_format(state, 0);
-> > @@ -602,7 +643,6 @@ static int imx219_set_framefmt(struct imx219 *imx219,
-> >  	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> >  		bpp = 8;
-> >  		break;
-> > -
-> >  	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> >  	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> >  	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> > @@ -621,26 +661,7 @@ static int imx219_set_framefmt(struct imx219 *imx219,
-> >  	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
-> >  		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
-> >
-> > -	switch (crop->width / format->width) {
-> > -	case 1:
-> > -	default:
-> > -		bin_h = IMX219_BINNING_NONE;
-> > -		break;
-> > -	case 2:
-> > -		bin_h = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
-> > -		break;
-> > -	}
-> > -
-> > -	switch (crop->height / format->height) {
-> > -	case 1:
-> > -	default:
-> > -		bin_v = IMX219_BINNING_NONE;
-> > -		break;
-> > -	case 2:
-> > -		bin_v = bpp == 8 ? IMX219_BINNING_X2_ANALOG : IMX219_BINNING_X2;
-> > -		break;
-> > -	}
-> > -
-> > +	imx219_get_binning(imx219, &bin_h, &bin_v);
-> >  	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
-> >  	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, bin_v, &ret);
-> >
-> > @@ -847,6 +868,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  		int exposure_max;
-> >  		int exposure_def;
-> >  		int hblank, llp_min;
-> > +		int pixel_rate;
-> >
-> >  		/* Update limits and set FPS to default */
-> >  		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-> > @@ -882,6 +904,12 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  		 */
-> >  		hblank = prev_line_len - mode->width;
-> >  		__v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
-> > +
-> > +		/* Scale the pixel rate based on the mode specific factor */
-> > +		pixel_rate = imx219_get_pixel_rate(imx219) *
-> > +			     imx219_get_rate_factor(imx219);
-> 
-> Is this correct ? imx219_set_pad_format() operates a subdev state,
-> while imx219_get_rate_factor() always operate on the active state.
-> 
-> It could be argued that controls are always 'active' so using the
-> 'active' state for both imx219_get_pixel_rate() and
-> imx219_get_rate_factor() is ok.
-> 
-> However I would rather pass to imx219_get_rate_factor() the current subdev
-> state and pass it to imx219_get_binning() as well.
-> 
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-Yeah I assumed the pixel rate control only matters when changing the 
-active state, but agree that it is cleaner to pass around the subdev 
-state instead of the full internal struct as we only care about format 
-and resolution for binning calculations.
-
-Will update in next revision.
-
-> With this
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  include/linux/dma-fence.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Thanks
->   j
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index e7ad819962e3..e230af0d123f 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -169,8 +169,8 @@ struct dma_fence_ops {
+>  	 * implementation know that there is another driver waiting on the
+>  	 * signal (ie. hw->sw case).
+>  	 *
+> -	 * This function can be called from atomic context, but not
+> -	 * from irq context, so normal spinlocks can be used.
+> +	 * This is called with irq's disabled, so only spinlocks which also
+> +	 * disable irq's can be used.
+>  	 *
+>  	 * A return value of false indicates the fence already passed,
+>  	 * or some failure occurred that made it impossible to enable
+> -- 
+> 2.34.1
 > 
-> > +		__v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
-> > +					 pixel_rate, 1, pixel_rate);
-> >  	}
-> >
-> >  	return 0;
-> >
-> > --
-> > 2.48.1
-> >
-> >
 
 -- 
-Thanks,
-Jai
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
