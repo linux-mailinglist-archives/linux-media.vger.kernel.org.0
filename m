@@ -1,229 +1,199 @@
-Return-Path: <linux-media+bounces-26236-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26237-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AE5A38B76
-	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 19:46:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E98EBA38BE8
+	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 20:06:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AD0118858A8
-	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 18:45:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ACD7416C575
+	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 19:06:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05738236457;
-	Mon, 17 Feb 2025 18:45:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFF22235C03;
+	Mon, 17 Feb 2025 19:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="AwXU7UGa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FEA235BFF;
-	Mon, 17 Feb 2025 18:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92838235368
+	for <linux-media@vger.kernel.org>; Mon, 17 Feb 2025 19:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739817942; cv=none; b=bo4r0SrOwrJih62KrbRWEEMIUbTPWjp/sGsI6ogz9u594Ud5K1zuswX8GsQQr6aWmq3c9f/3PEYjjHOFcm4GGQghf+SL08/WvRaTzj2d9al+2iWPnJ6AeNP161oG4/j+Oulm4W6rXzk/FFirVQzF/Wlth07XoUsRkWzUrG/XVUs=
+	t=1739819160; cv=none; b=S61jK6J5K6efVwzAcn5/TM9OZV91MUXlnV/MlpdpqBqpvPP1QZS2NNmciVX100j8auyuNkdIsLJUM1lM5R1fc8IOBeOBPAoxzpHxl21HrFNiqGOgC6COWly8gdTzz6nrPpAy7rLUG5UxbyJUoENnG3/HkyPnn3bj/ycCRPEPXic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739817942; c=relaxed/simple;
-	bh=q/sWrNMswAMcrq+jomDIsw5Jj0KBZS9gH4J5t8/hVB0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LYcLSANIWAJUgRb42SyaOlT0Vy3mpNAC7uoQcpFk+/k5sckZjH80dg4TwZ8s44hgfJAh9quP7D5n6qW935Uj2eXWYIsL1TwMxJc552cedorCnpB1ioMpP4J1ekeAfnjaxzdK+JzZ02vfTQzaQJSUyDyKVRzQ5ywyQA6UmiepFZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2CDC4CED1;
-	Mon, 17 Feb 2025 18:45:38 +0000 (UTC)
-Message-ID: <3e8a6fea-0ee9-4667-b8a9-8f2f02df3c91@xs4all.nl>
-Date: Mon, 17 Feb 2025 19:45:36 +0100
+	s=arc-20240116; t=1739819160; c=relaxed/simple;
+	bh=Uy7bfvJw8RlrpKRU07EJtsulfSTJvkw2tGDv9Ubp5YA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TRcd84C4XhmoTbzuX0xF+LLUNT5rH3wlPjQznGzkFGP0gbDI/4rOlr12NRuKGFfMi7C0lPBSklKO6Rps+MR6mAT8vc0tYdAQl/nmH3uEEjDftua7bkdflKRi4toe1T2+1ayYjpmPB+1J80p9wa2i1CKfkLn4+nQuEEN60F8iTpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=AwXU7UGa; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6e17d3e92d9so40774946d6.1
+        for <linux-media@vger.kernel.org>; Mon, 17 Feb 2025 11:05:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1739819157; x=1740423957; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Uy7bfvJw8RlrpKRU07EJtsulfSTJvkw2tGDv9Ubp5YA=;
+        b=AwXU7UGaEjCu7kqwDKIyGDUz5K1Lcfzy/9DQvhznjKzLwRMZe7j7EVN5fPMShvR3kR
+         7ZbI60SkHFmNuTmz0ee3TV9Q4Pm0GNrKohFbLd4S+XLNQfNeepHRcEsUIo571Raj9YJd
+         epPimQnPq3TT2l3JDm7kNzpDGzLoVr2xmXsWlmdjJVXCqJc09PdHGIGqx7sCjOy1+MMv
+         y1jBWfKrsnrbHs90FA7tPZA0dT5wV6mr1BeccA/dbGJTmAsLCAzwI7q+Fb+KgNAitZbw
+         CERuR46ZocH9YFJ2lahPL7n5pLvIuSjv/p5SZ1Wa6Zz35+Ft8FVuK887ceviuC66jK1S
+         XU1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739819157; x=1740423957;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Uy7bfvJw8RlrpKRU07EJtsulfSTJvkw2tGDv9Ubp5YA=;
+        b=fQw/rX7sm2Cx6agyPm6E5qWQqqIv8QAkHJKvsZkTChoLDtcc0NOLNW84IKC9ovwS8Y
+         oT56ETKWEZuzD0B/r5c4uJmtltnZ6BH9Tu7GLXhGfseXwVkSCgPFwRIfzOJqtjc/PVqp
+         QEyi5WN2RDEjaN22lQDrbVx/yA1jSXh2UtRkR5cig1gW8ILJZBaqEzyE7BTmx/MatLjp
+         jbUkkXYIHfGYcPweieQl6XIYP/6uyA+y125MDrfjQC6dcaPoyOiX/Mj+v4KzY7tJQOqQ
+         srMBnZWWIrxjsRR/0lQ/ohCRWfMKN8W3TTcEmR4CRKhS+GHK7rZzRtaOM843uuSbvbdi
+         FMWA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+v9oFSQk5OVyU3dANt1D+genQp7iNX9IYfPpJr/wvUcxLTxeopTy/q1YO5+gzreyZv6BD+c2uFNMlDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjNp6absBFJJi8h3A/bNgUVzRUo+G1M9mQn2sHoTOe9GXFF7OY
+	7YRdup0aZAhP2hSIcNHllrW8A6uQmshc2h7e0ar5Tk/pAUO0UOazvNRfGpGrJR7Eof6UJZPxQzB
+	Q55yaBw==
+X-Gm-Gg: ASbGncvt1rTfgM4uFrmPrY1RbpdgdmsvWVJmWsUa6hrodc6WLBmV1t0i/yiCxIGZhjC
+	fu8v4sBr9zmfKj6r96L6hy3+C+Om3dM+0XqnN2IbbDZ8ihw3HXK34k4RoehIOx8lvj0NKLOQiOs
+	CvmZ+1zut70WtVVEkjuLKTD1+jLCgEsy866/QMtsdALEdplKVxDK6H9J3W16ZpWbouGo+kQ+zs5
+	Q+HsjiJmxHV+I/sVPtd0qRgJOGboTIZZD6XjeaUMzaGLvdxhbO2Y6nW0r5YIuKOz6U7P1I0L8T0
+	JQgXdtwlSX5rdsU5a4eS
+X-Google-Smtp-Source: AGHT+IEVm/qS8+sAATqG7F8AY8HUtPRh48UpSTxbzNVblwHmHFMMVNsMAAF36/Tu7KZHT09P+riDEA==
+X-Received: by 2002:ad4:5f0a:0:b0:6d3:fa03:23f1 with SMTP id 6a1803df08f44-6e66ccc1141mr151009216d6.13.1739819157370;
+        Mon, 17 Feb 2025 11:05:57 -0800 (PST)
+Received: from ?IPv6:2606:6d00:11:e976::5ac? ([2606:6d00:11:e976::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c07c6081cesm565863485a.29.2025.02.17.11.05.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2025 11:05:56 -0800 (PST)
+Message-ID: <d110f23a34f86f5a79e22aec9d27e047d363d20f.camel@ndufresne.ca>
+Subject: Re: Questions about image size listed in VIDIOC_ENUM_FMT
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@iki.fi>, Zhaoxuan Zhai
+	 <zhai.zhaoxuan@canonical.com>, linux-media@vger.kernel.org, Ethan Hsieh
+	 <ethan.hsieh@canonical.com>, jianhui.lee@canonical.com, 
+	guoqing.jiang@canonical.com, hverkuil@xs4all.nl
+Date: Mon, 17 Feb 2025 14:05:55 -0500
+In-Reply-To: <20250214164019.GB19466@pendragon.ideasonboard.com>
+References: <96f6dff1-f5c7-4fab-94e1-47004dd916a6@canonical.com>
+	 <3bd7482f-e41d-41df-9d25-08cb62d5d0db@canonical.com>
+	 <Z67r76Fg-SOEbOJf@valkosipuli.retiisi.eu>
+	 <4ab514ea0a365c758bbbc46382ad97ebc487d150.camel@ndufresne.ca>
+	 <20250214164019.GB19466@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/6] media: platform: synopsys: Add support for HDMI
- input driver
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
- <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, jose.abreu@synopsys.com,
- nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
- nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>
-References: <20250215210417.60074-1-dmitry.osipenko@collabora.com>
- <20250215210417.60074-5-dmitry.osipenko@collabora.com>
- <110db742-25a0-4f0c-9620-1af8885d6e1c@xs4all.nl>
- <3d4b1c45-cc00-4714-8582-0848e38c2ec4@collabora.com>
- <23eacfe3-cf94-45d3-a405-43185ef32512@xs4all.nl>
- <398cffa8-5463-47ff-bdeb-3f3167b72312@collabora.com>
- <cd40ca74-fe5b-4942-9da8-1117303dd0c4@collabora.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <cd40ca74-fe5b-4942-9da8-1117303dd0c4@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 17/02/2025 19:26, Dmitry Osipenko wrote:
-> On 2/17/25 21:21, Dmitry Osipenko wrote:
->> On 2/17/25 18:44, Hans Verkuil wrote:
->>> On 2/17/25 16:36, Dmitry Osipenko wrote:
->>>> On 2/17/25 11:31, Hans Verkuil wrote:
->>>>> On 15/02/2025 22:04, Dmitry Osipenko wrote:
->>>>>> From: Shreeya Patel <shreeya.patel@collabora.com>
->>>>>>
->>>>>> Add initial support for the Synopsys DesignWare HDMI RX
->>>>>> Controller Driver used by Rockchip RK3588. The driver
->>>>>> supports:
->>>>>>  - HDMI 1.4b and 2.0 modes (HDMI 4k@60Hz)
->>>>>>  - RGB888, YUV422, YUV444 and YCC420 pixel formats
->>>>>>  - CEC
->>>>>>  - EDID configuration
->>>>>>
->>>>>> The hardware also has Audio and HDCP capabilities, but these are
->>>>>> not yet supported by the driver.
->>>>>>
->>>>>> Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
->>>>>> Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
->>>>>> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
->>>>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>>>>> ---
->>>>>>  drivers/media/platform/Kconfig                |    1 +
->>>>>>  drivers/media/platform/Makefile               |    1 +
->>>>>>  drivers/media/platform/synopsys/Kconfig       |    3 +
->>>>>>  drivers/media/platform/synopsys/Makefile      |    2 +
->>>>>>  .../media/platform/synopsys/hdmirx/Kconfig    |   27 +
->>>>>>  .../media/platform/synopsys/hdmirx/Makefile   |    4 +
->>>>>>  .../platform/synopsys/hdmirx/snps_hdmirx.c    | 2715 +++++++++++++++++
->>>>>>  .../platform/synopsys/hdmirx/snps_hdmirx.h    |  394 +++
->>>>>>  .../synopsys/hdmirx/snps_hdmirx_cec.c         |  284 ++
->>>>>>  .../synopsys/hdmirx/snps_hdmirx_cec.h         |   44 +
->>>>>>  10 files changed, 3475 insertions(+)
->>>>>>  create mode 100644 drivers/media/platform/synopsys/Kconfig
->>>>>>  create mode 100644 drivers/media/platform/synopsys/Makefile
->>>>>>  create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
->>>>>>  create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
->>>>>>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
->>>>>>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
->>>>>>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_cec.c
->>>>>>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_cec.h
->>>>>>
->>>>>
->>>>> <snip>
->>>>>
->>>>>> +static ssize_t
->>>>>> +hdmirx_debugfs_if_read(u32 type, void *priv, struct file *filp,
->>>>>> +		       char __user *ubuf, size_t count, loff_t *ppos)
->>>>>> +{
->>>>>> +	struct snps_hdmirx_dev *hdmirx_dev = priv;
->>>>>> +	u8 aviif[3 + 7 * 4];
->>>>>> +	int len;
->>>>>> +
->>>>>> +	if (type != V4L2_DEBUGFS_IF_AVI)
->>>>>> +		return 0;
->>>>>> +
->>>>>> +	hdmirx_read_avi_infoframe(hdmirx_dev, aviif);
->>>>>> +
->>>>>> +	len = simple_read_from_buffer(ubuf, count, ppos,
->>>>>> +				      aviif, ARRAY_SIZE(aviif));
->>>>>> +
->>>>>> +	return len < 0 ? 0 : len;
->>>>>> +}
->>>>>
->>>>> Have you tested this with 'edid-decode -c -I /path/to/avi'? Also test that it is
->>>>> empty if there is no AVI InfoFrame (e.g. when there is no incoming video). I don't see
->>>>> a test for that in the code.
->>>>>
->>>>> I also see no sanity check regarding the length of the InfoFrame, it just outputs
->>>>> the full array, meaning you get padding as well since the AVI InfoFrame is smaller
->>>>> than ARRAY_SIZE(aviif). In fact, edid-decode will fail about that if the -c option
->>>>> is used.
->>>>>
->>>>> See tc358743_debugfs_if_read of how this is typically handled.
->>>>
->>>> I've tested with 'edid-decode -I /path/to/avi', including the empty AVI
->>>> InfoFrame. But without the '-c option'. I'd expect that debugfs should
->>>> provide a full-sized raw InfoFrame data, rather than a parsed version.
->>>> The parsed data isn't much useful for debugging purposes, IMO. I
->>>> intentionally removed the size check that tc358743_debugfs_if_read does
->>>> because it appeared wrong to me. Will re-check with '-c option', thanks!
->>>
->>> The HDMI header contains the actual length that was received. So debugfs should
->>> export the actual payload, not the maximum possible payload.
->>>
->>> It is common for hardware to reserve room in the register map for the maximum
->>> payload, but you only want to export what was actually received.
->>
->> If payload is corrupted, it should be handy to see a full payload.
->> Otherwise you won't be able to debug anything because driver returns
->> zero payload to userspace since it can't parse the header :)
-> 
-> Note those tc358743 and other drivers are parsing the IF header data.
-> I'm pretty sure this is not what InfoFrame debugfs is intended to do,
+Le vendredi 14 f=C3=A9vrier 2025 =C3=A0 18:40 +0200, Laurent Pinchart a =C3=
+=A9crit=C2=A0:
+> On Fri, Feb 14, 2025 at 09:57:08AM -0500, Nicolas Dufresne wrote:
+> > Le vendredi 14 f=C3=A9vrier 2025 =C3=A0 07:08 +0000, Sakari Ailus a =C3=
+=A9crit=C2=A0:
+> > > Hi Zhaoxuan,
+> > >=20
+> > > On Fri, Feb 14, 2025 at 12:19:23PM +0800, Zhaoxuan Zhai wrote:
+> > > > Hi all,
+> > > >=20
+> > > > Sorry I made a mistake. It should be VIDIOC_ENUM_FRAMESIZES instead=
+ of
+> > > > VIDIOC_ENUM_FMT. I'm sorry for the mistake.
+> > > >=20
+> > > > =E5=9C=A8 2025/2/14 12:08, Zhaoxuan Zhai =E5=86=99=E9=81=93:
+> > > > > Hi all,
+> > > > >=20
+> > > > > We are working on a camera driver. We plan to use v4l2 interface =
+to send
+> > > > > image data to users. We have a question we'd like to ask.
+> > > > >=20
+> > > > > The situation we are facing is as follows.
+> > > > >=20
+> > > > > We have an image processing unit that can process raw data collec=
+ted by
+> > > > > the sensor into the V4L2_PIX_FMT_NV12M format and send it to the =
+user.
+> > > > >=20
+> > > > > However, due to the requirements of the V4L2_PIX_FMT_NV12M format=
+, the
+> > > > > width and height of the image must be divisible by 16.
+> > > > >=20
+> > > > > For example, when the sensor provides an image size of 2104x1560,=
+ after
+> > > > > NV12M encoding, it should be pading to=C2=A0 2112x1566. But the a=
+dditional 8
+> > > > > rows and 8 columns are padded with 0s and contain no actual conte=
+nt.
+> > > > >=20
+> > > > > So, we would like to ask, in this case, what size should we list =
+in
+> > > > > VIDIOC_ENUM_FMT? Should it be the actual image size with content,
+> > > > > 2104x1560, or the padded size, 2112x1566?"
+> > >=20
+> > > I'd say the actual image size (i.e. where you have pixel data). The
+> > > sizeimage field needs to reflect the padding and the user needs to be=
+ aware
+> > > how the data is laid out in memory.
+> >=20
+> > I'd be happy to see spec clarification in this regard. I also think
+> > that image size is best.
+>=20
+> Which part of the spec do you think should be clarified ? I've always
+> thought that ENUM_FMT should report the image dimensions, with padding
+> being reported through bytesperline and sizeimage. Is there a place
+> where we say something else ? If so that should indeed be fixed.
 
-It's exactly what it is intended to do (I know, I wrote it :-) ).
+When I read [0] and I don't seen note that explains the expectated
+relationship between the results of that enumeration and the SELECTION
+API.
 
-The HDMI interface transmits the InfoFrame data with that HDMI header, the
-receiver captures that and stores the InfoFrame data. You have no control
-over that, it is all implemented in hardware since it is transmitted over
-the high-speed video lanes. If the header is corrupt, then the video is
-almost certainly also corrupt.
+That also makes me notice that there is not "queue type" specified,
+which if not well documented will be ambiguous in M2M drivers.
+Generally codec have more stuff specified, but for scalers, that feels
+like a slight concern.
 
-The reason for storing the InfoFrame in debugfs is to see what the transmitter
-is sending us in the InfoFrame: does the InfoFrame contents make sense? Is it
-consistent with the EDID?
+>=20
+> > For NV12M, you can absorb the padding in per plane bytesperline /
+> > sizeimage of the v4l2_format structure. That means the enumerated size
+> > will match the format. Though, for NV12 (single plane) you'd have to
+> > set at least the padded height and implement the SELECTION API to
+> > return the cropping area.
+>=20
+> NV12 is indeed ambiguous, as vertical padding reported by sizeimage
+> could be just at the end of the image, or split between planes.
 
-If for example the transmitter is sending us a video format that isn't supported
-in the EDID, then it is helpful to see what the AVI InfoFrame says.
+The only way to use NV12 is to have the second plane at exactly
+byteperline * height (which is true for all drivers, they have no
+choices). But then, when a height padding is used it will endup being
+returned by the S_FMT call, but also cropped by the selection API.
 
-Regards,
+I believe the general idea is that the enum_frmsize describes the
+display size (or applied to the bitstream/output queue perhaps). I
+didn't re-read that part, perhaps this part is all right, but rather
+complex, since you then enumerate the results of the combination of
+S_FMT + SELECTION. Let me know what you think.
 
-	Hans
+>=20
+> > In practice, for application point of view, it would all have been
+> > easier if the v4l2_format was always padded width/height, with the
+> > display dimension explicitly provided. But I'm pretty sure upstream
+> > drivers implement a mix.
+> >=20
+> > > Also cc Hans.
+>=20
 
-> Will revisit it all again in a more details for v7.
-> 
-
+[0] https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/vidioc-enu=
+m-framesizes.html?highlight=3Denum_framesize
 
