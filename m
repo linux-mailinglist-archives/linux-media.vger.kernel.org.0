@@ -1,273 +1,270 @@
-Return-Path: <linux-media+bounces-26227-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26228-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38FCA3891A
-	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 17:28:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 603EAA38A69
+	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 18:12:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E811B3AA438
-	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 16:28:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D20118948A8
+	for <lists+linux-media@lfdr.de>; Mon, 17 Feb 2025 17:12:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FE9D2253BB;
-	Mon, 17 Feb 2025 16:28:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 103A82288FE;
+	Mon, 17 Feb 2025 17:12:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="Js6SHsiG"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="NbtAOISG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD842248B6
-	for <linux-media@vger.kernel.org>; Mon, 17 Feb 2025 16:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739809691; cv=none; b=WNObGAn9IIFCxAtltZheyiV1fWNFdVUrSyFuc2+qtqPgXvJJIt2OGhb4a3M+WILL7b07zJqxXudK2yV5nfz7cT6wLYWLrtxlMAfiKBrOMaDCUC99YbvIUiKFPbBZYrNDME7z9OIkaX3Ir0VdIFuvHbiJlj3/V5xf8iq/zGu0rK8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739809691; c=relaxed/simple;
-	bh=flrHOU+d6jEGDtMoqHEY53uuQKbhM/oEEpKeCg9Kvyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D60zxmuPjevQMtjek4aMd9hFg+jiLaKyhY/ncvQKLkoelXk6fipOKXyGGEJSiqOGH+YvM4E4KRVH00vnNtLV/1p15vRiy3na70lYE4/Qk3thi4bmvZXJryUY+knylyIZvNJPDAGT8VxlSuiJALOlriLCmnt4uOVhV9SRPyRTfeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=Js6SHsiG; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-38f2b7ce2f3so2736046f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 17 Feb 2025 08:28:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1739809688; x=1740414488; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=N/MZAQpQPgkaOz9Nq3UpoejEMSS/cNqsJ8jUh5q1IAs=;
-        b=Js6SHsiGbPgoPqmwYVajgwPspYV9viUcMXQrgW57ka79EoBSeMwZDUldkMRV+Wzh2q
-         MA21mnLFr6YRia5Cc4B9VM1cN/g4IxguRFSF8JlePTSquqlR5NWsp8EnDok1TSKj3rAc
-         eGO0tQWsZww7bOBpM5q60Ug9ZZsev4wIx73U4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739809688; x=1740414488;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N/MZAQpQPgkaOz9Nq3UpoejEMSS/cNqsJ8jUh5q1IAs=;
-        b=s2Cn3HPlMromGYPNtwWkAMPdWc/jxpsFGkjfRFqCWrv9zx+c+55wBV5ZaiZLIuMV7S
-         xkQSaxkamcoXG9RS/wDzBb8yDZFT9wB4rPsuIfsDOilyqSlefDpOfeHhJyFxfqwyIu1S
-         buiDA4gOAa5pwA5w7aGM695rW4eyIPFmBBubQFd0wc2cJlbfOy4lNZtAlwfp9F0mFYRD
-         +a3o9MFFVIuPUTj2cN9JH8oeAciolkeG6pk+lPzqNN+K6C0zsWTtDHiceFX+x/qWXT4Q
-         AsyCDbE3c/2wpruGJmbbvwj7k6q/9L+t2nLFlhERYFQTiMdFETWRk/Cp6RVcp9UfUquw
-         PL+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWh6uxrTvYSlJRZBMjjv1HbPd1DV3s0FNF/dPZvEcdAQxYyHwgVkXmBfGckkiZdCr75bW4Jc+YU3xnbSw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyRqoTX8wiaJAGOlQvSCGAs+MhFGbV5iKsAIe7qSSCYQkh4JZv
-	bJA5JUw5KP7/45ORa+rVZjwNgiGMly1xloBLuUIw0DmvBqgXd+2WIbrfNld+aKE=
-X-Gm-Gg: ASbGncusbHjsIkn/nIlIRL0KiAJa/2cUtLjqOLj5sQhOCJ+zx6br2tDz9ArhE7HyanJ
-	pemb9z03NDiHyRRv4+YEQdyEaWkqRCVyYJB+dJ218WEewTf2Ny0mYd+KHdrvGEknslI/3biGCWB
-	0PL+wp3D/iXGcyK85p4pgHZph4hdlqoZPEu7hZEoo8ydzoVgZ4KCyhGRCNhB42kQJjZJV7SyyrY
-	YXFq+LkYYB3UaoFHlVnNb/7cTzIrlx4UpA3cTo+Q1cvOu4uzLFOzlLE4cPzy7JTuEgHd/VT2uYt
-	kRPsFJFJL1iI3h9CKPBdohahxzc=
-X-Google-Smtp-Source: AGHT+IHu9KoE7wj7SL+2GqP0NTYUrWqabVAskWhzzDZBN8Yy0ohp5PY3zQnOSOQ2f5sInwhpbEhIFA==
-X-Received: by 2002:a5d:44d1:0:b0:38f:2176:45a0 with SMTP id ffacd0b85a97d-38f33f511edmr8418553f8f.33.1739809688126;
-        Mon, 17 Feb 2025 08:28:08 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f258ddbb2sm12438602f8f.40.2025.02.17.08.28.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 08:28:07 -0800 (PST)
-Date: Mon, 17 Feb 2025 17:28:05 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: sumit.semwal@linaro.org, tzimmermann@suse.de, simona@ffwll.ch,
-	dmitry.osipenko@collabora.com, tvrtko.ursulin@igalia.com,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 4/4] dma-buf: drop caching of sg_tables
-Message-ID: <Z7NjlfKYlxhTgRqe@phenom.ffwll.local>
-References: <20250211163109.12200-1-christian.koenig@amd.com>
- <20250211163109.12200-5-christian.koenig@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3B22288E8
+	for <linux-media@vger.kernel.org>; Mon, 17 Feb 2025 17:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739812334; cv=pass; b=VY71/Dk4DoW1tQTo6u3iP+isWJmW7e/GmRux7tIdUUiAKey0knBqhfGj+jrK5QVmLv4aXBcyUVwNhJfWwGF5g9fzpBcHuGXsrWvLXoR0f7cUbZQsGrPvJn0dG6p0y8bGLf30732R39/j07U/fmdVW9XT7OdTp4ifZjEqH0TA58Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739812334; c=relaxed/simple;
+	bh=qPrMHcrWfk7oSbDJbLnSaPxvEFTYzx1o62GyBYYWV4E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=k4MvGTgDMbgtVNPNJ6Zq+RLpw6YXaM+eLkIQmbvfg5IewH+Arx13vfOlDHOGIeTDEnb3o1dmsd0mhYqqpyHdM5f1SmlF765mrlet/GskjHygIGhzo2QL7MPSILWZG3vk9Afu5QBz8Vm7t90dYP9dwQFFFkIp4aAoubNLgnomo6Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=NbtAOISG; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1739812309; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=hqyADJNYC2aimF7lYhuFOsC+6k2xQO65NDUU5ZzeByWhjduXyqf4IPpFktRU7aVUXomLzv2dEfmNLxLUudGCJB3rW6AAfNvd9+UMPxd+nVKAhHe6ZPthA2AYw6X3hK0/ABpZ1yT89STo7P1snUkiN19HRo6oHRKtyRwEJyB3u60=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1739812309; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=5QQeEj40V6XqgWfew2oEhxd1HG5xi0TbLeuzYxV2w9E=; 
+	b=dE6sPhoPb2GHCaaNCa3OItw99Hu4vkTpJFRh/BvZEDIYGGFbmXfGcwLfyBRyCipr13B7KQbWQZHzSfVLU58M9cF/dv2cC93SR02a/coff5+TLERRcF4XUuq84CIGJDfFDyxqNWXx9A86tQOpcQnBaeYPrYnW3IlmDnIO7YWBscg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739812309;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=5QQeEj40V6XqgWfew2oEhxd1HG5xi0TbLeuzYxV2w9E=;
+	b=NbtAOISGpv5XZd219y8LTnswIpo5h4xyC4isTd/9Wy3avHKaGIM/Fnhr/DsfUo8F
+	0nW2u2Dkhy0X5wnYfzm5SVSOaagkJU2d/fo6STuxogbLfyeAfQrJAhyrdeQ3mbMEkKz
+	eymjINrbedM/ufL+/fFUWmCeZEamiNqeJTCEm/9g=
+Received: by mx.zohomail.com with SMTPS id 1739812308096180.3571063855636;
+	Mon, 17 Feb 2025 09:11:48 -0800 (PST)
+Message-ID: <0ced2a19-a595-4862-87b1-f9c5c6cabf16@collabora.com>
+Date: Mon, 17 Feb 2025 20:11:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] dma-buf/dma-fence: remove unnecessary callbacks
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sumit.semwal@linaro.org, tzimmermann@suse.de, simona@ffwll.ch,
+ tvrtko.ursulin@igalia.com, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Rob Clark <robdclark@gmail.com>
+References: <20250211163109.12200-1-christian.koenig@amd.com>
+ <20250211163109.12200-3-christian.koenig@amd.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250211163109.12200-3-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250211163109.12200-5-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+X-ZohoMailClient: External
 
-On Tue, Feb 11, 2025 at 05:31:09PM +0100, Christian König wrote:
-> That was purely for the transition from static to dynamic dma-buf
-> handling and can be removed again now.
+On 2/11/25 19:31, Christian KÃ¶nig wrote:
+> The fence_value_str and timeline_value_str callbacks were just an
+> unnecessary abstraction in the SW sync implementation.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-
-Yay!
-
-Might uncover some fun if people have meanwhile started to rely on this
-for perf or something. But we'll figure that out when it happens.
-
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-
+> The only caller of those callbacks already knew that the fence in
+> questions is a timeline_fence. So print the values directly instead
+> of using a redirection.
+> 
+> Additional to that remove the implementations from virtgpu and vgem.
+> As far as I can see those were never used in the first place.
+> 
+> Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
 > ---
->  drivers/dma-buf/dma-buf.c              | 34 --------------------------
->  drivers/dma-buf/udmabuf.c              |  1 -
->  drivers/gpu/drm/drm_prime.c            |  1 -
->  drivers/gpu/drm/virtio/virtgpu_prime.c |  1 -
->  include/linux/dma-buf.h                | 13 ----------
->  5 files changed, 50 deletions(-)
+>  drivers/dma-buf/sw_sync.c              | 16 ----------------
+>  drivers/dma-buf/sync_debug.c           | 21 ++-------------------
+>  drivers/gpu/drm/vgem/vgem_fence.c      | 15 ---------------
+>  drivers/gpu/drm/virtio/virtgpu_fence.c | 16 ----------------
+>  include/linux/dma-fence.h              | 21 ---------------------
+>  5 files changed, 2 insertions(+), 87 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 357b94a3dbaa..35221c4ddbf5 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -636,10 +636,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  		    || !exp_info->ops->release))
->  		return ERR_PTR(-EINVAL);
->  
-> -	if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
-> -		    (exp_info->ops->pin || exp_info->ops->unpin)))
-> -		return ERR_PTR(-EINVAL);
-> -
->  	if (WARN_ON(!exp_info->ops->pin != !exp_info->ops->unpin))
->  		return ERR_PTR(-EINVAL);
->  
-> @@ -964,17 +960,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
->  		return;
->  
->  	dma_resv_lock(dmabuf->resv, NULL);
-> -
-> -	if (attach->sgt) {
-> -		mangle_sg_table(attach->sgt);
-> -		attach->dmabuf->ops->unmap_dma_buf(attach, attach->sgt,
-> -						   attach->dir);
-> -
-> -		if (dma_buf_pin_on_map(attach))
-> -			dma_buf_unpin(attach);
-> -	}
->  	list_del(&attach->node);
-> -
->  	dma_resv_unlock(dmabuf->resv);
->  
->  	if (dmabuf->ops->detach)
-> @@ -1069,18 +1055,6 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->  
->  	dma_resv_assert_held(attach->dmabuf->resv);
->  
-> -	if (attach->sgt) {
-> -		/*
-> -		 * Two mappings with different directions for the same
-> -		 * attachment are not allowed.
-> -		 */
-> -		if (attach->dir != direction &&
-> -		    attach->dir != DMA_BIDIRECTIONAL)
-> -			return ERR_PTR(-EBUSY);
-> -
-> -		return attach->sgt;
-> -	}
-> -
->  	if (dma_buf_pin_on_map(attach)) {
->  		ret = attach->dmabuf->ops->pin(attach);
->  		if (ret)
-> @@ -1105,11 +1079,6 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->  	}
->  	mangle_sg_table(sg_table);
->  
-> -	if (attach->dmabuf->ops->cache_sgt_mapping) {
-> -		attach->sgt = sg_table;
-> -		attach->dir = direction;
-> -	}
-> -
->  #ifdef CONFIG_DMA_API_DEBUG
->  	{
->  		struct scatterlist *sg;
-> @@ -1190,9 +1159,6 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
->  
->  	dma_resv_assert_held(attach->dmabuf->resv);
->  
-> -	if (attach->sgt == sg_table)
-> -		return;
-> -
->  	mangle_sg_table(sg_table);
->  	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
->  
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index cc7398cc17d6..2fa2c9135eac 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -285,7 +285,6 @@ static int end_cpu_udmabuf(struct dma_buf *buf,
+> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> index f5905d67dedb..849280ae79a9 100644
+> --- a/drivers/dma-buf/sw_sync.c
+> +++ b/drivers/dma-buf/sw_sync.c
+> @@ -173,20 +173,6 @@ static bool timeline_fence_signaled(struct dma_fence *fence)
+>  	return !__dma_fence_is_later(fence->seqno, parent->value, fence->ops);
 >  }
 >  
->  static const struct dma_buf_ops udmabuf_ops = {
-> -	.cache_sgt_mapping = true,
->  	.map_dma_buf	   = map_udmabuf,
->  	.unmap_dma_buf	   = unmap_udmabuf,
->  	.release	   = release_udmabuf,
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 32a8781cfd67..c284f306d597 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -810,7 +810,6 @@ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct *vma)
->  EXPORT_SYMBOL(drm_gem_dmabuf_mmap);
+> -static void timeline_fence_value_str(struct dma_fence *fence,
+> -				    char *str, int size)
+> -{
+> -	snprintf(str, size, "%lld", fence->seqno);
+> -}
+> -
+> -static void timeline_fence_timeline_value_str(struct dma_fence *fence,
+> -					     char *str, int size)
+> -{
+> -	struct sync_timeline *parent = dma_fence_parent(fence);
+> -
+> -	snprintf(str, size, "%d", parent->value);
+> -}
+> -
+>  static void timeline_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>  {
+>  	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
+> @@ -208,8 +194,6 @@ static const struct dma_fence_ops timeline_fence_ops = {
+>  	.get_timeline_name = timeline_fence_get_timeline_name,
+>  	.signaled = timeline_fence_signaled,
+>  	.release = timeline_fence_release,
+> -	.fence_value_str = timeline_fence_value_str,
+> -	.timeline_value_str = timeline_fence_timeline_value_str,
+>  	.set_deadline = timeline_fence_set_deadline,
+>  };
 >  
->  static const struct dma_buf_ops drm_gem_prime_dmabuf_ops =  {
-> -	.cache_sgt_mapping = true,
->  	.attach = drm_gem_map_attach,
->  	.detach = drm_gem_map_detach,
->  	.map_dma_buf = drm_gem_map_dma_buf,
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> index fe6a0b018571..c6f3be3cb914 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> @@ -75,7 +75,6 @@ static void virtgpu_gem_unmap_dma_buf(struct dma_buf_attachment *attach,
+> diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
+> index 237bce21d1e7..270daae7d89a 100644
+> --- a/drivers/dma-buf/sync_debug.c
+> +++ b/drivers/dma-buf/sync_debug.c
+> @@ -82,25 +82,8 @@ static void sync_print_fence(struct seq_file *s,
+>  		seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
+>  	}
 >  
->  static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
->  	.ops = {
-> -		.cache_sgt_mapping = true,
->  		.attach = virtio_dma_buf_attach,
->  		.detach = drm_gem_map_detach,
->  		.map_dma_buf = virtgpu_gem_map_dma_buf,
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index c54ff2dda8cb..544f8f8c3f44 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -34,15 +34,6 @@ struct dma_buf_attachment;
->   * @vunmap: [optional] unmaps a vmap from the buffer
->   */
->  struct dma_buf_ops {
+> -	if (fence->ops->timeline_value_str &&
+> -		fence->ops->fence_value_str) {
+> -		char value[64];
+> -		bool success;
+> -
+> -		fence->ops->fence_value_str(fence, value, sizeof(value));
+> -		success = strlen(value);
+> -
+> -		if (success) {
+> -			seq_printf(s, ": %s", value);
+> -
+> -			fence->ops->timeline_value_str(fence, value,
+> -						       sizeof(value));
+> -
+> -			if (strlen(value))
+> -				seq_printf(s, " / %s", value);
+> -		}
+> -	}
+> -
+> +	seq_printf(s, ": %lld", fence->seqno);
+> +	seq_printf(s, " / %d", parent->value);
+>  	seq_putc(s, '\n');
+>  }
+>  
+> diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+> index e15754178395..5298d995faa7 100644
+> --- a/drivers/gpu/drm/vgem/vgem_fence.c
+> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
+> @@ -53,25 +53,10 @@ static void vgem_fence_release(struct dma_fence *base)
+>  	dma_fence_free(&fence->base);
+>  }
+>  
+> -static void vgem_fence_value_str(struct dma_fence *fence, char *str, int size)
+> -{
+> -	snprintf(str, size, "%llu", fence->seqno);
+> -}
+> -
+> -static void vgem_fence_timeline_value_str(struct dma_fence *fence, char *str,
+> -					  int size)
+> -{
+> -	snprintf(str, size, "%llu",
+> -		 dma_fence_is_signaled(fence) ? fence->seqno : 0);
+> -}
+> -
+>  static const struct dma_fence_ops vgem_fence_ops = {
+>  	.get_driver_name = vgem_fence_get_driver_name,
+>  	.get_timeline_name = vgem_fence_get_timeline_name,
+>  	.release = vgem_fence_release,
+> -
+> -	.fence_value_str = vgem_fence_value_str,
+> -	.timeline_value_str = vgem_fence_timeline_value_str,
+>  };
+>  
+>  static void vgem_fence_timeout(struct timer_list *t)
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
+> index f28357dbde35..44c1d8ef3c4d 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_fence.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+> @@ -49,26 +49,10 @@ static bool virtio_gpu_fence_signaled(struct dma_fence *f)
+>  	return false;
+>  }
+>  
+> -static void virtio_gpu_fence_value_str(struct dma_fence *f, char *str, int size)
+> -{
+> -	snprintf(str, size, "[%llu, %llu]", f->context, f->seqno);
+> -}
+> -
+> -static void virtio_gpu_timeline_value_str(struct dma_fence *f, char *str,
+> -					  int size)
+> -{
+> -	struct virtio_gpu_fence *fence = to_virtio_gpu_fence(f);
+> -
+> -	snprintf(str, size, "%llu",
+> -		 (u64)atomic64_read(&fence->drv->last_fence_id));
+> -}
+> -
+>  static const struct dma_fence_ops virtio_gpu_fence_ops = {
+>  	.get_driver_name     = virtio_gpu_get_driver_name,
+>  	.get_timeline_name   = virtio_gpu_get_timeline_name,
+>  	.signaled            = virtio_gpu_fence_signaled,
+> -	.fence_value_str     = virtio_gpu_fence_value_str,
+> -	.timeline_value_str  = virtio_gpu_timeline_value_str,
+>  };
+>  
+>  struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index e230af0d123f..8778e2d758da 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -238,27 +238,6 @@ struct dma_fence_ops {
+>  	 */
+>  	void (*release)(struct dma_fence *fence);
+>  
 > -	/**
-> -	  * @cache_sgt_mapping:
-> -	  *
-> -	  * If true the framework will cache the first mapping made for each
-> -	  * attachment. This avoids creating mappings for attachments multiple
-> -	  * times.
-> -	  */
-> -	bool cache_sgt_mapping;
+> -	 * @fence_value_str:
+> -	 *
+> -	 * Callback to fill in free-form debug info specific to this fence, like
+> -	 * the sequence number.
+> -	 *
+> -	 * This callback is optional.
+> -	 */
+> -	void (*fence_value_str)(struct dma_fence *fence, char *str, int size);
+> -
+> -	/**
+> -	 * @timeline_value_str:
+> -	 *
+> -	 * Fills in the current value of the timeline as a string, like the
+> -	 * sequence number. Note that the specific fence passed to this function
+> -	 * should not matter, drivers should only use it to look up the
+> -	 * corresponding timeline structures.
+> -	 */
+> -	void (*timeline_value_str)(struct dma_fence *fence,
+> -				   char *str, int size);
 > -
 >  	/**
->  	 * @attach:
+>  	 * @set_deadline:
 >  	 *
-> @@ -493,8 +484,6 @@ struct dma_buf_attach_ops {
->   * @dmabuf: buffer for this attachment.
->   * @dev: device attached to the buffer.
->   * @node: list of dma_buf_attachment, protected by dma_resv lock of the dmabuf.
-> - * @sgt: cached mapping.
-> - * @dir: direction of cached mapping.
->   * @peer2peer: true if the importer can handle peer resources without pages.
->   * @priv: exporter specific attachment data.
->   * @importer_ops: importer operations for this attachment, if provided
-> @@ -514,8 +503,6 @@ struct dma_buf_attachment {
->  	struct dma_buf *dmabuf;
->  	struct device *dev;
->  	struct list_head node;
-> -	struct sg_table *sgt;
-> -	enum dma_data_direction dir;
->  	bool peer2peer;
->  	const struct dma_buf_attach_ops *importer_ops;
->  	void *importer_priv;
-> -- 
-> 2.34.1
-> 
+
+Look okay. No sure if Google's perfetto makes use of the syncfile
+debugfs and then this change may brake the userspace parser for
+virtio-gpu, but debugfs isn't ABI and perfetto will adapt if needed.
+
++cc Rob Clark for visibility
+
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+Dmitry
 
