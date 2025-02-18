@@ -1,245 +1,156 @@
-Return-Path: <linux-media+bounces-26251-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26255-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0ACA392E2
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 06:45:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 640AFA3941F
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 08:50:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C4093B26B0
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 05:44:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97BE718917AE
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 07:49:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 493E91C1F10;
-	Tue, 18 Feb 2025 05:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="YtfdL0w4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C5FC1EEA34;
+	Tue, 18 Feb 2025 07:49:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4234C1B0F1B;
-	Tue, 18 Feb 2025 05:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4060A1EDA3B;
+	Tue, 18 Feb 2025 07:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739857458; cv=none; b=Ezqzga30t5/ixj3AS0rSxSYWNqZgmq1iBn8x2ZHgSp+jYK07HxNzTOf7gZFOO72ejSeRpzpHMpmd8RpB2z8DrP+CFWUqbgyhAClbvSfJGmhEcHvx+8pvKgkVAZz0tpnbIkW/G/fTy4WUR4HLsDlxP9rgGTYfvfIZgWRRNR/8dM8=
+	t=1739864958; cv=none; b=axRNcCMKh/ukJEXTe79g9a9zXRak3h1ajH3V2JqxRsbgCJMCV5PrIidsMT6fLcX62nVxwRrKU+N1sUJQIcfhixkjG9dSb+SmrJwDUVR4fCsPqT/WRWcFeNvLHfCVutIWssYQgrhnt7AI5vN8zLaIViKq6UsHTqVCWj0RNkC/hDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739857458; c=relaxed/simple;
-	bh=JZxP9q21JndKJiPcg66gq2C2nKdB7Nfg60fx22aMlnI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=emiO5JaCPR4gVrR3k/FTJOn3t7nrHrlojohZ43p2cNvOn9fortJKKYZ8bEbdm5Z1XFbaxfHxMfxrzuO7rmQBQfMDt8ChSi0S/trx5r7NcAVmzcWd3e9hySIvdmZHY4fJsyIQ+u5Y9AXP5Hoxe5VcS1dTbtjNM3hYdV/NxsS7F9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=YtfdL0w4; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 5f577cb4edbb11efaae1fd9735fae912-20250218
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=sRFPdOj8cHZYdN5t950ZAhhc2lYyTgP014Ju7dShJeQ=;
-	b=YtfdL0w4mjNYdugga1SAgqxj+VTY/c32AKtiLCBXawVh+v+fjMFqq4+awTwqSUPGUU9KrUzNVn8cnxRWITM2DNcUkly1Y2F2jVWPXSa+g8uyQBAjfpPrr0z/UFrHoPyy9bK1p7wpB3eF0BAI5b8tTxPdSEdhdo9WpSBLFpkRc9s=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46,REQID:dfd7da7c-e087-4371-ab3f-31c568b8f9aa,IP:0,U
-	RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:60aa074,CLOUDID:21f5a5c6-e2f2-45f6-b8aa-31e67885facd,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:1|
-	19,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 5f577cb4edbb11efaae1fd9735fae912-20250218
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
-	(envelope-from <jason-jh.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 746339403; Tue, 18 Feb 2025 13:44:08 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Tue, 18 Feb 2025 13:44:07 +0800
-Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.28 via Frontend Transport; Tue, 18 Feb 2025 13:44:07 +0800
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: Matthias Brugger <matthias.bgg@gmail.com>, Jason-JH Lin
-	<jason-jh.lin@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Singo Chang
-	<singo.chang@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>, Xavier Chang
-	<xavier.chang@mediatek.com>, Xiandong Wang <xiandong.wang@mediatek.com>,
-	Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
-	Pin-yen Lin <treapking@chromium.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
-Subject: [PATCH v4 8/8] media: mediatek: mdp3: Add programming flow for unsupported subsys ID hardware
-Date: Tue, 18 Feb 2025 13:41:53 +0800
-Message-ID: <20250218054405.2017918-9-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
-References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
+	s=arc-20240116; t=1739864958; c=relaxed/simple;
+	bh=8G/jZQUu/2ePH59JV1iOjs5AsAiIOG2M2TSM5/z8VoE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KPuH6rLRnAh+m2t0NS+NrmVXJbx3wzOkyDeSxnbR2hPnbEXohyw7VjmPwW8BoO+SSu8F9BlEEsSvcKUOwZGOsdJcrpbbgVe28Qdx6grakSZqTJt3llXv0SKexedqQKqOAIsGX54heZ90qeH8ikdPa/uWVNXX2D8tF9Yfjwrmt1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F7AC4CEE2;
+	Tue, 18 Feb 2025 07:49:16 +0000 (UTC)
+Message-ID: <56c81a10-4058-49e3-95f5-f8823072e350@xs4all.nl>
+Date: Tue, 18 Feb 2025 08:49:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: Avermedia DVD EZMaker 7 video distortion on capture
+To: Randy Kimmett <linuxish@outlook.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <PH8PR12MB71128FAC43D4FF7BC3D64050EAF92@PH8PR12MB7112.namprd12.prod.outlook.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <PH8PR12MB71128FAC43D4FF7BC3D64050EAF92@PH8PR12MB7112.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-To support hardware without subsys IDs on new SoCs, add a programming
-flow that checks whether the subsys ID is valid. If the subsys ID is
-invalid, the flow will call 2 alternative CMDQ APIs:
-cmdq_pkt_assign() and cmdq_pkt_write_s_mask_value() to achieve the
-same functionality.
+On 15/02/2025 17:18, Randy Kimmett wrote:
+> Avermedia DVD EZMaker 7
+> Model: C039
+> VID:07CA PID:C039
+> Module used: cx231xx
+> Distro: Manjaro
+> Kernel version: 6.13.0-1
+> Components used: Conexant CX23012-11Z (according to https://www.linuxtv.org/wiki/index.php/AVerMedia_DVD_EZMaker_7_(C039))
+> 
+> When capturing analog video from my old Hi8 video camera (NTSC M), the captured video has banding and is grainy, it doesn't matter if I capture from the S-Video or Composite, the results are the same.  On my windows PC the capture is perfect.
+> 
+> dmesg output:
+> 
+> [31173.105709] cx231xx 3-1:1.1: New device AVerMedia TECHNOLOGIES, Inc. AVerMedia C039 USB Pure Capture @ 480 Mbps (07ca:c039) with 7 interfaces
+> [31173.106062] cx231xx 3-1:1.1: can't change interface 4 alt no. to 3: Max. Pkt size = 0
+> [31173.106065] cx231xx 3-1:1.1: Identified as Conexant VIDEO GRABBER (card=5)
+> [31173.106649] i2c i2c-13: Added multiplexed i2c bus 15
+> [31173.106704] i2c i2c-13: Added multiplexed i2c bus 16
+> [31173.214440] cx25840 12-0044: cx23102 A/V decoder found @ 0x88 (cx231xx #0-0)
+> [31175.444434] cx25840 12-0044: loaded v4l-cx231xx-avcore-01.fw firmware (16382 bytes)
+> [31175.493936] cx231xx 3-1:1.1: v4l2 driver version 0.0.3
+> [31175.620281] cx231xx 3-1:1.1: Registered video device video2 [v4l2]
+> [31175.620318] cx231xx 3-1:1.1: Registered VBI device vbi0
+> [31175.620423] cx231xx 3-1:1.1: audio EndPoint Addr 0x83, Alternate settings: 3
+> [31175.620426] cx231xx 3-1:1.1: video EndPoint Addr 0x84, Alternate settings: 5
+> [31175.620429] cx231xx 3-1:1.1: VBI EndPoint Addr 0x85, Alternate settings: 2
+> [31175.620431] cx231xx 3-1:1.1: sliced CC EndPoint Addr 0x86, Alternate settings: 2
+> [31175.620433] cx231xx 3-1:1.1: TS EndPoint Addr 0x81, Alternate settings: 6
+> 
+> https://bugzilla.kernel.org/show_bug.cgi?id=219764 (also contains a sample video clip of the issue)
+> https://www.linuxtv.org/wiki/index.php/AVerMedia_DVD_EZMaker_7_(C039)
+> 
+> 
+> Any help and/or suggestions would be greatly appreciated. :)
 
-Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
----
- .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 18 ++++-
- .../platform/mediatek/mdp3/mtk-mdp3-comp.h    | 79 ++++++++++++++-----
- 2 files changed, 77 insertions(+), 20 deletions(-)
+I'll try this with my own cx231xx device, mostly to check if it is a regression of
+some kind. I don't have this specific device, so if it works for me, then there isn't
+a lot that can be done.
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-index e5ccf673e152..0ee3354963db 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-@@ -321,7 +321,14 @@ static int mdp_path_config_subfrm(struct mdp_cmdq_cmd *cmd,
- 	/* Enable mux settings */
- 	for (index = 0; index < ctrl->num_sets; index++) {
- 		set = &ctrl->sets[index];
--		cmdq_pkt_write(&cmd->pkt, set->subsys_id, set->reg, set->value);
-+		if (set->subsys_id != CMDQ_SUBSYS_INVALID) {
-+			cmdq_pkt_write(&cmd->pkt, set->subsys_id, set->reg, set->value);
-+		} else {
-+			/* only MMIO access, no need to check mminfro_offset */
-+			cmdq_pkt_assign(&cmd->pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_HIGH(set->reg));
-+			cmdq_pkt_write_s_value(&cmd->pkt, CMDQ_THR_SPR_IDX0,
-+					       CMDQ_ADDR_LOW(set->reg), set->value);
-+		}
- 	}
- 	/* Config sub-frame information */
- 	for (index = (num_comp - 1); index >= 0; index--) {
-@@ -376,7 +383,14 @@ static int mdp_path_config_subfrm(struct mdp_cmdq_cmd *cmd,
- 	/* Disable mux settings */
- 	for (index = 0; index < ctrl->num_sets; index++) {
- 		set = &ctrl->sets[index];
--		cmdq_pkt_write(&cmd->pkt, set->subsys_id, set->reg, 0);
-+		if (set->subsys_id != CMDQ_SUBSYS_INVALID) {
-+			cmdq_pkt_write(&cmd->pkt, set->subsys_id, set->reg, 0);
-+		} else {
-+			/* only MMIO access, no need to check mminfro_offset */
-+			cmdq_pkt_assign(&cmd->pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_HIGH(set->reg));
-+			cmdq_pkt_write_s_value(&cmd->pkt, CMDQ_THR_SPR_IDX0,
-+					       CMDQ_ADDR_LOW(set->reg), 0);
-+		}
- 	}
- 
- 	return 0;
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h
-index 681906c16419..e20f9d080db9 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.h
-@@ -9,17 +9,44 @@
- 
- #include "mtk-mdp3-cmdq.h"
- 
--#define MM_REG_WRITE_MASK(cmd, id, base, ofst, val, mask)	\
--do {								\
--	typeof(mask) (m) = (mask);				\
--	cmdq_pkt_write_mask(&((cmd)->pkt), id, (base) + (ofst),	\
--			    (val),				\
--		(((m) & (ofst##_MASK)) == (ofst##_MASK)) ?	\
--			(0xffffffff) : (m));			\
-+#define MM_REG_WRITE_MASK(cmd, id, base, ofst, val, mask)		\
-+do {									\
-+	typeof(cmd) (_c) = (cmd);					\
-+	typeof(id) (_i) = (id);						\
-+	typeof(base) (_b) = (base);					\
-+	typeof(ofst) (_o) = (ofst);					\
-+	typeof(val) (_v) = (val);					\
-+	typeof(mask) (_m) = (mask);					\
-+	_m = ((_m & (ofst##_MASK)) == (ofst##_MASK)) ? 0xffffffff : _m;	\
-+	if (_i != CMDQ_SUBSYS_INVALID) {				\
-+		cmdq_pkt_write_mask(&_c->pkt, _i, _b + _o, _v, _m);	\
-+	} else {							\
-+		/* only MMIO access, no need to check mminfro_offset */	\
-+		cmdq_pkt_assign(&_c->pkt, CMDQ_THR_SPR_IDX0,		\
-+				CMDQ_ADDR_HIGH(_b));			\
-+		cmdq_pkt_write_s_mask_value(&_c->pkt, CMDQ_THR_SPR_IDX0,\
-+					    CMDQ_ADDR_LOW(_b + _o),	\
-+					    _v, _m);			\
-+	}								\
- } while (0)
- 
--#define MM_REG_WRITE(cmd, id, base, ofst, val)			\
--	cmdq_pkt_write(&((cmd)->pkt), id, (base) + (ofst), (val))
-+#define MM_REG_WRITE(cmd, id, base, ofst, val)				\
-+do {									\
-+	typeof(cmd) (_c) = (cmd);					\
-+	typeof(id) (_i) = (id);						\
-+	typeof(base) (_b) = (base);					\
-+	typeof(ofst) (_o) = (ofst);					\
-+	typeof(val) (_v) = (val);					\
-+	if (_i != CMDQ_SUBSYS_INVALID) {				\
-+		cmdq_pkt_write(&_c->pkt, _i, _b + _o, _v);		\
-+	} else {							\
-+		/* only MMIO access, no need to check mminfro_offset */	\
-+		cmdq_pkt_assign(&_c->pkt, CMDQ_THR_SPR_IDX0,		\
-+				CMDQ_ADDR_HIGH(_b));			\
-+		cmdq_pkt_write_s_value(&_c->pkt, CMDQ_THR_SPR_IDX0,	\
-+				       CMDQ_ADDR_LOW(_b + _o), _v);	\
-+	}								\
-+} while (0)
- 
- #define MM_REG_WAIT(cmd, evt)					\
- do {								\
-@@ -49,17 +76,33 @@ do {								\
- 	cmdq_pkt_set_event(&((c)->pkt), (e));			\
- } while (0)
- 
--#define MM_REG_POLL_MASK(cmd, id, base, ofst, val, _mask)	\
--do {								\
--	typeof(_mask) (_m) = (_mask);				\
--	cmdq_pkt_poll_mask(&((cmd)->pkt), id,			\
--		(base) + (ofst), (val),				\
--		(((_m) & (ofst##_MASK)) == (ofst##_MASK)) ?	\
--			(0xffffffff) : (_m));			\
-+#define MM_REG_POLL_MASK(cmd, id, base, ofst, val, mask)		\
-+do {									\
-+	typeof(cmd) (_c) = (cmd);					\
-+	typeof(id) (_i) = (id);						\
-+	typeof(base) (_b) = (base);					\
-+	typeof(ofst) (_o) = (ofst);					\
-+	typeof(val) (_v) = (val);					\
-+	typeof(mask) (_m) = (mask);					\
-+	_m = ((_m & (ofst##_MASK)) == (ofst##_MASK)) ? 0xffffffff : _m;	\
-+	if (_i != CMDQ_SUBSYS_INVALID)					\
-+		cmdq_pkt_poll_mask(&_c->pkt, _i, _b + _o, _v, _m);	\
-+	else /* POLL not support SPR, so use cmdq_pkt_poll_addr() */	\
-+		cmdq_pkt_poll_addr(&_c->pkt, _b + _o, _v, _m);		\
- } while (0)
- 
--#define MM_REG_POLL(cmd, id, base, ofst, val)			\
--	cmdq_pkt_poll(&((cmd)->pkt), id, (base) + (ofst), (val))
-+#define MM_REG_POLL(cmd, id, base, ofst, val)				\
-+do {									\
-+	typeof(cmd) (_c) = (cmd);					\
-+	typeof(id) (_i) = (id);						\
-+	typeof(base) (_b) = (base);					\
-+	typeof(ofst) (_o) = (ofst);					\
-+	typeof(val) (_v) = (val);					\
-+	if (_i != CMDQ_SUBSYS_INVALID)					\
-+		cmdq_pkt_poll(&_c->pkt, _i, _b + _o, _v);		\
-+	else /* POLL not support SPR, so use cmdq_pkt_poll_addr() */	\
-+		cmdq_pkt_poll_addr(&_c->pkt, _b + _o, _v, 0xffffffff);	\
-+} while (0)
- 
- enum mtk_mdp_comp_id {
- 	MDP_COMP_NONE = -1,	/* Invalid engine */
--- 
-2.43.0
+Support for it was originally added through this bug:
 
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1620762
+
+It says:
+
+I built the cx231xx driver with the patch and made a few tests.
+Tested and working:
+- Video capture on the composite input
+- NTSC source
+- PAL source
+Not tested:
+- Audio capture
+- S-Video input
+- SECAM source
+
+I hope to find some time to test this in 1-2 weeks.
+
+Regards,
+
+	Hans
 
