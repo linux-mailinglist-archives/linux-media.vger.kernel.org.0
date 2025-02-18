@@ -1,175 +1,226 @@
-Return-Path: <linux-media+bounces-26259-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26260-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C3EA39582
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 09:35:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D386A3957F
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 09:34:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73AB21738E6
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 08:32:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD98218874F8
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 08:34:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5612222B5B5;
-	Tue, 18 Feb 2025 08:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3B7A22B8BF;
+	Tue, 18 Feb 2025 08:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IFyFAolF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRb3c/EY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641FF188938
-	for <linux-media@vger.kernel.org>; Tue, 18 Feb 2025 08:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC8B14A614;
+	Tue, 18 Feb 2025 08:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739867538; cv=none; b=B8sMrdikRXYmyYfsr/QlzrZBEORLFAH6yZd7WBIzuViYYuQPVcqFO5ZlEiIGZoNcjETiRhMvB1uBsfR9Ws1oNVy3aTbYU3cWpX3R1AGNxGFbvHrRdJFlz/Ga7aWx5T0qIUhXyZTSCQ7J+g+Lo5bH1r0BwYHZtq3I1pzAljY//tU=
+	t=1739867682; cv=none; b=WoPLceaFPTKdP5b4HO5sQ2B7XfnmHiikhKVStXnGplfnMTg6X3TbSjvxaltIF5mMT4BwRJE6pQ5Xdi/NT54BrLPUWGhAmblgn+dn6GH+3mY3Cft1a3ao2Y5vwrQZ+CG7tsDrLfgRGk2CmTZ/8Dk5IxRBEuwWQOWmCsiDD+vD+0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739867538; c=relaxed/simple;
-	bh=0vz42sgw/7vv4ncPas+Jn/NJdwKEOXuXcw+s0NaMgOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rw3R8nnGPF4wuHKipZCWVDY2bUtP/ctVsC1xkAK30ldelmXgztHoiWhBXWFpGw97qaOoTZvpvA52y9iAMaltJfJXBEeTbTNnDcD+Rq2xrNW6ItjnQj5oumQub2DW02zz6cwPtANetDIEnS8zIXgZU1XnoLr/5JXlC6nulF2lVPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IFyFAolF; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Tue, 18 Feb 2025 14:02:03 +0530
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1739867533;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q8sEo/j0+/IxHJzaY5ssMwAnQ6lNXaOwOy/RizOMoOY=;
-	b=IFyFAolFyygDm3vXzeAKCORgZ0D61una1O8W6GvhtQbIUK1pGdEdrBiqsXn9fLVXm+d1i/
-	37r2Eqwqthy/PV1vUULJx9NtTFw+v+jawVIrCnFbikwe+biYki+rhN6Unvs3UCkWc01xaV
-	zV8ODsG+2N4y34n7iCMMGnPTy9lWC5Q=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jai Luthra <jai.luthra@linux.dev>
-To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, mripard@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, devarsht@ti.com, vaishnav.a@ti.com, r-donadkar@ti.com, 
-	u-kumar1@ti.com, Changhuang Liang <changhuang.liang@starfivetech.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: cdns,csi2rx.yaml: Add
- optional interrupts for cdns-csi2rx
-Message-ID: <m6ijg5colbev6lyhiobblecb4wlvwezpccibnso26gd3dadrfh@twgul4eel6hg>
-X-PGP-Key: http://jailuthra.in/files/public-key.asc
-References: <20250217130013.2802293-1-y-abhilashchandra@ti.com>
- <20250217130013.2802293-2-y-abhilashchandra@ti.com>
+	s=arc-20240116; t=1739867682; c=relaxed/simple;
+	bh=eq2r3EqfURpJDfyUrO6e7ReKUX5wIYAdUMSspXkp1uc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=W0rfeZEOwbYmEfwXPhdModvLLBd8bAEnk737EuasDtMsEJC2p+ggJxElNPsf+G/qW+eS2bTEuPiWmHUXKqxCEOeF/iuCYuFIspQpHdqGgBIDE3iGrBYkS3Idy8lqe92Z1tjHUXBtE38ArcPEyTysijcShrFugi5XLn95ymAwzvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRb3c/EY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209BBC4CEE2;
+	Tue, 18 Feb 2025 08:34:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739867681;
+	bh=eq2r3EqfURpJDfyUrO6e7ReKUX5wIYAdUMSspXkp1uc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TRb3c/EY/sJVCKw71472WLrZ4IEMuF8E8vTFPp4HbRW9WZO88B7ruAIJPTIrVy64z
+	 N1GPzNO+6ef9OaJDenL1YYP9DE2aNb9fkoBDh6C9iA86Caoa8O7iFNBfBowPTLeBK9
+	 BjFwJ56Qo9zL1vyTduZmFrRtZg7sns95U0oJ/DnPuMRjHORsim0gx311cauOTMJjHW
+	 t8K/Ql/2sQFPhaazeBqsy+nS/mbSVFTTrEMRHw1fdpq5OflgFlupFy7e+Kr6lNbq3t
+	 xWYuxx8DRjWXg7VLp1T27oDj7HndVV9ZAbt/uMQDvJD5QsBM+rllQQ7e11U4ehwudk
+	 H1/5fel3iKPSA==
+Message-ID: <29a8e7ec-dabc-4cc1-a262-676ebd838dfd@kernel.org>
+Date: Tue, 18 Feb 2025 09:34:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="sr4ldtn435nab4uz"
-Content-Disposition: inline
-In-Reply-To: <20250217130013.2802293-2-y-abhilashchandra@ti.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: dt-bindings: Add dt bindings for
+ m2m-deinterlace device
+To: Matthew Majewski <mattwmajewski@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250212170901.3881838-1-mattwmajewski@gmail.com>
+ <20250212170901.3881838-2-mattwmajewski@gmail.com>
+ <5e9432d7-0be1-4d98-9a61-cd288e53e772@kernel.org>
+ <91fbc8f06f4d57f5e3d25dfec99e2fdb76b0a4cb.camel@gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <91fbc8f06f4d57f5e3d25dfec99e2fdb76b0a4cb.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+On 12/02/2025 23:29, Matthew Majewski wrote:
+> Hi Krzysztof, thanks for the quick feedback. 
+> 
+> On Wed, 2025-02-12 at 18:22 +0100, Krzysztof Kozlowski wrote:
+>> On 12/02/2025 18:09, Matthew Majewski wrote:
+>>> Create a new yaml schema file to describe the device tree bindings
+>>> for
+>>> the generic m2m-deinterlace driver.
+>>
+>>
+>> Bindings are for hardware, not drivers, and usually not generic.
+>>
+> 
+> Ok, I'll change the wording from "driver" to "device" in V2.
+> 
+>> Please describe here exemplary devices.
+> 
+> The m2m-deinterlace device can be used on any hardware that provides a
+> MEM_TO_MEM and interleaved capable dma channel. I'll note that in the
+> commit message for V2 as well.
+
+I asked to give names of actual hardware you are writing bindings for.
+
+> 
+>>>
+>>> +description: |
+>>> +  A generic memory2memory device for deinterlacing video
+>>> +  using dmaengine.
+>>
+>> And what is this generic device supposed to do? What fits to generic
+>> device?
+>>
+> 
+> The term "generic" was taken from the driver description. It's generic
+> insofar as it only relies on the dmaengine API for processing (and
+> hence is relatively platform agnostic).
+> 
+> I will add more information about the device in the description for V2.
+> I'll also mention that it's intended for converting between interlaced
+> and non-interlaced formats by line-doubling. 
+> 
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: m2m-deinterlace
+>>> +
+>>> +  dma-names:
+>>> +    items:
+>>> +      - const: rxtx
+>>> +
+>>> +  dmas:
+>>> +    items:
+>>> +      - description: mem-to-mem capable DMA channel
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - dma-names
+>>> +  - dmas
+>>> +
+>>> +additionalProperties: false
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    m2m-deinterlace {
+>>> +        compatible = "m2m-deinterlace";
+>>> +        dma-names = "rxtx";
+>>> +        dmas = <&edma 20 0>;
+>>
+>>
+>> This all looks rather like bindings for driver and not even quite
+>> generic because looks quite simple. I guess media folks will provide
+>> more input, but anyway it looks a bit not-DT-enough.
+>>
+>>> +    };
+> 
+> Yes, the bindings are much simpler than a typical media device, but
+> that is because the m2m-deinterlace device only needs to be provided a
+> handle to a dma channel to function properly. My reasoning for adding 
+
+Really only this? How do you reset the device? How do you clock it (or
+does it come with internal oscillator?) How do you program anything
+there if there are no resources?
 
 
---sr4ldtn435nab4uz
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: cdns,csi2rx.yaml: Add
- optional interrupts for cdns-csi2rx
-MIME-Version: 1.0
+> dt-bindings for this device is because it is a consumer of a dma-
+> channel and the dt bindings are a platform-agnostic way to be able to
+> provide a specific dma channel to the device.
+> 
+> As an example, say on an embedded device I have a dma controller which
+> provides multiple interleaved MEM_TO_MEM capable channels. I want the
 
-Hi Abhilash,
+I asked about the names already, still nothing.
 
-On Mon, Feb 17, 2025 at 06:30:12PM +0530, Yemike Abhilash Chandra wrote:
-> The Cadence CSI2RX IP exposes 3 interrupts [0] 12.7 camera subsystem.
-> Enabling these interrupts will provide additional information about a CSI
-> packet or an individual frame. So, add support for optional interrupts
-> and interrupt-names properties.
->=20
-> [0]: http://www.ti.com/lit/pdf/spruil1
->=20
-> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> ---
->=20
-> Changes in v2:
-> - Address Krzysztof's review comment to remove flexibility while adding
->   interrupts.
->=20
->  .../devicetree/bindings/media/cdns,csi2rx.yaml         | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml b/D=
-ocumentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> index 2008a47c0580..f335429cbde9 100644
-> --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> +++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> @@ -24,6 +24,16 @@ properties:
->    reg:
->      maxItems: 1
-> =20
-> +  interrupts:
-> +    minItems: 3
-> +    maxItems: 3
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: info
-> +      - const: error
-> +      - const: monitor
-> +
+> m2m-deinterlace device to consume one particular channel because it is
+> higher-priority than the others. With these dt-bindings I can simply
+> specify the correct dma channel that should be used. Without the
+> device-tree bindings I would have to manually edit the driver to filter
+> for the correct dma channel to be used, but then the device is no
+> longer "generic".
+> 
+> It would be helpful to hear what the media people have to say about it.
 
-How many interrupt lines are actually exposed by the Cadence IP?
+Then wait before sending new version.
 
-It is not clear to me from the TRM [0]. From the "Table 12-1524. CSI_RX_IF=
-=20
-Hardware Requests" it looks like there are three separate interrupt lines=
-=20
-CSI_ERR_IRQ, CSI_IRQ and CSI_LEVEL, which are routed to the Arm core/GIC. A=
-nd=20
-four lines for the ASF submodule (?) that are not routed to GIC.
 
-This does not match with the error, info and monitor line names mentioned=
-=20
-here.
 
-In my understanding which interrupt lines are actually integrated will vary=
-=20
-=66rom SoC to SoC, so please check what are the actual interrupt line names=
-=20
-exposed by the Cadence IP. Maybe Maxime knows more.
-
-But I don't think it is correct to make all 3 mandatory together, as some=
-=20
-vendors may only integrate the error interrupt ignoring the rest.
-
-CC: Changhuang Liang <changhuang.liang@starfivetech.com>
-
->    clocks:
->      items:
->        - description: CSI2Rx system clock
-> --=20
-> 2.34.1
->=20
-
-Thanks,
-Jai
-
---sr4ldtn435nab4uz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAme0RYMACgkQQ96R+SSa
-cUXdNBAAvlJSdV/EmJzBACqQuS7J9cW/g3lobP1lUOO8QviUZnB6Dk2LKP0FDBjH
-Y+/F+/HzgOqppHGn/hZx9+BSDBih8i5Vt/X5X3GlusRYxbCPoURk2D0Q+C4Aq/Q5
-/riVnZzhF/8BA0YQcuPXuMLv9+3Mt5gDlKwMLiEpzOrOwXAM5/JLYqyofCsMkd6X
-Yu8Rpr0uEQQ8kioSQwgwGDzvkpqPFcfhsS+jww/Gimtn4dKAgJQDZ+wlWvQMXZNC
-ug81y5Nr3s5dvzcBs/Jb+rhH3ZzctiYFJNPQI/ISHtoFx1HH3BMekTyEScBZZ3/i
-PRTtgUMzflXys/EBB8vCQwZILPM14WhKKwhmxjv+AAZr8qcMnM+cLs+XzZV1/PiK
-lsSs5KdPdsVw1qDMfXtI/dhbGp2Z7zaxsPTD4rOvdGKWThEIGWvr+GurJOt4a2v0
-q4aOfag1uAz8e+3ICx+636f80BlwL2omB8zSZw85sHTmybFLB9Nk4vqe/tPo6Ut1
-nvJB5iCg8wGnrcLVkU7lQAw1O1YndShy76eHlb63HuzF1jyuwFLhVVCYiHHraQKF
-AGiB7p8SpquuOCRBnHqFqJD9rCwWOS1/oCTWNFxgKqo/aULKjYjNXn1/9/gRhmeD
-wxeg06OsQMv8CyJoHyP5BC+6MMXiG88Ik01EYfg6Nj0uvF8B/Es=
-=ZXoX
------END PGP SIGNATURE-----
-
---sr4ldtn435nab4uz--
+Best regards,
+Krzysztof
 
