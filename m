@@ -1,103 +1,96 @@
-Return-Path: <linux-media+bounces-26261-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26262-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E54A395E0
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 09:45:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A53A39682
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 10:08:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0BA73B91B2
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 08:40:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 570F01720E7
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 09:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B794A23536B;
-	Tue, 18 Feb 2025 08:38:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ovEbdYsV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0139022FF4F;
+	Tue, 18 Feb 2025 09:03:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C1722B8CA;
-	Tue, 18 Feb 2025 08:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77E322E401
+	for <linux-media@vger.kernel.org>; Tue, 18 Feb 2025 09:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739867897; cv=none; b=WiPeAgbhOG1cWvgGxLd3S+VRjj8QueCP0HwjS+tEd3qOhPHP2bV34HnfXar5mZTLsRVcdGlZOLt1NPHNKEjqsfTIEbioLIaQHINFPdsII9NkXdeuKKi2AE6d+oqjmAPHl0KyhGFzcCBQVTSPxrfQ2EOxFZdKwUDqANh0Ipap65A=
+	t=1739869432; cv=none; b=vAgJSuFuEceheZUCFnZXDc3HyqJC3Cyt3DzBG1hmULEEXN33k+U1V69g7DBT70wXlS++SmFSZS0/XZoH8XmIK1dFWHGAQsrvEiqpiBtQtQ80C7n0IUF7b78FqrectaGcruIqK+ekPPs3RSKKiBdWSGxikzf/kvZmSACPT7r8gkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739867897; c=relaxed/simple;
-	bh=SXsWRliWYDYiH9PM4qIThXGhAe8bWyeUA8MJ5BBmb20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l9GUuEnHu48UgKoLiRjAMK+aToLy5QTTYBjrao2U+MPwj3wQfj8aSncCzTrgGFqXToAc5uhHpD48p0LIbiDOgLGap1jeVvN5Qer4qHVd4GPdgDiYy+iFoW1XTpb5omZjggvW6tTSGIqBBqpaQermYHCxe5MJNB2nFpG/5Du21Rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ovEbdYsV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EC68C4CEE6;
-	Tue, 18 Feb 2025 08:38:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739867896;
-	bh=SXsWRliWYDYiH9PM4qIThXGhAe8bWyeUA8MJ5BBmb20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ovEbdYsVKuDVTr7JBMRtAHH4KoI8yoVZP/1EqGrjDqt7rPSb5xj9w1DZMlmZp+wVv
-	 dxqEHj3odINWyjKeoPym36WYDkUMz8j5RONhNq8Cv3bPTOndbYRJWQfE3UMg8fgNtb
-	 DzYIDgtRUVlY3284FLpW+dG0auo/8MvqcuVLbXgm2EgRkh1ZBWINjUDS/swk+jW8p1
-	 i1MsKKpSrgZGgjb7Q2PLGIW4kJSKwSGSbpju89P4GnwXnU+xag+/opOxunrt2IZn1T
-	 crVlrpYkb+fsvjJ42NfwTBz0p2iIQyOpBZWPZSUzuPS7DxGPoHFMO38M4fKPbDDwXj
-	 zqGOXiojUW0eQ==
-Date: Tue, 18 Feb 2025 09:38:12 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org, jai.luthra@linux.dev, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, devarsht@ti.com, 
-	vaishnav.a@ti.com, r-donadkar@ti.com, u-kumar1@ti.com
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: cdns,csi2rx.yaml: Add
- optional interrupts for cdns-csi2rx
-Message-ID: <20250218-honored-fascinating-cockle-81bd06@krzk-bin>
-References: <20250217130013.2802293-1-y-abhilashchandra@ti.com>
- <20250217130013.2802293-2-y-abhilashchandra@ti.com>
+	s=arc-20240116; t=1739869432; c=relaxed/simple;
+	bh=Rb/oEzPquB0AN3zNExVOUPkHhu2SKGcn8YilK2l8ikA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cLR0LGc4g3lNqJHhH1qGyVtvvQBT9HUApRUkNnRjLRvISUdJA8FbkpKgmklwU39VpXtYJn/VWir5i8k7G3Yd9Ys3hNJWsJ3siPkSnZCBHmZN1z5qu3xLuf0MwUUecO0ckuxSrJQElVagU2IlNHodvjh9WWT/pEF2PxO8rfuu/u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tkJVw-0005iJ-9J; Tue, 18 Feb 2025 10:03:36 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tkJVv-001YXQ-2k;
+	Tue, 18 Feb 2025 10:03:35 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1tkJVv-0002g6-2W;
+	Tue, 18 Feb 2025 10:03:35 +0100
+Message-ID: <15bbca6567ff640fdcfbe1a9525989887a94732c.camel@pengutronix.de>
+Subject: Re: [PATCH v2] media: verisilicon: Fix AV1 decoder clock frequency
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Heiko Stuebner <heiko@sntech.de>, Hans Verkuil
+ <hverkuil@xs4all.nl>
+Cc: linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, kernel@collabora.com,  stable@vger.kernel.org
+Date: Tue, 18 Feb 2025 10:03:35 +0100
+In-Reply-To: <20250217-b4-hantro-av1-clock-rate-v2-1-e179fad52641@collabora.com>
+References: 
+	<20250217-b4-hantro-av1-clock-rate-v2-1-e179fad52641@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250217130013.2802293-2-y-abhilashchandra@ti.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-On Mon, Feb 17, 2025 at 06:30:12PM +0530, Yemike Abhilash Chandra wrote:
-> The Cadence CSI2RX IP exposes 3 interrupts [0] 12.7 camera subsystem.
-> Enabling these interrupts will provide additional information about a CSI
-> packet or an individual frame. So, add support for optional interrupts
-> and interrupt-names properties.
-> 
-> [0]: http://www.ti.com/lit/pdf/spruil1
-> 
-> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> ---
-> 
-> Changes in v2:
-> - Address Krzysztof's review comment to remove flexibility while adding
->   interrupts.
-> 
->  .../devicetree/bindings/media/cdns,csi2rx.yaml         | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> index 2008a47c0580..f335429cbde9 100644
-> --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> +++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> @@ -24,6 +24,16 @@ properties:
->    reg:
->      maxItems: 1
->  
-> +  interrupts:
-> +    minItems: 3
+On Mo, 2025-02-17 at 16:46 -0500, Nicolas Dufresne wrote:
+> The desired clock frequency was correctly set to 400MHz in the device tre=
+e
+> but was lowered by the driver to 300MHz breaking 4K 60Hz content playback=
+.
+> Fix the issue by removing the driver call to clk_set_rate(), which reduce
+> the amount of board specific code.
+>=20
+> Fixes: 003afda97c65 ("media: verisilicon: Enable AV1 decoder on rk3588")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Drop, see other bindings.
+I was going to ask whether there might be any device trees without the
+assigned-clock-rates around that this patch could break, but the DT
+node was introduced with 400 MHz clock setting in the initial commit
+dd6dc0c4c126 ("arm64: dts: rockchip: Add AV1 decoder node to rk3588s").
 
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+regards
+Philipp
 
