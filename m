@@ -1,138 +1,312 @@
-Return-Path: <linux-media+bounces-26311-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26304-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD94A3A62A
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 19:51:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4EAA3A600
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 19:47:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A00A1896DFB
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 18:51:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70D4F3A4D62
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 18:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1F0B27424C;
-	Tue, 18 Feb 2025 18:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 369942356C3;
+	Tue, 18 Feb 2025 18:46:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="KezsOagY"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="wQAa8Pyf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCFA1F5844;
-	Tue, 18 Feb 2025 18:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739904586; cv=pass; b=L0/gfouQ8pgSZ3/qtiUdqLyNTow8TKDiWXSNJK4oBhGoH11VJI+QbYtUyNoZs0xYiB48jKtv8W4ClXjZKYrss0dIA9tNXLLdvCTEeoUlou/8Q7jcBk8fZUFrLaNKXP1cpzYunMr5DMeWt6oKzVJeKvM7Xj9kmp9alRtG5jNKRxc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739904586; c=relaxed/simple;
-	bh=9e1rDRhjtWx8RcwMZlExf40SAo2UlhVvfwW0sy8Zjso=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YCWxE9DC0eZPyfbzq72OhMplTjdzh+nHQTcxgMzEjRh+rd4JSlsF6P0yBC2raU2pw6wp4kGJ1zvdYKjwa1O4tHD4kNKcxlHYZ7HaJ4pNaT1fYJvjeODlOMnk0QIitocE6+tk9Dt1ejEoSLRhDSTQPUwNN0ej4K6qlZxjJXoeueM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=KezsOagY; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1739904470; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=SFbINEkgfo/EjRGQA6rv/e6E1w9SnSqlY7gHYKVzwjXjoKhCAcJbqcmPdIJwEjH2LxH7lfJ9xsBXS7WhCDHzW4t4p1k3HyQF0zdd0gRKvlix4G/kFo8IAh5iZCfs3PbJEMy+tW2awjmbzM+3lreQll+qP9qdOvwQD58BzaXAFrc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1739904470; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=iIPCjPu2+AmsIf/cCFUaH7Ayf0dQa1TgmFz1djm75zk=; 
-	b=BiLA6n50tNn0Zy0UCuq87cnay53sIAfZ9w3a4Hm7HJGd6Tp0IaOxtzNyiQTwinfP870IuN8rtpTTjHJphfv6NEdtmwtZ/T15tVADzqGc0M6KG6uxfGdslPxUYrEL6Knbv2VN5VYoweBkmCtrHBTQ23Qd1sKH3MuxTfKGyFyFYAU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739904470;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=iIPCjPu2+AmsIf/cCFUaH7Ayf0dQa1TgmFz1djm75zk=;
-	b=KezsOagYRIjDGPaa1ukaoWCC2dtYDxmSDpWhwWA+H1kw7wgty8GgsOiWva7N1STj
-	++uhbfis2YHydYUJ26OanC+6H9blUdIJSRIpzBMO1CCWiGI/lN/3zMiIgnuMR4RKkpy
-	Ynw+JvEGvLrJzkCmedkocIzP8sGHsriB10kKOfOE=
-Received: by mx.zohomail.com with SMTPS id 173990446851452.29048163591244;
-	Tue, 18 Feb 2025 10:47:48 -0800 (PST)
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Shreeya Patel <shreeya.patel@collabora.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	jose.abreu@synopsys.com,
-	nelson.costa@synopsys.com,
-	shawn.wen@rock-chips.com,
-	nicolas.dufresne@collabora.com,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	Tim Surber <me@timsurber.de>
-Subject: [PATCH v7 6/6] arm64: dts: rockchip: Enable HDMI receiver on rock-5b
-Date: Tue, 18 Feb 2025 21:44:39 +0300
-Message-ID: <20250218184439.28648-7-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250218184439.28648-1-dmitry.osipenko@collabora.com>
-References: <20250218184439.28648-1-dmitry.osipenko@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDBA1EB5F2;
+	Tue, 18 Feb 2025 18:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739904409; cv=none; b=bjgRmg1voCkyRWpiJZdZpARU/XwVC3ukcAkOktE49mf5bcu57qTDeMjkLQLTS7Hsq81ig616uE7EK31xxNeL50W9yXCZyVNe0dshzYm9HCNPRhe7l8jvrSwcb98ogxVIYUc7clSoy8LyrwpSevz9zGy3uPUbkPo60fk4jOGCCVE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739904409; c=relaxed/simple;
+	bh=P3gCITdBnxFTZbMzUej5GDaU5ZSKZbw8UCkeILWWtLk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tNrSA6H4eRoKgJ1kJrjdY6i8wXH4VJdtos0Vv3LDbL1gGNRuM1fqVcPmva+SFV15nuE1YwV0aYfmujn1Oips1d+MGpnK6whnBn70f6R1djGep+4T30AW3uknmz0dJtYreEqpg84XMx4NEn7t/n/HIC9bTSysLEyvlJQ0tXsaCD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=wQAa8Pyf; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 51IIjxed1600005
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 18 Feb 2025 12:45:59 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1739904359;
+	bh=vAwnzKjPzi/Np/0xGFkr303vHF2WCd+r1hVr0oSMbDI=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=wQAa8PyfFqkNiqRL/viga2m8HfV/0ew7nscSp4O1oxYM1sb4IL3lkcwf+rezZwNPl
+	 8IwwU6Ei0zRyDPboBB5GR0s/DajznEsCm1yG1lH88S1hC7JyutyT3WOZjMg3XBaDhf
+	 SP1WxCKzzumY5ie5JEeGu0H5EoSoSyZ9sY4OQrn0=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51IIjxOR068633;
+	Tue, 18 Feb 2025 12:45:59 -0600
+Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 18
+ Feb 2025 12:45:59 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 18 Feb 2025 12:45:58 -0600
+Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51IIjwDF021134;
+	Tue, 18 Feb 2025 12:45:58 -0600
+Date: Tue, 18 Feb 2025 12:45:58 -0600
+From: Nishanth Menon <nm@ti.com>
+To: Sebastian LaVine <slavine@d3embedded.com>
+CC: <devicetree@vger.kernel.org>, <imx@lists.linux.dev>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>,
+        =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado
+	<nfraprado@collabora.com>,
+        Abel Vesa <abel.vesa@linaro.org>, Achath Vaishnav
+	<vaishnav.a@ti.com>,
+        AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Biju Das
+	<biju.das.jz@bp.renesas.com>,
+        Bjorn Andersson <quic_bjorande@quicinc.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Elinor
+ Montmasson <elinor.montmasson@savoirfairelinux.com>,
+        Fabio Estevam
+	<festevam@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Hans
+ Verkuil <hverkuil@xs4all.nl>,
+        Javier Carrasco
+	<javier.carrasco@wolfvision.net>,
+        Jianzhong Xu <xuj@ti.com>,
+        Julien Massot
+	<julien.massot@collabora.com>,
+        Kieran Bingham
+	<kieran.bingham@ideasonboard.com>,
+        Kory Maincent <kory.maincent@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Pengutronix
+ Kernel Team <kernel@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        Sakari
+ Ailus <sakari.ailus@linux.intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+        Stuart Burtner <sburtner@d3embedded.com>,
+        Tero Kristo <kristo@kernel.org>, Thakkar Devarsh <devarsht@ti.com>,
+        Tomi
+ Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Umang Jain
+	<umang.jain@ideasonboard.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>, Will
+ Deacon <will@kernel.org>,
+        Zhi Mao <zhi.mao@mediatek.com>
+Subject: Re: [PATCH 3/4] arm64: dts: ti: k3-am62a7-sk: Add overlay for fusion
+ 2 board
+Message-ID: <20250218184558.yxqy3sbz4muypwwd@busybody>
+References: <20250212195656.69528-1-slavine@d3embedded.com>
+ <20250212195656.69528-4-slavine@d3embedded.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250212195656.69528-4-slavine@d3embedded.com>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
+On 14:56-20250212, Sebastian LaVine wrote:
+> Adds an overlay for the Fusion 2 (FPD-Link IV) board on SK-AM62A.
+> 
+> Signed-off-by: Sebastian LaVine <slavine@d3embedded.com>
+> Mentored-by: Stuart Burtner <sburtner@d3embedded.com>
+> ---
+>  MAINTAINERS                                   |   1 +
+>  arch/arm64/boot/dts/ti/Makefile               |   1 +
+>  .../boot/dts/ti/k3-am62a7-sk-fusion-2.dtso    | 115 ++++++++++++++++++
+>  3 files changed, 117 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 27fb3c1be732..bf6a48da0887 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21890,6 +21890,7 @@ M:      Stuart Burtner <sburtner@d3embedded.com>
+>  L:     linux-media@vger.kernel.org
+>  S:     Odd Fixes
+>  F:     Documentation/devicetree/bindings/media/i2c/sony,imx728.yaml
+> +F:     arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso
 
-The Rock 5B has a Micro HDMI port, which can be used for receiving
-HDMI data. This enables support for it.
+NAK. please do not send overlays from media tree. they should go via SoC
+ARM tree.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- .../arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+>  F:     drivers/media/i2c/imx728.c
+> 
+>  SONY MEMORYSTICK SUBSYSTEM
+> diff --git a/arch/arm64/boot/dts/ti/Makefile b/arch/arm64/boot/dts/ti/Makefile
+> index f71360f14f23..fcd8d11e5678 100644
+> --- a/arch/arm64/boot/dts/ti/Makefile
+> +++ b/arch/arm64/boot/dts/ti/Makefile
+> @@ -31,6 +31,7 @@ dtb-$(CONFIG_ARCH_K3) += k3-am62-lp-sk-nand.dtbo
+>  # Boards with AM62Ax SoC
+>  dtb-$(CONFIG_ARCH_K3) += k3-am62a7-sk.dtb
+>  dtb-$(CONFIG_ARCH_K3) += k3-am62a7-phyboard-lyra-rdk.dtb
+> +dtb-$(CONFIG_ARCH_K3) += k3-am62a7-sk-fusion-2.dtbo
+> 
+>  # Boards with AM62Px SoC
+>  dtb-$(CONFIG_ARCH_K3) += k3-am62p5-sk.dtb
+> diff --git a/arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso b/arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso
+> new file mode 100644
+> index 000000000000..68e06d643bfd
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/ti/k3-am62a7-sk-fusion-2.dtso
+> @@ -0,0 +1,115 @@
+> +// SPDX-License-Identifier: GPL-2.0
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d597112f1d5b..377824e69e20 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -220,6 +220,18 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
-+&hdmi_receiver_cma {
-+	status = "okay";
-+};
-+
-+&hdmi_receiver {
-+	status = "okay";
-+	hpd-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
-+	pinctrl-0 = <&hdmim1_rx_cec &hdmim1_rx_hpdin &hdmim1_rx_scl &hdmim1_rx_sda &hdmirx_hpd>;
-+	pinctrl-names = "default";
-+	memory-region = <&hdmi_receiver_cma>;
-+};
-+
- &hdptxphy_hdmi0 {
- 	status = "okay";
- };
-@@ -377,6 +389,12 @@ &pcie3x4 {
- };
- 
- &pinctrl {
-+	hdmirx {
-+		hdmirx_hpd: hdmirx-5v-detection {
-+			rockchip,pins = <1 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	hym8563 {
- 		hym8563_int: hym8563-int {
- 			rockchip,pins = <0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>;
+Would prefer GPL-2.0 OR MIT in line with rest of TI EVM licensing for
+DT.
+
+> +/*
+> + * DT Overlay for Fusion 2 (FPD-Link IV) board on SK-AM62A
+> + * https://www.ti.com/tool/J7EXPAXEVM/
+> + *
+> + * Copyright (C) 2024 D3 Embedded - https://www.d3embedded.com
+> + */
+> +
+> + /dts-v1/;
+> + /plugin/;
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+
+That said, the fusion-2 board interfaces with a bunch of evms as well.
+wondering if we should re-organize to better reuse stuff.
+
+> +&{/} {
+> +       clk_fusion2_25M_fixed: fixed-clock-25M {
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               clock-frequency = <25000000>;
+> +       };
+> +};
+> +
+> +&exp2 {
+> +       p9-hog {
+> +               /* P9 - CSI_RSTz */
+> +               gpio-hog;
+> +               gpios = <9 GPIO_ACTIVE_HIGH>;
+> +               output-high;
+> +               line-name = "CSI_RSTz";
+> +       };
+> +
+> +       p19-hog {
+> +               /* P19 -CSI_SEL2 */
+> +               gpio-hog;
+> +               gpios = <19 GPIO_ACTIVE_HIGH>;
+> +               output-low;
+> +               line-name = "CSI_SEL2";
+> +       };
+> +};
+> +
+> +&main_i2c2 {
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +       status = "okay";
+> +
+> +       i2c-switch@71 {
+> +               compatible = "nxp,pca9543";
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +               reg = <0x71>;
+> +
+> +               i2c@1 {
+> +                       #address-cells = <1>;
+> +                       #size-cells = <0>;
+> +                       reg = <1>;
+> +
+> +                       deser@3d {
+> +                               compatible = "ti,ds90ub9702-q1";
+> +                               reg = <0x3d>;
+> +
+> +                               clock-names = "refclk";
+> +                               clocks = <&clk_fusion2_25M_fixed>;
+> +
+> +                               i2c-alias-pool = <0x4a 0x4b 0x4c 0x4d 0x4e 0x4f>;
+> +
+> +                               ds90ub9702_0_ports: ports {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +
+> +                                       /* CSI-2 TX */
+> +                                       port@4 {
+> +                                               reg = <4>;
+> +                                               ds90ub9702_0_csi_out: endpoint {
+> +                                                       data-lanes = <1 2 3 4>;
+> +                                                       clock-lanes = <0>;
+> +                                                       link-frequencies = /bits/ 64 <800000000>;
+> +                                                       remote-endpoint = <&csi2_phy0>;
+> +                                               };
+> +                                       };
+> +                               };
+> +
+> +                               ds90ub9702_0_links: links {
+> +                                       #address-cells = <1>;
+> +                                       #size-cells = <0>;
+> +                               };
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&cdns_csi2rx0 {
+> +       ports {
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               csi0_port0: port@0 {
+> +                       reg = <0>;
+> +                       status = "okay";
+> +
+> +                       csi2_phy0: endpoint {
+> +                               remote-endpoint = <&ds90ub9702_0_csi_out>;
+> +                               data-lanes = <1 2 3 4>;
+> +                               clock-lanes = <0>;
+> +                               link-frequencies = /bits/ 64 <800000000>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&ti_csi2rx0 {
+> +       status = "okay";
+> +};
+> +
+> +&dphy0 {
+> +       status = "okay";
+> +};
+> --
+> 2.34.1
+> 
+> Please be aware that this email includes email addresses outside of the organization.
+
+Drop this. this is already a public mailing list :)
+
 -- 
-2.48.1
-
+Regards,
+Nishanth Menon
+Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
 
