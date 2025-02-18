@@ -1,156 +1,367 @@
-Return-Path: <linux-media+bounces-26255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640AFA3941F
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 08:50:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4780EA39486
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 09:10:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97BE718917AE
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 07:49:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 420633ADB6C
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 08:10:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C5FC1EEA34;
-	Tue, 18 Feb 2025 07:49:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1340122AE4E;
+	Tue, 18 Feb 2025 08:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="m6NDurDT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4060A1EDA3B;
-	Tue, 18 Feb 2025 07:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2FF81DE4C2
+	for <linux-media@vger.kernel.org>; Tue, 18 Feb 2025 08:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739864958; cv=none; b=axRNcCMKh/ukJEXTe79g9a9zXRak3h1ajH3V2JqxRsbgCJMCV5PrIidsMT6fLcX62nVxwRrKU+N1sUJQIcfhixkjG9dSb+SmrJwDUVR4fCsPqT/WRWcFeNvLHfCVutIWssYQgrhnt7AI5vN8zLaIViKq6UsHTqVCWj0RNkC/hDc=
+	t=1739866208; cv=none; b=TFPjtaA8Z6+tSnyBBa+HZBKSdEJ1azssN8VEydVOp2nIeuDM5UnqK1NyHlICrFPiqP0s/eZR82uRDfpRSxpCzlHtcNRl5wCewMfyF4DX5+3f5VNNwYUKFUoaHtq+IRpcDotT7LpXeQmX/goAuCCB0a1rQhZSaH61FFTSGL13Stk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739864958; c=relaxed/simple;
-	bh=8G/jZQUu/2ePH59JV1iOjs5AsAiIOG2M2TSM5/z8VoE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KPuH6rLRnAh+m2t0NS+NrmVXJbx3wzOkyDeSxnbR2hPnbEXohyw7VjmPwW8BoO+SSu8F9BlEEsSvcKUOwZGOsdJcrpbbgVe28Qdx6grakSZqTJt3llXv0SKexedqQKqOAIsGX54heZ90qeH8ikdPa/uWVNXX2D8tF9Yfjwrmt1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F7AC4CEE2;
-	Tue, 18 Feb 2025 07:49:16 +0000 (UTC)
-Message-ID: <56c81a10-4058-49e3-95f5-f8823072e350@xs4all.nl>
-Date: Tue, 18 Feb 2025 08:49:14 +0100
+	s=arc-20240116; t=1739866208; c=relaxed/simple;
+	bh=0iQszF3aOQUx0RH7/52EySFF4PuSiLgEtr9HQo8excU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyg1DVmplG2Adb2ih+NE/EYNUqjdQAuKtYkzaCIlytEQmWpvkbPh5UTgKWHOnuA+By4qPBDCiqqSL0KvcIEkP3VbEfUlDTD6fKrWxFc0u+2yweqfS9HdEHZGeHwQLr1T3vSCKTL5QkdbLvo+4DWkL9uC94FhGVV/Yit2eEv7ngc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=m6NDurDT; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Tue, 18 Feb 2025 13:39:52 +0530
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1739866202;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q+qcyfogl80YNKhUoy4AsrKtrIZYeuFWq7dao6s66Gk=;
+	b=m6NDurDTyvgf/k+mWanLAPlsUVd+PDRIXtdOMUlLQRalxJYqTpf0ehxBrE2nWB3uY6svxw
+	Uz/1SZ8bap3Y4YTymatvquW7dFScROBzqZMBfWCeR38dhUqME2Mm5Kdg+Ijl40pe3GD331
+	Ts3Mi2VHha0kBAKJUv1z6mo4V5dqAFc=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jai Luthra <jai.luthra@linux.dev>
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, 
+	Rishikesh Donadkar <r-donadkar@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
+	Vaishnav Achath <vaishnav.a@ti.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, u-kumar1@ti.com
+Subject: Re: [PATCH v2 2/2] media: cadence: csi2rx: Enable csi2rx_err_irq
+ interrupt and add support for VIDIOC_LOG_STATUS
+Message-ID: <x6akslzswdbesyazl6wi5xetikw7gnklvb3xuz2jra3qnk72as@r23gujc6ldhl>
+X-PGP-Key: http://jailuthra.in/files/public-key.asc
+References: <20250217130013.2802293-1-y-abhilashchandra@ti.com>
+ <20250217130013.2802293-3-y-abhilashchandra@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Avermedia DVD EZMaker 7 video distortion on capture
-To: Randy Kimmett <linuxish@outlook.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <PH8PR12MB71128FAC43D4FF7BC3D64050EAF92@PH8PR12MB7112.namprd12.prod.outlook.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <PH8PR12MB71128FAC43D4FF7BC3D64050EAF92@PH8PR12MB7112.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="depqe2pkfz25xcrz"
+Content-Disposition: inline
+In-Reply-To: <20250217130013.2802293-3-y-abhilashchandra@ti.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 15/02/2025 17:18, Randy Kimmett wrote:
-> Avermedia DVD EZMaker 7
-> Model: C039
-> VID:07CA PID:C039
-> Module used: cx231xx
-> Distro: Manjaro
-> Kernel version: 6.13.0-1
-> Components used: Conexant CX23012-11Z (according to https://www.linuxtv.org/wiki/index.php/AVerMedia_DVD_EZMaker_7_(C039))
-> 
-> When capturing analog video from my old Hi8 video camera (NTSC M), the captured video has banding and is grainy, it doesn't matter if I capture from the S-Video or Composite, the results are the same.  On my windows PC the capture is perfect.
-> 
-> dmesg output:
-> 
-> [31173.105709] cx231xx 3-1:1.1: New device AVerMedia TECHNOLOGIES, Inc. AVerMedia C039 USB Pure Capture @ 480 Mbps (07ca:c039) with 7 interfaces
-> [31173.106062] cx231xx 3-1:1.1: can't change interface 4 alt no. to 3: Max. Pkt size = 0
-> [31173.106065] cx231xx 3-1:1.1: Identified as Conexant VIDEO GRABBER (card=5)
-> [31173.106649] i2c i2c-13: Added multiplexed i2c bus 15
-> [31173.106704] i2c i2c-13: Added multiplexed i2c bus 16
-> [31173.214440] cx25840 12-0044: cx23102 A/V decoder found @ 0x88 (cx231xx #0-0)
-> [31175.444434] cx25840 12-0044: loaded v4l-cx231xx-avcore-01.fw firmware (16382 bytes)
-> [31175.493936] cx231xx 3-1:1.1: v4l2 driver version 0.0.3
-> [31175.620281] cx231xx 3-1:1.1: Registered video device video2 [v4l2]
-> [31175.620318] cx231xx 3-1:1.1: Registered VBI device vbi0
-> [31175.620423] cx231xx 3-1:1.1: audio EndPoint Addr 0x83, Alternate settings: 3
-> [31175.620426] cx231xx 3-1:1.1: video EndPoint Addr 0x84, Alternate settings: 5
-> [31175.620429] cx231xx 3-1:1.1: VBI EndPoint Addr 0x85, Alternate settings: 2
-> [31175.620431] cx231xx 3-1:1.1: sliced CC EndPoint Addr 0x86, Alternate settings: 2
-> [31175.620433] cx231xx 3-1:1.1: TS EndPoint Addr 0x81, Alternate settings: 6
-> 
-> https://bugzilla.kernel.org/show_bug.cgi?id=219764 (also contains a sample video clip of the issue)
-> https://www.linuxtv.org/wiki/index.php/AVerMedia_DVD_EZMaker_7_(C039)
-> 
-> 
-> Any help and/or suggestions would be greatly appreciated. :)
 
-I'll try this with my own cx231xx device, mostly to check if it is a regression of
-some kind. I don't have this specific device, so if it works for me, then there isn't
-a lot that can be done.
+--depqe2pkfz25xcrz
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 2/2] media: cadence: csi2rx: Enable csi2rx_err_irq
+ interrupt and add support for VIDIOC_LOG_STATUS
+MIME-Version: 1.0
 
-Support for it was originally added through this bug:
+Hi Abhilash,
 
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1620762
+On Mon, Feb 17, 2025 at 06:30:13PM +0530, Yemike Abhilash Chandra wrote:
+> Enable the csi2rx_err_irq interrupt to record any errors during streaming
+> and also add support for VIDIOC_LOG_STATUS ioctl. The VIDIOC_LOG_STATUS
+> ioctl can be invoked from user space to retrieve the device status,
+> including details about any errors.
+>=20
+> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> ---
+>=20
+> Changes in v2:
+> - Address Jai's review comment to get interrupt at probe instead of
+>   start_stream.
+> - Address Jai's review comment to change dev_warn to dev_dbg when there
+>   is no interrupt defined in DT.
+>=20
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 102 ++++++++++++++++++-
+>  1 file changed, 101 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media=
+/platform/cadence/cdns-csi2rx.c
+> index 4d64df829e75..79f0c31eaf50 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -57,6 +57,28 @@
+>  #define CSI2RX_LANES_MAX	4
+>  #define CSI2RX_STREAMS_MAX	4
+> =20
+> +#define CSI2RX_ERROR_IRQS_REG			0x28
+> +#define CSI2RX_ERROR_IRQS_MASK_REG		0x2C
+> +
+> +#define CSI2RX_STREAM3_FIFO_OVERFLOW_IRQ	BIT(19)
+> +#define CSI2RX_STREAM2_FIFO_OVERFLOW_IRQ	BIT(18)
+> +#define CSI2RX_STREAM1_FIFO_OVERFLOW_IRQ	BIT(17)
+> +#define CSI2RX_STREAM0_FIFO_OVERFLOW_IRQ	BIT(16)
+> +#define CSI2RX_FRONT_TRUNC_HDR_IRQ		BIT(12)
+> +#define CSI2RX_PROT_TRUNCATED_PACKET_IRQ	BIT(11)
+> +#define CSI2RX_FRONT_LP_NO_PAYLOAD_IRQ		BIT(10)
+> +#define CSI2RX_SP_INVALID_RCVD_IRQ		BIT(9)
+> +#define CSI2RX_DATA_ID_IRQ			BIT(7)
+> +#define CSI2RX_HEADER_CORRECTED_ECC_IRQ	BIT(6)
+> +#define CSI2RX_HEADER_ECC_IRQ			BIT(5)
+> +#define CSI2RX_PAYLOAD_CRC_IRQ			BIT(4)
+> +
+> +#define CSI2RX_ECC_ERRORS		GENMASK(7, 4)
+> +#define CSI2RX_PACKET_ERRORS		GENMASK(12, 9)
+> +#define CSI2RX_STREAM_ERRORS		GENMASK(19, 16)
+> +#define CSI2RX_ERRORS			(CSI2RX_ECC_ERRORS | CSI2RX_PACKET_ERRORS | \
+> +					CSI2RX_STREAM_ERRORS)
+> +
+>  enum csi2rx_pads {
+>  	CSI2RX_PAD_SINK,
+>  	CSI2RX_PAD_SOURCE_STREAM0,
+> @@ -71,6 +93,28 @@ struct csi2rx_fmt {
+>  	u8				bpp;
+>  };
+> =20
+> +struct csi2rx_event {
+> +	u32 mask;
+> +	const char *name;
+> +};
+> +
+> +static const struct csi2rx_event csi2rx_events[] =3D {
+> +	{ CSI2RX_STREAM3_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 3 FIFO dete=
+cted" },
+> +	{ CSI2RX_STREAM2_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 2 FIFO dete=
+cted" },
+> +	{ CSI2RX_STREAM1_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 1 FIFO dete=
+cted" },
+> +	{ CSI2RX_STREAM0_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 0 FIFO dete=
+cted" },
+> +	{ CSI2RX_FRONT_TRUNC_HDR_IRQ, "A truncated header [short or long] has b=
+een received" },
+> +	{ CSI2RX_PROT_TRUNCATED_PACKET_IRQ, "A truncated long packet has been r=
+eceived" },
+> +	{ CSI2RX_FRONT_LP_NO_PAYLOAD_IRQ, "A truncated long packet has been rec=
+eived. No payload" },
+> +	{ CSI2RX_SP_INVALID_RCVD_IRQ, "A reserved or invalid short packet has b=
+een received" },
+> +	{ CSI2RX_DATA_ID_IRQ, "Data ID error in the header packet" },
+> +	{ CSI2RX_HEADER_CORRECTED_ECC_IRQ, "ECC error detected and corrected" },
+> +	{ CSI2RX_HEADER_ECC_IRQ, "Unrecoverable ECC error" },
+> +	{ CSI2RX_PAYLOAD_CRC_IRQ, "CRC error" },
+> +};
+> +
+> +#define CSI2RX_NUM_EVENTS		ARRAY_SIZE(csi2rx_events)
+> +
+>  struct csi2rx_priv {
+>  	struct device			*dev;
+>  	unsigned int			count;
+> @@ -95,6 +139,7 @@ struct csi2rx_priv {
+>  	u8				max_lanes;
+>  	u8				max_streams;
+>  	bool				has_internal_dphy;
+> +	u32				events[CSI2RX_NUM_EVENTS];
+> =20
+>  	struct v4l2_subdev		subdev;
+>  	struct v4l2_async_notifier	notifier;
+> @@ -124,6 +169,24 @@ static const struct csi2rx_fmt formats[] =3D {
+>  	{ .code	=3D MEDIA_BUS_FMT_BGR888_1X24,  .bpp =3D 24, },
+>  };
+> =20
+> +static irqreturn_t csi2rx_irq_handler(int irq, void *dev_id)
+> +{
+> +	struct csi2rx_priv *csi2rx =3D dev_id;
+> +	int i;
+> +	u32 error_status;
+> +
+> +	error_status =3D readl(csi2rx->base + CSI2RX_ERROR_IRQS_REG);
+> +
+> +	for (i =3D 0; i < CSI2RX_NUM_EVENTS; i++)
+> +		if (error_status & csi2rx_events[i].mask)
+> +			csi2rx->events[i]++;
+> +
+> +	writel(CSI2RX_ERRORS & error_status,
+> +	       csi2rx->base + CSI2RX_ERROR_IRQS_REG);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
+>  {
+>  	unsigned int i;
+> @@ -218,6 +281,8 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  	reset_control_deassert(csi2rx->p_rst);
+>  	csi2rx_reset(csi2rx);
+> =20
+> +	writel(CSI2RX_ERRORS, csi2rx->base + CSI2RX_ERROR_IRQS_MASK_REG);
+> +
 
-It says:
+Because all events are masked here, I receive a flood of interrupts on my=
+=20
+SK-AM62A due to Stream1 overflow events.
 
-I built the cx231xx driver with the patch and made a few tests.
-Tested and working:
-- Video capture on the composite input
-- NTSC source
-- PAL source
-Not tested:
-- Audio capture
-- S-Video input
-- SECAM source
+[  328.931479] cdns_csi2rx.30101000.csi-bridge: =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D  START STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+[  328.940213] cdns-csi2rx 30101000.csi-bridge: Overflow of the Stream 1 FI=
+FO detected events: 108078
+[  328.949179] cdns_csi2rx.30101000.csi-bridge: =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D  END STATUS  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
 
-I hope to find some time to test this in 1-2 weeks.
+$ cat /proc/interrupts | grep csi
+559:     108078          0          0          0     GICv3 175 Level     cs=
+i2rx-irq
 
-Regards,
+I don't think Stream1 (pad2 of cdns-csi2rx) is connected to anything in the=
+=20
+hardware, at least from what I can see in the AM62A TRM [1].
 
-	Hans
+It should be possible to figure out which pads of cdns-csi2rx subdev have=
+=20
+active links to other subdevs, and only enable events for the corresponding=
+=20
+Stream port on the hardware.
+
+This also exposes another issue in the csi2rx_start() function where we sta=
+rt=20
+streaming on all source pads, ignoring if it is actually linked to any subd=
+ev=20
+in the pipeline:
+
+    for (i =3D 0; i < csi2rx->max_streams; i++) {
+    ...
+		writel(CSI2RX_STREAM_CTRL_START,
+		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+    }
+
+I believe that should be fixed as a separate patch, probably along with the=
+ v3=20
+of v4l2 streams API support [2].
+
+[1] https://www.ti.com/lit/pdf/spruj16
+[2] https://lore.kernel.org/linux-media/20240627-multistream-v2-0-6ae96c54c=
+1c3@ti.com/
+
+>  	reg =3D csi2rx->num_lanes << 8;
+>  	for (i =3D 0; i < csi2rx->num_lanes; i++) {
+>  		reg |=3D CSI2RX_STATIC_CFG_DLANE_MAP(i, csi2rx->lanes[i]);
+> @@ -330,6 +395,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  	reset_control_assert(csi2rx->sys_rst);
+>  	clk_disable_unprepare(csi2rx->sys_clk);
+> =20
+> +	writel(0, csi2rx->base + CSI2RX_ERROR_IRQS_MASK_REG);
+> +
+>  	for (i =3D 0; i < csi2rx->max_streams; i++) {
+>  		writel(CSI2RX_STREAM_CTRL_STOP,
+>  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+> @@ -361,6 +428,21 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  	}
+>  }
+> =20
+> +static int csi2rx_log_status(struct v4l2_subdev *sd)
+> +{
+> +	struct csi2rx_priv *csi2rx =3D v4l2_subdev_to_csi2rx(sd);
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < CSI2RX_NUM_EVENTS; i++) {
+> +		if (csi2rx->events[i])
+> +			dev_info(csi2rx->dev, "%s events: %d\n",
+> +				 csi2rx_events[i].name,
+> +				 csi2rx->events[i]);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+>  {
+>  	struct csi2rx_priv *csi2rx =3D v4l2_subdev_to_csi2rx(subdev);
+> @@ -466,7 +548,12 @@ static const struct v4l2_subdev_video_ops csi2rx_vid=
+eo_ops =3D {
+>  	.s_stream	=3D csi2rx_s_stream,
+>  };
+> =20
+> +static const struct v4l2_subdev_core_ops csi2rx_core_ops =3D {
+> +	.log_status	=3D csi2rx_log_status,
+> +};
+> +
+>  static const struct v4l2_subdev_ops csi2rx_subdev_ops =3D {
+> +	.core		=3D &csi2rx_core_ops,
+>  	.video		=3D &csi2rx_video_ops,
+>  	.pad		=3D &csi2rx_pad_ops,
+>  };
+> @@ -665,7 +752,7 @@ static int csi2rx_probe(struct platform_device *pdev)
+>  {
+>  	struct csi2rx_priv *csi2rx;
+>  	unsigned int i;
+> -	int ret;
+> +	int irq, ret;
+> =20
+>  	csi2rx =3D kzalloc(sizeof(*csi2rx), GFP_KERNEL);
+>  	if (!csi2rx)
+> @@ -703,6 +790,19 @@ static int csi2rx_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_cleanup;
+> =20
+> +	irq =3D platform_get_irq_byname_optional(to_platform_device(csi2rx->dev=
+), "error");
+> +
+
+What about the other two interrupts that are required in DT?
+
+> +	if (irq < 0) {
+> +		dev_dbg(csi2rx->dev, "Optional interrupt not defined, proceeding witho=
+ut it\n");
+> +	} else {
+> +		ret =3D devm_request_irq(csi2rx->dev, irq, csi2rx_irq_handler, 0,
+> +					"csi2rx-irq", csi2rx);
+> +		if (ret) {
+> +			dev_err(csi2rx->dev, "Unable to request interrupt: %d\n", ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+>  	ret =3D v4l2_subdev_init_finalize(&csi2rx->subdev);
+>  	if (ret)
+>  		goto err_cleanup;
+> --=20
+> 2.34.1
+>=20
+
+Thanks,
+Jai
+
+--depqe2pkfz25xcrz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAme0QFAACgkQQ96R+SSa
+cUXtVQ/+Oi45Ws2UddZpK74gxLQC/5UYwcb0pMiL/1HGhG6cZU2S7beFI3SB2TIv
+8Go+/xYPROk5RIfcs7iAB7z1p7XmR8+OEgZEvcfIYcuQQnD5ubz6LQYgtlJ0jZDP
+ODzys2p7YPtUKK57ylFhaQPtogJNy44keLX49KE7Ejcz24MP3QOozGrEVoYpht52
+0oiJt/4xjAI2xZia4HeF3UQ1IA+7C6wy+SZgaePFJmBHsip+o11BQv6XakqPcnUX
+vQPvd+2LeX0qdhmS9c782eCt9MoifyDLaWfXid4/KlvJFrTzw36q4kPXuZNbjPT4
+RKpiDqVRiZDY5M/8eHde6jdjeLHB7GyMdanxHq2OkXcqfUCMf0oG5pZZqvPzX3ac
+x1iX77sbhB+6xODeiG+b+otXWu5Bulic9q6puKmbeNKxZt0hKWox1vwZaaigwTcM
+/SImkKXIDvpWNAyc3DBmc60QEay1Gy0NGOuPwQifVDlKyNyCe9xP9CO/99n+Nm95
+WneKJvKq43Eoy8msNadWrbQNxpb9JR2o4xUEAsGvfCHJ57U4eOqyyA+p/67FukBH
+/j8zu5+9XD/4N1+crR+Eum81ZQBPywerqrwxYVjfNWUdWSUcubjgMTpHQI7QIzbO
+bjKMTWzzNMuEtFEW9UaGnd7+HJaXWwjFeII1kKa628PD7bRXRic=
+=CVBr
+-----END PGP SIGNATURE-----
+
+--depqe2pkfz25xcrz--
 
