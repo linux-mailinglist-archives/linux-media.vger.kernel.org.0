@@ -1,355 +1,365 @@
-Return-Path: <linux-media+bounces-26274-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26275-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBCDA39B85
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 12:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 916BDA39BAF
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 13:04:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C912C175536
-	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 11:56:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA721175DA4
+	for <lists+linux-media@lfdr.de>; Tue, 18 Feb 2025 12:02:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FEC1241135;
-	Tue, 18 Feb 2025 11:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04C67241136;
+	Tue, 18 Feb 2025 12:02:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="nyz2UN1t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5/Bd0Ms"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010066.outbound.protection.outlook.com [52.101.228.66])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0589A241102;
-	Tue, 18 Feb 2025 11:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739879746; cv=fail; b=Ax172DDMjsuenqD8FeEWWKUSeLmC3wjTIvLnRx15cxooCH2yKaPVoM78gXMly8LVrDZpHxn+pHGBt/0DcvIFNSAh7ZA9rn8wKxWCJOqQn1t7RxpSva8ksdq4xDxtrbgKjJ+XWxLToEgRxfR8L1dy3OIW8IMFSj7h1nDqoB/HNiY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739879746; c=relaxed/simple;
-	bh=POmn0MCkFQY7o1Uj9loSbfcJPN677a/48muS7p3zOm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=iZ06CT0iesJJczYlUW3mBn1uMp5d7okoiZnDgJdDS/aDOR0daQUE+GCwE8WETpkg/dyGpk3MIsBaUcLYDtN+AKw+hSmlKu/pGnFiG9VrzYaaCSdsQDqP6kwktQd7mX5XsduvntRIjqmCd7OzXyINHj4/cJNfympm3vlPBF1vSD8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=nyz2UN1t; arc=fail smtp.client-ip=52.101.228.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e7J0NDatA3YOB8OHcXPcruaZg5/qeLzB4t6A6aw07U9SpCAAVRxJQVs0D7I9LxHRSNQ0+V6sd3xYrS5OtZyCbRF+8ZWRCjIGEPsAsI7iaVj+XStJfCDLYwkd1R0aZ0IOGnNdtswAARjxMLZ2rwY2mstcVfPpuIYjqAUChNZ8kwJAquZy9Ag2m5GbWJrkkJaIRAtsudM6+Elw0H5Qza0++934ZQYFbW40kUblWXo0erVUoVvC83e84bZbhnjuH1DctU5vbPQppET+/QuO5cuKKSRr01Wj2GOa5F/auHa5bSEYszRSelDQK/C0kb3vUbK3oZxbtET9I68/Ee9MbGpGHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mEwddO7+x+IKUY3GVW4NA/w2wsdw0FS/2IpISMWQSgo=;
- b=MwiJzFb1NrkFYMC0B82OmzNBbyr3F1bGbTh9PDF8IK7mKGsiXvR+1dQydHkmL9+rfRBUVD5v/kV+xnvpcbRtOyU3wzz/khQKDrZrOn7G/HhNST04BQ3FXTBlJe7KFMIZx2vShTVFt4DIoFqsxCIieloO25hJEzysqFEGBAhauOEcpgpPaSrF253csMEJYO01XLFi/yn9nZsyNRBbmorWl4Ftl+3mrzDJnb8tJpXEitxtNQgz3yDc3gzhUNIvySNTuBIna9/VaoWOCaTR7RBM2Zv3cHBe7v5L0ygUwlCh1tiUK3TEJVou2hfNig7sfBT9lxtXZrEAGoklijO50uWTgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mEwddO7+x+IKUY3GVW4NA/w2wsdw0FS/2IpISMWQSgo=;
- b=nyz2UN1tGoohg0NR+05GvxyMTt7gOxXeiRH2lM1/ORogD9KY65OoxZ20oKNu8sXW/xq7dG1afwulWEVRjiPmhQ3u8x5nJMq8hEZOwCexploCnj5EqRhReInuvORtvlPowKnymG2HTSc46Z1bPnlifqnMS7zRBID/NZAm1by1RYY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
- by OSCPR01MB14630.jpnprd01.prod.outlook.com (2603:1096:604:3a7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.18; Tue, 18 Feb
- 2025 11:55:40 +0000
-Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
- ([fe80::244d:8815:7064:a9f3%5]) with mapi id 15.20.8445.017; Tue, 18 Feb 2025
- 11:55:40 +0000
-Date: Tue, 18 Feb 2025 12:55:22 +0100
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tommaso Merciai <tomm.merciai@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/8] media: dt-bindings: renesas,rzg2l-csi2: Document
- Renesas RZ/V2H(P) SoC
-Message-ID: <Z7R1KiIBqPcR06hP@tom-desktop>
-References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
- <20250210114540.524790-3-tommaso.merciai.xr@bp.renesas.com>
- <20250214002951.GB8393@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250214002951.GB8393@pendragon.ideasonboard.com>
-X-ClientProxiedBy: FR4P281CA0257.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e8::11) To OS9PR01MB13950.jpnprd01.prod.outlook.com
- (2603:1096:604:35e::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7AF22CBFA;
+	Tue, 18 Feb 2025 12:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739880120; cv=none; b=BrxupNuOdyRBOjk5UuiUP3fovjTHdozXWs0pdeuzSGNv0eB3kGHA1q5NgZNdf1QB4SIAKZnXTfrEyPOz35wOuIGGcsKjOrLDnfL8wBWwuKnOUsp/+LwkAMIeiV1to1N6xZOWSOvXhzX0EPjgHjTSVApa164vkC9Pllg8xwwskXc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739880120; c=relaxed/simple;
+	bh=U5qHM8mo6NaMAcwU9wDI8S8bd20xruSV4c5qu0B8cbI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b6AzDqhArz2gGwgsI+QVAX9v45+hmp1olotVoGJYRIdftlVwsSeNCJDaU4uKA6wYc3uirg2dzfA52La7NM0kKIlPVIAb0Rs5LQoyej1GTHvQlhswOy0K/4CZG2TL0zmzxfDnVtOgl4+2rmlw7csrzlSWlKg6FJQBywBSOFgDa+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5/Bd0Ms; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1739880118; x=1771416118;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U5qHM8mo6NaMAcwU9wDI8S8bd20xruSV4c5qu0B8cbI=;
+  b=I5/Bd0MsbSnJb5ceFgiH5FKxibpl+izHeVmkqUHXqR+jZvPZLB+QpP0j
+   kmNy/PsUzJ1vr/PE2utmfQTdPW+YLXoSwLCxTr2hVbzswUUJ9GsDCnqeR
+   RWswHQOxinuzvtDpbx/G+kTqbRZi8XUbQ1I9Hr5E7g1bzXecqg5qCyneh
+   528A2pCPYqQATSKbr4A7PNUICXIOSN0rnAm2w5eoj+HFqNBJVwEhgqSZe
+   iVGU1+nnQv6tfgV2JsYZREOTeDAd1JZHmxCLVRnrPkHd7KnhWfKYu001J
+   PSvISCxDdW0vJUlLOkfiG8MejrlFA4omq5iZMWaTfiJ9Wo7amcEtBWVtG
+   g==;
+X-CSE-ConnectionGUID: UXkAO+O2TGywrkHVnSr00A==
+X-CSE-MsgGUID: xzk5ajxTQzK1WtszHM9t2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11348"; a="28172096"
+X-IronPort-AV: E=Sophos;i="6.13,295,1732608000"; 
+   d="scan'208";a="28172096"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 04:01:56 -0800
+X-CSE-ConnectionGUID: TmCIEWJRS2KMHQC5ius2Lw==
+X-CSE-MsgGUID: vfv+oDdGR728yWwMTIhn0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="118504080"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 04:01:53 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C1DDE120B45;
+	Tue, 18 Feb 2025 14:01:50 +0200 (EET)
+Date: Tue, 18 Feb 2025 12:01:50 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Bingbu Cao <bingbu.cao@linux.intel.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+	Dan Scally <djrscally@gmail.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	"duanek@chorus.net" <duanek@chorus.net>,
+	"Yao, Hao" <hao.yao@intel.com>, siddartha.reddy.kare@intel.com,
+	israel.a.cepeda.lopez@intel.com, alla.srinivas@intel.com
+Subject: Re: RFC: How to deal with the INT3472 handshake GPIO found on Intel
+ IPU6 MTL?
+Message-ID: <Z7R2rkR8VBLPg0Rr@kekkonen.localdomain>
+References: <59f672c3-6d87-4ec7-9b7f-f44fe2cce934@redhat.com>
+ <Z5c6Yef3KBS6VbTC@kekkonen.localdomain>
+ <ef5a8144-d60b-4719-926d-35e9fea5a435@redhat.com>
+ <Z5y3XuKbdJqR_W-T@kekkonen.localdomain>
+ <2796d5a8-7c52-ef3e-f274-e3f5af2991ef@linux.intel.com>
+ <4b87a956-a767-48dc-b98b-f80d9a44adc8@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|OSCPR01MB14630:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f36def6-0ff0-4fc3-8fb7-08dd50132a64
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?gGXy4+OGtsr/AFj1ucmNCVlxS0PEZrKg8QTsGKGiZs5YOGf4f+zSF21nyu4D?=
- =?us-ascii?Q?5bD1+F5UM5qO02JgcU3s7BX+LP9fB/xBTviyBrYkjmT7/IFLvqanYudCYbb/?=
- =?us-ascii?Q?tM2iqwCS6N/EDd2Jl4nuLDv04+d68E+DZaGkcSKEoNHj42kTJjM0yW1cDtso?=
- =?us-ascii?Q?a2eTH+k36V1wr6Ks2JF2uGQJBgTkhit6spIaChLlpzJ8bg43OhfnbTE/PbCH?=
- =?us-ascii?Q?mizv1jCrT0Y7Dw5bqn5AHE2XQG3IDH7IIVEm85EYrzqcIXlCnHIrjWgdO0wx?=
- =?us-ascii?Q?yqKmh/iK4QkpCE0y/QZSq+QoXntZVDCyvRqZviGcJynYSg5GwcNAbwOPFKM9?=
- =?us-ascii?Q?wAf6RgmBMdRx04dtBjKFm5RGlwDSFneks797cAgx9PiL4Wg5cmOqZuoO5BZC?=
- =?us-ascii?Q?ThltHflxQa+3uE/wgzRsSrKpNaiocJ+tCmsLKishG3bmaXVG6ErpWQ0SoF/t?=
- =?us-ascii?Q?VyYfuolsa9P5bbSMMRubkgue1qA5BEiaEfFknmf3VbjZELKKFxGTwOw0YwEt?=
- =?us-ascii?Q?fyurd+sAgb4Ziu2fKFj4lwERXcZ4qQI4O+aOpCPxm0vRQLscZTPP9JxgXAqL?=
- =?us-ascii?Q?xBZxXoiaAWx1OJExyqfjCENnMDAh5/pAn5XdKF5o9vBF2kOsHcVdHZoBaslf?=
- =?us-ascii?Q?mLtoHpuXAjCb2xh+pdGZfjvabq+hLKrFKeAv5U9sCe1e+CkLOiwJzcL0b+Om?=
- =?us-ascii?Q?HRWtYCVkLHbv3I24sv6usdBNCYsoiUcjpApqGKOW0bB2eLONI3XIy+8f2FQ1?=
- =?us-ascii?Q?qEIT3KkykhZNfcRAtEgoW93ywkbWKt5aLoOCHyvaXR3r8ToZ26s1PT/uK7zJ?=
- =?us-ascii?Q?DO5jBsYa+SUejcLXlWvHulL5QqZ2zcPKIiot5dV9pU2BMBAxwPT2t8j5vvCf?=
- =?us-ascii?Q?E+QSIpKdATTcWD8dc+8cHIDvgvNZIrTrAbPM4DZiZdQtbQrbb5h2e7BjesfR?=
- =?us-ascii?Q?27Eyde0UH7/HLJs6ah3Kw5cmQmfpLEpXykJxaEadN3z3zXOppmcrFjboWfq4?=
- =?us-ascii?Q?YwcImYnl2CqYfKYdSmOE2xzubrZrc6vNAw6vU3Wgd8yC/HCWwWnykv5lSEMQ?=
- =?us-ascii?Q?xPmJUnAJF2RMqJehsVlWxaZNlp45j34zX3x8gUDerfVnj9PHPLG1NbGptVNf?=
- =?us-ascii?Q?RMygRkM/TO0Q1OMdPe5CTrN5neIJD0nmqbYbi8lnPOmnqcMmjB0tqtgdKPot?=
- =?us-ascii?Q?y7ktf2cWLKNvkAP3MCM9rnCrIbLOtxsld8Q6y7Eny4jmH6SCyzzmsoWQl/gc?=
- =?us-ascii?Q?A7VOl6BW3sokGyuzSTyjEgn/fLCYZgk7on4G88fAW30pnZeKXAWOCrBl9dFU?=
- =?us-ascii?Q?oWEI9yH1bOadlqQ1c3Nnr8/9NXC8zzDqxaKjaGhvwrXoTxCrdPZaQHYgKRQx?=
- =?us-ascii?Q?7at4L+kPMVtjA73vRuK3yykPTBpAT26EBqWLoXCOjNM7LPiU0VwvERf18S4C?=
- =?us-ascii?Q?7X8j17RDximEjSa8C2NladfEB8a3DutG?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?0diNp+XZE6uQWr4jyODj33ZNjifDAj2/RgCkx1eAR+SsKz6l/HOLimWAo8An?=
- =?us-ascii?Q?OwUHFv17ODn08Lp6TS2qG7X3rhUf5/b922MgNTjscQCRal7Zv/VIV5uJngKE?=
- =?us-ascii?Q?NlqmY97nlfABLXCHxSZyCVt3cR80uE9zTXk7OYFIrpnYD/1f3g08cPMy/n/l?=
- =?us-ascii?Q?EzG20V/cP2gcDALui0XEWdXhBD4LMIFThCy6Fh3MYkLy3nr0sH3hjxDygt2L?=
- =?us-ascii?Q?llu/TObbxjWNdzUS3V73zaQ7Ay6XP+n9YPzME39NxGzxQ9IwfveNipEie1MZ?=
- =?us-ascii?Q?NdPHNdI++holBE1FwqeYKAXOL1O6g82HwZwUM111hLYGj6lSYosJbyC/ff1k?=
- =?us-ascii?Q?LscuGPBpG+YvprrmxaAXgrnl0R2qqonq1GSj9cAk/Ed7YsnWxJnR8BJuS2QU?=
- =?us-ascii?Q?3K24vVWIchBKXGaJloFL35AMSp8IqMH4M0jE14H46auufvPN7x2FMRiodN+s?=
- =?us-ascii?Q?dknTyAn2bFFHNs7AWpadRL9o6J+XzOIpBWc7HCbQu5u3+YWshpsa0rLGsAVU?=
- =?us-ascii?Q?QNVh8EquTAKSpDWwFHwh0Y6cMIbR0zGN8qikuYwYkYrrErvd+YyVG8ow9taA?=
- =?us-ascii?Q?OgEpU223KIZEJ+z/Uvc0z8UGdxlYxmk7S7hid60Lx2LgocTSRpM3GeTmY0ef?=
- =?us-ascii?Q?TkYxHd9aSjkLAwkXwWODcr2c5x1GQgiFzslyNedTQJlenN+HR43TCR/KqHQ9?=
- =?us-ascii?Q?uRXgqpDwsrYxVQ8riMVHSx8nac/A+YLLdCpC/ND2AVAZf4IUi9p0T54oSgek?=
- =?us-ascii?Q?+UlXGoVqnGOnnNWBIrapR6wtVpjSE4eynI0EU/qD6FmDUJQYkqxJJ4f/0zJe?=
- =?us-ascii?Q?dCQANDO6OFe8qZVc7VSouRoVngwvib3zrFM93JtvqcwPRUr7wh2wp3ZIwecR?=
- =?us-ascii?Q?A8nior97rq/E7wEmhwysafnVB/pRgeB6gsJqgCkl36zb8Mt0/Ef+g2hgtfTo?=
- =?us-ascii?Q?QwM2fxDtMSHwjDjUyQllZ0ozu8iJGSTd/FT271ds3G12wuyIiIHBZs4NnXwo?=
- =?us-ascii?Q?p+Pkr+jdJn05sljw8bRD7NjXk3Fm3twDQq/44lDtq0xCfYOv3mHzuaQ0CJ48?=
- =?us-ascii?Q?WElZyPnEXEzxkT0hIEawYJusQruOXtzfxUkt3C+7inOeLBFEhsTPqRoRY9vm?=
- =?us-ascii?Q?J641HcA4eNFJM2mskh7QIz4RBTprQvu2S4CVfh0S7o4zsu1ybSdiJcBPzkEc?=
- =?us-ascii?Q?MLcqKxighxuKuXGaeDLKs8Y8bn/3j8CZj0J1b1xVNWwYZVwYC2YHx+Pd/AUy?=
- =?us-ascii?Q?iYCVyQSAyglTjtIgoP4Ckif+5jMt1CK6zWySxuGGTdsS970VUda2QoLQ1yJd?=
- =?us-ascii?Q?H72NVuDOm95NjzswTIa/S3TXTMGR72tXAj7WHWFjcUWe2Mkmzjrc/mbFqTxj?=
- =?us-ascii?Q?UnMGEogs6p6bHtkUPW2aqtc8ciDPsFzjy0/JOby65DC8pebaZuu7v9Qr479b?=
- =?us-ascii?Q?gEAvdJ3Yy7obiU/v6KpaiQ+3t4hfXpqGfqHz06Breh58ADCE8Zw6JWQ3NasU?=
- =?us-ascii?Q?RhfXZb9s0BpWolbxXBxzQ+0O2M+nrPXPiQoWReewy6LNONglshZOe5/GaVvb?=
- =?us-ascii?Q?FQs+UZx5FZ1M3oEavCLcDQsOjat3cw6+LMQ+li3fgbO11N8Shx1i/oYNg+FV?=
- =?us-ascii?Q?e8gPhJspX/ZaY9VPVzugz1c=3D?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f36def6-0ff0-4fc3-8fb7-08dd50132a64
-X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2025 11:55:40.6410
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9b5wDuRbJuCUp4GCEz9bbdC1V5TIFCcm2H4rMg1q2b1+Q0R1hmQCQDXIvaOEX3FUJ9ACOscmYdehqfQX6OQ40xK7k+/u7DY9x1dkg3CHxti3O6BlX9HQJEzbXq+bzzoE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB14630
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4b87a956-a767-48dc-b98b-f80d9a44adc8@redhat.com>
 
-Hi Laurent,
+Hi Hans,
 
-Thanks for your review.
-
-On Fri, Feb 14, 2025 at 02:29:51AM +0200, Laurent Pinchart wrote:
-> Hi Tommaso, Prabhakar,
+On Wed, Feb 12, 2025 at 02:43:28PM +0100, Hans de Goede wrote:
+> Hi Bingbu,
 > 
-> Thank you for the patch.
-> 
-> On Mon, Feb 10, 2025 at 12:45:34PM +0100, Tommaso Merciai wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> On 12-Feb-25 5:08 AM, Bingbu Cao wrote:
 > > 
-> > The MIPI CSI-2 block on the Renesas RZ/V2H(P) SoC is similar to the one
-> > found on the Renesas RZ/G2L SoC, with the following differences:
-> > - A different D-PHY
-> > - Additional registers for the MIPI CSI-2 link
-> > - Only two clocks
+> > Hans and Sakari,
 > > 
-> > Add a new compatible string, `renesas,r9a09g057-csi2`, for the RZ/V2H(P)
-> > SoC.
+> > Sorry for the late reply, I am just back from holiday and take several
+> > days sick leave then.
+> 
+> NP, I hope you are feeling better now.
+> 
+> > On 1/31/25 7:43 PM, sakari.ailus@linux.intel.com wrote:
+> >> Hi Hans,
+> >>
+> >> On Thu, Jan 30, 2025 at 04:34:53PM +0100, Hans de Goede wrote:
+> >>> Hi Sakari,
+> >>>
+> >>> On 27-Jan-25 8:48 AM, sakari.ailus@linux.intel.com wrote:
+> >>>> Hi Hans,
+> >>>>
+> >>>> Thanks for your e-mail.
+> >>>>
+> >>>> On Wed, Jan 22, 2025 at 06:19:47PM +0100, Hans de Goede wrote:
+> >>>>> Hi All,
+> >>>>>
+> >>>>> Background / analysis:
+> >>>>> ----------------------
+> >>>>>
+> >>>>> New Intel Meteor Lake based laptops with IPU6 cameras have a new type 0x12
+> >>>>> pin defined in the INT3472 sensor companion device which describes
+> >>>>> the sensor's GPIOs.
+> >>>>>
+> >>>>> Based on what I know about this now, this pin seems to be used in at least
+> >>>>> 3 different scenarios:
+> >>>>>
+> >>>>> 1. To power-up / activate some unknown auxiliary IC on HP laptop designs
+> >>>>> where the sensor is directly connected to the main Meteor Lake SoC for
+> >>>>> I2C and GPIOs (no USB io-expander used). Example dyndbg int3472 output:
+> >>>>>
+> >>>>> HP Spectre x360 2-in-1 Laptop 16t-aa000/8C17, BIOS F.11 08/14/2024 (ov08x40):
+> >>>>> [    4.908016] int3472-discrete INT3472:01: unknown \_SB.GPI0 pin 65 active-high
+> >>>>> [    4.908019] int3472-discrete INT3472:01: GPIO type 0x12 unknown; the sensor may not work
+> >>>>> [    4.908100] int3472-discrete INT3472:01: privacy-led \_SB.GPI0 pin 107 active-high
+> >>>>> (and lsusb shows no Lattice NX## / Synaptics Sabre USB-io expander)
+> >>>>>
+> >>>>> 2. To make the Lattice chip in designs with the Lattice chip is used run
+> >>>>> the power-on sequence of the sensor which is handled by the Lattice chip
+> >>>>> firmware itself running the entire power-on/-down sequence when changing
+> >>>>> the GPIO value. Example dyndbg int3472 output:
+> >>>>>
+> >>>>> Dell Latitude 7450 (with patch to map handshake in INT3472) (ov02e10):
+> >>>>> [    5.110920] int3472-discrete INT3472:01: Sensor name OVTI02E1:00
+> >>>>> [    5.111908] int3472-discrete INT3472:01: Sensor module id: 'CIFNE24'
+> >>>>> [    5.113653] int3472-discrete INT3472:01: handshake \_SB.PC00.XHCI.RHUB.HS05.VGPO pin 0 active-high
+> >>>>> [    5.113676] int3472-discrete INT3472:01: privacy-led \_SB.PC00.XHCI.RHUB.HS05.VGPO pin 2 active-high
+> >>>>> (with 2ac1:20c9 Lattice NX33 USB IO-expander)
+> >>>>
+> >>>> The good thing is that there's a datasheet
+> >>>> <URL:https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/5726/FPGA-DS-02104-0-92-CrossLink-NX-33-and-CrossLink-NX-33U.pdf>
+> >>>> so we don't need to guess.
+> >>>>
+> >>>> Lattice NX-33 is more than an USB IO expenader. Most likely it acts as a
+> >>>> CSI-2 RX and CSI-2 TX and does something in between, like IVSC. It should
+> >>>> have its own driver, even if all it does is toggle GPIOs and sleep a
+> >>>> little.
+> >>>
+> >>> I guess that what you mean is having something similar to:
+> >>>
+> >>> drivers/media/pci/intel/ivsc/mei_csi.c
+> >>>
+> >>> which just toggles the handshake GPIO on the s_stream() callback ?
+> >>>
+> >>> That would require injecting the Lattice NX33 into the media fwnode
+> >>> graph similar to how we are doing this for the ivsc. But where
+> >>> the ivsc triggers this on there being an ACPI fwnode, there does
+> >>> not appear to be any ACPI fwnode for the NX33 at least not
+> >>> on Alan's laptop where we know the handshake signal is necessary.
+> >>
+> >> I presume not all systems come with CVS/CVF but they could still use USB
+> >> I/O expanders.
+> >>
+> >>>
+> >>> https://github.com/intel/vision-drivers
+> >>>
+> >>> suggests that the new chip shows up as an i2c device when it
+> >>> actually is mitm-ing the sensor and here is "ls /sys/bus/i2c/devices"
+> >>> output for Alan's laptop with the usbio-i2c driver loaded:
+> >>>
+> >>> $ ls -l /sys/bus/i2c/devices
+> >>> total 0
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-0 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-0/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-1 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-1/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-10 -> ../../../devices/pci0000:00/0000:00:02.0/drm/card0/card0-DP-1/i2c-10/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-11 -> ../../../devices/pci0000:00/0000:00:02.0/drm/card0/card0-DP-2/i2c-11/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-12 -> ../../../devices/pci0000:00/0000:00:15.0/i2c_designware.0/i2c-12/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-13 -> ../../../devices/pci0000:00/0000:00:15.3/i2c_designware.1/i2c-13/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-14 -> ../../../devices/pci0000:00/0000:00:1f.4/i2c-14/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-15 -> ../../../devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/usbio-i2c.2.auto/i2c-15/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-16 -> ../../../devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/usbio-i2c.3.auto/i2c-16/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-2 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-2/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-3 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-3/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-4 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-4/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-5 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-5/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-6 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-6/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-7 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-7/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-8 -> ../../../devices/pci0000:00/0000:00:02.0/i2c-8/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-9 -> ../../../devices/pci0000:00/0000:00:02.0/drm/card0/card0-eDP-1/i2c-9/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-HIMX1092:00 -> ../../../devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/usbio-i2c.2.auto/i2c-15/i2c-HIMX1092:00/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-OVTI02E1:00 -> ../../../devices/pci0000:00/0000:00:14.0/usb3/3-5/3-5:1.0/usbio-i2c.3.auto/i2c-16/i2c-OVTI02E1:00/
+> >>> lrwxrwxrwx. 1 root root 0 Jan  6 08:46 i2c-VEN_0488:00 -> ../../../devices/pci0000:00/0000:00:15.3/i2c_designware.1/i2c-13/i2c-VEN_0488:00/
+> >>>
+> >>> Notice there is no i2c device matching the devices expected by
+> >>> the vision-drivers.
+> >>
+> >> This gets interesting. This page under dell.com suggests Windows Hello is
+> >> supported on Latitude 7450:
+> >> <URL:https://www.dell.com/support/kbdoc/en-us/000225822/windows-hello-facial-recognition-may-not-work-on-dell-computers-with-mipi-cameras>.
+> >>
+> >>>
+> >>> I have heard that the X1 carbon gen 13 (lunar lake) does have
+> >>> such an i2c device.
+> >>>
+> >>> So I think that the CSI pass-through functionality is not used
+> >>> on Alan's laptop.
+> >>>
+> >>> Also the ivcs needed to be configured for number of CSI lanes +
+> >>> CSI frequency. That is not the case here. It is a fully opaque
+> >>> black box and Windows seems to treat it mostly as if it is
+> >>> not there at all.
+> >>>
+> >>> I believe that it would be best to do the same as Windows and
+> >>> just make sure we toggle the handshake pin and otherwise forget
+> >>> about the chip being there. In my many years if experience with
+> >>> x86 hw primarily designed for Windows trying to behave differently
+> >>> from Windows only causes trouble.
+> >>>
+> >>> If we were to try and model this as a separate v4l2-subdev
+> >>> in the media graph then then the questions become:
+> >>>
+> >>> 1. When to inject such a node. The ivsc model of going by
+> >>> ACPI HID's very likely does not work (or maybe it does and
+> >>> we simply have not seen hw yet which actually uses the vision
+> >>> parts? That is what the vision-drivers git repo suggests).
+> >>>
+> >>> Going by the presence of a handshake pin in the INT3472 device
+> >>> is riddled with problems:
+> >>>
+> >>> a. It requires digging into the ACPI resources of a device
+> >>> not owned by the ipu-bridge code.
+> >>>
+> >>> b. Given the HP laptop example, likely also Alan's laptop
+> >>> the presence of a handshake pin on meteor lake laptops does
+> >>> not seem to guarantee the CSI signals are actually MITM-ed
+> >>> by a chip, so we will likely create false-positives.
+> >>>
+> >>> c. Some previous (alder/raptor lake) HP laptops advertise
+> >>> a handshake pin but already work since they seem to not use it,
+> >>> so more false-postive matches.
+> >>>
+> >>> 2. Without an ACPI hid we have no struct-device/fwnode
+> >>> to use as parent for the extra v4l2-subdev, so what do we
+> >>> use for this ?
+> >>>
+> >>> 3. What about models where the fwnode-s for the media graph
+> >>> come from ACPI MIPI discovery? We skip the ipu-bridge code
+> >>> there ...
+> >>>
+> >>> Combining these issues with the fact that the interface
+> >>> is now just a single GPIO of which we do not exactly know
+> >>> what it does, where as with the ivsc we actually needed
+> >>> to program a CSI2 lane-count + link-freq I do not believe
+> >>> that modelling this unknown hw controlled by the handshake
+> >>> pin as an extra node on the media graph is the right thing
+> >>> to do.
+> >>
+> >> As I noted in my previous e-mail, I need to find more information on this
+> >> first. But when we have a device that is on the pixel data path, we likely
+> >> should have a driver for it, possibly also in cases there's less need for
+> >> control than with IVSC (CVF).
+> >>
+> >>>
+> >>> ATM this feels much more like some power-sequencing thing,
+> >>> just one more regulator / clk / reset-pin which we need
+> >>> to set during power-up / -down.
+> >>>
+> >>> If in the future we get models where the ACPI HIDs claimed by:
+> >>> https://github.com/intel/vision-drivers/blob/main/drivers/misc/icvs/intel_cvs.c#L720
+> >>> actually show up then we can revisit this. It might make
+> >>> sense to treat things like the ivsc setup in that case and
+> >>> then if those too use the type 0x12 GPIO on the INT3472
+> >>> device we can use the same code as used by the ipu-bridge
+> >>> to create the extra media graph nodes to opt out of mapping
+> >>> type 0x12 to a vdd supply.
+> >>>
+> >>> Another solution would be to move even closer to what Windows
+> >>> does and switch the driver for the INT3472 ACPI device from
+> >>> mapping pins to gpio-lookups / clks / regulators to it controlling
+> >>> all the GPIOs listed in the INT3472 _DSM directly from runtime
+> >>> suspend/resume functions, using a runtime pm device link from
+> >>> the sensor to ensure that the INT3472 device is suspended / resumed
+> >>> at the right time.
+> >>>
+> >>> This would also solve all of the mapping issues discussed in relation
+> >>> to the ov7251 driver expecting an "enable" pin. I believe that this
+> >>> would be the closest mirror of what Windows actually does and thus
+> >>> is what will work without issues / quirks on the most laptop models.
+> >>>
+> >>>> Any thoughts, Bingbu?
 > > 
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > ---
-> >  .../bindings/media/renesas,rzg2l-csi2.yaml    | 63 ++++++++++++++-----
-> >  1 file changed, 48 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > index 7faa12fecd5b..0d07c55a3f35 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > @@ -17,12 +17,15 @@ description:
-> >  
-> >  properties:
-> >    compatible:
-> > -    items:
-> > -      - enum:
-> > -          - renesas,r9a07g043-csi2       # RZ/G2UL
-> > -          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
-> > -          - renesas,r9a07g054-csi2       # RZ/V2L
-> > -      - const: renesas,rzg2l-csi2
-> > +    oneOf:
-> > +      - items:
-> > +          - enum:
-> > +              - renesas,r9a07g043-csi2 # RZ/G2UL
-> > +              - renesas,r9a07g044-csi2 # RZ/G2{L,LC}
-> > +              - renesas,r9a07g054-csi2 # RZ/V2L
-> > +          - const: renesas,rzg2l-csi2
-> > +
+> > I have not dug into the Lattice device ever, but AFAIK it is more simple
+> > than IVSC. From the sensor driver perspective, it looks more like a
+> > gpio/regulator. So I don't perfer the first solution.
 > 
-> I'd drop the empty line.
-
-I'll drop this line in v2, thanks.
-
+> Ok, so this sounds like my original "Proposed solution" from the email
+> stating this thread, which is to model the handshake pin as a GPIO driven
+> "dvdd" regulator with a 25 ms enable-time is the best solution.
 > 
-> > +      - const: renesas,r9a09g057-csi2 # RZ/V2H(P)
-> >  
-> >    reg:
-> >      maxItems: 1
-> > @@ -31,16 +34,24 @@ properties:
-> >      maxItems: 1
-> >  
-> >    clocks:
-> > -    items:
-> > -      - description: Internal clock for connecting CRU and MIPI
-> > -      - description: CRU Main clock
-> > -      - description: CRU Register access clock
-> > +    oneOf:
-> > +      - items:
-> > +          - description: Internal clock for connecting CRU and MIPI
-> > +          - description: CRU Main clock
-> > +          - description: CRU Register access clock
-> > +      - items:
-> > +          - description: CRU Main clock
-> > +          - description: CRU Register access clock
-> >  
-> >    clock-names:
-> > -    items:
-> > -      - const: system
-> > -      - const: video
-> > -      - const: apb
-> > +    oneOf:
-> > +      - items:
-> > +          - const: system
-> > +          - const: video
-> > +          - const: apb
-> > +      - items:
-> > +          - const: video
-> > +          - const: apb
+> Sakari, I know you are not enthusiastic about this solution, we can always
+> opt out certain configs from treating the handshake pin this way later in
+> case we do want to model the Lattice NX-33 as being in the sensor data
+> path later.
 > 
-> I would move the clocks and clock-names definitions to the conditional
-> below. Otherwise I think a device tree that has two clocks only but
-> incorrectly uses "system" and "video" instead of "video" and "apb" will
-> validate.
+> I already have a set of old patches for the int3472/discrete.c code to
+> allow it to register more then one regulator per sensor which I wrote to
+> fix an issue on a tablet which eventually turned out to be a misdiagnosis
+> of that issue. I saved those patches and I think they will be useful now :)
 
-Agreed. Taking as reference your work done on renesas,fcp.yaml.
-What about the following?
+:-)
 
-  clocks: true
-  clock-names: true
+I had a chat with Bingbu and Hao. I can confirm the handshake GPIO indeed
+has multiple functions: to power the sensor on (and off) and pass the
+ownership of the sensor to the host. I presume it also covers configuring
+the CSI-2 transmitter in the translator and passing the data to the host as
+well.
 
-Then move the clocks and clock-names below as you suggested
-into the conditional block:
+Then there seem to be cases with GPIO 0x12 without CVS or even USBIO. It's
+not clear to me yet which entity is implementing sensor power sequences
+there.
 
-allOf:
-  - if:
-      properties:
-        compatible:
-          contains:
-            const: renesas,r9a09g057-csi2
-    then:
-      properties:
-        clocks:
-          items:
-            - description: CRU Main clock
-            - description: CRU Register access clock
-        clock-names:
-          items:
-            - const: video
-            - const: apb
+Either way, your approach should work here and it does have a favourable
+property of not being visible to sensor drivers. I was thinking of a new
+driver handling both GPIOs and the delay but it seems we can do with fewer
+changes with the regulator approach.
 
-    else:
-      properties:
-        clocks:
-          items:
-            - description: Internal clock for connecting CRU and MIPI
-            - description: CRU Main clock
-            - description: CRU Register access clock
-        clock-names:
-          items:
-            - const: system
-            - const: video
-            - const: apb
-
-Thanks in advance.
+The Altek chip does require a 250 ms delay and this suggests that at least
+in some cases the GPIO 0x12 is related to USBIO / CVS. I haven't checked if
+the sensor with that 0x12 has a _DEP to the USBIO device so you could check
+whether you have that or not.
 
 > 
-> >  
-> >    power-domains:
-> >      maxItems: 1
-> > @@ -48,7 +59,7 @@ properties:
-> >    resets:
-> >      items:
-> >        - description: CRU_PRESETN reset terminal
-> > -      - description: CRU_CMN_RSTB reset terminal
-> > +      - description: CRU_CMN_RSTB reset terminal or D-PHY reset
-> >  
-> >    reset-names:
-> >      items:
-> > @@ -101,6 +112,28 @@ required:
-> >    - reset-names
-> >    - ports
-> >  
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,r9a09g057-csi2
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          maxItems: 2
-> > +
-> > +        clock-names:
-> > +          maxItems: 2
-> > +
-> > +    else:
-> > +      properties:
-> > +        clocks:
-> > +          maxItems: 3
-> > +
-> > +        clock-names:
-> > +          maxItems: 3
-> > +
-> >  additionalProperties: false
-> >  
-> >  examples:
+> > All these io devices are not under the scope of our IPU/Camera, but we
+> > have to unblock the dependencies. I also add Hao here as he made more
+> > communications with these devices owner.
 > 
-> -- 
-> Regards,
+> Bingbu and or Hao, do either of you know what is going on on some of
+> the HP designs where there is a type 0x12 / handshake pin in the INT3472
+> ACPI device, but there is no Lattice IO-chip involved ?
 > 
-> Laurent Pinchart
+> (The sensor is directly connected to I2C-busses and GPIOs coming from
+> the main Alder Lake / Meteor Lake SoC on these HP laptops)
 
-Thanks & Regards,
-Tommaso
+Also cc'd Siddartha, Israel and Alla.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
