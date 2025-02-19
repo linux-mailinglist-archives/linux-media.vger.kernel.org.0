@@ -1,171 +1,132 @@
-Return-Path: <linux-media+bounces-26338-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26339-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590E8A3BADD
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 10:54:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35332A3BACE
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 10:50:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D142F3B26D7
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 09:45:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76870189ADDF
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 09:47:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 380DD1BC9F0;
-	Wed, 19 Feb 2025 09:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67AA41CCEF0;
+	Wed, 19 Feb 2025 09:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ook6ip7K"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kUtLwaUl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2560F1CD213;
-	Wed, 19 Feb 2025 09:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFFE1BDA91
+	for <linux-media@vger.kernel.org>; Wed, 19 Feb 2025 09:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739958273; cv=none; b=qAxn2Jjt6vfuZc6Ct1vzTmsPh5AqEgx84qbp0DkMiPwXxfKDAwRuhTsqwpktaPuDucNl2bCslaJnBBZPpSD8PIPEOnH5+l0gwWFC/3Y6mbmWjUreriq+6x66A6n6oUZBXgB/GGjiOIY3L9RQh/OaH/v7RQ0IHMAtBaqh10ln9HU=
+	t=1739958414; cv=none; b=JmM/iz8ECm2iJBTzq9BeMobPWrbjoBG9SczTKr+dH5NVRQYto7o9BXJX7D19DbkZiZkxdI0JWHtHSoiIfPk7FFiGeNd9G47ny5cV+3biC+iyB6MCQ3eNIZm6AHpI074NcP8yEdLEYtRBa/d47lRgKC5sBEPSXabnO7G2COBgK1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739958273; c=relaxed/simple;
-	bh=3aGNDO4JPGcz2XPIJhdm7F9SVuX+jTc81pEhyWCKxhI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YuhrSW+QiKlNtUoi5l7e62FyjD/k6pMB/+DLr/pnip0WcBmeZgZScKXgI28Lrsnkm7potvOeRpqqp+oX/2ZJtNhhgS6XWSzHsEFkE713w1RKyL4HDHWLfpnMtindfwkmH3hzB+vm8K9ThJtn/67jN6wKVyk4ei5dkoJMm+O2tB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ook6ip7K; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C6EED21;
-	Wed, 19 Feb 2025 10:43:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739958184;
-	bh=3aGNDO4JPGcz2XPIJhdm7F9SVuX+jTc81pEhyWCKxhI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ook6ip7KEZmPutIEMqsGQficvTdxqcrR6VZggTSxlZdVjEEauX2We9C16073Q0hwq
-	 iTyjjlBsrYb92k3YY1H+FFnIde1nYciwmlEWRAL25bFTfq6uGHauPgmBxnZJbVQGIa
-	 HVv/mvDsnusQuJk3qzbepdzeoDrKjrikXchdK9iw=
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Wed, 19 Feb 2025 11:44:09 +0200
-Subject: [PATCH v2 3/3] media: i2c: ds90ub913: Use
- v4l2_get_frame_desc_passthrough
+	s=arc-20240116; t=1739958414; c=relaxed/simple;
+	bh=7aVrX+tsiYUypnK79wOrxQjOeILMuWsPKifx4wjp8AA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=N3T4bBk76BY1UKOBhfwWD3HMo2WvnR0dp2Q/144HkDYr9hKT46cVfeL7wD2QNupopyovEv+rAwt5eQ32b4l46ZwE3sssC3Mm1nKZyXvUXKoRHK+ZsFxEKffctyzg+xcXr/DfWymIc3EbyR6tlNsCoKB5wBE0Drgnx4sL3VVM2mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kUtLwaUl; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54622829175so2799081e87.0
+        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2025 01:46:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739958411; x=1740563211; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KwQQHgcgyVvybzwjPohbyEnIVBvtAls979ypIqY6TOU=;
+        b=kUtLwaUlUwXPq6N/IdIrqblCpxsPtGj6GMbHxSK8nCjyfvLJd1F3U6L3/D6g0EpP/J
+         D6+sZiFv8cHCR+BYX3wj4ZZQuAVydEMPCxjcFBQk9w8qxKb0vrmoI3Ero8V5+LeGZWtM
+         zPAQkNmE4zoob9BaAW6z65oj/Fe3tP6kUIIs/ZBhblCh/q2BS1Y3Z869IxnsdDRyqvG1
+         zyx5P94FidZowduDTI1vgAA6B0PhA4n6mbOypFXoBWzBJgKbkpxtNOvoy1ytUxgPHfLA
+         owQcp6erzak4IX2IWpDn2Yk8Uda96Sqeq0BkTMwwT8DORUFvTIK8Q+A/rtx4LrqzugN9
+         zyqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739958411; x=1740563211;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KwQQHgcgyVvybzwjPohbyEnIVBvtAls979ypIqY6TOU=;
+        b=unnLdoKi8jPpc5yAvl6ol+V+Y7Dm7O6frUKAgrJwYzogcGDAwO5jubCH86/nejT+iO
+         dlsPY004teulQDXZ+gACmv/Izhr0Oj1yXKK7ZMn+iG9Pb2qJDZoYlVmZRwPNqeerA5ht
+         oAIZh7Ok1tFGEJBj8sA+pzgGQyacDpn1XERzTkNS/tmYj41arImi+x28uhk+Ge3tSSFr
+         tlGUSDacVh/2JFYWVAG0In4oVNTXbwTQEkIeHg8T7AJVrQPeEeVFQaJ6vnwOHzHBiQzk
+         41DkTn5cWfqYPoMmLDD019xOnDsnkcJmRaxFAtEWuO12sVEEVo+98KYb7Y+USeKYQdIe
+         PFbA==
+X-Gm-Message-State: AOJu0YxIsWunQFJek/XJr+QTu0Z65P6I3FxCz8+h/RDiMt18wbGMwots
+	4rPnUDdvEq2Et0xnWo9P6SU2p2wJfzDV8ZWJug+DVZX9+vaqiRGd3BJJdQ==
+X-Gm-Gg: ASbGncsTQixEYdbl1nuMZVB+xG3HCzd1JCG8+oQg+g7UbvZcNHhSyTTlPKeZQ0z9zg2
+	CBnCAFbK8wwdthfJy4xx3o1nSES3s59/Z+B7tMcQrkC9MDpuFAgQcFfVZeaNh/9bSWSAxC5mWJT
+	Fc+I/5pZo0vUBjpMFb7egXM/PzScyVQugUP9m1dxlEJeEjozlaWKPT44dRjES+Pik1SLWqKHvIs
+	yRWXv2yGtoKzNz4drKmjC7XEuUukJOEBetm8RsWyaHBQ5oQcxhcbZaXH+uI2HXCPqb4rWQWpoAa
+	hFCfWJXXqOMi5BbKVMYPQwCZsWPHfKv0mzi7wg==
+X-Google-Smtp-Source: AGHT+IHn3xo7xDyMEo4MP1VMnDZOCqW281J6pI2vuA4zswUqqkSslDY/AL+yQdz0/+hF9tKcXTWv4w==
+X-Received: by 2002:a19:910e:0:b0:546:2f4c:7f4f with SMTP id 2adb3069b0e04-5462f4c807amr787731e87.28.1739958410446;
+        Wed, 19 Feb 2025 01:46:50 -0800 (PST)
+Received: from localhost.localdomain ([188.243.23.53])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5451f105fe5sm2095131e87.138.2025.02.19.01.46.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 01:46:48 -0800 (PST)
+From: Alexander Shiyan <eagle.alexander923@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Michael Riesch <michael.riesch@wolfvision.net>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>
+Subject: [PATCH 1/4] media: i2c: imx415: Add get_mbus_config() pad operation support
+Date: Wed, 19 Feb 2025 12:46:34 +0300
+Message-Id: <20250219094637.607615-1-eagle.alexander923@gmail.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250219-frame-desc-passthrough-v2-3-5135d57ecd6a@ideasonboard.com>
-References: <20250219-frame-desc-passthrough-v2-0-5135d57ecd6a@ideasonboard.com>
-In-Reply-To: <20250219-frame-desc-passthrough-v2-0-5135d57ecd6a@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2612;
- i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=3aGNDO4JPGcz2XPIJhdm7F9SVuX+jTc81pEhyWCKxhI=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBntaf4z7ZLOrBGD/K17IhmUXio4xWHAQT52VRq0
- IbUyql9CGiJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ7Wn+AAKCRD6PaqMvJYe
- 9aWwD/4g4IdEzXw9peib70gAmY3Ndm22YVviyzgRWtez6ZntuOwlUtM90ZP9LT6+z0cmSyNEca9
- hPEyt3d9F3C+InY1FCVlzwUbHClpeDAc/oUHt+oJMjopbAKXk80SCIS5Fu4Ag1D4zO9vtLC7Rzg
- rxoFzoyjNQZBnenfsSIPafGBs5HVaGx5Qy/yS1LoPXxoYcbIHki/LVCPSpNdVPQfZPombhQ4mjz
- UE50QVtQxY4xuihyrJ6El6ZJhskVBmQxTzb5gy4LBi+i79P7WUHeHlA+hhW3WAyOe/Z0d7gBBgq
- 4JuTgQUwOdXY0GsFd1eqFXMvrvxPEhz5nJJ1wIcys9d7u7OXnRJUnDcLCDAPCBwDqV+a3xj+UXR
- YoU1pza8jTzOLeHEJ1upBxcafmjk9JwT+YVzuN4Gv5kakIkCc7IcD/vtER3yvd+LnXOzcoRE9+N
- btt2V8n804o2pdZNMg2LMZGycB5tK7B9Kiswo+g9uVL8W0KYl+ETN/QzIblc0JhW3De3FQqYU4q
- mP9wtADl/rMVrwdL6VdTuhWndDMMIEijZrRU365FqbH+BvQG2rTb9hJ0ICe8gNno7CaON2U74lG
- N7oUZTmLG6j6/pGKCXWY8zpDqgeH2S0ju109pjGtrn77Fs1xbHBOUJ2HKzWd10nSrR6th5mEN0W
- QI8p8TK8YU+m5+g==
-X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Transfer-Encoding: 8bit
 
-Use the new v4l2_get_frame_desc_passthrough helper for .get_frame_desc.
+Allow the driver to report static media bus configuration using
+pad get_mbus_config() operation.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
 ---
- drivers/media/i2c/ds90ub913.c | 59 +------------------------------------------
- 1 file changed, 1 insertion(+), 58 deletions(-)
+ drivers/media/i2c/imx415.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
-index fd2d2d5272bf..9ae761d7e3a5 100644
---- a/drivers/media/i2c/ds90ub913.c
-+++ b/drivers/media/i2c/ds90ub913.c
-@@ -358,63 +358,6 @@ static int ub913_set_routing(struct v4l2_subdev *sd,
- 	return _ub913_set_routing(sd, state, routing);
+diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+index 9f37779bd611..16a52900c61c 100644
+--- a/drivers/media/i2c/imx415.c
++++ b/drivers/media/i2c/imx415.c
+@@ -1076,6 +1076,18 @@ static int imx415_init_state(struct v4l2_subdev *sd,
+ 	return 0;
  }
  
--static int ub913_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
--				struct v4l2_mbus_frame_desc *fd)
--{
--	struct ub913_data *priv = sd_to_ub913(sd);
--	const struct v4l2_subdev_krouting *routing;
--	struct v4l2_mbus_frame_desc source_fd;
--	struct v4l2_subdev_route *route;
--	struct v4l2_subdev_state *state;
--	int ret;
--
--	if (pad != UB913_PAD_SOURCE)
--		return -EINVAL;
--
--	ret = v4l2_subdev_call(priv->source_sd, pad, get_frame_desc,
--			       priv->source_sd_pad, &source_fd);
--	if (ret)
--		return ret;
--
--	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL;
--
--	state = v4l2_subdev_lock_and_get_active_state(sd);
--
--	routing = &state->routing;
--
--	for_each_active_route(routing, route) {
--		unsigned int i;
--
--		if (route->source_pad != pad)
--			continue;
--
--		for (i = 0; i < source_fd.num_entries; i++) {
--			if (source_fd.entry[i].stream == route->sink_stream)
--				break;
--		}
--
--		if (i == source_fd.num_entries) {
--			dev_err(&priv->client->dev,
--				"Failed to find stream from source frame desc\n");
--			ret = -EPIPE;
--			goto out_unlock;
--		}
--
--		fd->entry[fd->num_entries].stream = route->source_stream;
--		fd->entry[fd->num_entries].flags = source_fd.entry[i].flags;
--		fd->entry[fd->num_entries].length = source_fd.entry[i].length;
--		fd->entry[fd->num_entries].pixelcode =
--			source_fd.entry[i].pixelcode;
--
--		fd->num_entries++;
--	}
--
--out_unlock:
--	v4l2_subdev_unlock_state(state);
--
--	return ret;
--}
--
- static int ub913_set_fmt(struct v4l2_subdev *sd,
- 			 struct v4l2_subdev_state *state,
- 			 struct v4l2_subdev_format *format)
-@@ -514,7 +457,7 @@ static const struct v4l2_subdev_pad_ops ub913_pad_ops = {
- 	.enable_streams = ub913_enable_streams,
- 	.disable_streams = ub913_disable_streams,
- 	.set_routing = ub913_set_routing,
--	.get_frame_desc = ub913_get_frame_desc,
-+	.get_frame_desc = v4l2_get_frame_desc_passthrough,
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = ub913_set_fmt,
++static int imx415_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad_id,
++				  struct v4l2_mbus_config *config)
++{
++	struct imx415 *sensor = to_imx415(sd);
++
++	config->type = V4L2_MBUS_CSI2_DPHY;
++	config->bus.mipi_csi2.flags = 0;
++	config->bus.mipi_csi2.num_data_lanes = sensor->num_data_lanes;
++
++	return 0;
++}
++
+ static const struct v4l2_subdev_video_ops imx415_subdev_video_ops = {
+ 	.s_stream = imx415_s_stream,
  };
-
+@@ -1086,6 +1098,7 @@ static const struct v4l2_subdev_pad_ops imx415_subdev_pad_ops = {
+ 	.get_fmt = v4l2_subdev_get_fmt,
+ 	.set_fmt = imx415_set_format,
+ 	.get_selection = imx415_get_selection,
++	.get_mbus_config = imx415_get_mbus_config,
+ };
+ 
+ static const struct v4l2_subdev_ops imx415_subdev_ops = {
 -- 
-2.43.0
+2.39.1
 
 
