@@ -1,181 +1,161 @@
-Return-Path: <linux-media+bounces-26401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B149A3C33B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 16:13:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B12C6A3C3C5
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 16:37:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9425188FCC8
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 15:13:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 478DF3A9A96
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 15:36:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58C391F4183;
-	Wed, 19 Feb 2025 15:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 605271F8BC0;
+	Wed, 19 Feb 2025 15:36:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NFew1VZB"
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="i76W0ndt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5611DE3DB;
-	Wed, 19 Feb 2025 15:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944C41F8BCC;
+	Wed, 19 Feb 2025 15:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739977976; cv=none; b=UPLy0BGkB8SYnHm+AMM5ddwWAIlWL2Z83gGvSQs1NazVGXT9TW8UqNpu7mLigl0EpLQQcVKacvSJrxeYv7mnSRb7yARJ9x49f8ZwnkLblucd0/BU0rq7ia8fseAd3LN0jbaeVCc0w8xC8RwEiRcksqKdM2D0KKeiCsZENd11rTM=
+	t=1739979408; cv=none; b=NTe7cv9LhLu5zH8Cv6BWFFxgYVl+BLmVGURhPg556/aU44sQ+dIi4r1FkmnyehDBUbMMxFUpqv7hl6Brv9g3Q8txRJ2tlYqKv7sQY8sgDi4VavUW2HW5O3/VbYV2q8a9PVABWVAUaBsAGII+t3NDJ4ghcuRd3B3ezySYlYjQYdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739977976; c=relaxed/simple;
-	bh=29oxftSFXsmpDE4X4dZAZ6VvDZJaQKQuZeE68GZKBb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rk4uyUit+4Opqv1U/+PrpkAd1HzzL/bJKSd0/xdWGjuZ5QvOViZfoSFOM2H3nRFy0/0zOYglYr1ev4spmZURlxZ10UZ+ymHemhxjVXjtQ1x1CCrhsgYAbrFD/u+ZfIXccP2CPKAePaws2hFDYDFgliRAVkOiWtS2Uty4ThAmOa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NFew1VZB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 927F1169;
-	Wed, 19 Feb 2025 16:11:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739977889;
-	bh=29oxftSFXsmpDE4X4dZAZ6VvDZJaQKQuZeE68GZKBb8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NFew1VZBeE6rU09ufexPjt/w3BDgT0EVFy+yMXjoh5u+RfqjlewLGm3HoxddeHXSL
-	 X4p4SVEAUowkB79nOEF8IBmh03EqZYEd6/OERvSeYeBIOYieaL1wE9pYvTBnWLQW3X
-	 ooPtmh37zuZ0q2K1NeQiev2nHB78cbtdFmQgAoy8=
-Date: Wed, 19 Feb 2025 17:12:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Tommaso Merciai <tomm.merciai@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/8] media: dt-bindings: renesas,rzg2l-csi2: Document
- Renesas RZ/V2H(P) SoC
-Message-ID: <20250219151237.GB31825@pendragon.ideasonboard.com>
-References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
- <20250210114540.524790-3-tommaso.merciai.xr@bp.renesas.com>
- <20250214002951.GB8393@pendragon.ideasonboard.com>
- <20250219145139.GA2551711-robh@kernel.org>
+	s=arc-20240116; t=1739979408; c=relaxed/simple;
+	bh=oWWajixtlHPEE9PFDS//yTG8eD00WLGc+jcUF5caSKk=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=rMIXHHWWpuAv8mxZR19R1dUBc5TsxywlPflzw53VtlK/twX7YtVnsnhyDl1iuQirrmEsD8UYNKaoGfM9wzWP4tDf9wfOLt4JrmgQaWKKq0OCcN1HhnQo2IqO/g8vhwCILFhiZrKthTNkGB1XQMlXxd2CVe8WrS+4mGODsRZAo/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=i76W0ndt; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id A4A5B41EF0;
+	Wed, 19 Feb 2025 15:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1739979403;
+	bh=oWWajixtlHPEE9PFDS//yTG8eD00WLGc+jcUF5caSKk=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References;
+	b=i76W0ndt7R0fdW2YCSE3r1spun1yeZRuV/w3I70GnJAOje6cLjmNW98433Lsp1ksv
+	 PAzTB8VxQj9/UYbbJc04urECHsRIzu18/+mS9ea81cpuso9T1XEAFKFDUmOa8RRcc7
+	 E/dmjZLb2LPZYwu07I52yh99eojtZAEEzy9qPzna1Qrka2hkJPQ4mcvWimQpDSEoHp
+	 qg8I0sLMoCN6L/8uggRmes0lGUFgHgdZIERLJcE5y+1bbNnIgYWe9Hko4mx2i/f61X
+	 RN0zOC5s8GPEBveJDrEkIpMEVxBALGdchdJaNtzcfOlXr3+Uem4DL0rMV8+/t0hQVv
+	 p7wouJCPeJv5Q==
+Date: Wed, 19 Feb 2025 16:36:41 +0100
+From: Asahi Lina <lina@asahilina.net>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Hector Martin <marcan@marcan.st>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-media@vger.kernel.org, imx@lists.linux.dev
+Subject: Re: [PATCH 3/5] media: dt-bindings: Add Apple ISP
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CAMT+MTToVdm72ovNZ8ySySYe5fT99a0Y6bv02NKxADCBCe+pMQ@mail.gmail.com>
+References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com> <20250219-isp-v1-3-6d3e89b67c31@gmail.com> <16f6d4a2-2102-48b9-a0ae-b8c6595975b8@kernel.org> <CAMT+MTR7dhtt3SOMg0K3UakJQftqnc2S-rV41HdHtA+o9aSPug@mail.gmail.com> <20250219105326.GA31383@pendragon.ideasonboard.com> <CAMT+MTToVdm72ovNZ8ySySYe5fT99a0Y6bv02NKxADCBCe+pMQ@mail.gmail.com>
+Message-ID: <252808F9-D1DA-4233-A878-5C47595302A6@asahilina.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250219145139.GA2551711-robh@kernel.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 19, 2025 at 08:51:39AM -0600, Rob Herring wrote:
-> On Fri, Feb 14, 2025 at 02:29:51AM +0200, Laurent Pinchart wrote:
-> > Hi Tommaso, Prabhakar,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Mon, Feb 10, 2025 at 12:45:34PM +0100, Tommaso Merciai wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > 
-> > > The MIPI CSI-2 block on the Renesas RZ/V2H(P) SoC is similar to the one
-> > > found on the Renesas RZ/G2L SoC, with the following differences:
-> > > - A different D-PHY
-> > > - Additional registers for the MIPI CSI-2 link
-> > > - Only two clocks
-> > > 
-> > > Add a new compatible string, `renesas,r9a09g057-csi2`, for the RZ/V2H(P)
-> > > SoC.
-> > > 
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > ---
-> > >  .../bindings/media/renesas,rzg2l-csi2.yaml    | 63 ++++++++++++++-----
-> > >  1 file changed, 48 insertions(+), 15 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > > index 7faa12fecd5b..0d07c55a3f35 100644
-> > > --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> > > @@ -17,12 +17,15 @@ description:
-> > >  
-> > >  properties:
-> > >    compatible:
-> > > -    items:
-> > > -      - enum:
-> > > -          - renesas,r9a07g043-csi2       # RZ/G2UL
-> > > -          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
-> > > -          - renesas,r9a07g054-csi2       # RZ/V2L
-> > > -      - const: renesas,rzg2l-csi2
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - enum:
-> > > +              - renesas,r9a07g043-csi2 # RZ/G2UL
-> > > +              - renesas,r9a07g044-csi2 # RZ/G2{L,LC}
-> > > +              - renesas,r9a07g054-csi2 # RZ/V2L
-> > > +          - const: renesas,rzg2l-csi2
-> > > +
-> > 
-> > I'd drop the empty line.
-> > 
-> > > +      - const: renesas,r9a09g057-csi2 # RZ/V2H(P)
-> > >  
-> > >    reg:
-> > >      maxItems: 1
-> > > @@ -31,16 +34,24 @@ properties:
-> > >      maxItems: 1
-> > >  
-> > >    clocks:
-> > > -    items:
-> > > -      - description: Internal clock for connecting CRU and MIPI
-> > > -      - description: CRU Main clock
-> > > -      - description: CRU Register access clock
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - description: Internal clock for connecting CRU and MIPI
-> > > +          - description: CRU Main clock
-> > > +          - description: CRU Register access clock
-> > > +      - items:
-> > > +          - description: CRU Main clock
-> > > +          - description: CRU Register access clock
-> > >  
-> > >    clock-names:
-> > > -    items:
-> > > -      - const: system
-> > > -      - const: video
-> > > -      - const: apb
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - const: system
-> > > +          - const: video
-> > > +          - const: apb
-> > > +      - items:
-> > > +          - const: video
-> > > +          - const: apb
-> > 
-> > I would move the clocks and clock-names definitions to the conditional
-> > below. Otherwise I think a device tree that has two clocks only but
-> > incorrectly uses "system" and "video" instead of "video" and "apb" will
-> > validate.
-> 
-> No, that wouldn't be allowed. The preference is to have it like this 
-> because it discourages creating more variations. If the names are all 
-> defined in if/then schema, then you can just add a new one with any 
-> names you want. Though if the variations become such a mess, then 
-> defining them in the if/then schemas would probably be better.
-> 
-> It would be better if 'clocks' could be reworked to avoid the 'oneOf' 
-> though (oneOf == poor error messages). It just needs a 'minItems: 2' 
-> added and the descriptions reworded for both cases.
+On February 19, 2025 12:05:29 PM GMT+01:00, Sasha Finkelstein <fnkl=2Ekerne=
+l@gmail=2Ecom> wrote:
+>On Wed, 19 Feb 2025 at 11:53, Laurent Pinchart
+><laurent=2Epinchart@ideasonboard=2Ecom> wrote:
+>> >
+>> > Those are board-specific and not discoverable via the ISP protocol=2E
+>>
+>> But they are settable through the ISP protocol, aren't they ? For
+>> instance, looking at isp-imx248=2Edtsi, the first four entries are
+>>
+>>         /* 1280x720 */
+>>         preset0 {
+>>                 apple,config-index =3D <0>;
+>>                 apple,input-size =3D <1296 736>;
+>>                 apple,output-size =3D <1280 720>;
+>>                 apple,crop =3D <8 8 1280 720>;
+>>         };
+>>
+>>         /* 960x720 (4:3) */
+>>         preset1 {
+>>                 apple,config-index =3D <0>;
+>>                 apple,input-size =3D <1296 736>;
+>>                 apple,output-size =3D <960 720>;
+>>                 apple,crop =3D <168 8 960 720>;
+>>         };
+>>
+>>         /* 960x540 (16:9) */
+>>         preset2 {
+>>                 apple,config-index =3D <0>;
+>>                 apple,input-size =3D <1296 736>;
+>>                 apple,output-size =3D <960 540>;
+>>                 apple,crop =3D <8 8 1280 720>;
+>>         };
+>>
+>>         /* 640x480 (4:3) */
+>>         preset3 {
+>>                 apple,config-index =3D <0>;
+>>                 apple,input-size =3D <1296 736>;
+>>                 apple,output-size =3D <640 480>;
+>>                 apple,crop =3D <168 8 960 720>;
+>>         };
+>>
+>> But I may be interested in capturing a 640x480 frame with cropping only
+>> and without scaling, with
+>>
+>> input-size =3D 1296x736
+>> output-size =3D 640x480
+>> crop =3D (328,128)/640x480
+>>
+>> Or I may want my cropped frame to be located in the upper-left corner:
+>>
+>> input-size =3D 1296x736
+>> output-size =3D 640x480
+>> crop =3D (8,8)/640x480
+>>
+>> If I set those parameters through the ISP protocol, won't it work ?
+>>
+>> --
+>> Regards,
+>>
+>> Laurent Pinchart
+>
+>For cropping - you do not want to change those parameters, the sensor
+>is partially occluded, and the crop area is specified in such a way
+>to not expose those pixels=2E As for scaling - we can expose only the 1:1
+>scale and let userspace deal with it, but it appears that it expects
+>the other common output sizes to exist=2E
+>
+>
 
-Don't the items in clocks need to match the items in clock-names ? We
-can't reorder clock-names items as that would be an ABI breakage, so we
-can't reorder clocks items either.
+The square sensor with the hack is the IMX558=2E The configs there are act=
+ually a workaround for missing ANE support=2E
 
--- 
-Regards,
+What the driver is supposed to be doing is using the higher numbered prese=
+ts, which crop internally and exclude the occluded area=2E But those on mac=
+hines with that sensor end up requiring ANE integration for denoising and I=
+SP crashes without it=2E
 
-Laurent Pinchart
+Config #0 doesn't use ANE, so the crops are re-creations of the other conf=
+igs so it behaves the same minus the denoising=2E
 
