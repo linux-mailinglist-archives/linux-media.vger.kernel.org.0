@@ -1,55 +1,58 @@
-Return-Path: <linux-media+bounces-26404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26405-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82489A3C6C6
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 18:53:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25214A3C7C4
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 19:39:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F6331881D35
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 17:53:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E7253ADBF1
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 18:36:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26CB4214800;
-	Wed, 19 Feb 2025 17:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05FA721481B;
+	Wed, 19 Feb 2025 18:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Ls6dW2V6"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="KOunV8es"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCF11FECAE;
-	Wed, 19 Feb 2025 17:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739987574; cv=none; b=ZpsR6rB2/qP9oOA0Mt7SMC7H4MdYZkEQqnyokBG+Fi308hK/EoyecZTlDE4uqdrElSk9pu0TKWZ8cCNek6C45PrbjvLm+sFKopkg79+OEGqYlt84MOTbSuXSGAesy+N1FoOreuWCUjrfAsyLjRzC/86YWYFglfAE9/DjsI/tx6Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739987574; c=relaxed/simple;
-	bh=dlmR4Na0OX/qKkccPY4vem3xExkWHBIdlfSNvg2r00g=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=XEgHa+YR1yG5YuLnHYiOQaOuDoL/ShIl1Fn54kABgTismeowt3A8yBkpLjXeZugpCuMVlgZ0fXhHgbTR1K/DM2dQRdsw38qwHItt1IpsJG6IpCDYgZnubBnKjv8s5hNnRQcbi9KuzsMibteGvIv4+t636lqD4XYCnc4/aROUOWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Ls6dW2V6; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1739987519; x=1740592319; i=markus.elfring@web.de;
-	bh=2GFYDHqlQzpJl9rL6j0rWVOfQYmcKGDAiJjmIMqNelc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Ls6dW2V6JhYAwKGdHgNr/DTHAWjJwlQtCquFJT2nKaDxW63cQO2iesbwNIF6O2KU
-	 h+qFPye0rWU9F4QJpcdy3Ts8TgkjDCyoEDFJOEhIclyUYD2C+ASKBxsvjv9YYgtgg
-	 o7NUpTaChyQpJLl1unnJiNxJZg40gdpjL/24NHpi3Y8hgHIvsdzLpNjCucxN5c600
-	 2npkcTUTGfHhb2ZY2mNafQniwFHAZMfm4YiXQv/3doE2hIUykkoJtD5fPMfk3SozG
-	 Tqswrfd0wvMLtRewFipCtbIMX8whVvnQoQsvL+8kRI4lKy38OkxJZZBt5jvnvZIeX
-	 yeLOEHpRbUWcWCPyvQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.10]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MCGSU-1tbUZ30T2o-00EK2P; Wed, 19
- Feb 2025 18:51:59 +0100
-Message-ID: <c929975d-6928-4161-b062-64636a4f278e@web.de>
-Date: Wed, 19 Feb 2025 18:51:51 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7914D286284;
+	Wed, 19 Feb 2025 18:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739990202; cv=pass; b=FsauBOoVHX0kb73kQ5B2a2lfBoXjelHSk+qxHiuMg2NkRRXb5Xkg7creyjXuH/Wt8d2hOZwvDXDeh+keyeFNvhIi2OQ3/TXrE/GeoqetP/Io55gn+4Mc90nq96tRYGyEZd/KmZ5zI0zHSF/s5j1ORE7+IlnDfmKWHha0HP2hfCA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739990202; c=relaxed/simple;
+	bh=TsUixF9mIv/35vEeja6Bk/sYddab6SYJhgJi5S2YhrA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Sd/AsQUb0hucGewHjBjqx66erZfyGdDXGQNWH7zjzcYyUMzGrGEQlIqijwRtu4hnCPW4JObVLwFyGZ9xpoFg1v3wNuuvY/x6Nz0ZAvPFWfNXBgz4Bb2SZwYcvVNgihh9tyJjUC8U1mooR3sX2JoRmP71YjXvXJfVqS+dpG6Nti8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=KOunV8es; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1739990144; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=gYnkSY7/jVSezHnWDffS2tNP3fqZwhApKxOUK0q6i6dOUFv72iitGi1VcQLsiEjlPwv4dcJJiXf6UNyjLA7PXXIyAnsA2jJeyAbBoCMzrupFutLd7IWeE5iJVBmMXnd6q8CWtUha8EgN6EJl6fkPX1TIZZnppjp6DhLc8hw5Ols=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1739990144; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=tIsfIrSG8Z3x+sFuGOSs6OyFacOIgUXadmEso+KA17k=; 
+	b=XgC2wxMT1phAWHbJ30TF4r2eoSbncZRC2RE8KS/xwZXFpbfmb7jN1kfk5EMECDmjXQbaq9LBvgkiEYV8hF8CIidoz+a8qSI6p9juN3HaXUsdFHUOc9yFJwYsCp2MjirCTghH2cn7wsrplGS23LEAS61alKEHFyJEerDwkQn+7x0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739990144;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=tIsfIrSG8Z3x+sFuGOSs6OyFacOIgUXadmEso+KA17k=;
+	b=KOunV8esVfnnMFXE3vjufoybEmlveiO6sMy+CNBOSH2/IYxmExzPNKNUYjx2Rt92
+	C8snIxuIISrZZCgFE5O800gUgQxwHQNz2sfwz/PBaHaOwstqaHTTPAJPIdyybgEht36
+	Bv1Sn1LqB7v+teUCxMWrY7xOpXf1v2ehaFKravvo=
+Received: by mx.zohomail.com with SMTPS id 1739990142683136.66201924766733;
+	Wed, 19 Feb 2025 10:35:42 -0800 (PST)
+Message-ID: <3fcdbd35-9ff2-4159-8076-98eefd6ed8c7@collabora.com>
+Date: Wed, 19 Feb 2025 21:35:36 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,106 +60,217 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Sebastian LaVine <slavine@d3embedded.com>,
- Stuart Burtner <sburtner@d3embedded.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel@pengutronix.de,
- Abel Vesa <abel.vesa@linaro.org>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Ard Biesheuvel <ardb@kernel.org>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Bjorn Andersson <quic_bjorande@quicinc.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Conor Dooley
- <conor+dt@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
- Fabio Estevam <festevam@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Javier Carrasco <javier.carrasco@wolfvision.net>, Jianzhong Xu <xuj@ti.com>,
- Julien Massot <julien.massot@collabora.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Kory Maincent <kory.maincent@bootlin.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mikhail Rudenko <mike.rudenko@gmail.com>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Nishanth Menon <nm@ti.com>, Rob Herring <robh@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Spencer Hill <shill@d3engineering.com>, Tero Kristo <kristo@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>, Vaishnav Achath
- <vaishnav.a@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Will Deacon <will@kernel.org>, Zhi Mao <zhi.mao@mediatek.com>
-References: <20250212195656.69528-3-slavine@d3embedded.com>
-Subject: Re: [PATCH 2/4] media: i2c: Add driver for Sony IMX728
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250212195656.69528-3-slavine@d3embedded.com>
+Subject: Re: [PATCH v7 4/6] media: platform: synopsys: Add support for HDMI
+ input driver
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
+ <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, jose.abreu@synopsys.com,
+ nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
+ nicolas.dufresne@collabora.com,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: kernel@collabora.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>
+References: <20250218184439.28648-1-dmitry.osipenko@collabora.com>
+ <20250218184439.28648-5-dmitry.osipenko@collabora.com>
+ <f32a0011-1653-48dd-9061-047f9009310b@xs4all.nl>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <f32a0011-1653-48dd-9061-047f9009310b@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:UWazyhhgLJErNLDk5cBHjE48IdmfMZl8bvuL5WGtFrLv7QPsGnV
- xjhR0feAbp68V6Z3PT/3/ImwcTznMRu9DAvUPD6DCggY0RbYRSY14gzXfxMaC+EuFD8AXmW
- B0D2Joi7xZMmkZvzIU4foa3mUl8raYFA/0nlrHD0vjV9T8qDORZBB1aXaf6XANrszKwUIN6
- v+rFLWtUXoW68aPdcecog==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:lPNuBB8wTIQ=;iBOV+TkYE/qZL4SzQiFuEJC5f3Z
- tITcdP7QCl52zwd+QpvMmDFB4zEfWKmFcWiijEKOFYMHJ3WCeFpE8s2+cMqywIUAPLfy/h8Rb
- KgdOFeFxjh1vnEeNjFB6sdTNdajlUVi7O2pST6N43G2fE5GEtwqB+CJ3Vhdvldnbkp5Vx7SFQ
- 4hIOLQn9cDVj3JhvogOh8dFfLFq6kqzsSZ27XWMzJOoNPh9s2cKl2czqywDb8RfIF0liYIrgK
- FuJK/ExanfdV2omcDTTnwJEzxWL6v4CdVxChCR1UyHPisF5UL6umEYaI7mgJ5WK56FFBvXORB
- kCYCJQIwfJA85p33j8uRvvRxrGzQMC2NdDMlaUQm86Jj697ohFvVw4LCHzdC3mB+z+ljPCx3E
- hOqrTAsxmG+W+A6rvc0HG8CctPsUiomTQQacTXGMQXgrOO7qzDq7yPaQlG5cUqYZoSu2HXTRh
- VbE1ygM6VzsgHuOr1RUBVCX1BTkT7uR+fhiyZ+MkdUG3K9r9h/Wdx/zDBbVVBbgoqF0rVVVnV
- /Gbp49BgrwCrhK3UhdXaQ7fzqSfUt5/mcOK5hIENzfIMmAdkADg18h9loJBmLm1HlJ/maaM5u
- STe0CAGjQai498NGHY8pQvGoJswriXRBvhyca/NLka7IsXheqgZeEkV+k4ObGxStK8McJ7FYF
- Hmil4pmIcDJos8LU6xWcQXx8mNzi69u/M/MFtXAiF53d7ELxoNzIAlFrB5JSIVFUUXsRwe/8L
- d6cs6QOlAuds9cfAp5JjlTYXYifGUomc0hct9Lcxc8N9YPkQOVXF51j/vku3xh2CzSXiQWjQs
- etEXrJyJjifpTzmuFFXtYKrrXRVK0ArVq29OH/8JYYxEiPqXWtZH667tjb23sfPnWIOtDqnb5
- mCMX8zGzowpd7VKElSowTEcGC2/xoWXstOIbhMzTo3PhN/k7Ka1CLMPBkX8Bi2/JjMKjEOGS4
- gEZY7M7XFk6jyDalb2MsqFTrF45FWEvlztm3umru5dQA7dRl24B4+RWtiogreiaeTCTsA42jl
- 6lZE6NThPiKp955LeGXd1exxpUymWGFvPZ5mz5X/DSPO0pf6N+71srsQd62OwuHP6YlNusRb1
- 4MWIwjNECl9pbOZ5dZ5ag6Z7QhuFS+wozJkgi36tpA2HX/uxZCsI7SqZ58cCjS9Jt8QZ4FRtx
- Q+OIRAXIFtuSEFMH0zOF4fo5XiQ4qTczKTwcEHeqk/Iq/5RGIxLWJGYsaS8xvyYd0blIUsSGU
- nyqTs720/yeYI+3X86RiS44fJaQ9aFzPCwkv48nBaiXVtXEsS8c2o6aDr0osUwYIfIaYar8h1
- N3tU+nE3mg3fkhe6YvJAwKJZIgXA1UG1uFsMwdK9oiNjcJQSsx/h3OBQ8ygkFEYgbaNZWPHyJ
- 1XRAQStkyXq60TUULOAYf5oxcvPtPe0vf/Jmr/at5qE0y2sqvmeU3Ra2g6AdIvcaDH/QwYqYL
- cuIgYfa6Wqlv498T/zfjVg5kujRU=
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-> Adds a driver for the Sony IMX728 image sensor.
+Hi Hans,
 
-See also:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.14-rc3#n94
+Thank you very much for the review!
 
+On 2/19/25 12:11, Hans Verkuil wrote:
+> Hi Dmitry,
+> 
+> More review comments. Some are trivial, but the real problem is that the 5V/HPD
+> handling is really confusing and, from what I can tell, incorrect in places.
+> 
+> I suspect that there are some misunderstandings on how this is supposed to
+> work. I've tried to explain it in my comments, but feel free to contact me if
+> anything is still unclear.
+> 
+...
+>> +#define EDID_NUM_BLOCKS_MAX				2
+> 
+> Is this indeed the maximum number of supported EDID blocks?
+> These days 4 EDID blocks is typically the maximum. If the hardware
+> supports it, then I recommend implementing support for 4 EDID blocks.
+> 
+> If it really only supports 2 blocks, then add a comment stating that
+> this is a HW limitation.
 
-=E2=80=A6
-> +++ b/drivers/media/i2c/imx728.c
-> @@ -0,0 +1,9655 @@
-=E2=80=A6
-> +static int imx728_set_stream(struct v4l2_subdev *sd, int enable)
-> +{
-> +       struct imx728 *imx728 =3D to_imx728(sd);
-> +       int ret;
-> +
-> +       mutex_lock(&imx728->lock);
-=E2=80=A6
-> +       __v4l2_ctrl_grab(imx728->ctrl.v_flip, enable);
-> +
-> +       mutex_unlock(&imx728->lock);
-=E2=80=A6
+Good catch. Hardware supports 4 EDID blocks, will change in v8.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&imx728->lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.14-rc3/source/include/linux/mutex.h#L2=
-01
+...
+>> +static int hdmirx_subscribe_event(struct v4l2_fh *fh,
+>> +				  const struct v4l2_event_subscription *sub)
+>> +{
+>> +	switch (sub->type) {
+>> +	case V4L2_EVENT_SOURCE_CHANGE:
+>> +		if (fh->vdev->vfl_dir == VFL_DIR_RX)
+> 
+> This is weird, the direction is always RX, so can't you just drop this test?
 
-Regards,
-Markus
+Suppose this code was copied from another driver, will drop.
+
+...
+>> +static int hdmirx_set_edid(struct file *file, void *fh, struct v4l2_edid *edid)
+>> +{
+>> +	struct hdmirx_stream *stream = video_drvdata(file);
+>> +	struct snps_hdmirx_dev *hdmirx_dev = stream->hdmirx_dev;
+>> +	u16 phys_addr;
+>> +	int ret = 0;
+>> +
+>> +	if (edid->pad)
+>> +		return -EINVAL;
+>> +
+>> +	if (edid->start_block)
+>> +		return -EINVAL;
+>> +
+>> +	if (edid->blocks > EDID_NUM_BLOCKS_MAX) {
+>> +		edid->blocks = EDID_NUM_BLOCKS_MAX;
+>> +		return -E2BIG;
+>> +	}
+>> +
+>> +	hdmirx_disable_irq(hdmirx_dev->dev);
+>> +
+>> +	if (!edid->blocks) {
+>> +		cec_phys_addr_invalidate(hdmirx_dev->cec->adap);
+>> +		hdmirx_dev->edid_blocks_written = 0;
+>> +
+>> +		hdmirx_dev->hpd_pull_low = true;
+>> +
+>> +		if (tx_5v_power_present(hdmirx_dev))
+>> +			hdmirx_plugout(hdmirx_dev);
+>> +		else
+>> +			hdmirx_hpd_ctrl(hdmirx_dev, false);
+>> +	} else {
+>> +		phys_addr = cec_get_edid_phys_addr(edid->edid,
+>> +						   edid->blocks * 128, NULL);
+>> +		ret = v4l2_phys_addr_validate(phys_addr, &phys_addr, NULL);
+>> +		if (ret)
+>> +			goto out;
+>> +
+>> +		if (tx_5v_power_present(hdmirx_dev))
+>> +			hdmirx_plugout(hdmirx_dev);
+>> +
+>> +		hdmirx_dev->hpd_pull_low = false;
+>> +		hdmirx_hpd_ctrl(hdmirx_dev, false);
+>> +		hdmirx_write_edid(hdmirx_dev, edid);
+>> +	}
+>> +out:
+>> +	hdmirx_enable_irq(hdmirx_dev->dev);
+> 
+> The way the HPD is handled is really confusing in the code. I had to dig through
+> the driver code to discover that the HPD is enabled via hdmirx_enable_irq(). But
+> normally interrupts have nothing to do with the HPD.
+> 
+> The HPD is really only controlled by whether there is an EDID or not, and optionally
+> whether 5V is high or not. The only reason for pulling the HPD low if 5V is low is
+> to save a bit of power: if nothing is connected, then there is no need to pull the HPD
+> high, after all, nobody is listening to it.
+> 
+> But this is typically entirely separate from interrupts.
+> 
+> The 5V decides whether there is a video source or not, so if it goes low, then you
+> stop streaming. The HPD tells the video source if there is an EDID or not. But that
+> is independent of video streaming. Updating the EDID while the source is sending
+> video shouldn't interrupt video capture. Most likely the source will detect an EDID
+> change, parse the new EDID and then it might decide to stop streaming and reconfigure,
+> or just continue streaming.
+> 
+> The code feels like you are trying to be smart, when it is really just a fairly
+> dumb mechanism.
+> 
+> I think this should be rewritten, unless there are some odd hardware constraints.
+> In which case that should be documented.
+
+Thanks a lot for the clarification! The HPD logic was borrowed from the downstream driver, will try to change it for v8. I'm not aware about hardware constraints and TRM suggests that driving HPD seprately from 5v should work fine, will see how it will work in practice.
+
+...
+>> +static int hdmirx_g_parm(struct file *file, void *priv,
+>> +			 struct v4l2_streamparm *parm)
+>> +{
+>> +	struct hdmirx_stream *stream = video_drvdata(file);
+>> +	struct snps_hdmirx_dev *hdmirx_dev = stream->hdmirx_dev;
+>> +	struct v4l2_fract fps;
+>> +
+>> +	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+>> +		return -EINVAL;
+>> +
+>> +	fps = v4l2_calc_timeperframe(&hdmirx_dev->timings);
+>> +	parm->parm.capture.timeperframe.numerator = fps.numerator;
+>> +	parm->parm.capture.timeperframe.denominator = fps.denominator;
+> 
+> You can just write:
+> 
+> 	parm->parm.capture.timeperframe = v4l2_calc_timeperframe(&hdmirx_dev->timings);
+
+Ack
+
+...
+>> +static void hdmirx_plugin(struct snps_hdmirx_dev *hdmirx_dev)
+>> +{
+>> +	hdmirx_submodule_init(hdmirx_dev);
+>> +	hdmirx_update_bits(hdmirx_dev, SCDC_CONFIG, POWERPROVIDED,
+>> +			   POWERPROVIDED);
+>> +	hdmirx_hpd_ctrl(hdmirx_dev, true);
+> 
+> Just because the 5V appeared, it doesn't mean that the HPD should
+> go high. That depends on whether there is an EDID or not.
+> 
+> As I said above, the whole 5V/HPD handling seems confused in this driver.
+
+In v6 I added 'hpd_pull_low' variable that force-disables HPD if there is no EDID. Hence, this hdmirx_hpd_ctrl() call doesn't enable HPD without EDID. I'll remove this call in v8 if driving HPD independently from 5v status will work fine.
+
+static void hdmirx_hpd_ctrl(struct snps_hdmirx_dev *hdmirx_dev, bool en)
+{
+...
+	if (hdmirx_dev->hpd_pull_low && en)
+		return;
+        ^^^^
+
+...
+>> +static void hdmirx_delayed_work_res_change(struct work_struct *work)
+>> +{
+>> +	struct snps_hdmirx_dev *hdmirx_dev;
+>> +	bool plugin;
+>> +
+>> +	hdmirx_dev = container_of(work, struct snps_hdmirx_dev,
+>> +				  delayed_work_res_change.work);
+>> +
+>> +	mutex_lock(&hdmirx_dev->work_lock);
+>> +	plugin = tx_5v_power_present(hdmirx_dev);
+>> +	v4l2_dbg(1, debug, &hdmirx_dev->v4l2_dev, "%s: plugin:%d\n",
+>> +		 __func__, plugin);
+>> +	if (plugin) {
+>> +		hdmirx_interrupts_setup(hdmirx_dev, false);
+>> +		hdmirx_submodule_init(hdmirx_dev);
+>> +		hdmirx_update_bits(hdmirx_dev, SCDC_CONFIG, POWERPROVIDED,
+>> +				   POWERPROVIDED);
+>> +		hdmirx_hpd_ctrl(hdmirx_dev, true);
+>> +		hdmirx_phy_config(hdmirx_dev);
+>> +
+>> +		if (hdmirx_wait_signal_lock(hdmirx_dev)) {
+>> +			hdmirx_plugout(hdmirx_dev);
+> 
+> plugout() pulls the HPD low, but why? That has nothing to do with the signal lock.
+> 
+> You need to take a good look at the 5V/HPD handling, this isn't right.
+> 
+> Feel free to ask questions if you are not clear on how it should behave.
+
+Again thanks a lot for the review, very appreciate! Will contact you if will become necessary.
+
+-- 
+Best regards,
+Dmitry
 
