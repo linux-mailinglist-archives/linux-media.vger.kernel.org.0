@@ -1,357 +1,108 @@
-Return-Path: <linux-media+bounces-26358-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26359-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE16A3BD02
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 12:36:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7631FA3BD69
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 12:49:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E4A4173F12
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 11:35:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1D2F3B85A0
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 11:47:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE6AA1DF737;
-	Wed, 19 Feb 2025 11:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C36BE1DF26E;
+	Wed, 19 Feb 2025 11:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="qOOdExDL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oN02PbD1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ofpzvn79"
 X-Original-To: linux-media@vger.kernel.org
-Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968FA1D88D7;
-	Wed, 19 Feb 2025 11:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4949286291;
+	Wed, 19 Feb 2025 11:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739964871; cv=none; b=SuB3PLI3Sf5w1tvP/DrBaa2nMv59rT+l8xX2dJdvOidJkjcXcpKKPmg0JbpQn6pYCjgnQp8rwZlai66MFfv6F4y7XRsKMZ3AoiuorzY8vbPPQ9MkID3qZOYOpwiY6QvoWTmNHURJ2zm/hfxalLWOUo6Qz1w86dEXGqU63k1x6z8=
+	t=1739965633; cv=none; b=CPUh0OAhlfIANePLZnZQBXsBLc5g9Rqy07XEttXQK8qZ3X8UctFn3NemSspyS7gRNsqqa4JvN0bsRYcyUujTjfOfUSFOZwtfCwkRwKxarQ7nYFyAf5DkGAWXRqgR0ZeREPpsUMjAlYw3nD7CV7OTF2JK7oBgFEf3UznjguUqjTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739964871; c=relaxed/simple;
-	bh=ZKFJCSUhaRPnsN8qScYBCMA8IrkgHkfPq42YAQBpoCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=smVI44VEHin0p+5eYVQtRIuqj/gPPVeDHNbMVhy8t0dD1gvh2GBytrTccbW4xlwc3QhTB1Fd3WxGeY83BZJ5rg+H+ySxzbN/oRIkuVf8iU0Bcd3fRhuxa22GTrhBsLXbApNWWYJx/Nl8xc+fna64OS5Zwpvgcipk6vEUo3Sbwek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=qOOdExDL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oN02PbD1; arc=none smtp.client-ip=103.168.172.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailflow.phl.internal (Postfix) with ESMTP id 7C624201775;
-	Wed, 19 Feb 2025 06:34:26 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Wed, 19 Feb 2025 06:34:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1739964866; x=1739972066; bh=4Nqfbpvtsx
-	rCpCAe9ieHrcp2u9odpK5GUYTz6e9Gvcw=; b=qOOdExDLXjjPMISghsMmokH//H
-	pKMd4eMzxrx0ZyY9vtzoTtByFkET7JXrDWbYDO1oK30VKmu59aQj4aGg3YUvDEuA
-	9YUhZAe+3IgZz9yeE1P+JhA/RctHgTXCHL2f/G/vg8euOlTf6iQBfPOgksaaNwW9
-	ZKzAKzkQ6D6oZKl1gPiOWaKeedYWpHJNRQuL1Frrs36NoYbPTA8u/6IwnugxjWyt
-	RBJcgiSiwkRbis/sq/GbmKGN35f5CdiQ2L7OieaTqPWqXOfMgHANVEBFaeWyXnrA
-	tKH5ggRelCim2M+WuAuvnF22o3ENaw+is0G7wCP1mEZ1GfkjmF0euIh0lh0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1739964866; x=1739972066; bh=4NqfbpvtsxrCpCAe9ieHrcp2u9odpK5GUYT
-	z6e9Gvcw=; b=oN02PbD1tshBdOaahZD3IZQHyU/P2zULLig6Xe6xg3mCwRBwAqT
-	4uoHxs+F4Tu1TNRf6GI4fa5mbiekOg+95YkaHxUi2Aq3cOZnHGOXVUM4Cf/zMg03
-	k+MZpjiCMED/sPwXMgQYqf7WsLGn2ViB7av7ZnE2LfAikXdjLQeAef7LrbNLp8en
-	F4G3x8IEEO4y6ko9syjeMiy3PLPWj7bKI+fO6UNYzt9DH9ZQfQMwTWWUE0kStlKH
-	PLU4wwrE6RzZAknyGgOwP/+v7LrkUJHG5X0YAc140VWErOY8BjDxy41ieMdiEWUX
-	rcR+p+tbqlkUG7HklvfNJKx+G2Cji3mkbHw==
-X-ME-Sender: <xms:wMG1Z1x1BEozbmwDrSZZpuNwd5qkTqSqWXy9b4GoBI8G8U9cur3m5Q>
-    <xme:wMG1Z1S8HMZDIizVqpZsQaqSlDCgD5IMOy9dQbNC-WQJKi8hmJz7GVvPocro4pcPj
-    STDKX8ux_daKLz5IUA>
-X-ME-Received: <xmr:wMG1Z_X_P5jXN9xGnJ7iFDfsyUxScsOHA-VRKExjY9iQHYeTve_g0hfzOCdx3gnaSRuLDtm5AKVvC-89LgtQD67uXYQyqaSlHFo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigedugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
-    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
-    cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
-    tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedvvddpmhhouggv
-    pehsmhhtphhouhhtpdhrtghpthhtohepfhhnkhhlrdhkvghrnhgvlhesghhmrghilhdrtg
-    homhdprhgtphhtthhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdprhgtphhtthho
-    pegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehrohgshheskh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hmrghrtggrnhesmhgrrhgtrghnrdhsthdprhgtphhtthhopehulhhfrdhhrghnshhsohhn
-    sehlihhnrghrohdrohhrghdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdroh
-    hrgh
-X-ME-Proxy: <xmx:wMG1Z3iF9QNbhjo-8PX3LKCQwuAF6-JBImBeIIG-PzD5YPrA6eLnXg>
-    <xmx:wMG1Z3BoV5xeMZoy3kxKRf-pez8JyeaqatcOxJ_uuiiD7K_GnJrJDQ>
-    <xmx:wMG1ZwK0MgHxmIWva-dMZ8fuT7rXwWLyLL_H2o7pFd9TaB7HrfHeXw>
-    <xmx:wMG1Z2ACxjCWiBGuIS0A3JIqY-BRzRIA9SNMZjIJ6EDayyFKDT3exA>
-    <xmx:wsG1Z-UCoOJaVt1XhwvLDMi3csvUhUXsVBcUYf5_CQBTD-6EMfwPTspR>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Feb 2025 06:34:24 -0500 (EST)
-Date: Wed, 19 Feb 2025 12:34:22 +0100
-From: Janne Grunau <j@jannau.net>
-To: fnkl.kernel@gmail.com
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-media@vger.kernel.org, imx@lists.linux.dev,
-	Eileen Yoon <eyn@gmx.com>, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH 4/5] media: apple: Add Apple ISP driver
-Message-ID: <20250219113422.GA26386@robin.jannau.net>
-References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com>
- <20250219-isp-v1-4-6d3e89b67c31@gmail.com>
+	s=arc-20240116; t=1739965633; c=relaxed/simple;
+	bh=Retzvs5vG+5gFRyDruhBMUVBksDT2ovoZ/r3ZucKP5g=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fnaF/1ZHm6TVRxWHKC0HJ/9cNqmcn+SD9qNnsH2ArJvForQ0H73qTq87rVfmJS5YpbyQpwmpCtOewGwqZCEQ+JILsD1ALTIaBxiMkxxtK846aXkvHOxcgEFrAkWTDmtc0CFS6jeOdO9VVIaCgZIRRduai9NKRTa1fU3+cewku/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ofpzvn79; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:4abb:6de5:9248:813e:8db3])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6153C169;
+	Wed, 19 Feb 2025 12:45:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1739965546;
+	bh=Retzvs5vG+5gFRyDruhBMUVBksDT2ovoZ/r3ZucKP5g=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Ofpzvn790t22Shr0jgetdByg5893wOjF6kiUYBWoa8hv5iP2uWlzYUA4tfTNiqJrz
+	 Ay9NjncRsS33MDGZZPIucvxKe0Pkd86Un9i0jRNbioSwWDGGlcpeDNJ5XIaLwdv1Up
+	 NR5D3h2qG7dPlqKMCA7TX1od4t/tbPR8IAk052UA=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: [PATCH 0/3] media: i2c: imx219: Follow-up on binning fixes
+Date: Wed, 19 Feb 2025 17:16:42 +0530
+Message-Id: <20250219-imx219_fixes_v2-v1-0-0e3f5dd9b024@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250219-isp-v1-4-6d3e89b67c31@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKLEtWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDI0NL3czcCiAVn5ZZkVocX2aka2pskWphmWKeZGluogTUVVCUCpYDaoq
+ Ora0FANeYUT9hAAAA
+X-Change-ID: 20250219-imx219_fixes_v2-538e89d7b974
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=896;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=Retzvs5vG+5gFRyDruhBMUVBksDT2ovoZ/r3ZucKP5g=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBntcS1tpfQR6Rw2IanXtksRVlnhr+t2p1A6fP2f
+ vWl5Yg+9ECJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ7XEtQAKCRBD3pH5JJpx
+ Rap4EACiOY44LjpZux/1efR1mhYAvEd/KMgHeMDDv37027ZCiJNiiPLKBGBhzLsx8drNKVdWOY3
+ xes17sAELzOKw2W0vTi4rNypQ9NkGkZEYX7lL8nX8BFCzNuQ5Hy59egOvkUZwowgwP8txKSdD9r
+ fhJVPUlQFT/MRIDLOyB2wRSWvY58zsdGpmTan9wJFk1gzQVV/JGE/oV1hTKhBQ7aTdeYnd1bUuq
+ n5eXzEa2nvHOfwuzWz3lG3dEA0aROqJft+gjdXXxSlCaLYfYGgoxptyENAPZvsdd0sCNfnLOod2
+ BiOTdfQvQlx/1LpHj/sD8nd4j02EwKTiGeffncKm+3zlCdHrxr6qGEuPSd16H52E1LCOxQwJTBv
+ zuLdoyd2SoXOkFDMTNCz4w7fpm35wdVHnjQdC+nHoLFCbG3iNDh8yVDYJn4hccDWOJcpQEIb6Xr
+ IXPx+EnqMfaZle+ZWTG4qfctjiaGmhRTZCbOCr+v1r34X8eV9CzEsQSpi07xlrJ4UYCu1r5Rruz
+ YaKxPvclJKCXOtCn9LFINrerwCLlJuVXyfs/qAUWb97npWvEM4ESj1jbc7Db93PBs/rqT4GKzBO
+ 9ql6SZlCa85xXn/vmbdjkw0EXPr/L5R+lFm1lezxEfSJkK8ViTBNpqOlQ2W0Ajubl9HdE3mETEu
+ I8tBUG6MBy27ZvQ==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-Hej,
+This series is a follow-up for the already merged series fixing the
+binning for IMX219:
+https://lore.kernel.org/all/20250204-imx219_fixes-v6-0-84ffa5030972@ideasonboard.com/
 
-On Wed, Feb 19, 2025 at 10:27:00AM +0100, Sasha Finkelstein via B4 Relay wrote:
-> From: Eileen Yoon <eyn@gmx.com>
-> 
-> This is the ISP and camera module present on certain Apple laptops
-> 
-> Signed-off-by: Eileen Yoon <eyn@gmx.com>
-> Co-developed-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Co-developed-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Co-developed-by: Janne Grunau <j@jannau.net>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Co-developed-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  MAINTAINERS                                  |   1 +
->  drivers/media/platform/Kconfig               |   1 +
->  drivers/media/platform/Makefile              |   1 +
->  drivers/media/platform/apple/Kconfig         |   5 +
->  drivers/media/platform/apple/Makefile        |   3 +
->  drivers/media/platform/apple/isp/Kconfig     |  16 +
->  drivers/media/platform/apple/isp/Makefile    |   3 +
->  drivers/media/platform/apple/isp/isp-cam.c   | 414 ++++++++++++
->  drivers/media/platform/apple/isp/isp-cam.h   |  21 +
->  drivers/media/platform/apple/isp/isp-cmd.c   | 635 +++++++++++++++++++
->  drivers/media/platform/apple/isp/isp-cmd.h   | 692 ++++++++++++++++++++
->  drivers/media/platform/apple/isp/isp-drv.c   | 586 +++++++++++++++++
->  drivers/media/platform/apple/isp/isp-drv.h   | 284 +++++++++
->  drivers/media/platform/apple/isp/isp-fw.c    | 770 +++++++++++++++++++++++
->  drivers/media/platform/apple/isp/isp-fw.h    |  24 +
->  drivers/media/platform/apple/isp/isp-iommu.c | 251 ++++++++
->  drivers/media/platform/apple/isp/isp-iommu.h |  20 +
->  drivers/media/platform/apple/isp/isp-ipc.c   | 258 ++++++++
->  drivers/media/platform/apple/isp/isp-ipc.h   |  25 +
->  drivers/media/platform/apple/isp/isp-regs.h  |  56 ++
->  drivers/media/platform/apple/isp/isp-v4l2.c  | 900 +++++++++++++++++++++++++++
->  drivers/media/platform/apple/isp/isp-v4l2.h  |  16 +
->  22 files changed, 4982 insertions(+)
+There were a few pending review comments and suggestions on the v6 and
+v7 of the previous series which are addressed here.
 
-quick partial review
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+---
+Jai Luthra (3):
+      media: i2c: imx219: Only use higher LLP_MIN for binned resolutions
+      media: i2c: imx219: Simplify binning mode
+      media: i2c: imx219: Use subdev state to calculate binning and pixelrate
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index dea7239ee0f5464b31efed5a2e0e5e602bcb6439..60517f7dcee14fc942dd3f77ed5d58eae394f7fa 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2248,6 +2248,7 @@ F:	drivers/i2c/busses/i2c-pasemi-platform.c
->  F:	drivers/iommu/apple-dart.c
->  F:	drivers/iommu/io-pgtable-dart.c
->  F:	drivers/irqchip/irq-apple-aic.c
-> +F:	drivers/media/platform/apple/*
->  F:	drivers/nvme/host/apple.c
->  F:	drivers/nvmem/apple-efuses.c
->  F:	drivers/pinctrl/pinctrl-apple-gpio.c
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 85d2627776b6a424fbd392187669535c4159ec97..ba75cfdb57f710cca086136e4524d3e1bc1910ac 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -65,6 +65,7 @@ config VIDEO_MUX
->  source "drivers/media/platform/allegro-dvt/Kconfig"
->  source "drivers/media/platform/amlogic/Kconfig"
->  source "drivers/media/platform/amphion/Kconfig"
-> +source "drivers/media/platform/apple/Kconfig"
->  source "drivers/media/platform/aspeed/Kconfig"
->  source "drivers/media/platform/atmel/Kconfig"
->  source "drivers/media/platform/broadcom/Kconfig"
-> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-> index ace4e34483ddce6c3361479989086145dd495f29..e59e4259064bf04b718ea8d128031af859a13d2e 100644
-> --- a/drivers/media/platform/Makefile
-> +++ b/drivers/media/platform/Makefile
-> @@ -8,6 +8,7 @@
->  obj-y += allegro-dvt/
->  obj-y += amlogic/
->  obj-y += amphion/
-> +obj-y += apple/
->  obj-y += aspeed/
->  obj-y += atmel/
->  obj-y += broadcom/
-> diff --git a/drivers/media/platform/apple/Kconfig b/drivers/media/platform/apple/Kconfig
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..f16508bff5242a0bc433bf8a1d8e3f29737d20d1
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/Kconfig
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +comment "Apple media platform drivers"
-> +
-> +source "drivers/media/platform/apple/isp/Kconfig"
-> diff --git a/drivers/media/platform/apple/Makefile b/drivers/media/platform/apple/Makefile
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d8fe985b0e6c377de6c77d30a3a796c40f3da116
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-y += isp/
-> diff --git a/drivers/media/platform/apple/isp/Kconfig b/drivers/media/platform/apple/isp/Kconfig
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..8e94962990031304d51cdd7cd6190b05b05b40bb
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/isp/Kconfig
-> @@ -0,0 +1,16 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +config VIDEO_APPLE_ISP
-> +	tristate "Apple Silicon Image Signal Processor driver"
-> +	select VIDEOBUF2_CORE
-> +	select VIDEOBUF2_V4L2
-> +	select VIDEOBUF2_DMA_SG
-> +	depends on ARCH_APPLE || COMPILE_TEST
-> +	depends on V4L_PLATFORM_DRIVERS
-> +	depends on VIDEO_DEV
+ drivers/media/i2c/imx219.c | 88 ++++++++++++++++++++++++----------------------
+ 1 file changed, 45 insertions(+), 43 deletions(-)
+---
+base-commit: 955a999ca2336869a01bbc2d346185c348929e78
+change-id: 20250219-imx219_fixes_v2-538e89d7b974
 
-missing dependency on DRM for drm_mm. I don't remember why iova's top
-down allocation was a problem but if we can avoid drm_mm that would be
-an option as well.
+Best regards,
+-- 
+Jai Luthra <jai.luthra@ideasonboard.com>
 
-> +	help
-> +	  Say Y here to enable support for the ISP and cameras persent
-> +	  in Apple ARM laptops.
-> +
-> +	  To compile this driver as a module, choose M here. The module will be
-> +	  called apple_isp
-> diff --git a/drivers/media/platform/apple/isp/Makefile b/drivers/media/platform/apple/isp/Makefile
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..4649f32987f025a639945a37d774d4ecdc83b02a
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/isp/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +apple-isp-y := isp-cam.o isp-cmd.o isp-drv.o isp-fw.o isp-iommu.o isp-ipc.o isp-v4l2.o
-> +obj-$(CONFIG_VIDEO_APPLE_ISP) += apple-isp.o
-
-...
-
-> diff --git a/drivers/media/platform/apple/isp/isp-drv.c b/drivers/media/platform/apple/isp/isp-drv.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b0c73b4f43d73f4ee29093fe62ed1d39ccfa33dd
-> --- /dev/null
-> +++ b/drivers/media/platform/apple/isp/isp-drv.c
-> @@ -0,0 +1,586 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Apple Image Signal Processor driver
-> + *
-> + * Copyright (C) 2023 The Asahi Linux Contributors
-> + */
-> +
-> +#include <linux/iommu.h>
-> +#include <linux/module.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/workqueue.h>
-> +
-> +#include "isp-cam.h"
-> +#include "isp-fw.h"
-> +#include "isp-iommu.h"
-> +#include "isp-v4l2.h"
-> +
-
-...
-
-> +static int apple_isp_init_iommu(struct apple_isp *isp)
-> +{
-> +	struct device *dev = isp->dev;
-> +	phys_addr_t heap_base;
-> +	size_t heap_size;
-> +	u64 vm_size;
-> +	int err;
-> +	int size;
-> +	struct device_node *mem_node;
-> +	const __be32 *maps, *end;
-> +
-> +	isp->domain = iommu_get_domain_for_dev(isp->dev);
-> +	if (!isp->domain)
-> +		return -ENODEV;
-> +	isp->shift = __ffs(isp->domain->pgsize_bitmap);
-> +
-> +	mem_node = of_parse_phandle(dev->of_node, "memory-region", 0);
-> +	if (!mem_node) {
-> +		dev_err(dev, "No memory-region found for heap\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	maps = of_get_property(mem_node, "iommu-addresses", &size);
-> +	if (!maps || !size) {
-> +		dev_err(dev, "No valid iommu-addresses found for heap\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	end = maps + size / sizeof(__be32);
-> +
-> +	while (maps < end) {
-> +		maps++;
-> +		maps = of_translate_dma_region(dev->of_node, maps, &heap_base,
-> +					       &heap_size);
-> +	}
-
-The hand-rolled reserved memory parsing looks like it can be replaced
-with of_iommu_get_resv_region();
-> +
-
-> +	isp->fw.heap_top = heap_base + heap_size;
-> +
-> +	err = of_property_read_u64(dev->of_node, "apple,dart-vm-size",
-> +				   &vm_size);
-
-This is not necessary and can be inferred from
-isp->domain->geometry.aperture_{start,end}.
-
-> +	if (err) {
-> +		dev_err(dev, "failed to read 'apple,dart-vm-size': %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	drm_mm_init(&isp->iovad, isp->fw.heap_top,
-> +		    vm_size - (heap_base & 0xffffffff));
-
-drm_mm probably should be replaced with something else. As I wrote above
-I don't understand / remember what the problem was with relying on the
-DMA api and iova. I can't imagine that the firmware cares about top-down
-vs. bottom-up allocation. I could image it was related to
-"apple,dart-vm-size" and iova's top down allocation only allocated
-outside of the device's aperture. That should be solved by our current
-downstream handling of the "vm-base" and "vm-size" properties from
-Apple's devicetree.
-
-ciao Janne
 
