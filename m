@@ -1,237 +1,162 @@
-Return-Path: <linux-media+bounces-26363-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26364-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFD2A3BD8F
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 12:58:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C12A3BE2F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 13:33:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A58DD1895B46
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 11:58:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8218B1679B8
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 12:32:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBC671DFE18;
-	Wed, 19 Feb 2025 11:57:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54B041E3DE4;
+	Wed, 19 Feb 2025 12:31:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="ZnGEtjMO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IzobVLZJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TAxq0RK2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483F21DE4F1;
-	Wed, 19 Feb 2025 11:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2A21E260D;
+	Wed, 19 Feb 2025 12:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739966263; cv=none; b=hpRtMW5zGEV0FGPrPzLhbBydj6eTE+9bQBUHewNnTrmZc8PtWL2AhaHX2Hmsw8Nt/KSOOHWjUiQ1J6i63TMEd+yCQpDFxVjC1xCKw2FoxWvIG/xHVGBILPpeyO+GqjeH9LxgaI2TIpYDknxcE6M7Gj8l3iPlhIMCHeQgF19Bp9w=
+	t=1739968313; cv=none; b=APeufjMJ2o4ShaJNPS1hf7L/FsBVjmLGDlEUdqdyq35+pbZ1mzmN3vGRRrWal29XI+rwuAxxbcJn6UkdNz8+429QOmQHFhn9FDlE0h7GWVr/OO6c17upwV778HpkDRYMyhb+H9Yivl1sJLOBJk6YHGa43Q08sVFdevzQCBiLSDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739966263; c=relaxed/simple;
-	bh=4k1po3JFC/xg27AWImd+emnF0oRfoeOXjB0dtgrtVAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lW89LfIfM36R9D+7GM046jQDQqNkhsebXYOKrwozMAVYrSIUupybZzzFF+U93vXFxTIxTiaSfYtWs5SQT965fhpjqbyhnXVTRfcTv3J+9jGAZQtBvIfDwWOmOg/M5bYvjXoDxsqAFXhZIF4QuwAi/gxmqrUA5Qx7G38qWt0Z/YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=ZnGEtjMO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IzobVLZJ; arc=none smtp.client-ip=103.168.172.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailflow.phl.internal (Postfix) with ESMTP id 16F85201789;
-	Wed, 19 Feb 2025 06:57:40 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Wed, 19 Feb 2025 06:57:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1739966260; x=1739973460; bh=I0Vr7zjYe+
-	LzROidf2KdAM0FeJYDrHAhTGLGwi7YtgU=; b=ZnGEtjMO7AINmHlgXsViick38g
-	sED8BBGIc4vzI41aYcZkvTv7tMmAl2CYypqi/XpBgIOnw4FeODoyNg6k/Nwozko6
-	FG1C9nOXlX0m7D/o+o+W5E7qYe8GZUiThYWscNV56K5BEsjhrgg4vLd1bafjQacS
-	HyFLGOCBOnCPUVRs/3YHXR1CmSfZCNHiSswIzMN+kl9ksfrq6QVL3nRi5UUztm4N
-	vf4nTRNkGlb4c46UEZShn+nUkeTKRR1ZL3bagN91houWTDWm6pF5AVBvqYV2BvYA
-	EH+B2ru4qHb9l1SjjB8fPHes6nJdDEp5P6v/uLHQdQKMiCshRC6JA4MIR2NA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1739966260; x=1739973460; bh=I0Vr7zjYe+LzROidf2KdAM0FeJYDrHAhTGL
-	Gwi7YtgU=; b=IzobVLZJfukFykt4i6eVYyGagYUSdLzrJ+kKgK1Myd6dRmFXfUE
-	YA+IeAxWbmpKjDFOihiqLar4F+Be478YgB9W8Wn9sGt3nSNpuQXAiDk35OuntrbP
-	WJqmHKBbx2YNN96srbSNwih0n02nvIs8oho4ZOOFwfh5/ot4ZVEc6BPygetHlkfV
-	5UaKeDhUeaSkXBKcs2mpXUynscIBmhwnCmXy6LlECjHYN9qoPd+VzeQTRy1FG4JO
-	0jSeggenWwrBLkldkYL5Hg+9Gu31FG4kMOAFrMhw/d3y+x36QV+2UO6ckEGf4PmW
-	N8m1RdbNcjl95Tp0/FTxBXNQemWNZYwMYGA==
-X-ME-Sender: <xms:M8e1Zxc4nEkIU6aRDFmOLJEnMwle1yw3vBQokwHqBww3xJX-FLtoiQ>
-    <xme:M8e1Z_OnEqGXRTGc7gJV2j_IKi5pFbtScK2_pHqmtWbprCq_rz9LYJndYi1PWTQPl
-    sMlBM-8LXj90ANfRqc>
-X-ME-Received: <xmr:M8e1Z6gsOt17SienMM3DX3KO-YnyORDYQlR6NaUsKnVEWjNAKA6aAjvroxOA-vLR6Bap90M129j1yS7EvkdVM61jb56rNs71--0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigedujecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
-    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
-    cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
-    tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedvvddpmhhouggv
-    pehsmhhtphhouhhtpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiug
-    gvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehg
-    mhgrihhlrdgtohhmpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdprhgtphhtthhopegrlhihshhs
-    rgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehrohgshheskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthht
-    oheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrghrtggrnh
-    esmhgrrhgtrghnrdhsth
-X-ME-Proxy: <xmx:M8e1Z69fp5UtCDSgtdHbRJOaO6ofWHA2pUkPtu7-mXVd_uPZq9m01g>
-    <xmx:M8e1Z9u70kv0LcFER15ThwwD-6Leqc-OUjgUeztpCvcFeRjPRXN89A>
-    <xmx:M8e1Z5FaSzYMQq6TOOLDR414dl66AOYDTbo4t-79vgvVpzp10ilNBw>
-    <xmx:M8e1Z0NnvX9Z8_L15P1RSf9-_AVkLw7jf1ETZNCsoqK7vgkwZhbNvw>
-    <xmx:NMe1ZxSGnD2ua2i_owXFtXWucBE25DO8kebyhgs0H0RDLv74zlzz5HC2>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 19 Feb 2025 06:57:38 -0500 (EST)
-Date: Wed, 19 Feb 2025 12:57:37 +0100
-From: Janne Grunau <j@jannau.net>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-media@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH 3/5] media: dt-bindings: Add Apple ISP
-Message-ID: <20250219115737.GB26386@robin.jannau.net>
-References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com>
- <20250219-isp-v1-3-6d3e89b67c31@gmail.com>
- <16f6d4a2-2102-48b9-a0ae-b8c6595975b8@kernel.org>
- <CAMT+MTR7dhtt3SOMg0K3UakJQftqnc2S-rV41HdHtA+o9aSPug@mail.gmail.com>
- <20250219105326.GA31383@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1739968313; c=relaxed/simple;
+	bh=C3QFJuaEE2hRUH66y5x74xuq/js7HFqLVBpJ3Yuv+AM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hEwivAdo5v9VMX6TFDdujm5+8W5BpjVKo+x5bwa8+O+2wrJjS2uBqariQKPUOJCpAUc8L5SNq4AIjURacyfB2q/+zi2jQvaCBw0mo0Q5KfsMLQzIjtSV/4bAK4T5l/grVXVLo/jp+4pi8Q9ZNUl/ATHUr03C3GNM1pG7ObHF1kU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TAxq0RK2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15256C4CED1;
+	Wed, 19 Feb 2025 12:31:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739968313;
+	bh=C3QFJuaEE2hRUH66y5x74xuq/js7HFqLVBpJ3Yuv+AM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TAxq0RK2jZDaums+xv+RO2vBZXLiuCzI1AUc+ZfgP9qAbJmtsS9hTMSWcDmGjCybx
+	 nqfWa02t7lFqhI8dfSpjDbQjJI/FRUzOrEyLiXDNwj5kB2DPu3do7keQY341n5f23W
+	 HCX34JdPe6BcO6cvpy5q9R+lChRLzvshtcRs3G5wFrN7qJztekF8fdbFTycgkp5gjU
+	 CLbnb9eKKRAELpUiaydGYCzT6REVkuD8AJqnqHVuakZFXVmS+aHJGbwzxSyQcoZH1K
+	 VQxxi+lo1MUcAc2WBVDKeTbnxOuf2a1NcDUZOybddTA9+/LucFgZXxr8vx5w54MiyU
+	 KZnflGtQBbypw==
+Message-ID: <ec58d467-baa3-4630-bfb0-f09d366a9be9@kernel.org>
+Date: Wed, 19 Feb 2025 13:31:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250219105326.GA31383@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/8] dt-bindings: media: nxp: Add Wave6 video codec device
+To: Nas Chung <nas.chung@chipsnmedia.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
+ "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+ "sebastian.fricke@collabora.com" <sebastian.fricke@collabora.com>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-imx@nxp.com" <linux-imx@nxp.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "jackson.lee" <jackson.lee@chipsnmedia.com>,
+ "lafley.kim" <lafley.kim@chipsnmedia.com>
+References: <20250210090725.4580-1-nas.chung@chipsnmedia.com>
+ <20250210090725.4580-4-nas.chung@chipsnmedia.com>
+ <cb7937f5-2045-4903-825c-71ed70097efb@kernel.org>
+ <SL2P216MB12460EDF6265459D11E2A5A9FBFF2@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
+ <20250213-imaginary-shrimp-of-merriment-6ccb6f@krzk-bin>
+ <SE1P216MB1242EBEEAA36BE73AD466FB6FBFA2@SE1P216MB1242.KORP216.PROD.OUTLOOK.COM>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <SE1P216MB1242EBEEAA36BE73AD466FB6FBFA2@SE1P216MB1242.KORP216.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 19, 2025 at 12:53:26PM +0200, Laurent Pinchart wrote:
-> On Wed, Feb 19, 2025 at 10:54:31AM +0100, Sasha Finkelstein wrote:
-> > On Wed, 19 Feb 2025 at 10:37, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > > > +
-> > > > +  apple,platform-id:
-> > > > +    description: Platform id for firmware
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > >
-> > >
-> > > No, use firmware-name.
-> > 
-> > Not sure how is firmware-name an appropriate field, fw-name is a string
-> > that references a firmware file, while this field is an id that is sent to the
-> > coprocessor firmware in order to identify the platform.
-> > 
-> > > > +  apple,temporal-filter:
-> > > > +    description: Whether temporal filter should be enabled in firmware
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > >
-> > > And why is this not enabled always? Why this is board specific?
-> > 
-> > Not every board has support for this feature.
-> > 
-> > > You miss here ports or port. ISP usually gets signal from some camera or
-> > > other block.
-> > 
-> > For complex cameras - yes, but this is closer to a UVC camera connected
-> > via a bespoke protocol. We do not need to deal with the sensor access,
-> > all of it is managed by the coprocessor firmware.
-> > 
-> > > > +        properties:
-> > > > +          apple,config-index:
-> > > > +            description: Firmware config index
-> > > > +            $ref: /schemas/types.yaml#/definitions/uint32
-> > >
-> > >
-> > > No duplicated indices. You have reg for this, assuming this is index.
-> > 
-> > There are duplicated indices, see isp-imx248.dtsi in patch 5 for an example.
-> > 
-> > > All these do not look like hardware properties but rather configuration
-> > > of sensor which should be done runtime by OS, not by DT.
-> > 
-> > Those are board-specific and not discoverable via the ISP protocol.
+On 18/02/2025 10:21, Nas Chung wrote:
+> For example:
+> vpu: video-codec@4c480000 {
+>         compatible = "nxp,imx95-vpu";
+>         reg = <0x0 0x4c480000 0x0 0x50000>;
+> 	ranges = <0x0 0x0 0x4c480000 0x50000>;
 > 
-> But they are settable through the ISP protocol, aren't they ? For
-> instance, looking at isp-imx248.dtsi, the first four entries are
+>         vpuctrl: vpu-ctrl@40000 {
+>           compatible = "nxp,imx95-vpu-ctrl";
+> 	  reg = <0x40000 0x10000>;
+>         };
 > 
-> 	/* 1280x720 */
-> 	preset0 {
-> 		apple,config-index = <0>;
-> 		apple,input-size = <1296 736>;
-> 		apple,output-size = <1280 720>;
-> 		apple,crop = <8 8 1280 720>;
-> 	};
+>         vpucore0: vpu-core@00000 {
+>           compatible = "nxp,imx95-vpu-core";
+>           reg = <0x00000 0x10000>;
+>         };
 > 
-> 	/* 960x720 (4:3) */
-> 	preset1 {
-> 		apple,config-index = <0>;
-> 		apple,input-size = <1296 736>;
-> 		apple,output-size = <960 720>;
-> 		apple,crop = <168 8 960 720>;
-> 	};
+>         vpucore1: vpu-core@10000 {
+>           compatible = "nxp,imx95-vpu-core";
+>           reg = <0x10000 0x10000>;
+>         };
 > 
-> 	/* 960x540 (16:9) */
-> 	preset2 {
-> 		apple,config-index = <0>;
-> 		apple,input-size = <1296 736>;
-> 		apple,output-size = <960 540>;
-> 		apple,crop = <8 8 1280 720>;
-> 	};
+>         vpucore2: vpu-core@20000 {
+>           compatible = "nxp,imx95-vpu-core";
+>           reg = <0x20000 0x10000>;
+>         };
 > 
-> 	/* 640x480 (4:3) */
-> 	preset3 {
-> 		apple,config-index = <0>;
-> 		apple,input-size = <1296 736>;
-> 		apple,output-size = <640 480>;
-> 		apple,crop = <168 8 960 720>;
-> 	};
-> 
-> But I may be interested in capturing a 640x480 frame with cropping only
-> and without scaling, with
-> 
-> input-size = 1296x736
-> output-size = 640x480
-> crop = (328,128)/640x480
-> 
-> Or I may want my cropped frame to be located in the upper-left corner:
-> 
-> input-size = 1296x736
-> output-size = 640x480
-> crop = (8,8)/640x480
-> 
-> If I set those parameters through the ISP protocol, won't it work ?
+>         vpucore3: vpu-core@30000 {
+>           compatible = "nxp,imx95-vpu-core";
 
-If my memory serves me right the presets wre added as workaround for
-userspace not handling V4L2_FRMSIZE_TYPE_STEPWISE well (or at all) and
-the added complexity of handling the qadratic sensor with partially
-occluded or outside of the usable lens diameter corners.
+Why do you need compatible here? Could it be anything else?
 
-It is a simplified description of the hardware to make it useable for
-most software which is expected simple uvc cameras.
+>           reg = <0x30000 0x10000>;
 
-There are still two common issues in user space software related to this
-driver:
-- software expects width == linesize
-- resolution selection is based frame height, i.e. it prefers 1080x1920
-  over 1920x1080 on devices with quadratic sensor.
+Where is the rest of resources? You created children only for one
+resource - address space?
 
-ciao Janne
+Best regards,
+Krzysztof
 
