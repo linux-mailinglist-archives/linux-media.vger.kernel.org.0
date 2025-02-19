@@ -1,165 +1,110 @@
-Return-Path: <linux-media+bounces-26410-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26411-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A984FA3C852
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 20:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774BBA3C8FF
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 20:41:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FCC43A9792
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 19:12:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C36163A8D98
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 19:40:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2D692206B3;
-	Wed, 19 Feb 2025 19:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E06122B8D4;
+	Wed, 19 Feb 2025 19:40:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eiyYf5OL"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="znhrNoNg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E1721CC4F;
-	Wed, 19 Feb 2025 19:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904D1184F;
+	Wed, 19 Feb 2025 19:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739992319; cv=none; b=UH23pjN5M8UCsfgarCzw26l1JxtynlnDdN/cnlwbWr6pYhNkAncL3peLe6xkdByTUPPHNPzyKy4kgHHcD/bZ3R7fC2J0Uq9F2H4JW+siWk6mkDMvdcKVgZP6mHmU/aDE9sV9eSNW37gSBBDcXE4WBomRQdL6HooZ7n2ew5cczgw=
+	t=1739994048; cv=none; b=FgNLmo069tdvD8646EMzIxE3ma1/qUpSQMfDzVbkUEo64ys5hAg04zML3WY15P4h1c8Xp7KQf852oxlgobz740Wi5DY5DwTFCBbSEYPEFRw2oPUQqB+y/Vw+4DDpr6FKB+8rNrm7OPVfXGxBgzxntCt5sTfiwkRSieHs4Qh4mUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739992319; c=relaxed/simple;
-	bh=2qxO7sp4fQZHW4yc/WU6++oB4+ROKixIPdfhd+lJVwM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NPQe6ipPVsbv0cqdA3tlgSoM8tmlYktaT5ELcDbeIk5RajxF9Q10VatCt3HwDRdAnVoY04tDWMl2wFgN4Nl5RT53lQhUwuhtxBGcbFdSfO3eGW+2qi4xA+209Yk5FaMg8PAuJaf5qKfsj5hDdq2Qhckv9fFO1crzp1EupPLxgic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eiyYf5OL; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abb7520028bso24944466b.3;
-        Wed, 19 Feb 2025 11:11:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739992316; x=1740597116; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EwHvox6WJGQYQEIxf5WT1th5ef4Nf6RAE7x7WQqDiYU=;
-        b=eiyYf5OLpodnL4vZr6/yLRZrvBtR31sJrG4JaLE7GDhIJonoq4J1G8jX1Bb36oV0rr
-         uNQn46zsFIcjlt2Fq2xWLDZrDOxln4bYrsTSFc7XBz6D/pXV7H6tQL94hJo2ACDmHC2Y
-         PSu00B37rsQUaj+cWWzq2NOjEszOOfU1HXc4tTxzWOYjF75HOXvfjI6diLurGapzOz0C
-         G9TczchpWBtryExEmV94paQx06C948HM8oWXnVgXVZoKu4BePULOlYiuOfQZ+M97Hvnz
-         JVhapZLMGHKRzoIzbGgCOsHaKNwVuhSlkNsNkEIfmyxmuIiHctaXnwa1T/Z8Gbm5/WUf
-         eAdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739992316; x=1740597116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EwHvox6WJGQYQEIxf5WT1th5ef4Nf6RAE7x7WQqDiYU=;
-        b=AwGXjamelZXYcRckI+HLIe3SAZ31kD6/axFst0du4A3jdeMCNC1rx6XyxMsHj9tfrZ
-         ZaHgIxVQvh7ORR3C0I34idxs9npvdChby2/gqvwJpCKgkFkMj75EeoNYO8AsxwHj7AvC
-         XYWg1IvyJuUJ0Kp3QLk2VX2D0PlZv13RtswTdKifcDV6ohqnr5w0y1oMlTlHIAxPq73r
-         B2rcwgnCqW+EcH7bDqpG+uwb3jX9xylEXZe50rTbmml8H3PvMZ0SEByFtEQk5hrrsZDf
-         QIx0Zh3uQkv1jsIqclCYacj0Ae1G1F+tekmNWv7g41347gbYYjENifbk2uR2QjNWUtpx
-         j2IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVG9IH1HujmA6aZazcmYMU71A809NOAJ6S6nGDq32W4KcBsnFh9IuNbXDrX8OQqN4Nkdpl3am2rnsNPMAU=@vger.kernel.org, AJvYcCXD+2t3AI9vxBvouV6bI71V1jUs1y218XaJ8eOaEdr7nOUxqhljz16vrzY0lHejf/J7obucPX/ooIpO6C0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvjhKe7W9P9EZ9K9idzy6492Xb5Bx9jkFeLkKn1vPqpnYU41Ok
-	44NqNqIU24W5uXj4rCCGL/HTqSKcqGVHfRqxcVYAgptEZtuX1hnZ
-X-Gm-Gg: ASbGnct4CX1Nw+plFxI4/wJelvP8cKa8bUg1C4QOKpHT3jjtQWiTVB2VpLj+OBcq4IP
-	o4ce6Rbw22ZmH1KsgD0K3P3yo9pL+PAi0Si/WGfWDusUT8J7WXtfKbmNW3m3Dn7e4X6mVz/HE6u
-	nvjrUClpy678/69QDdrnllANVi22sIuT7Dr1AU8Uz07AMcAYI/GAvcJxydh1OoE43vypHu6UD3p
-	MPMglcTgPdoq8+FvYaJqQ5oCIdl4mW8lIMk9Rl6e4LcGSHS6R9FO+y/j4ykPcGu4j/J7qv5x1+l
-	3daqr5fWSPqjfLoF1CrAgvFLrNj/
-X-Google-Smtp-Source: AGHT+IFyOBwXGTpSYagOOpkWDMhkVuORfStvj5grnxd98RQN2N6gtL61zwIr20Bcm+RaMlN8QO+yKQ==
-X-Received: by 2002:a17:907:7815:b0:ab7:d06d:b4bf with SMTP id a640c23a62f3a-abbcd059bf2mr461138366b.39.1739992315757;
-        Wed, 19 Feb 2025 11:11:55 -0800 (PST)
-Received: from demon-pc.localdomain ([188.27.130.21])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbe0d39f9csm127767866b.69.2025.02.19.11.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 11:11:55 -0800 (PST)
-From: Cosmin Tanislav <demonsingur@gmail.com>
-To: 
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Julien Massot <julien.massot@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	=?UTF-8?q?Pawe=C5=82=20Anikiel?= <panikiel@google.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 3/3] media: v4l: subdev: remove v4l2_subdev_state_xlate_streams()
-Date: Wed, 19 Feb 2025 21:11:32 +0200
-Message-ID: <20250219191136.215151-4-demonsingur@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250219191136.215151-1-demonsingur@gmail.com>
-References: <20250219191136.215151-1-demonsingur@gmail.com>
+	s=arc-20240116; t=1739994048; c=relaxed/simple;
+	bh=IZvZQ+Z2ANgypM5Ai42o0D3/NeLsJT0qXFUyLp8/kH4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Pgv8KC8VucHzqIr5RU3VmxC9LVMX8DTLpeVwENd7DUslcqSMCntA779RV/N4mZD7JrNLB05ma+Z9sXuqIsg442YOt6YN5+Jw5hW/wDjmADdOifIjh32r2LKpMlkF+d5+IZOO47KmhdmOKgAFoaNiXNnsMUokbRpsKJ0bcezBdgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=znhrNoNg; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=uE1hvjxXsUUC1et/VMLf8EeRBWH8/5FEEmjbMg7Vyu0=; b=znhrNoNg1jDWT+rZCye1OrEbRx
+	0pK4ORsezD6ZZI0kEsrUVLnU6Nx0x8S2UJ1UbY6pnDID5AlvQe1b8CG6EwezIt/o3eEXl0jl/IfYL
+	cy/U8xZrKX6LqsFnPRE2/jtOZluTSUT8AAVceZq74UIt14nOJlvlCNZ7unA+pQwZAzB6ojwewx5CY
+	PqnALiqnk25KM0q0xudc6bxFSUwLVuBnAdFM60aFGc4TCaPnNMb73oUD/TFkK5PaPNs6eHmGN3Wl0
+	jF8oWQ78Dgl877QN45H4KhVuaPCxNxsHXaLuXXBhn6uuktsd4Ya7Wh5+CKTBOct8rRmtbBvAsrBtv
+	BjblUO8Q==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1tkpVW-000Geo-2e;
+	Wed, 19 Feb 2025 20:13:18 +0100
+Received: from [92.206.120.88] (helo=framework.lan)
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1tkpVV-000N4n-0Z;
+	Wed, 19 Feb 2025 20:13:17 +0100
+Message-ID: <426de13199c560301ed0a148d9ecd0155dfcff0f.camel@apitzsch.eu>
+Subject: Re: [PATCH next] media: i2c: imx214: Fix uninitialized variable in
+ imx214_set_ctrl()
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Ricardo Ribalda <ribalda@kernel.org>, Sakari Ailus	
+ <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+  Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	kernel-janitors@vger.kernel.org
+Date: Wed, 19 Feb 2025 20:13:15 +0100
+In-Reply-To: <1e4da85e-b975-4638-bd14-09ba0675d9d6@stanley.mountain>
+References: <1e4da85e-b975-4638-bd14-09ba0675d9d6@stanley.mountain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: andre@apitzsch.eu
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27554/Wed Feb 19 10:50:24 2025)
 
-All usages of v4l2_subdev_state_xlate_streams() have been replaced with
-v4l2_subdev_routing_xlate_streams(), remove it.
+Am Dienstag, dem 18.02.2025 um 16:05 +0300 schrieb Dan Carpenter:
+> You can't pass uninitialized "ret" variables to cci_write().=C2=A0 It has
+> to start as zero.
+>=20
+> Fixes: 4f0aeba4f155 ("media: i2c: imx214: Convert to CCI register
+> access helpers")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+> =C2=A0drivers/media/i2c/imx214.c | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> index 6c3f6f3c8b1f..68775ee8256e 100644
+> --- a/drivers/media/i2c/imx214.c
+> +++ b/drivers/media/i2c/imx214.c
+> @@ -795,7 +795,7 @@ static int imx214_set_ctrl(struct v4l2_ctrl
+> *ctrl)
+> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0 struct imx214, ctrls);
+> =C2=A0	const struct v4l2_mbus_framefmt *format =3D NULL;
+> =C2=A0	struct v4l2_subdev_state *state;
+> -	int ret;
+> +	int ret =3D 0;
+> =C2=A0
+> =C2=A0	if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+> =C2=A0		int exposure_max, exposure_def;
 
-Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c |  7 -------
- include/media/v4l2-subdev.h           | 14 --------------
- 2 files changed, 21 deletions(-)
+Thanks.
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index d1581f1036487..1fb413bb337a3 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -2067,13 +2067,6 @@ u64 v4l2_subdev_routing_xlate_streams(const struct v4l2_subdev_krouting *routing
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_routing_xlate_streams);
- 
--u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
--				    u32 pad0, u32 pad1, u64 *streams)
--{
--	return v4l2_subdev_routing_xlate_streams(&state->routing, pad0, pad1, streams);
--}
--EXPORT_SYMBOL_GPL(v4l2_subdev_state_xlate_streams);
--
- int v4l2_subdev_routing_validate(struct v4l2_subdev *sd,
- 				 const struct v4l2_subdev_krouting *routing,
- 				 enum v4l2_subdev_routing_restriction disallow)
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 90d08e13e016b..3781d6d8465bd 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1604,20 +1604,6 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
- u64 v4l2_subdev_routing_xlate_streams(const struct v4l2_subdev_krouting *routing,
- 				      u32 pad0, u32 pad1, u64 *streams);
- 
--/**
-- * v4l2_subdev_state_xlate_streams() - Translate streams from one pad to another
-- *
-- * @state: Subdevice state
-- * @pad0: The first pad
-- * @pad1: The second pad
-- * @streams: Streams bitmask on the first pad
-- *
-- * This is the same as v4l2_subdev_routing_xlate_streams, but takes subdevice
-- * state as parameter
-- */
--u64 v4l2_subdev_state_xlate_streams(const struct v4l2_subdev_state *state,
--				    u32 pad0, u32 pad1, u64 *streams);
--
- /**
-  * enum v4l2_subdev_routing_restriction - Subdevice internal routing restrictions
-  *
--- 
-2.48.1
-
+Reviewed-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
 
