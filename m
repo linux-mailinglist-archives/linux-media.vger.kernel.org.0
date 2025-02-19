@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-26332-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26333-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E01A3BA65
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 10:42:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22E0A3BA72
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 10:42:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EC8127A5274
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 09:36:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C541B7A750F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 09:37:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5A531DE8A0;
-	Wed, 19 Feb 2025 09:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFAD21C173D;
+	Wed, 19 Feb 2025 09:37:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ST/ihfSZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="akZ52mOn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4BF1C548C;
-	Wed, 19 Feb 2025 09:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CB0158862;
+	Wed, 19 Feb 2025 09:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739957678; cv=none; b=g2Cbz+aWTWVBi2dWCqGNHFwALaX2i5ZcYsuq4VwnLTKv0aaXNJUpqSiIEzljjwGD1ZfKR/avg/gTCUcvqJUDttF6/5nCCbM4epRHwBpIfE66+skqLfhMiZ4+KCKcXKvSIbg+3UgPwUJvBtVrOO4xupEztvFDN/t7rZlNwTH8O0k=
+	t=1739957853; cv=none; b=XmnFuJvEpvZNnfrhqmWYxXhB/g5G5N4ra6iiVbg5reyeGMaL8Cg3tAlbmDMNmxOuWjDl1Q8NNuM6ot8ivwwA5GlVrFIBn6/WY7NOUq8BS9+nZE6RXvDxBV/zmxA757XeVYAgZrJQuHxRiagb/HqX1SMyiIfOdkdyhNPz11sdL04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739957678; c=relaxed/simple;
-	bh=jZe+21vFx1qrX5bt3SjhNVd4iIjO/LzzExvO78MZvfQ=;
+	s=arc-20240116; t=1739957853; c=relaxed/simple;
+	bh=K4oA+KkwnP56DfL7rGHnpdR0LjPyDMojJc4N8dpjcE0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OzxA1/iqMTb9AQmQ/ndTGjd9a3/SM64vspJTlkKJU46iNrRmEbF7+kLcYdpqcV/+rvKQvAdq80QIXGCisvxf6IORbHVa15WeaopAjj0COnt5XYcOen5sYOoCaTNUCpZtYhi/pMgzWLBRrZK0UG2gPWWyssmazEnin8csT3jaGzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ST/ihfSZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6195C4CED1;
-	Wed, 19 Feb 2025 09:34:33 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=GizPkE96Ua043JXb09wd14H1f+2/F4OJMqFB7PKrQB0xLzV/RWybXxkm3JxIXgaZkVZRzfM7gyZa3HWGym0+TQMgR3SrgoFUgcjXnslc8HatrDXDzUwKcoQlLmeNLcS2YA3YZFHrbIybIMQfPYQHP/5ZGA4Rc96+tWGFwms7eck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=akZ52mOn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2894AC4CEE7;
+	Wed, 19 Feb 2025 09:37:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739957677;
-	bh=jZe+21vFx1qrX5bt3SjhNVd4iIjO/LzzExvO78MZvfQ=;
+	s=k20201202; t=1739957852;
+	bh=K4oA+KkwnP56DfL7rGHnpdR0LjPyDMojJc4N8dpjcE0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ST/ihfSZRM7LAFcst+askyTCWvx4YSNn2BQNDxjmLWoya6bmklShQM/MDMl7pI/pt
-	 9ZROnl+EZTkKx8dozXLzn0JVaPf3dXcCqXOJJGbq+CS9OSkn76aLZDo4A+N3w9bySE
-	 S8rm4ZfjUuUKzliyzRfLQhq+g8ar6mcgMqY9KId+gslx2kP4yZWPzZA136Qex45DuS
-	 d/dwYYa3p3ohf9MSWP97DSBi4WB4YBvLbfR3YohEilEiwuBIXW8UpcQVYQBB34lDce
-	 zYjl3WGa43j8OgnRVMaQfa/cSM1noliyeAJEJ2p+EbWjqrJ76X35CKGaz/xjCPZ6JT
-	 rJI84WmRyD63w==
-Message-ID: <400d64ed-670a-4297-b43b-cdf4e8599c7b@kernel.org>
-Date: Wed, 19 Feb 2025 10:34:31 +0100
+	b=akZ52mOn834GGh0gpbsCQx+sEfFCWCnM5CBEfBUxfozcvBVKFb5ZlkvL4lKDWA0uE
+	 2ArA9WCT58BL6w3/NQ2Z8Qh+bakdLR3WysiUc/HF6v9LjSjTuoaNdyRsikVm2lh+RB
+	 SCVxA2ywJ56jG+vkdD/pD2c0IAAS8ZC/o5vFlY4EORHUoq4ttvyNsvWFwgAWNEpeK5
+	 Olb8rDZa2SYScw0KAklITwLeP3MHfW/ms7/2sVtpCB64Jhzg/x+K8RY2dw2Jl+0cJW
+	 opB/kCg8o8IppxyDsmSyvbcQo8+ODnm7VRuexsw0zy+meCMyfQdldAbdFLuPxD3XcK
+	 0VYLhFNd528hw==
+Message-ID: <16f6d4a2-2102-48b9-a0ae-b8c6595975b8@kernel.org>
+Date: Wed, 19 Feb 2025 10:37:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] dt-bindings: power: apple,pmgr-pwrstate: Add
- force-{disable,reset} properties
+Subject: Re: [PATCH 3/5] media: dt-bindings: Add Apple ISP
 To: fnkl.kernel@gmail.com, Sven Peter <sven@svenpeter.dev>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -65,7 +64,7 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-media@vger.kernel.org, imx@lists.linux.dev
 References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com>
- <20250219-isp-v1-1-6d3e89b67c31@gmail.com>
+ <20250219-isp-v1-3-6d3e89b67c31@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,19 +110,105 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250219-isp-v1-1-6d3e89b67c31@gmail.com>
+In-Reply-To: <20250219-isp-v1-3-6d3e89b67c31@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 19/02/2025 10:26, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> 
-> Add properties to set disable/reset bits when powering down
-> certain domains
+> +  reg-names:
+> +    items:
+> +      - const: coproc
+> +      - const: mbox
+> +      - const: gpio
+> +      - const: mbox2
+> +
+> +  iommus:
+> +    description: All 3 must be kept in sync
+> +    minItems: 3
 
 
-Please explain why and what problem are you solving. This looks too
-close to SW policy or really arbitrary choice. Background would be useful.
+Drop minItems
+
+> +    maxItems: 3
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    minItems: 1
+> +    maxItems: 20
+> +    description: All necessary power domains. Driver will enable them in order
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +
+> +  apple,dart-vm-size:
+> +    description: Supported device memory range
+> +    $ref: /schemas/types.yaml#/definitions/uint64
+
+
+That's deducible from comaptible.
+
+> +
+> +  apple,platform-id:
+> +    description: Platform id for firmware
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+
+
+No, use firmware-name.
+
+> +
+> +  apple,temporal-filter:
+> +    description: Whether temporal filter should be enabled in firmware
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+
+And why is this not enabled always? Why this is board specific?
+
+
+You miss here ports or port. ISP usually gets signal from some camera or
+other block.
+
+
+> +
+> +  sensor-presets:
+> +    additionalProperties: false
+> +
+> +    patternProperties:
+> +      '^preset[0-9]+$':
+> +        type: object
+> +
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          apple,config-index:
+> +            description: Firmware config index
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+
+
+No duplicated indices. You have reg for this, assuming this is index.
+
+> +
+> +          apple,input-size:
+> +            $ref: /schemas/types.yaml#/definitions/uint32-array
+> +            minItems: 2
+> +            maxItems: 2
+> +            description: Raw sensor size
+> +
+> +          apple,output-size:
+> +            $ref: /schemas/types.yaml#/definitions/uint32-array
+> +            minItems: 2
+> +            maxItems: 2
+> +            description: Cropped and scaled image size
+> +
+> +          apple,crop:
+> +            $ref: /schemas/types.yaml#/definitions/uint32-array
+> +            minItems: 4
+> +            maxItems: 4
+> +            description: Area to crop
+
+
+All these do not look like hardware properties but rather configuration
+of sensor which should be done runtime by OS, not by DT.
 
 Best regards,
 Krzysztof
