@@ -1,157 +1,237 @@
-Return-Path: <linux-media+bounces-26362-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26363-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63597A3BD64
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 12:49:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFD2A3BD8F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 12:58:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F0D657A26B9
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 11:47:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A58DD1895B46
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 11:58:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EB91E00BF;
-	Wed, 19 Feb 2025 11:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBC671DFE18;
+	Wed, 19 Feb 2025 11:57:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dLngnWDT"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="ZnGEtjMO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IzobVLZJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59101DF730;
-	Wed, 19 Feb 2025 11:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483F21DE4F1;
+	Wed, 19 Feb 2025 11:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739965653; cv=none; b=hAgBKmlIjEsDeimVXg5KwlrQ7mIB0QRN7ic4QOX9uhero0AE42IDNTSJAx/W6NLKXkeYqi1jcJKt2j2O+Q47V1pta1vbh5wWj4OmDwhUHHfca/I36ei2nKTMoYi3YlybIzztVwVwyFS1kFbE76tp8SJdh3YFZi6RBYQsxNz/+Bo=
+	t=1739966263; cv=none; b=hpRtMW5zGEV0FGPrPzLhbBydj6eTE+9bQBUHewNnTrmZc8PtWL2AhaHX2Hmsw8Nt/KSOOHWjUiQ1J6i63TMEd+yCQpDFxVjC1xCKw2FoxWvIG/xHVGBILPpeyO+GqjeH9LxgaI2TIpYDknxcE6M7Gj8l3iPlhIMCHeQgF19Bp9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739965653; c=relaxed/simple;
-	bh=4F4BQbwhZ42l1hicc/rXsFLMooM0Yyz+PO4b6Gl8KkM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=N04e53UJOWFlOpZR2EdPM4r4FKNEQwh/cGfEddZYxz3axhTcq4oaSvNbaUDk/2yl+En9HoPPHFkqO2uDNex16Pukzc9wfavYIcaq5rOul8t51rBN1E4+ErepvC5sYin9hleeO5rDmfD08ExPN5HXI6E8EFz0lOsxbyKYZDtbdeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dLngnWDT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:4abb:6de5:9248:813e:8db3])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9506E169;
-	Wed, 19 Feb 2025 12:46:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739965568;
-	bh=4F4BQbwhZ42l1hicc/rXsFLMooM0Yyz+PO4b6Gl8KkM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=dLngnWDT2KtTfOleSMZsTTkgKtZvtHz5QvJA2PwhbLbS12wixGtAZW7plzORvawCj
-	 c3xql2gQWWAp0cXP7hoIQm2TWuUY3ulzUpG8B0bFbo2+2YvT+zKkfbO0GBcz7BcBIG
-	 EBtnZ56VLZAGEZDPc0vgk59aKvwUnYYdIrYdxgNc=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Wed, 19 Feb 2025 17:16:45 +0530
-Subject: [PATCH 3/3] media: i2c: imx219: Use subdev state to calculate
- binning and pixelrate
+	s=arc-20240116; t=1739966263; c=relaxed/simple;
+	bh=4k1po3JFC/xg27AWImd+emnF0oRfoeOXjB0dtgrtVAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lW89LfIfM36R9D+7GM046jQDQqNkhsebXYOKrwozMAVYrSIUupybZzzFF+U93vXFxTIxTiaSfYtWs5SQT965fhpjqbyhnXVTRfcTv3J+9jGAZQtBvIfDwWOmOg/M5bYvjXoDxsqAFXhZIF4QuwAi/gxmqrUA5Qx7G38qWt0Z/YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=ZnGEtjMO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IzobVLZJ; arc=none smtp.client-ip=103.168.172.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id 16F85201789;
+	Wed, 19 Feb 2025 06:57:40 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Wed, 19 Feb 2025 06:57:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1739966260; x=1739973460; bh=I0Vr7zjYe+
+	LzROidf2KdAM0FeJYDrHAhTGLGwi7YtgU=; b=ZnGEtjMO7AINmHlgXsViick38g
+	sED8BBGIc4vzI41aYcZkvTv7tMmAl2CYypqi/XpBgIOnw4FeODoyNg6k/Nwozko6
+	FG1C9nOXlX0m7D/o+o+W5E7qYe8GZUiThYWscNV56K5BEsjhrgg4vLd1bafjQacS
+	HyFLGOCBOnCPUVRs/3YHXR1CmSfZCNHiSswIzMN+kl9ksfrq6QVL3nRi5UUztm4N
+	vf4nTRNkGlb4c46UEZShn+nUkeTKRR1ZL3bagN91houWTDWm6pF5AVBvqYV2BvYA
+	EH+B2ru4qHb9l1SjjB8fPHes6nJdDEp5P6v/uLHQdQKMiCshRC6JA4MIR2NA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1739966260; x=1739973460; bh=I0Vr7zjYe+LzROidf2KdAM0FeJYDrHAhTGL
+	Gwi7YtgU=; b=IzobVLZJfukFykt4i6eVYyGagYUSdLzrJ+kKgK1Myd6dRmFXfUE
+	YA+IeAxWbmpKjDFOihiqLar4F+Be478YgB9W8Wn9sGt3nSNpuQXAiDk35OuntrbP
+	WJqmHKBbx2YNN96srbSNwih0n02nvIs8oho4ZOOFwfh5/ot4ZVEc6BPygetHlkfV
+	5UaKeDhUeaSkXBKcs2mpXUynscIBmhwnCmXy6LlECjHYN9qoPd+VzeQTRy1FG4JO
+	0jSeggenWwrBLkldkYL5Hg+9Gu31FG4kMOAFrMhw/d3y+x36QV+2UO6ckEGf4PmW
+	N8m1RdbNcjl95Tp0/FTxBXNQemWNZYwMYGA==
+X-ME-Sender: <xms:M8e1Zxc4nEkIU6aRDFmOLJEnMwle1yw3vBQokwHqBww3xJX-FLtoiQ>
+    <xme:M8e1Z_OnEqGXRTGc7gJV2j_IKi5pFbtScK2_pHqmtWbprCq_rz9LYJndYi1PWTQPl
+    sMlBM-8LXj90ANfRqc>
+X-ME-Received: <xmr:M8e1Z6gsOt17SienMM3DX3KO-YnyORDYQlR6NaUsKnVEWjNAKA6aAjvroxOA-vLR6Bap90M129j1yS7EvkdVM61jb56rNs71--0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeigedujecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
+    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepgfdvffevleegudejfeefheehkeehleehfefgjefffeetudeg
+    tefhuedufeehfeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopedvvddpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiug
+    gvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehfnhhklhdrkhgvrhhnvghlsehg
+    mhgrihhlrdgtohhmpdhrtghpthhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdprhgtphhtthhopegrlhihshhs
+    rgesrhhoshgvnhiifigvihhgrdhiohdprhgtphhtthhopehrohgshheskhgvrhhnvghlrd
+    horhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    oheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrghrtggrnh
+    esmhgrrhgtrghnrdhsth
+X-ME-Proxy: <xmx:M8e1Z69fp5UtCDSgtdHbRJOaO6ofWHA2pUkPtu7-mXVd_uPZq9m01g>
+    <xmx:M8e1Z9u70kv0LcFER15ThwwD-6Leqc-OUjgUeztpCvcFeRjPRXN89A>
+    <xmx:M8e1Z5FaSzYMQq6TOOLDR414dl66AOYDTbo4t-79vgvVpzp10ilNBw>
+    <xmx:M8e1Z0NnvX9Z8_L15P1RSf9-_AVkLw7jf1ETZNCsoqK7vgkwZhbNvw>
+    <xmx:NMe1ZxSGnD2ua2i_owXFtXWucBE25DO8kebyhgs0H0RDLv74zlzz5HC2>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Feb 2025 06:57:38 -0500 (EST)
+Date: Wed, 19 Feb 2025 12:57:37 +0100
+From: Janne Grunau <j@jannau.net>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-media@vger.kernel.org, imx@lists.linux.dev
+Subject: Re: [PATCH 3/5] media: dt-bindings: Add Apple ISP
+Message-ID: <20250219115737.GB26386@robin.jannau.net>
+References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com>
+ <20250219-isp-v1-3-6d3e89b67c31@gmail.com>
+ <16f6d4a2-2102-48b9-a0ae-b8c6595975b8@kernel.org>
+ <CAMT+MTR7dhtt3SOMg0K3UakJQftqnc2S-rV41HdHtA+o9aSPug@mail.gmail.com>
+ <20250219105326.GA31383@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250219-imx219_fixes_v2-v1-3-0e3f5dd9b024@ideasonboard.com>
-References: <20250219-imx219_fixes_v2-v1-0-0e3f5dd9b024@ideasonboard.com>
-In-Reply-To: <20250219-imx219_fixes_v2-v1-0-0e3f5dd9b024@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2950;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=4F4BQbwhZ42l1hicc/rXsFLMooM0Yyz+PO4b6Gl8KkM=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBntcS25HVKh8yh9wn7Cve+Ujd9p3brD8cupdGR0
- 0ZhU4L4M/mJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ7XEtgAKCRBD3pH5JJpx
- RS4wEACd3PVfkrQM1pon3+eOtOBmLWQxoJ2LD6hErMtOghdW76jFmhyRNZFPS0+Yg41vB1db6Wj
- litNPIiAo8JucJDmIh/Lk7zd5cf1h7/UbK+UczBNZwp+bvJIm7nweIHFGj5WOFhjezP2UQ1X5qT
- nzRMBETFtlPciOhoZhPS4nf5Uf985EfF1BDEFol2fg/JXP6R5ZzcqlJeZ1rrXSu3iStRiVhxdvX
- 0CXlykoLPyiLK4ri65jx093Hm1u67imrpBNXopRcDDtDYAjMyunO11cc3fTIEU2ymcACUhG3LzR
- Pkkq0lwVyWaif6gNjQw5REI8IwTgN7sqJiJVKJUfvv2SDQFBn40k76C3RBCQ+tnGiBFh8BAlho1
- 1Yq8uiMLn65SOy0X9G7Wc5ctKRNNPjzhJqI2De+k5biTRHwMhQisTbXkYPCd33Yc3WvUkwWEmbf
- H9XICemEfeJhtDVKuerT0iA9RkbrFRC6LX5aNnLEcq+bwMxWtCdkZ8EPmd8AP52WrmR25uCaE1H
- kwQpbxcnMd1yq7VdoYP99PghDVYfC6ZjlTTzESIQiwXYeqTOVJT1ojPQw4rzXveybOcSm3LWl7N
- Be83R4Aseh5UhwcK2Zh8A4SXJB4+BialR0Ns9kbNYQQgQmHVMGJA9CKrd6g2rJCH5y3lrEY3P3T
- lO9TYwlt3VvWKPA==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250219105326.GA31383@pendragon.ideasonboard.com>
 
-The pixel rate and binning calculations need the format and resolution
-of the sensor, so pass the v4l2 subdev state directly instead of always
-operating on the active state.
+On Wed, Feb 19, 2025 at 12:53:26PM +0200, Laurent Pinchart wrote:
+> On Wed, Feb 19, 2025 at 10:54:31AM +0100, Sasha Finkelstein wrote:
+> > On Wed, 19 Feb 2025 at 10:37, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > > > +
+> > > > +  apple,platform-id:
+> > > > +    description: Platform id for firmware
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > >
+> > >
+> > > No, use firmware-name.
+> > 
+> > Not sure how is firmware-name an appropriate field, fw-name is a string
+> > that references a firmware file, while this field is an id that is sent to the
+> > coprocessor firmware in order to identify the platform.
+> > 
+> > > > +  apple,temporal-filter:
+> > > > +    description: Whether temporal filter should be enabled in firmware
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > >
+> > > And why is this not enabled always? Why this is board specific?
+> > 
+> > Not every board has support for this feature.
+> > 
+> > > You miss here ports or port. ISP usually gets signal from some camera or
+> > > other block.
+> > 
+> > For complex cameras - yes, but this is closer to a UVC camera connected
+> > via a bespoke protocol. We do not need to deal with the sensor access,
+> > all of it is managed by the coprocessor firmware.
+> > 
+> > > > +        properties:
+> > > > +          apple,config-index:
+> > > > +            description: Firmware config index
+> > > > +            $ref: /schemas/types.yaml#/definitions/uint32
+> > >
+> > >
+> > > No duplicated indices. You have reg for this, assuming this is index.
+> > 
+> > There are duplicated indices, see isp-imx248.dtsi in patch 5 for an example.
+> > 
+> > > All these do not look like hardware properties but rather configuration
+> > > of sensor which should be done runtime by OS, not by DT.
+> > 
+> > Those are board-specific and not discoverable via the ISP protocol.
+> 
+> But they are settable through the ISP protocol, aren't they ? For
+> instance, looking at isp-imx248.dtsi, the first four entries are
+> 
+> 	/* 1280x720 */
+> 	preset0 {
+> 		apple,config-index = <0>;
+> 		apple,input-size = <1296 736>;
+> 		apple,output-size = <1280 720>;
+> 		apple,crop = <8 8 1280 720>;
+> 	};
+> 
+> 	/* 960x720 (4:3) */
+> 	preset1 {
+> 		apple,config-index = <0>;
+> 		apple,input-size = <1296 736>;
+> 		apple,output-size = <960 720>;
+> 		apple,crop = <168 8 960 720>;
+> 	};
+> 
+> 	/* 960x540 (16:9) */
+> 	preset2 {
+> 		apple,config-index = <0>;
+> 		apple,input-size = <1296 736>;
+> 		apple,output-size = <960 540>;
+> 		apple,crop = <8 8 1280 720>;
+> 	};
+> 
+> 	/* 640x480 (4:3) */
+> 	preset3 {
+> 		apple,config-index = <0>;
+> 		apple,input-size = <1296 736>;
+> 		apple,output-size = <640 480>;
+> 		apple,crop = <168 8 960 720>;
+> 	};
+> 
+> But I may be interested in capturing a 640x480 frame with cropping only
+> and without scaling, with
+> 
+> input-size = 1296x736
+> output-size = 640x480
+> crop = (328,128)/640x480
+> 
+> Or I may want my cropped frame to be located in the upper-left corner:
+> 
+> input-size = 1296x736
+> output-size = 640x480
+> crop = (8,8)/640x480
+> 
+> If I set those parameters through the ISP protocol, won't it work ?
 
-Suggested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Link: https://lore.kernel.org/linux-media/sejl7xskif6rlpdsg3jhczjwe5gi6rs53ehbyka6omv2zeg7qq@4iis7i2lla5p/
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/media/i2c/imx219.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+If my memory serves me right the presets wre added as workaround for
+userspace not handling V4L2_FRMSIZE_TYPE_STEPWISE well (or at all) and
+the added complexity of handling the qadratic sensor with partially
+occluded or outside of the usable lens diameter corners.
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index f02732d8fa95de0a295f247d4f0b60017dbb2ed2..0adfe8e5775ba6661f7d06fedfd920d91c24cba5 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -400,10 +400,9 @@ static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
- 	}
- }
- 
--static void imx219_get_binning(struct imx219 *imx219, u8 *bin_h, u8 *bin_v)
-+static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_h,
-+			       u8 *bin_v)
- {
--	struct v4l2_subdev_state *state =
--		v4l2_subdev_get_locked_active_state(&imx219->sd);
- 	const struct v4l2_mbus_framefmt *format =
- 		v4l2_subdev_state_get_format(state, 0);
- 	const struct v4l2_rect *crop = v4l2_subdev_state_get_crop(state, 0);
-@@ -430,11 +429,11 @@ static void imx219_get_binning(struct imx219 *imx219, u8 *bin_h, u8 *bin_v)
- 		*bin_v = IMX219_BINNING_X2;
- }
- 
--static inline u32 imx219_get_rate_factor(struct imx219 *imx219)
-+static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *state)
- {
- 	u8 bin_h, bin_v;
- 
--	imx219_get_binning(imx219, &bin_h, &bin_v);
-+	imx219_get_binning(state, &bin_h, &bin_v);
- 
- 	return (bin_h & bin_v) == IMX219_BINNING_X2_ANALOG ? 2 : 1;
- }
-@@ -455,7 +454,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
- 	format = v4l2_subdev_state_get_format(state, 0);
--	rate_factor = imx219_get_rate_factor(imx219);
-+	rate_factor = imx219_get_rate_factor(state);
- 
- 	if (ctrl->id == V4L2_CID_VBLANK) {
- 		int exposure_max, exposure_def;
-@@ -689,7 +688,7 @@ static int imx219_set_framefmt(struct imx219 *imx219,
- 	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
- 		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
- 
--	imx219_get_binning(imx219, &bin_h, &bin_v);
-+	imx219_get_binning(state, &bin_h, &bin_v);
- 	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
- 	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, bin_v, &ret);
- 
-@@ -937,7 +936,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 
- 		/* Scale the pixel rate based on the mode specific factor */
- 		pixel_rate = imx219_get_pixel_rate(imx219) *
--			     imx219_get_rate_factor(imx219);
-+			     imx219_get_rate_factor(state);
- 		__v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
- 					 pixel_rate, 1, pixel_rate);
- 	}
+It is a simplified description of the hardware to make it useable for
+most software which is expected simple uvc cameras.
 
--- 
-2.48.1
+There are still two common issues in user space software related to this
+driver:
+- software expects width == linesize
+- resolution selection is based frame height, i.e. it prefers 1080x1920
+  over 1920x1080 on devices with quadratic sensor.
 
+ciao Janne
 
