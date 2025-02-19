@@ -1,142 +1,288 @@
-Return-Path: <linux-media+bounces-26366-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26367-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2540BA3BF49
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 14:01:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EBEFA3BFBE
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 14:22:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1097E18811CA
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 12:58:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB603169A12
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 13:22:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DC811E98F4;
-	Wed, 19 Feb 2025 12:54:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8738E1E25EF;
+	Wed, 19 Feb 2025 13:22:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Ojhv1gYn"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="GEdv5sNb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC8B1E105E;
-	Wed, 19 Feb 2025 12:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DB81DFE36
+	for <linux-media@vger.kernel.org>; Wed, 19 Feb 2025 13:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739969698; cv=none; b=H1jt/O9oEbdYqrZLw5o5wFehZBgk/mFJMjd3eMAZTE6CULRmtNdFRp1iTSkP9VHnhIuzZ5sQ+A3LhT8jOEs23/ZN0vYAjIEY/kK1kcMoHWWGh7QkU6vS21qx59T2K0DucPu9VWj0EtKUf+ianccKIZ68LarhQG1QYRKh7+WVvN0=
+	t=1739971327; cv=none; b=Kgznho+mLR+Fpw9Rzs1g50I1gOtz7348GXJrxaVo6C6+Asjt4tTyAmtpp8HBpMUicsSSX2PJxFwlaF38deltF/4d8w0Kva/O+joQG195P/lJtFptqbRFSzSRDQHVvqqe91uJ7kgFoGHrYSBOA+Cril/LHuXoy5t1ze50lXRhpkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739969698; c=relaxed/simple;
-	bh=Q/nXdxHGvbQWNEHz1kYW91/CQ5zP3gVSY2KAUBZiO50=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=ub1IVltrktRrcLOZJxM+kYWjUOpMYjc2TluH4XQwTzsZXF4HZyssMYfSD+qXcW+Kqgl+GYG4Z5Aj1GmQJ1Mjy+XozO4MbDkRNOsd0Gc7VULlYs2ohJIFA1dctcFdoCusio2W6nfXno3bKtqD8LEtlKgbF4dmsy+tlFm5gKlvCHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Ojhv1gYn; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1739969668; x=1740574468; i=markus.elfring@web.de;
-	bh=NX2wgBTb57YNhQ0Dx2z58i0VYdMln4e5I4vq7Id/u/8=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Ojhv1gYnRx2oJvMCOW/7S5ogYi96h1eNZmBVjkDZE6HIgfn2bII237fhxN/7KZsD
-	 TbJx6YTDA0wj+xQ01ee78LN1sBK+MH13PGLGB/C2RrJh/biFIvTeFPRkrML/4qQfw
-	 13mbxKPnYqG1ZEAAxz45Af1J+rnwzpyRElAJ5GGPXFlyUjrngYViYaCA2uzkrzaBe
-	 u7F1I8C/D0N2pLh3o5zqFrKhTyf1zdui4pGYEY//aVIcyQyfTzj7y/RylJsBhEhm5
-	 OY6nKHp6dqx0f94VeuS+NaVOSVPC1/zKK2qHQQ4yS5cIyEasMyvXo9g9vArg3PRx8
-	 yEDdFZZg0UFaQfEtOg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.10]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MZjEJ-1toFzn27IF-00OMPN; Wed, 19
- Feb 2025 13:54:28 +0100
-Message-ID: <218b109e-a05f-42f2-b0bf-1b15d1a28b50@web.de>
-Date: Wed, 19 Feb 2025 13:54:22 +0100
+	s=arc-20240116; t=1739971327; c=relaxed/simple;
+	bh=YUJnJ8rhFc5+I3E/mQ85kMmP6w34U3tXi31VSVl/cVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BmmNcgAdP1ZD5hXXw+Go1NO8EcBMaZx90KGbT0emaxzX1AvQ4EL2UcHyTKiw2GAzlAePyiDk2DHqtuc5SNKr/pWJY2WyCgEz0Aj/Il4CyBR9xYLr8n4KYlkEUpwiq1FWRxpm6dP48KCR8mBWv6rWb6eMU9RQU/mp40wJK79OUew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=GEdv5sNb; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4397dff185fso34088625e9.2
+        for <linux-media@vger.kernel.org>; Wed, 19 Feb 2025 05:22:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1739971323; x=1740576123; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ItERCttD4ZqCJ2HvXTOXVmKnbOGbB9MYcRuiAClfxiU=;
+        b=GEdv5sNbDi5b8ZzkRcaHABWfsg7coesfr1FjBksAfTWv3wu+XsAJSwsOiipmPG5WCb
+         VtE8KXX2Dq7/ZB8enCA21wP4IJzEawxotKD+XXncpunW63WH6t75n1/LFBB/lZMGAioH
+         +MD4RJpGBExuALUY3ucPq3OkzLBoA1LnOkQ34=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739971323; x=1740576123;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ItERCttD4ZqCJ2HvXTOXVmKnbOGbB9MYcRuiAClfxiU=;
+        b=d5CIQJDe/E7N9ake9MY0SbY6UXmK35eqzQNR2LECzdcrTs+BH1BqU9rbKss84RFX/6
+         YjYw1DPVHmcTZtPuDrd/ZLmms86BmnMu7mv8ZaOPugls1aw08IhiO5v/7prUx8HiUJ1n
+         Cw7V99GT8mh0syNlacxICx5j2IBe9YJ7kprlrUvCc2ej1hATC3v0E+07N+WTXpmP7xYg
+         CShWP/lh8TIPrS8FM0ECK+SKqGnoXyiSP1vkv6kjUb1ob8GfwPtjz9WmnUmzIpYHHtcB
+         2T2rny6gsJViSuWSnFf8DBUvS+6MpTcMRapYdtzMjKcLj5Q3LPaQCLfBArnbmHsg2L5d
+         Dafg==
+X-Forwarded-Encrypted: i=1; AJvYcCX+4P0+TyPK14j1PIFrtW9rA+E21B4mkL36/RXvULosqzL8gS04q0mei6j56LyLQtsahlycV7Eiki+Xnw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8Itxqj3E+Q/RL1tk+UAKANLkkouapZiB2meMXWljzizB8vgct
+	r85XxpI4Q5s1cg+AwGGq60Ar/TcqDTQwnAXx6KcJEUkDa3LUeLOj+6fSs/GUj08=
+X-Gm-Gg: ASbGncuiftVIl7eiZKqoBuPNIA/layWLvvbS/TjrJ6cKl4aS9Bu6IqLG6UN+XBtCCjz
+	Z3uCQcwT66yfEznYtt8N5h7CGcNoFTnWwkwhza+NPSIRGPnfjn/AQP4YhlIQqZ4OycNyz2rKP+Z
+	B/pskDpvdhyFCFnv3OVFpY4vY+oaF3BbkE2qV6MR4KrHDSFaFD95LFss8ZiXwzyeHKjgHyTE0nk
+	o6ez+EKXEbpwjGSwyAVhFIVyGn6RMFLNBUrsVGk6W4BIW0gAiqtR+wxTALrJ89t3JBpJcNIYxv+
+	Z0dDcJyQh2eTeagXENksE+ryBME=
+X-Google-Smtp-Source: AGHT+IFOilwBJ5aoh97zcLA4mj4xU/YMSCmbCjCXU9wojxNHTeliFqqcujswwLdduRHkO4EdT9IN9A==
+X-Received: by 2002:a05:600c:1c18:b0:439:6e12:fdb4 with SMTP id 5b1f17b1804b1-43999da3ac7mr40722565e9.14.1739971323224;
+        Wed, 19 Feb 2025 05:22:03 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d5ef9sm17846401f8f.76.2025.02.19.05.22.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 05:22:02 -0800 (PST)
+Date: Wed, 19 Feb 2025 14:22:00 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	dri-devel <dri-devel@lists.freedesktop.org>,
+	"moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com,
+	Florent Tomasin <florent.tomasin@arm.com>
+Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
+Message-ID: <Z7Xa-K0aOqcndICH@phenom.ffwll.local>
+Mail-Followup-To: Daniel Stone <daniel@fooishbar.org>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	dri-devel <dri-devel@lists.freedesktop.org>,
+	"moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com,
+	Florent Tomasin <florent.tomasin@arm.com>
+References: <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
+ <20250213134008.4cbef142@collabora.com>
+ <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
+ <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
+ <CAPj87rPHnME5Osgnf5-FSAu22mDpLj=dzvhi_NqEcOwr1ThgGw@mail.gmail.com>
+ <CAHUa44Gs0D1fBD0=+EDgcQUMeDv4knci9trUkYEc1J98qFV7HQ@mail.gmail.com>
+ <CAFA6WYOuTwRPEh3L7+hMyARB_E73xmp+OwhKyS-r4+ryS7=9sw@mail.gmail.com>
+ <20250214164856.0d2ead8a@collabora.com>
+ <CAFA6WYPc6EHQwcPuMZRm4C1P6SoDrCzEPUmju_meupB6NXQ1sg@mail.gmail.com>
+ <CAPj87rN-OYTzh5=Gdv619UQD5=x=U6Yt=uV4N1kCs4Zao4RVAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Gerald Loacker <gerald.loacker@wolfvision.net>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Mehdi Djait <mehdi.djait@bootlin.com>,
- Michael Riesch <michael.riesch@wolfvision.net>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Kever Yang <kever.yang@rock-chips.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Paul Kocialkowski <paulk@sys-base.io>, Philipp Zabel
- <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Val Packett <val@packett.cool>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Mehdi Djait <mehdi.djait@linux.intel.com>
-References: <20250219-v6-8-topic-rk3568-vicap-v4-5-e906600ae3b0@wolfvision.net>
-Subject: Re: [PATCH v4 05/11] media: rockchip: add a driver for the rockchip
- camera interface
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250219-v6-8-topic-rk3568-vicap-v4-5-e906600ae3b0@wolfvision.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QIH6bMsC4SL6tM5FXvxmKgSOSHYCPU+Qy2oNfHkFEGuXlyilvv/
- IFsq49vVgAZ/Pz+LhRUXX39v0QsqT4VJ0lzMuThOjmq2AA6jbH631PmDEgT1rfrLNEJUcyz
- fVzOl/gOx3F9fxs0UJNOZNUdE4T49CZVR/EQoWROi04wkD8GyzY3YidoSpCPlyoa8a/6rNh
- ZlaRJ7Sc+nD/ATpgRsMUw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:irdIEICfqUI=;IsbIQ2vMNaB35dqJ5SZn3/+Sp3+
- mXwNV2aM8hxp6dDAjuGUyS+Y0n0nQfiuRYj7EjV5dbJJPQ1qgTA/aoOsbdgHzr4anJUz1urak
- 1Fy4Ld/li3SbQBe+1bTlAnjy45NtgK6c32v9JDO15iuqxJH/8sBokEUieuUTpvpqmTWGqHrGK
- LMhCNWRZ4fMI4B/hcCNE9611FTaENHqw0wZt2QxPmiIHc0dEw42A3IGY9A/eEP35n2QyTML9P
- TPMoN+DzXd5uFBST/7zzYvoG74g0tgseOgdVpdCoLMpSOyD0mw2kLzIM59mPaj/FA2tRif03b
- 4jeH+E2Ox5p7mJ6ZPxVdBGY8QrqoJH+/TjcT3OgP+JtNSeHzc9rlnjJ6I2svyQhCJ3CfJjsYb
- VnKSQs3Sfa8gJUEkrlcJ/ZIiPEX7UCvqDWO2xJmwBeAZbpzZ4CsKXlG6nuhNUK2Q7YTODUogH
- RSaVLVg3S3X4dY5dV4s73smx3kDb92+vxtH1rJaUkchMdy+XiRpJaeKk1/smFaHtEdou/4iov
- Ouv0TiV2K51V5KrGuB6kBsUw9cnqsSZQ2HnMvYJ57Q99QYx62BjMGj0hHh8m+87+QfP1p2EFK
- Vo7oh4O1UO7pD/IRenTP0pWWqG+mIMSNe78luOBp5MW7CPBqharvXE4pfuNjCRS+rDoHsrfSy
- m4OGd8g9l9eSJDAr7q/tunzX5ksrBN2N0ao4evDDKf4MopkrUavi3wrJEfL5Kd0vwp8NDtHze
- gmbelQPmuIwtKsHfIQwa3tsLfhZPN9w+leySKkJr541BKuGe77AL5SHeqMrix/GoWZPA25pgX
- aBAtiVUz0l67QHVN3xoTZWA53me/9XxuLwA3uyO0q8lRXKn3kHfFqWQFRXNNDOJqmE12CvkuW
- alJmeRxP6SumTbWDk0NE2AnNTMCRBVeVRF/rUVbT7tL05ILNmU7T/0Uu8xTDW546L2dl/JxT9
- DFMOejqdbzQIeTDxXRePaLbcU/K8nrZLFPlyd/7SFu7ea/RrO4OXChCQS9jQZn/JN+irxc1fY
- gMboO6kG+hEvwl8jERbxhjBsSAEyow55ijMMdRhw95xogj6GOXRzrJnaTsm2Dztd7PVGSyigj
- wc0NLwrTQBoyyi7649VfhzDAXWIpM3twStyRwnpnGuBT2fq+fDjqVYZjygyKf7XZXtf6r/9cB
- BIS5BDKPY6DZ936Q7thnh//IRKWVRex5o7810MS3lZSXHj95gH/V5fi/YiFjKl/AP6u1NgM3T
- vOkzaJ75n2J2bhfyPcRZKe9dKlnwPDYX/8V2vCOnW+vU3YrLbMkuoEzXU2FWgTHiJwrPZ/RTj
- R8uij/kRfK+pF5NIn3HrXTvpiwjcG9qSnZqDrHjhd6sZKd6/PoUFsVg59irRrleUNQBlSru64
- Odc/rgs2jkQRD3fDWxGBjl116fQCxh3SHnRa5aJ8Wb9/66RHlNepWfOmVn6FCCAkL/tCEzuad
- Ok5fKh33orINRYSUGyKpM0Vp7u50=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPj87rN-OYTzh5=Gdv619UQD5=x=U6Yt=uV4N1kCs4Zao4RVAg@mail.gmail.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 
-=E2=80=A6
-> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-> @@ -0,0 +1,622 @@
-=E2=80=A6
-> +static void rkcif_stream_push_buffer(struct rkcif_stream *stream,
-> +				     struct rkcif_buffer *buffer)
-> +{
-> +	unsigned long lock_flags;
-> +
-> +	spin_lock_irqsave(&stream->driver_queue_lock, lock_flags);
-> +	list_add_tail(&buffer->queue, &stream->driver_queue);
-> +	spin_unlock_irqrestore(&stream->driver_queue_lock, lock_flags);
-> +}
-=E2=80=A6
+On Tue, Feb 18, 2025 at 04:22:10PM +0000, Daniel Stone wrote:
+> Hi Sumit,
+> 
+> On Mon, 17 Feb 2025 at 06:13, Sumit Garg <sumit.garg@linaro.org> wrote:
+> > On Fri, 14 Feb 2025 at 21:19, Boris Brezillon <boris.brezillon@collabora.com> wrote:
+> > > I would say one heap per-profile.
+> >
+> > And then it would have a per vendor multiplication factor as each
+> > vendor enforces memory restriction in a platform specific manner which
+> > won't scale.
+> 
+> Yes, they do enforce it in a platform-specific manner, but so does
+> TEE. There is no one golden set of semantics which is globally
+> applicable between all hardware and all products in a useful manner.
+> 
+> So, if we define protected,secure-video +
+> protected,secure-video-record + protected,trusted-ui heap names, we
+> have exactly the same number of axes. The only change is from uint32_t
+> to string.
+> 
+> > > > Christian gave an historical background here [1] as to why that hasn't
+> > > > worked in the past with DMA heaps given the scalability issues.
+> > > >
+> > > > [1] https://lore.kernel.org/dri-devel/e967e382-6cca-4dee-8333-39892d532f71@gmail.com/
+> > >
+> > > Hm, I fail to see where Christian dismiss the dma-heaps solution in
+> > > this email. He even says:
+> > >
+> > > > If the memory is not physically attached to any device, but rather just
+> > > memory attached to the CPU or a system wide memory controller then
+> > > expose the memory as DMA-heap with specific requirements (e.g. certain
+> > > sized pages, contiguous, restricted, encrypted, ...).
+> >
+> > I am not saying Christian dismissed DMA heaps but rather how
+> > scalability is an issue. What we are proposing here is a generic
+> > interface via TEE to the firmware/Trusted OS which can perform all the
+> > platform specific memory restrictions. This solution will scale across
+> > vendors.
+> 
+> I read something completely different into Christian's mail.
+> 
+> What Christian is saying is that injecting generic constraint solving
+> into the kernel doesn't scale. It's not OK to build out generic
+> infrastructure in the kernel which queries a bunch of leaf drivers and
+> attempts to somehow come up with something which satisfies
+> userspace-provided constraints.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(spinlock_irqsave)(&stream->driver_queue_lock);=E2=80=
-=9D?
-https://elixir.bootlin.com/linux/v6.14-rc3/source/include/linux/spinlock.h=
-#L572
+Fully agreeing. The one thing we discussed, but haven't implemented yet,
+is that we'd add sysfs links from devices to the dma-heaps they support.
+Including allowing for priorities and different use-cases on the same
+device. We just haven't gotten there yet.
 
-Regards,
-Markus
+But even with that it's up to userspace to do the constraint solving, not
+the kernel.
+
+> But this isn't the same thing as saying 'dma-heaps is wrong'! Again,
+> there is no additional complexity in the kernel between a dma-heap
+> which bridges over to TEE, and a TEE userspace interface which also
+> bridges over to TEE. Both of them are completely fine according to
+> what he's said.
+>
+> > > Honestly, when I look at dma-heap implementations, they seem
+> > > to be trivial shells around existing (more complex) allocators, and the
+> > > boiler plate [1] to expose a dma-heap is relatively small. The dma-buf
+> > > implementation, you already have, so we're talking about a hundred
+> > > lines of code to maintain, which shouldn't be significantly more than
+> > > what you have for the new ioctl() to be honest.
+> >
+> > It will rather be redundant vendor specific code under DMA heaps
+> > calling into firmware/Trusted OS to enforce memory restrictions as you
+> > can look into Mediatek example [1]. With TEE subsystem managing that
+> > it won't be the case as we will provide a common abstraction for the
+> > communication with underlying firmware/Trusted OS.
+> 
+> Yes, it's common for everyone who uses TEE to implement SVP. It's not
+> common for the people who do _not_ use TEE to implement SVP. Which
+> means that userspace has to type out both, and what we're asking in
+> this thread is: why?
+> 
+> Why should userspace have to support dma-heap allocation for platforms
+> supporting SVP via a static DT-defined carveout as well as supporting
+> TEE API allocation for platforms supporting SVP via a dynamic
+> carveout? What benefit does it bring to have this surfaced as a
+> completely separate uAPI?
+> 
+> > > And I'll insist on what
+> > > Daniel said, it's a small price to pay to have a standard interface to
+> > > expose to userspace. If dma-heaps are not used for this kind things, I
+> > > honestly wonder what they will be used for...
+> >
+> > Let's try not to forcefully find a use-case for DMA heaps when there
+> > is a better alternative available.
+> 
+> What makes it better? If you could explain very clearly the benefit
+> userspace will gain from asking TEE to allocate $n bytes for
+> TEE_IOC_UC_SECURE_VIDEO_PLAY, compared to asking dma-heap to allocate
+> $n bytes for protected,secure-video, I think that would really help.
+> Right now, I don't understand how it would be better in any way
+> whatsoever for userspace. And I think your decision to implement it as
+> a separate API is based on a misunderstanding of Christian's position.
+> 
+> > I am still failing to see why you
+> > don't consider following as a standardised user-space interface:
+> >
+> > "When user-space has to work with restricted memory, ask TEE device to
+> > allocate it"
+> 
+> As far as I can tell, having userspace work with the TEE interface
+> brings zero benefit (again, please correct me if I'm wrong and explain
+> how it's better). The direct cost - call it a disbenefit - it brings
+> is that we have to spend a pile of time typing out support for TEE
+> allocation in every media/GPU/display driver/application, and when we
+> do any kind of negotiation, we have to have one protocol definition
+> for TEE and one for non-TEE.
+> 
+> dma-heaps was created to solve the problem of having too many
+> 'allocate $n bytes from $specialplace' uAPIs. The proliferation was
+> painful and making it difficult for userspace to do what it needed to
+> do. Userspace doesn't _yet_ make full use of it, but the solution is
+> to make userspace make full use of it, not to go create entirely
+> separate allocation paths for unclear reasons.
+> 
+> Besides, I'm writing this from a platform that implements SVP not via
+> TEE. I've worked on platforms which implement SVP without any TEE,
+> where the TEE implementation would be at best a no-op stub, and at
+> worst flat-out impossible.
+> 
+> So that's 'why not TEE as the single uAPI for SVP'. So, again, let's
+> please turn this around: _why_ TEE? Who benefits from exposing this as
+> completely separate to the more generic uAPI that we specifically
+> designed to handle things like this?
+
+Completely concurring on everything said above. TEE exposed through a
+dma-buf heap (or maybe special v4l allocation flag for secure video
+playback) and then we prime import that on the display side. Maybe also
+through drm render drivers for the EGL/VK protected content extensions.
+Same for any other hw means to allocate content protected buffers, TEE is
+not special here at all.
+
+Anything else needs seriously good justifications why the entire dma-buf
+heap design is busted.
+
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
