@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-26371-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26372-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48C7A3C07F
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 14:50:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E38A3C094
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 14:52:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AEC618918A4
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25F31172D52
 	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 13:50:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3A3E1E47D6;
-	Wed, 19 Feb 2025 13:49:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 560121EDA1A;
+	Wed, 19 Feb 2025 13:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R+9lbiSc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bmiMBl6w"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2B31C4A16;
-	Wed, 19 Feb 2025 13:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421701E0B61;
+	Wed, 19 Feb 2025 13:49:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739972987; cv=none; b=W0roSWGMiuHnffPPt5EP7E1owsFxtsibJsMA80EsL881qI58fWt2U04LygkpLwEfbKAg7sfrJ8MobqpFAzekJOp3MDj3NPFyFBmgcQC3xUs0L/O/OCFrulde2lq5LGhxrVR+/8UkzUKNWlXTa2J6w+tiITg0G8ANsVnev8S3hZI=
+	t=1739972987; cv=none; b=nSGEwGxp4nqnR8lfyRjSaOTm+IZqdzGZHPZnehYzkoG0UguOXt1WKWW5NY76ljYeLk0wfIC4ZNjjtwGytOiBb5aLV8VGXVzTDMVr024MOfsneNGBccmw69MjSUWQg/8kF5J3KRZgjMxQIGCiQdK64bS0mXYlgs3dHUfI9Zr2DqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1739972987; c=relaxed/simple;
-	bh=rSI6cx/RPfMQe4oAO+y9gJg7CLsr656IO2NxzyrCboE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XBb2vwCRd2n+irfSGvIVg2JObgkntkLx5J9Cfifw+6JM8lW2etDtCfJXrqlt6Q9DurxJJnk1TZEfmOhb1qNFPo5fYd2o9tXDHOeiskyT1q36u8mBhqZAB1BG5z7cSxH5wdV1gLYyNOrDsnSwGGPuzqxyuUTaalVHIeHHNZeGatA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R+9lbiSc; arc=none smtp.client-ip=213.167.242.64
+	bh=QCdow8fYV/gcoLZOG4ngc/tMnOtsJNdvgkcgwY/I9qw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jPtq3615Wwl64bd4H62WOazDPOk+Rac4Y10mFTijUiXuI71VI+be9dr/VSmMzOMPjf8xKKxx2kQJlo/8FWMSg/UyLs3jVXWhOSPZsKCLfphDDLqUujNL9gi+fItVmG2hf61JqC2fKUZ81c66nHj+cbAyo2gwAkd/sSDVW75lC0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bmiMBl6w; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47A6A169;
-	Wed, 19 Feb 2025 14:48:20 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E4236B5;
+	Wed, 19 Feb 2025 14:48:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1739972900;
-	bh=rSI6cx/RPfMQe4oAO+y9gJg7CLsr656IO2NxzyrCboE=;
-	h=From:Subject:Date:To:Cc:From;
-	b=R+9lbiScC/nHVPWs9+SGMll4rlZQvE99G0dNxHodkmScLMqc6qRbBCIQ1GBw2Wl/u
-	 zg0C0hKOpfzXmfzaGXcLpESzUjwDu5QxTAtDC7IcEJx7rsIqM2qzKwqnWEbCIVg6Rx
-	 gysF0+UACX+aXx6/LEPdnO9JaSOlhjPrRUr/LacM=
+	s=mail; t=1739972901;
+	bh=QCdow8fYV/gcoLZOG4ngc/tMnOtsJNdvgkcgwY/I9qw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=bmiMBl6w1a3GzTwXOK7xmwKB8PoOzmcj9NvMbvhsCP2QDDxewuF2be/wXVJ96HSGm
+	 OEr+Pu0a+azgV9pYxZfPtJcR8ZGEqypXWoY9BY1bqr/Dap8Wd9KrC6fe8o+AHOcTcD
+	 LYzb40oVqBxLfiN3dJAyet49DDnx0rWue7GAN3YI=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: [PATCH 00/18] media: rcar: Streams support
-Date: Wed, 19 Feb 2025 15:48:54 +0200
-Message-Id: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
+Date: Wed, 19 Feb 2025 15:48:55 +0200
+Subject: [PATCH 01/18] media: rcar-vin: Add RCAR_GEN4 model value
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,13 +52,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEnhtWcC/6WQwWrDMBBEf8Xo2spoZUu2TCn9j5LDWt7EIpGda
- h1TCPn3Kg70lEvpaZmFeTuzV8GUArHoiqtItAYO85QFvBbCjzgdSIYha6GVNkqDk8ljkrwkwsg
- S9gNh21pFhkS2nBPtw/eG+9w9dKKvS6Yuj6WIxIwbtSveMrRWoF2e2tQlgLZZSpBTOJ6QS54HS
- qfLNLwkmoiRPxIeJlzIjyXT+/3iUx444zYeKFtXf+L9lu6KrTJo9agcaQgoQzynWWpfNR5UZQl
- ct8KzHPdnKWiMBVOCba3R7l85NLRynzCSHIi9PCPzMqb5chilta0yVEPlmrpb9d3dI5P0c4xh6
- Qpf903TOOy9tWJ3u/0A3n0s4/QBAAA=
-X-Change-ID: 20250219-rcar-streams-1fdea8860e5e
+Message-Id: <20250219-rcar-streams-v1-1-f1b93e370aab@ideasonboard.com>
+References: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
+In-Reply-To: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
 To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -70,109 +66,102 @@ Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.15-dev-42535
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4516;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3060;
  i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=rSI6cx/RPfMQe4oAO+y9gJg7CLsr656IO2NxzyrCboE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnteFvxiG4uHuUogZ/dy0udlygvfz2o08EGqUlt
- VDbNW3puX2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ7XhbwAKCRD6PaqMvJYe
- 9XkwD/sGzrtr9Fr9Y6BM5C2NgVKGxEG12mdpbbcDP3SvC+/z6sUd+s42yrr4V8N+AnYBs14BBOu
- kQYPYL20rmIkvAjAHeC1mORYiKfYz1o6V8bwlt6NB/xYPaSokFtXR4FFpJE5Y++OQ+OdSgCTFqt
- wRymxVuPALYJcxUdg21Zl/dWdDCrEyQqmwBG0V/NtisqXyCBQ7UbgPiDaQkwDGA9TVwM6O8xOOy
- m3WzzDjI4NDEDhySVuxtuA27AwLfrNMGsvPczRIDEPQDgzTC/sm2sHIE47n6577dxp4ytXODQ4Z
- Mi4a5wkn+IQLq6oevcNIPaHO9jg4ob4N4dDXqPEVl8KXJQSkoKX2EdxaE65vhM35hhf7mqox1vz
- CBjQ0bjhCg54Qdewv4gZ/BTXw4MnIWfqYhD4FAG2GgG3MMff3C5MiZ7S5AwF6L5lGjuEiD980m/
- lVMCpOInLn1T8NesMLESPkkgjg2ckDoNb0KG92zwrDi7V5PaiGLqhgWPwhzanPG33vTKHpFlM7v
- LlYP68xur7ss4e443T30SJhSE1tH2Ndm7evwZ/spkoDd4mWCLvKft0cmthUn6WFtOgVQffNRh06
- S7sOvxibfooXMev0I1zmomIrP9v6IfrC2otHI8RXaTkzGWvVtdKkRgDp8fsE2McNcdlIFp/481Y
- pJuOL48vynqnvag==
+ bh=QCdow8fYV/gcoLZOG4ngc/tMnOtsJNdvgkcgwY/I9qw=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnteFv+AUe/JK1zWWc7VybdLq2/DzF9PBAyG1EQ
+ 42GPjgCLqSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ7XhbwAKCRD6PaqMvJYe
+ 9f9lEACGTYXM+t0Q0JlZtfM68RaR0SgNXQMVg6rpMGtgHLK5+ZgmxPedqmh0vDZngY+yYFQM0VW
+ azP7HOuGZwP5FnIlqA46qJ+9rXZPp7yeH1F24Nuad3kpQ9SyFw1qvVt4++OKP1yx5NdMg9V2+0T
+ HAJ4sFs5puleOC5CbGzU6Vzzj8pbztWHo7A/R+e9D2W1/RRNPv7BV3/5grQMTQu/QG6IHM0Z7P7
+ RdCtkjyZBCqw5y+jy1S+soWK9gcl4dr9VgI7mqcw/FRxnCXa+Bn3zsL4mMUaPpx760zZk+pk/i5
+ VGKDpkLiQKjZGOPuSE8pHpLTRVkfDEbjpQkKa3r5JhUo7Y2bml8L4jhD1Wylr+9j67KxpiGoe93
+ x+kWkaNF/d1UbGNyfE1bJx0J3HvOHbFZXkdnd47kLk1YkbISw2pnecJqfH9lKufNaqjVAD2Sh7+
+ wZnRSmkQgAz/dqGd33DrG6TAtpyaoOHGTPuigntgHZL/0YfofOBjixVc27p7/zi4Vw//vAEKneg
+ t8aHbEVpYbiEmvFIVpXq0/3vEaxc4XLXDaLV3tED2ZQ94opioGyVY0aZmDVK2J6W5gyuTb8WfyG
+ r6JdgqCqiQ1xX4zxASWorqmz41oLD2O5iY2RIs0owO7Li96QVQoDls8485EGDOJWkTM846mR01I
+ hddbYtVszMGbHxw==
 X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Add streams support to Renesas rcar platform driver.
-
-The series attempts to keep compatibility with the current upstream.
-However, in upstream there's some kind of custom multi-stream support
-implemented to the rcar driver, which breaks at patch "media: rcar-csi2:
-Simplify rcsi2_calc_mbps()".
-
-The behavior should not change when using a single stream.
-
-A problem with the series currently is that it has a lot of
-dependencies that are not in upstream yet.
-
-Testing is even more problematic, as the only way currently for me to
-get multiple streams is by using the GMSL2 deserializer add-on board
-with GMSL2 serializers. These are not supported in upstream. If someone
-has the hardware and wants to test, I can share the very-WIP branch that
-contains the missing pieces.
-
- Tomi
+Currently Gen4 VINs are marked as RCAN_GEN3 models. Add a new enum
+value, RCAR_GEN4, and use it for Gen4 VINs. No functional changes in
+this patch.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
-Tomi Valkeinen (18):
-      media: rcar-vin: Add RCAR_GEN4 model value
-      media: rcar-vin: Fix RAW8
-      media: rcar-vin: Fix RAW10
-      media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
-      media: rcar-isp: Move {enable|disable}_streams() calls
-      media: rcar-csi2: Move {enable|disable}_streams() calls
-      media: rcar-csi2: Fix typo
-      media: rcar-csi2: Move rcar2_calc_mbps()
-      media: rcar-csi2: Simplify rcsi2_calc_mbps()
-      media: rcar-csi2: Optimize rcsi2_calc_mbps()
-      media: rcar-csi2: Switch to Streams API
-      media: rcar-isp: Switch to Streams API
-      media: rcar-csi2: Add .get_frame_desc op
-      media: rcar-isp: Call get_frame_desc to find out VC & DT
-      media: rcar-csi2: Add more stream support to rcsi2_calc_mbps()
-      media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
-      media: rcar-csi2: Add full streams support
-      media: rcar-isp: Add full streams support
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c | 2 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c  | 8 ++++----
+ drivers/media/platform/renesas/rcar-vin/rcar-vin.h  | 1 +
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
- drivers/media/platform/renesas/rcar-csi2.c         | 430 ++++++++++++++-------
- drivers/media/platform/renesas/rcar-isp.c          | 228 ++++++++---
- .../media/platform/renesas/rcar-vin/rcar-core.c    |   2 +-
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c |  20 +-
- .../media/platform/renesas/rcar-vin/rcar-v4l2.c    |   8 +-
- drivers/media/platform/renesas/rcar-vin/rcar-vin.h |   1 +
- 6 files changed, 499 insertions(+), 190 deletions(-)
----
-base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
-change-id: 20250219-rcar-streams-1fdea8860e5e
-prerequisite-message-id: <20240129202254.1126012-1-niklas.soderlund+renesas@ragnatech.se>
-prerequisite-patch-id: 23c9dfd64dd6176312d50191e60b0a92937c0051
-prerequisite-patch-id: c49831184e0a6ff063cadbc79381c0f68d5b0f63
-prerequisite-patch-id: 47104e797dfef692022a72cb62d7fad2fc44f0f5
-prerequisite-patch-id: c89cf1fd9e528e6685ba8ce1e93e94f019f43913
-prerequisite-patch-id: e096565500ed748974824328adf14905ae40bcaa
-prerequisite-patch-id: 87a61e2c15f59928a96e9213c338cc2a65344c58
-prerequisite-message-id: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
-prerequisite-patch-id: 748963119debbf990374b9eb06659381a3924824
-prerequisite-change-id: 20250120-rcar-media-impro-2c37c1036e19:v1
-prerequisite-patch-id: 3741e9cc665b78b56d18eee0041626d3c739dad5
-prerequisite-patch-id: 99a13857e0de3c1cadc7a971f6c3fb4449599313
-prerequisite-patch-id: a034cd446e21ba28273607f1d928c13739fb83f9
-prerequisite-patch-id: cdf480b4562e749c4190ceec50e78a8dac155bd5
-prerequisite-patch-id: 94c99ecd291d3d3f86b148406bbc383405016f2a
-prerequisite-patch-id: 690790ff01515aa452e73581c3ee4312246bfbc2
-prerequisite-patch-id: 74c5bed5396ef54ded950b9c449ea23b8f67636b
-prerequisite-patch-id: 3a6b197715760886ab383fefe1d5f95f40d8b063
-prerequisite-patch-id: e9f04f626ae08c981faa66de72663e8940a4f92e
-prerequisite-patch-id: 58b5dc8fd9026dcfede60b005294692964def2a1
-prerequisite-message-id: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
-prerequisite-patch-id: a4aa6a184c6a21fc4536c11e14d9b5cc61f13346
-prerequisite-patch-id: 1b0091875529d392b142814005baa38b2ef77f98
-prerequisite-patch-id: 4c960ae93b1e663b11194903ed1810e0ed1e4f59
-prerequisite-patch-id: a5641e1dcad0f39baef8996b6731a471046f18f9
-prerequisite-patch-id: 481317ba4b987cbb069c31f3372686a59c0fcb67
-prerequisite-change-id: 20250218-frame-desc-passthrough-66805e413974:v2
-prerequisite-patch-id: da0097f1a6c5b58f87210acd974d7eba0b721dc3
-prerequisite-patch-id: 7cc5997549353a7e300f4778fd883e900d2251b2
-prerequisite-patch-id: 57d4622505842a9c9b8cbedb49745a155826c464
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+index c3cf02b94a2b..68c0acc7fc2c 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+@@ -1089,7 +1089,7 @@ static const struct rvin_info rcar_info_r8a77995 = {
+ };
+ 
+ static const struct rvin_info rcar_info_gen4 = {
+-	.model = RCAR_GEN3,
++	.model = RCAR_GEN4,
+ 	.use_mc = true,
+ 	.use_isp = true,
+ 	.nv12 = true,
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index 976a4e218cd9..f0a77199cead 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -821,7 +821,7 @@ static int rvin_setup(struct rvin_dev *vin)
+ 	}
+ 
+ 	/* Make sure input interface and input format is valid. */
+-	if (vin->info->model == RCAR_GEN3) {
++	if (vin->info->model == RCAR_GEN3 || vin->info->model == RCAR_GEN4) {
+ 		switch (vnmc & VNMC_INF_MASK) {
+ 		case VNMC_INF_YUV8_BT656:
+ 		case VNMC_INF_YUV10_BT656:
+@@ -844,7 +844,7 @@ static int rvin_setup(struct rvin_dev *vin)
+ 	}
+ 
+ 	/* Enable VSYNC Field Toggle mode after one VSYNC input */
+-	if (vin->info->model == RCAR_GEN3)
++	if (vin->info->model == RCAR_GEN3 || vin->info->model == RCAR_GEN4)
+ 		dmr2 = VNDMR2_FTEV;
+ 	else
+ 		dmr2 = VNDMR2_FTEV | VNDMR2_VLV(1);
+@@ -944,7 +944,7 @@ static int rvin_setup(struct rvin_dev *vin)
+ 		if (input_is_yuv == output_is_yuv)
+ 			vnmc |= VNMC_BPS;
+ 
+-		if (vin->info->model == RCAR_GEN3) {
++		if (vin->info->model == RCAR_GEN3 || vin->info->model == RCAR_GEN4) {
+ 			/* Select between CSI-2 and parallel input */
+ 			if (rvin_remote_is_parallel(vin))
+ 				vnmc |= VNMC_DPINE;
+@@ -1325,7 +1325,7 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+ 
+ 	if (rvin_scaler_needed(vin)) {
+ 		/* Gen3 can't scale NV12 */
+-		if (vin->info->model == RCAR_GEN3 &&
++		if ((vin->info->model == RCAR_GEN3 || vin->info->model == RCAR_GEN4) &&
+ 		    vin->format.pixelformat == V4L2_PIX_FMT_NV12)
+ 			return -EPIPE;
+ 
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+index 62fed93e4438..90534df84ccd 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
+@@ -39,6 +39,7 @@ enum model_id {
+ 	RCAR_M1,
+ 	RCAR_GEN2,
+ 	RCAR_GEN3,
++	RCAR_GEN4,
+ };
+ 
+ enum rvin_csi_id {
 
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+2.43.0
 
 
