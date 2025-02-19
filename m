@@ -1,110 +1,186 @@
-Return-Path: <linux-media+bounces-26411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26412-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774BBA3C8FF
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 20:41:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8EBA3CA8F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 21:58:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C36163A8D98
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 19:40:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 59DA0177021
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 20:57:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E06122B8D4;
-	Wed, 19 Feb 2025 19:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D957024FC02;
+	Wed, 19 Feb 2025 20:56:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="znhrNoNg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g//3XvXs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904D1184F;
-	Wed, 19 Feb 2025 19:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC3324F5A5;
+	Wed, 19 Feb 2025 20:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739994048; cv=none; b=FgNLmo069tdvD8646EMzIxE3ma1/qUpSQMfDzVbkUEo64ys5hAg04zML3WY15P4h1c8Xp7KQf852oxlgobz740Wi5DY5DwTFCBbSEYPEFRw2oPUQqB+y/Vw+4DDpr6FKB+8rNrm7OPVfXGxBgzxntCt5sTfiwkRSieHs4Qh4mUo=
+	t=1739998582; cv=none; b=llVjL7spUpNhiK/VsegzqTYl9uki/4CUHfZKFKlgOecyPp90Q8mQ592txGIPwfbrlVQh2C5qlYkrDKmAsgzEFFLoRKPnMhBYnWIBsjKDsCSHM3srx5GzjG6kbrsBTztBoWvtQ2ZyEypru2tAVCPBKWk5cWZxK5F3+GMUPJufv6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739994048; c=relaxed/simple;
-	bh=IZvZQ+Z2ANgypM5Ai42o0D3/NeLsJT0qXFUyLp8/kH4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Pgv8KC8VucHzqIr5RU3VmxC9LVMX8DTLpeVwENd7DUslcqSMCntA779RV/N4mZD7JrNLB05ma+Z9sXuqIsg442YOt6YN5+Jw5hW/wDjmADdOifIjh32r2LKpMlkF+d5+IZOO47KmhdmOKgAFoaNiXNnsMUokbRpsKJ0bcezBdgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=znhrNoNg; arc=none smtp.client-ip=168.119.26.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
-	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=uE1hvjxXsUUC1et/VMLf8EeRBWH8/5FEEmjbMg7Vyu0=; b=znhrNoNg1jDWT+rZCye1OrEbRx
-	0pK4ORsezD6ZZI0kEsrUVLnU6Nx0x8S2UJ1UbY6pnDID5AlvQe1b8CG6EwezIt/o3eEXl0jl/IfYL
-	cy/U8xZrKX6LqsFnPRE2/jtOZluTSUT8AAVceZq74UIt14nOJlvlCNZ7unA+pQwZAzB6ojwewx5CY
-	PqnALiqnk25KM0q0xudc6bxFSUwLVuBnAdFM60aFGc4TCaPnNMb73oUD/TFkK5PaPNs6eHmGN3Wl0
-	jF8oWQ78Dgl877QN45H4KhVuaPCxNxsHXaLuXXBhn6uuktsd4Ya7Wh5+CKTBOct8rRmtbBvAsrBtv
-	BjblUO8Q==;
-Received: from sslproxy07.your-server.de ([78.47.199.104])
-	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <git@apitzsch.eu>)
-	id 1tkpVW-000Geo-2e;
-	Wed, 19 Feb 2025 20:13:18 +0100
-Received: from [92.206.120.88] (helo=framework.lan)
-	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <git@apitzsch.eu>)
-	id 1tkpVV-000N4n-0Z;
-	Wed, 19 Feb 2025 20:13:17 +0100
-Message-ID: <426de13199c560301ed0a148d9ecd0155dfcff0f.camel@apitzsch.eu>
-Subject: Re: [PATCH next] media: i2c: imx214: Fix uninitialized variable in
- imx214_set_ctrl()
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Ricardo Ribalda <ribalda@kernel.org>, Sakari Ailus	
- <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-  Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	kernel-janitors@vger.kernel.org
-Date: Wed, 19 Feb 2025 20:13:15 +0100
-In-Reply-To: <1e4da85e-b975-4638-bd14-09ba0675d9d6@stanley.mountain>
-References: <1e4da85e-b975-4638-bd14-09ba0675d9d6@stanley.mountain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 
+	s=arc-20240116; t=1739998582; c=relaxed/simple;
+	bh=SwVFKxSc+q+/Fk6lprZYJUu87KetLTJcBHlaby5JfD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nxMJIk4LXF/hr6buN3vskF2N14t4h72e61LGk9cFmo6gTD1U3nzvTHH2DO33v5w1wqiIDJCws5eVm5FBkBMkyKr2hm9iSUjsAw7Ucy9qUQbFob9s8RWD8XJivq1AekKpnDNMWqdoz4qOMiQCnmKoXuyr0QcZixkkIpbD0hjQQY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g//3XvXs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78CF9C4CEE6;
+	Wed, 19 Feb 2025 20:56:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739998581;
+	bh=SwVFKxSc+q+/Fk6lprZYJUu87KetLTJcBHlaby5JfD0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g//3XvXseCTgecaubv9AFYITuKjsv0klarkoDHLZpSRf7EuHldOjnCEQqpDPkCIFe
+	 WjVpoJmy+hDof+8PzYw3CJiBYQ+TZ7HsClDeJzmxzD8rvBCO7dv6NHJrI4KzFCAP/u
+	 qiexEJG77DV9LckiMfeHH7IHpTTPpMaERQJYbMx/bpp1MVphxAGD0QvwfnQq3wY8uG
+	 dYB4s5aup4KU9qfnnLYshDpAcgPWcrKmIGfdxaEC9LPjMlmJQAC674HE9rs/kbs2pg
+	 R8jWVjb5CCdTPN0r4Hr0fV6+tnC3Ojcszd+exZSU5ZfdW27LSll/g2fEOBeKv6BEeT
+	 1THu592Sqa84A==
+Date: Wed, 19 Feb 2025 14:56:20 -0600
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tommaso Merciai <tomm.merciai@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/8] media: dt-bindings: renesas,rzg2l-csi2: Document
+ Renesas RZ/V2H(P) SoC
+Message-ID: <20250219205620.GA2912221-robh@kernel.org>
+References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250210114540.524790-3-tommaso.merciai.xr@bp.renesas.com>
+ <20250214002951.GB8393@pendragon.ideasonboard.com>
+ <20250219145139.GA2551711-robh@kernel.org>
+ <20250219151237.GB31825@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Authenticated-Sender: andre@apitzsch.eu
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27554/Wed Feb 19 10:50:24 2025)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250219151237.GB31825@pendragon.ideasonboard.com>
 
-Am Dienstag, dem 18.02.2025 um 16:05 +0300 schrieb Dan Carpenter:
-> You can't pass uninitialized "ret" variables to cci_write().=C2=A0 It has
-> to start as zero.
->=20
-> Fixes: 4f0aeba4f155 ("media: i2c: imx214: Convert to CCI register
-> access helpers")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
-> =C2=A0drivers/media/i2c/imx214.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index 6c3f6f3c8b1f..68775ee8256e 100644
-> --- a/drivers/media/i2c/imx214.c
-> +++ b/drivers/media/i2c/imx214.c
-> @@ -795,7 +795,7 @@ static int imx214_set_ctrl(struct v4l2_ctrl
-> *ctrl)
-> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0 struct imx214, ctrls);
-> =C2=A0	const struct v4l2_mbus_framefmt *format =3D NULL;
-> =C2=A0	struct v4l2_subdev_state *state;
-> -	int ret;
-> +	int ret =3D 0;
-> =C2=A0
-> =C2=A0	if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
-> =C2=A0		int exposure_max, exposure_def;
+On Wed, Feb 19, 2025 at 05:12:37PM +0200, Laurent Pinchart wrote:
+> On Wed, Feb 19, 2025 at 08:51:39AM -0600, Rob Herring wrote:
+> > On Fri, Feb 14, 2025 at 02:29:51AM +0200, Laurent Pinchart wrote:
+> > > Hi Tommaso, Prabhakar,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Mon, Feb 10, 2025 at 12:45:34PM +0100, Tommaso Merciai wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > 
+> > > > The MIPI CSI-2 block on the Renesas RZ/V2H(P) SoC is similar to the one
+> > > > found on the Renesas RZ/G2L SoC, with the following differences:
+> > > > - A different D-PHY
+> > > > - Additional registers for the MIPI CSI-2 link
+> > > > - Only two clocks
+> > > > 
+> > > > Add a new compatible string, `renesas,r9a09g057-csi2`, for the RZ/V2H(P)
+> > > > SoC.
+> > > > 
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > > ---
+> > > >  .../bindings/media/renesas,rzg2l-csi2.yaml    | 63 ++++++++++++++-----
+> > > >  1 file changed, 48 insertions(+), 15 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > > > index 7faa12fecd5b..0d07c55a3f35 100644
+> > > > --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
+> > > > @@ -17,12 +17,15 @@ description:
+> > > >  
+> > > >  properties:
+> > > >    compatible:
+> > > > -    items:
+> > > > -      - enum:
+> > > > -          - renesas,r9a07g043-csi2       # RZ/G2UL
+> > > > -          - renesas,r9a07g044-csi2       # RZ/G2{L,LC}
+> > > > -          - renesas,r9a07g054-csi2       # RZ/V2L
+> > > > -      - const: renesas,rzg2l-csi2
+> > > > +    oneOf:
+> > > > +      - items:
+> > > > +          - enum:
+> > > > +              - renesas,r9a07g043-csi2 # RZ/G2UL
+> > > > +              - renesas,r9a07g044-csi2 # RZ/G2{L,LC}
+> > > > +              - renesas,r9a07g054-csi2 # RZ/V2L
+> > > > +          - const: renesas,rzg2l-csi2
+> > > > +
+> > > 
+> > > I'd drop the empty line.
+> > > 
+> > > > +      - const: renesas,r9a09g057-csi2 # RZ/V2H(P)
+> > > >  
+> > > >    reg:
+> > > >      maxItems: 1
+> > > > @@ -31,16 +34,24 @@ properties:
+> > > >      maxItems: 1
+> > > >  
+> > > >    clocks:
+> > > > -    items:
+> > > > -      - description: Internal clock for connecting CRU and MIPI
+> > > > -      - description: CRU Main clock
+> > > > -      - description: CRU Register access clock
+> > > > +    oneOf:
+> > > > +      - items:
+> > > > +          - description: Internal clock for connecting CRU and MIPI
+> > > > +          - description: CRU Main clock
+> > > > +          - description: CRU Register access clock
+> > > > +      - items:
+> > > > +          - description: CRU Main clock
+> > > > +          - description: CRU Register access clock
+> > > >  
+> > > >    clock-names:
+> > > > -    items:
+> > > > -      - const: system
+> > > > -      - const: video
+> > > > -      - const: apb
+> > > > +    oneOf:
+> > > > +      - items:
+> > > > +          - const: system
+> > > > +          - const: video
+> > > > +          - const: apb
+> > > > +      - items:
+> > > > +          - const: video
+> > > > +          - const: apb
+> > > 
+> > > I would move the clocks and clock-names definitions to the conditional
+> > > below. Otherwise I think a device tree that has two clocks only but
+> > > incorrectly uses "system" and "video" instead of "video" and "apb" will
+> > > validate.
+> > 
+> > No, that wouldn't be allowed. The preference is to have it like this 
+> > because it discourages creating more variations. If the names are all 
+> > defined in if/then schema, then you can just add a new one with any 
+> > names you want. Though if the variations become such a mess, then 
+> > defining them in the if/then schemas would probably be better.
+> > 
+> > It would be better if 'clocks' could be reworked to avoid the 'oneOf' 
+> > though (oneOf == poor error messages). It just needs a 'minItems: 2' 
+> > added and the descriptions reworded for both cases.
+> 
+> Don't the items in clocks need to match the items in clock-names ? We
+> can't reorder clock-names items as that would be an ABI breakage, so we
+> can't reorder clocks items either.
 
-Thanks.
+Validation wise, the only thing we check is is it 2 or 3 entries. No way 
+to enforce it's the right clock. The description is just for humans. So 
+you could just put "(optional)" on the first entry though there is no 
+way in json-schema to really do that. If you prefer as-is with the 
+oneOf, that's fine too.
 
-Reviewed-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+Rob
 
