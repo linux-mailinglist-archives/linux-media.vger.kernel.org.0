@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-26374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26376-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F1CA3C0AA
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 14:54:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0359AA3C0A9
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 14:54:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65EBA3A38B1
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 13:50:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0EEA3177B31
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 13:51:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA4091F30DE;
-	Wed, 19 Feb 2025 13:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F413F1F3D56;
+	Wed, 19 Feb 2025 13:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JDlj/oKd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Xdi1nL/R"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788A91EFF9B;
-	Wed, 19 Feb 2025 13:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71971F3B97;
+	Wed, 19 Feb 2025 13:49:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739972991; cv=none; b=beMwshb//skzpmL7ycdikxtAiFh2L2/a/PcDz08yv2FRC/F7xkrum7HKOYjDWhS+OL8U5EF8O+pF+etvSyYAnDjdeHV/0AdKGVcFXkrv94/giXlumfcwoDEcJpwvBJj7h3rJyAPl5dlsY6XMwBD+cvQsmR5BtczynTDTZPVuwxw=
+	t=1739972994; cv=none; b=SE/oPdT+LzfrCX/zYx/xdRf7ErltZhzBgXoI5xHVi5gonl++4KGb9TcF9I87bumggoxiBuHyJHWkRWsrJPvDDHUg6ID/Kik4vIDzk9JWqjWCfji6LaZTjzTNFsgn61TO4VZjw44zaRSLll6chd5zDhA9tb7iNy185D1gV88Ew4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739972991; c=relaxed/simple;
-	bh=cI20VEEG0Wewbxtf6yf0cY16LqWf1h8sTX2S2UouvwU=;
+	s=arc-20240116; t=1739972994; c=relaxed/simple;
+	bh=AZEcPeUrIUmHg/tQUpkh5f/1BH5qdAk4lHVIl65W08U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=a8YHjQPKdZUGDEZUxvQuZDNL8a1uq0ikXPyhL7y3+T/LdTMj/wel++UZaO1qVPGw+wPI22MZ1Qlnev3EyIXpslp62qlskYDgZERjShg0wjxtGoB/BLThbOp+Qht49wM9wVh/X69EwlG2qJA26KVzAg+yPmAZsv2sjPdKTv9lRRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JDlj/oKd; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=pTDq3ohO0Dz4oHC3B6cNYAVW9vNgkwGBXNDQgrMCWxhmmGyB1T1kmQT4Q6xyJLjAgR+hnQ9U/WablLoaf2J82zYtrXLarmIqR/zK2xThck7WNLjS22a99BFL1txK2sC8LHxXzcHZ0RjchiN04/Pf2v0Nh+h9n/voKtGOwUb58C4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Xdi1nL/R; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8352675A;
-	Wed, 19 Feb 2025 14:48:22 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4001ABEB;
+	Wed, 19 Feb 2025 14:48:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1739972903;
-	bh=cI20VEEG0Wewbxtf6yf0cY16LqWf1h8sTX2S2UouvwU=;
+	bh=AZEcPeUrIUmHg/tQUpkh5f/1BH5qdAk4lHVIl65W08U=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JDlj/oKddSHCuhVL04XS/DFPJFRTtPH51ejqCtQslYxUVM7ELJWTXz2w7exgZRHOz
-	 oE3gYRf17risCx9zT0xXbmRUAXa9b/hhVa4WNrA4g2ClZdXX8x6a5jbOllk/v73JHN
-	 UiGojk7hWvNqoIfwZWk/FLWr6Rh4iuw3Jgzileog=
+	b=Xdi1nL/RKSEk/nqqim4wRzrgugPadkCJ+Mcbn4tOVDIrvMQvUW2o2KiFKnN/zRbmn
+	 mRzoTfpyOWgU5QFtKC8Ed+njbLkzlisCdD2GyO4Wejjt/svfGT3zzbdm1zTswgbdCP
+	 GSPHuvWctcJTT7y028lbH2+pFpU2Z4C89Tt2BKrU=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Wed, 19 Feb 2025 15:48:57 +0200
-Subject: [PATCH 03/18] media: rcar-vin: Fix RAW10
+Date: Wed, 19 Feb 2025 15:48:58 +0200
+Subject: [PATCH 04/18] media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250219-rcar-streams-v1-3-f1b93e370aab@ideasonboard.com>
+Message-Id: <20250219-rcar-streams-v1-4-f1b93e370aab@ideasonboard.com>
 References: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
 In-Reply-To: <20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com>
 To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
@@ -66,105 +66,63 @@ Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.15-dev-42535
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2869;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1822;
  i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=cI20VEEG0Wewbxtf6yf0cY16LqWf1h8sTX2S2UouvwU=;
- b=owEBbAKT/ZANAwAIAfo9qoy8lh71AcsmYgBnteFwUn2vdNxe2ESg8YkBy7AHTJAjWcqWqcbcK
- O2Z3lBuHz2JAjIEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ7XhcAAKCRD6PaqMvJYe
- 9fHkD/QMLIzJRx1BRcxckphx+wWzfnm2pU5vZUhkWGkE+DJ5K1fAnEpfMV4QLGpoWW9eKhrmGPx
- +tlmpW9mwKaL4Uelvr108CcIOdPTa7GggbWKpaxivJ4/Img6Xq+kHfXnEFNEEqHxeZ6nX22dcNq
- zR9fYskfXx2pdQaeVJZZhC2VJzz5DIVRW0EGJWYlqRpoRPFQPqJHEOFKv9oKCGVLQMA8XO/gLah
- 0ruFoNcnN9IflDZsdTregkF6ZAdW6d4mnAQTZoyp+4RmNInnCFNbJone0zsMXX+Ux0gXrPi5tyS
- l5CpdVsw6d2wFnZUfjV7AUV0V5YQaLulRd9XeNSWRndPY9e+10H10soF0jySZAbKK1kmOopa3OU
- DQ/rSbUZzI2rOfKQgArf6VdFn7NNGWmjFvelUCRAxNa+okdCuBZNKY84aYXQtpXqM5tU8c65zkQ
- K/RxMUrWUYWTUVjyDZgRKAGCqK5FWi/96XFnhIE+/GMC1bg+NFAHRlya4y9oZXV2ZKsfS/K/PJS
- oX0+371dIBEiqVzP5NeTwSGDHMfX00zznVeqe3BRPFBwnNs2gaWACgGw4JBqLG+4DYa+f7x/xEn
- bGcQtOgrQ3fjxUvAbCh4s9b/XEWT6gmi+2p1SvkUycqdfNX4tk5qMrkVmyCJ8VGZQHlxwNtmVte
- eF2eP5UxhsNlm
+ bh=AZEcPeUrIUmHg/tQUpkh5f/1BH5qdAk4lHVIl65W08U=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnteFxAFlpn2XnBz6BFA1jJX6MMP+JSvTLFATK8
+ hbkY9D0X2iJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ7XhcQAKCRD6PaqMvJYe
+ 9RgqEACmisnqpyHDD1GuGBYkPApeLbk4xuVfsQRA3kMj5HtSjw/7LywTOWqiXFhlYngiCKbrnSx
+ LH4YelT+XCJMRl5jytMRKgDTC1jgeyM2IvleEeCLJt3p0ebNMX8pBwl+Ae8XnlQfurLZ6TXm86K
+ TYI0XQsoscVtvEkl4NtIvNgy2HwxoAbUACJIKxUesEgQtHCXUDMAFqkXW8qPcKihC8YkJADXEZg
+ bKci2oQwzI0svlSkXI07VJ1cBLulRDLddbHWX+CbHkxCuwvIhedQnDhn/cywTmUng0ym0U6Z5DR
+ oMqeGj+50aD07huaKI7o4t8WyLCayp62roiP6v2ADTmlpFwXvywOD4Ql/4v/850IsEPSRIA3MEf
+ OPvAyS6bnRuY/TghJHZ/VIGleZcuE6Vw5p8X4jOprA6EtrbsedFeoFHjbQmQZEkC+csXIY/q0Qu
+ BPn+PsdV17uMJNGuV+NkqStsIiTRd2FoLiNEBpmW2iEtVRTP+XwEDqBeLt3gUBNZ6+pCVSHA2u6
+ jezS1FXEaWNr2gOKjmz0XmZ+Yx9NQu8rFHj8ZQszCEAJGAAbDza5s6beeF6Fa3Dw2rjswM0KyZl
+ PsUSVQQdMWB47aMq1anTbXjCQ172pE7usp5WexQl9qr3Fy/zBHgZ5fPvMYkKvxiIBbb1CV63NMr
+ EaBm2nxfrp0TOBg==
 X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Fix the following to get RAW10 formats working:
+Instead of having four macros for ISPPROCMODE_DT_PROC_MODE_VC[0123](pm),
+have just one ISPPROCMODE_DT_PROC_MODE_VCn(vc, pm).
 
-In rvin_formats, the bpp is set to 4 for RAW10. As VIN unpacks RAW10 to
-16-bit containers, the bpp should be 2.
-
-Don't set VNDMR_YC_THR to the VNDMR register. The YC_THR is "YC Data
-Through Mode", used for YUV formats and should not be set for RAW10.
-
-Fix the check related to the RGB666 format and CSI-2 mode. The
-VNMC_INF_RGB666 define is the same as used for RAW10 on Gen4, and RAW10
-is allowed on CSI-2 (whereas RGB666 is not allowed on Gen3 on CSI-2).
-This feels a bit hacky, though, and the formats should really have been
-verified already earlier.
-
-Fixes: 1b7e7240eaf3 ("media: rcar-vin: Add support for RAW10")
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c  | 9 +++++++--
- drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c | 8 ++++----
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ drivers/media/platform/renesas/rcar-isp.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index bbdff7aed9e2..00629acc6404 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -829,12 +829,17 @@ static int rvin_setup(struct rvin_dev *vin)
- 		case VNMC_INF_YUV8_BT656:
- 		case VNMC_INF_YUV10_BT656:
- 		case VNMC_INF_YUV16:
--		case VNMC_INF_RGB666:
- 			if (!rvin_remote_is_parallel(vin)) {
- 				vin_err(vin, "Invalid setting in MIPI CSI2\n");
- 				return -EINVAL;
- 			}
- 			break;
-+		case VNMC_INF_RGB666:
-+			if (vin->info->model == RCAR_GEN3 && !rvin_remote_is_parallel(vin)) {
-+				vin_err(vin, "Invalid setting in MIPI CSI2\n");
-+				return -EINVAL;
-+			}
-+			break;
- 		case VNMC_INF_RAW8:
- 			if (rvin_remote_is_parallel(vin)) {
- 				vin_err(vin, "Invalid setting in Digital Pins\n");
-@@ -931,7 +936,7 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case V4L2_PIX_FMT_SGBRG10:
- 	case V4L2_PIX_FMT_SGRBG10:
- 	case V4L2_PIX_FMT_SRGGB10:
--		dmr = VNDMR_RMODE_RAW10 | VNDMR_YC_THR;
-+		dmr = VNDMR_RMODE_RAW10;
- 		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index a1b74be33ab2..591f1a4d3595 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -88,19 +88,19 @@ static const struct rvin_video_format rvin_formats[] = {
- 	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SBGGR10,
--		.bpp			= 4,
-+		.bpp			= 2,
- 	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SGBRG10,
--		.bpp			= 4,
-+		.bpp			= 2,
- 	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SGRBG10,
--		.bpp			= 4,
-+		.bpp			= 2,
- 	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SRGGB10,
--		.bpp			= 4,
-+		.bpp			= 2,
- 	},
- };
+diff --git a/drivers/media/platform/renesas/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp.c
+index 4bc89d4757fa..46534a479201 100644
+--- a/drivers/media/platform/renesas/rcar-isp.c
++++ b/drivers/media/platform/renesas/rcar-isp.c
+@@ -28,10 +28,7 @@
+ #define ISPSTART_STOP					0x0000
  
+ #define ISPPROCMODE_DT_REG(n)				(0x1100 + (0x4 * (n)))
+-#define ISPPROCMODE_DT_PROC_MODE_VC3(pm)		(((pm) & 0x3f) << 24)
+-#define ISPPROCMODE_DT_PROC_MODE_VC2(pm)		(((pm) & 0x3f) << 16)
+-#define ISPPROCMODE_DT_PROC_MODE_VC1(pm)		(((pm) & 0x3f) << 8)
+-#define ISPPROCMODE_DT_PROC_MODE_VC0(pm)		((pm) & 0x3f)
++#define ISPPROCMODE_DT_PROC_MODE_VCn(vc, pm)		(((pm) & 0x3f) << (8 * (vc)))
+ 
+ #define ISPCS_FILTER_ID_CH_REG(n)			(0x3000 + (0x0100 * (n)))
+ 
+@@ -263,10 +260,10 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+ 
+ 	/* Setup processing method. */
+ 	risp_write(isp, ISPPROCMODE_DT_REG(format->datatype),
+-		   ISPPROCMODE_DT_PROC_MODE_VC3(format->procmode) |
+-		   ISPPROCMODE_DT_PROC_MODE_VC2(format->procmode) |
+-		   ISPPROCMODE_DT_PROC_MODE_VC1(format->procmode) |
+-		   ISPPROCMODE_DT_PROC_MODE_VC0(format->procmode));
++		   ISPPROCMODE_DT_PROC_MODE_VCn(3, format->procmode) |
++		   ISPPROCMODE_DT_PROC_MODE_VCn(2, format->procmode) |
++		   ISPPROCMODE_DT_PROC_MODE_VCn(1, format->procmode) |
++		   ISPPROCMODE_DT_PROC_MODE_VCn(0, format->procmode));
+ 
+ 	/* Start ISP. */
+ 	risp_write(isp, ISPSTART_REG, ISPSTART_START);
 
 -- 
 2.43.0
