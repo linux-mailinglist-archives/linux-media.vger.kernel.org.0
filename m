@@ -1,111 +1,115 @@
-Return-Path: <linux-media+bounces-26334-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26335-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C75A3BACA
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 10:49:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C355A3BAD9
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 10:53:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4E403A28A6
-	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 09:43:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 233B23A2A32
+	for <lists+linux-media@lfdr.de>; Wed, 19 Feb 2025 09:44:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3852B1C3F0A;
-	Wed, 19 Feb 2025 09:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D302E1C3BF1;
+	Wed, 19 Feb 2025 09:44:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUATjFqP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u4ZIoNsQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB2E1B4F21;
-	Wed, 19 Feb 2025 09:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5891C07D5;
+	Wed, 19 Feb 2025 09:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739958211; cv=none; b=k5Mnr82cAcD2T9JE8ZWmnL92DC2oHMYm4nKUeYcGUQGc0NqSxeIUeHVO4jZOWDW4qMw5JtT8GMtXvFc0t3Q23ZacvcVfTbw2pZnPDAmy24iXskp/vtkfaE2zWggYqjvYmu1GXUO0yqi8AkXmE93NjiUnoc8csjPkSgtKxuCQGLA=
+	t=1739958269; cv=none; b=cAXcbXokCn5SjG8I8ws+CwCP0RNxv+pfGEQMUNx75hXoY3vICS7rTHg9cw0Dj8ZaW+LUZGZ1gTYQO4sZvlTT0mvpmaWo2xPYMnGVrkwcWzwdzW9L2KQGqjpJ2Dgtj4+oyOB66oo684EUALrTqqzoaIUwrSdu9/AjAcy1MtHoITI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739958211; c=relaxed/simple;
-	bh=JbQfZE+vLsay+m41W/xExMvsph46lPBJtYHfkRyAxdw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hh3pcf5buM7CrvEftLPQQIWHoNlkEAXBnIGBWGsKd6/VdIHHHKREpLBApm4YHP31BTEKX6+Ke1FzVFXH60CEdgGUFUzGQ2FzYpuAjOZo4GMKx5kCO1vfzNKBVv8PdTiFLIYBbrtCQMjljkt544F4Q08Ie+pqyWVLRSCd1flz8mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUATjFqP; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e4419a47887so4845296276.0;
-        Wed, 19 Feb 2025 01:43:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739958209; x=1740563009; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JbQfZE+vLsay+m41W/xExMvsph46lPBJtYHfkRyAxdw=;
-        b=CUATjFqPhA43PvcqgI8KA79AiKj96IUELf7ndyZJWe+gD/y7uQ1vsQCexotvMEoopZ
-         OF4d9jXLaTFtsBwRpGrDH5TLieLmg/zW8foM4+MP26kn+nYhHbk5fkWacDoTYWwv+Nwl
-         wvHkWlefOY0mUGh6mg0QGFSYL/AxRCUvom8BblVQ19o3PzmI3SluDqlpPN4l/Pa0nuFz
-         YOdg/PTbyst2Qf+wEzjfI6EA1ACCRDi2Ruvg1DpLqmtlSXF7sJOArkLkFmRjmhjC7yeI
-         6eZU4zZlv/MFoTYhvFsIPhgfM1XXBLCcOFRvbieVt3JV8SLSA/k/UztDmHeXl88rBMBx
-         DNVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739958209; x=1740563009;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JbQfZE+vLsay+m41W/xExMvsph46lPBJtYHfkRyAxdw=;
-        b=sUkWwhjJRwzvZQ2ZfLy8A5kVbRWFBNmB43YKPONkJb8fqJLWIqMjwNptQvJiO2NlSu
-         1A/YzCbgxYFlLMED//e1t6xM9fK4RMCSRUHS2nX56TseC6Tm+q5B+LGh61KyJS4i7D22
-         apI5KMKDF5jXhmUvwArM/8dJITdAT+ZObxwBedikfBR/SBAolZLfdW92Vlv7X+HbBLBV
-         Q8y+u0k6DA7gu7B04pUtBf5K6E9tRgKZq2NIJ036WcvGt3kXVdR6a+/dm/5JBsABVQuK
-         hh7Jmr+7m5rvoQlxzZTGAgUQ9/dvVLQTniDDvdBDgYhhF8ABmIr50QcCfIXn8wm1Ro+l
-         Nqpg==
-X-Forwarded-Encrypted: i=1; AJvYcCV2a+luLmQg1Q3eqd3mZkke27Y8mDAapoQnCuIY7bCGAzwK4z0yd/CvJekgSa7x90t525UwZWgalLY=@vger.kernel.org, AJvYcCWn6tNUsb7DZAacG3x8ZpSZqDwRHLAEdZxthzyN5RgunaGnlPWkOzS9OKKgs9WECp7njSewSeg2jti1@vger.kernel.org, AJvYcCX0LSE9h3t8z08jCC03K8BVl3aJnQD33tN38BA7sMhgSlkfIURNdsQtnB5/X8XeKYY69Swp7oYLX2zjLCU=@vger.kernel.org, AJvYcCX5ei3+qQBOyd5gen1IHX6sll7fg6wEs6f/s0K07n8rjuKzTHp2nqKfcddp7sDBjiygrFeY14dTlGwqXEpG@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR0gQ4qPVrIM0E763ZfDVXFlpS6A2yOWe9gkvGoMpdUcx8TTCQ
-	p4Bjziryxs7qYNsJ2vm741S2DfW6U1SfO//+9sYqbISCbJqVXPvXAMNI9+jIqLTBDAfjwdrh2LN
-	UwfM9ZsB647+dSlI5tlPZAs+8OCc=
-X-Gm-Gg: ASbGncudIUXCQyq+r9E5NHMkC6NlRbQkg5gRh2fy84H2Pc9NmKOi9jp8kWmCezGvbeL
-	PAEfwmM8iz2HS8sAzNhxlOIAR46t1TBopStrsmTqoMRhSm9n6LMjQWI72ykn10W7lOQOWqEYeLg
-	==
-X-Google-Smtp-Source: AGHT+IF4fhS5ToYgiyprNptli3rl/YWe/Sr8AbYoBe7Xa+PURKeBJb7TRkFTdB3HeJfB6d1BuGRjs+ziA08+lfNk/74=
-X-Received: by 2002:a05:6902:1509:b0:e5b:1453:d2e4 with SMTP id
- 3f1490d57ef6-e5e0a09dcb1mr2433065276.11.1739958208906; Wed, 19 Feb 2025
- 01:43:28 -0800 (PST)
+	s=arc-20240116; t=1739958269; c=relaxed/simple;
+	bh=vgMAwgPmDiSVX3oKTWyuWdHQNxgNKQWXMsS82fzlN6Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MMYtzoJfBc/DCfz4lAP1Ni2ReXXZtL6VUhTtPmm5sf3+l2OUpP9ccp6kKrhFlSvEeEtJf+c/d0A50ijlM28e1Ud2kQSCRljf2DsK2uPltEV23y2a+Hnjomy2TDaz5ZoWfImKYo4ZbqhhNMT3hzrpo362UGqbQ/QnbzlbCbfoHAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u4ZIoNsQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06F1C3A2;
+	Wed, 19 Feb 2025 10:43:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1739958183;
+	bh=vgMAwgPmDiSVX3oKTWyuWdHQNxgNKQWXMsS82fzlN6Y=;
+	h=From:Subject:Date:To:Cc:From;
+	b=u4ZIoNsQz/XyoW8zB4E1L40kkBftScZC44jnPL4hlSyd2xv3kfiwVcPipVrJrKEQt
+	 OsptOcwg/yBuNPW1ygXwFawBHft4gEjXGKZA/s+d+U+O1m3uvG7iPPZNuoxzKLOWaX
+	 o7ZOCrm4KW+4ghjyYVztGh8kbKI0VlJM6O9xUBSQ=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v2 0/3] media: subdev: Add v4l2_get_frame_desc_passthrough
+ and use it
+Date: Wed, 19 Feb 2025 11:44:06 +0200
+Message-Id: <20250219-frame-desc-passthrough-v2-0-5135d57ecd6a@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com> <20250219-isp-v1-1-6d3e89b67c31@gmail.com>
- <400d64ed-670a-4297-b43b-cdf4e8599c7b@kernel.org>
-In-Reply-To: <400d64ed-670a-4297-b43b-cdf4e8599c7b@kernel.org>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Wed, 19 Feb 2025 10:43:17 +0100
-X-Gm-Features: AWEUYZngFT_TlGtzAp7eDIc5jUmixD2xinxUmQy_lSABzD_u61AwBZNq6Cj2sCI
-Message-ID: <CAMT+MTSb2gdkfCZE3i+0ah8AgE_G8mH2MFTms=QgFwd-nbA8Ag@mail.gmail.com>
-Subject: Re: [PATCH 1/5] dt-bindings: power: apple,pmgr-pwrstate: Add
- force-{disable,reset} properties
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-media@vger.kernel.org, imx@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOentWcC/4WNQQ6CMBBFr0JmbU1bWkBW3sOwqHSgs4CSDhIN4
+ e5WLuDyveS/vwNjImRoix0SbsQU5wz6UkAf3DyiIJ8ZtNRWatWIIbkJhUfuxeKY15Diawyiqhp
+ p0ajyVhvI4yXhQO8z/OgyB+I1ps/5s6mf/ZvclJDCldrYZrBlrcydPDqO8zO65K99nKA7juMLT
+ oZ0msMAAAA=
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1125;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=vgMAwgPmDiSVX3oKTWyuWdHQNxgNKQWXMsS82fzlN6Y=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBntaf0E+PTeZhFqJUqT2Yjl5NHFRNx8atVNJhx0
+ yDJTCcrhvWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ7Wn9AAKCRD6PaqMvJYe
+ 9f2vD/4noY8cco6OtUB/QKSTvQsEpOrqAjNf84u1zxgXufexwscgctojjge0QqbUdOGut+44Es3
+ GaZdsaNmd5bkzQsTf/NJKshfmO82j/ua8Pf0aWir6Zu89ENEAmmaTdc+H8uScEA119SxviSFUmV
+ bxnAyjNQ1CjLJcL+oPDe2LpBiAu9ElkoghOXJuKmqSgkydD4OXd4xU78bmQ/csghRfMxf5ptBJs
+ dzLI+QasSOfZj4SaTCBxZ+Sr8ITMn1WtnxikfApjnlcNeGYjIN5yABjo0cGWRdSjKUSV85Wtkul
+ p9Ha1Rc/r0pzFsflVnijgdAk1xpyBr8j5GRLY2L/uMpAf3/FcHByPXV0OESoPoUv1ceV9tWmHmM
+ 9xoSH/YgXNiZeasydkMHGwiuq9T/8+cwhpGz2mYGP1ptKf3jHqtSJ9uZar0uBRfH9nrtUwiYunK
+ dZrQDwG+xfN7OFNRyqT0axbfANeo/Sow4Yjj2D7H6oqab2aSrqKasOv7V1WJpPyqq+dE3gV6ZZd
+ t9/rn6H1qr9PrGFctqe6dGX/9m3uaxgr2szgAa1Hi7FVDP3b8YDjCDfEKvR+Qr0zkCt0+ScCchQ
+ wCX1AaH9j/M2qZonYbUt64BLQsKFe8aPDnfpeUx714BvV0SuywTw8fnYICWP5PtWu4rM9CBJFEE
+ Rcb+BN00it3DrGQ==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On Wed, 19 Feb 2025 at 10:34, Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On 19/02/2025 10:26, Sasha Finkelstein via B4 Relay wrote:
-> > From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> >
-> > Add properties to set disable/reset bits when powering down
-> > certain domains
->
->
-> Please explain why and what problem are you solving. This looks too
-> close to SW policy or really arbitrary choice. Background would be useful.
+When writing the exact same code the third time for Renesas, I thought
+we probably need a helper.
 
-The ISP block has some weird requirements where some of it's power domains
-will not power down correctly without using the "force disable" or "force reset"
-pmgr feature. Basically a hardware quirk.
+ Tomi
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v2:
+- Fix "uninitialized symbol 'ret'"
+- Reorder local variables
+- Link to v1: https://lore.kernel.org/r/20250218-frame-desc-passthrough-v1-0-a32458f53714@ideasonboard.com
+
+---
+Tomi Valkeinen (3):
+      media: subdev: Add v4l2_get_frame_desc_passthrough helper
+      media: i2c: ds90ub953: Use v4l2_get_frame_desc_passthrough
+      media: i2c: ds90ub913: Use v4l2_get_frame_desc_passthrough
+
+ drivers/media/i2c/ds90ub913.c         | 59 +--------------------
+ drivers/media/i2c/ds90ub953.c         | 61 +---------------------
+ drivers/media/v4l2-core/v4l2-subdev.c | 96 +++++++++++++++++++++++++++++++++++
+ include/media/v4l2-subdev.h           | 21 ++++++++
+ 4 files changed, 119 insertions(+), 118 deletions(-)
+---
+base-commit: b2c4bf0c102084e77ed1b12090d77a76469a6814
+change-id: 20250218-frame-desc-passthrough-66805e413974
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
 
