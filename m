@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-26516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAE6A3E272
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 18:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9CFA3E264
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 18:28:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B2483BE0FE
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 17:21:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD1867002EC
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 17:21:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 412D2213E79;
-	Thu, 20 Feb 2025 17:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44998214200;
+	Thu, 20 Feb 2025 17:20:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="b6tmm5j/"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ONS/biNc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FD0213220;
-	Thu, 20 Feb 2025 17:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C00D213E76;
+	Thu, 20 Feb 2025 17:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740072056; cv=none; b=V7bbpm9xphsE5L7FvufzeGWBbBpjxNubMJL3fUwLyEqdDp8CtnNbA+6aqBZHxnPt4e/SzvxrWkg5MHzzv4rFWG8yVFFS7GBfopsOTsGo9rqzgZLrNDQ+MUH5xSguT+g3NwL0SBuSE2QPfuNst1sTiqpKaQEsPEZVxARG+mdvfss=
+	t=1740072058; cv=none; b=pVa/eqBJdMgFEN8HfK295fmPjnsdQ4FytZcFKofPyUsXw2Zdze6W73tYy3/KQ+zVgUpD40G2Pt4lw0xTO8VPMPV117x3UA49ckhB1OBz+8OAhEts9jIR0mAk13omcc0L6Y3aGWmFhii0td+FpWXGZouesnpmT6HyFV0DGNbnF0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740072056; c=relaxed/simple;
-	bh=5tORVdc5njRWY8tMuo19k3wxoWoiyF4QhMRAOmMIsCs=;
+	s=arc-20240116; t=1740072058; c=relaxed/simple;
+	bh=jyxVh72zpOzeJT4UKUZq97UvMPLjQY6a4C2jg+FkD5o=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=bB9qYsz1ue8RhFdXD5cuGvqywNqNuKom/OuBlKHHNPpP5Ff1D9F7shA9HFmCyBetoESLagYwdBeqmz4+lXPS+zaj78rounPfd347VbP75trEb106cNf/SFg9hvzvH/c8Wg6gcBFRtj+v9nb0Eiz0/M5JagIBfR9OYyXM20T1tL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=b6tmm5j/; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:CC; b=nnGwgwqljcMHjQeQM/xFROgVmoz8VneKvt5jDYTCYPQBzzK2mqOM5QrNjQVd7Wx0M6ngxoU/TPMHAbdKCQ9lKa4mkuRD9/X+uC67mjYn3Hb+q2ZhB+Jd9zWNJ6QXVhILqopXOEdzYdRKNzMSP7XXlx0lE1bzWMMuFBWd1p2hzaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ONS/biNc; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KFaV57022514;
-	Thu, 20 Feb 2025 17:20:48 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KG0WXv012227;
+	Thu, 20 Feb 2025 17:20:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hqZYWbW8OPODTOEh1zlv8yl3wKNetqR3lHI0R4uGz8Q=; b=b6tmm5j/n4TQWoWu
-	qlbKpcSzcQEc3RW7BPmzI/aLBD0InzcPlxYPi5j9Uc1Pua5w4BVOw3CtW1QXHkAi
-	jvBHmQRGx4x5wthVh82bJ9cqwpxyJ6qwuW+VTiOE2+E3z5auraKXalgdpN81BeR0
-	5DdKRDtvZdxJ5RyurILS0A1JPcU0spxou/Inx/E3yQRJWZ83izIHHDP4guupJncE
-	2Wf5lH0WG/1Gj4G/gCxt1WZ3b/WNPZomf6LmTBFH/717Jpl6MRGvJeLn9Ym/9/Rg
-	JTp3QfnQ/dSVx+ELxcJqsKOUuOY5XLXm6UQUEUI0qSgki77EhgNRqqKinhM5Au3W
-	TVL1ag==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy3pyaq-1
+	QNoEP/x9RjeXJQhOtJc2kXmTr7UWnAk64kC/+PqHe+s=; b=ONS/biNcprYvpf0U
+	wmQcJrau3T5fXa/KPvrDgXnlU4CW/LIs9AAwdCe5NS/3ymBxyQjI2oz2NKvUZYlK
+	a389/CfVrkGgM3ThZ3h3MZ7pUm9LhMRibXpL2587cA+nNjeto/7O2LfqIhPV5vBS
+	Z3rEpstF+eZ7SoSfDHtxnhyhrNYGHS1AuwE+007x208n04KsEs6PKdD7R4OvUP3B
+	KI1sbpi5OoYyLbGrU0GbiE2xi/w8zVeOYP0eNvvltM5BE+MG9wCIzIDLlMerJ57z
+	nT+mgbdslE83VvIyPaxDwY3h/yvPj7fDuKjUttqBDRMoYl6S5MnyDrx7SqojHR5j
+	+pEQgw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy1pwqy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 17:20:48 +0000 (GMT)
+	Thu, 20 Feb 2025 17:20:51 +0000 (GMT)
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51KHKlSG016838
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51KHKoW5009348
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 17:20:47 GMT
+	Thu, 20 Feb 2025 17:20:50 GMT
 Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
  nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 20 Feb 2025 09:20:43 -0800
+ 15.2.1544.9; Thu, 20 Feb 2025 09:20:47 -0800
 From: Vikash Garodia <quic_vgarodia@quicinc.com>
-Date: Thu, 20 Feb 2025 22:50:09 +0530
-Subject: [PATCH v5 2/4] media: venus: hfi_parser: refactor hfi packet
- parsing logic
+Date: Thu, 20 Feb 2025 22:50:10 +0530
+Subject: [PATCH v5 3/4] media: venus: hfi: add check to handle incorrect
+ queue size
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250220-venus_oob_2-v5-2-4d29347c669a@quicinc.com>
+Message-ID: <20250220-venus_oob_2-v5-3-4d29347c669a@quicinc.com>
 References: <20250220-venus_oob_2-v5-0-4d29347c669a@quicinc.com>
 In-Reply-To: <20250220-venus_oob_2-v5-0-4d29347c669a@quicinc.com>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -85,288 +85,77 @@ CC: Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         <linux-kernel@vger.kernel.org>,
         Vikash Garodia <quic_vgarodia@quicinc.com>, <stable@vger.kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740072035; l=8840;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740072035; l=1783;
  i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
- bh=5tORVdc5njRWY8tMuo19k3wxoWoiyF4QhMRAOmMIsCs=;
- b=RAGyzHrdegsNF2LFKR/ScMlyBv5GuwlIwLFHzDATK61x7zERN3Hxv9fA5HTmLWjuT5HBFK6L0
- NH5SGU6Kv9TDyCD09KbKUHHDfFxS6YaOnP4Qa/smJbdpP3XDsMHfDp+
+ bh=jyxVh72zpOzeJT4UKUZq97UvMPLjQY6a4C2jg+FkD5o=;
+ b=bwMx0K5cgE8gJfxHn5lGd6t3l8z4vUhwCvAfQmvsivVKqlCI6Js5GWqtcPmolBOUR2fgwvKrd
+ xDryPhh3g28AC19yr4NQ3QB2Vs95jd3ZKLTEA3EZmgxZd0kmxwSpF5h
 X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
  pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Mno6Rhe98lhrTnNYTdWRpgGA3WqrMUC9
-X-Proofpoint-ORIG-GUID: Mno6Rhe98lhrTnNYTdWRpgGA3WqrMUC9
+X-Proofpoint-GUID: MbJLQfNvK-tO3WjldrXMwmQpVg2Csi44
+X-Proofpoint-ORIG-GUID: MbJLQfNvK-tO3WjldrXMwmQpVg2Csi44
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-20_07,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- malwarescore=0 phishscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- adultscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
+ adultscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=658 suspectscore=0 phishscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2502100000 definitions=main-2502200121
 
-words_count denotes the number of words in total payload, while data
-points to payload of various property within it. When words_count
-reaches last word, data can access memory beyond the total payload. This
-can lead to OOB access. With this patch, the utility api for handling
-individual properties now returns the size of data consumed. Accordingly
-remaining bytes are calculated before parsing the payload, thereby
-eliminates the OOB access possibilities.
+qsize represents size of shared queued between driver and video
+firmware. Firmware can modify this value to an invalid large value. In
+such situation, empty_space will be bigger than the space actually
+available. Since new_wr_idx is not checked, so the following code will
+result in an OOB write.
+...
+qsize = qhdr->q_size
+
+if (wr_idx >= rd_idx)
+ empty_space = qsize - (wr_idx - rd_idx)
+....
+if (new_wr_idx < qsize) {
+ memcpy(wr_ptr, packet, dwords << 2) --> OOB write
+
+Add check to ensure qsize is within the allocated size while
+reading and writing packets into the queue.
 
 Cc: stable@vger.kernel.org
-Fixes: 1a73374a04e5 ("media: venus: hfi_parser: add common capability parser")
+Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 ---
- drivers/media/platform/qcom/venus/hfi_parser.c | 98 +++++++++++++++++++-------
- 1 file changed, 72 insertions(+), 26 deletions(-)
+ drivers/media/platform/qcom/venus/hfi_venus.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
-index 1425c69d9006694adbc3ee0a67264c0d69522854..1b3db2caa99fe45e0f8dfa9f022e3da2f6a2a428 100644
---- a/drivers/media/platform/qcom/venus/hfi_parser.c
-+++ b/drivers/media/platform/qcom/venus/hfi_parser.c
-@@ -64,7 +64,7 @@ fill_buf_mode(struct hfi_plat_caps *cap, const void *data, unsigned int num)
- 		cap->cap_bufs_mode_dynamic = true;
- }
+diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+index f9437b6412b91c2483670a2b11f4fd43f3206404..6b615270c5dae470c6fad408c9b5bc037883e56e 100644
+--- a/drivers/media/platform/qcom/venus/hfi_venus.c
++++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+@@ -187,6 +187,9 @@ static int venus_write_queue(struct venus_hfi_device *hdev,
+ 	/* ensure rd/wr indices's are read from memory */
+ 	rmb();
  
--static void
-+static int
- parse_alloc_mode(struct venus_core *core, u32 codecs, u32 domain, void *data)
- {
- 	struct hfi_buffer_alloc_mode_supported *mode = data;
-@@ -72,7 +72,7 @@ parse_alloc_mode(struct venus_core *core, u32 codecs, u32 domain, void *data)
- 	u32 *type;
- 
- 	if (num_entries > MAX_ALLOC_MODE_ENTRIES)
--		return;
++	if (qsize > IFACEQ_QUEUE_SIZE / 4)
 +		return -EINVAL;
- 
- 	type = mode->data;
- 
-@@ -84,6 +84,8 @@ parse_alloc_mode(struct venus_core *core, u32 codecs, u32 domain, void *data)
- 
- 		type++;
- 	}
 +
-+	return sizeof(*mode);
- }
+ 	if (wr_idx >= rd_idx)
+ 		empty_space = qsize - (wr_idx - rd_idx);
+ 	else
+@@ -255,6 +258,9 @@ static int venus_read_queue(struct venus_hfi_device *hdev,
+ 	wr_idx = qhdr->write_idx;
+ 	qsize = qhdr->q_size;
  
- static void fill_profile_level(struct hfi_plat_caps *cap, const void *data,
-@@ -98,7 +100,7 @@ static void fill_profile_level(struct hfi_plat_caps *cap, const void *data,
- 	cap->num_pl += num;
- }
- 
--static void
-+static int
- parse_profile_level(struct venus_core *core, u32 codecs, u32 domain, void *data)
- {
- 	struct hfi_profile_level_supported *pl = data;
-@@ -106,12 +108,14 @@ parse_profile_level(struct venus_core *core, u32 codecs, u32 domain, void *data)
- 	struct hfi_profile_level pl_arr[HFI_MAX_PROFILE_COUNT] = {};
- 
- 	if (pl->profile_count > HFI_MAX_PROFILE_COUNT)
--		return;
++	if (qsize > IFACEQ_QUEUE_SIZE / 4)
 +		return -EINVAL;
- 
- 	memcpy(pl_arr, proflevel, pl->profile_count * sizeof(*proflevel));
- 
- 	for_each_codec(core->caps, ARRAY_SIZE(core->caps), codecs, domain,
- 		       fill_profile_level, pl_arr, pl->profile_count);
 +
-+	return pl->profile_count * sizeof(*proflevel) + sizeof(u32);
- }
+ 	/* make sure data is valid before using it */
+ 	rmb();
  
- static void
-@@ -126,7 +130,7 @@ fill_caps(struct hfi_plat_caps *cap, const void *data, unsigned int num)
- 	cap->num_caps += num;
- }
- 
--static void
-+static int
- parse_caps(struct venus_core *core, u32 codecs, u32 domain, void *data)
- {
- 	struct hfi_capabilities *caps = data;
-@@ -135,12 +139,14 @@ parse_caps(struct venus_core *core, u32 codecs, u32 domain, void *data)
- 	struct hfi_capability caps_arr[MAX_CAP_ENTRIES] = {};
- 
- 	if (num_caps > MAX_CAP_ENTRIES)
--		return;
-+		return -EINVAL;
- 
- 	memcpy(caps_arr, cap, num_caps * sizeof(*cap));
- 
- 	for_each_codec(core->caps, ARRAY_SIZE(core->caps), codecs, domain,
- 		       fill_caps, caps_arr, num_caps);
-+
-+	return sizeof(*caps);
- }
- 
- static void fill_raw_fmts(struct hfi_plat_caps *cap, const void *fmts,
-@@ -155,7 +161,7 @@ static void fill_raw_fmts(struct hfi_plat_caps *cap, const void *fmts,
- 	cap->num_fmts += num_fmts;
- }
- 
--static void
-+static int
- parse_raw_formats(struct venus_core *core, u32 codecs, u32 domain, void *data)
- {
- 	struct hfi_uncompressed_format_supported *fmt = data;
-@@ -164,7 +170,8 @@ parse_raw_formats(struct venus_core *core, u32 codecs, u32 domain, void *data)
- 	struct raw_formats rawfmts[MAX_FMT_ENTRIES] = {};
- 	u32 entries = fmt->format_entries;
- 	unsigned int i = 0;
--	u32 num_planes;
-+	u32 num_planes = 0;
-+	u32 size;
- 
- 	while (entries) {
- 		num_planes = pinfo->num_planes;
-@@ -174,7 +181,7 @@ parse_raw_formats(struct venus_core *core, u32 codecs, u32 domain, void *data)
- 		i++;
- 
- 		if (i >= MAX_FMT_ENTRIES)
--			return;
-+			return -EINVAL;
- 
- 		if (pinfo->num_planes > MAX_PLANES)
- 			break;
-@@ -186,9 +193,13 @@ parse_raw_formats(struct venus_core *core, u32 codecs, u32 domain, void *data)
- 
- 	for_each_codec(core->caps, ARRAY_SIZE(core->caps), codecs, domain,
- 		       fill_raw_fmts, rawfmts, i);
-+	size = fmt->format_entries * (sizeof(*constr) * num_planes + 2 * sizeof(u32))
-+		+ 2 * sizeof(u32);
-+
-+	return size;
- }
- 
--static void parse_codecs(struct venus_core *core, void *data)
-+static int parse_codecs(struct venus_core *core, void *data)
- {
- 	struct hfi_codec_supported *codecs = data;
- 
-@@ -200,21 +211,27 @@ static void parse_codecs(struct venus_core *core, void *data)
- 		core->dec_codecs &= ~HFI_VIDEO_CODEC_SPARK;
- 		core->enc_codecs &= ~HFI_VIDEO_CODEC_HEVC;
- 	}
-+
-+	return sizeof(*codecs);
- }
- 
--static void parse_max_sessions(struct venus_core *core, const void *data)
-+static int parse_max_sessions(struct venus_core *core, const void *data)
- {
- 	const struct hfi_max_sessions_supported *sessions = data;
- 
- 	core->max_sessions_supported = sessions->max_sessions;
-+
-+	return sizeof(*sessions);
- }
- 
--static void parse_codecs_mask(u32 *codecs, u32 *domain, void *data)
-+static int parse_codecs_mask(u32 *codecs, u32 *domain, void *data)
- {
- 	struct hfi_codec_mask_supported *mask = data;
- 
- 	*codecs = mask->codecs;
- 	*domain = mask->video_domains;
-+
-+	return sizeof(*mask);
- }
- 
- static void parser_init(struct venus_inst *inst, u32 *codecs, u32 *domain)
-@@ -283,8 +300,9 @@ static int hfi_platform_parser(struct venus_core *core, struct venus_inst *inst)
- u32 hfi_parser(struct venus_core *core, struct venus_inst *inst, void *buf,
- 	       u32 size)
- {
--	unsigned int words_count = size >> 2;
--	u32 *word = buf, *data, codecs = 0, domain = 0;
-+	u32 *words = buf, *payload, codecs = 0, domain = 0;
-+	u32 *frame_size = buf + size;
-+	u32 rem_bytes = size;
- 	int ret;
- 
- 	ret = hfi_platform_parser(core, inst);
-@@ -301,38 +319,66 @@ u32 hfi_parser(struct venus_core *core, struct venus_inst *inst, void *buf,
- 		memset(core->caps, 0, sizeof(core->caps));
- 	}
- 
--	while (words_count) {
--		data = word + 1;
-+	while (words < frame_size) {
-+		payload = words + 1;
- 
--		switch (*word) {
-+		switch (*words) {
- 		case HFI_PROPERTY_PARAM_CODEC_SUPPORTED:
--			parse_codecs(core, data);
-+			if (rem_bytes <= sizeof(struct hfi_codec_supported))
-+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
-+			ret = parse_codecs(core, payload);
-+			if (ret < 0)
-+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
- 			init_codecs(core);
- 			break;
- 		case HFI_PROPERTY_PARAM_MAX_SESSIONS_SUPPORTED:
--			parse_max_sessions(core, data);
-+			if (rem_bytes <= sizeof(struct hfi_max_sessions_supported))
-+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
-+			ret = parse_max_sessions(core, payload);
- 			break;
- 		case HFI_PROPERTY_PARAM_CODEC_MASK_SUPPORTED:
--			parse_codecs_mask(&codecs, &domain, data);
-+			if (rem_bytes <= sizeof(struct hfi_codec_mask_supported))
-+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
-+			ret = parse_codecs_mask(&codecs, &domain, payload);
- 			break;
- 		case HFI_PROPERTY_PARAM_UNCOMPRESSED_FORMAT_SUPPORTED:
--			parse_raw_formats(core, codecs, domain, data);
-+			if (rem_bytes <= sizeof(struct hfi_uncompressed_format_supported))
-+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
-+			ret = parse_raw_formats(core, codecs, domain, payload);
- 			break;
- 		case HFI_PROPERTY_PARAM_CAPABILITY_SUPPORTED:
--			parse_caps(core, codecs, domain, data);
-+			if (rem_bytes <= sizeof(struct hfi_capabilities))
-+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
-+			ret = parse_caps(core, codecs, domain, payload);
- 			break;
- 		case HFI_PROPERTY_PARAM_PROFILE_LEVEL_SUPPORTED:
--			parse_profile_level(core, codecs, domain, data);
-+			if (rem_bytes <= sizeof(struct hfi_profile_level_supported))
-+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
-+			ret = parse_profile_level(core, codecs, domain, payload);
- 			break;
- 		case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE_SUPPORTED:
--			parse_alloc_mode(core, codecs, domain, data);
-+			if (rem_bytes <= sizeof(struct hfi_buffer_alloc_mode_supported))
-+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
-+			ret = parse_alloc_mode(core, codecs, domain, payload);
- 			break;
- 		default:
-+			ret = sizeof(u32);
- 			break;
- 		}
- 
--		word++;
--		words_count--;
-+		if (ret < 0)
-+			return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
-+
-+		words += ret / sizeof(u32);
-+		rem_bytes -= ret;
- 	}
- 
- 	if (!core->max_sessions_supported)
 
 -- 
 2.34.1
