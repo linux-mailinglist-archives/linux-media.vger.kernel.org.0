@@ -1,179 +1,158 @@
-Return-Path: <linux-media+bounces-26469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26470-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02044A3DC66
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:18:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7283A3DC76
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:21:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 009BA1778AE
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:17:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0738A17D79F
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:18:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE74D1FBCA1;
-	Thu, 20 Feb 2025 14:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE77A1FE46D;
+	Thu, 20 Feb 2025 14:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ke62+k5i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJzdN4qF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE1E1FECA6;
-	Thu, 20 Feb 2025 14:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3AC1FBEB4;
+	Thu, 20 Feb 2025 14:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740061020; cv=none; b=pTJxClVpOVlIU94NmW16q/0dDAee6V+Te1Kd07+OXJGkOrH8t6T/oZZcBTs1Rq3NkAaRmNMMkl3SCbzOD2gHxCP9iKtZSA2Kq+GLASaMI5Z0y9nOkAQRuz+8gO50BQUXsglEd9hoIZVqWpwpzizGc8/9MDQvULHMMTe3G+piMaI=
+	t=1740061069; cv=none; b=m6Q/u9ZelJDBTr6Mw1hQhX5pDhvXdvNyHToE7DeYF0xTiQbEP4D39cCbjbNN3okWBMYTdk4eIU3BnR7oYmbeCBrYH5rCug7iLFNBhY9W9YJY7UmkG0/YFbMDPU9uS391G4ZgwLR4Z/UZhGh0DCtHOPWLfkIrERoOQAvoFCU7JwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740061020; c=relaxed/simple;
-	bh=90sGWHgBiFWC8WmFaCJEHLODTZgic+HaEiiKAov7w4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iwwNCoJtaq+HUNDGDNwYtjzQshTbjPPoZN256M8SMsuYoeJ92+QjTnOh4q+q6kXPqtk8H7qDDgV6wqbJN4MxgHwKl+wLsFDl28JtA1ffgLtvs6MeqymyurasOaQiCX7D8rwv7o4pCIsRsziMs4wK5FfrkrixYS46dggWHXPioYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ke62+k5i; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740061019; x=1771597019;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=90sGWHgBiFWC8WmFaCJEHLODTZgic+HaEiiKAov7w4A=;
-  b=ke62+k5iT3nUABtyLj1Eu2JDOvcH/eVtsvx4+Rz+bC5UvNiWlnzenmU6
-   U0Xi+qxhc7ySX1QJwotH5qSDf0put+lS8XaW/+rCEKXY03F8rx5FiTsFo
-   Yg5U4F9gnJsOG+U2WkKquWhArjxBBChDtCzuxrXTtvjbioo1y+qyQkYg1
-   kQu8NpZggrUxw+4zJQ6thkTOtqu27KTKNnsOW2zQoApTF4s0TvdSaGNDr
-   bCpIdAAD4IxanoXTZ3I6C8fC66CBf7C/sNhX2179l1WBrdQtDUQgi+S7a
-   q367V8AHEA19BgXFXZg7T6RnwXljvVYAZSUKLnJKgE8zlEcQ1Yd3AvfK5
-   A==;
-X-CSE-ConnectionGUID: ipYRUw8YSKCGq1faEvlWzQ==
-X-CSE-MsgGUID: 7xhhdUE8ShiEJKS2Sn569A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="28438585"
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="28438585"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 06:16:58 -0800
-X-CSE-ConnectionGUID: hq/WbzC4RBWGAxh3UZBwRw==
-X-CSE-MsgGUID: xVSkBMrZR/qIo+idZR+y5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="119672464"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 06:16:54 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 649C911F7F2;
-	Thu, 20 Feb 2025 16:16:51 +0200 (EET)
-Date: Thu, 20 Feb 2025 14:16:51 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	s=arc-20240116; t=1740061069; c=relaxed/simple;
+	bh=LUMgRUpWvuZjoguWpdCmke5vgOR7WB4z9bLKqjwwGy0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U5+6i5BEWkV1vCMPeL2WeM1R10+Q9MLBg+SJFt8/I0ZMFRoI20+G6mpOWk3ErYvRtVMEa6zk+vckUpu217sSyIasEzaWq6l75DGfTYe2niRPOrqQzIR033Cbg/tRfnsTrQIa4OVjzgIOMO90LGkpJDO+PrhfXz64IxgxE8HGs6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJzdN4qF; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e0939c6456so1649079a12.3;
+        Thu, 20 Feb 2025 06:17:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740061065; x=1740665865; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j5NAA4XF+E1i12VZp9/nJoaJNV9QI4nVe2Rlxr+bSvU=;
+        b=hJzdN4qFf+Cy1k27abaa4bUNZAAiXpvLC/1b5TL8dIm7IpzhUmP4pp83R/+X3vhUD4
+         HJWfyQFHuVnErhy0G8q++Hc9zitIuxT2XF7u1UFiUwfi7z5jnBxlHPzoqgv348rCl+Nh
+         avfHI4shiu+Xo7744j8u5Vmarc4vSEWSX52ioiwexu6QFK/qD0oF113s2UlE0fs0jVrb
+         xVqexBe1XaIhpX1t62u2g2AANpTMiKi3fVVLNRVEFWgGKfJR+tyANr00dCREJtWZeHef
+         r0LGVDN53RDxZcyaLrb8lVV6FyMyJHeB6VGQTKqDWjnJsPZINJhnPVnG5+iSV08+78FZ
+         4NuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740061065; x=1740665865;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j5NAA4XF+E1i12VZp9/nJoaJNV9QI4nVe2Rlxr+bSvU=;
+        b=SPqkHFVT6ggpM/GrwNoyeobjGxcfKojDd6ZDUVCfanv/eV16rUQ+bThQV6YE+qow22
+         gXogFyN9UU16lRmhHlqR80JB0r5FDLVVKUVqdm2wpyTRmqOX3EX4uzcQpus3H/Owlg7f
+         GUkQ0Np94OdcsuiizWEIdeUaiRUbGCAdHFlfI1+rqXvQ9+qKM/3AxRGn84buIN2/1EBC
+         LKn7jFQHlUHL7SOBAiQpInWgEI5LnFpzMlQhu/zBffFr0YirkEDDi3/48G/tw05XffHd
+         dZANd6QWeHhrbT6LOzPfalU1n7mU5MGHFCToRR3DQXay4W4snlCgkPHmHUiXijzwmu+g
+         brXg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQTIU9/8dIDk94ADrP5BW1Cnv9Ipv3OIwN9w2ugI1AJaiOXgq8T8vPfV/fKBmzswX+d6Io8ZWc2/eJjPE=@vger.kernel.org, AJvYcCUhEcM8HWhCTJNGQlbmmB5Ts5bpXq07JDwz+LFfPL5xTyqAGxfJxvIyydNdOQ6fX11+syTzmZUZ0z/e@vger.kernel.org, AJvYcCWiS5KVvtqh5HrsWcpIo1LcuGb5pprqEHJAgZq+/TZ3xUmIu7Nvr+uJ5l+w99Vwl/SNFgr+6rHW3jounyiY@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHUQnDxJaowvoY7xQ7neBALR/a/WQDYDJ6IYwMolUj7U0hQjV+
+	TmLHzeZViB+LGFVZxUK0E4uE/vGWd7HyjeLXLOjL0CIebrpZMIky
+X-Gm-Gg: ASbGncu49AYtM//XAHmQw5hAjlckditQhtfVH6r/5/98ly9+zTYCM5f67RKmPiZ1AKL
+	OgmzRqd/JERsT4IXj9fECh5HP4mD2eNW19yAhbHcvGmlg/yrWaYFMA8rFqwJ+h+zqVSC5FtgJZp
+	kCjwivBQc5lP/oDxRYSwuZjpszqcK/wK29kSUWMbf8nonLBzXLh1JApkNJL/Ii/+KHzSI4ZIwmY
+	ISyKZXRNrch/4xI6FgCOrbNaLHG49qTvuybaGzGe4qAahsPuRMu3aB/P+pRz5qlgnXC/6P/Ksld
+	O1m1JTUxlxzP7BNzjsq3v6isUxvS
+X-Google-Smtp-Source: AGHT+IHwF/iEm5a3EKb+wf6y31mYTImtmkfKgViMWXtti2k6qyught+ricxhgsnrzaDiZKQpJ1Np8w==
+X-Received: by 2002:a05:6402:348b:b0:5e0:8064:b42e with SMTP id 4fb4d7f45d1cf-5e08064b595mr8838593a12.25.1740061065289;
+        Thu, 20 Feb 2025 06:17:45 -0800 (PST)
+Received: from demon-pc.localdomain ([188.27.130.21])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece1b4f59sm12124224a12.6.2025.02.20.06.17.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 06:17:44 -0800 (PST)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: 
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Julien Massot <julien.massot@collabora.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	=?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 0/3] media: add v4l2_subdev_state_xlate_streams()
-Message-ID: <Z7c5U6u5rr0-X0aK@kekkonen.localdomain>
-References: <20250220092036.6757-1-demonsingur@gmail.com>
- <tw6x663t5dmxsdarrxjtopza3mou3lnhwazu3dfv2k27fv47v2@bvftfepqqhss>
- <c94580f0-3ab0-4a19-a996-9bb37e23dd39@gmail.com>
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH 0/6] media: v4l: add support for Virtual Channel IDs
+Date: Thu, 20 Feb 2025 16:17:22 +0200
+Message-ID: <20250220141739.228714-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c94580f0-3ab0-4a19-a996-9bb37e23dd39@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Cosmin,
+Multi-camera systems often have issues with receiving video streams
+from multiple cameras at the same time because the cameras use the same
+Virtual Channel IDs.
 
-On Thu, Feb 20, 2025 at 03:01:41PM +0200, Cosmin Tanislav wrote:
-> 
-> 
-> On 2/20/25 1:38 PM, Jacopo Mondi wrote:
-> > Hi Cosmin
-> > 
-> > On Thu, Feb 20, 2025 at 11:20:32AM +0200, Cosmin Tanislav wrote:
-> > > Currently, the v4l2_subdev_state_xlate_streams() function is used
-> > > to translate streams from one pad to another.
-> > > This function takes the entire subdev state as argument, but only makes
-> > > use of the routing.
-> > 
-> > Correct, but is this a problem ?
-> > 
-> 
-> No, it's not a problem.
+CSI bridges might not support remapping the Virtual Channel IDs, making
+it impossible to receive the separate video streams at the same
+time, while the CSI receiver is able to de-mux streams based on VC IDs.
 
-I think I have a slight preference to keep the pattern of referring to the
-state as other functions do.
+Cameras sometimes have support for changing the VC IDs they output
+themselves.
 
-I wonder what Laurent and Hans think, too.
+For a practical example, GMSL2 deserializer chips do not support VC ID
+remapping in tunnel mode, and neither do the serializers. Allowing the
+cameras to have their VC IDs configured would allow multi-camera setups
+to use tunnel mode.
 
-> 
-> > Is this the first step for a larger rework or is this a drive-by
-> > beautification ?
-> > 
-> 
-> Mostly a drive-by beautification to avoid passing the whole state around
-> where we only need the routing. I'm planning to submit drivers for more
-> GMSL2/3 chips and we're using this just to not pass the whole state
-> around. I think I can just use v4l2_subdev_state_xlate_streams(),
-> but I had these patches in my tree and it would have been good to get
-> them upstream, in preparations for submitting the GMSL2/3 drivers.
-> 
-> > I'm asking because (and I know it's hard to strike a balance) this
-> > kind of changes tend to make back-porting a more painful, and if
-> > only justified by "it looks better" I would be a bit hesitant in
-> > taking them.
-> > 
-> > 
-> > > 
-> > > Introduce a v4l2_subdev_routing_xlate_streams() function which can be
-> > > used without the entire subdev state, to avoid passing the entire state
-> > > around when not needed.
-> > > 
-> > > Convert all usages of v4l2_subdev_state_xlate_streams() to
-> > > v4l2_subdev_routing_xlate_streams().
-> > > 
-> > > Remove v4l2_subdev_state_xlate_streams().
-> > > 
-> > > V2:
-> > >    * Fix description of parameters
-> > > 
-> > > Cosmin Tanislav (3):
-> > >    media: v4l: subdev: add v4l2_subdev_routing_xlate_streams()
-> > >    media: use v4l2_subdev_routing_xlate_streams()
-> > >    media: v4l: subdev: remove v4l2_subdev_state_xlate_streams()
-> > > 
-> > >   drivers/media/i2c/ds90ub913.c                 | 14 ++++++-----
-> > >   drivers/media/i2c/ds90ub953.c                 | 14 ++++++-----
-> > >   drivers/media/i2c/max96714.c                  | 16 ++++++-------
-> > >   drivers/media/i2c/max96717.c                  | 23 ++++++++++---------
-> > >   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 14 ++++++-----
-> > >   .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |  2 +-
-> > >   drivers/media/v4l2-core/v4l2-subdev.c         |  7 +++---
-> > >   include/media/v4l2-subdev.h                   | 10 ++++----
-> > >   8 files changed, 53 insertions(+), 47 deletions(-)
-> > > 
-> > > --
-> > > 2.48.1
-> > > 
-> > > 
-> 
+Add support for specifying these Virtual Channel IDs in Video Interface
+Endpoints.
+
+Add support for parsing VC IDs in v4l2_fwnode_endpoint_parse().
+This allows us to retrieve the specified VC IDs in camera drivers and
+configure the hardware to use them.
+
+The supported values are 0 to 3, with a maximum of 4 values.
+Although the CSI-2 specification allows for up to 32 virtual channels,
+most hardware doesn't support more than 4. This can be extended later
+if need be.
+
+The driver must validate the number of VC IDs and the VC IDs
+themselves.
+
+Add an example implementation for IMX219.
+
+Cosmin Tanislav (5):
+  dt-bindings: media: video-interfaces: add support for Virtual Channel
+    IDs
+  media: v4l: fwnode: parse Virtual Channel IDs for CSI2 buses
+  dt-bindings: media: imx219: add support for Virtual Channel IDs
+  media: i2c: imx219: pass format's code to imx219_get_format_bpp()
+  media: i2c: imx219: implement configurable VC ID
+
+Laurent Pinchart (1):
+  media: i2c: imx219: Report streams using frame descriptors
+
+ .../devicetree/bindings/media/i2c/imx219.yaml |  2 +
+ .../bindings/media/video-interfaces.yaml      | 11 ++++
+ drivers/media/i2c/imx219.c                    | 54 +++++++++++++++++--
+ drivers/media/v4l2-core/v4l2-fwnode.c         | 15 ++++++
+ include/media/v4l2-mediabus.h                 |  5 ++
+ 5 files changed, 84 insertions(+), 3 deletions(-)
 
 -- 
-Regards,
+2.48.1
 
-Sakari Ailus
 
