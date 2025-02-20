@@ -1,36 +1,43 @@
-Return-Path: <linux-media+bounces-26447-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26448-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0CCA3D7A7
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:02:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 509B1A3D87F
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:26:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 296DD3AF45F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:01:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 943AF19C2CC1
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:25:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDF6C1DA10C;
-	Thu, 20 Feb 2025 11:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F71E1F868C;
+	Thu, 20 Feb 2025 11:20:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B642862BD
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 11:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A21F540C;
+	Thu, 20 Feb 2025 11:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740049292; cv=none; b=eNdML3YuTevyXxzXX0P4re2Sdp4x6gV9kBaOq4MxKmd3IaVTwHNiAMSk0beJKMGuzmd02NTs+d3nNkK9GOhGTh0Q0GZHQiTks/LB5axErDBZV5sGj810b5NE6+xDdwY9yHun8Eb6+z0u6EhdTPF6+VqJzArbTxufKGjXJmxR5E0=
+	t=1740050402; cv=none; b=Ct8HxbIh0lvVl1Ze3ZiLiw3VUCTSHrM8Q/ydFVPlaSIw3MWLmcMBpW6xM9n3uZlq1yN8k1UmP+Ug86EjuntDERWNu4Eljicup7pjMp28d9ToazLC3Um8lIUMs0wyu3y2eeb7gwncXeSi3FHgyPlaJdArEDmOgiEzC0KzJsKWAk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740049292; c=relaxed/simple;
-	bh=0gmfakdTtXszXzZg2nEVd3zo3OoQ3H+9cuUz5NyngfI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=V6T3QZjpeVBi09qsrR5ffpcI7wBM3v3k476Ra6ZlSwTspckXFQBz/AARpDUYl47FZVkoBNTDiDwxJl/T6VTkputULJ3QdJrEGrYsF38G1YdrMocCUE8JBRxF2oOwUCfo4XRPGP+MmcZOzBUACvANVtzNbX2ht3zrynSXKUupKbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE314C4CED1;
-	Thu, 20 Feb 2025 11:01:30 +0000 (UTC)
-Message-ID: <2108d667-243b-4d0f-bf78-5a90e9a8efb1@xs4all.nl>
-Date: Thu, 20 Feb 2025 12:01:29 +0100
+	s=arc-20240116; t=1740050402; c=relaxed/simple;
+	bh=NDdWMhGsVv5SnCqjh/JMa7aBl97LCJ5tTwMBPTYOerU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=iY7c1a79cYYd5dvTL2sm5XUTZKhXpQf9xkHC1pupxQQArWTpsZziHkztVE3xnsFcbl+39g6XZDpK3DxnaRhShhxatAX7TrnGD8dJrPkBe3Q87BPKc9IBdOp/6FvnyDdtSVCqCIaTpp5EhbgxWG/FR9zlG35RtDDRCT4KmPOT1Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
+Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
+ (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Thu, 20 Feb
+ 2025 14:19:50 +0300
+Received: from [192.168.211.132] (10.0.253.138) by Ex16-01.fintech.ru
+ (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 20 Feb
+ 2025 14:19:49 +0300
+Message-ID: <16dba069-119f-4556-befa-0f3db626eada@fintech.ru>
+Date: Thu, 20 Feb 2025 14:19:46 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,128 +45,124 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL FOR 6.13] FIXES: Vcodec fixes
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Arnd Bergmann <arnd@arndb.de>
-Cc: linux-media@vger.kernel.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20241213151415.7opofgiz25lpmn5m@basti-XPS-13-9310>
- <88b4fb25-64a2-462d-b40e-eae675ea83f3@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <88b4fb25-64a2-462d-b40e-eae675ea83f3@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2] media: usb: hackrf: fix device unregister order in
+ hackrf_probe()
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+	<hverkuil@xs4all.nl>
+CC: <linux-media@vger.kernel.org>,
+	<syzbot+6b52c2b24e341804a58c@syzkaller.appspotmail.com>,
+	<syzkaller-bugs@googlegroups.com>, <linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+References: <20250213182608.757954-1-n.zhandarovich@fintech.ru>
+From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+Content-Language: en-US
+In-Reply-To: <20250213182608.757954-1-n.zhandarovich@fintech.ru>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
+ (10.0.10.18)
 
-On 20/02/2025 11:15, Hans Verkuil wrote:
-> Hi Sebastian, Arnd,
-> 
-> While cleaning up patchwork I stumbled on this PR.
-> 
-> The odd thing is that the second patch (noinline) is committed, but not the first (avoid warning).
-> 
-> Is it still needed? I'm not sure what happened here.
-> 
-> The patch is still marked as 'New' in patchwork:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/patch/20241018152127.3958436-1-arnd@kernel.org/
+Hi, please disregard my patch for following reasons:
 
-Apparently this just got lost somehow. I'll delegate this patch to me and queue it up
-for v6.15. I don't think this needs to go to v6.14 since I understand it just kills
-a warning.
+1) The issue at hand isn't addressed properly - looking back I haven't
+properly identified root cause and my fix is flawed.
+2) Even if the approach is correct, I messed up the move of the label
+err_v4l2_device_unregister. If video_register_device(&dev->rx_vdev,...)
+fails we skip necessary deregistering steps.
+
+I'll attempt to come up with a better solution, thank you for your
+patience.
 
 Regards,
+Nikita
 
-	Hans
-
+On 2/13/25 21:26, Nikita Zhandarovich wrote:
+> Syzkaller reports [1] a slab-use-after-free error identified by KASAN
+> sanitizer and most likely caused by the wrong order of device
+> unregister steps once a call to video_register_device() fails.
 > 
-> The already committed patch was also still marked as 'New', I've changed the state to 'Accepted'.
+> Fix aforementioned flaw by first freeing control and reference
+> handlers, only then dealing with dev->v4l2_dev() via
+> v4l2_device_unregister().
 > 
-> Regards,
+> [1] Syzkaller (partial) report:
+> BUG: KASAN: slab-use-after-free in v4l2_release+0x3e2/0x460 drivers/media/v4l2-core/v4l2-dev.c:453
+> Read of size 8 at addr ffff8880502e80c8 by task v4l_id/7854
+> ...
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:94 [inline]
+>  dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+>  print_address_description mm/kasan/report.c:377 [inline]
+>  print_report+0xc3/0x620 mm/kasan/report.c:488
+>  kasan_report+0xd9/0x110 mm/kasan/report.c:601
+>  v4l2_release+0x3e2/0x460 drivers/media/v4l2-core/v4l2-dev.c:453
+>  __fput+0x3f6/0xb60 fs/file_table.c:431
+>  __fput_sync+0x45/0x50 fs/file_table.c:516
+>  __do_sys_close fs/open.c:1567 [inline]
+>  __se_sys_close fs/open.c:1552 [inline]
+>  __x64_sys_close+0x86/0x100 fs/open.c:1552
+>  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+>  do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
+>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> ...
 > 
-> 	Hans
+> Allocated by task 6058:
+>  kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
+>  kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+>  poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
+>  __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:394
+>  kmalloc_noprof include/linux/slab.h:878 [inline]
+>  kzalloc_noprof include/linux/slab.h:1014 [inline]
+>  hackrf_probe+0xd1/0x1cf0 drivers/media/usb/hackrf/hackrf.c:1353
+>  usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
+> ...
 > 
-> On 13/12/2024 16:14, Sebastian Fricke wrote:
->> Hey Mauro & Hans,
->>
->> this is my first time doing a pull request for the fixes branch, so
->> sorry in advance if I did something incorrectly. These are two small
->> fixes, which I would like to see landing in 6.13 if that is still
->> possible.
->>
->> ---
->>
->> The following changes since commit 2dd59fe0e19e1ab955259978082b62e5751924c7:
->>
->>    media: dvb-frontends: dib3000mb: fix uninit-value in dib3000_write_reg (2024-12-11 17:54:19 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.13-vcodec-fixes
->>
->> for you to fetch changes up to 531a8089b1f45cccd6e9a959bfbd20ecccdb56d4:
->>
->>    media: mediatek: vcodec: mark vdec_vp9_slice_map_counts_eob_coef noinline (2024-12-13 16:10:18 +0100)
->>
->> ----------------------------------------------------------------
->> Two small fixes for VCodec
->>
->> ----------------------------------------------------------------
->> Arnd Bergmann (2):
->>        media: mtk-vcodec: venc: avoid -Wenum-compare-conditional warning
->>        media: mediatek: vcodec: mark vdec_vp9_slice_map_counts_eob_coef noinline
->>
->>   .../platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c     | 3 ++-
->>   drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c  | 6 +++++-
->>   2 files changed, 7 insertions(+), 2 deletions(-)
->>
->> Regards,
->> Sebastian
->>
+> Freed by task 6058:
+>  kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
+>  kasan_save_track+0x14/0x30 mm/kasan/common.c:68
+>  kasan_save_free_info+0x3b/0x60 mm/kasan/generic.c:579
+>  poison_slab_object mm/kasan/common.c:247 [inline]
+>  __kasan_slab_free+0x51/0x70 mm/kasan/common.c:264
+>  kasan_slab_free include/linux/kasan.h:230 [inline]
+>  slab_free_hook mm/slub.c:2342 [inline]
+>  slab_free mm/slub.c:4579 [inline]
+>  kfree+0x14f/0x4b0 mm/slub.c:4727
+>  hackrf_probe+0x4c9/0x1cf0 drivers/media/usb/hackrf/hackrf.c:1525
+>  usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
+> ...
 > 
+> Reported-by: syzbot+6b52c2b24e341804a58c@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=6b52c2b24e341804a58c
+> Fixes: 8bc4a9ed8504 ("[media] hackrf: add support for transmitter")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
+> ---
+> v1 -> v2: fix overlong lines in patch description to remove warnings
+> from checkpatch.
+> 
+>  drivers/media/usb/hackrf/hackrf.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
+> index 0b50de8775a3..bc910b35f605 100644
+> --- a/drivers/media/usb/hackrf/hackrf.c
+> +++ b/drivers/media/usb/hackrf/hackrf.c
+> @@ -1513,12 +1513,12 @@ static int hackrf_probe(struct usb_interface *intf,
+>  	return 0;
+>  err_video_unregister_device_rx:
+>  	video_unregister_device(&dev->rx_vdev);
+> -err_v4l2_device_unregister:
+> -	v4l2_device_unregister(&dev->v4l2_dev);
+>  err_v4l2_ctrl_handler_free_tx:
+>  	v4l2_ctrl_handler_free(&dev->tx_ctrl_handler);
+>  err_v4l2_ctrl_handler_free_rx:
+>  	v4l2_ctrl_handler_free(&dev->rx_ctrl_handler);
+> +err_v4l2_device_unregister:
+> +	v4l2_device_unregister(&dev->v4l2_dev);
+>  err_kfree:
+>  	kfree(dev);
+>  err:
 > 
 
 
