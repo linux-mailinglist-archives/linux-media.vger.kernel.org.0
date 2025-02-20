@@ -1,265 +1,279 @@
-Return-Path: <linux-media+bounces-26510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26511-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E69A3E19F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 17:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66D8A3E1B3
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 18:01:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E46817AAD9
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:57:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C79AB169895
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 17:01:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4417520C028;
-	Thu, 20 Feb 2025 16:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ZfpidJbK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9DE9211712;
+	Thu, 20 Feb 2025 17:01:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CD31C1F02
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 16:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7321DF754
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 17:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740070640; cv=none; b=cdaOaoTen40+l2HTBLB+ztXckeCiR8I8pZLN224CyfxjaSD5EwVV8RFzYaHkCHCr3GwSdiYYF7EkLOKPcgYHp6BcdlOr4s3uQEJtYdRkH5kJQyemOmmVqkJJO6WozdK2MIyLXMgjKm+iQK+hu6bAczaG8agwERPdHgabaDTTsW0=
+	t=1740070867; cv=none; b=VEe79BTIKnNLhYBNR+t0ZjN0YDD/jhjsFZ/J3OZkhLujsWLisq/dDWI3w8ROJl1GKNy1843/i6KhpUPieuq07pSkBdDuBEBQLnzS2Im1cQjWK3G35lthludaD3gFBZdCXhGFpXjaeB+J45ySf0eUGWXOgxK8ATzkrrI5hKA0vNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740070640; c=relaxed/simple;
-	bh=hL+68QD/kpvpKWj0bE7l4/9B9i+K8DRj0G1ACPG2dwM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UC0Ha6+GtrONsnbOdD3T2aUGc1Iwrc8grsq0xsmhZEslQUr2oei10ik4IzL0I+7+QBarZXpGkYmds6WB6AmB1T7cQKAHRTWr4cBvcdudDRwHlQorlfxSF3/fbwP0sSY9QJlv6F0Q6Wbou0zKnmAsFhkNx87W7iUGsg+sKqpMVSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ZfpidJbK; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e3983426f80so966325276.1
-        for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 08:57:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1740070637; x=1740675437; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WTH1yLWFBysG2qF9tVnOb1MUDV0oYJUTGpRHbR63nAk=;
-        b=ZfpidJbK6G6SMt9viMiwIcqIkwTTW9FPgfYUQqGk3b/sqfK3sekABWuFMzd8t+EE64
-         2WOuDgAsc2LtHc8q/4KoV/OGVKuBKAvZ5mD2ReqAysuT1dm+RHZCVPAkbsh1IeMh+KWm
-         9cY/IyJG1fdpn9+9y2gR967vl4Tn2vvXCyZBN+zMIcfTE7Xs6R55LlsZnXI5OBaU0HB6
-         PN+rLoRuCjSrO4lInlaGL6ExIZbnnYuVHyLMU/LU/ubRi4i65gi6FLugN7X2ydx5FpRw
-         8S/BTllyrMTzlMKuFjuaYORiPOmz8xXKcjLCPHwmWB+skMGOIHWgiaxGSH1OVVCMCPbB
-         lPJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740070637; x=1740675437;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WTH1yLWFBysG2qF9tVnOb1MUDV0oYJUTGpRHbR63nAk=;
-        b=HH+NxFnDz1zLxXQxOg66vt1xPYr6PNo0QjmQ+VXycD5i7g5wOxqwlP5AEvgQUgUr0B
-         cTvrgOp7JDeTF+LBfpOFMpllTmamwxhxZLaa40KOBW01M98hFdFzSytpzEBBEz76gLIC
-         M+eI1JhFBwnuYsE/9DEyNkbrD+YRfhedXRQuEI9BBW8WlDfi8u5ej1OVTLJHkYnIEnkJ
-         lR1QIEkCQ6m0x/F/a3H4bGWJHURUlN5ASUrB1a0aimLTWP9fyWqv/QViDuZg8o+agpN1
-         LEAvc3BzbooNWMG70Z+uEOsKKki6qwCEXfJ1QpySpveYciU7mCC79F2XYNfamUoS2g4W
-         GhVw==
-X-Gm-Message-State: AOJu0Yy6lakfn/bIXfqntW6jl6Uo+4BeORsKI1PWjqHHpg1IcuKYDgkB
-	pj/PIQrReGKwZIjGuNxrW7WKURBJRDZyA5cm5bYbhcSq0DUNwFX3AVUfTgx/I5OY6cWYkHVJcCw
-	8J/NR8JGkkPJ1D7L9XlrD1jjzkZYtr7d5nM+P/g==
-X-Gm-Gg: ASbGncvk9cP+4+/PbSo/Q73dveH9MPUVOdPGOYsVmUggpArgecriKtam02QoFjNhNhO
-	B53s6E9PeOj9AVas7KvaxcHjOC1ZM4+gcEz6u6iGWhRX4iJ8tlfPLpAF1tuSBS41sZ3pNxMRhLx
-	mTOobm4REZ3bM1FEuVlgfuRX0LQR4k
-X-Google-Smtp-Source: AGHT+IHPwk9i+avIyNB0T+bCkIml/x4ipW/lFhWpYCd+4UH3UFZvKnmUak/vSgzZCC1jr3A5sLVACBuvHcnztB0AenA=
-X-Received: by 2002:a05:6902:1283:b0:e58:305f:440b with SMTP id
- 3f1490d57ef6-e5dc900ee4emr17166624276.7.1740070637425; Thu, 20 Feb 2025
- 08:57:17 -0800 (PST)
+	s=arc-20240116; t=1740070867; c=relaxed/simple;
+	bh=kX6lCvm1zDrytt3Z7s1a8P19Mm7klQsM4LycPSs5Bns=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UX3hljR3ErCjHbn6sm/MRQRw+m8xL7HUIZmgq/EcJR4FWs+km8YWvAJLaj5rZRpN6ugc5Mnt5lQ0PT9l4e6b1nUFefezOcWCrGWZJgO50dv45SpcopcnxS4oA02yq7lIBJxA+MkJwZy0j3IghiubFeAYDCQKRzbr9SuIzj1ryZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA46C4CED1;
+	Thu, 20 Feb 2025 17:01:04 +0000 (UTC)
+Message-ID: <ab0e29e5-a4a9-41fe-afec-a25c5b57a23e@xs4all.nl>
+Date: Thu, 20 Feb 2025 18:01:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250219094637.607615-1-eagle.alexander923@gmail.com> <20250219094637.607615-3-eagle.alexander923@gmail.com>
-In-Reply-To: <20250219094637.607615-3-eagle.alexander923@gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 20 Feb 2025 16:57:00 +0000
-X-Gm-Features: AWEUYZkXc4UBOCXd5mceYTlV8-kFNDFck6tXSb-GYRZg9kk4vlgL8b_rEP1xq7Y
-Message-ID: <CAPY8ntAync2_EEXv+Rx=j_OwHbKU+V+QJJoRuZDQcyQUX-dVHQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] media: i2c: imx415: Add missing CSI configurations
-To: Alexander Shiyan <eagle.alexander923@gmail.com>
-Cc: linux-media@vger.kernel.org, 
-	Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: rkisp1: Remove min_queued_buffers
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>,
+ "open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ "open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
+ Adam Pigg <adam@piggz.co.uk>
+References: <20241029082117.55385-1-jacopo.mondi@ideasonboard.com>
+ <tpdzxkug5gtive7h4tvl6jn5r7ybb3dby7ajfuwmzigphhlkin@geirq67p6dww>
+ <67af5601-922b-4683-9e5f-ccf4fd757dbb@xs4all.nl>
+ <sw2x5l3o5zvlaufe7a4hfbwub3yrzsr3e5qgr6os6brcrpd3zp@2abh2jyru2yd>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <sw2x5l3o5zvlaufe7a4hfbwub3yrzsr3e5qgr6os6brcrpd3zp@2abh2jyru2yd>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Alexander
+On 20/02/2025 17:27, Jacopo Mondi wrote:
+> Hi Hans
+> 
+> On Thu, Feb 20, 2025 at 04:39:59PM +0100, Hans Verkuil wrote:
+>> On 2/20/25 15:22, Jacopo Mondi wrote:
+>>> Hello
+>>>
+>>> On Tue, Oct 29, 2024 at 09:21:16AM +0100, Jacopo Mondi wrote:
+>>>> There apparently is no reason to require 3 queued buffers for RkISP1,
+>>>> as the driver operates with a scratch buffer where data can be
+>>>> directed to if there's no available buffer provided by userspace.
+>>>>
+>>>> Reduce the number of required buffers to 0 by removing the
+>>>> initialization of min_queued_buffers, to allow applications to operate
+>>>> by queueing capture buffers on-demand.
+>>>>
+>>>> Tested with libcamera, by operating with a single capture request. The
+>>>> same request (and the associated capture buffer) gets recycled once
+>>>> completed. This of course causes a frame rate drop but doesn't hinder
+>>>> operations.
+>>>>
+>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>>
+>>> I just noticed v2 of this series:
+>>> media: rkisp1: Reduce min_queued_buffers to 1
+>>>
+>>> has been collected instead of this v3.
+>>
+>> Did you mark your v2 as Superseded in patchwork when you posted the v3?
+>> I marked your v1 and v2 as Superseded today when I was cleaning up patchwork,
+>> so I know you didn't :-)
+>>
+>> When I post a new version I always mark the old one as Superseded, exactly
+>> to prevent such things from happening.
+>>
+> 
+>> Also, more people should help keep patchwork clean. I think I am usually the
+>> person who is doing this, but this is a collective responsibility.
+> 
+> Yes, and it's a thankless job. So thank you.
+> 
+>>
+>> Part of the job description for someone with commit rights is actually to
+>> keep patchwork clean.
+>>
+> 
+> Part of the motivation to do admin tasks around patch handling
+> actually comes from a feeling of ownership and responsibility. If
+> one is given trust and responsibilities then doing admin tasks just
+> becomes part of what you do as you get through the day.
+> 
+> Don't get me wrong, this is not an excuse for being sluggish, but in
+> the current process I'm not even sure if it's my responsibility to go
+> through patchwork. In the end, right now, once I've sent a patch and
+> replied to comments, then it's not "my business" anymore. Right ?
+> Wrong ? Not sure, but I'm rather certain that if people is given
+> ownership of something they will be motivated to care about it.
 
-On Wed, 19 Feb 2025 at 09:56, Alexander Shiyan
-<eagle.alexander923@gmail.com> wrote:
->
-> Currently, not all variants for different lane rates are handled in the driver.
-> This patch fills in the remaining possible CSI configurations for 2-lane mode.
+Let me put it this way: if active media developers who frequently post
+patches would also update patchwork whenever they post new versions, then
+maintainers would greatly appreciate it. It is not a requirement, though.
+To be honest, I kind of expected you to do that already, but perhaps nobody
+ever asked or mentioned it? You should be able to update the state of your
+own patches in patchwork (although you might have to make an account first,
+I'm not sure).
 
-This patch fills in the remaining CSI configurations supported in both
-2 and 4 lane modes.
+It is, however, a requirement for maintainers with delegation rights in
+patchwork. Certainly for the area they maintain. Because if it isn't kept
+up to date it becomes useless.
 
-Otherwise I've checked the register settings against the datasheet I
-have, and they all appear to match.
+> 
+> Anyway, I would like to use this little hiccups as an example of
+> something that went wrong (for $reasons) in the current model, and
+> which requires energies from both submitter and maintainers to be
+> corrected. All the discussion we had have gone into depicting doomsday
+> scenarios potentially caused by the new model, but I have the feeling
+> maintainers themselves sometimes do not appreciate the burden the
+> current process inflicts on them. That's why I'm a little surprised
+> this taking so long, as the first ones that should want this happening
+> are the people which are doing most of thankless and underappreciated
+> housekeeping work that keeps the subsystem functional.
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+It definitely takes longer than expected. There were a lot of issues all
+over the place that needed to be fixed. But there is no point in starting
+this too soon and have it end up into chaos.
 
->
-> Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
-> ---
->  drivers/media/i2c/imx415.c | 97 +++++++++++++++++++++++++++++++-------
->  1 file changed, 80 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-> index c5beba4da18b..83b7929455b2 100644
-> --- a/drivers/media/i2c/imx415.c
-> +++ b/drivers/media/i2c/imx415.c
-> @@ -109,8 +109,8 @@ static const char *const imx415_supply_names[] = {
->   * and converts them to link frequencies by a factor of two when needed.
->   */
->  static const s64 link_freq_menu_items[] = {
-> -       594000000 / 2,  720000000 / 2,  891000000 / 2,
-> -       1440000000 / 2, 1485000000 / 2,
-> +       594000000 / 2,  720000000 / 2,  891000000 / 2,  1440000000 / 2,
-> +       1485000000 / 2, 1782000000 / 2, 2079000000 / 2, 2376000000 / 2,
->  };
->
->  struct imx415_clk_params {
-> @@ -453,6 +453,19 @@ static const struct imx415_clk_params imx415_clk_params[] = {
->         },
->  };
->
-> +/* 594 Mbps CSI configuration */
-> +static const struct cci_reg_sequence imx415_linkrate_594mbps[] = {
-> +       { IMX415_TCLKPOST, 0x0067 },
-> +       { IMX415_TCLKPREPARE, 0x0027 },
-> +       { IMX415_TCLKTRAIL, 0x0027 },
-> +       { IMX415_TCLKZERO, 0x00B7 },
-> +       { IMX415_THSPREPARE, 0x002F },
-> +       { IMX415_THSZERO, 0x004F },
-> +       { IMX415_THSTRAIL, 0x002F },
-> +       { IMX415_THSEXIT, 0x0047 },
-> +       { IMX415_TLPX, 0x0027 },
-> +};
-> +
->  /* 720 Mbps CSI configuration */
->  static const struct cci_reg_sequence imx415_linkrate_720mbps[] = {
->         { IMX415_TCLKPOST, 0x006F },
-> @@ -466,6 +479,19 @@ static const struct cci_reg_sequence imx415_linkrate_720mbps[] = {
->         { IMX415_TLPX, 0x0027 },
->  };
->
-> +/* 891 Mbps CSI configuration */
-> +static const struct cci_reg_sequence imx415_linkrate_891mbps[] = {
-> +       { IMX415_TCLKPOST, 0x007F },
-> +       { IMX415_TCLKPREPARE, 0x0037 },
-> +       { IMX415_TCLKTRAIL, 0x0037 },
-> +       { IMX415_TCLKZERO, 0x00F7 },
-> +       { IMX415_THSPREPARE, 0x003F },
-> +       { IMX415_THSZERO, 0x006F },
-> +       { IMX415_THSTRAIL, 0x003F },
-> +       { IMX415_THSEXIT, 0x005F },
-> +       { IMX415_TLPX, 0x002F },
-> +};
-> +
->  /* 1440 Mbps CSI configuration */
->  static const struct cci_reg_sequence imx415_linkrate_1440mbps[] = {
->         { IMX415_TCLKPOST, 0x009F },
-> @@ -479,17 +505,30 @@ static const struct cci_reg_sequence imx415_linkrate_1440mbps[] = {
->         { IMX415_TLPX, 0x004F },
->  };
->
-> -/* 891 Mbps CSI configuration */
-> -static const struct cci_reg_sequence imx415_linkrate_891mbps[] = {
-> -       { IMX415_TCLKPOST, 0x007F },
-> -       { IMX415_TCLKPREPARE, 0x0037 },
-> -       { IMX415_TCLKTRAIL, 0x0037 },
-> -       { IMX415_TCLKZERO, 0x00F7 },
-> -       { IMX415_THSPREPARE, 0x003F },
-> -       { IMX415_THSZERO, 0x006F },
-> -       { IMX415_THSTRAIL, 0x003F },
-> -       { IMX415_THSEXIT, 0x005F },
-> -       { IMX415_TLPX, 0x002F },
-> +/* 1782 Mbps CSI configuration */
-> +static const struct cci_reg_sequence imx415_linkrate_1782mbps[] = {
-> +       { IMX415_TCLKPOST, 0x00B7 },
-> +       { IMX415_TCLKPREPARE, 0x0067 },
-> +       { IMX415_TCLKTRAIL, 0x006F },
-> +       { IMX415_TCLKZERO, 0x01DF },
-> +       { IMX415_THSPREPARE, 0x006F },
-> +       { IMX415_THSZERO, 0x00CF },
-> +       { IMX415_THSTRAIL, 0x006F },
-> +       { IMX415_THSEXIT, 0x00B7 },
-> +       { IMX415_TLPX, 0x005F },
-> +};
-> +
-> +/* 2079 Mbps CSI configuration */
-> +static const struct cci_reg_sequence imx415_linkrate_2079mbps[] = {
-> +       { IMX415_TCLKPOST, 0x00D7 },
-> +       { IMX415_TCLKPREPARE, 0x007F },
-> +       { IMX415_TCLKTRAIL, 0x007F },
-> +       { IMX415_TCLKZERO, 0x0237 },
-> +       { IMX415_THSPREPARE, 0x0087 },
-> +       { IMX415_THSZERO, 0x00EF },
-> +       { IMX415_THSTRAIL, 0x0087 },
-> +       { IMX415_THSEXIT, 0x00DF },
-> +       { IMX415_TLPX, 0x006F },
->  };
->
->  struct imx415_mode_reg_list {
-> @@ -505,6 +544,14 @@ struct imx415_mode {
->
->  /* mode configs */
->  static const struct imx415_mode supported_modes[] = {
-> +       {
-> +               .lane_rate = 594000000,
-> +               .hmax_min = { 3300, 1320 },
-> +               .reg_list = {
-> +                       .num_of_regs = ARRAY_SIZE(imx415_linkrate_594mbps),
-> +                       .regs = imx415_linkrate_594mbps,
-> +               },
-> +       },
->         {
->                 .lane_rate = 720000000,
->                 .hmax_min = { 2032, 1066 },
-> @@ -513,6 +560,14 @@ static const struct imx415_mode supported_modes[] = {
->                         .regs = imx415_linkrate_720mbps,
->                 },
->         },
-> +       {
-> +               .lane_rate = 891000000,
-> +               .hmax_min = { 2200, 1100 },
-> +               .reg_list = {
-> +                       .num_of_regs = ARRAY_SIZE(imx415_linkrate_891mbps),
-> +                       .regs = imx415_linkrate_891mbps,
-> +               },
-> +       },
->         {
->                 .lane_rate = 1440000000,
->                 .hmax_min = { 1066, 533 },
-> @@ -522,11 +577,19 @@ static const struct imx415_mode supported_modes[] = {
->                 },
->         },
->         {
-> -               .lane_rate = 891000000,
-> -               .hmax_min = { 2200, 1100 },
-> +               .lane_rate = 1782000000,
-> +               .hmax_min = { 1100, 550 },
->                 .reg_list = {
-> -                       .num_of_regs = ARRAY_SIZE(imx415_linkrate_891mbps),
-> -                       .regs = imx415_linkrate_891mbps,
-> +                       .num_of_regs = ARRAY_SIZE(imx415_linkrate_1782mbps),
-> +                       .regs = imx415_linkrate_1782mbps,
-> +               },
-> +       },
-> +       {
-> +               .lane_rate = 2079000000,
-> +               .hmax_min = { 1100, 550 },
-> +               .reg_list = {
-> +                       .num_of_regs = ARRAY_SIZE(imx415_linkrate_2079mbps),
-> +                       .regs = imx415_linkrate_2079mbps,
->                 },
->         },
->  };
-> --
-> 2.39.1
->
->
+The CI in particular already greatly helps me: I don't need to go back to
+the patch author as often as I used to to ask for changes caught by my
+scripts, since now it has already been caught by the CI.
+
+The lack of serializing merge requests is from a technical standpoint the
+only blocker to enabling multiple committers.
+
+Regards,
+
+	Hans
+
+> 
+> Thank you!
+> 
+> 
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>
+>>> And I noticed because a user complained to me about this.
+>>>
+>>> Now, I can provide an update based on the now merged v2, not a big
+>>> deal, but this depresses me a bit as the discussion about
+>>> implementing multi-commiter model is apparently (again) stalled.
+>>>
+>>> I know, sh*t happens (TM) and hiccups are expected in the process,
+>>> we all make mistakes and I'm not even sure through which path the
+>>> patch has been collected, but I could have handled this one easily,
+>>> and instead what we have is:
+>>>
+>>> 1) an unhappy user that will likely have to wait for the next release
+>>> 2) me having to send an additional (rather trivial) patch
+>>> 3) Someone will have to review, collect, PR etc etc
+>>>
+>>> (and I'm not even mentioning this patch is 3 lines)
+>>>
+>>> Issues like this one seems to be considered a fact of life we decided
+>>> is fine to live with, while every possible corner case of the proposed
+>>> multi-committer model is analyzed with great concern like we're
+>>> trading a perfect model for something that has to be equally perfect.
+>>>
+>>> And while I agree the biggest reason for the proverbial v4l2 slow pace
+>>> is the reviewers scarcity and the limited maintainers bandwidth, now
+>>> that we have everything in place to reduce the system clogginess
+>>> it still seems we're not all sold for it. I really don't get it, sorry.
+>>>
+>>>
+>>>> ---
+>>>> v2->v3:
+>>>> - Remove min_queued_buffers initialization
+>>>>
+>>>> v1->v2:
+>>>> The first version of this patch set min_queued_buffers to 1, but setting it
+>>>> to 0 doesn't compromise operations and it's even better as it allows application
+>>>> to queue buffers to the capture devices on-demand. If a buffer is not provided
+>>>> to the DMA engines, image data gets directed to the driver's internal scratch
+>>>> buffer.
+>>>> ---
+>>>>  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 ---
+>>>>  1 file changed, 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>> index 2bddb4fa8a5c..2f0c610e74b9 100644
+>>>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>>>> @@ -35,8 +35,6 @@
+>>>>  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
+>>>>  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
+>>>>
+>>>> -#define RKISP1_MIN_BUFFERS_NEEDED 3
+>>>> -
+>>>>  enum rkisp1_plane {
+>>>>  	RKISP1_PLANE_Y	= 0,
+>>>>  	RKISP1_PLANE_CB	= 1,
+>>>> @@ -1563,7 +1561,6 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+>>>>  	q->ops = &rkisp1_vb2_ops;
+>>>>  	q->mem_ops = &vb2_dma_contig_memops;
+>>>>  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
+>>>> -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
+>>>>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>>>>  	q->lock = &node->vlock;
+>>>>  	q->dev = cap->rkisp1->dev;
+>>>> --
+>>>> 2.47.0
+>>>>
+>>>>
+>>
+
 
