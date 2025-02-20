@@ -1,142 +1,188 @@
-Return-Path: <linux-media+bounces-26507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26508-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F00A3E143
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 17:47:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3057DA3E1B1
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 18:01:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF169861F13
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:42:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 012633B565C
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:55:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D3D7212B01;
-	Thu, 20 Feb 2025 16:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B057214A96;
+	Thu, 20 Feb 2025 16:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ZeJoGCmi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BnITrn3E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65F7204840
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 16:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8AB2116F6;
+	Thu, 20 Feb 2025 16:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740069773; cv=none; b=RgKxbEGp/f9BY6S/0o08vR4+OqMhZDY1/v/2JeZeCUBu4BoiGiOmq28eu3cv1/48+fqOH1L7yRO4ODNXdng+8PVts52zyfXbOVCWKjAtq8nx/yC0lkdr4UK9fhZmN9VRBaCcoANUw20+50eVA2L8btI5X2BZFyLgY9t5MJRUc3c=
+	t=1740070410; cv=none; b=U0JM6hU+UVq150l81LXmDMe4njPLlfwu5jCYSDGlCLYPMqVdN0YPyKzG1CgNNW8xEeCwX+zg9v50N1awEpcJ4XWdr5rCA+gYAHEOiHgBbAqpRtXHSli8ExrjDDIAfEPfdrOP+WvFkaIhKrAdjNVq5Bw5LN11IkA/DLG7ODK6Nqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740069773; c=relaxed/simple;
-	bh=iHAP1ym04ciyXYXsL6+cShuwn/OnOyhMCf6b9UKoD9w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aRNEhxoouz2RbIFCo/8YQsPu7u9OtXNoDKsTQCgd4VRLmRm88YXiJxsZ0ThjOhUjnKUfdOl+gnnP+++FN6t2cQeVbGJoKnvCA/5L41/XzwK3Jhstqah96UgtjVC1JjlbnUx0Kc79UuXq8cw5/75iPwoPVwpJsP4J9PyH9W8qMkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ZeJoGCmi; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6f679788fd1so8227867b3.2
-        for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 08:42:51 -0800 (PST)
+	s=arc-20240116; t=1740070410; c=relaxed/simple;
+	bh=wnA9/JOYe+0mgZDcoziJ6ed0Ll4qweWetDgvFkY1Rtw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YxnRlnY2CNkY06WKk6ma9lGZ6iAjVBEVnum6IH2dV5xbodYfrrnOW9jyY3mChEmQcPi0OtHs3OhJ3lpZhtJTgL6wK3XJpGxJLq/b2TQKZPZQVyVS0uB0l69hwV3tGOJmvuwqIjLD2zlKMYJU4cDTUVALI5hdukSG3/WBxL15xGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BnITrn3E; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abb86beea8cso237723366b.1;
+        Thu, 20 Feb 2025 08:53:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1740069771; x=1740674571; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zn2BpS7MQmtroOwibVSkOLV+vUdoUAolAZtY2D0Y9Lg=;
-        b=ZeJoGCmiBUtmk4iYnElPlV4tco8B6RMafUrxzWaDzDNBv511yMqLJUyAp1wt2NsuFU
-         9Wn+FYYe2cnHeGWoCQANFgZdX+igiKZ8luBFHZ8FQOcHToQbeozP6kIiMwtjlGPzkvUe
-         4ntu4usloG09CdKHp5ghhxlAs5aQinihPF356X1z1MgJYlXJl+By0tGVnN5Z5DpSa0f7
-         W469hqvaFXvBdQO/yLv2BGNiF06xyxCEYb9T50+hH1Ju8+lv4efLZeIVxPt2mJ7dqQWx
-         UNKQHt/ijDk+hl9//69gJK7QJatWgia/CwNJKkAzLZHUHYUOamHC3RmKFo8f3DTyjvOZ
-         4PFA==
+        d=gmail.com; s=20230601; t=1740070407; x=1740675207; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EOgvK9AFJe3WHPextjB1ThOrVLGAoD7o8PiZ9/mpfSE=;
+        b=BnITrn3EEviLggzqo2Jf/ac+UCqYKMn6Uqcm8BFWSBY32XZVZBFM9Tk2SImynO5WUY
+         DcUV+w3vkMmS8JIl3dlDQj/O4F9MbWzuyXBtzStBLUYVlDxZ4LMgxudKQVBIi9SEjjSi
+         XHCVtqAmsK1p1PUqh63o7FELT7cLsNPcBgi5PgmY5BMicV2VNqc9VXl/fHrzprA5Fdpj
+         pNNe2AvRby8VuxwnbmD7X6kSYtzBaHH5lBa5M9xHryOZf2dYscu8XTBtfT/lZs8Cz5Ey
+         INxqMFnV3FhcWsV0vUIE3cYJiYtXN8xs+/xcOXx7GWxzMePOIg4otPzE2ll2k2byFeSD
+         3yNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740069771; x=1740674571;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zn2BpS7MQmtroOwibVSkOLV+vUdoUAolAZtY2D0Y9Lg=;
-        b=Yth3rCmEsglTpVnNcRTN0jf5NomPqaGcEPtHkuS18KIltN+cn8596gXbxukj8KF6c2
-         kmrXrJHNjAYvYb6jCdoBod0E5fZqd9RTDNGKerxni0jHebX9Ea6D5Z/re8eK4BDBhWcK
-         wBHxgszpmnoiGHPp2XWlufyW2XGO2TvUi9KF/rlwa4C5wh8LT0uRGQJ38f+bglLHpOpO
-         x/dCgxJqifW4SHvjRDUbdy8eE5Kc77oRxY63M+Ux5lgIQXex3ByDrFZpZg2q/J/W2MLI
-         plZo6R/3rK5sfMxc4DcLiKX2QdcxzoqmXMOJi2OQ+C7A1CPqpLfKx+GbCqqFNuoGF8nl
-         RrsA==
-X-Gm-Message-State: AOJu0YzSy7j1NlZvQmopRf0FCHNcZ0prxsBFCpmJ+t1Jpu6vVyiGmUyc
-	beLQ1BpiXGFXLEwIl2g48PTIuGzMMeUTZ1eHqnRqKrPmHi5tIpia35xfXoy5b1eACN0MY/JkVz+
-	Aocz2xehuVxH8fo8If9wkoM9HHaHRtmiedXPam5M4waXYgM3l
-X-Gm-Gg: ASbGncvM9OmUJ1Ir30WRFn7q2+CKXceDlbfKMpK6g41z69pf+ulmkEr4fmErJiLqFsX
-	3Y/rQIa0evoedHPuqHMIb0ZT99QeCSck8N0ZhoMawOUc0H0iyW4onxAzQ6MvryxuJ85ncVJ3ON8
-	URRh3l32j8K9DJXbBs18AbKHzNtZaX
-X-Google-Smtp-Source: AGHT+IFvPoD/ihWv53Ks7nhLKsgFRUE2Vbi8hoA9uajK2q4JQpFtTeTXrw2qcXWuJinvyPE7l47skwfyRv1zW837CcE=
-X-Received: by 2002:a05:690c:a85:b0:6fb:a92b:856b with SMTP id
- 00721157ae682-6fbbb656670mr26670347b3.21.1740069770781; Thu, 20 Feb 2025
- 08:42:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740070407; x=1740675207;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EOgvK9AFJe3WHPextjB1ThOrVLGAoD7o8PiZ9/mpfSE=;
+        b=IqZ5OP0lp0Zol8n4V/nJ5D3G3QzpwjfdVcZRmuSDyOtFtzeGh2G9OmKGym+9tSDthX
+         O9VK/T3opAJb/emqKL7Q8AKkFpJbQXaegEpap17mwvvUZJh45L51BzRe25fiy28mh2/j
+         EEEtoWCW2UnZ4gHOMIuy9l/Tqxy+Ih181UH7Nrz/TXauHWZPZQD0sUKYSDBXhr8kEfhb
+         +MntJNEEDkjMY2Vj/5JoE5Ey4sgdO5v2wsNjPmdnXuYwQIvQ9gWeKo3/UUKMuXgB1duO
+         pdjXDjIk3rpD4iCZMNmQjPPNsShLXObVZw8u+o1TfgTaTqgoT2UzZfuALrgG+QQ7In+G
+         T3kQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/aoBRpvfE7XkiVeCYorJ9FVAbDlg+5ZodkD6AUEeUCDs4c0C3UaeBhPI+qUlb9YqC5GzQIlTJeCgpR3U=@vger.kernel.org, AJvYcCWux90aXzUNa0hYB1yGgZv5XDit2kxSekrMgmRmkGw8I86rkUW7yMlgUv0FCDxIIRXLDNLnZTZL+ijYdS8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLnvFW1QETsmfjfj1N53IeUM3Ax3ss3T0P6eossudZEVRAi03X
+	GSvJGh2SBgwVUU/4v6PkncGwuMP3BOnNocr9C6YF5KfURImPug2b
+X-Gm-Gg: ASbGncvXta9xfUE3m8F+0qleiu2Yw2WKvNLdE7C5cRgITP1QgTNFjySLAd0hrsIkx9V
+	rcEveKTEQYuKPESKQETxkJcdsLH1PXHyRr9DXgWqGBnNsLB9iNtN4zRb/nBT+1iCgwdEHn00fpH
+	Sxjoh6GVq+tcybcAon5wtD5kuMOT33iQzp4z33I1hgQ732G0TKpsPIvoLIWk/zKnaQIT04VAXzK
+	banNjivncR2XcGKQ1iRKnxX2JLHLt5LljP60TKEyl/c76TWTyolwiSxdk9EFhYxmOayotDBMngz
+	Vt7GymaY72iWpxqiOvHddw==
+X-Google-Smtp-Source: AGHT+IHX9VnmIkzgRI4Ll9tv4A4sJkmlBH401wTqrrD1a2+Mvl3kRu9TX2s5UtqBj6iP6Tz2hhj6nw==
+X-Received: by 2002:a17:907:7f93:b0:aae:fb7c:50df with SMTP id a640c23a62f3a-abc09d33e2fmr2980866b.36.1740070407215;
+        Thu, 20 Feb 2025 08:53:27 -0800 (PST)
+Received: from [192.168.0.100] ([188.27.130.21])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbaa99f283sm681653066b.32.2025.02.20.08.53.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 08:53:26 -0800 (PST)
+Message-ID: <8c1c7703-42b0-418a-9c51-fd0e76e3a68e@gmail.com>
+Date: Thu, 20 Feb 2025 18:53:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250219094637.607615-1-eagle.alexander923@gmail.com> <20250219094637.607615-2-eagle.alexander923@gmail.com>
-In-Reply-To: <20250219094637.607615-2-eagle.alexander923@gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 20 Feb 2025 16:42:34 +0000
-X-Gm-Features: AWEUYZlCXgMlurtGbIbgW0i7S6Vz-SIDo8m3Lr2eXCBPPbv8Phz1d6ot-SfG8Pc
-Message-ID: <CAPY8ntC4MbKBb6j9Xj4+=U1G3bOAZuxS9kMdHtTBWwX3AOHuuw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] media: i2c: imx415: Add missing ADBIT1 register for
- setup output format
-To: Alexander Shiyan <eagle.alexander923@gmail.com>
-Cc: linux-media@vger.kernel.org, 
-	Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] media: add v4l2_subdev_state_xlate_streams()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Julien Massot <julien.massot@collabora.com>,
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Umang Jain <umang.jain@ideasonboard.com>, =?UTF-8?Q?Pawe=C5=82_Anikiel?=
+ <panikiel@google.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20250220092036.6757-1-demonsingur@gmail.com>
+ <tw6x663t5dmxsdarrxjtopza3mou3lnhwazu3dfv2k27fv47v2@bvftfepqqhss>
+ <c94580f0-3ab0-4a19-a996-9bb37e23dd39@gmail.com>
+ <Z7c5U6u5rr0-X0aK@kekkonen.localdomain>
+ <20250220143902.GA17500@pendragon.ideasonboard.com>
+From: Cosmin Tanislav <demonsingur@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20250220143902.GA17500@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Alexander
 
-On Wed, 19 Feb 2025 at 09:57, Alexander Shiyan
-<eagle.alexander923@gmail.com> wrote:
->
-> The imx415 sensor has one more register for setting the output
-> format (10/12 bit), which is currently not in the driver.
 
-The datasheet states it is the "internal A/D conversion bits" setting,
-not output format.
-Output format is set via MDBIT (reg 0x3032).
+On 2/20/25 4:39 PM, Laurent Pinchart wrote:
+> On Thu, Feb 20, 2025 at 02:16:51PM +0000, Sakari Ailus wrote:
+>> On Thu, Feb 20, 2025 at 03:01:41PM +0200, Cosmin Tanislav wrote:
+>>> On 2/20/25 1:38 PM, Jacopo Mondi wrote:
+>>>> On Thu, Feb 20, 2025 at 11:20:32AM +0200, Cosmin Tanislav wrote:
+>>>>> Currently, the v4l2_subdev_state_xlate_streams() function is used
+>>>>> to translate streams from one pad to another.
+>>>>> This function takes the entire subdev state as argument, but only makes
+>>>>> use of the routing.
+>>>>
+>>>> Correct, but is this a problem ?
+>>>>
+>>>
+>>> No, it's not a problem.
+>>
+>> I think I have a slight preference to keep the pattern of referring to the
+>> state as other functions do.
+>>
+>> I wonder what Laurent and Hans think, too.
+> 
+> I agree, I think the state should be passed everywhere. This lowers the
+> risk of subsystem-wide refactoring if a function that receives a pointer
+> to part of a state (such as v4l2_subdev_routing_xlate_streams()) is
+> later found to need more information from the state.
+> 
+> The situation would be different if the states were not monolithic, for
+> instance if the routing table could be locked separatly from other parts
+> of the state, but that's not the case and I don't foresee moving to
+> finer-grained objects.
+> 
 
-The sensor may well happily truncate 12bit A/D readout to RAW10
-output, or left shift 10bit A/D values to RAW12 output.
+Got it. We can drop these patches then.
 
-I'll defer to Wolfvision on this one as I would expect them as the
-original authors to have been given a register list by Sony for the
-readout modes that they were interested in. Sony may therefore have
-recommended this apparent mismatch in A/D depth vs output format.
+>>>> Is this the first step for a larger rework or is this a drive-by
+>>>> beautification ?
+>>>
+>>> Mostly a drive-by beautification to avoid passing the whole state around
+>>> where we only need the routing. I'm planning to submit drivers for more
+>>> GMSL2/3 chips and we're using this just to not pass the whole state
+>>> around. I think I can just use v4l2_subdev_state_xlate_streams(),
+>>> but I had these patches in my tree and it would have been good to get
+>>> them upstream, in preparations for submitting the GMSL2/3 drivers.
+>>>
+>>>> I'm asking because (and I know it's hard to strike a balance) this
+>>>> kind of changes tend to make back-porting a more painful, and if
+>>>> only justified by "it looks better" I would be a bit hesitant in
+>>>> taking them.
+>>>>
+>>>>> Introduce a v4l2_subdev_routing_xlate_streams() function which can be
+>>>>> used without the entire subdev state, to avoid passing the entire state
+>>>>> around when not needed.
+>>>>>
+>>>>> Convert all usages of v4l2_subdev_state_xlate_streams() to
+>>>>> v4l2_subdev_routing_xlate_streams().
+>>>>>
+>>>>> Remove v4l2_subdev_state_xlate_streams().
+>>>>>
+>>>>> V2:
+>>>>>     * Fix description of parameters
+>>>>>
+>>>>> Cosmin Tanislav (3):
+>>>>>     media: v4l: subdev: add v4l2_subdev_routing_xlate_streams()
+>>>>>     media: use v4l2_subdev_routing_xlate_streams()
+>>>>>     media: v4l: subdev: remove v4l2_subdev_state_xlate_streams()
+>>>>>
+>>>>>    drivers/media/i2c/ds90ub913.c                 | 14 ++++++-----
+>>>>>    drivers/media/i2c/ds90ub953.c                 | 14 ++++++-----
+>>>>>    drivers/media/i2c/max96714.c                  | 16 ++++++-------
+>>>>>    drivers/media/i2c/max96717.c                  | 23 ++++++++++---------
+>>>>>    drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 14 ++++++-----
+>>>>>    .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |  2 +-
+>>>>>    drivers/media/v4l2-core/v4l2-subdev.c         |  7 +++---
+>>>>>    include/media/v4l2-subdev.h                   | 10 ++++----
+>>>>>    8 files changed, 53 insertions(+), 47 deletions(-)
+> 
 
-  Dave
-
-> The patch adds it.
->
-> Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
-> ---
->  drivers/media/i2c/imx415.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-> index 16a52900c61c..c5beba4da18b 100644
-> --- a/drivers/media/i2c/imx415.c
-> +++ b/drivers/media/i2c/imx415.c
-> @@ -77,6 +77,7 @@
->  #define IMX415_INCKSEL5                  CCI_REG8(0x311e)
->  #define IMX415_DIG_CLP_MODE      CCI_REG8(0x32c8)
->  #define IMX415_WRJ_OPEN                  CCI_REG8(0x3390)
-> +#define IMX415_ADBIT1            CCI_REG8(0x3701)
->  #define IMX415_SENSOR_INFO       CCI_REG16_LE(0x3f12)
->  #define IMX415_SENSOR_INFO_MASK          0xfff
->  #define IMX415_CHIP_ID           0x514
-> @@ -581,6 +582,7 @@ static const struct cci_reg_sequence imx415_init_table[] = {
->         { IMX415_REVERSE, 0x00 },
->         /* use RAW 10-bit mode */
->         { IMX415_ADBIT, 0x00 },
-> +       { IMX415_ADBIT1, 0x00 },
->         { IMX415_MDBIT, 0x00 },
->         /* output VSYNC on XVS and low on XHS */
->         { IMX415_OUTSEL, 0x22 },
-> --
-> 2.39.1
->
->
 
