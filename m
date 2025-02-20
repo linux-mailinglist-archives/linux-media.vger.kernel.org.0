@@ -1,151 +1,211 @@
-Return-Path: <linux-media+bounces-26499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26500-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6038FA3DFF0
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 17:10:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D17A3E0BC
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 17:29:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D374B188A883
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:10:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B48A21627E3
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:27:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B68861FF5FE;
-	Thu, 20 Feb 2025 16:10:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85D001FFC6C;
+	Thu, 20 Feb 2025 16:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="EGMyuEV0"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U9XXooxH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F2F35958
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 16:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00865DF58
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 16:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740067826; cv=none; b=oQ6EIV9CsxuS1MzznMzkEFvuymQzKsVTZIq1a6AdGG8oRuVmT/lmD8s10lePFgzWja1fiC10uor67xE0LsLDj9tTr8dUl/Q5mNcjwdYsW4rTWTicKTYuBFJM0v1mubKJchOjX2R0oIXvA7oqLG+j5sK8HkoGm88cZq7dPsWUOy0=
+	t=1740068841; cv=none; b=X/0JiAcjAFrZn7IonFYlrXfS6AUaUIBINVm3ErVvk9Da9ezjDt8NY6gaP/Xn2kS6tH83VLZwRNx2qZD0egEhJh2d7xCcdfIRvB2fr0LI2Jojc9LR4U93n060SlayhdCngn48ZQIS18cj9+3UKtsd+PG600ij1JcybpdcqNf2DGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740067826; c=relaxed/simple;
-	bh=vOBQSNxMyp0Klm4rVNeKE6W/p5rvnEq3gq4SYyqXykQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CMaTsh16YdJcwfGEa6Y3PGzMsazZR4nPpVgIPL4uAwrY0eZhrOE7O/vlJPG8ZL7tD7zklukk1PBD5EwdEBDHst2HP0xgLbpZpQsoV/IgGWNUjTY/7N7Vt55y8mExZYuHjEsudseksNOF917VC8wwDRx58f/R/pS+fPwM5ZsvdtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=EGMyuEV0; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e455bf1f4d3so930403276.2
-        for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 08:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1740067812; x=1740672612; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J3TdOIZFV2hTSEZGxpDVWvVI6MEBamEFkOnDtXyooX8=;
-        b=EGMyuEV0CqRQYk/sA/EAJs1KEXg43gD+2sX0X60L9c0Q3HrfbFQaLLUThExSDB97wE
-         joNS5hzEa/4M7htAbpbakw8+XzAljLNy3nV/CG2rG5eRAT17Q6ZoPuB4p7L7IYqhF+/F
-         ShsuP+9skW0Jp62lgnq8qpJEMlRiUzemZmPl0tTbjPLAhlQ7UTf9m5lSmLPVvOs6B14J
-         za2NMmtzUXAbI7aQ4pFHJ0rB0sk1SaOAiUVtK07XZ4N77taZAX2O9rWU/TcdyN4+hZR1
-         wuOvXCiFLgCHxLqVbV9V3x4ageiJokCfNG4MKGOsp8weJGc4VROZlEUkPx8/J3vQE7SS
-         bmiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740067812; x=1740672612;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J3TdOIZFV2hTSEZGxpDVWvVI6MEBamEFkOnDtXyooX8=;
-        b=iagZAslcpCHNLm+wNuwSDSTUp1VHlMDN5LlvZa6pOTvZ8k44wX6YkktoR9imO5sqjq
-         AsdpId8P4/3vx82cPWnXL5SQG0NsQEB8e9wzjhSA+N1PIZPOgn+EwtXSx6c5rDRrl1Oj
-         nbSBY+VoUAuWQxT9L+N8iL2OboREzT8Vi6eQrmW0/weveBEXPTsDqsStOioOOFtxV0zF
-         Blq4K9mpPKfQHYhu+WrjVn2oj0Y70X7EuFdTVjiIUcD4gygYlaxmY2612vuj1w+ZjDgH
-         E1taD0B3UR+68vOWgPD/xlqzP62p12djdntwTial75RQq4S99Hh79z4P6xyhp1CMPanY
-         PuMw==
-X-Gm-Message-State: AOJu0YxyPi7t0SPIrIAD70x+SfCh+IGt6efxf+1rHRGM71CiDtOqH8Hh
-	oL7+PTtcFAiRhL+zHWl02HxSSXT1nDofTNjluWHCz5cBcyAya88+5n8foklK1SIPEIpj9WcScR1
-	8qWKDGcW3a8DLsKb4uU2BNHN/cOQubI0mctymzUFA9jXbasRRPcA=
-X-Gm-Gg: ASbGncvggbPlwnCl6bvXF/oh3K+UKbz6bQHO7LKMTfdJOyzyjesri2XEBx0DnerLzk7
-	o0YYWKvzUuYFwVfhfTY1zmZyb2IH7yaLw3oTf61epW50shTCboFIU7OISiibZWbzOotTiUe0SWQ
-	Tg2rRRKJ+5TAuGqm97S/O7XUhL7ul0
-X-Google-Smtp-Source: AGHT+IHrTyen02jhiIoc4OMiNJTzRVXSga3xySnRYSbbL5x2OzQudC+8rSwDvtypOwnsm1L37gXL3cLNe64BVyB4S+Y=
-X-Received: by 2002:a05:690c:23ca:b0:6f9:4bb6:eb46 with SMTP id
- 00721157ae682-6fba57cc238mr79511507b3.31.1740067812585; Thu, 20 Feb 2025
- 08:10:12 -0800 (PST)
+	s=arc-20240116; t=1740068841; c=relaxed/simple;
+	bh=DGDQA8CUj3VE5iEX7cTcf4GvXnj7uWMPLRDyzcyoJGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fJQ8xqmOMXlnk1Q/rFZjg/qBBb3aMS7MNzTKNdh6nbD8soMCKIh+rufP2NbR5RWO9MRQRZW0MA8BEa5ox2nC8VxOTrtnynK7pmelMFRMwUbFqbYvOX0MLvhCOeWT+6g9Hs7jKWf1/KlkVooTERlHSNOZFzCsxSi7tlQ6W076P7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=U9XXooxH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 397511193;
+	Thu, 20 Feb 2025 17:25:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740068754;
+	bh=DGDQA8CUj3VE5iEX7cTcf4GvXnj7uWMPLRDyzcyoJGk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U9XXooxHOLe6B8H1KuocJBvmtwyYjgvyAblBxbHlx8POxpZ8157YnhVJ3PfDrk+7b
+	 7724X79pbNuc+8ySudgWg5TveU0P7dFxJmL4WB496j8TN693CJLZunjkFpzQcpGBeq
+	 AKJ5lv7ppZFEd3GRWN8JCwp9PWya8jKAOVow2epg=
+Date: Thu, 20 Feb 2025 17:27:14 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Dafna Hirschfeld <dafna@fastmail.com>, 
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>, Adam Pigg <adam@piggz.co.uk>
+Subject: Re: [PATCH v3] media: rkisp1: Remove min_queued_buffers
+Message-ID: <sw2x5l3o5zvlaufe7a4hfbwub3yrzsr3e5qgr6os6brcrpd3zp@2abh2jyru2yd>
+References: <20241029082117.55385-1-jacopo.mondi@ideasonboard.com>
+ <tpdzxkug5gtive7h4tvl6jn5r7ybb3dby7ajfuwmzigphhlkin@geirq67p6dww>
+ <67af5601-922b-4683-9e5f-ccf4fd757dbb@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250219094637.607615-1-eagle.alexander923@gmail.com>
-In-Reply-To: <20250219094637.607615-1-eagle.alexander923@gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 20 Feb 2025 16:09:55 +0000
-X-Gm-Features: AWEUYZmFeW_npNuAp9dRIa2RHf4OvWpXilW4hXP_kZGDpXggy17B7oUWm1CI6WI
-Message-ID: <CAPY8ntCoHsbvbxGrQ17tp62XWKV322t2tCg=gfAD=WOyMiBbCg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: i2c: imx415: Add get_mbus_config() pad
- operation support
-To: Alexander Shiyan <eagle.alexander923@gmail.com>
-Cc: linux-media@vger.kernel.org, 
-	Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <67af5601-922b-4683-9e5f-ccf4fd757dbb@xs4all.nl>
 
-Hi Alexander
+Hi Hans
 
-On Wed, 19 Feb 2025 at 09:57, Alexander Shiyan
-<eagle.alexander923@gmail.com> wrote:
+On Thu, Feb 20, 2025 at 04:39:59PM +0100, Hans Verkuil wrote:
+> On 2/20/25 15:22, Jacopo Mondi wrote:
+> > Hello
+> >
+> > On Tue, Oct 29, 2024 at 09:21:16AM +0100, Jacopo Mondi wrote:
+> >> There apparently is no reason to require 3 queued buffers for RkISP1,
+> >> as the driver operates with a scratch buffer where data can be
+> >> directed to if there's no available buffer provided by userspace.
+> >>
+> >> Reduce the number of required buffers to 0 by removing the
+> >> initialization of min_queued_buffers, to allow applications to operate
+> >> by queueing capture buffers on-demand.
+> >>
+> >> Tested with libcamera, by operating with a single capture request. The
+> >> same request (and the associated capture buffer) gets recycled once
+> >> completed. This of course causes a frame rate drop but doesn't hinder
+> >> operations.
+> >>
+> >> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >
+> > I just noticed v2 of this series:
+> > media: rkisp1: Reduce min_queued_buffers to 1
+> >
+> > has been collected instead of this v3.
 >
-> Allow the driver to report static media bus configuration using
-> pad get_mbus_config() operation.
+> Did you mark your v2 as Superseded in patchwork when you posted the v3?
+> I marked your v1 and v2 as Superseded today when I was cleaning up patchwork,
+> so I know you didn't :-)
 >
-> Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
-> ---
->  drivers/media/i2c/imx415.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+> When I post a new version I always mark the old one as Superseded, exactly
+> to prevent such things from happening.
 >
-> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-> index 9f37779bd611..16a52900c61c 100644
-> --- a/drivers/media/i2c/imx415.c
-> +++ b/drivers/media/i2c/imx415.c
-> @@ -1076,6 +1076,18 @@ static int imx415_init_state(struct v4l2_subdev *sd,
->         return 0;
->  }
->
-> +static int imx415_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad_id,
-> +                                 struct v4l2_mbus_config *config)
-> +{
-> +       struct imx415 *sensor = to_imx415(sd);
-> +
-> +       config->type = V4L2_MBUS_CSI2_DPHY;
-> +       config->bus.mipi_csi2.flags = 0;
-> +       config->bus.mipi_csi2.num_data_lanes = sensor->num_data_lanes;
 
-I'll let others confirm, but I believe the expectation is that the
-platform configuration would set this for both sensor and CSI2
-receiver.
-get_mbus_config is only used where the number of lanes can dynamically change.
+> Also, more people should help keep patchwork clean. I think I am usually the
+> person who is doing this, but this is a collective responsibility.
 
-I'm also trying to find confirmation in the IMX415 datasheet of
-whether it drops to LP for the clock lane or not. If it does, then you
-want to set V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK in the flags field.
-It's not obviously mentioned, so I may resort to getting an
-oscilloscope out on it.
+Yes, and it's a thankless job. So thank you.
 
-  Dave
-
-> +
-> +       return 0;
-> +}
-> +
->  static const struct v4l2_subdev_video_ops imx415_subdev_video_ops = {
->         .s_stream = imx415_s_stream,
->  };
-> @@ -1086,6 +1098,7 @@ static const struct v4l2_subdev_pad_ops imx415_subdev_pad_ops = {
->         .get_fmt = v4l2_subdev_get_fmt,
->         .set_fmt = imx415_set_format,
->         .get_selection = imx415_get_selection,
-> +       .get_mbus_config = imx415_get_mbus_config,
->  };
 >
->  static const struct v4l2_subdev_ops imx415_subdev_ops = {
-> --
-> 2.39.1
+> Part of the job description for someone with commit rights is actually to
+> keep patchwork clean.
 >
+
+Part of the motivation to do admin tasks around patch handling
+actually comes from a feeling of ownership and responsibility. If
+one is given trust and responsibilities then doing admin tasks just
+becomes part of what you do as you get through the day.
+
+Don't get me wrong, this is not an excuse for being sluggish, but in
+the current process I'm not even sure if it's my responsibility to go
+through patchwork. In the end, right now, once I've sent a patch and
+replied to comments, then it's not "my business" anymore. Right ?
+Wrong ? Not sure, but I'm rather certain that if people is given
+ownership of something they will be motivated to care about it.
+
+Anyway, I would like to use this little hiccups as an example of
+something that went wrong (for $reasons) in the current model, and
+which requires energies from both submitter and maintainers to be
+corrected. All the discussion we had have gone into depicting doomsday
+scenarios potentially caused by the new model, but I have the feeling
+maintainers themselves sometimes do not appreciate the burden the
+current process inflicts on them. That's why I'm a little surprised
+this taking so long, as the first ones that should want this happening
+are the people which are doing most of thankless and underappreciated
+housekeeping work that keeps the subsystem functional.
+
+Thank you!
+
+
+> Regards,
+>
+> 	Hans
+>
+> >
+> > And I noticed because a user complained to me about this.
+> >
+> > Now, I can provide an update based on the now merged v2, not a big
+> > deal, but this depresses me a bit as the discussion about
+> > implementing multi-commiter model is apparently (again) stalled.
+> >
+> > I know, sh*t happens (TM) and hiccups are expected in the process,
+> > we all make mistakes and I'm not even sure through which path the
+> > patch has been collected, but I could have handled this one easily,
+> > and instead what we have is:
+> >
+> > 1) an unhappy user that will likely have to wait for the next release
+> > 2) me having to send an additional (rather trivial) patch
+> > 3) Someone will have to review, collect, PR etc etc
+> >
+> > (and I'm not even mentioning this patch is 3 lines)
+> >
+> > Issues like this one seems to be considered a fact of life we decided
+> > is fine to live with, while every possible corner case of the proposed
+> > multi-committer model is analyzed with great concern like we're
+> > trading a perfect model for something that has to be equally perfect.
+> >
+> > And while I agree the biggest reason for the proverbial v4l2 slow pace
+> > is the reviewers scarcity and the limited maintainers bandwidth, now
+> > that we have everything in place to reduce the system clogginess
+> > it still seems we're not all sold for it. I really don't get it, sorry.
+> >
+> >
+> >> ---
+> >> v2->v3:
+> >> - Remove min_queued_buffers initialization
+> >>
+> >> v1->v2:
+> >> The first version of this patch set min_queued_buffers to 1, but setting it
+> >> to 0 doesn't compromise operations and it's even better as it allows application
+> >> to queue buffers to the capture devices on-demand. If a buffer is not provided
+> >> to the DMA engines, image data gets directed to the driver's internal scratch
+> >> buffer.
+> >> ---
+> >>  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 ---
+> >>  1 file changed, 3 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> >> index 2bddb4fa8a5c..2f0c610e74b9 100644
+> >> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> >> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> >> @@ -35,8 +35,6 @@
+> >>  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
+> >>  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
+> >>
+> >> -#define RKISP1_MIN_BUFFERS_NEEDED 3
+> >> -
+> >>  enum rkisp1_plane {
+> >>  	RKISP1_PLANE_Y	= 0,
+> >>  	RKISP1_PLANE_CB	= 1,
+> >> @@ -1563,7 +1561,6 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+> >>  	q->ops = &rkisp1_vb2_ops;
+> >>  	q->mem_ops = &vb2_dma_contig_memops;
+> >>  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
+> >> -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
+> >>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> >>  	q->lock = &node->vlock;
+> >>  	q->dev = cap->rkisp1->dev;
+> >> --
+> >> 2.47.0
+> >>
+> >>
 >
 
