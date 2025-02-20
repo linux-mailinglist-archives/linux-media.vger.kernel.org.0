@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-26429-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26430-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68978A3D26B
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 08:36:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D0EA3D299
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 08:48:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F211188DE60
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 07:37:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 511FF3B6905
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 07:48:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 892241E9907;
-	Thu, 20 Feb 2025 07:36:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF3361E379B;
+	Thu, 20 Feb 2025 07:48:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302D61E885C
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 07:36:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A713FD4
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 07:48:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740037007; cv=none; b=jNnVhRLH4p0/eLNgigx+kzPMGKGpyr2jzqPffCqEORiJZ356IKrSaHtJsIg5YMznDHEYrFNn28oBG/LV9RP+dchF7JNFZHRKcObKDgpqyVPhiboUBt7X1meCWLaUWS4yYrSZ6F7FwHnL0/sUtnRm+hmvrXUd4HTuS6IQCXqn/Ks=
+	t=1740037715; cv=none; b=P/KyDpZCCo42yqV+j4f9j/HesFfw9Jwfrnuujew6kr+hWqq4xTLk9pNNtIov0omei/kFWb0PI4AF2slN/7nrvVqqFlme7cZVdpqWy7l+HUlKMXAhcPShKELEw5wo51zkRwMAI/Y5Ir7Aj7R/NVAPmzUHJ5AQ9Jm86lLedc+ESKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740037007; c=relaxed/simple;
-	bh=1GLUk2FfKjCS33UjWW11MwY4owLnq5vaLWpHHlfAU3U=;
+	s=arc-20240116; t=1740037715; c=relaxed/simple;
+	bh=6noGxyyGjWUNIraPNIht2XVk4PMvnyfC3WizC4y/BcU=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=oj+wYHMfeFwST2QWLi+Fc3t5D6yKyQquuCCLeq0W6AiJtkS2bWZA0tE1A+1iCJY3G98Ut1zigi56TLnOlZ+bD0PBV6In9FfRmyLnlK4G5CUX7bAJRxtaCO/Kz0C9bUMim3Ohc3Ofhau8vBKRBd5gCTfkpfLWNE8NgKtfFyghV3U=
+	 In-Reply-To:Content-Type; b=VRFmen0fXv560nG6ssanjLrMHeZVCFu0ygtUdMFfWfiJ9w5iKXw0mLAQFhGU9nL3P93KQ+0R1tAaUo7lAHWMwd+bNAy7SA6KjEdAx2sWBOdUeyE7GGJvJkliCyuEcq7nPQsKSyBvpzWm6pjwvrLzhzVymsSU/nwFPGNZT5AIOaM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A7C5C4CED1;
-	Thu, 20 Feb 2025 07:36:42 +0000 (UTC)
-Message-ID: <68859fd4-d8fa-4656-ac62-3baac99f878d@xs4all.nl>
-Date: Thu, 20 Feb 2025 08:36:40 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8F4C4CED1;
+	Thu, 20 Feb 2025 07:48:34 +0000 (UTC)
+Message-ID: <7e2bf95e-5cbd-4792-a8b6-d38a1532f3dd@xs4all.nl>
+Date: Thu, 20 Feb 2025 08:48:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,29 +38,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [ANN] Media Summit 2025: Lyon in May or Amsterdam in August?
+Subject: Re: [PATCH] media: omap3isp: drop wait_prepare/finish callbacks
 From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
- <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Steve Cho <stevecho@chromium.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <a9f77089-85ac-4d6a-a29f-14679e6e8b54@xs4all.nl>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <218877d9-5f95-42ab-8bbf-2325cb31ed73@xs4all.nl>
+ <20250128154040.GF12673@pendragon.ideasonboard.com>
+ <f11dab4a-0288-42ae-b6c1-a548206a1249@xs4all.nl>
 Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -105,64 +90,103 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <a9f77089-85ac-4d6a-a29f-14679e6e8b54@xs4all.nl>
+In-Reply-To: <f11dab4a-0288-42ae-b6c1-a548206a1249@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/02/2025 08:35, Hans Verkuil wrote:
-> Hi all,
+On 29/01/2025 15:21, Hans Verkuil wrote:
+> On 28/01/2025 16:40, Laurent Pinchart wrote:
+>> Hi Hans,
+>>
+>> Thank you for the patch.
+>>
+>> On Tue, Jan 28, 2025 at 04:08:18PM +0100, Hans Verkuil wrote:
+>>> Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
+>>> are NULL") it is no longer needed to set the wait_prepare/finish
+>>> vb2_ops callbacks as long as the lock field in vb2_queue is set.
+>>>
+>>> Set the queue lock to &video->queue_lock, which makes it possible to drop
+>>> the wait_prepare/finish callbacks.
+>>>
+>>> This simplifies the code and this is a step towards the goal of deleting
+>>> these callbacks.
+>>>
+>>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+>>> ---
+>>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 19 +------------------
+>>>  1 file changed, 1 insertion(+), 18 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>> index 5c9aa80023fd..78e30298c7ad 100644
+>>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>> @@ -480,29 +480,11 @@ static int isp_video_start_streaming(struct vb2_queue *queue,
+>>>  	return 0;
+>>>  }
+>>>
+>>> -static void omap3isp_wait_prepare(struct vb2_queue *vq)
+>>> -{
+>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
+>>> -	struct isp_video *video = vfh->video;
+>>> -
+>>> -	mutex_unlock(&video->queue_lock);
+>>> -}
+>>> -
+>>> -static void omap3isp_wait_finish(struct vb2_queue *vq)
+>>> -{
+>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
+>>> -	struct isp_video *video = vfh->video;
+>>> -
+>>> -	mutex_lock(&video->queue_lock);
+>>> -}
+>>> -
+>>>  static const struct vb2_ops isp_video_queue_ops = {
+>>>  	.queue_setup = isp_video_queue_setup,
+>>>  	.buf_prepare = isp_video_buffer_prepare,
+>>>  	.buf_queue = isp_video_buffer_queue,
+>>>  	.start_streaming = isp_video_start_streaming,
+>>> -	.wait_prepare = omap3isp_wait_prepare,
+>>> -	.wait_finish = omap3isp_wait_finish,
+>>>  };
+>>>
+>>>  /*
+>>> @@ -1338,6 +1320,7 @@ static int isp_video_open(struct file *file)
+>>>  	queue->buf_struct_size = sizeof(struct isp_buffer);
+>>>  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>>>  	queue->dev = video->isp->dev;
+>>> +	queue->lock = &video->queue_lock;
+>>
+>> This is goind to deadlock at least when calling VIDIOC_DQBUF in blocking
+>> mode.
 > 
-> We want to organize a Media Summit this year as well to meet each other face-to-face.
-> We try to co-locate with an existing conference, and this year there are two options:
-> 
-> 1) Co-locate with the Embedded Recipes conference in Lyon which is held on May 14-16:
-> 
->    https://embedded-recipes.org/2025/
-> 
->    So a media summit would probably take place on May 11 or 12.
-> 
->    This conference is a one room, one track format. But the room holds up to 200
->    people and the expectation is that it is not a problem to get tickets for it.
->    And we might be able to reserve some tickets for us as well.
-> 
->    There might be a gstreamer and/or libcamera workshop in the weekend after the
->    main conference as well, I understand that is being worked on.
+> Yeah, you are right. I think I will need to test this on real hardware.
 
-I just was informed that there is a pipewire event as well.
+I still haven't found my Beagle Board. I found the box for the Beagle Board,
+but not the board itself :-(
+
+When I'm back in the Netherlands I'll dig around some more to see if it is
+there, but if I can't find it, are you or someone else from Ideas on Board
+willing to test patches from me?
+
+This driver is the last remaining user of these wait_prepare/finish helpers,
+so I'd really like to get this fixed.
 
 Regards,
 
 	Hans
 
 > 
-> 2) Co-locate with the Open Source Summit Europe in Amsterdam which is held on August 25-27.
-> 
->    https://events.linuxfoundation.org/open-source-summit-europe/
-> 
->    The Embedded Linux Conference Europe is part of that event. The summit would
->    probably be on August 24 or 28.
-> 
-> I know that getting permission to travel is still a problem for many, which is why we
-> try to co-locate with a larger event.
-> 
-> So: if you are a core media maintainer or an active media developer, and want to join
-> the Media Summit, which of these two options would work for you?
-> 
-> If possible, I would like to get an idea of what I can expect in about two weeks time.
-> I'll send out a reminder in about a week as well.
-> 
-> Feel free to forward this if you know other people who might be interested.
-> 
-> If you haven't been to one of these Media Summits before, then you can find the report
-> on last year's summit here:
-> 
-> https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
-> 
-> That should give you an idea of what to expect.
+> That will take some time.
 > 
 > Regards,
 > 
 > 	Hans
+> 
+>>
+>>>
+>>>  	ret = vb2_queue_init(&handle->queue);
+>>>  	if (ret < 0) {
+>>
 > 
 
 
