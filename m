@@ -1,80 +1,102 @@
-Return-Path: <linux-media+bounces-26445-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26446-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AEFA3D6F2
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:41:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9832A3D757
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:52:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 151A6165A13
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 10:41:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE6EA19C028B
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 10:51:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F1B61F1312;
-	Thu, 20 Feb 2025 10:41:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 024581F1510;
+	Thu, 20 Feb 2025 10:50:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N73N9BV4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S48QNwtQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B541CAA9C
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 10:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF931CCB4B
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 10:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740048060; cv=none; b=f1uXe79heGce6fq5pjcq9fV9RCzrD8Clr/Gw4F9zOXlnNHavM/nM8ddvLaWOS/NQ4FfbCvgfll5uiP0fdXmo48y14KqxaC/7KJgIWsUHx1jz30MfysyIpiL6FX7+7QusG9TcAdk4gnRXq0CU9r39k4p9t7Ny/WsMDPdn7LizUEc=
+	t=1740048646; cv=none; b=lBYh0TD4udsQgU9NST1IN/pWw1bhs5FovpO9p4SA4UPhxMuFj1YUHNMjGRzRAMqVaBBqEFKtizGTBUNNTu/TWt/MDEtn2hT9RT3mD7eW7RGsLnLn7I6xJMkh39A+D/0vHcaOSNs6YnLgJeTK/yS7+X2qgKHfS3/oKUMi4p9O/T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740048060; c=relaxed/simple;
-	bh=Ys/z+6f/cxPoJlaEcs2I04YvG7rvcbyXVsiRPJHFG40=;
+	s=arc-20240116; t=1740048646; c=relaxed/simple;
+	bh=x8cXF/pj6YbLbTjNo6IL2X8rYcJwSqVoGsqtZ1v5g1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PQx+CCUXILXy0+NizeOMEB0LLrTJR2lGu2qKGxEuMOj9NAO/MG29KEky9lukCc7pg2HfZ3pun1NV23gkDaZDhqccFyQSConsrWsT5NlQsmU2I2n6IUuuU23Zxl9Rz+AIyx48sIy1xsZJ/J034j32oar+zMnzuu7cRUiDsS0sBi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N73N9BV4; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=SBMsUmTxQk6wR1StZNSzD4NwpeIHj565dgmuvNKgYqIqGPCCpNVfah3c2NvZngk105VR9W3uuQAGHq68ejNyjFSinZSSK7lo98PKOGKWzZdQaGt2feAH0nKufetfjEXlIFSMZKiUIMc56d8cGJB6ZsJmXz8sVyMliG/DkIZ6oRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S48QNwtQ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740048059; x=1771584059;
+  t=1740048644; x=1771584644;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ys/z+6f/cxPoJlaEcs2I04YvG7rvcbyXVsiRPJHFG40=;
-  b=N73N9BV4NpOL3n2UJKiFnsn5O5VLSR6+s2NNseho0TrVCdbfYh2nS+eA
-   xyDPg8qpSSmNkfoqRF5MGwb0piRNDU5/l3BOY70OfPkAMbpf5nLxnYWG+
-   sNcViJKSbIhLbUxXLd5/HaFV2siEjnJEySMiULT6bMAIj6SA5qtw+tlOq
-   MfjYto7YQz0eiKGl1wpVvvAjligxVicwwPQ58BD/3EDdtTwaqJmPjzz4n
-   YtMDkJefnTyvBK+fcRSBvUKnkYfsIx83IoN29o1VbaHLtXZscPYseMf59
-   CXmkaEs0pSIGbLaW7ELS7+jZm3wyhZ0kep0Wg6VA5YbNDEXe9B/QtmTWF
-   w==;
-X-CSE-ConnectionGUID: LgD5toVsS8O8CdHHBPviDg==
-X-CSE-MsgGUID: 3S47yfMuQLmFDGTEV7uxfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="28416740"
+  bh=x8cXF/pj6YbLbTjNo6IL2X8rYcJwSqVoGsqtZ1v5g1E=;
+  b=S48QNwtQ2E1kKHq5dl5pjHLlu77LTq92M5/YBBEFKL5vlQE+Vf0giLGf
+   OvCnBskKHAYuuKddCSH6HjTAxVUYPNbc81UW9HKvBBvqXUPv0+fuBupEw
+   L0dFKJBShVIfVb0X0jGv62QMexhu21gjFnefBMvDVinVDzP2+AudZGE3t
+   IVuShxyhTDwj/u1A6LiF1bQuWPU+lJWnapCxD4dfcS63VdyWHNbtrw5cF
+   NxZNVGB8+6V7BZUp9dx7ygmfUMG0SAnZpH3PN4MKXY379ZfGP/o/BqvH0
+   oBfqs8qx845Jpc56TaHBTrdW33Q0OBq1v8DGjsklzHqNIVmpNCnxqm/yB
+   A==;
+X-CSE-ConnectionGUID: la8Oz9egSgKVH3sH64m9cQ==
+X-CSE-MsgGUID: k15ciY6jTJ2wIkqGkukz+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="40011029"
 X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="28416740"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 02:40:58 -0800
-X-CSE-ConnectionGUID: QadFVxz9SXqoTYiMx6g5gA==
-X-CSE-MsgGUID: +z39ITyDS1O+8bdimXYq+A==
+   d="scan'208";a="40011029"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 02:50:43 -0800
+X-CSE-ConnectionGUID: X5HjldIIRm+8St2WjcfmKQ==
+X-CSE-MsgGUID: acQQWLssQn27iJY3St6LHA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120227188"
+X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
+   d="scan'208";a="114948701"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 02:40:57 -0800
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 02:50:37 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3C24511F945;
-	Thu, 20 Feb 2025 12:40:54 +0200 (EET)
-Date: Thu, 20 Feb 2025 10:40:54 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 00F9511F945;
+	Thu, 20 Feb 2025 12:50:34 +0200 (EET)
+Date: Thu, 20 Feb 2025 10:50:34 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] media: omap3isp: drop wait_prepare/finish callbacks
-Message-ID: <Z7cGtplfDTHXB_NZ@kekkonen.localdomain>
-References: <218877d9-5f95-42ab-8bbf-2325cb31ed73@xs4all.nl>
- <20250128154040.GF12673@pendragon.ideasonboard.com>
- <f11dab4a-0288-42ae-b6c1-a548206a1249@xs4all.nl>
- <7e2bf95e-5cbd-4792-a8b6-d38a1532f3dd@xs4all.nl>
- <Z7bgqrfTovdssWTc@kekkonen.localdomain>
- <61241a2a-1b87-4711-af2c-26a97a1ef6a7@xs4all.nl>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [RFC v5 06/15] media: uapi: Add V4L2_CID_CONFIG_MODEL control
+Message-ID: <Z7cI-mgXTc_O5Erc@kekkonen.localdomain>
+References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
+ <20250203085853.1361401-7-sakari.ailus@linux.intel.com>
+ <5ea2deef-09f4-4788-908c-239a1e4c6b69@xs4all.nl>
+ <Z6n-Nff-7dsvMHaI@kekkonen.localdomain>
+ <98c452a6-454b-4842-8083-c7e748abff21@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,112 +105,157 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <61241a2a-1b87-4711-af2c-26a97a1ef6a7@xs4all.nl>
+In-Reply-To: <98c452a6-454b-4842-8083-c7e748abff21@xs4all.nl>
 
 Hi Hans,
 
-On Thu, Feb 20, 2025 at 09:10:39AM +0100, Hans Verkuil wrote:
-> On 20/02/2025 08:58, Sakari Ailus wrote:
+On Mon, Feb 10, 2025 at 03:07:34PM +0100, Hans Verkuil wrote:
+> On 10/02/2025 14:25, Sakari Ailus wrote:
 > > Hi Hans,
 > > 
-> > On Thu, Feb 20, 2025 at 08:48:32AM +0100, Hans Verkuil wrote:
-> >> On 29/01/2025 15:21, Hans Verkuil wrote:
-> >>> On 28/01/2025 16:40, Laurent Pinchart wrote:
-> >>>> Hi Hans,
-> >>>>
-> >>>> Thank you for the patch.
-> >>>>
-> >>>> On Tue, Jan 28, 2025 at 04:08:18PM +0100, Hans Verkuil wrote:
-> >>>>> Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
-> >>>>> are NULL") it is no longer needed to set the wait_prepare/finish
-> >>>>> vb2_ops callbacks as long as the lock field in vb2_queue is set.
-> >>>>>
-> >>>>> Set the queue lock to &video->queue_lock, which makes it possible to drop
-> >>>>> the wait_prepare/finish callbacks.
-> >>>>>
-> >>>>> This simplifies the code and this is a step towards the goal of deleting
-> >>>>> these callbacks.
-> >>>>>
-> >>>>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> >>>>> ---
-> >>>>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 19 +------------------
-> >>>>>  1 file changed, 1 insertion(+), 18 deletions(-)
-> >>>>>
-> >>>>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
-> >>>>> index 5c9aa80023fd..78e30298c7ad 100644
-> >>>>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
-> >>>>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
-> >>>>> @@ -480,29 +480,11 @@ static int isp_video_start_streaming(struct vb2_queue *queue,
-> >>>>>  	return 0;
-> >>>>>  }
-> >>>>>
-> >>>>> -static void omap3isp_wait_prepare(struct vb2_queue *vq)
-> >>>>> -{
-> >>>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
-> >>>>> -	struct isp_video *video = vfh->video;
-> >>>>> -
-> >>>>> -	mutex_unlock(&video->queue_lock);
-> >>>>> -}
-> >>>>> -
-> >>>>> -static void omap3isp_wait_finish(struct vb2_queue *vq)
-> >>>>> -{
-> >>>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
-> >>>>> -	struct isp_video *video = vfh->video;
-> >>>>> -
-> >>>>> -	mutex_lock(&video->queue_lock);
-> >>>>> -}
-> >>>>> -
-> >>>>>  static const struct vb2_ops isp_video_queue_ops = {
-> >>>>>  	.queue_setup = isp_video_queue_setup,
-> >>>>>  	.buf_prepare = isp_video_buffer_prepare,
-> >>>>>  	.buf_queue = isp_video_buffer_queue,
-> >>>>>  	.start_streaming = isp_video_start_streaming,
-> >>>>> -	.wait_prepare = omap3isp_wait_prepare,
-> >>>>> -	.wait_finish = omap3isp_wait_finish,
-> >>>>>  };
-> >>>>>
-> >>>>>  /*
-> >>>>> @@ -1338,6 +1320,7 @@ static int isp_video_open(struct file *file)
-> >>>>>  	queue->buf_struct_size = sizeof(struct isp_buffer);
-> >>>>>  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> >>>>>  	queue->dev = video->isp->dev;
-> >>>>> +	queue->lock = &video->queue_lock;
-> >>>>
-> >>>> This is goind to deadlock at least when calling VIDIOC_DQBUF in blocking
-> >>>> mode.
+> > On Mon, Feb 10, 2025 at 10:09:33AM +0100, Hans Verkuil wrote:
+> >> Hi Sakari,
+> >>
+> >> On 03/02/2025 09:58, Sakari Ailus wrote:
+> >>> Add the V4L2_CID_CONFIG_MODEL control for the configuration model.
 > >>>
-> >>> Yeah, you are right. I think I will need to test this on real hardware.
+> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>> ---
+> >>>  .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
+> >>>  include/uapi/linux/v4l2-controls.h                           | 3 +++
+> >>>  3 files changed, 12 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> >>> index 27803dca8d3e..2ae17ed99729 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+> >>> @@ -55,3 +55,7 @@ Image Process Control IDs
+> >>>      control value divided by e.g. 0x100, meaning that to get no
+> >>>      digital gain the control value needs to be 0x100. The no-gain
+> >>>      configuration is also typically the default.
+> >>> +
+> >>> +``V4L2_CID_CONFIG_MODEL (bitmask)``
+> >>> +    Which configuration models the sub-device supports. Please see
+> >>> +    :ref:`media_subdev_config_model`. This is a read-only control.
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> index 1ea52011247a..24c9c25e20d1 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> @@ -1164,6 +1164,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >>>  	case V4L2_CID_TEST_PATTERN:		return "Test Pattern";
+> >>>  	case V4L2_CID_DEINTERLACING_MODE:	return "Deinterlacing Mode";
+> >>>  	case V4L2_CID_DIGITAL_GAIN:		return "Digital Gain";
+> >>> +	case V4L2_CID_CONFIG_MODEL:		return "Sub-device configuration model";
+> >>>  
+> >>>  	/* DV controls */
+> >>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> >>> @@ -1481,6 +1482,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >>>  	case V4L2_CID_DV_RX_POWER_PRESENT:
+> >>>  		*type = V4L2_CTRL_TYPE_BITMASK;
+> >>>  		break;
+> >>> +	case V4L2_CID_CONFIG_MODEL:
+> >>> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> >>> +		*type = V4L2_CTRL_TYPE_BITMASK;
+> >>> +		break;
+> >>>  	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
+> >>>  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
+> >>>  		*type = V4L2_CTRL_TYPE_INTEGER;
+> >>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> >>> index 974fd254e573..731add75d9ee 100644
+> >>> --- a/include/uapi/linux/v4l2-controls.h
+> >>> +++ b/include/uapi/linux/v4l2-controls.h
+> >>> @@ -1225,6 +1225,9 @@ enum v4l2_jpeg_chroma_subsampling {
+> >>>  #define V4L2_CID_TEST_PATTERN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 3)
+> >>>  #define V4L2_CID_DEINTERLACING_MODE		(V4L2_CID_IMAGE_PROC_CLASS_BASE + 4)
+> >>>  #define V4L2_CID_DIGITAL_GAIN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 5)
+> >>> +#define V4L2_CID_CONFIG_MODEL			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
+> >>> +
+> >>> +#define V4L2_CID_CONFIG_MODEL_COMMON_RAW	(1U << 0)
 > >>
-> >> I still haven't found my Beagle Board. I found the box for the Beagle Board,
-> >> but not the board itself :-(
-> >>
-> >> When I'm back in the Netherlands I'll dig around some more to see if it is
-> >> there, but if I can't find it, are you or someone else from Ideas on Board
-> >> willing to test patches from me?
-> >>
-> >> This driver is the last remaining user of these wait_prepare/finish helpers,
-> >> so I'd really like to get this fixed.
+> >> I think I mentioned this before, but what's the point of this?
 > > 
-> > If you have a patch, I can test it, presuming omap3isp will work on N900.
-> > :-) I haven't tested it for a while.
-> > 
-> > omap3isp is a bit special as the video buffer queues are specific to file
-> > handles but I'm not sure it matters here.
-> > 
+> > I recall Laurent was last to reply to the thread, with a good explanation
+> > of the purpose. The message id is
+> > <20241118024002.GJ31681@pendragon.ideasonboard.com> .
 > 
-> That shouldn't matter. Thank you for the offer, I'll keep you in reserve if
-> I really can't find my Beagle Board.
+> Now document that in this patch series. I double checked patch 04/15 again,
+> and there is no mention of that explanation from Laurent. It should be incorporated
+> in that patch.
 > 
-> I've got the freakin' box, so the board must be somewhere, right?
+> Open questions:
+> 
+> 1) If this control is not available, but it is still a camera sensor, what is
+>    userspace supposed to to? I guess all it can do is assume that the driver
+>    follows the standard rules, since there is no way to figure out if there are
+>    differences. So again, how does this help? In any case, this should be
+>    documented as well.
 
-Absolutely! :-)
+The user space cannot expect the sub-device UAPI conforms to the common raw
+sensor model without this control. The purpose of the model is indeed to
+allow the user space to expect certain things to be supported in the API
+and if they are supported, they work in a certain way. The alternative is
+to do this driver by driver and there are quite a few sensor drivers out
+there, with more to come.
 
-Btw. if you happen to have free time, reworking the Media device lifetime
-management set to your liking could be an option to solve that problem. :-)
+> 
+> 2) Are there compliance tests for this? Because there is no point adding this
+>    without having tests for it as well. Otherwise I can 100% guarantee that
+>    drivers will set this even if it deviates from what it should do in some
+>    way. Relying on code review alone is going to be a very tough job.
 
-With the Rust support knocking, we should really get the lifetime
-management issues resolved. Still that set is just the beginning of it,
-much more work will be needed.
+Compliance tests need to be added, I agree.
+
+> 
+> > 
+> >>
+> >> You are adding a control describing a configuration model, but it has
+> >> just a single possible configuration model. I see no description anywhere
+> >> about when a new model would need to be added, or what userspace is
+> >> supposed to do with this.
+> > 
+> > At this point I'm not sure how many other configuration models might be
+> > needed or when they would be needed.
+> > 
+> >>
+> >> And as long as there is only one model anyway, I don't see the point of
+> >> this control.
+> > 
+> > I could create a control just for the common raw sensor model but 
+> > 
+> >>
+> >> Is the intention that all sensor drivers will set this control? The RFC
+> >> series isn't clear about this.
+> > 
+> > I'd expect almost all new raw sensor drivers to expose this control with
+> > the common raw bit set.
+> > 
+> >>
+> >> The problem I see with this series is that it seems to mix seemingly
+> >> unrelated changes: adding COLOUR_PATTERN/BINNING controls doesn't seem to
+> >> depend on configuration models. Or if they do, I clearly didn't get that.
+> > 
+> > These are all related to sensor API improvements. There is no direct
+> > dependency, no, but I expect drivers implementing the common raw sensor
+> > model would also support these controls. I can document this.
+> 
+> Just split it up in two separate series. I have no objections to the sensor API
+> improvements, so it is much easier to get that in.
+> 
+> But I think that the 'config_model' part is poorly documented and I am quite
+> skeptical about the whole thing. So that shouldn't block the other changes
+> from this RFC series.
+
+One option could be indeed to postpone this, and continue working on the
+user space one driver at a time. My initial thought really was we could
+require the common raw sensor model to be used with internal pads,
+otherwise it'll be harder to ensure sensor drivers using them will be using
+them consistently: compliance tests would require quite a few exceptions
+for instance (doing the tests only for sensors that are non-CCS for
+instance).
+
+I wonder what Laurent thinks.
 
 -- 
 Regards,
