@@ -1,148 +1,145 @@
-Return-Path: <linux-media+bounces-26456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878E0A3D9B7
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 13:20:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F5FA3DA1F
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 13:33:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E12C17CA7A
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:19:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B1E31889430
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:33:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E041F236E;
-	Thu, 20 Feb 2025 12:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="K+UIOMIm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ccz0z+l5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ACBA1DFD98;
+	Thu, 20 Feb 2025 12:33:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292781F1527
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 12:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D6A1E511
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 12:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740053921; cv=none; b=k2VtgWIOOUUNYI5MHzOPJ48zFPvP1xVFtVDTvRlmzkNuvGyvGODE1Xl7fGuaO5ivOcPmiSxT0tHRggbaP85QZXZyAFbA1tjEcTOqJClGQV4bRrfoQJjZKL0AdiduhE0K/uitoQ1mb1C2jf7bbHdCDHkQ9KgQwHXPgW3KvxL1p30=
+	t=1740054793; cv=none; b=AR0i2B0VlCqA2otcbnox4lyrCN/OxD87sJeOEPEVMOxEmTy374n7Pi/zNpksxKep0n0436OeMKrA2bN+Mvwzt/IBX+b2zUaBlWS0jtVOLy8py8bTyLlnqNXYJLIwkLEAjQ3bHrSbaNnBQJt7IgPeSd6alxh6Dnn+chjXn5Bfp7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740053921; c=relaxed/simple;
-	bh=spsmHAL8TTu5Mi/c2bc2SaKszpuTpGgLjTLec3n2DLc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=msZOjNMPh3lMOsuyIA/l2s+ABHXs0eDbC+ePNQbHVYP2PNIkrjI8NUClAV+sNS3VA1nIiqWrY0xAZ3qCp2rGMtFl23AxmOH/7ha8wj6AdV9+nnfD/Pv8xn2LY7hIxYI4vFSEd9mCeLwqMq8kIN3TP/Y01ychYDKL8MV6R/+nZSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=K+UIOMIm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ccz0z+l5; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 2D780114019D;
-	Thu, 20 Feb 2025 07:18:38 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-11.internal (MEProxy); Thu, 20 Feb 2025 07:18:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1740053918;
-	 x=1740140318; bh=IhPaoNu38Tu0uvZG6/scQD1YbIIjuL3trPnifXE0rh0=; b=
-	K+UIOMIm/1NrxU/sByEI24chw6FvuCM4HQdEfmar5TNDWELWbTH1BBcty42hxVyB
-	5iPvDN2NcNIBvvRbWBoP9o51O10QiRdkIpII6905G9FQwnCm2TEdGdGE5w6gPrkQ
-	GJH2lRbpKqBB9VCBJH36mEWSMyp9uK3Y9z/PevnQEsH1pfPs123nz+7G6Ew1+Si+
-	+W2tNqf9z5j0JXIyFH6H6bzcnVYDb4TPIUIVxAqX6VI6taHk+ZmOCoExA7gHIMEi
-	Uif/gam2+aw3BiRar/xkDEPOAU8G8HloQ4Ut1p+iZei/BS82KmE8w/b8oHpGgofm
-	IRIMJy+fxw9jxquSsgtrOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1740053918; x=
-	1740140318; bh=IhPaoNu38Tu0uvZG6/scQD1YbIIjuL3trPnifXE0rh0=; b=c
-	cz0z+l5i+yyc9kiXxY9Cx2zpnYi2lD2khkh3Ign4vUQpKFyJp1g2t36zdxJ39MYF
-	n0HZpXi0OGDAH2Wyat3KfIDAKwMQo7/CU65TQiU2s1xF9df5mptuqCfZ81epkf11
-	7hR2tC66kgiY9gJnG+UMHBsDvGbV0Xydc5PEmRc6cf9kRTvKRG6LjLx0Gj6C4uIy
-	DSlDtvuevAIOQFMxtW7dtEgQMg/LhVbga4kfWUJd/aRQiJqHdNwjehP8xNSt8cPU
-	K/dupRB06hYTUBQr/eHvLPl901ttlti4qVt+jDbCd0AYZyW9NNupOUSRTgeUIm1F
-	e5PF5kEkAzx2mDJ0HVM/w==
-X-ME-Sender: <xms:nR23Z_tBvZRvooBxYF5tC-EBs-JNzcooeRyiVBn6ZkHEEGXW74RQ1g>
-    <xme:nR23Zwe2NiMdXyWPRFHAiFRkyo_lE0gJsGQD4VEqemTv15uh_Muu4CNgZoK8ysvot
-    1r330J1C_9u-51TYVM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeijeduudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpeehgffgieevkedvjeekleeklefgheefgfekgefh
-    udduhffgtedtvdfhteeijeeffeenucffohhmrghinheplhhinhhugihtvhdrohhrghenuc
-    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnuges
-    rghrnhgusgdruggvpdhnsggprhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehsvggsrghsthhirghnrdhfrhhitghkvgestgholhhlrggsohhrrgdrtgho
-    mhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhope
-    hnrghthhgrnheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhlvhhmsehlihhsthhs
-    rdhlihhnuhigrdguvghvpdhrtghpthhtohepnhhitgholhgrshesnhguuhhfrhgvshhnvg
-    drtggrpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehhvhgvrhhkuhhilhesgihsgegrlhhlrdhnlh
-X-ME-Proxy: <xmx:nR23Zywjqv2bVrys51u62IdCIy2LFbP0_EcF5QjeSdm10ouCnMiWLg>
-    <xmx:nR23Z-PtfbYaiPJih8ph6iHRft89diXqMfqlA50iwAi9VNZ0sQ-lSw>
-    <xmx:nR23Z___3zpYUhWeW-ZSDkkhDREonQmKxHybYAgvlUsBtyPUQhnj_A>
-    <xmx:nR23Z-W1WfM-mIbljksMpsAXKYkDiDCNyIto9aWNPlRTuYi_l_K5ng>
-    <xmx:nh23Z_wbu--orGk3gMoFP2V_LqK4-N9mnBsKFIP7dfiFnzwyxJLNqEcA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B62222220072; Thu, 20 Feb 2025 07:18:37 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1740054793; c=relaxed/simple;
+	bh=iTNQrLR8Cnawx1yhyjpCB0LJ318SiGQAqx32erwThEQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bFoBAEV+bMZGzYEdEFaR937k5q4cnjdW6AIWqCO4tz5sm2HiCzYkZZRnPJgDQTq2s7FdFu9svbNjiP2TpA8u+oenteDq7qK3x9JrjoQ+r68w3uu4fbKhcMLk4+X9hI9t4CJ71F86JY/K1HUIdi+NuxPVTYRm7M0+kBdHCf/G/H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3786CC4CED1;
+	Thu, 20 Feb 2025 12:33:08 +0000 (UTC)
+Message-ID: <a818e5d6-d553-416b-badd-2cbce525988f@xs4all.nl>
+Date: Thu, 20 Feb 2025 13:33:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 20 Feb 2025 13:18:16 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Hans Verkuil" <hverkuil@xs4all.nl>,
- "Sebastian Fricke" <sebastian.fricke@collabora.com>
-Cc: linux-media@vger.kernel.org, "Nicolas Dufresne" <nicolas@ndufresne.ca>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>, llvm@lists.linux.dev,
- "Nathan Chancellor" <nathan@kernel.org>
-Message-Id: <88a2bdaa-17e4-4465-877b-1e010733dd0b@app.fastmail.com>
-In-Reply-To: <2108d667-243b-4d0f-bf78-5a90e9a8efb1@xs4all.nl>
-References: <20241213151415.7opofgiz25lpmn5m@basti-XPS-13-9310>
- <88b4fb25-64a2-462d-b40e-eae675ea83f3@xs4all.nl>
- <2108d667-243b-4d0f-bf78-5a90e9a8efb1@xs4all.nl>
-Subject: Re: [GIT PULL FOR 6.13] FIXES: Vcodec fixes
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ANN v2] Media Summit 2025: Nice in May or Amsterdam in August?
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Sean Young <sean@mess.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
+ <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Steve Cho <stevecho@chromium.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Kevin Hilman <khilman@baylibre.com>
+References: <ab1fef54-d83f-46e2-a6c8-42b0761368fc@xs4all.nl>
+ <2her7s6acicbzk7pkknflckhp46klxqzplyr4bw2daz6dw4rb4@pzx3gki6uorj>
+ <20250220121112.GC22240@pendragon.ideasonboard.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20250220121112.GC22240@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 20, 2025, at 12:01, Hans Verkuil wrote:
-> On 20/02/2025 11:15, Hans Verkuil wrote:
->> Hi Sebastian, Arnd,
->> 
->> While cleaning up patchwork I stumbled on this PR.
->> 
->> The odd thing is that the second patch (noinline) is committed, but not the first (avoid warning).
->> 
->> Is it still needed? I'm not sure what happened here.
->> 
->> The patch is still marked as 'New' in patchwork:
->> 
->> https://patchwork.linuxtv.org/project/linux-media/patch/20241018152127.3958436-1-arnd@kernel.org/
->
-> Apparently this just got lost somehow. I'll delegate this patch to me 
-> and queue it up
-> for v6.15. I don't think this needs to go to v6.14 since I understand 
-> it just kills
-> a warning.
+On 2/20/25 13:11, Laurent Pinchart wrote:
+> On Thu, Feb 20, 2025 at 12:34:23PM +0100, Jacopo Mondi wrote:
+>> Hi Hans
+>>    thanks for organizing this
+>>
+>> On Thu, Feb 20, 2025 at 11:24:30AM +0100, Hans Verkuil wrote:
+>>> [Repost because I mixed up a Lyon and Nice, and to provide more info on the other
+>>>  events that take place in Nice. Also added Kevin Hilman to the CC list.]
+>>>
+>>> Hi all,
+>>>
+>>> We want to organize a Media Summit this year as well to meet each other face-to-face.
+>>> We try to co-locate with an existing conference, and this year there are two options:
+>>>
+>>> 1) Co-locate with the Embedded Recipes conference in Nice in France which is held on May 14-16:
+>>>
+>>>    https://embedded-recipes.org/2025/
+>>>
+>>>    So a media summit would probably take place on May 11 or 12.
+>>>
+>>>    This conference is a one room, one track format. But the room holds up to 200
+>>>    people and the expectation is that it is not a problem to get tickets for it.
+>>>    And we might be able to reserve some tickets for us as well.
+>>>
+>>>    There is a libcamera workshop on Friday, and AFAIK a pipewire workshop on the same day.
+>>>    GStreamer plans an event during the weekend after ER.
+>>>
+>>> 2) Co-locate with the Open Source Summit Europe in Amsterdam which is held on August 25-27.
+>>>
+>>>    https://events.linuxfoundation.org/open-source-summit-europe/
+>>>
+>>>    The Embedded Linux Conference Europe is part of that event. The summit would
+>>>    probably be on August 24 or 28.
+> 
+> Do I assume correctly we would organize it by ourselves like the
+> previous years, finding sponsors and renting a meeting room somewhere,
+> and not relying on the Linux Foundation ?
 
-Thanks!
+For ER certainly, for OSSE it is always worth to check what the LF charges for a
+room. If only to have a comparison.
 
-I checked my local tree again, and this is indeed the last patch
-I have pending that addresses any -Wenum-compare-conditional
-warning.
+Regards,
 
-We have recently moved -Wenum-enum-conversion from W=1 to W=2,
-ideally we can move -Wenum-compare-conditional from W=1 to default
-once this patch is in.
+	Hans
 
-It's probably also a good time for me to switch my daily
-testing over from gcc to clang and see if any other
--Wenum-compare-conditional warnings have come up.
+> 
+>>> I know that getting permission to travel is still a problem for many, which is why we
+>>> try to co-locate with a larger event.
+>>>
+>>> So: if you are a core media maintainer or an active media developer, and want to join
+>>> the Media Summit, which of these two options would work for you?
+>>
+>> I know I will be in Nice, not sure about Amsterdam yet.
+>>
+>> The co-location of a libcamera, pipewire and gstreamer events also
+>> makes me lean towards Nice as a better choice for the media summit.
+> 
+> Likewise, I know I'll be in Nice. I can probably make it to Amsterdam
+> too if needed.>
+>>>
+>>> If possible, I would like to get an idea of what I can expect in about two weeks time.
+>>> I'll send out a reminder in about a week as well.
+>>>
+>>> Feel free to forward this if you know other people who might be interested.
+>>>
+>>> If you haven't been to one of these Media Summits before, then you can find the report
+>>> on last year's summit here:
+>>>
+>>> https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
+>>>
+>>> That should give you an idea of what to expect.
+> 
 
-    Arnd
 
