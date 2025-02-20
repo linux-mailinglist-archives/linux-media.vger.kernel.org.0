@@ -1,128 +1,170 @@
-Return-Path: <linux-media+bounces-26491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26492-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E627A3DEB4
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:34:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8261CA3DEA4
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:33:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD1883A307F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:30:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A77D61883B32
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:33:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 502331FE474;
-	Thu, 20 Feb 2025 15:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrdraW2z"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C31811DE891;
+	Thu, 20 Feb 2025 15:33:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A7E1FC7C1;
-	Thu, 20 Feb 2025 15:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636831D6DC8
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 15:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740065354; cv=none; b=dBQL6G2CUjlWCvN2K0MwJPWbXSyLmOK+xbEN6yo9RI7TBNv+LT2wMYfT4ZbG2P3W33+wxEqwDMmf7k8/WyvMy4u2YcOvwpl713LTZ2HkYl+UA77AFwAkOUjLmn7sEBXdzgWdB9K374aeURC1fPe9xpP2mPlt/pXm9GKtuKohv4Q=
+	t=1740065612; cv=none; b=Z3i1sZI3pc7OX76vAXJKR6HIvV4mOCAFt1Kv7FSXwRppcTlnLxiwtf8YS1TXDjU1tS00ljJTKh13iGx/dezSXeHWtueO/E+yDBkM4KJlOvIJA5RuiJLkyRtsnP25BAsyaGL9V1MRBAFO1gQD6tNWUoRLVmVdea/uuzdXoXfU2lM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740065354; c=relaxed/simple;
-	bh=eKWU19n0WBr+VIGXdyoC3+/g/6CUv/SBl+AhU83JuOg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G+/lxLDNinWD/dlWx+ZLJnedRh0GKcFUWAVPd+adgUKYtGG8qYmZ00EtT++24KJFRrV86f61QWnO67GpnAMB2hRGFBwcRdR9zv4YJqWaYsobCGrBNYF79oyUFFv0wawaX2oPDO7h3G9lx+zv1IMTETtwq+/7aQJTruG/BtWLqcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrdraW2z; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e6711bbd00so1636416d6.1;
-        Thu, 20 Feb 2025 07:29:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740065352; x=1740670152; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eKWU19n0WBr+VIGXdyoC3+/g/6CUv/SBl+AhU83JuOg=;
-        b=WrdraW2zIM/3ia0IuU++DOXLfoXjLfNKy3F3cPs4DQyllh+jkGTyuI8c2mD8T3lzzm
-         jAGs36Jt6Jv3cmSIQeznfs/CAyhPfa9UGUfetv9tI+9+Kf4ensqUrh/6cSIijPSelXRn
-         cLSMpKOhVr5n3uEvC6ocX+2SNODW48AGb0JANwM0+d7noRrgZDcF/ic2W8ZCNHKpeZ0n
-         +EO0Mp5dAyV2KwMmhGSliocBwRCiZix9zq5LduwSzssMcNcsbg/Yq6eQNbt0SjUGPLkG
-         PuzBzrIt810grrzSArHQPdZtLWug2RpeN/MOF5l0BiCnwT021o2tKt4W2+z2BZ7mXGDs
-         N7BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740065352; x=1740670152;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eKWU19n0WBr+VIGXdyoC3+/g/6CUv/SBl+AhU83JuOg=;
-        b=Io4+3kLzJUGIt8hYtzpeTcXSvZUyEOSNDnBYZYVN9Cs5EYjp87eS1ZjTu12OIHFb07
-         6G5w+5ux80KZwRlk9EikgHMl/90Ow6bWjjwG2L0UtdgL5+lkc3Gn56jLNj0IXK9+31At
-         m6yX7p+0fTLQX+axzy44lRQBpdeWYKJnvbFmYug1R/d2gXQZTMEcqclUELI0RUPu5g6z
-         XTb7IqFpdud2VF5wQow5JGH0LvJ113UvHMRilc6xZpiYjyYczM8eOntriX/5PiArjfdx
-         WKsw5VHB3AUO2nZkqkv0uybcaOylgWtCmls5BOEQeShoX/GavNM8pRRN55IzvR10ST9v
-         aOAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVPqC975CmTzwGCZZijlcO0/Z6vhum5g59lR4AK9fJ7zX4iVGVG+8fKPOymNpAp5JAAMFj7hjTpZP64FzE=@vger.kernel.org, AJvYcCVmxtPAs+Y2WUk6gFxxbo9JOQSCDo50PL+6VijiKXcfaSSsHUeIYoYLcPSM6QFDJ8EmIBuV1ffhBNdV2JE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywjc4xUibZYvrdcgLsiWvQ+AgBJGECapWQQevXzPDHN4j6HnHmQ
-	U2k+6q1Q5HdBrTxPbMy5FtMB9LOuy6P+U9/yenCMGtrh0UzTGTN8KmlKdw==
-X-Gm-Gg: ASbGncsIbzCxzoqUi8UnFiXI2EwIzBcMNmBx1QKHMEAU6AGTTV9ovqabjii5dP7kTZb
-	Dw0Z5F98SpS/QdWb1l2+NfVdHmDEtC92Sv4A953HA5yH9xnBCOnjh624JMIwd5PKOwlCKHPcYF0
-	qbTFiDpiwJ1vMZB6R5/5gjKNQFiwJVxokmkbNt0eUxr1HrAgIZBFhtioKpoBc2VYXNF5DmCLiDO
-	TxOthhurFfmw+LjtclStOhF+Urivohjng8tmCS+LWsEETY6dCbQvPbaqqaS/QRj8SRNAL4fQDUN
-	zNPRzzmh0PUPpVrTRmo5BJ1iQLNimO83XXmtXE17oZtJc/5RiQqxcCrBT/XOCt2VRlrj
-X-Google-Smtp-Source: AGHT+IE3BlHjHE+N3vVcpX9SIe1Drmm7gJavU4W/NFg9hMumG9l36jT00FR8pSGnnpptLdmpScHUvQ==
-X-Received: by 2002:ad4:5766:0:b0:6d8:8283:445c with SMTP id 6a1803df08f44-6e66ccc47d9mr109692786d6.4.1740065352096;
-        Thu, 20 Feb 2025 07:29:12 -0800 (PST)
-Received: from ?IPv6:2600:1002:a012:8f2c:1cd:572e:a9fb:7da4? ([2600:1002:a012:8f2c:1cd:572e:a9fb:7da4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e65d785a4asm87656386d6.29.2025.02.20.07.29.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 07:29:11 -0800 (PST)
-Message-ID: <61bd42742ff8a8e5f409b0f2ccc4ab8875dfe7a4.camel@gmail.com>
-Subject: Re: [PATCH] media: vim2m: print device name after registering device
-From: Matthew Majewski <mattwmajewski@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>, Uwe Kleine-Konig
-	 <u.kleine-koenig@baylibre.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil	
- <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Thu, 20 Feb 2025 10:29:10 -0500
-In-Reply-To: <5051c252-f1ef-4731-b0cb-fedfcda04d98@linuxfoundation.org>
-References: <20250219190501.295976-1-mattwmajewski@gmail.com>
-	 <ym5q2cpn2lxk7sarylnf4o3ztvtnb47wroxdiibdsp6yz4gt2y@jfyfo2ekmdmj>
-	 <5051c252-f1ef-4731-b0cb-fedfcda04d98@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (by Flathub.org) 
+	s=arc-20240116; t=1740065612; c=relaxed/simple;
+	bh=d5roB80XOTedc6Wd/F/vUkl/qvWjr8sZv7nKpnWxsUo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bmtj2YPv5xhPJeepemRK4nSMGqNo4OPO8luv8vjMxXR1EvFivu51t+8nlNfASZWyLJwlaR7oEPJUmMPvpi608nVb6bUkGOLfnLv8nEE0YEfc71P6FNVaOpF2nfTRpkF6RNGUAfDar/JYXAht8NY4jKlNRi+adxLlkODaX+0Cqaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6E8C4CED1;
+	Thu, 20 Feb 2025 15:33:29 +0000 (UTC)
+Message-ID: <0d8d204f-c9b1-4152-a041-10d21f94af56@xs4all.nl>
+Date: Thu, 20 Feb 2025 16:33:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: rkisp1: Remove min_queued_buffers
+Content-Language: en-US
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,
+ "open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ "open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
+ Adam Pigg <adam@piggz.co.uk>
+References: <20241029082117.55385-1-jacopo.mondi@ideasonboard.com>
+ <tpdzxkug5gtive7h4tvl6jn5r7ybb3dby7ajfuwmzigphhlkin@geirq67p6dww>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <tpdzxkug5gtive7h4tvl6jn5r7ybb3dby7ajfuwmzigphhlkin@geirq67p6dww>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2025-02-19 at 17:21 -0700, Shuah Khan wrote:
-> On 2/19/25 14:58, Uwe Kleine-Konig wrote:
-> > On Wed, Feb 19, 2025 at 02:05:01PM -0500, Matthew Majewski wrote:
-> > > Move the v4l2_info() call displaying the video device name after
-> > > the
-> > > device is actually registered.
-> > >=20
-> > > This fixes a bug where the driver was always displaying
-> > > "/dev/video0"
-> > > since it was reading from the vfd before it was registered.
-> > >=20
-> > > Signed-off-by: Matthew Majewski <mattwmajewski@gmail.com>
-> >=20
-> > A Fixes: tag would be great.
->=20
-> Matthew, there is no need to resend the patch. Just send me the
-> Fixes tag and I will update the repo.
->=20
->=20
+On 2/20/25 15:22, Jacopo Mondi wrote:
+> Hello
+> 
+> On Tue, Oct 29, 2024 at 09:21:16AM +0100, Jacopo Mondi wrote:
+>> There apparently is no reason to require 3 queued buffers for RkISP1,
+>> as the driver operates with a scratch buffer where data can be
+>> directed to if there's no available buffer provided by userspace.
+>>
+>> Reduce the number of required buffers to 0 by removing the
+>> initialization of min_queued_buffers, to allow applications to operate
+>> by queueing capture buffers on-demand.
+>>
+>> Tested with libcamera, by operating with a single capture request. The
+>> same request (and the associated capture buffer) gets recycled once
+>> completed. This of course causes a frame rate drop but doesn't hinder
+>> operations.
+>>
+>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> I just noticed v2 of this series:
+> media: rkisp1: Reduce min_queued_buffers to 1
+> 
+> has been collected instead of this v3.
+> 
+> And I noticed because a user complained to me about this.
+> 
+> Now, I can provide an update based on the now merged v2, not a big
+> deal, but this depresses me a bit as the discussion about
+> implementing multi-commiter model is apparently (again) stalled.
+> 
+> I know, sh*t happens (TM) and hiccups are expected in the process,
+> we all make mistakes and I'm not even sure through which path the
+> patch has been collected, but I could have handled this one easily,
+> and instead what we have is:
+> 
+> 1) an unhappy user that will likely have to wait for the next release
+> 2) me having to send an additional (rather trivial) patch
+> 3) Someone will have to review, collect, PR etc etc
+> 
+> (and I'm not even mentioning this patch is 3 lines)
+> 
+> Issues like this one seems to be considered a fact of life we decided
+> is fine to live with, while every possible corner case of the proposed
+> multi-committer model is analyzed with great concern like we're
+> trading a perfect model for something that has to be equally perfect.
+> 
+> And while I agree the biggest reason for the proverbial v4l2 slow pace
+> is the reviewers scarcity and the limited maintainers bandwidth, now
+> that we have everything in place to reduce the system clogginess
+> it still seems we're not all sold for it. I really don't get it, sorry.
 
-Ok, here is the fixes tag:
+The main gitlab blocker is that we need a merge bot. Ricardo said in the
+last meeting that he hopes to have that in a month. The other blocker is
+of course the gitlab freedesktop migration to another provider.
 
-Fixes: cf7f34777a5b4100a ("media: vim2m: Register video device after
-setting up internals")
+Without a merge bot even with just two committers Mauro and myself are
+frequently stepping on each others toes, so that really is needed. Heck, if
+I have two CI pipelines in flight, I'm stepping on my own toes! Hopefully a
+merge bot should fix this issue.
 
-Thank you both for your time.
+Otherwise it is going quite well on the gitlab front.
 
-Best,
-Matthew
+The other is the "Document the new media-committer's model" series. I
+think Laurent scared Mauro off with his last set of comments.
+
+Regards,
+
+	Hans
+
+> 
+> 
+>> ---
+>> v2->v3:
+>> - Remove min_queued_buffers initialization
+>>
+>> v1->v2:
+>> The first version of this patch set min_queued_buffers to 1, but setting it
+>> to 0 doesn't compromise operations and it's even better as it allows application
+>> to queue buffers to the capture devices on-demand. If a buffer is not provided
+>> to the DMA engines, image data gets directed to the driver's internal scratch
+>> buffer.
+>> ---
+>>  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 ---
+>>  1 file changed, 3 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>> index 2bddb4fa8a5c..2f0c610e74b9 100644
+>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+>> @@ -35,8 +35,6 @@
+>>  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
+>>  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
+>>
+>> -#define RKISP1_MIN_BUFFERS_NEEDED 3
+>> -
+>>  enum rkisp1_plane {
+>>  	RKISP1_PLANE_Y	= 0,
+>>  	RKISP1_PLANE_CB	= 1,
+>> @@ -1563,7 +1561,6 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+>>  	q->ops = &rkisp1_vb2_ops;
+>>  	q->mem_ops = &vb2_dma_contig_memops;
+>>  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
+>> -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
+>>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>>  	q->lock = &node->vlock;
+>>  	q->dev = cap->rkisp1->dev;
+>> --
+>> 2.47.0
+>>
+>>
 
 
