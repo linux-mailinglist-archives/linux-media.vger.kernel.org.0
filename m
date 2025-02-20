@@ -1,168 +1,131 @@
-Return-Path: <linux-media+bounces-26448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509B1A3D87F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05596A3D8DD
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:38:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 943AF19C2CC1
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:25:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 189021889717
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:34:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F71E1F868C;
-	Thu, 20 Feb 2025 11:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8188E1F2B83;
+	Thu, 20 Feb 2025 11:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="f9xRvMp1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674A21F540C;
-	Thu, 20 Feb 2025 11:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A51F1AF0B8
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 11:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740050402; cv=none; b=Ct8HxbIh0lvVl1Ze3ZiLiw3VUCTSHrM8Q/ydFVPlaSIw3MWLmcMBpW6xM9n3uZlq1yN8k1UmP+Ug86EjuntDERWNu4Eljicup7pjMp28d9ToazLC3Um8lIUMs0wyu3y2eeb7gwncXeSi3FHgyPlaJdArEDmOgiEzC0KzJsKWAk4=
+	t=1740051271; cv=none; b=OlXkJQnXzbdwI38ZxIJQAT2wqccQYYT8kKippA8c6QQXVWA4mJnxBcAd2trg1XmmPptecWaIkve/KOwrJxUZ8I4LWnxIO/0DyO1yxdrCAqhi+zU+sWcA6H2XSJRgh8mtut1xzvNNRugWXJfxVLnpTZQGqAOebEZ24KDUETbVVMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740050402; c=relaxed/simple;
-	bh=NDdWMhGsVv5SnCqjh/JMa7aBl97LCJ5tTwMBPTYOerU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=iY7c1a79cYYd5dvTL2sm5XUTZKhXpQf9xkHC1pupxQQArWTpsZziHkztVE3xnsFcbl+39g6XZDpK3DxnaRhShhxatAX7TrnGD8dJrPkBe3Q87BPKc9IBdOp/6FvnyDdtSVCqCIaTpp5EhbgxWG/FR9zlG35RtDDRCT4KmPOT1Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Thu, 20 Feb
- 2025 14:19:50 +0300
-Received: from [192.168.211.132] (10.0.253.138) by Ex16-01.fintech.ru
- (10.0.10.18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Thu, 20 Feb
- 2025 14:19:49 +0300
-Message-ID: <16dba069-119f-4556-befa-0f3db626eada@fintech.ru>
-Date: Thu, 20 Feb 2025 14:19:46 +0300
+	s=arc-20240116; t=1740051271; c=relaxed/simple;
+	bh=kfcpvGBfs8gYaEAqLmoLgWn46EUhKWQIYaGkg2Whdno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yx8kfEdpWxzXbrhT1Ks2v1NefzlNKNdGmr5tZ6T7n55drSoaHiXQ0TGysRz3iVXBgmSAVBMojDZXsBYhTmLRLeYlFa0fOzcKlADOXPRk5grD42VLOTCP/NKHJKj/slHpsQcjxQIPymX9HYlGIZO7qRf5nyGrA6M0yXtI4LE8+uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=f9xRvMp1; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A7C9E79;
+	Thu, 20 Feb 2025 12:33:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740051183;
+	bh=kfcpvGBfs8gYaEAqLmoLgWn46EUhKWQIYaGkg2Whdno=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f9xRvMp1gfoYTAZDGlWO4mluu2pkk/Dv4epXdLOiQyFtILK5ZZXCMzvjrwGCjD4sh
+	 Z45noFk8vd1XM91HwE4OA19fyo2Ffh+R+Zuu02z2rEKZi5y/v2wMDddTDnkwx74dkw
+	 MbO4N5xmgJ82V5nEqn9LdNr+dZB3pLprMIcTCg1I=
+Date: Thu, 20 Feb 2025 12:34:23 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Michael Tretter <m.tretter@pengutronix.de>, 
+	Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Steve Cho <stevecho@chromium.org>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>
+Subject: Re: [ANN v2] Media Summit 2025: Nice in May or Amsterdam in August?
+Message-ID: <2her7s6acicbzk7pkknflckhp46klxqzplyr4bw2daz6dw4rb4@pzx3gki6uorj>
+References: <ab1fef54-d83f-46e2-a6c8-42b0761368fc@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: usb: hackrf: fix device unregister order in
- hackrf_probe()
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
-	<hverkuil@xs4all.nl>
-CC: <linux-media@vger.kernel.org>,
-	<syzbot+6b52c2b24e341804a58c@syzkaller.appspotmail.com>,
-	<syzkaller-bugs@googlegroups.com>, <linux-kernel@vger.kernel.org>,
-	<lvc-project@linuxtesting.org>
-References: <20250213182608.757954-1-n.zhandarovich@fintech.ru>
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-Content-Language: en-US
-In-Reply-To: <20250213182608.757954-1-n.zhandarovich@fintech.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ab1fef54-d83f-46e2-a6c8-42b0761368fc@xs4all.nl>
 
-Hi, please disregard my patch for following reasons:
+Hi Hans
+   thanks for organizing this
 
-1) The issue at hand isn't addressed properly - looking back I haven't
-properly identified root cause and my fix is flawed.
-2) Even if the approach is correct, I messed up the move of the label
-err_v4l2_device_unregister. If video_register_device(&dev->rx_vdev,...)
-fails we skip necessary deregistering steps.
+On Thu, Feb 20, 2025 at 11:24:30AM +0100, Hans Verkuil wrote:
+> [Repost because I mixed up a Lyon and Nice, and to provide more info on the other
+>  events that take place in Nice. Also added Kevin Hilman to the CC list.]
+>
+> Hi all,
+>
+> We want to organize a Media Summit this year as well to meet each other face-to-face.
+> We try to co-locate with an existing conference, and this year there are two options:
+>
+> 1) Co-locate with the Embedded Recipes conference in Nice in France which is held on May 14-16:
+>
+>    https://embedded-recipes.org/2025/
+>
+>    So a media summit would probably take place on May 11 or 12.
+>
+>    This conference is a one room, one track format. But the room holds up to 200
+>    people and the expectation is that it is not a problem to get tickets for it.
+>    And we might be able to reserve some tickets for us as well.
+>
+>    There is a libcamera workshop on Friday, and AFAIK a pipewire workshop on the same day.
+>    GStreamer plans an event during the weekend after ER.
+>
+> 2) Co-locate with the Open Source Summit Europe in Amsterdam which is held on August 25-27.
+>
+>    https://events.linuxfoundation.org/open-source-summit-europe/
+>
+>    The Embedded Linux Conference Europe is part of that event. The summit would
+>    probably be on August 24 or 28.
+>
+> I know that getting permission to travel is still a problem for many, which is why we
+> try to co-locate with a larger event.
+>
+> So: if you are a core media maintainer or an active media developer, and want to join
+> the Media Summit, which of these two options would work for you?
 
-I'll attempt to come up with a better solution, thank you for your
-patience.
+I know I will be in Nice, not sure about Amsterdam yet.
 
-Regards,
-Nikita
+The co-location of a libcamera, pipewire and gstreamer events also
+makes me lean towards Nice as a better choice for the media summit.
 
-On 2/13/25 21:26, Nikita Zhandarovich wrote:
-> Syzkaller reports [1] a slab-use-after-free error identified by KASAN
-> sanitizer and most likely caused by the wrong order of device
-> unregister steps once a call to video_register_device() fails.
-> 
-> Fix aforementioned flaw by first freeing control and reference
-> handlers, only then dealing with dev->v4l2_dev() via
-> v4l2_device_unregister().
-> 
-> [1] Syzkaller (partial) report:
-> BUG: KASAN: slab-use-after-free in v4l2_release+0x3e2/0x460 drivers/media/v4l2-core/v4l2-dev.c:453
-> Read of size 8 at addr ffff8880502e80c8 by task v4l_id/7854
-> ...
-> Call Trace:
->  <TASK>
->  __dump_stack lib/dump_stack.c:94 [inline]
->  dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
->  print_address_description mm/kasan/report.c:377 [inline]
->  print_report+0xc3/0x620 mm/kasan/report.c:488
->  kasan_report+0xd9/0x110 mm/kasan/report.c:601
->  v4l2_release+0x3e2/0x460 drivers/media/v4l2-core/v4l2-dev.c:453
->  __fput+0x3f6/0xb60 fs/file_table.c:431
->  __fput_sync+0x45/0x50 fs/file_table.c:516
->  __do_sys_close fs/open.c:1567 [inline]
->  __se_sys_close fs/open.c:1552 [inline]
->  __x64_sys_close+0x86/0x100 fs/open.c:1552
->  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->  do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> ...
-> 
-> Allocated by task 6058:
->  kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
->  kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->  poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
->  __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:394
->  kmalloc_noprof include/linux/slab.h:878 [inline]
->  kzalloc_noprof include/linux/slab.h:1014 [inline]
->  hackrf_probe+0xd1/0x1cf0 drivers/media/usb/hackrf/hackrf.c:1353
->  usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
-> ...
-> 
-> Freed by task 6058:
->  kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
->  kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->  kasan_save_free_info+0x3b/0x60 mm/kasan/generic.c:579
->  poison_slab_object mm/kasan/common.c:247 [inline]
->  __kasan_slab_free+0x51/0x70 mm/kasan/common.c:264
->  kasan_slab_free include/linux/kasan.h:230 [inline]
->  slab_free_hook mm/slub.c:2342 [inline]
->  slab_free mm/slub.c:4579 [inline]
->  kfree+0x14f/0x4b0 mm/slub.c:4727
->  hackrf_probe+0x4c9/0x1cf0 drivers/media/usb/hackrf/hackrf.c:1525
->  usb_probe_interface+0x309/0x9d0 drivers/usb/core/driver.c:399
-> ...
-> 
-> Reported-by: syzbot+6b52c2b24e341804a58c@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=6b52c2b24e341804a58c
-> Fixes: 8bc4a9ed8504 ("[media] hackrf: add support for transmitter")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-> ---
-> v1 -> v2: fix overlong lines in patch description to remove warnings
-> from checkpatch.
-> 
->  drivers/media/usb/hackrf/hackrf.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
-> index 0b50de8775a3..bc910b35f605 100644
-> --- a/drivers/media/usb/hackrf/hackrf.c
-> +++ b/drivers/media/usb/hackrf/hackrf.c
-> @@ -1513,12 +1513,12 @@ static int hackrf_probe(struct usb_interface *intf,
->  	return 0;
->  err_video_unregister_device_rx:
->  	video_unregister_device(&dev->rx_vdev);
-> -err_v4l2_device_unregister:
-> -	v4l2_device_unregister(&dev->v4l2_dev);
->  err_v4l2_ctrl_handler_free_tx:
->  	v4l2_ctrl_handler_free(&dev->tx_ctrl_handler);
->  err_v4l2_ctrl_handler_free_rx:
->  	v4l2_ctrl_handler_free(&dev->rx_ctrl_handler);
-> +err_v4l2_device_unregister:
-> +	v4l2_device_unregister(&dev->v4l2_dev);
->  err_kfree:
->  	kfree(dev);
->  err:
-> 
-
+>
+> If possible, I would like to get an idea of what I can expect in about two weeks time.
+> I'll send out a reminder in about a week as well.
+>
+> Feel free to forward this if you know other people who might be interested.
+>
+> If you haven't been to one of these Media Summits before, then you can find the report
+> on last year's summit here:
+>
+> https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
+>
+> That should give you an idea of what to expect.
+>
+> Regards,
+>
+> 	Hans
 
