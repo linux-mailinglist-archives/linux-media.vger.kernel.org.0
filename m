@@ -1,64 +1,61 @@
-Return-Path: <linux-media+bounces-26449-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26450-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05596A3D8DD
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:38:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD44A3D8F1
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:39:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 189021889717
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:34:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FB06188B3AE
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:38:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8188E1F2B83;
-	Thu, 20 Feb 2025 11:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 524721F3BBE;
+	Thu, 20 Feb 2025 11:38:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="f9xRvMp1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GKwk5ZKU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A51F1AF0B8
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 11:34:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D131D63C2;
+	Thu, 20 Feb 2025 11:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740051271; cv=none; b=OlXkJQnXzbdwI38ZxIJQAT2wqccQYYT8kKippA8c6QQXVWA4mJnxBcAd2trg1XmmPptecWaIkve/KOwrJxUZ8I4LWnxIO/0DyO1yxdrCAqhi+zU+sWcA6H2XSJRgh8mtut1xzvNNRugWXJfxVLnpTZQGqAOebEZ24KDUETbVVMI=
+	t=1740051502; cv=none; b=VCKtyFWiFYqBJue4qbV13lUUSnFjcWa50djP+1HjwpptcnmjbyjuBycCl0mbXAU7FIJzIcLBb80+m/dQjZZy7uaA9NN6dgJ7q7sBZHbLTK7pgWhSLmil2wOMhillzCgU2ToLklCludazXA18VrWZmcaTecmMVVYuKKGKSuTR0yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740051271; c=relaxed/simple;
-	bh=kfcpvGBfs8gYaEAqLmoLgWn46EUhKWQIYaGkg2Whdno=;
+	s=arc-20240116; t=1740051502; c=relaxed/simple;
+	bh=xlLl1DJawLisfXNM+nY3LWGqJWif1fFYtqrXN7NQV9k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yx8kfEdpWxzXbrhT1Ks2v1NefzlNKNdGmr5tZ6T7n55drSoaHiXQ0TGysRz3iVXBgmSAVBMojDZXsBYhTmLRLeYlFa0fOzcKlADOXPRk5grD42VLOTCP/NKHJKj/slHpsQcjxQIPymX9HYlGIZO7qRf5nyGrA6M0yXtI4LE8+uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=f9xRvMp1; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=VPwpuv0xLsQ9ZIGOvP2yhZ6Q8BB99IIdfhbPA6nz2FdQOk2uHy5Hx5X0WBqxFM/NqdhLWv6nMaOV1rUYQd1un0KN1wDrmzyb1xnYFJV9jxUvTd0u/k5/brRbZzn+ENte/b/PqBk35UKrZ1BpL7DDxGvOv0MuFRP/qlskY2tinnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GKwk5ZKU; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A7C9E79;
-	Thu, 20 Feb 2025 12:33:03 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5799074C;
+	Thu, 20 Feb 2025 12:36:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740051183;
-	bh=kfcpvGBfs8gYaEAqLmoLgWn46EUhKWQIYaGkg2Whdno=;
+	s=mail; t=1740051415;
+	bh=xlLl1DJawLisfXNM+nY3LWGqJWif1fFYtqrXN7NQV9k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f9xRvMp1gfoYTAZDGlWO4mluu2pkk/Dv4epXdLOiQyFtILK5ZZXCMzvjrwGCjD4sh
-	 Z45noFk8vd1XM91HwE4OA19fyo2Ffh+R+Zuu02z2rEKZi5y/v2wMDddTDnkwx74dkw
-	 MbO4N5xmgJ82V5nEqn9LdNr+dZB3pLprMIcTCg1I=
-Date: Thu, 20 Feb 2025 12:34:23 +0100
+	b=GKwk5ZKUmbL7p+4UlYHMd9yLoF+qhwDfO0XI15X3Y/17FQw11Lyfn8Kw7Vu8ZJV3D
+	 fL9TUKSCylYI7F86cDZtGiMbY+Rdwp9hz2A2cjAlcVR9dUHs34BbpXuJc7B36waG6K
+	 KP2QE64oFCS07JtT6hLnotuPVhTLCfhOAlktIsy0=
+Date: Thu, 20 Feb 2025 12:38:15 +0100
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Michael Tretter <m.tretter@pengutronix.de>, 
-	Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Steve Cho <stevecho@chromium.org>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>
-Subject: Re: [ANN v2] Media Summit 2025: Nice in May or Amsterdam in August?
-Message-ID: <2her7s6acicbzk7pkknflckhp46klxqzplyr4bw2daz6dw4rb4@pzx3gki6uorj>
-References: <ab1fef54-d83f-46e2-a6c8-42b0761368fc@xs4all.nl>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Julien Massot <julien.massot@collabora.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Umang Jain <umang.jain@ideasonboard.com>, 
+	=?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 0/3] media: add v4l2_subdev_state_xlate_streams()
+Message-ID: <tw6x663t5dmxsdarrxjtopza3mou3lnhwazu3dfv2k27fv47v2@bvftfepqqhss>
+References: <20250220092036.6757-1-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,65 +64,57 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ab1fef54-d83f-46e2-a6c8-42b0761368fc@xs4all.nl>
+In-Reply-To: <20250220092036.6757-1-demonsingur@gmail.com>
 
-Hi Hans
-   thanks for organizing this
+Hi Cosmin
 
-On Thu, Feb 20, 2025 at 11:24:30AM +0100, Hans Verkuil wrote:
-> [Repost because I mixed up a Lyon and Nice, and to provide more info on the other
->  events that take place in Nice. Also added Kevin Hilman to the CC list.]
->
-> Hi all,
->
-> We want to organize a Media Summit this year as well to meet each other face-to-face.
-> We try to co-locate with an existing conference, and this year there are two options:
->
-> 1) Co-locate with the Embedded Recipes conference in Nice in France which is held on May 14-16:
->
->    https://embedded-recipes.org/2025/
->
->    So a media summit would probably take place on May 11 or 12.
->
->    This conference is a one room, one track format. But the room holds up to 200
->    people and the expectation is that it is not a problem to get tickets for it.
->    And we might be able to reserve some tickets for us as well.
->
->    There is a libcamera workshop on Friday, and AFAIK a pipewire workshop on the same day.
->    GStreamer plans an event during the weekend after ER.
->
-> 2) Co-locate with the Open Source Summit Europe in Amsterdam which is held on August 25-27.
->
->    https://events.linuxfoundation.org/open-source-summit-europe/
->
->    The Embedded Linux Conference Europe is part of that event. The summit would
->    probably be on August 24 or 28.
->
-> I know that getting permission to travel is still a problem for many, which is why we
-> try to co-locate with a larger event.
->
-> So: if you are a core media maintainer or an active media developer, and want to join
-> the Media Summit, which of these two options would work for you?
+On Thu, Feb 20, 2025 at 11:20:32AM +0200, Cosmin Tanislav wrote:
+> Currently, the v4l2_subdev_state_xlate_streams() function is used
+> to translate streams from one pad to another.
+> This function takes the entire subdev state as argument, but only makes
+> use of the routing.
 
-I know I will be in Nice, not sure about Amsterdam yet.
+Correct, but is this a problem ?
 
-The co-location of a libcamera, pipewire and gstreamer events also
-makes me lean towards Nice as a better choice for the media summit.
+Is this the first step for a larger rework or is this a drive-by
+beautification ?
+
+I'm asking because (and I know it's hard to strike a balance) this
+kind of changes tend to make back-porting a more painful, and if
+only justified by "it looks better" I would be a bit hesitant in
+taking them.
+
 
 >
-> If possible, I would like to get an idea of what I can expect in about two weeks time.
-> I'll send out a reminder in about a week as well.
+> Introduce a v4l2_subdev_routing_xlate_streams() function which can be
+> used without the entire subdev state, to avoid passing the entire state
+> around when not needed.
 >
-> Feel free to forward this if you know other people who might be interested.
+> Convert all usages of v4l2_subdev_state_xlate_streams() to
+> v4l2_subdev_routing_xlate_streams().
 >
-> If you haven't been to one of these Media Summits before, then you can find the report
-> on last year's summit here:
+> Remove v4l2_subdev_state_xlate_streams().
 >
-> https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
+> V2:
+>   * Fix description of parameters
 >
-> That should give you an idea of what to expect.
+> Cosmin Tanislav (3):
+>   media: v4l: subdev: add v4l2_subdev_routing_xlate_streams()
+>   media: use v4l2_subdev_routing_xlate_streams()
+>   media: v4l: subdev: remove v4l2_subdev_state_xlate_streams()
 >
-> Regards,
+>  drivers/media/i2c/ds90ub913.c                 | 14 ++++++-----
+>  drivers/media/i2c/ds90ub953.c                 | 14 ++++++-----
+>  drivers/media/i2c/max96714.c                  | 16 ++++++-------
+>  drivers/media/i2c/max96717.c                  | 23 ++++++++++---------
+>  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 14 ++++++-----
+>  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |  2 +-
+>  drivers/media/v4l2-core/v4l2-subdev.c         |  7 +++---
+>  include/media/v4l2-subdev.h                   | 10 ++++----
+>  8 files changed, 53 insertions(+), 47 deletions(-)
 >
-> 	Hans
+> --
+> 2.48.1
+>
+>
 
