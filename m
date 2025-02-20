@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-26484-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26485-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1B4A3DE07
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:14:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6345A3DE28
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:20:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D20E119C44C4
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:12:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FF6D3A5D85
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:16:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CE0F1D7989;
-	Thu, 20 Feb 2025 15:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EE71FCF57;
+	Thu, 20 Feb 2025 15:16:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ED61CEACB;
-	Thu, 20 Feb 2025 15:12:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913F11CCEF0;
+	Thu, 20 Feb 2025 15:16:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740064365; cv=none; b=nMQJwwprtJZ/FtcSJkaWmB7ApgWDsBhiKuSWKvb416qo8tpb1Glj/sM+b/WzQI9hi9ZHDC4Tg7PvsUn0MmPbVTE15kRN7rkr7fQllEFNsMy3g4dvQfF2so8a1strMp8EZm6qaIl+8fComQgsiQEvGPW9y6LhjoG+L9Xr1+vGsFo=
+	t=1740064602; cv=none; b=DByZkoPVy5H1XFxpjsMZQGEjUBqRkeBja03TvVk8MaijzVDxtmZ+gqEpea/CupaYibV0PheLi+AAOMtdZE//7QdbC3zj9CXkB1rd9rRLN07MRHBz3AMGBdiprBo9i6fZ2cYyfuGBmwJFDkCWNSuioHU0bXlwYZ5dUMrFw/QKY8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740064365; c=relaxed/simple;
-	bh=YPIkUGlQFnZXPZsqT++8YQKXFl3MC3rlg5EhJD5fdpU=;
+	s=arc-20240116; t=1740064602; c=relaxed/simple;
+	bh=TIg8CqN5hO+RqL67o6DLnyrSFUhVBiw7Xn0qzxP77JU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D67a0+LwYXrTLLySj8ayK9ZugNGe1szGIQBSaMGkCGBUw7vS4zLQ79SbiW5587/3HMyAOvXCWBINwifF//qDjtpbV8djKwvvW+teItbxeKLEzyC0YhwpppoVdG7Hf9buaelQcTRV9rwaZuAK8c9PjUeqTOXgO8s+1ZsqHOLi73E=
+	 In-Reply-To:Content-Type; b=atom41IGghwiQ2AzLO8DqSRphQO2K0HZbBu1lo0mKpWyAduRjg4NfuRfAYobFRDxzKkfmD6wwfypI5Ij264utb18rGnSXbG68oqt07RqZxLZ9g/iTDC2ruvVIR/eaAn9cAwhToWyahO6TJkQDbChFENqLJw1BazU4jkls4CxBUQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2AAC4CED1;
-	Thu, 20 Feb 2025 15:12:39 +0000 (UTC)
-Message-ID: <55389b80-9f0e-4423-8e92-c486de058720@xs4all.nl>
-Date: Thu, 20 Feb 2025 16:12:38 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9198C4CED1;
+	Thu, 20 Feb 2025 15:16:39 +0000 (UTC)
+Message-ID: <41e9f6a8-1f72-465e-b6c4-0bebdc462d31@xs4all.nl>
+Date: Thu, 20 Feb 2025 16:16:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,56 +38,59 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: cx231xx: Convert enum into a define
+Subject: Re: [PATCH v4 1/4] media: venus: hfi_parser: add check to avoid out
+ of bound access
 Content-Language: en-US
-To: Andy Shevchenko <andy@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20241202-fix-llvm9-v1-0-2a50f5acfd0b@chromium.org>
- <20241202-fix-llvm9-v1-1-2a50f5acfd0b@chromium.org>
- <20241203093114.0ca49c01@foz.lan>
- <c896221c-5ff2-4a2b-b431-7c7f805b4f68@xs4all.nl>
- <Z7c252IKhXdysjAi@smile.fi.intel.com>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
+ <tfiga@chromium.org>, Hans Verkuil <hans.verkuil@cisco.com>
+Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
+ <20250207-venus_oob_2-v4-1-522da0b68b22@quicinc.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <Z7c252IKhXdysjAi@smile.fi.intel.com>
+In-Reply-To: <20250207-venus_oob_2-v4-1-522da0b68b22@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2/20/25 15:06, Andy Shevchenko wrote:
-> On Thu, Feb 20, 2025 at 02:55:42PM +0100, Hans Verkuil wrote:
->> On 12/3/24 09:31, Mauro Carvalho Chehab wrote:
+On 2/7/25 09:24, Vikash Garodia wrote:
+> There is a possibility that init_codecs is invoked multiple times during
+> manipulated payload from video firmware. In such case, if codecs_count
+> can get incremented to value more than MAX_CODEC_NUM, there can be OOB
+> access. Reset the count so that it always starts from beginning.
 > 
-> ...
+> Cc: stable@vger.kernel.org
+> Fixes: 1a73374a04e5 ("media: venus: hfi_parser: add common capability parser")
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/hfi_parser.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->> ORing enums is really not a good idea: you would normally never do that, and
-> 
-> I think you missed a keyword "different", so "ORing different enums ..."
-> which I totally agree on, but the same enum values are fine.
+> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+> index 3df241dc3a118bcdeb2c28a6ffdb907b644d5653..1cc17f3dc8948160ea6c3015d2c03e475b8aa29e 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+> @@ -17,6 +17,7 @@ typedef void (*func)(struct hfi_plat_caps *cap, const void *data,
+>  static void init_codecs(struct venus_core *core)
+>  {
+>  	struct hfi_plat_caps *caps = core->caps, *cap;
+> +	core->codecs_count = 0;
 
-While the compiler might be happy with that, I think ORing enums regardless
-is weird. It's not what enums are for.
+This really should be moved down to before the 'if'. There is no reason to mix the assignment
+with variable declarations.
+
+>  	unsigned long bit;
+>  
+>  	if (hweight_long(core->dec_codecs) + hweight_long(core->enc_codecs) > MAX_CODEC_NUM)
+> 
 
 Regards,
 
 	Hans
-
-> 
->> the compiler warning is IMHO appropriate.
-> 
-
 
