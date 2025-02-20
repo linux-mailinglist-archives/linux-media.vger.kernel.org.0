@@ -1,117 +1,117 @@
-Return-Path: <linux-media+bounces-26488-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26489-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4DFA3DE5E
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:26:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA05A3DE72
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:27:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71C4416CC3C
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:23:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DA3C19C449A
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:25:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F96A1FDA99;
-	Thu, 20 Feb 2025 15:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 747B11FCFF0;
+	Thu, 20 Feb 2025 15:25:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D8F61FCE;
-	Thu, 20 Feb 2025 15:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2861FECA1;
+	Thu, 20 Feb 2025 15:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740065017; cv=none; b=okxCgWUdYsdc6E5rottsKSQY8a7pMBNzWFyLbb/yu/V26FgczeTfZDrglWVNhpJQrPVFtkm0vLrDzEcv+9j9H0UVTajZdt0GcAlP5k+f6y4HM3p/NzluWwierUQWkT5LDewD42FEBYdd0tcRC5+gQpSnH1T4GC/mV8XjSJUg464=
+	t=1740065132; cv=none; b=HRFlv16KXcpc81cvhZ49CDA2OqRJu+ZmMkiMNunHlz7YzEKoguIznv6uOAJ2XmRS8HJlVpa4Sar+i/K7FwqofOjx/V9QRLeTX16ZBpCqHc0nYQ+NXDxBrb6BXJDXaqaTpRw7Jk0qKH94xfQq7qa0TEw6WrrnHq3flHk3aGk+MDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740065017; c=relaxed/simple;
-	bh=U68v7cOKxOImHE/lUvUVXUiZlzQLpKd7IKB/KFsKEj4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HC1mf08q5zsgGpDdx18R5j46QT9fmT/kuGFkCCO/sUcxrC0z1ypaY0xG8ntOuR8mq5X1edN+zPncrn6kRNPrkxDg1nYWBKZbZy8q8JDdnXvDq2LEG07O19onCdvJqyB3gk/0Rq9PHG19iVhhr3VDeFqdWEKlwpaTRDuwygKxgnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2931C4CED1;
-	Thu, 20 Feb 2025 15:23:34 +0000 (UTC)
-Message-ID: <e794c047-ab0e-4589-a1d2-0f73b813eacc@xs4all.nl>
-Date: Thu, 20 Feb 2025 16:23:33 +0100
+	s=arc-20240116; t=1740065132; c=relaxed/simple;
+	bh=f2klmEUwgqFbY44FQoL/3EzI0jobsONaTotywytBXU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K7tbnV31szSawIz+evn2hG6rdM/t8hKRl8jmF6qfx5LyiW94QYbA8J5smmgiBN+THtxJA5SLmUwmUBzCpNh52ewRP1cLW42J/lm7mJthndyhyFBuo/hHAvkKYI/quuokVgr8oHPePlAfS/1cbvJsRSiq4mnpbyjrJ47cQQMy9+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: H6m8dKYhRDqeG9eYJYOfhQ==
+X-CSE-MsgGUID: LqwXZvIXTU+mmIO+QNNVNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40705300"
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="40705300"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 07:25:30 -0800
+X-CSE-ConnectionGUID: qmtVSK5cSNy+QcnRA6L5zQ==
+X-CSE-MsgGUID: +upU1mqiQfig88j8PogIog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,302,1732608000"; 
+   d="scan'208";a="145924174"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 07:25:25 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andy@kernel.org>)
+	id 1tl8QT-0000000DNH5-3Gm6;
+	Thu, 20 Feb 2025 17:25:21 +0200
+Date: Thu, 20 Feb 2025 17:25:21 +0200
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 1/3] media: cx231xx: Convert enum into a define
+Message-ID: <Z7dJYemMR-mgZXG6@smile.fi.intel.com>
+References: <20241202-fix-llvm9-v1-0-2a50f5acfd0b@chromium.org>
+ <20241202-fix-llvm9-v1-1-2a50f5acfd0b@chromium.org>
+ <20241203093114.0ca49c01@foz.lan>
+ <c896221c-5ff2-4a2b-b431-7c7f805b4f68@xs4all.nl>
+ <Z7c252IKhXdysjAi@smile.fi.intel.com>
+ <55389b80-9f0e-4423-8e92-c486de058720@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] media: venus: hfi: add a check to handle OOB in
- sfr region
-Content-Language: en-US
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
- <tfiga@chromium.org>, Hans Verkuil <hans.verkuil@cisco.com>
-Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
- <20250207-venus_oob_2-v4-4-522da0b68b22@quicinc.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20250207-venus_oob_2-v4-4-522da0b68b22@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <55389b80-9f0e-4423-8e92-c486de058720@xs4all.nl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 2/7/25 09:24, Vikash Garodia wrote:
-> sfr->buf_size is in shared memory and can be modified by malicious user.
-> OOB write is possible when the size is made higher than actual sfr data
-> buffer. Cap the size to allocated size for such cases.
+On Thu, Feb 20, 2025 at 04:12:38PM +0100, Hans Verkuil wrote:
+> On 2/20/25 15:06, Andy Shevchenko wrote:
+> > On Thu, Feb 20, 2025 at 02:55:42PM +0100, Hans Verkuil wrote:
+> >> On 12/3/24 09:31, Mauro Carvalho Chehab wrote:
+
+...
+
+> >> ORing enums is really not a good idea: you would normally never do that, and
+> > 
+> > I think you missed a keyword "different", so "ORing different enums ..."
+> > which I totally agree on, but the same enum values are fine.
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/hfi_venus.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index 6b615270c5dae470c6fad408c9b5bc037883e56e..c3113420d266e61fcab44688580288d7408b50f4 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -1041,18 +1041,23 @@ static void venus_sfr_print(struct venus_hfi_device *hdev)
->  {
->  	struct device *dev = hdev->core->dev;
->  	struct hfi_sfr *sfr = hdev->sfr.kva;
-> +	u32 size;
->  	void *p;
->  
->  	if (!sfr)
->  		return;
->  
-> -	p = memchr(sfr->data, '\0', sfr->buf_size);
-> +	size = sfr->buf_size;
+> While the compiler might be happy with that, I think ORing enums regardless
+> is weird. It's not what enums are for.
 
-If this is ever 0...
+I disagree. It's totally normal to have "mixed" enums where we have ranges of
+sequential values mixed with bit flags. Cross-enum bit operations (and what
+this patch is about) should be prohibited, indeed.
 
-> +	if (size > ALIGNED_SFR_SIZE)
-> +		size = ALIGNED_SFR_SIZE;
-> +
-> +	p = memchr(sfr->data, '\0', size);
->  	/*
->  	 * SFR isn't guaranteed to be NULL terminated since SYS_ERROR indicates
->  	 * that Venus is in the process of crashing.
->  	 */
->  	if (!p)
-> -		sfr->data[sfr->buf_size - 1] = '\0';
-> +		sfr->data[size - 1] = '\0';
+> >> the compiler warning is IMHO appropriate.
 
-...then this will overwrite memory. It probably can't be 0, but a check or perhaps
-just a comment might be good. It looks a bit scary.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Regards,
-
-	Hans
-
->  
->  	dev_err_ratelimited(dev, "SFR message from FW: %s\n", sfr->data);
->  }
-> 
 
 
