@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-26527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70850A3E80D
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 00:10:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA7AA3E814
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 00:10:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2184619C1E2E
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 23:09:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDE8B19C2165
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 23:09:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2089C267717;
-	Thu, 20 Feb 2025 23:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0097E264FAF;
+	Thu, 20 Feb 2025 23:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4zg26CP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQcBHz2e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7E62673B9;
-	Thu, 20 Feb 2025 23:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B098E2676D0;
+	Thu, 20 Feb 2025 23:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740092930; cv=none; b=qO02is+QNYf+aqiTydLS4ZJ3SOxUEpRDMfknghQK2bLcrtIx/8u+Mh1MyfZuccRUl2gLJieOaVCfOcpWTDHWk2izAAQYfNYUMkxUyeu9hzB/hEPavLwkCL7DI3cOu0/vYFGJqh/7q/Em0eACnO933ZmhKOajKB/6jMGkKY/wyUY=
+	t=1740092932; cv=none; b=f8GrU0KOorQa96KI9IJVjALRn2vJvWvLsHh9+pvcbzSmE/MW0TCPqOhzXjzkq2NehIgVb5okB1cVTZb/zyxf7xMtg8/NXiwb4fRLyzmT4UFWcefR7x+Eu7SZMPIXMfe68ov+T7EoGCpdDglZj90AzEJ5/zgeYoST+GZ5X8Z2Iok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740092930; c=relaxed/simple;
-	bh=lg2S49Y/PXrPABJ4Pn2C18lsbCiXukENnnTBnuXF1lc=;
+	s=arc-20240116; t=1740092932; c=relaxed/simple;
+	bh=zAx5h3CW9uhScVCOaEZGPbZKRppELpmuFuRjU0AzcDE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BUyLPrubfv0dZnNdmKuAx2sAIYmYV7tiGae+5R8+JoFaV6VUwzk3Z53QHKzkM1aVJbaHB2O6uVdYgvscUGUvaIKlxPL1W1mzR1rmY6ILMhrl6TVUUm9IN401enLvlquhEfJJdGpHYPgzpG2d96iO52lFjSc7U/Pa3ynyqqbw83w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4zg26CP; arc=none smtp.client-ip=209.85.218.42
+	 MIME-Version; b=VA59lZAso7BVOsBdtfkzibvXSRotesh6CKeRB/7OodEtK23sjSjokvQwT869XenECumZ1fiR2IKzqoHG56eBdEkdzETA+8wJDHJQjXRDJZ2SIt83ifW3//4pUl1alErqmjYKw1+hjHcuppqNjZwBieFYXosLBu0EbCDy/l5moJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQcBHz2e; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-abbdc4a0b5aso289324066b.0;
-        Thu, 20 Feb 2025 15:08:48 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5dee1626093so4848980a12.1;
+        Thu, 20 Feb 2025 15:08:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740092927; x=1740697727; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1740092929; x=1740697729; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xrabmWDNnjDbFDGwlYLKTrhkDOrLGupRTNC+Vz/SZV8=;
-        b=Y4zg26CPh3tC35wfGqQ0NqWxdHK0qQJTg5NfK82aDuKVluu0jV1dOUF5evr9E+N+EM
-         znQx9WrVJLq2YG9adh7RAYu/3EuF/oAZDVa/KmXQC321LRiyRSI2Wwa1Vbl0fCvfX4Xm
-         JjPk7YZk9x3afXWKlKSmf7mcjQ80SNJiFgcaXLmHGDONWzEylD233zTyVPZvgB5HCE52
-         Ijt70f66OBn2DWc1NnZrqZyympy25Cztf2ly1RsHrvofYlT+zr5SELjIUgEQs4Z8by1N
-         hMzf8FOHjp4DM/yxd2/folBFwmqWyTMXLpzh/pwwhf2LZwMVm2PhDtB8xqwsXjYm+3fA
-         jESA==
+        bh=1V5REDmi/qwmeZmzS61DPGBCJO64NPZWi8x4XF3HxB0=;
+        b=lQcBHz2eBCTn4v06JON/Oz46HFuK2u/4D/zoqCal124/TprXsDPCQUCzVJyYckW+8/
+         o/Un1BO33mdXXUMXfBiZDNz01aKitnq5YximRGvhYk3XU4n07enp5nQn/FMMZsqcFRwe
+         7rvVIGTNC9pVFRIXPm2/RGh1LH5xX560awpPiqEAH7RFb7Etlxav4LRXKbP5Ie7jEC6I
+         DstdDvj4G7MtdW2hhnoHkIsrMFCIKwdLyYOOsJY9aLen3tBPhmItD639oawB3VmcwI5U
+         IkYiyvyt1+WfhlbzktkLUjoK6MkldQmdDW8WFaMuuKCPNVlcpW4lkHpEwNpJW66YxcJ4
+         GY4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740092927; x=1740697727;
+        d=1e100.net; s=20230601; t=1740092929; x=1740697729;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xrabmWDNnjDbFDGwlYLKTrhkDOrLGupRTNC+Vz/SZV8=;
-        b=SFj0V7mPM6tvVew6010YkDU0sIaq0HVFZf1IV6LtI6kR3O470YtWRTL18GMBEacQEO
-         vSSxOPyX6WlW7ZgHQdMLQg4IK+t+n9Ek3h0ccY3X4MPHmoUdnM9Ei7ocjFAjtDgVePQo
-         qWtYDw6krBhOOquckYbygmDZTYqTAdWR8IEIG20I4VFjuLD6UNbj6gOn8E8jgppdxToS
-         nx5RaZN2UC4eTGw9oqstZ3HpJxf8Q9xBN09LxDEe/x5LfT5Gz/TosxEAOC9KLnGgM3JY
-         3rJuaNjrXdMfooYOhNZvsxZSvAHbYQeNewkfDU3a0fP9b1gHO/IHQCMNK2zrRsbHXMGO
-         1ahg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdmva7heBLtE0EdJwY0ctQ/80D5Gc5pdbnfYAzTSWKWPQhw2KxCd5mE2yPw6JX7dsaxstAxxRtQJOciH0=@vger.kernel.org, AJvYcCVL2uEOKhVHxnz+qB/nygdeGlPLrg29mZTKuSdHofcF6RZdX98FQWSWEtpJw+f6w9aqemgVG2u20YgOYKi/@vger.kernel.org, AJvYcCWgd9Kgllk447f47+858lvqrSRPnAE2FdL5pXVVer7JYwsS1C51rJgQZpA5ANbSRqmHHzeXc+5tSaCh@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQD6xEaU6+kKu0qDA59ysOlmP3yy3ixB4DESnacMSRYTmAj2aM
-	MepLf8DngDI00RmvN3A6NB0gMM/hASxDYMp5KIlFwfyN4PoBXBiJ
-X-Gm-Gg: ASbGnct+y3WCavN2s3IcCTVrnqBjwfnScWsUO+RWmr3DeYIcucBMKCU/06LUcysoLh2
-	vlpZ9L+asZ8m7DwlVamlD8fAmxnbd9oAWpKAIWoqrManrLe32yxUFwPkQudufMYBdOM7mgYbTf/
-	LVWZvbRzNUnvpBR7APW0PDjymnFfFwNilTjK4m2DDuE4+19T2PP5vWM3QTpVNL9PLyDhjBv/EoV
-	j06GVtn7al/T7JAWezGYDIkZgCjHl1K+Ym3zcTbnAZBnH48FQrCA+EIu+Lff9lK3TfZtfUzN8bG
-	xGXE4pswN1yo/9DhWPVSpcCExWVQ
-X-Google-Smtp-Source: AGHT+IHxCyp3AmxX9+y1FumuMZ2w71DFr0p5Hi7cNfrmyJDTIG49fuCS7zq2b1FXlJ53fyeJ7aqZdg==
-X-Received: by 2002:a17:906:3151:b0:ab6:504a:4c03 with SMTP id a640c23a62f3a-abc0b037859mr72192566b.24.1740092926822;
-        Thu, 20 Feb 2025 15:08:46 -0800 (PST)
+        bh=1V5REDmi/qwmeZmzS61DPGBCJO64NPZWi8x4XF3HxB0=;
+        b=Cenj2941wzGT9UiyVfpPxa9bdhLxllLHGlKZDovm16hrtzhhtVTw+qNphbND4JAbij
+         53EqC17EMFhLz9vrXanu1W9jvsCSPzBFTnfSj5O0FIsQ/MY8qjsXej9rYkGN0an68my7
+         PRg1YaCyq5dOtEdCslcX3DiWuF6IwBgR0f6LWRk8HzsT+MsQ8yXp0XNp618wNffk9j1L
+         KEb5frheuFS/cDi5osvkOgHt5OGh0TWjwJ8cjCyBIPL4qq4HqS2rr2B3RNTd3idp4yyK
+         9SRut23aCWkT5ak5qXpOWvY69K6ocwkeqC64GXhLiIg3LaVbF6zzx9gVwPvVjfXRgnbH
+         +mFg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+5//bOjkthRuDEq7rRks4K4jqG4Gf7ra0PmbpP8P3x10kYN2HcJqvSemZc0BcVZhYKTKn0+s7nHwqL+NL@vger.kernel.org, AJvYcCVjKwYfLDFFRsFICdtFHjHsr2+VWVU3I5kze8VX9vpXykovrwKkVsNXdbgTK5gqM8wwxgTQCjLk/0RJXzU=@vger.kernel.org, AJvYcCWxU7KwMm1IFv6oTsBcZEmwBdVUfG3U7u9xD/s66nd0uWKKPW6Szcz5wOJ1q6N6gKsxOXDhb6lBhbQW@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw23c/1Epvr4ISi5geDbi32aonRIjMCyln3emsSqYyYGvMgfPpU
+	3swkxiy4WmPXC/6nx+6MUnX4OT/yncEj1PsSBq1AJmoqNz+ARPdp
+X-Gm-Gg: ASbGncsw7mefWo8bBCWwDvttcgad9yGDt6+CVXEky6UpkKT9Yoh5AtggacklHBoqW7/
+	W0aO/ieDIe6Fhnh0rfqEn4OEDVzJZ1KIFUoiABIhjKqs7zzysQH33YdXDuk7vRNhJeH/4kOFU8m
+	G/F3nbsXjbX2+2pMH1Ga/I12OGuddS8wBY+wD35TOLW3oEYWDSntgsPv1EHpNC3KrizyzJAlR1W
+	SnfpXurnYqV+6xBPH6ShdcBbmSz0TBGXRbCGxHcWN3Sg+3Tl2Kcb5lI9ftOQ9L0i/RmHGY321F3
+	6pV+nPgWzvxoi22zv17eNbnSFJLW
+X-Google-Smtp-Source: AGHT+IEydEuTk0agw+AF9f8wYzDAN5oKuTWK4h1DVKaFvIYPrYzGCYHJkQgTkbLioaZGj3jOXXoyBA==
+X-Received: by 2002:a17:906:318b:b0:ab7:b7b5:2a0c with SMTP id a640c23a62f3a-abc0ae1b6e9mr76032266b.6.1740092928857;
+        Thu, 20 Feb 2025 15:08:48 -0800 (PST)
 Received: from demon-pc.localdomain ([188.27.130.21])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb9654a6b2sm909107066b.135.2025.02.20.15.08.44
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abb9654a6b2sm909107066b.135.2025.02.20.15.08.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 15:08:45 -0800 (PST)
+        Thu, 20 Feb 2025 15:08:48 -0800 (PST)
 From: Cosmin Tanislav <demonsingur@gmail.com>
 To: 
 Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
@@ -91,9 +91,9 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: [PATCH v2 3/6] dt-bindings: media: imx219: add support for Virtual Channel IDs
-Date: Fri, 21 Feb 2025 01:08:11 +0200
-Message-ID: <20250220230818.275262-4-demonsingur@gmail.com>
+Subject: [PATCH v2 4/6] media: i2c: imx219: pass format's code to imx219_get_format_bpp()
+Date: Fri, 21 Feb 2025 01:08:12 +0200
+Message-ID: <20250220230818.275262-5-demonsingur@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250220230818.275262-1-demonsingur@gmail.com>
 References: <20250220230818.275262-1-demonsingur@gmail.com>
@@ -105,27 +105,40 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-IMX219 supports configuring the Virtual Channel ID used for image and
-embedded data streams.
+imx219_get_format_bpp() only uses the code of the format, pass it
+instead of the whole format to allow usage when the whole format is not
+available.
 
 Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 ---
- Documentation/devicetree/bindings/media/i2c/imx219.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/i2c/imx219.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-index 07d088cf66e0b..766b0e5fedb05 100644
---- a/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-@@ -66,6 +66,8 @@ properties:
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index fcd98ee54768e..ad1965a91ae3c 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -387,9 +387,9 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
+ 	return imx219_mbus_formats[i];
+ }
  
-           clock-noncontinuous: true
-           link-frequencies: true
-+          vc-ids:
-+            maxItems: 1
+-static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
++static u32 imx219_get_format_bpp(u32 code)
+ {
+-	switch (format->code) {
++	switch (code) {
+ 	case MEDIA_BUS_FMT_SRGGB8_1X8:
+ 	case MEDIA_BUS_FMT_SGRBG8_1X8:
+ 	case MEDIA_BUS_FMT_SGBRG8_1X8:
+@@ -680,7 +680,7 @@ static int imx219_set_framefmt(struct imx219 *imx219,
  
-         required:
-           - link-frequencies
+ 	format = v4l2_subdev_state_get_format(state, 0);
+ 	crop = v4l2_subdev_state_get_crop(state, 0);
+-	bpp = imx219_get_format_bpp(format);
++	bpp = imx219_get_format_bpp(format->code);
+ 
+ 	cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
+ 		  crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
 -- 
 2.48.1
 
