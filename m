@@ -1,427 +1,368 @@
-Return-Path: <linux-media+bounces-26462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26463-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B39FA3DB2F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:20:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D46A3DB5E
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:32:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AE2319C0723
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 13:20:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 928B319C1405
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 13:32:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC4751F940A;
-	Thu, 20 Feb 2025 13:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D8E1F8BCC;
+	Thu, 20 Feb 2025 13:32:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQmY8fqA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eTVnYC03"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDB51E766E;
-	Thu, 20 Feb 2025 13:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88C02BD11;
+	Thu, 20 Feb 2025 13:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740057595; cv=none; b=WctJ7yYZSspv2UBgalvlb0ZRmqzljvswwzt25dPBO57o1UvBtr2cpD0T/OCUOlivid6tfkIM4IEabWd/yOqpWwqprTss8EmUwqdwEPXaftJRfG/YpxomUuzOdN5tsQdv9C4OPDAOJt/qiA+OWB1UINbWkG4ykvQLDlDtcxRmzcc=
+	t=1740058340; cv=none; b=uxcnH7AENhUWNIM/M175Zs3eD1brK82Y4opuKSyfE5dYQ1YTmXxZ8iKluzIO1o0firt5KyG+Uy9QF3MwWqDwDc9HbBAVp/gl5miXOY1uYr8Px5wBWYDyEhb/r1EHXqZ1hMRB/WXHQYyB4Fk8EIIMMNsrY86tSxDCKhpt7w6KtHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740057595; c=relaxed/simple;
-	bh=APbqXh88xg3nJ04q86baKMgK+Abnc2gYjbREC8lsUVg=;
+	s=arc-20240116; t=1740058340; c=relaxed/simple;
+	bh=dOfi1/OnA8q9j6aHXa0diCiSD7lqHGHKh3L4ApSyNBw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ap1O7Vn+2QO0kXS9hSgzxJLQq49KLZ0gw5H1dSbbB0fuqSGTGJYtKe9S3D5K3+UEZU4ImVGDgdVHG6iahhg2bq6ZRFEoIwgKO6qZOXVqGuBAgh1WmO2OwtGPRwCQdxAOzeRNDCZUkihqieZnA3vkl0Z8DEHOgAxhFgWuCVKxSVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQmY8fqA; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740057593; x=1771593593;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=APbqXh88xg3nJ04q86baKMgK+Abnc2gYjbREC8lsUVg=;
-  b=UQmY8fqAzQaqGCbvcnO2xTXt5J7fjMm3vlzf3+Wrqk9tSWBJ3jGMDCIg
-   74GAEpn7zp+OlVCmj1H+S0spAEUgG8Sgzl/BZ1dss9650rwnIgA+kzwt4
-   4lsRHB7YtdDL8L4zeCPf+ZjhsQ/yLmjXQUkzMwyjfQBumDbMiaLlOIaWt
-   jyyPscMsFoaZqB/87ACDopmsXXS63NqemWPH0eS+HGzGK1MX0BiSA11B2
-   RL/wxeSNlB64U3Ov5l627vVxV8HAnupeUAVPsyQVj4bMKU/A4JWTQK7A3
-   mqz9m607wUp8GnDg/05jJmNcoZaOXLTIQKDN9vjVMGcqaMxR47B/jnZAH
-   Q==;
-X-CSE-ConnectionGUID: 5NDcW4O8RBqrS+66E8XSWg==
-X-CSE-MsgGUID: QubNOprOTNylDos94auaDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40756665"
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="40756665"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 05:19:53 -0800
-X-CSE-ConnectionGUID: bfgHlItuQcabMG+IUuOhZQ==
-X-CSE-MsgGUID: PnXraADXQ4quK8KNT4xacw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="145892227"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 05:19:51 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E89A911F7F2;
-	Thu, 20 Feb 2025 15:19:47 +0200 (EET)
-Date: Thu, 20 Feb 2025 13:19:47 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: shravan kumar <shravan.chippa@microchip.com>
-Cc: mchehab@kernel.org, kieran.bingham@ideasonboard.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	conor.dooley@microchip.com, valentina.fernandezalanis@microchip.com,
-	praveen.kumar@microchip.com
-Subject: Re: [PATCH V4] media: i2c: imx334: Add support for 1280x720 &
- 640x480 resolutions
-Message-ID: <Z7cr8x6i8NZbdjIQ@kekkonen.localdomain>
-References: <20250218093356.3608409-1-shravan.chippa@microchip.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WWaOOKgqjLXc/VgRStPbSU8QFWABybreXmh7oxMVrNiYPuYA1xSIzqoBZu9z7wPPLtdnQGaeHa9kktSf59CqsMWTupN8RhDTdJskBLuuTAJYiMAB5xqyGsw60StjAKNZlQyRY5j+I0SHS4x9IOENZNNB1E/N4OUNK87N3r3iJpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eTVnYC03; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2BE0C4CED1;
+	Thu, 20 Feb 2025 13:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740058337;
+	bh=dOfi1/OnA8q9j6aHXa0diCiSD7lqHGHKh3L4ApSyNBw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eTVnYC03AYiikGOLCa6NI10sXN9hmKOo8tIj77zCYftpW4VlDyxSvieq6TyjWvbjL
+	 8e1XY38sfkRKt3tGlmirHehpIZrh+WyyGq6/XIydlCitNYv0FvT4+tB9VHjV6l5Jjr
+	 5sMs+O+T52YZ34nUAWpR4cTJY93/eYH0w42NDF+BlHKDbzBPpJ3MzfOHelFbKoIDij
+	 pWl5F4ZZxO+WKxDdVBRPEsr6MWLTE+TYWLWHgb1yViLFreXdqAhgkH3RwQSMxJ9C1G
+	 j9cOkVMSRDJUFRURwTZ38C5klCfcKR4XjNMXvvvjzKN0ve1gdFW8fu2kNvkiY0tjFF
+	 GpmzHOfTloKdg==
+Date: Thu, 20 Feb 2025 14:32:14 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	Florent Tomasin <florent.tomasin@arm.com>, Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, nd@arm.com, 
+	Akash Goel <akash.goel@arm.com>
+Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali CSF
+ GPUs
+Message-ID: <20250220-strict-cobalt-albatross-6f742e@houat>
+References: <3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
+ <1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
+ <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
+ <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
+ <1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
+ <20250205-amorphous-nano-agouti-b5baba@houat>
+ <2085fb785095dc5abdac2352adfb3e1e1c8ae549.camel@ndufresne.ca>
+ <20250207160253.42551fb1@collabora.com>
+ <20250211-robust-lush-skink-0dcc5b@houat>
+ <20250211153223.2fef2316@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="bx6tcglxjiffynxy"
 Content-Disposition: inline
-In-Reply-To: <20250218093356.3608409-1-shravan.chippa@microchip.com>
+In-Reply-To: <20250211153223.2fef2316@collabora.com>
 
-Hi Shravan,
 
-On Tue, Feb 18, 2025 at 03:03:56PM +0530, shravan kumar wrote:
-> From: Shravan Chippa <shravan.chippa@microchip.com>
-> 
-> Added support for 1280x720@30 and 640x480@30 resolutions and
-> optimized the resolution arrays by incorporating a common
-> register array.
-> 
-> Updated the register array values for 1920x1080@30 and 3840x2160@30
-> resolutions in accordance with the common register array values.
-> 
-> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> 
-> ---
-> changelog:
-> v3 -> v4
-> In response to the review request, the dependency of the common register value
-> array on the 445M link frequency has been eliminated.
-> 
-> Although I do not have a test setup for 4k resolution at an 819M link frequency, 
-> I have made adjustments based on the IMX334 data sheet, the latest 4k resolution,
-> and the common register value array. 
-> 
-> Additionally, the 4k resolution has been switched to master mode to ensure
-> consistency with other resolutions that also use master mode.
-> 
-> changelog:
-> v2 -> v3
-> removied blank lines reported by media CI robot 
-> 
-> v1 -> v2
-> Optimized the resolution arrays by added common register
-> array
-> ---
-> 
->  drivers/media/i2c/imx334.c | 214 +++++++++++++++++++------------------
->  1 file changed, 109 insertions(+), 105 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> index a544fc3df39c..0172406780df 100644
-> --- a/drivers/media/i2c/imx334.c
-> +++ b/drivers/media/i2c/imx334.c
-> @@ -167,8 +167,8 @@ static const s64 link_freq[] = {
->  	IMX334_LINK_FREQ_445M,
->  };
->  
-> -/* Sensor mode registers for 1920x1080@30fps */
-> -static const struct imx334_reg mode_1920x1080_regs[] = {
-> +/* Sensor common mode registers values */
-> +static const struct imx334_reg common_mode_regs[] = {
->  	{0x3000, 0x01},
->  	{0x3018, 0x04},
->  	{0x3030, 0xca},
-> @@ -176,26 +176,10 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
->  	{0x3032, 0x00},
->  	{0x3034, 0x4c},
->  	{0x3035, 0x04},
-> -	{0x302c, 0xf0},
-> -	{0x302d, 0x03},
-> -	{0x302e, 0x80},
-> -	{0x302f, 0x07},
-> -	{0x3074, 0xcc},
-> -	{0x3075, 0x02},
-> -	{0x308e, 0xcd},
-> -	{0x308f, 0x02},
-> -	{0x3076, 0x38},
-> -	{0x3077, 0x04},
-> -	{0x3090, 0x38},
-> -	{0x3091, 0x04},
-> -	{0x3308, 0x38},
-> -	{0x3309, 0x04},
-> -	{0x30C6, 0x00},
-> +	{0x30c6, 0x00},
->  	{0x30c7, 0x00},
->  	{0x30ce, 0x00},
->  	{0x30cf, 0x00},
-> -	{0x30d8, 0x18},
-> -	{0x30d9, 0x0a},
->  	{0x304c, 0x00},
->  	{0x304e, 0x00},
->  	{0x304f, 0x00},
-> @@ -210,7 +194,7 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
->  	{0x300d, 0x29},
->  	{0x314c, 0x29},
->  	{0x314d, 0x01},
-> -	{0x315a, 0x06},
-> +	{0x315a, 0x0a},
+--bx6tcglxjiffynxy
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali CSF
+ GPUs
+MIME-Version: 1.0
 
-What's the effect of this change and why is it done?
+On Tue, Feb 11, 2025 at 03:32:23PM +0100, Boris Brezillon wrote:
+> On Tue, 11 Feb 2025 14:46:56 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > Hi Boris,
+> >=20
+> > On Fri, Feb 07, 2025 at 04:02:53PM +0100, Boris Brezillon wrote:
+> > > Sorry for joining the party late, a couple of comments to back Akash
+> > > and Nicolas' concerns.
+> > >=20
+> > > On Wed, 05 Feb 2025 13:14:14 -0500
+> > > Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+> > >  =20
+> > > > Le mercredi 05 f=E9vrier 2025 =E0 15:52 +0100, Maxime Ripard a =E9c=
+rit=A0: =20
+> > > > > On Mon, Feb 03, 2025 at 04:43:23PM +0000, Florent Tomasin wrote: =
+  =20
+> > > > > > Hi Maxime, Nicolas
+> > > > > >=20
+> > > > > > On 30/01/2025 17:47, Nicolas Dufresne wrote:   =20
+> > > > > > > Le jeudi 30 janvier 2025 =E0 17:38 +0100, Maxime Ripard a =E9=
+crit=A0:   =20
+> > > > > > > > Hi Nicolas,
+> > > > > > > >=20
+> > > > > > > > On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne =
+wrote:   =20
+> > > > > > > > > Le jeudi 30 janvier 2025 =E0 14:46 +0100, Maxime Ripard a=
+ =E9crit=A0:   =20
+> > > > > > > > > > Hi,
+> > > > > > > > > >=20
+> > > > > > > > > > I started to review it, but it's probably best to discu=
+ss it here.
+> > > > > > > > > >=20
+> > > > > > > > > > On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomas=
+in wrote:   =20
+> > > > > > > > > > > Hi,
+> > > > > > > > > > >=20
+> > > > > > > > > > > This is a patch series covering the support for prote=
+cted mode execution in
+> > > > > > > > > > > Mali Panthor CSF kernel driver.
+> > > > > > > > > > >=20
+> > > > > > > > > > > The Mali CSF GPUs come with the support for protected=
+ mode execution at the
+> > > > > > > > > > > HW level. This feature requires two main changes in t=
+he kernel driver:
+> > > > > > > > > > >=20
+> > > > > > > > > > > 1) Configure the GPU with a protected buffer. The sys=
+tem must provide a DMA
+> > > > > > > > > > >    heap from which the driver can allocate a protecte=
+d buffer.
+> > > > > > > > > > >    It can be a carved-out memory or dynamically alloc=
+ated protected memory region.
+> > > > > > > > > > >    Some system includes a trusted FW which is in char=
+ge of the protected memory.
+> > > > > > > > > > >    Since this problem is integration specific, the Ma=
+li Panthor CSF kernel
+> > > > > > > > > > >    driver must import the protected memory from a dev=
+ice specific exporter.   =20
+> > > > > > > > > >=20
+> > > > > > > > > > Why do you need a heap for it in the first place? My un=
+derstanding of
+> > > > > > > > > > your series is that you have a carved out memory region=
+ somewhere, and
+> > > > > > > > > > you want to allocate from that carved out memory region=
+ your buffers.
+> > > > > > > > > >=20
+> > > > > > > > > > How is that any different from using a reserved-memory =
+region, adding
+> > > > > > > > > > the reserved-memory property to the GPU device and doin=
+g all your
+> > > > > > > > > > allocation through the usual dma_alloc_* API?   =20
+> > > > > > > > >=20
+> > > > > > > > > How do you then multiplex this region so it can be shared=
+ between
+> > > > > > > > > GPU/Camera/Display/Codec drivers and also userspace ?   =
+=20
+> > > > > > > >=20
+> > > > > > > > You could point all the devices to the same reserved memory=
+ region, and
+> > > > > > > > they would all allocate from there, including for their use=
+rspace-facing
+> > > > > > > > allocations.   =20
+> > > > > > >=20
+> > > > > > > I get that using memory region is somewhat more of an HW desc=
+ription, and
+> > > > > > > aligned with what a DT is supposed to describe. One of the ch=
+allenge is that
+> > > > > > > Mediatek heap proposal endup calling into their TEE, meaning =
+knowing the region
+> > > > > > > is not that useful. You actually need the TEE APP guid and it=
+s IPC protocol. If
+> > > > > > > we can dell drivers to use a head instead, we can abstract th=
+at SoC specific
+> > > > > > > complexity. I believe each allocated addressed has to be mapp=
+ed to a zone, and
+> > > > > > > that can only be done in the secure application. I can imagin=
+e similar needs
+> > > > > > > when the protection is done using some sort of a VM / hypervi=
+sor.
+> > > > > > >=20
+> > > > > > > Nicolas
+> > > > > > >    =20
+> > > > > >=20
+> > > > > > The idea in this design is to abstract the heap management from=
+ the
+> > > > > > Panthor kernel driver (which consumes a DMA buffer from it).
+> > > > > >=20
+> > > > > > In a system, an integrator would have implemented a secure heap=
+ driver,
+> > > > > > and could be based on TEE or a carved-out memory with restricte=
+d access,
+> > > > > > or else. This heap driver would be responsible of implementing =
+the
+> > > > > > logic to: allocate, free, refcount, etc.
+> > > > > >=20
+> > > > > > The heap would be retrieved by the Panthor kernel driver in ord=
+er to
+> > > > > > allocate protected memory to load the FW and allow the GPU to e=
+nter/exit
+> > > > > > protected mode. This memory would not belong to a user space pr=
+ocess.
+> > > > > > The driver allocates it at the time of loading the FW and initi=
+alization
+> > > > > > of the GPU HW. This is a device globally owned protected memory=
+=2E   =20
+> > > > >=20
+> > > > > The thing is, it's really not clear why you absolutely need to ha=
+ve the
+> > > > > Panthor driver involved there. It won't be transparent to userspa=
+ce,
+> > > > > since you'd need an extra flag at allocation time, and the buffers
+> > > > > behave differently. If userspace has to be aware of it, what's the
+> > > > > advantage to your approach compared to just exposing a heap for t=
+hose
+> > > > > secure buffers, and letting userspace allocate its buffers from t=
+here?   =20
+> > > >=20
+> > > > Unless I'm mistaken, the Panthor driver loads its own firmware. Sin=
+ce loading
+> > > > the firmware requires placing the data in a protected memory region=
+, and that
+> > > > this aspect has no exposure to userspace, how can Panthor not be im=
+plicated ? =20
+> > >=20
+> > > Right, the very reason we need protected memory early is because some
+> > > FW sections need to be allocated from the protected pool, otherwise t=
+he
+> > > TEE will fault as soon at the FW enters the so-called 'protected mode=
+'. =20
+> >=20
+> > How does that work if you don't have some way to allocate the protected
+> > memory? You can still submit jobs to the GPU, but you can't submit /
+> > execute "protected jobs"?
+>=20
+> Exactly.
+>=20
+> >=20
+> > > Now, it's not impossible to work around this limitation. For instance,
+> > > we could load the FW without this protected section by default (what =
+we
+> > > do right now), and then provide a DRM_PANTHOR_ENABLE_FW_PROT_MODE
+> > > ioctl that would take a GEM object imported from a dmabuf allocated
+> > > from the protected dma-heap by userspace. We can then reset the FW and
+> > > allow it to operate in protected mode after that point. =20
+> >=20
+> > Urgh, I'd rather avoid that dance if possible :)
+>=20
+> Me too.
+>=20
+> >=20
+> > > This approach has two downsides though:
+> > >=20
+> > > 1. We have no way of checking that the memory we're passed is actually
+> > > suitable for FW execution in a protected context. If we're passed
+> > > random memory, this will likely hang the platform as soon as we enter
+> > > protected mode. =20
+> >=20
+> > It's a current limitation of dma-buf in general, and you'd have the same
+> > issue right now if someone imports a buffer, or misconfigure the heap
+> > for a !protected heap.
+> >=20
+> > I'd really like to have some way to store some metadata in dma_buf, if
+> > only to tell that the buffer is protected.
+>=20
+> The dma_buf has a pointer to its ops, so it should be relatively easy
+> to add an is_dma_buf_coming_from_this_heap() helper. Of course this
+> implies linking the consumer driver to the heap it's supposed to take
+> protected buffers from, which is basically the thing being discussed
+> here :-).
 
->  	{0x3168, 0xa0},
->  	{0x316a, 0x7e},
->  	{0x319e, 0x02},
-> @@ -330,116 +314,103 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
->  	{0x3002, 0x00},
->  };
->  
-> +/* Sensor mode registers for 640x480@30fps */
-> +static const struct imx334_reg mode_640x480_regs[] = {
-> +	{0x302c, 0x70},
-> +	{0x302d, 0x06},
-> +	{0x302e, 0x80},
-> +	{0x302f, 0x02},
-> +	{0x3074, 0x48},
-> +	{0x3075, 0x07},
-> +	{0x308e, 0x49},
-> +	{0x308f, 0x07},
-> +	{0x3076, 0xe0},
-> +	{0x3077, 0x01},
-> +	{0x3090, 0xe0},
-> +	{0x3091, 0x01},
-> +	{0x3308, 0xe0},
-> +	{0x3309, 0x01},
-> +	{0x30d8, 0x30},
-> +	{0x30d9, 0x0b},
-> +};
-> +
-> +/* Sensor mode registers for 1280x720@30fps */
-> +static const struct imx334_reg mode_1280x720_regs[] = {
-> +	{0x302c, 0x30},
-> +	{0x302d, 0x05},
-> +	{0x302e, 0x00},
-> +	{0x302f, 0x05},
-> +	{0x3074, 0x84},
-> +	{0x3075, 0x03},
-> +	{0x308e, 0x85},
-> +	{0x308f, 0x03},
-> +	{0x3076, 0xd0},
-> +	{0x3077, 0x02},
-> +	{0x3090, 0xd0},
-> +	{0x3091, 0x02},
-> +	{0x3308, 0xd0},
-> +	{0x3309, 0x02},
-> +	{0x30d8, 0x30},
-> +	{0x30d9, 0x0b},
-> +};
-> +
-> +/* Sensor mode registers for 1920x1080@30fps */
-> +static const struct imx334_reg mode_1920x1080_regs[] = {
-> +	{0x302c, 0xf0},
-> +	{0x302d, 0x03},
-> +	{0x302e, 0x80},
-> +	{0x302f, 0x07},
-> +	{0x3074, 0xcc},
-> +	{0x3075, 0x02},
-> +	{0x308e, 0xcd},
-> +	{0x308f, 0x02},
-> +	{0x3076, 0x38},
-> +	{0x3077, 0x04},
-> +	{0x3090, 0x38},
-> +	{0x3091, 0x04},
-> +	{0x3308, 0x38},
-> +	{0x3309, 0x04},
-> +	{0x30d8, 0x18},
-> +	{0x30d9, 0x0a},
-> +};
-> +
->  /* Sensor mode registers for 3840x2160@30fps */
->  static const struct imx334_reg mode_3840x2160_regs[] = {
-> -	{0x3000, 0x01},
-> -	{0x3002, 0x00},
-> -	{0x3018, 0x04},
-> -	{0x37b0, 0x36},
-> -	{0x304c, 0x00},
-> -	{0x300c, 0x3b},
+I'm not sure looking at the ops would be enough. Like, you can compare
+that the buffer you allocated come from the heap you got from the DT,
+but if that heap doesn't allocate protected buffers, you're screwed and
+you have no way to tell.
 
-This was the only location this register was written to.
+It also falls apart if we have a heap driver with multiple instances,
+which is pretty likely if we ever merge the carveout heap driver.
 
-Please split this into two to make it more reviewable: splitting register
-lists into two and then to adding new modes.
+> >=20
+> > I suspect you'd also need that if you do things like do protected video
+> > playback through a codec, get a protected frame, and want to import that
+> > into the GPU. Depending on how you allocate it, either the codec or the
+> > GPU or both will want to make sure it's protected.
+>=20
+> If it's all allocated from a central "protected" heap (even if that
+> goes through the driver calling the dma_heap_alloc_buffer()), it
+> shouldn't be an issue.
 
-> -	{0x300d, 0x2a},
-> -	{0x3034, 0x26},
-> -	{0x3035, 0x02},
-> -	{0x314c, 0x29},
-> -	{0x314d, 0x01},
-> -	{0x315a, 0x02},
-> -	{0x3168, 0xa0},
-> -	{0x316a, 0x7e},
-> -	{0x3288, 0x21},
-> -	{0x328a, 0x02},
->  	{0x302c, 0x3c},
->  	{0x302d, 0x00},
->  	{0x302e, 0x00},
->  	{0x302f, 0x0f},
-> +	{0x3074, 0xb0},
-> +	{0x3075, 0x00},
-> +	{0x308e, 0xb1},
-> +	{0x308f, 0x00},
->  	{0x3076, 0x70},
->  	{0x3077, 0x08},
->  	{0x3090, 0x70},
->  	{0x3091, 0x08},
-> -	{0x30d8, 0x20},
-> -	{0x30d9, 0x12},
->  	{0x3308, 0x70},
->  	{0x3309, 0x08},
-> -	{0x3414, 0x05},
-> -	{0x3416, 0x18},
-> -	{0x35ac, 0x0e},
-> -	{0x3648, 0x01},
-> -	{0x364a, 0x04},
-> -	{0x364c, 0x04},
-> -	{0x3678, 0x01},
-> -	{0x367c, 0x31},
-> -	{0x367e, 0x31},
-> -	{0x3708, 0x02},
-> -	{0x3714, 0x01},
-> -	{0x3715, 0x02},
-> -	{0x3716, 0x02},
-> -	{0x3717, 0x02},
-> -	{0x371c, 0x3d},
-> -	{0x371d, 0x3f},
-> -	{0x372c, 0x00},
-> -	{0x372d, 0x00},
-> -	{0x372e, 0x46},
-> -	{0x372f, 0x00},
-> -	{0x3730, 0x89},
-> -	{0x3731, 0x00},
-> -	{0x3732, 0x08},
-> -	{0x3733, 0x01},
-> -	{0x3734, 0xfe},
-> -	{0x3735, 0x05},
-> -	{0x375d, 0x00},
-> -	{0x375e, 0x00},
-> -	{0x375f, 0x61},
-> -	{0x3760, 0x06},
-> -	{0x3768, 0x1b},
-> -	{0x3769, 0x1b},
-> -	{0x376a, 0x1a},
-> -	{0x376b, 0x19},
-> -	{0x376c, 0x18},
-> -	{0x376d, 0x14},
-> -	{0x376e, 0x0f},
-> -	{0x3776, 0x00},
-> -	{0x3777, 0x00},
-> -	{0x3778, 0x46},
-> -	{0x3779, 0x00},
-> -	{0x377a, 0x08},
-> -	{0x377b, 0x01},
-> -	{0x377c, 0x45},
-> -	{0x377d, 0x01},
-> -	{0x377e, 0x23},
-> -	{0x377f, 0x02},
-> -	{0x3780, 0xd9},
-> -	{0x3781, 0x03},
-> -	{0x3782, 0xf5},
-> -	{0x3783, 0x06},
-> -	{0x3784, 0xa5},
-> -	{0x3788, 0x0f},
-> -	{0x378a, 0xd9},
-> -	{0x378b, 0x03},
-> -	{0x378c, 0xeb},
-> -	{0x378d, 0x05},
-> -	{0x378e, 0x87},
-> -	{0x378f, 0x06},
-> -	{0x3790, 0xf5},
-> -	{0x3792, 0x43},
-> -	{0x3794, 0x7a},
-> -	{0x3796, 0xa1},
-> -	{0x3e04, 0x0e},
-> +	{0x30d8, 0x20},
-> +	{0x30d9, 0x12},
->  	{0x319e, 0x00},
->  	{0x3a00, 0x01},
->  	{0x3a18, 0xbf},
-> -	{0x3a19, 0x00},
->  	{0x3a1a, 0x67},
-> -	{0x3a1b, 0x00},
->  	{0x3a1c, 0x6f},
-> -	{0x3a1d, 0x00},
->  	{0x3a1e, 0xd7},
->  	{0x3a1f, 0x01},
-> +	{0x300d, 0x2a},
-> +	{0x3034, 0x26},
-> +	{0x3035, 0x02},
-> +	{0x315a, 0x02},
->  	{0x3a20, 0x6f},
->  	{0x3a21, 0x00},
->  	{0x3a22, 0xcf},
->  	{0x3a23, 0x00},
->  	{0x3a24, 0x6f},
->  	{0x3a25, 0x00},
-> +	{0x3a24, 0x6f},
-> +	{0x3a25, 0x00},
->  	{0x3a26, 0xb7},
->  	{0x3a27, 0x00},
->  	{0x3a28, 0x5f},
-> @@ -505,6 +476,32 @@ static const struct imx334_mode supported_modes[] = {
->  			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
->  			.regs = mode_1920x1080_regs,
->  		},
-> +	}, {
-> +		.width = 1280,
-> +		.height = 720,
-> +		.hblank = 2480,
-> +		.vblank = 1170,
-> +		.vblank_min = 45,
-> +		.vblank_max = 132840,
-> +		.pclk = 297000000,
-> +		.link_freq_idx = 1,
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
-> +			.regs = mode_1280x720_regs,
-> +		},
-> +	}, {
-> +		.width = 640,
-> +		.height = 480,
-> +		.hblank = 2480,
-> +		.vblank = 1170,
-> +		.vblank_min = 45,
-> +		.vblank_max = 132840,
-> +		.pclk = 297000000,
-> +		.link_freq_idx = 1,
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mode_640x480_regs),
-> +			.regs = mode_640x480_regs,
-> +		},
->  	},
->  };
->  
-> @@ -989,6 +986,13 @@ static int imx334_start_streaming(struct imx334 *imx334)
->  	const struct imx334_reg_list *reg_list;
->  	int ret;
->  
-> +	ret = imx334_write_regs(imx334, common_mode_regs,
-> +				ARRAY_SIZE(common_mode_regs));
-> +	if (ret) {
-> +		dev_err(imx334->dev, "fail to write common registers");
-> +		return ret;
-> +	}
-> +
->  	/* Write sensor mode registers */
->  	reg_list = &imx334->cur_mode->reg_list;
->  	ret = imx334_write_regs(imx334, reg_list->regs,
+Right, assuming we have a way to identify the heap the buffer was
+allocated from somehow. This kind of assumes that you only ever get one
+source of protected memory, and you'd never allocate a protected buffer
+=66rom a different one in the codec driver for example.
 
--- 
-Kind regards,
+> > > 2. If the driver already boot the FW and exposed a DRI node, we might
+> > > have GPU workloads running, and doing a FW reset might incur a slight
+> > > delay in GPU jobs execution.
+> > >=20
+> > > I think #1 is a more general issue that applies to suspend buffers
+> > > allocated for GPU contexts too. If we expose ioctls where we take
+> > > protected memory buffers that can possibly lead to crashes if they are
+> > > not real protected memory regions, and we have no way to ensure the
+> > > memory is protected, we probably want to restrict these ioctls/modes =
+to
+> > > some high-privilege CAP_SYS_.
+> > >=20
+> > > For #2, that's probably something we can live with, since it's a
+> > > one-shot thing. If it becomes an issue, we can even make sure we enab=
+le
+> > > the FW protected-mode before the GPU starts being used for real.
+> > >=20
+> > > This being said, I think the problem applies outside Panthor, and it
+> > > might be that the video codec can't reset the FW/HW block to switch to
+> > > protected mode as easily as Panthor.
+> > >
+> > > Note that there's also downsides to the reserved-memory node approach,
+> > > where some bootloader stage would ask the secure FW to reserve a
+> > > portion of mem and pass this through the DT. This sort of things tend=
+ to
+> > > be an integration mess, where you need all the pieces of the stack (T=
+EE,
+> > > u-boot, MTK dma-heap driver, gbm, ...) to be at a certain version to
+> > > work properly. If we go the ioctl() way, we restrict the scope to the
+> > > TEE, gbm/mesa and the protected-dma-heap driver, which is still a lot,
+> > > but we've ripped the bootloader out of the equation at least. =20
+> >=20
+> > Yeah. I also think there's two discussions in parallel here:
+> >=20
+> >  1) Being able to allocate protected buffers from the driver
+> >  2) Exposing an interface to allocate those to userspace
+> >=20
+> > I'm not really convinced we need 2, but 1 is obviously needed from what
+> > you're saying.
+>=20
+> I suspect we need #2 for GBM, still. But that's what dma-heaps are for,
+> so I don't think that's a problem.
 
-Sakari Ailus
+Yeah, that was my point too, we have the heaps for that already.
+
+Maxime
+
+--bx6tcglxjiffynxy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ7cu3gAKCRAnX84Zoj2+
+dnVYAYCm5cDrRcC/M6gSUPcprxXgPDvfEFST8yfosiTXvXvn+f7uGk9SwgsJajLN
+s/ajv5QBgM98Ll6MXS4tGWhLvyrRsEXngQF3qbvK9LqIZ65IRv41teKv+LiAPoAd
+jG+jSy14AQ==
+=5SxL
+-----END PGP SIGNATURE-----
+
+--bx6tcglxjiffynxy--
 
