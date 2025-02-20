@@ -1,112 +1,154 @@
-Return-Path: <linux-media+bounces-26478-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D893A3DD0D
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:38:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D630FA3DD17
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:40:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFE8A16DB26
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:36:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A71E47A75E8
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:38:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ECF31FCF6D;
-	Thu, 20 Feb 2025 14:36:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881B51FCCF8;
+	Thu, 20 Feb 2025 14:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ix5yJ1MN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B3A1E32BD;
-	Thu, 20 Feb 2025 14:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4987A1F9A8B;
+	Thu, 20 Feb 2025 14:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740062201; cv=none; b=U0A6hGR7JdmzUxow4MGht0hIzNVCjg/uc693cQtRD8E38maTtVCref2Ufqb6BfaUjtI3yWoYq4pzpW56oc2Ej8MhN6wzTjmO57GufBwiGrOX6nk/5WTyDGQtTk/CBK7ZxxH5lVzp3mm3Mwf+xodVrtCfRPTzqEtAQZGKA/ZGvnY=
+	t=1740062362; cv=none; b=hBq+yi00Adkqtz90HXQPKDguMKP708BHw2auEL5PzjwPQYfcudj1gv1KefD+lweLJVz87vMhK1AL20/dU6dezKRuitwRJRercLCD1O4WwP5hKi4eMVrJ2/2qOaDJ9gYvhfCX4utkBzHiG06yGrk1mdk2O+JoyRTanPKqwptrj9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740062201; c=relaxed/simple;
-	bh=jFVPJDOBUZyCdWk8xy5m/2iCATeanJQQE/XiObJ0FRs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HEG9uAibd/REwricEacSqaNsQANIjdwe/Lf4aQ0B894yNCFg76AQzz0NuoszuxxIK0J2Iau9v2X85BahMxRZDIZMR19hWsWhSHmolHIwQBebjGhQo0W1lj2YzL41cG1UleOi+47UNNh9CB/ybKLUwJYqvtKcb+icy6SqCpJbGL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-51eb181331bso363684e0c.0;
-        Thu, 20 Feb 2025 06:36:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740062197; x=1740666997;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lLsstvr+2wvMkW/NVaitwURxkfA+PbFMqhyTnZnrvpc=;
-        b=ZKF2Sfs4ES3gbAhz0+bDJspnYd5SZyy1kyuXTy8a39zUuIzR2x9Xi1rBQcN6nwXi1W
-         jrnkFkmHtYha4H6JezatcZSWCJorEYGWT5O2h1wSpRW6+CbJRPu9RFkmQg0hXDx8Cfop
-         ph1veOYOH7735YMzwmRkpoAGfQtLjc0fenrgiWRjgV7M9j4T/hf6MUjBGnfpmRm0LKNJ
-         AA0XZ95W9aX6g8LhidHGBbaMkc5gei4i188fLOh/eNyv58ngDBqJMi4HE+WlE1DtJNla
-         sCA98ZbuC+D2oPipKjSOvTJHDSqA1Vs2imuy9J5M6y7PNTxQCPWoA+oUf8TyQYVfRagv
-         Ur7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUah6QzFoWc5HyfDuPYfJPdqReGfLiXzfTp4Rq5fAiKF6/7g/cyWt2CvrYDBdTcGcCui8w9C7S6ky+5ZIw=@vger.kernel.org, AJvYcCX9+E0/0vwertYmQchkrkGNr3rFzCNr+03MgblOuCg0USFJPnsmjX4wCSaTgBFbFurPEKprMrI7M8Dh@vger.kernel.org, AJvYcCXBzVc1B1q3OI/EH261GdbYMQz4XOhCfpsoaVsDPbk1zi6mVbLeqp17bnuPygPJGZAyuiie+W2cz1oax6J+@vger.kernel.org, AJvYcCXiQaHfeS4+DYdcfdIs6iv58C/Hqo2swEFHR5UGiX5zLUSdtH0kvsx3ipjz4De9mD6lh+CRbm1A185g@vger.kernel.org
-X-Gm-Message-State: AOJu0YyD6/Xzqk+ukh9zxC9mN24fuPAfG9f0iicBqJYq8Hl+BWcU/BK8
-	p5OEJMDefxm16CRVuDCDihBVf8y4EGQeEJK915DEuJYwh355W1uIBl9zuQgu
-X-Gm-Gg: ASbGncsS8qC944xWxjtYUo5/b6iUp6OO7FoXG2W3sTLDmugdJPn39m8pwxPwl3wsOg7
-	SiQWA2DChPkZkOo8d0FdRgyGIP3uxPfznp2vn9FEz7JFX93j6A7ZDagB47Bb3bI6LXsQwn7sIX0
-	xJVTJzrncLonBEmIoVLOUT2PGl+Fw1lDshn7wD1ej/c0pRV1HfD2PZiqbEdANcYhpUCqpZQkArS
-	8c9yZkGDW78TQd1xycK6sAAAkCNgg7BGPm4wLqNs2CJzHCd5HyxYw/1lFX1VSQBYS9LiNR1ar0l
-	x4diN5wotDW3+yTC+6bRlfdQpWQwLSvseenlFdV6H3Zp6S30WUQNUg==
-X-Google-Smtp-Source: AGHT+IH5YgVuU+q5QxnBO53JMh0jrsv0/nOk5xWC5Cb/HT3jJaCRN90HJbP+AUcLIlFfnze9GtfCMg==
-X-Received: by 2002:a05:6122:20a3:b0:520:6773:e5c5 with SMTP id 71dfb90a1353d-5209dbffe19mr11412455e0c.7.1740062197375;
-        Thu, 20 Feb 2025 06:36:37 -0800 (PST)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-520b9a3aca3sm2180924e0c.20.2025.02.20.06.36.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2025 06:36:37 -0800 (PST)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4be68eadf2fso338293137.1;
-        Thu, 20 Feb 2025 06:36:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVG3GZgM9jyWUCJOPJjUpBfXkksjq9FA2SOH/EjnmPNsIljZ/QHFgDJmkWQPH/ZJwlG40dXJtNFs4mnOx0=@vger.kernel.org, AJvYcCVQgfaaweQ3ISbvVpAfvAX419mRai94+QX8VNKNQzhrSXP+g+3DVevQAZ2WJCmKjBTm+on++YlvA9f3@vger.kernel.org, AJvYcCVbmX8qAYvVkpGmnwpyNm2rb3EvovkCvSU8YN6l7+fNxbGreF9q0GElw0y2TrVEieALBEFhth8wBQsIZLuS@vger.kernel.org, AJvYcCX1ZbT8V5WM5qCcP5s42IwdX2YUNRsJfUS000Qup8MGmDxpV66Rkh6bBXUuPUYnbQdqS9w+CrzDYaa5@vger.kernel.org
-X-Received: by 2002:a05:6102:2c88:b0:4bb:d7f0:6e74 with SMTP id
- ada2fe7eead31-4bd3fe4fbf8mr13157485137.21.1740062196923; Thu, 20 Feb 2025
- 06:36:36 -0800 (PST)
+	s=arc-20240116; t=1740062362; c=relaxed/simple;
+	bh=iLN8B9ksN1GWWVoWVQYBbBJYJyiBr+s/2FAxSdsnkwI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ouHhBYhNV13Iw6gr3bc72kxoK5W4YyBNcCXn/ANfL5pUE3CCjcVSAk6afeHT4oNrugcbphLCQYSOnEnoJCF8M0caUOLkkT8SWV+3wP46FKbxtczJgsOM+z4finQV2j5EeUhR5UO3bSARs8+skZHAkeBPS07TUUtr1qeI9wP5V5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ix5yJ1MN; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 716881193;
+	Thu, 20 Feb 2025 15:37:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740062274;
+	bh=iLN8B9ksN1GWWVoWVQYBbBJYJyiBr+s/2FAxSdsnkwI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ix5yJ1MNLbToTzjhWXv1kPGV+NribVBMxOfjCISY3kBKoor1qeqmue2KOaVn9Elun
+	 yAZX8xvnBq34+BFHbklcx77G6lqUeyCL8CqExMt9c4jWKJkpp8weUbzT0+S/9pMA3+
+	 iAhC+RUnOTS7ms8NZiaJSnCW2R9nxIGz2uGKgKfY=
+Date: Thu, 20 Feb 2025 16:39:02 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Cosmin Tanislav <demonsingur@gmail.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Julien Massot <julien.massot@collabora.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	=?utf-8?B?UGF3ZcWC?= Anikiel <panikiel@google.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 0/3] media: add v4l2_subdev_state_xlate_streams()
+Message-ID: <20250220143902.GA17500@pendragon.ideasonboard.com>
+References: <20250220092036.6757-1-demonsingur@gmail.com>
+ <tw6x663t5dmxsdarrxjtopza3mou3lnhwazu3dfv2k27fv47v2@bvftfepqqhss>
+ <c94580f0-3ab0-4a19-a996-9bb37e23dd39@gmail.com>
+ <Z7c5U6u5rr0-X0aK@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com> <20250210114540.524790-2-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20250210114540.524790-2-tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Feb 2025 15:36:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXeKfFWQV8DDBY1dFEqsg5BstxXGXF8+OL8UEBSKHt3CQ@mail.gmail.com>
-X-Gm-Features: AWEUYZnLFePd-1BqPnNONu7LKQ5aLnNkBdAFzP3SPXlTLKm6lkXDlAm8vW2tagc
-Message-ID: <CAMuHMdXeKfFWQV8DDBY1dFEqsg5BstxXGXF8+OL8UEBSKHt3CQ@mail.gmail.com>
-Subject: Re: [PATCH 1/8] clk: renesas: r9a09g047: Add support for CRU0 clocks,
- and resets
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z7c5U6u5rr0-X0aK@kekkonen.localdomain>
 
-On Mon, 10 Feb 2025 at 12:46, Tommaso Merciai <tomm.merciai@gmail.com> wrote:
-> Add support for CRU0 clocks and resets along with the corresponding
-> divider.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+On Thu, Feb 20, 2025 at 02:16:51PM +0000, Sakari Ailus wrote:
+> On Thu, Feb 20, 2025 at 03:01:41PM +0200, Cosmin Tanislav wrote:
+> > On 2/20/25 1:38 PM, Jacopo Mondi wrote:
+> > > On Thu, Feb 20, 2025 at 11:20:32AM +0200, Cosmin Tanislav wrote:
+> > > > Currently, the v4l2_subdev_state_xlate_streams() function is used
+> > > > to translate streams from one pad to another.
+> > > > This function takes the entire subdev state as argument, but only makes
+> > > > use of the routing.
+> > > 
+> > > Correct, but is this a problem ?
+> > > 
+> > 
+> > No, it's not a problem.
+> 
+> I think I have a slight preference to keep the pattern of referring to the
+> state as other functions do.
+> 
+> I wonder what Laurent and Hans think, too.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk for v6.15.
+I agree, I think the state should be passed everywhere. This lowers the
+risk of subsystem-wide refactoring if a function that receives a pointer
+to part of a state (such as v4l2_subdev_routing_xlate_streams()) is
+later found to need more information from the state.
 
-Gr{oetje,eeting}s,
+The situation would be different if the states were not monolithic, for
+instance if the routing table could be locked separatly from other parts
+of the state, but that's not the case and I don't foresee moving to
+finer-grained objects.
 
-                        Geert
+> > > Is this the first step for a larger rework or is this a drive-by
+> > > beautification ?
+> > 
+> > Mostly a drive-by beautification to avoid passing the whole state around
+> > where we only need the routing. I'm planning to submit drivers for more
+> > GMSL2/3 chips and we're using this just to not pass the whole state
+> > around. I think I can just use v4l2_subdev_state_xlate_streams(),
+> > but I had these patches in my tree and it would have been good to get
+> > them upstream, in preparations for submitting the GMSL2/3 drivers.
+> > 
+> > > I'm asking because (and I know it's hard to strike a balance) this
+> > > kind of changes tend to make back-porting a more painful, and if
+> > > only justified by "it looks better" I would be a bit hesitant in
+> > > taking them.
+> > > 
+> > > > Introduce a v4l2_subdev_routing_xlate_streams() function which can be
+> > > > used without the entire subdev state, to avoid passing the entire state
+> > > > around when not needed.
+> > > > 
+> > > > Convert all usages of v4l2_subdev_state_xlate_streams() to
+> > > > v4l2_subdev_routing_xlate_streams().
+> > > > 
+> > > > Remove v4l2_subdev_state_xlate_streams().
+> > > > 
+> > > > V2:
+> > > >    * Fix description of parameters
+> > > > 
+> > > > Cosmin Tanislav (3):
+> > > >    media: v4l: subdev: add v4l2_subdev_routing_xlate_streams()
+> > > >    media: use v4l2_subdev_routing_xlate_streams()
+> > > >    media: v4l: subdev: remove v4l2_subdev_state_xlate_streams()
+> > > > 
+> > > >   drivers/media/i2c/ds90ub913.c                 | 14 ++++++-----
+> > > >   drivers/media/i2c/ds90ub953.c                 | 14 ++++++-----
+> > > >   drivers/media/i2c/max96714.c                  | 16 ++++++-------
+> > > >   drivers/media/i2c/max96717.c                  | 23 ++++++++++---------
+> > > >   drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 14 ++++++-----
+> > > >   .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |  2 +-
+> > > >   drivers/media/v4l2-core/v4l2-subdev.c         |  7 +++---
+> > > >   include/media/v4l2-subdev.h                   | 10 ++++----
+> > > >   8 files changed, 53 insertions(+), 47 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
 
