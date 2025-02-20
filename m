@@ -1,148 +1,128 @@
-Return-Path: <linux-media+bounces-26490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB49BA3DE6E
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:27:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E627A3DEB4
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:34:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16AB716E4DC
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:26:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD1883A307F
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:30:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9CFC1FECC1;
-	Thu, 20 Feb 2025 15:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 502331FE474;
+	Thu, 20 Feb 2025 15:29:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E4RJ4BhS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrdraW2z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B4461FCE;
-	Thu, 20 Feb 2025 15:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A7E1FC7C1;
+	Thu, 20 Feb 2025 15:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740065151; cv=none; b=OLxYydejTROlmYoll7N47HRtdyRMXdol8BUVxAMNkYOYywm7K/jJ9vAgv+WgVqj/jeQGwU7H1msNvgjuEwARgXyHRHTN/86f/RP2B+uvYHhJYguSN4gAtnS/RpI81TwNuyU4aUOcoPW8WvCw7aQrgte/6UoJZQdOzlUIIgF3n9U=
+	t=1740065354; cv=none; b=dBQL6G2CUjlWCvN2K0MwJPWbXSyLmOK+xbEN6yo9RI7TBNv+LT2wMYfT4ZbG2P3W33+wxEqwDMmf7k8/WyvMy4u2YcOvwpl713LTZ2HkYl+UA77AFwAkOUjLmn7sEBXdzgWdB9K374aeURC1fPe9xpP2mPlt/pXm9GKtuKohv4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740065151; c=relaxed/simple;
-	bh=aUV7XJHURqIqXA9IYJs/KCb516w8a2NMURdCektzsOc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=upsgzPtSVuCAyFiUNMsE5ZkZWftvcSJnKAPmmeh/Rx5cPV4XP0iWesjxx0w7AsfjZUKuOtUSS8QBVKuwHqYC8RBYfI1Evan9kIzIRD2lwE4vXCKMbnRR17eu9gaPljg21BQN751nftHOFYOAlT514jjCMQXxQkO2PTVi9VwSnB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E4RJ4BhS; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51K6opK7015969;
-	Thu, 20 Feb 2025 15:25:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fz4PC2JqTy47/xiLWsMkpo8LYjL/Gtss7Ry2BGuMDuQ=; b=E4RJ4BhS3XaD/3r+
-	IXQP14w2Bf9YAyaQrh7F54u+8rt+ncSf3ulMlObCKFrclaJXzshqNJKCUVfqy3db
-	cq0mniBh6f0ijR5su2IJCJO2R1jOp68aTIEWhoT3fjKPXPSPjzNi0+H1dN08g+Gr
-	rjgV2ndf/nEaslqCiStmloH5e69UT3wU4saKnOPIAkHaWsi4EB1hU7Ddn0mP2By8
-	Akt9xsEqUo91/boti9dMxd9/8+ElYfjqmxjfsMXckMBX0vE+AA3+2xjPTV5GC+tN
-	vni8ghawmQ46WAhlb0sRb3uDjKRctKYrz+9Jv+8ykbnSIorJwMWnFG/RLT9UizyA
-	fD+kFw==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy4ejub-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 15:25:44 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51KFPhCZ008943
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 15:25:43 GMT
-Received: from [10.216.21.168] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Feb
- 2025 07:25:39 -0800
-Message-ID: <f5d5f17d-3059-8f3b-1258-1c21c934952a@quicinc.com>
-Date: Thu, 20 Feb 2025 20:55:35 +0530
+	s=arc-20240116; t=1740065354; c=relaxed/simple;
+	bh=eKWU19n0WBr+VIGXdyoC3+/g/6CUv/SBl+AhU83JuOg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=G+/lxLDNinWD/dlWx+ZLJnedRh0GKcFUWAVPd+adgUKYtGG8qYmZ00EtT++24KJFRrV86f61QWnO67GpnAMB2hRGFBwcRdR9zv4YJqWaYsobCGrBNYF79oyUFFv0wawaX2oPDO7h3G9lx+zv1IMTETtwq+/7aQJTruG/BtWLqcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrdraW2z; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e6711bbd00so1636416d6.1;
+        Thu, 20 Feb 2025 07:29:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740065352; x=1740670152; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=eKWU19n0WBr+VIGXdyoC3+/g/6CUv/SBl+AhU83JuOg=;
+        b=WrdraW2zIM/3ia0IuU++DOXLfoXjLfNKy3F3cPs4DQyllh+jkGTyuI8c2mD8T3lzzm
+         jAGs36Jt6Jv3cmSIQeznfs/CAyhPfa9UGUfetv9tI+9+Kf4ensqUrh/6cSIijPSelXRn
+         cLSMpKOhVr5n3uEvC6ocX+2SNODW48AGb0JANwM0+d7noRrgZDcF/ic2W8ZCNHKpeZ0n
+         +EO0Mp5dAyV2KwMmhGSliocBwRCiZix9zq5LduwSzssMcNcsbg/Yq6eQNbt0SjUGPLkG
+         PuzBzrIt810grrzSArHQPdZtLWug2RpeN/MOF5l0BiCnwT021o2tKt4W2+z2BZ7mXGDs
+         N7BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740065352; x=1740670152;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eKWU19n0WBr+VIGXdyoC3+/g/6CUv/SBl+AhU83JuOg=;
+        b=Io4+3kLzJUGIt8hYtzpeTcXSvZUyEOSNDnBYZYVN9Cs5EYjp87eS1ZjTu12OIHFb07
+         6G5w+5ux80KZwRlk9EikgHMl/90Ow6bWjjwG2L0UtdgL5+lkc3Gn56jLNj0IXK9+31At
+         m6yX7p+0fTLQX+axzy44lRQBpdeWYKJnvbFmYug1R/d2gXQZTMEcqclUELI0RUPu5g6z
+         XTb7IqFpdud2VF5wQow5JGH0LvJ113UvHMRilc6xZpiYjyYczM8eOntriX/5PiArjfdx
+         WKsw5VHB3AUO2nZkqkv0uybcaOylgWtCmls5BOEQeShoX/GavNM8pRRN55IzvR10ST9v
+         aOAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPqC975CmTzwGCZZijlcO0/Z6vhum5g59lR4AK9fJ7zX4iVGVG+8fKPOymNpAp5JAAMFj7hjTpZP64FzE=@vger.kernel.org, AJvYcCVmxtPAs+Y2WUk6gFxxbo9JOQSCDo50PL+6VijiKXcfaSSsHUeIYoYLcPSM6QFDJ8EmIBuV1ffhBNdV2JE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywjc4xUibZYvrdcgLsiWvQ+AgBJGECapWQQevXzPDHN4j6HnHmQ
+	U2k+6q1Q5HdBrTxPbMy5FtMB9LOuy6P+U9/yenCMGtrh0UzTGTN8KmlKdw==
+X-Gm-Gg: ASbGncsIbzCxzoqUi8UnFiXI2EwIzBcMNmBx1QKHMEAU6AGTTV9ovqabjii5dP7kTZb
+	Dw0Z5F98SpS/QdWb1l2+NfVdHmDEtC92Sv4A953HA5yH9xnBCOnjh624JMIwd5PKOwlCKHPcYF0
+	qbTFiDpiwJ1vMZB6R5/5gjKNQFiwJVxokmkbNt0eUxr1HrAgIZBFhtioKpoBc2VYXNF5DmCLiDO
+	TxOthhurFfmw+LjtclStOhF+Urivohjng8tmCS+LWsEETY6dCbQvPbaqqaS/QRj8SRNAL4fQDUN
+	zNPRzzmh0PUPpVrTRmo5BJ1iQLNimO83XXmtXE17oZtJc/5RiQqxcCrBT/XOCt2VRlrj
+X-Google-Smtp-Source: AGHT+IE3BlHjHE+N3vVcpX9SIe1Drmm7gJavU4W/NFg9hMumG9l36jT00FR8pSGnnpptLdmpScHUvQ==
+X-Received: by 2002:ad4:5766:0:b0:6d8:8283:445c with SMTP id 6a1803df08f44-6e66ccc47d9mr109692786d6.4.1740065352096;
+        Thu, 20 Feb 2025 07:29:12 -0800 (PST)
+Received: from ?IPv6:2600:1002:a012:8f2c:1cd:572e:a9fb:7da4? ([2600:1002:a012:8f2c:1cd:572e:a9fb:7da4])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e65d785a4asm87656386d6.29.2025.02.20.07.29.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 07:29:11 -0800 (PST)
+Message-ID: <61bd42742ff8a8e5f409b0f2ccc4ab8875dfe7a4.camel@gmail.com>
+Subject: Re: [PATCH] media: vim2m: print device name after registering device
+From: Matthew Majewski <mattwmajewski@gmail.com>
+To: Shuah Khan <skhan@linuxfoundation.org>, Uwe Kleine-Konig
+	 <u.kleine-koenig@baylibre.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil	
+ <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 20 Feb 2025 10:29:10 -0500
+In-Reply-To: <5051c252-f1ef-4731-b0cb-fedfcda04d98@linuxfoundation.org>
+References: <20250219190501.295976-1-mattwmajewski@gmail.com>
+	 <ym5q2cpn2lxk7sarylnf4o3ztvtnb47wroxdiibdsp6yz4gt2y@jfyfo2ekmdmj>
+	 <5051c252-f1ef-4731-b0cb-fedfcda04d98@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 1/4] media: venus: hfi_parser: add check to avoid out
- of bound access
-Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-CC: Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab+samsung@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
- <20250207-venus_oob_2-v4-1-522da0b68b22@quicinc.com>
- <41e9f6a8-1f72-465e-b6c4-0bebdc462d31@xs4all.nl>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <41e9f6a8-1f72-465e-b6c4-0bebdc462d31@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: DQUG7MeI492akoUHSJSIjld0krpIOjRP
-X-Proofpoint-ORIG-GUID: DQUG7MeI492akoUHSJSIjld0krpIOjRP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-20_06,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 suspectscore=0 clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 adultscore=0 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502200110
 
+On Wed, 2025-02-19 at 17:21 -0700, Shuah Khan wrote:
+> On 2/19/25 14:58, Uwe Kleine-Konig wrote:
+> > On Wed, Feb 19, 2025 at 02:05:01PM -0500, Matthew Majewski wrote:
+> > > Move the v4l2_info() call displaying the video device name after
+> > > the
+> > > device is actually registered.
+> > >=20
+> > > This fixes a bug where the driver was always displaying
+> > > "/dev/video0"
+> > > since it was reading from the vfd before it was registered.
+> > >=20
+> > > Signed-off-by: Matthew Majewski <mattwmajewski@gmail.com>
+> >=20
+> > A Fixes: tag would be great.
+>=20
+> Matthew, there is no need to resend the patch. Just send me the
+> Fixes tag and I will update the repo.
+>=20
+>=20
 
-On 2/20/2025 8:46 PM, Hans Verkuil wrote:
-> On 2/7/25 09:24, Vikash Garodia wrote:
->> There is a possibility that init_codecs is invoked multiple times during
->> manipulated payload from video firmware. In such case, if codecs_count
->> can get incremented to value more than MAX_CODEC_NUM, there can be OOB
->> access. Reset the count so that it always starts from beginning.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: 1a73374a04e5 ("media: venus: hfi_parser: add common capability parser")
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->> ---
->>  drivers/media/platform/qcom/venus/hfi_parser.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
->> index 3df241dc3a118bcdeb2c28a6ffdb907b644d5653..1cc17f3dc8948160ea6c3015d2c03e475b8aa29e 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
->> @@ -17,6 +17,7 @@ typedef void (*func)(struct hfi_plat_caps *cap, const void *data,
->>  static void init_codecs(struct venus_core *core)
->>  {
->>  	struct hfi_plat_caps *caps = core->caps, *cap;
->> +	core->codecs_count = 0;
-> 
-> This really should be moved down to before the 'if'. There is no reason to mix the assignment
-> with variable declarations.
-Thats correct, will move it below.
-> 
->>  	unsigned long bit;
->>  
->>  	if (hweight_long(core->dec_codecs) + hweight_long(core->enc_codecs) > MAX_CODEC_NUM)
->>
-> 
-> Regards,
-> 
-> 	Hans
-Regards,
-Vikash
+Ok, here is the fixes tag:
+
+Fixes: cf7f34777a5b4100a ("media: vim2m: Register video device after
+setting up internals")
+
+Thank you both for your time.
+
+Best,
+Matthew
+
 
