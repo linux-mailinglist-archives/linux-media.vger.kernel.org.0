@@ -1,264 +1,165 @@
-Return-Path: <linux-media+bounces-26446-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26447-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9832A3D757
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:52:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F0CCA3D7A7
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 12:02:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE6EA19C028B
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 10:51:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 296DD3AF45F
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 11:01:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 024581F1510;
-	Thu, 20 Feb 2025 10:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S48QNwtQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDF6C1DA10C;
+	Thu, 20 Feb 2025 11:01:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF931CCB4B
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 10:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B642862BD
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 11:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740048646; cv=none; b=lBYh0TD4udsQgU9NST1IN/pWw1bhs5FovpO9p4SA4UPhxMuFj1YUHNMjGRzRAMqVaBBqEFKtizGTBUNNTu/TWt/MDEtn2hT9RT3mD7eW7RGsLnLn7I6xJMkh39A+D/0vHcaOSNs6YnLgJeTK/yS7+X2qgKHfS3/oKUMi4p9O/T8=
+	t=1740049292; cv=none; b=eNdML3YuTevyXxzXX0P4re2Sdp4x6gV9kBaOq4MxKmd3IaVTwHNiAMSk0beJKMGuzmd02NTs+d3nNkK9GOhGTh0Q0GZHQiTks/LB5axErDBZV5sGj810b5NE6+xDdwY9yHun8Eb6+z0u6EhdTPF6+VqJzArbTxufKGjXJmxR5E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740048646; c=relaxed/simple;
-	bh=x8cXF/pj6YbLbTjNo6IL2X8rYcJwSqVoGsqtZ1v5g1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SBMsUmTxQk6wR1StZNSzD4NwpeIHj565dgmuvNKgYqIqGPCCpNVfah3c2NvZngk105VR9W3uuQAGHq68ejNyjFSinZSSK7lo98PKOGKWzZdQaGt2feAH0nKufetfjEXlIFSMZKiUIMc56d8cGJB6ZsJmXz8sVyMliG/DkIZ6oRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S48QNwtQ; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740048644; x=1771584644;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x8cXF/pj6YbLbTjNo6IL2X8rYcJwSqVoGsqtZ1v5g1E=;
-  b=S48QNwtQ2E1kKHq5dl5pjHLlu77LTq92M5/YBBEFKL5vlQE+Vf0giLGf
-   OvCnBskKHAYuuKddCSH6HjTAxVUYPNbc81UW9HKvBBvqXUPv0+fuBupEw
-   L0dFKJBShVIfVb0X0jGv62QMexhu21gjFnefBMvDVinVDzP2+AudZGE3t
-   IVuShxyhTDwj/u1A6LiF1bQuWPU+lJWnapCxD4dfcS63VdyWHNbtrw5cF
-   NxZNVGB8+6V7BZUp9dx7ygmfUMG0SAnZpH3PN4MKXY379ZfGP/o/BqvH0
-   oBfqs8qx845Jpc56TaHBTrdW33Q0OBq1v8DGjsklzHqNIVmpNCnxqm/yB
-   A==;
-X-CSE-ConnectionGUID: la8Oz9egSgKVH3sH64m9cQ==
-X-CSE-MsgGUID: k15ciY6jTJ2wIkqGkukz+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11350"; a="40011029"
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="40011029"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 02:50:43 -0800
-X-CSE-ConnectionGUID: X5HjldIIRm+8St2WjcfmKQ==
-X-CSE-MsgGUID: acQQWLssQn27iJY3St6LHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,301,1732608000"; 
-   d="scan'208";a="114948701"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 02:50:37 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 00F9511F945;
-	Thu, 20 Feb 2025 12:50:34 +0200 (EET)
-Date: Thu, 20 Feb 2025 10:50:34 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [RFC v5 06/15] media: uapi: Add V4L2_CID_CONFIG_MODEL control
-Message-ID: <Z7cI-mgXTc_O5Erc@kekkonen.localdomain>
-References: <20250203085853.1361401-1-sakari.ailus@linux.intel.com>
- <20250203085853.1361401-7-sakari.ailus@linux.intel.com>
- <5ea2deef-09f4-4788-908c-239a1e4c6b69@xs4all.nl>
- <Z6n-Nff-7dsvMHaI@kekkonen.localdomain>
- <98c452a6-454b-4842-8083-c7e748abff21@xs4all.nl>
+	s=arc-20240116; t=1740049292; c=relaxed/simple;
+	bh=0gmfakdTtXszXzZg2nEVd3zo3OoQ3H+9cuUz5NyngfI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=V6T3QZjpeVBi09qsrR5ffpcI7wBM3v3k476Ra6ZlSwTspckXFQBz/AARpDUYl47FZVkoBNTDiDwxJl/T6VTkputULJ3QdJrEGrYsF38G1YdrMocCUE8JBRxF2oOwUCfo4XRPGP+MmcZOzBUACvANVtzNbX2ht3zrynSXKUupKbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE314C4CED1;
+	Thu, 20 Feb 2025 11:01:30 +0000 (UTC)
+Message-ID: <2108d667-243b-4d0f-bf78-5a90e9a8efb1@xs4all.nl>
+Date: Thu, 20 Feb 2025 12:01:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <98c452a6-454b-4842-8083-c7e748abff21@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL FOR 6.13] FIXES: Vcodec fixes
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Cc: linux-media@vger.kernel.org, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20241213151415.7opofgiz25lpmn5m@basti-XPS-13-9310>
+ <88b4fb25-64a2-462d-b40e-eae675ea83f3@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <88b4fb25-64a2-462d-b40e-eae675ea83f3@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
-
-On Mon, Feb 10, 2025 at 03:07:34PM +0100, Hans Verkuil wrote:
-> On 10/02/2025 14:25, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Mon, Feb 10, 2025 at 10:09:33AM +0100, Hans Verkuil wrote:
-> >> Hi Sakari,
-> >>
-> >> On 03/02/2025 09:58, Sakari Ailus wrote:
-> >>> Add the V4L2_CID_CONFIG_MODEL control for the configuration model.
-> >>>
-> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>> ---
-> >>>  .../userspace-api/media/v4l/ext-ctrls-image-process.rst      | 4 ++++
-> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c                    | 5 +++++
-> >>>  include/uapi/linux/v4l2-controls.h                           | 3 +++
-> >>>  3 files changed, 12 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>> index 27803dca8d3e..2ae17ed99729 100644
-> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
-> >>> @@ -55,3 +55,7 @@ Image Process Control IDs
-> >>>      control value divided by e.g. 0x100, meaning that to get no
-> >>>      digital gain the control value needs to be 0x100. The no-gain
-> >>>      configuration is also typically the default.
-> >>> +
-> >>> +``V4L2_CID_CONFIG_MODEL (bitmask)``
-> >>> +    Which configuration models the sub-device supports. Please see
-> >>> +    :ref:`media_subdev_config_model`. This is a read-only control.
-> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>> index 1ea52011247a..24c9c25e20d1 100644
-> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>> @@ -1164,6 +1164,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >>>  	case V4L2_CID_TEST_PATTERN:		return "Test Pattern";
-> >>>  	case V4L2_CID_DEINTERLACING_MODE:	return "Deinterlacing Mode";
-> >>>  	case V4L2_CID_DIGITAL_GAIN:		return "Digital Gain";
-> >>> +	case V4L2_CID_CONFIG_MODEL:		return "Sub-device configuration model";
-> >>>  
-> >>>  	/* DV controls */
-> >>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> >>> @@ -1481,6 +1482,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
-> >>>  	case V4L2_CID_DV_RX_POWER_PRESENT:
-> >>>  		*type = V4L2_CTRL_TYPE_BITMASK;
-> >>>  		break;
-> >>> +	case V4L2_CID_CONFIG_MODEL:
-> >>> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> >>> +		*type = V4L2_CTRL_TYPE_BITMASK;
-> >>> +		break;
-> >>>  	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
-> >>>  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
-> >>>  		*type = V4L2_CTRL_TYPE_INTEGER;
-> >>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> >>> index 974fd254e573..731add75d9ee 100644
-> >>> --- a/include/uapi/linux/v4l2-controls.h
-> >>> +++ b/include/uapi/linux/v4l2-controls.h
-> >>> @@ -1225,6 +1225,9 @@ enum v4l2_jpeg_chroma_subsampling {
-> >>>  #define V4L2_CID_TEST_PATTERN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 3)
-> >>>  #define V4L2_CID_DEINTERLACING_MODE		(V4L2_CID_IMAGE_PROC_CLASS_BASE + 4)
-> >>>  #define V4L2_CID_DIGITAL_GAIN			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 5)
-> >>> +#define V4L2_CID_CONFIG_MODEL			(V4L2_CID_IMAGE_PROC_CLASS_BASE + 6)
-> >>> +
-> >>> +#define V4L2_CID_CONFIG_MODEL_COMMON_RAW	(1U << 0)
-> >>
-> >> I think I mentioned this before, but what's the point of this?
-> > 
-> > I recall Laurent was last to reply to the thread, with a good explanation
-> > of the purpose. The message id is
-> > <20241118024002.GJ31681@pendragon.ideasonboard.com> .
+On 20/02/2025 11:15, Hans Verkuil wrote:
+> Hi Sebastian, Arnd,
 > 
-> Now document that in this patch series. I double checked patch 04/15 again,
-> and there is no mention of that explanation from Laurent. It should be incorporated
-> in that patch.
+> While cleaning up patchwork I stumbled on this PR.
 > 
-> Open questions:
+> The odd thing is that the second patch (noinline) is committed, but not the first (avoid warning).
 > 
-> 1) If this control is not available, but it is still a camera sensor, what is
->    userspace supposed to to? I guess all it can do is assume that the driver
->    follows the standard rules, since there is no way to figure out if there are
->    differences. So again, how does this help? In any case, this should be
->    documented as well.
-
-The user space cannot expect the sub-device UAPI conforms to the common raw
-sensor model without this control. The purpose of the model is indeed to
-allow the user space to expect certain things to be supported in the API
-and if they are supported, they work in a certain way. The alternative is
-to do this driver by driver and there are quite a few sensor drivers out
-there, with more to come.
-
+> Is it still needed? I'm not sure what happened here.
 > 
-> 2) Are there compliance tests for this? Because there is no point adding this
->    without having tests for it as well. Otherwise I can 100% guarantee that
->    drivers will set this even if it deviates from what it should do in some
->    way. Relying on code review alone is going to be a very tough job.
-
-Compliance tests need to be added, I agree.
-
+> The patch is still marked as 'New' in patchwork:
 > 
-> > 
-> >>
-> >> You are adding a control describing a configuration model, but it has
-> >> just a single possible configuration model. I see no description anywhere
-> >> about when a new model would need to be added, or what userspace is
-> >> supposed to do with this.
-> > 
-> > At this point I'm not sure how many other configuration models might be
-> > needed or when they would be needed.
-> > 
-> >>
-> >> And as long as there is only one model anyway, I don't see the point of
-> >> this control.
-> > 
-> > I could create a control just for the common raw sensor model but 
-> > 
-> >>
-> >> Is the intention that all sensor drivers will set this control? The RFC
-> >> series isn't clear about this.
-> > 
-> > I'd expect almost all new raw sensor drivers to expose this control with
-> > the common raw bit set.
-> > 
-> >>
-> >> The problem I see with this series is that it seems to mix seemingly
-> >> unrelated changes: adding COLOUR_PATTERN/BINNING controls doesn't seem to
-> >> depend on configuration models. Or if they do, I clearly didn't get that.
-> > 
-> > These are all related to sensor API improvements. There is no direct
-> > dependency, no, but I expect drivers implementing the common raw sensor
-> > model would also support these controls. I can document this.
-> 
-> Just split it up in two separate series. I have no objections to the sensor API
-> improvements, so it is much easier to get that in.
-> 
-> But I think that the 'config_model' part is poorly documented and I am quite
-> skeptical about the whole thing. So that shouldn't block the other changes
-> from this RFC series.
+> https://patchwork.linuxtv.org/project/linux-media/patch/20241018152127.3958436-1-arnd@kernel.org/
 
-One option could be indeed to postpone this, and continue working on the
-user space one driver at a time. My initial thought really was we could
-require the common raw sensor model to be used with internal pads,
-otherwise it'll be harder to ensure sensor drivers using them will be using
-them consistently: compliance tests would require quite a few exceptions
-for instance (doing the tests only for sensors that are non-CCS for
-instance).
+Apparently this just got lost somehow. I'll delegate this patch to me and queue it up
+for v6.15. I don't think this needs to go to v6.14 since I understand it just kills
+a warning.
 
-I wonder what Laurent thinks.
-
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+> The already committed patch was also still marked as 'New', I've changed the state to 'Accepted'.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> On 13/12/2024 16:14, Sebastian Fricke wrote:
+>> Hey Mauro & Hans,
+>>
+>> this is my first time doing a pull request for the fixes branch, so
+>> sorry in advance if I did something incorrectly. These are two small
+>> fixes, which I would like to see landing in 6.13 if that is still
+>> possible.
+>>
+>> ---
+>>
+>> The following changes since commit 2dd59fe0e19e1ab955259978082b62e5751924c7:
+>>
+>>    media: dvb-frontends: dib3000mb: fix uninit-value in dib3000_write_reg (2024-12-11 17:54:19 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.collabora.com/sebastianfricke/linux.git tags/for-6.13-vcodec-fixes
+>>
+>> for you to fetch changes up to 531a8089b1f45cccd6e9a959bfbd20ecccdb56d4:
+>>
+>>    media: mediatek: vcodec: mark vdec_vp9_slice_map_counts_eob_coef noinline (2024-12-13 16:10:18 +0100)
+>>
+>> ----------------------------------------------------------------
+>> Two small fixes for VCodec
+>>
+>> ----------------------------------------------------------------
+>> Arnd Bergmann (2):
+>>        media: mtk-vcodec: venc: avoid -Wenum-compare-conditional warning
+>>        media: mediatek: vcodec: mark vdec_vp9_slice_map_counts_eob_coef noinline
+>>
+>>   .../platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c     | 3 ++-
+>>   drivers/media/platform/mediatek/vcodec/encoder/venc/venc_h264_if.c  | 6 +++++-
+>>   2 files changed, 7 insertions(+), 2 deletions(-)
+>>
+>> Regards,
+>> Sebastian
+>>
+> 
+> 
+
 
