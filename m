@@ -1,172 +1,151 @@
-Return-Path: <linux-media+bounces-26498-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26499-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E0EA3DF87
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:57:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6038FA3DFF0
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 17:10:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F33F83A4C4D
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:56:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D374B188A883
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:10:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6C9920D4E5;
-	Thu, 20 Feb 2025 15:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B68861FF5FE;
+	Thu, 20 Feb 2025 16:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CBn5mjLD"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="EGMyuEV0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E921FFC75;
-	Thu, 20 Feb 2025 15:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F2F35958
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 16:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740066969; cv=none; b=ArFc2wJZdxCfehNG3KQ5EBtGDVb6pwEcGlqv8liZrmUGl6n7VA8HeOf4SNXzfMivJ/aRJ6KAWGRRgLwLnT3YgiVD/5fnEWRO//2jeRquj/I9WBRM9ZIBw2ilWFlS0ysM89CtJ99v0vtj997v94tM1LxdQJDS2KkIrwr2U4x5TR4=
+	t=1740067826; cv=none; b=oQ6EIV9CsxuS1MzznMzkEFvuymQzKsVTZIq1a6AdGG8oRuVmT/lmD8s10lePFgzWja1fiC10uor67xE0LsLDj9tTr8dUl/Q5mNcjwdYsW4rTWTicKTYuBFJM0v1mubKJchOjX2R0oIXvA7oqLG+j5sK8HkoGm88cZq7dPsWUOy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740066969; c=relaxed/simple;
-	bh=csYMwQYi1/ukoONMPh7xjnuAaW6ABJTCc8Cmm3+Jzgo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=UCpIQ5+CAEpSvOOcATRWcFDLF7hnXkbEuq1WJ9f6dG83DQl+tSHbDi8z6osBdwqJfLQFbAldWUH5a+Rfk27uuDwo+YvAODNJfCDm2fOyy7gPUH3zmkVTXNp7+lFmMN226rBgJmtR4DBl3YGNIJzzh0mVX/cEPNGxH9xVq2q470M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CBn5mjLD; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KFDd9x022494;
-	Thu, 20 Feb 2025 15:56:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dwUmOPS/L7EcNqYj17pKL2o1WKtP7IUxBa4fM6nNd4s=; b=CBn5mjLDlJQeazw7
-	zS6GAfSqTqZJot++YjrV7BHDJzvN29yt5Ac4HlTjybPA020iTSszFpAcAeQ/na3P
-	A8nEUM5irrW30EKbM9FUBtzw5PMUxrjeOjdjht5N+coKbpMdL9TIVRXa4n5yGFfN
-	DfEkbS/DRn+EotOPCYpto7qaxgOLuM+jEycKkMiVAffnw6neSyLpmwzVol4gWCPh
-	2xHqI0vBwSSRgwEx2RQDrPF1FdVS7OU28XYG4Zv0tJqI+U7TwEPDRrFgNc8jbUTC
-	HY+T3qoy4HvqIhj8m4iFL2oqTOVGtVBJ8mcfosyMnUlHVifdjbsNHa37Qv9YA2z5
-	aROr4Q==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44vyy3pqcj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 15:56:01 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51KFu0LR001519
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 20 Feb 2025 15:56:00 GMT
-Received: from [10.216.21.168] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Feb
- 2025 07:55:56 -0800
-Message-ID: <b1721d46-ffbf-e21c-ce18-e96e3e8ee35f@quicinc.com>
-Date: Thu, 20 Feb 2025 21:25:53 +0530
+	s=arc-20240116; t=1740067826; c=relaxed/simple;
+	bh=vOBQSNxMyp0Klm4rVNeKE6W/p5rvnEq3gq4SYyqXykQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CMaTsh16YdJcwfGEa6Y3PGzMsazZR4nPpVgIPL4uAwrY0eZhrOE7O/vlJPG8ZL7tD7zklukk1PBD5EwdEBDHst2HP0xgLbpZpQsoV/IgGWNUjTY/7N7Vt55y8mExZYuHjEsudseksNOF917VC8wwDRx58f/R/pS+fPwM5ZsvdtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=EGMyuEV0; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e455bf1f4d3so930403276.2
+        for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 08:10:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1740067812; x=1740672612; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=J3TdOIZFV2hTSEZGxpDVWvVI6MEBamEFkOnDtXyooX8=;
+        b=EGMyuEV0CqRQYk/sA/EAJs1KEXg43gD+2sX0X60L9c0Q3HrfbFQaLLUThExSDB97wE
+         joNS5hzEa/4M7htAbpbakw8+XzAljLNy3nV/CG2rG5eRAT17Q6ZoPuB4p7L7IYqhF+/F
+         ShsuP+9skW0Jp62lgnq8qpJEMlRiUzemZmPl0tTbjPLAhlQ7UTf9m5lSmLPVvOs6B14J
+         za2NMmtzUXAbI7aQ4pFHJ0rB0sk1SaOAiUVtK07XZ4N77taZAX2O9rWU/TcdyN4+hZR1
+         wuOvXCiFLgCHxLqVbV9V3x4ageiJokCfNG4MKGOsp8weJGc4VROZlEUkPx8/J3vQE7SS
+         bmiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740067812; x=1740672612;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J3TdOIZFV2hTSEZGxpDVWvVI6MEBamEFkOnDtXyooX8=;
+        b=iagZAslcpCHNLm+wNuwSDSTUp1VHlMDN5LlvZa6pOTvZ8k44wX6YkktoR9imO5sqjq
+         AsdpId8P4/3vx82cPWnXL5SQG0NsQEB8e9wzjhSA+N1PIZPOgn+EwtXSx6c5rDRrl1Oj
+         nbSBY+VoUAuWQxT9L+N8iL2OboREzT8Vi6eQrmW0/weveBEXPTsDqsStOioOOFtxV0zF
+         Blq4K9mpPKfQHYhu+WrjVn2oj0Y70X7EuFdTVjiIUcD4gygYlaxmY2612vuj1w+ZjDgH
+         E1taD0B3UR+68vOWgPD/xlqzP62p12djdntwTial75RQq4S99Hh79z4P6xyhp1CMPanY
+         PuMw==
+X-Gm-Message-State: AOJu0YxyPi7t0SPIrIAD70x+SfCh+IGt6efxf+1rHRGM71CiDtOqH8Hh
+	oL7+PTtcFAiRhL+zHWl02HxSSXT1nDofTNjluWHCz5cBcyAya88+5n8foklK1SIPEIpj9WcScR1
+	8qWKDGcW3a8DLsKb4uU2BNHN/cOQubI0mctymzUFA9jXbasRRPcA=
+X-Gm-Gg: ASbGncvggbPlwnCl6bvXF/oh3K+UKbz6bQHO7LKMTfdJOyzyjesri2XEBx0DnerLzk7
+	o0YYWKvzUuYFwVfhfTY1zmZyb2IH7yaLw3oTf61epW50shTCboFIU7OISiibZWbzOotTiUe0SWQ
+	Tg2rRRKJ+5TAuGqm97S/O7XUhL7ul0
+X-Google-Smtp-Source: AGHT+IHrTyen02jhiIoc4OMiNJTzRVXSga3xySnRYSbbL5x2OzQudC+8rSwDvtypOwnsm1L37gXL3cLNe64BVyB4S+Y=
+X-Received: by 2002:a05:690c:23ca:b0:6f9:4bb6:eb46 with SMTP id
+ 00721157ae682-6fba57cc238mr79511507b3.31.1740067812585; Thu, 20 Feb 2025
+ 08:10:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 4/4] media: venus: hfi: add a check to handle OOB in
- sfr region
-Content-Language: en-US
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-CC: Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab+samsung@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>
-References: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
- <20250207-venus_oob_2-v4-4-522da0b68b22@quicinc.com>
- <e794c047-ab0e-4589-a1d2-0f73b813eacc@xs4all.nl>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <e794c047-ab0e-4589-a1d2-0f73b813eacc@xs4all.nl>
+References: <20250219094637.607615-1-eagle.alexander923@gmail.com>
+In-Reply-To: <20250219094637.607615-1-eagle.alexander923@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 20 Feb 2025 16:09:55 +0000
+X-Gm-Features: AWEUYZmFeW_npNuAp9dRIa2RHf4OvWpXilW4hXP_kZGDpXggy17B7oUWm1CI6WI
+Message-ID: <CAPY8ntCoHsbvbxGrQ17tp62XWKV322t2tCg=gfAD=WOyMiBbCg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: i2c: imx415: Add get_mbus_config() pad
+ operation support
+To: Alexander Shiyan <eagle.alexander923@gmail.com>
+Cc: linux-media@vger.kernel.org, 
+	Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: bt0_6-EXNdK8Sfwpl33svMnQiDYhg7yq
-X-Proofpoint-ORIG-GUID: bt0_6-EXNdK8Sfwpl33svMnQiDYhg7yq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-20_06,2025-02-20_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- malwarescore=0 phishscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- adultscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502100000 definitions=main-2502200112
 
+Hi Alexander
 
-On 2/20/2025 8:53 PM, Hans Verkuil wrote:
-> On 2/7/25 09:24, Vikash Garodia wrote:
->> sfr->buf_size is in shared memory and can be modified by malicious user.
->> OOB write is possible when the size is made higher than actual sfr data
->> buffer. Cap the size to allocated size for such cases.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->> ---
->>  drivers/media/platform/qcom/venus/hfi_venus.c | 9 +++++++--
->>  1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
->> index 6b615270c5dae470c6fad408c9b5bc037883e56e..c3113420d266e61fcab44688580288d7408b50f4 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
->> @@ -1041,18 +1041,23 @@ static void venus_sfr_print(struct venus_hfi_device *hdev)
->>  {
->>  	struct device *dev = hdev->core->dev;
->>  	struct hfi_sfr *sfr = hdev->sfr.kva;
->> +	u32 size;
->>  	void *p;
->>  
->>  	if (!sfr)
->>  		return;
->>  
->> -	p = memchr(sfr->data, '\0', sfr->buf_size);
->> +	size = sfr->buf_size;
-> 
-> If this is ever 0...
-> 
->> +	if (size > ALIGNED_SFR_SIZE)
->> +		size = ALIGNED_SFR_SIZE;
->> +
->> +	p = memchr(sfr->data, '\0', size);
->>  	/*
->>  	 * SFR isn't guaranteed to be NULL terminated since SYS_ERROR indicates
->>  	 * that Venus is in the process of crashing.
->>  	 */
->>  	if (!p)
->> -		sfr->data[sfr->buf_size - 1] = '\0';
->> +		sfr->data[size - 1] = '\0';
-> 
-> ...then this will overwrite memory. It probably can't be 0, but a check or perhaps
-> just a comment might be good. It looks a bit scary.
-Thats correct, it would not be 0 as its a prefixed one [1]. I can put up a
-comment here.
+On Wed, 19 Feb 2025 at 09:57, Alexander Shiyan
+<eagle.alexander923@gmail.com> wrote:
+>
+> Allow the driver to report static media bus configuration using
+> pad get_mbus_config() operation.
+>
+> Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
+> ---
+>  drivers/media/i2c/imx415.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+> index 9f37779bd611..16a52900c61c 100644
+> --- a/drivers/media/i2c/imx415.c
+> +++ b/drivers/media/i2c/imx415.c
+> @@ -1076,6 +1076,18 @@ static int imx415_init_state(struct v4l2_subdev *sd,
+>         return 0;
+>  }
+>
+> +static int imx415_get_mbus_config(struct v4l2_subdev *sd, unsigned int pad_id,
+> +                                 struct v4l2_mbus_config *config)
+> +{
+> +       struct imx415 *sensor = to_imx415(sd);
+> +
+> +       config->type = V4L2_MBUS_CSI2_DPHY;
+> +       config->bus.mipi_csi2.flags = 0;
+> +       config->bus.mipi_csi2.num_data_lanes = sensor->num_data_lanes;
 
-[1]
-https://elixir.bootlin.com/linux/v6.14-rc3/source/drivers/media/platform/qcom/venus/hfi_venus.c#L836
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>  
->>  	dev_err_ratelimited(dev, "SFR message from FW: %s\n", sfr->data);
->>  }
->>
-Regards,
-Vikash
+I'll let others confirm, but I believe the expectation is that the
+platform configuration would set this for both sensor and CSI2
+receiver.
+get_mbus_config is only used where the number of lanes can dynamically change.
+
+I'm also trying to find confirmation in the IMX415 datasheet of
+whether it drops to LP for the clock lane or not. If it does, then you
+want to set V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK in the flags field.
+It's not obviously mentioned, so I may resort to getting an
+oscilloscope out on it.
+
+  Dave
+
+> +
+> +       return 0;
+> +}
+> +
+>  static const struct v4l2_subdev_video_ops imx415_subdev_video_ops = {
+>         .s_stream = imx415_s_stream,
+>  };
+> @@ -1086,6 +1098,7 @@ static const struct v4l2_subdev_pad_ops imx415_subdev_pad_ops = {
+>         .get_fmt = v4l2_subdev_get_fmt,
+>         .set_fmt = imx415_set_format,
+>         .get_selection = imx415_get_selection,
+> +       .get_mbus_config = imx415_get_mbus_config,
+>  };
+>
+>  static const struct v4l2_subdev_ops imx415_subdev_ops = {
+> --
+> 2.39.1
+>
+>
 
