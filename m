@@ -1,164 +1,133 @@
-Return-Path: <linux-media+bounces-26482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26483-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBEEA3DD51
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:51:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98910A3DDBB
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 16:06:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 915E517479D
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:51:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AA2317489E
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:03:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F3EF1D47C3;
-	Thu, 20 Feb 2025 14:51:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 843A81F4739;
+	Thu, 20 Feb 2025 15:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sQM+OmaT"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="FSQNxDpI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0CE18A6CF
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 14:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7991D63FC;
+	Thu, 20 Feb 2025 15:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740063074; cv=none; b=Mz1q+zZ94r5a/po8w9xh0exiNR0JB6v65IJ7q/ZxMj/2RVgXyVbgU+1Z57/iDSfRohsrdubnF4MtXK05VBz9YE0iSbn3avAH9p2IbmLy0EAiIlbzEEFittgfmH1cUAfThjcAxY4q6l2l9FpYgPkEf/3bAMF4rkZ0NnCFa3Y+rok=
+	t=1740063764; cv=none; b=l4vAmgE0yFQ/2ye9oCdqDku46QLe7c3TiFr33IjQQ5RuBQlgS13zqyDjDdq1UNCsU9SAVKSHJvuRTx2nBckUzEvQALsD9juow5bQ4VR0oY9hmj1Vc5ZNP+h0ltf+bYBBI/4Gpr4n9FCpg2JwLfhKwMjN45GhT0gGBJT76SymvtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740063074; c=relaxed/simple;
-	bh=q9znbXfjIwN4GvMstwCS771yptKk8cRWefooM3wCPSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OkhCpAYZbgUeU7TMHzW1qUryDHRjpaplgEbA1ObUuSvRuvpJ7yk7UWjzj8lN4p6P0LJW28bI02/nNdjSMsi3/LxwaxxZ8gnsJLCeN4WQ3ZXH1o7blqS0nLcfy8RIkBKJ5an+U0tZ+jwUZ3R9/C6+x8kggXEYnfL7pLnVZDPzDvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sQM+OmaT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C59061193;
-	Thu, 20 Feb 2025 15:49:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740062987;
-	bh=q9znbXfjIwN4GvMstwCS771yptKk8cRWefooM3wCPSQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sQM+OmaT/EyC0D1KvDm2dLdDCMOIpWwjdIh8qAhx9Mcf3cSLivxSN/3Q+lsv5toxB
-	 bUxBODQSJ0E2qP1+/rVIUBdnCcktYgDVBEUeknJK5OY3P1AIb+TATRi3hCdMTGo4uo
-	 E+Y8ibq1ggc0WZC22pZj6GCvBuCtBrWBvDI7CZZY=
-Date: Thu, 20 Feb 2025 16:50:54 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>,
-	Adam Pigg <adam@piggz.co.uk>
-Subject: Re: [PATCH v3] media: rkisp1: Remove min_queued_buffers
-Message-ID: <20250220145054.GA18213@pendragon.ideasonboard.com>
-References: <20241029082117.55385-1-jacopo.mondi@ideasonboard.com>
- <tpdzxkug5gtive7h4tvl6jn5r7ybb3dby7ajfuwmzigphhlkin@geirq67p6dww>
+	s=arc-20240116; t=1740063764; c=relaxed/simple;
+	bh=mfM1u1quiUiyOMcUZ92oEGwr5kt92RscXTp/MbNlBto=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UCtaMoaEZVhOQ6GygStvaep1Sl6AMVupUHg078kSMC0nyIk+asy2CzlFdxs8VjJr5K0Us8WClYBI9LmtwSbgl+Z0+XB3emMQnLhfm8WURmYv34RUwr6np9xLmzi3IiX8PeXCFU8ObJnb4yVmTSJAs/jyTWtY5KC5Uui3ITovznw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=FSQNxDpI; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=ukUey4M6jiTv3UP6HWap1r9obm5qLu4T/awObGIx2Tw=; b=FSQNxDpI1iJF0Qpl
+	TvDvDa+gS+JAuywuq54OOT7/kW4FC29l/9LT4vTllCcQ2eVLUFt5poN04Z0petohALMHftIIzIsY/
+	RIoq+buM4g8EZiJLRcsqKEVbax9xKW0M+jRV5YdUztdOhlX3KoIRnBcDIAn/14fxyDgrQflBYY6xv
+	JQXpXd4JseJitQ1r7w+78iBOZtjpYX74FQJJeCVtZZwgA9ues7bngBak/ULBADgzEpZecxkTcEGUR
+	trQ6B3X2Myb0NQ6fsSKVRYP7GLimDvBKONqAabrILGcH/fp6bXh8yRhHUD7XEwdTIyNDqNoihos0d
+	pbWAsZxH8HaS1gtdFQ==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1tl84V-00HCmY-1V;
+	Thu, 20 Feb 2025 15:02:39 +0000
+From: linux@treblig.org
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] [media] cx23885: Remove unused netup_eeprom_write
+Date: Thu, 20 Feb 2025 15:02:38 +0000
+Message-ID: <20250220150238.77737-1-linux@treblig.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <tpdzxkug5gtive7h4tvl6jn5r7ybb3dby7ajfuwmzigphhlkin@geirq67p6dww>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-On Thu, Feb 20, 2025 at 03:22:44PM +0100, Jacopo Mondi wrote:
-> On Tue, Oct 29, 2024 at 09:21:16AM +0100, Jacopo Mondi wrote:
-> > There apparently is no reason to require 3 queued buffers for RkISP1,
-> > as the driver operates with a scratch buffer where data can be
-> > directed to if there's no available buffer provided by userspace.
-> >
-> > Reduce the number of required buffers to 0 by removing the
-> > initialization of min_queued_buffers, to allow applications to operate
-> > by queueing capture buffers on-demand.
-> >
-> > Tested with libcamera, by operating with a single capture request. The
-> > same request (and the associated capture buffer) gets recycled once
-> > completed. This of course causes a frame rate drop but doesn't hinder
-> > operations.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> 
-> I just noticed v2 of this series:
-> media: rkisp1: Reduce min_queued_buffers to 1
-> 
-> has been collected instead of this v3.
+netup_eeprom_write() was added in 2009 by
+commit b45c0551f94d ("V4L/DVB (10797): Add EEPROM code for NetUP Dual
+DVB-S2 CI card.")
+but has remained unused.
 
-That's my fault, I apologize.
+Remove it.
 
-> And I noticed because a user complained to me about this.
-> 
-> Now, I can provide an update based on the now merged v2, not a big
-> deal, but this depresses me a bit as the discussion about
-> implementing multi-commiter model is apparently (again) stalled.
-> 
-> I know, sh*t happens (TM) and hiccups are expected in the process,
-> we all make mistakes and I'm not even sure through which path the
-> patch has been collected, but I could have handled this one easily,
-> and instead what we have is:
-> 
-> 1) an unhappy user that will likely have to wait for the next release
-> 2) me having to send an additional (rather trivial) patch
-> 3) Someone will have to review, collect, PR etc etc
-> 
-> (and I'm not even mentioning this patch is 3 lines)
-> 
-> Issues like this one seems to be considered a fact of life we decided
-> is fine to live with, while every possible corner case of the proposed
-> multi-committer model is analyzed with great concern like we're
-> trading a perfect model for something that has to be equally perfect.
-> 
-> And while I agree the biggest reason for the proverbial v4l2 slow pace
-> is the reviewers scarcity and the limited maintainers bandwidth, now
-> that we have everything in place to reduce the system clogginess
-> it still seems we're not all sold for it. I really don't get it, sorry.
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ drivers/media/pci/cx23885/netup-eeprom.c | 29 ------------------------
+ drivers/media/pci/cx23885/netup-eeprom.h |  1 -
+ 2 files changed, 30 deletions(-)
 
-Amen.
-
-> > ---
-> > v2->v3:
-> > - Remove min_queued_buffers initialization
-> >
-> > v1->v2:
-> > The first version of this patch set min_queued_buffers to 1, but setting it
-> > to 0 doesn't compromise operations and it's even better as it allows application
-> > to queue buffers to the capture devices on-demand. If a buffer is not provided
-> > to the DMA engines, image data gets directed to the driver's internal scratch
-> > buffer.
-> > ---
-> >  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 ---
-> >  1 file changed, 3 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > index 2bddb4fa8a5c..2f0c610e74b9 100644
-> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> > @@ -35,8 +35,6 @@
-> >  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
-> >  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
-> >
-> > -#define RKISP1_MIN_BUFFERS_NEEDED 3
-> > -
-> >  enum rkisp1_plane {
-> >  	RKISP1_PLANE_Y	= 0,
-> >  	RKISP1_PLANE_CB	= 1,
-> > @@ -1563,7 +1561,6 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
-> >  	q->ops = &rkisp1_vb2_ops;
-> >  	q->mem_ops = &vb2_dma_contig_memops;
-> >  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
-> > -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
-> >  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> >  	q->lock = &node->vlock;
-> >  	q->dev = cap->rkisp1->dev;
-
+diff --git a/drivers/media/pci/cx23885/netup-eeprom.c b/drivers/media/pci/cx23885/netup-eeprom.c
+index 26dd5b3884e6..335d150d81de 100644
+--- a/drivers/media/pci/cx23885/netup-eeprom.c
++++ b/drivers/media/pci/cx23885/netup-eeprom.c
+@@ -49,35 +49,6 @@ int netup_eeprom_read(struct i2c_adapter *i2c_adap, u8 addr)
+ 	return buf[1];
+ };
+ 
+-int netup_eeprom_write(struct i2c_adapter *i2c_adap, u8 addr, u8 data)
+-{
+-	int ret;
+-	unsigned char bufw[2];
+-
+-	/* Write into EEPROM */
+-	struct i2c_msg msg[] = {
+-		{
+-			.addr	= EEPROM_I2C_ADDR,
+-			.flags	= 0,
+-			.buf	= &bufw[0],
+-			.len	= 2
+-		}
+-	};
+-
+-	bufw[0] = addr;
+-	bufw[1] = data;
+-
+-	ret = i2c_transfer(i2c_adap, msg, 1);
+-
+-	if (ret != 1) {
+-		pr_err("eeprom i2c write error, status=%d\n", ret);
+-		return -1;
+-	}
+-
+-	mdelay(10); /* prophylactic delay, datasheet write cycle time = 5 ms */
+-	return 0;
+-};
+-
+ void netup_get_card_info(struct i2c_adapter *i2c_adap,
+ 				struct netup_card_info *cinfo)
+ {
+diff --git a/drivers/media/pci/cx23885/netup-eeprom.h b/drivers/media/pci/cx23885/netup-eeprom.h
+index 549a033679f7..fb8217eb455c 100644
+--- a/drivers/media/pci/cx23885/netup-eeprom.h
++++ b/drivers/media/pci/cx23885/netup-eeprom.h
+@@ -21,7 +21,6 @@ struct netup_card_info {
+ };
+ 
+ extern int netup_eeprom_read(struct i2c_adapter *i2c_adap, u8 addr);
+-extern int netup_eeprom_write(struct i2c_adapter *i2c_adap, u8 addr, u8 data);
+ extern void netup_get_card_info(struct i2c_adapter *i2c_adap,
+ 				struct netup_card_info *cinfo);
+ 
 -- 
-Regards,
+2.48.1
 
-Laurent Pinchart
 
