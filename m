@@ -1,198 +1,157 @@
-Return-Path: <linux-media+bounces-26476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26477-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585DEA3DC7E
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:21:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2305FA3DCA6
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:26:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF4A2189485B
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:20:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CB1116C5E4
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:23:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72130212B00;
-	Thu, 20 Feb 2025 14:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCB31C174A;
+	Thu, 20 Feb 2025 14:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NvrcDLxs"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="payuqkAA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A35211A2B;
-	Thu, 20 Feb 2025 14:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6619C1FBEB7
+	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 14:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740061084; cv=none; b=lZm4wrlfh6dcD/zcY9VRVZxvaY4TgEsXQ+/spBIi1p/ZK6M1Up93DlnpgtqtLzy/ofWRVYOofTNmLXI3z0QeJeao5cQdYzh2zDKfAVCas1bWLHcAnKSfT1oSsAFgVGT+1fWIfZ/fafcGybYRprx0GxUCdGHiLWxPKeQ1gx24o2A=
+	t=1740061371; cv=none; b=BhJ06Tu/BF5tfFqPucd7nE+vk6dr/3wa/79auhr5hScbTQfp8yoQHNKW3mctf3WQFmNYSVHafsr1dSXO0mN4zpO8kaJPECoAoKfLA0rblqBztayp1wol1mRBmjAyEQuZzee2n4ABIIl9p4WrTpzMVdFvT5E7D446J2zV2Wuv6+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740061084; c=relaxed/simple;
-	bh=02meRziosCIj5XMgGS3fhZ0M79JRqzLS+o9FESCTLZ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qZReCJCFpdgqjDSluPbwILS+i7svkJ4on4FBj2OZTUgtG61qEEniNsbp9WMonnuYJbAyVfCeJhpHoKXpZbjMGHOk3Km/u4167DBCBHFiw95DpZCnM7SnrpXJqbmMO2Jx+4HNh0RrLgJ1ZHwKIHPzbx5hSH43YwQCaFfIQkwFKjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NvrcDLxs; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5e095d47a25so1950135a12.0;
-        Thu, 20 Feb 2025 06:18:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740061081; x=1740665881; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YrD6Cu+ma2ey5dVvO2q4VCmeyk9hPbaJ87jyuD084/E=;
-        b=NvrcDLxsJ8pJJ1dsN57U7u+EMZK2lvin7Drs9os3aLF0knAdGH3oOHCcv/Gc5ww3V6
-         EwVO3hVNrGaovijtV+MzZR8bBpwiLH5DmRsJFAsRZ0Ryak8OkapGfJYmTQrQLNzO4JIP
-         a1WP3wzbRwrFPNqxVc06frGG41K9wq+zIRWmk/Hsp+pG9bhmZAhLtSdZff2cklqrjzCc
-         xboG3Y1ni1FsPeDpwbWitHy6Phzb+n3N1FYI5gEe2qYoehQAGXjsH5vlw47T3JMI1i5q
-         addD0rhYpwSjLCGhJwNGFzlCGknIgauM8HOh3m3OLUWVg4q18OXcgvvLxYHUVlJXvSn6
-         PSWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740061081; x=1740665881;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YrD6Cu+ma2ey5dVvO2q4VCmeyk9hPbaJ87jyuD084/E=;
-        b=UYP5xNjxHv4DiIkiMyvPJN5CbEmPk94oIg8PmlVi+E8/FSabQ16UE5fv1vZYNju08L
-         /ki8vV/B4LiOUy6/s9JhyuGV4sO5XF2qKpJMgFSHIp0l/x6Nr8E6AuWaCYUnly6MEC0+
-         9jGLtOiY9ab0a8UVDvN1p84izDoCoO6TTPS3ISOvZe8j38CtgR3Iz4VRf1HFi0dO26YQ
-         67uztvYtgwZlKvlMjpAFDarDWXGdPSoW5zB0ao44cmgI7RO0+w5kzIRfkVzDyvqtAz4t
-         5ZBjrCXuTY/6maRFWCKWOzyblMaxrm9+baU+CsY4hkqfbFWfYDYVtHLpySPPAtpbt5gS
-         EzgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAX5ZDsnoQpFmxovwUkSctEAqawEixc89Tah6whY3R0jPWVjG0rtMBZsuLIjCZjXESDhm2OwVFzDBx1Ys=@vger.kernel.org, AJvYcCW0EXlHYHGMa+okUPUNJB7SMK2IkHUI/EuMaNpNqOLFV2s5WYwYk7zNCewK5G86UAW9T52IcAfDZ63iDUW6@vger.kernel.org, AJvYcCXY+AN4GkflOumThMa/I1Rl3aC53dxlpmdzCfjUu5z0fwK2TAeAzHg+69Aby2u9FpqKKld1l0eSvCh/@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxokrqSzJc0hztdVj21u+bn5N886pFOEt38iUdElrSlZ7zB0Nm
-	5KS8Wo2MPAsMsIiVRgjT08j+XdOhwa37Qu8oHkm1n3uY7kWKzc1q
-X-Gm-Gg: ASbGncsUI+sHudKEIqSYVvQG0X8eVw2SeVbg9N4C8Q28I1Mc+en77fG52tsJRiKF6ch
-	vB60kqlovyg3XvGeDEIAP6NwE+5i7j5PkJA9hbxbNNSmbxyRStQ7zxFHxDnH6JYkR3pOfTHfsp5
-	y3XDjN1FvqTnyuNnfn1YPw5Dmtht75jNYD2NJtkivR5QoN2VXmbZSQBivptd1REzfTeZmbZVZmk
-	MqpwDmSeiXW/9y75o3Az+eq2bXSD3Vp1Z0SEyklsbabCmMyVDdMRlCks/4sbNpxR55HZumSuE08
-	qSu+4oBP0GSeBiUJwD1ZyNT8dRsX
-X-Google-Smtp-Source: AGHT+IEI5BjiSueHGowWB7V0AX0jphOzOkC+hVJDCuWo2okxV45XHcKYucaW0FwCHe0/kc3RlhAM1g==
-X-Received: by 2002:a05:6402:35c1:b0:5e0:3f83:92ab with SMTP id 4fb4d7f45d1cf-5e0a4bcbb50mr2539326a12.30.1740061081463;
-        Thu, 20 Feb 2025 06:18:01 -0800 (PST)
-Received: from demon-pc.localdomain ([188.27.130.21])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece1b4f59sm12124224a12.6.2025.02.20.06.17.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 06:18:00 -0800 (PST)
-From: Cosmin Tanislav <demonsingur@gmail.com>
-To: 
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: [PATCH 6/6] media: i2c: imx219: implement configurable VC ID
-Date: Thu, 20 Feb 2025 16:17:28 +0200
-Message-ID: <20250220141739.228714-7-demonsingur@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250220141739.228714-1-demonsingur@gmail.com>
-References: <20250220141739.228714-1-demonsingur@gmail.com>
+	s=arc-20240116; t=1740061371; c=relaxed/simple;
+	bh=TcejpippJvjB50Kl5Qm/rwfhSvi7Iulh9ai/h009ukc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q62ZU9j8RwrUwRZDmds6xIoY8J+qil77o8ATGTpffazhbX12aiX4VJWpdEMd/r1MStIflBdrIzJ+xfLklS/A9t6PdQq/HDwDZWx1mITvgHK9NduAgH4BQleT0AR5bCJ0EOICylgAQo4RfoV56ezBcp29t3a82wg99UNQFjgSols=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=payuqkAA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB9FCE79;
+	Thu, 20 Feb 2025 15:21:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740061283;
+	bh=TcejpippJvjB50Kl5Qm/rwfhSvi7Iulh9ai/h009ukc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=payuqkAAtWWczRzdmnXi39IuAkNpxmSo6+SPm34hetntVxyKQw68ZNSK7le16kGze
+	 T4vBTvDaoUtdsghW0w7MXifJi8A5NLUvLwLE6theIHh5go39a+ZBqDLBrXqO94hBZD
+	 fR+4+nBlSTAVVHMvjxbBqZjMq5WboGdhVF0JpoAM=
+Date: Thu, 20 Feb 2025 15:22:44 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, 
+	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>, Adam Pigg <adam@piggz.co.uk>
+Subject: Re: [PATCH v3] media: rkisp1: Remove min_queued_buffers
+Message-ID: <tpdzxkug5gtive7h4tvl6jn5r7ybb3dby7ajfuwmzigphhlkin@geirq67p6dww>
+References: <20241029082117.55385-1-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241029082117.55385-1-jacopo.mondi@ideasonboard.com>
 
-IMX219 supports configuring the Virtual Channel ID used for image and
-embedded data streams.
+Hello
 
-Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
----
- drivers/media/i2c/imx219.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+On Tue, Oct 29, 2024 at 09:21:16AM +0100, Jacopo Mondi wrote:
+> There apparently is no reason to require 3 queued buffers for RkISP1,
+> as the driver operates with a scratch buffer where data can be
+> directed to if there's no available buffer provided by userspace.
+>
+> Reduce the number of required buffers to 0 by removing the
+> initialization of min_queued_buffers, to allow applications to operate
+> by queueing capture buffers on-demand.
+>
+> Tested with libcamera, by operating with a single capture request. The
+> same request (and the associated capture buffer) gets recycled once
+> completed. This of course causes a frame rate drop but doesn't hinder
+> operations.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 4c4ebe54f191b..5790106b35936 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -38,6 +38,8 @@
- #define IMX219_MODE_STANDBY		0x00
- #define IMX219_MODE_STREAMING		0x01
- 
-+#define IMX219_REG_CSI_CH_ID		CCI_REG8(0x0110)
-+
- #define IMX219_REG_CSI_LANE_MODE	CCI_REG8(0x0114)
- #define IMX219_CSI_2_LANE_MODE		0x01
- #define IMX219_CSI_4_LANE_MODE		0x03
-@@ -363,6 +365,9 @@ struct imx219 {
- 
- 	/* Two or Four lanes */
- 	u8 lanes;
-+
-+	/* Virtual channel ID */
-+	u8 vc_id;
- };
- 
- static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
-@@ -724,6 +729,12 @@ static int imx219_configure_lanes(struct imx219 *imx219)
- 				  ARRAY_SIZE(imx219_4lane_regs), NULL);
- };
- 
-+static int imx219_configure_vc(struct imx219 *imx219)
-+{
-+	return cci_write(imx219->regmap, IMX219_REG_CSI_CH_ID,
-+			 imx219->vc_id, NULL);
-+}
-+
- static int imx219_start_streaming(struct imx219 *imx219,
- 				  struct v4l2_subdev_state *state)
- {
-@@ -749,6 +760,11 @@ static int imx219_start_streaming(struct imx219 *imx219,
- 		goto err_rpm_put;
- 	}
- 
-+	/* Configure Virtual Channel ID */
-+	ret = imx219_configure_vc(imx219);
-+	if (ret)
-+		return ret;
-+
- 	/* Apply format and crop settings. */
- 	ret = imx219_set_framefmt(imx219, state);
- 	if (ret) {
-@@ -994,6 +1010,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
- static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 				 struct v4l2_mbus_frame_desc *fd)
- {
-+	struct imx219 *imx219 = to_imx219(sd);
- 	struct v4l2_subdev_state *state;
- 	u32 code;
- 
-@@ -1006,7 +1023,7 @@ static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
- 
- 	fd->entry[0].pixelcode = code;
- 	fd->entry[0].stream = 0;
--	fd->entry[0].bus.csi2.vc = 0;
-+	fd->entry[0].bus.csi2.vc = imx219->vc_id;
- 	fd->entry[0].bus.csi2.dt = imx219_get_format_bpp(code) == 8
- 				 ? MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
- 
-@@ -1149,6 +1166,13 @@ static int imx219_check_hwcfg(struct device *dev, struct imx219 *imx219)
- 	}
- 	imx219->lanes = ep_cfg.bus.mipi_csi2.num_data_lanes;
- 
-+	if (ep_cfg.bus.mipi_csi2.num_vc_ids > 1) {
-+		dev_err_probe(dev, -EINVAL,
-+			      "only 1 virtual channel id is supported\n");
-+		goto error_out;
-+	}
-+	imx219->vc_id = ep_cfg.bus.mipi_csi2.vc_ids[0];
-+
- 	/* Check the link frequency set in device tree */
- 	switch (imx219->lanes) {
- 	case 2:
--- 
-2.48.1
+I just noticed v2 of this series:
+media: rkisp1: Reduce min_queued_buffers to 1
 
+has been collected instead of this v3.
+
+And I noticed because a user complained to me about this.
+
+Now, I can provide an update based on the now merged v2, not a big
+deal, but this depresses me a bit as the discussion about
+implementing multi-commiter model is apparently (again) stalled.
+
+I know, sh*t happens (TM) and hiccups are expected in the process,
+we all make mistakes and I'm not even sure through which path the
+patch has been collected, but I could have handled this one easily,
+and instead what we have is:
+
+1) an unhappy user that will likely have to wait for the next release
+2) me having to send an additional (rather trivial) patch
+3) Someone will have to review, collect, PR etc etc
+
+(and I'm not even mentioning this patch is 3 lines)
+
+Issues like this one seems to be considered a fact of life we decided
+is fine to live with, while every possible corner case of the proposed
+multi-committer model is analyzed with great concern like we're
+trading a perfect model for something that has to be equally perfect.
+
+And while I agree the biggest reason for the proverbial v4l2 slow pace
+is the reviewers scarcity and the limited maintainers bandwidth, now
+that we have everything in place to reduce the system clogginess
+it still seems we're not all sold for it. I really don't get it, sorry.
+
+
+> ---
+> v2->v3:
+> - Remove min_queued_buffers initialization
+>
+> v1->v2:
+> The first version of this patch set min_queued_buffers to 1, but setting it
+> to 0 doesn't compromise operations and it's even better as it allows application
+> to queue buffers to the capture devices on-demand. If a buffer is not provided
+> to the DMA engines, image data gets directed to the driver's internal scratch
+> buffer.
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index 2bddb4fa8a5c..2f0c610e74b9 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -35,8 +35,6 @@
+>  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
+>  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
+>
+> -#define RKISP1_MIN_BUFFERS_NEEDED 3
+> -
+>  enum rkisp1_plane {
+>  	RKISP1_PLANE_Y	= 0,
+>  	RKISP1_PLANE_CB	= 1,
+> @@ -1563,7 +1561,6 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+>  	q->ops = &rkisp1_vb2_ops;
+>  	q->mem_ops = &vb2_dma_contig_memops;
+>  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
+> -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
+>  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>  	q->lock = &node->vlock;
+>  	q->dev = cap->rkisp1->dev;
+> --
+> 2.47.0
+>
+>
 
