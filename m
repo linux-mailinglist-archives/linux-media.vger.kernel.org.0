@@ -1,157 +1,112 @@
-Return-Path: <linux-media+bounces-26477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26478-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2305FA3DCA6
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:26:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D893A3DD0D
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 15:38:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CB1116C5E4
-	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:23:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFE8A16DB26
+	for <lists+linux-media@lfdr.de>; Thu, 20 Feb 2025 14:36:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCB31C174A;
-	Thu, 20 Feb 2025 14:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="payuqkAA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ECF31FCF6D;
+	Thu, 20 Feb 2025 14:36:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6619C1FBEB7
-	for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 14:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B3A1E32BD;
+	Thu, 20 Feb 2025 14:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740061371; cv=none; b=BhJ06Tu/BF5tfFqPucd7nE+vk6dr/3wa/79auhr5hScbTQfp8yoQHNKW3mctf3WQFmNYSVHafsr1dSXO0mN4zpO8kaJPECoAoKfLA0rblqBztayp1wol1mRBmjAyEQuZzee2n4ABIIl9p4WrTpzMVdFvT5E7D446J2zV2Wuv6+M=
+	t=1740062201; cv=none; b=U0A6hGR7JdmzUxow4MGht0hIzNVCjg/uc693cQtRD8E38maTtVCref2Ufqb6BfaUjtI3yWoYq4pzpW56oc2Ej8MhN6wzTjmO57GufBwiGrOX6nk/5WTyDGQtTk/CBK7ZxxH5lVzp3mm3Mwf+xodVrtCfRPTzqEtAQZGKA/ZGvnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740061371; c=relaxed/simple;
-	bh=TcejpippJvjB50Kl5Qm/rwfhSvi7Iulh9ai/h009ukc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q62ZU9j8RwrUwRZDmds6xIoY8J+qil77o8ATGTpffazhbX12aiX4VJWpdEMd/r1MStIflBdrIzJ+xfLklS/A9t6PdQq/HDwDZWx1mITvgHK9NduAgH4BQleT0AR5bCJ0EOICylgAQo4RfoV56ezBcp29t3a82wg99UNQFjgSols=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=payuqkAA; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB9FCE79;
-	Thu, 20 Feb 2025 15:21:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740061283;
-	bh=TcejpippJvjB50Kl5Qm/rwfhSvi7Iulh9ai/h009ukc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=payuqkAAtWWczRzdmnXi39IuAkNpxmSo6+SPm34hetntVxyKQw68ZNSK7le16kGze
-	 T4vBTvDaoUtdsghW0w7MXifJi8A5NLUvLwLE6theIHh5go39a+ZBqDLBrXqO94hBZD
-	 fR+4+nBlSTAVVHMvjxbBqZjMq5WboGdhVF0JpoAM=
-Date: Thu, 20 Feb 2025 15:22:44 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, 
-	"open list:ROCKCHIP ISP V1 DRIVER" <linux-rockchip@lists.infradead.org>, Adam Pigg <adam@piggz.co.uk>
-Subject: Re: [PATCH v3] media: rkisp1: Remove min_queued_buffers
-Message-ID: <tpdzxkug5gtive7h4tvl6jn5r7ybb3dby7ajfuwmzigphhlkin@geirq67p6dww>
-References: <20241029082117.55385-1-jacopo.mondi@ideasonboard.com>
+	s=arc-20240116; t=1740062201; c=relaxed/simple;
+	bh=jFVPJDOBUZyCdWk8xy5m/2iCATeanJQQE/XiObJ0FRs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HEG9uAibd/REwricEacSqaNsQANIjdwe/Lf4aQ0B894yNCFg76AQzz0NuoszuxxIK0J2Iau9v2X85BahMxRZDIZMR19hWsWhSHmolHIwQBebjGhQo0W1lj2YzL41cG1UleOi+47UNNh9CB/ybKLUwJYqvtKcb+icy6SqCpJbGL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-51eb181331bso363684e0c.0;
+        Thu, 20 Feb 2025 06:36:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740062197; x=1740666997;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lLsstvr+2wvMkW/NVaitwURxkfA+PbFMqhyTnZnrvpc=;
+        b=ZKF2Sfs4ES3gbAhz0+bDJspnYd5SZyy1kyuXTy8a39zUuIzR2x9Xi1rBQcN6nwXi1W
+         jrnkFkmHtYha4H6JezatcZSWCJorEYGWT5O2h1wSpRW6+CbJRPu9RFkmQg0hXDx8Cfop
+         ph1veOYOH7735YMzwmRkpoAGfQtLjc0fenrgiWRjgV7M9j4T/hf6MUjBGnfpmRm0LKNJ
+         AA0XZ95W9aX6g8LhidHGBbaMkc5gei4i188fLOh/eNyv58ngDBqJMi4HE+WlE1DtJNla
+         sCA98ZbuC+D2oPipKjSOvTJHDSqA1Vs2imuy9J5M6y7PNTxQCPWoA+oUf8TyQYVfRagv
+         Ur7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUah6QzFoWc5HyfDuPYfJPdqReGfLiXzfTp4Rq5fAiKF6/7g/cyWt2CvrYDBdTcGcCui8w9C7S6ky+5ZIw=@vger.kernel.org, AJvYcCX9+E0/0vwertYmQchkrkGNr3rFzCNr+03MgblOuCg0USFJPnsmjX4wCSaTgBFbFurPEKprMrI7M8Dh@vger.kernel.org, AJvYcCXBzVc1B1q3OI/EH261GdbYMQz4XOhCfpsoaVsDPbk1zi6mVbLeqp17bnuPygPJGZAyuiie+W2cz1oax6J+@vger.kernel.org, AJvYcCXiQaHfeS4+DYdcfdIs6iv58C/Hqo2swEFHR5UGiX5zLUSdtH0kvsx3ipjz4De9mD6lh+CRbm1A185g@vger.kernel.org
+X-Gm-Message-State: AOJu0YyD6/Xzqk+ukh9zxC9mN24fuPAfG9f0iicBqJYq8Hl+BWcU/BK8
+	p5OEJMDefxm16CRVuDCDihBVf8y4EGQeEJK915DEuJYwh355W1uIBl9zuQgu
+X-Gm-Gg: ASbGncsS8qC944xWxjtYUo5/b6iUp6OO7FoXG2W3sTLDmugdJPn39m8pwxPwl3wsOg7
+	SiQWA2DChPkZkOo8d0FdRgyGIP3uxPfznp2vn9FEz7JFX93j6A7ZDagB47Bb3bI6LXsQwn7sIX0
+	xJVTJzrncLonBEmIoVLOUT2PGl+Fw1lDshn7wD1ej/c0pRV1HfD2PZiqbEdANcYhpUCqpZQkArS
+	8c9yZkGDW78TQd1xycK6sAAAkCNgg7BGPm4wLqNs2CJzHCd5HyxYw/1lFX1VSQBYS9LiNR1ar0l
+	x4diN5wotDW3+yTC+6bRlfdQpWQwLSvseenlFdV6H3Zp6S30WUQNUg==
+X-Google-Smtp-Source: AGHT+IH5YgVuU+q5QxnBO53JMh0jrsv0/nOk5xWC5Cb/HT3jJaCRN90HJbP+AUcLIlFfnze9GtfCMg==
+X-Received: by 2002:a05:6122:20a3:b0:520:6773:e5c5 with SMTP id 71dfb90a1353d-5209dbffe19mr11412455e0c.7.1740062197375;
+        Thu, 20 Feb 2025 06:36:37 -0800 (PST)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com. [209.85.217.52])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-520b9a3aca3sm2180924e0c.20.2025.02.20.06.36.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 06:36:37 -0800 (PST)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4be68eadf2fso338293137.1;
+        Thu, 20 Feb 2025 06:36:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVG3GZgM9jyWUCJOPJjUpBfXkksjq9FA2SOH/EjnmPNsIljZ/QHFgDJmkWQPH/ZJwlG40dXJtNFs4mnOx0=@vger.kernel.org, AJvYcCVQgfaaweQ3ISbvVpAfvAX419mRai94+QX8VNKNQzhrSXP+g+3DVevQAZ2WJCmKjBTm+on++YlvA9f3@vger.kernel.org, AJvYcCVbmX8qAYvVkpGmnwpyNm2rb3EvovkCvSU8YN6l7+fNxbGreF9q0GElw0y2TrVEieALBEFhth8wBQsIZLuS@vger.kernel.org, AJvYcCX1ZbT8V5WM5qCcP5s42IwdX2YUNRsJfUS000Qup8MGmDxpV66Rkh6bBXUuPUYnbQdqS9w+CrzDYaa5@vger.kernel.org
+X-Received: by 2002:a05:6102:2c88:b0:4bb:d7f0:6e74 with SMTP id
+ ada2fe7eead31-4bd3fe4fbf8mr13157485137.21.1740062196923; Thu, 20 Feb 2025
+ 06:36:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241029082117.55385-1-jacopo.mondi@ideasonboard.com>
+References: <20250210114540.524790-1-tommaso.merciai.xr@bp.renesas.com> <20250210114540.524790-2-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20250210114540.524790-2-tommaso.merciai.xr@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Feb 2025 15:36:24 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXeKfFWQV8DDBY1dFEqsg5BstxXGXF8+OL8UEBSKHt3CQ@mail.gmail.com>
+X-Gm-Features: AWEUYZnLFePd-1BqPnNONu7LKQ5aLnNkBdAFzP3SPXlTLKm6lkXDlAm8vW2tagc
+Message-ID: <CAMuHMdXeKfFWQV8DDBY1dFEqsg5BstxXGXF8+OL8UEBSKHt3CQ@mail.gmail.com>
+Subject: Re: [PATCH 1/8] clk: renesas: r9a09g047: Add support for CRU0 clocks,
+ and resets
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hello
-
-On Tue, Oct 29, 2024 at 09:21:16AM +0100, Jacopo Mondi wrote:
-> There apparently is no reason to require 3 queued buffers for RkISP1,
-> as the driver operates with a scratch buffer where data can be
-> directed to if there's no available buffer provided by userspace.
+On Mon, 10 Feb 2025 at 12:46, Tommaso Merciai <tomm.merciai@gmail.com> wrote:
+> Add support for CRU0 clocks and resets along with the corresponding
+> divider.
 >
-> Reduce the number of required buffers to 0 by removing the
-> initialization of min_queued_buffers, to allow applications to operate
-> by queueing capture buffers on-demand.
->
-> Tested with libcamera, by operating with a single capture request. The
-> same request (and the associated capture buffer) gets recycled once
-> completed. This of course causes a frame rate drop but doesn't hinder
-> operations.
->
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-I just noticed v2 of this series:
-media: rkisp1: Reduce min_queued_buffers to 1
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.15.
 
-has been collected instead of this v3.
+Gr{oetje,eeting}s,
 
-And I noticed because a user complained to me about this.
+                        Geert
 
-Now, I can provide an update based on the now merged v2, not a big
-deal, but this depresses me a bit as the discussion about
-implementing multi-commiter model is apparently (again) stalled.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I know, sh*t happens (TM) and hiccups are expected in the process,
-we all make mistakes and I'm not even sure through which path the
-patch has been collected, but I could have handled this one easily,
-and instead what we have is:
-
-1) an unhappy user that will likely have to wait for the next release
-2) me having to send an additional (rather trivial) patch
-3) Someone will have to review, collect, PR etc etc
-
-(and I'm not even mentioning this patch is 3 lines)
-
-Issues like this one seems to be considered a fact of life we decided
-is fine to live with, while every possible corner case of the proposed
-multi-committer model is analyzed with great concern like we're
-trading a perfect model for something that has to be equally perfect.
-
-And while I agree the biggest reason for the proverbial v4l2 slow pace
-is the reviewers scarcity and the limited maintainers bandwidth, now
-that we have everything in place to reduce the system clogginess
-it still seems we're not all sold for it. I really don't get it, sorry.
-
-
-> ---
-> v2->v3:
-> - Remove min_queued_buffers initialization
->
-> v1->v2:
-> The first version of this patch set min_queued_buffers to 1, but setting it
-> to 0 doesn't compromise operations and it's even better as it allows application
-> to queue buffers to the capture devices on-demand. If a buffer is not provided
-> to the DMA engines, image data gets directed to the driver's internal scratch
-> buffer.
-> ---
->  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 ---
->  1 file changed, 3 deletions(-)
->
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index 2bddb4fa8a5c..2f0c610e74b9 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -35,8 +35,6 @@
->  #define RKISP1_SP_DEV_NAME	RKISP1_DRIVER_NAME "_selfpath"
->  #define RKISP1_MP_DEV_NAME	RKISP1_DRIVER_NAME "_mainpath"
->
-> -#define RKISP1_MIN_BUFFERS_NEEDED 3
-> -
->  enum rkisp1_plane {
->  	RKISP1_PLANE_Y	= 0,
->  	RKISP1_PLANE_CB	= 1,
-> @@ -1563,7 +1561,6 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
->  	q->ops = &rkisp1_vb2_ops;
->  	q->mem_ops = &vb2_dma_contig_memops;
->  	q->buf_struct_size = sizeof(struct rkisp1_buffer);
-> -	q->min_queued_buffers = RKISP1_MIN_BUFFERS_NEEDED;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->  	q->lock = &node->vlock;
->  	q->dev = cap->rkisp1->dev;
-> --
-> 2.47.0
->
->
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
