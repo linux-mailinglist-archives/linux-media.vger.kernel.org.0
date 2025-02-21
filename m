@@ -1,200 +1,80 @@
-Return-Path: <linux-media+bounces-26646-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26647-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97745A402BE
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 23:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3031BA40307
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 23:52:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42C75864E1A
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 22:33:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B51B3B1235
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 22:51:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 235F725332C;
-	Fri, 21 Feb 2025 22:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYjhTcww"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5860C253B6D;
+	Fri, 21 Feb 2025 22:51:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7FB1FF612;
-	Fri, 21 Feb 2025 22:33:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AF21FE478;
+	Fri, 21 Feb 2025 22:51:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740177188; cv=none; b=AbPMo1rQARJtGCYGozecnc1Xa3P1QhuPWXicLKiF+rMJBhB2rlx7zoDwnJuvLh9cJsC3mldhVfhz/yf4hPYYwkePWLHJ2ZEvnT4fdGNX9C+KVgzXGBci9ts6s14YcqiJxbTvSFY0q2b7ICRQkeybslypvTLgOWQ2eR4AzubcGFs=
+	t=1740178299; cv=none; b=gcCBpQCncOey9hARSiFB2I51Z4bcY3gxSsUl9vDtB+N9xXG+fHL7uNgL/RMUxJWQWmn/v+iofIL1xtAij3Lw6Gy7qMa29NmABq+c5K8wZ/YKURiEgq8RBMtjgvlF1eM6FIQKMSC9caaza/4KzljZ/ew6a3vs6d5eLh4n9n5VyMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740177188; c=relaxed/simple;
-	bh=jhNLKKmZdBg6gC6tf7E+ph0/0dRu9QCUxQqNNWqYgC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J+ljDK6OwJBlTDADdpAY84LqqsIlxlZktv6GChKUrQJCEYkBBobDkOQGQMFzxHniY2jS6Mmw1dvOyfsCFpoV32DBINXmWl5JXa5utC5ectAOYNlStVdX7lLq7MtURlEzG2hiYrxq58U+fpRUWeJxbJpqgy0V/ldG7Tov9WJDc4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYjhTcww; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3D05C4CEEA;
-	Fri, 21 Feb 2025 22:33:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740177187;
-	bh=jhNLKKmZdBg6gC6tf7E+ph0/0dRu9QCUxQqNNWqYgC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dYjhTcwwqkB+c0oQIgk5fXqY7qD4VMlHaawaWAbdLAgVxTx4vfF28H23IGQVv6/wW
-	 F5djNnKngrl0f+naFDP4anowjcC+UUlJBfW2G90yCVkA8fnDxg9wUaVQUhJE5Rftwe
-	 x6hyPuSRyFIIAjNBIj9ZU2BH0iHb2D5wtYv/wOgzovzxXuOuy365iHa/Ztyb5Vlnuw
-	 C0VTKNpHdMGINUOuHbM3InaaOMmyisQGF6ZmDQbkC7iPgj1+zH7el90AjnSPPCFqc3
-	 osWpNaSTdCDmB23MaI9DbNlpajc5ecKR025rkdU3EETMUctdciuGxyoF/ejPSHz9AM
-	 vlLgeM8y2HUSQ==
-Date: Fri, 21 Feb 2025 16:33:06 -0600
-From: Rob Herring <robh@kernel.org>
-To: "bo.kong" <bo.kong@mediatek.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	zhaoyuan.chen@mediatek.com, teddy.chen@mediatek.com
-Subject: Re: [PATCH v4 1/4] media: dt-bindings: add MT8188 AIE
-Message-ID: <20250221223306.GA190439-robh@kernel.org>
-References: <20250220070114.15015-1-bo.kong@mediatek.com>
- <20250220070114.15015-2-bo.kong@mediatek.com>
+	s=arc-20240116; t=1740178299; c=relaxed/simple;
+	bh=zcVkL0nxSTlmIWLn85VzcI7kovdWHOwM5mLusDodj8I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dflMx08PD7z4LVwUAIMoPR63g7luFILmpZVvFSUhcnS7k+bc83rOUDYhcJ/nVV0RPdJw/GvSY6ZqCAaydTt3EIyxzIATGQojkA6kpjtr4lHjmCObR6ni1jfTm1s5fq9mW7l3RaGsM3tD2g+zsF3/QgZqFTFj4P57zR0XTAI/WGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1993DC4CED6;
+	Fri, 21 Feb 2025 22:51:38 +0000 (UTC)
+Received: by venus (Postfix, from userid 1000)
+	id 0E5A8180937; Fri, 21 Feb 2025 23:51:36 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: perex@perex.cz, tiwai@suse.com, broonie@kernel.org, lgirdwood@gmail.com, 
+ deller@gmx.de, andriy.shevchenko@linux.intel.com, sre@kernel.org, 
+ sakari.ailus@linux.intel.com, mchehab@kernel.org, jdmason@kudzu.us, 
+ fancer.lancer@gmail.com, Hans Verkuil <hverkuil@xs4all.nl>, 
+ Raag Jadav <raag.jadav@intel.com>
+Cc: linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-media@vger.kernel.org, ntb@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250221165333.2780888-1-raag.jadav@intel.com>
+References: <20250221165333.2780888-1-raag.jadav@intel.com>
+Subject: Re: (subset) [PATCH v1 00/13] Convert to use devm_kmemdup_array()
+Message-Id: <174017829603.128405.11979179155278619095.b4-ty@collabora.com>
+Date: Fri, 21 Feb 2025 23:51:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250220070114.15015-2-bo.kong@mediatek.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Thu, Feb 20, 2025 at 02:59:50PM +0800, bo.kong wrote:
-> From: Bo Kong <Bo.Kong@mediatek.com>
+
+On Fri, 21 Feb 2025 22:23:20 +0530, Raag Jadav wrote:
+> This series is the second wave of patches to add users of newly introduced
+> devm_kmemdup_array() helper. Original series on [1].
 > 
-> Add YAML device tree bindings for MT8188 AIE.
+> This depends on changes available on immutable tag[2]. Feel free to pick
+> your subsystem patches with it, or share your preferred way to route them.
 > 
-> Signed-off-by: Bo Kong <Bo.Kong@mediatek.com>
-> ---
-> Changes in v4:
-> 1. Remove address-cells and size-cells
-> 2. Remove larb12 related content
-> 3. Update id content
+> [1] https://lore.kernel.org/r/20250212062513.2254767-1-raag.jadav@intel.com
+> [2] https://lore.kernel.org/r/Z7cqCaME4LxTTBn6@black.fi.intel.com
 > 
-> Changes in v3:
-> None
-> 
-> Changes in v2:
-> 1. Fix coding style
-> ---
->  .../bindings/media/mediatek,mt8188-aie.yaml   | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8188-aie.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8188-aie.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8188-aie.yaml
-> new file mode 100644
-> index 000000000000..232b5afc2ad3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8188-aie.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mt8188-aie.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: The AI Engine Unit of MediaTek Camera System
-> +
-> +maintainers:
-> +  - Bo Kong <bo.kong@mediatek.com>
-> +
-> +description:
-> +  AIE(AI Engine) is one of the units in mt8188 ISP which
-> +  provides hardware accelerated face detection function,
-> +  it can detect different sizes of faces in a raw image.
+> [...]
 
-Wrap lines at 80 char.
+Applied, thanks!
 
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: mediatek,mt8188-aie
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description: Physical base address and length of the register space.
+[08/13] power: supply: sc27xx: use devm_kmemdup_array()
+        commit: 0c3cbeb89c49f47ce6cae9250c8ff6c8f3cdf232
 
-Drop description. That's every 'reg' entry.
+Best regards,
+-- 
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  mediatek,larb:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Must contain the local arbiters in the current SoCs, see
-> +      Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-> +      for details.
-> +
-> +  iommus:
-> +    maxItems: 4
-> +    description:
-> +      Points to the respective IOMMU block with master port as argument, see
-> +      Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
-> +      Ports are according to the HW.
-
-It's not really clear what the 4 entries are. Like any other property, 
-the order should be defined.
-
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: clock for imgsys main ipe
-> +      - description: clock for ipe fdvt
-> +      - description: clock for ipe top
-> +
-> +  clock-names:
-> +    items:
-> +      - const: img_ipe
-> +      - const: ipe_fdvt
-> +      - const: ipe_top
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - iommus
-> +  - power-domains
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/memory/mediatek,mt8188-memory-port.h>
-> +    #include <dt-bindings/power/mediatek,mt8188-power.h>
-> +    #include <dt-bindings/clock/mediatek,mt8188-clk.h>
-> +    aie@15310000 {
-> +      compatible = "mediatek,mt8188-aie";
-> +      reg = <0x15310000 0x1000>;
-> +      interrupts = <GIC_SPI 787 IRQ_TYPE_LEVEL_HIGH 0>;
-> +      iommus = <&vpp_iommu M4U_PORT_L12_FDVT_RDA_0>,
-> +               <&vpp_iommu M4U_PORT_L12_FDVT_RDB_0>,
-> +               <&vpp_iommu M4U_PORT_L12_FDVT_WRA_0>,
-> +               <&vpp_iommu M4U_PORT_L12_FDVT_WRB_0>;
-> +      power-domains = <&spm MT8188_POWER_DOMAIN_IPE>;
-> +      clocks = <&imgsys CLK_IMGSYS_MAIN_IPE>,
-> +               <&ipesys CLK_IPE_FDVT>,
-> +               <&ipesys CLK_IPESYS_TOP>;
-> +      clock-names = "img_ipe",
-> +                    "ipe_fdvt",
-> +                    "ipe_top";
-> +    };
-> -- 
-> 2.45.2
-> 
 
