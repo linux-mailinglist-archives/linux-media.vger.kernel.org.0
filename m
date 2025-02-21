@@ -1,179 +1,105 @@
-Return-Path: <linux-media+bounces-26557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9B0A3F233
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 11:37:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 233D4A3F26C
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 11:46:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64DC53BC388
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 10:37:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0AD291764B7
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 10:46:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33E92054E8;
-	Fri, 21 Feb 2025 10:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 810B020102C;
+	Fri, 21 Feb 2025 10:46:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gmbb0Xmb"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="PHaXmyLv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com [136.143.184.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0F91FF1AF;
-	Fri, 21 Feb 2025 10:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740134244; cv=none; b=Xge4j9lS71JIN7tRP6QDAWdGn65ulOGLJj7WRQJAsOy6srt1ee8rosZ8KiDD27tCaPUQKmuEMa2I9xa6bmMt8YT/BIDgBsCTzqRnpP9E6X7uNRumZVpbIh7zvLaQkRQK9uS4lyV4a0z5Sot3X+nBM5fLlMDanreM307DrdQ80SM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740134244; c=relaxed/simple;
-	bh=gRBgJtkXNndTygei2/WU8WKjZkABz8HcvljFdyBrIgo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LLFZDRIV2tKYGTHYohEC1SoaCv9TLKKqR8cgLvw4okndbpDy10IBfTgT9fS0VnmOSl79aGOHeV5RFJicb84SA8MVaLFZTzRGvWQqmG/T5XBYFWJL2GLg53OeibaqIL3lnbkGryUO7A5eSJODIvNRNlNCPhpQyBNor456he6feKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gmbb0Xmb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:4abb:6de5:9248:813e:8db3])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B49342EC;
-	Fri, 21 Feb 2025 11:35:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740134156;
-	bh=gRBgJtkXNndTygei2/WU8WKjZkABz8HcvljFdyBrIgo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gmbb0XmbO/gfQQ2P9CUic9YnHpaGA9RrxgDPyBrXWK0diB71jGF7PYw1uzI4DKDjY
-	 5U/TcMNX3aEYO7q1DCmdRO+XD0Hi43PgqcPHnjlYc1hH9M7MU42EUhwF88jQGCb4CG
-	 xybQKsMUMzyRAQm+tmGWUf8eYCasPe9xaFPkuYXI=
-Date: Fri, 21 Feb 2025 16:07:13 +0530
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: i2c: imx219: Only use higher LLP_MIN for
- binned resolutions
-Message-ID: <attkqzfqwxjrozx27utbyh2q2jfci3ytjsq2we4db3nhf22l3e@7uv3j2imledv>
-References: <20250219-imx219_fixes_v2-v1-0-0e3f5dd9b024@ideasonboard.com>
- <20250219-imx219_fixes_v2-v1-1-0e3f5dd9b024@ideasonboard.com>
- <mloobyyocd5f4hbkenplebwyffacdjjhzhxefvlx2og5qz5xlx@zswcyzzfcpy3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFC21B21BD
+	for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 10:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740134775; cv=pass; b=NU5d2J4xKTo48LPAlP6dS8aORBoJxDx+ciXiQUQODteu/jwKatoFjyz7PnWg3NaFO2rh7yzV665J+kuUgzV1VE3kpNp6xhjghe1vLUZgzCkQdoocBE+zW+OzPWwrMGGyYQ0ZaNVz7945qpFIc9nEqZ266bAm9lWzoObg8jXwdT4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740134775; c=relaxed/simple;
+	bh=wi+Fm6ONuDautr3zERO9pb15IFKUGQECy4yDrSae6CM=;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=GejjMQzpvsMbQYqT9IT+Vn0xx2XOOyImFahLEJ76I8j65kSXhqFNku39izsbWd9a/wHvFBQl8ndA71aQE+egeR8lVaERs1wG3VeeNk50kivqXg32N0bReH1pL4qjD9rH8v0RJGwszFgEaaRAk2PszzEtxEX9J2an52RMWl8zqbk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=PHaXmyLv; arc=pass smtp.client-ip=136.143.184.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1740134770; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=YOaobfbst5NfCDsW+avlHmwADb/sZFYxRmKCYbOQje6z8ugC0tY0flhtFoEi2+LBPL4Y0arczWQEv29zlGzpUZ3kZVOB3GOjp7YeNxtCgi43MoZwDmNNiI83oxilKf3HtnyRyIXf8b/AIjgsJGXIUKzZp4phHPsO4PF9RutHPSI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740134770; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=rpYt01A1OuTiUkxy8JVxgGT2RAv46UQcmd1roTumje8=; 
+	b=jRQ7ktCjo3y7Trz9d5GNmEix0KmvzdhuteY2B1yvLBkaP9MrRzkpQBlAuGC2h4gBwL+4aG9jmZJDNBB/ZdGOyOxUpgMh2I+gR5C9Z6yb3/ZvBq2TCcvPGFloX1Un0NJHxGAAJO4VtCdlsz6pLO2MGAXmC3VsIuSUFgQAO0rIaO8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740134770;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Message-ID:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=rpYt01A1OuTiUkxy8JVxgGT2RAv46UQcmd1roTumje8=;
+	b=PHaXmyLvXV3jQUEBpt1miHuqZ2sNSjCmqAZhQ+XpnBjaYccNsksnXqnxI4w/s7sa
+	7uevAlEQEj5FTzBdw8V/wdl7Phtz//GNgb6+jzuyf9TBtNiDA/oLPEs28nw6v17Z5ck
+	Sm3Wv5T5A1mq9xsshYEjvK7b/VIi48k7q8QnyZyw=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1740134768817978.0638839415848; Fri, 21 Feb 2025 02:46:08 -0800 (PST)
+Date: Fri, 21 Feb 2025 11:46:08 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: "linux-media" <linux-media@vger.kernel.org>
+Message-ID: <195281d6068.fa3be2d9811284.1245840583818451519@collabora.com>
+Subject: [GIT PULL FOR 6.15] Allegro-dvt-fix
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mloobyyocd5f4hbkenplebwyffacdjjhzhxefvlx2og5qz5xlx@zswcyzzfcpy3>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-Hi Jacopo,
+Hello Hans & Mauro,
 
-Thanks for the review.
+here is a tiny fix for the allegro-dvt driver.
 
-On Feb 21, 2025 at 10:28:40 +0100, Jacopo Mondi wrote:
-> Hi Jai
-> 
-> On Wed, Feb 19, 2025 at 05:16:43PM +0530, Jai Luthra wrote:
-> > The LLP_MIN of 3560 is only needed to fix artefacts seen with binned
-> > resolutions. As increasing the LLP reduces the highest possible
-> > framerate by ~3%, use the default minimum of 3448 for non-binned
-> > resolutions.
-> >
-> 
-> Also restore the fll_def value for non-binned modes in the modes definition
-> to restore the default mode framerate to 30fps.
-> 
+Please pull.
+---
+The following changes since commit 955a999ca2336869a01bbc2d346185c348929e78:
 
-Will add in v2.
+  media: platform: rpi1-cfe: drop vb2_ops_wait_prepare/finish (2025-02-18 08:11:37 +0100)
 
-> > Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Link: https://lore.kernel.org/linux-media/CAPY8ntC1-S6zKtDvmc6EgyxP+j6rTShuG8Dr8PKb9XQr2PeS_w@mail.gmail.com/
-> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/imx219.c | 24 ++++++++++++++++--------
-> >  1 file changed, 16 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index f662c9d755114265aad46c5cc7f5031b9bc0dbba..6e51a7af5e2a05cacefb201d96a9fbdc349f17d8 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -74,7 +74,8 @@
-> >  #define IMX219_FLL_MAX			0xffff
-> >  #define IMX219_VBLANK_MIN		32
-> >  #define IMX219_REG_LINE_LENGTH_A	CCI_REG16(0x0162)
-> > -#define IMX219_LLP_MIN			0x0de8
-> > +#define IMX219_LLP_MIN			0x0d78
-> > +#define IMX219_BINNED_LLP_MIN		0x0de8
-> >  #define IMX219_LLP_MAX			0x7ff0
-> >
-> >  #define IMX219_REG_X_ADD_STA_A		CCI_REG16(0x0164)
-> > @@ -317,13 +318,13 @@ static const struct imx219_mode supported_modes[] = {
-> >  		/* 8MPix 15fps mode */
-> >  		.width = 3280,
-> >  		.height = 2464,
-> > -		.fll_def = 3415,
-> > +		.fll_def = 3526,
-> >  	},
-> >  	{
-> >  		/* 1080P 30fps cropped */
-> >  		.width = 1920,
-> >  		.height = 1080,
-> > -		.fll_def = 1707,
-> > +		.fll_def = 1763,
-> >  	},
-> >  	{
-> >  		/* 2x2 binned 60fps mode */
-> > @@ -901,7 +902,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> >  		int exposure_max;
-> >  		int exposure_def;
-> > -		int hblank;
-> > +		int hblank, llp_min;
-> >  		int pixel_rate;
-> >
-> >  		/* Update limits and set FPS to default */
-> > @@ -918,6 +919,17 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  					 imx219->exposure->minimum,
-> >  					 exposure_max, imx219->exposure->step,
-> >  					 exposure_def);
-> > +
-> > +		/*
-> > +		 * With analog binning the default minimum line length of 3448
-> > +		 * can cause artefacts because the ADC operates on two lines
-> > +		 * together. Switch to higher minimum of 3560 if we are binning.
-> > +		 */
-> > +		llp_min = (bin_h || bin_v) ? IMX219_BINNED_LLP_MIN :
-> 
-> As you know, this is always true.
-> 
+are available in the Git repository at:
 
-Oops my bad. Will fix in v2.
+  https://gitlab.freedesktop.org/linux-media/users/sebastianfricke.git tags/for-6.15-allegro-dvt-probe-fix
 
-I realized it would be cleaner to use the new version of 
-imx219_get_binning() to check if analog binning is used before updating 
-the minimum.
+for you to fetch changes up to 5224469a564385db8a80b67c0316018865c56aa7:
 
-> > +					     IMX219_LLP_MIN;
-> > +		__v4l2_ctrl_modify_range(imx219->hblank, llp_min - mode->width,
-> > +					 IMX219_LLP_MAX - mode->width, 1,
-> > +					 llp_min - mode->width);
-> >  		/*
-> >  		 * Retain PPL setting from previous mode so that the
-> >  		 * line time does not change on a mode change.
-> > @@ -926,10 +938,6 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> >  		 * mode width subtracted.
-> >  		 */
-> >  		hblank = prev_line_len - mode->width;
-> > -		__v4l2_ctrl_modify_range(imx219->hblank,
-> > -					 IMX219_LLP_MIN - mode->width,
-> > -					 IMX219_LLP_MAX - mode->width, 1,
-> > -					 IMX219_LLP_MIN - mode->width);
-> >  		__v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
-> >
-> >  		/* Scale the pixel rate based on the mode specific factor */
-> >
-> > --
-> > 2.48.1
-> >
+  media: platform: allgro-dvt: unregister v4l2_device on the error path (2025-02-21 11:38:25 +0100)
 
--- 
-Thanks,
-Jai
+----------------------------------------------------------------
+A fix for the probe function of the allegro dvt driver
+
+----------------------------------------------------------------
+Joe Hattori (1):
+      media: platform: allgro-dvt: unregister v4l2_device on the error path
+
+ drivers/media/platform/allegro-dvt/allegro-core.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+
+Regards,
+Sebastian Fricke 
+
+
+
+
 
