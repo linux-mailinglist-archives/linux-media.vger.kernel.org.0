@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-26605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8590CA3FA31
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 17:09:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF2BA3FA2D
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 17:08:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AA2927A7BDE
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 16:02:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 461FE19E3FF0
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 16:03:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F7BA21E0BC;
-	Fri, 21 Feb 2025 15:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6017F2206B1;
+	Fri, 21 Feb 2025 15:57:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="R7Ea5daK"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="kvLgo+YG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010040.outbound.protection.outlook.com [52.101.228.40])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010006.outbound.protection.outlook.com [52.101.228.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2435207E1E;
-	Fri, 21 Feb 2025 15:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EB51367;
+	Fri, 21 Feb 2025 15:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.6
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740153458; cv=fail; b=Hzi5Ha18K1TMmOl1SAR6vQKdDR7U98QsiY8REZtqZOjx1NwjQk4yRH5CHAmNfaQsgsWOQMXjoS0gB3g4wKXO4X2POu8di25CDvk2b1uQ7b8fBc8r020ZB6tBpAkOLbQog3MvhcrGP2Duf5rHVTobPd5OZng85je1q9C3mcCKuE0=
+	t=1740153467; cv=fail; b=svrf8Yp4hu3OLm2DKSYSaOLemcNvX0WjnmY1SPfvs0l6NWlODCWUy2Gkhu0WfP3vHHQaW/Ds9JiU60stIFMyaLIIQNJKbyiUKazEYAVLacF0otHQ7LSUUCgRjtTKxLQhxV58wBvJIPoA6VbTWSVPb9RHMnORnGTJeHMQO2f5lnM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740153458; c=relaxed/simple;
-	bh=V5Stixy/6BaO4rcAxriztSbKXy3ECeZV2E4p/8Qzlio=;
+	s=arc-20240116; t=1740153467; c=relaxed/simple;
+	bh=SuXFXKaCzGPDoj8ow7o7UaRCJzx5n62XrAQt9ipsOdo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bbeRrLkreZNyrDuUqyTC5BRusDIf0kLbS4vvNLswZMi6U8JCiqvRwiLsuYYV5dlXDSTmArN+l6EqcGAgYc5itkCtQ/tyMViMaHCPTE+tcpxH7U5C6avNHwpmCDROFPq/tZ7jzgxQLbcXgO4keLB6eDzAb05xwjaEckbyq/EEB70=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=R7Ea5daK; arc=fail smtp.client-ip=52.101.228.40
+	 Content-Type:MIME-Version; b=QEL7OToeZID3VeYbU1RIKQgXk77PFYwQCLLWvczkYHZ/s/9t0tf+zlKROotC341CWn72CfZj8gr5UTX3YwMejp09M6qb85359NRhXJDUGEK071zDmo8vBbpmcOajfMsuvkspAkxWPvbkHntyJCONypNEUxnKjtX+cJEVqG2aB1U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=kvLgo+YG; arc=fail smtp.client-ip=52.101.228.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Vb5Lw98d7yPtObDUp0BDgtGuHYa5kUClXKJ1Sk9WAa6sWAO3Ty70D9TFAtRgNl1drHy5qR+deaRERLzMfsFxyFj0Q+gu28AXY09igr99Odv2rHyjFDCuGIMpKPFxxeA46KPMm3npPnJ0GCBRIccAHBCulIrEzKn7jM+QPIbhkY+aqTcswR49WgDs/KNdAWUBrMIcn8LIjr550mOu0YlAtSIbk21TOucPwxN1t2C92X4z8DZYpY3F+b25fxORSq7s0ugO40kpVszU5eueUuZlis46vgnhfp6wxLWvIonXSV4ReyvHYcmCYa3a0chSw85MvscgBVcgSTnZL1IdfzyR2A==
+ b=cXcl+5TKUHvCKUc0DYzLWwjAeJtjyPWy7o40pHjA/jliK6SzRiFguxO9QWTjuzKckeKFJmwyA0lyWFEqHfWKkx42KwxAb9JoZXdl8yZJ06DURz7bSOaN/QxLMujEVlq1ZctO+o+bDsjxU4lfsp26s289OGRZ29zhJ14b3X1ARVeBupi2dYTZreb8B1z+eHbAnXIbcBvePLUe8fBEytHDry2xer14ecOhE887cBCtf9d+q89pLwrOXoXbflAEuahdNz+PI5fPyfAgA36GbycE2yNvr1hYHAql57kbPXS3lsrQRjuLj4rImb4ZR+rHIYSBH3NvVlk/GrbF31F45rShIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cU9UktduBZik6EBYwmN35/IeILz4SStfRNLsCqnu+ms=;
- b=J+f3hwi1MCaNZ6vFaNNAcyuh44SkLOLejbFRhMQQZAR6Li5MxFAYTJ/7ceZj9ftURcxEtzsjxPP074Tiq3X6yqSm6bJhSTuZxBE66ueaJQpON2q7KPi6Dtd4ZVZaef7aAJo4UGv/p+xlVLyLb8y+m90FQxUZTsqzLOPSu8bpkoOMytluD1hgbXsEdlPTZ2t8+bozM6W/ITMv4G8mh+b5HF6UohxDo3SuE8rxeB2r5dVvaZIJ+yilq+yGVvct/5p3sKZddTx2y577GlM38EF3EtRMTvBJJenbYsmbXLgnRS+QrEtHL4T81vjKzYkJeAfny820SV2ZF2Ce/WydQqFxsw==
+ bh=50LaY/mDBjT7QUg+lyikrAnw8aa4Y5rxKQ9JIVMGeno=;
+ b=XOfMMP02k03+e7hjCJ9BLnz7Xvnhrlq2J6F977iBOFrfrLFAwQvydcxQRMP9uLvvGmIBhHVbwH0MAMeM7ogIcpO5KlRiKTJ4Ka7q0/55GF3AOee3O15DWZwiiSD7ebrl9Q0f5LmJmBRnn56nO+rvQ9Jnxqmxc7kM+coJHqfDtHnsN2QhSuk9rzVlJOUue4BYr+LKLYWOw2HK4uSPjeXy1K7JyJ54yD8OWDj1gSSWVD0P0FwmwFeki5Q6jOudl+Ka5RSvwKALjtVrC5K2rwX+H1waaLSC4G4Sd7nVCbbypNSz8OT4w708t25ksXlFLyLTM7pYXJYQAd5nYIe5bXb8GA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cU9UktduBZik6EBYwmN35/IeILz4SStfRNLsCqnu+ms=;
- b=R7Ea5daKRClRl0S0Hwwbj1wGuiESwpttSmZwm/UluoR5IrOAMTfY+48jvJxb+xuIl0kVPE/SV1Gkm1c7P8eJuNNadjFxOFrk40XFoqAQhfLX2vPqzZisypfj1FJn3EiHExV2icrOm+PZyrLntACM3I4D78T4SHxzlseF+K6ayH4=
+ bh=50LaY/mDBjT7QUg+lyikrAnw8aa4Y5rxKQ9JIVMGeno=;
+ b=kvLgo+YGy7LxdbF2FG++jiaEqS+INFq8VC7sns1SL0As3DCiyCxkrOqOS+Cl49tC1rM4fyXJETSS51N9lopd1gl9Okh5CZC/0u/s4ODUBuMI0TsH8LQ6pyz1jiIFZe6OJWU2GpQbdsvX1IHHFA2lzVQ4p7IAMIJ4BADCIHxrhhg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com (2603:1096:604:35e::5)
  by TYCPR01MB6238.jpnprd01.prod.outlook.com (2603:1096:400:7d::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Fri, 21 Feb
- 2025 15:57:34 +0000
+ 2025 15:57:43 +0000
 Received: from OS9PR01MB13950.jpnprd01.prod.outlook.com
  ([fe80::244d:8815:7064:a9f3]) by OS9PR01MB13950.jpnprd01.prod.outlook.com
  ([fe80::244d:8815:7064:a9f3%5]) with mapi id 15.20.8466.016; Fri, 21 Feb 2025
- 15:57:34 +0000
+ 15:57:43 +0000
 From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 To: tomm.merciai@gmail.com
 Cc: linux-renesas-soc@vger.kernel.org,
@@ -73,11 +73,12 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/18] media: rzg2l-cru: Pass resolution limits via OF data
-Date: Fri, 21 Feb 2025 16:55:26 +0100
-Message-Id: <20250221155532.576759-13-tommaso.merciai.xr@bp.renesas.com>
+Subject: [PATCH v2 13/18] media: rzg2l-cru: Add image_conv offset to OF data
+Date: Fri, 21 Feb 2025 16:55:27 +0100
+Message-Id: <20250221155532.576759-14-tommaso.merciai.xr@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com>
 References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com>
@@ -94,204 +95,169 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: OS9PR01MB13950:EE_|TYCPR01MB6238:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae191571-398a-4b56-ecef-08dd529074d2
+X-MS-Office365-Filtering-Correlation-Id: a70efbdc-2a69-438c-1fad-08dd52907a52
 X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|7416014|376014|52116014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?evyxKuW33syIGBF6Ncnyl3cGEcfAm4B5sXiFwgDjHTayuyuTMlEFuzdpMBn1?=
- =?us-ascii?Q?cOhtkSz/mhK94NHQlh+es8x6MvwI7SbCDgKwZMgay0b20E556s8aeCQgoMqF?=
- =?us-ascii?Q?+EKiYpQSj7LJJ5drt8meuVdJkUhsduBWguF8EKS62ExcK+072OIbQ3qJnxCd?=
- =?us-ascii?Q?CLQokcWeq1inG54f0+/NWE60ygcY6tkfDdLvZX0b40uAsPv7awuxkeh/hcNc?=
- =?us-ascii?Q?t8ZskCaHgeTj9yj6kiOaBKxxWaKoDmLKT4ZWnEtY6IAN2wml+p6U3SRRK2n4?=
- =?us-ascii?Q?hS08i1hnx0v6CW+9aSGVvsl87UjMOVB46vT2tqUEsiSLbCvGFm7I75QnNPDw?=
- =?us-ascii?Q?oLl9IBzO0M59zUPriIbDt3gaMHkLzJB8Wf/pwGpVuMD6yhfezwepzS/l6vMv?=
- =?us-ascii?Q?TSEYwTH0ZgZDtPAhwxawxikPTxsJDWGHl8UXRS8zBk34TtqCnU88WjK1UW1n?=
- =?us-ascii?Q?bVto/PRVJvKHZsreJ19C8H3DJECMBcZwiJip/FnLVzd2elVYMmghYsGs7php?=
- =?us-ascii?Q?K1w2TCgIH6q3c0OeTw3aKYkKnS8TN5JKGXaR1CmJHGweGKneNeNsqhB7Ul1t?=
- =?us-ascii?Q?af0q0BdpMnZ7rFX6Y5jUlMuo0I5dkykBoG2vHST+3PrNkxAhdKkM8S13d0uU?=
- =?us-ascii?Q?Z/bUMbNzsWAUfKYPzWis3mg4ptApWfVkWOT/vzNKnxBKWq4HoSJXQDnwOHYH?=
- =?us-ascii?Q?Y68qcIHm5Qzjg8IRwQm9eS/D56HMkw4+tGsTGYbFfLyXjepl0GT/qNuVvD96?=
- =?us-ascii?Q?BzMKtKoRDKA1Qc4XhBOBbKyraN0JLwQjjWIR0GRS51YHRgoqzlSB/2XdnSJ6?=
- =?us-ascii?Q?mqHpJrcGrgEEeUbQVAoI4U9iXXIEiiVNRlGqXJILuG4+w4WJvXo0/8aHp22H?=
- =?us-ascii?Q?zZbhBdwkPVMVoEOgoYY+otimyDWfrNJp+7fDZXNjRhkxjoCk/aq1BE5C3nR9?=
- =?us-ascii?Q?TWd3biWZIcVKKgCY1isZkF0TYDLS5rF6HFpWKHxzOoxNvlg+QItB+VasgeZJ?=
- =?us-ascii?Q?LoFCmAk6V8o3QJDCoYy3pOnNJg1QCpxhGsTZReIcBfJayELHffiPLcXMz6LT?=
- =?us-ascii?Q?U+wTqrPTFQPQnE8FZlOVdBOEF/0IivQlXjHaYsZE6zbr095TIebFx1kh16ba?=
- =?us-ascii?Q?D/UvyrQmoRrU6b7BVxNbjnnyY15RaDxP+rD6JVMATv7h+/QsJEGFZy5ro4YR?=
- =?us-ascii?Q?bWopoLAlDwTrlF5gprWraK3Kk3i0YGEuiAvDRV1s56usTFhJOpp9KCtPoag+?=
- =?us-ascii?Q?+pVa/343mntjfCgh1qqENrS1cyz8+uQlz33yL03vuLuGM5gZf8iRBCAqVmKw?=
- =?us-ascii?Q?gpUZe6CDiLQ4mANImSLfosrbyQv/AzQEXBkVBUBq1xrBaL/uBAYvAnTEavhK?=
- =?us-ascii?Q?F0CrnJtX73J9owqWmmb7p7rMpVm4wBv/USgQIhGQGZo7hHBYvRV/CHOo+SM2?=
- =?us-ascii?Q?S8LpgkhKZe1i0cz+gQPRbjOK57a+1oB1?=
+	=?us-ascii?Q?vHfgFF1LL8u9fqzEytqGNpTof+mpb5kEl0sngOVPN64tjbykQ4hKbBxTVJSI?=
+ =?us-ascii?Q?FSZEZuDge4HIJ0yoa3n75vDNb1T3b790jJg5Jjf8ikwu1VbDxROXLvK2qLnN?=
+ =?us-ascii?Q?c7EPCTmFBcU6BjIrK9WzWrumbB+rroHBSXP4xAFwxXQZ0ssYfEprjcex5pXs?=
+ =?us-ascii?Q?kv92pwWhYtKoULTDhKCfSjVdNNwCVjqO1A5e5zu7lHS96awRm42VDAxvcWJl?=
+ =?us-ascii?Q?IoK5e9Ll7+U0rxVtI8hId9Z1NxHEfu9MoFbWRiMuDAtXXzThOXfiAS89+dFV?=
+ =?us-ascii?Q?p5SGJ/deSB3q7zWN/zUmeWViJJzTlN3pGhiXtKJD3c7DsbVkq8RgKsbvY9HC?=
+ =?us-ascii?Q?gXYaRfjJpQ9SG2sD/iaKCIZ1wdjb6QluxM7m7H/sI0WQD7+3mL0Pgto947EN?=
+ =?us-ascii?Q?QiIYoTJFeA8HM2I59OGzYk3Zu6gKGMwK4ldY4X1Iz8iWo3x8QrCMXADQSlni?=
+ =?us-ascii?Q?S49RQ9xywjXiJWiLSmuWJUrnWGbslnaneyXw3Oc8I9VOxqFfFagv7rsjlFxW?=
+ =?us-ascii?Q?Y5eGuGwKbsugA6FdYrtWIpyCN1JQnwNYmM26JRk5Xn6aez4X3tMxW/MVdm7F?=
+ =?us-ascii?Q?IKfqunwFhsKjpPSMM+wK03d7AnJ2qk5etnvcrasTy2aVnSMA/SYqjmUZLxbL?=
+ =?us-ascii?Q?vjx4mVrNBK3ppWUc4B9Fp+q73pZwhvusEGLnyLF/1BqEtakvJvm45au9EnZ0?=
+ =?us-ascii?Q?cRX/GXzFzg6diLVjjieWWCGFomq4uy9sZFxcFqnpRSBoLTSxT/27Ph9ELm5L?=
+ =?us-ascii?Q?YLLSfWnpd0tF/8Vng+Y6QlzKXnz4Vk/xbP2zTgaYn0MrhtKPVK3frISPPCoF?=
+ =?us-ascii?Q?c5dGGOJfwgC1L3zUVX6bTsh2ogLOe+kW9tx9aknCpdldzgpP4ppXSmNaN3Sp?=
+ =?us-ascii?Q?abURGVi9CE2waf3sGIvUIZ+hYqnHbs2zasOzdY2+SKKkrnPyT29VO6UlRq/A?=
+ =?us-ascii?Q?gZB5pZDr4E2sxTtYdh/UzAUl3D7sU1nbX1CtQX8MGluKIEqF4IRiIk0mbPMu?=
+ =?us-ascii?Q?uNi+ab/u+kP6bkx1576/ocq/6aG04rFfDc1kgGNiKYUpabcsp/mrJB35oPDC?=
+ =?us-ascii?Q?NYvj9FHzfHY4Q8VCpqLq7cBh++Opkvy+6OPoaFs5xoEMNMtU4a0/9id7azpe?=
+ =?us-ascii?Q?g+LxIE2oBz0QTurEU+kIdeUJo2MdM6O4wxFNY0SUcpo7UAJ9J81GCAchwwXM?=
+ =?us-ascii?Q?0BRKmYepfPnE6Yu1Iefne3SRi6wQzsOT6zuCUvaLjrA7puLxPID6Z6WtTa9e?=
+ =?us-ascii?Q?IKiOIC2V9Tez1QNF9nKiTPQT0clw6aj6RSI10Uk4vNCWzOcZ5DSH4KZJhdlX?=
+ =?us-ascii?Q?odZzIAx79AptdbORP4qKVUFf3bnUkCz5bOIm+PH4ctmDNc79kSaB1b5b5TIr?=
+ =?us-ascii?Q?hHFKO1ijxoAN0pVg7AFr8Vv6ED8F9MoFgcOwzOtDVDhD2EEaLAsWpfxq91TV?=
+ =?us-ascii?Q?Zna1JwqI9ohoEfh+osq8sLO1T9SgMqUo?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB13950.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JrRBxB/4K0FUI+0o2J0I+ZWc99ogchZI8807F9+11vDKTGJi4evg4RDOhBI/?=
- =?us-ascii?Q?H2KXoRFF94aNlfD5DKgKugoVfZ8EpDN0iyx670bGIeuGFjXm0mVtocqIdiAv?=
- =?us-ascii?Q?q/+Lyde7QW3492PynNabXluUPr9PVemDCC0yha10nqjyeoMIKsdypfoq0odN?=
- =?us-ascii?Q?kPkh1xqu3rCBKbGVOU32hI8kpGL897iDWdUmcXOgY/NUSz0BpiWqnb/UW9+5?=
- =?us-ascii?Q?UUbiVEmVmJcTyBkn5e4eoVkFwaNHHO0qDnvan3MIAjxFmxMZgsezZaYkFQSF?=
- =?us-ascii?Q?2PrazaBLdTS5SOJK+8iRmc0NHRGhVuBj5jCOV55Guggic1NTWThNl2J805kW?=
- =?us-ascii?Q?ndfBgulGvVz8ZNYFbQbNgKyv7IyLrDdcnQKj98oTe6KcFtgN/kzxy4HpSlmD?=
- =?us-ascii?Q?oEjN5KmL4X0Eo6n7bbB2M7Cpcdx7hrJ5rM1iw5hYJhKT4S5n4ouOOuShVri8?=
- =?us-ascii?Q?ju4m68FOs423bwHeJO3cHoNw5EifKehyeTt1uCjVoMZ3Or9S+mVEGx0b2WgR?=
- =?us-ascii?Q?L3UZWkej3DO9gyJW2Nb5NAdiRa4FqabGHIzB3E2QOp6tjVYPql3bjpQFExt/?=
- =?us-ascii?Q?UgW9vqzzHqOGBNEOOPWD61yBzDeSSoOxweLG2MZ8hmDVt9Vi2WMOqTAgSxA3?=
- =?us-ascii?Q?cjQOSHYPK9dfggmxKNKAOMo+Yp2rhnCs4tbG6AioTViYNnGcBL7jEOwTjGsD?=
- =?us-ascii?Q?hkGivtWP7ziOmgXHUGGYGHttC9iBrmnNTrVfZzIcDj3W9MwokGk4fshyCw8k?=
- =?us-ascii?Q?ViMDbZTiIQijqUDMizsWk/uq4eYisqOwfkojDp750X/vsyQaMiIN5NbSqb5j?=
- =?us-ascii?Q?a3rqKwHDAZILCySk4SzH2gn0+yQzut+S7Wf1XS06lvy7c+ru9r/GGLcdihQq?=
- =?us-ascii?Q?f/AgoN7yxuP0z8FZDXsF/OonKjN5kNKKhJNKpRGCdsKyMet+hBEBp4/cj9A8?=
- =?us-ascii?Q?LL/L6zDUyb/Ye4wMJqdHyD4e+xrMJk+GK7L8b2Q4zA22HSUL6bl/sPBh4CHM?=
- =?us-ascii?Q?6oH6Q4sP3qFJTiJbGVKSJapbF+XRUD+fhh0fY8qLhc9QU5IAkPLsOuVY+Zfg?=
- =?us-ascii?Q?ggEcTANN5N8YILPfha9sPZWcRRsrORfL4+RLhGP4Y6+GLkTm8odkecFHuSAg?=
- =?us-ascii?Q?QH3kMjGpGIEUGgR1edGo89gXHPtg/JpgLSyFy1LIBHYGAZPAPlCUXIiHR/GT?=
- =?us-ascii?Q?1QhjhybkVbkaQ/o3bGBqvVXwr9Z6c70VNqX3a0NUBvB0BmNAxdqZDJyO4FDu?=
- =?us-ascii?Q?z14wJHQossCDFx6hmzJ3hihn+CzxkVhX0Eu4whdOUUFsf3kAZr/AdqDjdP/J?=
- =?us-ascii?Q?b+LzUGwyqPmzoLIEZQAsrZ7wCKZeGGK4ytHD0pXUmLF3TH7kJG79RZD6QqcG?=
- =?us-ascii?Q?HQ1tu+Q1VQcATPnqhM9eAzkbzJL3RZ9waomd6dRbwh2Mq5Rfp38D0LO/dK+5?=
- =?us-ascii?Q?psxTJPfFRNYiLfdL/sSrY9FnD5AoLMYZkhvsQVUzAGLSVGhPnSBqLN62JKd9?=
- =?us-ascii?Q?JSyTWAzGPV8h0WhyB7PiSw2bpeoj/J7tjztZ+GpX97nmklANQQhXoBWjMKaY?=
- =?us-ascii?Q?6VRZFdgTNAXF+geLMXMmx9T0kVMWkN1HElC0KFjcJX0gyufKK+K/+lwrrum0?=
- =?us-ascii?Q?1KjKqPwg+QZ8MQhQck+BruQ=3D?=
+	=?us-ascii?Q?d/8JlPdShlMpEBUvWJ+nDvecoNjoNhtT0Hfh/LgCWOkNvZHyb1AYf68g7dr+?=
+ =?us-ascii?Q?FOrhqPhKfGqQeP5pt5QlI0GQ3It3hIL10pqt+51ckBjN2tICZqS5PrKAemjX?=
+ =?us-ascii?Q?SyycqN1LP+yQ47csqpjiEw/v2iTQIoHMBl3ZJQyJZyyGuPOakwT27Vh9e9cG?=
+ =?us-ascii?Q?h8Ae7Ws8oJvq0QO9RM542SEvOdYYMmwz2UkpMoi1oxQNKWD4w9RLYMlN7DjN?=
+ =?us-ascii?Q?ldfcVy9TnCnPEOMZEGf8ZTWjE0jJMFpNUrpEh6eHkbwD/sjdowUEoGxnJLTk?=
+ =?us-ascii?Q?putTHTZlZXGuaMsRjeru91Az7kNjemwcA44lvCViqSPVRCXxZuusl+jeyKMq?=
+ =?us-ascii?Q?sOrBji2/d52nA7PZ+Coh8eKzyNeFfzXFBIDIqjHVp8bLYKjtpnJH4VygQKRu?=
+ =?us-ascii?Q?GWWUy2rG4GkbmdPSk8DyT1LK0pUA/nCQVFbUPUD2ZDtc8xZ6HKDZIqg2YcUI?=
+ =?us-ascii?Q?YNXRLlFwNkNJ+/tpuyKnD/N6t9ZUa5uX/idKQDY2H5kXsZGnc37scViA+2i+?=
+ =?us-ascii?Q?qzqxsaEGbVxt0ZjGQHMeUPqgeSRgh4g6pXbk3FBQQrllzxKdo8wjE0kOiPvx?=
+ =?us-ascii?Q?5W8GpWmzCJIpRtR1hH3xZvNLuqjZzcmxxlYgp1dRypFo/EBa9yHkC78W+fJV?=
+ =?us-ascii?Q?nWRQKlq4oP7u1GC25UdEqF/4HJ/AyxASSyPGgket/VrsTJCjQUZ6KJUQ+AbZ?=
+ =?us-ascii?Q?qmG7Tb/SeE9SgUWLNnJrIKafRrMAfzhz7dsdpxxGRu9oC57u+KPHeFVfpK1J?=
+ =?us-ascii?Q?nTF7z+61h+B2ctcwGOngaPeogmRnHrql6O312YltRwE5ClEreuyCM+4fRJvR?=
+ =?us-ascii?Q?698f7l89cvjiGsK1Caw9wKz2pxMCUe1/K5wtJywHx+fKrPLwCbdn2+UynjLv?=
+ =?us-ascii?Q?ox21nyNeBqVQwOLWZMkJH0FW239olhcn3CzjYjAopFBNdfO5dJTRnYy/Rk3d?=
+ =?us-ascii?Q?6YsvOpZhLPiAgFy/Hgyrls+vO+k/ylnSqPpS+iOf1EZ29kJyRTKrH8muy290?=
+ =?us-ascii?Q?HwJxlJr8Rdfa0iMSR/gr32A1YeMY1uRcHBJqHV8zEUG2tJmnQyzcZT4o8rjY?=
+ =?us-ascii?Q?FuyHI6cunkqzEE3dsjLTc6+C8h3jYAFKxxhlf250ODRzoV4wcdC7VN5MxwSG?=
+ =?us-ascii?Q?BKwMJc0xSkPlc/vfjcdkuRnZGM4lacCXdbDDKnDvwUjW7ejKiWUQP7x+LS1m?=
+ =?us-ascii?Q?b7bzGASLzirp3mrCMxHC3AeeBL1UNjAXcozJLFGUB74a27iG1Wuv5wwQjUgK?=
+ =?us-ascii?Q?SOiJxJatS/ONHjfmZs27Q74B1Au5Pw1czdVvhpUKpmJgF5mU6GR20tXmJ/wc?=
+ =?us-ascii?Q?C3Kq5z78Rvxc/GBKcKzzFeREnLqw+zxXl+tW1KiZJEIcniAkkDwj1qOMURN9?=
+ =?us-ascii?Q?NbX+VUpxFajiAn4oOfZSSN5W2fVdSyaN12otyMrV4iur0FauKqTIRuhw5QPn?=
+ =?us-ascii?Q?sz1IAnTrH1v/S10QxgV+o+Vh0BBzJZU31pvjoQmx11ZQKrJkgRY1qx3XU9tW?=
+ =?us-ascii?Q?IMfixpYyPO23TJg0BbWgSOF9Q1J4hzLpVmXbLlV0INzVVUV33pxcJ3aEWikQ?=
+ =?us-ascii?Q?qwuX5b9j1JmldSqTc0yM965niAOEJtdWsyl/WhOBZiOxXz2MjGMKPksoU45z?=
+ =?us-ascii?Q?WimEXfacN5KTUVsP1NOIrzU=3D?=
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae191571-398a-4b56-ecef-08dd529074d2
+X-MS-Exchange-CrossTenant-Network-Message-Id: a70efbdc-2a69-438c-1fad-08dd52907a52
 X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB13950.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 15:57:34.8575
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2025 15:57:43.8404
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CSkFFVokyzdKtLjkqedGqhcUkAbbuhsa84hMSUChGrleS68LI58mn0u83rsCaJxwfh2jvmpDFhReiBSFc28aNsmsk6r97auvCGrl7ZW1crkXP6JR/t2i0XzdpIgv6+Yv
+X-MS-Exchange-CrossTenant-UserPrincipalName: CfipJ535Ekx9DfamX7NPpe7YXS0FDrVMaut7/MfFwL4ET6H3xc+Lg6d+acw/zn0mdl5Sgi0+AZnZyo3jHTV3Bg0oPlwvQLIg5TutjrC8V0Y3b3DakUcy4qdNXD5Jj7hW
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6238
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Pass `max_width` and `max_height` as part of the OF data to facilitate the
-addition of support for RZ/G3E and RZ/V2H(P) SoCs. These SoCs have a
-maximum resolution of 4096x4096 as compared to 2800x4095 on RZ/G2L SoC.
-This change prepares the driver for easier integration of these SoCs by
-defining the resolution limits in the `rzg2l_cru_info` structure.
+Add `image_conv` field to the `rzg2l_cru_info` structure to store the
+register offset for image conversion control. RZ/G2L uses `ICnMC`, while
+RZ/G3E and RZ/V2H(P) use `ICnIPMC_C0`.
+
+Update `rzg2l_cru_initialize_image_conv()` and `rzg2l_cru_csi2_setup()`
+to use this `image_conv` offset from the OF data, facilitating future
+support for RZ/G3E and RZ/V2H(P) SoCs.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 ---
- .../media/platform/renesas/rzg2l-cru/rzg2l-core.c   |  2 ++
- .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h    |  4 ++--
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c | 13 +++++++++----
- .../media/platform/renesas/rzg2l-cru/rzg2l-video.c  |  5 +++--
- 4 files changed, 16 insertions(+), 8 deletions(-)
+ .../media/platform/renesas/rzg2l-cru/rzg2l-core.c  |  1 +
+ .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  1 +
+ .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 14 ++++++++------
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-index abc2a979833a..19f93b7fe6fb 100644
+index 19f93b7fe6fb..7e94ae803967 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-@@ -355,6 +355,8 @@ static const u16 rzg2l_cru_regs[] = {
- };
- 
+@@ -357,6 +357,7 @@ static const u16 rzg2l_cru_regs[] = {
  static const struct rzg2l_cru_info rzgl2_cru_info = {
-+	.max_width = 2800,
-+	.max_height = 4095,
+ 	.max_width = 2800,
+ 	.max_height = 4095,
++	.image_conv = ICnMC,
  	.regs = rzg2l_cru_regs,
  };
  
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index 00c3f7458e20..6a621073948a 100644
+index 6a621073948a..ca156772b949 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -27,9 +27,7 @@
- #define RZG2L_CRU_CSI2_VCHANNEL		4
- 
- #define RZG2L_CRU_MIN_INPUT_WIDTH	320
--#define RZG2L_CRU_MAX_INPUT_WIDTH	2800
- #define RZG2L_CRU_MIN_INPUT_HEIGHT	240
--#define RZG2L_CRU_MAX_INPUT_HEIGHT	4095
- 
- enum rzg2l_csi2_pads {
- 	RZG2L_CRU_IP_SINK = 0,
-@@ -81,6 +79,8 @@ struct rzg2l_cru_ip_format {
- };
- 
+@@ -81,6 +81,7 @@ struct rzg2l_cru_ip_format {
  struct rzg2l_cru_info {
-+	unsigned int max_width;
-+	unsigned int max_height;
+ 	unsigned int max_width;
+ 	unsigned int max_height;
++	u16 image_conv;
  	const u16 *regs;
  };
  
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-index 76a2b451f1da..7836c7cd53dc 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-@@ -148,6 +148,8 @@ static int rzg2l_cru_ip_set_format(struct v4l2_subdev *sd,
- 				   struct v4l2_subdev_state *state,
- 				   struct v4l2_subdev_format *fmt)
- {
-+	struct rzg2l_cru_dev *cru = v4l2_get_subdevdata(sd);
-+	const struct rzg2l_cru_info *info = cru->info;
- 	struct v4l2_mbus_framefmt *src_format;
- 	struct v4l2_mbus_framefmt *sink_format;
- 
-@@ -170,9 +172,9 @@ static int rzg2l_cru_ip_set_format(struct v4l2_subdev *sd,
- 	sink_format->ycbcr_enc = fmt->format.ycbcr_enc;
- 	sink_format->quantization = fmt->format.quantization;
- 	sink_format->width = clamp_t(u32, fmt->format.width,
--				     RZG2L_CRU_MIN_INPUT_WIDTH, RZG2L_CRU_MAX_INPUT_WIDTH);
-+				     RZG2L_CRU_MIN_INPUT_WIDTH, info->max_width);
- 	sink_format->height = clamp_t(u32, fmt->format.height,
--				      RZG2L_CRU_MIN_INPUT_HEIGHT, RZG2L_CRU_MAX_INPUT_HEIGHT);
-+				      RZG2L_CRU_MIN_INPUT_HEIGHT, info->max_height);
- 
- 	fmt->format = *sink_format;
- 
-@@ -197,6 +199,9 @@ static int rzg2l_cru_ip_enum_frame_size(struct v4l2_subdev *sd,
- 					struct v4l2_subdev_state *state,
- 					struct v4l2_subdev_frame_size_enum *fse)
- {
-+	struct rzg2l_cru_dev *cru = v4l2_get_subdevdata(sd);
-+	const struct rzg2l_cru_info *info = cru->info;
-+
- 	if (fse->index != 0)
- 		return -EINVAL;
- 
-@@ -205,8 +210,8 @@ static int rzg2l_cru_ip_enum_frame_size(struct v4l2_subdev *sd,
- 
- 	fse->min_width = RZG2L_CRU_MIN_INPUT_WIDTH;
- 	fse->min_height = RZG2L_CRU_MIN_INPUT_HEIGHT;
--	fse->max_width = RZG2L_CRU_MAX_INPUT_WIDTH;
--	fse->max_height = RZG2L_CRU_MAX_INPUT_HEIGHT;
-+	fse->max_width = info->max_width;
-+	fse->max_height = info->max_height;
- 
- 	return 0;
- }
 diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index f25fd9b35c55..9e5e79c6ca98 100644
+index 9e5e79c6ca98..022da19dd88a 100644
 --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -690,6 +690,7 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru)
- static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
- 				   struct v4l2_pix_format *pix)
+@@ -200,20 +200,22 @@ static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
+ 				 const struct rzg2l_cru_ip_format *ip_fmt,
+ 				 u8 csi_vc)
  {
 +	const struct rzg2l_cru_info *info = cru->info;
- 	const struct rzg2l_cru_ip_format *fmt;
+ 	u32 icnmc = ICnMC_INF(ip_fmt->datatype);
  
- 	fmt = rzg2l_cru_ip_format_to_fmt(pix->pixelformat);
-@@ -712,8 +713,8 @@ static void rzg2l_cru_format_align(struct rzg2l_cru_dev *cru,
- 	}
+-	icnmc |= (rzg2l_cru_read(cru, ICnMC) & ~ICnMC_INF_MASK);
++	icnmc |= (rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MASK);
  
- 	/* Limit to CRU capabilities */
--	v4l_bound_align_image(&pix->width, 320, RZG2L_CRU_MAX_INPUT_WIDTH, 1,
--			      &pix->height, 240, RZG2L_CRU_MAX_INPUT_HEIGHT, 2, 0);
-+	v4l_bound_align_image(&pix->width, 320, info->max_width, 1,
-+			      &pix->height, 240, info->max_height, 2, 0);
+ 	/* Set virtual channel CSI2 */
+ 	icnmc |= ICnMC_VCSEL(csi_vc);
  
- 	pix->bytesperline = pix->width * fmt->bpp;
- 	pix->sizeimage = pix->bytesperline * pix->height;
+-	rzg2l_cru_write(cru, ICnMC, icnmc);
++	rzg2l_cru_write(cru, info->image_conv, icnmc);
+ }
+ 
+ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+ 					   struct v4l2_mbus_framefmt *ip_sd_fmt,
+ 					   u8 csi_vc)
+ {
++	const struct rzg2l_cru_info *info = cru->info;
+ 	const struct rzg2l_cru_ip_format *cru_video_fmt;
+ 	const struct rzg2l_cru_ip_format *cru_ip_fmt;
+ 
+@@ -230,11 +232,11 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+ 
+ 	/* If input and output use same colorspace, do bypass mode */
+ 	if (cru_ip_fmt->yuv == cru_video_fmt->yuv)
+-		rzg2l_cru_write(cru, ICnMC,
+-				rzg2l_cru_read(cru, ICnMC) | ICnMC_CSCTHR);
++		rzg2l_cru_write(cru, info->image_conv,
++				rzg2l_cru_read(cru, info->image_conv) | ICnMC_CSCTHR);
+ 	else
+-		rzg2l_cru_write(cru, ICnMC,
+-				rzg2l_cru_read(cru, ICnMC) & (~ICnMC_CSCTHR));
++		rzg2l_cru_write(cru, info->image_conv,
++				rzg2l_cru_read(cru, info->image_conv) & (~ICnMC_CSCTHR));
+ 
+ 	/* Set output data format */
+ 	rzg2l_cru_write(cru, ICnDMR, cru_video_fmt->icndmr);
 -- 
 2.34.1
 
