@@ -1,158 +1,241 @@
-Return-Path: <linux-media+bounces-26579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45DAA3F433
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 13:27:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CC6A3F4BC
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 13:55:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9DD17176B82
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 12:27:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21AC9860DB1
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 12:55:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1078320AF74;
-	Fri, 21 Feb 2025 12:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CE931FF7D3;
+	Fri, 21 Feb 2025 12:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQJz1Uw4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AE5209F2E;
-	Fri, 21 Feb 2025 12:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59E91E493
+	for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 12:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740140841; cv=none; b=dqBhHsbBvEtnhlBJ0k8Y+PQEDvw7HUujpxx0Qgyol9+oSAS9GerwZY+KiO9q4tIYWL2XIK2t+2foaKDx5DX71AnoOoXreOGxZuROjlTtxCRwDm7xBJ9qSCNRboafeNry25/bOLfUXxZhJpfLoeiuuOxSbFkUfrncDbGiX/TDGHo=
+	t=1740142518; cv=none; b=W06RYEGeT5HknRQSYrVnUNHkCPbmbbQ171a5TSgN8Y3apE2bwCvsWXaCtNW99O3yLSe5yX04Ltc7y+KBiNkCGyuuIbUFigwV+Frl8KpgAW0XWgHfDVNYfxkCGeTwqFiukg3wiAmiO1G+D8Jjx3xxb1wyz4t6ScZnyN9QZVyJ9jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740140841; c=relaxed/simple;
-	bh=lZoHxOGcfy3q2OL6Eli0jg/KBp4T/ELGKhLw5xt4kgw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WBVTHE6DwwKyT+7iyDCNBQ9dMy2RM+wCOvcb9YidcRp3FM09pHEP50rh4IwfCAwRn8EtstbEE+tTgLvGlnOdJnW9RcXPKcoq8Ba7JkIr15ovAh8nP5aIxGceNn8QQ6Gbni+JJrjS5vJ4VMn15DcplIywQ53xURRCv8TqT7kl4io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D893DC4CED6;
-	Fri, 21 Feb 2025 12:27:18 +0000 (UTC)
-Message-ID: <310e5f92-e4d9-4127-afff-9566ba8a075e@xs4all.nl>
-Date: Fri, 21 Feb 2025 13:27:17 +0100
+	s=arc-20240116; t=1740142518; c=relaxed/simple;
+	bh=0xK3Cv/rETWxY9Cj0+v+V4aSzPsQRvcAAlB8LfDqbXk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OGZrU5s/ml/QWZAqM6kU9twx2TCgcXI4keIo3Zio7ykDOhcjmYISUZp42pxc2hkmk+dGfWYwi43V3dR8f4YZLxi4PjxOqDXC3PBYvUJAXtjkvsnuNCKrAz4mdp/GS7fvd+RKDlAmwDo6Jc+tbaap/ji0jbhggnkCFTH2+wzJLbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQJz1Uw4; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740142515; x=1771678515;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0xK3Cv/rETWxY9Cj0+v+V4aSzPsQRvcAAlB8LfDqbXk=;
+  b=hQJz1Uw4FZgVAXlpK4ZMMOSKS3yF6X5pULSy6kqjn8FBdr8g6pvqNVcL
+   2vy3zxZ8U9kZ5sORAPqEOV7j/qdjchgck2Pj8BXBU1q+JDQbC3LREnGAY
+   onW24joogqs4NO5aPqOmYHDFeoT+18DNETyaIajmxc1wavcQgGgRbt4O4
+   +W4Sx6YrVtmdPLUFA7/cz7KqWtCmQGA1MKAcwEvDdOp27bRTeE6xX6VgG
+   Z0IbSdX3JZ3C07WrsHGoW0+rmoelsD6L10Z6BEKB2YiLgjTrQFKNwFSOp
+   vrgo9DyWq/UKvIFjXa62g+En07PpTv+Z8rJK+22bhTmTiKl4JoHzypAIa
+   A==;
+X-CSE-ConnectionGUID: 4pgt9QoYR1WyF6lTJvR8WA==
+X-CSE-MsgGUID: VEssRB4RRS6zBQiQSJDguQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="40835601"
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
+   d="scan'208";a="40835601"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 04:55:15 -0800
+X-CSE-ConnectionGUID: mAG4G/08QB6WXdDkeCOchA==
+X-CSE-MsgGUID: Y6/wySyNQy2DOrzKl9qmgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
+   d="scan'208";a="120466016"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 04:55:12 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id F24BF120289;
+	Fri, 21 Feb 2025 14:55:09 +0200 (EET)
+Date: Fri, 21 Feb 2025 12:55:09 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: bingbu.cao@intel.com
+Cc: linux-media@vger.kernel.org, hdegoede@redhat.com, hans@hansg.org,
+	stanislaw.gruszka@linux.intel.com, jerry.w.hu@intel.com,
+	tian.shu.qiu@intel.com, daxing.li@intel.com, hao.yao@intel.com,
+	bingbu.cao@linux.intel.com
+Subject: Re: [RFC PATCH 0/7] Intel IPU7 PCI and input system device drivers
+Message-ID: <Z7h3rUrwX8i3a-My@kekkonen.localdomain>
+References: <20250221075252.3347582-1-bingbu.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/11] media: Remove vidioc_g/s_ctrl and
- vidioc_queryctrl callbacks
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Mike Isely <isely@pobox.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20241210-queryctrl-v2-0-c0a33d69f416@chromium.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241210-queryctrl-v2-0-c0a33d69f416@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250221075252.3347582-1-bingbu.cao@intel.com>
 
-On 10/12/2024 10:28, Ricardo Ribalda wrote:
-> Most of the drivers use the control framework or can use the superset
-> version of these callbacks: vidioc_g/s_ext_ctrl and
-> vidioc_query_ext_ctrl.
+Hi Bingbu,
+
+On Fri, Feb 21, 2025 at 03:52:45PM +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Changes in v2:
-> - v4l2_query_ext_ctrl_to_v4l2_queryctrl
-> - Fix conversion (Thanks Hans)
-> - Link to v1: https://lore.kernel.org/r/20241209-queryctrl-v1-0-deff7acfcdcb@chromium.org
+> This patch series adds a driver for Intel IPU7 input system.
+> IPU7 is the seventh generation of Imaging Processing Unit, it is a
+> PCI device which can be found in some Intel Client Platforms such as
+> Intel Lunar Lake and Panther Lake, etc.
+> User can use IPU7 to capture images from MIPI camera sensors, support
+> both MIPI CSI DPHY and CPHY.
 > 
-> ---
-> Ricardo Ribalda (11):
->       media: ioctl: Simulate v4l2_queryctrl with v4l2_query_ext_ctrl
->       media: pvrusb2: Convert queryctrl to query_ext_ctrl
->       media: pvrusb2: Remove g/s_ctrl callbacks
->       media: uvcvideo: Remove vidioc_queryctrl
->       media: atomisp: Replace queryctrl with query_ext_ctrl
->       media: atomisp: Remove vidioc_g/s callback
->       media: v4l2: Remove vidioc_queryctrl callback
->       media: v4l2: Remove vidioc_g_ctrl callback
->       media: cx231xx: Replace s_ctrl with s_ext_ctrls
->       media: v4l2: Remove vidioc_s_ctrl callback
->       media: v4l2-core: Introduce v4l2_query_ext_ctrl_to_v4l2_queryctrl
+> IPU7 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
 > 
->  drivers/media/usb/cx231xx/cx231xx-417.c           | 21 ++++++----
->  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c          | 40 ++++--------------
->  drivers/media/usb/uvc/uvc_v4l2.c                  | 10 -----
->  drivers/media/v4l2-core/v4l2-ctrls-api.c          | 51 +++++++++++++----------
->  drivers/media/v4l2-core/v4l2-dev.c                |  6 +--
->  drivers/media/v4l2-core/v4l2-ioctl.c              | 19 +++++----
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 35 ++++++++--------
->  include/media/v4l2-ctrls.h                        | 12 ++++++
->  include/media/v4l2-ioctl.h                        | 12 ------
->  9 files changed, 97 insertions(+), 109 deletions(-)
-> ---
-> base-commit: 6c10d1adae82e1c8da16e7ebd2320e69f20b9d6f
-> change-id: 20241209-queryctrl-5c3632b7c857
+>  - ipu7.c: the IPU7 PCI device driver probe, basic hardware
+>    configuration and initialization
+>  - ipu7-bus: Initialise and register the auxiliary device for IS
+>  - ipu7-buttress: Hardware buttress interfaces to allow driver to
+>    program to enable the power, firmware authentication and interrupt
+>    handling.
+>  - ipu7-mmu and ipu7-dma: IPU MMU table setup and IPU DMA mapping APIs
+>  - ipu7-cpd and ipu7-boot: firmware format parse and firmware boot flow
+>  - abi: a series of ABI headers used by driver and firmware
+>  - ipu7-syscom: syscom communication interfaces used by driver to queue
+>    commands to firmware
+>  - ipu7-isys: main IPU7 input system driver, it registers CSI2 as v4l2
+>    sub-devices and the capture as video devices.
+
+Given that much of the driver code is the same than in the IPU6 driver (in
+particular split into devices, DMA, MMU and V4L2 / MC API related code), we
+should share at least that instead of looking to maintain two copies of it
+separately. The IPU7 driver probably has had a different starting point for
+development than the current IPU6 driver so there are a fair amount of
+differences in that code now but it is largely not due to differences in
+the hardware itself, for instance, the lack of metadata or multiple virtual
+channel support you listed below.
+
 > 
-> Best regards,
+> 
+> TODO list:
+>  1. ABI headers cleanup (currently a copy from firmware as it is
+>     still in development and updating regularly, need cleanup to unifiy
+>     the headers)
+>  2. add metadata capture support
+>  3. add multiple virtual-channels capture support
+>  4. remove unsecure mode code as secure mode is force to enabled in
+>     product
+> 
+> Bingbu Cao (7):
+>   media: Rename the IPU PCI device table header and add IPU7 PCI IDs
+>   media: ipu7: add Intel IPU7 PCI device driver
+>   media: ipu7: add IPU7 DMA APIs and MMU mapping
+>   media: ipu7: add firmware parse, syscom interface and boot sequence
+>   media: ipu7: add IPU7 firmware ABI headers
+>   media: ipu7: add IPU7 input system device driver
+>   media: ipu7: add Makefile and Kconfig for IPU7
+> 
+>  drivers/media/pci/intel/Kconfig               |    1 +
+>  drivers/media/pci/intel/Makefile              |    1 +
+>  drivers/media/pci/intel/ipu6/ipu6.c           |    2 +-
+>  drivers/media/pci/intel/ipu7/Kconfig          |   18 +
+>  drivers/media/pci/intel/ipu7/Makefile         |   23 +
+>  .../pci/intel/ipu7/abi/ipu7_fw_boot_abi.h     |  164 +
+>  .../pci/intel/ipu7/abi/ipu7_fw_common_abi.h   |  243 ++
+>  .../pci/intel/ipu7/abi/ipu7_fw_config_abi.h   |   19 +
+>  .../intel/ipu7/abi/ipu7_fw_insys_config_abi.h |   19 +
+>  .../pci/intel/ipu7/abi/ipu7_fw_isys_abi.h     |  495 +++
+>  .../pci/intel/ipu7/abi/ipu7_fw_msg_abi.h      |  509 +++
+>  .../intel/ipu7/abi/ipu7_fw_psys_config_abi.h  |   22 +
+>  .../pci/intel/ipu7/abi/ipu7_fw_syscom_abi.h   |   60 +
+>  drivers/media/pci/intel/ipu7/ipu7-boot.c      |  434 +++
+>  drivers/media/pci/intel/ipu7/ipu7-boot.h      |   21 +
+>  drivers/media/pci/intel/ipu7/ipu7-bus.c       |  158 +
+>  drivers/media/pci/intel/ipu7/ipu7-bus.h       |   69 +
+>  .../media/pci/intel/ipu7/ipu7-buttress-regs.h |  465 +++
+>  drivers/media/pci/intel/ipu7/ipu7-buttress.c  | 1187 +++++++
+>  drivers/media/pci/intel/ipu7/ipu7-buttress.h  |   84 +
+>  drivers/media/pci/intel/ipu7/ipu7-cpd.c       |  230 ++
+>  drivers/media/pci/intel/ipu7/ipu7-cpd.h       |   62 +
+>  drivers/media/pci/intel/ipu7/ipu7-dma.c       |  509 +++
+>  drivers/media/pci/intel/ipu7/ipu7-dma.h       |   50 +
+>  drivers/media/pci/intel/ipu7/ipu7-fw-isys.c   |  300 ++
+>  drivers/media/pci/intel/ipu7/ipu7-fw-isys.h   |   39 +
+>  .../media/pci/intel/ipu7/ipu7-isys-csi-phy.c  | 1051 +++++++
+>  .../media/pci/intel/ipu7/ipu7-isys-csi-phy.h  |   16 +
+>  .../pci/intel/ipu7/ipu7-isys-csi2-regs.h      | 1197 +++++++
+>  drivers/media/pci/intel/ipu7/ipu7-isys-csi2.c |  565 ++++
+>  drivers/media/pci/intel/ipu7/ipu7-isys-csi2.h |   73 +
+>  .../media/pci/intel/ipu7/ipu7-isys-queue.c    |  836 +++++
+>  .../media/pci/intel/ipu7/ipu7-isys-queue.h    |   79 +
+>  .../media/pci/intel/ipu7/ipu7-isys-subdev.c   |  381 +++
+>  .../media/pci/intel/ipu7/ipu7-isys-subdev.h   |   55 +
+>  .../media/pci/intel/ipu7/ipu7-isys-video.c    | 1130 +++++++
+>  .../media/pci/intel/ipu7/ipu7-isys-video.h    |  117 +
+>  drivers/media/pci/intel/ipu7/ipu7-isys.c      | 1170 +++++++
+>  drivers/media/pci/intel/ipu7/ipu7-isys.h      |  150 +
+>  drivers/media/pci/intel/ipu7/ipu7-mmu.c       |  853 +++++
+>  drivers/media/pci/intel/ipu7/ipu7-mmu.h       |  414 +++
+>  .../media/pci/intel/ipu7/ipu7-platform-regs.h |  146 +
+>  drivers/media/pci/intel/ipu7/ipu7-syscom.c    |   79 +
+>  drivers/media/pci/intel/ipu7/ipu7-syscom.h    |   36 +
+>  drivers/media/pci/intel/ipu7/ipu7.c           | 2791 +++++++++++++++++
+>  drivers/media/pci/intel/ipu7/ipu7.h           |  244 ++
+>  drivers/media/pci/intel/ivsc/mei_csi.c        |    2 +-
+>  .../{ipu6-pci-table.h => ipu-pci-table.h}     |   14 +-
+>  48 files changed, 16578 insertions(+), 5 deletions(-)
+>  create mode 100644 drivers/media/pci/intel/ipu7/Kconfig
+>  create mode 100644 drivers/media/pci/intel/ipu7/Makefile
+>  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_boot_abi.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_common_abi.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_config_abi.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_insys_config_abi.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_isys_abi.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_msg_abi.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_psys_config_abi.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_syscom_abi.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-boot.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-boot.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-bus.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-bus.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress-regs.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-cpd.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-cpd.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-dma.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-dma.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-fw-isys.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-fw-isys.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi-phy.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi-phy.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2-regs.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-queue.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-queue.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-subdev.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-subdev.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-video.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-video.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-mmu.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-mmu.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-platform-regs.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-syscom.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-syscom.h
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7.c
+>  create mode 100644 drivers/media/pci/intel/ipu7/ipu7.h
+>  rename include/media/{ipu6-pci-table.h => ipu-pci-table.h} (68%)
+> 
 
-$ git grep vidioc_s_ctrl
-drivers/media/radio/radio-wl1273.c:static int wl1273_fm_vidioc_s_ctrl(struct v4l2_ctrl *ctrl)
-drivers/media/radio/radio-wl1273.c:     .s_ctrl = wl1273_fm_vidioc_s_ctrl,
-
-Now that s_ctrl is the callback of the control handler ops, but
-I think it is wise if you add a patch that renames wl1273_fm_vidioc_s_ctrl to wl1273_fm_s_ctrl.
-
-Just so the string 'vidioc_s_ctrl' no longer exists in the code base.
-Besides, it isn't the correct name of this function anyway. It's clearly a left-over
-from the past.
-
+-- 
 Regards,
 
-	Hans
+Sakari Ailus
 
