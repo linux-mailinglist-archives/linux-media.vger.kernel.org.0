@@ -1,279 +1,447 @@
-Return-Path: <linux-media+bounces-26565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26566-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6BAA3F2E0
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 12:24:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D739EA3F30B
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 12:36:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1FD617FA27
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 11:24:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5837970374B
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 11:36:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E04820767F;
-	Fri, 21 Feb 2025 11:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDBC2209F33;
+	Fri, 21 Feb 2025 11:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M2AnMbjA"
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="iniof2yw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazolkn19011027.outbound.protection.outlook.com [52.103.67.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A391B1EEA56
-	for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 11:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740137087; cv=none; b=fIKlV1dmKgJYkdwLFQwsCNzuHYSoTI1qOGHiFvMIfRIA7rQXueiv7z9si4q5oyHofMjHuZTsOFVQZfWbbGiW8S7kxIo73InUSa35nrPZuCU0kfZ424UaIZ2ZUNrjEJqmP0jTqkFeL6wadpF7qyLNrFLmzxowkcguUNqzAA7Rl0Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740137087; c=relaxed/simple;
-	bh=mO2jRFaFJdWmTcwxZnmDPcxRdQBDuoP9Nw670+BH+Y8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XiQzB9LsKuD9G1gOiFrwxBbXZfO2LOoLssOptlK49uwtU7CU6tl0/RDjJ8x6C9vD56RNVd7t+wqbw3tUUxpYvbiJY9uKyK0vf1wHUA8bYBvPJhV30JHJht15ZteGMLodhjCXaM/1jwfhv/57aGTKXdo0XeNcSZCtChPHQgjD880=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M2AnMbjA; arc=none smtp.client-ip=209.85.222.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-86929964ed3so1123590241.0
-        for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 03:24:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740137084; x=1740741884; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mQpj5OYtvrzGwuvsGqLuFUVRvPktL6wX4C7ZRj/Lz9g=;
-        b=M2AnMbjAw05oC9q8TFgGjgnKbULoQF34OFSU4B86FikkhIgh2Rfk/4EsCgNloA0D97
-         1PT/vJA9XAWqFPjfKP1pREeBlzPHs+XZqj3rzQczTC0pAq+cxiBuExQ1EyXzw5d8Wpfs
-         ldkcagB98vHj6KMT3y6/sJokO8uWI6iYkaLqm+3Gr9zVx6sA59DKCETqxi7Yv8njPdjV
-         dTlbvzZct+HDD7yWUlQIqYV0vT6vIX+RdtIJXmliSSEEMAB0+wG+RgVbW9h6KgxPLQ5a
-         NbGwDvcKtD8Hx0QWQbAhvodgr0LGL+sZlcjAQooTKeydt8r0SfZeiODHYQ6+cyvolNvk
-         epWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740137084; x=1740741884;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mQpj5OYtvrzGwuvsGqLuFUVRvPktL6wX4C7ZRj/Lz9g=;
-        b=T0oq+uz1qgF+Tpkzfx4b9Eb5sH2j9UdtSKYR4dl2DOkhWA3hY063e9O8Dd2Dy3Nr4v
-         4UHHRZ/ETlpFwGYlGz3BpkJdY21K4kJ14XrtBmg9zKPKBCsWpjwTaDxXEQb+aZ75AuXL
-         36gaTPzAvTDZkDRnVuOKm+QaazvOiJSgWnTlQmsZf08/ccTVp/zfCM3OKw2zSCI+GACr
-         bNPNIUkoABrUz7dcckQneZNTiV3+aIFrK3WKeVKFiUGA7pwgwyZyBROPN3YwIbrrFsVc
-         0vsi0tQv2Rfaje46ebY5K0ZwHM1ZfGcF3abLP8N8hrnmLv+2468pi+YKS2+9VHCjonob
-         BGog==
-X-Forwarded-Encrypted: i=1; AJvYcCWhyRKIvEjR0CPvH6+3n1gkIBbN33dc5t5EGEqJsaqzeufhK4e1s5/LGgxiOR3elbxcjazgWo0g0koJdQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl/z5AieaQTwHS2bzQHOOUV5lXSYlluJbGfqNLlf3Httk3aJa4
-	oV6apwdQYY8b4cRYaRxYbEdfWKGL6P/7nNU69wlukKVaicHX8n8eDiWyxQGcw0pEGu8sNZchON7
-	jfvqlh3+8cjl4YX99Qomtd7WchZXdf62XI7ITPg==
-X-Gm-Gg: ASbGncvjTFkWPLgv7Op8V2QBuK//17DaQubcl6puFVye2SHwA2RLTevTU3oreayTtQB
-	AUSuGq0C9DZH3nfRKdFHK3Q1dn3g+Z22Klbdgmu8MkZWXz9Dh/5szg30HbUR3IMM/nd8iIjIp+b
-	otsNsdtbeR3w==
-X-Google-Smtp-Source: AGHT+IEEFDT7zw2jzeYUu4scukbdYB4lknasD3bWh5ghSoREMknA9fEDbTJjpM6XHz/2KAnn95mbCSQMBgCOtTskL2U=
-X-Received: by 2002:a05:6102:32d6:b0:4bb:ba51:7d4d with SMTP id
- ada2fe7eead31-4bfc0025f2bmr1746137137.8.1740137084336; Fri, 21 Feb 2025
- 03:24:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9AC2040AE;
+	Fri, 21 Feb 2025 11:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.27
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740137775; cv=fail; b=lvSolHZCscvIzLeLGfYP6qZqMAKiwk+8lvxckMedYR5qEQBEMn2Nsgy5OelTNZMISbQMir9UaiUuekDineoTDD1282Ov0iwaIN9MFqKAzXDb2uVcYbH/gdz0La1VdLlcF8jjgi2dZquiu6L/l/bXPfd0hvC9Ap4KfadQrBHasX0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740137775; c=relaxed/simple;
+	bh=DJWVuNP4gzwWQdlBCx9ZiJlsW/XWO4AKzHiOc9Phuno=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sKAyl88dTRy94EZaIYDuZQK5eiSoUFaAVSKrNqZR4WEw5J06kJHbUwjVx892iOD48fyYWuV5uOEfXLSuaom0WAC3yctHYlhjbKvR6R7A0WWfULvGavGH6hpkHdbA9Dz7fjtrLHO3xeDHEM14WaY1BF6Wd23u1fSyMR9rYkdRQwk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=iniof2yw; arc=fail smtp.client-ip=52.103.67.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CTIgXMyiDgXGdpYRp35Clu2zVlZw8nkWWyCp3XgB1YrwiP+niHYwun3+Szmck+fpC1yvNFsHvayqVuyf9NOLSZWUuRB9uL964+zwj1cHnf/zKGE2Y0jN55OkdKDJ0r3NpgfElyLyN8sHwuln8lOzLIvbnpe6vuw/OUJ0h7WR7NfYXv+CcE7CymXC4+RhWSKz2OY5ye9xVOftTRSidq+ISVqsmlxMB4GrpqPDGtf8b0eTuOcarZJwteMGa7gHrNKtUQGgk0bG5ad4YPiusd6D1YBbq9lH/bgebchKpGxJ/1pVLrabQyYUAZ9G7sJP3+5bTz7vKHc5wfqVUhIFWfBqmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b7YHFu7v/bv/9AABEWj2muQuuwY6ueCX79QT2sAl/Xs=;
+ b=jg42j/u848D4/V5Wd/UhQBScYfOwFo3Oj8OoM1+MkgrJjIk/r+idEdLsGVCyU5viCAwachKsC99gU0UPlB+zrIJ9aQd5EW9F2KiJQeb/ZF/MkqjFLqf8I8b/ynyF/qupIZHMR6REsMmfbV3B7a5CIvaXWFrp7vFq0jKgcuODZEJ7IvrNMk55RAHDGSerXt1RtwXHxtqfF6u+eVXBVuCeC4r//lx+L6uY8BxsDyfcITK2x+eW7ASUdIbNZx2puLmTN3vHmxn8BiDbo/S/RRLVvclT+6iWXQkSsXfdkR+BpzPrQgXaDC3NTTwcWgQOqo65wdEWxO2aibzBogXYnvJVeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b7YHFu7v/bv/9AABEWj2muQuuwY6ueCX79QT2sAl/Xs=;
+ b=iniof2ywYa8QLtE7iVwDPXpW1ga2LEa6II7vZGv2nShytm918w+GHYNJFKoMMhPVo9KrXyt2tICF9z2j2M4ye30MGP0MwMI8m5CGWrahf9JEVYM+aIazA8FEnbM0S7t5Mx4OvuuYsre88sQ0pObG6CKo+kKkFC2MI2K1YH6u5ewKFgekXDSrocJRRQ7s11aLm8nBGdt6WKmP/9yOqEofO5zWb7vMxXGFDqdjAMZ7DB8DlFofmHY4yRFTYaIoDim8WwlvJfw/byNwcoApcaoMBnizUxuuLrM3v5EriO6TJXWrfsdZeuETjhd+1AxGE8W+k7vRz9uFLwgxeeroqjZDpg==
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::9)
+ by PN3PR01MB6457.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:84::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.17; Fri, 21 Feb
+ 2025 11:36:01 +0000
+Received: from PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1]) by PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::27a3:3d7e:30be:e1d1%3]) with mapi id 15.20.8466.016; Fri, 21 Feb 2025
+ 11:36:00 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "pmladek@suse.com" <pmladek@suse.com>, Steven Rostedt
+	<rostedt@goodmis.org>, "andriy.shevchenko@linux.intel.com"
+	<andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
+	<linux@rasmusvillemoes.dk>, "senozhatsky@chromium.org"
+	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+	<tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>, Andrew Morton
+	<akpm@linux-foundation.org>, "apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>, "dwaipayanray1@gmail.com"
+	<dwaipayanray1@gmail.com>, "lukas.bulwahn@gmail.com"
+	<lukas.bulwahn@gmail.com>, "sumit.semwal@linaro.org"
+	<sumit.semwal@linaro.org>, "christian.koenig@amd.com"
+	<christian.koenig@amd.com>
+CC: Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>, Atharva Tiwari
+	<evepolonium@gmail.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, Asahi Linux Mailing List
+	<asahi@lists.linux.dev>, Sven Peter <sven@svenpeter.dev>, Janne Grunau
+	<j@jannau.net>
+Subject: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888 to
+ BGR888
+Thread-Topic: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
+ to BGR888
+Thread-Index: AQHbhFTIgiDbbKYiw0mijjb2mLA7Rg==
+Date: Fri, 21 Feb 2025 11:36:00 +0000
+Message-ID: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PNZPR01MB4478:EE_|PN3PR01MB6457:EE_
+x-ms-office365-filtering-correlation-id: d2b787ef-e183-4c7c-8b2d-08dd526beaa6
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8062599003|8060799006|19110799003|7092599003|15080799006|461199028|440099028|3412199025|41001999003|102099032;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?C2SvoPCpfeXgBU9RZLIGmd4Znp07FkaAU0jQNAub2UK/HwTxbnQ5J5eFhwWM?=
+ =?us-ascii?Q?GSMuy4tyBwESmz4/1MQ/TpPZkMtY5uFuhR0KmoGHajBhcJIj4t8w8dILK0tT?=
+ =?us-ascii?Q?kA3QBx6hhbOmdPyjyvLSg4YrraUg3x4ilJHJpBFdG284yneAp5SeCTu/W93i?=
+ =?us-ascii?Q?hOiNtUjfc4UEMcLj4SeNxn4y9d6gH1iJ7qS6yRzJUu1WJt8Qt3QAF35FbQ2+?=
+ =?us-ascii?Q?c+Z69OA5SmEPcIkeBtdPDU9+T7NoImtjNAHbMKz/3+nsPauXUmNQBaXz5t6P?=
+ =?us-ascii?Q?bsmav2cVN/oflVT/URqn8rWZK6A/s+P4KnTr8Kkl2N1exXvYrnKJEJ9EzJOW?=
+ =?us-ascii?Q?CghcYVs7BFkbF+ntTQwUYVwxLtasF7GOdyWcnz3LZ/c3PzcFSmU+S5TfO/G3?=
+ =?us-ascii?Q?+9DO3sQAxFmkDGNRkPjiepWhxtfArLXIK800tF2Zx+gKYPn0v3TF+kNKMLRD?=
+ =?us-ascii?Q?8hHQRrIX0g+125/y/ITasgu7EgUfXlWJZL2gBSVomRnXjDFioSNNp1ePMy7P?=
+ =?us-ascii?Q?/eSTNzT4GORBhBxNB6Bvicc5c/SzVBvQUdCgKe72t1D4KPpXqFTHuNp4gF3+?=
+ =?us-ascii?Q?eL5TNWxZitCpTZR2m5TGFx1J+vi/5bLPX1iDmRJ8O22Ed2AKu1sD67gK9r/4?=
+ =?us-ascii?Q?seJ27lE5IeuEo7K/FMWVzNvrQ1KaJUHocd6CRQ4ljUbaUmT2a2fAa0pGwK/n?=
+ =?us-ascii?Q?GCw6agQlMtVg2jqUskG9YQTe1QQYjbwin+O6dlf2bvyjEHBWYnIZBC+LoA6M?=
+ =?us-ascii?Q?ndZnRSqYWA47P5Za3D6cZqAPe4DVqRaUV3ACvusK8TuCjtcFrCDydZ/tRBSF?=
+ =?us-ascii?Q?y3OKL25b6YU5dpaB8a9tS+NPQkvAh2XI2wG/ytOP8FyQy4agTGd/YLzoSM/X?=
+ =?us-ascii?Q?noyM124A0Y+1zraTuEZLdbCWRTNlKY2b21oIF5ZAEzBo53b94vbuh0YZvRxm?=
+ =?us-ascii?Q?dhsHR1K6C8ecDbU6UJhQPoClheudPbtuwJVRigj9xh8nEKmj6hm9pYNY4lCg?=
+ =?us-ascii?Q?U4uplFVmO+tlTMxiT8S4/tZi4KuK0bycBoiMSj17aMTJtiPAq2/KBpOjZPSU?=
+ =?us-ascii?Q?5mPAKwCnvS13BQb13WXMaCcI+Ot2o99UdrnFGwEKTZ398bbIg+Q=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?NcIoGNLdaqtcHbT6+vOh/R5FntoFhkXj9JmE21TlcxsiRacBdwilbKxCmqxv?=
+ =?us-ascii?Q?i1UgXOOgob0UQqCGY0MJSP0yVnaJZv7QaLLAmWFS7hxTixsF7nBK0cdzYgxs?=
+ =?us-ascii?Q?/ZxD8KTXjK/6RuPPP5cNPGJP5YjBaqoqU4sMqK4vuANPk3H8IkCw3gXr4jWO?=
+ =?us-ascii?Q?mVZpbHQa4W3+hBWTJrtXrrCnu7ImWBtc0V+woQgbOgsW8qBAIHyIBhJhKzJI?=
+ =?us-ascii?Q?PhQyusQc8bhkDClFfo7bJVvyrhj8SUoNEfiDPklQRi6k+5AcyMdFHJcrW/VS?=
+ =?us-ascii?Q?pIEqiJY2mJ9MtKcAwSq+rxxU0EgDLfyqLIw43Pk0Rh5irgppqTGlnNpPonK1?=
+ =?us-ascii?Q?wdBF9QwFBn+lwiGBSUjynDoO/0sfm3TBUVThurEhqinGtNIcwsw7jhx2KUNn?=
+ =?us-ascii?Q?5VyRkDqC5jFzHBi/pkGN1fkT3zK82xdnIiiEZghhBx/qOjEiR2tVJo3/YIBo?=
+ =?us-ascii?Q?1scj+ESCAQM5aTpKofCGGTxMQg0YpSB04tRDav88H3MFpH1gtBCreQgP843o?=
+ =?us-ascii?Q?QgXFH4vAJTLPvCw1JOhidHHu4VQcIx2/YFH9UomU+c4Yw8yZb4Lo0zoNf+Mz?=
+ =?us-ascii?Q?vL2Vs/8ANp9KhmfV3k9leofgsmEHMi4PyuWmEMW9z/IjB5Zbn9S0ZGFZGA9Z?=
+ =?us-ascii?Q?cRilSO9svIvFZ+DN3b6BZFSBbH+yKMAI++s1MaP36B4Od5kHK/HxRTXIOv6K?=
+ =?us-ascii?Q?rkDMSCVSiLYn4R7v3mGiHuVG/B0S5veYywEgnOQ86gM3pGvean9MaurTyhCt?=
+ =?us-ascii?Q?WFvBGPn3r9cmmOOVTrZul3yn7yfv5mmelTKy7YwcUaLuQDSBTMbZQHYiLYRr?=
+ =?us-ascii?Q?G9Quz15osBtGRolk9jOKDjU1cMbXO5Xo0weZ+FhREl4ZUR6tB25j5Xdq4KeC?=
+ =?us-ascii?Q?dG39tz387YkZoD2HJdSqwCFVemrlmIfxKJ8LXVfz0lSgOAZBgwFU4xNq8Yq2?=
+ =?us-ascii?Q?YFFBsv5oaPFGD3zqqcwKCYZ1reBQID4O/jR3uZiqDgoXHw3PThP+V3qdfSkL?=
+ =?us-ascii?Q?mrH52j5po0Q+EPX4Ar6gxQf7cjzjKMSFZvdPM+OG0DCOX3TwlD0CyYnPZKZI?=
+ =?us-ascii?Q?M0OlWA7t9kx+jBLT6FLeJxt4OvrUCjKVT8r09bYCYU2q8mmRl/akwM0E8WBH?=
+ =?us-ascii?Q?jwYvFwb4lVscSZC/C1QqqJUAGtVE7GqbMdmhZIrMohOMt6ZuKiw4Se47gsI0?=
+ =?us-ascii?Q?Fw1cBWmI2FgG1qX7PhqVE4rngpf0bUGFWM2HJd0nfHrlozSbYwjjvAe+a+iE?=
+ =?us-ascii?Q?v8p9YWPPhmakdDg1Tt4l6AkupYu5iZvq/qFwPWHMZqt0VSfDj6D6T16ntdG8?=
+ =?us-ascii?Q?WX6EjgES2jQMUmblqWcbndN2?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <43988FB88197EF40A9C46BAB804BE7F1@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <20250212205613.4400a888@collabora.com> <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
- <20250213093557.278f5d19@collabora.com> <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
- <20250213134008.4cbef142@collabora.com> <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
- <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
- <CAPj87rPHnME5Osgnf5-FSAu22mDpLj=dzvhi_NqEcOwr1ThgGw@mail.gmail.com>
- <CAHUa44Gs0D1fBD0=+EDgcQUMeDv4knci9trUkYEc1J98qFV7HQ@mail.gmail.com>
- <CAFA6WYOuTwRPEh3L7+hMyARB_E73xmp+OwhKyS-r4+ryS7=9sw@mail.gmail.com>
- <20250214164856.0d2ead8a@collabora.com> <CAFA6WYPc6EHQwcPuMZRm4C1P6SoDrCzEPUmju_meupB6NXQ1sg@mail.gmail.com>
- <CAPj87rN-OYTzh5=Gdv619UQD5=x=U6Yt=uV4N1kCs4Zao4RVAg@mail.gmail.com>
-In-Reply-To: <CAPj87rN-OYTzh5=Gdv619UQD5=x=U6Yt=uV4N1kCs4Zao4RVAg@mail.gmail.com>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Fri, 21 Feb 2025 16:54:33 +0530
-X-Gm-Features: AWEUYZmWGLJSr8dI5fGVPvBYBUuW01AR9UFyCT0aSOf_de_3Q9BR4iWL6l6nzQw
-Message-ID: <CAFA6WYMLLLSuz3y5J+DuRFAGrmwpZoWax5sasfAUhXoQXmrNNA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
-	Jens Wiklander <jens.wiklander@linaro.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	"moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>, op-tee@lists.trustedfirmware.org, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Florent Tomasin <florent.tomasin@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4478.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2b787ef-e183-4c7c-8b2d-08dd526beaa6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2025 11:36:00.7880
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB6457
 
-On Tue, 18 Feb 2025 at 21:52, Daniel Stone <daniel@fooishbar.org> wrote:
->
-> Hi Sumit,
->
-> On Mon, 17 Feb 2025 at 06:13, Sumit Garg <sumit.garg@linaro.org> wrote:
-> > On Fri, 14 Feb 2025 at 21:19, Boris Brezillon <boris.brezillon@collabora.com> wrote:
-> > > I would say one heap per-profile.
-> >
-> > And then it would have a per vendor multiplication factor as each
-> > vendor enforces memory restriction in a platform specific manner which
-> > won't scale.
->
-> Yes, they do enforce it in a platform-specific manner, but so does
-> TEE. There is no one golden set of semantics which is globally
-> applicable between all hardware and all products in a useful manner.
->
-> So, if we define protected,secure-video +
-> protected,secure-video-record + protected,trusted-ui heap names, we
-> have exactly the same number of axes. The only change is from uint32_t
-> to string.
->
-> > > > Christian gave an historical background here [1] as to why that hasn't
-> > > > worked in the past with DMA heaps given the scalability issues.
-> > > >
-> > > > [1] https://lore.kernel.org/dri-devel/e967e382-6cca-4dee-8333-39892d532f71@gmail.com/
-> > >
-> > > Hm, I fail to see where Christian dismiss the dma-heaps solution in
-> > > this email. He even says:
-> > >
-> > > > If the memory is not physically attached to any device, but rather just
-> > > memory attached to the CPU or a system wide memory controller then
-> > > expose the memory as DMA-heap with specific requirements (e.g. certain
-> > > sized pages, contiguous, restricted, encrypted, ...).
-> >
-> > I am not saying Christian dismissed DMA heaps but rather how
-> > scalability is an issue. What we are proposing here is a generic
-> > interface via TEE to the firmware/Trusted OS which can perform all the
-> > platform specific memory restrictions. This solution will scale across
-> > vendors.
->
-> I read something completely different into Christian's mail.
->
-> What Christian is saying is that injecting generic constraint solving
-> into the kernel doesn't scale. It's not OK to build out generic
-> infrastructure in the kernel which queries a bunch of leaf drivers and
-> attempts to somehow come up with something which satisfies
-> userspace-provided constraints.
->
-> But this isn't the same thing as saying 'dma-heaps is wrong'! Again,
-> there is no additional complexity in the kernel between a dma-heap
-> which bridges over to TEE, and a TEE userspace interface which also
-> bridges over to TEE. Both of them are completely fine according to
-> what he's said.
->
-> > > Honestly, when I look at dma-heap implementations, they seem
-> > > to be trivial shells around existing (more complex) allocators, and the
-> > > boiler plate [1] to expose a dma-heap is relatively small. The dma-buf
-> > > implementation, you already have, so we're talking about a hundred
-> > > lines of code to maintain, which shouldn't be significantly more than
-> > > what you have for the new ioctl() to be honest.
-> >
-> > It will rather be redundant vendor specific code under DMA heaps
-> > calling into firmware/Trusted OS to enforce memory restrictions as you
-> > can look into Mediatek example [1]. With TEE subsystem managing that
-> > it won't be the case as we will provide a common abstraction for the
-> > communication with underlying firmware/Trusted OS.
->
-> Yes, it's common for everyone who uses TEE to implement SVP. It's not
-> common for the people who do _not_ use TEE to implement SVP. Which
-> means that userspace has to type out both, and what we're asking in
-> this thread is: why?
->
-> Why should userspace have to support dma-heap allocation for platforms
-> supporting SVP via a static DT-defined carveout as well as supporting
-> TEE API allocation for platforms supporting SVP via a dynamic
-> carveout? What benefit does it bring to have this surfaced as a
-> completely separate uAPI?
->
-> > > And I'll insist on what
-> > > Daniel said, it's a small price to pay to have a standard interface to
-> > > expose to userspace. If dma-heaps are not used for this kind things, I
-> > > honestly wonder what they will be used for...
-> >
-> > Let's try not to forcefully find a use-case for DMA heaps when there
-> > is a better alternative available.
->
-> What makes it better? If you could explain very clearly the benefit
-> userspace will gain from asking TEE to allocate $n bytes for
-> TEE_IOC_UC_SECURE_VIDEO_PLAY, compared to asking dma-heap to allocate
-> $n bytes for protected,secure-video, I think that would really help.
-> Right now, I don't understand how it would be better in any way
-> whatsoever for userspace. And I think your decision to implement it as
-> a separate API is based on a misunderstanding of Christian's position.
->
-> > I am still failing to see why you
-> > don't consider following as a standardised user-space interface:
-> >
-> > "When user-space has to work with restricted memory, ask TEE device to
-> > allocate it"
->
-> As far as I can tell, having userspace work with the TEE interface
-> brings zero benefit (again, please correct me if I'm wrong and explain
-> how it's better). The direct cost - call it a disbenefit - it brings
-> is that we have to spend a pile of time typing out support for TEE
-> allocation in every media/GPU/display driver/application, and when we
-> do any kind of negotiation, we have to have one protocol definition
-> for TEE and one for non-TEE.
->
-> dma-heaps was created to solve the problem of having too many
-> 'allocate $n bytes from $specialplace' uAPIs. The proliferation was
-> painful and making it difficult for userspace to do what it needed to
-> do. Userspace doesn't _yet_ make full use of it, but the solution is
-> to make userspace make full use of it, not to go create entirely
-> separate allocation paths for unclear reasons.
->
-> Besides, I'm writing this from a platform that implements SVP not via
-> TEE. I've worked on platforms which implement SVP without any TEE,
-> where the TEE implementation would be at best a no-op stub, and at
-> worst flat-out impossible.
+From: Kerem Karabay <kekrby@gmail.com>
 
-Can you elaborate the non-TEE use-case for Secure Video Path (SVP) a
-bit more? As to how the protected/encrypted media content pipeline
-works? Which architecture support does your use-case require? Is there
-any higher privileged level firmware interaction required to perform
-media content decryption into restricted memory? Do you plan to
-upstream corresponding support in near future?
+Add XRGB8888 emulation helper for devices that only support BGR888.
 
-Let me try to elaborate on the Secure Video Path (SVP) flow requiring
-a TEE implementation (in general terms a higher privileged firmware
-managing the pipeline as the kernel/user-space has no access
-permissions to the plain text media content):
+Signed-off-by: Kerem Karabay <kekrby@gmail.com>
+Signed-off-by: Aditya Garg <gargaditya08@live.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+v2 -> Fix incorrect description
+v3 -> No change in this patch
+ drivers/gpu/drm/drm_format_helper.c           | 54 +++++++++++++
+ .../gpu/drm/tests/drm_format_helper_test.c    | 81 +++++++++++++++++++
+ include/drm/drm_format_helper.h               |  3 +
+ 3 files changed, 138 insertions(+)
 
-- Firstly a content decryption key is securely provisioned into the
-TEE implementation.
-- Interaction with TEE to set up access permissions of different
-peripherals in the media pipeline so that they can access restricted
-memory.
-- Interaction with TEE to allocate restricted memory buffers.
-- Interaction with TEE to decrypt downloaded encrypted media content
-from normal memory buffers to restricted memory buffers.
-- Then the further media pipeline is able to process the plain media
-content in restricted buffers and display it.
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_form=
+at_helper.c
+index b1be458ed..4f60c8d8f 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -702,6 +702,57 @@ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, =
+const unsigned int *dst_pi
+ }
+ EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
+=20
++static void drm_fb_xrgb8888_to_bgr888_line(void *dbuf, const void *sbuf, u=
+nsigned int pixels)
++{
++	u8 *dbuf8 =3D dbuf;
++	const __le32 *sbuf32 =3D sbuf;
++	unsigned int x;
++	u32 pix;
++
++	for (x =3D 0; x < pixels; x++) {
++		pix =3D le32_to_cpu(sbuf32[x]);
++		/* write red-green-blue to output in little endianness */
++		*dbuf8++ =3D (pix & 0x00ff0000) >> 16;
++		*dbuf8++ =3D (pix & 0x0000ff00) >> 8;
++		*dbuf8++ =3D (pix & 0x000000ff) >> 0;
++	}
++}
++
++/**
++ * drm_fb_xrgb8888_to_bgr888 - Convert XRGB8888 to BGR888 clip buffer
++ * @dst: Array of BGR888 destination buffers
++ * @dst_pitch: Array of numbers of bytes between the start of two consecut=
+ive scanlines
++ *             within @dst; can be NULL if scanlines are stored next to ea=
+ch other.
++ * @src: Array of XRGB8888 source buffers
++ * @fb: DRM framebuffer
++ * @clip: Clip rectangle area to copy
++ * @state: Transform and conversion state
++ *
++ * This function copies parts of a framebuffer to display memory and conve=
+rts the
++ * color format during the process. Destination and framebuffer formats mu=
+st match. The
++ * parameters @dst, @dst_pitch and @src refer to arrays. Each array must h=
+ave at
++ * least as many entries as there are planes in @fb's format. Each entry s=
+tores the
++ * value for the format's respective color plane at the same index.
++ *
++ * This function does not apply clipping on @dst (i.e. the destination is =
+at the
++ * top-left corner).
++ *
++ * Drivers can use this function for BGR888 devices that don't natively
++ * support XRGB8888.
++ */
++void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
++			       const struct iosys_map *src, const struct drm_framebuffer *fb,
++			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+)
++{
++	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] =3D {
++		3,
++	};
++
++	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
++		    drm_fb_xrgb8888_to_bgr888_line);
++}
++EXPORT_SYMBOL(drm_fb_xrgb8888_to_bgr888);
++
+ static void drm_fb_xrgb8888_to_argb8888_line(void *dbuf, const void *sbuf,=
+ unsigned int pixels)
+ {
+ 	__le32 *dbuf32 =3D dbuf;
+@@ -1035,6 +1086,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned=
+ int *dst_pitch, uint32_t d
+ 		} else if (dst_format =3D=3D DRM_FORMAT_RGB888) {
+ 			drm_fb_xrgb8888_to_rgb888(dst, dst_pitch, src, fb, clip, state);
+ 			return 0;
++		} else if (dst_format =3D=3D DRM_FORMAT_BGR888) {
++			drm_fb_xrgb8888_to_bgr888(dst, dst_pitch, src, fb, clip, state);
++			return 0;
+ 		} else if (dst_format =3D=3D DRM_FORMAT_ARGB8888) {
+ 			drm_fb_xrgb8888_to_argb8888(dst, dst_pitch, src, fb, clip, state);
+ 			return 0;
+diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/d=
+rm/tests/drm_format_helper_test.c
+index 08992636e..35cd3405d 100644
+--- a/drivers/gpu/drm/tests/drm_format_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+@@ -60,6 +60,11 @@ struct convert_to_rgb888_result {
+ 	const u8 expected[TEST_BUF_SIZE];
+ };
+=20
++struct convert_to_bgr888_result {
++	unsigned int dst_pitch;
++	const u8 expected[TEST_BUF_SIZE];
++};
++
+ struct convert_to_argb8888_result {
+ 	unsigned int dst_pitch;
+ 	const u32 expected[TEST_BUF_SIZE];
+@@ -107,6 +112,7 @@ struct convert_xrgb8888_case {
+ 	struct convert_to_argb1555_result argb1555_result;
+ 	struct convert_to_rgba5551_result rgba5551_result;
+ 	struct convert_to_rgb888_result rgb888_result;
++	struct convert_to_bgr888_result bgr888_result;
+ 	struct convert_to_argb8888_result argb8888_result;
+ 	struct convert_to_xrgb2101010_result xrgb2101010_result;
+ 	struct convert_to_argb2101010_result argb2101010_result;
+@@ -151,6 +157,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0x00, 0x00, 0xFF },
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D { 0xFF, 0x00, 0x00 },
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0xFFFF0000 },
+@@ -217,6 +227,10 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0x00, 0x00, 0xFF },
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D { 0xFF, 0x00, 0x00 },
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D { 0xFFFF0000 },
+@@ -330,6 +344,15 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 				0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
+ 			},
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
++			.expected =3D {
++				0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
++				0xFF, 0x00, 0x00, 0x00, 0xFF, 0x00,
++				0x00, 0x00, 0xFF, 0xFF, 0x00, 0xFF,
++				0xFF, 0xFF, 0x00, 0x00, 0xFF, 0xFF,
++			},
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D TEST_USE_DEFAULT_PITCH,
+ 			.expected =3D {
+@@ -468,6 +491,17 @@ static struct convert_xrgb8888_case convert_xrgb8888_c=
+ases[] =3D {
+ 				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+ 			},
+ 		},
++		.bgr888_result =3D {
++			.dst_pitch =3D 15,
++			.expected =3D {
++				0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05, 0xA8, 0xF3, 0x03,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C, 0x11, 0x4D, 0x05,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				0xA8, 0x03, 0x03, 0x6C, 0xF0, 0x73, 0x0E, 0x44, 0x9C,
++				0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++			},
++		},
+ 		.argb8888_result =3D {
+ 			.dst_pitch =3D 20,
+ 			.expected =3D {
+@@ -914,6 +948,52 @@ static void drm_test_fb_xrgb8888_to_rgb888(struct kuni=
+t *test)
+ 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+ }
+=20
++static void drm_test_fb_xrgb8888_to_bgr888(struct kunit *test)
++{
++	const struct convert_xrgb8888_case *params =3D test->param_value;
++	const struct convert_to_bgr888_result *result =3D &params->bgr888_result;
++	size_t dst_size;
++	u8 *buf =3D NULL;
++	__le32 *xrgb8888 =3D NULL;
++	struct iosys_map dst, src;
++
++	struct drm_framebuffer fb =3D {
++		.format =3D drm_format_info(DRM_FORMAT_XRGB8888),
++		.pitches =3D { params->pitch, 0, 0 },
++	};
++
++	dst_size =3D conversion_buf_size(DRM_FORMAT_BGR888, result->dst_pitch,
++				       &params->clip, 0);
++	KUNIT_ASSERT_GT(test, dst_size, 0);
++
++	buf =3D kunit_kzalloc(test, dst_size, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
++	iosys_map_set_vaddr(&dst, buf);
++
++	xrgb8888 =3D cpubuf_to_le32(test, params->xrgb8888, TEST_BUF_SIZE);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
++	iosys_map_set_vaddr(&src, xrgb8888);
++
++	/*
++	 * BGR888 expected results are already in little-endian
++	 * order, so there's no need to convert the test output.
++	 */
++	drm_fb_xrgb8888_to_bgr888(&dst, &result->dst_pitch, &src, &fb, &params->c=
+lip,
++				  &fmtcnv_state);
++	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
++
++	buf =3D dst.vaddr; /* restore original value of buf */
++	memset(buf, 0, dst_size);
++
++	int blit_result =3D 0;
++
++	blit_result =3D drm_fb_blit(&dst, &result->dst_pitch, DRM_FORMAT_BGR888, =
+&src, &fb, &params->clip,
++				  &fmtcnv_state);
++
++	KUNIT_EXPECT_FALSE(test, blit_result);
++	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
++}
++
+ static void drm_test_fb_xrgb8888_to_argb8888(struct kunit *test)
+ {
+ 	const struct convert_xrgb8888_case *params =3D test->param_value;
+@@ -1851,6 +1931,7 @@ static struct kunit_case drm_format_helper_test_cases=
+[] =3D {
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb1555, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgba5551, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_rgb888, convert_xrgb8888_gen_par=
+ams),
++	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_bgr888, convert_xrgb8888_gen_par=
+ams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb8888, convert_xrgb8888_gen_p=
+arams),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_xrgb2101010, convert_xrgb8888_ge=
+n_params),
+ 	KUNIT_CASE_PARAM(drm_test_fb_xrgb8888_to_argb2101010, convert_xrgb8888_ge=
+n_params),
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helpe=
+r.h
+index 428d81afe..aa1604d92 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -96,6 +96,9 @@ void drm_fb_xrgb8888_to_rgba5551(struct iosys_map *dst, c=
+onst unsigned int *dst_
+ void drm_fb_xrgb8888_to_rgb888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
+ 			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+ 			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+);
++void drm_fb_xrgb8888_to_bgr888(struct iosys_map *dst, const unsigned int *=
+dst_pitch,
++			       const struct iosys_map *src, const struct drm_framebuffer *fb,
++			       const struct drm_rect *clip, struct drm_format_conv_state *state=
+);
+ void drm_fb_xrgb8888_to_argb8888(struct iosys_map *dst, const unsigned int=
+ *dst_pitch,
+ 				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+ 				 const struct drm_rect *clip, struct drm_format_conv_state *state);
+--=20
+2.43.0
 
->
-> So that's 'why not TEE as the single uAPI for SVP'.
-
-Let's try to see if your SVP use-case really converges with TEE based
-SVP such that we really need a single uAPI.
-
-> So, again, let's
-> please turn this around: _why_ TEE? Who benefits from exposing this as
-> completely separate to the more generic uAPI that we specifically
-> designed to handle things like this?
-
-The bridging between DMA heaps and TEE would still require user-space
-to perform an IOCTL into TEE to register the DMA-bufs as you can see
-here [1]. Then it will rather be two handles for user-space to manage.
-Similarly during restricted memory allocation/free we need another
-glue layer under DMA heaps to TEE subsystem.
-
-The reason is simply which has been iterated over many times in the
-past threads that:
-
-    "If user-space has to interact with a TEE device for SVP use-case
-then why it's not better to ask TEE to allocate restricted DMA-bufs
-too"
-
-[1] https://lkml.indiana.edu/hypermail/linux/kernel/2408.3/08296.html
-
--Sumit
 
